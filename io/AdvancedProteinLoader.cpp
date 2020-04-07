@@ -39,13 +39,13 @@ const strings LOADER_EXTENSIONS{"pdb", "pdb1", "ent"};
 namespace brayns
 {
 template <>
-inline std::vector<std::pair<std::string, ColorScheme>> enumMap()
+inline std::vector<std::pair<std::string, ProteinColorScheme>> enumMap()
 {
-    return {{"none", ColorScheme::none},
-            {"atoms", ColorScheme::atoms},
-            {"chains", ColorScheme::chains},
-            {"residues", ColorScheme::residues},
-            {"location", ColorScheme::location}};
+    return {{"none", ProteinColorScheme::none},
+            {"atoms", ProteinColorScheme::atoms},
+            {"chains", ProteinColorScheme::chains},
+            {"residues", ProteinColorScheme::residues},
+            {"location", ProteinColorScheme::location}};
 }
 } // namespace brayns
 
@@ -362,7 +362,7 @@ AdvancedProteinLoader::AdvancedProteinLoader(
 }
 
 void AdvancedProteinLoader::readAtom(const std::string& line,
-                                     const ColorScheme colorScheme,
+                                     const ProteinColorScheme colorScheme,
                                      const float radiusMultiplier, Atoms& atoms,
                                      Residues& residues) const
 {
@@ -430,10 +430,10 @@ void AdvancedProteinLoader::readAtom(const std::string& line,
             found = true;
             switch (colorScheme)
             {
-            case ColorScheme::chains:
+            case ProteinColorScheme::chains:
                 atom.materialId = static_cast<size_t>(atom.chainId[0]) - 64;
                 break;
-            case ColorScheme::residues:
+            case ProteinColorScheme::residues:
                 atom.materialId = static_cast<size_t>(
                     std::distance(residues.begin(),
                                   residues.find(atom.resName)));
@@ -519,7 +519,7 @@ brayns::ModelDescriptorPtr AdvancedProteinLoader::importFromFile(
     const double radiusMultiplier =
         properties.getProperty<double>(PROP_RADIUS_MULTIPLIER.name, 1.0);
 
-    const auto colorScheme = brayns::stringToEnum<ColorScheme>(
+    const auto colorScheme = brayns::stringToEnum<ProteinColorScheme>(
         properties.getProperty<std::string>(PROP_PROTEIN_COLOR_SCHEME.name));
 
     const auto transmembraneSequence =
@@ -564,7 +564,7 @@ brayns::ModelDescriptorPtr AdvancedProteinLoader::importFromFile(
     auto model = _scene.createModel();
 
     // Location color scheme
-    if (colorScheme == ColorScheme::location)
+    if (colorScheme == ProteinColorScheme::location)
     {
         for (const auto& sequence : sequenceMap)
         {

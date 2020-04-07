@@ -28,7 +28,7 @@ struct StructureDescriptor
     double assemblyRadius;
     double atomRadiusMultiplier;
     bool randomize;
-    ColorScheme colorScheme;
+    ProteinColorScheme colorScheme;
     std::string TransmembraneSequence;
 };
 bool from_json(StructureDescriptor &param, const std::string &payload);

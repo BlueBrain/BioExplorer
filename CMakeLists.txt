@@ -8,6 +8,7 @@ set(${NAME}_VERSION_ABI 1)
 # C++ 14
 set(CMAKE_CXX_STANDARD 14)
 
+find_package(Boost REQUIRED COMPONENTS program_options filesystem)
 find_package(Brayns REQUIRED)
 
 # Build type and options
@@ -29,12 +30,20 @@ set(${NAME}_PUBLIC_HEADERS
   Covid19Plugin.h
 )
 
-set(${NAME}_LINK_LIBRARIES braynsPluginAPI)
+set(${NAME}_LINK_LIBRARIES
+    braynsParameters braynsPluginAPI braynsCommon braynsEngine braynsIO)
 
 # Library
-include_directories(${BRAYNS_INCLUDE_DIRS} ${PROJECT_SOURCE_DIR})
-add_library(${LIBRARY_NAME} SHARED ${${NAME}_SOURCES})
-target_link_libraries(${LIBRARY_NAME} ${${NAME}_LINK_LIBRARIES})
+include_directories(
+    ${BRAYNS_INCLUDE_DIRS}
+    ${PROJECT_SOURCE_DIR})
+add_library(
+    ${LIBRARY_NAME}
+    SHARED ${${NAME}_SOURCES})
+target_link_libraries(
+    ${LIBRARY_NAME}
+    ${Boost_PROGRAM_OPTIONS_LIBRARY} ${Boost_FILESYSTEM_LIBRARY}
+    ${${NAME}_LINK_LIBRARIES})
 
 # ================================================================================
 # Install binaries
