@@ -19,7 +19,7 @@
 #ifndef COVID19PARAMS_H
 #define COVID19PARAMS_H
 
-#include <brayns/common/types.h>
+#include "../io/AdvancedProteinLoader.h"
 
 struct StructureDescriptor
 {
@@ -28,7 +28,8 @@ struct StructureDescriptor
     double assemblyRadius;
     double atomRadiusMultiplier;
     bool randomize;
-    brayns::ProteinColorScheme colorScheme;
+    ColorScheme colorScheme;
+    std::string TransmembraneSequence;
 };
 bool from_json(StructureDescriptor &param, const std::string &payload);
 
