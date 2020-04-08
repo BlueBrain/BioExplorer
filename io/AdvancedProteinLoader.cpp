@@ -45,7 +45,8 @@ inline std::vector<std::pair<std::string, ColorScheme>> enumMap()
             {"atoms", ColorScheme::atoms},
             {"chains", ColorScheme::chains},
             {"residues", ColorScheme::residues},
-            {"location", ColorScheme::location}};
+            {"transmembrane_sequence", ColorScheme::transmembrane_sequence},
+            {"glycosylation_site", ColorScheme::glycosylation_site}};
 }
 } // namespace brayns
 
@@ -570,8 +571,9 @@ brayns::ModelDescriptorPtr AdvancedProteinLoader::importFromFile(
     auto model = _scene.createModel();
 
     // Location color scheme
-    if (colorScheme == ColorScheme::location)
+    switch (colorScheme)
     {
+    case ColorScheme::transmembrane_sequence:
         for (const auto& sequence : sequenceMap)
         {
             std::string shortSequence;
@@ -611,6 +613,16 @@ brayns::ModelDescriptorPtr AdvancedProteinLoader::importFromFile(
                              << shortSequence << std::endl;
             }
         }
+        break;
+    case ColorScheme::glycosylation_site:
+        for (auto& atom : atoms)
+        {
+            if (atom.resName == "ASN")
+                atom.materialId = 0;
+            else
+                atom.materialId = static_cast<size_t>(atom.chainId[0]) - 63;
+        }
+        break;
     }
 
     // Materials

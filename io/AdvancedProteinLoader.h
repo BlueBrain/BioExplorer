@@ -29,7 +29,8 @@ enum class ColorScheme
     atoms = 1,
     chains = 2,
     residues = 3,
-    location = 4
+    transmembrane_sequence = 4,
+    glycosylation_site = 5
 };
 
 // Loader properties
@@ -42,7 +43,7 @@ const brayns::Property PROP_PROTEIN_COLOR_SCHEME = {
     brayns::enumNames<ColorScheme>(),
     {"Color scheme",
      "Color scheme to be applied to the proteins "
-     "[none|atoms|chains|residues|location"}};
+     "[none|atoms|chains|residues|transmembrane sequence|glycosylation_site]"}};
 
 const brayns::Property PROP_TRANSMEMBRANE_SEQUENCE = {
     "transmembraneSequence",
