@@ -39,13 +39,13 @@ const strings LOADER_EXTENSIONS{"pdb", "pdb1", "ent"};
 namespace brayns
 {
 template <>
-inline std::vector<std::pair<std::string, ProteinColorScheme>> enumMap()
+inline std::vector<std::pair<std::string, ColorScheme>> enumMap()
 {
-    return {{"none", ProteinColorScheme::none},
-            {"atoms", ProteinColorScheme::atoms},
-            {"chains", ProteinColorScheme::chains},
-            {"residues", ProteinColorScheme::residues},
-            {"location", ProteinColorScheme::location}};
+    return {{"none", ColorScheme::none},
+            {"atoms", ColorScheme::atoms},
+            {"chains", ColorScheme::chains},
+            {"residues", ColorScheme::residues},
+            {"location", ColorScheme::location}};
 }
 } // namespace brayns
 
@@ -362,7 +362,7 @@ AdvancedProteinLoader::AdvancedProteinLoader(
 }
 
 void AdvancedProteinLoader::readAtom(const std::string& line,
-                                     const ProteinColorScheme colorScheme,
+                                     const ColorScheme colorScheme,
                                      const float radiusMultiplier, Atoms& atoms,
                                      Residues& residues) const
 {
@@ -430,10 +430,10 @@ void AdvancedProteinLoader::readAtom(const std::string& line,
             found = true;
             switch (colorScheme)
             {
-            case ProteinColorScheme::chains:
+            case ColorScheme::chains:
                 atom.materialId = static_cast<size_t>(atom.chainId[0]) - 64;
                 break;
-            case ProteinColorScheme::residues:
+            case ColorScheme::residues:
                 atom.materialId = static_cast<size_t>(
                     std::distance(residues.begin(),
                                   residues.find(atom.resName)));
@@ -519,7 +519,7 @@ brayns::ModelDescriptorPtr AdvancedProteinLoader::importFromFile(
     const double radiusMultiplier =
         properties.getProperty<double>(PROP_RADIUS_MULTIPLIER.name, 1.0);
 
-    const auto colorScheme = brayns::stringToEnum<ProteinColorScheme>(
+    const auto colorScheme = brayns::stringToEnum<ColorScheme>(
         properties.getProperty<std::string>(PROP_PROTEIN_COLOR_SCHEME.name));
 
     const auto transmembraneSequence =
@@ -550,11 +550,17 @@ brayns::ModelDescriptorPtr AdvancedProteinLoader::importFromFile(
     PLUGIN_INFO << "--------------------------------------------------"
                 << std::endl;
     PLUGIN_INFO << "Sequences" << std::endl;
+    std::map<std::string, std::string> sequencesAsStrings;
     for (const auto& sequence : sequenceMap)
     {
         std::string s;
         for (const auto& resName : sequence.second.resNames)
+        {
             s = s + aminoAcidMap[resName].shortName;
+            if (s.length() % 60 == 0)
+                s = s + "\n";
+        }
+        sequencesAsStrings[std::to_string(sequence.first)] = s;
         PLUGIN_INFO << sequence.first << " (" << sequence.second.resNames.size()
                     << "): " << s << std::endl;
     }
@@ -564,7 +570,7 @@ brayns::ModelDescriptorPtr AdvancedProteinLoader::importFromFile(
     auto model = _scene.createModel();
 
     // Location color scheme
-    if (colorScheme == ProteinColorScheme::location)
+    if (colorScheme == ColorScheme::location)
     {
         for (const auto& sequence : sequenceMap)
         {
@@ -628,10 +634,21 @@ brayns::ModelDescriptorPtr AdvancedProteinLoader::importFromFile(
     for (const auto& atom : atoms)
         model->addSphere(atom.materialId, {atom.position, atom.radius});
 
+    // Transformation
     brayns::Transformation transformation;
     transformation.setRotationCenter(model->getBounds().getCenter());
+
+    // Metadata
+    // Create model
+    brayns::ModelMetadata metadata;
+    for (const auto& sequence : sequencesAsStrings)
+        metadata[sequence.first] = sequence.second;
+
+    metadata["Transmembrane Sequence"] = transmembraneSequence;
+
     auto modelDescriptor =
-        std::make_shared<brayns::ModelDescriptor>(std::move(model), fileName);
+        std::make_shared<brayns::ModelDescriptor>(std::move(model), fileName,
+                                                  metadata);
     modelDescriptor->setTransformation(transformation);
     return modelDescriptor;
 }

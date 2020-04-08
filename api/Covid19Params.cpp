@@ -33,7 +33,9 @@ bool from_json(StructureDescriptor &param, const std::string &payload)
         FROM_JSON(param, js, atomRadiusMultiplier);
         FROM_JSON(param, js, randomize);
         FROM_JSON(param, js, colorScheme);
-        FROM_JSON(param, js, TransmembraneSequence);
+        FROM_JSON(param, js, halfStructure);
+        FROM_JSON(param, js, deformation);
+        FROM_JSON(param, js, transmembraneSequence);
     }
     catch (...)
     {

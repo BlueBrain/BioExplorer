@@ -23,7 +23,7 @@
 #include <brayns/parameters/GeometryParameters.h>
 
 /** Define the color scheme to be applied to the geometry */
-enum class ProteinColorScheme
+enum class ColorScheme
 {
     none = 0,
     atoms = 1,
@@ -38,8 +38,8 @@ const brayns::Property PROP_RADIUS_MULTIPLIER = {"radiusMultiplier",
                                                  {"Radius multiplier"}};
 const brayns::Property PROP_PROTEIN_COLOR_SCHEME = {
     "colorScheme",
-    brayns::enumToString(ProteinColorScheme::none),
-    brayns::enumNames<ProteinColorScheme>(),
+    brayns::enumToString(ColorScheme::none),
+    brayns::enumNames<ColorScheme>(),
     {"Color scheme",
      "Color scheme to be applied to the proteins "
      "[none|atoms|chains|residues|location"}};
@@ -127,7 +127,7 @@ public:
     }
 
 private:
-    void readAtom(const std::string& line, const ProteinColorScheme colorScheme,
+    void readAtom(const std::string& line, const ColorScheme colorScheme,
                   const float radiusMultiplier, Atoms& atoms,
                   Residues& residues) const;
 

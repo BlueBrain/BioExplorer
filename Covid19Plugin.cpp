@@ -81,7 +81,7 @@ void Covid19Plugin::_buildStructure(const StructureDescriptor &payload)
         props.setProperty({PROP_PROTEIN_COLOR_SCHEME.name,
                            brayns::enumToString(payload.colorScheme)});
         props.setProperty(
-            {PROP_TRANSMEMBRANE_SEQUENCE.name, payload.TransmembraneSequence});
+            {PROP_TRANSMEMBRANE_SEQUENCE.name, payload.transmembraneSequence});
 
         loader = brayns::LoaderPtr(new AdvancedProteinLoader(scene, props));
     }
@@ -109,14 +109,27 @@ void Covid19Plugin::_buildStructure(const StructureDescriptor &payload)
     size_t instanceCount = 0;
     for (size_t i = 0; i < payload.instances; ++i)
     {
+#if 0
         const float y = ((i * offset) - 1.f) + (offset / 2.f);
         const float r = sqrt(1.f - pow(y, 2.f));
         const float phi = ((i + rnd) % payload.instances) * increment;
         const float x = cos(phi) * r;
         const float z = sin(phi) * r;
         const auto direction = brayns::Vector3f(x, y, z);
+#else
+        const float angle = payload.instances / 2.f * M_PI;
+        const float phi = acos(1 - 2 * (i + 0.5) / payload.instances);
+        const float theta = M_PI * (1 + pow(5, 0.5)) * i;
+        const float x =
+            payload.deformation[0] * cos(angle * i) + cos(theta) * sin(phi);
+        const float y =
+            payload.deformation[1] * sin(angle * i) + sin(theta) * sin(phi);
+        const float z = cos(phi);
+        const auto direction = brayns::Vector3f(x, y, z);
 
-        if (z > 0.f)
+#endif
+
+        if (payload.halfStructure && direction.z > 0.f)
             continue;
 
         brayns::Transformation tf;
