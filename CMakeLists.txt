@@ -20,13 +20,13 @@ endif(NOT CMAKE_BUILD_TYPE)
 
 set(${NAME}_SOURCES
   api/Covid19Params.cpp
-  io/AdvancedProteinLoader.cpp
+  io/ProteinLoader.cpp
   Covid19Plugin.cpp
 )
 
 set(${NAME}_PUBLIC_HEADERS
   api/Covid19Params.h
-  io/AdvancedProteinLoader.h
+  io/ProteinLoader.h
   Covid19Plugin.h
 )
 

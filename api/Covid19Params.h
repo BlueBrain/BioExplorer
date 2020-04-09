@@ -16,23 +16,28 @@
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
 
-#ifndef COVID19PARAMS_H
-#define COVID19PARAMS_H
+#ifndef COVID19_PARAMS_H
+#define COVID19_PARAMS_H
 
-#include "../io/AdvancedProteinLoader.h"
+#include "../io/ProteinLoader.h"
+
+#include <set>
+
+/** Define the color scheme to be applied to the geometry */
 
 struct StructureDescriptor
 {
     std::string filename;
     size_t instances;
-    double assemblyRadius;
-    double atomRadiusMultiplier;
+    float assemblyRadius;
+    float atomRadiusMultiplier;
     bool randomize;
     ColorScheme colorScheme;
     bool halfStructure;
     std::vector<float> deformation;
     std::string transmembraneSequence;
 };
+
 bool from_json(StructureDescriptor &param, const std::string &payload);
 
-#endif // COVID19PARAMS_H
+#endif // COVID19_PARAMS_H

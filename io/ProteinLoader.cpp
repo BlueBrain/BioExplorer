@@ -16,7 +16,7 @@
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
 
-#include "AdvancedProteinLoader.h"
+#include "ProteinLoader.h"
 
 #include "../log.h"
 
@@ -31,24 +31,11 @@
 
 namespace
 {
-const auto LOADER_NAME = "Advanced protein loader";
+const std::string LOADER_NAME = "Advanced protein loader";
+const float DEFAULT_RADIUS = 25.f;
 
 const strings LOADER_EXTENSIONS{"pdb", "pdb1", "ent"};
 } // namespace
-
-namespace brayns
-{
-template <>
-inline std::vector<std::pair<std::string, ColorScheme>> enumMap()
-{
-    return {{"none", ColorScheme::none},
-            {"atoms", ColorScheme::atoms},
-            {"chains", ColorScheme::chains},
-            {"residues", ColorScheme::residues},
-            {"transmembrane_sequence", ColorScheme::transmembrane_sequence},
-            {"glycosylation_site", ColorScheme::glycosylation_site}};
-}
-} // namespace brayns
 
 /** Structure defining an atom radius in microns
  */
@@ -58,7 +45,6 @@ struct AtomicRadius
     float radius;
     int index;
 };
-const float DEFAULT_RADIUS = 25.f;
 
 /** Structure defining the color of atoms according to the JMol Scheme
  */
@@ -346,26 +332,15 @@ std::string& trim(std::string& s)
     return ltrim(rtrim(s));
 }
 
-AdvancedProteinLoader::AdvancedProteinLoader(
-    brayns::Scene& scene, const brayns::PropertyMap& properties)
-    : Loader(scene)
-    , _defaults(properties)
+ProteinLoader::ProteinLoader(brayns::Scene& scene)
+    : _scene(scene)
 {
 }
 
-AdvancedProteinLoader::AdvancedProteinLoader(
-    brayns::Scene& scene, const brayns::GeometryParameters& params)
-    : Loader(scene)
-{
-    _defaults.setProperty(PROP_RADIUS_MULTIPLIER);
-    _defaults.setProperty(PROP_PROTEIN_COLOR_SCHEME);
-    _defaults.setProperty(PROP_TRANSMEMBRANE_SEQUENCE);
-}
-
-void AdvancedProteinLoader::readAtom(const std::string& line,
-                                     const ColorScheme colorScheme,
-                                     const float radiusMultiplier, Atoms& atoms,
-                                     Residues& residues) const
+void ProteinLoader::readAtom(const std::string& line,
+                             const ColorScheme colorScheme,
+                             const float radiusMultiplier, Atoms& atoms,
+                             Residues& residues) const
 {
     Atom atom;
     // --------------------------------------------------------------------
@@ -470,8 +445,8 @@ void AdvancedProteinLoader::readAtom(const std::string& line,
     atoms.push_back(atom);
 }
 
-void AdvancedProteinLoader::readSequence(const std::string& line,
-                                         SequenceMap& sequenceMap) const
+void ProteinLoader::readSequence(const std::string& line,
+                                 SequenceMap& sequenceMap) const
 {
     // -------------------------------------------------------------------------
     // COLUMNS TYPE      FIELD    DEFINITION
@@ -505,26 +480,12 @@ void AdvancedProteinLoader::readSequence(const std::string& line,
     }
 }
 
-brayns::ModelDescriptorPtr AdvancedProteinLoader::importFromFile(
-    const std::string& fileName, const brayns::LoaderProgress&,
-    const brayns::PropertyMap& inProperties) const
+brayns::ModelDescriptorPtr ProteinLoader::importFromFile(
+    const std::string& fileName, const LoaderParameters& loaderParameters)
 {
     Atoms atoms;
     Residues residues;
     SequenceMap sequenceMap;
-
-    // Fill property map since the actual property types are known now.
-    brayns::PropertyMap properties = _defaults;
-    properties.merge(inProperties);
-
-    const double radiusMultiplier =
-        properties.getProperty<double>(PROP_RADIUS_MULTIPLIER.name, 1.0);
-
-    const auto colorScheme = brayns::stringToEnum<ColorScheme>(
-        properties.getProperty<std::string>(PROP_PROTEIN_COLOR_SCHEME.name));
-
-    const auto transmembraneSequence =
-        properties.getProperty<std::string>(PROP_TRANSMEMBRANE_SEQUENCE.name);
 
     std::ifstream file(fileName.c_str());
     if (!file.is_open())
@@ -538,7 +499,8 @@ brayns::ModelDescriptorPtr AdvancedProteinLoader::importFromFile(
         std::getline(file, line);
         if (line.find("ATOM") == 0 /* || line.find("HETATM") == 0*/)
         {
-            readAtom(line, colorScheme, radiusMultiplier, atoms, residues);
+            readAtom(line, loaderParameters.colorScheme,
+                     loaderParameters.radiusMultiplier, atoms, residues);
         }
         if (line.find("SEQRES") == 0)
         {
@@ -571,7 +533,7 @@ brayns::ModelDescriptorPtr AdvancedProteinLoader::importFromFile(
     auto model = _scene.createModel();
 
     // Location color scheme
-    switch (colorScheme)
+    switch (loaderParameters.colorScheme)
     {
     case ColorScheme::transmembrane_sequence:
         for (const auto& sequence : sequenceMap)
@@ -581,10 +543,10 @@ brayns::ModelDescriptorPtr AdvancedProteinLoader::importFromFile(
                 shortSequence += aminoAcidMap[resName].shortName;
 
             const auto sequencePosition =
-                shortSequence.find(transmembraneSequence);
+                shortSequence.find(loaderParameters.transmembraneSequence);
             if (sequencePosition != -1)
             {
-                PLUGIN_INFO << transmembraneSequence
+                PLUGIN_INFO << loaderParameters.transmembraneSequence
                             << " was found at position " << sequencePosition
                             << std::endl;
                 size_t atomCount = 0;
@@ -596,7 +558,8 @@ brayns::ModelDescriptorPtr AdvancedProteinLoader::importFromFile(
                     maxSeq = std::max(maxSeq, atom.reqSeq);
                     if (atom.reqSeq >= sequencePosition &&
                         atom.reqSeq <
-                            sequencePosition + transmembraneSequence.length())
+                            sequencePosition +
+                                loaderParameters.transmembraneSequence.length())
                     {
                         atom.materialId = 1;
                         ++atomCount;
@@ -609,18 +572,22 @@ brayns::ModelDescriptorPtr AdvancedProteinLoader::importFromFile(
             }
             else
             {
-                PLUGIN_ERROR << transmembraneSequence << " was not found in "
-                             << shortSequence << std::endl;
+                PLUGIN_ERROR << loaderParameters.transmembraneSequence
+                             << " was not found in " << shortSequence
+                             << std::endl;
             }
         }
         break;
     case ColorScheme::glycosylation_site:
-        for (auto& atom : atoms)
+        for (size_t i = 0; i < atoms.size(); ++i)
         {
+            auto& atom = atoms[i];
+            atom.materialId = static_cast<size_t>(atom.chainId[0]) - 63;
+
             if (atom.resName == "ASN")
-                atom.materialId = 0;
-            else
-                atom.materialId = static_cast<size_t>(atom.chainId[0]) - 63;
+                if (i + 2 < atoms.size() && (atoms[i + 2].resName == "THR" ||
+                                             atoms[i + 2].resName == "SER"))
+                    atom.materialId = 0;
         }
         break;
     }
@@ -656,7 +623,7 @@ brayns::ModelDescriptorPtr AdvancedProteinLoader::importFromFile(
     for (const auto& sequence : sequencesAsStrings)
         metadata[sequence.first] = sequence.second;
 
-    metadata["Transmembrane Sequence"] = transmembraneSequence;
+    metadata["Transmembrane Sequence"] = loaderParameters.transmembraneSequence;
 
     auto modelDescriptor =
         std::make_shared<brayns::ModelDescriptor>(std::move(model), fileName,
@@ -665,18 +632,13 @@ brayns::ModelDescriptorPtr AdvancedProteinLoader::importFromFile(
     return modelDescriptor;
 }
 
-std::string AdvancedProteinLoader::getName() const
-{
-    return LOADER_NAME;
-}
-
-std::vector<std::string> AdvancedProteinLoader::getSupportedExtensions() const
+std::vector<std::string> ProteinLoader::getSupportedExtensions() const
 {
     return LOADER_EXTENSIONS;
 }
 
-bool AdvancedProteinLoader::isSupported(const std::string& filename,
-                                        const std::string& extension) const
+bool ProteinLoader::isSupported(const std::string& filename,
+                                const std::string& extension) const
 {
     const auto ends_with = [](const std::string& value,
                               const std::string& ending) {
@@ -702,9 +664,4 @@ bool AdvancedProteinLoader::isSupported(const std::string& filename,
     };
 
     return false;
-}
-
-brayns::PropertyMap AdvancedProteinLoader::getProperties() const
-{
-    return _defaults;
 }

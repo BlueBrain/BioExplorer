@@ -30,7 +30,7 @@
 #include <brayns/parameters/ParametersManager.h>
 #include <brayns/pluginapi/Plugin.h>
 
-#include <io/AdvancedProteinLoader.h>
+#include <io/ProteinLoader.h>
 
 Covid19Plugin::Covid19Plugin()
     : ExtensionPlugin()
@@ -39,13 +39,6 @@ Covid19Plugin::Covid19Plugin()
 
 void Covid19Plugin::init()
 {
-    auto &scene = _api->getScene();
-    auto &registry = scene.getLoaderRegistry();
-    PLUGIN_INFO << "Registering Advanced Protein Loader" << std::endl;
-    registry.registerLoader(std::make_unique<AdvancedProteinLoader>(
-        scene,
-        std::move(_api->getParametersManager().getGeometryParameters())));
-
     auto actionInterface = _api->getActionInterface();
     if (actionInterface)
     {
@@ -65,37 +58,33 @@ void Covid19Plugin::_buildStructure(const StructureDescriptor &payload)
                 << std::endl;
     PLUGIN_INFO << "Number of instances: " << payload.instances << std::endl;
     PLUGIN_INFO << "Virus radius    : " << payload.assemblyRadius << std::endl;
-    PLUGIN_INFO << "Color scheme    : "
-                << brayns::enumToString(payload.colorScheme) << std::endl;
+    //    PLUGIN_INFO << "Color scheme    : "
+    //                << brayns::enumToString(payload.colorScheme) << std::endl;
 
     auto &scene = _api->getScene();
     const std::string ext = brayns::extractExtension(payload.filename);
 
-    brayns::LoaderPtr loader{nullptr};
-
+    brayns::ModelDescriptorPtr modelDescriptor = nullptr;
     brayns::PropertyMap props;
     if (ext == "pdb" || ext == "pdb1")
     {
-        props.setProperty(
-            {PROP_RADIUS_MULTIPLIER.name, payload.atomRadiusMultiplier});
-        props.setProperty({PROP_PROTEIN_COLOR_SCHEME.name,
-                           brayns::enumToString(payload.colorScheme)});
-        props.setProperty(
-            {PROP_TRANSMEMBRANE_SEQUENCE.name, payload.transmembraneSequence});
-
-        loader = brayns::LoaderPtr(new AdvancedProteinLoader(scene, props));
+        auto loader = ProteinLoader(scene);
+        const LoaderParameters params = {payload.atomRadiusMultiplier,
+                                         payload.colorScheme,
+                                         payload.transmembraneSequence};
+        modelDescriptor = loader.importFromFile(payload.filename, params);
+        scene.addModel(modelDescriptor);
     }
     else if (ext == "obj")
     {
-        loader = brayns::LoaderPtr(new brayns::MeshLoader(scene));
+        const auto loader = brayns::MeshLoader(scene);
+        modelDescriptor =
+            loader.importFromFile(payload.filename, brayns::LoaderProgress(),
+                                  brayns::PropertyMap());
+        scene.addModel(modelDescriptor);
     }
     else
         PLUGIN_THROW(std::runtime_error("Unsupported file format"));
-
-    auto modelDescriptor =
-        loader->importFromFile(payload.filename, brayns::LoaderProgress(),
-                               props);
-    scene.addModel(modelDescriptor);
 
     const auto &model = modelDescriptor->getModel();
     const auto &bounds = model.getBounds();
@@ -129,7 +118,8 @@ void Covid19Plugin::_buildStructure(const StructureDescriptor &payload)
 
 #endif
 
-        if (payload.halfStructure && direction.z > 0.f)
+        if (payload.halfStructure &&
+            (direction.x > 0.f && direction.y > 0.f && direction.z > 0.f))
             continue;
 
         brayns::Transformation tf;
