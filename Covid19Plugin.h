@@ -36,13 +36,13 @@ public:
 
     void init() final;
 
-    /**
-     * @brief preRender Updates the scene according to latest data load
-     */
-    void preRender() final;
-
 private:
-    void _buildStructure(const StructureDescriptor &payload);
+    Result _buildStructure(const StructureDescriptor &payload);
+    Result _setColorScheme(const ColorSchemeDescriptor &payload);
+    Result _setAminoAcidSequence(const AminoAcidSequenceDescriptor &payload);
+    Result _getAminoAcidSequences(const AminoAcidSequencesDescriptor &payload);
+
+    ProteinMap _proteins;
 };
 
 #endif

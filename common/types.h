@@ -1,19 +1,38 @@
-#ifndef COVID19_PROTEINLOADER_H
-#define COVID19_PROTEINLOADER_H
+#ifndef COVID19_TYPES_H
+#define COVID19_TYPES_H
 
+#include <brayns/common/mathTypes.h>
 #include <brayns/common/types.h>
 
+#include <map>
 #include <set>
+#include <string>
 
+// Color schemes
 enum class ColorScheme
 {
     none = 0,
     atoms = 1,
     chains = 2,
     residues = 3,
-    transmembrane_sequence = 4,
+    amino_acid_sequence = 4,
     glycosylation_site = 5
 };
+
+/** Structure defining an atom radius in microns
+ */
+typedef std::map<std::string, float> AtomicRadii;
+
+/** Structure defining the color of atoms according to the JMol Scheme
+ */
+struct RGBColor
+{
+    short R, G, B;
+};
+typedef std::map<std::string, RGBColor> RGBColorMap;
+
+typedef brayns::Vector3f Color;
+typedef std::vector<Color> Palette;
 
 struct LoaderParameters
 {
@@ -23,12 +42,11 @@ struct LoaderParameters
     // [none|atoms|chains|residues|transmembrane_sequence|glycosylation_site]
     ColorScheme colorScheme;
     // Sequence of amino acids located in the virus membrane
-    std::string transmembraneSequence;
+    std::string aminoAcidSequence;
 };
 
 struct Atom
 {
-    size_t index;
     size_t serial;
     std::string name;
     std::string altLoc;
@@ -42,8 +60,8 @@ struct Atom
     std::string element;
     std::string charge;
     float radius;
-    size_t materialId;
 };
+typedef std::vector<Atom> Atoms;
 
 struct Sequence
 {
@@ -51,6 +69,7 @@ struct Sequence
     size_t numRes;
     std::vector<std::string> resNames;
 };
+typedef std::map<size_t, Sequence> SequenceMap;
 
 struct AminoAcid
 {
@@ -66,33 +85,17 @@ struct AminoAcid
     //    float occurenceInProtein;
     //    std::string standardGeneticCode;
 };
-
-// Typedefs
-typedef std::vector<Atom> Atoms;
-typedef std::set<std::string> Residues;
-typedef std::map<size_t, Sequence> SequenceMap;
 typedef std::map<std::string, AminoAcid> AminoAcidMap;
 
-class ProteinLoader
-{
-public:
-    ProteinLoader(brayns::Scene& scene);
+// Residues
+typedef std::set<std::string> Residues;
 
-    std::vector<std::string> getSupportedExtensions() const;
-    brayns::PropertyMap getProperties() const;
+// Protein
+class Protein;
+typedef std::shared_ptr<Protein> ProteinPtr;
+typedef std::map<std::string, ProteinPtr> ProteinMap;
 
-    bool isSupported(const std::string& filename,
-                     const std::string& extension) const;
-    brayns::ModelDescriptorPtr importFromFile(
-        const std::string& fileName, const LoaderParameters& loaderParameters);
+// Typedefs
+typedef std::map<std::string, std::string> StringMap;
 
-private:
-    void readAtom(const std::string& line, const ColorScheme colorScheme,
-                  const float radiusMultiplier, Atoms& atoms,
-                  Residues& residues) const;
-
-    void readSequence(const std::string& line, SequenceMap& sequenceMap) const;
-
-    brayns::Scene& _scene;
-};
-#endif // COVID19_PROTEINLOADER_H
+#endif // COVID19_TYPES_H

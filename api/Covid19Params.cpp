@@ -19,8 +19,39 @@
 #include "Covid19Params.h"
 #include "json.hpp"
 
+#ifndef BRAYNS_DEBUG_JSON_ENABLED
 #define FROM_JSON(PARAM, JSON, NAME) \
     PARAM.NAME = JSON[#NAME].get<decltype(PARAM.NAME)>()
+#else
+#define FROM_JSON(PARAM, JSON, NAME)                                          \
+    try                                                                       \
+    {                                                                         \
+        PARAM.NAME = JSON[#NAME].get<decltype(PARAM.NAME)>();                 \
+    }                                                                         \
+    catch (...)                                                               \
+    {                                                                         \
+        PLUGIN_ERROR << "JSON parsing error for attribute '" << #NAME << "'!" \
+                     << std::endl;                                            \
+        throw;                                                                \
+    }
+#endif
+#define TO_JSON(PARAM, JSON, NAME) JSON[#NAME] = PARAM.NAME
+
+bool from_json(Result &param, const std::string &payload)
+{
+    try
+    {
+        auto js = nlohmann::json::parse(payload);
+
+        FROM_JSON(param, js, success);
+        FROM_JSON(param, js, contents);
+    }
+    catch (...)
+    {
+        return false;
+    }
+    return true;
+}
 
 bool from_json(StructureDescriptor &param, const std::string &payload)
 {
@@ -32,10 +63,52 @@ bool from_json(StructureDescriptor &param, const std::string &payload)
         FROM_JSON(param, js, assemblyRadius);
         FROM_JSON(param, js, atomRadiusMultiplier);
         FROM_JSON(param, js, randomize);
-        FROM_JSON(param, js, colorScheme);
         FROM_JSON(param, js, halfStructure);
-        FROM_JSON(param, js, deformation);
-        FROM_JSON(param, js, transmembraneSequence);
+    }
+    catch (...)
+    {
+        return false;
+    }
+    return true;
+}
+
+bool from_json(ColorSchemeDescriptor &param, const std::string &payload)
+{
+    try
+    {
+        auto js = nlohmann::json::parse(payload);
+        FROM_JSON(param, js, filename);
+        FROM_JSON(param, js, colorScheme);
+        FROM_JSON(param, js, palette);
+    }
+    catch (...)
+    {
+        return false;
+    }
+    return true;
+}
+
+bool from_json(AminoAcidSequenceDescriptor &param, const std::string &payload)
+{
+    try
+    {
+        auto js = nlohmann::json::parse(payload);
+        FROM_JSON(param, js, filename);
+        FROM_JSON(param, js, aminoAcidSequence);
+    }
+    catch (...)
+    {
+        return false;
+    }
+    return true;
+}
+
+bool from_json(AminoAcidSequencesDescriptor &param, const std::string &payload)
+{
+    try
+    {
+        auto js = nlohmann::json::parse(payload);
+        FROM_JSON(param, js, filename);
     }
     catch (...)
     {

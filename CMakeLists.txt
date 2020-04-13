@@ -19,14 +19,14 @@ if(NOT CMAKE_BUILD_TYPE)
 endif(NOT CMAKE_BUILD_TYPE)
 
 set(${NAME}_SOURCES
+  common/Protein.cpp
   api/Covid19Params.cpp
-  io/ProteinLoader.cpp
   Covid19Plugin.cpp
 )
 
 set(${NAME}_PUBLIC_HEADERS
+  common/Protein.h
   api/Covid19Params.h
-  io/ProteinLoader.h
   Covid19Plugin.h
 )
 

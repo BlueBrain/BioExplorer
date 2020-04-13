@@ -19,11 +19,18 @@
 #ifndef COVID19_PARAMS_H
 #define COVID19_PARAMS_H
 
-#include "../io/ProteinLoader.h"
+#include <common/types.h>
 
 #include <set>
 
 /** Define the color scheme to be applied to the geometry */
+
+struct Result
+{
+    bool success{true};
+    std::string contents;
+};
+std::string to_json(const Result &param);
 
 struct StructureDescriptor
 {
@@ -32,12 +39,29 @@ struct StructureDescriptor
     float assemblyRadius;
     float atomRadiusMultiplier;
     bool randomize;
-    ColorScheme colorScheme;
     bool halfStructure;
-    std::vector<float> deformation;
-    std::string transmembraneSequence;
 };
-
 bool from_json(StructureDescriptor &param, const std::string &payload);
+
+struct ColorSchemeDescriptor
+{
+    std::string filename;
+    ColorScheme colorScheme;
+    std::vector<float> palette;
+};
+bool from_json(ColorSchemeDescriptor &param, const std::string &payload);
+
+struct AminoAcidSequenceDescriptor
+{
+    std::string filename;
+    std::string aminoAcidSequence;
+};
+bool from_json(AminoAcidSequenceDescriptor &param, const std::string &payload);
+
+struct AminoAcidSequencesDescriptor
+{
+    std::string filename;
+};
+bool from_json(AminoAcidSequencesDescriptor &param, const std::string &payload);
 
 #endif // COVID19_PARAMS_H
