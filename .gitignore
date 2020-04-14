@@ -1,0 +1,13 @@
+.cproject
+.project
+.settings
+*.cflags
+*.config
+*.creator
+*.creator.user
+*.cxxflags
+*.files
+*.includes
+debug
+release
+build
