@@ -44,14 +44,14 @@ void Covid19Plugin::init()
     if (actionInterface)
     {
         PLUGIN_INFO << "Registering 'build-structure' endpoint" << std::endl;
-        actionInterface->registerRequest<StructureDescriptor, Result>(
+        actionInterface->registerRequest<StructureDescriptor, Response>(
             "build-structure", [&](const StructureDescriptor &payload) {
                 return _buildStructure(payload);
             });
 
         PLUGIN_INFO << "Registering 'set-protein-color-scheme' endpoint"
                     << std::endl;
-        actionInterface->registerRequest<ColorSchemeDescriptor, Result>(
+        actionInterface->registerRequest<ColorSchemeDescriptor, Response>(
             "set-protein-color-scheme",
             [&](const ColorSchemeDescriptor &payload) {
                 return _setColorScheme(payload);
@@ -59,7 +59,7 @@ void Covid19Plugin::init()
 
         PLUGIN_INFO << "Registering 'set-protein-amino-acid-sequence' endpoint"
                     << std::endl;
-        actionInterface->registerRequest<AminoAcidSequenceDescriptor, Result>(
+        actionInterface->registerRequest<AminoAcidSequenceDescriptor, Response>(
             "set-protein-amino-acid-sequence",
             [&](const AminoAcidSequenceDescriptor &payload) {
                 return _setAminoAcidSequence(payload);
@@ -67,17 +67,18 @@ void Covid19Plugin::init()
 
         PLUGIN_INFO << "Registering 'get-protein-amino-acid-sequences' endpoint"
                     << std::endl;
-        actionInterface->registerRequest<AminoAcidSequencesDescriptor, Result>(
-            "get-protein-amino-acid-sequences",
-            [&](const AminoAcidSequencesDescriptor &payload) {
-                return _getAminoAcidSequences(payload);
-            });
+        actionInterface
+            ->registerRequest<AminoAcidSequencesDescriptor, Response>(
+                "get-protein-amino-acid-sequences",
+                [&](const AminoAcidSequencesDescriptor &payload) {
+                    return _getAminoAcidSequences(payload);
+                });
     }
 }
 
-Result Covid19Plugin::_buildStructure(const StructureDescriptor &payload)
+Response Covid19Plugin::_buildStructure(const StructureDescriptor &payload)
 {
-    Result result;
+    Response response;
     PLUGIN_INFO << "Initializing structure from " << payload.filename
                 << std::endl;
     PLUGIN_INFO << "Number of instances: " << payload.instances << std::endl;
@@ -105,9 +106,9 @@ Result Covid19Plugin::_buildStructure(const StructureDescriptor &payload)
         }
         else
         {
-            result.success = false;
-            result.contents = "Unsupported file format";
-            return result;
+            response.status = false;
+            response.contents = "Unsupported file format";
+            return response;
         }
 
         scene.addModel(modelDescriptor);
@@ -171,15 +172,15 @@ Result Covid19Plugin::_buildStructure(const StructureDescriptor &payload)
     }
     catch (const std::runtime_error &e)
     {
-        result.success = false;
-        result.contents = e.what();
+        response.status = false;
+        response.contents = e.what();
     }
-    return result;
+    return response;
 }
 
-Result Covid19Plugin::_setColorScheme(const ColorSchemeDescriptor &payload)
+Response Covid19Plugin::_setColorScheme(const ColorSchemeDescriptor &payload)
 {
-    Result result;
+    Response response;
     auto it = _proteins.find(payload.filename);
     if (it != _proteins.end())
     {
@@ -195,16 +196,16 @@ Result Covid19Plugin::_setColorScheme(const ColorSchemeDescriptor &payload)
         std::stringstream msg;
         msg << "Protein not found: " << payload.filename;
         PLUGIN_ERROR << msg.str() << std::endl;
-        result.success = false;
-        result.contents = msg.str();
+        response.status = false;
+        response.contents = msg.str();
     }
-    return result;
+    return response;
 }
 
-Result Covid19Plugin::_setAminoAcidSequence(
+Response Covid19Plugin::_setAminoAcidSequence(
     const AminoAcidSequenceDescriptor &payload)
 {
-    Result result;
+    Response response;
     PLUGIN_INFO << "Selecting sequence " << payload.aminoAcidSequence
                 << " on protein " << payload.filename << std::endl;
     auto it = _proteins.find(payload.filename);
@@ -215,16 +216,16 @@ Result Covid19Plugin::_setAminoAcidSequence(
         std::stringstream msg;
         msg << "Protein not found: " << payload.filename;
         PLUGIN_ERROR << msg.str() << std::endl;
-        result.success = false;
-        result.contents = msg.str();
+        response.status = false;
+        response.contents = msg.str();
     }
-    return result;
+    return response;
 }
 
-Result Covid19Plugin::_getAminoAcidSequences(
+Response Covid19Plugin::_getAminoAcidSequences(
     const AminoAcidSequencesDescriptor &payload)
 {
-    Result result;
+    Response response;
     PLUGIN_INFO << "Returning sequences from protein " << payload.filename
                 << std::endl;
     auto it = _proteins.find(payload.filename);
@@ -233,21 +234,21 @@ Result Covid19Plugin::_getAminoAcidSequences(
         const auto protein = (*it).second;
         for (const auto &sequence : protein->getSequencesAsString())
         {
-            if (!result.contents.empty())
-                result.contents += "\n";
-            result.contents += sequence.second;
+            if (!response.contents.empty())
+                response.contents += "\n";
+            response.contents += sequence.second;
         }
-        PLUGIN_INFO << result.contents << std::endl;
+        PLUGIN_INFO << response.contents << std::endl;
     }
     else
     {
         std::stringstream msg;
         msg << "Protein not found: " << payload.filename;
         PLUGIN_ERROR << msg.str() << std::endl;
-        result.success = false;
-        result.contents = msg.str();
+        response.status = false;
+        response.contents = msg.str();
     }
-    return result;
+    return response;
 }
 
 extern "C" brayns::ExtensionPlugin *brayns_plugin_create(int /*argc*/,

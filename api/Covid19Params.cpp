@@ -37,20 +37,21 @@
 #endif
 #define TO_JSON(PARAM, JSON, NAME) JSON[#NAME] = PARAM.NAME
 
-bool from_json(Result &param, const std::string &payload)
+std::string to_json(const Response &param)
 {
     try
     {
-        auto js = nlohmann::json::parse(payload);
+        nlohmann::json js;
 
-        FROM_JSON(param, js, success);
-        FROM_JSON(param, js, contents);
+        TO_JSON(param, js, status);
+        TO_JSON(param, js, contents);
+        return js.dump();
     }
     catch (...)
     {
-        return false;
+        return "";
     }
-    return true;
+    return "";
 }
 
 bool from_json(StructureDescriptor &param, const std::string &payload)

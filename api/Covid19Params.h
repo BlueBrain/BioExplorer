@@ -25,12 +25,12 @@
 
 /** Define the color scheme to be applied to the geometry */
 
-struct Result
+struct Response
 {
-    bool success{true};
+    bool status{true};
     std::string contents;
 };
-std::string to_json(const Result &param);
+std::string to_json(const Response &param);
 
 struct StructureDescriptor
 {

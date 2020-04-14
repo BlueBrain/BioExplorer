@@ -37,10 +37,11 @@ public:
     void init() final;
 
 private:
-    Result _buildStructure(const StructureDescriptor &payload);
-    Result _setColorScheme(const ColorSchemeDescriptor &payload);
-    Result _setAminoAcidSequence(const AminoAcidSequenceDescriptor &payload);
-    Result _getAminoAcidSequences(const AminoAcidSequencesDescriptor &payload);
+    Response _buildStructure(const StructureDescriptor &payload);
+    Response _setColorScheme(const ColorSchemeDescriptor &payload);
+    Response _setAminoAcidSequence(const AminoAcidSequenceDescriptor &payload);
+    Response _getAminoAcidSequences(
+        const AminoAcidSequencesDescriptor &payload);
 
     ProteinMap _proteins;
 };
