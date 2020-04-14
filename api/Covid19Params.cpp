@@ -59,6 +59,7 @@ bool from_json(StructureDescriptor &param, const std::string &payload)
     try
     {
         auto js = nlohmann::json::parse(payload);
+        FROM_JSON(param, js, name);
         FROM_JSON(param, js, filename);
         FROM_JSON(param, js, instances);
         FROM_JSON(param, js, assemblyRadius);

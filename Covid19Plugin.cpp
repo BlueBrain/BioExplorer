@@ -92,7 +92,8 @@ Response Covid19Plugin::_buildStructure(const StructureDescriptor &payload)
         brayns::ModelDescriptorPtr modelDescriptor{nullptr};
         if (ext == "pdb" || ext == "pdb1")
         {
-            ProteinPtr protein(new Protein(scene, payload.filename,
+            ProteinPtr protein(new Protein(scene, payload.name,
+                                           payload.filename,
                                            payload.atomRadiusMultiplier));
             modelDescriptor = protein->getModelDescriptor();
             _proteins[payload.filename] = std::move(protein);

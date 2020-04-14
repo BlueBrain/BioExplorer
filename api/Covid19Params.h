@@ -34,6 +34,7 @@ std::string to_json(const Response &param);
 
 struct StructureDescriptor
 {
+    std::string name;
     std::string filename;
     size_t instances;
     float assemblyRadius;

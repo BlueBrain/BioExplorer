@@ -10,8 +10,8 @@
 class Protein
 {
 public:
-    Protein(brayns::Scene& scene, const std::string& filename,
-            const float radiusMultiplier = 1.f);
+    Protein(brayns::Scene& scene, const std::string& name,
+            const std::string& filename, const float radiusMultiplier = 1.f);
 
     Atoms& getAtoms() { return _atoms; }
     Residues& getResidues() { return _residues; }
@@ -32,6 +32,7 @@ public:
     brayns::ModelDescriptorPtr getModelDescriptor() { return _modelDescriptor; }
 
 private:
+    // Color schemes
     void _setAtomColorScheme();
     void _setChainColorScheme(const Palette& palette);
     void _setResiduesColorScheme(const Palette& palette);
@@ -42,13 +43,16 @@ private:
                                   const RGBColor& color);
     void _setMaterialDiffuseColor(const size_t atomIndex, const Color& color);
 
+    // IO
     void _readAtom(const std::string& line);
     void _readSequence(const std::string& line);
+    void _readTitle(const std::string& line);
 
     Atoms _atoms;
     Residues _residues;
     SequenceMap _sequenceMap;
     std::string _aminoAcidSequence;
+    std::string _title;
 
     brayns::ModelDescriptorPtr _modelDescriptor{nullptr};
 };

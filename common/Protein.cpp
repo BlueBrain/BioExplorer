@@ -224,8 +224,8 @@ std::string& trim(std::string& s)
     return ltrim(rtrim(s));
 }
 
-Protein::Protein(brayns::Scene& scene, const std::string& filename,
-                 const float radiusMultiplier)
+Protein::Protein(brayns::Scene& scene, const std::string& name,
+                 const std::string& filename, const float radiusMultiplier)
 {
     std::ifstream file(filename.c_str());
     if (!file.is_open())
@@ -239,8 +239,10 @@ Protein::Protein(brayns::Scene& scene, const std::string& filename,
         std::getline(file, line);
         if (line.find("ATOM") == 0 /* || line.find("HETATM") == 0*/)
             _readAtom(line);
-        if (line.find("SEQRES") == 0)
+        else if (line.find("SEQRES") == 0)
             _readSequence(line);
+        else if (line.find("TITLE") == 0)
+            _readTitle(line);
     }
     file.close();
 
@@ -264,14 +266,18 @@ Protein::Protein(brayns::Scene& scene, const std::string& filename,
 
     // Metadata
     brayns::ModelMetadata metadata;
-    for (const auto& sequence : getSequencesAsString())
-        metadata[sequence.first] = sequence.second;
+    metadata["Title"] = _title;
 
-    metadata["Amino Acid Sequence"] = _aminoAcidSequence;
+    const auto& size = bounds.getSize();
+    metadata["Size"] = std::to_string(size.x) + ", " + std::to_string(size.y) +
+                       ", " + std::to_string(size.z) + " angstroms";
+
+    for (const auto& sequence : getSequencesAsString())
+        metadata["Amino Acid Sequence " + sequence.first] = sequence.second;
 
     _modelDescriptor =
-        std::make_shared<brayns::ModelDescriptor>(std::move(model), filename,
-                                                  metadata);
+        std::make_shared<brayns::ModelDescriptor>(std::move(model), name,
+                                                  filename, metadata);
     // Transformation
     brayns::Transformation transformation;
     transformation.setRotationCenter(center);
@@ -555,4 +561,10 @@ void Protein::_readSequence(const std::string& line)
         if (!s.empty())
             sequence.resNames.push_back(s);
     }
+}
+
+void Protein::_readTitle(const std::string& line)
+{
+    std::string s = line.substr(11);
+    _title = trim(s);
 }
