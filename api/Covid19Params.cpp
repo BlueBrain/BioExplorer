@@ -60,12 +60,13 @@ bool from_json(StructureDescriptor &param, const std::string &payload)
     {
         auto js = nlohmann::json::parse(payload);
         FROM_JSON(param, js, name);
-        FROM_JSON(param, js, filename);
-        FROM_JSON(param, js, instances);
+        FROM_JSON(param, js, path);
+        FROM_JSON(param, js, occurences);
         FROM_JSON(param, js, assemblyRadius);
         FROM_JSON(param, js, atomRadiusMultiplier);
         FROM_JSON(param, js, randomize);
         FROM_JSON(param, js, halfStructure);
+        FROM_JSON(param, js, upVector);
     }
     catch (...)
     {
@@ -79,7 +80,7 @@ bool from_json(ColorSchemeDescriptor &param, const std::string &payload)
     try
     {
         auto js = nlohmann::json::parse(payload);
-        FROM_JSON(param, js, filename);
+        FROM_JSON(param, js, path);
         FROM_JSON(param, js, colorScheme);
         FROM_JSON(param, js, palette);
     }
@@ -95,7 +96,7 @@ bool from_json(AminoAcidSequenceDescriptor &param, const std::string &payload)
     try
     {
         auto js = nlohmann::json::parse(payload);
-        FROM_JSON(param, js, filename);
+        FROM_JSON(param, js, path);
         FROM_JSON(param, js, aminoAcidSequence);
     }
     catch (...)
@@ -110,7 +111,7 @@ bool from_json(AminoAcidSequencesDescriptor &param, const std::string &payload)
     try
     {
         auto js = nlohmann::json::parse(payload);
-        FROM_JSON(param, js, filename);
+        FROM_JSON(param, js, path);
     }
     catch (...)
     {

@@ -79,31 +79,34 @@ void Covid19Plugin::init()
 Response Covid19Plugin::_buildStructure(const StructureDescriptor &payload)
 {
     Response response;
-    PLUGIN_INFO << "Initializing structure from " << payload.filename
-                << std::endl;
-    PLUGIN_INFO << "Number of instances: " << payload.instances << std::endl;
+    PLUGIN_INFO << "Initializing structure from " << payload.path << std::endl;
+    PLUGIN_INFO << "Number of instances: " << payload.occurences << std::endl;
     PLUGIN_INFO << "Virus radius    : " << payload.assemblyRadius << std::endl;
 
     try
     {
+        // Checks
+        if (payload.upVector.size() != 3)
+            throw std::runtime_error("Invalid up vector");
+
         auto &scene = _api->getScene();
-        const std::string ext = brayns::extractExtension(payload.filename);
+        const std::string ext = brayns::extractExtension(payload.path);
 
         brayns::ModelDescriptorPtr modelDescriptor{nullptr};
+
         if (ext == "pdb" || ext == "pdb1")
         {
-            ProteinPtr protein(new Protein(scene, payload.name,
-                                           payload.filename,
+            ProteinPtr protein(new Protein(scene, payload.name, payload.path,
                                            payload.atomRadiusMultiplier));
             modelDescriptor = protein->getModelDescriptor();
-            _proteins[payload.filename] = std::move(protein);
+            _proteins[payload.path] = std::move(protein);
         }
         else if (ext == "obj")
         {
             const auto loader = brayns::MeshLoader(scene);
-            modelDescriptor = loader.importFromFile(payload.filename,
-                                                    brayns::LoaderProgress(),
-                                                    brayns::PropertyMap());
+            modelDescriptor =
+                loader.importFromFile(payload.path, brayns::LoaderProgress(),
+                                      brayns::PropertyMap());
         }
         else
         {
@@ -117,24 +120,24 @@ Response Covid19Plugin::_buildStructure(const StructureDescriptor &payload)
         const auto &bounds = model.getBounds();
         const brayns::Vector3f &center = bounds.getCenter();
 
-        const float offset = 2.f / payload.instances;
+        const float offset = 2.f / payload.occurences;
         const float increment = M_PI * (3.f - sqrt(5.f));
         srand(time(NULL));
-        size_t rnd = payload.randomize ? rand() % payload.instances : 1;
+        size_t rnd = payload.randomize ? rand() % payload.occurences : 1;
 
         size_t instanceCount = 0;
-        for (size_t i = 0; i < payload.instances; ++i)
+        for (size_t i = 0; i < payload.occurences; ++i)
         {
 #if 1
             const float y = ((i * offset) - 1.f) + (offset / 2.f);
             const float r = sqrt(1.f - pow(y, 2.f));
-            const float phi = ((i + rnd) % payload.instances) * increment;
+            const float phi = ((i + rnd) % payload.occurences) * increment;
             const float x = cos(phi) * r;
             const float z = sin(phi) * r;
             const auto direction = brayns::Vector3f(x, y, z);
 #else
-            const float angle = payload.instances / 2.f * M_PI;
-            const float phi = acos(1 - 2 * (i + 0.5) / payload.instances);
+            const float angle = payload.occurences / 2.f * M_PI;
+            const float phi = acos(1 - 2 * (i + 0.5) / payload.occurences);
             const float theta = M_PI * (1 + pow(5, 0.5)) * i;
             const float x =
                 payload.deformation[0] * cos(angle * i) + cos(theta) * sin(phi);
@@ -155,9 +158,10 @@ Response Covid19Plugin::_buildStructure(const StructureDescriptor &payload)
             tf.setTranslation(position - center);
             tf.setRotationCenter(center);
 
-            const brayns::Vector3f up = {0.f, 1.f, 0.f};
-            const brayns::Quaterniond quat = glm::quatLookAt(direction, up);
-            tf.setRotation(quat);
+            const brayns::Vector3f up = {payload.upVector[0],
+                                         payload.upVector[1],
+                                         payload.upVector[2]};
+            tf.setRotation(glm::quatLookAt(direction, up));
 
             if (instanceCount == 0)
                 modelDescriptor->setTransformation(tf);
@@ -182,7 +186,7 @@ Response Covid19Plugin::_buildStructure(const StructureDescriptor &payload)
 Response Covid19Plugin::_setColorScheme(const ColorSchemeDescriptor &payload)
 {
     Response response;
-    auto it = _proteins.find(payload.filename);
+    auto it = _proteins.find(payload.path);
     if (it != _proteins.end())
     {
         Palette palette;
@@ -195,7 +199,7 @@ Response Covid19Plugin::_setColorScheme(const ColorSchemeDescriptor &payload)
     else
     {
         std::stringstream msg;
-        msg << "Protein not found: " << payload.filename;
+        msg << "Protein not found: " << payload.path;
         PLUGIN_ERROR << msg.str() << std::endl;
         response.status = false;
         response.contents = msg.str();
@@ -208,14 +212,14 @@ Response Covid19Plugin::_setAminoAcidSequence(
 {
     Response response;
     PLUGIN_INFO << "Selecting sequence " << payload.aminoAcidSequence
-                << " on protein " << payload.filename << std::endl;
-    auto it = _proteins.find(payload.filename);
+                << " on protein " << payload.path << std::endl;
+    auto it = _proteins.find(payload.path);
     if (it != _proteins.end())
         (*it).second->setAminoAcidSequence(payload.aminoAcidSequence);
     else
     {
         std::stringstream msg;
-        msg << "Protein not found: " << payload.filename;
+        msg << "Protein not found: " << payload.path;
         PLUGIN_ERROR << msg.str() << std::endl;
         response.status = false;
         response.contents = msg.str();
@@ -227,9 +231,9 @@ Response Covid19Plugin::_getAminoAcidSequences(
     const AminoAcidSequencesDescriptor &payload)
 {
     Response response;
-    PLUGIN_INFO << "Returning sequences from protein " << payload.filename
+    PLUGIN_INFO << "Returning sequences from protein " << payload.path
                 << std::endl;
-    auto it = _proteins.find(payload.filename);
+    auto it = _proteins.find(payload.path);
     if (it != _proteins.end())
     {
         const auto protein = (*it).second;
@@ -244,7 +248,7 @@ Response Covid19Plugin::_getAminoAcidSequences(
     else
     {
         std::stringstream msg;
-        msg << "Protein not found: " << payload.filename;
+        msg << "Protein not found: " << payload.path;
         PLUGIN_ERROR << msg.str() << std::endl;
         response.status = false;
         response.contents = msg.str();

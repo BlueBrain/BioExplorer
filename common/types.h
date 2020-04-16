@@ -69,7 +69,7 @@ struct Sequence
     size_t numRes;
     std::vector<std::string> resNames;
 };
-typedef std::map<size_t, Sequence> SequenceMap;
+typedef std::map<std::string, Sequence> SequenceMap;
 
 struct AminoAcid
 {

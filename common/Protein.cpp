@@ -124,7 +124,8 @@ static AtomicRadii atomicRadii = {{{"C"}, {67.f}},
                                   {{"P"}, 25.f}};
 
 // Amino acids
-static AminoAcidMap aminoAcidMap = {{"ALA", {"Alanine", "A"}},
+static AminoAcidMap aminoAcidMap = {{".", {".", "."}},
+                                    {"ALA", {"Alanine", "A"}},
                                     {"ARG", {"Arginine", "R"}},
                                     {"ASN", {"Asparagine", "N"}},
                                     {"ASP", {"Aspartic acid", "D"}},
@@ -239,12 +240,29 @@ Protein::Protein(brayns::Scene& scene, const std::string& name,
         std::getline(file, line);
         if (line.find("ATOM") == 0 /* || line.find("HETATM") == 0*/)
             _readAtom(line);
-        else if (line.find("SEQRES") == 0)
-            _readSequence(line);
         else if (line.find("TITLE") == 0)
             _readTitle(line);
+        //        else if (line.find("SEQRES") == 0)
+        //            _readSequence(line);
+        //        else if (line.find("REMARK") == 0)
+        //            _readRemark(line);
     }
     file.close();
+
+    // Update sequences
+    std::map<std::string, size_t> minSeqs;
+    for (const auto& atom : _atoms)
+    {
+        if (minSeqs.find(atom.chainId) == minSeqs.end())
+            minSeqs[atom.chainId] = std::numeric_limits<size_t>::max();
+        minSeqs[atom.chainId] = std::min(minSeqs[atom.chainId], atom.reqSeq);
+    }
+    for (const auto& minSeq : minSeqs)
+    {
+        auto& sequence = _sequenceMap[minSeq.first];
+        for (size_t i = 0; i < minSeq.second; ++i)
+            sequence.resNames[i] = ".";
+    }
 
     auto model = scene.createModel();
 
@@ -301,9 +319,10 @@ StringMap Protein::getSequencesAsString() const
         for (const auto& resName : sequence.second.resNames)
             shortSequence += aminoAcidMap[resName].shortName;
 
-        sequencesAsStrings[std::to_string(sequence.first)] = shortSequence;
-        PLUGIN_INFO << sequence.first << " (" << sequence.second.resNames.size()
-                    << "): " << shortSequence << std::endl;
+        sequencesAsStrings[sequence.first] = shortSequence;
+        PLUGIN_DEBUG << sequence.first << " ("
+                     << sequence.second.resNames.size()
+                     << "): " << shortSequence << std::endl;
     }
     return sequencesAsStrings;
 }
@@ -527,6 +546,12 @@ void Protein::_readAtom(const std::string& line)
     atom.radius = 0.0001f * atomicRadii[atom.element];
 
     _atoms.push_back(atom);
+
+    // Sequences
+    Sequence& sequence = _sequenceMap[atom.chainId];
+    if (sequence.resNames.size() < atom.reqSeq + 1)
+        sequence.resNames.resize(atom.reqSeq + 1);
+    sequence.resNames[atom.reqSeq] = atom.resName;
 }
 
 void Protein::_readSequence(const std::string& line)
@@ -548,9 +573,8 @@ void Protein::_readSequence(const std::string& line)
     // -------------------------------------------------------------------------
 
     std::string s = line.substr(11, 1);
-    size_t chainId = static_cast<size_t>(s[0]) - 64;
 
-    Sequence& sequence = _sequenceMap[chainId];
+    Sequence& sequence = _sequenceMap[s];
     sequence.serNum = static_cast<size_t>(atoi(line.substr(7, 3).c_str()));
     sequence.numRes = static_cast<size_t>(atoi(line.substr(13, 4).c_str()));
 
@@ -561,6 +585,48 @@ void Protein::_readSequence(const std::string& line)
         if (!s.empty())
             sequence.resNames.push_back(s);
     }
+}
+
+void Protein::_readRemark(const std::string& line)
+{
+    // -------------------------------------------------------------------------
+    // COLUMNS TYPE      FIELD     DEFINITION
+    // -------------------------------------------------------------------------
+    // 1 - 6   Record name "REMARK"
+    // 8 - 10  Integer   remarkNum Remark number. It is not an error for remark
+    //                             n to exist in an entry when remark n-1 does
+    //                             not.
+    // 13 - 16 String    "ALN"
+    // 17 - 18 String    "C"
+    // 19 - 22 String    "TRG"
+    // 23 - 81 String    Sequence
+    // -------------------------------------------------------------------------
+
+    std::string s = line.substr(9, 1);
+    if (s != "3")
+        return;
+
+    if (line.length() < 23)
+        return;
+
+    s = line.substr(12, 3);
+    if (s != "ALN")
+        return;
+
+    s = line.substr(16, 1);
+    if (s != "C")
+        return;
+
+    s = line.substr(18, 3);
+    if (s != "TRG")
+        return;
+
+    s = line.substr(22, line.length() - 23);
+    Sequence& sequence = _sequenceMap[0];
+    if (sequence.resNames.empty())
+        sequence.resNames.push_back(s);
+    else
+        sequence.resNames[0] = sequence.resNames[0] + s;
 }
 
 void Protein::_readTitle(const std::string& line)

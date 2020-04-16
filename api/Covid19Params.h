@@ -35,18 +35,19 @@ std::string to_json(const Response &param);
 struct StructureDescriptor
 {
     std::string name;
-    std::string filename;
-    size_t instances;
+    std::string path;
+    size_t occurences;
     float assemblyRadius;
     float atomRadiusMultiplier;
     bool randomize;
     bool halfStructure;
+    std::vector<float> upVector;
 };
 bool from_json(StructureDescriptor &param, const std::string &payload);
 
 struct ColorSchemeDescriptor
 {
-    std::string filename;
+    std::string path;
     ColorScheme colorScheme;
     std::vector<float> palette;
 };
@@ -54,14 +55,14 @@ bool from_json(ColorSchemeDescriptor &param, const std::string &payload);
 
 struct AminoAcidSequenceDescriptor
 {
-    std::string filename;
+    std::string path;
     std::string aminoAcidSequence;
 };
 bool from_json(AminoAcidSequenceDescriptor &param, const std::string &payload);
 
 struct AminoAcidSequencesDescriptor
 {
-    std::string filename;
+    std::string path;
 };
 bool from_json(AminoAcidSequencesDescriptor &param, const std::string &payload);
 

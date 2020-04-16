@@ -13,13 +13,11 @@ public:
     Protein(brayns::Scene& scene, const std::string& name,
             const std::string& filename, const float radiusMultiplier = 1.f);
 
-    Atoms& getAtoms() { return _atoms; }
-    Residues& getResidues() { return _residues; }
-    SequenceMap& getSequences() { return _sequenceMap; }
-
-    StringMap getSequencesAsString() const;
+    // Color schemes
     void setColorScheme(const ColorScheme& colorScheme, const Palette& palette);
 
+    // Amino acid sequence
+    StringMap getSequencesAsString() const;
     void setAminoAcidSequence(const std::string& aminoAcidSequence)
     {
         _aminoAcidSequence = aminoAcidSequence;
@@ -29,6 +27,10 @@ public:
         return _aminoAcidSequence;
     }
 
+    // Class member accessors
+    Atoms& getAtoms() { return _atoms; }
+    Residues& getResidues() { return _residues; }
+    SequenceMap& getSequences() { return _sequenceMap; }
     brayns::ModelDescriptorPtr getModelDescriptor() { return _modelDescriptor; }
 
 private:
@@ -47,13 +49,14 @@ private:
     void _readAtom(const std::string& line);
     void _readSequence(const std::string& line);
     void _readTitle(const std::string& line);
+    void _readRemark(const std::string& line);
 
+    // Class members
     Atoms _atoms;
     Residues _residues;
     SequenceMap _sequenceMap;
     std::string _aminoAcidSequence;
     std::string _title;
-
     brayns::ModelDescriptorPtr _modelDescriptor{nullptr};
 };
 
