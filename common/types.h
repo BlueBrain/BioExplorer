@@ -27,7 +27,7 @@ typedef std::map<std::string, float> AtomicRadii;
  */
 struct RGBColor
 {
-    short R, G, B;
+    short r, g, b;
 };
 typedef std::map<std::string, RGBColor> RGBColorMap;
 
@@ -47,7 +47,6 @@ struct LoaderParameters
 
 struct Atom
 {
-    size_t serial;
     std::string name;
     std::string altLoc;
     std::string resName;
@@ -61,7 +60,7 @@ struct Atom
     std::string charge;
     float radius;
 };
-typedef std::vector<Atom> Atoms;
+typedef std::map<size_t, Atom> AtomMap;
 
 struct Sequence
 {
@@ -70,6 +69,8 @@ struct Sequence
     std::vector<std::string> resNames;
 };
 typedef std::map<std::string, Sequence> SequenceMap;
+
+typedef std::map<size_t, std::vector<size_t>> BondsMap;
 
 struct AminoAcid
 {

@@ -123,6 +123,8 @@ static AtomicRadii atomicRadii = {{{"C"}, {67.f}},
                                   {{"OXT"}, {25.f}},
                                   {{"P"}, 25.f}};
 
+const float BOND_RADIUS = 0.0025f;
+
 // Amino acids
 static AminoAcidMap aminoAcidMap = {{".", {".", "."}},
                                     {"ALA", {"Alanine", "A"}},
@@ -149,7 +151,7 @@ static AminoAcidMap aminoAcidMap = {{".", {".", "."}},
                                     {"TYR", {"Tyrosine", "Y"}}};
 
 // Protein color maps
-static RGBColorMap colorMap = {
+static RGBColorMap atomColorMap = {
     {"H", {0xDF, 0xDF, 0xDF}},        {"He", {0xD9, 0xFF, 0xFF}},
     {"Li", {0xCC, 0x80, 0xFF}},       {"Be", {0xC2, 0xFF, 0x00}},
     {"B", {0xFF, 0xB5, 0xB5}},        {"C", {0x90, 0x90, 0x90}},
@@ -241,10 +243,12 @@ Protein::Protein(brayns::Scene& scene, const std::string& name,
     {
         std::string line;
         std::getline(file, line);
-        if (line.find("ATOM") == 0 /* || line.find("HETATM") == 0*/)
+        if (line.find("ATOM") == 0 || line.find("HETATM") == 0)
             _readAtom(line);
         else if (line.find("TITLE") == 0)
             _readTitle(line);
+        else if (line.find("CONECT") == 0)
+            _readConnect(line);
         //        else if (line.find("SEQRES") == 0)
         //            _readSequence(line);
         //        else if (line.find("REMARK") == 0)
@@ -254,11 +258,12 @@ Protein::Protein(brayns::Scene& scene, const std::string& name,
 
     // Update sequences
     std::map<std::string, size_t> minSeqs;
-    for (const auto& atom : _atoms)
+    for (const auto& atom : _atomMap)
     {
-        if (minSeqs.find(atom.chainId) == minSeqs.end())
-            minSeqs[atom.chainId] = std::numeric_limits<size_t>::max();
-        minSeqs[atom.chainId] = std::min(minSeqs[atom.chainId], atom.reqSeq);
+        if (minSeqs.find(atom.second.chainId) == minSeqs.end())
+            minSeqs[atom.second.chainId] = std::numeric_limits<size_t>::max();
+        minSeqs[atom.second.chainId] =
+            std::min(minSeqs[atom.second.chainId], atom.second.reqSeq);
     }
     for (const auto& minSeq : minSeqs)
     {
@@ -272,22 +277,47 @@ Protein::Protein(brayns::Scene& scene, const std::string& name,
     // Build 3d models according to atoms positions (re-centered to origin)
     brayns::Boxf bounds;
 
-    for (const auto& atom : _atoms)
-        bounds.merge(atom.position);
+    for (const auto& atom : _atomMap)
+        bounds.merge(atom.second.position);
     const auto& center = bounds.getCenter();
+    for (auto& atom : _atomMap)
+        atom.second.position -= center;
 
-    for (const auto& atom : _atoms)
+    // Atoms
+    for (const auto& atom : _atomMap)
     {
         auto material =
-            model->createMaterial(atom.serial, std::to_string(atom.serial));
-        material->setDiffuseColor({1.f, 1.f, 1.f});
-        model->addSphere(atom.serial, {atom.position - center,
-                                       radiusMultiplier * atom.radius});
+            model->createMaterial(atom.first, std::to_string(atom.first));
+        const auto& rgb = atomColorMap[atom.second.element];
+        material->setDiffuseColor(
+            {rgb.r / 255.f, rgb.g / 255.f, rgb.b / 255.f});
+        model->addSphere(atom.first, {atom.second.position,
+                                      radiusMultiplier * atom.second.radius});
+    }
+
+    // Bonds
+    for (const auto& bond : _bondsMap)
+    {
+        const auto& atomSrc = _atomMap[bond.first];
+        for (const auto bondedAtom : bond.second)
+        {
+            const auto& atomDest = _atomMap[bondedAtom];
+
+            const auto center = (atomDest.position + atomSrc.position) / 2.f;
+
+            model->addCylinder(bond.first, {atomSrc.position, center,
+                                            radiusMultiplier * BOND_RADIUS});
+
+            model->addCylinder(bondedAtom, {atomDest.position, center,
+                                            radiusMultiplier * BOND_RADIUS});
+        }
     }
 
     // Metadata
     brayns::ModelMetadata metadata;
     metadata["Title"] = _title;
+    metadata["Atoms"] = std::to_string(_atomMap.size());
+    metadata["Bonds"] = std::to_string(_bondsMap.size());
 
     const auto& size = bounds.getSize();
     metadata["Size"] = std::to_string(size.x) + ", " + std::to_string(size.y) +
@@ -336,8 +366,8 @@ void Protein::setColorScheme(const ColorScheme& colorScheme,
     switch (colorScheme)
     {
     case ColorScheme::none:
-        for (auto& atom : _atoms)
-            _setMaterialDiffuseColor(atom.serial, colorMap[0]);
+        for (auto& atom : _atomMap)
+            _setMaterialDiffuseColor(atom.first, atomColorMap[0]);
         break;
     case ColorScheme::atoms:
         _setAtomColorScheme();
@@ -362,12 +392,14 @@ void Protein::setColorScheme(const ColorScheme& colorScheme,
 void Protein::_setAtomColorScheme()
 {
     std::set<size_t> materialId;
-    for (const auto& atom : _atoms)
+    for (const auto& atom : _atomMap)
     {
         const size_t index = static_cast<size_t>(
-            std::distance(colorMap.begin(), colorMap.find(atom.element)));
+            std::distance(atomColorMap.begin(),
+                          atomColorMap.find(atom.second.element)));
         materialId.insert(index);
-        _setMaterialDiffuseColor(atom.serial, colorMap[atom.element]);
+
+        _setMaterialDiffuseColor(atom.first, atomColorMap[atom.second.element]);
     }
     PLUGIN_INFO << "Applying atom color scheme (" << materialId.size() << ")"
                 << std::endl;
@@ -389,19 +421,19 @@ void Protein::_setAminoAcidSequenceColorScheme(const Palette& palette)
                         << sequencePosition << std::endl;
             size_t minSeq = 1e6;
             size_t maxSeq = 0;
-            for (auto& atom : _atoms)
+            for (auto& atom : _atomMap)
             {
-                minSeq = std::min(minSeq, atom.reqSeq);
-                maxSeq = std::max(maxSeq, atom.reqSeq);
-                if (atom.reqSeq >= sequencePosition &&
-                    atom.reqSeq <
+                minSeq = std::min(minSeq, atom.second.reqSeq);
+                maxSeq = std::max(maxSeq, atom.second.reqSeq);
+                if (atom.second.reqSeq >= sequencePosition &&
+                    atom.second.reqSeq <
                         sequencePosition + _aminoAcidSequence.length())
                 {
-                    _setMaterialDiffuseColor(atom.serial, palette[1]);
+                    _setMaterialDiffuseColor(atom.first, palette[1]);
                     ++atomCount;
                 }
                 else
-                    _setMaterialDiffuseColor(atom.serial, palette[0]);
+                    _setMaterialDiffuseColor(atom.first, palette[0]);
             }
             PLUGIN_DEBUG << atomCount << "[" << minSeq << "," << maxSeq
                          << "] atoms where colored" << std::endl;
@@ -417,18 +449,22 @@ void Protein::_setAminoAcidSequenceColorScheme(const Palette& palette)
 void Protein::_setGlycosylationSiteColorScheme(const Palette& palette)
 {
     bool found{false};
-    for (size_t i = 0; i < _atoms.size(); ++i)
+    for (const auto& atom : _atomMap)
     {
-        auto& atom = _atoms[i];
-        _setMaterialDiffuseColor(atom.serial, palette[0]);
+        _setMaterialDiffuseColor(atom.first, palette[0]);
 
-        if (atom.resName == "ASN")
-            if (i + 2 < _atoms.size() && (_atoms[i + 2].resName == "THR" ||
-                                          _atoms[i + 2].resName == "SER"))
+        if (atom.second.resName == "ASN")
+        {
+            if (_atomMap.find(atom.first + 2) != _atomMap.end())
             {
-                found = true;
-                _setMaterialDiffuseColor(atom.serial, palette[1]);
+                const auto& nextAtom = _atomMap[atom.first + 2];
+                if (nextAtom.resName == "THR" || nextAtom.resName == "SER")
+                {
+                    found = true;
+                    _setMaterialDiffuseColor(atom.first, palette[1]);
+                }
             }
+        }
     }
     PLUGIN_INFO << "Applying Glycosylation Site color scheme ("
                 << (found ? "2" : "1") << ")" << std::endl;
@@ -437,11 +473,11 @@ void Protein::_setGlycosylationSiteColorScheme(const Palette& palette)
 void Protein::_setChainColorScheme(const Palette& palette)
 {
     std::set<size_t> materialId;
-    for (auto& atom : _atoms)
+    for (auto& atom : _atomMap)
     {
-        const size_t index = static_cast<size_t>(atom.chainId[0]) - 64;
+        const size_t index = static_cast<size_t>(atom.second.chainId[0]) - 64;
         materialId.insert(index);
-        _setMaterialDiffuseColor(atom.serial, palette[index]);
+        _setMaterialDiffuseColor(atom.first, palette[index]);
     }
     PLUGIN_INFO << "Applying Chain color scheme (" << materialId.size() << ")"
                 << std::endl;
@@ -450,12 +486,13 @@ void Protein::_setChainColorScheme(const Palette& palette)
 void Protein::_setResiduesColorScheme(const Palette& palette)
 {
     std::set<size_t> materialId;
-    for (auto& atom : _atoms)
+    for (auto& atom : _atomMap)
     {
         const size_t index = static_cast<size_t>(
-            std::distance(_residues.begin(), _residues.find(atom.resName)));
+            std::distance(_residues.begin(),
+                          _residues.find(atom.second.resName)));
         materialId.insert(index);
-        _setMaterialDiffuseColor(atom.serial, palette[index]);
+        _setMaterialDiffuseColor(atom.first, palette[index]);
     }
     PLUGIN_INFO << "Applying Residues color scheme (" << materialId.size()
                 << ")" << std::endl;
@@ -469,7 +506,7 @@ void Protein::_setMaterialDiffuseColor(const size_t atomIndex,
     if (material)
     {
         material->setDiffuseColor(
-            {color.R / 255.f, color.G / 255.f, color.B / 255.f});
+            {color.r / 255.f, color.g / 255.f, color.b / 255.f});
         material->commit();
     }
 }
@@ -488,7 +525,6 @@ void Protein::_setMaterialDiffuseColor(const size_t atomIndex,
 
 void Protein::_readAtom(const std::string& line)
 {
-    Atom atom;
     // --------------------------------------------------------------------
     // COLUMNS DATA TYPE    FIELD     DEFINITION
     // --------------------------------------------------------------------
@@ -509,7 +545,9 @@ void Protein::_readAtom(const std::string& line)
     // 79 - 80 LString(2)   charge     Charge on the atom
     // --------------------------------------------------------------------
 
-    atom.serial = static_cast<size_t>(atoi(line.substr(6, 4).c_str()));
+    const size_t serial = static_cast<size_t>(atoi(line.substr(6, 5).c_str()));
+    auto& atom = _atomMap[serial];
+
     std::string s = line.substr(12, 4);
     atom.name = trim(s);
 
@@ -548,8 +586,6 @@ void Protein::_readAtom(const std::string& line)
     // Convert radius from angstrom
     atom.radius = 0.0001f * atomicRadii[atom.element];
 
-    _atoms.push_back(atom);
-
     // Sequences
     Sequence& sequence = _sequenceMap[atom.chainId];
     if (sequence.resNames.size() < atom.reqSeq + 1)
@@ -587,6 +623,31 @@ void Protein::_readSequence(const std::string& line)
         s = trim(s);
         if (!s.empty())
             sequence.resNames.push_back(s);
+    }
+}
+
+void Protein::_readConnect(const std::string& line)
+{
+    // -------------------------------------------------------------------------
+    // COLUMNS TYPE      FIELD    DEFINITION
+    // -------------------------------------------------------------------------
+    // 1 - 6   Record name "CONECT"
+    // 7 - 11  Integer   serial Atom serial number
+    // 12 - 16 Integer   serial Serial number of bonded atom
+    // 17 - 21 Integer   serial Serial number of bonded atom
+    // 22 - 26 Integer   serial Serial number of bonded atom
+    // 27 - 31 Integer   serial Serial number of bonded atom
+    // -------------------------------------------------------------------------
+
+    const size_t serial = static_cast<size_t>(atoi(line.substr(6, 5).c_str()));
+    auto& bond = _bondsMap[serial];
+
+    for (size_t i = 11; i < line.length(); i += 5)
+    {
+        std::string s = line.substr(i, 5);
+        s = trim(s);
+        if (!s.empty())
+            bond.push_back(static_cast<size_t>(atoi(s.c_str())));
     }
 }
 

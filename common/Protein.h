@@ -28,7 +28,7 @@ public:
     }
 
     // Class member accessors
-    Atoms& getAtoms() { return _atoms; }
+    AtomMap& getAtoms() { return _atomMap; }
     Residues& getResidues() { return _residues; }
     SequenceMap& getSequences() { return _sequenceMap; }
     brayns::ModelDescriptorPtr getModelDescriptor() { return _modelDescriptor; }
@@ -50,11 +50,14 @@ private:
     void _readSequence(const std::string& line);
     void _readTitle(const std::string& line);
     void _readRemark(const std::string& line);
+    void _readConnect(const std::string& line);
 
     // Class members
-    Atoms _atoms;
+    AtomMap _atomMap;
     Residues _residues;
     SequenceMap _sequenceMap;
+    BondsMap _bondsMap;
+
     std::string _aminoAcidSequence;
     std::string _title;
     brayns::ModelDescriptorPtr _modelDescriptor{nullptr};
