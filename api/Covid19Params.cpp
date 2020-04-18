@@ -119,3 +119,21 @@ bool from_json(AminoAcidSequencesDescriptor &param, const std::string &payload)
     }
     return true;
 }
+
+bool from_json(RNADescriptor &param, const std::string &payload)
+{
+    try
+    {
+        auto js = nlohmann::json::parse(payload);
+        FROM_JSON(param, js, name);
+        FROM_JSON(param, js, path);
+        FROM_JSON(param, js, shape);
+        FROM_JSON(param, js, assemblyRadius);
+        FROM_JSON(param, js, radius);
+    }
+    catch (...)
+    {
+        return false;
+    }
+    return true;
+}

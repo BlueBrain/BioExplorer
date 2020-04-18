@@ -19,6 +19,7 @@
 #include "Covid19Plugin.h"
 
 #include <common/Protein.h>
+#include <common/RNASequence.h>
 #include <common/log.h>
 
 #include <brayns/common/ActionInterface.h>
@@ -73,6 +74,11 @@ void Covid19Plugin::init()
                 [&](const AminoAcidSequencesDescriptor &payload) {
                     return _getAminoAcidSequences(payload);
                 });
+
+        PLUGIN_INFO << "Registering 'load-rna-sequence' endpoint" << std::endl;
+        actionInterface->registerRequest<RNADescriptor, Response>(
+            "load-rna-sequence",
+            [&](const RNADescriptor &payload) { return _loadRNA(payload); });
     }
 }
 
@@ -252,6 +258,28 @@ Response Covid19Plugin::_getAminoAcidSequences(
         PLUGIN_ERROR << msg.str() << std::endl;
         response.status = false;
         response.contents = msg.str();
+    }
+    return response;
+}
+
+Response Covid19Plugin::_loadRNA(const RNADescriptor &payload)
+{
+    Response response;
+    PLUGIN_INFO << "Loading RNA sequence from " << payload.path << std::endl;
+    PLUGIN_INFO << "Sequence radius: " << payload.assemblyRadius << std::endl;
+
+    try
+    {
+        auto &scene = _api->getScene();
+        RNASequence rnaSequence(scene, payload.path, payload.shape,
+                                payload.assemblyRadius, payload.radius);
+        const auto modelDescriptor = rnaSequence.getModelDescriptor();
+        scene.addModel(modelDescriptor);
+    }
+    catch (const std::runtime_error &e)
+    {
+        response.status = false;
+        response.contents = e.what();
     }
     return response;
 }

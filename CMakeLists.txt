@@ -20,12 +20,14 @@ endif(NOT CMAKE_BUILD_TYPE)
 
 set(${NAME}_SOURCES
   common/Protein.cpp
+  common/RNASequence.cpp
   api/Covid19Params.cpp
   Covid19Plugin.cpp
 )
 
 set(${NAME}_PUBLIC_HEADERS
   common/Protein.h
+  common/RNASequence.h
   api/Covid19Params.h
   Covid19Plugin.h
 )

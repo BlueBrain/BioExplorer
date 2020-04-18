@@ -16,35 +16,32 @@
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
 
-#ifndef COVID19_PLUGIN_H
-#define COVID19_PLUGIN_H
+#ifndef RNASEQUENCE_H
+#define RNASEQUENCE_H
 
-#include <api/Covid19Params.h>
+#include <brayns/engineapi/Model.h>
+#include <common/types.h>
 
-#include <array>
-#include <brayns/common/types.h>
-#include <brayns/pluginapi/ExtensionPlugin.h>
-#include <vector>
-
-/**
- * @brief This class implements the visualization of Covid19 related resources
- */
-class Covid19Plugin : public brayns::ExtensionPlugin
+class RNASequence
 {
 public:
-    Covid19Plugin();
+    RNASequence(brayns::Scene& scene, const std::string& filename,
+                const RNAShape shape, const float assemblyRadius,
+                const float radius);
 
-    void init() final;
+    // Class member accessors
+    brayns::ModelDescriptorPtr getModelDescriptor() { return _modelDescriptor; }
 
 private:
-    Response _buildStructure(const StructureDescriptor &payload);
-    Response _setColorScheme(const ColorSchemeDescriptor &payload);
-    Response _setAminoAcidSequence(const AminoAcidSequenceDescriptor &payload);
-    Response _getAminoAcidSequences(
-        const AminoAcidSequencesDescriptor &payload);
-    Response _loadRNA(const RNADescriptor &payload);
+    brayns::Vector3f _trefoilKnot(float R, float t);
+    brayns::Vector3f _torus(float R, float t);
+    brayns::Vector3f _star(float R, float t);
+    brayns::Vector3f _spring(float R, float t);
+    brayns::Vector3f _heart(float R, float u);
+    brayns::Vector3f _thing(float R, float t, const brayns::Vector3f& a);
+    brayns::Vector3f _moebius(float R, float u, float v);
 
-    ProteinMap _proteins;
+    brayns::ModelDescriptorPtr _modelDescriptor{nullptr};
 };
 
-#endif
+#endif // RNASEQUENCE_H

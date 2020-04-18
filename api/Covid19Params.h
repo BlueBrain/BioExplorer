@@ -66,4 +66,14 @@ struct AminoAcidSequencesDescriptor
 };
 bool from_json(AminoAcidSequencesDescriptor &param, const std::string &payload);
 
+struct RNADescriptor
+{
+    std::string name;
+    std::string path;
+    RNAShape shape;
+    float assemblyRadius;
+    float radius;
+};
+bool from_json(RNADescriptor &param, const std::string &payload);
+
 #endif // COVID19_PARAMS_H
