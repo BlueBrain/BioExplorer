@@ -104,8 +104,8 @@ Response Covid19Plugin::_buildStructure(const StructureDescriptor &payload)
     try
     {
         // Checks
-        if (payload.upVector.size() != 3)
-            throw std::runtime_error("Invalid up vector");
+        if (payload.orientation.size() != 4)
+            throw std::runtime_error("Invalid orientation quaternion");
 
         auto &scene = _api->getScene();
         const std::string ext = brayns::extractExtension(payload.path);
@@ -187,10 +187,14 @@ Response Covid19Plugin::_buildStructure(const StructureDescriptor &payload)
             tf.setTranslation(position - center);
             tf.setRotationCenter(center);
 
-            const brayns::Vector3f up = {payload.upVector[0],
-                                         payload.upVector[1],
-                                         payload.upVector[2]};
-            tf.setRotation(glm::quatLookAt(direction, up));
+            const brayns::Quaterniond proteinOrientation = {
+                payload.orientation[0], payload.orientation[1],
+                payload.orientation[2], payload.orientation[3]};
+
+            brayns::Quaterniond assemblyOrientation =
+                glm::quatLookAt(direction, {0.f, 1.f, 0.f});
+
+            tf.setRotation(assemblyOrientation * proteinOrientation);
 
             if (instanceCount == 0)
                 modelDescriptor->setTransformation(tf);

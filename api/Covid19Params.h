@@ -41,7 +41,7 @@ struct StructureDescriptor
     float atomRadiusMultiplier;
     size_t randomSeed;
     bool halfStructure;
-    std::vector<float> upVector;
+    std::vector<float> orientation;
 };
 bool from_json(StructureDescriptor &param, const std::string &payload);
 
