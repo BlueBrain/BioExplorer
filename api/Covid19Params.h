@@ -36,7 +36,7 @@ struct StructureDescriptor
 {
     std::string name;
     std::string path;
-    size_t occurences;
+    size_t occurrences;
     float assemblyRadius;
     float atomRadiusMultiplier;
     bool randomize;
@@ -73,6 +73,8 @@ struct RNADescriptor
     RNAShape shape;
     float assemblyRadius;
     float radius;
+    std::vector<float> range;
+    std::vector<float> params;
 };
 bool from_json(RNADescriptor &param, const std::string &payload);
 

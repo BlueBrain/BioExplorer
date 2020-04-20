@@ -22,19 +22,25 @@
 #include <brayns/engineapi/Model.h>
 #include <common/types.h>
 
+typedef std::map<std::string, std::string> RNASequenceMap;
+
 class RNASequence
 {
 public:
-    RNASequence(brayns::Scene& scene, const std::string& filename,
-                const RNAShape shape, const float assemblyRadius,
-                const float radius);
+    RNASequence(brayns::Scene& scene, const std::string& name,
+                const std::string& filename, const RNAShape shape,
+                const float assemblyRadius, const float radius,
+                const brayns::Vector2f& range, const brayns::Vector3f& params);
 
     // Class member accessors
+    RNASequenceMap getRNASequences() { return _rnaSequenceMap; }
+
     brayns::ModelDescriptorPtr getModelDescriptor() { return _modelDescriptor; }
 
 private:
-    brayns::Vector3f _trefoilKnot(float R, float t);
-    brayns::Vector3f _torus(float R, float t);
+    brayns::Vector3f _trefoilKnot(float R, float t,
+                                  const brayns::Vector3f& params);
+    brayns::Vector3f _torus(float R, float t, const brayns::Vector3f& params);
     brayns::Vector3f _star(float R, float t);
     brayns::Vector3f _spring(float R, float t);
     brayns::Vector3f _heart(float R, float u);
@@ -42,6 +48,8 @@ private:
     brayns::Vector3f _moebius(float R, float u, float v);
 
     brayns::ModelDescriptorPtr _modelDescriptor{nullptr};
+
+    RNASequenceMap _rnaSequenceMap;
 };
 
 #endif // RNASEQUENCE_H

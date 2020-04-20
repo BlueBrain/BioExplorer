@@ -61,7 +61,7 @@ bool from_json(StructureDescriptor &param, const std::string &payload)
         auto js = nlohmann::json::parse(payload);
         FROM_JSON(param, js, name);
         FROM_JSON(param, js, path);
-        FROM_JSON(param, js, occurences);
+        FROM_JSON(param, js, occurrences);
         FROM_JSON(param, js, assemblyRadius);
         FROM_JSON(param, js, atomRadiusMultiplier);
         FROM_JSON(param, js, randomize);
@@ -130,6 +130,8 @@ bool from_json(RNADescriptor &param, const std::string &payload)
         FROM_JSON(param, js, shape);
         FROM_JSON(param, js, assemblyRadius);
         FROM_JSON(param, js, radius);
+        FROM_JSON(param, js, range);
+        FROM_JSON(param, js, params);
     }
     catch (...)
     {

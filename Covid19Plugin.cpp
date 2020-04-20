@@ -86,7 +86,7 @@ Response Covid19Plugin::_buildStructure(const StructureDescriptor &payload)
 {
     Response response;
     PLUGIN_INFO << "Initializing structure from " << payload.path << std::endl;
-    PLUGIN_INFO << "Number of instances: " << payload.occurences << std::endl;
+    PLUGIN_INFO << "Number of instances: " << payload.occurrences << std::endl;
     PLUGIN_INFO << "Virus radius    : " << payload.assemblyRadius << std::endl;
 
     try
@@ -126,33 +126,20 @@ Response Covid19Plugin::_buildStructure(const StructureDescriptor &payload)
         const auto &bounds = model.getBounds();
         const brayns::Vector3f &center = bounds.getCenter();
 
-        const float offset = 2.f / payload.occurences;
+        const float offset = 2.f / payload.occurrences;
         const float increment = M_PI * (3.f - sqrt(5.f));
         srand(time(NULL));
-        size_t rnd = payload.randomize ? rand() % payload.occurences : 1;
+        size_t rnd = payload.randomize ? rand() % payload.occurrences : 1;
 
         size_t instanceCount = 0;
-        for (size_t i = 0; i < payload.occurences; ++i)
+        for (size_t i = 0; i < payload.occurrences; ++i)
         {
-#if 1
             const float y = ((i * offset) - 1.f) + (offset / 2.f);
             const float r = sqrt(1.f - pow(y, 2.f));
-            const float phi = ((i + rnd) % payload.occurences) * increment;
+            const float phi = ((i + rnd) % payload.occurrences) * increment;
             const float x = cos(phi) * r;
             const float z = sin(phi) * r;
             const auto direction = brayns::Vector3f(x, y, z);
-#else
-            const float angle = payload.occurences / 2.f * M_PI;
-            const float phi = acos(1 - 2 * (i + 0.5) / payload.occurences);
-            const float theta = M_PI * (1 + pow(5, 0.5)) * i;
-            const float x =
-                payload.deformation[0] * cos(angle * i) + cos(theta) * sin(phi);
-            const float y =
-                payload.deformation[1] * sin(angle * i) + sin(theta) * sin(phi);
-            const float z = cos(phi);
-            const auto direction = brayns::Vector3f(x, y, z);
-
-#endif
 
             if (payload.halfStructure &&
                 (direction.x > 0.f && direction.y > 0.f && direction.z > 0.f))
@@ -265,14 +252,29 @@ Response Covid19Plugin::_getAminoAcidSequences(
 Response Covid19Plugin::_loadRNA(const RNADescriptor &payload)
 {
     Response response;
-    PLUGIN_INFO << "Loading RNA sequence from " << payload.path << std::endl;
-    PLUGIN_INFO << "Sequence radius: " << payload.assemblyRadius << std::endl;
-
     try
     {
+        if (payload.range.size() != 2)
+            throw std::runtime_error("Invalid range");
+        const brayns::Vector2f range{payload.range[0], payload.range[1]};
+
+        if (payload.params.size() != 3)
+            throw std::runtime_error("Invalid params");
+        const brayns::Vector3f params{payload.params[0], payload.params[1],
+                                      payload.params[2]};
+
+        PLUGIN_INFO << "Loading RNA sequence " << payload.name << " from "
+                    << payload.path << std::endl;
+        PLUGIN_INFO << "Assembly radius: " << payload.assemblyRadius
+                    << std::endl;
+        PLUGIN_INFO << "RNA radius     : " << payload.radius << std::endl;
+        PLUGIN_INFO << "Range          : " << range << std::endl;
+        PLUGIN_INFO << "Params         : " << params << std::endl;
+
         auto &scene = _api->getScene();
-        RNASequence rnaSequence(scene, payload.path, payload.shape,
-                                payload.assemblyRadius, payload.radius);
+        RNASequence rnaSequence(scene, payload.name, payload.path,
+                                payload.shape, payload.assemblyRadius,
+                                payload.radius, range, params);
         const auto modelDescriptor = rnaSequence.getModelDescriptor();
         scene.addModel(modelDescriptor);
     }

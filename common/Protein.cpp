@@ -19,6 +19,7 @@
 #include "Protein.h"
 
 #include <common/log.h>
+#include <common/utils.h>
 
 #include <brayns/engineapi/Material.h>
 #include <brayns/engineapi/Scene.h>
@@ -227,27 +228,6 @@ static RGBColorMap atomColorMap = {
     {"Mt", {0xEB, 0x00, 0x26}},       {"none", {0xFF, 0xFF, 0xFF}},
     {"selection", {0xFF, 0x00, 0x00}}};
 
-std::string& ltrim(std::string& s)
-{
-    s.erase(s.begin(), std::find_if(s.begin(), s.end(),
-                                    std::ptr_fun<int, int>(std::isgraph)));
-    return s;
-}
-
-std::string& rtrim(std::string& s)
-{
-    s.erase(std::find_if(s.rbegin(), s.rend(),
-                         std::ptr_fun<int, int>(std::isgraph))
-                .base(),
-            s.end());
-    return s;
-}
-
-std::string& trim(std::string& s)
-{
-    return ltrim(rtrim(s));
-}
-
 Protein::Protein(brayns::Scene& scene, const std::string& name,
                  const std::string& filename, const float radiusMultiplier)
 {
@@ -267,8 +247,8 @@ Protein::Protein(brayns::Scene& scene, const std::string& name,
             _readTitle(line);
         else if (line.find("CONECT") == 0)
             _readConnect(line);
-        //        else if (line.find("SEQRES") == 0)
-        //            _readSequence(line);
+        else if (line.find("SEQRES") == 0)
+            _readSequence(line);
         //        else if (line.find("REMARK") == 0)
         //            _readRemark(line);
     }
@@ -342,7 +322,9 @@ Protein::Protein(brayns::Scene& scene, const std::string& name,
                        ", " + std::to_string(size.z) + " angstroms";
 
     for (const auto& sequence : getSequencesAsString())
-        metadata["Amino Acid Sequence " + sequence.first] = sequence.second;
+        metadata["Amino Acid Sequence " + sequence.first] =
+            "[" + std::to_string(sequence.second.size()) + "] " +
+            sequence.second;
 
     _modelDescriptor =
         std::make_shared<brayns::ModelDescriptor>(std::move(model), name,
@@ -466,26 +448,49 @@ void Protein::_setAminoAcidSequenceColorScheme(const Palette& palette)
 
 void Protein::_setGlycosylationSiteColorScheme(const Palette& palette)
 {
-    bool found{false};
+    size_t totalNbSites = 0;
+
+    // Initialize atom colors
     for (const auto& atom : _atomMap)
     {
-        _setMaterialDiffuseColor(atom.first, palette[0]);
+        const size_t index = static_cast<size_t>(atom.second.chainId[0]) - 63;
+        _setMaterialDiffuseColor(atom.first, palette[index]);
+    }
 
-        if (atom.second.resName == "ASN")
+    for (const auto& sequence : _sequenceMap)
+    {
+        size_t nbSites = 0;
+        std::string shortSequence;
+        for (const auto& resName : sequence.second.resNames)
+            shortSequence += aminoAcidMap[resName].shortName;
+
+        for (size_t i = 0; i < shortSequence.length(); ++i)
         {
-            if (_atomMap.find(atom.first + 2) != _atomMap.end())
+            const char aminoAcid = shortSequence[i];
+            if (aminoAcid == 'A')
             {
-                const auto& nextAtom = _atomMap[atom.first + 2];
-                if (nextAtom.resName == "THR" || nextAtom.resName == "SER")
+                if (i < shortSequence.length() - 2)
                 {
-                    found = true;
-                    _setMaterialDiffuseColor(atom.first, palette[1]);
+                    const auto aminAcid1 = shortSequence[i + 1];
+                    const auto aminAcid2 = shortSequence[i + 2];
+                    if ((aminAcid2 == 'T' || aminAcid2 == 'S') &&
+                        aminAcid1 != 'P')
+                    {
+                        ++nbSites;
+                        for (const auto& atom : _atomMap)
+                            if (atom.second.reqSeq == i)
+                                _setMaterialDiffuseColor(atom.first,
+                                                         palette[0]);
+                    }
                 }
             }
         }
+        PLUGIN_INFO << "Found " << nbSites << " sites on sequence "
+                    << sequence.first << std::endl;
+        totalNbSites += nbSites;
     }
     PLUGIN_INFO << "Applying Glycosylation Site color scheme ("
-                << (found ? "2" : "1") << ")" << std::endl;
+                << (totalNbSites > 0 ? "2" : "1") << ")" << std::endl;
 }
 
 void Protein::_setChainColorScheme(const Palette& palette)
@@ -605,10 +610,10 @@ void Protein::_readAtom(const std::string& line)
     atom.radius = 0.0001f * atomicRadii[atom.element];
 
     // Sequences
-    Sequence& sequence = _sequenceMap[atom.chainId];
-    if (sequence.resNames.size() < atom.reqSeq + 1)
-        sequence.resNames.resize(atom.reqSeq + 1);
-    sequence.resNames[atom.reqSeq] = atom.resName;
+    //    Sequence& sequence = _sequenceMap[atom.chainId];
+    //    if (sequence.resNames.size() < atom.reqSeq + 1)
+    //        sequence.resNames.resize(atom.reqSeq + 1);
+    //    sequence.resNames[atom.reqSeq] = atom.resName;
 }
 
 void Protein::_readSequence(const std::string& line)
