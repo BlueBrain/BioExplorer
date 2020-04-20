@@ -39,7 +39,7 @@ struct StructureDescriptor
     size_t occurrences;
     float assemblyRadius;
     float atomRadiusMultiplier;
-    bool randomize;
+    size_t randomSeed;
     bool halfStructure;
     std::vector<float> upVector;
 };

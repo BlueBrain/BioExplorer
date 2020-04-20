@@ -37,6 +37,7 @@ public:
     void init() final;
 
 private:
+    Response _resetStructure();
     Response _buildStructure(const StructureDescriptor &payload);
     Response _setColorScheme(const ColorSchemeDescriptor &payload);
     Response _setAminoAcidSequence(const AminoAcidSequenceDescriptor &payload);
@@ -45,6 +46,7 @@ private:
     Response _loadRNA(const RNADescriptor &payload);
 
     ProteinMap _proteins;
+    brayns::Vector3fs _occupiedDirections;
 };
 
 #endif

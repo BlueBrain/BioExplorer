@@ -44,6 +44,11 @@ void Covid19Plugin::init()
     auto actionInterface = _api->getActionInterface();
     if (actionInterface)
     {
+        PLUGIN_INFO << "Registering 'reset-structure' endpoint" << std::endl;
+        actionInterface->registerRequest<Response>("reset-structure", [&]() {
+            return _resetStructure();
+        });
+
         PLUGIN_INFO << "Registering 'build-structure' endpoint" << std::endl;
         actionInterface->registerRequest<StructureDescriptor, Response>(
             "build-structure", [&](const StructureDescriptor &payload) {
@@ -82,6 +87,13 @@ void Covid19Plugin::init()
     }
 }
 
+Response Covid19Plugin::_resetStructure()
+{
+    _proteins.clear();
+    _occupiedDirections.clear();
+    return Response();
+}
+
 Response Covid19Plugin::_buildStructure(const StructureDescriptor &payload)
 {
     Response response;
@@ -99,13 +111,14 @@ Response Covid19Plugin::_buildStructure(const StructureDescriptor &payload)
         const std::string ext = brayns::extractExtension(payload.path);
 
         brayns::ModelDescriptorPtr modelDescriptor{nullptr};
-
+        bool isProtein{false};
         if (ext == "pdb" || ext == "pdb1")
         {
             ProteinPtr protein(new Protein(scene, payload.name, payload.path,
                                            payload.atomRadiusMultiplier));
             modelDescriptor = protein->getModelDescriptor();
             _proteins[payload.path] = std::move(protein);
+            isProtein = true;
         }
         else if (ext == "obj")
         {
@@ -128,26 +141,49 @@ Response Covid19Plugin::_buildStructure(const StructureDescriptor &payload)
 
         const float offset = 2.f / payload.occurrences;
         const float increment = M_PI * (3.f - sqrt(5.f));
-        srand(time(NULL));
-        size_t rnd = payload.randomize ? rand() % payload.occurrences : 1;
+
+        srand(payload.randomSeed);
+        size_t rnd{1};
+        if (payload.randomSeed != 0 && isProtein)
+            rnd = rand() % payload.occurrences;
 
         size_t instanceCount = 0;
         for (size_t i = 0; i < payload.occurrences; ++i)
         {
+            // Randomizer
+            float assemblyRadius = payload.assemblyRadius;
+            if (payload.randomSeed != 0 && !isProtein)
+                assemblyRadius *= 1.f + (float(rand() % 20) / 1000.f);
+
+            // Sphere filling
             const float y = ((i * offset) - 1.f) + (offset / 2.f);
             const float r = sqrt(1.f - pow(y, 2.f));
             const float phi = ((i + rnd) % payload.occurrences) * increment;
             const float x = cos(phi) * r;
             const float z = sin(phi) * r;
-            const auto direction = brayns::Vector3f(x, y, z);
+            const brayns::Vector3f direction{x, y, z};
 
+            // Remove membrane where proteins are. This is currently done
+            // according to the vector orientation
+            bool occupied{false};
+            if (!isProtein)
+                for (const auto &occupiedDirection : _occupiedDirections)
+                    if (dot(direction, occupiedDirection) > 0.998f)
+                    {
+                        occupied = true;
+                        break;
+                    }
+            if (occupied)
+                continue;
+
+            // Half structure
             if (payload.halfStructure &&
                 (direction.x > 0.f && direction.y > 0.f && direction.z > 0.f))
                 continue;
 
+            // Final transformation
             brayns::Transformation tf;
-            const brayns::Vector3f position =
-                payload.assemblyRadius * direction;
+            const brayns::Vector3f position = assemblyRadius * direction;
             tf.setTranslation(position - center);
             tf.setRotationCenter(center);
 
@@ -164,6 +200,10 @@ Response Covid19Plugin::_buildStructure(const StructureDescriptor &payload)
                 modelDescriptor->addInstance(instance);
             }
             ++instanceCount;
+
+            // Store occupied direction
+            if (isProtein)
+                _occupiedDirections.push_back(direction);
         }
 
         PLUGIN_INFO << "Structure successfully built" << std::endl;

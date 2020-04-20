@@ -64,7 +64,7 @@ bool from_json(StructureDescriptor &param, const std::string &payload)
         FROM_JSON(param, js, occurrences);
         FROM_JSON(param, js, assemblyRadius);
         FROM_JSON(param, js, atomRadiusMultiplier);
-        FROM_JSON(param, js, randomize);
+        FROM_JSON(param, js, randomSeed);
         FROM_JSON(param, js, halfStructure);
         FROM_JSON(param, js, upVector);
     }
