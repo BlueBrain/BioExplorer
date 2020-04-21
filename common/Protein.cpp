@@ -228,12 +228,12 @@ static RGBColorMap atomColorMap = {
     {"Mt", {0xEB, 0x00, 0x26}},       {"none", {0xFF, 0xFF, 0xFF}},
     {"selection", {0xFF, 0x00, 0x00}}};
 
-Protein::Protein(brayns::Scene& scene, const std::string& name,
-                 const std::string& filename, const float radiusMultiplier)
+Protein::Protein(brayns::Scene& scene, const ProteinDescriptor& descriptor)
+    : _chainIds(descriptor.chainIds)
 {
-    std::ifstream file(filename.c_str());
+    std::ifstream file(descriptor.path.c_str());
     if (!file.is_open())
-        throw std::runtime_error("Could not open " + filename);
+        throw std::runtime_error("Could not open " + descriptor.path);
 
     size_t lineIndex{0};
 
@@ -245,7 +245,7 @@ Protein::Protein(brayns::Scene& scene, const std::string& name,
             _readAtom(line);
         else if (line.find("TITLE") == 0)
             _readTitle(line);
-        else if (line.find("CONECT") == 0)
+        else if (descriptor.loadBonds && line.find("CONECT") == 0)
             _readConnect(line);
         else if (line.find("SEQRES") == 0)
             _readSequence(line);
@@ -290,24 +290,33 @@ Protein::Protein(brayns::Scene& scene, const std::string& name,
         material->setDiffuseColor(
             {rgb.r / 255.f, rgb.g / 255.f, rgb.b / 255.f});
         model->addSphere(atom.first, {atom.second.position,
-                                      radiusMultiplier * atom.second.radius});
+                                      descriptor.atomRadiusMultiplier *
+                                          atom.second.radius});
     }
 
-    // Bonds
-    for (const auto& bond : _bondsMap)
+    if (descriptor.loadBonds)
     {
-        const auto& atomSrc = _atomMap[bond.first];
-        for (const auto bondedAtom : bond.second)
+        // Bonds
+        for (const auto& bond : _bondsMap)
         {
-            const auto& atomDest = _atomMap[bondedAtom];
+            const auto& atomSrc = _atomMap[bond.first];
+            for (const auto bondedAtom : bond.second)
+            {
+                const auto& atomDest = _atomMap[bondedAtom];
 
-            const auto center = (atomDest.position + atomSrc.position) / 2.f;
+                const auto center =
+                    (atomDest.position + atomSrc.position) / 2.f;
 
-            model->addCylinder(bond.first, {atomSrc.position, center,
-                                            radiusMultiplier * BOND_RADIUS});
+                model->addCylinder(bond.first,
+                                   {atomSrc.position, center,
+                                    descriptor.atomRadiusMultiplier *
+                                        BOND_RADIUS});
 
-            model->addCylinder(bondedAtom, {atomDest.position, center,
-                                            radiusMultiplier * BOND_RADIUS});
+                model->addCylinder(bondedAtom,
+                                   {atomDest.position, center,
+                                    descriptor.atomRadiusMultiplier *
+                                        BOND_RADIUS});
+            }
         }
     }
 
@@ -327,8 +336,9 @@ Protein::Protein(brayns::Scene& scene, const std::string& name,
             sequence.second;
 
     _modelDescriptor =
-        std::make_shared<brayns::ModelDescriptor>(std::move(model), name,
-                                                  filename, metadata);
+        std::make_shared<brayns::ModelDescriptor>(std::move(model),
+                                                  descriptor.name,
+                                                  descriptor.path, metadata);
     // Transformation
     brayns::Transformation transformation;
     transformation.setRotationCenter(center);
@@ -568,10 +578,18 @@ void Protein::_readAtom(const std::string& line)
     // 79 - 80 LString(2)   charge     Charge on the atom
     // --------------------------------------------------------------------
 
-    const size_t serial = static_cast<size_t>(atoi(line.substr(6, 5).c_str()));
-    auto& atom = _atomMap[serial];
+    std::string s = line.substr(21, 1);
+    std::string chainId = trim(s);
+    if (!_loadChain(static_cast<size_t>(chainId[0] - 64)))
+        return;
 
-    std::string s = line.substr(12, 4);
+    PLUGIN_ERROR << "Loading atom" << std::endl;
+    const size_t serial = static_cast<size_t>(atoi(line.substr(6, 5).c_str()));
+
+    auto& atom = _atomMap[serial];
+    atom.chainId = chainId;
+
+    s = line.substr(12, 4);
     atom.name = trim(s);
 
     s = line.substr(16, 1);
@@ -581,9 +599,6 @@ void Protein::_readAtom(const std::string& line)
     atom.resName = trim(s);
 
     _residues.insert(atom.resName);
-
-    s = line.substr(21, 1);
-    atom.chainId = trim(s);
 
     atom.reqSeq = static_cast<size_t>(atoi(line.substr(22, 4).c_str()));
 
@@ -608,12 +623,6 @@ void Protein::_readAtom(const std::string& line)
 
     // Convert radius from angstrom
     atom.radius = 0.0001f * atomicRadii[atom.element];
-
-    // Sequences
-    //    Sequence& sequence = _sequenceMap[atom.chainId];
-    //    if (sequence.resNames.size() < atom.reqSeq + 1)
-    //        sequence.resNames.resize(atom.reqSeq + 1);
-    //    sequence.resNames[atom.reqSeq] = atom.resName;
 }
 
 void Protein::_readSequence(const std::string& line)
@@ -663,14 +672,22 @@ void Protein::_readConnect(const std::string& line)
     // -------------------------------------------------------------------------
 
     const size_t serial = static_cast<size_t>(atoi(line.substr(6, 5).c_str()));
-    auto& bond = _bondsMap[serial];
 
-    for (size_t i = 11; i < line.length(); i += 5)
+    if (_atomMap.find(serial) != _atomMap.end())
     {
-        std::string s = line.substr(i, 5);
-        s = trim(s);
-        if (!s.empty())
-            bond.push_back(static_cast<size_t>(atoi(s.c_str())));
+        auto& bond = _bondsMap[serial];
+
+        for (size_t i = 11; i < line.length(); i += 5)
+        {
+            std::string s = line.substr(i, 5);
+            s = trim(s);
+            if (!s.empty())
+            {
+                const size_t atomSerial = static_cast<size_t>(atoi(s.c_str()));
+                if (_atomMap.find(atomSerial) != _atomMap.end())
+                    bond.push_back(atomSerial);
+            }
+        }
     }
 }
 
@@ -720,4 +737,22 @@ void Protein::_readTitle(const std::string& line)
 {
     std::string s = line.substr(11);
     _title = trim(s);
+}
+
+bool Protein::_loadChain(const size_t chainId)
+{
+    bool found = true;
+    if (!_chainIds.empty())
+    {
+        found = false;
+        for (const auto id : _chainIds)
+        {
+            if (id == chainId)
+            {
+                found = true;
+                break;
+            }
+        }
+    }
+    return found;
 }

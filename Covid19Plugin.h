@@ -44,6 +44,7 @@ private:
     Response _getAminoAcidSequences(
         const AminoAcidSequencesDescriptor &payload);
     Response _loadRNA(const RNADescriptor &payload);
+    Response _loadProtein(const ProteinDescriptor &payload);
 
     ProteinMap _proteins;
     brayns::Vector3fs _occupiedDirections;

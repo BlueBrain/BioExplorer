@@ -139,3 +139,21 @@ bool from_json(RNADescriptor &param, const std::string &payload)
     }
     return true;
 }
+
+bool from_json(ProteinDescriptor &param, const std::string &payload)
+{
+    try
+    {
+        auto js = nlohmann::json::parse(payload);
+        FROM_JSON(param, js, name);
+        FROM_JSON(param, js, path);
+        FROM_JSON(param, js, atomRadiusMultiplier);
+        FROM_JSON(param, js, loadBonds);
+        FROM_JSON(param, js, chainIds);
+    }
+    catch (...)
+    {
+        return false;
+    }
+    return true;
+}

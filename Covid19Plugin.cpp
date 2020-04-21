@@ -84,6 +84,12 @@ void Covid19Plugin::init()
         actionInterface->registerRequest<RNADescriptor, Response>(
             "load-rna-sequence",
             [&](const RNADescriptor &payload) { return _loadRNA(payload); });
+
+        PLUGIN_INFO << "Registering 'load-protein' endpoint" << std::endl;
+        actionInterface->registerRequest<ProteinDescriptor, Response>(
+            "load-protein", [&](const ProteinDescriptor &payload) {
+                return _loadProtein(payload);
+            });
     }
 }
 
@@ -114,8 +120,9 @@ Response Covid19Plugin::_buildStructure(const StructureDescriptor &payload)
         bool isProtein{false};
         if (ext == "pdb" || ext == "pdb1")
         {
-            ProteinPtr protein(new Protein(scene, payload.name, payload.path,
-                                           payload.atomRadiusMultiplier));
+            ProteinPtr protein(
+                new Protein(scene, {payload.name, payload.path,
+                                    payload.atomRadiusMultiplier}));
             modelDescriptor = protein->getModelDescriptor();
             _proteins[payload.path] = std::move(protein);
             isProtein = true;
@@ -321,6 +328,31 @@ Response Covid19Plugin::_loadRNA(const RNADescriptor &payload)
                                 payload.radius, range, params);
         const auto modelDescriptor = rnaSequence.getModelDescriptor();
         scene.addModel(modelDescriptor);
+    }
+    catch (const std::runtime_error &e)
+    {
+        response.status = false;
+        response.contents = e.what();
+    }
+    return response;
+}
+
+Response Covid19Plugin::_loadProtein(const ProteinDescriptor &payload)
+{
+    Response response;
+    try
+    {
+        PLUGIN_INFO << "Loading Protein " << payload.name << " from "
+                    << payload.path << std::endl;
+        PLUGIN_INFO << "Radius multiplier: " << payload.atomRadiusMultiplier
+                    << std::endl;
+
+        auto &scene = _api->getScene();
+
+        ProteinPtr protein(new Protein(scene, payload));
+        const auto modelDescriptor = protein->getModelDescriptor();
+        scene.addModel(modelDescriptor);
+        _proteins[payload.path] = std::move(protein);
     }
     catch (const std::runtime_error &e)
     {

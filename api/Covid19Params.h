@@ -78,4 +78,14 @@ struct RNADescriptor
 };
 bool from_json(RNADescriptor &param, const std::string &payload);
 
+struct ProteinDescriptor
+{
+    std::string name;
+    std::string path;
+    float atomRadiusMultiplier;
+    bool loadBonds;
+    std::vector<size_t> chainIds;
+};
+bool from_json(ProteinDescriptor &param, const std::string &payload);
+
 #endif // COVID19_PARAMS_H

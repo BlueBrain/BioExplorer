@@ -19,6 +19,7 @@
 #ifndef COVID19_PROTEIN_H
 #define COVID19_PROTEIN_H
 
+#include <api/Covid19Params.h>
 #include <brayns/engineapi/Model.h>
 #include <common/types.h>
 
@@ -28,8 +29,7 @@
 class Protein
 {
 public:
-    Protein(brayns::Scene& scene, const std::string& name,
-            const std::string& filename, const float radiusMultiplier = 1.f);
+    Protein(brayns::Scene& scene, const ProteinDescriptor& descriptor);
 
     // Color schemes
     void setColorScheme(const ColorScheme& colorScheme, const Palette& palette);
@@ -69,12 +69,14 @@ private:
     void _readTitle(const std::string& line);
     void _readRemark(const std::string& line);
     void _readConnect(const std::string& line);
+    bool _loadChain(const size_t chainId);
 
     // Class members
     AtomMap _atomMap;
     Residues _residues;
     SequenceMap _sequenceMap;
     BondsMap _bondsMap;
+    size_ts _chainIds;
 
     std::string _aminoAcidSequence;
     std::string _title;
