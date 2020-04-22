@@ -42,6 +42,7 @@ struct StructureDescriptor
     size_t randomSeed;
     bool halfStructure;
     std::vector<float> orientation;
+    float membraneCutoffAngle;
 };
 bool from_json(StructureDescriptor &param, const std::string &payload);
 
@@ -84,6 +85,7 @@ struct ProteinDescriptor
     std::string path;
     float atomRadiusMultiplier;
     bool loadBonds;
+    bool addSticks;
     std::vector<size_t> chainIds;
 };
 bool from_json(ProteinDescriptor &param, const std::string &payload);

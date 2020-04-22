@@ -67,6 +67,7 @@ bool from_json(StructureDescriptor &param, const std::string &payload)
         FROM_JSON(param, js, randomSeed);
         FROM_JSON(param, js, halfStructure);
         FROM_JSON(param, js, orientation);
+        FROM_JSON(param, js, membraneCutoffAngle);
     }
     catch (...)
     {
@@ -149,6 +150,7 @@ bool from_json(ProteinDescriptor &param, const std::string &payload)
         FROM_JSON(param, js, path);
         FROM_JSON(param, js, atomRadiusMultiplier);
         FROM_JSON(param, js, loadBonds);
+        FROM_JSON(param, js, addSticks);
         FROM_JSON(param, js, chainIds);
     }
     catch (...)

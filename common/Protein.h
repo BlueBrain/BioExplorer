@@ -70,6 +70,7 @@ private:
     void _readRemark(const std::string& line);
     void _readConnect(const std::string& line);
     bool _loadChain(const size_t chainId);
+    void _buildModel(brayns::Model& model, const ProteinDescriptor& descriptor);
 
     // Class members
     AtomMap _atomMap;

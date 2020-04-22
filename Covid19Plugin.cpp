@@ -175,7 +175,8 @@ Response Covid19Plugin::_buildStructure(const StructureDescriptor &payload)
             bool occupied{false};
             if (!isProtein)
                 for (const auto &occupiedDirection : _occupiedDirections)
-                    if (dot(direction, occupiedDirection) > 0.998f)
+                    if (dot(direction, occupiedDirection.first) >
+                        occupiedDirection.second)
                     {
                         occupied = true;
                         break;
@@ -214,7 +215,8 @@ Response Covid19Plugin::_buildStructure(const StructureDescriptor &payload)
 
             // Store occupied direction
             if (isProtein)
-                _occupiedDirections.push_back(direction);
+                _occupiedDirections.push_back(
+                    {direction, payload.membraneCutoffAngle});
         }
 
         PLUGIN_INFO << "Structure successfully built" << std::endl;

@@ -143,6 +143,7 @@ static AtomicRadii atomicRadii = {{{"C"}, {67.f}},
                                   {{"P"}, 25.f}};
 
 const float BOND_RADIUS = 0.0025f;
+const float DEFAULT_STICK_DISTANCE = 0.016f;
 
 // Amino acids
 static AminoAcidMap aminoAcidMap = {{".", {".", "."}},
@@ -264,11 +265,12 @@ Protein::Protein(brayns::Scene& scene, const ProteinDescriptor& descriptor)
             std::min(minSeqs[atom.second.chainId], atom.second.reqSeq);
     }
     for (const auto& minSeq : minSeqs)
-    {
-        auto& sequence = _sequenceMap[minSeq.first];
-        for (size_t i = 0; i < minSeq.second; ++i)
-            sequence.resNames[i] = ".";
-    }
+        if (_sequenceMap.find(minSeq.first) != _sequenceMap.end())
+        {
+            auto& sequence = _sequenceMap[minSeq.first];
+            for (size_t i = 0; i < minSeq.second; ++i)
+                sequence.resNames[i] = ".";
+        }
 
     auto model = scene.createModel();
 
@@ -281,44 +283,7 @@ Protein::Protein(brayns::Scene& scene, const ProteinDescriptor& descriptor)
     for (auto& atom : _atomMap)
         atom.second.position -= center;
 
-    // Atoms
-    for (const auto& atom : _atomMap)
-    {
-        auto material =
-            model->createMaterial(atom.first, std::to_string(atom.first));
-        const auto& rgb = atomColorMap[atom.second.element];
-        material->setDiffuseColor(
-            {rgb.r / 255.f, rgb.g / 255.f, rgb.b / 255.f});
-        model->addSphere(atom.first, {atom.second.position,
-                                      descriptor.atomRadiusMultiplier *
-                                          atom.second.radius});
-    }
-
-    if (descriptor.loadBonds)
-    {
-        // Bonds
-        for (const auto& bond : _bondsMap)
-        {
-            const auto& atomSrc = _atomMap[bond.first];
-            for (const auto bondedAtom : bond.second)
-            {
-                const auto& atomDest = _atomMap[bondedAtom];
-
-                const auto center =
-                    (atomDest.position + atomSrc.position) / 2.f;
-
-                model->addCylinder(bond.first,
-                                   {atomSrc.position, center,
-                                    descriptor.atomRadiusMultiplier *
-                                        BOND_RADIUS});
-
-                model->addCylinder(bondedAtom,
-                                   {atomDest.position, center,
-                                    descriptor.atomRadiusMultiplier *
-                                        BOND_RADIUS});
-            }
-        }
-    }
+    _buildModel(*model, descriptor);
 
     // Metadata
     brayns::ModelMetadata metadata;
@@ -351,6 +316,68 @@ Protein::Protein(brayns::Scene& scene, const ProteinDescriptor& descriptor)
     PLUGIN_ERROR << "size=" << size << std::endl;
     model->addCylinder(0, {{0, 0, 0}, {0, 0, size.z}, size.x});
 #endif
+}
+
+void Protein::_buildModel(brayns::Model& model,
+                          const ProteinDescriptor& descriptor)
+{
+    // Atoms
+    for (const auto& atom : _atomMap)
+    {
+        auto material =
+            model.createMaterial(atom.first, std::to_string(atom.first));
+        const auto& rgb = atomColorMap[atom.second.element];
+        material->setDiffuseColor(
+            {rgb.r / 255.f, rgb.g / 255.f, rgb.b / 255.f});
+        model.addSphere(atom.first,
+                        {atom.second.position,
+                         descriptor.atomRadiusMultiplier * atom.second.radius});
+    }
+
+    // Bonds
+    if (descriptor.loadBonds)
+    {
+        for (const auto& bond : _bondsMap)
+        {
+            const auto& atomSrc = _atomMap[bond.first];
+            for (const auto bondedAtom : bond.second)
+            {
+                const auto& atomDest = _atomMap[bondedAtom];
+
+                const auto center =
+                    (atomDest.position + atomSrc.position) / 2.f;
+
+                model.addCylinder(bond.first, {atomSrc.position, center,
+                                               descriptor.atomRadiusMultiplier *
+                                                   BOND_RADIUS});
+
+                model.addCylinder(bondedAtom, {atomDest.position, center,
+                                               descriptor.atomRadiusMultiplier *
+                                                   BOND_RADIUS});
+            }
+        }
+    }
+
+    // Sticks
+    if (descriptor.addSticks)
+        for (const auto& atom1 : _atomMap)
+            for (const auto& atom2 : _atomMap)
+                if (atom1.first != atom2.first)
+                {
+                    const auto stick =
+                        atom2.second.position - atom1.second.position;
+
+                    if (length(stick) < DEFAULT_STICK_DISTANCE)
+                    {
+                        const auto center =
+                            (atom2.second.position + atom1.second.position) /
+                            2.f;
+                        model.addCylinder(atom1.first,
+                                          {atom1.second.position, center,
+                                           descriptor.atomRadiusMultiplier *
+                                               BOND_RADIUS});
+                    }
+                }
 }
 
 StringMap Protein::getSequencesAsString() const
@@ -477,7 +504,7 @@ void Protein::_setGlycosylationSiteColorScheme(const Palette& palette)
         for (size_t i = 0; i < shortSequence.length(); ++i)
         {
             const char aminoAcid = shortSequence[i];
-            if (aminoAcid == 'A')
+            if (aminoAcid == 'N')
             {
                 if (i < shortSequence.length() - 2)
                 {
@@ -583,7 +610,6 @@ void Protein::_readAtom(const std::string& line)
     if (!_loadChain(static_cast<size_t>(chainId[0] - 64)))
         return;
 
-    PLUGIN_ERROR << "Loading atom" << std::endl;
     const size_t serial = static_cast<size_t>(atoi(line.substr(6, 5).c_str()));
 
     auto& atom = _atomMap[serial];

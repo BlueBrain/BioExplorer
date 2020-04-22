@@ -47,7 +47,7 @@ private:
     Response _loadProtein(const ProteinDescriptor &payload);
 
     ProteinMap _proteins;
-    brayns::Vector3fs _occupiedDirections;
+    std::vector<std::pair<brayns::Vector3f, float>> _occupiedDirections;
 };
 
 #endif
