@@ -26,6 +26,13 @@
 #include <set>
 #include <string>
 
+// Model content types
+enum class ModelContentType
+{
+    pdb = 0,
+    obj = 1
+};
+
 // Color schemes
 enum class ColorScheme
 {

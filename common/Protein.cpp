@@ -232,16 +232,13 @@ static RGBColorMap atomColorMap = {
 Protein::Protein(brayns::Scene& scene, const ProteinDescriptor& descriptor)
     : _chainIds(descriptor.chainIds)
 {
-    std::ifstream file(descriptor.path.c_str());
-    if (!file.is_open())
-        throw std::runtime_error("Could not open " + descriptor.path);
-
     size_t lineIndex{0};
 
-    while (file.good())
+    std::stringstream lines{descriptor.pdbContents};
+    std::string line;
+
+    while (getline(lines, line, '\n'))
     {
-        std::string line;
-        std::getline(file, line);
         if (line.find("ATOM") == 0 || line.find("HETATM") == 0)
             _readAtom(line);
         else if (line.find("TITLE") == 0)
@@ -253,7 +250,6 @@ Protein::Protein(brayns::Scene& scene, const ProteinDescriptor& descriptor)
         //        else if (line.find("REMARK") == 0)
         //            _readRemark(line);
     }
-    file.close();
 
     // Update sequences
     std::map<std::string, size_t> minSeqs;
@@ -303,10 +299,9 @@ Protein::Protein(brayns::Scene& scene, const ProteinDescriptor& descriptor)
             "[" + std::to_string(sequence.second.size()) + "] " +
             sequence.second;
 
-    _modelDescriptor =
-        std::make_shared<brayns::ModelDescriptor>(std::move(model),
-                                                  descriptor.name,
-                                                  descriptor.path, metadata);
+    _modelDescriptor = std::make_shared<brayns::ModelDescriptor>(
+        std::move(model), descriptor.name, descriptor.pdbContents, metadata);
+
     // Transformation
     brayns::Transformation transformation;
     transformation.setRotationCenter(center);

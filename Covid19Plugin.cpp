@@ -103,9 +103,10 @@ Response Covid19Plugin::_resetStructure()
 Response Covid19Plugin::_buildStructure(const StructureDescriptor &payload)
 {
     Response response;
-    PLUGIN_INFO << "Initializing structure from " << payload.path << std::endl;
+    PLUGIN_INFO << "Initializing structure from " << payload.name << std::endl;
     PLUGIN_INFO << "Number of instances: " << payload.occurrences << std::endl;
-    PLUGIN_INFO << "Virus radius    : " << payload.assemblyRadius << std::endl;
+    PLUGIN_INFO << "Assembly radius    : " << payload.assemblyRadius
+                << std::endl;
 
     try
     {
@@ -114,28 +115,35 @@ Response Covid19Plugin::_buildStructure(const StructureDescriptor &payload)
             throw std::runtime_error("Invalid orientation quaternion");
 
         auto &scene = _api->getScene();
-        const std::string ext = brayns::extractExtension(payload.path);
 
         brayns::ModelDescriptorPtr modelDescriptor{nullptr};
         bool isProtein{false};
-        if (ext == "pdb" || ext == "pdb1")
+        switch (payload.modelContentType)
+        {
+        case ModelContentType::pdb:
         {
             ProteinPtr protein(
-                new Protein(scene, {payload.name, payload.path,
+                new Protein(scene, {payload.name, payload.modelContents,
                                     payload.atomRadiusMultiplier}));
             modelDescriptor = protein->getModelDescriptor();
-            _proteins[payload.path] = std::move(protein);
+            _proteins[payload.name] = std::move(protein);
             isProtein = true;
+            break;
         }
-        else if (ext == "obj")
+        case ModelContentType::obj:
         {
             const auto loader = brayns::MeshLoader(scene);
+            uint8_ts contentAsChars;
+            for (size_t i = 0; i < payload.modelContents.length(); ++i)
+                contentAsChars.push_back(payload.modelContents[i]);
+            brayns::Blob blob{"obj", payload.name, contentAsChars};
+
             modelDescriptor =
-                loader.importFromFile(payload.path, brayns::LoaderProgress(),
+                loader.importFromBlob(std::move(blob), brayns::LoaderProgress(),
                                       brayns::PropertyMap());
+            break;
         }
-        else
-        {
+        default:
             response.status = false;
             response.contents = "Unsupported file format";
             return response;
@@ -344,8 +352,7 @@ Response Covid19Plugin::_loadProtein(const ProteinDescriptor &payload)
     Response response;
     try
     {
-        PLUGIN_INFO << "Loading Protein " << payload.name << " from "
-                    << payload.path << std::endl;
+        PLUGIN_INFO << "Loading Protein " << payload.name << std::endl;
         PLUGIN_INFO << "Radius multiplier: " << payload.atomRadiusMultiplier
                     << std::endl;
 
@@ -354,7 +361,7 @@ Response Covid19Plugin::_loadProtein(const ProteinDescriptor &payload)
         ProteinPtr protein(new Protein(scene, payload));
         const auto modelDescriptor = protein->getModelDescriptor();
         scene.addModel(modelDescriptor);
-        _proteins[payload.path] = std::move(protein);
+        _proteins[payload.name] = std::move(protein);
     }
     catch (const std::runtime_error &e)
     {

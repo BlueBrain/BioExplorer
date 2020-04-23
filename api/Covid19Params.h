@@ -35,7 +35,8 @@ std::string to_json(const Response &param);
 struct StructureDescriptor
 {
     std::string name;
-    std::string path;
+    ModelContentType modelContentType;
+    std::string modelContents;
     size_t occurrences;
     float assemblyRadius;
     float atomRadiusMultiplier;
@@ -82,7 +83,7 @@ bool from_json(RNADescriptor &param, const std::string &payload);
 struct ProteinDescriptor
 {
     std::string name;
-    std::string path;
+    std::string pdbContents;
     float atomRadiusMultiplier;
     bool loadBonds;
     bool addSticks;

@@ -60,7 +60,8 @@ bool from_json(StructureDescriptor &param, const std::string &payload)
     {
         auto js = nlohmann::json::parse(payload);
         FROM_JSON(param, js, name);
-        FROM_JSON(param, js, path);
+        FROM_JSON(param, js, modelContentType);
+        FROM_JSON(param, js, modelContents);
         FROM_JSON(param, js, occurrences);
         FROM_JSON(param, js, assemblyRadius);
         FROM_JSON(param, js, atomRadiusMultiplier);
@@ -147,7 +148,7 @@ bool from_json(ProteinDescriptor &param, const std::string &payload)
     {
         auto js = nlohmann::json::parse(payload);
         FROM_JSON(param, js, name);
-        FROM_JSON(param, js, path);
+        FROM_JSON(param, js, pdbContents);
         FROM_JSON(param, js, atomRadiusMultiplier);
         FROM_JSON(param, js, loadBonds);
         FROM_JSON(param, js, addSticks);
