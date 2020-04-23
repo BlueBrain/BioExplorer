@@ -268,7 +268,8 @@ Protein::Protein(brayns::Scene& scene, const ProteinDescriptor& descriptor)
         if (_sequenceMap.find(minSeq.first) != _sequenceMap.end())
         {
             auto& sequence = _sequenceMap[minSeq.first];
-            for (size_t i = 0; i < minSeq.second; ++i)
+            for (size_t i = 0;
+                 i < minSeq.second && i < sequence.resNames.size(); ++i)
                 sequence.resNames[i] = ".";
         }
 
@@ -277,11 +278,13 @@ Protein::Protein(brayns::Scene& scene, const ProteinDescriptor& descriptor)
     // Build 3d models according to atoms positions (re-centered to origin)
     brayns::Boxf bounds;
 
+    // Recenter
     for (const auto& atom : _atomMap)
         bounds.merge(atom.second.position);
     const auto& center = bounds.getCenter();
-    for (auto& atom : _atomMap)
-        atom.second.position -= center;
+    if (descriptor.recenter)
+        for (auto& atom : _atomMap)
+            atom.second.position -= center;
 
     _buildModel(*model, descriptor);
 
@@ -309,13 +312,6 @@ Protein::Protein(brayns::Scene& scene, const ProteinDescriptor& descriptor)
     transformation.setRotationCenter(center);
 
     _modelDescriptor->setTransformation(transformation);
-
-#if 0
-    // Add cylinder
-    const auto size = bounds.getSize();
-    PLUGIN_ERROR << "size=" << size << std::endl;
-    model->addCylinder(0, {{0, 0, 0}, {0, 0, size.z}, size.x});
-#endif
 }
 
 void Protein::_buildModel(brayns::Model& model,

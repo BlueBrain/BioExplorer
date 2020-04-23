@@ -87,6 +87,7 @@ struct ProteinDescriptor
     bool loadBonds;
     bool addSticks;
     std::vector<size_t> chainIds;
+    bool recenter;
 };
 bool from_json(ProteinDescriptor &param, const std::string &payload);
 
