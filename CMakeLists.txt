@@ -19,6 +19,7 @@ if(NOT CMAKE_BUILD_TYPE)
 endif(NOT CMAKE_BUILD_TYPE)
 
 set(${NAME}_SOURCES
+  common/Node.cpp
   common/Protein.cpp
   common/RNASequence.cpp
   api/Covid19Params.cpp
@@ -26,6 +27,7 @@ set(${NAME}_SOURCES
 )
 
 set(${NAME}_PUBLIC_HEADERS
+  common/Node.h
   common/Protein.h
   common/RNASequence.h
   api/Covid19Params.h

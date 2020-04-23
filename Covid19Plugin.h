@@ -21,9 +21,11 @@
 
 #include <api/Covid19Params.h>
 
-#include <array>
-#include <brayns/common/types.h>
+#include <common/Node.h>
+
 #include <brayns/pluginapi/ExtensionPlugin.h>
+
+#include <array>
 #include <vector>
 
 /**
@@ -37,7 +39,7 @@ public:
     void init() final;
 
 private:
-    Response _resetStructure();
+    Response _resetAssembly();
     Response _buildAssembly(const NodeDescriptor &payload);
     Response _setColorScheme(const ColorSchemeDescriptor &payload);
     Response _setAminoAcidSequence(const AminoAcidSequenceDescriptor &payload);
@@ -46,7 +48,7 @@ private:
     Response _loadRNA(const RNADescriptor &payload);
     Response _loadProtein(const ProteinDescriptor &payload);
 
-    ProteinMap _proteins;
+    NodeMap _nodes;
     std::vector<std::pair<brayns::Vector3f, float>> _occupiedDirections;
 };
 

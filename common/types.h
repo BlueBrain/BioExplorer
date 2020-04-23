@@ -128,11 +128,6 @@ typedef std::map<std::string, AminoAcid> AminoAcidMap;
 // Residues
 typedef std::set<std::string> Residues;
 
-// Protein
-class Protein;
-typedef std::shared_ptr<Protein> ProteinPtr;
-typedef std::map<std::string, ProteinPtr> ProteinMap;
-
 // Typedefs
 typedef std::map<std::string, std::string> StringMap;
 

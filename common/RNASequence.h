@@ -20,11 +20,12 @@
 #define RNASEQUENCE_H
 
 #include <brayns/engineapi/Model.h>
+#include <common/Node.h>
 #include <common/types.h>
 
 typedef std::map<std::string, std::string> RNASequenceMap;
 
-class RNASequence
+class RNASequence : public Node
 {
 public:
     RNASequence(brayns::Scene& scene, const std::string& name,

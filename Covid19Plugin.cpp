@@ -44,9 +44,9 @@ void Covid19Plugin::init()
     auto actionInterface = _api->getActionInterface();
     if (actionInterface)
     {
-        PLUGIN_INFO << "Registering 'reset-structure' endpoint" << std::endl;
-        actionInterface->registerRequest<Response>("reset-structure", [&]() {
-            return _resetStructure();
+        PLUGIN_INFO << "Registering 'reset-assembly' endpoint" << std::endl;
+        actionInterface->registerRequest<Response>("reset-assembly", [&]() {
+            return _resetAssembly();
         });
 
         PLUGIN_INFO << "Registering 'build-assembly' endpoint" << std::endl;
@@ -93,9 +93,9 @@ void Covid19Plugin::init()
     }
 }
 
-Response Covid19Plugin::_resetStructure()
+Response Covid19Plugin::_resetAssembly()
 {
-    _proteins.clear();
+    _nodes.clear();
     _occupiedDirections.clear();
     return Response();
 }
@@ -126,7 +126,7 @@ Response Covid19Plugin::_buildAssembly(const NodeDescriptor &payload)
                 new Protein(scene, {payload.name, payload.modelContents,
                                     payload.atomRadiusMultiplier}));
             modelDescriptor = protein->getModelDescriptor();
-            _proteins[payload.name] = std::move(protein);
+            _nodes[payload.name] = std::move(protein);
             isProtein = true;
             break;
         }
@@ -240,20 +240,24 @@ Response Covid19Plugin::_buildAssembly(const NodeDescriptor &payload)
 Response Covid19Plugin::_setColorScheme(const ColorSchemeDescriptor &payload)
 {
     Response response;
-    auto it = _proteins.find(payload.path);
-    if (it != _proteins.end())
+    auto it = _nodes.find(payload.name);
+    if (it != _nodes.end())
     {
-        Palette palette;
-        for (size_t i = 0; i < payload.palette.size(); i += 3)
-            palette.push_back({payload.palette[i], payload.palette[i + 1],
-                               payload.palette[i + 2]});
+        Protein *node = dynamic_cast<Protein *>((*it).second.get());
+        if (node)
+        {
+            Palette palette;
+            for (size_t i = 0; i < payload.palette.size(); i += 3)
+                palette.push_back({payload.palette[i], payload.palette[i + 1],
+                                   payload.palette[i + 2]});
 
-        (*it).second->setColorScheme(payload.colorScheme, palette);
+            node->setColorScheme(payload.colorScheme, palette);
+        }
     }
     else
     {
         std::stringstream msg;
-        msg << "Protein not found: " << payload.path;
+        msg << "Protein not found: " << payload.name;
         PLUGIN_ERROR << msg.str() << std::endl;
         response.status = false;
         response.contents = msg.str();
@@ -266,14 +270,18 @@ Response Covid19Plugin::_setAminoAcidSequence(
 {
     Response response;
     PLUGIN_INFO << "Selecting sequence " << payload.aminoAcidSequence
-                << " on protein " << payload.path << std::endl;
-    auto it = _proteins.find(payload.path);
-    if (it != _proteins.end())
-        (*it).second->setAminoAcidSequence(payload.aminoAcidSequence);
+                << " on protein " << payload.name << std::endl;
+    auto it = _nodes.find(payload.name);
+    if (it != _nodes.end())
+    {
+        auto node = dynamic_cast<Protein *>((*it).second.get());
+        if (node)
+            node->setAminoAcidSequence(payload.aminoAcidSequence);
+    }
     else
     {
         std::stringstream msg;
-        msg << "Protein not found: " << payload.path;
+        msg << "Protein not found: " << payload.name;
         PLUGIN_ERROR << msg.str() << std::endl;
         response.status = false;
         response.contents = msg.str();
@@ -285,24 +293,27 @@ Response Covid19Plugin::_getAminoAcidSequences(
     const AminoAcidSequencesDescriptor &payload)
 {
     Response response;
-    PLUGIN_INFO << "Returning sequences from protein " << payload.path
+    PLUGIN_INFO << "Returning sequences from protein " << payload.name
                 << std::endl;
-    auto it = _proteins.find(payload.path);
-    if (it != _proteins.end())
+    auto it = _nodes.find(payload.name);
+    if (it != _nodes.end())
     {
-        const auto protein = (*it).second;
-        for (const auto &sequence : protein->getSequencesAsString())
+        auto node = dynamic_cast<Protein *>((*it).second.get());
+        if (node)
         {
-            if (!response.contents.empty())
-                response.contents += "\n";
-            response.contents += sequence.second;
+            for (const auto &sequence : node->getSequencesAsString())
+            {
+                if (!response.contents.empty())
+                    response.contents += "\n";
+                response.contents += sequence.second;
+            }
+            PLUGIN_INFO << response.contents << std::endl;
         }
-        PLUGIN_INFO << response.contents << std::endl;
     }
     else
     {
         std::stringstream msg;
-        msg << "Protein not found: " << payload.path;
+        msg << "Protein not found: " << payload.name;
         PLUGIN_ERROR << msg.str() << std::endl;
         response.status = false;
         response.contents = msg.str();
@@ -361,7 +372,7 @@ Response Covid19Plugin::_loadProtein(const ProteinDescriptor &payload)
         ProteinPtr protein(new Protein(scene, payload));
         const auto modelDescriptor = protein->getModelDescriptor();
         scene.addModel(modelDescriptor);
-        _proteins[payload.name] = std::move(protein);
+        _nodes[payload.name] = std::move(protein);
     }
     catch (const std::runtime_error &e)
     {

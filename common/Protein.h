@@ -21,12 +21,13 @@
 
 #include <api/Covid19Params.h>
 #include <brayns/engineapi/Model.h>
+#include <common/Node.h>
 #include <common/types.h>
 
 /**
  * @brief The Protein class
  */
-class Protein
+class Protein : public Node
 {
 public:
     Protein(brayns::Scene& scene, const ProteinDescriptor& descriptor);
@@ -83,5 +84,7 @@ private:
     std::string _title;
     brayns::ModelDescriptorPtr _modelDescriptor{nullptr};
 };
+
+typedef std::shared_ptr<Protein> ProteinPtr;
 
 #endif // COVID19_PROTEIN_H

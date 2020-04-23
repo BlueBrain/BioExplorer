@@ -49,7 +49,7 @@ bool from_json(NodeDescriptor &param, const std::string &payload);
 
 struct ColorSchemeDescriptor
 {
-    std::string path;
+    std::string name;
     ColorScheme colorScheme;
     std::vector<float> palette;
 };
@@ -57,14 +57,14 @@ bool from_json(ColorSchemeDescriptor &param, const std::string &payload);
 
 struct AminoAcidSequenceDescriptor
 {
-    std::string path;
+    std::string name;
     std::string aminoAcidSequence;
 };
 bool from_json(AminoAcidSequenceDescriptor &param, const std::string &payload);
 
 struct AminoAcidSequencesDescriptor
 {
-    std::string path;
+    std::string name;
 };
 bool from_json(AminoAcidSequencesDescriptor &param, const std::string &payload);
 
