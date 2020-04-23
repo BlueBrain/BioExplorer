@@ -336,7 +336,7 @@ Response Covid19Plugin::_loadRNA(const RNADescriptor &payload)
                                       payload.params[2]};
 
         PLUGIN_INFO << "Loading RNA sequence " << payload.name << " from "
-                    << payload.path << std::endl;
+                    << payload.contents << std::endl;
         PLUGIN_INFO << "Assembly radius: " << payload.assemblyRadius
                     << std::endl;
         PLUGIN_INFO << "RNA radius     : " << payload.radius << std::endl;
@@ -344,9 +344,7 @@ Response Covid19Plugin::_loadRNA(const RNADescriptor &payload)
         PLUGIN_INFO << "Params         : " << params << std::endl;
 
         auto &scene = _api->getScene();
-        RNASequence rnaSequence(scene, payload.name, payload.path,
-                                payload.shape, payload.assemblyRadius,
-                                payload.radius, range, params);
+        RNASequence rnaSequence(scene, payload, range, params);
         const auto modelDescriptor = rnaSequence.getModelDescriptor();
         scene.addModel(modelDescriptor);
     }

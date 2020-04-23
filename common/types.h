@@ -99,6 +99,7 @@ struct Atom
 };
 typedef std::map<size_t, Atom> AtomMap;
 
+// Amino acid sequence
 struct Sequence
 {
     size_t serNum;
@@ -107,7 +108,20 @@ struct Sequence
 };
 typedef std::map<std::string, Sequence> SequenceMap;
 
+// Bonds
 typedef std::map<size_t, std::vector<size_t>> BondsMap;
+
+// RNA
+struct RNADescriptor
+{
+    std::string name;
+    std::string contents;
+    RNAShape shape;
+    float assemblyRadius;
+    float radius;
+    std::vector<float> range;
+    std::vector<float> params;
+};
 
 struct AminoAcid
 {

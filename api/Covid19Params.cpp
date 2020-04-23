@@ -128,7 +128,7 @@ bool from_json(RNADescriptor &param, const std::string &payload)
     {
         auto js = nlohmann::json::parse(payload);
         FROM_JSON(param, js, name);
-        FROM_JSON(param, js, path);
+        FROM_JSON(param, js, contents);
         FROM_JSON(param, js, shape);
         FROM_JSON(param, js, assemblyRadius);
         FROM_JSON(param, js, radius);

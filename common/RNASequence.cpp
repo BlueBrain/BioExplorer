@@ -39,55 +39,33 @@ CondonMap codonMap{{'A', {0, "Adenine", {0.f, 0.f, 1.f}}},
                    {'G', {2, "Guanine", {1.f, 0.f, 0.f}}},
                    {'C', {3, "Cytosine", {1.f, 1.f, 0.f}}}};
 
-RNASequence::RNASequence(brayns::Scene& scene, const std::string& name,
-                         const std::string& filename, const RNAShape shape,
-                         const float assemblyRadius, const float radius,
+RNASequence::RNASequence(brayns::Scene& scene,
+                         const RNADescriptor& rnaDescriptor,
                          const brayns::Vector2f& range = {0.f, 2.f * M_PI},
                          const brayns::Vector3f& params = {1.f, 1.f, 1.f})
 {
-    std::ifstream file(filename.c_str());
-    if (!file.is_open())
-        throw std::runtime_error("Could not open " + filename);
-
-    std::vector<size_t> sequenceIndices;
-    std::string sequence;
-    while (file.good())
-    {
-        std::string line;
-        std::getline(file, line);
-        std::string n = line.substr(0, 6);
-        n = trim(n);
-        std::string s = line.substr(6);
-        s = trim(s);
-        const size_t index = sequence.length() + s.length();
-        sequenceIndices.push_back(index);
-        sequence += s;
-        _rnaSequenceMap[n] = s;
-    }
-    file.close();
+    const auto& sequence = rnaDescriptor.contents;
     const size_t nbElements = sequence.length();
 
     auto model = scene.createModel();
 
     size_t materialId = 0;
-    for (const auto rnaSequence : _rnaSequenceMap)
-        for (const auto& codon : codonMap)
-        {
-            auto material =
-                model->createMaterial(materialId, codon.second.name);
-            material->setDiffuseColor(codon.second.defaultColor);
-            ++materialId;
-        }
+    for (const auto& codon : codonMap)
+    {
+        auto material = model->createMaterial(materialId, codon.second.name);
+        material->setDiffuseColor(codon.second.defaultColor);
+        ++materialId;
+    }
 
     const size_t nbMaterials = materialId;
+
     PLUGIN_INFO << "Sequence total length: " << nbElements << std::endl;
-    PLUGIN_INFO << "Created " << nbMaterials << " materials for "
-                << sequenceIndices.size() << " RNA sequences" << std::endl;
+    PLUGIN_INFO << "Created " << nbMaterials << " materials" << std::endl;
 
     brayns::Vector3f U{range.x, range.y, nbElements};
     brayns::Vector3f V{range.x, range.y, nbElements};
 
-    switch (shape)
+    switch (rnaDescriptor.shape)
     {
     case RNAShape::moebius:
         U = {2.f * M_PI, 4.f * M_PI, nbElements};
@@ -104,58 +82,56 @@ RNASequence::RNASequence(brayns::Scene& scene, const std::string& name,
     const float uStep = (U.y - U.x) / U.z;
     const float vStep = (V.y - V.x) / V.z;
 
-    size_t sequenceCount = 0;
     size_t elementId = 0;
     for (float v(V.x); v < V.y; v += vStep)
     {
         for (float u(U.x); u < U.y; u += uStep)
         {
-            if (elementId >= sequence.length())
-                break;
-
-            brayns::Vector3f p0, p1;
-            switch (shape)
+            brayns::Vector3f src;
+            brayns::Vector3f dst;
+            switch (rnaDescriptor.shape)
             {
             case RNAShape::moebius:
             {
-                p0 = _moebius(assemblyRadius, u, v);
-                p1 = _moebius(assemblyRadius, u + uStep, v);
+                src = _moebius(rnaDescriptor.assemblyRadius, u, v);
+                dst = _moebius(rnaDescriptor.assemblyRadius, u + uStep, v);
                 break;
             }
             case RNAShape::torus:
             {
-                p0 = _torus(assemblyRadius, u, params);
-                p1 = _torus(assemblyRadius, u + uStep, params);
+                src = _torus(rnaDescriptor.assemblyRadius, u, params);
+                dst = _torus(rnaDescriptor.assemblyRadius, u + uStep, params);
                 break;
             }
             case RNAShape::star:
             {
-                p0 = _star(assemblyRadius, u);
-                p1 = _star(assemblyRadius, u + uStep);
+                src = _star(rnaDescriptor.assemblyRadius, u);
+                dst = _star(rnaDescriptor.assemblyRadius, u + uStep);
                 break;
             }
             case RNAShape::spring:
             {
-                p0 = _spring(assemblyRadius, u);
-                p1 = _spring(assemblyRadius, u + uStep);
+                src = _spring(rnaDescriptor.assemblyRadius, u);
+                dst = _spring(rnaDescriptor.assemblyRadius, u + uStep);
                 break;
             }
             case RNAShape::trefoilKnot:
             {
-                p0 = _trefoilKnot(assemblyRadius, u, params);
-                p1 = _trefoilKnot(assemblyRadius, u + uStep, params);
+                src = _trefoilKnot(rnaDescriptor.assemblyRadius, u, params);
+                dst = _trefoilKnot(rnaDescriptor.assemblyRadius, u + uStep,
+                                   params);
                 break;
             }
             case RNAShape::heart:
             {
-                p0 = _heart(assemblyRadius, u);
-                p1 = _heart(assemblyRadius, u + uStep);
+                src = _heart(rnaDescriptor.assemblyRadius, u);
+                dst = _heart(rnaDescriptor.assemblyRadius, u + uStep);
                 break;
             }
             case RNAShape::thing:
             {
-                p0 = _thing(assemblyRadius, u, params);
-                p1 = _thing(assemblyRadius, u + uStep, params);
+                src = _thing(rnaDescriptor.assemblyRadius, u, params);
+                dst = _thing(rnaDescriptor.assemblyRadius, u + uStep, params);
                 break;
             }
             default:
@@ -165,31 +141,27 @@ RNASequence::RNASequence(brayns::Scene& scene, const std::string& name,
 
             const char letter = sequence[elementId];
             const auto& codon = codonMap[letter];
-            const size_t materialId =
-                sequenceCount * codonMap.size() + codon.index;
+            const auto materialId = codon.index;
+            model->addCylinder(materialId, {src, dst, rnaDescriptor.radius});
 
-            if (materialId >= nbMaterials)
-                PLUGIN_THROW(std::runtime_error("Invalid material Id: " +
-                                                std::to_string(materialId)));
-            model->addCylinder(materialId, {{p0.x, p0.y, p0.z},
-                                            {p1.x, p1.y, p1.z},
-                                            radius});
-            //            model->addSphere(materialId, {{p1.x, p1.y, p1.z},
-            //            radius});
+            if (elementId == 0)
+                model->addSphere(materialId, {src, rnaDescriptor.radius});
+            if (elementId == nbElements - 1)
+                model->addSphere(materialId, {dst, rnaDescriptor.radius});
+
+            if (elementId == nbElements)
+                break;
+
             ++elementId;
-            if (elementId > sequenceIndices[sequenceCount])
-                ++sequenceCount;
         }
     }
 
     // Metadata
     brayns::ModelMetadata metadata;
-    for (const auto& s : _rnaSequenceMap)
-        metadata[s.first] = s.second;
-
+    metadata["RNA sequence"] = sequence;
     _modelDescriptor =
-        std::make_shared<brayns::ModelDescriptor>(std::move(model), name,
-                                                  filename, metadata);
+        std::make_shared<brayns::ModelDescriptor>(std::move(model),
+                                                  rnaDescriptor.name, metadata);
 }
 
 brayns::Vector3f RNASequence::_trefoilKnot(const float radius, const float t,
