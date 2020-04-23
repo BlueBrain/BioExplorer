@@ -32,7 +32,7 @@ struct Response
 };
 std::string to_json(const Response &param);
 
-struct StructureDescriptor
+struct NodeDescriptor
 {
     std::string name;
     ModelContentType modelContentType;
@@ -43,9 +43,9 @@ struct StructureDescriptor
     size_t randomSeed;
     bool halfStructure;
     std::vector<float> orientation;
-    float membraneCutoffAngle;
+    float locationCutoffAngle;
 };
-bool from_json(StructureDescriptor &param, const std::string &payload);
+bool from_json(NodeDescriptor &param, const std::string &payload);
 
 struct ColorSchemeDescriptor
 {

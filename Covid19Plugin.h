@@ -38,7 +38,7 @@ public:
 
 private:
     Response _resetStructure();
-    Response _buildStructure(const StructureDescriptor &payload);
+    Response _buildAssembly(const NodeDescriptor &payload);
     Response _setColorScheme(const ColorSchemeDescriptor &payload);
     Response _setAminoAcidSequence(const AminoAcidSequenceDescriptor &payload);
     Response _getAminoAcidSequences(

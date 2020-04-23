@@ -49,10 +49,10 @@ void Covid19Plugin::init()
             return _resetStructure();
         });
 
-        PLUGIN_INFO << "Registering 'build-structure' endpoint" << std::endl;
-        actionInterface->registerRequest<StructureDescriptor, Response>(
-            "build-structure", [&](const StructureDescriptor &payload) {
-                return _buildStructure(payload);
+        PLUGIN_INFO << "Registering 'build-assembly' endpoint" << std::endl;
+        actionInterface->registerRequest<NodeDescriptor, Response>(
+            "build-assembly", [&](const NodeDescriptor &payload) {
+                return _buildAssembly(payload);
             });
 
         PLUGIN_INFO << "Registering 'set-protein-color-scheme' endpoint"
@@ -100,7 +100,7 @@ Response Covid19Plugin::_resetStructure()
     return Response();
 }
 
-Response Covid19Plugin::_buildStructure(const StructureDescriptor &payload)
+Response Covid19Plugin::_buildAssembly(const NodeDescriptor &payload)
 {
     Response response;
     PLUGIN_INFO << "Initializing structure from " << payload.name << std::endl;
@@ -224,7 +224,7 @@ Response Covid19Plugin::_buildStructure(const StructureDescriptor &payload)
             // Store occupied direction
             if (isProtein)
                 _occupiedDirections.push_back(
-                    {direction, payload.membraneCutoffAngle});
+                    {direction, payload.locationCutoffAngle});
         }
 
         PLUGIN_INFO << "Structure successfully built" << std::endl;

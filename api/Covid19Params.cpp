@@ -54,7 +54,7 @@ std::string to_json(const Response &param)
     return "";
 }
 
-bool from_json(StructureDescriptor &param, const std::string &payload)
+bool from_json(NodeDescriptor &param, const std::string &payload)
 {
     try
     {
@@ -68,7 +68,7 @@ bool from_json(StructureDescriptor &param, const std::string &payload)
         FROM_JSON(param, js, randomSeed);
         FROM_JSON(param, js, halfStructure);
         FROM_JSON(param, js, orientation);
-        FROM_JSON(param, js, membraneCutoffAngle);
+        FROM_JSON(param, js, locationCutoffAngle);
     }
     catch (...)
     {
