@@ -32,54 +32,15 @@ struct Response
 };
 std::string to_json(const Response &param);
 
-struct NodeDescriptor
-{
-    std::string name;
-    ModelContentType modelContentType;
-    std::string modelContents;
-    size_t occurrences;
-    float assemblyRadius;
-    float atomRadiusMultiplier;
-    size_t randomSeed;
-    bool halfStructure;
-    std::vector<float> orientation;
-    float locationCutoffAngle;
-};
-bool from_json(NodeDescriptor &param, const std::string &payload);
-
-struct ColorSchemeDescriptor
-{
-    std::string name;
-    ColorScheme colorScheme;
-    std::vector<float> palette;
-};
-bool from_json(ColorSchemeDescriptor &param, const std::string &payload);
-
-struct AminoAcidSequenceDescriptor
-{
-    std::string name;
-    std::string aminoAcidSequence;
-};
-bool from_json(AminoAcidSequenceDescriptor &param, const std::string &payload);
-
-struct AminoAcidSequencesDescriptor
-{
-    std::string name;
-};
-bool from_json(AminoAcidSequencesDescriptor &param, const std::string &payload);
-
-bool from_json(RNADescriptor &param, const std::string &payload);
-
-struct ProteinDescriptor
-{
-    std::string name;
-    std::string pdbContents;
-    float atomRadiusMultiplier;
-    bool loadBonds;
-    bool addSticks;
-    std::vector<size_t> chainIds;
-    bool recenter;
-};
+// Nodes
+bool from_json(AssemblyDescriptor &param, const std::string &payload);
+bool from_json(RNASequenceDescriptor &param, const std::string &payload);
 bool from_json(ProteinDescriptor &param, const std::string &payload);
+bool from_json(MeshDescriptor &param, const std::string &payload);
+
+// Functions
+bool from_json(ColorSchemeDescriptor &param, const std::string &payload);
+bool from_json(AminoAcidSequenceDescriptor &param, const std::string &payload);
+bool from_json(AminoAcidSequencesDescriptor &param, const std::string &payload);
 
 #endif // COVID19_PARAMS_H

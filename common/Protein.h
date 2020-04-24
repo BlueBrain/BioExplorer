@@ -50,7 +50,6 @@ public:
     AtomMap& getAtoms() { return _atomMap; }
     Residues& getResidues() { return _residues; }
     SequenceMap& getSequences() { return _sequenceMap; }
-    brayns::ModelDescriptorPtr getModelDescriptor() { return _modelDescriptor; }
 
 private:
     // Color schemes
@@ -82,9 +81,6 @@ private:
 
     std::string _aminoAcidSequence;
     std::string _title;
-    brayns::ModelDescriptorPtr _modelDescriptor{nullptr};
 };
-
-typedef std::shared_ptr<Protein> ProteinPtr;
 
 #endif // COVID19_PROTEIN_H

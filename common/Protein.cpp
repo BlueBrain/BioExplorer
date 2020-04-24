@@ -234,7 +234,7 @@ Protein::Protein(brayns::Scene& scene, const ProteinDescriptor& descriptor)
 {
     size_t lineIndex{0};
 
-    std::stringstream lines{descriptor.pdbContents};
+    std::stringstream lines{descriptor.contents};
     std::string line;
 
     while (getline(lines, line, '\n'))
@@ -300,7 +300,7 @@ Protein::Protein(brayns::Scene& scene, const ProteinDescriptor& descriptor)
             sequence.second;
 
     _modelDescriptor = std::make_shared<brayns::ModelDescriptor>(
-        std::move(model), descriptor.name, descriptor.pdbContents, metadata);
+        std::move(model), descriptor.name, descriptor.contents, metadata);
 
     // Transformation
     brayns::Transformation transformation;

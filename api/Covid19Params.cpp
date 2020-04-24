@@ -54,21 +54,14 @@ std::string to_json(const Response &param)
     return "";
 }
 
-bool from_json(NodeDescriptor &param, const std::string &payload)
+bool from_json(AssemblyDescriptor &param, const std::string &payload)
 {
     try
     {
         auto js = nlohmann::json::parse(payload);
         FROM_JSON(param, js, name);
-        FROM_JSON(param, js, modelContentType);
-        FROM_JSON(param, js, modelContents);
-        FROM_JSON(param, js, occurrences);
-        FROM_JSON(param, js, assemblyRadius);
-        FROM_JSON(param, js, atomRadiusMultiplier);
-        FROM_JSON(param, js, randomSeed);
+        FROM_JSON(param, js, position);
         FROM_JSON(param, js, halfStructure);
-        FROM_JSON(param, js, orientation);
-        FROM_JSON(param, js, locationCutoffAngle);
     }
     catch (...)
     {
@@ -82,6 +75,7 @@ bool from_json(ColorSchemeDescriptor &param, const std::string &payload)
     try
     {
         auto js = nlohmann::json::parse(payload);
+        FROM_JSON(param, js, assemblyName);
         FROM_JSON(param, js, name);
         FROM_JSON(param, js, colorScheme);
         FROM_JSON(param, js, palette);
@@ -98,6 +92,7 @@ bool from_json(AminoAcidSequenceDescriptor &param, const std::string &payload)
     try
     {
         auto js = nlohmann::json::parse(payload);
+        FROM_JSON(param, js, assemblyName);
         FROM_JSON(param, js, name);
         FROM_JSON(param, js, aminoAcidSequence);
     }
@@ -113,6 +108,7 @@ bool from_json(AminoAcidSequencesDescriptor &param, const std::string &payload)
     try
     {
         auto js = nlohmann::json::parse(payload);
+        FROM_JSON(param, js, assemblyName);
         FROM_JSON(param, js, name);
     }
     catch (...)
@@ -122,11 +118,12 @@ bool from_json(AminoAcidSequencesDescriptor &param, const std::string &payload)
     return true;
 }
 
-bool from_json(RNADescriptor &param, const std::string &payload)
+bool from_json(RNASequenceDescriptor &param, const std::string &payload)
 {
     try
     {
         auto js = nlohmann::json::parse(payload);
+        FROM_JSON(param, js, assemblyName);
         FROM_JSON(param, js, name);
         FROM_JSON(param, js, contents);
         FROM_JSON(param, js, shape);
@@ -147,13 +144,40 @@ bool from_json(ProteinDescriptor &param, const std::string &payload)
     try
     {
         auto js = nlohmann::json::parse(payload);
+        FROM_JSON(param, js, assemblyName);
         FROM_JSON(param, js, name);
-        FROM_JSON(param, js, pdbContents);
+        FROM_JSON(param, js, contents);
+        FROM_JSON(param, js, assemblyRadius);
         FROM_JSON(param, js, atomRadiusMultiplier);
         FROM_JSON(param, js, loadBonds);
         FROM_JSON(param, js, addSticks);
         FROM_JSON(param, js, chainIds);
         FROM_JSON(param, js, recenter);
+        FROM_JSON(param, js, occurrences);
+        FROM_JSON(param, js, randomSeed);
+        FROM_JSON(param, js, locationCutoffAngle);
+        FROM_JSON(param, js, orientation);
+    }
+    catch (...)
+    {
+        return false;
+    }
+    return true;
+}
+
+bool from_json(MeshDescriptor &param, const std::string &payload)
+{
+    try
+    {
+        auto js = nlohmann::json::parse(payload);
+        FROM_JSON(param, js, assemblyName);
+        FROM_JSON(param, js, name);
+        FROM_JSON(param, js, contents);
+        FROM_JSON(param, js, assemblyRadius);
+        FROM_JSON(param, js, recenter);
+        FROM_JSON(param, js, occurrences);
+        FROM_JSON(param, js, randomSeed);
+        FROM_JSON(param, js, orientation);
     }
     catch (...)
     {

@@ -16,41 +16,18 @@
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
 
-#ifndef COVID19_PLUGIN_H
-#define COVID19_PLUGIN_H
+#ifndef COVID19_MESH_H
+#define COVID19_MESH_H
 
 #include <api/Covid19Params.h>
-
+#include <brayns/engineapi/Model.h>
 #include <common/Node.h>
+#include <common/types.h>
 
-#include <brayns/pluginapi/ExtensionPlugin.h>
-
-#include <array>
-#include <vector>
-
-/**
- * @brief This class implements the visualization of Covid19 related resources
- */
-class Covid19Plugin : public brayns::ExtensionPlugin
+class Mesh : public Node
 {
 public:
-    Covid19Plugin();
-
-    void init() final;
-
-private:
-    Response _addAssembly(const AssemblyDescriptor &payload);
-    Response _removeAssembly(const AssemblyDescriptor &payload);
-    Response _addRNASequence(const RNASequenceDescriptor &payload);
-    Response _addProtein(const ProteinDescriptor &payload);
-    Response _addMesh(const MeshDescriptor &payload);
-
-    Response _setColorScheme(const ColorSchemeDescriptor &payload);
-    Response _setAminoAcidSequence(const AminoAcidSequenceDescriptor &payload);
-    Response _getAminoAcidSequences(
-        const AminoAcidSequencesDescriptor &payload);
-
-    AssemblyMap _assemblies;
+    Mesh(brayns::Scene& scene, const MeshDescriptor& descriptor);
 };
 
-#endif
+#endif // COVID19_MESH_H

@@ -16,21 +16,19 @@
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
 
-#ifndef COVID19_NODE_H
-#define COVID19_NODE_H
+#include "Mesh.h"
 
-#include <common/types.h>
+#include <brayns/io/MeshLoader.h>
 
-class Node
+Mesh::Mesh(brayns::Scene& scene, const MeshDescriptor& md)
 {
-public:
-    Node();
-    virtual ~Node();
+    const auto loader = brayns::MeshLoader(scene);
+    uint8_ts contentAsChars;
+    for (size_t i = 0; i < md.contents.length(); ++i)
+        contentAsChars.push_back(md.contents[i]);
+    brayns::Blob blob{"obj", md.name, contentAsChars};
 
-    brayns::ModelDescriptorPtr getModelDescriptor() { return _modelDescriptor; }
-
-protected:
-    brayns::ModelDescriptorPtr _modelDescriptor{nullptr};
-};
-
-#endif // COVID19_NODE_H
+    _modelDescriptor =
+        loader.importFromBlob(std::move(blob), brayns::LoaderProgress(),
+                              brayns::PropertyMap());
+}

@@ -21,6 +21,7 @@
 
 #include <brayns/common/mathTypes.h>
 #include <brayns/common/types.h>
+#include <brayns/engineapi/Scene.h>
 
 #include <map>
 #include <set>
@@ -44,7 +45,15 @@ enum class ColorScheme
     glycosylation_site = 5
 };
 
-// Knots
+struct ColorSchemeDescriptor
+{
+    std::string assemblyName;
+    std::string name;
+    ColorScheme colorScheme;
+    std::vector<float> palette;
+};
+
+// Shapes
 enum class RNAShape
 {
     trefoilKnot = 0,
@@ -56,20 +65,87 @@ enum class RNAShape
     moebius = 6
 };
 
-/** Structure defining an atom radius in microns
- */
-typedef std::map<std::string, float> AtomicRadii;
-
-/** Structure defining the color of atoms according to the JMol Scheme
- */
-struct RGBColor
+// Assembly
+struct AssemblyDescriptor
 {
-    short r, g, b;
+    std::string name;
+    std::vector<float> position;
+    bool halfStructure;
 };
-typedef std::map<std::string, RGBColor> RGBColorMap;
 
-typedef brayns::Vector3f Color;
-typedef std::vector<Color> Palette;
+class Assembly;
+typedef std::shared_ptr<Assembly> AssemblyPtr;
+typedef std::map<std::string, AssemblyPtr> AssemblyMap;
+
+// Protein
+struct ProteinDescriptor
+{
+    std::string assemblyName;
+    std::string name;
+    std::string contents;
+    float assemblyRadius;
+    float atomRadiusMultiplier;
+    bool loadBonds;
+    bool addSticks;
+    std::vector<size_t> chainIds;
+    bool recenter;
+    size_t occurrences;
+    size_t randomSeed;
+    float locationCutoffAngle;
+    std::vector<float> orientation;
+};
+
+class Protein;
+typedef std::shared_ptr<Protein> ProteinPtr;
+typedef std::map<std::string, ProteinPtr> ProteinMap;
+
+// Mesh
+struct MeshDescriptor
+{
+    std::string assemblyName;
+    std::string name;
+    std::string contents;
+    float assemblyRadius;
+    bool recenter;
+    size_t occurrences;
+    size_t randomSeed;
+    std::vector<float> orientation;
+};
+class Mesh;
+typedef std::shared_ptr<Mesh> MeshPtr;
+typedef std::map<std::string, MeshPtr> MeshMap;
+
+// RNA sequence
+struct RNASequenceDescriptor
+{
+    std::string assemblyName;
+    std::string name;
+    std::string contents;
+    RNAShape shape;
+    float assemblyRadius;
+    float radius;
+    std::vector<float> range;
+    std::vector<float> params;
+};
+
+// Amino acid
+struct AminoAcidSequenceDescriptor
+{
+    std::string assemblyName;
+    std::string name;
+    std::string aminoAcidSequence;
+};
+
+struct AminoAcidSequencesDescriptor
+{
+    std::string assemblyName;
+    std::string name;
+};
+
+// Node
+class Node;
+typedef std::shared_ptr<Node> NodePtr;
+typedef std::map<std::string, NodePtr> NodeMap;
 
 struct LoaderParameters
 {
@@ -111,18 +187,6 @@ typedef std::map<std::string, Sequence> SequenceMap;
 // Bonds
 typedef std::map<size_t, std::vector<size_t>> BondsMap;
 
-// RNA
-struct RNADescriptor
-{
-    std::string name;
-    std::string contents;
-    RNAShape shape;
-    float assemblyRadius;
-    float radius;
-    std::vector<float> range;
-    std::vector<float> params;
-};
-
 struct AminoAcid
 {
     std::string name;
@@ -144,5 +208,18 @@ typedef std::set<std::string> Residues;
 
 // Typedefs
 typedef std::map<std::string, std::string> StringMap;
+
+// Structure defining an atom radius in microns
+typedef std::map<std::string, float> AtomicRadii;
+
+// Structure defining the color of atoms according to the JMol Scheme
+struct RGBColor
+{
+    short r, g, b;
+};
+typedef std::map<std::string, RGBColor> RGBColorMap;
+
+typedef brayns::Vector3f Color;
+typedef std::vector<Color> Palette;
 
 #endif // COVID19_TYPES_H

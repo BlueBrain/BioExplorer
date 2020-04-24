@@ -28,7 +28,8 @@ typedef std::map<std::string, std::string> RNASequenceMap;
 class RNASequence : public Node
 {
 public:
-    RNASequence(brayns::Scene& scene, const RNADescriptor& rnaDescriptor,
+    RNASequence(brayns::Scene& scene,
+                const RNASequenceDescriptor& rnaDescriptor,
                 const brayns::Vector2f& range, const brayns::Vector3f& params);
 
     // Class member accessors
