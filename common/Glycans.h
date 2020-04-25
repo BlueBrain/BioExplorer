@@ -16,32 +16,29 @@
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
 
-#ifndef COVID19_PARAMS_H
-#define COVID19_PARAMS_H
+#ifndef COVID19_GLYCANS_H
+#define COVID19_GLYCANS_H
 
+#include <api/Covid19Params.h>
+#include <brayns/engineapi/Model.h>
+#include <common/Node.h>
 #include <common/types.h>
 
-#include <set>
-
-/** Define the color scheme to be applied to the geometry */
-
-struct Response
+class Glycans : public Node
 {
-    bool status{true};
-    std::string contents;
+public:
+    Glycans(brayns::Scene& scene, const GlycansDescriptor& gd,
+            Vector3fs positions, Quaternions rotations);
+
+private:
+    void _readAtom(const std::string& line);
+    void _buildModel(brayns::Model& model);
+
+    GlycansDescriptor _descriptor;
+    Vector3fs _positions;
+    Quaternions _rotations;
+    AtomMap _atomMap;
+    Residues _residues;
 };
-std::string to_json(const Response &param);
 
-// Nodes
-bool from_json(AssemblyDescriptor &param, const std::string &payload);
-bool from_json(RNASequenceDescriptor &param, const std::string &payload);
-bool from_json(ProteinDescriptor &param, const std::string &payload);
-bool from_json(MeshDescriptor &param, const std::string &payload);
-bool from_json(GlycansDescriptor &param, const std::string &payload);
-
-// Functions
-bool from_json(ColorSchemeDescriptor &param, const std::string &payload);
-bool from_json(AminoAcidSequenceDescriptor &param, const std::string &payload);
-bool from_json(AminoAcidSequencesDescriptor &param, const std::string &payload);
-
-#endif // COVID19_PARAMS_H
+#endif // COVID19_GLYCANS_H

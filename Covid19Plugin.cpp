@@ -96,6 +96,12 @@ void Covid19Plugin::init()
         actionInterface->registerRequest<MeshDescriptor, Response>(
             "add-mesh",
             [&](const MeshDescriptor &payload) { return _addMesh(payload); });
+
+        PLUGIN_INFO << "Registering 'add-glycans' endpoint" << std::endl;
+        actionInterface->registerRequest<GlycansDescriptor, Response>(
+            "add-glycans", [&](const GlycansDescriptor &payload) {
+                return _addGlycans(payload);
+            });
     }
 }
 
@@ -228,6 +234,31 @@ Response Covid19Plugin::_addProtein(const ProteinDescriptor &payload)
         auto it = _assemblies.find(payload.assemblyName);
         if (it != _assemblies.end())
             (*it).second->addProtein(payload);
+        else
+        {
+            std::stringstream msg;
+            msg << "Assembly not found: " << payload.assemblyName;
+            PLUGIN_ERROR << msg.str() << std::endl;
+            response.status = false;
+            response.contents = msg.str();
+        }
+    }
+    catch (const std::runtime_error &e)
+    {
+        response.status = false;
+        response.contents = e.what();
+    }
+    return response;
+}
+
+Response Covid19Plugin::_addGlycans(const GlycansDescriptor &payload)
+{
+    Response response;
+    try
+    {
+        auto it = _assemblies.find(payload.assemblyName);
+        if (it != _assemblies.end())
+            (*it).second->addGlycans(payload);
         else
         {
             std::stringstream msg;

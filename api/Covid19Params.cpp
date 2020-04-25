@@ -165,6 +165,26 @@ bool from_json(ProteinDescriptor &param, const std::string &payload)
     return true;
 }
 
+bool from_json(GlycansDescriptor &param, const std::string &payload)
+{
+    try
+    {
+        auto js = nlohmann::json::parse(payload);
+        FROM_JSON(param, js, assemblyName);
+        FROM_JSON(param, js, name);
+        FROM_JSON(param, js, contents);
+        FROM_JSON(param, js, proteinName);
+        FROM_JSON(param, js, atomRadiusMultiplier);
+        FROM_JSON(param, js, addSticks);
+        FROM_JSON(param, js, recenter);
+    }
+    catch (...)
+    {
+        return false;
+    }
+    return true;
+}
+
 bool from_json(MeshDescriptor &param, const std::string &payload)
 {
     try

@@ -44,6 +44,7 @@ private:
     Response _addRNASequence(const RNASequenceDescriptor &payload);
     Response _addProtein(const ProteinDescriptor &payload);
     Response _addMesh(const MeshDescriptor &payload);
+    Response _addGlycans(const GlycansDescriptor &payload);
 
     Response _setColorScheme(const ColorSchemeDescriptor &payload);
     Response _setAminoAcidSequence(const AminoAcidSequenceDescriptor &payload);

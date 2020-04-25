@@ -42,6 +42,7 @@ CondonMap codonMap{{'A', {0, "Adenine", {0.f, 0.f, 1.f}}},
 RNASequence::RNASequence(brayns::Scene& scene, const RNASequenceDescriptor& rd,
                          const brayns::Vector2f& range = {0.f, 2.f * M_PI},
                          const brayns::Vector3f& params = {1.f, 1.f, 1.f})
+    : Node()
 {
     const auto& sequence = rd.contents;
     const size_t nbElements = sequence.length();

@@ -48,10 +48,19 @@ public:
 
     // Class member accessors
     AtomMap& getAtoms() { return _atomMap; }
+    void setAtoms(const AtomMap& atoms) { _atomMap = atoms; }
     Residues& getResidues() { return _residues; }
     SequenceMap& getSequences() { return _sequenceMap; }
+    const ProteinDescriptor& getDescriptor() const { return _descritpor; }
+
+    void getGlycosilationSites(
+        std::vector<brayns::Vector3f>& positions,
+        std::vector<brayns::Quaterniond>& rotations) const;
 
 private:
+    // Analysis
+    std::map<std::string, size_ts> _getGlycosylationSites() const;
+
     // Color schemes
     void _setAtomColorScheme();
     void _setChainColorScheme(const Palette& palette);
@@ -73,6 +82,7 @@ private:
     void _buildModel(brayns::Model& model, const ProteinDescriptor& descriptor);
 
     // Class members
+    ProteinDescriptor _descritpor;
     AtomMap _atomMap;
     Residues _residues;
     SequenceMap _sequenceMap;

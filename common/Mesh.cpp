@@ -21,6 +21,7 @@
 #include <brayns/io/MeshLoader.h>
 
 Mesh::Mesh(brayns::Scene& scene, const MeshDescriptor& md)
+    : Node()
 {
     const auto loader = brayns::MeshLoader(scene);
     uint8_ts contentAsChars;

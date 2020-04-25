@@ -1,5 +1,24 @@
+/* Copyright (c) 2020, EPFL/Blue Brain Project
+ * All rights reserved. Do not distribute without permission.
+ * Responsible Author: Cyrille Favreau <cyrille.favreau@epfl.ch>
+ *
+ * This library is free software; you can redistribute it and/or modify it under
+ * the terms of the GNU Lesser General Public License version 3.0 as published
+ * by the Free Software Foundation.
+ *
+ * This library is distributed in the hope that it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+ * FOR A PARTICULAR PURPOSE.  See the GNU Lesser General Public License for more
+ * details.
+ *
+ * You should have received a copy of the GNU Lesser General Public License
+ * along with this library; if not, write to the Free Software Foundation, Inc.,
+ * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
+ */
+
 #include "Assembly.h"
 
+#include <common/Glycans.h>
 #include <common/Mesh.h>
 #include <common/Protein.h>
 #include <common/RNASequence.h>
@@ -40,6 +59,42 @@ void Assembly::addProtein(const ProteinDescriptor &pd)
                       pd.locationCutoffAngle);
 
     _proteins[pd.name] = std::move(protein);
+    _scene.addModel(modelDescriptor);
+}
+
+void Assembly::addGlycans(const GlycansDescriptor &gd)
+{
+    // Get information from target protein (attributes, number of instances,
+    // glycosylation sites, etc)
+    const auto it = _proteins.find(gd.proteinName);
+    if (it == _proteins.end())
+        throw std::runtime_error("Target protein " + gd.proteinName +
+                                 " not registered");
+
+    const auto targetProtein = (*it).second;
+
+    Vector3fs positions;
+    Quaternions rotations;
+    targetProtein->getGlycosilationSites(positions, rotations);
+    const auto pd = targetProtein->getDescriptor();
+
+    if (positions.empty())
+        throw std::runtime_error("No glycosylation site was found on " +
+                                 gd.proteinName);
+
+    // Create glycans and attach them to the glycosylation sites of the target
+    // protein
+    GlycansPtr glycans(new Glycans(_scene, gd, positions, rotations));
+    auto modelDescriptor = glycans->getModelDescriptor();
+    const brayns::Quaterniond orientation = {pd.orientation[0],
+                                             pd.orientation[1],
+                                             pd.orientation[2],
+                                             pd.orientation[3]};
+    _processInstances(modelDescriptor, pd.assemblyRadius, pd.occurrences,
+                      pd.randomSeed, orientation, ModelContentType::pdb,
+                      pd.locationCutoffAngle);
+
+    _glycans[gd.name] = std::move(glycans);
     _scene.addModel(modelDescriptor);
 }
 
@@ -94,7 +149,7 @@ void Assembly::_processInstances(brayns::ModelDescriptorPtr md,
         const float phi = ((i + rnd) % occurrences) * increment;
         const float x = cos(phi) * r;
         const float z = sin(phi) * r;
-        const brayns::Vector3f direction{x, y, z};
+        const brayns::Vector3f direction = {x, y, z};
 
         // Remove membrane where proteins are. This is currently done
         // according to the vector orientation
@@ -117,7 +172,7 @@ void Assembly::_processInstances(brayns::ModelDescriptorPtr md,
 
         // Final transformation
         brayns::Transformation tf;
-        const brayns::Vector3f position = assemblyRadius * direction;
+        const brayns::Vector3f position = radius * direction;
         tf.setTranslation(_position + position - center);
         tf.setRotationCenter(_position + center);
 
@@ -128,11 +183,8 @@ void Assembly::_processInstances(brayns::ModelDescriptorPtr md,
 
         if (instanceCount == 0)
             md->setTransformation(tf);
-        else
-        {
-            brayns::ModelInstance instance(true, false, tf);
-            md->addInstance(instance);
-        }
+        const brayns::ModelInstance instance(true, false, tf);
+        md->addInstance(instance);
         ++instanceCount;
 
         // Store occupied direction
