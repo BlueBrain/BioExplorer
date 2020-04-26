@@ -20,9 +20,11 @@
 #define COVID19_PROTEIN_H
 
 #include <api/Covid19Params.h>
-#include <brayns/engineapi/Model.h>
+
 #include <common/Node.h>
 #include <common/types.h>
+
+#include <brayns/engineapi/Model.h>
 
 /**
  * @brief The Protein class

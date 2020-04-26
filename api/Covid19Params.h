@@ -21,8 +21,6 @@
 
 #include <common/types.h>
 
-#include <set>
-
 /** Define the color scheme to be applied to the geometry */
 
 struct Response

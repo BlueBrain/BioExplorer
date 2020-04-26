@@ -24,8 +24,6 @@
 #include <brayns/engineapi/Material.h>
 #include <brayns/engineapi/Scene.h>
 
-#include <fstream>
-
 struct Codon
 {
     size_t index;

@@ -19,18 +19,9 @@
 #include "Covid19Plugin.h"
 
 #include <common/Assembly.h>
-#include <common/Protein.h>
-#include <common/RNASequence.h>
 #include <common/log.h>
 
 #include <brayns/common/ActionInterface.h>
-#include <brayns/common/Progress.h>
-#include <brayns/common/utils/enumUtils.h>
-#include <brayns/common/utils/utils.h>
-#include <brayns/engineapi/Camera.h>
-#include <brayns/engineapi/Material.h>
-#include <brayns/engineapi/Model.h>
-#include <brayns/parameters/ParametersManager.h>
 #include <brayns/pluginapi/Plugin.h>
 
 Covid19Plugin::Covid19Plugin()

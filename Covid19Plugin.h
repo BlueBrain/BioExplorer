@@ -21,12 +21,7 @@
 
 #include <api/Covid19Params.h>
 
-#include <common/Node.h>
-
 #include <brayns/pluginapi/ExtensionPlugin.h>
-
-#include <array>
-#include <vector>
 
 /**
  * @brief This class implements the visualization of Covid19 related resources

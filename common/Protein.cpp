@@ -24,8 +24,6 @@
 #include <brayns/engineapi/Material.h>
 #include <brayns/engineapi/Scene.h>
 
-#include <fstream>
-
 Protein::Protein(brayns::Scene& scene, const ProteinDescriptor& descriptor)
     : Node()
     , _chainIds(descriptor.chainIds)
