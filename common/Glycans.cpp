@@ -157,7 +157,7 @@ void Glycans::_readAtom(const std::string& line)
 
     const size_t serial = static_cast<size_t>(atoi(line.substr(6, 5).c_str()));
 
-    auto& atom = _atomMap[serial];
+    Atom atom;
     atom.chainId = chainId;
 
     s = line.substr(12, 4);
@@ -194,7 +194,15 @@ void Glycans::_readAtom(const std::string& line)
 
     // Convert radius from angstrom
     atom.radius = DEFAULT_ATOM_RADIUS;
-    const auto it = atomicRadii.find(atom.name);
+    auto it = atomicRadii.find(atom.element);
     if (it != atomicRadii.end())
         atom.radius = 0.0001f * (*it).second;
+    else
+    {
+        it = atomicRadii.find(atom.name);
+        if (it != atomicRadii.end())
+            atom.radius = 0.0001f * (*it).second;
+    }
+
+    _atomMap.insert(std::make_pair(serial, atom));
 }

@@ -54,13 +54,25 @@ void Covid19Plugin::init()
                 return _setColorScheme(payload);
             });
 
-        PLUGIN_INFO << "Registering 'set-protein-amino-acid-sequence' endpoint"
+        PLUGIN_INFO << "Registering "
+                       "'set-protein-amino-acid-sequence-as-string' endpoint"
                     << std::endl;
-        actionInterface->registerRequest<AminoAcidSequenceDescriptor, Response>(
-            "set-protein-amino-acid-sequence",
-            [&](const AminoAcidSequenceDescriptor &payload) {
-                return _setAminoAcidSequence(payload);
-            });
+        actionInterface
+            ->registerRequest<AminoAcidSequenceAsStringDescriptor, Response>(
+                "set-protein-amino-acid-sequence-as-string",
+                [&](const AminoAcidSequenceAsStringDescriptor &payload) {
+                    return _setAminoAcidSequenceAsString(payload);
+                });
+
+        PLUGIN_INFO << "Registering "
+                       "'set-protein-amino-acid-sequence-as-range' endpoint"
+                    << std::endl;
+        actionInterface
+            ->registerRequest<AminoAcidSequenceAsRangeDescriptor, Response>(
+                "set-protein-amino-acid-sequence-as-range",
+                [&](const AminoAcidSequenceAsRangeDescriptor &payload) {
+                    return _setAminoAcidSequenceAsRange(payload);
+                });
 
         PLUGIN_INFO << "Registering 'get-protein-amino-acid-sequences' endpoint"
                     << std::endl;
@@ -140,15 +152,47 @@ Response Covid19Plugin::_setColorScheme(const ColorSchemeDescriptor &payload)
     return response;
 }
 
-Response Covid19Plugin::_setAminoAcidSequence(
-    const AminoAcidSequenceDescriptor &payload)
+Response Covid19Plugin::_setAminoAcidSequenceAsString(
+    const AminoAcidSequenceAsStringDescriptor &payload)
 {
     Response response;
     try
     {
+        if (payload.sequence.empty())
+            throw std::runtime_error("A valid sequence must be specified");
+
         auto it = _assemblies.find(payload.assemblyName);
         if (it != _assemblies.end())
-            (*it).second->setAminoAcidSequence(payload);
+            (*it).second->setAminoAcidSequenceAsString(payload);
+        else
+        {
+            std::stringstream msg;
+            msg << "Assembly not found: " << payload.assemblyName;
+            PLUGIN_ERROR << msg.str() << std::endl;
+            response.status = false;
+            response.contents = msg.str();
+        }
+    }
+    catch (const std::runtime_error &e)
+    {
+        response.status = false;
+        response.contents = e.what();
+    }
+    return response;
+}
+
+Response Covid19Plugin::_setAminoAcidSequenceAsRange(
+    const AminoAcidSequenceAsRangeDescriptor &payload)
+{
+    Response response;
+    try
+    {
+        if (payload.range.size() != 2)
+            throw std::runtime_error("A valid range must be specified");
+
+        auto it = _assemblies.find(payload.assemblyName);
+        if (it != _assemblies.end())
+            (*it).second->setAminoAcidSequenceAsRange(payload);
         else
         {
             std::stringstream msg;

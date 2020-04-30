@@ -62,6 +62,7 @@ bool from_json(AssemblyDescriptor &param, const std::string &payload)
         FROM_JSON(param, js, name);
         FROM_JSON(param, js, position);
         FROM_JSON(param, js, halfStructure);
+        FROM_JSON(param, js, clippingPlanes);
     }
     catch (...)
     {
@@ -87,14 +88,32 @@ bool from_json(ColorSchemeDescriptor &param, const std::string &payload)
     return true;
 }
 
-bool from_json(AminoAcidSequenceDescriptor &param, const std::string &payload)
+bool from_json(AminoAcidSequenceAsStringDescriptor &param,
+               const std::string &payload)
 {
     try
     {
         auto js = nlohmann::json::parse(payload);
         FROM_JSON(param, js, assemblyName);
         FROM_JSON(param, js, name);
-        FROM_JSON(param, js, aminoAcidSequence);
+        FROM_JSON(param, js, sequence);
+    }
+    catch (...)
+    {
+        return false;
+    }
+    return true;
+}
+
+bool from_json(AminoAcidSequenceAsRangeDescriptor &param,
+               const std::string &payload)
+{
+    try
+    {
+        auto js = nlohmann::json::parse(payload);
+        FROM_JSON(param, js, assemblyName);
+        FROM_JSON(param, js, name);
+        FROM_JSON(param, js, range);
     }
     catch (...)
     {

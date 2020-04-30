@@ -29,9 +29,19 @@ public:
     ~Assembly();
 
     void setColorScheme(const ColorSchemeDescriptor &csd);
-    void setAminoAcidSequence(const AminoAcidSequenceDescriptor &aasd);
+    void setAminoAcidSequenceAsString(
+        const AminoAcidSequenceAsStringDescriptor &aasd);
+    void setAminoAcidSequenceAsRange(
+        const AminoAcidSequenceAsRangeDescriptor &aasd);
     std::string getAminoAcidSequences(
         const AminoAcidSequencesDescriptor &payload) const;
+
+    brayns::Vector4fs &getClippingPlanes() { return _clippingPlanes; }
+    void setClippingPlanes(const brayns::Vector4fs &clippingPlanes)
+    {
+        _clippingPlanes = clippingPlanes;
+    }
+
     void addRNASequence(const RNASequenceDescriptor &rd);
     void addProtein(const ProteinDescriptor &pd);
     void addMesh(const MeshDescriptor &md);
@@ -52,6 +62,7 @@ private:
     ProteinMap _proteins;
     MeshMap _meshes;
     std::vector<std::pair<brayns::Vector3f, float>> _occupiedDirections;
+    brayns::Vector4fs _clippingPlanes;
 };
 
 #endif // ASSEMBLY_H

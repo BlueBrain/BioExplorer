@@ -42,7 +42,10 @@ private:
     Response _addGlycans(const GlycansDescriptor &payload);
 
     Response _setColorScheme(const ColorSchemeDescriptor &payload);
-    Response _setAminoAcidSequence(const AminoAcidSequenceDescriptor &payload);
+    Response _setAminoAcidSequenceAsString(
+        const AminoAcidSequenceAsStringDescriptor &payload);
+    Response _setAminoAcidSequenceAsRange(
+        const AminoAcidSequenceAsRangeDescriptor &payload);
     Response _getAminoAcidSequences(
         const AminoAcidSequencesDescriptor &payload);
 

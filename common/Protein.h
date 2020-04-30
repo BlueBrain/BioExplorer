@@ -39,9 +39,15 @@ public:
 
     // Amino acid sequence
     StringMap getSequencesAsString() const;
-    void setAminoAcidSequence(const std::string& aminoAcidSequence)
+    void setAminoAcidSequenceAsString(const std::string& aminoAcidSequence)
     {
         _aminoAcidSequence = aminoAcidSequence;
+        _aminoAcidRange = {0, 0};
+    }
+    void setAminoAcidSequenceAsRange(const brayns::Vector2ui& range)
+    {
+        _aminoAcidSequence = "";
+        _aminoAcidRange = range;
     }
     const std::string& getAminoAcidSequence() const
     {
@@ -92,6 +98,7 @@ private:
     size_ts _chainIds;
 
     std::string _aminoAcidSequence;
+    brayns::Vector2ui _aminoAcidRange;
     std::string _title;
 };
 

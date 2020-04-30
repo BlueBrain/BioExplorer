@@ -48,6 +48,22 @@ Protein::Protein(brayns::Scene& scene, const ProteinDescriptor& descriptor)
         //            _readRemark(line);
     }
 
+    if (_sequenceMap.empty())
+    {
+        // Build AA sequences from ATOMS if not SEQRES record exists
+        size_t previousReqSeq = std::numeric_limits<size_t>::max();
+        for (const auto& atom : _atomMap)
+        {
+            auto& sequence = _sequenceMap[atom.second.chainId];
+            if (previousReqSeq != atom.second.reqSeq)
+                sequence.resNames.push_back(atom.second.resName);
+            previousReqSeq = atom.second.reqSeq;
+        }
+        for (auto& sequence : _sequenceMap)
+            sequence.second.numRes = sequence.second.resNames.size();
+    }
+
+#if 0
     // Update sequences
     std::map<std::string, size_t> minSeqs;
     for (const auto& atom : _atomMap)
@@ -65,6 +81,7 @@ Protein::Protein(brayns::Scene& scene, const ProteinDescriptor& descriptor)
                  i < minSeq.second && i < sequence.resNames.size(); ++i)
                 sequence.resNames[i] = ".";
         }
+#endif
 
     auto model = scene.createModel();
 
@@ -128,10 +145,10 @@ void Protein::_buildModel(brayns::Model& model,
     {
         for (const auto& bond : _bondsMap)
         {
-            const auto& atomSrc = _atomMap[bond.first];
+            const auto& atomSrc = _atomMap.find(bond.first)->second;
             for (const auto bondedAtom : bond.second)
             {
-                const auto& atomDest = _atomMap[bondedAtom];
+                const auto& atomDest = _atomMap.find(bondedAtom)->second;
 
                 const auto center =
                     (atomDest.position + atomSrc.position) / 2.f;
@@ -236,37 +253,52 @@ void Protein::_setAminoAcidSequenceColorScheme(const Palette& palette)
     size_t atomCount = 0;
     for (const auto& sequence : _sequenceMap)
     {
-        std::string shortSequence;
-        for (const auto& resName : sequence.second.resNames)
-            shortSequence += aminoAcidMap[resName].shortName;
-
-        const auto sequencePosition = shortSequence.find(_aminoAcidSequence);
-        if (sequencePosition != -1)
+        if (_aminoAcidSequence.empty())
         {
-            PLUGIN_INFO << _aminoAcidSequence << " was found at position "
-                        << sequencePosition << std::endl;
-            size_t minSeq = 1e6;
-            size_t maxSeq = 0;
+            // Range based coloring
             for (auto& atom : _atomMap)
-            {
-                minSeq = std::min(minSeq, atom.second.reqSeq);
-                maxSeq = std::max(maxSeq, atom.second.reqSeq);
-                if (atom.second.reqSeq >= sequencePosition &&
-                    atom.second.reqSeq <
-                        sequencePosition + _aminoAcidSequence.length())
-                {
-                    _setMaterialDiffuseColor(atom.first, palette[1]);
-                    ++atomCount;
-                }
-                else
-                    _setMaterialDiffuseColor(atom.first, palette[0]);
-            }
-            PLUGIN_DEBUG << atomCount << "[" << minSeq << "," << maxSeq
-                         << "] atoms where colored" << std::endl;
+                _setMaterialDiffuseColor(
+                    atom.first, (atom.second.reqSeq >= _aminoAcidRange.x &&
+                                 atom.second.reqSeq <= _aminoAcidRange.y)
+                                    ? palette[1]
+                                    : palette[0]);
         }
         else
-            PLUGIN_WARN << _aminoAcidSequence << " was not found in "
-                        << shortSequence << std::endl;
+        {
+            // String based coloring
+            std::string shortSequence;
+            for (const auto& resName : sequence.second.resNames)
+                shortSequence += aminoAcidMap[resName].shortName;
+
+            const auto sequencePosition =
+                shortSequence.find(_aminoAcidSequence);
+            if (sequencePosition != -1)
+            {
+                PLUGIN_INFO << _aminoAcidSequence << " was found at position "
+                            << sequencePosition << std::endl;
+                size_t minSeq = 1e6;
+                size_t maxSeq = 0;
+                for (auto& atom : _atomMap)
+                {
+                    minSeq = std::min(minSeq, atom.second.reqSeq);
+                    maxSeq = std::max(maxSeq, atom.second.reqSeq);
+                    if (atom.second.reqSeq >= sequencePosition &&
+                        atom.second.reqSeq <
+                            sequencePosition + _aminoAcidSequence.length())
+                    {
+                        _setMaterialDiffuseColor(atom.first, palette[1]);
+                        ++atomCount;
+                    }
+                    else
+                        _setMaterialDiffuseColor(atom.first, palette[0]);
+                }
+                PLUGIN_DEBUG << atomCount << "[" << minSeq << "," << maxSeq
+                             << "] atoms where colored" << std::endl;
+            }
+            else
+                PLUGIN_WARN << _aminoAcidSequence << " was not found in "
+                            << shortSequence << std::endl;
+        }
     }
     PLUGIN_INFO << "Applying Amino Acid Sequence color scheme ("
                 << (atomCount > 0 ? "2" : "1") << ")" << std::endl;
@@ -376,7 +408,7 @@ void Protein::_readAtom(const std::string& line)
 
     const size_t serial = static_cast<size_t>(atoi(line.substr(6, 5).c_str()));
 
-    auto& atom = _atomMap[serial];
+    Atom atom;
     atom.chainId = chainId;
 
     s = line.substr(12, 4);
@@ -413,9 +445,17 @@ void Protein::_readAtom(const std::string& line)
 
     // Convert radius from angstrom
     atom.radius = DEFAULT_ATOM_RADIUS;
-    const auto it = atomicRadii.find(atom.element);
+    auto it = atomicRadii.find(atom.element);
     if (it != atomicRadii.end())
         atom.radius = 0.0001f * (*it).second;
+    else
+    {
+        it = atomicRadii.find(atom.name);
+        if (it != atomicRadii.end())
+            atom.radius = 0.0001f * (*it).second;
+    }
+
+    _atomMap.insert(std::make_pair(serial, atom));
 }
 
 void Protein::_readSequence(const std::string& line)
@@ -439,7 +479,8 @@ void Protein::_readSequence(const std::string& line)
     std::string s = line.substr(11, 1);
 
     Sequence& sequence = _sequenceMap[s];
-    sequence.serNum = static_cast<size_t>(atoi(line.substr(7, 3).c_str()));
+    //    sequence.serNum = static_cast<size_t>(atoi(line.substr(7,
+    //    3).c_str()));
     sequence.numRes = static_cast<size_t>(atoi(line.substr(13, 4).c_str()));
 
     for (size_t i = 19; i < line.length(); i += 4)
@@ -468,7 +509,7 @@ void Protein::_readConnect(const std::string& line)
 
     if (_atomMap.find(serial) != _atomMap.end())
     {
-        auto& bond = _bondsMap[serial];
+        auto& bond = _bondsMap.find(serial)->second;
 
         for (size_t i = 11; i < line.length(); i += 5)
         {
@@ -575,9 +616,10 @@ std::map<std::string, size_ts> Protein::_getGlycosylationSites() const
                 }
             }
         }
-        PLUGIN_INFO << "Found " << nbSites << " sites on sequence "
-                    << sequence.first << std::endl;
     }
+    for (const auto& site : sites)
+        PLUGIN_INFO << "Found " << site.second.size()
+                    << " glycosylation on sequence " << site.first << std::endl;
     return sites;
 }
 

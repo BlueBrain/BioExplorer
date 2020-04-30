@@ -39,7 +39,10 @@ bool from_json(GlycansDescriptor &param, const std::string &payload);
 
 // Functions
 bool from_json(ColorSchemeDescriptor &param, const std::string &payload);
-bool from_json(AminoAcidSequenceDescriptor &param, const std::string &payload);
+bool from_json(AminoAcidSequenceAsStringDescriptor &param,
+               const std::string &payload);
+bool from_json(AminoAcidSequenceAsRangeDescriptor &param,
+               const std::string &payload);
 bool from_json(AminoAcidSequencesDescriptor &param, const std::string &payload);
 
 #endif // COVID19_PARAMS_H

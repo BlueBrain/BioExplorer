@@ -71,6 +71,7 @@ struct AssemblyDescriptor
     std::string name;
     std::vector<float> position;
     bool halfStructure;
+    std::vector<float> clippingPlanes;
 };
 
 class Assembly;
@@ -150,11 +151,18 @@ struct RNASequenceDescriptor
 };
 
 // Amino acid
-struct AminoAcidSequenceDescriptor
+struct AminoAcidSequenceAsStringDescriptor
 {
     std::string assemblyName;
     std::string name;
-    std::string aminoAcidSequence;
+    std::string sequence;
+};
+
+struct AminoAcidSequenceAsRangeDescriptor
+{
+    std::string assemblyName;
+    std::string name;
+    std::vector<size_t> range;
 };
 
 struct AminoAcidSequencesDescriptor
@@ -189,19 +197,19 @@ struct Atom
     std::string charge;
     float radius;
 };
-typedef std::map<size_t, Atom> AtomMap;
+typedef std::multimap<size_t, Atom, std::less<size_t>> AtomMap;
 
 // Amino acid sequence
 struct Sequence
 {
-    size_t serNum;
+    //    size_t serNum;
     size_t numRes;
     std::vector<std::string> resNames;
 };
 typedef std::map<std::string, Sequence> SequenceMap;
 
 // Bonds
-typedef std::map<size_t, std::vector<size_t>> BondsMap;
+typedef std::multimap<size_t, std::vector<size_t>, std::less<size_t>> BondsMap;
 
 struct AminoAcid
 {
@@ -241,7 +249,7 @@ typedef std::vector<brayns::Quaterniond> Quaternions;
 typedef std::vector<brayns::Vector3f> Vector3fs;
 
 // Atomic radii in microns
-const float DEFAULT_ATOM_RADIUS = 0.0025;
+const float DEFAULT_ATOM_RADIUS = 0.0125;
 static AtomicRadii atomicRadii = {{{"C"}, {67.f}},
                                   {{"N"}, {56.f}},
                                   {{"O"}, {48.f}},
@@ -357,7 +365,7 @@ static AtomicRadii atomicRadii = {{{"C"}, {67.f}},
                                   {{"OXT"}, {25.f}},
                                   {{"P"}, 25.f}};
 
-const float BOND_RADIUS = 0.0025f;
+const float BOND_RADIUS = 0.0125f;
 const float DEFAULT_STICK_DISTANCE = 0.016f;
 
 // Amino acids

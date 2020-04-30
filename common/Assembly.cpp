@@ -23,6 +23,7 @@
 #include <common/Protein.h>
 #include <common/RNASequence.h>
 #include <common/log.h>
+#include <common/utils.h>
 
 Assembly::Assembly(brayns::Scene &scene, const AssemblyDescriptor &ad)
     : _scene(scene)
@@ -32,6 +33,14 @@ Assembly::Assembly(brayns::Scene &scene, const AssemblyDescriptor &ad)
         throw std::runtime_error(
             "Position must be a sequence of 3 float values");
     _position = {ad.position[0], ad.position[1], ad.position[2]};
+
+    if (ad.clippingPlanes.size() % 4 != 0)
+        throw std::runtime_error(
+            "Clipping planes must be defined by 4 float values");
+    const auto &cp = ad.clippingPlanes;
+    for (size_t i = 0; i < cp.size(); i += 4)
+        _clippingPlanes.push_back({cp[i], cp[i + 1], cp[i + 2], cp[i + 3]});
+
     PLUGIN_INFO << "Add assembly " << ad.name << " at position " << _position
                 << (ad.halfStructure ? " (half structure only)" : "")
                 << std::endl;
@@ -151,6 +160,16 @@ void Assembly::_processInstances(brayns::ModelDescriptorPtr md,
         const float z = sin(phi) * r;
         const brayns::Vector3f direction = {x, y, z};
 
+        // Clipping planes
+        const brayns::Vector3f position = radius * direction;
+        if (isClipped(position, _clippingPlanes))
+            continue;
+
+        // Half structure
+        if (_halfStructure &&
+            (direction.x > 0.f && direction.y > 0.f && direction.z > 0.f))
+            continue;
+
         // Remove membrane where proteins are. This is currently done
         // according to the vector orientation
         bool occupied{false};
@@ -165,16 +184,9 @@ void Assembly::_processInstances(brayns::ModelDescriptorPtr md,
         if (occupied)
             continue;
 
-        // Half structure
-        if (_halfStructure &&
-            (direction.x > 0.f && direction.y > 0.f && direction.z > 0.f))
-            continue;
-
         // Final transformation
         brayns::Transformation tf;
-        const brayns::Vector3f position = radius * direction;
         tf.setTranslation(_position + position - center);
-        tf.setRotationCenter(_position + center);
 
         brayns::Quaterniond assemblyOrientation =
             glm::quatLookAt(direction, {0.f, 1.f, 0.f});
@@ -185,11 +197,12 @@ void Assembly::_processInstances(brayns::ModelDescriptorPtr md,
             md->setTransformation(tf);
         const brayns::ModelInstance instance(true, false, tf);
         md->addInstance(instance);
-        ++instanceCount;
 
         // Store occupied direction
         if (modelType == ModelContentType::pdb)
             _occupiedDirections.push_back({direction, locationCutoffAngle});
+
+        ++instanceCount;
     }
 }
 
@@ -207,11 +220,23 @@ void Assembly::setColorScheme(const ColorSchemeDescriptor &csd)
     }
 }
 
-void Assembly::setAminoAcidSequence(const AminoAcidSequenceDescriptor &aasd)
+void Assembly::setAminoAcidSequenceAsString(
+    const AminoAcidSequenceAsStringDescriptor &aasd)
 {
     auto it = _proteins.find(aasd.name);
     if (it != _proteins.end())
-        (*it).second->setAminoAcidSequence(aasd.aminoAcidSequence);
+        (*it).second->setAminoAcidSequenceAsString(aasd.sequence);
+    else
+        throw std::runtime_error("Protein not found: " + aasd.name);
+}
+
+void Assembly::setAminoAcidSequenceAsRange(
+    const AminoAcidSequenceAsRangeDescriptor &aasd)
+{
+    auto it = _proteins.find(aasd.name);
+    if (it != _proteins.end())
+        (*it).second->setAminoAcidSequenceAsRange(
+            {aasd.range[0], aasd.range[1]});
     else
         throw std::runtime_error("Protein not found: " + aasd.name);
 }
