@@ -249,7 +249,7 @@ typedef std::vector<brayns::Quaterniond> Quaternions;
 typedef std::vector<brayns::Vector3f> Vector3fs;
 
 // Atomic radii in microns
-const float DEFAULT_ATOM_RADIUS = 0.0125;
+const float DEFAULT_ATOM_RADIUS = 0.0125f;
 static AtomicRadii atomicRadii = {{{"C"}, {67.f}},
                                   {{"N"}, {56.f}},
                                   {{"O"}, {48.f}},
@@ -365,7 +365,7 @@ static AtomicRadii atomicRadii = {{{"C"}, {67.f}},
                                   {{"OXT"}, {25.f}},
                                   {{"P"}, 25.f}};
 
-const float BOND_RADIUS = 0.0125f;
+const float BOND_RADIUS = 0.006f;
 const float DEFAULT_STICK_DISTANCE = 0.016f;
 
 // Amino acids
