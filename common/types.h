@@ -119,6 +119,7 @@ struct GlycansDescriptor
     float atomRadiusMultiplier;
     bool addSticks;
     bool recenter;
+    std::vector<size_t> siteIndices;
 };
 
 class Glycans;

@@ -315,7 +315,7 @@ void Protein::_setGlycosylationSiteColorScheme(const Palette& palette)
         _setMaterialDiffuseColor(atom.first, palette[index]);
     }
 
-    const auto sites = _getGlycosylationSites();
+    const auto sites = _getGlycosylationSites({});
 
     for (const auto chain : sites)
         for (const auto site : chain.second)
@@ -593,7 +593,8 @@ bool Protein::_loadChain(const size_t chainId)
     return found;
 }
 
-std::map<std::string, size_ts> Protein::_getGlycosylationSites() const
+std::map<std::string, size_ts> Protein::_getGlycosylationSites(
+    const std::vector<size_t>& siteIndices) const
 {
     std::map<std::string, size_ts> sites;
     for (const auto& sequence : _sequenceMap)
@@ -604,8 +605,16 @@ std::map<std::string, size_ts> Protein::_getGlycosylationSites() const
 
         for (size_t i = 0; i < shortSequence.length(); ++i)
         {
+            bool acceptSite{true};
+            if (!siteIndices.empty())
+            {
+                const auto it =
+                    find(siteIndices.begin(), siteIndices.end(), i + 1);
+                acceptSite = (it != siteIndices.end());
+            }
+
             const char aminoAcid = shortSequence[i];
-            if (aminoAcid == 'N')
+            if (aminoAcid == 'N' && acceptSite)
             {
                 if (i < shortSequence.length() - 2)
                 {
@@ -636,12 +645,14 @@ std::map<std::string, size_ts> Protein::_getGlycosylationSites() const
 }
 
 void Protein::getGlycosilationSites(std::vector<Vector3f>& positions,
-                                    std::vector<Quaterniond>& rotations) const
+                                    std::vector<Quaterniond>& rotations,
+                                    const size_ts& siteIndices) const
 {
     positions.clear();
     rotations.clear();
 
-    const auto sites = _getGlycosylationSites();
+    const auto sites = _getGlycosylationSites(siteIndices);
+
     for (const auto chain : sites)
     {
         for (const auto site : chain.second)

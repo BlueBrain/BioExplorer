@@ -84,7 +84,7 @@ void Assembly::addGlycans(const GlycansDescriptor &gd)
 
     Vector3fs positions;
     Quaternions rotations;
-    targetProtein->getGlycosilationSites(positions, rotations);
+    targetProtein->getGlycosilationSites(positions, rotations, gd.siteIndices);
     const auto pd = targetProtein->getDescriptor();
 
     if (positions.empty())

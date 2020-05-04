@@ -198,6 +198,7 @@ bool from_json(GlycansDescriptor &param, const std::string &payload)
         FROM_JSON(param, js, atomRadiusMultiplier);
         FROM_JSON(param, js, addSticks);
         FROM_JSON(param, js, recenter);
+        FROM_JSON(param, js, siteIndices);
     }
     catch (...)
     {
