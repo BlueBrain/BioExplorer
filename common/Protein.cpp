@@ -596,7 +596,6 @@ std::map<std::string, size_ts> Protein::_getGlycosylationSites() const
     std::map<std::string, size_ts> sites;
     for (const auto& sequence : _sequenceMap)
     {
-        size_t nbSites = 0;
         std::string shortSequence;
         for (const auto& resName : sequence.second.resNames)
             shortSequence += aminoAcidMap[resName].shortName;
@@ -617,9 +616,20 @@ std::map<std::string, size_ts> Protein::_getGlycosylationSites() const
             }
         }
     }
+
     for (const auto& site : sites)
-        PLUGIN_INFO << "Found " << site.second.size()
-                    << " glycosylation on sequence " << site.first << std::endl;
+    {
+        std::string indices = "[";
+        for (const auto& index : site.second)
+        {
+            if (indices.length() > 1)
+                indices += ",";
+            indices += std::to_string(index + 1); // Indices start at 1, not 0
+        }
+        indices += "]";
+        PLUGIN_INFO << "Found " << site.second.size() << " glycosylation sites "
+                    << indices << " on sequence " << site.first << std::endl;
+    }
     return sites;
 }
 
