@@ -16,7 +16,7 @@
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
 
-#include "Covid19Plugin.h"
+#include "BioExplorer.h"
 
 #include <common/Assembly.h>
 #include <common/log.h>
@@ -24,12 +24,14 @@
 #include <brayns/common/ActionInterface.h>
 #include <brayns/pluginapi/Plugin.h>
 
-Covid19Plugin::Covid19Plugin()
+namespace bioexplorer
+{
+BioExplorer::BioExplorer()
     : ExtensionPlugin()
 {
 }
 
-void Covid19Plugin::init()
+void BioExplorer::init()
 {
     auto actionInterface = _api->getActionInterface();
     if (actionInterface)
@@ -108,7 +110,7 @@ void Covid19Plugin::init()
     }
 }
 
-Response Covid19Plugin::_removeAssembly(const AssemblyDescriptor &payload)
+Response BioExplorer::_removeAssembly(const AssemblyDescriptor &payload)
 {
     auto assembly = _assemblies.find(payload.name);
     if (assembly != _assemblies.end())
@@ -117,7 +119,7 @@ Response Covid19Plugin::_removeAssembly(const AssemblyDescriptor &payload)
     return Response();
 }
 
-Response Covid19Plugin::_addAssembly(const AssemblyDescriptor &payload)
+Response BioExplorer::_addAssembly(const AssemblyDescriptor &payload)
 {
     Response response;
     try
@@ -135,7 +137,7 @@ Response Covid19Plugin::_addAssembly(const AssemblyDescriptor &payload)
     return response;
 }
 
-Response Covid19Plugin::_setColorScheme(const ColorSchemeDescriptor &payload)
+Response BioExplorer::_setColorScheme(const ColorSchemeDescriptor &payload)
 {
     Response response;
     auto it = _assemblies.find(payload.assemblyName);
@@ -152,7 +154,7 @@ Response Covid19Plugin::_setColorScheme(const ColorSchemeDescriptor &payload)
     return response;
 }
 
-Response Covid19Plugin::_setAminoAcidSequenceAsString(
+Response BioExplorer::_setAminoAcidSequenceAsString(
     const AminoAcidSequenceAsStringDescriptor &payload)
 {
     Response response;
@@ -181,7 +183,7 @@ Response Covid19Plugin::_setAminoAcidSequenceAsString(
     return response;
 }
 
-Response Covid19Plugin::_setAminoAcidSequenceAsRange(
+Response BioExplorer::_setAminoAcidSequenceAsRange(
     const AminoAcidSequenceAsRangeDescriptor &payload)
 {
     Response response;
@@ -210,7 +212,7 @@ Response Covid19Plugin::_setAminoAcidSequenceAsRange(
     return response;
 }
 
-Response Covid19Plugin::_getAminoAcidSequences(
+Response BioExplorer::_getAminoAcidSequences(
     const AminoAcidSequencesDescriptor &payload)
 {
     Response response;
@@ -236,7 +238,7 @@ Response Covid19Plugin::_getAminoAcidSequences(
     return response;
 }
 
-Response Covid19Plugin::_addRNASequence(const RNASequenceDescriptor &payload)
+Response BioExplorer::_addRNASequence(const RNASequenceDescriptor &payload)
 {
     Response response;
     try
@@ -261,7 +263,7 @@ Response Covid19Plugin::_addRNASequence(const RNASequenceDescriptor &payload)
     return response;
 }
 
-Response Covid19Plugin::_addProtein(const ProteinDescriptor &payload)
+Response BioExplorer::_addProtein(const ProteinDescriptor &payload)
 {
     Response response;
     try
@@ -286,7 +288,7 @@ Response Covid19Plugin::_addProtein(const ProteinDescriptor &payload)
     return response;
 }
 
-Response Covid19Plugin::_addGlycans(const GlycansDescriptor &payload)
+Response BioExplorer::_addGlycans(const GlycansDescriptor &payload)
 {
     Response response;
     try
@@ -311,7 +313,7 @@ Response Covid19Plugin::_addGlycans(const GlycansDescriptor &payload)
     return response;
 }
 
-Response Covid19Plugin::_addMesh(const MeshDescriptor &payload)
+Response BioExplorer::_addMesh(const MeshDescriptor &payload)
 {
     Response response;
     try
@@ -336,9 +338,9 @@ Response Covid19Plugin::_addMesh(const MeshDescriptor &payload)
     return response;
 }
 
-extern "C" brayns::ExtensionPlugin *brayns_plugin_create(int /*argc*/,
-                                                         char ** /*argv*/)
+extern "C" ExtensionPlugin *brayns_plugin_create(int /*argc*/, char ** /*argv*/)
 {
     PLUGIN_INFO << "Initializing Covid19 plugin" << std::endl;
-    return new Covid19Plugin();
+    return new BioExplorer();
 }
+} // namespace bioexplorer

@@ -24,11 +24,13 @@
 #include <brayns/engineapi/Material.h>
 #include <brayns/engineapi/Scene.h>
 
+namespace bioexplorer
+{
 struct Codon
 {
     size_t index;
     std::string name;
-    brayns::Vector3f defaultColor;
+    Vector3f defaultColor;
 };
 typedef std::map<char, Codon> CondonMap;
 
@@ -37,9 +39,9 @@ CondonMap codonMap{{'A', {0, "Adenine", {0.f, 0.f, 1.f}}},
                    {'G', {2, "Guanine", {1.f, 0.f, 0.f}}},
                    {'C', {3, "Cytosine", {1.f, 1.f, 0.f}}}};
 
-RNASequence::RNASequence(brayns::Scene& scene, const RNASequenceDescriptor& rd,
-                         const brayns::Vector2f& range = {0.f, 2.f * M_PI},
-                         const brayns::Vector3f& params = {1.f, 1.f, 1.f})
+RNASequence::RNASequence(Scene& scene, const RNASequenceDescriptor& rd,
+                         const Vector2f& range = {0.f, 2.f * M_PI},
+                         const Vector3f& params = {1.f, 1.f, 1.f})
     : Node()
 {
     const auto& sequence = rd.contents;
@@ -60,8 +62,8 @@ RNASequence::RNASequence(brayns::Scene& scene, const RNASequenceDescriptor& rd,
     PLUGIN_INFO << "Sequence total length: " << nbElements << std::endl;
     PLUGIN_INFO << "Created " << nbMaterials << " materials" << std::endl;
 
-    brayns::Vector3f U{range.x, range.y, nbElements};
-    brayns::Vector3f V{range.x, range.y, nbElements};
+    Vector3f U{range.x, range.y, nbElements};
+    Vector3f V{range.x, range.y, nbElements};
 
     switch (rd.shape)
     {
@@ -85,8 +87,8 @@ RNASequence::RNASequence(brayns::Scene& scene, const RNASequenceDescriptor& rd,
     {
         for (float u(U.x); u < U.y; u += uStep)
         {
-            brayns::Vector3f src;
-            brayns::Vector3f dst;
+            Vector3f src;
+            Vector3f dst;
             switch (rd.shape)
             {
             case RNAShape::moebius:
@@ -154,41 +156,40 @@ RNASequence::RNASequence(brayns::Scene& scene, const RNASequenceDescriptor& rd,
     }
 
     // Metadata
-    brayns::ModelMetadata metadata;
+    ModelMetadata metadata;
     metadata["RNA sequence"] = sequence;
     _modelDescriptor =
-        std::make_shared<brayns::ModelDescriptor>(std::move(model), rd.name,
-                                                  metadata);
+        std::make_shared<ModelDescriptor>(std::move(model), rd.name, metadata);
 }
 
-brayns::Vector3f RNASequence::_trefoilKnot(const float radius, const float t,
-                                           const brayns::Vector3f& params)
+Vector3f RNASequence::_trefoilKnot(const float radius, const float t,
+                                   const Vector3f& params)
 {
     return {radius * (sin(t) + 2.f * sin(params.x * t)),
             radius * (cos(t) - 2.f * cos(params.y * t)),
             radius * (-sin(params.z * t))};
 }
 
-brayns::Vector3f RNASequence::_torus(const float radius, const float t,
-                                     const brayns::Vector3f& params)
+Vector3f RNASequence::_torus(const float radius, const float t,
+                             const Vector3f& params)
 {
     return {radius * (cos(t) + params.x * cos(params.y * t) * cos(t)),
             radius * (sin(t) + params.x * cos(params.y * t) * sin(t)),
             radius * params.x * sin(params.y * t)};
 }
 
-brayns::Vector3f RNASequence::_star(const float radius, const float t)
+Vector3f RNASequence::_star(const float radius, const float t)
 {
     return {radius * (2.f * sin(3.f * t) * cos(t)),
             radius * (2.f * sin(3.f * t) * sin(t)), radius * sin(3.f * t)};
 }
 
-brayns::Vector3f RNASequence::_spring(const float radius, const float t)
+Vector3f RNASequence::_spring(const float radius, const float t)
 {
     return {radius * cos(t), radius * sin(t), radius * cos(t)};
 }
 
-brayns::Vector3f RNASequence::_heart(const float radius, const float u)
+Vector3f RNASequence::_heart(const float radius, const float u)
 {
     return {radius * 4.f * pow(sin(u), 3.f),
             radius * 0.25f *
@@ -197,18 +198,18 @@ brayns::Vector3f RNASequence::_heart(const float radius, const float u)
             0.f};
 }
 
-brayns::Vector3f RNASequence::_thing(const float radius, const float t,
-                                     const brayns::Vector3f& params)
+Vector3f RNASequence::_thing(const float radius, const float t,
+                             const Vector3f& params)
 {
     return {radius * (sin(t) + params.x * sin(params.y * t)),
             radius * (cos(t) - params.x * cos(params.y * t)),
             radius * (-sin(params.z * t))};
 }
 
-brayns::Vector3f RNASequence::_moebius(const float radius, const float u,
-                                       const float v)
+Vector3f RNASequence::_moebius(const float radius, const float u, const float v)
 {
     return {4.f * radius * (cos(u) + v * cos(u / 2.f) * cos(u)),
             4.f * radius * (sin(u) + v * cos(u / 2.f) * sin(u)),
             8.f * radius * (v * sin(u / 2.f))};
 }
+} // namespace bioexplorer

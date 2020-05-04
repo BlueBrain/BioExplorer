@@ -16,16 +16,17 @@
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
 
-#ifndef ASSEMBLY_H
-#define ASSEMBLY_H
+#ifndef BIOEXPLORER_ASSEMBLY_H
+#define BIOEXPLORER_ASSEMBLY_H
 
 #include <common/types.h>
 
+namespace bioexplorer
+{
 class Assembly
 {
 public:
-    Assembly(brayns::Scene &scene,
-             const AssemblyDescriptor &assemblyDescriptor);
+    Assembly(Scene &scene, const AssemblyDescriptor &assemblyDescriptor);
     ~Assembly();
 
     void setColorScheme(const ColorSchemeDescriptor &csd);
@@ -36,8 +37,8 @@ public:
     std::string getAminoAcidSequences(
         const AminoAcidSequencesDescriptor &payload) const;
 
-    brayns::Vector4fs &getClippingPlanes() { return _clippingPlanes; }
-    void setClippingPlanes(const brayns::Vector4fs &clippingPlanes)
+    Vector4fs &getClippingPlanes() { return _clippingPlanes; }
+    void setClippingPlanes(const Vector4fs &clippingPlanes)
     {
         _clippingPlanes = clippingPlanes;
     }
@@ -48,21 +49,20 @@ public:
     void addGlycans(const GlycansDescriptor &md);
 
 private:
-    void _processInstances(brayns::ModelDescriptorPtr md,
-                           const float assemblyRadius, const size_t occurrences,
-                           const size_t randomSeed,
-                           const brayns::Quaterniond &orientation,
+    void _processInstances(ModelDescriptorPtr md, const float assemblyRadius,
+                           const size_t occurrences, const size_t randomSeed,
+                           const Quaterniond &orientation,
                            const ModelContentType &modelType,
                            const float locationCutoffAngle = 0.f);
 
-    brayns::Vector3f _position{0.f, 0.f, 0.f};
+    Vector3f _position{0.f, 0.f, 0.f};
     bool _halfStructure{false};
-    brayns::Scene &_scene;
+    Scene &_scene;
     GlycansMap _glycans;
     ProteinMap _proteins;
     MeshMap _meshes;
-    std::vector<std::pair<brayns::Vector3f, float>> _occupiedDirections;
-    brayns::Vector4fs _clippingPlanes;
+    std::vector<std::pair<Vector3f, float>> _occupiedDirections;
+    Vector4fs _clippingPlanes;
 };
-
-#endif // ASSEMBLY_H
+} // namespace bioexplorer
+#endif // BIOEXPLORER_ASSEMBLY_H

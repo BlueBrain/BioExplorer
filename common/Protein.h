@@ -16,23 +16,22 @@
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
 
-#ifndef COVID19_PROTEIN_H
-#define COVID19_PROTEIN_H
+#ifndef BIOEXPLORER_PROTEIN_H
+#define BIOEXPLORER_PROTEIN_H
 
-#include <api/Covid19Params.h>
+#include <api/BioExplorerParams.h>
 
 #include <common/Node.h>
 #include <common/types.h>
 
 #include <brayns/engineapi/Model.h>
 
-/**
- * @brief The Protein class
- */
+namespace bioexplorer
+{
 class Protein : public Node
 {
 public:
-    Protein(brayns::Scene& scene, const ProteinDescriptor& descriptor);
+    Protein(Scene& scene, const ProteinDescriptor& descriptor);
 
     // Color schemes
     void setColorScheme(const ColorScheme& colorScheme, const Palette& palette);
@@ -44,7 +43,7 @@ public:
         _aminoAcidSequence = aminoAcidSequence;
         _aminoAcidRange = {0, 0};
     }
-    void setAminoAcidSequenceAsRange(const brayns::Vector2ui& range)
+    void setAminoAcidSequenceAsRange(const Vector2ui& range)
     {
         _aminoAcidSequence = "";
         _aminoAcidRange = range;
@@ -61,9 +60,8 @@ public:
     SequenceMap& getSequences() { return _sequenceMap; }
     const ProteinDescriptor& getDescriptor() const { return _descritpor; }
 
-    void getGlycosilationSites(
-        std::vector<brayns::Vector3f>& positions,
-        std::vector<brayns::Quaterniond>& rotations) const;
+    void getGlycosilationSites(std::vector<Vector3f>& positions,
+                               std::vector<Quaterniond>& rotations) const;
 
 private:
     // Analysis
@@ -87,7 +85,7 @@ private:
     void _readRemark(const std::string& line);
     void _readConnect(const std::string& line);
     bool _loadChain(const size_t chainId);
-    void _buildModel(brayns::Model& model, const ProteinDescriptor& descriptor);
+    void _buildModel(Model& model, const ProteinDescriptor& descriptor);
 
     // Class members
     ProteinDescriptor _descritpor;
@@ -98,8 +96,9 @@ private:
     size_ts _chainIds;
 
     std::string _aminoAcidSequence;
-    brayns::Vector2ui _aminoAcidRange;
+    Vector2ui _aminoAcidRange;
     std::string _title;
 };
+} // namespace bioexplorer
 
-#endif // COVID19_PROTEIN_H
+#endif // BIOEXPLORER_PROTEIN_H

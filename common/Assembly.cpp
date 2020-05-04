@@ -25,7 +25,9 @@
 #include <common/log.h>
 #include <common/utils.h>
 
-Assembly::Assembly(brayns::Scene &scene, const AssemblyDescriptor &ad)
+namespace bioexplorer
+{
+Assembly::Assembly(Scene &scene, const AssemblyDescriptor &ad)
     : _scene(scene)
     , _halfStructure(ad.halfStructure)
 {
@@ -59,10 +61,8 @@ void Assembly::addProtein(const ProteinDescriptor &pd)
     ProteinPtr protein(new Protein(_scene, pd));
     auto modelDescriptor = protein->getModelDescriptor();
 
-    const brayns::Quaterniond orientation = {pd.orientation[0],
-                                             pd.orientation[1],
-                                             pd.orientation[2],
-                                             pd.orientation[3]};
+    const Quaterniond orientation = {pd.orientation[0], pd.orientation[1],
+                                     pd.orientation[2], pd.orientation[3]};
     _processInstances(modelDescriptor, pd.assemblyRadius, pd.occurrences,
                       pd.randomSeed, orientation, ModelContentType::pdb,
                       pd.locationCutoffAngle);
@@ -95,10 +95,8 @@ void Assembly::addGlycans(const GlycansDescriptor &gd)
     // protein
     GlycansPtr glycans(new Glycans(_scene, gd, positions, rotations));
     auto modelDescriptor = glycans->getModelDescriptor();
-    const brayns::Quaterniond orientation = {pd.orientation[0],
-                                             pd.orientation[1],
-                                             pd.orientation[2],
-                                             pd.orientation[3]};
+    const Quaterniond orientation = {pd.orientation[0], pd.orientation[1],
+                                     pd.orientation[2], pd.orientation[3]};
     _processInstances(modelDescriptor, pd.assemblyRadius, pd.occurrences,
                       pd.randomSeed, orientation, ModelContentType::pdb,
                       pd.locationCutoffAngle);
@@ -112,10 +110,8 @@ void Assembly::addMesh(const MeshDescriptor &md)
     MeshPtr mesh(new Mesh(_scene, md));
     auto modelDescriptor = mesh->getModelDescriptor();
 
-    const brayns::Quaterniond orientation = {md.orientation[0],
-                                             md.orientation[1],
-                                             md.orientation[2],
-                                             md.orientation[3]};
+    const Quaterniond orientation = {md.orientation[0], md.orientation[1],
+                                     md.orientation[2], md.orientation[3]};
 
     _processInstances(modelDescriptor, md.assemblyRadius, md.occurrences,
                       md.randomSeed, orientation, ModelContentType::obj);
@@ -124,17 +120,14 @@ void Assembly::addMesh(const MeshDescriptor &md)
     _scene.addModel(modelDescriptor);
 }
 
-void Assembly::_processInstances(brayns::ModelDescriptorPtr md,
-                                 const float assemblyRadius,
-                                 const size_t occurrences,
-                                 const size_t randomSeed,
-                                 const brayns::Quaterniond &orientation,
-                                 const ModelContentType &modelType,
-                                 const float locationCutoffAngle)
+void Assembly::_processInstances(
+    ModelDescriptorPtr md, const float assemblyRadius, const size_t occurrences,
+    const size_t randomSeed, const Quaterniond &orientation,
+    const ModelContentType &modelType, const float locationCutoffAngle)
 {
     const auto &model = md->getModel();
     const auto &bounds = model.getBounds();
-    const brayns::Vector3f &center = bounds.getCenter();
+    const Vector3f &center = bounds.getCenter();
 
     const float offset = 2.f / occurrences;
     const float increment = M_PI * (3.f - sqrt(5.f));
@@ -158,10 +151,10 @@ void Assembly::_processInstances(brayns::ModelDescriptorPtr md,
         const float phi = ((i + rnd) % occurrences) * increment;
         const float x = cos(phi) * r;
         const float z = sin(phi) * r;
-        const brayns::Vector3f direction = {x, y, z};
+        const Vector3f direction = {x, y, z};
 
         // Clipping planes
-        const brayns::Vector3f position = radius * direction;
+        const Vector3f position = radius * direction;
         if (isClipped(position, _clippingPlanes))
             continue;
 
@@ -185,17 +178,17 @@ void Assembly::_processInstances(brayns::ModelDescriptorPtr md,
             continue;
 
         // Final transformation
-        brayns::Transformation tf;
+        Transformation tf;
         tf.setTranslation(_position + position - center);
 
-        brayns::Quaterniond assemblyOrientation =
+        Quaterniond assemblyOrientation =
             glm::quatLookAt(direction, {0.f, 1.f, 0.f});
 
         tf.setRotation(assemblyOrientation * orientation);
 
         if (instanceCount == 0)
             md->setTransformation(tf);
-        const brayns::ModelInstance instance(true, false, tf);
+        const ModelInstance instance(true, false, tf);
         md->addInstance(instance);
 
         // Store occupied direction
@@ -267,13 +260,12 @@ void Assembly::addRNASequence(const RNASequenceDescriptor &rnad)
 {
     if (rnad.range.size() != 2)
         throw std::runtime_error("Invalid range");
-    const brayns::Vector2f range{rnad.range[0], rnad.range[1]};
+    const Vector2f range{rnad.range[0], rnad.range[1]};
 
     if (rnad.params.size() != 3)
         throw std::runtime_error("Invalid params");
 
-    const brayns::Vector3f params{rnad.params[0], rnad.params[1],
-                                  rnad.params[2]};
+    const Vector3f params{rnad.params[0], rnad.params[1], rnad.params[2]};
 
     PLUGIN_INFO << "Loading RNA sequence " << rnad.name << " from "
                 << rnad.contents << std::endl;
@@ -286,3 +278,4 @@ void Assembly::addRNASequence(const RNASequenceDescriptor &rnad)
     const auto modelDescriptor = rnaSequence.getModelDescriptor();
     _scene.addModel(modelDescriptor);
 }
+} // namespace bioexplorer

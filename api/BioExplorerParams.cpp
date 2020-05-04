@@ -16,9 +16,11 @@
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
 
-#include "Covid19Params.h"
+#include "BioExplorerParams.h"
 #include "json.hpp"
 
+namespace bioexplorer
+{
 #ifndef BRAYNS_DEBUG_JSON_ENABLED
 #define FROM_JSON(PARAM, JSON, NAME) \
     PARAM.NAME = JSON[#NAME].get<decltype(PARAM.NAME)>()
@@ -224,3 +226,4 @@ bool from_json(MeshDescriptor &param, const std::string &payload)
     }
     return true;
 }
+} // namespace bioexplorer

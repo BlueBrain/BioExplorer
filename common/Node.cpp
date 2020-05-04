@@ -18,6 +18,9 @@
 
 #include "Node.h"
 
+namespace bioexplorer
+{
 Node::Node() {}
 
 Node::~Node() {}
+} // namespace bioexplorer

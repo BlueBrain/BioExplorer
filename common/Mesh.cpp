@@ -20,16 +20,18 @@
 
 #include <brayns/io/MeshLoader.h>
 
-Mesh::Mesh(brayns::Scene& scene, const MeshDescriptor& md)
+namespace bioexplorer
+{
+Mesh::Mesh(Scene& scene, const MeshDescriptor& md)
     : Node()
 {
-    const auto loader = brayns::MeshLoader(scene);
+    const auto loader = MeshLoader(scene);
     uint8_ts contentAsChars;
     for (size_t i = 0; i < md.contents.length(); ++i)
         contentAsChars.push_back(md.contents[i]);
-    brayns::Blob blob{"obj", md.name, contentAsChars};
+    Blob blob{"obj", md.name, contentAsChars};
 
     _modelDescriptor =
-        loader.importFromBlob(std::move(blob), brayns::LoaderProgress(),
-                              brayns::PropertyMap());
+        loader.importFromBlob(std::move(blob), LoaderProgress(), PropertyMap());
 }
+} // namespace bioexplorer

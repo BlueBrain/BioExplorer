@@ -16,13 +16,13 @@
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
 
-#ifndef COVID19_PARAMS_H
-#define COVID19_PARAMS_H
+#ifndef BIOEXPLORER_PARAMS_H
+#define BIOEXPLORER_PARAMS_H
 
 #include <common/types.h>
 
-/** Define the color scheme to be applied to the geometry */
-
+namespace bioexplorer
+{
 struct Response
 {
     bool status{true};
@@ -44,5 +44,5 @@ bool from_json(AminoAcidSequenceAsStringDescriptor &param,
 bool from_json(AminoAcidSequenceAsRangeDescriptor &param,
                const std::string &payload);
 bool from_json(AminoAcidSequencesDescriptor &param, const std::string &payload);
-
-#endif // COVID19_PARAMS_H
+} // namespace bioexplorer
+#endif // BIOEXPLORER_PARAMS_H

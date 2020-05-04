@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 3.1 FATAL_ERROR)
 
-set(NAME BRAYNSCOVID19)
-set(LIBRARY_NAME braynsCovid19)
+set(NAME BIOEXPLORER)
+set(LIBRARY_NAME BioExplorer)
 project(${NAME} VERSION 0.1.0)
 set(${NAME}_VERSION_ABI 1)
 
@@ -25,8 +25,8 @@ set(${NAME}_SOURCES
   common/Mesh.cpp
   common/Protein.cpp
   common/RNASequence.cpp
-  api/Covid19Params.cpp
-  Covid19Plugin.cpp
+  api/BioExplorerParams.cpp
+  BioExplorer.cpp
 )
 
 set(${NAME}_PUBLIC_HEADERS
@@ -36,8 +36,8 @@ set(${NAME}_PUBLIC_HEADERS
   common/Mesh.h
   common/Protein.h
   common/RNASequence.h
-  api/Covid19Params.h
-  Covid19Plugin.h
+  api/BioExplorerParams.h
+  BioExplorer.h
 )
 
 set(${NAME}_LINK_LIBRARIES

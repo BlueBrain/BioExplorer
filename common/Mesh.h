@@ -16,18 +16,21 @@
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
 
-#ifndef COVID19_MESH_H
-#define COVID19_MESH_H
+#ifndef BIOEXPLORER_MESH_H
+#define BIOEXPLORER_MESH_H
 
-#include <api/Covid19Params.h>
+#include <api/BioExplorerParams.h>
 #include <brayns/engineapi/Model.h>
 #include <common/Node.h>
 #include <common/types.h>
 
+namespace bioexplorer
+{
 class Mesh : public Node
 {
 public:
-    Mesh(brayns::Scene& scene, const MeshDescriptor& descriptor);
+    Mesh(Scene& scene, const MeshDescriptor& descriptor);
 };
+} // namespace bioexplorer
 
-#endif // COVID19_MESH_H
+#endif // BIOEXPLORER_MESH_H

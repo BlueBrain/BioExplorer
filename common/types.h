@@ -16,8 +16,8 @@
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
 
-#ifndef COVID19_TYPES_H
-#define COVID19_TYPES_H
+#ifndef BIOEXPLORER_TYPES_H
+#define BIOEXPLORER_TYPES_H
 
 #include <brayns/common/mathTypes.h>
 #include <brayns/common/types.h>
@@ -26,6 +26,10 @@
 #include <map>
 #include <set>
 #include <string>
+
+namespace bioexplorer
+{
+using namespace brayns;
 
 // Model content types
 enum class ModelContentType
@@ -190,7 +194,7 @@ struct Atom
     std::string chainId;
     size_t reqSeq;
     std::string iCode;
-    brayns::Vector3f position;
+    Vector3f position;
     float occupancy;
     float tempFactor;
     std::string element;
@@ -243,10 +247,10 @@ struct RGBColor
 };
 typedef std::map<std::string, RGBColor> RGBColorMap;
 
-typedef brayns::Vector3f Color;
+typedef Vector3f Color;
 typedef std::vector<Color> Palette;
-typedef std::vector<brayns::Quaterniond> Quaternions;
-typedef std::vector<brayns::Vector3f> Vector3fs;
+typedef std::vector<Quaterniond> Quaternions;
+typedef std::vector<Vector3f> Vector3fs;
 
 // Atomic radii in microns
 const float DEFAULT_ATOM_RADIUS = 0.0125f;
@@ -451,5 +455,6 @@ static RGBColorMap atomColorMap = {
     {"Bh", {0xE0, 0x00, 0x38}}, {"Hs", {0xE6, 0x00, 0x2E}},
     {"Mt", {0xEB, 0x00, 0x26}}, {"none", {0xFF, 0xFF, 0xFF}},
     {"O1", {0xFF, 0x0D, 0x0D}}, {"selection", {0xFF, 0x00, 0x00}}};
+} // namespace bioexplorer
 
 #endif // COVID19_TYPES_H

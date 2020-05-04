@@ -16,40 +16,40 @@
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
 
-#ifndef RNASEQUENCE_H
-#define RNASEQUENCE_H
+#ifndef BIOEXPLORER_RNASEQUENCE_H
+#define BIOEXPLORER_RNASEQUENCE_H
 
 #include <brayns/engineapi/Model.h>
 #include <common/Node.h>
 #include <common/types.h>
 
+namespace bioexplorer
+{
 typedef std::map<std::string, std::string> RNASequenceMap;
 
 class RNASequence : public Node
 {
 public:
-    RNASequence(brayns::Scene& scene,
-                const RNASequenceDescriptor& rnaDescriptor,
-                const brayns::Vector2f& range, const brayns::Vector3f& params);
+    RNASequence(Scene& scene, const RNASequenceDescriptor& rnaDescriptor,
+                const Vector2f& range, const Vector3f& params);
 
     // Class member accessors
     RNASequenceMap getRNASequences() { return _rnaSequenceMap; }
 
-    brayns::ModelDescriptorPtr getModelDescriptor() { return _modelDescriptor; }
+    ModelDescriptorPtr getModelDescriptor() { return _modelDescriptor; }
 
 private:
-    brayns::Vector3f _trefoilKnot(float R, float t,
-                                  const brayns::Vector3f& params);
-    brayns::Vector3f _torus(float R, float t, const brayns::Vector3f& params);
-    brayns::Vector3f _star(float R, float t);
-    brayns::Vector3f _spring(float R, float t);
-    brayns::Vector3f _heart(float R, float u);
-    brayns::Vector3f _thing(float R, float t, const brayns::Vector3f& a);
-    brayns::Vector3f _moebius(float R, float u, float v);
+    Vector3f _trefoilKnot(float R, float t, const Vector3f& params);
+    Vector3f _torus(float R, float t, const Vector3f& params);
+    Vector3f _star(float R, float t);
+    Vector3f _spring(float R, float t);
+    Vector3f _heart(float R, float u);
+    Vector3f _thing(float R, float t, const Vector3f& a);
+    Vector3f _moebius(float R, float u, float v);
 
-    brayns::ModelDescriptorPtr _modelDescriptor{nullptr};
+    ModelDescriptorPtr _modelDescriptor{nullptr};
 
     RNASequenceMap _rnaSequenceMap;
 };
-
-#endif // RNASEQUENCE_H
+} // namespace bioexplorer
+#endif // BIOEXPLORER_RNASEQUENCE_H

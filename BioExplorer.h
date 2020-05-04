@@ -16,20 +16,22 @@
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
 
-#ifndef COVID19_PLUGIN_H
-#define COVID19_PLUGIN_H
+#ifndef BIOEXPLORER_PLUGIN_H
+#define BIOEXPLORER_PLUGIN_H
 
-#include <api/Covid19Params.h>
+#include <api/BioExplorerParams.h>
 
 #include <brayns/pluginapi/ExtensionPlugin.h>
 
+namespace bioexplorer
+{
 /**
- * @brief This class implements the visualization of Covid19 related resources
+ * @brief This class implements the BioExplorer plugin
  */
-class Covid19Plugin : public brayns::ExtensionPlugin
+class BioExplorer : public ExtensionPlugin
 {
 public:
-    Covid19Plugin();
+    BioExplorer();
 
     void init() final;
 
@@ -51,5 +53,6 @@ private:
 
     AssemblyMap _assemblies;
 };
+} // namespace bioexplorer
 
-#endif
+#endif // BIOEXPLORER_PLUGIN_H

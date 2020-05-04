@@ -16,26 +16,29 @@
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
 
-#ifndef LOG_H
-#define LOG_H
+#ifndef BIOEXPLORER_LOG_H
+#define BIOEXPLORER_LOG_H
 
 #include <iostream>
 
-#define PLUGIN_ERROR std::cerr << "[ERROR] [COVID19] "
-#define PLUGIN_WARN std::cerr << "[WARN ] [COVID19] "
-#define PLUGIN_INFO std::cout << "[INFO ] [COVID19] "
+namespace bioexplorer
+{
+#define PLUGIN_ERROR std::cerr << "[ERROR] [BIO_EXPLORER] "
+#define PLUGIN_WARN std::cerr << "[WARN ] [BIO_EXPLORER] "
+#define PLUGIN_INFO std::cout << "[INFO ] [BIO_EXPLORER] "
 #ifdef NDEBUG
-#define PLUGIN_DEBUG                                                           \
-  if (false)                                                                   \
-  std::cout
+#define PLUGIN_DEBUG \
+    if (false)       \
+    std::cout
 #else
-#define PLUGIN_DEBUG std::cout << "[DEBUG] [COVID19] "
+#define PLUGIN_DEBUG std::cout << "[DEBUG] [BIO_EXPLORER] "
 #endif
 
-#define PLUGIN_THROW(exc)                                                      \
-  {                                                                            \
-    PLUGIN_ERROR << exc.what() << std::endl;                                   \
-    throw exc;                                                                 \
-  }
+#define PLUGIN_THROW(exc)                        \
+    {                                            \
+        PLUGIN_ERROR << exc.what() << std::endl; \
+        throw exc;                               \
+    }
+} // namespace bioexplorer
 
-#endif
+#endif // BIOEXPLORER_LOG_H

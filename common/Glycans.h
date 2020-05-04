@@ -16,23 +16,25 @@
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
 
-#ifndef COVID19_GLYCANS_H
-#define COVID19_GLYCANS_H
+#ifndef BIOEXPLORER_GLYCANS_H
+#define BIOEXPLORER_GLYCANS_H
 
-#include <api/Covid19Params.h>
+#include <api/BioExplorerParams.h>
 #include <brayns/engineapi/Model.h>
 #include <common/Node.h>
 #include <common/types.h>
 
+namespace bioexplorer
+{
 class Glycans : public Node
 {
 public:
-    Glycans(brayns::Scene& scene, const GlycansDescriptor& gd,
-            Vector3fs positions, Quaternions rotations);
+    Glycans(Scene& scene, const GlycansDescriptor& gd, Vector3fs positions,
+            Quaternions rotations);
 
 private:
     void _readAtom(const std::string& line);
-    void _buildModel(brayns::Model& model);
+    void _buildModel(Model& model);
 
     GlycansDescriptor _descriptor;
     Vector3fs _positions;
@@ -40,5 +42,5 @@ private:
     AtomMap _atomMap;
     Residues _residues;
 };
-
-#endif // COVID19_GLYCANS_H
+} // namespace bioexplorer
+#endif // BIOEXPLORER_GLYCANS_H

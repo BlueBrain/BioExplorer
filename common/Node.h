@@ -16,21 +16,24 @@
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
 
-#ifndef COVID19_NODE_H
-#define COVID19_NODE_H
+#ifndef BIOEXPLORER_NODE_H
+#define BIOEXPLORER_NODE_H
 
 #include <common/types.h>
 
+namespace bioexplorer
+{
 class Node
 {
 public:
     Node();
     virtual ~Node();
 
-    brayns::ModelDescriptorPtr getModelDescriptor() { return _modelDescriptor; }
+    ModelDescriptorPtr getModelDescriptor() { return _modelDescriptor; }
 
 protected:
-    brayns::ModelDescriptorPtr _modelDescriptor{nullptr};
+    ModelDescriptorPtr _modelDescriptor{nullptr};
 };
+} // namespace bioexplorer
 
-#endif // COVID19_NODE_H
+#endif // BIOEXPLORER_NODE_H

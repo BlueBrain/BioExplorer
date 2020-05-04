@@ -16,11 +16,13 @@
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
 
-#ifndef UTILS_H
-#define UTILS_H
+#ifndef BIOEXPLORER_UTILS_H
+#define BIOEXPLORER_UTILS_H
 
 #include <brayns/common/types.h>
 
+namespace bioexplorer
+{
 inline std::string& ltrim(std::string& s)
 {
     s.erase(s.begin(), std::find_if(s.begin(), s.end(),
@@ -42,8 +44,7 @@ inline std::string& trim(std::string& s)
     return ltrim(rtrim(s));
 }
 
-inline bool isClipped(const brayns::Vector3f& position,
-                      const brayns::Vector4fs& clippingPlanes)
+inline bool isClipped(const Vector3f& position, const Vector4fs& clippingPlanes)
 {
     if (clippingPlanes.empty())
         return false;
@@ -51,12 +52,13 @@ inline bool isClipped(const brayns::Vector3f& position,
     bool visible = true;
     for (auto plane : clippingPlanes)
     {
-        const brayns::Vector3f normal = {plane.x, plane.y, plane.z};
+        const Vector3f normal = {plane.x, plane.y, plane.z};
         const float d = plane.w;
         const float distance = dot(normal, position) + d;
         visible &= (distance > 0.f);
     }
     return !visible;
 }
+} // namespace bioexplorer
 
-#endif // UTILS_H
+#endif // BIOEXPLORER_UTILS_H

@@ -24,7 +24,9 @@
 #include <brayns/engineapi/Material.h>
 #include <brayns/engineapi/Scene.h>
 
-Protein::Protein(brayns::Scene& scene, const ProteinDescriptor& descriptor)
+namespace bioexplorer
+{
+Protein::Protein(Scene& scene, const ProteinDescriptor& descriptor)
     : Node()
     , _chainIds(descriptor.chainIds)
     , _descritpor(descriptor)
@@ -86,7 +88,7 @@ Protein::Protein(brayns::Scene& scene, const ProteinDescriptor& descriptor)
     auto model = scene.createModel();
 
     // Build 3d models according to atoms positions (re-centered to origin)
-    brayns::Boxf bounds;
+    Boxf bounds;
 
     // Recenter
     if (descriptor.recenter)
@@ -101,7 +103,7 @@ Protein::Protein(brayns::Scene& scene, const ProteinDescriptor& descriptor)
     _buildModel(*model, descriptor);
 
     // Metadata
-    brayns::ModelMetadata metadata;
+    ModelMetadata metadata;
     metadata["Title"] = _title;
     metadata["Atoms"] = std::to_string(_atomMap.size());
     metadata["Bonds"] = std::to_string(_bondsMap.size());
@@ -115,12 +117,12 @@ Protein::Protein(brayns::Scene& scene, const ProteinDescriptor& descriptor)
             "[" + std::to_string(sequence.second.size()) + "] " +
             sequence.second;
 
-    _modelDescriptor = std::make_shared<brayns::ModelDescriptor>(
-        std::move(model), descriptor.name, descriptor.contents, metadata);
+    _modelDescriptor =
+        std::make_shared<ModelDescriptor>(std::move(model), descriptor.name,
+                                          descriptor.contents, metadata);
 }
 
-void Protein::_buildModel(brayns::Model& model,
-                          const ProteinDescriptor& descriptor)
+void Protein::_buildModel(Model& model, const ProteinDescriptor& descriptor)
 {
     // Atoms
     for (const auto& atom : _atomMap)
@@ -633,9 +635,8 @@ std::map<std::string, size_ts> Protein::_getGlycosylationSites() const
     return sites;
 }
 
-void Protein::getGlycosilationSites(
-    std::vector<brayns::Vector3f>& positions,
-    std::vector<brayns::Quaterniond>& rotations) const
+void Protein::getGlycosilationSites(std::vector<Vector3f>& positions,
+                                    std::vector<Quaterniond>& rotations) const
 {
     positions.clear();
     rotations.clear();
@@ -646,7 +647,7 @@ void Protein::getGlycosilationSites(
         for (const auto site : chain.second)
         {
             bool validSite{false};
-            brayns::Boxf bounds;
+            Boxf bounds;
             for (const auto& atom : _atomMap)
                 if (atom.second.chainId == chain.first &&
                     atom.second.reqSeq == site)
@@ -665,3 +666,4 @@ void Protein::getGlycosilationSites(
         }
     }
 }
+} // namespace bioexplorer

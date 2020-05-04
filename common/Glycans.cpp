@@ -23,8 +23,10 @@
 #include <brayns/engineapi/Material.h>
 #include <brayns/engineapi/Scene.h>
 
-Glycans::Glycans(brayns::Scene& scene, const GlycansDescriptor& gd,
-                 Vector3fs positions, Quaternions rotations)
+namespace bioexplorer
+{
+Glycans::Glycans(Scene& scene, const GlycansDescriptor& gd, Vector3fs positions,
+                 Quaternions rotations)
     : Node()
     , _descriptor(gd)
     , _positions(positions)
@@ -42,7 +44,7 @@ Glycans::Glycans(brayns::Scene& scene, const GlycansDescriptor& gd,
     auto model = scene.createModel();
 
     // Build 3d models according to atoms positions (re-centered to origin)
-    brayns::Boxf bounds;
+    Boxf bounds;
 
     // Recenter
     if (_descriptor.recenter)
@@ -57,17 +59,18 @@ Glycans::Glycans(brayns::Scene& scene, const GlycansDescriptor& gd,
     _buildModel(*model);
 
     // Metadata
-    brayns::ModelMetadata metadata;
+    ModelMetadata metadata;
     metadata["Atoms"] = std::to_string(_atomMap.size());
 
     const auto& size = bounds.getSize();
     metadata["Size"] = std::to_string(size.x) + ", " + std::to_string(size.y) +
                        ", " + std::to_string(size.z) + " angstroms";
-    _modelDescriptor = std::make_shared<brayns::ModelDescriptor>(
-        std::move(model), _descriptor.name, _descriptor.contents, metadata);
+    _modelDescriptor =
+        std::make_shared<ModelDescriptor>(std::move(model), _descriptor.name,
+                                          _descriptor.contents, metadata);
 }
 
-void Glycans::_buildModel(brayns::Model& model)
+void Glycans::_buildModel(Model& model)
 {
     for (size_t i = 0; i < _positions.size(); ++i)
     {
@@ -92,7 +95,7 @@ void Glycans::_buildModel(brayns::Model& model)
                     {rgb.r / 255.f, rgb.g / 255.f, rgb.b / 255.f});
             }
 
-            const brayns::Vector3f rotatedPosition =
+            const Vector3f rotatedPosition =
                 atom.second.position * glm::toMat3(rotation);
 
             model.addSphere(atom.first, {position + rotatedPosition,
@@ -114,10 +117,10 @@ void Glycans::_buildModel(brayns::Model& model)
                             const auto center = (atom2.second.position +
                                                  atom1.second.position) /
                                                 2.f;
-                            const brayns::Vector3f rotatedSrc =
+                            const Vector3f rotatedSrc =
                                 atom1.second.position * glm::toMat3(rotation);
 
-                            const brayns::Vector3f rotatedDst =
+                            const Vector3f rotatedDst =
                                 center * glm::toMat3(rotation);
 
                             model.addCylinder(
@@ -206,3 +209,4 @@ void Glycans::_readAtom(const std::string& line)
 
     _atomMap.insert(std::make_pair(serial, atom));
 }
+} // namespace bioexplorer
