@@ -46,7 +46,8 @@ enum class ColorScheme
     chains = 2,
     residues = 3,
     amino_acid_sequence = 4,
-    glycosylation_site = 5
+    glycosylation_site = 5,
+    region = 6
 };
 
 struct ColorSchemeDescriptor

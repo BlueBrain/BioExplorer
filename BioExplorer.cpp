@@ -36,6 +36,11 @@ void BioExplorer::init()
     auto actionInterface = _api->getActionInterface();
     if (actionInterface)
     {
+        PLUGIN_INFO << "Registering 'version' endpoint" << std::endl;
+        actionInterface->registerRequest<Response>("version", [&]() {
+            return _version();
+        });
+
         PLUGIN_INFO << "Registering 'remove-assembly' endpoint" << std::endl;
         actionInterface->registerRequest<AssemblyDescriptor, Response>(
             "remove-assembly", [&](const AssemblyDescriptor &payload) {
@@ -110,6 +115,13 @@ void BioExplorer::init()
     }
 }
 
+Response BioExplorer::_version() const
+{
+    Response response;
+    response.contents = "0.0.1";
+    return response;
+}
+
 Response BioExplorer::_removeAssembly(const AssemblyDescriptor &payload)
 {
     auto assembly = _assemblies.find(payload.name);
@@ -137,7 +149,8 @@ Response BioExplorer::_addAssembly(const AssemblyDescriptor &payload)
     return response;
 }
 
-Response BioExplorer::_setColorScheme(const ColorSchemeDescriptor &payload)
+Response BioExplorer::_setColorScheme(
+    const ColorSchemeDescriptor &payload) const
 {
     Response response;
     auto it = _assemblies.find(payload.assemblyName);
@@ -155,7 +168,7 @@ Response BioExplorer::_setColorScheme(const ColorSchemeDescriptor &payload)
 }
 
 Response BioExplorer::_setAminoAcidSequenceAsString(
-    const AminoAcidSequenceAsStringDescriptor &payload)
+    const AminoAcidSequenceAsStringDescriptor &payload) const
 {
     Response response;
     try
@@ -184,7 +197,7 @@ Response BioExplorer::_setAminoAcidSequenceAsString(
 }
 
 Response BioExplorer::_setAminoAcidSequenceAsRange(
-    const AminoAcidSequenceAsRangeDescriptor &payload)
+    const AminoAcidSequenceAsRangeDescriptor &payload) const
 {
     Response response;
     try
@@ -213,7 +226,7 @@ Response BioExplorer::_setAminoAcidSequenceAsRange(
 }
 
 Response BioExplorer::_getAminoAcidSequences(
-    const AminoAcidSequencesDescriptor &payload)
+    const AminoAcidSequencesDescriptor &payload) const
 {
     Response response;
     try
@@ -238,7 +251,8 @@ Response BioExplorer::_getAminoAcidSequences(
     return response;
 }
 
-Response BioExplorer::_addRNASequence(const RNASequenceDescriptor &payload)
+Response BioExplorer::_addRNASequence(
+    const RNASequenceDescriptor &payload) const
 {
     Response response;
     try
@@ -263,7 +277,7 @@ Response BioExplorer::_addRNASequence(const RNASequenceDescriptor &payload)
     return response;
 }
 
-Response BioExplorer::_addProtein(const ProteinDescriptor &payload)
+Response BioExplorer::_addProtein(const ProteinDescriptor &payload) const
 {
     Response response;
     try
@@ -288,7 +302,7 @@ Response BioExplorer::_addProtein(const ProteinDescriptor &payload)
     return response;
 }
 
-Response BioExplorer::_addGlycans(const GlycansDescriptor &payload)
+Response BioExplorer::_addGlycans(const GlycansDescriptor &payload) const
 {
     Response response;
     try
@@ -313,7 +327,7 @@ Response BioExplorer::_addGlycans(const GlycansDescriptor &payload)
     return response;
 }
 
-Response BioExplorer::_addMesh(const MeshDescriptor &payload)
+Response BioExplorer::_addMesh(const MeshDescriptor &payload) const
 {
     Response response;
     try

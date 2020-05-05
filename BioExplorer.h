@@ -36,20 +36,21 @@ public:
     void init() final;
 
 private:
+    Response _version() const;
     Response _addAssembly(const AssemblyDescriptor &payload);
     Response _removeAssembly(const AssemblyDescriptor &payload);
-    Response _addRNASequence(const RNASequenceDescriptor &payload);
-    Response _addProtein(const ProteinDescriptor &payload);
-    Response _addMesh(const MeshDescriptor &payload);
-    Response _addGlycans(const GlycansDescriptor &payload);
+    Response _addRNASequence(const RNASequenceDescriptor &payload) const;
+    Response _addProtein(const ProteinDescriptor &payload) const;
+    Response _addMesh(const MeshDescriptor &payload) const;
+    Response _addGlycans(const GlycansDescriptor &payload) const;
 
-    Response _setColorScheme(const ColorSchemeDescriptor &payload);
+    Response _setColorScheme(const ColorSchemeDescriptor &payload) const;
     Response _setAminoAcidSequenceAsString(
-        const AminoAcidSequenceAsStringDescriptor &payload);
+        const AminoAcidSequenceAsStringDescriptor &payload) const;
     Response _setAminoAcidSequenceAsRange(
-        const AminoAcidSequenceAsRangeDescriptor &payload);
+        const AminoAcidSequenceAsRangeDescriptor &payload) const;
     Response _getAminoAcidSequences(
-        const AminoAcidSequencesDescriptor &payload);
+        const AminoAcidSequencesDescriptor &payload) const;
 
     AssemblyMap _assemblies;
 };

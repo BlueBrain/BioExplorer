@@ -2,7 +2,7 @@ cmake_minimum_required(VERSION 3.1 FATAL_ERROR)
 
 set(NAME BIOEXPLORER)
 set(LIBRARY_NAME BioExplorer)
-project(${NAME} VERSION 0.1.0)
+project(${NAME} VERSION 0.0.1)
 set(${NAME}_VERSION_ABI 1)
 
 # C++ 14

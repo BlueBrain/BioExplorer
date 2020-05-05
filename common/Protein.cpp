@@ -229,6 +229,9 @@ void Protein::setColorScheme(const ColorScheme& colorScheme,
     case ColorScheme::glycosylation_site:
         _setGlycosylationSiteColorScheme(palette);
         break;
+    case ColorScheme::region:
+        _setRegionColorScheme(palette);
+        break;
     default:
         PLUGIN_THROW(std::runtime_error("Unknown colorscheme"))
     }
@@ -305,6 +308,16 @@ void Protein::_setAminoAcidSequenceColorScheme(const Palette& palette)
     PLUGIN_INFO << "Applying Amino Acid Sequence color scheme ("
                 << (atomCount > 0 ? "2" : "1") << ")" << std::endl;
 }
+
+void Protein::_setRegionColorScheme(const Palette& palette)
+{
+    size_t atomCount = 0;
+    for (auto& atom : _atomMap)
+        _setMaterialDiffuseColor(atom.first, palette[atom.second.reqSeq]);
+
+    PLUGIN_INFO << "Applying Amino Acid Sequence color scheme ("
+                << (atomCount > 0 ? "2" : "1") << ")" << std::endl;
+} // namespace bioexplorer
 
 void Protein::_setGlycosylationSiteColorScheme(const Palette& palette)
 {
@@ -439,8 +452,11 @@ void Protein::_readAtom(const std::string& line)
     s = line.substr(76, 2);
     atom.element = trim(s);
 
-    s = line.substr(78, 2);
-    atom.charge = trim(s);
+    if (line.length() >= 78)
+    {
+        s = line.substr(78, 2);
+        atom.charge = trim(s);
+    }
 
     // Convert position from nanometers
     atom.position = 0.01f * atom.position;

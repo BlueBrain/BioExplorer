@@ -72,6 +72,7 @@ private:
     // Color schemes
     void _setAtomColorScheme();
     void _setChainColorScheme(const Palette& palette);
+    void _setRegionColorScheme(const Palette& palette);
     void _setResiduesColorScheme(const Palette& palette);
     void _setAminoAcidSequenceColorScheme(const Palette& palette);
     void _setGlycosylationSiteColorScheme(const Palette& palette);
