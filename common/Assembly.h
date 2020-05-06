@@ -47,10 +47,12 @@ public:
     void addProtein(const ProteinDescriptor &pd);
     void addMesh(const MeshDescriptor &md);
     void addGlycans(const GlycansDescriptor &md);
+    void applyTransformations(const AssemblyTransformationsDescriptor &at);
 
 private:
-    void _processInstances(ModelDescriptorPtr md, const float assemblyRadius,
-                           const size_t occurrences, const size_t randomSeed,
+    void _processInstances(ModelDescriptorPtr md, const std::string &name,
+                           const float assemblyRadius, const size_t occurrences,
+                           const size_t randomSeed,
                            const Quaterniond &orientation,
                            const PositionRandomizationType &randomizationType,
                            const float locationCutoffAngle = 0.f);
@@ -63,6 +65,7 @@ private:
     MeshMap _meshes;
     std::vector<std::pair<Vector3f, float>> _occupiedDirections;
     Vector4fs _clippingPlanes;
+    std::map<std::string, std::vector<Transformation>> _transformations;
 };
 } // namespace bioexplorer
 #endif // BIOEXPLORER_ASSEMBLY_H

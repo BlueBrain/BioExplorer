@@ -39,6 +39,8 @@ private:
     Response _version() const;
     Response _addAssembly(const AssemblyDescriptor &payload);
     Response _removeAssembly(const AssemblyDescriptor &payload);
+    Response _applyTransformations(
+        const AssemblyTransformationsDescriptor &payload) const;
     Response _addRNASequence(const RNASequenceDescriptor &payload) const;
     Response _addProtein(const ProteinDescriptor &payload) const;
     Response _addMesh(const MeshDescriptor &payload) const;

@@ -53,6 +53,15 @@ void BioExplorer::init()
                 return _addAssembly(payload);
             });
 
+        PLUGIN_INFO << "Registering 'apply-transformations' endpoint"
+                    << std::endl;
+        actionInterface
+            ->registerRequest<AssemblyTransformationsDescriptor, Response>(
+                "apply-transformations",
+                [&](const AssemblyTransformationsDescriptor &payload) {
+                    return _applyTransformations(payload);
+                });
+
         PLUGIN_INFO << "Registering 'set-protein-color-scheme' endpoint"
                     << std::endl;
         actionInterface->registerRequest<ColorSchemeDescriptor, Response>(
@@ -145,6 +154,24 @@ Response BioExplorer::_addAssembly(const AssemblyDescriptor &payload)
         response.status = false;
         response.contents = e.what();
         PLUGIN_ERROR << e.what() << std::endl;
+    }
+    return response;
+}
+
+Response BioExplorer::_applyTransformations(
+    const AssemblyTransformationsDescriptor &payload) const
+{
+    Response response;
+    auto it = _assemblies.find(payload.assemblyName);
+    if (it != _assemblies.end())
+        (*it).second->applyTransformations(payload);
+    else
+    {
+        std::stringstream msg;
+        msg << "Assembly not found: " << payload.assemblyName;
+        PLUGIN_ERROR << msg.str() << std::endl;
+        response.status = false;
+        response.contents = msg.str();
     }
     return response;
 }

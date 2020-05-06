@@ -63,8 +63,8 @@ void Assembly::addProtein(const ProteinDescriptor &pd)
 
     const Quaterniond orientation = {pd.orientation[0], pd.orientation[1],
                                      pd.orientation[2], pd.orientation[3]};
-    _processInstances(modelDescriptor, pd.assemblyRadius, pd.occurrences,
-                      pd.randomSeed, orientation,
+    _processInstances(modelDescriptor, pd.name, pd.assemblyRadius,
+                      pd.occurrences, pd.randomSeed, orientation,
                       PositionRandomizationType::circular,
                       pd.locationCutoffAngle);
 
@@ -98,8 +98,8 @@ void Assembly::addGlycans(const GlycansDescriptor &gd)
     auto modelDescriptor = glycans->getModelDescriptor();
     const Quaterniond orientation = {pd.orientation[0], pd.orientation[1],
                                      pd.orientation[2], pd.orientation[3]};
-    _processInstances(modelDescriptor, pd.assemblyRadius, pd.occurrences,
-                      pd.randomSeed, orientation,
+    _processInstances(modelDescriptor, pd.name, pd.assemblyRadius,
+                      pd.occurrences, pd.randomSeed, orientation,
                       PositionRandomizationType::circular, 0.f);
 
     _glycans[gd.name] = std::move(glycans);
@@ -114,17 +114,18 @@ void Assembly::addMesh(const MeshDescriptor &md)
     const Quaterniond orientation = {md.orientation[0], md.orientation[1],
                                      md.orientation[2], md.orientation[3]};
 
-    _processInstances(modelDescriptor, md.assemblyRadius, md.occurrences,
-                      md.randomSeed, orientation, md.positionRandomizationType,
-                      md.locationCutoffAngle);
+    _processInstances(modelDescriptor, md.name, md.assemblyRadius,
+                      md.occurrences, md.randomSeed, orientation,
+                      md.positionRandomizationType, md.locationCutoffAngle);
 
     _meshes[md.name] = std::move(mesh);
     _scene.addModel(modelDescriptor);
 }
 
 void Assembly::_processInstances(
-    ModelDescriptorPtr md, const float assemblyRadius, const size_t occurrences,
-    const size_t randomSeed, const Quaterniond &orientation,
+    ModelDescriptorPtr md, const std::string &name, const float assemblyRadius,
+    const size_t occurrences, const size_t randomSeed,
+    const Quaterniond &orientation,
     const PositionRandomizationType &randomizationType,
     const float locationCutoffAngle)
 {
@@ -196,16 +197,75 @@ void Assembly::_processInstances(
         const ModelInstance instance(true, false, tf);
         md->addInstance(instance);
 
+        _transformations[name].push_back(tf);
+
         // Store occupied direction
         if (locationCutoffAngle != 0.f)
-        {
-            PLUGIN_INFO << "Adding cutoff angle " << locationCutoffAngle
-                        << std::endl;
             _occupiedDirections.push_back({direction, locationCutoffAngle});
-        }
 
         ++instanceCount;
     }
+}
+
+void Assembly::applyTransformations(const AssemblyTransformationsDescriptor &at)
+{
+    if (at.transformations.size() % 13 != 0)
+        throw std::runtime_error(
+            "Invalid number of floats in the list of transformations");
+
+    ModelDescriptorPtr modelDescriptor{nullptr};
+
+    auto it = _proteins.find(at.name);
+    if (it != _proteins.end())
+        modelDescriptor = (*it).second->getModelDescriptor();
+    else
+    {
+        auto it = _meshes.find(at.name);
+        if (it != _meshes.end())
+            modelDescriptor = (*it).second->getModelDescriptor();
+        else
+        {
+            auto it = _glycans.find(at.name);
+            if (it != _glycans.end())
+                modelDescriptor = (*it).second->getModelDescriptor();
+            else
+                throw std::runtime_error("Element " + at.name +
+                                         " is not registered in assembly " +
+                                         at.assemblyName);
+        }
+    }
+
+    std::vector<Transformation> transformations;
+    const auto &tfs = at.transformations;
+    for (size_t i = 0; i < tfs.size(); i += 13)
+    {
+        Transformation tf;
+        tf.setTranslation({tfs[i], tfs[i + 1], tfs[i + 2]});
+        tf.setRotationCenter({tfs[i + 3], tfs[i + 4], tfs[i + 5]});
+        tf.setRotation({tfs[i + 6], tfs[i + 7], tfs[i + 8], tfs[i + 9]});
+        tf.setScale({tfs[i + 10], tfs[i + 11], tfs[i + 12]});
+        transformations.push_back(tf);
+    }
+
+    const auto nbInstances = modelDescriptor->getInstances().size();
+    const auto &initialTransformations = _transformations[at.name];
+    for (size_t i = 0; i < transformations.size() && i < nbInstances; ++i)
+    {
+        const auto &otf = transformations[i];
+        const auto &itf = initialTransformations[i];
+
+        Transformation tf;
+        tf.setTranslation(itf.getTranslation() + otf.getTranslation());
+        tf.setRotationCenter(itf.getRotationCenter() + otf.getRotationCenter());
+        tf.setRotation(itf.getRotation() * otf.getRotation());
+        tf.setScale(itf.getScale() * otf.getScale());
+
+        auto instance = modelDescriptor->getInstance(i);
+        if (i == 0)
+            modelDescriptor->setTransformation(tf);
+        instance->setTransformation(tf);
+    }
+    _scene.markModified();
 }
 
 void Assembly::setColorScheme(const ColorSchemeDescriptor &csd)

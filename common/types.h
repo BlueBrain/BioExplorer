@@ -83,6 +83,13 @@ class Assembly;
 typedef std::shared_ptr<Assembly> AssemblyPtr;
 typedef std::map<std::string, AssemblyPtr> AssemblyMap;
 
+struct AssemblyTransformationsDescriptor
+{
+    std::string assemblyName;
+    std::string name;
+    std::vector<float> transformations;
+};
+
 // Node
 class Node;
 typedef std::shared_ptr<Node> NodePtr;
@@ -373,7 +380,7 @@ static AtomicRadii atomicRadii = {{{"C"}, {67.f}},
                                   {{"OXT"}, {25.f}},
                                   {{"P"}, 25.f}};
 
-const float BOND_RADIUS = 0.006f;
+const float BOND_RADIUS = 0.0025f;
 const float DEFAULT_STICK_DISTANCE = 0.016f;
 
 // Amino acids
