@@ -18,6 +18,7 @@
 
 #include "Mesh.h"
 
+#include <brayns/engineapi/Model.h>
 #include <brayns/io/MeshLoader.h>
 
 namespace bioexplorer
@@ -33,5 +34,18 @@ Mesh::Mesh(Scene& scene, const MeshDescriptor& md)
 
     _modelDescriptor =
         loader.importFromBlob(std::move(blob), LoaderProgress(), PropertyMap());
+
+    if (md.recenter)
+    {
+        auto& model = _modelDescriptor->getModel();
+        auto& triangleMeshes = model.getTriangleMeshes();
+        const auto& bounds = model.getBounds();
+        const auto center = bounds.getCenter();
+        for (auto& triangleMesh : triangleMeshes)
+        {
+            for (auto& vertex : triangleMesh.second.vertices)
+                vertex += center;
+        }
+    }
 }
 } // namespace bioexplorer

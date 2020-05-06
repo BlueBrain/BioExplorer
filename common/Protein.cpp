@@ -65,7 +65,6 @@ Protein::Protein(Scene& scene, const ProteinDescriptor& descriptor)
             sequence.second.numRes = sequence.second.resNames.size();
     }
 
-#if 0
     // Update sequences
     std::map<std::string, size_t> minSeqs;
     for (const auto& atom : _atomMap)
@@ -75,15 +74,15 @@ Protein::Protein(Scene& scene, const ProteinDescriptor& descriptor)
         minSeqs[atom.second.chainId] =
             std::min(minSeqs[atom.second.chainId], atom.second.reqSeq);
     }
+
     for (const auto& minSeq : minSeqs)
         if (_sequenceMap.find(minSeq.first) != _sequenceMap.end())
         {
             auto& sequence = _sequenceMap[minSeq.first];
-            for (size_t i = 0;
+            for (size_t i = 1;
                  i < minSeq.second && i < sequence.resNames.size(); ++i)
-                sequence.resNames[i] = ".";
+                sequence.resNames.insert(sequence.resNames.begin(), ".");
         }
-#endif
 
     auto model = scene.createModel();
 
@@ -445,14 +444,19 @@ void Protein::_readAtom(const std::string& line)
     atom.position.y = static_cast<float>(atof(line.substr(38, 8).c_str()));
     atom.position.z = static_cast<float>(atof(line.substr(46, 8).c_str()));
 
-    atom.occupancy = static_cast<float>(atof(line.substr(54, 6).c_str()));
+    if (line.length() >= 60)
+        atom.occupancy = static_cast<float>(atof(line.substr(54, 6).c_str()));
 
-    atom.tempFactor = static_cast<float>(atof(line.substr(60, 6).c_str()));
-
-    s = line.substr(76, 2);
-    atom.element = trim(s);
+    if (line.length() >= 66)
+        atom.tempFactor = static_cast<float>(atof(line.substr(60, 6).c_str()));
 
     if (line.length() >= 78)
+    {
+        s = line.substr(76, 2);
+        atom.element = trim(s);
+    }
+
+    if (line.length() >= 80)
     {
         s = line.substr(78, 2);
         atom.charge = trim(s);

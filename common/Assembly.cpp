@@ -64,7 +64,8 @@ void Assembly::addProtein(const ProteinDescriptor &pd)
     const Quaterniond orientation = {pd.orientation[0], pd.orientation[1],
                                      pd.orientation[2], pd.orientation[3]};
     _processInstances(modelDescriptor, pd.assemblyRadius, pd.occurrences,
-                      pd.randomSeed, orientation, ModelContentType::pdb,
+                      pd.randomSeed, orientation,
+                      PositionRandomizationType::circular,
                       pd.locationCutoffAngle);
 
     _proteins[pd.name] = std::move(protein);
@@ -98,8 +99,8 @@ void Assembly::addGlycans(const GlycansDescriptor &gd)
     const Quaterniond orientation = {pd.orientation[0], pd.orientation[1],
                                      pd.orientation[2], pd.orientation[3]};
     _processInstances(modelDescriptor, pd.assemblyRadius, pd.occurrences,
-                      pd.randomSeed, orientation, ModelContentType::pdb,
-                      pd.locationCutoffAngle);
+                      pd.randomSeed, orientation,
+                      PositionRandomizationType::circular, 0.f);
 
     _glycans[gd.name] = std::move(glycans);
     _scene.addModel(modelDescriptor);
@@ -114,7 +115,8 @@ void Assembly::addMesh(const MeshDescriptor &md)
                                      md.orientation[2], md.orientation[3]};
 
     _processInstances(modelDescriptor, md.assemblyRadius, md.occurrences,
-                      md.randomSeed, orientation, ModelContentType::obj);
+                      md.randomSeed, orientation, md.positionRandomizationType,
+                      md.locationCutoffAngle);
 
     _meshes[md.name] = std::move(mesh);
     _scene.addModel(modelDescriptor);
@@ -123,7 +125,8 @@ void Assembly::addMesh(const MeshDescriptor &md)
 void Assembly::_processInstances(
     ModelDescriptorPtr md, const float assemblyRadius, const size_t occurrences,
     const size_t randomSeed, const Quaterniond &orientation,
-    const ModelContentType &modelType, const float locationCutoffAngle)
+    const PositionRandomizationType &randomizationType,
+    const float locationCutoffAngle)
 {
     const auto &model = md->getModel();
     const auto &bounds = model.getBounds();
@@ -134,7 +137,8 @@ void Assembly::_processInstances(
 
     srand(randomSeed);
     size_t rnd{1};
-    if (randomSeed != 0 && modelType == ModelContentType::pdb)
+    if (randomSeed != 0 &&
+        randomizationType == PositionRandomizationType::circular)
         rnd = rand() % occurrences;
 
     size_t instanceCount = 0;
@@ -142,7 +146,8 @@ void Assembly::_processInstances(
     {
         // Randomizer
         float radius = assemblyRadius;
-        if (randomSeed != 0 && modelType == ModelContentType::obj)
+        if (randomSeed != 0 &&
+            randomizationType == PositionRandomizationType::radial)
             radius *= 1.f + (float(rand() % 20) / 1000.f);
 
         // Sphere filling
@@ -166,7 +171,7 @@ void Assembly::_processInstances(
         // Remove membrane where proteins are. This is currently done
         // according to the vector orientation
         bool occupied{false};
-        if (modelType != ModelContentType::pdb)
+        if (locationCutoffAngle != 0.f)
             for (const auto &occupiedDirection : _occupiedDirections)
                 if (dot(direction, occupiedDirection.first) >
                     occupiedDirection.second)
@@ -192,8 +197,12 @@ void Assembly::_processInstances(
         md->addInstance(instance);
 
         // Store occupied direction
-        if (modelType == ModelContentType::pdb)
+        if (locationCutoffAngle != 0.f)
+        {
+            PLUGIN_INFO << "Adding cutoff angle " << locationCutoffAngle
+                        << std::endl;
             _occupiedDirections.push_back({direction, locationCutoffAngle});
+        }
 
         ++instanceCount;
     }

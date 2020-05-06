@@ -31,11 +31,11 @@ namespace bioexplorer
 {
 using namespace brayns;
 
-// Model content types
-enum class ModelContentType
+// Model position randomization types
+enum class PositionRandomizationType
 {
-    pdb = 0,
-    obj = 1
+    circular = 0,
+    radial = 1
 };
 
 // Color schemes
@@ -137,6 +137,8 @@ struct MeshDescriptor
     bool recenter;
     size_t occurrences;
     size_t randomSeed;
+    float locationCutoffAngle;
+    PositionRandomizationType positionRandomizationType;
     std::vector<float> orientation;
 };
 class Mesh;

@@ -52,7 +52,7 @@ private:
     void _processInstances(ModelDescriptorPtr md, const float assemblyRadius,
                            const size_t occurrences, const size_t randomSeed,
                            const Quaterniond &orientation,
-                           const ModelContentType &modelType,
+                           const PositionRandomizationType &randomizationType,
                            const float locationCutoffAngle = 0.f);
 
     Vector3f _position{0.f, 0.f, 0.f};

@@ -219,6 +219,8 @@ bool from_json(MeshDescriptor &param, const std::string &payload)
         FROM_JSON(param, js, recenter);
         FROM_JSON(param, js, occurrences);
         FROM_JSON(param, js, randomSeed);
+        FROM_JSON(param, js, locationCutoffAngle);
+        FROM_JSON(param, js, positionRandomizationType);
         FROM_JSON(param, js, orientation);
     }
     catch (...)
