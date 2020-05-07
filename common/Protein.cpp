@@ -38,7 +38,8 @@ Protein::Protein(Scene& scene, const ProteinDescriptor& descriptor)
 
     while (getline(lines, line, '\n'))
     {
-        if (line.find("ATOM") == 0 || line.find("HETATM") == 0)
+        //        if (line.find("ATOM") == 0 || line.find("HETATM") == 0)
+        if (line.find("ATOM") == 0)
             _readAtom(line);
         else if (line.find("TITLE") == 0)
             _readTitle(line);
@@ -65,6 +66,7 @@ Protein::Protein(Scene& scene, const ProteinDescriptor& descriptor)
             sequence.second.numRes = sequence.second.resNames.size();
     }
 
+#if 0
     // Update sequences
     std::map<std::string, size_t> minSeqs;
     for (const auto& atom : _atomMap)
@@ -83,6 +85,7 @@ Protein::Protein(Scene& scene, const ProteinDescriptor& descriptor)
                  i < minSeq.second && i < sequence.resNames.size(); ++i)
                 sequence.resNames.insert(sequence.resNames.begin(), ".");
         }
+#endif
 
     auto model = scene.createModel();
 
