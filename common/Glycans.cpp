@@ -49,11 +49,17 @@ Glycans::Glycans(Scene& scene, const GlycansDescriptor& gd, Vector3fs positions,
     // Recenter
     if (_descriptor.recenter)
     {
+#if 1
         for (const auto& atom : _atomMap)
             bounds.merge(atom.second.position);
         const auto& center = bounds.getCenter();
         for (auto& atom : _atomMap)
             atom.second.position -= center;
+#else
+        const auto& center = _atomMap.begin()->second.position;
+        for (auto& atom : _atomMap)
+            atom.second.position -= center;
+#endif
     }
 
     _buildModel(*model);

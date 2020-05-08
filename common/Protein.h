@@ -101,6 +101,7 @@ private:
     std::string _aminoAcidSequence;
     Vector2ui _aminoAcidRange;
     std::string _title;
+    Boxf _bounds;
 };
 } // namespace bioexplorer
 

@@ -90,14 +90,9 @@ Protein::Protein(Scene& scene, const ProteinDescriptor& descriptor)
     auto model = scene.createModel();
 
     // Build 3d models according to atoms positions (re-centered to origin)
-    Boxf bounds;
-
-    // Recenter
     if (descriptor.recenter)
     {
-        for (const auto& atom : _atomMap)
-            bounds.merge(atom.second.position);
-        const auto& center = bounds.getCenter();
+        const auto& center = _bounds.getCenter();
         for (auto& atom : _atomMap)
             atom.second.position -= center;
     }
@@ -110,7 +105,7 @@ Protein::Protein(Scene& scene, const ProteinDescriptor& descriptor)
     metadata["Atoms"] = std::to_string(_atomMap.size());
     metadata["Bonds"] = std::to_string(_bondsMap.size());
 
-    const auto& size = bounds.getSize();
+    const auto& size = _bounds.getSize();
     metadata["Size"] = std::to_string(size.x) + ", " + std::to_string(size.y) +
                        ", " + std::to_string(size.z) + " angstroms";
 
@@ -468,6 +463,9 @@ void Protein::_readAtom(const std::string& line)
     // Convert position from nanometers
     atom.position = 0.01f * atom.position;
 
+    // Bounds
+    _bounds.merge(atom.position);
+
     // Convert radius from angstrom
     atom.radius = DEFAULT_ATOM_RADIUS;
     auto it = atomicRadii.find(atom.element);
@@ -695,7 +693,8 @@ void Protein::getGlycosilationSites(std::vector<Vector3f>& positions,
                 const auto& center = bounds.getCenter();
                 positions.push_back(center);
                 rotations.push_back(
-                    glm::quatLookAt(normalize(center), {0.f, 1.f, 0.f}));
+                    glm::quatLookAt(normalize(center - _bounds.getCenter()),
+                                    {0.f, 1.f, 0.f}));
             }
         }
     }
