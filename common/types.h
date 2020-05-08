@@ -104,6 +104,7 @@ struct ProteinDescriptor
     float assemblyRadius;
     float atomRadiusMultiplier;
     bool loadBonds;
+    bool loadNonPolymerChemicals;
     bool addSticks;
     std::vector<size_t> chainIds;
     bool recenter;

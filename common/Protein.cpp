@@ -38,8 +38,9 @@ Protein::Protein(Scene& scene, const ProteinDescriptor& descriptor)
 
     while (getline(lines, line, '\n'))
     {
-        //        if (line.find("ATOM") == 0 || line.find("HETATM") == 0)
         if (line.find("ATOM") == 0)
+            _readAtom(line);
+        else if (descriptor.loadNonPolymerChemicals && line.find("HETATM") == 0)
             _readAtom(line);
         else if (line.find("TITLE") == 0)
             _readTitle(line);
