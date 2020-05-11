@@ -20,6 +20,7 @@
 
 #include <common/log.h>
 #include <common/utils.h>
+#include <meshing/PointCloudMesher.h>
 
 #include <brayns/engineapi/Material.h>
 #include <brayns/engineapi/Scene.h>
@@ -123,21 +124,61 @@ Protein::Protein(Scene& scene, const ProteinDescriptor& descriptor)
 void Protein::_buildModel(Model& model, const ProteinDescriptor& descriptor)
 {
     // Atoms
-    for (const auto& atom : _atomMap)
+    switch (descriptor.representation)
     {
-        auto material =
-            model.createMaterial(atom.first, std::to_string(atom.first));
+    case ProteinRepresentation::atoms:
+    case ProteinRepresentation::atoms_and_sticks:
+    {
+        for (const auto& atom : _atomMap)
+        {
+            auto material =
+                model.createMaterial(atom.first, std::to_string(atom.first));
 
-        RGBColor rgb{255, 255, 255};
-        const auto it = atomColorMap.find(atom.second.element);
-        if (it != atomColorMap.end())
-            rgb = (*it).second;
+            RGBColor rgb{255, 255, 255};
+            const auto it = atomColorMap.find(atom.second.element);
+            if (it != atomColorMap.end())
+                rgb = (*it).second;
 
-        material->setDiffuseColor(
-            {rgb.r / 255.f, rgb.g / 255.f, rgb.b / 255.f});
-        model.addSphere(atom.first,
-                        {atom.second.position,
-                         descriptor.atomRadiusMultiplier * atom.second.radius});
+            material->setDiffuseColor(
+                {rgb.r / 255.f, rgb.g / 255.f, rgb.b / 255.f});
+            model.addSphere(atom.first, {atom.second.position,
+                                         descriptor.atomRadiusMultiplier *
+                                             atom.second.radius});
+        }
+        break;
+    }
+    case ProteinRepresentation::contour:
+    {
+        PointCloudMesher pcm;
+        PointCloud pointCloud;
+        for (const auto& atom : _atomMap)
+            pointCloud[0].push_back(
+                {atom.second.position.x, atom.second.position.y,
+                 atom.second.position.z, atom.second.radius});
+        pcm.toConvexHull(model, pointCloud);
+        break;
+    }
+    case ProteinRepresentation::surface:
+    {
+        PointCloudMesher pcm;
+        PointCloud pointCloud;
+        const size_t materialId{0};
+
+        auto material = model.createMaterial(materialId, "Metaball");
+        material->setDiffuseColor({1.f, 1.f, 1.f});
+
+        for (const auto& atom : _atomMap)
+            pointCloud[materialId].push_back(
+                {atom.second.position.x, atom.second.position.y,
+                 atom.second.position.z, atom.second.radius});
+        const size_t gridSize = 50;
+        const float threshold = 10.0f;
+
+        PLUGIN_INFO << "Metaballing " << gridSize
+                    << ", threshold = " << threshold << std::endl;
+        pcm.toMetaballs(model, pointCloud, gridSize, threshold);
+        break;
+    }
     }
 
     // Bonds
@@ -165,7 +206,7 @@ void Protein::_buildModel(Model& model, const ProteinDescriptor& descriptor)
     }
 
     // Sticks
-    if (descriptor.addSticks)
+    if (descriptor.representation == ProteinRepresentation::atoms_and_sticks)
         for (const auto& atom1 : _atomMap)
             for (const auto& atom2 : _atomMap)
                 if (atom1.first != atom2.first)

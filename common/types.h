@@ -95,6 +95,14 @@ class Node;
 typedef std::shared_ptr<Node> NodePtr;
 typedef std::map<std::string, NodePtr> NodeMap;
 
+enum class ProteinRepresentation
+{
+    atoms = 0,
+    atoms_and_sticks = 1,
+    contour = 2,
+    surface = 3
+};
+
 // Protein
 struct ProteinDescriptor
 {
@@ -105,13 +113,13 @@ struct ProteinDescriptor
     float atomRadiusMultiplier;
     bool loadBonds;
     bool loadNonPolymerChemicals;
-    bool addSticks;
-    std::vector<size_t> chainIds;
+    ProteinRepresentation representation;
+    size_ts chainIds;
     bool recenter;
     size_t occurrences;
     size_t randomSeed;
     float locationCutoffAngle;
-    std::vector<float> orientation;
+    floats orientation;
 };
 
 class Protein;
@@ -178,24 +186,13 @@ struct AminoAcidSequenceAsRangeDescriptor
 {
     std::string assemblyName;
     std::string name;
-    std::vector<size_t> range;
+    size_ts range;
 };
 
 struct AminoAcidSequencesDescriptor
 {
     std::string assemblyName;
     std::string name;
-};
-
-struct LoaderParameters
-{
-    // Radius multiplier
-    float radiusMultiplier;
-    // Color scheme to be applied to the proteins
-    // [none|atoms|chains|residues|transmembrane_sequence|glycosylation_site]
-    ColorScheme colorScheme;
-    // Sequence of amino acids located in the virus membrane
-    std::string aminoAcidSequence;
 };
 
 struct Atom
@@ -225,7 +222,7 @@ struct Sequence
 typedef std::map<std::string, Sequence> SequenceMap;
 
 // Bonds
-typedef std::multimap<size_t, std::vector<size_t>, std::less<size_t>> BondsMap;
+typedef std::multimap<size_t, size_ts, std::less<size_t>> BondsMap;
 
 struct AminoAcid
 {
@@ -265,7 +262,7 @@ typedef std::vector<Quaterniond> Quaternions;
 typedef std::vector<Vector3f> Vector3fs;
 
 // Atomic radii in microns
-const float DEFAULT_ATOM_RADIUS = 0.0125f;
+const float DEFAULT_ATOM_RADIUS = 25.f; // 0.0125f;
 static AtomicRadii atomicRadii = {{{"C"}, {67.f}},
                                   {{"N"}, {56.f}},
                                   {{"O"}, {48.f}},

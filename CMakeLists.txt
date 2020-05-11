@@ -10,6 +10,7 @@ set(CMAKE_CXX_STANDARD 14)
 
 find_package(Boost REQUIRED COMPONENTS program_options filesystem)
 find_package(Brayns REQUIRED)
+find_package(CGAL)
 
 # Build type and options
 if(NOT CMAKE_BUILD_TYPE)
@@ -25,6 +26,8 @@ set(${NAME}_SOURCES
   common/Mesh.cpp
   common/Protein.cpp
   common/RNASequence.cpp
+  meshing/MetaballsGenerator.cpp
+  meshing/PointCloudMesher.cpp
   api/BioExplorerParams.cpp
   BioExplorer.cpp
 )
@@ -36,6 +39,8 @@ set(${NAME}_PUBLIC_HEADERS
   common/Mesh.h
   common/Protein.h
   common/RNASequence.h
+  meshing/MetaballsGenerator.h
+  meshing/PointCloudMesher.h
   api/BioExplorerParams.h
   BioExplorer.h
 )
