@@ -127,7 +127,7 @@ void BioExplorer::init()
 Response BioExplorer::_version() const
 {
     Response response;
-    response.contents = "0.0.1";
+    response.contents = "0.4.0";
     return response;
 }
 

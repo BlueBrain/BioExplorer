@@ -119,6 +119,7 @@ struct ProteinDescriptor
     size_t occurrences;
     size_t randomSeed;
     float locationCutoffAngle;
+    PositionRandomizationType positionRandomizationType;
     floats orientation;
 };
 

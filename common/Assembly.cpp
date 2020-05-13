@@ -65,8 +65,7 @@ void Assembly::addProtein(const ProteinDescriptor &pd)
                                      pd.orientation[2], pd.orientation[3]};
     _processInstances(modelDescriptor, pd.name, pd.assemblyRadius,
                       pd.occurrences, pd.randomSeed, orientation,
-                      PositionRandomizationType::circular,
-                      pd.locationCutoffAngle);
+                      pd.positionRandomizationType, pd.locationCutoffAngle);
 
     _proteins[pd.name] = std::move(protein);
     _scene.addModel(modelDescriptor);
