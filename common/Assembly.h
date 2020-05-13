@@ -43,6 +43,7 @@ public:
         _clippingPlanes = clippingPlanes;
     }
 
+    void addMembrane(const MembraneDescriptor &md);
     void addRNASequence(const RNASequenceDescriptor &rd);
     void addProtein(const ProteinDescriptor &pd);
     void addMesh(const MeshDescriptor &md);
@@ -63,7 +64,8 @@ private:
     GlycansMap _glycans;
     ProteinMap _proteins;
     MeshMap _meshes;
-    std::vector<std::pair<Vector3f, float>> _occupiedDirections;
+    MembranePtr _membrane{nullptr};
+    OccupiedDirections _occupiedDirections;
     Vector4fs _clippingPlanes;
     std::map<std::string, std::vector<Transformation>> _transformations;
 };

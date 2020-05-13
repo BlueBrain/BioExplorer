@@ -105,6 +105,12 @@ void BioExplorer::init()
                 return _addRNASequence(payload);
             });
 
+        PLUGIN_INFO << "Registering 'add-membrane' endpoint" << std::endl;
+        actionInterface->registerRequest<MembraneDescriptor, Response>(
+            "add-membrane", [&](const MembraneDescriptor &payload) {
+                return _addMembrane(payload);
+            });
+
         PLUGIN_INFO << "Registering 'add-protein' endpoint" << std::endl;
         actionInterface->registerRequest<ProteinDescriptor, Response>(
             "add-protein", [&](const ProteinDescriptor &payload) {
@@ -287,6 +293,31 @@ Response BioExplorer::_addRNASequence(
         auto it = _assemblies.find(payload.assemblyName);
         if (it != _assemblies.end())
             (*it).second->addRNASequence(payload);
+        else
+        {
+            std::stringstream msg;
+            msg << "Assembly not found: " << payload.assemblyName;
+            PLUGIN_ERROR << msg.str() << std::endl;
+            response.status = false;
+            response.contents = msg.str();
+        }
+    }
+    catch (const std::runtime_error &e)
+    {
+        response.status = false;
+        response.contents = e.what();
+    }
+    return response;
+}
+
+Response BioExplorer::_addMembrane(const MembraneDescriptor &payload) const
+{
+    Response response;
+    try
+    {
+        auto it = _assemblies.find(payload.assemblyName);
+        if (it != _assemblies.end())
+            (*it).second->addMembrane(payload);
         else
         {
             std::stringstream msg;

@@ -103,6 +103,38 @@ enum class ProteinRepresentation
     surface = 3
 };
 
+enum class MembraneShape
+{
+    spherical = 0,
+    cubic = 1
+};
+
+// membrane
+struct MembraneDescriptor
+{
+    std::string assemblyName;
+    std::string name;
+    std::string content1;
+    std::string content2;
+    std::string content3;
+    std::string content4;
+    MembraneShape shape;
+    float assemblyRadius;
+    float atomRadiusMultiplier;
+    bool loadBonds;
+    bool loadNonPolymerChemicals;
+    ProteinRepresentation representation;
+    size_ts chainIds;
+    bool recenter;
+    size_t occurrences;
+    size_t randomSeed;
+    float locationCutoffAngle;
+    PositionRandomizationType positionRandomizationType;
+    floats orientation;
+};
+class Membrane;
+typedef std::shared_ptr<Membrane> MembranePtr;
+
 // Protein
 struct ProteinDescriptor
 {
@@ -122,7 +154,6 @@ struct ProteinDescriptor
     PositionRandomizationType positionRandomizationType;
     floats orientation;
 };
-
 class Protein;
 typedef std::shared_ptr<Protein> ProteinPtr;
 typedef std::map<std::string, ProteinPtr> ProteinMap;
@@ -261,6 +292,7 @@ typedef Vector3f Color;
 typedef std::vector<Color> Palette;
 typedef std::vector<Quaterniond> Quaternions;
 typedef std::vector<Vector3f> Vector3fs;
+typedef std::vector<std::pair<Vector3f, float>> OccupiedDirections;
 
 // Atomic radii in microns
 const float DEFAULT_ATOM_RADIUS = 25.f; // 0.0125f;

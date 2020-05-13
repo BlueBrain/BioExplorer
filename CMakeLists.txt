@@ -22,6 +22,7 @@ endif(NOT CMAKE_BUILD_TYPE)
 set(${NAME}_SOURCES
   common/Assembly.cpp
   common/Node.cpp
+  common/Membrane.cpp
   common/Glycans.cpp
   common/Mesh.cpp
   common/Protein.cpp
@@ -37,6 +38,7 @@ set(${NAME}_PUBLIC_HEADERS
   common/Node.h
   common/Glycans.h
   common/Mesh.h
+  common/Membrane.h
   common/Protein.h
   common/RNASequence.h
   meshing/MetaballsGenerator.h

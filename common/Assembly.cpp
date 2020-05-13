@@ -19,6 +19,7 @@
 #include "Assembly.h"
 
 #include <common/Glycans.h>
+#include <common/Membrane.h>
 #include <common/Mesh.h>
 #include <common/Protein.h>
 #include <common/RNASequence.h>
@@ -69,6 +70,16 @@ void Assembly::addProtein(const ProteinDescriptor &pd)
 
     _proteins[pd.name] = std::move(protein);
     _scene.addModel(modelDescriptor);
+}
+
+void Assembly::addMembrane(const MembraneDescriptor &md)
+{
+    if (_membrane != nullptr)
+        throw std::runtime_error("Assembly already has a membrane");
+
+    MembranePtr membrane(
+        new Membrane(_scene, md, _clippingPlanes, _occupiedDirections));
+    _membrane = std::move(membrane);
 }
 
 void Assembly::addGlycans(const GlycansDescriptor &gd)

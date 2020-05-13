@@ -177,6 +177,38 @@ bool from_json(RNASequenceDescriptor &param, const std::string &payload)
     return true;
 }
 
+bool from_json(MembraneDescriptor &param, const std::string &payload)
+{
+    try
+    {
+        auto js = nlohmann::json::parse(payload);
+        FROM_JSON(param, js, assemblyName);
+        FROM_JSON(param, js, name);
+        FROM_JSON(param, js, content1);
+        FROM_JSON(param, js, content2);
+        FROM_JSON(param, js, content3);
+        FROM_JSON(param, js, content4);
+        FROM_JSON(param, js, shape);
+        FROM_JSON(param, js, assemblyRadius);
+        FROM_JSON(param, js, atomRadiusMultiplier);
+        FROM_JSON(param, js, loadBonds);
+        FROM_JSON(param, js, loadNonPolymerChemicals);
+        FROM_JSON(param, js, representation);
+        FROM_JSON(param, js, chainIds);
+        FROM_JSON(param, js, recenter);
+        FROM_JSON(param, js, occurrences);
+        FROM_JSON(param, js, randomSeed);
+        FROM_JSON(param, js, locationCutoffAngle);
+        FROM_JSON(param, js, positionRandomizationType);
+        FROM_JSON(param, js, orientation);
+    }
+    catch (...)
+    {
+        return false;
+    }
+    return true;
+}
+
 bool from_json(ProteinDescriptor &param, const std::string &payload)
 {
     try
