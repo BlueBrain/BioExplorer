@@ -59,7 +59,6 @@ private:
                            const float locationCutoffAngle = 0.f);
 
     Vector3f _position{0.f, 0.f, 0.f};
-    bool _halfStructure{false};
     Scene &_scene;
     GlycansMap _glycans;
     ProteinMap _proteins;

@@ -34,7 +34,8 @@ public:
     Protein(Scene& scene, const ProteinDescriptor& descriptor);
 
     // Color schemes
-    void setColorScheme(const ColorScheme& colorScheme, const Palette& palette);
+    void setColorScheme(const ColorScheme& colorScheme, const Palette& palette,
+                        const size_ts& chainIds);
 
     // Amino acid sequence
     StringMap getSequencesAsString() const;
@@ -72,7 +73,7 @@ private:
     // Color schemes
     void _setAtomColorScheme();
     void _setChainColorScheme(const Palette& palette);
-    void _setRegionColorScheme(const Palette& palette);
+    void _setRegionColorScheme(const Palette& palette, const size_ts& chainIds);
     void _setResiduesColorScheme(const Palette& palette);
     void _setAminoAcidSequenceColorScheme(const Palette& palette);
     void _setGlycosylationSiteColorScheme(const Palette& palette);

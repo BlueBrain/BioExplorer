@@ -25,9 +25,10 @@
 namespace bioexplorer
 {
 Membrane::Membrane(Scene &scene, const MembraneDescriptor &descriptor,
-                   const Vector4fs &clippingPlanes,
+                   const Vector3f &position, const Vector4fs &clippingPlanes,
                    const OccupiedDirections &occupiedDirections)
     : _scene(scene)
+    , _position(position)
     , _descriptor(descriptor)
     , _clippingPlanes(clippingPlanes)
     , _occupiedDirections(occupiedDirections)
@@ -47,7 +48,7 @@ Membrane::Membrane(Scene &scene, const MembraneDescriptor &descriptor,
     {
         ProteinDescriptor pd;
         pd.assemblyName = descriptor.assemblyName;
-        pd.name = std::to_string(i);
+        pd.name = _getElementNameFromId(i);
         pd.contents = content;
         pd.chainIds = descriptor.chainIds;
         pd.recenter = descriptor.recenter;
@@ -101,30 +102,39 @@ void Membrane::_processInstances()
 
     for (size_t i = 0; i < _descriptor.occurrences; ++i)
     {
-        const size_t proteinId = rand() % _proteins.size();
-        auto md = _proteins[std::to_string(proteinId)]->getModelDescriptor();
+        const size_t id = rand() % _proteins.size();
+        const auto name = _getElementNameFromId(id);
+        if (_proteins.find(name) == _proteins.end())
+        {
+            PLUGIN_ERROR << "Protein " << name << " is not registered"
+                         << std::endl;
+            continue;
+        }
+        auto protein = _proteins[name];
+        auto md = protein->getModelDescriptor();
 
         const auto &model = md->getModel();
         const auto &bounds = model.getBounds();
         const Vector3f &center = bounds.getCenter();
 
-        // Randomizer
-        float radius = _descriptor.assemblyRadius;
-        if (_descriptor.randomSeed != 0 &&
-            _descriptor.positionRandomizationType ==
-                PositionRandomizationType::radial)
-            radius *= 1.f + (float(rand() % 20) / 1000.f);
-
-        // Sphere filling
-        const float y = ((i * offset) - 1.f) + (offset / 2.f);
-        const float r = sqrt(1.f - pow(y, 2.f));
-        const float phi = ((i + rnd) % _descriptor.occurrences) * increment;
-        const float x = cos(phi) * r;
-        const float z = sin(phi) * r;
-        const Vector3f direction = {x, y, z};
+        Vector3f position;
+        Vector3f direction{0.f, 1.f, 0.f};
+        switch (_descriptor.shape)
+        {
+        case MembraneShape::spherical:
+            getSphericalPosition(rnd, _descriptor.assemblyRadius,
+                                 _descriptor.positionRandomizationType,
+                                 _descriptor.randomSeed, i,
+                                 _descriptor.occurrences, position, direction);
+            break;
+        default:
+            getPlanarPosition(_descriptor.assemblyRadius,
+                              _descriptor.positionRandomizationType,
+                              _descriptor.randomSeed, position, direction);
+            break;
+        }
 
         // Clipping planes
-        const Vector3f position = radius * direction;
         if (isClipped(position, _clippingPlanes))
             continue;
 
@@ -147,11 +157,11 @@ void Membrane::_processInstances()
         tf.setTranslation(_position + position - center);
 
         Quaterniond assemblyOrientation =
-            glm::quatLookAt(direction, {0.f, 1.f, 0.f});
+            glm::quatLookAt(direction, {0.f, 0.f, 1.f});
 
         tf.setRotation(assemblyOrientation * orientation);
 
-        if (instanceCounts[proteinId] == 0)
+        if (instanceCounts[id] == 0)
             md->setTransformation(tf);
         const ModelInstance instance(true, false, tf);
         md->addInstance(instance);
@@ -159,11 +169,16 @@ void Membrane::_processInstances()
         // Save initial transformation
         _transformations[_descriptor.name].push_back(tf);
 
-        instanceCounts[proteinId] = instanceCounts[proteinId] + 1;
+        instanceCounts[id] = instanceCounts[id] + 1;
     }
 
     for (size_t i = 0; i < _proteins.size(); ++i)
         PLUGIN_INFO << "Instances for " << i << " : " << instanceCounts[i]
                     << std::endl;
+}
+
+std::string Membrane::_getElementNameFromId(const size_t id)
+{
+    return _descriptor.assemblyName + ": Membrane " + std::to_string(id);
 }
 } // namespace bioexplorer

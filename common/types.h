@@ -56,6 +56,7 @@ struct ColorSchemeDescriptor
     std::string name;
     ColorScheme colorScheme;
     std::vector<float> palette;
+    size_ts chainIds;
 };
 
 // Shapes
@@ -75,7 +76,6 @@ struct AssemblyDescriptor
 {
     std::string name;
     std::vector<float> position;
-    bool halfStructure;
     std::vector<float> clippingPlanes;
 };
 
@@ -106,7 +106,7 @@ enum class ProteinRepresentation
 enum class MembraneShape
 {
     spherical = 0,
-    cubic = 1
+    planar = 1
 };
 
 // membrane

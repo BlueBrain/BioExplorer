@@ -34,12 +34,13 @@ class Membrane : public Node
 {
 public:
     Membrane(Scene &scene, const MembraneDescriptor &descriptor,
-             const Vector4fs &clippingPlanes,
+             const Vector3f &position, const Vector4fs &clippingPlanes,
              const OccupiedDirections &occupiedDirections);
     ~Membrane();
 
 private:
     void _processInstances();
+    std::string _getElementNameFromId(const size_t id);
 
     Scene &_scene;
     Vector3f _position{0.f, 0.f, 0.f};

@@ -30,7 +30,6 @@ namespace bioexplorer
 {
 Assembly::Assembly(Scene &scene, const AssemblyDescriptor &ad)
     : _scene(scene)
-    , _halfStructure(ad.halfStructure)
 {
     if (ad.position.size() != 3)
         throw std::runtime_error(
@@ -45,7 +44,6 @@ Assembly::Assembly(Scene &scene, const AssemblyDescriptor &ad)
         _clippingPlanes.push_back({cp[i], cp[i + 1], cp[i + 2], cp[i + 3]});
 
     PLUGIN_INFO << "Add assembly " << ad.name << " at position " << _position
-                << (ad.halfStructure ? " (half structure only)" : "")
                 << std::endl;
 }
 
@@ -77,8 +75,8 @@ void Assembly::addMembrane(const MembraneDescriptor &md)
     if (_membrane != nullptr)
         throw std::runtime_error("Assembly already has a membrane");
 
-    MembranePtr membrane(
-        new Membrane(_scene, md, _clippingPlanes, _occupiedDirections));
+    MembranePtr membrane(new Membrane(_scene, md, _position, _clippingPlanes,
+                                      _occupiedDirections));
     _membrane = std::move(membrane);
 }
 
@@ -139,7 +137,7 @@ void Assembly::_processInstances(
     const PositionRandomizationType &randomizationType,
     const float locationCutoffAngle)
 {
-    const auto &model = md->getModel();
+    auto &model = md->getModel();
     const auto &bounds = model.getBounds();
     const Vector3f &center = bounds.getCenter();
 
@@ -152,35 +150,23 @@ void Assembly::_processInstances(
         randomizationType == PositionRandomizationType::circular)
         rnd = rand() % occurrences;
 
+#ifdef DEBUG
+    model.addCone(0, {{0, 0, 0}, {0, 0, 1}, 0.1f, 0.f});
+#endif
+
     size_t instanceCount = 0;
     for (size_t i = 0; i < occurrences; ++i)
     {
-        // Randomizer
-        float radius = assemblyRadius;
-        if (randomSeed != 0 &&
-            randomizationType == PositionRandomizationType::radial)
-            radius *= 1.f + (float(rand() % 20) / 1000.f);
-
-        // Sphere filling
-        const float y = ((i * offset) - 1.f) + (offset / 2.f);
-        const float r = sqrt(1.f - pow(y, 2.f));
-        const float phi = ((i + rnd) % occurrences) * increment;
-        const float x = cos(phi) * r;
-        const float z = sin(phi) * r;
-        const Vector3f direction = {x, y, z};
-
+        Vector3f position;
+        Vector3f direction;
+        getSphericalPosition(rnd, assemblyRadius, randomizationType, randomSeed,
+                             i, occurrences, position, direction);
         // Clipping planes
-        const Vector3f position = radius * direction;
         if (isClipped(position, _clippingPlanes))
             continue;
 
-        // Half structure
-        if (_halfStructure &&
-            (direction.x > 0.f && direction.y > 0.f && direction.z > 0.f))
-            continue;
-
-        // Remove membrane where proteins are. This is currently done
-        // according to the vector orientation
+        // Remove membrane where proteins are. This is currently done according
+        // to the vector orientation
         bool occupied{false};
         if (locationCutoffAngle != 0.f)
             for (const auto &occupiedDirection : _occupiedDirections)
@@ -195,18 +181,20 @@ void Assembly::_processInstances(
 
         // Final transformation
         Transformation tf;
-        tf.setTranslation(_position + position - center);
+        const auto translation = _position + position - center;
+        tf.setTranslation(translation);
+        // tf.setRotationCenter(center);
 
-        Quaterniond assemblyOrientation =
-            glm::quatLookAt(direction, {0.f, 1.f, 0.f});
-
-        tf.setRotation(assemblyOrientation * orientation);
+        Quaterniond instanceOrientation =
+            glm::quatLookAt(direction, {0.f, 0.f, 1.f});
+        tf.setRotation(instanceOrientation * orientation);
 
         if (instanceCount == 0)
             md->setTransformation(tf);
         const ModelInstance instance(true, false, tf);
         md->addInstance(instance);
 
+        // Save initial transformation for later use
         _transformations[name].push_back(tf);
 
         // Store occupied direction
@@ -288,7 +276,7 @@ void Assembly::setColorScheme(const ColorSchemeDescriptor &csd)
             palette.push_back(
                 {csd.palette[i], csd.palette[i + 1], csd.palette[i + 2]});
 
-        (*it).second->setColorScheme(csd.colorScheme, palette);
+        (*it).second->setColorScheme(csd.colorScheme, palette, csd.chainIds);
     }
 }
 

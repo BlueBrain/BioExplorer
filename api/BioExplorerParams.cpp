@@ -63,7 +63,6 @@ bool from_json(AssemblyDescriptor &param, const std::string &payload)
         auto js = nlohmann::json::parse(payload);
         FROM_JSON(param, js, name);
         FROM_JSON(param, js, position);
-        FROM_JSON(param, js, halfStructure);
         FROM_JSON(param, js, clippingPlanes);
     }
     catch (...)
@@ -99,6 +98,7 @@ bool from_json(ColorSchemeDescriptor &param, const std::string &payload)
         FROM_JSON(param, js, name);
         FROM_JSON(param, js, colorScheme);
         FROM_JSON(param, js, palette);
+        FROM_JSON(param, js, chainIds);
     }
     catch (...)
     {

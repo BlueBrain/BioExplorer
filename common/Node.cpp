@@ -23,4 +23,5 @@ namespace bioexplorer
 Node::Node() {}
 
 Node::~Node() {}
+
 } // namespace bioexplorer

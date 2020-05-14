@@ -245,7 +245,7 @@ StringMap Protein::getSequencesAsString() const
 }
 
 void Protein::setColorScheme(const ColorScheme& colorScheme,
-                             const Palette& palette)
+                             const Palette& palette, const size_ts& chainIds)
 {
     switch (colorScheme)
     {
@@ -269,7 +269,7 @@ void Protein::setColorScheme(const ColorScheme& colorScheme,
         _setGlycosylationSiteColorScheme(palette);
         break;
     case ColorScheme::region:
-        _setRegionColorScheme(palette);
+        _setRegionColorScheme(palette, chainIds);
         break;
     default:
         PLUGIN_THROW(std::runtime_error("Unknown colorscheme"))
@@ -348,11 +348,23 @@ void Protein::_setAminoAcidSequenceColorScheme(const Palette& palette)
                 << (atomCount > 0 ? "2" : "1") << ")" << std::endl;
 }
 
-void Protein::_setRegionColorScheme(const Palette& palette)
+void Protein::_setRegionColorScheme(const Palette& palette,
+                                    const size_ts& chainIds)
 {
     size_t atomCount = 0;
     for (auto& atom : _atomMap)
-        _setMaterialDiffuseColor(atom.first, palette[atom.second.reqSeq]);
+    {
+        bool applyColor{true};
+        if (!chainIds.empty())
+        {
+            const size_t chainId =
+                static_cast<size_t>(atom.second.chainId[0] - 64);
+            applyColor = (std::find(chainIds.begin(), chainIds.end(),
+                                    chainId) != chainIds.end());
+        }
+        if (applyColor)
+            _setMaterialDiffuseColor(atom.first, palette[atom.second.reqSeq]);
+    }
 
     PLUGIN_INFO << "Applying Amino Acid Sequence color scheme ("
                 << (atomCount > 0 ? "2" : "1") << ")" << std::endl;

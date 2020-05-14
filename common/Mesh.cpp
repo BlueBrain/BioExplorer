@@ -42,10 +42,8 @@ Mesh::Mesh(Scene& scene, const MeshDescriptor& md)
         const auto& bounds = model.getBounds();
         const auto center = bounds.getCenter();
         for (auto& triangleMesh : triangleMeshes)
-        {
             for (auto& vertex : triangleMesh.second.vertices)
-                vertex += center;
-        }
+                vertex -= center;
     }
 }
 } // namespace bioexplorer
