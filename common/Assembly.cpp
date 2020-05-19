@@ -60,10 +60,11 @@ void Assembly::addProtein(const ProteinDescriptor &pd)
     ProteinPtr protein(new Protein(_scene, pd));
     auto modelDescriptor = protein->getModelDescriptor();
 
+    const Vector3f position = {pd.position[0], pd.position[1], pd.position[2]};
     const Quaterniond orientation = {pd.orientation[0], pd.orientation[1],
                                      pd.orientation[2], pd.orientation[3]};
-    _processInstances(modelDescriptor, pd.name, pd.assemblyRadius,
-                      pd.occurrences, pd.randomSeed, orientation,
+    _processInstances(modelDescriptor, pd.name, pd.shape, pd.assemblyRadius,
+                      pd.occurrences, pd.randomSeed, position, orientation,
                       pd.positionRandomizationType, pd.locationCutoffAngle);
 
     _proteins[pd.name] = std::move(protein);
@@ -87,7 +88,7 @@ void Assembly::addGlycans(const GlycansDescriptor &gd)
     const auto it = _proteins.find(gd.proteinName);
     if (it == _proteins.end())
         throw std::runtime_error("Target protein " + gd.proteinName +
-                                 " not registered");
+                                 " not registered in assembly " + gd.name);
 
     const auto targetProtein = (*it).second;
 
@@ -104,10 +105,11 @@ void Assembly::addGlycans(const GlycansDescriptor &gd)
     // protein
     GlycansPtr glycans(new Glycans(_scene, gd, positions, rotations));
     auto modelDescriptor = glycans->getModelDescriptor();
+    const Vector3f position = {pd.position[0], pd.position[1], pd.position[2]};
     const Quaterniond orientation = {pd.orientation[0], pd.orientation[1],
                                      pd.orientation[2], pd.orientation[3]};
-    _processInstances(modelDescriptor, pd.name, pd.assemblyRadius,
-                      pd.occurrences, pd.randomSeed, orientation,
+    _processInstances(modelDescriptor, pd.name, pd.shape, pd.assemblyRadius,
+                      pd.occurrences, pd.randomSeed, position, orientation,
                       PositionRandomizationType::circular, 0.f);
 
     _glycans[gd.name] = std::move(glycans);
@@ -119,11 +121,11 @@ void Assembly::addMesh(const MeshDescriptor &md)
     MeshPtr mesh(new Mesh(_scene, md));
     auto modelDescriptor = mesh->getModelDescriptor();
 
+    const Vector3f position = {md.position[0], md.position[1], md.position[2]};
     const Quaterniond orientation = {md.orientation[0], md.orientation[1],
                                      md.orientation[2], md.orientation[3]};
-
-    _processInstances(modelDescriptor, md.name, md.assemblyRadius,
-                      md.occurrences, md.randomSeed, orientation,
+    _processInstances(modelDescriptor, md.name, md.shape, md.assemblyRadius,
+                      md.occurrences, md.randomSeed, position, orientation,
                       md.positionRandomizationType, md.locationCutoffAngle);
 
     _meshes[md.name] = std::move(mesh);
@@ -131,8 +133,9 @@ void Assembly::addMesh(const MeshDescriptor &md)
 }
 
 void Assembly::_processInstances(
-    ModelDescriptorPtr md, const std::string &name, const float assemblyRadius,
-    const size_t occurrences, const size_t randomSeed,
+    ModelDescriptorPtr md, const std::string &name, const AssemblyShape shape,
+    const float assemblyRadius, const size_t occurrences,
+    const size_t randomSeed, const Vector3f &position,
     const Quaterniond &orientation,
     const PositionRandomizationType &randomizationType,
     const float locationCutoffAngle)
@@ -157,12 +160,27 @@ void Assembly::_processInstances(
     size_t instanceCount = 0;
     for (size_t i = 0; i < occurrences; ++i)
     {
-        Vector3f position;
-        Vector3f direction;
-        getSphericalPosition(rnd, assemblyRadius, randomizationType, randomSeed,
-                             i, occurrences, position, direction);
+        Vector3f pos;
+        Vector3f dir;
+        switch (shape)
+        {
+        case AssemblyShape::spherical:
+            getSphericalPosition(rnd, assemblyRadius, randomizationType,
+                                 randomSeed, i, occurrences, position, pos,
+                                 dir);
+            break;
+        case AssemblyShape::sinusoidal:
+            getSinosoidalPosition(assemblyRadius, randomizationType, randomSeed,
+                                  position, pos, dir);
+            break;
+        default:
+            getPlanarPosition(assemblyRadius, randomizationType, randomSeed,
+                              position, pos, dir);
+            break;
+        }
+
         // Clipping planes
-        if (isClipped(position, _clippingPlanes))
+        if (isClipped(pos, _clippingPlanes))
             continue;
 
         // Remove membrane where proteins are. This is currently done according
@@ -170,7 +188,7 @@ void Assembly::_processInstances(
         bool occupied{false};
         if (locationCutoffAngle != 0.f)
             for (const auto &occupiedDirection : _occupiedDirections)
-                if (dot(direction, occupiedDirection.first) >
+                if (dot(dir, occupiedDirection.first) >
                     occupiedDirection.second)
                 {
                     occupied = true;
@@ -181,12 +199,10 @@ void Assembly::_processInstances(
 
         // Final transformation
         Transformation tf;
-        const auto translation = _position + position - center;
+        const auto translation = _position + pos - center;
         tf.setTranslation(translation);
-        // tf.setRotationCenter(center);
 
-        Quaterniond instanceOrientation =
-            glm::quatLookAt(direction, {0.f, 0.f, 1.f});
+        Quaterniond instanceOrientation = glm::quatLookAt(dir, {0.f, 0.f, 1.f});
         tf.setRotation(instanceOrientation * orientation);
 
         if (instanceCount == 0)
@@ -199,7 +215,7 @@ void Assembly::_processInstances(
 
         // Store occupied direction
         if (locationCutoffAngle != 0.f)
-            _occupiedDirections.push_back({direction, locationCutoffAngle});
+            _occupiedDirections.push_back({dir, locationCutoffAngle});
 
         ++instanceCount;
     }

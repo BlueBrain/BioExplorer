@@ -103,10 +103,11 @@ enum class ProteinRepresentation
     surface = 3
 };
 
-enum class MembraneShape
+enum class AssemblyShape
 {
     spherical = 0,
-    planar = 1
+    planar = 1,
+    sinusoidal = 2
 };
 
 // membrane
@@ -118,7 +119,7 @@ struct MembraneDescriptor
     std::string content2;
     std::string content3;
     std::string content4;
-    MembraneShape shape;
+    AssemblyShape shape;
     float assemblyRadius;
     float atomRadiusMultiplier;
     bool loadBonds;
@@ -141,6 +142,7 @@ struct ProteinDescriptor
     std::string assemblyName;
     std::string name;
     std::string contents;
+    AssemblyShape shape;
     float assemblyRadius;
     float atomRadiusMultiplier;
     bool loadBonds;
@@ -152,6 +154,7 @@ struct ProteinDescriptor
     size_t randomSeed;
     float locationCutoffAngle;
     PositionRandomizationType positionRandomizationType;
+    floats position;
     floats orientation;
 };
 class Protein;
@@ -181,13 +184,15 @@ struct MeshDescriptor
     std::string assemblyName;
     std::string name;
     std::string contents;
+    AssemblyShape shape;
     float assemblyRadius;
     bool recenter;
     size_t occurrences;
     size_t randomSeed;
     float locationCutoffAngle;
     PositionRandomizationType positionRandomizationType;
-    std::vector<float> orientation;
+    floats position;
+    floats orientation;
 };
 class Mesh;
 typedef std::shared_ptr<Mesh> MeshPtr;

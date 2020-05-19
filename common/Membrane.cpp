@@ -117,25 +117,30 @@ void Membrane::_processInstances()
         const auto &bounds = model.getBounds();
         const Vector3f &center = bounds.getCenter();
 
-        Vector3f position;
-        Vector3f direction{0.f, 1.f, 0.f};
+        Vector3f pos;
+        Vector3f dir{0.f, 1.f, 0.f};
         switch (_descriptor.shape)
         {
-        case MembraneShape::spherical:
+        case AssemblyShape::spherical:
             getSphericalPosition(rnd, _descriptor.assemblyRadius,
                                  _descriptor.positionRandomizationType,
                                  _descriptor.randomSeed, i,
-                                 _descriptor.occurrences, position, direction);
+                                 _descriptor.occurrences, {0, 0, 0}, pos, dir);
+            break;
+        case AssemblyShape::sinusoidal:
+            getSinosoidalPosition(_descriptor.assemblyRadius,
+                                  _descriptor.positionRandomizationType,
+                                  _descriptor.randomSeed, {0, 0, 0}, pos, dir);
             break;
         default:
             getPlanarPosition(_descriptor.assemblyRadius,
                               _descriptor.positionRandomizationType,
-                              _descriptor.randomSeed, position, direction);
+                              _descriptor.randomSeed, {0, 0, 0}, pos, dir);
             break;
         }
 
         // Clipping planes
-        if (isClipped(position, _clippingPlanes))
+        if (isClipped(pos, _clippingPlanes))
             continue;
 
         // Remove membrane where proteins are. This is currently done
@@ -143,7 +148,7 @@ void Membrane::_processInstances()
         bool occupied{false};
         if (_descriptor.locationCutoffAngle != 0.f)
             for (const auto &occupiedDirection : _occupiedDirections)
-                if (dot(direction, occupiedDirection.first) >
+                if (dot(dir, occupiedDirection.first) >
                     occupiedDirection.second)
                 {
                     occupied = true;
@@ -154,10 +159,9 @@ void Membrane::_processInstances()
 
         // Final transformation
         Transformation tf;
-        tf.setTranslation(_position + position - center);
+        tf.setTranslation(_position + pos - center);
 
-        Quaterniond assemblyOrientation =
-            glm::quatLookAt(direction, {0.f, 0.f, 1.f});
+        Quaterniond assemblyOrientation = glm::quatLookAt(dir, {0.f, 0.f, 1.f});
 
         tf.setRotation(assemblyOrientation * orientation);
 

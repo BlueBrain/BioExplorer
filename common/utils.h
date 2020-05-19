@@ -63,8 +63,8 @@ inline bool isClipped(const Vector3f& position, const Vector4fs& clippingPlanes)
 inline void getSphericalPosition(
     const size_t rnd, const float assemblyRadius,
     const PositionRandomizationType randomizationType, const size_t randomSeed,
-    const size_t occurence, const size_t occurences, Vector3f& position,
-    Vector3f& direction)
+    const size_t occurence, const size_t occurences, const Vector3f& position,
+    Vector3f& pos, Vector3f& dir)
 {
     const float offset = 2.f / occurences;
     const float increment = M_PI * (3.f - sqrt(5.f));
@@ -81,14 +81,14 @@ inline void getSphericalPosition(
     const float phi = ((occurence + rnd) % occurences) * increment;
     const float x = cos(phi) * r;
     const float z = sin(phi) * r;
-    direction = {x, y, z};
-    position = radius * direction;
+    dir = {x, y, z};
+    pos = position + radius * dir;
 }
 
 inline void getPlanarPosition(const float assemblyRadius,
                               const PositionRandomizationType randomizationType,
-                              const size_t randomSeed, Vector3f& position,
-                              Vector3f& direction)
+                              const size_t randomSeed, const Vector3f& position,
+                              Vector3f& pos, Vector3f& dir)
 {
     // Randomizer
     float up = 0.f;
@@ -96,8 +96,47 @@ inline void getPlanarPosition(const float assemblyRadius,
         randomizationType == PositionRandomizationType::radial)
         up = (float(rand() % 1000 - 500) / 20000.f);
 
-    position = {float(rand() % 1000 - 500) / 1000.f * assemblyRadius, up,
-                float(rand() % 1000 - 500) / 1000.f * assemblyRadius};
+    pos = position +
+          Vector3f(float(rand() % 1000 - 500) / 1000.f * assemblyRadius, up,
+                   float(rand() % 1000 - 500) / 1000.f * assemblyRadius);
+}
+
+inline float sinusoide(const float x, const float z)
+{
+    return 0.5f * cos(x) * sin(z) + 0.1f * cos(x * 2.3f) * sin(z * 4.6f);
+}
+
+inline void getSinosoidalPosition(
+    const float assemblyRadius,
+    const PositionRandomizationType randomizationType, const size_t randomSeed,
+    const Vector3f& position, Vector3f& pos, Vector3f& dir)
+{
+    const float step = 0.1f;
+    const float angle = 0.1f;
+    float up = 1.f;
+    if (randomSeed != 0 &&
+        randomizationType == PositionRandomizationType::radial)
+        up = 1.f + (float(rand() % 1000 - 500) / 20000.f);
+
+    const float x = float(rand() % 1000 - 500) / 1000.f * assemblyRadius;
+    const float z = float(rand() % 1000 - 500) / 1000.f * assemblyRadius;
+    const float y =
+        assemblyRadius * angle * up * sinusoide(x * angle, z * angle);
+    pos = Vector3f(x, y, z);
+
+    const Vector3f v1 = Vector3f(x + step,
+                                 assemblyRadius * angle * up *
+                                     sinusoide((x + step) * angle, z * angle),
+                                 z) -
+                        pos;
+    const Vector3f v2 = Vector3f(x,
+                                 assemblyRadius * angle * up *
+                                     sinusoide(x * angle, (z + step) * angle),
+                                 z + step) -
+                        pos;
+
+    pos += position;
+    dir = normalize(cross(normalize(v1), normalize(v2)));
 }
 
 } // namespace bioexplorer

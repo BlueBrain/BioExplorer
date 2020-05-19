@@ -217,6 +217,7 @@ bool from_json(ProteinDescriptor &param, const std::string &payload)
         FROM_JSON(param, js, assemblyName);
         FROM_JSON(param, js, name);
         FROM_JSON(param, js, contents);
+        FROM_JSON(param, js, shape);
         FROM_JSON(param, js, assemblyRadius);
         FROM_JSON(param, js, atomRadiusMultiplier);
         FROM_JSON(param, js, loadBonds);
@@ -228,6 +229,7 @@ bool from_json(ProteinDescriptor &param, const std::string &payload)
         FROM_JSON(param, js, randomSeed);
         FROM_JSON(param, js, locationCutoffAngle);
         FROM_JSON(param, js, positionRandomizationType);
+        FROM_JSON(param, js, position);
         FROM_JSON(param, js, orientation);
     }
     catch (...)
@@ -266,12 +268,14 @@ bool from_json(MeshDescriptor &param, const std::string &payload)
         FROM_JSON(param, js, assemblyName);
         FROM_JSON(param, js, name);
         FROM_JSON(param, js, contents);
+        FROM_JSON(param, js, shape);
         FROM_JSON(param, js, assemblyRadius);
         FROM_JSON(param, js, recenter);
         FROM_JSON(param, js, occurrences);
         FROM_JSON(param, js, randomSeed);
         FROM_JSON(param, js, locationCutoffAngle);
         FROM_JSON(param, js, positionRandomizationType);
+        FROM_JSON(param, js, position);
         FROM_JSON(param, js, orientation);
     }
     catch (...)
