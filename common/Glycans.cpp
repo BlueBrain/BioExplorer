@@ -25,10 +25,10 @@
 
 namespace bioexplorer
 {
-Glycans::Glycans(Scene& scene, const GlycansDescriptor& gd, Vector3fs positions,
+Glycans::Glycans(Scene& scene, const SugarsDescriptor& sd, Vector3fs positions,
                  Quaternions rotations)
     : Node()
-    , _descriptor(gd)
+    , _descriptor(sd)
     , _positions(positions)
     , _rotations(rotations)
 {
@@ -190,13 +190,20 @@ void Glycans::_readAtom(const std::string& line)
 
     atom.occupancy = static_cast<float>(atof(line.substr(54, 6).c_str()));
 
-    atom.tempFactor = static_cast<float>(atof(line.substr(60, 6).c_str()));
+    if (line.length() >= 60)
+        atom.tempFactor = static_cast<float>(atof(line.substr(60, 6).c_str()));
 
-    s = line.substr(76, 2);
-    atom.element = trim(s);
+    if (line.length() >= 76)
+    {
+        s = line.substr(76, 2);
+        atom.element = trim(s);
+    }
 
-    s = line.substr(78, 2);
-    atom.charge = trim(s);
+    if (line.length() >= 78)
+    {
+        s = line.substr(78, 2);
+        atom.charge = trim(s);
+    }
 
     // Convert position from nanometers
     atom.position = 0.01f * atom.position;

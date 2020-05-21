@@ -22,6 +22,7 @@
 #include <common/log.h>
 
 #include <brayns/common/ActionInterface.h>
+#include <brayns/engineapi/Engine.h>
 #include <brayns/pluginapi/Plugin.h>
 
 namespace bioexplorer
@@ -123,12 +124,22 @@ void BioExplorer::init()
             [&](const MeshDescriptor &payload) { return _addMesh(payload); });
 
         PLUGIN_INFO << "Registering 'add-glycans' endpoint" << std::endl;
-        actionInterface->registerRequest<GlycansDescriptor, Response>(
-            "add-glycans", [&](const GlycansDescriptor &payload) {
+        actionInterface->registerRequest<SugarsDescriptor, Response>(
+            "add-glycans", [&](const SugarsDescriptor &payload) {
                 return _addGlycans(payload);
+            });
+
+        PLUGIN_INFO << "Registering 'add-glucoses' endpoint" << std::endl;
+        actionInterface->registerRequest<SugarsDescriptor, Response>(
+            "add-glucoses", [&](const SugarsDescriptor &payload) {
+                return _addGlucoses(payload);
             });
     }
 }
+
+void BioExplorer::preRender() {}
+
+void BioExplorer::postRender() {}
 
 Response BioExplorer::_version() const
 {
@@ -152,7 +163,7 @@ Response BioExplorer::_addAssembly(const AssemblyDescriptor &payload)
     try
     {
         auto &scene = _api->getScene();
-        AssemblyPtr assembly(new Assembly(scene, payload));
+        AssemblyPtr assembly = AssemblyPtr(new Assembly(scene, payload));
         _assemblies[payload.name] = std::move(assembly);
     }
     catch (const std::runtime_error &e)
@@ -357,10 +368,11 @@ Response BioExplorer::_addProtein(const ProteinDescriptor &payload) const
         response.status = false;
         response.contents = e.what();
     }
+    _api->getEngine().triggerRender();
     return response;
 }
 
-Response BioExplorer::_addGlycans(const GlycansDescriptor &payload) const
+Response BioExplorer::_addGlycans(const SugarsDescriptor &payload) const
 {
     Response response;
     try
@@ -368,6 +380,31 @@ Response BioExplorer::_addGlycans(const GlycansDescriptor &payload) const
         auto it = _assemblies.find(payload.assemblyName);
         if (it != _assemblies.end())
             (*it).second->addGlycans(payload);
+        else
+        {
+            std::stringstream msg;
+            msg << "Assembly not found: " << payload.assemblyName;
+            PLUGIN_ERROR << msg.str() << std::endl;
+            response.status = false;
+            response.contents = msg.str();
+        }
+    }
+    catch (const std::runtime_error &e)
+    {
+        response.status = false;
+        response.contents = e.what();
+    }
+    return response;
+}
+
+Response BioExplorer::_addGlucoses(const SugarsDescriptor &payload) const
+{
+    Response response;
+    try
+    {
+        auto it = _assemblies.find(payload.assemblyName);
+        if (it != _assemblies.end())
+            (*it).second->addGlucoses(payload);
         else
         {
             std::stringstream msg;

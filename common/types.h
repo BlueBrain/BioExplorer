@@ -107,7 +107,8 @@ enum class AssemblyShape
 {
     spherical = 0,
     planar = 1,
-    sinusoidal = 2
+    sinusoidal = 2,
+    cubic = 3
 };
 
 // membrane
@@ -161,8 +162,7 @@ class Protein;
 typedef std::shared_ptr<Protein> ProteinPtr;
 typedef std::map<std::string, ProteinPtr> ProteinMap;
 
-// Glycan
-struct GlycansDescriptor
+struct SugarsDescriptor
 {
     std::string assemblyName;
     std::string name;

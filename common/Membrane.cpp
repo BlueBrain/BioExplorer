@@ -66,12 +66,16 @@ Membrane::Membrane(Scene &scene, const MembraneDescriptor &descriptor,
         ProteinPtr protein(new Protein(_scene, pd));
         auto modelDescriptor = protein->getModelDescriptor();
         _proteins[pd.name] = std::move(protein);
-        _scene.addModel(modelDescriptor);
         ++i;
     }
 
     // Assemble proteins
     _processInstances();
+
+    // Add proteins to the scene
+    for (size_t i = 0; i < proteinContents.size(); ++i)
+        _scene.addModel(
+            _proteins[_getElementNameFromId(i)]->getModelDescriptor());
 }
 
 Membrane::~Membrane()
@@ -131,6 +135,9 @@ void Membrane::_processInstances()
             getSinosoidalPosition(_descriptor.assemblyRadius,
                                   _descriptor.positionRandomizationType,
                                   _descriptor.randomSeed, {0, 0, 0}, pos, dir);
+            break;
+        case AssemblyShape::cubic:
+            getCubicPosition(_descriptor.assemblyRadius, {0, 0, 0}, pos, dir);
             break;
         default:
             getPlanarPosition(_descriptor.assemblyRadius,

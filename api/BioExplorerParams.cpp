@@ -239,7 +239,7 @@ bool from_json(ProteinDescriptor &param, const std::string &payload)
     return true;
 }
 
-bool from_json(GlycansDescriptor &param, const std::string &payload)
+bool from_json(SugarsDescriptor &param, const std::string &payload)
 {
     try
     {

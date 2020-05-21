@@ -81,29 +81,29 @@ void Assembly::addMembrane(const MembraneDescriptor &md)
     _membrane = std::move(membrane);
 }
 
-void Assembly::addGlycans(const GlycansDescriptor &gd)
+void Assembly::addGlycans(const SugarsDescriptor &sd)
 {
     // Get information from target protein (attributes, number of instances,
     // glycosylation sites, etc)
-    const auto it = _proteins.find(gd.proteinName);
+    const auto it = _proteins.find(sd.proteinName);
     if (it == _proteins.end())
-        throw std::runtime_error("Target protein " + gd.proteinName +
-                                 " not registered in assembly " + gd.name);
+        throw std::runtime_error("Target protein " + sd.proteinName +
+                                 " not registered in assembly " + sd.name);
 
     const auto targetProtein = (*it).second;
 
     Vector3fs positions;
     Quaternions rotations;
-    targetProtein->getGlycosilationSites(positions, rotations, gd.siteIndices);
+    targetProtein->getGlycosilationSites(positions, rotations, sd.siteIndices);
     const auto pd = targetProtein->getDescriptor();
 
     if (positions.empty())
         throw std::runtime_error("No glycosylation site was found on " +
-                                 gd.proteinName);
+                                 sd.proteinName);
 
     // Create glycans and attach them to the glycosylation sites of the target
     // protein
-    GlycansPtr glycans(new Glycans(_scene, gd, positions, rotations));
+    GlycansPtr glycans(new Glycans(_scene, sd, positions, rotations));
     auto modelDescriptor = glycans->getModelDescriptor();
     const Vector3f position = {pd.position[0], pd.position[1], pd.position[2]};
     const Quaterniond orientation = {pd.orientation[0], pd.orientation[1],
@@ -112,7 +112,43 @@ void Assembly::addGlycans(const GlycansDescriptor &gd)
                       pd.occurrences, pd.randomSeed, position, orientation,
                       PositionRandomizationType::circular, 0.f);
 
-    _glycans[gd.name] = std::move(glycans);
+    _glycans[sd.name] = std::move(glycans);
+    _scene.addModel(modelDescriptor);
+}
+
+void Assembly::addGlucoses(const SugarsDescriptor &sd)
+{
+    // Get information from target protein (attributes, number of instances,
+    // glycosylation sites, etc)
+    const auto it = _proteins.find(sd.name);
+    if (it == _proteins.end())
+        throw std::runtime_error("Target protein " + sd.name +
+                                 " not registered in assembly " +
+                                 sd.assemblyName);
+
+    const auto targetProtein = (*it).second;
+
+    Vector3fs positions;
+    Quaternions rotations;
+    targetProtein->getGlucoseBindingSites(positions, rotations, sd.siteIndices);
+    const auto pd = targetProtein->getDescriptor();
+
+    if (positions.empty())
+        throw std::runtime_error("No glucose binding site was found on " +
+                                 sd.name);
+
+    // Create glycans and attach them to the glycosylation sites of the target
+    // protein
+    GlycansPtr glucoses(new Glycans(_scene, sd, positions, rotations));
+    auto modelDescriptor = glucoses->getModelDescriptor();
+    const Vector3f position = {pd.position[0], pd.position[1], pd.position[2]};
+    const Quaterniond orientation = {pd.orientation[0], pd.orientation[1],
+                                     pd.orientation[2], pd.orientation[3]};
+    _processInstances(modelDescriptor, pd.name, pd.shape, pd.assemblyRadius,
+                      pd.occurrences, pd.randomSeed, position, orientation,
+                      PositionRandomizationType::circular, 0.f);
+
+    _glycans[sd.name] = std::move(glucoses);
     _scene.addModel(modelDescriptor);
 }
 
@@ -172,6 +208,9 @@ void Assembly::_processInstances(
         case AssemblyShape::sinusoidal:
             getSinosoidalPosition(assemblyRadius, randomizationType, randomSeed,
                                   position, pos, dir);
+            break;
+        case AssemblyShape::cubic:
+            getCubicPosition(assemblyRadius, position, pos, dir);
             break;
         default:
             getPlanarPosition(assemblyRadius, randomizationType, randomSeed,

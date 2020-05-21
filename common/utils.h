@@ -90,7 +90,6 @@ inline void getPlanarPosition(const float assemblyRadius,
                               const size_t randomSeed, const Vector3f& position,
                               Vector3f& pos, Vector3f& dir)
 {
-    // Randomizer
     float up = 0.f;
     if (randomSeed != 0 &&
         randomizationType == PositionRandomizationType::radial)
@@ -98,6 +97,20 @@ inline void getPlanarPosition(const float assemblyRadius,
 
     pos = position +
           Vector3f(float(rand() % 1000 - 500) / 1000.f * assemblyRadius, up,
+                   float(rand() % 1000 - 500) / 1000.f * assemblyRadius);
+    dir = {0.f, 1.f, 0.f};
+}
+
+inline void getCubicPosition(const float assemblyRadius,
+                             const Vector3f& position, Vector3f& pos,
+                             Vector3f& dir)
+{
+    dir = normalize(Vector3f(float(rand() % 1000 - 500) / 1000.f,
+                             float(rand() % 1000 - 500) / 1000.f,
+                             float(rand() % 1000 - 500) / 1000.f));
+    pos = position +
+          Vector3f(float(rand() % 1000 - 500) / 1000.f * assemblyRadius,
+                   float(rand() % 1000 - 500) / 1000.f * assemblyRadius,
                    float(rand() % 1000 - 500) / 1000.f * assemblyRadius);
 }
 

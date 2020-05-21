@@ -38,7 +38,7 @@ bool from_json(RNASequenceDescriptor &param, const std::string &payload);
 bool from_json(MembraneDescriptor &param, const std::string &payload);
 bool from_json(ProteinDescriptor &param, const std::string &payload);
 bool from_json(MeshDescriptor &param, const std::string &payload);
-bool from_json(GlycansDescriptor &param, const std::string &payload);
+bool from_json(SugarsDescriptor &param, const std::string &payload);
 
 // Functions
 bool from_json(ColorSchemeDescriptor &param, const std::string &payload);

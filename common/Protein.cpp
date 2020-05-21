@@ -748,9 +748,39 @@ void Protein::getGlycosilationSites(std::vector<Vector3f>& positions,
                 positions.push_back(center);
                 rotations.push_back(
                     glm::quatLookAt(normalize(center - _bounds.getCenter()),
-                                    {0.f, 1.f, 0.f}));
+                                    {0.f, 0.f, 1.f}));
             }
         }
     }
 }
+
+void Protein::getGlucoseBindingSites(std::vector<Vector3f>& positions,
+                                     std::vector<Quaterniond>& rotations,
+                                     const size_ts& siteIndices) const
+{
+    positions.clear();
+    rotations.clear();
+
+    for (const auto site : siteIndices)
+    {
+        bool validSite{false};
+        Boxf bounds;
+        for (const auto& atom : _atomMap)
+            if (atom.second.reqSeq == site)
+            {
+                bounds.merge(atom.second.position);
+                validSite = true;
+            }
+
+        if (validSite)
+        {
+            const auto& center = bounds.getCenter();
+            positions.push_back(center);
+            rotations.push_back(
+                glm::quatLookAt(normalize(center - _bounds.getCenter()),
+                                {0.f, 0.f, 1.f}));
+        }
+    }
+}
+
 } // namespace bioexplorer

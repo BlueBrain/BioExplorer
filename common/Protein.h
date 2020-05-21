@@ -65,6 +65,10 @@ public:
                                std::vector<Quaterniond>& rotations,
                                const std::vector<size_t>& siteIndices) const;
 
+    void getGlucoseBindingSites(std::vector<Vector3f>& positions,
+                                std::vector<Quaterniond>& rotations,
+                                const std::vector<size_t>& siteIndices) const;
+
 private:
     // Analysis
     std::map<std::string, size_ts> _getGlycosylationSites(

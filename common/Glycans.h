@@ -29,14 +29,14 @@ namespace bioexplorer
 class Glycans : public Node
 {
 public:
-    Glycans(Scene& scene, const GlycansDescriptor& gd, Vector3fs positions,
+    Glycans(Scene& scene, const SugarsDescriptor& sd, Vector3fs positions,
             Quaternions rotations);
 
 private:
     void _readAtom(const std::string& line);
     void _buildModel(Model& model);
 
-    GlycansDescriptor _descriptor;
+    SugarsDescriptor _descriptor;
     Vector3fs _positions;
     Quaternions _rotations;
     AtomMap _atomMap;

@@ -47,7 +47,8 @@ public:
     void addRNASequence(const RNASequenceDescriptor &rd);
     void addProtein(const ProteinDescriptor &pd);
     void addMesh(const MeshDescriptor &md);
-    void addGlycans(const GlycansDescriptor &md);
+    void addGlycans(const SugarsDescriptor &sd);
+    void addGlucoses(const SugarsDescriptor &sd);
     void applyTransformations(const AssemblyTransformationsDescriptor &at);
 
 private:
