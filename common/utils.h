@@ -73,7 +73,7 @@ inline void getSphericalPosition(
     float radius = assemblyRadius;
     if (randomSeed != 0 &&
         randomizationType == PositionRandomizationType::radial)
-        radius *= 1.f + (float(rand() % 1000 - 500) / 20000.f);
+        radius *= 1.f + (float(rand() % 1000 - 500) / 30000.f);
 
     // Sphere filling
     const float y = ((occurence * offset) - 1.f) + (offset / 2.f);
