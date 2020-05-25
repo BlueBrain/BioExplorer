@@ -38,6 +38,8 @@ public:
              const OccupiedDirections &occupiedDirections);
     ~Membrane();
 
+    const ProteinMap& getProteins() const {return _proteins;}
+
 private:
     void _processInstances();
     std::string _getElementNameFromId(const size_t id);

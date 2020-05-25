@@ -209,7 +209,7 @@ void Protein::_buildModel(Model& model, const ProteinDescriptor& descriptor)
     if (descriptor.representation == ProteinRepresentation::atoms_and_sticks)
         for (const auto& atom1 : _atomMap)
             for (const auto& atom2 : _atomMap)
-                if (atom1.first != atom2.first)
+                if (atom1.first != atom2.first && atom1.second.reqSeq == atom2.second.reqSeq )
                 {
                     const auto stick =
                         atom2.second.position - atom1.second.position;

@@ -323,15 +323,24 @@ void Assembly::applyTransformations(const AssemblyTransformationsDescriptor &at)
 
 void Assembly::setColorScheme(const ColorSchemeDescriptor &csd)
 {
+    ProteinPtr protein{nullptr};
     auto it = _proteins.find(csd.name);
     if (it != _proteins.end())
+        protein = (*it).second;
+    else{
+        const auto membraneProteins = _membrane->getProteins();
+        auto it = membraneProteins.find(csd.name);
+        if (it != membraneProteins.end())
+            protein = (*it).second;
+    }
+    if( protein)
     {
         Palette palette;
         for (size_t i = 0; i < csd.palette.size(); i += 3)
             palette.push_back(
                 {csd.palette[i], csd.palette[i + 1], csd.palette[i + 2]});
 
-        (*it).second->setColorScheme(csd.colorScheme, palette, csd.chainIds);
+        protein->setColorScheme(csd.colorScheme, palette, csd.chainIds);
     }
 }
 
