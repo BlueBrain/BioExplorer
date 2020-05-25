@@ -74,6 +74,10 @@ private:
     std::map<std::string, size_ts> _getGlycosylationSites(
         const size_ts& siteIndices) const;
 
+    void _getSitesTransformations(
+        std::vector<Vector3f>& positions, std::vector<Quaterniond>& rotations,
+        const std::map<std::string, size_ts>& sites) const;
+
     // Color schemes
     void _setAtomColorScheme();
     void _setChainColorScheme(const Palette& palette);

@@ -32,13 +32,13 @@ Assembly::Assembly(Scene &scene, const AssemblyDescriptor &ad)
     : _scene(scene)
 {
     if (ad.position.size() != 3)
-        throw std::runtime_error(
-            "Position must be a sequence of 3 float values");
+        PLUGIN_THROW(std::runtime_error(
+            "Position must be a sequence of 3 float values"));
     _position = {ad.position[0], ad.position[1], ad.position[2]};
 
     if (ad.clippingPlanes.size() % 4 != 0)
-        throw std::runtime_error(
-            "Clipping planes must be defined by 4 float values");
+        PLUGIN_THROW(std::runtime_error(
+            "Clipping planes must be defined by 4 float values"));
     const auto &cp = ad.clippingPlanes;
     for (size_t i = 0; i < cp.size(); i += 4)
         _clippingPlanes.push_back({cp[i], cp[i + 1], cp[i + 2], cp[i + 3]});
@@ -53,6 +53,8 @@ Assembly::~Assembly()
         _scene.removeModel(protein.second->getModelDescriptor()->getModelID());
     for (const auto &mesh : _meshes)
         _scene.removeModel(mesh.second->getModelDescriptor()->getModelID());
+    if (_rnaSequence)
+        _scene.removeModel(_rnaSequence->getModelDescriptor()->getModelID());
 }
 
 void Assembly::addProtein(const ProteinDescriptor &pd)
@@ -74,7 +76,7 @@ void Assembly::addProtein(const ProteinDescriptor &pd)
 void Assembly::addMembrane(const MembraneDescriptor &md)
 {
     if (_membrane != nullptr)
-        throw std::runtime_error("Assembly already has a membrane");
+        PLUGIN_THROW(std::runtime_error("Assembly already has a membrane"));
 
     MembranePtr membrane(new Membrane(_scene, md, _position, _clippingPlanes,
                                       _occupiedDirections));
@@ -87,8 +89,9 @@ void Assembly::addGlycans(const SugarsDescriptor &sd)
     // glycosylation sites, etc)
     const auto it = _proteins.find(sd.proteinName);
     if (it == _proteins.end())
-        throw std::runtime_error("Target protein " + sd.proteinName +
-                                 " not registered in assembly " + sd.name);
+        PLUGIN_THROW(std::runtime_error("Target protein " + sd.proteinName +
+                                        " not registered in assembly " +
+                                        sd.name));
 
     const auto targetProtein = (*it).second;
 
@@ -98,8 +101,8 @@ void Assembly::addGlycans(const SugarsDescriptor &sd)
     const auto pd = targetProtein->getDescriptor();
 
     if (positions.empty())
-        throw std::runtime_error("No glycosylation site was found on " +
-                                 sd.proteinName);
+        PLUGIN_THROW(std::runtime_error("No glycosylation site was found on " +
+                                        sd.proteinName));
 
     // Create glycans and attach them to the glycosylation sites of the target
     // protein
@@ -120,11 +123,11 @@ void Assembly::addGlucoses(const SugarsDescriptor &sd)
 {
     // Get information from target protein (attributes, number of instances,
     // glycosylation sites, etc)
-    const auto it = _proteins.find(sd.name);
+    const auto it = _proteins.find(sd.proteinName);
     if (it == _proteins.end())
-        throw std::runtime_error("Target protein " + sd.name +
-                                 " not registered in assembly " +
-                                 sd.assemblyName);
+        PLUGIN_THROW(std::runtime_error("Target protein " + sd.proteinName +
+                                        " not registered in assembly " +
+                                        sd.assemblyName));
 
     const auto targetProtein = (*it).second;
 
@@ -134,8 +137,11 @@ void Assembly::addGlucoses(const SugarsDescriptor &sd)
     const auto pd = targetProtein->getDescriptor();
 
     if (positions.empty())
-        throw std::runtime_error("No glucose binding site was found on " +
-                                 sd.name);
+        PLUGIN_THROW(std::runtime_error(
+            "No glucose binding site was found on " + sd.name));
+
+    PLUGIN_INFO << positions.size() << " glucose sites found on "
+                << sd.proteinName << std::endl;
 
     // Create glycans and attach them to the glycosylation sites of the target
     // protein
@@ -263,8 +269,8 @@ void Assembly::_processInstances(
 void Assembly::applyTransformations(const AssemblyTransformationsDescriptor &at)
 {
     if (at.transformations.size() % 13 != 0)
-        throw std::runtime_error(
-            "Invalid number of floats in the list of transformations");
+        PLUGIN_THROW(std::runtime_error(
+            "Invalid number of floats in the list of transformations"));
 
     ModelDescriptorPtr modelDescriptor{nullptr};
 
@@ -282,9 +288,9 @@ void Assembly::applyTransformations(const AssemblyTransformationsDescriptor &at)
             if (it != _glycans.end())
                 modelDescriptor = (*it).second->getModelDescriptor();
             else
-                throw std::runtime_error("Element " + at.name +
-                                         " is not registered in assembly " +
-                                         at.assemblyName);
+                PLUGIN_THROW(std::runtime_error(
+                    "Element " + at.name + " is not registered in assembly " +
+                    at.assemblyName));
         }
     }
 
@@ -327,13 +333,14 @@ void Assembly::setColorScheme(const ColorSchemeDescriptor &csd)
     auto it = _proteins.find(csd.name);
     if (it != _proteins.end())
         protein = (*it).second;
-    else{
+    else if (_membrane)
+    {
         const auto membraneProteins = _membrane->getProteins();
         auto it = membraneProteins.find(csd.name);
         if (it != membraneProteins.end())
             protein = (*it).second;
     }
-    if( protein)
+    if (protein)
     {
         Palette palette;
         for (size_t i = 0; i < csd.palette.size(); i += 3)
@@ -351,7 +358,7 @@ void Assembly::setAminoAcidSequenceAsString(
     if (it != _proteins.end())
         (*it).second->setAminoAcidSequenceAsString(aasd.sequence);
     else
-        throw std::runtime_error("Protein not found: " + aasd.name);
+        PLUGIN_THROW(std::runtime_error("Protein not found: " + aasd.name));
 }
 
 void Assembly::setAminoAcidSequenceAsRange(
@@ -362,7 +369,7 @@ void Assembly::setAminoAcidSequenceAsRange(
         (*it).second->setAminoAcidSequenceAsRange(
             {aasd.range[0], aasd.range[1]});
     else
-        throw std::runtime_error("Protein not found: " + aasd.name);
+        PLUGIN_THROW(std::runtime_error("Protein not found: " + aasd.name));
 }
 
 std::string Assembly::getAminoAcidSequences(
@@ -383,18 +390,18 @@ std::string Assembly::getAminoAcidSequences(
         }
     }
     else
-        throw std::runtime_error("Protein not found: " + aasd.name);
+        PLUGIN_THROW(std::runtime_error("Protein not found: " + aasd.name));
     return response;
 }
 
 void Assembly::addRNASequence(const RNASequenceDescriptor &rnad)
 {
     if (rnad.range.size() != 2)
-        throw std::runtime_error("Invalid range");
+        PLUGIN_THROW(std::runtime_error("Invalid range"));
     const Vector2f range{rnad.range[0], rnad.range[1]};
 
     if (rnad.params.size() != 3)
-        throw std::runtime_error("Invalid params");
+        PLUGIN_THROW(std::runtime_error("Invalid params"));
 
     const Vector3f params{rnad.params[0], rnad.params[1], rnad.params[2]};
 
@@ -405,8 +412,8 @@ void Assembly::addRNASequence(const RNASequenceDescriptor &rnad)
     PLUGIN_INFO << "Range          : " << range << std::endl;
     PLUGIN_INFO << "Params         : " << params << std::endl;
 
-    RNASequence rnaSequence(_scene, rnad, range, params);
-    const auto modelDescriptor = rnaSequence.getModelDescriptor();
+    _rnaSequence = RNASequencePtr(new RNASequence(_scene, rnad, range, params));
+    const auto modelDescriptor = _rnaSequence->getModelDescriptor();
     _scene.addModel(modelDescriptor);
 }
 } // namespace bioexplorer

@@ -112,7 +112,7 @@ void getCubicPosition(const float assemblyRadius, const Vector3f& position,
 
 float sinusoide(const float x, const float z)
 {
-    return 0.5f * cos(x) * sin(z) + 0.1f * cos(x * 2.3f) * sin(z * 4.6f);
+    return 0.2f * cos(x) * sin(z) + 0.05f * cos(x * 2.3f) * sin(z * 4.6f);
 }
 
 void getSinosoidalPosition(const float assemblyRadius,

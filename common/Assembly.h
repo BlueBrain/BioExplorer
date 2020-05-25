@@ -66,6 +66,7 @@ private:
     ProteinMap _proteins;
     MeshMap _meshes;
     MembranePtr _membrane{nullptr};
+    RNASequencePtr _rnaSequence{nullptr};
     OccupiedDirections _occupiedDirections;
     Vector4fs _clippingPlanes;
     std::map<std::string, std::vector<Transformation>> _transformations;

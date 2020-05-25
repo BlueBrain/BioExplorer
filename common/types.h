@@ -210,6 +210,8 @@ struct RNASequenceDescriptor
     std::vector<float> range;
     std::vector<float> params;
 };
+class RNASequence;
+typedef std::shared_ptr<RNASequence> RNASequencePtr;
 
 // Amino acid
 struct AminoAcidSequenceAsStringDescriptor

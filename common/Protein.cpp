@@ -29,6 +29,8 @@ namespace bioexplorer
 {
 Protein::Protein(Scene& scene, const ProteinDescriptor& descriptor)
     : Node()
+    , _aminoAcidRange(std::numeric_limits<size_t>::max(),
+                      std::numeric_limits<size_t>::min())
     , _chainIds(descriptor.chainIds)
     , _descritpor(descriptor)
 {
@@ -106,6 +108,8 @@ Protein::Protein(Scene& scene, const ProteinDescriptor& descriptor)
     metadata["Title"] = _title;
     metadata["Atoms"] = std::to_string(_atomMap.size());
     metadata["Bonds"] = std::to_string(_bondsMap.size());
+    metadata["Amino acids range"] = std::to_string(_aminoAcidRange.x) + ":" +
+                                    std::to_string(_aminoAcidRange.y);
 
     const auto& size = _bounds.getSize();
     metadata["Size"] = std::to_string(size.x) + ", " + std::to_string(size.y) +
@@ -209,7 +213,8 @@ void Protein::_buildModel(Model& model, const ProteinDescriptor& descriptor)
     if (descriptor.representation == ProteinRepresentation::atoms_and_sticks)
         for (const auto& atom1 : _atomMap)
             for (const auto& atom2 : _atomMap)
-                if (atom1.first != atom2.first && atom1.second.reqSeq == atom2.second.reqSeq )
+                if (atom1.first != atom2.first &&
+                    atom1.second.reqSeq == atom2.second.reqSeq)
                 {
                     const auto stick =
                         atom2.second.position - atom1.second.position;
@@ -232,7 +237,8 @@ StringMap Protein::getSequencesAsString() const
     StringMap sequencesAsStrings;
     for (const auto& sequence : _sequenceMap)
     {
-        std::string shortSequence;
+        std::string shortSequence = std::to_string(_aminoAcidRange.x) + "," +
+                                    std::to_string(_aminoAcidRange.y) + ",";
         for (const auto& resName : sequence.second.resNames)
             shortSequence += aminoAcidMap[resName].shortName;
 
@@ -489,6 +495,8 @@ void Protein::_readAtom(const std::string& line)
     _residues.insert(atom.resName);
 
     atom.reqSeq = static_cast<size_t>(atoi(line.substr(22, 4).c_str()));
+    _aminoAcidRange.x = std::min(atom.reqSeq, size_t(_aminoAcidRange.x));
+    _aminoAcidRange.y = std::max(atom.reqSeq, size_t(_aminoAcidRange.y));
 
     atom.iCode = line.substr(26, 1);
 
@@ -719,15 +727,10 @@ std::map<std::string, size_ts> Protein::_getGlycosylationSites(
     return sites;
 }
 
-void Protein::getGlycosilationSites(std::vector<Vector3f>& positions,
-                                    std::vector<Quaterniond>& rotations,
-                                    const size_ts& siteIndices) const
+void Protein::_getSitesTransformations(
+    std::vector<Vector3f>& positions, std::vector<Quaterniond>& rotations,
+    const std::map<std::string, size_ts>& sites) const
 {
-    positions.clear();
-    rotations.clear();
-
-    const auto sites = _getGlycosylationSites(siteIndices);
-
     for (const auto chain : sites)
     {
         for (const auto site : chain.second)
@@ -748,10 +751,22 @@ void Protein::getGlycosilationSites(std::vector<Vector3f>& positions,
                 positions.push_back(center);
                 rotations.push_back(
                     glm::quatLookAt(normalize(center - _bounds.getCenter()),
-                                    {0.f, 0.f, 1.f}));
+                                    {0.f, 0.f, -1.f}));
             }
         }
     }
+}
+
+void Protein::getGlycosilationSites(std::vector<Vector3f>& positions,
+                                    std::vector<Quaterniond>& rotations,
+                                    const size_ts& siteIndices) const
+{
+    positions.clear();
+    rotations.clear();
+
+    const auto sites = _getGlycosylationSites(siteIndices);
+
+    _getSitesTransformations(positions, rotations, sites);
 }
 
 void Protein::getGlucoseBindingSites(std::vector<Vector3f>& positions,
@@ -761,26 +776,15 @@ void Protein::getGlucoseBindingSites(std::vector<Vector3f>& positions,
     positions.clear();
     rotations.clear();
 
-    for (const auto site : siteIndices)
-    {
-        bool validSite{false};
-        Boxf bounds;
-        for (const auto& atom : _atomMap)
-            if (atom.second.reqSeq == site)
-            {
-                bounds.merge(atom.second.position);
-                validSite = true;
-            }
+    std::set<std::string> chainIds;
+    for (const auto& atom : _atomMap)
+        chainIds.insert(atom.second.chainId);
 
-        if (validSite)
-        {
-            const auto& center = bounds.getCenter();
-            positions.push_back(center);
-            rotations.push_back(
-                glm::quatLookAt(normalize(center - _bounds.getCenter()),
-                                {0.f, 0.f, 1.f}));
-        }
-    }
+    std::map<std::string, size_ts> sites;
+    for (const auto& chainId : chainIds)
+        sites[chainId] = siteIndices;
+
+    _getSitesTransformations(positions, rotations, sites);
 }
 
 } // namespace bioexplorer
