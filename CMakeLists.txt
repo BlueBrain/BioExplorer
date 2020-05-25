@@ -20,6 +20,7 @@ if(NOT CMAKE_BUILD_TYPE)
 endif(NOT CMAKE_BUILD_TYPE)
 
 set(${NAME}_SOURCES
+  common/utils.cpp
   common/Assembly.cpp
   common/Node.cpp
   common/Membrane.cpp
