@@ -55,6 +55,7 @@ private:
     void _processInstances(ModelDescriptorPtr md, const std::string &name,
                            const AssemblyShape shape,
                            const float assemblyRadius, const size_t occurrences,
+                           const size_ts &allowedOccurrences,
                            const size_t randomSeed, const Vector3f &position,
                            const Quaterniond &orientation,
                            const PositionRandomizationType &randomizationType,

@@ -108,7 +108,8 @@ enum class AssemblyShape
     spherical = 0,
     planar = 1,
     sinusoidal = 2,
-    cubic = 3
+    cubic = 3,
+    fan = 4
 };
 
 // membrane
@@ -152,6 +153,7 @@ struct ProteinDescriptor
     size_ts chainIds;
     bool recenter;
     size_t occurrences;
+    size_ts allowedOccurrences;
     size_t randomSeed;
     float locationCutoffAngle;
     PositionRandomizationType positionRandomizationType;

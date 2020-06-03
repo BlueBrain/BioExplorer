@@ -82,6 +82,31 @@ void getSphericalPosition(const size_t rnd, const float assemblyRadius,
     pos = position + radius * dir;
 }
 
+void getFanPosition(const size_t rnd, const float assemblyRadius,
+                    const PositionRandomizationType randomizationType,
+                    const size_t randomSeed, const size_t occurence,
+                    const size_t occurences, const Vector3f& position,
+                    Vector3f& pos, Vector3f& dir)
+{
+    const float offset = 2.f / occurences;
+    const float increment = 0.1f * M_PI * (3.f - sqrt(5.f));
+
+    // Randomizer
+    float radius = assemblyRadius;
+    if (randomSeed != 0 &&
+        randomizationType == PositionRandomizationType::radial)
+        radius *= 1.f + (float(rand() % 1000 - 500) / 30000.f);
+
+    // Sphere filling
+    const float y = ((occurence * offset) - 1.f) + (offset / 2.f);
+    const float r = sqrt(1.f - pow(y, 2.f));
+    const float phi = ((occurence + rnd) % occurences) * increment;
+    const float x = cos(phi) * r;
+    const float z = sin(phi) * r;
+    dir = {x, y, z};
+    pos = position + radius * dir;
+}
+
 void getPlanarPosition(const float assemblyRadius,
                        const PositionRandomizationType randomizationType,
                        const size_t randomSeed, const Vector3f& position,

@@ -66,8 +66,9 @@ void Assembly::addProtein(const ProteinDescriptor &pd)
     const Quaterniond orientation = {pd.orientation[0], pd.orientation[1],
                                      pd.orientation[2], pd.orientation[3]};
     _processInstances(modelDescriptor, pd.name, pd.shape, pd.assemblyRadius,
-                      pd.occurrences, pd.randomSeed, position, orientation,
-                      pd.positionRandomizationType, pd.locationCutoffAngle);
+                      pd.occurrences, pd.allowedOccurrences, pd.randomSeed,
+                      position, orientation, pd.positionRandomizationType,
+                      pd.locationCutoffAngle);
 
     _proteins[pd.name] = std::move(protein);
     _scene.addModel(modelDescriptor);
@@ -89,9 +90,15 @@ void Assembly::addGlycans(const SugarsDescriptor &sd)
     // glycosylation sites, etc)
     const auto it = _proteins.find(sd.proteinName);
     if (it == _proteins.end())
+    {
+        std::string s;
+        for (const auto &protein : _proteins)
+            s += "[" + protein.first + "]";
         PLUGIN_THROW(std::runtime_error("Target protein " + sd.proteinName +
                                         " not registered in assembly " +
-                                        sd.name));
+                                        sd.assemblyName +
+                                        ". Registered proteins are " + s));
+    }
 
     const auto targetProtein = (*it).second;
 
@@ -109,10 +116,12 @@ void Assembly::addGlycans(const SugarsDescriptor &sd)
     GlycansPtr glycans(new Glycans(_scene, sd, positions, rotations));
     auto modelDescriptor = glycans->getModelDescriptor();
     const Vector3f position = {pd.position[0], pd.position[1], pd.position[2]};
+    const size_ts allowedOccurences;
     const Quaterniond orientation = {pd.orientation[0], pd.orientation[1],
                                      pd.orientation[2], pd.orientation[3]};
     _processInstances(modelDescriptor, pd.name, pd.shape, pd.assemblyRadius,
-                      pd.occurrences, pd.randomSeed, position, orientation,
+                      pd.occurrences, allowedOccurences, pd.randomSeed,
+                      position, orientation,
                       PositionRandomizationType::circular, 0.f);
 
     _glycans[sd.name] = std::move(glycans);
@@ -125,9 +134,15 @@ void Assembly::addGlucoses(const SugarsDescriptor &sd)
     // glycosylation sites, etc)
     const auto it = _proteins.find(sd.proteinName);
     if (it == _proteins.end())
+    {
+        std::string s;
+        for (const auto &protein : _proteins)
+            s += "[" + protein.first + "]";
         PLUGIN_THROW(std::runtime_error("Target protein " + sd.proteinName +
                                         " not registered in assembly " +
-                                        sd.assemblyName));
+                                        sd.assemblyName +
+                                        ". Registered proteins are " + s));
+    }
 
     const auto targetProtein = (*it).second;
 
@@ -150,8 +165,10 @@ void Assembly::addGlucoses(const SugarsDescriptor &sd)
     const Vector3f position = {pd.position[0], pd.position[1], pd.position[2]};
     const Quaterniond orientation = {pd.orientation[0], pd.orientation[1],
                                      pd.orientation[2], pd.orientation[3]};
+    const size_ts allowedOccurences;
     _processInstances(modelDescriptor, pd.name, pd.shape, pd.assemblyRadius,
-                      pd.occurrences, pd.randomSeed, position, orientation,
+                      pd.occurrences, allowedOccurences, pd.randomSeed,
+                      position, orientation,
                       PositionRandomizationType::circular, 0.f);
 
     _glycans[sd.name] = std::move(glucoses);
@@ -166,9 +183,12 @@ void Assembly::addMesh(const MeshDescriptor &md)
     const Vector3f position = {md.position[0], md.position[1], md.position[2]};
     const Quaterniond orientation = {md.orientation[0], md.orientation[1],
                                      md.orientation[2], md.orientation[3]};
+
+    const size_ts allowedOccurences;
     _processInstances(modelDescriptor, md.name, md.shape, md.assemblyRadius,
-                      md.occurrences, md.randomSeed, position, orientation,
-                      md.positionRandomizationType, md.locationCutoffAngle);
+                      md.occurrences, allowedOccurences, md.randomSeed,
+                      position, orientation, md.positionRandomizationType,
+                      md.locationCutoffAngle);
 
     _meshes[md.name] = std::move(mesh);
     _scene.addModel(modelDescriptor);
@@ -177,8 +197,8 @@ void Assembly::addMesh(const MeshDescriptor &md)
 void Assembly::_processInstances(
     ModelDescriptorPtr md, const std::string &name, const AssemblyShape shape,
     const float assemblyRadius, const size_t occurrences,
-    const size_t randomSeed, const Vector3f &position,
-    const Quaterniond &orientation,
+    const size_ts &allowedOccurrences, const size_t randomSeed,
+    const Vector3f &position, const Quaterniond &orientation,
     const PositionRandomizationType &randomizationType,
     const float locationCutoffAngle)
 {
@@ -202,6 +222,11 @@ void Assembly::_processInstances(
     size_t instanceCount = 0;
     for (size_t i = 0; i < occurrences; ++i)
     {
+        if (!allowedOccurrences.empty() &&
+            std::find(allowedOccurrences.begin(), allowedOccurrences.end(),
+                      i) == allowedOccurrences.end())
+            continue;
+
         Vector3f pos;
         Vector3f dir;
         switch (shape)
@@ -217,6 +242,10 @@ void Assembly::_processInstances(
             break;
         case AssemblyShape::cubic:
             getCubicPosition(assemblyRadius, position, pos, dir);
+            break;
+        case AssemblyShape::fan:
+            getFanPosition(rnd, assemblyRadius, randomizationType, randomSeed,
+                           i, occurrences, position, pos, dir);
             break;
         default:
             getPlanarPosition(assemblyRadius, randomizationType, randomSeed,

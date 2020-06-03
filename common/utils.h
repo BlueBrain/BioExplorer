@@ -117,6 +117,25 @@ void getSinosoidalPosition(const float assemblyRadius,
                            const PositionRandomizationType randomizationType,
                            const size_t randomSeed, const Vector3f& position,
                            Vector3f& pos, Vector3f& dir);
+
+/**
+ * @brief getFanPosition
+ * @param rnd
+ * @param assemblyRadius
+ * @param randomizationType
+ * @param randomSeed
+ * @param occurence
+ * @param occurences
+ * @param position
+ * @param pos
+ * @param dir
+ */
+void getFanPosition(const size_t rnd, const float assemblyRadius,
+                    const PositionRandomizationType randomizationType,
+                    const size_t randomSeed, const size_t occurence,
+                    const size_t occurences, const Vector3f& position,
+                    Vector3f& pos, Vector3f& dir);
+
 } // namespace bioexplorer
 
 #endif // BIOEXPLORER_UTILS_H

@@ -20,6 +20,7 @@ if(NOT CMAKE_BUILD_TYPE)
 endif(NOT CMAKE_BUILD_TYPE)
 
 set(${NAME}_SOURCES
+  io/MolecularSystemLoader.cpp
   common/utils.cpp
   common/Assembly.cpp
   common/Node.cpp
@@ -35,6 +36,7 @@ set(${NAME}_SOURCES
 )
 
 set(${NAME}_PUBLIC_HEADERS
+  io/MolecularSystemLoader.h
   common/Assembly.h
   common/Node.h
   common/Glycans.h

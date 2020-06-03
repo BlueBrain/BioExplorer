@@ -139,6 +139,12 @@ void Membrane::_processInstances()
         case AssemblyShape::cubic:
             getCubicPosition(_descriptor.assemblyRadius, {0, 0, 0}, pos, dir);
             break;
+        case AssemblyShape::fan:
+            getFanPosition(rnd, _descriptor.assemblyRadius,
+                           _descriptor.positionRandomizationType,
+                           _descriptor.randomSeed, i, _descriptor.occurrences,
+                           {0, 0, 0}, pos, dir);
+            break;
         default:
             getPlanarPosition(_descriptor.assemblyRadius,
                               _descriptor.positionRandomizationType,
