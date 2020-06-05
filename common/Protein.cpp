@@ -128,6 +128,7 @@ Protein::Protein(Scene& scene, const ProteinDescriptor& descriptor)
 void Protein::_buildModel(Model& model, const ProteinDescriptor& descriptor)
 {
     // Atoms
+    PLUGIN_INFO << "Building protein " << descriptor.name << "..." << std::endl;
     switch (descriptor.representation)
     {
     case ProteinRepresentation::atoms:
@@ -188,6 +189,7 @@ void Protein::_buildModel(Model& model, const ProteinDescriptor& descriptor)
     // Bonds
     if (descriptor.loadBonds)
     {
+        PLUGIN_INFO << "Building bonds..." << std::endl;
         for (const auto& bond : _bondsMap)
         {
             const auto& atomSrc = _atomMap.find(bond.first)->second;
@@ -211,10 +213,14 @@ void Protein::_buildModel(Model& model, const ProteinDescriptor& descriptor)
 
     // Sticks
     if (descriptor.representation == ProteinRepresentation::atoms_and_sticks)
+    {
+        PLUGIN_INFO << "Building sticks (" << _atomMap.size() << " atoms)..."
+                    << std::endl;
         for (const auto& atom1 : _atomMap)
             for (const auto& atom2 : _atomMap)
                 if (atom1.first != atom2.first &&
-                    atom1.second.reqSeq == atom2.second.reqSeq)
+                    atom1.second.reqSeq == atom2.second.reqSeq &&
+                    atom1.second.chainId != atom2.second.chainId)
                 {
                     const auto stick =
                         atom2.second.position - atom1.second.position;
@@ -230,6 +236,8 @@ void Protein::_buildModel(Model& model, const ProteinDescriptor& descriptor)
                                                BOND_RADIUS});
                     }
                 }
+    }
+    PLUGIN_INFO << "Protein model successfully built" << std::endl;
 }
 
 StringMap Protein::getSequencesAsString() const

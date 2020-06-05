@@ -100,6 +100,7 @@ void Assembly::addGlycans(const SugarsDescriptor &sd)
                                         ". Registered proteins are " + s));
     }
 
+    PLUGIN_INFO << "Adding glycans to protein " << sd.proteinName << std::endl;
     const auto targetProtein = (*it).second;
 
     Vector3fs positions;
@@ -116,11 +117,10 @@ void Assembly::addGlycans(const SugarsDescriptor &sd)
     GlycansPtr glycans(new Glycans(_scene, sd, positions, rotations));
     auto modelDescriptor = glycans->getModelDescriptor();
     const Vector3f position = {pd.position[0], pd.position[1], pd.position[2]};
-    const size_ts allowedOccurences;
     const Quaterniond orientation = {pd.orientation[0], pd.orientation[1],
                                      pd.orientation[2], pd.orientation[3]};
     _processInstances(modelDescriptor, pd.name, pd.shape, pd.assemblyRadius,
-                      pd.occurrences, allowedOccurences, pd.randomSeed,
+                      pd.occurrences, sd.allowedOccurrences, pd.randomSeed,
                       position, orientation,
                       PositionRandomizationType::circular, 0.f);
 
@@ -247,6 +247,29 @@ void Assembly::_processInstances(
             getFanPosition(rnd, assemblyRadius, randomizationType, randomSeed,
                            i, occurrences, position, pos, dir);
             break;
+        case AssemblyShape::bezier:
+        {
+            const Vector3fs points = {
+                {1, 391, 0},   {25, 411, 0},  {48, 446, 0},  {58, 468, 0},
+                {70, 495, 0},  {83, 523, 0},  {110, 535, 0}, {157, 517, 0},
+                {181, 506, 0}, {214, 501, 0}, {216, 473, 0}, {204, 456, 0},
+                {223, 411, 0}, {241, 382, 0}, {261, 372, 0}, {297, 402, 0},
+                {308, 433, 0}, {327, 454, 0}, {355, 454, 0}, {389, 446, 0},
+                {406, 433, 0}, {431, 426, 0}, {458, 443, 0}, {478, 466, 0},
+                {518, 463, 0}, {559, 464, 0}, {584, 478, 0}, {582, 503, 0},
+                {550, 533, 0}, {540, 550, 0}, {540, 574, 0}, {560, 572, 0},
+                {599, 575, 0}, {629, 550, 0}, {666, 548, 0}, {696, 548, 0},
+                {701, 582, 0}, {701, 614, 0}, {683, 639, 0}, {653, 647, 0},
+                {632, 651, 0}, {597, 666, 0}, {570, 701, 0}, {564, 731, 0},
+                {559, 770, 0}, {565, 799, 0}, {577, 819, 0}, {611, 820, 0},
+                {661, 809, 0}, {683, 787, 0}, {700, 768, 0}, {735, 758, 0},
+                {763, 768, 0}, {788, 792, 0}, {780, 820, 0}, {770, 859, 0},
+                {740, 882, 0}, {705, 911, 0}, {688, 931, 0}, {646, 973, 0},
+                {611, 992, 0}, {585, 1022, 0}};
+            getBezierPosition(points, assemblyRadius,
+                              float(i) / float(occurrences), pos, dir);
+            break;
+        }
         default:
             getPlanarPosition(assemblyRadius, randomizationType, randomSeed,
                               position, pos, dir);

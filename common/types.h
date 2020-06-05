@@ -109,7 +109,8 @@ enum class AssemblyShape
     planar = 1,
     sinusoidal = 2,
     cubic = 3,
-    fan = 4
+    fan = 4,
+    bezier = 5
 };
 
 // membrane
@@ -174,6 +175,7 @@ struct SugarsDescriptor
     bool addSticks;
     bool recenter;
     std::vector<size_t> siteIndices;
+    size_ts allowedOccurrences;
 };
 
 class Glycans;

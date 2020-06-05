@@ -136,6 +136,17 @@ void getFanPosition(const size_t rnd, const float assemblyRadius,
                     const size_t occurences, const Vector3f& position,
                     Vector3f& pos, Vector3f& dir);
 
+/**
+ * @brief getBezierPosition
+ * @param points
+ * @param assemblyRadius
+ * @param t
+ * @param pos
+ * @param dir
+ */
+void getBezierPosition(const Vector3fs& points, const float assemblyRadius,
+                       const float t, Vector3f& pos, Vector3f& dir);
+
 } // namespace bioexplorer
 
 #endif // BIOEXPLORER_UTILS_H

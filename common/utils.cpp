@@ -173,4 +173,23 @@ void getSinosoidalPosition(const float assemblyRadius,
     dir = normalize(cross(normalize(v1), normalize(v2)));
 }
 
+void getBezierPosition(const Vector3fs& points, const float assemblyRadius,
+                       const float t, Vector3f& pos, Vector3f& dir)
+{
+    Vector3fs bezierPoints = points;
+    for (auto& bezierPoint : bezierPoints)
+        bezierPoint *= assemblyRadius;
+
+    size_t i = bezierPoints.size() - 1;
+    while (i > 0)
+    {
+        for (size_t k = 0; k < i; ++k)
+            bezierPoints[k] =
+                bezierPoints[k] + t * (bezierPoints[k + 1] - bezierPoints[k]);
+        --i;
+    }
+    dir = normalize(cross({0, 0, 1}, bezierPoints[1] - bezierPoints[0]));
+    pos = bezierPoints[0];
+}
+
 } // namespace bioexplorer
