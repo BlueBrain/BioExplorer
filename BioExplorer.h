@@ -41,6 +41,7 @@ public:
 
 private:
     Response _version() const;
+    Response _exportToFile(const LoaderExportToFileDescriptor &payload);
     Response _addAssembly(const AssemblyDescriptor &payload);
     Response _removeAssembly(const AssemblyDescriptor &payload);
     Response _applyTransformations(

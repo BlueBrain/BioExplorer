@@ -32,11 +32,18 @@ std::string to_json(const Response &param);
 
 // Nodes
 bool from_json(AssemblyDescriptor &param, const std::string &payload);
+std::string to_json(const AssemblyDescriptor &payload);
+
 bool from_json(AssemblyTransformationsDescriptor &param,
                const std::string &payload);
+
 bool from_json(RNASequenceDescriptor &param, const std::string &payload);
+
 bool from_json(MembraneDescriptor &param, const std::string &payload);
+
 bool from_json(ProteinDescriptor &param, const std::string &payload);
+std::string to_json(const ProteinDescriptor &payload);
+
 bool from_json(MeshDescriptor &param, const std::string &payload);
 bool from_json(SugarsDescriptor &param, const std::string &payload);
 
@@ -47,5 +54,7 @@ bool from_json(AminoAcidSequenceAsStringDescriptor &param,
 bool from_json(AminoAcidSequenceAsRangeDescriptor &param,
                const std::string &payload);
 bool from_json(AminoAcidSequencesDescriptor &param, const std::string &payload);
+
+bool from_json(LoaderExportToFileDescriptor &param, const std::string &payload);
 } // namespace bioexplorer
 #endif // BIOEXPLORER_PARAMS_H

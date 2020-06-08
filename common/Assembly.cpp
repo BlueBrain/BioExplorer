@@ -29,7 +29,8 @@
 namespace bioexplorer
 {
 Assembly::Assembly(Scene &scene, const AssemblyDescriptor &ad)
-    : _scene(scene)
+    : _descriptor(ad)
+    , _scene(scene)
 {
     if (ad.position.size() != 3)
         PLUGIN_THROW(std::runtime_error(

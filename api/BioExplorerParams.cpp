@@ -72,6 +72,24 @@ bool from_json(AssemblyDescriptor &param, const std::string &payload)
     return true;
 }
 
+std::string to_json(const AssemblyDescriptor &payload)
+{
+    try
+    {
+        nlohmann::json js;
+
+        TO_JSON(payload, js, name);
+        TO_JSON(payload, js, position);
+        TO_JSON(payload, js, clippingPlanes);
+        return js.dump();
+    }
+    catch (...)
+    {
+        return "";
+    }
+    return "";
+}
+
 bool from_json(AssemblyTransformationsDescriptor &param,
                const std::string &payload)
 {
@@ -240,6 +258,39 @@ bool from_json(ProteinDescriptor &param, const std::string &payload)
     return true;
 }
 
+std::string to_json(const ProteinDescriptor &payload)
+{
+    try
+    {
+        nlohmann::json js;
+
+        TO_JSON(payload, js, assemblyName);
+        TO_JSON(payload, js, name);
+        TO_JSON(payload, js, contents);
+        TO_JSON(payload, js, shape);
+        TO_JSON(payload, js, assemblyRadius);
+        TO_JSON(payload, js, atomRadiusMultiplier);
+        TO_JSON(payload, js, loadBonds);
+        TO_JSON(payload, js, loadNonPolymerChemicals);
+        TO_JSON(payload, js, representation);
+        TO_JSON(payload, js, chainIds);
+        TO_JSON(payload, js, recenter);
+        TO_JSON(payload, js, occurrences);
+        TO_JSON(payload, js, allowedOccurrences);
+        TO_JSON(payload, js, randomSeed);
+        TO_JSON(payload, js, locationCutoffAngle);
+        TO_JSON(payload, js, positionRandomizationType);
+        TO_JSON(payload, js, position);
+        TO_JSON(payload, js, orientation);
+        return js.dump();
+    }
+    catch (...)
+    {
+        return "";
+    }
+    return "";
+}
+
 bool from_json(SugarsDescriptor &param, const std::string &payload)
 {
     try
@@ -279,6 +330,20 @@ bool from_json(MeshDescriptor &param, const std::string &payload)
         FROM_JSON(param, js, positionRandomizationType);
         FROM_JSON(param, js, position);
         FROM_JSON(param, js, orientation);
+    }
+    catch (...)
+    {
+        return false;
+    }
+    return true;
+}
+
+bool from_json(LoaderExportToFileDescriptor &param, const std::string &payload)
+{
+    try
+    {
+        auto js = nlohmann::json::parse(payload);
+        FROM_JSON(param, js, filename);
     }
     catch (...)
     {

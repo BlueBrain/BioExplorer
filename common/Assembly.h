@@ -43,6 +43,9 @@ public:
         _clippingPlanes = clippingPlanes;
     }
 
+    const AssemblyDescriptor &getDescriptor() { return _descriptor; }
+    const ProteinMap &getProteins() const { return _proteins; }
+
     void addMembrane(const MembraneDescriptor &md);
     void addRNASequence(const RNASequenceDescriptor &rd);
     void addProtein(const ProteinDescriptor &pd);
@@ -61,6 +64,7 @@ private:
                            const PositionRandomizationType &randomizationType,
                            const float locationCutoffAngle = 0.f);
 
+    AssemblyDescriptor _descriptor;
     Vector3f _position{0.f, 0.f, 0.f};
     Scene &_scene;
     GlycansMap _glycans;

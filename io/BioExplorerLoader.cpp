@@ -21,7 +21,11 @@
 
 #include <common/log.h>
 
-#include "MolecularSystemLoader.h"
+#include "BioExplorerLoader.h"
+
+#include <api/BioExplorerParams.h>
+#include <common/Assembly.h>
+#include <common/Protein.h>
 
 #include <brayns/engineapi/Material.h>
 #include <brayns/engineapi/Model.h>
@@ -31,9 +35,8 @@
 #include <fstream>
 
 namespace bioexplorer
-
 {
-const std::string LOADER_NAME = "Molecular system loader";
+const std::string LOADER_NAME = "Bio Explorer loader";
 const std::string SUPPORTED_EXTENTION_BIOEXPLORER = "bioexplorer";
 
 const Property PROP_LOAD_VIRUSES = {"loadViruses",
@@ -50,32 +53,31 @@ const Property PROP_LOAD_DEFENSINS = {"loadDefensins",
                                       bool(true),
                                       {"Load defensins"}};
 
-MolecularSystemLoader::MolecularSystemLoader(Scene& scene,
-                                             PropertyMap&& loaderParams)
+BioExplorerLoader::BioExplorerLoader(Scene& scene, PropertyMap&& loaderParams)
     : Loader(scene)
     , _defaults(loaderParams)
 {
     PLUGIN_INFO << "Registering " << LOADER_NAME << std::endl;
 }
 
-std::string MolecularSystemLoader::getName() const
+std::string BioExplorerLoader::getName() const
 {
     return LOADER_NAME;
 }
 
-std::vector<std::string> MolecularSystemLoader::getSupportedExtensions() const
+std::vector<std::string> BioExplorerLoader::getSupportedExtensions() const
 {
     return {SUPPORTED_EXTENTION_BIOEXPLORER};
 }
 
-bool MolecularSystemLoader::isSupported(const std::string& /*filename*/,
-                                        const std::string& extension) const
+bool BioExplorerLoader::isSupported(const std::string& /*filename*/,
+                                    const std::string& extension) const
 {
     const std::set<std::string> types = {SUPPORTED_EXTENTION_BIOEXPLORER};
     return types.find(extension) != types.end();
 }
 
-ModelDescriptorPtr MolecularSystemLoader::importFromBlob(
+ModelDescriptorPtr BioExplorerLoader::importFromBlob(
     Blob&& /*blob*/, const LoaderProgress& /*callback*/,
     const PropertyMap& /*properties*/) const
 {
@@ -83,7 +85,7 @@ ModelDescriptorPtr MolecularSystemLoader::importFromBlob(
         "Loading molecular systems from blob is not supported");
 }
 
-ModelDescriptorPtr MolecularSystemLoader::importFromFile(
+ModelDescriptorPtr BioExplorerLoader::importFromFile(
     const std::string& filename, const LoaderProgress& callback,
     const PropertyMap& properties) const
 {
@@ -95,14 +97,53 @@ ModelDescriptorPtr MolecularSystemLoader::importFromFile(
     return nullptr;
 }
 
-PropertyMap MolecularSystemLoader::getProperties() const
+void BioExplorerLoader::exportToFile(const std::string& filename,
+                                     const AssemblyMap& assemblies) const
+{
+    PLUGIN_INFO << "Saving scene to bioexplorer file: " << filename
+                << std::endl;
+    std::ofstream file(filename, std::ios::out);
+    if (!file.good())
+    {
+        const std::string msg = "Could not open bioexplorer file " + filename;
+        PLUGIN_THROW(std::runtime_error(msg));
+    }
+
+    for (const auto& assembly : assemblies)
+    {
+        file << "{assembly:";
+        const auto& ad = assembly.second->getDescriptor();
+        const auto& s = to_json(ad);
+        file << s;
+
+        file << ", proteins:[";
+        const auto& proteins = assembly.second->getProteins();
+        bool first = true;
+        for (const auto& protein : proteins)
+        {
+            if (!first)
+                file << ",";
+            file << "protein:";
+            const auto& pd = protein.second->getDescriptor();
+            const auto& s = to_json(pd);
+            file << s;
+            first = false;
+        }
+        file << "]"; // Proteins
+
+        file << "}"; // Assembly
+    }
+    file.close();
+}
+
+PropertyMap BioExplorerLoader::getProperties() const
 {
     return _defaults;
 }
 
-PropertyMap MolecularSystemLoader::getCLIProperties()
+PropertyMap BioExplorerLoader::getCLIProperties()
 {
-    PropertyMap pm("MolecularSystemLoader");
+    PropertyMap pm("BioExplorerLoader");
     pm.setProperty(PROP_LOAD_VIRUSES);
     pm.setProperty(PROP_LOAD_CELLS);
     pm.setProperty(PROP_LOAD_SPDS);

@@ -19,8 +19,10 @@
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
 
-#ifndef BIOEXPLORER_MOLECULARSYSTEMLOADER_H
-#define BIOEXPLORER_MOLECULARSYSTEMLOADER_H
+#ifndef BIOEXPLORER_BIOEXPLORERLOADER_H
+#define BIOEXPLORER_BIOEXPLORERLOADER_H
+
+#include <common/types.h>
 
 #include <brayns/common/loader/Loader.h>
 #include <brayns/common/types.h>
@@ -33,10 +35,10 @@ using namespace brayns;
 /**
  * Load molecular systems
  */
-class MolecularSystemLoader : public Loader
+class BioExplorerLoader : public Loader
 {
 public:
-    MolecularSystemLoader(Scene& scene, PropertyMap&& loaderParams = {});
+    BioExplorerLoader(Scene& scene, PropertyMap&& loaderParams = {});
 
     std::string getName() const final;
 
@@ -57,8 +59,11 @@ public:
         const std::string& filename, const LoaderProgress& callback,
         const PropertyMap& properties) const final;
 
+    void exportToFile(const std::string& filename,
+                      const AssemblyMap& assemblies) const;
+
 private:
     PropertyMap _defaults;
 };
 } // namespace bioexplorer
-#endif // BIOEXPLORER_MOLECULARSYSTEMLOADER_H
+#endif // BIOEXPLORER_BIOEXPLORERLOADER_H

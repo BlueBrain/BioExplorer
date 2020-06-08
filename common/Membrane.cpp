@@ -220,6 +220,6 @@ void Membrane::_processInstances()
 
 std::string Membrane::_getElementNameFromId(const size_t id)
 {
-    return _descriptor.assemblyName + ": Membrane " + std::to_string(id);
+    return _descriptor.assemblyName + "_Membrane_" + std::to_string(id);
 }
 } // namespace bioexplorer

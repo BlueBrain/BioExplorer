@@ -20,6 +20,7 @@
 
 #include <common/Assembly.h>
 #include <common/log.h>
+#include <io/BioExplorerLoader.h>
 
 #include <brayns/common/ActionInterface.h>
 #include <brayns/engineapi/Engine.h>
@@ -134,6 +135,14 @@ void BioExplorer::init()
             "add-glucoses", [&](const SugarsDescriptor &payload) {
                 return _addGlucoses(payload);
             });
+
+        PLUGIN_INFO << "Registering 'export-to-file' endpoint" << std::endl;
+        actionInterface
+            ->registerRequest<LoaderExportToFileDescriptor, Response>(
+                "export-to-file",
+                [&](const LoaderExportToFileDescriptor &payload) {
+                    return _exportToFile(payload);
+                });
     }
 }
 
@@ -413,6 +422,23 @@ Response BioExplorer::_addGlucoses(const SugarsDescriptor &payload) const
             response.status = false;
             response.contents = msg.str();
         }
+    }
+    catch (const std::runtime_error &e)
+    {
+        response.status = false;
+        response.contents = e.what();
+    }
+    return response;
+}
+
+Response BioExplorer::_exportToFile(const LoaderExportToFileDescriptor &payload)
+{
+    Response response;
+    try
+    {
+        auto &scene = _api->getScene();
+        BioExplorerLoader loader(scene);
+        loader.exportToFile(payload.filename, _assemblies);
     }
     catch (const std::runtime_error &e)
     {

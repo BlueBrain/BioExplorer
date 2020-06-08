@@ -509,6 +509,12 @@ static RGBColorMap atomColorMap = {
     {"Bh", {0xE0, 0x00, 0x38}}, {"Hs", {0xE6, 0x00, 0x2E}},
     {"Mt", {0xEB, 0x00, 0x26}}, {"none", {0xFF, 0xFF, 0xFF}},
     {"O1", {0xFF, 0x0D, 0x0D}}, {"selection", {0xFF, 0x00, 0x00}}};
+
+// Loader
+struct LoaderExportToFileDescriptor
+{
+    std::string filename;
+};
 } // namespace bioexplorer
 
 #endif // COVID19_TYPES_H
