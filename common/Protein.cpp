@@ -189,7 +189,8 @@ void Protein::_buildModel(Model& model, const ProteinDescriptor& descriptor)
     // Bonds
     if (descriptor.loadBonds)
     {
-        PLUGIN_INFO << "Building bonds..." << std::endl;
+        PLUGIN_INFO << "Building " << _bondsMap.size() << " bonds..."
+                    << std::endl;
         for (const auto& bond : _bondsMap)
         {
             const auto& atomSrc = _atomMap.find(bond.first)->second;
@@ -537,7 +538,7 @@ void Protein::_readAtom(const std::string& line)
     _bounds.merge(atom.position);
 
     // Convert radius from angstrom
-    atom.radius = DEFAULT_ATOM_RADIUS;
+    atom.radius = 0.0001f * DEFAULT_ATOM_RADIUS;
     auto it = atomicRadii.find(atom.element);
     if (it != atomicRadii.end())
         atom.radius = 0.0001f * (*it).second;
@@ -546,6 +547,9 @@ void Protein::_readAtom(const std::string& line)
         it = atomicRadii.find(atom.name);
         if (it != atomicRadii.end())
             atom.radius = 0.0001f * (*it).second;
+        else
+            PLUGIN_WARN << "[" << atom.element << "]/[" << atom.name
+                        << "] not found" << std::endl;
     }
 
     _atomMap.insert(std::make_pair(serial, atom));
@@ -602,7 +606,7 @@ void Protein::_readConnect(const std::string& line)
 
     if (_atomMap.find(serial) != _atomMap.end())
     {
-        auto& bond = _bondsMap.find(serial)->second;
+        auto& bond = _bondsMap[serial];
 
         for (size_t i = 11; i < line.length(); i += 5)
         {

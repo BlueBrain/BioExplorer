@@ -209,7 +209,7 @@ void Glycans::_readAtom(const std::string& line)
     atom.position = 0.01f * atom.position;
 
     // Convert radius from angstrom
-    atom.radius = DEFAULT_ATOM_RADIUS;
+    atom.radius = 0.0001f * DEFAULT_ATOM_RADIUS;
     auto it = atomicRadii.find(atom.element);
     if (it != atomicRadii.end())
         atom.radius = 0.0001f * (*it).second;

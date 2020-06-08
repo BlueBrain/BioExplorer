@@ -265,7 +265,7 @@ struct Sequence
 typedef std::map<std::string, Sequence> SequenceMap;
 
 // Bonds
-typedef std::multimap<size_t, size_ts, std::less<size_t>> BondsMap;
+typedef std::map<size_t, size_ts> BondsMap;
 
 struct AminoAcid
 {
@@ -326,6 +326,7 @@ static AtomicRadii atomicRadii = {{{"C"}, {67.f}},
                                   {{"AL"}, {118.f}},
                                   {{"SI"}, {111.f}},
                                   {{"CL"}, {79.f}},
+                                  {{"Cl"}, {79.f}},
                                   {{"AR"}, {71.f}},
                                   {{"CA"}, {194.f}},
                                   {{"SC"}, {184.f}},
