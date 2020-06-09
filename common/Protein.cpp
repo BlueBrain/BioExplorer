@@ -221,7 +221,7 @@ void Protein::_buildModel(Model& model, const ProteinDescriptor& descriptor)
             for (const auto& atom2 : _atomMap)
                 if (atom1.first != atom2.first &&
                     atom1.second.reqSeq == atom2.second.reqSeq &&
-                    atom1.second.chainId != atom2.second.chainId)
+                    atom1.second.chainId == atom2.second.chainId)
                 {
                     const auto stick =
                         atom2.second.position - atom1.second.position;

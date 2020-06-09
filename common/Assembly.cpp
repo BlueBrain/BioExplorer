@@ -152,6 +152,11 @@ void Assembly::addGlucoses(const SugarsDescriptor &sd)
     targetProtein->getGlucoseBindingSites(positions, rotations, sd.siteIndices);
     const auto pd = targetProtein->getDescriptor();
 
+    const Quaterniond sugarOrientation = {sd.orientation[0], sd.orientation[1],
+                                          sd.orientation[2], sd.orientation[3]};
+    for (auto &rotation : rotations)
+        rotation = rotation * sugarOrientation;
+
     if (positions.empty())
         PLUGIN_THROW(std::runtime_error(
             "No glucose binding site was found on " + sd.name));
@@ -164,13 +169,15 @@ void Assembly::addGlucoses(const SugarsDescriptor &sd)
     GlycansPtr glucoses(new Glycans(_scene, sd, positions, rotations));
     auto modelDescriptor = glucoses->getModelDescriptor();
     const Vector3f position = {pd.position[0], pd.position[1], pd.position[2]};
-    const Quaterniond orientation = {pd.orientation[0], pd.orientation[1],
-                                     pd.orientation[2], pd.orientation[3]};
-    const size_ts allowedOccurences;
-    _processInstances(modelDescriptor, pd.name, pd.shape, pd.assemblyRadius,
-                      pd.occurrences, allowedOccurences, pd.randomSeed,
-                      position, orientation,
-                      PositionRandomizationType::circular, 0.f);
+    const Quaterniond proteinOrientation = {pd.orientation[0],
+                                            pd.orientation[1],
+                                            pd.orientation[2],
+                                            pd.orientation[3]};
+    _processInstances(modelDescriptor, pd.name, pd.shape,
+                      pd.assemblyRadius * 1.025f, pd.occurrences,
+                      sd.allowedOccurrences, pd.randomSeed, position,
+                      proteinOrientation, PositionRandomizationType::circular,
+                      0.f);
 
     _glycans[sd.name] = std::move(glucoses);
     _scene.addModel(modelDescriptor);
@@ -400,8 +407,13 @@ void Assembly::setColorScheme(const ColorSchemeDescriptor &csd)
             palette.push_back(
                 {csd.palette[i], csd.palette[i + 1], csd.palette[i + 2]});
 
+        PLUGIN_INFO << "Applying color scheme to protein " << csd.name
+                    << " on assembly " << csd.assemblyName << std::endl;
         protein->setColorScheme(csd.colorScheme, palette, csd.chainIds);
     }
+    else
+        PLUGIN_ERROR << "Protein " << csd.name << " not found on assembly "
+                     << csd.assemblyName << std::endl;
 }
 
 void Assembly::setAminoAcidSequenceAsString(

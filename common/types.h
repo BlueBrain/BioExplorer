@@ -174,8 +174,9 @@ struct SugarsDescriptor
     float atomRadiusMultiplier;
     bool addSticks;
     bool recenter;
-    std::vector<size_t> siteIndices;
+    size_ts siteIndices;
     size_ts allowedOccurrences;
+    floats orientation;
 };
 
 class Glycans;
@@ -306,7 +307,7 @@ typedef std::vector<Vector3f> Vector3fs;
 typedef std::vector<std::pair<Vector3f, float>> OccupiedDirections;
 
 // Atomic radii in microns
-const float DEFAULT_ATOM_RADIUS = 25.f; // 0.0125f;
+const float DEFAULT_ATOM_RADIUS = 25.f;
 static AtomicRadii atomicRadii = {{{"C"}, {67.f}},
                                   {{"N"}, {56.f}},
                                   {{"O"}, {48.f}},
