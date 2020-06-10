@@ -58,8 +58,8 @@ private:
         const AminoAcidSequenceAsStringDescriptor &payload) const;
     Response _setAminoAcidSequenceAsRange(
         const AminoAcidSequenceAsRangeDescriptor &payload) const;
-    Response _getAminoAcidSequences(
-        const AminoAcidSequencesDescriptor &payload) const;
+    Response _getAminoAcidInformation(
+        const AminoAcidInformationDescriptor &payload) const;
 
     AssemblyMap _assemblies;
 };

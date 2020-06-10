@@ -233,7 +233,7 @@ struct AminoAcidSequenceAsRangeDescriptor
     size_ts range;
 };
 
-struct AminoAcidSequencesDescriptor
+struct AminoAcidInformationDescriptor
 {
     std::string assemblyName;
     std::string name;

@@ -159,7 +159,8 @@ bool from_json(AminoAcidSequenceAsRangeDescriptor &param,
     return true;
 }
 
-bool from_json(AminoAcidSequencesDescriptor &param, const std::string &payload)
+bool from_json(AminoAcidInformationDescriptor &param,
+               const std::string &payload)
 {
     try
     {

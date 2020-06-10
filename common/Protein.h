@@ -69,11 +69,11 @@ public:
                                 std::vector<Quaterniond>& rotations,
                                 const std::vector<size_t>& siteIndices) const;
 
-private:
-    // Analysis
-    std::map<std::string, size_ts> _getGlycosylationSites(
+    std::map<std::string, size_ts> getGlycosylationSites(
         const size_ts& siteIndices) const;
 
+private:
+    // Analysis
     void _getSitesTransformations(
         std::vector<Vector3f>& positions, std::vector<Quaterniond>& rotations,
         const std::map<std::string, size_ts>& sites) const;

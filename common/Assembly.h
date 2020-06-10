@@ -34,8 +34,8 @@ public:
         const AminoAcidSequenceAsStringDescriptor &aasd);
     void setAminoAcidSequenceAsRange(
         const AminoAcidSequenceAsRangeDescriptor &aasd);
-    std::string getAminoAcidSequences(
-        const AminoAcidSequencesDescriptor &payload) const;
+    std::string getAminoAcidInformation(
+        const AminoAcidInformationDescriptor &payload) const;
 
     Vector4fs &getClippingPlanes() { return _clippingPlanes; }
     void setClippingPlanes(const Vector4fs &clippingPlanes)

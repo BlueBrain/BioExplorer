@@ -394,7 +394,7 @@ void Protein::_setGlycosylationSiteColorScheme(const Palette& palette)
         _setMaterialDiffuseColor(atom.first, palette[index]);
     }
 
-    const auto sites = _getGlycosylationSites({});
+    const auto sites = getGlycosylationSites({});
 
     for (const auto chain : sites)
         for (const auto site : chain.second)
@@ -688,7 +688,7 @@ bool Protein::_loadChain(const size_t chainId)
     return found;
 }
 
-std::map<std::string, size_ts> Protein::_getGlycosylationSites(
+std::map<std::string, size_ts> Protein::getGlycosylationSites(
     const std::vector<size_t>& siteIndices) const
 {
     std::map<std::string, size_ts> sites;
@@ -776,7 +776,7 @@ void Protein::getGlycosilationSites(std::vector<Vector3f>& positions,
     positions.clear();
     rotations.clear();
 
-    const auto sites = _getGlycosylationSites(siteIndices);
+    const auto sites = getGlycosylationSites(siteIndices);
 
     _getSitesTransformations(positions, rotations, sites);
 }

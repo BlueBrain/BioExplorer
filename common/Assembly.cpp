@@ -437,25 +437,41 @@ void Assembly::setAminoAcidSequenceAsRange(
         PLUGIN_THROW(std::runtime_error("Protein not found: " + aasd.name));
 }
 
-std::string Assembly::getAminoAcidSequences(
-    const AminoAcidSequencesDescriptor &aasd) const
+std::string Assembly::getAminoAcidInformation(
+    const AminoAcidInformationDescriptor &aasd) const
 {
-    PLUGIN_INFO << "Returning sequences from protein " << aasd.name
+    PLUGIN_INFO << "Returning Amino Acid information from protein " << aasd.name
                 << std::endl;
 
     std::string response;
     auto it = _proteins.find(aasd.name);
     if (it != _proteins.end())
     {
+        // Sequences
         for (const auto &sequence : (*it).second->getSequencesAsString())
         {
             if (!response.empty())
                 response += "\n";
             response += sequence.second;
         }
+
+        // Glycosylation sites
+        const auto &sites = (*it).second->getGlycosylationSites({});
+        for (const auto &site : sites)
+        {
+            std::string s;
+            for (const auto &index : site.second)
+            {
+                if (!s.empty())
+                    s += ",";
+                s += std::to_string(index + 1); // Site indices start a 1, not 0
+            }
+            response += "\n" + s;
+        }
     }
     else
         PLUGIN_THROW(std::runtime_error("Protein not found: " + aasd.name));
+
     return response;
 }
 

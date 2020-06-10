@@ -92,13 +92,14 @@ void BioExplorer::init()
                     return _setAminoAcidSequenceAsRange(payload);
                 });
 
-        PLUGIN_INFO << "Registering 'get-protein-amino-acid-sequences' endpoint"
-                    << std::endl;
+        PLUGIN_INFO
+            << "Registering 'get-protein-amino-acid-information' endpoint"
+            << std::endl;
         actionInterface
-            ->registerRequest<AminoAcidSequencesDescriptor, Response>(
-                "get-protein-amino-acid-sequences",
-                [&](const AminoAcidSequencesDescriptor &payload) {
-                    return _getAminoAcidSequences(payload);
+            ->registerRequest<AminoAcidInformationDescriptor, Response>(
+                "get-protein-amino-acid-information",
+                [&](const AminoAcidInformationDescriptor &payload) {
+                    return _getAminoAcidInformation(payload);
                 });
 
         PLUGIN_INFO << "Registering 'add-rna-sequence' endpoint" << std::endl;
@@ -278,15 +279,15 @@ Response BioExplorer::_setAminoAcidSequenceAsRange(
     return response;
 }
 
-Response BioExplorer::_getAminoAcidSequences(
-    const AminoAcidSequencesDescriptor &payload) const
+Response BioExplorer::_getAminoAcidInformation(
+    const AminoAcidInformationDescriptor &payload) const
 {
     Response response;
     try
     {
         auto it = _assemblies.find(payload.assemblyName);
         if (it != _assemblies.end())
-            response.contents = (*it).second->getAminoAcidSequences(payload);
+            response.contents = (*it).second->getAminoAcidInformation(payload);
         else
         {
             std::stringstream msg;
