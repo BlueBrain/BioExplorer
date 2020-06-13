@@ -184,8 +184,7 @@ bool from_json(RNASequenceDescriptor &param, const std::string &payload)
         FROM_JSON(param, js, name);
         FROM_JSON(param, js, contents);
         FROM_JSON(param, js, shape);
-        FROM_JSON(param, js, assemblyRadius);
-        FROM_JSON(param, js, radius);
+        FROM_JSON(param, js, assemblyParams);
         FROM_JSON(param, js, range);
         FROM_JSON(param, js, params);
     }
@@ -208,7 +207,7 @@ bool from_json(MembraneDescriptor &param, const std::string &payload)
         FROM_JSON(param, js, content3);
         FROM_JSON(param, js, content4);
         FROM_JSON(param, js, shape);
-        FROM_JSON(param, js, assemblyRadius);
+        FROM_JSON(param, js, assemblyParams);
         FROM_JSON(param, js, atomRadiusMultiplier);
         FROM_JSON(param, js, loadBonds);
         FROM_JSON(param, js, loadNonPolymerChemicals);
@@ -237,7 +236,7 @@ bool from_json(ProteinDescriptor &param, const std::string &payload)
         FROM_JSON(param, js, name);
         FROM_JSON(param, js, contents);
         FROM_JSON(param, js, shape);
-        FROM_JSON(param, js, assemblyRadius);
+        FROM_JSON(param, js, assemblyParams);
         FROM_JSON(param, js, atomRadiusMultiplier);
         FROM_JSON(param, js, loadBonds);
         FROM_JSON(param, js, loadNonPolymerChemicals);
@@ -269,7 +268,7 @@ std::string to_json(const ProteinDescriptor &payload)
         TO_JSON(payload, js, name);
         TO_JSON(payload, js, contents);
         TO_JSON(payload, js, shape);
-        TO_JSON(payload, js, assemblyRadius);
+        TO_JSON(payload, js, assemblyParams);
         TO_JSON(payload, js, atomRadiusMultiplier);
         TO_JSON(payload, js, loadBonds);
         TO_JSON(payload, js, loadNonPolymerChemicals);
@@ -324,7 +323,7 @@ bool from_json(MeshDescriptor &param, const std::string &payload)
         FROM_JSON(param, js, name);
         FROM_JSON(param, js, contents);
         FROM_JSON(param, js, shape);
-        FROM_JSON(param, js, assemblyRadius);
+        FROM_JSON(param, js, assemblyParams);
         FROM_JSON(param, js, recenter);
         FROM_JSON(param, js, occurrences);
         FROM_JSON(param, js, randomSeed);

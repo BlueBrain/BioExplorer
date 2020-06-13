@@ -33,6 +33,24 @@ Membrane::Membrane(Scene &scene, const MembraneDescriptor &descriptor,
     , _clippingPlanes(clippingPlanes)
     , _occupiedDirections(occupiedDirections)
 {
+    if (_descriptor.representation == ProteinRepresentation::contour)
+    {
+        switch (_descriptor.shape)
+        {
+        case AssemblyShape::spherical:
+            const std::string name{"Membrane"};
+            const size_t materialId = 0;
+            auto model = _scene.createModel();
+            auto material = model->createMaterial(materialId, name);
+            model->addSphere(materialId,
+                             {_position, _descriptor.assemblyParams[0]});
+            auto modelDescriptor =
+                std::make_shared<ModelDescriptor>(std::move(model), name);
+            _scene.addModel(modelDescriptor);
+            return;
+        }
+    }
+
     std::vector<std::string> proteinContents;
     proteinContents.push_back(descriptor.content1);
     if (!descriptor.content2.empty())
@@ -56,7 +74,7 @@ Membrane::Membrane(Scene &scene, const MembraneDescriptor &descriptor,
         pd.randomSeed = descriptor.randomSeed;
         pd.occurrences = 1;
         pd.orientation = descriptor.orientation;
-        pd.assemblyRadius = descriptor.assemblyRadius;
+        pd.assemblyParams = descriptor.assemblyParams;
         pd.atomRadiusMultiplier = descriptor.atomRadiusMultiplier;
         pd.representation = descriptor.representation;
         pd.locationCutoffAngle = descriptor.locationCutoffAngle;
@@ -99,7 +117,6 @@ void Membrane::_processInstances()
                                      _descriptor.orientation[1],
                                      _descriptor.orientation[2],
                                      _descriptor.orientation[3]};
-
     std::map<size_t, size_t> instanceCounts;
     for (size_t i = 0; i < _proteins.size(); ++i)
         instanceCounts[i] = 0;
@@ -126,25 +143,38 @@ void Membrane::_processInstances()
         switch (_descriptor.shape)
         {
         case AssemblyShape::spherical:
-            getSphericalPosition(rnd, _descriptor.assemblyRadius,
+        {
+            const auto assemblyRadius = _descriptor.assemblyParams[0];
+            getSphericalPosition(rnd, assemblyRadius,
                                  _descriptor.positionRandomizationType,
                                  _descriptor.randomSeed, i,
                                  _descriptor.occurrences, {0, 0, 0}, pos, dir);
             break;
+        }
         case AssemblyShape::sinusoidal:
-            getSinosoidalPosition(_descriptor.assemblyRadius,
+        {
+            const auto assemblySize = _descriptor.assemblyParams[0];
+            const auto assemblyHeight = _descriptor.assemblyParams[1];
+            getSinosoidalPosition(assemblySize, assemblyHeight,
                                   _descriptor.positionRandomizationType,
                                   _descriptor.randomSeed, {0, 0, 0}, pos, dir);
             break;
+        }
         case AssemblyShape::cubic:
-            getCubicPosition(_descriptor.assemblyRadius, {0, 0, 0}, pos, dir);
+        {
+            const auto assemblySize = _descriptor.assemblyParams[0];
+            getCubicPosition(assemblySize, {0, 0, 0}, pos, dir);
             break;
+        }
         case AssemblyShape::fan:
-            getFanPosition(rnd, _descriptor.assemblyRadius,
+        {
+            const auto assemblyRadius = _descriptor.assemblyParams[0];
+            getFanPosition(rnd, assemblyRadius,
                            _descriptor.positionRandomizationType,
                            _descriptor.randomSeed, i, _descriptor.occurrences,
                            {0, 0, 0}, pos, dir);
             break;
+        }
         case AssemblyShape::bezier:
         {
             const Vector3fs points = {
@@ -164,13 +194,15 @@ void Membrane::_processInstances()
                 {763, 768, 0}, {788, 792, 0}, {780, 820, 0}, {770, 859, 0},
                 {740, 882, 0}, {705, 911, 0}, {688, 931, 0}, {646, 973, 0},
                 {611, 992, 0}, {585, 1022, 0}};
-            getBezierPosition(points, _descriptor.assemblyRadius,
+            const auto assemblySize = _descriptor.assemblyParams[0];
+            getBezierPosition(points, assemblySize,
                               float(i) / float(_descriptor.occurrences), pos,
                               dir);
             break;
         }
         default:
-            getPlanarPosition(_descriptor.assemblyRadius,
+            const auto assemblySize = _descriptor.assemblyParams[0];
+            getPlanarPosition(assemblySize,
                               _descriptor.positionRandomizationType,
                               _descriptor.randomSeed, {0, 0, 0}, pos, dir);
             break;
@@ -207,8 +239,8 @@ void Membrane::_processInstances()
         const ModelInstance instance(true, false, tf);
         md->addInstance(instance);
 
-        // Save initial transformation
-        _transformations[_descriptor.name].push_back(tf);
+        // Save initial transformation for later use
+        // _transformations[_descriptor.name].push_back(tf);
 
         instanceCounts[id] = instanceCounts[id] + 1;
     }

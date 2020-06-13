@@ -107,13 +107,14 @@ float sinusoide(const float x, const float z);
 /**
  * @brief getSinosoidalPosition
  * @param assemblyRadius
+ * @param height
  * @param randomizationType
  * @param randomSeed
  * @param position
  * @param pos
  * @param dir
  */
-void getSinosoidalPosition(const float assemblyRadius,
+void getSinosoidalPosition(const float size, const float height,
                            const PositionRandomizationType randomizationType,
                            const size_t randomSeed, const Vector3f& position,
                            Vector3f& pos, Vector3f& dir);

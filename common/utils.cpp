@@ -140,7 +140,7 @@ float sinusoide(const float x, const float z)
     return 0.2f * cos(x) * sin(z) + 0.05f * cos(x * 2.3f) * sin(z * 4.6f);
 }
 
-void getSinosoidalPosition(const float assemblyRadius,
+void getSinosoidalPosition(const float size, const float height,
                            const PositionRandomizationType randomizationType,
                            const size_t randomSeed, const Vector3f& position,
                            Vector3f& pos, Vector3f& dir)
@@ -152,22 +152,21 @@ void getSinosoidalPosition(const float assemblyRadius,
         randomizationType == PositionRandomizationType::radial)
         up = 1.f + (float(rand() % 1000 - 500) / 20000.f);
 
-    const float x = float(rand() % 1000 - 500) / 1000.f * assemblyRadius;
-    const float z = float(rand() % 1000 - 500) / 1000.f * assemblyRadius;
-    const float y =
-        assemblyRadius * angle * up * sinusoide(x * angle, z * angle);
+    const float x = float(rand() % 1000 - 500) / 1000.f * size;
+    const float z = float(rand() % 1000 - 500) / 1000.f * size;
+    const float y = height * angle * up * sinusoide(x * angle, z * angle);
     pos = Vector3f(x, y, z);
 
-    const Vector3f v1 = Vector3f(x + step,
-                                 assemblyRadius * angle * up *
-                                     sinusoide((x + step) * angle, z * angle),
-                                 z) -
-                        pos;
-    const Vector3f v2 = Vector3f(x,
-                                 assemblyRadius * angle * up *
-                                     sinusoide(x * angle, (z + step) * angle),
-                                 z + step) -
-                        pos;
+    const Vector3f v1 =
+        Vector3f(x + step,
+                 height * angle * up * sinusoide((x + step) * angle, z * angle),
+                 z) -
+        pos;
+    const Vector3f v2 =
+        Vector3f(x,
+                 height * angle * up * sinusoide(x * angle, (z + step) * angle),
+                 z + step) -
+        pos;
 
     pos += position;
     dir = normalize(cross(normalize(v1), normalize(v2)));

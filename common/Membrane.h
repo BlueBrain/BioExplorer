@@ -38,7 +38,7 @@ public:
              const OccupiedDirections &occupiedDirections);
     ~Membrane();
 
-    const ProteinMap& getProteins() const {return _proteins;}
+    const ProteinMap &getProteins() const { return _proteins; }
 
 private:
     void _processInstances();
@@ -49,7 +49,7 @@ private:
     MembraneDescriptor _descriptor;
     ProteinMap _proteins;
     Vector4fs _clippingPlanes;
-    std::map<std::string, std::vector<Transformation>> _transformations;
+    //    std::map<std::string, std::vector<Transformation>> _transformations;
     const OccupiedDirections &_occupiedDirections;
 };
 } // namespace bioexplorer

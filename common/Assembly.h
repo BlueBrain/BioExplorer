@@ -57,7 +57,8 @@ public:
 private:
     void _processInstances(ModelDescriptorPtr md, const std::string &name,
                            const AssemblyShape shape,
-                           const float assemblyRadius, const size_t occurrences,
+                           const floats &assemblyParams,
+                           const size_t occurrences,
                            const size_ts &allowedOccurrences,
                            const size_t randomSeed, const Vector3f &position,
                            const Quaterniond &orientation,
@@ -74,7 +75,9 @@ private:
     RNASequencePtr _rnaSequence{nullptr};
     OccupiedDirections _occupiedDirections;
     Vector4fs _clippingPlanes;
-    std::map<std::string, std::vector<Transformation>> _transformations;
+#if 0
+     std::map<std::string, std::vector<Transformation>> _transformations;
+#endif
 };
 } // namespace bioexplorer
 #endif // BIOEXPLORER_ASSEMBLY_H

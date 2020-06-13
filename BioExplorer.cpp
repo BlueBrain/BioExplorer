@@ -207,16 +207,24 @@ Response BioExplorer::_setColorScheme(
     const ColorSchemeDescriptor &payload) const
 {
     Response response;
-    auto it = _assemblies.find(payload.assemblyName);
-    if (it != _assemblies.end())
-        (*it).second->setColorScheme(payload);
-    else
+    try
     {
-        std::stringstream msg;
-        msg << "Assembly not found: " << payload.assemblyName;
-        PLUGIN_ERROR << msg.str() << std::endl;
+        auto it = _assemblies.find(payload.assemblyName);
+        if (it != _assemblies.end())
+            (*it).second->setColorScheme(payload);
+        else
+        {
+            std::stringstream msg;
+            msg << "Assembly not found: " << payload.assemblyName;
+            PLUGIN_ERROR << msg.str() << std::endl;
+            response.status = false;
+            response.contents = msg.str();
+        }
+    }
+    catch (const std::runtime_error &e)
+    {
         response.status = false;
-        response.contents = msg.str();
+        response.contents = e.what();
     }
     return response;
 }

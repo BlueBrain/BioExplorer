@@ -123,7 +123,7 @@ struct MembraneDescriptor
     std::string content3;
     std::string content4;
     AssemblyShape shape;
-    float assemblyRadius;
+    floats assemblyParams;
     float atomRadiusMultiplier;
     bool loadBonds;
     bool loadNonPolymerChemicals;
@@ -146,7 +146,7 @@ struct ProteinDescriptor
     std::string name;
     std::string contents;
     AssemblyShape shape;
-    float assemblyRadius;
+    floats assemblyParams;
     float atomRadiusMultiplier;
     bool loadBonds;
     bool loadNonPolymerChemicals;
@@ -190,7 +190,7 @@ struct MeshDescriptor
     std::string name;
     std::string contents;
     AssemblyShape shape;
-    float assemblyRadius;
+    floats assemblyParams;
     bool recenter;
     size_t occurrences;
     size_t randomSeed;
@@ -210,8 +210,7 @@ struct RNASequenceDescriptor
     std::string name;
     std::string contents;
     RNAShape shape;
-    float assemblyRadius;
-    float radius;
+    floats assemblyParams;
     std::vector<float> range;
     std::vector<float> params;
 };

@@ -452,11 +452,18 @@ void Protein::_setMaterialDiffuseColor(const size_t atomIndex,
                                        const Color& color)
 {
     auto& model = _modelDescriptor->getModel();
-    auto material = model.getMaterial(atomIndex);
-    if (material)
+    try
     {
-        material->setDiffuseColor(color);
-        material->commit();
+        auto material = model.getMaterial(atomIndex);
+        if (material)
+        {
+            material->setDiffuseColor(color);
+            material->commit();
+        }
+    }
+    catch (const std::runtime_error& e)
+    {
+        PLUGIN_ERROR << e.what() << std::endl;
     }
 }
 

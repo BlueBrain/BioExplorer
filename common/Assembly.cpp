@@ -66,7 +66,7 @@ void Assembly::addProtein(const ProteinDescriptor &pd)
     const Vector3f position = {pd.position[0], pd.position[1], pd.position[2]};
     const Quaterniond orientation = {pd.orientation[0], pd.orientation[1],
                                      pd.orientation[2], pd.orientation[3]};
-    _processInstances(modelDescriptor, pd.name, pd.shape, pd.assemblyRadius,
+    _processInstances(modelDescriptor, pd.name, pd.shape, pd.assemblyParams,
                       pd.occurrences, pd.allowedOccurrences, pd.randomSeed,
                       position, orientation, pd.positionRandomizationType,
                       pd.locationCutoffAngle);
@@ -120,7 +120,7 @@ void Assembly::addGlycans(const SugarsDescriptor &sd)
     const Vector3f position = {pd.position[0], pd.position[1], pd.position[2]};
     const Quaterniond orientation = {pd.orientation[0], pd.orientation[1],
                                      pd.orientation[2], pd.orientation[3]};
-    _processInstances(modelDescriptor, pd.name, pd.shape, pd.assemblyRadius,
+    _processInstances(modelDescriptor, pd.name, pd.shape, pd.assemblyParams,
                       pd.occurrences, sd.allowedOccurrences, pd.randomSeed,
                       position, orientation,
                       PositionRandomizationType::circular, 0.f);
@@ -174,10 +174,10 @@ void Assembly::addGlucoses(const SugarsDescriptor &sd)
                                             pd.orientation[2],
                                             pd.orientation[3]};
     _processInstances(modelDescriptor, pd.name, pd.shape,
-                      pd.assemblyRadius * 1.025f, pd.occurrences,
-                      sd.allowedOccurrences, pd.randomSeed, position,
-                      proteinOrientation, PositionRandomizationType::circular,
-                      0.f);
+                      {pd.assemblyParams[0] * 1.025f, pd.assemblyParams[1]},
+                      pd.occurrences, sd.allowedOccurrences, pd.randomSeed,
+                      position, proteinOrientation,
+                      PositionRandomizationType::circular, 0.f);
 
     _glycans[sd.name] = std::move(glucoses);
     _scene.addModel(modelDescriptor);
@@ -193,7 +193,7 @@ void Assembly::addMesh(const MeshDescriptor &md)
                                      md.orientation[2], md.orientation[3]};
 
     const size_ts allowedOccurences;
-    _processInstances(modelDescriptor, md.name, md.shape, md.assemblyRadius,
+    _processInstances(modelDescriptor, md.name, md.shape, md.assemblyParams,
                       md.occurrences, allowedOccurences, md.randomSeed,
                       position, orientation, md.positionRandomizationType,
                       md.locationCutoffAngle);
@@ -204,7 +204,7 @@ void Assembly::addMesh(const MeshDescriptor &md)
 
 void Assembly::_processInstances(
     ModelDescriptorPtr md, const std::string &name, const AssemblyShape shape,
-    const float assemblyRadius, const size_t occurrences,
+    const floats &assemblyParams, const size_t occurrences,
     const size_ts &allowedOccurrences, const size_t randomSeed,
     const Vector3f &position, const Quaterniond &orientation,
     const PositionRandomizationType &randomizationType,
@@ -240,21 +240,35 @@ void Assembly::_processInstances(
         switch (shape)
         {
         case AssemblyShape::spherical:
+        {
+            const auto assemblyRadius = assemblyParams[0];
             getSphericalPosition(rnd, assemblyRadius, randomizationType,
                                  randomSeed, i, occurrences, position, pos,
                                  dir);
             break;
+        }
         case AssemblyShape::sinusoidal:
-            getSinosoidalPosition(assemblyRadius, randomizationType, randomSeed,
-                                  position, pos, dir);
+        {
+            const auto assemblySize = assemblyParams[0];
+            const auto assemblyHeight = assemblyParams[1];
+            getSinosoidalPosition(assemblySize, assemblyHeight,
+                                  randomizationType, randomSeed, position, pos,
+                                  dir);
             break;
+        }
         case AssemblyShape::cubic:
-            getCubicPosition(assemblyRadius, position, pos, dir);
+        {
+            const auto assemblySize = assemblyParams[0];
+            getCubicPosition(assemblySize, position, pos, dir);
             break;
+        }
         case AssemblyShape::fan:
+        {
+            const auto assemblyRadius = assemblyParams[0];
             getFanPosition(rnd, assemblyRadius, randomizationType, randomSeed,
                            i, occurrences, position, pos, dir);
             break;
+        }
         case AssemblyShape::bezier:
         {
             const Vector3fs points = {
@@ -274,12 +288,14 @@ void Assembly::_processInstances(
                 {763, 768, 0}, {788, 792, 0}, {780, 820, 0}, {770, 859, 0},
                 {740, 882, 0}, {705, 911, 0}, {688, 931, 0}, {646, 973, 0},
                 {611, 992, 0}, {585, 1022, 0}};
-            getBezierPosition(points, assemblyRadius,
+            const auto assemblySize = assemblyParams[0];
+            getBezierPosition(points, assemblySize,
                               float(i) / float(occurrences), pos, dir);
             break;
         }
         default:
-            getPlanarPosition(assemblyRadius, randomizationType, randomSeed,
+            const auto assemblySize = assemblyParams[0];
+            getPlanarPosition(assemblySize, randomizationType, randomSeed,
                               position, pos, dir);
             break;
         }
@@ -315,8 +331,10 @@ void Assembly::_processInstances(
         const ModelInstance instance(true, false, tf);
         md->addInstance(instance);
 
+#if 0
         // Save initial transformation for later use
-        _transformations[name].push_back(tf);
+         _transformations[name].push_back(tf);
+#endif
 
         // Store occupied direction
         if (locationCutoffAngle != 0.f)
@@ -326,6 +344,7 @@ void Assembly::_processInstances(
     }
 }
 
+#if 0
 void Assembly::applyTransformations(const AssemblyTransformationsDescriptor &at)
 {
     if (at.transformations.size() % 13 != 0)
@@ -386,6 +405,7 @@ void Assembly::applyTransformations(const AssemblyTransformationsDescriptor &at)
     }
     _scene.markModified();
 }
+#endif
 
 void Assembly::setColorScheme(const ColorSchemeDescriptor &csd)
 {
@@ -488,8 +508,8 @@ void Assembly::addRNASequence(const RNASequenceDescriptor &rnad)
 
     PLUGIN_INFO << "Loading RNA sequence " << rnad.name << " from "
                 << rnad.contents << std::endl;
-    PLUGIN_INFO << "Assembly radius: " << rnad.assemblyRadius << std::endl;
-    PLUGIN_INFO << "RNA radius     : " << rnad.radius << std::endl;
+    PLUGIN_INFO << "Assembly radius: " << rnad.assemblyParams[0] << std::endl;
+    PLUGIN_INFO << "RNA radius     : " << rnad.assemblyParams[1] << std::endl;
     PLUGIN_INFO << "Range          : " << range << std::endl;
     PLUGIN_INFO << "Params         : " << params << std::endl;
 

@@ -93,44 +93,44 @@ RNASequence::RNASequence(Scene& scene, const RNASequenceDescriptor& rd,
             {
             case RNAShape::moebius:
             {
-                src = _moebius(rd.assemblyRadius, u, v);
-                dst = _moebius(rd.assemblyRadius, u + uStep, v);
+                src = _moebius(rd.assemblyParams[0], u, v);
+                dst = _moebius(rd.assemblyParams[0], u + uStep, v);
                 break;
             }
             case RNAShape::torus:
             {
-                src = _torus(rd.assemblyRadius, u, params);
-                dst = _torus(rd.assemblyRadius, u + uStep, params);
+                src = _torus(rd.assemblyParams[0], u, params);
+                dst = _torus(rd.assemblyParams[0], u + uStep, params);
                 break;
             }
             case RNAShape::star:
             {
-                src = _star(rd.assemblyRadius, u);
-                dst = _star(rd.assemblyRadius, u + uStep);
+                src = _star(rd.assemblyParams[0], u);
+                dst = _star(rd.assemblyParams[0], u + uStep);
                 break;
             }
             case RNAShape::spring:
             {
-                src = _spring(rd.assemblyRadius, u);
-                dst = _spring(rd.assemblyRadius, u + uStep);
+                src = _spring(rd.assemblyParams[0], u);
+                dst = _spring(rd.assemblyParams[0], u + uStep);
                 break;
             }
             case RNAShape::trefoilKnot:
             {
-                src = _trefoilKnot(rd.assemblyRadius, u, params);
-                dst = _trefoilKnot(rd.assemblyRadius, u + uStep, params);
+                src = _trefoilKnot(rd.assemblyParams[0], u, params);
+                dst = _trefoilKnot(rd.assemblyParams[0], u + uStep, params);
                 break;
             }
             case RNAShape::heart:
             {
-                src = _heart(rd.assemblyRadius, u);
-                dst = _heart(rd.assemblyRadius, u + uStep);
+                src = _heart(rd.assemblyParams[0], u);
+                dst = _heart(rd.assemblyParams[0], u + uStep);
                 break;
             }
             case RNAShape::thing:
             {
-                src = _thing(rd.assemblyRadius, u, params);
-                dst = _thing(rd.assemblyRadius, u + uStep, params);
+                src = _thing(rd.assemblyParams[0], u, params);
+                dst = _thing(rd.assemblyParams[0], u + uStep, params);
                 break;
             }
             default:
@@ -141,12 +141,13 @@ RNASequence::RNASequence(Scene& scene, const RNASequenceDescriptor& rd,
             const char letter = sequence[elementId];
             const auto& codon = codonMap[letter];
             const auto materialId = codon.index;
-            model->addCylinder(materialId, {src, dst, rd.radius});
+            const auto radius = rd.assemblyParams[1];
+            model->addCylinder(materialId, {src, dst, radius});
 
             if (elementId == 0)
-                model->addSphere(materialId, {src, rd.radius});
+                model->addSphere(materialId, {src, radius});
             if (elementId == nbElements - 1)
-                model->addSphere(materialId, {dst, rd.radius});
+                model->addSphere(materialId, {dst, radius});
 
             if (elementId == nbElements)
                 break;
