@@ -515,6 +515,32 @@ struct LoaderExportToFileDescriptor
 {
     std::string filename;
 };
+
+/** Additional marterial attributes */
+const std::string MATERIAL_PROPERTY_CAST_USER_DATA = "cast_simulation_data";
+const std::string MATERIAL_PROPERTY_SHADING_MODE = "shading_mode";
+const std::string MATERIAL_PROPERTY_CLIPPING_MODE = "clipping_mode";
+const std::string MATERIAL_PROPERTY_USER_PARAMETER = "user_parameter";
+
+enum MaterialShadingMode
+{
+    none = 0,
+    diffuse = 1,
+    electron = 2,
+    cartoon = 3,
+    electron_transparency = 4,
+    perlin = 5,
+    diffuse_transparency = 6,
+    checker = 7
+};
+
+enum MaterialClippingMode
+{
+    no_clipping = 0,
+    plane = 1,
+    sphere = 2
+};
+
 } // namespace bioexplorer
 
 #endif // COVID19_TYPES_H

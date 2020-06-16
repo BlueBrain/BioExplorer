@@ -122,7 +122,7 @@ Protein::Protein(Scene& scene, const ProteinDescriptor& descriptor)
 
     _modelDescriptor =
         std::make_shared<ModelDescriptor>(std::move(model), descriptor.name,
-                                          descriptor.contents, metadata);
+                                          "PDB", metadata);
 }
 
 void Protein::_buildModel(Model& model, const ProteinDescriptor& descriptor)

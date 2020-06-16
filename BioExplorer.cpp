@@ -36,6 +36,12 @@ BioExplorer::BioExplorer()
 void BioExplorer::init()
 {
     auto actionInterface = _api->getActionInterface();
+    auto &scene = _api->getScene();
+    auto &registry = scene.getLoaderRegistry();
+
+    registry.registerLoader(std::make_unique<BioExplorerLoader>(
+        scene, BioExplorerLoader::getCLIProperties()));
+
     if (actionInterface)
     {
         PLUGIN_INFO << "Registering 'version' endpoint" << std::endl;
@@ -447,7 +453,7 @@ Response BioExplorer::_exportToFile(const LoaderExportToFileDescriptor &payload)
     {
         auto &scene = _api->getScene();
         BioExplorerLoader loader(scene);
-        loader.exportToFile(payload.filename, _assemblies);
+        loader.exportToFile(payload.filename);
     }
     catch (const std::runtime_error &e)
     {

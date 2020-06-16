@@ -150,7 +150,7 @@ void getSinosoidalPosition(const float size, const float height,
     float up = 1.f;
     if (randomSeed != 0 &&
         randomizationType == PositionRandomizationType::radial)
-        up = 1.f + (float(rand() % 1000 - 500) / 20000.f);
+        up = 1.f + (float(rand() % 1000 - 500) / 5000.f);
 
     const float x = float(rand() % 1000 - 500) / 1000.f * size;
     const float z = float(rand() % 1000 - 500) / 1000.f * size;

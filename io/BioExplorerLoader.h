@@ -59,10 +59,14 @@ public:
         const std::string& filename, const LoaderProgress& callback,
         const PropertyMap& properties) const final;
 
-    void exportToFile(const std::string& filename,
-                      const AssemblyMap& assemblies) const;
+    void exportToFile(const std::string& filename) const;
 
 private:
+    std::string _readString(std::ifstream& f) const;
+    void _importModel(std::ifstream& file) const;
+    void _exportModel(const ModelDescriptorPtr modelDescriptor,
+                      std::ofstream& file) const;
+
     PropertyMap _defaults;
 };
 } // namespace bioexplorer
