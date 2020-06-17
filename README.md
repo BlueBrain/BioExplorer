@@ -1,7 +1,7 @@
 # BioExplorer plugin for Brayns
 
 ## Description
-This module implements the visualization of biological resources
+This module implements the visualization of biological resources and molecular systems
 
 ## Usage
 - Point LD_LIBRARY_PATH to the folder which contains

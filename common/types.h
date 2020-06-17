@@ -31,6 +31,8 @@ namespace bioexplorer
 {
 using namespace brayns;
 
+const std::string PLUGIN_VERSION = "0.5.0";
+
 // Model position randomization types
 enum class PositionRandomizationType
 {

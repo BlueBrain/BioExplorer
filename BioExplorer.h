@@ -35,10 +35,6 @@ public:
 
     void init() final;
 
-    void preRender() final;
-
-    void postRender() final;
-
 private:
     Response _version() const;
     Response _exportToFile(const LoaderExportToFileDescriptor &payload);
