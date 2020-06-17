@@ -153,14 +153,10 @@ void BioExplorer::init()
     }
 }
 
-void BioExplorer::preRender() {}
-
-void BioExplorer::postRender() {}
-
 Response BioExplorer::_version() const
 {
     Response response;
-    response.contents = "0.4.0";
+    response.contents = PLUGIN_VERSION;
     return response;
 }
 
@@ -490,7 +486,7 @@ Response BioExplorer::_addMesh(const MeshDescriptor &payload) const
 
 extern "C" ExtensionPlugin *brayns_plugin_create(int /*argc*/, char ** /*argv*/)
 {
-    PLUGIN_INFO << "Initializing Covid19 plugin" << std::endl;
+    PLUGIN_INFO << "Initializing BioExplorer plug-in" << std::endl;
     return new BioExplorer();
 }
 } // namespace bioexplorer
