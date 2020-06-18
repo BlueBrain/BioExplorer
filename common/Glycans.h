@@ -21,26 +21,33 @@
 
 #include <api/BioExplorerParams.h>
 #include <brayns/engineapi/Model.h>
-#include <common/Node.h>
+#include <common/Molecule.h>
 #include <common/types.h>
 
 namespace bioexplorer
 {
-class Glycans : public Node
+/**
+ * @brief The Glycans class
+ */
+class Glycans : public Molecule
 {
 public:
+    /**
+     * @brief Glycans
+     * @param scene
+     * @param sd
+     * @param positions
+     * @param rotations
+     */
     Glycans(Scene& scene, const SugarsDescriptor& sd, Vector3fs positions,
             Quaternions rotations);
 
 private:
-    void _readAtom(const std::string& line);
     void _buildModel(Model& model);
 
     SugarsDescriptor _descriptor;
     Vector3fs _positions;
     Quaternions _rotations;
-    AtomMap _atomMap;
-    Residues _residues;
 };
 } // namespace bioexplorer
 #endif // BIOEXPLORER_GLYCANS_H

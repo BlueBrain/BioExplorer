@@ -21,6 +21,7 @@ endif(NOT CMAKE_BUILD_TYPE)
 
 set(${NAME}_SOURCES
   io/BioExplorerLoader.cpp
+  common/Molecule.cpp
   common/utils.cpp
   common/Assembly.cpp
   common/Node.cpp
@@ -37,6 +38,7 @@ set(${NAME}_SOURCES
 
 set(${NAME}_PUBLIC_HEADERS
   io/BioExplorerLoader.h
+  common/Molecule.h
   common/Assembly.h
   common/Node.h
   common/Glycans.h

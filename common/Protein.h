@@ -21,14 +21,15 @@
 
 #include <api/BioExplorerParams.h>
 
-#include <common/Node.h>
+#include <common/Molecule.h>
 #include <common/types.h>
-
-#include <brayns/engineapi/Model.h>
 
 namespace bioexplorer
 {
-class Protein : public Node
+/**
+ * @brief The Protein class
+ */
+class Protein : public Molecule
 {
 public:
     Protein(Scene& scene, const ProteinDescriptor& descriptor);
@@ -59,7 +60,7 @@ public:
     void setAtoms(const AtomMap& atoms) { _atomMap = atoms; }
     Residues& getResidues() { return _residues; }
     SequenceMap& getSequences() { return _sequenceMap; }
-    const ProteinDescriptor& getDescriptor() const { return _descritpor; }
+    const ProteinDescriptor& getDescriptor() const { return _descriptor; }
 
     void getGlycosilationSites(std::vector<Vector3f>& positions,
                                std::vector<Quaterniond>& rotations,
@@ -79,38 +80,14 @@ private:
         const std::map<std::string, size_ts>& sites) const;
 
     // Color schemes
-    void _setAtomColorScheme();
-    void _setChainColorScheme(const Palette& palette);
     void _setRegionColorScheme(const Palette& palette, const size_ts& chainIds);
-    void _setResiduesColorScheme(const Palette& palette);
-    void _setAminoAcidSequenceColorScheme(const Palette& palette);
     void _setGlycosylationSiteColorScheme(const Palette& palette);
 
-    void _setMaterialDiffuseColor(const size_t atomIndex,
-                                  const RGBColor& color);
-    void _setMaterialDiffuseColor(const size_t atomIndex, const Color& color);
-
     // IO
-    void _readAtom(const std::string& line);
-    void _readSequence(const std::string& line);
-    void _readTitle(const std::string& line);
-    void _readRemark(const std::string& line);
-    void _readConnect(const std::string& line);
-    bool _loadChain(const size_t chainId);
     void _buildModel(Model& model, const ProteinDescriptor& descriptor);
 
     // Class members
-    ProteinDescriptor _descritpor;
-    AtomMap _atomMap;
-    Residues _residues;
-    SequenceMap _sequenceMap;
-    BondsMap _bondsMap;
-    size_ts _chainIds;
-
-    std::string _aminoAcidSequence;
-    Vector2ui _aminoAcidRange;
-    std::string _title;
-    Boxf _bounds;
+    ProteinDescriptor _descriptor;
 };
 } // namespace bioexplorer
 

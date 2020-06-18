@@ -52,7 +52,6 @@ public:
     void addMesh(const MeshDescriptor &md);
     void addGlycans(const SugarsDescriptor &sd);
     void addGlucoses(const SugarsDescriptor &sd);
-    void applyTransformations(const AssemblyTransformationsDescriptor &at);
 
 private:
     void _processInstances(ModelDescriptorPtr md, const std::string &name,
@@ -75,9 +74,6 @@ private:
     RNASequencePtr _rnaSequence{nullptr};
     OccupiedDirections _occupiedDirections;
     Vector4fs _clippingPlanes;
-#if 0
-     std::map<std::string, std::vector<Transformation>> _transformations;
-#endif
 };
 } // namespace bioexplorer
 #endif // BIOEXPLORER_ASSEMBLY_H

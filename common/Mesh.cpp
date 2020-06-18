@@ -35,6 +35,10 @@ Mesh::Mesh(Scene& scene, const MeshDescriptor& md)
     _modelDescriptor =
         loader.importFromBlob(std::move(blob), LoaderProgress(), PropertyMap());
 
+    auto metadata = _modelDescriptor->getMetadata();
+    metadata[METADATA_ASSEMBLY] = md.assemblyName;
+    _modelDescriptor->setMetadata(metadata);
+
     if (md.recenter)
     {
         auto& model = _modelDescriptor->getModel();

@@ -27,7 +27,7 @@ namespace bioexplorer
 {
 Glycans::Glycans(Scene& scene, const SugarsDescriptor& sd, Vector3fs positions,
                  Quaternions rotations)
-    : Node()
+    : Molecule({})
     , _descriptor(sd)
     , _positions(positions)
     , _rotations(rotations)
@@ -36,11 +36,18 @@ Glycans::Glycans(Scene& scene, const SugarsDescriptor& sd, Vector3fs positions,
 
     std::stringstream lines{_descriptor.contents};
     std::string line;
+    std::string title{sd.name};
+    std::string header{sd.name};
 
     while (getline(lines, line, '\n'))
-        if (line.find("ATOM") == 0 || line.find("HETATM") == 0)
+    {
+        if (line.find(KEY_ATOM) == 0 || line.find(KEY_HETATM) == 0)
             _readAtom(line);
-
+        else if (line.find(KEY_HEADER) == 0)
+            header = _readHeader(line);
+        else if (line.find(KEY_TITLE) == 0)
+            title = _readTitle(line);
+    }
     auto model = scene.createModel();
 
     // Build 3d models according to atoms positions (re-centered to origin)
@@ -60,14 +67,18 @@ Glycans::Glycans(Scene& scene, const SugarsDescriptor& sd, Vector3fs positions,
 
     // Metadata
     ModelMetadata metadata;
-    metadata["Atoms"] = std::to_string(_atomMap.size());
+    metadata[METADATA_ASSEMBLY] = _descriptor.assemblyName;
+    metadata[METADATA_TITLE] = title;
+    metadata[METADATA_HEADER] = header;
+    metadata[METADATA_ATOMS] = std::to_string(_atomMap.size());
 
     const auto& size = bounds.getSize();
-    metadata["Size"] = std::to_string(size.x) + ", " + std::to_string(size.y) +
-                       ", " + std::to_string(size.z) + " angstroms";
+    metadata[METADATA_SIZE] = std::to_string(size.x) + ", " +
+                              std::to_string(size.y) + ", " +
+                              std::to_string(size.z) + " angstroms";
     _modelDescriptor =
         std::make_shared<ModelDescriptor>(std::move(model), _descriptor.name,
-                                          _descriptor.contents, metadata);
+                                          header, metadata);
 }
 
 void Glycans::_buildModel(Model& model)
@@ -133,87 +144,4 @@ void Glycans::_buildModel(Model& model)
     }
 }
 
-void Glycans::_readAtom(const std::string& line)
-{
-    // --------------------------------------------------------------------
-    // COLUMNS DATA TYPE    FIELD     DEFINITION
-    // --------------------------------------------------------------------
-    // 1 - 6   Record name  "ATOM "
-    // 7 - 11  Integer      serial     Atom serial number
-    // 13 - 16 Atom         name       Atom name
-    // 17      Character    altLoc     Alternate location indicator
-    // 18 - 20 Residue name resName    Residue name
-    // 22      Character    chainID    Chain identifier
-    // 23 - 26 Integer      resSeq     Residue sequence number
-    // 27      AChar        iCode      Code for insertion of residues
-    // 31 - 38 Real(8.3)    x          Orthogonal coords for X in angstroms
-    // 39 - 46 Real(8.3)    y          Orthogonal coords for Y in Angstroms
-    // 47 - 54 Real(8.3)    z          Orthogonal coords for Z in Angstroms
-    // 55 - 60 Real(6.2)    occupancy  Occupancy
-    // 61 - 66 Real(6.2)    tempFactor Temperature factor
-    // 77 - 78 LString(2)   element    Element symbol, right-justified
-    // 79 - 80 LString(2)   charge     Charge on the atom
-    // --------------------------------------------------------------------
-
-    std::string s = line.substr(21, 1);
-    std::string chainId = trim(s);
-
-    const size_t serial = static_cast<size_t>(atoi(line.substr(6, 5).c_str()));
-
-    Atom atom;
-    atom.chainId = chainId;
-
-    s = line.substr(12, 4);
-    atom.name = trim(s);
-
-    s = line.substr(16, 1);
-    atom.altLoc = trim(s);
-
-    s = line.substr(17, 3);
-    atom.resName = trim(s);
-
-    _residues.insert(atom.resName);
-
-    atom.reqSeq = static_cast<size_t>(atoi(line.substr(22, 4).c_str()));
-
-    atom.iCode = line.substr(26, 1);
-
-    atom.position.x = static_cast<float>(atof(line.substr(30, 8).c_str()));
-    atom.position.y = static_cast<float>(atof(line.substr(38, 8).c_str()));
-    atom.position.z = static_cast<float>(atof(line.substr(46, 8).c_str()));
-
-    atom.occupancy = static_cast<float>(atof(line.substr(54, 6).c_str()));
-
-    if (line.length() >= 60)
-        atom.tempFactor = static_cast<float>(atof(line.substr(60, 6).c_str()));
-
-    if (line.length() >= 76)
-    {
-        s = line.substr(76, 2);
-        atom.element = trim(s);
-    }
-
-    if (line.length() >= 78)
-    {
-        s = line.substr(78, 2);
-        atom.charge = trim(s);
-    }
-
-    // Convert position from nanometers
-    atom.position = 0.01f * atom.position;
-
-    // Convert radius from angstrom
-    atom.radius = 0.0001f * DEFAULT_ATOM_RADIUS;
-    auto it = atomicRadii.find(atom.element);
-    if (it != atomicRadii.end())
-        atom.radius = 0.0001f * (*it).second;
-    else
-    {
-        it = atomicRadii.find(atom.name);
-        if (it != atomicRadii.end())
-            atom.radius = 0.0001f * (*it).second;
-    }
-
-    _atomMap.insert(std::make_pair(serial, atom));
-}
 } // namespace bioexplorer

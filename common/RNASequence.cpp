@@ -158,6 +158,7 @@ RNASequence::RNASequence(Scene& scene, const RNASequenceDescriptor& rd,
 
     // Metadata
     ModelMetadata metadata;
+    metadata[METADATA_ASSEMBLY] = rd.assemblyName;
     metadata["RNA sequence"] = sequence;
     _modelDescriptor =
         std::make_shared<ModelDescriptor>(std::move(model), rd.name, metadata);

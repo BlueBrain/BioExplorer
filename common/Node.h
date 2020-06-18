@@ -23,6 +23,9 @@
 
 namespace bioexplorer
 {
+/**
+ * @brief The Node class
+ */
 class Node
 {
 public:

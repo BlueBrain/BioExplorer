@@ -33,6 +33,14 @@ using namespace brayns;
 
 const std::string PLUGIN_VERSION = "0.5.0";
 
+// Metadata
+const std::string METADATA_ASSEMBLY = "Assembly";
+const std::string METADATA_TITLE = "Title";
+const std::string METADATA_HEADER = "Header";
+const std::string METADATA_ATOMS = "Atoms";
+const std::string METADATA_BONDS = "Bonds";
+const std::string METADATA_SIZE = "Size";
+
 // Model position randomization types
 enum class PositionRandomizationType
 {
@@ -74,6 +82,14 @@ enum class RNAShape
 };
 
 // Assembly
+enum class AssemblyType
+{
+    protein = 0,
+    membrane = 1,
+    sugar = 3,
+    rnaSequence = 4
+};
+
 struct AssemblyDescriptor
 {
     std::string name;

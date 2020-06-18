@@ -344,69 +344,6 @@ void Assembly::_processInstances(
     }
 }
 
-#if 0
-void Assembly::applyTransformations(const AssemblyTransformationsDescriptor &at)
-{
-    if (at.transformations.size() % 13 != 0)
-        PLUGIN_THROW(std::runtime_error(
-            "Invalid number of floats in the list of transformations"));
-
-    ModelDescriptorPtr modelDescriptor{nullptr};
-
-    auto it = _proteins.find(at.name);
-    if (it != _proteins.end())
-        modelDescriptor = (*it).second->getModelDescriptor();
-    else
-    {
-        auto it = _meshes.find(at.name);
-        if (it != _meshes.end())
-            modelDescriptor = (*it).second->getModelDescriptor();
-        else
-        {
-            auto it = _glycans.find(at.name);
-            if (it != _glycans.end())
-                modelDescriptor = (*it).second->getModelDescriptor();
-            else
-                PLUGIN_THROW(std::runtime_error(
-                    "Element " + at.name + " is not registered in assembly " +
-                    at.assemblyName));
-        }
-    }
-
-    std::vector<Transformation> transformations;
-    const auto &tfs = at.transformations;
-    for (size_t i = 0; i < tfs.size(); i += 13)
-    {
-        Transformation tf;
-        tf.setTranslation({tfs[i], tfs[i + 1], tfs[i + 2]});
-        tf.setRotationCenter({tfs[i + 3], tfs[i + 4], tfs[i + 5]});
-        tf.setRotation({tfs[i + 6], tfs[i + 7], tfs[i + 8], tfs[i + 9]});
-        tf.setScale({tfs[i + 10], tfs[i + 11], tfs[i + 12]});
-        transformations.push_back(tf);
-    }
-
-    const auto nbInstances = modelDescriptor->getInstances().size();
-    const auto &initialTransformations = _transformations[at.name];
-    for (size_t i = 0; i < transformations.size() && i < nbInstances; ++i)
-    {
-        const auto &otf = transformations[i];
-        const auto &itf = initialTransformations[i];
-
-        Transformation tf;
-        tf.setTranslation(itf.getTranslation() + otf.getTranslation());
-        tf.setRotationCenter(itf.getRotationCenter() + otf.getRotationCenter());
-        tf.setRotation(itf.getRotation() * otf.getRotation());
-        tf.setScale(itf.getScale() * otf.getScale());
-
-        auto instance = modelDescriptor->getInstance(i);
-        if (i == 0)
-            modelDescriptor->setTransformation(tf);
-        instance->setTransformation(tf);
-    }
-    _scene.markModified();
-}
-#endif
-
 void Assembly::setColorScheme(const ColorSchemeDescriptor &csd)
 {
     ProteinPtr protein{nullptr};

@@ -41,20 +41,6 @@ const std::string SUPPORTED_EXTENTION_BIOEXPLORER = "bioexplorer";
 
 const size_t CACHE_VERSION_1 = 1;
 
-const Property PROP_LOAD_VIRUS = {"loadVirus", bool(true), {"Load viruses"}};
-const Property PROP_LOAD_CELL = {"loadCell", bool(true), {"Load cells"}};
-const Property PROP_LOAD_SP_D = {"loadSPD", bool(true), {"Load D-surfactants"}};
-const Property PROP_LOAD_SP_A = {"loadSPA", bool(true), {"Load A-surfactants"}};
-const Property PROP_LOAD_GLUCOSE = {"loadGlucose",
-                                    bool(true),
-                                    {"Load glucose"}};
-const Property PROP_LOAD_DEFENSIN = {"loadDefensin",
-                                     bool(true),
-                                     {"Load defensins"}};
-const Property PROP_LOAD_LACTOFERIN = {"loadLactoferin",
-                                       bool(true),
-                                       {"Load lactoferins"}};
-
 BioExplorerLoader::BioExplorerLoader(Scene& scene, PropertyMap&& loaderParams)
     : Loader(scene)
     , _defaults(loaderParams)
@@ -731,13 +717,6 @@ PropertyMap BioExplorerLoader::getProperties() const
 PropertyMap BioExplorerLoader::getCLIProperties()
 {
     PropertyMap pm("BioExplorerLoader");
-    pm.setProperty(PROP_LOAD_VIRUS);
-    pm.setProperty(PROP_LOAD_CELL);
-    pm.setProperty(PROP_LOAD_SP_D);
-    pm.setProperty(PROP_LOAD_SP_A);
-    pm.setProperty(PROP_LOAD_GLUCOSE);
-    pm.setProperty(PROP_LOAD_DEFENSIN);
-    pm.setProperty(PROP_LOAD_LACTOFERIN);
     return pm;
 }
 } // namespace bioexplorer
