@@ -80,6 +80,7 @@ Membrane::Membrane(Scene &scene, const MembraneDescriptor &descriptor,
         pd.locationCutoffAngle = descriptor.locationCutoffAngle;
         pd.loadNonPolymerChemicals = descriptor.loadNonPolymerChemicals;
         pd.positionRandomizationType = descriptor.positionRandomizationType;
+        pd.position = {0.f, 0.f, 0.f};
 
         ProteinPtr protein(new Protein(_scene, pd));
         auto modelDescriptor = protein->getModelDescriptor();

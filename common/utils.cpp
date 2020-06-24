@@ -145,8 +145,8 @@ void getSinosoidalPosition(const float size, const float height,
                            const size_t randomSeed, const Vector3f& position,
                            Vector3f& pos, Vector3f& dir)
 {
-    const float step = 0.1f;
-    const float angle = 0.1f;
+    const float step = 0.01f;
+    const float angle = 0.01f;
     float up = 1.f;
     if (randomSeed != 0 &&
         randomizationType == PositionRandomizationType::radial)
@@ -154,17 +154,16 @@ void getSinosoidalPosition(const float size, const float height,
 
     const float x = float(rand() % 1000 - 500) / 1000.f * size;
     const float z = float(rand() % 1000 - 500) / 1000.f * size;
-    const float y = height * angle * up * sinusoide(x * angle, z * angle);
+    const float y = height * up * sinusoide(x * angle, z * angle);
+
     pos = Vector3f(x, y, z);
 
     const Vector3f v1 =
         Vector3f(x + step,
-                 height * angle * up * sinusoide((x + step) * angle, z * angle),
-                 z) -
+                 height * up * sinusoide((x + step) * angle, z * angle), z) -
         pos;
     const Vector3f v2 =
-        Vector3f(x,
-                 height * angle * up * sinusoide(x * angle, (z + step) * angle),
+        Vector3f(x, height * up * sinusoide(x * angle, (z + step) * angle),
                  z + step) -
         pos;
 

@@ -42,7 +42,7 @@ Glycans::Glycans(Scene& scene, const SugarsDescriptor& sd, Vector3fs positions,
     while (getline(lines, line, '\n'))
     {
         if (line.find(KEY_ATOM) == 0 || line.find(KEY_HETATM) == 0)
-            _readAtom(line);
+            _readAtom(line, true);
         else if (line.find(KEY_HEADER) == 0)
             header = _readHeader(line);
         else if (line.find(KEY_TITLE) == 0)

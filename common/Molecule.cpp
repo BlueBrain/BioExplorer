@@ -14,7 +14,7 @@ Molecule::Molecule(const size_ts& chainIds)
 {
 }
 
-void Molecule::_readAtom(const std::string& line)
+void Molecule::_readAtom(const std::string& line, const bool loadHydrogen)
 {
     // --------------------------------------------------------------------
     // COLUMNS DATA TYPE    FIELD     DEFINITION
@@ -77,6 +77,8 @@ void Molecule::_readAtom(const std::string& line)
     {
         s = line.substr(76, 2);
         atom.element = trim(s);
+        if (s == "H" && !loadHydrogen)
+            return;
     }
 
     if (line.length() >= 80)
@@ -85,22 +87,22 @@ void Molecule::_readAtom(const std::string& line)
         atom.charge = trim(s);
     }
 
-    // Convert position from nanometers
-    atom.position = 0.01f * atom.position;
+    // Convert position from amstrom (10e-10) to nanometers (10e-9)
+    atom.position = 0.1f * atom.position;
 
     // Bounds
     _bounds.merge(atom.position);
 
-    // Convert radius from angstrom
-    atom.radius = 0.0001f * DEFAULT_ATOM_RADIUS;
+    // Convert radius from picometers (10e-12) to nanometers (10e-9)
+    atom.radius = 0.001f * DEFAULT_ATOM_RADIUS;
     auto it = atomicRadii.find(atom.element);
     if (it != atomicRadii.end())
-        atom.radius = 0.0001f * (*it).second;
+        atom.radius = 0.001f * (*it).second;
     else
     {
         it = atomicRadii.find(atom.name);
         if (it != atomicRadii.end())
-            atom.radius = 0.0001f * (*it).second;
+            atom.radius = 0.001f * (*it).second;
         else
             PLUGIN_WARN << "[" << atom.element << "]/[" << atom.name
                         << "] not found" << std::endl;

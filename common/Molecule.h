@@ -37,7 +37,7 @@ protected:
     void _setMaterialDiffuseColor(const size_t atomIndex, const Color& color);
 
     // IO
-    void _readAtom(const std::string& line);
+    void _readAtom(const std::string& line, const bool loadHydrogen);
     void _readSequence(const std::string& line);
     std::string _readHeader(const std::string& line);
     std::string _readTitle(const std::string& line);

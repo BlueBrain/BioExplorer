@@ -73,6 +73,8 @@ void Assembly::addProtein(const ProteinDescriptor &pd)
 
     _proteins[pd.name] = std::move(protein);
     _scene.addModel(modelDescriptor);
+    PLUGIN_INFO << "Number of instances   : "
+                << modelDescriptor->getInstances().size() << std::endl;
 }
 
 void Assembly::addMembrane(const MembraneDescriptor &md)

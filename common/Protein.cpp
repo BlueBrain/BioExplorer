@@ -43,10 +43,10 @@ Protein::Protein(Scene& scene, const ProteinDescriptor& descriptor)
     while (getline(lines, line, '\n'))
     {
         if (line.find(KEY_ATOM) == 0)
-            _readAtom(line);
+            _readAtom(line, _descriptor.loadHydrogen);
         else if (descriptor.loadNonPolymerChemicals &&
                  line.find(KEY_HETATM) == 0)
-            _readAtom(line);
+            _readAtom(line, _descriptor.loadHydrogen);
         else if (line.find(KEY_HEADER) == 0)
             header = _readHeader(line);
         else if (line.find(KEY_TITLE) == 0)
@@ -130,6 +130,22 @@ Protein::Protein(Scene& scene, const ProteinDescriptor& descriptor)
     _modelDescriptor =
         std::make_shared<ModelDescriptor>(std::move(model), descriptor.name,
                                           header, metadata);
+
+    PLUGIN_INFO << "---===  Protein  ===--- " << std::endl;
+    PLUGIN_INFO << "Assembly name         : " << _descriptor.assemblyName
+                << std::endl;
+    PLUGIN_INFO << "Name                  : " << _descriptor.name << std::endl;
+    PLUGIN_INFO << "Adom Radius multiplier: "
+                << _descriptor.atomRadiusMultiplier << std::endl;
+    PLUGIN_INFO << "Number of atoms       : " << _atomMap.size() << std::endl;
+    PLUGIN_INFO << "Number of bonds       : " << _bondsMap.size() << std::endl;
+    PLUGIN_INFO << "Position              : " << _descriptor.position[0] << ","
+                << _descriptor.position[1] << "," << _descriptor.position[2]
+                << std::endl;
+    PLUGIN_INFO << "Orientation           : " << _descriptor.orientation[0]
+                << "," << _descriptor.orientation[1] << ","
+                << _descriptor.orientation[2] << ","
+                << _descriptor.orientation[3] << std::endl;
 }
 
 void Protein::_buildModel(Model& model, const ProteinDescriptor& descriptor)

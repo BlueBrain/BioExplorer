@@ -272,6 +272,7 @@ std::string to_json(const ProteinDescriptor &payload)
         TO_JSON(payload, js, atomRadiusMultiplier);
         TO_JSON(payload, js, loadBonds);
         TO_JSON(payload, js, loadNonPolymerChemicals);
+        TO_JSON(payload, js, loadHydrogen);
         TO_JSON(payload, js, representation);
         TO_JSON(payload, js, chainIds);
         TO_JSON(payload, js, recenter);

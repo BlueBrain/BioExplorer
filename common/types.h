@@ -168,6 +168,7 @@ struct ProteinDescriptor
     float atomRadiusMultiplier;
     bool loadBonds;
     bool loadNonPolymerChemicals;
+    bool loadHydrogen;
     ProteinRepresentation representation;
     size_ts chainIds;
     bool recenter;
@@ -323,9 +324,10 @@ typedef std::vector<Quaterniond> Quaternions;
 typedef std::vector<Vector3f> Vector3fs;
 typedef std::vector<std::pair<Vector3f, float>> OccupiedDirections;
 
-// Atomic radii in microns
+// Atomic radii in picometers (10e-12 meters)
 const float DEFAULT_ATOM_RADIUS = 25.f;
-static AtomicRadii atomicRadii = {{{"C"}, {67.f}},
+static AtomicRadii atomicRadii = {{{"H"}, {25.f}},
+                                  {{"C"}, {67.f}},
                                   {{"N"}, {56.f}},
                                   {{"O"}, {48.f}},
                                   {{"H"}, {53.f}},
@@ -441,8 +443,8 @@ static AtomicRadii atomicRadii = {{{"C"}, {67.f}},
                                   {{"OXT"}, {25.f}},
                                   {{"P"}, 25.f}};
 
-const float BOND_RADIUS = 0.0025f;
-const float DEFAULT_STICK_DISTANCE = 0.016f;
+const float BOND_RADIUS = 0.025f;
+const float DEFAULT_STICK_DISTANCE = 0.16f;
 
 // Amino acids
 static AminoAcidMap aminoAcidMap = {{".", {".", "."}},
