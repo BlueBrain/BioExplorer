@@ -304,6 +304,7 @@ bool from_json(SugarsDescriptor &param, const std::string &payload)
         FROM_JSON(param, js, atomRadiusMultiplier);
         FROM_JSON(param, js, addSticks);
         FROM_JSON(param, js, recenter);
+        FROM_JSON(param, js, chainIds);
         FROM_JSON(param, js, siteIndices);
         FROM_JSON(param, js, allowedOccurrences);
         FROM_JSON(param, js, orientation);

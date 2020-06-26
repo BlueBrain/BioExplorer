@@ -453,18 +453,28 @@ void Protein::getGlycosilationSites(std::vector<Vector3f>& positions,
 
 void Protein::getGlucoseBindingSites(std::vector<Vector3f>& positions,
                                      std::vector<Quaterniond>& rotations,
-                                     const size_ts& siteIndices) const
+                                     const size_ts& siteIndices,
+                                     const size_ts& chainIds) const
 {
     positions.clear();
     rotations.clear();
 
-    std::set<std::string> chainIds;
+    std::set<std::string> chainIdsAsString;
     for (const auto& atom : _atomMap)
-        chainIds.insert(atom.second.chainId);
+    {
+        bool acceptChain{true};
+        const size_t chainId = static_cast<size_t>(atom.second.chainId[0] - 64);
+        if (!chainIds.empty())
+            acceptChain = (std::find(chainIds.begin(), chainIds.end(),
+                                     chainId) != chainIds.end());
+
+        if (acceptChain)
+            chainIdsAsString.insert(atom.second.chainId);
+    }
 
     std::map<std::string, size_ts> sites;
-    for (const auto& chainId : chainIds)
-        sites[chainId] = siteIndices;
+    for (const auto& chainIdAsString : chainIdsAsString)
+        sites[chainIdAsString] = siteIndices;
 
     _getSitesTransformations(positions, rotations, sites);
 }

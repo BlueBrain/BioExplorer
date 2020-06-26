@@ -151,7 +151,8 @@ void Assembly::addGlucoses(const SugarsDescriptor &sd)
 
     Vector3fs positions;
     Quaternions rotations;
-    targetProtein->getGlucoseBindingSites(positions, rotations, sd.siteIndices);
+    targetProtein->getGlucoseBindingSites(positions, rotations, sd.siteIndices,
+                                          sd.chainIds);
     const auto pd = targetProtein->getDescriptor();
 
     const Quaterniond sugarOrientation = {sd.orientation[0], sd.orientation[1],
@@ -176,7 +177,8 @@ void Assembly::addGlucoses(const SugarsDescriptor &sd)
                                             pd.orientation[2],
                                             pd.orientation[3]};
     _processInstances(modelDescriptor, pd.name, pd.shape,
-                      {pd.assemblyParams[0] * 1.025f, pd.assemblyParams[1]},
+                      {pd.assemblyParams[0] /* * 1.025f */,
+                       pd.assemblyParams[1]},
                       pd.occurrences, sd.allowedOccurrences, pd.randomSeed,
                       position, proteinOrientation,
                       PositionRandomizationType::circular, 0.f);
