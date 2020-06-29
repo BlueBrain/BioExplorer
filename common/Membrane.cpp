@@ -145,8 +145,8 @@ void Membrane::_processInstances()
         {
         case AssemblyShape::spherical:
         {
-            const auto assemblyRadius = _descriptor.assemblyParams[0];
-            getSphericalPosition(rnd, assemblyRadius,
+            getSphericalPosition(rnd, _descriptor.assemblyParams[0],
+                                 _descriptor.assemblyParams[1],
                                  _descriptor.positionRandomizationType,
                                  _descriptor.randomSeed, i,
                                  _descriptor.occurrences, {0, 0, 0}, pos, dir);

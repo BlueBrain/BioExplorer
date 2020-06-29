@@ -18,6 +18,8 @@
 
 #include "utils.h"
 
+#include <common/log.h>
+
 namespace bioexplorer
 {
 std::string& ltrim(std::string& s)
@@ -58,6 +60,7 @@ bool isClipped(const Vector3f& position, const Vector4fs& clippingPlanes)
 }
 
 void getSphericalPosition(const size_t rnd, const float assemblyRadius,
+                          const float height,
                           const PositionRandomizationType randomizationType,
                           const size_t randomSeed, const size_t occurence,
                           const size_t occurences, const Vector3f& position,
@@ -70,7 +73,7 @@ void getSphericalPosition(const size_t rnd, const float assemblyRadius,
     float radius = assemblyRadius;
     if (randomSeed != 0 &&
         randomizationType == PositionRandomizationType::radial)
-        radius *= 1.f + (float(rand() % 1000 - 500) / 30000.f);
+        radius *= 1.f + height * (float(rand() % 1000 - 500) / 30000.f);
 
     // Sphere filling
     const float y = ((occurence * offset) - 1.f) + (offset / 2.f);

@@ -68,6 +68,7 @@ bool isClipped(const Vector3f& position, const Vector4fs& clippingPlanes);
  * @param dir
  */
 void getSphericalPosition(const size_t rnd, const float assemblyRadius,
+                          const float height,
                           const PositionRandomizationType randomizationType,
                           const size_t randomSeed, const size_t occurence,
                           const size_t occurences, const Vector3f& position,

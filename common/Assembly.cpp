@@ -245,10 +245,9 @@ void Assembly::_processInstances(
         {
         case AssemblyShape::spherical:
         {
-            const auto assemblyRadius = assemblyParams[0];
-            getSphericalPosition(rnd, assemblyRadius, randomizationType,
-                                 randomSeed, i, occurrences, position, pos,
-                                 dir);
+            getSphericalPosition(rnd, assemblyParams[0], assemblyParams[1],
+                                 randomizationType, randomSeed, i, occurrences,
+                                 position, pos, dir);
             break;
         }
         case AssemblyShape::sinusoidal:
