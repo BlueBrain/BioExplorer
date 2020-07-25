@@ -59,7 +59,9 @@ public:
         const std::string& filename, const LoaderProgress& callback,
         const PropertyMap& properties) const final;
 
-    void exportToFile(const std::string& filename) const;
+    void exportToCache(const std::string& filename) const;
+
+    void exportToXYZR(const std::string& filename) const;
 
 private:
     std::string _readString(std::ifstream& f) const;

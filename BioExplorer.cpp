@@ -134,12 +134,20 @@ void BioExplorer::init()
                 return _addGlucoses(payload);
             });
 
-        PLUGIN_INFO << "Registering 'export-to-file' endpoint" << std::endl;
+        PLUGIN_INFO << "Registering 'export-to-cache' endpoint" << std::endl;
         actionInterface
-            ->registerRequest<LoaderExportToFileDescriptor, Response>(
-                "export-to-file",
-                [&](const LoaderExportToFileDescriptor &payload) {
-                    return _exportToFile(payload);
+            ->registerRequest<LoaderExportToCacheDescriptor, Response>(
+                "export-to-cache",
+                [&](const LoaderExportToCacheDescriptor &payload) {
+                    return _exportToCache(payload);
+                });
+
+        PLUGIN_INFO << "Registering 'export-to-xyzr' endpoint" << std::endl;
+        actionInterface
+            ->registerRequest<LoaderExportToXYZRDescriptor, Response>(
+                "export-to-xyzr",
+                [&](const LoaderExportToXYZRDescriptor &payload) {
+                    return _exportToXYZR(payload);
                 });
     }
 }
@@ -415,14 +423,32 @@ Response BioExplorer::_addGlucoses(const SugarsDescriptor &payload) const
     return response;
 }
 
-Response BioExplorer::_exportToFile(const LoaderExportToFileDescriptor &payload)
+Response BioExplorer::_exportToCache(
+    const LoaderExportToCacheDescriptor &payload)
 {
     Response response;
     try
     {
         auto &scene = _api->getScene();
         BioExplorerLoader loader(scene);
-        loader.exportToFile(payload.filename);
+        loader.exportToCache(payload.filename);
+    }
+    catch (const std::runtime_error &e)
+    {
+        response.status = false;
+        response.contents = e.what();
+    }
+    return response;
+}
+
+Response BioExplorer::_exportToXYZR(const LoaderExportToXYZRDescriptor &payload)
+{
+    Response response;
+    try
+    {
+        auto &scene = _api->getScene();
+        BioExplorerLoader loader(scene);
+        loader.exportToXYZR(payload.filename);
     }
     catch (const std::runtime_error &e)
     {

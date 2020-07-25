@@ -341,7 +341,21 @@ bool from_json(MeshDescriptor &param, const std::string &payload)
     return true;
 }
 
-bool from_json(LoaderExportToFileDescriptor &param, const std::string &payload)
+bool from_json(LoaderExportToCacheDescriptor &param, const std::string &payload)
+{
+    try
+    {
+        auto js = nlohmann::json::parse(payload);
+        FROM_JSON(param, js, filename);
+    }
+    catch (...)
+    {
+        return false;
+    }
+    return true;
+}
+
+bool from_json(LoaderExportToXYZRDescriptor &param, const std::string &payload)
 {
     try
     {

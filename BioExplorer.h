@@ -37,7 +37,8 @@ public:
 
 private:
     Response _version() const;
-    Response _exportToFile(const LoaderExportToFileDescriptor &payload);
+    Response _exportToCache(const LoaderExportToCacheDescriptor &payload);
+    Response _exportToXYZR(const LoaderExportToXYZRDescriptor &payload);
     Response _addAssembly(const AssemblyDescriptor &payload);
     Response _removeAssembly(const AssemblyDescriptor &payload);
     Response _addMembrane(const MembraneDescriptor &payload) const;

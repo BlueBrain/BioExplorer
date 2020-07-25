@@ -56,6 +56,8 @@ bool from_json(AminoAcidSequenceAsRangeDescriptor &param,
 bool from_json(AminoAcidInformationDescriptor &param,
                const std::string &payload);
 
-bool from_json(LoaderExportToFileDescriptor &param, const std::string &payload);
+bool from_json(LoaderExportToCacheDescriptor &param,
+               const std::string &payload);
+bool from_json(LoaderExportToXYZRDescriptor &param, const std::string &payload);
 } // namespace bioexplorer
 #endif // BIOEXPLORER_PARAMS_H

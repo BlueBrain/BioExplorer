@@ -26,6 +26,9 @@
 #include <api/BioExplorerParams.h>
 #include <common/Assembly.h>
 #include <common/Protein.h>
+#include <common/utils.h>
+
+#include <brayns/common/scene/ClipPlane.h>
 
 #include <brayns/engineapi/Material.h>
 #include <brayns/engineapi/Model.h>
@@ -685,7 +688,7 @@ void BioExplorerLoader::_exportModel(const ModelDescriptorPtr modelDescriptor,
     }
 }
 
-void BioExplorerLoader::exportToFile(const std::string& filename) const
+void BioExplorerLoader::exportToCache(const std::string& filename) const
 {
     PLUGIN_INFO << "Saving scene to BioExplorer file: " << filename
                 << std::endl;
@@ -706,6 +709,63 @@ void BioExplorerLoader::exportToFile(const std::string& filename) const
     for (const auto& modelDescriptor : modelDescriptors)
         _exportModel(modelDescriptor, file);
 
+    file.close();
+}
+
+void BioExplorerLoader::exportToXYZR(const std::string& filename) const
+{
+    PLUGIN_INFO << "Saving scene to XYZR file: " << filename << std::endl;
+    std::ofstream file(filename, std::ios::out | std::ios::binary);
+    if (!file.good())
+    {
+        const std::string msg = "Could not create XYZR file " + filename;
+        PLUGIN_THROW(std::runtime_error(msg));
+    }
+
+    const auto& clippingPlanes = _scene.getClipPlanes();
+    Vector4fs clipPlanes;
+    for (const auto cp : clippingPlanes)
+    {
+        const auto& p = cp->getPlane();
+        Vector4f plane{p[0], p[1], p[2], p[3]};
+        clipPlanes.push_back(plane);
+    }
+
+    const auto& modelDescriptors = _scene.getModelDescriptors();
+    for (const auto modelDescriptor : modelDescriptors)
+    {
+        const auto& instances = modelDescriptor->getInstances();
+        for (const auto& instance : instances)
+        {
+            const auto& tf = instance.getTransformation();
+            const auto& model = modelDescriptor->getModel();
+            const auto& spheresMap = model.getSpheres();
+            for (const auto& spheres : spheresMap)
+            {
+                for (const auto& sphere : spheres.second)
+                {
+                    const Vector3d center =
+                        tf.getTranslation() +
+                        tf.getRotation() *
+                            (Vector3d(sphere.center) - tf.getRotationCenter());
+
+                    const Vector3f c = center;
+                    if (isClipped(c, clipPlanes))
+                        continue;
+
+#if 0
+                    file << c.x << " " << c.y << " " << c.z << std::endl;
+#else
+                    file.write((char*)&c.x, sizeof(float));
+                    file.write((char*)&c.y, sizeof(float));
+                    file.write((char*)&c.z, sizeof(float));
+                    file.write((char*)&sphere.radius, sizeof(float));
+                    file.write((char*)&sphere.radius, sizeof(float));
+#endif
+                }
+            }
+        }
+    }
     file.close();
 }
 
