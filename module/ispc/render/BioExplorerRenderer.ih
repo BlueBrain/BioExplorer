@@ -1,0 +1,61 @@
+/* Copyright (c) 2020, EPFL/Blue Brain Project
+ * All rights reserved. Do not distribute without permission.
+ * Responsible Author: Cyrille Favreau <cyrille.favreau@epfl.ch>
+ *
+ * This library is free software; you can redistribute it and/or modify it under
+ * the terms of the GNU Lesser General Public License version 3.0 as published
+ * by the Free Software Foundation.
+ *
+ * This library is distributed in the hope that it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+ * FOR A PARTICULAR PURPOSE.  See the GNU Lesser General Public License for more
+ * details.
+ *
+ * You should have received a copy of the GNU Lesser General Public License
+ * along with this library; if not, write to the Free Software Foundation, Inc.,
+ * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
+ */
+
+// ospray
+#include <ospray/SDK/camera/PerspectiveCamera.ih>
+#include <ospray/SDK/common/Model.ih>
+#include <ospray/SDK/fb/FrameBuffer.ih>
+#include <ospray/SDK/lights/Light.ih>
+#include <ospray/SDK/render/Renderer.ih>
+#include <ospray/SDK/texture/Texture2D.ih>
+
+// obj renderer
+#include "BioExplorerMaterial.ih"
+
+// Brayns
+#include "utils/BioExplorerRandomGenerator.ih"
+
+struct BioExplorerRenderer
+{
+    Renderer super;
+
+    // Shading attributes
+    const uniform Light* uniform* uniform lights;
+    uint32 numLights;
+    BioExplorerMaterial* bgMaterial;
+
+    float exposure;
+    bool useHardwareRandomizer;
+    bool showBackground;
+    uint32 maxBounces;
+
+    float timestamp;
+    uint32 randomNumber;
+
+    float shadows;
+    float softShadows;
+    uint32 softShadowsSamples;
+
+    float giStrength;
+    float giDistance;
+    uint32 giSamples;
+
+    // Fog
+    float fogThickness;
+    float fogStart;
+};
