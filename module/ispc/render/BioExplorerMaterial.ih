@@ -18,7 +18,7 @@
 
 #pragma once
 
-#include <common/CommonTypes.h>
+#include <plugin/common/CommonTypes.h>
 
 #include <ospray/SDK/common/Material.ih>
 #include <ospray/SDK/math/vec.ih>

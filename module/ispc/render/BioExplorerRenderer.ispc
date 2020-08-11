@@ -16,7 +16,7 @@
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
 
-#include <common/CommonTypes.h>
+#include <plugin/common/CommonTypes.h>
 
 #include "BioExplorerRenderer.ih"
 #include "utils/BioExplorerSkyBox.ih"
