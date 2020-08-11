@@ -32,6 +32,7 @@ include(ispc)
 # Sources
 # ==============================================================================
 set(${NAME}_SOURCES
+    module/ispc/camera/BioExplorerPerspectiveCamera.cpp
     module/ispc/render/BioExplorerMaterial.cpp
     module/ispc/render/BioExplorerRenderer.cpp
     plugin/common/Utils.cpp
@@ -68,6 +69,7 @@ set(${NAME}_PUBLIC_HEADERS
 )
 
 set(${NAME}_ISPC_SOURCES
+    module/ispc/camera/BioExplorerPerspectiveCamera.ispc
     module/ispc/render/utils/BioExplorerSkyBox.ispc
     module/ispc/render/utils/BioExplorerRandomGenerator.ispc
     module/ispc/render/BioExplorerRenderer.ispc

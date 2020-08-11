@@ -99,7 +99,7 @@ class Widgets:
                          self._y + (random.random() - 0.5) * self._focus_radius))
 
                 self._focus_distance = self._focus_distance / self._nb_focus_points
-                params = self._client.BioExplorerDofPerspectiveCameraParams()
+                params = self._client.BioExplorerPerspectiveCameraParams()
                 params.focus_distance = self._focus_distance
                 params.aperture_radius = self._aperture
                 params.enable_clipping_planes = True
@@ -403,7 +403,7 @@ class Widgets:
         from brayns import CameraPathHandler
 
         if camera_projection == self._be.CAMERA_PROJECTION_PERSPECTIVE:
-            self._client.set_camera(current='bio_explorer_dof_perspective')
+            self._client.set_camera(current='bio_explorer_perspective')
         elif camera_projection == self._be.CAMERA_PROJECTION_FISHEYE:
             self._client.set_camera(current='fisheye')
         elif camera_projection == self._be.CAMERA_PROJECTION_PANORAMIC:

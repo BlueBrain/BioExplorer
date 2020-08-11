@@ -62,6 +62,19 @@ void _addBioExplorerRenderer(brayns::Engine &engine)
     engine.addRendererType("bio_explorer", properties);
 }
 
+void _addBioExplorerPerspectiveCamera(brayns::Engine &engine)
+{
+    PLUGIN_INFO << "Registering BioExplorer perspective camera" << std::endl;
+
+    brayns::PropertyMap properties;
+    properties.setProperty({"fovy", 45., .1, 360., {"Field of view"}});
+    properties.setProperty({"aspect", 1., {"Aspect ratio"}});
+    properties.setProperty({"apertureRadius", 0., {"Aperture radius"}});
+    properties.setProperty({"focusDistance", 1., {"Focus Distance"}});
+    properties.setProperty({"enableClippingPlanes", true, {"Clipping"}});
+    engine.addCameraType("bio_explorer_perspective", properties);
+}
+
 BioExplorer::BioExplorer()
     : ExtensionPlugin()
 {
@@ -224,6 +237,7 @@ void BioExplorer::init()
     }
 
     auto &engine = _api->getEngine();
+    _addBioExplorerPerspectiveCamera(engine);
     _addBioExplorerRenderer(engine);
     _api->getParametersManager().getRenderingParameters().setCurrentRenderer(
         "bio_explorer");
