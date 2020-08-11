@@ -55,8 +55,8 @@ colormaps = [
     'terrain', 'terrain_r', 'viridis', 'viridis_r', 'vlag', 'vlag_r', 'winter', 'winter_r'
 ]
 
-shading_modes = ['none', 'diffuse', 'electron', 'cartoon', 'electron_transparency', 'perlin', 'diffuse_transparency',
-                 'checker']
+shading_modes = ['none', 'basic', 'diffuse', 'electron', 'cartoon', 'electron_transparency', 'perlin',
+                 'diffuse_transparency', 'checker']
 
 default_grid_layout = Layout(border='1px solid black', margin='5px', padding='5px')
 default_layout = Layout(width='50%', height='24px', display='flex', flex_flow='row')
@@ -176,42 +176,18 @@ class Widgets:
     def display_palette_for_models(self):
 
         def set_colormap(model_id, colormap_name, shading_mode):
-            material_ids = self._circuit_explorer.get_material_ids(model_id)['ids']
+            material_ids = self._be.get_material_ids(model_id)['ids']
             nb_materials = len(material_ids)
 
             palette = sns.color_palette(colormap_name, nb_materials)
-            self._circuit_explorer.set_material_extra_attributes(model_id=model_id)
-
-            specular_exponents = list()
-            shading_modes = list()
-            colors = list()
-            opacities = list()
-            refraction_indices = list()
-            reflection_indices = list()
-            glossinesses = list()
-            simulation_data_casts = list()
-            user_parameters = list()
-            emissions = list()
-
-            for c in palette:
-                colors.append((c[0], c[1], c[2]))
-                shading_modes.append(shading_mode)
-                specular_exponents.append(specular_exponent_slider.value)
-                opacities.append(opacity_slider.value)
-                refraction_indices.append(refraction_index_slider.value)
-                reflection_indices.append(reflection_index_slider.value)
-                glossinesses.append(glossiness_slider.value)
-                simulation_data_casts.append(cast_simulation_checkbox.value)
-                user_parameters.append(user_param_slider.value)
-                emissions.append(emission_slider.value)
-
-            self._circuit_explorer.set_materials(
-                model_ids=[model_id], material_ids=material_ids,
-                specular_exponents=specular_exponents, diffuse_colors=colors,
-                specular_colors=colors, shading_modes=shading_modes, opacities=opacities,
-                refraction_indices=refraction_indices, reflection_indices=reflection_indices,
-                glossinesses=glossinesses, simulation_data_casts=simulation_data_casts,
-                user_parameters=user_parameters, emissions=emissions
+            self._be.set_materials_from_palette(
+                model_ids=[model_id], material_ids=material_ids, palette=palette,
+                specular_exponent=specular_exponent_slider.value, shading_mode=shading_mode,
+                opacity=opacity_slider.value,
+                refraction_index=refraction_index_slider.value,
+                reflection_index=reflection_index_slider.value,
+                glossiness=glossiness_slider.value,
+                user_parameter=user_param_slider.value, emission=emission_slider.value
             )
             self._client.set_renderer(accumulation=True)
 
@@ -228,7 +204,6 @@ class Widgets:
         palette_combobox = Select(options=colormaps, description='Palette:', disabled=False)
 
         ''' Events '''
-
         def update_materials_from_palette(v):
             set_colormap(self._client.scene.models[model_combobox.index]['id'], v['new'],
                          shading_combobox.index)
