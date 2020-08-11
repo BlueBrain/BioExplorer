@@ -69,5 +69,11 @@ bool from_json(MaterialsDescriptor &materialsDescriptor,
                const std::string &payload);
 std::string to_json(const MaterialIds &param);
 
+// Movies and frames
+bool from_json(CameraDefinition &param, const std::string &payload);
+std::string to_json(const CameraDefinition &param);
+bool from_json(ExportFramesToDisk &param, const std::string &payload);
+std::string to_json(const FrameExportProgress &exportProgress);
+
 } // namespace bioexplorer
 #endif // BIOEXPLORER_PARAMS_H

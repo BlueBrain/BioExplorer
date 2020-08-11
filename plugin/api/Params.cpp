@@ -443,4 +443,76 @@ std::string to_json(const MaterialIds &param)
     return "";
 }
 
+// Movies and frames
+bool from_json(CameraDefinition &param, const std::string &payload)
+{
+    try
+    {
+        auto js = nlohmann::json::parse(payload);
+        FROM_JSON(param, js, origin);
+        FROM_JSON(param, js, direction);
+        FROM_JSON(param, js, up);
+    }
+    catch (...)
+    {
+        return false;
+    }
+    return true;
+}
+
+std::string to_json(const CameraDefinition &param)
+{
+    try
+    {
+        nlohmann::json js;
+
+        TO_JSON(param, js, origin);
+        TO_JSON(param, js, direction);
+        TO_JSON(param, js, up);
+        TO_JSON(param, js, apertureRadius);
+        TO_JSON(param, js, focusDistance);
+        return js.dump();
+    }
+    catch (...)
+    {
+        return "";
+    }
+    return "";
+}
+
+bool from_json(ExportFramesToDisk &param, const std::string &payload)
+{
+    try
+    {
+        auto js = nlohmann::json::parse(payload);
+        FROM_JSON(param, js, path);
+        FROM_JSON(param, js, format);
+        FROM_JSON(param, js, quality);
+        FROM_JSON(param, js, spp);
+        FROM_JSON(param, js, startFrame);
+        FROM_JSON(param, js, animationInformation);
+        FROM_JSON(param, js, cameraInformation);
+    }
+    catch (...)
+    {
+        return false;
+    }
+    return true;
+}
+
+std::string to_json(const FrameExportProgress &exportProgress)
+{
+    try
+    {
+        nlohmann::json json;
+        TO_JSON(exportProgress, json, progress);
+        return json.dump();
+    }
+    catch (...)
+    {
+        return "";
+    }
+    return "";
+}
+
 } // namespace bioexplorer

@@ -24,11 +24,15 @@
 #include <plugin/io/BioExplorerLoader.h>
 
 #include <brayns/common/ActionInterface.h>
+#include <brayns/engineapi/Camera.h>
 #include <brayns/engineapi/Engine.h>
+#include <brayns/engineapi/FrameBuffer.h>
 #include <brayns/engineapi/Material.h>
 #include <brayns/engineapi/Model.h>
 #include <brayns/parameters/ParametersManager.h>
 #include <brayns/pluginapi/Plugin.h>
+
+#include <fstream>
 
 namespace bioexplorer
 {
@@ -194,6 +198,29 @@ void BioExplorer::init()
             "get-material-ids", [&](const ModelId &modelId) -> MaterialIds {
                 return _getMaterialIds(modelId);
             });
+
+        PLUGIN_INFO << "Registering 'set-odu-camera' endpoint" << std::endl;
+        actionInterface->registerNotification<CameraDefinition>(
+            "set-odu-camera",
+            [&](const CameraDefinition &s) { _setCamera(s); });
+
+        PLUGIN_INFO << "Registering 'get-odu-camera' endpoint" << std::endl;
+        actionInterface->registerRequest<CameraDefinition>(
+            "get-odu-camera",
+            [&]() -> CameraDefinition { return _getCamera(); });
+
+        PLUGIN_INFO << "Registering 'export-frames-to-disk' endpoint"
+                    << std::endl;
+        actionInterface->registerNotification<ExportFramesToDisk>(
+            "export-frames-to-disk",
+            [&](const ExportFramesToDisk &s) { _exportFramesToDisk(s); });
+
+        PLUGIN_INFO << "Registering 'get-export-frames-progress' endpoint"
+                    << std::endl;
+        actionInterface->registerRequest<FrameExportProgress>(
+            "get-export-frames-progress", [&](void) -> FrameExportProgress {
+                return _getFrameExportProgress();
+            });
     }
 
     auto &engine = _api->getEngine();
@@ -207,6 +234,43 @@ void BioExplorer::preRender()
     if (_dirty)
         _api->getScene().markModified();
     _dirty = false;
+
+    if (_exportFramesToDiskDirty && _accumulationFrameNumber == 0)
+    {
+        const auto &ai = _exportFramesToDiskPayload.animationInformation;
+        if (_frameNumber >= ai.size())
+            _exportFramesToDiskDirty = false;
+        else
+        {
+            const uint64_t i = 11 * _frameNumber;
+            // Camera position
+            CameraDefinition cd;
+            const auto &ci = _exportFramesToDiskPayload.cameraInformation;
+            cd.origin = {ci[i], ci[i + 1], ci[i + 2]};
+            cd.direction = {ci[i + 3], ci[i + 4], ci[i + 5]};
+            cd.up = {ci[i + 6], ci[i + 7], ci[i + 8]};
+            cd.apertureRadius = ci[i + 9];
+            cd.focusDistance = ci[i + 10];
+            _setCamera(cd);
+
+            // Animation parameters
+            _api->getParametersManager().getAnimationParameters().setFrame(
+                ai[_frameNumber]);
+        }
+    }
+}
+
+void BioExplorer::postRender()
+{
+    if (_exportFramesToDiskDirty &&
+        _accumulationFrameNumber == _exportFramesToDiskPayload.spp)
+    {
+        _doExportFrameToDisk();
+        ++_frameNumber;
+        _accumulationFrameNumber = 0;
+    }
+    else
+        ++_accumulationFrameNumber;
 }
 
 Response BioExplorer::_version() const
@@ -770,6 +834,144 @@ Response BioExplorer::_setMaterials(const MaterialsDescriptor &payload)
         response.contents = e.what();
     }
     return response;
+}
+
+void BioExplorer::_setCamera(const CameraDefinition &payload)
+{
+    auto &camera = _api->getCamera();
+
+    // Origin
+    const auto &o = payload.origin;
+    brayns::Vector3f origin{o[0], o[1], o[2]};
+    camera.setPosition(origin);
+
+    // Target
+    const auto &d = payload.direction;
+    brayns::Vector3f direction{d[0], d[1], d[2]};
+    camera.setTarget(origin + direction);
+
+    // Up
+    const auto &u = payload.up;
+    brayns::Vector3f up{u[0], u[1], u[2]};
+
+    // Orientation
+    const glm::quat q = glm::inverse(
+        glm::lookAt(origin, origin + direction,
+                    up)); // Not quite sure why this should be inverted?!?
+    camera.setOrientation(q);
+
+    // Aperture
+    camera.updateProperty("apertureRadius", payload.apertureRadius);
+
+    // Focus distance
+    camera.updateProperty("focusDistance", payload.focusDistance);
+
+    _api->getCamera().markModified();
+
+    PLUGIN_DEBUG << "SET: " << origin << ", " << direction << ", " << up << ", "
+                 << glm::inverse(q) << "," << payload.apertureRadius << ","
+                 << payload.focusDistance << std::endl;
+}
+
+CameraDefinition BioExplorer::_getCamera()
+{
+    const auto &camera = _api->getCamera();
+
+    CameraDefinition cd;
+    const auto &p = camera.getPosition();
+    cd.origin = {p.x, p.y, p.z};
+    const auto d =
+        glm::rotate(camera.getOrientation(), brayns::Vector3d(0., 0., -1.));
+    cd.direction = {d.x, d.y, d.z};
+    const auto u =
+        glm::rotate(camera.getOrientation(), brayns::Vector3d(0., 1., 0.));
+    cd.up = {u.x, u.y, u.z};
+    PLUGIN_DEBUG << "GET: " << p << ", " << d << ", " << u << ", "
+                 << camera.getOrientation() << std::endl;
+    return cd;
+}
+
+void BioExplorer::_exportFramesToDisk(const ExportFramesToDisk &payload)
+{
+    _exportFramesToDiskPayload = payload;
+    _exportFramesToDiskDirty = true;
+    _frameNumber = payload.startFrame;
+    _accumulationFrameNumber = 0;
+    auto &frameBuffer = _api->getEngine().getFrameBuffer();
+    frameBuffer.clear();
+    PLUGIN_INFO << "-----------------------------------------------------------"
+                   "---------------------"
+                << std::endl;
+    PLUGIN_INFO << "Movie settings     :" << std::endl;
+    PLUGIN_INFO << "- Number of frames : "
+                << payload.animationInformation.size() - payload.startFrame
+                << std::endl;
+    PLUGIN_INFO << "- Samples per pixel: " << payload.spp << std::endl;
+    PLUGIN_INFO << "- Frame size       : " << frameBuffer.getSize()
+                << std::endl;
+    PLUGIN_INFO << "- Export folder    : " << payload.path << std::endl;
+    PLUGIN_INFO << "- Start frame      : " << payload.startFrame << std::endl;
+    PLUGIN_INFO << "-----------------------------------------------------------"
+                   "---------------------"
+                << std::endl;
+}
+
+void BioExplorer::_doExportFrameToDisk()
+{
+    auto &frameBuffer = _api->getEngine().getFrameBuffer();
+    auto image = frameBuffer.getImage();
+    auto fif = _exportFramesToDiskPayload.format == "jpg"
+                   ? FIF_JPEG
+                   : FreeImage_GetFIFFromFormat(
+                         _exportFramesToDiskPayload.format.c_str());
+    if (fif == FIF_JPEG)
+        image.reset(FreeImage_ConvertTo24Bits(image.get()));
+    else if (fif == FIF_UNKNOWN)
+        throw std::runtime_error("Unknown format: " +
+                                 _exportFramesToDiskPayload.format);
+
+    int flags = _exportFramesToDiskPayload.quality;
+    if (fif == FIF_TIFF)
+        flags = TIFF_NONE;
+
+    brayns::freeimage::MemoryPtr memory(FreeImage_OpenMemory());
+
+    FreeImage_SaveToMemory(fif, image.get(), memory.get(), flags);
+
+    BYTE *pixels = nullptr;
+    DWORD numPixels = 0;
+    FreeImage_AcquireMemory(memory.get(), &pixels, &numPixels);
+
+    char frame[7];
+    sprintf(frame, "%05d", _frameNumber);
+    std::string filename = _exportFramesToDiskPayload.path + '/' + frame + "." +
+                           _exportFramesToDiskPayload.format;
+    std::ofstream file;
+    file.open(filename, std::ios_base::binary);
+    if (!file.is_open())
+        PLUGIN_THROW(std::runtime_error("Failed to create " + filename));
+
+    file.write((char *)pixels, numPixels);
+    file.close();
+
+    frameBuffer.clear();
+
+    PLUGIN_INFO << "Frame saved to " << filename << std::endl;
+}
+
+FrameExportProgress BioExplorer::_getFrameExportProgress()
+{
+    FrameExportProgress result;
+    const size_t totalNumberOfFrames =
+        (_exportFramesToDiskPayload.animationInformation.size() -
+         _exportFramesToDiskPayload.startFrame) *
+        _exportFramesToDiskPayload.spp;
+    const float currentProgress =
+        _frameNumber * _exportFramesToDiskPayload.spp +
+        _accumulationFrameNumber;
+
+    result.progress = currentProgress / float(totalNumberOfFrames);
+    return result;
 }
 
 extern "C" ExtensionPlugin *brayns_plugin_create(int /*argc*/, char ** /*argv*/)

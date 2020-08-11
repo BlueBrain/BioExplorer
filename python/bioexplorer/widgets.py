@@ -23,7 +23,7 @@
 """BioExplorer widgets"""
 
 from brayns import CircuitExplorer
-from ipywidgets import FloatSlider, Select, HBox, VBox, Layout, Button, SelectMultiple,\
+from ipywidgets import FloatSlider, Select, HBox, VBox, Layout, Button, SelectMultiple, \
     IntProgress, Checkbox, FloatText, IntText, ColorPicker, IntSlider, Label
 import seaborn as sns
 from IPython.display import display
@@ -65,11 +65,9 @@ style = {'description_width': 'initial', 'handle_color': 'gray'}
 
 class Widgets:
 
-    def __init__(self, client):
-        """Create a new Circuit Explorer instance"""
-        self._client = client.rockets_client
-        self._brayns = client
-        self._circuit_explorer = CircuitExplorer(client)
+    def __init__(self, bioexplorer):
+        self._be = bioexplorer
+        self._client = bioexplorer.get_client()
 
     def display_focal_distance(self):
 
@@ -82,9 +80,8 @@ class Widgets:
 
         class Updated:
 
-            def __init__(self, brayns, circuit_explorer):
-                self._brayns = brayns
-                self._circuit_explorer = circuit_explorer
+            def __init__(self, client):
+                self._client = client
                 self._widget_value = None
                 self._x = 0.5
                 self._y = 0.5
@@ -102,12 +99,12 @@ class Widgets:
                          self._y + (random.random() - 0.5) * self._focus_radius))
 
                 self._focus_distance = self._focus_distance / self._nb_focus_points
-                params = self._brayns.CircuitExplorerDofPerspectiveCameraParams()
+                params = self._client.BioExplorerDofPerspectiveCameraParams()
                 params.focus_distance = self._focus_distance
                 params.aperture_radius = self._aperture
                 params.enable_clipping_planes = True
                 d_slider.value = self._focus_distance
-                self._brayns.set_camera_params(params)
+                self._client.set_camera_params(params)
 
             def update(self):
                 self._update_camera()
@@ -140,15 +137,15 @@ class Widgets:
                 :return: The focal distance
                 :rtype: float
                 """
-                target = self._brayns.inspect(array=coordinates)['position']
-                origin = self._brayns.camera.position.data
+                target = self._client.inspect(array=coordinates)['position']
+                origin = self._client.camera.position.data
                 v = [0, 0, 0]
                 for k in range(3):
                     v[k] = float(target[k]) - float(origin[k])
                 import math
                 return math.sqrt(v[0] * v[0] + v[1] * v[1] + v[2] * v[2])
 
-        update_class = Updated(self._brayns, self._circuit_explorer)
+        update_class = Updated(self._client)
 
         def update_x(v):
             update_class.update_x(v)
@@ -216,11 +213,11 @@ class Widgets:
                 glossinesses=glossinesses, simulation_data_casts=simulation_data_casts,
                 user_parameters=user_parameters, emissions=emissions
             )
-            self._brayns.set_renderer(accumulation=True)
+            self._client.set_renderer(accumulation=True)
 
         ''' Models '''
         model_names = list()
-        for model in self._brayns.scene.models:
+        for model in self._client.scene.models:
             model_names.append(model['name'])
         model_combobox = Select(options=model_names, description='Models:', disabled=False)
 
@@ -231,12 +228,13 @@ class Widgets:
         palette_combobox = Select(options=colormaps, description='Palette:', disabled=False)
 
         ''' Events '''
+
         def update_materials_from_palette(v):
-            set_colormap(self._brayns.scene.models[model_combobox.index]['id'], v['new'],
+            set_colormap(self._client.scene.models[model_combobox.index]['id'], v['new'],
                          shading_combobox.index)
 
         def update_materials_from_shading(v):
-            set_colormap(self._brayns.scene.models[model_combobox.index]['id'],
+            set_colormap(self._client.scene.models[model_combobox.index]['id'],
                          palette_combobox.value, shading_combobox.index)
 
         shading_combobox.observe(update_materials_from_shading, 'value')
@@ -273,18 +271,18 @@ class Widgets:
 
     def display_model_visibility(self):
         model_names = list()
-        for model in self._brayns.scene.models:
+        for model in self._client.scene.models:
             model_names.append(model['name'])
 
         model_select = SelectMultiple(options=model_names, disabled=False)
 
-        lbl_models=Label(value='Models:')
+        lbl_models = Label(value='Models:')
         show_btn = Button(description='Show')
         hide_btn = Button(description='Hide')
-        lbl_aabb=Label(value='Bounds:')
+        lbl_aabb = Label(value='Bounds:')
         show_aabb_btn = Button(description='Show')
         hide_aabb_btn = Button(description='Hide')
-        lbl_camera=Label(value='Camera:')
+        lbl_camera = Label(value='Camera:')
         adjust_camera_btn = Button(description='Adjust')
         vbox_visible = VBox([lbl_models, show_btn, hide_btn])
         vbox_aabb = VBox([lbl_aabb, show_aabb_btn, hide_aabb_btn])
@@ -293,8 +291,8 @@ class Widgets:
 
         def update_models(visible):
             for model_id in model_select.index:
-                self._brayns.update_model(
-                    id=self._brayns.scene.models[model_id]['id'],
+                self._client.update_model(
+                    id=self._client.scene.models[model_id]['id'],
                     visible=visible)
 
         def show_models(event):
@@ -305,8 +303,8 @@ class Widgets:
 
         def update_aabbs(visible):
             for model_id in model_select.index:
-                self._brayns.update_model(
-                    id=self._brayns.scene.models[model_id]['id'],
+                self._client.update_model(
+                    id=self._client.scene.models[model_id]['id'],
                     bounding_box=visible)
 
         def show_aabbs(event):
@@ -319,7 +317,7 @@ class Widgets:
             size_min_aabb = [1e6, 1e6, 1e6]
             size_max_aabb = [-1e6, -1e6, -1e6]
             for model_id in model_select.index:
-                model = self._brayns.scene.models[model_id]
+                model = self._client.scene.models[model_id]
                 bounds = model['bounds']
                 min_aabb = bounds['min']
                 max_aabb = bounds['max']
@@ -345,9 +343,9 @@ class Widgets:
                 if k == 2:
                     origin[k] = origin[k] + diag * 1.5
 
-            self._brayns.set_camera(position=origin, orientation=[0, 0, 0, 1], target=center_aabb)
+            self._client.set_camera(position=origin, orientation=[0, 0, 0, 1], target=center_aabb)
             ''' Refresh UI '''
-            self._brayns.set_renderer()
+            self._client.set_renderer()
 
         show_btn.on_click(show_models)
         hide_btn.on_click(hide_models)
@@ -358,112 +356,25 @@ class Widgets:
         hbox = HBox([model_select, hbox_params], layout=default_grid_layout)
         display(hbox)
 
-    def display_palette_for_transfer_function(self):
-
-        def update_palette(brayns, model_id, palette_name):
-            nb_points = max(2, min(256, nb_points_text.value))
-            palette = sns.color_palette(palette_name, nb_points)
-
-            btf = brayns.get_model_transfer_function(id=model_id)
-            colors = list()
-            points = list()
-
-            step = 1.0 / float(nb_points - 1)
-            for i in range(len(palette)):
-                c = palette[i]
-                colors.append((c[0], c[1], c[2]))
-                points.append([i * step, alpha_slider.value])
-
-            btf['colormap']['name'] = palette_name
-            btf['colormap']['colors'] = colors
-            btf['opacity_curve'] = points
-            btf['range'] = [min_range.value, max_range.value]
-            brayns.set_model_transfer_function(id=model_id, transfer_function=btf)
-
-        ''' Models '''
-        model_names = list()
-        for model in self._brayns.scene.models:
-            model_names.append(model['name'])
-        model_combobox = Select(options=model_names, description='Models:', disabled=False)
-
-        ''' Colors '''
-        palette_combobox = Select(options=colormaps, description='Palette:', disabled=False)
-
-        ''' Events '''
-        def update_materials_from_palette(v):
-            update_palette(self._brayns, self._brayns.scene.models[model_combobox.index]['id'],
-                           v['new'])
-
-        palette_combobox.observe(update_materials_from_palette, 'value')
-
-        ''' Range '''
-        min_range = FloatText(description='Min', value=-80)
-        max_range = FloatText(description='Max', value=-10)
-        nb_points_text = IntText(description='Points', value=16, min=2, max=256)
-        alpha_slider = FloatSlider(description='Alpha', min=0, max=1, value=1)
-
-        horizontal_box_list = HBox([model_combobox, palette_combobox])
-        horizontal_box_range = HBox([min_range, max_range])
-        horizontal_box_alpha = HBox([nb_points_text, alpha_slider])
-        vertical_box = VBox([horizontal_box_list, horizontal_box_range, horizontal_box_alpha],
-                            layout=default_grid_layout)
-        display(vertical_box)
-
-    def display_volume_parameters(self):
-
-        def update_volume_parameters(v):
-            self._brayns.set_volume_parameters(
-                pre_integration=cb_pre_integration.value,
-                specular=matplotlib.colors.to_rgb(cp_specular.value),
-                gradient_shading=cb_gradient_shading.value,
-                single_shade=cb_single_shade.value,
-                adaptive_sampling=cb_adaptive_sampling.value,
-                adaptive_max_sampling_rate=sl_max_sampling_rate.value,
-                sampling_rate=sl_sampling_rate.value)
-
-        cb_pre_integration = Checkbox(description='Preintegration', value=True)
-        cb_pre_integration.observe(update_volume_parameters, 'value')
-        cb_gradient_shading = Checkbox(description='Gradient shading', value=True)
-        cb_gradient_shading.observe(update_volume_parameters, 'value')
-        cb_single_shade = Checkbox(description='Single shade', value=True)
-        cb_single_shade.observe(update_volume_parameters, 'value')
-        cb_adaptive_sampling = Checkbox(description='Adaptive sampling', value=True)
-        cb_adaptive_sampling.observe(update_volume_parameters, 'value')
-        sl_sampling_rate = FloatSlider(description='Sampling', value=1, min=0.1, max=5)
-        sl_sampling_rate.observe(update_volume_parameters, 'value')
-        sl_max_sampling_rate = FloatSlider(description='Max sampling', value=1, min=0.1, max=5)
-        sl_max_sampling_rate.observe(update_volume_parameters, 'value')
-        cp_specular = ColorPicker(description='Specular', value='#FFFFFF')
-        cp_specular.observe(update_volume_parameters, 'value')
-
-        hb_sampling = HBox([sl_sampling_rate, sl_max_sampling_rate])
-        hb_shading = HBox([cb_gradient_shading, cb_single_shade])
-        hb_specular = HBox([cp_specular])
-        hb_optimizations = HBox([cb_pre_integration, cb_adaptive_sampling])
-        vb = VBox([hb_sampling, hb_optimizations, hb_shading, hb_specular],
-                  layout=default_grid_layout)
-        display(vb)
-
     def create_snapshot(self, size, output_folder, samples_per_pixel):
-
-        application_params = self._brayns.get_application_parameters()
-        renderer_params = self._brayns.get_renderer()
+        application_params = self._client.get_application_parameters()
+        renderer_params = self._client.get_renderer()
         old_image_stream_fps = application_params['image_stream_fps']
         old_viewport_size = application_params['viewport']
         old_samples_per_pixel = renderer_params['samples_per_pixel']
         old_max_accum_frames = renderer_params['max_accum_frames']
-        self._brayns.set_renderer(samples_per_pixel=1, max_accum_frames=samples_per_pixel)
-        self._brayns.set_application_parameters(viewport=size)
-        self._brayns.set_application_parameters(image_stream_fps=0)
+        self._client.set_renderer(samples_per_pixel=1, max_accum_frames=samples_per_pixel)
+        self._client.set_application_parameters(viewport=size)
+        self._client.set_application_parameters(image_stream_fps=0)
 
         af = list()
         cd = list()
-        cam = self._circuit_explorer.get_camera()
+        cam = self._be.get_camera()
         af.append(0)
         cd.append([cam['origin'], cam['direction'], cam['up'], cam['apertureRadius'],
                    cam['focusDistance']])
 
-        self._circuit_explorer.export_frames_to_disk(
+        self._be.export_frames_to_disk(
             start_frame=0,
             animation_frames=af,
             camera_definitions=cd,
@@ -473,19 +384,64 @@ class Widgets:
         progress = IntProgress(description='In progress...', min=0, max=100, value=0)
         display(progress)
 
-        while self._circuit_explorer.get_export_frames_progress()['progress'] < 1.0:
+        while self._be.get_export_frames_progress()['progress'] < 1.0:
             import time
             time.sleep(0.2)
             progress.value = \
-                self._circuit_explorer.get_export_frames_progress()['progress'] * 100
+                self._be.get_export_frames_progress()['progress'] * 100
 
-        self._brayns.set_application_parameters(image_stream_fps=old_image_stream_fps,
+        self._client.set_application_parameters(image_stream_fps=old_image_stream_fps,
                                                 viewport=old_viewport_size)
-        self._brayns.set_renderer(samples_per_pixel=old_samples_per_pixel,
+        self._client.set_renderer(samples_per_pixel=old_samples_per_pixel,
                                   max_accum_frames=old_max_accum_frames)
 
         progress.description = 'Done'
         progress.value = 100
+
+    def create_movie(self, camera_key_frames, images_between_frames, smoothing_frames, output_size, output_folder,
+                     camera_projection, samples_per_pixel=64, start_frame=0):
+        from brayns import CameraPathHandler
+
+        if camera_projection == self._be.CAMERA_PROJECTION_PERSPECTIVE:
+            self._client.set_camera(current='bio_explorer_dof_perspective')
+        elif camera_projection == self._be.CAMERA_PROJECTION_FISHEYE:
+            self._client.set_camera(current='fisheye')
+        elif camera_projection == self._be.CAMERA_PROJECTION_PANORAMIC:
+            self._client.set_camera(current='panoramic')
+        elif camera_projection == self._be.CAMERA_PROJECTION_CYLINDRIC:
+            self._client.set_camera(current='cylindric')
+        else:
+            raise RuntimeError("Unknown camera projection specified")
+
+        self._client.set_renderer(samples_per_pixel=1, max_accum_frames=samples_per_pixel)
+        self._client.set_application_parameters(viewport=output_size)
+        self._client.set_application_parameters(image_stream_fps=0)
+
+        cph = CameraPathHandler(camera_key_frames, images_between_frames, smoothing_frames)
+
+        af = list()
+        cd = list()
+        for i in range(cph.get_nb_frames()):
+            af.append(0)
+            cd.append(cph.get_key_frame(i))
+
+        self._be.export_frames_to_disk(
+            start_frame=start_frame,
+            animation_frames=af,
+            camera_definitions=cd,
+            path=output_folder,
+            samples_per_pixel=samples_per_pixel - 1)
+
+        progress = IntProgress(description='In progress...', min=0, max=100, value=0)
+        display(progress)
+
+        while self._be.get_export_frames_progress()['progress'] < 1.0:
+            import time
+            time.sleep(1)
+            progress.value = self._be.get_export_frames_progress()['progress'] * 100
+
+        self._be.cancel_frames_export()
+        self._client.set_application_parameters(image_stream_fps=20)
 
     def __display_advanced_settings(self, object_type):
 
@@ -494,13 +450,13 @@ class Widgets:
 
         class_name = None
         if object_type == 'camera':
-            class_name = pascalcase(self._brayns.get_camera()['current'])
+            class_name = pascalcase(self._client.get_camera()['current'])
             class_name += 'CameraParams'
         elif object_type == 'renderer':
-            class_name = pascalcase(self._brayns.get_renderer()['current'])
+            class_name = pascalcase(self._client.get_renderer()['current'])
             class_name += 'RendererParams'
 
-        class_ = getattr(self._brayns, class_name)
+        class_ = getattr(self._client, class_name)
         params = class_()
 
         widgets_list = dict()
@@ -509,9 +465,9 @@ class Widgets:
             for widget in widgets_list:
                 params[widget] = widgets_list[widget].value
             if object_type == 'camera':
-                self._brayns.set_camera_params(params)
+                self._client.set_camera_params(params)
             elif object_type == 'renderer':
-                self._brayns.set_renderer_params(params)
+                self._client.set_renderer_params(params)
 
         def get_value(props, key, default_value):
             try:
@@ -574,7 +530,7 @@ class Widgets:
     def display_rendering_settings(self):
 
         def update_params(v):
-            self._brayns.set_renderer(
+            self._client.set_renderer(
                 accumulation=checkbox_accumulation.value,
                 background_color=matplotlib.colors.to_rgb(colorpicker_background.value),
                 head_light=checkbox_head_light.value,
@@ -583,7 +539,7 @@ class Widgets:
                 subsampling=slider_sub_sampling.value
             )
 
-        params = self._brayns.get_renderer()
+        params = self._client.get_renderer()
         slider_samples_per_pixel = IntSlider(description='Samples per pixel', min=1, max=1024,
                                              value=params['samples_per_pixel'])
         slider_samples_per_pixel.observe(update_params)
@@ -620,7 +576,7 @@ class Widgets:
 
         def update_envmap(v):
             filename = folder + '/' + v['new']
-            self._brayns.set_environment_map(filename)
+            self._client.set_environment_map(filename)
 
         cb_names = Select(description='Maps', options=base_names)
         cb_names.observe(update_envmap, 'value')

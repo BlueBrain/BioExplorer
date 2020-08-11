@@ -461,6 +461,32 @@ struct MaterialsDescriptor
     std::vector<float> userParameters;
 };
 
+// Movies and frames
+struct CameraDefinition
+{
+    std::vector<double> origin;
+    std::vector<double> direction;
+    std::vector<double> up;
+    double apertureRadius;
+    double focusDistance;
+};
+
+struct ExportFramesToDisk
+{
+    std::string path;
+    std::string format;
+    uint16_t quality{100};
+    uint16_t spp{0};
+    uint16_t startFrame{0};
+    std::vector<uint64_t> animationInformation;
+    std::vector<double> cameraInformation;
+};
+
+struct FrameExportProgress
+{
+    float progress;
+};
+
 } // namespace bioexplorer
 
 #endif // COVID19_TYPES_H

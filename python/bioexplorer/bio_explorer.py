@@ -51,6 +51,11 @@ class BioExplorer(object):
     SHADING_MODE_DIFFUSE_TRANSPARENCY = 7
     SHADING_MODE_CHECKER = 8
 
+    CAMERA_PROJECTION_PERSPECTIVE = 0
+    CAMERA_PROJECTION_FISHEYE = 1
+    CAMERA_PROJECTION_PANORAMIC = 2
+    CAMERA_PROJECTION_CYLINDRIC = 3
+
     RNA_SHAPE_TREFOIL_KNOT = 0
     RNA_SHAPE_TORUS = 1
     RNA_SHAPE_STAR = 2
@@ -93,6 +98,7 @@ class BioExplorer(object):
     NAME_GLYCAN_HYBRID = 'Hybrid'
     NAME_GLYCAN_COMPLEX = 'Complex'
 
+
     def __init__(self, url):
         """
         Create a new Steps instance
@@ -106,7 +112,10 @@ class BioExplorer(object):
 
     def __str__(self):
         """Return a pretty-print of the class"""
-        return "Virus Explorer for Brayns"
+        return "Blue Brain BioExplorer"
+
+    def get_client(self):
+        return self._client
 
     def version(self):
         result = self._client.rockets_client.request(method='version')
@@ -449,8 +458,7 @@ class BioExplorer(object):
         params['name'] = rna_sequence_descriptor.name
         params['contents'] = rna_sequence_descriptor.contents
         params['shape'] = rna_sequence_descriptor.shape
-        params['assemblyRadius'] = rna_sequence_descriptor.assembly_params
-        params['radius'] = rna_sequence_descriptor.radius
+        params['assemblyParams'] = rna_sequence_descriptor.assembly_params
         params['range'] = t_range
         params['params'] = shape_params
         result = self._client.rockets_client.request(method='add-rna-sequence', params=params)
@@ -727,13 +735,17 @@ class BioExplorer(object):
         return self._client.rockets_client.request("set-materials", params=params)
 
     def set_materials_from_palette(self, model_ids, material_ids, palette, shading_mode, specular_exponent,
-                                   user_parameter=1.0, glossiness=1.0, emission=0.0):
+                                   user_parameter=1.0, glossiness=1.0, emission=0.0, opacity=1.0, reflection_index=0.0,
+                                   refraction_index=1.0):
         colors = list()
         shading_modes = list()
         user_parameters = list()
         glossinesses = list()
         specular_exponents = list()
         emissions = list()
+        opacities = list()
+        reflection_indices = list()
+        refraction_indices = list()
         for color in palette:
             colors.append(color)
             shading_modes.append(shading_mode)
@@ -741,10 +753,14 @@ class BioExplorer(object):
             specular_exponents.append(specular_exponent)
             glossinesses.append(glossiness)
             emissions.append(emission)
+            opacities.append(opacity)
+            reflection_indices.append(reflection_index)
+            refraction_indices.append(refraction_index)
         self.set_materials(
             model_ids=model_ids, material_ids=material_ids, diffuse_colors=colors, specular_colors=colors,
             specular_exponents=specular_exponents, user_parameters=user_parameters, glossinesses=glossinesses,
-            shading_modes=shading_modes, emissions=emissions)
+            shading_modes=shading_modes, emissions=emissions, opacities=opacities,
+            reflection_indices=reflection_indices, refraction_indices=refraction_indices)
 
     def apply_default_color_scheme(self, shading_mode, user_parameter=0.03, specular_exponent=5.0, glossiness=0.5):
         from ipywidgets import IntProgress
@@ -764,7 +780,7 @@ class BioExplorer(object):
             nb_materials = len(material_ids)
 
             if self.NAME_MEMBRANE in model_name:
-                palette = sns.color_palette('Greys_r', nb_materials)
+                palette = sns.color_palette('gist_heat', nb_materials)
                 self.set_materials_from_palette(
                     model_ids=[model_id], material_ids=material_ids, palette=palette,
                     shading_mode=shading_mode, user_parameter=user_parameter, glossiness=glossiness,
@@ -775,8 +791,8 @@ class BioExplorer(object):
                 for p in range(nb_materials):
                     palette.append([1, 1, 1])
                 self.set_materials_from_palette(model_ids=[model_id], material_ids=material_ids, palette=palette,
-                                                opacity=0.7, reflection_index=0, refraction_index=1.1,
-                                                shading_mode=self.ce.SHADING_MODE_DIFFUSE,
+                                                opacity=0.5, reflection_index=0.0, refraction_index=1.1,
+                                                shading_mode=self.SHADING_MODE_DIFFUSE,
                                                 specular_exponent=30)
 
             if self.NAME_PROTEIN_S_CLOSED in model_name or self.NAME_PROTEIN_S_OPEN in model_name or \
@@ -876,6 +892,100 @@ class BioExplorer(object):
         params['showAxis'] = show_axis
         params['useColors'] = colored
         return self._client.rockets_client.request('add-grid', params)
+
+    def set_camera(self, origin, direction, up):
+        """
+        Sets the camera using origin, direction and up vectors
+
+        :param list origin: Origin of the camera
+        :param list direction: Direction in which the camera is looking
+        :param list up: Up vector
+        :return: Result of the request submission
+        :rtype: str
+        """
+        params = dict()
+        params['origin'] = origin
+        params['direction'] = direction
+        params['up'] = up
+        return self._client.rockets_client.request('set-odu-camera', params)
+
+    def get_camera(self):
+        """
+        Gets the origin, direction and up vector of the camera
+
+        :return: A JSon representation of the origin, direction and up vectors
+        :rtype: str
+        """
+        return self._client.rockets_client.request('get-odu-camera')
+
+    def export_frames_to_disk(self, path, animation_frames, camera_definitions, image_format='png',
+                              quality=100, samples_per_pixel=1, start_frame=0):
+        """
+        Exports frames to disk. Frames are named using a 6 digit representation of the frame number
+
+        :param str path: Folder into which frames are exported
+        :param list animation_frames: List of animation frames
+        :param list camera_definitions: List of camera definitions (origin, direction and up)
+        :param str image_format: Image format (the ones supported par Brayns: PNG, JPEG, etc)
+        :param float quality: Quality of the exported image (Between 0 and 100)
+        :param int samples_per_pixel: Number of samples per pixels
+        :param int start_frame: Optional value if the rendering should start at a specific frame.
+        This is used to resume the rendering of a previously canceled sequence)
+        :return: Result of the request submission
+        :rtype: str
+        """
+        params = dict()
+        params['path'] = path
+        params['format'] = image_format
+        params['quality'] = quality
+        params['spp'] = samples_per_pixel
+        params['startFrame'] = start_frame
+        params['animationInformation'] = animation_frames
+        values = list()
+        for camera_definition in camera_definitions:
+            # Origin
+            for i in range(3):
+                values.append(camera_definition[0][i])
+            # Direction
+            for i in range(3):
+                values.append(camera_definition[1][i])
+            # Up
+            for i in range(3):
+                values.append(camera_definition[2][i])
+            # Aperture radius
+            values.append(camera_definition[3])
+            # Focus distance
+            values.append(camera_definition[4])
+        params['cameraInformation'] = values
+        return self._client.rockets_client.request('export-frames-to-disk', params)
+
+    def get_export_frames_progress(self):
+        """
+        Queries the progress of the last export of frames to disk request
+
+        :return: Dictionary with the result: "frameNumber" with the number of
+        the last written-to-disk frame, and "done", a boolean flag stating wether
+        the exporting is finished or is still in progress
+        :rtype: dict
+        """
+        return self._client.rockets_client.request('get-export-frames-progress')
+
+    def cancel_frames_export(self):
+        """
+        Cancel the exports of frames to disk
+
+        :return: Result of the request submission
+        :rtype: str
+        """
+        params = dict()
+        params['path'] = '/tmp'
+        params['format'] = 'png'
+        params['quality'] = 100
+        params['spp'] = 1
+        params['startFrame'] = 0
+        params['animationInformation'] = []
+        params['cameraInformation'] = []
+        return self._client.rockets_client.request('export-frames-to-disk', params)
 
 
 class Transformation(object):
@@ -1001,13 +1111,12 @@ class SugarsDescriptor(object):
 
 class RNASequenceDescriptor(object):
 
-    def __init__(self, assembly_name, name, contents, shape, assembly_params, radius, t_range=None,
+    def __init__(self, assembly_name, name, contents, shape, assembly_params, t_range=None,
                  shape_params=None):
         self.assembly_name = assembly_name
         self.name = name
         self.contents = contents
         self.shape = shape
         self.assembly_params = assembly_params
-        self.radius = radius
         self.t_range = t_range
         self.shape_params = shape_params

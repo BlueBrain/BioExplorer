@@ -35,6 +35,7 @@ public:
 
     void init() final;
     void preRender() final;
+    void postRender() final;
 
 private:
     Response _version() const;
@@ -42,6 +43,13 @@ private:
     // IO
     Response _exportToCache(const LoaderExportToCacheDescriptor &payload);
     Response _exportToXYZR(const LoaderExportToXYZRDescriptor &payload);
+
+    // Movie and frames
+    void _setCamera(const CameraDefinition &);
+    CameraDefinition _getCamera();
+    void _exportFramesToDisk(const ExportFramesToDisk &payload);
+    FrameExportProgress _getFrameExportProgress();
+    void _doExportFrameToDisk();
 
     // Biological elements
     Response _addAssembly(const AssemblyDescriptor &payload);
@@ -71,6 +79,11 @@ private:
 
     AssemblyMap _assemblies;
     bool _dirty{false};
+
+    ExportFramesToDisk _exportFramesToDiskPayload;
+    bool _exportFramesToDiskDirty{false};
+    uint16_t _frameNumber{0};
+    int16_t _accumulationFrameNumber{0};
 };
 } // namespace bioexplorer
 

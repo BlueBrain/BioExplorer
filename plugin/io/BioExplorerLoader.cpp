@@ -497,7 +497,7 @@ void BioExplorerLoader::_exportModel(const ModelDescriptorPtr modelDescriptor,
         catch (const std::runtime_error&)
         {
         }
-        file.write((char*)&v, sizeof(float));
+        file.write((char*)&v, sizeof(double));
 
         int32_t shadingMode = MaterialShadingMode::none;
         try
