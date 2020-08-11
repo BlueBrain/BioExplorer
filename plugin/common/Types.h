@@ -32,7 +32,7 @@ namespace bioexplorer
 {
 using namespace brayns;
 
-const std::string PLUGIN_VERSION = "0.5.0";
+const std::string PLUGIN_VERSION = "0.5.1";
 
 // Metadata
 const std::string METADATA_ASSEMBLY = "Assembly";

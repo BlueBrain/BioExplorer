@@ -24,8 +24,7 @@
 import seaborn as sns
 import math
 from brayns import Client
-
-BIO_EXPLORER_VERSION = "0.5.0"
+from .version import __version__
 
 
 class BioExplorer(object):
@@ -100,7 +99,7 @@ class BioExplorer(object):
         """
         self._client = Client(url)
 
-        if BIO_EXPLORER_VERSION != self.version():
+        if __version__ != self.version():
             raise RuntimeError(
                 'Wrong version of the back-end. Use version ' + BIO_EXPLORER_VERSION + \
                 ' for this version of the BioExplorer python library')
