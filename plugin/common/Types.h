@@ -19,8 +19,6 @@
 #ifndef BIOEXPLORER_TYPES_H
 #define BIOEXPLORER_TYPES_H
 
-//#include <brayns/common/mathTypes.h>
-//#include <brayns/common/types.h>
 #include <brayns/engineapi/Scene.h>
 
 #include <map>
@@ -32,7 +30,7 @@ namespace bioexplorer
 {
 using namespace brayns;
 
-const std::string PLUGIN_VERSION = "0.5.1";
+const std::string PLUGIN_VERSION = "0.6.0";
 
 // Metadata
 const std::string METADATA_ASSEMBLY = "Assembly";

@@ -239,8 +239,8 @@ void BioExplorer::init()
     auto &engine = _api->getEngine();
     _addBioExplorerPerspectiveCamera(engine);
     _addBioExplorerRenderer(engine);
-    _api->getParametersManager().getRenderingParameters().setCurrentRenderer(
-        "bio_explorer");
+    //    _api->getParametersManager().getRenderingParameters().setCurrentRenderer(
+    //        "bio_explorer");
 }
 
 void BioExplorer::preRender()
@@ -325,6 +325,7 @@ Response BioExplorer::_setColorScheme(
     const ColorSchemeDescriptor &payload) const
 {
     Response response;
+    /*
     try
     {
         auto it = _assemblies.find(payload.assemblyName);
@@ -344,6 +345,7 @@ Response BioExplorer::_setColorScheme(
         response.status = false;
         response.contents = e.what();
     }
+    */
     return response;
 }
 

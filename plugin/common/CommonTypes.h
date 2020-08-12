@@ -1,9 +1,6 @@
-/* Copyright (c) 2018-2019, EPFL/Blue Brain Project
+/* Copyright (c) 2020, EPFL/Blue Brain Project
  * All rights reserved. Do not distribute without permission.
  * Responsible Author: Cyrille Favreau <cyrille.favreau@epfl.ch>
- *
- * This file is part of the circuit explorer for Brayns
- * <https://github.com/favreau/Brayns-UC-CircuitExplorer>
  *
  * This library is free software; you can redistribute it and/or modify it under
  * the terms of the GNU Lesser General Public License version 3.0 as published
@@ -19,8 +16,8 @@
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
 
-#ifndef COMMONTYPES_H
-#define COMMONTYPES_H
+#ifndef BIOEXPLORER_COMMONTYPES_H
+#define BIOEXPLORER_COMMONTYPES_H
 
 #define DEFAULT_SKY_POWER 4.f
 
