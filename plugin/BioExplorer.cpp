@@ -325,7 +325,6 @@ Response BioExplorer::_setColorScheme(
     const ColorSchemeDescriptor &payload) const
 {
     Response response;
-    /*
     try
     {
         auto it = _assemblies.find(payload.assemblyName);
@@ -345,7 +344,6 @@ Response BioExplorer::_setColorScheme(
         response.status = false;
         response.contents = e.what();
     }
-    */
     return response;
 }
 

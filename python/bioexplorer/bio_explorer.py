@@ -107,7 +107,7 @@ class BioExplorer(object):
 
         if __version__ != self.version():
             raise RuntimeError(
-                'Wrong version of the back-end. Use version ' + BIO_EXPLORER_VERSION + \
+                'Wrong version of the back-end. Use version ' + __version__ + \
                 ' for this version of the BioExplorer python library')
 
     def __str__(self):
