@@ -27,6 +27,57 @@ from brayns import Client
 from .version import __version__
 
 
+class Vector3:
+    def __init__(self, *args, **kwargs):
+        if len(args) not in [0, 3]:
+            raise RuntimeError('Invalid number of floats (0 or 3 expected)')
+
+        self.x = 0.0
+        self.y = 0.0
+        self.z = 0.0
+        if len(args) == 3:
+            self.x = args[0]
+            self.y = args[1]
+            self.z = args[2]
+
+    def to_list(self):
+        return [self.x, self.y, self.z]
+
+
+class Vector2:
+    def __init__(self, *args, **kwargs):
+        if len(args) not in [0, 2]:
+            raise RuntimeError('Invalid number of floats (0 or 2 expected)')
+
+        self.x = 0.0
+        self.y = 0.0
+        if len(args) == 2:
+            self.x = args[0]
+            self.y = args[1]
+
+    def to_list(self):
+        return [self.x, self.y]
+
+
+class Quaternion:
+    def __init__(self, *args, **kwargs):
+        if len(args) not in [0, 4]:
+            raise RuntimeError('Invalid number of floats (0 or 4 expected)')
+
+        self.x = 0.0
+        self.y = 0.0
+        self.z = 0.0
+        self.w = 1.0
+        if len(args) == 4:
+            self.x = args[0]
+            self.y = args[1]
+            self.z = args[2]
+            self.w = args[3]
+
+    def to_list(self):
+        return [self.x, self.y, self.z, self.w]
+
+
 class BioExplorer(object):
     """ VirusExplorer """
 
@@ -88,22 +139,29 @@ class BioExplorer(object):
     NAME_TRANS_MEMBRANE = 'Trans-membrane'
     NAME_RECEPTOR = 'Receptor'
 
-    NAME_SURFACTANT_D = 'SP-D'
-    NAME_SURFACTANT_A = 'SP-A'
+    NAME_SURFACTANT_HEAD = 'Head'
     NAME_COLLAGEN = 'Collagen'
     NAME_GLUCOSE = 'Glucose'
+
+    NAME_LACTOFERRIN = 'Lactoferrin'
+    NAME_DEFENSIN = 'Defensin'
 
     NAME_GLYCAN_HIGH_MANNOSE = 'High-mannose'
     NAME_GLYCAN_O_GLYCAN = 'O-glycan'
     NAME_GLYCAN_HYBRID = 'Hybrid'
     NAME_GLYCAN_COMPLEX = 'Complex'
 
+    SURFACTANT_PROTEIN_A = 0
+    SURFACTANT_PROTEIN_D = 1
 
-    def __init__(self, url):
+    def __init__(self, url=None):
         """
         Create a new Steps instance
         """
-        self._client = Client(url)
+        self._url = url
+        self._client = None
+        if url is not None:
+            self._client = Client(url)
 
         if __version__ != self.version():
             raise RuntimeError(
@@ -118,18 +176,27 @@ class BioExplorer(object):
         return self._client
 
     def version(self):
+        if self._client is None:
+            return __version__
+
         result = self._client.rockets_client.request(method='version')
         if not result['status']:
             raise RuntimeError(result['contents'])
         return result['contents']
 
     def reset(self):
+        if self._client is None:
+            return
+
         ids = list()
         for model in self._client.scene.models:
             ids.append(model['id'])
         self._client.remove_model(array=ids)
 
     def export_to_cache(self, filename):
+        if self._client is None:
+            return
+
         params = dict()
         params['filename'] = filename
         result = self._client.rockets_client.request(method='export-to-cache', params=params)
@@ -137,6 +204,9 @@ class BioExplorer(object):
             raise RuntimeError(result['contents'])
 
     def export_to_xyzr(self, filename):
+        if self._client is None:
+            return
+
         params = dict()
         params['filename'] = filename
         result = self._client.rockets_client.request(method='export-to-xyzr', params=params)
@@ -144,164 +214,212 @@ class BioExplorer(object):
             raise RuntimeError(result['contents'])
 
     def remove_assembly(self, name):
+        if self._client is None:
+            return
+
         params = dict()
         params['name'] = name
-        params['position'] = [0, 0, 0]
+        params['position'] = Vector3().to_list()
         params['clippingPlanes'] = list()
         result = self._client.rockets_client.request(method='remove-assembly', params=params)
         if not result['status']:
             raise RuntimeError(result['contents'])
 
-    def add_virus(self, name, protein_s, protein_e, protein_m, trans_membrane, membrane,
-                  rna_sequence=None, atom_radius_multiplier=1.0, representation=REPRESENTATION_ATOMS,
-                  position=[0, 0, 0], clipping_planes=list(), delay_between_additions=0,
-                  load_non_polymer_chemicals=False):
+    def add_virus(self, virus,
+                  atom_radius_multiplier=1.0, representation=REPRESENTATION_ATOMS,
+                  clipping_planes=list(), delay_between_additions=0):
 
-        shape = BioExplorer.ASSEMBLY_SHAPE_SPHERICAL
-
-        _protein_s_open = ProteinDescriptor(assembly_name=name, name=name + '_' + self.NAME_PROTEIN_S_OPEN,
-                                            contents=''.join(open(protein_s[0]).readlines()), shape=shape,
-                                            load_hydrogen=protein_s[2],
-                                            occurrences=protein_s[3], assembly_params=protein_s[4],
-                                            atom_radius_multiplier=atom_radius_multiplier, load_bonds=True,
-                                            load_non_polymer_chemicals=load_non_polymer_chemicals,
-                                            representation=representation, random_seed=1,
-                                            location_cutoff_angle=protein_s[5], position=protein_s[6],
-                                            orientation=protein_s[7], allowed_occurrences=protein_s[8])
-
-        allowed_occurrences = list()
-        for i in range(protein_s[2]):
-            if i not in protein_s[7]:
-                allowed_occurrences.append(i)
-
-        _protein_s_closed = ProteinDescriptor(assembly_name=name, name=name + '_' + self.NAME_PROTEIN_S_CLOSED,
-                                              contents=''.join(open(protein_s[1]).readlines()), shape=shape,
-                                              load_hydrogen=protein_s[2],
-                                              occurrences=protein_s[3], assembly_params=protein_s[4],
-                                              atom_radius_multiplier=atom_radius_multiplier, load_bonds=True,
-                                              load_non_polymer_chemicals=load_non_polymer_chemicals,
-                                              representation=representation, random_seed=1,
-                                              location_cutoff_angle=protein_s[5], position=protein_s[6],
-                                              orientation=protein_s[7], allowed_occurrences=allowed_occurrences)
-
-        _protein_m = ProteinDescriptor(assembly_name=name, name=name + '_' + self.NAME_PROTEIN_M,
-                                       contents=''.join(open(protein_m[0]).readlines()), shape=shape,
-                                       load_hydrogen=protein_m[1],
-                                       occurrences=protein_m[2], assembly_params=protein_m[3],
-                                       atom_radius_multiplier=atom_radius_multiplier, load_bonds=True,
-                                       load_non_polymer_chemicals=load_non_polymer_chemicals,
-                                       representation=representation, random_seed=3, location_cutoff_angle=protein_m[4],
-                                       position=protein_m[5], orientation=protein_m[6])
-
-        _protein_e = ProteinDescriptor(assembly_name=name, name=name + '_' + self.NAME_PROTEIN_E,
-                                       contents=''.join(open(protein_e[0]).readlines()), shape=shape,
-                                       load_hydrogen=protein_e[1],
-                                       occurrences=protein_e[2], assembly_params=protein_e[3],
-                                       atom_radius_multiplier=atom_radius_multiplier, load_bonds=True,
-                                       load_non_polymer_chemicals=load_non_polymer_chemicals,
-                                       representation=representation, random_seed=3, location_cutoff_angle=protein_e[4],
-                                       position=protein_e[5], orientation=protein_e[6])
-
-        contents = list()
-        for path in membrane[0]:
-            contents.append(''.join(open(path).readlines()))
-        _membrane = MembraneDescriptor(assembly_name=name, name=name + '_' + self.NAME_MEMBRANE,
-                                       shape=shape, contents=contents, occurrences=membrane[1],
-                                       load_non_polymer_chemicals=True, assembly_params=membrane[2],
-                                       atom_radius_multiplier=atom_radius_multiplier,
-                                       load_bonds=False, representation=representation, random_seed=40,
-                                       location_cutoff_angle=membrane[3],
-                                       position_randomization_type=self.POSITION_RANDOMIZATION_TYPE_RADIAL)
-
-        _trans_membrane = MeshDescriptor(recenter=True, assembly_name=name, name=name + '_' + self.NAME_TRANS_MEMBRANE,
-                                         contents=''.join(open(trans_membrane[0]).readlines()), shape=shape,
-                                         occurrences=trans_membrane[1], assembly_params=trans_membrane[2],
-                                         random_seed=1, position_randomization_type=0,
-                                         location_cutoff_angle=trans_membrane[3],
-                                         position=trans_membrane[4], orientation=trans_membrane[5])
-
-        if rna_sequence is not None:
-            import math
-            _rna_sequence = RNASequenceDescriptor(
-                assembly_name=name,
-                name=name + '_' + self.VIRUS_NAME_RNA_SEQUENCE, contents=''.join(open(rna_sequence[0]).readlines()),
-                assembly_params=rna_sequence[1], radius=rna_sequence[2],
-                t_range=rna_sequence[3],
-                shape=rna_sequence[4], shape_params=rna_sequence[5])
+        shape = self.ASSEMBLY_SHAPE_SPHERICAL
+        _protein_s = virus.protein_s
 
         import time
-        self.remove_assembly(name)
+        self.remove_assembly(virus.name)
         time.sleep(delay_between_additions)
-        self.add_assembly(name=name, position=position, clipping_planes=clipping_planes)
-        time.sleep(delay_between_additions)
-        self.add_protein(_protein_s_open)
-        time.sleep(delay_between_additions)
-        self.add_protein(_protein_s_closed)
-        time.sleep(delay_between_additions)
-        self.add_protein(_protein_m)
-        time.sleep(delay_between_additions)
-        self.add_protein(_protein_e)
-        time.sleep(delay_between_additions)
-        self.add_mesh(_trans_membrane)
-        time.sleep(delay_between_additions)
-        self.add_membrane(_membrane)
-        if rna_sequence is not None:
+        self.add_assembly(
+            name=virus.name, position=virus.position,
+            clipping_planes=clipping_planes)
+
+        if virus.protein_s is not None:
+            radius = virus.protein_s.assembly_params.x + virus.assembly_params.x
+            _protein_s_open = Protein(
+                assembly_name=virus.name, name=virus.name + '_' + self.NAME_PROTEIN_S_OPEN,
+                source=_protein_s.sources[0],
+                shape=shape, load_hydrogen=_protein_s.load_hydrogen,
+                occurrences=_protein_s.number_of_instances,
+                assembly_params=Vector2(radius, _protein_s.assembly_params.y),
+                atom_radius_multiplier=atom_radius_multiplier,
+                load_bonds=_protein_s.load_bonds,
+                load_non_polymer_chemicals=_protein_s.load_non_polymer_chemicals,
+                representation=representation, random_seed=1,
+                location_cutoff_angle=_protein_s.cutoff_angle,
+                position=_protein_s.position,
+                orientation=_protein_s.orientation,
+                allowed_occurrences=_protein_s.instance_indices[0])
+            time.sleep(delay_between_additions)
+            self.add_protein(_protein_s_open)
+
+            _protein_s_closed = Protein(
+                assembly_name=virus.name, name=virus.name + '_' + self.NAME_PROTEIN_S_CLOSED,
+                source=_protein_s.sources[1],
+                shape=shape, load_hydrogen=_protein_s.load_hydrogen,
+                occurrences=_protein_s.number_of_instances,
+                assembly_params=Vector2(radius, _protein_s.assembly_params.y),
+                atom_radius_multiplier=atom_radius_multiplier,
+                load_bonds=_protein_s.load_bonds,
+                load_non_polymer_chemicals=_protein_s.load_non_polymer_chemicals,
+                representation=representation, random_seed=1,
+                location_cutoff_angle=_protein_s.cutoff_angle,
+                position=_protein_s.position,
+                orientation=_protein_s.orientation,
+                allowed_occurrences=_protein_s.instance_indices[1])
+            time.sleep(delay_between_additions)
+            self.add_protein(_protein_s_closed)
+
+            palette = 'Greens'
+            for protein_name in [self.NAME_PROTEIN_S_OPEN, self.NAME_PROTEIN_S_CLOSED]:
+                self.set_protein_color_scheme(
+                    assembly_name=virus.name,
+                    protein_name=virus.name + '_' + protein_name,
+                    color_scheme=self.COLOR_SCHEME_CHAINS,
+                    palette_name=palette, palette_size=7)
+
+        if virus.protein_m is not None:
+            radius = virus.protein_m.assembly_params.x + virus.assembly_params.x
+            _protein_m = Protein(
+                assembly_name=virus.name, name=virus.name + '_' + self.NAME_PROTEIN_M,
+                source=virus.protein_m.sources[0], shape=shape,
+                load_hydrogen=virus.protein_m.load_hydrogen,
+                occurrences=virus.protein_m.number_of_instances,
+                assembly_params=Vector2(radius, virus.protein_m.assembly_params.y),
+                atom_radius_multiplier=atom_radius_multiplier,
+                load_bonds=virus.protein_m.load_bonds,
+                load_non_polymer_chemicals=virus.protein_m.load_non_polymer_chemicals,
+                representation=representation, random_seed=2,
+                location_cutoff_angle=virus.protein_m.cutoff_angle,
+                position=virus.protein_m.position, orientation=virus.protein_m.orientation)
+
+            time.sleep(delay_between_additions)
+            self.add_protein(_protein_m)
+
+            palette = 'Greens'
+            self.set_protein_color_scheme(
+                assembly_name=virus.name,
+                protein_name=virus.name + '_' + self.NAME_PROTEIN_M,
+                color_scheme=self.COLOR_SCHEME_CHAINS,
+                palette_name=palette, palette_size=30)
+
+        if virus.protein_e is not None:
+            radius = virus.protein_e.assembly_params.x + virus.assembly_params.x
+            _protein_e = Protein(
+                assembly_name=virus.name, name=virus.name + '_' + self.NAME_PROTEIN_E,
+                source=virus.protein_e.sources[0], shape=shape,
+                load_hydrogen=virus.protein_e.load_hydrogen,
+                occurrences=virus.protein_e.number_of_instances,
+                assembly_params=Vector2(radius, virus.protein_e.assembly_params.y),
+                atom_radius_multiplier=atom_radius_multiplier,
+                load_bonds=virus.protein_e.load_bonds,
+                load_non_polymer_chemicals=virus.protein_e.load_non_polymer_chemicals,
+                representation=representation, random_seed=3,
+                location_cutoff_angle=virus.protein_e.cutoff_angle,
+                position=virus.protein_e.position, orientation=virus.protein_e.orientation)
+            time.sleep(delay_between_additions)
+            self.add_protein(_protein_e)
+
+            palette = 'Greens'
+            self.set_protein_color_scheme(
+                assembly_name=virus.name,
+                protein_name=virus.name + '_' + self.NAME_PROTEIN_E,
+                color_scheme=self.COLOR_SCHEME_CHAINS,
+                palette_name=palette, palette_size=30)
+
+        if virus.membrane is not None:
+            contents = list()
+            for path in virus.membrane.sources:
+                contents.append(''.join(open(path).readlines()))
+            _membrane = MembraneAssembly(
+                assembly_name=virus.name, name=virus.name + '_' + self.NAME_MEMBRANE,
+                shape=shape, contents=contents,
+                occurrences=virus.membrane.number_of_instances,
+                load_non_polymer_chemicals=True,
+                assembly_params=virus.assembly_params,
+                atom_radius_multiplier=atom_radius_multiplier,
+                load_bonds=False,
+                representation=representation,
+                random_seed=4,
+                location_cutoff_angle=0.0,
+                position_randomization_type=self.POSITION_RANDOMIZATION_TYPE_RADIAL)
+
+            time.sleep(delay_between_additions)
+            self.add_membrane(_membrane)
+
+            palette = 'inferno'
+            for i in range(len(virus.membrane.sources)):
+                self.set_protein_color_scheme(
+                    assembly_name=virus.name,
+                    protein_name=virus.name + '_' + self.NAME_MEMBRANE + '_' + str(i),
+                    color_scheme=self.COLOR_SCHEME_CHAINS,
+                    palette_name=palette, palette_size=30)
+
+        if virus.transmembrane is not None:
+            time.sleep(delay_between_additions)
+            _trans_membrane = Mesh(
+                assembly_name=virus.name,
+                name=virus.name + '_' + self.NAME_TRANS_MEMBRANE,
+                contents=''.join(open(virus.transmembrane.source).readlines()),
+                shape=shape,
+                occurrences=virus.transmembrane.number_of_instances,
+                assembly_params=virus.transmembrane.assembly_params,
+                recenter=True, random_seed=1, position_randomization_type=0,
+                location_cutoff_angle=virus.transmembrane.cutoff_angle,
+                position=virus.transmembrane.position,
+                orientation=virus.transmembrane.orientation)
+            self.add_mesh(_trans_membrane)
+
+        if virus.rna_sequence is not None:
+            time.sleep(delay_between_additions)
+            _rna_sequence = RNASequence(
+                assembly_name=virus.name,
+                name=virus.name + '_' + self.NAME_RNA_SEQUENCE,
+                contents=''.join(open(virus.rna_sequence.source).readlines()),
+                assembly_params=virus.rna_sequence.assembly_params,
+                radius=virus.rna_sequence.radius,
+                t_range=virus.rna_sequence.t_range,
+                shape=virus.rna_sequence.shape,
+                shape_params=virus.rna_sequence.shape_params)
             self.add_rna_sequence(_rna_sequence)
 
-        palette = 'Greens'
-        for protein_name in [self.NAME_PROTEIN_S_OPEN, self.NAME_PROTEIN_S_CLOSED]:
-            self.set_protein_color_scheme(
-                assembly_name=name,
-                protein_name=name + '_' + protein_name,
-                color_scheme=self.COLOR_SCHEME_CHAINS,
-                palette_name=palette, palette_size=4)
+    def add_cell(self, cell, atom_radius_multiplier=1.0, representation=REPRESENTATION_ATOMS,
+                 position=Vector3(), clipping_planes=list(), delay_between_additions=0):
 
-        self.set_protein_color_scheme(
-            assembly_name=name,
-            protein_name=name + '_' + self.NAME_PROTEIN_E,
-            color_scheme=self.COLOR_SCHEME_RESIDUES,
-            palette_name=palette, palette_size=30)
-
-        self.set_protein_color_scheme(
-            assembly_name=name,
-            protein_name=name + '_' + self.NAME_PROTEIN_M,
-            color_scheme=self.COLOR_SCHEME_RESIDUES,
-            palette_name=palette, palette_size=30)
-
-        palette = 'inferno'
-        for i in range(len(membrane[0])):
-            self.set_protein_color_scheme(
-                assembly_name=name,
-                protein_name=name + '_' + self.NAME_MEMBRANE + '_' + str(i),
-                color_scheme=self.COLOR_SCHEME_CHAINS,
-                palette_name=palette, palette_size=7)
-
-    def add_cell(self, name, receptor, membrane, shape=ASSEMBLY_SHAPE_PLANAR,
-                 atom_radius_multiplier=1.0, representation=REPRESENTATION_ATOMS,
-                 position=[0, 0, 0], clipping_planes=list(), delay_between_additions=0):
-
-        _receptor = ProteinDescriptor(assembly_name=name, name=name + '_' + self.NAME_RECEPTOR, shape=shape,
-                                      contents=''.join(open(receptor[0]).readlines()),
-                                      occurrences=receptor[1], assembly_params=receptor[2],
-                                      atom_radius_multiplier=atom_radius_multiplier,
-                                      load_bonds=True, representation=representation, random_seed=1,
-                                      location_cutoff_angle=receptor[3], position=receptor[4], orientation=receptor[5])
+        _receptor = Protein(
+            assembly_name=cell.name,
+            name=cell.name + '_' + self.NAME_RECEPTOR, shape=cell.shape,
+            source=cell.receptor.source,
+            occurrences=cell.receptor.number_of_instances,
+            assembly_params=cell.size,
+            atom_radius_multiplier=atom_radius_multiplier,
+            load_bonds=True, representation=representation, random_seed=1,
+            location_cutoff_angle=0.0,
+            position=cell.receptor.position,
+            orientation=cell.receptor.orientation)
 
         contents = list()
-        for path in membrane[0]:
+        for path in cell.membrane.sources:
             contents.append(''.join(open(path).readlines()))
-        _membrane = MembraneDescriptor(assembly_name=name, name=name + '_' + self.NAME_MEMBRANE,
-                                       shape=shape, contents=contents, occurrences=membrane[1],
-                                       load_non_polymer_chemicals=True, assembly_params=membrane[2],
-                                       atom_radius_multiplier=atom_radius_multiplier,
-                                       load_bonds=False, representation=representation, random_seed=40,
-                                       location_cutoff_angle=membrane[3],
-                                       position_randomization_type=self.POSITION_RANDOMIZATION_TYPE_RADIAL)
+        _membrane = MembraneAssembly(
+            assembly_name=cell.name, name=cell.name + '_' + self.NAME_MEMBRANE,
+            shape=cell.shape, contents=contents,
+            occurrences=cell.membrane.number_of_instances,
+            load_non_polymer_chemicals=True, assembly_params=cell.size,
+            atom_radius_multiplier=atom_radius_multiplier,
+            load_bonds=False, representation=representation, random_seed=40,
+            location_cutoff_angle=0.0,
+            position_randomization_type=self.POSITION_RANDOMIZATION_TYPE_RADIAL)
 
         import time
-        self.remove_assembly(name)
+        self.remove_assembly(cell.name)
         time.sleep(delay_between_additions)
-        self.add_assembly(name=name, position=position, clipping_planes=clipping_planes)
+        self.add_assembly(name=cell.name, position=position, clipping_planes=clipping_planes)
         time.sleep(delay_between_additions)
         self.add_protein(_receptor)
         time.sleep(delay_between_additions)
@@ -309,19 +427,23 @@ class BioExplorer(object):
 
         palette = 'OrRd_r'
         self.set_protein_color_scheme(
-            assembly_name=name,
-            protein_name=name + '_' + self.NAME_RECEPTOR,
+            assembly_name=cell.name,
+            protein_name=cell.name + '_' + self.NAME_RECEPTOR,
             color_scheme=self.COLOR_SCHEME_CHAINS,
             palette_name=palette, palette_size=7)
 
         palette = 'inferno'
-        self.set_protein_color_scheme(
-            assembly_name=name,
-            protein_name=name + '_' + self.NAME_MEMBRANE,
-            color_scheme=self.COLOR_SCHEME_CHAINS,
-            palette_name=palette, palette_size=7)
+        for i in range(len(cell.membrane.sources)):
+            self.set_protein_color_scheme(
+                assembly_name=cell.name,
+                protein_name=cell.name + '_' + self.NAME_MEMBRANE + '_' + str(i),
+                color_scheme=self.COLOR_SCHEME_CHAINS,
+                palette_name=palette, palette_size=7)
 
-    def add_assembly(self, name, position=[0, 0, 0], clipping_planes=list()):
+    def add_assembly(self, name, position=Vector3(), clipping_planes=list()):
+        if self._client is None:
+            return
+
         clipping_planes_values = list()
         for plane in clipping_planes:
             for i in range(4):
@@ -329,14 +451,17 @@ class BioExplorer(object):
 
         params = dict()
         params['name'] = name
-        params['position'] = position
+        params['position'] = position.to_list()
         params['clippingPlanes'] = clipping_planes_values
         result = self._client.rockets_client.request(method='add-assembly', params=params)
         if not result['status']:
             raise RuntimeError(result['contents'])
         self._client.set_renderer(accumulation=True)
 
-    def apply_transformations(self, protein_descriptor, transformations):
+    def apply_transformations(self, protein_, transformations):
+        if self._client is None:
+            return
+
         transformations_as_floats = list()
         for transformation in transformations:
             for i in range(3):
@@ -348,8 +473,8 @@ class BioExplorer(object):
             for i in range(3):
                 transformations_as_floats.append(transformation.scale[i])
         params = dict()
-        params['assemblyName'] = protein_descriptor.assembly_name
-        params['name'] = protein_descriptor.name
+        params['assemblyName'] = protein.assembly_name
+        params['name'] = protein.name
         params['transformations'] = transformations_as_floats
         result = self._client.rockets_client.request(method='apply-transformations', params=params)
         if not result['status']:
@@ -358,6 +483,9 @@ class BioExplorer(object):
 
     def set_protein_color_scheme(self, assembly_name, protein_name, color_scheme, palette_name='', palette_size=256,
                                  palette=list(), chain_ids=list()):
+        if self._client is None:
+            return
+
         p = list()
         if len(palette) == 0 and palette_name != '':
             palette = sns.color_palette(palette_name, palette_size)
@@ -378,6 +506,9 @@ class BioExplorer(object):
         self._client.set_renderer(accumulation=True)
 
     def set_protein_amino_acid_sequence_as_string(self, assembly_name, protein_name, amino_acid_sequence):
+        if self._client is None:
+            return
+
         params = dict()
         params['assemblyName'] = assembly_name
         params['name'] = protein_name
@@ -388,6 +519,9 @@ class BioExplorer(object):
         self._client.set_renderer(accumulation=True)
 
     def set_protein_amino_acid_sequence_as_range(self, assembly_name, protein_name, amino_acid_range):
+        if self._client is None:
+            return
+
         params = dict()
         params['assemblyName'] = assembly_name
         params['name'] = protein_name
@@ -422,6 +556,9 @@ class BioExplorer(object):
         display(lbl)
 
     def get_protein_amino_acid_information(self, assembly_name, protein_name):
+        if self._client is None:
+            return
+
         params = dict()
         params['assemblyName'] = assembly_name
         params['name'] = protein_name
@@ -430,133 +567,149 @@ class BioExplorer(object):
             raise RuntimeError(result['contents'])
         return result['contents'].split()
 
-    def add_rna_sequence(self, rna_sequence_descriptor):
+    def add_rna_sequence(self, rna_sequence):
+        if self._client is None:
+            return
 
-        t_range = [0.0, 2.0 * math.pi]
-        if rna_sequence_descriptor.t_range is None:
+        t_range = Vector2(0.0, 2.0 * math.pi)
+        if rna_sequence.t_range is None:
             ''' Defaults '''
-            if rna_sequence_descriptor.shape == self.RNA_SHAPE_TORUS:
-                t_range = [0.0, 2.0 * math.pi]
-            elif rna_sequence_descriptor.shape == self.RNA_SHAPE_TREFOIL_KNOT:
-                t_range = [0.0, 4.0 * math.pi]
+            if rna_sequence.shape == self.RNA_SHAPE_TORUS:
+                t_range = Vector2(0.0, 2.0 * math.pi)
+            elif rna_sequence.shape == self.RNA_SHAPE_TREFOIL_KNOT:
+                t_range = Vector2(0.0, 4.0 * math.pi)
         else:
-            t_range = rna_sequence_descriptor.t_range
+            t_range = rna_sequence.t_range
 
         shape_params = [1.0, 1.0, 1.0]
-        if rna_sequence_descriptor.shape_params is None:
+        if rna_sequence.shape_params is None:
             ''' Defaults '''
-            if rna_sequence_descriptor.shape == self.RNA_SHAPE_TORUS:
-                shape_params = [0.5, 10.0, 0.0]
-            elif rna_sequence_descriptor.shape == self.RNA_SHAPE_TREFOIL_KNOT:
-                shape_params = [2.5, 2.0, 2.2]
+            if rna_sequence.shape == self.RNA_SHAPE_TORUS:
+                shape_params = Vector3(0.5, 10.0, 0.0)
+            elif rna_sequence.shape == self.RNA_SHAPE_TREFOIL_KNOT:
+                shape_params = Vector3(2.5, 2.0, 2.2)
 
         else:
-            shape_params = rna_sequence_descriptor.shape_params
+            shape_params = rna_sequence.shape_params
 
         params = dict()
-        params['assemblyName'] = rna_sequence_descriptor.assembly_name
-        params['name'] = rna_sequence_descriptor.name
-        params['contents'] = rna_sequence_descriptor.contents
-        params['shape'] = rna_sequence_descriptor.shape
-        params['assemblyParams'] = rna_sequence_descriptor.assembly_params
-        params['range'] = t_range
-        params['params'] = shape_params
+        params['assemblyName'] = rna_sequence.assembly_name
+        params['name'] = rna_sequence.name
+        params['contents'] = rna_sequence.contents
+        params['shape'] = rna_sequence.shape
+        params['assemblyParams'] = rna_sequence.assembly_params.to_list()
+        params['range'] = t_range.to_list()
+        params['params'] = shape_params.to_list()
         result = self._client.rockets_client.request(method='add-rna-sequence', params=params)
         if not result['status']:
             raise RuntimeError(result['contents'])
         self._client.set_renderer(accumulation=True)
 
-    def add_membrane(self, membrane_descriptor):
+    def add_membrane(self, membrane):
+        if self._client is None:
+            return
+
         params = dict()
-        params['assemblyName'] = membrane_descriptor.assembly_name
-        params['name'] = membrane_descriptor.name
-        params['content1'] = membrane_descriptor.content1
-        params['content2'] = membrane_descriptor.content2
-        params['content3'] = membrane_descriptor.content3
-        params['content4'] = membrane_descriptor.content4
-        params['shape'] = membrane_descriptor.shape
-        params['assemblyParams'] = membrane_descriptor.assembly_params
-        params['atomRadiusMultiplier'] = membrane_descriptor.atom_radius_multiplier
-        params['loadBonds'] = membrane_descriptor.load_bonds
-        params['loadNonPolymerChemicals'] = membrane_descriptor.load_non_polymer_chemicals
-        params['representation'] = membrane_descriptor.representation
-        params['chainIds'] = membrane_descriptor.chain_ids
-        params['recenter'] = membrane_descriptor.recenter
-        params['occurrences'] = membrane_descriptor.occurrences
-        params['randomSeed'] = membrane_descriptor.random_seed
-        params['locationCutoffAngle'] = membrane_descriptor.location_cutoff_angle
-        params['positionRandomizationType'] = membrane_descriptor.position_randomization_type
-        params['orientation'] = membrane_descriptor.orientation
+        params['assemblyName'] = membrane.assembly_name
+        params['name'] = membrane.name
+        params['content1'] = membrane.content1
+        params['content2'] = membrane.content2
+        params['content3'] = membrane.content3
+        params['content4'] = membrane.content4
+        params['shape'] = membrane.shape
+        params['assemblyParams'] = membrane.assembly_params.to_list()
+        params['atomRadiusMultiplier'] = membrane.atom_radius_multiplier
+        params['loadBonds'] = membrane.load_bonds
+        params['loadNonPolymerChemicals'] = membrane.load_non_polymer_chemicals
+        params['representation'] = membrane.representation
+        params['chainIds'] = membrane.chain_ids
+        params['recenter'] = membrane.recenter
+        params['occurrences'] = membrane.occurrences
+        params['randomSeed'] = membrane.random_seed
+        params['locationCutoffAngle'] = membrane.location_cutoff_angle
+        params['positionRandomizationType'] = membrane.position_randomization_type
+        params['orientation'] = membrane.orientation.to_list()
         result = self._client.rockets_client.request(method='add-membrane', params=params)
         if not result['status']:
             raise RuntimeError(result['contents'])
         self._client.set_renderer(accumulation=True)
 
-    def add_protein(self, protein_descriptor):
+    def add_protein(self, protein):
+        if self._client is None:
+            return
+
         params = dict()
-        params['assemblyName'] = protein_descriptor.assembly_name
-        params['name'] = protein_descriptor.name
-        params['contents'] = protein_descriptor.contents
-        params['shape'] = protein_descriptor.shape
-        params['assemblyParams'] = protein_descriptor.assembly_params
-        params['atomRadiusMultiplier'] = protein_descriptor.atom_radius_multiplier
-        params['loadBonds'] = protein_descriptor.load_bonds
-        params['loadNonPolymerChemicals'] = protein_descriptor.load_non_polymer_chemicals
-        params['loadHydrogen'] = protein_descriptor.load_hydrogen
-        params['representation'] = protein_descriptor.representation
-        params['chainIds'] = protein_descriptor.chain_ids
-        params['recenter'] = protein_descriptor.recenter
-        params['occurrences'] = protein_descriptor.occurrences
-        params['allowedOccurrences'] = protein_descriptor.allowed_occurrences
-        params['randomSeed'] = protein_descriptor.random_seed
-        params['locationCutoffAngle'] = protein_descriptor.location_cutoff_angle
-        params['positionRandomizationType'] = protein_descriptor.position_randomization_type
-        params['position'] = protein_descriptor.position
-        params['orientation'] = protein_descriptor.orientation
+        params['assemblyName'] = protein.assembly_name
+        params['name'] = protein.name
+        params['contents'] = protein.contents
+        params['shape'] = protein.shape
+        params['assemblyParams'] = protein.assembly_params.to_list()
+        params['atomRadiusMultiplier'] = protein.atom_radius_multiplier
+        params['loadBonds'] = protein.load_bonds
+        params['loadNonPolymerChemicals'] = protein.load_non_polymer_chemicals
+        params['loadHydrogen'] = protein.load_hydrogen
+        params['representation'] = protein.representation
+        params['chainIds'] = protein.chain_ids
+        params['recenter'] = protein.recenter
+        params['occurrences'] = protein.occurrences
+        params['allowedOccurrences'] = protein.allowed_occurrences
+        params['randomSeed'] = protein.random_seed
+        params['locationCutoffAngle'] = protein.location_cutoff_angle
+        params['positionRandomizationType'] = protein.position_randomization_type
+        params['position'] = protein.position.to_list()
+        params['orientation'] = protein.orientation.to_list()
         result = self._client.rockets_client.request(method='add-protein', params=params)
         if not result['status']:
             raise RuntimeError(result['contents'])
         self._client.set_renderer(accumulation=True)
 
-    def add_mesh(self, mesh_descriptor):
+    def add_mesh(self, mesh):
+        if self._client is None:
+            return
+
         params = dict()
-        params['assemblyName'] = mesh_descriptor.assembly_name
-        params['name'] = mesh_descriptor.name
-        params['contents'] = mesh_descriptor.contents
-        params['shape'] = mesh_descriptor.shape
-        params['assemblyParams'] = mesh_descriptor.assembly_params
-        params['recenter'] = mesh_descriptor.recenter
-        params['occurrences'] = mesh_descriptor.occurrences
-        params['randomSeed'] = mesh_descriptor.random_seed
-        params['locationCutoffAngle'] = mesh_descriptor.location_cutoff_angle
-        params['positionRandomizationType'] = mesh_descriptor.position_randomization_type
-        params['position'] = mesh_descriptor.position
-        params['orientation'] = mesh_descriptor.orientation
+        params['assemblyName'] = mesh.assembly_name
+        params['name'] = mesh.name
+        params['contents'] = mesh.contents
+        params['shape'] = mesh.shape
+        params['assemblyParams'] = mesh.assembly_params.to_list()
+        params['recenter'] = mesh.recenter
+        params['occurrences'] = mesh.occurrences
+        params['randomSeed'] = mesh.random_seed
+        params['locationCutoffAngle'] = mesh.location_cutoff_angle
+        params['positionRandomizationType'] = mesh.position_randomization_type
+        params['position'] = mesh.position.to_list()
+        params['orientation'] = mesh.orientation.to_list()
         result = self._client.rockets_client.request(method='add-mesh', params=params)
         if not result['status']:
             raise RuntimeError(result['contents'])
         self._client.set_renderer(accumulation=True)
 
-    def add_glycans(self, glycans_descriptor):
+    def add_glycans(self, glycans):
+        if self._client is None:
+            return
+
         params = dict()
-        params['assemblyName'] = glycans_descriptor.assembly_name
-        params['name'] = glycans_descriptor.name
-        params['contents'] = glycans_descriptor.contents
-        params['proteinName'] = glycans_descriptor.protein_name
-        params['atomRadiusMultiplier'] = glycans_descriptor.atom_radius_multiplier
-        params['addSticks'] = glycans_descriptor.add_sticks
-        params['recenter'] = glycans_descriptor.recenter
-        params['chainIds'] = glycans_descriptor.chain_ids
-        params['siteIndices'] = glycans_descriptor.site_indices
-        params['allowedOccurrences'] = glycans_descriptor.allowed_occurrences
-        params['orientation'] = glycans_descriptor.orientation
+        params['assemblyName'] = glycans.assembly_name
+        params['name'] = glycans.name
+        params['contents'] = glycans.contents
+        params['proteinName'] = glycans.protein_name
+        params['atomRadiusMultiplier'] = glycans.atom_radius_multiplier
+        params['addSticks'] = glycans.add_sticks
+        params['recenter'] = glycans.recenter
+        params['chainIds'] = glycans.chain_ids
+        params['siteIndices'] = glycans.site_indices
+        params['allowedOccurrences'] = glycans.allowed_occurrences
+        params['orientation'] = glycans.orientation.to_list()
         result = self._client.rockets_client.request(method='add-glycans', params=params)
         if not result['status']:
             raise RuntimeError(result['contents'])
         self._client.set_renderer(accumulation=True)
 
-    def add_multiple_glycans(self, assembly_name, glycan_type, protein_name, paths, chain_ids=list(), indices=list(),
-                             allowed_occurrences=list(), index_offset=0, add_sticks=False, radius_multiplier=1.0):
+    def add_multiple_glycans(
+            self, assembly_name, glycan_type, protein_name, paths, chain_ids=list(), indices=list(),
+            allowed_occurrences=list(), index_offset=0, add_sticks=False, radius_multiplier=1.0):
+
         for path_index in range(len(paths)):
             path = paths[path_index]
             site_indices = list()
@@ -569,95 +722,96 @@ class BioExplorer(object):
             if allowed_occurrences is not None:
                 occurrences = allowed_occurrences
 
-            _glycans = SugarsDescriptor(
+            _glycans = Sugars(
                 assembly_name=assembly_name, name=assembly_name + '_' + protein_name + '_' + glycan_type,
                 contents=''.join(open(path).readlines()),
                 protein_name=assembly_name + '_' + protein_name, chain_ids=chain_ids,
                 atom_radius_multiplier=radius_multiplier,
                 add_sticks=add_sticks, recenter=True, site_indices=site_indices,
-                allowed_occurrences=occurrences, orientation=[0, 0, 0, 1])
+                allowed_occurrences=occurrences, orientation=Quaternion())
             self.add_glycans(_glycans)
 
-    def add_glucoses(self, sugars_descriptor):
+    def add_glucoses(self, sugars_):
+        if self._client is None:
+            return
+
         params = dict()
-        params['assemblyName'] = sugars_descriptor.assembly_name
-        params['name'] = sugars_descriptor.name
-        params['contents'] = sugars_descriptor.contents
-        params['proteinName'] = sugars_descriptor.protein_name
-        params['atomRadiusMultiplier'] = sugars_descriptor.atom_radius_multiplier
-        params['addSticks'] = sugars_descriptor.add_sticks
-        params['recenter'] = sugars_descriptor.recenter
-        params['chainIds'] = sugars_descriptor.chain_ids
-        params['siteIndices'] = sugars_descriptor.site_indices
-        params['allowedOccurrences'] = sugars_descriptor.allowed_occurrences
-        params['orientation'] = sugars_descriptor.orientation
+        params['assemblyName'] = sugars_.assembly_name
+        params['name'] = sugars_.name
+        params['contents'] = sugars_.contents
+        params['proteinName'] = sugars_.protein_name
+        params['atomRadiusMultiplier'] = sugars_.atom_radius_multiplier
+        params['addSticks'] = sugars_.add_sticks
+        params['recenter'] = sugars_.recenter
+        params['chainIds'] = sugars_.chain_ids
+        params['siteIndices'] = sugars_.site_indices
+        params['allowedOccurrences'] = sugars_.allowed_occurrences
+        params['orientation'] = sugars_.orientation
         result = self._client.rockets_client.request(method='add-glucoses', params=params)
         if not result['status']:
             raise RuntimeError(result['contents'])
         self._client.set_renderer(accumulation=True)
 
-    def _add_surfactant(self, assembly_name, surfactant_name, head_protein, collagen_protein, representation,
-                        nb_branches, shape, position=None,
-                        radius_multiplier=1.0, random_seed=0):
+    def add_surfactant(self, surfactant, head_pdb_filename, branch_pdb_filename,
+                       representation, position=Vector3(), radius_multiplier=1.0,
+                       random_seed=0):
 
-        if position is None:
-            position = [0, 0, 0]
+        shape = self.ASSEMBLY_SHAPE_SPHERICAL
+        nb_branches = 4
+        if surfactant == self.SURFACTANT_PROTEIN_A:
+            shape = self.ASSEMBLY_SHAPE_FAN
+            nb_branches = 6
+
         nb_collagens = 2
-        collagen_size = 16
+        collagen_size = 16.0
 
-        head_name = assembly_name + '_' + surfactant_name
-        branch_name = assembly_name + '_' + self.NAME_COLLAGEN + '_'
+        head_name = surfactant.name + '_' + self.NAME_SURFACTANT_HEAD
+        branch_name = surfactant.name + '_' + self.NAME_COLLAGEN + '_'
 
-        protein_sp_d = ProteinDescriptor(assembly_name=assembly_name, recenter=True,
-                                         name=head_name, shape=shape,
-                                         contents=''.join(open(head_protein).readlines()), occurrences=nb_branches,
-                                         assembly_params=[collagen_size * (nb_collagens + 1) - 9, 0.0],
-                                         atom_radius_multiplier=radius_multiplier, random_seed=random_seed,
-                                         location_cutoff_angle=0.0, representation=representation,
-                                         orientation=[-0.624, -0.417, 0.0, 0.661])
+        protein_sp_d = Protein(
+            assembly_name=surfactant.name,
+            name=head_name, shape=shape,
+            pdb_filename=head_pdb_filename,
+            occurrences=nb_branches,
+            assembly_params=Vector2(collagen_size * (nb_collagens + 1) - 9.0, 0.0),
+            atom_radius_multiplier=radius_multiplier,
+            random_seed=random_seed,
+            representation=representation,
+            orientation=Quaternion(-0.624, -0.417, 0.0, 0.661))
 
         collagens = list()
-        contents = ''.join(open(collagen_protein).readlines())
         for i in range(nb_collagens):
-            collagens.append(ProteinDescriptor(recenter=True, assembly_name=assembly_name, shape=shape,
-                                               atom_radius_multiplier=radius_multiplier,
-                                               name=branch_name + str(i),
-                                               contents=contents, occurrences=nb_branches,
-                                               assembly_params=[collagen_size * (i + 1) - 7, 0.0],
-                                               random_seed=random_seed,
-                                               location_cutoff_angle=0.0, representation=representation))
+            collagens.append(
+                Protein(
+                    assembly_name=surfactant.name, shape=shape,
+                    atom_radius_multiplier=radius_multiplier,
+                    name=branch_name + str(i),
+                    pdb_filename=branch_pdb_filename,
+                    occurrences=nb_branches,
+                    assembly_params=Vector2(collagen_size * (i + 1) - 7.0, 0.0),
+                    random_seed=random_seed,
+                    representation=representation))
 
-        self.remove_assembly(assembly_name)
-        self.add_assembly(name=assembly_name, position=position)
+        self.remove_assembly(surfactant.name)
+        self.add_assembly(name=surfactant.name, position=position)
         for collagen in collagens:
             self.add_protein(collagen)
         self.add_protein(protein_sp_d)
 
         palette = 'Reds'
-        self.set_protein_color_scheme(assembly_name=assembly_name,
+        self.set_protein_color_scheme(assembly_name=surfactant.name,
                                       protein_name=head_name,
                                       color_scheme=self.COLOR_SCHEME_CHAINS, palette_name=palette, palette_size=5)
         for i in range(nb_collagens):
-            self.set_protein_color_scheme(assembly_name=assembly_name,
+            self.set_protein_color_scheme(assembly_name=surfactant.name,
                                           protein_name=branch_name + str(i),
                                           color_scheme=self.COLOR_SCHEME_RESIDUES,
-
                                           palette_name=palette, palette_size=5)
 
-    def add_surfactant_d(self, name, head_protein, collagen_protein, representation, position=None,
-                         radius_multiplier=1.0,
-                         random_seed=0):
-
-        self._add_surfactant(name, self.NAME_SURFACTANT_D, head_protein, collagen_protein, representation,
-                             4, self.ASSEMBLY_SHAPE_SPHERICAL, position, radius_multiplier, random_seed)
-
-    def add_surfactant_a(self, name, head_protein, collagen_protein, representation, position=None,
-                         radius_multiplier=1.0, random_seed=0):
-
-        self._add_surfactant(name, self.NAME_SURFACTANT_A, head_protein, collagen_protein, representation,
-                             6, self.ASSEMBLY_SHAPE_FAN, position, radius_multiplier, random_seed)
-
     def set_image_quality(self, image_quality=IMAGE_QUALITY_LOW):
+        if self._client is None:
+            return
+
         if image_quality == self.IMAGE_QUALITY_HIGH:
             self._client.set_renderer(
                 background_color=[96 / 255, 125 / 255, 139 / 255],
@@ -675,11 +829,14 @@ class BioExplorer(object):
             self._client.set_renderer_params(params)
         else:
             self._client.set_renderer(
-                background_color=[0, 0, 0],
+                background_color=Vector3(),
                 current='basic',
                 samples_per_pixel=1, subsampling=4, max_accum_frames=16)
 
     def get_material_ids(self, model_id):
+        if self._client is None:
+            return
+
         params = dict()
         params['modelId'] = model_id
         return self._client.rockets_client.request('get-material-ids', params)
@@ -708,6 +865,9 @@ class BioExplorer(object):
         :return: Result of the request submission
         :rtype: str
         """
+        if self._client is None:
+            return
+
         params = dict()
         params['modelIds'] = model_ids
         params['materialIds'] = material_ids
@@ -766,6 +926,10 @@ class BioExplorer(object):
         from ipywidgets import IntProgress
         from IPython.display import display
 
+        if self._url is not None:
+            ''' Refresh connection to Brayns to make sure we get all current models '''
+            self._client = Client(self._url)
+
         glycans_colors = [[0, 1, 1], [1, 1, 0], [1, 0, 1], [0.2, 0.2, 0.7]]
 
         progress = IntProgress(value=0, min=0, max=len(self._client.scene.models), orientation='horizontal')
@@ -805,6 +969,20 @@ class BioExplorer(object):
 
             if self.NAME_GLUCOSE in model_name:
                 palette = sns.color_palette('Blues', nb_materials)
+                self.set_materials_from_palette(model_ids=[model_id], material_ids=material_ids, palette=palette,
+                                                shading_mode=shading_mode,
+                                                user_parameter=user_parameter, glossiness=glossiness,
+                                                specular_exponent=specular_exponent)
+
+            if self.NAME_LACTOFERRIN in model_name:
+                palette = sns.color_palette('afmhot', nb_materials)
+                self.set_materials_from_palette(model_ids=[model_id], material_ids=material_ids, palette=palette,
+                                                shading_mode=shading_mode,
+                                                user_parameter=user_parameter, glossiness=glossiness,
+                                                specular_exponent=specular_exponent)
+
+            if self.NAME_DEFENSIN in model_name:
+                palette = sns.color_palette('plasma_r', nb_materials)
                 self.set_materials_from_palette(model_ids=[model_id], material_ids=material_ids, palette=palette,
                                                 shading_mode=shading_mode,
                                                 user_parameter=user_parameter, glossiness=glossiness,
@@ -855,7 +1033,7 @@ class BioExplorer(object):
                                                 user_parameter=user_parameter, glossiness=glossiness,
                                                 specular_exponent=specular_exponent)
 
-            if self.NAME_SURFACTANT_D in model_name or self.NAME_SURFACTANT_A in model_name or \
+            if self.NAME_SURFACTANT_HEAD in model_name or \
                     self.NAME_COLLAGEN in model_name:
                 palette = sns.color_palette('OrRd_r', nb_materials)
                 emission = 0
@@ -883,6 +1061,9 @@ class BioExplorer(object):
         :return: Result of the request submission
         :rtype: str
         """
+        if self._client is None:
+            return
+
         params = dict()
         params['minValue'] = min_value
         params['maxValue'] = max_value
@@ -903,6 +1084,9 @@ class BioExplorer(object):
         :return: Result of the request submission
         :rtype: str
         """
+        if self._client is None:
+            return
+
         params = dict()
         params['origin'] = origin
         params['direction'] = direction
@@ -916,6 +1100,9 @@ class BioExplorer(object):
         :return: A JSon representation of the origin, direction and up vectors
         :rtype: str
         """
+        if self._client is None:
+            return
+
         return self._client.rockets_client.request('get-odu-camera')
 
     def export_frames_to_disk(self, path, animation_frames, camera_definitions, image_format='png',
@@ -934,6 +1121,9 @@ class BioExplorer(object):
         :return: Result of the request submission
         :rtype: str
         """
+        if self._client is None:
+            return
+
         params = dict()
         params['path'] = path
         params['format'] = image_format
@@ -968,6 +1158,9 @@ class BioExplorer(object):
         the exporting is finished or is still in progress
         :rtype: dict
         """
+        if self._client is None:
+            return
+
         return self._client.rockets_client.request('get-export-frames-progress')
 
     def cancel_frames_export(self):
@@ -977,6 +1170,9 @@ class BioExplorer(object):
         :return: Result of the request submission
         :rtype: str
         """
+        if self._client is None:
+            return
+
         params = dict()
         params['path'] = '/tmp'
         params['format'] = 'png'
@@ -1004,15 +1200,17 @@ class Transformation(object):
         self.scale = scale
 
 
-class MeshDescriptor(object):
+class Mesh(object):
 
-    def __init__(self, assembly_name, name, contents, assembly_params, shape=BioExplorer.ASSEMBLY_SHAPE_PLANAR,
-                 recenter=True, occurrences=1, random_seed=0, location_cutoff_angle=0,
+    def __init__(self, assembly_name, name, source, assembly_params,
+                 shape=BioExplorer.ASSEMBLY_SHAPE_PLANAR,
+                 recenter=True, occurrences=1, random_seed=0,
+                 location_cutoff_angle=0.0,
                  position_randomization_type=BioExplorer.POSITION_RANDOMIZATION_TYPE_CIRCULAR,
-                 position=[0.0, 0.0, 0.0], orientation=[0.0, 0.0, 0.0, 1.0]):
+                 position=Vector3(), orientation=Quaternion()):
         self.assembly_name = assembly_name
         self.name = name
-        self.contents = contents
+        self.contents = ''.join(open(source).readlines())
         self.shape = shape
         self.assembly_params = assembly_params
         self.recenter = recenter
@@ -1024,7 +1222,7 @@ class MeshDescriptor(object):
         self.orientation = orientation
 
 
-class MembraneDescriptor(object):
+class MembraneAssembly(object):
 
     def __init__(self, assembly_name, name, contents, shape, assembly_params,
                  atom_radius_multiplier=1, load_bonds=False, representation=BioExplorer.REPRESENTATION_ATOMS,
@@ -1032,7 +1230,7 @@ class MembraneDescriptor(object):
                  chain_ids=list(), recenter=True, occurrences=1, random_seed=0,
                  location_cutoff_angle=0.0,
                  position_randomization_type=BioExplorer.POSITION_RANDOMIZATION_TYPE_CIRCULAR,
-                 orientation=[0, 0, 0, 1]):
+                 orientation=Quaternion()):
         self.assembly_name = assembly_name
         self.name = name
         self.content1 = contents[0]
@@ -1061,18 +1259,20 @@ class MembraneDescriptor(object):
         self.orientation = orientation
 
 
-class ProteinDescriptor(object):
+class Protein:
 
-    def __init__(self, assembly_name, name, contents, assembly_params, shape=BioExplorer.ASSEMBLY_SHAPE_PLANAR,
-                 atom_radius_multiplier=1, load_bonds=False, representation=BioExplorer.REPRESENTATION_ATOMS,
+    def __init__(self, assembly_name, name, source, assembly_params=Vector2(),
+                 shape=BioExplorer.ASSEMBLY_SHAPE_PLANAR, atom_radius_multiplier=1,
+                 load_bonds=False, representation=BioExplorer.REPRESENTATION_ATOMS,
                  load_non_polymer_chemicals=False, load_hydrogen=True,
                  chain_ids=list(), recenter=True, occurrences=1, random_seed=0,
                  location_cutoff_angle=0.0,
                  position_randomization_type=BioExplorer.POSITION_RANDOMIZATION_TYPE_CIRCULAR,
-                 position=[0, 0, 0], orientation=[0, 0, 0, 1], allowed_occurrences=list()):
+                 position=Vector3(), orientation=Quaternion(),
+                 allowed_occurrences=list()):
         self.assembly_name = assembly_name
         self.name = name
-        self.contents = contents
+        self.contents = ''.join(open(source).readlines())
         self.shape = shape
         self.assembly_params = assembly_params
         self.atom_radius_multiplier = atom_radius_multiplier
@@ -1091,11 +1291,12 @@ class ProteinDescriptor(object):
         self.orientation = orientation
 
 
-class SugarsDescriptor(object):
+class Sugars(object):
 
-    def __init__(self, assembly_name, name, contents, protein_name, atom_radius_multiplier=1.0, add_sticks=False,
-                 recenter=True, chain_ids=list(), site_indices=list(), allowed_occurrences=list(),
-                 orientation=[0, 0, 0, 1]):
+    def __init__(self, assembly_name, name, contents, protein_name,
+                 atom_radius_multiplier=1.0, add_sticks=False,
+                 recenter=True, chain_ids=list(), site_indices=list(),
+                 allowed_occurrences=list(), orientation=Quaternion()):
         self.assembly_name = assembly_name
         self.name = name
         self.contents = contents
@@ -1109,14 +1310,133 @@ class SugarsDescriptor(object):
         self.orientation = orientation
 
 
-class RNASequenceDescriptor(object):
+class RNASequence(object):
 
-    def __init__(self, assembly_name, name, contents, shape, assembly_params, t_range=None,
-                 shape_params=None):
+    def __init__(self, assembly_name, name, source, shape, assembly_params,
+                 t_range=None, shape_params=None):
         self.assembly_name = assembly_name
         self.name = name
-        self.contents = contents
+        self.contents = ''.join(open(source).readlines())
         self.shape = shape
         self.assembly_params = assembly_params
         self.t_range = t_range
         self.shape_params = shape_params
+
+
+class Surfactant(object):
+
+    def __init__(self, surfactant_protein, name, position, random_seed):
+        assert isinstance(position, Vector3)
+        self.surfactant_protein = surfactant_protein
+        self.name = name
+        self.position = position
+        self.random_seed = random_seed
+
+
+class Cell(object):
+
+    def __init__(self, name, size, shape, membrane, receptor,
+                 position=Vector3(), random_seed=0):
+        assert isinstance(position, Vector3)
+        assert isinstance(size, Vector2)
+        assert isinstance(membrane, Membrane)
+        assert isinstance(receptor, SurfaceReceptor)
+        self.name = name
+        self.position = position
+        self.shape = shape
+        self.size = size
+        self.membrane = membrane
+        self.receptor = receptor
+        self.random_seed = random_seed
+
+
+class Membrane:
+    """
+    A membrane is a selective barrier. It allows some things to pass through but stops others. Such things may be molecules, ions, or other small particles. Biological membranes include cell membranes (outer coverings of cells or organelles that allow passage of certain constituents)
+    """
+
+    def __init__(self, sources, number_of_instances):
+        """
+        Create a new Membrane instance
+
+        :param list sources: List of PDB filename containing the description of individual proteins of the membrane
+        :param int number_of_instances: Total number of instances of the proteins
+        """
+        self.sources = sources
+        self.number_of_instances = number_of_instances
+
+
+class SurfaceReceptor:
+    """
+    A Receptor is a chemical structure, composed of protein, that receive and transduce signals that may be integrated into biological systems
+    """
+
+    def __init__(self, source, number_of_instances,
+                 position=Vector3(), orientation=Quaternion()):
+        """
+        Create a new surface receptor instance
+
+        :param string source: PDB filename containing the description of the surface receptor protein
+        :param int number_of_instances: Total number of instances
+        :param floats position: x,y and z coordinates of the protein. Coordinates are relative to the surface
+        :param floats orientation: Quaternion defining the relative orientation of the protein on to the surface
+        """
+        assert isinstance(position, Vector3)
+        assert isinstance(orientation, Quaternion)
+        self.source = source
+        self.number_of_instances = number_of_instances
+        self.position = position
+        self.orientation = orientation
+
+
+class VirusProtein:
+
+    def __init__(self, sources, number_of_instances, assembly_params,
+                 load_bonds=False, load_hydrogen=False,
+                 load_non_polymer_chemicals=False, cutoff_angle=0.0, position=Vector3(),
+                 orientation=Quaternion(), instance_indices=list()):
+        assert isinstance(sources, list)
+        assert len(sources) > 0
+        assert isinstance(position, Vector3)
+        assert isinstance(orientation, Quaternion)
+        assert isinstance(instance_indices, list)
+        self.sources = sources
+        self.number_of_instances = number_of_instances
+        self.assembly_params = assembly_params
+        self.load_bonds = load_bonds
+        self.load_hydrogen = load_hydrogen
+        self.load_non_polymer_chemicals = load_non_polymer_chemicals
+        self.cutoff_angle = cutoff_angle
+        self.position = position
+        self.orientation = orientation
+        self.instance_indices = instance_indices
+
+
+class Virus:
+
+    def __init__(self, name, assembly_params, protein_s=None, protein_e=None, protein_m=None,
+                 membrane=None, transmembrane=None, rna_sequence=None,
+                 position=Vector3()):
+        assert isinstance(assembly_params, Vector2)
+        assert isinstance(position, Vector3)
+        if protein_s is not None:
+            assert isinstance(protein_s, VirusProtein)
+        if protein_e is not None:
+            assert isinstance(protein_e, VirusProtein)
+        if protein_m is not None:
+            assert isinstance(protein_m, VirusProtein)
+        if membrane is not None:
+            assert isinstance(membrane, Membrane)
+        if rna_sequence is not None:
+            assert isinstance(rna_sequence, RNASequence)
+        if transmembrane is not None:
+            assert isinstance(transmembrane, Mesh)
+        self.name = name
+        self.protein_s = protein_s
+        self.protein_e = protein_e
+        self.protein_m = protein_m
+        self.transmembrane = transmembrane
+        self.membrane = membrane
+        self.rna_sequence = rna_sequence
+        self.assembly_params = assembly_params
+        self.position = position

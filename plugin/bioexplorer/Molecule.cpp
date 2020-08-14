@@ -492,7 +492,7 @@ void Molecule::_setMaterialDiffuseColor(const size_t atomIndex,
         if (material)
         {
             material->setDiffuseColor(color);
-            material->commit();
+            material->markModified();
         }
     }
     catch (const std::runtime_error& e)

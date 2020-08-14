@@ -824,9 +824,11 @@ Response BioExplorer::_setMaterials(const MaterialsDescriptor &payload)
                                     MATERIAL_PROPERTY_USER_PARAMETER,
                                     static_cast<double>(
                                         payload.userParameters[id]));
-                            material->markModified(); // This is needed to apply
-                                                      // modifications
-                            material->commit();
+
+                            // This is needed to apply modifications. Changes to
+                            // the material will be committed after the
+                            // rendering of the current frame is completed
+                            material->markModified();
                         }
                     }
                     catch (const std::runtime_error &e)

@@ -377,7 +377,7 @@ ModelDescriptorPtr BioExplorerLoader::importFromFile(
     }
 
     file.close();
-    return nullptr;
+    return nullptr; // _scene.getModelDescriptors()[0]
 }
 
 std::string BioExplorerLoader::_readString(std::ifstream& f) const
@@ -733,15 +733,11 @@ void BioExplorerLoader::exportToXYZR(const std::string& filename) const
                     if (isClipped(c, clipPlanes))
                         continue;
 
-#if 0
-                    file << c.x << " " << c.y << " " << c.z << std::endl;
-#else
                     file.write((char*)&c.x, sizeof(float));
                     file.write((char*)&c.y, sizeof(float));
                     file.write((char*)&c.z, sizeof(float));
                     file.write((char*)&sphere.radius, sizeof(float));
                     file.write((char*)&sphere.radius, sizeof(float));
-#endif
                 }
             }
         }

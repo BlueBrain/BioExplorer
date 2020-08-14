@@ -20,11 +20,15 @@
 # 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 # All rights reserved. Do not distribute without further notice.
 
-from .bio_explorer import BioExplorer, MeshDescriptor, ProteinDescriptor, SugarsDescriptor, RNASequenceDescriptor, \
-    Transformation, MembraneDescriptor
+from .bio_explorer import BioExplorer, Mesh, Protein, Sugars, RNASequence, \
+    Transformation, Cell, Membrane, SurfaceReceptor, Surfactant, Virus, VirusProtein, \
+    Vector2, Vector3, Quaternion
 from .camera_path_handler import CameraPathHandler
 from .widgets import Widgets
 from .version import __version__
 
-__all__ = ['CameraPathHandler', 'Widgets', 'BioExplorer', 'MeshDescriptor', 'ProteinDescriptor', 'SugarsDescriptor',
-           'RNASequenceDescriptor', 'Transformation', 'MembraneDescriptor', '__version__']
+
+__all__ = ['CameraPathHandler', 'Widgets', 'BioExplorer', 'Mesh', 'Protein', 'Sugars',
+           'RNASequence', 'Transformation', 'Membrane', 'SurfaceReceptor', 'Surfactant',
+           'Cell', 'Vector2', 'Vector3', 'Quaternion', 'Virus', 'VirusProtein',
+           '__version__']
