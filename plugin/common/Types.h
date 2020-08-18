@@ -485,6 +485,18 @@ struct FrameExportProgress
     float progress;
 };
 
+// Fields
+struct VisualizeFields
+{
+    float voxelSize;
+    std::string filename;
+};
+
+struct ExportFieldsToFile
+{
+    std::string filename;
+};
+
 } // namespace bioexplorer
 
-#endif // COVID19_TYPES_H
+#endif // BIOEXPLORER_TYPES_H

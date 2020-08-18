@@ -21,6 +21,8 @@
 #include <plugin/bioexplorer/Assembly.h>
 #include <plugin/common/CommonTypes.h>
 #include <plugin/common/Logs.h>
+#include <plugin/common/Utils.h>
+#include <plugin/fields/FieldsHandler.h>
 #include <plugin/io/BioExplorerLoader.h>
 
 #include <brayns/common/ActionInterface.h>
@@ -62,9 +64,29 @@ void _addBioExplorerRenderer(brayns::Engine &engine)
     engine.addRendererType("bio_explorer", properties);
 }
 
+void _addBioExplorerFieldsRenderer(brayns::Engine &engine)
+{
+    PLUGIN_INFO << "Registering 'bio_explorer_fields' renderer" << std::endl;
+    brayns::PropertyMap properties;
+    properties.setProperty({"exposure", 1., 1., 10., {"Exposure"}});
+    //    properties.setProperty({"softnessEnabled", false, {"Softness"}});
+    //    properties.setProperty({"shadingEnabled", false, {"Shading"}});
+    //    properties.setProperty({"shadows", 0., 0., 1., {"Shadow intensity"}});
+    //    properties.setProperty({"softShadows", 0., 0., 1., {"Shadow
+    //    softness"}});
+    properties.setProperty({"useHardwareRandomizer",
+                            false,
+                            {"Use hardware accelerated randomizer"}});
+    properties.setProperty({"step", 0.1, 0.001, 10.0, {"Ray step"}});
+    properties.setProperty(
+        {"maxSteps", 64, 32, 2048, {"Maximum number of ray steps"}});
+    properties.setProperty({"cutoff", 250.0, 0.0, 2000.0, {"cutoff"}});
+    engine.addRendererType("bio_explorer_fields", properties);
+}
+
 void _addBioExplorerPerspectiveCamera(brayns::Engine &engine)
 {
-    PLUGIN_INFO << "Registering BioExplorer perspective camera" << std::endl;
+    PLUGIN_INFO << "Registering 'bio_explorer_perspective' camera" << std::endl;
 
     brayns::PropertyMap properties;
     properties.setProperty({"fovy", 45., .1, 360., {"Field of view"}});
@@ -234,11 +256,24 @@ void BioExplorer::init()
             "get-export-frames-progress", [&](void) -> FrameExportProgress {
                 return _getFrameExportProgress();
             });
+
+        PLUGIN_INFO << "Registering 'visualize-fields' endpoint" << std::endl;
+        actionInterface->registerRequest<VisualizeFields, Response>(
+            "visualize-fields",
+            [&](const VisualizeFields &s) { return _visualizeFields(s); });
+
+        PLUGIN_INFO << "Registering 'export-fields-to-file' endpoint"
+                    << std::endl;
+        actionInterface->registerRequest<ExportFieldsToFile, Response>(
+            "export-fields-to-file", [&](const ExportFieldsToFile &s) {
+                return _exportFieldsToFile(s);
+            });
     }
 
     auto &engine = _api->getEngine();
     _addBioExplorerPerspectiveCamera(engine);
     _addBioExplorerRenderer(engine);
+    _addBioExplorerFieldsRenderer(engine);
     //    _api->getParametersManager().getRenderingParameters().setCurrentRenderer(
     //        "bio_explorer");
 }
@@ -988,6 +1023,79 @@ FrameExportProgress BioExplorer::_getFrameExportProgress()
 
     result.progress = currentProgress / float(totalNumberOfFrames);
     return result;
+}
+
+Response BioExplorer::_visualizeFields(const VisualizeFields &payload)
+{
+    Response response;
+    try
+    {
+        PLUGIN_INFO << "Visualizing Fields" << std::endl;
+        auto &scene = _api->getScene();
+        FieldsHandlerPtr handler;
+        if (!payload.filename.empty())
+            handler = std::make_shared<FieldsHandler>(payload.filename);
+        else
+            handler = std::make_shared<FieldsHandler>(scene, payload.voxelSize);
+
+        auto model = scene.createModel();
+        const auto &spacing = Vector3f(handler->getSpacing());
+        const auto &size = Vector3f(handler->getDimensions()) * spacing;
+        const auto &offset = Vector3f(handler->getOffset());
+        const brayns::Vector3f center{(offset + size / 2.f)};
+
+        auto material = model->createMaterial(0, "default");
+        model->addSphere(0, {center,
+                             std::max(std::max(size.x, size.y), size.z) / 2.f});
+        ModelMetadata metadata;
+        metadata["Center"] = std::to_string(center.x) + "," +
+                             std::to_string(center.y) + "," +
+                             std::to_string(center.z);
+        metadata["Size"] = std::to_string(size.x) + "," +
+                           std::to_string(size.y) + "," +
+                           std::to_string(size.z);
+        metadata["Spacing"] = std::to_string(spacing.x) + "," +
+                              std::to_string(spacing.y) + "," +
+                              std::to_string(spacing.z);
+
+        model->setSimulationHandler(handler);
+        setTransferFunction(model->getTransferFunction());
+
+        auto modelDescriptor =
+            std::make_shared<ModelDescriptor>(std::move(model), "Fields",
+                                              metadata);
+        scene.addModel(modelDescriptor);
+    }
+    catch (const std::runtime_error &e)
+    {
+        response.status = false;
+        response.contents = e.what();
+    }
+    return response;
+} // namespace bioexplorer
+
+Response BioExplorer::_exportFieldsToFile(const ExportFieldsToFile &payload)
+{
+    Response response;
+    try
+    {
+        PLUGIN_INFO << "Exporting fields to " << payload.filename << std::endl;
+        const auto &scene = _api->getScene();
+        auto &modelDescriptor = scene.getModelDescriptors()[0];
+        auto handler = modelDescriptor->getModel().getSimulationHandler();
+        if (handler)
+        {
+            FieldsHandler *fieldsHandler =
+                dynamic_cast<FieldsHandler *>(handler.get());
+            fieldsHandler->exportToFile(payload.filename);
+        }
+    }
+    catch (const std::runtime_error &e)
+    {
+        response.status = false;
+        response.contents = e.what();
+    }
+    return response;
 }
 
 extern "C" ExtensionPlugin *brayns_plugin_create(int /*argc*/, char ** /*argv*/)

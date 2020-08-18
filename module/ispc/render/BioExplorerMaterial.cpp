@@ -105,5 +105,6 @@ void BioExplorerMaterial::commit()
 }
 
 OSP_REGISTER_MATERIAL(bio_explorer, BioExplorerMaterial, default);
+OSP_REGISTER_MATERIAL(bio_explorer_fields, BioExplorerMaterial, default);
 } // namespace obj
 } // namespace brayns

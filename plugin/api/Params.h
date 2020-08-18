@@ -75,5 +75,9 @@ std::string to_json(const CameraDefinition &param);
 bool from_json(ExportFramesToDisk &param, const std::string &payload);
 std::string to_json(const FrameExportProgress &exportProgress);
 
+// Fields
+bool from_json(VisualizeFields &param, const std::string &payload);
+bool from_json(ExportFieldsToFile &param, const std::string &payload);
+
 } // namespace bioexplorer
 #endif // BIOEXPLORER_PARAMS_H

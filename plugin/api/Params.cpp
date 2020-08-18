@@ -515,4 +515,34 @@ std::string to_json(const FrameExportProgress &exportProgress)
     return "";
 }
 
+// Fields
+bool from_json(VisualizeFields &param, const std::string &payload)
+{
+    try
+    {
+        auto js = nlohmann::json::parse(payload);
+        FROM_JSON(param, js, voxelSize);
+        FROM_JSON(param, js, filename);
+    }
+    catch (...)
+    {
+        return false;
+    }
+    return true;
+}
+
+bool from_json(ExportFieldsToFile &param, const std::string &payload)
+{
+    try
+    {
+        auto js = nlohmann::json::parse(payload);
+        FROM_JSON(param, js, filename);
+    }
+    catch (...)
+    {
+        return false;
+    }
+    return true;
+}
+
 } // namespace bioexplorer

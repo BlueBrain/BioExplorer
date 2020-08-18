@@ -16,29 +16,24 @@
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
 
-#ifndef BIOEXPLORER_RENDERER_H
-#define BIOEXPLORER_RENDERER_H
+#pragma once
 
 #include "BioExplorerMaterial.h"
 
 #include <ospray/SDK/render/Renderer.h>
 
-namespace BioExplorer
+namespace brayns
 {
-/**
- * @brief The BioExplorerRenderer class is a renderer that can
- * perform global illumination (light shading, shadows, ambient occlusion, color
- * bleeding, light emission)
- */
-class BioExplorerRenderer : public ospray::Renderer
+class BioExplorerFieldsRenderer : public ospray::Renderer
 {
 public:
-    BioExplorerRenderer();
+    BioExplorerFieldsRenderer();
 
     /**
+       Returns the class name as a string
        @return string containing the full name of the class
     */
-    std::string toString() const final { return "bio_explorer_renderer"; }
+    std::string toString() const final { return "bio_explorer_fields"; }
     void commit() final;
 
 private:
@@ -50,25 +45,22 @@ private:
     brayns::obj::BioExplorerMaterial* _bgMaterial;
 
     bool _useHardwareRandomizer{false};
-    bool _showBackground{false};
+    ospray::uint32 _randomNumber{0};
 
     float _timestamp{0.f};
     float _exposure{1.f};
 
-    float _fogThickness{1e6f};
-    float _fogStart{0.f};
-
-    ospray::uint32 _maxBounces{3};
-    ospray::uint32 _randomNumber{0};
-
     float _shadows{0.f};
     float _softShadows{0.f};
-    ospray::uint32 _softShadowsSamples{0};
 
-    float _giStrength{0.f};
-    float _giDistance{1e6f};
-    ospray::uint32 _giSamples{0};
+    bool _shadingEnabled{false};
+    bool _softnessEnabled{false};
+
+    // Octree
+    float _step;
+    ospray::uint32 _maxSteps;
+    float _cutoff;
+    ospray::Ref<ospray::Data> _userData;
+    ospray::uint64 _userDataSize;
 };
-} // namespace BioExplorer
-
-#endif // BIOEXPLORER_RENDERER_H
+} // namespace brayns

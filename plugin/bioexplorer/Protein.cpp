@@ -75,27 +75,6 @@ Protein::Protein(Scene& scene, const ProteinDescriptor& descriptor)
             sequence.second.numRes = sequence.second.resNames.size();
     }
 
-#if 0
-    // Update sequences
-    std::map<std::string, size_t> minSeqs;
-    for (const auto& atom : _atomMap)
-    {
-        if (minSeqs.find(atom.second.chainId) == minSeqs.end())
-            minSeqs[atom.second.chainId] = std::numeric_limits<size_t>::max();
-        minSeqs[atom.second.chainId] =
-            std::min(minSeqs[atom.second.chainId], atom.second.reqSeq);
-    }
-
-    for (const auto& minSeq : minSeqs)
-        if (_sequenceMap.find(minSeq.first) != _sequenceMap.end())
-        {
-            auto& sequence = _sequenceMap[minSeq.first];
-            for (size_t i = 1;
-                 i < minSeq.second && i < sequence.resNames.size(); ++i)
-                sequence.resNames.insert(sequence.resNames.begin(), ".");
-        }
-#endif
-
     auto model = scene.createModel();
 
     // Build 3d models according to atoms positions (re-centered to origin)

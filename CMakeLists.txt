@@ -35,7 +35,11 @@ set(${NAME}_SOURCES
     module/ispc/camera/BioExplorerPerspectiveCamera.cpp
     module/ispc/render/BioExplorerMaterial.cpp
     module/ispc/render/BioExplorerRenderer.cpp
+    module/ispc/render/BioExplorerFieldsRenderer.cpp
     plugin/common/Utils.cpp
+    plugin/fields/FieldsHandler.cpp
+    plugin/fields/Octree.cpp
+    plugin/fields/OctreeNode.cpp
     plugin/io/BioExplorerLoader.cpp
     plugin/bioexplorer/Molecule.cpp
     plugin/bioexplorer/Assembly.cpp
@@ -72,6 +76,7 @@ set(${NAME}_ISPC_SOURCES
     module/ispc/camera/BioExplorerPerspectiveCamera.ispc
     module/ispc/render/utils/BioExplorerSkyBox.ispc
     module/ispc/render/utils/BioExplorerRandomGenerator.ispc
+    module/ispc/render/BioExplorerFieldsRenderer.ispc
     module/ispc/render/BioExplorerRenderer.ispc
     module/ispc/render/BioExplorerMaterial.ispc
 )

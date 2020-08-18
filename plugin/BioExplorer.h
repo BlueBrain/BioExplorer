@@ -80,10 +80,15 @@ private:
     AssemblyMap _assemblies;
     bool _dirty{false};
 
+    // Movies
     ExportFramesToDisk _exportFramesToDiskPayload;
     bool _exportFramesToDiskDirty{false};
     uint16_t _frameNumber{0};
     int16_t _accumulationFrameNumber{0};
+
+    // Fields
+    Response _visualizeFields(const VisualizeFields &payload);
+    Response _exportFieldsToFile(const ExportFieldsToFile &payload);
 };
 } // namespace bioexplorer
 

@@ -149,6 +149,8 @@ void getFanPosition(const size_t rnd, const float assemblyRadius,
 void getBezierPosition(const Vector3fs& points, const float assemblyRadius,
                        const float t, Vector3f& pos, Vector3f& dir);
 
+void setTransferFunction(brayns::TransferFunction& tf);
+
 } // namespace bioexplorer
 
 #endif // BIOEXPLORER_UTILS_H

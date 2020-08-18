@@ -1047,6 +1047,38 @@ class BioExplorer(object):
             i += 1
             progress.value = i
 
+    def visualize_fields(self, voxel_size=0, filename=''):
+        """
+        Build fields acceleration structures and creates according data handler
+
+        :param float voxel_size: Voxel size
+        :param str filename: Octree filename
+        :return: Result of the request submission
+        :rtype: str
+        """
+        if self._client is None:
+            return
+
+        params = dict()
+        params['voxelSize'] = voxel_size
+        params['filename'] = filename
+        return self._client.rockets_client.request('visualize-fields', params)
+
+    def export_fields_to_file(self, filename):
+        """
+        Exports fields acceleration structures to file
+
+        :param str filename: Octree filename
+        :return: Result of the request submission
+        :rtype: str
+        """
+        if self._client is None:
+            return
+
+        params = dict()
+        params['filename'] = filename
+        return self._client.rockets_client.request('export-fields-to-file', params)
+
     def add_grid(self, min_value, max_value, interval, radius=1.0, opacity=0.5, show_axis=True, colored=True):
         """
         Adds a reference grid to the scene
