@@ -453,7 +453,8 @@ void Assembly::addRNASequence(const RNASequenceDescriptor &rnad)
     PLUGIN_INFO << "Range          : " << range << std::endl;
     PLUGIN_INFO << "Params         : " << params << std::endl;
 
-    _rnaSequence = RNASequencePtr(new RNASequence(_scene, rnad, range, params));
+    _rnaSequence =
+        RNASequencePtr(new RNASequence(_scene, rnad, range, params, _position));
     const auto modelDescriptor = _rnaSequence->getModelDescriptor();
     _scene.addModel(modelDescriptor);
 }

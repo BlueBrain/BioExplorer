@@ -22,7 +22,6 @@
 #include <plugin/common/CommonTypes.h>
 #include <plugin/common/Logs.h>
 #include <plugin/common/Utils.h>
-#include <plugin/fields/FieldsHandler.h>
 #include <plugin/io/BioExplorerLoader.h>
 
 #include <brayns/common/ActionInterface.h>
@@ -69,11 +68,6 @@ void _addBioExplorerFieldsRenderer(brayns::Engine &engine)
     PLUGIN_INFO << "Registering 'bio_explorer_fields' renderer" << std::endl;
     brayns::PropertyMap properties;
     properties.setProperty({"exposure", 1., 1., 10., {"Exposure"}});
-    //    properties.setProperty({"softnessEnabled", false, {"Softness"}});
-    //    properties.setProperty({"shadingEnabled", false, {"Shading"}});
-    //    properties.setProperty({"shadows", 0., 0., 1., {"Shadow intensity"}});
-    //    properties.setProperty({"softShadows", 0., 0., 1., {"Shadow
-    //    softness"}});
     properties.setProperty({"useHardwareRandomizer",
                             false,
                             {"Use hardware accelerated randomizer"}});
@@ -204,20 +198,14 @@ void BioExplorer::init()
             });
 
         PLUGIN_INFO << "Registering 'export-to-cache' endpoint" << std::endl;
-        actionInterface
-            ->registerRequest<LoaderExportToCacheDescriptor, Response>(
-                "export-to-cache",
-                [&](const LoaderExportToCacheDescriptor &payload) {
-                    return _exportToCache(payload);
-                });
+        actionInterface->registerRequest<FileAccess, Response>(
+            "export-to-cache",
+            [&](const FileAccess &payload) { return _exportToCache(payload); });
 
         PLUGIN_INFO << "Registering 'export-to-xyzr' endpoint" << std::endl;
-        actionInterface
-            ->registerRequest<LoaderExportToXYZRDescriptor, Response>(
-                "export-to-xyzr",
-                [&](const LoaderExportToXYZRDescriptor &payload) {
-                    return _exportToXYZR(payload);
-                });
+        actionInterface->registerRequest<FileAccess, Response>(
+            "export-to-xyzr",
+            [&](const FileAccess &payload) { return _exportToXYZR(payload); });
 
         PLUGIN_INFO << "Registering 'add-grid' endpoint" << std::endl;
         actionInterface->registerNotification<AddGrid>(
@@ -258,24 +246,27 @@ void BioExplorer::init()
             });
 
         PLUGIN_INFO << "Registering 'visualize-fields' endpoint" << std::endl;
-        actionInterface->registerRequest<VisualizeFields, Response>(
-            "visualize-fields",
-            [&](const VisualizeFields &s) { return _visualizeFields(s); });
+        actionInterface->registerRequest<BuildFields, Response>(
+            "build-fields",
+            [&](const BuildFields &s) { return _buildFields(s); });
 
         PLUGIN_INFO << "Registering 'export-fields-to-file' endpoint"
                     << std::endl;
-        actionInterface->registerRequest<ExportFieldsToFile, Response>(
-            "export-fields-to-file", [&](const ExportFieldsToFile &s) {
-                return _exportFieldsToFile(s);
-            });
+        actionInterface->registerRequest<ModelIdFileAccess, Response>(
+            "export-fields-to-file",
+            [&](const ModelIdFileAccess &s) { return _exportFieldsToFile(s); });
+
+        PLUGIN_INFO << "Registering 'import-fields-from-file' endpoint"
+                    << std::endl;
+        actionInterface->registerRequest<FileAccess, Response>(
+            "import-fields-from-file",
+            [&](const FileAccess &s) { return _importFieldsFromFile(s); });
     }
 
     auto &engine = _api->getEngine();
     _addBioExplorerPerspectiveCamera(engine);
     _addBioExplorerRenderer(engine);
     _addBioExplorerFieldsRenderer(engine);
-    //    _api->getParametersManager().getRenderingParameters().setCurrentRenderer(
-    //        "bio_explorer");
 }
 
 void BioExplorer::preRender()
@@ -593,8 +584,7 @@ Response BioExplorer::_addGlucoses(const SugarsDescriptor &payload) const
     return response;
 }
 
-Response BioExplorer::_exportToCache(
-    const LoaderExportToCacheDescriptor &payload)
+Response BioExplorer::_exportToCache(const FileAccess &payload)
 {
     Response response;
     try
@@ -611,7 +601,7 @@ Response BioExplorer::_exportToCache(
     return response;
 }
 
-Response BioExplorer::_exportToXYZR(const LoaderExportToXYZRDescriptor &payload)
+Response BioExplorer::_exportToXYZR(const FileAccess &payload)
 {
     Response response;
     try
@@ -676,6 +666,9 @@ Response BioExplorer::_addGrid(const AddGrid &payload)
         auto material = model->createMaterial(0, "x");
         material->setDiffuseColor(grey);
         material->setProperties(props);
+        const auto &position =
+            brayns::Vector3f(payload.position[0], payload.position[1],
+                             payload.position[2]);
 
         const float m = payload.minValue;
         const float M = payload.maxValue;
@@ -685,9 +678,15 @@ Response BioExplorer::_addGrid(const AddGrid &payload)
             for (float y = m; y <= M; y += s)
                 if (fabs(x) < 0.001f || fabs(y) < 0.001f)
                 {
-                    model->addCylinder(0, {{x, y, m}, {x, y, M}, r});
-                    model->addCylinder(0, {{m, x, y}, {M, x, y}, r});
-                    model->addCylinder(0, {{x, m, y}, {x, M, y}, r});
+                    model->addCylinder(0, {position + brayns::Vector3f(x, y, m),
+                                           position + brayns::Vector3f(x, y, M),
+                                           r});
+                    model->addCylinder(0, {position + brayns::Vector3f(m, x, y),
+                                           position + brayns::Vector3f(M, x, y),
+                                           r});
+                    model->addCylinder(0, {position + brayns::Vector3f(x, m, y),
+                                           position + brayns::Vector3f(x, M, y),
+                                           r});
                 }
 
         material = model->createMaterial(1, "plane_x");
@@ -695,10 +694,10 @@ Response BioExplorer::_addGrid(const AddGrid &payload)
         material->setOpacity(payload.planeOpacity);
         material->setProperties(props);
         auto &tmx = model->getTriangleMeshes()[1];
-        tmx.vertices.push_back({m, 0, m});
-        tmx.vertices.push_back({M, 0, m});
-        tmx.vertices.push_back({M, 0, M});
-        tmx.vertices.push_back({m, 0, M});
+        tmx.vertices.push_back(position + brayns::Vector3f(m, 0, m));
+        tmx.vertices.push_back(position + brayns::Vector3f(M, 0, m));
+        tmx.vertices.push_back(position + brayns::Vector3f(M, 0, M));
+        tmx.vertices.push_back(position + brayns::Vector3f(m, 0, M));
         tmx.indices.push_back(brayns::Vector3ui(0, 1, 2));
         tmx.indices.push_back(brayns::Vector3ui(2, 3, 0));
 
@@ -707,10 +706,10 @@ Response BioExplorer::_addGrid(const AddGrid &payload)
         material->setOpacity(payload.planeOpacity);
         material->setProperties(props);
         auto &tmy = model->getTriangleMeshes()[2];
-        tmy.vertices.push_back({m, m, 0});
-        tmy.vertices.push_back({M, m, 0});
-        tmy.vertices.push_back({M, M, 0});
-        tmy.vertices.push_back({m, M, 0});
+        tmy.vertices.push_back(position + brayns::Vector3f(m, m, 0));
+        tmy.vertices.push_back(position + brayns::Vector3f(M, m, 0));
+        tmy.vertices.push_back(position + brayns::Vector3f(M, M, 0));
+        tmy.vertices.push_back(position + brayns::Vector3f(m, M, 0));
         tmy.indices.push_back(brayns::Vector3ui(0, 1, 2));
         tmy.indices.push_back(brayns::Vector3ui(2, 3, 0));
 
@@ -719,10 +718,10 @@ Response BioExplorer::_addGrid(const AddGrid &payload)
         material->setOpacity(payload.planeOpacity);
         material->setProperties(props);
         auto &tmz = model->getTriangleMeshes()[3];
-        tmz.vertices.push_back({0, m, m});
-        tmz.vertices.push_back({0, m, M});
-        tmz.vertices.push_back({0, M, M});
-        tmz.vertices.push_back({0, M, m});
+        tmz.vertices.push_back(position + brayns::Vector3f(0, m, m));
+        tmz.vertices.push_back(position + brayns::Vector3f(0, m, M));
+        tmz.vertices.push_back(position + brayns::Vector3f(0, M, M));
+        tmz.vertices.push_back(position + brayns::Vector3f(0, M, m));
         tmz.indices.push_back(brayns::Vector3ui(0, 1, 2));
         tmz.indices.push_back(brayns::Vector3ui(2, 3, 0));
 
@@ -744,33 +743,48 @@ Response BioExplorer::_addGrid(const AddGrid &payload)
             material->setDiffuseColor({1, 0, 0});
             material->setProperties(props);
 
-            model->addCylinder(4, {{0, 0, 0}, {l1, 0, 0}, smallRadius});
-            model->addCone(4,
-                           {{l1, 0, 0}, {l2, 0, 0}, smallRadius, largeRadius});
-            model->addCone(4, {{l2, 0, 0}, {M, 0, 0}, largeRadius, 0});
+            model->addCylinder(4,
+                               {position, position + brayns::Vector3f(l1, 0, 0),
+                                smallRadius});
+            model->addCone(4, {position + brayns::Vector3f(l1, 0, 0),
+                               position + brayns::Vector3f(l2, 0, 0),
+                               smallRadius, largeRadius});
+            model->addCone(4, {position + brayns::Vector3f(l2, 0, 0),
+                               position + brayns::Vector3f(M, 0, 0),
+                               largeRadius, 0});
 
             // Y
             material = model->createMaterial(5, "y_axis");
             material->setDiffuseColor({0, 1, 0});
             material->setProperties(props);
 
-            model->addCylinder(5, {{0, 0, 0}, {0, l1, 0}, smallRadius});
-            model->addCone(5,
-                           {{0, l1, 0}, {0, l2, 0}, smallRadius, largeRadius});
-            model->addCone(5, {{0, l2, 0}, {0, M, 0}, largeRadius, 0});
+            model->addCylinder(5,
+                               {position, position + brayns::Vector3f(0, l1, 0),
+                                smallRadius});
+            model->addCone(5, {position + brayns::Vector3f(0, l1, 0),
+                               position + brayns::Vector3f(0, l2, 0),
+                               smallRadius, largeRadius});
+            model->addCone(5, {position + brayns::Vector3f(0, l2, 0),
+                               position + brayns::Vector3f(0, M, 0),
+                               largeRadius, 0});
 
             // Z
             material = model->createMaterial(6, "z_axis");
             material->setDiffuseColor({0, 0, 1});
             material->setProperties(props);
 
-            model->addCylinder(6, {{0, 0, 0}, {0, 0, l1}, smallRadius});
-            model->addCone(6,
-                           {{0, 0, l1}, {0, 0, l2}, smallRadius, largeRadius});
-            model->addCone(6, {{0, 0, l2}, {0, 0, M}, largeRadius, 0});
+            model->addCylinder(6,
+                               {position, position + brayns::Vector3f(0, 0, l1),
+                                smallRadius});
+            model->addCone(6, {position + brayns::Vector3f(0, 0, l1),
+                               position + brayns::Vector3f(0, 0, l2),
+                               smallRadius, largeRadius});
+            model->addCone(6, {position + brayns::Vector3f(0, 0, l2),
+                               position + brayns::Vector3f(0, 0, M),
+                               largeRadius, 0});
 
             // Origin
-            model->addSphere(0, {{0, 0, 0}, smallRadius});
+            model->addSphere(0, {position, smallRadius});
         }
 
         scene.addModel(
@@ -1025,46 +1039,46 @@ FrameExportProgress BioExplorer::_getFrameExportProgress()
     return result;
 }
 
-Response BioExplorer::_visualizeFields(const VisualizeFields &payload)
+void BioExplorer::_attachFieldsHandler(FieldsHandlerPtr handler)
+{
+    auto &scene = _api->getScene();
+    auto model = scene.createModel();
+    const auto &spacing = Vector3f(handler->getSpacing());
+    const auto &size = Vector3f(handler->getDimensions()) * spacing;
+    const auto &offset = Vector3f(handler->getOffset());
+    const brayns::Vector3f center{(offset + size / 2.f)};
+
+    auto material = model->createMaterial(0, "default");
+    model->addSphere(0, {center,
+                         std::max(std::max(size.x, size.y), size.z) / 2.f});
+    ModelMetadata metadata;
+    metadata["Center"] = std::to_string(center.x) + "," +
+                         std::to_string(center.y) + "," +
+                         std::to_string(center.z);
+    metadata["Size"] = std::to_string(size.x) + "," + std::to_string(size.y) +
+                       "," + std::to_string(size.z);
+    metadata["Spacing"] = std::to_string(spacing.x) + "," +
+                          std::to_string(spacing.y) + "," +
+                          std::to_string(spacing.z);
+
+    model->setSimulationHandler(handler);
+    setTransferFunction(model->getTransferFunction());
+
+    auto modelDescriptor =
+        std::make_shared<ModelDescriptor>(std::move(model), "Fields", metadata);
+    scene.addModel(modelDescriptor);
+}
+
+Response BioExplorer::_buildFields(const BuildFields &payload)
 {
     Response response;
     try
     {
-        PLUGIN_INFO << "Visualizing Fields" << std::endl;
+        PLUGIN_INFO << "Building Fields from scene" << std::endl;
         auto &scene = _api->getScene();
-        FieldsHandlerPtr handler;
-        if (!payload.filename.empty())
-            handler = std::make_shared<FieldsHandler>(payload.filename);
-        else
-            handler = std::make_shared<FieldsHandler>(scene, payload.voxelSize);
-
-        auto model = scene.createModel();
-        const auto &spacing = Vector3f(handler->getSpacing());
-        const auto &size = Vector3f(handler->getDimensions()) * spacing;
-        const auto &offset = Vector3f(handler->getOffset());
-        const brayns::Vector3f center{(offset + size / 2.f)};
-
-        auto material = model->createMaterial(0, "default");
-        model->addSphere(0, {center,
-                             std::max(std::max(size.x, size.y), size.z) / 2.f});
-        ModelMetadata metadata;
-        metadata["Center"] = std::to_string(center.x) + "," +
-                             std::to_string(center.y) + "," +
-                             std::to_string(center.z);
-        metadata["Size"] = std::to_string(size.x) + "," +
-                           std::to_string(size.y) + "," +
-                           std::to_string(size.z);
-        metadata["Spacing"] = std::to_string(spacing.x) + "," +
-                              std::to_string(spacing.y) + "," +
-                              std::to_string(spacing.z);
-
-        model->setSimulationHandler(handler);
-        setTransferFunction(model->getTransferFunction());
-
-        auto modelDescriptor =
-            std::make_shared<ModelDescriptor>(std::move(model), "Fields",
-                                              metadata);
-        scene.addModel(modelDescriptor);
+        FieldsHandlerPtr handler =
+            std::make_shared<FieldsHandler>(scene, payload.voxelSize);
+        _attachFieldsHandler(handler);
     }
     catch (const std::runtime_error &e)
     {
@@ -1072,23 +1086,47 @@ Response BioExplorer::_visualizeFields(const VisualizeFields &payload)
         response.contents = e.what();
     }
     return response;
-} // namespace bioexplorer
+}
 
-Response BioExplorer::_exportFieldsToFile(const ExportFieldsToFile &payload)
+Response BioExplorer::_importFieldsFromFile(const FileAccess &payload)
+{
+    Response response;
+    try
+    {
+        PLUGIN_INFO << "Importing Fields from " << payload.filename
+                    << std::endl;
+        FieldsHandlerPtr handler =
+            std::make_shared<FieldsHandler>(payload.filename);
+        _attachFieldsHandler(handler);
+    }
+    catch (const std::runtime_error &e)
+    {
+        response.status = false;
+        response.contents = e.what();
+    }
+    return response;
+}
+
+Response BioExplorer::_exportFieldsToFile(const ModelIdFileAccess &payload)
 {
     Response response;
     try
     {
         PLUGIN_INFO << "Exporting fields to " << payload.filename << std::endl;
         const auto &scene = _api->getScene();
-        auto &modelDescriptor = scene.getModelDescriptors()[0];
-        auto handler = modelDescriptor->getModel().getSimulationHandler();
-        if (handler)
+        auto modelDescriptor = scene.getModel(payload.modelId);
+        if (modelDescriptor)
         {
-            FieldsHandler *fieldsHandler =
-                dynamic_cast<FieldsHandler *>(handler.get());
-            fieldsHandler->exportToFile(payload.filename);
+            auto handler = modelDescriptor->getModel().getSimulationHandler();
+            if (handler)
+            {
+                FieldsHandler *fieldsHandler =
+                    dynamic_cast<FieldsHandler *>(handler.get());
+                fieldsHandler->exportToFile(payload.filename);
+            }
         }
+        else
+            PLUGIN_THROW(std::runtime_error("Unknown model ID"));
     }
     catch (const std::runtime_error &e)
     {

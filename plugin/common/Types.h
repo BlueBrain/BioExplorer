@@ -72,6 +72,7 @@ struct AssemblyDescriptor
 {
     std::string name;
     std::vector<float> position;
+    std::vector<float> orientation;
     std::vector<float> clippingPlanes;
 };
 
@@ -390,17 +391,6 @@ static RGBColorMap atomColorMap = {
     {"Mt", {0xEB, 0x00, 0x26}}, {"none", {0xFF, 0xFF, 0xFF}},
     {"O1", {0xFF, 0x0D, 0x0D}}, {"selection", {0xFF, 0x00, 0x00}}};
 
-// Loader
-struct LoaderExportToCacheDescriptor
-{
-    std::string filename;
-};
-
-struct LoaderExportToXYZRDescriptor
-{
-    std::string filename;
-};
-
 struct AddGrid
 {
     float minValue;
@@ -410,6 +400,7 @@ struct AddGrid
     float planeOpacity;
     bool showAxis;
     bool useColors;
+    std::vector<float> position;
 };
 
 // Color schemes and materials
@@ -486,13 +477,19 @@ struct FrameExportProgress
 };
 
 // Fields
-struct VisualizeFields
+struct BuildFields
 {
     float voxelSize;
+};
+
+// IO
+struct ModelIdFileAccess
+{
+    size_t modelId;
     std::string filename;
 };
 
-struct ExportFieldsToFile
+struct FileAccess
 {
     std::string filename;
 };

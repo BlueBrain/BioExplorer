@@ -20,6 +20,7 @@
 #define BIOEXPLORER_PLUGIN_H
 
 #include <plugin/api/Params.h>
+#include <plugin/fields/FieldsHandler.h>
 
 #include <brayns/pluginapi/ExtensionPlugin.h>
 
@@ -41,8 +42,8 @@ private:
     Response _version() const;
 
     // IO
-    Response _exportToCache(const LoaderExportToCacheDescriptor &payload);
-    Response _exportToXYZR(const LoaderExportToXYZRDescriptor &payload);
+    Response _exportToCache(const FileAccess &payload);
+    Response _exportToXYZR(const FileAccess &payload);
 
     // Movie and frames
     void _setCamera(const CameraDefinition &);
@@ -87,8 +88,10 @@ private:
     int16_t _accumulationFrameNumber{0};
 
     // Fields
-    Response _visualizeFields(const VisualizeFields &payload);
-    Response _exportFieldsToFile(const ExportFieldsToFile &payload);
+    void _attachFieldsHandler(FieldsHandlerPtr handler);
+    Response _buildFields(const BuildFields &payload);
+    Response _exportFieldsToFile(const ModelIdFileAccess &payload);
+    Response _importFieldsFromFile(const FileAccess &payload);
 };
 } // namespace bioexplorer
 

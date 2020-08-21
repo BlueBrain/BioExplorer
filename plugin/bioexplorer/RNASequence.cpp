@@ -42,7 +42,8 @@ CondonMap codonMap{{'A', {0, "Adenine", {0.f, 0.f, 1.f}}},
 
 RNASequence::RNASequence(Scene& scene, const RNASequenceDescriptor& rd,
                          const Vector2f& range = {0.f, 2.f * M_PI},
-                         const Vector3f& params = {1.f, 1.f, 1.f})
+                         const Vector3f& params = {1.f, 1.f, 1.f},
+                         const Vector3f& position = Vector3f())
     : Node()
 {
     const auto& sequence = rd.contents;
@@ -148,12 +149,13 @@ RNASequence::RNASequence(Scene& scene, const RNASequenceDescriptor& rd,
             const auto& codon = codonMap[letter];
             const auto materialId = codon.index;
             const auto radius = rd.assemblyParams[1];
-            model->addCylinder(materialId, {src, dst, radius});
+            model->addCylinder(materialId,
+                               {position + src, position + dst, radius});
 
             if (elementId == 0)
-                model->addSphere(materialId, {src, radius});
+                model->addSphere(materialId, {position + src, radius});
             if (elementId == nbElements - 1)
-                model->addSphere(materialId, {dst, radius});
+                model->addSphere(materialId, {position + dst, radius});
 
             if (elementId == nbElements)
                 break;

@@ -23,8 +23,7 @@ Clone the repository and install it:
 >>> from brayns import Client
 >>> from bioexplorer import BioExplorer
 
->>> brayns = Client('localhost:8200')
->>> bio_explorer = BioExplorer(brayns)
+>>> bio_explorer = BioExplorer('localhost:8200')
 ```
 
 # Upload to pypi

@@ -22,7 +22,6 @@
 
 """BioExplorer widgets"""
 
-from brayns import CircuitExplorer
 from ipywidgets import FloatSlider, Select, HBox, VBox, Layout, Button, SelectMultiple, \
     IntProgress, Checkbox, FloatText, IntText, ColorPicker, IntSlider, Label
 import seaborn as sns
@@ -70,7 +69,6 @@ class Widgets:
         self._client = bioexplorer.get_client()
 
     def display_focal_distance(self):
-
         x_slider = FloatSlider(description='X', min=0, max=1, value=0.5)
         y_slider = FloatSlider(description='Y', min=0, max=1, value=0.5)
         a_slider = FloatSlider(description='Aperture', min=0, max=1, value=0)
@@ -419,9 +417,6 @@ class Widgets:
         self._client.set_application_parameters(image_stream_fps=20)
 
     def __display_advanced_settings(self, object_type):
-
-        default_layout = Layout(width='50%', height='24px', display='flex', flex_flow='row')
-        style = {'description_width': 'initial', 'handle_color': 'gray'}
 
         class_name = None
         if object_type == 'camera':

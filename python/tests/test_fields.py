@@ -20,52 +20,38 @@
 # 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 # All rights reserved. Do not distribute without further notice.
 
-from bioexplorer import BioExplorer, Cell, Membrane, Protein, Vector2, Vector3
+from bioexplorer import BioExplorer
 
-def test_cell():
-    resource_folder = 'test_files/'
-    pdb_folder = resource_folder + 'pdb/'
+
+def test_fields():
+    import os
+    resource_folder = os.getcwd() + '/test_files/'
+    fields_folder = resource_folder + 'fields/'
 
     be = BioExplorer('localhost:5000')
     be.reset()
     print('BioExplorer version ' + be.version())
 
     ''' Suspend image streaming '''
-    be.get_client().set_application_parameters(image_stream_fps=0)
-    be.get_client().set_camera(
-        orientation=[0.0, 0.0, 0.0, 1.0], position=[0, 0, 200], target=[0, 0, 0])
+    be.core_api().set_application_parameters(image_stream_fps=0)
 
-    ''' Proteins '''
-    protein_representation = be.REPRESENTATION_ATOMS
+    ''' Import from file '''
+    be.import_fields_from_file(fields_folder + 'protein.fields')
 
-    ''' Membrane parameters '''
-    membrane_size = 800
-    membrane_height = 80
-
-    ''' ACE2 Receptor '''
-    ace2_receptor = Protein(
-        sources=[pdb_folder + '6m1d.pdb'],
-        number_of_instances=20,
-        position=Vector3(0.0, 6.0, 0.0))
-
-    membrane = Membrane(
-        sources=[pdb_folder + 'membrane/popc.pdb'],
-        number_of_instances=400000)
-
-    cell = Cell(
-        name='Cell',
-        size=Vector2(membrane_size, membrane_height),
-        shape=be.ASSEMBLY_SHAPE_SINUSOIDAL,
-        membrane=membrane, receptor=ace2_receptor)
-
-    be.add_cell(
-        cell=cell, position=Vector3(4.5, -186, 7.0),
-        representation=protein_representation)
+    ''' Virus '''
+    be.core_api().set_renderer(current='bio_explorer_fields', samples_per_pixel=1, subsampling=8, max_accum_frames=8)
+    params = be.core_api().BioExplorerFieldsRendererParams()
+    params.cutoff = 2000
+    params.max_steps = 2048
+    params.threshold = 0.05
+    params.step = 2.0
+    be.core_api().set_renderer_params(params)
 
     ''' Restore image streaming '''
-    be.get_client().set_application_parameters(image_stream_fps=20)
+    be.core_api().set_application_parameters(image_stream_fps=20)
 
 
 if __name__ == '__main__':
     import nose
+
     nose.run(defaultTest=__name__)

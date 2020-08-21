@@ -20,11 +20,12 @@
 # 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 # All rights reserved. Do not distribute without further notice.
 
-from bioexplorer import BioExplorer, Cell, Membrane, Protein, Vector2, Vector3
+from bioexplorer import BioExplorer, Surfactant, Vector3
 
-def test_cell():
+
+def test_surfactant():
     resource_folder = 'test_files/'
-    pdb_folder = resource_folder + 'pdb/'
+    pdb_folder = resource_folder + 'pdb/surfactant/'
 
     be = BioExplorer('localhost:5000')
     be.reset()
@@ -38,29 +39,36 @@ def test_cell():
     ''' Proteins '''
     protein_representation = be.REPRESENTATION_ATOMS
 
-    ''' Membrane parameters '''
-    membrane_size = 800
-    membrane_height = 80
+    head_source = pdb_folder + '1pw9.pdb'
+    branch_source = pdb_folder + '1k6f.pdb'
 
-    ''' ACE2 Receptor '''
-    ace2_receptor = Protein(
-        sources=[pdb_folder + '6m1d.pdb'],
-        number_of_instances=20,
-        position=Vector3(0.0, 6.0, 0.0))
+    ''' SP-D '''
+    surfactant_d = Surfactant(
+        name='SP-D',
+        surfactant_protein=be.SURFACTANT_PROTEIN_D,
+        head_source=head_source,
+        branch_source=branch_source
+    )
 
-    membrane = Membrane(
-        sources=[pdb_folder + 'membrane/popc.pdb'],
-        number_of_instances=400000)
+    be.add_surfactant(
+        surfactant=surfactant_d,
+        representation=protein_representation,
+        position=Vector3(-50, 0, 0), random_seed=10
+    )
 
-    cell = Cell(
-        name='Cell',
-        size=Vector2(membrane_size, membrane_height),
-        shape=be.ASSEMBLY_SHAPE_SINUSOIDAL,
-        membrane=membrane, receptor=ace2_receptor)
+    ''' SP-A '''
+    surfactant_a = Surfactant(
+        name='SP-A',
+        surfactant_protein=be.SURFACTANT_PROTEIN_A,
+        head_source=head_source,
+        branch_source=branch_source
+    )
 
-    be.add_cell(
-        cell=cell, position=Vector3(4.5, -186, 7.0),
-        representation=protein_representation)
+    be.add_surfactant(
+        surfactant=surfactant_a,
+        representation=protein_representation,
+        position=Vector3(50, 0, 0)
+    )
 
     ''' Restore image streaming '''
     be.get_client().set_application_parameters(image_stream_fps=20)

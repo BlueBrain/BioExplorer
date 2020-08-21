@@ -20,9 +20,10 @@
 # 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 # All rights reserved. Do not distribute without further notice.
 
-from bioexplorer import BioExplorer, Cell, Membrane, Protein, Vector2, Vector3
+from bioexplorer import BioExplorer, Protein, Surfactant, Vector3, Quaternion
 
-def test_cell():
+
+def test_layout():
     resource_folder = 'test_files/'
     pdb_folder = resource_folder + 'pdb/'
 
@@ -31,41 +32,34 @@ def test_cell():
     print('BioExplorer version ' + be.version())
 
     ''' Suspend image streaming '''
-    be.get_client().set_application_parameters(image_stream_fps=0)
-    be.get_client().set_camera(
-        orientation=[0.0, 0.0, 0.0, 1.0], position=[0, 0, 200], target=[0, 0, 0])
+    be.core_api().set_application_parameters(image_stream_fps=0)
 
-    ''' Proteins '''
-    protein_representation = be.REPRESENTATION_ATOMS
+    line_surfactant = 5
+    line_virus = 25
+    line_defense = 45
 
-    ''' Membrane parameters '''
-    membrane_size = 800
-    membrane_height = 80
+    ''' Camera '''
+    brayns = be.core_api()
+    brayns.set_camera(
+        current='orthographic',
+        orientation=[0.0, 0.0, 0.0, 1.0],
+        position=[23.927943790322814, 24.84577580212592, 260.43975983632527],
+        target=[23.927943790322814, 24.84577580212592, 39.93749999999999]
+    )
+    params = brayns.OrthographicCameraParams()
+    params.height = 55
+    brayns.set_camera_params(params)
 
     ''' ACE2 Receptor '''
-    ace2_receptor = Protein(
-        sources=[pdb_folder + '6m1d.pdb'],
-        number_of_instances=20,
-        position=Vector3(0.0, 6.0, 0.0))
-
-    membrane = Membrane(
-        sources=[pdb_folder + 'membrane/popc.pdb'],
-        number_of_instances=400000)
-
-    cell = Cell(
-        name='Cell',
-        size=Vector2(membrane_size, membrane_height),
-        shape=be.ASSEMBLY_SHAPE_SINUSOIDAL,
-        membrane=membrane, receptor=ace2_receptor)
-
-    be.add_cell(
-        cell=cell, position=Vector3(4.5, -186, 7.0),
-        representation=protein_representation)
+    ace2_receptor = Protein(sources=[pdb_folder + '6m1d.pdb'])
+    be.add_protein('ACE2 receptor', ace2_receptor,
+                   orientation=Quaternion(0.5, 0.5, 1.0, 0.0))
 
     ''' Restore image streaming '''
-    be.get_client().set_application_parameters(image_stream_fps=20)
+    be.core_api().set_application_parameters(image_stream_fps=20)
 
 
 if __name__ == '__main__':
     import nose
+
     nose.run(defaultTest=__name__)

@@ -43,8 +43,8 @@ FieldsHandler::FieldsHandler(const brayns::Scene& scene, const float voxelSize)
 FieldsHandler::FieldsHandler(const std::string& filename)
     : brayns::AbstractSimulationHandler()
 {
-    // Load simulation information from compartment reports
-    importToFile(filename);
+    // Import octree from file
+    importFromFile(filename);
     _dt = 1.f;
     _nbFrames = 1;
     _unit = "microns";
@@ -189,7 +189,7 @@ void FieldsHandler::exportToFile(const std::string& filename)
     std::ofstream file(filename, std::ios::out | std::ios::binary);
     if (!file.good())
     {
-        const std::string msg = "Could not octree file " + filename;
+        const std::string msg = "Could not export octree to " + filename;
         PLUGIN_THROW(std::runtime_error(msg));
     }
 
@@ -199,13 +199,13 @@ void FieldsHandler::exportToFile(const std::string& filename)
     file.close();
 }
 
-void FieldsHandler::importToFile(const std::string& filename)
+void FieldsHandler::importFromFile(const std::string& filename)
 {
     PLUGIN_INFO << "Loading octree from file: " << filename << std::endl;
     std::ifstream file(filename, std::ios::in | std::ios::binary);
     if (!file.good())
     {
-        const std::string msg = "Could not octree file " + filename;
+        const std::string msg = "Could not import octree from " + filename;
         PLUGIN_THROW(std::runtime_error(msg));
     }
 

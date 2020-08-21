@@ -80,6 +80,7 @@ std::string to_json(const AssemblyDescriptor &payload)
 
         TO_JSON(payload, js, name);
         TO_JSON(payload, js, position);
+        TO_JSON(payload, js, orientation);
         TO_JSON(payload, js, clippingPlanes);
         return js.dump();
     }
@@ -341,34 +342,6 @@ bool from_json(MeshDescriptor &param, const std::string &payload)
     return true;
 }
 
-bool from_json(LoaderExportToCacheDescriptor &param, const std::string &payload)
-{
-    try
-    {
-        auto js = nlohmann::json::parse(payload);
-        FROM_JSON(param, js, filename);
-    }
-    catch (...)
-    {
-        return false;
-    }
-    return true;
-}
-
-bool from_json(LoaderExportToXYZRDescriptor &param, const std::string &payload)
-{
-    try
-    {
-        auto js = nlohmann::json::parse(payload);
-        FROM_JSON(param, js, filename);
-    }
-    catch (...)
-    {
-        return false;
-    }
-    return true;
-}
-
 bool from_json(AddGrid &param, const std::string &payload)
 {
     try
@@ -381,6 +354,7 @@ bool from_json(AddGrid &param, const std::string &payload)
         FROM_JSON(param, js, planeOpacity);
         FROM_JSON(param, js, showAxis);
         FROM_JSON(param, js, useColors);
+        FROM_JSON(param, js, position);
     }
     catch (...)
     {
@@ -516,12 +490,25 @@ std::string to_json(const FrameExportProgress &exportProgress)
 }
 
 // Fields
-bool from_json(VisualizeFields &param, const std::string &payload)
+bool from_json(BuildFields &param, const std::string &payload)
 {
     try
     {
         auto js = nlohmann::json::parse(payload);
         FROM_JSON(param, js, voxelSize);
+    }
+    catch (...)
+    {
+        return false;
+    }
+    return true;
+}
+
+bool from_json(FileAccess &param, const std::string &payload)
+{
+    try
+    {
+        auto js = nlohmann::json::parse(payload);
         FROM_JSON(param, js, filename);
     }
     catch (...)
@@ -531,11 +518,12 @@ bool from_json(VisualizeFields &param, const std::string &payload)
     return true;
 }
 
-bool from_json(ExportFieldsToFile &param, const std::string &payload)
+bool from_json(ModelIdFileAccess &param, const std::string &payload)
 {
     try
     {
         auto js = nlohmann::json::parse(payload);
+        FROM_JSON(param, js, modelId);
         FROM_JSON(param, js, filename);
     }
     catch (...)

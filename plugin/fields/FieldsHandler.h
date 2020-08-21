@@ -50,7 +50,7 @@ public:
     brayns::AbstractSimulationHandlerPtr clone() const final;
 
     void exportToFile(const std::string& filename);
-    void importToFile(const std::string& filename);
+    void importFromFile(const std::string& filename);
 
     const glm::uvec3& getDimensions() const { return _dimensions; }
     const glm::vec3& getSpacing() const { return _spacing; }

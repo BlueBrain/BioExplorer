@@ -31,7 +31,8 @@ class RNASequence : public Node
 {
 public:
     RNASequence(Scene& scene, const RNASequenceDescriptor& rnaDescriptor,
-                const Vector2f& range, const Vector3f& params);
+                const Vector2f& range, const Vector3f& params,
+                const Vector3f& position);
 
     // Class member accessors
     RNASequenceMap getRNASequences() { return _rnaSequenceMap; }
