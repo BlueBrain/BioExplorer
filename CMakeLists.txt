@@ -25,8 +25,13 @@ find_package(Brayns REQUIRED)
 find_package(ospray REQUIRED SYSTEM)
 find_package(Boost REQUIRED COMPONENTS program_options filesystem)
 find_package(glm REQUIRED SYSTEM)
-find_package(CGAL REQUIRED)
+find_package(CGAL)
+
 include(ispc)
+
+configure_file( plugin/common/Defines.h.in ${CMAKE_BINARY_DIR}/generated/Defines.h )
+include_directories( ${CMAKE_BINARY_DIR}/generated/ ) # Make sure it can be included...
+
 
 # ==============================================================================
 # Sources

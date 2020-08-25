@@ -26,6 +26,7 @@
 #include <brayns/engineapi/Material.h>
 #include <brayns/engineapi/Model.h>
 
+#ifdef USE_CGAL
 #include <CGAL/Exact_predicates_inexact_constructions_kernel.h>
 #include <CGAL/Polyhedron_3.h>
 #include <CGAL/Random.h>
@@ -37,6 +38,7 @@ typedef CGAL::Polyhedron_3<K> Polyhedron_3;
 typedef K::Point_3 Point_3;
 typedef K::Segment_3 Segment_3;
 typedef K::Triangle_3 Triangle_3;
+#endif
 
 namespace bioexplorer
 {
@@ -44,6 +46,7 @@ PointCloudMesher::PointCloudMesher() {}
 
 bool PointCloudMesher::toConvexHull(Model& model, const PointCloud& pointCloud)
 {
+#ifdef USE_CGAL
     bool addModel{false};
     for (const auto& point : pointCloud)
     {
@@ -82,6 +85,9 @@ bool PointCloudMesher::toConvexHull(Model& model, const PointCloud& pointCloud)
             PLUGIN_ERROR << "something else" << std::endl;
     }
     return addModel;
+#else
+    return false;
+#endif
 }
 
 bool PointCloudMesher::toMetaballs(brayns::Model& model,

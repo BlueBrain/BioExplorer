@@ -19,6 +19,7 @@
 #ifndef BIOEXPLORER_TYPES_H
 #define BIOEXPLORER_TYPES_H
 
+#include <Defines.h>
 #include <brayns/engineapi/Scene.h>
 
 #include <map>
