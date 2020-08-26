@@ -823,6 +823,8 @@ Response BioExplorer::_setMaterials(const MaterialsDescriptor &payload)
         auto &scene = _api->getScene();
         for (const auto modelId : payload.modelIds)
         {
+            PLUGIN_INFO << "Modifying materials on model " << modelId
+                        << std::endl;
             auto modelDescriptor = scene.getModel(modelId);
             if (modelDescriptor)
             {

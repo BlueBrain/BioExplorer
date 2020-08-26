@@ -22,27 +22,25 @@
 
 from bioexplorer import BioExplorer, Cell, Membrane, Protein, Vector2, Vector3
 
+
 def test_cell():
     resource_folder = 'test_files/'
     pdb_folder = resource_folder + 'pdb/'
 
     be = BioExplorer('localhost:5000')
     be.reset()
-    print('BioExplorer version ' + be.version())
 
-    ''' Suspend image streaming '''
-    be.get_client().set_application_parameters(image_stream_fps=0)
-    be.get_client().set_camera(
-        orientation=[0.0, 0.0, 0.0, 1.0], position=[0, 0, 200], target=[0, 0, 0])
+    # Suspend image streaming
+    be.core_api().set_application_parameters(image_stream_fps=0)
 
-    ''' Proteins '''
+    # Proteins
     protein_representation = be.REPRESENTATION_ATOMS
 
-    ''' Membrane parameters '''
+    # Membrane parameters
     membrane_size = 800
     membrane_height = 80
 
-    ''' ACE2 Receptor '''
+    # ACE2 Receptor
     ace2_receptor = Protein(
         sources=[pdb_folder + '6m1d.pdb'],
         number_of_instances=20,
@@ -62,8 +60,16 @@ def test_cell():
         cell=cell, position=Vector3(4.5, -186, 7.0),
         representation=protein_representation)
 
-    ''' Restore image streaming '''
-    be.get_client().set_application_parameters(image_stream_fps=20)
+    # Set rendering settings
+    be.core_api().set_renderer(background_color=[96 / 255, 125 / 255, 139 / 255], current='bio_explorer',
+                               samples_per_pixel=1, subsampling=4, max_accum_frames=64)
+    params = be.core_api().BioExplorerRendererParams()
+    params.shadows = 0.75
+    params.soft_shadows = 1.0
+    be.core_api().set_renderer_params(params)
+
+    # Restore image streaming
+    be.core_api().set_application_parameters(image_stream_fps=20)
 
 
 if __name__ == '__main__':

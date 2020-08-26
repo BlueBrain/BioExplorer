@@ -32,8 +32,8 @@ def test_surfactant():
     print('BioExplorer version ' + be.version())
 
     ''' Suspend image streaming '''
-    be.get_client().set_application_parameters(image_stream_fps=0)
-    be.get_client().set_camera(
+    be.core_api().set_application_parameters(image_stream_fps=0)
+    be.core_api().set_camera(
         orientation=[0.0, 0.0, 0.0, 1.0], position=[0, 0, 200], target=[0, 0, 0])
 
     ''' Proteins '''
@@ -43,37 +43,21 @@ def test_surfactant():
     branch_source = pdb_folder + '1k6f.pdb'
 
     ''' SP-D '''
-    surfactant_d = Surfactant(
-        name='SP-D',
-        surfactant_protein=be.SURFACTANT_PROTEIN_D,
-        head_source=head_source,
-        branch_source=branch_source
-    )
-
-    be.add_surfactant(
-        surfactant=surfactant_d,
-        representation=protein_representation,
-        position=Vector3(-50, 0, 0), random_seed=10
-    )
+    surfactant_d = Surfactant(name='SP-D', surfactant_protein=be.SURFACTANT_PROTEIN_D, head_source=head_source,
+                              branch_source=branch_source)
+    be.add_surfactant(surfactant=surfactant_d, representation=protein_representation, position=Vector3(-50, 0, 0),
+                      random_seed=10)
 
     ''' SP-A '''
-    surfactant_a = Surfactant(
-        name='SP-A',
-        surfactant_protein=be.SURFACTANT_PROTEIN_A,
-        head_source=head_source,
-        branch_source=branch_source
-    )
-
-    be.add_surfactant(
-        surfactant=surfactant_a,
-        representation=protein_representation,
-        position=Vector3(50, 0, 0)
-    )
+    surfactant_a = Surfactant(name='SP-A', surfactant_protein=be.SURFACTANT_PROTEIN_A, head_source=head_source,
+                              branch_source=branch_source)
+    be.add_surfactant(surfactant=surfactant_a, representation=protein_representation, position=Vector3(50, 0, 0))
 
     ''' Restore image streaming '''
-    be.get_client().set_application_parameters(image_stream_fps=20)
+    be.core_api().set_application_parameters(image_stream_fps=20)
 
 
 if __name__ == '__main__':
     import nose
+
     nose.run(defaultTest=__name__)

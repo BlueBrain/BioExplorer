@@ -32,7 +32,7 @@ def test_glucose():
     print('BioExplorer version ' + be.version())
 
     ''' Suspend image streaming '''
-    be.get_client().set_application_parameters(image_stream_fps=0)
+    be.core_api().set_application_parameters(image_stream_fps=0)
 
     ''' Proteins '''
     glycan_radius_multiplier = 1.0
@@ -63,7 +63,7 @@ def test_glucose():
     )
 
     ''' Restore image streaming '''
-    be.get_client().set_application_parameters(image_stream_fps=20)
+    be.core_api().set_application_parameters(image_stream_fps=20)
 
 
 if __name__ == '__main__':

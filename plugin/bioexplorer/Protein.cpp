@@ -332,7 +332,7 @@ void Protein::_setGlycosylationSiteColorScheme(const Palette& palette)
     for (const auto& atom : _atomMap)
     {
         const size_t index = static_cast<size_t>(atom.second.chainId[0]) - 63;
-        _setMaterialDiffuseColor(atom.first, palette[index]);
+        _setMaterialDiffuseColor(atom.first, palette[0]);
     }
 
     const auto sites = getGlycosylationSites({});
@@ -342,7 +342,7 @@ void Protein::_setGlycosylationSiteColorScheme(const Palette& palette)
             for (const auto& atom : _atomMap)
                 if (atom.second.chainId == chain.first &&
                     atom.second.reqSeq == site)
-                    _setMaterialDiffuseColor(atom.first, palette[0]);
+                    _setMaterialDiffuseColor(atom.first, palette[1]);
 
     PLUGIN_INFO << "Applying Glycosylation Site color scheme ("
                 << (sites.size() > 0 ? "2" : "1") << ")" << std::endl;

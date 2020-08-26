@@ -32,14 +32,14 @@ def test_layout():
     print('BioExplorer version ' + be.version())
 
     ''' Suspend image streaming '''
-    be.get_client().set_application_parameters(image_stream_fps=0)
+    be.core_api().set_application_parameters(image_stream_fps=0)
 
     line_surfactant = 5
     line_virus = 25
     line_defense = 45
 
     ''' Camera '''
-    brayns = be.get_client()
+    brayns = be.core_api()
     brayns.set_camera(
         current='orthographic',
         orientation=[0.0, 0.0, 0.0, 1.0],
@@ -115,7 +115,7 @@ def test_layout():
     be.add_surfactant(surfactant=surfactant_d, position=Vector3(5, line_surfactant, 0))
 
     ''' Restore image streaming '''
-    be.get_client().set_application_parameters(image_stream_fps=20)
+    be.core_api().set_application_parameters(image_stream_fps=20)
 
 
 if __name__ == '__main__':

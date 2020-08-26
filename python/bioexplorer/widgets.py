@@ -66,7 +66,7 @@ class Widgets:
 
     def __init__(self, bioexplorer):
         self._be = bioexplorer
-        self._client = bioexplorer.get_client()
+        self._client = bioexplorer.core_api()
 
     def display_focal_distance(self):
         x_slider = FloatSlider(description='X', min=0, max=1, value=0.5)

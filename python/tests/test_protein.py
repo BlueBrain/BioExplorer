@@ -20,7 +20,7 @@
 # 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 # All rights reserved. Do not distribute without further notice.
 
-from bioexplorer import BioExplorer, Protein, Surfactant, Vector3, Quaternion
+from bioexplorer import BioExplorer, Protein, Quaternion
 
 
 def test_layout():
@@ -33,10 +33,6 @@ def test_layout():
 
     ''' Suspend image streaming '''
     be.core_api().set_application_parameters(image_stream_fps=0)
-
-    line_surfactant = 5
-    line_virus = 25
-    line_defense = 45
 
     ''' Camera '''
     brayns = be.core_api()
