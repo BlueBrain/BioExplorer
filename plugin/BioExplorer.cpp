@@ -1140,8 +1140,30 @@ Response BioExplorer::_exportFieldsToFile(const ModelIdFileAccess &payload)
 
 extern "C" ExtensionPlugin *brayns_plugin_create(int /*argc*/, char ** /*argv*/)
 {
+    PLUGIN_INFO << " _|_|_|    _|            _|_|_|_|                      _|  "
+                   "                                      "
+                << std::endl;
+    PLUGIN_INFO << " _|    _|        _|_|    _|        _|    _|  _|_|_|    _|  "
+                   "  _|_|    _|  _|_|    _|_|    _|  _|_|"
+                << std::endl;
+    PLUGIN_INFO << " _|_|_|    _|  _|    _|  _|_|_|      _|_|    _|    _|  _|  "
+                   "_|    _|  _|_|      _|_|_|_|  _|_|    "
+                << std::endl;
+    PLUGIN_INFO << " _|    _|  _|  _|    _|  _|        _|    _|  _|    _|  _|  "
+                   "_|    _|  _|        _|        _|      "
+                << std::endl;
+    PLUGIN_INFO << " _|_|_|    _|    _|_|    _|_|_|_|  _|    _|  _|_|_|    _|  "
+                   "  _|_|    _|          _|_|_|  _|      "
+                << std::endl;
+    PLUGIN_INFO << "                                             _|            "
+                   "                                      "
+                << std::endl;
+    PLUGIN_INFO << "                                             _|            "
+                   "                                      "
+                << std::endl;
     PLUGIN_INFO << "Initializing BioExplorer plug-in (version "
                 << PLUGIN_VERSION << ")" << std::endl;
+    PLUGIN_INFO << std::endl;
     return new BioExplorer();
 }
 
