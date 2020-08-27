@@ -110,7 +110,7 @@ def test_virus():
         hybrid_paths = [glycan_folder + 'hybrid/20.pdb']
         o_glycan_paths = [glycan_folder + 'o-glycan/12.pdb']
 
-        ''' High-mannose '''
+        # High-mannose
         indices = [61, 122, 234, 603, 709, 717, 801, 1074]
         be.add_multiple_glycans(
             assembly_name=name, glycan_type=be.NAME_GLYCAN_HIGH_MANNOSE, protein_name=be.NAME_PROTEIN_S_CLOSED,
@@ -121,7 +121,7 @@ def test_virus():
             paths=high_mannose_paths, indices=indices, index_offset=19, add_sticks=glycan_add_sticks,
             allowed_occurrences=open_conformation_indices)
 
-        ''' Complex '''
+        # Complex
         indices1 = [17, 74, 149, 165, 282, 331, 343, 616, 1098, 1134, 1158, 1173, 1194]
         indices2 = [17, 74, 149, 165, 282, 331, 343, 1098, 1134, 1158, 1173, 1194]
         be.add_multiple_glycans(
@@ -133,7 +133,7 @@ def test_virus():
             paths=complex_paths, indices=indices2, index_offset=19, add_sticks=glycan_add_sticks,
             allowed_occurrences=open_conformation_indices)
 
-        ''' Hybrid '''
+        # Hybrid
         indices = [657]
         be.add_multiple_glycans(
             assembly_name=name, glycan_type=be.NAME_GLYCAN_HYBRID, protein_name=be.NAME_PROTEIN_S_CLOSED,
@@ -144,23 +144,21 @@ def test_virus():
             paths=hybrid_paths, indices=indices, index_offset=19, add_sticks=glycan_add_sticks,
             allowed_occurrences=open_conformation_indices)
 
-        ''' O-Glycans '''
-        indices = [[323, [0.0, 0.0, 0.0, 1.0]], [325, [0.0, 0.0, 0.0, 1.0]]]
-
-        for index in indices:
-            o_glycan_name = name + '_' + be.NAME_GLYCAN_O_GLYCAN + '_' + str(index[0])
+        # O-Glycans
+        for index in [323, 325]:
+            o_glycan_name = name + '_' + be.NAME_GLYCAN_O_GLYCAN + '_' + str(index)
             o_glycan = Sugars(
-                assembly_name=name, name=o_glycan_name, contents=''.join(open(o_glycan_paths[0]).readlines()),
+                assembly_name=name, name=o_glycan_name, source=o_glycan_paths[0],
                 protein_name=name + '_' + be.NAME_PROTEIN_S_CLOSED, add_sticks=glycan_add_sticks,
-                site_indices=[index[0]], orientation=index[1])
+                site_indices=[index])
             be.add_glucoses(o_glycan)
 
-        ''' High-mannose glycans on Protein M '''
+        # High-mannose glycans on Protein M
         be.add_multiple_glycans(
             assembly_name=name, glycan_type=be.NAME_GLYCAN_HIGH_MANNOSE, protein_name=be.NAME_PROTEIN_M,
             paths=high_mannose_paths, add_sticks=glycan_add_sticks)
 
-        ''' Complex glycans on Protein E '''
+        # Complex glycans on Protein E
         be.add_multiple_glycans(
             assembly_name=name, glycan_type=be.NAME_GLYCAN_COMPLEX, protein_name=be.NAME_PROTEIN_E, paths=complex_paths,
             add_sticks=glycan_add_sticks)

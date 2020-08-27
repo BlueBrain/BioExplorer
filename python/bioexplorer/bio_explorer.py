@@ -737,6 +737,10 @@ class BioExplorer(object):
             self, assembly_name, glycan_type, protein_name, paths, chain_ids=list(), indices=list(),
             allowed_occurrences=list(), index_offset=0, add_sticks=False, radius_multiplier=1.0):
 
+        assert isinstance(chain_ids, list)
+        assert isinstance(indices, list)
+        assert isinstance(allowed_occurrences, list)
+
         for path_index in range(len(paths)):
             path = paths[path_index]
             site_indices = list()
@@ -750,12 +754,10 @@ class BioExplorer(object):
                 occurrences = allowed_occurrences
 
             _glycans = Sugars(
-                assembly_name=assembly_name, name=assembly_name + '_' + protein_name + '_' + glycan_type,
-                contents=''.join(open(path).readlines()),
+                assembly_name=assembly_name, name=assembly_name + '_' + protein_name + '_' + glycan_type, source=path,
                 protein_name=assembly_name + '_' + protein_name, chain_ids=chain_ids,
-                atom_radius_multiplier=radius_multiplier,
-                add_sticks=add_sticks, recenter=True, site_indices=site_indices,
-                allowed_occurrences=occurrences, orientation=Quaternion())
+                atom_radius_multiplier=radius_multiplier, add_sticks=add_sticks, recenter=True,
+                site_indices=site_indices, allowed_occurrences=occurrences, orientation=Quaternion())
             self.add_glycans(_glycans)
 
     def add_glucoses(self, sugars):
@@ -773,7 +775,7 @@ class BioExplorer(object):
         params['chainIds'] = sugars.chain_ids
         params['siteIndices'] = sugars.site_indices
         params['allowedOccurrences'] = sugars.allowed_occurrences
-        params['orientation'] = sugars.orientation
+        params['orientation'] = sugars.orientation.to_list()
         result = self._client.rockets_client.request(method='add-glucoses', params=params)
         if not result['status']:
             raise RuntimeError(result['contents'])
@@ -1289,13 +1291,17 @@ class Membrane:
 
 class Sugars:
 
-    def __init__(self, assembly_name, name, contents, protein_name,
+    def __init__(self, assembly_name, name, source, protein_name,
                  atom_radius_multiplier=1.0, add_sticks=False,
                  recenter=True, chain_ids=list(), site_indices=list(),
                  allowed_occurrences=list(), orientation=Quaternion()):
+        assert isinstance(chain_ids, list)
+        assert isinstance(site_indices, list)
+        assert isinstance(allowed_occurrences, list)
+        assert isinstance(orientation, Quaternion)
         self.assembly_name = assembly_name
         self.name = name
-        self.contents = contents
+        self.contents = ''.join(open(source).readlines())
         self.protein_name = protein_name
         self.atom_radius_multiplier = atom_radius_multiplier
         self.add_sticks = add_sticks
@@ -1309,7 +1315,10 @@ class Sugars:
 class RNASequence:
 
     def __init__(self, source, shape, assembly_params,
-                 t_range=None, shape_params=None):
+                 t_range=Vector2(), shape_params=Vector3()):
+        assert isinstance(t_range, Vector2)
+        assert isinstance(shape_params, Vector3)
+        assert isinstance(assembly_params, Vector2)
         self.source = source
         self.shape = shape
         self.assembly_params = assembly_params

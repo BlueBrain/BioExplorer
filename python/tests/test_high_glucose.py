@@ -153,7 +153,7 @@ def add_virus(name, position, open_conformation_indices=list()):
         for index in indices:
             o_glycan_name = name + '_' + be.NAME_GLYCAN_O_GLYCAN + '_' + str(index[0])
             o_glycan = Sugars(
-                assembly_name=name, name=o_glycan_name, contents=''.join(open(o_glycan_paths[0]).readlines()),
+                assembly_name=name, name=o_glycan_name, source=o_glycan_paths[0],
                 protein_name=name + '_' + be.NAME_PROTEIN_S_CLOSED, add_sticks=glycan_add_sticks,
                 site_indices=[index[0]], orientation=index[1])
             be.add_glucoses(o_glycan)
@@ -195,8 +195,7 @@ def add_cell(name, size, height, position=Vector3()):
         for index in indices:
             o_glycan_name = name + '_' + be.NAME_GLYCAN_O_GLYCAN + '_' + str(index[0])
             o_glycan = Sugars(
-                assembly_name=name, name=o_glycan_name,
-                contents=''.join(open(o_glycan_paths[0]).readlines()),
+                assembly_name=name, name=o_glycan_name, source=o_glycan_paths[0],
                 protein_name=name + '_' + be.NAME_RECEPTOR, add_sticks=glycan_add_sticks,
                 chain_ids=[2, 4], site_indices=[index[0]], orientation=index[1])
             be.add_glucoses(o_glycan)
