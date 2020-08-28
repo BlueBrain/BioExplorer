@@ -441,10 +441,10 @@ void Protein::getGlycosilationSites(std::vector<Vector3f>& positions,
     _getSitesTransformations(positions, rotations, sites);
 }
 
-void Protein::getGlucoseBindingSites(std::vector<Vector3f>& positions,
-                                     std::vector<Quaterniond>& rotations,
-                                     const size_ts& siteIndices,
-                                     const size_ts& chainIds) const
+void Protein::getSugarBindingSites(std::vector<Vector3f>& positions,
+                                   std::vector<Quaterniond>& rotations,
+                                   const size_ts& siteIndices,
+                                   const size_ts& chainIds) const
 {
     positions.clear();
     rotations.clear();

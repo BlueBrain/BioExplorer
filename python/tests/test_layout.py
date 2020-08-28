@@ -102,12 +102,12 @@ def test_layout():
                    position=Vector3(45, line_defense - 2.5, 0),
                    orientation=Quaternion(0.5, 0.5, 1.0, 0.0))
 
-    ''' SP-D '''
+    ''' Surfactant '''
     head_source = pdb_folder + 'surfactant/1pw9.pdb'
     branch_source = pdb_folder + 'surfactant/1k6f.pdb'
     surfactant_d = Surfactant(
-        name='SP-D',
-        surfactant_protein=be.SURFACTANT_PROTEIN_D,
+        name='Surfactant',
+        surfactant_protein=be.SURFACTANT_BRANCH,
         head_source=head_source,
         branch_source=branch_source
     )

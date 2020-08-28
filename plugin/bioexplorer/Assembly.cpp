@@ -131,7 +131,7 @@ void Assembly::addGlycans(const SugarsDescriptor &sd)
     _scene.addModel(modelDescriptor);
 }
 
-void Assembly::addGlucoses(const SugarsDescriptor &sd)
+void Assembly::addSugars(const SugarsDescriptor &sd)
 {
     // Get information from target protein (attributes, number of instances,
     // glycosylation sites, etc)
@@ -151,8 +151,8 @@ void Assembly::addGlucoses(const SugarsDescriptor &sd)
 
     Vector3fs positions;
     Quaternions rotations;
-    targetProtein->getGlucoseBindingSites(positions, rotations, sd.siteIndices,
-                                          sd.chainIds);
+    targetProtein->getSugarBindingSites(positions, rotations, sd.siteIndices,
+                                        sd.chainIds);
     const auto pd = targetProtein->getDescriptor();
 
     const Quaterniond sugarOrientation = {sd.orientation[0], sd.orientation[1],
@@ -161,14 +161,12 @@ void Assembly::addGlucoses(const SugarsDescriptor &sd)
         rotation = rotation * sugarOrientation;
 
     if (positions.empty())
-        PLUGIN_THROW(std::runtime_error(
-            "No glucose binding site was found on " + sd.name));
+        PLUGIN_THROW(std::runtime_error("No sugar binding site was found on " +
+                                        sd.name));
 
-    PLUGIN_INFO << positions.size() << " glucose sites found on "
+    PLUGIN_INFO << positions.size() << " sugar sites found on "
                 << sd.proteinName << std::endl;
 
-    // Create glycans and attach them to the glycosylation sites of the target
-    // protein
     GlycansPtr glucoses(new Glycans(_scene, sd, positions, rotations));
     auto modelDescriptor = glucoses->getModelDescriptor();
     const Vector3f position = {pd.position[0], pd.position[1], pd.position[2]};

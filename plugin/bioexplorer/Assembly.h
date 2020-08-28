@@ -51,7 +51,7 @@ public:
     void addProtein(const ProteinDescriptor &pd);
     void addMesh(const MeshDescriptor &md);
     void addGlycans(const SugarsDescriptor &sd);
-    void addGlucoses(const SugarsDescriptor &sd);
+    void addSugars(const SugarsDescriptor &sd);
 
 private:
     void _processInstances(ModelDescriptorPtr md, const std::string &name,

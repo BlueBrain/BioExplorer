@@ -28,6 +28,7 @@ from .version import __version__
 
 
 class Vector3:
+
     def __init__(self, *args, **kwargs):
         if len(args) not in [0, 3]:
             raise RuntimeError('Invalid number of floats (0 or 3 expected)')
@@ -45,6 +46,7 @@ class Vector3:
 
 
 class Vector2:
+
     def __init__(self, *args, **kwargs):
         if len(args) not in [0, 2]:
             raise RuntimeError('Invalid number of floats (0 or 2 expected)')
@@ -60,6 +62,7 @@ class Vector2:
 
 
 class Quaternion:
+
     def __init__(self, *args, **kwargs):
         if len(args) not in [0, 4]:
             raise RuntimeError('Invalid number of floats (0 or 4 expected)')
@@ -152,8 +155,9 @@ class BioExplorer(object):
     NAME_GLYCAN_HYBRID = 'Hybrid'
     NAME_GLYCAN_COMPLEX = 'Complex'
 
-    SURFACTANT_PROTEIN_A = 0
-    SURFACTANT_PROTEIN_D = 1
+    SURFACTANT_BRANCH = 0
+    SURFACTANT_PROTEIN_A = 1
+    SURFACTANT_PROTEIN_D = 2
 
     def __init__(self, url=None):
         """
@@ -170,15 +174,20 @@ class BioExplorer(object):
                 ' for this version of the BioExplorer python library')
 
     def __str__(self):
-        """Return a pretty-print of the class"""
+        """
+        @return: A pretty-print of the class
+        """
         return "Blue Brain BioExplorer"
 
     def core_api(self):
+        """
+        @return: Access to underlying core API (Brayns' core API)
+        """
         return self._client
 
     def version(self):
         """
-        Returns the version of the BioExplorer library
+        @return: The version of the BioExplorer library
         """
         if self._client is None:
             return __version__
@@ -191,6 +200,8 @@ class BioExplorer(object):
     def reset(self):
         """
         Removes all assemblies
+
+        @return: Result of the call to the BioExplorer backend
         """
         if self._client is None:
             return
@@ -198,47 +209,43 @@ class BioExplorer(object):
         ids = list()
         for model in self._client.scene.models:
             ids.append(model['id'])
-        self._client.remove_model(array=ids)
+        return self._client.remove_model(array=ids)
 
     def export_to_cache(self, filename):
         """
         Exports current scene to file as an optimized binary cache file
 
-        :param str filename: Full path of the binary cache file
+        @param filename: Full path of the binary cache file
+        @return: Result of the call to the BioExplorer backend
         """
-        if self._client is None:
-            return
-
         params = dict()
         params['filename'] = filename
         result = self._client.rockets_client.request(method='export-to-cache', params=params)
         if not result['status']:
             raise RuntimeError(result['contents'])
+        return result
 
     def export_to_xyzr(self, filename):
         """
         Exports current scene to file as a binary XYZR file
 
-        :param str filename: Full path of the binary XYZR file
+        @param filename: Full path of the binary XYZR file
+        @return: Result of the call to the BioExplorer backend
         """
-        if self._client is None:
-            return
-
         params = dict()
         params['filename'] = filename
         result = self._client.rockets_client.request(method='export-to-xyzr', params=params)
         if not result['status']:
             raise RuntimeError(result['contents'])
+        return result
 
     def remove_assembly(self, name):
         """
         Removes the specified assembly
 
-        :param str name: Name of the assembly
+        @param name: Name of the assembly
+        @return: Result of the call to the BioExplorer backend
         """
-        if self._client is None:
-            return
-
         params = dict()
         params['name'] = name
         params['position'] = Vector3().to_list()
@@ -246,6 +253,7 @@ class BioExplorer(object):
         result = self._client.rockets_client.request(method='remove-assembly', params=params)
         if not result['status']:
             raise RuntimeError(result['contents'])
+        return result
 
     def add_virus(self, virus, atom_radius_multiplier=1.0, representation=REPRESENTATION_ATOMS, clipping_planes=list(),
                   position=Vector3(), orientation=Quaternion()):
@@ -253,13 +261,18 @@ class BioExplorer(object):
         """
         Adds a virus assembly to the scene
 
-        :param Virus virus: Virus description
-        :param int representation: Representation of the protein (Atoms, atoms and sticks, etc)
-        :param float atom_radius_multiplier: Multiplies morphology radius by the specified value
-        :param list clipping_planes: List of clipping planes to apply to the virus assembly
-        :param Vector3 position: Position of the protein in the scene
-        :param Quaternion orientation: Orientation of the protein in the scene
+        @param virus: Description of the virus
+        @param atom_radius_multiplier: Multiplies atom radius by the specified value
+        @param representation: Representation of the protein (Atoms, atoms and sticks, etc)
+        @param clipping_planes: List of clipping planes to apply to the virus assembly
+        @param position: Position of the virus in the scene
+        @param orientation: Orientation of the protein in the scene
         """
+        assert isinstance(virus, Virus)
+        assert isinstance(clipping_planes, list)
+        assert isinstance(position, Vector3)
+        assert isinstance(orientation, Quaternion)
+
         shape = self.ASSEMBLY_SHAPE_SPHERICAL
         _protein_s = virus.protein_s
 
@@ -362,10 +375,22 @@ class BioExplorer(object):
                 name=virus.name + '_' + self.NAME_RNA_SEQUENCE,
                 rna_sequence=virus.rna_sequence)
 
-    def add_cell(self, cell, atom_radius_multiplier=1.0, representation=REPRESENTATION_ATOMS, position=Vector3(),
-                 clipping_planes=list()):
+    def add_cell(self, cell, atom_radius_multiplier=1.0, representation=REPRESENTATION_ATOMS, clipping_planes=list(),
+                 position=Vector3()):
+        """
+        Add a cell assembly to the scene
 
+        @param cell: Description of the cell
+        @param atom_radius_multiplier: Representation of the protein (Atoms, atoms and sticks, etc)
+        @param representation: Multiplies atom radius by the specified value
+        @param clipping_planes: List of clipping planes to apply to the virus assembly
+        @param position: Position of the cell in the scene
+        """
+        assert isinstance(cell, Cell)
+        assert isinstance(clipping_planes, list)
+        assert isinstance(position, Vector3)
         assert len(cell.receptor.sources) == 1
+
         _receptor = AssemblyProtein(
             assembly_name=cell.name,
             name=cell.name + '_' + self.NAME_RECEPTOR, shape=cell.shape,
@@ -386,8 +411,18 @@ class BioExplorer(object):
             position_randomization_type=self.POSITION_RANDOMIZATION_TYPE_RADIAL, membrane=cell.membrane)
 
     def add_volume(self, volume, atom_radius_multiplier=1.0, representation=REPRESENTATION_ATOMS, position=Vector3()):
+        """
+        Add a volume assembly to the scene
 
+        @param volume: Description of the volume
+        @param atom_radius_multiplier: Representation of the protein (Atoms, atoms and sticks, etc)
+        @param representation: Multiplies atom radius by the specified value
+        @param position: Position of the volume in the scene
+        """
+        assert isinstance(volume, Volume)
+        assert isinstance(position, Vector3)
         assert len(volume.protein.sources) == 1
+
         _protein = AssemblyProtein(
             assembly_name=volume.name,
             name=volume.name + '_' + self.NAME_PROTEIN, shape=volume.shape,
@@ -401,12 +436,25 @@ class BioExplorer(object):
         self.add_assembly(name=volume.name, position=position)
         self.add_assembly_protein(_protein)
 
-    def add_surfactant(self, surfactant, representation=REPRESENTATION_ATOMS, position=Vector3(), radius_multiplier=1.0,
-                       random_seed=0):
+    def add_surfactant(self, surfactant, atom_radius_multiplier=1.0, representation=REPRESENTATION_ATOMS,
+                       position=Vector3(), random_seed=0):
+        """
+        Add a surfactant assembly to the scene
+
+        @param surfactant: Description of the surfactant
+        @param atom_radius_multiplier: Representation of the protein (Atoms, atoms and sticks, etc)
+        @param representation: Multiplies atom radius by the specified value
+        @param position: Position of the volume in the scene
+        @param random_seed: Random seed used to define the shape of the branches
+        """
+        assert isinstance(surfactant, Surfactant)
+        assert isinstance(position, Vector3)
 
         shape = self.ASSEMBLY_SHAPE_SPHERICAL
-        nb_branches = 4
+        nb_branches = 1
         if surfactant.surfactant_protein == self.SURFACTANT_PROTEIN_A:
+            nb_branches = 4
+        elif surfactant.surfactant_protein == self.SURFACTANT_PROTEIN_D:
             shape = self.ASSEMBLY_SHAPE_FAN
             nb_branches = 6
 
@@ -422,7 +470,7 @@ class BioExplorer(object):
             source=surfactant.head_source,
             occurrences=nb_branches,
             assembly_params=Vector2(collagen_size * (nb_collagens + 1) - 9.0, 0.0),
-            atom_radius_multiplier=radius_multiplier,
+            atom_radius_multiplier=atom_radius_multiplier,
             random_seed=random_seed,
             representation=representation,
             orientation=Quaternion(-0.624, -0.417, 0.0, 0.661))
@@ -434,7 +482,7 @@ class BioExplorer(object):
                     assembly_name=surfactant.name,
                     name=branch_name + str(i),
                     shape=shape,
-                    atom_radius_multiplier=radius_multiplier,
+                    atom_radius_multiplier=atom_radius_multiplier,
                     source=surfactant.branch_source,
                     occurrences=nb_branches,
                     assembly_params=Vector2(collagen_size * (i + 1) - 7.0, 0.0),
@@ -449,9 +497,18 @@ class BioExplorer(object):
             self.add_assembly_protein(collagen)
         self.add_assembly_protein(protein_sp_d)
 
-    def add_assembly(self, name, position=Vector3(), orientation=Quaternion(), clipping_planes=list()):
-        if self._client is None:
-            return
+    def add_assembly(self, name, clipping_planes=list(), position=Vector3(), orientation=Quaternion()):
+        """
+        Add an assembly to the scene
+
+        @param name: Name of the assembly
+        @param clipping_planes: List of clipping planes to apply to the virus assembly
+        @param position: Position of the scene in the scene
+        @param orientation: Orientation of the assembly in the scene
+        """
+        assert isinstance(clipping_planes, list)
+        assert isinstance(position, Vector3)
+        assert isinstance(orientation, Quaternion)
 
         clipping_planes_values = list()
         for plane in clipping_planes:
@@ -470,8 +527,20 @@ class BioExplorer(object):
 
     def set_protein_color_scheme(self, assembly_name, name, color_scheme, palette_name='', palette_size=256,
                                  palette=list(), chain_ids=list()):
-        if self._client is None:
-            return
+        """
+        Set a color scheme to a protein
+
+        @param assembly_name: Name of the assembly containing the protein
+        @param name: Name of the protein
+        @param color_scheme: Color scheme
+        @param palette_name: Name of the Seaborn color palette
+        @param palette_size: Size of the Seaborn color palette
+        @param palette: Seaborn palette (overrides the palette_name and palette size if specified)
+        @param chain_ids: Ids of the chains to which the color scheme should be applied
+        @return: Result of the call to the BioExplorer backend
+        """
+        assert isinstance(palette, list)
+        assert isinstance(chain_ids, list)
 
         p = list()
         if len(palette) == 0 and palette_name != '':
@@ -491,11 +560,17 @@ class BioExplorer(object):
         if not result['status']:
             raise RuntimeError(result['contents'])
         self._client.set_renderer(accumulation=True)
+        return result
 
     def set_protein_amino_acid_sequence_as_string(self, assembly_name, name, amino_acid_sequence):
-        if self._client is None:
-            return
+        """
+        Displays a specified amino acid sequence on the protein
 
+        @param assembly_name: Name of the assembly containing the protein
+        @param name: Name of the protein
+        @param amino_acid_sequence: String containing the amino acid sequence
+        @return: Result of the call to the BioExplorer backend
+        """
         params = dict()
         params['assemblyName'] = assembly_name
         params['name'] = name
@@ -504,11 +579,18 @@ class BioExplorer(object):
         if not result['status']:
             raise RuntimeError(result['contents'])
         self._client.set_renderer(accumulation=True)
+        return result
 
     def set_protein_amino_acid_sequence_as_range(self, assembly_name, name, amino_acid_range):
-        if self._client is None:
-            return
+        """
+        Displays a specified amino acid range on the protein
 
+        @param assembly_name: Name of the assembly containing the protein
+        @param name: Name of the protein
+        @param amino_acid_range: Tuple containing the amino acid range
+        @return: Result of the call to the BioExplorer backend
+        """
+        assert len(amino_acid_range) == 2
         params = dict()
         params['assemblyName'] = assembly_name
         params['name'] = name
@@ -517,35 +599,16 @@ class BioExplorer(object):
         if not result['status']:
             raise RuntimeError(result['contents'])
         self._client.set_renderer(accumulation=True)
-
-    def show_amino_acid_on_protein(self, assembly_name, name, sequence_id=0, palette_name='Set1',
-                                   palette_size=2):
-        from ipywidgets import IntRangeSlider, Label
-        from IPython.display import display
-
-        sequences = self.get_protein_amino_acid_sequences(assembly_name, name)
-        if sequence_id >= len(sequences):
-            raise RuntimeError('Invalid sequence Id')
-        sequence_as_list = sequences[0].split(',')
-
-        value_range = [int(sequence_as_list[0]), int(sequence_as_list[1])]
-        irs = IntRangeSlider(value=[value_range[0], value_range[1]], min=value_range[0], max=value_range[1])
-        lbl = Label(value="AA sequence")
-
-        def update_slider(v):
-            self.set_protein_amino_acid_sequence_as_range(assembly_name, name, v['new'])
-            self.set_protein_color_scheme(assembly_name, name, self.COLOR_SCHEME_AMINO_ACID_SEQUENCE,
-                                          palette_name, palette_size)
-            lbl.value = sequence_as_list[2][v['new'][0] - value_range[0]:v['new'][1] - value_range[0]]
-
-        irs.observe(update_slider, 'value')
-        display(irs)
-        display(lbl)
+        return result
 
     def get_protein_amino_acid_information(self, assembly_name, name):
-        if self._client is None:
-            return
+        """
+        Returns amino acid information of the protein
 
+        @param assembly_name: Name of the assembly containing the protein
+        @param name: Name of the protein
+        @return: Result of the call to the BioExplorer backend
+        """
         params = dict()
         params['assemblyName'] = assembly_name
         params['name'] = name
@@ -555,9 +618,14 @@ class BioExplorer(object):
         return result['contents'].split()
 
     def add_rna_sequence(self, assembly_name, name, rna_sequence):
-        if self._client is None:
-            return
-
+        """
+        Add an RNA sequence object to an assembly
+        @param assembly_name: Name of the assembly
+        @param name: Name of the RNA sequence
+        @param rna_sequence: Description of the RNA sequence
+        @return: Result of the call to the BioExplorer backend
+        """
+        assert isinstance(rna_sequence, RNASequence)
         t_range = Vector2(0.0, 2.0 * math.pi)
         if rna_sequence.t_range is None:
             ''' Defaults '''
@@ -591,11 +659,24 @@ class BioExplorer(object):
         if not result['status']:
             raise RuntimeError(result['contents'])
         self._client.set_renderer(accumulation=True)
+        return result
 
     def add_membrane(self, assembly_name, name, membrane, shape, position_randomization_type, assembly_params,
                      random_seed):
-        if self._client is None:
-            return
+        """
+        Add a membrane to the scene
+
+        @param assembly_name: Name of the assembly
+        @param name: Name of the cell
+        @param membrane: Description of the membrane
+        @param shape: Shape of the membrane
+        @param position_randomization_type: Type of randomisation for the elements of the membrane
+        @param assembly_params: Size of the membrane
+        @param random_seed: Seed used to randomise position the elements in the membrane
+        @return: Result of the call to the BioExplorer backend
+        """
+        assert isinstance(membrane, Membrane)
+        assert isinstance(assembly_params, Vector2)
 
         contents = ['', '', '', '']
         for i in range(len(membrane.sources)):
@@ -625,21 +706,25 @@ class BioExplorer(object):
         if not result['status']:
             raise RuntimeError(result['contents'])
         self._client.set_renderer(accumulation=True)
+        return result
 
     def add_protein(self, name, protein, representation=REPRESENTATION_ATOMS, conformation_index=0,
                     atom_radius_multiplier=1.0, position=Vector3(), orientation=Quaternion()):
         """
-        Adds a protein to the scene
+        Add a protein to the scene
 
-        :param str name: Name of the protein in the scene
-        :param Protein protein: Protein description
-        :param int representation: Representation of the protein (Atoms, atoms and sticks, etc)
-        :param int conformation_index: Index of the source to be used for the protein conformation
-        :param float atom_radius_multiplier: Multiplies morphology radius by the specified value
-        :param Vector3 position: Position of the protein in the scene
-        :param Quaternion orientation: Orientation of the protein in the scene
+        @param name: Name of the protein
+        @param protein: Description of the protein
+        @param representation: Representation of the protein (Atoms, atoms and sticks, etc)
+        @param conformation_index: Index of the source to be used for the protein conformation
+        @param atom_radius_multiplier: Multiplies atom radius by the specified value
+        @param position: Position of the protein in the scene
+        @param orientation: Orientation of the protein in the scene
+        @return: Result of the call to the BioExplorer backend
         """
         assert conformation_index < len(protein.sources)
+        assert isinstance(protein, Protein)
+
         self.remove_assembly(name)
         self.add_assembly(name=name)
         _protein = AssemblyProtein(
@@ -651,11 +736,16 @@ class BioExplorer(object):
             load_non_polymer_chemicals=protein.load_non_polymer_chemicals,
             representation=representation, position=position,
             orientation=orientation)
-        self.add_assembly_protein(_protein)
+        return self.add_assembly_protein(_protein)
 
     def add_assembly_protein(self, protein):
-        if self._client is None:
-            return
+        """
+        Add an protein to an assembly
+
+        @param protein: Description of the protein
+        @return: Result of the call to the BioExplorer backend
+        """
+        assert isinstance(protein, AssemblyProtein)
 
         params = dict()
         params['assemblyName'] = protein.assembly_name
@@ -681,18 +771,34 @@ class BioExplorer(object):
         if not result['status']:
             raise RuntimeError(result['contents'])
         self._client.set_renderer(accumulation=True)
+        return result
 
     def add_mesh(self, name, mesh, position=Vector3(), orientation=Quaternion()):
+        """
+        Add a mesh to the scene
+        @param name: Name of the mesh in the scene
+        @param mesh: Description of the mesh
+        @param position: Position of the mesh in the scene
+        @param orientation: Orientation of the mesh in the scene
+        @return: Result of the call to the BioExplorer backend
+        """
+        assert isinstance(mesh, Mesh)
+
         self.remove_assembly(name)
         self.add_assembly(name=name)
         _mesh = AssemblyMesh(
             assembly_name=name, name=name, source=mesh.source, shape=self.ASSEMBLY_SHAPE_PLANAR, position=position,
             orientation=orientation)
-        self.add_assembly_mesh(_mesh)
+        return self.add_assembly_mesh(_mesh)
 
     def add_assembly_mesh(self, mesh):
-        if self._client is None:
-            return
+        """
+        Add an mesh to an assembly
+
+        @param mesh: Description of the mesh
+        @return: Result of the call to the BioExplorer backend
+        """
+        assert isinstance(mesh, Mesh)
 
         params = dict()
         params['assemblyName'] = mesh.assembly_name
@@ -711,10 +817,16 @@ class BioExplorer(object):
         if not result['status']:
             raise RuntimeError(result['contents'])
         self._client.set_renderer(accumulation=True)
+        return result
 
     def add_glycans(self, glycans):
-        if self._client is None:
-            return
+        """
+        Add glycans to an protein in an assembly
+
+        @param glycans: Description of the glycans
+        @return: Result of the call to the BioExplorer backend
+        """
+        assert isinstance(glycans, Sugars)
 
         params = dict()
         params['assemblyName'] = glycans.assembly_name
@@ -732,11 +844,26 @@ class BioExplorer(object):
         if not result['status']:
             raise RuntimeError(result['contents'])
         self._client.set_renderer(accumulation=True)
+        return result
 
     def add_multiple_glycans(
             self, assembly_name, glycan_type, protein_name, paths, chain_ids=list(), indices=list(),
-            allowed_occurrences=list(), index_offset=0, add_sticks=False, radius_multiplier=1.0):
+            allowed_occurrences=list(), index_offset=0, add_sticks=False, atom_radius_multiplier=1.0):
+        """
+        Add glycans to a protein in a assembly
 
+        @param assembly_name: Name of the assembly
+        @param glycan_type: Type of glycans
+        @param protein_name: Name of the protein
+        @param paths: Paths to PDB files with various glycan structures
+        @param chain_ids: IDs of the chains to be loaded
+        @param indices: Indices of the glycosylation sites where glycans should be added
+        @param allowed_occurrences: List of occurrences of the protein in the assembly, where glycans should be added
+        @param index_offset: Offset applied to the indices. This is because not all amino acid sequences start at the
+                             same index in the description of the protein in the PDB file.
+        @param add_sticks: Defines if sticks should be added between atoms
+        @param atom_radius_multiplier: Multiplies atom radius by the specified value
+        """
         assert isinstance(chain_ids, list)
         assert isinstance(indices, list)
         assert isinstance(allowed_occurrences, list)
@@ -756,13 +883,17 @@ class BioExplorer(object):
             _glycans = Sugars(
                 assembly_name=assembly_name, name=assembly_name + '_' + protein_name + '_' + glycan_type, source=path,
                 protein_name=assembly_name + '_' + protein_name, chain_ids=chain_ids,
-                atom_radius_multiplier=radius_multiplier, add_sticks=add_sticks, recenter=True,
+                atom_radius_multiplier=atom_radius_multiplier, add_sticks=add_sticks, recenter=True,
                 site_indices=site_indices, allowed_occurrences=occurrences, orientation=Quaternion())
             self.add_glycans(_glycans)
 
-    def add_glucoses(self, sugars):
-        if self._client is None:
-            return
+    def add_sugars(self, sugars):
+        """
+        Add sugars to a protein in an assembly
+        @param sugars: Description of the sugars
+        @return: Result of the call to the BioExplorer backend
+        """
+        assert isinstance(sugars, Sugars)
 
         params = dict()
         params['assemblyName'] = sugars.assembly_name
@@ -776,20 +907,22 @@ class BioExplorer(object):
         params['siteIndices'] = sugars.site_indices
         params['allowedOccurrences'] = sugars.allowed_occurrences
         params['orientation'] = sugars.orientation.to_list()
-        result = self._client.rockets_client.request(method='add-glucoses', params=params)
+        result = self._client.rockets_client.request(method='add-sugars', params=params)
         if not result['status']:
             raise RuntimeError(result['contents'])
         self._client.set_renderer(accumulation=True)
+        return result
 
-    def set_image_quality(self, image_quality=IMAGE_QUALITY_LOW):
-        if self._client is None:
-            return
+    def set_image_quality(self, image_quality):
+        """
+        Set image quality using hard-coded presets
 
+        @param image_quality: Quality of the image (IMAGE_QUALITY_LOW or IMAGE_QUALITY_HIGH)
+        @return: Result of the call to the BioExplorer backend
+        """
         if image_quality == self.IMAGE_QUALITY_HIGH:
-            self._client.set_renderer(
-                background_color=[96 / 255, 125 / 255, 139 / 255],
-                current='bio_explorer',
-                samples_per_pixel=1, subsampling=4, max_accum_frames=128)
+            self._client.set_renderer(background_color=[96 / 255, 125 / 255, 139 / 255], current='bio_explorer',
+                                      samples_per_pixel=1, subsampling=4, max_accum_frames=128)
             params = self._client.BioExplorerRendererParams()
             params.gi_samples = 3
             params.gi_weight = 0.25
@@ -799,12 +932,10 @@ class BioExplorer(object):
             params.fog_start = 1300
             params.fog_thickness = 1300
             params.max_bounces = 3
-            self._client.set_renderer_params(params)
+            return self._client.set_renderer_params(params)
         else:
-            self._client.set_renderer(
-                background_color=Vector3(),
-                current='basic',
-                samples_per_pixel=1, subsampling=4, max_accum_frames=16)
+            return self._client.set_renderer(
+                background_color=Vector3(), current='basic', samples_per_pixel=1, subsampling=4, max_accum_frames=16)
 
     def get_material_ids(self, model_id):
         if self._client is None:
@@ -1276,6 +1407,21 @@ class Membrane:
                  load_non_polymer_chemicals=False, chain_ids=list(), recenter=True, number_of_instances=1,
                  location_cutoff_angle=0.0,
                  position=Vector3(), orientation=Quaternion()):
+        """
+        A membrane is an assembly of proteins with a given size and shape
+
+        @param sources: Full paths of the PDB files containing the building blocks of the membrane
+        @param atom_radius_multiplier: Multiplies atom radius by the specified value
+        @param load_bonds: Defines if bonds should be loaded
+        @param representation: Representation of the protein (Atoms, atoms and sticks, etc)
+        @param load_non_polymer_chemicals: Defines if non-polymer chemical should be loaded
+        @param chain_ids: IDs of the protein chains to be loaded
+        @param recenter: Defines if proteins should be recentered when loaded from PDB files
+        @param number_of_instances: Number of instances of proteins defining the membrane
+        @param location_cutoff_angle:
+        @param position: Position of the membrane in the assembly
+        @param orientation: Orientation of the membrane in the assembly
+        """
         self.sources = sources
         self.atom_radius_multiplier = atom_radius_multiplier
         self.load_bonds = load_bonds

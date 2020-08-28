@@ -23,7 +23,7 @@
 """BioExplorer widgets"""
 
 from ipywidgets import FloatSlider, Select, HBox, VBox, Layout, Button, SelectMultiple, \
-    IntProgress, Checkbox, FloatText, IntText, ColorPicker, IntSlider, Label
+    IntProgress, Checkbox, IntRangeSlider, ColorPicker, IntSlider, Label
 import seaborn as sns
 from IPython.display import display
 from stringcase import pascalcase
@@ -202,6 +202,7 @@ class Widgets:
         palette_combobox = Select(options=colormaps, description='Palette:', disabled=False)
 
         ''' Events '''
+
         def update_materials_from_palette(v):
             set_colormap(self._client.scene.models[model_combobox.index]['id'], v['new'],
                          shading_combobox.index)
@@ -551,3 +552,25 @@ class Widgets:
         cb_names = Select(description='Maps', options=base_names)
         cb_names.observe(update_envmap, 'value')
         display(cb_names)
+
+    def show_amino_acid_on_protein(self, assembly_name, name, sequence_id=0, palette_name='Set1',
+                                   palette_size=2):
+
+        sequences = self._be.get_protein_amino_acid_sequences(assembly_name, name)
+        if sequence_id >= len(sequences):
+            raise RuntimeError('Invalid sequence Id')
+        sequence_as_list = sequences[0].split(',')
+
+        value_range = [int(sequence_as_list[0]), int(sequence_as_list[1])]
+        irs = IntRangeSlider(value=[value_range[0], value_range[1]], min=value_range[0], max=value_range[1])
+        lbl = Label(value="AA sequence")
+
+        def update_slider(v):
+            self._be.set_protein_amino_acid_sequence_as_range(assembly_name, name, v['new'])
+            self._be.set_protein_color_scheme(assembly_name, name, self.COLOR_SCHEME_AMINO_ACID_SEQUENCE,
+                                              palette_name, palette_size)
+            lbl.value = sequence_as_list[2][v['new'][0] - value_range[0]:v['new'][1] - value_range[0]]
+
+        irs.observe(update_slider, 'value')
+        display(irs)
+        display(lbl)

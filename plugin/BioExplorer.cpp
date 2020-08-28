@@ -191,10 +191,10 @@ void BioExplorer::init()
                 return _addGlycans(payload);
             });
 
-        PLUGIN_INFO << "Registering 'add-glucoses' endpoint" << std::endl;
+        PLUGIN_INFO << "Registering 'add-sugars' endpoint" << std::endl;
         actionInterface->registerRequest<SugarsDescriptor, Response>(
-            "add-glucoses", [&](const SugarsDescriptor &payload) {
-                return _addGlucoses(payload);
+            "add-sugars", [&](const SugarsDescriptor &payload) {
+                return _addSugars(payload);
             });
 
         PLUGIN_INFO << "Registering 'export-to-cache' endpoint" << std::endl;
@@ -559,14 +559,14 @@ Response BioExplorer::_addGlycans(const SugarsDescriptor &payload) const
     return response;
 }
 
-Response BioExplorer::_addGlucoses(const SugarsDescriptor &payload) const
+Response BioExplorer::_addSugars(const SugarsDescriptor &payload) const
 {
     Response response;
     try
     {
         auto it = _assemblies.find(payload.assemblyName);
         if (it != _assemblies.end())
-            (*it).second->addGlucoses(payload);
+            (*it).second->addSugars(payload);
         else
         {
             std::stringstream msg;

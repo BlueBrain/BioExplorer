@@ -151,7 +151,7 @@ def test_virus():
                 assembly_name=name, name=o_glycan_name, source=o_glycan_paths[0],
                 protein_name=name + '_' + be.NAME_PROTEIN_S_CLOSED, add_sticks=glycan_add_sticks,
                 site_indices=[index])
-            be.add_glucoses(o_glycan)
+            be.add_sugars(o_glycan)
 
         # High-mannose glycans on Protein M
         be.add_multiple_glycans(

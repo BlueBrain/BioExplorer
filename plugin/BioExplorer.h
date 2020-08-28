@@ -60,7 +60,7 @@ private:
     Response _addProtein(const ProteinDescriptor &payload) const;
     Response _addMesh(const MeshDescriptor &payload) const;
     Response _addGlycans(const SugarsDescriptor &payload) const;
-    Response _addGlucoses(const SugarsDescriptor &payload) const;
+    Response _addSugars(const SugarsDescriptor &payload) const;
 
     // Other elements
     Response _addGrid(const AddGrid &payload);
