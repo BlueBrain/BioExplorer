@@ -263,12 +263,16 @@ export void BioExplorerFieldsRenderer_set(
     self->userData = userData;
     self->userDataSize = userDataSize;
 
-    self->offset = make_vec3f(userData[0], userData[1], userData[2]);
-    self->spacing = make_vec3f(userData[3], userData[4], userData[5]);
-    self->dims = make_vec3f(userData[6], userData[7], userData[8]);
-    self->distance = userData[9] * 5.f; // Octree size * 5
+    self->offset = (userData ? make_vec3f(userData[0], userData[1], userData[2])
+                             : make_vec3f(0.f));
+    self->spacing =
+        (userData ? make_vec3f(userData[3], userData[4], userData[5])
+                  : make_vec3f(0.f));
+    self->dims = (userData ? make_vec3f(userData[6], userData[7], userData[8])
+                           : make_vec3f(0.f));
+    self->distance = (userData ? userData[9] * 5.f : 0.f); // Octree size * 5
     self->startIndices = 11;
-    self->startData = self->startIndices + userData[10];
+    self->startData = (userData ? self->startIndices + userData[10] : 0);
 }
 
 export void BioExplorerFieldsRenderer_setTransferFunction(void* uniform _self,
