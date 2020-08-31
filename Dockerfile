@@ -1,12 +1,14 @@
-# Docker container for running Brayns as a service
+# Note: Cyrille's branch at https://github.com/favreau/Brayns is used instead of https://github.com/BlueBrain/Brayns.git
+# Docker container for running the BioExplorer as a plugin within Brayns as a service
 # Check https://docs.docker.com/engine/userguide/eng-image/dockerfile_best-practices/#user for best practices.
+# Based on the Dockerfile of Brayns created by the viz team (basically a copy)
 
 # This Dockerfile leverages multi-stage builds, available since Docker 17.05
 # See: https://docs.docker.com/engine/userguide/eng-image/multistage-build/#use-multi-stage-builds
 
-# Image where Brayns is built
+# Image where Brayns+BioExplorer plugin is built
 FROM debian:buster-slim as builder
-LABEL maintainer="bbp-svc-viz@groupes.epfl.ch"
+LABEL maintainer="cyrille.favreau@epfl.ch"
 ARG DIST_PATH=/app/dist
 
 # Install packages
@@ -34,17 +36,18 @@ RUN apt-get update \
     pkg-config \
     wget \
     ca-certificates \
+    libcgal-dev \
  && apt-get clean \
  && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
 # Get ISPC
 # https://ispc.github.io/downloads.html
-ARG ISPC_VERSION=1.9.2
+ARG ISPC_VERSION=1.10.0
 ARG ISPC_DIR=ispc-v${ISPC_VERSION}-linux
 ARG ISPC_PATH=/app/$ISPC_DIR
 
 RUN mkdir -p ${ISPC_PATH} \
- && wget http://netix.dl.sourceforge.net/project/ispcmirror/v${ISPC_VERSION}/${ISPC_DIR}.tar.gz \
+ && wget --no-verbose http://netix.dl.sourceforge.net/project/ispcmirror/v${ISPC_VERSION}/${ISPC_DIR}.tar.gz \
  && tar zxvf ${ISPC_DIR}.tar.gz -C ${ISPC_PATH} --strip-components=1 \
  && rm -rf ${ISPC_PATH}/${ISPC_DIR}/examples
 
@@ -56,7 +59,7 @@ ENV PATH $PATH:${ISPC_PATH}
 ARG EMBREE_VERSION=3.5.2
 ARG EMBREE_FILE=embree-${EMBREE_VERSION}.x86_64.linux.tar.gz
 RUN mkdir -p ${DIST_PATH} \
-  && wget https://github.com/embree/embree/releases/download/v${EMBREE_VERSION}/${EMBREE_FILE} \
+  && wget --no-verbose https://github.com/embree/embree/releases/download/v${EMBREE_VERSION}/${EMBREE_FILE} \
   && tar zxvf ${EMBREE_FILE} -C ${DIST_PATH} --strip-components=1 \
   && rm -rf ${DIST_PATH}/bin ${DIST_PATH}/doc
 
@@ -71,7 +74,7 @@ RUN mkdir -p ${OSPRAY_SRC} \
  && git checkout ${OSPRAY_TAG} \
  && mkdir -p build \
  && cd build \
- && CMAKE_PREFIX_PATH=${DIST_PATH} cmake .. -GNinja -Wno-dev \
+ && CMAKE_PREFIX_PATH=${DIST_PATH} cmake .. -GNinja \
     -DOSPRAY_ENABLE_TUTORIALS=OFF \
     -DOSPRAY_ENABLE_APPS=OFF \
     -DCMAKE_INSTALL_PREFIX=${DIST_PATH} \
@@ -84,12 +87,12 @@ ARG LWS_SRC=/app/libwebsockets
 ARG LWS_FILE=v${LWS_VERSION}.tar.gz
 
 RUN mkdir -p ${LWS_SRC} \
- && wget https://github.com/warmcat/libwebsockets/archive/${LWS_FILE} \
+ && wget --no-verbose https://github.com/warmcat/libwebsockets/archive/${LWS_FILE} \
  && tar zxvf ${LWS_FILE} -C ${LWS_SRC} --strip-components=1 \
  && cd ${LWS_SRC} \
  && mkdir -p build \
  && cd build \
- && cmake .. -GNinja -Wno-dev \
+ && cmake .. -GNinja \
     -DCMAKE_BUILD_TYPE=Release \
     -DLWS_STATIC_PIC=ON \
     -DLWS_WITH_SSL=OFF \
@@ -101,22 +104,30 @@ RUN mkdir -p ${LWS_SRC} \
     -DCMAKE_INSTALL_PREFIX=${DIST_PATH} \
  && ninja install
 
-
 # Set working dir and copy Brayns assets
 ARG BRAYNS_SRC=/app/brayns
-WORKDIR /app
-ADD . ${BRAYNS_SRC}
 
+RUN mkdir -p ${BRAYNS_SRC} \
+  && git clone https://github.com/favreau/Brayns ${BRAYNS_SRC}
+
+WORKDIR /app
+#ADD . ${BRAYNS_SRC}
+
+# Add BioExplorer
+ARG BIOEXPLORER_SRC=/app/bioexplorer
+ADD . ${BIOEXPLORER_SRC}
 
 # Install Brayns
-# https://github.com/BlueBrain/Brayns
+# https://github.com/favreau/Brayns
+
+# TODO: "|| exit 0"  hack to be removed as soon as MVDTool export issue is fixed.
 RUN cksum ${BRAYNS_SRC}/.gitsubprojects \
  && cd ${BRAYNS_SRC} \
  && git submodule update --init --recursive \
  && mkdir -p build \
  && cd build \
  && CMAKE_PREFIX_PATH=${DIST_PATH}:${DIST_PATH}/lib/cmake/libwebsockets \
-    cmake .. -GNinja -Wno-dev \
+    cmake .. -Wno-dev \
     -DBRAYNS_OSPRAY_ENABLED=ON \
     -DBRAYNS_CIRCUITEXPLORER_ENABLED=OFF \
     -DBRAYNS_DTI_ENABLED=OFF \
@@ -125,25 +136,20 @@ RUN cksum ${BRAYNS_SRC}/.gitsubprojects \
     -DCLONE_SUBPROJECTS=ON \
     -DCMAKE_BUILD_TYPE=Release \
     -DCMAKE_INSTALL_PREFIX=${DIST_PATH} \
- && ninja perceptualdiff Brayns-install
+    -DBUILD_PYTHON_BINDINGS=OFF \
+    -DEXTLIB_FROM_SUBMODULES=ON || exit 0
 
-# Install BioExplorer
-# https://github.com/favreau/BioExplorer
-ARG BIOEXPLORER_TAG=0.6.0
-ARG BIOEXPLORER_SRC=/app/bioexplorer
+RUN cd ${BRAYNS_SRC}/build && make -j install VERBOSE=1
 
-RUN mkdir -p ${OSPRAY_SRC} \
- && git clone https://github.com/favreau/BioExplorer ${BIOEXPLORER_SRC} \
- && cd ${BIOEXPLORER_SRC} \
- && git checkout ${BIOEXPLORER_TAG} \
- && mkdir -p build \
- && cd build \
- && CMAKE_PREFIX_PATH=${DIST_PATH} cmake .. -GNinja -Wno-dev \
-    -DCMAKE_INSTALL_PREFIX=${DIST_PATH} \
- && ninja install
+RUN mkdir -p ${BIOEXPLORER_SRC}/build \
+ && cd ${BIOEXPLORER_SRC}/build \
+ && PATH=${ISPC_PATH}/bin:${PATH} CMAKE_PREFIX_PATH=${DIST_PATH} LDFLAGS="-lCGAL" cmake .. \
+    -DCMAKE_INSTALL_PREFIX=${DIST_PATH}
 
 
-# Final image, containing only Brayns and libraries required to run it
+RUN cd ${BIOEXPLORER_SRC}/build && make -j install VERBOSE=1
+
+# Final image, containing only Brayns and BioExplorer and libraries required to run it
 FROM debian:buster-slim
 ARG DIST_PATH=/app/dist
 
@@ -162,6 +168,7 @@ RUN apt-get update \
     libhdf5-103 \
     libturbojpeg0 \
     libuv1 \
+    libcgal13 \
  && apt-get clean \
  && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
@@ -189,4 +196,4 @@ EXPOSE 8200
 # See https://docs.docker.com/engine/reference/run/#entrypoint-default-command-to-execute-at-runtime
 # for more docs
 ENTRYPOINT ["braynsService"]
-CMD ["--http-server", ":8200", "--plugin", "BioExplorer"]
+CMD ["--http-server", ":8200", "--plugin", "BioExplorer", "--sandbox-path", "/"]
