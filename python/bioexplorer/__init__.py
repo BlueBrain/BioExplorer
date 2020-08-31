@@ -22,9 +22,9 @@
 
 from .bio_explorer import BioExplorer, Volume, Mesh, AssemblyProtein, Protein, Sugars, RNASequence, \
     Cell, Membrane, Surfactant, Virus, Vector2, Vector3, Quaternion
-from .camera_path_handler import CameraPathHandler
-from .widgets import Widgets
+from .movie_maker import MovieMaker
+from .notebook_widgets import Widgets
 from .version import __version__
 
-__all__ = ['CameraPathHandler', 'Widgets', 'BioExplorer', 'Mesh', 'Protein', 'AssemblyProtein', 'Sugars', 'RNASequence',
+__all__ = ['MovieMaker', 'Widgets', 'BioExplorer', 'Mesh', 'Protein', 'AssemblyProtein', 'Sugars', 'RNASequence',
            'Membrane', 'Volume', 'Surfactant', 'Cell', 'Vector2', 'Vector3', 'Quaternion', 'Virus', '__version__']

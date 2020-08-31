@@ -255,6 +255,130 @@ class BioExplorer(object):
             raise RuntimeError(result['contents'])
         return result
 
+    def add_coronavirus(self, name, resource_folder, radius=45.0, nb_protein_s=62, nb_protein_m=50, nb_protein_e=42,
+                        open_protein_s_indices=[1], atom_radius_multiplier=1.0, add_glycans=False,
+                        representation=REPRESENTATION_ATOMS, clipping_planes=list(), position=Vector3(),
+                        orientation=Quaternion()):
+
+        """
+        Add a virus with the default coronavirus parameters
+
+        @param name: Name of the coronavirus
+        @param resource_folder: Folder containing the resources of the virus components (PDB and RNA files)
+        @param radius: Radius of the virus in nanometers
+        @param nb_protein_s: Number of S proteins
+        @param nb_protein_m: Number of M proteins
+        @param nb_protein_e: Number of E proteins
+        @param open_protein_s_indices: Indices for the open S proteins
+        @param atom_radius_multiplier:
+        @param add_glycans: Defines if glycans should be added
+        @param atom_radius_multiplier: Multiplies atom radius by the specified value
+        @param representation: Representation of the protein (Atoms, atoms and sticks, etc)
+        @param clipping_planes: List of clipping planes to apply to the virus assembly
+        @param position: Position of the virus in the scene
+        @param orientation: Orientation of the protein in the scene
+        """
+        pdb_folder = resource_folder + 'pdb/'
+        rna_folder = resource_folder + 'rna/'
+        glycan_folder = pdb_folder + 'glycans/'
+
+        open_conformation_indices = open_protein_s_indices
+        closed_conformation_indices = list()
+        for i in range(nb_protein_s):
+            if i not in open_conformation_indices:
+                closed_conformation_indices.append(i)
+
+        virus_protein_s = Protein(sources=[pdb_folder + '6vyb.pdb', pdb_folder + 'sars-cov-2-v1.pdb'],
+                                  number_of_instances=nb_protein_s,
+                                  assembly_params=Vector2(11.5, 0.0), cutoff_angle=0.999,
+                                  orientation=Quaternion(0.087, 0.0, 0.996, 0.0),
+                                  instance_indices=[open_conformation_indices, closed_conformation_indices])
+
+        # Protein M (QHD43419)
+        virus_protein_m = Protein(sources=[pdb_folder + 'QHD43419a.pdb'],
+                                  number_of_instances=nb_protein_m, assembly_params=Vector2(2.0, 0.0),
+                                  cutoff_angle=0.999,
+                                  orientation=Quaternion(0.99, 0.0, 0.0, 0.135))
+        # Protein E (QHD43418 P0DTC4)
+        virus_protein_e = Protein(sources=[pdb_folder + 'QHD43418a.pdb'],
+                                  number_of_instances=nb_protein_e, assembly_params=Vector2(3.0, 0.0),
+                                  cutoff_angle=0.9999,
+                                  orientation=Quaternion(0.705, 0.705, -0.04, -0.04))
+
+        # Virus membrane
+        virus_membrane = Membrane(sources=[pdb_folder + 'membrane/popc.pdb'], number_of_instances=15000)
+
+        import math
+        rna_sequence = RNASequence(source=rna_folder + 'sars-cov-2.rna', assembly_params=Vector2(radius / 4.0, 0.5),
+                                   t_range=Vector2(0, 30.5 * math.pi), shape=self.RNA_SHAPE_TREFOIL_KNOT,
+                                   shape_params=Vector3(1.51, 1.12, 1.93))
+
+        coronavirus = Virus(name=name, protein_s=virus_protein_s, protein_e=virus_protein_e, protein_m=virus_protein_m,
+                            membrane=virus_membrane, rna_sequence=rna_sequence, assembly_params=Vector2(radius, 1.5))
+
+        self.add_virus(
+            virus=coronavirus, representation=representation, atom_radius_multiplier=atom_radius_multiplier,
+            clipping_planes=clipping_planes, position=position, orientation=orientation)
+
+        if add_glycans:
+            complex_paths = [glycan_folder + 'complex/5.pdb', glycan_folder + 'complex/15.pdb',
+                             glycan_folder + 'complex/25.pdb', glycan_folder + 'complex/35.pdb']
+            high_mannose_paths = [glycan_folder + 'high-mannose/1.pdb', glycan_folder + 'high-mannose/2.pdb',
+                                  glycan_folder + 'high-mannose/3.pdb', glycan_folder + 'high-mannose/4.pdb']
+            hybrid_paths = [glycan_folder + 'hybrid/20.pdb']
+            o_glycan_paths = [glycan_folder + 'o-glycan/12.pdb']
+
+            # High-mannose
+            indices = [61, 122, 234, 603, 709, 717, 801, 1074]
+            self.add_multiple_glycans(
+                assembly_name=name, glycan_type=self.NAME_GLYCAN_HIGH_MANNOSE, protein_name=self.NAME_PROTEIN_S_CLOSED,
+                paths=high_mannose_paths, indices=indices, allowed_occurrences=closed_conformation_indices)
+            self.add_multiple_glycans(
+                assembly_name=name, glycan_type=self.NAME_GLYCAN_HIGH_MANNOSE, protein_name=self.NAME_PROTEIN_S_OPEN,
+                paths=high_mannose_paths, indices=indices, index_offset=19,
+                allowed_occurrences=open_conformation_indices)
+
+            # Complex
+            indices1 = [17, 74, 149, 165, 282, 331, 343, 616, 1098, 1134, 1158, 1173, 1194]
+            indices2 = [17, 74, 149, 165, 282, 331, 343, 1098, 1134, 1158, 1173, 1194]
+            self.add_multiple_glycans(
+                assembly_name=name, glycan_type=self.NAME_GLYCAN_COMPLEX, protein_name=self.NAME_PROTEIN_S_CLOSED,
+                paths=complex_paths, indices=indices1, allowed_occurrences=closed_conformation_indices)
+            self.add_multiple_glycans(
+                assembly_name=name, glycan_type=self.NAME_GLYCAN_COMPLEX, protein_name=self.NAME_PROTEIN_S_OPEN,
+                paths=complex_paths, indices=indices2, index_offset=19, allowed_occurrences=open_conformation_indices)
+
+            # Hybrid
+            indices = [657]
+            self.add_multiple_glycans(
+                assembly_name=name, glycan_type=self.NAME_GLYCAN_HYBRID, protein_name=self.NAME_PROTEIN_S_CLOSED,
+                paths=hybrid_paths, indices=indices, allowed_occurrences=closed_conformation_indices)
+            self.add_multiple_glycans(
+                assembly_name=name, glycan_type=self.NAME_GLYCAN_HYBRID, protein_name=self.NAME_PROTEIN_S_OPEN,
+                paths=hybrid_paths, indices=indices, index_offset=19, allowed_occurrences=open_conformation_indices)
+
+            # O-Glycans
+            for index in [323, 325]:
+                o_glycan_name = name + '_' + self.NAME_GLYCAN_O_GLYCAN + '_' + str(index)
+                o_glycan = Sugars(
+                    assembly_name=name, name=o_glycan_name, source=o_glycan_paths[0],
+                    protein_name=name + '_' + self.NAME_PROTEIN_S_CLOSED, site_indices=[index])
+                self.add_sugars(o_glycan)
+
+            # High-mannose glycans on Protein M
+            self.add_multiple_glycans(
+                assembly_name=name, glycan_type=self.NAME_GLYCAN_HIGH_MANNOSE, protein_name=self.NAME_PROTEIN_M,
+                paths=high_mannose_paths)
+
+            # Complex glycans on Protein E
+            self.add_multiple_glycans(
+                assembly_name=name, glycan_type=self.NAME_GLYCAN_COMPLEX, protein_name=self.NAME_PROTEIN_E,
+                paths=complex_paths)
+
+        # Apply default materials
+        self.apply_default_color_scheme(shading_mode=self.SHADING_MODE_BASIC)
+
+
     def add_virus(self, virus, atom_radius_multiplier=1.0, representation=REPRESENTATION_ATOMS, clipping_planes=list(),
                   position=Vector3(), orientation=Quaternion()):
 
@@ -1231,115 +1355,6 @@ class BioExplorer(object):
         params['useColors'] = colored
         params['position'] = position.to_list()
         return self._client.rockets_client.request('add-grid', params)
-
-    def set_camera(self, origin, direction, up):
-        """
-        Sets the camera using origin, direction and up vectors
-
-        :param list origin: Origin of the camera
-        :param list direction: Direction in which the camera is looking
-        :param list up: Up vector
-        :return: Result of the request submission
-        :rtype: str
-        """
-        if self._client is None:
-            return
-
-        params = dict()
-        params['origin'] = origin
-        params['direction'] = direction
-        params['up'] = up
-        return self._client.rockets_client.request('set-odu-camera', params)
-
-    def get_camera(self):
-        """
-        Gets the origin, direction and up vector of the camera
-
-        :return: A JSon representation of the origin, direction and up vectors
-        :rtype: str
-        """
-        if self._client is None:
-            return
-
-        return self._client.rockets_client.request('get-odu-camera')
-
-    def export_frames_to_disk(self, path, animation_frames, camera_definitions, image_format='png',
-                              quality=100, samples_per_pixel=1, start_frame=0):
-        """
-        Exports frames to disk. Frames are named using a 6 digit representation of the frame number
-
-        :param str path: Folder into which frames are exported
-        :param list animation_frames: List of animation frames
-        :param list camera_definitions: List of camera definitions (origin, direction and up)
-        :param str image_format: Image format (the ones supported par Brayns: PNG, JPEG, etc)
-        :param float quality: Quality of the exported image (Between 0 and 100)
-        :param int samples_per_pixel: Number of samples per pixels
-        :param int start_frame: Optional value if the rendering should start at a specific frame.
-        This is used to resume the rendering of a previously canceled sequence)
-        :return: Result of the request submission
-        :rtype: str
-        """
-        if self._client is None:
-            return
-
-        params = dict()
-        params['path'] = path
-        params['format'] = image_format
-        params['quality'] = quality
-        params['spp'] = samples_per_pixel
-        params['startFrame'] = start_frame
-        params['animationInformation'] = animation_frames
-        values = list()
-        for camera_definition in camera_definitions:
-            # Origin
-            for i in range(3):
-                values.append(camera_definition[0][i])
-            # Direction
-            for i in range(3):
-                values.append(camera_definition[1][i])
-            # Up
-            for i in range(3):
-                values.append(camera_definition[2][i])
-            # Aperture radius
-            values.append(camera_definition[3])
-            # Focus distance
-            values.append(camera_definition[4])
-        params['cameraInformation'] = values
-        return self._client.rockets_client.request('export-frames-to-disk', params)
-
-    def get_export_frames_progress(self):
-        """
-        Queries the progress of the last export of frames to disk request
-
-        :return: Dictionary with the result: "frameNumber" with the number of
-        the last written-to-disk frame, and "done", a boolean flag stating wether
-        the exporting is finished or is still in progress
-        :rtype: dict
-        """
-        if self._client is None:
-            return
-
-        return self._client.rockets_client.request('get-export-frames-progress')
-
-    def cancel_frames_export(self):
-        """
-        Cancel the exports of frames to disk
-
-        :return: Result of the request submission
-        :rtype: str
-        """
-        if self._client is None:
-            return
-
-        params = dict()
-        params['path'] = '/tmp'
-        params['format'] = 'png'
-        params['quality'] = 100
-        params['spp'] = 1
-        params['startFrame'] = 0
-        params['animationInformation'] = []
-        params['cameraInformation'] = []
-        return self._client.rockets_client.request('export-frames-to-disk', params)
 
 
 ''' Internal classes '''
