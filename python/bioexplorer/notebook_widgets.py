@@ -23,7 +23,7 @@
 """BioExplorer widgets"""
 
 from ipywidgets import FloatSlider, Select, HBox, VBox, Layout, Button, SelectMultiple, \
-    IntProgress, Checkbox, IntRangeSlider, ColorPicker, IntSlider, Label
+    IntProgress, Checkbox, IntRangeSlider, ColorPicker, IntSlider, Label, Text
 import seaborn as sns
 from IPython.display import display
 from stringcase import pascalcase
@@ -419,65 +419,112 @@ class Widgets:
 
     def __display_advanced_settings(self, object_type):
 
-        class_name = None
-        if object_type == 'camera':
-            class_name = pascalcase(self._client.get_camera()['current'])
-            class_name += 'CameraParams'
-        elif object_type == 'renderer':
-            class_name = pascalcase(self._client.get_renderer()['current'])
-            class_name += 'RendererParams'
+        import threading
 
-        class_ = getattr(self._client, class_name)
-        params = class_()
+        class Updated:
 
-        widgets_list = dict()
+            def __init__(self, client, object_type):
+                self._object_type = object_type
+                self._widgets_list = dict()
+                self._native_params = None
+                self._client = client
+                class_name = None
+                if self._object_type == 'camera':
+                    class_name = pascalcase(self._client.get_camera()['current'])
+                    class_name += 'CameraParams'
+                elif self._object_type == 'renderer':
+                    class_name = pascalcase(self._client.get_renderer()['current'])
+                    class_name += 'RendererParams'
 
-        def update_params(v):
-            for widget in widgets_list:
-                params[widget] = widgets_list[widget].value
-            if object_type == 'camera':
-                self._client.set_camera_params(params)
-            elif object_type == 'renderer':
-                self._client.set_renderer_params(params)
+                # Read params from Brayns
+                self._native_params = self._get_params()
 
-        def get_value(props, key, default_value):
-            try:
-                return props[key]
-            except KeyError as e:
-                return default_value
+                # Read params from class definition
+                class_ = getattr(self._client, class_name)
+                self._param_descriptors = class_()
 
-        for param in params:
-            p = params[param]
-            props = p.__propinfo__['__literal__']
-            t = props['type']
-            value = params[param]
-            name = props['raw_name']
-            description = props['title']
+                # Only keep params that belong to the class definition
+                params_to_call = getattr(self._client, class_name)
+                self._params = params_to_call()
+                if self._native_params is not None:
+                    for param in self._native_params:
+                        if param in self._params:
+                            self._params[param] = self._native_params[param]
 
-            if t == 'number':
-                minimum = get_value(props, 'minimum', 0)
-                maximum = get_value(props, 'maximum', 1e4)
-                f = FloatSlider(description=description, min=minimum, max=maximum, value=value,
-                                style=style, layout=default_layout)
-                f.observe(update_params, 'value')
-                widgets_list[name] = f
-            elif t == 'integer':
-                minimum = get_value(props, 'minimum', 0)
-                maximum = get_value(props, 'maximum', 1e4)
-                f = IntSlider(description=description, min=minimum, max=maximum, value=value,
-                              style=style, layout=default_layout)
-                f.observe(update_params, 'value')
-                widgets_list[name] = f
-            elif t == 'boolean':
-                b = Checkbox(description=description, value=False, style=style,
-                             layout=default_layout)
-                b.observe(update_params, 'value')
-                widgets_list[name] = b
-            elif t == 'string':
-                b = Text(description=description, value=value, style=style, layout=default_layout)
-                b.observe(update_params, 'value')
-                widgets_list[name] = b
+                self._create_widgets()
 
+            def get_widgets(self):
+                return self._widgets_list
+
+            def thread_run(self):
+                while True:
+                    params = self._get_params()
+                    for widget in self._widgets_list.keys():
+                        self._widgets_list[widget].value = params[widget]
+
+                    import time
+                    time.sleep(1)
+
+            def _get_params(self):
+                if self._object_type == 'camera':
+                    return self._client.get_camera_params()
+                elif self._object_type == 'renderer':
+                    return self._client.get_renderer_params()
+                print('WTF: ' + self._object_type)
+                return None
+
+            def _update_params(self, v):
+                for widget in self._widgets_list.keys():
+                    setattr(self._params, widget, self._widgets_list[widget].value)
+
+                if self._object_type == 'camera':
+                    self._client.set_camera_params(self._params)
+                elif self._object_type == 'renderer':
+                    self._client.set_renderer_params(self._params)
+
+            def _get_value(self, props, key, default_value):
+                try:
+                    return props[key]
+                except KeyError as e:
+                    return default_value
+
+            def _create_widgets(self):
+                for param in self._param_descriptors:
+                    value = self._native_params[param]
+                    p = self._param_descriptors[param]
+                    props = p.__propinfo__['__literal__']
+                    description = props['title']
+
+                    if isinstance(value, float):
+                        minimum = self._get_value(props, 'minimum', 0)
+                        maximum = self._get_value(props, 'maximum', 1e4)
+                        f = FloatSlider(description=description, min=minimum, max=maximum, value=value,
+                                        style=style, layout=default_layout)
+                        f.observe(self._update_params, 'value')
+                        self._widgets_list[param] = f
+                    if isinstance(value, int):
+                        minimum = self._get_value(props, 'minimum', 0)
+                        maximum = self._get_value(props, 'maximum', 1e4)
+                        f = IntSlider(description=description, min=minimum, max=maximum, value=value,
+                                      style=style, layout=default_layout)
+                        f.observe(self._update_params, 'value')
+                        self._widgets_list[param] = f
+                    if isinstance(value, bool):
+                        b = Checkbox(description=description, value=bool(value), style=style,
+                                     layout=default_layout)
+                        b.observe(self._update_params, 'value')
+                        self._widgets_list[param] = b
+                    if isinstance(value, str):
+                        b = Text(description=description, value=value, style=style,
+                                 layout=default_layout)
+                        b.observe(self._update_params, 'value')
+                        self._widgets_list[param] = b
+
+        update_class = Updated(self._client, object_type)
+        t = threading.Thread(target=update_class.thread_run)
+        t.start()
+
+        widgets_list = update_class.get_widgets()
         vboxes = list()
         nb_widgets = len(widgets_list)
         nb_columns = 2
