@@ -378,7 +378,6 @@ class BioExplorer(object):
         # Apply default materials
         self.apply_default_color_scheme(shading_mode=self.SHADING_MODE_BASIC)
 
-
     def add_virus(self, virus, atom_radius_multiplier=1.0, representation=REPRESENTATION_ATOMS, clipping_planes=list(),
                   position=Vector3(), orientation=Quaternion()):
 
@@ -408,35 +407,37 @@ class BioExplorer(object):
 
         if virus.protein_s is not None:
             radius = virus.protein_s.assembly_params.x + virus.assembly_params.x
-            _protein_s_open = AssemblyProtein(
-                assembly_name=virus.name, name=virus.name + '_' + self.NAME_PROTEIN_S_OPEN,
-                source=_protein_s.sources[0],
-                shape=shape, load_hydrogen=_protein_s.load_hydrogen,
-                occurrences=_protein_s.number_of_instances,
-                assembly_params=Vector2(radius, _protein_s.assembly_params.y),
-                atom_radius_multiplier=atom_radius_multiplier,
-                load_bonds=_protein_s.load_bonds,
-                load_non_polymer_chemicals=_protein_s.load_non_polymer_chemicals,
-                representation=representation, random_seed=1,
-                location_cutoff_angle=_protein_s.cutoff_angle,
-                orientation=_protein_s.orientation,
-                allowed_occurrences=_protein_s.instance_indices[0])
-            self.add_assembly_protein(_protein_s_open)
+            if len(_protein_s.instance_indices[0]) > 0:
+                _protein_s_open = AssemblyProtein(
+                    assembly_name=virus.name, name=virus.name + '_' + self.NAME_PROTEIN_S_OPEN,
+                    source=_protein_s.sources[0],
+                    shape=shape, load_hydrogen=_protein_s.load_hydrogen,
+                    occurrences=_protein_s.number_of_instances,
+                    assembly_params=Vector2(radius, _protein_s.assembly_params.y),
+                    atom_radius_multiplier=atom_radius_multiplier,
+                    load_bonds=_protein_s.load_bonds,
+                    load_non_polymer_chemicals=_protein_s.load_non_polymer_chemicals,
+                    representation=representation, random_seed=1,
+                    location_cutoff_angle=_protein_s.cutoff_angle,
+                    orientation=_protein_s.orientation,
+                    allowed_occurrences=_protein_s.instance_indices[0])
+                self.add_assembly_protein(_protein_s_open)
 
-            _protein_s_closed = AssemblyProtein(
-                assembly_name=virus.name, name=virus.name + '_' + self.NAME_PROTEIN_S_CLOSED,
-                source=_protein_s.sources[1],
-                shape=shape, load_hydrogen=_protein_s.load_hydrogen,
-                occurrences=_protein_s.number_of_instances,
-                assembly_params=Vector2(radius, _protein_s.assembly_params.y),
-                atom_radius_multiplier=atom_radius_multiplier,
-                load_bonds=_protein_s.load_bonds,
-                load_non_polymer_chemicals=_protein_s.load_non_polymer_chemicals,
-                representation=representation, random_seed=1,
-                location_cutoff_angle=_protein_s.cutoff_angle,
-                orientation=_protein_s.orientation,
-                allowed_occurrences=_protein_s.instance_indices[1])
-            self.add_assembly_protein(_protein_s_closed)
+            if len(_protein_s.instance_indices[1]) > 0:
+                _protein_s_closed = AssemblyProtein(
+                    assembly_name=virus.name, name=virus.name + '_' + self.NAME_PROTEIN_S_CLOSED,
+                    source=_protein_s.sources[1],
+                    shape=shape, load_hydrogen=_protein_s.load_hydrogen,
+                    occurrences=_protein_s.number_of_instances,
+                    assembly_params=Vector2(radius, _protein_s.assembly_params.y),
+                    atom_radius_multiplier=atom_radius_multiplier,
+                    load_bonds=_protein_s.load_bonds,
+                    load_non_polymer_chemicals=_protein_s.load_non_polymer_chemicals,
+                    representation=representation, random_seed=1,
+                    location_cutoff_angle=_protein_s.cutoff_angle,
+                    orientation=_protein_s.orientation,
+                    allowed_occurrences=_protein_s.instance_indices[1])
+                self.add_assembly_protein(_protein_s_closed)
 
         if virus.protein_m is not None:
             radius = virus.protein_m.assembly_params.x + virus.assembly_params.x
