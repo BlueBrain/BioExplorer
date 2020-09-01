@@ -26,7 +26,7 @@ from .bio_explorer import BioExplorer
 
 
 class MovieMaker:
-    """Movie maker"""
+    """ Movie maker """
 
     def __init__(self, bioexplorer):
         assert isinstance(bioexplorer, BioExplorer)
@@ -37,9 +37,9 @@ class MovieMaker:
         """
         Build a camera path from control points
 
-        :param list control_points: List of control points
-        :param int nb_steps_per_sequence: Number of frames between two control points
-        :param int smoothing_size: Number of steps to be considered for the smoothing of the path
+        @param control_points: List of control points
+        @param nb_steps_between_control_points: Number of steps between two control points
+        @param smoothing_size: Number of steps to be considered for the smoothing of the path
         """
         self._smoothed_key_frames = list()
 
@@ -109,21 +109,18 @@ class MovieMaker:
 
     def get_nb_frames(self):
         """
-        Gets the number of smoothed frames
+        Get the number of smoothed frames
 
-        :return: The number of smoothed frames
-        :rtype: int
+        @return: The number of smoothed frames
         """
         return len(self._smoothed_key_frames)
 
     def get_key_frame(self, frame):
         """
-        Gets the smoothed camera information for the given frame
+        Get the smoothed camera information for the given frame
 
-        :param int frame: Frame number
-        :return: The smoothed camera information for the given frame
-        :rtype: list
-        :raise KeyError: Specified frame is out of range
+        @param int frame: Frame number
+        @return: The smoothed camera information for the given frame
         """
         if frame < len(self._smoothed_key_frames):
             return self._smoothed_key_frames[frame]
@@ -131,13 +128,12 @@ class MovieMaker:
 
     def set_camera(self, origin, direction, up):
         """
-        Sets the camera using origin, direction and up vectors
+        Set the camera using origin, direction and up vectors
 
-        :param list origin: Origin of the camera
-        :param list direction: Direction in which the camera is looking
-        :param list up: Up vector
-        :return: Result of the request submission
-        :rtype: str
+        @param list origin: Origin of the camera
+        @param list direction: Direction in which the camera is looking
+        @param list up: Up vector
+        @return: Result of the request submission
         """
         params = dict()
         params['origin'] = origin
@@ -147,10 +143,9 @@ class MovieMaker:
 
     def get_camera(self):
         """
-        Gets the origin, direction and up vector of the camera
+        Get the origin, direction and up vector of the camera
 
-        :return: A JSon representation of the origin, direction and up vectors
-        :rtype: str
+        @return: A JSon representation of the origin, direction and up vectors
         """
         return self._client.rockets_client.request('get-odu-camera')
 
@@ -159,14 +154,13 @@ class MovieMaker:
         """
         Exports frames to disk. Frames are named using a 6 digit representation of the frame number
 
-        :param str path: Folder into which frames are exported
-        :param str image_format: Image format (the ones supported par Brayns: PNG, JPEG, etc)
-        :param float quality: Quality of the exported image (Between 0 and 100)
-        :param int samples_per_pixel: Number of samples per pixels
-        :param int start_frame: Optional value if the rendering should start at a specific frame.
+        @param path: Folder into which frames are exported
+        @param image_format: Image format (the ones supported par Brayns: PNG, JPEG, etc)
+        @param quality: Quality of the exported image (Between 0 and 100)
+        @param samples_per_pixel: Number of samples per pixels
+        @param start_frame: Optional value if the rendering should start at a specific frame.
         This is used to resume the rendering of a previously canceled sequence)
-        :return: Result of the request submission
-        :rtype: str
+        @return: Result of the request submission
         """
 
         assert isinstance(size, list)
@@ -219,10 +213,9 @@ class MovieMaker:
         """
         Queries the progress of the last export of frames to disk request
 
-        :return: Dictionary with the result: "frameNumber" with the number of
+        @return: Dictionary with the result: "frameNumber" with the number of
         the last written-to-disk frame, and "done", a boolean flag stating wether
         the exporting is finished or is still in progress
-        :rtype: dict
         """
         return self._client.rockets_client.request('get-export-frames-progress')
 
@@ -230,8 +223,7 @@ class MovieMaker:
         """
         Cancel the exports of frames to disk
 
-        :return: Result of the request submission
-        :rtype: str
+        @return: Result of the request submission
         """
         params = dict()
         params['path'] = '/tmp'
