@@ -24,6 +24,8 @@
 #include <brayns/engineapi/Material.h>
 #include <brayns/engineapi/Scene.h>
 
+#include <sstream>
+
 namespace bioexplorer
 {
 Glycans::Glycans(Scene& scene, const SugarsDescriptor& sd, Vector3fs positions,

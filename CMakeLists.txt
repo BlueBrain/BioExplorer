@@ -25,6 +25,7 @@ find_package(Brayns REQUIRED)
 find_package(ospray REQUIRED SYSTEM)
 find_package(Boost REQUIRED COMPONENTS program_options filesystem)
 find_package(glm REQUIRED SYSTEM)
+find_package(FreeImage REQUIRED)
 find_package(CGAL)
 
 include(ispc)
@@ -109,10 +110,9 @@ include_directories(
 )
 
 set(${NAME}_LINK_LIBRARIES
-    PUBLIC ${OSPRAY_LIBRARIES} ${CGAL_LIBRARIES}
-           ${Boost_FILESYSTEM_LIBRARY} ${Boost_PROGRAM_OPTIONS_LIBRARY}
+    PUBLIC ${OSPRAY_LIBRARIES}
     PRIVATE braynsParameters braynsPluginAPI braynsCommon braynsEngine braynsIO
-            braynsOSPRayEngine
+            braynsOSPRayEngine ${CGAL_LIBRARIES} ${FreeImage_LIBRARIES}
 )
 
 add_library(

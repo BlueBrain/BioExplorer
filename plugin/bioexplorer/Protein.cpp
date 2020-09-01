@@ -25,6 +25,8 @@
 #include <brayns/engineapi/Material.h>
 #include <brayns/engineapi/Scene.h>
 
+#include <sstream>
+
 namespace bioexplorer
 {
 const std::string METADATA_AA_RANGE = "Amino acids range";
