@@ -55,10 +55,9 @@ def test_virus():
 
     ''' Suspend image streaming '''
     be.core_api().set_application_parameters(image_stream_fps=0)
-    be.set_camera(direction=[-0.882, 0.154, -0.444], origin=[65, -157, 304], up=[0.082, 0.980, 0.176])
 
     # Protein S
-    open_conformation_indices = nb_protein_s_indices  # [1]
+    open_conformation_indices = nb_protein_s_indices
     closed_conformation_indices = list()
     for i in range(nb_protein_s):
         if i not in open_conformation_indices:

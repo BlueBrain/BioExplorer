@@ -78,8 +78,8 @@ def add_virus(name, position, open_conformation_indices=list()):
 
     virus_protein_s = Protein(
         sources=[
-            pdb_folder + '6vyb.pdb',  # Open conformation
-            pdb_folder + 'sars-cov-2-v1.pdb'  # Closed conformation
+            pdb_folder + '6vyb.pdb',         # Open conformation
+            pdb_folder + 'sars-cov-2-v1.pdb' # Closed conformation
         ],
         load_hydrogen=protein_load_hydrogen, number_of_instances=nb_protein_s,
         assembly_params=Vector2(11.5, 0.0), cutoff_angle=0.999,
@@ -130,11 +130,12 @@ def add_virus(name, position, open_conformation_indices=list()):
             protein_name=be.NAME_PROTEIN_S_CLOSED, paths=high_mannose_paths,
             indices=indices, add_sticks=glycan_add_sticks,
             allowed_occurrences=closed_conformation_indices)
-        be.add_multiple_glycans(
-            assembly_name=name, glycan_type=be.NAME_GLYCAN_HIGH_MANNOSE,
-            protein_name=be.NAME_PROTEIN_S_OPEN, paths=high_mannose_paths,
-            indices=indices, index_offset=19, add_sticks=glycan_add_sticks,
-            allowed_occurrences=open_conformation_indices)
+        if len(open_conformation_indices) > 0:
+            be.add_multiple_glycans(
+                assembly_name=name, glycan_type=be.NAME_GLYCAN_HIGH_MANNOSE,
+                protein_name=be.NAME_PROTEIN_S_OPEN, paths=high_mannose_paths,
+                indices=indices, index_offset=19, add_sticks=glycan_add_sticks,
+                allowed_occurrences=open_conformation_indices)
 
         ''' Complex '''
         be.add_multiple_glycans(
@@ -142,12 +143,13 @@ def add_virus(name, position, open_conformation_indices=list()):
             protein_name=be.NAME_PROTEIN_S_CLOSED, paths=complex_paths,
             indices=[17, 74, 149, 165, 282, 331, 343, 616, 1098, 1134, 1158, 1173, 1194], add_sticks=glycan_add_sticks,
             allowed_occurrences=closed_conformation_indices)
-        be.add_multiple_glycans(
-            assembly_name=name, glycan_type=be.NAME_GLYCAN_COMPLEX,
-            protein_name=be.NAME_PROTEIN_S_OPEN, paths=complex_paths,
-            indices=[17, 74, 149, 165, 282, 331, 343, 1098, 1134, 1158, 1173, 1194], index_offset=19,
-            add_sticks=glycan_add_sticks,
-            allowed_occurrences=open_conformation_indices)
+        if len(open_conformation_indices) > 0:
+            be.add_multiple_glycans(
+                assembly_name=name, glycan_type=be.NAME_GLYCAN_COMPLEX,
+                protein_name=be.NAME_PROTEIN_S_OPEN, paths=complex_paths,
+                indices=[17, 74, 149, 165, 282, 331, 343, 1098, 1134, 1158, 1173, 1194], index_offset=19,
+                add_sticks=glycan_add_sticks,
+                allowed_occurrences=open_conformation_indices)
 
         ''' Hybrid '''
         indices = [657]
@@ -155,11 +157,12 @@ def add_virus(name, position, open_conformation_indices=list()):
             assembly_name=name, glycan_type=be.NAME_GLYCAN_HYBRID,
             protein_name=be.NAME_PROTEIN_S_CLOSED, paths=hybrid_paths,
             indices=indices, add_sticks=glycan_add_sticks, allowed_occurrences=closed_conformation_indices)
-        be.add_multiple_glycans(
-            assembly_name=name, glycan_type=be.NAME_GLYCAN_HYBRID,
-            protein_name=be.NAME_PROTEIN_S_OPEN, paths=hybrid_paths,
-            indices=indices, index_offset=19, add_sticks=glycan_add_sticks,
-            allowed_occurrences=open_conformation_indices)
+        if len(open_conformation_indices) > 0:
+            be.add_multiple_glycans(
+                assembly_name=name, glycan_type=be.NAME_GLYCAN_HYBRID,
+                protein_name=be.NAME_PROTEIN_S_OPEN, paths=hybrid_paths,
+                indices=indices, index_offset=19, add_sticks=glycan_add_sticks,
+                allowed_occurrences=open_conformation_indices)
 
         ''' O-Glycans '''
         for index in [323, 325]:
@@ -211,8 +214,8 @@ def add_cell(name, size, height, position=Vector3()):
             protein_name=be.NAME_RECEPTOR, paths=hybrid_paths, indices=[555])
 
         indices = [
-            [164, [0.707, 0.0, 0.707, 0.0]],
-            [739, [0.707, 0.0, 0.707, 0.0]]
+            [164, Quaternion(0.707, 0.0, 0.707, 0.0)],
+            [739, Quaternion(0.707, 0.0, 0.707, 0.0)]
         ]
         for index in indices:
             o_glycan_name = name + '_' + be.NAME_GLYCAN_O_GLYCAN + '_' + str(index[0])
@@ -272,6 +275,7 @@ def test_low_glucose():
     # Suspend image streaming
     be.core_api().set_application_parameters(image_stream_fps=0)
 
+    # Build full model
     add_virus(name='Coronavirus 1', position=Vector3(-5.0, 19.0, -36.0))
     add_virus(name='Coronavirus 2', position=Vector3(73.0, 93.0, -115.0))
     add_virus(name='Coronavirus 3', position=Vector3(-84.0, 110.0, 75.0))
