@@ -32,6 +32,7 @@ class MovieMaker:
         assert isinstance(bioexplorer, BioExplorer)
         self._be = bioexplorer
         self._client = bioexplorer.core_api()
+        self._smoothed_key_frames = list()
 
     def build_camera_path(self, control_points, nb_steps_between_control_points, smoothing_size=1):
         """
@@ -41,8 +42,6 @@ class MovieMaker:
         @param nb_steps_between_control_points: Number of steps between two control points
         @param smoothing_size: Number of steps to be considered for the smoothing of the path
         """
-        self._smoothed_key_frames = list()
-
         origins = list()
         directions = list()
         ups = list()
