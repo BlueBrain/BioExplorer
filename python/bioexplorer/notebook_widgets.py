@@ -22,6 +22,7 @@
 
 """BioExplorer widgets"""
 
+from .movie_maker import MovieMaker
 from ipywidgets import FloatSlider, Select, HBox, VBox, Layout, Button, SelectMultiple, \
     IntProgress, Checkbox, IntRangeSlider, ColorPicker, IntSlider, Label, Text
 import seaborn as sns
@@ -67,6 +68,7 @@ class Widgets:
     def __init__(self, bioexplorer):
         self._be = bioexplorer
         self._client = bioexplorer.core_api()
+        self._movie_maker = MovieMaker(bioexplorer)
 
     def display_focal_distance(self):
         x_slider = FloatSlider(description='X', min=0, max=1, value=0.5)
@@ -341,36 +343,30 @@ class Widgets:
         self._client.set_application_parameters(viewport=size)
         self._client.set_application_parameters(image_stream_fps=0)
 
-        af = list()
-        cd = list()
-        cam = self._be.get_camera()
-        af.append(0)
-        cd.append([cam['origin'], cam['direction'], cam['up'], cam['apertureRadius'],
-                   cam['focusDistance']])
+        control_points = [self._movie_maker.get_camera()]
+        self._movie_maker.build_camera_path(control_points=control_points, nb_steps_between_control_points=1,
+                                            smoothing_size=1)
+        self._movie_maker.export_frames(path=output_folder, size=size, samples_per_pixel=samples_per_pixel)
 
-        self._be.export_frames_to_disk(
-            start_frame=0,
-            animation_frames=af,
-            camera_definitions=cd,
-            path=output_folder,
-            samples_per_pixel=samples_per_pixel)
+        progress_widget = IntProgress(description='In progress...', min=0, max=100, value=0)
+        display(progress_widget)
 
-        progress = IntProgress(description='In progress...', min=0, max=100, value=0)
-        display(progress)
-
-        while self._be.get_export_frames_progress()['progress'] < 1.0:
+        progress = 0
+        while progress < 1.0:
             import time
             time.sleep(0.2)
-            progress.value = \
-                self._be.get_export_frames_progress()['progress'] * 100
+            progress = self._movie_maker.get_export_frames_progress()['progress']
+            if progress is None:
+                progress = 1.0
+            progress_widget.value = progress * 100
 
         self._client.set_application_parameters(image_stream_fps=old_image_stream_fps,
                                                 viewport=old_viewport_size)
         self._client.set_renderer(samples_per_pixel=old_samples_per_pixel,
                                   max_accum_frames=old_max_accum_frames)
 
-        progress.description = 'Done'
-        progress.value = 100
+        progress_widget.description = 'Done'
+        progress_widget.value = 100
 
     def create_movie(self, camera_key_frames, images_between_frames, smoothing_frames, output_size, output_folder,
                      camera_projection, samples_per_pixel=64, start_frame=0):

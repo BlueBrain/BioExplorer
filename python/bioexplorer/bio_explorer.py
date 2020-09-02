@@ -923,7 +923,7 @@ class BioExplorer(object):
         @param mesh: Description of the mesh
         @return: Result of the call to the BioExplorer backend
         """
-        assert isinstance(mesh, Mesh)
+        assert isinstance(mesh, AssemblyMesh)
 
         params = dict()
         params['assemblyName'] = mesh.assembly_name
