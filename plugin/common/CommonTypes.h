@@ -38,4 +38,12 @@ enum MaterialShadingMode
     checker = 8,
 };
 
+enum CameraStereoMode
+{
+    mono = 0,
+    left = 1,
+    right = 2,
+    side_by_side = 3
+};
+
 #endif // COMMONTYPES_H

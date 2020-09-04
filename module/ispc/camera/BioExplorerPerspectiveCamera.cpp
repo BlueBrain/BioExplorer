@@ -16,6 +16,7 @@
 
 #include "BioExplorerPerspectiveCamera.h"
 #include <limits>
+
 // ispc-side stuff
 #include "BioExplorerPerspectiveCamera_ispc.h"
 
@@ -44,7 +45,8 @@ void BioExplorerPerspectiveCamera::commit()
     aspect = getParamf("aspect", 1.f);
     apertureRadius = getParamf("apertureRadius", 0.f);
     focusDistance = getParamf("focusDistance", 1.f);
-    stereo = getParam("stereo", false);
+    stereoMode = getParam("stereo", 0) ? CameraStereoMode::side_by_side
+                                       : CameraStereoMode::mono;
     // the default 63.5mm represents the average human IPD
     interpupillaryDistance = getParamf("interpupillaryDistance", 0.0635f);
     enableClippingPlanes = getParam("enableClippingPlanes", 0);
@@ -62,16 +64,19 @@ void BioExplorerPerspectiveCamera::commit()
     vec3f org = pos;
     const vec3f ipd_offset = 0.5f * interpupillaryDistance * dir_du;
 
-    if (stereo)
+    switch (stereoMode)
     {
-        auto bufferTarget = getParamString("buffer_target");
-        if (bufferTarget.length() == 2)
-        {
-            if (bufferTarget.at(1) == 'L')
-                org -= ipd_offset;
-            if (bufferTarget.at(1) == 'R')
-                org += ipd_offset;
-        }
+    case CameraStereoMode::left:
+        org -= ipd_offset;
+        break;
+    case CameraStereoMode::right:
+        org += ipd_offset;
+        break;
+    case CameraStereoMode::side_by_side:
+        aspect *= 0.5f;
+        break;
+    case CameraStereoMode::mono:
+        break;
     }
 
     float imgPlane_size_y = 2.f * tanf(deg2rad(0.5f * fovy));
@@ -98,7 +103,7 @@ void BioExplorerPerspectiveCamera::commit()
     ispc::BioExplorerPerspectiveCamera_set(
         getIE(), (const ispc::vec3f&)org, (const ispc::vec3f&)dir_00,
         (const ispc::vec3f&)dir_du, (const ispc::vec3f&)dir_dv, scaledAperture,
-        aspect, (const ispc::vec3f&)ipd_offset,
+        aspect, (const ispc::vec3f&)ipd_offset, stereoMode,
         (const ispc::vec4f*)clipPlaneData, numClipPlanes);
 }
 

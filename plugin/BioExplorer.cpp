@@ -88,6 +88,9 @@ void _addBioExplorerPerspectiveCamera(brayns::Engine &engine)
     properties.setProperty({"apertureRadius", 0., {"Aperture radius"}});
     properties.setProperty({"focusDistance", 1., {"Focus Distance"}});
     properties.setProperty({"enableClippingPlanes", true, {"Clipping"}});
+    properties.setProperty({"stereo", false, {"Stereo"}});
+    properties.setProperty(
+        {"interpupillaryDistance", 0.0635, 0.0, 10.0, {"Eye separation"}});
     engine.addCameraType("bio_explorer_perspective", properties);
 }
 
