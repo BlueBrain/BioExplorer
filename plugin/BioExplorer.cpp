@@ -285,7 +285,7 @@ void BioExplorer::preRender()
             _exportFramesToDiskDirty = false;
         else
         {
-            const uint64_t i = 11 * _frameNumber;
+            const uint64_t i = 12 * _frameNumber;
             // Camera position
             CameraDefinition cd;
             const auto &ci = _exportFramesToDiskPayload.cameraInformation;
@@ -294,6 +294,7 @@ void BioExplorer::preRender()
             cd.up = {ci[i + 6], ci[i + 7], ci[i + 8]};
             cd.apertureRadius = ci[i + 9];
             cd.focusDistance = ci[i + 10];
+            cd.interpupillaryDistance = ci[i + 11];
             _setCamera(cd);
 
             // Animation parameters
@@ -935,6 +936,11 @@ void BioExplorer::_setCamera(const CameraDefinition &payload)
 
     // Focus distance
     camera.updateProperty("focusDistance", payload.focusDistance);
+
+    // Stereo
+    camera.updateProperty("stereo", payload.focusDistance != 0.0);
+    camera.updateProperty("interpupillaryDistance",
+                          payload.interpupillaryDistance);
 
     _api->getCamera().markModified();
 

@@ -459,6 +459,7 @@ struct CameraDefinition
     std::vector<double> up;
     double apertureRadius;
     double focusDistance;
+    double interpupillaryDistance;
 };
 
 struct ExportFramesToDisk

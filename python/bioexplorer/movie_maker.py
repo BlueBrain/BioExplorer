@@ -149,7 +149,7 @@ class MovieMaker:
         return self._client.rockets_client.request('get-odu-camera')
 
     def export_frames(self, path, size, image_format='png',
-                      quality=100, samples_per_pixel=1, start_frame=0):
+                      quality=100, samples_per_pixel=1, start_frame=0, interpupillary_distance=0.0):
         """
         Exports frames to disk. Frames are named using a 6 digit representation of the frame number
 
@@ -158,6 +158,7 @@ class MovieMaker:
         @param quality: Quality of the exported image (Between 0 and 100)
         @param samples_per_pixel: Number of samples per pixels
         @param start_frame: Optional value if the rendering should start at a specific frame.
+        @param interpupillary_distance: Distance between pupils. Stereo mode is activated if different from zero
         This is used to resume the rendering of a previously canceled sequence)
         @return: Result of the request submission
         """
@@ -197,6 +198,9 @@ class MovieMaker:
             values.append(camera_definition[3])
             # Focus distance
             values.append(camera_definition[4])
+            # Interpupillary distance
+            values.append(interpupillary_distance)
+
         params['cameraInformation'] = values
         self._client.rockets_client.request('export-frames-to-disk', params)
 
