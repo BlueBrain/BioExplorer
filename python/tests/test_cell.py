@@ -31,7 +31,7 @@ def test_cell():
     be.reset()
 
     # Suspend image streaming
-    be.core_api().set_set_application_parameters(image_stream_fps=0)
+    be.core_api().set_application_parameters(image_stream_fps=0)
 
     # Proteins
     protein_representation = be.REPRESENTATION_ATOMS
@@ -48,7 +48,7 @@ def test_cell():
 
     membrane = Membrane(
         sources=[pdb_folder + 'membrane/popc.pdb'],
-        number_of_instances=400000)
+        number_of_instances=1200000)
 
     cell = Cell(
         name='Cell',
