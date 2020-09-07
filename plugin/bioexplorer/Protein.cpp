@@ -330,6 +330,10 @@ void Protein::_setRegionColorScheme(const Palette& palette,
 
 void Protein::_setGlycosylationSiteColorScheme(const Palette& palette)
 {
+    if (palette.size() != 2)
+        PLUGIN_THROW(
+            std::runtime_error("Invalid palette size. 2 colors are expected"));
+
     // Initialize atom colors
     for (const auto& atom : _atomMap)
     {

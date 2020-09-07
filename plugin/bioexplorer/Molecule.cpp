@@ -387,6 +387,10 @@ void Molecule::_setAtomColorScheme()
 
 void Molecule::_setAminoAcidSequenceColorScheme(const Palette& palette)
 {
+    if (palette.size() != 2)
+        PLUGIN_THROW(
+            std::runtime_error("Invalid palette size. 2 colors are expected"));
+
     size_t atomCount = 0;
     for (const auto& sequence : _sequenceMap)
     {

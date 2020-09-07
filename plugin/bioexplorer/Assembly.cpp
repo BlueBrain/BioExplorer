@@ -347,6 +347,9 @@ void Assembly::_processInstances(
 
 void Assembly::setColorScheme(const ColorSchemeDescriptor &csd)
 {
+    if (csd.palette.size() < 3 || csd.palette.size() % 3 != 0)
+        PLUGIN_THROW(std::runtime_error("Invalid palette size"));
+
     ProteinPtr protein{nullptr};
     auto it = _proteins.find(csd.name);
     if (it != _proteins.end())
@@ -368,6 +371,8 @@ void Assembly::setColorScheme(const ColorSchemeDescriptor &csd)
         PLUGIN_INFO << "Applying color scheme to protein " << csd.name
                     << " on assembly " << csd.assemblyName << std::endl;
         protein->setColorScheme(csd.colorScheme, palette, csd.chainIds);
+
+        _scene.markModified();
     }
     else
         PLUGIN_ERROR << "Protein " << csd.name << " not found on assembly "
