@@ -107,7 +107,7 @@ float sinusoide(const float x, const float z);
 
 /**
  * @brief getSinosoidalPosition
- * @param assemblyRadius
+ * @param size
  * @param height
  * @param randomizationType
  * @param randomSeed

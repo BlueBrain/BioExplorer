@@ -23,35 +23,113 @@
 
 namespace bioexplorer
 {
+/**
+ * @brief The Assembly class is a container for biological entities (proteins,
+ * membranes, sugars, etc.)
+ */
 class Assembly
 {
 public:
+    /**
+     * @brief Assembly Default constructor
+     * @param scene Scene to which assembly should be added
+     * @param assemblyDescriptor Description of the assembly
+     */
     Assembly(Scene &scene, const AssemblyDescriptor &assemblyDescriptor);
+
     ~Assembly();
 
-    void setColorScheme(const ColorSchemeDescriptor &csd);
-    void setAminoAcidSequenceAsString(
-        const AminoAcidSequenceAsStringDescriptor &aasd);
-    void setAminoAcidSequenceAsRange(
-        const AminoAcidSequenceAsRangeDescriptor &aasd);
-    std::string getAminoAcidInformation(
-        const AminoAcidInformationDescriptor &payload) const;
+    /**
+     * @brief setColorScheme Set a color scheme to a protein of the assembly
+     * @param descriptor Color scheme descriptor
+     */
+    void setColorScheme(const ColorSchemeDescriptor &descriptor);
 
+    /**
+     * @brief setAminoAcidSequenceAsString Apply a color scheme to visualize a
+     * given amino acid sequence defined by a string
+     * @param descriptor Amino acid sequence as a string
+     */
+    void setAminoAcidSequenceAsString(
+        const AminoAcidSequenceAsStringDescriptor &descriptor);
+
+    /**
+     * @brief setAminoAcidSequenceAsRange Apply a color scheme to visualize a
+     * given amino acid sequence defined by a range of indices
+     * @param descriptor Amino acid sequence as a range of indices
+     */
+    void setAminoAcidSequenceAsRange(
+        const AminoAcidSequenceAsRangeDescriptor &descriptor);
+
+    /**
+     * @param descriptor Name of the assembly and name of the protein
+     * @return Amino acid sequence and indices for a given protein of the
+     * assembly
+     */
+    std::string getAminoAcidInformation(
+        const AminoAcidInformationDescriptor &descriptor) const;
+
+    /**
+     * @return Clipping planes applied to the assembly
+     */
     Vector4fs &getClippingPlanes() { return _clippingPlanes; }
+
+    /**
+     * @brief setClippingPlanes Set clipping planes on the assembly
+     * @param clippingPlanes Clipping planes as a vector of 4 floats
+     */
     void setClippingPlanes(const Vector4fs &clippingPlanes)
     {
         _clippingPlanes = clippingPlanes;
     }
 
+    /**
+     * @return The description of the assembly
+     */
     const AssemblyDescriptor &getDescriptor() { return _descriptor; }
+
+    /**
+     * @return A map of the proteins in the assembly
+     */
     const ProteinMap &getProteins() const { return _proteins; }
 
-    void addMembrane(const MembraneDescriptor &md);
-    void addRNASequence(const RNASequenceDescriptor &rd);
-    void addProtein(const ProteinDescriptor &pd);
-    void addMesh(const MeshDescriptor &md);
-    void addGlycans(const SugarsDescriptor &sd);
-    void addSugars(const SugarsDescriptor &sd);
+    /**
+     * @brief addMembrane Add a membrane to the assembly
+     * @param descriptor Membrane descriptor
+     */
+    void addMembrane(const MembraneDescriptor &descriptor);
+
+    /**
+     * @brief addRNASequence Add an RNA sequence to the assembly
+     * @param descriptor Descriptor of the RNA sequence
+     */
+    void addRNASequence(const RNASequenceDescriptor &descriptor);
+
+    /**
+     * @brief addProtein Add a protein to the assembly
+     * @param descriptor Descriptor of the protein
+     */
+    void addProtein(const ProteinDescriptor &descriptor);
+
+    /**
+     * @brief addMesh Add a mesh to the assembly
+     * @param descriptor Descriptor of the mesh
+     */
+    void addMesh(const MeshDescriptor &descriptor);
+
+    /**
+     * @brief addGlycans Add glycans to glycosilation sites of a given protein
+     * in the assembly
+     * @param descriptor Descriptor of the glycans
+     */
+    void addGlycans(const SugarsDescriptor &descriptor);
+
+    /**
+     * @brief addSugars Add sugars to sugar binding sites of a given protein of
+     * the assembly
+     * @param descriptor Descriptor of the sugars
+     */
+    void addSugars(const SugarsDescriptor &descriptor);
 
 private:
     void _processInstances(ModelDescriptorPtr md, const std::string &name,

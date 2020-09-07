@@ -229,8 +229,8 @@ void Assembly::_processInstances(
     model.addCone(0, {{0, 0, 0}, {0, 0, 1}, 0.1f, 0.f});
 #endif
 
-    size_t instanceCount = 0;
-    for (size_t i = 0; i < occurrences; ++i)
+    uint64_t instanceCount = 0;
+    for (uint64_t i = 0; i < occurrences; ++i)
     {
         if (!allowedOccurrences.empty() &&
             std::find(allowedOccurrences.begin(), allowedOccurrences.end(),

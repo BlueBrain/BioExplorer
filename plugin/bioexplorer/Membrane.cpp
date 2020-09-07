@@ -132,7 +132,7 @@ void Membrane::_processInstances()
     for (size_t i = 0; i < _proteins.size(); ++i)
         instanceCounts[i] = 0;
 
-    for (size_t i = 0; i < _descriptor.occurrences; ++i)
+    for (uint64_t i = 0; i < _descriptor.occurrences; ++i)
     {
         const size_t id = rand() % _proteins.size();
         const auto name = _getElementNameFromId(id);
