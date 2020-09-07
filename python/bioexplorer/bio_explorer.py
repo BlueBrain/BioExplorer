@@ -1006,7 +1006,8 @@ class BioExplorer(object):
                 occurrences = allowed_occurrences
 
             _glycans = Sugars(
-                assembly_name=assembly_name, name=assembly_name + '_' + protein_name + '_' + glycan_type, source=path,
+                assembly_name=assembly_name,
+                name=assembly_name + '_' + protein_name + '_' + glycan_type + '_' + str(path_index), source=path,
                 protein_name=assembly_name + '_' + protein_name, chain_ids=chain_ids,
                 atom_radius_multiplier=atom_radius_multiplier, add_sticks=add_sticks, recenter=True,
                 site_indices=site_indices, allowed_occurrences=occurrences, orientation=Quaternion())

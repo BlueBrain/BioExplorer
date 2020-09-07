@@ -51,11 +51,37 @@ Assembly::Assembly(Scene &scene, const AssemblyDescriptor &ad)
 Assembly::~Assembly()
 {
     for (const auto &protein : _proteins)
+    {
+        const auto modelId = protein.second->getModelDescriptor()->getModelID();
+        PLUGIN_INFO << "Removing protein <" << modelId << "><" << protein.first
+                    << "> from assembly <" << _descriptor.name << ">"
+                    << std::endl;
         _scene.removeModel(protein.second->getModelDescriptor()->getModelID());
+    }
     for (const auto &mesh : _meshes)
+    {
+        const auto modelId = mesh.second->getModelDescriptor()->getModelID();
+        PLUGIN_INFO << "Removing mesh <" << modelId << "><" << mesh.first
+                    << "> from assembly <" << _descriptor.name << ">"
+                    << std::endl;
         _scene.removeModel(mesh.second->getModelDescriptor()->getModelID());
+    }
+    for (const auto &glycan : _glycans)
+    {
+        const auto modelId = glycan.second->getModelDescriptor()->getModelID();
+        PLUGIN_INFO << "Removing glycan <" << modelId << "><" << glycan.first
+                    << "> from assembly <" << _descriptor.name << ">"
+                    << std::endl;
+        _scene.removeModel(modelId);
+    }
     if (_rnaSequence)
-        _scene.removeModel(_rnaSequence->getModelDescriptor()->getModelID());
+    {
+        const auto modelId = _rnaSequence->getModelDescriptor()->getModelID();
+        PLUGIN_INFO << "Removing <" << modelId
+                    << "><RNA sequence> from assembly <" << _descriptor.name
+                    << ">" << std::endl;
+        _scene.removeModel(modelId);
+    }
 }
 
 void Assembly::addProtein(const ProteinDescriptor &pd)
