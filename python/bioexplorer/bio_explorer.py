@@ -973,7 +973,7 @@ class BioExplorer(object):
 
     def add_multiple_glycans(
             self, assembly_name, glycan_type, protein_name, paths, chain_ids=list(), indices=list(),
-            allowed_occurrences=list(), index_offset=0, add_sticks=False, atom_radius_multiplier=1.0):
+            allowed_occurrences=list(), index_offset=0, add_sticks=True, atom_radius_multiplier=1.0):
         """
         Add glycans to a protein in a assembly
 
