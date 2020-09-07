@@ -37,6 +37,14 @@
 
 namespace bioexplorer
 {
+#define CATCH_STD_EXCEPTION()                  \
+    catch (const std::runtime_error &e)        \
+    {                                          \
+        response.status = false;               \
+        response.contents = e.what();          \
+        PLUGIN_ERROR << e.what() << std::endl; \
+    }
+
 void _addBioExplorerRenderer(brayns::Engine &engine)
 {
     PLUGIN_INFO << "Registering 'bio_explorer' renderer" << std::endl;
@@ -342,12 +350,7 @@ Response BioExplorer::_addAssembly(const AssemblyDescriptor &payload)
         AssemblyPtr assembly = AssemblyPtr(new Assembly(scene, payload));
         _assemblies[payload.name] = std::move(assembly);
     }
-    catch (const std::runtime_error &e)
-    {
-        response.status = false;
-        response.contents = e.what();
-        PLUGIN_ERROR << e.what() << std::endl;
-    }
+    CATCH_STD_EXCEPTION()
     return response;
 }
 
@@ -369,11 +372,7 @@ Response BioExplorer::_setColorScheme(
             response.contents = msg.str();
         }
     }
-    catch (const std::runtime_error &e)
-    {
-        response.status = false;
-        response.contents = e.what();
-    }
+    CATCH_STD_EXCEPTION()
     return response;
 }
 
@@ -398,11 +397,7 @@ Response BioExplorer::_setAminoAcidSequenceAsString(
             response.contents = msg.str();
         }
     }
-    catch (const std::runtime_error &e)
-    {
-        response.status = false;
-        response.contents = e.what();
-    }
+    CATCH_STD_EXCEPTION()
     return response;
 }
 
@@ -427,11 +422,7 @@ Response BioExplorer::_setAminoAcidSequenceAsRange(
             response.contents = msg.str();
         }
     }
-    catch (const std::runtime_error &e)
-    {
-        response.status = false;
-        response.contents = e.what();
-    }
+    CATCH_STD_EXCEPTION()
     return response;
 }
 
@@ -453,11 +444,7 @@ Response BioExplorer::_getAminoAcidInformation(
             response.contents = msg.str();
         }
     }
-    catch (const std::runtime_error &e)
-    {
-        response.status = false;
-        response.contents = e.what();
-    }
+    CATCH_STD_EXCEPTION()
     return response;
 }
 
@@ -479,11 +466,7 @@ Response BioExplorer::_addRNASequence(
             response.contents = msg.str();
         }
     }
-    catch (const std::runtime_error &e)
-    {
-        response.status = false;
-        response.contents = e.what();
-    }
+    CATCH_STD_EXCEPTION()
     return response;
 }
 
@@ -504,11 +487,7 @@ Response BioExplorer::_addMembrane(const MembraneDescriptor &payload) const
             response.contents = msg.str();
         }
     }
-    catch (const std::runtime_error &e)
-    {
-        response.status = false;
-        response.contents = e.what();
-    }
+    CATCH_STD_EXCEPTION()
     return response;
 }
 
@@ -529,12 +508,7 @@ Response BioExplorer::_addProtein(const ProteinDescriptor &payload) const
             response.contents = msg.str();
         }
     }
-    catch (const std::runtime_error &e)
-    {
-        response.status = false;
-        response.contents = e.what();
-    }
-    _api->getEngine().triggerRender();
+    CATCH_STD_EXCEPTION()
     return response;
 }
 
@@ -555,11 +529,7 @@ Response BioExplorer::_addGlycans(const SugarsDescriptor &payload) const
             response.contents = msg.str();
         }
     }
-    catch (const std::runtime_error &e)
-    {
-        response.status = false;
-        response.contents = e.what();
-    }
+    CATCH_STD_EXCEPTION()
     return response;
 }
 
@@ -597,11 +567,7 @@ Response BioExplorer::_exportToCache(const FileAccess &payload)
         BioExplorerLoader loader(scene);
         loader.exportToCache(payload.filename);
     }
-    catch (const std::runtime_error &e)
-    {
-        response.status = false;
-        response.contents = e.what();
-    }
+    CATCH_STD_EXCEPTION()
     return response;
 }
 
@@ -614,11 +580,7 @@ Response BioExplorer::_exportToXYZR(const FileAccess &payload)
         BioExplorerLoader loader(scene);
         loader.exportToXYZR(payload.filename);
     }
-    catch (const std::runtime_error &e)
-    {
-        response.status = false;
-        response.contents = e.what();
-    }
+    CATCH_STD_EXCEPTION()
     return response;
 }
 
@@ -639,11 +601,7 @@ Response BioExplorer::_addMesh(const MeshDescriptor &payload) const
             response.contents = msg.str();
         }
     }
-    catch (const std::runtime_error &e)
-    {
-        response.status = false;
-        response.contents = e.what();
-    }
+    CATCH_STD_EXCEPTION()
     return response;
 }
 
@@ -795,11 +753,7 @@ Response BioExplorer::_addGrid(const AddGrid &payload)
             std::make_shared<brayns::ModelDescriptor>(std::move(model),
                                                       "Grid"));
     }
-    catch (const std::runtime_error &e)
-    {
-        response.status = false;
-        response.contents = e.what();
-    }
+    CATCH_STD_EXCEPTION()
     return response;
 }
 
@@ -899,11 +853,7 @@ Response BioExplorer::_setMaterials(const MaterialsDescriptor &payload)
                             << std::endl;
         }
     }
-    catch (const std::runtime_error &e)
-    {
-        response.status = false;
-        response.contents = e.what();
-    }
+    CATCH_STD_EXCEPTION()
     return response;
 }
 
@@ -1091,11 +1041,7 @@ Response BioExplorer::_buildFields(const BuildFields &payload)
             std::make_shared<FieldsHandler>(scene, payload.voxelSize);
         _attachFieldsHandler(handler);
     }
-    catch (const std::runtime_error &e)
-    {
-        response.status = false;
-        response.contents = e.what();
-    }
+    CATCH_STD_EXCEPTION()
     return response;
 }
 
@@ -1110,11 +1056,7 @@ Response BioExplorer::_importFieldsFromFile(const FileAccess &payload)
             std::make_shared<FieldsHandler>(payload.filename);
         _attachFieldsHandler(handler);
     }
-    catch (const std::runtime_error &e)
-    {
-        response.status = false;
-        response.contents = e.what();
-    }
+    CATCH_STD_EXCEPTION()
     return response;
 }
 
@@ -1139,11 +1081,7 @@ Response BioExplorer::_exportFieldsToFile(const ModelIdFileAccess &payload)
         else
             PLUGIN_THROW(std::runtime_error("Unknown model ID"));
     }
-    catch (const std::runtime_error &e)
-    {
-        response.status = false;
-        response.contents = e.what();
-    }
+    CATCH_STD_EXCEPTION()
     return response;
 }
 
