@@ -578,10 +578,10 @@ class BioExplorer(object):
         shape = self.ASSEMBLY_SHAPE_SPHERICAL
         nb_branches = 1
         if surfactant.surfactant_protein == self.SURFACTANT_PROTEIN_A:
-            nb_branches = 4
-        elif surfactant.surfactant_protein == self.SURFACTANT_PROTEIN_D:
             shape = self.ASSEMBLY_SHAPE_FAN
             nb_branches = 6
+        elif surfactant.surfactant_protein == self.SURFACTANT_PROTEIN_D:
+            nb_branches = 4
 
         nb_collagens = 2
         collagen_size = 16.0

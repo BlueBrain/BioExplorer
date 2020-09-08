@@ -175,7 +175,7 @@ def add_cell(name, size, height, position=Vector3()):
     ace2_receptor = Protein(
         sources=[pdb_folder + '6m1d.pdb'], number_of_instances=20, position=Vector3(0.0, 6.0, 0.0))
     membrane = Membrane(
-        sources=[pdb_folder + 'membrane/popc.pdb'], number_of_instances=1000000)
+        sources=[pdb_folder + 'membrane/popc.pdb'], number_of_instances=1200000)
     cell = Cell(
         name=name, size=Vector2(size, height), shape=be.ASSEMBLY_SHAPE_SINUSOIDAL, membrane=membrane,
         receptor=ace2_receptor)
