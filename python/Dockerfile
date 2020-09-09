@@ -1,3 +1,24 @@
+# Copyright (c) 2020, EPFL/Blue Brain Project
+# All rights reserved. Do not distribute without permission.
+# Responsible Author: Cyrille Favreau <cyrille.favreau@epfl.ch>
+#
+# This file is part of BioExplorer
+# <https://github.com/BlueBrain/BioExplorer>
+#
+# This library is free software; you can redistribute it and/or modify it under
+# the terms of the GNU Lesser General Public License version 3.0 as published
+# by the Free Software Foundation.
+#
+# This library is distributed in the hope that it will be useful, but WITHOUT
+# ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+# FOR A PARTICULAR PURPOSE.  See the GNU Lesser General Public License for more
+# details.
+#
+# You should have received a copy of the GNU Lesser General Public License
+# along with this library; if not, write to the Free Software Foundation, Inc.,
+# 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
+# All rights reserved. Do not distribute without further notice.
+
 FROM jupyter/scipy-notebook
 LABEL maintainer="cyrille.favreau@epfl.ch"
 
@@ -14,7 +35,9 @@ USER root
 RUN chown -R $NB_UID /app/BioExplorer
 RUN apt-get update && \
     apt-get install pkg-config -y --no-install-recommends && \
-    rm -rf /var/lib/apt/lists/*
+    apt-get clean && \
+    rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
+
 
 USER $NB_UID
 RUN cd /app/BioExplorer && \
@@ -28,3 +51,9 @@ RUN cd /app/BioExplorer && \
     fix-permissions $CONDA_DIR && \
     fix-permissions /home/$NB_USER && \
     pip list
+
+ENTRYPOINT ["jupyter-nbextension"]
+CMD ["enable", "nglview", "--py", "--sys-prefix"]
+
+ENTRYPOINT ["jupyter"]
+CMD ["notebook", "--notebook-dir=/app/BioExplorer/notebooks"]

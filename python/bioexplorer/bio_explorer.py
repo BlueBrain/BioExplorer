@@ -1,8 +1,9 @@
 #!/usr/bin/env python
-# !/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-# Copyright (c) 2020, Cyrille Favreau <cyrille.favreau@epfl.ch>
+# Copyright (c) 2020, EPFL/Blue Brain Project
+# All rights reserved. Do not distribute without permission.
+# Responsible Author: Cyrille Favreau <cyrille.favreau@epfl.ch>
 #
 # This file is part of BioExplorer
 # <https://github.com/BlueBrain/BioExplorer>

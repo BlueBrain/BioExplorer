@@ -21,7 +21,7 @@ docker build . -t bioexplorer-python-sdk
 If you want to run Blue Brain BioExplorer Python SDK use:
 ```bash
 # Runs Blue Brain BioExplorer Python SDK as a service with the HTTP interface binded on port 5000
-docker run -ti --rm -p 5000:5000 bioexplorer-python-sdk
+docker run -ti --rm -p 8888:8888 bioexplorer-python-sdk
 ```
 
 **NOTE** If you are having trouble exiting the process after you run the container (with the above command), use `docker stop <container-id>` to stop the container.
