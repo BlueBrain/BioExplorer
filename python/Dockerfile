@@ -52,8 +52,8 @@ RUN cd /app/BioExplorer && \
     fix-permissions /home/$NB_USER && \
     pip list
 
-ENTRYPOINT ["jupyter-nbextension"]
-CMD ["enable", "nglview", "--py", "--sys-prefix"]
+ENV PATH /app/BioExplorer:$PATH
 
-ENTRYPOINT ["jupyter"]
-CMD ["notebook", "--notebook-dir=/app/BioExplorer/notebooks"]
+RUN chmod +x /app/BioExplorer/bioexplorer_python_sdk
+
+ENTRYPOINT ["bioexplorer_python_sdk"]

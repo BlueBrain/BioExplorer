@@ -1,0 +1,4 @@
+#!/bin/sh
+
+jupyter-nbextension enable nglview --py --sys-prefix
+jupyter notebook --notebook-dir=/app/BioExplorer/notebooks --NotebookApp.token='' --NotebookApp.password=''

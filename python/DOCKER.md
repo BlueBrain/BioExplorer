@@ -10,9 +10,9 @@ Head over to [Docker](https://docs.docker.com/engine/installation/#supported-pla
 
 ### Setup
 ---------
-First build the image (*it's necessary to do this step if you want to run Brayns*):
+First build the image (*it's necessary to do this step if you want to run BioExplorer*):
 ```bash
-docker build . -t bioexplorer-python-sdk
+docker build . -t bluebrain/bioexplorer-python-sdk
 ```
 
 
@@ -21,7 +21,7 @@ docker build . -t bioexplorer-python-sdk
 If you want to run Blue Brain BioExplorer Python SDK use:
 ```bash
 # Runs Blue Brain BioExplorer Python SDK as a service with the HTTP interface binded on port 5000
-docker run -ti --rm -p 8888:8888 bioexplorer-python-sdk
+docker run -ti --rm -p 8888:8888 bluebrain/bioexplorer-python-sdk
 ```
 
 **NOTE** If you are having trouble exiting the process after you run the container (with the above command), use `docker stop <container-id>` to stop the container.

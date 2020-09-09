@@ -22,3 +22,4 @@ brayns~=1.0.0
 seaborn~=0.8.1
 matplotlib~=2.1.2
 stringcase~=1.2.0
+nose~=1.3.7
