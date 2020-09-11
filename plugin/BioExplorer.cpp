@@ -82,7 +82,7 @@ void _addBioExplorerFieldsRenderer(brayns::Engine &engine)
     properties.setProperty({"step", 0.1, 0.001, 10.0, {"Ray step"}});
     properties.setProperty(
         {"maxSteps", 64, 32, 2048, {"Maximum number of ray steps"}});
-    properties.setProperty({"cutoff", 250.0, 0.0, 2000.0, {"cutoff"}});
+    properties.setProperty({"cutoff", 2000.0, 0.0, 1e4, {"cutoff"}});
     engine.addRendererType("bio_explorer_fields", properties);
 }
 
