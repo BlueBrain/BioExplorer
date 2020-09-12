@@ -1009,9 +1009,11 @@ void BioExplorer::_attachFieldsHandler(FieldsHandlerPtr handler)
     const auto &offset = Vector3f(handler->getOffset());
     const brayns::Vector3f center{(offset + size / 2.f)};
 
-    auto material = model->createMaterial(0, "default");
-    model->addSphere(0, {center,
-                         std::max(std::max(size.x, size.y), size.z) / 2.f});
+    const size_t materialId = 0;
+    auto material = model->createMaterial(materialId, "default");
+
+    brayns::TriangleMesh box = brayns::createBox({0, 0, 0}, size);
+    model->getTriangleMeshes()[materialId] = box;
     ModelMetadata metadata;
     metadata["Center"] = std::to_string(center.x) + "," +
                          std::to_string(center.y) + "," +

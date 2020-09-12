@@ -151,10 +151,13 @@ inline vec3f BioExplorerFieldsRenderer_shadeRay(
         return make_vec3f(0.f);
 
     float pathOpacity = 1.f;
-    //    float t = t0 + (float)(sample.sampleID.z % 16) * self->step / 16.f;
+#if 1
+    float t = t0 + (float)(sample.sampleID.z % 8) * self->step / 8.f;
+#else
     float t = t0 + getRandomValue(self->useHardwareRandomizer, sample,
                                   self->randomNumber) *
                        self->step;
+#endif
 
     sample.alpha = 0.f;
     sample.z = inf;
