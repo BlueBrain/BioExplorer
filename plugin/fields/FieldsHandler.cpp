@@ -217,6 +217,10 @@ void FieldsHandler::importFromFile(const std::string& filename)
     _spacing = {_frameData[3], _frameData[4], _frameData[5]};
     _dimensions = {_frameData[6], _frameData[7], _frameData[8]};
 
+    PLUGIN_INFO << "Octree: dimensions=" << _dimensions
+                << ", offset=" << _offset << ", spacing=" << _spacing
+                << std::endl;
+
     file.close();
 }
 

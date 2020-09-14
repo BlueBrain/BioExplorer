@@ -20,55 +20,7 @@
 
 #include "utils/BioExplorerRandomGenerator.ih"
 
-const float EPSILON = 0.001f;
-
-/**
-    Composes source and destination colors according to specified alpha
-   correction
-    @param src Source RGBA color
-    @param dst Returned destination RGBA color
-    @param alphaCorrection Alpha correction used to blend colors
-*/
-inline void composite(const varying vec4f& src, varying vec4f& dst,
-                      const varying float alphaCorrection)
-{
-    const float alpha =
-        1.f - pow(1.f - min(src.w, 1.f - 1.f / 256.f), alphaCorrection);
-    const float a = alpha * (1.f - dst.w);
-    dst.x = dst.x + src.x * a;
-    dst.y = dst.y + src.y * a;
-    dst.z = dst.z + src.z * a;
-    dst.w += (alpha * (1.f - dst.w));
-}
-
-// AABB-Ray intersection ( http://prideout.net/blog/?p=64 ).
-inline varying bool intersectBox(
-    const uniform BioExplorerFieldsRenderer* uniform self,
-    const varying Ray& ray, const vec3f& aabbMin, const vec3f& aabbMax,
-    varying float& t0, varying float& t1)
-{
-    Ray r = ray;
-    // We need to avoid division by zero in "vec3 invR = 1.0 / r.Dir;"
-    if (r.dir.x == 0)
-        r.dir.x = EPSILON;
-
-    if (r.dir.y == 0)
-        r.dir.y = EPSILON;
-
-    if (r.dir.z == 0)
-        r.dir.z = EPSILON;
-
-    vec3f invR = 1.f / r.dir;
-    vec3f tbot = invR * (aabbMin - r.org);
-    vec3f ttop = invR * (aabbMax - r.org);
-    vec3f tmin = min(ttop, tbot);
-    vec3f tmax = max(ttop, tbot);
-    vec2f t = make_vec2f(max(tmin.x, tmin.y), max(tmin.x, tmin.z));
-    t0 = max(t.x, t.y);
-    t = make_vec2f(min(tmax.x, tmax.y), min(tmax.x, tmax.z));
-    t1 = min(t.x, t.y);
-    return (t0 <= t1);
-}
+const float EPSILON = 1e-6f;
 
 float treeWalker(const uniform BioExplorerFieldsRenderer* uniform self,
                  const vec3f& point, const varying float distance,
@@ -82,98 +34,64 @@ float treeWalker(const uniform BioExplorerFieldsRenderer* uniform self,
         return 0.f;
 
     if (begin == 0 && end == 0)
-    {
-        // here we are garanteed to be in a leaf
-        float d = distance;
-        if (d < 0.5f)
-            d = 0.5f;
-
-        return self->userData[idxData + 3] / (d * d);
-    }
+        return self->userData[idxData + 3] / (distance * distance);
 
     float voxelValue = 0.f;
     for (unsigned int32 childIndex = begin; childIndex <= end; ++childIndex)
     {
-        const vec3f center =
+        const vec3f childCenter =
             make_vec3f(self->userData[idxData], self->userData[idxData + 1],
                        self->userData[idxData + 2]);
-        const vec3f delta = point - center;
+        const vec3f delta = point - childCenter;
 
-        const float childDist =
+        const float d =
             sqrt(delta.x * delta.x + delta.y * delta.y + delta.z * delta.z);
 
-        if (childDist >= cutoff)
-            voxelValue += self->userData[idxData + 3] / (childDist * childDist);
+        if (d >= cutoff)
+            // Child is further than the cutoff distance, no need to evaluate
+            // events in the child node, we take the precomputed value of node
+            // instead
+            voxelValue += self->userData[idxData + 3] / (d * d);
         else
-            voxelValue +=
-                treeWalker(self, point, childDist, cutoff / 2.0, childIndex);
+            // Dive into the child node and compute its contents
+            voxelValue += treeWalker(self, point, d, cutoff / 2.f, childIndex);
     }
     return voxelValue;
-}
-
-inline vec4f shadeVoxel(const uniform BioExplorerFieldsRenderer* uniform self,
-                        varying ScreenSample& sample, const vec4f& color,
-                        const vec3f& normal)
-{
-    vec4f result = color;
-    for (uniform int i = 0; self->lights && i < self->numLights; ++i)
-    {
-        const uniform Light* uniform light = self->lights[i];
-        const varying vec2f s = make_vec2f(0.5f);
-        DifferentialGeometry dg;
-        const varying Light_SampleRes lightSample = light->sample(light, dg, s);
-
-        vec3f dir = lightSample.dir;
-        if (self->softShadows > 0.f)
-            dir =
-                normalize(self->softShadows *
-                          getRandomVector(self->useHardwareRandomizer,
-                                          self->super.fb->size.x, sample,
-                                          lightSample.dir, self->randomNumber));
-
-        const float cosNL = abs(dot(normal, dir));
-        result.x *= cosNL;
-        result.y *= cosNL;
-        result.z *= cosNL;
-    }
-    return result;
 }
 
 inline vec3f BioExplorerFieldsRenderer_shadeRay(
     const uniform BioExplorerFieldsRenderer* uniform self,
     varying ScreenSample& sample)
 {
-    float t0, t1;
-    vec3f aabbMin = self->offset;
-    vec3f aabbMax =
-        make_vec3f(self->offset) + make_vec3f(self->dims) * self->spacing;
-    if (!intersectBox(self, sample.ray, aabbMin, aabbMax, t0, t1))
-        return make_vec3f(0.f);
+    const Ray ray = sample.ray;
 
-    float pathOpacity = 1.f;
-#if 1
-    float t = t0 + (float)(sample.sampleID.z % 8) * self->step / 8.f;
-#else
-    float t = t0 + getRandomValue(self->useHardwareRandomizer, sample,
-                                  self->randomNumber) *
-                       self->step;
-#endif
-
-    sample.alpha = 0.f;
-    sample.z = inf;
-
-    uint32 iterations = 0;
-    const vec3f dims = self->dims;
-    const uint32 dim = dims.x * dims.y * dims.z;
-    vec4f finalColor = make_vec4f(0.f);
-    bool firstIteration = true;
-
-    while (iterations < self->maxSteps && finalColor.w < 1.f && t < t1)
+    if (sample.sampleID.z == 0)
     {
-        const float r = (float)iterations / (float)self->maxSteps;
-        const vec3f point =
-            (sample.ray.org + t * sample.ray.dir - self->offset) /
-            self->spacing;
+        sample.alpha = 0.f;
+        sample.z = inf;
+    }
+
+    float t0, t1;
+    const uniform box3f box =
+        make_box3f(self->offset, self->offset + self->size * self->spacing);
+
+    intersectBox(ray, box, t0, t1);
+    t0 = max(self->minRayStep, t0);
+
+    const vec3f s = self->size * self->spacing;
+    const float diag = max(max(s.x, s.y), s.z);
+    const float step = max(self->minRayStep, diag / self->nbRaySteps);
+
+    float t = t0 + (sample.sampleID.z % self->nbRayRefinementSteps) * step /
+                       self->nbRayRefinementSteps;
+
+    vec4f finalColor = make_vec4f(0.f);
+    bool firstVisibleVoxel = true;
+
+    while (finalColor.w < 0.999f && t < t1)
+    {
+        const vec3f p = ray.org + t * ray.dir;
+        const vec3f point = (p - self->offset) / self->spacing;
 
         const float value =
             treeWalker(self, point, self->distance, self->cutoff, 0);
@@ -183,22 +101,24 @@ inline vec3f BioExplorerFieldsRenderer_shadeRay(
                                                        value);
         if (sampleOpacity > 0.f)
         {
-            vec3f sampleColor =
+            const vec3f sampleColor =
                 self->transferFunction->getColorForValue(self->transferFunction,
                                                          value);
-            const vec4f color = make_vec4f(sampleColor, sampleOpacity);
-            composite(color, finalColor, 1.f);
+            const float alpha = self->alphaCorrection * sampleOpacity;
+            finalColor =
+                make_vec4f(make_vec3f(finalColor) * finalColor.w +
+                               (1.f - finalColor.w) * sampleColor * alpha,
+                           finalColor.w + sampleOpacity);
 
-            if (firstIteration)
+            if (firstVisibleVoxel)
             {
                 sample.alpha = 1.f;
-                sample.z = t;
+                sample.z = min(t, sample.z);
             }
-            firstIteration = false;
+            firstVisibleVoxel = false;
         }
-        t += self->step;
 
-        ++iterations;
+        t += step;
     }
 
     return clamp(make_vec3f(finalColor) * self->exposure, make_vec3f(0.f),
@@ -228,13 +148,12 @@ export void* uniform BioExplorerFieldsRenderer_create(void* uniform cppE)
 export void BioExplorerFieldsRenderer_set(
     void* uniform _self, void* uniform bgMaterial,
     uniform float* uniform userData, const uniform uint64 userDataSize,
-    const uniform float& shadows, const uniform float& softShadows,
-    const uniform bool& shadingEnabled, const uniform int& randomNumber,
-    const uniform float& timestamp, const uniform int& spp,
-    const uniform bool& softnessEnabled, void** uniform lights,
-    const uniform int32 numLights, const uniform float& step,
-    const uniform int32& maxSteps, const uniform float& exposure,
-    const uniform bool& useHardwareRandomizer, const uniform float& cutoff)
+    const uniform int& randomNumber, const uniform float& timestamp,
+    const uniform int& spp, void** uniform lights,
+    const uniform int32 numLights, const uniform float& minRayStep,
+    const uniform int32& nbRaySteps, const uniform int32& nbRayRefinementSteps,
+    const uniform float& exposure, const uniform bool& useHardwareRandomizer,
+    const uniform float& cutoff, const uniform float& alphaCorrection)
 {
     uniform BioExplorerFieldsRenderer* uniform self =
         (uniform BioExplorerFieldsRenderer * uniform) _self;
@@ -248,18 +167,14 @@ export void BioExplorerFieldsRenderer_set(
     // Bio explorer
     self->bgMaterial = (uniform BioExplorerMaterial * uniform) bgMaterial;
 
-    self->shadows = shadows;
-    self->softShadows = softShadows;
-
     self->timestamp = timestamp;
     self->exposure = exposure;
     self->useHardwareRandomizer = useHardwareRandomizer;
 
-    self->shadingEnabled = shadingEnabled;
-    self->softnessEnabled = softnessEnabled;
-
-    self->step = step;
-    self->maxSteps = maxSteps;
+    self->minRayStep = minRayStep;
+    self->nbRaySteps = nbRaySteps;
+    self->nbRayRefinementSteps = nbRayRefinementSteps;
+    self->alphaCorrection = alphaCorrection;
 
     self->cutoff = cutoff;
 
@@ -271,7 +186,7 @@ export void BioExplorerFieldsRenderer_set(
     self->spacing =
         (userData ? make_vec3f(userData[3], userData[4], userData[5])
                   : make_vec3f(0.f));
-    self->dims = (userData ? make_vec3f(userData[6], userData[7], userData[8])
+    self->size = (userData ? make_vec3f(userData[6], userData[7], userData[8])
                            : make_vec3f(0.f));
     self->distance = (userData ? userData[9] * 5.f : 0.f); // Octree size * 5
     self->startIndices = 11;

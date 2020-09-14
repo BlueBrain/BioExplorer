@@ -50,19 +50,15 @@ void BioExplorerFieldsRenderer::commit()
 
     _useHardwareRandomizer = getParam("useHardwareRandomizer", 0);
 
-    _shadows = getParam1f("shadows", 0.f);
-    _softShadows = getParam1f("softShadows", 0.f);
-
-    _shadingEnabled = bool(getParam1i("shadingEnabled", 1));
-    _softnessEnabled = bool(getParam1i("softnessEnabled", 0));
-
     _exposure = getParam1f("exposure", 1.f);
     _randomNumber = getParam1i("randomNumber", 0);
     _timestamp = getParam1f("timestamp", 0.f);
 
     // Sampling
-    _step = getParam1f("step", 0.1f);
-    _maxSteps = getParam1i("maxSteps", 32);
+    _minRayStep = getParam1f("minRayStep", 0.1f);
+    _nbRaySteps = getParam1i("nbRaySteps", 8);
+    _nbRayRefinementSteps = getParam1i("nbRayRefinementSteps", 8);
+    _alphaCorrection = getParam1f("alphaCorrection", 1.0f);
 
     // Extra
     _cutoff = getParam1f("cutoff", 1.f);
@@ -82,9 +78,9 @@ void BioExplorerFieldsRenderer::commit()
     ispc::BioExplorerFieldsRenderer_set(
         getIE(), (_bgMaterial ? _bgMaterial->getIE() : nullptr),
         (_userData ? (float*)_userData->data : nullptr), _userDataSize,
-        _shadows, _softShadows, _shadingEnabled, _randomNumber, _timestamp, spp,
-        _softnessEnabled, _lightPtr, _lightArray.size(), _step, _maxSteps,
-        _exposure, _useHardwareRandomizer, _cutoff);
+        _randomNumber, _timestamp, spp, _lightPtr, _lightArray.size(),
+        _minRayStep, _nbRaySteps, _nbRayRefinementSteps, _exposure,
+        _useHardwareRandomizer, _cutoff, _alphaCorrection);
 }
 
 BioExplorerFieldsRenderer::BioExplorerFieldsRenderer()

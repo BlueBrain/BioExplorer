@@ -79,10 +79,18 @@ void _addBioExplorerFieldsRenderer(brayns::Engine &engine)
     properties.setProperty({"useHardwareRandomizer",
                             false,
                             {"Use hardware accelerated randomizer"}});
-    properties.setProperty({"step", 0.1, 0.001, 10.0, {"Ray step"}});
     properties.setProperty(
-        {"maxSteps", 64, 32, 2048, {"Maximum number of ray steps"}});
+        {"minRayStep", 0.00001, 0.00001, 1.0, {"Smallest ray step"}});
+    properties.setProperty(
+        {"nbRaySteps", 8, 2, 2048, {"Number of ray marching steps"}});
+    properties.setProperty({"nbRayRefinementSteps",
+                            8,
+                            1,
+                            128,
+                            {"Number of ray marching refinement steps"}});
     properties.setProperty({"cutoff", 2000.0, 0.0, 1e4, {"cutoff"}});
+    properties.setProperty(
+        {"alphaCorrection", 1.0, 0.001, 1.0, {"Alpha correction"}});
     engine.addRendererType("bio_explorer_fields", properties);
 }
 
@@ -1012,7 +1020,7 @@ void BioExplorer::_attachFieldsHandler(FieldsHandlerPtr handler)
     const size_t materialId = 0;
     auto material = model->createMaterial(materialId, "default");
 
-    brayns::TriangleMesh box = brayns::createBox({0, 0, 0}, size);
+    brayns::TriangleMesh box = brayns::createBox(offset, offset + size);
     model->getTriangleMeshes()[materialId] = box;
     ModelMetadata metadata;
     metadata["Center"] = std::to_string(center.x) + "," +

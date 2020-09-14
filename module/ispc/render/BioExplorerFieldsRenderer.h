@@ -50,15 +50,13 @@ private:
     float _timestamp{0.f};
     float _exposure{1.f};
 
-    float _shadows{0.f};
-    float _softShadows{0.f};
-
-    bool _shadingEnabled{false};
-    bool _softnessEnabled{false};
+    float _alphaCorrection{1.f};
 
     // Octree
-    float _step;
-    ospray::uint32 _maxSteps;
+    float _minRayStep;
+    ospray::uint32 _nbRaySteps;
+    ospray::uint32 _nbRayRefinementSteps;
+
     float _cutoff;
     ospray::Ref<ospray::Data> _userData;
     ospray::uint64 _userDataSize;

@@ -45,18 +45,15 @@ struct BioExplorerFieldsRenderer
     float exposure;
     bool useHardwareRandomizer;
 
-    float shadows;
-    bool shadingEnabled;
-    float softShadows;
-    bool softnessEnabled;
-
     float timestamp;
     int randomNumber;
 
     float pixelOpacity;
 
-    float step;
-    uint32 maxSteps;
+    float minRayStep;
+    uint32 nbRaySteps;
+    uint32 nbRayRefinementSteps;
+    float alphaCorrection;
 
     // Octree
     float distance;
@@ -65,7 +62,7 @@ struct BioExplorerFieldsRenderer
     // Octree
     uniform float* uniform userData;
     uint64 userDataSize;
-    vec3f dims;
+    vec3f size;
     vec3f spacing;
     vec3f offset;
     uint64 startIndices;
