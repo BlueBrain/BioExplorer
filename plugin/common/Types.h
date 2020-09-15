@@ -31,8 +31,6 @@ namespace bioexplorer
 {
 using namespace brayns;
 
-const std::string PLUGIN_VERSION = "0.6.0";
-
 // Metadata
 const std::string METADATA_ASSEMBLY = "Assembly";
 const std::string METADATA_TITLE = "Title";
@@ -188,16 +186,18 @@ struct MeshDescriptor
 {
     std::string assemblyName;
     std::string name;
-    std::string contents;
-    AssemblyShape shape;
-    floats assemblyParams;
+    std::string meshContents;
+    std::string proteinContents;
     bool recenter;
-    size_t occurrences;
+    float density;
+    float surfaceFixedOffset;
+    float surfaceVariableOffset;
+    float atomRadiusMultiplier;
+    ProteinRepresentation representation;
     size_t randomSeed;
-    float locationCutoffAngle;
-    PositionRandomizationType positionRandomizationType;
     floats position;
     floats orientation;
+    floats scale;
 };
 class Mesh;
 typedef std::shared_ptr<Mesh> MeshPtr;

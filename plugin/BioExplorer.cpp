@@ -336,7 +336,7 @@ void BioExplorer::postRender()
 Response BioExplorer::_version() const
 {
     Response response;
-    response.contents = PLUGIN_VERSION;
+    response.contents = BIOEXPLORER_VERSION;
     return response;
 }
 
@@ -1119,7 +1119,7 @@ extern "C" ExtensionPlugin *brayns_plugin_create(int /*argc*/, char ** /*argv*/)
                    "                                      "
                 << std::endl;
     PLUGIN_INFO << "Initializing BioExplorer plug-in (version "
-                << PLUGIN_VERSION << ")" << std::endl;
+                << BIOEXPLORER_VERSION << ")" << std::endl;
     PLUGIN_INFO << std::endl;
     return new BioExplorer();
 }

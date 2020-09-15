@@ -22,6 +22,35 @@
 # 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 # All rights reserved. Do not distribute without further notice.
 
-"""The version of the bioexplorer package"""
+from bioexplorer import BioExplorer, Mesh, Vector3, Quaternion
 
-__version__ = '0.7.0'
+
+def test_mesh():
+    resource_folder = 'test_files/'
+    pdb_folder = resource_folder + 'pdb/'
+    obj_folder = resource_folder + 'obj/'
+
+    be = BioExplorer('localhost:5000')
+    be.reset()
+    print('BioExplorer version ' + be.version())
+
+    mesh_source = obj_folder + 'capsule.obj'
+    scale = Vector3(50, 50, 50)
+
+    # Membrane
+    protein_source = pdb_folder + 'membrane/popc.pdb'
+    mesh = Mesh(mesh_source=mesh_source, protein_source=protein_source, density=5.0, surface_variable_offset=2.0)
+    be.add_mesh('Mesh', mesh, scale=scale)
+
+    # Receptors
+    protein_source = pdb_folder + '6m1d.pdb'
+    mesh = Mesh(
+        mesh_source=mesh_source, protein_source=protein_source,
+        density=0.02, surface_fixed_offset=5.0)
+    be.add_mesh('Receptors', mesh, scale=scale)
+
+
+if __name__ == '__main__':
+    import nose
+
+    nose.run(defaultTest=__name__)

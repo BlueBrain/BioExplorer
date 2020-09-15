@@ -198,6 +198,10 @@ class BioExplorer(object):
             raise RuntimeError(result['contents'])
         return result['contents']
 
+    @staticmethod
+    def authors():
+        return 'Cyrille Favreau (cyrille.favreau@epfl.ch)'
+
     def reset(self):
         """
         Removes all assemblies
@@ -481,19 +485,6 @@ class BioExplorer(object):
                 membrane=virus.membrane, shape=BioExplorer.ASSEMBLY_SHAPE_SPHERICAL,
                 position_randomization_type=BioExplorer.POSITION_RANDOMIZATION_TYPE_RADIAL,
                 assembly_params=virus.assembly_params, random_seed=4)
-
-        if virus.transmembrane is not None:
-            _trans_membrane = Mesh(
-                assembly_name=virus.name,
-                name=virus.name + '_' + self.NAME_TRANS_MEMBRANE,
-                contents=''.join(open(virus.transmembrane.source).readlines()),
-                shape=shape,
-                occurrences=virus.transmembrane.number_of_instances,
-                assembly_params=virus.transmembrane.assembly_params,
-                recenter=True, random_seed=5, position_randomization_type=0,
-                location_cutoff_angle=virus.transmembrane.cutoff_angle,
-                orientation=virus.transmembrane.orientation)
-            self.add_mesh(_trans_membrane)
 
         if virus.rna_sequence is not None:
             self.add_rna_sequence(
@@ -899,7 +890,7 @@ class BioExplorer(object):
         self._client.set_renderer(accumulation=True)
         return result
 
-    def add_mesh(self, name, mesh, position=Vector3(), orientation=Quaternion()):
+    def add_mesh(self, name, mesh, position=Vector3(), orientation=Quaternion(), scale=Vector3()):
         """
         Add a mesh to the scene
         @param name: Name of the mesh in the scene
@@ -913,8 +904,11 @@ class BioExplorer(object):
         self.remove_assembly(name)
         self.add_assembly(name=name)
         _mesh = AssemblyMesh(
-            assembly_name=name, name=name, source=mesh.source, shape=self.ASSEMBLY_SHAPE_PLANAR, position=position,
-            orientation=orientation)
+            assembly_name=name, name=name, mesh_source=mesh.mesh_source, protein_source=mesh.protein_source,
+            density=mesh.density, surface_fixed_offset=mesh.surface_fixed_offset,
+            surface_variable_offset=mesh.surface_variable_offset, atom_radius_multiplier=mesh.atom_radius_multiplier,
+            representation=mesh.representation, random_seed=mesh.random_seed, position=position,
+            orientation=orientation, scale=scale)
         return self.add_assembly_mesh(_mesh)
 
     def add_assembly_mesh(self, mesh):
@@ -929,16 +923,18 @@ class BioExplorer(object):
         params = dict()
         params['assemblyName'] = mesh.assembly_name
         params['name'] = mesh.name
-        params['contents'] = mesh.contents
-        params['shape'] = mesh.shape
-        params['assemblyParams'] = mesh.assembly_params.to_list()
+        params['meshContents'] = mesh.mesh_contents
+        params['proteinContents'] = mesh.protein_contents
         params['recenter'] = mesh.recenter
-        params['occurrences'] = mesh.occurrences
+        params['density'] = mesh.density
+        params['surfaceFixedOffset'] = mesh.surface_fixed_offset
+        params['surfaceVariableOffset'] = mesh.surface_variable_offset
+        params['atomRadiusMultiplier'] = mesh.atom_radius_multiplier
+        params['representation'] = mesh.representation
         params['randomSeed'] = mesh.random_seed
-        params['locationCutoffAngle'] = mesh.location_cutoff_angle
-        params['positionRandomizationType'] = mesh.position_randomization_type
         params['position'] = mesh.position.to_list()
         params['orientation'] = mesh.orientation.to_list()
+        params['scale'] = mesh.scale.to_list()
         result = self._client.rockets_client.request(method='add-mesh', params=params)
         if not result['status']:
             raise RuntimeError(result['contents'])
@@ -1397,22 +1393,27 @@ class AssemblyProtein:
 
 class AssemblyMesh:
 
-    def __init__(self, assembly_name, name, source, assembly_params=Vector2(), shape=BioExplorer.ASSEMBLY_SHAPE_PLANAR,
-                 recenter=True, occurrences=1, random_seed=0, location_cutoff_angle=0.0,
-                 position_randomization_type=BioExplorer.POSITION_RANDOMIZATION_TYPE_CIRCULAR, position=Vector3(),
-                 orientation=Quaternion()):
+    def __init__(self, assembly_name, name, mesh_source, protein_source, recenter=True, density=1,
+                 surface_fixed_offset=0, surface_variable_offset=0, atom_radius_multiplier=1.0,
+                 representation=BioExplorer.REPRESENTATION_ATOMS, random_seed=0, position=Vector3(),
+                 orientation=Quaternion(), scale=Vector3()):
+        assert isinstance(position, Vector3)
+        assert isinstance(orientation, Quaternion)
+        assert isinstance(scale, Vector3)
         self.assembly_name = assembly_name
         self.name = name
-        self.contents = ''.join(open(source).readlines())
-        self.shape = shape
-        self.assembly_params = assembly_params
+        self.mesh_contents = ''.join(open(mesh_source).readlines())
+        self.protein_contents = ''.join(open(protein_source).readlines())
         self.recenter = recenter
-        self.occurrences = occurrences
+        self.density = density
+        self.surface_fixed_offset = surface_fixed_offset
+        self.surface_variable_offset = surface_variable_offset
+        self.atom_radius_multiplier = atom_radius_multiplier
+        self.representation = representation
         self.random_seed = random_seed
-        self.location_cutoff_angle = location_cutoff_angle
-        self.position_randomization_type = position_randomization_type
         self.position = position
         self.orientation = orientation
+        self.scale = scale
 
 
 ''' External classes '''
@@ -1548,17 +1549,30 @@ class Protein:
 
 class Mesh:
 
-    def __init__(self, source, recenter=True, position=Vector3(), orientation=Quaternion()):
-        self.source = source
+    def __init__(self, mesh_source, protein_source, density=1, surface_fixed_offset=0.0, surface_variable_offset=0.0,
+                 atom_radius_multiplier=1.0, representation=BioExplorer.REPRESENTATION_ATOMS, random_seed=0,
+                 recenter=True, position=Vector3(), orientation=Quaternion(), scale=Vector3()):
+        assert isinstance(position, Vector3)
+        assert isinstance(orientation, Quaternion)
+        assert isinstance(scale, Vector3)
+        self.mesh_source = mesh_source
+        self.protein_source = protein_source
+        self.density = density
+        self.surface_fixed_offset = surface_fixed_offset
+        self.surface_variable_offset = surface_variable_offset
+        self.atom_radius_multiplier = atom_radius_multiplier
+        self.representation = representation
         self.recenter = recenter
+        self.random_seed = random_seed
         self.position = position
         self.orientation = orientation
+        self.scale = scale
 
 
 class Virus:
 
     def __init__(self, name, assembly_params, protein_s=None, protein_e=None, protein_m=None,
-                 membrane=None, transmembrane=None, rna_sequence=None):
+                 membrane=None, rna_sequence=None):
         assert isinstance(assembly_params, Vector2)
         if protein_s is not None:
             assert isinstance(protein_s, Protein)
@@ -1570,13 +1584,10 @@ class Virus:
             assert isinstance(membrane, Membrane)
         if rna_sequence is not None:
             assert isinstance(rna_sequence, RNASequence)
-        if transmembrane is not None:
-            assert isinstance(transmembrane, Mesh)
         self.name = name
         self.protein_s = protein_s
         self.protein_e = protein_e
         self.protein_m = protein_m
-        self.transmembrane = transmembrane
         self.membrane = membrane
         self.rna_sequence = rna_sequence
         self.assembly_params = assembly_params

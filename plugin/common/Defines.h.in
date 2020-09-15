@@ -23,6 +23,8 @@
 #if @CGAL_FOUND@ == 1
 #  define USE_CGAL
 #endif
+
+#define BIOEXPLORER_VERSION "@BIOEXPLORER_VERSION@"
 // clang-format-on
 
 #endif // DEFINES_H
