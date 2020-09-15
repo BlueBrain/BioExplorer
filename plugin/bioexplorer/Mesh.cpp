@@ -17,8 +17,10 @@
  */
 
 #include "Mesh.h"
+#include "Protein.h"
 
 #include <plugin/common/CommonTypes.h>
+#include <plugin/common/Logs.h>
 
 #include <brayns/engineapi/Material.h>
 #include <brayns/engineapi/Model.h>
@@ -26,41 +28,224 @@
 
 namespace bioexplorer
 {
+const Vector3f up{0.f, 1.f, 0.f};
+
 Mesh::Mesh(Scene& scene, const MeshDescriptor& md)
     : Node()
 {
     const auto loader = MeshLoader(scene);
-    uint8_ts contentAsChars;
-    for (size_t i = 0; i < md.contents.length(); ++i)
-        contentAsChars.push_back(md.contents[i]);
-    Blob blob{"obj", md.name, contentAsChars};
 
-    _modelDescriptor =
-        loader.importFromBlob(std::move(blob), LoaderProgress(), PropertyMap());
+    // Load protein
+    const Vector3f position = {md.position[0], md.position[1], md.position[2]};
+    const Quaterniond orientation = {md.orientation[0], md.orientation[1],
+                                     md.orientation[2], md.orientation[3]};
+    const Vector3f scale = {md.scale[0], md.scale[1], md.scale[2]};
 
-    auto metadata = _modelDescriptor->getMetadata();
-    metadata[METADATA_ASSEMBLY] = md.assemblyName;
-    _modelDescriptor->setMetadata(metadata);
+    ProteinDescriptor pd;
+    pd.assemblyName = md.assemblyName;
+    pd.name = md.name;
+    pd.contents = md.proteinContents;
+    pd.representation = ProteinRepresentation::atoms;
+    pd.atomRadiusMultiplier = 1.f;
+    pd.recenter = true;
+    pd.atomRadiusMultiplier = md.atomRadiusMultiplier;
+    pd.representation = md.representation;
+    pd.position = md.position;
+    pd.orientation = md.orientation;
 
-    auto& model = _modelDescriptor->getModel();
-    if (md.recenter)
+    // Random seed
+    srand(md.randomSeed);
+
+    // Create model
+    _protein = ProteinPtr(new Protein(scene, pd));
+    _modelDescriptor = _protein->getModelDescriptor();
+    auto model = &_modelDescriptor->getModel();
+    model->updateBounds();
+    const auto proteinSize = model->getBounds().getSize();
+
+    // Load mesh
+    Assimp::Importer importer;
+    const aiScene* aiScene =
+        importer.ReadFileFromMemory(md.meshContents.c_str(),
+                                    md.meshContents.length(),
+                                    aiProcess_GenSmoothNormals |
+                                        aiProcess_Triangulate);
+
+    if (!aiScene)
+        PLUGIN_THROW(std::runtime_error(importer.GetErrorString()));
+
+    if (!aiScene->HasMeshes())
+        PLUGIN_THROW(std::runtime_error("No meshes found"));
+
+    const auto trfm = aiScene->mRootNode->mTransformation;
+    const Matrix4f matrix{trfm.a1, trfm.b1, trfm.c1, trfm.d1, trfm.a2, trfm.b2,
+                          trfm.c2, trfm.d2, trfm.a3, trfm.b3, trfm.c3, trfm.d3,
+                          trfm.a4, trfm.b4, trfm.c4, trfm.d4};
+
+    // Add protein instances according to mesh topology
+    size_t instanceCount = 0;
+    float meshCoveringProgress = 0.f;
+    float instanceCoveringProgress = 0.f;
+    for (size_t m = 0; m < aiScene->mNumMeshes; ++m)
     {
-        auto& triangleMeshes = model.getTriangleMeshes();
-        const auto& bounds = model.getBounds();
-        const auto center = bounds.getCenter();
-        for (auto& triangleMesh : triangleMeshes)
-            for (auto& vertex : triangleMesh.second.vertices)
-                vertex -= center;
-    }
+        const auto& mesh = aiScene->mMeshes[m];
 
-    auto& materials = model.getMaterials();
-    for (auto& material : materials)
-    {
-        brayns::PropertyMap props;
-        props.setProperty({MATERIAL_PROPERTY_SHADING_MODE,
-                           static_cast<int>(MaterialShadingMode::basic)});
-        props.setProperty({MATERIAL_PROPERTY_USER_PARAMETER, 1.0});
-        material.second->setProperties(props);
+        // Mesh scaling
+        Vector3f meshCenter{0.f, 0.f, 0.f};
+        for (size_t i = 0; i < mesh->mNumVertices; ++i)
+        {
+            const auto& v = mesh->mVertices[i];
+            meshCenter += _toVector3f(v);
+        }
+        meshCenter /= mesh->mNumVertices;
+
+        // Compute full mesh area
+        std::vector<Vector3ui> faces;
+        for (size_t f = 0; f < mesh->mNumFaces; ++f)
+            if (mesh->mFaces[f].mNumIndices == 3)
+                faces.push_back(Vector3ui(mesh->mFaces[f].mIndices[0],
+                                          mesh->mFaces[f].mIndices[1],
+                                          mesh->mFaces[f].mIndices[2]));
+
+        float meshSurface = 0.f;
+        for (const auto& face : faces)
+            meshSurface += _getSurfaceArea(
+                _toVector3f(mesh->mVertices[face.x], meshCenter, scale),
+                _toVector3f(mesh->mVertices[face.y], meshCenter, scale),
+                _toVector3f(mesh->mVertices[face.z], meshCenter, scale));
+
+        const float proteinSurface = proteinSize.x * proteinSize.x;
+
+        // Total number of instance needed to fill the mesh surface
+        const size_t nbInstances = md.density * meshSurface / proteinSurface;
+        const float instanceSurface = meshSurface / nbInstances;
+
+        PLUGIN_INFO << "----===  Mesh  ===----" << std::endl;
+        PLUGIN_INFO << "Number of faces      : " << faces.size() << std::endl;
+        PLUGIN_INFO << "Mesh surface area    : " << meshSurface << std::endl;
+        PLUGIN_INFO << "Protein surface area : " << proteinSurface << std::endl;
+        PLUGIN_INFO << "Instance surface area: " << instanceSurface
+                    << std::endl;
+        PLUGIN_INFO << "Number of instances  : " << nbInstances << std::endl;
+
+        for (const auto& face : faces)
+        {
+            const auto P0 =
+                _toVector3f(mesh->mVertices[face.x], meshCenter, scale);
+            const auto P1 =
+                _toVector3f(mesh->mVertices[face.y], meshCenter, scale);
+            const auto P2 =
+                _toVector3f(mesh->mVertices[face.z], meshCenter, scale);
+
+            const auto V0 = P1 - P0;
+            const auto V1 = P2 - P0;
+
+            const Vector3f defaultNormal = glm::cross(V0, V1);
+
+            // Compute face surface
+            const float faceSurface = _getSurfaceArea(P0, P1, P2);
+
+            // Estimate number of proteins for current face
+            meshCoveringProgress += faceSurface;
+            const size_t nbProteins =
+                size_t((meshCoveringProgress - instanceCoveringProgress) /
+                       instanceSurface);
+
+            // compute protein positions and orientations
+            for (size_t i = 0; i < nbProteins; ++i)
+            {
+                instanceCoveringProgress += instanceSurface;
+                Vector2f coordinates{1.f, 1.f};
+                while (coordinates.x + coordinates.y > 1.f)
+                {
+                    coordinates.x = float(rand() % nbProteins) / nbProteins;
+                    coordinates.y = float(rand() % nbProteins) / nbProteins;
+                }
+
+                Transformation tf;
+                const Vector3f P = P0 + V0 * coordinates.x + V1 * coordinates.y;
+                const Vector3f transformedVertex =
+                    matrix * Vector4f(P.x, P.y, P.z, 1.f);
+
+                const Vector3f position{md.position[0], md.position[1],
+                                        md.position[2]};
+                tf.setTranslation(position + transformedVertex +
+                                  defaultNormal * md.surfaceOffset);
+
+                if (mesh->HasNormals())
+                {
+                    const auto v0 = P0 - P;
+                    const auto v1 = P1 - P;
+                    const auto v2 = P2 - P;
+
+                    const Vector3f areas{0.5f * length(glm::cross(v1, v2)),
+                                         0.5f * length(glm::cross(v0, v2)),
+                                         0.5f * length(glm::cross(v0, v1))};
+
+                    const auto N0 = _toVector3f(mesh->mNormals[face.x]);
+                    const auto N1 = _toVector3f(mesh->mNormals[face.y]);
+                    const auto N2 = _toVector3f(mesh->mNormals[face.z]);
+
+                    const Vector3f normal = glm::normalize(
+                        matrix *
+                        Vector4f(glm::normalize((N0 * areas.x + N1 * areas.y +
+                                                 N2 * areas.z) /
+                                                (areas.x + areas.y + areas.z)),
+                                 1.f));
+
+                    if (normal != up)
+                    {
+                        const Quaterniond orientation{md.orientation[0],
+                                                      md.orientation[1],
+                                                      md.orientation[2],
+                                                      md.orientation[3]};
+                        const Quaterniond rotation =
+                            glm::quatLookAt(normal, up);
+                        tf.setRotation(rotation * orientation);
+                    }
+                    tf.setTranslation(position + transformedVertex +
+                                      normal * md.surfaceOffset);
+                }
+
+                if (instanceCount == 0)
+                    _modelDescriptor->setTransformation(tf);
+
+                const ModelInstance instance(true, false, tf);
+                _modelDescriptor->addInstance(instance);
+
+                ++instanceCount;
+            }
+        }
     }
 }
+
+float Mesh::_getSurfaceArea(const Vector3f& v0, const Vector3f& v1,
+                            const Vector3f& v2) const
+{
+    // Compute triangle area
+    const float a = length(v1 - v0);
+    const float b = length(v2 - v1);
+    const float c = length(v0 - v2);
+    const float p = (a + b + c) / 2.f;
+    const float e = p * (p - a) * (p - b) * (p - c);
+    if (e < 0)
+        return 0.f;
+
+    return sqrt(e);
+}
+
+Vector3f Mesh::_toVector3f(const aiVector3D& v) const
+{
+    return Vector3f(v.x, v.y, v.z);
+}
+
+Vector3f Mesh::_toVector3f(const aiVector3D& v, const Vector3f& center,
+                           const Vector3f& scale) const
+{
+    const Vector3f p{v.x, v.y, v.z};
+    const Vector3f a = p - center;
+    const Vector3f b = p + a * scale;
+    return b;
+}
+
 } // namespace bioexplorer

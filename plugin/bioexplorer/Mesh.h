@@ -24,12 +24,28 @@
 
 #include <brayns/engineapi/Model.h>
 
+#include <assimp/Importer.hpp>
+#include <assimp/postprocess.h>
+#include <assimp/scene.h>
+#include <assimp/version.h>
+
 namespace bioexplorer
 {
 class Mesh : public Node
 {
 public:
     Mesh(Scene& scene, const MeshDescriptor& descriptor);
+
+    ProteinPtr getProtein() { return _protein; }
+
+private:
+    float _getSurfaceArea(const Vector3f& a, const Vector3f& b,
+                          const Vector3f& c) const;
+    Vector3f _toVector3f(const aiVector3D& v) const;
+    Vector3f _toVector3f(const aiVector3D& v, const Vector3f& center,
+                         const Vector3f& scaling) const;
+
+    ProteinPtr _protein;
 };
 } // namespace bioexplorer
 

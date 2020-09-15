@@ -215,17 +215,6 @@ void Assembly::addMesh(const MeshDescriptor &md)
 {
     MeshPtr mesh(new Mesh(_scene, md));
     auto modelDescriptor = mesh->getModelDescriptor();
-
-    const Vector3f position = {md.position[0], md.position[1], md.position[2]};
-    const Quaterniond orientation = {md.orientation[0], md.orientation[1],
-                                     md.orientation[2], md.orientation[3]};
-
-    const size_ts allowedOccurences;
-    _processInstances(modelDescriptor, md.name, md.shape, md.assemblyParams,
-                      md.occurrences, allowedOccurences, md.randomSeed,
-                      position, orientation, md.positionRandomizationType,
-                      md.locationCutoffAngle);
-
     _meshes[md.name] = std::move(mesh);
     _scene.addModel(modelDescriptor);
 }
@@ -377,16 +366,23 @@ void Assembly::setColorScheme(const ColorSchemeDescriptor &csd)
         PLUGIN_THROW(std::runtime_error("Invalid palette size"));
 
     ProteinPtr protein{nullptr};
-    auto it = _proteins.find(csd.name);
-    if (it != _proteins.end())
-        protein = (*it).second;
-    else if (_membrane)
+    auto itProtein = _proteins.find(csd.name);
+    if (itProtein != _proteins.end())
+        protein = (*itProtein).second;
+    else
     {
-        const auto membraneProteins = _membrane->getProteins();
-        auto it = membraneProteins.find(csd.name);
-        if (it != membraneProteins.end())
-            protein = (*it).second;
+        auto itMesh = _meshes.find(csd.name);
+        if (itMesh != _meshes.end())
+            protein = (*itMesh).second->getProtein();
+        else if (_membrane)
+        {
+            const auto membraneProteins = _membrane->getProteins();
+            auto it = membraneProteins.find(csd.name);
+            if (it != membraneProteins.end())
+                protein = (*it).second;
+        }
     }
+
     if (protein)
     {
         Palette palette;

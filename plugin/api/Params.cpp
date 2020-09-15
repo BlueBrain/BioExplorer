@@ -324,16 +324,17 @@ bool from_json(MeshDescriptor &param, const std::string &payload)
         auto js = nlohmann::json::parse(payload);
         FROM_JSON(param, js, assemblyName);
         FROM_JSON(param, js, name);
-        FROM_JSON(param, js, contents);
-        FROM_JSON(param, js, shape);
-        FROM_JSON(param, js, assemblyParams);
+        FROM_JSON(param, js, meshContents);
+        FROM_JSON(param, js, proteinContents);
         FROM_JSON(param, js, recenter);
-        FROM_JSON(param, js, occurrences);
+        FROM_JSON(param, js, density);
+        FROM_JSON(param, js, surfaceOffset);
+        FROM_JSON(param, js, atomRadiusMultiplier);
+        FROM_JSON(param, js, representation);
         FROM_JSON(param, js, randomSeed);
-        FROM_JSON(param, js, locationCutoffAngle);
-        FROM_JSON(param, js, positionRandomizationType);
         FROM_JSON(param, js, position);
         FROM_JSON(param, js, orientation);
+        FROM_JSON(param, js, scale);
     }
     catch (...)
     {
