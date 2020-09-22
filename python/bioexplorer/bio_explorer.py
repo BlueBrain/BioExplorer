@@ -31,6 +31,11 @@ from .version import __version__
 class Vector3:
 
     def __init__(self, *args, **kwargs):
+        """
+        Define a simple 3D vector
+        @param args: 3 float values for x,y and z
+        @param kwargs: Not used
+        """
         if len(args) not in [0, 3]:
             raise RuntimeError('Invalid number of floats (0 or 3 expected)')
 
@@ -43,12 +48,20 @@ class Vector3:
             self.z = args[2]
 
     def to_list(self):
+        """
+        @return: A list containing the values of x, y and z attributes
+        """
         return [self.x, self.y, self.z]
 
 
 class Vector2:
 
     def __init__(self, *args, **kwargs):
+        """
+        Define a simple 2D vector
+        @param args: 2 float values for x and y
+        @param kwargs: Not used
+        """
         if len(args) not in [0, 2]:
             raise RuntimeError('Invalid number of floats (0 or 2 expected)')
 
@@ -59,12 +72,20 @@ class Vector2:
             self.y = args[1]
 
     def to_list(self):
+        """
+        @return: A list containing the values of x and y attributes
+        """
         return [self.x, self.y]
 
 
 class Quaternion:
 
     def __init__(self, *args, **kwargs):
+        """
+        Define a simple quaternion
+        @param args: 4 float values for x,y,z and w
+        @param kwargs: Not used
+        """
         if len(args) not in [0, 4]:
             raise RuntimeError('Invalid number of floats (0 or 4 expected)')
 
@@ -79,11 +100,14 @@ class Quaternion:
             self.w = args[3]
 
     def to_list(self):
+        """
+        @return: A list containing the values of x, y, z and w attributes
+        """
         return [self.x, self.y, self.z, self.w]
 
 
 class BioExplorer(object):
-    """ VirusExplorer """
+    """ Blue Brain BioExplorer """
 
     POSITION_RANDOMIZATION_TYPE_CIRCULAR = 0
     POSITION_RANDOMIZATION_TYPE_RADIAL = 1
@@ -204,8 +228,7 @@ class BioExplorer(object):
 
     def reset(self):
         """
-        Removes all assemblies
-
+        Remove all assemblies
         @return: Result of the call to the BioExplorer backend
         """
         if self._client is None:
@@ -218,8 +241,7 @@ class BioExplorer(object):
 
     def export_to_cache(self, filename):
         """
-        Exports current scene to file as an optimized binary cache file
-
+        Export current scene to file as an optimized binary cache file
         @param filename: Full path of the binary cache file
         @return: Result of the call to the BioExplorer backend
         """
@@ -233,7 +255,6 @@ class BioExplorer(object):
     def export_to_xyzr(self, filename):
         """
         Exports current scene to file as a binary XYZR file
-
         @param filename: Full path of the binary XYZR file
         @return: Result of the call to the BioExplorer backend
         """
@@ -247,7 +268,6 @@ class BioExplorer(object):
     def remove_assembly(self, name):
         """
         Removes the specified assembly
-
         @param name: Name of the assembly
         @return: Result of the call to the BioExplorer backend
         """
@@ -267,7 +287,6 @@ class BioExplorer(object):
 
         """
         Add a virus with the default coronavirus parameters
-
         @param name: Name of the coronavirus
         @param resource_folder: Folder containing the resources of the virus components (PDB and RNA files)
         @param radius: Radius of the virus in nanometers
@@ -388,7 +407,6 @@ class BioExplorer(object):
 
         """
         Adds a virus assembly to the scene
-
         @param virus: Description of the virus
         @param atom_radius_multiplier: Multiplies atom radius by the specified value
         @param representation: Representation of the protein (Atoms, atoms and sticks, etc)
@@ -496,7 +514,6 @@ class BioExplorer(object):
                  position=Vector3()):
         """
         Add a cell assembly to the scene
-
         @param cell: Description of the cell
         @param atom_radius_multiplier: Representation of the protein (Atoms, atoms and sticks, etc)
         @param representation: Multiplies atom radius by the specified value
@@ -530,7 +547,6 @@ class BioExplorer(object):
     def add_volume(self, volume, atom_radius_multiplier=1.0, representation=REPRESENTATION_ATOMS, position=Vector3()):
         """
         Add a volume assembly to the scene
-
         @param volume: Description of the volume
         @param atom_radius_multiplier: Representation of the protein (Atoms, atoms and sticks, etc)
         @param representation: Multiplies atom radius by the specified value
@@ -557,7 +573,6 @@ class BioExplorer(object):
                        position=Vector3(), random_seed=0):
         """
         Add a surfactant assembly to the scene
-
         @param surfactant: Description of the surfactant
         @param atom_radius_multiplier: Representation of the protein (Atoms, atoms and sticks, etc)
         @param representation: Multiplies atom radius by the specified value
@@ -617,7 +632,6 @@ class BioExplorer(object):
     def add_assembly(self, name, clipping_planes=list(), position=Vector3(), orientation=Quaternion()):
         """
         Add an assembly to the scene
-
         @param name: Name of the assembly
         @param clipping_planes: List of clipping planes to apply to the virus assembly
         @param position: Position of the scene in the scene
@@ -646,7 +660,6 @@ class BioExplorer(object):
                                  palette=list(), chain_ids=list()):
         """
         Set a color scheme to a protein
-
         @param assembly_name: Name of the assembly containing the protein
         @param name: Name of the protein
         @param color_scheme: Color scheme
@@ -682,7 +695,6 @@ class BioExplorer(object):
     def set_protein_amino_acid_sequence_as_string(self, assembly_name, name, amino_acid_sequence):
         """
         Displays a specified amino acid sequence on the protein
-
         @param assembly_name: Name of the assembly containing the protein
         @param name: Name of the protein
         @param amino_acid_sequence: String containing the amino acid sequence
@@ -701,7 +713,6 @@ class BioExplorer(object):
     def set_protein_amino_acid_sequence_as_range(self, assembly_name, name, amino_acid_range):
         """
         Displays a specified amino acid range on the protein
-
         @param assembly_name: Name of the assembly containing the protein
         @param name: Name of the protein
         @param amino_acid_range: Tuple containing the amino acid range
@@ -721,7 +732,6 @@ class BioExplorer(object):
     def get_protein_amino_acid_information(self, assembly_name, name):
         """
         Returns amino acid information of the protein
-
         @param assembly_name: Name of the assembly containing the protein
         @param name: Name of the protein
         @return: Result of the call to the BioExplorer backend
@@ -782,7 +792,6 @@ class BioExplorer(object):
                      random_seed):
         """
         Add a membrane to the scene
-
         @param assembly_name: Name of the assembly
         @param name: Name of the cell
         @param membrane: Description of the membrane
@@ -829,7 +838,6 @@ class BioExplorer(object):
                     atom_radius_multiplier=1.0, position=Vector3(), orientation=Quaternion()):
         """
         Add a protein to the scene
-
         @param name: Name of the protein
         @param protein: Description of the protein
         @param representation: Representation of the protein (Atoms, atoms and sticks, etc)
@@ -858,7 +866,6 @@ class BioExplorer(object):
     def add_assembly_protein(self, protein):
         """
         Add an protein to an assembly
-
         @param protein: Description of the protein
         @return: Result of the call to the BioExplorer backend
         """
@@ -914,7 +921,6 @@ class BioExplorer(object):
     def add_assembly_mesh(self, mesh):
         """
         Add an mesh to an assembly
-
         @param mesh: Description of the mesh
         @return: Result of the call to the BioExplorer backend
         """
@@ -944,7 +950,6 @@ class BioExplorer(object):
     def add_glycans(self, glycans):
         """
         Add glycans to an protein in an assembly
-
         @param glycans: Description of the glycans
         @return: Result of the call to the BioExplorer backend
         """
@@ -1039,7 +1044,6 @@ class BioExplorer(object):
     def set_image_quality(self, image_quality):
         """
         Set image quality using hard-coded presets
-
         @param image_quality: Quality of the image (IMAGE_QUALITY_LOW or IMAGE_QUALITY_HIGH)
         @return: Result of the call to the BioExplorer backend
         """
@@ -1061,9 +1065,11 @@ class BioExplorer(object):
                 background_color=Vector3(), current='basic', samples_per_pixel=1, subsampling=4, max_accum_frames=16)
 
     def get_material_ids(self, model_id):
-        if self._client is None:
-            return
-
+        """
+        Return the list of material Ids for a given model
+        @param model_id: Id of the model
+        @return: List of material Ids
+        """
         params = dict()
         params['modelId'] = model_id
         return self._client.rockets_client.request('get-material-ids', params)
@@ -1074,23 +1080,21 @@ class BioExplorer(object):
                       user_parameters=list()):
         """
         Set a list of material on a specified list of models
-
-        :param int model_ids: IDs of the models
-        :param int material_ids: IDs of the materials
-        :param list diffuse_colors: List of diffuse colors (3 values between 0 and 1)
-        :param list specular_colors: List of specular colors (3 values between 0 and 1)
-        :param list specular_exponents: List of diffuse exponents
-        :param list opacities: List of opacities
-        :param list reflection_indices: List of reflection indices (value between 0 and 1)
-        :param list refraction_indices: List of refraction indices
-        :param list glossinesses: List of glossinesses (value between 0 and 1)
-        :param list shading_modes: List of shading modes (SHADING_MODE_NONE, SHADING_MODE_BASIC, SHADING_MODE_DIFFUSE,
+        @param model_ids: IDs of the models
+        @param material_ids: IDs of the materials
+        @param diffuse_colors: List of diffuse colors (3 values between 0 and 1)
+        @param specular_colors: List of specular colors (3 values between 0 and 1)
+        @param specular_exponents: List of diffuse exponents
+        @param opacities: List of opacities
+        @param reflection_indices: List of reflection indices (value between 0 and 1)
+        @param refraction_indices: List of refraction indices
+        @param glossinesses: List of glossinesses (value between 0 and 1)
+        @param shading_modes: List of shading modes (SHADING_MODE_NONE, SHADING_MODE_BASIC, SHADING_MODE_DIFFUSE,
         SHADING_MODE_ELECTRON, SHADING_MODE_CARTOON, SHADING_MODE_ELECTRON_TRANSPARENCY, SHADING_MODE_PERLIN or
         SHADING_MODE_DIFFUSE_TRANSPARENCY)
-        :param list emissions: List of light emission intensities
-        :param list user_parameters: List of convenience parameter used by some of the shaders
-        :return: Result of the request submission
-        :rtype: str
+        @param emissions: List of light emission intensities
+        @param user_parameters: List of convenience parameter used by some of the shaders
+        @return: Result of the request submission
         """
         if self._client is None:
             return
@@ -1124,6 +1128,20 @@ class BioExplorer(object):
     def set_materials_from_palette(self, model_ids, material_ids, palette, shading_mode, specular_exponent,
                                    user_parameter=1.0, glossiness=1.0, emission=0.0, opacity=1.0, reflection_index=0.0,
                                    refraction_index=1.0):
+        """
+        Applies a palette of colors and attributes to specified materials
+        @param model_ids: Ids of the models
+        @param material_ids: Ids of the materials
+        @param palette: Palette of RGB colors
+        @param shading_mode: Shading mode (None, basic, diffuse, etc)
+        @param specular_exponent: Specular exponent for diffuse materials
+        @param user_parameter: User parameter specific to each shading mode
+        @param glossiness: Material glossiness
+        @param emission: Light emission
+        @param opacity: Opacity
+        @param reflection_index: Reflection index
+        @param refraction_index: Refraction index
+        """
         colors = list()
         shading_modes = list()
         user_parameters = list()
@@ -1150,6 +1168,13 @@ class BioExplorer(object):
             reflection_indices=reflection_indices, refraction_indices=refraction_indices)
 
     def apply_default_color_scheme(self, shading_mode, user_parameter=0.03, specular_exponent=5.0, glossiness=0.5):
+        """
+        Apply a default color scheme to all components in the scene
+        @param shading_mode: Shading mode (None, basic, diffuse, electron, etc)
+        @param user_parameter: User parameter specific to each shading mode
+        @param specular_exponent: Specular exponent for diffuse shading modes
+        @param glossiness: Glossiness
+        """
         from ipywidgets import IntProgress
         from IPython.display import display
 
@@ -1251,15 +1276,6 @@ class BioExplorer(object):
                                                 user_parameter=user_parameter, glossiness=glossiness,
                                                 specular_exponent=specular_exponent)
 
-            if 'Lymphocyte' in model_name:
-                palette = list()
-                for p in range(nb_materials):
-                    palette.append([1, 1, 1])
-                self.set_materials_from_palette(model_ids=[model_id], material_ids=material_ids, palette=palette,
-                                                shading_mode=shading_mode,
-                                                user_parameter=user_parameter, glossiness=glossiness,
-                                                specular_exponent=specular_exponent)
-
             if self.NAME_SURFACTANT_HEAD in model_name or \
                     self.NAME_COLLAGEN in model_name:
                 palette = sns.color_palette('OrRd_r', nb_materials)
@@ -1277,11 +1293,9 @@ class BioExplorer(object):
     def build_fields(self, voxel_size):
         """
         Build fields acceleration structures and creates according data handler
-
-        :param float voxel_size: Voxel size
-        :param str filename: Octree filename
-        :return: Result of the request submission
-        :rtype: str
+        @param voxel_size: Voxel size
+        @param filename: Octree filename
+        @return: Result of the request submission
         """
         if self._client is None:
             return
@@ -1293,10 +1307,8 @@ class BioExplorer(object):
     def import_fields_from_file(self, filename):
         """
         Imports fields acceleration structures from file
-
-        :param str filename: Octree filename
-        :return: Result of the request submission
-        :rtype: str
+        @param filename: Octree filename
+        @return: Result of the request submission
         """
         if self._client is None:
             return
@@ -1308,13 +1320,10 @@ class BioExplorer(object):
     def export_fields_to_file(self, model_id, filename):
         """
         Exports fields acceleration structures to file
-
-        :param int model_id: id of the model containing the fields
-        :param str filename: Octree filename
-        :return: Result of the request submission
-        :rtype: str
+        @param model_id: id of the model containing the fields
+        @param filename: Octree filename
+        @return: Result of the request submission
         """
-
         assert isinstance(model_id, int)
         if self._client is None:
             return
@@ -1327,18 +1336,16 @@ class BioExplorer(object):
     def add_grid(self, min_value, max_value, interval, radius=1.0, opacity=0.5, show_axis=True, colored=True,
                  position=Vector3()):
         """
-        Adds a reference grid to the scene
-
-        :param float min_value: Minimum value for all axis
-        :param float max_value: Maximum value for all axis
-        :param float interval: Interval at which lines should appear on the grid
-        :param float radius: Radius of grid lines
-        :param float opacity: Opacity of the grid
-        :param bool show_axis: Shows axis if True
-        :param bool colored: Colors the grid it True. X in red, Y in green, Z in blue
-        :param Vector3 position: Position of the grid
-        :return: Result of the request submission
-        :rtype: str
+        Add a reference grid to the scene
+        @param min_value: Minimum value for all axis
+        @param max_value: Maximum value for all axis
+        @param interval: Interval at which lines should appear on the grid
+        @param radius: Radius of grid lines
+        @param opacity: Opacity of the grid
+        @param show_axis: Shows axis if True
+        @param colored: Colors the grid it True. X in red, Y in green, Z in blue
+        @param position: Position of the grid
+        @return: Result of the request submission
         """
         if self._client is None:
             return
@@ -1435,7 +1442,7 @@ class Membrane:
         @param representation: Representation of the protein (Atoms, atoms and sticks, etc)
         @param load_non_polymer_chemicals: Defines if non-polymer chemical should be loaded
         @param chain_ids: IDs of the protein chains to be loaded
-        @param recenter: Defines if proteins should be recentered when loaded from PDB files
+        @param recenter: Defines if proteins should be centered when loaded from PDB files
         @param number_of_instances: Number of instances of proteins defining the membrane
         @param location_cutoff_angle:
         @param position: Position of the membrane in the assembly
@@ -1460,6 +1467,20 @@ class Sugars:
                  atom_radius_multiplier=1.0, add_sticks=False,
                  recenter=True, chain_ids=list(), site_indices=list(),
                  allowed_occurrences=list(), orientation=Quaternion()):
+        """
+        Sugar descriptor
+        @param assembly_name: Name of the assembly in the scene
+        @param name: Name of sugar in the scene
+        @param source: Full path to the PDB file
+        @param protein_name: Name of the protein to which sugars are added
+        @param atom_radius_multiplier: Multiplier for the size of the atoms
+        @param add_sticks: Adds sticks between atoms if True
+        @param recenter: Centers the protein if True
+        @param chain_ids: Ids of chains to be loaded
+        @param site_indices: Indices on which sugars should be added on the protein
+        @param allowed_occurrences: Indices of protein instances in the assembly for which sugars are added
+        @param orientation: Orientation of the sugar on the protein
+        """
         assert isinstance(chain_ids, list)
         assert isinstance(site_indices, list)
         assert isinstance(allowed_occurrences, list)
@@ -1481,6 +1502,14 @@ class RNASequence:
 
     def __init__(self, source, shape, assembly_params,
                  t_range=Vector2(), shape_params=Vector3()):
+        """
+        RNA sequence descriptor
+        @param source: Full path of the file containing the RNA sequence
+        @param shape: Shape of the sequence (Trefoil knot, torus, star, spring, heart, Moebius knot, etc)
+        @param assembly_params: Assembly parameters (radius, etc.)
+        @param t_range: Range of values used to enroll the RNA thread
+        @param shape_params: Shape parameters
+        """
         assert isinstance(t_range, Vector2)
         assert isinstance(shape_params, Vector3)
         assert isinstance(assembly_params, Vector2)
@@ -1494,6 +1523,13 @@ class RNASequence:
 class Surfactant:
 
     def __init__(self, name, surfactant_protein, head_source, branch_source):
+        """
+        Surfactant descriptor
+        @param name: Name of the surfactant in the scene
+        @param surfactant_protein: Type of surfactant (A, D, etc.)
+        @param head_source: Full path to the PDB file for the head of the surfactant
+        @param branch_source: Full path to the PDB file for the branch of the surfactant
+        """
         self.surfactant_protein = surfactant_protein
         self.name = name
         self.head_source = head_source
@@ -1503,6 +1539,14 @@ class Surfactant:
 class Cell:
 
     def __init__(self, name, size, shape, membrane, receptor):
+        """
+        Cell descriptor
+        @param name: Name of the cell in the scene
+        @param size: Size of the cell in the scene
+        @param shape: Shape of the membrane (Spherical, planar, sinusoidal, cubic, etc)
+        @param membrane: Membrane descriptor
+        @param receptor: Receptor descriptor
+        """
         assert isinstance(size, Vector2)
         assert isinstance(membrane, Membrane)
         assert isinstance(receptor, Protein)
@@ -1516,6 +1560,12 @@ class Cell:
 class Volume:
 
     def __init__(self, name, size, protein):
+        """
+        Volume description
+        @param name: Name of the volume in the scene
+        @param size: Size of the volume in the scene (in nanometers)
+        @param protein: Protein descriptor
+        """
         assert isinstance(size, Vector2)
         assert isinstance(protein, Protein)
         self.name = name
@@ -1530,6 +1580,20 @@ class Protein:
                  load_bonds=False, load_hydrogen=False,
                  load_non_polymer_chemicals=False, cutoff_angle=0.0, position=Vector3(),
                  orientation=Quaternion(), instance_indices=list()):
+        """
+        Protein descriptor
+        @param sources: Full paths to the PDB files for the various conformations
+        @param number_of_instances: Number of instances to be added to the assembly
+        @param assembly_params: Assembly parameters (Virus radius and maximum range for random positions of membrane
+                                components)
+        @param load_bonds: Loads bonds if True
+        @param load_hydrogen: Loads hydrogens if True
+        @param load_non_polymer_chemicals: Loads non-polymer chemicals if True
+        @param cutoff_angle: Angle for which membrane components should not be added
+        @param position: Position of the mesh in the scene
+        @param orientation: Orientation of the mesh in the scene
+        @param instance_indices: Specific indices for which an instance is added to the assembly
+        """
         assert isinstance(sources, list)
         assert len(sources) > 0
         assert isinstance(position, Vector3)
@@ -1552,6 +1616,13 @@ class Mesh:
     def __init__(self, mesh_source, protein_source, density=1, surface_fixed_offset=0.0, surface_variable_offset=0.0,
                  atom_radius_multiplier=1.0, representation=BioExplorer.REPRESENTATION_ATOMS, random_seed=0,
                  recenter=True, position=Vector3(), orientation=Quaternion(), scale=Vector3()):
+        """
+        Mesh descriptor
+        @param source: Full path to the OBJ file
+        @param recenter: Recenter the mesh if set to True
+        @param position: Position of the mesh in the scene
+        @param orientation: Orientation of the mesh in the scene
+        """
         assert isinstance(position, Vector3)
         assert isinstance(orientation, Quaternion)
         assert isinstance(scale, Vector3)
@@ -1573,6 +1644,17 @@ class Virus:
 
     def __init__(self, name, assembly_params, protein_s=None, protein_e=None, protein_m=None,
                  membrane=None, rna_sequence=None):
+        """
+        Virus descriptor
+        @param name: Name of the virus in the scene
+        @param assembly_params: Assembly parameters (Virus radius and maximum range for random positions of membrane
+                                components)
+        @param protein_s: Protein S descriptor
+        @param protein_e: Protein E descriptor
+        @param protein_m: Protein M descriptor
+        @param membrane: Membrane descriptor
+        @param rna_sequence: RNA descriptor
+        """
         assert isinstance(assembly_params, Vector2)
         if protein_s is not None:
             assert isinstance(protein_s, Protein)
