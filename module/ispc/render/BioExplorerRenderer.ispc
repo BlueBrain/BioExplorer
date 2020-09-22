@@ -329,7 +329,7 @@ inline void initializeShadingAttributes(
     attributes.reflection = 0.f;
     attributes.refraction = 1.f;
     attributes.opacity = 0.f;
-    attributes.glossiness = 0.f;
+    attributes.glossiness = 1.f;
 }
 
 inline void setGeometryShadingAttributes(

@@ -1167,7 +1167,7 @@ class BioExplorer(object):
             shading_modes=shading_modes, emissions=emissions, opacities=opacities,
             reflection_indices=reflection_indices, refraction_indices=refraction_indices)
 
-    def apply_default_color_scheme(self, shading_mode, user_parameter=0.03, specular_exponent=5.0, glossiness=0.5):
+    def apply_default_color_scheme(self, shading_mode, user_parameter=3.0, specular_exponent=5.0, glossiness=1.0):
         """
         Apply a default color scheme to all components in the scene
         @param shading_mode: Shading mode (None, basic, diffuse, electron, etc)
