@@ -294,7 +294,6 @@ class BioExplorer(object):
         @param nb_protein_m: Number of M proteins
         @param nb_protein_e: Number of E proteins
         @param open_protein_s_indices: Indices for the open S proteins
-        @param atom_radius_multiplier:
         @param add_glycans: Defines if glycans should be added
         @param atom_radius_multiplier: Multiplies atom radius by the specified value
         @param representation: Representation of the protein (Atoms, atoms and sticks, etc)
@@ -1202,15 +1201,6 @@ class BioExplorer(object):
                     shading_mode=shading_mode, user_parameter=user_parameter, glossiness=glossiness,
                     specular_exponent=specular_exponent)
 
-            if self.NAME_TRANS_MEMBRANE in model_name:
-                palette = list()
-                for p in range(nb_materials):
-                    palette.append([1, 1, 1])
-                self.set_materials_from_palette(model_ids=[model_id], material_ids=material_ids, palette=palette,
-                                                opacity=0.5, reflection_index=0.0, refraction_index=1.1,
-                                                shading_mode=self.SHADING_MODE_DIFFUSE,
-                                                specular_exponent=30)
-
             if self.NAME_PROTEIN_S_CLOSED in model_name or self.NAME_PROTEIN_S_OPEN in model_name or \
                     self.NAME_PROTEIN_E in model_name or self.NAME_PROTEIN_M in model_name:
                 palette = sns.color_palette('Greens', nb_materials)
@@ -1618,10 +1608,18 @@ class Mesh:
                  recenter=True, position=Vector3(), orientation=Quaternion(), scale=Vector3()):
         """
         Mesh descriptor
-        @param source: Full path to the OBJ file
-        @param recenter: Recenter the mesh if set to True
+        @param mesh_source: Full path to the OBJ file
+        @param protein_source: Full path to the PDB file
+        @param density: Density of proteins on the surface of the mesh
+        @param surface_fixed_offset: Fixed offset of the protein position at the surface of the mesh
+        @param surface_variable_offset: Random ranged offset of the protein position at the surface of the mesh
+        @param atom_radius_multiplier: Multiplies atom radius by the specified value
+        @param representation: Representation of the protein (Atoms, atoms and sticks, etc)
+        @param random_seed: Rand seed for surface_variable_offset parameter
+        @param recenter: Centers the protein if True
         @param position: Position of the mesh in the scene
         @param orientation: Orientation of the mesh in the scene
+        @param scale: Scale of the mesh in the scene
         """
         assert isinstance(position, Vector3)
         assert isinstance(orientation, Quaternion)
