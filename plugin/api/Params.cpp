@@ -303,7 +303,8 @@ bool from_json(SugarsDescriptor &param, const std::string &payload)
         FROM_JSON(param, js, contents);
         FROM_JSON(param, js, proteinName);
         FROM_JSON(param, js, atomRadiusMultiplier);
-        FROM_JSON(param, js, addSticks);
+        FROM_JSON(param, js, loadBonds);
+        FROM_JSON(param, js, representation);
         FROM_JSON(param, js, recenter);
         FROM_JSON(param, js, chainIds);
         FROM_JSON(param, js, siteIndices);

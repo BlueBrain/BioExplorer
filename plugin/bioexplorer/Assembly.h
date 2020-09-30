@@ -140,7 +140,9 @@ private:
                            const size_t randomSeed, const Vector3f &position,
                            const Quaterniond &orientation,
                            const PositionRandomizationType &randomizationType,
-                           const float locationCutoffAngle = 0.f);
+                           const float locationCutoffAngle = 0.f,
+                           const Vector3fs &positions = {},
+                           const Quaternions &orientations = {});
 
     AssemblyDescriptor _descriptor;
     Vector3f _position{0.f, 0.f, 0.f};

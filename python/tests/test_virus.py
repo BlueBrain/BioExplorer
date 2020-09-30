@@ -52,9 +52,6 @@ def test_virus():
     show_functional_regions = False
     show_glycosylation_sites = False
 
-    # Glycan trees
-    glycan_add_sticks = True
-
     ''' Suspend image streaming '''
     be.core_api().set_application_parameters(image_stream_fps=0)
 
@@ -115,54 +112,54 @@ def test_virus():
         indices = [61, 122, 234, 603, 709, 717, 801, 1074]
         be.add_multiple_glycans(
             assembly_name=name, glycan_type=be.NAME_GLYCAN_HIGH_MANNOSE, protein_name=be.NAME_PROTEIN_S_CLOSED,
-            paths=high_mannose_paths, indices=indices, add_sticks=glycan_add_sticks,
-            allowed_occurrences=closed_conformation_indices)
+            paths=high_mannose_paths, indices=indices, representation=protein_representation,
+            allowed_occurrences=closed_conformation_indices, atom_radius_multiplier=protein_radius_multiplier)
         be.add_multiple_glycans(
             assembly_name=name, glycan_type=be.NAME_GLYCAN_HIGH_MANNOSE, protein_name=be.NAME_PROTEIN_S_OPEN,
-            paths=high_mannose_paths, indices=indices, index_offset=19, add_sticks=glycan_add_sticks,
-            allowed_occurrences=open_conformation_indices)
+            paths=high_mannose_paths, indices=indices, index_offset=19, representation=protein_representation,
+            allowed_occurrences=open_conformation_indices, atom_radius_multiplier=protein_radius_multiplier)
 
         # Complex
         indices1 = [17, 74, 149, 165, 282, 331, 343, 616, 1098, 1134, 1158, 1173, 1194]
         indices2 = [17, 74, 149, 165, 282, 331, 343, 1098, 1134, 1158, 1173, 1194]
         be.add_multiple_glycans(
             assembly_name=name, glycan_type=be.NAME_GLYCAN_COMPLEX, protein_name=be.NAME_PROTEIN_S_CLOSED,
-            paths=complex_paths, indices=indices1, add_sticks=glycan_add_sticks,
-            allowed_occurrences=closed_conformation_indices)
+            paths=complex_paths, indices=indices1, representation=protein_representation,
+            allowed_occurrences=closed_conformation_indices, atom_radius_multiplier=protein_radius_multiplier)
         be.add_multiple_glycans(
             assembly_name=name, glycan_type=be.NAME_GLYCAN_COMPLEX, protein_name=be.NAME_PROTEIN_S_OPEN,
-            paths=complex_paths, indices=indices2, index_offset=19, add_sticks=glycan_add_sticks,
-            allowed_occurrences=open_conformation_indices)
+            paths=complex_paths, indices=indices2, index_offset=19, representation=protein_representation,
+            allowed_occurrences=open_conformation_indices, atom_radius_multiplier=protein_radius_multiplier)
 
         # Hybrid
         indices = [657]
         be.add_multiple_glycans(
             assembly_name=name, glycan_type=be.NAME_GLYCAN_HYBRID, protein_name=be.NAME_PROTEIN_S_CLOSED,
-            paths=hybrid_paths, indices=indices, add_sticks=glycan_add_sticks,
-            allowed_occurrences=closed_conformation_indices)
+            paths=hybrid_paths, indices=indices, representation=protein_representation,
+            allowed_occurrences=closed_conformation_indices, atom_radius_multiplier=protein_radius_multiplier)
         be.add_multiple_glycans(
             assembly_name=name, glycan_type=be.NAME_GLYCAN_HYBRID, protein_name=be.NAME_PROTEIN_S_OPEN,
-            paths=hybrid_paths, indices=indices, index_offset=19, add_sticks=glycan_add_sticks,
-            allowed_occurrences=open_conformation_indices)
+            paths=hybrid_paths, indices=indices, index_offset=19, representation=protein_representation,
+            allowed_occurrences=open_conformation_indices, atom_radius_multiplier=protein_radius_multiplier)
 
         # O-Glycans
         for index in [323, 325]:
             o_glycan_name = name + '_' + be.NAME_GLYCAN_O_GLYCAN + '_' + str(index)
             o_glycan = Sugars(
                 assembly_name=name, name=o_glycan_name, source=o_glycan_paths[0],
-                protein_name=name + '_' + be.NAME_PROTEIN_S_CLOSED, add_sticks=glycan_add_sticks,
-                site_indices=[index])
+                protein_name=name + '_' + be.NAME_PROTEIN_S_CLOSED, representation=protein_representation,
+                site_indices=[index], atom_radius_multiplier=protein_radius_multiplier)
             be.add_sugars(o_glycan)
 
         # High-mannose glycans on Protein M
         be.add_multiple_glycans(
             assembly_name=name, glycan_type=be.NAME_GLYCAN_HIGH_MANNOSE, protein_name=be.NAME_PROTEIN_M,
-            paths=high_mannose_paths, add_sticks=glycan_add_sticks)
+            paths=high_mannose_paths, representation=protein_representation, atom_radius_multiplier=protein_radius_multiplier)
 
         # Complex glycans on Protein E
         be.add_multiple_glycans(
             assembly_name=name, glycan_type=be.NAME_GLYCAN_COMPLEX, protein_name=be.NAME_PROTEIN_E, paths=complex_paths,
-            add_sticks=glycan_add_sticks)
+            representation=protein_representation, atom_radius_multiplier=protein_radius_multiplier)
 
     # Apply default materials
     be.apply_default_color_scheme(shading_mode=be.SHADING_MODE_BASIC)

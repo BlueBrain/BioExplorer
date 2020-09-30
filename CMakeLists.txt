@@ -57,6 +57,7 @@ set(${NAME}_SOURCES
     plugin/bioexplorer/RNASequence.cpp
     plugin/meshing/MetaballsGenerator.cpp
     plugin/meshing/PointCloudMesher.cpp
+    plugin/meshing/SurfaceMesher.cpp
     plugin/api/Params.cpp
     plugin/BioExplorer.cpp
 )
@@ -74,6 +75,7 @@ set(${NAME}_PUBLIC_HEADERS
     plugin/common/CommonTypes.h
     plugin/meshing/MetaballsGenerator.h
     plugin/meshing/PointCloudMesher.h
+    plugin/meshing/SurfaceMesher.h
     plugin/api/Params.h
     plugin/BioExplorer.h
 )

@@ -377,7 +377,7 @@ ModelDescriptorPtr BioExplorerLoader::importFromFile(
     }
 
     file.close();
-    return nullptr; // _scene.getModelDescriptors()[0]
+    return _scene.getModelDescriptors()[0];
 }
 
 std::string BioExplorerLoader::_readString(std::ifstream& f) const

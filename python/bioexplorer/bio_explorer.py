@@ -150,6 +150,7 @@ class BioExplorer(object):
     REPRESENTATION_ATOMS_AND_STICKS = 1
     REPRESENTATION_CONTOURS = 2
     REPRESENTATION_SURFACE = 3
+    REPRESENTATION_UNION_OF_BALLS = 4
 
     ASSEMBLY_SHAPE_SPHERICAL = 0
     ASSEMBLY_SHAPE_PLANAR = 1
@@ -355,48 +356,55 @@ class BioExplorer(object):
             indices = [61, 122, 234, 603, 709, 717, 801, 1074]
             self.add_multiple_glycans(
                 assembly_name=name, glycan_type=self.NAME_GLYCAN_HIGH_MANNOSE, protein_name=self.NAME_PROTEIN_S_CLOSED,
-                paths=high_mannose_paths, indices=indices, allowed_occurrences=closed_conformation_indices)
+                paths=high_mannose_paths, indices=indices, allowed_occurrences=closed_conformation_indices,
+                representation=representation, atom_radius_multiplier=atom_radius_multiplier)
             self.add_multiple_glycans(
                 assembly_name=name, glycan_type=self.NAME_GLYCAN_HIGH_MANNOSE, protein_name=self.NAME_PROTEIN_S_OPEN,
                 paths=high_mannose_paths, indices=indices, index_offset=19,
-                allowed_occurrences=open_conformation_indices)
+                allowed_occurrences=open_conformation_indices, representation=representation,
+                atom_radius_multiplier=atom_radius_multiplier)
 
             # Complex
             indices1 = [17, 74, 149, 165, 282, 331, 343, 616, 1098, 1134, 1158, 1173, 1194]
             indices2 = [17, 74, 149, 165, 282, 331, 343, 1098, 1134, 1158, 1173, 1194]
             self.add_multiple_glycans(
                 assembly_name=name, glycan_type=self.NAME_GLYCAN_COMPLEX, protein_name=self.NAME_PROTEIN_S_CLOSED,
-                paths=complex_paths, indices=indices1, allowed_occurrences=closed_conformation_indices)
+                paths=complex_paths, indices=indices1, allowed_occurrences=closed_conformation_indices,
+                representation=representation, atom_radius_multiplier=atom_radius_multiplier)
             self.add_multiple_glycans(
                 assembly_name=name, glycan_type=self.NAME_GLYCAN_COMPLEX, protein_name=self.NAME_PROTEIN_S_OPEN,
-                paths=complex_paths, indices=indices2, index_offset=19, allowed_occurrences=open_conformation_indices)
+                paths=complex_paths, indices=indices2, index_offset=19, allowed_occurrences=open_conformation_indices,
+                representation=representation, atom_radius_multiplier=atom_radius_multiplier)
 
             # Hybrid
             indices = [657]
             self.add_multiple_glycans(
                 assembly_name=name, glycan_type=self.NAME_GLYCAN_HYBRID, protein_name=self.NAME_PROTEIN_S_CLOSED,
-                paths=hybrid_paths, indices=indices, allowed_occurrences=closed_conformation_indices)
+                paths=hybrid_paths, indices=indices, allowed_occurrences=closed_conformation_indices,
+                representation=representation, atom_radius_multiplier=atom_radius_multiplier)
             self.add_multiple_glycans(
                 assembly_name=name, glycan_type=self.NAME_GLYCAN_HYBRID, protein_name=self.NAME_PROTEIN_S_OPEN,
-                paths=hybrid_paths, indices=indices, index_offset=19, allowed_occurrences=open_conformation_indices)
+                paths=hybrid_paths, indices=indices, index_offset=19, allowed_occurrences=open_conformation_indices,
+                representation=representation, atom_radius_multiplier=atom_radius_multiplier)
 
             # O-Glycans
             for index in [323, 325]:
                 o_glycan_name = name + '_' + self.NAME_GLYCAN_O_GLYCAN + '_' + str(index)
                 o_glycan = Sugars(
                     assembly_name=name, name=o_glycan_name, source=o_glycan_paths[0],
-                    protein_name=name + '_' + self.NAME_PROTEIN_S_CLOSED, site_indices=[index])
+                    protein_name=name + '_' + self.NAME_PROTEIN_S_CLOSED, site_indices=[index],
+                    representation=representation, atom_radius_multiplier=atom_radius_multiplier)
                 self.add_sugars(o_glycan)
 
             # High-mannose glycans on Protein M
             self.add_multiple_glycans(
                 assembly_name=name, glycan_type=self.NAME_GLYCAN_HIGH_MANNOSE, protein_name=self.NAME_PROTEIN_M,
-                paths=high_mannose_paths)
+                paths=high_mannose_paths, representation=representation, atom_radius_multiplier=atom_radius_multiplier)
 
             # Complex glycans on Protein E
             self.add_multiple_glycans(
                 assembly_name=name, glycan_type=self.NAME_GLYCAN_COMPLEX, protein_name=self.NAME_PROTEIN_E,
-                paths=complex_paths)
+                paths=complex_paths, representation=representation, atom_radius_multiplier=atom_radius_multiplier)
 
         # Apply default materials
         self.apply_default_color_scheme(shading_mode=self.SHADING_MODE_BASIC)
@@ -530,7 +538,7 @@ class BioExplorer(object):
             source=cell.receptor.sources[0], load_non_polymer_chemicals=cell.receptor.load_non_polymer_chemicals,
             occurrences=cell.receptor.number_of_instances,
             assembly_params=cell.size, atom_radius_multiplier=atom_radius_multiplier,
-            load_bonds=True, representation=representation, random_seed=1,
+            load_bonds=False, representation=representation, random_seed=1,
             position=cell.receptor.position, orientation=cell.receptor.orientation)
 
         self.remove_assembly(cell.name)
@@ -557,11 +565,11 @@ class BioExplorer(object):
 
         _protein = AssemblyProtein(
             assembly_name=volume.name,
-            name=volume.name + '_' + self.NAME_PROTEIN, shape=volume.shape,
+            name=volume.name, shape=volume.shape,
             source=volume.protein.sources[0], load_non_polymer_chemicals=volume.protein.load_non_polymer_chemicals,
             occurrences=volume.protein.number_of_instances,
             assembly_params=volume.size, atom_radius_multiplier=atom_radius_multiplier,
-            load_bonds=True, representation=representation, random_seed=1,
+            load_bonds=False, representation=representation, random_seed=1,
             position=volume.protein.position, orientation=volume.protein.orientation)
 
         self.remove_assembly(volume.name)
@@ -960,7 +968,8 @@ class BioExplorer(object):
         params['contents'] = glycans.contents
         params['proteinName'] = glycans.protein_name
         params['atomRadiusMultiplier'] = glycans.atom_radius_multiplier
-        params['addSticks'] = glycans.add_sticks
+        params['loadBonds'] = glycans.load_bonds
+        params['representation'] = glycans.representation
         params['recenter'] = glycans.recenter
         params['chainIds'] = glycans.chain_ids
         params['siteIndices'] = glycans.site_indices
@@ -973,8 +982,8 @@ class BioExplorer(object):
         return result
 
     def add_multiple_glycans(
-            self, assembly_name, glycan_type, protein_name, paths, chain_ids=list(), indices=list(),
-            allowed_occurrences=list(), index_offset=0, add_sticks=True, atom_radius_multiplier=1.0):
+            self, assembly_name, glycan_type, protein_name, paths, representation, chain_ids=list(), indices=list(),
+            allowed_occurrences=list(), index_offset=0, load_bonds=False, atom_radius_multiplier=1.0):
         """
         Add glycans to a protein in a assembly
 
@@ -982,12 +991,13 @@ class BioExplorer(object):
         @param glycan_type: Type of glycans
         @param protein_name: Name of the protein
         @param paths: Paths to PDB files with various glycan structures
+        @param representation: Representation of the protein (Atoms, atoms and sticks, etc)
         @param chain_ids: IDs of the chains to be loaded
         @param indices: Indices of the glycosylation sites where glycans should be added
         @param allowed_occurrences: List of occurrences of the protein in the assembly, where glycans should be added
         @param index_offset: Offset applied to the indices. This is because not all amino acid sequences start at the
                              same index in the description of the protein in the PDB file.
-        @param add_sticks: Defines if sticks should be added between atoms
+        @param load_bonds: Defines if bonds should be loaded
         @param atom_radius_multiplier: Multiplies atom radius by the specified value
         """
         assert isinstance(chain_ids, list)
@@ -1010,8 +1020,8 @@ class BioExplorer(object):
                 assembly_name=assembly_name,
                 name=assembly_name + '_' + protein_name + '_' + glycan_type + '_' + str(path_index), source=path,
                 protein_name=assembly_name + '_' + protein_name, chain_ids=chain_ids,
-                atom_radius_multiplier=atom_radius_multiplier, add_sticks=add_sticks, recenter=True,
-                site_indices=site_indices, allowed_occurrences=occurrences, orientation=Quaternion())
+                atom_radius_multiplier=atom_radius_multiplier, load_bonds=load_bonds, representation=representation,
+                recenter=True, site_indices=site_indices, allowed_occurrences=occurrences, orientation=Quaternion())
             self.add_glycans(_glycans)
 
     def add_sugars(self, sugars):
@@ -1028,7 +1038,8 @@ class BioExplorer(object):
         params['contents'] = sugars.contents
         params['proteinName'] = sugars.protein_name
         params['atomRadiusMultiplier'] = sugars.atom_radius_multiplier
-        params['addSticks'] = sugars.add_sticks
+        params['loadBonds'] = sugars.load_bonds
+        params['representation'] = sugars.representation
         params['recenter'] = sugars.recenter
         params['chainIds'] = sugars.chain_ids
         params['siteIndices'] = sugars.site_indices
@@ -1454,7 +1465,7 @@ class Membrane:
 class Sugars:
 
     def __init__(self, assembly_name, name, source, protein_name,
-                 atom_radius_multiplier=1.0, add_sticks=False,
+                 atom_radius_multiplier=1.0, load_bonds=False, representation=BioExplorer.REPRESENTATION_ATOMS,
                  recenter=True, chain_ids=list(), site_indices=list(),
                  allowed_occurrences=list(), orientation=Quaternion()):
         """
@@ -1464,7 +1475,8 @@ class Sugars:
         @param source: Full path to the PDB file
         @param protein_name: Name of the protein to which sugars are added
         @param atom_radius_multiplier: Multiplier for the size of the atoms
-        @param add_sticks: Adds sticks between atoms if True
+        @param load_bonds: Defines if bonds should be loaded
+        @param representation: Representation of the protein (Atoms, atoms and sticks, etc)
         @param recenter: Centers the protein if True
         @param chain_ids: Ids of chains to be loaded
         @param site_indices: Indices on which sugars should be added on the protein
@@ -1480,7 +1492,8 @@ class Sugars:
         self.contents = ''.join(open(source).readlines())
         self.protein_name = protein_name
         self.atom_radius_multiplier = atom_radius_multiplier
-        self.add_sticks = add_sticks
+        self.load_bonds = load_bonds
+        self.representation = representation
         self.recenter = recenter
         self.chain_ids = chain_ids
         self.site_indices = site_indices

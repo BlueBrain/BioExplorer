@@ -1,3 +1,5 @@
+![icon](doc/BBBE_icon_128.png)
+
 # Blue Brain BioExplorer
 
 ![banner](doc/BBBE_banner.png)

@@ -96,7 +96,8 @@ enum class ProteinRepresentation
     atoms = 0,
     atoms_and_sticks = 1,
     contour = 2,
-    surface = 3
+    surface = 3,
+    union_of_balls = 4
 };
 
 enum class AssemblyShape
@@ -169,7 +170,8 @@ struct SugarsDescriptor
     std::string contents;
     std::string proteinName;
     float atomRadiusMultiplier;
-    bool addSticks;
+    bool loadBonds;
+    ProteinRepresentation representation;
     bool recenter;
     size_ts chainIds;
     size_ts siteIndices;

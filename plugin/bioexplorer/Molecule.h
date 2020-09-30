@@ -25,7 +25,9 @@ const std::string KEY_REMARK = "REMARK";
 class Molecule : public Node
 {
 public:
-    Molecule(const size_ts& chainIds);
+    Molecule(Scene& scene, const size_ts& chainIds);
+
+    StringMap getSequencesAsString() const;
 
 protected:
     void _setAtomColorScheme();
@@ -36,6 +38,12 @@ protected:
                                   const RGBColor& color);
     void _setMaterialDiffuseColor(const size_t atomIndex, const Color& color);
 
+    // Geometry
+    void _buildModel(const std::string& assemblyName, const std::string& name,
+                     const std::string& title, const std::string& header,
+                     const ProteinRepresentation& representation,
+                     const float atomRadiusMultiplier, const bool loadBonds);
+
     // IO
     void _readAtom(const std::string& line, const bool loadHydrogen);
     void _readSequence(const std::string& line);
@@ -45,6 +53,7 @@ protected:
     void _readConnect(const std::string& line);
     bool _loadChain(const size_t chainId);
 
+    Scene& _scene;
     AtomMap _atomMap;
     Residues _residues;
     std::string _aminoAcidSequence;

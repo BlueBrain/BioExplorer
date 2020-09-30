@@ -901,10 +901,6 @@ void BioExplorer::_setCamera(const CameraDefinition &payload)
                           payload.interpupillaryDistance);
 
     _api->getCamera().markModified();
-
-    PLUGIN_DEBUG << "SET: " << origin << ", " << direction << ", " << up << ", "
-                 << glm::inverse(q) << "," << payload.apertureRadius << ","
-                 << payload.focusDistance << std::endl;
 }
 
 CameraDefinition BioExplorer::_getCamera()
@@ -920,8 +916,6 @@ CameraDefinition BioExplorer::_getCamera()
     const auto u =
         glm::rotate(camera.getOrientation(), brayns::Vector3d(0., 1., 0.));
     cd.up = {u.x, u.y, u.z};
-    PLUGIN_DEBUG << "GET: " << p << ", " << d << ", " << u << ", "
-                 << camera.getOrientation() << std::endl;
     return cd;
 }
 

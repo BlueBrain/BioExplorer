@@ -39,15 +39,10 @@ public:
      * @param positions
      * @param rotations
      */
-    Glycans(Scene& scene, const SugarsDescriptor& sd, Vector3fs positions,
-            Quaternions rotations);
+    Glycans(Scene& scene, const SugarsDescriptor& sd);
 
 private:
-    void _buildModel(Model& model);
-
     SugarsDescriptor _descriptor;
-    Vector3fs _positions;
-    Quaternions _rotations;
 };
 } // namespace bioexplorer
 #endif // BIOEXPLORER_GLYCANS_H

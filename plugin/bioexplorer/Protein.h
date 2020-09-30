@@ -39,7 +39,6 @@ public:
                         const size_ts& chainIds);
 
     // Amino acid sequence
-    StringMap getSequencesAsString() const;
     void setAminoAcidSequenceAsString(const std::string& aminoAcidSequence)
     {
         _aminoAcidSequence = aminoAcidSequence;
@@ -83,9 +82,6 @@ private:
     // Color schemes
     void _setRegionColorScheme(const Palette& palette, const size_ts& chainIds);
     void _setGlycosylationSiteColorScheme(const Palette& palette);
-
-    // IO
-    void _buildModel(Model& model, const ProteinDescriptor& descriptor);
 
     // Class members
     ProteinDescriptor _descriptor;

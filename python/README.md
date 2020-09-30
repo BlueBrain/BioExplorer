@@ -1,4 +1,4 @@
-# BioExplorer
+# Blue Brain BioExplorer
 
 The bioexplorer package provides an extended python API for the Blue Brain BioExplorer application
 
@@ -17,12 +17,10 @@ Clone the repository and install it:
 (venv)$ pip install -e ./bioexplorer
 ```
 
-## Connect to running Brayns instance
+## Connect to running Blue Brain BioExplorer instance
 
 ```python
->>> from brayns import Client
 >>> from bioexplorer import BioExplorer
-
 >>> bio_explorer = BioExplorer('localhost:8200')
 ```
 
