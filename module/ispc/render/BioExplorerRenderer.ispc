@@ -627,6 +627,18 @@ inline void processCheckerShading(DifferentialGeometry& dg,
     processLightShading(dg, sample, ray, attributes);
 }
 
+inline void processGoodsellShading(varying ScreenSample& sample,
+                                   ShadingAttributes& attributes)
+{
+    const vec3f viewer = normalize(sample.ray.org - attributes.origin);
+    const float cosNL = max(0.f, dot(viewer, attributes.normal));
+
+    attributes.shadingContribution =
+        (cosNL > attributes.userParameter ? attributes.diffuseColor
+                                          : attributes.diffuseColor / 2.f);
+    attributes.specularColor = make_vec3f(0.f);
+}
+
 inline void processFinalContribution(ShadingAttributes& attributes)
 {
     // Surface shading
@@ -713,8 +725,10 @@ inline vec3f BioExplorerRenderer_shadeRay(
             processNoiseShading(dg, sample, ray, attributes);
         else if (attributes.shadingMode == checker)
             processCheckerShading(dg, sample, ray, attributes);
+        else if (attributes.shadingMode == goodsell)
+            processGoodsellShading(sample, attributes);
         else
-            // Diffuse
+            // Diffuse shading
             processLightShading(dg, sample, ray, attributes);
 
         // Compute shadows

@@ -43,7 +43,7 @@ private:
 
     // IO
     Response _exportToCache(const FileAccess &payload);
-    Response _exportToXYZR(const FileAccess &payload);
+    Response _exportToXYZ(const FileAccess &payload);
 
     // Movie and frames
     void _setCamera(const CameraDefinition &);

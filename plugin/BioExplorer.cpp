@@ -221,10 +221,10 @@ void BioExplorer::init()
             "export-to-cache",
             [&](const FileAccess &payload) { return _exportToCache(payload); });
 
-        PLUGIN_INFO << "Registering 'export-to-xyzr' endpoint" << std::endl;
+        PLUGIN_INFO << "Registering 'export-to-xyz' endpoint" << std::endl;
         actionInterface->registerRequest<FileAccess, Response>(
-            "export-to-xyzr",
-            [&](const FileAccess &payload) { return _exportToXYZR(payload); });
+            "export-to-xyz",
+            [&](const FileAccess &payload) { return _exportToXYZ(payload); });
 
         PLUGIN_INFO << "Registering 'add-grid' endpoint" << std::endl;
         actionInterface->registerNotification<AddGrid>(
@@ -579,14 +579,14 @@ Response BioExplorer::_exportToCache(const FileAccess &payload)
     return response;
 }
 
-Response BioExplorer::_exportToXYZR(const FileAccess &payload)
+Response BioExplorer::_exportToXYZ(const FileAccess &payload)
 {
     Response response;
     try
     {
         auto &scene = _api->getScene();
         BioExplorerLoader loader(scene);
-        loader.exportToXYZR(payload.filename);
+        loader.exportToXYZ(payload.filename, payload.fileFormat);
     }
     CATCH_STD_EXCEPTION()
     return response;

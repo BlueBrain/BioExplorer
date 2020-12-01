@@ -129,6 +129,7 @@ class BioExplorer(object):
     SHADING_MODE_PERLIN = 6
     SHADING_MODE_DIFFUSE_TRANSPARENCY = 7
     SHADING_MODE_CHECKER = 8
+    SHADING_MODE_GOODSELL = 9
 
     CAMERA_PROJECTION_PERSPECTIVE = 0
     CAMERA_PROJECTION_FISHEYE = 1
@@ -184,6 +185,13 @@ class BioExplorer(object):
     SURFACTANT_BRANCH = 0
     SURFACTANT_PROTEIN_A = 1
     SURFACTANT_PROTEIN_D = 2
+
+    FILE_FORMAT_XYZ_BINARY = 0
+    FILE_FORMAT_XYZR_BINARY = 1
+    FILE_FORMAT_XYZRV_BINARY = 2
+    FILE_FORMAT_XYZ_ASCII = 3
+    FILE_FORMAT_XYZR_ASCII = 4
+    FILE_FORMAT_XYZRV_ASCII = 5
 
     def __init__(self, url=None):
         """
@@ -253,15 +261,17 @@ class BioExplorer(object):
             raise RuntimeError(result['contents'])
         return result
 
-    def export_to_xyzr(self, filename):
+    def export_to_xyz(self, filename, file_format):
         """
-        Exports current scene to file as a binary XYZR file
-        @param filename: Full path of the binary XYZR file
+        Exports current scene to file as a XYZ file
+        @param filename: Full path of the XYZ file
+        @param file_format: Defines the format of the XYZ file
         @return: Result of the call to the BioExplorer backend
         """
         params = dict()
         params['filename'] = filename
-        result = self._client.rockets_client.request(method='export-to-xyzr', params=params)
+        params['fileFormat'] = file_format
+        result = self._client.rockets_client.request(method='export-to-xyz', params=params)
         if not result['status']:
             raise RuntimeError(result['contents'])
         return result

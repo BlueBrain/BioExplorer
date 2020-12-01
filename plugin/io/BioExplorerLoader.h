@@ -61,7 +61,8 @@ public:
 
     void exportToCache(const std::string& filename) const;
 
-    void exportToXYZR(const std::string& filename) const;
+    void exportToXYZ(const std::string& filename,
+                     const XYZFileFormat format) const;
 
 private:
     std::string _readString(std::ifstream& f) const;

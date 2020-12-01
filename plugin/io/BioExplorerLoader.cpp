@@ -692,13 +692,19 @@ void BioExplorerLoader::exportToCache(const std::string& filename) const
     file.close();
 }
 
-void BioExplorerLoader::exportToXYZR(const std::string& filename) const
+void BioExplorerLoader::exportToXYZ(const std::string& filename,
+                                    const XYZFileFormat fileFormat) const
 {
-    PLUGIN_INFO << "Saving scene to XYZR file: " << filename << std::endl;
-    std::ofstream file(filename, std::ios::out | std::ios::binary);
+    PLUGIN_INFO << "Saving scene to XYZ file: " << filename << std::endl;
+    std::ios_base::openmode flags = std::ios::out;
+    if (fileFormat == XYZFileFormat::xyz_binary ||
+        fileFormat == XYZFileFormat::xyzr_binary)
+        flags |= std::ios::binary;
+
+    std::ofstream file(filename, flags);
     if (!file.good())
     {
-        const std::string msg = "Could not create XYZR file " + filename;
+        const std::string msg = "Could not create XYZ file " + filename;
         PLUGIN_THROW(std::runtime_error(msg));
     }
 
@@ -733,11 +739,35 @@ void BioExplorerLoader::exportToXYZR(const std::string& filename) const
                     if (isClipped(c, clipPlanes))
                         continue;
 
-                    file.write((char*)&c.x, sizeof(float));
-                    file.write((char*)&c.y, sizeof(float));
-                    file.write((char*)&c.z, sizeof(float));
-                    file.write((char*)&sphere.radius, sizeof(float));
-                    file.write((char*)&sphere.radius, sizeof(float));
+                    switch (fileFormat)
+                    {
+                    case XYZFileFormat::xyz_binary:
+                    case XYZFileFormat::xyzr_binary:
+                        file.write((char*)&c.x, sizeof(float));
+                        file.write((char*)&c.y, sizeof(float));
+                        file.write((char*)&c.z, sizeof(float));
+                        if (fileFormat == XYZFileFormat::xyzr_binary ||
+                            fileFormat == XYZFileFormat::xyzrv_binary)
+                        {
+                            file.write((char*)&sphere.radius, sizeof(float));
+                            if (fileFormat == XYZFileFormat::xyzrv_binary)
+                                file.write((char*)&sphere.radius,
+                                           sizeof(float));
+                        }
+                        break;
+                    case XYZFileFormat::xyz_ascii:
+                    case XYZFileFormat::xyzr_ascii:
+                        file << c.x << " " << c.y << " " << c.z;
+                        if (fileFormat == XYZFileFormat::xyzr_ascii ||
+                            fileFormat == XYZFileFormat::xyzrv_ascii)
+                        {
+                            file << " " << sphere.radius;
+                            if (fileFormat == XYZFileFormat::xyzrv_ascii)
+                                file << " " << sphere.radius;
+                        }
+                        file << std::endl;
+                        break;
+                    }
                 }
             }
         }

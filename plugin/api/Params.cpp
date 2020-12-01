@@ -513,6 +513,7 @@ bool from_json(FileAccess &param, const std::string &payload)
     {
         auto js = nlohmann::json::parse(payload);
         FROM_JSON(param, js, filename);
+        FROM_JSON(param, js, fileFormat);
     }
     catch (...)
     {

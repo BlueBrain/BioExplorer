@@ -58,7 +58,7 @@ colormaps = [
 ]
 
 shading_modes = ['none', 'basic', 'diffuse', 'electron', 'cartoon', 'electron_transparency', 'perlin',
-                 'diffuse_transparency', 'checker']
+                 'diffuse_transparency', 'checker', 'goodsell']
 
 default_grid_layout = Layout(border='1px solid black', margin='5px', padding='5px')
 default_layout = Layout(width='50%', height='24px', display='flex', flex_flow='row')

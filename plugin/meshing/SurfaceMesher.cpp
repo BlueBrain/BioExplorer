@@ -80,10 +80,10 @@ ModelDescriptorPtr SurfaceMesher::generateSurface(brayns::Scene& scene,
         PLUGIN_INFO << "Surface loaded from cache " << filename << std::endl;
         return modelDescriptor;
     }
-    catch (const std::runtime_error&)
+    catch (const std::runtime_error& e)
     {
-        PLUGIN_DEBUG << "Failed to load surface from cache, constructing it..."
-                     << std::endl;
+        PLUGIN_INFO << "Failed to load surface from cache (" << e.what()
+                    << "), constructing it..." << std::endl;
     }
 
     std::list<Weighted_point> l;
@@ -119,7 +119,7 @@ ModelDescriptorPtr SurfaceMesher::generateUnionOfBalls(brayns::Scene& scene,
     ModelDescriptorPtr modelDescriptor{nullptr};
     MeshLoader meshLoader(scene);
     const std::string filename =
-        "/tmp/" + title.substr(title.find("_") + 1) + ".off";
+        "/tmp/" + title.substr(title.find("_") + 1) + ".obj";
     try
     {
         PLUGIN_INFO << "Trying to load union of balls from cache " << filename
@@ -130,11 +130,10 @@ ModelDescriptorPtr SurfaceMesher::generateUnionOfBalls(brayns::Scene& scene,
         PLUGIN_INFO << "Surface loaded from cache " << filename << std::endl;
         return modelDescriptor;
     }
-    catch (const std::runtime_error&)
+    catch (const std::runtime_error& e)
     {
-        PLUGIN_DEBUG
-            << "Failed to load union of balls from cache, constructing it..."
-            << std::endl;
+        PLUGIN_INFO << "Failed to load union of balls from cache (" << e.what()
+                    << "), constructing it..." << std::endl;
     }
 
     PLUGIN_INFO << "Constructing union of balls from " << l.size() << " atoms"

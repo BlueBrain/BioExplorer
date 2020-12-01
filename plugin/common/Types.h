@@ -493,9 +493,20 @@ struct ModelIdFileAccess
     std::string filename;
 };
 
+enum class XYZFileFormat
+{
+    xyz_binary = 0,
+    xyzr_binary = 1,
+    xyzrv_binary = 2,
+    xyz_ascii = 3,
+    xyzr_ascii = 4,
+    xyzrv_ascii = 5
+};
+
 struct FileAccess
 {
     std::string filename;
+    XYZFileFormat fileFormat;
 };
 
 } // namespace bioexplorer
