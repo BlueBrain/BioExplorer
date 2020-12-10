@@ -186,12 +186,13 @@ class BioExplorer(object):
     SURFACTANT_PROTEIN_A = 1
     SURFACTANT_PROTEIN_D = 2
 
-    FILE_FORMAT_XYZ_BINARY = 0
-    FILE_FORMAT_XYZR_BINARY = 1
-    FILE_FORMAT_XYZRV_BINARY = 2
-    FILE_FORMAT_XYZ_ASCII = 3
-    FILE_FORMAT_XYZR_ASCII = 4
-    FILE_FORMAT_XYZRV_ASCII = 5
+    FILE_FORMAT_UNSPECIFIED = 0
+    FILE_FORMAT_XYZ_BINARY = 1
+    FILE_FORMAT_XYZR_BINARY = 2
+    FILE_FORMAT_XYZRV_BINARY = 3
+    FILE_FORMAT_XYZ_ASCII = 4
+    FILE_FORMAT_XYZR_ASCII = 5
+    FILE_FORMAT_XYZRV_ASCII = 6
 
     def __init__(self, url=None):
         """
@@ -256,6 +257,7 @@ class BioExplorer(object):
         """
         params = dict()
         params['filename'] = filename
+        params['fileFormat'] = BioExplorer.FILE_FORMAT_UNSPECIFIED
         result = self._client.rockets_client.request(method='export-to-cache', params=params)
         if not result['status']:
             raise RuntimeError(result['contents'])
@@ -375,26 +377,15 @@ class BioExplorer(object):
                 atom_radius_multiplier=atom_radius_multiplier)
 
             # Complex
-            indices1 = [17, 74, 149, 165, 282, 331, 343, 616, 1098, 1134, 1158, 1173, 1194]
-            indices2 = [17, 74, 149, 165, 282, 331, 343, 1098, 1134, 1158, 1173, 1194]
+            indices_closed = [17, 74, 149, 165, 282, 331, 343, 616, 657, 1098, 1134, 1158, 1173, 1194]
+            indices_open = [17, 74, 149, 165, 282, 331, 343, 657, 1098, 1134, 1158, 1173, 1194]
             self.add_multiple_glycans(
                 assembly_name=name, glycan_type=self.NAME_GLYCAN_COMPLEX, protein_name=self.NAME_PROTEIN_S_CLOSED,
-                paths=complex_paths, indices=indices1, allowed_occurrences=closed_conformation_indices,
+                paths=complex_paths, indices=indices_closed, allowed_occurrences=closed_conformation_indices,
                 representation=representation, atom_radius_multiplier=atom_radius_multiplier)
             self.add_multiple_glycans(
                 assembly_name=name, glycan_type=self.NAME_GLYCAN_COMPLEX, protein_name=self.NAME_PROTEIN_S_OPEN,
-                paths=complex_paths, indices=indices2, index_offset=19, allowed_occurrences=open_conformation_indices,
-                representation=representation, atom_radius_multiplier=atom_radius_multiplier)
-
-            # Hybrid
-            indices = [657]
-            self.add_multiple_glycans(
-                assembly_name=name, glycan_type=self.NAME_GLYCAN_HYBRID, protein_name=self.NAME_PROTEIN_S_CLOSED,
-                paths=hybrid_paths, indices=indices, allowed_occurrences=closed_conformation_indices,
-                representation=representation, atom_radius_multiplier=atom_radius_multiplier)
-            self.add_multiple_glycans(
-                assembly_name=name, glycan_type=self.NAME_GLYCAN_HYBRID, protein_name=self.NAME_PROTEIN_S_OPEN,
-                paths=hybrid_paths, indices=indices, index_offset=19, allowed_occurrences=open_conformation_indices,
+                paths=complex_paths, indices=indices_open, index_offset=19, allowed_occurrences=open_conformation_indices,
                 representation=representation, atom_radius_multiplier=atom_radius_multiplier)
 
             # O-Glycans

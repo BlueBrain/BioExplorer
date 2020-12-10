@@ -495,12 +495,13 @@ struct ModelIdFileAccess
 
 enum class XYZFileFormat
 {
-    xyz_binary = 0,
-    xyzr_binary = 1,
-    xyzrv_binary = 2,
-    xyz_ascii = 3,
-    xyzr_ascii = 4,
-    xyzrv_ascii = 5
+    unspecified = 0,
+    xyz_binary = 1,
+    xyzr_binary = 2,
+    xyzrv_binary = 3,
+    xyz_ascii = 4,
+    xyzr_ascii = 5,
+    xyzrv_ascii = 6
 };
 
 struct FileAccess

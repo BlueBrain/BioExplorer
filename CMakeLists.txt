@@ -22,6 +22,7 @@ set(${NAME}_MODULES_DIR ${PROJECT_SOURCE_DIR})
 set(CMAKE_CXX_STANDARD 14) # C++ 14
 
 find_package(Brayns REQUIRED)
+
 find_package(ospray REQUIRED SYSTEM)
 find_package(Boost REQUIRED COMPONENTS program_options filesystem)
 find_package(glm REQUIRED SYSTEM)

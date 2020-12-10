@@ -314,8 +314,10 @@ void BioExplorer::preRender()
             _setCamera(cd);
 
             // Animation parameters
+            // _api->getParametersManager().getAnimationParameters().setFrame(
+            // ai[_frameNumber]);
             _api->getParametersManager().getAnimationParameters().setFrame(
-                ai[_frameNumber]);
+                _frameNumber);
         }
     }
 }

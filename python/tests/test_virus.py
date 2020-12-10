@@ -105,7 +105,6 @@ def test_virus():
                          glycan_folder + 'complex/25.pdb', glycan_folder + 'complex/35.pdb']
         high_mannose_paths = [glycan_folder + 'high-mannose/1.pdb', glycan_folder + 'high-mannose/2.pdb',
                               glycan_folder + 'high-mannose/3.pdb', glycan_folder + 'high-mannose/4.pdb']
-        hybrid_paths = [glycan_folder + 'hybrid/20.pdb']
         o_glycan_paths = [glycan_folder + 'o-glycan/12.pdb']
 
         # High-mannose
@@ -120,8 +119,8 @@ def test_virus():
             allowed_occurrences=open_conformation_indices, atom_radius_multiplier=protein_radius_multiplier)
 
         # Complex
-        indices1 = [17, 74, 149, 165, 282, 331, 343, 616, 1098, 1134, 1158, 1173, 1194]
-        indices2 = [17, 74, 149, 165, 282, 331, 343, 1098, 1134, 1158, 1173, 1194]
+        indices1 = [17, 74, 149, 165, 282, 331, 343, 616, 657, 1098, 1134, 1158, 1173, 1194]
+        indices2 = [17, 74, 149, 165, 282, 331, 343, 1098, 657, 1134, 1158, 1173, 1194]
         be.add_multiple_glycans(
             assembly_name=name, glycan_type=be.NAME_GLYCAN_COMPLEX, protein_name=be.NAME_PROTEIN_S_CLOSED,
             paths=complex_paths, indices=indices1, representation=protein_representation,
@@ -129,17 +128,6 @@ def test_virus():
         be.add_multiple_glycans(
             assembly_name=name, glycan_type=be.NAME_GLYCAN_COMPLEX, protein_name=be.NAME_PROTEIN_S_OPEN,
             paths=complex_paths, indices=indices2, index_offset=19, representation=protein_representation,
-            allowed_occurrences=open_conformation_indices, atom_radius_multiplier=protein_radius_multiplier)
-
-        # Hybrid
-        indices = [657]
-        be.add_multiple_glycans(
-            assembly_name=name, glycan_type=be.NAME_GLYCAN_HYBRID, protein_name=be.NAME_PROTEIN_S_CLOSED,
-            paths=hybrid_paths, indices=indices, representation=protein_representation,
-            allowed_occurrences=closed_conformation_indices, atom_radius_multiplier=protein_radius_multiplier)
-        be.add_multiple_glycans(
-            assembly_name=name, glycan_type=be.NAME_GLYCAN_HYBRID, protein_name=be.NAME_PROTEIN_S_OPEN,
-            paths=hybrid_paths, indices=indices, index_offset=19, representation=protein_representation,
             allowed_occurrences=open_conformation_indices, atom_radius_multiplier=protein_radius_multiplier)
 
         # O-Glycans
