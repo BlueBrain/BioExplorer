@@ -239,7 +239,7 @@ void Assembly::_processInstances(
 
     srand(randomSeed);
     size_t rnd{1};
-    if (randomSeed != 0 &&
+    if (occurrences != 0 && randomSeed != 0 &&
         randomizationType == PositionRandomizationType::circular)
         rnd = rand() % occurrences;
 

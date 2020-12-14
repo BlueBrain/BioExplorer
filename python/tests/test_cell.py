@@ -41,16 +41,18 @@ def test_cell():
     # Membrane parameters
     membrane_size = 800
     membrane_height = 80
+    membrane_nb_receptors = 20
+    membrane_nb_lipids = 1200000
 
     # ACE2 Receptor
     ace2_receptor = Protein(
         sources=[pdb_folder + '6m1d.pdb'],
-        number_of_instances=20,
+        number_of_instances=membrane_nb_receptors,
         position=Vector3(0.0, 6.0, 0.0))
 
     membrane = Membrane(
         sources=[pdb_folder + 'membrane/popc.pdb'],
-        number_of_instances=1200000)
+        number_of_instances=membrane_nb_lipids)
 
     cell = Cell(
         name='Cell',

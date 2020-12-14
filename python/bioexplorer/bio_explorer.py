@@ -533,18 +533,20 @@ class BioExplorer(object):
         assert isinstance(position, Vector3)
         assert len(cell.receptor.sources) == 1
 
-        _receptor = AssemblyProtein(
-            assembly_name=cell.name,
-            name=cell.name + '_' + self.NAME_RECEPTOR, shape=cell.shape,
-            source=cell.receptor.sources[0], load_non_polymer_chemicals=cell.receptor.load_non_polymer_chemicals,
-            occurrences=cell.receptor.number_of_instances,
-            assembly_params=cell.size, atom_radius_multiplier=atom_radius_multiplier,
-            load_bonds=False, representation=representation, random_seed=1,
-            position=cell.receptor.position, orientation=cell.receptor.orientation)
-
         self.remove_assembly(cell.name)
         self.add_assembly(name=cell.name, position=position, clipping_planes=clipping_planes)
-        self.add_assembly_protein(_receptor)
+
+        if cell.receptor.number_of_instances != 0:
+            _receptor = AssemblyProtein(
+                assembly_name=cell.name,
+                name=cell.name + '_' + self.NAME_RECEPTOR, shape=cell.shape,
+                source=cell.receptor.sources[0], load_non_polymer_chemicals=cell.receptor.load_non_polymer_chemicals,
+                occurrences=cell.receptor.number_of_instances,
+                assembly_params=cell.size, atom_radius_multiplier=atom_radius_multiplier,
+                load_bonds=False, representation=representation, random_seed=1,
+                position=cell.receptor.position, orientation=cell.receptor.orientation)
+            self.add_assembly_protein(_receptor)
+
         cell.membrane.representation = representation
         cell.membrane.atom_radius_multiplier = atom_radius_multiplier
         self.add_membrane(
