@@ -203,9 +203,10 @@ class BioExplorer(object):
         if url is not None:
             self._client = Client(url)
 
-        if __version__ != self.version():
+        backend_version = self.version()
+        if __version__ != backend_version:
             raise RuntimeError(
-                'Wrong version of the back-end. Use version ' + __version__ + \
+                'Wrong version of the back-end (' + backend_version + '). Use version ' + __version__ + \
                 ' for this version of the BioExplorer python library')
 
     def __str__(self):
