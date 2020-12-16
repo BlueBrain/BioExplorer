@@ -109,6 +109,8 @@ class Quaternion:
 class BioExplorer(object):
     """ Blue Brain BioExplorer """
 
+    PLUGIN_API_PREFIX = 'be_'
+
     POSITION_RANDOMIZATION_TYPE_CIRCULAR = 0
     POSITION_RANDOMIZATION_TYPE_RADIAL = 1
 
@@ -228,7 +230,7 @@ class BioExplorer(object):
         if self._client is None:
             return __version__
 
-        result = self._client.rockets_client.request(method='version')
+        result = self._client.rockets_client.request(method=self.PLUGIN_API_PREFIX + 'version')
         if not result['status']:
             raise RuntimeError(result['contents'])
         return result['contents']
@@ -259,7 +261,7 @@ class BioExplorer(object):
         params = dict()
         params['filename'] = filename
         params['fileFormat'] = BioExplorer.FILE_FORMAT_UNSPECIFIED
-        result = self._client.rockets_client.request(method='export-to-cache', params=params)
+        result = self._client.rockets_client.request(method=self.PLUGIN_API_PREFIX + 'export-to-cache', params=params)
         if not result['status']:
             raise RuntimeError(result['contents'])
         return result
@@ -274,7 +276,7 @@ class BioExplorer(object):
         params = dict()
         params['filename'] = filename
         params['fileFormat'] = file_format
-        result = self._client.rockets_client.request(method='export-to-xyz', params=params)
+        result = self._client.rockets_client.request(method=self.PLUGIN_API_PREFIX + 'export-to-xyz', params=params)
         if not result['status']:
             raise RuntimeError(result['contents'])
         return result
@@ -289,7 +291,7 @@ class BioExplorer(object):
         params['name'] = name
         params['position'] = Vector3().to_list()
         params['clippingPlanes'] = list()
-        result = self._client.rockets_client.request(method='remove-assembly', params=params)
+        result = self._client.rockets_client.request(method=self.PLUGIN_API_PREFIX + 'remove-assembly', params=params)
         if not result['status']:
             raise RuntimeError(result['contents'])
         return result
@@ -662,7 +664,7 @@ class BioExplorer(object):
         params['position'] = position.to_list()
         params['orientation'] = orientation.to_list()
         params['clippingPlanes'] = clipping_planes_values
-        result = self._client.rockets_client.request(method='add-assembly', params=params)
+        result = self._client.rockets_client.request(method=self.PLUGIN_API_PREFIX + 'add-assembly', params=params)
         if not result['status']:
             raise RuntimeError(result['contents'])
         self._client.set_renderer(accumulation=True)
@@ -697,7 +699,7 @@ class BioExplorer(object):
         params['colorScheme'] = color_scheme
         params['palette'] = p
         params['chainIds'] = chain_ids
-        result = self._client.rockets_client.request(method='set-protein-color-scheme', params=params)
+        result = self._client.rockets_client.request(method=self.PLUGIN_API_PREFIX + 'set-protein-color-scheme', params=params)
         if not result['status']:
             raise RuntimeError(result['contents'])
         self._client.set_renderer(accumulation=True)
@@ -715,7 +717,7 @@ class BioExplorer(object):
         params['assemblyName'] = assembly_name
         params['name'] = name
         params['sequence'] = amino_acid_sequence
-        result = self._client.rockets_client.request(method='set-protein-amino-acid-sequence-as-string', params=params)
+        result = self._client.rockets_client.request(method=self.PLUGIN_API_PREFIX + 'set-protein-amino-acid-sequence-as-string', params=params)
         if not result['status']:
             raise RuntimeError(result['contents'])
         self._client.set_renderer(accumulation=True)
@@ -734,7 +736,7 @@ class BioExplorer(object):
         params['assemblyName'] = assembly_name
         params['name'] = name
         params['range'] = amino_acid_range
-        result = self._client.rockets_client.request(method='set-protein-amino-acid-sequence-as-range', params=params)
+        result = self._client.rockets_client.request(method=self.PLUGIN_API_PREFIX + 'set-protein-amino-acid-sequence-as-range', params=params)
         if not result['status']:
             raise RuntimeError(result['contents'])
         self._client.set_renderer(accumulation=True)
@@ -750,7 +752,7 @@ class BioExplorer(object):
         params = dict()
         params['assemblyName'] = assembly_name
         params['name'] = name
-        result = self._client.rockets_client.request(method='get-protein-amino-acid-information', params=params)
+        result = self._client.rockets_client.request(method=self.PLUGIN_API_PREFIX + 'get-protein-amino-acid-information', params=params)
         if not result['status']:
             raise RuntimeError(result['contents'])
         return result['contents'].split()
@@ -793,7 +795,7 @@ class BioExplorer(object):
         params['assemblyParams'] = rna_sequence.assembly_params.to_list()
         params['range'] = t_range.to_list()
         params['params'] = shape_params.to_list()
-        result = self._client.rockets_client.request(method='add-rna-sequence', params=params)
+        result = self._client.rockets_client.request(method=self.PLUGIN_API_PREFIX + 'add-rna-sequence', params=params)
         if not result['status']:
             raise RuntimeError(result['contents'])
         self._client.set_renderer(accumulation=True)
@@ -839,7 +841,7 @@ class BioExplorer(object):
         params['locationCutoffAngle'] = membrane.location_cutoff_angle
         params['positionRandomizationType'] = position_randomization_type
         params['orientation'] = membrane.orientation.to_list()
-        result = self._client.rockets_client.request(method='add-membrane', params=params)
+        result = self._client.rockets_client.request(method=self.PLUGIN_API_PREFIX + 'add-membrane', params=params)
         if not result['status']:
             raise RuntimeError(result['contents'])
         self._client.set_renderer(accumulation=True)
@@ -902,7 +904,7 @@ class BioExplorer(object):
         params['positionRandomizationType'] = protein.position_randomization_type
         params['position'] = protein.position.to_list()
         params['orientation'] = protein.orientation.to_list()
-        result = self._client.rockets_client.request(method='add-protein', params=params)
+        result = self._client.rockets_client.request(method=self.PLUGIN_API_PREFIX + 'add-protein', params=params)
         if not result['status']:
             raise RuntimeError(result['contents'])
         self._client.set_renderer(accumulation=True)
@@ -952,7 +954,7 @@ class BioExplorer(object):
         params['position'] = mesh.position.to_list()
         params['orientation'] = mesh.orientation.to_list()
         params['scale'] = mesh.scale.to_list()
-        result = self._client.rockets_client.request(method='add-mesh', params=params)
+        result = self._client.rockets_client.request(method=self.PLUGIN_API_PREFIX + 'add-mesh', params=params)
         if not result['status']:
             raise RuntimeError(result['contents'])
         self._client.set_renderer(accumulation=True)
@@ -979,7 +981,7 @@ class BioExplorer(object):
         params['siteIndices'] = glycans.site_indices
         params['allowedOccurrences'] = glycans.allowed_occurrences
         params['orientation'] = glycans.orientation.to_list()
-        result = self._client.rockets_client.request(method='add-glycans', params=params)
+        result = self._client.rockets_client.request(method=self.PLUGIN_API_PREFIX + 'add-glycans', params=params)
         if not result['status']:
             raise RuntimeError(result['contents'])
         self._client.set_renderer(accumulation=True)
@@ -1049,7 +1051,7 @@ class BioExplorer(object):
         params['siteIndices'] = sugars.site_indices
         params['allowedOccurrences'] = sugars.allowed_occurrences
         params['orientation'] = sugars.orientation.to_list()
-        result = self._client.rockets_client.request(method='add-sugars', params=params)
+        result = self._client.rockets_client.request(method=self.PLUGIN_API_PREFIX + 'add-sugars', params=params)
         if not result['status']:
             raise RuntimeError(result['contents'])
         self._client.set_renderer(accumulation=True)
@@ -1086,7 +1088,7 @@ class BioExplorer(object):
         """
         params = dict()
         params['modelId'] = model_id
-        return self._client.rockets_client.request('get-material-ids', params)
+        return self._client.rockets_client.request(self.PLUGIN_API_PREFIX + 'get-material-ids', params)
 
     def set_materials(self, model_ids, material_ids, diffuse_colors, specular_colors,
                       specular_exponents=list(), opacities=list(), reflection_indices=list(),
@@ -1137,7 +1139,7 @@ class BioExplorer(object):
         params['glossinesses'] = glossinesses
         params['shadingModes'] = shading_modes
         params['userParameters'] = user_parameters
-        return self._client.rockets_client.request("set-materials", params=params)
+        return self._client.rockets_client.request(self.PLUGIN_API_PREFIX + 'set-materials', params=params)
 
     def set_materials_from_palette(self, model_ids, material_ids, palette, shading_mode, specular_exponent,
                                    user_parameter=1.0, glossiness=1.0, emission=0.0, opacity=1.0, reflection_index=0.0,
@@ -1307,7 +1309,7 @@ class BioExplorer(object):
 
         params = dict()
         params['voxelSize'] = voxel_size
-        return self._client.rockets_client.request('build-fields', params)
+        return self._client.rockets_client.request(self.PLUGIN_API_PREFIX + 'build-fields', params)
 
     def import_fields_from_file(self, filename):
         """
@@ -1320,7 +1322,7 @@ class BioExplorer(object):
 
         params = dict()
         params['filename'] = filename
-        return self._client.rockets_client.request('import-fields-from-file', params)
+        return self._client.rockets_client.request(self.PLUGIN_API_PREFIX + 'import-fields-from-file', params)
 
     def export_fields_to_file(self, model_id, filename):
         """
@@ -1336,7 +1338,7 @@ class BioExplorer(object):
         params = dict()
         params['modelId'] = model_id
         params['filename'] = filename
-        return self._client.rockets_client.request('export-fields-to-file', params)
+        return self._client.rockets_client.request(self.PLUGIN_API_PREFIX + 'export-fields-to-file', params)
 
     def add_grid(self, min_value, max_value, interval, radius=1.0, opacity=0.5, show_axis=True, colored=True,
                  position=Vector3()):
@@ -1365,7 +1367,7 @@ class BioExplorer(object):
         params['showAxis'] = show_axis
         params['useColors'] = colored
         params['position'] = position.to_list()
-        return self._client.rockets_client.request('add-grid', params)
+        return self._client.rockets_client.request(self.PLUGIN_API_PREFIX + 'add-grid', params)
 
 
 ''' Internal classes '''

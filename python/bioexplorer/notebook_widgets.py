@@ -24,7 +24,6 @@
 
 """BioExplorer widgets"""
 
-from .movie_maker import MovieMaker
 from ipywidgets import FloatSlider, Select, HBox, VBox, Layout, Button, SelectMultiple, \
     IntProgress, Checkbox, IntRangeSlider, ColorPicker, IntSlider, Label, Text
 import seaborn as sns
@@ -70,7 +69,6 @@ class Widgets:
     def __init__(self, bioexplorer):
         self._be = bioexplorer
         self._client = bioexplorer.core_api()
-        self._movie_maker = MovieMaker(bioexplorer)
 
     def display_focal_distance(self):
         x_slider = FloatSlider(description='X', min=0, max=1, value=0.5)
@@ -333,87 +331,6 @@ class Widgets:
 
         hbox = HBox([model_select, hbox_params], layout=default_grid_layout)
         display(hbox)
-
-    def create_snapshot(self, size, output_folder, samples_per_pixel):
-        application_params = self._client.get_application_parameters()
-        renderer_params = self._client.get_renderer()
-        old_image_stream_fps = application_params['image_stream_fps']
-        old_viewport_size = application_params['viewport']
-        old_samples_per_pixel = renderer_params['samples_per_pixel']
-        old_max_accum_frames = renderer_params['max_accum_frames']
-        self._client.set_renderer(samples_per_pixel=1, max_accum_frames=samples_per_pixel)
-        self._client.set_application_parameters(viewport=size)
-        self._client.set_application_parameters(image_stream_fps=0)
-
-        control_points = [self._movie_maker.get_camera()]
-        self._movie_maker.build_camera_path(control_points=control_points, nb_steps_between_control_points=1,
-                                            smoothing_size=1)
-        self._movie_maker.export_frames(path=output_folder, size=size, samples_per_pixel=samples_per_pixel)
-
-        progress_widget = IntProgress(description='In progress...', min=0, max=100, value=0)
-        display(progress_widget)
-
-        progress = 0
-        while progress < 1.0:
-            import time
-            time.sleep(0.2)
-            progress = self._movie_maker.get_export_frames_progress()['progress']
-            if progress is None:
-                progress = 1.0
-            progress_widget.value = progress * 100
-
-        self._client.set_application_parameters(image_stream_fps=old_image_stream_fps,
-                                                viewport=old_viewport_size)
-        self._client.set_renderer(samples_per_pixel=old_samples_per_pixel,
-                                  max_accum_frames=old_max_accum_frames)
-
-        progress_widget.description = 'Done'
-        progress_widget.value = 100
-
-    def create_movie(self, camera_key_frames, images_between_frames, smoothing_frames, output_size, output_folder,
-                     camera_projection, samples_per_pixel=64, start_frame=0):
-        from brayns import CameraPathHandler
-
-        if camera_projection == self._be.CAMERA_PROJECTION_PERSPECTIVE:
-            self._client.set_camera(current='bio_explorer_perspective')
-        elif camera_projection == self._be.CAMERA_PROJECTION_FISHEYE:
-            self._client.set_camera(current='fisheye')
-        elif camera_projection == self._be.CAMERA_PROJECTION_PANORAMIC:
-            self._client.set_camera(current='panoramic')
-        elif camera_projection == self._be.CAMERA_PROJECTION_CYLINDRIC:
-            self._client.set_camera(current='cylindric')
-        else:
-            raise RuntimeError("Unknown camera projection specified")
-
-        self._client.set_renderer(samples_per_pixel=1, max_accum_frames=samples_per_pixel)
-        self._client.set_application_parameters(viewport=output_size)
-        self._client.set_application_parameters(image_stream_fps=0)
-
-        cph = CameraPathHandler(camera_key_frames, images_between_frames, smoothing_frames)
-
-        af = list()
-        cd = list()
-        for i in range(cph.get_nb_frames()):
-            af.append(0)
-            cd.append(cph.get_key_frame(i))
-
-        self._be.export_frames_to_disk(
-            start_frame=start_frame,
-            animation_frames=af,
-            camera_definitions=cd,
-            path=output_folder,
-            samples_per_pixel=samples_per_pixel - 1)
-
-        progress = IntProgress(description='In progress...', min=0, max=100, value=0)
-        display(progress)
-
-        while self._be.get_export_frames_progress()['progress'] < 1.0:
-            import time
-            time.sleep(1)
-            progress.value = self._be.get_export_frames_progress()['progress'] * 100
-
-        self._be.cancel_frames_export()
-        self._client.set_application_parameters(image_stream_fps=20)
 
     def __display_advanced_settings(self, object_type):
 
