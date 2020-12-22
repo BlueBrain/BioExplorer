@@ -40,8 +40,10 @@ RUN apt-get update \
  && apt-get clean \
  && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
+# --------------------------------------------------------------------------------
 # Get ISPC
 # https://ispc.github.io/downloads.html
+# --------------------------------------------------------------------------------
 ARG ISPC_VERSION=1.10.0
 ARG ISPC_DIR=ispc-v${ISPC_VERSION}-linux
 ARG ISPC_PATH=/app/$ISPC_DIR
@@ -54,8 +56,10 @@ RUN mkdir -p ${ISPC_PATH} \
 # Add ispc bin to the PATH
 ENV PATH $PATH:${ISPC_PATH}
 
+# --------------------------------------------------------------------------------
 # Install embree
 # https://github.com/embree/embree/releases
+# --------------------------------------------------------------------------------
 ARG EMBREE_VERSION=3.5.2
 ARG EMBREE_FILE=embree-${EMBREE_VERSION}.x86_64.linux.tar.gz
 RUN mkdir -p ${DIST_PATH} \
@@ -63,8 +67,10 @@ RUN mkdir -p ${DIST_PATH} \
   && tar zxvf ${EMBREE_FILE} -C ${DIST_PATH} --strip-components=1 \
   && rm -rf ${DIST_PATH}/bin ${DIST_PATH}/doc
 
+# --------------------------------------------------------------------------------
 # Install OSPRay
 # https://github.com/ospray/ospray/releases
+# --------------------------------------------------------------------------------
 ARG OSPRAY_TAG=v1.8.5
 ARG OSPRAY_SRC=/app/ospray
 
@@ -80,8 +86,10 @@ RUN mkdir -p ${OSPRAY_SRC} \
     -DCMAKE_INSTALL_PREFIX=${DIST_PATH} \
  && ninja install
 
+# --------------------------------------------------------------------------------
 # Install libwebsockets (2.0 from Debian is not reliable)
 # https://github.com/warmcat/libwebsockets/releases
+# --------------------------------------------------------------------------------
 ARG LWS_VERSION=2.3.0
 ARG LWS_SRC=/app/libwebsockets
 ARG LWS_FILE=v${LWS_VERSION}.tar.gz
@@ -104,21 +112,16 @@ RUN mkdir -p ${LWS_SRC} \
     -DCMAKE_INSTALL_PREFIX=${DIST_PATH} \
  && ninja install
 
-# Set working dir and copy Brayns assets
+# --------------------------------------------------------------------------------
+# Install Brayns
+# https://github.com/favreau/Brayns
+# --------------------------------------------------------------------------------
 ARG BRAYNS_SRC=/app/brayns
 
 RUN mkdir -p ${BRAYNS_SRC} \
   && git clone https://github.com/favreau/Brayns ${BRAYNS_SRC}
 
 WORKDIR /app
-#ADD . ${BRAYNS_SRC}
-
-# Add BioExplorer
-ARG BIOEXPLORER_SRC=/app/bioexplorer
-ADD . ${BIOEXPLORER_SRC}
-
-# Install Brayns
-# https://github.com/favreau/Brayns
 
 # TODO: "|| exit 0"  hack to be removed as soon as MVDTool export issue is fixed.
 RUN cksum ${BRAYNS_SRC}/.gitsubprojects \
@@ -128,10 +131,22 @@ RUN cksum ${BRAYNS_SRC}/.gitsubprojects \
  && cd build \
  && CMAKE_PREFIX_PATH=${DIST_PATH}:${DIST_PATH}/lib/cmake/libwebsockets \
     cmake .. -Wno-dev \
-    -DBRAYNS_OSPRAY_ENABLED=ON \
+    -DBRAYNS_BBIC_ENABLED=OFF \
+    -DBRAYNS_BENCHMARK_ENABLED=OFF \
     -DBRAYNS_CIRCUITEXPLORER_ENABLED=OFF \
-    -DBRAYNS_DTI_ENABLED=OFF \
+    -DBRAYNS_CIRCUITRENDERER_ENABLED=OFF \
+    -DBRAYNS_CIRCUITINFO_ENABLED=OFF \
     -DBRAYNS_CIRCUITVIEWER_ENABLED=OFF \
+    -DBRAYNS_DEFLECT_ENABLED=OFF \
+    -DBRAYNS_DTI_ENABLED=OFF \
+    -DBRAYNS_IBL_ENABLED=OFF \
+    -DBRAYNS_MULTIVIEW_ENABLED=OFF \
+    -DBRAYNS_OPENDECK_ENABLED=OFF \
+    -DBRAYNS_OPTIX_ENABLED=OFF \
+    -DBRAYNS_UNIT_TESTING_ENABLED=OFF \
+    -DBRAYNS_VIEWER_ENABLED=OFF \
+    -DBRAYNS_ASSIMP_ENABLED=ON \
+    -DBRAYNS_OSPRAY_ENABLED=ON \
     -DBRAYNS_NETWORKING_ENABLED=ON \
     -DCLONE_SUBPROJECTS=ON \
     -DCMAKE_BUILD_TYPE=Release \
@@ -139,13 +154,34 @@ RUN cksum ${BRAYNS_SRC}/.gitsubprojects \
 
 RUN cd ${BRAYNS_SRC}/build && make -j install VERBOSE=1
 
-RUN mkdir -p ${BIOEXPLORER_SRC}/build \
- && cd ${BIOEXPLORER_SRC}/build \
+# --------------------------------------------------------------------------------
+# Add Media maker
+# --------------------------------------------------------------------------------
+ARG MEDIAMAKER_SRC=/app/mediamaker
+
+RUN mkdir -p ${MEDIAMAKER_SRC} \
+  && git clone https://github.com/favreau/Brayns-UC-MediaMaker ${MEDIAMAKER_SRC}
+
+WORKDIR /app
+
+RUN mkdir -p ${MEDIAMAKER_SRC}/build \
+ && cd ${MEDIAMAKER_SRC}/build \
+ && PATH=${ISPC_PATH}/bin:${PATH} CMAKE_PREFIX_PATH=${DIST_PATH} cmake .. \
+    -DCMAKE_INSTALL_PREFIX=${DIST_PATH}
+
+RUN cd ${MEDIAMAKER_SRC}/build && make -j install VERBOSE=1
+
+# --------------------------------------------------------------------------------
+# Add BioExplorer
+# --------------------------------------------------------------------------------
+ARG BIOEXPLORER_SRC=/app/bioexplorer
+ADD . ${BIOEXPLORER_SRC}
+
+RUN mkdir -p ${BIOEXPLORER_SRC}/docker \
+ && cd ${BIOEXPLORER_SRC}/docker \
  && PATH=${ISPC_PATH}/bin:${PATH} CMAKE_PREFIX_PATH=${DIST_PATH} LDFLAGS="-lCGAL" cmake .. \
-    -DCGAL_DO_NOT_WARN_ABOUT_CMAKE_BUILD_TYPE=TRUE -DCMAKE_INSTALL_PREFIX=${DIST_PATH}
-
-
-RUN cd ${BIOEXPLORER_SRC}/build && make -j install VERBOSE=1
+    -DCGAL_DO_NOT_WARN_ABOUT_CMAKE_BUILD_TYPE=TRUE -DCMAKE_INSTALL_PREFIX=${DIST_PATH} \
+ && make -j install VERBOSE=1
 
 # Final image, containing only Brayns and BioExplorer and libraries required to run it
 FROM debian:buster-slim
@@ -187,11 +223,11 @@ ENV PATH ${DIST_PATH}/bin:$PATH
 # see https://docs.docker.com/engine/reference/run/#expose-incoming-ports for docs.
 EXPOSE 8200
 
-# When running `docker run -ti --rm -p 8200:8200 brayns`,
+# When running `docker run -ti --rm -p 8200:8200 bioexplorer`,
 # this will be the cmd that will be executed (+ the CLI options from CMD).
 # To ssh into the container (or override the default entry) use:
-# `docker run -ti --rm --entrypoint bash -p 8200:8200 brayns`
+# `docker run -ti --rm --entrypoint bash -p 8200:8200 bioexplorer`
 # See https://docs.docker.com/engine/reference/run/#entrypoint-default-command-to-execute-at-runtime
 # for more docs
 ENTRYPOINT ["braynsService"]
-CMD ["--http-server", ":8200", "--plugin", "BioExplorer", "--sandbox-path", "/"]
+CMD ["--http-server", ":8200", "--plugin", "braynsMediaMaker", "--plugin", "BioExplorer", "--sandbox-path", "/"]
