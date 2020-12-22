@@ -80,7 +80,8 @@ def test_immune():
     be.add_volume(
         volume=defensins_volume,
         representation=be.REPRESENTATION_ATOMS,
-        position=Vector3(0.0, scene_size / 2.0 - 200.0, 0.0)
+        position=Vector3(0.0, scene_size / 2.0 - 200.0, 0.0),
+        random_seed=3
     )
 
     ''' Restore image streaming '''

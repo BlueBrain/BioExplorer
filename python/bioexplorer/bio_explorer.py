@@ -557,13 +557,14 @@ class BioExplorer(object):
             assembly_params=cell.size, random_seed=2,
             position_randomization_type=self.POSITION_RANDOMIZATION_TYPE_RADIAL, membrane=cell.membrane)
 
-    def add_volume(self, volume, atom_radius_multiplier=1.0, representation=REPRESENTATION_ATOMS, position=Vector3()):
+    def add_volume(self, volume, atom_radius_multiplier=1.0, representation=REPRESENTATION_ATOMS, position=Vector3(), random_seed=1):
         """
         Add a volume assembly to the scene
         @param volume: Description of the volume
         @param atom_radius_multiplier: Representation of the protein (Atoms, atoms and sticks, etc)
         @param representation: Multiplies atom radius by the specified value
         @param position: Position of the volume in the scene
+        @param random_seed: Random seed used to define the positions of the proteins in the volume
         """
         assert isinstance(volume, Volume)
         assert isinstance(position, Vector3)
@@ -575,7 +576,7 @@ class BioExplorer(object):
             source=volume.protein.sources[0], load_non_polymer_chemicals=volume.protein.load_non_polymer_chemicals,
             occurrences=volume.protein.number_of_instances,
             assembly_params=volume.size, atom_radius_multiplier=atom_radius_multiplier,
-            load_bonds=False, representation=representation, random_seed=1,
+            load_bonds=False, representation=representation, random_seed=random_seed,
             position=volume.protein.position, orientation=volume.protein.orientation)
 
         self.remove_assembly(volume.name)
