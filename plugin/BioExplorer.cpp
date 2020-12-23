@@ -254,7 +254,7 @@ void BioExplorer::init()
                 return _getMaterialIds(modelId);
             });
 
-        entryPoint = PLUGIN_API_PREFIX + "visualize-fields";
+        entryPoint = PLUGIN_API_PREFIX + "build-fields";
         PLUGIN_INFO << "Registering '" + entryPoint + "' endpoint" << std::endl;
         actionInterface->registerRequest<BuildFields, Response>(
             entryPoint, [&](const BuildFields &s) { return _buildFields(s); });
@@ -1022,6 +1022,9 @@ void BioExplorer::_attachFieldsHandler(FieldsHandlerPtr handler)
     auto modelDescriptor =
         std::make_shared<ModelDescriptor>(std::move(model), "Fields", metadata);
     scene.addModel(modelDescriptor);
+
+    PLUGIN_INFO << "Fields model " << modelDescriptor->getModelID()
+                << " was successfully created" << std::endl;
 }
 
 Response BioExplorer::_buildFields(const BuildFields &payload)
@@ -1069,8 +1072,14 @@ Response BioExplorer::_exportFieldsToFile(const ModelIdFileAccess &payload)
             {
                 FieldsHandler *fieldsHandler =
                     dynamic_cast<FieldsHandler *>(handler.get());
+                if (!fieldsHandler)
+                    PLUGIN_THROW(
+                        std::runtime_error("Model has no fields handler"));
+
                 fieldsHandler->exportToFile(payload.filename);
             }
+            else
+                PLUGIN_THROW(std::runtime_error("Model has no handler"));
         }
         else
             PLUGIN_THROW(std::runtime_error("Unknown model ID"));

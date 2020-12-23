@@ -1323,6 +1323,7 @@ class BioExplorer(object):
 
         params = dict()
         params['filename'] = filename
+        params['fileFormat'] = BioExplorer.FILE_FORMAT_UNSPECIFIED
         return self._client.rockets_client.request(self.PLUGIN_API_PREFIX + 'import-fields-from-file', params)
 
     def export_fields_to_file(self, model_id, filename):
