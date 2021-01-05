@@ -90,7 +90,7 @@ void _addBioExplorerFieldsRenderer(brayns::Engine &engine)
                             1,
                             128,
                             {"Number of ray marching refinement steps"}});
-    properties.setProperty({"cutoff", 2000.0, 0.0, 1e4, {"cutoff"}});
+    properties.setProperty({"cutoff", 2000.0, 0.0, 1e5, {"cutoff"}});
     properties.setProperty(
         {"alphaCorrection", 1.0, 0.001, 1.0, {"Alpha correction"}});
     engine.addRendererType("bio_explorer_fields", properties);
@@ -793,6 +793,15 @@ Response BioExplorer::_setMaterials(const MaterialsDescriptor &payload)
                             modelDescriptor->getModel().getMaterial(materialId);
                         if (material)
                         {
+                            brayns::PropertyMap props;
+                            props.setProperty(
+                                {MATERIAL_PROPERTY_SHADING_MODE,
+                                 static_cast<int>(
+                                     MaterialShadingMode::diffuse)});
+                            props.setProperty(
+                                {MATERIAL_PROPERTY_USER_PARAMETER, 1.0});
+                            material->updateProperties(props);
+
                             if (!payload.diffuseColors.empty())
                             {
                                 const size_t index = id * 3;
