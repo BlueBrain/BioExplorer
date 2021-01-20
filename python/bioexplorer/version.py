@@ -24,4 +24,4 @@
 
 """The version of the bioexplorer package"""
 
-__version__ = '0.7.0'
+VERSION = '0.7.0'

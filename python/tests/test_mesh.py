@@ -26,7 +26,7 @@ from bioexplorer import BioExplorer, Mesh, Vector3, Quaternion
 
 
 def test_mesh():
-    resource_folder = 'test_files/'
+    resource_folder = 'tests/test_files/'
     pdb_folder = resource_folder + 'pdb/'
     obj_folder = resource_folder + 'obj/'
 

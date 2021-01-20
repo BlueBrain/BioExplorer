@@ -25,7 +25,7 @@
 from bioexplorer import BioExplorer, Volume, Protein, Vector2, Vector3
 
 def test_immune():
-    resource_folder = 'test_files/'
+    resource_folder = 'tests/test_files/'
     pdb_folder = resource_folder + 'pdb/immune/'
 
     be = BioExplorer('localhost:5000')

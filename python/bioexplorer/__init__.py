@@ -20,10 +20,12 @@
 # 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 # All rights reserved. Do not distribute without further notice.
 
-from .bio_explorer import BioExplorer, Volume, Mesh, AssemblyProtein, Protein, Sugars, RNASequence, \
-    Cell, Membrane, Surfactant, Virus, Vector2, Vector3, Quaternion
+from .bio_explorer import BioExplorer, Volume, Mesh, AssemblyProtein, Protein, Sugars, \
+    RNASequence, Cell, Membrane, Surfactant, Virus, Vector2, Vector3, Quaternion
 from .notebook_widgets import Widgets
-from .version import __version__
+from .version import VERSION as __version__
 
-__all__ = ['Widgets', 'BioExplorer', 'Mesh', 'Protein', 'AssemblyProtein', 'Sugars', 'RNASequence',
-           'Membrane', 'Volume', 'Surfactant', 'Cell', 'Vector2', 'Vector3', 'Quaternion', 'Virus', '__version__']
+__all__ = [
+    'Widgets', 'BioExplorer', 'Mesh', 'Protein', 'AssemblyProtein', 'Sugars', 'RNASequence',
+    'Membrane', 'Volume', 'Surfactant', 'Cell', 'Vector2', 'Vector3', 'Quaternion', 'Virus',
+    '__version__']

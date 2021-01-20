@@ -26,7 +26,7 @@ from bioexplorer import BioExplorer, Membrane, Protein, Sugars, Virus, RNASequen
 
 
 def test_virus():
-    resource_folder = 'test_files/'
+    resource_folder = 'tests/test_files/'
     pdb_folder = resource_folder + 'pdb/'
     rna_folder = resource_folder + 'rna/'
     glycan_folder = pdb_folder + 'glycans/'

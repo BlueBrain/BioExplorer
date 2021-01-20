@@ -27,7 +27,7 @@ from bioexplorer import BioExplorer
 
 def test_fields():
     import os
-    resource_folder = os.getcwd() + '/test_files/'
+    resource_folder = os.getcwd() + 'tests/test_files/'
     fields_folder = resource_folder + 'fields/'
 
     be = BioExplorer('localhost:5000')

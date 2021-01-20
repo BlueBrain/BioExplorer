@@ -26,7 +26,7 @@ from bioexplorer import BioExplorer, Protein, Surfactant, Vector3, Quaternion
 
 
 def test_layout():
-    resource_folder = 'test_files/'
+    resource_folder = 'tests/test_files/'
     pdb_folder = resource_folder + 'pdb/'
 
     be = BioExplorer('localhost:5000')

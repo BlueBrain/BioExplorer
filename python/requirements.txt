@@ -23,3 +23,4 @@ pillow==5.4.1
 brayns==1.0.0
 seaborn~=0.8.1
 stringcase~=1.2.0
+ipywidgets~=7.1.2

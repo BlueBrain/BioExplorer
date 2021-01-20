@@ -26,7 +26,7 @@ from bioexplorer import BioExplorer, Cell, Membrane, Protein, Vector2, Vector3
 
 
 def test_cell():
-    resource_folder = 'test_files/'
+    resource_folder = 'tests/test_files/'
     pdb_folder = resource_folder + 'pdb/'
 
     be = BioExplorer('localhost:5000')

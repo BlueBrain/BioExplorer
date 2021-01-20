@@ -26,7 +26,7 @@ from bioexplorer import BioExplorer, Surfactant, Vector3
 
 
 def test_surfactant():
-    resource_folder = 'test_files/'
+    resource_folder = 'tests/test_files/'
     pdb_folder = resource_folder + 'pdb/surfactant/'
 
     be = BioExplorer('localhost:5000')

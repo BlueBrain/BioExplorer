@@ -25,6 +25,7 @@ import re
 from setuptools import setup
 from bioexplorer.version import __version__
 
+
 def parse_requirements(filename):
     """ load requirements from a pip requirements file """
     lineiter = (line.strip() for line in open(filename))
@@ -33,7 +34,7 @@ def parse_requirements(filename):
 
 VERSIONFILE = "bioexplorer/version.py"
 ver_file = open(VERSIONFILE, "rt").read()
-VSRE = r"^__version__ = ['\"]([^'\"]*)['\"]"
+VSRE = r"^VERSION = ['\"]([^'\"]*)['\"]"
 mo = re.search(VSRE, ver_file, re.M)
 
 if mo:
