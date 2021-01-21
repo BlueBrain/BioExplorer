@@ -35,10 +35,10 @@ struct Codon
 };
 typedef std::map<char, Codon> CondonMap;
 
-CondonMap codonMap{{'A', {0, "Adenine", {0.f, 0.f, 1.f}}},
-                   {'U', {1, "Uracile", {0.f, 1.f, 0.f}}},
-                   {'G', {2, "Guanine", {1.f, 0.f, 0.f}}},
-                   {'C', {3, "Cytosine", {1.f, 1.f, 0.f}}}};
+CondonMap nucleotidMap{{'A', {0, "Adenine", {0.f, 0.f, 1.f}}},
+                       {'U', {1, "Uracile", {0.f, 1.f, 0.f}}},
+                       {'G', {2, "Guanine", {1.f, 0.f, 0.f}}},
+                       {'C', {3, "Cytosine", {1.f, 1.f, 0.f}}}};
 
 RNASequence::RNASequence(Scene& scene, const RNASequenceDescriptor& rd,
                          const Vector2f& range = {0.f, 2.f * M_PI},
@@ -52,14 +52,15 @@ RNASequence::RNASequence(Scene& scene, const RNASequenceDescriptor& rd,
     auto model = scene.createModel();
 
     size_t materialId = 0;
-    for (const auto& codon : codonMap)
+    for (const auto& nucleotid : nucleotidMap)
     {
-        auto material = model->createMaterial(materialId, codon.second.name);
+        auto material =
+            model->createMaterial(materialId, nucleotid.second.name);
         brayns::PropertyMap props;
         props.setProperty({MATERIAL_PROPERTY_SHADING_MODE,
                            static_cast<int>(MaterialShadingMode::basic)});
         props.setProperty({MATERIAL_PROPERTY_USER_PARAMETER, 1.0});
-        material->setDiffuseColor(codon.second.defaultColor);
+        material->setDiffuseColor(nucleotid.second.defaultColor);
         material->updateProperties(props);
         ++materialId;
     }
@@ -146,7 +147,7 @@ RNASequence::RNASequence(Scene& scene, const RNASequenceDescriptor& rd,
             }
 
             const char letter = sequence[elementId];
-            const auto& codon = codonMap[letter];
+            const auto& codon = nucleotidMap[letter];
             const auto materialId = codon.index;
             const auto radius = rd.assemblyParams[1];
             model->addCylinder(materialId,
