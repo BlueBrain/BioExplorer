@@ -80,6 +80,6 @@ be.add_coronavirus(name=name, resource_folder=resource_folder)
 For more information on Blue Brain BioExplorer, please contact:
 
 __Cyrille Favreau__  
-Scientific Visualiation Engineer  
+Senior Scientific Visualization Engineer  
 Blue Brain Project  
 [cyrille.favreau@epfl.ch](cyrille.favreau@epfl.ch) 
