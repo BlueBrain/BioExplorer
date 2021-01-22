@@ -1,3 +1,6 @@
+
+[![Build Status](https://travis-ci.com/favreau/BioExplorer.svg?branch=master)](https://travis-ci.com/favreau/BioExplorer)
+
 ![icon](doc/BBBE_icon_128.png)
 
 # Blue Brain BioExplorer
