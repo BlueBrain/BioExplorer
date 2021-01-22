@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+# !/usr/bin/env python
 # -*- coding: utf-8 -*-
 
 # Copyright (c) 2020, EPFL/Blue Brain Project
@@ -27,13 +27,18 @@ import math
 from brayns import Client
 from .version import VERSION as __version__
 
+# pylint: disable=no-member
+# pylint: disable=dangerous-default-value
+# pylint: disable=invalid-name
+
 
 class Vector3:
+    """A Vector3 is an array of 3 floats representing a 3D vector"""
 
     def __init__(self, *args):
         """
         Define a simple 3D vector
-        @param args: 3 float values for x,y and z
+        @param args: 3 float values for x, y and z
         @param kwargs: Not used
         """
         if len(args) not in [0, 3]:
@@ -55,6 +60,7 @@ class Vector3:
 
 
 class Vector2:
+    """A Vector2 is an array of 2 floats representing a 2D vector"""
 
     def __init__(self, *args):
         """
@@ -79,11 +85,12 @@ class Vector2:
 
 
 class Quaternion:
+    """A Quaternion is an array of 4 floats representing a mathematical quaternion object"""
 
     def __init__(self, *args):
         """
         Define a simple quaternion
-        @param args: 4 float values for x,y,z and w
+        @param args: 4 float values for x, y, z and w
         @param kwargs: Not used
         """
         if len(args) not in [0, 4]:
@@ -106,8 +113,8 @@ class Quaternion:
         return [self.x, self.y, self.z, self.w]
 
 
-class BioExplorer(object):
-    """ Blue Brain BioExplorer """
+class BioExplorer:
+    """Blue Brain BioExplorer"""
 
     PLUGIN_API_PREFIX = 'be_'
 
@@ -237,6 +244,9 @@ class BioExplorer(object):
 
     @staticmethod
     def authors():
+        """
+        @return The list of authors
+        """
         return 'Cyrille Favreau (cyrille.favreau@epfl.ch)'
 
     def reset(self):
@@ -245,7 +255,7 @@ class BioExplorer(object):
         @return: Result of the call to the BioExplorer backend
         """
         if self._client is None:
-            return
+            return None
 
         ids = list()
         for model in self._client.scene.models:
@@ -302,7 +312,7 @@ class BioExplorer(object):
     def add_coronavirus(
             self, name, resource_folder, radius=45.0, nb_protein_s=62, nb_protein_m=50,
             nb_protein_e=42, open_protein_s_indices=list([1]), atom_radius_multiplier=1.0,
-            add_glycans=False, representation=REPRESENTATION_ATOMS, clipping_planes=list(),
+            add_glycans=False, representation=REPRESENTATION_ATOMS, clipping_planes=None,
             position=Vector3(), orientation=Quaternion()):
         """
         Add a virus with the default coronavirus parameters
@@ -354,7 +364,6 @@ class BioExplorer(object):
         virus_membrane = Membrane(
             sources=[pdb_folder + 'membrane/popc.pdb'], number_of_instances=15000)
 
-        import math
         rna_sequence = RNASequence(
             source=rna_folder + 'sars-cov-2.rna', assembly_params=Vector2(radius / 4.0, 0.5),
             t_range=Vector2(0, 30.5 * math.pi), shape=self.RNA_SHAPE_TREFOIL_KNOT,
@@ -383,7 +392,6 @@ class BioExplorer(object):
                 glycan_folder + 'high-mannose/3.pdb',
                 glycan_folder + 'high-mannose/4.pdb']
 
-            hybrid_paths = [glycan_folder + 'hybrid/20.pdb']
             o_glycan_paths = [glycan_folder + 'o-glycan/12.pdb']
 
             # High-mannose
@@ -444,7 +452,7 @@ class BioExplorer(object):
 
     def add_virus(
             self, virus, atom_radius_multiplier=1.0, representation=REPRESENTATION_ATOMS,
-            clipping_planes=list(), position=Vector3(), orientation=Quaternion()):
+            clipping_planes=None, position=Vector3(), orientation=Quaternion()):
         """
         Adds a virus assembly to the scene
         @param virus: Description of the virus
@@ -470,7 +478,7 @@ class BioExplorer(object):
 
         if virus.protein_s is not None:
             radius = virus.protein_s.assembly_params.x + virus.assembly_params.x
-            if len(_protein_s.instance_indices[0]) > 0:
+            if _protein_s.instance_indices[0]:
                 _protein_s_open = AssemblyProtein(
                     assembly_name=virus.name, name=virus.name + '_' + self.NAME_PROTEIN_S_OPEN,
                     source=_protein_s.sources[0],
@@ -486,7 +494,7 @@ class BioExplorer(object):
                     allowed_occurrences=_protein_s.instance_indices[0])
                 self.add_assembly_protein(_protein_s_open)
 
-            if len(_protein_s.instance_indices[1]) > 0:
+            if _protein_s.instance_indices[1]:
                 _protein_s_closed = AssemblyProtein(
                     assembly_name=virus.name, name=virus.name + '_' + self.NAME_PROTEIN_S_CLOSED,
                     source=_protein_s.sources[1],
@@ -680,7 +688,7 @@ class BioExplorer(object):
         self.add_assembly_protein(protein_sp_d)
 
     def add_assembly(
-            self, name, clipping_planes=list(), position=Vector3(), orientation=Quaternion()):
+            self, name, clipping_planes=None, position=Vector3(), orientation=Quaternion()):
         """
         Add an assembly to the scene
         @param name: Name of the assembly
@@ -693,9 +701,10 @@ class BioExplorer(object):
         assert isinstance(orientation, Quaternion)
 
         clipping_planes_values = list()
-        for plane in clipping_planes:
-            for i in range(4):
-                clipping_planes_values.append(plane[i])
+        if clipping_planes:
+            for plane in clipping_planes:
+                for i in range(4):
+                    clipping_planes_values.append(plane[i])
 
         params = dict()
         params['name'] = name
@@ -725,19 +734,19 @@ class BioExplorer(object):
         assert isinstance(palette, list)
         assert isinstance(chain_ids, list)
 
-        p = list()
-        if len(palette) == 0 and palette_name != '':
+        if not palette and palette_name != '':
             palette = sns.color_palette(palette_name, palette_size)
 
+        local_palette = list()
         for color in palette:
             for i in range(3):
-                p.append(color[i])
+                local_palette.append(color[i])
 
         params = dict()
         params['assemblyName'] = assembly_name
         params['name'] = name
         params['colorScheme'] = color_scheme
-        params['palette'] = p
+        params['palette'] = local_palette
         params['chainIds'] = chain_ids
         result = self._client.rockets_client.request(
             method=self.PLUGIN_API_PREFIX + 'set-protein-color-scheme', params=params)
@@ -818,7 +827,7 @@ class BioExplorer(object):
         assert isinstance(rna_sequence, RNASequence)
         t_range = Vector2(0.0, 2.0 * math.pi)
         if rna_sequence.t_range is None:
-            ''' Defaults '''
+            # Defaults
             if rna_sequence.shape == self.RNA_SHAPE_TORUS:
                 t_range = Vector2(0.0, 2.0 * math.pi)
             elif rna_sequence.shape == self.RNA_SHAPE_TREFOIL_KNOT:
@@ -828,7 +837,7 @@ class BioExplorer(object):
 
         shape_params = [1.0, 1.0, 1.0]
         if rna_sequence.shape_params is None:
-            ''' Defaults '''
+            # Defaults
             if rna_sequence.shape == self.RNA_SHAPE_TORUS:
                 shape_params = Vector3(0.5, 10.0, 0.0)
             elif rna_sequence.shape == self.RNA_SHAPE_TREFOIL_KNOT:
@@ -1073,13 +1082,13 @@ class BioExplorer(object):
         assert isinstance(indices, list)
         assert isinstance(allowed_occurrences, list)
 
-        for path_index in range(len(paths)):
-            path = paths[path_index]
+        path_index = 0
+        for path in paths:
             site_indices = list()
             if indices is not None:
-                for index in range(len(indices)):
+                for index in indices:
                     if index % len(paths) == path_index:
-                        site_indices.append(indices[index] + index_offset)
+                        site_indices.append(index + index_offset)
 
             occurrences = list()
             if allowed_occurrences is not None:
@@ -1093,6 +1102,7 @@ class BioExplorer(object):
                 representation=representation, recenter=True, site_indices=site_indices,
                 allowed_occurrences=occurrences, orientation=Quaternion())
             self.add_glycans(_glycans)
+            path_index += 1
 
     def add_sugars(self, sugars):
         """
@@ -1190,17 +1200,17 @@ class BioExplorer(object):
         params['modelIds'] = model_ids
         params['materialIds'] = material_ids
 
-        dc = list()
+        d_colors = list()
         for diffuse in diffuse_colors:
             for k in range(3):
-                dc.append(diffuse[k])
-        params['diffuseColors'] = dc
+                d_colors.append(diffuse[k])
+        params['diffuseColors'] = d_colors
 
-        sc = list()
+        s_colors = list()
         for specular in specular_colors:
             for k in range(3):
-                sc.append(specular[k])
-        params['specularColors'] = sc
+                s_colors.append(specular[k])
+        params['specularColors'] = s_colors
 
         params['specularExponents'] = specular_exponents
         params['reflectionIndices'] = reflection_indices
@@ -1270,7 +1280,7 @@ class BioExplorer(object):
         from IPython.display import display
 
         if self._url is not None:
-            ''' Refresh connection to Brayns to make sure we get all current models '''
+            # Refresh connection to Brayns to make sure we get all current models
             self._client = Client(self._url)
 
         glycans_colors = [[0, 1, 1], [1, 1, 0], [1, 0, 1], [0.2, 0.2, 0.7]]
@@ -1453,10 +1463,11 @@ class BioExplorer(object):
         return self._client.rockets_client.request(self.PLUGIN_API_PREFIX + 'add-grid', params)
 
 
-''' Internal classes '''
+# Internal classes
 
 
 class AssemblyProtein:
+    """An AssemblyMesh is a Protein that belongs to an assembly"""
 
     def __init__(self, assembly_name, name, source, assembly_params=Vector2(),
                  shape=BioExplorer.ASSEMBLY_SHAPE_PLANAR, atom_radius_multiplier=1.0,
@@ -1489,6 +1500,7 @@ class AssemblyProtein:
 
 
 class AssemblyMesh:
+    """An AssemblyMesh is a Mesh that belongs to an assembly"""
 
     def __init__(self, assembly_name, name, mesh_source, protein_source, recenter=True, density=1,
                  surface_fixed_offset=0, surface_variable_offset=0, atom_radius_multiplier=1.0,
@@ -1513,10 +1525,11 @@ class AssemblyMesh:
         self.scale = scale
 
 
-''' External classes '''
+# External classes
 
 
 class Membrane:
+    """A Membrane is a shaped assembly of phospholipids"""
 
     def __init__(
             self, sources, atom_radius_multiplier=1.0, load_bonds=False,
@@ -1552,6 +1565,7 @@ class Membrane:
 
 
 class Sugars:
+    """Sugars are glycan trees that can be added to the glycosylation sites of a given protein"""
 
     def __init__(
             self, assembly_name, name, source, protein_name, atom_radius_multiplier=1.0,
@@ -1593,13 +1607,14 @@ class Sugars:
 
 
 class RNASequence:
+    """An RNASequence is an assembly of a given shape holding a given genetic code"""
 
     def __init__(
             self, source, shape, assembly_params, t_range=Vector2(), shape_params=Vector3()):
         """
         RNA sequence descriptor
         @param source: Full path of the file containing the RNA sequence
-        @param shape: Shape of the sequence (Trefoil knot, torus, star, spring, heart, Moebius knot,
+        @param shape: Shape of the sequence (Trefoil knot, torus, star, spring, heart, Moebiusknot,
                       etc)
         @param assembly_params: Assembly parameters (radius, etc.)
         @param t_range: Range of values used to enroll the RNA thread
@@ -1616,6 +1631,7 @@ class RNASequence:
 
 
 class Surfactant:
+    """A Surfactant is a lipoprotein complex composed of multiple branches + head structures"""
 
     def __init__(self, name, surfactant_protein, head_source, branch_source):
         """
@@ -1632,6 +1648,7 @@ class Surfactant:
 
 
 class Cell:
+    """A Cell is a membrane with receptors"""
 
     def __init__(self, name, size, shape, membrane, receptor):
         """
@@ -1653,6 +1670,7 @@ class Cell:
 
 
 class Volume:
+    """A volume define a 3D space in which proteins can be added"""
 
     def __init__(self, name, size, protein):
         """
@@ -1670,6 +1688,7 @@ class Volume:
 
 
 class Protein:
+    """A Protein holds the 3D structure of a protein as well as it Amino Acid sequences"""
 
     def __init__(self, sources, number_of_instances=1, assembly_params=Vector2(),
                  load_bonds=False, load_hydrogen=False,
@@ -1690,7 +1709,7 @@ class Protein:
         @param instance_indices: Specific indices for which an instance is added to the assembly
         """
         assert isinstance(sources, list)
-        assert len(sources) > 0
+        assert sources
         assert isinstance(position, Vector3)
         assert isinstance(orientation, Quaternion)
         assert isinstance(instance_indices, list)
@@ -1707,6 +1726,7 @@ class Protein:
 
 
 class Mesh:
+    """A Mesh is a membrane shaped by a 3D mesh"""
 
     def __init__(
             self, mesh_source, protein_source, density=1, surface_fixed_offset=0.0,
@@ -1747,9 +1767,11 @@ class Mesh:
 
 
 class Virus:
+    """A Virus is an assembly of proteins (S, M and E), a membrane, and an RNA sequence"""
 
-    def __init__(self, name, assembly_params, protein_s=None, protein_e=None, protein_m=None,
-                 membrane=None, rna_sequence=None):
+    def __init__(
+            self, name, assembly_params, protein_s=None, protein_e=None, protein_m=None,
+            membrane=None, rna_sequence=None):
         """
         Virus descriptor
         @param name: Name of the virus in the scene
