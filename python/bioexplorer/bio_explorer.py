@@ -1,6 +1,7 @@
 # !/usr/bin/env python
-# -*- coding: utf-8 -*-
+"""BioExplorer class"""
 
+# -*- coding: utf-8 -*-
 # Copyright (c) 2020, EPFL/Blue Brain Project
 # All rights reserved. Do not distribute without permission.
 # Responsible Author: Cyrille Favreau <cyrille.favreau@epfl.ch>
@@ -30,6 +31,7 @@ from .version import VERSION as __version__
 # pylint: disable=no-member
 # pylint: disable=dangerous-default-value
 # pylint: disable=invalid-name
+# pylint: disable=too-many-lines
 
 
 class Vector3:
@@ -1337,7 +1339,7 @@ class BioExplorer:
 
             if self.NAME_GLYCAN_HIGH_MANNOSE in model_name:
                 palette = list()
-                for p in range(nb_materials):
+                for _ in range(nb_materials):
                     palette.append(glycans_colors[0])
                 self.set_materials_from_palette(
                     model_ids=[model_id], material_ids=material_ids, palette=palette,
@@ -1346,7 +1348,7 @@ class BioExplorer:
 
             if self.NAME_GLYCAN_COMPLEX in model_name:
                 palette = list()
-                for p in range(nb_materials):
+                for _ in range(nb_materials):
                     palette.append(glycans_colors[1])
                 self.set_materials_from_palette(
                     model_ids=[model_id], material_ids=material_ids, palette=palette,
@@ -1355,7 +1357,7 @@ class BioExplorer:
 
             if self.NAME_GLYCAN_HYBRID in model_name:
                 palette = list()
-                for p in range(nb_materials):
+                for _ in range(nb_materials):
                     palette.append(glycans_colors[2])
                 self.set_materials_from_palette(
                     model_ids=[model_id], material_ids=material_ids, palette=palette,
@@ -1364,7 +1366,7 @@ class BioExplorer:
 
             if self.NAME_GLYCAN_O_GLYCAN in model_name:
                 palette = list()
-                for p in range(nb_materials):
+                for _ in range(nb_materials):
                     palette.append(glycans_colors[3])
                 self.set_materials_from_palette(
                     model_ids=[model_id], material_ids=material_ids, palette=palette,
