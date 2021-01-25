@@ -399,25 +399,25 @@ class BioExplorer:
             o_glycan_paths = [glycan_folder + 'o-glycan/12.pdb']
 
             # High-mannose
-            indices = [61, 122, 234, 603, 709, 717, 801, 1074]
+            indices_closed = [61, 122, 234, 603, 709, 717, 801, 1074]
+            indices_open = [61, 122, 234, 709, 717, 801, 1074]
             self.add_multiple_glycans(
                 assembly_name=name, glycan_type=self.NAME_GLYCAN_HIGH_MANNOSE,
                 protein_name=self.NAME_PROTEIN_S_CLOSED,
-                paths=high_mannose_paths, indices=indices,
+                paths=high_mannose_paths, indices=indices_closed,
                 allowed_occurrences=closed_conformation_indices,
                 representation=representation, atom_radius_multiplier=atom_radius_multiplier)
             self.add_multiple_glycans(
                 assembly_name=name, glycan_type=self.NAME_GLYCAN_HIGH_MANNOSE,
                 protein_name=self.NAME_PROTEIN_S_OPEN,
-                paths=high_mannose_paths, indices=indices, index_offset=19,
+                paths=high_mannose_paths, indices=indices_open, index_offset=19,
                 allowed_occurrences=open_conformation_indices, representation=representation,
                 atom_radius_multiplier=atom_radius_multiplier)
 
             # Complex
-            indices_closed = [
-                17, 74, 149, 165, 282, 331, 343, 616, 657, 1098, 1134, 1158, 1173, 1194]
-            indices_open = [
-                17, 74, 149, 165, 282, 331, 343, 657, 1098, 1134, 1158, 1173, 1194]
+            indices_closed = [17, 74, 149, 165, 282, 331,
+                              343, 616, 657, 1098, 1134, 1158, 1173, 1194]
+            indices_open = [17, 74, 149, 165, 282, 331, 343, 657, 1098, 1134, 1158, 1173, 1194]
             self.add_multiple_glycans(
                 assembly_name=name, glycan_type=self.NAME_GLYCAN_COMPLEX,
                 protein_name=self.NAME_PROTEIN_S_CLOSED, paths=complex_paths,
@@ -481,9 +481,11 @@ class BioExplorer:
             clipping_planes=clipping_planes,
             position=position, orientation=orientation)
 
-        if virus.protein_s is not None:
+        if virus.protein_s:
+            # S Protein
             radius = virus.protein_s.assembly_params.x + virus.assembly_params.x
             if _protein_s.instance_indices[0]:
+                # Open conformation
                 _protein_s_open = AssemblyProtein(
                     assembly_name=virus.name, name=virus.name + '_' + self.NAME_PROTEIN_S_OPEN,
                     source=_protein_s.sources[0],
@@ -500,6 +502,7 @@ class BioExplorer:
                 self.add_assembly_protein(_protein_s_open)
 
             if _protein_s.instance_indices[1]:
+                # Closed conformation
                 _protein_s_closed = AssemblyProtein(
                     assembly_name=virus.name, name=virus.name + '_' + self.NAME_PROTEIN_S_CLOSED,
                     source=_protein_s.sources[1],
@@ -515,7 +518,8 @@ class BioExplorer:
                     allowed_occurrences=_protein_s.instance_indices[1])
                 self.add_assembly_protein(_protein_s_closed)
 
-        if virus.protein_m is not None:
+        if virus.protein_m:
+            # M Protein
             radius = virus.protein_m.assembly_params.x + virus.assembly_params.x
             _protein_m = AssemblyProtein(
                 assembly_name=virus.name, name=virus.name + '_' + self.NAME_PROTEIN_M,
@@ -531,7 +535,8 @@ class BioExplorer:
                 orientation=virus.protein_m.orientation)
             self.add_assembly_protein(_protein_m)
 
-        if virus.protein_e is not None:
+        if virus.protein_e:
+            # E Protein
             radius = virus.protein_e.assembly_params.x + virus.assembly_params.x
             _protein_e = AssemblyProtein(
                 assembly_name=virus.name, name=virus.name + '_' + self.NAME_PROTEIN_E,
@@ -547,7 +552,8 @@ class BioExplorer:
                 orientation=virus.protein_e.orientation)
             self.add_assembly_protein(_protein_e)
 
-        if virus.membrane is not None:
+        if virus.membrane:
+            # Membrane
             virus.membrane.representation = representation
             virus.membrane.atom_radius_multiplier = atom_radius_multiplier
             self.add_membrane(
@@ -557,7 +563,8 @@ class BioExplorer:
                 position_randomization_type=BioExplorer.POSITION_RANDOMIZATION_TYPE_RADIAL,
                 assembly_params=virus.assembly_params, random_seed=4)
 
-        if virus.rna_sequence is not None:
+        if virus.rna_sequence:
+            # RNA Sequence
             self.add_rna_sequence(
                 assembly_name=virus.name,
                 name=virus.name + '_' + self.NAME_RNA_SEQUENCE,

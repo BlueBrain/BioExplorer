@@ -62,7 +62,7 @@ def test_cell():
 
     be.add_cell(
         cell=cell, position=Vector3(4.5, -186, 7.0),
-        representation=protein_representation)
+        representation=protein_representation, random_seed=1)
 
     # Set rendering settings
     be.core_api().set_renderer(background_color=[96 / 255, 125 / 255, 139 / 255], current='bio_explorer',
