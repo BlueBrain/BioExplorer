@@ -343,6 +343,7 @@ class BioExplorer:
             if i not in open_conformation_indices:
                 closed_conformation_indices.append(i)
 
+        # Protein S
         virus_protein_s = Protein(
             sources=[pdb_folder + '6vyb.pdb', pdb_folder + 'sars-cov-2-v1.pdb'],
             number_of_instances=nb_protein_s,
@@ -366,6 +367,7 @@ class BioExplorer:
         virus_membrane = Membrane(
             sources=[pdb_folder + 'membrane/popc.pdb'], number_of_instances=15000)
 
+        # RNA Sequence
         rna_sequence = RNASequence(
             source=rna_folder + 'sars-cov-2.rna', assembly_params=Vector2(radius / 4.0, 0.5),
             t_range=Vector2(0, 30.5 * math.pi), shape=self.RNA_SHAPE_TREFOIL_KNOT,
@@ -465,7 +467,8 @@ class BioExplorer:
         @param orientation: Orientation of the protein in the scene
         """
         assert isinstance(virus, Virus)
-        assert isinstance(clipping_planes, list)
+        if clipping_planes:
+            assert isinstance(clipping_planes, list)
         assert isinstance(position, Vector3)
         assert isinstance(orientation, Quaternion)
 
@@ -562,7 +565,7 @@ class BioExplorer:
 
     def add_cell(
             self, cell, atom_radius_multiplier=1.0, representation=REPRESENTATION_ATOMS,
-            clipping_planes=list(), position=Vector3()):
+            clipping_planes=list(), position=Vector3(), random_seed=0):
         """
         Add a cell assembly to the scene
         @param cell: Description of the cell
@@ -570,9 +573,11 @@ class BioExplorer:
         @param representation: Multiplies atom radius by the specified value
         @param clipping_planes: List of clipping planes to apply to the virus assembly
         @param position: Position of the cell in the scene
+        @param random_seed: Seed used to randomise position the elements in the membrane
         """
         assert isinstance(cell, Cell)
-        assert isinstance(clipping_planes, list)
+        if clipping_planes:
+            assert isinstance(clipping_planes, list)
         assert isinstance(position, Vector3)
         assert len(cell.receptor.sources) == 1
 
@@ -595,7 +600,7 @@ class BioExplorer:
         cell.membrane.atom_radius_multiplier = atom_radius_multiplier
         self.add_membrane(
             assembly_name=cell.name, name=cell.name + '_' + self.NAME_MEMBRANE, shape=cell.shape,
-            assembly_params=cell.size, random_seed=2,
+            assembly_params=cell.size, random_seed=random_seed,
             position_randomization_type=self.POSITION_RANDOMIZATION_TYPE_RADIAL,
             membrane=cell.membrane)
 
@@ -698,7 +703,8 @@ class BioExplorer:
         @param position: Position of the scene in the scene
         @param orientation: Orientation of the assembly in the scene
         """
-        assert isinstance(clipping_planes, list)
+        if clipping_planes:
+            assert isinstance(clipping_planes, list)
         assert isinstance(position, Vector3)
         assert isinstance(orientation, Quaternion)
 

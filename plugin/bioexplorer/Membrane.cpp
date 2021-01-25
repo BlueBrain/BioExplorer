@@ -243,7 +243,19 @@ void Membrane::_processInstances()
 
         Quaterniond assemblyOrientation = glm::quatLookAt(dir, {0.f, 0.f, 1.f});
 
-        tf.setRotation(assemblyOrientation * orientation);
+        if (_descriptor.randomSeed == 0)
+            tf.setRotation(assemblyOrientation * orientation);
+        else
+        {
+            // Add a bit of randomness in the orientation of the proteins
+            Vector3f eulerAngles(0.3 * (rand() % 100 / 100.0 - 0.5),
+                                 0.3 * (rand() % 100 / 100.0 - 0.5),
+                                 0.3 * (rand() % 100 / 100.0 - 0.5));
+            Quaterniond randomOrientation = glm::quat(eulerAngles);
+
+            tf.setRotation(assemblyOrientation * orientation *
+                           randomOrientation);
+        }
 
         if (instanceCounts[id] == 0)
             md->setTransformation(tf);

@@ -23,7 +23,7 @@
 """setup.py"""
 import re
 from setuptools import setup
-from bioexplorer.version import __version__
+from bioexplorer.version import VERSION as __version__
 
 
 def parse_requirements(filename):
