@@ -1319,6 +1319,13 @@ class BioExplorer:
                     shading_mode=shading_mode, user_parameter=user_parameter, glossiness=glossiness,
                     specular_exponent=specular_exponent)
 
+            if self.NAME_RECEPTOR in model_name:
+                palette = sns.color_palette('OrRd_r', nb_materials)
+                self.set_materials_from_palette(
+                    model_ids=[model_id], material_ids=material_ids, palette=palette,
+                    shading_mode=shading_mode, user_parameter=user_parameter, glossiness=glossiness,
+                    specular_exponent=specular_exponent)
+
             if self.NAME_PROTEIN_S_CLOSED in model_name or \
                self.NAME_PROTEIN_S_OPEN in model_name or \
                self.NAME_PROTEIN_E in model_name or \
