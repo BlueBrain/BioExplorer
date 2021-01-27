@@ -39,7 +39,8 @@ def test_mesh():
 
     # Membrane
     protein_source = pdb_folder + 'membrane/popc.pdb'
-    mesh = Mesh(mesh_source=mesh_source, protein_source=protein_source, density=5.0, surface_variable_offset=2.0)
+    mesh = Mesh(mesh_source=mesh_source, protein_source=protein_source,
+                density=5.0, surface_variable_offset=2.0)
     be.add_mesh('Mesh', mesh, scale=scale)
 
     # Receptors

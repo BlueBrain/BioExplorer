@@ -63,22 +63,22 @@ def test_virus():
             closed_conformation_indices.append(i)
 
     virus_protein_s = Protein(sources=[pdb_folder + '6vyb.pdb', pdb_folder + 'sars-cov-2-v1.pdb'],
-                              load_hydrogen=protein_load_hydrogen, number_of_instances=nb_protein_s,
+                              load_hydrogen=protein_load_hydrogen, occurences=nb_protein_s,
                               assembly_params=Vector2(11.5, 0.0), cutoff_angle=0.999,
                               orientation=Quaternion(0.087, 0.0, 0.996, 0.0),
                               instance_indices=[open_conformation_indices, closed_conformation_indices])
 
     # Protein M (QHD43419)
     virus_protein_m = Protein(sources=[pdb_folder + 'QHD43419a.pdb'], load_hydrogen=protein_load_hydrogen,
-                              number_of_instances=nb_protein_m, assembly_params=Vector2(2.0, 0.0), cutoff_angle=0.999,
+                              occurences=nb_protein_m, assembly_params=Vector2(2.0, 0.0), cutoff_angle=0.999,
                               orientation=Quaternion(0.99, 0.0, 0.0, 0.135))
     # Protein E (QHD43418 P0DTC4)
     virus_protein_e = Protein(sources=[pdb_folder + 'QHD43418a.pdb'], load_hydrogen=protein_load_hydrogen,
-                              number_of_instances=nb_protein_e, assembly_params=Vector2(3.0, 0.0), cutoff_angle=0.9999,
+                              occurences=nb_protein_e, assembly_params=Vector2(3.0, 0.0), cutoff_angle=0.9999,
                               orientation=Quaternion(0.705, 0.705, -0.04, -0.04))
 
     # Virus membrane
-    virus_membrane = Membrane(sources=[pdb_folder + 'membrane/popc.pdb'], number_of_instances=15000)
+    virus_membrane = Membrane(sources=[pdb_folder + 'membrane/popc.pdb'], occurences=15000)
 
     # RNA Sequence
     clip_planes = list()
@@ -156,7 +156,8 @@ def test_virus():
     if show_functional_regions:
         indices = [1, 16, 306, 330, 438, 507, 522, 816, 835, 908, 986, 1076, 1274, 2000]
         region_colors = [[1.0, 1.0, 1.0], [0.0, 0.0, 1.0], [1.0, 1.0, 1.0], [0.0, 1.0, 0.0], [0.4, 0.1, 0.1],
-                         [0.0, 1.0, 0.0], [1.0, 1.0, 1.0], [1.0, 0.0, 0.0], [1.0, 1.0, 1.0], [1.0, 1.0, 0.0],
+                         [0.0, 1.0, 0.0], [1.0, 1.0, 1.0], [1.0, 0.0, 0.0], [
+                             1.0, 1.0, 1.0], [1.0, 1.0, 0.0],
                          [1.0, 1.0, 1.0], [1.0, 0.0, 1.0], [1.0, 1.0, 1.0], [1.0, 1.0, 1.0]]
         palette = list()
         for index in range(len(indices) - 1):

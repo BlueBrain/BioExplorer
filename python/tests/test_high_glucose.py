@@ -51,11 +51,11 @@ GLYCAN_FOLDER = PDB_FOLDER + 'glycans/'
 COMPLEX_PATHS = [
     GLYCAN_FOLDER + 'complex/5.pdb', GLYCAN_FOLDER + 'complex/15.pdb',
     GLYCAN_FOLDER + 'complex/25.pdb', GLYCAN_FOLDER + 'complex/35.pdb'
-    ]
+]
 HIGH_MANNOSE_PATHS = [
     GLYCAN_FOLDER + 'high-mannose/1.pdb', GLYCAN_FOLDER + 'high-mannose/2.pdb',
     GLYCAN_FOLDER + 'high-mannose/3.pdb', GLYCAN_FOLDER + 'high-mannose/4.pdb'
-    ]
+]
 HYBRID_PATHS = [GLYCAN_FOLDER + 'hybrid/20.pdb']
 O_GLYCAN_PATHS = [GLYCAN_FOLDER + 'o-glycan/12.pdb']
 
@@ -66,6 +66,7 @@ GLUCOSE_PATH = PDB_FOLDER + 'glucose.pdb'
 LACTOFERRINS_PATH = PDB_FOLDER + 'immune/1b0l.pdb'
 DEFENSINS_PATH = PDB_FOLDER + 'immune/1ijv.pdb'
 
+
 def add_virus(bioexplorer, name, position, open_conformation_indices=list()):
     closed_conformation_indices = list()
     for i in range(NB_PROTEIN_S):
@@ -75,26 +76,26 @@ def add_virus(bioexplorer, name, position, open_conformation_indices=list()):
     virus_protein_s = Protein(
         sources=[
             PDB_FOLDER + '6vyb.pdb',         # Open conformation
-            PDB_FOLDER + 'sars-cov-2-v1.pdb' # Closed conformation
+            PDB_FOLDER + 'sars-cov-2-v1.pdb'  # Closed conformation
         ],
-        load_hydrogen=PROTEIN_LOAD_HYDROGEN, number_of_instances=NB_PROTEIN_S,
+        load_hydrogen=PROTEIN_LOAD_HYDROGEN, occurences=NB_PROTEIN_S,
         assembly_params=Vector2(11.5, 0.0), cutoff_angle=0.999,
         orientation=Quaternion(0.087, 0.0, 0.996, 0.0), instance_indices=[
             open_conformation_indices, closed_conformation_indices])
 
     virus_protein_m = Protein(
         sources=[PDB_FOLDER + 'QHD43419a.pdb'], load_hydrogen=PROTEIN_LOAD_HYDROGEN,
-        number_of_instances=NB_PROTEIN_M, assembly_params=Vector2(2.0, 0.0), cutoff_angle=0.999,
+        occurences=NB_PROTEIN_M, assembly_params=Vector2(2.0, 0.0), cutoff_angle=0.999,
         orientation=Quaternion(0.99, 0.0, 0.0, 0.135))
 
     virus_protein_e = Protein(
         sources=[PDB_FOLDER + 'QHD43418a.pdb'], load_hydrogen=PROTEIN_LOAD_HYDROGEN,
-        number_of_instances=NB_PROTEIN_E, assembly_params=Vector2(3.0, 0.0), cutoff_angle=0.9999,
+        occurences=NB_PROTEIN_E, assembly_params=Vector2(3.0, 0.0), cutoff_angle=0.9999,
         orientation=Quaternion(0.705, 0.705, -0.04, -0.04))
 
     virus_membrane = Membrane(
         sources=[PDB_FOLDER + 'membrane/popc.pdb'],
-        number_of_instances=15000
+        occurences=15000
     )
 
     rna_sequence = None
@@ -120,43 +121,34 @@ def add_virus(bioexplorer, name, position, open_conformation_indices=list()):
 
     if ADD_GLYCANS:
         # High-mannose
-        indices = [61, 122, 234, 603, 709, 717, 801, 1074]
+        indices_closed = [61, 122, 234, 603, 709, 717, 801, 1074]
+        indices_open = [61, 122, 234, 709, 717, 801, 1074]
         bioexplorer.add_multiple_glycans(
             assembly_name=name, glycan_type=bioexplorer.NAME_GLYCAN_HIGH_MANNOSE,
             protein_name=bioexplorer.NAME_PROTEIN_S_CLOSED, paths=HIGH_MANNOSE_PATHS,
-            indices=indices, representation=PROTEIN_REPRESENTATION,
+            indices=indices_closed, representation=PROTEIN_REPRESENTATION,
             allowed_occurrences=closed_conformation_indices)
         if open_conformation_indices:
             bioexplorer.add_multiple_glycans(
                 assembly_name=name, glycan_type=bioexplorer.NAME_GLYCAN_HIGH_MANNOSE,
                 protein_name=bioexplorer.NAME_PROTEIN_S_OPEN, paths=HIGH_MANNOSE_PATHS,
-                indices=indices, index_offset=19, representation=PROTEIN_REPRESENTATION,
+                indices=indices_open, index_offset=19, representation=PROTEIN_REPRESENTATION,
                 allowed_occurrences=open_conformation_indices)
 
         # Complex
+        indices_closed = [17, 74, 149, 165, 282, 331,
+                          343, 616, 657, 1098, 1134, 1158, 1173, 1194]
+        indices_open = [17, 74, 149, 165, 282, 331, 343, 657, 1098, 1134, 1158, 1173, 1194]
         bioexplorer.add_multiple_glycans(
             assembly_name=name, glycan_type=bioexplorer.NAME_GLYCAN_COMPLEX,
             protein_name=bioexplorer.NAME_PROTEIN_S_CLOSED, paths=COMPLEX_PATHS,
-            indices=[17, 74, 149, 165, 282, 331, 343, 616, 1098, 1134, 1158, 1173, 1194],
+            indices=indices_closed,
             representation=PROTEIN_REPRESENTATION, allowed_occurrences=closed_conformation_indices)
         if open_conformation_indices:
             bioexplorer.add_multiple_glycans(
                 assembly_name=name, glycan_type=bioexplorer.NAME_GLYCAN_COMPLEX,
                 protein_name=bioexplorer.NAME_PROTEIN_S_OPEN, paths=COMPLEX_PATHS,
-                indices=[17, 74, 149, 165, 282, 331, 343, 1098, 1134, 1158, 1173, 1194],
-                index_offset=19, representation=PROTEIN_REPRESENTATION,
-                allowed_occurrences=open_conformation_indices)
-
-        # Hybrid
-        indices = [657]
-        bioexplorer.add_multiple_glycans(
-            assembly_name=name, glycan_type=bioexplorer.NAME_GLYCAN_HYBRID,
-            protein_name=bioexplorer.NAME_PROTEIN_S_CLOSED, paths=HYBRID_PATHS, indices=indices,
-            representation=PROTEIN_REPRESENTATION, allowed_occurrences=closed_conformation_indices)
-        if open_conformation_indices:
-            bioexplorer.add_multiple_glycans(
-                assembly_name=name, glycan_type=bioexplorer.NAME_GLYCAN_HYBRID,
-                protein_name=bioexplorer.NAME_PROTEIN_S_OPEN, paths=HYBRID_PATHS, indices=indices,
+                indices=indices_open,
                 index_offset=19, representation=PROTEIN_REPRESENTATION,
                 allowed_occurrences=open_conformation_indices)
 
@@ -182,11 +174,12 @@ def add_virus(bioexplorer, name, position, open_conformation_indices=list()):
             protein_name=bioexplorer.NAME_PROTEIN_E, paths=COMPLEX_PATHS,
             representation=PROTEIN_REPRESENTATION)
 
+
 def add_cell(bioexplorer, name, size, height, position=Vector3()):
     ace2_receptor = Protein(
-        sources=[PDB_FOLDER + '6m1d.pdb'], number_of_instances=20, position=Vector3(0.0, 6.0, 0.0))
+        sources=[PDB_FOLDER + '6m1d.pdb'], occurences=20, position=Vector3(0.0, 6.0, 0.0))
     membrane = Membrane(
-        sources=[PDB_FOLDER + 'membrane/popc.pdb'], number_of_instances=1200000)
+        sources=[PDB_FOLDER + 'membrane/popc.pdb'], occurences=1200000)
     cell = Cell(
         name=name, size=Vector2(size, height), shape=bioexplorer.ASSEMBLY_SHAPE_SINUSOIDAL,
         membrane=membrane, receptor=ace2_receptor)
@@ -216,6 +209,7 @@ def add_cell(bioexplorer, name, size, height, position=Vector3()):
                 orientation=index[1])
             bioexplorer.add_sugars(o_glycan)
 
+
 def add_surfactant_d(bioexplorer, name, position, random_seed):
     surfactant_d = Surfactant(
         name=name, surfactant_protein=bioexplorer.SURFACTANT_PROTEIN_D,
@@ -223,6 +217,7 @@ def add_surfactant_d(bioexplorer, name, position, random_seed):
     bioexplorer.add_surfactant(
         surfactant=surfactant_d, representation=PROTEIN_REPRESENTATION, position=position,
         random_seed=random_seed)
+
 
 def add_surfactant_a(bioexplorer, name, position, random_seed):
     surfactant_a = Surfactant(
@@ -232,94 +227,102 @@ def add_surfactant_a(bioexplorer, name, position, random_seed):
         surfactant=surfactant_a, representation=PROTEIN_REPRESENTATION, position=position,
         random_seed=random_seed)
 
+
 def add_glucose(bioexplorer, size, number):
     protein = Protein(
-        sources=[GLUCOSE_PATH], load_non_polymer_chemicals=True, number_of_instances=number)
+        sources=[GLUCOSE_PATH], load_non_polymer_chemicals=True, occurences=number)
     volume = Volume(
         name=bioexplorer.NAME_GLUCOSE, size=Vector2(size, size), protein=protein)
     bioexplorer.add_volume(
         volume=volume, representation=bioexplorer.REPRESENTATION_ATOMS,
         position=Vector3(0.0, size / 2.0 - 200.0, 0.0))
 
+
 def add_lactoferrins(bioexplorer, size, number):
     lactoferrins = Protein(
-        sources=[LACTOFERRINS_PATH], load_non_polymer_chemicals=True, number_of_instances=number)
+        sources=[LACTOFERRINS_PATH], load_non_polymer_chemicals=True, occurences=number)
     lactoferrins_volume = Volume(
         name=bioexplorer.NAME_LACTOFERRIN, size=Vector2(size, size), protein=lactoferrins)
     bioexplorer.add_volume(
         volume=lactoferrins_volume, representation=bioexplorer.REPRESENTATION_ATOMS,
         position=Vector3(0.0, size / 2.0 - 200.0, 0.0))
 
+
 def add_defensins(bioexplorer, size, number):
     defensins = Protein(
-        sources=[DEFENSINS_PATH], load_non_polymer_chemicals=True, number_of_instances=number)
+        sources=[DEFENSINS_PATH], load_non_polymer_chemicals=True, occurences=number)
     defensins_volume = Volume(
         name=bioexplorer.NAME_DEFENSIN, size=Vector2(size, size), protein=defensins)
     bioexplorer.add_volume(
         volume=defensins_volume, representation=bioexplorer.REPRESENTATION_ATOMS,
         position=Vector3(0.0, size / 2.0 - 200.0, 0.0))
 
+
 def test_high_glucose():
-    # Connect to BioExplorer server
-    bioexplorer = BioExplorer('localhost:5000')
-    core = bioexplorer.core_api()
-    print('BioExplorer version ' + bioexplorer.version())
-    bioexplorer.reset()
+    try:
+        # Connect to BioExplorer server
+        bioexplorer = BioExplorer('localhost:5000')
+        core = bioexplorer.core_api()
+        print('BioExplorer version ' + bioexplorer.version())
+        bioexplorer.reset()
 
-    # Suspend image streaming
-    core.set_application_parameters(image_stream_fps=0)
+        # Suspend image streaming
+        core.set_application_parameters(image_stream_fps=0)
 
-    # Build full model
-    add_virus(
-        bioexplorer, name='Coronavirus 1', position=Vector3(-289.5, -97, -97.5),
-        open_conformation_indices=[1])
-    add_virus(
-        bioexplorer, name='Coronavirus 2', position=Vector3(-79.5, -102, 229.5),
-        open_conformation_indices=[1])
-    add_virus(
-        bioexplorer, name='Coronavirus 3', position=Vector3(296.5, -125, 225.5),
-        open_conformation_indices=[1])
-    add_virus(
-        bioexplorer, name='Coronavirus 4', position=Vector3(4.5, 100, 7.5))
-    add_virus(
-        bioexplorer, name='Coronavirus 5', position=Vector3(204.5, -100, 27.5),
-        open_conformation_indices=[1])
-    add_virus(
-        bioexplorer, name='Coronavirus 6', position=Vector3(54.5, -100, -257.5),
-        open_conformation_indices=[1])
+        # Build full model
+        add_virus(
+            bioexplorer, name='Coronavirus 1', position=Vector3(-289.5, -97, -97.5),
+            open_conformation_indices=[1])
+        add_virus(
+            bioexplorer, name='Coronavirus 2', position=Vector3(-79.5, -102, 229.5),
+            open_conformation_indices=[1])
+        add_virus(
+            bioexplorer, name='Coronavirus 3', position=Vector3(296.5, -125, 225.5),
+            open_conformation_indices=[1])
+        add_virus(
+            bioexplorer, name='Coronavirus 4', position=Vector3(4.5, 100, 7.5))
+        add_virus(
+            bioexplorer, name='Coronavirus 5', position=Vector3(204.5, -100, 27.5),
+            open_conformation_indices=[1])
+        add_virus(
+            bioexplorer, name='Coronavirus 6', position=Vector3(54.5, -100, -257.5),
+            open_conformation_indices=[1])
 
-    add_cell(
-        bioexplorer, name='Cell 1', size=CELL_SIZE, height=CELL_HEIGHT,
-        position=Vector3(4.5, -186.0, 7.0))
+        add_cell(
+            bioexplorer, name='Cell 1', size=CELL_SIZE, height=CELL_HEIGHT,
+            position=Vector3(4.5, -186.0, 7.0))
 
-    add_surfactant_d(
-        bioexplorer, name='Surfactant-D 1', position=Vector3(74.0, 24.0, -45.0), random_seed=1)
-    add_surfactant_d(
-        bioexplorer, name='Surfactant-D 2', position=Vector3(104.0, 175.0, -89.0), random_seed=2)
-    add_surfactant_d(
-        bioexplorer, name='Surfactant-D 3', position=Vector3(-260.0, 50.0, 0.0), random_seed=6)
+        add_surfactant_d(
+            bioexplorer, name='Surfactant-D 1', position=Vector3(74.0, 24.0, -45.0), random_seed=1)
+        add_surfactant_d(
+            bioexplorer, name='Surfactant-D 2', position=Vector3(104.0, 175.0, -89.0), random_seed=2)
+        add_surfactant_d(
+            bioexplorer, name='Surfactant-D 3', position=Vector3(-260.0, 50.0, 0.0), random_seed=6)
 
-    add_surfactant_a(
-        bioexplorer, name='Surfactant-A 1', position=Vector3(-100.0, 150.0, 0.0), random_seed=2)
+        add_surfactant_a(
+            bioexplorer, name='Surfactant-A 1', position=Vector3(-100.0, 150.0, 0.0), random_seed=2)
 
-    add_glucose(bioexplorer, CELL_SIZE, 360000)
-    add_lactoferrins(bioexplorer, CELL_SIZE, 50)
-    add_defensins(bioexplorer, CELL_SIZE, 100)
+        add_glucose(bioexplorer, CELL_SIZE, 360000)
+        add_lactoferrins(bioexplorer, CELL_SIZE, 50)
+        add_defensins(bioexplorer, CELL_SIZE, 100)
 
-    # Apply default materials
-    bioexplorer.apply_default_color_scheme(bioexplorer.SHADING_MODE_BASIC)
+        # Apply default materials
+        bioexplorer.apply_default_color_scheme(bioexplorer.SHADING_MODE_BASIC)
 
-    # Set rendering settings
-    core.set_renderer(
-        background_color=[96 / 255, 125 / 255, 139 / 255], current='bio_explorer',
-        samples_per_pixel=1, subsampling=4, max_accum_frames=64)
-    params = core.BioExplorerRendererParams()
-    params.shadows = 0.75
-    params.soft_shadows = 1.0
-    core.set_renderer_params(params)
+        # Set rendering settings
+        core.set_renderer(
+            background_color=[96 / 255, 125 / 255, 139 / 255], current='bio_explorer',
+            samples_per_pixel=1, subsampling=4, max_accum_frames=64)
+        params = core.BioExplorerRendererParams()
+        params.shadows = 0.75
+        params.soft_shadows = 1.0
+        core.set_renderer_params(params)
 
-    # Restore image streaming
-    core.set_application_parameters(image_stream_fps=20)
+        # Restore image streaming
+        core.set_application_parameters(image_stream_fps=20)
+    except Exception as ex:
+        print(ex)
+        raise
 
 
 if __name__ == '__main__':

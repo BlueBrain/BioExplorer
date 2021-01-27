@@ -23,4 +23,5 @@ dist
 .tox
 pylintrc
 pycodestyle.txt
+pylint.txt
 venv

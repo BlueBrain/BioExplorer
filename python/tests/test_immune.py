@@ -24,6 +24,7 @@
 
 from bioexplorer import BioExplorer, Volume, Protein, Vector2, Vector3
 
+
 def test_immune():
     resource_folder = 'tests/test_files/'
     pdb_folder = resource_folder + 'pdb/immune/'
@@ -49,7 +50,7 @@ def test_immune():
     lactoferrins = Protein(
         sources=[lactoferrin_path],
         load_non_polymer_chemicals=True,
-        number_of_instances=150
+        occurences=150
     )
 
     lactoferrins_volume = Volume(
@@ -68,7 +69,7 @@ def test_immune():
     defensins = Protein(
         sources=[defensin_path],
         load_non_polymer_chemicals=True,
-        number_of_instances=300
+        occurences=300
     )
 
     defensins_volume = Volume(
@@ -86,6 +87,7 @@ def test_immune():
 
     ''' Restore image streaming '''
     be.core_api().set_application_parameters(image_stream_fps=20)
+
 
 if __name__ == '__main__':
     import nose

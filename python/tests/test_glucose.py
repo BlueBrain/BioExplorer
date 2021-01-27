@@ -49,7 +49,7 @@ def test_glucose():
     protein = Protein(
         sources=[glucose_path],
         load_non_polymer_chemicals=True,
-        number_of_instances=120000
+        occurences=120000
     )
 
     volume = Volume(

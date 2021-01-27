@@ -53,7 +53,8 @@ def test_surfactant():
     ''' SP-A '''
     surfactant_a = Surfactant(name='SP-A', surfactant_protein=be.SURFACTANT_PROTEIN_A, head_source=head_source,
                               branch_source=branch_source)
-    be.add_surfactant(surfactant=surfactant_a, representation=protein_representation, position=Vector3(50, 0, 0))
+    be.add_surfactant(surfactant=surfactant_a,
+                      representation=protein_representation, position=Vector3(50, 0, 0))
 
     ''' Restore image streaming '''
     be.core_api().set_application_parameters(image_stream_fps=20)
