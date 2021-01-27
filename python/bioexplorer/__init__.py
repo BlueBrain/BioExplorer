@@ -1,4 +1,6 @@
 #!/usr/bin/env python
+"""Initializer"""
+
 # -*- coding: utf-8 -*-
 
 # Copyright (c) 2020, Cyrille Favreau <cyrille.favreau@epfl.ch>

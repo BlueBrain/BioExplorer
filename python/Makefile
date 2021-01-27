@@ -42,7 +42,8 @@ $(VENV):
 	virtualenv --system-site-packages $(VENV)
 
 $(VENV_INSTALLED): $(VENV)
-	$(VENV_BIN)/pip install --upgrade pip
+	# Brayns 1.0.0 limitation, use pip 9.0.2
+	$(VENV_BIN)/pip install pip==9.0.2
 	$(VENV_BIN)/pip install $(PIP_INSTALL_OPTIONS) -r requirements_dev.txt
 	$(VENV_BIN)/pip install -e .
 	touch $@

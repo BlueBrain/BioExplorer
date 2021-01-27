@@ -23,14 +23,23 @@
 # 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 # All rights reserved. Do not distribute without further notice.
 
+import math
+import random
+import threading
+import time
+import glob
+import os
 from ipywidgets import FloatSlider, Select, HBox, VBox, Layout, Button, SelectMultiple, \
     Checkbox, IntRangeSlider, ColorPicker, IntSlider, Label, Text
-import seaborn as sns
 from IPython.display import display
-from stringcase import pascalcase
 import matplotlib
+import seaborn as sns
+from stringcase import pascalcase
+
 
 # pylint: disable=unused-argument
+# pylint: disable=too-many-locals
+# pylint: disable=too-many-statements
 
 COLOR_MAPS = [
     'Accent', 'Accent_r', 'Blues', 'Blues_r', 'BrBG', 'BrBG_r', 'BuGn', 'BuGn_r',
@@ -71,6 +80,7 @@ class Widgets:
     """Set of notebook widgets for the BioExplorer"""
 
     def __init__(self, bioexplorer):
+        """Initialize with a reference to BioExplorer and underlying Brayns API"""
         self._be = bioexplorer
         self._client = bioexplorer.core_api()
 
@@ -99,7 +109,6 @@ class Widgets:
 
             def _update_camera(self):
                 self._focus_distance = 0.0
-                import random
                 for _ in range(self._nb_focus_points):
                     self._focus_distance = self._focus_distance + self._get_focal_distance(
                         (self._x + (random.random() - 0.5) * self._focus_radius,
@@ -154,7 +163,6 @@ class Widgets:
                 vector = [0, 0, 0]
                 for k in range(3):
                     vector[k] = float(target[k]) - float(origin[k])
-                import math
                 return math.sqrt(
                     vector[0] * vector[0] + vector[1] * vector[1] + vector[2] * vector[2])
 
@@ -350,8 +358,6 @@ class Widgets:
 
     def __display_advanced_settings(self, object_type):
         """Display visual controls for camera or renderer advanced settings"""
-        import threading
-
         class Updated:
             """Inner class that insures communication with the remote server"""
 
@@ -395,15 +401,13 @@ class Widgets:
                     params = self._get_params()
                     for widget in self._widgets_list:
                         self._widgets_list[widget].value = params[widget]
-
-                    import time
                     time.sleep(1)
 
             def _get_params(self):
                 """Gets camera or renderer settings from remote server"""
                 if self._object_type == 'camera':
                     return self._client.get_camera_params()
-                elif self._object_type == 'renderer':
+                if self._object_type == 'renderer':
                     return self._client.get_renderer_params()
                 return None
 
@@ -414,10 +418,11 @@ class Widgets:
 
                 if self._object_type == 'camera':
                     self._client.set_camera_params(self._params)
-                elif self._object_type == 'renderer':
+                if self._object_type == 'renderer':
                     self._client.set_renderer_params(self._params)
 
-            def _get_value(self, props, key, default_value):
+            @staticmethod
+            def _get_value(props, key, default_value):
                 """Return value of a property"""
                 try:
                     return props[key]
@@ -524,9 +529,6 @@ class Widgets:
 
     def display_environment_maps(self, folder):
         """Display visual controls for setting environment map"""
-        import glob
-        import os
-
         supported_extensions = ['jpg', 'jpeg', 'png']
         hdri_files = list()
         for extension in supported_extensions:
@@ -546,7 +548,15 @@ class Widgets:
 
     def show_amino_acid_on_protein(self, assembly_name, name, sequence_id=0, palette_name='Set1',
                                    palette_size=2):
-        """Display visual controls for showing amino acid sequence on a protein of the scene"""
+        """
+        Display visual controls for showing amino acid sequence on a protein of the scene
+
+        :param: assembly_name: Name of the assembly containing the protein
+        :param: name: Name of the protein
+        :param: sequence_id: ID of the protein sequence
+        :param: palette_name: Name of the color palette
+        :param: palette_size: Size of the color palette
+        """
         sequences = self._be.get_protein_amino_acid_sequences(assembly_name, name)
         if sequence_id >= len(sequences):
             raise RuntimeError('Invalid sequence Id')

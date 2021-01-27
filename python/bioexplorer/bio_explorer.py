@@ -32,6 +32,7 @@ from .version import VERSION as __version__
 # pylint: disable=dangerous-default-value
 # pylint: disable=invalid-name
 # pylint: disable=too-many-lines
+# pylint: disable=too-many-locals
 
 
 class Vector3:
@@ -40,8 +41,9 @@ class Vector3:
     def __init__(self, *args):
         """
         Define a simple 3D vector
-        @param args: 3 float values for x, y and z
-        @param kwargs: Not used
+
+        :args: 3 float values for x, y and z
+        :raises: RuntimeError: Invalid number of floats
         """
         if len(args) not in [0, 3]:
             raise RuntimeError('Invalid number of floats (0 or 3 expected)')
@@ -56,7 +58,10 @@ class Vector3:
 
     def to_list(self):
         """
-        @return: A list containing the values of x, y and z attributes
+        A list containing the values of x, y and z attributes
+
+        :return: x, y and z attributes
+        :rtype: list
         """
         return [self.x, self.y, self.z]
 
@@ -67,8 +72,9 @@ class Vector2:
     def __init__(self, *args):
         """
         Define a simple 2D vector
-        @param args: 2 float values for x and y
-        @param kwargs: Not used
+
+        :args: 2 float values for x and y
+        :raises: RuntimeError: Invalid number of floats
         """
         if len(args) not in [0, 2]:
             raise RuntimeError('Invalid number of floats (0 or 2 expected)')
@@ -80,9 +86,7 @@ class Vector2:
             self.y = args[1]
 
     def to_list(self):
-        """
-        @return: A list containing the values of x and y attributes
-        """
+        """:return: A list containing the values of x and y attributes"""
         return [self.x, self.y]
 
 
@@ -92,8 +96,9 @@ class Quaternion:
     def __init__(self, *args):
         """
         Define a simple quaternion
-        @param args: 4 float values for x, y, z and w
-        @param kwargs: Not used
+
+        :args: 4 float values for x, y, z and w
+        :raises: RuntimeError: Invalid number of floats
         """
         if len(args) not in [0, 4]:
             raise RuntimeError('Invalid number of floats (0 or 4 expected)')
@@ -109,9 +114,7 @@ class Quaternion:
             self.w = args[3]
 
     def to_list(self):
-        """
-        @return: A list containing the values of x, y, z and w attributes
-        """
+        """:return: A list containing the values of x, y, z and w attributes"""
         return [self.x, self.y, self.z, self.w]
 
 
@@ -206,9 +209,7 @@ class BioExplorer:
     FILE_FORMAT_XYZRV_ASCII = 6
 
     def __init__(self, url=None):
-        """
-        Create a new Steps instance
-        """
+        """Create a new BioExplorer instance"""
         self._url = url
         self._client = None
         if url is not None:
@@ -222,19 +223,25 @@ class BioExplorer:
 
     def __str__(self):
         """
-        @return: A pretty-print of the class
+        A pretty-print of the class
+
+        :rtype: string
         """
         return "Blue Brain BioExplorer"
 
     def core_api(self):
         """
-        @return: Access to underlying core API (Brayns' core API)
+        Access to underlying core API (Brayns core API)
+
+        :rtype: Class
         """
         return self._client
 
     def version(self):
         """
-        @return: The version of the BioExplorer library
+        Version of the BioExplorer application
+
+        :rtype: string
         """
         if self._client is None:
             return __version__
@@ -247,14 +254,18 @@ class BioExplorer:
     @staticmethod
     def authors():
         """
-        @return The list of authors
+        List of authors
+
+        :rtype: string
         """
         return 'Cyrille Favreau (cyrille.favreau@epfl.ch)'
 
     def reset(self):
         """
         Remove all assemblies
-        @return: Result of the call to the BioExplorer backend
+
+        :return: Result of the call to the BioExplorer backend
+        :rtype: Response
         """
         if self._client is None:
             return None
@@ -267,8 +278,10 @@ class BioExplorer:
     def export_to_cache(self, filename):
         """
         Export current scene to file as an optimized binary cache file
-        @param filename: Full path of the binary cache file
-        @return: Result of the call to the BioExplorer backend
+
+        :param: filename: Full path of the binary cache file
+        :return: Result of the call to the BioExplorer backend
+        :rtype: Response
         """
         params = dict()
         params['filename'] = filename
@@ -282,9 +295,11 @@ class BioExplorer:
     def export_to_xyz(self, filename, file_format):
         """
         Exports current scene to file as a XYZ file
-        @param filename: Full path of the XYZ file
-        @param file_format: Defines the format of the XYZ file
-        @return: Result of the call to the BioExplorer backend
+
+        :param: filename: Full path of the XYZ file
+        :param: file_format: Defines the format of the XYZ file
+        :return: Result of the call to the BioExplorer backend
+        :rtype: Response
         """
         params = dict()
         params['filename'] = filename
@@ -298,8 +313,10 @@ class BioExplorer:
     def remove_assembly(self, name):
         """
         Removes the specified assembly
-        @param name: Name of the assembly
-        @return: Result of the call to the BioExplorer backend
+
+        :param: name: Name of the assembly
+        :return: Result of the call to the BioExplorer backend
+        :rtype: Response
         """
         params = dict()
         params['name'] = name
@@ -318,20 +335,21 @@ class BioExplorer:
             position=Vector3(), orientation=Quaternion()):
         """
         Add a virus with the default coronavirus parameters
-        @param name: Name of the coronavirus
-        @param resource_folder: Folder containing the resources of the virus components (PDB and RNA
-                                files)
-        @param radius: Radius of the virus in nanometers
-        @param nb_protein_s: Number of S proteins
-        @param nb_protein_m: Number of M proteins
-        @param nb_protein_e: Number of E proteins
-        @param open_protein_s_indices: Indices for the open S proteins
-        @param add_glycans: Defines if glycans should be added
-        @param atom_radius_multiplier: Multiplies atom radius by the specified value
-        @param representation: Representation of the protein (Atoms, atoms and sticks, etc)
-        @param clipping_planes: List of clipping planes to apply to the virus assembly
-        @param position: Position of the virus in the scene
-        @param orientation: Orientation of the protein in the scene
+
+        :param: name: Name of the coronavirus
+        :param: resource_folder: Folder containing the resources of the virus components (PDB and
+                                 RNA files)
+        :param: radius: Radius of the virus in nanometers
+        :param: nb_protein_s: Number of S proteins
+        :param: nb_protein_m: Number of M proteins
+        :param: nb_protein_e: Number of E proteins
+        :param: open_protein_s_indices: Indices for the open S proteins
+        :param: add_glycans: Defines if glycans should be added
+        :param: atom_radius_multiplier: Multiplies atom radius by the specified value
+        :param: representation: Representation of the protein (Atoms, atoms and sticks, etc)
+        :param: clipping_planes: List of clipping planes to apply to the virus assembly
+        :param: position: Position of the virus in the scene
+        :param: orientation: Orientation of the protein in the scene
         """
         pdb_folder = resource_folder + 'pdb/'
         rna_folder = resource_folder + 'rna/'
@@ -346,7 +364,7 @@ class BioExplorer:
         # Protein S
         virus_protein_s = Protein(
             sources=[pdb_folder + '6vyb.pdb', pdb_folder + 'sars-cov-2-v1.pdb'],
-            number_of_instances=nb_protein_s,
+            occurences=nb_protein_s,
             assembly_params=Vector2(11.5, 0.0), cutoff_angle=0.999,
             orientation=Quaternion(0.087, 0.0, 0.996, 0.0),
             instance_indices=[open_conformation_indices, closed_conformation_indices])
@@ -354,18 +372,18 @@ class BioExplorer:
         # Protein M (QHD43419)
         virus_protein_m = Protein(
             sources=[pdb_folder + 'QHD43419a.pdb'],
-            number_of_instances=nb_protein_m, assembly_params=Vector2(2.0, 0.0),
+            occurences=nb_protein_m, assembly_params=Vector2(2.0, 0.0),
             cutoff_angle=0.999, orientation=Quaternion(0.99, 0.0, 0.0, 0.135))
 
         # Protein E (QHD43418 P0DTC4)
         virus_protein_e = Protein(
             sources=[pdb_folder + 'QHD43418a.pdb'],
-            number_of_instances=nb_protein_e, assembly_params=Vector2(3.0, 0.0),
+            occurences=nb_protein_e, assembly_params=Vector2(3.0, 0.0),
             cutoff_angle=0.9999, orientation=Quaternion(0.705, 0.705, -0.04, -0.04))
 
         # Virus membrane
         virus_membrane = Membrane(
-            sources=[pdb_folder + 'membrane/popc.pdb'], number_of_instances=15000)
+            sources=[pdb_folder + 'membrane/popc.pdb'], occurences=15000)
 
         # RNA Sequence
         rna_sequence = RNASequence(
@@ -459,12 +477,13 @@ class BioExplorer:
             clipping_planes=None, position=Vector3(), orientation=Quaternion()):
         """
         Adds a virus assembly to the scene
-        @param virus: Description of the virus
-        @param atom_radius_multiplier: Multiplies atom radius by the specified value
-        @param representation: Representation of the protein (Atoms, atoms and sticks, etc)
-        @param clipping_planes: List of clipping planes to apply to the virus assembly
-        @param position: Position of the virus in the scene
-        @param orientation: Orientation of the protein in the scene
+
+        :param: virus: Description of the virus
+        :param: atom_radius_multiplier: Multiplies atom radius by the specified value
+        :param: representation: Representation of the protein (Atoms, atoms and sticks, etc)
+        :param: clipping_planes: List of clipping planes to apply to the virus assembly
+        :param: position: Position of the virus in the scene
+        :param: orientation: Orientation of the protein in the scene
         """
         assert isinstance(virus, Virus)
         if clipping_planes:
@@ -490,7 +509,7 @@ class BioExplorer:
                     assembly_name=virus.name, name=virus.name + '_' + self.NAME_PROTEIN_S_OPEN,
                     source=_protein_s.sources[0],
                     shape=shape, load_hydrogen=_protein_s.load_hydrogen,
-                    occurrences=_protein_s.number_of_instances,
+                    occurrences=_protein_s.occurences,
                     assembly_params=Vector2(radius, _protein_s.assembly_params.y),
                     atom_radius_multiplier=atom_radius_multiplier,
                     load_bonds=_protein_s.load_bonds,
@@ -507,7 +526,7 @@ class BioExplorer:
                     assembly_name=virus.name, name=virus.name + '_' + self.NAME_PROTEIN_S_CLOSED,
                     source=_protein_s.sources[1],
                     shape=shape, load_hydrogen=_protein_s.load_hydrogen,
-                    occurrences=_protein_s.number_of_instances,
+                    occurrences=_protein_s.occurences,
                     assembly_params=Vector2(radius, _protein_s.assembly_params.y),
                     atom_radius_multiplier=atom_radius_multiplier,
                     load_bonds=_protein_s.load_bonds,
@@ -525,7 +544,7 @@ class BioExplorer:
                 assembly_name=virus.name, name=virus.name + '_' + self.NAME_PROTEIN_M,
                 source=virus.protein_m.sources[0], shape=shape,
                 load_hydrogen=virus.protein_m.load_hydrogen,
-                occurrences=virus.protein_m.number_of_instances,
+                occurrences=virus.protein_m.occurences,
                 assembly_params=Vector2(radius, virus.protein_m.assembly_params.y),
                 atom_radius_multiplier=atom_radius_multiplier,
                 load_bonds=virus.protein_m.load_bonds,
@@ -542,7 +561,7 @@ class BioExplorer:
                 assembly_name=virus.name, name=virus.name + '_' + self.NAME_PROTEIN_E,
                 source=virus.protein_e.sources[0], shape=shape,
                 load_hydrogen=virus.protein_e.load_hydrogen,
-                occurrences=virus.protein_e.number_of_instances,
+                occurrences=virus.protein_e.occurences,
                 assembly_params=Vector2(radius, virus.protein_e.assembly_params.y),
                 atom_radius_multiplier=atom_radius_multiplier,
                 load_bonds=virus.protein_e.load_bonds,
@@ -575,12 +594,13 @@ class BioExplorer:
             clipping_planes=list(), position=Vector3(), random_seed=0):
         """
         Add a cell assembly to the scene
-        @param cell: Description of the cell
-        @param atom_radius_multiplier: Representation of the protein (Atoms, atoms and sticks, etc)
-        @param representation: Multiplies atom radius by the specified value
-        @param clipping_planes: List of clipping planes to apply to the virus assembly
-        @param position: Position of the cell in the scene
-        @param random_seed: Seed used to randomise position the elements in the membrane
+
+        :param: cell: Description of the cell
+        :param: atom_radius_multiplier: Representation of the protein (Atoms, atoms and sticks, etc)
+        :param: representation: Multiplies atom radius by the specified value
+        :param: clipping_planes: List of clipping planes to apply to the virus assembly
+        :param: position: Position of the cell in the scene
+        :param: random_seed: Seed used to randomise position the elements in the membrane
         """
         assert isinstance(cell, Cell)
         if clipping_planes:
@@ -591,13 +611,13 @@ class BioExplorer:
         self.remove_assembly(cell.name)
         self.add_assembly(name=cell.name, position=position, clipping_planes=clipping_planes)
 
-        if cell.receptor.number_of_instances != 0:
+        if cell.receptor.occurences != 0:
             _receptor = AssemblyProtein(
                 assembly_name=cell.name,
                 name=cell.name + '_' + self.NAME_RECEPTOR, shape=cell.shape,
                 source=cell.receptor.sources[0],
                 load_non_polymer_chemicals=cell.receptor.load_non_polymer_chemicals,
-                occurrences=cell.receptor.number_of_instances,
+                occurrences=cell.receptor.occurences,
                 assembly_params=cell.size, atom_radius_multiplier=atom_radius_multiplier,
                 load_bonds=False, representation=representation, random_seed=1,
                 position=cell.receptor.position, orientation=cell.receptor.orientation)
@@ -616,11 +636,12 @@ class BioExplorer:
             position=Vector3(), random_seed=1):
         """
         Add a volume assembly to the scene
-        @param volume: Description of the volume
-        @param atom_radius_multiplier: Representation of the protein (Atoms, atoms and sticks, etc)
-        @param representation: Multiplies atom radius by the specified value
-        @param position: Position of the volume in the scene
-        @param random_seed: Random seed used to define the positions of the proteins in the volume
+
+        :param: volume: Description of the volume
+        :param: atom_radius_multiplier: Representation of the protein (Atoms, atoms and sticks, etc)
+        :param: representation: Multiplies atom radius by the specified value
+        :param: position: Position of the volume in the scene
+        :param: random_seed: Random seed used to define the positions of the proteins in the volume
         """
         assert isinstance(volume, Volume)
         assert isinstance(position, Vector3)
@@ -631,7 +652,7 @@ class BioExplorer:
             name=volume.name, shape=volume.shape,
             source=volume.protein.sources[0],
             load_non_polymer_chemicals=volume.protein.load_non_polymer_chemicals,
-            occurrences=volume.protein.number_of_instances,
+            occurrences=volume.protein.occurences,
             assembly_params=volume.size, atom_radius_multiplier=atom_radius_multiplier,
             load_bonds=False, representation=representation, random_seed=random_seed,
             position=volume.protein.position, orientation=volume.protein.orientation)
@@ -645,11 +666,12 @@ class BioExplorer:
             position=Vector3(), random_seed=0):
         """
         Add a surfactant assembly to the scene
-        @param surfactant: Description of the surfactant
-        @param atom_radius_multiplier: Representation of the protein (Atoms, atoms and sticks, etc)
-        @param representation: Multiplies atom radius by the specified value
-        @param position: Position of the volume in the scene
-        @param random_seed: Random seed used to define the shape of the branches
+
+        :param: surfactant: Description of the surfactant
+        :param: atom_radius_multiplier: Representation of the protein (Atoms, atoms and sticks, etc)
+        :param: representation: Multiplies atom radius by the specified value
+        :param: position: Position of the volume in the scene
+        :param: random_seed: Random seed used to define the shape of the branches
         """
         assert isinstance(surfactant, Surfactant)
         assert isinstance(position, Vector3)
@@ -705,10 +727,11 @@ class BioExplorer:
             self, name, clipping_planes=None, position=Vector3(), orientation=Quaternion()):
         """
         Add an assembly to the scene
-        @param name: Name of the assembly
-        @param clipping_planes: List of clipping planes to apply to the virus assembly
-        @param position: Position of the scene in the scene
-        @param orientation: Orientation of the assembly in the scene
+
+        :name: Name of the assembly
+        :clipping_planes: List of clipping planes to apply to the virus assembly
+        :position: Position of the scene in the scene
+        :orientation: Orientation of the assembly in the scene
         """
         if clipping_planes:
             assert isinstance(clipping_planes, list)
@@ -731,20 +754,22 @@ class BioExplorer:
         if not result['status']:
             raise RuntimeError(result['contents'])
         self._client.set_renderer(accumulation=True)
+        return result
 
     def set_protein_color_scheme(
             self, assembly_name, name, color_scheme, palette_name='', palette_size=256,
             palette=list(), chain_ids=list()):
         """
         Set a color scheme to a protein
-        @param assembly_name: Name of the assembly containing the protein
-        @param name: Name of the protein
-        @param color_scheme: Color scheme
-        @param palette_name: Name of the Seaborn color palette
-        @param palette_size: Size of the Seaborn color palette
-        @param palette: Seaborn palette (overrides the palette_name and palette size if specified)
-        @param chain_ids: Ids of the chains to which the color scheme should be applied
-        @return: Result of the call to the BioExplorer backend
+
+        :param: assembly_name: Name of the assembly containing the protein
+        :param: name: Name of the protein
+        :param: color_scheme: Color scheme
+        :param: palette_name: Name of the Seaborn color palette
+        :param: palette_size: Size of the Seaborn color palette
+        :param: palette: Seaborn palette (overrides the palette_name and palette size if specified)
+        :param: chain_ids: Ids of the chains to which the color scheme should be applied
+        :return: Result of the call to the BioExplorer backend
         """
         assert isinstance(palette, list)
         assert isinstance(chain_ids, list)
@@ -774,10 +799,11 @@ class BioExplorer:
             self, assembly_name, name, amino_acid_sequence):
         """
         Displays a specified amino acid sequence on the protein
-        @param assembly_name: Name of the assembly containing the protein
-        @param name: Name of the protein
-        @param amino_acid_sequence: String containing the amino acid sequence
-        @return: Result of the call to the BioExplorer backend
+
+        :param: assembly_name: Name of the assembly containing the protein
+        :param: name: Name of the protein
+        :param: amino_acid_sequence: String containing the amino acid sequence
+        :return: Result of the call to the BioExplorer backend
         """
         params = dict()
         params['assemblyName'] = assembly_name
@@ -795,10 +821,11 @@ class BioExplorer:
             self, assembly_name, name, amino_acid_range):
         """
         Displays a specified amino acid range on the protein
-        @param assembly_name: Name of the assembly containing the protein
-        @param name: Name of the protein
-        @param amino_acid_range: Tuple containing the amino acid range
-        @return: Result of the call to the BioExplorer backend
+
+        :param: assembly_name: Name of the assembly containing the protein
+        :param: name: Name of the protein
+        :param: amino_acid_range: Tuple containing the amino acid range
+        :return: Result of the call to the BioExplorer backend
         """
         assert len(amino_acid_range) == 2
         params = dict()
@@ -817,9 +844,10 @@ class BioExplorer:
             self, assembly_name, name):
         """
         Returns amino acid information of the protein
-        @param assembly_name: Name of the assembly containing the protein
-        @param name: Name of the protein
-        @return: Result of the call to the BioExplorer backend
+
+        :param: assembly_name: Name of the assembly containing the protein
+        :param: name: Name of the protein
+        :return: Result of the call to the BioExplorer backend
         """
         params = dict()
         params['assemblyName'] = assembly_name
@@ -834,10 +862,11 @@ class BioExplorer:
             self, assembly_name, name, rna_sequence):
         """
         Add an RNA sequence object to an assembly
-        @param assembly_name: Name of the assembly
-        @param name: Name of the RNA sequence
-        @param rna_sequence: Description of the RNA sequence
-        @return: Result of the call to the BioExplorer backend
+
+        :param: assembly_name: Name of the assembly
+        :param: name: Name of the RNA sequence
+        :param: rna_sequence: Description of the RNA sequence
+        :return: Result of the call to the BioExplorer backend
         """
         assert isinstance(rna_sequence, RNASequence)
         t_range = Vector2(0.0, 2.0 * math.pi)
@@ -881,14 +910,15 @@ class BioExplorer:
             assembly_params, random_seed):
         """
         Add a membrane to the scene
-        @param assembly_name: Name of the assembly
-        @param name: Name of the cell
-        @param membrane: Description of the membrane
-        @param shape: Shape of the membrane
-        @param position_randomization_type: Type of randomisation for the elements of the membrane
-        @param assembly_params: Size of the membrane
-        @param random_seed: Seed used to randomise position the elements in the membrane
-        @return: Result of the call to the BioExplorer backend
+
+        :param: assembly_name: Name of the assembly
+        :param: name: Name of the cell
+        :param: membrane: Description of the membrane
+        :param: shape: Shape of the membrane
+        :param: position_randomization_type: Type of randomisation for the elements of the membrane
+        :param: assembly_params: Size of the membrane
+        :param: random_seed: Seed used to randomise position the elements in the membrane
+        :return: Result of the call to the BioExplorer backend
         """
         assert isinstance(membrane, Membrane)
         assert isinstance(assembly_params, Vector2)
@@ -912,7 +942,7 @@ class BioExplorer:
         params['representation'] = membrane.representation
         params['chainIds'] = membrane.chain_ids
         params['recenter'] = membrane.recenter
-        params['occurrences'] = membrane.number_of_instances
+        params['occurrences'] = membrane.occurences
         params['randomSeed'] = random_seed
         params['locationCutoffAngle'] = membrane.location_cutoff_angle
         params['positionRandomizationType'] = position_randomization_type
@@ -929,14 +959,15 @@ class BioExplorer:
             atom_radius_multiplier=1.0, position=Vector3(), orientation=Quaternion()):
         """
         Add a protein to the scene
-        @param name: Name of the protein
-        @param protein: Description of the protein
-        @param representation: Representation of the protein (Atoms, atoms and sticks, etc)
-        @param conformation_index: Index of the source to be used for the protein conformation
-        @param atom_radius_multiplier: Multiplies atom radius by the specified value
-        @param position: Position of the protein in the scene
-        @param orientation: Orientation of the protein in the scene
-        @return: Result of the call to the BioExplorer backend
+
+        :param: name: Name of the protein
+        :param: protein: Description of the protein
+        :param: representation: Representation of the protein (Atoms, atoms and sticks, etc)
+        :param: conformation_index: Index of the source to be used for the protein conformation
+        :param: atom_radius_multiplier: Multiplies atom radius by the specified value
+        :param: position: Position of the protein in the scene
+        :param: orientation: Orientation of the protein in the scene
+        :return: Result of the call to the BioExplorer backend
         """
         assert conformation_index < len(protein.sources)
         assert isinstance(protein, Protein)
@@ -957,8 +988,9 @@ class BioExplorer:
     def add_assembly_protein(self, protein):
         """
         Add an protein to an assembly
-        @param protein: Description of the protein
-        @return: Result of the call to the BioExplorer backend
+
+        :param: protein: Description of the protein
+        :return: Result of the call to the BioExplorer backend
         """
         assert isinstance(protein, AssemblyProtein)
 
@@ -993,11 +1025,12 @@ class BioExplorer:
             self, name, mesh, position=Vector3(), orientation=Quaternion(), scale=Vector3()):
         """
         Add a mesh to the scene
-        @param name: Name of the mesh in the scene
-        @param mesh: Description of the mesh
-        @param position: Position of the mesh in the scene
-        @param orientation: Orientation of the mesh in the scene
-        @return: Result of the call to the BioExplorer backend
+
+        :param: name: Name of the mesh in the scene
+        :param: mesh: Description of the mesh
+        :param: position: Position of the mesh in the scene
+        :param: orientation: Orientation of the mesh in the scene
+        :return: Result of the call to the BioExplorer backend
         """
         assert isinstance(mesh, Mesh)
 
@@ -1016,8 +1049,9 @@ class BioExplorer:
     def add_assembly_mesh(self, mesh):
         """
         Add an mesh to an assembly
-        @param mesh: Description of the mesh
-        @return: Result of the call to the BioExplorer backend
+
+        :param: mesh: Description of the mesh
+        :return: Result of the call to the BioExplorer backend
         """
         assert isinstance(mesh, AssemblyMesh)
 
@@ -1046,8 +1080,9 @@ class BioExplorer:
     def add_glycans(self, glycans):
         """
         Add glycans to an protein in an assembly
-        @param glycans: Description of the glycans
-        @return: Result of the call to the BioExplorer backend
+
+        :param: glycans: Description of the glycans
+        :return: Result of the call to the BioExplorer backend
         """
         assert isinstance(glycans, Sugars)
 
@@ -1078,20 +1113,20 @@ class BioExplorer:
         """
         Add glycans to a protein in a assembly
 
-        @param assembly_name: Name of the assembly
-        @param glycan_type: Type of glycans
-        @param protein_name: Name of the protein
-        @param paths: Paths to PDB files with various glycan structures
-        @param representation: Representation of the protein (Atoms, atoms and sticks, etc)
-        @param chain_ids: IDs of the chains to be loaded
-        @param indices: Indices of the glycosylation sites where glycans should be added
-        @param allowed_occurrences: List of occurrences of the protein in the assembly, where
+        :param: assembly_name: Name of the assembly
+        :param: glycan_type: Type of glycans
+        :param: protein_name: Name of the protein
+        :param: paths: Paths to PDB files with various glycan structures
+        :param: representation: Representation of the protein (Atoms, atoms and sticks, etc)
+        :param: chain_ids: IDs of the chains to be loaded
+        :param: indices: Indices of the glycosylation sites where glycans should be added
+        :param: allowed_occurrences: List of occurrences of the protein in the assembly, where
                                     glycans should be added
-        @param index_offset: Offset applied to the indices. This is because not all amino acid
+        :param: index_offset: Offset applied to the indices. This is because not all amino acid
                              sequences start at the same index in the description of the protein in
                              the PDB file.
-        @param load_bonds: Defines if bonds should be loaded
-        @param atom_radius_multiplier: Multiplies atom radius by the specified value
+        :param: load_bonds: Defines if bonds should be loaded
+        :param: atom_radius_multiplier: Multiplies atom radius by the specified value
         """
         assert isinstance(chain_ids, list)
         assert isinstance(indices, list)
@@ -1122,8 +1157,9 @@ class BioExplorer:
     def add_sugars(self, sugars):
         """
         Add sugars to a protein in an assembly
-        @param sugars: Description of the sugars
-        @return: Result of the call to the BioExplorer backend
+
+        :param: sugars: Description of the sugars
+        :return: Result of the call to the BioExplorer backend
         """
         assert isinstance(sugars, Sugars)
 
@@ -1150,8 +1186,9 @@ class BioExplorer:
     def set_image_quality(self, image_quality):
         """
         Set image quality using hard-coded presets
-        @param image_quality: Quality of the image (IMAGE_QUALITY_LOW or IMAGE_QUALITY_HIGH)
-        @return: Result of the call to the BioExplorer backend
+
+        :param: image_quality: Quality of the image (IMAGE_QUALITY_LOW or IMAGE_QUALITY_HIGH)
+        :return: Result of the call to the BioExplorer backend
         """
         if image_quality == self.IMAGE_QUALITY_HIGH:
             self._client.set_renderer(
@@ -1176,8 +1213,9 @@ class BioExplorer:
     def get_material_ids(self, model_id):
         """
         Return the list of material Ids for a given model
-        @param model_id: Id of the model
-        @return: List of material Ids
+
+        :param: model_id: Id of the model
+        :return: List of material Ids
         """
         params = dict()
         params['modelId'] = model_id
@@ -1191,22 +1229,23 @@ class BioExplorer:
             user_parameters=list()):
         """
         Set a list of material on a specified list of models
-        @param model_ids: IDs of the models
-        @param material_ids: IDs of the materials
-        @param diffuse_colors: List of diffuse colors (3 values between 0 and 1)
-        @param specular_colors: List of specular colors (3 values between 0 and 1)
-        @param specular_exponents: List of diffuse exponents
-        @param opacities: List of opacities
-        @param reflection_indices: List of reflection indices (value between 0 and 1)
-        @param refraction_indices: List of refraction indices
-        @param glossinesses: List of glossinesses (value between 0 and 1)
-        @param shading_modes: List of shading modes (SHADING_MODE_NONE, SHADING_MODE_BASIC,
+
+        :param: model_ids: IDs of the models
+        :param: material_ids: IDs of the materials
+        :param: diffuse_colors: List of diffuse colors (3 values between 0 and 1)
+        :param: specular_colors: List of specular colors (3 values between 0 and 1)
+        :param: specular_exponents: List of diffuse exponents
+        :param: opacities: List of opacities
+        :param: reflection_indices: List of reflection indices (value between 0 and 1)
+        :param: refraction_indices: List of refraction indices
+        :param: glossinesses: List of glossinesses (value between 0 and 1)
+        :param: shading_modes: List of shading modes (SHADING_MODE_NONE, SHADING_MODE_BASIC,
                               SHADING_MODE_DIFFUSE, SHADING_MODE_ELECTRON, SHADING_MODE_CARTOON,
                               SHADING_MODE_ELECTRON_TRANSPARENCY, SHADING_MODE_PERLIN or
                               SHADING_MODE_DIFFUSE_TRANSPARENCY)
-        @param emissions: List of light emission intensities
-        @param user_parameters: List of convenience parameter used by some of the shaders
-        @return: Result of the request submission
+        :param: emissions: List of light emission intensities
+        :param: user_parameters: List of convenience parameter used by some of the shaders
+        :return: Result of the request submission
         """
         if self._client is None:
             return
@@ -1244,17 +1283,18 @@ class BioExplorer:
             refraction_index=1.0):
         """
         Applies a palette of colors and attributes to specified materials
-        @param model_ids: Ids of the models
-        @param material_ids: Ids of the materials
-        @param palette: Palette of RGB colors
-        @param shading_mode: Shading mode (None, basic, diffuse, etc)
-        @param specular_exponent: Specular exponent for diffuse materials
-        @param user_parameter: User parameter specific to each shading mode
-        @param glossiness: Material glossiness
-        @param emission: Light emission
-        @param opacity: Opacity
-        @param reflection_index: Reflection index
-        @param refraction_index: Refraction index
+
+        :param: model_ids: Ids of the models
+        :param: material_ids: Ids of the materials
+        :param: palette: Palette of RGB colors
+        :param: shading_mode: Shading mode (None, basic, diffuse, etc)
+        :param: specular_exponent: Specular exponent for diffuse materials
+        :param: user_parameter: User parameter specific to each shading mode
+        :param: glossiness: Material glossiness
+        :param: emission: Light emission
+        :param: opacity: Opacity
+        :param: reflection_index: Reflection index
+        :param: refraction_index: Refraction index
         """
         colors = list()
         shading_modes = list()
@@ -1286,10 +1326,11 @@ class BioExplorer:
             self, shading_mode, user_parameter=3.0, specular_exponent=5.0, glossiness=1.0):
         """
         Apply a default color scheme to all components in the scene
-        @param shading_mode: Shading mode (None, basic, diffuse, electron, etc)
-        @param user_parameter: User parameter specific to each shading mode
-        @param specular_exponent: Specular exponent for diffuse shading modes
-        @param glossiness: Glossiness
+
+        :param: shading_mode: Shading mode (None, basic, diffuse, electron, etc)
+        :param: user_parameter: User parameter specific to each shading mode
+        :param: specular_exponent: Specular exponent for diffuse shading modes
+        :param: glossiness: Glossiness
         """
         from ipywidgets import IntProgress
         from IPython.display import display
@@ -1410,9 +1451,10 @@ class BioExplorer:
     def build_fields(self, voxel_size):
         """
         Build fields acceleration structures and creates according data handler
-        @param voxel_size: Voxel size
-        @param filename: Octree filename
-        @return: Result of the request submission
+
+        :param: voxel_size: Voxel size
+        :param: filename: Octree filename
+        :return: Result of the request submission
         """
         if self._client is None:
             return
@@ -1425,8 +1467,9 @@ class BioExplorer:
     def import_fields_from_file(self, filename):
         """
         Imports fields acceleration structures from file
-        @param filename: Octree filename
-        @return: Result of the request submission
+
+        :param: filename: Octree filename
+        :return: Result of the request submission
         """
         if self._client is None:
             return
@@ -1440,9 +1483,10 @@ class BioExplorer:
     def export_fields_to_file(self, model_id, filename):
         """
         Exports fields acceleration structures to file
-        @param model_id: id of the model containing the fields
-        @param filename: Octree filename
-        @return: Result of the request submission
+
+        :param: model_id: id of the model containing the fields
+        :param: filename: Octree filename
+        :return: Result of the request submission
         """
         assert isinstance(model_id, int)
         if self._client is None:
@@ -1459,15 +1503,16 @@ class BioExplorer:
             colored=True, position=Vector3()):
         """
         Add a reference grid to the scene
-        @param min_value: Minimum value for all axis
-        @param max_value: Maximum value for all axis
-        @param interval: Interval at which lines should appear on the grid
-        @param radius: Radius of grid lines
-        @param opacity: Opacity of the grid
-        @param show_axis: Shows axis if True
-        @param colored: Colors the grid it True. X in red, Y in green, Z in blue
-        @param position: Position of the grid
-        @return: Result of the request submission
+
+        :param: min_value: Minimum value for all axis
+        :param: max_value: Maximum value for all axis
+        :param: interval: Interval at which lines should appear on the grid
+        :param: radius: Radius of grid lines
+        :param: opacity: Opacity of the grid
+        :param: show_axis: Shows axis if True
+        :param: colored: Colors the grid it True. X in red, Y in green, Z in blue
+        :param: position: Position of the grid
+        :return: Result of the request submission
         """
         if self._client is None:
             return
@@ -1489,7 +1534,7 @@ class BioExplorer:
 
 
 class AssemblyProtein:
-    """An AssemblyMesh is a Protein that belongs to an assembly"""
+    """An AssemblyProtein is a Protein that belongs to an assembly"""
 
     def __init__(self, assembly_name, name, source, assembly_params=Vector2(),
                  shape=BioExplorer.ASSEMBLY_SHAPE_PLANAR, atom_radius_multiplier=1.0,
@@ -1500,6 +1545,31 @@ class AssemblyProtein:
                  position_randomization_type=BioExplorer.POSITION_RANDOMIZATION_TYPE_CIRCULAR,
                  position=Vector3(), orientation=Quaternion(),
                  allowed_occurrences=list()):
+        """
+        An AssemblyProtein is a protein that belongs to an assembly
+
+        :param: assembly_name: Name of the assembly
+        :param: name: Name of the protein
+        :param: sources: Full paths to the PDB files for the various protein conformations
+        :param: assembly_params: Assembly parameters (Virus radius and maximum range for random
+                                positions of membrane components)
+        :param: shape: Shape of the membrane (Spherical, planar, sinusoidal, cubic, etc)
+        :param: atom_radius_multiplier: Multiplier applied to atom radius
+        :param: load_bonds: Loads bonds if True
+        :param: representation: Representation of the protein (Atoms, atoms and sticks, etc)
+        :param: load_non_polymer_chemicals: Loads non-polymer chemicals if True
+        :param: load_hydrogen: Loads hydrogens if True
+        :param: chain_ids: IDs of the protein chains to be loaded
+        :param: recenter: Centers the protein if True
+        :param: occurences: Number of occurences to be added to the assembly
+        :param: random_seed: Seed for position randomization
+        :param: cutoff_angle: Angle for which membrane components should not be added
+        :param: position_randomization_type: Type of randomisation for the elements of the membrane
+        :param: position: Position of the mesh in the scene
+        :param: orientation: Orientation of the mesh in the scene
+        :param: allowed_occurrences: Indices of protein occurences in the assembly for
+                                    which proteins are added
+        """
         self.assembly_name = assembly_name
         self.name = name
         self.contents = ''.join(open(source).readlines())
@@ -1528,6 +1598,26 @@ class AssemblyMesh:
                  surface_fixed_offset=0, surface_variable_offset=0, atom_radius_multiplier=1.0,
                  representation=BioExplorer.REPRESENTATION_ATOMS, random_seed=0, position=Vector3(),
                  orientation=Quaternion(), scale=Vector3()):
+        """
+        An AssemblyMesh is a mesh that belongs to an assembly
+
+        :param: assembly_name: Name of the assembly
+        :param: name: Name of the mesh
+        :param: mesh_source: Full paths to the mesh file defining the membrane shape
+        :param: protein_source: Full paths to the PDB file defining the protein
+        :param: recenter: Centers the protein if True
+        :param: density: Density of proteins in surface of the mesh
+        :param: surface_fixed_offset: Fixed offset for the position of the protein above the
+                                      surface of the mesh
+        :param: surface_variable_offset: Variable (randomized) offset for the position of the
+                                         protein above the surface of the mesh
+        :param: atom_radius_multiplier: Multiplier applied to atom radius
+        :param: representation: Representation of the protein (Atoms, atoms and sticks, etc)
+        :param: random_seed: Seed for randomization of the variable offset
+        :param: position: Position of the mesh in the scene
+        :param: orientation: Orientation of the mesh in the scene
+        :param: scale: Scale of the mesh in the scene
+        """
         assert isinstance(position, Vector3)
         assert isinstance(orientation, Quaternion)
         assert isinstance(scale, Vector3)
@@ -1556,22 +1646,22 @@ class Membrane:
     def __init__(
             self, sources, atom_radius_multiplier=1.0, load_bonds=False,
             representation=BioExplorer.REPRESENTATION_ATOMS, load_non_polymer_chemicals=False,
-            chain_ids=list(), recenter=True, number_of_instances=1, location_cutoff_angle=0.0,
+            chain_ids=list(), recenter=True, occurences=1, location_cutoff_angle=0.0,
             position=Vector3(), orientation=Quaternion()):
         """
         A membrane is an assembly of proteins with a given size and shape
 
-        @param sources: Full paths of the PDB files containing the building blocks of the membrane
-        @param atom_radius_multiplier: Multiplies atom radius by the specified value
-        @param load_bonds: Defines if bonds should be loaded
-        @param representation: Representation of the protein (Atoms, atoms and sticks, etc)
-        @param load_non_polymer_chemicals: Defines if non-polymer chemical should be loaded
-        @param chain_ids: IDs of the protein chains to be loaded
-        @param recenter: Defines if proteins should be centered when loaded from PDB files
-        @param number_of_instances: Number of instances of proteins defining the membrane
-        @param location_cutoff_angle:
-        @param position: Position of the membrane in the assembly
-        @param orientation: Orientation of the membrane in the assembly
+        :param: sources: Full paths of the PDB files containing the building blocks of the membrane
+        :param: atom_radius_multiplier: Multiplies atom radius by the specified value
+        :param: load_bonds: Defines if bonds should be loaded
+        :param: representation: Representation of the protein (Atoms, atoms and sticks, etc)
+        :param: load_non_polymer_chemicals: Defines if non-polymer chemical should be loaded
+        :param: chain_ids: IDs of the protein chains to be loaded
+        :param: recenter: Defines if proteins should be centered when loaded from PDB files
+        :param: occurences: Number of occurences of proteins defining the membrane
+        :param: location_cutoff_angle:
+        :param: position: Position of the membrane in the assembly
+        :param: orientation: Orientation of the membrane in the assembly
         """
         self.sources = sources
         self.atom_radius_multiplier = atom_radius_multiplier
@@ -1580,7 +1670,7 @@ class Membrane:
         self.representation = representation
         self.chain_ids = chain_ids
         self.recenter = recenter
-        self.number_of_instances = number_of_instances
+        self.occurences = occurences
         self.location_cutoff_angle = location_cutoff_angle
         self.position = position
         self.orientation = orientation
@@ -1596,19 +1686,20 @@ class Sugars:
             orientation=Quaternion()):
         """
         Sugar descriptor
-        @param assembly_name: Name of the assembly in the scene
-        @param name: Name of sugar in the scene
-        @param source: Full path to the PDB file
-        @param protein_name: Name of the protein to which sugars are added
-        @param atom_radius_multiplier: Multiplier for the size of the atoms
-        @param load_bonds: Defines if bonds should be loaded
-        @param representation: Representation of the protein (Atoms, atoms and sticks, etc)
-        @param recenter: Centers the protein if True
-        @param chain_ids: Ids of chains to be loaded
-        @param site_indices: Indices on which sugars should be added on the protein
-        @param allowed_occurrences: Indices of protein instances in the assembly for which sugars
+
+        :param: assembly_name: Name of the assembly in the scene
+        :param: name: Name of sugar in the scene
+        :param: source: Full path to the PDB file
+        :param: protein_name: Name of the protein to which sugars are added
+        :param: atom_radius_multiplier: Multiplier for the size of the atoms
+        :param: load_bonds: Defines if bonds should be loaded
+        :param: representation: Representation of the protein (Atoms, atoms and sticks, etc)
+        :param: recenter: Centers the protein if True
+        :param: chain_ids: Ids of chains to be loaded
+        :param: site_indices: Indices on which sugars should be added on the protein
+        :param: allowed_occurrences: Indices of protein occurences in the assembly for which sugars
                                     are added
-        @param orientation: Orientation of the sugar on the protein
+        :param: orientation: Orientation of the sugar on the protein
         """
         assert isinstance(chain_ids, list)
         assert isinstance(site_indices, list)
@@ -1635,12 +1726,13 @@ class RNASequence:
             self, source, shape, assembly_params, t_range=Vector2(), shape_params=Vector3()):
         """
         RNA sequence descriptor
-        @param source: Full path of the file containing the RNA sequence
-        @param shape: Shape of the sequence (Trefoil knot, torus, star, spring, heart, Moebiusknot,
+
+        :param: source: Full path of the file containing the RNA sequence
+        :param: shape: Shape of the sequence (Trefoil knot, torus, star, spring, heart, Moebiusknot,
                       etc)
-        @param assembly_params: Assembly parameters (radius, etc.)
-        @param t_range: Range of values used to enroll the RNA thread
-        @param shape_params: Shape parameters
+        :param: assembly_params: Assembly parameters (radius, etc.)
+        :param: t_range: Range of values used to enroll the RNA thread
+        :param: shape_params: Shape parameters
         """
         assert isinstance(t_range, Vector2)
         assert isinstance(shape_params, Vector3)
@@ -1658,10 +1750,11 @@ class Surfactant:
     def __init__(self, name, surfactant_protein, head_source, branch_source):
         """
         Surfactant descriptor
-        @param name: Name of the surfactant in the scene
-        @param surfactant_protein: Type of surfactant (A, D, etc.)
-        @param head_source: Full path to the PDB file for the head of the surfactant
-        @param branch_source: Full path to the PDB file for the branch of the surfactant
+
+        :param: name: Name of the surfactant in the scene
+        :param: surfactant_protein: Type of surfactant (A, D, etc.)
+        :param: head_source: Full path to the PDB file for the head of the surfactant
+        :param: branch_source: Full path to the PDB file for the branch of the surfactant
         """
         self.surfactant_protein = surfactant_protein
         self.name = name
@@ -1675,11 +1768,12 @@ class Cell:
     def __init__(self, name, size, shape, membrane, receptor):
         """
         Cell descriptor
-        @param name: Name of the cell in the scene
-        @param size: Size of the cell in the scene
-        @param shape: Shape of the membrane (Spherical, planar, sinusoidal, cubic, etc)
-        @param membrane: Membrane descriptor
-        @param receptor: Receptor descriptor
+
+        :param: name: Name of the cell in the scene
+        :param: size: Size of the cell in the scene
+        :param: shape: Shape of the membrane (Spherical, planar, sinusoidal, cubic, etc)
+        :param: membrane: Membrane descriptor
+        :param: receptor: Receptor descriptor
         """
         assert isinstance(size, Vector2)
         assert isinstance(membrane, Membrane)
@@ -1697,9 +1791,10 @@ class Volume:
     def __init__(self, name, size, protein):
         """
         Volume description
-        @param name: Name of the volume in the scene
-        @param size: Size of the volume in the scene (in nanometers)
-        @param protein: Protein descriptor
+
+        :param: name: Name of the volume in the scene
+        :param: size: Size of the volume in the scene (in nanometers)
+        :param: protein: Protein descriptor
         """
         assert isinstance(size, Vector2)
         assert isinstance(protein, Protein)
@@ -1712,23 +1807,24 @@ class Volume:
 class Protein:
     """A Protein holds the 3D structure of a protein as well as it Amino Acid sequences"""
 
-    def __init__(self, sources, number_of_instances=1, assembly_params=Vector2(),
+    def __init__(self, sources, occurences=1, assembly_params=Vector2(),
                  load_bonds=False, load_hydrogen=False,
                  load_non_polymer_chemicals=False, cutoff_angle=0.0, position=Vector3(),
                  orientation=Quaternion(), instance_indices=list()):
         """
         Protein descriptor
-        @param sources: Full paths to the PDB files for the various conformations
-        @param number_of_instances: Number of instances to be added to the assembly
-        @param assembly_params: Assembly parameters (Virus radius and maximum range for random
+
+        :param: sources: Full paths to the PDB files for the various conformations
+        :param: occurences: Number of occurences to be added to the assembly
+        :param: assembly_params: Assembly parameters (Virus radius and maximum range for random
                                 positions of membrane components)
-        @param load_bonds: Loads bonds if True
-        @param load_hydrogen: Loads hydrogens if True
-        @param load_non_polymer_chemicals: Loads non-polymer chemicals if True
-        @param cutoff_angle: Angle for which membrane components should not be added
-        @param position: Position of the mesh in the scene
-        @param orientation: Orientation of the mesh in the scene
-        @param instance_indices: Specific indices for which an instance is added to the assembly
+        :param: load_bonds: Loads bonds if True
+        :param: load_hydrogen: Loads hydrogens if True
+        :param: load_non_polymer_chemicals: Loads non-polymer chemicals if True
+        :param: cutoff_angle: Angle for which membrane components should not be added
+        :param: position: Position of the mesh in the scene
+        :param: orientation: Orientation of the mesh in the scene
+        :param: instance_indices: Specific indices for which an instance is added to the assembly
         """
         assert isinstance(sources, list)
         assert sources
@@ -1736,7 +1832,7 @@ class Protein:
         assert isinstance(orientation, Quaternion)
         assert isinstance(instance_indices, list)
         self.sources = sources
-        self.number_of_instances = number_of_instances
+        self.occurences = occurences
         self.assembly_params = assembly_params
         self.load_bonds = load_bonds
         self.load_hydrogen = load_hydrogen
@@ -1757,19 +1853,21 @@ class Mesh:
             position=Vector3(), orientation=Quaternion(), scale=Vector3()):
         """
         Mesh descriptor
-        @param mesh_source: Full path to the OBJ file
-        @param protein_source: Full path to the PDB file
-        @param density: Density of proteins on the surface of the mesh
-        @param surface_fixed_offset: Fixed offset of the protein position at the surface of the mesh
-        @param surface_variable_offset: Random ranged offset of the protein position at the surface
-                                        of the mesh
-        @param atom_radius_multiplier: Multiplies atom radius by the specified value
-        @param representation: Representation of the protein (Atoms, atoms and sticks, etc)
-        @param random_seed: Rand seed for surface_variable_offset parameter
-        @param recenter: Centers the protein if True
-        @param position: Position of the mesh in the scene
-        @param orientation: Orientation of the mesh in the scene
-        @param scale: Scale of the mesh in the scene
+
+        :param: mesh_source: Full path to the OBJ file
+        :param: protein_source: Full path to the PDB file
+        :param: density: Density of proteins on the surface of the mesh
+        :param: surface_fixed_offset: Fixed offset of the protein position at the surface of the
+                                      mesh
+        :param: surface_variable_offset: Random ranged offset of the protein position at the
+                                         surface of the mesh
+        :param: atom_radius_multiplier: Multiplies atom radius by the specified value
+        :param: representation: Representation of the protein (Atoms, atoms and sticks, etc)
+        :param: random_seed: Rand seed for surface_variable_offset parameter
+        :param: recenter: Centers the protein if True
+        :param: position: Position of the mesh in the scene
+        :param: orientation: Orientation of the mesh in the scene
+        :param: scale: Scale of the mesh in the scene
         """
         assert isinstance(position, Vector3)
         assert isinstance(orientation, Quaternion)
@@ -1796,14 +1894,15 @@ class Virus:
             membrane=None, rna_sequence=None):
         """
         Virus descriptor
-        @param name: Name of the virus in the scene
-        @param assembly_params: Assembly parameters (Virus radius and maximum range for random
+
+        :param: name: Name of the virus in the scene
+        :param: assembly_params: Assembly parameters (Virus radius and maximum range for random
                                 positions of membrane components)
-        @param protein_s: Protein S descriptor
-        @param protein_e: Protein E descriptor
-        @param protein_m: Protein M descriptor
-        @param membrane: Membrane descriptor
-        @param rna_sequence: RNA descriptor
+        :param: protein_s: Protein S descriptor
+        :param: protein_e: Protein E descriptor
+        :param: protein_m: Protein M descriptor
+        :param: membrane: Membrane descriptor
+        :param: rna_sequence: RNA descriptor
         """
         assert isinstance(assembly_params, Vector2)
         if protein_s is not None:
