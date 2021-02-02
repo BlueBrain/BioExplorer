@@ -13,48 +13,48 @@ ARG DIST_PATH=/app/dist
 
 # Install packages
 RUN apt-get update \
- && apt-get -y --no-install-recommends install \
-    build-essential \
-    cmake \
-    git \
-    ninja-build \
-    libarchive-dev \
-    libassimp-dev \
-    libboost-date-time-dev \
-    libboost-filesystem-dev \
-    libboost-iostreams-dev \
-    libboost-program-options-dev \
-    libboost-regex-dev \
-    libboost-serialization-dev \
-    libboost-system-dev \
-    libboost-test-dev \
-    libfreeimage-dev \
-    libhdf5-serial-dev \
-    libtbb-dev \
-    libturbojpeg0-dev \
-    libuv1-dev \
-    pkg-config \
-    wget \
-    ca-certificates \
-    libcgal-dev \
- && apt-get clean \
- && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
+   && apt-get -y --no-install-recommends install \
+   build-essential \
+   cmake \
+   git \
+   ninja-build \
+   libarchive-dev \
+   libassimp-dev \
+   libboost-date-time-dev \
+   libboost-filesystem-dev \
+   libboost-iostreams-dev \
+   libboost-program-options-dev \
+   libboost-regex-dev \
+   libboost-serialization-dev \
+   libboost-system-dev \
+   libboost-test-dev \
+   libfreeimage-dev \
+   libhdf5-serial-dev \
+   libtbb-dev \
+   libturbojpeg0-dev \
+   libuv1-dev \
+   pkg-config \
+   wget \
+   ca-certificates \
+   libcgal-dev \
+   && apt-get clean \
+   && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
 # --------------------------------------------------------------------------------
 # Get ISPC
-# https://ispc.github.io/downloads.html
+# https://github.com/ispc/ispc/releases/download/v1.10.0/ispc-v1.10.0b-linux.tar.gz
 # --------------------------------------------------------------------------------
 ARG ISPC_VERSION=1.10.0
-ARG ISPC_DIR=ispc-v${ISPC_VERSION}-linux
+ARG ISPC_DIR=ispc-v${ISPC_VERSION}b-linux
 ARG ISPC_PATH=/app/$ISPC_DIR
 
 RUN mkdir -p ${ISPC_PATH} \
- && wget --no-verbose http://netix.dl.sourceforge.net/project/ispcmirror/v${ISPC_VERSION}/${ISPC_DIR}.tar.gz \
- && tar zxvf ${ISPC_DIR}.tar.gz -C ${ISPC_PATH} --strip-components=1 \
- && rm -rf ${ISPC_PATH}/${ISPC_DIR}/examples
+   && wget --no-verbose https://github.com/ispc/ispc/releases/download/v${ISPC_VERSION}/${ISPC_DIR}.tar.gz \
+   && tar zxvf ${ISPC_DIR}.tar.gz -C ${ISPC_PATH} --strip-components=1 \
+   && rm -rf ${ISPC_PATH}/${ISPC_DIR}/examples
 
 # Add ispc bin to the PATH
-ENV PATH $PATH:${ISPC_PATH}
+ENV PATH $PATH:${ISPC_PATH}/bin
 
 # --------------------------------------------------------------------------------
 # Install embree
@@ -63,9 +63,9 @@ ENV PATH $PATH:${ISPC_PATH}
 ARG EMBREE_VERSION=3.5.2
 ARG EMBREE_FILE=embree-${EMBREE_VERSION}.x86_64.linux.tar.gz
 RUN mkdir -p ${DIST_PATH} \
-  && wget --no-verbose https://github.com/embree/embree/releases/download/v${EMBREE_VERSION}/${EMBREE_FILE} \
-  && tar zxvf ${EMBREE_FILE} -C ${DIST_PATH} --strip-components=1 \
-  && rm -rf ${DIST_PATH}/bin ${DIST_PATH}/doc
+   && wget --no-verbose https://github.com/embree/embree/releases/download/v${EMBREE_VERSION}/${EMBREE_FILE} \
+   && tar zxvf ${EMBREE_FILE} -C ${DIST_PATH} --strip-components=1 \
+   && rm -rf ${DIST_PATH}/bin ${DIST_PATH}/doc
 
 # --------------------------------------------------------------------------------
 # Install OSPRay
@@ -75,16 +75,16 @@ ARG OSPRAY_TAG=v1.8.5
 ARG OSPRAY_SRC=/app/ospray
 
 RUN mkdir -p ${OSPRAY_SRC} \
- && git clone https://github.com/ospray/ospray.git ${OSPRAY_SRC} \
- && cd ${OSPRAY_SRC} \
- && git checkout ${OSPRAY_TAG} \
- && mkdir -p build \
- && cd build \
- && CMAKE_PREFIX_PATH=${DIST_PATH} cmake .. -GNinja \
-    -DOSPRAY_ENABLE_TUTORIALS=OFF \
-    -DOSPRAY_ENABLE_APPS=OFF \
-    -DCMAKE_INSTALL_PREFIX=${DIST_PATH} \
- && ninja install
+   && git clone https://github.com/ospray/ospray.git ${OSPRAY_SRC} \
+   && cd ${OSPRAY_SRC} \
+   && git checkout ${OSPRAY_TAG} \
+   && mkdir -p build \
+   && cd build \
+   && CMAKE_PREFIX_PATH=${DIST_PATH} cmake .. -GNinja \
+   -DOSPRAY_ENABLE_TUTORIALS=OFF \
+   -DOSPRAY_ENABLE_APPS=OFF \
+   -DCMAKE_INSTALL_PREFIX=${DIST_PATH} \
+   && ninja install
 
 # --------------------------------------------------------------------------------
 # Install libwebsockets (2.0 from Debian is not reliable)
@@ -95,22 +95,22 @@ ARG LWS_SRC=/app/libwebsockets
 ARG LWS_FILE=v${LWS_VERSION}.tar.gz
 
 RUN mkdir -p ${LWS_SRC} \
- && wget --no-verbose https://github.com/warmcat/libwebsockets/archive/${LWS_FILE} \
- && tar zxvf ${LWS_FILE} -C ${LWS_SRC} --strip-components=1 \
- && cd ${LWS_SRC} \
- && mkdir -p build \
- && cd build \
- && cmake .. -GNinja \
-    -DCMAKE_BUILD_TYPE=Release \
-    -DLWS_STATIC_PIC=ON \
-    -DLWS_WITH_SSL=OFF \
-    -DLWS_WITH_ZLIB=OFF \
-    -DLWS_WITH_ZIP_FOPS=OFF \
-    -DLWS_WITHOUT_EXTENSIONS=ON \
-    -DLWS_WITHOUT_TESTAPPS=ON \
-    -DLWS_WITH_LIBUV=ON \
-    -DCMAKE_INSTALL_PREFIX=${DIST_PATH} \
- && ninja install
+   && wget --no-verbose https://github.com/warmcat/libwebsockets/archive/${LWS_FILE} \
+   && tar zxvf ${LWS_FILE} -C ${LWS_SRC} --strip-components=1 \
+   && cd ${LWS_SRC} \
+   && mkdir -p build \
+   && cd build \
+   && cmake .. -GNinja \
+   -DCMAKE_BUILD_TYPE=Release \
+   -DLWS_STATIC_PIC=ON \
+   -DLWS_WITH_SSL=OFF \
+   -DLWS_WITH_ZLIB=OFF \
+   -DLWS_WITH_ZIP_FOPS=OFF \
+   -DLWS_WITHOUT_EXTENSIONS=ON \
+   -DLWS_WITHOUT_TESTAPPS=ON \
+   -DLWS_WITH_LIBUV=ON \
+   -DCMAKE_INSTALL_PREFIX=${DIST_PATH} \
+   && ninja install
 
 # --------------------------------------------------------------------------------
 # Install Brayns
@@ -119,38 +119,38 @@ RUN mkdir -p ${LWS_SRC} \
 ARG BRAYNS_SRC=/app/brayns
 
 RUN mkdir -p ${BRAYNS_SRC} \
-  && git clone https://github.com/favreau/Brayns ${BRAYNS_SRC}
+   && git clone https://github.com/favreau/Brayns ${BRAYNS_SRC}
 
 WORKDIR /app
 
 # TODO: "|| exit 0"  hack to be removed as soon as MVDTool export issue is fixed.
 RUN cksum ${BRAYNS_SRC}/.gitsubprojects \
- && cd ${BRAYNS_SRC} \
- && git submodule update --init --recursive \
- && mkdir -p build \
- && cd build \
- && CMAKE_PREFIX_PATH=${DIST_PATH}:${DIST_PATH}/lib/cmake/libwebsockets \
-    cmake .. -Wno-dev \
-    -DBRAYNS_BBIC_ENABLED=OFF \
-    -DBRAYNS_BENCHMARK_ENABLED=OFF \
-    -DBRAYNS_CIRCUITEXPLORER_ENABLED=OFF \
-    -DBRAYNS_CIRCUITRENDERER_ENABLED=OFF \
-    -DBRAYNS_CIRCUITINFO_ENABLED=OFF \
-    -DBRAYNS_CIRCUITVIEWER_ENABLED=OFF \
-    -DBRAYNS_DEFLECT_ENABLED=OFF \
-    -DBRAYNS_DTI_ENABLED=OFF \
-    -DBRAYNS_IBL_ENABLED=OFF \
-    -DBRAYNS_MULTIVIEW_ENABLED=OFF \
-    -DBRAYNS_OPENDECK_ENABLED=OFF \
-    -DBRAYNS_OPTIX_ENABLED=OFF \
-    -DBRAYNS_UNIT_TESTING_ENABLED=OFF \
-    -DBRAYNS_VIEWER_ENABLED=OFF \
-    -DBRAYNS_ASSIMP_ENABLED=ON \
-    -DBRAYNS_OSPRAY_ENABLED=ON \
-    -DBRAYNS_NETWORKING_ENABLED=ON \
-    -DCLONE_SUBPROJECTS=ON \
-    -DCMAKE_BUILD_TYPE=Release \
-    -DCMAKE_INSTALL_PREFIX=${DIST_PATH} || exit 0
+   && cd ${BRAYNS_SRC} \
+   && git submodule update --init --recursive \
+   && mkdir -p build \
+   && cd build \
+   && CMAKE_PREFIX_PATH=${DIST_PATH}:${DIST_PATH}/lib/cmake/libwebsockets \
+   cmake .. -Wno-dev \
+   -DBRAYNS_BBIC_ENABLED=OFF \
+   -DBRAYNS_BENCHMARK_ENABLED=OFF \
+   -DBRAYNS_CIRCUITEXPLORER_ENABLED=OFF \
+   -DBRAYNS_CIRCUITRENDERER_ENABLED=OFF \
+   -DBRAYNS_CIRCUITINFO_ENABLED=OFF \
+   -DBRAYNS_CIRCUITVIEWER_ENABLED=OFF \
+   -DBRAYNS_DEFLECT_ENABLED=OFF \
+   -DBRAYNS_DTI_ENABLED=OFF \
+   -DBRAYNS_IBL_ENABLED=OFF \
+   -DBRAYNS_MULTIVIEW_ENABLED=OFF \
+   -DBRAYNS_OPENDECK_ENABLED=OFF \
+   -DBRAYNS_OPTIX_ENABLED=OFF \
+   -DBRAYNS_UNIT_TESTING_ENABLED=OFF \
+   -DBRAYNS_VIEWER_ENABLED=OFF \
+   -DBRAYNS_ASSIMP_ENABLED=ON \
+   -DBRAYNS_OSPRAY_ENABLED=ON \
+   -DBRAYNS_NETWORKING_ENABLED=ON \
+   -DCLONE_SUBPROJECTS=ON \
+   -DCMAKE_BUILD_TYPE=Release \
+   -DCMAKE_INSTALL_PREFIX=${DIST_PATH} || exit 0
 
 RUN cd ${BRAYNS_SRC}/build && make -j install VERBOSE=1
 
@@ -160,14 +160,14 @@ RUN cd ${BRAYNS_SRC}/build && make -j install VERBOSE=1
 ARG MEDIAMAKER_SRC=/app/mediamaker
 
 RUN mkdir -p ${MEDIAMAKER_SRC} \
-  && git clone https://github.com/favreau/Brayns-UC-MediaMaker ${MEDIAMAKER_SRC}
+   && git clone https://github.com/favreau/Brayns-UC-MediaMaker ${MEDIAMAKER_SRC}
 
 WORKDIR /app
 
 RUN mkdir -p ${MEDIAMAKER_SRC}/build \
- && cd ${MEDIAMAKER_SRC}/build \
- && PATH=${ISPC_PATH}/bin:${PATH} CMAKE_PREFIX_PATH=${DIST_PATH} cmake .. \
-    -DCMAKE_INSTALL_PREFIX=${DIST_PATH}
+   && cd ${MEDIAMAKER_SRC}/build \
+   && PATH=${ISPC_PATH}/bin:${PATH} CMAKE_PREFIX_PATH=${DIST_PATH} cmake .. \
+   -DCMAKE_INSTALL_PREFIX=${DIST_PATH}
 
 RUN cd ${MEDIAMAKER_SRC}/build && make -j install VERBOSE=1
 
@@ -178,33 +178,33 @@ ARG BIOEXPLORER_SRC=/app/bioexplorer
 ADD . ${BIOEXPLORER_SRC}
 
 RUN mkdir -p ${BIOEXPLORER_SRC}/docker \
- && cd ${BIOEXPLORER_SRC}/docker \
- && PATH=${ISPC_PATH}/bin:${PATH} CMAKE_PREFIX_PATH=${DIST_PATH} LDFLAGS="-lCGAL" cmake .. \
-    -DCGAL_DO_NOT_WARN_ABOUT_CMAKE_BUILD_TYPE=TRUE -DCMAKE_INSTALL_PREFIX=${DIST_PATH} \
- && make -j install VERBOSE=1
+   && cd ${BIOEXPLORER_SRC}/docker \
+   && PATH=${ISPC_PATH}/bin:${PATH} CMAKE_PREFIX_PATH=${DIST_PATH} LDFLAGS="-lCGAL" cmake .. \
+   -DCGAL_DO_NOT_WARN_ABOUT_CMAKE_BUILD_TYPE=TRUE -DCMAKE_INSTALL_PREFIX=${DIST_PATH} \
+   && make -j install VERBOSE=1
 
 # Final image, containing only Brayns and BioExplorer and libraries required to run it
 FROM debian:buster-slim
 ARG DIST_PATH=/app/dist
 
 RUN apt-get update \
- && apt-get -y --no-install-recommends install \
-    libarchive13 \
-    libassimp4 \
-    libboost-filesystem1.67.0 \
-    libboost-program-options1.67.0 \
-    libboost-regex1.67.0 \
-    libboost-serialization1.67.0 \
-    libboost-system1.67.0 \
-    libboost-iostreams1.67.0 \
-    libfreeimage3 \
-    libgomp1 \
-    libhdf5-103 \
-    libturbojpeg0 \
-    libuv1 \
-    libcgal13 \
- && apt-get clean \
- && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
+   && apt-get -y --no-install-recommends install \
+   libarchive13 \
+   libassimp4 \
+   libboost-filesystem1.67.0 \
+   libboost-program-options1.67.0 \
+   libboost-regex1.67.0 \
+   libboost-serialization1.67.0 \
+   libboost-system1.67.0 \
+   libboost-iostreams1.67.0 \
+   libfreeimage3 \
+   libgomp1 \
+   libhdf5-103 \
+   libturbojpeg0 \
+   libuv1 \
+   libcgal13 \
+   && apt-get clean \
+   && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
 # The COPY command below will:
 # 1. create a container based on the `builder` image (but do not start it)
