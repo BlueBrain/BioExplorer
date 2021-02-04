@@ -1,4 +1,6 @@
 #!/usr/bin/env python
+"""Test mesh"""
+
 # -*- coding: utf-8 -*-
 
 # Copyright (c) 2020, EPFL/Blue Brain Project
@@ -22,7 +24,10 @@
 # 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 # All rights reserved. Do not distribute without further notice.
 
-from bioexplorer import BioExplorer, Mesh, Vector3, Quaternion
+from bioexplorer import BioExplorer, Mesh, Vector3
+
+# pylint: disable=no-member
+# pylint: disable=missing-function-docstring
 
 
 def test_mesh():
@@ -30,9 +35,9 @@ def test_mesh():
     pdb_folder = resource_folder + 'pdb/'
     obj_folder = resource_folder + 'obj/'
 
-    be = BioExplorer('localhost:5000')
-    be.reset()
-    print('BioExplorer version ' + be.version())
+    bio_explorer = BioExplorer('localhost:5000')
+    bio_explorer.reset()
+    print('BioExplorer version ' + bio_explorer.version())
 
     mesh_source = obj_folder + 'capsule.obj'
     scale = Vector3(50, 50, 50)
@@ -41,14 +46,14 @@ def test_mesh():
     protein_source = pdb_folder + 'membrane/popc.pdb'
     mesh = Mesh(mesh_source=mesh_source, protein_source=protein_source,
                 density=5.0, surface_variable_offset=2.0)
-    be.add_mesh('Mesh', mesh, scale=scale)
+    bio_explorer.add_mesh('Mesh', mesh, scale=scale)
 
     # Receptors
     protein_source = pdb_folder + '6m1d.pdb'
     mesh = Mesh(
         mesh_source=mesh_source, protein_source=protein_source,
         density=0.02, surface_fixed_offset=5.0)
-    be.add_mesh('Receptors', mesh, scale=scale)
+    bio_explorer.add_mesh('Receptors', mesh, scale=scale)
 
 
 if __name__ == '__main__':

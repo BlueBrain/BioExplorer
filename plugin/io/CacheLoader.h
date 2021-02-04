@@ -19,8 +19,7 @@
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
 
-#ifndef BIOEXPLORER_BIOEXPLORERLOADER_H
-#define BIOEXPLORER_BIOEXPLORERLOADER_H
+#pragma once
 
 #include <plugin/common/Types.h>
 
@@ -33,34 +32,98 @@ namespace bioexplorer
 using namespace brayns;
 
 /**
- * Load molecular systems
+ * Load molecular systems from an optimized binary representation of the 3D
+ * scene
  */
-class BioExplorerLoader : public Loader
+class CacheLoader : public Loader
 {
 public:
-    BioExplorerLoader(Scene& scene, PropertyMap&& loaderParams = {});
+    /**
+     * @brief Construct a new Bio Explorer Loader object
+     *
+     * @param scene Scene to which the file contents should be loaded
+     * @param loaderParams Loader parameters
+     */
+    CacheLoader(Scene& scene, PropertyMap&& loaderParams = {});
 
+    /**
+     * @brief Get the name of the loader
+     *
+     * @return A string containing the name of the loader
+     */
     std::string getName() const final;
 
+    /**
+     * @brief Get the list of extensions supported by loaded
+     *
+     * @return The list of extensions supported by loaded
+     */
     std::vector<std::string> getSupportedExtensions() const final;
 
+    /**
+     * @brief Returns whever a file extention is supported by the loader
+     *
+     * @param filename Name of the file
+     * @param extension Extension of the file
+     * @return true if the file extension is supported by the loader, false
+     * otherwise
+     */
     bool isSupported(const std::string& filename,
                      const std::string& extension) const final;
 
+    /**
+     * @brief Returns the list of loader command line arguments
+     *
+     * @return The list of loader command line arguments
+     */
     static PropertyMap getCLIProperties();
 
+    /**
+     * @brief Returns the list of loader properties
+     *
+     * @return The list of loader properties
+     */
     PropertyMap getProperties() const final;
 
+    /**
+     * @brief Imports a 3D scene from an in-memory blob storage
+     *
+     * @param blob In-memory blob storage
+     * @param callback Callback object providing the status of the loading
+     * process
+     * @param properties Loader properties
+     * @return A brayns model if loading is successfull
+     */
     ModelDescriptorPtr importFromBlob(
         Blob&& blob, const LoaderProgress& callback,
         const PropertyMap& properties) const final;
 
+    /**
+     * @brief Imports a 3D scene from file
+     *
+     * @param filename Full path of the file
+     * @param callback Callback object providing the status of the loading
+     * process
+     * @param properties Loader properties
+     * @return A brayns model if loading is successfull
+     */
     ModelDescriptorPtr importFromFile(
         const std::string& filename, const LoaderProgress& callback,
         const PropertyMap& properties) const final;
 
+    /**
+     * @brief Exports an optimized binary representation the 3D scene to a file
+     *
+     * @param filename Full path of the file
+     */
     void exportToCache(const std::string& filename) const;
 
+    /**
+     * @brief Exports atom information from the 3D scene to a file
+     *
+     * @param filename Full path of the file
+     * @param format File format to be used for the export
+     */
     void exportToXYZ(const std::string& filename,
                      const XYZFileFormat format) const;
 
@@ -73,4 +136,3 @@ private:
     PropertyMap _defaults;
 };
 } // namespace bioexplorer
-#endif // BIOEXPLORER_BIOEXPLORERLOADER_H

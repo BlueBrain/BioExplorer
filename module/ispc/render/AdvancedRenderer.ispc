@@ -1,6 +1,6 @@
-/* Copyright (c) 2020, EPFL/Blue Brain Project
+/* Copyright (c) 2020-2021, EPFL/Blue Brain Project
  * All rights reserved. Do not distribute without permission.
- * Responsible Author: Cyrille Favreau <cyrille.favreau@epfl.ch>
+ * Responsible Author: cyrille.favreau@epfl.ch
  *
  * This library is free software; you can redistribute it and/or modify it under
  * the terms of the GNU Lesser General Public License version 3.0 as published
@@ -18,7 +18,7 @@
 
 #include <plugin/common/CommonTypes.h>
 
-#include "BioExplorerRenderer.ih"
+#include "AdvancedRenderer.ih"
 #include "utils/BioExplorerSkyBox.ih"
 
 /**
@@ -65,7 +65,7 @@ inline vec3f refractedVector(const varying vec3f& direction,
 
 struct ShadingAttributes
 {
-    const uniform BioExplorerRenderer* uniform self;
+    const uniform AdvancedRenderer* uniform self;
     varying DifferentialGeometry* dg;
     vec4f bgColor;
     vec3f origin;
@@ -90,7 +90,7 @@ struct ShadingAttributes
 };
 
 inline bool launchRandomRay(
-    const uniform BioExplorerRenderer* uniform self,
+    const uniform AdvancedRenderer* uniform self,
     varying ScreenSample& sample, const varying vec3f& intersection,
     const varying vec3f& normal, DifferentialGeometry& geometry,
     varying vec3f& backgroundColor, varying float& distanceToIntersection,
@@ -123,7 +123,7 @@ inline bool launchRandomRay(
         // No intersection
         backgroundColor =
             make_vec3f(skyboxMapping((Renderer*)self, randomRay,
-                                     (BioExplorerMaterial*)self->bgMaterial));
+                                     (AdvancedMaterial*)self->bgMaterial));
         return false;
     }
 
@@ -136,7 +136,7 @@ inline bool launchRandomRay(
     return true;
 }
 
-inline void indirectShading(const uniform BioExplorerRenderer* uniform self,
+inline void indirectShading(const uniform AdvancedRenderer* uniform self,
                             varying ScreenSample& sample,
                             const varying vec3f& intersection,
                             const varying vec3f& normal,
@@ -164,8 +164,8 @@ inline void indirectShading(const uniform BioExplorerRenderer* uniform self,
         {
             // Determine material of intersected geometry
             const uniform Material* material = geometry.material;
-            const uniform BioExplorerMaterial* objMaterial =
-                (const uniform BioExplorerMaterial*)material;
+            const uniform AdvancedMaterial* objMaterial =
+                (const uniform AdvancedMaterial*)material;
             if (objMaterial)
                 foreach_unique(mat in objMaterial)
                 {
@@ -252,8 +252,8 @@ inline float shadedLightIntensity(varying ScreenSample& sample,
             postIntersect(attributes.self->super.model, shadowingGeometry,
                           shadowRay, DG_MATERIALID | DG_TEXCOORD | DG_COLOR);
 
-            uniform BioExplorerMaterial* objMaterial =
-                (uniform BioExplorerMaterial*)shadowingGeometry.material;
+            uniform AdvancedMaterial* objMaterial =
+                (uniform AdvancedMaterial*)shadowingGeometry.material;
 
             float opacity = 1.f;
 
@@ -292,7 +292,7 @@ inline float shadedLightIntensity(varying ScreenSample& sample,
 }
 
 inline void initializeShadingAttributes(
-    const uniform BioExplorerRenderer* uniform self,
+    const uniform AdvancedRenderer* uniform self,
     ShadingAttributes& attributes)
 {
     attributes.self = self;
@@ -333,7 +333,7 @@ inline void initializeShadingAttributes(
 }
 
 inline void setGeometryShadingAttributes(
-    const uniform BioExplorerRenderer* uniform self, DifferentialGeometry& dg,
+    const uniform AdvancedRenderer* uniform self, DifferentialGeometry& dg,
     varying ScreenSample& sample, const varying Ray& ray,
     ShadingAttributes& attributes)
 {
@@ -354,8 +354,8 @@ inline void setGeometryShadingAttributes(
 
     // Process material attributes
     const uniform Material* material = dg.material;
-    const uniform BioExplorerMaterial* objMaterial =
-        (const uniform BioExplorerMaterial*)material;
+    const uniform AdvancedMaterial* objMaterial =
+        (const uniform AdvancedMaterial*)material;
     if (!objMaterial)
     {
         // Diffuse color
@@ -455,7 +455,7 @@ inline void processBackgroundColor(varying ScreenSample& sample,
     // No intersection. Return skybox color
     attributes.bgColor =
         skyboxMapping((Renderer*)attributes.self, ray,
-                      (BioExplorerMaterial*)attributes.self->bgMaterial);
+                      (AdvancedMaterial*)attributes.self->bgMaterial);
     attributes.shadingContribution = make_vec3f(attributes.bgColor);
 }
 
@@ -665,8 +665,8 @@ inline void processFinalContribution(ShadingAttributes& attributes)
         clamp(totalContributions, make_vec3f(0.f), make_vec3f(1.f));
 }
 
-inline vec3f BioExplorerRenderer_shadeRay(
-    const uniform BioExplorerRenderer* uniform self,
+inline vec3f AdvancedRenderer_shadeRay(
+    const uniform AdvancedRenderer* uniform self,
     varying ScreenSample& sample)
 {
     Ray ray = sample.ray;
@@ -795,27 +795,27 @@ inline vec3f BioExplorerRenderer_shadeRay(
     return make_vec3f(finalColor * self->exposure);
 }
 
-void BioExplorerRenderer_renderSample(uniform Renderer* uniform _self,
+void AdvancedRenderer_renderSample(uniform Renderer* uniform _self,
                                       void* uniform perFrameData,
                                       varying ScreenSample& sample)
 {
-    uniform BioExplorerRenderer* uniform self =
-        (uniform BioExplorerRenderer * uniform) _self;
+    uniform AdvancedRenderer* uniform self =
+        (uniform AdvancedRenderer * uniform) _self;
     sample.ray.time = inf;
-    sample.rgb = BioExplorerRenderer_shadeRay(self, sample);
+    sample.rgb = AdvancedRenderer_shadeRay(self, sample);
 }
 
 // Exports (called from C++)
-export void* uniform BioExplorerRenderer_create(void* uniform cppE)
+export void* uniform AdvancedRenderer_create(void* uniform cppE)
 {
-    uniform BioExplorerRenderer* uniform self =
-        uniform new uniform BioExplorerRenderer;
+    uniform AdvancedRenderer* uniform self =
+        uniform new uniform AdvancedRenderer;
     Renderer_Constructor(&self->super, cppE);
-    self->super.renderSample = BioExplorerRenderer_renderSample;
+    self->super.renderSample = AdvancedRenderer_renderSample;
     return self;
 }
 
-export void BioExplorerRenderer_set(
+export void AdvancedRenderer_set(
     void* uniform _self, void* uniform bgMaterial, const uniform float shadows,
     const uniform float softShadows, const uniform uint32 softShadowsSamples,
     const uniform float giStrength, const uniform float giDistance,
@@ -826,8 +826,8 @@ export void BioExplorerRenderer_set(
     const uniform float fogStart, const uniform bool useHardwareRandomizer,
     const uniform uint32 maxBounces, const uniform bool showBackground)
 {
-    uniform BioExplorerRenderer* uniform self =
-        (uniform BioExplorerRenderer * uniform) _self;
+    uniform AdvancedRenderer* uniform self =
+        (uniform AdvancedRenderer * uniform) _self;
 
     // OSPRay
     self->super.spp = spp;
@@ -836,7 +836,7 @@ export void BioExplorerRenderer_set(
     self->numLights = numLights;
 
     // Bio explorer
-    self->bgMaterial = (uniform BioExplorerMaterial * uniform) bgMaterial;
+    self->bgMaterial = (uniform AdvancedMaterial * uniform) bgMaterial;
 
     self->timestamp = timestamp;
     self->exposure = exposure;

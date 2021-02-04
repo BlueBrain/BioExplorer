@@ -1,6 +1,6 @@
-/* Copyright (c) 2020, EPFL/Blue Brain Project
+/* Copyright (c) 2020-2021, EPFL/Blue Brain Project
  * All rights reserved. Do not distribute without permission.
- * Responsible Author: Cyrille Favreau <cyrille.favreau@epfl.ch>
+ * Responsible Author: cyrille.favreau@epfl.ch
  *
  * This library is free software; you can redistribute it and/or modify it under
  * the terms of the GNU Lesser General Public License version 3.0 as published
@@ -16,17 +16,17 @@
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
 
-#include "BioExplorerMaterial.ih"
+#include "AdvancedMaterial.ih"
 
-export void* uniform BioExplorerMaterial_create(void* uniform cppE)
+export void* uniform AdvancedMaterial_create(void* uniform cppE)
 {
-    uniform BioExplorerMaterial* uniform mat =
-        uniform new uniform BioExplorerMaterial;
+    uniform AdvancedMaterial* uniform mat =
+        uniform new uniform AdvancedMaterial;
     mat->super.cppEquivalent = cppE;
     return mat;
 }
 
-export void BioExplorerMaterial_set(
+export void AdvancedMaterial_set(
     void* uniform _mat, const void* uniform map_d,
     const uniform affine2f& xform_d, const uniform float& d,
     const void* uniform map_refraction,
@@ -44,8 +44,8 @@ export void BioExplorerMaterial_set(
     const uniform MaterialShadingMode& shadingMode,
     const uniform float& userParameter)
 {
-    uniform BioExplorerMaterial* uniform self =
-        (uniform BioExplorerMaterial * uniform) _mat;
+    uniform AdvancedMaterial* uniform self =
+        (uniform AdvancedMaterial * uniform) _mat;
 
     self->map_d = make_TextureParam((Texture2D*)map_d, xform_d);
     self->d = d;

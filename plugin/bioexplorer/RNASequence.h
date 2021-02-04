@@ -1,6 +1,6 @@
-/* Copyright (c) 2020, EPFL/Blue Brain Project
+/* Copyright (c) 2020-2021, EPFL/Blue Brain Project
  * All rights reserved. Do not distribute without permission.
- * Responsible Author: Cyrille Favreau <cyrille.favreau@epfl.ch>
+ * Responsible Author: cyrille.favreau@epfl.ch
  *
  * This library is free software; you can redistribute it and/or modify it under
  * the terms of the GNU Lesser General Public License version 3.0 as published
@@ -16,8 +16,7 @@
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
 
-#ifndef BIOEXPLORER_RNASEQUENCE_H
-#define BIOEXPLORER_RNASEQUENCE_H
+#pragma once
 
 #include <brayns/engineapi/Model.h>
 #include <plugin/bioexplorer/Node.h>
@@ -27,16 +26,33 @@ namespace bioexplorer
 {
 typedef std::map<std::string, std::string> RNASequenceMap;
 
+/**
+ * @brief The RNASequence class
+ */
 class RNASequence : public Node
 {
 public:
-    RNASequence(Scene& scene, const RNASequenceDescriptor& rnaDescriptor,
-                const Vector2f& range, const Vector3f& params,
-                const Vector3f& position);
+    /**
+     * @brief Construct a new RNASequence object
+     *
+     * @param scene Scene to which the RNA sequence should be added
+     * @param rnaDescriptor Description of the RNA sequence
+     * @param position Relative position of the RNA sequence in the assembly
+     */
+    RNASequence(Scene& scene, const RNASequenceDescriptor& rnaDescriptor);
 
-    // Class member accessors
+    /**
+     * @brief Get the map of RNA sequences
+     *
+     * @return The map of RNA sequences
+     */
     RNASequenceMap getRNASequences() { return _rnaSequenceMap; }
 
+    /**
+     * @brief Get the Model Descriptor
+     *
+     * @return The model Descriptor
+     */
     ModelDescriptorPtr getModelDescriptor() { return _modelDescriptor; }
 
 private:
@@ -48,9 +64,6 @@ private:
     Vector3f _thing(float R, float t, const Vector3f& a);
     Vector3f _moebius(float R, float u, float v);
 
-    ModelDescriptorPtr _modelDescriptor{nullptr};
-
     RNASequenceMap _rnaSequenceMap;
 };
 } // namespace bioexplorer
-#endif // BIOEXPLORER_RNASEQUENCE_H

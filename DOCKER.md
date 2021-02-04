@@ -1,23 +1,17 @@
-# Blue Brain BioExplorer with Docker
+# Docker
 
 > Use [Docker](https://docs.docker.com) to run Blue Brain BioExplorer as a service and avoid painful tooling setup.
 
-
-### Prerequisites
------------------
+## Prerequisites
 Head over to [Docker](https://docs.docker.com/engine/installation/#supported-platforms) and install Docker for your own platform.
 
-
-### Setup
----------
+## Setup
 First build the image (*it's necessary to do this step if you want to run Brayns*):
 ```bash
 docker build . -t bioexplorer
 ```
 
-
-### Usage
----------
+## Usage
 By default, the entrypoint when running the image is `braynsService`, but if you want to ssh into the container use:
 ```bash
 # `-p 5000:5000` is used only to provide some port bindings (host:container) if you want to run and access Brayns from your host while in the container

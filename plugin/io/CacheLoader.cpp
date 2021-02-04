@@ -21,7 +21,7 @@
 
 #include <plugin/common/Logs.h>
 
-#include "BioExplorerLoader.h"
+#include "CacheLoader.h"
 
 #include <plugin/api/Params.h>
 #include <plugin/bioexplorer/Assembly.h>
@@ -40,36 +40,36 @@
 
 namespace bioexplorer
 {
-const std::string LOADER_NAME = "Bio Explorer loader";
+const std::string LOADER_NAME = "Bio Explorer cache loader";
 const std::string SUPPORTED_EXTENTION_BIOEXPLORER = "bioexplorer";
 
 const size_t CACHE_VERSION_1 = 1;
 
-BioExplorerLoader::BioExplorerLoader(Scene& scene, PropertyMap&& loaderParams)
+CacheLoader::CacheLoader(Scene& scene, PropertyMap&& loaderParams)
     : Loader(scene)
     , _defaults(loaderParams)
 {
     PLUGIN_INFO << "Registering " << LOADER_NAME << std::endl;
 }
 
-std::string BioExplorerLoader::getName() const
+std::string CacheLoader::getName() const
 {
     return LOADER_NAME;
 }
 
-std::vector<std::string> BioExplorerLoader::getSupportedExtensions() const
+std::vector<std::string> CacheLoader::getSupportedExtensions() const
 {
     return {SUPPORTED_EXTENTION_BIOEXPLORER};
 }
 
-bool BioExplorerLoader::isSupported(const std::string& /*filename*/,
-                                    const std::string& extension) const
+bool CacheLoader::isSupported(const std::string& /*filename*/,
+                              const std::string& extension) const
 {
     const std::set<std::string> types = {SUPPORTED_EXTENTION_BIOEXPLORER};
     return types.find(extension) != types.end();
 }
 
-ModelDescriptorPtr BioExplorerLoader::importFromBlob(
+ModelDescriptorPtr CacheLoader::importFromBlob(
     Blob&& /*blob*/, const LoaderProgress& /*callback*/,
     const PropertyMap& /*properties*/) const
 {
@@ -77,7 +77,7 @@ ModelDescriptorPtr BioExplorerLoader::importFromBlob(
         "Loading molecular systems from blob is not supported");
 }
 
-void BioExplorerLoader::_importModel(std::ifstream& file) const
+void CacheLoader::_importModel(std::ifstream& file) const
 {
     auto model = _scene.createModel();
 
@@ -344,7 +344,7 @@ void BioExplorerLoader::_importModel(std::ifstream& file) const
     _scene.addModel(modelDescriptor);
 }
 
-ModelDescriptorPtr BioExplorerLoader::importFromFile(
+ModelDescriptorPtr CacheLoader::importFromFile(
     const std::string& filename, const LoaderProgress& callback,
     const PropertyMap& properties) const
 {
@@ -380,7 +380,7 @@ ModelDescriptorPtr BioExplorerLoader::importFromFile(
     return _scene.getModelDescriptors()[0];
 }
 
-std::string BioExplorerLoader::_readString(std::ifstream& f) const
+std::string CacheLoader::_readString(std::ifstream& f) const
 {
     size_t size;
     f.read((char*)&size, sizeof(size_t));
@@ -392,8 +392,8 @@ std::string BioExplorerLoader::_readString(std::ifstream& f) const
     return s;
 }
 
-void BioExplorerLoader::_exportModel(const ModelDescriptorPtr modelDescriptor,
-                                     std::ofstream& file) const
+void CacheLoader::_exportModel(const ModelDescriptorPtr modelDescriptor,
+                               std::ofstream& file) const
 {
     uint64_t bufferSize{0};
     const auto& model = modelDescriptor->getModel();
@@ -668,7 +668,7 @@ void BioExplorerLoader::_exportModel(const ModelDescriptorPtr modelDescriptor,
     }
 }
 
-void BioExplorerLoader::exportToCache(const std::string& filename) const
+void CacheLoader::exportToCache(const std::string& filename) const
 {
     PLUGIN_INFO << "Saving scene to BioExplorer file: " << filename
                 << std::endl;
@@ -692,8 +692,8 @@ void BioExplorerLoader::exportToCache(const std::string& filename) const
     file.close();
 }
 
-void BioExplorerLoader::exportToXYZ(const std::string& filename,
-                                    const XYZFileFormat fileFormat) const
+void CacheLoader::exportToXYZ(const std::string& filename,
+                              const XYZFileFormat fileFormat) const
 {
     PLUGIN_INFO << "Saving scene to XYZ file: " << filename << std::endl;
     std::ios_base::openmode flags = std::ios::out;
@@ -775,12 +775,12 @@ void BioExplorerLoader::exportToXYZ(const std::string& filename,
     file.close();
 }
 
-PropertyMap BioExplorerLoader::getProperties() const
+PropertyMap CacheLoader::getProperties() const
 {
     return _defaults;
 }
 
-PropertyMap BioExplorerLoader::getCLIProperties()
+PropertyMap CacheLoader::getCLIProperties()
 {
     PropertyMap pm("BioExplorerLoader");
     return pm;

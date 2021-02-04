@@ -1,6 +1,6 @@
-/* Copyright (c) 2020, EPFL/Blue Brain Project
+/* Copyright (c) 2020-2021, EPFL/Blue Brain Project
  * All rights reserved. Do not distribute without permission.
- * Responsible Author: Cyrille Favreau <cyrille.favreau@epfl.ch>
+ * Responsible Author: cyrille.favreau@epfl.ch
  *
  * This library is free software; you can redistribute it and/or modify it under
  * the terms of the GNU Lesser General Public License version 3.0 as published
@@ -16,8 +16,7 @@
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
 
-#ifndef BIOEXPLORER_NODE_H
-#define BIOEXPLORER_NODE_H
+#pragma once
 
 #include <plugin/common/Types.h>
 
@@ -29,14 +28,26 @@ namespace bioexplorer
 class Node
 {
 public:
+    /**
+     * @brief Construct a new Node object
+     *
+     */
     Node();
+
+    /**
+     * @brief Destroy the Node object
+     *
+     */
     virtual ~Node();
 
+    /**
+     * @brief Get the Model Descriptor object
+     *
+     * @return ModelDescriptorPtr
+     */
     ModelDescriptorPtr getModelDescriptor() { return _modelDescriptor; }
 
 protected:
     ModelDescriptorPtr _modelDescriptor{nullptr};
 };
 } // namespace bioexplorer
-
-#endif // BIOEXPLORER_NODE_H

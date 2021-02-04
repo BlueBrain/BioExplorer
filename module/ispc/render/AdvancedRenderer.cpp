@@ -1,6 +1,6 @@
-/* Copyright (c) 2020, EPFL/Blue Brain Project
+/* Copyright (c) 2020-2021, EPFL/Blue Brain Project
  * All rights reserved. Do not distribute without permission.
- * Responsible Author: Cyrille Favreau <cyrille.favreau@epfl.ch>
+ * Responsible Author: cyrille.favreau@epfl.ch
  *
  * This library is free software; you can redistribute it and/or modify it under
  * the terms of the GNU Lesser General Public License version 3.0 as published
@@ -16,7 +16,7 @@
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
 
-#include "BioExplorerRenderer.h"
+#include "AdvancedRenderer.h"
 
 // ospray
 #include <ospray/SDK/common/Data.h>
@@ -24,13 +24,13 @@
 #include <ospray/SDK/lights/Light.h>
 
 // ispc exports
-#include "BioExplorerRenderer_ispc.h"
+#include "AdvancedRenderer_ispc.h"
 
 using namespace ospray;
 
-namespace BioExplorer
+namespace bioexplorer
 {
-void BioExplorerRenderer::commit()
+void AdvancedRenderer::commit()
 {
     Renderer::commit();
 
@@ -45,9 +45,7 @@ void BioExplorerRenderer::commit()
     _lightPtr = _lightArray.empty() ? nullptr : &_lightArray[0];
 
     _timestamp = getParam1f("timestamp", 0.f);
-    _bgMaterial =
-        (brayns::obj::BioExplorerMaterial*)getParamObject("bgMaterial",
-                                                          nullptr);
+    _bgMaterial = (AdvancedMaterial*)getParamObject("bgMaterial", nullptr);
     _exposure = getParam1f("exposure", 1.f);
 
     _useHardwareRandomizer = getParam("useHardwareRandomizer", 0);
@@ -67,18 +65,20 @@ void BioExplorerRenderer::commit()
     _maxBounces = getParam1i("maxBounces", 3);
     _randomNumber = getParam1i("randomNumber", 0);
 
-    ispc::BioExplorerRenderer_set(
-        getIE(), (_bgMaterial ? _bgMaterial->getIE() : nullptr), _shadows,
-        _softShadows, _softShadowsSamples, _giStrength, _giDistance, _giSamples,
-        _randomNumber, _timestamp, spp, _lightPtr, _lightArray.size(),
-        _exposure, _fogThickness, _fogStart, _useHardwareRandomizer,
-        _maxBounces, _showBackground);
+    ispc::AdvancedRenderer_set(getIE(),
+                               (_bgMaterial ? _bgMaterial->getIE() : nullptr),
+                               _shadows, _softShadows, _softShadowsSamples,
+                               _giStrength, _giDistance, _giSamples,
+                               _randomNumber, _timestamp, spp, _lightPtr,
+                               _lightArray.size(), _exposure, _fogThickness,
+                               _fogStart, _useHardwareRandomizer, _maxBounces,
+                               _showBackground);
 }
 
-BioExplorerRenderer::BioExplorerRenderer()
+AdvancedRenderer::AdvancedRenderer()
 {
-    ispcEquivalent = ispc::BioExplorerRenderer_create(this);
+    ispcEquivalent = ispc::AdvancedRenderer_create(this);
 }
 
-OSP_REGISTER_RENDERER(BioExplorerRenderer, bio_explorer);
-} // namespace BioExplorer
+OSP_REGISTER_RENDERER(AdvancedRenderer, bio_explorer);
+} // namespace bioexplorer

@@ -1,9 +1,7 @@
-/* Copyright (c) 2015-2017, EPFL/Blue Brain Project
+/* Copyright (c) 2015-2021, EPFL/Blue Brain Project
  * All rights reserved. Do not distribute without permission.
  * Responsible Author: Cyrille Favreau <cyrille.favreau@epfl.ch>
  *                     Grigori Chevtchenko <grigori.chevtchenko@epfl.ch>
- *
- * This file is part of SIMDVoxelizer <https://github.com/favreau/SIMDVoxelizer>
  *
  * This library is free software; you can redistribute it and/or modify it under
  * the terms of the GNU Lesser General Public License version 3.0 as published
@@ -20,23 +18,26 @@
  */
 
 #include "OctreeNode.h"
-#include <stdint.h>
 #include <iostream>
+#include <stdint.h>
 
-OctreeNode::OctreeNode( const glm::vec3 center, const float size )
-    : _value( 0 )
-    , _center( center )
-    , _size( size )
-{}
-
-void OctreeNode::setChild( OctreeNode* child )
+namespace bioexplorer
 {
-    _children.push_back( child );
+OctreeNode::OctreeNode(const glm::vec3 center, const float size)
+    : _value(0)
+    , _center(center)
+    , _size(size)
+{
 }
 
-void OctreeNode::addValue( float value )
+void OctreeNode::setChild(OctreeNode* child)
 {
-    if( value > _value )
+    _children.push_back(child);
+}
+
+void OctreeNode::addValue(float value)
+{
+    if (value > _value)
         _value = value;
 }
 
@@ -50,7 +51,8 @@ float OctreeNode::getValue() const
     return _value;
 }
 
-const std::vector< OctreeNode* >& OctreeNode::getChildren() const
+const std::vector<OctreeNode*>& OctreeNode::getChildren() const
 {
     return _children;
 }
+} // namespace bioexplorer

@@ -356,7 +356,7 @@ class Widgets:
         hbox = HBox([model_select, hbox_params], layout=DEFAULT_GRID_LAYOUT)
         display(hbox)
 
-    def __display_advanced_settings(self, object_type):
+    def __display_advanced_settings(self, object_type, threaded):
         """Display visual controls for camera or renderer advanced settings"""
         class Updated:
             """Inner class that insures communication with the remote server"""
@@ -466,8 +466,9 @@ class Widgets:
                         self._widgets_list[param] = text_box
 
         update_class = Updated(self._client, object_type)
-        the_thread = threading.Thread(target=update_class.thread_run)
-        the_thread.start()
+        if threaded:
+            the_thread = threading.Thread(target=update_class.thread_run)
+            the_thread.start()
 
         widgets_list = update_class.get_widgets()
         vboxes = list()
@@ -484,13 +485,13 @@ class Widgets:
         hbox = VBox(vboxes, layout=DEFAULT_GRID_LAYOUT)
         display(hbox)
 
-    def display_advanced_rendering_settings(self):
+    def display_advanced_rendering_settings(self, is_threaded=True):
         """Display visual controls for renderer advanced settings"""
-        self.__display_advanced_settings('renderer')
+        self.__display_advanced_settings('renderer', is_threaded)
 
-    def display_advanced_camera_settings(self):
+    def display_advanced_camera_settings(self, is_threaded=True):
         """Display visual controls for camera advanced settings"""
-        self.__display_advanced_settings('camera')
+        self.__display_advanced_settings('camera', is_threaded)
 
     def display_rendering_settings(self):
         """Display visual controls for renderer settings"""

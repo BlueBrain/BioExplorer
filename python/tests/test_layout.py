@@ -1,4 +1,6 @@
 #!/usr/bin/env python
+"""Test protein layout"""
+
 # -*- coding: utf-8 -*-
 
 # Copyright (c) 2020, EPFL/Blue Brain Project
@@ -24,24 +26,27 @@
 
 from bioexplorer import BioExplorer, Protein, Surfactant, Vector3, Quaternion
 
+# pylint: disable=no-member
+# pylint: disable=missing-function-docstring
+
 
 def test_layout():
     resource_folder = 'tests/test_files/'
     pdb_folder = resource_folder + 'pdb/'
 
-    be = BioExplorer('localhost:5000')
-    be.reset()
-    print('BioExplorer version ' + be.version())
+    bio_explorer = BioExplorer('localhost:5000')
+    bio_explorer.reset()
+    print('BioExplorer version ' + bio_explorer.version())
 
-    ''' Suspend image streaming '''
-    be.core_api().set_application_parameters(image_stream_fps=0)
+    # Suspend image streaming
+    bio_explorer.core_api().set_application_parameters(image_stream_fps=0)
 
     line_surfactant = 5
     line_virus = 25
     line_defense = 45
 
-    ''' Camera '''
-    brayns = be.core_api()
+    # Camera
+    brayns = bio_explorer.core_api()
     brayns.set_camera(
         current='orthographic',
         orientation=[0.0, 0.0, 0.0, 1.0],
@@ -52,72 +57,72 @@ def test_layout():
     params.height = 55
     brayns.set_camera_params(params)
 
-    ''' Grid '''
-    be.add_grid(min_value=0, max_value=100, interval=1, radius=0.005, colored=False,
-                position=Vector3(-10.0, -10.0, -10.0))
+    # Grid
+    bio_explorer.add_grid(min_value=0, max_value=100, interval=1, radius=0.005, colored=False,
+                          position=Vector3(-10.0, -10.0, -10.0))
 
-    ''' Layout '''
+    # Layout
     virus_protein_s = Protein(
         sources=[
             pdb_folder + '6vyb.pdb',  # Open conformation
             pdb_folder + 'sars-cov-2-v1.pdb'  # Closed conformation
         ])
 
-    be.add_protein('Protein S (open)', virus_protein_s,
-                   conformation_index=0,
-                   position=Vector3(5, line_virus, 0),
-                   orientation=Quaternion(0, 0, 1, 0))
-    be.add_protein('Protein S (closed)', virus_protein_s,
-                   conformation_index=1,
-                   position=Vector3(20, line_virus, 0),
-                   orientation=Quaternion(0, 0, 1, 0))
+    bio_explorer.add_protein('Protein S (open)', virus_protein_s,
+                             conformation_index=0,
+                             position=Vector3(5, line_virus, 0),
+                             orientation=Quaternion(0, 0, 1, 0))
+    bio_explorer.add_protein('Protein S (closed)', virus_protein_s,
+                             conformation_index=1,
+                             position=Vector3(20, line_virus, 0),
+                             orientation=Quaternion(0, 0, 1, 0))
 
-    ''' Protein M (QHD43419 ) '''
+    # Protein M (QHD43419)
     virus_protein_m = Protein(sources=[pdb_folder + 'QHD43419a.pdb'])
-    be.add_protein('Protein M', virus_protein_m,
-                   position=Vector3(35, line_virus, 0))
+    bio_explorer.add_protein('Protein M', virus_protein_m,
+                             position=Vector3(35, line_virus, 0))
 
-    ''' Protein E (QHD43418 P0DTC4) '''
+    # Protein E (QHD43418 P0DTC4)
     virus_protein_e = Protein(sources=[pdb_folder + 'QHD43418a.pdb'])
-    be.add_protein('Protein E', virus_protein_e,
-                   position=Vector3(45, line_virus, 0))
+    bio_explorer.add_protein('Protein E', virus_protein_e,
+                             position=Vector3(45, line_virus, 0))
 
-    ''' Lactoferrin '''
+    # Lactoferrin
     lactoferrin = Protein(sources=[pdb_folder + 'immune/1b0l.pdb'])
-    be.add_protein('Lactoferrin', lactoferrin,
-                   position=Vector3(5, line_defense, 0))
+    bio_explorer.add_protein('Lactoferrin', lactoferrin,
+                             position=Vector3(5, line_defense, 0))
 
-    ''' Defensin '''
+    # Defensin
     defensin = Protein(sources=[pdb_folder + 'immune/1ijv.pdb'])
-    be.add_protein('Defensin', defensin,
-                   position=Vector3(20, line_defense, 0))
+    bio_explorer.add_protein('Defensin', defensin,
+                             position=Vector3(20, line_defense, 0))
 
-    ''' Glucose '''
+    # Glucose
     glucose = Protein(sources=[pdb_folder + 'glucose.pdb'], load_non_polymer_chemicals=True)
-    be.add_protein('Glucose', glucose,
-                   position=Vector3(30, line_defense, 0),
-                   orientation=Quaternion(0, 0, 0.707, 0.707))
+    bio_explorer.add_protein('Glucose', glucose,
+                             position=Vector3(30, line_defense, 0),
+                             orientation=Quaternion(0, 0, 0.707, 0.707))
 
-    ''' ACE2 Receptor '''
+    # ACE2 Receptor
     ace2_receptor = Protein(sources=[pdb_folder + '6m1d.pdb'])
-    be.add_protein('ACE2 receptor', ace2_receptor,
-                   position=Vector3(45, line_defense - 2.5, 0),
-                   orientation=Quaternion(0.5, 0.5, 1.0, 0.0))
+    bio_explorer.add_protein('ACE2 receptor', ace2_receptor,
+                             position=Vector3(45, line_defense - 2.5, 0),
+                             orientation=Quaternion(0.5, 0.5, 1.0, 0.0))
 
-    ''' Surfactant '''
+    # Surfactant
     head_source = pdb_folder + 'surfactant/1pw9.pdb'
     branch_source = pdb_folder + 'surfactant/1k6f.pdb'
     surfactant_d = Surfactant(
         name='Surfactant',
-        surfactant_protein=be.SURFACTANT_BRANCH,
+        surfactant_protein=bio_explorer.SURFACTANT_BRANCH,
         head_source=head_source,
         branch_source=branch_source
     )
 
-    be.add_surfactant(surfactant=surfactant_d, position=Vector3(5, line_surfactant, 0))
+    bio_explorer.add_surfactant(surfactant=surfactant_d, position=Vector3(5, line_surfactant, 0))
 
-    ''' Restore image streaming '''
-    be.core_api().set_application_parameters(image_stream_fps=20)
+    # Restore image streaming
+    bio_explorer.core_api().set_application_parameters(image_stream_fps=20)
 
 
 if __name__ == '__main__':

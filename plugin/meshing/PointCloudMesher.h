@@ -1,6 +1,6 @@
-/* Copyright (c) 2020, EPFL/Blue Brain Project
+/* Copyright (c) 2020-2021, EPFL/Blue Brain Project
  * All rights reserved. Do not distribute without permission.
- * Responsible Author: Cyrille Favreau <cyrille.favreau@epfl.ch>
+ * Responsible Author: cyrille.favreau@epfl.ch
  *
  * This library is free software; you can redistribute it and/or modify it under
  * the terms of the GNU Lesser General Public License version 3.0 as published
@@ -16,8 +16,7 @@
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
 
-#ifndef BIOEXPLORER_POINTCLOUDMESHER_H
-#define BIOEXPLORER_POINTCLOUDMESHER_H
+#pragma once
 
 #include <brayns/common/types.h>
 #include <map>
@@ -31,13 +30,34 @@ typedef std::map<size_t, Vector4fs> PointCloud;
 class PointCloudMesher
 {
 public:
+    /**
+     * @brief Construct a new Point Cloud Mesher object
+     *
+     */
     PointCloudMesher();
 
+    /**
+     * @brief
+     *
+     * @param model
+     * @param pointCloud
+     * @return true
+     * @return false
+     */
     bool toConvexHull(Model& model, const PointCloud& pointCloud);
 
+    /**
+     * @brief
+     *
+     * @param model
+     * @param pointCloud
+     * @param gridSize
+     * @param threshold
+     * @return true
+     * @return false
+     */
     bool toMetaballs(brayns::Model& model, const PointCloud& pointCloud,
                      const size_t gridSize, const float threshold);
 };
 
-#endif // BIOEXPLORER_POINTCLOUDMESHER_H
-}
+} // namespace bioexplorer

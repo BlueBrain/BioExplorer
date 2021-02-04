@@ -1,6 +1,6 @@
-/* Copyright (c) 2020, EPFL/Blue Brain Project
+/* Copyright (c) 2020-2021, EPFL/Blue Brain Project
  * All rights reserved. Do not distribute without permission.
- * Responsible Author: Cyrille Favreau <cyrille.favreau@epfl.ch>
+ * Responsible Author: cyrille.favreau@epfl.ch
  *
  * This library is free software; you can redistribute it and/or modify it under
  * the terms of the GNU Lesser General Public License version 3.0 as published
@@ -483,24 +483,34 @@ std::string Assembly::getAminoAcidInformation(
 
 void Assembly::addRNASequence(const RNASequenceDescriptor &rnad)
 {
-    if (rnad.range.size() != 2)
+    auto rd = rnad;
+    if (rd.range.size() != 2)
         PLUGIN_THROW(std::runtime_error("Invalid range"));
-    const Vector2f range{rnad.range[0], rnad.range[1]};
+    const Vector2f range{rd.range[0], rd.range[1]};
 
-    if (rnad.params.size() != 3)
+    if (rd.params.size() != 3)
         PLUGIN_THROW(std::runtime_error("Invalid params"));
 
-    const Vector3f params{rnad.params[0], rnad.params[1], rnad.params[2]};
+    if (rd.position.size() != 3)
+        PLUGIN_THROW(std::runtime_error("Invalid position"));
 
-    PLUGIN_INFO << "Loading RNA sequence " << rnad.name << " from "
-                << rnad.contents << std::endl;
-    PLUGIN_INFO << "Assembly radius: " << rnad.assemblyParams[0] << std::endl;
-    PLUGIN_INFO << "RNA radius     : " << rnad.assemblyParams[1] << std::endl;
-    PLUGIN_INFO << "Range          : " << range << std::endl;
-    PLUGIN_INFO << "Params         : " << params << std::endl;
+    const Vector3f params{rd.params[0], rd.params[1], rd.params[2]};
 
-    _rnaSequence =
-        RNASequencePtr(new RNASequence(_scene, rnad, range, params, _position));
+    PLUGIN_INFO << "Loading RNA sequence " << rd.name << " from " << rd.contents
+                << std::endl;
+    PLUGIN_INFO << "Assembly radius: " << rd.assemblyParams[0] << std::endl;
+    PLUGIN_INFO << "RNA radius     : " << rd.assemblyParams[1] << std::endl;
+    PLUGIN_INFO << "Range          : " << rd.range[0] << ", " << rd.range[1]
+                << std::endl;
+    PLUGIN_INFO << "Params         : " << rd.params[0] << ", " << rd.params[1]
+                << ", " << rd.params[2] << std::endl;
+    PLUGIN_INFO << "Position       : " << rd.position[0] << ", "
+                << rd.position[1] << ", " << rd.position[2] << std::endl;
+
+    rd.position[0] += _position.x;
+    rd.position[1] += _position.y;
+    rd.position[2] += _position.z;
+    _rnaSequence = RNASequencePtr(new RNASequence(_scene, rd));
     const auto modelDescriptor = _rnaSequence->getModelDescriptor();
     _scene.addModel(modelDescriptor);
 }

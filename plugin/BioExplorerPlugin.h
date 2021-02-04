@@ -1,6 +1,6 @@
-/* Copyright (c) 2020, EPFL/Blue Brain Project
+/* Copyright (c) 2020-2021, EPFL/Blue Brain Project
  * All rights reserved. Do not distribute without permission.
- * Responsible Author: Cyrille Favreau <cyrille.favreau@epfl.ch>
+ * Responsible Author: cyrille.favreau@epfl.ch
  *
  * This library is free software; you can redistribute it and/or modify it under
  * the terms of the GNU Lesser General Public License version 3.0 as published
@@ -16,8 +16,7 @@
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
 
-#ifndef BIOEXPLORER_PLUGIN_H
-#define BIOEXPLORER_PLUGIN_H
+#pragma once
 
 #include <plugin/api/Params.h>
 #include <plugin/fields/FieldsHandler.h>
@@ -29,14 +28,26 @@ namespace bioexplorer
 /**
  * @brief This class implements the BioExplorer plugin
  */
-class BioExplorer : public ExtensionPlugin
+class BioExplorerPlugin : public ExtensionPlugin
 {
 public:
-    BioExplorer();
+    /**
+     * @brief Construct a new Bio Explorer Plugin object
+     *
+     */
+    BioExplorerPlugin();
 
+    /**
+     * @brief
+     *
+     */
     void init() final;
+
+    /**
+     * @brief
+     *
+     */
     void preRender() final;
-    void postRender() final;
 
 private:
     Response _version() const;
@@ -44,13 +55,6 @@ private:
     // IO
     Response _exportToCache(const FileAccess &payload);
     Response _exportToXYZ(const FileAccess &payload);
-
-    // Movie and frames
-    void _setCamera(const CameraDefinition &);
-    CameraDefinition _getCamera();
-    void _exportFramesToDisk(const ExportFramesToDisk &payload);
-    FrameExportProgress _getFrameExportProgress();
-    void _doExportFrameToDisk();
 
     // Biological elements
     Response _addAssembly(const AssemblyDescriptor &payload);
@@ -81,12 +85,6 @@ private:
     AssemblyMap _assemblies;
     bool _dirty{false};
 
-    // Movies
-    ExportFramesToDisk _exportFramesToDiskPayload;
-    bool _exportFramesToDiskDirty{false};
-    uint16_t _frameNumber{0};
-    int16_t _accumulationFrameNumber{0};
-
     // Fields
     void _attachFieldsHandler(FieldsHandlerPtr handler);
     Response _buildFields(const BuildFields &payload);
@@ -94,5 +92,3 @@ private:
     Response _importFieldsFromFile(const FileAccess &payload);
 };
 } // namespace bioexplorer
-
-#endif // BIOEXPLORER_PLUGIN_H

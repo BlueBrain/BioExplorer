@@ -1,6 +1,6 @@
-/* Copyright (c) 2020, EPFL/Blue Brain Project
+/* Copyright (c) 2020-2021, EPFL/Blue Brain Project
  * All rights reserved. Do not distribute without permission.
- * Responsible Author: Cyrille Favreau <cyrille.favreau@epfl.ch>
+ * Responsible Author: cyrille.favreau@epfl.ch
  *
  * This library is free software; you can redistribute it and/or modify it under
  * the terms of the GNU Lesser General Public License version 3.0 as published
@@ -16,12 +16,11 @@
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
 
-#ifndef BIOEXPLORER_COMMONTYPES_H
-#define BIOEXPLORER_COMMONTYPES_H
+#pragma once
 
 #define DEFAULT_SKY_POWER 4.f
 
-/** Additional marterial attributes */
+/** Additional material attributes */
 #define MATERIAL_PROPERTY_SHADING_MODE "shading_mode"
 #define MATERIAL_PROPERTY_USER_PARAMETER "user_parameter"
 
@@ -46,5 +45,3 @@ enum CameraStereoMode
     right = 2,
     side_by_side = 3
 };
-
-#endif // COMMONTYPES_H

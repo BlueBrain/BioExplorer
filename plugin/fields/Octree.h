@@ -1,9 +1,7 @@
-/* Copyright (c) 2015-2017, EPFL/Blue Brain Project
+/* Copyright (c) 2015-2021, EPFL/Blue Brain Project
  * All rights reserved. Do not distribute without permission.
  * Responsible Author: Cyrille Favreau <cyrille.favreau@epfl.ch>
  *                     Grigori Chevtchenko <grigori.chevtchenko@epfl.ch>
- *
- * This file is part of SIMDVoxelizer <https://github.com/favreau/SIMDVoxelizer>
  *
  * This library is free software; you can redistribute it and/or modify it under
  * the terms of the GNU Lesser General Public License version 3.0 as published
@@ -19,8 +17,7 @@
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
 
-#ifndef BIOEXPLORER_OCTREE_H
-#define BIOEXPLORER_OCTREE_H
+#pragma once
 
 #include <glm/glm.hpp>
 #include <stdint.h>
@@ -28,6 +25,8 @@
 
 #include "OctreeNode.h"
 
+namespace bioexplorer
+{
 class Octree
 {
 public:
@@ -65,5 +64,4 @@ private:
     std::vector<uint32_t> _flatIndexes;
     std::vector<float> _flatData;
 };
-
-#endif // BIOEXPLORER_OCTREE_H
+}

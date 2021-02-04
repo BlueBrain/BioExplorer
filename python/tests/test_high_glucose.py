@@ -1,4 +1,6 @@
 #!/usr/bin/env python
+"""Test high glucose scenario"""
+
 # -*- coding: utf-8 -*-
 
 # Copyright (c) 2020, EPFL/Blue Brain Project
@@ -22,8 +24,14 @@
 # 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 # All rights reserved. Do not distribute without further notice.
 
+import math
 from bioexplorer import BioExplorer, RNASequence, Protein, Virus, Surfactant, Membrane, Cell, \
     Sugars, Volume, Vector2, Vector3, Quaternion
+
+# pylint: disable=no-member
+# pylint: disable=missing-function-docstring
+# pylint: disable=dangerous-default-value
+
 
 # Model settings
 PROTEIN_RADIUS_MULTIPLIER = 1.0
@@ -100,8 +108,6 @@ def add_virus(bioexplorer, name, position, open_conformation_indices=list()):
 
     rna_sequence = None
     if ADD_RNA:
-        import math
-
         rna_sequence = RNASequence(
             source=RNA_FOLDER + 'sars-cov-2.rna',
             assembly_params=Vector2(11.0, 0.5),
@@ -295,7 +301,8 @@ def test_high_glucose():
         add_surfactant_d(
             bioexplorer, name='Surfactant-D 1', position=Vector3(74.0, 24.0, -45.0), random_seed=1)
         add_surfactant_d(
-            bioexplorer, name='Surfactant-D 2', position=Vector3(104.0, 175.0, -89.0), random_seed=2)
+            bioexplorer, name='Surfactant-D 2', position=Vector3(104.0, 175.0, -89.0),
+            random_seed=2)
         add_surfactant_d(
             bioexplorer, name='Surfactant-D 3', position=Vector3(-260.0, 50.0, 0.0), random_seed=6)
 

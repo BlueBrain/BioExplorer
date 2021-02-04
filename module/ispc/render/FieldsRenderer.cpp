@@ -1,6 +1,6 @@
-/* Copyright (c) 2020, EPFL/Blue Brain Project
+/* Copyright (c) 2020-2021, EPFL/Blue Brain Project
  * All rights reserved. Do not distribute without permission.
- * Responsible Author: Cyrille Favreau <cyrille.favreau@epfl.ch>
+ * Responsible Author: cyrille.favreau@epfl.ch
  *
  * This library is free software; you can redistribute it and/or modify it under
  * the terms of the GNU Lesser General Public License version 3.0 as published
@@ -16,7 +16,7 @@
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
 
-#include "BioExplorerFieldsRenderer.h"
+#include "FieldsRenderer.h"
 
 // ospray
 #include <ospray/SDK/common/Data.h>
@@ -24,13 +24,11 @@
 #include <ospray/SDK/transferFunction/TransferFunction.h>
 
 // ispc exports
-#include "BioExplorerFieldsRenderer_ispc.h"
+#include "FieldsRenderer_ispc.h"
 
-using namespace ospray;
-
-namespace brayns
+namespace bioexplorer
 {
-void BioExplorerFieldsRenderer::commit()
+void FieldsRenderer::commit()
 {
     Renderer::commit();
 
@@ -44,9 +42,7 @@ void BioExplorerFieldsRenderer::commit()
 
     _lightPtr = _lightArray.empty() ? nullptr : &_lightArray[0];
 
-    _bgMaterial =
-        (brayns::obj::BioExplorerMaterial*)getParamObject("bgMaterial",
-                                                          nullptr);
+    _bgMaterial = (AdvancedMaterial*)getParamObject("bgMaterial", nullptr);
 
     _useHardwareRandomizer = getParam("useHardwareRandomizer", 0);
 
@@ -71,22 +67,23 @@ void BioExplorerFieldsRenderer::commit()
     ospray::TransferFunction* transferFunction =
         (ospray::TransferFunction*)getParamObject("transferFunction", nullptr);
     if (transferFunction)
-        ispc::BioExplorerFieldsRenderer_setTransferFunction(
-            getIE(), transferFunction->getIE());
+        ispc::FieldsRenderer_setTransferFunction(getIE(),
+                                                 transferFunction->getIE());
 
     // Renderer
-    ispc::BioExplorerFieldsRenderer_set(
-        getIE(), (_bgMaterial ? _bgMaterial->getIE() : nullptr),
-        (_userData ? (float*)_userData->data : nullptr), _userDataSize,
-        _randomNumber, _timestamp, spp, _lightPtr, _lightArray.size(),
-        _minRayStep, _nbRaySteps, _nbRayRefinementSteps, _exposure,
-        _useHardwareRandomizer, _cutoff, _alphaCorrection);
+    ispc::FieldsRenderer_set(getIE(),
+                             (_bgMaterial ? _bgMaterial->getIE() : nullptr),
+                             (_userData ? (float*)_userData->data : nullptr),
+                             _userDataSize, _randomNumber, _timestamp, spp,
+                             _lightPtr, _lightArray.size(), _minRayStep,
+                             _nbRaySteps, _nbRayRefinementSteps, _exposure,
+                             _useHardwareRandomizer, _cutoff, _alphaCorrection);
 }
 
-BioExplorerFieldsRenderer::BioExplorerFieldsRenderer()
+FieldsRenderer::FieldsRenderer()
 {
-    ispcEquivalent = ispc::BioExplorerFieldsRenderer_create(this);
+    ispcEquivalent = ispc::FieldsRenderer_create(this);
 }
 
-OSP_REGISTER_RENDERER(BioExplorerFieldsRenderer, bio_explorer_fields);
-} // namespace brayns
+OSP_REGISTER_RENDERER(FieldsRenderer, bio_explorer_fields);
+} // namespace bioexplorer

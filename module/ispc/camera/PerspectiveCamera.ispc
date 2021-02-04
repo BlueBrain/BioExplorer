@@ -1,18 +1,20 @@
-// ======================================================================== //
-// Copyright 2009-2016 Intel Corporation                                    //
-//                                                                          //
-// Licensed under the Apache License, Version 2.0 (the "License");          //
-// you may not use this file except in compliance with the License.         //
-// You may obtain a copy of the License at                                  //
-//                                                                          //
-//     http://www.apache.org/licenses/LICENSE-2.0                           //
-//                                                                          //
-// Unless required by applicable law or agreed to in writing, software      //
-// distributed under the License is distributed on an "AS IS" BASIS,        //
-// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. //
-// See the License for the specific language governing permissions and      //
-// limitations under the License.                                           //
-// ======================================================================== //
+/* Copyright (c) 2020-2021, EPFL/Blue Brain Project
+ * All rights reserved. Do not distribute without permission.
+ * Responsible Author: cyrille.favreau@epfl.ch
+ *
+ * This library is free software; you can redistribute it and/or modify it under
+ * the terms of the GNU Lesser General Public License version 3.0 as published
+ * by the Free Software Foundation.
+ *
+ * This library is distributed in the hope that it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+ * FOR A PARTICULAR PURPOSE.  See the GNU Lesser General Public License for more
+ * details.
+ *
+ * You should have received a copy of the GNU Lesser General Public License
+ * along with this library; if not, write to the Free Software Foundation, Inc.,
+ * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
+ */
 
 #include "utils.ih"
 
@@ -28,7 +30,7 @@ inline float getRandomValue()
     return r;
 }
 
-struct BioExplorerPerspectiveCamera
+struct PerspectiveCamera
 {
     Camera super;
 
@@ -52,12 +54,12 @@ struct BioExplorerPerspectiveCamera
     unsigned int numClipPlanes;
 };
 
-void BioExplorerPerspectiveCamera_initRay(uniform Camera* uniform _self,
+void PerspectiveCamera_initRay(uniform Camera* uniform _self,
                                           varying Ray& ray,
                                           const varying CameraSample& sample)
 {
-    uniform BioExplorerPerspectiveCamera* uniform self =
-        (uniform BioExplorerPerspectiveCamera * uniform) _self;
+    uniform PerspectiveCamera* uniform self =
+        (uniform PerspectiveCamera * uniform) _self;
 
     vec2f screen = sample.screen;
     vec3f org = self->org;
@@ -107,30 +109,30 @@ void BioExplorerPerspectiveCamera_initRay(uniform Camera* uniform _self,
     setRay(ray, org, direction, nearClip, farClip, time);
 }
 
-/*! create a new ispc-side version of a BioExplorerPerspectiveCamera - with
+/*! create a new ispc-side version of a PerspectiveCamera - with
    given pointer to the c-class version - and return both class pointer and
     pointer to internal data back via the supplied reference
     parameters */
-export void* uniform BioExplorerPerspectiveCamera_create(void* uniform cppE)
+export void* uniform PerspectiveCamera_create(void* uniform cppE)
 {
-    uniform BioExplorerPerspectiveCamera* uniform self =
-        uniform new uniform BioExplorerPerspectiveCamera;
+    uniform PerspectiveCamera* uniform self =
+        uniform new uniform PerspectiveCamera;
     self->super.cppEquivalent = cppE;
-    self->super.initRay = BioExplorerPerspectiveCamera_initRay;
+    self->super.initRay = PerspectiveCamera_initRay;
     self->super.doesDOF = false;
     self->numClipPlanes = 0;
     return self;
 }
 
-export void BioExplorerPerspectiveCamera_set(
+export void PerspectiveCamera_set(
     void* uniform _self, const uniform vec3f& org, const uniform vec3f& dir_00,
     const uniform vec3f& dir_du, const uniform vec3f& dir_dv,
     const uniform float scaledAperture, const uniform float aspect,
     const uniform vec3f& ipd_offset, const uniform bool side_by_side,
     const uniform vec4f clipPlanes[], const uniform unsigned int numClipPlanes)
 {
-    uniform BioExplorerPerspectiveCamera* uniform self =
-        (uniform BioExplorerPerspectiveCamera * uniform) _self;
+    uniform PerspectiveCamera* uniform self =
+        (uniform PerspectiveCamera * uniform) _self;
     self->org = org;
     self->dir_00 = dir_00;
     self->dir_du = dir_du;

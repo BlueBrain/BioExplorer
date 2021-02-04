@@ -1,8 +1,8 @@
-# Copyright (c) 2020, Cyrille Favreau
+# Copyright (c) 2020-2021, Cyrille Favreau
 # All rights reserved. Do not distribute without permission.
 # Responsible Author: Cyrille Favreau <cyrille.favreau@epfl.ch>
 #
-# This file is part of https://github.com/favreau/BioExplorer
+# This file is part of https://github.com/BlueBrain/BioExplorer
 
 cmake_minimum_required(VERSION 3.1 FATAL_ERROR)
 
@@ -39,15 +39,15 @@ include_directories( ${CMAKE_BINARY_DIR}/generated/ ) # Make sure it can be incl
 # Sources
 # ==============================================================================
 set(${NAME}_SOURCES
-    module/ispc/camera/BioExplorerPerspectiveCamera.cpp
-    module/ispc/render/BioExplorerMaterial.cpp
-    module/ispc/render/BioExplorerRenderer.cpp
-    module/ispc/render/BioExplorerFieldsRenderer.cpp
+    module/ispc/camera/PerspectiveCamera.cpp
+    module/ispc/render/AdvancedMaterial.cpp
+    module/ispc/render/AdvancedRenderer.cpp
+    module/ispc/render/FieldsRenderer.cpp
     plugin/common/Utils.cpp
     plugin/fields/FieldsHandler.cpp
     plugin/fields/Octree.cpp
     plugin/fields/OctreeNode.cpp
-    plugin/io/BioExplorerLoader.cpp
+    plugin/io/CacheLoader.cpp
     plugin/bioexplorer/Molecule.cpp
     plugin/bioexplorer/Assembly.cpp
     plugin/bioexplorer/Node.cpp
@@ -60,11 +60,11 @@ set(${NAME}_SOURCES
     plugin/meshing/PointCloudMesher.cpp
     plugin/meshing/SurfaceMesher.cpp
     plugin/api/Params.cpp
-    plugin/BioExplorer.cpp
+    plugin/BioExplorerPlugin.cpp
 )
 
 set(${NAME}_PUBLIC_HEADERS
-    plugin/io/BioExplorerLoader.h
+    plugin/io/CacheLoader.h
     plugin/bioexplorer/Molecule.h
     plugin/bioexplorer/Assembly.h
     plugin/bioexplorer/Node.h
@@ -78,16 +78,16 @@ set(${NAME}_PUBLIC_HEADERS
     plugin/meshing/PointCloudMesher.h
     plugin/meshing/SurfaceMesher.h
     plugin/api/Params.h
-    plugin/BioExplorer.h
+    plugin/BioExplorerPlugin.h
 )
 
 set(${NAME}_ISPC_SOURCES
-    module/ispc/camera/BioExplorerPerspectiveCamera.ispc
+    module/ispc/camera/PerspectiveCamera.ispc
     module/ispc/render/utils/BioExplorerSkyBox.ispc
     module/ispc/render/utils/BioExplorerRandomGenerator.ispc
-    module/ispc/render/BioExplorerFieldsRenderer.ispc
-    module/ispc/render/BioExplorerRenderer.ispc
-    module/ispc/render/BioExplorerMaterial.ispc
+    module/ispc/render/FieldsRenderer.ispc
+    module/ispc/render/AdvancedRenderer.ispc
+    module/ispc/render/AdvancedMaterial.ispc
 )
 
 # ==============================================================================
@@ -125,6 +125,15 @@ add_library(
 target_link_libraries(
     ${LIBRARY_NAME}
     ${${NAME}_LINK_LIBRARIES})
+
+
+# ==============================================================================
+# Unit testing
+# ==============================================================================
+option(${NAME}_UNIT_TESTING_ENABLED "Enable unit testing" ON)
+if(${NAME}_UNIT_TESTING_ENABLED)
+    add_subdirectory(tests)
+endif()
 
 # ==============================================================================
 # Install binaries

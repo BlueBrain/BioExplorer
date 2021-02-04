@@ -1,6 +1,6 @@
-/* Copyright (c) 2020, EPFL/Blue Brain Project
+/* Copyright (c) 2020-2021, EPFL/Blue Brain Project
  * All rights reserved. Do not distribute without permission.
- * Responsible Author: Cyrille Favreau <cyrille.favreau@epfl.ch>
+ * Responsible Author: cyrille.favreau@epfl.ch
  *
  * This library is free software; you can redistribute it and/or modify it under
  * the terms of the GNU Lesser General Public License version 3.0 as published
@@ -16,8 +16,7 @@
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
 
-#ifndef BIOEXPLORER_TYPES_H
-#define BIOEXPLORER_TYPES_H
+#pragma once
 
 #include <Defines.h>
 #include <brayns/engineapi/Scene.h>
@@ -31,6 +30,10 @@ namespace bioexplorer
 {
 using namespace brayns;
 
+// Consts
+const float BOND_RADIUS = 0.025f;
+const float DEFAULT_STICK_DISTANCE = 0.16f;
+
 // Metadata
 const std::string METADATA_ASSEMBLY = "Assembly";
 const std::string METADATA_TITLE = "Title";
@@ -39,276 +42,453 @@ const std::string METADATA_ATOMS = "Atoms";
 const std::string METADATA_BONDS = "Bonds";
 const std::string METADATA_SIZE = "Size";
 
-// Model position randomization types
-enum class PositionRandomizationType
-{
-    circular = 0,
-    radial = 1
-};
-
-// Shapes
-enum class RNAShape
-{
-    trefoilKnot = 0,
-    torus = 1,
-    star = 2,
-    spring = 3,
-    heart = 4,
-    thing = 5,
-    moebius = 6
-};
-
-// Assembly
-enum class AssemblyType
-{
-    protein = 0,
-    membrane = 1,
-    sugar = 3,
-    rnaSequence = 4
-};
-
-struct AssemblyDescriptor
-{
-    std::string name;
-    std::vector<float> position;
-    std::vector<float> orientation;
-    std::vector<float> clippingPlanes;
-};
-
-class Assembly;
-typedef std::shared_ptr<Assembly> AssemblyPtr;
-typedef std::map<std::string, AssemblyPtr> AssemblyMap;
-
-struct AssemblyTransformationsDescriptor
-{
-    std::string assemblyName;
-    std::string name;
-    std::vector<float> transformations;
-};
-
-// Node
-class Node;
-typedef std::shared_ptr<Node> NodePtr;
-typedef std::map<std::string, NodePtr> NodeMap;
-
-enum class ProteinRepresentation
-{
-    atoms = 0,
-    atoms_and_sticks = 1,
-    contour = 2,
-    surface = 3,
-    union_of_balls = 4
-};
-
-enum class AssemblyShape
-{
-    spherical = 0,
-    planar = 1,
-    sinusoidal = 2,
-    cubic = 3,
-    fan = 4,
-    bezier = 5
-};
-
-// membrane
-struct MembraneDescriptor
-{
-    std::string assemblyName;
-    std::string name;
-    std::string content1;
-    std::string content2;
-    std::string content3;
-    std::string content4;
-    AssemblyShape shape;
-    floats assemblyParams;
-    float atomRadiusMultiplier;
-    bool loadBonds;
-    bool loadNonPolymerChemicals;
-    ProteinRepresentation representation;
-    size_ts chainIds;
-    bool recenter;
-    size_t occurrences;
-    size_t randomSeed;
-    float locationCutoffAngle;
-    PositionRandomizationType positionRandomizationType;
-    floats orientation;
-};
-class Membrane;
-typedef std::shared_ptr<Membrane> MembranePtr;
-
-// Protein
-struct ProteinDescriptor
-{
-    std::string assemblyName;
-    std::string name;
-    std::string contents;
-    AssemblyShape shape;
-    floats assemblyParams;
-    float atomRadiusMultiplier;
-    bool loadBonds;
-    bool loadNonPolymerChemicals;
-    bool loadHydrogen;
-    ProteinRepresentation representation;
-    size_ts chainIds;
-    bool recenter;
-    size_t occurrences;
-    size_ts allowedOccurrences;
-    size_t randomSeed;
-    float locationCutoffAngle;
-    PositionRandomizationType positionRandomizationType;
-    floats position;
-    floats orientation;
-};
-class Protein;
-typedef std::shared_ptr<Protein> ProteinPtr;
-typedef std::map<std::string, ProteinPtr> ProteinMap;
-
-struct SugarsDescriptor
-{
-    std::string assemblyName;
-    std::string name;
-    std::string contents;
-    std::string proteinName;
-    float atomRadiusMultiplier;
-    bool loadBonds;
-    ProteinRepresentation representation;
-    bool recenter;
-    size_ts chainIds;
-    size_ts siteIndices;
-    size_ts allowedOccurrences;
-    floats orientation;
-};
-
-class Glycans;
-typedef std::shared_ptr<Glycans> GlycansPtr;
-typedef std::map<std::string, GlycansPtr> GlycansMap;
-
-// Mesh
-struct MeshDescriptor
-{
-    std::string assemblyName;
-    std::string name;
-    std::string meshContents;
-    std::string proteinContents;
-    bool recenter;
-    float density;
-    float surfaceFixedOffset;
-    float surfaceVariableOffset;
-    float atomRadiusMultiplier;
-    ProteinRepresentation representation;
-    size_t randomSeed;
-    floats position;
-    floats orientation;
-    floats scale;
-};
-class Mesh;
-typedef std::shared_ptr<Mesh> MeshPtr;
-typedef std::map<std::string, MeshPtr> MeshMap;
-
-// RNA sequence
-struct RNASequenceDescriptor
-{
-    std::string assemblyName;
-    std::string name;
-    std::string contents;
-    RNAShape shape;
-    floats assemblyParams;
-    std::vector<float> range;
-    std::vector<float> params;
-};
-class RNASequence;
-typedef std::shared_ptr<RNASequence> RNASequencePtr;
-
-// Amino acid
-struct AminoAcidSequenceAsStringDescriptor
-{
-    std::string assemblyName;
-    std::string name;
-    std::string sequence;
-};
-
-struct AminoAcidSequenceAsRangeDescriptor
-{
-    std::string assemblyName;
-    std::string name;
-    size_ts range;
-};
-
-struct AminoAcidInformationDescriptor
-{
-    std::string assemblyName;
-    std::string name;
-};
-
-struct Atom
-{
-    std::string name;
-    std::string altLoc;
-    std::string resName;
-    std::string chainId;
-    size_t reqSeq;
-    std::string iCode;
-    Vector3f position;
-    float occupancy;
-    float tempFactor;
-    std::string element;
-    std::string charge;
-    float radius;
-};
-typedef std::multimap<size_t, Atom, std::less<size_t>> AtomMap;
-
-// Amino acid sequence
-struct Sequence
-{
-    //    size_t serNum;
-    size_t numRes;
-    std::vector<std::string> resNames;
-};
-typedef std::map<std::string, Sequence> SequenceMap;
-
-// Bonds
-typedef std::map<size_t, size_ts> BondsMap;
-
-struct AminoAcid
-{
-    std::string name;
-    std::string shortName;
-    //    std::string sideChainClass;
-    //    std::string sideChainPolarity;
-    //    std::string sideChainCharge;
-    //    size_t hidropathyIndex;
-    //    size_t absorbance;
-    //    float molarAttenuationCoefficient;
-    //    float molecularMass;
-    //    float occurenceInProtein;
-    //    std::string standardGeneticCode;
-};
-typedef std::map<std::string, AminoAcid> AminoAcidMap;
-
-// Residues
-typedef std::set<std::string> Residues;
-
 // Typedefs
 typedef std::map<std::string, std::string> StringMap;
-
-// Structure defining an atom radius in microns
-typedef std::map<std::string, float> AtomicRadii;
-
-// Structure defining the color of atoms according to the JMol Scheme
-struct RGBColor
-{
-    short r, g, b;
-};
-typedef std::map<std::string, RGBColor> RGBColorMap;
-
 typedef Vector3f Color;
 typedef std::vector<Color> Palette;
 typedef std::vector<Quaterniond> Quaternions;
 typedef std::vector<Vector3f> Vector3fs;
 typedef std::vector<std::pair<Vector3f, float>> OccupiedDirections;
 
-const float BOND_RADIUS = 0.025f;
-const float DEFAULT_STICK_DISTANCE = 0.16f;
+/**
+ * @brief Model position randomization types
+ *
+ */
+enum class PositionRandomizationType
+{
+    circular = 0,
+    radial = 1
+};
+
+/**
+ * @brief Shapes that can be used to enroll RNA into the virus capsid
+ *
+ */
+enum class RNAShape
+{
+    /** Trefoil knot */
+    trefoilKnot = 0,
+    /** Torus */
+    torus = 1,
+    /** Star */
+    star = 2,
+    /** Spring */
+    spring = 3,
+    /** Heart (all we need is love) */
+    heart = 4,
+    /** Thing (weird shape) */
+    thing = 5,
+    /** Moebius knot */
+    moebius = 6
+};
+
+/**
+ * @brief Assembly representation
+ *
+ */
+typedef struct
+{
+    /** Name of the assembly */
+    std::string name;
+    /** Position of the assembly in the scene */
+    std::vector<float> position;
+    /** Orientation of the assembly in the scene */
+    std::vector<float> orientation;
+    /** Clipping planes applied to the loading of elements of the assembly */
+    std::vector<float> clippingPlanes;
+} AssemblyDescriptor;
+
+class Assembly;
+typedef std::shared_ptr<Assembly> AssemblyPtr;
+typedef std::map<std::string, AssemblyPtr> AssemblyMap;
+
+/**
+ * @brief Structure defining transformations to apply to assembly elements
+ *
+ */
+typedef struct
+{
+    /** Name of the assembly */
+    std::string assemblyName;
+    /** Name of the element in the assembly to which transformations should be
+     * applied */
+    std::string name;
+    /** List of transformations */
+    std::vector<float> transformations;
+} AssemblyTransformationsDescriptor;
+
+// Node
+class Node;
+typedef std::shared_ptr<Node> NodePtr;
+typedef std::map<std::string, NodePtr> NodeMap;
+
+/**
+ * @brief Protein representation (atoms, atoms and sticks, etc)
+ *
+ */
+enum class ProteinRepresentation
+{
+    /** Atoms only */
+    atoms = 0,
+    /** Atoms and sticks */
+    atoms_and_sticks = 1,
+    /** Protein contours */
+    contour = 2,
+    /** Protein surface computed using metaballs */
+    surface = 3,
+    /** Protein surface computed using union of balls */
+    union_of_balls = 4
+};
+
+/**
+ * @brief Assembly shapes
+ *
+ */
+enum class AssemblyShape
+{
+    /** Spherical */
+    spherical = 0,
+    /** Planar */
+    planar = 1,
+    /** Sinusoidal */
+    sinusoidal = 2,
+    /** Cubic */
+    cubic = 3,
+    /** Fan */
+    fan = 4,
+    /** Bezier (experimental) */
+    bezier = 5
+};
+
+/**
+ * @brief A Membrane is a shaped assembly of phospholipids
+ *
+ */
+typedef struct
+{
+    /** Name of the assembly */
+    std::string assemblyName;
+    /** Name of the protein in the assembly */
+    std::string name;
+    /** String containing a PDB representation of the 1st protein */
+    std::string content1;
+    /** String containing a PDB representation of the 2nd optional protein
+     */
+    std::string content2;
+    /** String containing a PDB representation of the 3rd optional protein
+     */
+    std::string content3;
+    /** String containing a PDB representation of the 4th optional protein
+     */
+    std::string content4;
+    /** Shape of the assembly containing the membrane */
+    AssemblyShape shape;
+    /** Parameters of the assembly shape */
+    std::vector<float> assemblyParams;
+    /** Multiplier applied to the radius of the protein atoms */
+    float atomRadiusMultiplier;
+    /** Enable the loading of protein bonds */
+    bool loadBonds;
+    /** Enable the loading of non polymer chemicals */
+    bool loadNonPolymerChemicals;
+    /** Defines the representation of the protein (Atoms, atoms and sticks,
+     * surface, etc) */
+    ProteinRepresentation representation;
+    /** Identifiers of chains to be loaded */
+    std::vector<size_t> chainIds;
+    /** Recenters the protein  */
+    bool recenter;
+    /** Number of protein occurences to be added to the assembly */
+    size_t occurrences;
+    /** Seed for position randomization */
+    size_t randomSeed;
+    /** Type of randomisation for the elements of the assembly */
+    float locationCutoffAngle;
+    /** Type of randomisation for the elements of the assembly */
+    PositionRandomizationType positionRandomizationType;
+    /** Relative orientation of the protein in the assembly */
+    std::vector<float> orientation;
+} MembraneDescriptor;
+
+class Membrane;
+typedef std::shared_ptr<Membrane> MembranePtr;
+
+// Protein
+typedef struct
+{
+    /** Name of the assembly */
+    std::string assemblyName;
+    /** Name of the protein in the assembly */
+    std::string name;
+    /** String containing a PDB representation of the protein */
+    std::string contents;
+    /** Shape of the assembly containing the protein */
+    AssemblyShape shape;
+    /** Parameters of the assembly shape */
+    std::vector<float> assemblyParams;
+    /** Multiplier applied to the radius of the protein atoms */
+    float atomRadiusMultiplier;
+    /** Enable the loading of protein bonds */
+    bool loadBonds;
+    /** Enable the loading of non polymer chemicals */
+    bool loadNonPolymerChemicals;
+    /** Enable the loading of hydrogen atoms */
+    bool loadHydrogen;
+    /** Defines the representation of the protein (Atoms, atoms and sticks,
+     * surface, etc) */
+    ProteinRepresentation representation;
+    /** Identifiers of chains to be loaded */
+    std::vector<size_t> chainIds;
+    /** Recenters the protein  */
+    bool recenter;
+    /** Number of protein occurences to be added to the assembly */
+    size_t occurrences;
+    /** Indices of protein occurences in the assembly for which proteins are
+     * added */
+    std::vector<size_t> allowedOccurrences;
+    /** Seed for position randomization */
+    size_t randomSeed;
+    /** Angle for which proteins components should not be added */
+    float locationCutoffAngle;
+    /** Type of randomisation for the elements of the assembly */
+    PositionRandomizationType positionRandomizationType;
+    /** Relative position of the protein in the assembly */
+    std::vector<float> position;
+    /** Relative orientation of the protein in the assembly */
+    std::vector<float> orientation;
+} ProteinDescriptor;
+
+class Protein;
+typedef std::shared_ptr<Protein> ProteinPtr;
+typedef std::map<std::string, ProteinPtr> ProteinMap;
+
+/**
+ * @brief Data structure describing the glycans
+ *
+ */
+typedef struct
+{
+    /** Name of the assembly */
+    std::string assemblyName;
+    /** Name of the glycans in the assembly */
+    std::string name;
+    /** String containing a PDB representation of the glycans */
+    std::string contents;
+    /** Name of the protein on which glycans are added */
+    std::string proteinName;
+    /** Multiplier applied to the radius of the protein atoms */
+    float atomRadiusMultiplier;
+    /** Enable the loading of protein bonds */
+    bool loadBonds;
+    /** Defines the representation of the protein (Atoms, atoms and sticks,
+     * surface, etc) */
+    ProteinRepresentation representation;
+    /** Recenters the protein  */
+    bool recenter;
+    /** Identifiers of chains to be loaded */
+    std::vector<size_t> chainIds;
+    /** List of sites on which glycans can be added */
+    std::vector<size_t> siteIndices;
+    /** List of occurences on which glycans can be added */
+    std::vector<size_t> allowedOccurrences;
+    /** Relative orientation of the glycans on the protein */
+    std::vector<float> orientation;
+} SugarsDescriptor;
+
+class Glycans;
+typedef std::shared_ptr<Glycans> GlycansPtr;
+typedef std::map<std::string, GlycansPtr> GlycansMap;
+
+/**
+ * @brief Data structure describing a membrane based on the shape of a mesh
+ *
+ */
+typedef struct
+{
+    /** Name of the assembly */
+    std::string assemblyName;
+    /** Name of the mesh of the assembly */
+    std::string name;
+    /** String containing an OBJ representation of the mesh */
+    std::string meshContents;
+    /** String containing an PDB representation of the protein */
+    std::string proteinContents;
+    /** Recenters the protein  */
+    bool recenter;
+    /** Density of proteins in surface of the mesh */
+    float density;
+    /** Fixed offset for the position of the protein above the surface of the
+     * mesh*/
+    float surfaceFixedOffset;
+    /** ariable (randomized) offset for the position of the protein above the
+     * surface of the mesh*/
+    float surfaceVariableOffset;
+    /** Multiplier applied to atom radius */
+    float atomRadiusMultiplier;
+    /** Representation of the protein (Atoms, atoms and sticks, etc) */
+    ProteinRepresentation representation;
+    /** Seed for randomization of the variable offset */
+    size_t randomSeed;
+    /** Relative position of the mesh in the assembly */
+    std::vector<float> position;
+    /** Relative orientation of the mesh in the assembly */
+    std::vector<float> orientation;
+    /** Scale of the mesh */
+    std::vector<float> scale;
+} MeshDescriptor;
+class Mesh;
+typedef std::shared_ptr<Mesh> MeshPtr;
+typedef std::map<std::string, MeshPtr> MeshMap;
+
+/**
+ * @brief RNA sequence descriptor
+ *
+ */
+typedef struct
+{
+    /** Name of the assembly */
+    std::string assemblyName;
+    /** Name of the RNA sequence in the assembly */
+    std::string name;
+    /** A string containing the list of codons */
+    std::string contents;
+    /** A given shape */
+    RNAShape shape;
+    /** Assembly parameters (size) */
+    std::vector<float> assemblyParams;
+    /** Range of values used to compute the shape */
+    std::vector<float> range;
+    /** Parameters used to compute the shape */
+    std::vector<float> params;
+    /** Relative position of the RNA sequence in the assembly */
+    std::vector<float> position;
+} RNASequenceDescriptor;
+class RNASequence;
+typedef std::shared_ptr<RNASequence> RNASequencePtr;
+
+/**
+ * @brief Structure defining a selection of amino acids on a protein of
+ * an assembly. The selection is defined as a string
+ *
+ */
+typedef struct
+{
+    /** Name of the assembly */
+    std::string assemblyName;
+    /** Name of the protein in the assembly */
+    std::string name;
+    /** String containing the amino acid sequence to select */
+    std::string sequence;
+} AminoAcidSequenceAsStringDescriptor;
+
+/**
+ * @brief Structure defining a selection of amino acids on a protein of an
+ * assembly. The selection is defined as a range of indices
+ *
+ */
+typedef struct
+{
+    /** Name of the assembly */
+    std::string assemblyName;
+    /** Name of the protein in the assembly */
+    std::string name;
+    /** Tuple of 2 integers defining indices in the sequence of amino acid */
+    std::vector<size_t> range;
+} AminoAcidSequenceAsRangeDescriptor;
+
+typedef struct
+{
+    std::string assemblyName;
+    std::string name;
+} AminoAcidInformationDescriptor;
+
+/**
+ * @brief Structure containing information about an atom, as stored in a PDB
+ * file
+ *
+ */
+typedef struct
+{
+    /** Atom name */
+    std::string name;
+    /** Alternate location indicator */
+    std::string altLoc;
+    /** Residue name */
+    std::string resName;
+    /** Chain identifier */
+    std::string chainId;
+    /** Residue sequence number */
+    size_t reqSeq;
+    /** Code for insertions of residues */
+    std::string iCode;
+    /** orthogonal angstrom coordinates */
+    Vector3f position;
+    /** Occupancy */
+    float occupancy;
+    /** Temperature factor */
+    float tempFactor;
+    /** Element symbol */
+    std::string element;
+    /** Charge */
+    std::string charge;
+    /** Radius */
+    float radius;
+} Atom;
+typedef std::multimap<size_t, Atom, std::less<size_t>> AtomMap;
+
+/**
+ * @brief Sequence of amino acids
+ *
+ */
+typedef struct
+{
+    /** Number of residues in the chain */
+    size_t numRes;
+    /** Residue name */
+    std::vector<std::string> resNames;
+} Sequence;
+typedef std::map<std::string, Sequence> SequenceMap;
+
+/**
+ * @brief Bonds map
+ *
+ */
+typedef std::map<size_t, std::vector<size_t>> BondsMap;
+
+/**
+ * @brief Structure containing amino acids long and shot names
+ *
+ */
+typedef struct
+{
+    /** Long name of the amino acid*/
+    std::string name;
+    /** Short name of the amino acid*/
+    std::string shortName;
+} AminoAcid;
+typedef std::map<std::string, AminoAcid> AminoAcidMap;
+
+/**
+ * @brief Set of residue names
+ *
+ */
+typedef std::set<std::string> Residues;
+
+/**
+ * @brief Atom radii in microns
+ *
+ */
+typedef std::map<std::string, float> AtomicRadii;
+
+/**
+ * @brief Structure defining the RGB color of atoms according to the JMol Scheme
+ *
+ */
+typedef struct
+{
+    short r, g, b;
+} RGBColor;
+typedef std::map<std::string, RGBColor> RGBColorMap;
 
 // Amino acids
 static AminoAcidMap aminoAcidMap = {{".", {".", "."}},
@@ -394,95 +574,130 @@ static RGBColorMap atomColorMap = {
     {"Mt", {0xEB, 0x00, 0x26}}, {"none", {0xFF, 0xFF, 0xFF}},
     {"O1", {0xFF, 0x0D, 0x0D}}, {"selection", {0xFF, 0x00, 0x00}}};
 
-struct AddGrid
+/**
+ * @brief Defines the parameters needed when adding 3D grid in the scene
+ *
+ */
+typedef struct
 {
+    /** Minimum value on the axis */
     float minValue;
+    /** Maximum value on the axis */
     float maxValue;
+    /** Interval between lines of the grid */
     float steps;
+    /** Radius of the lines */
     float radius;
+    /** Opacity of the grid */
     float planeOpacity;
+    /** Defines if axes should be shown */
     bool showAxis;
+    /** Defines if the RGB color scheme shoudl be applied to axis */
     bool useColors;
+    /** Position of the grid in the scene */
     std::vector<float> position;
-};
+} AddGrid;
 
-// Color schemes and materials
+/**
+ * @brief Color schemes that can be applied to proteins
+ *
+ */
 enum class ColorScheme
 {
+    /** All atoms use the same color */
     none = 0,
+    /** Colored by atom according to the Pymol color scheme */
     atoms = 1,
+    /** Colored by chain */
     chains = 2,
+    /** Colored by residue */
     residues = 3,
+    /** Colored by sequence of amino acids */
     amino_acid_sequence = 4,
+    /** Colored by glysolysation site */
     glycosylation_site = 5,
+    /** Colored by functional region */
     region = 6
 };
 
-struct ColorSchemeDescriptor
+/**
+ * @brief Defines the color scheme to apply to a protein
+ *
+ */
+typedef struct
 {
+    /** Name of the assembly */
     std::string assemblyName;
+    /** Name of the protein in the assembly */
     std::string name;
+    /** Color scheme **/
     ColorScheme colorScheme;
+    /** Palette of colors (RGB values) */
     std::vector<float> palette;
-    size_ts chainIds;
-};
+    /** Ids of protein chains to which the colors scheme is applied */
+    std::vector<size_t> chainIds;
+} ColorSchemeDescriptor;
 
-struct MaterialIds
+/**
+ * @brief List of material identifiers attached to a Brayns model
+ *
+ */
+typedef struct
 {
+    /** List of material identifiers */
     std::vector<size_t> ids;
-};
+} MaterialIds;
 
-struct ModelId
+/**
+ * @brief Model identifier
+ *
+ */
+typedef struct
 {
+    /** Model identifier */
     size_t modelId;
-};
+} ModelId;
 
-struct MaterialsDescriptor
+/**
+ * @brief Strucuture containing attributes of materials attached to one or
+ several Brayns models
+ */
+typedef struct
 {
+    /** List of model identifiers */
     std::vector<int32_t> modelIds;
+    /** List of material identifiers */
     std::vector<int32_t> materialIds;
+    /** List of RGB values for diffuse colors */
     std::vector<float> diffuseColors;
+    /** List of RGB values for specular colors */
     std::vector<float> specularColors;
+    /** List of values for specular exponents */
     std::vector<float> specularExponents;
+    /** List of values for reflection indices */
     std::vector<float> reflectionIndices;
+    /** List of values for opacities */
     std::vector<float> opacities;
+    /** List of values for refraction indices */
     std::vector<float> refractionIndices;
+    /** List of values for light emission */
     std::vector<float> emissions;
+    /** List of values for glossiness */
     std::vector<float> glossinesses;
+    /** List of values for shading modes */
     std::vector<int32_t> shadingModes;
+    /** List of values for user defined parameters */
     std::vector<float> userParameters;
-};
+} MaterialsDescriptor;
 
-// Movies and frames
-struct CameraDefinition
-{
-    std::vector<double> origin;
-    std::vector<double> direction;
-    std::vector<double> up;
-    double apertureRadius;
-    double focusDistance;
-    double interpupillaryDistance;
-};
-
-struct ExportFramesToDisk
-{
-    std::string path;
-    std::string format;
-    uint16_t quality{100};
-    uint16_t spp{0};
-    uint16_t startFrame{0};
-    std::vector<uint64_t> animationInformation;
-    std::vector<double> cameraInformation;
-};
-
-struct FrameExportProgress
-{
-    float progress;
-};
-
-// Fields
+/**
+ * @brief Structure containing information about how to build magnetic fields
+ * from atom positions and charge
+ *
+ */
 struct BuildFields
 {
+    /** Voxel size used to build the Octree acceleration structure */
     float voxelSize;
 };
 
@@ -493,23 +708,40 @@ struct ModelIdFileAccess
     std::string filename;
 };
 
+/**
+ * @brief File format for export of atom coordinates, radius and charge
+ *
+ */
 enum class XYZFileFormat
 {
+    /** Unspecified */
     unspecified = 0,
+    /** x, y, z coordinates stored in binary representation (4 byte float) */
     xyz_binary = 1,
+    /** x, y, z coordinates and radius stored in binary representation (4 byte
+       float) */
     xyzr_binary = 2,
+    /** x, y, z coordinates, radius, and charge stored in binary representation
+       (4 byte float) */
     xyzrv_binary = 3,
+    /** x, y, z coordinates stored in space separated ascii representation. One
+       line per atom*/
     xyz_ascii = 4,
+    /** x, y, z coordinates and radius stored in space separated ascii
+       representation. One line per atom*/
     xyzr_ascii = 5,
+    /** x, y, z coordinates, radius, and charge stored in space separated ascii
+       representation. One line per atom*/
     xyzrv_ascii = 6
 };
 
+/**
+ * @brief Strucuture defining how to export data into a file
+ *
+ */
 struct FileAccess
 {
     std::string filename;
     XYZFileFormat fileFormat;
 };
-
 } // namespace bioexplorer
-
-#endif // BIOEXPLORER_TYPES_H

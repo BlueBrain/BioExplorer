@@ -1,4 +1,6 @@
 #!/usr/bin/env python
+"""Test glucose"""
+
 # -*- coding: utf-8 -*-
 
 # Copyright (c) 2020, EPFL/Blue Brain Project
@@ -24,28 +26,29 @@
 
 from bioexplorer import BioExplorer, Volume, Protein, Vector2, Vector3
 
+# pylint: disable=no-member
+# pylint: disable=missing-function-docstring
+# pylint: disable=dangerous-default-value
+
 
 def test_glucose():
     resource_folder = 'tests/test_files/'
     pdb_folder = resource_folder + 'pdb/'
 
-    be = BioExplorer('localhost:5000')
-    be.reset()
-    print('BioExplorer version ' + be.version())
+    bio_explorer = BioExplorer('localhost:5000')
+    bio_explorer.reset()
+    print('BioExplorer version ' + bio_explorer.version())
 
-    ''' Suspend image streaming '''
-    be.core_api().set_application_parameters(image_stream_fps=0)
+    # Suspend image streaming
+    bio_explorer.core_api().set_application_parameters(image_stream_fps=0)
 
-    ''' Proteins '''
-    glycan_radius_multiplier = 1.0
-    glycan_add_sticks = True
-
+    # Proteins
     glucose_path = pdb_folder + 'glucose.pdb'
 
-    ''' Scene parameters '''
+    # Scene parameters
     scene_size = 800
 
-    ''' Glucose'''
+    # Glucose
     protein = Protein(
         sources=[glucose_path],
         load_non_polymer_chemicals=True,
@@ -53,19 +56,19 @@ def test_glucose():
     )
 
     volume = Volume(
-        name=be.NAME_GLUCOSE,
+        name=bio_explorer.NAME_GLUCOSE,
         size=Vector2(scene_size, scene_size),
         protein=protein
     )
 
-    be.add_volume(
+    bio_explorer.add_volume(
         volume=volume,
-        representation=be.REPRESENTATION_ATOMS,
+        representation=bio_explorer.REPRESENTATION_ATOMS,
         position=Vector3(0.0, scene_size / 2.0 - 200.0, 0.0)
     )
 
-    ''' Restore image streaming '''
-    be.core_api().set_application_parameters(image_stream_fps=20)
+    # Restore image streaming
+    bio_explorer.core_api().set_application_parameters(image_stream_fps=20)
 
 
 if __name__ == '__main__':

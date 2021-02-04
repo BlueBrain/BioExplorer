@@ -1,6 +1,6 @@
-/* Copyright (c) 2020, EPFL/Blue Brain Project
+/* Copyright (c) 2020-2021, EPFL/Blue Brain Project
  * All rights reserved. Do not distribute without permission.
- * Responsible Author: Cyrille Favreau <cyrille.favreau@epfl.ch>
+ * Responsible Author: cyrille.favreau@epfl.ch
  *
  * This library is free software; you can redistribute it and/or modify it under
  * the terms of the GNU Lesser General Public License version 3.0 as published
@@ -16,20 +16,18 @@
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
 
-#include "BioExplorerMaterial.h"
-#include "BioExplorerMaterial_ispc.h"
+#include "AdvancedMaterial.h"
+#include "AdvancedMaterial_ispc.h"
 
 //#include <common/types.h>
 #include <ospray/SDK/common/Data.h>
 
-namespace brayns
+namespace bioexplorer
 {
-namespace obj
-{
-void BioExplorerMaterial::commit()
+void AdvancedMaterial::commit()
 {
     if (ispcEquivalent == nullptr)
-        ispcEquivalent = ispc::BioExplorerMaterial_create(this);
+        ispcEquivalent = ispc::AdvancedMaterial_create(this);
 
     // Opacity
     map_d = (ospray::Texture2D*)getParamObject("map_d", nullptr);
@@ -84,7 +82,7 @@ void BioExplorerMaterial::commit()
     // User parameter
     userParameter = getParam1f(MATERIAL_PROPERTY_USER_PARAMETER, 1.f);
 
-    ispc::BioExplorerMaterial_set(
+    ispc::AdvancedMaterial_set(
         getIE(), map_d ? map_d->getIE() : nullptr,
         (const ispc::AffineSpace2f&)xform_d, d,
         map_Refraction ? map_Refraction->getIE() : nullptr,
@@ -104,7 +102,6 @@ void BioExplorerMaterial::commit()
         (const ispc::MaterialShadingMode&)shadingMode, userParameter);
 }
 
-OSP_REGISTER_MATERIAL(bio_explorer, BioExplorerMaterial, default);
-OSP_REGISTER_MATERIAL(bio_explorer_fields, BioExplorerMaterial, default);
-} // namespace obj
-} // namespace brayns
+OSP_REGISTER_MATERIAL(bio_explorer, AdvancedMaterial, default);
+OSP_REGISTER_MATERIAL(bio_explorer_fields, AdvancedMaterial, default);
+} // namespace bioexplorer

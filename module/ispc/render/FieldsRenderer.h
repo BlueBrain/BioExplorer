@@ -1,6 +1,6 @@
-/* Copyright (c) 2020, EPFL/Blue Brain Project
+/* Copyright (c) 2020-2021, EPFL/Blue Brain Project
  * All rights reserved. Do not distribute without permission.
- * Responsible Author: Cyrille Favreau <cyrille.favreau@epfl.ch>
+ * Responsible Author: cyrille.favreau@epfl.ch
  *
  * This library is free software; you can redistribute it and/or modify it under
  * the terms of the GNU Lesser General Public License version 3.0 as published
@@ -18,22 +18,41 @@
 
 #pragma once
 
-#include "BioExplorerMaterial.h"
+#include "AdvancedMaterial.h"
 
 #include <ospray/SDK/render/Renderer.h>
 
-namespace brayns
+namespace bioexplorer
 {
-class BioExplorerFieldsRenderer : public ospray::Renderer
+using namespace ospray;
+
+/**
+ * @brief The FieldsRenderer class allows visualization of magnetic
+ * fields created by atoms in the 3D scene. An Octree acceleration structure has
+ * to be built by the be_build_fields API in order to feed the renderer with the
+ * information needed to compute the value of the field for every point in the
+ * 3D space
+ */
+class FieldsRenderer : public ospray::Renderer
 {
 public:
-    BioExplorerFieldsRenderer();
+    /**
+     * @brief Construct a new Bio Explorer Fields Renderer object
+     *
+     */
+    FieldsRenderer();
 
     /**
-       Returns the class name as a string
-       @return string containing the full name of the class
-    */
+     * @brief Returns the class name as a string
+     *
+     * @return A string containing the full name of the class
+     */
     std::string toString() const final { return "bio_explorer_fields"; }
+
+    /**
+     * @brief Commit the changes to the OSPRay engine
+     *
+     */
     void commit() final;
 
 private:
@@ -42,7 +61,7 @@ private:
     void** _lightPtr;
     ospray::Data* _lightData;
 
-    brayns::obj::BioExplorerMaterial* _bgMaterial;
+    AdvancedMaterial* _bgMaterial;
 
     bool _useHardwareRandomizer{false};
     ospray::uint32 _randomNumber{0};
@@ -61,4 +80,4 @@ private:
     ospray::Ref<ospray::Data> _userData;
     ospray::uint64 _userDataSize;
 };
-} // namespace brayns
+} // namespace bioexplorer

@@ -1,6 +1,6 @@
-/* Copyright (c) 2020, EPFL/Blue Brain Project
+/* Copyright (c) 2020-2021, EPFL/Blue Brain Project
  * All rights reserved. Do not distribute without permission.
- * Responsible Author: Cyrille Favreau <cyrille.favreau@epfl.ch>
+ * Responsible Author: cyrille.favreau@epfl.ch
  *
  * This library is free software; you can redistribute it and/or modify it under
  * the terms of the GNU Lesser General Public License version 3.0 as published
@@ -27,23 +27,31 @@
 
 namespace bioexplorer
 {
+/**
+ * @brief Structure representing a sequence of nucleotide triplets
+ *
+ */
 struct Codon
 {
+    /** Codon index */
     size_t index;
+    /** Codon long name */
     std::string name;
+    /** Codon default color */
     Vector3f defaultColor;
 };
 typedef std::map<char, Codon> CondonMap;
 
+/**
+ * @brief Map of codons indexed by short name
+ *
+ */
 CondonMap nucleotidMap{{'A', {0, "Adenine", {0.f, 0.f, 1.f}}},
                        {'U', {1, "Uracile", {0.f, 1.f, 0.f}}},
                        {'G', {2, "Guanine", {1.f, 0.f, 0.f}}},
                        {'C', {3, "Cytosine", {1.f, 1.f, 0.f}}}};
 
-RNASequence::RNASequence(Scene& scene, const RNASequenceDescriptor& rd,
-                         const Vector2f& range = {0.f, 2.f * M_PI},
-                         const Vector3f& params = {1.f, 1.f, 1.f},
-                         const Vector3f& position = Vector3f())
+RNASequence::RNASequence(Scene& scene, const RNASequenceDescriptor& rd)
     : Node()
 {
     const auto& sequence = rd.contents;
@@ -70,8 +78,8 @@ RNASequence::RNASequence(Scene& scene, const RNASequenceDescriptor& rd,
     PLUGIN_INFO << "Sequence total length: " << nbElements << std::endl;
     PLUGIN_INFO << "Created " << nbMaterials << " materials" << std::endl;
 
-    Vector3f U{range.x, range.y, nbElements};
-    Vector3f V{range.x, range.y, nbElements};
+    Vector3f U{rd.range[0], rd.range[1], nbElements};
+    Vector3f V{rd.range[0], rd.range[1], nbElements};
 
     switch (rd.shape)
     {
@@ -107,8 +115,10 @@ RNASequence::RNASequence(Scene& scene, const RNASequenceDescriptor& rd,
             }
             case RNAShape::torus:
             {
-                src = _torus(rd.assemblyParams[0], u, params);
-                dst = _torus(rd.assemblyParams[0], u + uStep, params);
+                src = _torus(rd.assemblyParams[0], u,
+                             {rd.params[0], rd.params[1], rd.params[2]});
+                dst = _torus(rd.assemblyParams[0], u + uStep,
+                             {rd.params[0], rd.params[1], rd.params[2]});
                 break;
             }
             case RNAShape::star:
@@ -125,8 +135,10 @@ RNASequence::RNASequence(Scene& scene, const RNASequenceDescriptor& rd,
             }
             case RNAShape::trefoilKnot:
             {
-                src = _trefoilKnot(rd.assemblyParams[0], u, params);
-                dst = _trefoilKnot(rd.assemblyParams[0], u + uStep, params);
+                src = _trefoilKnot(rd.assemblyParams[0], u,
+                                   {rd.params[0], rd.params[1], rd.params[2]});
+                dst = _trefoilKnot(rd.assemblyParams[0], u + uStep,
+                                   {rd.params[0], rd.params[1], rd.params[2]});
                 break;
             }
             case RNAShape::heart:
@@ -137,8 +149,10 @@ RNASequence::RNASequence(Scene& scene, const RNASequenceDescriptor& rd,
             }
             case RNAShape::thing:
             {
-                src = _thing(rd.assemblyParams[0], u, params);
-                dst = _thing(rd.assemblyParams[0], u + uStep, params);
+                src = _thing(rd.assemblyParams[0], u,
+                             {rd.params[0], rd.params[1], rd.params[2]});
+                dst = _thing(rd.assemblyParams[0], u + uStep,
+                             {rd.params[0], rd.params[1], rd.params[2]});
                 break;
             }
             default:
@@ -147,20 +161,22 @@ RNASequence::RNASequence(Scene& scene, const RNASequenceDescriptor& rd,
             }
 
             const char letter = sequence[elementId];
-            const auto& codon = nucleotidMap[letter];
-            const auto materialId = codon.index;
-            const auto radius = rd.assemblyParams[1];
-            model->addCylinder(materialId,
-                               {position + src, position + dst, radius});
-
-            if (elementId == 0)
-                model->addSphere(materialId, {position + src, radius});
-            if (elementId == nbElements - 1)
-                model->addSphere(materialId, {position + dst, radius});
-
+            if (nucleotidMap.find(letter) != nucleotidMap.end())
+            {
+                const auto& codon = nucleotidMap[letter];
+                const auto materialId = codon.index;
+                const auto radius = rd.assemblyParams[1];
+                const Vector3f position = {rd.position[0], rd.position[1],
+                                           rd.position[2]};
+                model->addCylinder(materialId,
+                                   {position + src, position + dst, radius});
+                if (elementId == 0)
+                    model->addSphere(materialId, {position + src, radius});
+                if (elementId == nbElements - 1)
+                    model->addSphere(materialId, {position + dst, radius});
+            }
             if (elementId == nbElements)
                 break;
-
             ++elementId;
         }
     }

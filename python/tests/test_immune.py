@@ -1,4 +1,6 @@
 #!/usr/bin/env python
+"""Test immune system"""
+
 # -*- coding: utf-8 -*-
 
 # Copyright (c) 2020, EPFL/Blue Brain Project
@@ -24,29 +26,30 @@
 
 from bioexplorer import BioExplorer, Volume, Protein, Vector2, Vector3
 
+# pylint: disable=no-member
+# pylint: disable=missing-function-docstring
+# pylint: disable=dangerous-default-value
+
 
 def test_immune():
     resource_folder = 'tests/test_files/'
     pdb_folder = resource_folder + 'pdb/immune/'
 
-    be = BioExplorer('localhost:5000')
-    be.reset()
-    print('BioExplorer version ' + be.version())
+    bio_explorer = BioExplorer('localhost:5000')
+    bio_explorer.reset()
+    print('BioExplorer version ' + bio_explorer.version())
 
-    ''' Suspend image streaming '''
-    be.core_api().set_application_parameters(image_stream_fps=0)
+    # Suspend image streaming
+    bio_explorer.core_api().set_application_parameters(image_stream_fps=0)
 
-    ''' Proteins '''
-    glycan_radius_multiplier = 1.0
-    glycan_add_sticks = True
-
+    # Proteins
     lactoferrin_path = pdb_folder + '1b0l.pdb'
     defensin_path = pdb_folder + '1ijv.pdb'
 
-    ''' Scene parameters '''
+    # Scene parameters
     scene_size = 800
 
-    ''' Lactoferrins'''
+    # Lactoferrins
     lactoferrins = Protein(
         sources=[lactoferrin_path],
         load_non_polymer_chemicals=True,
@@ -54,18 +57,18 @@ def test_immune():
     )
 
     lactoferrins_volume = Volume(
-        name=be.NAME_LACTOFERRIN,
+        name=bio_explorer.NAME_LACTOFERRIN,
         size=Vector2(scene_size, scene_size),
         protein=lactoferrins
     )
 
-    be.add_volume(
+    bio_explorer.add_volume(
         volume=lactoferrins_volume,
-        representation=be.REPRESENTATION_ATOMS,
+        representation=bio_explorer.REPRESENTATION_ATOMS,
         position=Vector3(0.0, scene_size / 2.0 - 200.0, 0.0)
     )
 
-    ''' Defensins '''
+    # Defensins
     defensins = Protein(
         sources=[defensin_path],
         load_non_polymer_chemicals=True,
@@ -73,20 +76,20 @@ def test_immune():
     )
 
     defensins_volume = Volume(
-        name=be.NAME_DEFENSIN,
+        name=bio_explorer.NAME_DEFENSIN,
         size=Vector2(scene_size, scene_size),
         protein=defensins
     )
 
-    be.add_volume(
+    bio_explorer.add_volume(
         volume=defensins_volume,
-        representation=be.REPRESENTATION_ATOMS,
+        representation=bio_explorer.REPRESENTATION_ATOMS,
         position=Vector3(0.0, scene_size / 2.0 - 200.0, 0.0),
         random_seed=3
     )
 
-    ''' Restore image streaming '''
-    be.core_api().set_application_parameters(image_stream_fps=20)
+    # Restore image streaming
+    bio_explorer.core_api().set_application_parameters(image_stream_fps=20)
 
 
 if __name__ == '__main__':

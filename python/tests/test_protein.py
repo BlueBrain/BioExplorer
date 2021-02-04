@@ -1,4 +1,6 @@
 #!/usr/bin/env python
+"""Test protein"""
+
 # -*- coding: utf-8 -*-
 
 # Copyright (c) 2020, EPFL/Blue Brain Project
@@ -24,20 +26,23 @@
 
 from bioexplorer import BioExplorer, Protein, Quaternion
 
+# pylint: disable=no-member
+# pylint: disable=missing-function-docstring
+
 
 def test_layout():
     resource_folder = 'tests/test_files/'
     pdb_folder = resource_folder + 'pdb/'
 
-    be = BioExplorer('localhost:5000')
-    be.reset()
-    print('BioExplorer version ' + be.version())
+    bio_explorer = BioExplorer('localhost:5000')
+    bio_explorer.reset()
+    print('BioExplorer version ' + bio_explorer.version())
 
-    ''' Suspend image streaming '''
-    be.core_api().set_application_parameters(image_stream_fps=0)
+    # Suspend image streaming
+    bio_explorer.core_api().set_application_parameters(image_stream_fps=0)
 
-    ''' Camera '''
-    brayns = be.core_api()
+    # Camera
+    brayns = bio_explorer.core_api()
     brayns.set_camera(
         current='orthographic',
         orientation=[0.0, 0.0, 0.0, 1.0],
@@ -48,13 +53,13 @@ def test_layout():
     params.height = 55
     brayns.set_camera_params(params)
 
-    ''' ACE2 Receptor '''
+    # ACE2 Receptor
     ace2_receptor = Protein(sources=[pdb_folder + '6m1d.pdb'])
-    be.add_protein('ACE2 receptor', ace2_receptor,
-                   orientation=Quaternion(0.5, 0.5, 1.0, 0.0))
+    bio_explorer.add_protein('ACE2 receptor', ace2_receptor,
+                             orientation=Quaternion(0.5, 0.5, 1.0, 0.0))
 
-    ''' Restore image streaming '''
-    be.core_api().set_application_parameters(image_stream_fps=20)
+    # Restore image streaming
+    bio_explorer.core_api().set_application_parameters(image_stream_fps=20)
 
 
 if __name__ == '__main__':

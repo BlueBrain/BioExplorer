@@ -1,6 +1,6 @@
-/* Copyright (c) 2020, EPFL/Blue Brain Project
+/* Copyright (c) 2020-2021, EPFL/Blue Brain Project
  * All rights reserved. Do not distribute without permission.
- * Responsible Author: Cyrille Favreau <cyrille.favreau@epfl.ch>
+ * Responsible Author: cyrille.favreau@epfl.ch
  *
  * This library is free software; you can redistribute it and/or modify it under
  * the terms of the GNU Lesser General Public License version 3.0 as published
@@ -16,8 +16,7 @@
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
 
-#ifndef BIOEXPLORER_UTILS_H
-#define BIOEXPLORER_UTILS_H
+#pragma once
 
 #include <brayns/common/types.h>
 #include <plugin/common/Types.h>
@@ -152,5 +151,3 @@ void getBezierPosition(const Vector3fs& points, const float assemblyRadius,
 void setTransferFunction(brayns::TransferFunction& tf);
 
 } // namespace bioexplorer
-
-#endif // BIOEXPLORER_UTILS_H

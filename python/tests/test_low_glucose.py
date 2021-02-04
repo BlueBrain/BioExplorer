@@ -1,4 +1,6 @@
 #!/usr/bin/env python
+"""Test low glucose scenario"""
+
 # -*- coding: utf-8 -*-
 
 # Copyright (c) 2020, EPFL/Blue Brain Project
@@ -22,8 +24,13 @@
 # 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 # All rights reserved. Do not distribute without further notice.
 
+import math
 from bioexplorer import BioExplorer, RNASequence, Protein, AssemblyProtein, Virus, Surfactant, \
-    Membrane, Cell, Sugars, Volume, Mesh, Vector2, Vector3, Quaternion
+    Membrane, Cell, Sugars, Volume, Vector2, Vector3, Quaternion
+
+# pylint: disable=no-member
+# pylint: disable=missing-function-docstring
+# pylint: disable=dangerous-default-value
 
 # Model settings
 PROTEIN_RADIUS_MULTIPLIER = 1.0
@@ -108,8 +115,6 @@ def add_virus(bioexplorer, name, position, open_conformation_indices=list()):
 
     rna_sequence = None
     if ADD_RNA:
-        import math
-
         rna_sequence = RNASequence(
             source=RNA_FOLDER + 'sars-cov-2.rna',
             assembly_params=Vector2(11.0, 0.5),
@@ -278,62 +283,66 @@ def add_defensins(bioexplorer, size, number):
 def test_low_glucose():
     try:
         # Connect to BioExplorer server
-        bioexplorer = BioExplorer('localhost:5000')
-        core = bioexplorer.core_api()
-        print('BioExplorer version ' + bioexplorer.version())
-        bioexplorer.reset()
+        bio_explorer = BioExplorer('localhost:5000')
+        core = bio_explorer.core_api()
+        print('BioExplorer version ' + bio_explorer.version())
+        bio_explorer.reset()
 
         # Suspend image streaming
         core.set_application_parameters(image_stream_fps=0)
 
         # Build full model
         add_virus(
-            bioexplorer, name='Coronavirus 1', position=Vector3(-5.0, 19.0, -36.0))
+            bio_explorer, name='Coronavirus 1', position=Vector3(-5.0, 19.0, -36.0))
         add_virus(
-            bioexplorer, name='Coronavirus 2', position=Vector3(73.0, 93.0, -115.0))
+            bio_explorer, name='Coronavirus 2', position=Vector3(73.0, 93.0, -115.0))
         add_virus(
-            bioexplorer, name='Coronavirus 3', position=Vector3(-84.0, 110.0, 75.0))
+            bio_explorer, name='Coronavirus 3', position=Vector3(-84.0, 110.0, 75.0))
         add_virus(
-            bioexplorer, name='Coronavirus 4', position=Vector3(-70.0, -100.0, 230.0),
+            bio_explorer, name='Coronavirus 4', position=Vector3(-70.0, -100.0, 230.0),
             open_conformation_indices=[1])
         add_virus(
-            bioexplorer, name='Coronavirus 5', position=Vector3(200.0, 20.0, -150.0))
+            bio_explorer, name='Coronavirus 5', position=Vector3(200.0, 20.0, -150.0))
 
         add_cell(
-            bioexplorer, name='Cell 1', size=CELL_SIZE, height=CELL_HEIGHT,
+            bio_explorer, name='Cell 1', size=CELL_SIZE, height=CELL_HEIGHT,
             position=Vector3(4.5, -186, 7.0))
 
         add_surfactant_d(
-            bioexplorer, name='Surfactant-D 1', position=Vector3(74.0, 24.0, -45.0), random_seed=1)
+            bio_explorer, name='Surfactant-D 1', position=Vector3(74.0, 24.0, -45.0), random_seed=1)
         add_surfactant_d(
-            bioexplorer, name='Surfactant-D 2', position=Vector3(-30.0, 91.0, 20.0), random_seed=2)
+            bio_explorer, name='Surfactant-D 2', position=Vector3(-30.0, 91.0, 20.0), random_seed=2)
         add_surfactant_d(
-            bioexplorer, name='Surfactant-D 3', position=Vector3(-165.0, 140.0, 105.0), random_seed=1)
+            bio_explorer, name='Surfactant-D 3', position=Vector3(-165.0, 140.0, 105.0),
+            random_seed=1)
         add_surfactant_d(
-            bioexplorer, name='Surfactant-D 4', position=Vector3(-260.0, 50.0, 0.0), random_seed=6)
+            bio_explorer, name='Surfactant-D 4', position=Vector3(-260.0, 50.0, 0.0), random_seed=6)
 
         add_surfactant_a(
-            bioexplorer, name='Surfactant-A 1', position=Vector3(200.0, 50.0, 150.0), random_seed=2)
+            bio_explorer, name='Surfactant-A 1', position=Vector3(200.0, 50.0, 150.0),
+            random_seed=2)
 
         add_glucose(
-            bioexplorer, CELL_SIZE, 120000)
+            bio_explorer, CELL_SIZE, 120000)
         add_lactoferrins(
-            bioexplorer, CELL_SIZE, 150)
+            bio_explorer, CELL_SIZE, 150)
         add_defensins(
-            bioexplorer, CELL_SIZE, 300)
+            bio_explorer, CELL_SIZE, 300)
 
         # BBP only
         #
         # core.add_model(name='Emile', path=LYMPHOCYTE_PATH)
         # models = core.scene.models
         # lymphocyte_model_id = models[len(models) - 1]['id']
-        # transformation = {'rotation': [0.707, 0.707, 0.0, 0.0], 'rotation_center': [0.0, 0.0, 0.0],
-        #                   'scale': [2.0, 2.0, 2.0], 'translation': [-935.0, 0.0, 0.0]}
+        # transformation = {'rotation': [0.707, 0.707, 0.0, 0.0],
+        #                   'rotation_center': [0.0, 0.0, 0.0],
+        #                   'scale': [2.0, 2.0, 2.0],
+        #                   'translation': [-935.0, 0.0, 0.0]}
         # core.update_model(
         #     id=lymphocyte_model_id, transformation=transformation)
 
         # Apply default materials
-        bioexplorer.apply_default_color_scheme(bioexplorer.SHADING_MODE_BASIC)
+        bio_explorer.apply_default_color_scheme(bio_explorer.SHADING_MODE_BASIC)
 
         # Set rendering settings
         core.set_renderer(

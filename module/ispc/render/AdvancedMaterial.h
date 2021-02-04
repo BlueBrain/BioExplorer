@@ -1,6 +1,6 @@
-/* Copyright (c) 2020, EPFL/Blue Brain Project
+/* Copyright (c) 2020-2021, EPFL/Blue Brain Project
  * All rights reserved. Do not distribute without permission.
- * Responsible Author: Cyrille Favreau <cyrille.favreau@epfl.ch>
+ * Responsible Author: cyrille.favreau@epfl.ch
  *
  * This library is free software; you can redistribute it and/or modify it under
  * the terms of the GNU Lesser General Public License version 3.0 as published
@@ -16,21 +16,18 @@
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
 
-#ifndef BIOEXPLORER_MATERIAL_H
-#define BIOEXPLORER_MATERIAL_H
+#pragma once
 
 #include <plugin/common/CommonTypes.h>
 
 #include <ospray/SDK/common/Material.h>
 #include <ospray/SDK/texture/Texture2D.h>
 
-namespace brayns
-{
-namespace obj
+namespace bioexplorer
 {
 typedef ospray::vec3f Color;
 
-struct BioExplorerMaterial : public ospray::Material
+struct AdvancedMaterial : public ospray::Material
 {
     /*! opacity: 0 (transparent), 1 (opaque) */
     ospray::Texture2D* map_d;
@@ -84,7 +81,4 @@ struct BioExplorerMaterial : public ospray::Material
     std::string toString() const final { return "default_material"; }
     void commit() final;
 };
-} // namespace obj
-} // namespace brayns
-
-#endif // BIOEXPLORER_MATERIAL_H
+} // namespace bioexplorer

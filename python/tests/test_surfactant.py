@@ -1,4 +1,6 @@
 #!/usr/bin/env python
+"""Test surfactants"""
+
 # -*- coding: utf-8 -*-
 
 # Copyright (c) 2020, EPFL/Blue Brain Project
@@ -24,40 +26,46 @@
 
 from bioexplorer import BioExplorer, Surfactant, Vector3
 
+# pylint: disable=no-member
+# pylint: disable=missing-function-docstring
+
 
 def test_surfactant():
     resource_folder = 'tests/test_files/'
     pdb_folder = resource_folder + 'pdb/surfactant/'
 
-    be = BioExplorer('localhost:5000')
-    be.reset()
-    print('BioExplorer version ' + be.version())
+    bio_explorer = BioExplorer('localhost:5000')
+    bio_explorer.reset()
+    print('BioExplorer version ' + bio_explorer.version())
 
-    ''' Suspend image streaming '''
-    be.core_api().set_application_parameters(image_stream_fps=0)
-    be.core_api().set_camera(
+    # Suspend image streaming
+    bio_explorer.core_api().set_application_parameters(image_stream_fps=0)
+    bio_explorer.core_api().set_camera(
         orientation=[0.0, 0.0, 0.0, 1.0], position=[0, 0, 200], target=[0, 0, 0])
 
-    ''' Proteins '''
-    protein_representation = be.REPRESENTATION_ATOMS
+    # Proteins
+    protein_representation = bio_explorer.REPRESENTATION_ATOMS
 
     head_source = pdb_folder + '1pw9.pdb'
     branch_source = pdb_folder + '1k6f.pdb'
 
-    ''' SP-D '''
-    surfactant_d = Surfactant(name='SP-D', surfactant_protein=be.SURFACTANT_PROTEIN_D, head_source=head_source,
-                              branch_source=branch_source)
-    be.add_surfactant(surfactant=surfactant_d, representation=protein_representation, position=Vector3(-50, 0, 0),
-                      random_seed=10)
+    # SP-D
+    surfactant_d = Surfactant(
+        name='SP-D', surfactant_protein=bio_explorer.SURFACTANT_PROTEIN_D, head_source=head_source,
+        branch_source=branch_source)
+    bio_explorer.add_surfactant(
+        surfactant=surfactant_d, representation=protein_representation, position=Vector3(-50, 0, 0),
+        random_seed=10)
 
-    ''' SP-A '''
-    surfactant_a = Surfactant(name='SP-A', surfactant_protein=be.SURFACTANT_PROTEIN_A, head_source=head_source,
-                              branch_source=branch_source)
-    be.add_surfactant(surfactant=surfactant_a,
-                      representation=protein_representation, position=Vector3(50, 0, 0))
+    # SP-A
+    surfactant_a = Surfactant(
+        name='SP-A', surfactant_protein=bio_explorer.SURFACTANT_PROTEIN_A, head_source=head_source,
+        branch_source=branch_source)
+    bio_explorer.add_surfactant(
+        surfactant=surfactant_a, representation=protein_representation, position=Vector3(50, 0, 0))
 
-    ''' Restore image streaming '''
-    be.core_api().set_application_parameters(image_stream_fps=20)
+    # Restore image streaming
+    bio_explorer.core_api().set_application_parameters(image_stream_fps=20)
 
 
 if __name__ == '__main__':

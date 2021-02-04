@@ -1,6 +1,6 @@
-/* Copyright (c) 2020, EPFL/Blue Brain Project
+/* Copyright (c) 2020-2021, EPFL/Blue Brain Project
  * All rights reserved. Do not distribute without permission.
- * Responsible Author: Cyrille Favreau <cyrille.favreau@epfl.ch>
+ * Responsible Author: cyrille.favreau@epfl.ch
  *
  * This library is free software; you can redistribute it and/or modify it under
  * the terms of the GNU Lesser General Public License version 3.0 as published
@@ -16,8 +16,7 @@
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
 
-#ifndef BIOEXPLORER_PARAMS_H
-#define BIOEXPLORER_PARAMS_H
+#pragma once
 
 #include <plugin/common/Types.h>
 
@@ -68,15 +67,8 @@ bool from_json(MaterialsDescriptor &materialsDescriptor,
                const std::string &payload);
 std::string to_json(const MaterialIds &param);
 
-// Movies and frames
-bool from_json(CameraDefinition &param, const std::string &payload);
-std::string to_json(const CameraDefinition &param);
-bool from_json(ExportFramesToDisk &param, const std::string &payload);
-std::string to_json(const FrameExportProgress &exportProgress);
-
 // Fields
 bool from_json(BuildFields &param, const std::string &payload);
 bool from_json(ModelIdFileAccess &param, const std::string &payload);
 
 } // namespace bioexplorer
-#endif // BIOEXPLORER_PARAMS_H

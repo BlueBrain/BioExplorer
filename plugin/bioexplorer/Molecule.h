@@ -1,5 +1,22 @@
-#ifndef BIOEXPLORER_MOLECULE_H
-#define BIOEXPLORER_MOLECULE_H
+/* Copyright (c) 2020-2021, EPFL/Blue Brain Project
+ * All rights reserved. Do not distribute without permission.
+ * Responsible Author: cyrille.favreau@epfl.ch
+ *
+ * This library is free software; you can redistribute it and/or modify it under
+ * the terms of the GNU Lesser General Public License version 3.0 as published
+ * by the Free Software Foundation.
+ *
+ * This library is distributed in the hope that it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+ * FOR A PARTICULAR PURPOSE.  See the GNU Lesser General Public License for more
+ * details.
+ *
+ * You should have received a copy of the GNU Lesser General Public License
+ * along with this library; if not, write to the Free Software Foundation, Inc.,
+ * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
+ */
+
+#pragma once
 
 #include <plugin/bioexplorer/Node.h>
 #include <plugin/common/Types.h>
@@ -20,14 +37,63 @@ const std::string KEY_SEQRES = "SEQRES";
 const std::string KEY_REMARK = "REMARK";
 
 /**
- * @brief The Molecule class
+ * @brief The Molecule class implements the 3D representation of a molecule. The
+ * object also contains metadata attached to the molecule itself, such as the
+ * amino acids sequence, or the chain ids for example. The current
+ * implementation only supports PDB as an input format for the molecule data and
+ * metadata
  */
 class Molecule : public Node
 {
 public:
+    /**
+     * @brief Construct a new Molecule object
+     *
+     * @param scene The 3D scene where the glycans are added
+     * @param chainIds IDs of chains to be used to construct the molecule object
+     */
     Molecule(Scene& scene, const size_ts& chainIds);
 
+    /**
+     * @brief Get the Atoms object
+     *
+     * @return AtomMap& The map of atoms composing the molecule. The key of the
+     * map is the id of the atom, as defined in the PDB file
+     */
+    AtomMap& getAtoms() { return _atomMap; }
+
+    /**
+     * @brief Get the Residues object
+     *
+     * @return Residues& The list of residues composing the molecule
+     */
+    Residues& getResidues() { return _residues; }
+
+    /**
+     * @brief Get the Sequences object
+     *
+     * @return SequenceMap& The map of acid amino sequences composing the
+     * molecule. The key of the map is the id of the chain, as defined in the
+     * PDB file
+     */
+    SequenceMap& getSequences() { return _sequenceMap; }
+
+    /**
+     * @brief Get the Sequences As String object
+     *
+     * @return StringMap
+     */
     StringMap getSequencesAsString() const;
+
+    /**
+     * @brief Get the Amino Acid Sequence object
+     *
+     * @return const std::string&
+     */
+    const std::string& getAminoAcidSequence() const
+    {
+        return _aminoAcidSequence;
+    }
 
 protected:
     void _setAtomColorScheme();
@@ -64,4 +130,3 @@ protected:
     Boxf _bounds;
 };
 } // namespace bioexplorer
-#endif // BIOEXPLORER_MOLECULE_H

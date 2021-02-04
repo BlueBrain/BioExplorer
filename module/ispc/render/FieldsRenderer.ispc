@@ -1,6 +1,6 @@
-/* Copyright (c) 2020, EPFL/Blue Brain Project
+/* Copyright (c) 2020-2021, EPFL/Blue Brain Project
  * All rights reserved. Do not distribute without permission.
- * Responsible Author: Cyrille Favreau <cyrille.favreau@epfl.ch>
+ * Responsible Author: cyrille.favreau@epfl.ch
  *
  * This library is free software; you can redistribute it and/or modify it under
  * the terms of the GNU Lesser General Public License version 3.0 as published
@@ -16,13 +16,13 @@
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
 
-#include "BioExplorerFieldsRenderer.ih"
+#include "FieldsRenderer.ih"
 
 #include "utils/BioExplorerRandomGenerator.ih"
 
 const float EPSILON = 1e-6f;
 
-float treeWalker(const uniform BioExplorerFieldsRenderer* uniform self,
+float treeWalker(const uniform FieldsRenderer* uniform self,
                  const vec3f& point, const varying float distance,
                  const varying float cutoff, const varying int32 index)
 {
@@ -59,8 +59,8 @@ float treeWalker(const uniform BioExplorerFieldsRenderer* uniform self,
     return voxelValue;
 }
 
-inline vec3f BioExplorerFieldsRenderer_shadeRay(
-    const uniform BioExplorerFieldsRenderer* uniform self,
+inline vec3f FieldsRenderer_shadeRay(
+    const uniform FieldsRenderer* uniform self,
     varying ScreenSample& sample)
 {
     const Ray ray = sample.ray;
@@ -125,27 +125,27 @@ inline vec3f BioExplorerFieldsRenderer_shadeRay(
                  make_vec3f(1.f));
 }
 
-void BioExplorerFieldsRenderer_renderSample(uniform Renderer* uniform _self,
+void FieldsRenderer_renderSample(uniform Renderer* uniform _self,
                                             void* uniform perFrameData,
                                             varying ScreenSample& sample)
 {
-    uniform BioExplorerFieldsRenderer* uniform self =
-        (uniform BioExplorerFieldsRenderer * uniform) _self;
+    uniform FieldsRenderer* uniform self =
+        (uniform FieldsRenderer * uniform) _self;
     sample.ray.time = self->timestamp;
-    sample.rgb = BioExplorerFieldsRenderer_shadeRay(self, sample);
+    sample.rgb = FieldsRenderer_shadeRay(self, sample);
 }
 
 // Exports (called from C++)
-export void* uniform BioExplorerFieldsRenderer_create(void* uniform cppE)
+export void* uniform FieldsRenderer_create(void* uniform cppE)
 {
-    uniform BioExplorerFieldsRenderer* uniform self =
-        uniform new uniform BioExplorerFieldsRenderer;
+    uniform FieldsRenderer* uniform self =
+        uniform new uniform FieldsRenderer;
     Renderer_Constructor(&self->super, cppE);
-    self->super.renderSample = BioExplorerFieldsRenderer_renderSample;
+    self->super.renderSample = FieldsRenderer_renderSample;
     return self;
 }
 
-export void BioExplorerFieldsRenderer_set(
+export void FieldsRenderer_set(
     void* uniform _self, void* uniform bgMaterial,
     uniform float* uniform userData, const uniform uint64 userDataSize,
     const uniform int& randomNumber, const uniform float& timestamp,
@@ -155,8 +155,8 @@ export void BioExplorerFieldsRenderer_set(
     const uniform float& exposure, const uniform bool& useHardwareRandomizer,
     const uniform float& cutoff, const uniform float& alphaCorrection)
 {
-    uniform BioExplorerFieldsRenderer* uniform self =
-        (uniform BioExplorerFieldsRenderer * uniform) _self;
+    uniform FieldsRenderer* uniform self =
+        (uniform FieldsRenderer * uniform) _self;
 
     // OSPRay
     self->super.spp = spp;
@@ -165,7 +165,7 @@ export void BioExplorerFieldsRenderer_set(
     self->numLights = numLights;
 
     // Bio explorer
-    self->bgMaterial = (uniform BioExplorerMaterial * uniform) bgMaterial;
+    self->bgMaterial = (uniform AdvancedMaterial * uniform) bgMaterial;
 
     self->timestamp = timestamp;
     self->exposure = exposure;
@@ -193,10 +193,10 @@ export void BioExplorerFieldsRenderer_set(
     self->startData = (userData ? self->startIndices + userData[10] : 0);
 }
 
-export void BioExplorerFieldsRenderer_setTransferFunction(void* uniform _self,
+export void FieldsRenderer_setTransferFunction(void* uniform _self,
                                                           void* uniform value)
 {
-    uniform BioExplorerFieldsRenderer* uniform self =
-        (uniform BioExplorerFieldsRenderer * uniform) _self;
+    uniform FieldsRenderer* uniform self =
+        (uniform FieldsRenderer * uniform) _self;
     self->transferFunction = (TransferFunction * uniform) value;
 }

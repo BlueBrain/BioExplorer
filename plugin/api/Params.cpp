@@ -1,6 +1,6 @@
-/* Copyright (c) 2020, EPFL/Blue Brain Project
+/* Copyright (c) 2020-2021, EPFL/Blue Brain Project
  * All rights reserved. Do not distribute without permission.
- * Responsible Author: Cyrille Favreau <cyrille.favreau@epfl.ch>
+ * Responsible Author: cyrille.favreau@epfl.ch
  *
  * This library is free software; you can redistribute it and/or modify it under
  * the terms of the GNU Lesser General Public License version 3.0 as published
@@ -188,6 +188,7 @@ bool from_json(RNASequenceDescriptor &param, const std::string &payload)
         FROM_JSON(param, js, assemblyParams);
         FROM_JSON(param, js, range);
         FROM_JSON(param, js, params);
+        FROM_JSON(param, js, position);
     }
     catch (...)
     {
@@ -412,78 +413,6 @@ std::string to_json(const MaterialIds &param)
         nlohmann::json js;
         TO_JSON(param, js, ids);
         return js.dump();
-    }
-    catch (...)
-    {
-        return "";
-    }
-    return "";
-}
-
-// Movies and frames
-bool from_json(CameraDefinition &param, const std::string &payload)
-{
-    try
-    {
-        auto js = nlohmann::json::parse(payload);
-        FROM_JSON(param, js, origin);
-        FROM_JSON(param, js, direction);
-        FROM_JSON(param, js, up);
-    }
-    catch (...)
-    {
-        return false;
-    }
-    return true;
-}
-
-std::string to_json(const CameraDefinition &param)
-{
-    try
-    {
-        nlohmann::json js;
-
-        TO_JSON(param, js, origin);
-        TO_JSON(param, js, direction);
-        TO_JSON(param, js, up);
-        TO_JSON(param, js, apertureRadius);
-        TO_JSON(param, js, focusDistance);
-        return js.dump();
-    }
-    catch (...)
-    {
-        return "";
-    }
-    return "";
-}
-
-bool from_json(ExportFramesToDisk &param, const std::string &payload)
-{
-    try
-    {
-        auto js = nlohmann::json::parse(payload);
-        FROM_JSON(param, js, path);
-        FROM_JSON(param, js, format);
-        FROM_JSON(param, js, quality);
-        FROM_JSON(param, js, spp);
-        FROM_JSON(param, js, startFrame);
-        FROM_JSON(param, js, animationInformation);
-        FROM_JSON(param, js, cameraInformation);
-    }
-    catch (...)
-    {
-        return false;
-    }
-    return true;
-}
-
-std::string to_json(const FrameExportProgress &exportProgress)
-{
-    try
-    {
-        nlohmann::json json;
-        TO_JSON(exportProgress, json, progress);
-        return json.dump();
     }
     catch (...)
     {

@@ -1,6 +1,6 @@
-/* Copyright (c) 2020, EPFL/Blue Brain Project
+/* Copyright (c) 2020-2021, EPFL/Blue Brain Project
  * All rights reserved. Do not distribute without permission.
- * Responsible Author: Cyrille Favreau <cyrille.favreau@epfl.ch>
+ * Responsible Author: cyrille.favreau@epfl.ch
  *
  * This library is free software; you can redistribute it and/or modify it under
  * the terms of the GNU Lesser General Public License version 3.0 as published
@@ -16,13 +16,13 @@
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
 
-#include "BioExplorer.h"
+#include "BioExplorerPlugin.h"
 
 #include <plugin/bioexplorer/Assembly.h>
 #include <plugin/common/CommonTypes.h>
 #include <plugin/common/Logs.h>
 #include <plugin/common/Utils.h>
-#include <plugin/io/BioExplorerLoader.h>
+#include <plugin/io/CacheLoader.h>
 
 #include <brayns/common/ActionInterface.h>
 #include <brayns/engineapi/Camera.h>
@@ -112,19 +112,19 @@ void _addBioExplorerPerspectiveCamera(brayns::Engine &engine)
     engine.addCameraType("bio_explorer_perspective", properties);
 }
 
-BioExplorer::BioExplorer()
+BioExplorerPlugin::BioExplorerPlugin()
     : ExtensionPlugin()
 {
 }
 
-void BioExplorer::init()
+void BioExplorerPlugin::init()
 {
     auto actionInterface = _api->getActionInterface();
     auto &scene = _api->getScene();
     auto &registry = scene.getLoaderRegistry();
 
-    registry.registerLoader(std::make_unique<BioExplorerLoader>(
-        scene, BioExplorerLoader::getCLIProperties()));
+    registry.registerLoader(
+        std::make_unique<CacheLoader>(scene, CacheLoader::getCLIProperties()));
 
     if (actionInterface)
     {
@@ -278,59 +278,21 @@ void BioExplorer::init()
     _addBioExplorerFieldsRenderer(engine);
 }
 
-void BioExplorer::preRender()
+void BioExplorerPlugin::preRender()
 {
     if (_dirty)
         _api->getScene().markModified();
     _dirty = false;
-
-    if (_exportFramesToDiskDirty && _accumulationFrameNumber == 0)
-    {
-        const auto &ai = _exportFramesToDiskPayload.animationInformation;
-        if (_frameNumber >= ai.size())
-            _exportFramesToDiskDirty = false;
-        else
-        {
-            const uint64_t i = 12 * _frameNumber;
-            // Camera position
-            CameraDefinition cd;
-            const auto &ci = _exportFramesToDiskPayload.cameraInformation;
-            cd.origin = {ci[i], ci[i + 1], ci[i + 2]};
-            cd.direction = {ci[i + 3], ci[i + 4], ci[i + 5]};
-            cd.up = {ci[i + 6], ci[i + 7], ci[i + 8]};
-            cd.apertureRadius = ci[i + 9];
-            cd.focusDistance = ci[i + 10];
-            cd.interpupillaryDistance = ci[i + 11];
-            _setCamera(cd);
-
-            // Animation parameters
-            _api->getParametersManager().getAnimationParameters().setFrame(
-                _frameNumber);
-        }
-    }
 }
 
-void BioExplorer::postRender()
-{
-    if (_exportFramesToDiskDirty &&
-        _accumulationFrameNumber == _exportFramesToDiskPayload.spp)
-    {
-        _doExportFrameToDisk();
-        ++_frameNumber;
-        _accumulationFrameNumber = 0;
-    }
-    else
-        ++_accumulationFrameNumber;
-}
-
-Response BioExplorer::_version() const
+Response BioExplorerPlugin::_version() const
 {
     Response response;
     response.contents = BIOEXPLORER_VERSION;
     return response;
 }
 
-Response BioExplorer::_removeAssembly(const AssemblyDescriptor &payload)
+Response BioExplorerPlugin::_removeAssembly(const AssemblyDescriptor &payload)
 {
     auto assembly = _assemblies.find(payload.name);
     if (assembly != _assemblies.end())
@@ -339,7 +301,7 @@ Response BioExplorer::_removeAssembly(const AssemblyDescriptor &payload)
     return Response();
 }
 
-Response BioExplorer::_addAssembly(const AssemblyDescriptor &payload)
+Response BioExplorerPlugin::_addAssembly(const AssemblyDescriptor &payload)
 {
     Response response;
     try
@@ -352,7 +314,7 @@ Response BioExplorer::_addAssembly(const AssemblyDescriptor &payload)
     return response;
 }
 
-Response BioExplorer::_setColorScheme(
+Response BioExplorerPlugin::_setColorScheme(
     const ColorSchemeDescriptor &payload) const
 {
     Response response;
@@ -374,7 +336,7 @@ Response BioExplorer::_setColorScheme(
     return response;
 }
 
-Response BioExplorer::_setAminoAcidSequenceAsString(
+Response BioExplorerPlugin::_setAminoAcidSequenceAsString(
     const AminoAcidSequenceAsStringDescriptor &payload) const
 {
     Response response;
@@ -399,7 +361,7 @@ Response BioExplorer::_setAminoAcidSequenceAsString(
     return response;
 }
 
-Response BioExplorer::_setAminoAcidSequenceAsRange(
+Response BioExplorerPlugin::_setAminoAcidSequenceAsRange(
     const AminoAcidSequenceAsRangeDescriptor &payload) const
 {
     Response response;
@@ -424,7 +386,7 @@ Response BioExplorer::_setAminoAcidSequenceAsRange(
     return response;
 }
 
-Response BioExplorer::_getAminoAcidInformation(
+Response BioExplorerPlugin::_getAminoAcidInformation(
     const AminoAcidInformationDescriptor &payload) const
 {
     Response response;
@@ -446,7 +408,7 @@ Response BioExplorer::_getAminoAcidInformation(
     return response;
 }
 
-Response BioExplorer::_addRNASequence(
+Response BioExplorerPlugin::_addRNASequence(
     const RNASequenceDescriptor &payload) const
 {
     Response response;
@@ -468,7 +430,8 @@ Response BioExplorer::_addRNASequence(
     return response;
 }
 
-Response BioExplorer::_addMembrane(const MembraneDescriptor &payload) const
+Response BioExplorerPlugin::_addMembrane(
+    const MembraneDescriptor &payload) const
 {
     Response response;
     try
@@ -489,7 +452,7 @@ Response BioExplorer::_addMembrane(const MembraneDescriptor &payload) const
     return response;
 }
 
-Response BioExplorer::_addProtein(const ProteinDescriptor &payload) const
+Response BioExplorerPlugin::_addProtein(const ProteinDescriptor &payload) const
 {
     Response response;
     try
@@ -510,7 +473,7 @@ Response BioExplorer::_addProtein(const ProteinDescriptor &payload) const
     return response;
 }
 
-Response BioExplorer::_addGlycans(const SugarsDescriptor &payload) const
+Response BioExplorerPlugin::_addGlycans(const SugarsDescriptor &payload) const
 {
     Response response;
     try
@@ -531,7 +494,7 @@ Response BioExplorer::_addGlycans(const SugarsDescriptor &payload) const
     return response;
 }
 
-Response BioExplorer::_addSugars(const SugarsDescriptor &payload) const
+Response BioExplorerPlugin::_addSugars(const SugarsDescriptor &payload) const
 {
     Response response;
     try
@@ -556,33 +519,33 @@ Response BioExplorer::_addSugars(const SugarsDescriptor &payload) const
     return response;
 }
 
-Response BioExplorer::_exportToCache(const FileAccess &payload)
+Response BioExplorerPlugin::_exportToCache(const FileAccess &payload)
 {
     Response response;
     try
     {
         auto &scene = _api->getScene();
-        BioExplorerLoader loader(scene);
+        CacheLoader loader(scene);
         loader.exportToCache(payload.filename);
     }
     CATCH_STD_EXCEPTION()
     return response;
 }
 
-Response BioExplorer::_exportToXYZ(const FileAccess &payload)
+Response BioExplorerPlugin::_exportToXYZ(const FileAccess &payload)
 {
     Response response;
     try
     {
         auto &scene = _api->getScene();
-        BioExplorerLoader loader(scene);
+        CacheLoader loader(scene);
         loader.exportToXYZ(payload.filename, payload.fileFormat);
     }
     CATCH_STD_EXCEPTION()
     return response;
 }
 
-Response BioExplorer::_addMesh(const MeshDescriptor &payload) const
+Response BioExplorerPlugin::_addMesh(const MeshDescriptor &payload) const
 {
     Response response;
     try
@@ -603,7 +566,7 @@ Response BioExplorer::_addMesh(const MeshDescriptor &payload) const
     return response;
 }
 
-Response BioExplorer::_addGrid(const AddGrid &payload)
+Response BioExplorerPlugin::_addGrid(const AddGrid &payload)
 {
     Response response;
     try
@@ -755,7 +718,7 @@ Response BioExplorer::_addGrid(const AddGrid &payload)
     return response;
 }
 
-MaterialIds BioExplorer::_getMaterialIds(const ModelId &modelId)
+MaterialIds BioExplorerPlugin::_getMaterialIds(const ModelId &modelId)
 {
     MaterialIds materialIds;
     auto modelDescriptor = _api->getScene().getModel(modelId.modelId);
@@ -771,7 +734,7 @@ MaterialIds BioExplorer::_getMaterialIds(const ModelId &modelId)
     return materialIds;
 }
 
-Response BioExplorer::_setMaterials(const MaterialsDescriptor &payload)
+Response BioExplorerPlugin::_setMaterials(const MaterialsDescriptor &payload)
 {
     Response response;
     try
@@ -864,144 +827,7 @@ Response BioExplorer::_setMaterials(const MaterialsDescriptor &payload)
     return response;
 }
 
-void BioExplorer::_setCamera(const CameraDefinition &payload)
-{
-    auto &camera = _api->getCamera();
-
-    // Origin
-    const auto &o = payload.origin;
-    brayns::Vector3f origin{o[0], o[1], o[2]};
-    camera.setPosition(origin);
-
-    // Target
-    const auto &d = payload.direction;
-    brayns::Vector3f direction{d[0], d[1], d[2]};
-    camera.setTarget(origin + direction);
-
-    // Up
-    const auto &u = payload.up;
-    brayns::Vector3f up{u[0], u[1], u[2]};
-
-    // Orientation
-    const glm::quat q = glm::inverse(
-        glm::lookAt(origin, origin + direction,
-                    up)); // Not quite sure why this should be inverted?!?
-    camera.setOrientation(q);
-
-    // Aperture
-    camera.updateProperty("apertureRadius", payload.apertureRadius);
-
-    // Focus distance
-    camera.updateProperty("focusDistance", payload.focusDistance);
-
-    // Stereo
-    camera.updateProperty("stereo", payload.interpupillaryDistance != 0.0);
-    camera.updateProperty("interpupillaryDistance",
-                          payload.interpupillaryDistance);
-
-    _api->getCamera().markModified();
-}
-
-CameraDefinition BioExplorer::_getCamera()
-{
-    const auto &camera = _api->getCamera();
-
-    CameraDefinition cd;
-    const auto &p = camera.getPosition();
-    cd.origin = {p.x, p.y, p.z};
-    const auto d =
-        glm::rotate(camera.getOrientation(), brayns::Vector3d(0., 0., -1.));
-    cd.direction = {d.x, d.y, d.z};
-    const auto u =
-        glm::rotate(camera.getOrientation(), brayns::Vector3d(0., 1., 0.));
-    cd.up = {u.x, u.y, u.z};
-    return cd;
-}
-
-void BioExplorer::_exportFramesToDisk(const ExportFramesToDisk &payload)
-{
-    _exportFramesToDiskPayload = payload;
-    _exportFramesToDiskDirty = true;
-    _frameNumber = payload.startFrame;
-    _accumulationFrameNumber = 0;
-    auto &frameBuffer = _api->getEngine().getFrameBuffer();
-    frameBuffer.clear();
-    PLUGIN_INFO << "-----------------------------------------------------------"
-                   "---------------------"
-                << std::endl;
-    PLUGIN_INFO << "Movie settings     :" << std::endl;
-    PLUGIN_INFO << "- Number of frames : "
-                << payload.animationInformation.size() - payload.startFrame
-                << std::endl;
-    PLUGIN_INFO << "- Samples per pixel: " << payload.spp << std::endl;
-    PLUGIN_INFO << "- Frame size       : " << frameBuffer.getSize()
-                << std::endl;
-    PLUGIN_INFO << "- Export folder    : " << payload.path << std::endl;
-    PLUGIN_INFO << "- Start frame      : " << payload.startFrame << std::endl;
-    PLUGIN_INFO << "-----------------------------------------------------------"
-                   "---------------------"
-                << std::endl;
-}
-
-void BioExplorer::_doExportFrameToDisk()
-{
-    auto &frameBuffer = _api->getEngine().getFrameBuffer();
-    auto image = frameBuffer.getImage();
-    auto fif = _exportFramesToDiskPayload.format == "jpg"
-                   ? FIF_JPEG
-                   : FreeImage_GetFIFFromFormat(
-                         _exportFramesToDiskPayload.format.c_str());
-    if (fif == FIF_JPEG)
-        image.reset(FreeImage_ConvertTo24Bits(image.get()));
-    else if (fif == FIF_UNKNOWN)
-        throw std::runtime_error("Unknown format: " +
-                                 _exportFramesToDiskPayload.format);
-
-    int flags = _exportFramesToDiskPayload.quality;
-    if (fif == FIF_TIFF)
-        flags = TIFF_NONE;
-
-    brayns::freeimage::MemoryPtr memory(FreeImage_OpenMemory());
-
-    FreeImage_SaveToMemory(fif, image.get(), memory.get(), flags);
-
-    BYTE *pixels = nullptr;
-    DWORD numPixels = 0;
-    FreeImage_AcquireMemory(memory.get(), &pixels, &numPixels);
-
-    char frame[7];
-    sprintf(frame, "%05d", _frameNumber);
-    std::string filename = _exportFramesToDiskPayload.path + '/' + frame + "." +
-                           _exportFramesToDiskPayload.format;
-    std::ofstream file;
-    file.open(filename, std::ios_base::binary);
-    if (!file.is_open())
-        PLUGIN_THROW(std::runtime_error("Failed to create " + filename));
-
-    file.write((char *)pixels, numPixels);
-    file.close();
-
-    frameBuffer.clear();
-
-    PLUGIN_INFO << "Frame saved to " << filename << std::endl;
-}
-
-FrameExportProgress BioExplorer::_getFrameExportProgress()
-{
-    FrameExportProgress result;
-    const size_t totalNumberOfFrames =
-        (_exportFramesToDiskPayload.animationInformation.size() -
-         _exportFramesToDiskPayload.startFrame) *
-        _exportFramesToDiskPayload.spp;
-    const float currentProgress =
-        _frameNumber * _exportFramesToDiskPayload.spp +
-        _accumulationFrameNumber;
-
-    result.progress = currentProgress / float(totalNumberOfFrames);
-    return result;
-}
-
-void BioExplorer::_attachFieldsHandler(FieldsHandlerPtr handler)
+void BioExplorerPlugin::_attachFieldsHandler(FieldsHandlerPtr handler)
 {
     auto &scene = _api->getScene();
     auto model = scene.createModel();
@@ -1036,7 +862,7 @@ void BioExplorer::_attachFieldsHandler(FieldsHandlerPtr handler)
                 << " was successfully created" << std::endl;
 }
 
-Response BioExplorer::_buildFields(const BuildFields &payload)
+Response BioExplorerPlugin::_buildFields(const BuildFields &payload)
 {
     Response response;
     try
@@ -1051,7 +877,7 @@ Response BioExplorer::_buildFields(const BuildFields &payload)
     return response;
 }
 
-Response BioExplorer::_importFieldsFromFile(const FileAccess &payload)
+Response BioExplorerPlugin::_importFieldsFromFile(const FileAccess &payload)
 {
     Response response;
     try
@@ -1066,7 +892,8 @@ Response BioExplorer::_importFieldsFromFile(const FileAccess &payload)
     return response;
 }
 
-Response BioExplorer::_exportFieldsToFile(const ModelIdFileAccess &payload)
+Response BioExplorerPlugin::_exportFieldsToFile(
+    const ModelIdFileAccess &payload)
 {
     Response response;
     try
@@ -1123,7 +950,7 @@ extern "C" ExtensionPlugin *brayns_plugin_create(int /*argc*/, char ** /*argv*/)
     PLUGIN_INFO << "Initializing BioExplorer plug-in (version "
                 << BIOEXPLORER_VERSION << ")" << std::endl;
     PLUGIN_INFO << std::endl;
-    return new BioExplorer();
+    return new BioExplorerPlugin();
 }
 
 } // namespace bioexplorer

@@ -1,4 +1,6 @@
 #!/usr/bin/env python
+"""Test cell"""
+
 # -*- coding: utf-8 -*-
 
 # Copyright (c) 2020, EPFL/Blue Brain Project
@@ -24,19 +26,23 @@
 
 from bioexplorer import BioExplorer, Cell, Membrane, Protein, Vector2, Vector3
 
+# pylint: disable=no-member
+# pylint: disable=missing-function-docstring
+# pylint: disable=dangerous-default-value
+
 
 def test_cell():
     resource_folder = 'tests/test_files/'
     pdb_folder = resource_folder + 'pdb/'
 
-    be = BioExplorer('localhost:5000')
-    be.reset()
+    bio_explorer = BioExplorer('localhost:5000')
+    bio_explorer.reset()
 
     # Suspend image streaming
-    be.core_api().set_application_parameters(image_stream_fps=0)
+    bio_explorer.core_api().set_application_parameters(image_stream_fps=0)
 
     # Proteins
-    protein_representation = be.REPRESENTATION_ATOMS
+    protein_representation = bio_explorer.REPRESENTATION_ATOMS
 
     # Membrane parameters
     membrane_size = 800
@@ -57,23 +63,24 @@ def test_cell():
     cell = Cell(
         name='Cell',
         size=Vector2(membrane_size, membrane_height),
-        shape=be.ASSEMBLY_SHAPE_SINUSOIDAL,
+        shape=bio_explorer.ASSEMBLY_SHAPE_SINUSOIDAL,
         membrane=membrane, receptor=ace2_receptor)
 
-    be.add_cell(
+    bio_explorer.add_cell(
         cell=cell, position=Vector3(4.5, -186, 7.0),
         representation=protein_representation, random_seed=1)
 
     # Set rendering settings
-    be.core_api().set_renderer(background_color=[96 / 255, 125 / 255, 139 / 255], current='bio_explorer',
-                               samples_per_pixel=1, subsampling=4, max_accum_frames=64)
-    params = be.core_api().BioExplorerRendererParams()
+    bio_explorer.core_api().set_renderer(
+        background_color=[96 / 255, 125 / 255, 139 / 255], current='bio_explorer',
+        samples_per_pixel=1, subsampling=4, max_accum_frames=64)
+    params = bio_explorer.core_api().BioExplorerRendererParams()
     params.shadows = 0.75
     params.soft_shadows = 1.0
-    be.core_api().set_renderer_params(params)
+    bio_explorer.core_api().set_renderer_params(params)
 
     # Restore image streaming
-    be.core_api().set_application_parameters(image_stream_fps=20)
+    bio_explorer.core_api().set_application_parameters(image_stream_fps=20)
 
 
 if __name__ == '__main__':

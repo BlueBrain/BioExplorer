@@ -1,6 +1,6 @@
-/* Copyright (c) 2020, EPFL/Blue Brain Project
+/* Copyright (c) 2020-2021, EPFL/Blue Brain Project
  * All rights reserved. Do not distribute without permission.
- * Responsible Author: Cyrille Favreau <cyrille.favreau@epfl.ch>
+ * Responsible Author: cyrille.favreau@epfl.ch
  *
  * This library is free software; you can redistribute it and/or modify it under
  * the terms of the GNU Lesser General Public License version 3.0 as published
@@ -16,8 +16,7 @@
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
 
-#ifndef BIOEXPLORER_GLYCANS_H
-#define BIOEXPLORER_GLYCANS_H
+#pragma once
 
 #include <brayns/engineapi/Model.h>
 #include <plugin/api/Params.h>
@@ -33,11 +32,10 @@ class Glycans : public Molecule
 {
 public:
     /**
-     * @brief Glycans
-     * @param scene
-     * @param sd
-     * @param positions
-     * @param rotations
+     * @brief Construct a new Glycans object
+     *
+     * @param scene The 3D scene where the glycans are added
+     * @param sd The data structure describing the glycans
      */
     Glycans(Scene& scene, const SugarsDescriptor& sd);
 
@@ -45,4 +43,3 @@ private:
     SugarsDescriptor _descriptor;
 };
 } // namespace bioexplorer
-#endif // BIOEXPLORER_GLYCANS_H

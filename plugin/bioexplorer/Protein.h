@@ -1,6 +1,6 @@
-/* Copyright (c) 2020, EPFL/Blue Brain Project
+/* Copyright (c) 2020-2021, EPFL/Blue Brain Project
  * All rights reserved. Do not distribute without permission.
- * Responsible Author: Cyrille Favreau <cyrille.favreau@epfl.ch>
+ * Responsible Author: cyrille.favreau@epfl.ch
  *
  * This library is free software; you can redistribute it and/or modify it under
  * the terms of the GNU Lesser General Public License version 3.0 as published
@@ -16,8 +16,7 @@
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
 
-#ifndef BIOEXPLORER_PROTEIN_H
-#define BIOEXPLORER_PROTEIN_H
+#pragma once
 
 #include <plugin/api/Params.h>
 
@@ -32,44 +31,92 @@ namespace bioexplorer
 class Protein : public Molecule
 {
 public:
+    /**
+     * @brief Construct a new Protein object
+     *
+     * @param scene Scene to which assembly should be added
+     * @param descriptor Description of the protein
+     */
     Protein(Scene& scene, const ProteinDescriptor& descriptor);
 
-    // Color schemes
+    /**
+     * @brief Set the Color Scheme object
+     *
+     * @param colorScheme Color scheme to apply to the protein
+     * @param palette Palette of colors
+     * @param chainIds Optional identifiers of chains to which the color scheme
+     * is to be applied
+     */
     void setColorScheme(const ColorScheme& colorScheme, const Palette& palette,
                         const size_ts& chainIds);
 
-    // Amino acid sequence
+    /**
+     * @brief Set the Amino Acid Sequence As String object
+     *
+     * @param aminoAcidSequence Sequence of amino acids
+     */
     void setAminoAcidSequenceAsString(const std::string& aminoAcidSequence)
     {
         _aminoAcidSequence = aminoAcidSequence;
         _aminoAcidRange = {0, 0};
     }
+
+    /**
+     * @brief Set the Amino Acid Sequence As Range object
+     *
+     * @param range Range of indices in the amino acids sequence
+     */
     void setAminoAcidSequenceAsRange(const Vector2ui& range)
     {
         _aminoAcidSequence = "";
         _aminoAcidRange = range;
     }
-    const std::string& getAminoAcidSequence() const
-    {
-        return _aminoAcidSequence;
-    }
 
-    // Class member accessors
-    AtomMap& getAtoms() { return _atomMap; }
-    void setAtoms(const AtomMap& atoms) { _atomMap = atoms; }
-    Residues& getResidues() { return _residues; }
-    SequenceMap& getSequences() { return _sequenceMap; }
+    /**
+     * @brief Get the protein descriptor
+     *
+     * @return The protein descriptor object
+     */
     const ProteinDescriptor& getDescriptor() const { return _descriptor; }
 
+    /**
+     * @brief Get the positions and rotations of glycosilation sites on the
+     * protein
+     *
+     * @param positions Positions of glycosilation sites on the protein
+     * @param orientations Orientations of glycosilation sites on the protein
+     * @param siteIndices Optional indices of sites for which positions and
+     * rotations should be returned. If empty, positions and rotations are
+     * returned for every glycosylation site on the protein
+     */
     void getGlycosilationSites(std::vector<Vector3f>& positions,
-                               std::vector<Quaterniond>& rotations,
+                               std::vector<Quaterniond>& orientations,
                                const std::vector<size_t>& siteIndices) const;
 
+    /**
+     * @brief Get the sugar binding sites positions and orientations
+     *
+     * @param positions Positions of sugar binding sites on the protein
+     * @param orientations Orientations of sugar binding sites on the protein
+     * @param siteIndices Optional indices of sites for which positions and
+     * orientations should be returned. If empty, positions and rotations are
+     * returned for every sugar binding site on the protein
+     * @param chainIds Optional identifiers of chains for which positions and
+     * orientations should be returned. If empty, positions and orientations are
+     * returned for every sugar binding site on the protein
+     */
     void getSugarBindingSites(std::vector<Vector3f>& positions,
-                              std::vector<Quaterniond>& rotations,
+                              std::vector<Quaterniond>& orientations,
                               const std::vector<size_t>& siteIndices,
                               const size_ts& chainIds) const;
 
+    /**
+     * @brief Get the glycosylation sites of the protein
+     *
+     * @param siteIndices Optional indices of sites for which glycosylation
+     * sites should be returned. If empty, all sites are returned
+     * @return Glycosylation sites of the protein
+     */
     std::map<std::string, size_ts> getGlycosylationSites(
         const size_ts& siteIndices) const;
 
@@ -87,5 +134,3 @@ private:
     ProteinDescriptor _descriptor;
 };
 } // namespace bioexplorer
-
-#endif // BIOEXPLORER_PROTEIN_H
