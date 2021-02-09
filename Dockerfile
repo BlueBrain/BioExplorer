@@ -180,7 +180,7 @@ ADD . ${BIOEXPLORER_SRC}
 RUN mkdir -p ${BIOEXPLORER_SRC}/docker \
    && cd ${BIOEXPLORER_SRC}/docker \
    && PATH=${ISPC_PATH}/bin:${PATH} CMAKE_PREFIX_PATH=${DIST_PATH} LDFLAGS="-lCGAL" cmake .. \
-   -DCGAL_DO_NOT_WARN_ABOUT_CMAKE_BUILD_TYPE=TRUE -DCMAKE_INSTALL_PREFIX=${DIST_PATH} \
+   -DBIOEXPLORER_UNIT_TESTING_ENABLED=OFF -DCGAL_DO_NOT_WARN_ABOUT_CMAKE_BUILD_TYPE=TRUE -DCMAKE_INSTALL_PREFIX=${DIST_PATH} \
    && make -j install VERBOSE=1
 
 # Final image, containing only Brayns and BioExplorer and libraries required to run it
