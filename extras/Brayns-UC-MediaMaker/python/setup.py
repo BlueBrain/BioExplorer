@@ -23,8 +23,7 @@
 
 import re
 from setuptools import setup
-from bioexplorer.version import VERSION as __version__
-
+from mediamaker.version import __version__
 
 def parse_requirements(filename):
     """ load requirements from a pip requirements file """
@@ -32,9 +31,9 @@ def parse_requirements(filename):
     return [line for line in lineiter if line and not line.startswith("#")]
 
 
-VERSIONFILE = "bioexplorer/version.py"
+VERSIONFILE = "mediamaker/version.py"
 ver_file = open(VERSIONFILE, "rt").read()
-VSRE = r"^VERSION = ['\"]([^'\"]*)['\"]"
+VSRE = r"^__version__ = ['\"]([^'\"]*)['\"]"
 mo = re.search(VSRE, ver_file, re.M)
 
 if mo:
@@ -45,10 +44,10 @@ else:
 install_reqs = parse_requirements('requirements.txt')
 reqs = install_reqs
 
-setup(name='bioexplorer',
+setup(name='braynsmediamaker',
       version=__version__,
-      description='Helper functions for the Blue Brain BioExplorer',
-      packages=['bioexplorer'],
+      description='Media generation plugin for Blue Brain Brayns',
+      packages=['mediamaker'],
       url='https://github.com/BlueBrain/BioExplorer.git',
       author='Blue Brain Project, EPFL',
       license='GNU GPL',

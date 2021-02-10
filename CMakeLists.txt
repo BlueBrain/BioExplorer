@@ -7,3 +7,8 @@
 cmake_minimum_required(VERSION 3.1 FATAL_ERROR)
 
 add_subdirectory(core)
+
+option(BIOEXPLORER_MEDIA_MAKER_ENABLED "Enable media maker plugin" ON)
+if(BIOEXPLORER_MEDIA_MAKER_ENABLED)
+    add_subdirectory(extras/Brayns-UC-MediaMaker)
+endif()
