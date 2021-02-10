@@ -1,9 +1,0 @@
-<map id="bioexplorer::Node" name="bioexplorer::Node">
-<area shape="rect" id="node1" title="The Node class." alt="" coords="5,81,144,108"/>
-<area shape="rect" id="node2" href="$d6/dca/classbioexplorer_1_1Membrane.html" title="A Membrane object implements a 3D structure of a given shape, but with a surface composed of instance..." alt="" coords="202,5,377,32"/>
-<area shape="rect" id="node3" href="$dd/d3e/classbioexplorer_1_1Mesh.html" title="A Mesh object implements a 3D structure that has the shape of a given OBJ mesh, but with a surface co..." alt="" coords="220,56,359,83"/>
-<area shape="rect" id="node4" href="$d6/d81/classbioexplorer_1_1Molecule.html" title="The Molecule class implements the 3D representation of a molecule. The object also contains metadata ..." alt="" coords="208,107,371,133"/>
-<area shape="rect" id="node7" href="$d2/d77/classbioexplorer_1_1RNASequence.html" title="The RNASequence class." alt="" coords="192,157,387,184"/>
-<area shape="rect" id="node5" href="$df/dc3/classbioexplorer_1_1Glycans.html" title="The Glycans class." alt="" coords="435,81,591,108"/>
-<area shape="rect" id="node6" href="$db/d87/classbioexplorer_1_1Protein.html" title="The Protein class." alt="" coords="437,132,588,159"/>
-</map>
