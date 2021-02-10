@@ -32,36 +32,30 @@ inline float getRandomValue()
     return r;
 }
 
-struct PerspectiveCamera
+struct PerspectiveStereoCamera
 {
     Camera super;
 
-    vec3f org;    //!< position of camera, already contains shift when
-                  //! STEREO_{LEFT|RIGHT}
-    vec3f dir_00; //!< direction of ray with screenSample=(0,0); scaled to
-                  //! focusDistance
-    vec3f dir_du; //!< delta of ray direction between two pixels in X; scaled to
-                  //! focusDistance
-    vec3f dir_dv; //!< delta of ray direction between two pixels in Y; scaled to
-                  //! focusDistance
-    float scaledAperture; //!< radius of aperture, divided by horizontal image
-                          //! plane size
-    float aspect;         //!< image plane size x / y
-    bool side_by_side;    //!< stereo mode SIDE_BY_SIDE
-    vec3f ipd_offset;     //!< shift of camera position for left/right eye (only
-                          //! when stereo)
+    vec3f org;
+    vec3f dir_00;
+    vec3f dir_du;
+    vec3f dir_dv;
+    float scaledAperture;
+    float aspect;
+    bool side_by_side;
+    vec3f ipd_offset;
 
     // Clip planes
     const uniform vec4f* clipPlanes;
     unsigned int numClipPlanes;
 };
 
-void PerspectiveCamera_initRay(uniform Camera* uniform _self,
-                                          varying Ray& ray,
-                                          const varying CameraSample& sample)
+void PerspectiveStereoCamera_initRay(uniform Camera* uniform _self,
+                                     varying Ray& ray,
+                                     const varying CameraSample& sample)
 {
-    uniform PerspectiveCamera* uniform self =
-        (uniform PerspectiveCamera * uniform) _self;
+    uniform PerspectiveStereoCamera* uniform self =
+        (uniform PerspectiveStereoCamera * uniform) _self;
 
     vec2f screen = sample.screen;
     vec3f org = self->org;
@@ -111,30 +105,26 @@ void PerspectiveCamera_initRay(uniform Camera* uniform _self,
     setRay(ray, org, direction, nearClip, farClip, time);
 }
 
-/*! create a new ispc-side version of a PerspectiveCamera - with
-   given pointer to the c-class version - and return both class pointer and
-    pointer to internal data back via the supplied reference
-    parameters */
-export void* uniform PerspectiveCamera_create(void* uniform cppE)
+export void* uniform PerspectiveStereoCamera_create(void* uniform cppE)
 {
-    uniform PerspectiveCamera* uniform self =
-        uniform new uniform PerspectiveCamera;
+    uniform PerspectiveStereoCamera* uniform self =
+        uniform new uniform PerspectiveStereoCamera;
     self->super.cppEquivalent = cppE;
-    self->super.initRay = PerspectiveCamera_initRay;
+    self->super.initRay = PerspectiveStereoCamera_initRay;
     self->super.doesDOF = false;
     self->numClipPlanes = 0;
     return self;
 }
 
-export void PerspectiveCamera_set(
+export void PerspectiveStereoCamera_set(
     void* uniform _self, const uniform vec3f& org, const uniform vec3f& dir_00,
     const uniform vec3f& dir_du, const uniform vec3f& dir_dv,
     const uniform float scaledAperture, const uniform float aspect,
     const uniform vec3f& ipd_offset, const uniform bool side_by_side,
     const uniform vec4f clipPlanes[], const uniform unsigned int numClipPlanes)
 {
-    uniform PerspectiveCamera* uniform self =
-        (uniform PerspectiveCamera * uniform) _self;
+    uniform PerspectiveStereoCamera* uniform self =
+        (uniform PerspectiveStereoCamera * uniform) _self;
     self->org = org;
     self->dir_00 = dir_00;
     self->dir_du = dir_du;

@@ -39,7 +39,7 @@ include_directories( ${CMAKE_BINARY_DIR}/generated/ ) # Make sure it can be incl
 # Sources
 # ==============================================================================
 set(${NAME}_SOURCES
-    module/ispc/camera/PerspectiveCamera.cpp
+    module/ispc/camera/PerspectiveStereoCamera.cpp
     module/ispc/render/AdvancedMaterial.cpp
     module/ispc/render/AdvancedRenderer.cpp
     module/ispc/render/FieldsRenderer.cpp
@@ -82,7 +82,7 @@ set(${NAME}_PUBLIC_HEADERS
 )
 
 set(${NAME}_ISPC_SOURCES
-    module/ispc/camera/PerspectiveCamera.ispc
+    module/ispc/camera/PerspectiveStereoCamera.ispc
     module/ispc/render/utils/BioExplorerSkyBox.ispc
     module/ispc/render/utils/BioExplorerRandomGenerator.ispc
     module/ispc/render/FieldsRenderer.ispc

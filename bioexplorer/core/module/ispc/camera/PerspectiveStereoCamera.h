@@ -28,31 +28,36 @@ namespace bioexplorer
 {
 using namespace ospray;
 
-//! Implements a clipped perspective camera
-struct OSPRAY_SDK_INTERFACE PerspectiveCamera : public Camera
+struct OSPRAY_SDK_INTERFACE PerspectiveStereoCamera : public Camera
 {
-    /*! \brief constructor \internal also creates the ispc-side data structure
+    /**
+     * @brief Construct a new Perspective Stereo Camera object
+     *
      */
-    PerspectiveCamera();
+    PerspectiveStereoCamera();
 
-    //! \brief common function to help printf-debugging
-    /*! Every derived class should override this! */
+    /**
+     * @brief Returns the name of the camera
+     *
+     * @return std::string The name of the camera
+     */
     virtual std::string toString() const
     {
-        return "bioexplorer::PerspectiveCamera";
+        return "bioexplorer::PerspectiveStereoCamera";
     }
+
+    /**
+     * @brief Commit the changes to the OSPRay engine
+     *
+     */
     virtual void commit();
 
 public:
-    // ------------------------------------------------------------------
-    // the parameters we 'parsed' from our parameters
-    // ------------------------------------------------------------------
     float fovy;
     float aspect;
     float apertureRadius;
     float focusDistance;
-    bool architectural; // orient image plane to be parallel to 'up' and shift
-                        // the lens
+    bool architectural;
 
     // Clip planes
     bool enableClippingPlanes{false};
@@ -60,7 +65,7 @@ public:
 
     // Stereo
     CameraStereoMode stereoMode;
-    float interpupillaryDistance; // distance between the two cameras (stereo)
+    float interpupillaryDistance;
 };
 
 } // namespace bioexplorer

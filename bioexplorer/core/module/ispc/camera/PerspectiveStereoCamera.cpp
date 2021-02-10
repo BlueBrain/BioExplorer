@@ -18,11 +18,10 @@
  * this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-#include "PerspectiveCamera.h"
+#include "PerspectiveStereoCamera.h"
 #include <limits>
 
-// ispc-side stuff
-#include "PerspectiveCamera_ispc.h"
+#include "PerspectiveStereoCamera_ispc.h"
 
 #include <ospray/SDK/common/Data.h>
 
@@ -33,37 +32,29 @@
 
 namespace bioexplorer
 {
-PerspectiveCamera::PerspectiveCamera()
+PerspectiveStereoCamera::PerspectiveStereoCamera()
 {
-    ispcEquivalent = ispc::PerspectiveCamera_create(this);
+    ispcEquivalent = ispc::PerspectiveStereoCamera_create(this);
 }
 
-void PerspectiveCamera::commit()
+void PerspectiveStereoCamera::commit()
 {
     Camera::commit();
 
-    // ------------------------------------------------------------------
-    // first, "parse" the additional expected parameters
-    // ------------------------------------------------------------------
     fovy = getParamf("fovy", 60.f);
     aspect = getParamf("aspect", 1.f);
     apertureRadius = getParamf("apertureRadius", 0.f);
     focusDistance = getParamf("focusDistance", 1.f);
     stereoMode = getParam("stereo", 0) ? CameraStereoMode::side_by_side
                                        : CameraStereoMode::mono;
-    // the default 63.5mm represents the average human IPD
     interpupillaryDistance = getParamf("interpupillaryDistance", 0.0635f);
     enableClippingPlanes = getParam("enableClippingPlanes", 0);
     clipPlanes =
         enableClippingPlanes ? getParamData("clipPlanes", nullptr) : nullptr;
 
-    // ------------------------------------------------------------------
-    // now, update the local precomputed values
-    // ------------------------------------------------------------------
     dir = normalize(dir);
     vec3f dir_du = normalize(cross(dir, up));
-    vec3f dir_dv =
-        cross(dir_du, dir); // rotate film to be perpendicular to 'dir'
+    vec3f dir_dv = cross(dir_du, dir);
 
     vec3f org = pos;
     const vec3f ipd_offset = 0.5f * interpupillaryDistance * dir_du;
@@ -92,7 +83,6 @@ void PerspectiveCamera::commit()
     vec3f dir_00 = dir - 0.5f * dir_du - 0.5f * dir_dv;
 
     float scaledAperture = 0.f;
-    // prescale to focal plane
     if (apertureRadius > 0.f)
     {
         dir_du *= focusDistance;
@@ -104,15 +94,13 @@ void PerspectiveCamera::commit()
     const auto clipPlaneData = clipPlanes ? clipPlanes->data : nullptr;
     const size_t numClipPlanes = clipPlanes ? clipPlanes->numItems : 0;
 
-    ispc::PerspectiveCamera_set(getIE(), (const ispc::vec3f&)org,
-                                (const ispc::vec3f&)dir_00,
-                                (const ispc::vec3f&)dir_du,
-                                (const ispc::vec3f&)dir_dv, scaledAperture,
-                                aspect, (const ispc::vec3f&)ipd_offset,
-                                stereoMode, (const ispc::vec4f*)clipPlaneData,
-                                numClipPlanes);
+    ispc::PerspectiveStereoCamera_set(
+        getIE(), (const ispc::vec3f&)org, (const ispc::vec3f&)dir_00,
+        (const ispc::vec3f&)dir_du, (const ispc::vec3f&)dir_dv, scaledAperture,
+        aspect, (const ispc::vec3f&)ipd_offset, stereoMode,
+        (const ispc::vec4f*)clipPlaneData, numClipPlanes);
 }
 
-OSP_REGISTER_CAMERA(PerspectiveCamera, bio_explorer_perspective);
+OSP_REGISTER_CAMERA(PerspectiveStereoCamera, bio_explorer_perspective);
 
 } // namespace bioexplorer
