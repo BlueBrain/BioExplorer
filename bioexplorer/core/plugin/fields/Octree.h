@@ -28,18 +28,65 @@
 
 namespace bioexplorer
 {
+/**
+ * @brief The Octree class implements the Octree acceleration structure used by
+ * the FieldsRenderer class to render magnetic fields
+ *
+ */
 class Octree
 {
 public:
+    /**
+     * @brief Construct a new Octree object
+     *
+     * @param events Events used to build the tree. Events contain x, y, z
+     * coordinates, as well as a radius, and a value
+     * @param voxelSize Voxel size
+     * @param minAABB Lower bound of the scene bounding box
+     * @param maxAABB Upper bound of the scene bounding box
+     */
     Octree(const std::vector<float> &events, float voxelSize,
            const glm::vec3 &minAABB, const glm::vec3 &maxAABB);
+
+    /**
+     * @brief Destroy the Octree object
+     *
+     */
     ~Octree();
 
+    /**
+     * @brief Get the volume dimentions defined by the scene and the voxel sizes
+     *
+     * @return The dimensions of the volume
+     */
     const glm::uvec3 &getVolumeDim() const;
+
+    /**
+     * @brief Get the size of the volume
+     *
+     * @return The size of the volume
+     */
     uint64_t getVolumeSize() const;
+
+    /**
+     * @brief Get the size of the Octree
+     *
+     * @return The size of the Octree
+     */
     uint32_t getOctreeSize() const;
 
+    /**
+     * @brief Get a flattened representation of the Octree indices
+     *
+     * @return A flattened representation of the Octree indices
+     */
     const std::vector<uint32_t> &getFlatIndexes() const;
+
+    /**
+     * @brief Get a flattened representation of the Octree data (node values)
+     *
+     * @return A flattened representation of the Octree data (node values)
+     */
     const std::vector<float> &getFlatData() const;
 
 private:
@@ -65,4 +112,4 @@ private:
     std::vector<uint32_t> _flatIndexes;
     std::vector<float> _flatData;
 };
-}
+} // namespace bioexplorer
