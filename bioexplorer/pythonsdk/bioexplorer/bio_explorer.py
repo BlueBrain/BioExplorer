@@ -869,6 +869,35 @@ class BioExplorer:
             raise RuntimeError(result['contents'])
         return result['contents'].split()
 
+    def set_protein_amino_acid(
+            self, assembly_name, name, index, amino_acid_short_name, chain_ids=list()):
+        """
+        Displays a specified amino acid sequence on the protein
+
+        :assembly_name: Name of the assembly containing the protein
+        :name: Name of the protein
+        :index: Index of the amino acid in the sequence
+        :amino_acid_short_name: String containing the short name of the amino acid
+        :chain_ids: Ids of the chains to which the color scheme should be applied
+        :return: Result of the call to the BioExplorer backend
+        """
+        assert index >= 0
+        assert len(amino_acid_short_name) == 3
+        assert isinstance(chain_ids, list)
+        params = dict()
+        params['assemblyName'] = assembly_name
+        params['name'] = name
+        params['index'] = index
+        params['aminoAcidShortName'] = amino_acid_short_name
+        params['chainIds'] = chain_ids
+        result = self._client.rockets_client.request(
+            method=self.PLUGIN_API_PREFIX + 'set-protein-amino-acid',
+            params=params)
+        if not result['status']:
+            raise RuntimeError(result['contents'])
+        self._client.set_renderer(accumulation=True)
+        return result
+
     def add_rna_sequence(
             self, assembly_name, name, rna_sequence):
         """

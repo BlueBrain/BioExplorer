@@ -288,4 +288,27 @@ void Protein::getSugarBindingSites(std::vector<Vector3f>& positions,
     _getSitesTransformations(positions, rotations, sites);
 }
 
+void Protein::setAminoAcid(const SetAminoAcid& aminoAcid)
+{
+    for (auto& sequence : _sequenceMap)
+    {
+        bool acceptChain = true;
+        if (!aminoAcid.chainIds.empty())
+        {
+            const size_t chainId = static_cast<size_t>(sequence.first[0]) - 64;
+            auto it = find(aminoAcid.chainIds.begin(), aminoAcid.chainIds.end(),
+                           chainId);
+            acceptChain = (it == aminoAcid.chainIds.end());
+        }
+
+        if (aminoAcid.index >= sequence.second.resNames.size())
+            PLUGIN_THROW(std::runtime_error(
+                "Invalid index for the amino acid sequence"));
+
+        if (acceptChain)
+            sequence.second.resNames[aminoAcid.index] =
+                aminoAcid.aminoAcidShortName;
+    }
+}
+
 } // namespace bioexplorer

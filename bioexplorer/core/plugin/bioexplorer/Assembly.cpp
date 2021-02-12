@@ -483,6 +483,16 @@ std::string Assembly::getAminoAcidInformation(
     return response;
 }
 
+void Assembly::setAminoAcid(const SetAminoAcid &aminoAcid)
+{
+    auto it = _proteins.find(aminoAcid.name);
+    if (it != _proteins.end())
+        (*it).second->setAminoAcid(aminoAcid);
+    else
+        PLUGIN_THROW(
+            std::runtime_error("Protein not found: " + aminoAcid.name));
+}
+
 void Assembly::addRNASequence(const RNASequenceDescriptor &rnad)
 {
     auto rd = rnad;

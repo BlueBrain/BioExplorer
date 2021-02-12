@@ -75,6 +75,14 @@ public:
         const AminoAcidInformationDescriptor &descriptor) const;
 
     /**
+     * @brief Set an amino acid at a given position in the protein sequences
+     *
+     * @param aminoAcid Structure containing the information related the amino
+     * acid to be modified
+     */
+    void setAminoAcid(const SetAminoAcid &aminoAcid);
+
+    /**
      * @return Clipping planes applied to the assembly
      */
     Vector4fs &getClippingPlanes() { return _clippingPlanes; }

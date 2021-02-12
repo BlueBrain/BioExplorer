@@ -405,6 +405,24 @@ typedef struct
 } AminoAcidInformationDescriptor;
 
 /**
+ * @brief Structure used to set an amino acid in protein sequences
+ *
+ */
+typedef struct
+{
+    /** Name of the assembly */
+    std::string assemblyName;
+    /** Name of the protein */
+    std::string name;
+    /** Index of the amino acid in the sequence */
+    size_t index;
+    /** Amino acid short name */
+    std::string aminoAcidShortName;
+    /** List of chains in which the amino acid is set */
+    std::vector<size_t> chainIds;
+} SetAminoAcid;
+
+/**
  * @brief Structure containing information about an atom, as stored in a PDB
  * file
  *

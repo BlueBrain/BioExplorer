@@ -185,6 +185,13 @@ void BioExplorerPlugin::init()
                     return _getAminoAcidInformation(payload);
                 });
 
+        entryPoint = PLUGIN_API_PREFIX + "set-protein-amino-acid";
+        PLUGIN_INFO << "Registering '" + entryPoint + "' endpoint" << std::endl;
+        actionInterface->registerRequest<SetAminoAcid, Response>(
+            entryPoint, [&](const SetAminoAcid &payload) {
+                return _setAminoAcid(payload);
+            });
+
         entryPoint = PLUGIN_API_PREFIX + "add-rna-sequence";
         PLUGIN_INFO << "Registering '" + entryPoint + "' endpoint" << std::endl;
         actionInterface->registerRequest<RNASequenceDescriptor, Response>(
@@ -504,6 +511,31 @@ Response BioExplorerPlugin::_addSugars(const SugarsDescriptor &payload) const
         auto it = _assemblies.find(payload.assemblyName);
         if (it != _assemblies.end())
             (*it).second->addSugars(payload);
+        else
+        {
+            std::stringstream msg;
+            msg << "Assembly not found: " << payload.assemblyName;
+            PLUGIN_ERROR << msg.str() << std::endl;
+            response.status = false;
+            response.contents = msg.str();
+        }
+    }
+    catch (const std::runtime_error &e)
+    {
+        response.status = false;
+        response.contents = e.what();
+    }
+    return response;
+}
+
+Response BioExplorerPlugin::_setAminoAcid(const SetAminoAcid &payload) const
+{
+    Response response;
+    try
+    {
+        auto it = _assemblies.find(payload.assemblyName);
+        if (it != _assemblies.end())
+            (*it).second->setAminoAcid(payload);
         else
         {
             std::stringstream msg;

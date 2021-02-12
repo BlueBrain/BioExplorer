@@ -122,6 +122,14 @@ public:
     std::map<std::string, size_ts> getGlycosylationSites(
         const size_ts& siteIndices) const;
 
+    /**
+     * @brief Set an amino acid at a given position in the protein sequences
+     *
+     * @param aminoAcid Structure containing the information related the amino
+     * acid to be modified
+     */
+    void setAminoAcid(const SetAminoAcid& aminoAcid);
+
 private:
     // Analysis
     void _getSitesTransformations(
