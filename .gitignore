@@ -25,3 +25,4 @@ pylintrc
 pycodestyle.txt
 pylint.txt
 venv
+html
