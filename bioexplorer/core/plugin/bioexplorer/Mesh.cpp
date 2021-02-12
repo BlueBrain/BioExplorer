@@ -30,8 +30,6 @@
 
 namespace bioexplorer
 {
-const Vector3f up{0.f, 1.f, 0.f};
-
 Mesh::Mesh(Scene& scene, const MeshDescriptor& md)
     : Node()
 {
@@ -200,14 +198,14 @@ Mesh::Mesh(Scene& scene, const MeshDescriptor& md)
                                                 (areas.x + areas.y + areas.z)),
                                  1.f));
 
-                    if (normal != up)
+                    if (normal != UP_VECTOR)
                     {
                         const Quaterniond orientation{md.orientation[0],
                                                       md.orientation[1],
                                                       md.orientation[2],
                                                       md.orientation[3]};
                         const Quaterniond rotation =
-                            glm::quatLookAt(normal, up);
+                            glm::quatLookAt(normal, UP_VECTOR);
                         tf.setRotation(rotation * orientation);
                     }
                     tf.setTranslation(position + transformedVertex +

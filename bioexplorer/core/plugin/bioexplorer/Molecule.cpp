@@ -257,6 +257,42 @@ void Molecule::_buildModel(const std::string& assemblyName,
             _modelDescriptor = sm.generateSurface(_scene, name, pointCloud);
         return;
     }
+    case ProteinRepresentation::debug:
+    {
+        model = _scene.createModel();
+        const size_t materialId = 0;
+        auto material = model->createMaterial(materialId, "Debug");
+        brayns::PropertyMap props;
+        props.setProperty({MATERIAL_PROPERTY_SHADING_MODE,
+                           static_cast<int>(MaterialShadingMode::basic)});
+        props.setProperty({MATERIAL_PROPERTY_USER_PARAMETER, 1.0});
+        material->setDiffuseColor({1.f, 1.f, 1.f});
+        material->updateProperties(props);
+
+#if 1
+        brayns::Boxf box;
+        for (const auto& atom : _atomMap)
+            box.merge({atom.second.position.x, atom.second.position.y,
+                       atom.second.position.z});
+
+        const auto halfSize = box.getSize() * 0.5f;
+        const auto center = box.getCenter();
+
+        const brayns::Vector3f a = {0.f, 0.f, center.z + halfSize.z};
+        const brayns::Vector3f b = {0.f, 0.f, center.z - halfSize.z * 0.5f};
+        const brayns::Vector3f c = {0.f, 0.f, center.z - halfSize.z * 0.6f};
+        const brayns::Vector3f d = {0.f, 0.f, center.z - halfSize.z};
+
+        model->addSphere(materialId, {a, atomRadiusMultiplier * 0.5f});
+        model->addCylinder(materialId, {a, b, atomRadiusMultiplier * 0.5f});
+        model->addCone(materialId, {b, c, atomRadiusMultiplier * 0.5f,
+                                    atomRadiusMultiplier});
+        model->addCone(materialId, {c, d, atomRadiusMultiplier, 0.f});
+#else
+        model->addSphere(materialId, {{0.f, 0.f, 0.f}, atomRadiusMultiplier});
+#endif
+        break;
+    }
     }
 
     // Bonds
@@ -448,12 +484,15 @@ void Molecule::_readSequence(const std::string& line)
     // -------------------------------------------------------------------------
     // 1 - 6   Record name "SEQRES"
     // 8 - 10  Integer   serNum   Serial number of the SEQRES record for the
-    //                            current chain. Starts at 1 and increments by
-    //                            one each line. Reset to 1 for each chain.
-    // 12      Character chainID  Chain identifier. This may be any single legal
-    //                            character, including a blank which is is used
-    //                            if there is only one chain
-    // 14 - 17 Integer   numRes   Number of residues in the chain. This value is
+    //                            current chain. Starts at 1 and increments
+    //                            by one each line. Reset to 1 for each
+    //                            chain.
+    // 12      Character chainID  Chain identifier. This may be any single
+    // legal
+    //                            character, including a blank which is is
+    //                            used if there is only one chain
+    // 14 - 17 Integer   numRes   Number of residues in the chain. This
+    // value is
     //                            repeated on every record.
     // 20 - 22 String    resName  Residue name
     // 24 - 26 ...
@@ -462,7 +501,8 @@ void Molecule::_readSequence(const std::string& line)
     std::string s = line.substr(11, 1);
 
     Sequence& sequence = _sequenceMap[s];
-    // sequence.serNum = static_cast<size_t>(atoi(line.substr(7, 3).c_str()));
+    // sequence.serNum = static_cast<size_t>(atoi(line.substr(7,
+    // 3).c_str()));
     sequence.numRes = static_cast<size_t>(atoi(line.substr(13, 4).c_str()));
 
     for (size_t i = 19; i < line.length(); i += 4)
@@ -513,9 +553,10 @@ void Molecule::_readRemark(const std::string& line)
     // COLUMNS TYPE      FIELD     DEFINITION
     // -------------------------------------------------------------------------
     // 1 - 6   Record name "REMARK"
-    // 8 - 10  Integer   remarkNum Remark number. It is not an error for remark
-    //                             n to exist in an entry when remark n-1 does
-    //                             not.
+    // 8 - 10  Integer   remarkNum Remark number. It is not an error for
+    // remark
+    //                             n to exist in an entry when remark n-1
+    //                             does not.
     // 13 - 16 String    "ALN"
     // 17 - 18 String    "C"
     // 19 - 22 String    "TRG"

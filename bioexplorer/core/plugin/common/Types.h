@@ -35,6 +35,7 @@ using namespace brayns;
 // Consts
 const float BOND_RADIUS = 0.025f;
 const float DEFAULT_STICK_DISTANCE = 0.16f;
+const brayns::Vector3f UP_VECTOR = {0.f, 0.f, 1.f};
 
 // Metadata
 const std::string METADATA_ASSEMBLY = "Assembly";
@@ -139,7 +140,9 @@ enum class ProteinRepresentation
     /** Protein surface computed using metaballs */
     surface = 3,
     /** Protein surface computed using union of balls */
-    union_of_balls = 4
+    union_of_balls = 4,
+    /** Debug mode, usually showing size and orientation of the protein */
+    debug = 5
 };
 
 /**

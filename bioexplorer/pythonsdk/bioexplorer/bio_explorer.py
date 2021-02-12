@@ -108,25 +108,25 @@ class Quaternion:
         """
         Define a simple quaternion
 
-        :args: 4 float values for x, y, z and w
+        :args: 4 float values for w, x, y and z
         :raises: RuntimeError: Invalid number of floats
         """
         if len(args) not in [0, 4]:
             raise RuntimeError('Invalid number of floats (0 or 4 expected)')
 
+        self.w = 1.0
         self.x = 0.0
         self.y = 0.0
         self.z = 0.0
-        self.w = 1.0
         if len(args) == 4:
-            self.x = args[0]
-            self.y = args[1]
-            self.z = args[2]
-            self.w = args[3]
+            self.w = args[0]
+            self.x = args[1]
+            self.y = args[2]
+            self.z = args[3]
 
     def to_list(self):
         """:return: A list containing the values of x, y, z and w attributes"""
-        return [self.x, self.y, self.z, self.w]
+        return [self.w, self.x, self.y, self.z]
 
 
 class BioExplorer:
@@ -177,6 +177,7 @@ class BioExplorer:
     REPRESENTATION_CONTOURS = 2
     REPRESENTATION_SURFACE = 3
     REPRESENTATION_UNION_OF_BALLS = 4
+    REPRESENTATION_DEBUG = 5
 
     ASSEMBLY_SHAPE_SPHERICAL = 0
     ASSEMBLY_SHAPE_PLANAR = 1
@@ -377,20 +378,20 @@ class BioExplorer:
             sources=[pdb_folder + '6vyb.pdb', pdb_folder + 'sars-cov-2-v1.pdb'],
             occurences=nb_protein_s,
             assembly_params=Vector2(11.5, 0.0), cutoff_angle=0.999,
-            orientation=Quaternion(0.087, 0.0, 0.996, 0.0),
+            orientation=Quaternion(0.0, 1.0, 0.0, 0.0),
             instance_indices=[open_conformation_indices, closed_conformation_indices])
 
         # Protein M (QHD43419)
         virus_protein_m = Protein(
             sources=[pdb_folder + 'QHD43419a.pdb'],
             occurences=nb_protein_m, assembly_params=Vector2(2.0, 0.0),
-            cutoff_angle=0.999, orientation=Quaternion(0.99, 0.0, 0.0, 0.135))
+            cutoff_angle=0.999, orientation=Quaternion(0.135, 0.99, 0.0, 0.0))
 
         # Protein E (QHD43418 P0DTC4)
         virus_protein_e = Protein(
             sources=[pdb_folder + 'QHD43418a.pdb'],
             occurences=nb_protein_e, assembly_params=Vector2(3.0, 0.0),
-            cutoff_angle=0.9999, orientation=Quaternion(0.705, 0.705, -0.04, -0.04))
+            cutoff_angle=0.9999, orientation=Quaternion(-0.04, 0.705, 0.705, -0.04))
 
         # Virus membrane
         virus_membrane = Membrane(
@@ -710,7 +711,7 @@ class BioExplorer:
             atom_radius_multiplier=atom_radius_multiplier,
             random_seed=random_seed,
             representation=representation,
-            orientation=Quaternion(-0.624, -0.417, 0.0, 0.661))
+            orientation=Quaternion(0.661, -0.624, -0.417, 0.0))
 
         collagens = list()
         for i in range(nb_collagens):

@@ -233,8 +233,8 @@ void Assembly::_processInstances(
     const size_ts &allowedOccurrences, const size_t randomSeed,
     const Vector3f &proteinPosition, const Quaterniond &proteinOrientation,
     const PositionRandomizationType &randomizationType,
-    const float locationCutoffAngle, const Vector3fs &glycanPositions,
-    const Quaternions &glycanOrientations)
+    const float locationCutoffAngle, const Vector3fs &positions,
+    const Quaternions &orientations)
 {
     const float offset = 2.f / occurrences;
     const float increment = M_PI * (3.f - sqrt(5.f));
@@ -340,25 +340,26 @@ void Assembly::_processInstances(
             continue;
 
         // Final transformation
-        Vector3fs localPositions = glycanPositions;
-        Quaternions localOrientations = glycanOrientations;
-        if (glycanPositions.empty())
+        Vector3fs localPositions = positions;
+        Quaternions localOrientations = orientations;
+        const Quaterniond instanceOrientation = glm::quatLookAt(dir, UP_VECTOR);
+
+        if (positions.empty())
         {
-            localPositions.push_back({0.f, 0.f, 0.f});
-            localOrientations.push_back({0.f, 0.f, 0.f, 1.f});
+            localPositions.push_back(brayns::Vector3f());
+            localOrientations.push_back(Quaterniond());
         }
 
-        Quaterniond instanceOrientation = glm::quatLookAt(dir, {0.f, 0.f, 1.f});
         for (size_t i = 0; i < localPositions.size(); ++i)
         {
             const auto &localPosition = localPositions[i];
             const auto &localOrientation = localOrientations[i];
 
             const Vector3f rotatedLocalPosition =
-                glm::toMat3(instanceOrientation) *
                 glm::toMat3(proteinOrientation) * localPosition;
             const auto translation = _position + pos + rotatedLocalPosition;
-            const auto rotation = instanceOrientation * proteinOrientation;
+            const auto rotation =
+                localOrientation * instanceOrientation * proteinOrientation;
 
             Transformation tf;
             tf.setTranslation(translation);

@@ -77,9 +77,14 @@ Protein::Protein(Scene& scene, const ProteinDescriptor& descriptor)
     // Build 3d models according to atoms positions (re-centered to origin)
     if (descriptor.recenter)
     {
+        brayns::Boxf newBounds;
         const auto& center = _bounds.getCenter();
         for (auto& atom : _atomMap)
+        {
             atom.second.position -= center;
+            newBounds.merge(atom.second.position);
+        }
+        _bounds = newBounds;
     }
 
     _buildModel(_descriptor.assemblyName, _descriptor.name, title, header,
@@ -226,24 +231,38 @@ void Protein::_getSitesTransformations(
     {
         for (const auto site : chain.second)
         {
+            const auto offsetSite = site + 1;
             bool validSite{false};
-            Boxf bounds;
+            Boxf siteBounds;
+            std::string siteAtoms;
             for (const auto& atom : _atomMap)
                 if (atom.second.chainId == chain.first &&
                     atom.second.reqSeq == site)
                 {
-                    bounds.merge(atom.second.position);
+                    siteBounds.merge(atom.second.position);
                     validSite = true;
+                    siteAtoms += "{" + atom.second.name + "}";
                 }
 
             if (validSite)
             {
-                const auto& center = bounds.getCenter();
-                positions.push_back(center);
+                PLUGIN_DEBUG << "Chain: " << chain.first
+                             << ", Site: " << offsetSite
+                             << ", Atoms: " << siteAtoms << std::endl;
+                const auto& proteinCenter = _bounds.getCenter();
+                const auto& siteCenter = siteBounds.getCenter();
+
+                const auto bindOrientation =
+                    normalize(siteCenter - proteinCenter);
+
+                positions.push_back(siteCenter);
                 rotations.push_back(
-                    glm::quatLookAt(normalize(center - _bounds.getCenter()),
-                                    {0.f, 0.f, -1.f}));
+                    glm::quatLookAt(bindOrientation, UP_VECTOR));
             }
+            else
+                PLUGIN_WARN << "Chain: " << chain.first
+                            << ", Site: " << offsetSite
+                            << ": no atoms available" << std::endl;
         }
     }
 }
