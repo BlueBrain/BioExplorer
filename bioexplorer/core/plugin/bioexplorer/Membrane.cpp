@@ -243,7 +243,7 @@ void Membrane::_processInstances()
         Transformation tf;
         tf.setTranslation(_position + pos - center);
 
-        Quaterniond assemblyOrientation = glm::quatLookAt(dir, {0.f, 0.f, 1.f});
+        Quaterniond assemblyOrientation = glm::quatLookAt(dir, UP_VECTOR);
 
         if (_descriptor.randomSeed == 0)
             tf.setRotation(assemblyOrientation * orientation);

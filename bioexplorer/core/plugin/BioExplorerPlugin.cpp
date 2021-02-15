@@ -168,13 +168,13 @@ void BioExplorerPlugin::init()
                 });
 
         entryPoint =
-            PLUGIN_API_PREFIX + "set-protein-amino-acid-sequence-as-range";
+            PLUGIN_API_PREFIX + "set-protein-amino-acid-sequence-as-ranges";
         PLUGIN_INFO << "Registering '" + entryPoint + "' endpoint" << std::endl;
         actionInterface
-            ->registerRequest<AminoAcidSequenceAsRangeDescriptor, Response>(
+            ->registerRequest<AminoAcidSequenceAsRangesDescriptor, Response>(
                 entryPoint,
-                [&](const AminoAcidSequenceAsRangeDescriptor &payload) {
-                    return _setAminoAcidSequenceAsRange(payload);
+                [&](const AminoAcidSequenceAsRangesDescriptor &payload) {
+                    return _setAminoAcidSequenceAsRanges(payload);
                 });
 
         entryPoint = PLUGIN_API_PREFIX + "get-protein-amino-acid-information";
@@ -184,6 +184,13 @@ void BioExplorerPlugin::init()
                 entryPoint, [&](const AminoAcidInformationDescriptor &payload) {
                     return _getAminoAcidInformation(payload);
                 });
+
+        entryPoint = PLUGIN_API_PREFIX + "set-protein-amino-acid";
+        PLUGIN_INFO << "Registering '" + entryPoint + "' endpoint" << std::endl;
+        actionInterface->registerRequest<SetAminoAcid, Response>(
+            entryPoint, [&](const SetAminoAcid &payload) {
+                return _setAminoAcid(payload);
+            });
 
         entryPoint = PLUGIN_API_PREFIX + "add-rna-sequence";
         PLUGIN_INFO << "Registering '" + entryPoint + "' endpoint" << std::endl;
@@ -363,13 +370,13 @@ Response BioExplorerPlugin::_setAminoAcidSequenceAsString(
     return response;
 }
 
-Response BioExplorerPlugin::_setAminoAcidSequenceAsRange(
-    const AminoAcidSequenceAsRangeDescriptor &payload) const
+Response BioExplorerPlugin::_setAminoAcidSequenceAsRanges(
+    const AminoAcidSequenceAsRangesDescriptor &payload) const
 {
     Response response;
     try
     {
-        if (payload.range.size() != 2)
+        if (payload.ranges.size() % 2 != 0 || payload.ranges.size() < 2)
             throw std::runtime_error("A valid range must be specified");
 
         auto it = _assemblies.find(payload.assemblyName);
@@ -504,6 +511,31 @@ Response BioExplorerPlugin::_addSugars(const SugarsDescriptor &payload) const
         auto it = _assemblies.find(payload.assemblyName);
         if (it != _assemblies.end())
             (*it).second->addSugars(payload);
+        else
+        {
+            std::stringstream msg;
+            msg << "Assembly not found: " << payload.assemblyName;
+            PLUGIN_ERROR << msg.str() << std::endl;
+            response.status = false;
+            response.contents = msg.str();
+        }
+    }
+    catch (const std::runtime_error &e)
+    {
+        response.status = false;
+        response.contents = e.what();
+    }
+    return response;
+}
+
+Response BioExplorerPlugin::_setAminoAcid(const SetAminoAcid &payload) const
+{
+    Response response;
+    try
+    {
+        auto it = _assemblies.find(payload.assemblyName);
+        if (it != _assemblies.end())
+            (*it).second->setAminoAcid(payload);
         else
         {
             std::stringstream msg;

@@ -35,6 +35,7 @@ using namespace brayns;
 // Consts
 const float BOND_RADIUS = 0.025f;
 const float DEFAULT_STICK_DISTANCE = 0.16f;
+const brayns::Vector3f UP_VECTOR = {0.f, 0.f, 1.f};
 
 // Metadata
 const std::string METADATA_ASSEMBLY = "Assembly";
@@ -50,6 +51,7 @@ typedef Vector3f Color;
 typedef std::vector<Color> Palette;
 typedef std::vector<Quaterniond> Quaternions;
 typedef std::vector<Vector3f> Vector3fs;
+typedef std::vector<Vector2ui> Vector2uis;
 typedef std::vector<std::pair<Vector3f, float>> OccupiedDirections;
 
 /**
@@ -139,7 +141,9 @@ enum class ProteinRepresentation
     /** Protein surface computed using metaballs */
     surface = 3,
     /** Protein surface computed using union of balls */
-    union_of_balls = 4
+    union_of_balls = 4,
+    /** Debug mode, usually showing size and orientation of the protein */
+    debug = 5
 };
 
 /**
@@ -291,8 +295,6 @@ typedef struct
     std::vector<size_t> chainIds;
     /** List of sites on which glycans can be added */
     std::vector<size_t> siteIndices;
-    /** List of occurences on which glycans can be added */
-    std::vector<size_t> allowedOccurrences;
     /** Relative orientation of the glycans on the protein */
     std::vector<float> orientation;
 } SugarsDescriptor;
@@ -394,15 +396,34 @@ typedef struct
     std::string assemblyName;
     /** Name of the protein in the assembly */
     std::string name;
-    /** Tuple of 2 integers defining indices in the sequence of amino acid */
-    std::vector<size_t> range;
-} AminoAcidSequenceAsRangeDescriptor;
+    /** List of tuples of 2 integers defining indices in the sequence of amino
+     * acid */
+    std::vector<size_t> ranges;
+} AminoAcidSequenceAsRangesDescriptor;
 
 typedef struct
 {
     std::string assemblyName;
     std::string name;
 } AminoAcidInformationDescriptor;
+
+/**
+ * @brief Structure used to set an amino acid in protein sequences
+ *
+ */
+typedef struct
+{
+    /** Name of the assembly */
+    std::string assemblyName;
+    /** Name of the protein */
+    std::string name;
+    /** Index of the amino acid in the sequence */
+    size_t index;
+    /** Amino acid short name */
+    std::string aminoAcidShortName;
+    /** List of chains in which the amino acid is set */
+    std::vector<size_t> chainIds;
+} SetAminoAcid;
 
 /**
  * @brief Structure containing information about an atom, as stored in a PDB

@@ -42,6 +42,12 @@ public:
     Protein(Scene& scene, const ProteinDescriptor& descriptor);
 
     /**
+     * @brief Destroy the Protein object
+     *
+     */
+    ~Protein();
+
+    /**
      * @brief Set the Color Scheme object
      *
      * @param colorScheme Color scheme to apply to the protein
@@ -59,8 +65,8 @@ public:
      */
     void setAminoAcidSequenceAsString(const std::string& aminoAcidSequence)
     {
-        _aminoAcidSequence = aminoAcidSequence;
-        _aminoAcidRange = {0, 0};
+        _selectedAminoAcidSequence = aminoAcidSequence;
+        _selectedAminoAcidRanges = {{0, 0}};
     }
 
     /**
@@ -68,10 +74,10 @@ public:
      *
      * @param range Range of indices in the amino acids sequence
      */
-    void setAminoAcidSequenceAsRange(const Vector2ui& range)
+    void setAminoAcidSequenceAsRanges(const Vector2uis& ranges)
     {
-        _aminoAcidSequence = "";
-        _aminoAcidRange = range;
+        _selectedAminoAcidSequence = "";
+        _selectedAminoAcidRanges = ranges;
     }
 
     /**
@@ -122,6 +128,28 @@ public:
     std::map<std::string, size_ts> getGlycosylationSites(
         const size_ts& siteIndices) const;
 
+    /**
+     * @brief Set an amino acid at a given position in the protein sequences
+     *
+     * @param aminoAcid Structure containing the information related the amino
+     * acid to be modified
+     */
+    void setAminoAcid(const SetAminoAcid& aminoAcid);
+
+    /**
+     * @brief addGlycans Add glycans to glycosilation sites of a given protein
+     * in the assembly
+     * @param descriptor Descriptor of the glycans
+     */
+    void addGlycans(const SugarsDescriptor& descriptor);
+
+    /**
+     * @brief addSugars Add sugars to sugar binding sites of a given protein of
+     * the assembly
+     * @param descriptor Descriptor of the sugars
+     */
+    void addSugars(const SugarsDescriptor& descriptor);
+
 private:
     // Analysis
     void _getSitesTransformations(
@@ -132,7 +160,14 @@ private:
     void _setRegionColorScheme(const Palette& palette, const size_ts& chainIds);
     void _setGlycosylationSiteColorScheme(const Palette& palette);
 
+    // Utility functions
+    void _processInstances(ModelDescriptorPtr md, const Vector3fs& positions,
+                           const Quaternions& orientations);
+    void _buildAminoAcidBounds();
+
     // Class members
     ProteinDescriptor _descriptor;
+    GlycansMap _glycans;
+    std::map<std::string, std::map<size_t, Boxf>> _aminoAcidBounds;
 };
 } // namespace bioexplorer

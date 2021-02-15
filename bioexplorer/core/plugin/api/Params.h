@@ -51,15 +51,16 @@ bool from_json(SugarsDescriptor &param, const std::string &payload);
 // Other elements
 bool from_json(AddGrid &param, const std::string &payload);
 
-// Functions
+// Amino acids
 bool from_json(AminoAcidSequenceAsStringDescriptor &param,
                const std::string &payload);
-bool from_json(AminoAcidSequenceAsRangeDescriptor &param,
+bool from_json(AminoAcidSequenceAsRangesDescriptor &param,
                const std::string &payload);
 bool from_json(AminoAcidInformationDescriptor &param,
                const std::string &payload);
+bool from_json(SetAminoAcid &param, const std::string &payload);
 
-bool from_json(FileAccess &param, const std::string &payload);
+// Files
 bool from_json(FileAccess &param, const std::string &payload);
 
 // Color schemes and materials

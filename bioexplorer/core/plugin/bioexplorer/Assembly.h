@@ -64,7 +64,7 @@ public:
      * @param descriptor Amino acid sequence as a range of indices
      */
     void setAminoAcidSequenceAsRange(
-        const AminoAcidSequenceAsRangeDescriptor &descriptor);
+        const AminoAcidSequenceAsRangesDescriptor &descriptor);
 
     /**
      * @param descriptor Name of the assembly and name of the protein
@@ -73,6 +73,14 @@ public:
      */
     std::string getAminoAcidInformation(
         const AminoAcidInformationDescriptor &descriptor) const;
+
+    /**
+     * @brief Set an amino acid at a given position in the protein sequences
+     *
+     * @param aminoAcid Structure containing the information related the amino
+     * acid to be modified
+     */
+    void setAminoAcid(const SetAminoAcid &aminoAcid);
 
     /**
      * @return Clipping planes applied to the assembly
@@ -140,19 +148,16 @@ private:
     void _processInstances(ModelDescriptorPtr md, const std::string &name,
                            const AssemblyShape shape,
                            const floats &assemblyParams,
-                           const size_t occurrences,
-                           const size_ts &allowedOccurrences,
-                           const size_t randomSeed, const Vector3f &position,
+                           const size_t occurrences, const Vector3f &position,
                            const Quaterniond &orientation,
+                           const size_ts &allowedOccurrences,
+                           const size_t randomSeed,
                            const PositionRandomizationType &randomizationType,
-                           const float locationCutoffAngle = 0.f,
-                           const Vector3fs &positions = {},
-                           const Quaternions &orientations = {});
+                           const float locationCutoffAngle = 0.f);
 
     AssemblyDescriptor _descriptor;
     Vector3f _position{0.f, 0.f, 0.f};
     Scene &_scene;
-    GlycansMap _glycans;
     ProteinMap _proteins;
     MeshMap _meshes;
     MembranePtr _membrane{nullptr};

@@ -145,7 +145,7 @@ bool from_json(AminoAcidSequenceAsStringDescriptor &param,
     return true;
 }
 
-bool from_json(AminoAcidSequenceAsRangeDescriptor &param,
+bool from_json(AminoAcidSequenceAsRangesDescriptor &param,
                const std::string &payload)
 {
     try
@@ -153,7 +153,7 @@ bool from_json(AminoAcidSequenceAsRangeDescriptor &param,
         auto js = nlohmann::json::parse(payload);
         FROM_JSON(param, js, assemblyName);
         FROM_JSON(param, js, name);
-        FROM_JSON(param, js, range);
+        FROM_JSON(param, js, ranges);
     }
     catch (...)
     {
@@ -170,6 +170,24 @@ bool from_json(AminoAcidInformationDescriptor &param,
         auto js = nlohmann::json::parse(payload);
         FROM_JSON(param, js, assemblyName);
         FROM_JSON(param, js, name);
+    }
+    catch (...)
+    {
+        return false;
+    }
+    return true;
+}
+
+bool from_json(SetAminoAcid &param, const std::string &payload)
+{
+    try
+    {
+        auto js = nlohmann::json::parse(payload);
+        FROM_JSON(param, js, assemblyName);
+        FROM_JSON(param, js, name);
+        FROM_JSON(param, js, index);
+        FROM_JSON(param, js, aminoAcidShortName);
+        FROM_JSON(param, js, chainIds);
     }
     catch (...)
     {
@@ -311,7 +329,6 @@ bool from_json(SugarsDescriptor &param, const std::string &payload)
         FROM_JSON(param, js, recenter);
         FROM_JSON(param, js, chainIds);
         FROM_JSON(param, js, siteIndices);
-        FROM_JSON(param, js, allowedOccurrences);
         FROM_JSON(param, js, orientation);
     }
     catch (...)

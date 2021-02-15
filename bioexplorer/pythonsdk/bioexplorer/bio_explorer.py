@@ -108,25 +108,25 @@ class Quaternion:
         """
         Define a simple quaternion
 
-        :args: 4 float values for x, y, z and w
+        :args: 4 float values for w, x, y and z
         :raises: RuntimeError: Invalid number of floats
         """
         if len(args) not in [0, 4]:
             raise RuntimeError('Invalid number of floats (0 or 4 expected)')
 
+        self.w = 1.0
         self.x = 0.0
         self.y = 0.0
         self.z = 0.0
-        self.w = 1.0
         if len(args) == 4:
-            self.x = args[0]
-            self.y = args[1]
-            self.z = args[2]
-            self.w = args[3]
+            self.w = args[0]
+            self.x = args[1]
+            self.y = args[2]
+            self.z = args[3]
 
     def to_list(self):
         """:return: A list containing the values of x, y, z and w attributes"""
-        return [self.x, self.y, self.z, self.w]
+        return [self.w, self.x, self.y, self.z]
 
 
 class BioExplorer:
@@ -177,6 +177,7 @@ class BioExplorer:
     REPRESENTATION_CONTOURS = 2
     REPRESENTATION_SURFACE = 3
     REPRESENTATION_UNION_OF_BALLS = 4
+    REPRESENTATION_DEBUG = 5
 
     ASSEMBLY_SHAPE_SPHERICAL = 0
     ASSEMBLY_SHAPE_PLANAR = 1
@@ -377,20 +378,20 @@ class BioExplorer:
             sources=[pdb_folder + '6vyb.pdb', pdb_folder + 'sars-cov-2-v1.pdb'],
             occurences=nb_protein_s,
             assembly_params=Vector2(11.5, 0.0), cutoff_angle=0.999,
-            orientation=Quaternion(0.087, 0.0, 0.996, 0.0),
+            orientation=Quaternion(0.0, 1.0, 0.0, 0.0),
             instance_indices=[open_conformation_indices, closed_conformation_indices])
 
         # Protein M (QHD43419)
         virus_protein_m = Protein(
             sources=[pdb_folder + 'QHD43419a.pdb'],
             occurences=nb_protein_m, assembly_params=Vector2(2.0, 0.0),
-            cutoff_angle=0.999, orientation=Quaternion(0.99, 0.0, 0.0, 0.135))
+            cutoff_angle=0.999, orientation=Quaternion(0.135, 0.99, 0.0, 0.0))
 
         # Protein E (QHD43418 P0DTC4)
         virus_protein_e = Protein(
             sources=[pdb_folder + 'QHD43418a.pdb'],
             occurences=nb_protein_e, assembly_params=Vector2(3.0, 0.0),
-            cutoff_angle=0.9999, orientation=Quaternion(0.705, 0.705, -0.04, -0.04))
+            cutoff_angle=0.9999, orientation=Quaternion(-0.04, 0.705, 0.705, -0.04))
 
         # Virus membrane
         virus_membrane = Membrane(
@@ -434,30 +435,29 @@ class BioExplorer:
                 assembly_name=name, glycan_type=self.NAME_GLYCAN_HIGH_MANNOSE,
                 protein_name=self.NAME_PROTEIN_S_CLOSED,
                 paths=high_mannose_paths, indices=indices_closed,
-                allowed_occurrences=closed_conformation_indices,
                 representation=representation, atom_radius_multiplier=atom_radius_multiplier)
             self.add_multiple_glycans(
                 assembly_name=name, glycan_type=self.NAME_GLYCAN_HIGH_MANNOSE,
                 protein_name=self.NAME_PROTEIN_S_OPEN,
                 paths=high_mannose_paths, indices=indices_open, index_offset=19,
-                allowed_occurrences=open_conformation_indices, representation=representation,
-                atom_radius_multiplier=atom_radius_multiplier)
+                representation=representation, atom_radius_multiplier=atom_radius_multiplier)
 
             # Complex
-            indices_closed = [17, 74, 149, 165, 282, 331,
-                              343, 616, 657, 1098, 1134, 1158, 1173, 1194]
-            indices_open = [17, 74, 149, 165, 282, 331, 343, 657, 1098, 1134, 1158, 1173, 1194]
+            indices_closed = [
+                17, 74, 149, 165, 282, 331, 343, 616, 657, 1098, 1134, 1158, 1173, 1194]
+            indices_open = [
+                17, 74, 149, 165, 282, 331, 343, 657, 1098, 1134, 1158, 1173, 1194]
             self.add_multiple_glycans(
                 assembly_name=name, glycan_type=self.NAME_GLYCAN_COMPLEX,
                 protein_name=self.NAME_PROTEIN_S_CLOSED, paths=complex_paths,
-                indices=indices_closed, allowed_occurrences=closed_conformation_indices,
-                representation=representation, atom_radius_multiplier=atom_radius_multiplier)
+                indices=indices_closed, representation=representation,
+                atom_radius_multiplier=atom_radius_multiplier)
 
             self.add_multiple_glycans(
                 assembly_name=name, glycan_type=self.NAME_GLYCAN_COMPLEX,
                 protein_name=self.NAME_PROTEIN_S_OPEN, paths=complex_paths, indices=indices_open,
-                index_offset=19, allowed_occurrences=open_conformation_indices,
-                representation=representation, atom_radius_multiplier=atom_radius_multiplier)
+                index_offset=19, representation=representation,
+                atom_radius_multiplier=atom_radius_multiplier)
 
             # O-Glycans
             for index in [323, 325]:
@@ -710,7 +710,8 @@ class BioExplorer:
             atom_radius_multiplier=atom_radius_multiplier,
             random_seed=random_seed,
             representation=representation,
-            orientation=Quaternion(-0.624, -0.417, 0.0, 0.661))
+            # orientation=Quaternion(0.661, -0.624, -0.417, 0.0)
+        )
 
         collagens = list()
         for i in range(nb_collagens):
@@ -828,23 +829,23 @@ class BioExplorer:
         self._client.set_renderer(accumulation=True)
         return result
 
-    def set_protein_amino_acid_sequence_as_range(
-            self, assembly_name, name, amino_acid_range):
+    def set_protein_amino_acid_sequence_as_ranges(
+            self, assembly_name, name, amino_acid_ranges):
         """
         Displays a specified amino acid range on the protein
 
         :assembly_name: Name of the assembly containing the protein
         :name: Name of the protein
-        :amino_acid_range: Tuple containing the amino acid range
+        :amino_acid_ranges: Tuples containing the amino acid range
         :return: Result of the call to the BioExplorer backend
         """
-        assert len(amino_acid_range) == 2
+        assert len(amino_acid_ranges) % 2 == 0
         params = dict()
         params['assemblyName'] = assembly_name
         params['name'] = name
-        params['range'] = amino_acid_range
+        params['ranges'] = amino_acid_ranges
         result = self._client.rockets_client.request(
-            method=self.PLUGIN_API_PREFIX + 'set-protein-amino-acid-sequence-as-range',
+            method=self.PLUGIN_API_PREFIX + 'set-protein-amino-acid-sequence-as-ranges',
             params=params)
         if not result['status']:
             raise RuntimeError(result['contents'])
@@ -868,6 +869,35 @@ class BioExplorer:
         if not result['status']:
             raise RuntimeError(result['contents'])
         return result['contents'].split()
+
+    def set_protein_amino_acid(
+            self, assembly_name, name, index, amino_acid_short_name, chain_ids=list()):
+        """
+        Displays a specified amino acid sequence on the protein
+
+        :assembly_name: Name of the assembly containing the protein
+        :name: Name of the protein
+        :index: Index of the amino acid in the sequence
+        :amino_acid_short_name: String containing the short name of the amino acid
+        :chain_ids: Ids of the chains to which the color scheme should be applied
+        :return: Result of the call to the BioExplorer backend
+        """
+        assert index >= 0
+        assert len(amino_acid_short_name) == 3
+        assert isinstance(chain_ids, list)
+        params = dict()
+        params['assemblyName'] = assembly_name
+        params['name'] = name
+        params['index'] = index
+        params['aminoAcidShortName'] = amino_acid_short_name
+        params['chainIds'] = chain_ids
+        result = self._client.rockets_client.request(
+            method=self.PLUGIN_API_PREFIX + 'set-protein-amino-acid',
+            params=params)
+        if not result['status']:
+            raise RuntimeError(result['contents'])
+        self._client.set_renderer(accumulation=True)
+        return result
 
     def add_rna_sequence(
             self, assembly_name, name, rna_sequence):
@@ -1109,7 +1139,6 @@ class BioExplorer:
         params['recenter'] = glycans.recenter
         params['chainIds'] = glycans.chain_ids
         params['siteIndices'] = glycans.site_indices
-        params['allowedOccurrences'] = glycans.allowed_occurrences
         params['orientation'] = glycans.orientation.to_list()
         result = self._client.rockets_client.request(
             method=self.PLUGIN_API_PREFIX + 'add-glycans', params=params)
@@ -1120,8 +1149,7 @@ class BioExplorer:
 
     def add_multiple_glycans(
             self, assembly_name, glycan_type, protein_name, paths, representation, chain_ids=list(),
-            indices=list(), allowed_occurrences=list(), index_offset=0, load_bonds=False,
-            atom_radius_multiplier=1.0):
+            indices=list(), index_offset=0, load_bonds=False, atom_radius_multiplier=1.0):
         """
         Add glycans to a protein in a assembly
 
@@ -1132,8 +1160,6 @@ class BioExplorer:
         :representation: Representation of the protein (Atoms, atoms and sticks, etc)
         :chain_ids: IDs of the chains to be loaded
         :indices: Indices of the glycosylation sites where glycans should be added
-        :allowed_occurrences: List of occurrences of the protein in the assembly, where
-                                    glycans should be added
         :index_offset: Offset applied to the indices. This is because not all amino acid
                              sequences start at the same index in the description of the protein in
                              the PDB file.
@@ -1142,7 +1168,6 @@ class BioExplorer:
         """
         assert isinstance(chain_ids, list)
         assert isinstance(indices, list)
-        assert isinstance(allowed_occurrences, list)
 
         path_index = 0
         for path in paths:
@@ -1152,17 +1177,13 @@ class BioExplorer:
                     if index % len(paths) == path_index:
                         site_indices.append(index + index_offset)
 
-            occurrences = list()
-            if allowed_occurrences is not None:
-                occurrences = allowed_occurrences
-
             _glycans = Sugars(
                 assembly_name=assembly_name,
                 name=assembly_name + '_' + protein_name + '_' + glycan_type + '_' + str(path_index),
                 source=path, protein_name=assembly_name + '_' + protein_name, chain_ids=chain_ids,
                 atom_radius_multiplier=atom_radius_multiplier, load_bonds=load_bonds,
                 representation=representation, recenter=True, site_indices=site_indices,
-                allowed_occurrences=occurrences, orientation=Quaternion())
+                orientation=Quaternion())
             self.add_glycans(_glycans)
             path_index += 1
 
@@ -1186,7 +1207,6 @@ class BioExplorer:
         params['recenter'] = sugars.recenter
         params['chainIds'] = sugars.chain_ids
         params['siteIndices'] = sugars.site_indices
-        params['allowedOccurrences'] = sugars.allowed_occurrences
         params['orientation'] = sugars.orientation.to_list()
         result = self._client.rockets_client.request(
             method=self.PLUGIN_API_PREFIX + 'add-sugars', params=params)
@@ -1690,8 +1710,7 @@ class Sugars:
     def __init__(
             self, assembly_name, name, source, protein_name, atom_radius_multiplier=1.0,
             load_bonds=False, representation=BioExplorer.REPRESENTATION_ATOMS, recenter=True,
-            chain_ids=list(), site_indices=list(), allowed_occurrences=list(),
-            orientation=Quaternion()):
+            chain_ids=list(), site_indices=list(), orientation=Quaternion()):
         """
         Sugar descriptor
 
@@ -1705,13 +1724,10 @@ class Sugars:
         :recenter: Centers the protein if True
         :chain_ids: Ids of chains to be loaded
         :site_indices: Indices on which sugars should be added on the protein
-        :allowed_occurrences: Indices of protein occurences in the assembly for which sugars
-                                    are added
         :orientation: Orientation of the sugar on the protein
         """
         assert isinstance(chain_ids, list)
         assert isinstance(site_indices, list)
-        assert isinstance(allowed_occurrences, list)
         assert isinstance(orientation, Quaternion)
         self.assembly_name = assembly_name
         self.name = name
@@ -1723,7 +1739,6 @@ class Sugars:
         self.recenter = recenter
         self.chain_ids = chain_ids
         self.site_indices = site_indices
-        self.allowed_occurrences = allowed_occurrences
         self.orientation = orientation
 
 

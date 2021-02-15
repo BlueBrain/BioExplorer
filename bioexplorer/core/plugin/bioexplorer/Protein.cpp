@@ -20,6 +20,7 @@
 
 #include "Protein.h"
 
+#include <plugin/bioexplorer/Glycans.h>
 #include <plugin/common/Logs.h>
 
 #include <brayns/engineapi/Material.h>
@@ -77,14 +78,33 @@ Protein::Protein(Scene& scene, const ProteinDescriptor& descriptor)
     // Build 3d models according to atoms positions (re-centered to origin)
     if (descriptor.recenter)
     {
+        brayns::Boxf newBounds;
         const auto& center = _bounds.getCenter();
         for (auto& atom : _atomMap)
+        {
             atom.second.position -= center;
+            newBounds.merge(atom.second.position);
+        }
+        _bounds = newBounds;
     }
 
     _buildModel(_descriptor.assemblyName, _descriptor.name, title, header,
                 _descriptor.representation, _descriptor.atomRadiusMultiplier,
                 _descriptor.loadBonds);
+
+    _buildAminoAcidBounds();
+}
+
+Protein::~Protein()
+{
+    for (const auto& glycan : _glycans)
+    {
+        const auto modelId = glycan.second->getModelDescriptor()->getModelID();
+        PLUGIN_INFO << "Removing glycan <" << modelId << "><" << glycan.first
+                    << "> from assembly <" << _descriptor.name << ">"
+                    << std::endl;
+        _scene.removeModel(modelId);
+    }
 }
 
 void Protein::setColorScheme(const ColorScheme& colorScheme,
@@ -218,32 +238,82 @@ std::map<std::string, size_ts> Protein::getGlycosylationSites(
     return sites;
 }
 
+void Protein::_buildAminoAcidBounds()
+{
+    if (!_aminoAcidBounds.empty())
+        return;
+    for (const auto& atom : _atomMap)
+    {
+        const auto chainId = atom.second.chainId;
+        auto& chain = _aminoAcidBounds[chainId];
+
+        const auto reqSeq = atom.second.reqSeq;
+        chain[reqSeq].merge(atom.second.position);
+    }
+}
+
 void Protein::_getSitesTransformations(
     std::vector<Vector3f>& positions, std::vector<Quaterniond>& rotations,
-    const std::map<std::string, size_ts>& sites) const
+    const std::map<std::string, size_ts>& sitesPerChain) const
 {
-    for (const auto chain : sites)
+    for (const auto& chain : sitesPerChain)
     {
+        const auto itAminoAcids = _aminoAcidBounds.find(chain.first);
+        if (itAminoAcids == _aminoAcidBounds.end())
+            PLUGIN_THROW(std::runtime_error("Invalid chain"));
+
+        const auto aminoAcidsPerChain = (*itAminoAcids).second;
         for (const auto site : chain.second)
         {
-            bool validSite{false};
-            Boxf bounds;
-            for (const auto& atom : _atomMap)
-                if (atom.second.chainId == chain.first &&
-                    atom.second.reqSeq == site)
+            // Protein center
+            const auto& proteinCenter = _bounds.getCenter();
+            Boxf siteBounds;
+            Vector3f siteCenter;
+
+            // Site center
+            const auto it = aminoAcidsPerChain.find(site);
+            if (it != aminoAcidsPerChain.end())
+            {
+                siteBounds = (*it).second;
+                siteCenter = siteBounds.getCenter();
+            }
+            else
+            {
+                // Site is not registered in the protein. Extrapolating site
+                // position from previous and following sites
+                size_t before = 1;
+                auto itBefore = aminoAcidsPerChain.find(site - before);
+                while (itBefore == aminoAcidsPerChain.end() &&
+                       (site - before) >= _aminoAcidRange.x)
                 {
-                    bounds.merge(atom.second.position);
-                    validSite = true;
+                    ++before;
+                    itBefore = aminoAcidsPerChain.find(site - before);
                 }
 
-            if (validSite)
-            {
-                const auto& center = bounds.getCenter();
-                positions.push_back(center);
-                rotations.push_back(
-                    glm::quatLookAt(normalize(center - _bounds.getCenter()),
-                                    {0.f, 0.f, -1.f}));
+                size_t after = 1;
+                auto itAfter = aminoAcidsPerChain.find(site + after);
+                while (itAfter == aminoAcidsPerChain.end() &&
+                       (site + after) < _aminoAcidRange.y)
+                {
+                    ++after;
+                    itAfter = aminoAcidsPerChain.find(site + after);
+                }
+
+                Boxf siteBounds;
+                siteBounds.merge((*itBefore).second);
+                siteBounds.merge((*itAfter).second);
+                siteCenter = siteBounds.getCenter();
+
+                PLUGIN_WARN << "Chain: " << chain.first
+                            << ", Site: " << site + 1
+                            << ": no atoms available. Extrapolating from sites "
+                            << before << " and " << after << std::endl;
             }
+            // Orientation is determined by the center of the site and the
+            // center of the protein
+            const auto bindOrientation = normalize(siteCenter - proteinCenter);
+            positions.push_back(siteCenter);
+            rotations.push_back(glm::quatLookAt(bindOrientation, UP_VECTOR));
         }
     }
 }
@@ -286,6 +356,101 @@ void Protein::getSugarBindingSites(std::vector<Vector3f>& positions,
         sites[chainIdAsString] = siteIndices;
 
     _getSitesTransformations(positions, rotations, sites);
+}
+
+void Protein::setAminoAcid(const SetAminoAcid& aminoAcid)
+{
+    for (auto& sequence : _sequenceMap)
+    {
+        bool acceptChain = true;
+        if (!aminoAcid.chainIds.empty())
+        {
+            const size_t chainId = static_cast<size_t>(sequence.first[0]) - 64;
+            auto it = find(aminoAcid.chainIds.begin(), aminoAcid.chainIds.end(),
+                           chainId);
+            acceptChain = (it == aminoAcid.chainIds.end());
+        }
+
+        if (aminoAcid.index >= sequence.second.resNames.size())
+            PLUGIN_THROW(std::runtime_error(
+                "Invalid index for the amino acid sequence"));
+
+        if (acceptChain)
+            sequence.second.resNames[aminoAcid.index] =
+                aminoAcid.aminoAcidShortName;
+    }
+}
+
+void Protein::_processInstances(ModelDescriptorPtr md,
+                                const Vector3fs& positions,
+                                const Quaternions& orientations)
+{
+    size_t count = 0;
+    const auto& proteinInstances = _modelDescriptor->getInstances();
+    for (const auto& proteinInstance : proteinInstances)
+    {
+        const auto& proteinTransformation = proteinInstance.getTransformation();
+        for (size_t i = 0; i < positions.size(); ++i)
+        {
+            const auto& position = positions[i];
+            const auto& orientation = orientations[i];
+
+            Transformation glycanTransformation;
+            glycanTransformation.setTranslation(position);
+            glycanTransformation.setRotation(orientation);
+
+            const Transformation combinedTransformation =
+                proteinTransformation * glycanTransformation;
+
+            if (count == 0)
+                md->setTransformation(combinedTransformation);
+
+            const ModelInstance instance(true, false, combinedTransformation);
+            md->addInstance(instance);
+            ++count;
+        }
+    }
+}
+
+void Protein::addGlycans(const SugarsDescriptor& sd)
+{
+    Vector3fs glycanPositions;
+    Quaternions glycanOrientations;
+    getGlycosilationSites(glycanPositions, glycanOrientations, sd.siteIndices);
+
+    if (glycanPositions.empty())
+        PLUGIN_THROW(std::runtime_error("No glycosylation site was found on " +
+                                        sd.proteinName));
+
+    // Create glycans and attach them to the glycosylation sites of the target
+    // protein
+    GlycansPtr glycans(new Glycans(_scene, sd));
+    auto modelDescriptor = glycans->getModelDescriptor();
+    _processInstances(modelDescriptor, glycanPositions, glycanOrientations);
+
+    _glycans[sd.name] = std::move(glycans);
+    _scene.addModel(modelDescriptor);
+}
+
+void Protein::addSugars(const SugarsDescriptor& sd)
+{
+    Vector3fs positions;
+    Quaternions orientations;
+    getSugarBindingSites(positions, orientations, sd.siteIndices, sd.chainIds);
+
+    if (positions.empty())
+        PLUGIN_THROW(std::runtime_error("No sugar binding site was found on " +
+                                        sd.name));
+
+    PLUGIN_INFO << positions.size() << " sugar sites found on "
+                << sd.proteinName << std::endl;
+
+    GlycansPtr glucoses(new Glycans(_scene, sd));
+    auto modelDescriptor = glucoses->getModelDescriptor();
+    _processInstances(modelDescriptor, positions, orientations);
+
+    _glycans[sd.name] = std::move(glucoses);
+    _scene.addModel(modelDescriptor);
 }
 
 } // namespace bioexplorer

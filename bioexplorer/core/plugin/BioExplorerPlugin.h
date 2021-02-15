@@ -74,10 +74,11 @@ private:
     // Amino acids
     Response _setAminoAcidSequenceAsString(
         const AminoAcidSequenceAsStringDescriptor &payload) const;
-    Response _setAminoAcidSequenceAsRange(
-        const AminoAcidSequenceAsRangeDescriptor &payload) const;
+    Response _setAminoAcidSequenceAsRanges(
+        const AminoAcidSequenceAsRangesDescriptor &payload) const;
     Response _getAminoAcidInformation(
         const AminoAcidInformationDescriptor &payload) const;
+    Response _setAminoAcid(const SetAminoAcid &payload) const;
 
     // Colors and materials
     Response _setColorScheme(const ColorSchemeDescriptor &payload) const;
