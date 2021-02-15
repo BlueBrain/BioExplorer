@@ -42,6 +42,12 @@ public:
     Protein(Scene& scene, const ProteinDescriptor& descriptor);
 
     /**
+     * @brief Destroy the Protein object
+     *
+     */
+    ~Protein();
+
+    /**
      * @brief Set the Color Scheme object
      *
      * @param colorScheme Color scheme to apply to the protein
@@ -130,6 +136,20 @@ public:
      */
     void setAminoAcid(const SetAminoAcid& aminoAcid);
 
+    /**
+     * @brief addGlycans Add glycans to glycosilation sites of a given protein
+     * in the assembly
+     * @param descriptor Descriptor of the glycans
+     */
+    void addGlycans(const SugarsDescriptor& descriptor);
+
+    /**
+     * @brief addSugars Add sugars to sugar binding sites of a given protein of
+     * the assembly
+     * @param descriptor Descriptor of the sugars
+     */
+    void addSugars(const SugarsDescriptor& descriptor);
+
 private:
     // Analysis
     void _getSitesTransformations(
@@ -140,7 +160,12 @@ private:
     void _setRegionColorScheme(const Palette& palette, const size_ts& chainIds);
     void _setGlycosylationSiteColorScheme(const Palette& palette);
 
+    // Utility functions
+    void _processInstances(ModelDescriptorPtr md, const Vector3fs& positions,
+                           const Quaternions& orientations);
+
     // Class members
     ProteinDescriptor _descriptor;
+    GlycansMap _glycans;
 };
 } // namespace bioexplorer

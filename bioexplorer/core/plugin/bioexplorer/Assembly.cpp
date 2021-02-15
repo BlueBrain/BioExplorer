@@ -20,7 +20,6 @@
 
 #include "Assembly.h"
 
-#include <plugin/bioexplorer/Glycans.h>
 #include <plugin/bioexplorer/Membrane.h>
 #include <plugin/bioexplorer/Mesh.h>
 #include <plugin/bioexplorer/Protein.h>
@@ -68,14 +67,6 @@ Assembly::~Assembly()
                     << std::endl;
         _scene.removeModel(mesh.second->getModelDescriptor()->getModelID());
     }
-    for (const auto &glycan : _glycans)
-    {
-        const auto modelId = glycan.second->getModelDescriptor()->getModelID();
-        PLUGIN_INFO << "Removing glycan <" << modelId << "><" << glycan.first
-                    << "> from assembly <" << _descriptor.name << ">"
-                    << std::endl;
-        _scene.removeModel(modelId);
-    }
     if (_rnaSequence)
     {
         const auto modelId = _rnaSequence->getModelDescriptor()->getModelID();
@@ -94,10 +85,11 @@ void Assembly::addProtein(const ProteinDescriptor &pd)
     const Vector3f position = {pd.position[0], pd.position[1], pd.position[2]};
     const Quaterniond orientation = {pd.orientation[0], pd.orientation[1],
                                      pd.orientation[2], pd.orientation[3]};
+
     _processInstances(modelDescriptor, pd.name, pd.shape, pd.assemblyParams,
-                      pd.occurrences, pd.allowedOccurrences, pd.randomSeed,
-                      position, orientation, pd.positionRandomizationType,
-                      pd.locationCutoffAngle);
+                      pd.occurrences, position, orientation,
+                      pd.allowedOccurrences, pd.randomSeed,
+                      pd.positionRandomizationType, pd.locationCutoffAngle);
 
     _proteins[pd.name] = std::move(protein);
     _scene.addModel(modelDescriptor);
@@ -113,6 +105,26 @@ void Assembly::addMembrane(const MembraneDescriptor &md)
     MembranePtr membrane(new Membrane(_scene, md, _position, _clippingPlanes,
                                       _occupiedDirections));
     _membrane = std::move(membrane);
+}
+
+void Assembly::addSugars(const SugarsDescriptor &sd)
+{
+    // Get information from target protein (attributes, number of instances,
+    // glycosylation sites, etc)
+    const auto it = _proteins.find(sd.proteinName);
+    if (it == _proteins.end())
+    {
+        std::string s;
+        for (const auto &protein : _proteins)
+            s += "[" + protein.first + "]";
+        PLUGIN_THROW(std::runtime_error("Target protein " + sd.proteinName +
+                                        " not registered in assembly " +
+                                        sd.assemblyName +
+                                        ". Registered proteins are " + s));
+    }
+    PLUGIN_INFO << "Adding sugars to protein " << sd.proteinName << std::endl;
+    const auto targetProtein = (*it).second;
+    targetProtein->addSugars(sd);
 }
 
 void Assembly::addGlycans(const SugarsDescriptor &sd)
@@ -133,90 +145,7 @@ void Assembly::addGlycans(const SugarsDescriptor &sd)
 
     PLUGIN_INFO << "Adding glycans to protein " << sd.proteinName << std::endl;
     const auto targetProtein = (*it).second;
-
-    Vector3fs glycanPositions;
-    Quaternions glycanOrientations;
-    targetProtein->getGlycosilationSites(glycanPositions, glycanOrientations,
-                                         sd.siteIndices);
-    const auto pd = targetProtein->getDescriptor();
-
-    if (glycanPositions.empty())
-        PLUGIN_THROW(std::runtime_error("No glycosylation site was found on " +
-                                        sd.proteinName));
-
-    // Create glycans and attach them to the glycosylation sites of the target
-    // protein
-    GlycansPtr glycans(new Glycans(_scene, sd));
-    auto modelDescriptor = glycans->getModelDescriptor();
-    const Vector3f proteinPosition = {pd.position[0], pd.position[1],
-                                      pd.position[2]};
-    const Quaterniond proteinOrientation = {pd.orientation[0],
-                                            pd.orientation[1],
-                                            pd.orientation[2],
-                                            pd.orientation[3]};
-    _processInstances(modelDescriptor, pd.name, pd.shape, pd.assemblyParams,
-                      pd.occurrences, sd.allowedOccurrences, pd.randomSeed,
-                      proteinPosition, proteinOrientation,
-                      PositionRandomizationType::circular, 0.f, glycanPositions,
-                      glycanOrientations);
-
-    _glycans[sd.name] = std::move(glycans);
-    _scene.addModel(modelDescriptor);
-}
-
-void Assembly::addSugars(const SugarsDescriptor &sd)
-{
-    // Get information from target protein (attributes, number of instances,
-    // glycosylation sites, etc)
-    const auto it = _proteins.find(sd.proteinName);
-    if (it == _proteins.end())
-    {
-        std::string s;
-        for (const auto &protein : _proteins)
-            s += "[" + protein.first + "]";
-        PLUGIN_THROW(std::runtime_error("Target protein " + sd.proteinName +
-                                        " not registered in assembly " +
-                                        sd.assemblyName +
-                                        ". Registered proteins are " + s));
-    }
-
-    const auto targetProtein = (*it).second;
-
-    Vector3fs positions;
-    Quaternions orientations;
-    targetProtein->getSugarBindingSites(positions, orientations, sd.siteIndices,
-                                        sd.chainIds);
-    const auto pd = targetProtein->getDescriptor();
-
-    const Quaterniond sugarOrientation = {sd.orientation[0], sd.orientation[1],
-                                          sd.orientation[2], sd.orientation[3]};
-    for (auto &orientation : orientations)
-        orientation = orientation * sugarOrientation;
-
-    if (positions.empty())
-        PLUGIN_THROW(std::runtime_error("No sugar binding site was found on " +
-                                        sd.name));
-
-    PLUGIN_INFO << positions.size() << " sugar sites found on "
-                << sd.proteinName << std::endl;
-
-    GlycansPtr glucoses(new Glycans(_scene, sd));
-    auto modelDescriptor = glucoses->getModelDescriptor();
-    const Vector3f position = {pd.position[0], pd.position[1], pd.position[2]};
-    const Quaterniond proteinOrientation = {pd.orientation[0],
-                                            pd.orientation[1],
-                                            pd.orientation[2],
-                                            pd.orientation[3]};
-    _processInstances(modelDescriptor, pd.name, pd.shape,
-                      {pd.assemblyParams[0] /* * 1.025f */,
-                       pd.assemblyParams[1]},
-                      pd.occurrences, sd.allowedOccurrences, pd.randomSeed,
-                      position, proteinOrientation,
-                      PositionRandomizationType::circular, 0.f, positions,
-                      orientations);
-
-    _glycans[sd.name] = std::move(glucoses);
-    _scene.addModel(modelDescriptor);
+    targetProtein->addGlycans(sd);
 }
 
 void Assembly::addMesh(const MeshDescriptor &md)
@@ -230,11 +159,10 @@ void Assembly::addMesh(const MeshDescriptor &md)
 void Assembly::_processInstances(
     ModelDescriptorPtr md, const std::string &name, const AssemblyShape shape,
     const floats &assemblyParams, const size_t occurrences,
+    const Vector3f &position, const Quaterniond &orientation,
     const size_ts &allowedOccurrences, const size_t randomSeed,
-    const Vector3f &proteinPosition, const Quaterniond &proteinOrientation,
     const PositionRandomizationType &randomizationType,
-    const float locationCutoffAngle, const Vector3fs &positions,
-    const Quaternions &orientations)
+    const float locationCutoffAngle)
 {
     const float offset = 2.f / occurrences;
     const float increment = M_PI * (3.f - sqrt(5.f));
@@ -249,7 +177,7 @@ void Assembly::_processInstances(
     model.addCone(0, {{0, 0, 0}, {0, 0, 1}, 0.1f, 0.f});
 #endif
 
-    uint64_t instanceCount = 0;
+    uint64_t count = 0;
     for (uint64_t i = 0; i < occurrences; ++i)
     {
         if (!allowedOccurrences.empty() &&
@@ -265,7 +193,7 @@ void Assembly::_processInstances(
         {
             getSphericalPosition(rnd, assemblyParams[0], assemblyParams[1],
                                  randomizationType, randomSeed, i, occurrences,
-                                 proteinPosition, pos, dir);
+                                 position, pos, dir);
             break;
         }
         case AssemblyShape::sinusoidal:
@@ -273,21 +201,21 @@ void Assembly::_processInstances(
             const auto assemblySize = assemblyParams[0];
             const auto assemblyHeight = assemblyParams[1];
             getSinosoidalPosition(assemblySize, assemblyHeight,
-                                  randomizationType, randomSeed,
-                                  proteinPosition, pos, dir);
+                                  randomizationType, randomSeed, position, pos,
+                                  dir);
             break;
         }
         case AssemblyShape::cubic:
         {
             const auto assemblySize = assemblyParams[0];
-            getCubicPosition(assemblySize, proteinPosition, pos, dir);
+            getCubicPosition(assemblySize, position, pos, dir);
             break;
         }
         case AssemblyShape::fan:
         {
             const auto assemblyRadius = assemblyParams[0];
             getFanPosition(rnd, assemblyRadius, randomizationType, randomSeed,
-                           i, occurrences, proteinPosition, pos, dir);
+                           i, occurrences, position, pos, dir);
             break;
         }
         case AssemblyShape::bezier:
@@ -317,7 +245,7 @@ void Assembly::_processInstances(
         default:
             const auto assemblySize = assemblyParams[0];
             getPlanarPosition(assemblySize, randomizationType, randomSeed,
-                              proteinPosition, pos, dir);
+                              position, pos, dir);
             break;
         }
 
@@ -339,48 +267,22 @@ void Assembly::_processInstances(
         if (occupied)
             continue;
 
-        // Final transformation
-        Vector3fs localPositions = positions;
-        Quaternions localOrientations = orientations;
         const Quaterniond instanceOrientation = glm::quatLookAt(dir, UP_VECTOR);
 
-        if (positions.empty())
-        {
-            localPositions.push_back(brayns::Vector3f());
-            localOrientations.push_back(Quaterniond());
-        }
+        Transformation tf;
+        tf.setTranslation(_position + pos);
+        tf.setRotation(instanceOrientation * orientation);
 
-        for (size_t i = 0; i < localPositions.size(); ++i)
-        {
-            const auto &localPosition = localPositions[i];
-            const auto &localOrientation = localOrientations[i];
+        if (count == 0)
+            md->setTransformation(tf);
+        const ModelInstance instance(true, false, tf);
+        md->addInstance(instance);
 
-            const Vector3f rotatedLocalPosition =
-                glm::toMat3(proteinOrientation) * localPosition;
-            const auto translation = _position + pos + rotatedLocalPosition;
-            const auto rotation =
-                localOrientation * instanceOrientation * proteinOrientation;
+        // Store occupied direction
+        if (locationCutoffAngle != 0.f)
+            _occupiedDirections.push_back({dir, locationCutoffAngle});
 
-            Transformation tf;
-            tf.setTranslation(translation);
-            tf.setRotation(rotation);
-
-            if (instanceCount == 0)
-                md->setTransformation(tf);
-            const ModelInstance instance(true, false, tf);
-            md->addInstance(instance);
-
-#if 0
-        // Save initial transformation for later use
-         _transformations[name].push_back(tf);
-#endif
-
-            // Store occupied direction
-            if (locationCutoffAngle != 0.f)
-                _occupiedDirections.push_back({dir, locationCutoffAngle});
-
-            ++instanceCount;
-        }
+        ++count;
     }
 }
 

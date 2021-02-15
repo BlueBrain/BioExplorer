@@ -148,19 +148,16 @@ private:
     void _processInstances(ModelDescriptorPtr md, const std::string &name,
                            const AssemblyShape shape,
                            const floats &assemblyParams,
-                           const size_t occurrences,
-                           const size_ts &allowedOccurrences,
-                           const size_t randomSeed, const Vector3f &position,
+                           const size_t occurrences, const Vector3f &position,
                            const Quaterniond &orientation,
+                           const size_ts &allowedOccurrences,
+                           const size_t randomSeed,
                            const PositionRandomizationType &randomizationType,
-                           const float locationCutoffAngle = 0.f,
-                           const Vector3fs &positions = {},
-                           const Quaternions &orientations = {});
+                           const float locationCutoffAngle = 0.f);
 
     AssemblyDescriptor _descriptor;
     Vector3f _position{0.f, 0.f, 0.f};
     Scene &_scene;
-    GlycansMap _glycans;
     ProteinMap _proteins;
     MeshMap _meshes;
     MembranePtr _membrane{nullptr};

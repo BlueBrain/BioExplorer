@@ -20,6 +20,7 @@
 
 #include "Protein.h"
 
+#include <plugin/bioexplorer/Glycans.h>
 #include <plugin/common/Logs.h>
 
 #include <brayns/engineapi/Material.h>
@@ -90,6 +91,18 @@ Protein::Protein(Scene& scene, const ProteinDescriptor& descriptor)
     _buildModel(_descriptor.assemblyName, _descriptor.name, title, header,
                 _descriptor.representation, _descriptor.atomRadiusMultiplier,
                 _descriptor.loadBonds);
+}
+
+Protein::~Protein()
+{
+    for (const auto& glycan : _glycans)
+    {
+        const auto modelId = glycan.second->getModelDescriptor()->getModelID();
+        PLUGIN_INFO << "Removing glycan <" << modelId << "><" << glycan.first
+                    << "> from assembly <" << _descriptor.name << ">"
+                    << std::endl;
+        _scene.removeModel(modelId);
+    }
 }
 
 void Protein::setColorScheme(const ColorScheme& colorScheme,
@@ -328,6 +341,78 @@ void Protein::setAminoAcid(const SetAminoAcid& aminoAcid)
             sequence.second.resNames[aminoAcid.index] =
                 aminoAcid.aminoAcidShortName;
     }
+}
+
+void Protein::_processInstances(ModelDescriptorPtr md,
+                                const Vector3fs& positions,
+                                const Quaternions& orientations)
+{
+    size_t count = 0;
+    const auto& proteinInstances = _modelDescriptor->getInstances();
+    for (const auto& proteinInstance : proteinInstances)
+    {
+        const auto& proteinTransformation = proteinInstance.getTransformation();
+        for (size_t i = 0; i < positions.size(); ++i)
+        {
+            const auto& position = positions[i];
+            const auto& orientation = orientations[i];
+
+            Transformation glycanTransformation;
+            glycanTransformation.setTranslation(position);
+            glycanTransformation.setRotation(orientation);
+
+            const Transformation combinedTransformation =
+                proteinTransformation * glycanTransformation;
+
+            if (count == 0)
+                md->setTransformation(combinedTransformation);
+
+            const ModelInstance instance(true, false, combinedTransformation);
+            md->addInstance(instance);
+            ++count;
+        }
+    }
+}
+
+void Protein::addGlycans(const SugarsDescriptor& sd)
+{
+    Vector3fs glycanPositions;
+    Quaternions glycanOrientations;
+    getGlycosilationSites(glycanPositions, glycanOrientations, sd.siteIndices);
+
+    if (glycanPositions.empty())
+        PLUGIN_THROW(std::runtime_error("No glycosylation site was found on " +
+                                        sd.proteinName));
+
+    // Create glycans and attach them to the glycosylation sites of the target
+    // protein
+    GlycansPtr glycans(new Glycans(_scene, sd));
+    auto modelDescriptor = glycans->getModelDescriptor();
+    _processInstances(modelDescriptor, glycanPositions, glycanOrientations);
+
+    _glycans[sd.name] = std::move(glycans);
+    _scene.addModel(modelDescriptor);
+}
+
+void Protein::addSugars(const SugarsDescriptor& sd)
+{
+    Vector3fs positions;
+    Quaternions orientations;
+    getSugarBindingSites(positions, orientations, sd.siteIndices, sd.chainIds);
+
+    if (positions.empty())
+        PLUGIN_THROW(std::runtime_error("No sugar binding site was found on " +
+                                        sd.name));
+
+    PLUGIN_INFO << positions.size() << " sugar sites found on "
+                << sd.proteinName << std::endl;
+
+    GlycansPtr glucoses(new Glycans(_scene, sd));
+    auto modelDescriptor = glucoses->getModelDescriptor();
+    _processInstances(modelDescriptor, positions, orientations);
+
+    _glycans[sd.name] = std::move(glucoses);
+    _scene.addModel(modelDescriptor);
 }
 
 } // namespace bioexplorer
