@@ -51,6 +51,7 @@ typedef Vector3f Color;
 typedef std::vector<Color> Palette;
 typedef std::vector<Quaterniond> Quaternions;
 typedef std::vector<Vector3f> Vector3fs;
+typedef std::vector<Vector2ui> Vector2uis;
 typedef std::vector<std::pair<Vector3f, float>> OccupiedDirections;
 
 /**
@@ -395,9 +396,10 @@ typedef struct
     std::string assemblyName;
     /** Name of the protein in the assembly */
     std::string name;
-    /** Tuple of 2 integers defining indices in the sequence of amino acid */
-    std::vector<size_t> range;
-} AminoAcidSequenceAsRangeDescriptor;
+    /** List of tuples of 2 integers defining indices in the sequence of amino
+     * acid */
+    std::vector<size_t> ranges;
+} AminoAcidSequenceAsRangesDescriptor;
 
 typedef struct
 {

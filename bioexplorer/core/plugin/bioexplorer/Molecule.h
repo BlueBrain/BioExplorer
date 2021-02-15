@@ -124,11 +124,15 @@ protected:
     Scene& _scene;
     AtomMap _atomMap;
     Residues _residues;
-    std::string _aminoAcidSequence;
     SequenceMap _sequenceMap;
     BondsMap _bondsMap;
     size_ts _chainIds;
+
     Vector2ui _aminoAcidRange;
+    std::string _aminoAcidSequence;
+
+    std::string _selectedAminoAcidSequence;
+    Vector2uis _selectedAminoAcidRanges;
     Boxf _bounds;
 };
 } // namespace bioexplorer

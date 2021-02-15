@@ -65,8 +65,8 @@ public:
      */
     void setAminoAcidSequenceAsString(const std::string& aminoAcidSequence)
     {
-        _aminoAcidSequence = aminoAcidSequence;
-        _aminoAcidRange = {0, 0};
+        _selectedAminoAcidSequence = aminoAcidSequence;
+        _selectedAminoAcidRanges = {{0, 0}};
     }
 
     /**
@@ -74,10 +74,10 @@ public:
      *
      * @param range Range of indices in the amino acids sequence
      */
-    void setAminoAcidSequenceAsRange(const Vector2ui& range)
+    void setAminoAcidSequenceAsRanges(const Vector2uis& ranges)
     {
-        _aminoAcidSequence = "";
-        _aminoAcidRange = range;
+        _selectedAminoAcidSequence = "";
+        _selectedAminoAcidRanges = ranges;
     }
 
     /**

@@ -54,7 +54,7 @@ bool from_json(AddGrid &param, const std::string &payload);
 // Amino acids
 bool from_json(AminoAcidSequenceAsStringDescriptor &param,
                const std::string &payload);
-bool from_json(AminoAcidSequenceAsRangeDescriptor &param,
+bool from_json(AminoAcidSequenceAsRangesDescriptor &param,
                const std::string &payload);
 bool from_json(AminoAcidInformationDescriptor &param,
                const std::string &payload);

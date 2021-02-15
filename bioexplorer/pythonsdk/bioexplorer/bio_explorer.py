@@ -829,23 +829,23 @@ class BioExplorer:
         self._client.set_renderer(accumulation=True)
         return result
 
-    def set_protein_amino_acid_sequence_as_range(
-            self, assembly_name, name, amino_acid_range):
+    def set_protein_amino_acid_sequence_as_ranges(
+            self, assembly_name, name, amino_acid_ranges):
         """
         Displays a specified amino acid range on the protein
 
         :assembly_name: Name of the assembly containing the protein
         :name: Name of the protein
-        :amino_acid_range: Tuple containing the amino acid range
+        :amino_acid_ranges: Tuples containing the amino acid range
         :return: Result of the call to the BioExplorer backend
         """
-        assert len(amino_acid_range) == 2
+        assert len(amino_acid_ranges) % 2 == 0
         params = dict()
         params['assemblyName'] = assembly_name
         params['name'] = name
-        params['range'] = amino_acid_range
+        params['ranges'] = amino_acid_ranges
         result = self._client.rockets_client.request(
-            method=self.PLUGIN_API_PREFIX + 'set-protein-amino-acid-sequence-as-range',
+            method=self.PLUGIN_API_PREFIX + 'set-protein-amino-acid-sequence-as-ranges',
             params=params)
         if not result['status']:
             raise RuntimeError(result['contents'])

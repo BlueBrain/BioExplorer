@@ -168,13 +168,13 @@ void BioExplorerPlugin::init()
                 });
 
         entryPoint =
-            PLUGIN_API_PREFIX + "set-protein-amino-acid-sequence-as-range";
+            PLUGIN_API_PREFIX + "set-protein-amino-acid-sequence-as-ranges";
         PLUGIN_INFO << "Registering '" + entryPoint + "' endpoint" << std::endl;
         actionInterface
-            ->registerRequest<AminoAcidSequenceAsRangeDescriptor, Response>(
+            ->registerRequest<AminoAcidSequenceAsRangesDescriptor, Response>(
                 entryPoint,
-                [&](const AminoAcidSequenceAsRangeDescriptor &payload) {
-                    return _setAminoAcidSequenceAsRange(payload);
+                [&](const AminoAcidSequenceAsRangesDescriptor &payload) {
+                    return _setAminoAcidSequenceAsRanges(payload);
                 });
 
         entryPoint = PLUGIN_API_PREFIX + "get-protein-amino-acid-information";
@@ -370,13 +370,13 @@ Response BioExplorerPlugin::_setAminoAcidSequenceAsString(
     return response;
 }
 
-Response BioExplorerPlugin::_setAminoAcidSequenceAsRange(
-    const AminoAcidSequenceAsRangeDescriptor &payload) const
+Response BioExplorerPlugin::_setAminoAcidSequenceAsRanges(
+    const AminoAcidSequenceAsRangesDescriptor &payload) const
 {
     Response response;
     try
     {
-        if (payload.range.size() != 2)
+        if (payload.ranges.size() % 2 != 0 || payload.ranges.size() < 2)
             throw std::runtime_error("A valid range must be specified");
 
         auto it = _assemblies.find(payload.assemblyName);

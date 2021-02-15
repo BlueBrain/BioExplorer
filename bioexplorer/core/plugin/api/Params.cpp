@@ -145,7 +145,7 @@ bool from_json(AminoAcidSequenceAsStringDescriptor &param,
     return true;
 }
 
-bool from_json(AminoAcidSequenceAsRangeDescriptor &param,
+bool from_json(AminoAcidSequenceAsRangesDescriptor &param,
                const std::string &payload)
 {
     try
@@ -153,7 +153,7 @@ bool from_json(AminoAcidSequenceAsRangeDescriptor &param,
         auto js = nlohmann::json::parse(payload);
         FROM_JSON(param, js, assemblyName);
         FROM_JSON(param, js, name);
-        FROM_JSON(param, js, range);
+        FROM_JSON(param, js, ranges);
     }
     catch (...)
     {

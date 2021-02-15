@@ -338,12 +338,17 @@ void Assembly::setAminoAcidSequenceAsString(
 }
 
 void Assembly::setAminoAcidSequenceAsRange(
-    const AminoAcidSequenceAsRangeDescriptor &aasd)
+    const AminoAcidSequenceAsRangesDescriptor &aasd)
 {
     auto it = _proteins.find(aasd.name);
     if (it != _proteins.end())
-        (*it).second->setAminoAcidSequenceAsRange(
-            {aasd.range[0], aasd.range[1]});
+    {
+        Vector2uis ranges;
+        for (size_t i = 0; i < aasd.ranges.size(); i += 2)
+            ranges.push_back({aasd.ranges[i], aasd.ranges[i + 1]});
+
+        (*it).second->setAminoAcidSequenceAsRanges(ranges);
+    }
     else
         PLUGIN_THROW(std::runtime_error("Protein not found: " + aasd.name));
 }

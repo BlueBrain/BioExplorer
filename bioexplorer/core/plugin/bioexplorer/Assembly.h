@@ -64,7 +64,7 @@ public:
      * @param descriptor Amino acid sequence as a range of indices
      */
     void setAminoAcidSequenceAsRange(
-        const AminoAcidSequenceAsRangeDescriptor &descriptor);
+        const AminoAcidSequenceAsRangesDescriptor &descriptor);
 
     /**
      * @param descriptor Name of the assembly and name of the protein
