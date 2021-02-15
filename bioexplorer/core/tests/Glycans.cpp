@@ -60,7 +60,6 @@ SugarsDescriptor getDescriptor()
     descriptor.recenter = true;
     descriptor.chainIds = {};
     descriptor.siteIndices = {};
-    descriptor.allowedOccurrences = {};
     descriptor.orientation = {0.f, 0.f, 0.f, 1.f};
     return descriptor;
 }

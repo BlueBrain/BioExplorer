@@ -435,30 +435,29 @@ class BioExplorer:
                 assembly_name=name, glycan_type=self.NAME_GLYCAN_HIGH_MANNOSE,
                 protein_name=self.NAME_PROTEIN_S_CLOSED,
                 paths=high_mannose_paths, indices=indices_closed,
-                allowed_occurrences=closed_conformation_indices,
                 representation=representation, atom_radius_multiplier=atom_radius_multiplier)
             self.add_multiple_glycans(
                 assembly_name=name, glycan_type=self.NAME_GLYCAN_HIGH_MANNOSE,
                 protein_name=self.NAME_PROTEIN_S_OPEN,
                 paths=high_mannose_paths, indices=indices_open, index_offset=19,
-                allowed_occurrences=open_conformation_indices, representation=representation,
-                atom_radius_multiplier=atom_radius_multiplier)
+                representation=representation, atom_radius_multiplier=atom_radius_multiplier)
 
             # Complex
-            indices_closed = [17, 74, 149, 165, 282, 331,
-                              343, 616, 657, 1098, 1134, 1158, 1173, 1194]
-            indices_open = [17, 74, 149, 165, 282, 331, 343, 657, 1098, 1134, 1158, 1173, 1194]
+            indices_closed = [
+                17, 74, 149, 165, 282, 331, 343, 616, 657, 1098, 1134, 1158, 1173, 1194]
+            indices_open = [
+                17, 74, 149, 165, 282, 331, 343, 657, 1098, 1134, 1158, 1173, 1194]
             self.add_multiple_glycans(
                 assembly_name=name, glycan_type=self.NAME_GLYCAN_COMPLEX,
                 protein_name=self.NAME_PROTEIN_S_CLOSED, paths=complex_paths,
-                indices=indices_closed, allowed_occurrences=closed_conformation_indices,
-                representation=representation, atom_radius_multiplier=atom_radius_multiplier)
+                indices=indices_closed, representation=representation,
+                atom_radius_multiplier=atom_radius_multiplier)
 
             self.add_multiple_glycans(
                 assembly_name=name, glycan_type=self.NAME_GLYCAN_COMPLEX,
                 protein_name=self.NAME_PROTEIN_S_OPEN, paths=complex_paths, indices=indices_open,
-                index_offset=19, allowed_occurrences=open_conformation_indices,
-                representation=representation, atom_radius_multiplier=atom_radius_multiplier)
+                index_offset=19, representation=representation,
+                atom_radius_multiplier=atom_radius_multiplier)
 
             # O-Glycans
             for index in [323, 325]:
@@ -711,7 +710,8 @@ class BioExplorer:
             atom_radius_multiplier=atom_radius_multiplier,
             random_seed=random_seed,
             representation=representation,
-            orientation=Quaternion(0.661, -0.624, -0.417, 0.0))
+            # orientation=Quaternion(0.661, -0.624, -0.417, 0.0)
+        )
 
         collagens = list()
         for i in range(nb_collagens):
@@ -1139,7 +1139,6 @@ class BioExplorer:
         params['recenter'] = glycans.recenter
         params['chainIds'] = glycans.chain_ids
         params['siteIndices'] = glycans.site_indices
-        params['allowedOccurrences'] = glycans.allowed_occurrences
         params['orientation'] = glycans.orientation.to_list()
         result = self._client.rockets_client.request(
             method=self.PLUGIN_API_PREFIX + 'add-glycans', params=params)
@@ -1150,8 +1149,7 @@ class BioExplorer:
 
     def add_multiple_glycans(
             self, assembly_name, glycan_type, protein_name, paths, representation, chain_ids=list(),
-            indices=list(), allowed_occurrences=list(), index_offset=0, load_bonds=False,
-            atom_radius_multiplier=1.0):
+            indices=list(), index_offset=0, load_bonds=False, atom_radius_multiplier=1.0):
         """
         Add glycans to a protein in a assembly
 
@@ -1162,8 +1160,6 @@ class BioExplorer:
         :representation: Representation of the protein (Atoms, atoms and sticks, etc)
         :chain_ids: IDs of the chains to be loaded
         :indices: Indices of the glycosylation sites where glycans should be added
-        :allowed_occurrences: List of occurrences of the protein in the assembly, where
-                                    glycans should be added
         :index_offset: Offset applied to the indices. This is because not all amino acid
                              sequences start at the same index in the description of the protein in
                              the PDB file.
@@ -1172,7 +1168,6 @@ class BioExplorer:
         """
         assert isinstance(chain_ids, list)
         assert isinstance(indices, list)
-        assert isinstance(allowed_occurrences, list)
 
         path_index = 0
         for path in paths:
@@ -1182,17 +1177,13 @@ class BioExplorer:
                     if index % len(paths) == path_index:
                         site_indices.append(index + index_offset)
 
-            occurrences = list()
-            if allowed_occurrences is not None:
-                occurrences = allowed_occurrences
-
             _glycans = Sugars(
                 assembly_name=assembly_name,
                 name=assembly_name + '_' + protein_name + '_' + glycan_type + '_' + str(path_index),
                 source=path, protein_name=assembly_name + '_' + protein_name, chain_ids=chain_ids,
                 atom_radius_multiplier=atom_radius_multiplier, load_bonds=load_bonds,
                 representation=representation, recenter=True, site_indices=site_indices,
-                allowed_occurrences=occurrences, orientation=Quaternion())
+                orientation=Quaternion())
             self.add_glycans(_glycans)
             path_index += 1
 
@@ -1216,7 +1207,6 @@ class BioExplorer:
         params['recenter'] = sugars.recenter
         params['chainIds'] = sugars.chain_ids
         params['siteIndices'] = sugars.site_indices
-        params['allowedOccurrences'] = sugars.allowed_occurrences
         params['orientation'] = sugars.orientation.to_list()
         result = self._client.rockets_client.request(
             method=self.PLUGIN_API_PREFIX + 'add-sugars', params=params)
@@ -1720,8 +1710,7 @@ class Sugars:
     def __init__(
             self, assembly_name, name, source, protein_name, atom_radius_multiplier=1.0,
             load_bonds=False, representation=BioExplorer.REPRESENTATION_ATOMS, recenter=True,
-            chain_ids=list(), site_indices=list(), allowed_occurrences=list(),
-            orientation=Quaternion()):
+            chain_ids=list(), site_indices=list(), orientation=Quaternion()):
         """
         Sugar descriptor
 
@@ -1735,13 +1724,10 @@ class Sugars:
         :recenter: Centers the protein if True
         :chain_ids: Ids of chains to be loaded
         :site_indices: Indices on which sugars should be added on the protein
-        :allowed_occurrences: Indices of protein occurences in the assembly for which sugars
-                                    are added
         :orientation: Orientation of the sugar on the protein
         """
         assert isinstance(chain_ids, list)
         assert isinstance(site_indices, list)
-        assert isinstance(allowed_occurrences, list)
         assert isinstance(orientation, Quaternion)
         self.assembly_name = assembly_name
         self.name = name
@@ -1753,7 +1739,6 @@ class Sugars:
         self.recenter = recenter
         self.chain_ids = chain_ids
         self.site_indices = site_indices
-        self.allowed_occurrences = allowed_occurrences
         self.orientation = orientation
 
 

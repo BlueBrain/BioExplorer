@@ -294,8 +294,6 @@ typedef struct
     std::vector<size_t> chainIds;
     /** List of sites on which glycans can be added */
     std::vector<size_t> siteIndices;
-    /** List of occurences on which glycans can be added */
-    std::vector<size_t> allowedOccurrences;
     /** Relative orientation of the glycans on the protein */
     std::vector<float> orientation;
 } SugarsDescriptor;

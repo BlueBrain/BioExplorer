@@ -269,7 +269,6 @@ void Molecule::_buildModel(const std::string& assemblyName,
         material->setDiffuseColor({1.f, 1.f, 1.f});
         material->updateProperties(props);
 
-#if 1
         brayns::Boxf box;
         for (const auto& atom : _atomMap)
             box.merge({atom.second.position.x, atom.second.position.y,
@@ -280,17 +279,14 @@ void Molecule::_buildModel(const std::string& assemblyName,
 
         const brayns::Vector3f a = {0.f, 0.f, center.z + halfSize.z};
         const brayns::Vector3f b = {0.f, 0.f, center.z - halfSize.z * 0.5f};
-        const brayns::Vector3f c = {0.f, 0.f, center.z - halfSize.z * 0.6f};
+        const brayns::Vector3f c = {0.f, 0.f, center.z - halfSize.z * 0.51f};
         const brayns::Vector3f d = {0.f, 0.f, center.z - halfSize.z};
 
-        model->addSphere(materialId, {a, atomRadiusMultiplier * 0.5f});
-        model->addCylinder(materialId, {a, b, atomRadiusMultiplier * 0.5f});
-        model->addCone(materialId, {b, c, atomRadiusMultiplier * 0.5f,
+        model->addSphere(materialId, {a, atomRadiusMultiplier * 0.2f});
+        model->addCylinder(materialId, {a, b, atomRadiusMultiplier * 0.2f});
+        model->addCone(materialId, {b, c, atomRadiusMultiplier * 0.2f,
                                     atomRadiusMultiplier});
         model->addCone(materialId, {c, d, atomRadiusMultiplier, 0.f});
-#else
-        model->addSphere(materialId, {{0.f, 0.f, 0.f}, atomRadiusMultiplier});
-#endif
         break;
     }
     }
