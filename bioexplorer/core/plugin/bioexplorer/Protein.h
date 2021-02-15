@@ -163,9 +163,11 @@ private:
     // Utility functions
     void _processInstances(ModelDescriptorPtr md, const Vector3fs& positions,
                            const Quaternions& orientations);
+    void _buildAminoAcidBounds();
 
     // Class members
     ProteinDescriptor _descriptor;
     GlycansMap _glycans;
+    std::map<std::string, std::map<size_t, Boxf>> _aminoAcidBounds;
 };
 } // namespace bioexplorer

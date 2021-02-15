@@ -641,15 +641,22 @@ void Molecule::_setAminoAcidSequenceColorScheme(const Palette& palette)
     size_t atomCount = 0;
     for (const auto& sequence : _sequenceMap)
     {
-        if (_aminoAcidSequence.empty())
+        if (_selectedAminoAcidSequence.empty())
         {
             // Range based coloring
             for (auto& atom : _atomMap)
-                _setMaterialDiffuseColor(
-                    atom.first, (atom.second.reqSeq >= _aminoAcidRange.x &&
-                                 atom.second.reqSeq <= _aminoAcidRange.y)
-                                    ? palette[1]
-                                    : palette[0]);
+            {
+                bool selected = false;
+                for (const auto& range : _selectedAminoAcidRanges)
+                {
+                    selected = (atom.second.reqSeq >= range.x &&
+                                atom.second.reqSeq <= range.y);
+                    if (selected)
+                        break;
+                }
+                _setMaterialDiffuseColor(atom.first,
+                                         selected ? palette[1] : palette[0]);
+            }
         }
         else
         {
@@ -659,11 +666,12 @@ void Molecule::_setAminoAcidSequenceColorScheme(const Palette& palette)
                 shortSequence += aminoAcidMap[resName].shortName;
 
             const auto sequencePosition =
-                shortSequence.find(_aminoAcidSequence);
+                shortSequence.find(_selectedAminoAcidSequence);
             if (sequencePosition != -1)
             {
-                PLUGIN_INFO << _aminoAcidSequence << " was found at position "
-                            << sequencePosition << std::endl;
+                PLUGIN_INFO << _selectedAminoAcidSequence
+                            << " was found at position " << sequencePosition
+                            << std::endl;
                 size_t minSeq = 1e6;
                 size_t maxSeq = 0;
                 for (auto& atom : _atomMap)
@@ -672,7 +680,8 @@ void Molecule::_setAminoAcidSequenceColorScheme(const Palette& palette)
                     maxSeq = std::max(maxSeq, atom.second.reqSeq);
                     if (atom.second.reqSeq >= sequencePosition &&
                         atom.second.reqSeq <
-                            sequencePosition + _aminoAcidSequence.length())
+                            sequencePosition +
+                                _selectedAminoAcidSequence.length())
                     {
                         _setMaterialDiffuseColor(atom.first, palette[1]);
                         ++atomCount;
@@ -684,8 +693,9 @@ void Molecule::_setAminoAcidSequenceColorScheme(const Palette& palette)
                              << "] atoms where colored" << std::endl;
             }
             else
-                PLUGIN_WARN << _aminoAcidSequence << " was not found in "
-                            << shortSequence << std::endl;
+                PLUGIN_WARN << _selectedAminoAcidSequence
+                            << " was not found in " << shortSequence
+                            << std::endl;
         }
     }
     PLUGIN_INFO << "Applying Amino Acid Sequence color scheme ("

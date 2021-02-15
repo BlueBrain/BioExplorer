@@ -91,6 +91,8 @@ Protein::Protein(Scene& scene, const ProteinDescriptor& descriptor)
     _buildModel(_descriptor.assemblyName, _descriptor.name, title, header,
                 _descriptor.representation, _descriptor.atomRadiusMultiplier,
                 _descriptor.loadBonds);
+
+    _buildAminoAcidBounds();
 }
 
 Protein::~Protein()
@@ -236,46 +238,82 @@ std::map<std::string, size_ts> Protein::getGlycosylationSites(
     return sites;
 }
 
+void Protein::_buildAminoAcidBounds()
+{
+    if (!_aminoAcidBounds.empty())
+        return;
+    for (const auto& atom : _atomMap)
+    {
+        const auto chainId = atom.second.chainId;
+        auto& chain = _aminoAcidBounds[chainId];
+
+        const auto reqSeq = atom.second.reqSeq;
+        chain[reqSeq].merge(atom.second.position);
+    }
+}
+
 void Protein::_getSitesTransformations(
     std::vector<Vector3f>& positions, std::vector<Quaterniond>& rotations,
-    const std::map<std::string, size_ts>& sites) const
+    const std::map<std::string, size_ts>& sitesPerChain) const
 {
-    for (const auto chain : sites)
+    for (const auto& chain : sitesPerChain)
     {
+        const auto itAminoAcids = _aminoAcidBounds.find(chain.first);
+        if (itAminoAcids == _aminoAcidBounds.end())
+            PLUGIN_THROW(std::runtime_error("Invalid chain"));
+
+        const auto aminoAcidsPerChain = (*itAminoAcids).second;
         for (const auto site : chain.second)
         {
-            const auto offsetSite = site + 1;
-            bool validSite{false};
+            // Protein center
+            const auto& proteinCenter = _bounds.getCenter();
             Boxf siteBounds;
-            std::string siteAtoms;
-            for (const auto& atom : _atomMap)
-                if (atom.second.chainId == chain.first &&
-                    atom.second.reqSeq == site)
-                {
-                    siteBounds.merge(atom.second.position);
-                    validSite = true;
-                    siteAtoms += "{" + atom.second.name + "}";
-                }
+            Vector3f siteCenter;
 
-            if (validSite)
+            // Site center
+            const auto it = aminoAcidsPerChain.find(site);
+            if (it != aminoAcidsPerChain.end())
             {
-                PLUGIN_DEBUG << "Chain: " << chain.first
-                             << ", Site: " << offsetSite
-                             << ", Atoms: " << siteAtoms << std::endl;
-                const auto& proteinCenter = _bounds.getCenter();
-                const auto& siteCenter = siteBounds.getCenter();
-
-                const auto bindOrientation =
-                    normalize(siteCenter - proteinCenter);
-
-                positions.push_back(siteCenter);
-                rotations.push_back(
-                    glm::quatLookAt(bindOrientation, UP_VECTOR));
+                siteBounds = (*it).second;
+                siteCenter = siteBounds.getCenter();
             }
             else
+            {
+                // Site is not registered in the protein. Extrapolating site
+                // position from previous and following sites
+                size_t before = 1;
+                auto itBefore = aminoAcidsPerChain.find(site - before);
+                while (itBefore == aminoAcidsPerChain.end() &&
+                       (site - before) >= _aminoAcidRange.x)
+                {
+                    ++before;
+                    itBefore = aminoAcidsPerChain.find(site - before);
+                }
+
+                size_t after = 1;
+                auto itAfter = aminoAcidsPerChain.find(site + after);
+                while (itAfter == aminoAcidsPerChain.end() &&
+                       (site + after) < _aminoAcidRange.y)
+                {
+                    ++after;
+                    itAfter = aminoAcidsPerChain.find(site + after);
+                }
+
+                Boxf siteBounds;
+                siteBounds.merge((*itBefore).second);
+                siteBounds.merge((*itAfter).second);
+                siteCenter = siteBounds.getCenter();
+
                 PLUGIN_WARN << "Chain: " << chain.first
-                            << ", Site: " << offsetSite
-                            << ": no atoms available" << std::endl;
+                            << ", Site: " << site + 1
+                            << ": no atoms available. Extrapolating from sites "
+                            << before << " and " << after << std::endl;
+            }
+            // Orientation is determined by the center of the site and the
+            // center of the protein
+            const auto bindOrientation = normalize(siteCenter - proteinCenter);
+            positions.push_back(siteCenter);
+            rotations.push_back(glm::quatLookAt(bindOrientation, UP_VECTOR));
         }
     }
 }
