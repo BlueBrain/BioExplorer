@@ -92,11 +92,11 @@ struct ShadingAttributes
 };
 
 inline bool launchRandomRay(
-    const uniform AdvancedRenderer* uniform self,
-    varying ScreenSample& sample, const varying vec3f& intersection,
-    const varying vec3f& normal, DifferentialGeometry& geometry,
-    varying vec3f& backgroundColor, varying float& distanceToIntersection,
-    varying vec3f& randomDirection, const uint32 iteration)
+    const uniform AdvancedRenderer* uniform self, varying ScreenSample& sample,
+    const varying vec3f& intersection, const varying vec3f& normal,
+    DifferentialGeometry& geometry, varying vec3f& backgroundColor,
+    varying float& distanceToIntersection, varying vec3f& randomDirection,
+    const uint32 iteration)
 {
     randomDirection =
         getRandomVector(self->useHardwareRandomizer, self->super.fb->size.x,
@@ -118,24 +118,49 @@ inline bool launchRandomRay(
     randomRay.geomID = -1;
     randomRay.instID = -1;
 
-    traceRay(self->super.model, randomRay);
-
-    if (randomRay.geomID < 0)
+    bool moreRebounds = true;
+    bool hit = false;
+    while (moreRebounds)
     {
-        // No intersection
-        backgroundColor =
-            make_vec3f(skyboxMapping((Renderer*)self, randomRay,
-                                     (AdvancedMaterial*)self->bgMaterial));
-        return false;
+        traceRay(self->super.model, randomRay);
+
+        if (randomRay.geomID < 0)
+        {
+            // No intersection
+            backgroundColor =
+                make_vec3f(skyboxMapping((Renderer*)self, randomRay,
+                                         (AdvancedMaterial*)self->bgMaterial));
+            return false;
+        }
+
+        DifferentialGeometry dg;
+        postIntersect(self->super.model, dg, randomRay, DG_MATERIALID);
+
+        uniform AdvancedMaterial* objMaterial =
+            (uniform AdvancedMaterial*)dg.material;
+        if (objMaterial)
+            foreach_unique(mat in objMaterial)
+            {
+                if (mat->shadingMode != invisible)
+                {
+                    hit = true;
+                    moreRebounds = false;
+
+                    // Random ray hits a primitive
+                    distanceToIntersection = randomRay.t * randomRay.t;
+                }
+            }
+        else
+            moreRebounds = false;
+
+        randomRay.t0 = randomRay.t + dg.epsilon;
+        randomRay.t = inf;
+        randomRay.primID = -1;
+        randomRay.geomID = -1;
+        randomRay.instID = -1;
     }
 
-    // Random ray hits a primitive
-    distanceToIntersection = randomRay.t * randomRay.t;
-
-    postIntersect(self->super.model, geometry, randomRay,
-                  DG_NG | DG_NS | DG_NORMALIZE | DG_MATERIALID | DG_COLOR |
-                      DG_TEXCOORD);
-    return true;
+    return hit;
 }
 
 inline void indirectShading(const uniform AdvancedRenderer* uniform self,
@@ -264,17 +289,22 @@ inline float shadedLightIntensity(varying ScreenSample& sample,
             else
                 foreach_unique(mat in objMaterial)
                 {
-                    opacity = mat->d;
-                    if (valid(mat->map_d))
+                    if (mat->shadingMode == invisible)
+                        opacity = 0.f;
+                    else
                     {
-                        vec4f d_map = get4f(mat->map_d, shadowingGeometry);
-                        opacity = d_map.x;
-                    }
-                    else if (valid(mat->map_Kd))
-                    {
-                        vec4f localDiffuseColor_map =
-                            get4f(mat->map_Kd, shadowingGeometry);
-                        opacity = 1.f - localDiffuseColor_map.w;
+                        opacity = mat->d;
+                        if (valid(mat->map_d))
+                        {
+                            vec4f d_map = get4f(mat->map_d, shadowingGeometry);
+                            opacity = d_map.x;
+                        }
+                        else if (valid(mat->map_Kd))
+                        {
+                            vec4f localDiffuseColor_map =
+                                get4f(mat->map_Kd, shadowingGeometry);
+                            opacity = 1.f - localDiffuseColor_map.w;
+                        }
                     }
                 }
 
@@ -294,8 +324,7 @@ inline float shadedLightIntensity(varying ScreenSample& sample,
 }
 
 inline void initializeShadingAttributes(
-    const uniform AdvancedRenderer* uniform self,
-    ShadingAttributes& attributes)
+    const uniform AdvancedRenderer* uniform self, ShadingAttributes& attributes)
 {
     attributes.self = self;
     attributes.dg = 0;
@@ -641,6 +670,70 @@ inline void processGoodsellShading(varying ScreenSample& sample,
     attributes.specularColor = make_vec3f(0.f);
 }
 
+inline void processChameleonShading(
+    const uniform AdvancedRenderer* uniform self, DifferentialGeometry& dg,
+    varying ScreenSample& sample, ShadingAttributes& attributes)
+{
+    vec3f shadingColor = make_vec3f(0.f);
+    size_t hits = 0;
+    for (uint32 i = 0; i < attributes.userParameter; ++i)
+    {
+        const vec3f randomDirection =
+            getRandomVector(self->useHardwareRandomizer, self->super.fb->size.x,
+                            sample, neg(attributes.normal),
+                            i + self->randomNumber);
+        Ray ray;
+        ray.org = attributes.origin + randomDirection * dg.epsilon;
+        ray.dir = randomDirection;
+        ray.t0 = max(0.f, dg.epsilon);
+        ray.t = self->giDistance;
+        ray.time = inf;
+        ray.primID = -1;
+        ray.geomID = -1;
+        ray.instID = -1;
+
+        traceRay(self->super.model, ray);
+
+        if (ray.geomID >= 0)
+        {
+            // Get intersection information
+            DifferentialGeometry geometry;
+            postIntersect(self->super.model, geometry, ray,
+                          DG_NG | DG_NS | DG_NORMALIZE | DG_FACEFORWARD |
+                              DG_TANGENTS | DG_MATERIALID | DG_COLOR |
+                              DG_TEXCOORD);
+
+            const uniform Material* material = geometry.material;
+            const uniform AdvancedMaterial* objMaterial =
+                (const uniform AdvancedMaterial*)material;
+            if (objMaterial)
+            {
+                foreach_unique(mat in objMaterial)
+                {
+                    if (mat->shadingMode == invisible)
+                    {
+                        if (valid(mat->map_Kd))
+                            shadingColor =
+                                shadingColor + get3f(mat->map_Kd, geometry);
+                        else
+                            shadingColor = shadingColor + mat->Kd;
+                    }
+                }
+            }
+            else
+                shadingColor = make_vec3f(dg.color);
+            ++hits;
+        }
+    }
+
+    const vec3f viewer = normalize(sample.ray.org - attributes.origin);
+    const float el = max(0.f, dot(viewer, attributes.normal));
+    const float cosNL = pow(el, attributes.userParameter);
+
+    attributes.shadingContribution = cosNL * shadingColor / hits;
+    attributes.specularColor = make_vec3f(0.f);
+}
+
 inline void processFinalContribution(ShadingAttributes& attributes)
 {
     // Surface shading
@@ -668,8 +761,7 @@ inline void processFinalContribution(ShadingAttributes& attributes)
 }
 
 inline vec3f AdvancedRenderer_shadeRay(
-    const uniform AdvancedRenderer* uniform self,
-    varying ScreenSample& sample)
+    const uniform AdvancedRenderer* uniform self, varying ScreenSample& sample)
 {
     Ray ray = sample.ray;
     vec4f color = make_vec4f(0.f);
@@ -679,8 +771,9 @@ inline vec3f AdvancedRenderer_shadeRay(
     float oldlocalRefraction = 1.f;
 
     sample.z = inf;
+    bool moreRebounds = true;
 
-    while (depth < self->maxBounces && color.w < 1.f)
+    while (moreRebounds && depth < self->maxBounces && color.w < 1.f)
     {
         float totalOpacity = 0.f;
 
@@ -699,88 +792,100 @@ inline vec3f AdvancedRenderer_shadeRay(
                 processBackgroundColor(sample, ray, attributes);
                 bgColor = make_vec3f(attributes.bgColor);
             }
-            break;
+            moreRebounds = false;
         }
-
-        // Get intersection information
-        DifferentialGeometry dg;
-        postIntersect(self->super.model, dg, ray,
-                      DG_NG | DG_NS | DG_NORMALIZE | DG_FACEFORWARD |
-                          DG_TANGENTS | DG_MATERIALID | DG_COLOR | DG_TEXCOORD);
-
-        // Initialize geometry shading attributes
-        setGeometryShadingAttributes(self, dg, sample, ray, attributes);
-
-        // Compute indirect lighting contribution
-        computeIndirectShading(dg, sample, attributes);
-
-        // Compute surface shading
-        if (attributes.shadingMode == basic)
-            processBasicShading(sample, attributes);
-        else if (attributes.shadingMode == electron)
-            processElectronShading(sample, attributes);
-        else if (attributes.shadingMode == cartoon)
-            processCartoonShading(sample, attributes);
-        else if (attributes.shadingMode == electron_transparency)
-            processElectronTransparencyShading(sample, attributes);
-        else if (attributes.shadingMode == perlin)
-            processNoiseShading(dg, sample, ray, attributes);
-        else if (attributes.shadingMode == checker)
-            processCheckerShading(dg, sample, ray, attributes);
-        else if (attributes.shadingMode == goodsell)
-            processGoodsellShading(sample, attributes);
         else
-            // Diffuse shading
-            processLightShading(dg, sample, ray, attributes);
-
-        // Compute shadows
-        if (self->shadows > 0.f)
-            processShadows(dg, sample, ray, attributes);
-
-        // Z-Depth
-        if (depth == 0)
-            sample.z = ray.t;
-
-        // Alpha
-        totalOpacity += (1.f - attributes.reflection) * attributes.opacity;
-
-        // Prepare ray for next iteration
-        bool doRefraction = (attributes.opacity < 1.f);
-        bool doReflection = (attributes.reflection > 0.f);
-        if (doRefraction && doReflection)
         {
-            // Switch between refraction and reflection
-            const bool reflect = sample.sampleID.z % 4 == 1;
-            doRefraction = !reflect;
-            doReflection = reflect;
+            DifferentialGeometry dg;
+            postIntersect(self->super.model, dg, ray,
+                          DG_NG | DG_NS | DG_NORMALIZE | DG_TANGENTS |
+                              DG_MATERIALID | DG_COLOR | DG_TEXCOORD);
+
+            // Get intersection information
+            // Initialize geometry shading attributes
+            setGeometryShadingAttributes(self, dg, sample, ray, attributes);
+
+            if (attributes.shadingMode == invisible)
+                ray.t0 = ray.t + dg.epsilon;
+            else
+            {
+                // Compute indirect lighting contribution
+                computeIndirectShading(dg, sample, attributes);
+
+                // Compute surface shading
+                if (attributes.shadingMode == basic)
+                    processBasicShading(sample, attributes);
+                else if (attributes.shadingMode == electron)
+                    processElectronShading(sample, attributes);
+                else if (attributes.shadingMode == cartoon)
+                    processCartoonShading(sample, attributes);
+                else if (attributes.shadingMode == electron_transparency)
+                    processElectronTransparencyShading(sample, attributes);
+                else if (attributes.shadingMode == perlin)
+                    processNoiseShading(dg, sample, ray, attributes);
+                else if (attributes.shadingMode == checker)
+                    processCheckerShading(dg, sample, ray, attributes);
+                else if (attributes.shadingMode == goodsell)
+                    processGoodsellShading(sample, attributes);
+                else if (attributes.shadingMode == chameleon)
+                    processChameleonShading(self, dg, sample, attributes);
+                else
+                    // Diffuse shading
+                    processLightShading(dg, sample, ray, attributes);
+
+                // Compute shadows
+                if (self->shadows > 0.f)
+                    processShadows(dg, sample, ray, attributes);
+
+                // Z-Depth
+                if (depth == 0)
+                    sample.z = ray.t;
+
+                // Alpha
+                totalOpacity +=
+                    (1.f - attributes.reflection) * attributes.opacity;
+
+                // Prepare ray for next iteration
+                bool doRefraction = (attributes.opacity < 1.f);
+                bool doReflection = (attributes.reflection > 0.f);
+                if (doRefraction && doReflection)
+                {
+                    // Switch between refraction and reflection
+                    const bool reflect = sample.sampleID.z % 4 == 1;
+                    doRefraction = !reflect;
+                    doReflection = reflect;
+                }
+
+                if (doRefraction)
+                {
+                    // Refraction
+                    ray.dir = refractedVector(ray.dir, attributes.normal,
+                                              oldlocalRefraction,
+                                              attributes.refraction);
+                    oldlocalRefraction = attributes.refraction;
+                }
+                else if (doReflection)
+                    // Reflection
+                    ray.dir = attributes.reflectedNormal;
+
+                // Combine all contributions
+                processFinalContribution(attributes);
+
+                composite(make_vec4f(attributes.finalContribution,
+                                     totalOpacity),
+                          color, 1.0f);
+
+                // Prepare next ray
+                ray.org = dg.P + ray.dir * dg.epsilon;
+                ray.t0 = max(0.f, dg.epsilon);
+                ++depth;
+            }
+
+            ray.t = inf - ray.t;
+            ray.primID = -1;
+            ray.geomID = -1;
+            ray.instID = -1;
         }
-
-        if (doRefraction)
-        {
-            // Refraction
-            ray.dir =
-                refractedVector(ray.dir, attributes.normal, oldlocalRefraction,
-                                attributes.refraction);
-            oldlocalRefraction = attributes.refraction;
-        }
-        else if (doReflection)
-            // Reflection
-            ray.dir = attributes.reflectedNormal;
-
-        // Combine all contributions
-        processFinalContribution(attributes);
-
-        composite(make_vec4f(attributes.finalContribution, totalOpacity), color,
-                  1.0f);
-
-        // Prepare next ray
-        ray.org = dg.P + ray.dir * dg.epsilon;
-        ray.t0 = max(0.f, dg.epsilon);
-        ray.t = inf;
-        ray.primID = -1;
-        ray.geomID = -1;
-        ray.instID = -1;
-        ++depth;
     }
 
     // Fog attenuation
@@ -798,8 +903,8 @@ inline vec3f AdvancedRenderer_shadeRay(
 }
 
 void AdvancedRenderer_renderSample(uniform Renderer* uniform _self,
-                                      void* uniform perFrameData,
-                                      varying ScreenSample& sample)
+                                   void* uniform perFrameData,
+                                   varying ScreenSample& sample)
 {
     uniform AdvancedRenderer* uniform self =
         (uniform AdvancedRenderer * uniform) _self;

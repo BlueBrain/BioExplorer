@@ -66,7 +66,7 @@ COLOR_MAPS = [
 
 SHADING_MODES = [
     'none', 'basic', 'diffuse', 'electron', 'cartoon', 'electron_transparency', 'perlin',
-    'diffuse_transparency', 'checker', 'goodsell'
+    'diffuse_transparency', 'checker', 'goodsell', 'chameleon', 'invisible'
 ]
 
 DEFAULT_GRID_LAYOUT = Layout(border='1px solid black', margin='5px', padding='5px')

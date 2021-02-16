@@ -64,6 +64,7 @@ void _addBioExplorerRenderer(brayns::Engine &engine)
     properties.setProperty(
         {"softShadowsSamples", 1, 1, 64, {"Soft shadow samples"}});
     properties.setProperty({"exposure", 1., 0.01, 10., {"Exposure"}});
+    properties.setProperty({"epsilon", 0.001, 0.001, 1., {"Geometry epsilon"}});
     properties.setProperty({"fogStart", 0., 0., 1e6, {"Fog start"}});
     properties.setProperty({"fogThickness", 1e6, 1e6, 1e6, {"Fog thickness"}});
     properties.setProperty(

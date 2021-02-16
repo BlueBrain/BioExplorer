@@ -37,7 +37,9 @@ enum MaterialShadingMode
     perlin = 6,
     diffuse_transparency = 7,
     checker = 8,
-    goodsell = 9
+    goodsell = 9,
+    chameleon = 10,
+    invisible = 11
 };
 
 enum CameraStereoMode
