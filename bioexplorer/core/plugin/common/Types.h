@@ -711,10 +711,8 @@ typedef struct
     std::vector<int32_t> shadingModes;
     /** List of values for user defined parameters */
     std::vector<float> userParameters;
-    /** List of values for visible parameters */
-    std::vector<bool> visibles;
-    /** List of values for chameleon parameters */
-    std::vector<bool> chameleons;
+    /** List of values for chameleon mode parameters */
+    std::vector<int32_t> chameleonModes;
 } MaterialsDescriptor;
 
 /**

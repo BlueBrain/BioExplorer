@@ -85,8 +85,7 @@ struct ShadingAttributes
     float shadowIntensity;
     MaterialShadingMode shadingMode;
     float userParameter;
-    bool visible;
-    bool chameleon;
+    MaterialChameleonMode chameleonMode;
     vec3f indirectColor;
     float indirectIntensity;
     vec3f shadingContribution;
@@ -143,7 +142,7 @@ inline bool launchRandomRay(
         if (objMaterial)
             foreach_unique(mat in objMaterial)
             {
-                if (mat->visible)
+                if (mat->chameleonMode == receiver)
                 {
                     hit = true;
                     moreRebounds = false;
@@ -291,7 +290,7 @@ inline float shadedLightIntensity(varying ScreenSample& sample,
             else
                 foreach_unique(mat in objMaterial)
                 {
-                    if (!mat->visible)
+                    if (mat->chameleonMode == emitter)
                         opacity = 0.f;
                     else
                     {
@@ -379,17 +378,14 @@ inline void setGeometryShadingAttributes(
     attributes.normal = dg.Ns;
 
     // Shading mode
-    attributes.shadingMode = none;
+    attributes.shadingMode = undefined_shading_mode;
 
     // Reflected shading normal
     attributes.reflectedNormal =
         ray.dir - 2.f * dot(ray.dir, attributes.normal) * attributes.normal;
 
-    // Visible
-    attributes.visible = true;
-
     // Chameleon
-    attributes.chameleon = false;
+    attributes.chameleonMode = undefined_chameleon_mode;
 
     // Process material attributes
     const uniform Material* material = dg.material;
@@ -481,11 +477,8 @@ inline void setGeometryShadingAttributes(
         // User parameter
         attributes.userParameter = mat->userParameter;
 
-        // Visible
-        attributes.visible = mat->visible;
-
-        // Chameleon
-        attributes.chameleon = mat->chameleon;
+        // Chameleon mode
+        attributes.chameleonMode = mat->chameleonMode;
     }
 
     // Update reflected shading normal
@@ -581,7 +574,7 @@ inline vec3f getChameleonColor(const uniform AdvancedRenderer* uniform self,
             {
                 foreach_unique(mat in objMaterial)
                 {
-                    if (!mat->visible)
+                    if (mat->chameleonMode == emitter)
                     {
                         if (valid(mat->map_Kd))
                             shadingColor =
@@ -627,7 +620,7 @@ inline void processLightShading(const uniform AdvancedRenderer* uniform self,
         const vec3f lightDirection = lightSample.dir;
         float cosNL = 1.f;
 
-        if (attributes.shadingMode != none)
+        if (attributes.shadingMode != undefined_shading_mode)
         {
             // Phong + Blinn shading
             if (attributes.shadingMode != perlin)
@@ -651,6 +644,19 @@ inline void processLightShading(const uniform AdvancedRenderer* uniform self,
     attributes.shadingContribution = accDiffuse;
 }
 
+inline void processDiffuseShading(const uniform AdvancedRenderer* uniform self,
+                                  DifferentialGeometry& dg,
+                                  varying ScreenSample& sample,
+                                  const varying Ray& ray,
+                                  ShadingAttributes& attributes)
+{
+    if (attributes.chameleonMode == receiver)
+        attributes.diffuseColor =
+            getChameleonColor(self, dg, sample, attributes);
+
+    processLightShading(self, dg, sample, ray, attributes);
+}
+
 inline void processBasicShading(const uniform AdvancedRenderer* uniform self,
                                 DifferentialGeometry& dg,
                                 varying ScreenSample& sample,
@@ -660,7 +666,7 @@ inline void processBasicShading(const uniform AdvancedRenderer* uniform self,
     const float el = max(0.f, dot(viewer, attributes.normal));
     const float cosNL = pow(el, attributes.userParameter);
 
-    if (attributes.chameleon)
+    if (attributes.chameleonMode == receiver)
         attributes.diffuseColor =
             getChameleonColor(self, dg, sample, attributes);
 
@@ -677,7 +683,7 @@ inline void processElectronShading(const uniform AdvancedRenderer* uniform self,
     const float el = max(0.f, dot(viewer, attributes.normal));
     const float cosNL = 1.f - pow(el, attributes.userParameter);
 
-    if (attributes.chameleon)
+    if (attributes.chameleonMode == receiver)
         attributes.diffuseColor =
             getChameleonColor(self, dg, sample, attributes);
 
@@ -693,7 +699,7 @@ inline void processElectronTransparencyShading(
     const float el = 1.f - max(0.f, dot(viewer, attributes.normal));
     const float cosNL = 1.f - pow(el, attributes.userParameter);
 
-    if (attributes.chameleon)
+    if (attributes.chameleonMode == receiver)
         attributes.diffuseColor =
             getChameleonColor(self, dg, sample, attributes);
 
@@ -712,7 +718,7 @@ inline void processCartoonShading(const uniform AdvancedRenderer* uniform self,
     const uint32 angleAsInt = cosNL * attributes.userParameter;
     cosNL = (float)(angleAsInt) / attributes.userParameter;
 
-    if (attributes.chameleon)
+    if (attributes.chameleonMode == receiver)
         attributes.diffuseColor =
             getChameleonColor(self, dg, sample, attributes);
 
@@ -730,7 +736,7 @@ inline void processNoiseShading(const uniform AdvancedRenderer* uniform self,
 
     const float n1 = 0.25f + 0.75f * clamp(worleyNoise(point, 2.f), 0.f, 1.f);
 
-    if (attributes.chameleon)
+    if (attributes.chameleonMode == receiver)
         attributes.diffuseColor =
             getChameleonColor(self, dg, sample, attributes);
 
@@ -754,7 +760,7 @@ inline void processCheckerShading(const uniform AdvancedRenderer* uniform self,
                                   const varying Ray& ray,
                                   ShadingAttributes& attributes)
 {
-    if (attributes.chameleon)
+    if (attributes.chameleonMode == receiver)
         attributes.diffuseColor =
             getChameleonColor(self, dg, sample, attributes);
 
@@ -777,7 +783,7 @@ inline void processGoodsellShading(const uniform AdvancedRenderer* uniform self,
     const vec3f viewer = normalize(sample.ray.org - attributes.origin);
     const float cosNL = max(0.f, dot(viewer, attributes.normal));
 
-    if (attributes.chameleon)
+    if (attributes.chameleonMode == receiver)
         attributes.diffuseColor =
             getChameleonColor(self, dg, sample, attributes);
 
@@ -858,7 +864,7 @@ inline vec3f AdvancedRenderer_shadeRay(
             // Initialize geometry shading attributes
             setGeometryShadingAttributes(self, dg, sample, ray, attributes);
 
-            if (attributes.visible == false)
+            if (attributes.chameleonMode == emitter)
                 ray.t0 = ray.t + dg.epsilon;
             else
             {
@@ -882,8 +888,7 @@ inline vec3f AdvancedRenderer_shadeRay(
                 else if (attributes.shadingMode == goodsell)
                     processGoodsellShading(self, dg, sample, attributes);
                 else
-                    // Diffuse shading
-                    processLightShading(self, dg, sample, ray, attributes);
+                    processDiffuseShading(self, dg, sample, ray, attributes);
 
                 // Compute shadows
                 if (self->shadows > 0.f)

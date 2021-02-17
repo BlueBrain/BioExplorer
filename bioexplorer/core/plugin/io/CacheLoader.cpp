@@ -498,7 +498,7 @@ void CacheLoader::_exportModel(const ModelDescriptorPtr modelDescriptor,
         }
         file.write((char*)&v, sizeof(double));
 
-        int32_t shadingMode = MaterialShadingMode::none;
+        int32_t shadingMode = MaterialShadingMode::undefined_shading_mode;
         try
         {
             shadingMode = material.second->getProperty<int32_t>(

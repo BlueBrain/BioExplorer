@@ -620,8 +620,10 @@ Response BioExplorerPlugin::_addGrid(const AddGrid &payload)
         props.setProperty({MATERIAL_PROPERTY_SHADING_MODE,
                            static_cast<int>(MaterialShadingMode::basic)});
         props.setProperty({MATERIAL_PROPERTY_USER_PARAMETER, 1.0});
-        props.setProperty({MATERIAL_PROPERTY_VISIBLE, true});
-        props.setProperty({MATERIAL_PROPERTY_CHAMELEON, false});
+        props.setProperty(
+            {MATERIAL_PROPERTY_CHAMELEON_MODE,
+             static_cast<int>(
+                 MaterialChameleonMode::undefined_chameleon_mode)});
 
         auto material = model->createMaterial(0, "x");
         material->setDiffuseColor(grey);
@@ -697,8 +699,10 @@ Response BioExplorerPlugin::_addGrid(const AddGrid &payload)
             props.setProperty({MATERIAL_PROPERTY_USER_PARAMETER, 1.0});
             props.setProperty({MATERIAL_PROPERTY_SHADING_MODE,
                                static_cast<int>(MaterialShadingMode::basic)});
-            props.setProperty({MATERIAL_PROPERTY_VISIBLE, true});
-            props.setProperty({MATERIAL_PROPERTY_CHAMELEON, false});
+            props.setProperty(
+                {MATERIAL_PROPERTY_CHAMELEON_MODE,
+                 static_cast<int>(
+                     MaterialChameleonMode::undefined_chameleon_mode)});
 
             // X
             material = model->createMaterial(4, "x_axis");
@@ -803,9 +807,10 @@ Response BioExplorerPlugin::_setMaterials(const MaterialsDescriptor &payload)
                             props.setProperty(
                                 {MATERIAL_PROPERTY_USER_PARAMETER, 1.0});
                             props.setProperty(
-                                {MATERIAL_PROPERTY_VISIBLE, true});
-                            props.setProperty(
-                                {MATERIAL_PROPERTY_CHAMELEON, false});
+                                {MATERIAL_PROPERTY_CHAMELEON_MODE,
+                                 static_cast<int>(
+                                     MaterialChameleonMode::
+                                         undefined_chameleon_mode)});
                             material->updateProperties(props);
 
                             if (!payload.diffuseColors.empty())
@@ -846,14 +851,10 @@ Response BioExplorerPlugin::_setMaterials(const MaterialsDescriptor &payload)
                                     MATERIAL_PROPERTY_USER_PARAMETER,
                                     static_cast<double>(
                                         payload.userParameters[id]));
-                            if (!payload.visibles.empty())
+                            if (!payload.chameleonModes.empty())
                                 material->updateProperty(
-                                    MATERIAL_PROPERTY_VISIBLE,
-                                    payload.visibles[id]);
-                            if (!payload.chameleons.empty())
-                                material->updateProperty(
-                                    MATERIAL_PROPERTY_CHAMELEON,
-                                    payload.chameleons[id]);
+                                    MATERIAL_PROPERTY_CHAMELEON_MODE,
+                                    payload.chameleonModes[id]);
 
                             // This is needed to apply modifications. Changes to
                             // the material will be committed after the

@@ -156,6 +156,10 @@ class BioExplorer:
     SHADING_MODE_CHECKER = 8
     SHADING_MODE_GOODSELL = 9
 
+    SHADING_CHAMELEON_MODE_NONE = 0
+    SHADING_CHAMELEON_MODE_EMITTER = 1
+    SHADING_CHAMELEON_MODE_RECEIVER = 2
+
     CAMERA_PROJECTION_PERSPECTIVE = 0
     CAMERA_PROJECTION_FISHEYE = 1
     CAMERA_PROJECTION_PANORAMIC = 2
@@ -1257,7 +1261,7 @@ class BioExplorer:
             self, model_ids, material_ids, diffuse_colors, specular_colors,
             specular_exponents=list(), opacities=list(), reflection_indices=list(),
             refraction_indices=list(), glossinesses=list(), shading_modes=list(), emissions=list(),
-            user_parameters=list(), visibles=list(), chameleons=list()):
+            user_parameters=list(), chameleon_modes=list()):
         """
         Set a list of material on a specified list of models
 
@@ -1276,9 +1280,8 @@ class BioExplorer:
                               SHADING_MODE_DIFFUSE_TRANSPARENCY)
         :emissions: List of light emission intensities
         :user_parameters: List of convenience parameter used by some of the shaders
-        :visibles: List of geometry visibility attributes
-        :chamerleons: List of chameleon attributes. If true, materials take the color of 
-        surrounding invisible geometry
+        :chameleon_modes: List of chameleon mode attributes. If receiver, material take the color of 
+        surrounding emitter geometry
         :return: Result of the request submission
         """
         if self._client is None:
@@ -1308,15 +1311,14 @@ class BioExplorer:
         params['glossinesses'] = glossinesses
         params['shadingModes'] = shading_modes
         params['userParameters'] = user_parameters
-        params['visibles'] = visibles
-        params['chameleons'] = chameleons
+        params['chameleonModes'] = chameleon_modes
         return self._client.rockets_client.request(
             self.PLUGIN_API_PREFIX + 'set-materials', params=params)
 
     def set_materials_from_palette(
             self, model_ids, material_ids, palette, shading_mode, specular_exponent,
             user_parameter=1.0, glossiness=1.0, emission=0.0, opacity=1.0, reflection_index=0.0,
-            refraction_index=1.0):
+            refraction_index=1.0, chameleon_mode=0):
         """
         Applies a palette of colors and attributes to specified materials
 
@@ -1331,6 +1333,8 @@ class BioExplorer:
         :opacity: Opacity
         :reflection_index: Reflection index
         :refraction_index: Refraction index
+        :chameleon_mode: Chameleon mode attributes. If receiver, material take the color of 
+        surrounding emitter geometry
         """
         colors = list()
         shading_modes = list()
@@ -1341,6 +1345,7 @@ class BioExplorer:
         opacities = list()
         reflection_indices = list()
         refraction_indices = list()
+        chameleon_modes = list()
         for color in palette:
             colors.append(color)
             shading_modes.append(shading_mode)
@@ -1351,12 +1356,14 @@ class BioExplorer:
             opacities.append(opacity)
             reflection_indices.append(reflection_index)
             refraction_indices.append(refraction_index)
+            chameleon_modes.append(chameleon_mode)
         self.set_materials(
             model_ids=model_ids, material_ids=material_ids, diffuse_colors=colors,
             specular_colors=colors, specular_exponents=specular_exponents,
             user_parameters=user_parameters, glossinesses=glossinesses,
             shading_modes=shading_modes, emissions=emissions, opacities=opacities,
-            reflection_indices=reflection_indices, refraction_indices=refraction_indices)
+            reflection_indices=reflection_indices, refraction_indices=refraction_indices,
+            chameleon_modes=chameleon_modes)
 
     def apply_default_color_scheme(
             self, shading_mode, user_parameter=3.0, specular_exponent=5.0, glossiness=1.0):
