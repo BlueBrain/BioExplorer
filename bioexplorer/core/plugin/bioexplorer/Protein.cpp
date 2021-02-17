@@ -307,8 +307,7 @@ void Protein::_getSitesTransformations(
                 PLUGIN_WARN << "Chain: " << chain.first
                             << ", Site: " << site + 1
                             << ": no atoms available. Extrapolating from sites "
-                            << site - before + 1 << " and " << site + after + 1
-                            << std::endl;
+                            << before << " and " << after << std::endl;
             }
             // Orientation is determined by the center of the site and the
             // center of the protein
