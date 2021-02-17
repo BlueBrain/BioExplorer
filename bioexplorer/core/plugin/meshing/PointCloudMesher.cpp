@@ -58,6 +58,8 @@ bool PointCloudMesher::toConvexHull(Model& model, const PointCloud& pointCloud)
         props.setProperty({MATERIAL_PROPERTY_SHADING_MODE,
                            static_cast<int>(MaterialShadingMode::diffuse)});
         props.setProperty({MATERIAL_PROPERTY_USER_PARAMETER, 1.0});
+        props.setProperty({MATERIAL_PROPERTY_VISIBLE, true});
+        props.setProperty({MATERIAL_PROPERTY_CHAMELEON, false});
         material->updateProperties(props);
 
         std::vector<Point_3> points;
@@ -112,6 +114,8 @@ bool PointCloudMesher::toMetaballs(brayns::Model& model,
         props.setProperty({MATERIAL_PROPERTY_SHADING_MODE,
                            static_cast<int>(MaterialShadingMode::diffuse)});
         props.setProperty({MATERIAL_PROPERTY_USER_PARAMETER, 1.0});
+        props.setProperty({MATERIAL_PROPERTY_VISIBLE, true});
+        props.setProperty({MATERIAL_PROPERTY_CHAMELEON, false});
         material->updateProperties(props);
 
         MetaballsGenerator metaballsGenerator;

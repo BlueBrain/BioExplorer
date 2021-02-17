@@ -155,8 +155,6 @@ class BioExplorer:
     SHADING_MODE_DIFFUSE_TRANSPARENCY = 7
     SHADING_MODE_CHECKER = 8
     SHADING_MODE_GOODSELL = 9
-    SHADING_MODE_CHAMELEON = 10
-    SHADING_MODE_INVISIBLE = 11
 
     CAMERA_PROJECTION_PERSPECTIVE = 0
     CAMERA_PROJECTION_FISHEYE = 1
@@ -1259,7 +1257,7 @@ class BioExplorer:
             self, model_ids, material_ids, diffuse_colors, specular_colors,
             specular_exponents=list(), opacities=list(), reflection_indices=list(),
             refraction_indices=list(), glossinesses=list(), shading_modes=list(), emissions=list(),
-            user_parameters=list()):
+            user_parameters=list(), visibles=list(), chameleons=list()):
         """
         Set a list of material on a specified list of models
 
@@ -1278,6 +1276,9 @@ class BioExplorer:
                               SHADING_MODE_DIFFUSE_TRANSPARENCY)
         :emissions: List of light emission intensities
         :user_parameters: List of convenience parameter used by some of the shaders
+        :visibles: List of geometry visibility attributes
+        :chamerleons: List of chameleon attributes. If true, materials take the color of 
+        surrounding invisible geometry
         :return: Result of the request submission
         """
         if self._client is None:
@@ -1307,6 +1308,8 @@ class BioExplorer:
         params['glossinesses'] = glossinesses
         params['shadingModes'] = shading_modes
         params['userParameters'] = user_parameters
+        params['visibles'] = visibles
+        params['chameleons'] = chameleons
         return self._client.rockets_client.request(
             self.PLUGIN_API_PREFIX + 'set-materials', params=params)
 

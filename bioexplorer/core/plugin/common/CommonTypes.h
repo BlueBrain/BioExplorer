@@ -25,6 +25,8 @@
 /** Additional material attributes */
 #define MATERIAL_PROPERTY_SHADING_MODE "shading_mode"
 #define MATERIAL_PROPERTY_USER_PARAMETER "user_parameter"
+#define MATERIAL_PROPERTY_VISIBLE "visible"
+#define MATERIAL_PROPERTY_CHAMELEON "chameleon"
 
 enum MaterialShadingMode
 {
@@ -37,9 +39,7 @@ enum MaterialShadingMode
     perlin = 6,
     diffuse_transparency = 7,
     checker = 8,
-    goodsell = 9,
-    chameleon = 10,
-    invisible = 11
+    goodsell = 9
 };
 
 enum CameraStereoMode

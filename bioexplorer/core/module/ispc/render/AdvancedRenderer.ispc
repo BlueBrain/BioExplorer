@@ -85,6 +85,8 @@ struct ShadingAttributes
     float shadowIntensity;
     MaterialShadingMode shadingMode;
     float userParameter;
+    bool visible;
+    bool chameleon;
     vec3f indirectColor;
     float indirectIntensity;
     vec3f shadingContribution;
@@ -141,7 +143,7 @@ inline bool launchRandomRay(
         if (objMaterial)
             foreach_unique(mat in objMaterial)
             {
-                if (mat->shadingMode != invisible)
+                if (mat->visible)
                 {
                     hit = true;
                     moreRebounds = false;
@@ -289,7 +291,7 @@ inline float shadedLightIntensity(varying ScreenSample& sample,
             else
                 foreach_unique(mat in objMaterial)
                 {
-                    if (mat->shadingMode == invisible)
+                    if (!mat->visible)
                         opacity = 0.f;
                     else
                     {
@@ -383,6 +385,12 @@ inline void setGeometryShadingAttributes(
     attributes.reflectedNormal =
         ray.dir - 2.f * dot(ray.dir, attributes.normal) * attributes.normal;
 
+    // Visible
+    attributes.visible = true;
+
+    // Chameleon
+    attributes.chameleon = false;
+
     // Process material attributes
     const uniform Material* material = dg.material;
     const uniform AdvancedMaterial* objMaterial =
@@ -472,6 +480,12 @@ inline void setGeometryShadingAttributes(
 
         // User parameter
         attributes.userParameter = mat->userParameter;
+
+        // Visible
+        attributes.visible = mat->visible;
+
+        // Chameleon
+        attributes.chameleon = mat->chameleon;
     }
 
     // Update reflected shading normal
@@ -526,7 +540,68 @@ inline void processShadows(DifferentialGeometry& dg,
         attributes.specularColor = make_vec3f(0.f);
 }
 
-inline void processLightShading(DifferentialGeometry& dg,
+inline vec3f getChameleonColor(const uniform AdvancedRenderer* uniform self,
+                               DifferentialGeometry& dg,
+                               varying ScreenSample& sample,
+                               ShadingAttributes& attributes)
+{
+    vec3f shadingColor = make_vec3f(0.f);
+    size_t hits = 0;
+    for (uint32 i = 0; i < attributes.userParameter; ++i)
+    {
+        const vec3f randomDirection =
+            getRandomVector(self->useHardwareRandomizer, self->super.fb->size.x,
+                            sample, neg(attributes.normal),
+                            i + self->randomNumber);
+        Ray ray;
+        ray.org = attributes.origin + randomDirection * dg.epsilon;
+        ray.dir = randomDirection;
+        ray.t0 = max(0.f, dg.epsilon);
+        ray.t = self->giDistance;
+        ray.time = inf;
+        ray.primID = -1;
+        ray.geomID = -1;
+        ray.instID = -1;
+
+        traceRay(self->super.model, ray);
+
+        if (ray.geomID >= 0)
+        {
+            // Get intersection information
+            DifferentialGeometry geometry;
+            postIntersect(self->super.model, geometry, ray,
+                          DG_NG | DG_NS | DG_NORMALIZE | DG_FACEFORWARD |
+                              DG_TANGENTS | DG_MATERIALID | DG_COLOR |
+                              DG_TEXCOORD);
+
+            const uniform Material* material = geometry.material;
+            const uniform AdvancedMaterial* objMaterial =
+                (const uniform AdvancedMaterial*)material;
+            if (objMaterial)
+            {
+                foreach_unique(mat in objMaterial)
+                {
+                    if (!mat->visible)
+                    {
+                        if (valid(mat->map_Kd))
+                            shadingColor =
+                                shadingColor + get3f(mat->map_Kd, geometry);
+                        else
+                            shadingColor = shadingColor + mat->Kd;
+                    }
+                }
+            }
+            else
+                shadingColor = make_vec3f(dg.color);
+            ++hits;
+        }
+    }
+
+    return shadingColor / hits;
+}
+
+inline void processLightShading(const uniform AdvancedRenderer* uniform self,
+                                DifferentialGeometry& dg,
                                 varying ScreenSample& sample,
                                 const varying Ray& ray,
                                 ShadingAttributes& attributes)
@@ -576,38 +651,60 @@ inline void processLightShading(DifferentialGeometry& dg,
     attributes.shadingContribution = accDiffuse;
 }
 
-inline void processBasicShading(varying ScreenSample& sample,
+inline void processBasicShading(const uniform AdvancedRenderer* uniform self,
+                                DifferentialGeometry& dg,
+                                varying ScreenSample& sample,
                                 ShadingAttributes& attributes)
 {
     const vec3f viewer = normalize(sample.ray.org - attributes.origin);
     const float el = max(0.f, dot(viewer, attributes.normal));
     const float cosNL = pow(el, attributes.userParameter);
+
+    if (attributes.chameleon)
+        attributes.diffuseColor =
+            getChameleonColor(self, dg, sample, attributes);
+
     attributes.shadingContribution = cosNL * attributes.diffuseColor;
     attributes.specularColor = make_vec3f(0.f);
 }
 
-inline void processElectronShading(varying ScreenSample& sample,
+inline void processElectronShading(const uniform AdvancedRenderer* uniform self,
+                                   DifferentialGeometry& dg,
+                                   varying ScreenSample& sample,
                                    ShadingAttributes& attributes)
 {
     const vec3f viewer = normalize(sample.ray.org - attributes.origin);
     const float el = max(0.f, dot(viewer, attributes.normal));
     const float cosNL = 1.f - pow(el, attributes.userParameter);
+
+    if (attributes.chameleon)
+        attributes.diffuseColor =
+            getChameleonColor(self, dg, sample, attributes);
+
     attributes.shadingContribution = cosNL * attributes.diffuseColor;
     attributes.specularColor = make_vec3f(0.f);
 }
 
-inline void processElectronTransparencyShading(varying ScreenSample& sample,
-                                               ShadingAttributes& attributes)
+inline void processElectronTransparencyShading(
+    const uniform AdvancedRenderer* uniform self, DifferentialGeometry& dg,
+    varying ScreenSample& sample, ShadingAttributes& attributes)
 {
     const vec3f viewer = normalize(sample.ray.org - attributes.origin);
     const float el = 1.f - max(0.f, dot(viewer, attributes.normal));
     const float cosNL = 1.f - pow(el, attributes.userParameter);
+
+    if (attributes.chameleon)
+        attributes.diffuseColor =
+            getChameleonColor(self, dg, sample, attributes);
+
     attributes.shadingContribution = cosNL * attributes.diffuseColor;
     attributes.specularColor = make_vec3f(0.f);
     attributes.opacity *= cosNL;
 }
 
-inline void processCartoonShading(varying ScreenSample& sample,
+inline void processCartoonShading(const uniform AdvancedRenderer* uniform self,
+                                  DifferentialGeometry& dg,
+                                  varying ScreenSample& sample,
                                   ShadingAttributes& attributes)
 {
     const vec3f viewer = normalize(sample.ray.org - attributes.origin);
@@ -615,11 +712,16 @@ inline void processCartoonShading(varying ScreenSample& sample,
     const uint32 angleAsInt = cosNL * attributes.userParameter;
     cosNL = (float)(angleAsInt) / attributes.userParameter;
 
+    if (attributes.chameleon)
+        attributes.diffuseColor =
+            getChameleonColor(self, dg, sample, attributes);
+
     attributes.shadingContribution = cosNL * attributes.diffuseColor;
     attributes.specularColor = make_vec3f(0.f);
 }
 
-inline void processNoiseShading(DifferentialGeometry& dg,
+inline void processNoiseShading(const uniform AdvancedRenderer* uniform self,
+                                DifferentialGeometry& dg,
                                 varying ScreenSample& sample,
                                 const varying Ray& ray,
                                 ShadingAttributes& attributes)
@@ -627,6 +729,10 @@ inline void processNoiseShading(DifferentialGeometry& dg,
     vec3f point = attributes.userParameter * dg.P;
 
     const float n1 = 0.25f + 0.75f * clamp(worleyNoise(point, 2.f), 0.f, 1.f);
+
+    if (attributes.chameleon)
+        attributes.diffuseColor =
+            getChameleonColor(self, dg, sample, attributes);
 
     attributes.diffuseColor = (1.f - n1) * attributes.diffuseColor;
     attributes.specularColor = (1.f - n1) * attributes.specularColor;
@@ -639,14 +745,19 @@ inline void processNoiseShading(DifferentialGeometry& dg,
     attributes.reflectedNormal =
         ray.dir - 2.f * dot(ray.dir, attributes.normal) * attributes.normal;
 
-    processLightShading(dg, sample, ray, attributes);
+    processLightShading(self, dg, sample, ray, attributes);
 }
 
-inline void processCheckerShading(DifferentialGeometry& dg,
+inline void processCheckerShading(const uniform AdvancedRenderer* uniform self,
+                                  DifferentialGeometry& dg,
                                   varying ScreenSample& sample,
                                   const varying Ray& ray,
                                   ShadingAttributes& attributes)
 {
+    if (attributes.chameleon)
+        attributes.diffuseColor =
+            getChameleonColor(self, dg, sample, attributes);
+
     const vec3i point =
         make_vec3i(attributes.userParameter * (dg.P + make_vec3f(1e2f)));
     const vec3i p = make_vec3i(point.x % 2, point.y % 2, point.z % 2);
@@ -655,82 +766,24 @@ inline void processCheckerShading(DifferentialGeometry& dg,
         attributes.diffuseColor = make_vec3f(1.f) - attributes.diffuseColor;
         attributes.specularColor = make_vec3f(1.f) - attributes.specularColor;
     }
-    processLightShading(dg, sample, ray, attributes);
+    processLightShading(self, dg, sample, ray, attributes);
 }
 
-inline void processGoodsellShading(varying ScreenSample& sample,
+inline void processGoodsellShading(const uniform AdvancedRenderer* uniform self,
+                                   DifferentialGeometry& dg,
+                                   varying ScreenSample& sample,
                                    ShadingAttributes& attributes)
 {
     const vec3f viewer = normalize(sample.ray.org - attributes.origin);
     const float cosNL = max(0.f, dot(viewer, attributes.normal));
 
+    if (attributes.chameleon)
+        attributes.diffuseColor =
+            getChameleonColor(self, dg, sample, attributes);
+
     attributes.shadingContribution =
         (cosNL > attributes.userParameter ? attributes.diffuseColor
                                           : attributes.diffuseColor / 2.f);
-    attributes.specularColor = make_vec3f(0.f);
-}
-
-inline void processChameleonShading(
-    const uniform AdvancedRenderer* uniform self, DifferentialGeometry& dg,
-    varying ScreenSample& sample, ShadingAttributes& attributes)
-{
-    vec3f shadingColor = make_vec3f(0.f);
-    size_t hits = 0;
-    for (uint32 i = 0; i < attributes.userParameter; ++i)
-    {
-        const vec3f randomDirection =
-            getRandomVector(self->useHardwareRandomizer, self->super.fb->size.x,
-                            sample, neg(attributes.normal),
-                            i + self->randomNumber);
-        Ray ray;
-        ray.org = attributes.origin + randomDirection * dg.epsilon;
-        ray.dir = randomDirection;
-        ray.t0 = max(0.f, dg.epsilon);
-        ray.t = self->giDistance;
-        ray.time = inf;
-        ray.primID = -1;
-        ray.geomID = -1;
-        ray.instID = -1;
-
-        traceRay(self->super.model, ray);
-
-        if (ray.geomID >= 0)
-        {
-            // Get intersection information
-            DifferentialGeometry geometry;
-            postIntersect(self->super.model, geometry, ray,
-                          DG_NG | DG_NS | DG_NORMALIZE | DG_FACEFORWARD |
-                              DG_TANGENTS | DG_MATERIALID | DG_COLOR |
-                              DG_TEXCOORD);
-
-            const uniform Material* material = geometry.material;
-            const uniform AdvancedMaterial* objMaterial =
-                (const uniform AdvancedMaterial*)material;
-            if (objMaterial)
-            {
-                foreach_unique(mat in objMaterial)
-                {
-                    if (mat->shadingMode == invisible)
-                    {
-                        if (valid(mat->map_Kd))
-                            shadingColor =
-                                shadingColor + get3f(mat->map_Kd, geometry);
-                        else
-                            shadingColor = shadingColor + mat->Kd;
-                    }
-                }
-            }
-            else
-                shadingColor = make_vec3f(dg.color);
-            ++hits;
-        }
-    }
-
-    const vec3f viewer = normalize(sample.ray.org - attributes.origin);
-    const float el = max(0.f, dot(viewer, attributes.normal));
-    const float cosNL = pow(el, attributes.userParameter);
-
-    attributes.shadingContribution = cosNL * shadingColor / hits;
     attributes.specularColor = make_vec3f(0.f);
 }
 
@@ -805,7 +858,7 @@ inline vec3f AdvancedRenderer_shadeRay(
             // Initialize geometry shading attributes
             setGeometryShadingAttributes(self, dg, sample, ray, attributes);
 
-            if (attributes.shadingMode == invisible)
+            if (attributes.visible == false)
                 ray.t0 = ray.t + dg.epsilon;
             else
             {
@@ -814,24 +867,23 @@ inline vec3f AdvancedRenderer_shadeRay(
 
                 // Compute surface shading
                 if (attributes.shadingMode == basic)
-                    processBasicShading(sample, attributes);
+                    processBasicShading(self, dg, sample, attributes);
                 else if (attributes.shadingMode == electron)
-                    processElectronShading(sample, attributes);
+                    processElectronShading(self, dg, sample, attributes);
                 else if (attributes.shadingMode == cartoon)
-                    processCartoonShading(sample, attributes);
+                    processCartoonShading(self, dg, sample, attributes);
                 else if (attributes.shadingMode == electron_transparency)
-                    processElectronTransparencyShading(sample, attributes);
+                    processElectronTransparencyShading(self, dg, sample,
+                                                       attributes);
                 else if (attributes.shadingMode == perlin)
-                    processNoiseShading(dg, sample, ray, attributes);
+                    processNoiseShading(self, dg, sample, ray, attributes);
                 else if (attributes.shadingMode == checker)
-                    processCheckerShading(dg, sample, ray, attributes);
+                    processCheckerShading(self, dg, sample, ray, attributes);
                 else if (attributes.shadingMode == goodsell)
-                    processGoodsellShading(sample, attributes);
-                else if (attributes.shadingMode == chameleon)
-                    processChameleonShading(self, dg, sample, attributes);
+                    processGoodsellShading(self, dg, sample, attributes);
                 else
                     // Diffuse shading
-                    processLightShading(dg, sample, ray, attributes);
+                    processLightShading(self, dg, sample, ray, attributes);
 
                 // Compute shadows
                 if (self->shadows > 0.f)

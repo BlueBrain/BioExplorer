@@ -84,6 +84,12 @@ void AdvancedMaterial::commit()
     // User parameter
     userParameter = getParam1f(MATERIAL_PROPERTY_USER_PARAMETER, 1.f);
 
+    // Geometry visibility
+    visible = getParam(MATERIAL_PROPERTY_VISIBLE, 1);
+
+    // Chameleon
+    chameleon = getParam(MATERIAL_PROPERTY_CHAMELEON, 0);
+
     ispc::AdvancedMaterial_set(
         getIE(), map_d ? map_d->getIE() : nullptr,
         (const ispc::AffineSpace2f&)xform_d, d,
@@ -101,7 +107,8 @@ void AdvancedMaterial::commit()
         map_Bump ? map_Bump->getIE() : nullptr,
         (const ispc::AffineSpace2f&)xform_Bump,
         (const ispc::LinearSpace2f&)rot_Bump,
-        (const ispc::MaterialShadingMode&)shadingMode, userParameter);
+        (const ispc::MaterialShadingMode&)shadingMode, userParameter, visible,
+        chameleon);
 }
 
 OSP_REGISTER_MATERIAL(bio_explorer, AdvancedMaterial, default);

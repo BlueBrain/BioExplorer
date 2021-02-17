@@ -417,6 +417,8 @@ bool from_json(MaterialsDescriptor &param, const std::string &payload)
         FROM_JSON(param, js, glossinesses);
         FROM_JSON(param, js, shadingModes);
         FROM_JSON(param, js, userParameters);
+        FROM_JSON(param, js, visibles);
+        FROM_JSON(param, js, chameleons);
     }
     catch (...)
     {

@@ -70,6 +70,8 @@ RNASequence::RNASequence(Scene& scene, const RNASequenceDescriptor& rd)
         props.setProperty({MATERIAL_PROPERTY_SHADING_MODE,
                            static_cast<int>(MaterialShadingMode::basic)});
         props.setProperty({MATERIAL_PROPERTY_USER_PARAMETER, 1.0});
+        props.setProperty({MATERIAL_PROPERTY_VISIBLE, true});
+        props.setProperty({MATERIAL_PROPERTY_CHAMELEON, false});
         material->setDiffuseColor(nucleotid.second.defaultColor);
         material->updateProperties(props);
         ++materialId;
