@@ -53,4 +53,5 @@ struct AdvancedMaterial
     // Extra parameters
     MaterialShadingMode shadingMode;
     float userParameter;
+    MaterialChameleonMode chameleonMode;
 };

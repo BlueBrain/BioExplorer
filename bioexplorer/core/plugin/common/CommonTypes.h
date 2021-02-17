@@ -25,10 +25,11 @@
 /** Additional material attributes */
 #define MATERIAL_PROPERTY_SHADING_MODE "shading_mode"
 #define MATERIAL_PROPERTY_USER_PARAMETER "user_parameter"
+#define MATERIAL_PROPERTY_CHAMELEON_MODE "chameleon_mode"
 
 enum MaterialShadingMode
 {
-    none = 0,
+    undefined_shading_mode = 0,
     basic = 1,
     diffuse = 2,
     electron = 3,
@@ -38,6 +39,13 @@ enum MaterialShadingMode
     diffuse_transparency = 7,
     checker = 8,
     goodsell = 9
+};
+
+enum MaterialChameleonMode
+{
+    undefined_chameleon_mode = 0,
+    emitter = 1,
+    receiver = 2
 };
 
 enum CameraStereoMode

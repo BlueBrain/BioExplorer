@@ -69,6 +69,10 @@ SHADING_MODES = [
     'diffuse_transparency', 'checker', 'goodsell'
 ]
 
+CHAMELEON_MODES = [
+    'none', 'emitter', 'receiver'
+]
+
 DEFAULT_GRID_LAYOUT = Layout(border='1px solid black', margin='5px', padding='5px')
 DEFAULT_LAYOUT = Layout(width='50%', height='24px', display='flex', flex_flow='row')
 STYLE = {'description_width': 'initial', 'handle_color': 'gray'}
@@ -206,7 +210,9 @@ class Widgets:
                 refraction_index=refraction_index_slider.value,
                 reflection_index=reflection_index_slider.value,
                 glossiness=glossiness_slider.value,
-                user_parameter=user_param_slider.value, emission=emission_slider.value
+                user_parameter=user_param_slider.value,
+                emission=emission_slider.value,
+                chameleon_mode=chameleon_combobox.index
             )
             self._client.set_renderer(accumulation=True)
 
@@ -222,46 +228,57 @@ class Widgets:
         # Colors
         palette_combobox = Select(options=COLOR_MAPS, description='Palette:', disabled=False)
 
+        # Chameleon modes
+        chameleon_combobox = Select(options=CHAMELEON_MODES,
+                                    description='Chameleon:', disabled=False)
+
         # Events
         def update_materials_from_palette(value):
             """Update materials when palette is modified"""
             set_colormap(self._client.scene.models[model_combobox.index]['id'], value['new'],
                          shading_combobox.index)
 
-        def update_materials_from_shading(_):
+        def update_materials_from_shading_modes(_):
             """Update materials when shading is modified"""
             set_colormap(self._client.scene.models[model_combobox.index]['id'],
                          palette_combobox.value, shading_combobox.index)
 
-        shading_combobox.observe(update_materials_from_shading, 'value')
+        def update_materials_from_chameleon_modes(_):
+            """Update materials when chameleon mode is modified"""
+            set_colormap(self._client.scene.models[model_combobox.index]['id'],
+                         palette_combobox.value, shading_combobox.index)
+
+        shading_combobox.observe(update_materials_from_shading_modes, 'value')
         palette_combobox.observe(update_materials_from_palette, 'value')
+        chameleon_combobox.observe(update_materials_from_chameleon_modes, 'value')
 
         horizontal_box_list = HBox([model_combobox, shading_combobox, palette_combobox])
 
         opacity_slider = FloatSlider(description='Opacity', min=0, max=1, value=1)
-        opacity_slider.observe(update_materials_from_shading)
+        opacity_slider.observe(update_materials_from_shading_modes)
         refraction_index_slider = FloatSlider(description='Refraction', min=1, max=5, value=1)
-        refraction_index_slider.observe(update_materials_from_shading)
+        refraction_index_slider.observe(update_materials_from_shading_modes)
         reflection_index_slider = FloatSlider(description='Reflection', min=0, max=1, value=0)
-        reflection_index_slider.observe(update_materials_from_shading)
+        reflection_index_slider.observe(update_materials_from_shading_modes)
         glossiness_slider = FloatSlider(description='Glossiness', min=0, max=1, value=1)
-        glossiness_slider.observe(update_materials_from_shading)
+        glossiness_slider.observe(update_materials_from_shading_modes)
         specular_exponent_slider = FloatSlider(description='Specular exponent', min=1, max=100,
                                                value=1)
-        specular_exponent_slider.observe(update_materials_from_shading)
+        specular_exponent_slider.observe(update_materials_from_shading_modes)
         user_param_slider = FloatSlider(description='User param', min=0, max=100, value=1)
-        user_param_slider.observe(update_materials_from_shading)
+        user_param_slider.observe(update_materials_from_shading_modes)
         emission_slider = FloatSlider(description='Emission', min=0, max=100, value=0)
-        emission_slider.observe(update_materials_from_shading)
+        emission_slider.observe(update_materials_from_shading_modes)
 
         cast_simulation_checkbox = Checkbox(description='Simulation', value=False)
-        cast_simulation_checkbox.observe(update_materials_from_shading)
+        cast_simulation_checkbox.observe(update_materials_from_shading_modes)
 
         horizontal_box_detail1 = HBox([opacity_slider, refraction_index_slider,
                                        reflection_index_slider])
         horizontal_box_detail2 = HBox(
             [glossiness_slider, specular_exponent_slider, user_param_slider])
-        horizontal_box_detail3 = HBox([emission_slider, cast_simulation_checkbox])
+        horizontal_box_detail3 = HBox(
+            [emission_slider, cast_simulation_checkbox, chameleon_combobox])
         vertical_box = VBox([horizontal_box_list, horizontal_box_detail1, horizontal_box_detail2,
                              horizontal_box_detail3], layout=DEFAULT_GRID_LAYOUT)
         display(vertical_box)

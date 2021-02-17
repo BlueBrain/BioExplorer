@@ -77,12 +77,17 @@ void AdvancedMaterial::commit()
     glossiness = getParam1f("glossiness", 1.f);
 
     // Shading mode
-    shadingMode = static_cast<MaterialShadingMode>(
-        getParam1i(MATERIAL_PROPERTY_SHADING_MODE,
-                   static_cast<int>(MaterialShadingMode::none)));
+    shadingMode = static_cast<MaterialShadingMode>(getParam1i(
+        MATERIAL_PROPERTY_SHADING_MODE,
+        static_cast<int>(MaterialShadingMode::undefined_shading_mode)));
 
     // User parameter
     userParameter = getParam1f(MATERIAL_PROPERTY_USER_PARAMETER, 1.f);
+
+    // Chameleon mode
+    chameleonMode = static_cast<MaterialChameleonMode>(getParam1i(
+        MATERIAL_PROPERTY_CHAMELEON_MODE,
+        static_cast<int>(MaterialChameleonMode::undefined_chameleon_mode)));
 
     ispc::AdvancedMaterial_set(
         getIE(), map_d ? map_d->getIE() : nullptr,
@@ -101,7 +106,8 @@ void AdvancedMaterial::commit()
         map_Bump ? map_Bump->getIE() : nullptr,
         (const ispc::AffineSpace2f&)xform_Bump,
         (const ispc::LinearSpace2f&)rot_Bump,
-        (const ispc::MaterialShadingMode&)shadingMode, userParameter);
+        (const ispc::MaterialShadingMode&)shadingMode, userParameter,
+        (const ispc::MaterialChameleonMode&)chameleonMode);
 }
 
 OSP_REGISTER_MATERIAL(bio_explorer, AdvancedMaterial, default);

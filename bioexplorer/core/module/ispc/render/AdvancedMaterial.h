@@ -80,6 +80,9 @@ struct AdvancedMaterial : public ospray::Material
     /*! User parameter */
     float userParameter;
 
+    /*! Takes the color from surrounding invisible geometry */
+    MaterialChameleonMode chameleonMode;
+
     std::string toString() const final { return "default_material"; }
     void commit() final;
 };

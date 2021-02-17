@@ -287,7 +287,7 @@ void Protein::_getSitesTransformations(
                        (site - before) >= _aminoAcidRange.x)
                 {
                     ++before;
-                    itBefore = aminoAcidsPerChain.find(site - before);
+                    --itBefore;
                 }
 
                 size_t after = 1;
@@ -296,7 +296,7 @@ void Protein::_getSitesTransformations(
                        (site + after) < _aminoAcidRange.y)
                 {
                     ++after;
-                    itAfter = aminoAcidsPerChain.find(site + after);
+                    ++itAfter;
                 }
 
                 Boxf siteBounds;
