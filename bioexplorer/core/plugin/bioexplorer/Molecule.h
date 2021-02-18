@@ -112,6 +112,11 @@ protected:
                      const ProteinRepresentation& representation,
                      const float atomRadiusMultiplier, const bool loadBonds);
 
+    void _buildAtomicStruture(const ProteinRepresentation representation,
+                              const float atomRadiusMultiplier,
+                              const bool surface, const bool loadBonds,
+                              Model& model);
+
     // IO
     void _readAtom(const std::string& line, const bool loadHydrogen);
     void _readSequence(const std::string& line);

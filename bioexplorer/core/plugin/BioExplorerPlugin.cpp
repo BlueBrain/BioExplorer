@@ -799,20 +799,6 @@ Response BioExplorerPlugin::_setMaterials(const MaterialsDescriptor &payload)
                             modelDescriptor->getModel().getMaterial(materialId);
                         if (material)
                         {
-                            brayns::PropertyMap props;
-                            props.setProperty(
-                                {MATERIAL_PROPERTY_SHADING_MODE,
-                                 static_cast<int>(
-                                     MaterialShadingMode::diffuse)});
-                            props.setProperty(
-                                {MATERIAL_PROPERTY_USER_PARAMETER, 1.0});
-                            props.setProperty(
-                                {MATERIAL_PROPERTY_CHAMELEON_MODE,
-                                 static_cast<int>(
-                                     MaterialChameleonMode::
-                                         undefined_chameleon_mode)});
-                            material->updateProperties(props);
-
                             if (!payload.diffuseColors.empty())
                             {
                                 const size_t index = id * 3;

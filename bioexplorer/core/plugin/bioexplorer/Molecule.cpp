@@ -179,6 +179,98 @@ StringMap Molecule::getSequencesAsString() const
     return sequencesAsStrings;
 }
 
+void Molecule::_buildAtomicStruture(const ProteinRepresentation representation,
+                                    const float atomRadiusMultiplier,
+                                    const bool surface, const bool loadBonds,
+                                    Model& model)
+{
+    // Atoms
+    for (const auto& atom : _atomMap)
+    {
+        // Material
+        auto material =
+            model.createMaterial(atom.first, std::to_string(atom.first));
+
+        RGBColor rgb{255, 255, 255};
+        const auto it = atomColorMap.find(atom.second.element);
+        if (it != atomColorMap.end())
+            rgb = (*it).second;
+
+        brayns::PropertyMap props;
+        props.setProperty({MATERIAL_PROPERTY_SHADING_MODE,
+                           static_cast<int>(MaterialShadingMode::basic)});
+        props.setProperty({MATERIAL_PROPERTY_USER_PARAMETER, 1.0});
+        if (surface)
+            props.setProperty(
+                {MATERIAL_PROPERTY_CHAMELEON_MODE,
+                 static_cast<int>(MaterialChameleonMode::emitter)});
+        else
+            props.setProperty(
+                {MATERIAL_PROPERTY_CHAMELEON_MODE,
+                 static_cast<int>(
+                     MaterialChameleonMode::undefined_chameleon_mode)});
+        material->setDiffuseColor(
+            {rgb.r / 255.f, rgb.g / 255.f, rgb.b / 255.f});
+        material->updateProperties(props);
+
+        // Geometry
+        model.addSphere(atom.first,
+                        {atom.second.position,
+                         atom.second.radius * atomRadiusMultiplier});
+    }
+
+    // Bonds
+    if (loadBonds)
+    {
+        PLUGIN_INFO << "Building " << _bondsMap.size() << " bonds..."
+                    << std::endl;
+        for (const auto& bond : _bondsMap)
+        {
+            const auto& atomSrc = _atomMap.find(bond.first)->second;
+            for (const auto bondedAtom : bond.second)
+            {
+                const auto& atomDst = _atomMap.find(bondedAtom)->second;
+
+                const auto center = (atomSrc.position + atomDst.position) / 2.f;
+
+                model.addCylinder(bond.first,
+                                  {atomSrc.position, center,
+                                   atomRadiusMultiplier * BOND_RADIUS});
+
+                model.addCylinder(bondedAtom,
+                                  {atomDst.position, center,
+                                   atomRadiusMultiplier * BOND_RADIUS});
+            }
+        }
+    }
+
+    // Sticks
+    if (representation == ProteinRepresentation::atoms_and_sticks)
+    {
+        PLUGIN_INFO << "Building sticks (" << _atomMap.size() << " atoms)..."
+                    << std::endl;
+        for (const auto& atom1 : _atomMap)
+            for (const auto& atom2 : _atomMap)
+                if (atom1.first != atom2.first &&
+                    atom1.second.reqSeq == atom2.second.reqSeq &&
+                    atom1.second.chainId == atom2.second.chainId)
+                {
+                    const auto stick =
+                        atom2.second.position - atom1.second.position;
+
+                    if (length(stick) < DEFAULT_STICK_DISTANCE)
+                    {
+                        const auto center =
+                            (atom2.second.position + atom1.second.position) /
+                            2.f;
+                        model.addCylinder(atom1.first,
+                                          {atom1.second.position, center,
+                                           atomRadiusMultiplier * BOND_RADIUS});
+                    }
+                }
+    }
+}
+
 void Molecule::_buildModel(const std::string& assemblyName,
                            const std::string& name, const std::string& title,
                            const std::string& header,
@@ -186,61 +278,45 @@ void Molecule::_buildModel(const std::string& assemblyName,
                            const float atomRadiusMultiplier,
                            const bool loadBonds)
 {
-    ModelPtr model{nullptr};
-
     PLUGIN_INFO << "Building protein " << name << "..." << std::endl;
+
+    // Metadata
+    ModelMetadata metadata;
+    metadata[METADATA_ASSEMBLY] = assemblyName;
+    metadata[METADATA_TITLE] = title;
+    metadata[METADATA_HEADER] = header;
+    metadata[METADATA_ATOMS] = std::to_string(_atomMap.size());
+    metadata[METADATA_BONDS] = std::to_string(_bondsMap.size());
+    metadata[METADATA_AA_RANGE] = std::to_string(_aminoAcidRange.x) + ":" +
+                                  std::to_string(_aminoAcidRange.y);
+
+    const auto& size = _bounds.getSize();
+    metadata[METADATA_SIZE] = std::to_string(size.x) + ", " +
+                              std::to_string(size.y) + ", " +
+                              std::to_string(size.z) + " angstroms";
+
+    for (const auto& sequence : getSequencesAsString())
+        metadata[METADATA_AA_SEQUENCE + sequence.first] =
+            "[" + std::to_string(sequence.second.size()) + "] " +
+            sequence.second;
 
     switch (representation)
     {
     case ProteinRepresentation::atoms:
     case ProteinRepresentation::atoms_and_sticks:
     {
-        model = _scene.createModel();
-        for (const auto& atom : _atomMap)
-        {
-            auto material =
-                model->createMaterial(atom.first, std::to_string(atom.first));
-
-            RGBColor rgb{255, 255, 255};
-            const auto it = atomColorMap.find(atom.second.element);
-            if (it != atomColorMap.end())
-                rgb = (*it).second;
-
-            brayns::PropertyMap props;
-            props.setProperty({MATERIAL_PROPERTY_SHADING_MODE,
-                               static_cast<int>(MaterialShadingMode::basic)});
-            props.setProperty({MATERIAL_PROPERTY_USER_PARAMETER, 1.0});
-            props.setProperty(
-                {MATERIAL_PROPERTY_CHAMELEON_MODE,
-                 static_cast<int>(
-                     MaterialChameleonMode::undefined_chameleon_mode)});
-            material->setDiffuseColor(
-                {rgb.r / 255.f, rgb.g / 255.f, rgb.b / 255.f});
-            material->updateProperties(props);
-
-            model->addSphere(atom.first,
-                             {atom.second.position,
-                              atom.second.radius * atomRadiusMultiplier});
-        }
-        break;
-    }
-    case ProteinRepresentation::contour:
-    {
-        model = _scene.createModel();
-        PointCloud pointCloud;
-        for (const auto& atom : _atomMap)
-            pointCloud[0].push_back(
-                {atom.second.position.x, atom.second.position.y,
-                 atom.second.position.z,
-                 atom.second.radius * atomRadiusMultiplier});
-
-        PointCloudMesher pcm;
-        pcm.toConvexHull(*model, pointCloud);
+        auto model = _scene.createModel();
+        _buildAtomicStruture(representation, atomRadiusMultiplier, false,
+                             loadBonds, *model);
+        _modelDescriptor =
+            std::make_shared<ModelDescriptor>(std::move(model), name, header,
+                                              metadata);
         break;
     }
     case ProteinRepresentation::surface:
     case ProteinRepresentation::union_of_balls:
     {
+        // Surface
         Vector4fs pointCloud;
         const size_t materialId{0};
         for (const auto& atom : _atomMap)
@@ -259,11 +335,33 @@ void Molecule::_buildModel(const std::string& assemblyName,
                 sm.generateUnionOfBalls(_scene, name, pointCloud);
         else
             _modelDescriptor = sm.generateSurface(_scene, name, pointCloud);
-        return;
+        _modelDescriptor->setMetadata(metadata);
+
+        Model& model = _modelDescriptor->getModel();
+        _buildAtomicStruture(representation, atomRadiusMultiplier * 2.f, true,
+                             loadBonds, model);
+        break;
+    }
+    case ProteinRepresentation::contour:
+    {
+        auto model = _scene.createModel();
+        PointCloud pointCloud;
+        for (const auto& atom : _atomMap)
+            pointCloud[0].push_back(
+                {atom.second.position.x, atom.second.position.y,
+                 atom.second.position.z,
+                 atom.second.radius * atomRadiusMultiplier});
+
+        PointCloudMesher pcm;
+        pcm.toConvexHull(*model, pointCloud);
+        _modelDescriptor =
+            std::make_shared<ModelDescriptor>(std::move(model), name, header,
+                                              metadata);
+        break;
     }
     case ProteinRepresentation::debug:
     {
-        model = _scene.createModel();
+        auto model = _scene.createModel();
         const size_t materialId = 0;
         auto material = model->createMaterial(materialId, "Debug");
         brayns::PropertyMap props;
@@ -295,85 +393,14 @@ void Molecule::_buildModel(const std::string& assemblyName,
         model->addCone(materialId, {b, c, atomRadiusMultiplier * 0.2f,
                                     atomRadiusMultiplier});
         model->addCone(materialId, {c, d, atomRadiusMultiplier, 0.f});
+        _modelDescriptor =
+            std::make_shared<ModelDescriptor>(std::move(model), name, header,
+                                              metadata);
         break;
     }
     }
 
-    // Bonds
-    if (loadBonds)
-    {
-        PLUGIN_INFO << "Building " << _bondsMap.size() << " bonds..."
-                    << std::endl;
-        for (const auto& bond : _bondsMap)
-        {
-            const auto& atomSrc = _atomMap.find(bond.first)->second;
-            for (const auto bondedAtom : bond.second)
-            {
-                const auto& atomDst = _atomMap.find(bondedAtom)->second;
-
-                const auto center = (atomSrc.position + atomDst.position) / 2.f;
-
-                model->addCylinder(bond.first,
-                                   {atomSrc.position, center,
-                                    atomRadiusMultiplier * BOND_RADIUS});
-
-                model->addCylinder(bondedAtom,
-                                   {atomDst.position, center,
-                                    atomRadiusMultiplier * BOND_RADIUS});
-            }
-        }
-    }
-
-    // Sticks
-    if (representation == ProteinRepresentation::atoms_and_sticks)
-    {
-        PLUGIN_INFO << "Building sticks (" << _atomMap.size() << " atoms)..."
-                    << std::endl;
-        for (const auto& atom1 : _atomMap)
-            for (const auto& atom2 : _atomMap)
-                if (atom1.first != atom2.first &&
-                    atom1.second.reqSeq == atom2.second.reqSeq &&
-                    atom1.second.chainId == atom2.second.chainId)
-                {
-                    const auto stick =
-                        atom2.second.position - atom1.second.position;
-
-                    if (length(stick) < DEFAULT_STICK_DISTANCE)
-                    {
-                        const auto center =
-                            (atom2.second.position + atom1.second.position) /
-                            2.f;
-                        model->addCylinder(atom1.first,
-                                           {atom1.second.position, center,
-                                            atomRadiusMultiplier *
-                                                BOND_RADIUS});
-                    }
-                }
-    }
     PLUGIN_INFO << "Protein model successfully built" << std::endl;
-
-    // Metadata
-    ModelMetadata metadata;
-    metadata[METADATA_ASSEMBLY] = assemblyName;
-    metadata[METADATA_TITLE] = title;
-    metadata[METADATA_HEADER] = header;
-    metadata[METADATA_ATOMS] = std::to_string(_atomMap.size());
-    metadata[METADATA_BONDS] = std::to_string(_bondsMap.size());
-    metadata[METADATA_AA_RANGE] = std::to_string(_aminoAcidRange.x) + ":" +
-                                  std::to_string(_aminoAcidRange.y);
-
-    const auto& size = _bounds.getSize();
-    metadata[METADATA_SIZE] = std::to_string(size.x) + ", " +
-                              std::to_string(size.y) + ", " +
-                              std::to_string(size.z) + " angstroms";
-
-    for (const auto& sequence : getSequencesAsString())
-        metadata[METADATA_AA_SEQUENCE + sequence.first] =
-            "[" + std::to_string(sequence.second.size()) + "] " +
-            sequence.second;
-
-    _modelDescriptor = std::make_shared<ModelDescriptor>(std::move(model), name,
-                                                         header, metadata);
 
     PLUGIN_INFO << "---===  Protein  ===--- " << std::endl;
     PLUGIN_INFO << "Assembly name         : " << assemblyName << std::endl;

@@ -276,7 +276,16 @@ void Protein::_getSitesTransformations(
             {
                 siteBounds = (*it).second;
                 siteCenter = siteBounds.getCenter();
+
+                // Orientation is determined by the center of the site and the
+                // center of the protein
+                const auto bindOrientation =
+                    normalize(siteCenter - proteinCenter);
+                positions.push_back(siteCenter);
+                rotations.push_back(
+                    glm::quatLookAt(bindOrientation, UP_VECTOR));
             }
+#if 0
             else
             {
                 // Site is not registered in the protein. Extrapolating site
@@ -314,6 +323,8 @@ void Protein::_getSitesTransformations(
             const auto bindOrientation = normalize(siteCenter - proteinCenter);
             positions.push_back(siteCenter);
             rotations.push_back(glm::quatLookAt(bindOrientation, UP_VECTOR));
+#else
+#endif
         }
     }
 }
@@ -398,7 +409,7 @@ void Protein::_processInstances(ModelDescriptorPtr md,
 
             Transformation glycanTransformation;
             glycanTransformation.setTranslation(position);
-            glycanTransformation.setRotation(orientation * moleculeOrientation);
+            glycanTransformation.setRotation(moleculeOrientation * orientation);
 
             const Transformation combinedTransformation =
                 proteinTransformation * glycanTransformation;

@@ -587,7 +587,8 @@ inline vec3f getChameleonColor(const uniform AdvancedRenderer* uniform self,
             }
         }
     }
-
+    if (hits == 0)
+        return shadingColor;
     return shadingColor / hits;
 }
 

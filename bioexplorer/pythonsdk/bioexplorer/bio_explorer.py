@@ -1317,8 +1317,8 @@ class BioExplorer:
 
     def set_materials_from_palette(
             self, model_ids, material_ids, palette, shading_mode, specular_exponent,
-            user_parameter=1.0, glossiness=1.0, emission=0.0, opacity=1.0, reflection_index=0.0,
-            refraction_index=1.0, chameleon_mode=0):
+            user_parameter=None, glossiness=None, emission=None, opacity=None, reflection_index=None,
+            refraction_index=None, chameleon_mode=None):
         """
         Applies a palette of colors and attributes to specified materials
 
@@ -1348,15 +1348,24 @@ class BioExplorer:
         chameleon_modes = list()
         for color in palette:
             colors.append(color)
-            shading_modes.append(shading_mode)
-            user_parameters.append(user_parameter)
-            specular_exponents.append(specular_exponent)
-            glossinesses.append(glossiness)
-            emissions.append(emission)
-            opacities.append(opacity)
-            reflection_indices.append(reflection_index)
-            refraction_indices.append(refraction_index)
-            chameleon_modes.append(chameleon_mode)
+            if shading_mode:
+                shading_modes.append(shading_mode)
+            if user_parameter:
+                user_parameters.append(user_parameter)
+            if specular_exponent:
+                specular_exponents.append(specular_exponent)
+            if glossiness:
+                glossinesses.append(glossiness)
+            if emission:
+                emissions.append(emission)
+            if opacity:
+                opacities.append(opacity)
+            if reflection_index:
+                reflection_indices.append(reflection_index)
+            if refraction_index:
+                refraction_indices.append(refraction_index)
+            if chameleon_mode:
+                chameleon_modes.append(chameleon_mode)
         self.set_materials(
             model_ids=model_ids, material_ids=material_ids, diffuse_colors=colors,
             specular_colors=colors, specular_exponents=specular_exponents,
@@ -1366,7 +1375,8 @@ class BioExplorer:
             chameleon_modes=chameleon_modes)
 
     def apply_default_color_scheme(
-            self, shading_mode, user_parameter=3.0, specular_exponent=5.0, glossiness=1.0):
+            self, shading_mode, user_parameter=3.0, specular_exponent=5.0, glossiness=1.0,
+            glycans=True, proteins=True, membranes=True):
         """
         Apply a default color scheme to all components in the scene
 
@@ -1393,52 +1403,52 @@ class BioExplorer:
             material_ids = self.get_material_ids(model_id)['ids']
             nb_materials = len(material_ids)
 
-            if self.NAME_MEMBRANE in model_name:
+            if membranes and self.NAME_MEMBRANE in model_name:
                 palette = sns.color_palette('gist_heat', nb_materials)
                 self.set_materials_from_palette(
                     model_ids=[model_id], material_ids=material_ids, palette=palette,
                     shading_mode=shading_mode, user_parameter=user_parameter, glossiness=glossiness,
                     specular_exponent=specular_exponent)
 
-            if self.NAME_RECEPTOR in model_name:
+            if proteins and self.NAME_RECEPTOR in model_name:
                 palette = sns.color_palette('OrRd_r', nb_materials)
                 self.set_materials_from_palette(
                     model_ids=[model_id], material_ids=material_ids, palette=palette,
                     shading_mode=shading_mode, user_parameter=user_parameter, glossiness=glossiness,
                     specular_exponent=specular_exponent)
 
-            if self.NAME_PROTEIN_S_CLOSED in model_name or \
-               self.NAME_PROTEIN_S_OPEN in model_name or \
-               self.NAME_PROTEIN_E in model_name or \
-               self.NAME_PROTEIN_M in model_name:
+            if proteins and (self.NAME_PROTEIN_S_CLOSED in model_name or
+                             self.NAME_PROTEIN_S_OPEN in model_name or
+                             self.NAME_PROTEIN_E in model_name or
+                             self.NAME_PROTEIN_M in model_name):
                 palette = sns.color_palette('Greens', nb_materials)
                 self.set_materials_from_palette(
                     model_ids=[model_id], material_ids=material_ids, palette=palette,
                     shading_mode=shading_mode, user_parameter=user_parameter, glossiness=glossiness,
                     specular_exponent=specular_exponent)
 
-            if self.NAME_GLUCOSE in model_name:
+            if proteins and self.NAME_GLUCOSE in model_name:
                 palette = sns.color_palette('Blues', nb_materials)
                 self.set_materials_from_palette(
                     model_ids=[model_id], material_ids=material_ids, palette=palette,
                     shading_mode=shading_mode, user_parameter=user_parameter, glossiness=glossiness,
                     specular_exponent=specular_exponent)
 
-            if self.NAME_LACTOFERRIN in model_name:
+            if proteins and self.NAME_LACTOFERRIN in model_name:
                 palette = sns.color_palette('afmhot', nb_materials)
                 self.set_materials_from_palette(
                     model_ids=[model_id], material_ids=material_ids, palette=palette,
                     shading_mode=shading_mode, user_parameter=user_parameter, glossiness=glossiness,
                     specular_exponent=specular_exponent)
 
-            if self.NAME_DEFENSIN in model_name:
+            if proteins and self.NAME_DEFENSIN in model_name:
                 palette = sns.color_palette('plasma_r', nb_materials)
                 self.set_materials_from_palette(
                     model_ids=[model_id], material_ids=material_ids, palette=palette,
                     shading_mode=shading_mode, user_parameter=user_parameter, glossiness=glossiness,
                     specular_exponent=specular_exponent)
 
-            if self.NAME_GLYCAN_HIGH_MANNOSE in model_name:
+            if glycans and self.NAME_GLYCAN_HIGH_MANNOSE in model_name:
                 palette = list()
                 for _ in range(nb_materials):
                     palette.append(glycans_colors[0])
@@ -1447,7 +1457,7 @@ class BioExplorer:
                     shading_mode=shading_mode, user_parameter=user_parameter, glossiness=glossiness,
                     specular_exponent=specular_exponent)
 
-            if self.NAME_GLYCAN_COMPLEX in model_name:
+            if glycans and self.NAME_GLYCAN_COMPLEX in model_name:
                 palette = list()
                 for _ in range(nb_materials):
                     palette.append(glycans_colors[1])
@@ -1456,7 +1466,7 @@ class BioExplorer:
                     shading_mode=shading_mode, user_parameter=user_parameter, glossiness=glossiness,
                     specular_exponent=specular_exponent)
 
-            if self.NAME_GLYCAN_HYBRID in model_name:
+            if glycans and self.NAME_GLYCAN_HYBRID in model_name:
                 palette = list()
                 for _ in range(nb_materials):
                     palette.append(glycans_colors[2])
@@ -1465,7 +1475,7 @@ class BioExplorer:
                     shading_mode=shading_mode, user_parameter=user_parameter, glossiness=glossiness,
                     specular_exponent=specular_exponent)
 
-            if self.NAME_GLYCAN_O_GLYCAN in model_name:
+            if glycans and self.NAME_GLYCAN_O_GLYCAN in model_name:
                 palette = list()
                 for _ in range(nb_materials):
                     palette.append(glycans_colors[3])
@@ -1474,8 +1484,8 @@ class BioExplorer:
                     shading_mode=shading_mode, user_parameter=user_parameter, glossiness=glossiness,
                     specular_exponent=specular_exponent)
 
-            if self.NAME_SURFACTANT_HEAD in model_name or \
-                    self.NAME_COLLAGEN in model_name:
+            if proteins and (self.NAME_SURFACTANT_HEAD in model_name or
+                             self.NAME_COLLAGEN in model_name):
                 palette = sns.color_palette('OrRd_r', nb_materials)
                 emission = 0
                 if self.NAME_COLLAGEN in model_name:
