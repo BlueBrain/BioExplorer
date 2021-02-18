@@ -34,7 +34,7 @@ using namespace brayns;
 
 // Consts
 const float BOND_RADIUS = 0.025f;
-const float DEFAULT_STICK_DISTANCE = 0.16f;
+const float DEFAULT_STICK_DISTANCE = 0.175f;
 const brayns::Vector3f UP_VECTOR = {0.f, 0.f, 1.f};
 
 // Metadata

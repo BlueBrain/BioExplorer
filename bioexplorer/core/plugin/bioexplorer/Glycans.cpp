@@ -58,11 +58,16 @@ Glycans::Glycans(Scene& scene, const SugarsDescriptor& sd)
     // Recenter
     if (_descriptor.recenter)
     {
+        // Get current center
         for (const auto& atom : _atomMap)
             bounds.merge(atom.second.position);
         const auto& center = bounds.getCenter();
+
+        const auto firstAtomPosition = _atomMap.begin()->second.position;
+        const auto translation = center - firstAtomPosition;
+        // Translate according to position of first atom
         for (auto& atom : _atomMap)
-            atom.second.position -= center;
+            atom.second.position -= translation;
     }
 
     _buildModel(_descriptor.assemblyName, _descriptor.name, title, header,

@@ -383,7 +383,8 @@ void Protein::setAminoAcid(const SetAminoAcid& aminoAcid)
 
 void Protein::_processInstances(ModelDescriptorPtr md,
                                 const Vector3fs& positions,
-                                const Quaternions& orientations)
+                                const Quaternions& orientations,
+                                const Quaterniond& moleculeOrientation)
 {
     size_t count = 0;
     const auto& proteinInstances = _modelDescriptor->getInstances();
@@ -397,7 +398,7 @@ void Protein::_processInstances(ModelDescriptorPtr md,
 
             Transformation glycanTransformation;
             glycanTransformation.setTranslation(position);
-            glycanTransformation.setRotation(orientation);
+            glycanTransformation.setRotation(orientation * moleculeOrientation);
 
             const Transformation combinedTransformation =
                 proteinTransformation * glycanTransformation;
@@ -426,7 +427,11 @@ void Protein::addGlycans(const SugarsDescriptor& sd)
     // protein
     GlycansPtr glycans(new Glycans(_scene, sd));
     auto modelDescriptor = glycans->getModelDescriptor();
-    _processInstances(modelDescriptor, glycanPositions, glycanOrientations);
+    const Quaterniond proteinOrientation({sd.orientation[0], sd.orientation[1],
+                                          sd.orientation[2],
+                                          sd.orientation[3]});
+    _processInstances(modelDescriptor, glycanPositions, glycanOrientations,
+                      proteinOrientation);
 
     _glycans[sd.name] = std::move(glycans);
     _scene.addModel(modelDescriptor);
@@ -447,7 +452,11 @@ void Protein::addSugars(const SugarsDescriptor& sd)
 
     GlycansPtr glucoses(new Glycans(_scene, sd));
     auto modelDescriptor = glucoses->getModelDescriptor();
-    _processInstances(modelDescriptor, positions, orientations);
+    const Quaterniond proteinOrientation({sd.orientation[0], sd.orientation[1],
+                                          sd.orientation[2],
+                                          sd.orientation[3]});
+    _processInstances(modelDescriptor, positions, orientations,
+                      proteinOrientation);
 
     _glycans[sd.name] = std::move(glucoses);
     _scene.addModel(modelDescriptor);
