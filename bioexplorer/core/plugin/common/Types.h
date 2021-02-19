@@ -469,6 +469,8 @@ typedef struct
     size_t numRes;
     /** Residue name */
     std::vector<std::string> resNames;
+    /** Atom Offset */
+    size_t offset;
 } Sequence;
 typedef std::map<std::string, Sequence> SequenceMap;
 

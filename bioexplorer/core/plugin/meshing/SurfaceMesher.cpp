@@ -124,7 +124,7 @@ ModelDescriptorPtr SurfaceMesher::generateUnionOfBalls(brayns::Scene& scene,
     ModelDescriptorPtr modelDescriptor{nullptr};
     MeshLoader meshLoader(scene);
     const std::string filename =
-        "/tmp/" + title.substr(title.find("_") + 1) + ".obj";
+        "/tmp/" + title.substr(title.find("_") + 1) + ".off";
     try
     {
         PLUGIN_INFO << "Trying to load union of balls from cache " << filename
