@@ -1153,7 +1153,8 @@ class BioExplorer:
 
     def add_multiple_glycans(
             self, assembly_name, glycan_type, protein_name, paths, representation, chain_ids=list(),
-            indices=list(), index_offset=0, load_bonds=False, atom_radius_multiplier=1.0):
+            indices=list(), index_offset=0, load_bonds=False, atom_radius_multiplier=1.0,
+            orientation=Quaternion()):
         """
         Add glycans to a protein in a assembly
 
@@ -1169,6 +1170,7 @@ class BioExplorer:
                              the PDB file.
         :load_bonds: Defines if bonds should be loaded
         :atom_radius_multiplier: Multiplies atom radius by the specified value
+        :orientation: Orientation applied to the glycan on the protein
         """
         assert isinstance(chain_ids, list)
         assert isinstance(indices, list)
@@ -1187,7 +1189,7 @@ class BioExplorer:
                 source=path, protein_name=assembly_name + '_' + protein_name, chain_ids=chain_ids,
                 atom_radius_multiplier=atom_radius_multiplier, load_bonds=load_bonds,
                 representation=representation, recenter=True, site_indices=site_indices,
-                orientation=Quaternion())
+                orientation=orientation)
             self.add_glycans(_glycans)
             path_index += 1
 
