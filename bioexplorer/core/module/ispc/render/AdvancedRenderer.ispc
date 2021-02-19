@@ -86,11 +86,180 @@ struct ShadingAttributes
     MaterialShadingMode shadingMode;
     float userParameter;
     MaterialChameleonMode chameleonMode;
+    uint32 modelId;
     vec3f indirectColor;
     float indirectIntensity;
     vec3f shadingContribution;
     vec3f finalContribution;
 };
+
+inline void initializeShadingAttributes(
+    const uniform AdvancedRenderer* uniform self, ShadingAttributes& attributes)
+{
+    attributes.self = self;
+    attributes.dg = 0;
+
+    // Background color
+    attributes.bgColor = make_vec4f(0.f);
+
+    // Final contribution
+    attributes.finalContribution = make_vec3f(0.f);
+
+    // Indirect light contribution
+    attributes.indirectColor = make_vec3f(0.f);
+    attributes.indirectIntensity = 0.f;
+
+    // Light emission
+    attributes.lightEmissionColor = make_vec3f(0.f);
+    attributes.lightEmissionIntensity = 0.f;
+
+    // Shadows
+    attributes.shadowIntensity = 0.f;
+
+    // Diffuse color
+    attributes.diffuseColor = make_vec3f(0.f);
+
+    // Specular color
+    attributes.specularColor = make_vec3f(0.f);
+    attributes.specularExponent = 0.f;
+
+    // Shading contribution
+    attributes.shadingContribution = make_vec3f(0.f);
+
+    // Other attributes
+    attributes.reflection = 0.f;
+    attributes.refraction = 1.f;
+    attributes.opacity = 0.f;
+    attributes.glossiness = 1.f;
+}
+
+inline void setGeometryShadingAttributes(
+    const uniform AdvancedRenderer* uniform self, DifferentialGeometry& dg,
+    varying ScreenSample& sample, const varying Ray& ray,
+    ShadingAttributes& attributes)
+{
+    attributes.dg = &dg;
+
+    // Intersection point with geometry
+    attributes.origin = dg.P;
+
+    // Shading normal
+    attributes.normal = dg.Ns;
+
+    // Shading mode
+    attributes.shadingMode = undefined_shading_mode;
+
+    // Reflected shading normal
+    attributes.reflectedNormal =
+        ray.dir - 2.f * dot(ray.dir, attributes.normal) * attributes.normal;
+
+    // Chameleon
+    attributes.chameleonMode = undefined_chameleon_mode;
+
+    // Model Id
+    attributes.modelId = 0;
+
+    // Process material attributes
+    const uniform Material* material = dg.material;
+    const uniform AdvancedMaterial* objMaterial =
+        (const uniform AdvancedMaterial*)material;
+    if (!objMaterial)
+    {
+        // Diffuse color
+        attributes.diffuseColor = make_vec3f(dg.color);
+
+        // if no material is defined, localOpacity is stored in the
+        // alpha
+        // component of the RGBA color
+        attributes.opacity = dg.color.w;
+        return;
+    }
+
+    foreach_unique(mat in objMaterial)
+    {
+        // Glossiness
+        if (mat->glossiness < 1.f)
+        {
+            attributes.glossiness = mat->glossiness;
+            const vec3f randomNormal =
+                (1.f - mat->glossiness) *
+                getRandomVector(self->useHardwareRandomizer,
+                                self->super.fb->size.x, sample,
+                                attributes.normal, self->randomNumber);
+            attributes.normal = normalize(attributes.normal + randomNormal);
+        }
+
+        // Refraction index
+        attributes.refraction = mat->refraction;
+
+        // Opacity
+        if (valid(mat->map_d))
+            attributes.opacity = mat->d * get1f(mat->map_d, dg);
+        else
+            attributes.opacity = mat->d;
+
+        // Diffuse color
+        attributes.diffuseColor = mat->Kd * make_vec3f(dg.color);
+        if (valid(mat->map_Kd))
+        {
+            const vec3f diffuseColorFromMap = get3f(mat->map_Kd, dg);
+            attributes.diffuseColor =
+                attributes.diffuseColor * make_vec3f(diffuseColorFromMap);
+            // attributes.opacity *= diffuseColorFromMap.w;
+        }
+
+        // Specular color
+        if (valid(mat->map_Ks))
+            attributes.specularColor =
+                max(attributes.specularColor, mat->Ks * get3f(mat->map_Ks, dg));
+        else
+            attributes.specularColor = max(attributes.specularColor, mat->Ks);
+
+        // Specular exponent
+        if (valid(mat->map_Ns))
+            attributes.specularExponent = max(attributes.specularExponent,
+                                              mat->Ns * get1f(mat->map_Ns, dg));
+        else
+            attributes.specularExponent =
+                max(attributes.specularExponent, mat->Ns);
+
+        // Light emission intensity
+        attributes.lightEmissionIntensity += mat->a;
+        attributes.lightEmissionColor = attributes.diffuseColor;
+
+        // Normal mapping
+        if (valid(mat->map_Bump))
+        {
+            const vec3f n = get3f(mat->map_Bump, dg, make_vec3f(0.f)) - 0.5f;
+            attributes.normal.x -= n.x;
+            attributes.normal.y -= n.y;
+        }
+
+        // Reflection index
+        attributes.reflection = mat->reflection;
+        if (valid(mat->map_reflection))
+        {
+            const vec3f value = get3f(mat->map_reflection, dg);
+            attributes.reflection *= (value.x + value.y + value.z) / 3.f;
+        }
+
+        // Shading mode
+        attributes.shadingMode = mat->shadingMode;
+
+        // User parameter
+        attributes.userParameter = mat->userParameter;
+
+        // Chameleon mode
+        attributes.chameleonMode = mat->chameleonMode;
+
+        // Model Id
+        attributes.modelId = mat->modelId;
+    }
+
+    // Update reflected shading normal
+    attributes.reflectedNormal =
+        ray.dir - 2.f * dot(ray.dir, attributes.normal) * attributes.normal;
+}
 
 inline bool launchRandomRay(
     const uniform AdvancedRenderer* uniform self, varying ScreenSample& sample,
@@ -142,7 +311,7 @@ inline bool launchRandomRay(
         if (objMaterial)
             foreach_unique(mat in objMaterial)
             {
-                if (mat->chameleonMode == receiver)
+                if (mat->chameleonMode != emitter)
                 {
                     hit = true;
                     moreRebounds = false;
@@ -324,168 +493,6 @@ inline float shadedLightIntensity(varying ScreenSample& sample,
     return clamp(intensity * attributes.self->shadows, 0.f, 1.f);
 }
 
-inline void initializeShadingAttributes(
-    const uniform AdvancedRenderer* uniform self, ShadingAttributes& attributes)
-{
-    attributes.self = self;
-    attributes.dg = 0;
-
-    // Background color
-    attributes.bgColor = make_vec4f(0.f);
-
-    // Final contribution
-    attributes.finalContribution = make_vec3f(0.f);
-
-    // Indirect light contribution
-    attributes.indirectColor = make_vec3f(0.f);
-    attributes.indirectIntensity = 0.f;
-
-    // Light emission
-    attributes.lightEmissionColor = make_vec3f(0.f);
-    attributes.lightEmissionIntensity = 0.f;
-
-    // Shadows
-    attributes.shadowIntensity = 0.f;
-
-    // Diffuse color
-    attributes.diffuseColor = make_vec3f(0.f);
-
-    // Specular color
-    attributes.specularColor = make_vec3f(0.f);
-    attributes.specularExponent = 0.f;
-
-    // Shading contribution
-    attributes.shadingContribution = make_vec3f(0.f);
-
-    // Other attributes
-    attributes.reflection = 0.f;
-    attributes.refraction = 1.f;
-    attributes.opacity = 0.f;
-    attributes.glossiness = 1.f;
-}
-
-inline void setGeometryShadingAttributes(
-    const uniform AdvancedRenderer* uniform self, DifferentialGeometry& dg,
-    varying ScreenSample& sample, const varying Ray& ray,
-    ShadingAttributes& attributes)
-{
-    attributes.dg = &dg;
-
-    // Intersection point with geometry
-    attributes.origin = dg.P;
-
-    // Shading normal
-    attributes.normal = dg.Ns;
-
-    // Shading mode
-    attributes.shadingMode = undefined_shading_mode;
-
-    // Reflected shading normal
-    attributes.reflectedNormal =
-        ray.dir - 2.f * dot(ray.dir, attributes.normal) * attributes.normal;
-
-    // Chameleon
-    attributes.chameleonMode = undefined_chameleon_mode;
-
-    // Process material attributes
-    const uniform Material* material = dg.material;
-    const uniform AdvancedMaterial* objMaterial =
-        (const uniform AdvancedMaterial*)material;
-    if (!objMaterial)
-    {
-        // Diffuse color
-        attributes.diffuseColor = make_vec3f(dg.color);
-
-        // if no material is defined, localOpacity is stored in the
-        // alpha
-        // component of the RGBA color
-        attributes.opacity = dg.color.w;
-        return;
-    }
-
-    foreach_unique(mat in objMaterial)
-    {
-        // Glossiness
-        if (mat->glossiness < 1.f)
-        {
-            attributes.glossiness = mat->glossiness;
-            const vec3f randomNormal =
-                (1.f - mat->glossiness) *
-                getRandomVector(self->useHardwareRandomizer,
-                                self->super.fb->size.x, sample,
-                                attributes.normal, self->randomNumber);
-            attributes.normal = normalize(attributes.normal + randomNormal);
-        }
-
-        // Refraction index
-        attributes.refraction = mat->refraction;
-
-        // Opacity
-        if (valid(mat->map_d))
-            attributes.opacity = mat->d * get1f(mat->map_d, dg);
-        else
-            attributes.opacity = mat->d;
-
-        // Diffuse color
-        attributes.diffuseColor = mat->Kd * make_vec3f(dg.color);
-        if (valid(mat->map_Kd))
-        {
-            const vec3f diffuseColorFromMap = get3f(mat->map_Kd, dg);
-            attributes.diffuseColor =
-                attributes.diffuseColor * make_vec3f(diffuseColorFromMap);
-            // attributes.opacity *= diffuseColorFromMap.w;
-        }
-
-        // Specular color
-        if (valid(mat->map_Ks))
-            attributes.specularColor =
-                max(attributes.specularColor, mat->Ks * get3f(mat->map_Ks, dg));
-        else
-            attributes.specularColor = max(attributes.specularColor, mat->Ks);
-
-        // Specular exponent
-        if (valid(mat->map_Ns))
-            attributes.specularExponent = max(attributes.specularExponent,
-                                              mat->Ns * get1f(mat->map_Ns, dg));
-        else
-            attributes.specularExponent =
-                max(attributes.specularExponent, mat->Ns);
-
-        // Light emission intensity
-        attributes.lightEmissionIntensity += mat->a;
-        attributes.lightEmissionColor = attributes.diffuseColor;
-
-        // Normal mapping
-        if (valid(mat->map_Bump))
-        {
-            const vec3f n = get3f(mat->map_Bump, dg, make_vec3f(0.f)) - 0.5f;
-            attributes.normal.x -= n.x;
-            attributes.normal.y -= n.y;
-        }
-
-        // Reflection index
-        attributes.reflection = mat->reflection;
-        if (valid(mat->map_reflection))
-        {
-            const vec3f value = get3f(mat->map_reflection, dg);
-            attributes.reflection *= (value.x + value.y + value.z) / 3.f;
-        }
-
-        // Shading mode
-        attributes.shadingMode = mat->shadingMode;
-
-        // User parameter
-        attributes.userParameter = mat->userParameter;
-
-        // Chameleon mode
-        attributes.chameleonMode = mat->chameleonMode;
-    }
-
-    // Update reflected shading normal
-    attributes.reflectedNormal =
-        ray.dir - 2.f * dot(ray.dir, attributes.normal) * attributes.normal;
-}
-
 inline void processBackgroundColor(varying ScreenSample& sample,
                                    const varying Ray& ray,
                                    ShadingAttributes& attributes)
@@ -540,7 +547,7 @@ inline vec3f getChameleonColor(const uniform AdvancedRenderer* uniform self,
 {
     vec3f shadingColor = make_vec3f(0.f);
     size_t hits = 0;
-    for (uint32 i = 0; i < attributes.userParameter; ++i)
+    for (uint32 i = 0; i < 20; ++i)
     {
         const vec3f randomDirection =
             getRandomVector(self->useHardwareRandomizer, self->super.fb->size.x,
@@ -574,22 +581,22 @@ inline vec3f getChameleonColor(const uniform AdvancedRenderer* uniform self,
             {
                 foreach_unique(mat in objMaterial)
                 {
-                    if (mat->chameleonMode == emitter)
+                    if (mat->chameleonMode == emitter &&
+                        mat->modelId == attributes.modelId)
                     {
                         if (valid(mat->map_Kd))
                             shadingColor =
                                 shadingColor + get3f(mat->map_Kd, geometry);
                         else
                             shadingColor = shadingColor + mat->Kd;
+                        ++hits;
                     }
                 }
             }
-            else
-                shadingColor = make_vec3f(dg.color);
-            ++hits;
         }
     }
-
+    if (hits == 0)
+        return shadingColor;
     return shadingColor / hits;
 }
 
@@ -832,7 +839,7 @@ inline vec3f AdvancedRenderer_shadeRay(
     sample.z = inf;
     bool moreRebounds = true;
 
-    while (moreRebounds && depth < self->maxBounces && color.w < 1.f)
+    while (moreRebounds && depth < self->maxBounces && color.w < 0.95f)
     {
         float totalOpacity = 0.f;
 

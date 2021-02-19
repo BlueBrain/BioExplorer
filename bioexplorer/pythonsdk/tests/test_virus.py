@@ -132,7 +132,7 @@ def test_virus():
         bio_explorer.add_multiple_glycans(
             assembly_name=name, glycan_type=bio_explorer.NAME_GLYCAN_HIGH_MANNOSE,
             protein_name=bio_explorer.NAME_PROTEIN_S_OPEN, paths=high_mannose_paths,
-            indices=indices_open, index_offset=19, representation=protein_representation,
+            indices=indices_open, representation=protein_representation,
             allowed_occurrences=open_conformation_indices,
             atom_radius_multiplier=protein_radius_multiplier)
 
@@ -147,8 +147,7 @@ def test_virus():
         bio_explorer.add_multiple_glycans(
             assembly_name=name, glycan_type=bio_explorer.NAME_GLYCAN_COMPLEX,
             protein_name=bio_explorer.NAME_PROTEIN_S_OPEN, paths=complex_paths, indices=indices2,
-            index_offset=19, representation=protein_representation,
-            allowed_occurrences=open_conformation_indices,
+            representation=protein_representation, allowed_occurrences=open_conformation_indices,
             atom_radius_multiplier=protein_radius_multiplier)
 
         # O-Glycans

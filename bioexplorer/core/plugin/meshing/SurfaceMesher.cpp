@@ -61,7 +61,10 @@ typedef Polyhedron::Halfedge_around_facet_circulator Halfedge_facet_circulator;
 
 namespace bioexplorer
 {
-SurfaceMesher::SurfaceMesher() {}
+SurfaceMesher::SurfaceMesher(const uint32_t uuid)
+    : _uuid(uuid)
+{
+}
 
 ModelDescriptorPtr SurfaceMesher::generateSurface(brayns::Scene& scene,
                                                   const std::string& title,
@@ -163,10 +166,10 @@ void SurfaceMesher::_setMaterialExtraAttributes(
         props.setProperty({MATERIAL_PROPERTY_SHADING_MODE,
                            static_cast<int>(MaterialShadingMode::basic)});
         props.setProperty({MATERIAL_PROPERTY_USER_PARAMETER, 1.0});
+        props.setProperty({MATERIAL_PROPERTY_CHAMELEON_MODE,
+                           static_cast<int>(MaterialChameleonMode::receiver)});
         props.setProperty(
-            {MATERIAL_PROPERTY_CHAMELEON_MODE,
-             static_cast<int>(
-                 MaterialChameleonMode::undefined_chameleon_mode)});
+            {MATERIAL_PROPERTY_MODEL_ID, static_cast<int>(_uuid)});
         material.second->updateProperties(props);
     }
 }

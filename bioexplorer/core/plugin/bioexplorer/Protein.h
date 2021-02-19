@@ -162,7 +162,8 @@ private:
 
     // Utility functions
     void _processInstances(ModelDescriptorPtr md, const Vector3fs& positions,
-                           const Quaternions& orientations);
+                           const Quaternions& orientations,
+                           const Quaterniond& proteinOrientation);
     void _buildAminoAcidBounds();
 
     // Class members

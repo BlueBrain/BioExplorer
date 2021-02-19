@@ -443,7 +443,7 @@ class BioExplorer:
             self.add_multiple_glycans(
                 assembly_name=name, glycan_type=self.NAME_GLYCAN_HIGH_MANNOSE,
                 protein_name=self.NAME_PROTEIN_S_OPEN,
-                paths=high_mannose_paths, indices=indices_open, index_offset=19,
+                paths=high_mannose_paths, indices=indices_open,
                 representation=representation, atom_radius_multiplier=atom_radius_multiplier)
 
             # Complex
@@ -460,8 +460,7 @@ class BioExplorer:
             self.add_multiple_glycans(
                 assembly_name=name, glycan_type=self.NAME_GLYCAN_COMPLEX,
                 protein_name=self.NAME_PROTEIN_S_OPEN, paths=complex_paths, indices=indices_open,
-                index_offset=19, representation=representation,
-                atom_radius_multiplier=atom_radius_multiplier)
+                representation=representation, atom_radius_multiplier=atom_radius_multiplier)
 
             # O-Glycans
             for index in [323, 325]:
@@ -1153,7 +1152,8 @@ class BioExplorer:
 
     def add_multiple_glycans(
             self, assembly_name, glycan_type, protein_name, paths, representation, chain_ids=list(),
-            indices=list(), index_offset=0, load_bonds=False, atom_radius_multiplier=1.0):
+            indices=list(), load_bonds=False, atom_radius_multiplier=1.0,
+            orientation=Quaternion()):
         """
         Add glycans to a protein in a assembly
 
@@ -1164,11 +1164,9 @@ class BioExplorer:
         :representation: Representation of the protein (Atoms, atoms and sticks, etc)
         :chain_ids: IDs of the chains to be loaded
         :indices: Indices of the glycosylation sites where glycans should be added
-        :index_offset: Offset applied to the indices. This is because not all amino acid
-                             sequences start at the same index in the description of the protein in
-                             the PDB file.
         :load_bonds: Defines if bonds should be loaded
         :atom_radius_multiplier: Multiplies atom radius by the specified value
+        :orientation: Orientation applied to the glycan on the protein
         """
         assert isinstance(chain_ids, list)
         assert isinstance(indices, list)
@@ -1179,16 +1177,18 @@ class BioExplorer:
             if indices is not None:
                 for index in indices:
                     if index % len(paths) == path_index:
-                        site_indices.append(index + index_offset)
+                        site_indices.append(index)
 
-            _glycans = Sugars(
-                assembly_name=assembly_name,
-                name=assembly_name + '_' + protein_name + '_' + glycan_type + '_' + str(path_index),
-                source=path, protein_name=assembly_name + '_' + protein_name, chain_ids=chain_ids,
-                atom_radius_multiplier=atom_radius_multiplier, load_bonds=load_bonds,
-                representation=representation, recenter=True, site_indices=site_indices,
-                orientation=Quaternion())
-            self.add_glycans(_glycans)
+            if site_indices:
+                _glycans = Sugars(
+                    assembly_name=assembly_name,
+                    name=assembly_name + '_' + protein_name +
+                    '_' + glycan_type + '_' + str(path_index),
+                    source=path, protein_name=assembly_name + '_' + protein_name, chain_ids=chain_ids,
+                    atom_radius_multiplier=atom_radius_multiplier, load_bonds=load_bonds,
+                    representation=representation, recenter=True, site_indices=site_indices,
+                    orientation=orientation)
+                self.add_glycans(_glycans)
             path_index += 1
 
     def add_sugars(self, sugars):
@@ -1317,8 +1317,8 @@ class BioExplorer:
 
     def set_materials_from_palette(
             self, model_ids, material_ids, palette, shading_mode, specular_exponent,
-            user_parameter=1.0, glossiness=1.0, emission=0.0, opacity=1.0, reflection_index=0.0,
-            refraction_index=1.0, chameleon_mode=0):
+            user_parameter=None, glossiness=None, emission=None, opacity=None, reflection_index=None,
+            refraction_index=None, chameleon_mode=None):
         """
         Applies a palette of colors and attributes to specified materials
 
@@ -1348,15 +1348,24 @@ class BioExplorer:
         chameleon_modes = list()
         for color in palette:
             colors.append(color)
-            shading_modes.append(shading_mode)
-            user_parameters.append(user_parameter)
-            specular_exponents.append(specular_exponent)
-            glossinesses.append(glossiness)
-            emissions.append(emission)
-            opacities.append(opacity)
-            reflection_indices.append(reflection_index)
-            refraction_indices.append(refraction_index)
-            chameleon_modes.append(chameleon_mode)
+            if shading_mode:
+                shading_modes.append(shading_mode)
+            if user_parameter:
+                user_parameters.append(user_parameter)
+            if specular_exponent:
+                specular_exponents.append(specular_exponent)
+            if glossiness:
+                glossinesses.append(glossiness)
+            if emission:
+                emissions.append(emission)
+            if opacity:
+                opacities.append(opacity)
+            if reflection_index:
+                reflection_indices.append(reflection_index)
+            if refraction_index:
+                refraction_indices.append(refraction_index)
+            if chameleon_mode:
+                chameleon_modes.append(chameleon_mode)
         self.set_materials(
             model_ids=model_ids, material_ids=material_ids, diffuse_colors=colors,
             specular_colors=colors, specular_exponents=specular_exponents,
@@ -1366,7 +1375,8 @@ class BioExplorer:
             chameleon_modes=chameleon_modes)
 
     def apply_default_color_scheme(
-            self, shading_mode, user_parameter=3.0, specular_exponent=5.0, glossiness=1.0):
+            self, shading_mode, user_parameter=3.0, specular_exponent=5.0, glossiness=1.0,
+            glycans=True, proteins=True, membranes=True):
         """
         Apply a default color scheme to all components in the scene
 
@@ -1393,52 +1403,52 @@ class BioExplorer:
             material_ids = self.get_material_ids(model_id)['ids']
             nb_materials = len(material_ids)
 
-            if self.NAME_MEMBRANE in model_name:
+            if membranes and self.NAME_MEMBRANE in model_name:
                 palette = sns.color_palette('gist_heat', nb_materials)
                 self.set_materials_from_palette(
                     model_ids=[model_id], material_ids=material_ids, palette=palette,
                     shading_mode=shading_mode, user_parameter=user_parameter, glossiness=glossiness,
                     specular_exponent=specular_exponent)
 
-            if self.NAME_RECEPTOR in model_name:
+            if proteins and self.NAME_RECEPTOR in model_name:
                 palette = sns.color_palette('OrRd_r', nb_materials)
                 self.set_materials_from_palette(
                     model_ids=[model_id], material_ids=material_ids, palette=palette,
                     shading_mode=shading_mode, user_parameter=user_parameter, glossiness=glossiness,
                     specular_exponent=specular_exponent)
 
-            if self.NAME_PROTEIN_S_CLOSED in model_name or \
-               self.NAME_PROTEIN_S_OPEN in model_name or \
-               self.NAME_PROTEIN_E in model_name or \
-               self.NAME_PROTEIN_M in model_name:
+            if proteins and (self.NAME_PROTEIN_S_CLOSED in model_name or
+                             self.NAME_PROTEIN_S_OPEN in model_name or
+                             self.NAME_PROTEIN_E in model_name or
+                             self.NAME_PROTEIN_M in model_name):
                 palette = sns.color_palette('Greens', nb_materials)
                 self.set_materials_from_palette(
                     model_ids=[model_id], material_ids=material_ids, palette=palette,
                     shading_mode=shading_mode, user_parameter=user_parameter, glossiness=glossiness,
                     specular_exponent=specular_exponent)
 
-            if self.NAME_GLUCOSE in model_name:
+            if proteins and self.NAME_GLUCOSE in model_name:
                 palette = sns.color_palette('Blues', nb_materials)
                 self.set_materials_from_palette(
                     model_ids=[model_id], material_ids=material_ids, palette=palette,
                     shading_mode=shading_mode, user_parameter=user_parameter, glossiness=glossiness,
                     specular_exponent=specular_exponent)
 
-            if self.NAME_LACTOFERRIN in model_name:
+            if proteins and self.NAME_LACTOFERRIN in model_name:
                 palette = sns.color_palette('afmhot', nb_materials)
                 self.set_materials_from_palette(
                     model_ids=[model_id], material_ids=material_ids, palette=palette,
                     shading_mode=shading_mode, user_parameter=user_parameter, glossiness=glossiness,
                     specular_exponent=specular_exponent)
 
-            if self.NAME_DEFENSIN in model_name:
+            if proteins and self.NAME_DEFENSIN in model_name:
                 palette = sns.color_palette('plasma_r', nb_materials)
                 self.set_materials_from_palette(
                     model_ids=[model_id], material_ids=material_ids, palette=palette,
                     shading_mode=shading_mode, user_parameter=user_parameter, glossiness=glossiness,
                     specular_exponent=specular_exponent)
 
-            if self.NAME_GLYCAN_HIGH_MANNOSE in model_name:
+            if glycans and self.NAME_GLYCAN_HIGH_MANNOSE in model_name:
                 palette = list()
                 for _ in range(nb_materials):
                     palette.append(glycans_colors[0])
@@ -1447,7 +1457,7 @@ class BioExplorer:
                     shading_mode=shading_mode, user_parameter=user_parameter, glossiness=glossiness,
                     specular_exponent=specular_exponent)
 
-            if self.NAME_GLYCAN_COMPLEX in model_name:
+            if glycans and self.NAME_GLYCAN_COMPLEX in model_name:
                 palette = list()
                 for _ in range(nb_materials):
                     palette.append(glycans_colors[1])
@@ -1456,7 +1466,7 @@ class BioExplorer:
                     shading_mode=shading_mode, user_parameter=user_parameter, glossiness=glossiness,
                     specular_exponent=specular_exponent)
 
-            if self.NAME_GLYCAN_HYBRID in model_name:
+            if glycans and self.NAME_GLYCAN_HYBRID in model_name:
                 palette = list()
                 for _ in range(nb_materials):
                     palette.append(glycans_colors[2])
@@ -1465,7 +1475,7 @@ class BioExplorer:
                     shading_mode=shading_mode, user_parameter=user_parameter, glossiness=glossiness,
                     specular_exponent=specular_exponent)
 
-            if self.NAME_GLYCAN_O_GLYCAN in model_name:
+            if glycans and self.NAME_GLYCAN_O_GLYCAN in model_name:
                 palette = list()
                 for _ in range(nb_materials):
                     palette.append(glycans_colors[3])
@@ -1474,8 +1484,8 @@ class BioExplorer:
                     shading_mode=shading_mode, user_parameter=user_parameter, glossiness=glossiness,
                     specular_exponent=specular_exponent)
 
-            if self.NAME_SURFACTANT_HEAD in model_name or \
-                    self.NAME_COLLAGEN in model_name:
+            if proteins and (self.NAME_SURFACTANT_HEAD in model_name or
+                             self.NAME_COLLAGEN in model_name):
                 palette = sns.color_palette('OrRd_r', nb_materials)
                 emission = 0
                 if self.NAME_COLLAGEN in model_name:

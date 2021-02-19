@@ -93,6 +93,7 @@ Protein::Protein(Scene& scene, const ProteinDescriptor& descriptor)
                 _descriptor.loadBonds);
 
     _buildAminoAcidBounds();
+    _computeReqSetOffset();
 }
 
 Protein::~Protein()
@@ -199,21 +200,21 @@ std::map<std::string, size_ts> Protein::getGlycosylationSites(
 
         for (size_t i = 0; i < shortSequence.length(); ++i)
         {
+            const auto offsetIndex = i + sequence.second.offset;
             bool acceptSite{true};
             if (!siteIndices.empty())
             {
-                const auto it =
-                    find(siteIndices.begin(), siteIndices.end(), i + 1);
+                const auto it = find(siteIndices.begin(), siteIndices.end(), i);
                 acceptSite = (it != siteIndices.end());
             }
 
-            const char aminoAcid = shortSequence[i];
+            const char aminoAcid = shortSequence[offsetIndex];
             if (aminoAcid == 'N' && acceptSite)
             {
                 if (i < shortSequence.length() - 2)
                 {
-                    const auto aminAcid1 = shortSequence[i + 1];
-                    const auto aminAcid2 = shortSequence[i + 2];
+                    const auto aminAcid1 = shortSequence[offsetIndex + 1];
+                    const auto aminAcid2 = shortSequence[offsetIndex + 2];
                     if ((aminAcid2 == 'T' || aminAcid2 == 'S') &&
                         aminAcid1 != 'P')
                         sites[sequence.first].push_back(i);
@@ -270,13 +271,29 @@ void Protein::_getSitesTransformations(
             Boxf siteBounds;
             Vector3f siteCenter;
 
+            const auto offsetSite = site;
+
             // Site center
-            const auto it = aminoAcidsPerChain.find(site);
+            const auto it = aminoAcidsPerChain.find(offsetSite);
             if (it != aminoAcidsPerChain.end())
             {
                 siteBounds = (*it).second;
                 siteCenter = siteBounds.getCenter();
+
+                // Orientation is determined by the center of the site and the
+                // center of the protein
+                const auto bindOrientation =
+                    normalize(siteCenter - proteinCenter);
+                positions.push_back(siteCenter);
+                rotations.push_back(
+                    glm::quatLookAt(bindOrientation, UP_VECTOR));
             }
+            else
+                PLUGIN_WARN << "Chain: " << chain.first << ", Site " << site + 1
+                            << " is not available in the protein source"
+                            << std::endl;
+
+#if 0
             else
             {
                 // Site is not registered in the protein. Extrapolating site
@@ -314,6 +331,8 @@ void Protein::_getSitesTransformations(
             const auto bindOrientation = normalize(siteCenter - proteinCenter);
             positions.push_back(siteCenter);
             rotations.push_back(glm::quatLookAt(bindOrientation, UP_VECTOR));
+#else
+#endif
         }
     }
 }
@@ -383,7 +402,8 @@ void Protein::setAminoAcid(const SetAminoAcid& aminoAcid)
 
 void Protein::_processInstances(ModelDescriptorPtr md,
                                 const Vector3fs& positions,
-                                const Quaternions& orientations)
+                                const Quaternions& orientations,
+                                const Quaterniond& moleculeOrientation)
 {
     size_t count = 0;
     const auto& proteinInstances = _modelDescriptor->getInstances();
@@ -397,7 +417,7 @@ void Protein::_processInstances(ModelDescriptorPtr md,
 
             Transformation glycanTransformation;
             glycanTransformation.setTranslation(position);
-            glycanTransformation.setRotation(orientation);
+            glycanTransformation.setRotation(moleculeOrientation * orientation);
 
             const Transformation combinedTransformation =
                 proteinTransformation * glycanTransformation;
@@ -426,7 +446,11 @@ void Protein::addGlycans(const SugarsDescriptor& sd)
     // protein
     GlycansPtr glycans(new Glycans(_scene, sd));
     auto modelDescriptor = glycans->getModelDescriptor();
-    _processInstances(modelDescriptor, glycanPositions, glycanOrientations);
+    const Quaterniond proteinOrientation({sd.orientation[0], sd.orientation[1],
+                                          sd.orientation[2],
+                                          sd.orientation[3]});
+    _processInstances(modelDescriptor, glycanPositions, glycanOrientations,
+                      proteinOrientation);
 
     _glycans[sd.name] = std::move(glycans);
     _scene.addModel(modelDescriptor);
@@ -447,7 +471,11 @@ void Protein::addSugars(const SugarsDescriptor& sd)
 
     GlycansPtr glucoses(new Glycans(_scene, sd));
     auto modelDescriptor = glucoses->getModelDescriptor();
-    _processInstances(modelDescriptor, positions, orientations);
+    const Quaterniond proteinOrientation({sd.orientation[0], sd.orientation[1],
+                                          sd.orientation[2],
+                                          sd.orientation[3]});
+    _processInstances(modelDescriptor, positions, orientations,
+                      proteinOrientation);
 
     _glycans[sd.name] = std::move(glucoses);
     _scene.addModel(modelDescriptor);
