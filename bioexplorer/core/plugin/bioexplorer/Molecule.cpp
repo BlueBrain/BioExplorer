@@ -164,6 +164,49 @@ Molecule::Molecule(Scene& scene, const size_ts& chainIds)
     _uuid = UniqueId::get();
 }
 
+void Molecule::_computeReqSetOffset()
+{
+    for (auto& sequence : _sequenceMap)
+    {
+        std::string physicalReqSeq;
+        size_t firstReqSeq;
+        size_t previousReqSeq;
+        bool initialized{false};
+        for (const auto& atom : _atomMap)
+        {
+            if (atom.second.chainId != sequence.first)
+                continue;
+
+            if (!initialized)
+            {
+                firstReqSeq = atom.second.reqSeq;
+                previousReqSeq = firstReqSeq - 1;
+                initialized = true;
+            }
+
+            if (previousReqSeq != atom.second.reqSeq)
+            {
+                if (atom.second.reqSeq != previousReqSeq + 1)
+                    break;
+
+                physicalReqSeq +=
+                    aminoAcidMap.find(atom.second.resName)->second.shortName;
+            }
+
+            previousReqSeq = atom.second.reqSeq;
+        }
+
+        std::string theoreticalReqSeq;
+        for (const auto& aa : sequence.second.resNames)
+            theoreticalReqSeq += aminoAcidMap.find(aa)->second.shortName;
+
+        sequence.second.offset =
+            theoreticalReqSeq.find(physicalReqSeq) - firstReqSeq;
+        PLUGIN_INFO << "Sequence " << sequence.first
+                    << " offset: " << sequence.second.offset << std::endl;
+    }
+}
+
 StringMap Molecule::getSequencesAsString() const
 {
     StringMap sequencesAsStrings;

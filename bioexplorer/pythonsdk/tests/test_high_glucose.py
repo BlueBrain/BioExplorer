@@ -135,7 +135,7 @@ def add_virus(bioexplorer, name, position, open_conformation_indices=list()):
             bioexplorer.add_multiple_glycans(
                 assembly_name=name, glycan_type=bioexplorer.NAME_GLYCAN_HIGH_MANNOSE,
                 protein_name=bioexplorer.NAME_PROTEIN_S_OPEN, paths=HIGH_MANNOSE_PATHS,
-                indices=indices_open, index_offset=19, representation=PROTEIN_REPRESENTATION,
+                indices=indices_open, representation=PROTEIN_REPRESENTATION,
                 allowed_occurrences=open_conformation_indices)
 
         # Complex
@@ -152,7 +152,7 @@ def add_virus(bioexplorer, name, position, open_conformation_indices=list()):
                 assembly_name=name, glycan_type=bioexplorer.NAME_GLYCAN_COMPLEX,
                 protein_name=bioexplorer.NAME_PROTEIN_S_OPEN, paths=COMPLEX_PATHS,
                 indices=indices_open,
-                index_offset=19, representation=PROTEIN_REPRESENTATION,
+                representation=PROTEIN_REPRESENTATION,
                 allowed_occurrences=open_conformation_indices)
 
         # O-Glycans

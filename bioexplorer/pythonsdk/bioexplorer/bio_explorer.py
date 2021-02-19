@@ -443,7 +443,7 @@ class BioExplorer:
             self.add_multiple_glycans(
                 assembly_name=name, glycan_type=self.NAME_GLYCAN_HIGH_MANNOSE,
                 protein_name=self.NAME_PROTEIN_S_OPEN,
-                paths=high_mannose_paths, indices=indices_open, index_offset=19,
+                paths=high_mannose_paths, indices=indices_open,
                 representation=representation, atom_radius_multiplier=atom_radius_multiplier)
 
             # Complex
@@ -460,8 +460,7 @@ class BioExplorer:
             self.add_multiple_glycans(
                 assembly_name=name, glycan_type=self.NAME_GLYCAN_COMPLEX,
                 protein_name=self.NAME_PROTEIN_S_OPEN, paths=complex_paths, indices=indices_open,
-                index_offset=19, representation=representation,
-                atom_radius_multiplier=atom_radius_multiplier)
+                representation=representation, atom_radius_multiplier=atom_radius_multiplier)
 
             # O-Glycans
             for index in [323, 325]:
@@ -1153,7 +1152,7 @@ class BioExplorer:
 
     def add_multiple_glycans(
             self, assembly_name, glycan_type, protein_name, paths, representation, chain_ids=list(),
-            indices=list(), index_offset=0, load_bonds=False, atom_radius_multiplier=1.0,
+            indices=list(), load_bonds=False, atom_radius_multiplier=1.0,
             orientation=Quaternion()):
         """
         Add glycans to a protein in a assembly
@@ -1165,9 +1164,6 @@ class BioExplorer:
         :representation: Representation of the protein (Atoms, atoms and sticks, etc)
         :chain_ids: IDs of the chains to be loaded
         :indices: Indices of the glycosylation sites where glycans should be added
-        :index_offset: Offset applied to the indices. This is because not all amino acid
-                             sequences start at the same index in the description of the protein in
-                             the PDB file.
         :load_bonds: Defines if bonds should be loaded
         :atom_radius_multiplier: Multiplies atom radius by the specified value
         :orientation: Orientation applied to the glycan on the protein
@@ -1181,16 +1177,18 @@ class BioExplorer:
             if indices is not None:
                 for index in indices:
                     if index % len(paths) == path_index:
-                        site_indices.append(index + index_offset)
+                        site_indices.append(index)
 
-            _glycans = Sugars(
-                assembly_name=assembly_name,
-                name=assembly_name + '_' + protein_name + '_' + glycan_type + '_' + str(path_index),
-                source=path, protein_name=assembly_name + '_' + protein_name, chain_ids=chain_ids,
-                atom_radius_multiplier=atom_radius_multiplier, load_bonds=load_bonds,
-                representation=representation, recenter=True, site_indices=site_indices,
-                orientation=orientation)
-            self.add_glycans(_glycans)
+            if site_indices:
+                _glycans = Sugars(
+                    assembly_name=assembly_name,
+                    name=assembly_name + '_' + protein_name +
+                    '_' + glycan_type + '_' + str(path_index),
+                    source=path, protein_name=assembly_name + '_' + protein_name, chain_ids=chain_ids,
+                    atom_radius_multiplier=atom_radius_multiplier, load_bonds=load_bonds,
+                    representation=representation, recenter=True, site_indices=site_indices,
+                    orientation=orientation)
+                self.add_glycans(_glycans)
             path_index += 1
 
     def add_sugars(self, sugars):

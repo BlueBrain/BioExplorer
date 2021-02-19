@@ -87,16 +87,6 @@ public:
      */
     StringMap getSequencesAsString() const;
 
-    /**
-     * @brief Get the Amino Acid Sequence object
-     *
-     * @return const std::string&
-     */
-    const std::string& getAminoAcidSequence() const
-    {
-        return _aminoAcidSequence;
-    }
-
 protected:
     void _setAtomColorScheme();
     void _setChainColorScheme(const Palette& palette);
@@ -116,6 +106,7 @@ protected:
                               const float atomRadiusMultiplier,
                               const bool surface, const bool loadBonds,
                               Model& model);
+    void _computeReqSetOffset();
 
     // IO
     void _readAtom(const std::string& line, const bool loadHydrogen);
@@ -135,7 +126,6 @@ protected:
     size_ts _chainIds;
 
     Vector2ui _aminoAcidRange;
-    std::string _aminoAcidSequence;
 
     std::string _selectedAminoAcidSequence;
     Vector2uis _selectedAminoAcidRanges;
