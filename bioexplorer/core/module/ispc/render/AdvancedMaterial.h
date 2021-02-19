@@ -80,6 +80,9 @@ struct AdvancedMaterial : public ospray::Material
     /*! User parameter */
     float userParameter;
 
+    /*! Model ID */
+    ospray::uint32 modelId;
+
     /*! Takes the color from surrounding invisible geometry */
     MaterialChameleonMode chameleonMode;
 

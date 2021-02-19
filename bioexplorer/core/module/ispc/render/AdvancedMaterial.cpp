@@ -89,6 +89,9 @@ void AdvancedMaterial::commit()
         MATERIAL_PROPERTY_CHAMELEON_MODE,
         static_cast<int>(MaterialChameleonMode::undefined_chameleon_mode)));
 
+    // Model Id
+    modelId = getParam1i(MATERIAL_PROPERTY_MODEL_ID, 0);
+
     ispc::AdvancedMaterial_set(
         getIE(), map_d ? map_d->getIE() : nullptr,
         (const ispc::AffineSpace2f&)xform_d, d,
@@ -107,7 +110,7 @@ void AdvancedMaterial::commit()
         (const ispc::AffineSpace2f&)xform_Bump,
         (const ispc::LinearSpace2f&)rot_Bump,
         (const ispc::MaterialShadingMode&)shadingMode, userParameter,
-        (const ispc::MaterialChameleonMode&)chameleonMode);
+        (const ispc::MaterialChameleonMode&)chameleonMode, modelId);
 }
 
 OSP_REGISTER_MATERIAL(bio_explorer, AdvancedMaterial, default);

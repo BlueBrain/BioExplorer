@@ -65,7 +65,7 @@ void AdvancedRenderer::commit()
     _giSamples = getParam1i("giSamples", 1);
 
     _maxBounces = getParam1i("maxBounces", 3);
-    _randomNumber = getParam1i("randomNumber", 0);
+    _randomNumber = rand() % 1000;
 
     ispc::AdvancedRenderer_set(getIE(),
                                (_bgMaterial ? _bgMaterial->getIE() : nullptr),

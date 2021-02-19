@@ -18,41 +18,14 @@
  * this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-#pragma once
+#include <stdint.h>
 
-#define DEFAULT_SKY_POWER 4.f
-
-/** Additional material attributes */
-#define MATERIAL_PROPERTY_SHADING_MODE "shading_mode"
-#define MATERIAL_PROPERTY_USER_PARAMETER "user_parameter"
-#define MATERIAL_PROPERTY_CHAMELEON_MODE "chameleon_mode"
-#define MATERIAL_PROPERTY_MODEL_ID "model_id"
-
-enum MaterialShadingMode
+class UniqueId
 {
-    undefined_shading_mode = 0,
-    basic = 1,
-    diffuse = 2,
-    electron = 3,
-    cartoon = 4,
-    electron_transparency = 5,
-    perlin = 6,
-    diffuse_transparency = 7,
-    checker = 8,
-    goodsell = 9
-};
+protected:
+    static uint32_t nextId;
 
-enum MaterialChameleonMode
-{
-    undefined_chameleon_mode = 0,
-    emitter = 1,
-    receiver = 2
-};
-
-enum CameraStereoMode
-{
-    mono = 0,
-    left = 1,
-    right = 2,
-    side_by_side = 3
+public:
+    UniqueId();
+    static uint32_t get();
 };

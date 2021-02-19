@@ -29,7 +29,7 @@ using namespace brayns;
 class SurfaceMesher
 {
 public:
-    SurfaceMesher();
+    SurfaceMesher(const uint32_t uuid);
 
     /** Generates a triangle based mesh model
      *
@@ -52,5 +52,7 @@ public:
 
 private:
     void _setMaterialExtraAttributes(ModelDescriptorPtr modelDescriptor);
+
+    uint32_t _uuid;
 };
 } // namespace bioexplorer
