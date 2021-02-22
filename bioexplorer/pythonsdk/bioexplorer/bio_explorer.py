@@ -713,7 +713,7 @@ class BioExplorer:
             atom_radius_multiplier=atom_radius_multiplier,
             random_seed=random_seed,
             representation=representation,
-            # orientation=Quaternion(0.661, -0.624, -0.417, 0.0)
+            orientation=Quaternion(0.115, -0.297, 0.344, 0.883)
         )
 
         collagens = list()
