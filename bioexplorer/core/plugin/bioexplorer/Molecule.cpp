@@ -19,7 +19,6 @@
  */
 
 #include "Molecule.h"
-#include "UniqueId.h"
 
 #include <plugin/common/CommonTypes.h>
 #include <plugin/common/Logs.h>
@@ -160,8 +159,6 @@ Molecule::Molecule(Scene& scene, const size_ts& chainIds)
     , _scene(scene)
     , _chainIds(chainIds)
 {
-    // Unique ID
-    _uuid = UniqueId::get();
 }
 
 void Molecule::_computeReqSetOffset()
@@ -261,8 +258,7 @@ void Molecule::_buildAtomicStruture(const ProteinRepresentation representation,
                  static_cast<int>(
                      MaterialChameleonMode::undefined_chameleon_mode)});
 
-        props.setProperty(
-            {MATERIAL_PROPERTY_MODEL_ID, static_cast<int>(_uuid)});
+        props.setProperty({MATERIAL_PROPERTY_NODE_ID, static_cast<int>(_uuid)});
 
         material->setDiffuseColor(
             {rgb.r / 255.f, rgb.g / 255.f, rgb.b / 255.f});

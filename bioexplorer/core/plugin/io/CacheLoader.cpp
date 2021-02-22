@@ -164,6 +164,15 @@ void CacheLoader::_importModel(std::ifstream& file) const
         int32_t shadingMode;
         file.read((char*)&shadingMode, sizeof(int32_t));
         material->updateProperty(MATERIAL_PROPERTY_SHADING_MODE, shadingMode);
+
+        int32_t chameleonMode;
+        file.read((char*)&chameleonMode, sizeof(int32_t));
+        material->updateProperty(MATERIAL_PROPERTY_CHAMELEON_MODE,
+                                 chameleonMode);
+
+        int32_t nodeId;
+        file.read((char*)&nodeId, sizeof(int32_t));
+        material->updateProperty(MATERIAL_PROPERTY_NODE_ID, nodeId);
     }
 
     uint64_t bufferSize{0};
@@ -508,6 +517,28 @@ void CacheLoader::_exportModel(const ModelDescriptorPtr modelDescriptor,
         {
         }
         file.write((char*)&shadingMode, sizeof(int32_t));
+
+        int32_t chameleonMode = MaterialChameleonMode::undefined_chameleon_mode;
+        try
+        {
+            shadingMode = material.second->getProperty<int32_t>(
+                MATERIAL_PROPERTY_CHAMELEON_MODE);
+        }
+        catch (const std::runtime_error&)
+        {
+        }
+        file.write((char*)&chameleonMode, sizeof(int32_t));
+
+        int32_t nodeId = 0;
+        try
+        {
+            shadingMode = material.second->getProperty<int32_t>(
+                MATERIAL_PROPERTY_NODE_ID);
+        }
+        catch (const std::runtime_error&)
+        {
+        }
+        file.write((char*)&nodeId, sizeof(int32_t));
     }
 
     // Spheres

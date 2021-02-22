@@ -46,7 +46,7 @@ export void AdvancedMaterial_set(
     const uniform MaterialShadingMode& shadingMode,
     const uniform float& userParameter,
     const uniform MaterialChameleonMode& chameleonMode,
-    const uniform uint32& modelId)
+    const uniform uint32& nodeId)
 {
     uniform AdvancedMaterial* uniform self =
         (uniform AdvancedMaterial * uniform) _mat;
@@ -73,5 +73,5 @@ export void AdvancedMaterial_set(
     self->shadingMode = shadingMode;
     self->userParameter = userParameter;
     self->chameleonMode = chameleonMode;
-    self->modelId = modelId;
+    self->nodeId = nodeId;
 }

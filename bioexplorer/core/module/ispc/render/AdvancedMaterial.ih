@@ -54,5 +54,5 @@ struct AdvancedMaterial
     MaterialShadingMode shadingMode;
     float userParameter;
     MaterialChameleonMode chameleonMode;
-    uint32 modelId;
+    uint32 nodeId;
 };
