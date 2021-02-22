@@ -92,7 +92,7 @@ def add_virus(bioexplorer, name, position, open_conformation_indices=list()):
         ],
         load_hydrogen=PROTEIN_LOAD_HYDROGEN, occurences=NB_PROTEIN_S,
         assembly_params=Vector2(11.5, 0.0), cutoff_angle=0.999,
-        orientation=Quaternion(0.087, 0.0, 0.996, 0.0),
+        orientation=Quaternion(0.0, 1.0, 0.0, 0.0),
         instance_indices=[open_conformation_indices, closed_conformation_indices])
 
     virus_protein_m = Protein(
@@ -136,14 +136,12 @@ def add_virus(bioexplorer, name, position, open_conformation_indices=list()):
         bioexplorer.add_multiple_glycans(
             assembly_name=name, glycan_type=bioexplorer.NAME_GLYCAN_HIGH_MANNOSE,
             protein_name=bioexplorer.NAME_PROTEIN_S_CLOSED, paths=HIGH_MANNOSE_PATHS,
-            indices=indices_closed, representation=PROTEIN_REPRESENTATION,
-            allowed_occurrences=closed_conformation_indices)
+            indices=indices_closed, representation=PROTEIN_REPRESENTATION)
         if open_conformation_indices:
             bioexplorer.add_multiple_glycans(
                 assembly_name=name, glycan_type=bioexplorer.NAME_GLYCAN_HIGH_MANNOSE,
                 protein_name=bioexplorer.NAME_PROTEIN_S_OPEN, paths=HIGH_MANNOSE_PATHS,
-                indices=indices_open, representation=PROTEIN_REPRESENTATION,
-                allowed_occurrences=open_conformation_indices)
+                indices=indices_open, representation=PROTEIN_REPRESENTATION)
 
         # Complex
         indices_closed = [17, 74, 149, 165, 282, 331,
@@ -152,15 +150,12 @@ def add_virus(bioexplorer, name, position, open_conformation_indices=list()):
         bioexplorer.add_multiple_glycans(
             assembly_name=name, glycan_type=bioexplorer.NAME_GLYCAN_COMPLEX,
             protein_name=bioexplorer.NAME_PROTEIN_S_CLOSED, paths=COMPLEX_PATHS,
-            indices=indices_closed,
-            representation=PROTEIN_REPRESENTATION, allowed_occurrences=closed_conformation_indices)
+            indices=indices_closed, representation=PROTEIN_REPRESENTATION)
         if open_conformation_indices:
             bioexplorer.add_multiple_glycans(
                 assembly_name=name, glycan_type=bioexplorer.NAME_GLYCAN_COMPLEX,
                 protein_name=bioexplorer.NAME_PROTEIN_S_OPEN, paths=COMPLEX_PATHS,
-                indices=indices_open,
-                representation=PROTEIN_REPRESENTATION,
-                allowed_occurrences=open_conformation_indices)
+                indices=indices_open, representation=PROTEIN_REPRESENTATION)
 
         # O-Glycans
         for index in [323, 325]:
@@ -196,7 +191,7 @@ def add_virus(bioexplorer, name, position, open_conformation_indices=list()):
 
 def add_cell(bioexplorer, name, size, height, position=Vector3()):
     ace2_receptor = Protein(
-        sources=[PDB_FOLDER + '6m1d.pdb'], occurences=20, position=Vector3(0.0, 6.0, 0.0))
+        sources=[PDB_FOLDER + '6m18.pdb'], occurences=20, position=Vector3(0.0, 6.0, 0.0))
     membrane = Membrane(
         sources=[PDB_FOLDER + 'membrane/popc.pdb'], occurences=1200000)
     cell = Cell(
@@ -210,15 +205,15 @@ def add_cell(bioexplorer, name, size, height, position=Vector3()):
             representation=PROTEIN_REPRESENTATION, assembly_name=name,
             glycan_type=bioexplorer.NAME_GLYCAN_COMPLEX,
             protein_name=bioexplorer.NAME_RECEPTOR, paths=COMPLEX_PATHS,
-            indices=[62, 99, 112, 331, 441, 699])
+            indices=[53, 90, 103, 322, 432, 690])
         bioexplorer.add_multiple_glycans(
             representation=PROTEIN_REPRESENTATION, assembly_name=name,
             glycan_type=bioexplorer.NAME_GLYCAN_HYBRID, protein_name=bioexplorer.NAME_RECEPTOR,
-            paths=HYBRID_PATHS, indices=[555])
+            paths=HYBRID_PATHS, indices=[546])
 
         indices = [
-            [164, Quaternion(0.707, 0.0, 0.707, 0.0)],
-            [739, Quaternion(0.707, 0.0, 0.707, 0.0)]
+            [155, Quaternion(0.707, 0.0, 0.707, 0.0)],
+            [730, Quaternion(0.707, 0.0, 0.707, 0.0)]
         ]
         for index in indices:
             o_glycan_name = name + '_' + bioexplorer.NAME_GLYCAN_O_GLYCAN + '_' + str(index[0])

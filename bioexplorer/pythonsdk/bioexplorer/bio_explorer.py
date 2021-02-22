@@ -1184,10 +1184,10 @@ class BioExplorer:
                     assembly_name=assembly_name,
                     name=assembly_name + '_' + protein_name +
                     '_' + glycan_type + '_' + str(path_index),
-                    source=path, protein_name=assembly_name + '_' + protein_name, chain_ids=chain_ids,
-                    atom_radius_multiplier=atom_radius_multiplier, load_bonds=load_bonds,
-                    representation=representation, recenter=True, site_indices=site_indices,
-                    orientation=orientation)
+                    source=path, protein_name=assembly_name + '_' + protein_name,
+                    chain_ids=chain_ids, atom_radius_multiplier=atom_radius_multiplier,
+                    load_bonds=load_bonds, representation=representation, recenter=True,
+                    site_indices=site_indices, orientation=orientation)
                 self.add_glycans(_glycans)
             path_index += 1
 
@@ -1280,7 +1280,7 @@ class BioExplorer:
                               SHADING_MODE_DIFFUSE_TRANSPARENCY)
         :emissions: List of light emission intensities
         :user_parameters: List of convenience parameter used by some of the shaders
-        :chameleon_modes: List of chameleon mode attributes. If receiver, material take the color of 
+        :chameleon_modes: List of chameleon mode attributes. If receiver, material take the color of
         surrounding emitter geometry
         :return: Result of the request submission
         """
@@ -1317,8 +1317,8 @@ class BioExplorer:
 
     def set_materials_from_palette(
             self, model_ids, material_ids, palette, shading_mode, specular_exponent,
-            user_parameter=None, glossiness=None, emission=None, opacity=None, reflection_index=None,
-            refraction_index=None, chameleon_mode=None):
+            user_parameter=None, glossiness=None, emission=None, opacity=None,
+            reflection_index=None, refraction_index=None, chameleon_mode=None):
         """
         Applies a palette of colors and attributes to specified materials
 
@@ -1333,7 +1333,7 @@ class BioExplorer:
         :opacity: Opacity
         :reflection_index: Reflection index
         :refraction_index: Refraction index
-        :chameleon_mode: Chameleon mode attributes. If receiver, material take the color of 
+        :chameleon_mode: Chameleon mode attributes. If receiver, material take the color of
         surrounding emitter geometry
         """
         colors = list()

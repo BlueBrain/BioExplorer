@@ -36,8 +36,8 @@ def test_mesh():
     bio_explorer.reset()
     print('BioExplorer version ' + bio_explorer.version())
 
-    mesh_source = obj_folder + 'capsule.obj'
-    scale = Vector3(50, 50, 50)
+    mesh_source = obj_folder + 'suzanne.obj'
+    scale = Vector3(5, 5, 5)
 
     # Membrane
     protein_source = pdb_folder + 'membrane/popc.pdb'
