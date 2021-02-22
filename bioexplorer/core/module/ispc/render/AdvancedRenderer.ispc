@@ -86,7 +86,7 @@ struct ShadingAttributes
     MaterialShadingMode shadingMode;
     float userParameter;
     MaterialChameleonMode chameleonMode;
-    uint32 modelId;
+    uint32 nodeId;
     vec3f indirectColor;
     float indirectIntensity;
     vec3f shadingContribution;
@@ -157,7 +157,7 @@ inline void setGeometryShadingAttributes(
     attributes.chameleonMode = undefined_chameleon_mode;
 
     // Model Id
-    attributes.modelId = 0;
+    attributes.nodeId = 0;
 
     // Process material attributes
     const uniform Material* material = dg.material;
@@ -253,7 +253,7 @@ inline void setGeometryShadingAttributes(
         attributes.chameleonMode = mat->chameleonMode;
 
         // Model Id
-        attributes.modelId = mat->modelId;
+        attributes.nodeId = mat->nodeId;
     }
 
     // Update reflected shading normal
@@ -582,7 +582,7 @@ inline vec3f getChameleonColor(const uniform AdvancedRenderer* uniform self,
                 foreach_unique(mat in objMaterial)
                 {
                     if (mat->chameleonMode == emitter &&
-                        mat->modelId == attributes.modelId)
+                        mat->nodeId == attributes.nodeId)
                     {
                         if (valid(mat->map_Kd))
                             shadingColor =

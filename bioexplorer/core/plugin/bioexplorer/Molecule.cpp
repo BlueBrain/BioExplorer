@@ -19,7 +19,6 @@
  */
 
 #include "Molecule.h"
-#include "UniqueId.h"
 
 #include <plugin/common/CommonTypes.h>
 #include <plugin/common/Logs.h>
@@ -160,8 +159,54 @@ Molecule::Molecule(Scene& scene, const size_ts& chainIds)
     , _scene(scene)
     , _chainIds(chainIds)
 {
-    // Unique ID
-    _uuid = UniqueId::get();
+}
+
+void Molecule::_computeReqSetOffset()
+{
+    for (auto& sequence : _sequenceMap)
+    {
+        std::string physicalReqSeq;
+        size_t firstReqSeq;
+        size_t previousReqSeq;
+        bool initialized{false};
+        for (const auto& atom : _atomMap)
+        {
+            if (atom.second.chainId != sequence.first)
+                continue;
+
+            if (!initialized)
+            {
+                firstReqSeq = atom.second.reqSeq;
+                previousReqSeq = firstReqSeq - 1;
+                initialized = true;
+            }
+
+            if (previousReqSeq != atom.second.reqSeq)
+            {
+                if (atom.second.reqSeq != previousReqSeq + 1)
+                    break;
+
+                physicalReqSeq +=
+                    aminoAcidMap.find(atom.second.resName)->second.shortName;
+
+                if (physicalReqSeq.length() > 10)
+                    break;
+            }
+
+            previousReqSeq = atom.second.reqSeq;
+        }
+
+        std::string theoreticalReqSeq;
+        for (const auto& aa : sequence.second.resNames)
+            theoreticalReqSeq += aminoAcidMap.find(aa)->second.shortName;
+
+        sequence.second.offset =
+            theoreticalReqSeq.find(physicalReqSeq) - firstReqSeq;
+        PLUGIN_INFO << "Sequence " << sequence.first
+                    << " offset: " << sequence.second.offset << std::endl
+                    << "Theoretical: " << theoreticalReqSeq << std::endl
+                    << "Physical   : " << physicalReqSeq << std::endl;
+    }
 }
 
 void Molecule::_computeReqSetOffset()
@@ -256,8 +301,7 @@ void Molecule::_buildAtomicStruture(const ProteinRepresentation representation,
                  static_cast<int>(
                      MaterialChameleonMode::undefined_chameleon_mode)});
 
-        props.setProperty(
-            {MATERIAL_PROPERTY_MODEL_ID, static_cast<int>(_uuid)});
+        props.setProperty({MATERIAL_PROPERTY_NODE_ID, static_cast<int>(_uuid)});
 
         material->setDiffuseColor(
             {rgb.r / 255.f, rgb.g / 255.f, rgb.b / 255.f});

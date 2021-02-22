@@ -26,7 +26,7 @@
 #define MATERIAL_PROPERTY_SHADING_MODE "shading_mode"
 #define MATERIAL_PROPERTY_USER_PARAMETER "user_parameter"
 #define MATERIAL_PROPERTY_CHAMELEON_MODE "chameleon_mode"
-#define MATERIAL_PROPERTY_MODEL_ID "model_id"
+#define MATERIAL_PROPERTY_NODE_ID "node_id"
 
 enum MaterialShadingMode
 {

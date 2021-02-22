@@ -117,7 +117,6 @@ protected:
     void _readConnect(const std::string& line);
     bool _loadChain(const size_t chainId);
 
-    uint32_t _uuid;
     Scene& _scene;
     AtomMap _atomMap;
     Residues _residues;

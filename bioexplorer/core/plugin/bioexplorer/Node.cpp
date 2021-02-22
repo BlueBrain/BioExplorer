@@ -19,10 +19,15 @@
  */
 
 #include "Node.h"
+#include "UniqueId.h"
 
 namespace bioexplorer
 {
-Node::Node() {}
+Node::Node()
+{
+    // Unique ID
+    _uuid = UniqueId::get();
+}
 
 Node::~Node() {}
 

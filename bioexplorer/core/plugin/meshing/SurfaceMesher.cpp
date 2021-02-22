@@ -124,7 +124,7 @@ ModelDescriptorPtr SurfaceMesher::generateUnionOfBalls(brayns::Scene& scene,
     ModelDescriptorPtr modelDescriptor{nullptr};
     MeshLoader meshLoader(scene);
     const std::string filename =
-        "/tmp/" + title.substr(title.find("_") + 1) + ".obj";
+        "/tmp/" + title.substr(title.find("_") + 1) + ".off";
     try
     {
         PLUGIN_INFO << "Trying to load union of balls from cache " << filename
@@ -168,8 +168,7 @@ void SurfaceMesher::_setMaterialExtraAttributes(
         props.setProperty({MATERIAL_PROPERTY_USER_PARAMETER, 1.0});
         props.setProperty({MATERIAL_PROPERTY_CHAMELEON_MODE,
                            static_cast<int>(MaterialChameleonMode::receiver)});
-        props.setProperty(
-            {MATERIAL_PROPERTY_MODEL_ID, static_cast<int>(_uuid)});
+        props.setProperty({MATERIAL_PROPERTY_NODE_ID, static_cast<int>(_uuid)});
         material.second->updateProperties(props);
     }
 }
