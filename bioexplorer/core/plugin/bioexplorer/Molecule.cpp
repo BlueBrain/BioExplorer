@@ -456,7 +456,7 @@ void Molecule::_buildModel(const std::string& assemblyName,
     PLUGIN_INFO << "---===  Protein  ===--- " << std::endl;
     PLUGIN_INFO << "Assembly name         : " << assemblyName << std::endl;
     PLUGIN_INFO << "Name                  : " << name << std::endl;
-    PLUGIN_INFO << "Adom Radius multiplier: " << atomRadiusMultiplier
+    PLUGIN_INFO << "Atom Radius multiplier: " << atomRadiusMultiplier
                 << std::endl;
     PLUGIN_INFO << "Number of atoms       : " << _atomMap.size() << std::endl;
     PLUGIN_INFO << "Number of bonds       : " << _bondsMap.size() << std::endl;
