@@ -180,7 +180,7 @@ class MovieMaker:
 
     def export_frames(self, path, size, image_format='png',
                       animation_frames=list(), quality=100, samples_per_pixel=1, start_frame=0,
-                      end_frame=0, interpupillary_distance=0.0, exportIntermediateFrames=False):
+                      end_frame=0, interpupillary_distance=0.0, export_intermediate_frames=False):
         """
         Exports frames to disk. Frames are named using a 6 digit representation of the frame number
 
@@ -190,7 +190,7 @@ class MovieMaker:
         :samples_per_pixel: Number of samples per pixels
         :start_frame: Optional value if the rendering should start at a specific frame.
         :end_frame: Optional value if the rendering should end at a specific frame.
-        :exportIntermediateFrames: Exports intermediate frames (for every sample per pixel)
+        :export_intermediate_frames: Exports intermediate frames (for every sample per pixel)
         :interpupillary_distance: Distance between pupils. Stereo mode is activated if different
         from zero. This is used to resume the rendering of a previously canceled sequence)
         :return: Result of the request submission
@@ -223,7 +223,7 @@ class MovieMaker:
         params['spp'] = samples_per_pixel
         params['startFrame'] = start_frame
         params['endFrame'] = end_frame
-        params['exportIntermediateFrames'] = exportIntermediateFrames
+        params['exportIntermediateFrames'] = export_intermediate_frames
         params['animationInformation'] = animation_frames
         values = list()
         for camera_definition in camera_definitions:
@@ -315,14 +315,14 @@ class MovieMaker:
         frame.observe(update_frame, 'value')
         display(frame)
 
-    def create_snapshot(self, size, path, samples_per_pixel, exportIntermediateFrames=True):
+    def create_snapshot(self, size, path, samples_per_pixel, export_intermediate_frames=False):
         """
         Create a snapshot of the current frame
 
         :size: Frame buffer size
         :path: Full path of the snapshot image
         :samples_per_pixel: Samples per pixel
-        :exportIntermediateFrames: If True, intermediate samples are stored to disk. Otherwise, only
+        :export_intermediate_frames: If True, intermediate samples are stored to disk. Otherwise, only
         the final accumulation is exported
         """
         application_params = self._client.get_application_parameters()
@@ -350,7 +350,8 @@ class MovieMaker:
         base_dir = os.path.dirname(path)
         self.export_frames(
             path=base_dir, animation_frames=animation_frames, size=size,
-            samples_per_pixel=samples_per_pixel, exportIntermediateFrames=exportIntermediateFrames)
+            samples_per_pixel=samples_per_pixel,
+            export_intermediate_frames=export_intermediate_frames)
 
         done = False
         while not done:
