@@ -471,17 +471,27 @@ class BioExplorer:
                     representation=representation, atom_radius_multiplier=atom_radius_multiplier)
                 self.add_sugars(o_glycan)
 
-            # High-mannose glycans on Protein M
-            self.add_multiple_glycans(
-                assembly_name=name, glycan_type=self.NAME_GLYCAN_HIGH_MANNOSE,
-                protein_name=self.NAME_PROTEIN_M, paths=high_mannose_paths,
-                representation=representation, atom_radius_multiplier=atom_radius_multiplier)
+                # High-mannose glycans on Protein M
+                indices = [5]
+                high_mannose_glycans = Sugars(
+                    orientation=Quaternion(0.707, 0.0, 0.0, 0.707),
+                    assembly_name=name, name=self.NAME_GLYCAN_HIGH_MANNOSE,
+                    protein_name=name + '_' + self.NAME_PROTEIN_M, source=high_mannose_paths[0],
+                    site_indices=indices,
+                    representation=representation
+                )
+                self.add_glycans(high_mannose_glycans)
 
-            # Complex glycans on Protein E
-            self.add_multiple_glycans(
-                assembly_name=name, glycan_type=self.NAME_GLYCAN_COMPLEX,
-                protein_name=self.NAME_PROTEIN_E, paths=complex_paths,
-                representation=representation, atom_radius_multiplier=atom_radius_multiplier)
+                # Complex glycans on Protein E
+                indices = [48, 66]
+                complex_glycans = Sugars(
+                    orientation=Quaternion(0.707, 0.0, 0.0, 0.707),
+                    assembly_name=name, name=self.NAME_GLYCAN_COMPLEX,
+                    protein_name=name + '_' + self.NAME_PROTEIN_E, source=complex_paths[0],
+                    site_indices=indices,
+                    representation=representation
+                )
+                self.add_glycans(complex_glycans)
 
         # Apply default materials
         self.apply_default_color_scheme(shading_mode=self.SHADING_MODE_BASIC)
