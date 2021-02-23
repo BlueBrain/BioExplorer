@@ -127,13 +127,11 @@ def test_virus():
             assembly_name=name, glycan_type=bio_explorer.NAME_GLYCAN_HIGH_MANNOSE,
             protein_name=bio_explorer.NAME_PROTEIN_S_CLOSED, paths=high_mannose_paths,
             indices=indices_closed, representation=protein_representation,
-            allowed_occurrences=closed_conformation_indices,
             atom_radius_multiplier=protein_radius_multiplier)
         bio_explorer.add_multiple_glycans(
             assembly_name=name, glycan_type=bio_explorer.NAME_GLYCAN_HIGH_MANNOSE,
             protein_name=bio_explorer.NAME_PROTEIN_S_OPEN, paths=high_mannose_paths,
             indices=indices_open, representation=protein_representation,
-            allowed_occurrences=open_conformation_indices,
             atom_radius_multiplier=protein_radius_multiplier)
 
         # Complex
@@ -142,13 +140,11 @@ def test_virus():
         bio_explorer.add_multiple_glycans(
             assembly_name=name, glycan_type=bio_explorer.NAME_GLYCAN_COMPLEX,
             protein_name=bio_explorer.NAME_PROTEIN_S_CLOSED, paths=complex_paths, indices=indices1,
-            representation=protein_representation, allowed_occurrences=closed_conformation_indices,
-            atom_radius_multiplier=protein_radius_multiplier)
+            representation=protein_representation, atom_radius_multiplier=protein_radius_multiplier)
         bio_explorer.add_multiple_glycans(
             assembly_name=name, glycan_type=bio_explorer.NAME_GLYCAN_COMPLEX,
             protein_name=bio_explorer.NAME_PROTEIN_S_OPEN, paths=complex_paths, indices=indices2,
-            representation=protein_representation, allowed_occurrences=open_conformation_indices,
-            atom_radius_multiplier=protein_radius_multiplier)
+            representation=protein_representation, atom_radius_multiplier=protein_radius_multiplier)
 
         # O-Glycans
         for index in [323, 325]:
@@ -161,16 +157,26 @@ def test_virus():
             bio_explorer.add_sugars(o_glycan)
 
         # High-mannose glycans on Protein M
-        bio_explorer.add_multiple_glycans(
-            assembly_name=name, glycan_type=bio_explorer.NAME_GLYCAN_HIGH_MANNOSE,
-            protein_name=bio_explorer.NAME_PROTEIN_M, paths=high_mannose_paths,
-            representation=protein_representation, atom_radius_multiplier=protein_radius_multiplier)
+        indices = [5]
+        high_mannose_glycans = Sugars(
+            orientation=Quaternion(0.707, 0.0, 0.0, 0.707),
+            assembly_name=name, name=bio_explorer.NAME_GLYCAN_HIGH_MANNOSE,
+            protein_name=name + '_' + bio_explorer.NAME_PROTEIN_M, source=high_mannose_paths[0],
+            site_indices=indices,
+            representation=protein_representation
+        )
+        bio_explorer.add_glycans(high_mannose_glycans)
 
         # Complex glycans on Protein E
-        bio_explorer.add_multiple_glycans(
-            assembly_name=name, glycan_type=bio_explorer.NAME_GLYCAN_COMPLEX,
-            protein_name=bio_explorer.NAME_PROTEIN_E, paths=complex_paths,
-            representation=protein_representation, atom_radius_multiplier=protein_radius_multiplier)
+        indices = [48, 66]
+        complex_glycans = Sugars(
+            orientation=Quaternion(0.707, 0.0, 0.0, 0.707),
+            assembly_name=name, name=bio_explorer.NAME_GLYCAN_COMPLEX,
+            protein_name=name + '_' + bio_explorer.NAME_PROTEIN_E, source=complex_paths[0],
+            site_indices=indices,
+            representation=protein_representation
+        )
+        bio_explorer.add_glycans(complex_glycans)
 
     # Apply default materials
     bio_explorer.apply_default_color_scheme(shading_mode=bio_explorer.SHADING_MODE_BASIC)

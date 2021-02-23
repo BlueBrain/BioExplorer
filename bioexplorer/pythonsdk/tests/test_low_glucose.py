@@ -168,16 +168,26 @@ def add_virus(bioexplorer, name, position, open_conformation_indices=list()):
             bioexplorer.add_sugars(o_glycan)
 
         # High-mannose glycans on Protein M
-        bioexplorer.add_multiple_glycans(
-            assembly_name=name, glycan_type=bioexplorer.NAME_GLYCAN_HIGH_MANNOSE,
-            protein_name=bioexplorer.NAME_PROTEIN_M, paths=HIGH_MANNOSE_PATHS,
-            representation=PROTEIN_REPRESENTATION)
+        indices = [5]
+        high_mannose_glycans = Sugars(
+            orientation=Quaternion(0.707, 0.0, 0.0, 0.707),
+            assembly_name=name, name=bioexplorer.NAME_GLYCAN_HIGH_MANNOSE,
+            protein_name=name + '_' + bioexplorer.NAME_PROTEIN_M, source=HIGH_MANNOSE_PATHS[0],
+            site_indices=indices,
+            representation=PROTEIN_REPRESENTATION
+        )
+        bioexplorer.add_glycans(high_mannose_glycans)
 
         # Complex glycans on Protein E
-        bioexplorer.add_multiple_glycans(
-            assembly_name=name, glycan_type=bioexplorer.NAME_GLYCAN_COMPLEX,
-            protein_name=bioexplorer.NAME_PROTEIN_E, paths=COMPLEX_PATHS,
-            representation=PROTEIN_REPRESENTATION)
+        indices = [48, 66]
+        complex_glycans = Sugars(
+            orientation=Quaternion(0.707, 0.0, 0.0, 0.707),
+            assembly_name=name, name=bioexplorer.NAME_GLYCAN_COMPLEX,
+            protein_name=name + '_' + bioexplorer.NAME_PROTEIN_E, source=COMPLEX_PATHS[0],
+            site_indices=indices,
+            representation=PROTEIN_REPRESENTATION
+        )
+        bioexplorer.add_glycans(complex_glycans)
 
     for i in range(NB_DEFENSINS):
         defensin = AssemblyProtein(
