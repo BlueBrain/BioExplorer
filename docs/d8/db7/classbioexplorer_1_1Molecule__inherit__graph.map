@@ -1,0 +1,6 @@
+<map id="bioexplorer::Molecule" name="bioexplorer::Molecule">
+<area shape="rect" id="node1" title="The Molecule class implements the 3D representation of a molecule. The object also contains metadata ..." alt="" coords="90,80,253,107"/>
+<area shape="rect" id="node3" href="$df/dc3/classbioexplorer_1_1Glycans.html" title="The Glycans class." alt="" coords="5,155,161,181"/>
+<area shape="rect" id="node4" href="$db/d87/classbioexplorer_1_1Protein.html" title="The Protein class." alt="" coords="185,155,336,181"/>
+<area shape="rect" id="node2" href="$da/dba/classbioexplorer_1_1Node.html" title="The Node class." alt="" coords="102,5,241,32"/>
+</map>

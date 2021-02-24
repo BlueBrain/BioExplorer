@@ -1,6 +1,4 @@
-# BioExplorer
-
-[![Build Status](https://travis-ci.com/BlueBrain/BioExplorer.svg?branch=master)](https://travis-ci.com/BlueBrain/BioExplorer)
+# Blue Brain BioExplorer
 
 ![banner](./bioexplorer/doc/images/BBBE_banner.png)
 
