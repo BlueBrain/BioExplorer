@@ -86,11 +86,11 @@ void _addBioExplorerFieldsRenderer(brayns::Engine &engine)
     properties.setProperty(
         {"minRayStep", 0.00001, 0.00001, 1.0, {"Smallest ray step"}});
     properties.setProperty(
-        {"nbRaySteps", 8, 2, 2048, {"Number of ray marching steps"}});
+        {"nbRaySteps", 8, 1, 2048, {"Number of ray marching steps"}});
     properties.setProperty({"nbRayRefinementSteps",
                             8,
                             1,
-                            128,
+                            1000,
                             {"Number of ray marching refinement steps"}});
     properties.setProperty({"cutoff", 2000.0, 0.0, 1e5, {"cutoff"}});
     properties.setProperty(

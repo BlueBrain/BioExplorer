@@ -24,9 +24,9 @@
 
 const float EPSILON = 1e-6f;
 
-float treeWalker(const uniform FieldsRenderer* uniform self,
-                 const vec3f& point, const varying float distance,
-                 const varying float cutoff, const varying int32 index)
+float treeWalker(const uniform FieldsRenderer* uniform self, const vec3f& point,
+                 const varying float distance, const varying float cutoff,
+                 const varying int32 index)
 {
     const uint32 begin = self->userData[self->startIndices + index * 2];
     const uint32 end = self->userData[self->startIndices + index * 2 + 1];
@@ -61,9 +61,27 @@ float treeWalker(const uniform FieldsRenderer* uniform self,
     return voxelValue;
 }
 
-inline vec3f FieldsRenderer_shadeRay(
-    const uniform FieldsRenderer* uniform self,
-    varying ScreenSample& sample)
+/**
+    Composes source and destination colors according to specified alpha
+   correction
+    @param src Source RGBA color
+    @param dst Returned destination RGBA color
+    @param alphaCorrection Alpha correction used to blend colors
+*/
+inline void composite(const varying vec4f& src, varying vec4f& dst,
+                      const varying float alphaCorrection)
+{
+    const float alpha =
+        1.f - pow(1.f - min(src.w, 1.f - 1.f / 256.f), alphaCorrection);
+    const float a = alpha * (1.f - dst.w);
+    dst.x = dst.x + src.x * a;
+    dst.y = dst.y + src.y * a;
+    dst.z = dst.z + src.z * a;
+    dst.w += (alpha * (1.f - dst.w));
+}
+
+inline vec3f FieldsRenderer_shadeRay(const uniform FieldsRenderer* uniform self,
+                                     varying ScreenSample& sample)
 {
     const Ray ray = sample.ray;
 
@@ -90,7 +108,7 @@ inline vec3f FieldsRenderer_shadeRay(
     vec4f finalColor = make_vec4f(0.f);
     bool firstVisibleVoxel = true;
 
-    while (finalColor.w < 0.999f && t < t1)
+    while (finalColor.w < 0.9f && t < t1)
     {
         const vec3f p = ray.org + t * ray.dir;
         const vec3f point = (p - self->offset) / self->spacing;
@@ -107,11 +125,14 @@ inline vec3f FieldsRenderer_shadeRay(
                 self->transferFunction->getColorForValue(self->transferFunction,
                                                          value);
             const float alpha = self->alphaCorrection * sampleOpacity;
+#if 0
             finalColor =
                 make_vec4f(make_vec3f(finalColor) * finalColor.w +
                                (1.f - finalColor.w) * sampleColor * alpha,
                            finalColor.w + sampleOpacity);
-
+#else
+            composite(make_vec4f(sampleColor, alpha), finalColor, 1.0f);
+#endif
             if (firstVisibleVoxel)
             {
                 sample.alpha = 1.f;
@@ -128,8 +149,8 @@ inline vec3f FieldsRenderer_shadeRay(
 }
 
 void FieldsRenderer_renderSample(uniform Renderer* uniform _self,
-                                            void* uniform perFrameData,
-                                            varying ScreenSample& sample)
+                                 void* uniform perFrameData,
+                                 varying ScreenSample& sample)
 {
     uniform FieldsRenderer* uniform self =
         (uniform FieldsRenderer * uniform) _self;
@@ -140,8 +161,7 @@ void FieldsRenderer_renderSample(uniform Renderer* uniform _self,
 // Exports (called from C++)
 export void* uniform FieldsRenderer_create(void* uniform cppE)
 {
-    uniform FieldsRenderer* uniform self =
-        uniform new uniform FieldsRenderer;
+    uniform FieldsRenderer* uniform self = uniform new uniform FieldsRenderer;
     Renderer_Constructor(&self->super, cppE);
     self->super.renderSample = FieldsRenderer_renderSample;
     return self;
@@ -196,7 +216,7 @@ export void FieldsRenderer_set(
 }
 
 export void FieldsRenderer_setTransferFunction(void* uniform _self,
-                                                          void* uniform value)
+                                               void* uniform value)
 {
     uniform FieldsRenderer* uniform self =
         (uniform FieldsRenderer * uniform) _self;
