@@ -38,7 +38,7 @@ Octree::Octree(const std::vector<float> &events, float voxelSize,
     , _volumeSize(0u)
     , _offsetPerLevel(nullptr)
 {
-    PLUGIN_INFO << "Nb of events :" << events.size() / 5 << std::endl;
+    PLUGIN_INFO << "Nb of events : " << events.size() / 5 << std::endl;
 
     // **************** Octree creations *******************
     // *****************************************************

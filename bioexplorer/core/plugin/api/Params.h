@@ -74,4 +74,7 @@ std::string to_json(const MaterialIds &param);
 bool from_json(BuildFields &param, const std::string &payload);
 bool from_json(ModelIdFileAccess &param, const std::string &payload);
 
+// Point cloud
+bool from_json(BuildPointCloud &param, const std::string &payload);
+
 } // namespace bioexplorer

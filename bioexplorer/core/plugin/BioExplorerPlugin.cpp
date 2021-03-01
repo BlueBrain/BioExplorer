@@ -27,6 +27,7 @@
 #include <plugin/io/CacheLoader.h>
 
 #include <brayns/common/ActionInterface.h>
+#include <brayns/common/scene/ClipPlane.h>
 #include <brayns/engineapi/Camera.h>
 #include <brayns/engineapi/Engine.h>
 #include <brayns/engineapi/FrameBuffer.h>
@@ -279,6 +280,12 @@ void BioExplorerPlugin::init()
         actionInterface->registerRequest<FileAccess, Response>(
             entryPoint,
             [&](const FileAccess &s) { return _importFieldsFromFile(s); });
+
+        entryPoint = PLUGIN_API_PREFIX + "build-point-cloud";
+        PLUGIN_INFO << "Registering '" + entryPoint + "' endpoint" << std::endl;
+        actionInterface->registerRequest<BuildPointCloud, Response>(
+            entryPoint,
+            [&](const BuildPointCloud &s) { return _buildPointCloud(s); });
     }
 
     auto &engine = _api->getEngine();
@@ -956,6 +963,78 @@ Response BioExplorerPlugin::_exportFieldsToFile(
         }
         else
             PLUGIN_THROW(std::runtime_error("Unknown model ID"));
+    }
+    CATCH_STD_EXCEPTION()
+    return response;
+}
+
+Response BioExplorerPlugin::_buildPointCloud(const BuildPointCloud &payload)
+{
+    Response response;
+    try
+    {
+        auto &scene = _api->getScene();
+
+        const auto &clippingPlanes = scene.getClipPlanes();
+        Vector4fs clipPlanes;
+        for (const auto cp : clippingPlanes)
+        {
+            const auto &p = cp->getPlane();
+            Vector4f plane{p[0], p[1], p[2], p[3]};
+            clipPlanes.push_back(plane);
+        }
+
+        auto model = scene.createModel();
+
+        // Material
+        const size_t materialId = 0;
+        auto material = model->createMaterial(materialId, "Point cloud");
+
+        brayns::PropertyMap props;
+        props.setProperty({MATERIAL_PROPERTY_SHADING_MODE,
+                           static_cast<int>(MaterialShadingMode::basic)});
+        props.setProperty({MATERIAL_PROPERTY_USER_PARAMETER, 1.0});
+        props.setProperty(
+            {MATERIAL_PROPERTY_CHAMELEON_MODE,
+             static_cast<int>(
+                 MaterialChameleonMode::undefined_chameleon_mode)});
+        props.setProperty({MATERIAL_PROPERTY_NODE_ID, static_cast<int>(0)});
+
+        material->setDiffuseColor({1.f, 1.f, 1.f});
+        material->updateProperties(props);
+
+        const auto &modelDescriptors = scene.getModelDescriptors();
+        for (const auto modelDescriptor : modelDescriptors)
+        {
+            const auto &instances = modelDescriptor->getInstances();
+            for (const auto &instance : instances)
+            {
+                const auto &tf = instance.getTransformation();
+                const auto &m = modelDescriptor->getModel();
+                const auto &spheresMap = m.getSpheres();
+                for (const auto &spheres : spheresMap)
+                {
+                    for (const auto &sphere : spheres.second)
+                    {
+                        const Vector3d center =
+                            tf.getTranslation() +
+                            tf.getRotation() * (Vector3d(sphere.center) -
+                                                tf.getRotationCenter());
+
+                        const Vector3f c = center;
+                        if (isClipped(c, clipPlanes))
+                            continue;
+
+                        model->addSphere(materialId,
+                                         {c, payload.radius * sphere.radius});
+                    }
+                }
+            }
+        }
+
+        auto md =
+            std::make_shared<ModelDescriptor>(std::move(model), "Point cloud");
+        scene.addModel(md);
     }
     CATCH_STD_EXCEPTION()
     return response;
