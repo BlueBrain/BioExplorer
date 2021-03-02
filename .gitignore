@@ -25,3 +25,7 @@ pylintrc
 pycodestyle.txt
 pylint.txt
 venv
+caches
+images
+movies
+off
