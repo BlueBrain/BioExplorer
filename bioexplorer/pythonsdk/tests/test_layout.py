@@ -101,7 +101,7 @@ def test_layout():
                              orientation=Quaternion(0, 0, 0.707, 0.707))
 
     # ACE2 Receptor
-    ace2_receptor = Protein(sources=[pdb_folder + '6m1d.pdb'])
+    ace2_receptor = Protein(sources=[pdb_folder + '6m18.pdb'])
     bio_explorer.add_protein('ACE2 receptor', ace2_receptor,
                              position=Vector3(45, line_defense - 2.5, 0),
                              orientation=Quaternion(0.5, 0.5, 1.0, 0.0))
