@@ -360,19 +360,39 @@ inline void indirectShading(const uniform AdvancedRenderer* uniform self,
                             randomDirection, i))
         {
             // Determine material of intersected geometry
-            const uniform Material* material = geometry.material;
+
+            // TODO: Optimize with launchRandomRay. No need to launch another
+            // ray again
+            Ray shadowRay;
+            shadowRay.org = intersection;
+            shadowRay.dir = randomDirection;
+            shadowRay.t0 = max(0.f, geometry.epsilon);
+            shadowRay.t = self->giDistance;
+            shadowRay.time = inf;
+            shadowRay.geomID = -1;
+            shadowRay.primID = -1;
+            shadowRay.instID = -1;
+
+            traceRay(self->super.model, shadowRay);
+
+            DifferentialGeometry intersectedGeometry;
+            postIntersect(self->super.model, intersectedGeometry, shadowRay,
+                          DG_MATERIALID | DG_TEXCOORD | DG_COLOR);
+
+            const uniform Material* material = intersectedGeometry.material;
             const uniform AdvancedMaterial* objMaterial =
                 (const uniform AdvancedMaterial*)material;
             if (objMaterial)
                 foreach_unique(mat in objMaterial)
                 {
-                    if (mat->a > 0.f)
+                    // if (mat->a > 0.f)
                     {
                         if (valid(mat->map_Kd))
                             shadingColor =
                                 shadingColor + get3f(mat->map_Kd, geometry);
                         else
                             shadingColor = shadingColor + mat->Kd;
+                        shadingPower += 1.f;
 
                         // Emission
                         if (valid(mat->map_a))
