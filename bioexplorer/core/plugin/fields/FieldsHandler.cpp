@@ -124,8 +124,8 @@ void FieldsHandler::_buildOctree(const brayns::Scene& scene,
 
     // Double AABB size
     glm::vec3 center = (minAABB + maxAABB) / 2.f;
-    minAABB = center - sceneSize * 0.75f;
-    maxAABB = center + sceneSize * 0.75f;
+    minAABB = center - sceneSize * 0.5f;
+    maxAABB = center + sceneSize * 0.5f;
     _offset = minAABB;
 
     // Build acceleration structure
@@ -148,6 +148,8 @@ void FieldsHandler::_buildOctree(const brayns::Scene& scene,
     PLUGIN_INFO << "Volume dimensions : [" << _dimensions.x << ", "
                 << _dimensions.y << ", " << _dimensions.z
                 << "] = " << volumeSize << " bytes" << std::endl;
+    PLUGIN_INFO << "Element offset    : [" << _offset.x << ", " << _offset.y
+                << ", " << _offset.z << "] " << std::endl;
 
     const auto& indices = morphoOctree.getFlatIndexes();
     PLUGIN_INFO << "Indices size      : " << indices.size() << std::endl;

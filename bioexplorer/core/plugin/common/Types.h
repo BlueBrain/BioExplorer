@@ -771,4 +771,14 @@ struct FileAccess
     std::string filename;
     XYZFileFormat fileFormat;
 };
+
+/**
+ * @brief Strucuture defining how to build a point cloud from the scene
+ *
+ */
+struct BuildPointCloud
+{
+    float radius;
+};
+
 } // namespace bioexplorer

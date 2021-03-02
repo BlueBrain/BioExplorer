@@ -486,4 +486,18 @@ bool from_json(ModelIdFileAccess &param, const std::string &payload)
     return true;
 }
 
+bool from_json(BuildPointCloud &param, const std::string &payload)
+{
+    try
+    {
+        auto js = nlohmann::json::parse(payload);
+        FROM_JSON(param, js, radius);
+    }
+    catch (...)
+    {
+        return false;
+    }
+    return true;
+}
+
 } // namespace bioexplorer

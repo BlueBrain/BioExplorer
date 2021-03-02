@@ -85,6 +85,9 @@ private:
     Response _setMaterials(const MaterialsDescriptor &payload);
     MaterialIds _getMaterialIds(const ModelId &modelId);
 
+    // Point clouds
+    Response _buildPointCloud(const BuildPointCloud &payload);
+
     AssemblyMap _assemblies;
     bool _dirty{false};
 
