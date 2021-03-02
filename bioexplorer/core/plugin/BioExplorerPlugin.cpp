@@ -914,7 +914,8 @@ Response BioExplorerPlugin::_buildFields(const BuildFields &payload)
         PLUGIN_INFO << "Building Fields from scene" << std::endl;
         auto &scene = _api->getScene();
         FieldsHandlerPtr handler =
-            std::make_shared<FieldsHandler>(scene, payload.voxelSize);
+            std::make_shared<FieldsHandler>(scene, payload.voxelSize,
+                                            payload.density);
         _attachFieldsHandler(handler);
     }
     CATCH_STD_EXCEPTION()

@@ -448,6 +448,7 @@ bool from_json(BuildFields &param, const std::string &payload)
     {
         auto js = nlohmann::json::parse(payload);
         FROM_JSON(param, js, voxelSize);
+        FROM_JSON(param, js, density);
     }
     catch (...)
     {

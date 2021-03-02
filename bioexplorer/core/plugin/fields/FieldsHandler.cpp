@@ -31,19 +31,20 @@
 
 namespace bioexplorer
 {
-FieldsHandler::FieldsHandler(const brayns::Scene& scene, const float voxelSize)
-    : brayns::AbstractSimulationHandler()
+FieldsHandler::FieldsHandler(const Scene& scene, const float voxelSize,
+                             const float density)
+    : AbstractSimulationHandler()
 {
     // Load simulation information from compartment reports
     _dt = 1.f;
     _nbFrames = 1;
     _unit = "microns";
     _frameSize = 1;
-    _buildOctree(scene, voxelSize);
+    _buildOctree(scene, voxelSize, density);
 }
 
 FieldsHandler::FieldsHandler(const std::string& filename)
-    : brayns::AbstractSimulationHandler()
+    : AbstractSimulationHandler()
 {
     // Import octree from file
     importFromFile(filename);
@@ -52,10 +53,15 @@ FieldsHandler::FieldsHandler(const std::string& filename)
     _unit = "microns";
 }
 
-void FieldsHandler::_buildOctree(const brayns::Scene& scene,
-                                 const float voxelSize)
+void FieldsHandler::_buildOctree(const Scene& scene, const float voxelSize,
+                                 const float density)
 {
     PLUGIN_INFO << "Building Octree" << std::endl;
+
+    if (density > 1.f || density <= 0.f)
+        PLUGIN_THROW(
+            std::runtime_error("Density should be higher > 0 and <= 1"));
+    const size_t densityRatio = 1.f / density;
 
     const auto& clippingPlanes = scene.getClipPlanes();
     Vector4fs clipPlanes;
@@ -67,6 +73,8 @@ void FieldsHandler::_buildOctree(const brayns::Scene& scene,
     }
 
     floats events;
+    uint16_t count;
+
     const auto& modelDescriptors = scene.getModelDescriptors();
     for (const auto modelDescriptor : modelDescriptors)
     {
@@ -89,11 +97,15 @@ void FieldsHandler::_buildOctree(const brayns::Scene& scene,
                     if (isClipped(c, clipPlanes))
                         continue;
 
-                    events.push_back(c.x);
-                    events.push_back(c.y);
-                    events.push_back(c.z);
-                    events.push_back(sphere.radius);
-                    events.push_back(sphere.radius);
+                    if (count % densityRatio == 0)
+                    {
+                        events.push_back(c.x);
+                        events.push_back(c.y);
+                        events.push_back(c.z);
+                        events.push_back(sphere.radius);
+                        events.push_back(sphere.radius);
+                    }
+                    ++count;
                 }
             }
         }
@@ -173,7 +185,7 @@ void FieldsHandler::_buildOctree(const brayns::Scene& scene,
 }
 
 FieldsHandler::FieldsHandler(const FieldsHandler& rhs)
-    : brayns::AbstractSimulationHandler(rhs)
+    : AbstractSimulationHandler(rhs)
 {
 }
 
@@ -228,7 +240,7 @@ void FieldsHandler::importFromFile(const std::string& filename)
     file.close();
 }
 
-brayns::AbstractSimulationHandlerPtr FieldsHandler::clone() const
+AbstractSimulationHandlerPtr FieldsHandler::clone() const
 {
     return std::make_shared<FieldsHandler>(*this);
 }

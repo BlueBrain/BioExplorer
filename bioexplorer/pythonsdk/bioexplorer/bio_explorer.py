@@ -1508,12 +1508,12 @@ class BioExplorer:
             i += 1
             progress.value = i
 
-    def build_fields(self, voxel_size):
+    def build_fields(self, voxel_size, density=1.0):
         """
         Build fields acceleration structures and creates according data handler
 
         :voxel_size: Voxel size
-        :filename: Octree filename
+        :voxel_size: Density of atoms to consider (between 0 and 1)
         :return: Result of the request submission
         """
         if self._client is None:
@@ -1521,6 +1521,7 @@ class BioExplorer:
 
         params = dict()
         params['voxelSize'] = voxel_size
+        params['density'] = density
         return self._client.rockets_client.request(
             self.PLUGIN_API_PREFIX + 'build-fields', params)
 
