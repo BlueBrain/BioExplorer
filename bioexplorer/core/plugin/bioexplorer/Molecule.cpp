@@ -300,6 +300,7 @@ void Molecule::_buildAtomicStruture(const ProteinRepresentation representation,
     {
         PLUGIN_INFO << "Building sticks (" << _atomMap.size() << " atoms)..."
                     << std::endl;
+#pragma omp parallel for
         for (const auto& atom1 : _atomMap)
             for (const auto& atom2 : _atomMap)
                 if (atom1.first != atom2.first &&
@@ -314,6 +315,7 @@ void Molecule::_buildAtomicStruture(const ProteinRepresentation representation,
                         const auto center =
                             (atom2.second.position + atom1.second.position) /
                             2.f;
+#pragma omp critical
                         model.addCylinder(atom1.first,
                                           {atom1.second.position, center,
                                            atomRadiusMultiplier * BOND_RADIUS});
