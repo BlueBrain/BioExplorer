@@ -28,6 +28,7 @@ find_package(Boost REQUIRED COMPONENTS program_options filesystem)
 find_package(glm REQUIRED SYSTEM)
 find_package(FreeImage REQUIRED)
 find_package(CGAL)
+find_package(OpenMP)
 
 include(ispc)
 
