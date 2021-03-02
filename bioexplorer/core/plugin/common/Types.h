@@ -726,6 +726,8 @@ struct BuildFields
 {
     /** Voxel size used to build the Octree acceleration structure */
     float voxelSize;
+    /** Density of atoms to consider (Between 0 and 1) */
+    float density;
 };
 
 // IO

@@ -40,7 +40,8 @@ public:
     /**
      * @brief Default constructor
      */
-    FieldsHandler(const brayns::Scene& scene, const float voxelSize);
+    FieldsHandler(const Scene& scene, const float voxelSize,
+                  const float density);
 
     /**
      * @brief Construct a new Fields Handler object
@@ -120,7 +121,8 @@ public:
     const glm::vec3& getOffset() const { return _offset; }
 
 private:
-    void _buildOctree(const brayns::Scene& scene, const float voxelSize);
+    void _buildOctree(const Scene& scene, const float voxelSize,
+                      const float density);
 
     glm::uvec3 _dimensions;
     glm::vec3 _spacing;
