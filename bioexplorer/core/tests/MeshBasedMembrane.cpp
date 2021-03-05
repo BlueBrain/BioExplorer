@@ -16,7 +16,7 @@
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
 
-#include <plugin/bioexplorer/Mesh.h>
+#include <plugin/bioexplorer/MeshBasedMembrane.h>
 #include <plugin/bioexplorer/Protein.h>
 
 #include <brayns/Brayns.h>
@@ -47,9 +47,9 @@ std::string getFileContents(const std::string& filename)
     return str;
 }
 
-MeshDescriptor getDescriptor()
+MeshBasedMembraneDescriptor getDescriptor()
 {
-    MeshDescriptor descriptor;
+    MeshBasedMembraneDescriptor descriptor;
 
     descriptor.assemblyName = "test";
     descriptor.name = "test";
@@ -70,13 +70,13 @@ MeshDescriptor getDescriptor()
     return descriptor;
 }
 
-BOOST_AUTO_TEST_CASE(mesh)
+BOOST_AUTO_TEST_CASE(meshBasedMembrane)
 {
     std::vector<const char*> argv{"brayns", "--http-server", "localhost:0",
                                   "--plugin", "BioExplorer"};
     brayns::Brayns brayns(argv.size(), argv.data());
     auto& scene = brayns.getEngine().getScene();
-    Mesh mesh(scene, getDescriptor());
+    MeshBasedMembrane meshBasedMembrane(scene, getDescriptor());
 
-    BOOST_CHECK(mesh.getProtein()->getAtoms().size() == 426);
+    BOOST_CHECK(meshBasedMembrane.getProtein()->getAtoms().size() == 426);
 }

@@ -125,10 +125,10 @@ public:
     void addProtein(const ProteinDescriptor &descriptor);
 
     /**
-     * @brief addMesh Add a mesh to the assembly
-     * @param descriptor Descriptor of the mesh
+     * @brief addMeshBasedMembrane Add a mesh based membrane to the assembly
+     * @param descriptor Descriptor of the mesh based membrane
      */
-    void addMesh(const MeshDescriptor &descriptor);
+    void addMeshBasedMembrane(const MeshBasedMembraneDescriptor &descriptor);
 
     /**
      * @brief addGlycans Add glycans to glycosilation sites of a given protein
@@ -159,7 +159,7 @@ private:
     Vector3f _position{0.f, 0.f, 0.f};
     Scene &_scene;
     ProteinMap _proteins;
-    MeshMap _meshes;
+    MeshBasedMembraneMap _meshBasedMembranes;
     MembranePtr _membrane{nullptr};
     RNASequencePtr _rnaSequence{nullptr};
     OccupiedDirections _occupiedDirections;

@@ -64,7 +64,8 @@ private:
     Response _addMembrane(const MembraneDescriptor &payload) const;
     Response _addRNASequence(const RNASequenceDescriptor &payload) const;
     Response _addProtein(const ProteinDescriptor &payload) const;
-    Response _addMesh(const MeshDescriptor &payload) const;
+    Response _addMeshBasedMembrane(
+        const MeshBasedMembraneDescriptor &payload) const;
     Response _addGlycans(const SugarsDescriptor &payload) const;
     Response _addSugars(const SugarsDescriptor &payload) const;
 

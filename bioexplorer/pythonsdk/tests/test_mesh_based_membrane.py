@@ -21,7 +21,7 @@
 # You should have received a copy of the GNU General Public License along with
 # this program.  If not, see <https://www.gnu.org/licenses/>.
 
-from bioexplorer import BioExplorer, Mesh, Vector3
+from bioexplorer import BioExplorer, MeshBasedMembrane, Vector3
 
 # pylint: disable=no-member
 # pylint: disable=missing-function-docstring
@@ -41,16 +41,16 @@ def test_mesh():
 
     # Membrane
     protein_source = pdb_folder + 'membrane/popc.pdb'
-    mesh = Mesh(mesh_source=mesh_source, protein_source=protein_source,
-                density=5.0, surface_variable_offset=2.0)
-    bio_explorer.add_mesh('Mesh', mesh, scale=scale)
+    mesh_based_membrane = MeshBasedMembrane(mesh_source=mesh_source, protein_source=protein_source,
+                                            density=5.0, surface_variable_offset=2.0)
+    bio_explorer.add_mesh_based_membrane('Mesh', mesh_based_membrane, scale=scale)
 
     # Receptors
     protein_source = pdb_folder + '6m1d.pdb'
-    mesh = Mesh(
+    mesh_based_membrane = MeshBasedMembrane(
         mesh_source=mesh_source, protein_source=protein_source,
         density=0.02, surface_fixed_offset=5.0)
-    bio_explorer.add_mesh('Receptors', mesh, scale=scale)
+    bio_explorer.add_mesh_based_membrane('Receptors', mesh_based_membrane, scale=scale)
 
 
 if __name__ == '__main__':

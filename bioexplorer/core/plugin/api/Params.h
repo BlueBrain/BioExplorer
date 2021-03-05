@@ -45,7 +45,7 @@ bool from_json(MembraneDescriptor &param, const std::string &payload);
 bool from_json(ProteinDescriptor &param, const std::string &payload);
 std::string to_json(const ProteinDescriptor &payload);
 
-bool from_json(MeshDescriptor &param, const std::string &payload);
+bool from_json(MeshBasedMembraneDescriptor &param, const std::string &payload);
 bool from_json(SugarsDescriptor &param, const std::string &payload);
 
 // Other elements

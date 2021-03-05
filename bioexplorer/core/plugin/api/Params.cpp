@@ -338,7 +338,7 @@ bool from_json(SugarsDescriptor &param, const std::string &payload)
     return true;
 }
 
-bool from_json(MeshDescriptor &param, const std::string &payload)
+bool from_json(MeshBasedMembraneDescriptor &param, const std::string &payload)
 {
     try
     {

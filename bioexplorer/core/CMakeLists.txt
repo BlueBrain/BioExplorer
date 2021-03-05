@@ -55,7 +55,7 @@ set(${NAME}_SOURCES
     plugin/bioexplorer/Node.cpp
     plugin/bioexplorer/Membrane.cpp
     plugin/bioexplorer/Glycans.cpp
-    plugin/bioexplorer/Mesh.cpp
+    plugin/bioexplorer/MeshBasedMembrane.cpp
     plugin/bioexplorer/Protein.cpp
     plugin/bioexplorer/RNASequence.cpp
     plugin/meshing/MetaballsGenerator.cpp
@@ -72,7 +72,7 @@ set(${NAME}_PUBLIC_HEADERS
     plugin/bioexplorer/Assembly.h
     plugin/bioexplorer/Node.h
     plugin/bioexplorer/Glycans.h
-    plugin/bioexplorer/Mesh.h
+    plugin/bioexplorer/MeshBasedMembrane.h
     plugin/bioexplorer/Membrane.h
     plugin/bioexplorer/Protein.h
     plugin/bioexplorer/RNASequence.h

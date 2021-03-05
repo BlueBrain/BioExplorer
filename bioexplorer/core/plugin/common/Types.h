@@ -339,10 +339,10 @@ typedef struct
     std::vector<float> orientation;
     /** Scale of the mesh */
     std::vector<float> scale;
-} MeshDescriptor;
-class Mesh;
-typedef std::shared_ptr<Mesh> MeshPtr;
-typedef std::map<std::string, MeshPtr> MeshMap;
+} MeshBasedMembraneDescriptor;
+class MeshBasedMembrane;
+typedef std::shared_ptr<MeshBasedMembrane> MeshBasedMembranePtr;
+typedef std::map<std::string, MeshBasedMembranePtr> MeshBasedMembraneMap;
 
 /**
  * @brief RNA sequence descriptor

@@ -1076,57 +1076,60 @@ class BioExplorer:
         self._client.set_renderer(accumulation=True)
         return result
 
-    def add_mesh(
-            self, name, mesh, position=Vector3(), orientation=Quaternion(), scale=Vector3()):
+    def add_mesh_based_membrane(
+            self, name, mesh_based_membrane, position=Vector3(), orientation=Quaternion(),
+            scale=Vector3()):
         """
-        Add a mesh to the scene
+        Add a mesh-based membrane to the scene
 
-        :name: Name of the mesh in the scene
-        :mesh: Description of the mesh
-        :position: Position of the mesh in the scene
-        :orientation: Orientation of the mesh in the scene
+        :name: Name of the mesh-based membrane in the scene
+        :mesh: Description of the mesh-based membrane
+        :position: Position of the mesh-based membrane in the scene
+        :orientation: Orientation of the mesh-based membrane in the scene
         :return: Result of the call to the BioExplorer backend
         """
-        assert isinstance(mesh, Mesh)
+        assert isinstance(mesh_based_membrane, MeshBasedMembrane)
 
         self.remove_assembly(name)
         self.add_assembly(name=name)
-        _mesh = AssemblyMesh(
-            assembly_name=name, name=name, mesh_source=mesh.mesh_source,
-            protein_source=mesh.protein_source,
-            density=mesh.density, surface_fixed_offset=mesh.surface_fixed_offset,
-            surface_variable_offset=mesh.surface_variable_offset,
-            atom_radius_multiplier=mesh.atom_radius_multiplier,
-            representation=mesh.representation, random_seed=mesh.random_seed, position=position,
+        _mesh_based_membrane = AssemblyMeshBasedMembrane(
+            assembly_name=name, name=name, mesh_source=mesh_based_membrane.mesh_source,
+            protein_source=mesh_based_membrane.protein_source,
+            density=mesh_based_membrane.density,
+            surface_fixed_offset=mesh_based_membrane.surface_fixed_offset,
+            surface_variable_offset=mesh_based_membrane.surface_variable_offset,
+            atom_radius_multiplier=mesh_based_membrane.atom_radius_multiplier,
+            representation=mesh_based_membrane.representation,
+            random_seed=mesh_based_membrane.random_seed, position=position,
             orientation=orientation, scale=scale)
-        return self.add_assembly_mesh(_mesh)
+        return self.add_assembly_mesh_based_membrane(_mesh_based_membrane)
 
-    def add_assembly_mesh(self, mesh):
+    def add_assembly_mesh_based_membrane(self, mesh_based_membrane):
         """
-        Add an mesh to an assembly
+        Add an mesh-based membrane to an assembly
 
-        :mesh: Description of the mesh
+        :mesh_based_membrane: Description of the mesh-based membrane
         :return: Result of the call to the BioExplorer backend
         """
-        assert isinstance(mesh, AssemblyMesh)
+        assert isinstance(mesh_based_membrane, AssemblyMeshBasedMembrane)
 
         params = dict()
-        params['assemblyName'] = mesh.assembly_name
-        params['name'] = mesh.name
-        params['meshContents'] = mesh.mesh_contents
-        params['proteinContents'] = mesh.protein_contents
-        params['recenter'] = mesh.recenter
-        params['density'] = mesh.density
-        params['surfaceFixedOffset'] = mesh.surface_fixed_offset
-        params['surfaceVariableOffset'] = mesh.surface_variable_offset
-        params['atomRadiusMultiplier'] = mesh.atom_radius_multiplier
-        params['representation'] = mesh.representation
-        params['randomSeed'] = mesh.random_seed
-        params['position'] = mesh.position.to_list()
-        params['orientation'] = mesh.orientation.to_list()
-        params['scale'] = mesh.scale.to_list()
+        params['assemblyName'] = mesh_based_membrane.assembly_name
+        params['name'] = mesh_based_membrane.name
+        params['meshContents'] = mesh_based_membrane.mesh_contents
+        params['proteinContents'] = mesh_based_membrane.protein_contents
+        params['recenter'] = mesh_based_membrane.recenter
+        params['density'] = mesh_based_membrane.density
+        params['surfaceFixedOffset'] = mesh_based_membrane.surface_fixed_offset
+        params['surfaceVariableOffset'] = mesh_based_membrane.surface_variable_offset
+        params['atomRadiusMultiplier'] = mesh_based_membrane.atom_radius_multiplier
+        params['representation'] = mesh_based_membrane.representation
+        params['randomSeed'] = mesh_based_membrane.random_seed
+        params['position'] = mesh_based_membrane.position.to_list()
+        params['orientation'] = mesh_based_membrane.orientation.to_list()
+        params['scale'] = mesh_based_membrane.scale.to_list()
         result = self._client.rockets_client.request(
-            method=self.PLUGIN_API_PREFIX + 'add-mesh', params=params)
+            method=self.PLUGIN_API_PREFIX + 'add-mesh-based-membrane', params=params)
         if not result['status']:
             raise RuntimeError(result['contents'])
         self._client.set_renderer(accumulation=True)
@@ -1652,19 +1655,19 @@ class AssemblyProtein:
         self.orientation = orientation
 
 
-class AssemblyMesh:
-    """An AssemblyMesh is a Mesh that belongs to an assembly"""
+class AssemblyMeshBasedMembrane:
+    """An AssemblyMeshBasedMembrane is a Mesh-based membrane that belongs to an assembly"""
 
     def __init__(self, assembly_name, name, mesh_source, protein_source, recenter=True, density=1,
                  surface_fixed_offset=0, surface_variable_offset=0, atom_radius_multiplier=1.0,
                  representation=BioExplorer.REPRESENTATION_ATOMS, random_seed=0, position=Vector3(),
                  orientation=Quaternion(), scale=Vector3()):
         """
-        An AssemblyMesh is a mesh that belongs to an assembly
+        An AssemblyMeshBasedMembrane is a mesh-based membrane that belongs to an assembly
 
         :assembly_name: Name of the assembly
-        :name: Name of the mesh
-        :mesh_source: Full paths to the mesh file defining the membrane shape
+        :name: Name of the mesh-based membrane
+        :mesh_source: Full paths to the mesh file defining the shape of the membrane
         :protein_source: Full paths to the PDB file defining the protein
         :recenter: Centers the protein if True
         :density: Density of proteins in surface of the mesh
@@ -1903,8 +1906,8 @@ class Protein:
         self.instance_indices = instance_indices
 
 
-class Mesh:
-    """A Mesh is a membrane shaped by a 3D mesh"""
+class MeshBasedMembrane:
+    """A MeshBasedMembrane is a membrane shaped by a 3D mesh"""
 
     def __init__(
             self, mesh_source, protein_source, density=1, surface_fixed_offset=0.0,
@@ -1912,7 +1915,7 @@ class Mesh:
             representation=BioExplorer.REPRESENTATION_ATOMS, random_seed=0, recenter=True,
             position=Vector3(), orientation=Quaternion(), scale=Vector3()):
         """
-        Mesh descriptor
+        MeshBasedMembrane descriptor
 
         :mesh_source: Full path to the OBJ file
         :protein_source: Full path to the PDB file
