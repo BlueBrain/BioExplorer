@@ -26,7 +26,7 @@ const float EPSILON = 1e-6f;
 
 float treeWalker(const uniform FieldsRenderer* uniform self, const vec3f& point,
                  const varying float distance, const varying float cutoff,
-                 const varying int32 index)
+                 const varying int32 index = 0)
 {
     const uint32 begin = self->userData[self->startIndices + index * 2];
     const uint32 end = self->userData[self->startIndices + index * 2 + 1];
@@ -91,10 +91,10 @@ inline vec3f FieldsRenderer_shadeRay(const uniform FieldsRenderer* uniform self,
         sample.z = inf;
     }
 
-    float t0, t1;
     const uniform box3f box =
         make_box3f(self->offset, self->offset + self->size * self->spacing);
 
+    float t0, t1;
     intersectBox(ray, box, t0, t1);
     t0 = max(self->minRayStep, t0);
 
@@ -114,7 +114,7 @@ inline vec3f FieldsRenderer_shadeRay(const uniform FieldsRenderer* uniform self,
         const vec3f point = (p - self->offset) / self->spacing;
 
         const float value =
-            treeWalker(self, point, self->distance, self->cutoff, 0);
+            treeWalker(self, point, self->distance, self->cutoff);
 
         const float sampleOpacity =
             self->transferFunction->getOpacityForValue(self->transferFunction,
@@ -126,17 +126,17 @@ inline vec3f FieldsRenderer_shadeRay(const uniform FieldsRenderer* uniform self,
                                                          value);
             const float alpha = self->alphaCorrection * sampleOpacity;
             composite(make_vec4f(sampleColor, alpha), finalColor, 1.0f);
+
             if (firstVisibleVoxel)
-            {
-                sample.alpha = 1.f;
                 sample.z = min(t, sample.z);
-            }
+
             firstVisibleVoxel = false;
         }
 
         t += step;
     }
 
+    sample.alpha = finalColor.w;
     return clamp(make_vec3f(finalColor) * self->exposure, make_vec3f(0.f),
                  make_vec3f(1.f));
 }
