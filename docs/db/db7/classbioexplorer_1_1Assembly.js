@@ -4,7 +4,7 @@ var classbioexplorer_1_1Assembly =
     [ "~Assembly", "db/db7/classbioexplorer_1_1Assembly.html#a57209ab4209a88e61fa1de6a8233bf73", null ],
     [ "addGlycans", "db/db7/classbioexplorer_1_1Assembly.html#a52c832e91f5540275d2052a165f9a8b7", null ],
     [ "addMembrane", "db/db7/classbioexplorer_1_1Assembly.html#ae0ddb89b63ade59e32c96d3bb221495e", null ],
-    [ "addMesh", "db/db7/classbioexplorer_1_1Assembly.html#a6ad412cac80e5b04d7965651b3866889", null ],
+    [ "addMeshBasedMembrane", "db/db7/classbioexplorer_1_1Assembly.html#aeb7c6ae2e6884502776c10140068e10e", null ],
     [ "addProtein", "db/db7/classbioexplorer_1_1Assembly.html#a4436566c518ec5c5420f4b3f48298a44", null ],
     [ "addRNASequence", "db/db7/classbioexplorer_1_1Assembly.html#a84fc6172a8f5929533b26b0591c1ce28", null ],
     [ "addSugars", "db/db7/classbioexplorer_1_1Assembly.html#ac10375c948e937d3ced9be1d7f0bd8f8", null ],

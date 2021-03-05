@@ -121,45 +121,47 @@ $(document).ready(function(){initNavTree('d9/d68/FieldsHandler_8h_source.html','
 <div class="line"><a name="l00037"></a><span class="lineno"><a class="line" href="../../dc/d44/classbioexplorer_1_1FieldsHandler.html">   37</a></span>&#160;<span class="keyword">class </span><a class="code" href="../../dc/d44/classbioexplorer_1_1FieldsHandler.html">FieldsHandler</a> : <span class="keyword">public</span> brayns::AbstractSimulationHandler</div>
 <div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;{</div>
 <div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;<span class="keyword">public</span>:</div>
-<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;    <a class="code" href="../../dc/d44/classbioexplorer_1_1FieldsHandler.html">FieldsHandler</a>(<span class="keyword">const</span> brayns::Scene&amp; scene, <span class="keyword">const</span> <span class="keywordtype">float</span> voxelSize);</div>
-<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160; </div>
-<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;    <a class="code" href="../../dc/d44/classbioexplorer_1_1FieldsHandler.html">FieldsHandler</a>(<span class="keyword">const</span> std::string&amp; filename);</div>
-<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160; </div>
-<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;    <a class="code" href="../../dc/d44/classbioexplorer_1_1FieldsHandler.html">FieldsHandler</a>(<span class="keyword">const</span> <a class="code" href="../../dc/d44/classbioexplorer_1_1FieldsHandler.html">FieldsHandler</a>&amp; rhs);</div>
-<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160; </div>
-<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;    ~<a class="code" href="../../dc/d44/classbioexplorer_1_1FieldsHandler.html">FieldsHandler</a>();</div>
-<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160; </div>
-<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;    <span class="keywordtype">void</span>* getFrameData(<span class="keyword">const</span> uint32_t) <span class="keyword">final</span>;</div>
-<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160; </div>
-<div class="line"><a name="l00078"></a><span class="lineno"><a class="line" href="../../dc/d44/classbioexplorer_1_1FieldsHandler.html#a6d3267912002538960a102a30a9a3bd3">   78</a></span>&#160;    <span class="keywordtype">bool</span> <a class="code" href="../../dc/d44/classbioexplorer_1_1FieldsHandler.html#a6d3267912002538960a102a30a9a3bd3">isReady</a>() const final { <span class="keywordflow">return</span> <span class="keyword">true</span>; }</div>
-<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160; </div>
-<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;    brayns::AbstractSimulationHandlerPtr clone() const final;</div>
-<div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160; </div>
-<div class="line"><a name="l00092"></a><span class="lineno">   92</span>&#160;    <span class="keywordtype">void</span> exportToFile(const std::<span class="keywordtype">string</span>&amp; filename);</div>
-<div class="line"><a name="l00093"></a><span class="lineno">   93</span>&#160; </div>
-<div class="line"><a name="l00099"></a><span class="lineno">   99</span>&#160;    <span class="keywordtype">void</span> importFromFile(const std::<span class="keywordtype">string</span>&amp; filename);</div>
-<div class="line"><a name="l00100"></a><span class="lineno">  100</span>&#160; </div>
-<div class="line"><a name="l00106"></a><span class="lineno"><a class="line" href="../../dc/d44/classbioexplorer_1_1FieldsHandler.html#a972df8db59f716e2f546b4fedab3802a">  106</a></span>&#160;    const glm::uvec3&amp; getDimensions()<span class="keyword"> const </span>{ <span class="keywordflow">return</span> _dimensions; }</div>
-<div class="line"><a name="l00107"></a><span class="lineno">  107</span>&#160; </div>
-<div class="line"><a name="l00113"></a><span class="lineno"><a class="line" href="../../dc/d44/classbioexplorer_1_1FieldsHandler.html#ac2116246f1fac20a8d09a6e073dd70d6">  113</a></span>&#160;    <span class="keyword">const</span> glm::vec3&amp; <a class="code" href="../../dc/d44/classbioexplorer_1_1FieldsHandler.html#ac2116246f1fac20a8d09a6e073dd70d6">getSpacing</a>()<span class="keyword"> const </span>{ <span class="keywordflow">return</span> _spacing; }</div>
-<div class="line"><a name="l00114"></a><span class="lineno">  114</span>&#160; </div>
-<div class="line"><a name="l00120"></a><span class="lineno"><a class="line" href="../../dc/d44/classbioexplorer_1_1FieldsHandler.html#a94a59e50825d91978381b15a7109d270">  120</a></span>&#160;    <span class="keyword">const</span> glm::vec3&amp; <a class="code" href="../../dc/d44/classbioexplorer_1_1FieldsHandler.html#a94a59e50825d91978381b15a7109d270">getOffset</a>()<span class="keyword"> const </span>{ <span class="keywordflow">return</span> _offset; }</div>
-<div class="line"><a name="l00121"></a><span class="lineno">  121</span>&#160; </div>
-<div class="line"><a name="l00122"></a><span class="lineno">  122</span>&#160;<span class="keyword">private</span>:</div>
-<div class="line"><a name="l00123"></a><span class="lineno">  123</span>&#160;    <span class="keywordtype">void</span> _buildOctree(<span class="keyword">const</span> brayns::Scene&amp; scene, <span class="keyword">const</span> <span class="keywordtype">float</span> voxelSize);</div>
-<div class="line"><a name="l00124"></a><span class="lineno">  124</span>&#160; </div>
-<div class="line"><a name="l00125"></a><span class="lineno">  125</span>&#160;    glm::uvec3 _dimensions;</div>
-<div class="line"><a name="l00126"></a><span class="lineno">  126</span>&#160;    glm::vec3 _spacing;</div>
-<div class="line"><a name="l00127"></a><span class="lineno">  127</span>&#160;    glm::vec3 _offset;</div>
-<div class="line"><a name="l00128"></a><span class="lineno">  128</span>&#160;};</div>
-<div class="line"><a name="l00129"></a><span class="lineno">  129</span>&#160;<span class="keyword">typedef</span> std::shared_ptr&lt;FieldsHandler&gt; FieldsHandlerPtr;</div>
-<div class="line"><a name="l00130"></a><span class="lineno">  130</span>&#160;} <span class="comment">// namespace bioexplorer</span></div>
+<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;    <a class="code" href="../../dc/d44/classbioexplorer_1_1FieldsHandler.html">FieldsHandler</a>(<span class="keyword">const</span> Scene&amp; scene, <span class="keyword">const</span> <span class="keywordtype">float</span> voxelSize,</div>
+<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;                  <span class="keyword">const</span> <span class="keywordtype">float</span> density);</div>
+<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160; </div>
+<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;    <a class="code" href="../../dc/d44/classbioexplorer_1_1FieldsHandler.html">FieldsHandler</a>(<span class="keyword">const</span> std::string&amp; filename);</div>
+<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160; </div>
+<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;    <a class="code" href="../../dc/d44/classbioexplorer_1_1FieldsHandler.html">FieldsHandler</a>(<span class="keyword">const</span> <a class="code" href="../../dc/d44/classbioexplorer_1_1FieldsHandler.html">FieldsHandler</a>&amp; rhs);</div>
+<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160; </div>
+<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;    ~<a class="code" href="../../dc/d44/classbioexplorer_1_1FieldsHandler.html">FieldsHandler</a>();</div>
+<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160; </div>
+<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;    <span class="keywordtype">void</span>* getFrameData(<span class="keyword">const</span> uint32_t) <span class="keyword">final</span>;</div>
+<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160; </div>
+<div class="line"><a name="l00079"></a><span class="lineno"><a class="line" href="../../dc/d44/classbioexplorer_1_1FieldsHandler.html#a6d3267912002538960a102a30a9a3bd3">   79</a></span>&#160;    <span class="keywordtype">bool</span> <a class="code" href="../../dc/d44/classbioexplorer_1_1FieldsHandler.html#a6d3267912002538960a102a30a9a3bd3">isReady</a>() const final { <span class="keywordflow">return</span> <span class="keyword">true</span>; }</div>
+<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160; </div>
+<div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;    brayns::AbstractSimulationHandlerPtr clone() const final;</div>
+<div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160; </div>
+<div class="line"><a name="l00093"></a><span class="lineno">   93</span>&#160;    <span class="keywordtype">void</span> exportToFile(const std::<span class="keywordtype">string</span>&amp; filename);</div>
+<div class="line"><a name="l00094"></a><span class="lineno">   94</span>&#160; </div>
+<div class="line"><a name="l00100"></a><span class="lineno">  100</span>&#160;    <span class="keywordtype">void</span> importFromFile(const std::<span class="keywordtype">string</span>&amp; filename);</div>
+<div class="line"><a name="l00101"></a><span class="lineno">  101</span>&#160; </div>
+<div class="line"><a name="l00107"></a><span class="lineno"><a class="line" href="../../dc/d44/classbioexplorer_1_1FieldsHandler.html#a972df8db59f716e2f546b4fedab3802a">  107</a></span>&#160;    const glm::uvec3&amp; getDimensions()<span class="keyword"> const </span>{ <span class="keywordflow">return</span> _dimensions; }</div>
+<div class="line"><a name="l00108"></a><span class="lineno">  108</span>&#160; </div>
+<div class="line"><a name="l00114"></a><span class="lineno"><a class="line" href="../../dc/d44/classbioexplorer_1_1FieldsHandler.html#ac2116246f1fac20a8d09a6e073dd70d6">  114</a></span>&#160;    <span class="keyword">const</span> glm::vec3&amp; <a class="code" href="../../dc/d44/classbioexplorer_1_1FieldsHandler.html#ac2116246f1fac20a8d09a6e073dd70d6">getSpacing</a>()<span class="keyword"> const </span>{ <span class="keywordflow">return</span> _spacing; }</div>
+<div class="line"><a name="l00115"></a><span class="lineno">  115</span>&#160; </div>
+<div class="line"><a name="l00121"></a><span class="lineno"><a class="line" href="../../dc/d44/classbioexplorer_1_1FieldsHandler.html#a94a59e50825d91978381b15a7109d270">  121</a></span>&#160;    <span class="keyword">const</span> glm::vec3&amp; <a class="code" href="../../dc/d44/classbioexplorer_1_1FieldsHandler.html#a94a59e50825d91978381b15a7109d270">getOffset</a>()<span class="keyword"> const </span>{ <span class="keywordflow">return</span> _offset; }</div>
+<div class="line"><a name="l00122"></a><span class="lineno">  122</span>&#160; </div>
+<div class="line"><a name="l00123"></a><span class="lineno">  123</span>&#160;<span class="keyword">private</span>:</div>
+<div class="line"><a name="l00124"></a><span class="lineno">  124</span>&#160;    <span class="keywordtype">void</span> _buildOctree(<span class="keyword">const</span> Scene&amp; scene, <span class="keyword">const</span> <span class="keywordtype">float</span> voxelSize,</div>
+<div class="line"><a name="l00125"></a><span class="lineno">  125</span>&#160;                      <span class="keyword">const</span> <span class="keywordtype">float</span> density);</div>
+<div class="line"><a name="l00126"></a><span class="lineno">  126</span>&#160; </div>
+<div class="line"><a name="l00127"></a><span class="lineno">  127</span>&#160;    glm::uvec3 _dimensions;</div>
+<div class="line"><a name="l00128"></a><span class="lineno">  128</span>&#160;    glm::vec3 _spacing;</div>
+<div class="line"><a name="l00129"></a><span class="lineno">  129</span>&#160;    glm::vec3 _offset;</div>
+<div class="line"><a name="l00130"></a><span class="lineno">  130</span>&#160;};</div>
+<div class="line"><a name="l00131"></a><span class="lineno">  131</span>&#160;<span class="keyword">typedef</span> std::shared_ptr&lt;FieldsHandler&gt; FieldsHandlerPtr;</div>
+<div class="line"><a name="l00132"></a><span class="lineno">  132</span>&#160;} <span class="comment">// namespace bioexplorer</span></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
-<div class="ttc" id="aclassbioexplorer_1_1FieldsHandler_html_ac2116246f1fac20a8d09a6e073dd70d6"><div class="ttname"><a href="../../dc/d44/classbioexplorer_1_1FieldsHandler.html#ac2116246f1fac20a8d09a6e073dd70d6">bioexplorer::FieldsHandler::getSpacing</a></div><div class="ttdeci">const glm::vec3 &amp; getSpacing() const</div><div class="ttdoc">Get the Spacing object.</div><div class="ttdef"><b>Definition:</b> <a href="../../d9/d68/FieldsHandler_8h_source.html#l00113">FieldsHandler.h:113</a></div></div>
-<div class="ttc" id="aclassbioexplorer_1_1FieldsHandler_html_a94a59e50825d91978381b15a7109d270"><div class="ttname"><a href="../../dc/d44/classbioexplorer_1_1FieldsHandler.html#a94a59e50825d91978381b15a7109d270">bioexplorer::FieldsHandler::getOffset</a></div><div class="ttdeci">const glm::vec3 &amp; getOffset() const</div><div class="ttdoc">Get the Offset object.</div><div class="ttdef"><b>Definition:</b> <a href="../../d9/d68/FieldsHandler_8h_source.html#l00120">FieldsHandler.h:120</a></div></div>
+<div class="ttc" id="aclassbioexplorer_1_1FieldsHandler_html_ac2116246f1fac20a8d09a6e073dd70d6"><div class="ttname"><a href="../../dc/d44/classbioexplorer_1_1FieldsHandler.html#ac2116246f1fac20a8d09a6e073dd70d6">bioexplorer::FieldsHandler::getSpacing</a></div><div class="ttdeci">const glm::vec3 &amp; getSpacing() const</div><div class="ttdoc">Get the Spacing object.</div><div class="ttdef"><b>Definition:</b> <a href="../../d9/d68/FieldsHandler_8h_source.html#l00114">FieldsHandler.h:114</a></div></div>
+<div class="ttc" id="aclassbioexplorer_1_1FieldsHandler_html_a94a59e50825d91978381b15a7109d270"><div class="ttname"><a href="../../dc/d44/classbioexplorer_1_1FieldsHandler.html#a94a59e50825d91978381b15a7109d270">bioexplorer::FieldsHandler::getOffset</a></div><div class="ttdeci">const glm::vec3 &amp; getOffset() const</div><div class="ttdoc">Get the Offset object.</div><div class="ttdef"><b>Definition:</b> <a href="../../d9/d68/FieldsHandler_8h_source.html#l00121">FieldsHandler.h:121</a></div></div>
 <div class="ttc" id="aclassbioexplorer_1_1FieldsHandler_html"><div class="ttname"><a href="../../dc/d44/classbioexplorer_1_1FieldsHandler.html">bioexplorer::FieldsHandler</a></div><div class="ttdoc">The FieldsHandler class handles electro-magnetic fields data structures.</div><div class="ttdef"><b>Definition:</b> <a href="../../d9/d68/FieldsHandler_8h_source.html#l00037">FieldsHandler.h:37</a></div></div>
-<div class="ttc" id="aclassbioexplorer_1_1FieldsHandler_html_a6d3267912002538960a102a30a9a3bd3"><div class="ttname"><a href="../../dc/d44/classbioexplorer_1_1FieldsHandler.html#a6d3267912002538960a102a30a9a3bd3">bioexplorer::FieldsHandler::isReady</a></div><div class="ttdeci">bool isReady() const final</div><div class="ttdef"><b>Definition:</b> <a href="../../d9/d68/FieldsHandler_8h_source.html#l00078">FieldsHandler.h:78</a></div></div>
+<div class="ttc" id="aclassbioexplorer_1_1FieldsHandler_html_a6d3267912002538960a102a30a9a3bd3"><div class="ttname"><a href="../../dc/d44/classbioexplorer_1_1FieldsHandler.html#a6d3267912002538960a102a30a9a3bd3">bioexplorer::FieldsHandler::isReady</a></div><div class="ttdeci">bool isReady() const final</div><div class="ttdef"><b>Definition:</b> <a href="../../d9/d68/FieldsHandler_8h_source.html#l00079">FieldsHandler.h:79</a></div></div>
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
