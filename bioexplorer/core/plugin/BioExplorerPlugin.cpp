@@ -712,7 +712,7 @@ Response BioExplorerPlugin::_addGrid(const AddGrid &payload)
 
             // X
             material = model->createMaterial(4, "x_axis");
-            material->setDiffuseColor({1, 0, 0});
+            material->setDiffuseColor(red);
             material->setProperties(props);
 
             model->addCylinder(4,
@@ -727,7 +727,7 @@ Response BioExplorerPlugin::_addGrid(const AddGrid &payload)
 
             // Y
             material = model->createMaterial(5, "y_axis");
-            material->setDiffuseColor({0, 1, 0});
+            material->setDiffuseColor(green);
             material->setProperties(props);
 
             model->addCylinder(5,
@@ -742,7 +742,7 @@ Response BioExplorerPlugin::_addGrid(const AddGrid &payload)
 
             // Z
             material = model->createMaterial(6, "z_axis");
-            material->setDiffuseColor({0, 0, 1});
+            material->setDiffuseColor(blue);
             material->setProperties(props);
 
             model->addCylinder(6,
