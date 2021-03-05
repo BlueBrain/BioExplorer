@@ -264,9 +264,9 @@ inline void setGeometryShadingAttributes(
 inline bool launchRandomRay(
     const uniform AdvancedRenderer* uniform self, varying ScreenSample& sample,
     const varying vec3f& intersection, const varying vec3f& normal,
-    DifferentialGeometry& geometry, varying vec3f& backgroundColor,
-    varying float& distanceToIntersection, varying vec3f& randomDirection,
-    const uint32 iteration)
+    varying vec3f& backgroundColor, varying float& distanceToIntersection,
+    varying vec3f& randomDirection, varying vec3f& color,
+    varying float& emission, const uint32 iteration, const float epsilon)
 {
     randomDirection =
         getRandomVector(self->useHardwareRandomizer, self->super.fb->size.x,
@@ -281,7 +281,7 @@ inline bool launchRandomRay(
     Ray randomRay;
     randomRay.org = intersection;
     randomRay.dir = randomDirection;
-    randomRay.t0 = max(0.f, geometry.epsilon);
+    randomRay.t0 = epsilon;
     randomRay.t = self->giDistance;
     randomRay.time = inf;
     randomRay.primID = -1;
@@ -304,7 +304,10 @@ inline bool launchRandomRay(
         }
 
         DifferentialGeometry dg;
-        postIntersect(self->super.model, dg, randomRay, DG_MATERIALID);
+        postIntersect(self->super.model, dg, randomRay,
+                      DG_NG | DG_NS | DG_NORMALIZE | DG_TANGENTS |
+                          DG_FACEFORWARD | DG_MATERIALID | DG_COLOR |
+                          DG_TEXCOORD);
 
         uniform AdvancedMaterial* objMaterial =
             (uniform AdvancedMaterial*)dg.material;
@@ -318,6 +321,21 @@ inline bool launchRandomRay(
 
                     // Random ray hits a primitive
                     distanceToIntersection = randomRay.t * randomRay.t;
+
+                    // Kd
+                    if (valid(mat->map_Kd))
+                        color = color + get3f(mat->map_Kd, dg);
+                    else
+                        color = color + mat->Kd;
+
+                    // Emission
+                    if (valid(mat->map_a))
+                    {
+                        vec3f Ka = get3f(mat->map_a, dg);
+                        emission += reduce_max(Ka);
+                    }
+                    else
+                        emission += mat->a;
                 }
             }
         else
@@ -338,7 +356,8 @@ inline void indirectShading(const uniform AdvancedRenderer* uniform self,
                             const varying vec3f& intersection,
                             const varying vec3f& normal,
                             varying vec3f& indirectColor,
-                            varying float& indirectIntensity)
+                            varying float& indirectIntensity,
+                            const float epsilon)
 {
     if (self->giSamples == 0)
         return;
@@ -348,55 +367,32 @@ inline void indirectShading(const uniform AdvancedRenderer* uniform self,
 
     float shadingPower = 0.f;
     vec3f shadingColor = make_vec3f(0.f);
-    uint32 counter = 1;
 
     for (uint32 i = 0; i < self->giSamples; ++i)
     {
         // Launch a random ray
         vec3f randomDirection;
-        DifferentialGeometry geometry;
-        if (launchRandomRay(self, sample, intersection, normal, geometry,
-                            backgroundColor, distanceToIntersection,
-                            randomDirection, i))
+        vec3f color = make_vec3f(0.f);
+        float emission = 0.f;
+        if (launchRandomRay(self, sample, intersection, normal, backgroundColor,
+                            distanceToIntersection, randomDirection, color,
+                            emission, i, epsilon))
         {
-            // Determine material of intersected geometry
-            const uniform Material* material = geometry.material;
-            const uniform AdvancedMaterial* objMaterial =
-                (const uniform AdvancedMaterial*)material;
-            if (objMaterial)
-                foreach_unique(mat in objMaterial)
-                {
-                    if (mat->a > 0.f)
-                    {
-                        if (valid(mat->map_Kd))
-                            shadingColor =
-                                shadingColor + get3f(mat->map_Kd, geometry);
-                        else
-                            shadingColor = shadingColor + mat->Kd;
+            // Kd
+            shadingColor = shadingColor + color;
 
-                        // Emission
-                        if (valid(mat->map_a))
-                        {
-                            vec3f Ka = get3f(mat->map_a, geometry);
-                            shadingPower = shadingPower + reduce_max(Ka);
-                        }
-                        else
-                            shadingPower = shadingPower + mat->a;
-
-                        ++counter;
-                    }
-                }
+            // Emission
+            shadingPower += 1.f + emission;
         }
         else
         {
             shadingColor = shadingColor + backgroundColor;
             shadingPower = shadingPower + DEFAULT_SKY_POWER;
-            ++counter;
         }
     }
 
-    indirectColor = indirectColor + shadingColor / (float)(counter);
-    indirectIntensity = indirectIntensity + shadingPower / (float)(counter);
+    indirectColor = indirectColor + shadingColor / self->giSamples;
+    indirectIntensity = indirectIntensity + shadingPower / self->giSamples;
 }
 
 inline float shadedLightIntensity(varying ScreenSample& sample,
@@ -447,7 +443,10 @@ inline float shadedLightIntensity(varying ScreenSample& sample,
 
             DifferentialGeometry shadowingGeometry;
             postIntersect(attributes.self->super.model, shadowingGeometry,
-                          shadowRay, DG_MATERIALID | DG_TEXCOORD | DG_COLOR);
+                          shadowRay,
+                          DG_NG | DG_NS | DG_NORMALIZE | DG_TANGENTS |
+                              DG_FACEFORWARD | DG_MATERIALID | DG_COLOR |
+                              DG_TEXCOORD);
 
             uniform AdvancedMaterial* objMaterial =
                 (uniform AdvancedMaterial*)shadowingGeometry.material;
@@ -511,7 +510,7 @@ inline void computeIndirectShading(DifferentialGeometry& dg,
 {
     indirectShading(attributes.self, sample, attributes.origin,
                     attributes.normal, attributes.indirectColor,
-                    attributes.indirectIntensity);
+                    attributes.indirectIntensity, dg.epsilon);
 }
 
 inline void processShadows(DifferentialGeometry& dg,
@@ -865,7 +864,8 @@ inline vec3f AdvancedRenderer_shadeRay(
             DifferentialGeometry dg;
             postIntersect(self->super.model, dg, ray,
                           DG_NG | DG_NS | DG_NORMALIZE | DG_TANGENTS |
-                              DG_MATERIALID | DG_COLOR | DG_TEXCOORD);
+                              DG_FACEFORWARD | DG_MATERIALID | DG_COLOR |
+                              DG_TEXCOORD);
 
             // Get intersection information
             // Initialize geometry shading attributes
