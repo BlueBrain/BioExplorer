@@ -13,6 +13,7 @@ var hierarchy =
     [ "bioexplorer::AssemblyTransformationsDescriptor", "db/d89/structbioexplorer_1_1AssemblyTransformationsDescriptor.html", null ],
     [ "bioexplorer::Atom", "db/d01/structbioexplorer_1_1Atom.html", null ],
     [ "bioexplorer::BuildFields", "d7/dc9/structbioexplorer_1_1BuildFields.html", null ],
+    [ "bioexplorer::BuildPointCloud", "d6/d18/structbioexplorer_1_1BuildPointCloud.html", null ],
     [ "Camera", null, [
       [ "bioexplorer::PerspectiveStereoCamera", "d3/d23/structbioexplorer_1_1PerspectiveStereoCamera.html", null ]
     ] ],
@@ -31,13 +32,13 @@ var hierarchy =
     [ "bioexplorer::MaterialIds", "d2/d2b/structbioexplorer_1_1MaterialIds.html", null ],
     [ "bioexplorer::MaterialsDescriptor", "df/d61/structbioexplorer_1_1MaterialsDescriptor.html", null ],
     [ "bioexplorer::MembraneDescriptor", "de/d94/structbioexplorer_1_1MembraneDescriptor.html", null ],
-    [ "bioexplorer::MeshDescriptor", "dc/d2e/structbioexplorer_1_1MeshDescriptor.html", null ],
+    [ "bioexplorer::MeshBasedMembraneDescriptor", "d7/d2f/structbioexplorer_1_1MeshBasedMembraneDescriptor.html", null ],
     [ "bioexplorer::MetaballsGenerator", "da/d99/classbioexplorer_1_1MetaballsGenerator.html", null ],
     [ "bioexplorer::ModelId", "d8/d40/structbioexplorer_1_1ModelId.html", null ],
     [ "bioexplorer::ModelIdFileAccess", "d7/df3/structbioexplorer_1_1ModelIdFileAccess.html", null ],
     [ "bioexplorer::Node", "da/dba/classbioexplorer_1_1Node.html", [
       [ "bioexplorer::Membrane", "d6/dca/classbioexplorer_1_1Membrane.html", null ],
-      [ "bioexplorer::Mesh", "dd/d3e/classbioexplorer_1_1Mesh.html", null ],
+      [ "bioexplorer::MeshBasedMembrane", "dd/d42/classbioexplorer_1_1MeshBasedMembrane.html", null ],
       [ "bioexplorer::Molecule", "d6/d81/classbioexplorer_1_1Molecule.html", [
         [ "bioexplorer::Glycans", "df/dc3/classbioexplorer_1_1Glycans.html", null ],
         [ "bioexplorer::Protein", "db/d87/classbioexplorer_1_1Protein.html", null ]

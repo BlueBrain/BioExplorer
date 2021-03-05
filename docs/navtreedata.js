@@ -23,32 +23,34 @@ for the JavaScript code in this file
 var NAVTREE =
 [
   [ "BioExplorer", "index.html", [
-    [ "Description", "index.html#autotoc_md1", null ],
-    [ "Architecture", "index.html#autotoc_md2", null ],
-    [ "General components", "index.html#autotoc_md3", [
-      [ "Assemblies", "index.html#autotoc_md4", null ],
-      [ "Proteins", "index.html#autotoc_md5", null ],
-      [ "Meshes", "index.html#autotoc_md6", null ],
-      [ "Glycans", "index.html#autotoc_md7", null ],
-      [ "RNA sequence", "index.html#autotoc_md8", null ]
+    [ "Blue Brain BioExplorer", "index.html", [
+      [ "Description", "index.html#autotoc_md1", null ],
+      [ "Architecture", "index.html#autotoc_md2", null ],
+      [ "General components", "index.html#autotoc_md3", [
+        [ "Assemblies", "index.html#autotoc_md4", null ],
+        [ "Proteins", "index.html#autotoc_md5", null ],
+        [ "Meshes", "index.html#autotoc_md6", null ],
+        [ "Glycans", "index.html#autotoc_md7", null ],
+        [ "RNA sequence", "index.html#autotoc_md8", null ]
+      ] ],
+      [ "Python SDK", "index.html#autotoc_md9", null ],
+      [ "Deployment", "index.html#autotoc_md10", [
+        [ "Server", "index.html#autotoc_md11", null ],
+        [ "Python SDK", "index.html#autotoc_md12", null ],
+        [ "Web User Interface", "index.html#autotoc_md13", null ]
+      ] ],
+      [ "Building from Source", "index.html#autotoc_md14", [
+        [ "Blue Brain Brayns 1.0.0", "index.html#autotoc_md15", null ],
+        [ "BioExplorer", "index.html#autotoc_md16", [
+          [ "Compile", "index.html#autotoc_md17", null ],
+          [ "Run", "index.html#autotoc_md18", null ]
+        ] ]
+      ] ],
+      [ "Simple example", "index.html#autotoc_md19", null ],
+      [ "License", "index.html#autotoc_md20", null ],
+      [ "Contact", "index.html#autotoc_md21", null ],
+      [ "Funding & Acknowledgment", "index.html#autotoc_md22", null ]
     ] ],
-    [ "Python SDK", "index.html#autotoc_md9", null ],
-    [ "Deployment", "index.html#autotoc_md10", [
-      [ "Server", "index.html#autotoc_md11", null ],
-      [ "Python SDK", "index.html#autotoc_md12", null ],
-      [ "Web User Interface", "index.html#autotoc_md13", null ]
-    ] ],
-    [ "Building from Source", "index.html#autotoc_md14", [
-      [ "Blue Brain Brayns 1.0.0", "index.html#autotoc_md15", null ],
-      [ "BioExplorer", "index.html#autotoc_md16", [
-        [ "Compile", "index.html#autotoc_md17", null ],
-        [ "Run", "index.html#autotoc_md18", null ]
-      ] ]
-    ] ],
-    [ "Simple example", "index.html#autotoc_md19", null ],
-    [ "License", "index.html#autotoc_md20", null ],
-    [ "Contact", "index.html#autotoc_md21", null ],
-    [ "Funding & Acknowledgment", "index.html#autotoc_md22", null ],
     [ "Docker", "d9/d23/md__home_favreau_git_BioExplorer_DOCKER.html", [
       [ "Prerequisites", "d9/d23/md__home_favreau_git_BioExplorer_DOCKER.html#autotoc_md24", null ],
       [ "Setup", "d9/d23/md__home_favreau_git_BioExplorer_DOCKER.html#autotoc_md25", null ],
@@ -84,8 +86,8 @@ var NAVTREE =
 var NAVTREEINDEX =
 [
 ".html",
-"da/df0/md_USERGUIDE.html#autotoc_md34",
-"index.html#autotoc_md22"
+"da/db3/structbioexplorer_1_1AdvancedMaterial.html#aee51bb31fecc64e5c05dc091b3b411e0",
+"index.html#autotoc_md19"
 ];
 
 var SYNCONMSG = 'click to disable panel synchronisation';

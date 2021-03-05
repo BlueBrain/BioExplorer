@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['bioexplorer_421',['BioExplorer',['../index.html',1,'']]]
+  ['blue_20brain_20bioexplorer_423',['Blue Brain BioExplorer',['../index.html',1,'']]]
 ];

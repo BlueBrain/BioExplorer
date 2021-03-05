@@ -109,7 +109,7 @@ $(document).ready(function(){initNavTree('df/d5c/Assembly_8cpp_source.html','../
 <div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;<span class="preprocessor">#include &quot;Assembly.h&quot;</span></div>
 <div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160; </div>
 <div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;<span class="preprocessor">#include &lt;plugin/bioexplorer/Membrane.h&gt;</span></div>
-<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;<span class="preprocessor">#include &lt;plugin/bioexplorer/Mesh.h&gt;</span></div>
+<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;<span class="preprocessor">#include &lt;plugin/bioexplorer/MeshBasedMembrane.h&gt;</span></div>
 <div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;<span class="preprocessor">#include &lt;plugin/bioexplorer/Protein.h&gt;</span></div>
 <div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;<span class="preprocessor">#include &lt;plugin/bioexplorer/RNASequence.h&gt;</span></div>
 <div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;<span class="preprocessor">#include &lt;plugin/common/Logs.h&gt;</span></div>
@@ -147,390 +147,391 @@ $(document).ready(function(){initNavTree('df/d5c/Assembly_8cpp_source.html','../
 <div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;                    &lt;&lt; std::endl;</div>
 <div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;        _scene.removeModel(protein.second-&gt;getModelDescriptor()-&gt;getModelID());</div>
 <div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;    }</div>
-<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;    <span class="keywordflow">for</span> (<span class="keyword">const</span> <span class="keyword">auto</span> &amp;mesh : _meshes)</div>
+<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;    <span class="keywordflow">for</span> (<span class="keyword">const</span> <span class="keyword">auto</span> &amp;meshBasedMembrane : _meshBasedMembranes)</div>
 <div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;    {</div>
-<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;        <span class="keyword">const</span> <span class="keyword">auto</span> modelId = mesh.second-&gt;getModelDescriptor()-&gt;getModelID();</div>
-<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;        PLUGIN_INFO &lt;&lt; <span class="stringliteral">&quot;Removing mesh &lt;&quot;</span> &lt;&lt; modelId &lt;&lt; <span class="stringliteral">&quot;&gt;&lt;&quot;</span> &lt;&lt; mesh.first</div>
-<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;                    &lt;&lt; <span class="stringliteral">&quot;&gt; from assembly &lt;&quot;</span> &lt;&lt; _descriptor.<a class="code" href="../../d4/dee/structbioexplorer_1_1AssemblyDescriptor.html#a71b94974f95b9de7694d09b90f475306">name</a> &lt;&lt; <span class="stringliteral">&quot;&gt;&quot;</span></div>
-<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;                    &lt;&lt; std::endl;</div>
-<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;        _scene.removeModel(mesh.second-&gt;getModelDescriptor()-&gt;getModelID());</div>
-<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;    }</div>
-<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;    <span class="keywordflow">if</span> (_rnaSequence)</div>
-<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;    {</div>
-<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;        <span class="keyword">const</span> <span class="keyword">auto</span> modelId = _rnaSequence-&gt;getModelDescriptor()-&gt;getModelID();</div>
-<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;        PLUGIN_INFO &lt;&lt; <span class="stringliteral">&quot;Removing &lt;&quot;</span> &lt;&lt; modelId</div>
-<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;                    &lt;&lt; <span class="stringliteral">&quot;&gt;&lt;RNA sequence&gt; from assembly &lt;&quot;</span> &lt;&lt; _descriptor.<a class="code" href="../../d4/dee/structbioexplorer_1_1AssemblyDescriptor.html#a71b94974f95b9de7694d09b90f475306">name</a></div>
-<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;                    &lt;&lt; <span class="stringliteral">&quot;&gt;&quot;</span> &lt;&lt; std::endl;</div>
-<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;        _scene.removeModel(modelId);</div>
-<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;    }</div>
-<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;}</div>
-<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160; </div>
-<div class="line"><a name="l00080"></a><span class="lineno"><a class="line" href="../../db/db7/classbioexplorer_1_1Assembly.html#a4436566c518ec5c5420f4b3f48298a44">   80</a></span>&#160;<span class="keywordtype">void</span> <a class="code" href="../../db/db7/classbioexplorer_1_1Assembly.html#a4436566c518ec5c5420f4b3f48298a44">Assembly::addProtein</a>(<span class="keyword">const</span> <a class="code" href="../../de/dc1/structbioexplorer_1_1ProteinDescriptor.html">ProteinDescriptor</a> &amp;pd)</div>
-<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;{</div>
-<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;    ProteinPtr protein(<span class="keyword">new</span> <a class="code" href="../../db/d87/classbioexplorer_1_1Protein.html">Protein</a>(_scene, pd));</div>
-<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;    <span class="keyword">auto</span> modelDescriptor = protein-&gt;getModelDescriptor();</div>
-<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160; </div>
-<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;    <span class="keyword">const</span> Vector3f position = {pd.<a class="code" href="../../de/dc1/structbioexplorer_1_1ProteinDescriptor.html#a0a7849ec19bd91005b1bbea8ae6bdbd1">position</a>[0], pd.<a class="code" href="../../de/dc1/structbioexplorer_1_1ProteinDescriptor.html#a0a7849ec19bd91005b1bbea8ae6bdbd1">position</a>[1], pd.<a class="code" href="../../de/dc1/structbioexplorer_1_1ProteinDescriptor.html#a0a7849ec19bd91005b1bbea8ae6bdbd1">position</a>[2]};</div>
-<div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;    <span class="keyword">const</span> Quaterniond orientation = {pd.<a class="code" href="../../de/dc1/structbioexplorer_1_1ProteinDescriptor.html#a06fe47969ba2e0072f1d3f1cde20c416">orientation</a>[0], pd.<a class="code" href="../../de/dc1/structbioexplorer_1_1ProteinDescriptor.html#a06fe47969ba2e0072f1d3f1cde20c416">orientation</a>[1],</div>
-<div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;                                     pd.<a class="code" href="../../de/dc1/structbioexplorer_1_1ProteinDescriptor.html#a06fe47969ba2e0072f1d3f1cde20c416">orientation</a>[2], pd.<a class="code" href="../../de/dc1/structbioexplorer_1_1ProteinDescriptor.html#a06fe47969ba2e0072f1d3f1cde20c416">orientation</a>[3]};</div>
-<div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160; </div>
-<div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160;    _processInstances(modelDescriptor, pd.<a class="code" href="../../de/dc1/structbioexplorer_1_1ProteinDescriptor.html#a872fff893066f4ce71bb0a7fdf2db749">name</a>, pd.<a class="code" href="../../de/dc1/structbioexplorer_1_1ProteinDescriptor.html#a394ec946842d8dfaa6a16fd451e58044">shape</a>, pd.<a class="code" href="../../de/dc1/structbioexplorer_1_1ProteinDescriptor.html#ac2259bb6d6511d85aed4db4608961453">assemblyParams</a>,</div>
-<div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160;                      pd.<a class="code" href="../../de/dc1/structbioexplorer_1_1ProteinDescriptor.html#a56d48a046bc42aebbd5a21a86147b61e">occurrences</a>, position, orientation,</div>
-<div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160;                      pd.<a class="code" href="../../de/dc1/structbioexplorer_1_1ProteinDescriptor.html#a1e6819170d385e88910acec6e688d5c1">allowedOccurrences</a>, pd.<a class="code" href="../../de/dc1/structbioexplorer_1_1ProteinDescriptor.html#abb3e758fa8c81fd59ba4307f9366b621">randomSeed</a>,</div>
-<div class="line"><a name="l00092"></a><span class="lineno">   92</span>&#160;                      pd.<a class="code" href="../../de/dc1/structbioexplorer_1_1ProteinDescriptor.html#a32471d5ddead043566940da4aef7dfe5">positionRandomizationType</a>, pd.<a class="code" href="../../de/dc1/structbioexplorer_1_1ProteinDescriptor.html#a8ea75370d8bde416dae4d0d1cbbb4d95">locationCutoffAngle</a>);</div>
-<div class="line"><a name="l00093"></a><span class="lineno">   93</span>&#160; </div>
-<div class="line"><a name="l00094"></a><span class="lineno">   94</span>&#160;    _proteins[pd.<a class="code" href="../../de/dc1/structbioexplorer_1_1ProteinDescriptor.html#a872fff893066f4ce71bb0a7fdf2db749">name</a>] = std::move(protein);</div>
-<div class="line"><a name="l00095"></a><span class="lineno">   95</span>&#160;    _scene.addModel(modelDescriptor);</div>
-<div class="line"><a name="l00096"></a><span class="lineno">   96</span>&#160;    PLUGIN_INFO &lt;&lt; <span class="stringliteral">&quot;Number of instances   : &quot;</span></div>
-<div class="line"><a name="l00097"></a><span class="lineno">   97</span>&#160;                &lt;&lt; modelDescriptor-&gt;getInstances().size() &lt;&lt; std::endl;</div>
-<div class="line"><a name="l00098"></a><span class="lineno">   98</span>&#160;}</div>
-<div class="line"><a name="l00099"></a><span class="lineno">   99</span>&#160; </div>
-<div class="line"><a name="l00100"></a><span class="lineno"><a class="line" href="../../db/db7/classbioexplorer_1_1Assembly.html#ae0ddb89b63ade59e32c96d3bb221495e">  100</a></span>&#160;<span class="keywordtype">void</span> <a class="code" href="../../db/db7/classbioexplorer_1_1Assembly.html#ae0ddb89b63ade59e32c96d3bb221495e">Assembly::addMembrane</a>(<span class="keyword">const</span> <a class="code" href="../../de/d94/structbioexplorer_1_1MembraneDescriptor.html">MembraneDescriptor</a> &amp;md)</div>
-<div class="line"><a name="l00101"></a><span class="lineno">  101</span>&#160;{</div>
-<div class="line"><a name="l00102"></a><span class="lineno">  102</span>&#160;    <span class="keywordflow">if</span> (_membrane != <span class="keyword">nullptr</span>)</div>
-<div class="line"><a name="l00103"></a><span class="lineno">  103</span>&#160;        PLUGIN_THROW(std::runtime_error(<span class="stringliteral">&quot;Assembly already has a membrane&quot;</span>));</div>
-<div class="line"><a name="l00104"></a><span class="lineno">  104</span>&#160; </div>
-<div class="line"><a name="l00105"></a><span class="lineno">  105</span>&#160;    MembranePtr membrane(<span class="keyword">new</span> <a class="code" href="../../d6/dca/classbioexplorer_1_1Membrane.html">Membrane</a>(_scene, md, _position, _clippingPlanes,</div>
-<div class="line"><a name="l00106"></a><span class="lineno">  106</span>&#160;                                      _occupiedDirections));</div>
-<div class="line"><a name="l00107"></a><span class="lineno">  107</span>&#160;    _membrane = std::move(membrane);</div>
-<div class="line"><a name="l00108"></a><span class="lineno">  108</span>&#160;}</div>
-<div class="line"><a name="l00109"></a><span class="lineno">  109</span>&#160; </div>
-<div class="line"><a name="l00110"></a><span class="lineno"><a class="line" href="../../db/db7/classbioexplorer_1_1Assembly.html#ac10375c948e937d3ced9be1d7f0bd8f8">  110</a></span>&#160;<span class="keywordtype">void</span> <a class="code" href="../../db/db7/classbioexplorer_1_1Assembly.html#ac10375c948e937d3ced9be1d7f0bd8f8">Assembly::addSugars</a>(<span class="keyword">const</span> <a class="code" href="../../dd/dbd/structbioexplorer_1_1SugarsDescriptor.html">SugarsDescriptor</a> &amp;sd)</div>
-<div class="line"><a name="l00111"></a><span class="lineno">  111</span>&#160;{</div>
-<div class="line"><a name="l00112"></a><span class="lineno">  112</span>&#160;    <span class="comment">// Get information from target protein (attributes, number of instances,</span></div>
-<div class="line"><a name="l00113"></a><span class="lineno">  113</span>&#160;    <span class="comment">// glycosylation sites, etc)</span></div>
-<div class="line"><a name="l00114"></a><span class="lineno">  114</span>&#160;    <span class="keyword">const</span> <span class="keyword">auto</span> it = _proteins.find(sd.<a class="code" href="../../dd/dbd/structbioexplorer_1_1SugarsDescriptor.html#abb56da62f5d87ce447fbcbccb6b50cdd">proteinName</a>);</div>
-<div class="line"><a name="l00115"></a><span class="lineno">  115</span>&#160;    <span class="keywordflow">if</span> (it == _proteins.end())</div>
-<div class="line"><a name="l00116"></a><span class="lineno">  116</span>&#160;    {</div>
-<div class="line"><a name="l00117"></a><span class="lineno">  117</span>&#160;        std::string s;</div>
-<div class="line"><a name="l00118"></a><span class="lineno">  118</span>&#160;        <span class="keywordflow">for</span> (<span class="keyword">const</span> <span class="keyword">auto</span> &amp;protein : _proteins)</div>
-<div class="line"><a name="l00119"></a><span class="lineno">  119</span>&#160;            s += <span class="stringliteral">&quot;[&quot;</span> + protein.first + <span class="stringliteral">&quot;]&quot;</span>;</div>
-<div class="line"><a name="l00120"></a><span class="lineno">  120</span>&#160;        PLUGIN_THROW(std::runtime_error(<span class="stringliteral">&quot;Target protein &quot;</span> + sd.<a class="code" href="../../dd/dbd/structbioexplorer_1_1SugarsDescriptor.html#abb56da62f5d87ce447fbcbccb6b50cdd">proteinName</a> +</div>
-<div class="line"><a name="l00121"></a><span class="lineno">  121</span>&#160;                                        <span class="stringliteral">&quot; not registered in assembly &quot;</span> +</div>
-<div class="line"><a name="l00122"></a><span class="lineno">  122</span>&#160;                                        sd.<a class="code" href="../../dd/dbd/structbioexplorer_1_1SugarsDescriptor.html#a4eaabe6d7145f5b1fb9b8f821ce3fff3">assemblyName</a> +</div>
-<div class="line"><a name="l00123"></a><span class="lineno">  123</span>&#160;                                        <span class="stringliteral">&quot;. Registered proteins are &quot;</span> + s));</div>
-<div class="line"><a name="l00124"></a><span class="lineno">  124</span>&#160;    }</div>
-<div class="line"><a name="l00125"></a><span class="lineno">  125</span>&#160;    PLUGIN_INFO &lt;&lt; <span class="stringliteral">&quot;Adding sugars to protein &quot;</span> &lt;&lt; sd.<a class="code" href="../../dd/dbd/structbioexplorer_1_1SugarsDescriptor.html#abb56da62f5d87ce447fbcbccb6b50cdd">proteinName</a> &lt;&lt; std::endl;</div>
-<div class="line"><a name="l00126"></a><span class="lineno">  126</span>&#160;    <span class="keyword">const</span> <span class="keyword">auto</span> targetProtein = (*it).second;</div>
-<div class="line"><a name="l00127"></a><span class="lineno">  127</span>&#160;    targetProtein-&gt;addSugars(sd);</div>
-<div class="line"><a name="l00128"></a><span class="lineno">  128</span>&#160;}</div>
-<div class="line"><a name="l00129"></a><span class="lineno">  129</span>&#160; </div>
-<div class="line"><a name="l00130"></a><span class="lineno"><a class="line" href="../../db/db7/classbioexplorer_1_1Assembly.html#a52c832e91f5540275d2052a165f9a8b7">  130</a></span>&#160;<span class="keywordtype">void</span> <a class="code" href="../../db/db7/classbioexplorer_1_1Assembly.html#a52c832e91f5540275d2052a165f9a8b7">Assembly::addGlycans</a>(<span class="keyword">const</span> <a class="code" href="../../dd/dbd/structbioexplorer_1_1SugarsDescriptor.html">SugarsDescriptor</a> &amp;sd)</div>
-<div class="line"><a name="l00131"></a><span class="lineno">  131</span>&#160;{</div>
-<div class="line"><a name="l00132"></a><span class="lineno">  132</span>&#160;    <span class="comment">// Get information from target protein (attributes, number of instances,</span></div>
-<div class="line"><a name="l00133"></a><span class="lineno">  133</span>&#160;    <span class="comment">// glycosylation sites, etc)</span></div>
-<div class="line"><a name="l00134"></a><span class="lineno">  134</span>&#160;    <span class="keyword">const</span> <span class="keyword">auto</span> it = _proteins.find(sd.<a class="code" href="../../dd/dbd/structbioexplorer_1_1SugarsDescriptor.html#abb56da62f5d87ce447fbcbccb6b50cdd">proteinName</a>);</div>
-<div class="line"><a name="l00135"></a><span class="lineno">  135</span>&#160;    <span class="keywordflow">if</span> (it == _proteins.end())</div>
-<div class="line"><a name="l00136"></a><span class="lineno">  136</span>&#160;    {</div>
-<div class="line"><a name="l00137"></a><span class="lineno">  137</span>&#160;        std::string s;</div>
-<div class="line"><a name="l00138"></a><span class="lineno">  138</span>&#160;        <span class="keywordflow">for</span> (<span class="keyword">const</span> <span class="keyword">auto</span> &amp;protein : _proteins)</div>
-<div class="line"><a name="l00139"></a><span class="lineno">  139</span>&#160;            s += <span class="stringliteral">&quot;[&quot;</span> + protein.first + <span class="stringliteral">&quot;]&quot;</span>;</div>
-<div class="line"><a name="l00140"></a><span class="lineno">  140</span>&#160;        PLUGIN_THROW(std::runtime_error(<span class="stringliteral">&quot;Target protein &quot;</span> + sd.<a class="code" href="../../dd/dbd/structbioexplorer_1_1SugarsDescriptor.html#abb56da62f5d87ce447fbcbccb6b50cdd">proteinName</a> +</div>
-<div class="line"><a name="l00141"></a><span class="lineno">  141</span>&#160;                                        <span class="stringliteral">&quot; not registered in assembly &quot;</span> +</div>
-<div class="line"><a name="l00142"></a><span class="lineno">  142</span>&#160;                                        sd.<a class="code" href="../../dd/dbd/structbioexplorer_1_1SugarsDescriptor.html#a4eaabe6d7145f5b1fb9b8f821ce3fff3">assemblyName</a> +</div>
-<div class="line"><a name="l00143"></a><span class="lineno">  143</span>&#160;                                        <span class="stringliteral">&quot;. Registered proteins are &quot;</span> + s));</div>
-<div class="line"><a name="l00144"></a><span class="lineno">  144</span>&#160;    }</div>
-<div class="line"><a name="l00145"></a><span class="lineno">  145</span>&#160; </div>
-<div class="line"><a name="l00146"></a><span class="lineno">  146</span>&#160;    PLUGIN_INFO &lt;&lt; <span class="stringliteral">&quot;Adding glycans to protein &quot;</span> &lt;&lt; sd.<a class="code" href="../../dd/dbd/structbioexplorer_1_1SugarsDescriptor.html#abb56da62f5d87ce447fbcbccb6b50cdd">proteinName</a> &lt;&lt; std::endl;</div>
-<div class="line"><a name="l00147"></a><span class="lineno">  147</span>&#160;    <span class="keyword">const</span> <span class="keyword">auto</span> targetProtein = (*it).second;</div>
-<div class="line"><a name="l00148"></a><span class="lineno">  148</span>&#160;    targetProtein-&gt;addGlycans(sd);</div>
-<div class="line"><a name="l00149"></a><span class="lineno">  149</span>&#160;}</div>
-<div class="line"><a name="l00150"></a><span class="lineno">  150</span>&#160; </div>
-<div class="line"><a name="l00151"></a><span class="lineno"><a class="line" href="../../db/db7/classbioexplorer_1_1Assembly.html#a6ad412cac80e5b04d7965651b3866889">  151</a></span>&#160;<span class="keywordtype">void</span> <a class="code" href="../../db/db7/classbioexplorer_1_1Assembly.html#a6ad412cac80e5b04d7965651b3866889">Assembly::addMesh</a>(<span class="keyword">const</span> <a class="code" href="../../dc/d2e/structbioexplorer_1_1MeshDescriptor.html">MeshDescriptor</a> &amp;md)</div>
-<div class="line"><a name="l00152"></a><span class="lineno">  152</span>&#160;{</div>
-<div class="line"><a name="l00153"></a><span class="lineno">  153</span>&#160;    MeshPtr mesh(<span class="keyword">new</span> <a class="code" href="../../dd/d3e/classbioexplorer_1_1Mesh.html">Mesh</a>(_scene, md));</div>
-<div class="line"><a name="l00154"></a><span class="lineno">  154</span>&#160;    <span class="keyword">auto</span> modelDescriptor = mesh-&gt;getModelDescriptor();</div>
-<div class="line"><a name="l00155"></a><span class="lineno">  155</span>&#160;    _meshes[md.<a class="code" href="../../dc/d2e/structbioexplorer_1_1MeshDescriptor.html#a2bf213ca5fd7004802420c8fc560d950">name</a>] = std::move(mesh);</div>
-<div class="line"><a name="l00156"></a><span class="lineno">  156</span>&#160;    _scene.addModel(modelDescriptor);</div>
-<div class="line"><a name="l00157"></a><span class="lineno">  157</span>&#160;}</div>
-<div class="line"><a name="l00158"></a><span class="lineno">  158</span>&#160; </div>
-<div class="line"><a name="l00159"></a><span class="lineno">  159</span>&#160;<span class="keywordtype">void</span> Assembly::_processInstances(</div>
-<div class="line"><a name="l00160"></a><span class="lineno">  160</span>&#160;    ModelDescriptorPtr md, <span class="keyword">const</span> std::string &amp;name, <span class="keyword">const</span> AssemblyShape shape,</div>
-<div class="line"><a name="l00161"></a><span class="lineno">  161</span>&#160;    <span class="keyword">const</span> floats &amp;assemblyParams, <span class="keyword">const</span> <span class="keywordtype">size_t</span> occurrences,</div>
-<div class="line"><a name="l00162"></a><span class="lineno">  162</span>&#160;    <span class="keyword">const</span> Vector3f &amp;position, <span class="keyword">const</span> Quaterniond &amp;orientation,</div>
-<div class="line"><a name="l00163"></a><span class="lineno">  163</span>&#160;    <span class="keyword">const</span> size_ts &amp;allowedOccurrences, <span class="keyword">const</span> <span class="keywordtype">size_t</span> randomSeed,</div>
-<div class="line"><a name="l00164"></a><span class="lineno">  164</span>&#160;    <span class="keyword">const</span> PositionRandomizationType &amp;randomizationType,</div>
-<div class="line"><a name="l00165"></a><span class="lineno">  165</span>&#160;    <span class="keyword">const</span> <span class="keywordtype">float</span> locationCutoffAngle)</div>
-<div class="line"><a name="l00166"></a><span class="lineno">  166</span>&#160;{</div>
-<div class="line"><a name="l00167"></a><span class="lineno">  167</span>&#160;    <span class="keyword">const</span> <span class="keywordtype">float</span> offset = 2.f / occurrences;</div>
-<div class="line"><a name="l00168"></a><span class="lineno">  168</span>&#160;    <span class="keyword">const</span> <span class="keywordtype">float</span> increment = M_PI * (3.f - sqrt(5.f));</div>
-<div class="line"><a name="l00169"></a><span class="lineno">  169</span>&#160; </div>
-<div class="line"><a name="l00170"></a><span class="lineno">  170</span>&#160;    srand(randomSeed);</div>
-<div class="line"><a name="l00171"></a><span class="lineno">  171</span>&#160;    <span class="keywordtype">size_t</span> rnd{1};</div>
-<div class="line"><a name="l00172"></a><span class="lineno">  172</span>&#160;    <span class="keywordflow">if</span> (occurrences != 0 &amp;&amp; randomSeed != 0 &amp;&amp;</div>
-<div class="line"><a name="l00173"></a><span class="lineno">  173</span>&#160;        randomizationType == PositionRandomizationType::circular)</div>
-<div class="line"><a name="l00174"></a><span class="lineno">  174</span>&#160;        rnd = rand() % occurrences;</div>
-<div class="line"><a name="l00175"></a><span class="lineno">  175</span>&#160; </div>
-<div class="line"><a name="l00176"></a><span class="lineno">  176</span>&#160;<span class="preprocessor">#ifdef DEBUG</span></div>
-<div class="line"><a name="l00177"></a><span class="lineno">  177</span>&#160;    model.addCone(0, {{0, 0, 0}, {0, 0, 1}, 0.1f, 0.f});</div>
-<div class="line"><a name="l00178"></a><span class="lineno">  178</span>&#160;<span class="preprocessor">#endif</span></div>
-<div class="line"><a name="l00179"></a><span class="lineno">  179</span>&#160; </div>
-<div class="line"><a name="l00180"></a><span class="lineno">  180</span>&#160;    uint64_t count = 0;</div>
-<div class="line"><a name="l00181"></a><span class="lineno">  181</span>&#160;    <span class="keywordflow">for</span> (uint64_t i = 0; i &lt; occurrences; ++i)</div>
-<div class="line"><a name="l00182"></a><span class="lineno">  182</span>&#160;    {</div>
-<div class="line"><a name="l00183"></a><span class="lineno">  183</span>&#160;        <span class="keywordflow">if</span> (!allowedOccurrences.empty() &amp;&amp;</div>
-<div class="line"><a name="l00184"></a><span class="lineno">  184</span>&#160;            std::find(allowedOccurrences.begin(), allowedOccurrences.end(),</div>
-<div class="line"><a name="l00185"></a><span class="lineno">  185</span>&#160;                      i) == allowedOccurrences.end())</div>
-<div class="line"><a name="l00186"></a><span class="lineno">  186</span>&#160;            <span class="keywordflow">continue</span>;</div>
-<div class="line"><a name="l00187"></a><span class="lineno">  187</span>&#160; </div>
-<div class="line"><a name="l00188"></a><span class="lineno">  188</span>&#160;        Vector3f pos;</div>
-<div class="line"><a name="l00189"></a><span class="lineno">  189</span>&#160;        Vector3f dir;</div>
-<div class="line"><a name="l00190"></a><span class="lineno">  190</span>&#160;        <span class="keywordflow">switch</span> (shape)</div>
-<div class="line"><a name="l00191"></a><span class="lineno">  191</span>&#160;        {</div>
-<div class="line"><a name="l00192"></a><span class="lineno">  192</span>&#160;        <span class="keywordflow">case</span> AssemblyShape::spherical:</div>
+<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;        <span class="keyword">const</span> <span class="keyword">auto</span> modelId =</div>
+<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;            meshBasedMembrane.second-&gt;getModelDescriptor()-&gt;getModelID();</div>
+<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;        PLUGIN_INFO &lt;&lt; <span class="stringliteral">&quot;Removing mesh &lt;&quot;</span> &lt;&lt; modelId &lt;&lt; <span class="stringliteral">&quot;&gt;&lt;&quot;</span></div>
+<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;                    &lt;&lt; meshBasedMembrane.first &lt;&lt; <span class="stringliteral">&quot;&gt; from assembly &lt;&quot;</span></div>
+<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;                    &lt;&lt; _descriptor.<a class="code" href="../../d4/dee/structbioexplorer_1_1AssemblyDescriptor.html#a71b94974f95b9de7694d09b90f475306">name</a> &lt;&lt; <span class="stringliteral">&quot;&gt;&quot;</span> &lt;&lt; std::endl;</div>
+<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;        _scene.removeModel(</div>
+<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;            meshBasedMembrane.second-&gt;getModelDescriptor()-&gt;getModelID());</div>
+<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;    }</div>
+<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;    <span class="keywordflow">if</span> (_rnaSequence)</div>
+<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;    {</div>
+<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;        <span class="keyword">const</span> <span class="keyword">auto</span> modelId = _rnaSequence-&gt;getModelDescriptor()-&gt;getModelID();</div>
+<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;        PLUGIN_INFO &lt;&lt; <span class="stringliteral">&quot;Removing &lt;&quot;</span> &lt;&lt; modelId</div>
+<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;                    &lt;&lt; <span class="stringliteral">&quot;&gt;&lt;RNA sequence&gt; from assembly &lt;&quot;</span> &lt;&lt; _descriptor.<a class="code" href="../../d4/dee/structbioexplorer_1_1AssemblyDescriptor.html#a71b94974f95b9de7694d09b90f475306">name</a></div>
+<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;                    &lt;&lt; <span class="stringliteral">&quot;&gt;&quot;</span> &lt;&lt; std::endl;</div>
+<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;        _scene.removeModel(modelId);</div>
+<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;    }</div>
+<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;}</div>
+<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160; </div>
+<div class="line"><a name="l00082"></a><span class="lineno"><a class="line" href="../../db/db7/classbioexplorer_1_1Assembly.html#a4436566c518ec5c5420f4b3f48298a44">   82</a></span>&#160;<span class="keywordtype">void</span> <a class="code" href="../../db/db7/classbioexplorer_1_1Assembly.html#a4436566c518ec5c5420f4b3f48298a44">Assembly::addProtein</a>(<span class="keyword">const</span> <a class="code" href="../../de/dc1/structbioexplorer_1_1ProteinDescriptor.html">ProteinDescriptor</a> &amp;pd)</div>
+<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;{</div>
+<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;    ProteinPtr protein(<span class="keyword">new</span> <a class="code" href="../../db/d87/classbioexplorer_1_1Protein.html">Protein</a>(_scene, pd));</div>
+<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;    <span class="keyword">auto</span> modelDescriptor = protein-&gt;getModelDescriptor();</div>
+<div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160; </div>
+<div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;    <span class="keyword">const</span> Vector3f position = {pd.<a class="code" href="../../de/dc1/structbioexplorer_1_1ProteinDescriptor.html#a0a7849ec19bd91005b1bbea8ae6bdbd1">position</a>[0], pd.<a class="code" href="../../de/dc1/structbioexplorer_1_1ProteinDescriptor.html#a0a7849ec19bd91005b1bbea8ae6bdbd1">position</a>[1], pd.<a class="code" href="../../de/dc1/structbioexplorer_1_1ProteinDescriptor.html#a0a7849ec19bd91005b1bbea8ae6bdbd1">position</a>[2]};</div>
+<div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;    <span class="keyword">const</span> Quaterniond orientation = {pd.<a class="code" href="../../de/dc1/structbioexplorer_1_1ProteinDescriptor.html#a06fe47969ba2e0072f1d3f1cde20c416">orientation</a>[0], pd.<a class="code" href="../../de/dc1/structbioexplorer_1_1ProteinDescriptor.html#a06fe47969ba2e0072f1d3f1cde20c416">orientation</a>[1],</div>
+<div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160;                                     pd.<a class="code" href="../../de/dc1/structbioexplorer_1_1ProteinDescriptor.html#a06fe47969ba2e0072f1d3f1cde20c416">orientation</a>[2], pd.<a class="code" href="../../de/dc1/structbioexplorer_1_1ProteinDescriptor.html#a06fe47969ba2e0072f1d3f1cde20c416">orientation</a>[3]};</div>
+<div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160; </div>
+<div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160;    _processInstances(modelDescriptor, pd.<a class="code" href="../../de/dc1/structbioexplorer_1_1ProteinDescriptor.html#a872fff893066f4ce71bb0a7fdf2db749">name</a>, pd.<a class="code" href="../../de/dc1/structbioexplorer_1_1ProteinDescriptor.html#a394ec946842d8dfaa6a16fd451e58044">shape</a>, pd.<a class="code" href="../../de/dc1/structbioexplorer_1_1ProteinDescriptor.html#ac2259bb6d6511d85aed4db4608961453">assemblyParams</a>,</div>
+<div class="line"><a name="l00092"></a><span class="lineno">   92</span>&#160;                      pd.<a class="code" href="../../de/dc1/structbioexplorer_1_1ProteinDescriptor.html#a56d48a046bc42aebbd5a21a86147b61e">occurrences</a>, position, orientation,</div>
+<div class="line"><a name="l00093"></a><span class="lineno">   93</span>&#160;                      pd.<a class="code" href="../../de/dc1/structbioexplorer_1_1ProteinDescriptor.html#a1e6819170d385e88910acec6e688d5c1">allowedOccurrences</a>, pd.<a class="code" href="../../de/dc1/structbioexplorer_1_1ProteinDescriptor.html#abb3e758fa8c81fd59ba4307f9366b621">randomSeed</a>,</div>
+<div class="line"><a name="l00094"></a><span class="lineno">   94</span>&#160;                      pd.<a class="code" href="../../de/dc1/structbioexplorer_1_1ProteinDescriptor.html#a32471d5ddead043566940da4aef7dfe5">positionRandomizationType</a>, pd.<a class="code" href="../../de/dc1/structbioexplorer_1_1ProteinDescriptor.html#a8ea75370d8bde416dae4d0d1cbbb4d95">locationCutoffAngle</a>);</div>
+<div class="line"><a name="l00095"></a><span class="lineno">   95</span>&#160; </div>
+<div class="line"><a name="l00096"></a><span class="lineno">   96</span>&#160;    _proteins[pd.<a class="code" href="../../de/dc1/structbioexplorer_1_1ProteinDescriptor.html#a872fff893066f4ce71bb0a7fdf2db749">name</a>] = std::move(protein);</div>
+<div class="line"><a name="l00097"></a><span class="lineno">   97</span>&#160;    _scene.addModel(modelDescriptor);</div>
+<div class="line"><a name="l00098"></a><span class="lineno">   98</span>&#160;    PLUGIN_INFO &lt;&lt; <span class="stringliteral">&quot;Number of instances   : &quot;</span></div>
+<div class="line"><a name="l00099"></a><span class="lineno">   99</span>&#160;                &lt;&lt; modelDescriptor-&gt;getInstances().size() &lt;&lt; std::endl;</div>
+<div class="line"><a name="l00100"></a><span class="lineno">  100</span>&#160;}</div>
+<div class="line"><a name="l00101"></a><span class="lineno">  101</span>&#160; </div>
+<div class="line"><a name="l00102"></a><span class="lineno"><a class="line" href="../../db/db7/classbioexplorer_1_1Assembly.html#ae0ddb89b63ade59e32c96d3bb221495e">  102</a></span>&#160;<span class="keywordtype">void</span> <a class="code" href="../../db/db7/classbioexplorer_1_1Assembly.html#ae0ddb89b63ade59e32c96d3bb221495e">Assembly::addMembrane</a>(<span class="keyword">const</span> <a class="code" href="../../de/d94/structbioexplorer_1_1MembraneDescriptor.html">MembraneDescriptor</a> &amp;md)</div>
+<div class="line"><a name="l00103"></a><span class="lineno">  103</span>&#160;{</div>
+<div class="line"><a name="l00104"></a><span class="lineno">  104</span>&#160;    <span class="keywordflow">if</span> (_membrane != <span class="keyword">nullptr</span>)</div>
+<div class="line"><a name="l00105"></a><span class="lineno">  105</span>&#160;        PLUGIN_THROW(std::runtime_error(<span class="stringliteral">&quot;Assembly already has a membrane&quot;</span>));</div>
+<div class="line"><a name="l00106"></a><span class="lineno">  106</span>&#160; </div>
+<div class="line"><a name="l00107"></a><span class="lineno">  107</span>&#160;    MembranePtr membrane(<span class="keyword">new</span> <a class="code" href="../../d6/dca/classbioexplorer_1_1Membrane.html">Membrane</a>(_scene, md, _position, _clippingPlanes,</div>
+<div class="line"><a name="l00108"></a><span class="lineno">  108</span>&#160;                                      _occupiedDirections));</div>
+<div class="line"><a name="l00109"></a><span class="lineno">  109</span>&#160;    _membrane = std::move(membrane);</div>
+<div class="line"><a name="l00110"></a><span class="lineno">  110</span>&#160;}</div>
+<div class="line"><a name="l00111"></a><span class="lineno">  111</span>&#160; </div>
+<div class="line"><a name="l00112"></a><span class="lineno"><a class="line" href="../../db/db7/classbioexplorer_1_1Assembly.html#ac10375c948e937d3ced9be1d7f0bd8f8">  112</a></span>&#160;<span class="keywordtype">void</span> <a class="code" href="../../db/db7/classbioexplorer_1_1Assembly.html#ac10375c948e937d3ced9be1d7f0bd8f8">Assembly::addSugars</a>(<span class="keyword">const</span> <a class="code" href="../../dd/dbd/structbioexplorer_1_1SugarsDescriptor.html">SugarsDescriptor</a> &amp;sd)</div>
+<div class="line"><a name="l00113"></a><span class="lineno">  113</span>&#160;{</div>
+<div class="line"><a name="l00114"></a><span class="lineno">  114</span>&#160;    <span class="comment">// Get information from target protein (attributes, number of instances,</span></div>
+<div class="line"><a name="l00115"></a><span class="lineno">  115</span>&#160;    <span class="comment">// glycosylation sites, etc)</span></div>
+<div class="line"><a name="l00116"></a><span class="lineno">  116</span>&#160;    <span class="keyword">const</span> <span class="keyword">auto</span> it = _proteins.find(sd.<a class="code" href="../../dd/dbd/structbioexplorer_1_1SugarsDescriptor.html#abb56da62f5d87ce447fbcbccb6b50cdd">proteinName</a>);</div>
+<div class="line"><a name="l00117"></a><span class="lineno">  117</span>&#160;    <span class="keywordflow">if</span> (it == _proteins.end())</div>
+<div class="line"><a name="l00118"></a><span class="lineno">  118</span>&#160;    {</div>
+<div class="line"><a name="l00119"></a><span class="lineno">  119</span>&#160;        std::string s;</div>
+<div class="line"><a name="l00120"></a><span class="lineno">  120</span>&#160;        <span class="keywordflow">for</span> (<span class="keyword">const</span> <span class="keyword">auto</span> &amp;protein : _proteins)</div>
+<div class="line"><a name="l00121"></a><span class="lineno">  121</span>&#160;            s += <span class="stringliteral">&quot;[&quot;</span> + protein.first + <span class="stringliteral">&quot;]&quot;</span>;</div>
+<div class="line"><a name="l00122"></a><span class="lineno">  122</span>&#160;        PLUGIN_THROW(std::runtime_error(<span class="stringliteral">&quot;Target protein &quot;</span> + sd.<a class="code" href="../../dd/dbd/structbioexplorer_1_1SugarsDescriptor.html#abb56da62f5d87ce447fbcbccb6b50cdd">proteinName</a> +</div>
+<div class="line"><a name="l00123"></a><span class="lineno">  123</span>&#160;                                        <span class="stringliteral">&quot; not registered in assembly &quot;</span> +</div>
+<div class="line"><a name="l00124"></a><span class="lineno">  124</span>&#160;                                        sd.<a class="code" href="../../dd/dbd/structbioexplorer_1_1SugarsDescriptor.html#a4eaabe6d7145f5b1fb9b8f821ce3fff3">assemblyName</a> +</div>
+<div class="line"><a name="l00125"></a><span class="lineno">  125</span>&#160;                                        <span class="stringliteral">&quot;. Registered proteins are &quot;</span> + s));</div>
+<div class="line"><a name="l00126"></a><span class="lineno">  126</span>&#160;    }</div>
+<div class="line"><a name="l00127"></a><span class="lineno">  127</span>&#160;    PLUGIN_INFO &lt;&lt; <span class="stringliteral">&quot;Adding sugars to protein &quot;</span> &lt;&lt; sd.<a class="code" href="../../dd/dbd/structbioexplorer_1_1SugarsDescriptor.html#abb56da62f5d87ce447fbcbccb6b50cdd">proteinName</a> &lt;&lt; std::endl;</div>
+<div class="line"><a name="l00128"></a><span class="lineno">  128</span>&#160;    <span class="keyword">const</span> <span class="keyword">auto</span> targetProtein = (*it).second;</div>
+<div class="line"><a name="l00129"></a><span class="lineno">  129</span>&#160;    targetProtein-&gt;addSugars(sd);</div>
+<div class="line"><a name="l00130"></a><span class="lineno">  130</span>&#160;}</div>
+<div class="line"><a name="l00131"></a><span class="lineno">  131</span>&#160; </div>
+<div class="line"><a name="l00132"></a><span class="lineno"><a class="line" href="../../db/db7/classbioexplorer_1_1Assembly.html#a52c832e91f5540275d2052a165f9a8b7">  132</a></span>&#160;<span class="keywordtype">void</span> <a class="code" href="../../db/db7/classbioexplorer_1_1Assembly.html#a52c832e91f5540275d2052a165f9a8b7">Assembly::addGlycans</a>(<span class="keyword">const</span> <a class="code" href="../../dd/dbd/structbioexplorer_1_1SugarsDescriptor.html">SugarsDescriptor</a> &amp;sd)</div>
+<div class="line"><a name="l00133"></a><span class="lineno">  133</span>&#160;{</div>
+<div class="line"><a name="l00134"></a><span class="lineno">  134</span>&#160;    <span class="comment">// Get information from target protein (attributes, number of instances,</span></div>
+<div class="line"><a name="l00135"></a><span class="lineno">  135</span>&#160;    <span class="comment">// glycosylation sites, etc)</span></div>
+<div class="line"><a name="l00136"></a><span class="lineno">  136</span>&#160;    <span class="keyword">const</span> <span class="keyword">auto</span> it = _proteins.find(sd.<a class="code" href="../../dd/dbd/structbioexplorer_1_1SugarsDescriptor.html#abb56da62f5d87ce447fbcbccb6b50cdd">proteinName</a>);</div>
+<div class="line"><a name="l00137"></a><span class="lineno">  137</span>&#160;    <span class="keywordflow">if</span> (it == _proteins.end())</div>
+<div class="line"><a name="l00138"></a><span class="lineno">  138</span>&#160;    {</div>
+<div class="line"><a name="l00139"></a><span class="lineno">  139</span>&#160;        std::string s;</div>
+<div class="line"><a name="l00140"></a><span class="lineno">  140</span>&#160;        <span class="keywordflow">for</span> (<span class="keyword">const</span> <span class="keyword">auto</span> &amp;protein : _proteins)</div>
+<div class="line"><a name="l00141"></a><span class="lineno">  141</span>&#160;            s += <span class="stringliteral">&quot;[&quot;</span> + protein.first + <span class="stringliteral">&quot;]&quot;</span>;</div>
+<div class="line"><a name="l00142"></a><span class="lineno">  142</span>&#160;        PLUGIN_THROW(std::runtime_error(<span class="stringliteral">&quot;Target protein &quot;</span> + sd.<a class="code" href="../../dd/dbd/structbioexplorer_1_1SugarsDescriptor.html#abb56da62f5d87ce447fbcbccb6b50cdd">proteinName</a> +</div>
+<div class="line"><a name="l00143"></a><span class="lineno">  143</span>&#160;                                        <span class="stringliteral">&quot; not registered in assembly &quot;</span> +</div>
+<div class="line"><a name="l00144"></a><span class="lineno">  144</span>&#160;                                        sd.<a class="code" href="../../dd/dbd/structbioexplorer_1_1SugarsDescriptor.html#a4eaabe6d7145f5b1fb9b8f821ce3fff3">assemblyName</a> +</div>
+<div class="line"><a name="l00145"></a><span class="lineno">  145</span>&#160;                                        <span class="stringliteral">&quot;. Registered proteins are &quot;</span> + s));</div>
+<div class="line"><a name="l00146"></a><span class="lineno">  146</span>&#160;    }</div>
+<div class="line"><a name="l00147"></a><span class="lineno">  147</span>&#160; </div>
+<div class="line"><a name="l00148"></a><span class="lineno">  148</span>&#160;    PLUGIN_INFO &lt;&lt; <span class="stringliteral">&quot;Adding glycans to protein &quot;</span> &lt;&lt; sd.<a class="code" href="../../dd/dbd/structbioexplorer_1_1SugarsDescriptor.html#abb56da62f5d87ce447fbcbccb6b50cdd">proteinName</a> &lt;&lt; std::endl;</div>
+<div class="line"><a name="l00149"></a><span class="lineno">  149</span>&#160;    <span class="keyword">const</span> <span class="keyword">auto</span> targetProtein = (*it).second;</div>
+<div class="line"><a name="l00150"></a><span class="lineno">  150</span>&#160;    targetProtein-&gt;addGlycans(sd);</div>
+<div class="line"><a name="l00151"></a><span class="lineno">  151</span>&#160;}</div>
+<div class="line"><a name="l00152"></a><span class="lineno">  152</span>&#160; </div>
+<div class="line"><a name="l00153"></a><span class="lineno"><a class="line" href="../../db/db7/classbioexplorer_1_1Assembly.html#aeb7c6ae2e6884502776c10140068e10e">  153</a></span>&#160;<span class="keywordtype">void</span> <a class="code" href="../../db/db7/classbioexplorer_1_1Assembly.html#aeb7c6ae2e6884502776c10140068e10e">Assembly::addMeshBasedMembrane</a>(<span class="keyword">const</span> <a class="code" href="../../d7/d2f/structbioexplorer_1_1MeshBasedMembraneDescriptor.html">MeshBasedMembraneDescriptor</a> &amp;md)</div>
+<div class="line"><a name="l00154"></a><span class="lineno">  154</span>&#160;{</div>
+<div class="line"><a name="l00155"></a><span class="lineno">  155</span>&#160;    MeshBasedMembranePtr meshBaseMembrane(<span class="keyword">new</span> <a class="code" href="../../dd/d42/classbioexplorer_1_1MeshBasedMembrane.html">MeshBasedMembrane</a>(_scene, md));</div>
+<div class="line"><a name="l00156"></a><span class="lineno">  156</span>&#160;    <span class="keyword">auto</span> modelDescriptor = meshBaseMembrane-&gt;getModelDescriptor();</div>
+<div class="line"><a name="l00157"></a><span class="lineno">  157</span>&#160;    _meshBasedMembranes[md.<a class="code" href="../../d7/d2f/structbioexplorer_1_1MeshBasedMembraneDescriptor.html#a9f292e0d249a69001c88afc30a5beec7">name</a>] = std::move(meshBaseMembrane);</div>
+<div class="line"><a name="l00158"></a><span class="lineno">  158</span>&#160;    _scene.addModel(modelDescriptor);</div>
+<div class="line"><a name="l00159"></a><span class="lineno">  159</span>&#160;}</div>
+<div class="line"><a name="l00160"></a><span class="lineno">  160</span>&#160; </div>
+<div class="line"><a name="l00161"></a><span class="lineno">  161</span>&#160;<span class="keywordtype">void</span> Assembly::_processInstances(</div>
+<div class="line"><a name="l00162"></a><span class="lineno">  162</span>&#160;    ModelDescriptorPtr md, <span class="keyword">const</span> std::string &amp;name, <span class="keyword">const</span> AssemblyShape shape,</div>
+<div class="line"><a name="l00163"></a><span class="lineno">  163</span>&#160;    <span class="keyword">const</span> floats &amp;assemblyParams, <span class="keyword">const</span> <span class="keywordtype">size_t</span> occurrences,</div>
+<div class="line"><a name="l00164"></a><span class="lineno">  164</span>&#160;    <span class="keyword">const</span> Vector3f &amp;position, <span class="keyword">const</span> Quaterniond &amp;orientation,</div>
+<div class="line"><a name="l00165"></a><span class="lineno">  165</span>&#160;    <span class="keyword">const</span> size_ts &amp;allowedOccurrences, <span class="keyword">const</span> <span class="keywordtype">size_t</span> randomSeed,</div>
+<div class="line"><a name="l00166"></a><span class="lineno">  166</span>&#160;    <span class="keyword">const</span> PositionRandomizationType &amp;randomizationType,</div>
+<div class="line"><a name="l00167"></a><span class="lineno">  167</span>&#160;    <span class="keyword">const</span> <span class="keywordtype">float</span> locationCutoffAngle)</div>
+<div class="line"><a name="l00168"></a><span class="lineno">  168</span>&#160;{</div>
+<div class="line"><a name="l00169"></a><span class="lineno">  169</span>&#160;    <span class="keyword">const</span> <span class="keywordtype">float</span> offset = 2.f / occurrences;</div>
+<div class="line"><a name="l00170"></a><span class="lineno">  170</span>&#160;    <span class="keyword">const</span> <span class="keywordtype">float</span> increment = M_PI * (3.f - sqrt(5.f));</div>
+<div class="line"><a name="l00171"></a><span class="lineno">  171</span>&#160; </div>
+<div class="line"><a name="l00172"></a><span class="lineno">  172</span>&#160;    srand(randomSeed);</div>
+<div class="line"><a name="l00173"></a><span class="lineno">  173</span>&#160;    <span class="keywordtype">size_t</span> rnd{1};</div>
+<div class="line"><a name="l00174"></a><span class="lineno">  174</span>&#160;    <span class="keywordflow">if</span> (occurrences != 0 &amp;&amp; randomSeed != 0 &amp;&amp;</div>
+<div class="line"><a name="l00175"></a><span class="lineno">  175</span>&#160;        randomizationType == PositionRandomizationType::circular)</div>
+<div class="line"><a name="l00176"></a><span class="lineno">  176</span>&#160;        rnd = rand() % occurrences;</div>
+<div class="line"><a name="l00177"></a><span class="lineno">  177</span>&#160; </div>
+<div class="line"><a name="l00178"></a><span class="lineno">  178</span>&#160;<span class="preprocessor">#ifdef DEBUG</span></div>
+<div class="line"><a name="l00179"></a><span class="lineno">  179</span>&#160;    model.addCone(0, {{0, 0, 0}, {0, 0, 1}, 0.1f, 0.f});</div>
+<div class="line"><a name="l00180"></a><span class="lineno">  180</span>&#160;<span class="preprocessor">#endif</span></div>
+<div class="line"><a name="l00181"></a><span class="lineno">  181</span>&#160; </div>
+<div class="line"><a name="l00182"></a><span class="lineno">  182</span>&#160;    uint64_t count = 0;</div>
+<div class="line"><a name="l00183"></a><span class="lineno">  183</span>&#160;    <span class="keywordflow">for</span> (uint64_t i = 0; i &lt; occurrences; ++i)</div>
+<div class="line"><a name="l00184"></a><span class="lineno">  184</span>&#160;    {</div>
+<div class="line"><a name="l00185"></a><span class="lineno">  185</span>&#160;        <span class="keywordflow">if</span> (!allowedOccurrences.empty() &amp;&amp;</div>
+<div class="line"><a name="l00186"></a><span class="lineno">  186</span>&#160;            std::find(allowedOccurrences.begin(), allowedOccurrences.end(),</div>
+<div class="line"><a name="l00187"></a><span class="lineno">  187</span>&#160;                      i) == allowedOccurrences.end())</div>
+<div class="line"><a name="l00188"></a><span class="lineno">  188</span>&#160;            <span class="keywordflow">continue</span>;</div>
+<div class="line"><a name="l00189"></a><span class="lineno">  189</span>&#160; </div>
+<div class="line"><a name="l00190"></a><span class="lineno">  190</span>&#160;        Vector3f pos;</div>
+<div class="line"><a name="l00191"></a><span class="lineno">  191</span>&#160;        Vector3f dir;</div>
+<div class="line"><a name="l00192"></a><span class="lineno">  192</span>&#160;        <span class="keywordflow">switch</span> (shape)</div>
 <div class="line"><a name="l00193"></a><span class="lineno">  193</span>&#160;        {</div>
-<div class="line"><a name="l00194"></a><span class="lineno">  194</span>&#160;            getSphericalPosition(rnd, assemblyParams[0], assemblyParams[1],</div>
-<div class="line"><a name="l00195"></a><span class="lineno">  195</span>&#160;                                 randomizationType, randomSeed, i, occurrences,</div>
-<div class="line"><a name="l00196"></a><span class="lineno">  196</span>&#160;                                 position, pos, dir);</div>
-<div class="line"><a name="l00197"></a><span class="lineno">  197</span>&#160;            <span class="keywordflow">break</span>;</div>
-<div class="line"><a name="l00198"></a><span class="lineno">  198</span>&#160;        }</div>
-<div class="line"><a name="l00199"></a><span class="lineno">  199</span>&#160;        <span class="keywordflow">case</span> AssemblyShape::sinusoidal:</div>
-<div class="line"><a name="l00200"></a><span class="lineno">  200</span>&#160;        {</div>
-<div class="line"><a name="l00201"></a><span class="lineno">  201</span>&#160;            <span class="keyword">const</span> <span class="keyword">auto</span> assemblySize = assemblyParams[0];</div>
-<div class="line"><a name="l00202"></a><span class="lineno">  202</span>&#160;            <span class="keyword">const</span> <span class="keyword">auto</span> assemblyHeight = assemblyParams[1];</div>
-<div class="line"><a name="l00203"></a><span class="lineno">  203</span>&#160;            getSinosoidalPosition(assemblySize, assemblyHeight,</div>
-<div class="line"><a name="l00204"></a><span class="lineno">  204</span>&#160;                                  randomizationType, randomSeed, position, pos,</div>
-<div class="line"><a name="l00205"></a><span class="lineno">  205</span>&#160;                                  dir);</div>
-<div class="line"><a name="l00206"></a><span class="lineno">  206</span>&#160;            <span class="keywordflow">break</span>;</div>
-<div class="line"><a name="l00207"></a><span class="lineno">  207</span>&#160;        }</div>
-<div class="line"><a name="l00208"></a><span class="lineno">  208</span>&#160;        <span class="keywordflow">case</span> AssemblyShape::cubic:</div>
-<div class="line"><a name="l00209"></a><span class="lineno">  209</span>&#160;        {</div>
-<div class="line"><a name="l00210"></a><span class="lineno">  210</span>&#160;            <span class="keyword">const</span> <span class="keyword">auto</span> assemblySize = assemblyParams[0];</div>
-<div class="line"><a name="l00211"></a><span class="lineno">  211</span>&#160;            getCubicPosition(assemblySize, position, pos, dir);</div>
-<div class="line"><a name="l00212"></a><span class="lineno">  212</span>&#160;            <span class="keywordflow">break</span>;</div>
-<div class="line"><a name="l00213"></a><span class="lineno">  213</span>&#160;        }</div>
-<div class="line"><a name="l00214"></a><span class="lineno">  214</span>&#160;        <span class="keywordflow">case</span> AssemblyShape::fan:</div>
-<div class="line"><a name="l00215"></a><span class="lineno">  215</span>&#160;        {</div>
-<div class="line"><a name="l00216"></a><span class="lineno">  216</span>&#160;            <span class="keyword">const</span> <span class="keyword">auto</span> assemblyRadius = assemblyParams[0];</div>
-<div class="line"><a name="l00217"></a><span class="lineno">  217</span>&#160;            getFanPosition(rnd, assemblyRadius, randomizationType, randomSeed,</div>
-<div class="line"><a name="l00218"></a><span class="lineno">  218</span>&#160;                           i, occurrences, position, pos, dir);</div>
-<div class="line"><a name="l00219"></a><span class="lineno">  219</span>&#160;            <span class="keywordflow">break</span>;</div>
-<div class="line"><a name="l00220"></a><span class="lineno">  220</span>&#160;        }</div>
-<div class="line"><a name="l00221"></a><span class="lineno">  221</span>&#160;        <span class="keywordflow">case</span> AssemblyShape::bezier:</div>
-<div class="line"><a name="l00222"></a><span class="lineno">  222</span>&#160;        {</div>
-<div class="line"><a name="l00223"></a><span class="lineno">  223</span>&#160;            <span class="keyword">const</span> Vector3fs points = {</div>
-<div class="line"><a name="l00224"></a><span class="lineno">  224</span>&#160;                {1, 391, 0},   {25, 411, 0},  {48, 446, 0},  {58, 468, 0},</div>
-<div class="line"><a name="l00225"></a><span class="lineno">  225</span>&#160;                {70, 495, 0},  {83, 523, 0},  {110, 535, 0}, {157, 517, 0},</div>
-<div class="line"><a name="l00226"></a><span class="lineno">  226</span>&#160;                {181, 506, 0}, {214, 501, 0}, {216, 473, 0}, {204, 456, 0},</div>
-<div class="line"><a name="l00227"></a><span class="lineno">  227</span>&#160;                {223, 411, 0}, {241, 382, 0}, {261, 372, 0}, {297, 402, 0},</div>
-<div class="line"><a name="l00228"></a><span class="lineno">  228</span>&#160;                {308, 433, 0}, {327, 454, 0}, {355, 454, 0}, {389, 446, 0},</div>
-<div class="line"><a name="l00229"></a><span class="lineno">  229</span>&#160;                {406, 433, 0}, {431, 426, 0}, {458, 443, 0}, {478, 466, 0},</div>
-<div class="line"><a name="l00230"></a><span class="lineno">  230</span>&#160;                {518, 463, 0}, {559, 464, 0}, {584, 478, 0}, {582, 503, 0},</div>
-<div class="line"><a name="l00231"></a><span class="lineno">  231</span>&#160;                {550, 533, 0}, {540, 550, 0}, {540, 574, 0}, {560, 572, 0},</div>
-<div class="line"><a name="l00232"></a><span class="lineno">  232</span>&#160;                {599, 575, 0}, {629, 550, 0}, {666, 548, 0}, {696, 548, 0},</div>
-<div class="line"><a name="l00233"></a><span class="lineno">  233</span>&#160;                {701, 582, 0}, {701, 614, 0}, {683, 639, 0}, {653, 647, 0},</div>
-<div class="line"><a name="l00234"></a><span class="lineno">  234</span>&#160;                {632, 651, 0}, {597, 666, 0}, {570, 701, 0}, {564, 731, 0},</div>
-<div class="line"><a name="l00235"></a><span class="lineno">  235</span>&#160;                {559, 770, 0}, {565, 799, 0}, {577, 819, 0}, {611, 820, 0},</div>
-<div class="line"><a name="l00236"></a><span class="lineno">  236</span>&#160;                {661, 809, 0}, {683, 787, 0}, {700, 768, 0}, {735, 758, 0},</div>
-<div class="line"><a name="l00237"></a><span class="lineno">  237</span>&#160;                {763, 768, 0}, {788, 792, 0}, {780, 820, 0}, {770, 859, 0},</div>
-<div class="line"><a name="l00238"></a><span class="lineno">  238</span>&#160;                {740, 882, 0}, {705, 911, 0}, {688, 931, 0}, {646, 973, 0},</div>
-<div class="line"><a name="l00239"></a><span class="lineno">  239</span>&#160;                {611, 992, 0}, {585, 1022, 0}};</div>
-<div class="line"><a name="l00240"></a><span class="lineno">  240</span>&#160;            <span class="keyword">const</span> <span class="keyword">auto</span> assemblySize = assemblyParams[0];</div>
-<div class="line"><a name="l00241"></a><span class="lineno">  241</span>&#160;            getBezierPosition(points, assemblySize,</div>
-<div class="line"><a name="l00242"></a><span class="lineno">  242</span>&#160;                              <span class="keywordtype">float</span>(i) / <span class="keywordtype">float</span>(occurrences), pos, dir);</div>
-<div class="line"><a name="l00243"></a><span class="lineno">  243</span>&#160;            <span class="keywordflow">break</span>;</div>
-<div class="line"><a name="l00244"></a><span class="lineno">  244</span>&#160;        }</div>
-<div class="line"><a name="l00245"></a><span class="lineno">  245</span>&#160;        <span class="keywordflow">default</span>:</div>
-<div class="line"><a name="l00246"></a><span class="lineno">  246</span>&#160;            <span class="keyword">const</span> <span class="keyword">auto</span> assemblySize = assemblyParams[0];</div>
-<div class="line"><a name="l00247"></a><span class="lineno">  247</span>&#160;            getPlanarPosition(assemblySize, randomizationType, randomSeed,</div>
-<div class="line"><a name="l00248"></a><span class="lineno">  248</span>&#160;                              position, pos, dir);</div>
-<div class="line"><a name="l00249"></a><span class="lineno">  249</span>&#160;            <span class="keywordflow">break</span>;</div>
-<div class="line"><a name="l00250"></a><span class="lineno">  250</span>&#160;        }</div>
-<div class="line"><a name="l00251"></a><span class="lineno">  251</span>&#160; </div>
-<div class="line"><a name="l00252"></a><span class="lineno">  252</span>&#160;        <span class="comment">// Clipping planes</span></div>
-<div class="line"><a name="l00253"></a><span class="lineno">  253</span>&#160;        <span class="keywordflow">if</span> (isClipped(pos, _clippingPlanes))</div>
-<div class="line"><a name="l00254"></a><span class="lineno">  254</span>&#160;            <span class="keywordflow">continue</span>;</div>
-<div class="line"><a name="l00255"></a><span class="lineno">  255</span>&#160; </div>
-<div class="line"><a name="l00256"></a><span class="lineno">  256</span>&#160;        <span class="comment">// Remove membrane where proteins are. This is currently done according</span></div>
-<div class="line"><a name="l00257"></a><span class="lineno">  257</span>&#160;        <span class="comment">// to the vector orientation</span></div>
-<div class="line"><a name="l00258"></a><span class="lineno">  258</span>&#160;        <span class="keywordtype">bool</span> occupied{<span class="keyword">false</span>};</div>
-<div class="line"><a name="l00259"></a><span class="lineno">  259</span>&#160;        <span class="keywordflow">if</span> (locationCutoffAngle != 0.f)</div>
-<div class="line"><a name="l00260"></a><span class="lineno">  260</span>&#160;            <span class="keywordflow">for</span> (<span class="keyword">const</span> <span class="keyword">auto</span> &amp;occupiedDirection : _occupiedDirections)</div>
-<div class="line"><a name="l00261"></a><span class="lineno">  261</span>&#160;                <span class="keywordflow">if</span> (dot(dir, occupiedDirection.first) &gt;</div>
-<div class="line"><a name="l00262"></a><span class="lineno">  262</span>&#160;                    occupiedDirection.second)</div>
-<div class="line"><a name="l00263"></a><span class="lineno">  263</span>&#160;                {</div>
-<div class="line"><a name="l00264"></a><span class="lineno">  264</span>&#160;                    occupied = <span class="keyword">true</span>;</div>
-<div class="line"><a name="l00265"></a><span class="lineno">  265</span>&#160;                    <span class="keywordflow">break</span>;</div>
-<div class="line"><a name="l00266"></a><span class="lineno">  266</span>&#160;                }</div>
-<div class="line"><a name="l00267"></a><span class="lineno">  267</span>&#160;        <span class="keywordflow">if</span> (occupied)</div>
-<div class="line"><a name="l00268"></a><span class="lineno">  268</span>&#160;            <span class="keywordflow">continue</span>;</div>
-<div class="line"><a name="l00269"></a><span class="lineno">  269</span>&#160; </div>
-<div class="line"><a name="l00270"></a><span class="lineno">  270</span>&#160;        <span class="keyword">const</span> Quaterniond instanceOrientation = glm::quatLookAt(dir, UP_VECTOR);</div>
+<div class="line"><a name="l00194"></a><span class="lineno">  194</span>&#160;        <span class="keywordflow">case</span> AssemblyShape::spherical:</div>
+<div class="line"><a name="l00195"></a><span class="lineno">  195</span>&#160;        {</div>
+<div class="line"><a name="l00196"></a><span class="lineno">  196</span>&#160;            getSphericalPosition(rnd, assemblyParams[0], assemblyParams[1],</div>
+<div class="line"><a name="l00197"></a><span class="lineno">  197</span>&#160;                                 randomizationType, randomSeed, i, occurrences,</div>
+<div class="line"><a name="l00198"></a><span class="lineno">  198</span>&#160;                                 position, pos, dir);</div>
+<div class="line"><a name="l00199"></a><span class="lineno">  199</span>&#160;            <span class="keywordflow">break</span>;</div>
+<div class="line"><a name="l00200"></a><span class="lineno">  200</span>&#160;        }</div>
+<div class="line"><a name="l00201"></a><span class="lineno">  201</span>&#160;        <span class="keywordflow">case</span> AssemblyShape::sinusoidal:</div>
+<div class="line"><a name="l00202"></a><span class="lineno">  202</span>&#160;        {</div>
+<div class="line"><a name="l00203"></a><span class="lineno">  203</span>&#160;            <span class="keyword">const</span> <span class="keyword">auto</span> assemblySize = assemblyParams[0];</div>
+<div class="line"><a name="l00204"></a><span class="lineno">  204</span>&#160;            <span class="keyword">const</span> <span class="keyword">auto</span> assemblyHeight = assemblyParams[1];</div>
+<div class="line"><a name="l00205"></a><span class="lineno">  205</span>&#160;            getSinosoidalPosition(assemblySize, assemblyHeight,</div>
+<div class="line"><a name="l00206"></a><span class="lineno">  206</span>&#160;                                  randomizationType, randomSeed, position, pos,</div>
+<div class="line"><a name="l00207"></a><span class="lineno">  207</span>&#160;                                  dir);</div>
+<div class="line"><a name="l00208"></a><span class="lineno">  208</span>&#160;            <span class="keywordflow">break</span>;</div>
+<div class="line"><a name="l00209"></a><span class="lineno">  209</span>&#160;        }</div>
+<div class="line"><a name="l00210"></a><span class="lineno">  210</span>&#160;        <span class="keywordflow">case</span> AssemblyShape::cubic:</div>
+<div class="line"><a name="l00211"></a><span class="lineno">  211</span>&#160;        {</div>
+<div class="line"><a name="l00212"></a><span class="lineno">  212</span>&#160;            <span class="keyword">const</span> <span class="keyword">auto</span> assemblySize = assemblyParams[0];</div>
+<div class="line"><a name="l00213"></a><span class="lineno">  213</span>&#160;            getCubicPosition(assemblySize, position, pos, dir);</div>
+<div class="line"><a name="l00214"></a><span class="lineno">  214</span>&#160;            <span class="keywordflow">break</span>;</div>
+<div class="line"><a name="l00215"></a><span class="lineno">  215</span>&#160;        }</div>
+<div class="line"><a name="l00216"></a><span class="lineno">  216</span>&#160;        <span class="keywordflow">case</span> AssemblyShape::fan:</div>
+<div class="line"><a name="l00217"></a><span class="lineno">  217</span>&#160;        {</div>
+<div class="line"><a name="l00218"></a><span class="lineno">  218</span>&#160;            <span class="keyword">const</span> <span class="keyword">auto</span> assemblyRadius = assemblyParams[0];</div>
+<div class="line"><a name="l00219"></a><span class="lineno">  219</span>&#160;            getFanPosition(rnd, assemblyRadius, randomizationType, randomSeed,</div>
+<div class="line"><a name="l00220"></a><span class="lineno">  220</span>&#160;                           i, occurrences, position, pos, dir);</div>
+<div class="line"><a name="l00221"></a><span class="lineno">  221</span>&#160;            <span class="keywordflow">break</span>;</div>
+<div class="line"><a name="l00222"></a><span class="lineno">  222</span>&#160;        }</div>
+<div class="line"><a name="l00223"></a><span class="lineno">  223</span>&#160;        <span class="keywordflow">case</span> AssemblyShape::bezier:</div>
+<div class="line"><a name="l00224"></a><span class="lineno">  224</span>&#160;        {</div>
+<div class="line"><a name="l00225"></a><span class="lineno">  225</span>&#160;            <span class="keyword">const</span> Vector3fs points = {</div>
+<div class="line"><a name="l00226"></a><span class="lineno">  226</span>&#160;                {1, 391, 0},   {25, 411, 0},  {48, 446, 0},  {58, 468, 0},</div>
+<div class="line"><a name="l00227"></a><span class="lineno">  227</span>&#160;                {70, 495, 0},  {83, 523, 0},  {110, 535, 0}, {157, 517, 0},</div>
+<div class="line"><a name="l00228"></a><span class="lineno">  228</span>&#160;                {181, 506, 0}, {214, 501, 0}, {216, 473, 0}, {204, 456, 0},</div>
+<div class="line"><a name="l00229"></a><span class="lineno">  229</span>&#160;                {223, 411, 0}, {241, 382, 0}, {261, 372, 0}, {297, 402, 0},</div>
+<div class="line"><a name="l00230"></a><span class="lineno">  230</span>&#160;                {308, 433, 0}, {327, 454, 0}, {355, 454, 0}, {389, 446, 0},</div>
+<div class="line"><a name="l00231"></a><span class="lineno">  231</span>&#160;                {406, 433, 0}, {431, 426, 0}, {458, 443, 0}, {478, 466, 0},</div>
+<div class="line"><a name="l00232"></a><span class="lineno">  232</span>&#160;                {518, 463, 0}, {559, 464, 0}, {584, 478, 0}, {582, 503, 0},</div>
+<div class="line"><a name="l00233"></a><span class="lineno">  233</span>&#160;                {550, 533, 0}, {540, 550, 0}, {540, 574, 0}, {560, 572, 0},</div>
+<div class="line"><a name="l00234"></a><span class="lineno">  234</span>&#160;                {599, 575, 0}, {629, 550, 0}, {666, 548, 0}, {696, 548, 0},</div>
+<div class="line"><a name="l00235"></a><span class="lineno">  235</span>&#160;                {701, 582, 0}, {701, 614, 0}, {683, 639, 0}, {653, 647, 0},</div>
+<div class="line"><a name="l00236"></a><span class="lineno">  236</span>&#160;                {632, 651, 0}, {597, 666, 0}, {570, 701, 0}, {564, 731, 0},</div>
+<div class="line"><a name="l00237"></a><span class="lineno">  237</span>&#160;                {559, 770, 0}, {565, 799, 0}, {577, 819, 0}, {611, 820, 0},</div>
+<div class="line"><a name="l00238"></a><span class="lineno">  238</span>&#160;                {661, 809, 0}, {683, 787, 0}, {700, 768, 0}, {735, 758, 0},</div>
+<div class="line"><a name="l00239"></a><span class="lineno">  239</span>&#160;                {763, 768, 0}, {788, 792, 0}, {780, 820, 0}, {770, 859, 0},</div>
+<div class="line"><a name="l00240"></a><span class="lineno">  240</span>&#160;                {740, 882, 0}, {705, 911, 0}, {688, 931, 0}, {646, 973, 0},</div>
+<div class="line"><a name="l00241"></a><span class="lineno">  241</span>&#160;                {611, 992, 0}, {585, 1022, 0}};</div>
+<div class="line"><a name="l00242"></a><span class="lineno">  242</span>&#160;            <span class="keyword">const</span> <span class="keyword">auto</span> assemblySize = assemblyParams[0];</div>
+<div class="line"><a name="l00243"></a><span class="lineno">  243</span>&#160;            getBezierPosition(points, assemblySize,</div>
+<div class="line"><a name="l00244"></a><span class="lineno">  244</span>&#160;                              <span class="keywordtype">float</span>(i) / <span class="keywordtype">float</span>(occurrences), pos, dir);</div>
+<div class="line"><a name="l00245"></a><span class="lineno">  245</span>&#160;            <span class="keywordflow">break</span>;</div>
+<div class="line"><a name="l00246"></a><span class="lineno">  246</span>&#160;        }</div>
+<div class="line"><a name="l00247"></a><span class="lineno">  247</span>&#160;        <span class="keywordflow">default</span>:</div>
+<div class="line"><a name="l00248"></a><span class="lineno">  248</span>&#160;            <span class="keyword">const</span> <span class="keyword">auto</span> assemblySize = assemblyParams[0];</div>
+<div class="line"><a name="l00249"></a><span class="lineno">  249</span>&#160;            getPlanarPosition(assemblySize, randomizationType, randomSeed,</div>
+<div class="line"><a name="l00250"></a><span class="lineno">  250</span>&#160;                              position, pos, dir);</div>
+<div class="line"><a name="l00251"></a><span class="lineno">  251</span>&#160;            <span class="keywordflow">break</span>;</div>
+<div class="line"><a name="l00252"></a><span class="lineno">  252</span>&#160;        }</div>
+<div class="line"><a name="l00253"></a><span class="lineno">  253</span>&#160; </div>
+<div class="line"><a name="l00254"></a><span class="lineno">  254</span>&#160;        <span class="comment">// Clipping planes</span></div>
+<div class="line"><a name="l00255"></a><span class="lineno">  255</span>&#160;        <span class="keywordflow">if</span> (isClipped(pos, _clippingPlanes))</div>
+<div class="line"><a name="l00256"></a><span class="lineno">  256</span>&#160;            <span class="keywordflow">continue</span>;</div>
+<div class="line"><a name="l00257"></a><span class="lineno">  257</span>&#160; </div>
+<div class="line"><a name="l00258"></a><span class="lineno">  258</span>&#160;        <span class="comment">// Remove membrane where proteins are. This is currently done according</span></div>
+<div class="line"><a name="l00259"></a><span class="lineno">  259</span>&#160;        <span class="comment">// to the vector orientation</span></div>
+<div class="line"><a name="l00260"></a><span class="lineno">  260</span>&#160;        <span class="keywordtype">bool</span> occupied{<span class="keyword">false</span>};</div>
+<div class="line"><a name="l00261"></a><span class="lineno">  261</span>&#160;        <span class="keywordflow">if</span> (locationCutoffAngle != 0.f)</div>
+<div class="line"><a name="l00262"></a><span class="lineno">  262</span>&#160;            <span class="keywordflow">for</span> (<span class="keyword">const</span> <span class="keyword">auto</span> &amp;occupiedDirection : _occupiedDirections)</div>
+<div class="line"><a name="l00263"></a><span class="lineno">  263</span>&#160;                <span class="keywordflow">if</span> (dot(dir, occupiedDirection.first) &gt;</div>
+<div class="line"><a name="l00264"></a><span class="lineno">  264</span>&#160;                    occupiedDirection.second)</div>
+<div class="line"><a name="l00265"></a><span class="lineno">  265</span>&#160;                {</div>
+<div class="line"><a name="l00266"></a><span class="lineno">  266</span>&#160;                    occupied = <span class="keyword">true</span>;</div>
+<div class="line"><a name="l00267"></a><span class="lineno">  267</span>&#160;                    <span class="keywordflow">break</span>;</div>
+<div class="line"><a name="l00268"></a><span class="lineno">  268</span>&#160;                }</div>
+<div class="line"><a name="l00269"></a><span class="lineno">  269</span>&#160;        <span class="keywordflow">if</span> (occupied)</div>
+<div class="line"><a name="l00270"></a><span class="lineno">  270</span>&#160;            <span class="keywordflow">continue</span>;</div>
 <div class="line"><a name="l00271"></a><span class="lineno">  271</span>&#160; </div>
-<div class="line"><a name="l00272"></a><span class="lineno">  272</span>&#160;        Transformation tf;</div>
-<div class="line"><a name="l00273"></a><span class="lineno">  273</span>&#160;        tf.setTranslation(_position + pos);</div>
-<div class="line"><a name="l00274"></a><span class="lineno">  274</span>&#160;        tf.setRotation(instanceOrientation * orientation);</div>
-<div class="line"><a name="l00275"></a><span class="lineno">  275</span>&#160; </div>
-<div class="line"><a name="l00276"></a><span class="lineno">  276</span>&#160;        <span class="keywordflow">if</span> (count == 0)</div>
-<div class="line"><a name="l00277"></a><span class="lineno">  277</span>&#160;            md-&gt;setTransformation(tf);</div>
-<div class="line"><a name="l00278"></a><span class="lineno">  278</span>&#160;        <span class="keyword">const</span> ModelInstance instance(<span class="keyword">true</span>, <span class="keyword">false</span>, tf);</div>
-<div class="line"><a name="l00279"></a><span class="lineno">  279</span>&#160;        md-&gt;addInstance(instance);</div>
-<div class="line"><a name="l00280"></a><span class="lineno">  280</span>&#160; </div>
-<div class="line"><a name="l00281"></a><span class="lineno">  281</span>&#160;        <span class="comment">// Store occupied direction</span></div>
-<div class="line"><a name="l00282"></a><span class="lineno">  282</span>&#160;        <span class="keywordflow">if</span> (locationCutoffAngle != 0.f)</div>
-<div class="line"><a name="l00283"></a><span class="lineno">  283</span>&#160;            _occupiedDirections.push_back({dir, locationCutoffAngle});</div>
-<div class="line"><a name="l00284"></a><span class="lineno">  284</span>&#160; </div>
-<div class="line"><a name="l00285"></a><span class="lineno">  285</span>&#160;        ++count;</div>
-<div class="line"><a name="l00286"></a><span class="lineno">  286</span>&#160;    }</div>
-<div class="line"><a name="l00287"></a><span class="lineno">  287</span>&#160;}</div>
-<div class="line"><a name="l00288"></a><span class="lineno">  288</span>&#160; </div>
-<div class="line"><a name="l00289"></a><span class="lineno"><a class="line" href="../../db/db7/classbioexplorer_1_1Assembly.html#a8c4dd7810c53d461e4e5463863e21a94">  289</a></span>&#160;<span class="keywordtype">void</span> <a class="code" href="../../db/db7/classbioexplorer_1_1Assembly.html#a8c4dd7810c53d461e4e5463863e21a94">Assembly::setColorScheme</a>(<span class="keyword">const</span> <a class="code" href="../../dd/d82/structbioexplorer_1_1ColorSchemeDescriptor.html">ColorSchemeDescriptor</a> &amp;csd)</div>
-<div class="line"><a name="l00290"></a><span class="lineno">  290</span>&#160;{</div>
-<div class="line"><a name="l00291"></a><span class="lineno">  291</span>&#160;    <span class="keywordflow">if</span> (csd.<a class="code" href="../../dd/d82/structbioexplorer_1_1ColorSchemeDescriptor.html#a9dcc8cbb413fcfd607ac8123e8e6cd58">palette</a>.size() &lt; 3 || csd.<a class="code" href="../../dd/d82/structbioexplorer_1_1ColorSchemeDescriptor.html#a9dcc8cbb413fcfd607ac8123e8e6cd58">palette</a>.size() % 3 != 0)</div>
-<div class="line"><a name="l00292"></a><span class="lineno">  292</span>&#160;        PLUGIN_THROW(std::runtime_error(<span class="stringliteral">&quot;Invalid palette size&quot;</span>));</div>
-<div class="line"><a name="l00293"></a><span class="lineno">  293</span>&#160; </div>
-<div class="line"><a name="l00294"></a><span class="lineno">  294</span>&#160;    ProteinPtr protein{<span class="keyword">nullptr</span>};</div>
-<div class="line"><a name="l00295"></a><span class="lineno">  295</span>&#160;    <span class="keyword">auto</span> itProtein = _proteins.find(csd.<a class="code" href="../../dd/d82/structbioexplorer_1_1ColorSchemeDescriptor.html#a574f1c6f1267e2eedc8a05dbe7ecb7ba">name</a>);</div>
-<div class="line"><a name="l00296"></a><span class="lineno">  296</span>&#160;    <span class="keywordflow">if</span> (itProtein != _proteins.end())</div>
-<div class="line"><a name="l00297"></a><span class="lineno">  297</span>&#160;        protein = (*itProtein).second;</div>
-<div class="line"><a name="l00298"></a><span class="lineno">  298</span>&#160;    <span class="keywordflow">else</span></div>
-<div class="line"><a name="l00299"></a><span class="lineno">  299</span>&#160;    {</div>
-<div class="line"><a name="l00300"></a><span class="lineno">  300</span>&#160;        <span class="keyword">auto</span> itMesh = _meshes.find(csd.<a class="code" href="../../dd/d82/structbioexplorer_1_1ColorSchemeDescriptor.html#a574f1c6f1267e2eedc8a05dbe7ecb7ba">name</a>);</div>
-<div class="line"><a name="l00301"></a><span class="lineno">  301</span>&#160;        <span class="keywordflow">if</span> (itMesh != _meshes.end())</div>
-<div class="line"><a name="l00302"></a><span class="lineno">  302</span>&#160;            protein = (*itMesh).second-&gt;getProtein();</div>
-<div class="line"><a name="l00303"></a><span class="lineno">  303</span>&#160;        <span class="keywordflow">else</span> <span class="keywordflow">if</span> (_membrane)</div>
-<div class="line"><a name="l00304"></a><span class="lineno">  304</span>&#160;        {</div>
-<div class="line"><a name="l00305"></a><span class="lineno">  305</span>&#160;            <span class="keyword">const</span> <span class="keyword">auto</span> membraneProteins = _membrane-&gt;getProteins();</div>
-<div class="line"><a name="l00306"></a><span class="lineno">  306</span>&#160;            <span class="keyword">auto</span> it = membraneProteins.find(csd.<a class="code" href="../../dd/d82/structbioexplorer_1_1ColorSchemeDescriptor.html#a574f1c6f1267e2eedc8a05dbe7ecb7ba">name</a>);</div>
-<div class="line"><a name="l00307"></a><span class="lineno">  307</span>&#160;            <span class="keywordflow">if</span> (it != membraneProteins.end())</div>
-<div class="line"><a name="l00308"></a><span class="lineno">  308</span>&#160;                protein = (*it).second;</div>
-<div class="line"><a name="l00309"></a><span class="lineno">  309</span>&#160;        }</div>
-<div class="line"><a name="l00310"></a><span class="lineno">  310</span>&#160;    }</div>
-<div class="line"><a name="l00311"></a><span class="lineno">  311</span>&#160; </div>
-<div class="line"><a name="l00312"></a><span class="lineno">  312</span>&#160;    <span class="keywordflow">if</span> (protein)</div>
-<div class="line"><a name="l00313"></a><span class="lineno">  313</span>&#160;    {</div>
-<div class="line"><a name="l00314"></a><span class="lineno">  314</span>&#160;        Palette palette;</div>
-<div class="line"><a name="l00315"></a><span class="lineno">  315</span>&#160;        <span class="keywordflow">for</span> (<span class="keywordtype">size_t</span> i = 0; i &lt; csd.<a class="code" href="../../dd/d82/structbioexplorer_1_1ColorSchemeDescriptor.html#a9dcc8cbb413fcfd607ac8123e8e6cd58">palette</a>.size(); i += 3)</div>
-<div class="line"><a name="l00316"></a><span class="lineno">  316</span>&#160;            palette.push_back(</div>
-<div class="line"><a name="l00317"></a><span class="lineno">  317</span>&#160;                {csd.palette[i], csd.palette[i + 1], csd.palette[i + 2]});</div>
-<div class="line"><a name="l00318"></a><span class="lineno">  318</span>&#160; </div>
-<div class="line"><a name="l00319"></a><span class="lineno">  319</span>&#160;        PLUGIN_INFO &lt;&lt; <span class="stringliteral">&quot;Applying color scheme to protein &quot;</span> &lt;&lt; csd.<a class="code" href="../../dd/d82/structbioexplorer_1_1ColorSchemeDescriptor.html#a574f1c6f1267e2eedc8a05dbe7ecb7ba">name</a></div>
-<div class="line"><a name="l00320"></a><span class="lineno">  320</span>&#160;                    &lt;&lt; <span class="stringliteral">&quot; on assembly &quot;</span> &lt;&lt; csd.<a class="code" href="../../dd/d82/structbioexplorer_1_1ColorSchemeDescriptor.html#a3e9a002b94feaa37ac5f16ad5d6199d9">assemblyName</a> &lt;&lt; std::endl;</div>
-<div class="line"><a name="l00321"></a><span class="lineno">  321</span>&#160;        protein-&gt;setColorScheme(csd.<a class="code" href="../../dd/d82/structbioexplorer_1_1ColorSchemeDescriptor.html#a0b50b28adf6185a96c10fc5e1a74578e">colorScheme</a>, palette, csd.<a class="code" href="../../dd/d82/structbioexplorer_1_1ColorSchemeDescriptor.html#a07c7ecc9dff4ace00972a6274286f497">chainIds</a>);</div>
-<div class="line"><a name="l00322"></a><span class="lineno">  322</span>&#160; </div>
-<div class="line"><a name="l00323"></a><span class="lineno">  323</span>&#160;        _scene.markModified();</div>
-<div class="line"><a name="l00324"></a><span class="lineno">  324</span>&#160;    }</div>
-<div class="line"><a name="l00325"></a><span class="lineno">  325</span>&#160;    <span class="keywordflow">else</span></div>
-<div class="line"><a name="l00326"></a><span class="lineno">  326</span>&#160;        PLUGIN_ERROR &lt;&lt; <span class="stringliteral">&quot;Protein &quot;</span> &lt;&lt; csd.<a class="code" href="../../dd/d82/structbioexplorer_1_1ColorSchemeDescriptor.html#a574f1c6f1267e2eedc8a05dbe7ecb7ba">name</a> &lt;&lt; <span class="stringliteral">&quot; not found on assembly &quot;</span></div>
-<div class="line"><a name="l00327"></a><span class="lineno">  327</span>&#160;                     &lt;&lt; csd.<a class="code" href="../../dd/d82/structbioexplorer_1_1ColorSchemeDescriptor.html#a3e9a002b94feaa37ac5f16ad5d6199d9">assemblyName</a> &lt;&lt; std::endl;</div>
-<div class="line"><a name="l00328"></a><span class="lineno">  328</span>&#160;}</div>
-<div class="line"><a name="l00329"></a><span class="lineno">  329</span>&#160; </div>
-<div class="line"><a name="l00330"></a><span class="lineno"><a class="line" href="../../db/db7/classbioexplorer_1_1Assembly.html#a606db9874df6b59c700f41041192948c">  330</a></span>&#160;<span class="keywordtype">void</span> <a class="code" href="../../db/db7/classbioexplorer_1_1Assembly.html#a606db9874df6b59c700f41041192948c">Assembly::setAminoAcidSequenceAsString</a>(</div>
-<div class="line"><a name="l00331"></a><span class="lineno">  331</span>&#160;    <span class="keyword">const</span> <a class="code" href="../../de/d42/structbioexplorer_1_1AminoAcidSequenceAsStringDescriptor.html">AminoAcidSequenceAsStringDescriptor</a> &amp;aasd)</div>
-<div class="line"><a name="l00332"></a><span class="lineno">  332</span>&#160;{</div>
-<div class="line"><a name="l00333"></a><span class="lineno">  333</span>&#160;    <span class="keyword">auto</span> it = _proteins.find(aasd.<a class="code" href="../../de/d42/structbioexplorer_1_1AminoAcidSequenceAsStringDescriptor.html#a57aad74cd2aa3fe694d2e1a53c026075">name</a>);</div>
-<div class="line"><a name="l00334"></a><span class="lineno">  334</span>&#160;    <span class="keywordflow">if</span> (it != _proteins.end())</div>
-<div class="line"><a name="l00335"></a><span class="lineno">  335</span>&#160;        (*it).second-&gt;setAminoAcidSequenceAsString(aasd.<a class="code" href="../../de/d42/structbioexplorer_1_1AminoAcidSequenceAsStringDescriptor.html#af803af30effb27dc7055147f4b5c8e67">sequence</a>);</div>
-<div class="line"><a name="l00336"></a><span class="lineno">  336</span>&#160;    <span class="keywordflow">else</span></div>
-<div class="line"><a name="l00337"></a><span class="lineno">  337</span>&#160;        PLUGIN_THROW(std::runtime_error(<span class="stringliteral">&quot;Protein not found: &quot;</span> + aasd.<a class="code" href="../../de/d42/structbioexplorer_1_1AminoAcidSequenceAsStringDescriptor.html#a57aad74cd2aa3fe694d2e1a53c026075">name</a>));</div>
-<div class="line"><a name="l00338"></a><span class="lineno">  338</span>&#160;}</div>
-<div class="line"><a name="l00339"></a><span class="lineno">  339</span>&#160; </div>
-<div class="line"><a name="l00340"></a><span class="lineno"><a class="line" href="../../db/db7/classbioexplorer_1_1Assembly.html#a71320df37a54cc5fb8b7a269a6e46c43">  340</a></span>&#160;<span class="keywordtype">void</span> <a class="code" href="../../db/db7/classbioexplorer_1_1Assembly.html#a71320df37a54cc5fb8b7a269a6e46c43">Assembly::setAminoAcidSequenceAsRange</a>(</div>
-<div class="line"><a name="l00341"></a><span class="lineno">  341</span>&#160;    <span class="keyword">const</span> <a class="code" href="../../d3/db0/structbioexplorer_1_1AminoAcidSequenceAsRangesDescriptor.html">AminoAcidSequenceAsRangesDescriptor</a> &amp;aasd)</div>
-<div class="line"><a name="l00342"></a><span class="lineno">  342</span>&#160;{</div>
-<div class="line"><a name="l00343"></a><span class="lineno">  343</span>&#160;    <span class="keyword">auto</span> it = _proteins.find(aasd.<a class="code" href="../../d3/db0/structbioexplorer_1_1AminoAcidSequenceAsRangesDescriptor.html#a104e34b76aa2b710362804f5b50333c6">name</a>);</div>
-<div class="line"><a name="l00344"></a><span class="lineno">  344</span>&#160;    <span class="keywordflow">if</span> (it != _proteins.end())</div>
-<div class="line"><a name="l00345"></a><span class="lineno">  345</span>&#160;    {</div>
-<div class="line"><a name="l00346"></a><span class="lineno">  346</span>&#160;        Vector2uis ranges;</div>
-<div class="line"><a name="l00347"></a><span class="lineno">  347</span>&#160;        <span class="keywordflow">for</span> (<span class="keywordtype">size_t</span> i = 0; i &lt; aasd.<a class="code" href="../../d3/db0/structbioexplorer_1_1AminoAcidSequenceAsRangesDescriptor.html#a69901ac67f1b6a928a358f3805d3173a">ranges</a>.size(); i += 2)</div>
-<div class="line"><a name="l00348"></a><span class="lineno">  348</span>&#160;            ranges.push_back({aasd.ranges[i], aasd.ranges[i + 1]});</div>
-<div class="line"><a name="l00349"></a><span class="lineno">  349</span>&#160; </div>
-<div class="line"><a name="l00350"></a><span class="lineno">  350</span>&#160;        (*it).second-&gt;setAminoAcidSequenceAsRanges(ranges);</div>
-<div class="line"><a name="l00351"></a><span class="lineno">  351</span>&#160;    }</div>
-<div class="line"><a name="l00352"></a><span class="lineno">  352</span>&#160;    <span class="keywordflow">else</span></div>
-<div class="line"><a name="l00353"></a><span class="lineno">  353</span>&#160;        PLUGIN_THROW(std::runtime_error(<span class="stringliteral">&quot;Protein not found: &quot;</span> + aasd.<a class="code" href="../../d3/db0/structbioexplorer_1_1AminoAcidSequenceAsRangesDescriptor.html#a104e34b76aa2b710362804f5b50333c6">name</a>));</div>
-<div class="line"><a name="l00354"></a><span class="lineno">  354</span>&#160;}</div>
-<div class="line"><a name="l00355"></a><span class="lineno">  355</span>&#160; </div>
-<div class="line"><a name="l00356"></a><span class="lineno"><a class="line" href="../../db/db7/classbioexplorer_1_1Assembly.html#aee90be5f4b5471b971a565f0e7a2ed9a">  356</a></span>&#160;std::string <a class="code" href="../../db/db7/classbioexplorer_1_1Assembly.html#aee90be5f4b5471b971a565f0e7a2ed9a">Assembly::getAminoAcidInformation</a>(</div>
-<div class="line"><a name="l00357"></a><span class="lineno">  357</span>&#160;    <span class="keyword">const</span> <a class="code" href="../../da/dc9/structbioexplorer_1_1AminoAcidInformationDescriptor.html">AminoAcidInformationDescriptor</a> &amp;aasd)<span class="keyword"> const</span></div>
-<div class="line"><a name="l00358"></a><span class="lineno">  358</span>&#160;<span class="keyword"></span>{</div>
-<div class="line"><a name="l00359"></a><span class="lineno">  359</span>&#160;    PLUGIN_INFO &lt;&lt; <span class="stringliteral">&quot;Returning Amino Acid information from protein &quot;</span> &lt;&lt; aasd.name</div>
-<div class="line"><a name="l00360"></a><span class="lineno">  360</span>&#160;                &lt;&lt; std::endl;</div>
-<div class="line"><a name="l00361"></a><span class="lineno">  361</span>&#160; </div>
-<div class="line"><a name="l00362"></a><span class="lineno">  362</span>&#160;    std::string response;</div>
-<div class="line"><a name="l00363"></a><span class="lineno">  363</span>&#160;    <span class="keyword">auto</span> it = _proteins.find(aasd.name);</div>
-<div class="line"><a name="l00364"></a><span class="lineno">  364</span>&#160;    <span class="keywordflow">if</span> (it != _proteins.end())</div>
-<div class="line"><a name="l00365"></a><span class="lineno">  365</span>&#160;    {</div>
-<div class="line"><a name="l00366"></a><span class="lineno">  366</span>&#160;        <span class="comment">// Sequences</span></div>
-<div class="line"><a name="l00367"></a><span class="lineno">  367</span>&#160;        <span class="keywordflow">for</span> (<span class="keyword">const</span> <span class="keyword">auto</span> &amp;sequence : (*it).second-&gt;getSequencesAsString())</div>
-<div class="line"><a name="l00368"></a><span class="lineno">  368</span>&#160;        {</div>
-<div class="line"><a name="l00369"></a><span class="lineno">  369</span>&#160;            <span class="keywordflow">if</span> (!response.empty())</div>
-<div class="line"><a name="l00370"></a><span class="lineno">  370</span>&#160;                response += <span class="stringliteral">&quot;\n&quot;</span>;</div>
-<div class="line"><a name="l00371"></a><span class="lineno">  371</span>&#160;            response += sequence.second;</div>
-<div class="line"><a name="l00372"></a><span class="lineno">  372</span>&#160;        }</div>
-<div class="line"><a name="l00373"></a><span class="lineno">  373</span>&#160; </div>
-<div class="line"><a name="l00374"></a><span class="lineno">  374</span>&#160;        <span class="comment">// Glycosylation sites</span></div>
-<div class="line"><a name="l00375"></a><span class="lineno">  375</span>&#160;        <span class="keyword">const</span> <span class="keyword">auto</span> &amp;sites = (*it).second-&gt;getGlycosylationSites({});</div>
-<div class="line"><a name="l00376"></a><span class="lineno">  376</span>&#160;        <span class="keywordflow">for</span> (<span class="keyword">const</span> <span class="keyword">auto</span> &amp;site : sites)</div>
-<div class="line"><a name="l00377"></a><span class="lineno">  377</span>&#160;        {</div>
-<div class="line"><a name="l00378"></a><span class="lineno">  378</span>&#160;            std::string s;</div>
-<div class="line"><a name="l00379"></a><span class="lineno">  379</span>&#160;            <span class="keywordflow">for</span> (<span class="keyword">const</span> <span class="keyword">auto</span> &amp;index : site.second)</div>
-<div class="line"><a name="l00380"></a><span class="lineno">  380</span>&#160;            {</div>
-<div class="line"><a name="l00381"></a><span class="lineno">  381</span>&#160;                <span class="keywordflow">if</span> (!s.empty())</div>
-<div class="line"><a name="l00382"></a><span class="lineno">  382</span>&#160;                    s += <span class="stringliteral">&quot;,&quot;</span>;</div>
-<div class="line"><a name="l00383"></a><span class="lineno">  383</span>&#160;                s += std::to_string(index + 1); <span class="comment">// Site indices start a 1, not 0</span></div>
-<div class="line"><a name="l00384"></a><span class="lineno">  384</span>&#160;            }</div>
-<div class="line"><a name="l00385"></a><span class="lineno">  385</span>&#160;            response += <span class="stringliteral">&quot;\n&quot;</span> + s;</div>
-<div class="line"><a name="l00386"></a><span class="lineno">  386</span>&#160;        }</div>
-<div class="line"><a name="l00387"></a><span class="lineno">  387</span>&#160;    }</div>
-<div class="line"><a name="l00388"></a><span class="lineno">  388</span>&#160;    <span class="keywordflow">else</span></div>
-<div class="line"><a name="l00389"></a><span class="lineno">  389</span>&#160;        PLUGIN_THROW(std::runtime_error(<span class="stringliteral">&quot;Protein not found: &quot;</span> + aasd.name));</div>
-<div class="line"><a name="l00390"></a><span class="lineno">  390</span>&#160; </div>
-<div class="line"><a name="l00391"></a><span class="lineno">  391</span>&#160;    <span class="keywordflow">return</span> response;</div>
-<div class="line"><a name="l00392"></a><span class="lineno">  392</span>&#160;}</div>
-<div class="line"><a name="l00393"></a><span class="lineno">  393</span>&#160; </div>
-<div class="line"><a name="l00394"></a><span class="lineno"><a class="line" href="../../db/db7/classbioexplorer_1_1Assembly.html#a5bd8ee1c8312e0833734a54168ea5ef2">  394</a></span>&#160;<span class="keywordtype">void</span> <a class="code" href="../../db/db7/classbioexplorer_1_1Assembly.html#a5bd8ee1c8312e0833734a54168ea5ef2">Assembly::setAminoAcid</a>(<span class="keyword">const</span> <a class="code" href="../../d1/da9/structbioexplorer_1_1SetAminoAcid.html">SetAminoAcid</a> &amp;aminoAcid)</div>
-<div class="line"><a name="l00395"></a><span class="lineno">  395</span>&#160;{</div>
-<div class="line"><a name="l00396"></a><span class="lineno">  396</span>&#160;    <span class="keyword">auto</span> it = _proteins.find(aminoAcid.<a class="code" href="../../d1/da9/structbioexplorer_1_1SetAminoAcid.html#ad4755f4ac044c5351549efaf8b82d496">name</a>);</div>
-<div class="line"><a name="l00397"></a><span class="lineno">  397</span>&#160;    <span class="keywordflow">if</span> (it != _proteins.end())</div>
-<div class="line"><a name="l00398"></a><span class="lineno">  398</span>&#160;        (*it).second-&gt;setAminoAcid(aminoAcid);</div>
-<div class="line"><a name="l00399"></a><span class="lineno">  399</span>&#160;    <span class="keywordflow">else</span></div>
-<div class="line"><a name="l00400"></a><span class="lineno">  400</span>&#160;        PLUGIN_THROW(</div>
-<div class="line"><a name="l00401"></a><span class="lineno">  401</span>&#160;            std::runtime_error(<span class="stringliteral">&quot;Protein not found: &quot;</span> + aminoAcid.<a class="code" href="../../d1/da9/structbioexplorer_1_1SetAminoAcid.html#ad4755f4ac044c5351549efaf8b82d496">name</a>));</div>
-<div class="line"><a name="l00402"></a><span class="lineno">  402</span>&#160;}</div>
-<div class="line"><a name="l00403"></a><span class="lineno">  403</span>&#160; </div>
-<div class="line"><a name="l00404"></a><span class="lineno"><a class="line" href="../../db/db7/classbioexplorer_1_1Assembly.html#a84fc6172a8f5929533b26b0591c1ce28">  404</a></span>&#160;<span class="keywordtype">void</span> <a class="code" href="../../db/db7/classbioexplorer_1_1Assembly.html#a84fc6172a8f5929533b26b0591c1ce28">Assembly::addRNASequence</a>(<span class="keyword">const</span> <a class="code" href="../../d6/dd7/structbioexplorer_1_1RNASequenceDescriptor.html">RNASequenceDescriptor</a> &amp;rnad)</div>
-<div class="line"><a name="l00405"></a><span class="lineno">  405</span>&#160;{</div>
-<div class="line"><a name="l00406"></a><span class="lineno">  406</span>&#160;    <span class="keyword">auto</span> rd = rnad;</div>
-<div class="line"><a name="l00407"></a><span class="lineno">  407</span>&#160;    <span class="keywordflow">if</span> (rd.range.size() != 2)</div>
-<div class="line"><a name="l00408"></a><span class="lineno">  408</span>&#160;        PLUGIN_THROW(std::runtime_error(<span class="stringliteral">&quot;Invalid range&quot;</span>));</div>
-<div class="line"><a name="l00409"></a><span class="lineno">  409</span>&#160;    <span class="keyword">const</span> Vector2f range{rd.range[0], rd.range[1]};</div>
-<div class="line"><a name="l00410"></a><span class="lineno">  410</span>&#160; </div>
-<div class="line"><a name="l00411"></a><span class="lineno">  411</span>&#160;    <span class="keywordflow">if</span> (rd.params.size() != 3)</div>
-<div class="line"><a name="l00412"></a><span class="lineno">  412</span>&#160;        PLUGIN_THROW(std::runtime_error(<span class="stringliteral">&quot;Invalid params&quot;</span>));</div>
-<div class="line"><a name="l00413"></a><span class="lineno">  413</span>&#160; </div>
-<div class="line"><a name="l00414"></a><span class="lineno">  414</span>&#160;    <span class="keywordflow">if</span> (rd.position.size() != 3)</div>
-<div class="line"><a name="l00415"></a><span class="lineno">  415</span>&#160;        PLUGIN_THROW(std::runtime_error(<span class="stringliteral">&quot;Invalid position&quot;</span>));</div>
-<div class="line"><a name="l00416"></a><span class="lineno">  416</span>&#160; </div>
-<div class="line"><a name="l00417"></a><span class="lineno">  417</span>&#160;    <span class="keyword">const</span> Vector3f params{rd.params[0], rd.params[1], rd.params[2]};</div>
+<div class="line"><a name="l00272"></a><span class="lineno">  272</span>&#160;        <span class="keyword">const</span> Quaterniond instanceOrientation = glm::quatLookAt(dir, UP_VECTOR);</div>
+<div class="line"><a name="l00273"></a><span class="lineno">  273</span>&#160; </div>
+<div class="line"><a name="l00274"></a><span class="lineno">  274</span>&#160;        Transformation tf;</div>
+<div class="line"><a name="l00275"></a><span class="lineno">  275</span>&#160;        tf.setTranslation(_position + pos);</div>
+<div class="line"><a name="l00276"></a><span class="lineno">  276</span>&#160;        tf.setRotation(instanceOrientation * orientation);</div>
+<div class="line"><a name="l00277"></a><span class="lineno">  277</span>&#160; </div>
+<div class="line"><a name="l00278"></a><span class="lineno">  278</span>&#160;        <span class="keywordflow">if</span> (count == 0)</div>
+<div class="line"><a name="l00279"></a><span class="lineno">  279</span>&#160;            md-&gt;setTransformation(tf);</div>
+<div class="line"><a name="l00280"></a><span class="lineno">  280</span>&#160;        <span class="keyword">const</span> ModelInstance instance(<span class="keyword">true</span>, <span class="keyword">false</span>, tf);</div>
+<div class="line"><a name="l00281"></a><span class="lineno">  281</span>&#160;        md-&gt;addInstance(instance);</div>
+<div class="line"><a name="l00282"></a><span class="lineno">  282</span>&#160; </div>
+<div class="line"><a name="l00283"></a><span class="lineno">  283</span>&#160;        <span class="comment">// Store occupied direction</span></div>
+<div class="line"><a name="l00284"></a><span class="lineno">  284</span>&#160;        <span class="keywordflow">if</span> (locationCutoffAngle != 0.f)</div>
+<div class="line"><a name="l00285"></a><span class="lineno">  285</span>&#160;            _occupiedDirections.push_back({dir, locationCutoffAngle});</div>
+<div class="line"><a name="l00286"></a><span class="lineno">  286</span>&#160; </div>
+<div class="line"><a name="l00287"></a><span class="lineno">  287</span>&#160;        ++count;</div>
+<div class="line"><a name="l00288"></a><span class="lineno">  288</span>&#160;    }</div>
+<div class="line"><a name="l00289"></a><span class="lineno">  289</span>&#160;}</div>
+<div class="line"><a name="l00290"></a><span class="lineno">  290</span>&#160; </div>
+<div class="line"><a name="l00291"></a><span class="lineno"><a class="line" href="../../db/db7/classbioexplorer_1_1Assembly.html#a8c4dd7810c53d461e4e5463863e21a94">  291</a></span>&#160;<span class="keywordtype">void</span> <a class="code" href="../../db/db7/classbioexplorer_1_1Assembly.html#a8c4dd7810c53d461e4e5463863e21a94">Assembly::setColorScheme</a>(<span class="keyword">const</span> <a class="code" href="../../dd/d82/structbioexplorer_1_1ColorSchemeDescriptor.html">ColorSchemeDescriptor</a> &amp;csd)</div>
+<div class="line"><a name="l00292"></a><span class="lineno">  292</span>&#160;{</div>
+<div class="line"><a name="l00293"></a><span class="lineno">  293</span>&#160;    <span class="keywordflow">if</span> (csd.<a class="code" href="../../dd/d82/structbioexplorer_1_1ColorSchemeDescriptor.html#a9dcc8cbb413fcfd607ac8123e8e6cd58">palette</a>.size() &lt; 3 || csd.<a class="code" href="../../dd/d82/structbioexplorer_1_1ColorSchemeDescriptor.html#a9dcc8cbb413fcfd607ac8123e8e6cd58">palette</a>.size() % 3 != 0)</div>
+<div class="line"><a name="l00294"></a><span class="lineno">  294</span>&#160;        PLUGIN_THROW(std::runtime_error(<span class="stringliteral">&quot;Invalid palette size&quot;</span>));</div>
+<div class="line"><a name="l00295"></a><span class="lineno">  295</span>&#160; </div>
+<div class="line"><a name="l00296"></a><span class="lineno">  296</span>&#160;    ProteinPtr protein{<span class="keyword">nullptr</span>};</div>
+<div class="line"><a name="l00297"></a><span class="lineno">  297</span>&#160;    <span class="keyword">auto</span> itProtein = _proteins.find(csd.<a class="code" href="../../dd/d82/structbioexplorer_1_1ColorSchemeDescriptor.html#a574f1c6f1267e2eedc8a05dbe7ecb7ba">name</a>);</div>
+<div class="line"><a name="l00298"></a><span class="lineno">  298</span>&#160;    <span class="keywordflow">if</span> (itProtein != _proteins.end())</div>
+<div class="line"><a name="l00299"></a><span class="lineno">  299</span>&#160;        protein = (*itProtein).second;</div>
+<div class="line"><a name="l00300"></a><span class="lineno">  300</span>&#160;    <span class="keywordflow">else</span></div>
+<div class="line"><a name="l00301"></a><span class="lineno">  301</span>&#160;    {</div>
+<div class="line"><a name="l00302"></a><span class="lineno">  302</span>&#160;        <span class="keyword">auto</span> itMesh = _meshBasedMembranes.find(csd.<a class="code" href="../../dd/d82/structbioexplorer_1_1ColorSchemeDescriptor.html#a574f1c6f1267e2eedc8a05dbe7ecb7ba">name</a>);</div>
+<div class="line"><a name="l00303"></a><span class="lineno">  303</span>&#160;        <span class="keywordflow">if</span> (itMesh != _meshBasedMembranes.end())</div>
+<div class="line"><a name="l00304"></a><span class="lineno">  304</span>&#160;            protein = (*itMesh).second-&gt;getProtein();</div>
+<div class="line"><a name="l00305"></a><span class="lineno">  305</span>&#160;        <span class="keywordflow">else</span> <span class="keywordflow">if</span> (_membrane)</div>
+<div class="line"><a name="l00306"></a><span class="lineno">  306</span>&#160;        {</div>
+<div class="line"><a name="l00307"></a><span class="lineno">  307</span>&#160;            <span class="keyword">const</span> <span class="keyword">auto</span> membraneProteins = _membrane-&gt;getProteins();</div>
+<div class="line"><a name="l00308"></a><span class="lineno">  308</span>&#160;            <span class="keyword">auto</span> it = membraneProteins.find(csd.<a class="code" href="../../dd/d82/structbioexplorer_1_1ColorSchemeDescriptor.html#a574f1c6f1267e2eedc8a05dbe7ecb7ba">name</a>);</div>
+<div class="line"><a name="l00309"></a><span class="lineno">  309</span>&#160;            <span class="keywordflow">if</span> (it != membraneProteins.end())</div>
+<div class="line"><a name="l00310"></a><span class="lineno">  310</span>&#160;                protein = (*it).second;</div>
+<div class="line"><a name="l00311"></a><span class="lineno">  311</span>&#160;        }</div>
+<div class="line"><a name="l00312"></a><span class="lineno">  312</span>&#160;    }</div>
+<div class="line"><a name="l00313"></a><span class="lineno">  313</span>&#160; </div>
+<div class="line"><a name="l00314"></a><span class="lineno">  314</span>&#160;    <span class="keywordflow">if</span> (protein)</div>
+<div class="line"><a name="l00315"></a><span class="lineno">  315</span>&#160;    {</div>
+<div class="line"><a name="l00316"></a><span class="lineno">  316</span>&#160;        Palette palette;</div>
+<div class="line"><a name="l00317"></a><span class="lineno">  317</span>&#160;        <span class="keywordflow">for</span> (<span class="keywordtype">size_t</span> i = 0; i &lt; csd.<a class="code" href="../../dd/d82/structbioexplorer_1_1ColorSchemeDescriptor.html#a9dcc8cbb413fcfd607ac8123e8e6cd58">palette</a>.size(); i += 3)</div>
+<div class="line"><a name="l00318"></a><span class="lineno">  318</span>&#160;            palette.push_back(</div>
+<div class="line"><a name="l00319"></a><span class="lineno">  319</span>&#160;                {csd.palette[i], csd.palette[i + 1], csd.palette[i + 2]});</div>
+<div class="line"><a name="l00320"></a><span class="lineno">  320</span>&#160; </div>
+<div class="line"><a name="l00321"></a><span class="lineno">  321</span>&#160;        PLUGIN_INFO &lt;&lt; <span class="stringliteral">&quot;Applying color scheme to protein &quot;</span> &lt;&lt; csd.<a class="code" href="../../dd/d82/structbioexplorer_1_1ColorSchemeDescriptor.html#a574f1c6f1267e2eedc8a05dbe7ecb7ba">name</a></div>
+<div class="line"><a name="l00322"></a><span class="lineno">  322</span>&#160;                    &lt;&lt; <span class="stringliteral">&quot; on assembly &quot;</span> &lt;&lt; csd.<a class="code" href="../../dd/d82/structbioexplorer_1_1ColorSchemeDescriptor.html#a3e9a002b94feaa37ac5f16ad5d6199d9">assemblyName</a> &lt;&lt; std::endl;</div>
+<div class="line"><a name="l00323"></a><span class="lineno">  323</span>&#160;        protein-&gt;setColorScheme(csd.<a class="code" href="../../dd/d82/structbioexplorer_1_1ColorSchemeDescriptor.html#a0b50b28adf6185a96c10fc5e1a74578e">colorScheme</a>, palette, csd.<a class="code" href="../../dd/d82/structbioexplorer_1_1ColorSchemeDescriptor.html#a07c7ecc9dff4ace00972a6274286f497">chainIds</a>);</div>
+<div class="line"><a name="l00324"></a><span class="lineno">  324</span>&#160; </div>
+<div class="line"><a name="l00325"></a><span class="lineno">  325</span>&#160;        _scene.markModified();</div>
+<div class="line"><a name="l00326"></a><span class="lineno">  326</span>&#160;    }</div>
+<div class="line"><a name="l00327"></a><span class="lineno">  327</span>&#160;    <span class="keywordflow">else</span></div>
+<div class="line"><a name="l00328"></a><span class="lineno">  328</span>&#160;        PLUGIN_ERROR &lt;&lt; <span class="stringliteral">&quot;Protein &quot;</span> &lt;&lt; csd.<a class="code" href="../../dd/d82/structbioexplorer_1_1ColorSchemeDescriptor.html#a574f1c6f1267e2eedc8a05dbe7ecb7ba">name</a> &lt;&lt; <span class="stringliteral">&quot; not found on assembly &quot;</span></div>
+<div class="line"><a name="l00329"></a><span class="lineno">  329</span>&#160;                     &lt;&lt; csd.<a class="code" href="../../dd/d82/structbioexplorer_1_1ColorSchemeDescriptor.html#a3e9a002b94feaa37ac5f16ad5d6199d9">assemblyName</a> &lt;&lt; std::endl;</div>
+<div class="line"><a name="l00330"></a><span class="lineno">  330</span>&#160;}</div>
+<div class="line"><a name="l00331"></a><span class="lineno">  331</span>&#160; </div>
+<div class="line"><a name="l00332"></a><span class="lineno"><a class="line" href="../../db/db7/classbioexplorer_1_1Assembly.html#a606db9874df6b59c700f41041192948c">  332</a></span>&#160;<span class="keywordtype">void</span> <a class="code" href="../../db/db7/classbioexplorer_1_1Assembly.html#a606db9874df6b59c700f41041192948c">Assembly::setAminoAcidSequenceAsString</a>(</div>
+<div class="line"><a name="l00333"></a><span class="lineno">  333</span>&#160;    <span class="keyword">const</span> <a class="code" href="../../de/d42/structbioexplorer_1_1AminoAcidSequenceAsStringDescriptor.html">AminoAcidSequenceAsStringDescriptor</a> &amp;aasd)</div>
+<div class="line"><a name="l00334"></a><span class="lineno">  334</span>&#160;{</div>
+<div class="line"><a name="l00335"></a><span class="lineno">  335</span>&#160;    <span class="keyword">auto</span> it = _proteins.find(aasd.<a class="code" href="../../de/d42/structbioexplorer_1_1AminoAcidSequenceAsStringDescriptor.html#a57aad74cd2aa3fe694d2e1a53c026075">name</a>);</div>
+<div class="line"><a name="l00336"></a><span class="lineno">  336</span>&#160;    <span class="keywordflow">if</span> (it != _proteins.end())</div>
+<div class="line"><a name="l00337"></a><span class="lineno">  337</span>&#160;        (*it).second-&gt;setAminoAcidSequenceAsString(aasd.<a class="code" href="../../de/d42/structbioexplorer_1_1AminoAcidSequenceAsStringDescriptor.html#af803af30effb27dc7055147f4b5c8e67">sequence</a>);</div>
+<div class="line"><a name="l00338"></a><span class="lineno">  338</span>&#160;    <span class="keywordflow">else</span></div>
+<div class="line"><a name="l00339"></a><span class="lineno">  339</span>&#160;        PLUGIN_THROW(std::runtime_error(<span class="stringliteral">&quot;Protein not found: &quot;</span> + aasd.<a class="code" href="../../de/d42/structbioexplorer_1_1AminoAcidSequenceAsStringDescriptor.html#a57aad74cd2aa3fe694d2e1a53c026075">name</a>));</div>
+<div class="line"><a name="l00340"></a><span class="lineno">  340</span>&#160;}</div>
+<div class="line"><a name="l00341"></a><span class="lineno">  341</span>&#160; </div>
+<div class="line"><a name="l00342"></a><span class="lineno"><a class="line" href="../../db/db7/classbioexplorer_1_1Assembly.html#a71320df37a54cc5fb8b7a269a6e46c43">  342</a></span>&#160;<span class="keywordtype">void</span> <a class="code" href="../../db/db7/classbioexplorer_1_1Assembly.html#a71320df37a54cc5fb8b7a269a6e46c43">Assembly::setAminoAcidSequenceAsRange</a>(</div>
+<div class="line"><a name="l00343"></a><span class="lineno">  343</span>&#160;    <span class="keyword">const</span> <a class="code" href="../../d3/db0/structbioexplorer_1_1AminoAcidSequenceAsRangesDescriptor.html">AminoAcidSequenceAsRangesDescriptor</a> &amp;aasd)</div>
+<div class="line"><a name="l00344"></a><span class="lineno">  344</span>&#160;{</div>
+<div class="line"><a name="l00345"></a><span class="lineno">  345</span>&#160;    <span class="keyword">auto</span> it = _proteins.find(aasd.<a class="code" href="../../d3/db0/structbioexplorer_1_1AminoAcidSequenceAsRangesDescriptor.html#a104e34b76aa2b710362804f5b50333c6">name</a>);</div>
+<div class="line"><a name="l00346"></a><span class="lineno">  346</span>&#160;    <span class="keywordflow">if</span> (it != _proteins.end())</div>
+<div class="line"><a name="l00347"></a><span class="lineno">  347</span>&#160;    {</div>
+<div class="line"><a name="l00348"></a><span class="lineno">  348</span>&#160;        Vector2uis ranges;</div>
+<div class="line"><a name="l00349"></a><span class="lineno">  349</span>&#160;        <span class="keywordflow">for</span> (<span class="keywordtype">size_t</span> i = 0; i &lt; aasd.<a class="code" href="../../d3/db0/structbioexplorer_1_1AminoAcidSequenceAsRangesDescriptor.html#a69901ac67f1b6a928a358f3805d3173a">ranges</a>.size(); i += 2)</div>
+<div class="line"><a name="l00350"></a><span class="lineno">  350</span>&#160;            ranges.push_back({aasd.ranges[i], aasd.ranges[i + 1]});</div>
+<div class="line"><a name="l00351"></a><span class="lineno">  351</span>&#160; </div>
+<div class="line"><a name="l00352"></a><span class="lineno">  352</span>&#160;        (*it).second-&gt;setAminoAcidSequenceAsRanges(ranges);</div>
+<div class="line"><a name="l00353"></a><span class="lineno">  353</span>&#160;    }</div>
+<div class="line"><a name="l00354"></a><span class="lineno">  354</span>&#160;    <span class="keywordflow">else</span></div>
+<div class="line"><a name="l00355"></a><span class="lineno">  355</span>&#160;        PLUGIN_THROW(std::runtime_error(<span class="stringliteral">&quot;Protein not found: &quot;</span> + aasd.<a class="code" href="../../d3/db0/structbioexplorer_1_1AminoAcidSequenceAsRangesDescriptor.html#a104e34b76aa2b710362804f5b50333c6">name</a>));</div>
+<div class="line"><a name="l00356"></a><span class="lineno">  356</span>&#160;}</div>
+<div class="line"><a name="l00357"></a><span class="lineno">  357</span>&#160; </div>
+<div class="line"><a name="l00358"></a><span class="lineno"><a class="line" href="../../db/db7/classbioexplorer_1_1Assembly.html#aee90be5f4b5471b971a565f0e7a2ed9a">  358</a></span>&#160;std::string <a class="code" href="../../db/db7/classbioexplorer_1_1Assembly.html#aee90be5f4b5471b971a565f0e7a2ed9a">Assembly::getAminoAcidInformation</a>(</div>
+<div class="line"><a name="l00359"></a><span class="lineno">  359</span>&#160;    <span class="keyword">const</span> <a class="code" href="../../da/dc9/structbioexplorer_1_1AminoAcidInformationDescriptor.html">AminoAcidInformationDescriptor</a> &amp;aasd)<span class="keyword"> const</span></div>
+<div class="line"><a name="l00360"></a><span class="lineno">  360</span>&#160;<span class="keyword"></span>{</div>
+<div class="line"><a name="l00361"></a><span class="lineno">  361</span>&#160;    PLUGIN_INFO &lt;&lt; <span class="stringliteral">&quot;Returning Amino Acid information from protein &quot;</span> &lt;&lt; aasd.name</div>
+<div class="line"><a name="l00362"></a><span class="lineno">  362</span>&#160;                &lt;&lt; std::endl;</div>
+<div class="line"><a name="l00363"></a><span class="lineno">  363</span>&#160; </div>
+<div class="line"><a name="l00364"></a><span class="lineno">  364</span>&#160;    std::string response;</div>
+<div class="line"><a name="l00365"></a><span class="lineno">  365</span>&#160;    <span class="keyword">auto</span> it = _proteins.find(aasd.name);</div>
+<div class="line"><a name="l00366"></a><span class="lineno">  366</span>&#160;    <span class="keywordflow">if</span> (it != _proteins.end())</div>
+<div class="line"><a name="l00367"></a><span class="lineno">  367</span>&#160;    {</div>
+<div class="line"><a name="l00368"></a><span class="lineno">  368</span>&#160;        <span class="comment">// Sequences</span></div>
+<div class="line"><a name="l00369"></a><span class="lineno">  369</span>&#160;        <span class="keywordflow">for</span> (<span class="keyword">const</span> <span class="keyword">auto</span> &amp;sequence : (*it).second-&gt;getSequencesAsString())</div>
+<div class="line"><a name="l00370"></a><span class="lineno">  370</span>&#160;        {</div>
+<div class="line"><a name="l00371"></a><span class="lineno">  371</span>&#160;            <span class="keywordflow">if</span> (!response.empty())</div>
+<div class="line"><a name="l00372"></a><span class="lineno">  372</span>&#160;                response += <span class="stringliteral">&quot;\n&quot;</span>;</div>
+<div class="line"><a name="l00373"></a><span class="lineno">  373</span>&#160;            response += sequence.second;</div>
+<div class="line"><a name="l00374"></a><span class="lineno">  374</span>&#160;        }</div>
+<div class="line"><a name="l00375"></a><span class="lineno">  375</span>&#160; </div>
+<div class="line"><a name="l00376"></a><span class="lineno">  376</span>&#160;        <span class="comment">// Glycosylation sites</span></div>
+<div class="line"><a name="l00377"></a><span class="lineno">  377</span>&#160;        <span class="keyword">const</span> <span class="keyword">auto</span> &amp;sites = (*it).second-&gt;getGlycosylationSites({});</div>
+<div class="line"><a name="l00378"></a><span class="lineno">  378</span>&#160;        <span class="keywordflow">for</span> (<span class="keyword">const</span> <span class="keyword">auto</span> &amp;site : sites)</div>
+<div class="line"><a name="l00379"></a><span class="lineno">  379</span>&#160;        {</div>
+<div class="line"><a name="l00380"></a><span class="lineno">  380</span>&#160;            std::string s;</div>
+<div class="line"><a name="l00381"></a><span class="lineno">  381</span>&#160;            <span class="keywordflow">for</span> (<span class="keyword">const</span> <span class="keyword">auto</span> &amp;index : site.second)</div>
+<div class="line"><a name="l00382"></a><span class="lineno">  382</span>&#160;            {</div>
+<div class="line"><a name="l00383"></a><span class="lineno">  383</span>&#160;                <span class="keywordflow">if</span> (!s.empty())</div>
+<div class="line"><a name="l00384"></a><span class="lineno">  384</span>&#160;                    s += <span class="stringliteral">&quot;,&quot;</span>;</div>
+<div class="line"><a name="l00385"></a><span class="lineno">  385</span>&#160;                s += std::to_string(index + 1); <span class="comment">// Site indices start a 1, not 0</span></div>
+<div class="line"><a name="l00386"></a><span class="lineno">  386</span>&#160;            }</div>
+<div class="line"><a name="l00387"></a><span class="lineno">  387</span>&#160;            response += <span class="stringliteral">&quot;\n&quot;</span> + s;</div>
+<div class="line"><a name="l00388"></a><span class="lineno">  388</span>&#160;        }</div>
+<div class="line"><a name="l00389"></a><span class="lineno">  389</span>&#160;    }</div>
+<div class="line"><a name="l00390"></a><span class="lineno">  390</span>&#160;    <span class="keywordflow">else</span></div>
+<div class="line"><a name="l00391"></a><span class="lineno">  391</span>&#160;        PLUGIN_THROW(std::runtime_error(<span class="stringliteral">&quot;Protein not found: &quot;</span> + aasd.name));</div>
+<div class="line"><a name="l00392"></a><span class="lineno">  392</span>&#160; </div>
+<div class="line"><a name="l00393"></a><span class="lineno">  393</span>&#160;    <span class="keywordflow">return</span> response;</div>
+<div class="line"><a name="l00394"></a><span class="lineno">  394</span>&#160;}</div>
+<div class="line"><a name="l00395"></a><span class="lineno">  395</span>&#160; </div>
+<div class="line"><a name="l00396"></a><span class="lineno"><a class="line" href="../../db/db7/classbioexplorer_1_1Assembly.html#a5bd8ee1c8312e0833734a54168ea5ef2">  396</a></span>&#160;<span class="keywordtype">void</span> <a class="code" href="../../db/db7/classbioexplorer_1_1Assembly.html#a5bd8ee1c8312e0833734a54168ea5ef2">Assembly::setAminoAcid</a>(<span class="keyword">const</span> <a class="code" href="../../d1/da9/structbioexplorer_1_1SetAminoAcid.html">SetAminoAcid</a> &amp;aminoAcid)</div>
+<div class="line"><a name="l00397"></a><span class="lineno">  397</span>&#160;{</div>
+<div class="line"><a name="l00398"></a><span class="lineno">  398</span>&#160;    <span class="keyword">auto</span> it = _proteins.find(aminoAcid.<a class="code" href="../../d1/da9/structbioexplorer_1_1SetAminoAcid.html#ad4755f4ac044c5351549efaf8b82d496">name</a>);</div>
+<div class="line"><a name="l00399"></a><span class="lineno">  399</span>&#160;    <span class="keywordflow">if</span> (it != _proteins.end())</div>
+<div class="line"><a name="l00400"></a><span class="lineno">  400</span>&#160;        (*it).second-&gt;setAminoAcid(aminoAcid);</div>
+<div class="line"><a name="l00401"></a><span class="lineno">  401</span>&#160;    <span class="keywordflow">else</span></div>
+<div class="line"><a name="l00402"></a><span class="lineno">  402</span>&#160;        PLUGIN_THROW(</div>
+<div class="line"><a name="l00403"></a><span class="lineno">  403</span>&#160;            std::runtime_error(<span class="stringliteral">&quot;Protein not found: &quot;</span> + aminoAcid.<a class="code" href="../../d1/da9/structbioexplorer_1_1SetAminoAcid.html#ad4755f4ac044c5351549efaf8b82d496">name</a>));</div>
+<div class="line"><a name="l00404"></a><span class="lineno">  404</span>&#160;}</div>
+<div class="line"><a name="l00405"></a><span class="lineno">  405</span>&#160; </div>
+<div class="line"><a name="l00406"></a><span class="lineno"><a class="line" href="../../db/db7/classbioexplorer_1_1Assembly.html#a84fc6172a8f5929533b26b0591c1ce28">  406</a></span>&#160;<span class="keywordtype">void</span> <a class="code" href="../../db/db7/classbioexplorer_1_1Assembly.html#a84fc6172a8f5929533b26b0591c1ce28">Assembly::addRNASequence</a>(<span class="keyword">const</span> <a class="code" href="../../d6/dd7/structbioexplorer_1_1RNASequenceDescriptor.html">RNASequenceDescriptor</a> &amp;rnad)</div>
+<div class="line"><a name="l00407"></a><span class="lineno">  407</span>&#160;{</div>
+<div class="line"><a name="l00408"></a><span class="lineno">  408</span>&#160;    <span class="keyword">auto</span> rd = rnad;</div>
+<div class="line"><a name="l00409"></a><span class="lineno">  409</span>&#160;    <span class="keywordflow">if</span> (rd.range.size() != 2)</div>
+<div class="line"><a name="l00410"></a><span class="lineno">  410</span>&#160;        PLUGIN_THROW(std::runtime_error(<span class="stringliteral">&quot;Invalid range&quot;</span>));</div>
+<div class="line"><a name="l00411"></a><span class="lineno">  411</span>&#160;    <span class="keyword">const</span> Vector2f range{rd.range[0], rd.range[1]};</div>
+<div class="line"><a name="l00412"></a><span class="lineno">  412</span>&#160; </div>
+<div class="line"><a name="l00413"></a><span class="lineno">  413</span>&#160;    <span class="keywordflow">if</span> (rd.params.size() != 3)</div>
+<div class="line"><a name="l00414"></a><span class="lineno">  414</span>&#160;        PLUGIN_THROW(std::runtime_error(<span class="stringliteral">&quot;Invalid params&quot;</span>));</div>
+<div class="line"><a name="l00415"></a><span class="lineno">  415</span>&#160; </div>
+<div class="line"><a name="l00416"></a><span class="lineno">  416</span>&#160;    <span class="keywordflow">if</span> (rd.position.size() != 3)</div>
+<div class="line"><a name="l00417"></a><span class="lineno">  417</span>&#160;        PLUGIN_THROW(std::runtime_error(<span class="stringliteral">&quot;Invalid position&quot;</span>));</div>
 <div class="line"><a name="l00418"></a><span class="lineno">  418</span>&#160; </div>
-<div class="line"><a name="l00419"></a><span class="lineno">  419</span>&#160;    PLUGIN_INFO &lt;&lt; <span class="stringliteral">&quot;Loading RNA sequence &quot;</span> &lt;&lt; rd.name &lt;&lt; <span class="stringliteral">&quot; from &quot;</span> &lt;&lt; rd.contents</div>
-<div class="line"><a name="l00420"></a><span class="lineno">  420</span>&#160;                &lt;&lt; std::endl;</div>
-<div class="line"><a name="l00421"></a><span class="lineno">  421</span>&#160;    PLUGIN_INFO &lt;&lt; <span class="stringliteral">&quot;Assembly radius: &quot;</span> &lt;&lt; rd.assemblyParams[0] &lt;&lt; std::endl;</div>
-<div class="line"><a name="l00422"></a><span class="lineno">  422</span>&#160;    PLUGIN_INFO &lt;&lt; <span class="stringliteral">&quot;RNA radius     : &quot;</span> &lt;&lt; rd.assemblyParams[1] &lt;&lt; std::endl;</div>
-<div class="line"><a name="l00423"></a><span class="lineno">  423</span>&#160;    PLUGIN_INFO &lt;&lt; <span class="stringliteral">&quot;Range          : &quot;</span> &lt;&lt; rd.range[0] &lt;&lt; <span class="stringliteral">&quot;, &quot;</span> &lt;&lt; rd.range[1]</div>
-<div class="line"><a name="l00424"></a><span class="lineno">  424</span>&#160;                &lt;&lt; std::endl;</div>
-<div class="line"><a name="l00425"></a><span class="lineno">  425</span>&#160;    PLUGIN_INFO &lt;&lt; <span class="stringliteral">&quot;Params         : &quot;</span> &lt;&lt; rd.params[0] &lt;&lt; <span class="stringliteral">&quot;, &quot;</span> &lt;&lt; rd.params[1]</div>
-<div class="line"><a name="l00426"></a><span class="lineno">  426</span>&#160;                &lt;&lt; <span class="stringliteral">&quot;, &quot;</span> &lt;&lt; rd.params[2] &lt;&lt; std::endl;</div>
-<div class="line"><a name="l00427"></a><span class="lineno">  427</span>&#160;    PLUGIN_INFO &lt;&lt; <span class="stringliteral">&quot;Position       : &quot;</span> &lt;&lt; rd.position[0] &lt;&lt; <span class="stringliteral">&quot;, &quot;</span></div>
-<div class="line"><a name="l00428"></a><span class="lineno">  428</span>&#160;                &lt;&lt; rd.position[1] &lt;&lt; <span class="stringliteral">&quot;, &quot;</span> &lt;&lt; rd.position[2] &lt;&lt; std::endl;</div>
-<div class="line"><a name="l00429"></a><span class="lineno">  429</span>&#160; </div>
-<div class="line"><a name="l00430"></a><span class="lineno">  430</span>&#160;    rd.position[0] += _position.x;</div>
-<div class="line"><a name="l00431"></a><span class="lineno">  431</span>&#160;    rd.position[1] += _position.y;</div>
-<div class="line"><a name="l00432"></a><span class="lineno">  432</span>&#160;    rd.position[2] += _position.z;</div>
-<div class="line"><a name="l00433"></a><span class="lineno">  433</span>&#160;    _rnaSequence = RNASequencePtr(<span class="keyword">new</span> <a class="code" href="../../d2/d77/classbioexplorer_1_1RNASequence.html">RNASequence</a>(_scene, rd));</div>
-<div class="line"><a name="l00434"></a><span class="lineno">  434</span>&#160;    <span class="keyword">const</span> <span class="keyword">auto</span> modelDescriptor = _rnaSequence-&gt;getModelDescriptor();</div>
-<div class="line"><a name="l00435"></a><span class="lineno">  435</span>&#160;    _scene.addModel(modelDescriptor);</div>
-<div class="line"><a name="l00436"></a><span class="lineno">  436</span>&#160;}</div>
-<div class="line"><a name="l00437"></a><span class="lineno">  437</span>&#160;} <span class="comment">// namespace bioexplorer</span></div>
+<div class="line"><a name="l00419"></a><span class="lineno">  419</span>&#160;    <span class="keyword">const</span> Vector3f params{rd.params[0], rd.params[1], rd.params[2]};</div>
+<div class="line"><a name="l00420"></a><span class="lineno">  420</span>&#160; </div>
+<div class="line"><a name="l00421"></a><span class="lineno">  421</span>&#160;    PLUGIN_INFO &lt;&lt; <span class="stringliteral">&quot;Loading RNA sequence &quot;</span> &lt;&lt; rd.name &lt;&lt; <span class="stringliteral">&quot; from &quot;</span> &lt;&lt; rd.contents</div>
+<div class="line"><a name="l00422"></a><span class="lineno">  422</span>&#160;                &lt;&lt; std::endl;</div>
+<div class="line"><a name="l00423"></a><span class="lineno">  423</span>&#160;    PLUGIN_INFO &lt;&lt; <span class="stringliteral">&quot;Assembly radius: &quot;</span> &lt;&lt; rd.assemblyParams[0] &lt;&lt; std::endl;</div>
+<div class="line"><a name="l00424"></a><span class="lineno">  424</span>&#160;    PLUGIN_INFO &lt;&lt; <span class="stringliteral">&quot;RNA radius     : &quot;</span> &lt;&lt; rd.assemblyParams[1] &lt;&lt; std::endl;</div>
+<div class="line"><a name="l00425"></a><span class="lineno">  425</span>&#160;    PLUGIN_INFO &lt;&lt; <span class="stringliteral">&quot;Range          : &quot;</span> &lt;&lt; rd.range[0] &lt;&lt; <span class="stringliteral">&quot;, &quot;</span> &lt;&lt; rd.range[1]</div>
+<div class="line"><a name="l00426"></a><span class="lineno">  426</span>&#160;                &lt;&lt; std::endl;</div>
+<div class="line"><a name="l00427"></a><span class="lineno">  427</span>&#160;    PLUGIN_INFO &lt;&lt; <span class="stringliteral">&quot;Params         : &quot;</span> &lt;&lt; rd.params[0] &lt;&lt; <span class="stringliteral">&quot;, &quot;</span> &lt;&lt; rd.params[1]</div>
+<div class="line"><a name="l00428"></a><span class="lineno">  428</span>&#160;                &lt;&lt; <span class="stringliteral">&quot;, &quot;</span> &lt;&lt; rd.params[2] &lt;&lt; std::endl;</div>
+<div class="line"><a name="l00429"></a><span class="lineno">  429</span>&#160;    PLUGIN_INFO &lt;&lt; <span class="stringliteral">&quot;Position       : &quot;</span> &lt;&lt; rd.position[0] &lt;&lt; <span class="stringliteral">&quot;, &quot;</span></div>
+<div class="line"><a name="l00430"></a><span class="lineno">  430</span>&#160;                &lt;&lt; rd.position[1] &lt;&lt; <span class="stringliteral">&quot;, &quot;</span> &lt;&lt; rd.position[2] &lt;&lt; std::endl;</div>
+<div class="line"><a name="l00431"></a><span class="lineno">  431</span>&#160; </div>
+<div class="line"><a name="l00432"></a><span class="lineno">  432</span>&#160;    rd.position[0] += _position.x;</div>
+<div class="line"><a name="l00433"></a><span class="lineno">  433</span>&#160;    rd.position[1] += _position.y;</div>
+<div class="line"><a name="l00434"></a><span class="lineno">  434</span>&#160;    rd.position[2] += _position.z;</div>
+<div class="line"><a name="l00435"></a><span class="lineno">  435</span>&#160;    _rnaSequence = RNASequencePtr(<span class="keyword">new</span> <a class="code" href="../../d2/d77/classbioexplorer_1_1RNASequence.html">RNASequence</a>(_scene, rd));</div>
+<div class="line"><a name="l00436"></a><span class="lineno">  436</span>&#160;    <span class="keyword">const</span> <span class="keyword">auto</span> modelDescriptor = _rnaSequence-&gt;getModelDescriptor();</div>
+<div class="line"><a name="l00437"></a><span class="lineno">  437</span>&#160;    _scene.addModel(modelDescriptor);</div>
+<div class="line"><a name="l00438"></a><span class="lineno">  438</span>&#160;}</div>
+<div class="line"><a name="l00439"></a><span class="lineno">  439</span>&#160;} <span class="comment">// namespace bioexplorer</span></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
 <div class="ttc" id="astructbioexplorer_1_1ProteinDescriptor_html_a06fe47969ba2e0072f1d3f1cde20c416"><div class="ttname"><a href="../../de/dc1/structbioexplorer_1_1ProteinDescriptor.html#a06fe47969ba2e0072f1d3f1cde20c416">bioexplorer::ProteinDescriptor::orientation</a></div><div class="ttdeci">std::vector&lt; float &gt; orientation</div><div class="ttdef"><b>Definition:</b> <a href="../../d7/df8/Types_8h_source.html#l00264">Types.h:264</a></div></div>
-<div class="ttc" id="aclassbioexplorer_1_1Mesh_html"><div class="ttname"><a href="../../dd/d3e/classbioexplorer_1_1Mesh.html">bioexplorer::Mesh</a></div><div class="ttdoc">A Mesh object implements a 3D structure that has the shape of a given OBJ mesh, but with a surface co...</div><div class="ttdef"><b>Definition:</b> <a href="../../d9/d31/Mesh_8h_source.html#l00041">Mesh.h:41</a></div></div>
 <div class="ttc" id="astructbioexplorer_1_1AminoAcidSequenceAsRangesDescriptor_html_a69901ac67f1b6a928a358f3805d3173a"><div class="ttname"><a href="../../d3/db0/structbioexplorer_1_1AminoAcidSequenceAsRangesDescriptor.html#a69901ac67f1b6a928a358f3805d3173a">bioexplorer::AminoAcidSequenceAsRangesDescriptor::ranges</a></div><div class="ttdeci">std::vector&lt; size_t &gt; ranges</div><div class="ttdef"><b>Definition:</b> <a href="../../d7/df8/Types_8h_source.html#l00401">Types.h:401</a></div></div>
-<div class="ttc" id="aclassbioexplorer_1_1Assembly_html_ae0ddb89b63ade59e32c96d3bb221495e"><div class="ttname"><a href="../../db/db7/classbioexplorer_1_1Assembly.html#ae0ddb89b63ade59e32c96d3bb221495e">bioexplorer::Assembly::addMembrane</a></div><div class="ttdeci">void addMembrane(const MembraneDescriptor &amp;descriptor)</div><div class="ttdoc">addMembrane Add a membrane to the assembly</div><div class="ttdef"><b>Definition:</b> <a href="../../df/d5c/Assembly_8cpp_source.html#l00100">Assembly.cpp:100</a></div></div>
+<div class="ttc" id="aclassbioexplorer_1_1Assembly_html_ae0ddb89b63ade59e32c96d3bb221495e"><div class="ttname"><a href="../../db/db7/classbioexplorer_1_1Assembly.html#ae0ddb89b63ade59e32c96d3bb221495e">bioexplorer::Assembly::addMembrane</a></div><div class="ttdeci">void addMembrane(const MembraneDescriptor &amp;descriptor)</div><div class="ttdoc">addMembrane Add a membrane to the assembly</div><div class="ttdef"><b>Definition:</b> <a href="../../df/d5c/Assembly_8cpp_source.html#l00102">Assembly.cpp:102</a></div></div>
 <div class="ttc" id="astructbioexplorer_1_1ColorSchemeDescriptor_html_a3e9a002b94feaa37ac5f16ad5d6199d9"><div class="ttname"><a href="../../dd/d82/structbioexplorer_1_1ColorSchemeDescriptor.html#a3e9a002b94feaa37ac5f16ad5d6199d9">bioexplorer::ColorSchemeDescriptor::assemblyName</a></div><div class="ttdeci">std::string assemblyName</div><div class="ttdef"><b>Definition:</b> <a href="../../d7/df8/Types_8h_source.html#l00655">Types.h:655</a></div></div>
-<div class="ttc" id="aclassbioexplorer_1_1Assembly_html_a71320df37a54cc5fb8b7a269a6e46c43"><div class="ttname"><a href="../../db/db7/classbioexplorer_1_1Assembly.html#a71320df37a54cc5fb8b7a269a6e46c43">bioexplorer::Assembly::setAminoAcidSequenceAsRange</a></div><div class="ttdeci">void setAminoAcidSequenceAsRange(const AminoAcidSequenceAsRangesDescriptor &amp;descriptor)</div><div class="ttdoc">setAminoAcidSequenceAsRange Apply a color scheme to visualize a given amino acid sequence defined by ...</div><div class="ttdef"><b>Definition:</b> <a href="../../df/d5c/Assembly_8cpp_source.html#l00340">Assembly.cpp:340</a></div></div>
+<div class="ttc" id="aclassbioexplorer_1_1Assembly_html_a71320df37a54cc5fb8b7a269a6e46c43"><div class="ttname"><a href="../../db/db7/classbioexplorer_1_1Assembly.html#a71320df37a54cc5fb8b7a269a6e46c43">bioexplorer::Assembly::setAminoAcidSequenceAsRange</a></div><div class="ttdeci">void setAminoAcidSequenceAsRange(const AminoAcidSequenceAsRangesDescriptor &amp;descriptor)</div><div class="ttdoc">setAminoAcidSequenceAsRange Apply a color scheme to visualize a given amino acid sequence defined by ...</div><div class="ttdef"><b>Definition:</b> <a href="../../df/d5c/Assembly_8cpp_source.html#l00342">Assembly.cpp:342</a></div></div>
 <div class="ttc" id="astructbioexplorer_1_1ProteinDescriptor_html_abb3e758fa8c81fd59ba4307f9366b621"><div class="ttname"><a href="../../de/dc1/structbioexplorer_1_1ProteinDescriptor.html#abb3e758fa8c81fd59ba4307f9366b621">bioexplorer::ProteinDescriptor::randomSeed</a></div><div class="ttdeci">size_t randomSeed</div><div class="ttdef"><b>Definition:</b> <a href="../../d7/df8/Types_8h_source.html#l00256">Types.h:256</a></div></div>
 <div class="ttc" id="aclassbioexplorer_1_1Assembly_html_aa2ab38e9826e0e92fec3dae120e784e6"><div class="ttname"><a href="../../db/db7/classbioexplorer_1_1Assembly.html#aa2ab38e9826e0e92fec3dae120e784e6">bioexplorer::Assembly::Assembly</a></div><div class="ttdeci">Assembly(Scene &amp;scene, const AssemblyDescriptor &amp;assemblyDescriptor)</div><div class="ttdoc">Assembly Default constructor.</div><div class="ttdef"><b>Definition:</b> <a href="../../df/d5c/Assembly_8cpp_source.html#l00032">Assembly.cpp:32</a></div></div>
 <div class="ttc" id="astructbioexplorer_1_1AssemblyDescriptor_html_aee8d0b678efb3740bc88f8cb2cdf60e7"><div class="ttname"><a href="../../d4/dee/structbioexplorer_1_1AssemblyDescriptor.html#aee8d0b678efb3740bc88f8cb2cdf60e7">bioexplorer::AssemblyDescriptor::position</a></div><div class="ttdeci">std::vector&lt; float &gt; position</div><div class="ttdef"><b>Definition:</b> <a href="../../d7/df8/Types_8h_source.html#l00098">Types.h:98</a></div></div>
@@ -545,15 +546,14 @@ $(document).ready(function(){initNavTree('df/d5c/Assembly_8cpp_source.html','../
 <div class="ttc" id="astructbioexplorer_1_1RNASequenceDescriptor_html"><div class="ttname"><a href="../../d6/dd7/structbioexplorer_1_1RNASequenceDescriptor.html">bioexplorer::RNASequenceDescriptor</a></div><div class="ttdoc">RNA sequence descriptor.</div><div class="ttdef"><b>Definition:</b> <a href="../../d7/df8/Types_8h_source.html#l00351">Types.h:351</a></div></div>
 <div class="ttc" id="aclassbioexplorer_1_1Membrane_html"><div class="ttname"><a href="../../d6/dca/classbioexplorer_1_1Membrane.html">bioexplorer::Membrane</a></div><div class="ttdoc">A Membrane object implements a 3D structure of a given shape, but with a surface composed of instance...</div><div class="ttdef"><b>Definition:</b> <a href="../../d1/d66/Membrane_8h_source.html#l00038">Membrane.h:38</a></div></div>
 <div class="ttc" id="astructbioexplorer_1_1AminoAcidSequenceAsStringDescriptor_html_af803af30effb27dc7055147f4b5c8e67"><div class="ttname"><a href="../../de/d42/structbioexplorer_1_1AminoAcidSequenceAsStringDescriptor.html#af803af30effb27dc7055147f4b5c8e67">bioexplorer::AminoAcidSequenceAsStringDescriptor::sequence</a></div><div class="ttdeci">std::string sequence</div><div class="ttdef"><b>Definition:</b> <a href="../../d7/df8/Types_8h_source.html#l00385">Types.h:385</a></div></div>
-<div class="ttc" id="aclassbioexplorer_1_1Assembly_html_a606db9874df6b59c700f41041192948c"><div class="ttname"><a href="../../db/db7/classbioexplorer_1_1Assembly.html#a606db9874df6b59c700f41041192948c">bioexplorer::Assembly::setAminoAcidSequenceAsString</a></div><div class="ttdeci">void setAminoAcidSequenceAsString(const AminoAcidSequenceAsStringDescriptor &amp;descriptor)</div><div class="ttdoc">setAminoAcidSequenceAsString Apply a color scheme to visualize a given amino acid sequence defined by...</div><div class="ttdef"><b>Definition:</b> <a href="../../df/d5c/Assembly_8cpp_source.html#l00330">Assembly.cpp:330</a></div></div>
+<div class="ttc" id="aclassbioexplorer_1_1Assembly_html_a606db9874df6b59c700f41041192948c"><div class="ttname"><a href="../../db/db7/classbioexplorer_1_1Assembly.html#a606db9874df6b59c700f41041192948c">bioexplorer::Assembly::setAminoAcidSequenceAsString</a></div><div class="ttdeci">void setAminoAcidSequenceAsString(const AminoAcidSequenceAsStringDescriptor &amp;descriptor)</div><div class="ttdoc">setAminoAcidSequenceAsString Apply a color scheme to visualize a given amino acid sequence defined by...</div><div class="ttdef"><b>Definition:</b> <a href="../../df/d5c/Assembly_8cpp_source.html#l00332">Assembly.cpp:332</a></div></div>
 <div class="ttc" id="astructbioexplorer_1_1SugarsDescriptor_html_abb56da62f5d87ce447fbcbccb6b50cdd"><div class="ttname"><a href="../../dd/dbd/structbioexplorer_1_1SugarsDescriptor.html#abb56da62f5d87ce447fbcbccb6b50cdd">bioexplorer::SugarsDescriptor::proteinName</a></div><div class="ttdeci">std::string proteinName</div><div class="ttdef"><b>Definition:</b> <a href="../../d7/df8/Types_8h_source.html#l00284">Types.h:284</a></div></div>
+<div class="ttc" id="astructbioexplorer_1_1MeshBasedMembraneDescriptor_html"><div class="ttname"><a href="../../d7/d2f/structbioexplorer_1_1MeshBasedMembraneDescriptor.html">bioexplorer::MeshBasedMembraneDescriptor</a></div><div class="ttdoc">Data structure describing a membrane based on the shape of a mesh.</div><div class="ttdef"><b>Definition:</b> <a href="../../d7/df8/Types_8h_source.html#l00310">Types.h:310</a></div></div>
 <div class="ttc" id="astructbioexplorer_1_1SetAminoAcid_html"><div class="ttname"><a href="../../d1/da9/structbioexplorer_1_1SetAminoAcid.html">bioexplorer::SetAminoAcid</a></div><div class="ttdoc">Structure used to set an amino acid in protein sequences.</div><div class="ttdef"><b>Definition:</b> <a href="../../d7/df8/Types_8h_source.html#l00414">Types.h:414</a></div></div>
 <div class="ttc" id="astructbioexplorer_1_1AminoAcidSequenceAsRangesDescriptor_html"><div class="ttname"><a href="../../d3/db0/structbioexplorer_1_1AminoAcidSequenceAsRangesDescriptor.html">bioexplorer::AminoAcidSequenceAsRangesDescriptor</a></div><div class="ttdoc">Structure defining a selection of amino acids on a protein of an assembly. The selection is defined a...</div><div class="ttdef"><b>Definition:</b> <a href="../../d7/df8/Types_8h_source.html#l00393">Types.h:393</a></div></div>
-<div class="ttc" id="aclassbioexplorer_1_1Assembly_html_ac10375c948e937d3ced9be1d7f0bd8f8"><div class="ttname"><a href="../../db/db7/classbioexplorer_1_1Assembly.html#ac10375c948e937d3ced9be1d7f0bd8f8">bioexplorer::Assembly::addSugars</a></div><div class="ttdeci">void addSugars(const SugarsDescriptor &amp;descriptor)</div><div class="ttdoc">addSugars Add sugars to sugar binding sites of a given protein of the assembly</div><div class="ttdef"><b>Definition:</b> <a href="../../df/d5c/Assembly_8cpp_source.html#l00110">Assembly.cpp:110</a></div></div>
-<div class="ttc" id="astructbioexplorer_1_1MeshDescriptor_html_a2bf213ca5fd7004802420c8fc560d950"><div class="ttname"><a href="../../dc/d2e/structbioexplorer_1_1MeshDescriptor.html#a2bf213ca5fd7004802420c8fc560d950">bioexplorer::MeshDescriptor::name</a></div><div class="ttdeci">std::string name</div><div class="ttdef"><b>Definition:</b> <a href="../../d7/df8/Types_8h_source.html#l00315">Types.h:315</a></div></div>
+<div class="ttc" id="aclassbioexplorer_1_1Assembly_html_ac10375c948e937d3ced9be1d7f0bd8f8"><div class="ttname"><a href="../../db/db7/classbioexplorer_1_1Assembly.html#ac10375c948e937d3ced9be1d7f0bd8f8">bioexplorer::Assembly::addSugars</a></div><div class="ttdeci">void addSugars(const SugarsDescriptor &amp;descriptor)</div><div class="ttdoc">addSugars Add sugars to sugar binding sites of a given protein of the assembly</div><div class="ttdef"><b>Definition:</b> <a href="../../df/d5c/Assembly_8cpp_source.html#l00112">Assembly.cpp:112</a></div></div>
 <div class="ttc" id="astructbioexplorer_1_1MembraneDescriptor_html"><div class="ttname"><a href="../../de/d94/structbioexplorer_1_1MembraneDescriptor.html">bioexplorer::MembraneDescriptor</a></div><div class="ttdoc">A Membrane is a shaped assembly of phospholipids.</div><div class="ttdef"><b>Definition:</b> <a href="../../d7/df8/Types_8h_source.html#l00173">Types.h:173</a></div></div>
-<div class="ttc" id="aclassbioexplorer_1_1Assembly_html_aee90be5f4b5471b971a565f0e7a2ed9a"><div class="ttname"><a href="../../db/db7/classbioexplorer_1_1Assembly.html#aee90be5f4b5471b971a565f0e7a2ed9a">bioexplorer::Assembly::getAminoAcidInformation</a></div><div class="ttdeci">std::string getAminoAcidInformation(const AminoAcidInformationDescriptor &amp;descriptor) const</div><div class="ttdef"><b>Definition:</b> <a href="../../df/d5c/Assembly_8cpp_source.html#l00356">Assembly.cpp:356</a></div></div>
-<div class="ttc" id="astructbioexplorer_1_1MeshDescriptor_html"><div class="ttname"><a href="../../dc/d2e/structbioexplorer_1_1MeshDescriptor.html">bioexplorer::MeshDescriptor</a></div><div class="ttdoc">Data structure describing a membrane based on the shape of a mesh.</div><div class="ttdef"><b>Definition:</b> <a href="../../d7/df8/Types_8h_source.html#l00310">Types.h:310</a></div></div>
+<div class="ttc" id="aclassbioexplorer_1_1Assembly_html_aee90be5f4b5471b971a565f0e7a2ed9a"><div class="ttname"><a href="../../db/db7/classbioexplorer_1_1Assembly.html#aee90be5f4b5471b971a565f0e7a2ed9a">bioexplorer::Assembly::getAminoAcidInformation</a></div><div class="ttdeci">std::string getAminoAcidInformation(const AminoAcidInformationDescriptor &amp;descriptor) const</div><div class="ttdef"><b>Definition:</b> <a href="../../df/d5c/Assembly_8cpp_source.html#l00358">Assembly.cpp:358</a></div></div>
 <div class="ttc" id="astructbioexplorer_1_1AssemblyDescriptor_html"><div class="ttname"><a href="../../d4/dee/structbioexplorer_1_1AssemblyDescriptor.html">bioexplorer::AssemblyDescriptor</a></div><div class="ttdoc">Assembly representation.</div><div class="ttdef"><b>Definition:</b> <a href="../../d7/df8/Types_8h_source.html#l00093">Types.h:93</a></div></div>
 <div class="ttc" id="astructbioexplorer_1_1SugarsDescriptor_html_a4eaabe6d7145f5b1fb9b8f821ce3fff3"><div class="ttname"><a href="../../dd/dbd/structbioexplorer_1_1SugarsDescriptor.html#a4eaabe6d7145f5b1fb9b8f821ce3fff3">bioexplorer::SugarsDescriptor::assemblyName</a></div><div class="ttdeci">std::string assemblyName</div><div class="ttdef"><b>Definition:</b> <a href="../../d7/df8/Types_8h_source.html#l00278">Types.h:278</a></div></div>
 <div class="ttc" id="aclassbioexplorer_1_1RNASequence_html"><div class="ttname"><a href="../../d2/d77/classbioexplorer_1_1RNASequence.html">bioexplorer::RNASequence</a></div><div class="ttdoc">The RNASequence class.</div><div class="ttdef"><b>Definition:</b> <a href="../../d0/d7d/RNASequence_8h_source.html#l00034">RNASequence.h:34</a></div></div>
@@ -561,23 +561,25 @@ $(document).ready(function(){initNavTree('df/d5c/Assembly_8cpp_source.html','../
 <div class="ttc" id="astructbioexplorer_1_1AminoAcidSequenceAsRangesDescriptor_html_a104e34b76aa2b710362804f5b50333c6"><div class="ttname"><a href="../../d3/db0/structbioexplorer_1_1AminoAcidSequenceAsRangesDescriptor.html#a104e34b76aa2b710362804f5b50333c6">bioexplorer::AminoAcidSequenceAsRangesDescriptor::name</a></div><div class="ttdeci">std::string name</div><div class="ttdef"><b>Definition:</b> <a href="../../d7/df8/Types_8h_source.html#l00398">Types.h:398</a></div></div>
 <div class="ttc" id="astructbioexplorer_1_1ProteinDescriptor_html_a0a7849ec19bd91005b1bbea8ae6bdbd1"><div class="ttname"><a href="../../de/dc1/structbioexplorer_1_1ProteinDescriptor.html#a0a7849ec19bd91005b1bbea8ae6bdbd1">bioexplorer::ProteinDescriptor::position</a></div><div class="ttdeci">std::vector&lt; float &gt; position</div><div class="ttdef"><b>Definition:</b> <a href="../../d7/df8/Types_8h_source.html#l00262">Types.h:262</a></div></div>
 <div class="ttc" id="aclassbioexplorer_1_1Protein_html"><div class="ttname"><a href="../../db/d87/classbioexplorer_1_1Protein.html">bioexplorer::Protein</a></div><div class="ttdoc">The Protein class.</div><div class="ttdef"><b>Definition:</b> <a href="../../d2/d6d/Protein_8h_source.html#l00033">Protein.h:33</a></div></div>
+<div class="ttc" id="astructbioexplorer_1_1MeshBasedMembraneDescriptor_html_a9f292e0d249a69001c88afc30a5beec7"><div class="ttname"><a href="../../d7/d2f/structbioexplorer_1_1MeshBasedMembraneDescriptor.html#a9f292e0d249a69001c88afc30a5beec7">bioexplorer::MeshBasedMembraneDescriptor::name</a></div><div class="ttdeci">std::string name</div><div class="ttdef"><b>Definition:</b> <a href="../../d7/df8/Types_8h_source.html#l00315">Types.h:315</a></div></div>
+<div class="ttc" id="aclassbioexplorer_1_1Assembly_html_aeb7c6ae2e6884502776c10140068e10e"><div class="ttname"><a href="../../db/db7/classbioexplorer_1_1Assembly.html#aeb7c6ae2e6884502776c10140068e10e">bioexplorer::Assembly::addMeshBasedMembrane</a></div><div class="ttdeci">void addMeshBasedMembrane(const MeshBasedMembraneDescriptor &amp;descriptor)</div><div class="ttdoc">addMeshBasedMembrane Add a mesh based membrane to the assembly</div><div class="ttdef"><b>Definition:</b> <a href="../../df/d5c/Assembly_8cpp_source.html#l00153">Assembly.cpp:153</a></div></div>
 <div class="ttc" id="astructbioexplorer_1_1ColorSchemeDescriptor_html_a0b50b28adf6185a96c10fc5e1a74578e"><div class="ttname"><a href="../../dd/d82/structbioexplorer_1_1ColorSchemeDescriptor.html#a0b50b28adf6185a96c10fc5e1a74578e">bioexplorer::ColorSchemeDescriptor::colorScheme</a></div><div class="ttdeci">ColorScheme colorScheme</div><div class="ttdef"><b>Definition:</b> <a href="../../d7/df8/Types_8h_source.html#l00659">Types.h:659</a></div></div>
 <div class="ttc" id="astructbioexplorer_1_1AminoAcidSequenceAsStringDescriptor_html"><div class="ttname"><a href="../../de/d42/structbioexplorer_1_1AminoAcidSequenceAsStringDescriptor.html">bioexplorer::AminoAcidSequenceAsStringDescriptor</a></div><div class="ttdoc">Structure defining a selection of amino acids on a protein of an assembly. The selection is defined a...</div><div class="ttdef"><b>Definition:</b> <a href="../../d7/df8/Types_8h_source.html#l00378">Types.h:378</a></div></div>
 <div class="ttc" id="astructbioexplorer_1_1AssemblyDescriptor_html_aeef47b5d5eb8fecde61293907248469b"><div class="ttname"><a href="../../d4/dee/structbioexplorer_1_1AssemblyDescriptor.html#aeef47b5d5eb8fecde61293907248469b">bioexplorer::AssemblyDescriptor::clippingPlanes</a></div><div class="ttdeci">std::vector&lt; float &gt; clippingPlanes</div><div class="ttdef"><b>Definition:</b> <a href="../../d7/df8/Types_8h_source.html#l00102">Types.h:102</a></div></div>
+<div class="ttc" id="aclassbioexplorer_1_1MeshBasedMembrane_html"><div class="ttname"><a href="../../dd/d42/classbioexplorer_1_1MeshBasedMembrane.html">bioexplorer::MeshBasedMembrane</a></div><div class="ttdoc">A MeshBasedMembrane object implements a 3D structure that has the shape of a given OBJ Mesh,...</div><div class="ttdef"><b>Definition:</b> <a href="../../d1/d0e/MeshBasedMembrane_8h_source.html#l00042">MeshBasedMembrane.h:42</a></div></div>
 <div class="ttc" id="astructbioexplorer_1_1ProteinDescriptor_html_a872fff893066f4ce71bb0a7fdf2db749"><div class="ttname"><a href="../../de/dc1/structbioexplorer_1_1ProteinDescriptor.html#a872fff893066f4ce71bb0a7fdf2db749">bioexplorer::ProteinDescriptor::name</a></div><div class="ttdeci">std::string name</div><div class="ttdef"><b>Definition:</b> <a href="../../d7/df8/Types_8h_source.html#l00228">Types.h:228</a></div></div>
-<div class="ttc" id="aclassbioexplorer_1_1Assembly_html_a5bd8ee1c8312e0833734a54168ea5ef2"><div class="ttname"><a href="../../db/db7/classbioexplorer_1_1Assembly.html#a5bd8ee1c8312e0833734a54168ea5ef2">bioexplorer::Assembly::setAminoAcid</a></div><div class="ttdeci">void setAminoAcid(const SetAminoAcid &amp;aminoAcid)</div><div class="ttdoc">Set an amino acid at a given position in the protein sequences.</div><div class="ttdef"><b>Definition:</b> <a href="../../df/d5c/Assembly_8cpp_source.html#l00394">Assembly.cpp:394</a></div></div>
+<div class="ttc" id="aclassbioexplorer_1_1Assembly_html_a5bd8ee1c8312e0833734a54168ea5ef2"><div class="ttname"><a href="../../db/db7/classbioexplorer_1_1Assembly.html#a5bd8ee1c8312e0833734a54168ea5ef2">bioexplorer::Assembly::setAminoAcid</a></div><div class="ttdeci">void setAminoAcid(const SetAminoAcid &amp;aminoAcid)</div><div class="ttdoc">Set an amino acid at a given position in the protein sequences.</div><div class="ttdef"><b>Definition:</b> <a href="../../df/d5c/Assembly_8cpp_source.html#l00396">Assembly.cpp:396</a></div></div>
 <div class="ttc" id="astructbioexplorer_1_1AssemblyDescriptor_html_a71b94974f95b9de7694d09b90f475306"><div class="ttname"><a href="../../d4/dee/structbioexplorer_1_1AssemblyDescriptor.html#a71b94974f95b9de7694d09b90f475306">bioexplorer::AssemblyDescriptor::name</a></div><div class="ttdeci">std::string name</div><div class="ttdef"><b>Definition:</b> <a href="../../d7/df8/Types_8h_source.html#l00096">Types.h:96</a></div></div>
-<div class="ttc" id="aclassbioexplorer_1_1Assembly_html_a84fc6172a8f5929533b26b0591c1ce28"><div class="ttname"><a href="../../db/db7/classbioexplorer_1_1Assembly.html#a84fc6172a8f5929533b26b0591c1ce28">bioexplorer::Assembly::addRNASequence</a></div><div class="ttdeci">void addRNASequence(const RNASequenceDescriptor &amp;descriptor)</div><div class="ttdoc">addRNASequence Add an RNA sequence to the assembly</div><div class="ttdef"><b>Definition:</b> <a href="../../df/d5c/Assembly_8cpp_source.html#l00404">Assembly.cpp:404</a></div></div>
-<div class="ttc" id="aclassbioexplorer_1_1Assembly_html_a8c4dd7810c53d461e4e5463863e21a94"><div class="ttname"><a href="../../db/db7/classbioexplorer_1_1Assembly.html#a8c4dd7810c53d461e4e5463863e21a94">bioexplorer::Assembly::setColorScheme</a></div><div class="ttdeci">void setColorScheme(const ColorSchemeDescriptor &amp;descriptor)</div><div class="ttdoc">setColorScheme Set a color scheme to a protein of the assembly</div><div class="ttdef"><b>Definition:</b> <a href="../../df/d5c/Assembly_8cpp_source.html#l00289">Assembly.cpp:289</a></div></div>
-<div class="ttc" id="aclassbioexplorer_1_1Assembly_html_a6ad412cac80e5b04d7965651b3866889"><div class="ttname"><a href="../../db/db7/classbioexplorer_1_1Assembly.html#a6ad412cac80e5b04d7965651b3866889">bioexplorer::Assembly::addMesh</a></div><div class="ttdeci">void addMesh(const MeshDescriptor &amp;descriptor)</div><div class="ttdoc">addMesh Add a mesh to the assembly</div><div class="ttdef"><b>Definition:</b> <a href="../../df/d5c/Assembly_8cpp_source.html#l00151">Assembly.cpp:151</a></div></div>
+<div class="ttc" id="aclassbioexplorer_1_1Assembly_html_a84fc6172a8f5929533b26b0591c1ce28"><div class="ttname"><a href="../../db/db7/classbioexplorer_1_1Assembly.html#a84fc6172a8f5929533b26b0591c1ce28">bioexplorer::Assembly::addRNASequence</a></div><div class="ttdeci">void addRNASequence(const RNASequenceDescriptor &amp;descriptor)</div><div class="ttdoc">addRNASequence Add an RNA sequence to the assembly</div><div class="ttdef"><b>Definition:</b> <a href="../../df/d5c/Assembly_8cpp_source.html#l00406">Assembly.cpp:406</a></div></div>
+<div class="ttc" id="aclassbioexplorer_1_1Assembly_html_a8c4dd7810c53d461e4e5463863e21a94"><div class="ttname"><a href="../../db/db7/classbioexplorer_1_1Assembly.html#a8c4dd7810c53d461e4e5463863e21a94">bioexplorer::Assembly::setColorScheme</a></div><div class="ttdeci">void setColorScheme(const ColorSchemeDescriptor &amp;descriptor)</div><div class="ttdoc">setColorScheme Set a color scheme to a protein of the assembly</div><div class="ttdef"><b>Definition:</b> <a href="../../df/d5c/Assembly_8cpp_source.html#l00291">Assembly.cpp:291</a></div></div>
 <div class="ttc" id="aclassbioexplorer_1_1Assembly_html_a57209ab4209a88e61fa1de6a8233bf73"><div class="ttname"><a href="../../db/db7/classbioexplorer_1_1Assembly.html#a57209ab4209a88e61fa1de6a8233bf73">bioexplorer::Assembly::~Assembly</a></div><div class="ttdeci">~Assembly()</div><div class="ttdoc">Destroy the Assembly object.</div><div class="ttdef"><b>Definition:</b> <a href="../../df/d5c/Assembly_8cpp_source.html#l00052">Assembly.cpp:52</a></div></div>
-<div class="ttc" id="aclassbioexplorer_1_1Assembly_html_a4436566c518ec5c5420f4b3f48298a44"><div class="ttname"><a href="../../db/db7/classbioexplorer_1_1Assembly.html#a4436566c518ec5c5420f4b3f48298a44">bioexplorer::Assembly::addProtein</a></div><div class="ttdeci">void addProtein(const ProteinDescriptor &amp;descriptor)</div><div class="ttdoc">addProtein Add a protein to the assembly</div><div class="ttdef"><b>Definition:</b> <a href="../../df/d5c/Assembly_8cpp_source.html#l00080">Assembly.cpp:80</a></div></div>
+<div class="ttc" id="aclassbioexplorer_1_1Assembly_html_a4436566c518ec5c5420f4b3f48298a44"><div class="ttname"><a href="../../db/db7/classbioexplorer_1_1Assembly.html#a4436566c518ec5c5420f4b3f48298a44">bioexplorer::Assembly::addProtein</a></div><div class="ttdeci">void addProtein(const ProteinDescriptor &amp;descriptor)</div><div class="ttdoc">addProtein Add a protein to the assembly</div><div class="ttdef"><b>Definition:</b> <a href="../../df/d5c/Assembly_8cpp_source.html#l00082">Assembly.cpp:82</a></div></div>
 <div class="ttc" id="astructbioexplorer_1_1SetAminoAcid_html_ad4755f4ac044c5351549efaf8b82d496"><div class="ttname"><a href="../../d1/da9/structbioexplorer_1_1SetAminoAcid.html#ad4755f4ac044c5351549efaf8b82d496">bioexplorer::SetAminoAcid::name</a></div><div class="ttdeci">std::string name</div><div class="ttdef"><b>Definition:</b> <a href="../../d7/df8/Types_8h_source.html#l00419">Types.h:419</a></div></div>
 <div class="ttc" id="astructbioexplorer_1_1ProteinDescriptor_html_a32471d5ddead043566940da4aef7dfe5"><div class="ttname"><a href="../../de/dc1/structbioexplorer_1_1ProteinDescriptor.html#a32471d5ddead043566940da4aef7dfe5">bioexplorer::ProteinDescriptor::positionRandomizationType</a></div><div class="ttdeci">PositionRandomizationType positionRandomizationType</div><div class="ttdef"><b>Definition:</b> <a href="../../d7/df8/Types_8h_source.html#l00260">Types.h:260</a></div></div>
 <div class="ttc" id="astructbioexplorer_1_1AminoAcidSequenceAsStringDescriptor_html_a57aad74cd2aa3fe694d2e1a53c026075"><div class="ttname"><a href="../../de/d42/structbioexplorer_1_1AminoAcidSequenceAsStringDescriptor.html#a57aad74cd2aa3fe694d2e1a53c026075">bioexplorer::AminoAcidSequenceAsStringDescriptor::name</a></div><div class="ttdeci">std::string name</div><div class="ttdef"><b>Definition:</b> <a href="../../d7/df8/Types_8h_source.html#l00383">Types.h:383</a></div></div>
 <div class="ttc" id="astructbioexplorer_1_1ProteinDescriptor_html_a394ec946842d8dfaa6a16fd451e58044"><div class="ttname"><a href="../../de/dc1/structbioexplorer_1_1ProteinDescriptor.html#a394ec946842d8dfaa6a16fd451e58044">bioexplorer::ProteinDescriptor::shape</a></div><div class="ttdeci">AssemblyShape shape</div><div class="ttdef"><b>Definition:</b> <a href="../../d7/df8/Types_8h_source.html#l00232">Types.h:232</a></div></div>
 <div class="ttc" id="astructbioexplorer_1_1ProteinDescriptor_html_a8ea75370d8bde416dae4d0d1cbbb4d95"><div class="ttname"><a href="../../de/dc1/structbioexplorer_1_1ProteinDescriptor.html#a8ea75370d8bde416dae4d0d1cbbb4d95">bioexplorer::ProteinDescriptor::locationCutoffAngle</a></div><div class="ttdeci">float locationCutoffAngle</div><div class="ttdef"><b>Definition:</b> <a href="../../d7/df8/Types_8h_source.html#l00258">Types.h:258</a></div></div>
-<div class="ttc" id="aclassbioexplorer_1_1Assembly_html_a52c832e91f5540275d2052a165f9a8b7"><div class="ttname"><a href="../../db/db7/classbioexplorer_1_1Assembly.html#a52c832e91f5540275d2052a165f9a8b7">bioexplorer::Assembly::addGlycans</a></div><div class="ttdeci">void addGlycans(const SugarsDescriptor &amp;descriptor)</div><div class="ttdoc">addGlycans Add glycans to glycosilation sites of a given protein in the assembly</div><div class="ttdef"><b>Definition:</b> <a href="../../df/d5c/Assembly_8cpp_source.html#l00130">Assembly.cpp:130</a></div></div>
+<div class="ttc" id="aclassbioexplorer_1_1Assembly_html_a52c832e91f5540275d2052a165f9a8b7"><div class="ttname"><a href="../../db/db7/classbioexplorer_1_1Assembly.html#a52c832e91f5540275d2052a165f9a8b7">bioexplorer::Assembly::addGlycans</a></div><div class="ttdeci">void addGlycans(const SugarsDescriptor &amp;descriptor)</div><div class="ttdoc">addGlycans Add glycans to glycosilation sites of a given protein in the assembly</div><div class="ttdef"><b>Definition:</b> <a href="../../df/d5c/Assembly_8cpp_source.html#l00132">Assembly.cpp:132</a></div></div>
 <div class="ttc" id="astructbioexplorer_1_1ColorSchemeDescriptor_html_a574f1c6f1267e2eedc8a05dbe7ecb7ba"><div class="ttname"><a href="../../dd/d82/structbioexplorer_1_1ColorSchemeDescriptor.html#a574f1c6f1267e2eedc8a05dbe7ecb7ba">bioexplorer::ColorSchemeDescriptor::name</a></div><div class="ttdeci">std::string name</div><div class="ttdef"><b>Definition:</b> <a href="../../d7/df8/Types_8h_source.html#l00657">Types.h:657</a></div></div>
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
