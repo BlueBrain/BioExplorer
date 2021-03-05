@@ -21,12 +21,12 @@
 # You should have received a copy of the GNU General Public License along with
 # this program.  If not, see <https://www.gnu.org/licenses/>.
 
-from .bio_explorer import BioExplorer, Volume, Mesh, AssemblyProtein, Protein, Sugars, \
-    RNASequence, Cell, Membrane, Surfactant, Virus, Vector2, Vector3, Quaternion
+from .bio_explorer import BioExplorer, Volume, MeshBasedMembrane, AssemblyProtein, Protein, \
+    Sugars, RNASequence, Cell, Membrane, Surfactant, Virus, Vector2, Vector3, Quaternion
 from .notebook_widgets import Widgets
 from .version import VERSION as __version__
 
 __all__ = [
-    'Widgets', 'BioExplorer', 'Mesh', 'Protein', 'AssemblyProtein', 'Sugars', 'RNASequence',
-    'Membrane', 'Volume', 'Surfactant', 'Cell', 'Vector2', 'Vector3', 'Quaternion', 'Virus',
-    '__version__']
+    'Widgets', 'BioExplorer', 'MeshBasedMembrane', 'Protein', 'AssemblyProtein', 'Sugars',
+    'RNASequence', 'Membrane', 'Volume', 'Surfactant', 'Cell', 'Vector2', 'Vector3', 'Quaternion',
+    'Virus', '__version__']

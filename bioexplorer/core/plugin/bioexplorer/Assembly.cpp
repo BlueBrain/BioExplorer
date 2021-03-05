@@ -21,7 +21,7 @@
 #include "Assembly.h"
 
 #include <plugin/bioexplorer/Membrane.h>
-#include <plugin/bioexplorer/Mesh.h>
+#include <plugin/bioexplorer/MeshBasedMembrane.h>
 #include <plugin/bioexplorer/Protein.h>
 #include <plugin/bioexplorer/RNASequence.h>
 #include <plugin/common/Logs.h>
@@ -59,13 +59,15 @@ Assembly::~Assembly()
                     << std::endl;
         _scene.removeModel(protein.second->getModelDescriptor()->getModelID());
     }
-    for (const auto &mesh : _meshes)
+    for (const auto &meshBasedMembrane : _meshBasedMembranes)
     {
-        const auto modelId = mesh.second->getModelDescriptor()->getModelID();
-        PLUGIN_INFO << "Removing mesh <" << modelId << "><" << mesh.first
-                    << "> from assembly <" << _descriptor.name << ">"
-                    << std::endl;
-        _scene.removeModel(mesh.second->getModelDescriptor()->getModelID());
+        const auto modelId =
+            meshBasedMembrane.second->getModelDescriptor()->getModelID();
+        PLUGIN_INFO << "Removing mesh <" << modelId << "><"
+                    << meshBasedMembrane.first << "> from assembly <"
+                    << _descriptor.name << ">" << std::endl;
+        _scene.removeModel(
+            meshBasedMembrane.second->getModelDescriptor()->getModelID());
     }
     if (_rnaSequence)
     {
@@ -148,11 +150,11 @@ void Assembly::addGlycans(const SugarsDescriptor &sd)
     targetProtein->addGlycans(sd);
 }
 
-void Assembly::addMesh(const MeshDescriptor &md)
+void Assembly::addMeshBasedMembrane(const MeshBasedMembraneDescriptor &md)
 {
-    MeshPtr mesh(new Mesh(_scene, md));
-    auto modelDescriptor = mesh->getModelDescriptor();
-    _meshes[md.name] = std::move(mesh);
+    MeshBasedMembranePtr meshBaseMembrane(new MeshBasedMembrane(_scene, md));
+    auto modelDescriptor = meshBaseMembrane->getModelDescriptor();
+    _meshBasedMembranes[md.name] = std::move(meshBaseMembrane);
     _scene.addModel(modelDescriptor);
 }
 
@@ -297,8 +299,8 @@ void Assembly::setColorScheme(const ColorSchemeDescriptor &csd)
         protein = (*itProtein).second;
     else
     {
-        auto itMesh = _meshes.find(csd.name);
-        if (itMesh != _meshes.end())
+        auto itMesh = _meshBasedMembranes.find(csd.name);
+        if (itMesh != _meshBasedMembranes.end())
             protein = (*itMesh).second->getProtein();
         else if (_membrane)
         {

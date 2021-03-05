@@ -33,22 +33,24 @@
 namespace bioexplorer
 {
 /**
- * @brief A Mesh object implements a 3D structure that has the shape of a given
- * OBJ mesh, but with a surface composed of instances of a protein. This class
- * is typicaly used to create membranes with a shape provided by a 3D mesh
+ * @brief A MeshBasedMembrane object implements a 3D structure that has the
+ * shape of a given OBJ Mesh, but with a surface composed of
+ * instances of a protein. This class is typicaly used to create membranes with
+ * a shape provided by a 3D Mesh
  *
  */
-class Mesh : public Node
+class MeshBasedMembrane : public Node
 {
 public:
     /**
-     * @brief Construct a new Mesh object
+     * @brief Construct a new MeshBasedMembrane object
      *
      * @param scene The 3D scene where the glycans are added
-     * @param descriptor The data structure describing the mesh, the protein,
-     * and the associated parameters
+     * @param descriptor The data structure describing the MeshBasedMembrane,
+     * the protein, and the associated parameters
      */
-    Mesh(Scene& scene, const MeshDescriptor& descriptor);
+    MeshBasedMembrane(Scene& scene,
+                      const MeshBasedMembraneDescriptor& descriptor);
 
     /**
      * @brief Get the Protein object

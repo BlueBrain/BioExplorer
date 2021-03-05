@@ -214,11 +214,12 @@ void BioExplorerPlugin::init()
                 return _addProtein(payload);
             });
 
-        entryPoint = PLUGIN_API_PREFIX + "add-mesh";
+        entryPoint = PLUGIN_API_PREFIX + "add-mesh-based-membrane";
         PLUGIN_INFO << "Registering '" + entryPoint + "' endpoint" << std::endl;
-        actionInterface->registerRequest<MeshDescriptor, Response>(
-            entryPoint,
-            [&](const MeshDescriptor &payload) { return _addMesh(payload); });
+        actionInterface->registerRequest<MeshBasedMembraneDescriptor, Response>(
+            entryPoint, [&](const MeshBasedMembraneDescriptor &payload) {
+                return _addMeshBasedMembrane(payload);
+            });
 
         entryPoint = PLUGIN_API_PREFIX + "add-glycans";
         PLUGIN_INFO << "Registering '" + entryPoint + "' endpoint" << std::endl;
@@ -586,14 +587,15 @@ Response BioExplorerPlugin::_exportToXYZ(const FileAccess &payload)
     return response;
 }
 
-Response BioExplorerPlugin::_addMesh(const MeshDescriptor &payload) const
+Response BioExplorerPlugin::_addMeshBasedMembrane(
+    const MeshBasedMembraneDescriptor &payload) const
 {
     Response response;
     try
     {
         auto it = _assemblies.find(payload.assemblyName);
         if (it != _assemblies.end())
-            (*it).second->addMesh(payload);
+            (*it).second->addMeshBasedMembrane(payload);
         else
         {
             std::stringstream msg;
