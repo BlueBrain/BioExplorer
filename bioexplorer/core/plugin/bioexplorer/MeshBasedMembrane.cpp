@@ -23,7 +23,9 @@
 
 #include <plugin/common/CommonTypes.h>
 #include <plugin/common/Logs.h>
+#include <plugin/common/Utils.h>
 
+#include <brayns/common/scene/ClipPlane.h>
 #include <brayns/engineapi/Material.h>
 #include <brayns/engineapi/Model.h>
 #include <brayns/io/MeshLoader.h>
@@ -63,6 +65,16 @@ MeshBasedMembrane::MeshBasedMembrane(Scene& scene,
     auto model = &_modelDescriptor->getModel();
     model->updateBounds();
     const auto proteinSize = model->getBounds().getSize();
+
+    // Clipping planes
+    const auto& clippingPlanes = scene.getClipPlanes();
+    Vector4fs clipPlanes;
+    for (const auto cp : clippingPlanes)
+    {
+        const auto& p = cp->getPlane();
+        Vector4f plane{p[0], p[1], p[2], p[3]};
+        clipPlanes.push_back(plane);
+    }
 
     // Load MeshBasedMembrane
     Assimp::Importer importer;
@@ -180,9 +192,9 @@ MeshBasedMembrane::MeshBasedMembrane(Scene& scene,
                 const float variableOffset =
                     md.surfaceVariableOffset * (rand() % 1000 / 1000.f - 0.5f);
 
-                tf.setTranslation(position + transformedVertex +
-                                  defaultNormal * md.surfaceFixedOffset +
-                                  defaultNormal * variableOffset);
+                auto translation = position + transformedVertex +
+                                   defaultNormal * md.surfaceFixedOffset +
+                                   defaultNormal * variableOffset;
 
                 if (MeshBasedMembrane->HasNormals())
                 {
@@ -218,10 +230,15 @@ MeshBasedMembrane::MeshBasedMembrane(Scene& scene,
                             glm::quatLookAt(normal, UP_VECTOR);
                         tf.setRotation(rotation * orientation);
                     }
-                    tf.setTranslation(position + transformedVertex +
-                                      normal * md.surfaceFixedOffset +
-                                      normal * variableOffset);
+                    translation = position + transformedVertex +
+                                  normal * md.surfaceFixedOffset +
+                                  normal * variableOffset;
                 }
+
+                if (isClipped(translation, clipPlanes))
+                    continue;
+
+                tf.setTranslation(translation);
 
                 if (instanceCount == 0)
                     _modelDescriptor->setTransformation(tf);
