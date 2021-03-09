@@ -337,6 +337,7 @@ class BioExplorer:
         params = dict()
         params['name'] = name
         params['position'] = Vector3().to_list()
+        params['orientation'] = Quaternion().to_list()
         params['clippingPlanes'] = list()
         result = self._client.rockets_client.request(
             method=self.PLUGIN_API_PREFIX + 'remove-assembly', params=params)
@@ -365,7 +366,7 @@ class BioExplorer:
         :representation: Representation of the protein (Atoms, atoms and sticks, etc)
         :clipping_planes: List of clipping planes to apply to the virus assembly
         :position: Position of the virus in the scene
-        :orientation: Orientation of the protein in the scene
+        :orientation: Orientation of the coronavirus in the scene
         """
         pdb_folder = resource_folder + 'pdb/'
         rna_folder = resource_folder + 'rna/'
@@ -615,7 +616,7 @@ class BioExplorer:
 
     def add_cell(
             self, cell, atom_radius_multiplier=1.0, representation=REPRESENTATION_ATOMS,
-            clipping_planes=list(), position=Vector3(), random_seed=0):
+            clipping_planes=list(), position=Vector3(), orientation=Quaternion(), random_seed=0):
         """
         Add a cell assembly to the scene
 
@@ -624,16 +625,20 @@ class BioExplorer:
         :representation: Multiplies atom radius by the specified value
         :clipping_planes: List of clipping planes to apply to the virus assembly
         :position: Position of the cell in the scene
+        :orientation: Orientation of the cell in the scene
         :random_seed: Seed used to randomise position the elements in the membrane
         """
         assert isinstance(cell, Cell)
         if clipping_planes:
             assert isinstance(clipping_planes, list)
         assert isinstance(position, Vector3)
+        assert isinstance(orientation, Quaternion)
         assert len(cell.receptor.sources) == 1
 
         self.remove_assembly(cell.name)
-        self.add_assembly(name=cell.name, position=position, clipping_planes=clipping_planes)
+        self.add_assembly(
+            name=cell.name, position=position, orientation=orientation,
+            clipping_planes=clipping_planes)
 
         if cell.receptor.occurences != 0:
             _receptor = AssemblyProtein(
