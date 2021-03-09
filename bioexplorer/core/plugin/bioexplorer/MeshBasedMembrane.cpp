@@ -23,10 +23,13 @@
 
 #include <plugin/common/CommonTypes.h>
 #include <plugin/common/Logs.h>
+#include <plugin/common/Utils.h>
 
 #include <brayns/engineapi/Material.h>
 #include <brayns/engineapi/Model.h>
 #include <brayns/io/MeshLoader.h>
+
+#include <omp.h>
 
 namespace bioexplorer
 {
@@ -46,8 +49,6 @@ MeshBasedMembrane::MeshBasedMembrane(Scene& scene,
     pd.assemblyName = md.assemblyName;
     pd.name = md.name;
     pd.contents = md.proteinContents;
-    pd.representation = ProteinRepresentation::atoms;
-    pd.atomRadiusMultiplier = 1.f;
     pd.recenter = true;
     pd.atomRadiusMultiplier = md.atomRadiusMultiplier;
     pd.representation = md.representation;
@@ -63,6 +64,9 @@ MeshBasedMembrane::MeshBasedMembrane(Scene& scene,
     auto model = &_modelDescriptor->getModel();
     model->updateBounds();
     const auto proteinSize = model->getBounds().getSize();
+
+    // Clipping planes
+    const auto clipPlanes = getClippingPlanes(scene);
 
     // Load MeshBasedMembrane
     Assimp::Importer importer;
@@ -85,64 +89,90 @@ MeshBasedMembrane::MeshBasedMembrane(Scene& scene,
 
     // Add protein instances according to MeshBasedMembrane topology
     size_t instanceCount = 0;
-    float MeshBasedMembraneCoveringProgress = 0.f;
+    float meshCoveringProgress = 0.f;
     float instanceCoveringProgress = 0.f;
     for (size_t m = 0; m < aiScene->mNumMeshes; ++m)
     {
-        const auto& MeshBasedMembrane = aiScene->mMeshes[m];
+        const auto& mesh = aiScene->mMeshes[m];
 
         // MeshBasedMembrane scaling
-        Vector3f MeshBasedMembraneCenter{0.f, 0.f, 0.f};
-        for (size_t i = 0; i < MeshBasedMembrane->mNumVertices; ++i)
+        Vector3f meshCenter{0.f, 0.f, 0.f};
+        for (size_t i = 0; i < mesh->mNumVertices; ++i)
         {
-            const auto& v = MeshBasedMembrane->mVertices[i];
-            MeshBasedMembraneCenter += _toVector3f(v);
+            const auto& v = mesh->mVertices[i];
+            meshCenter += _toVector3f(v);
         }
-        MeshBasedMembraneCenter /= MeshBasedMembrane->mNumVertices;
+        meshCenter /= mesh->mNumVertices;
 
         // Compute full MeshBasedMembrane area
         std::vector<Vector3ui> faces;
-        for (size_t f = 0; f < MeshBasedMembrane->mNumFaces; ++f)
-            if (MeshBasedMembrane->mFaces[f].mNumIndices == 3)
-                faces.push_back(
-                    Vector3ui(MeshBasedMembrane->mFaces[f].mIndices[0],
-                              MeshBasedMembrane->mFaces[f].mIndices[1],
-                              MeshBasedMembrane->mFaces[f].mIndices[2]));
+        for (size_t f = 0; f < mesh->mNumFaces; ++f)
+            if (mesh->mFaces[f].mNumIndices == 3)
+            {
+                const auto i1 = mesh->mVertices[mesh->mFaces[f].mIndices[0]];
+                const auto v1 =
+                    position +
+                    Vector3f(matrix * Vector4f(_toVector3f(i1, meshCenter,
+                                                           scale, orientation),
+                                               1.f));
+                const auto i2 = mesh->mVertices[mesh->mFaces[f].mIndices[1]];
+                const auto v2 =
+                    position +
+                    Vector3f(matrix * Vector4f(_toVector3f(i2, meshCenter,
+                                                           scale, orientation),
+                                               1.f));
 
-        float MeshBasedMembraneSurface = 0.f;
+                const auto i3 = mesh->mVertices[mesh->mFaces[f].mIndices[2]];
+                const auto v3 =
+                    position +
+                    Vector3f(matrix * Vector4f(_toVector3f(i3, meshCenter,
+                                                           scale, orientation),
+                                               1.f));
+
+                if (!isClipped(v1, clipPlanes) || !isClipped(v2, clipPlanes) ||
+                    !isClipped(v3, clipPlanes))
+                    faces.push_back(Vector3ui(mesh->mFaces[f].mIndices[0],
+                                              mesh->mFaces[f].mIndices[1],
+                                              mesh->mFaces[f].mIndices[2]));
+            }
+
+        float meshSurface = 0.f;
         for (const auto& face : faces)
-            MeshBasedMembraneSurface += _getSurfaceArea(
-                _toVector3f(MeshBasedMembrane->mVertices[face.x],
-                            MeshBasedMembraneCenter, scale),
-                _toVector3f(MeshBasedMembrane->mVertices[face.y],
-                            MeshBasedMembraneCenter, scale),
-                _toVector3f(MeshBasedMembrane->mVertices[face.z],
-                            MeshBasedMembraneCenter, scale));
+            meshSurface +=
+                _getSurfaceArea(_toVector3f(mesh->mVertices[face.x], meshCenter,
+                                            scale, orientation),
+                                _toVector3f(mesh->mVertices[face.y], meshCenter,
+                                            scale, orientation),
+                                _toVector3f(mesh->mVertices[face.z], meshCenter,
+                                            scale, orientation));
 
         const float proteinSurface = proteinSize.x * proteinSize.x;
 
         // Total number of instance needed to fill the MeshBasedMembrane surface
-        const size_t nbInstances =
-            md.density * MeshBasedMembraneSurface / proteinSurface;
-        const float instanceSurface = MeshBasedMembraneSurface / nbInstances;
+        const size_t nbInstances = md.density * meshSurface / proteinSurface;
+        const float instanceSurface = meshSurface / nbInstances;
 
         PLUGIN_INFO << "----===  MeshBasedMembrane  ===----" << std::endl;
+        PLUGIN_INFO << "Position             : " << position << std::endl;
+        PLUGIN_INFO << "Orientation          : " << orientation << std::endl;
+        PLUGIN_INFO << "Scale                : " << scale << std::endl;
         PLUGIN_INFO << "Number of faces      : " << faces.size() << std::endl;
-        PLUGIN_INFO << "MeshBasedMembrane surface area    : "
-                    << MeshBasedMembraneSurface << std::endl;
+        PLUGIN_INFO << "Mesh surface area    : " << meshSurface << std::endl;
+        PLUGIN_INFO << "Protein size         : " << proteinSize << std::endl;
         PLUGIN_INFO << "Protein surface area : " << proteinSurface << std::endl;
         PLUGIN_INFO << "Instance surface area: " << instanceSurface
                     << std::endl;
         PLUGIN_INFO << "Number of instances  : " << nbInstances << std::endl;
 
+#pragma omp parallel for
         for (const auto& face : faces)
         {
-            const auto P0 = _toVector3f(MeshBasedMembrane->mVertices[face.x],
-                                        MeshBasedMembraneCenter, scale);
-            const auto P1 = _toVector3f(MeshBasedMembrane->mVertices[face.y],
-                                        MeshBasedMembraneCenter, scale);
-            const auto P2 = _toVector3f(MeshBasedMembrane->mVertices[face.z],
-                                        MeshBasedMembraneCenter, scale);
+            const auto P0 = _toVector3f(mesh->mVertices[face.x], meshCenter,
+                                        scale, orientation);
+            const auto P1 = _toVector3f(mesh->mVertices[face.y], meshCenter,
+                                        scale, orientation);
+            const auto P2 = _toVector3f(mesh->mVertices[face.z], meshCenter,
+                                        scale, orientation);
 
             const auto V0 = P1 - P0;
             const auto V1 = P2 - P0;
@@ -153,10 +183,10 @@ MeshBasedMembrane::MeshBasedMembrane(Scene& scene,
             const float faceSurface = _getSurfaceArea(P0, P1, P2);
 
             // Estimate number of proteins for current face
-            MeshBasedMembraneCoveringProgress += faceSurface;
-            const size_t nbProteins = size_t(
-                (MeshBasedMembraneCoveringProgress - instanceCoveringProgress) /
-                instanceSurface);
+            meshCoveringProgress += faceSurface;
+            const size_t nbProteins =
+                size_t((meshCoveringProgress - instanceCoveringProgress) /
+                       instanceSurface);
 
             // compute protein positions and orientations
             for (size_t i = 0; i < nbProteins; ++i)
@@ -174,17 +204,14 @@ MeshBasedMembrane::MeshBasedMembrane(Scene& scene,
                 const Vector3f transformedVertex =
                     matrix * Vector4f(P.x, P.y, P.z, 1.f);
 
-                const Vector3f position{md.position[0], md.position[1],
-                                        md.position[2]};
-
                 const float variableOffset =
                     md.surfaceVariableOffset * (rand() % 1000 / 1000.f - 0.5f);
 
-                tf.setTranslation(position + transformedVertex +
-                                  defaultNormal * md.surfaceFixedOffset +
-                                  defaultNormal * variableOffset);
+                auto translation = position + transformedVertex +
+                                   defaultNormal * md.surfaceFixedOffset +
+                                   defaultNormal * variableOffset;
 
-                if (MeshBasedMembrane->HasNormals())
+                if (mesh->HasNormals())
                 {
                     const auto v0 = P0 - P;
                     const auto v1 = P1 - P;
@@ -194,12 +221,9 @@ MeshBasedMembrane::MeshBasedMembrane(Scene& scene,
                                          0.5f * length(glm::cross(v0, v2)),
                                          0.5f * length(glm::cross(v0, v1))};
 
-                    const auto N0 =
-                        _toVector3f(MeshBasedMembrane->mNormals[face.x]);
-                    const auto N1 =
-                        _toVector3f(MeshBasedMembrane->mNormals[face.y]);
-                    const auto N2 =
-                        _toVector3f(MeshBasedMembrane->mNormals[face.z]);
+                    const auto N0 = _toVector3f(mesh->mNormals[face.x]);
+                    const auto N1 = _toVector3f(mesh->mNormals[face.y]);
+                    const auto N2 = _toVector3f(mesh->mNormals[face.z]);
 
                     const Vector3f normal = glm::normalize(
                         matrix *
@@ -210,23 +234,25 @@ MeshBasedMembrane::MeshBasedMembrane(Scene& scene,
 
                     if (normal != UP_VECTOR)
                     {
-                        const Quaterniond orientation{md.orientation[0],
-                                                      md.orientation[1],
-                                                      md.orientation[2],
-                                                      md.orientation[3]};
                         const Quaterniond rotation =
                             glm::quatLookAt(normal, UP_VECTOR);
                         tf.setRotation(rotation * orientation);
                     }
-                    tf.setTranslation(position + transformedVertex +
-                                      normal * md.surfaceFixedOffset +
-                                      normal * variableOffset);
+                    translation = position + transformedVertex +
+                                  normal * md.surfaceFixedOffset +
+                                  normal * variableOffset;
                 }
+
+                if (isClipped(translation, clipPlanes))
+                    continue;
+
+                tf.setTranslation(translation);
 
                 if (instanceCount == 0)
                     _modelDescriptor->setTransformation(tf);
 
                 const ModelInstance instance(true, false, tf);
+#pragma omp critical
                 _modelDescriptor->addInstance(instance);
 
                 ++instanceCount;
@@ -257,11 +283,12 @@ Vector3f MeshBasedMembrane::_toVector3f(const aiVector3D& v) const
 
 Vector3f MeshBasedMembrane::_toVector3f(const aiVector3D& v,
                                         const Vector3f& center,
-                                        const Vector3f& scale) const
+                                        const Vector3f& scale,
+                                        const Quaterniond& orientation) const
 {
     const Vector3f p{v.x, v.y, v.z};
     const Vector3f a = p - center;
-    const Vector3f b = p + a * scale;
+    const Vector3f b = Vector3f(orientation * Vector3d(p + a)) * scale;
     return b;
 }
 

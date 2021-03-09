@@ -152,4 +152,6 @@ void getBezierPosition(const Vector3fs& points, const float assemblyRadius,
 
 void setTransferFunction(brayns::TransferFunction& tf);
 
+Vector4fs getClippingPlanes(const Scene& scene);
+
 } // namespace bioexplorer

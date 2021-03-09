@@ -22,6 +22,7 @@
 
 #include <plugin/common/Logs.h>
 
+#include <brayns/common/scene/ClipPlane.h>
 #include <brayns/common/transferFunction/TransferFunction.h>
 
 namespace bioexplorer
@@ -332,6 +333,19 @@ void setTransferFunction(brayns::TransferFunction& tf)
           {0.996078431372549, 1.0, 0.9803921568627451},
           {1.0, 1.0, 1.0}}});
     tf.setValuesRange({0.0, 1.0});
+}
+
+Vector4fs getClippingPlanes(const Scene& scene)
+{
+    const auto& clippingPlanes = scene.getClipPlanes();
+    Vector4fs clipPlanes;
+    for (const auto cp : clippingPlanes)
+    {
+        const auto& p = cp->getPlane();
+        Vector4f plane{p[0], p[1], p[2], p[3]};
+        clipPlanes.push_back(plane);
+    }
+    return clipPlanes;
 }
 
 } // namespace bioexplorer

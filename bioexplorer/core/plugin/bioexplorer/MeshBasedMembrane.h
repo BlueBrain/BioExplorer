@@ -64,7 +64,8 @@ private:
                           const Vector3f& c) const;
     Vector3f _toVector3f(const aiVector3D& v) const;
     Vector3f _toVector3f(const aiVector3D& v, const Vector3f& center,
-                         const Vector3f& scaling) const;
+                         const Vector3f& scaling,
+                         const Quaterniond& orientation) const;
 
     ProteinPtr _protein;
 };

@@ -63,14 +63,7 @@ void FieldsHandler::_buildOctree(const Scene& scene, const float voxelSize,
             std::runtime_error("Density should be higher > 0 and <= 1"));
     const size_t densityRatio = 1.f / density;
 
-    const auto& clippingPlanes = scene.getClipPlanes();
-    Vector4fs clipPlanes;
-    for (const auto cp : clippingPlanes)
-    {
-        const auto& p = cp->getPlane();
-        Vector4f plane{p[0], p[1], p[2], p[3]};
-        clipPlanes.push_back(plane);
-    }
+    const auto clipPlanes = getClippingPlanes(scene);
 
     floats events;
     uint16_t count;
