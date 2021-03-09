@@ -978,14 +978,7 @@ Response BioExplorerPlugin::_buildPointCloud(const BuildPointCloud &payload)
     {
         auto &scene = _api->getScene();
 
-        const auto &clippingPlanes = scene.getClipPlanes();
-        Vector4fs clipPlanes;
-        for (const auto cp : clippingPlanes)
-        {
-            const auto &p = cp->getPlane();
-            Vector4f plane{p[0], p[1], p[2], p[3]};
-            clipPlanes.push_back(plane);
-        }
+        const auto clipPlanes = getClippingPlanes(scene);
 
         auto model = scene.createModel();
 

@@ -738,14 +738,7 @@ void CacheLoader::exportToXYZ(const std::string& filename,
         PLUGIN_THROW(std::runtime_error(msg));
     }
 
-    const auto& clippingPlanes = _scene.getClipPlanes();
-    Vector4fs clipPlanes;
-    for (const auto cp : clippingPlanes)
-    {
-        const auto& p = cp->getPlane();
-        Vector4f plane{p[0], p[1], p[2], p[3]};
-        clipPlanes.push_back(plane);
-    }
+    const auto clipPlanes = getClippingPlanes(_scene);
 
     const auto& modelDescriptors = _scene.getModelDescriptors();
     for (const auto modelDescriptor : modelDescriptors)
