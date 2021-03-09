@@ -826,96 +826,89 @@ $(document).ready(function(){initNavTree('d5/dec/CacheLoader_8cpp_source.html','
 <div class="line"><a name="l00738"></a><span class="lineno">  738</span>&#160;        PLUGIN_THROW(std::runtime_error(msg));</div>
 <div class="line"><a name="l00739"></a><span class="lineno">  739</span>&#160;    }</div>
 <div class="line"><a name="l00740"></a><span class="lineno">  740</span>&#160; </div>
-<div class="line"><a name="l00741"></a><span class="lineno">  741</span>&#160;    <span class="keyword">const</span> <span class="keyword">auto</span>&amp; clippingPlanes = _scene.getClipPlanes();</div>
-<div class="line"><a name="l00742"></a><span class="lineno">  742</span>&#160;    Vector4fs clipPlanes;</div>
-<div class="line"><a name="l00743"></a><span class="lineno">  743</span>&#160;    <span class="keywordflow">for</span> (<span class="keyword">const</span> <span class="keyword">auto</span> cp : clippingPlanes)</div>
-<div class="line"><a name="l00744"></a><span class="lineno">  744</span>&#160;    {</div>
-<div class="line"><a name="l00745"></a><span class="lineno">  745</span>&#160;        <span class="keyword">const</span> <span class="keyword">auto</span>&amp; p = cp-&gt;getPlane();</div>
-<div class="line"><a name="l00746"></a><span class="lineno">  746</span>&#160;        Vector4f plane{p[0], p[1], p[2], p[3]};</div>
-<div class="line"><a name="l00747"></a><span class="lineno">  747</span>&#160;        clipPlanes.push_back(plane);</div>
-<div class="line"><a name="l00748"></a><span class="lineno">  748</span>&#160;    }</div>
-<div class="line"><a name="l00749"></a><span class="lineno">  749</span>&#160; </div>
-<div class="line"><a name="l00750"></a><span class="lineno">  750</span>&#160;    <span class="keyword">const</span> <span class="keyword">auto</span>&amp; modelDescriptors = _scene.getModelDescriptors();</div>
-<div class="line"><a name="l00751"></a><span class="lineno">  751</span>&#160;    <span class="keywordflow">for</span> (<span class="keyword">const</span> <span class="keyword">auto</span> modelDescriptor : modelDescriptors)</div>
-<div class="line"><a name="l00752"></a><span class="lineno">  752</span>&#160;    {</div>
-<div class="line"><a name="l00753"></a><span class="lineno">  753</span>&#160;        <span class="keyword">const</span> <span class="keyword">auto</span>&amp; instances = modelDescriptor-&gt;getInstances();</div>
-<div class="line"><a name="l00754"></a><span class="lineno">  754</span>&#160;        <span class="keywordflow">for</span> (<span class="keyword">const</span> <span class="keyword">auto</span>&amp; instance : instances)</div>
-<div class="line"><a name="l00755"></a><span class="lineno">  755</span>&#160;        {</div>
-<div class="line"><a name="l00756"></a><span class="lineno">  756</span>&#160;            <span class="keyword">const</span> <span class="keyword">auto</span>&amp; tf = instance.getTransformation();</div>
-<div class="line"><a name="l00757"></a><span class="lineno">  757</span>&#160;            <span class="keyword">const</span> <span class="keyword">auto</span>&amp; model = modelDescriptor-&gt;getModel();</div>
-<div class="line"><a name="l00758"></a><span class="lineno">  758</span>&#160;            <span class="keyword">const</span> <span class="keyword">auto</span>&amp; spheresMap = model.getSpheres();</div>
-<div class="line"><a name="l00759"></a><span class="lineno">  759</span>&#160;            <span class="keywordflow">for</span> (<span class="keyword">const</span> <span class="keyword">auto</span>&amp; spheres : spheresMap)</div>
-<div class="line"><a name="l00760"></a><span class="lineno">  760</span>&#160;            {</div>
-<div class="line"><a name="l00761"></a><span class="lineno">  761</span>&#160;                <span class="keywordflow">for</span> (<span class="keyword">const</span> <span class="keyword">auto</span>&amp; sphere : spheres.second)</div>
-<div class="line"><a name="l00762"></a><span class="lineno">  762</span>&#160;                {</div>
-<div class="line"><a name="l00763"></a><span class="lineno">  763</span>&#160;                    <span class="keyword">const</span> Vector3d center =</div>
-<div class="line"><a name="l00764"></a><span class="lineno">  764</span>&#160;                        tf.getTranslation() +</div>
-<div class="line"><a name="l00765"></a><span class="lineno">  765</span>&#160;                        tf.getRotation() *</div>
-<div class="line"><a name="l00766"></a><span class="lineno">  766</span>&#160;                            (Vector3d(sphere.center) - tf.getRotationCenter());</div>
-<div class="line"><a name="l00767"></a><span class="lineno">  767</span>&#160; </div>
-<div class="line"><a name="l00768"></a><span class="lineno">  768</span>&#160;                    <span class="keyword">const</span> Vector3f c = center;</div>
-<div class="line"><a name="l00769"></a><span class="lineno">  769</span>&#160;                    <span class="keywordflow">if</span> (isClipped(c, clipPlanes))</div>
-<div class="line"><a name="l00770"></a><span class="lineno">  770</span>&#160;                        <span class="keywordflow">continue</span>;</div>
-<div class="line"><a name="l00771"></a><span class="lineno">  771</span>&#160; </div>
-<div class="line"><a name="l00772"></a><span class="lineno">  772</span>&#160;                    <span class="keywordflow">switch</span> (fileFormat)</div>
-<div class="line"><a name="l00773"></a><span class="lineno">  773</span>&#160;                    {</div>
-<div class="line"><a name="l00774"></a><span class="lineno">  774</span>&#160;                    <span class="keywordflow">case</span> XYZFileFormat::xyz_binary:</div>
-<div class="line"><a name="l00775"></a><span class="lineno">  775</span>&#160;                    <span class="keywordflow">case</span> XYZFileFormat::xyzr_binary:</div>
-<div class="line"><a name="l00776"></a><span class="lineno">  776</span>&#160;                        file.write((<span class="keywordtype">char</span>*)&amp;c.x, <span class="keyword">sizeof</span>(float));</div>
-<div class="line"><a name="l00777"></a><span class="lineno">  777</span>&#160;                        file.write((<span class="keywordtype">char</span>*)&amp;c.y, <span class="keyword">sizeof</span>(float));</div>
-<div class="line"><a name="l00778"></a><span class="lineno">  778</span>&#160;                        file.write((<span class="keywordtype">char</span>*)&amp;c.z, <span class="keyword">sizeof</span>(float));</div>
-<div class="line"><a name="l00779"></a><span class="lineno">  779</span>&#160;                        <span class="keywordflow">if</span> (fileFormat == XYZFileFormat::xyzr_binary ||</div>
-<div class="line"><a name="l00780"></a><span class="lineno">  780</span>&#160;                            fileFormat == XYZFileFormat::xyzrv_binary)</div>
-<div class="line"><a name="l00781"></a><span class="lineno">  781</span>&#160;                        {</div>
-<div class="line"><a name="l00782"></a><span class="lineno">  782</span>&#160;                            file.write((<span class="keywordtype">char</span>*)&amp;sphere.radius, <span class="keyword">sizeof</span>(float));</div>
-<div class="line"><a name="l00783"></a><span class="lineno">  783</span>&#160;                            <span class="keywordflow">if</span> (fileFormat == XYZFileFormat::xyzrv_binary)</div>
-<div class="line"><a name="l00784"></a><span class="lineno">  784</span>&#160;                                file.write((<span class="keywordtype">char</span>*)&amp;sphere.radius,</div>
-<div class="line"><a name="l00785"></a><span class="lineno">  785</span>&#160;                                           <span class="keyword">sizeof</span>(float));</div>
-<div class="line"><a name="l00786"></a><span class="lineno">  786</span>&#160;                        }</div>
-<div class="line"><a name="l00787"></a><span class="lineno">  787</span>&#160;                        <span class="keywordflow">break</span>;</div>
-<div class="line"><a name="l00788"></a><span class="lineno">  788</span>&#160;                    <span class="keywordflow">case</span> XYZFileFormat::xyz_ascii:</div>
-<div class="line"><a name="l00789"></a><span class="lineno">  789</span>&#160;                    <span class="keywordflow">case</span> XYZFileFormat::xyzr_ascii:</div>
-<div class="line"><a name="l00790"></a><span class="lineno">  790</span>&#160;                        file &lt;&lt; c.x &lt;&lt; <span class="stringliteral">&quot; &quot;</span> &lt;&lt; c.y &lt;&lt; <span class="stringliteral">&quot; &quot;</span> &lt;&lt; c.z;</div>
-<div class="line"><a name="l00791"></a><span class="lineno">  791</span>&#160;                        <span class="keywordflow">if</span> (fileFormat == XYZFileFormat::xyzr_ascii ||</div>
-<div class="line"><a name="l00792"></a><span class="lineno">  792</span>&#160;                            fileFormat == XYZFileFormat::xyzrv_ascii)</div>
-<div class="line"><a name="l00793"></a><span class="lineno">  793</span>&#160;                        {</div>
-<div class="line"><a name="l00794"></a><span class="lineno">  794</span>&#160;                            file &lt;&lt; <span class="stringliteral">&quot; &quot;</span> &lt;&lt; sphere.radius;</div>
-<div class="line"><a name="l00795"></a><span class="lineno">  795</span>&#160;                            <span class="keywordflow">if</span> (fileFormat == XYZFileFormat::xyzrv_ascii)</div>
-<div class="line"><a name="l00796"></a><span class="lineno">  796</span>&#160;                                file &lt;&lt; <span class="stringliteral">&quot; &quot;</span> &lt;&lt; sphere.radius;</div>
-<div class="line"><a name="l00797"></a><span class="lineno">  797</span>&#160;                        }</div>
-<div class="line"><a name="l00798"></a><span class="lineno">  798</span>&#160;                        file &lt;&lt; std::endl;</div>
-<div class="line"><a name="l00799"></a><span class="lineno">  799</span>&#160;                        <span class="keywordflow">break</span>;</div>
-<div class="line"><a name="l00800"></a><span class="lineno">  800</span>&#160;                    }</div>
-<div class="line"><a name="l00801"></a><span class="lineno">  801</span>&#160;                }</div>
-<div class="line"><a name="l00802"></a><span class="lineno">  802</span>&#160;            }</div>
-<div class="line"><a name="l00803"></a><span class="lineno">  803</span>&#160;        }</div>
-<div class="line"><a name="l00804"></a><span class="lineno">  804</span>&#160;    }</div>
-<div class="line"><a name="l00805"></a><span class="lineno">  805</span>&#160;    file.close();</div>
-<div class="line"><a name="l00806"></a><span class="lineno">  806</span>&#160;}</div>
-<div class="line"><a name="l00807"></a><span class="lineno">  807</span>&#160; </div>
-<div class="line"><a name="l00808"></a><span class="lineno"><a class="line" href="../../d9/d08/classbioexplorer_1_1CacheLoader.html#a7a626e4d1cb4cde4612dd8e67406ef62">  808</a></span>&#160;PropertyMap <a class="code" href="../../d9/d08/classbioexplorer_1_1CacheLoader.html#a7a626e4d1cb4cde4612dd8e67406ef62">CacheLoader::getProperties</a>()<span class="keyword"> const</span></div>
-<div class="line"><a name="l00809"></a><span class="lineno">  809</span>&#160;<span class="keyword"></span>{</div>
-<div class="line"><a name="l00810"></a><span class="lineno">  810</span>&#160;    <span class="keywordflow">return</span> _defaults;</div>
-<div class="line"><a name="l00811"></a><span class="lineno">  811</span>&#160;}</div>
-<div class="line"><a name="l00812"></a><span class="lineno">  812</span>&#160; </div>
-<div class="line"><a name="l00813"></a><span class="lineno"><a class="line" href="../../d9/d08/classbioexplorer_1_1CacheLoader.html#a9e3b3d92c016458fd6c9bb538dc556ea">  813</a></span>&#160;PropertyMap <a class="code" href="../../d9/d08/classbioexplorer_1_1CacheLoader.html#a9e3b3d92c016458fd6c9bb538dc556ea">CacheLoader::getCLIProperties</a>()</div>
-<div class="line"><a name="l00814"></a><span class="lineno">  814</span>&#160;{</div>
-<div class="line"><a name="l00815"></a><span class="lineno">  815</span>&#160;    PropertyMap pm(<span class="stringliteral">&quot;BioExplorerLoader&quot;</span>);</div>
-<div class="line"><a name="l00816"></a><span class="lineno">  816</span>&#160;    <span class="keywordflow">return</span> pm;</div>
-<div class="line"><a name="l00817"></a><span class="lineno">  817</span>&#160;}</div>
-<div class="line"><a name="l00818"></a><span class="lineno">  818</span>&#160;} <span class="comment">// namespace bioexplorer</span></div>
+<div class="line"><a name="l00741"></a><span class="lineno">  741</span>&#160;    <span class="keyword">const</span> <span class="keyword">auto</span> clipPlanes = getClippingPlanes(_scene);</div>
+<div class="line"><a name="l00742"></a><span class="lineno">  742</span>&#160; </div>
+<div class="line"><a name="l00743"></a><span class="lineno">  743</span>&#160;    <span class="keyword">const</span> <span class="keyword">auto</span>&amp; modelDescriptors = _scene.getModelDescriptors();</div>
+<div class="line"><a name="l00744"></a><span class="lineno">  744</span>&#160;    <span class="keywordflow">for</span> (<span class="keyword">const</span> <span class="keyword">auto</span> modelDescriptor : modelDescriptors)</div>
+<div class="line"><a name="l00745"></a><span class="lineno">  745</span>&#160;    {</div>
+<div class="line"><a name="l00746"></a><span class="lineno">  746</span>&#160;        <span class="keyword">const</span> <span class="keyword">auto</span>&amp; instances = modelDescriptor-&gt;getInstances();</div>
+<div class="line"><a name="l00747"></a><span class="lineno">  747</span>&#160;        <span class="keywordflow">for</span> (<span class="keyword">const</span> <span class="keyword">auto</span>&amp; instance : instances)</div>
+<div class="line"><a name="l00748"></a><span class="lineno">  748</span>&#160;        {</div>
+<div class="line"><a name="l00749"></a><span class="lineno">  749</span>&#160;            <span class="keyword">const</span> <span class="keyword">auto</span>&amp; tf = instance.getTransformation();</div>
+<div class="line"><a name="l00750"></a><span class="lineno">  750</span>&#160;            <span class="keyword">const</span> <span class="keyword">auto</span>&amp; model = modelDescriptor-&gt;getModel();</div>
+<div class="line"><a name="l00751"></a><span class="lineno">  751</span>&#160;            <span class="keyword">const</span> <span class="keyword">auto</span>&amp; spheresMap = model.getSpheres();</div>
+<div class="line"><a name="l00752"></a><span class="lineno">  752</span>&#160;            <span class="keywordflow">for</span> (<span class="keyword">const</span> <span class="keyword">auto</span>&amp; spheres : spheresMap)</div>
+<div class="line"><a name="l00753"></a><span class="lineno">  753</span>&#160;            {</div>
+<div class="line"><a name="l00754"></a><span class="lineno">  754</span>&#160;                <span class="keywordflow">for</span> (<span class="keyword">const</span> <span class="keyword">auto</span>&amp; sphere : spheres.second)</div>
+<div class="line"><a name="l00755"></a><span class="lineno">  755</span>&#160;                {</div>
+<div class="line"><a name="l00756"></a><span class="lineno">  756</span>&#160;                    <span class="keyword">const</span> Vector3d center =</div>
+<div class="line"><a name="l00757"></a><span class="lineno">  757</span>&#160;                        tf.getTranslation() +</div>
+<div class="line"><a name="l00758"></a><span class="lineno">  758</span>&#160;                        tf.getRotation() *</div>
+<div class="line"><a name="l00759"></a><span class="lineno">  759</span>&#160;                            (Vector3d(sphere.center) - tf.getRotationCenter());</div>
+<div class="line"><a name="l00760"></a><span class="lineno">  760</span>&#160; </div>
+<div class="line"><a name="l00761"></a><span class="lineno">  761</span>&#160;                    <span class="keyword">const</span> Vector3f c = center;</div>
+<div class="line"><a name="l00762"></a><span class="lineno">  762</span>&#160;                    <span class="keywordflow">if</span> (isClipped(c, clipPlanes))</div>
+<div class="line"><a name="l00763"></a><span class="lineno">  763</span>&#160;                        <span class="keywordflow">continue</span>;</div>
+<div class="line"><a name="l00764"></a><span class="lineno">  764</span>&#160; </div>
+<div class="line"><a name="l00765"></a><span class="lineno">  765</span>&#160;                    <span class="keywordflow">switch</span> (fileFormat)</div>
+<div class="line"><a name="l00766"></a><span class="lineno">  766</span>&#160;                    {</div>
+<div class="line"><a name="l00767"></a><span class="lineno">  767</span>&#160;                    <span class="keywordflow">case</span> XYZFileFormat::xyz_binary:</div>
+<div class="line"><a name="l00768"></a><span class="lineno">  768</span>&#160;                    <span class="keywordflow">case</span> XYZFileFormat::xyzr_binary:</div>
+<div class="line"><a name="l00769"></a><span class="lineno">  769</span>&#160;                        file.write((<span class="keywordtype">char</span>*)&amp;c.x, <span class="keyword">sizeof</span>(float));</div>
+<div class="line"><a name="l00770"></a><span class="lineno">  770</span>&#160;                        file.write((<span class="keywordtype">char</span>*)&amp;c.y, <span class="keyword">sizeof</span>(float));</div>
+<div class="line"><a name="l00771"></a><span class="lineno">  771</span>&#160;                        file.write((<span class="keywordtype">char</span>*)&amp;c.z, <span class="keyword">sizeof</span>(float));</div>
+<div class="line"><a name="l00772"></a><span class="lineno">  772</span>&#160;                        <span class="keywordflow">if</span> (fileFormat == XYZFileFormat::xyzr_binary ||</div>
+<div class="line"><a name="l00773"></a><span class="lineno">  773</span>&#160;                            fileFormat == XYZFileFormat::xyzrv_binary)</div>
+<div class="line"><a name="l00774"></a><span class="lineno">  774</span>&#160;                        {</div>
+<div class="line"><a name="l00775"></a><span class="lineno">  775</span>&#160;                            file.write((<span class="keywordtype">char</span>*)&amp;sphere.radius, <span class="keyword">sizeof</span>(float));</div>
+<div class="line"><a name="l00776"></a><span class="lineno">  776</span>&#160;                            <span class="keywordflow">if</span> (fileFormat == XYZFileFormat::xyzrv_binary)</div>
+<div class="line"><a name="l00777"></a><span class="lineno">  777</span>&#160;                                file.write((<span class="keywordtype">char</span>*)&amp;sphere.radius,</div>
+<div class="line"><a name="l00778"></a><span class="lineno">  778</span>&#160;                                           <span class="keyword">sizeof</span>(float));</div>
+<div class="line"><a name="l00779"></a><span class="lineno">  779</span>&#160;                        }</div>
+<div class="line"><a name="l00780"></a><span class="lineno">  780</span>&#160;                        <span class="keywordflow">break</span>;</div>
+<div class="line"><a name="l00781"></a><span class="lineno">  781</span>&#160;                    <span class="keywordflow">case</span> XYZFileFormat::xyz_ascii:</div>
+<div class="line"><a name="l00782"></a><span class="lineno">  782</span>&#160;                    <span class="keywordflow">case</span> XYZFileFormat::xyzr_ascii:</div>
+<div class="line"><a name="l00783"></a><span class="lineno">  783</span>&#160;                        file &lt;&lt; c.x &lt;&lt; <span class="stringliteral">&quot; &quot;</span> &lt;&lt; c.y &lt;&lt; <span class="stringliteral">&quot; &quot;</span> &lt;&lt; c.z;</div>
+<div class="line"><a name="l00784"></a><span class="lineno">  784</span>&#160;                        <span class="keywordflow">if</span> (fileFormat == XYZFileFormat::xyzr_ascii ||</div>
+<div class="line"><a name="l00785"></a><span class="lineno">  785</span>&#160;                            fileFormat == XYZFileFormat::xyzrv_ascii)</div>
+<div class="line"><a name="l00786"></a><span class="lineno">  786</span>&#160;                        {</div>
+<div class="line"><a name="l00787"></a><span class="lineno">  787</span>&#160;                            file &lt;&lt; <span class="stringliteral">&quot; &quot;</span> &lt;&lt; sphere.radius;</div>
+<div class="line"><a name="l00788"></a><span class="lineno">  788</span>&#160;                            <span class="keywordflow">if</span> (fileFormat == XYZFileFormat::xyzrv_ascii)</div>
+<div class="line"><a name="l00789"></a><span class="lineno">  789</span>&#160;                                file &lt;&lt; <span class="stringliteral">&quot; &quot;</span> &lt;&lt; sphere.radius;</div>
+<div class="line"><a name="l00790"></a><span class="lineno">  790</span>&#160;                        }</div>
+<div class="line"><a name="l00791"></a><span class="lineno">  791</span>&#160;                        file &lt;&lt; std::endl;</div>
+<div class="line"><a name="l00792"></a><span class="lineno">  792</span>&#160;                        <span class="keywordflow">break</span>;</div>
+<div class="line"><a name="l00793"></a><span class="lineno">  793</span>&#160;                    }</div>
+<div class="line"><a name="l00794"></a><span class="lineno">  794</span>&#160;                }</div>
+<div class="line"><a name="l00795"></a><span class="lineno">  795</span>&#160;            }</div>
+<div class="line"><a name="l00796"></a><span class="lineno">  796</span>&#160;        }</div>
+<div class="line"><a name="l00797"></a><span class="lineno">  797</span>&#160;    }</div>
+<div class="line"><a name="l00798"></a><span class="lineno">  798</span>&#160;    file.close();</div>
+<div class="line"><a name="l00799"></a><span class="lineno">  799</span>&#160;}</div>
+<div class="line"><a name="l00800"></a><span class="lineno">  800</span>&#160; </div>
+<div class="line"><a name="l00801"></a><span class="lineno"><a class="line" href="../../d9/d08/classbioexplorer_1_1CacheLoader.html#a7a626e4d1cb4cde4612dd8e67406ef62">  801</a></span>&#160;PropertyMap <a class="code" href="../../d9/d08/classbioexplorer_1_1CacheLoader.html#a7a626e4d1cb4cde4612dd8e67406ef62">CacheLoader::getProperties</a>()<span class="keyword"> const</span></div>
+<div class="line"><a name="l00802"></a><span class="lineno">  802</span>&#160;<span class="keyword"></span>{</div>
+<div class="line"><a name="l00803"></a><span class="lineno">  803</span>&#160;    <span class="keywordflow">return</span> _defaults;</div>
+<div class="line"><a name="l00804"></a><span class="lineno">  804</span>&#160;}</div>
+<div class="line"><a name="l00805"></a><span class="lineno">  805</span>&#160; </div>
+<div class="line"><a name="l00806"></a><span class="lineno"><a class="line" href="../../d9/d08/classbioexplorer_1_1CacheLoader.html#a9e3b3d92c016458fd6c9bb538dc556ea">  806</a></span>&#160;PropertyMap <a class="code" href="../../d9/d08/classbioexplorer_1_1CacheLoader.html#a9e3b3d92c016458fd6c9bb538dc556ea">CacheLoader::getCLIProperties</a>()</div>
+<div class="line"><a name="l00807"></a><span class="lineno">  807</span>&#160;{</div>
+<div class="line"><a name="l00808"></a><span class="lineno">  808</span>&#160;    PropertyMap pm(<span class="stringliteral">&quot;BioExplorerLoader&quot;</span>);</div>
+<div class="line"><a name="l00809"></a><span class="lineno">  809</span>&#160;    <span class="keywordflow">return</span> pm;</div>
+<div class="line"><a name="l00810"></a><span class="lineno">  810</span>&#160;}</div>
+<div class="line"><a name="l00811"></a><span class="lineno">  811</span>&#160;} <span class="comment">// namespace bioexplorer</span></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
 <div class="ttc" id="aclassbioexplorer_1_1CacheLoader_html_a53fa71eeed51d4872d465d40c1e3ffe4"><div class="ttname"><a href="../../d9/d08/classbioexplorer_1_1CacheLoader.html#a53fa71eeed51d4872d465d40c1e3ffe4">bioexplorer::CacheLoader::importFromFile</a></div><div class="ttdeci">ModelDescriptorPtr importFromFile(const std::string &amp;filename, const LoaderProgress &amp;callback, const PropertyMap &amp;properties) const final</div><div class="ttdoc">Imports a 3D scene from file.</div><div class="ttdef"><b>Definition:</b> <a href="../../d5/dec/CacheLoader_8cpp_source.html#l00355">CacheLoader.cpp:355</a></div></div>
 <div class="ttc" id="aclassbioexplorer_1_1CacheLoader_html_a7d3ddca73ae2afdc61f29415a79f1a44"><div class="ttname"><a href="../../d9/d08/classbioexplorer_1_1CacheLoader.html#a7d3ddca73ae2afdc61f29415a79f1a44">bioexplorer::CacheLoader::importFromBlob</a></div><div class="ttdeci">ModelDescriptorPtr importFromBlob(Blob &amp;&amp;blob, const LoaderProgress &amp;callback, const PropertyMap &amp;properties) const final</div><div class="ttdoc">Imports a 3D scene from an in-memory blob storage.</div><div class="ttdef"><b>Definition:</b> <a href="../../d5/dec/CacheLoader_8cpp_source.html#l00071">CacheLoader.cpp:71</a></div></div>
 <div class="ttc" id="aclassbioexplorer_1_1CacheLoader_html_aa02636224e5b6e89c2e620c230dcbd94"><div class="ttname"><a href="../../d9/d08/classbioexplorer_1_1CacheLoader.html#aa02636224e5b6e89c2e620c230dcbd94">bioexplorer::CacheLoader::getSupportedExtensions</a></div><div class="ttdeci">std::vector&lt; std::string &gt; getSupportedExtensions() const final</div><div class="ttdoc">Get the list of extensions supported by loaded.</div><div class="ttdef"><b>Definition:</b> <a href="../../d5/dec/CacheLoader_8cpp_source.html#l00059">CacheLoader.cpp:59</a></div></div>
 <div class="ttc" id="aclassbioexplorer_1_1CacheLoader_html_ac63d9727beef8188bb4d317bd5d37b82"><div class="ttname"><a href="../../d9/d08/classbioexplorer_1_1CacheLoader.html#ac63d9727beef8188bb4d317bd5d37b82">bioexplorer::CacheLoader::isSupported</a></div><div class="ttdeci">bool isSupported(const std::string &amp;filename, const std::string &amp;extension) const final</div><div class="ttdoc">Returns whever a file extention is supported by the loader.</div><div class="ttdef"><b>Definition:</b> <a href="../../d5/dec/CacheLoader_8cpp_source.html#l00064">CacheLoader.cpp:64</a></div></div>
-<div class="ttc" id="aclassbioexplorer_1_1CacheLoader_html_a9e3b3d92c016458fd6c9bb538dc556ea"><div class="ttname"><a href="../../d9/d08/classbioexplorer_1_1CacheLoader.html#a9e3b3d92c016458fd6c9bb538dc556ea">bioexplorer::CacheLoader::getCLIProperties</a></div><div class="ttdeci">static PropertyMap getCLIProperties()</div><div class="ttdoc">Returns the list of loader command line arguments.</div><div class="ttdef"><b>Definition:</b> <a href="../../d5/dec/CacheLoader_8cpp_source.html#l00813">CacheLoader.cpp:813</a></div></div>
+<div class="ttc" id="aclassbioexplorer_1_1CacheLoader_html_a9e3b3d92c016458fd6c9bb538dc556ea"><div class="ttname"><a href="../../d9/d08/classbioexplorer_1_1CacheLoader.html#a9e3b3d92c016458fd6c9bb538dc556ea">bioexplorer::CacheLoader::getCLIProperties</a></div><div class="ttdeci">static PropertyMap getCLIProperties()</div><div class="ttdoc">Returns the list of loader command line arguments.</div><div class="ttdef"><b>Definition:</b> <a href="../../d5/dec/CacheLoader_8cpp_source.html#l00806">CacheLoader.cpp:806</a></div></div>
 <div class="ttc" id="aclassbioexplorer_1_1CacheLoader_html_a050e66579ca4023ccb7a08bce7dc29cd"><div class="ttname"><a href="../../d9/d08/classbioexplorer_1_1CacheLoader.html#a050e66579ca4023ccb7a08bce7dc29cd">bioexplorer::CacheLoader::exportToCache</a></div><div class="ttdeci">void exportToCache(const std::string &amp;filename) const</div><div class="ttdoc">Exports an optimized binary representation the 3D scene to a file.</div><div class="ttdef"><b>Definition:</b> <a href="../../d5/dec/CacheLoader_8cpp_source.html#l00701">CacheLoader.cpp:701</a></div></div>
 <div class="ttc" id="aclassbioexplorer_1_1CacheLoader_html_a99ac754a7f87b0bbd68d886e7d5205e9"><div class="ttname"><a href="../../d9/d08/classbioexplorer_1_1CacheLoader.html#a99ac754a7f87b0bbd68d886e7d5205e9">bioexplorer::CacheLoader::getName</a></div><div class="ttdeci">std::string getName() const final</div><div class="ttdoc">Get the name of the loader.</div><div class="ttdef"><b>Definition:</b> <a href="../../d5/dec/CacheLoader_8cpp_source.html#l00054">CacheLoader.cpp:54</a></div></div>
 <div class="ttc" id="aclassbioexplorer_1_1CacheLoader_html_a656aec2cd294689d41663e83fb839a16"><div class="ttname"><a href="../../d9/d08/classbioexplorer_1_1CacheLoader.html#a656aec2cd294689d41663e83fb839a16">bioexplorer::CacheLoader::exportToXYZ</a></div><div class="ttdeci">void exportToXYZ(const std::string &amp;filename, const XYZFileFormat format) const</div><div class="ttdoc">Exports atom information from the 3D scene to a file.</div><div class="ttdef"><b>Definition:</b> <a href="../../d5/dec/CacheLoader_8cpp_source.html#l00725">CacheLoader.cpp:725</a></div></div>
 <div class="ttc" id="aclassbioexplorer_1_1CacheLoader_html_a82db128e46e154d5226e1f75f5cbbad4"><div class="ttname"><a href="../../d9/d08/classbioexplorer_1_1CacheLoader.html#a82db128e46e154d5226e1f75f5cbbad4">bioexplorer::CacheLoader::CacheLoader</a></div><div class="ttdeci">CacheLoader(Scene &amp;scene, PropertyMap &amp;&amp;loaderParams={})</div><div class="ttdoc">Construct a new Bio Explorer Loader object.</div><div class="ttdef"><b>Definition:</b> <a href="../../d5/dec/CacheLoader_8cpp_source.html#l00047">CacheLoader.cpp:47</a></div></div>
-<div class="ttc" id="aclassbioexplorer_1_1CacheLoader_html_a7a626e4d1cb4cde4612dd8e67406ef62"><div class="ttname"><a href="../../d9/d08/classbioexplorer_1_1CacheLoader.html#a7a626e4d1cb4cde4612dd8e67406ef62">bioexplorer::CacheLoader::getProperties</a></div><div class="ttdeci">PropertyMap getProperties() const final</div><div class="ttdoc">Returns the list of loader properties.</div><div class="ttdef"><b>Definition:</b> <a href="../../d5/dec/CacheLoader_8cpp_source.html#l00808">CacheLoader.cpp:808</a></div></div>
+<div class="ttc" id="aclassbioexplorer_1_1CacheLoader_html_a7a626e4d1cb4cde4612dd8e67406ef62"><div class="ttname"><a href="../../d9/d08/classbioexplorer_1_1CacheLoader.html#a7a626e4d1cb4cde4612dd8e67406ef62">bioexplorer::CacheLoader::getProperties</a></div><div class="ttdeci">PropertyMap getProperties() const final</div><div class="ttdoc">Returns the list of loader properties.</div><div class="ttdef"><b>Definition:</b> <a href="../../d5/dec/CacheLoader_8cpp_source.html#l00801">CacheLoader.cpp:801</a></div></div>
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
