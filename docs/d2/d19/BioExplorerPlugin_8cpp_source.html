@@ -1066,104 +1066,97 @@ $(document).ready(function(){initNavTree('d2/d19/BioExplorerPlugin_8cpp_source.h
 <div class="line"><a name="l00978"></a><span class="lineno">  978</span>&#160;    {</div>
 <div class="line"><a name="l00979"></a><span class="lineno">  979</span>&#160;        <span class="keyword">auto</span> &amp;scene = _api-&gt;getScene();</div>
 <div class="line"><a name="l00980"></a><span class="lineno">  980</span>&#160; </div>
-<div class="line"><a name="l00981"></a><span class="lineno">  981</span>&#160;        <span class="keyword">const</span> <span class="keyword">auto</span> &amp;clippingPlanes = scene.getClipPlanes();</div>
-<div class="line"><a name="l00982"></a><span class="lineno">  982</span>&#160;        Vector4fs clipPlanes;</div>
-<div class="line"><a name="l00983"></a><span class="lineno">  983</span>&#160;        <span class="keywordflow">for</span> (<span class="keyword">const</span> <span class="keyword">auto</span> cp : clippingPlanes)</div>
-<div class="line"><a name="l00984"></a><span class="lineno">  984</span>&#160;        {</div>
-<div class="line"><a name="l00985"></a><span class="lineno">  985</span>&#160;            <span class="keyword">const</span> <span class="keyword">auto</span> &amp;p = cp-&gt;getPlane();</div>
-<div class="line"><a name="l00986"></a><span class="lineno">  986</span>&#160;            Vector4f plane{p[0], p[1], p[2], p[3]};</div>
-<div class="line"><a name="l00987"></a><span class="lineno">  987</span>&#160;            clipPlanes.push_back(plane);</div>
-<div class="line"><a name="l00988"></a><span class="lineno">  988</span>&#160;        }</div>
-<div class="line"><a name="l00989"></a><span class="lineno">  989</span>&#160; </div>
-<div class="line"><a name="l00990"></a><span class="lineno">  990</span>&#160;        <span class="keyword">auto</span> model = scene.createModel();</div>
-<div class="line"><a name="l00991"></a><span class="lineno">  991</span>&#160; </div>
-<div class="line"><a name="l00992"></a><span class="lineno">  992</span>&#160;        <span class="comment">// Material</span></div>
-<div class="line"><a name="l00993"></a><span class="lineno">  993</span>&#160;        <span class="keyword">const</span> <span class="keywordtype">size_t</span> materialId = 0;</div>
-<div class="line"><a name="l00994"></a><span class="lineno">  994</span>&#160;        <span class="keyword">auto</span> material = model-&gt;createMaterial(materialId, <span class="stringliteral">&quot;Point cloud&quot;</span>);</div>
-<div class="line"><a name="l00995"></a><span class="lineno">  995</span>&#160; </div>
-<div class="line"><a name="l00996"></a><span class="lineno">  996</span>&#160;        brayns::PropertyMap props;</div>
-<div class="line"><a name="l00997"></a><span class="lineno">  997</span>&#160;        props.setProperty({MATERIAL_PROPERTY_SHADING_MODE,</div>
-<div class="line"><a name="l00998"></a><span class="lineno">  998</span>&#160;                           <span class="keyword">static_cast&lt;</span><span class="keywordtype">int</span><span class="keyword">&gt;</span>(MaterialShadingMode::basic)});</div>
-<div class="line"><a name="l00999"></a><span class="lineno">  999</span>&#160;        props.setProperty({MATERIAL_PROPERTY_USER_PARAMETER, 1.0});</div>
-<div class="line"><a name="l01000"></a><span class="lineno"> 1000</span>&#160;        props.setProperty(</div>
-<div class="line"><a name="l01001"></a><span class="lineno"> 1001</span>&#160;            {MATERIAL_PROPERTY_CHAMELEON_MODE,</div>
-<div class="line"><a name="l01002"></a><span class="lineno"> 1002</span>&#160;             <span class="keyword">static_cast&lt;</span><span class="keywordtype">int</span><span class="keyword">&gt;</span>(</div>
-<div class="line"><a name="l01003"></a><span class="lineno"> 1003</span>&#160;                 MaterialChameleonMode::undefined_chameleon_mode)});</div>
-<div class="line"><a name="l01004"></a><span class="lineno"> 1004</span>&#160;        props.setProperty({MATERIAL_PROPERTY_NODE_ID, <span class="keyword">static_cast&lt;</span><span class="keywordtype">int</span><span class="keyword">&gt;</span>(0)});</div>
-<div class="line"><a name="l01005"></a><span class="lineno"> 1005</span>&#160; </div>
-<div class="line"><a name="l01006"></a><span class="lineno"> 1006</span>&#160;        material-&gt;setDiffuseColor({1.f, 1.f, 1.f});</div>
-<div class="line"><a name="l01007"></a><span class="lineno"> 1007</span>&#160;        material-&gt;updateProperties(props);</div>
-<div class="line"><a name="l01008"></a><span class="lineno"> 1008</span>&#160; </div>
-<div class="line"><a name="l01009"></a><span class="lineno"> 1009</span>&#160;        <span class="keyword">const</span> <span class="keyword">auto</span> &amp;modelDescriptors = scene.getModelDescriptors();</div>
-<div class="line"><a name="l01010"></a><span class="lineno"> 1010</span>&#160;        <span class="keywordflow">for</span> (<span class="keyword">const</span> <span class="keyword">auto</span> modelDescriptor : modelDescriptors)</div>
-<div class="line"><a name="l01011"></a><span class="lineno"> 1011</span>&#160;        {</div>
-<div class="line"><a name="l01012"></a><span class="lineno"> 1012</span>&#160;            <span class="keyword">const</span> <span class="keyword">auto</span> &amp;instances = modelDescriptor-&gt;getInstances();</div>
-<div class="line"><a name="l01013"></a><span class="lineno"> 1013</span>&#160;            <span class="keywordflow">for</span> (<span class="keyword">const</span> <span class="keyword">auto</span> &amp;instance : instances)</div>
-<div class="line"><a name="l01014"></a><span class="lineno"> 1014</span>&#160;            {</div>
-<div class="line"><a name="l01015"></a><span class="lineno"> 1015</span>&#160;                <span class="keyword">const</span> <span class="keyword">auto</span> &amp;tf = instance.getTransformation();</div>
-<div class="line"><a name="l01016"></a><span class="lineno"> 1016</span>&#160;                <span class="keyword">const</span> <span class="keyword">auto</span> &amp;m = modelDescriptor-&gt;getModel();</div>
-<div class="line"><a name="l01017"></a><span class="lineno"> 1017</span>&#160;                <span class="keyword">const</span> <span class="keyword">auto</span> &amp;spheresMap = m.getSpheres();</div>
-<div class="line"><a name="l01018"></a><span class="lineno"> 1018</span>&#160;                <span class="keywordflow">for</span> (<span class="keyword">const</span> <span class="keyword">auto</span> &amp;spheres : spheresMap)</div>
-<div class="line"><a name="l01019"></a><span class="lineno"> 1019</span>&#160;                {</div>
-<div class="line"><a name="l01020"></a><span class="lineno"> 1020</span>&#160;                    <span class="keywordflow">for</span> (<span class="keyword">const</span> <span class="keyword">auto</span> &amp;sphere : spheres.second)</div>
-<div class="line"><a name="l01021"></a><span class="lineno"> 1021</span>&#160;                    {</div>
-<div class="line"><a name="l01022"></a><span class="lineno"> 1022</span>&#160;                        <span class="keyword">const</span> Vector3d center =</div>
-<div class="line"><a name="l01023"></a><span class="lineno"> 1023</span>&#160;                            tf.getTranslation() +</div>
-<div class="line"><a name="l01024"></a><span class="lineno"> 1024</span>&#160;                            tf.getRotation() * (Vector3d(sphere.center) -</div>
-<div class="line"><a name="l01025"></a><span class="lineno"> 1025</span>&#160;                                                tf.getRotationCenter());</div>
-<div class="line"><a name="l01026"></a><span class="lineno"> 1026</span>&#160; </div>
-<div class="line"><a name="l01027"></a><span class="lineno"> 1027</span>&#160;                        <span class="keyword">const</span> Vector3f c = center;</div>
-<div class="line"><a name="l01028"></a><span class="lineno"> 1028</span>&#160;                        <span class="keywordflow">if</span> (isClipped(c, clipPlanes))</div>
-<div class="line"><a name="l01029"></a><span class="lineno"> 1029</span>&#160;                            <span class="keywordflow">continue</span>;</div>
+<div class="line"><a name="l00981"></a><span class="lineno">  981</span>&#160;        <span class="keyword">const</span> <span class="keyword">auto</span> clipPlanes = getClippingPlanes(scene);</div>
+<div class="line"><a name="l00982"></a><span class="lineno">  982</span>&#160; </div>
+<div class="line"><a name="l00983"></a><span class="lineno">  983</span>&#160;        <span class="keyword">auto</span> model = scene.createModel();</div>
+<div class="line"><a name="l00984"></a><span class="lineno">  984</span>&#160; </div>
+<div class="line"><a name="l00985"></a><span class="lineno">  985</span>&#160;        <span class="comment">// Material</span></div>
+<div class="line"><a name="l00986"></a><span class="lineno">  986</span>&#160;        <span class="keyword">const</span> <span class="keywordtype">size_t</span> materialId = 0;</div>
+<div class="line"><a name="l00987"></a><span class="lineno">  987</span>&#160;        <span class="keyword">auto</span> material = model-&gt;createMaterial(materialId, <span class="stringliteral">&quot;Point cloud&quot;</span>);</div>
+<div class="line"><a name="l00988"></a><span class="lineno">  988</span>&#160; </div>
+<div class="line"><a name="l00989"></a><span class="lineno">  989</span>&#160;        brayns::PropertyMap props;</div>
+<div class="line"><a name="l00990"></a><span class="lineno">  990</span>&#160;        props.setProperty({MATERIAL_PROPERTY_SHADING_MODE,</div>
+<div class="line"><a name="l00991"></a><span class="lineno">  991</span>&#160;                           <span class="keyword">static_cast&lt;</span><span class="keywordtype">int</span><span class="keyword">&gt;</span>(MaterialShadingMode::basic)});</div>
+<div class="line"><a name="l00992"></a><span class="lineno">  992</span>&#160;        props.setProperty({MATERIAL_PROPERTY_USER_PARAMETER, 1.0});</div>
+<div class="line"><a name="l00993"></a><span class="lineno">  993</span>&#160;        props.setProperty(</div>
+<div class="line"><a name="l00994"></a><span class="lineno">  994</span>&#160;            {MATERIAL_PROPERTY_CHAMELEON_MODE,</div>
+<div class="line"><a name="l00995"></a><span class="lineno">  995</span>&#160;             <span class="keyword">static_cast&lt;</span><span class="keywordtype">int</span><span class="keyword">&gt;</span>(</div>
+<div class="line"><a name="l00996"></a><span class="lineno">  996</span>&#160;                 MaterialChameleonMode::undefined_chameleon_mode)});</div>
+<div class="line"><a name="l00997"></a><span class="lineno">  997</span>&#160;        props.setProperty({MATERIAL_PROPERTY_NODE_ID, <span class="keyword">static_cast&lt;</span><span class="keywordtype">int</span><span class="keyword">&gt;</span>(0)});</div>
+<div class="line"><a name="l00998"></a><span class="lineno">  998</span>&#160; </div>
+<div class="line"><a name="l00999"></a><span class="lineno">  999</span>&#160;        material-&gt;setDiffuseColor({1.f, 1.f, 1.f});</div>
+<div class="line"><a name="l01000"></a><span class="lineno"> 1000</span>&#160;        material-&gt;updateProperties(props);</div>
+<div class="line"><a name="l01001"></a><span class="lineno"> 1001</span>&#160; </div>
+<div class="line"><a name="l01002"></a><span class="lineno"> 1002</span>&#160;        <span class="keyword">const</span> <span class="keyword">auto</span> &amp;modelDescriptors = scene.getModelDescriptors();</div>
+<div class="line"><a name="l01003"></a><span class="lineno"> 1003</span>&#160;        <span class="keywordflow">for</span> (<span class="keyword">const</span> <span class="keyword">auto</span> modelDescriptor : modelDescriptors)</div>
+<div class="line"><a name="l01004"></a><span class="lineno"> 1004</span>&#160;        {</div>
+<div class="line"><a name="l01005"></a><span class="lineno"> 1005</span>&#160;            <span class="keyword">const</span> <span class="keyword">auto</span> &amp;instances = modelDescriptor-&gt;getInstances();</div>
+<div class="line"><a name="l01006"></a><span class="lineno"> 1006</span>&#160;            <span class="keywordflow">for</span> (<span class="keyword">const</span> <span class="keyword">auto</span> &amp;instance : instances)</div>
+<div class="line"><a name="l01007"></a><span class="lineno"> 1007</span>&#160;            {</div>
+<div class="line"><a name="l01008"></a><span class="lineno"> 1008</span>&#160;                <span class="keyword">const</span> <span class="keyword">auto</span> &amp;tf = instance.getTransformation();</div>
+<div class="line"><a name="l01009"></a><span class="lineno"> 1009</span>&#160;                <span class="keyword">const</span> <span class="keyword">auto</span> &amp;m = modelDescriptor-&gt;getModel();</div>
+<div class="line"><a name="l01010"></a><span class="lineno"> 1010</span>&#160;                <span class="keyword">const</span> <span class="keyword">auto</span> &amp;spheresMap = m.getSpheres();</div>
+<div class="line"><a name="l01011"></a><span class="lineno"> 1011</span>&#160;                <span class="keywordflow">for</span> (<span class="keyword">const</span> <span class="keyword">auto</span> &amp;spheres : spheresMap)</div>
+<div class="line"><a name="l01012"></a><span class="lineno"> 1012</span>&#160;                {</div>
+<div class="line"><a name="l01013"></a><span class="lineno"> 1013</span>&#160;                    <span class="keywordflow">for</span> (<span class="keyword">const</span> <span class="keyword">auto</span> &amp;sphere : spheres.second)</div>
+<div class="line"><a name="l01014"></a><span class="lineno"> 1014</span>&#160;                    {</div>
+<div class="line"><a name="l01015"></a><span class="lineno"> 1015</span>&#160;                        <span class="keyword">const</span> Vector3d center =</div>
+<div class="line"><a name="l01016"></a><span class="lineno"> 1016</span>&#160;                            tf.getTranslation() +</div>
+<div class="line"><a name="l01017"></a><span class="lineno"> 1017</span>&#160;                            tf.getRotation() * (Vector3d(sphere.center) -</div>
+<div class="line"><a name="l01018"></a><span class="lineno"> 1018</span>&#160;                                                tf.getRotationCenter());</div>
+<div class="line"><a name="l01019"></a><span class="lineno"> 1019</span>&#160; </div>
+<div class="line"><a name="l01020"></a><span class="lineno"> 1020</span>&#160;                        <span class="keyword">const</span> Vector3f c = center;</div>
+<div class="line"><a name="l01021"></a><span class="lineno"> 1021</span>&#160;                        <span class="keywordflow">if</span> (isClipped(c, clipPlanes))</div>
+<div class="line"><a name="l01022"></a><span class="lineno"> 1022</span>&#160;                            <span class="keywordflow">continue</span>;</div>
+<div class="line"><a name="l01023"></a><span class="lineno"> 1023</span>&#160; </div>
+<div class="line"><a name="l01024"></a><span class="lineno"> 1024</span>&#160;                        model-&gt;addSphere(materialId,</div>
+<div class="line"><a name="l01025"></a><span class="lineno"> 1025</span>&#160;                                         {c, payload.radius * sphere.radius});</div>
+<div class="line"><a name="l01026"></a><span class="lineno"> 1026</span>&#160;                    }</div>
+<div class="line"><a name="l01027"></a><span class="lineno"> 1027</span>&#160;                }</div>
+<div class="line"><a name="l01028"></a><span class="lineno"> 1028</span>&#160;            }</div>
+<div class="line"><a name="l01029"></a><span class="lineno"> 1029</span>&#160;        }</div>
 <div class="line"><a name="l01030"></a><span class="lineno"> 1030</span>&#160; </div>
-<div class="line"><a name="l01031"></a><span class="lineno"> 1031</span>&#160;                        model-&gt;addSphere(materialId,</div>
-<div class="line"><a name="l01032"></a><span class="lineno"> 1032</span>&#160;                                         {c, payload.radius * sphere.radius});</div>
-<div class="line"><a name="l01033"></a><span class="lineno"> 1033</span>&#160;                    }</div>
-<div class="line"><a name="l01034"></a><span class="lineno"> 1034</span>&#160;                }</div>
-<div class="line"><a name="l01035"></a><span class="lineno"> 1035</span>&#160;            }</div>
-<div class="line"><a name="l01036"></a><span class="lineno"> 1036</span>&#160;        }</div>
-<div class="line"><a name="l01037"></a><span class="lineno"> 1037</span>&#160; </div>
-<div class="line"><a name="l01038"></a><span class="lineno"> 1038</span>&#160;        <span class="keyword">auto</span> md =</div>
-<div class="line"><a name="l01039"></a><span class="lineno"> 1039</span>&#160;            std::make_shared&lt;ModelDescriptor&gt;(std::move(model), <span class="stringliteral">&quot;Point cloud&quot;</span>);</div>
-<div class="line"><a name="l01040"></a><span class="lineno"> 1040</span>&#160;        scene.addModel(md);</div>
-<div class="line"><a name="l01041"></a><span class="lineno"> 1041</span>&#160;    }</div>
-<div class="line"><a name="l01042"></a><span class="lineno"> 1042</span>&#160;    CATCH_STD_EXCEPTION()</div>
-<div class="line"><a name="l01043"></a><span class="lineno"> 1043</span>&#160;    return response;</div>
-<div class="line"><a name="l01044"></a><span class="lineno"> 1044</span>&#160;}</div>
-<div class="line"><a name="l01045"></a><span class="lineno"> 1045</span>&#160; </div>
-<div class="line"><a name="l01046"></a><span class="lineno"> 1046</span>&#160;extern &quot;C&quot; ExtensionPlugin *brayns_plugin_create(<span class="keywordtype">int</span> <span class="comment">/*argc*/</span>, <span class="keywordtype">char</span> ** <span class="comment">/*argv*/</span>)</div>
-<div class="line"><a name="l01047"></a><span class="lineno"> 1047</span>&#160;{</div>
-<div class="line"><a name="l01048"></a><span class="lineno"> 1048</span>&#160;    PLUGIN_INFO &lt;&lt; <span class="stringliteral">&quot; _|_|_|    _|            _|_|_|_|                      _|  &quot;</span></div>
-<div class="line"><a name="l01049"></a><span class="lineno"> 1049</span>&#160;                   <span class="stringliteral">&quot;                                      &quot;</span></div>
-<div class="line"><a name="l01050"></a><span class="lineno"> 1050</span>&#160;                &lt;&lt; std::endl;</div>
-<div class="line"><a name="l01051"></a><span class="lineno"> 1051</span>&#160;    PLUGIN_INFO &lt;&lt; <span class="stringliteral">&quot; _|    _|        _|_|    _|        _|    _|  _|_|_|    _|  &quot;</span></div>
-<div class="line"><a name="l01052"></a><span class="lineno"> 1052</span>&#160;                   <span class="stringliteral">&quot;  _|_|    _|  _|_|    _|_|    _|  _|_|&quot;</span></div>
-<div class="line"><a name="l01053"></a><span class="lineno"> 1053</span>&#160;                &lt;&lt; std::endl;</div>
-<div class="line"><a name="l01054"></a><span class="lineno"> 1054</span>&#160;    PLUGIN_INFO &lt;&lt; <span class="stringliteral">&quot; _|_|_|    _|  _|    _|  _|_|_|      _|_|    _|    _|  _|  &quot;</span></div>
-<div class="line"><a name="l01055"></a><span class="lineno"> 1055</span>&#160;                   <span class="stringliteral">&quot;_|    _|  _|_|      _|_|_|_|  _|_|    &quot;</span></div>
-<div class="line"><a name="l01056"></a><span class="lineno"> 1056</span>&#160;                &lt;&lt; std::endl;</div>
-<div class="line"><a name="l01057"></a><span class="lineno"> 1057</span>&#160;    PLUGIN_INFO &lt;&lt; <span class="stringliteral">&quot; _|    _|  _|  _|    _|  _|        _|    _|  _|    _|  _|  &quot;</span></div>
-<div class="line"><a name="l01058"></a><span class="lineno"> 1058</span>&#160;                   <span class="stringliteral">&quot;_|    _|  _|        _|        _|      &quot;</span></div>
-<div class="line"><a name="l01059"></a><span class="lineno"> 1059</span>&#160;                &lt;&lt; std::endl;</div>
-<div class="line"><a name="l01060"></a><span class="lineno"> 1060</span>&#160;    PLUGIN_INFO &lt;&lt; <span class="stringliteral">&quot; _|_|_|    _|    _|_|    _|_|_|_|  _|    _|  _|_|_|    _|  &quot;</span></div>
-<div class="line"><a name="l01061"></a><span class="lineno"> 1061</span>&#160;                   <span class="stringliteral">&quot;  _|_|    _|          _|_|_|  _|      &quot;</span></div>
-<div class="line"><a name="l01062"></a><span class="lineno"> 1062</span>&#160;                &lt;&lt; std::endl;</div>
-<div class="line"><a name="l01063"></a><span class="lineno"> 1063</span>&#160;    PLUGIN_INFO &lt;&lt; <span class="stringliteral">&quot;                                             _|            &quot;</span></div>
-<div class="line"><a name="l01064"></a><span class="lineno"> 1064</span>&#160;                   <span class="stringliteral">&quot;                                      &quot;</span></div>
-<div class="line"><a name="l01065"></a><span class="lineno"> 1065</span>&#160;                &lt;&lt; std::endl;</div>
-<div class="line"><a name="l01066"></a><span class="lineno"> 1066</span>&#160;    PLUGIN_INFO &lt;&lt; <span class="stringliteral">&quot;                                             _|            &quot;</span></div>
-<div class="line"><a name="l01067"></a><span class="lineno"> 1067</span>&#160;                   <span class="stringliteral">&quot;                                      &quot;</span></div>
-<div class="line"><a name="l01068"></a><span class="lineno"> 1068</span>&#160;                &lt;&lt; std::endl;</div>
-<div class="line"><a name="l01069"></a><span class="lineno"> 1069</span>&#160;    PLUGIN_INFO &lt;&lt; <span class="stringliteral">&quot;Initializing BioExplorer plug-in (version &quot;</span></div>
-<div class="line"><a name="l01070"></a><span class="lineno"> 1070</span>&#160;                &lt;&lt; BIOEXPLORER_VERSION &lt;&lt; <span class="stringliteral">&quot;)&quot;</span> &lt;&lt; std::endl;</div>
-<div class="line"><a name="l01071"></a><span class="lineno"> 1071</span>&#160;    PLUGIN_INFO &lt;&lt; std::endl;</div>
-<div class="line"><a name="l01072"></a><span class="lineno"> 1072</span>&#160;    <span class="keywordflow">return</span> <span class="keyword">new</span> <a class="code" href="../../d7/d7b/classbioexplorer_1_1BioExplorerPlugin.html#a34fdc2ad06f172807d831339f1cb4d3f">BioExplorerPlugin</a>();</div>
-<div class="line"><a name="l01073"></a><span class="lineno"> 1073</span>&#160;}</div>
-<div class="line"><a name="l01074"></a><span class="lineno"> 1074</span>&#160; </div>
-<div class="line"><a name="l01075"></a><span class="lineno"> 1075</span>&#160;} <span class="comment">// namespace bioexplorer</span></div>
+<div class="line"><a name="l01031"></a><span class="lineno"> 1031</span>&#160;        <span class="keyword">auto</span> md =</div>
+<div class="line"><a name="l01032"></a><span class="lineno"> 1032</span>&#160;            std::make_shared&lt;ModelDescriptor&gt;(std::move(model), <span class="stringliteral">&quot;Point cloud&quot;</span>);</div>
+<div class="line"><a name="l01033"></a><span class="lineno"> 1033</span>&#160;        scene.addModel(md);</div>
+<div class="line"><a name="l01034"></a><span class="lineno"> 1034</span>&#160;    }</div>
+<div class="line"><a name="l01035"></a><span class="lineno"> 1035</span>&#160;    CATCH_STD_EXCEPTION()</div>
+<div class="line"><a name="l01036"></a><span class="lineno"> 1036</span>&#160;    return response;</div>
+<div class="line"><a name="l01037"></a><span class="lineno"> 1037</span>&#160;}</div>
+<div class="line"><a name="l01038"></a><span class="lineno"> 1038</span>&#160; </div>
+<div class="line"><a name="l01039"></a><span class="lineno"> 1039</span>&#160;extern &quot;C&quot; ExtensionPlugin *brayns_plugin_create(<span class="keywordtype">int</span> <span class="comment">/*argc*/</span>, <span class="keywordtype">char</span> ** <span class="comment">/*argv*/</span>)</div>
+<div class="line"><a name="l01040"></a><span class="lineno"> 1040</span>&#160;{</div>
+<div class="line"><a name="l01041"></a><span class="lineno"> 1041</span>&#160;    PLUGIN_INFO &lt;&lt; <span class="stringliteral">&quot; _|_|_|    _|            _|_|_|_|                      _|  &quot;</span></div>
+<div class="line"><a name="l01042"></a><span class="lineno"> 1042</span>&#160;                   <span class="stringliteral">&quot;                                      &quot;</span></div>
+<div class="line"><a name="l01043"></a><span class="lineno"> 1043</span>&#160;                &lt;&lt; std::endl;</div>
+<div class="line"><a name="l01044"></a><span class="lineno"> 1044</span>&#160;    PLUGIN_INFO &lt;&lt; <span class="stringliteral">&quot; _|    _|        _|_|    _|        _|    _|  _|_|_|    _|  &quot;</span></div>
+<div class="line"><a name="l01045"></a><span class="lineno"> 1045</span>&#160;                   <span class="stringliteral">&quot;  _|_|    _|  _|_|    _|_|    _|  _|_|&quot;</span></div>
+<div class="line"><a name="l01046"></a><span class="lineno"> 1046</span>&#160;                &lt;&lt; std::endl;</div>
+<div class="line"><a name="l01047"></a><span class="lineno"> 1047</span>&#160;    PLUGIN_INFO &lt;&lt; <span class="stringliteral">&quot; _|_|_|    _|  _|    _|  _|_|_|      _|_|    _|    _|  _|  &quot;</span></div>
+<div class="line"><a name="l01048"></a><span class="lineno"> 1048</span>&#160;                   <span class="stringliteral">&quot;_|    _|  _|_|      _|_|_|_|  _|_|    &quot;</span></div>
+<div class="line"><a name="l01049"></a><span class="lineno"> 1049</span>&#160;                &lt;&lt; std::endl;</div>
+<div class="line"><a name="l01050"></a><span class="lineno"> 1050</span>&#160;    PLUGIN_INFO &lt;&lt; <span class="stringliteral">&quot; _|    _|  _|  _|    _|  _|        _|    _|  _|    _|  _|  &quot;</span></div>
+<div class="line"><a name="l01051"></a><span class="lineno"> 1051</span>&#160;                   <span class="stringliteral">&quot;_|    _|  _|        _|        _|      &quot;</span></div>
+<div class="line"><a name="l01052"></a><span class="lineno"> 1052</span>&#160;                &lt;&lt; std::endl;</div>
+<div class="line"><a name="l01053"></a><span class="lineno"> 1053</span>&#160;    PLUGIN_INFO &lt;&lt; <span class="stringliteral">&quot; _|_|_|    _|    _|_|    _|_|_|_|  _|    _|  _|_|_|    _|  &quot;</span></div>
+<div class="line"><a name="l01054"></a><span class="lineno"> 1054</span>&#160;                   <span class="stringliteral">&quot;  _|_|    _|          _|_|_|  _|      &quot;</span></div>
+<div class="line"><a name="l01055"></a><span class="lineno"> 1055</span>&#160;                &lt;&lt; std::endl;</div>
+<div class="line"><a name="l01056"></a><span class="lineno"> 1056</span>&#160;    PLUGIN_INFO &lt;&lt; <span class="stringliteral">&quot;                                             _|            &quot;</span></div>
+<div class="line"><a name="l01057"></a><span class="lineno"> 1057</span>&#160;                   <span class="stringliteral">&quot;                                      &quot;</span></div>
+<div class="line"><a name="l01058"></a><span class="lineno"> 1058</span>&#160;                &lt;&lt; std::endl;</div>
+<div class="line"><a name="l01059"></a><span class="lineno"> 1059</span>&#160;    PLUGIN_INFO &lt;&lt; <span class="stringliteral">&quot;                                             _|            &quot;</span></div>
+<div class="line"><a name="l01060"></a><span class="lineno"> 1060</span>&#160;                   <span class="stringliteral">&quot;                                      &quot;</span></div>
+<div class="line"><a name="l01061"></a><span class="lineno"> 1061</span>&#160;                &lt;&lt; std::endl;</div>
+<div class="line"><a name="l01062"></a><span class="lineno"> 1062</span>&#160;    PLUGIN_INFO &lt;&lt; <span class="stringliteral">&quot;Initializing BioExplorer plug-in (version &quot;</span></div>
+<div class="line"><a name="l01063"></a><span class="lineno"> 1063</span>&#160;                &lt;&lt; BIOEXPLORER_VERSION &lt;&lt; <span class="stringliteral">&quot;)&quot;</span> &lt;&lt; std::endl;</div>
+<div class="line"><a name="l01064"></a><span class="lineno"> 1064</span>&#160;    PLUGIN_INFO &lt;&lt; std::endl;</div>
+<div class="line"><a name="l01065"></a><span class="lineno"> 1065</span>&#160;    <span class="keywordflow">return</span> <span class="keyword">new</span> <a class="code" href="../../d7/d7b/classbioexplorer_1_1BioExplorerPlugin.html#a34fdc2ad06f172807d831339f1cb4d3f">BioExplorerPlugin</a>();</div>
+<div class="line"><a name="l01066"></a><span class="lineno"> 1066</span>&#160;}</div>
+<div class="line"><a name="l01067"></a><span class="lineno"> 1067</span>&#160; </div>
+<div class="line"><a name="l01068"></a><span class="lineno"> 1068</span>&#160;} <span class="comment">// namespace bioexplorer</span></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
-<div class="ttc" id="aclassbioexplorer_1_1CacheLoader_html_a9e3b3d92c016458fd6c9bb538dc556ea"><div class="ttname"><a href="../../d9/d08/classbioexplorer_1_1CacheLoader.html#a9e3b3d92c016458fd6c9bb538dc556ea">bioexplorer::CacheLoader::getCLIProperties</a></div><div class="ttdeci">static PropertyMap getCLIProperties()</div><div class="ttdoc">Returns the list of loader command line arguments.</div><div class="ttdef"><b>Definition:</b> <a href="../../d5/dec/CacheLoader_8cpp_source.html#l00813">CacheLoader.cpp:813</a></div></div>
+<div class="ttc" id="aclassbioexplorer_1_1CacheLoader_html_a9e3b3d92c016458fd6c9bb538dc556ea"><div class="ttname"><a href="../../d9/d08/classbioexplorer_1_1CacheLoader.html#a9e3b3d92c016458fd6c9bb538dc556ea">bioexplorer::CacheLoader::getCLIProperties</a></div><div class="ttdeci">static PropertyMap getCLIProperties()</div><div class="ttdoc">Returns the list of loader command line arguments.</div><div class="ttdef"><b>Definition:</b> <a href="../../d5/dec/CacheLoader_8cpp_source.html#l00806">CacheLoader.cpp:806</a></div></div>
 <div class="ttc" id="astructbioexplorer_1_1Response_html"><div class="ttname"><a href="../../d9/d72/structbioexplorer_1_1Response.html">bioexplorer::Response</a></div><div class="ttdef"><b>Definition:</b> <a href="../../d5/d31/Params_8h_source.html#l00027">Params.h:27</a></div></div>
 <div class="ttc" id="aclassbioexplorer_1_1BioExplorerPlugin_html_a34fdc2ad06f172807d831339f1cb4d3f"><div class="ttname"><a href="../../d7/d7b/classbioexplorer_1_1BioExplorerPlugin.html#a34fdc2ad06f172807d831339f1cb4d3f">bioexplorer::BioExplorerPlugin::BioExplorerPlugin</a></div><div class="ttdeci">BioExplorerPlugin()</div><div class="ttdoc">Construct a new Bio Explorer Plugin object.</div><div class="ttdef"><b>Definition:</b> <a href="../../d2/d19/BioExplorerPlugin_8cpp_source.html#l00118">BioExplorerPlugin.cpp:118</a></div></div>
 <!-- start footer part -->
