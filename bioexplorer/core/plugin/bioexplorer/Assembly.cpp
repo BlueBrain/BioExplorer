@@ -36,7 +36,10 @@ Assembly::Assembly(Scene &scene, const AssemblyDescriptor &ad)
     if (ad.position.size() != 3)
         PLUGIN_THROW(std::runtime_error(
             "Position must be a sequence of 3 float values"));
-    _position = {ad.position[0], ad.position[1], ad.position[2]};
+
+    if (ad.orientation.size() != 4)
+        PLUGIN_THROW(std::runtime_error(
+            "Orientation must be a sequence of 4 float values"));
 
     if (ad.clippingPlanes.size() % 4 != 0)
         PLUGIN_THROW(std::runtime_error(
@@ -45,8 +48,7 @@ Assembly::Assembly(Scene &scene, const AssemblyDescriptor &ad)
     for (size_t i = 0; i < cp.size(); i += 4)
         _clippingPlanes.push_back({cp[i], cp[i + 1], cp[i + 2], cp[i + 3]});
 
-    PLUGIN_INFO << "Add assembly " << ad.name << " at position " << _position
-                << std::endl;
+    PLUGIN_INFO << "Add assembly " << ad.name << std::endl;
 }
 
 Assembly::~Assembly()
@@ -104,8 +106,15 @@ void Assembly::addMembrane(const MembraneDescriptor &md)
     if (_membrane != nullptr)
         PLUGIN_THROW(std::runtime_error("Assembly already has a membrane"));
 
-    MembranePtr membrane(new Membrane(_scene, md, _position, _clippingPlanes,
-                                      _occupiedDirections));
+    const Vector3f position = {_descriptor.position[0], _descriptor.position[1],
+                               _descriptor.position[2]};
+    const Quaterniond orientation = {_descriptor.orientation[0],
+                                     _descriptor.orientation[1],
+                                     _descriptor.orientation[2],
+                                     _descriptor.orientation[3]};
+
+    MembranePtr membrane(new Membrane(_scene, md, position, orientation,
+                                      _clippingPlanes, _occupiedDirections));
     _membrane = std::move(membrane);
 }
 
@@ -175,9 +184,13 @@ void Assembly::_processInstances(
         randomizationType == PositionRandomizationType::circular)
         rnd = rand() % occurrences;
 
-#ifdef DEBUG
-    model.addCone(0, {{0, 0, 0}, {0, 0, 1}, 0.1f, 0.f});
-#endif
+    const Quaterniond assemblyOrientation = {_descriptor.orientation[0],
+                                             _descriptor.orientation[1],
+                                             _descriptor.orientation[2],
+                                             _descriptor.orientation[3]};
+    const Vector3f assemblyPosition = {_descriptor.position[0],
+                                       _descriptor.position[1],
+                                       _descriptor.position[2]};
 
     uint64_t count = 0;
     for (uint64_t i = 0; i < occurrences; ++i)
@@ -272,8 +285,9 @@ void Assembly::_processInstances(
         const Quaterniond instanceOrientation = glm::quatLookAt(dir, UP_VECTOR);
 
         Transformation tf;
-        tf.setTranslation(_position + pos);
-        tf.setRotation(instanceOrientation * orientation);
+        tf.setTranslation(assemblyPosition +
+                          Vector3f(assemblyOrientation * Vector3d(pos)));
+        tf.setRotation(assemblyOrientation * instanceOrientation * orientation);
 
         if (count == 0)
             md->setTransformation(tf);
@@ -429,9 +443,9 @@ void Assembly::addRNASequence(const RNASequenceDescriptor &rnad)
     PLUGIN_INFO << "Position       : " << rd.position[0] << ", "
                 << rd.position[1] << ", " << rd.position[2] << std::endl;
 
-    rd.position[0] += _position.x;
-    rd.position[1] += _position.y;
-    rd.position[2] += _position.z;
+    for (size_t i = 0; i < 3; ++i)
+        rd.position[i] += _descriptor.position[i];
+
     _rnaSequence = RNASequencePtr(new RNASequence(_scene, rd));
     const auto modelDescriptor = _rnaSequence->getModelDescriptor();
     _scene.addModel(modelDescriptor);

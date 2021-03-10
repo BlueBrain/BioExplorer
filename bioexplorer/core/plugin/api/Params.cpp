@@ -65,6 +65,7 @@ bool from_json(AssemblyDescriptor &param, const std::string &payload)
         auto js = nlohmann::json::parse(payload);
         FROM_JSON(param, js, name);
         FROM_JSON(param, js, position);
+        FROM_JSON(param, js, orientation);
         FROM_JSON(param, js, clippingPlanes);
     }
     catch (...)

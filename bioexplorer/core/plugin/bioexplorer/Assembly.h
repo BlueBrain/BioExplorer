@@ -156,7 +156,6 @@ private:
                            const float locationCutoffAngle = 0.f);
 
     AssemblyDescriptor _descriptor;
-    Vector3f _position{0.f, 0.f, 0.f};
     Scene &_scene;
     ProteinMap _proteins;
     MeshBasedMembraneMap _meshBasedMembranes;
