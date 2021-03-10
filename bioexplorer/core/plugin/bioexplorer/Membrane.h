@@ -50,7 +50,8 @@ public:
      * areas where other proteins have already been added
      */
     Membrane(Scene &scene, const MembraneDescriptor &descriptor,
-             const Vector3f &position, const Vector4fs &clippingPlanes,
+             const Vector3f &position, const Quaterniond &orientation,
+             const Vector4fs &clippingPlanes,
              const OccupiedDirections &occupiedDirections);
 
     /**
@@ -71,7 +72,8 @@ private:
     std::string _getElementNameFromId(const size_t id);
 
     Scene &_scene;
-    Vector3f _position{0.f, 0.f, 0.f};
+    Vector3f _position;
+    Quaterniond _orientation;
     MembraneDescriptor _descriptor;
     ProteinMap _proteins;
     Vector4fs _clippingPlanes;

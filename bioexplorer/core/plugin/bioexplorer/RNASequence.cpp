@@ -30,28 +30,29 @@
 namespace bioexplorer
 {
 /**
- * @brief Structure representing a sequence of nucleotide triplets
+ * @brief Structure representing a nucleotid
  *
  */
-struct Codon
+struct Nucleotid
 {
-    /** Codon index */
+    /** Index */
     size_t index;
-    /** Codon long name */
+    /** Long name */
     std::string name;
-    /** Codon default color */
-    Vector3f defaultColor;
+    /** Color */
+    Vector3f color;
 };
-typedef std::map<char, Codon> CondonMap;
+typedef std::map<char, Nucleotid> NucleotidMap;
 
 /**
- * @brief Map of codons indexed by short name
+ * @brief Map of nucleotids indexed by short name
  *
  */
-CondonMap nucleotidMap{{'A', {0, "Adenine", {0.f, 0.f, 1.f}}},
-                       {'U', {1, "Uracile", {0.f, 1.f, 0.f}}},
-                       {'G', {2, "Guanine", {1.f, 0.f, 0.f}}},
-                       {'C', {3, "Cytosine", {1.f, 1.f, 0.f}}}};
+NucleotidMap nucleotidMap{{'A', {0, "Adenine", {0.f, 0.f, 1.f}}},
+                          {'U', {1, "Uracile", {0.f, 1.f, 0.f}}},
+                          {'G', {2, "Guanine", {1.f, 0.f, 0.f}}},
+                          {'T', {3, "Thymine", {1.f, 0.f, 1.f}}},
+                          {'C', {4, "Cytosine", {1.f, 1.f, 0.f}}}};
 
 RNASequence::RNASequence(Scene& scene, const RNASequenceDescriptor& rd)
     : Node()
@@ -74,7 +75,7 @@ RNASequence::RNASequence(Scene& scene, const RNASequenceDescriptor& rd)
             {MATERIAL_PROPERTY_CHAMELEON_MODE,
              static_cast<int>(
                  MaterialChameleonMode::undefined_chameleon_mode)});
-        material->setDiffuseColor(nucleotid.second.defaultColor);
+        material->setDiffuseColor(nucleotid.second.color);
         material->updateProperties(props);
         ++materialId;
     }

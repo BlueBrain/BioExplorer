@@ -30,10 +30,12 @@
 namespace bioexplorer
 {
 Membrane::Membrane(Scene &scene, const MembraneDescriptor &descriptor,
-                   const Vector3f &position, const Vector4fs &clippingPlanes,
+                   const Vector3f &position, const Quaterniond &orientation,
+                   const Vector4fs &clippingPlanes,
                    const OccupiedDirections &occupiedDirections)
     : _scene(scene)
     , _position(position)
+    , _orientation(orientation)
     , _descriptor(descriptor)
     , _clippingPlanes(clippingPlanes)
     , _occupiedDirections(occupiedDirections)
@@ -245,12 +247,13 @@ void Membrane::_processInstances()
 
         // Final transformation
         Transformation tf;
-        tf.setTranslation(_position + pos - center);
+        tf.setTranslation(_position +
+                          Vector3f(_orientation * Vector3d(pos - center)));
 
-        Quaterniond assemblyOrientation = glm::quatLookAt(dir, UP_VECTOR);
+        Quaterniond instanceOrientation = glm::quatLookAt(dir, UP_VECTOR);
 
         if (_descriptor.randomSeed == 0)
-            tf.setRotation(assemblyOrientation * orientation);
+            tf.setRotation(_orientation * instanceOrientation * orientation);
         else
         {
             // Add a bit of randomness in the orientation of the proteins
@@ -259,7 +262,7 @@ void Membrane::_processInstances()
                                  0.3 * (rand() % 100 / 100.0 - 0.5));
             Quaterniond randomOrientation = glm::quat(eulerAngles);
 
-            tf.setRotation(assemblyOrientation * orientation *
+            tf.setRotation(_orientation * instanceOrientation * orientation *
                            randomOrientation);
         }
 
