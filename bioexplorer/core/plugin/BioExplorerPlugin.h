@@ -40,18 +40,14 @@ public:
     BioExplorerPlugin();
 
     /**
-     * @brief
+     * @brief Plugin initialization, registration of end-points, renderers,
+     * cameras, etc.
      *
      */
     void init() final;
 
-    /**
-     * @brief
-     *
-     */
-    void preRender() final;
-
 private:
+    // Info
     Response _version() const;
 
     // IO
@@ -89,13 +85,13 @@ private:
     // Point clouds
     Response _buildPointCloud(const BuildPointCloud &payload);
 
-    AssemblyMap _assemblies;
-    bool _dirty{false};
-
     // Fields
     void _attachFieldsHandler(FieldsHandlerPtr handler);
     Response _buildFields(const BuildFields &payload);
     Response _exportFieldsToFile(const ModelIdFileAccess &payload);
     Response _importFieldsFromFile(const FileAccess &payload);
+
+    // Attributes
+    AssemblyMap _assemblies;
 };
 } // namespace bioexplorer
