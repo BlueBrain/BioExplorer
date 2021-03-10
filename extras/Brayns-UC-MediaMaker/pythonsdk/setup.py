@@ -23,7 +23,7 @@
 
 import re
 from setuptools import setup
-from mediamaker.version import __version__
+from braynsmediamaker.version import __version__
 
 
 def parse_requirements(filename):
