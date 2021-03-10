@@ -48,7 +48,7 @@ Assembly::Assembly(Scene &scene, const AssemblyDescriptor &ad)
     for (size_t i = 0; i < cp.size(); i += 4)
         _clippingPlanes.push_back({cp[i], cp[i + 1], cp[i + 2], cp[i + 3]});
 
-    PLUGIN_INFO << "Add assembly " << ad.name << std::endl;
+    PLUGIN_INFO << "Adding assembly [" << ad.name << "]" << std::endl;
 }
 
 Assembly::~Assembly()
@@ -56,8 +56,8 @@ Assembly::~Assembly()
     for (const auto &protein : _proteins)
     {
         const auto modelId = protein.second->getModelDescriptor()->getModelID();
-        PLUGIN_INFO << "Removing protein <" << modelId << "><" << protein.first
-                    << "> from assembly <" << _descriptor.name << ">"
+        PLUGIN_INFO << "Removing protein [" << modelId << "] [" << protein.first
+                    << "] from assembly [" << _descriptor.name << "]"
                     << std::endl;
         _scene.removeModel(protein.second->getModelDescriptor()->getModelID());
     }
@@ -65,18 +65,18 @@ Assembly::~Assembly()
     {
         const auto modelId =
             meshBasedMembrane.second->getModelDescriptor()->getModelID();
-        PLUGIN_INFO << "Removing mesh <" << modelId << "><"
-                    << meshBasedMembrane.first << "> from assembly <"
-                    << _descriptor.name << ">" << std::endl;
+        PLUGIN_INFO << "Removing mesh [" << modelId << "] ["
+                    << meshBasedMembrane.first << "] from assembly ["
+                    << _descriptor.name << "]" << std::endl;
         _scene.removeModel(
             meshBasedMembrane.second->getModelDescriptor()->getModelID());
     }
     if (_rnaSequence)
     {
         const auto modelId = _rnaSequence->getModelDescriptor()->getModelID();
-        PLUGIN_INFO << "Removing <" << modelId
-                    << "><RNA sequence> from assembly <" << _descriptor.name
-                    << ">" << std::endl;
+        PLUGIN_INFO << "Removing RNA sequence [" << modelId
+                    << "] from assembly [" << _descriptor.name << "]"
+                    << std::endl;
         _scene.removeModel(modelId);
     }
 }
