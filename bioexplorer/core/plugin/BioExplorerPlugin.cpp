@@ -36,7 +36,11 @@
 #include <brayns/parameters/ParametersManager.h>
 #include <brayns/pluginapi/Plugin.h>
 
+#include <chrono>
 #include <fstream>
+#include <thread>
+
+using namespace std::chrono;
 
 namespace bioexplorer
 {
@@ -293,13 +297,6 @@ void BioExplorerPlugin::init()
     _addBioExplorerPerspectiveCamera(engine);
     _addBioExplorerRenderer(engine);
     _addBioExplorerFieldsRenderer(engine);
-}
-
-void BioExplorerPlugin::preRender()
-{
-    if (_dirty)
-        _api->getScene().markModified();
-    _dirty = false;
 }
 
 Response BioExplorerPlugin::_version() const
@@ -852,8 +849,11 @@ Response BioExplorerPlugin::_setMaterials(const MaterialsDescriptor &payload)
 
                             // This is needed to apply modifications. Changes to
                             // the material will be committed after the
-                            // rendering of the current frame is completed
-                            material->markModified();
+                            // rendering of the current frame is completed. The
+                            // false parameter is to prevent the callback to be
+                            // invoked on every material, this will be done
+                            // later on at a scene level
+                            material->markModified(false);
                         }
                     }
                     catch (const std::runtime_error &e)
@@ -862,7 +862,6 @@ Response BioExplorerPlugin::_setMaterials(const MaterialsDescriptor &payload)
                     }
                     ++id;
                 }
-                _dirty = true;
             }
             else
                 PLUGIN_INFO << "Model " << modelId << " is not registered"
