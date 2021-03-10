@@ -101,8 +101,8 @@ Protein::~Protein()
     for (const auto& glycan : _glycans)
     {
         const auto modelId = glycan.second->getModelDescriptor()->getModelID();
-        PLUGIN_INFO << "Removing glycan <" << modelId << "><" << glycan.first
-                    << "> from assembly <" << _descriptor.name << ">"
+        PLUGIN_INFO << "Removing glycan [" << modelId << "] [" << glycan.first
+                    << "] from assembly [" << _descriptor.name << "]"
                     << std::endl;
         _scene.removeModel(modelId);
     }
@@ -331,7 +331,6 @@ void Protein::_getSitesTransformations(
             const auto bindOrientation = normalize(siteCenter - proteinCenter);
             positions.push_back(siteCenter);
             rotations.push_back(glm::quatLookAt(bindOrientation, UP_VECTOR));
-#else
 #endif
         }
     }
@@ -434,6 +433,11 @@ void Protein::_processInstances(ModelDescriptorPtr md,
 
 void Protein::addGlycans(const SugarsDescriptor& sd)
 {
+    if (_glycans.find(sd.name) != _glycans.end())
+        PLUGIN_THROW(std::runtime_error(
+            "A glycan named " + sd.name + " already exists in protein " +
+            _descriptor.name + " of assembly " + _descriptor.assemblyName));
+
     Vector3fs glycanPositions;
     Quaternions glycanOrientations;
     getGlycosilationSites(glycanPositions, glycanOrientations, sd.siteIndices);
@@ -458,6 +462,11 @@ void Protein::addGlycans(const SugarsDescriptor& sd)
 
 void Protein::addSugars(const SugarsDescriptor& sd)
 {
+    if (_glycans.find(sd.name) != _glycans.end())
+        PLUGIN_THROW(std::runtime_error(
+            "A sugar named " + sd.name + " already exists in protein " +
+            _descriptor.name + " of assembly " + _descriptor.assemblyName));
+
     Vector3fs positions;
     Quaternions orientations;
     getSugarBindingSites(positions, orientations, sd.siteIndices, sd.chainIds);
