@@ -158,10 +158,11 @@ def test_virus():
 
         # High-mannose glycans on Protein M
         indices = [5]
+        protein_name = name + '_' + bio_explorer.NAME_PROTEIN_M
         high_mannose_glycans = Sugars(
             orientation=Quaternion(0.707, 0.0, 0.0, 0.707),
-            assembly_name=name, name=bio_explorer.NAME_GLYCAN_HIGH_MANNOSE,
-            protein_name=name + '_' + bio_explorer.NAME_PROTEIN_M, source=high_mannose_paths[0],
+            assembly_name=name, name=protein_name + '_' + bio_explorer.NAME_GLYCAN_HIGH_MANNOSE,
+            protein_name=protein_name, source=high_mannose_paths[0],
             site_indices=indices,
             representation=protein_representation
         )
@@ -169,10 +170,11 @@ def test_virus():
 
         # Complex glycans on Protein E
         indices = [48, 66]
+        protein_name = name + '_' + bio_explorer.NAME_PROTEIN_E
         complex_glycans = Sugars(
             orientation=Quaternion(0.707, 0.0, 0.0, 0.707),
-            assembly_name=name, name=bio_explorer.NAME_GLYCAN_COMPLEX,
-            protein_name=name + '_' + bio_explorer.NAME_PROTEIN_E, source=complex_paths[0],
+            assembly_name=name, name=protein_name + '_' + bio_explorer.NAME_GLYCAN_COMPLEX,
+            protein_name=protein_name, source=complex_paths[0],
             site_indices=indices,
             representation=protein_representation
         )

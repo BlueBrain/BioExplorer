@@ -51,8 +51,8 @@ SugarsDescriptor getDescriptor()
     SugarsDescriptor descriptor;
     descriptor.assemblyName = "test";
     descriptor.name = "test";
-    descriptor.contents =
-        getFileContents("./python/tests/test_files/pdb/glycans/complex/1.pdb");
+    descriptor.contents = getFileContents(
+        "./bioexplorer/pythonsdk/tests/test_files/pdb/glycans/complex/1.pdb");
     descriptor.proteinName;
     descriptor.atomRadiusMultiplier;
     descriptor.loadBonds = true;

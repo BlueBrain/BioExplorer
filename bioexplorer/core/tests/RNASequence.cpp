@@ -52,8 +52,8 @@ RNASequenceDescriptor getDescriptor()
 
     descriptor.assemblyName = "test";
     descriptor.name = "test";
-    descriptor.contents =
-        getFileContents("./python/tests/test_files/rna/sars-cov-2.rna");
+    descriptor.contents = getFileContents(
+        "./bioexplorer/pythonsdk/tests/test_files/rna/sars-cov-2.rna");
     descriptor.shape = RNAShape::trefoilKnot;
     descriptor.assemblyParams = {11.f, 0.5f};
     descriptor.range = {0.f, 30.5f * M_PI};

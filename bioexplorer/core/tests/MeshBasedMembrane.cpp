@@ -49,24 +49,24 @@ std::string getFileContents(const std::string& filename)
 
 MeshBasedMembraneDescriptor getDescriptor()
 {
+    const std::string folder = "./bioexplorer/pythonsdk/tests/test_files/";
     MeshBasedMembraneDescriptor descriptor;
 
     descriptor.assemblyName = "test";
     descriptor.name = "test";
-    descriptor.meshContents =
-        getFileContents("./python/tests/test_files/obj/capsule.obj");
+    descriptor.meshContents = getFileContents(folder + "obj/suzanne.obj");
     descriptor.proteinContents =
-        getFileContents("./python/tests/test_files/pdb/membrane/popc.pdb");
+        getFileContents(folder + "pdb/membrane/popc.pdb");
     descriptor.recenter = true;
-    descriptor.density = 100;
+    descriptor.density = 0.1;
     descriptor.surfaceFixedOffset = 0.f;
     descriptor.surfaceVariableOffset = 0.f;
     descriptor.atomRadiusMultiplier = 1.f;
     descriptor.representation = ProteinRepresentation::atoms;
     descriptor.randomSeed = 0;
     descriptor.position = {0.f, 0.f, 0.f};
-    descriptor.orientation = {0.f, 0.f, 0.f, 1.f};
-    descriptor.scale = {0.f, 0.f, 0.f};
+    descriptor.orientation = {1.f, 0.f, 0.f, 0.f};
+    descriptor.scale = {1.f, 1.f, 1.f};
     return descriptor;
 }
 
