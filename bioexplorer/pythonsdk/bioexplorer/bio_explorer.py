@@ -1924,7 +1924,7 @@ class MeshBasedMembrane:
             representation=BioExplorer.REPRESENTATION_ATOMS, random_seed=0, recenter=True,
             position=Vector3(), orientation=Quaternion(), scale=Vector3()):
         """
-        MeshBasedMembrane descriptor
+        Mesh-based membrane descriptor
 
         :mesh_source: Full path to the OBJ file
         :protein_source: Full path to the PDB file

@@ -51,8 +51,8 @@ ProteinDescriptor getProteinDescriptor()
     ProteinDescriptor descriptor;
     descriptor.assemblyName = "test";
     descriptor.name = "test";
-    descriptor.contents =
-        getFileContents("./python/tests/test_files/pdb/6m1d.pdb");
+    descriptor.contents = getFileContents(
+        "./bioexplorer/pythonsdk/tests/test_files/pdb/6m1d.pdb");
     descriptor.shape = AssemblyShape::spherical;
     descriptor.assemblyParams = {0.f, 0.f};
     descriptor.atomRadiusMultiplier = 1.f;

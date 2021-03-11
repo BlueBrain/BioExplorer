@@ -24,6 +24,5 @@
 from bioexplorer import BioExplorer
 
 be = BioExplorer('localhost:5000')
-print('BioExplorer version ' + be.version())
 
 be.add_coronavirus(name='Coronavirus', resource_folder='tests/test_files/', add_glycans=True)
