@@ -694,7 +694,7 @@ class BioExplorer:
 
     def add_surfactant(
             self, surfactant, atom_radius_multiplier=1.0, representation=REPRESENTATION_ATOMS,
-            position=Vector3(), random_seed=0):
+            position=Vector3(), orientation=Quaternion(), random_seed=0):
         """
         Add a surfactant assembly to the scene
 
@@ -702,6 +702,7 @@ class BioExplorer:
         :atom_radius_multiplier: Representation of the protein (Atoms, atoms and sticks, etc)
         :representation: Multiplies atom radius by the specified value
         :position: Position of the volume in the scene
+        :orientation: Orientation of the cell in the scene
         :random_seed: Random seed used to define the shape of the branches
         """
         assert isinstance(surfactant, Surfactant)
@@ -749,7 +750,7 @@ class BioExplorer:
 
         self.remove_assembly(surfactant.name)
         self.add_assembly(
-            name=surfactant.name, position=position)
+            name=surfactant.name, position=position, orientation=orientation)
 
         for collagen in collagens:
             self.add_assembly_protein(collagen)
