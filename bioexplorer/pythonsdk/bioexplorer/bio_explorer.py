@@ -349,7 +349,7 @@ class BioExplorer:
             self, name, resource_folder, radius=45.0, nb_protein_s=62, nb_protein_m=50,
             nb_protein_e=42, open_protein_s_indices=list([1]), atom_radius_multiplier=1.0,
             add_glycans=False, representation=REPRESENTATION_ATOMS, clipping_planes=None,
-            position=Vector3(), orientation=Quaternion()):
+            position=Vector3(), orientation=Quaternion(), apply_colors=False):
         """
         Add a virus with the default coronavirus parameters
 
@@ -367,6 +367,7 @@ class BioExplorer:
         :clipping_planes: List of clipping planes to apply to the virus assembly
         :position: Position of the virus in the scene
         :orientation: Orientation of the coronavirus in the scene
+        :apply_colors: Applies default colors to the virus
         """
         pdb_folder = resource_folder + 'pdb/'
         rna_folder = resource_folder + 'rna/'
@@ -496,8 +497,9 @@ class BioExplorer:
             )
             self.add_glycans(complex_glycans)
 
-        # Apply default materials
-        self.apply_default_color_scheme(shading_mode=self.SHADING_MODE_BASIC)
+        if apply_colors:
+            # Apply default materials
+            self.apply_default_color_scheme(shading_mode=self.SHADING_MODE_BASIC)
 
     def add_virus(
             self, virus, atom_radius_multiplier=1.0, representation=REPRESENTATION_ATOMS,
@@ -1602,6 +1604,34 @@ class BioExplorer:
         params['position'] = position.to_list()
         return self._client.rockets_client.request(self.PLUGIN_API_PREFIX + 'add-grid', params)
 
+    def set_general_settings(self, model_visibility_on_creation, off_folder):
+        """
+        Set general settings for the plugin
+
+        :model_visibility_on_creation: Visibility of the model on creation
+        :off_folder: Folder where off files aer stored (to avoid recomputation of molecular surface)
+        :return: Result of the request submission
+        """
+        params = dict()
+        params['offFolder'] = off_folder
+        params['modelVisibilityOnCreation'] = model_visibility_on_creation
+        response = self._client.rockets_client.request(
+            self.PLUGIN_API_PREFIX + 'set-general-settings', params)
+        return response
+
+    def set_models_visibility(self, visible):
+        """
+        Set the visibility of all models in the scene
+
+        :visible: Visibility of the models
+        :return: Result of the request submission
+        """
+        params = dict()
+        params['visible'] = visible
+        response = self._client.rockets_client.request(
+            self.PLUGIN_API_PREFIX + 'set-models-visibility', params)
+        self._client.set_renderer(accumulation=True)
+        return response
 
 # Internal classes
 

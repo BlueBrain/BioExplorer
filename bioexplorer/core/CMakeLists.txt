@@ -44,6 +44,7 @@ set(${NAME}_SOURCES
     module/ispc/render/AdvancedMaterial.cpp
     module/ispc/render/AdvancedRenderer.cpp
     module/ispc/render/FieldsRenderer.cpp
+    plugin/common/GeneralSettings.cpp
     plugin/common/Utils.cpp
     plugin/fields/FieldsHandler.cpp
     plugin/fields/Octree.cpp
@@ -76,6 +77,7 @@ set(${NAME}_PUBLIC_HEADERS
     plugin/bioexplorer/Membrane.h
     plugin/bioexplorer/Protein.h
     plugin/bioexplorer/RNASequence.h
+    plugin/common/GeneralSettings.h
     plugin/common/CommonTypes.h
     plugin/meshing/MetaballsGenerator.h
     plugin/meshing/PointCloudMesher.h

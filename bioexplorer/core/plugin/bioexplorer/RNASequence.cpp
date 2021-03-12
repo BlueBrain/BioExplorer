@@ -21,6 +21,7 @@
 #include "RNASequence.h"
 
 #include <plugin/common/CommonTypes.h>
+#include <plugin/common/GeneralSettings.h>
 #include <plugin/common/Logs.h>
 #include <plugin/common/Utils.h>
 
@@ -194,6 +195,9 @@ RNASequence::RNASequence(Scene& scene, const RNASequenceDescriptor& rd)
     metadata["RNA sequence"] = sequence;
     _modelDescriptor =
         std::make_shared<ModelDescriptor>(std::move(model), rd.name, metadata);
+    if (_modelDescriptor &&
+        !GeneralSettings::getInstance()->getModelVisibilityOnCreation())
+        _modelDescriptor->setVisible(false);
 }
 
 Vector3f RNASequence::_trefoilKnot(const float radius, const float t,

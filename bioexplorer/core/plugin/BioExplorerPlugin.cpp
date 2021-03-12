@@ -22,6 +22,7 @@
 
 #include <plugin/bioexplorer/Assembly.h>
 #include <plugin/common/CommonTypes.h>
+#include <plugin/common/GeneralSettings.h>
 #include <plugin/common/Logs.h>
 #include <plugin/common/Utils.h>
 #include <plugin/io/CacheLoader.h>
@@ -140,6 +141,13 @@ void BioExplorerPlugin::init()
         actionInterface->registerRequest<Response>(entryPoint, [&]() {
             return _version();
         });
+
+        entryPoint = PLUGIN_API_PREFIX + "set-general-settings";
+        PLUGIN_INFO << "Registering '" + entryPoint + "' endpoint" << std::endl;
+        actionInterface->registerRequest<GeneralSettingsDescriptor, Response>(
+            entryPoint, [&](const GeneralSettingsDescriptor &payload) {
+                return _setGeneralSettings(payload);
+            });
 
         entryPoint = PLUGIN_API_PREFIX + "remove-assembly";
         PLUGIN_INFO << "Registering '" + entryPoint + "' endpoint" << std::endl;
@@ -291,6 +299,12 @@ void BioExplorerPlugin::init()
         actionInterface->registerRequest<BuildPointCloud, Response>(
             entryPoint,
             [&](const BuildPointCloud &s) { return _buildPointCloud(s); });
+
+        entryPoint = PLUGIN_API_PREFIX + "set-models-visibility";
+        PLUGIN_INFO << "Registering '" + entryPoint + "' endpoint" << std::endl;
+        actionInterface->registerRequest<ModelsVisibility, Response>(
+            entryPoint,
+            [&](const ModelsVisibility &s) { return _setModelsVisibility(s); });
     }
 
     auto &engine = _api->getEngine();
@@ -303,6 +317,22 @@ Response BioExplorerPlugin::_version() const
 {
     Response response;
     response.contents = BIOEXPLORER_VERSION;
+    return response;
+}
+
+Response BioExplorerPlugin::_setGeneralSettings(
+    const GeneralSettingsDescriptor &payload)
+{
+    Response response;
+    try
+    {
+        PLUGIN_INFO << "Setting general options for the plugin" << std::endl;
+        GeneralSettings::getInstance()->setOffFolder(payload.offFolder);
+        GeneralSettings::getInstance()->setModelVisibilityOnCreation(
+            payload.modelVisibilityOnCreation);
+        response.contents = "OK";
+    }
+    CATCH_STD_EXCEPTION()
     return response;
 }
 
@@ -1030,6 +1060,25 @@ Response BioExplorerPlugin::_buildPointCloud(const BuildPointCloud &payload)
         auto md =
             std::make_shared<ModelDescriptor>(std::move(model), "Point cloud");
         scene.addModel(md);
+    }
+    CATCH_STD_EXCEPTION()
+    return response;
+}
+
+Response BioExplorerPlugin::_setModelsVisibility(
+    const ModelsVisibility &payload)
+{
+    Response response;
+    try
+    {
+        PLUGIN_INFO << "Setting all models visibility to "
+                    << (payload.visible ? "On" : "Off") << std::endl;
+        auto &scene = _api->getScene();
+        auto &modelDescriptors = scene.getModelDescriptors();
+        for (auto modelDescriptor : modelDescriptors)
+            modelDescriptor->setVisible(payload.visible);
+        scene.markModified();
+        response.contents = "OK";
     }
     CATCH_STD_EXCEPTION()
     return response;

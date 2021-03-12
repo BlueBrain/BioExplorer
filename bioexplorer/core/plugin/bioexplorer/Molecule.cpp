@@ -21,6 +21,7 @@
 #include "Molecule.h"
 
 #include <plugin/common/CommonTypes.h>
+#include <plugin/common/GeneralSettings.h>
 #include <plugin/common/Logs.h>
 #include <plugin/common/Utils.h>
 
@@ -464,6 +465,10 @@ void Molecule::_buildModel(const std::string& assemblyName,
                 << std::endl;
     PLUGIN_INFO << "Number of atoms       : " << _atomMap.size() << std::endl;
     PLUGIN_INFO << "Number of bonds       : " << _bondsMap.size() << std::endl;
+
+    if (_modelDescriptor &&
+        !GeneralSettings::getInstance()->getModelVisibilityOnCreation())
+        _modelDescriptor->setVisible(false);
 }
 
 void Molecule::_readAtom(const std::string& line, const bool loadHydrogen)
