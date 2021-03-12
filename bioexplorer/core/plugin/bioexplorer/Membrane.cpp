@@ -219,6 +219,17 @@ void Membrane::_processInstances()
                               dir);
             break;
         }
+        case AssemblyShape::spherical_to_planar:
+        {
+            getSphericalToPlanarPosition(rnd, _descriptor.assemblyParams[0],
+                                         _descriptor.assemblyParams[1],
+                                         _descriptor.positionRandomizationType,
+                                         _descriptor.randomSeed, i,
+                                         _descriptor.occurrences, {0, 0, 0},
+                                         _descriptor.assemblyParams[2], pos,
+                                         dir);
+            break;
+        }
         default:
             const auto assemblySize = _descriptor.assemblyParams[0];
             getPlanarPosition(assemblySize,

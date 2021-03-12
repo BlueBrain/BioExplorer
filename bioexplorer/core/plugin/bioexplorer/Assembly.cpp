@@ -257,6 +257,14 @@ void Assembly::_processInstances(
                               float(i) / float(occurrences), pos, dir);
             break;
         }
+        case AssemblyShape::spherical_to_planar:
+        {
+            getSphericalToPlanarPosition(rnd, assemblyParams[0],
+                                         assemblyParams[1], randomizationType,
+                                         randomSeed, i, occurrences, {0, 0, 0},
+                                         assemblyParams[2], pos, dir);
+            break;
+        }
         default:
             const auto assemblySize = assemblyParams[0];
             getPlanarPosition(assemblySize, randomizationType, randomSeed,

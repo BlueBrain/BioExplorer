@@ -150,6 +150,12 @@ void getFanPosition(const size_t rnd, const float assemblyRadius,
 void getBezierPosition(const Vector3fs& points, const float assemblyRadius,
                        const float t, Vector3f& pos, Vector3f& dir);
 
+void getSphericalToPlanarPosition(
+    const size_t rnd, const float assemblyRadius, const float height,
+    const PositionRandomizationType randomizationType, const size_t randomSeed,
+    const size_t occurence, const size_t occurences, const Vector3f& position,
+    const float morphingStep, Vector3f& pos, Vector3f& dir);
+
 void setTransferFunction(brayns::TransferFunction& tf);
 
 Vector4fs getClippingPlanes(const Scene& scene);
