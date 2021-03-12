@@ -31,6 +31,9 @@ struct Response
 };
 std::string to_json(const Response &param);
 
+// Settings
+bool from_json(GeneralSettingsDescriptor &param, const std::string &payload);
+
 // Biological elements
 bool from_json(AssemblyDescriptor &param, const std::string &payload);
 std::string to_json(const AssemblyDescriptor &payload);
@@ -76,5 +79,8 @@ bool from_json(ModelIdFileAccess &param, const std::string &payload);
 
 // Point cloud
 bool from_json(BuildPointCloud &param, const std::string &payload);
+
+// Models
+bool from_json(ModelsVisibility &param, const std::string &payload);
 
 } // namespace bioexplorer

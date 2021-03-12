@@ -21,6 +21,7 @@
 #include "SurfaceMesher.h"
 
 #include <plugin/common/CommonTypes.h>
+#include <plugin/common/GeneralSettings.h>
 #include <plugin/common/Logs.h>
 
 #include <brayns/engineapi/Material.h>
@@ -74,7 +75,8 @@ ModelDescriptorPtr SurfaceMesher::generateSurface(brayns::Scene& scene,
     ModelDescriptorPtr modelDescriptor{nullptr};
     MeshLoader meshLoader(scene);
     const std::string filename =
-        "/tmp/" + title.substr(title.find("_") + 1) + ".off";
+        GeneralSettings::getInstance()->getOffFolder() +
+        title.substr(title.find("_") + 1) + ".off";
     try
     {
         PLUGIN_INFO << "Trying to load surface from cache " << filename
@@ -124,7 +126,8 @@ ModelDescriptorPtr SurfaceMesher::generateUnionOfBalls(brayns::Scene& scene,
     ModelDescriptorPtr modelDescriptor{nullptr};
     MeshLoader meshLoader(scene);
     const std::string filename =
-        "/tmp/" + title.substr(title.find("_") + 1) + ".off";
+        GeneralSettings::getInstance()->getOffFolder() +
+        title.substr(title.find("_") + 1) + ".off";
     try
     {
         PLUGIN_INFO << "Trying to load union of balls from cache " << filename

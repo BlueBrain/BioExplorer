@@ -58,6 +58,21 @@ std::string to_json(const Response &param)
     return "";
 }
 
+bool from_json(GeneralSettingsDescriptor &param, const std::string &payload)
+{
+    try
+    {
+        auto js = nlohmann::json::parse(payload);
+        FROM_JSON(param, js, offFolder);
+        FROM_JSON(param, js, modelVisibilityOnCreation);
+    }
+    catch (...)
+    {
+        return false;
+    }
+    return true;
+}
+
 bool from_json(AssemblyDescriptor &param, const std::string &payload)
 {
     try
@@ -494,6 +509,20 @@ bool from_json(BuildPointCloud &param, const std::string &payload)
     {
         auto js = nlohmann::json::parse(payload);
         FROM_JSON(param, js, radius);
+    }
+    catch (...)
+    {
+        return false;
+    }
+    return true;
+}
+
+bool from_json(ModelsVisibility &param, const std::string &payload)
+{
+    try
+    {
+        auto js = nlohmann::json::parse(payload);
+        FROM_JSON(param, js, visible);
     }
     catch (...)
     {

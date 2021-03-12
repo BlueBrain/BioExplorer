@@ -55,6 +55,16 @@ typedef std::vector<Vector2ui> Vector2uis;
 typedef std::vector<std::pair<Vector3f, float>> OccupiedDirections;
 
 /**
+ * @brief Structure defining the plugin general settings
+ *
+ */
+typedef struct
+{
+    bool modelVisibilityOnCreation;
+    std::string offFolder;
+} GeneralSettingsDescriptor;
+
+/**
  * @brief Model position randomization types
  *
  */
@@ -684,7 +694,7 @@ typedef struct
 } ModelId;
 
 /**
- * @brief Strucuture containing attributes of materials attached to one or
+ * @brief Structure containing attributes of materials attached to one or
  several Brayns models
  */
 typedef struct
@@ -765,7 +775,7 @@ enum class XYZFileFormat
 };
 
 /**
- * @brief Strucuture defining how to export data into a file
+ * @brief Structure defining how to export data into a file
  *
  */
 struct FileAccess
@@ -775,12 +785,21 @@ struct FileAccess
 };
 
 /**
- * @brief Strucuture defining how to build a point cloud from the scene
+ * @brief Structure defining how to build a point cloud from the scene
  *
  */
 struct BuildPointCloud
 {
     float radius;
+};
+
+/**
+ * @brief Structure defining how visible models are in the scene
+ *
+ */
+struct ModelsVisibility
+{
+    bool visible;
 };
 
 } // namespace bioexplorer

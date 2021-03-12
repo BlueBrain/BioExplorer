@@ -47,8 +47,9 @@ public:
     void init() final;
 
 private:
-    // Info
+    // Info and settings
     Response _version() const;
+    Response _setGeneralSettings(const GeneralSettingsDescriptor &payload);
 
     // IO
     Response _exportToCache(const FileAccess &payload);
@@ -90,6 +91,9 @@ private:
     Response _buildFields(const BuildFields &payload);
     Response _exportFieldsToFile(const ModelIdFileAccess &payload);
     Response _importFieldsFromFile(const FileAccess &payload);
+
+    // Models
+    Response _setModelsVisibility(const ModelsVisibility &payload);
 
     // Attributes
     AssemblyMap _assemblies;
