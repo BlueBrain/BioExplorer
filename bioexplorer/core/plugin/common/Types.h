@@ -173,7 +173,9 @@ enum class AssemblyShape
     /** Fan */
     fan = 4,
     /** Bezier (experimental) */
-    bezier = 5
+    bezier = 5,
+    /** Sphere to plane */
+    spherical_to_planar = 6
 };
 
 /**

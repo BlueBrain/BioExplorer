@@ -198,6 +198,56 @@ void getBezierPosition(const Vector3fs& points, const float assemblyRadius,
     pos = bezierPoints[0];
 }
 
+void getSphericalToPlanarPosition(
+    const size_t rnd, const float assemblyRadius, const float height,
+    const PositionRandomizationType randomizationType, const size_t randomSeed,
+    const size_t occurence, const size_t occurences, const Vector3f& position,
+    const float morphingStep, Vector3f& pos, Vector3f& dir)
+{
+    Vector3f startPos;
+    Vector3f startDir;
+    getSphericalPosition(rnd, assemblyRadius, height, randomizationType,
+                         randomSeed, occurence, occurences, {0, 0, 0}, startPos,
+                         startDir);
+    Vector3f endPos;
+    Vector3f endDir;
+    // getPlanarPosition(assemblyRadius * 3.f, randomizationType, randomSeed,
+    //   {0, -assemblyRadius, 0}, endPos, endDir);
+
+    // getSinosoidalPosition(assemblyRadius * 3.f, height, randomizationType,
+    //                       randomSeed, {0, -assemblyRadius * 1.5, 0}, endPos,
+    //                       endDir);
+
+    // const auto a = 10.f * assemblyRadius * morphingStep;
+    // getSphericalPosition(rnd, assemblyRadius, height, randomizationType,
+    //                      randomSeed, occurence, occurences, {0.f, -a, 0.f},
+    //                      endPos, endDir);
+
+    // const auto smallRadius = assemblyRadius / 2.f;
+    endPos = startPos;
+    endPos.z = -assemblyRadius;
+    endPos = endPos +
+             (1.f - (startPos.z + assemblyRadius) / (assemblyRadius * 2.f)) *
+                 Vector3f(assemblyRadius * 2.f, assemblyRadius * 2.f, 0.f) *
+                 normalize(Vector3f(startDir.x, startDir.y, 0.f));
+
+    // endPos = {startPos.x, startPos.y, -assemblyRadius};
+    endDir = {0.f, 0.f, 1.f};
+
+    // const Vector3f p = endPos - startPos;
+    // const Vector3f d = endDir - startDir;
+
+    // const auto r = morphingStep * morphingStep;
+    // pos = startPos + p * r;
+    // dir = startDir + d * r;
+
+    pos = (endPos * morphingStep + startPos * (1.f - morphingStep));
+    // dir = (endDir * morphingStep + startDir * (1.f - morphingStep));
+    // pos = (endPos + startPos) / 2.f;
+    // pos = endPos;
+    dir = startDir;
+}
+
 void setTransferFunction(brayns::TransferFunction& tf)
 {
     tf.setControlPoints({{0.0, 0.0}, {0.1, 1.0}, {1.0, 1.0}});
