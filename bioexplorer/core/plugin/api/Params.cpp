@@ -65,6 +65,7 @@ bool from_json(GeneralSettingsDescriptor &param, const std::string &payload)
         auto js = nlohmann::json::parse(payload);
         FROM_JSON(param, js, offFolder);
         FROM_JSON(param, js, modelVisibilityOnCreation);
+        FROM_JSON(param, js, clippingPlanes);
     }
     catch (...)
     {
@@ -523,6 +524,25 @@ bool from_json(ModelsVisibility &param, const std::string &payload)
     {
         auto js = nlohmann::json::parse(payload);
         FROM_JSON(param, js, visible);
+    }
+    catch (...)
+    {
+        return false;
+    }
+    return true;
+}
+
+bool from_json(OutOfCoreDescriptor &param, const std::string &payload)
+{
+    try
+    {
+        auto js = nlohmann::json::parse(payload);
+        FROM_JSON(param, js, enabled);
+        FROM_JSON(param, js, bricksFolder);
+        FROM_JSON(param, js, sceneSize);
+        FROM_JSON(param, js, nbBricks);
+        FROM_JSON(param, js, visibleBricks);
+        FROM_JSON(param, js, updateFrequency);
     }
     catch (...)
     {

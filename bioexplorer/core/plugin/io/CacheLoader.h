@@ -43,7 +43,8 @@ public:
      * @param scene Scene to which the file contents should be loaded
      * @param loaderParams Loader parameters
      */
-    CacheLoader(Scene& scene, PropertyMap&& loaderParams = {});
+    CacheLoader(Scene& scene, const int32_t boxId,
+                PropertyMap&& loaderParams = {});
 
     /**
      * @brief Get the name of the loader
@@ -111,6 +112,19 @@ public:
         const PropertyMap& properties) const final;
 
     /**
+     * @brief
+     *
+     * @param filename
+     * @param callback
+     * @param properties
+     * @return std::vector<ModelDescriptorPtr>
+     */
+    std::vector<ModelDescriptorPtr> importModelsFromFile(
+        const std::string& filename,
+        const LoaderProgress& callback = LoaderProgress(),
+        const PropertyMap& properties = PropertyMap()) const;
+
+    /**
      * @brief Exports an optimized binary representation the 3D scene to a file
      *
      * @param filename Full path of the file
@@ -128,10 +142,11 @@ public:
 
 private:
     std::string _readString(std::ifstream& f) const;
-    void _importModel(std::ifstream& file) const;
-    void _exportModel(const ModelDescriptorPtr modelDescriptor,
+    ModelDescriptorPtr _importModel(std::ifstream& file) const;
+    bool _exportModel(const ModelDescriptorPtr modelDescriptor,
                       std::ofstream& file) const;
 
     PropertyMap _defaults;
+    int32_t _boxId{std::numeric_limits<int32_t>::max()};
 };
 } // namespace bioexplorer

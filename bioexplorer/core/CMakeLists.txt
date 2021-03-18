@@ -50,6 +50,7 @@ set(${NAME}_SOURCES
     plugin/fields/Octree.cpp
     plugin/fields/OctreeNode.cpp
     plugin/io/CacheLoader.cpp
+    plugin/io/OOCManager.cpp
     plugin/bioexplorer/UniqueId.cpp
     plugin/bioexplorer/Molecule.cpp
     plugin/bioexplorer/Assembly.cpp
@@ -67,6 +68,7 @@ set(${NAME}_SOURCES
 )
 
 set(${NAME}_PUBLIC_HEADERS
+    plugin/io/OOCManager.h
     plugin/io/CacheLoader.h
     plugin/bioexplorer/UniqueId.h
     plugin/bioexplorer/Molecule.h

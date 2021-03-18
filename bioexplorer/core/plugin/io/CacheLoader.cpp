@@ -26,6 +26,7 @@
 #include <plugin/bioexplorer/Assembly.h>
 #include <plugin/bioexplorer/Protein.h>
 #include <plugin/common/CommonTypes.h>
+#include <plugin/common/GeneralSettings.h>
 #include <plugin/common/Utils.h>
 
 #include <brayns/common/scene/ClipPlane.h>
@@ -44,11 +45,12 @@ const std::string SUPPORTED_EXTENTION_BIOEXPLORER = "bioexplorer";
 
 const size_t CACHE_VERSION_1 = 1;
 
-CacheLoader::CacheLoader(Scene& scene, PropertyMap&& loaderParams)
+CacheLoader::CacheLoader(Scene& scene, const int32_t boxId,
+                         PropertyMap&& loaderParams)
     : Loader(scene)
     , _defaults(loaderParams)
+    , _boxId(boxId)
 {
-    PLUGIN_INFO << "Registering " << LOADER_NAME << std::endl;
 }
 
 std::string CacheLoader::getName() const
@@ -76,7 +78,7 @@ ModelDescriptorPtr CacheLoader::importFromBlob(
         "Loading molecular systems from blob is not supported");
 }
 
-void CacheLoader::_importModel(std::ifstream& file) const
+ModelDescriptorPtr CacheLoader::_importModel(std::ifstream& file) const
 {
     auto model = _scene.createModel();
 
@@ -102,6 +104,12 @@ void CacheLoader::_importModel(std::ifstream& file) const
     file.read((char*)&nbElements, sizeof(size_t));
     for (size_t i = 0; i < nbElements; ++i)
         metadata[_readString(file)] = _readString(file);
+
+    if (_boxId != std::numeric_limits<int32_t>::max())
+    {
+        metadata.clear();
+        metadata["boxid"] = std::to_string(_boxId);
+    }
 
     // Instances
     std::vector<Transformation> transformations;
@@ -332,37 +340,42 @@ void CacheLoader::_importModel(std::ifstream& file) const
         file.read((char*)sdfData.neighboursFlat.data(), bufferSize);
     }
 
-    auto modelDescriptor =
-        std::make_shared<ModelDescriptor>(std::move(model), name, path,
-                                          metadata);
-
-    bool first{true};
-    for (const auto& tf : transformations)
+    if (!transformations.empty())
     {
-        if (first)
+        auto modelDescriptor =
+            std::make_shared<ModelDescriptor>(std::move(model), name, path,
+                                              metadata);
+
+        bool first{true};
+        for (const auto& tf : transformations)
         {
-            modelDescriptor->setTransformation(tf);
-            first = false;
+            if (first)
+            {
+                modelDescriptor->setTransformation(tf);
+                first = false;
+            }
+
+            const ModelInstance instance(true, false, tf);
+            modelDescriptor->addInstance(instance);
         }
 
-        const ModelInstance instance(true, false, tf);
-        modelDescriptor->addInstance(instance);
+        modelDescriptor->setVisible(
+            GeneralSettings::getInstance()->getModelVisibilityOnCreation());
+        return modelDescriptor;
     }
-
-    _scene.addModel(modelDescriptor);
+    return nullptr;
 }
 
-ModelDescriptorPtr CacheLoader::importFromFile(
+std::vector<ModelDescriptorPtr> CacheLoader::importModelsFromFile(
     const std::string& filename, const LoaderProgress& callback,
     const PropertyMap& properties) const
 {
-    auto model = _scene.createModel();
-
+    std::vector<ModelDescriptorPtr> modelDescriptors;
     PropertyMap props = _defaults;
     props.merge(properties);
 
     callback.updateProgress("Loading BioExplorer scene...", 0);
-    PLUGIN_INFO << "Loading models from cache file: " << filename << std::endl;
+    PLUGIN_DEBUG << "Loading models from cache file: " << filename << std::endl;
     std::ifstream file(filename, std::ios::in | std::ios::binary);
     if (!file.good())
     {
@@ -373,19 +386,35 @@ ModelDescriptorPtr CacheLoader::importFromFile(
     // File version
     size_t version;
     file.read((char*)&version, sizeof(size_t));
-    PLUGIN_INFO << "Version: " << version << std::endl;
+    PLUGIN_DEBUG << "Version: " << version << std::endl;
 
     // Models
     size_t nbModels;
     file.read((char*)&nbModels, sizeof(size_t));
+    PLUGIN_DEBUG << "Models : " << nbModels << std::endl;
     for (size_t i = 0; i < nbModels; ++i)
     {
-        _importModel(file);
+        auto modelDescriptor = _importModel(file);
+        if (modelDescriptor)
+            modelDescriptors.push_back(modelDescriptor);
+
         callback.updateProgress("Loading models", float(i) / float(nbModels));
     }
 
     file.close();
-    return _scene.getModelDescriptors()[0];
+    return modelDescriptors;
+}
+
+ModelDescriptorPtr CacheLoader::importFromFile(
+    const std::string& filename, const LoaderProgress& callback,
+    const PropertyMap& properties) const
+{
+    const auto modelDescriptors =
+        importModelsFromFile(filename, callback, properties);
+    for (const auto modelDescriptor : modelDescriptors)
+        _scene.addModel(modelDescriptor);
+
+    return (!modelDescriptors.empty() ? modelDescriptors[0] : nullptr);
 }
 
 std::string CacheLoader::_readString(std::ifstream& f) const
@@ -400,11 +429,39 @@ std::string CacheLoader::_readString(std::ifstream& f) const
     return s;
 }
 
-void CacheLoader::_exportModel(const ModelDescriptorPtr modelDescriptor,
+bool CacheLoader::_exportModel(const ModelDescriptorPtr modelDescriptor,
                                std::ofstream& file) const
 {
     uint64_t bufferSize{0};
     const auto& model = modelDescriptor->getModel();
+
+    // Instances
+    std::vector<Transformation> transformations;
+    const auto& instances = modelDescriptor->getInstances();
+    const auto& clippingPlanes =
+        GeneralSettings::getInstance()->getClippingPlanes();
+    bool first{true};
+    for (const auto& instance : instances)
+    {
+        if (first)
+        {
+            first = false;
+            const auto& tf = modelDescriptor->getTransformation();
+            if (isClipped(tf.getTranslation(), clippingPlanes))
+                continue;
+            transformations.push_back(tf);
+        }
+        else
+        {
+            const auto& tf = instance.getTransformation();
+            if (isClipped(tf.getTranslation(), clippingPlanes))
+                continue;
+            transformations.push_back(tf);
+        }
+    }
+
+    if (transformations.empty())
+        return false;
 
     // Name
     const auto& name = modelDescriptor->getName();
@@ -433,36 +490,17 @@ void CacheLoader::_exportModel(const ModelDescriptorPtr modelDescriptor,
     }
 
     // Instances
-    const auto& instances = modelDescriptor->getInstances();
-    nbElements = instances.size();
+    nbElements = transformations.size();
     file.write((char*)&nbElements, sizeof(size_t));
-    bool first{true};
-    for (const auto& instance : instances)
+    for (const auto& tf : transformations)
     {
-        brayns::Vector3d t;
-        brayns::Vector3d rc;
-        brayns::Vector3d s;
-        brayns::Quaterniond q;
-        if (first)
-        {
-            const auto& tf = modelDescriptor->getTransformation();
-            t = tf.getTranslation();
-            rc = tf.getRotationCenter();
-            q = tf.getRotation();
-            s = tf.getScale();
-            first = false;
-        }
-        else
-        {
-            const auto& tf = instance.getTransformation();
-            t = tf.getTranslation();
-            rc = tf.getRotationCenter();
-            q = tf.getRotation();
-            s = tf.getScale();
-        }
+        const auto& t = tf.getTranslation();
         file.write((char*)&t, sizeof(brayns::Vector3d));
+        const auto& rc = tf.getRotationCenter();
         file.write((char*)&rc, sizeof(brayns::Vector3d));
+        const auto& q = tf.getRotation();
         file.write((char*)&q, sizeof(brayns::Quaterniond));
+        const auto& s = tf.getScale();
         file.write((char*)&s, sizeof(brayns::Vector3d));
     }
 
@@ -696,12 +734,13 @@ void CacheLoader::_exportModel(const ModelDescriptorPtr modelDescriptor,
         bufferSize = nbElements * sizeof(uint64_t);
         file.write((char*)sdfData.neighboursFlat.data(), bufferSize);
     }
+    return true;
 }
 
 void CacheLoader::exportToCache(const std::string& filename) const
 {
-    PLUGIN_INFO << "Saving scene to BioExplorer file: " << filename
-                << std::endl;
+    PLUGIN_DEBUG << "Saving scene to BioExplorer file: " << filename
+                 << std::endl;
     std::ofstream file(filename, std::ios::out | std::ios::binary);
     if (!file.good())
     {
@@ -713,11 +752,15 @@ void CacheLoader::exportToCache(const std::string& filename) const
     file.write((char*)&version, sizeof(size_t));
 
     const auto& modelDescriptors = _scene.getModelDescriptors();
-    const size_t nbModels = modelDescriptors.size();
+    size_t nbModels = modelDescriptors.size();
     file.write((char*)&nbModels, sizeof(size_t));
 
+    nbModels = 0;
     for (const auto& modelDescriptor : modelDescriptors)
-        _exportModel(modelDescriptor, file);
+        nbModels += (_exportModel(modelDescriptor, file) ? 1 : 0);
+
+    file.seekp(sizeof(size_t), std::ios_base::beg);
+    file.write((char*)&nbModels, sizeof(size_t));
 
     file.close();
 }

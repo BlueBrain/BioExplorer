@@ -64,7 +64,7 @@ public:
      * @brief Get the Off Folder object. The off folder is the cache where Off
      * files are stored when using the Surface representation of molecules
      *
-     * @return std::string The path to the folder
+     * @return The path to the folder
      */
     std::string getOffFolder() { return _offFolder; }
 
@@ -75,12 +75,28 @@ public:
      */
     void setOffFolder(const std::string& value) { _offFolder = value; }
 
+    /**
+     * @brief Get the scene clipping planes. The scene clipping planes defines
+     * the limits within which scene elements can be created
+     *
+     * @return The scene clipping planes
+     */
+    Vector4fs& getClippingPlanes() { return _clippingPlanes; }
+
+    /**
+     * @brief Set the scene clipping plances
+     *
+     * @param value Scene clipping planes
+     */
+    void setClippingPlanes(const Vector4fs& value) { _clippingPlanes = value; }
+
 private:
     GeneralSettings() {}
     ~GeneralSettings() {}
 
     bool _modelVisibilityOnCreation{true};
     std::string _offFolder{"/tmp/"};
+    Vector4fs _clippingPlanes;
 
     static GeneralSettings* _instance;
 };

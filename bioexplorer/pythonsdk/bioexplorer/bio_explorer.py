@@ -309,6 +309,23 @@ class BioExplorer:
             raise RuntimeError(result['contents'])
         return result
 
+    def import_from_cache(self, filename):
+        """
+        Imports a 3D scene from an optimized binary cache file
+
+        :filename: Full path of the binary cache file
+        :return: Result of the call to the BioExplorer backend
+        :rtype: Response
+        """
+        params = dict()
+        params['filename'] = filename
+        params['fileFormat'] = BioExplorer.FILE_FORMAT_UNSPECIFIED
+        result = self._client.rockets_client.request(
+            method=self.PLUGIN_API_PREFIX + 'import-from-cache', params=params)
+        if not result['status']:
+            raise RuntimeError(result['contents'])
+        return result
+
     def export_to_xyz(self, filename, file_format):
         """
         Exports current scene to file as a XYZ file
@@ -1610,7 +1627,7 @@ class BioExplorer:
         params['position'] = position.to_list()
         return self._client.rockets_client.request(self.PLUGIN_API_PREFIX + 'add-grid', params)
 
-    def set_general_settings(self, model_visibility_on_creation, off_folder):
+    def set_general_settings(self, model_visibility_on_creation, off_folder, clipping_planes=list()):
         """
         Set general settings for the plugin
 
@@ -1618,9 +1635,17 @@ class BioExplorer:
         :off_folder: Folder where off files aer stored (to avoid recomputation of molecular surface)
         :return: Result of the request submission
         """
+
+        clipping_planes_values = list()
+        if clipping_planes:
+            for plane in clipping_planes:
+                for i in range(4):
+                    clipping_planes_values.append(plane[i])
+
         params = dict()
         params['offFolder'] = off_folder
         params['modelVisibilityOnCreation'] = model_visibility_on_creation
+        params['clippingPlanes'] = clipping_planes_values
         response = self._client.rockets_client.request(
             self.PLUGIN_API_PREFIX + 'set-general-settings', params)
         return response
@@ -1636,6 +1661,35 @@ class BioExplorer:
         params['visible'] = visible
         response = self._client.rockets_client.request(
             self.PLUGIN_API_PREFIX + 'set-models-visibility', params)
+        self._client.set_renderer(accumulation=True)
+        return response
+
+    def set_out_of_core(
+            self, enabled, bricks_folder, scene_size, nb_bricks, visible_bricks=1,
+            update_frequency=3):
+        """
+        Set the out-of-core engine
+
+        :enabled: State of the out-of-core engine
+        :bricks_folder: Location of bricks on disk
+        :scene_size: Size of the scene
+        :nb_bricks: Number of bricks per side of the scene
+        :surrounding_bricks: bricks to show around the camera position
+        :return: Result of the request submission
+        """
+        assert isinstance(enabled, bool)
+        assert isinstance(scene_size, Vector3)
+        assert isinstance(nb_bricks, int)
+
+        params = dict()
+        params['enabled'] = enabled
+        params['bricksFolder'] = bricks_folder
+        params['sceneSize'] = scene_size.to_list()
+        params['nbBricks'] = nb_bricks
+        params['visibleBricks'] = visible_bricks
+        params['updateFrequency'] = update_frequency
+        response = self._client.rockets_client.request(
+            self.PLUGIN_API_PREFIX + 'set-out-of-core', params)
         self._client.set_renderer(accumulation=True)
         return response
 

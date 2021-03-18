@@ -83,4 +83,7 @@ bool from_json(BuildPointCloud &param, const std::string &payload);
 // Models
 bool from_json(ModelsVisibility &param, const std::string &payload);
 
+// Out-of-Core
+bool from_json(OutOfCoreDescriptor &param, const std::string &payload);
+
 } // namespace bioexplorer

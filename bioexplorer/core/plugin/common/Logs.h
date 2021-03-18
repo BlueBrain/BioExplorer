@@ -21,23 +21,33 @@
 #pragma once
 
 #include <iostream>
+#include <thread>
 
 namespace bioexplorer
 {
-#define PLUGIN_ERROR std::cerr << "[ERROR] [BIO_EXPLORER] "
-#define PLUGIN_WARN std::cerr << "[WARN ] [BIO_EXPLORER] "
-#define PLUGIN_INFO std::cout << "[INFO ] [BIO_EXPLORER] "
+#define PLUGIN_ERROR                               \
+    std::cerr << "[" << std::this_thread::get_id() \
+              << "] [ERROR] [BIO_EXPLORER] "
+#define PLUGIN_WARN                                \
+    std::cerr << "[" << std::this_thread::get_id() \
+              << "] [WARN ] [BIO_EXPLORER] "
+#define PLUGIN_INFO                                \
+    std::cout << "[" << std::this_thread::get_id() \
+              << "] [INFO ] [BIO_EXPLORER] "
 #ifdef NDEBUG
 #define PLUGIN_DEBUG \
     if (false)       \
     std::cout
 #else
-#define PLUGIN_DEBUG std::cout << "[DEBUG] [BIO_EXPLORER] "
+#define PLUGIN_DEBUG                               \
+    std::cout << "[" << std::this_thread::get_id() \
+              << "] [DEBUG] [BIO_EXPLORER] "
 #endif
 
-#define PLUGIN_THROW(exc)                        \
-    {                                            \
-        PLUGIN_ERROR << exc.what() << std::endl; \
-        throw exc;                               \
+#define PLUGIN_THROW(exc)                                         \
+    {                                                             \
+        PLUGIN_ERROR << "[" << std::this_thread::get_id() << "] " \
+                     << exc.what() << std::endl;                  \
+        throw exc;                                                \
     }
 } // namespace bioexplorer

@@ -46,6 +46,8 @@ public:
      */
     void init() final;
 
+    void postRender() final;
+
 private:
     // Info and settings
     Response _version() const;
@@ -53,6 +55,7 @@ private:
 
     // IO
     Response _exportToCache(const FileAccess &payload);
+    Response _importFromCache(const FileAccess &payload);
     Response _exportToXYZ(const FileAccess &payload);
 
     // Biological elements
@@ -94,6 +97,10 @@ private:
 
     // Models
     Response _setModelsVisibility(const ModelsVisibility &payload);
+
+    // Out-Of-Core
+    Response _setOutOfCore(const OutOfCoreDescriptor &payload);
+    OOCManagerPtr _oocManager{nullptr};
 
     // Attributes
     AssemblyMap _assemblies;

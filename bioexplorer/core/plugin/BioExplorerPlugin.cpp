@@ -26,6 +26,7 @@
 #include <plugin/common/Logs.h>
 #include <plugin/common/Utils.h>
 #include <plugin/io/CacheLoader.h>
+#include <plugin/io/OOCManager.h>
 
 #include <brayns/common/ActionInterface.h>
 #include <brayns/common/scene/ClipPlane.h>
@@ -132,7 +133,8 @@ void BioExplorerPlugin::init()
     auto &registry = scene.getLoaderRegistry();
 
     registry.registerLoader(
-        std::make_unique<CacheLoader>(scene, CacheLoader::getCLIProperties()));
+        std::make_unique<CacheLoader>(scene, 0,
+                                      CacheLoader::getCLIProperties()));
 
     if (actionInterface)
     {
@@ -253,6 +255,13 @@ void BioExplorerPlugin::init()
             entryPoint,
             [&](const FileAccess &payload) { return _exportToCache(payload); });
 
+        entryPoint = PLUGIN_API_PREFIX + "import-from-cache";
+        PLUGIN_INFO << "Registering '" + entryPoint + "' endpoint" << std::endl;
+        actionInterface->registerRequest<FileAccess, Response>(
+            entryPoint, [&](const FileAccess &payload) {
+                return _importFromCache(payload);
+            });
+
         entryPoint = PLUGIN_API_PREFIX + "export-to-xyz";
         PLUGIN_INFO << "Registering '" + entryPoint + "' endpoint" << std::endl;
         actionInterface->registerRequest<FileAccess, Response>(
@@ -305,6 +314,12 @@ void BioExplorerPlugin::init()
         actionInterface->registerRequest<ModelsVisibility, Response>(
             entryPoint,
             [&](const ModelsVisibility &s) { return _setModelsVisibility(s); });
+
+        entryPoint = PLUGIN_API_PREFIX + "set-out-of-core";
+        PLUGIN_INFO << "Registering '" + entryPoint + "' endpoint" << std::endl;
+        actionInterface->registerRequest<OutOfCoreDescriptor, Response>(
+            entryPoint,
+            [&](const OutOfCoreDescriptor &s) { return _setOutOfCore(s); });
     }
 
     auto &engine = _api->getEngine();
@@ -312,6 +327,8 @@ void BioExplorerPlugin::init()
     _addBioExplorerRenderer(engine);
     _addBioExplorerFieldsRenderer(engine);
 }
+
+void BioExplorerPlugin::postRender() {}
 
 Response BioExplorerPlugin::_version() const
 {
@@ -330,6 +347,18 @@ Response BioExplorerPlugin::_setGeneralSettings(
         GeneralSettings::getInstance()->setOffFolder(payload.offFolder);
         GeneralSettings::getInstance()->setModelVisibilityOnCreation(
             payload.modelVisibilityOnCreation);
+
+        if (payload.clippingPlanes.size() % 4 != 0)
+            PLUGIN_THROW(std::runtime_error(
+                "Invalid number of floats for clipping planes"))
+
+        Vector4fs clippingPlanes;
+        for (size_t i = 0; i < payload.clippingPlanes.size(); i += 4)
+            clippingPlanes.push_back(
+                {payload.clippingPlanes[i], payload.clippingPlanes[i + 1],
+                 payload.clippingPlanes[i + 2], payload.clippingPlanes[i + 3]});
+        GeneralSettings::getInstance()->setClippingPlanes(clippingPlanes);
+
         response.contents = "OK";
     }
     CATCH_STD_EXCEPTION()
@@ -594,8 +623,29 @@ Response BioExplorerPlugin::_exportToCache(const FileAccess &payload)
     try
     {
         auto &scene = _api->getScene();
-        CacheLoader loader(scene);
+        CacheLoader loader(scene, 0);
         loader.exportToCache(payload.filename);
+    }
+    CATCH_STD_EXCEPTION()
+    return response;
+}
+
+Response BioExplorerPlugin::_importFromCache(const FileAccess &payload)
+{
+    Response response;
+    try
+    {
+        auto &scene = _api->getScene();
+        CacheLoader loader(scene, 0);
+        const auto modelDescriptors =
+            loader.importModelsFromFile(payload.filename);
+        if (modelDescriptors.empty())
+            PLUGIN_THROW(std::runtime_error("No models were found in " +
+                                            payload.filename));
+        response.contents = std::to_string(modelDescriptors.size()) +
+                            " models successfully loaded";
+        for (const auto modelDescriptor : modelDescriptors)
+            scene.addModel(modelDescriptor);
     }
     CATCH_STD_EXCEPTION()
     return response;
@@ -607,7 +657,7 @@ Response BioExplorerPlugin::_exportToXYZ(const FileAccess &payload)
     try
     {
         auto &scene = _api->getScene();
-        CacheLoader loader(scene);
+        CacheLoader loader(scene, 0);
         loader.exportToXYZ(payload.filename, payload.fileFormat);
     }
     CATCH_STD_EXCEPTION()
@@ -1078,6 +1128,37 @@ Response BioExplorerPlugin::_setModelsVisibility(
         for (auto modelDescriptor : modelDescriptors)
             modelDescriptor->setVisible(payload.visible);
         scene.markModified();
+        response.contents = "OK";
+    }
+    CATCH_STD_EXCEPTION()
+    return response;
+}
+
+Response BioExplorerPlugin::_setOutOfCore(const OutOfCoreDescriptor &payload)
+{
+    Response response;
+    try
+    {
+        PLUGIN_INFO << "Setting out-of-core mode to "
+                    << (payload.enabled ? "On" : "Off") << std::endl;
+        auto &scene = _api->getScene();
+        auto &camera = _api->getCamera();
+        if (payload.enabled)
+        {
+            if (!_oocManager)
+            {
+                _oocManager =
+                    OOCManagerPtr(new OOCManager(scene, camera, payload));
+                _oocManager->loadBricks();
+            }
+        }
+        else
+        {
+            if (_oocManager)
+                _oocManager.reset();
+            _oocManager = nullptr;
+        }
+
         response.contents = "OK";
     }
     CATCH_STD_EXCEPTION()

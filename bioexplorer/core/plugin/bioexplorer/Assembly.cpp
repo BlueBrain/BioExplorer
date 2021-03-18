@@ -24,6 +24,7 @@
 #include <plugin/bioexplorer/MeshBasedMembrane.h>
 #include <plugin/bioexplorer/Protein.h>
 #include <plugin/bioexplorer/RNASequence.h>
+#include <plugin/common/GeneralSettings.h>
 #include <plugin/common/Logs.h>
 #include <plugin/common/Utils.h>
 
@@ -175,6 +176,9 @@ void Assembly::_processInstances(
     const PositionRandomizationType &randomizationType,
     const float locationCutoffAngle)
 {
+    const auto &clippingPlanes =
+        GeneralSettings::getInstance()->getClippingPlanes();
+
     const float offset = 2.f / occurrences;
     const float increment = M_PI * (3.f - sqrt(5.f));
 
@@ -293,8 +297,12 @@ void Assembly::_processInstances(
         const Quaterniond instanceOrientation = glm::quatLookAt(dir, UP_VECTOR);
 
         Transformation tf;
-        tf.setTranslation(assemblyPosition +
-                          Vector3f(assemblyOrientation * Vector3d(pos)));
+        const Vector3f translation =
+            assemblyPosition + Vector3f(assemblyOrientation * Vector3d(pos));
+        if (isClipped(translation, clippingPlanes))
+            continue;
+
+        tf.setTranslation(translation);
         tf.setRotation(assemblyOrientation * instanceOrientation * orientation);
 
         if (count == 0)

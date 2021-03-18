@@ -22,6 +22,7 @@
 #include "Protein.h"
 
 #include <plugin/common/CommonTypes.h>
+#include <plugin/common/GeneralSettings.h>
 #include <plugin/common/Logs.h>
 #include <plugin/common/Utils.h>
 
@@ -123,6 +124,9 @@ Membrane::~Membrane()
 
 void Membrane::_processInstances()
 {
+    const auto &clippingPlanes =
+        GeneralSettings::getInstance()->getClippingPlanes();
+
     const float offset = 2.f / _descriptor.occurrences;
     const float increment = M_PI * (3.f - sqrt(5.f));
 
@@ -258,8 +262,12 @@ void Membrane::_processInstances()
 
         // Final transformation
         Transformation tf;
-        tf.setTranslation(_position +
-                          Vector3f(_orientation * Vector3d(pos - center)));
+        const Vector3f translation =
+            _position + Vector3f(_orientation * Vector3d(pos - center));
+        if (isClipped(translation, clippingPlanes))
+            continue;
+
+        tf.setTranslation(translation);
 
         Quaterniond instanceOrientation = glm::quatLookAt(dir, UP_VECTOR);
 

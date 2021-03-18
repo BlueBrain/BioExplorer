@@ -62,6 +62,7 @@ typedef struct
 {
     bool modelVisibilityOnCreation;
     std::string offFolder;
+    std::vector<float> clippingPlanes;
 } GeneralSettingsDescriptor;
 
 /**
@@ -734,20 +735,20 @@ typedef struct
  * from atom positions and charge
  *
  */
-struct BuildFields
+typedef struct
 {
     /** Voxel size used to build the Octree acceleration structure */
     float voxelSize;
     /** Density of atoms to consider (Between 0 and 1) */
     float density;
-};
+} BuildFields;
 
 // IO
-struct ModelIdFileAccess
+typedef struct
 {
     size_t modelId;
     std::string filename;
-};
+} ModelIdFileAccess;
 
 /**
  * @brief File format for export of atom coordinates, radius and charge
@@ -780,28 +781,44 @@ enum class XYZFileFormat
  * @brief Structure defining how to export data into a file
  *
  */
-struct FileAccess
+typedef struct
 {
     std::string filename;
     XYZFileFormat fileFormat;
-};
+} FileAccess;
 
 /**
  * @brief Structure defining how to build a point cloud from the scene
  *
  */
-struct BuildPointCloud
+typedef struct
 {
     float radius;
-};
+} BuildPointCloud;
 
 /**
  * @brief Structure defining how visible models are in the scene
  *
  */
-struct ModelsVisibility
+typedef struct
 {
     bool visible;
-};
+} ModelsVisibility;
+
+class OOCManager;
+typedef std::shared_ptr<OOCManager> OOCManagerPtr;
+/**
+ * @brief
+ *
+ */
+typedef struct
+{
+    bool enabled;
+    std::string bricksFolder;
+    std::vector<float> sceneSize;
+    size_t nbBricks;
+    size_t visibleBricks;
+    size_t updateFrequency;
+} OutOfCoreDescriptor;
 
 } // namespace bioexplorer
