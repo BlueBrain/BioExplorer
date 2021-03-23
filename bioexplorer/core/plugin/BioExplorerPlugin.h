@@ -55,6 +55,7 @@ private:
 
     // IO
     Response _exportToCache(const FileAccess &payload);
+    Response _exportBrickToDB(const DBAccess &payload);
     Response _importFromCache(const FileAccess &payload);
     Response _exportToXYZ(const FileAccess &payload);
 

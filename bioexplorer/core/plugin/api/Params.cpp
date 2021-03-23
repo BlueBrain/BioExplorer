@@ -63,9 +63,11 @@ bool from_json(GeneralSettingsDescriptor &param, const std::string &payload)
     try
     {
         auto js = nlohmann::json::parse(payload);
-        FROM_JSON(param, js, offFolder);
         FROM_JSON(param, js, modelVisibilityOnCreation);
-        FROM_JSON(param, js, clippingPlanes);
+        FROM_JSON(param, js, databaseConnectionString);
+        FROM_JSON(param, js, databaseSchema);
+        FROM_JSON(param, js, bricksFolder);
+        FROM_JSON(param, js, offFolder);
     }
     catch (...)
     {
@@ -489,6 +491,24 @@ bool from_json(FileAccess &param, const std::string &payload)
     return true;
 }
 
+bool from_json(DBAccess &param, const std::string &payload)
+{
+    try
+    {
+        auto js = nlohmann::json::parse(payload);
+        FROM_JSON(param, js, connectionString);
+        FROM_JSON(param, js, schema);
+        FROM_JSON(param, js, brickId);
+        FROM_JSON(param, js, lowBounds);
+        FROM_JSON(param, js, highBounds);
+    }
+    catch (...)
+    {
+        return false;
+    }
+    return true;
+}
+
 bool from_json(ModelIdFileAccess &param, const std::string &payload)
 {
     try
@@ -538,7 +558,6 @@ bool from_json(OutOfCoreDescriptor &param, const std::string &payload)
     {
         auto js = nlohmann::json::parse(payload);
         FROM_JSON(param, js, enabled);
-        FROM_JSON(param, js, bricksFolder);
         FROM_JSON(param, js, sceneSize);
         FROM_JSON(param, js, nbBricks);
         FROM_JSON(param, js, visibleBricks);

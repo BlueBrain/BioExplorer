@@ -176,9 +176,6 @@ void Assembly::_processInstances(
     const PositionRandomizationType &randomizationType,
     const float locationCutoffAngle)
 {
-    const auto &clippingPlanes =
-        GeneralSettings::getInstance()->getClippingPlanes();
-
     const float offset = 2.f / occurrences;
     const float increment = M_PI * (3.f - sqrt(5.f));
 
@@ -276,10 +273,6 @@ void Assembly::_processInstances(
             break;
         }
 
-        // Clipping planes
-        if (isClipped(pos, _clippingPlanes))
-            continue;
-
         // Remove membrane where proteins are. This is currently done according
         // to the vector orientation
         bool occupied{false};
@@ -299,8 +292,6 @@ void Assembly::_processInstances(
         Transformation tf;
         const Vector3f translation =
             assemblyPosition + Vector3f(assemblyOrientation * Vector3d(pos));
-        if (isClipped(translation, clippingPlanes))
-            continue;
 
         tf.setTranslation(translation);
         tf.setRotation(assemblyOrientation * instanceOrientation * orientation);

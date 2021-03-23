@@ -124,9 +124,6 @@ Membrane::~Membrane()
 
 void Membrane::_processInstances()
 {
-    const auto &clippingPlanes =
-        GeneralSettings::getInstance()->getClippingPlanes();
-
     const float offset = 2.f / _descriptor.occurrences;
     const float increment = M_PI * (3.f - sqrt(5.f));
 
@@ -242,10 +239,6 @@ void Membrane::_processInstances()
             break;
         }
 
-        // Clipping planes
-        if (isClipped(pos, _clippingPlanes))
-            continue;
-
         // Remove membrane where proteins are. This is currently done
         // according to the vector orientation
         bool occupied{false};
@@ -264,9 +257,6 @@ void Membrane::_processInstances()
         Transformation tf;
         const Vector3f translation =
             _position + Vector3f(_orientation * Vector3d(pos - center));
-        if (isClipped(translation, clippingPlanes))
-            continue;
-
         tf.setTranslation(translation);
 
         Quaterniond instanceOrientation = glm::quatLookAt(dir, UP_VECTOR);

@@ -67,8 +67,6 @@ OOCManager::OOCManager(Scene& scene, Camera& camera,
     PLUGIN_INFO << "Out-Of-Core engine is now enabled" << std::endl;
     PLUGIN_INFO << "Update frequency: " << _descriptor.updateFrequency
                 << std::endl;
-    PLUGIN_INFO << "Bricks folder   : " << _descriptor.bricksFolder
-                << std::endl;
     PLUGIN_INFO << "Scene size      : " << _sceneSize << std::endl;
     PLUGIN_INFO << "Brick size      : " << _brickSize << std::endl;
     PLUGIN_INFO << "Nb of bricks    : " << _descriptor.nbBricks << std::endl;
@@ -96,18 +94,22 @@ void OOCManager::_loadBricks()
     std::vector<ModelDescriptorPtr> modelsToAddToScene;
     std::vector<ModelDescriptorPtr> modelsToRemoveFromScene;
     std::vector<ModelDescriptorPtr> modelsToShow;
-    Vector3f previousCameraPosition;
-    int32_t currentBoxId{std::numeric_limits<int32_t>::max()};
+    int32_t previousBrickId{std::numeric_limits<int32_t>::max()};
+
+    const auto bricksFolder = GeneralSettings::getInstance()->getBricksFolder();
+    const auto dbConnectionString =
+        GeneralSettings::getInstance()->getDatabaseConnectionString();
+    const auto dbSchema = GeneralSettings::getInstance()->getDatabaseSchema();
 
     while (true)
     {
         const Vector3f cameraPosition = _camera.getPosition();
-        const Vector3f box = cameraPosition / _brickSize;
+        const Vector3i brick = cameraPosition / _brickSize;
 
-        const int32_t boxId =
-            box.z + box.y * numBricks + box.x * numBricks * numBricks;
+        const int32_t brickId =
+            brick.z + brick.y * numBricks + brick.x * numBricks * numBricks;
 
-        if (currentBoxId != boxId)
+        if (previousBrickId != brickId)
             bricksToLoad.clear();
 
         // Identify visible bricks (the ones surrounding the camera)
@@ -115,8 +117,9 @@ void OOCManager::_loadBricks()
         for (int32_t x = -visBricks; x < visBricks; ++x)
             for (int32_t y = -visBricks; y < visBricks; ++y)
                 for (int32_t z = -visBricks; z < visBricks; ++z)
-                    visibleBricks.insert((box.z + z) + (box.y + y) * numBricks +
-                                         (box.x + x) * numBricks * numBricks);
+                    visibleBricks.insert((brick.z + z) +
+                                         (brick.y + y) * numBricks +
+                                         (brick.x + x) * numBricks * numBricks);
 
         // Identify bricks to load
         for (const int32_t visibleBrick : visibleBricks)
@@ -136,12 +139,13 @@ void OOCManager::_loadBricks()
             char idStr[7];
             sprintf(idStr, "%06d", brickToLoad);
             const std::string filename =
-                _descriptor.bricksFolder + "/brick" + idStr + ".bioexplorer";
+                bricksFolder + "/brick" + idStr + ".bioexplorer";
             try
             {
                 CacheLoader loader(_scene);
                 modelsToAddToScene =
-                    loader.importModelsFromFile(filename, brickToLoad);
+                    loader.importBrickFromDB(dbConnectionString, dbSchema,
+                                             brickToLoad);
             }
             catch (std::runtime_error& e)
             {
@@ -152,11 +156,11 @@ void OOCManager::_loadBricks()
 
         if (bricksToLoad.size())
         {
-            PLUGIN_INFO << "Current box Id: " << boxId << std::endl;
-            PLUGIN_INFO << "Visible bricks: "
-                        << int32_set_to_string(visibleBricks) << std::endl;
-            PLUGIN_INFO << "Loaded bricks : "
+            PLUGIN_INFO << "Current brick Id: " << brickId << std::endl;
+            PLUGIN_INFO << "Loaded bricks   : "
                         << int32_set_to_string(loadedBricks) << std::endl;
+            PLUGIN_DEBUG << "Visible bricks  : "
+                         << int32_set_to_string(visibleBricks) << std::endl;
 
             bool visibilityModified = false;
 
@@ -165,7 +169,7 @@ void OOCManager::_loadBricks()
             for (auto modelDescriptor : modelDescriptors)
             {
                 const auto metadata = modelDescriptor->getMetadata();
-                const auto it = metadata.find("boxid");
+                const auto it = metadata.find(METADATA_BRICK_ID);
                 if (it != metadata.end())
                 {
                     const int32_t id = atoi(it->second.c_str());
@@ -199,7 +203,7 @@ void OOCManager::_loadBricks()
         bool sceneModified = false;
         for (auto md : modelsToRemoveFromScene)
         {
-            PLUGIN_INFO << "Removing model: " << md->getModelID() << std::endl;
+            PLUGIN_DEBUG << "Removing model: " << md->getModelID() << std::endl;
             _scene.removeModel(md->getModelID());
             sceneModified = true;
         }
@@ -209,16 +213,16 @@ void OOCManager::_loadBricks()
         {
             md->setVisible(true);
             _scene.addModel(md);
-            PLUGIN_INFO << "Adding model: " << md->getModelID() << std::endl;
-            sleep(_descriptor.updateFrequency / 10.f);
+            PLUGIN_DEBUG << "Adding model: " << md->getModelID() << std::endl;
+            sleep(_descriptor.updateFrequency);
             sceneModified = true;
         }
         modelsToAddToScene.clear();
 
         for (auto md : modelsToShow)
         {
-            PLUGIN_INFO << "Making model visible: " << md->getModelID()
-                        << std::endl;
+            PLUGIN_DEBUG << "Making model visible: " << md->getModelID()
+                         << std::endl;
             md->setVisible(true);
             sceneModified = true;
         }
@@ -226,8 +230,8 @@ void OOCManager::_loadBricks()
         if (sceneModified)
             _scene.markModified(false);
 
-        currentBoxId = boxId;
-        previousCameraPosition = cameraPosition;
+        previousBrickId = brickId;
+        sleep(_descriptor.updateFrequency);
     }
 }
 } // namespace bioexplorer

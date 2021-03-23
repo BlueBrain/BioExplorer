@@ -26,10 +26,10 @@
 #include <brayns/common/types.h>
 #include <brayns/parameters/GeometryParameters.h>
 
-namespace bioexplorer
-{
 using namespace brayns;
 
+namespace bioexplorer
+{
 const int32_t UNDEFINED_BOX_ID = std::numeric_limits<int32_t>::max();
 
 /**
@@ -121,16 +121,38 @@ public:
      * @return std::vector<ModelDescriptorPtr>
      */
     std::vector<ModelDescriptorPtr> importModelsFromFile(
-        const std::string& filename, const int32_t boxId = UNDEFINED_BOX_ID,
+        const std::string& filename, const int32_t brickId = UNDEFINED_BOX_ID,
         const LoaderProgress& callback = LoaderProgress(),
         const PropertyMap& properties = PropertyMap()) const;
+
+    /**
+     * @brief
+     *
+     * @param connectionString
+     * @param schema
+     * @param brickId
+     * @return std::vector<ModelDescriptorPtr>
+     */
+    std::vector<ModelDescriptorPtr> importBrickFromDB(
+        const std::string& connectionString, const std::string& schema,
+        const int32_t brickId) const;
 
     /**
      * @brief Exports an optimized binary representation the 3D scene to a file
      *
      * @param filename Full path of the file
      */
-    void exportToCache(const std::string& filename) const;
+    void exportToFile(const std::string& filename,
+                      const Boxf& bounds = Boxf()) const;
+
+    /**
+     * @brief Exports an optimized binary representation the 3D scene to a DB
+     *
+     * @param connectionString Connection string to the DB
+     */
+    void exportBrickToDB(const std::string& connectionString,
+                         const std::string& schema, const int32_t brickId,
+                         const Boxf& bounds) const;
 
     /**
      * @brief Exports atom information from the 3D scene to a file
@@ -142,13 +164,14 @@ public:
                      const XYZFileFormat format) const;
 
 private:
-    std::string _readString(std::ifstream& f) const;
+    std::string _readString(std::stringstream& f) const;
 
-    ModelDescriptorPtr _importModel(std::ifstream& file,
-                                    const int32_t boxId) const;
+    ModelDescriptorPtr _importModel(std::stringstream& buffer,
+                                    const int32_t brickId) const;
 
     bool _exportModel(const ModelDescriptorPtr modelDescriptor,
-                      std::ofstream& file) const;
+                      std::stringstream& buffer,
+                      const Boxf& bounds = Boxf()) const;
 
     PropertyMap _defaults;
 };

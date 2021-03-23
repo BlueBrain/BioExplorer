@@ -75,20 +75,17 @@ public:
      */
     void setOffFolder(const std::string& value) { _offFolder = value; }
 
-    /**
-     * @brief Get the scene clipping planes. The scene clipping planes defines
-     * the limits within which scene elements can be created
-     *
-     * @return The scene clipping planes
-     */
-    Vector4fs& getClippingPlanes() { return _clippingPlanes; }
+    std::string getBricksFolder() { return _bricksFolder; }
+    void setBricksFolder(const std::string& value) { _bricksFolder = value; }
 
-    /**
-     * @brief Set the scene clipping plances
-     *
-     * @param value Scene clipping planes
-     */
-    void setClippingPlanes(const Vector4fs& value) { _clippingPlanes = value; }
+    std::string getDatabaseConnectionString() { return _dbConnectionString; }
+    void setDatabaseConnectionString(const std::string& value)
+    {
+        _dbConnectionString = value;
+    }
+
+    std::string getDatabaseSchema() { return _dbSchema; }
+    void setDatabaseSchema(const std::string& value) { _dbSchema = value; }
 
 private:
     GeneralSettings() {}
@@ -96,7 +93,9 @@ private:
 
     bool _modelVisibilityOnCreation{true};
     std::string _offFolder{"/tmp/"};
-    Vector4fs _clippingPlanes;
+    std::string _bricksFolder{"/tmp/"};
+    std::string _dbConnectionString;
+    std::string _dbSchema;
 
     static GeneralSettings* _instance;
 };

@@ -27,6 +27,7 @@ find_package(ospray REQUIRED SYSTEM)
 find_package(Boost REQUIRED COMPONENTS program_options filesystem)
 find_package(glm REQUIRED SYSTEM)
 find_package(FreeImage REQUIRED)
+find_package(PQXX REQUIRED)
 find_package(CGAL)
 find_package(OpenMP)
 
@@ -49,6 +50,7 @@ set(${NAME}_SOURCES
     plugin/fields/FieldsHandler.cpp
     plugin/fields/Octree.cpp
     plugin/fields/OctreeNode.cpp
+    plugin/io/db/DBConnector.cpp
     plugin/io/CacheLoader.cpp
     plugin/io/OOCManager.cpp
     plugin/bioexplorer/UniqueId.cpp
@@ -68,6 +70,7 @@ set(${NAME}_SOURCES
 )
 
 set(${NAME}_PUBLIC_HEADERS
+    plugin/io/db/DBConnector.h
     plugin/io/OOCManager.h
     plugin/io/CacheLoader.h
     plugin/bioexplorer/UniqueId.h
@@ -122,7 +125,7 @@ include_directories(
 set(${NAME}_LINK_LIBRARIES
     PUBLIC ${OSPRAY_LIBRARIES}
     PRIVATE braynsParameters braynsPluginAPI braynsCommon braynsEngine braynsIO
-            braynsOSPRayEngine ${CGAL_LIBRARIES} ${FreeImage_LIBRARIES}
+            braynsOSPRayEngine pqxx ${CGAL_LIBRARIES} ${FreeImage_LIBRARIES}
 )
 
 add_library(

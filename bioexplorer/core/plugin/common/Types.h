@@ -44,6 +44,7 @@ const std::string METADATA_HEADER = "Header";
 const std::string METADATA_ATOMS = "Atoms";
 const std::string METADATA_BONDS = "Bonds";
 const std::string METADATA_SIZE = "Size";
+const std::string METADATA_BRICK_ID = "BrickId";
 
 // Typedefs
 typedef std::map<std::string, std::string> StringMap;
@@ -61,8 +62,10 @@ typedef std::vector<std::pair<Vector3f, float>> OccupiedDirections;
 typedef struct
 {
     bool modelVisibilityOnCreation;
+    std::string databaseConnectionString;
+    std::string databaseSchema;
+    std::string bricksFolder;
     std::string offFolder;
-    std::vector<float> clippingPlanes;
 } GeneralSettingsDescriptor;
 
 /**
@@ -788,6 +791,19 @@ typedef struct
 } FileAccess;
 
 /**
+ * @brief Structure defining how to export data into a DB
+ *
+ */
+typedef struct
+{
+    std::string connectionString;
+    std::string schema;
+    int32_t brickId;
+    std::vector<float> lowBounds;
+    std::vector<float> highBounds;
+} DBAccess;
+
+/**
  * @brief Structure defining how to build a point cloud from the scene
  *
  */
@@ -814,11 +830,10 @@ typedef std::shared_ptr<OOCManager> OOCManagerPtr;
 typedef struct
 {
     bool enabled;
-    std::string bricksFolder;
     std::vector<float> sceneSize;
     size_t nbBricks;
     size_t visibleBricks;
-    size_t updateFrequency;
+    float updateFrequency;
 } OutOfCoreDescriptor;
 
 } // namespace bioexplorer

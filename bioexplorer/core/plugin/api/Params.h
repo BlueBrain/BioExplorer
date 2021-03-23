@@ -66,6 +66,9 @@ bool from_json(SetAminoAcid &param, const std::string &payload);
 // Files
 bool from_json(FileAccess &param, const std::string &payload);
 
+// DB
+bool from_json(DBAccess &param, const std::string &payload);
+
 // Color schemes and materials
 bool from_json(ColorSchemeDescriptor &param, const std::string &payload);
 bool from_json(ModelId &modelId, const std::string &payload);

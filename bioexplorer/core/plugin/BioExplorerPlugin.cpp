@@ -254,6 +254,12 @@ void BioExplorerPlugin::init()
             entryPoint,
             [&](const FileAccess &payload) { return _exportToCache(payload); });
 
+        entryPoint = PLUGIN_API_PREFIX + "export-brick-to-db";
+        PLUGIN_INFO << "Registering '" + entryPoint + "' endpoint" << std::endl;
+        actionInterface->registerRequest<DBAccess, Response>(
+            entryPoint,
+            [&](const DBAccess &payload) { return _exportBrickToDB(payload); });
+
         entryPoint = PLUGIN_API_PREFIX + "import-from-cache";
         PLUGIN_INFO << "Registering '" + entryPoint + "' endpoint" << std::endl;
         actionInterface->registerRequest<FileAccess, Response>(
@@ -346,21 +352,15 @@ Response BioExplorerPlugin::_setGeneralSettings(
     Response response;
     try
     {
-        PLUGIN_INFO << "Setting general options for the plugin" << std::endl;
-        GeneralSettings::getInstance()->setOffFolder(payload.offFolder);
+        PLUGIN_DEBUG << "Setting general options for the plugin" << std::endl;
         GeneralSettings::getInstance()->setModelVisibilityOnCreation(
             payload.modelVisibilityOnCreation);
-
-        if (payload.clippingPlanes.size() % 4 != 0)
-            PLUGIN_THROW(std::runtime_error(
-                "Invalid number of floats for clipping planes"))
-
-        Vector4fs clippingPlanes;
-        for (size_t i = 0; i < payload.clippingPlanes.size(); i += 4)
-            clippingPlanes.push_back(
-                {payload.clippingPlanes[i], payload.clippingPlanes[i + 1],
-                 payload.clippingPlanes[i + 2], payload.clippingPlanes[i + 3]});
-        GeneralSettings::getInstance()->setClippingPlanes(clippingPlanes);
+        GeneralSettings::getInstance()->setDatabaseConnectionString(
+            payload.databaseConnectionString);
+        GeneralSettings::getInstance()->setDatabaseSchema(
+            payload.databaseSchema);
+        GeneralSettings::getInstance()->setBricksFolder(payload.bricksFolder);
+        GeneralSettings::getInstance()->setOffFolder(payload.offFolder);
 
         response.contents = "OK";
     }
@@ -627,7 +627,35 @@ Response BioExplorerPlugin::_exportToCache(const FileAccess &payload)
     {
         auto &scene = _api->getScene();
         CacheLoader loader(scene);
-        loader.exportToCache(payload.filename);
+        loader.exportToFile(payload.filename);
+    }
+    CATCH_STD_EXCEPTION()
+    return response;
+}
+
+Response BioExplorerPlugin::_exportBrickToDB(const DBAccess &payload)
+{
+    Response response;
+    try
+    {
+        if (!payload.lowBounds.empty() && payload.lowBounds.size() != 3)
+            PLUGIN_THROW(
+                std::runtime_error("Invalid low bounds. 3 floats expected"));
+        if (!payload.highBounds.empty() && payload.highBounds.size() != 3)
+            PLUGIN_THROW(
+                std::runtime_error("Invalid high bounds. 3 floats expected"));
+        Boxf bounds;
+        if (!payload.lowBounds.empty())
+            bounds.merge({payload.lowBounds[0], payload.lowBounds[1],
+                          payload.lowBounds[2]});
+        if (!payload.lowBounds.empty())
+            bounds.merge({payload.highBounds[0], payload.highBounds[1],
+                          payload.highBounds[2]});
+
+        auto &scene = _api->getScene();
+        CacheLoader loader(scene);
+        loader.exportBrickToDB(payload.connectionString, payload.schema,
+                               payload.brickId, bounds);
     }
     CATCH_STD_EXCEPTION()
     return response;
