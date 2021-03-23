@@ -46,7 +46,7 @@ public:
      */
     void init() final;
 
-    void postRender() final;
+    void preRender() final;
 
 private:
     // Info and settings

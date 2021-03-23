@@ -45,11 +45,9 @@ const std::string SUPPORTED_EXTENTION_BIOEXPLORER = "bioexplorer";
 
 const size_t CACHE_VERSION_1 = 1;
 
-CacheLoader::CacheLoader(Scene& scene, const int32_t boxId,
-                         PropertyMap&& loaderParams)
+CacheLoader::CacheLoader(Scene& scene, PropertyMap&& loaderParams)
     : Loader(scene)
     , _defaults(loaderParams)
-    , _boxId(boxId)
 {
 }
 
@@ -78,7 +76,8 @@ ModelDescriptorPtr CacheLoader::importFromBlob(
         "Loading molecular systems from blob is not supported");
 }
 
-ModelDescriptorPtr CacheLoader::_importModel(std::ifstream& file) const
+ModelDescriptorPtr CacheLoader::_importModel(std::ifstream& file,
+                                             const int32_t boxId) const
 {
     auto model = _scene.createModel();
 
@@ -105,10 +104,10 @@ ModelDescriptorPtr CacheLoader::_importModel(std::ifstream& file) const
     for (size_t i = 0; i < nbElements; ++i)
         metadata[_readString(file)] = _readString(file);
 
-    if (_boxId != std::numeric_limits<int32_t>::max())
+    if (boxId != UNDEFINED_BOX_ID)
     {
         metadata.clear();
-        metadata["boxid"] = std::to_string(_boxId);
+        metadata["boxid"] = std::to_string(boxId);
     }
 
     // Instances
@@ -367,8 +366,8 @@ ModelDescriptorPtr CacheLoader::_importModel(std::ifstream& file) const
 }
 
 std::vector<ModelDescriptorPtr> CacheLoader::importModelsFromFile(
-    const std::string& filename, const LoaderProgress& callback,
-    const PropertyMap& properties) const
+    const std::string& filename, const int32_t boxId,
+    const LoaderProgress& callback, const PropertyMap& properties) const
 {
     std::vector<ModelDescriptorPtr> modelDescriptors;
     PropertyMap props = _defaults;
@@ -394,7 +393,7 @@ std::vector<ModelDescriptorPtr> CacheLoader::importModelsFromFile(
     PLUGIN_DEBUG << "Models : " << nbModels << std::endl;
     for (size_t i = 0; i < nbModels; ++i)
     {
-        auto modelDescriptor = _importModel(file);
+        auto modelDescriptor = _importModel(file, boxId);
         if (modelDescriptor)
             modelDescriptors.push_back(modelDescriptor);
 
@@ -410,7 +409,7 @@ ModelDescriptorPtr CacheLoader::importFromFile(
     const PropertyMap& properties) const
 {
     const auto modelDescriptors =
-        importModelsFromFile(filename, callback, properties);
+        importModelsFromFile(filename, UNDEFINED_BOX_ID, callback, properties);
     for (const auto modelDescriptor : modelDescriptors)
         _scene.addModel(modelDescriptor);
 

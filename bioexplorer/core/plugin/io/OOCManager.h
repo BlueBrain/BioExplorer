@@ -35,6 +35,8 @@ public:
 
     void loadBricks();
 
+    void updateBricks();
+
 private:
     void _loadBricks();
 
@@ -43,8 +45,5 @@ private:
     Camera& _camera;
     Vector3f _sceneSize;
     Vector3f _brickSize;
-    std::set<int32_t> _loadedBricks;
-    std::set<int32_t> _bricksToLoad;
-    int32_t _currentBoxId{std::numeric_limits<int32_t>::max()};
 };
 } // namespace bioexplorer

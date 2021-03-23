@@ -30,6 +30,8 @@ namespace bioexplorer
 {
 using namespace brayns;
 
+const int32_t UNDEFINED_BOX_ID = std::numeric_limits<int32_t>::max();
+
 /**
  * Load molecular systems from an optimized binary representation of the 3D
  * scene
@@ -43,8 +45,7 @@ public:
      * @param scene Scene to which the file contents should be loaded
      * @param loaderParams Loader parameters
      */
-    CacheLoader(Scene& scene, const int32_t boxId,
-                PropertyMap&& loaderParams = {});
+    CacheLoader(Scene& scene, PropertyMap&& loaderParams = {});
 
     /**
      * @brief Get the name of the loader
@@ -120,7 +121,7 @@ public:
      * @return std::vector<ModelDescriptorPtr>
      */
     std::vector<ModelDescriptorPtr> importModelsFromFile(
-        const std::string& filename,
+        const std::string& filename, const int32_t boxId = UNDEFINED_BOX_ID,
         const LoaderProgress& callback = LoaderProgress(),
         const PropertyMap& properties = PropertyMap()) const;
 
@@ -142,11 +143,13 @@ public:
 
 private:
     std::string _readString(std::ifstream& f) const;
-    ModelDescriptorPtr _importModel(std::ifstream& file) const;
+
+    ModelDescriptorPtr _importModel(std::ifstream& file,
+                                    const int32_t boxId) const;
+
     bool _exportModel(const ModelDescriptorPtr modelDescriptor,
                       std::ofstream& file) const;
 
     PropertyMap _defaults;
-    int32_t _boxId{std::numeric_limits<int32_t>::max()};
 };
 } // namespace bioexplorer

@@ -133,8 +133,7 @@ void BioExplorerPlugin::init()
     auto &registry = scene.getLoaderRegistry();
 
     registry.registerLoader(
-        std::make_unique<CacheLoader>(scene, 0,
-                                      CacheLoader::getCLIProperties()));
+        std::make_unique<CacheLoader>(scene, CacheLoader::getCLIProperties()));
 
     if (actionInterface)
     {
@@ -328,7 +327,11 @@ void BioExplorerPlugin::init()
     _addBioExplorerFieldsRenderer(engine);
 }
 
-void BioExplorerPlugin::postRender() {}
+void BioExplorerPlugin::preRender()
+{
+    if (_oocManager)
+        _oocManager->updateBricks();
+}
 
 Response BioExplorerPlugin::_version() const
 {
@@ -623,7 +626,7 @@ Response BioExplorerPlugin::_exportToCache(const FileAccess &payload)
     try
     {
         auto &scene = _api->getScene();
-        CacheLoader loader(scene, 0);
+        CacheLoader loader(scene);
         loader.exportToCache(payload.filename);
     }
     CATCH_STD_EXCEPTION()
@@ -636,7 +639,7 @@ Response BioExplorerPlugin::_importFromCache(const FileAccess &payload)
     try
     {
         auto &scene = _api->getScene();
-        CacheLoader loader(scene, 0);
+        CacheLoader loader(scene);
         const auto modelDescriptors =
             loader.importModelsFromFile(payload.filename);
         if (modelDescriptors.empty())
@@ -657,7 +660,7 @@ Response BioExplorerPlugin::_exportToXYZ(const FileAccess &payload)
     try
     {
         auto &scene = _api->getScene();
-        CacheLoader loader(scene, 0);
+        CacheLoader loader(scene);
         loader.exportToXYZ(payload.filename, payload.fileFormat);
     }
     CATCH_STD_EXCEPTION()
