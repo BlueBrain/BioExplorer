@@ -21,15 +21,19 @@ list(APPEND CMAKE_MODULE_PATH ${PROJECT_SOURCE_DIR}/CMake)
 set(${NAME}_MODULES_DIR ${PROJECT_SOURCE_DIR})
 set(CMAKE_CXX_STANDARD 14) # C++ 14
 
+# Mandatory packages
 find_package(Brayns REQUIRED)
-
 find_package(ospray REQUIRED SYSTEM)
 find_package(Boost REQUIRED COMPONENTS program_options filesystem)
 find_package(glm REQUIRED SYSTEM)
 find_package(FreeImage REQUIRED)
-find_package(PQXX REQUIRED)
-find_package(CGAL)
 find_package(OpenMP)
+
+# Optional packages (managed by Defines.h.in)
+set(CGAL_FOUND 0)
+find_package(CGAL)
+set(PQXX_FOUND 0)
+find_package(PQXX)
 
 include(ispc)
 
@@ -50,7 +54,6 @@ set(${NAME}_SOURCES
     plugin/fields/FieldsHandler.cpp
     plugin/fields/Octree.cpp
     plugin/fields/OctreeNode.cpp
-    plugin/io/db/DBConnector.cpp
     plugin/io/CacheLoader.cpp
     plugin/io/OOCManager.cpp
     plugin/bioexplorer/UniqueId.cpp
@@ -62,15 +65,11 @@ set(${NAME}_SOURCES
     plugin/bioexplorer/MeshBasedMembrane.cpp
     plugin/bioexplorer/Protein.cpp
     plugin/bioexplorer/RNASequence.cpp
-    plugin/meshing/MetaballsGenerator.cpp
-    plugin/meshing/PointCloudMesher.cpp
-    plugin/meshing/SurfaceMesher.cpp
     plugin/api/Params.cpp
     plugin/BioExplorerPlugin.cpp
 )
 
 set(${NAME}_PUBLIC_HEADERS
-    plugin/io/db/DBConnector.h
     plugin/io/OOCManager.h
     plugin/io/CacheLoader.h
     plugin/bioexplorer/UniqueId.h
@@ -84,12 +83,30 @@ set(${NAME}_PUBLIC_HEADERS
     plugin/bioexplorer/RNASequence.h
     plugin/common/GeneralSettings.h
     plugin/common/CommonTypes.h
-    plugin/meshing/MetaballsGenerator.h
-    plugin/meshing/PointCloudMesher.h
-    plugin/meshing/SurfaceMesher.h
     plugin/api/Params.h
     plugin/BioExplorerPlugin.h
 )
+
+if(${CGAL_FOUND})
+    list(APPEND ${NAME}_SOURCES
+        plugin/meshing/PointCloudMesher.cpp
+        plugin/meshing/SurfaceMesher.cpp
+    )
+
+    list(APPEND ${NAME}_PUBLIC_HEADERS 
+        plugin/meshing/PointCloudMesher.h
+        plugin/meshing/SurfaceMesher.h
+    )
+endif()
+
+if(${PQXX_FOUND})
+    list(APPEND ${NAME}_SOURCES plugin/io/db/DBConnector.cpp)
+    list(APPEND ${NAME}_PUBLIC_HEADERS plugin/io/db/DBConnector.h)
+endif()
+
+if(${CGAL_FOUND})
+    add_compile_options(-frounding-math)
+endif()
 
 set(${NAME}_ISPC_SOURCES
     module/ispc/camera/PerspectiveStereoCamera.ispc
@@ -114,6 +131,7 @@ list(APPEND ${NAME}_SOURCES ${ISPC_OBJECTS})
 # ==============================================================================
 # Compile c++ code
 # ==============================================================================
+
 include_directories(
     ${PROJECT_SOURCE_DIR}
     ${OSPRAY_INCLUDE_DIRS}
@@ -125,8 +143,17 @@ include_directories(
 set(${NAME}_LINK_LIBRARIES
     PUBLIC ${OSPRAY_LIBRARIES}
     PRIVATE braynsParameters braynsPluginAPI braynsCommon braynsEngine braynsIO
-            braynsOSPRayEngine pqxx ${CGAL_LIBRARIES} ${FreeImage_LIBRARIES}
+            braynsOSPRayEngine ${FreeImage_LIBRARIES}
 )
+
+if(${CGAL_FOUND})
+    list(APPEND ${NAME}_LINK_LIBRARIES ${CGAL_LIBRARIES})
+endif()
+
+if(${PQXX_FOUND})
+    list(APPEND ${NAME}_LINK_LIBRARIES ${PQXX_LIBRARIES})
+endif()
+
 
 add_library(
     ${LIBRARY_NAME}

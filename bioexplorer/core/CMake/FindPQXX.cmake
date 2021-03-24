@@ -7,7 +7,7 @@
 if ( NOT PQXX_INCLUDE_DIRECTORIES OR NOT PQXX_LIBRARIES )
 
   FIND_PACKAGE( PostgreSQL REQUIRED )
-  if ( POSTGRES_FOUND )
+  if ( PostgreSQL_FOUND )
     file( TO_CMAKE_PATH "$ENV{PQXX_DIR}" _PQXX_DIR )
 
     find_library( PQXX_LIBRARY
@@ -17,6 +17,7 @@ if ( NOT PQXX_INCLUDE_DIRECTORIES OR NOT PQXX_LIBRARIES )
         ${_PQXX_DIR}
         ${CMAKE_INSTALL_PREFIX}/lib
           ${CMAKE_INSTALL_PREFIX}/bin
+        /usr/lib/x86_64-linux-gnu
         /usr/local/pgsql/lib
         /usr/local/lib
         /usr/lib

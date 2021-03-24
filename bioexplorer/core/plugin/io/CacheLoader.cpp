@@ -371,8 +371,9 @@ ModelDescriptorPtr CacheLoader::_importModel(std::stringstream& buffer,
             modelDescriptor->addInstance(instance);
         }
 
-        modelDescriptor->setVisible(
-            GeneralSettings::getInstance()->getModelVisibilityOnCreation());
+        const auto visible =
+            GeneralSettings::getInstance()->getModelVisibilityOnCreation();
+        modelDescriptor->setVisible(visible);
         return modelDescriptor;
     }
     return nullptr;
@@ -415,26 +416,6 @@ std::vector<ModelDescriptorPtr> CacheLoader::importModelsFromFile(
             modelDescriptors.push_back(modelDescriptor);
 
         callback.updateProgress("Loading models", float(i) / float(nbModels));
-    }
-
-    return modelDescriptors;
-}
-
-std::vector<ModelDescriptorPtr> CacheLoader::importBrickFromDB(
-    const std::string& connectionString, const std::string& schema,
-    const int32_t brickId) const
-{
-    std::vector<ModelDescriptorPtr> modelDescriptors;
-    uint32_t nbModels = 0;
-
-    DBConnector connector(connectionString, schema);
-    auto buffer = connector.selectBrick(brickId, CACHE_VERSION_1, nbModels);
-
-    for (size_t i = 0; i < nbModels; ++i)
-    {
-        auto modelDescriptor = _importModel(buffer, brickId);
-        if (modelDescriptor)
-            modelDescriptors.push_back(modelDescriptor);
     }
 
     return modelDescriptors;
@@ -802,6 +783,27 @@ void CacheLoader::exportToFile(const std::string& filename,
     file.close();
 }
 
+#ifdef USE_PQXX
+std::vector<ModelDescriptorPtr> CacheLoader::importBrickFromDB(
+    const std::string& connectionString, const std::string& schema,
+    const int32_t brickId) const
+{
+    std::vector<ModelDescriptorPtr> modelDescriptors;
+    uint32_t nbModels = 0;
+
+    DBConnector connector(connectionString, schema);
+    auto buffer = connector.selectBrick(brickId, CACHE_VERSION_1, nbModels);
+
+    for (size_t i = 0; i < nbModels; ++i)
+    {
+        auto modelDescriptor = _importModel(buffer, brickId);
+        if (modelDescriptor)
+            modelDescriptors.push_back(modelDescriptor);
+    }
+
+    return modelDescriptors;
+}
+
 void CacheLoader::exportBrickToDB(const std::string& connectionString,
                                   const std::string& schema,
                                   const int32_t brickId,
@@ -823,6 +825,7 @@ void CacheLoader::exportBrickToDB(const std::string& connectionString,
         connector.insertBrick(brickId, CACHE_VERSION_1, nbModels, buffer);
     }
 }
+#endif
 
 void CacheLoader::exportToXYZ(const std::string& filename,
                               const XYZFileFormat fileFormat) const

@@ -80,7 +80,7 @@ std::stringstream DBConnector::selectBrick(const int32_t brickId,
                                            const uint32_t& version,
                                            uint32_t& nbModels)
 {
-    std::vector<char> tmp;
+    std::stringstream s;
     pqxx::read_transaction transaction(_connection);
     try
     {
@@ -92,9 +92,12 @@ std::stringstream DBConnector::selectBrick(const int32_t brickId,
         for (auto c = res.begin(); c != res.end(); ++c)
         {
             nbModels = c[0].as<uint32_t>();
-            const pqxx::binarystring buffer(c[1]);
-            tmp.resize(buffer.size());
-            memcpy(tmp.data(), buffer.data(), buffer.size());
+            if (nbModels > 0)
+            {
+                const pqxx::binarystring buffer(c[1]);
+                std::copy(buffer.begin(), buffer.end(),
+                          std::ostream_iterator<char>(s));
+            }
         }
     }
     catch (pqxx::sql_error& e)
@@ -103,9 +106,6 @@ std::stringstream DBConnector::selectBrick(const int32_t brickId,
     }
     transaction.abort();
 
-    std::stringstream s;
-    if (nbModels > 0)
-        std::copy(tmp.begin(), tmp.end(), std::ostream_iterator<char>(s));
     return s;
 }
 

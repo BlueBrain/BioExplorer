@@ -22,6 +22,8 @@
 
 #include "Types.h"
 
+#include <plugin/common/Logs.h>
+
 namespace bioexplorer
 {
 /**
@@ -36,6 +38,7 @@ public:
     {
         if (!_instance)
             _instance = new GeneralSettings();
+        PLUGIN_WARN << "_instance=" << _instance << std::endl;
         return _instance;
     }
 

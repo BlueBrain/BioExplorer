@@ -136,16 +136,21 @@ void OOCManager::_loadBricks()
         {
             const auto brickToLoad = (*bricksToLoad.begin());
             loadedBricks.insert(brickToLoad);
-            char idStr[7];
-            sprintf(idStr, "%06d", brickToLoad);
-            const std::string filename =
-                bricksFolder + "/brick" + idStr + ".bioexplorer";
             try
             {
                 CacheLoader loader(_scene);
+#ifdef USE_PQXX
                 modelsToAddToScene =
                     loader.importBrickFromDB(dbConnectionString, dbSchema,
                                              brickToLoad);
+#else
+                char idStr[7];
+                sprintf(idStr, "%06d", brickToLoad);
+                const std::string filename =
+                    bricksFolder + "/brick" + idStr + ".bioexplorer";
+                modelsToAddToScene =
+                    loader.importModelsFromFile(filename, brickToLoad);
+#endif
             }
             catch (std::runtime_error& e)
             {

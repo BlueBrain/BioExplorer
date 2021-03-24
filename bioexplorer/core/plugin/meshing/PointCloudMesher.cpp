@@ -19,7 +19,6 @@
  */
 
 #include "PointCloudMesher.h"
-#include "MetaballsGenerator.h"
 
 #include <plugin/common/CommonTypes.h>
 #include <plugin/common/Logs.h>
@@ -94,36 +93,4 @@ bool PointCloudMesher::toConvexHull(Model& model, const PointCloud& pointCloud)
 #endif
 }
 
-bool PointCloudMesher::toMetaballs(brayns::Model& model,
-                                   const PointCloud& pointCloud,
-                                   const size_t gridSize, const float threshold)
-{
-    auto& triangles = model.getTriangleMeshes();
-    for (const auto& point : pointCloud)
-    {
-        if (point.second.empty())
-            continue;
-
-        PLUGIN_INFO << "Material " << point.first
-                    << ", number of balls: " << point.second.size()
-                    << std::endl;
-
-        auto material =
-            model.createMaterial(point.first, std::to_string(point.first));
-        brayns::PropertyMap props;
-        props.setProperty({MATERIAL_PROPERTY_SHADING_MODE,
-                           static_cast<int>(MaterialShadingMode::diffuse)});
-        props.setProperty({MATERIAL_PROPERTY_USER_PARAMETER, 1.0});
-        props.setProperty(
-            {MATERIAL_PROPERTY_CHAMELEON_MODE,
-             static_cast<int>(
-                 MaterialChameleonMode::undefined_chameleon_mode)});
-        material->updateProperties(props);
-
-        MetaballsGenerator metaballsGenerator;
-        metaballsGenerator.generateMesh(point.first, point.second, gridSize,
-                                        threshold, triangles);
-    }
-    return !triangles.empty();
-}
 } // namespace bioexplorer

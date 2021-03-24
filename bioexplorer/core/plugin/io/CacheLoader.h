@@ -126,6 +126,15 @@ public:
         const PropertyMap& properties = PropertyMap()) const;
 
     /**
+     * @brief Exports an optimized binary representation the 3D scene to a file
+     *
+     * @param filename Full path of the file
+     */
+    void exportToFile(const std::string& filename,
+                      const Boxf& bounds = Boxf()) const;
+
+#ifdef USE_PQXX
+    /**
      * @brief
      *
      * @param connectionString
@@ -138,14 +147,6 @@ public:
         const int32_t brickId) const;
 
     /**
-     * @brief Exports an optimized binary representation the 3D scene to a file
-     *
-     * @param filename Full path of the file
-     */
-    void exportToFile(const std::string& filename,
-                      const Boxf& bounds = Boxf()) const;
-
-    /**
      * @brief Exports an optimized binary representation the 3D scene to a DB
      *
      * @param connectionString Connection string to the DB
@@ -153,6 +154,7 @@ public:
     void exportBrickToDB(const std::string& connectionString,
                          const std::string& schema, const int32_t brickId,
                          const Boxf& bounds) const;
+#endif
 
     /**
      * @brief Exports atom information from the 3D scene to a file

@@ -47,19 +47,6 @@ public:
      * @return false
      */
     bool toConvexHull(Model& model, const PointCloud& pointCloud);
-
-    /**
-     * @brief
-     *
-     * @param model
-     * @param pointCloud
-     * @param gridSize
-     * @param threshold
-     * @return true
-     * @return false
-     */
-    bool toMetaballs(brayns::Model& model, const PointCloud& pointCloud,
-                     const size_t gridSize, const float threshold);
 };
 
 } // namespace bioexplorer

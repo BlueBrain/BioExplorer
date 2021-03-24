@@ -21,8 +21,15 @@
 #pragma once
 
 // clang-format off
+
+// CGAL
 #if @CGAL_FOUND@ == 1
 #  define USE_CGAL
+#endif
+
+// PQXX
+#if @PQXX_FOUND@ == 1
+#  define USE_PQXX
 #endif
 
 #define BIOEXPLORER_VERSION "@BIOEXPLORER_VERSION@"
