@@ -44,6 +44,7 @@ const std::string METADATA_HEADER = "Header";
 const std::string METADATA_ATOMS = "Atoms";
 const std::string METADATA_BONDS = "Bonds";
 const std::string METADATA_SIZE = "Size";
+const std::string METADATA_BRICK_ID = "BrickId";
 
 // Typedefs
 typedef std::map<std::string, std::string> StringMap;
@@ -61,6 +62,9 @@ typedef std::vector<std::pair<Vector3f, float>> OccupiedDirections;
 typedef struct
 {
     bool modelVisibilityOnCreation;
+    std::string databaseConnectionString;
+    std::string databaseSchema;
+    std::string bricksFolder;
     std::string offFolder;
 } GeneralSettingsDescriptor;
 
@@ -734,20 +738,20 @@ typedef struct
  * from atom positions and charge
  *
  */
-struct BuildFields
+typedef struct
 {
     /** Voxel size used to build the Octree acceleration structure */
     float voxelSize;
     /** Density of atoms to consider (Between 0 and 1) */
     float density;
-};
+} BuildFields;
 
 // IO
-struct ModelIdFileAccess
+typedef struct
 {
     size_t modelId;
     std::string filename;
-};
+} ModelIdFileAccess;
 
 /**
  * @brief File format for export of atom coordinates, radius and charge
@@ -780,28 +784,56 @@ enum class XYZFileFormat
  * @brief Structure defining how to export data into a file
  *
  */
-struct FileAccess
+typedef struct
 {
     std::string filename;
     XYZFileFormat fileFormat;
-};
+} FileAccess;
+
+/**
+ * @brief Structure defining how to export data into a DB
+ *
+ */
+typedef struct
+{
+    std::string connectionString;
+    std::string schema;
+    int32_t brickId;
+    std::vector<float> lowBounds;
+    std::vector<float> highBounds;
+} DBAccess;
 
 /**
  * @brief Structure defining how to build a point cloud from the scene
  *
  */
-struct BuildPointCloud
+typedef struct
 {
     float radius;
-};
+} BuildPointCloud;
 
 /**
  * @brief Structure defining how visible models are in the scene
  *
  */
-struct ModelsVisibility
+typedef struct
 {
     bool visible;
-};
+} ModelsVisibility;
+
+class OOCManager;
+typedef std::shared_ptr<OOCManager> OOCManagerPtr;
+/**
+ * @brief
+ *
+ */
+typedef struct
+{
+    bool enabled;
+    std::vector<float> sceneSize;
+    size_t nbBricks;
+    size_t visibleBricks;
+    float updateFrequency;
+} OutOfCoreDescriptor;
 
 } // namespace bioexplorer

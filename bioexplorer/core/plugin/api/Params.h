@@ -66,6 +66,9 @@ bool from_json(SetAminoAcid &param, const std::string &payload);
 // Files
 bool from_json(FileAccess &param, const std::string &payload);
 
+// DB
+bool from_json(DBAccess &param, const std::string &payload);
+
 // Color schemes and materials
 bool from_json(ColorSchemeDescriptor &param, const std::string &payload);
 bool from_json(ModelId &modelId, const std::string &payload);
@@ -82,5 +85,8 @@ bool from_json(BuildPointCloud &param, const std::string &payload);
 
 // Models
 bool from_json(ModelsVisibility &param, const std::string &payload);
+
+// Out-of-Core
+bool from_json(OutOfCoreDescriptor &param, const std::string &payload);
 
 } // namespace bioexplorer

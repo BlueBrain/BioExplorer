@@ -22,6 +22,8 @@
 
 #include "Types.h"
 
+#include <plugin/common/Logs.h>
+
 namespace bioexplorer
 {
 /**
@@ -36,6 +38,7 @@ public:
     {
         if (!_instance)
             _instance = new GeneralSettings();
+        PLUGIN_WARN << "_instance=" << _instance << std::endl;
         return _instance;
     }
 
@@ -64,7 +67,7 @@ public:
      * @brief Get the Off Folder object. The off folder is the cache where Off
      * files are stored when using the Surface representation of molecules
      *
-     * @return std::string The path to the folder
+     * @return The path to the folder
      */
     std::string getOffFolder() { return _offFolder; }
 
@@ -75,12 +78,27 @@ public:
      */
     void setOffFolder(const std::string& value) { _offFolder = value; }
 
+    std::string getBricksFolder() { return _bricksFolder; }
+    void setBricksFolder(const std::string& value) { _bricksFolder = value; }
+
+    std::string getDatabaseConnectionString() { return _dbConnectionString; }
+    void setDatabaseConnectionString(const std::string& value)
+    {
+        _dbConnectionString = value;
+    }
+
+    std::string getDatabaseSchema() { return _dbSchema; }
+    void setDatabaseSchema(const std::string& value) { _dbSchema = value; }
+
 private:
     GeneralSettings() {}
     ~GeneralSettings() {}
 
     bool _modelVisibilityOnCreation{true};
     std::string _offFolder{"/tmp/"};
+    std::string _bricksFolder{"/tmp/"};
+    std::string _dbConnectionString;
+    std::string _dbSchema;
 
     static GeneralSettings* _instance;
 };

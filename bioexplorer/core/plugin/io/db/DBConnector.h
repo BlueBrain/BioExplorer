@@ -20,17 +20,30 @@
 
 #pragma once
 
-// clang-format off
+#include <pqxx/pqxx>
 
-// CGAL
-#if @CGAL_FOUND@ == 1
-#  define USE_CGAL
-#endif
+#include <brayns/common/types.h>
+#include <plugin/common/Types.h>
 
-// PQXX
-#if @PQXX_FOUND@ == 1
-#  define USE_PQXX
-#endif
+namespace bioexplorer
+{
+class DBConnector
+{
+public:
+    DBConnector(const std::string& connectionString, const std::string& schema);
+    ~DBConnector();
 
-#define BIOEXPLORER_VERSION "@BIOEXPLORER_VERSION@"
-// clang-format-on
+    void clearBricks();
+    std::stringstream selectBrick(const int32_t brickId,
+                                  const uint32_t& version, uint32_t& nbModels);
+    void insertBrick(const int32_t brickId, const uint32_t version,
+                     const uint32_t nbModels, const std::stringstream& buffer);
+
+private:
+    pqxx::connection _connection;
+    std::string _schema;
+};
+
+typedef std::shared_ptr<DBConnector> DBConnectorPtr;
+
+} // namespace bioexplorer

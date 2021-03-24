@@ -22,6 +22,7 @@
 #include "Protein.h"
 
 #include <plugin/common/CommonTypes.h>
+#include <plugin/common/GeneralSettings.h>
 #include <plugin/common/Logs.h>
 #include <plugin/common/Utils.h>
 
@@ -238,10 +239,6 @@ void Membrane::_processInstances()
             break;
         }
 
-        // Clipping planes
-        if (isClipped(pos, _clippingPlanes))
-            continue;
-
         // Remove membrane where proteins are. This is currently done
         // according to the vector orientation
         bool occupied{false};
@@ -258,8 +255,9 @@ void Membrane::_processInstances()
 
         // Final transformation
         Transformation tf;
-        tf.setTranslation(_position +
-                          Vector3f(_orientation * Vector3d(pos - center)));
+        const Vector3f translation =
+            _position + Vector3f(_orientation * Vector3d(pos - center));
+        tf.setTranslation(translation);
 
         Quaterniond instanceOrientation = glm::quatLookAt(dir, UP_VECTOR);
 

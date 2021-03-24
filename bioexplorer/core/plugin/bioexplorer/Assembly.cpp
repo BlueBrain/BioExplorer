@@ -24,6 +24,7 @@
 #include <plugin/bioexplorer/MeshBasedMembrane.h>
 #include <plugin/bioexplorer/Protein.h>
 #include <plugin/bioexplorer/RNASequence.h>
+#include <plugin/common/GeneralSettings.h>
 #include <plugin/common/Logs.h>
 #include <plugin/common/Utils.h>
 
@@ -272,10 +273,6 @@ void Assembly::_processInstances(
             break;
         }
 
-        // Clipping planes
-        if (isClipped(pos, _clippingPlanes))
-            continue;
-
         // Remove membrane where proteins are. This is currently done according
         // to the vector orientation
         bool occupied{false};
@@ -293,8 +290,10 @@ void Assembly::_processInstances(
         const Quaterniond instanceOrientation = glm::quatLookAt(dir, UP_VECTOR);
 
         Transformation tf;
-        tf.setTranslation(assemblyPosition +
-                          Vector3f(assemblyOrientation * Vector3d(pos)));
+        const Vector3f translation =
+            assemblyPosition + Vector3f(assemblyOrientation * Vector3d(pos));
+
+        tf.setTranslation(translation);
         tf.setRotation(assemblyOrientation * instanceOrientation * orientation);
 
         if (count == 0)

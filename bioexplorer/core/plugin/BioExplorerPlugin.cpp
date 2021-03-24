@@ -26,6 +26,7 @@
 #include <plugin/common/Logs.h>
 #include <plugin/common/Utils.h>
 #include <plugin/io/CacheLoader.h>
+#include <plugin/io/OOCManager.h>
 
 #include <brayns/common/ActionInterface.h>
 #include <brayns/common/scene/ClipPlane.h>
@@ -253,6 +254,13 @@ void BioExplorerPlugin::init()
             entryPoint,
             [&](const FileAccess &payload) { return _exportToCache(payload); });
 
+        entryPoint = PLUGIN_API_PREFIX + "import-from-cache";
+        PLUGIN_INFO << "Registering '" + entryPoint + "' endpoint" << std::endl;
+        actionInterface->registerRequest<FileAccess, Response>(
+            entryPoint, [&](const FileAccess &payload) {
+                return _importFromCache(payload);
+            });
+
         entryPoint = PLUGIN_API_PREFIX + "export-to-xyz";
         PLUGIN_INFO << "Registering '" + entryPoint + "' endpoint" << std::endl;
         actionInterface->registerRequest<FileAccess, Response>(
@@ -305,12 +313,32 @@ void BioExplorerPlugin::init()
         actionInterface->registerRequest<ModelsVisibility, Response>(
             entryPoint,
             [&](const ModelsVisibility &s) { return _setModelsVisibility(s); });
+
+        entryPoint = PLUGIN_API_PREFIX + "set-out-of-core";
+        PLUGIN_INFO << "Registering '" + entryPoint + "' endpoint" << std::endl;
+        actionInterface->registerRequest<OutOfCoreDescriptor, Response>(
+            entryPoint,
+            [&](const OutOfCoreDescriptor &s) { return _setOutOfCore(s); });
+
+#ifdef USE_PQXX
+        entryPoint = PLUGIN_API_PREFIX + "export-brick-to-db";
+        PLUGIN_INFO << "Registering '" + entryPoint + "' endpoint" << std::endl;
+        actionInterface->registerRequest<DBAccess, Response>(
+            entryPoint,
+            [&](const DBAccess &payload) { return _exportBrickToDB(payload); });
+#endif
     }
 
     auto &engine = _api->getEngine();
     _addBioExplorerPerspectiveCamera(engine);
     _addBioExplorerRenderer(engine);
     _addBioExplorerFieldsRenderer(engine);
+}
+
+void BioExplorerPlugin::preRender()
+{
+    if (_oocManager)
+        _oocManager->updateBricks();
 }
 
 Response BioExplorerPlugin::_version() const
@@ -326,10 +354,16 @@ Response BioExplorerPlugin::_setGeneralSettings(
     Response response;
     try
     {
-        PLUGIN_INFO << "Setting general options for the plugin" << std::endl;
-        GeneralSettings::getInstance()->setOffFolder(payload.offFolder);
+        PLUGIN_DEBUG << "Setting general options for the plugin" << std::endl;
         GeneralSettings::getInstance()->setModelVisibilityOnCreation(
             payload.modelVisibilityOnCreation);
+        GeneralSettings::getInstance()->setDatabaseConnectionString(
+            payload.databaseConnectionString);
+        GeneralSettings::getInstance()->setDatabaseSchema(
+            payload.databaseSchema);
+        GeneralSettings::getInstance()->setBricksFolder(payload.bricksFolder);
+        GeneralSettings::getInstance()->setOffFolder(payload.offFolder);
+
         response.contents = "OK";
     }
     CATCH_STD_EXCEPTION()
@@ -595,7 +629,28 @@ Response BioExplorerPlugin::_exportToCache(const FileAccess &payload)
     {
         auto &scene = _api->getScene();
         CacheLoader loader(scene);
-        loader.exportToCache(payload.filename);
+        loader.exportToFile(payload.filename);
+    }
+    CATCH_STD_EXCEPTION()
+    return response;
+}
+
+Response BioExplorerPlugin::_importFromCache(const FileAccess &payload)
+{
+    Response response;
+    try
+    {
+        auto &scene = _api->getScene();
+        CacheLoader loader(scene);
+        const auto modelDescriptors =
+            loader.importModelsFromFile(payload.filename);
+        if (modelDescriptors.empty())
+            PLUGIN_THROW(std::runtime_error("No models were found in " +
+                                            payload.filename));
+        response.contents = std::to_string(modelDescriptors.size()) +
+                            " models successfully loaded";
+        for (const auto modelDescriptor : modelDescriptors)
+            scene.addModel(modelDescriptor);
     }
     CATCH_STD_EXCEPTION()
     return response;
@@ -1084,6 +1139,67 @@ Response BioExplorerPlugin::_setModelsVisibility(
     return response;
 }
 
+Response BioExplorerPlugin::_setOutOfCore(const OutOfCoreDescriptor &payload)
+{
+    Response response;
+    try
+    {
+        PLUGIN_INFO << "Setting out-of-core mode to "
+                    << (payload.enabled ? "On" : "Off") << std::endl;
+        auto &scene = _api->getScene();
+        auto &camera = _api->getCamera();
+        if (payload.enabled)
+        {
+            if (!_oocManager)
+            {
+                _oocManager =
+                    OOCManagerPtr(new OOCManager(scene, camera, payload));
+                _oocManager->loadBricks();
+            }
+        }
+        else
+        {
+            if (_oocManager)
+                _oocManager.reset();
+            _oocManager = nullptr;
+        }
+
+        response.contents = "OK";
+    }
+    CATCH_STD_EXCEPTION()
+    return response;
+}
+
+#ifdef USE_PQXX
+Response BioExplorerPlugin::_exportBrickToDB(const DBAccess &payload)
+{
+    Response response;
+    try
+    {
+        if (!payload.lowBounds.empty() && payload.lowBounds.size() != 3)
+            PLUGIN_THROW(
+                std::runtime_error("Invalid low bounds. 3 floats expected"));
+        if (!payload.highBounds.empty() && payload.highBounds.size() != 3)
+            PLUGIN_THROW(
+                std::runtime_error("Invalid high bounds. 3 floats expected"));
+        Boxf bounds;
+        if (!payload.lowBounds.empty())
+            bounds.merge({payload.lowBounds[0], payload.lowBounds[1],
+                          payload.lowBounds[2]});
+        if (!payload.lowBounds.empty())
+            bounds.merge({payload.highBounds[0], payload.highBounds[1],
+                          payload.highBounds[2]});
+
+        auto &scene = _api->getScene();
+        CacheLoader loader(scene);
+        loader.exportBrickToDB(payload.connectionString, payload.schema,
+                               payload.brickId, bounds);
+    }
+    CATCH_STD_EXCEPTION()
+    return response;
+}
+#endif
+
 extern "C" ExtensionPlugin *brayns_plugin_create(int /*argc*/, char ** /*argv*/)
 {
     PLUGIN_INFO << " _|_|_|    _|            _|_|_|_|                      _|  "
@@ -1109,6 +1225,12 @@ extern "C" ExtensionPlugin *brayns_plugin_create(int /*argc*/, char ** /*argv*/)
                 << std::endl;
     PLUGIN_INFO << "Initializing BioExplorer plug-in (version "
                 << BIOEXPLORER_VERSION << ")" << std::endl;
+#ifdef USE_CGAL
+    PLUGIN_INFO << "- CGAL module loaded" << std::endl;
+#endif
+#ifdef USE_PQXX
+    PLUGIN_INFO << "- Postgresql module loaded" << std::endl;
+#endif
     PLUGIN_INFO << std::endl;
     return new BioExplorerPlugin();
 }

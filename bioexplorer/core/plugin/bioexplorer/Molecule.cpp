@@ -25,8 +25,10 @@
 #include <plugin/common/Logs.h>
 #include <plugin/common/Utils.h>
 
+#ifdef USE_CGAL
 #include <plugin/meshing/PointCloudMesher.h>
 #include <plugin/meshing/SurfaceMesher.h>
+#endif
 
 #include <brayns/engineapi/Material.h>
 
@@ -369,6 +371,7 @@ void Molecule::_buildModel(const std::string& assemblyName,
                                               metadata);
         break;
     }
+#ifdef USE_CGAL
     case ProteinRepresentation::surface:
     case ProteinRepresentation::union_of_balls:
     {
@@ -415,6 +418,13 @@ void Molecule::_buildModel(const std::string& assemblyName,
                                               metadata);
         break;
     }
+#else
+    case ProteinRepresentation::surface:
+    case ProteinRepresentation::union_of_balls:
+    case ProteinRepresentation::contour:
+        PLUGIN_THROW(std::runtime_error("CGAL is required to create surfaces"));
+        break;
+#endif
     case ProteinRepresentation::debug:
     {
         auto model = _scene.createModel();

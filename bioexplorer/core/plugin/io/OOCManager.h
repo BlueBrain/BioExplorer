@@ -20,17 +20,30 @@
 
 #pragma once
 
-// clang-format off
+#include <plugin/common/Types.h>
 
-// CGAL
-#if @CGAL_FOUND@ == 1
-#  define USE_CGAL
-#endif
+namespace bioexplorer
+{
+using namespace brayns;
 
-// PQXX
-#if @PQXX_FOUND@ == 1
-#  define USE_PQXX
-#endif
+class OOCManager
+{
+public:
+    OOCManager(Scene& scene, Camera& camera,
+               const OutOfCoreDescriptor& descriptor);
+    ~OOCManager() {}
 
-#define BIOEXPLORER_VERSION "@BIOEXPLORER_VERSION@"
-// clang-format-on
+    void loadBricks();
+
+    void updateBricks();
+
+private:
+    void _loadBricks();
+
+    OutOfCoreDescriptor _descriptor;
+    Scene& _scene;
+    Camera& _camera;
+    Vector3f _sceneSize;
+    Vector3f _brickSize;
+};
+} // namespace bioexplorer
