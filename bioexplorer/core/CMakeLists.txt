@@ -30,9 +30,7 @@ find_package(FreeImage REQUIRED)
 find_package(OpenMP)
 
 # Optional packages (managed by Defines.h.in)
-set(CGAL_FOUND 0)
 find_package(CGAL)
-set(PQXX_FOUND 0)
 find_package(PQXX)
 
 include(ispc)
@@ -88,6 +86,7 @@ set(${NAME}_PUBLIC_HEADERS
 )
 
 if(${CGAL_FOUND})
+    MESSAGE("-- Using CGAL")
     list(APPEND ${NAME}_SOURCES
         plugin/meshing/PointCloudMesher.cpp
         plugin/meshing/SurfaceMesher.cpp
@@ -100,6 +99,7 @@ if(${CGAL_FOUND})
 endif()
 
 if(${PQXX_FOUND})
+    MESSAGE("-- Using PQXX")
     list(APPEND ${NAME}_SOURCES plugin/io/db/DBConnector.cpp)
     list(APPEND ${NAME}_PUBLIC_HEADERS plugin/io/db/DBConnector.h)
 endif()

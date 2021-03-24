@@ -34,11 +34,13 @@ namespace bioexplorer
 class GeneralSettings
 {
 public:
+    GeneralSettings() {}
+
     static GeneralSettings* getInstance()
     {
+        std::lock_guard<std::mutex> lock(_mutex);
         if (!_instance)
             _instance = new GeneralSettings();
-        PLUGIN_WARN << "_instance=" << _instance << std::endl;
         return _instance;
     }
 
@@ -90,8 +92,10 @@ public:
     std::string getDatabaseSchema() { return _dbSchema; }
     void setDatabaseSchema(const std::string& value) { _dbSchema = value; }
 
+    static std::mutex _mutex;
+    static GeneralSettings* _instance;
+
 private:
-    GeneralSettings() {}
     ~GeneralSettings() {}
 
     bool _modelVisibilityOnCreation{true};
@@ -99,7 +103,5 @@ private:
     std::string _bricksFolder{"/tmp/"};
     std::string _dbConnectionString;
     std::string _dbSchema;
-
-    static GeneralSettings* _instance;
 };
 } // namespace bioexplorer

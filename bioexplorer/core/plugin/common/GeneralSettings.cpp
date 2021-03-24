@@ -23,4 +23,5 @@
 namespace bioexplorer
 {
 GeneralSettings *GeneralSettings::_instance = nullptr;
+std::mutex GeneralSettings::_mutex;
 }
