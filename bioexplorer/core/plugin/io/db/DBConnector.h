@@ -34,8 +34,11 @@ public:
     ~DBConnector();
 
     void clearBricks();
-    std::stringstream selectBrick(const int32_t brickId,
-                                  const uint32_t& version, uint32_t& nbModels);
+    void getConfiguration(std::string& description, Vector3f& sceneSize,
+                          uint32_t& nbBricks);
+
+    std::stringstream getBrick(const int32_t brickId, const uint32_t& version,
+                               uint32_t& nbModels);
     void insertBrick(const int32_t brickId, const uint32_t version,
                      const uint32_t nbModels, const std::stringstream& buffer);
 

@@ -22,8 +22,6 @@
 
 #include "CacheLoader.h"
 
-#include <plugin/io/db/DBConnector.h>
-
 #include <plugin/api/Params.h>
 #include <plugin/bioexplorer/Assembly.h>
 #include <plugin/bioexplorer/Protein.h>
@@ -42,7 +40,7 @@
 
 namespace
 {
-bool inBounds(const Vector3f& point, const Boxf& bounds)
+bool inBounds(const Vector3f& point, const Boxd& bounds)
 {
     const auto mi = bounds.getMin();
     const auto ma = bounds.getMax();
@@ -176,23 +174,24 @@ ModelDescriptorPtr CacheLoader::_importModel(std::stringstream& buffer,
         buffer.read((char*)&value, sizeof(float));
         material->setGlossiness(value);
 
+        brayns::PropertyMap props;
         double userParameter;
         buffer.read((char*)&userParameter, sizeof(double));
-        material->updateProperty(MATERIAL_PROPERTY_USER_PARAMETER,
-                                 userParameter);
+        props.setProperty({MATERIAL_PROPERTY_USER_PARAMETER, userParameter});
 
         int32_t shadingMode;
         buffer.read((char*)&shadingMode, sizeof(int32_t));
-        material->updateProperty(MATERIAL_PROPERTY_SHADING_MODE, shadingMode);
+        // props.setProperty({MATERIAL_PROPERTY_SHADING_MODE, shadingMode});
+        props.setProperty({MATERIAL_PROPERTY_SHADING_MODE, 1});
 
         int32_t chameleonMode;
         buffer.read((char*)&chameleonMode, sizeof(int32_t));
-        material->updateProperty(MATERIAL_PROPERTY_CHAMELEON_MODE,
-                                 chameleonMode);
+        props.setProperty({MATERIAL_PROPERTY_CHAMELEON_MODE, chameleonMode});
 
         int32_t nodeId;
         buffer.read((char*)&nodeId, sizeof(int32_t));
-        material->updateProperty(MATERIAL_PROPERTY_NODE_ID, nodeId);
+        props.setProperty({MATERIAL_PROPERTY_NODE_ID, nodeId});
+        material->updateProperties(props);
     }
 
     uint64_t bufferSize{0};
@@ -447,7 +446,7 @@ std::string CacheLoader::_readString(std::stringstream& buffer) const
 
 bool CacheLoader::_exportModel(const ModelDescriptorPtr modelDescriptor,
                                std::stringstream& buffer,
-                               const Boxf& bounds) const
+                               const Boxd& bounds) const
 {
     uint64_t bufferSize{0};
     const auto& model = modelDescriptor->getModel();
@@ -753,7 +752,7 @@ bool CacheLoader::_exportModel(const ModelDescriptorPtr modelDescriptor,
 }
 
 void CacheLoader::exportToFile(const std::string& filename,
-                               const Boxf& bounds) const
+                               const Boxd& bounds) const
 {
     PLUGIN_DEBUG << "Saving scene to BioExplorer file: " << filename
                  << std::endl;
@@ -785,14 +784,12 @@ void CacheLoader::exportToFile(const std::string& filename,
 
 #ifdef USE_PQXX
 std::vector<ModelDescriptorPtr> CacheLoader::importBrickFromDB(
-    const std::string& connectionString, const std::string& schema,
-    const int32_t brickId) const
+    DBConnector& connector, const int32_t brickId) const
 {
     std::vector<ModelDescriptorPtr> modelDescriptors;
     uint32_t nbModels = 0;
 
-    DBConnector connector(connectionString, schema);
-    auto buffer = connector.selectBrick(brickId, CACHE_VERSION_1, nbModels);
+    auto buffer = connector.getBrick(brickId, CACHE_VERSION_1, nbModels);
 
     for (size_t i = 0; i < nbModels; ++i)
     {
@@ -804,10 +801,8 @@ std::vector<ModelDescriptorPtr> CacheLoader::importBrickFromDB(
     return modelDescriptors;
 }
 
-void CacheLoader::exportBrickToDB(const std::string& connectionString,
-                                  const std::string& schema,
-                                  const int32_t brickId,
-                                  const Boxf& bounds) const
+void CacheLoader::exportBrickToDB(DBConnector& connector, const int32_t brickId,
+                                  const Boxd& bounds) const
 {
     std::stringstream buffer;
     uint32_t nbModels = 0;
@@ -818,10 +813,8 @@ void CacheLoader::exportBrickToDB(const std::string& connectionString,
     if (nbModels > 0)
     {
         PLUGIN_INFO << "Saving brick " << brickId << " ( " << nbModels
-                    << " models) to database: " << connectionString << ", "
-                    << schema << std::endl;
+                    << " models) to database" << std::endl;
 
-        DBConnector connector(connectionString, schema);
         connector.insertBrick(brickId, CACHE_VERSION_1, nbModels, buffer);
     }
 }

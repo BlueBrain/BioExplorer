@@ -29,21 +29,44 @@ using namespace brayns;
 class OOCManager
 {
 public:
-    OOCManager(Scene& scene, Camera& camera,
-               const OutOfCoreDescriptor& descriptor);
+    OOCManager(Scene& scene, const Camera& camera,
+               const CommandLineArguments& arguments);
     ~OOCManager() {}
 
+    /**
+     * @brief
+     *
+     */
     void loadBricks();
 
-    void updateBricks();
+    /**
+     * @brief Get the Description object
+     *
+     * @return const std::string&
+     */
+    const std::string& getDescription() { return _description; }
 
 private:
+    void _parseArguments(const CommandLineArguments& arguments);
     void _loadBricks();
 
-    OutOfCoreDescriptor _descriptor;
     Scene& _scene;
-    Camera& _camera;
+    const Camera& _camera;
+
+    std::string _description;
     Vector3f _sceneSize;
     Vector3f _brickSize;
+    uint32_t _nbBricks{0};
+    float _updateFrequency{1.f};
+    int32_t _nbVisibleBricks{0};
+    bool _unloadBricks{false};
+
+    // IO
+#ifdef USE_PQXX
+    std::string _dbConnectionString;
+    std::string _dbSchema;
+#else
+    std::string _bricksFolder;
+#endif
 };
 } // namespace bioexplorer

@@ -21,6 +21,8 @@
 #include "OOCManager.h"
 #include "CacheLoader.h"
 
+#include <plugin/io/db/DBConnector.h>
+
 #include <plugin/common/GeneralSettings.h>
 #include <plugin/common/Logs.h>
 
@@ -50,32 +52,28 @@ std::string int32_set_to_string(const std::set<int32_t>& s)
 
 namespace bioexplorer
 {
-OOCManager::OOCManager(Scene& scene, Camera& camera,
-                       const OutOfCoreDescriptor& descriptor)
+OOCManager::OOCManager(Scene& scene, const Camera& camera,
+                       const CommandLineArguments& arguments)
     : _scene(scene)
     , _camera(camera)
-    , _descriptor(descriptor)
 {
-    if (_descriptor.sceneSize.size() != 3)
-        PLUGIN_THROW(
-            std::runtime_error("Inalid scene size (3 floats expected"));
-    _sceneSize = Vector3f(_descriptor.sceneSize[0], _descriptor.sceneSize[1],
-                          _descriptor.sceneSize[2]);
-    _brickSize = _sceneSize / _descriptor.nbBricks;
+    _parseArguments(arguments);
 
     PLUGIN_INFO << "=================================" << std::endl;
     PLUGIN_INFO << "Out-Of-Core engine is now enabled" << std::endl;
-    PLUGIN_INFO << "Update frequency: " << _descriptor.updateFrequency
-                << std::endl;
-    PLUGIN_INFO << "Scene size      : " << _sceneSize << std::endl;
-    PLUGIN_INFO << "Brick size      : " << _brickSize << std::endl;
-    PLUGIN_INFO << "Nb of bricks    : " << _descriptor.nbBricks << std::endl;
-    PLUGIN_INFO << "Visible bricks  : " << _descriptor.visibleBricks
-                << std::endl;
     PLUGIN_INFO << "---------------------------------" << std::endl;
+    PLUGIN_INFO << "DB Connection string: " << _dbConnectionString << std::endl;
+    PLUGIN_INFO << "DB Schema           : " << _dbSchema << std::endl;
+    PLUGIN_INFO << "Description         : " << _description << std::endl;
+    PLUGIN_INFO << "Update frequency    : " << _updateFrequency << std::endl;
+    PLUGIN_INFO << "Scene size          : " << _sceneSize << std::endl;
+    PLUGIN_INFO << "Brick size          : " << _brickSize << std::endl;
+    PLUGIN_INFO << "Nb of bricks        : " << _nbBricks << std::endl;
+    PLUGIN_INFO << "Visible bricks      : " << _nbVisibleBricks << std::endl;
+    PLUGIN_INFO << "Unload bricks       : " << (_unloadBricks ? "On" : "Off")
+                << std::endl;
+    PLUGIN_INFO << "=================================" << std::endl;
 }
-
-void OOCManager::updateBricks() {}
 
 void OOCManager::loadBricks()
 {
@@ -86,157 +84,220 @@ void OOCManager::loadBricks()
 
 void OOCManager::_loadBricks()
 {
-    const uint32_t numBricks = _descriptor.nbBricks;
-    const int32_t visBricks = _descriptor.visibleBricks;
-
     std::set<int32_t> loadedBricks;
     std::set<int32_t> bricksToLoad;
     std::vector<ModelDescriptorPtr> modelsToAddToScene;
     std::vector<ModelDescriptorPtr> modelsToRemoveFromScene;
     std::vector<ModelDescriptorPtr> modelsToShow;
     int32_t previousBrickId{std::numeric_limits<int32_t>::max()};
-
-    const auto bricksFolder = GeneralSettings::getInstance()->getBricksFolder();
-    const auto dbConnectionString =
-        GeneralSettings::getInstance()->getDatabaseConnectionString();
-    const auto dbSchema = GeneralSettings::getInstance()->getDatabaseSchema();
+    Vector3f previousCameraPosition;
+    CacheLoader loader(_scene);
+    DBConnector connector(_dbConnectionString, _dbSchema);
 
     while (true)
     {
-        const Vector3f cameraPosition = _camera.getPosition();
+        const Vector3f& cameraPosition = _camera.getPosition();
+        const Vector3f& cameraTarget = _camera.getTarget();
+        const Vector3f cameraDirection =
+            normalize(cameraTarget - cameraPosition);
+
         const Vector3i brick = cameraPosition / _brickSize;
-
         const int32_t brickId =
-            brick.z + brick.y * numBricks + brick.x * numBricks * numBricks;
+            brick.z + brick.y * _nbBricks + brick.x * _nbBricks * _nbBricks;
 
-        if (previousBrickId != brickId)
+        const bool moving = (cameraPosition != previousCameraPosition);
+        if (!moving)
+        {
             bricksToLoad.clear();
 
-        // Identify visible bricks (the ones surrounding the camera)
-        std::set<int32_t> visibleBricks;
-        for (int32_t x = -visBricks; x < visBricks; ++x)
-            for (int32_t y = -visBricks; y < visBricks; ++y)
-                for (int32_t z = -visBricks; z < visBricks; ++z)
-                    visibleBricks.insert((brick.z + z) +
-                                         (brick.y + y) * numBricks +
-                                         (brick.x + x) * numBricks * numBricks);
+            // Identify visible bricks (the ones surrounding the camera)
+            std::set<int32_t> visibleBricks;
+            for (int32_t x = -_nbVisibleBricks; x < _nbVisibleBricks; ++x)
+                for (int32_t y = -_nbVisibleBricks; y < _nbVisibleBricks; ++y)
+                    for (int32_t z = -_nbVisibleBricks; z < _nbVisibleBricks;
+                         ++z)
+                        visibleBricks.insert(
+                            (brick.z + z) + (brick.y + y) * _nbBricks +
+                            (brick.x + x) * _nbBricks * _nbBricks);
 
-        // Identify bricks to load
-        for (const int32_t visibleBrick : visibleBricks)
-            if (std::find(loadedBricks.begin(), loadedBricks.end(),
-                          visibleBrick) == loadedBricks.end())
-                bricksToLoad.insert(visibleBrick);
+            // Identify bricks to load
+            for (const int32_t visibleBrick : visibleBricks)
+                if (std::find(loadedBricks.begin(), loadedBricks.end(),
+                              visibleBrick) == loadedBricks.end())
+                    bricksToLoad.insert(visibleBrick);
 
-        if (!bricksToLoad.empty())
-            PLUGIN_DEBUG << "Bricks to load : "
-                         << int32_set_to_string(bricksToLoad) << std::endl;
+            if (!bricksToLoad.empty())
+                PLUGIN_INFO << "Loading bricks   "
+                            << int32_set_to_string(bricksToLoad) << std::endl;
 
-        // Loading bricks
-        if (!bricksToLoad.empty())
-        {
-            const auto brickToLoad = (*bricksToLoad.begin());
-            loadedBricks.insert(brickToLoad);
-            try
+            // Loading bricks
+            if (!bricksToLoad.empty())
             {
-                CacheLoader loader(_scene);
-#ifdef USE_PQXX
-                modelsToAddToScene =
-                    loader.importBrickFromDB(dbConnectionString, dbSchema,
-                                             brickToLoad);
-#else
-                char idStr[7];
-                sprintf(idStr, "%06d", brickToLoad);
-                const std::string filename =
-                    bricksFolder + "/brick" + idStr + ".bioexplorer";
-                modelsToAddToScene =
-                    loader.importModelsFromFile(filename, brickToLoad);
-#endif
-            }
-            catch (std::runtime_error& e)
-            {
-                PLUGIN_DEBUG << e.what() << std::endl;
-            }
-            bricksToLoad.erase(bricksToLoad.begin());
-        }
-
-        if (bricksToLoad.size())
-        {
-            PLUGIN_INFO << "Current brick Id: " << brickId << std::endl;
-            PLUGIN_INFO << "Loaded bricks   : "
-                        << int32_set_to_string(loadedBricks) << std::endl;
-            PLUGIN_DEBUG << "Visible bricks  : "
-                         << int32_set_to_string(visibleBricks) << std::endl;
-
-            bool visibilityModified = false;
-
-            // Make visible models visible and remove invisible models
-            auto modelDescriptors = _scene.getModelDescriptors();
-            for (auto modelDescriptor : modelDescriptors)
-            {
-                const auto metadata = modelDescriptor->getMetadata();
-                const auto it = metadata.find(METADATA_BRICK_ID);
-                if (it != metadata.end())
+                const auto brickToLoad = (*bricksToLoad.begin());
+                loadedBricks.insert(brickToLoad);
+                try
                 {
-                    const int32_t id = atoi(it->second.c_str());
-                    const bool visible =
-                        std::find(visibleBricks.begin(), visibleBricks.end(),
-                                  id) != visibleBricks.end();
-                    if (visible)
+#ifdef USE_PQXX
+                    modelsToAddToScene =
+                        loader.importBrickFromDB(connector, brickToLoad);
+#else
+                    char idStr[7];
+                    sprintf(idStr, "%06d", brickToLoad);
+                    const std::string filename =
+                        _bricksFolder + "/brick" + idStr + ".bioexplorer";
+                    modelsToAddToScene =
+                        loader.importModelsFromFile(filename, brickToLoad);
+#endif
+                }
+                catch (std::runtime_error& e)
+                {
+                    PLUGIN_DEBUG << e.what() << std::endl;
+                }
+                bricksToLoad.erase(bricksToLoad.begin());
+            }
+
+            if (bricksToLoad.size())
+            {
+                PLUGIN_DEBUG << "Current brick Id: " << brickId << std::endl;
+                PLUGIN_DEBUG
+                    << "Loaded bricks   : " << int32_set_to_string(loadedBricks)
+                    << std::endl;
+                PLUGIN_DEBUG << "Visible bricks  : "
+                             << int32_set_to_string(visibleBricks) << std::endl;
+
+                bool visibilityModified = false;
+
+                // Make visible models visible and remove invisible models
+                auto modelDescriptors = _scene.getModelDescriptors();
+                for (auto modelDescriptor : modelDescriptors)
+                {
+                    const auto metadata = modelDescriptor->getMetadata();
+                    const auto it = metadata.find(METADATA_BRICK_ID);
+                    if (it != metadata.end())
                     {
-                        if (!modelDescriptor->getVisible())
-                            modelsToShow.push_back(modelDescriptor);
+                        const int32_t id = atoi(it->second.c_str());
+                        const bool visible =
+                            std::find(visibleBricks.begin(),
+                                      visibleBricks.end(),
+                                      id) != visibleBricks.end();
+                        if (visible)
+                        {
+                            if (!modelDescriptor->getVisible())
+                                modelsToShow.push_back(modelDescriptor);
+                        }
+                        else
+                            modelsToRemoveFromScene.push_back(modelDescriptor);
                     }
-                    else
-                        modelsToRemoveFromScene.push_back(modelDescriptor);
+                }
+
+                if (_unloadBricks)
+                {
+                    // Prevent invisible bricks from being loaded
+                    auto i = loadedBricks.begin();
+                    while (i != loadedBricks.end())
+                    {
+                        const auto loadedBrick = (*i);
+                        const auto it =
+                            std::find(visibleBricks.begin(),
+                                      visibleBricks.end(), loadedBrick);
+                        if (it == visibleBricks.end())
+                            loadedBricks.erase(i++);
+                        else
+                            ++i;
+                    }
                 }
             }
 
-            // Prevent invisible bricks from being loaded
-            auto i = loadedBricks.begin();
-            while (i != loadedBricks.end())
+            bool sceneModified = false;
+            if (_unloadBricks)
             {
-                const auto loadedBrick = (*i);
-                const auto it = std::find(visibleBricks.begin(),
-                                          visibleBricks.end(), loadedBrick);
-                if (it == visibleBricks.end())
-                    loadedBricks.erase(i++);
-                else
-                    ++i;
+                for (auto md : modelsToRemoveFromScene)
+                {
+                    PLUGIN_DEBUG << "Removing model: " << md->getModelID()
+                                 << std::endl;
+                    _scene.removeModel(md->getModelID());
+                    sceneModified = true;
+                }
+                modelsToRemoveFromScene.clear();
             }
+
+            for (auto md : modelsToAddToScene)
+            {
+                md->setVisible(true);
+                _scene.addModel(md);
+                PLUGIN_DEBUG << "Adding model: " << md->getModelID()
+                             << std::endl;
+                sleep(_updateFrequency);
+                sceneModified = true;
+            }
+            modelsToAddToScene.clear();
+
+            for (auto md : modelsToShow)
+            {
+                PLUGIN_DEBUG << "Making model visible: " << md->getModelID()
+                             << std::endl;
+                md->setVisible(true);
+                sceneModified = true;
+            }
+            modelsToShow.clear();
+            if (sceneModified)
+                _scene.markModified(false);
         }
 
-        bool sceneModified = false;
-        for (auto md : modelsToRemoveFromScene)
-        {
-            PLUGIN_DEBUG << "Removing model: " << md->getModelID() << std::endl;
-            _scene.removeModel(md->getModelID());
-            sceneModified = true;
-        }
-        modelsToRemoveFromScene.clear();
-
-        for (auto md : modelsToAddToScene)
-        {
-            md->setVisible(true);
-            _scene.addModel(md);
-            PLUGIN_DEBUG << "Adding model: " << md->getModelID() << std::endl;
-            sleep(_descriptor.updateFrequency);
-            sceneModified = true;
-        }
-        modelsToAddToScene.clear();
-
-        for (auto md : modelsToShow)
-        {
-            PLUGIN_DEBUG << "Making model visible: " << md->getModelID()
-                         << std::endl;
-            md->setVisible(true);
-            sceneModified = true;
-        }
-        modelsToShow.clear();
-        if (sceneModified)
-            _scene.markModified(false);
-
+        sleep(_updateFrequency);
         previousBrickId = brickId;
-        sleep(_descriptor.updateFrequency);
+        previousCameraPosition = cameraPosition;
     }
 }
+
+void OOCManager::_parseArguments(const CommandLineArguments& arguments)
+{
+    std::string dbHost, dbPort, dbUser, dbPassword, dbName;
+    for (const auto& argument : arguments)
+    {
+#ifdef USE_PQXX
+        if (argument.first == ARG_OOC_DB_HOST)
+            dbHost = argument.second;
+        if (argument.first == ARG_OOC_DB_PORT)
+            dbPort = argument.second;
+        if (argument.first == ARG_OOC_DB_USER)
+            dbUser = argument.second;
+        if (argument.first == ARG_OOC_DB_PASSWORD)
+            dbPassword = argument.second;
+        if (argument.first == ARG_OOC_DB_NAME)
+            dbName = argument.second;
+        if (argument.first == ARG_OOC_DB_SCHEMA)
+            _dbSchema = argument.second;
+#else
+        if (argument.first == ARG_OOC_BRICKS_FOLDER)
+            _bricksFolder = argument.second;
+#endif
+        if (argument.first == ARG_OOC_UPDATE_FREQUENCY)
+            _updateFrequency = atof(argument.second.c_str());
+        if (argument.first == ARG_OOC_VISIBLE_BRICKS)
+            _nbVisibleBricks = atoi(argument.second.c_str());
+        if (argument.first == ARG_OOC_UNLOAD_BRICKS)
+            _unloadBricks = true;
+    }
+
+    // Sanity checks
+    _dbConnectionString = "host=" + dbHost + " port=" + dbPort +
+                          " dbname=" + dbName + " user=" + dbUser +
+                          " password=" + dbPassword;
+
+    // Configuration
+    DBConnector connector(_dbConnectionString, _dbSchema);
+    connector.getConfiguration(_description, _sceneSize, _nbBricks);
+    if (_nbBricks == 0)
+        PLUGIN_THROW(std::runtime_error("Invalid number of bricks)"));
+    _brickSize = _sceneSize / _nbBricks;
+
+    const bool disableBroadcasting =
+        std::getenv(ENV_ROCKETS_DISABLE_SCENE_BROADCASTING.c_str()) != nullptr;
+    if (!disableBroadcasting)
+        PLUGIN_THROW(std::runtime_error(
+            ENV_ROCKETS_DISABLE_SCENE_BROADCASTING +
+            " environment variable must be set when out-of-core is enabled"));
+}
+
 } // namespace bioexplorer

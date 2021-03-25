@@ -51,6 +51,33 @@ void DBConnector::clearBricks()
     }
 }
 
+void DBConnector::getConfiguration(std::string& description,
+                                   Vector3f& sceneSize, uint32_t& nbBricks)
+{
+    pqxx::read_transaction transaction(_connection);
+    try
+    {
+        const auto sql =
+            "SELECT scene_size_x, scene_size_y, scene_size_z, nb_bricks, "
+            "description FROM " +
+            _schema + ".configuration";
+        PLUGIN_DEBUG << sql << std::endl;
+        auto res = transaction.exec(sql);
+        for (auto c = res.begin(); c != res.end(); ++c)
+        {
+            sceneSize =
+                Vector3f(c[0].as<float>(), c[1].as<float>(), c[2].as<float>());
+            nbBricks = c[3].as<uint32_t>();
+            description = c[4].as<std::string>();
+        }
+    }
+    catch (pqxx::sql_error& e)
+    {
+        PLUGIN_THROW(e);
+    }
+    transaction.abort();
+}
+
 void DBConnector::insertBrick(const int32_t brickId, const uint32_t version,
                               const uint32_t nbModels,
                               const std::stringstream& buffer)
@@ -76,9 +103,9 @@ void DBConnector::insertBrick(const int32_t brickId, const uint32_t version,
     }
 }
 
-std::stringstream DBConnector::selectBrick(const int32_t brickId,
-                                           const uint32_t& version,
-                                           uint32_t& nbModels)
+std::stringstream DBConnector::getBrick(const int32_t brickId,
+                                        const uint32_t& version,
+                                        uint32_t& nbModels)
 {
     std::stringstream s;
     pqxx::read_transaction transaction(_connection);

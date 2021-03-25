@@ -46,6 +46,26 @@ const std::string METADATA_BONDS = "Bonds";
 const std::string METADATA_SIZE = "Size";
 const std::string METADATA_BRICK_ID = "BrickId";
 
+// Command line arguments
+#ifdef USE_PQXX
+const std::string ARG_OOC_ENABLED = "--ooc-enabled";
+const std::string ARG_OOC_DB_HOST = "--ooc-db-host";
+const std::string ARG_OOC_DB_PORT = "--ooc-db-port";
+const std::string ARG_OOC_DB_NAME = "--ooc-db-dbname";
+const std::string ARG_OOC_DB_USER = "--ooc-db-user";
+const std::string ARG_OOC_DB_PASSWORD = "--ooc-db-password";
+const std::string ARG_OOC_DB_SCHEMA = "--ooc-db-schema";
+#else
+const std::string ARG_OOC_BRICKS_FOLDER = "--ooc-bricks-folder";
+#endif
+const std::string ARG_OOC_VISIBLE_BRICKS = "--ooc-visible-bricks";
+const std::string ARG_OOC_UPDATE_FREQUENCY = "--ooc-update-frequency";
+const std::string ARG_OOC_UNLOAD_BRICKS = "--ooc-unload-bricks";
+
+// Environment variables
+const std::string ENV_ROCKETS_DISABLE_SCENE_BROADCASTING =
+    "ROCKETS_DISABLE_SCENE_BROADCASTING";
+
 // Typedefs
 typedef std::map<std::string, std::string> StringMap;
 typedef Vector3f Color;
@@ -54,6 +74,7 @@ typedef std::vector<Quaterniond> Quaternions;
 typedef std::vector<Vector3f> Vector3fs;
 typedef std::vector<Vector2ui> Vector2uis;
 typedef std::vector<std::pair<Vector3f, float>> OccupiedDirections;
+typedef std::map<std::string, std::string> CommandLineArguments;
 
 /**
  * @brief Structure defining the plugin general settings
@@ -62,9 +83,6 @@ typedef std::vector<std::pair<Vector3f, float>> OccupiedDirections;
 typedef struct
 {
     bool modelVisibilityOnCreation;
-    std::string databaseConnectionString;
-    std::string databaseSchema;
-    std::string bricksFolder;
     std::string offFolder;
 } GeneralSettingsDescriptor;
 
@@ -787,6 +805,8 @@ enum class XYZFileFormat
 typedef struct
 {
     std::string filename;
+    std::vector<float> lowBounds;
+    std::vector<float> highBounds;
     XYZFileFormat fileFormat;
 } FileAccess;
 
@@ -801,7 +821,7 @@ typedef struct
     int32_t brickId;
     std::vector<float> lowBounds;
     std::vector<float> highBounds;
-} DBAccess;
+} DatabaseAccess;
 
 /**
  * @brief Structure defining how to build a point cloud from the scene
@@ -821,19 +841,8 @@ typedef struct
     bool visible;
 } ModelsVisibility;
 
+// Out of core brick manager
 class OOCManager;
 typedef std::shared_ptr<OOCManager> OOCManagerPtr;
-/**
- * @brief
- *
- */
-typedef struct
-{
-    bool enabled;
-    std::vector<float> sceneSize;
-    size_t nbBricks;
-    size_t visibleBricks;
-    float updateFrequency;
-} OutOfCoreDescriptor;
 
 } // namespace bioexplorer
