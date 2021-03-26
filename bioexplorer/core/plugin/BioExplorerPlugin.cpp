@@ -150,6 +150,7 @@ void BioExplorerPlugin::init()
     auto actionInterface = _api->getActionInterface();
     auto &scene = _api->getScene();
     auto &camera = _api->getCamera();
+    auto &engine = _api->getEngine();
     auto &registry = scene.getLoaderRegistry();
 
     registry.registerLoader(
@@ -345,7 +346,6 @@ void BioExplorerPlugin::init()
     }
 
     // Module components
-    auto &engine = _api->getEngine();
     _addBioExplorerPerspectiveCamera(engine);
     _addBioExplorerRenderer(engine);
     _addBioExplorerFieldsRenderer(engine);
@@ -357,6 +357,22 @@ void BioExplorerPlugin::init()
         _oocManager =
             OOCManagerPtr(new OOCManager(scene, camera, _commandLineArguments));
         _oocManager->loadBricks();
+        if (_oocManager->getShowGrid())
+        {
+            AddGrid grid;
+            const float sceneSize = _oocManager->getSceneSize().x;
+            const float brickSize = _oocManager->getBrickSize().x;
+            grid.position = {-brickSize / 2.f, -brickSize / 2.f,
+                             -brickSize / 2.f};
+            grid.minValue = -sceneSize / 2.0;
+            grid.maxValue = sceneSize / 2.0;
+            grid.steps = brickSize;
+            grid.showAxis = false;
+            grid.showPlanes = false;
+            grid.showFullGrid = true;
+            grid.radius = 0.1f;
+            _addGrid(grid);
+        }
     }
 }
 
@@ -376,6 +392,15 @@ void BioExplorerPlugin::_parseCommandLineArguments(int argc, char **argv)
             value = argument.substr(pos + 1);
         }
         _commandLineArguments[key] = value;
+    }
+}
+
+void BioExplorerPlugin::preRender()
+{
+    if (_oocManager)
+    {
+        auto &frameBuffer = _api->getEngine().getFrameBuffer();
+        _oocManager->setFrameBuffer(&frameBuffer);
     }
 }
 
@@ -761,9 +786,15 @@ Response BioExplorerPlugin::_addGrid(const AddGrid &payload)
         const float M = payload.maxValue;
         const float s = payload.steps;
         const float r = payload.radius;
+
+        /// Grid
         for (float x = m; x <= M; x += s)
             for (float y = m; y <= M; y += s)
-                if (fabs(x) < 0.001f || fabs(y) < 0.001f)
+            {
+                bool showFullGrid = true;
+                if (!payload.showFullGrid)
+                    showFullGrid = (fabs(x) < 0.001f || fabs(y) < 0.001f);
+                if (showFullGrid)
                 {
                     model->addCylinder(0, {position + brayns::Vector3f(x, y, m),
                                            position + brayns::Vector3f(x, y, M),
@@ -775,43 +806,49 @@ Response BioExplorerPlugin::_addGrid(const AddGrid &payload)
                                            position + brayns::Vector3f(x, M, y),
                                            r});
                 }
+            }
 
-        material = model->createMaterial(1, "plane_x");
-        material->setDiffuseColor(payload.useColors ? red : grey);
-        material->setOpacity(payload.planeOpacity);
-        material->setProperties(props);
-        auto &tmx = model->getTriangleMeshes()[1];
-        tmx.vertices.push_back(position + brayns::Vector3f(m, 0, m));
-        tmx.vertices.push_back(position + brayns::Vector3f(M, 0, m));
-        tmx.vertices.push_back(position + brayns::Vector3f(M, 0, M));
-        tmx.vertices.push_back(position + brayns::Vector3f(m, 0, M));
-        tmx.indices.push_back(brayns::Vector3ui(0, 1, 2));
-        tmx.indices.push_back(brayns::Vector3ui(2, 3, 0));
+        if (payload.showPlanes)
+        {
+            // Planes
+            material = model->createMaterial(1, "plane_x");
+            material->setDiffuseColor(payload.useColors ? red : grey);
+            material->setOpacity(payload.planeOpacity);
+            material->setProperties(props);
+            auto &tmx = model->getTriangleMeshes()[1];
+            tmx.vertices.push_back(position + brayns::Vector3f(m, 0, m));
+            tmx.vertices.push_back(position + brayns::Vector3f(M, 0, m));
+            tmx.vertices.push_back(position + brayns::Vector3f(M, 0, M));
+            tmx.vertices.push_back(position + brayns::Vector3f(m, 0, M));
+            tmx.indices.push_back(brayns::Vector3ui(0, 1, 2));
+            tmx.indices.push_back(brayns::Vector3ui(2, 3, 0));
 
-        material = model->createMaterial(2, "plane_y");
-        material->setDiffuseColor(payload.useColors ? green : grey);
-        material->setOpacity(payload.planeOpacity);
-        material->setProperties(props);
-        auto &tmy = model->getTriangleMeshes()[2];
-        tmy.vertices.push_back(position + brayns::Vector3f(m, m, 0));
-        tmy.vertices.push_back(position + brayns::Vector3f(M, m, 0));
-        tmy.vertices.push_back(position + brayns::Vector3f(M, M, 0));
-        tmy.vertices.push_back(position + brayns::Vector3f(m, M, 0));
-        tmy.indices.push_back(brayns::Vector3ui(0, 1, 2));
-        tmy.indices.push_back(brayns::Vector3ui(2, 3, 0));
+            material = model->createMaterial(2, "plane_y");
+            material->setDiffuseColor(payload.useColors ? green : grey);
+            material->setOpacity(payload.planeOpacity);
+            material->setProperties(props);
+            auto &tmy = model->getTriangleMeshes()[2];
+            tmy.vertices.push_back(position + brayns::Vector3f(m, m, 0));
+            tmy.vertices.push_back(position + brayns::Vector3f(M, m, 0));
+            tmy.vertices.push_back(position + brayns::Vector3f(M, M, 0));
+            tmy.vertices.push_back(position + brayns::Vector3f(m, M, 0));
+            tmy.indices.push_back(brayns::Vector3ui(0, 1, 2));
+            tmy.indices.push_back(brayns::Vector3ui(2, 3, 0));
 
-        material = model->createMaterial(3, "plane_z");
-        material->setDiffuseColor(payload.useColors ? blue : grey);
-        material->setOpacity(payload.planeOpacity);
-        material->setProperties(props);
-        auto &tmz = model->getTriangleMeshes()[3];
-        tmz.vertices.push_back(position + brayns::Vector3f(0, m, m));
-        tmz.vertices.push_back(position + brayns::Vector3f(0, m, M));
-        tmz.vertices.push_back(position + brayns::Vector3f(0, M, M));
-        tmz.vertices.push_back(position + brayns::Vector3f(0, M, m));
-        tmz.indices.push_back(brayns::Vector3ui(0, 1, 2));
-        tmz.indices.push_back(brayns::Vector3ui(2, 3, 0));
+            material = model->createMaterial(3, "plane_z");
+            material->setDiffuseColor(payload.useColors ? blue : grey);
+            material->setOpacity(payload.planeOpacity);
+            material->setProperties(props);
+            auto &tmz = model->getTriangleMeshes()[3];
+            tmz.vertices.push_back(position + brayns::Vector3f(0, m, m));
+            tmz.vertices.push_back(position + brayns::Vector3f(0, m, M));
+            tmz.vertices.push_back(position + brayns::Vector3f(0, M, M));
+            tmz.vertices.push_back(position + brayns::Vector3f(0, M, m));
+            tmz.indices.push_back(brayns::Vector3ui(0, 1, 2));
+            tmz.indices.push_back(brayns::Vector3ui(2, 3, 0));
+        }
 
+        // Axis
         if (payload.showAxis)
         {
             const float l = M;

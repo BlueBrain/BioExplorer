@@ -46,6 +46,8 @@ public:
      */
     void init() final;
 
+    void preRender() final;
+
 private:
     // Command line arguments
     void _parseCommandLineArguments(int argc, char **argv);

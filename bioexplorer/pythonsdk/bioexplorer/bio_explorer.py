@@ -1997,6 +1997,8 @@ class BioExplorer:
             radius=1.0,
             opacity=0.5,
             show_axis=True,
+            show_planes=True,
+            show_full_grid=False,
             colored=True,
             position=Vector3(),
     ):
@@ -2009,6 +2011,8 @@ class BioExplorer:
         :radius: Radius of grid lines
         :opacity: Opacity of the grid
         :show_axis: Shows axis if True
+        :show_planes: Shows planes if True
+        :show_full_grid: Shows full grid if True
         :colored: Colors the grid it True. X in red, Y in green, Z in blue
         :position: Position of the grid
         :return: Result of the request submission
@@ -2024,6 +2028,8 @@ class BioExplorer:
         params["radius"] = radius
         params["planeOpacity"] = opacity
         params["showAxis"] = show_axis
+        params["showPlanes"] = show_planes
+        params["showFullGrid"] = show_full_grid
         params["useColors"] = colored
         params["position"] = position.to_list()
         return self._client.rockets_client.request(

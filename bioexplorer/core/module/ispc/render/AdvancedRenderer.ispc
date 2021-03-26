@@ -831,6 +831,10 @@ inline vec3f AdvancedRenderer_shadeRay(
     Ray ray = sample.ray;
     vec4f color = make_vec4f(0.f);
     vec3f bgColor = make_vec3f(0.f);
+    if (self->showBackground)
+        bgColor =
+            make_vec3f(skyboxMapping((Renderer*)self, ray,
+                                     (AdvancedMaterial*)self->bgMaterial));
 
     uint32 depth = 0;
     float oldlocalRefraction = 1.f;
@@ -875,8 +879,9 @@ inline vec3f AdvancedRenderer_shadeRay(
                 ray.t0 = ray.t + dg.epsilon;
             else
             {
-                // Compute indirect lighting contribution
-                computeIndirectShading(dg, sample, attributes);
+                if (sample.sampleID.z > 0)
+                    // Compute indirect lighting contribution
+                    computeIndirectShading(dg, sample, attributes);
 
                 // Compute surface shading
                 if (attributes.shadingMode == basic)
@@ -898,7 +903,7 @@ inline vec3f AdvancedRenderer_shadeRay(
                     processDiffuseShading(self, dg, sample, ray, attributes);
 
                 // Compute shadows
-                if (self->shadows > 0.f)
+                if (sample.sampleID.z > 0 && self->shadows > 0.f)
                     processShadows(dg, sample, ray, attributes);
 
                 // Z-Depth
@@ -953,15 +958,14 @@ inline vec3f AdvancedRenderer_shadeRay(
     }
 
     // Fog attenuation
-    const float distance = sample.z;
     const float fogAttenuation =
-        distance > self->fogStart
-            ? clamp((distance - self->fogStart) / self->fogThickness, 0.f, 1.f)
+        sample.z > self->fogStart
+            ? clamp((sample.z - self->fogStart) / self->fogThickness, 0.f, 1.f)
             : 0.f;
     const float fog = 1.f - color.w * (1.f - fogAttenuation);
-    const vec3f finalColor = make_vec3f(color) * (1.f - fog) + fog * bgColor;
 
     // Final color
+    const vec3f finalColor = make_vec3f(color) * (1.f - fog) + fog * bgColor;
     sample.alpha = min(1.f, color.w);
     return make_vec3f(finalColor * self->exposure);
 }

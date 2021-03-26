@@ -27,6 +27,7 @@
 #include <plugin/common/Logs.h>
 
 #include <brayns/engineapi/Camera.h>
+#include <brayns/engineapi/FrameBuffer.h>
 #include <brayns/engineapi/Model.h>
 #include <brayns/engineapi/Scene.h>
 
@@ -70,6 +71,7 @@ OOCManager::OOCManager(Scene& scene, const Camera& camera,
     PLUGIN_INFO << "Brick size          : " << _brickSize << std::endl;
     PLUGIN_INFO << "Nb of bricks        : " << _nbBricks << std::endl;
     PLUGIN_INFO << "Visible bricks      : " << _nbVisibleBricks << std::endl;
+    PLUGIN_INFO << "Bricks per cycle    : " << _nbBricksPerCycle << std::endl;
     PLUGIN_INFO << "Unload bricks       : " << (_unloadBricks ? "On" : "Off")
                 << std::endl;
     PLUGIN_INFO << "=================================" << std::endl;
@@ -90,23 +92,17 @@ void OOCManager::_loadBricks()
     std::vector<ModelDescriptorPtr> modelsToRemoveFromScene;
     std::vector<ModelDescriptorPtr> modelsToShow;
     int32_t previousBrickId{std::numeric_limits<int32_t>::max()};
-    Vector3f previousCameraPosition;
     CacheLoader loader(_scene);
     DBConnector connector(_dbConnectionString, _dbSchema);
 
     while (true)
     {
         const Vector3f& cameraPosition = _camera.getPosition();
-        const Vector3f& cameraTarget = _camera.getTarget();
-        const Vector3f cameraDirection =
-            normalize(cameraTarget - cameraPosition);
-
         const Vector3i brick = cameraPosition / _brickSize;
         const int32_t brickId =
             brick.z + brick.y * _nbBricks + brick.x * _nbBricks * _nbBricks;
 
-        const bool moving = (cameraPosition != previousCameraPosition);
-        if (!moving)
+        if (_frameBuffer && _frameBuffer->getAccumFrames() > 1)
         {
             bricksToLoad.clear();
 
@@ -117,14 +113,18 @@ void OOCManager::_loadBricks()
                     for (int32_t z = -_nbVisibleBricks; z < _nbVisibleBricks;
                          ++z)
                         visibleBricks.insert(
-                            (brick.z + z) + (brick.y + y) * _nbBricks +
-                            (brick.x + x) * _nbBricks * _nbBricks);
+                            (z + brick.z) + (y + brick.y) * _nbBricks +
+                            (x + brick.x) * _nbBricks * _nbBricks);
 
             // Identify bricks to load
             for (const int32_t visibleBrick : visibleBricks)
                 if (std::find(loadedBricks.begin(), loadedBricks.end(),
                               visibleBrick) == loadedBricks.end())
+                {
                     bricksToLoad.insert(visibleBrick);
+                    if (bricksToLoad.size() >= _nbBricksPerCycle)
+                        break;
+                }
 
             if (!bricksToLoad.empty())
                 PLUGIN_INFO << "Loading bricks   "
@@ -246,7 +246,6 @@ void OOCManager::_loadBricks()
 
         sleep(_updateFrequency);
         previousBrickId = brickId;
-        previousCameraPosition = cameraPosition;
     }
 }
 
@@ -278,6 +277,10 @@ void OOCManager::_parseArguments(const CommandLineArguments& arguments)
             _nbVisibleBricks = atoi(argument.second.c_str());
         if (argument.first == ARG_OOC_UNLOAD_BRICKS)
             _unloadBricks = true;
+        if (argument.first == ARG_OOC_SHOW_GRID)
+            _showGrid = true;
+        if (argument.first == ARG_OOC_NB_BRICKS_PER_CYCLE)
+            _nbBricksPerCycle = atoi(argument.second.c_str());
     }
 
     // Sanity checks

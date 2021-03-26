@@ -61,6 +61,8 @@ const std::string ARG_OOC_BRICKS_FOLDER = "--ooc-bricks-folder";
 const std::string ARG_OOC_VISIBLE_BRICKS = "--ooc-visible-bricks";
 const std::string ARG_OOC_UPDATE_FREQUENCY = "--ooc-update-frequency";
 const std::string ARG_OOC_UNLOAD_BRICKS = "--ooc-unload-bricks";
+const std::string ARG_OOC_SHOW_GRID = "--ooc-show-grid";
+const std::string ARG_OOC_NB_BRICKS_PER_CYCLE = "--ooc-nb-bricks-per-cycle";
 
 // Environment variables
 const std::string ENV_ROCKETS_DISABLE_SCENE_BROADCASTING =
@@ -651,6 +653,10 @@ typedef struct
     float planeOpacity;
     /** Defines if axes should be shown */
     bool showAxis;
+    /** Defines if planes should be shown */
+    bool showPlanes;
+    /** Defines if full grid should be shown */
+    bool showFullGrid;
     /** Defines if the RGB color scheme shoudl be applied to axis */
     bool useColors;
     /** Position of the grid in the scene */

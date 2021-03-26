@@ -33,6 +33,11 @@ public:
                const CommandLineArguments& arguments);
     ~OOCManager() {}
 
+    void setFrameBuffer(FrameBuffer* frameBuffer)
+    {
+        _frameBuffer = frameBuffer;
+    }
+
     /**
      * @brief
      *
@@ -44,7 +49,11 @@ public:
      *
      * @return const std::string&
      */
-    const std::string& getDescription() { return _description; }
+    const std::string& getDescription() const { return _description; }
+
+    const Vector3f& getSceneSize() const { return _sceneSize; }
+    const Vector3f& getBrickSize() const { return _brickSize; }
+    const bool getShowGrid() const { return _showGrid; }
 
 private:
     void _parseArguments(const CommandLineArguments& arguments);
@@ -52,6 +61,7 @@ private:
 
     Scene& _scene;
     const Camera& _camera;
+    FrameBuffer* _frameBuffer{nullptr};
 
     std::string _description;
     Vector3f _sceneSize;
@@ -60,6 +70,8 @@ private:
     float _updateFrequency{1.f};
     int32_t _nbVisibleBricks{0};
     bool _unloadBricks{false};
+    bool _showGrid{false};
+    uint32_t _nbBricksPerCycle{5};
 
     // IO
 #ifdef USE_PQXX

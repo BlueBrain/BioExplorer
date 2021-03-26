@@ -392,6 +392,8 @@ bool from_json(AddGrid &param, const std::string &payload)
         FROM_JSON(param, js, radius);
         FROM_JSON(param, js, planeOpacity);
         FROM_JSON(param, js, showAxis);
+        FROM_JSON(param, js, showPlanes);
+        FROM_JSON(param, js, showFullGrid);
         FROM_JSON(param, js, useColors);
         FROM_JSON(param, js, position);
     }
