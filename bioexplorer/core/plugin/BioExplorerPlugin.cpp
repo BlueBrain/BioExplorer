@@ -356,7 +356,6 @@ void BioExplorerPlugin::init()
     {
         _oocManager =
             OOCManagerPtr(new OOCManager(scene, camera, _commandLineArguments));
-        _oocManager->loadBricks();
         if (_oocManager->getShowGrid())
         {
             AddGrid grid;
@@ -398,10 +397,13 @@ void BioExplorerPlugin::_parseCommandLineArguments(int argc, char **argv)
 void BioExplorerPlugin::preRender()
 {
     if (_oocManager)
-    {
-        auto &frameBuffer = _api->getEngine().getFrameBuffer();
-        _oocManager->setFrameBuffer(&frameBuffer);
-    }
+        if (!_oocManager->getFrameBuffer())
+        {
+            PLUGIN_INFO << "Starting Out-Of-Core manager" << std::endl;
+            auto &frameBuffer = _api->getEngine().getFrameBuffer();
+            _oocManager->setFrameBuffer(&frameBuffer);
+            _oocManager->loadBricks();
+        }
 }
 
 Response BioExplorerPlugin::_version() const

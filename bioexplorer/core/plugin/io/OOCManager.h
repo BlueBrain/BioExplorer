@@ -29,17 +29,37 @@ using namespace brayns;
 class OOCManager
 {
 public:
+    /**
+     * @brief Construct a new OOCManager object
+     *
+     * @param scene 3D Scene
+     * @param camera Camera
+     * @param arguments Command line arguments
+     */
     OOCManager(Scene& scene, const Camera& camera,
                const CommandLineArguments& arguments);
+
+    /**
+     * @brief Destroy the OOCManager object
+     *
+     */
     ~OOCManager() {}
 
+    /**
+     * @brief Set the Frame Buffer object
+     *
+     * @param frameBuffer A reference to the Brayns frame buffer
+     */
     void setFrameBuffer(FrameBuffer* frameBuffer)
     {
         _frameBuffer = frameBuffer;
     }
 
+    const FrameBuffer* getFrameBuffer() const { return _frameBuffer; }
+
     /**
-     * @brief
+     * @brief Starts a thread that takes care of loading the bricks according to
+     * the current camera position
      *
      */
     void loadBricks();
@@ -51,8 +71,25 @@ public:
      */
     const std::string& getDescription() const { return _description; }
 
+    /**
+     * @brief Get the Scene Size
+     *
+     * @return const Vector3f& Scene size
+     */
     const Vector3f& getSceneSize() const { return _sceneSize; }
+
+    /**
+     * @brief Get the Brick Size
+     *
+     * @return const Vector3f& Brick size
+     */
     const Vector3f& getBrickSize() const { return _brickSize; }
+
+    /**
+     * @brief Get the Show Grid value, read from the command line parameters
+     *
+     * @return true a grid should be shown, false otherwise
+     */
     const bool getShowGrid() const { return _showGrid; }
 
 private:
