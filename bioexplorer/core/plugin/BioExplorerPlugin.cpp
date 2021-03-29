@@ -341,6 +341,12 @@ void BioExplorerPlugin::init()
             return _getOOCConfiguration();
         });
 
+        entryPoint = PLUGIN_API_PREFIX + "get-out-of-core-progress";
+        PLUGIN_INFO << "Registering '" + entryPoint + "' endpoint" << std::endl;
+        actionInterface->registerRequest<Response>(entryPoint, [&]() {
+            return _getOOCProgress();
+        });
+
 #ifdef USE_PQXX
         entryPoint = PLUGIN_API_PREFIX + "export-to-database";
         PLUGIN_INFO << "Registering '" + entryPoint + "' endpoint" << std::endl;
@@ -1227,16 +1233,37 @@ Response BioExplorerPlugin::_getOOCConfiguration() const
         PLUGIN_THROW(std::runtime_error("Out-of-core engine is disabled"));
 
     Response response;
-    const auto &sceneConfiguration = _oocManager->getSceneConfiguration();
-    std::stringstream s;
-    s << "description=" << sceneConfiguration.description
-      << "|scene_size=" << sceneConfiguration.sceneSize.x << ","
-      << sceneConfiguration.sceneSize.y << "," << sceneConfiguration.sceneSize.z
-      << "|brick_size=" << sceneConfiguration.brickSize.x << ","
-      << sceneConfiguration.brickSize.y << "," << sceneConfiguration.brickSize.z
-      << "|visible_bricks=" << _oocManager->getVisibleBricks()
-      << "|update_frequency=" << _oocManager->getUpdateFrequency();
-    response.contents = s.str().c_str();
+    try
+    {
+        const auto &sceneConfiguration = _oocManager->getSceneConfiguration();
+        std::stringstream s;
+        s << "description=" << sceneConfiguration.description
+          << "|scene_size=" << sceneConfiguration.sceneSize.x << ","
+          << sceneConfiguration.sceneSize.y << ","
+          << sceneConfiguration.sceneSize.z
+          << "|brick_size=" << sceneConfiguration.brickSize.x << ","
+          << sceneConfiguration.brickSize.y << ","
+          << sceneConfiguration.brickSize.z
+          << "|visible_bricks=" << _oocManager->getVisibleBricks()
+          << "|update_frequency=" << _oocManager->getUpdateFrequency();
+        response.contents = s.str().c_str();
+    }
+    CATCH_STD_EXCEPTION()
+    return response;
+}
+
+Response BioExplorerPlugin::_getOOCProgress() const
+{
+    if (!_oocManager)
+        PLUGIN_THROW(std::runtime_error("Out-of-core engine is disabled"));
+
+    Response response;
+    try
+    {
+        const auto progress = _oocManager->getProgress();
+        response.contents = std::to_string(progress);
+    }
+    CATCH_STD_EXCEPTION()
     return response;
 }
 

@@ -2082,6 +2082,16 @@ class BioExplorer:
             d[s[0]] = s[1]
         return d
 
+    def get_out_of_core_progress(self):
+        """
+        Returns the out-of-core loading progress
+
+        :rtype: float
+        """
+        response = self._client.rockets_client.request(
+            method=self.PLUGIN_API_PREFIX + "get-out-of-core-progress")
+        return response
+
 
 # Internal classes
 
