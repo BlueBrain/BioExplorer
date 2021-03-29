@@ -52,7 +52,7 @@ var annotated_dup =
       [ "Sequence", "d9/db8/structbioexplorer_1_1Sequence.html", "d9/db8/structbioexplorer_1_1Sequence" ],
       [ "SetAminoAcid", "d1/da9/structbioexplorer_1_1SetAminoAcid.html", "d1/da9/structbioexplorer_1_1SetAminoAcid" ],
       [ "SugarsDescriptor", "dd/dbd/structbioexplorer_1_1SugarsDescriptor.html", "dd/dbd/structbioexplorer_1_1SugarsDescriptor" ],
-      [ "SurfaceMesher", "db/d99/classbioexplorer_1_1SurfaceMesher.html", "db/d99/classbioexplorer_1_1SurfaceMesher" ]
-    ] ],
-    [ "UniqueId", "d1/de7/classUniqueId.html", "d1/de7/classUniqueId" ]
+      [ "SurfaceMesher", "db/d99/classbioexplorer_1_1SurfaceMesher.html", "db/d99/classbioexplorer_1_1SurfaceMesher" ],
+      [ "UniqueId", "d4/dbf/classbioexplorer_1_1UniqueId.html", "d4/dbf/classbioexplorer_1_1UniqueId" ]
+    ] ]
 ];
