@@ -22,6 +22,8 @@
 
 #include <plugin/common/Types.h>
 
+#include <plugin/io/db/DBConnector.h>
+
 #include <brayns/common/loader/Loader.h>
 #include <brayns/common/types.h>
 #include <brayns/parameters/GeometryParameters.h>
@@ -130,8 +132,7 @@ public:
      *
      * @param filename Full path of the file
      */
-    void exportToFile(const std::string& filename,
-                      const Boxf& bounds = Boxf()) const;
+    void exportToFile(const std::string& filename, const Boxd& bounds) const;
 
 #ifdef USE_PQXX
     /**
@@ -143,17 +144,15 @@ public:
      * @return std::vector<ModelDescriptorPtr>
      */
     std::vector<ModelDescriptorPtr> importBrickFromDB(
-        const std::string& connectionString, const std::string& schema,
-        const int32_t brickId) const;
+        DBConnector& connector, const int32_t brickId) const;
 
     /**
      * @brief Exports an optimized binary representation the 3D scene to a DB
      *
      * @param connectionString Connection string to the DB
      */
-    void exportBrickToDB(const std::string& connectionString,
-                         const std::string& schema, const int32_t brickId,
-                         const Boxf& bounds) const;
+    void exportBrickToDB(DBConnector& connector, const int32_t brickId,
+                         const Boxd& bounds) const;
 #endif
 
     /**
@@ -172,8 +171,7 @@ private:
                                     const int32_t brickId) const;
 
     bool _exportModel(const ModelDescriptorPtr modelDescriptor,
-                      std::stringstream& buffer,
-                      const Boxf& bounds = Boxf()) const;
+                      std::stringstream& buffer, const Boxd& bounds) const;
 
     PropertyMap _defaults;
 };

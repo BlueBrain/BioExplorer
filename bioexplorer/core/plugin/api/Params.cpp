@@ -64,9 +64,6 @@ bool from_json(GeneralSettingsDescriptor &param, const std::string &payload)
     {
         auto js = nlohmann::json::parse(payload);
         FROM_JSON(param, js, modelVisibilityOnCreation);
-        FROM_JSON(param, js, databaseConnectionString);
-        FROM_JSON(param, js, databaseSchema);
-        FROM_JSON(param, js, bricksFolder);
         FROM_JSON(param, js, offFolder);
     }
     catch (...)
@@ -395,6 +392,8 @@ bool from_json(AddGrid &param, const std::string &payload)
         FROM_JSON(param, js, radius);
         FROM_JSON(param, js, planeOpacity);
         FROM_JSON(param, js, showAxis);
+        FROM_JSON(param, js, showPlanes);
+        FROM_JSON(param, js, showFullGrid);
         FROM_JSON(param, js, useColors);
         FROM_JSON(param, js, position);
     }
@@ -482,6 +481,8 @@ bool from_json(FileAccess &param, const std::string &payload)
     {
         auto js = nlohmann::json::parse(payload);
         FROM_JSON(param, js, filename);
+        FROM_JSON(param, js, lowBounds);
+        FROM_JSON(param, js, highBounds);
         FROM_JSON(param, js, fileFormat);
     }
     catch (...)
@@ -491,7 +492,7 @@ bool from_json(FileAccess &param, const std::string &payload)
     return true;
 }
 
-bool from_json(DBAccess &param, const std::string &payload)
+bool from_json(DatabaseAccess &param, const std::string &payload)
 {
     try
     {
@@ -544,24 +545,6 @@ bool from_json(ModelsVisibility &param, const std::string &payload)
     {
         auto js = nlohmann::json::parse(payload);
         FROM_JSON(param, js, visible);
-    }
-    catch (...)
-    {
-        return false;
-    }
-    return true;
-}
-
-bool from_json(OutOfCoreDescriptor &param, const std::string &payload)
-{
-    try
-    {
-        auto js = nlohmann::json::parse(payload);
-        FROM_JSON(param, js, enabled);
-        FROM_JSON(param, js, sceneSize);
-        FROM_JSON(param, js, nbBricks);
-        FROM_JSON(param, js, visibleBricks);
-        FROM_JSON(param, js, updateFrequency);
     }
     catch (...)
     {

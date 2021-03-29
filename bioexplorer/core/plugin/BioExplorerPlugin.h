@@ -37,7 +37,7 @@ public:
      * @brief Construct a new Bio Explorer Plugin object
      *
      */
-    BioExplorerPlugin();
+    BioExplorerPlugin(int argc, char **argv);
 
     /**
      * @brief Plugin initialization, registration of end-points, renderers,
@@ -49,17 +49,20 @@ public:
     void preRender() final;
 
 private:
+    // Command line arguments
+    void _parseCommandLineArguments(int argc, char **argv);
+
     // Info and settings
     Response _version() const;
     Response _setGeneralSettings(const GeneralSettingsDescriptor &payload);
 
     // IO
-    Response _exportToCache(const FileAccess &payload);
-    Response _importFromCache(const FileAccess &payload);
+    Response _exportToFile(const FileAccess &payload);
+    Response _importFromFile(const FileAccess &payload);
     Response _exportToXYZ(const FileAccess &payload);
 #ifdef USE_PQXX
     // DB
-    Response _exportBrickToDB(const DBAccess &payload);
+    Response _exportToDatabase(const DatabaseAccess &payload);
 #endif
 
     // Biological elements
@@ -103,10 +106,13 @@ private:
     Response _setModelsVisibility(const ModelsVisibility &payload);
 
     // Out-Of-Core
-    Response _setOutOfCore(const OutOfCoreDescriptor &payload);
+    Response _getOOCConfiguration() const;
     OOCManagerPtr _oocManager{nullptr};
 
     // Attributes
     AssemblyMap _assemblies;
+
+    // Command line arguments
+    std::map<std::string, std::string> _commandLineArguments;
 };
 } // namespace bioexplorer

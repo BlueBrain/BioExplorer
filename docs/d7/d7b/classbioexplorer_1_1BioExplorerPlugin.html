@@ -115,11 +115,11 @@ Collaboration diagram for bioexplorer::BioExplorerPlugin:</div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:a34fdc2ad06f172807d831339f1cb4d3f"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d7/d7b/classbioexplorer_1_1BioExplorerPlugin.html#a34fdc2ad06f172807d831339f1cb4d3f">BioExplorerPlugin</a> ()</td></tr>
-<tr class="memdesc:a34fdc2ad06f172807d831339f1cb4d3f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Construct a new Bio Explorer Plugin object.  <a href="../../d7/d7b/classbioexplorer_1_1BioExplorerPlugin.html#a34fdc2ad06f172807d831339f1cb4d3f">More...</a><br /></td></tr>
-<tr class="separator:a34fdc2ad06f172807d831339f1cb4d3f"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a66054e540bd4b90e00ffb04a1b4d2daa"><td class="memItemLeft" align="right" valign="top"><a id="a66054e540bd4b90e00ffb04a1b4d2daa"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><b>init</b> () final</td></tr>
+<tr class="memitem:af06bb8a9b0514fdcd368bab3066581e5"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d7/d7b/classbioexplorer_1_1BioExplorerPlugin.html#af06bb8a9b0514fdcd368bab3066581e5">BioExplorerPlugin</a> (int argc, char **argv)</td></tr>
+<tr class="memdesc:af06bb8a9b0514fdcd368bab3066581e5"><td class="mdescLeft">&#160;</td><td class="mdescRight">Construct a new Bio Explorer Plugin object.  <a href="../../d7/d7b/classbioexplorer_1_1BioExplorerPlugin.html#af06bb8a9b0514fdcd368bab3066581e5">More...</a><br /></td></tr>
+<tr class="separator:af06bb8a9b0514fdcd368bab3066581e5"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a66054e540bd4b90e00ffb04a1b4d2daa"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d7/d7b/classbioexplorer_1_1BioExplorerPlugin.html#a66054e540bd4b90e00ffb04a1b4d2daa">init</a> () final</td></tr>
+<tr class="memdesc:a66054e540bd4b90e00ffb04a1b4d2daa"><td class="mdescLeft">&#160;</td><td class="mdescRight">Plugin initialization, registration of end-points, renderers, cameras, etc.  <a href="../../d7/d7b/classbioexplorer_1_1BioExplorerPlugin.html#a66054e540bd4b90e00ffb04a1b4d2daa">More...</a><br /></td></tr>
 <tr class="separator:a66054e540bd4b90e00ffb04a1b4d2daa"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a666e3d2ae8c399768ad1072527f2a0be"><td class="memItemLeft" align="right" valign="top"><a id="a666e3d2ae8c399768ad1072527f2a0be"></a>
 void&#160;</td><td class="memItemRight" valign="bottom"><b>preRender</b> () final</td></tr>
@@ -130,8 +130,8 @@ void&#160;</td><td class="memItemRight" valign="bottom"><b>preRender</b> () fina
 
 <p class="definition">Definition at line <a class="el" href="../../d1/d09/BioExplorerPlugin_8h_source.html#l00033">33</a> of file <a class="el" href="../../d1/d09/BioExplorerPlugin_8h_source.html">BioExplorerPlugin.h</a>.</p>
 </div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
-<a id="a34fdc2ad06f172807d831339f1cb4d3f"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a34fdc2ad06f172807d831339f1cb4d3f">&#9670;&nbsp;</a></span>BioExplorerPlugin()</h2>
+<a id="af06bb8a9b0514fdcd368bab3066581e5"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af06bb8a9b0514fdcd368bab3066581e5">&#9670;&nbsp;</a></span>BioExplorerPlugin()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -139,15 +139,56 @@ void&#160;</td><td class="memItemRight" valign="bottom"><b>preRender</b> () fina
         <tr>
           <td class="memname">bioexplorer::BioExplorerPlugin::BioExplorerPlugin </td>
           <td>(</td>
-          <td class="paramname"></td><td>)</td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>argc</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
           <td></td>
+          <td class="paramtype">char **&#160;</td>
+          <td class="paramname"><em>argv</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
         </tr>
       </table>
 </div><div class="memdoc">
 
 <p>Construct a new Bio Explorer Plugin object. </p>
 
-<p class="definition">Definition at line <a class="el" href="../../d2/d19/BioExplorerPlugin_8cpp_source.html#l00118">118</a> of file <a class="el" href="../../d2/d19/BioExplorerPlugin_8cpp_source.html">BioExplorerPlugin.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d2/d19/BioExplorerPlugin_8cpp_source.html#l00142">142</a> of file <a class="el" href="../../d2/d19/BioExplorerPlugin_8cpp_source.html">BioExplorerPlugin.cpp</a>.</p>
+
+</div>
+</div>
+<h2 class="groupheader">Member Function Documentation</h2>
+<a id="a66054e540bd4b90e00ffb04a1b4d2daa"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a66054e540bd4b90e00ffb04a1b4d2daa">&#9670;&nbsp;</a></span>init()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void bioexplorer::BioExplorerPlugin::init </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">final</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Plugin initialization, registration of end-points, renderers, cameras, etc. </p>
+
+<p class="definition">Definition at line <a class="el" href="../../d2/d19/BioExplorerPlugin_8cpp_source.html#l00148">148</a> of file <a class="el" href="../../d2/d19/BioExplorerPlugin_8cpp_source.html">BioExplorerPlugin.cpp</a>.</p>
 
 </div>
 </div>

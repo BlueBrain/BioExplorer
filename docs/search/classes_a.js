@@ -1,7 +1,7 @@
 var searchData=
 [
-  ['sequence_244',['Sequence',['../d9/db8/structbioexplorer_1_1Sequence.html',1,'bioexplorer']]],
-  ['setaminoacid_245',['SetAminoAcid',['../d1/da9/structbioexplorer_1_1SetAminoAcid.html',1,'bioexplorer']]],
-  ['sugarsdescriptor_246',['SugarsDescriptor',['../dd/dbd/structbioexplorer_1_1SugarsDescriptor.html',1,'bioexplorer']]],
-  ['surfacemesher_247',['SurfaceMesher',['../db/d99/classbioexplorer_1_1SurfaceMesher.html',1,'bioexplorer']]]
+  ['response_273',['Response',['../d9/d72/structbioexplorer_1_1Response.html',1,'bioexplorer']]],
+  ['rgbcolor_274',['RGBColor',['../da/d3c/structbioexplorer_1_1RGBColor.html',1,'bioexplorer']]],
+  ['rnasequence_275',['RNASequence',['../d2/d77/classbioexplorer_1_1RNASequence.html',1,'bioexplorer']]],
+  ['rnasequencedescriptor_276',['RNASequenceDescriptor',['../d6/dd7/structbioexplorer_1_1RNASequenceDescriptor.html',1,'bioexplorer']]]
 ];

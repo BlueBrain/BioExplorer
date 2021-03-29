@@ -56,6 +56,24 @@ const std::string PLUGIN_API_PREFIX = "be_";
         PLUGIN_ERROR << e.what() << std::endl; \
     }
 
+Boxd vector_to_bounds(const std::vector<float> &lowBounds,
+                      const std::vector<float> &highBounds)
+{
+    if (!lowBounds.empty() && lowBounds.size() != 3)
+        PLUGIN_THROW(
+            std::runtime_error("Invalid low bounds. 3 floats expected"));
+    if (!highBounds.empty() && highBounds.size() != 3)
+        PLUGIN_THROW(
+            std::runtime_error("Invalid high bounds. 3 floats expected"));
+
+    Boxd bounds;
+    if (!lowBounds.empty())
+        bounds.merge({lowBounds[0], lowBounds[1], lowBounds[2]});
+    if (!highBounds.empty())
+        bounds.merge({highBounds[0], highBounds[1], highBounds[2]});
+    return bounds;
+}
+
 void _addBioExplorerRenderer(brayns::Engine &engine)
 {
     PLUGIN_INFO << "Registering 'bio_explorer' renderer" << std::endl;
@@ -121,15 +139,18 @@ void _addBioExplorerPerspectiveCamera(brayns::Engine &engine)
     engine.addCameraType("bio_explorer_perspective", properties);
 }
 
-BioExplorerPlugin::BioExplorerPlugin()
+BioExplorerPlugin::BioExplorerPlugin(int argc, char **argv)
     : ExtensionPlugin()
 {
+    _parseCommandLineArguments(argc, argv);
 }
 
 void BioExplorerPlugin::init()
 {
     auto actionInterface = _api->getActionInterface();
     auto &scene = _api->getScene();
+    auto &camera = _api->getCamera();
+    auto &engine = _api->getEngine();
     auto &registry = scene.getLoaderRegistry();
 
     registry.registerLoader(
@@ -248,17 +269,17 @@ void BioExplorerPlugin::init()
                 return _addSugars(payload);
             });
 
-        entryPoint = PLUGIN_API_PREFIX + "export-to-cache";
+        entryPoint = PLUGIN_API_PREFIX + "export-to-file";
         PLUGIN_INFO << "Registering '" + entryPoint + "' endpoint" << std::endl;
         actionInterface->registerRequest<FileAccess, Response>(
             entryPoint,
-            [&](const FileAccess &payload) { return _exportToCache(payload); });
+            [&](const FileAccess &payload) { return _exportToFile(payload); });
 
-        entryPoint = PLUGIN_API_PREFIX + "import-from-cache";
+        entryPoint = PLUGIN_API_PREFIX + "import-from-file";
         PLUGIN_INFO << "Registering '" + entryPoint + "' endpoint" << std::endl;
         actionInterface->registerRequest<FileAccess, Response>(
             entryPoint, [&](const FileAccess &payload) {
-                return _importFromCache(payload);
+                return _importFromFile(payload);
             });
 
         entryPoint = PLUGIN_API_PREFIX + "export-to-xyz";
@@ -314,31 +335,83 @@ void BioExplorerPlugin::init()
             entryPoint,
             [&](const ModelsVisibility &s) { return _setModelsVisibility(s); });
 
-        entryPoint = PLUGIN_API_PREFIX + "set-out-of-core";
+        entryPoint = PLUGIN_API_PREFIX + "get-out-of-core-configuration";
         PLUGIN_INFO << "Registering '" + entryPoint + "' endpoint" << std::endl;
-        actionInterface->registerRequest<OutOfCoreDescriptor, Response>(
-            entryPoint,
-            [&](const OutOfCoreDescriptor &s) { return _setOutOfCore(s); });
+        actionInterface->registerRequest<Response>(entryPoint, [&]() {
+            return _getOOCConfiguration();
+        });
 
 #ifdef USE_PQXX
-        entryPoint = PLUGIN_API_PREFIX + "export-brick-to-db";
+        entryPoint = PLUGIN_API_PREFIX + "export-to-database";
         PLUGIN_INFO << "Registering '" + entryPoint + "' endpoint" << std::endl;
-        actionInterface->registerRequest<DBAccess, Response>(
-            entryPoint,
-            [&](const DBAccess &payload) { return _exportBrickToDB(payload); });
+        actionInterface->registerRequest<DatabaseAccess, Response>(
+            entryPoint, [&](const DatabaseAccess &payload) {
+                return _exportToDatabase(payload);
+            });
 #endif
     }
 
-    auto &engine = _api->getEngine();
+    // Module components
     _addBioExplorerPerspectiveCamera(engine);
     _addBioExplorerRenderer(engine);
     _addBioExplorerFieldsRenderer(engine);
+
+    // Out-of-core
+    if (_commandLineArguments.find(ARG_OOC_ENABLED) !=
+        _commandLineArguments.end())
+    {
+        _oocManager =
+            OOCManagerPtr(new OOCManager(scene, camera, _commandLineArguments));
+        if (_oocManager->getShowGrid())
+        {
+            AddGrid grid;
+            const auto &sceneConfiguration =
+                _oocManager->getSceneConfiguration();
+            const auto sceneSize = sceneConfiguration.sceneSize.x;
+            const auto brickSize = sceneConfiguration.brickSize.x;
+            grid.position = {-brickSize / 2.f, -brickSize / 2.f,
+                             -brickSize / 2.f};
+            grid.minValue = -sceneSize / 2.0;
+            grid.maxValue = sceneSize / 2.0;
+            grid.steps = brickSize;
+            grid.showAxis = false;
+            grid.showPlanes = false;
+            grid.showFullGrid = true;
+            grid.radius = 0.1f;
+            _addGrid(grid);
+        }
+    }
+}
+
+void BioExplorerPlugin::_parseCommandLineArguments(int argc, char **argv)
+{
+    for (size_t i = 0; i < argc; ++i)
+    {
+        const std::string argument = argv[i];
+        std::string key;
+        std::string value;
+        const int pos = argument.find("=");
+        if (pos == std::string::npos)
+            key = argument;
+        else
+        {
+            key = argument.substr(0, pos);
+            value = argument.substr(pos + 1);
+        }
+        _commandLineArguments[key] = value;
+    }
 }
 
 void BioExplorerPlugin::preRender()
 {
     if (_oocManager)
-        _oocManager->updateBricks();
+        if (!_oocManager->getFrameBuffer())
+        {
+            PLUGIN_INFO << "Starting Out-Of-Core manager" << std::endl;
+            auto &frameBuffer = _api->getEngine().getFrameBuffer();
+            _oocManager->setFrameBuffer(&frameBuffer);
+            _oocManager->loadBricks();
+        }
 }
 
 Response BioExplorerPlugin::_version() const
@@ -357,11 +430,6 @@ Response BioExplorerPlugin::_setGeneralSettings(
         PLUGIN_DEBUG << "Setting general options for the plugin" << std::endl;
         GeneralSettings::getInstance()->setModelVisibilityOnCreation(
             payload.modelVisibilityOnCreation);
-        GeneralSettings::getInstance()->setDatabaseConnectionString(
-            payload.databaseConnectionString);
-        GeneralSettings::getInstance()->setDatabaseSchema(
-            payload.databaseSchema);
-        GeneralSettings::getInstance()->setBricksFolder(payload.bricksFolder);
         GeneralSettings::getInstance()->setOffFolder(payload.offFolder);
 
         response.contents = "OK";
@@ -622,20 +690,22 @@ Response BioExplorerPlugin::_setAminoAcid(const SetAminoAcid &payload) const
     return response;
 }
 
-Response BioExplorerPlugin::_exportToCache(const FileAccess &payload)
+Response BioExplorerPlugin::_exportToFile(const FileAccess &payload)
 {
     Response response;
     try
     {
+        const Boxd bounds =
+            vector_to_bounds(payload.lowBounds, payload.highBounds);
         auto &scene = _api->getScene();
         CacheLoader loader(scene);
-        loader.exportToFile(payload.filename);
+        loader.exportToFile(payload.filename, bounds);
     }
     CATCH_STD_EXCEPTION()
     return response;
 }
 
-Response BioExplorerPlugin::_importFromCache(const FileAccess &payload)
+Response BioExplorerPlugin::_importFromFile(const FileAccess &payload)
 {
     Response response;
     try
@@ -726,9 +796,15 @@ Response BioExplorerPlugin::_addGrid(const AddGrid &payload)
         const float M = payload.maxValue;
         const float s = payload.steps;
         const float r = payload.radius;
+
+        /// Grid
         for (float x = m; x <= M; x += s)
             for (float y = m; y <= M; y += s)
-                if (fabs(x) < 0.001f || fabs(y) < 0.001f)
+            {
+                bool showFullGrid = true;
+                if (!payload.showFullGrid)
+                    showFullGrid = (fabs(x) < 0.001f || fabs(y) < 0.001f);
+                if (showFullGrid)
                 {
                     model->addCylinder(0, {position + brayns::Vector3f(x, y, m),
                                            position + brayns::Vector3f(x, y, M),
@@ -740,43 +816,49 @@ Response BioExplorerPlugin::_addGrid(const AddGrid &payload)
                                            position + brayns::Vector3f(x, M, y),
                                            r});
                 }
+            }
 
-        material = model->createMaterial(1, "plane_x");
-        material->setDiffuseColor(payload.useColors ? red : grey);
-        material->setOpacity(payload.planeOpacity);
-        material->setProperties(props);
-        auto &tmx = model->getTriangleMeshes()[1];
-        tmx.vertices.push_back(position + brayns::Vector3f(m, 0, m));
-        tmx.vertices.push_back(position + brayns::Vector3f(M, 0, m));
-        tmx.vertices.push_back(position + brayns::Vector3f(M, 0, M));
-        tmx.vertices.push_back(position + brayns::Vector3f(m, 0, M));
-        tmx.indices.push_back(brayns::Vector3ui(0, 1, 2));
-        tmx.indices.push_back(brayns::Vector3ui(2, 3, 0));
+        if (payload.showPlanes)
+        {
+            // Planes
+            material = model->createMaterial(1, "plane_x");
+            material->setDiffuseColor(payload.useColors ? red : grey);
+            material->setOpacity(payload.planeOpacity);
+            material->setProperties(props);
+            auto &tmx = model->getTriangleMeshes()[1];
+            tmx.vertices.push_back(position + brayns::Vector3f(m, 0, m));
+            tmx.vertices.push_back(position + brayns::Vector3f(M, 0, m));
+            tmx.vertices.push_back(position + brayns::Vector3f(M, 0, M));
+            tmx.vertices.push_back(position + brayns::Vector3f(m, 0, M));
+            tmx.indices.push_back(brayns::Vector3ui(0, 1, 2));
+            tmx.indices.push_back(brayns::Vector3ui(2, 3, 0));
 
-        material = model->createMaterial(2, "plane_y");
-        material->setDiffuseColor(payload.useColors ? green : grey);
-        material->setOpacity(payload.planeOpacity);
-        material->setProperties(props);
-        auto &tmy = model->getTriangleMeshes()[2];
-        tmy.vertices.push_back(position + brayns::Vector3f(m, m, 0));
-        tmy.vertices.push_back(position + brayns::Vector3f(M, m, 0));
-        tmy.vertices.push_back(position + brayns::Vector3f(M, M, 0));
-        tmy.vertices.push_back(position + brayns::Vector3f(m, M, 0));
-        tmy.indices.push_back(brayns::Vector3ui(0, 1, 2));
-        tmy.indices.push_back(brayns::Vector3ui(2, 3, 0));
+            material = model->createMaterial(2, "plane_y");
+            material->setDiffuseColor(payload.useColors ? green : grey);
+            material->setOpacity(payload.planeOpacity);
+            material->setProperties(props);
+            auto &tmy = model->getTriangleMeshes()[2];
+            tmy.vertices.push_back(position + brayns::Vector3f(m, m, 0));
+            tmy.vertices.push_back(position + brayns::Vector3f(M, m, 0));
+            tmy.vertices.push_back(position + brayns::Vector3f(M, M, 0));
+            tmy.vertices.push_back(position + brayns::Vector3f(m, M, 0));
+            tmy.indices.push_back(brayns::Vector3ui(0, 1, 2));
+            tmy.indices.push_back(brayns::Vector3ui(2, 3, 0));
 
-        material = model->createMaterial(3, "plane_z");
-        material->setDiffuseColor(payload.useColors ? blue : grey);
-        material->setOpacity(payload.planeOpacity);
-        material->setProperties(props);
-        auto &tmz = model->getTriangleMeshes()[3];
-        tmz.vertices.push_back(position + brayns::Vector3f(0, m, m));
-        tmz.vertices.push_back(position + brayns::Vector3f(0, m, M));
-        tmz.vertices.push_back(position + brayns::Vector3f(0, M, M));
-        tmz.vertices.push_back(position + brayns::Vector3f(0, M, m));
-        tmz.indices.push_back(brayns::Vector3ui(0, 1, 2));
-        tmz.indices.push_back(brayns::Vector3ui(2, 3, 0));
+            material = model->createMaterial(3, "plane_z");
+            material->setDiffuseColor(payload.useColors ? blue : grey);
+            material->setOpacity(payload.planeOpacity);
+            material->setProperties(props);
+            auto &tmz = model->getTriangleMeshes()[3];
+            tmz.vertices.push_back(position + brayns::Vector3f(0, m, m));
+            tmz.vertices.push_back(position + brayns::Vector3f(0, m, M));
+            tmz.vertices.push_back(position + brayns::Vector3f(0, M, M));
+            tmz.vertices.push_back(position + brayns::Vector3f(0, M, m));
+            tmz.indices.push_back(brayns::Vector3ui(0, 1, 2));
+            tmz.indices.push_back(brayns::Vector3ui(2, 3, 0));
+        }
 
+        // Axis
         if (payload.showAxis)
         {
             const float l = M;
@@ -1139,68 +1221,44 @@ Response BioExplorerPlugin::_setModelsVisibility(
     return response;
 }
 
-Response BioExplorerPlugin::_setOutOfCore(const OutOfCoreDescriptor &payload)
+Response BioExplorerPlugin::_getOOCConfiguration() const
 {
-    Response response;
-    try
-    {
-        PLUGIN_INFO << "Setting out-of-core mode to "
-                    << (payload.enabled ? "On" : "Off") << std::endl;
-        auto &scene = _api->getScene();
-        auto &camera = _api->getCamera();
-        if (payload.enabled)
-        {
-            if (!_oocManager)
-            {
-                _oocManager =
-                    OOCManagerPtr(new OOCManager(scene, camera, payload));
-                _oocManager->loadBricks();
-            }
-        }
-        else
-        {
-            if (_oocManager)
-                _oocManager.reset();
-            _oocManager = nullptr;
-        }
+    if (!_oocManager)
+        PLUGIN_THROW(std::runtime_error("Out-of-core engine is disabled"));
 
-        response.contents = "OK";
-    }
-    CATCH_STD_EXCEPTION()
+    Response response;
+    const auto &sceneConfiguration = _oocManager->getSceneConfiguration();
+    std::stringstream s;
+    s << "description=" << sceneConfiguration.description
+      << "|scene_size=" << sceneConfiguration.sceneSize.x << ","
+      << sceneConfiguration.sceneSize.y << "," << sceneConfiguration.sceneSize.z
+      << "|brick_size=" << sceneConfiguration.brickSize.x << ","
+      << sceneConfiguration.brickSize.y << "," << sceneConfiguration.brickSize.z
+      << "|visible_bricks=" << _oocManager->getVisibleBricks()
+      << "|update_frequency=" << _oocManager->getUpdateFrequency();
+    response.contents = s.str().c_str();
     return response;
 }
 
 #ifdef USE_PQXX
-Response BioExplorerPlugin::_exportBrickToDB(const DBAccess &payload)
+Response BioExplorerPlugin::_exportToDatabase(const DatabaseAccess &payload)
 {
     Response response;
     try
     {
-        if (!payload.lowBounds.empty() && payload.lowBounds.size() != 3)
-            PLUGIN_THROW(
-                std::runtime_error("Invalid low bounds. 3 floats expected"));
-        if (!payload.highBounds.empty() && payload.highBounds.size() != 3)
-            PLUGIN_THROW(
-                std::runtime_error("Invalid high bounds. 3 floats expected"));
-        Boxf bounds;
-        if (!payload.lowBounds.empty())
-            bounds.merge({payload.lowBounds[0], payload.lowBounds[1],
-                          payload.lowBounds[2]});
-        if (!payload.lowBounds.empty())
-            bounds.merge({payload.highBounds[0], payload.highBounds[1],
-                          payload.highBounds[2]});
-
+        const Boxd bounds =
+            vector_to_bounds(payload.lowBounds, payload.highBounds);
         auto &scene = _api->getScene();
         CacheLoader loader(scene);
-        loader.exportBrickToDB(payload.connectionString, payload.schema,
-                               payload.brickId, bounds);
+        DBConnector connector(payload.connectionString, payload.schema);
+        loader.exportBrickToDB(connector, payload.brickId, bounds);
     }
     CATCH_STD_EXCEPTION()
     return response;
 }
 #endif
 
-extern "C" ExtensionPlugin *brayns_plugin_create(int /*argc*/, char ** /*argv*/)
+extern "C" ExtensionPlugin *brayns_plugin_create(int argc, char **argv)
 {
     PLUGIN_INFO << " _|_|_|    _|            _|_|_|_|                      _|  "
                    "                                      "
@@ -1232,7 +1290,8 @@ extern "C" ExtensionPlugin *brayns_plugin_create(int /*argc*/, char ** /*argv*/)
     PLUGIN_INFO << "- Postgresql module loaded" << std::endl;
 #endif
     PLUGIN_INFO << std::endl;
-    return new BioExplorerPlugin();
+
+    return new BioExplorerPlugin(argc, argv);
 }
 
 } // namespace bioexplorer

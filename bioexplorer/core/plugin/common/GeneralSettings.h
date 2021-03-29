@@ -80,18 +80,6 @@ public:
      */
     void setOffFolder(const std::string& value) { _offFolder = value; }
 
-    std::string getBricksFolder() { return _bricksFolder; }
-    void setBricksFolder(const std::string& value) { _bricksFolder = value; }
-
-    std::string getDatabaseConnectionString() { return _dbConnectionString; }
-    void setDatabaseConnectionString(const std::string& value)
-    {
-        _dbConnectionString = value;
-    }
-
-    std::string getDatabaseSchema() { return _dbSchema; }
-    void setDatabaseSchema(const std::string& value) { _dbSchema = value; }
-
     static std::mutex _mutex;
     static GeneralSettings* _instance;
 
@@ -100,8 +88,5 @@ private:
 
     bool _modelVisibilityOnCreation{true};
     std::string _offFolder{"/tmp/"};
-    std::string _bricksFolder{"/tmp/"};
-    std::string _dbConnectionString;
-    std::string _dbSchema;
 };
 } // namespace bioexplorer

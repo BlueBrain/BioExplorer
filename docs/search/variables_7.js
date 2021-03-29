@@ -1,17 +1,7 @@
 var searchData=
 [
-  ['map_5fa_364',['map_a',['../da/db3/structbioexplorer_1_1AdvancedMaterial.html#aad0625c36cecfcb0abcc1398374cec80',1,'bioexplorer::AdvancedMaterial']]],
-  ['map_5fbump_365',['map_Bump',['../da/db3/structbioexplorer_1_1AdvancedMaterial.html#a305462a40aaa7c5f4756823ffebb941d',1,'bioexplorer::AdvancedMaterial']]],
-  ['map_5fd_366',['map_d',['../da/db3/structbioexplorer_1_1AdvancedMaterial.html#a360e33f5d22dd3e38dbd0ba6ac1dccac',1,'bioexplorer::AdvancedMaterial']]],
-  ['map_5fkd_367',['map_Kd',['../da/db3/structbioexplorer_1_1AdvancedMaterial.html#a9b70bfd10341ceee7bfd402db24c37bc',1,'bioexplorer::AdvancedMaterial']]],
-  ['map_5fks_368',['map_Ks',['../da/db3/structbioexplorer_1_1AdvancedMaterial.html#a3d480766e87415bb4f6d262efd6e9a30',1,'bioexplorer::AdvancedMaterial']]],
-  ['map_5fns_369',['map_Ns',['../da/db3/structbioexplorer_1_1AdvancedMaterial.html#a114c43310ad7c581ffc9141160b29c15',1,'bioexplorer::AdvancedMaterial']]],
-  ['map_5freflection_370',['map_Reflection',['../da/db3/structbioexplorer_1_1AdvancedMaterial.html#a5504805d33d59dd25fc56614b6b8c311',1,'bioexplorer::AdvancedMaterial']]],
-  ['map_5frefraction_371',['map_Refraction',['../da/db3/structbioexplorer_1_1AdvancedMaterial.html#a6844be11bfba864692b3eb01dbd3e4cf',1,'bioexplorer::AdvancedMaterial']]],
-  ['materialids_372',['materialIds',['../df/d61/structbioexplorer_1_1MaterialsDescriptor.html#a244e8c0e1eacf258f40edb820155c159',1,'bioexplorer::MaterialsDescriptor']]],
-  ['maxvalue_373',['maxValue',['../db/d60/structbioexplorer_1_1AddGrid.html#a79bbae3e8c9c9413077bd5c664d78222',1,'bioexplorer::AddGrid']]],
-  ['meshcontents_374',['meshContents',['../d7/d2f/structbioexplorer_1_1MeshBasedMembraneDescriptor.html#aeefb3e4a3b29c21e9f6db3f2f624104e',1,'bioexplorer::MeshBasedMembraneDescriptor']]],
-  ['minvalue_375',['minValue',['../db/d60/structbioexplorer_1_1AddGrid.html#a38a377608e6c551d051fa56b95f3841f',1,'bioexplorer::AddGrid']]],
-  ['modelid_376',['modelId',['../d8/d40/structbioexplorer_1_1ModelId.html#acf8318c90fa550e7baf283a79c18ed9e',1,'bioexplorer::ModelId']]],
-  ['modelids_377',['modelIds',['../df/d61/structbioexplorer_1_1MaterialsDescriptor.html#aae3d50a2869d74f8b526d645611ca4cf',1,'bioexplorer::MaterialsDescriptor']]]
+  ['loadbonds_411',['loadBonds',['../de/d94/structbioexplorer_1_1MembraneDescriptor.html#a41993a09eda081ceaea49894fbf3a5e7',1,'bioexplorer::MembraneDescriptor::loadBonds()'],['../de/dc1/structbioexplorer_1_1ProteinDescriptor.html#a9acf90f5e4726b73d3db692b83a4b79a',1,'bioexplorer::ProteinDescriptor::loadBonds()'],['../dd/dbd/structbioexplorer_1_1SugarsDescriptor.html#ab14bab4c7460dcaadebe481036bc14ac',1,'bioexplorer::SugarsDescriptor::loadBonds()']]],
+  ['loadhydrogen_412',['loadHydrogen',['../de/dc1/structbioexplorer_1_1ProteinDescriptor.html#abaf40c398d3353065354254f5056c814',1,'bioexplorer::ProteinDescriptor']]],
+  ['loadnonpolymerchemicals_413',['loadNonPolymerChemicals',['../de/d94/structbioexplorer_1_1MembraneDescriptor.html#accd0473c1c2afa2093ec677bac5cbef8',1,'bioexplorer::MembraneDescriptor::loadNonPolymerChemicals()'],['../de/dc1/structbioexplorer_1_1ProteinDescriptor.html#a91a542098d5b6204c48e0202067e49da',1,'bioexplorer::ProteinDescriptor::loadNonPolymerChemicals()']]],
+  ['locationcutoffangle_414',['locationCutoffAngle',['../de/d94/structbioexplorer_1_1MembraneDescriptor.html#a74e471498a2995d3046e7c8da7a48c30',1,'bioexplorer::MembraneDescriptor::locationCutoffAngle()'],['../de/dc1/structbioexplorer_1_1ProteinDescriptor.html#a8ea75370d8bde416dae4d0d1cbbb4d95',1,'bioexplorer::ProteinDescriptor::locationCutoffAngle()']]]
 ];
