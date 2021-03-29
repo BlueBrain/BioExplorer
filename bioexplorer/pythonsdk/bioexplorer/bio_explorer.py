@@ -2092,6 +2092,17 @@ class BioExplorer:
             method=self.PLUGIN_API_PREFIX + "get-out-of-core-progress")
         return response
 
+    def get_out_of_core_average_loading_time(self):
+        """
+        Returns the out-of-core average loading time (per brick, in milliseconds)
+
+        :rtype: float
+        """
+        response = self._client.rockets_client.request(
+            method=self.PLUGIN_API_PREFIX +
+            "get-out-of-core-average-loading-time")
+        return response
+
 
 # Internal classes
 

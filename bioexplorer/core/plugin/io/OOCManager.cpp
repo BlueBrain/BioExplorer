@@ -99,6 +99,9 @@ void OOCManager::_loadBricks()
     CacheLoader loader(_scene);
     DBConnector connector(_dbConnectionString, _dbSchema);
 
+    uint32_t nbLoads = 0;
+    float totalLoadingTime = 0.f;
+
     while (true)
     {
         const Vector3f& cameraPosition = _camera.getPosition();
@@ -152,6 +155,7 @@ void OOCManager::_loadBricks()
             {
                 const auto brickToLoad = (*bricksToLoad.begin());
                 loadedBricks.insert(brickToLoad);
+                const auto start = std::chrono::steady_clock::now();
                 try
                 {
 #ifdef USE_PQXX
@@ -170,6 +174,13 @@ void OOCManager::_loadBricks()
                 {
                     PLUGIN_DEBUG << e.what() << std::endl;
                 }
+                const auto duration =
+                    std::chrono::duration_cast<std::chrono::milliseconds>(
+                        std::chrono::steady_clock::now() - start);
+
+                totalLoadingTime += duration.count();
+                ++nbLoads;
+
                 bricksToLoad.erase(bricksToLoad.begin());
             }
 
@@ -262,6 +273,9 @@ void OOCManager::_loadBricks()
         }
 
         sleep(_updateFrequency);
+        _averageLoadingTime = totalLoadingTime / nbLoads;
+        PLUGIN_DEBUG << "Average loading time (ms): " << _averageLoadingTime
+                     << std::endl;
         previousBrickId = brickId;
     }
 }

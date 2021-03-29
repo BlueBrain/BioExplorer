@@ -136,6 +136,11 @@ public:
      */
     const float getProgress() const { return _progress; }
 
+    /**
+     * @return Get average loading time (in milliseconds)
+     */
+    const float getAverageLoadingTime() const { return _averageLoadingTime; }
+
 private:
     void _parseArguments(const CommandLineArguments& arguments);
     void _loadBricks();
@@ -151,6 +156,7 @@ private:
     bool _showGrid{false};
     uint32_t _nbBricksPerCycle{5};
     float _progress{0.f};
+    float _averageLoadingTime{0.f};
 
     // IO
 #ifdef USE_PQXX

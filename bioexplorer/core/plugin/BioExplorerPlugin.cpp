@@ -347,6 +347,12 @@ void BioExplorerPlugin::init()
             return _getOOCProgress();
         });
 
+        entryPoint = PLUGIN_API_PREFIX + "get-out-of-core-average-loading-time";
+        PLUGIN_INFO << "Registering '" + entryPoint + "' endpoint" << std::endl;
+        actionInterface->registerRequest<Response>(entryPoint, [&]() {
+            return _getOOCAverageLoadingTime();
+        });
+
 #ifdef USE_PQXX
         entryPoint = PLUGIN_API_PREFIX + "export-to-database";
         PLUGIN_INFO << "Registering '" + entryPoint + "' endpoint" << std::endl;
@@ -1262,6 +1268,21 @@ Response BioExplorerPlugin::_getOOCProgress() const
     {
         const auto progress = _oocManager->getProgress();
         response.contents = std::to_string(progress);
+    }
+    CATCH_STD_EXCEPTION()
+    return response;
+}
+
+Response BioExplorerPlugin::_getOOCAverageLoadingTime() const
+{
+    if (!_oocManager)
+        PLUGIN_THROW(std::runtime_error("Out-of-core engine is disabled"));
+
+    Response response;
+    try
+    {
+        const auto averageLoadingTime = _oocManager->getAverageLoadingTime();
+        response.contents = std::to_string(averageLoadingTime);
     }
     CATCH_STD_EXCEPTION()
     return response;

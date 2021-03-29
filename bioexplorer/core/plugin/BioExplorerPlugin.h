@@ -108,6 +108,7 @@ private:
     // Out-Of-Core
     Response _getOOCConfiguration() const;
     Response _getOOCProgress() const;
+    Response _getOOCAverageLoadingTime() const;
     OOCManagerPtr _oocManager{nullptr};
 
     // Attributes
