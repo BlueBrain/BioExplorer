@@ -20,12 +20,30 @@
 
 #include <stdint.h>
 
+namespace bioexplorer
+{
+/**
+ * @brief The UniqueID class provides a way to get a unique identifier accross
+ * the application
+ *
+ */
 class UniqueId
 {
 protected:
     static uint32_t nextId;
 
 public:
+    /**
+     * @brief Construct a new UniqueId object
+     *
+     */
     UniqueId();
+
+    /**
+     * @brief Get a unique identifier
+     *
+     * @return uint32_t
+     */
     static uint32_t get();
 };
+} // namespace bioexplorer

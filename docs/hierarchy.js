@@ -66,5 +66,5 @@ var hierarchy =
     [ "bioexplorer::SetAminoAcid", "d1/da9/structbioexplorer_1_1SetAminoAcid.html", null ],
     [ "bioexplorer::SugarsDescriptor", "dd/dbd/structbioexplorer_1_1SugarsDescriptor.html", null ],
     [ "bioexplorer::SurfaceMesher", "db/d99/classbioexplorer_1_1SurfaceMesher.html", null ],
-    [ "UniqueId", "d1/de7/classUniqueId.html", null ]
+    [ "bioexplorer::UniqueId", "d4/dbf/classbioexplorer_1_1UniqueId.html", null ]
 ];
