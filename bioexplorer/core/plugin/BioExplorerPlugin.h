@@ -106,6 +106,7 @@ private:
     Response _setModelsVisibility(const ModelsVisibility &payload);
 
     // Out-Of-Core
+    Response _getOOCConfiguration() const;
     OOCManagerPtr _oocManager{nullptr};
 
     // Attributes

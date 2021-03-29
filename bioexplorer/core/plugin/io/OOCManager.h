@@ -121,6 +121,16 @@ public:
      */
     const bool getShowGrid() const { return _showGrid; }
 
+    /**
+     * @return Get the number of visible bricks surrounding the camera position
+     */
+    const int32_t getVisibleBricks() const { return _nbVisibleBricks; }
+
+    /**
+     * @return Get the update frequency (in seconds) of the bricks in the scene
+     */
+    const float getUpdateFrequency() const { return _updateFrequency; }
+
 private:
     void _parseArguments(const CommandLineArguments& arguments);
     void _loadBricks();

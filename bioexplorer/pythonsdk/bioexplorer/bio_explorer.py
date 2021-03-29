@@ -2066,6 +2066,22 @@ class BioExplorer:
         self._client.set_renderer(accumulation=True)
         return response
 
+    def get_out_of_core_configuration(self):
+        """
+        Returns the out-of-core configuration
+
+        :rtype: string
+        """
+        result = self._client.rockets_client.request(
+            method=self.PLUGIN_API_PREFIX + "get-out-of-core-configuration")
+        if not result["status"]:
+            raise RuntimeError(result["contents"])
+        d = dict()
+        for param in result["contents"].split("|"):
+            s = param.split('=')
+            d[s[0]] = s[1]
+        return d
+
 
 # Internal classes
 
