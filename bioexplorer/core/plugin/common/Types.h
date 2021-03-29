@@ -851,4 +851,16 @@ typedef struct
 class OOCManager;
 typedef std::shared_ptr<OOCManager> OOCManagerPtr;
 
+typedef struct
+{
+    /** Description of the scene **/
+    std::string description;
+    /** Size of the scene */
+    Vector3f sceneSize;
+    /** Number of bricks per side of the scene */
+    uint32_t nbBricks;
+    /** Size of the each brick in the scene */
+    Vector3f brickSize;
+} OOCSceneConfiguration;
+
 } // namespace bioexplorer

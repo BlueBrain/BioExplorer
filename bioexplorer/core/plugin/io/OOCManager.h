@@ -26,15 +26,50 @@ namespace bioexplorer
 {
 using namespace brayns;
 
+/**
+ * @brief The OOCManager classes manager the out-of-core engine of the
+ * BioExplorer. The scene is devided into bricks of a given size that are, in
+ * the current implementation, stored in a PostgreSQL database. The out-of-core
+ * engine is activated via command line parameters only. By settings the
+ * --ooc-enabled command line parameter, the out-of-core engine is enabled and,
+ * in order to avoid unnecessary network traffic, the scene contents are not
+ * broadcasted anymore to the BioExplorer clients (Python notebook or User
+ * Inferface). Note that ENV_ROCKETS_DISABLE_SCENE_BROADCASTING environment
+ * variable has to be set to order Brayns not to broadcast the scene changes.
+ * The out-of-core mode is a read-only feature and does not allow any
+ * modification of the scene. When the camera position changes, the OOCManager
+ * identifies the visible bricks and loads them as a background task. For
+ * performance reasons, models are loaded as invisible. This allows the
+ * ray-tracing engine to create the BVH before the model is added to the scene.
+ * Once all models are loaded, they are added to the scene. Note that the
+ * OOCManager only does work when the frame buffer accumulation is greater than
+ * 1, which means that the camera is not moving.
+ * If the --ooc-unload-bricks command line parameter is set, invisible bricks
+ * are unloaded from memory and removed from the scene. The
+ * --ooc-update-frequency command line parameters defines (in seconds) at which
+ * frequency models should be loaded. The --ooc-nb-bricks-per-cycle command line
+ * parameter defines how many bricks can be loaded at each rendering cycle. The
+ * connection to the database is defined by the --ooc-db-host, --ooc-db-port,
+ * --ooc-db-name,--ooc-db-user,--ooc-db-password and --ooc-db-schema parameters.
+ * If the BioExplorer fails to find the pqxx dependency to connect to the
+ * PostgreSQL database, it falls back to a file-based mode where bricks can be
+ * stored as BioExplorer cache files, in the folder defined by the
+ * --ooc-bricks-folder command line argument. The --ooc-show-grid command line
+ * parameter can be used to show a grid corresponding the positions of the
+ * bricks in the scene.
+ *
+ */
 class OOCManager
 {
 public:
     /**
      * @brief Construct a new OOCManager object
      *
-     * @param scene 3D Scene
-     * @param camera Camera
-     * @param arguments Command line arguments
+     * @param scene 3D Scene to wich bricks are added
+     * @param camera Camera used to determine the position of the viewer in the
+     * scene.
+     * @param arguments Command line arguments (See class description for
+     * details)
      */
     OOCManager(Scene& scene, const Camera& camera,
                const CommandLineArguments& arguments);
@@ -55,6 +90,11 @@ public:
         _frameBuffer = frameBuffer;
     }
 
+    /**
+     * @brief Get the frame buffer
+     *
+     * @return const FrameBuffer* A pointer to the frame buffer
+     */
     const FrameBuffer* getFrameBuffer() const { return _frameBuffer; }
 
     /**
@@ -65,25 +105,14 @@ public:
     void loadBricks();
 
     /**
-     * @brief Get the Description object
+     * @brief Get the Scene Configuration object
      *
      * @return const std::string&
      */
-    const std::string& getDescription() const { return _description; }
-
-    /**
-     * @brief Get the Scene Size
-     *
-     * @return const Vector3f& Scene size
-     */
-    const Vector3f& getSceneSize() const { return _sceneSize; }
-
-    /**
-     * @brief Get the Brick Size
-     *
-     * @return const Vector3f& Brick size
-     */
-    const Vector3f& getBrickSize() const { return _brickSize; }
+    const OOCSceneConfiguration& getSceneConfiguration() const
+    {
+        return _sceneConfiguration;
+    }
 
     /**
      * @brief Get the Show Grid value, read from the command line parameters
@@ -100,10 +129,7 @@ private:
     const Camera& _camera;
     FrameBuffer* _frameBuffer{nullptr};
 
-    std::string _description;
-    Vector3f _sceneSize;
-    Vector3f _brickSize;
-    uint32_t _nbBricks{0};
+    OOCSceneConfiguration _sceneConfiguration;
     float _updateFrequency{1.f};
     int32_t _nbVisibleBricks{0};
     bool _unloadBricks{false};

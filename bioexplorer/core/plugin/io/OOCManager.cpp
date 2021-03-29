@@ -65,11 +65,15 @@ OOCManager::OOCManager(Scene& scene, const Camera& camera,
     PLUGIN_INFO << "---------------------------------" << std::endl;
     PLUGIN_INFO << "DB Connection string: " << _dbConnectionString << std::endl;
     PLUGIN_INFO << "DB Schema           : " << _dbSchema << std::endl;
-    PLUGIN_INFO << "Description         : " << _description << std::endl;
+    PLUGIN_INFO << "Description         : " << _sceneConfiguration.description
+                << std::endl;
     PLUGIN_INFO << "Update frequency    : " << _updateFrequency << std::endl;
-    PLUGIN_INFO << "Scene size          : " << _sceneSize << std::endl;
-    PLUGIN_INFO << "Brick size          : " << _brickSize << std::endl;
-    PLUGIN_INFO << "Nb of bricks        : " << _nbBricks << std::endl;
+    PLUGIN_INFO << "Scene size          : " << _sceneConfiguration.sceneSize
+                << std::endl;
+    PLUGIN_INFO << "Brick size          : " << _sceneConfiguration.brickSize
+                << std::endl;
+    PLUGIN_INFO << "Nb of bricks        : " << _sceneConfiguration.nbBricks
+                << std::endl;
     PLUGIN_INFO << "Visible bricks      : " << _nbVisibleBricks << std::endl;
     PLUGIN_INFO << "Bricks per cycle    : " << _nbBricksPerCycle << std::endl;
     PLUGIN_INFO << "Unload bricks       : " << (_unloadBricks ? "On" : "Off")
@@ -98,9 +102,11 @@ void OOCManager::_loadBricks()
     while (true)
     {
         const Vector3f& cameraPosition = _camera.getPosition();
-        const Vector3i brick = cameraPosition / _brickSize;
-        const int32_t brickId =
-            brick.z + brick.y * _nbBricks + brick.x * _nbBricks * _nbBricks;
+        const Vector3i brick = cameraPosition / _sceneConfiguration.brickSize;
+        const int32_t brickId = brick.z +
+                                brick.y * _sceneConfiguration.nbBricks +
+                                brick.x * _sceneConfiguration.nbBricks *
+                                    _sceneConfiguration.nbBricks;
 
         if (_frameBuffer && _frameBuffer->getAccumFrames() > 1)
         {
@@ -108,13 +114,21 @@ void OOCManager::_loadBricks()
 
             // Identify visible bricks (the ones surrounding the camera)
             std::set<int32_t> visibleBricks;
-            for (int32_t x = -_nbVisibleBricks; x < _nbVisibleBricks; ++x)
-                for (int32_t y = -_nbVisibleBricks; y < _nbVisibleBricks; ++y)
-                    for (int32_t z = -_nbVisibleBricks; z < _nbVisibleBricks;
-                         ++z)
+            for (int32_t x = 0; x < _nbVisibleBricks; ++x)
+                for (int32_t y = 0; y < _nbVisibleBricks; ++y)
+                    for (int32_t z = 0; z < _nbVisibleBricks; ++z)
+                    {
                         visibleBricks.insert(
-                            (z + brick.z) + (y + brick.y) * _nbBricks +
-                            (x + brick.x) * _nbBricks * _nbBricks);
+                            (z + brick.z) +
+                            (y + brick.y) * _sceneConfiguration.nbBricks +
+                            (x + brick.x) * _sceneConfiguration.nbBricks *
+                                _sceneConfiguration.nbBricks);
+                        visibleBricks.insert(
+                            (-z + brick.z) +
+                            (-y + brick.y) * _sceneConfiguration.nbBricks +
+                            (-x + brick.x) * _sceneConfiguration.nbBricks *
+                                _sceneConfiguration.nbBricks);
+                    }
 
             // Identify bricks to load
             for (const int32_t visibleBrick : visibleBricks)
@@ -290,10 +304,7 @@ void OOCManager::_parseArguments(const CommandLineArguments& arguments)
 
     // Configuration
     DBConnector connector(_dbConnectionString, _dbSchema);
-    connector.getConfiguration(_description, _sceneSize, _nbBricks);
-    if (_nbBricks == 0)
-        PLUGIN_THROW(std::runtime_error("Invalid number of bricks)"));
-    _brickSize = _sceneSize / _nbBricks;
+    _sceneConfiguration = connector.getSceneConfiguration();
 
     const bool disableBroadcasting =
         std::getenv(ENV_ROCKETS_DISABLE_SCENE_BROADCASTING.c_str()) != nullptr;

@@ -359,8 +359,10 @@ void BioExplorerPlugin::init()
         if (_oocManager->getShowGrid())
         {
             AddGrid grid;
-            const float sceneSize = _oocManager->getSceneSize().x;
-            const float brickSize = _oocManager->getBrickSize().x;
+            const auto &sceneConfiguration =
+                _oocManager->getSceneConfiguration();
+            const auto sceneSize = sceneConfiguration.sceneSize.x;
+            const auto brickSize = sceneConfiguration.brickSize.x;
             grid.position = {-brickSize / 2.f, -brickSize / 2.f,
                              -brickSize / 2.f};
             grid.minValue = -sceneSize / 2.0;
