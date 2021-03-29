@@ -1,4 +1,6 @@
 var searchData=
 [
-  ['voxelsize_422',['voxelSize',['../d7/dc9/structbioexplorer_1_1BuildFields.html#a77f96efb3d6302d60a4d914ffde68bba',1,'bioexplorer::BuildFields']]]
+  ['usecolors_474',['useColors',['../db/d60/structbioexplorer_1_1AddGrid.html#a4a30aecf294b5fb7f0e7ba9b1eeee607',1,'bioexplorer::AddGrid']]],
+  ['userparameter_475',['userParameter',['../da/db3/structbioexplorer_1_1AdvancedMaterial.html#ac71b3c0805f83c57f77432a50b79c504',1,'bioexplorer::AdvancedMaterial']]],
+  ['userparameters_476',['userParameters',['../df/d61/structbioexplorer_1_1MaterialsDescriptor.html#a285301f1167707ae71890ec483e1b4b5',1,'bioexplorer::MaterialsDescriptor']]]
 ];

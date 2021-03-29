@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['node_309',['Node',['../da/dba/classbioexplorer_1_1Node.html#a1a75c700a6b2b1fcf048367e2f2f6fc0',1,'bioexplorer::Node']]]
+  ['loadbricks_349',['loadBricks',['../d0/d4b/classbioexplorer_1_1OOCManager.html#af21fc74d01b559c10caad7c54cf1d2cb',1,'bioexplorer::OOCManager']]]
 ];

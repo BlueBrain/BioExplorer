@@ -17,12 +17,15 @@ var hierarchy =
     [ "Camera", null, [
       [ "bioexplorer::PerspectiveStereoCamera", "d3/d23/structbioexplorer_1_1PerspectiveStereoCamera.html", null ]
     ] ],
-    [ "bioexplorer::Codon", "d6/df8/structbioexplorer_1_1Codon.html", null ],
     [ "bioexplorer::ColorSchemeDescriptor", "dd/d82/structbioexplorer_1_1ColorSchemeDescriptor.html", null ],
+    [ "bioexplorer::DatabaseAccess", "dc/d18/structbioexplorer_1_1DatabaseAccess.html", null ],
+    [ "bioexplorer::DBConnector", "d3/d1a/classbioexplorer_1_1DBConnector.html", null ],
     [ "ExtensionPlugin", null, [
       [ "bioexplorer::BioExplorerPlugin", "d7/d7b/classbioexplorer_1_1BioExplorerPlugin.html", null ]
     ] ],
     [ "bioexplorer::FileAccess", "d4/deb/structbioexplorer_1_1FileAccess.html", null ],
+    [ "bioexplorer::GeneralSettings", "d4/ddc/classbioexplorer_1_1GeneralSettings.html", null ],
+    [ "bioexplorer::GeneralSettingsDescriptor", "dc/dc8/structbioexplorer_1_1GeneralSettingsDescriptor.html", null ],
     [ "Loader", null, [
       [ "bioexplorer::CacheLoader", "d9/d08/classbioexplorer_1_1CacheLoader.html", null ]
     ] ],
@@ -33,9 +36,9 @@ var hierarchy =
     [ "bioexplorer::MaterialsDescriptor", "df/d61/structbioexplorer_1_1MaterialsDescriptor.html", null ],
     [ "bioexplorer::MembraneDescriptor", "de/d94/structbioexplorer_1_1MembraneDescriptor.html", null ],
     [ "bioexplorer::MeshBasedMembraneDescriptor", "d7/d2f/structbioexplorer_1_1MeshBasedMembraneDescriptor.html", null ],
-    [ "bioexplorer::MetaballsGenerator", "da/d99/classbioexplorer_1_1MetaballsGenerator.html", null ],
     [ "bioexplorer::ModelId", "d8/d40/structbioexplorer_1_1ModelId.html", null ],
     [ "bioexplorer::ModelIdFileAccess", "d7/df3/structbioexplorer_1_1ModelIdFileAccess.html", null ],
+    [ "bioexplorer::ModelsVisibility", "dc/dfa/structbioexplorer_1_1ModelsVisibility.html", null ],
     [ "bioexplorer::Node", "da/dba/classbioexplorer_1_1Node.html", [
       [ "bioexplorer::Membrane", "d6/dca/classbioexplorer_1_1Membrane.html", null ],
       [ "bioexplorer::MeshBasedMembrane", "dd/d42/classbioexplorer_1_1MeshBasedMembrane.html", null ],
@@ -45,8 +48,11 @@ var hierarchy =
       ] ],
       [ "bioexplorer::RNASequence", "d2/d77/classbioexplorer_1_1RNASequence.html", null ]
     ] ],
+    [ "bioexplorer::Nucleotid", "df/d61/structbioexplorer_1_1Nucleotid.html", null ],
     [ "bioexplorer::Octree", "d1/d8e/classbioexplorer_1_1Octree.html", null ],
     [ "bioexplorer::OctreeNode", "d9/dfb/classbioexplorer_1_1OctreeNode.html", null ],
+    [ "bioexplorer::OOCManager", "d0/d4b/classbioexplorer_1_1OOCManager.html", null ],
+    [ "bioexplorer::OOCSceneConfiguration", "dc/daf/structbioexplorer_1_1OOCSceneConfiguration.html", null ],
     [ "bioexplorer::PointCloudMesher", "d0/d39/classbioexplorer_1_1PointCloudMesher.html", null ],
     [ "bioexplorer::ProteinDescriptor", "de/dc1/structbioexplorer_1_1ProteinDescriptor.html", null ],
     [ "Renderer", null, [

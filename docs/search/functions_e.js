@@ -1,9 +1,13 @@
 var searchData=
 [
-  ['_7eassembly_326',['~Assembly',['../db/db7/classbioexplorer_1_1Assembly.html#a57209ab4209a88e61fa1de6a8233bf73',1,'bioexplorer::Assembly']]],
-  ['_7efieldshandler_327',['~FieldsHandler',['../dc/d44/classbioexplorer_1_1FieldsHandler.html#ab04b49daadb5514c5777a4913229b89c',1,'bioexplorer::FieldsHandler']]],
-  ['_7emembrane_328',['~Membrane',['../d6/dca/classbioexplorer_1_1Membrane.html#a2670afa7b58262c3ff51dfd49f0b4a07',1,'bioexplorer::Membrane']]],
-  ['_7enode_329',['~Node',['../da/dba/classbioexplorer_1_1Node.html#a66bec073a21991079163f1647b946a57',1,'bioexplorer::Node']]],
-  ['_7eoctree_330',['~Octree',['../d1/d8e/classbioexplorer_1_1Octree.html#a76ac08ee925fbcfac1a3737732f66db0',1,'bioexplorer::Octree']]],
-  ['_7eprotein_331',['~Protein',['../db/d87/classbioexplorer_1_1Protein.html#a61d5895dc2bc9be52d1cd6a55644c02d',1,'bioexplorer::Protein']]]
+  ['setaminoacid_361',['setAminoAcid',['../db/db7/classbioexplorer_1_1Assembly.html#a5bd8ee1c8312e0833734a54168ea5ef2',1,'bioexplorer::Assembly::setAminoAcid()'],['../db/d87/classbioexplorer_1_1Protein.html#adab4fb60c764105ea069a781af31c272',1,'bioexplorer::Protein::setAminoAcid()']]],
+  ['setaminoacidsequenceasrange_362',['setAminoAcidSequenceAsRange',['../db/db7/classbioexplorer_1_1Assembly.html#a71320df37a54cc5fb8b7a269a6e46c43',1,'bioexplorer::Assembly']]],
+  ['setaminoacidsequenceasranges_363',['setAminoAcidSequenceAsRanges',['../db/d87/classbioexplorer_1_1Protein.html#a661e88f750685e234dbe2b90f79862f9',1,'bioexplorer::Protein']]],
+  ['setaminoacidsequenceasstring_364',['setAminoAcidSequenceAsString',['../db/db7/classbioexplorer_1_1Assembly.html#a606db9874df6b59c700f41041192948c',1,'bioexplorer::Assembly::setAminoAcidSequenceAsString()'],['../db/d87/classbioexplorer_1_1Protein.html#abcee9ac66871373de4d026a698613738',1,'bioexplorer::Protein::setAminoAcidSequenceAsString()']]],
+  ['setchild_365',['setChild',['../d9/dfb/classbioexplorer_1_1OctreeNode.html#a6aab07baa4dcf1e63ced09d443e9bfce',1,'bioexplorer::OctreeNode']]],
+  ['setclippingplanes_366',['setClippingPlanes',['../db/db7/classbioexplorer_1_1Assembly.html#a478a016ae58d73d6335fe34d142da5ea',1,'bioexplorer::Assembly']]],
+  ['setcolorscheme_367',['setColorScheme',['../db/db7/classbioexplorer_1_1Assembly.html#a8c4dd7810c53d461e4e5463863e21a94',1,'bioexplorer::Assembly::setColorScheme()'],['../db/d87/classbioexplorer_1_1Protein.html#ad61b350fdb71a2dc22cc577bfe7a76f6',1,'bioexplorer::Protein::setColorScheme()']]],
+  ['setframebuffer_368',['setFrameBuffer',['../d0/d4b/classbioexplorer_1_1OOCManager.html#ae90f1f74d58c6b55c2ede93cd9d4dd12',1,'bioexplorer::OOCManager']]],
+  ['setmodelvisibilityoncreation_369',['setModelVisibilityOnCreation',['../d4/ddc/classbioexplorer_1_1GeneralSettings.html#a095a55e82179c75ad7cf334e9bfcc9f8',1,'bioexplorer::GeneralSettings']]],
+  ['setofffolder_370',['setOffFolder',['../d4/ddc/classbioexplorer_1_1GeneralSettings.html#a571361e78c228d089b7b2befccbf2ad2',1,'bioexplorer::GeneralSettings']]]
 ];

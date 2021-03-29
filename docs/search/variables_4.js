@@ -1,5 +1,5 @@
 var searchData=
 [
-  ['glossiness_355',['glossiness',['../da/db3/structbioexplorer_1_1AdvancedMaterial.html#ae926a118e03f315e9ad4a815b3e06611',1,'bioexplorer::AdvancedMaterial']]],
-  ['glossinesses_356',['glossinesses',['../df/d61/structbioexplorer_1_1MaterialsDescriptor.html#a72338bbc1174cbd69b8216ed0eb207c7',1,'bioexplorer::MaterialsDescriptor']]]
+  ['element_404',['element',['../db/d01/structbioexplorer_1_1Atom.html#a99e31ba77c79c37567f5732dc12b4338',1,'bioexplorer::Atom']]],
+  ['emissions_405',['emissions',['../df/d61/structbioexplorer_1_1MaterialsDescriptor.html#a49420e0bbc2c22447d0eae4c2cdc74c1',1,'bioexplorer::MaterialsDescriptor']]]
 ];

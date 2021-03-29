@@ -1,6 +1,4 @@
 var searchData=
 [
-  ['perspectivestereocamera_312',['PerspectiveStereoCamera',['../d3/d23/structbioexplorer_1_1PerspectiveStereoCamera.html#a03beb67adac7326a304f011e1a464f0b',1,'bioexplorer::PerspectiveStereoCamera']]],
-  ['pointcloudmesher_313',['PointCloudMesher',['../d0/d39/classbioexplorer_1_1PointCloudMesher.html#a73dc1903edc87d55cdebda0b4387a4c3',1,'bioexplorer::PointCloudMesher']]],
-  ['protein_314',['Protein',['../db/d87/classbioexplorer_1_1Protein.html#a323311ea1a45c30958e7e640dcdc754e',1,'bioexplorer::Protein']]]
+  ['node_353',['Node',['../da/dba/classbioexplorer_1_1Node.html#a1a75c700a6b2b1fcf048367e2f2f6fc0',1,'bioexplorer::Node']]]
 ];

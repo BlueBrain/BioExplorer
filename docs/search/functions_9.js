@@ -1,5 +1,6 @@
 var searchData=
 [
-  ['octree_310',['Octree',['../d1/d8e/classbioexplorer_1_1Octree.html#a1dcd7514bae3f306d9891ea65bee5591',1,'bioexplorer::Octree']]],
-  ['octreenode_311',['OctreeNode',['../d9/dfb/classbioexplorer_1_1OctreeNode.html#a5ecec7ae854f636354b5bce55da92e04',1,'bioexplorer::OctreeNode']]]
+  ['membrane_350',['Membrane',['../d6/dca/classbioexplorer_1_1Membrane.html#a18c12ede80403af3fc4ec96b7a6d691d',1,'bioexplorer::Membrane']]],
+  ['meshbasedmembrane_351',['MeshBasedMembrane',['../dd/d42/classbioexplorer_1_1MeshBasedMembrane.html#a28ab89d3f662a2482f22a919d2a7180d',1,'bioexplorer::MeshBasedMembrane']]],
+  ['molecule_352',['Molecule',['../d6/d81/classbioexplorer_1_1Molecule.html#a6a1350c9c1cfb05824cd061e9e56755f',1,'bioexplorer::Molecule']]]
 ];

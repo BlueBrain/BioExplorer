@@ -122,31 +122,33 @@ $(document).ready(function(){initNavTree('d1/d66/Membrane_8h_source.html','../..
 <div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;{</div>
 <div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;<span class="keyword">public</span>:</div>
 <div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;    <a class="code" href="../../d6/dca/classbioexplorer_1_1Membrane.html">Membrane</a>(Scene &amp;scene, <span class="keyword">const</span> <a class="code" href="../../de/d94/structbioexplorer_1_1MembraneDescriptor.html">MembraneDescriptor</a> &amp;descriptor,</div>
-<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;             <span class="keyword">const</span> Vector3f &amp;position, <span class="keyword">const</span> Vector4fs &amp;clippingPlanes,</div>
-<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;             <span class="keyword">const</span> OccupiedDirections &amp;occupiedDirections);</div>
-<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160; </div>
-<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;    ~<a class="code" href="../../d6/dca/classbioexplorer_1_1Membrane.html">Membrane</a>();</div>
-<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160; </div>
-<div class="line"><a name="l00067"></a><span class="lineno"><a class="line" href="../../d6/dca/classbioexplorer_1_1Membrane.html#a22a288673e3d2e3913388c7499424a8f">   67</a></span>&#160;    <span class="keyword">const</span> ProteinMap &amp;<a class="code" href="../../d6/dca/classbioexplorer_1_1Membrane.html#a22a288673e3d2e3913388c7499424a8f">getProteins</a>()<span class="keyword"> const </span>{ <span class="keywordflow">return</span> _proteins; }</div>
-<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160; </div>
-<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;<span class="keyword">private</span>:</div>
-<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;    <span class="keywordtype">void</span> _processInstances();</div>
-<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;    std::string _getElementNameFromId(<span class="keyword">const</span> <span class="keywordtype">size_t</span> <span class="keywordtype">id</span>);</div>
-<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160; </div>
-<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;    Scene &amp;_scene;</div>
-<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;    Vector3f _position{0.f, 0.f, 0.f};</div>
-<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;    MembraneDescriptor _descriptor;</div>
-<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;    ProteinMap _proteins;</div>
-<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;    Vector4fs _clippingPlanes;</div>
-<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;    <span class="comment">//    std::map&lt;std::string, std::vector&lt;Transformation&gt;&gt; _transformations;</span></div>
-<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;    <span class="keyword">const</span> OccupiedDirections &amp;_occupiedDirections;</div>
-<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;};</div>
-<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;} <span class="comment">// namespace bioexplorer</span></div>
+<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;             <span class="keyword">const</span> Vector3f &amp;position, <span class="keyword">const</span> Quaterniond &amp;orientation,</div>
+<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;             <span class="keyword">const</span> Vector4fs &amp;clippingPlanes,</div>
+<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;             <span class="keyword">const</span> OccupiedDirections &amp;occupiedDirections);</div>
+<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160; </div>
+<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;    ~<a class="code" href="../../d6/dca/classbioexplorer_1_1Membrane.html">Membrane</a>();</div>
+<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160; </div>
+<div class="line"><a name="l00068"></a><span class="lineno"><a class="line" href="../../d6/dca/classbioexplorer_1_1Membrane.html#a22a288673e3d2e3913388c7499424a8f">   68</a></span>&#160;    <span class="keyword">const</span> ProteinMap &amp;<a class="code" href="../../d6/dca/classbioexplorer_1_1Membrane.html#a22a288673e3d2e3913388c7499424a8f">getProteins</a>()<span class="keyword"> const </span>{ <span class="keywordflow">return</span> _proteins; }</div>
+<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160; </div>
+<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;<span class="keyword">private</span>:</div>
+<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;    <span class="keywordtype">void</span> _processInstances();</div>
+<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;    std::string _getElementNameFromId(<span class="keyword">const</span> <span class="keywordtype">size_t</span> <span class="keywordtype">id</span>);</div>
+<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160; </div>
+<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;    Scene &amp;_scene;</div>
+<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;    Vector3f _position;</div>
+<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;    Quaterniond _orientation;</div>
+<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;    <a class="code" href="../../de/d94/structbioexplorer_1_1MembraneDescriptor.html">MembraneDescriptor</a> _descriptor;</div>
+<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;    ProteinMap _proteins;</div>
+<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;    Vector4fs _clippingPlanes;</div>
+<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;    <span class="comment">//    std::map&lt;std::string, std::vector&lt;Transformation&gt;&gt; _transformations;</span></div>
+<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;    <span class="keyword">const</span> OccupiedDirections &amp;_occupiedDirections;</div>
+<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;};</div>
+<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;} <span class="comment">// namespace bioexplorer</span></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
 <div class="ttc" id="aclassbioexplorer_1_1Membrane_html"><div class="ttname"><a href="../../d6/dca/classbioexplorer_1_1Membrane.html">bioexplorer::Membrane</a></div><div class="ttdoc">A Membrane object implements a 3D structure of a given shape, but with a surface composed of instance...</div><div class="ttdef"><b>Definition:</b> <a href="../../d1/d66/Membrane_8h_source.html#l00038">Membrane.h:38</a></div></div>
-<div class="ttc" id="astructbioexplorer_1_1MembraneDescriptor_html"><div class="ttname"><a href="../../de/d94/structbioexplorer_1_1MembraneDescriptor.html">bioexplorer::MembraneDescriptor</a></div><div class="ttdoc">A Membrane is a shaped assembly of phospholipids.</div><div class="ttdef"><b>Definition:</b> <a href="../../d7/df8/Types_8h_source.html#l00173">Types.h:173</a></div></div>
-<div class="ttc" id="aclassbioexplorer_1_1Membrane_html_a22a288673e3d2e3913388c7499424a8f"><div class="ttname"><a href="../../d6/dca/classbioexplorer_1_1Membrane.html#a22a288673e3d2e3913388c7499424a8f">bioexplorer::Membrane::getProteins</a></div><div class="ttdeci">const ProteinMap &amp; getProteins() const</div><div class="ttdoc">Get the list of proteins defining the membrane.</div><div class="ttdef"><b>Definition:</b> <a href="../../d1/d66/Membrane_8h_source.html#l00067">Membrane.h:67</a></div></div>
+<div class="ttc" id="astructbioexplorer_1_1MembraneDescriptor_html"><div class="ttname"><a href="../../de/d94/structbioexplorer_1_1MembraneDescriptor.html">bioexplorer::MembraneDescriptor</a></div><div class="ttdoc">A Membrane is a shaped assembly of phospholipids.</div><div class="ttdef"><b>Definition:</b> <a href="../../d7/df8/Types_8h_source.html#l00209">Types.h:209</a></div></div>
+<div class="ttc" id="aclassbioexplorer_1_1Membrane_html_a22a288673e3d2e3913388c7499424a8f"><div class="ttname"><a href="../../d6/dca/classbioexplorer_1_1Membrane.html#a22a288673e3d2e3913388c7499424a8f">bioexplorer::Membrane::getProteins</a></div><div class="ttdeci">const ProteinMap &amp; getProteins() const</div><div class="ttdoc">Get the list of proteins defining the membrane.</div><div class="ttdef"><b>Definition:</b> <a href="../../d1/d66/Membrane_8h_source.html#l00068">Membrane.h:68</a></div></div>
 <div class="ttc" id="aclassbioexplorer_1_1Node_html"><div class="ttname"><a href="../../da/dba/classbioexplorer_1_1Node.html">bioexplorer::Node</a></div><div class="ttdoc">The Node class.</div><div class="ttdef"><b>Definition:</b> <a href="../../db/d92/Node_8h_source.html#l00030">Node.h:30</a></div></div>
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->

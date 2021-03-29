@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['bioexplorerplugin_258',['BioExplorerPlugin',['../d7/d7b/classbioexplorer_1_1BioExplorerPlugin.html#a34fdc2ad06f172807d831339f1cb4d3f',1,'bioexplorer::BioExplorerPlugin']]]
+  ['bioexplorerplugin_291',['BioExplorerPlugin',['../d7/d7b/classbioexplorer_1_1BioExplorerPlugin.html#af06bb8a9b0514fdcd368bab3066581e5',1,'bioexplorer::BioExplorerPlugin']]]
 ];
