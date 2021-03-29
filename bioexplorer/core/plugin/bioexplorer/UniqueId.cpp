@@ -22,6 +22,8 @@
 
 #include <plugin/common/Logs.h>
 
+namespace bioexplorer
+{
 uint32_t UniqueId::nextId = 0;
 
 UniqueId::UniqueId() {}
@@ -32,3 +34,4 @@ uint32_t UniqueId::get()
     PLUGIN_DEBUG << "Unique Id: " << nextId << std::endl;
     return nextId;
 }
+} // namespace bioexplorer
