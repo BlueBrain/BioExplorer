@@ -48,6 +48,7 @@ from .version import VERSION as __version__
 
 class Vector3:
     """A Vector3 is an array of 3 floats representing a 3D vector"""
+
     def __init__(self, *args):
         """
         Define a simple 3D vector
@@ -78,6 +79,7 @@ class Vector3:
 
 class Vector2:
     """A Vector2 is an array of 2 floats representing a 2D vector"""
+
     def __init__(self, *args):
         """
         Define a simple 2D vector
@@ -101,6 +103,7 @@ class Vector2:
 
 class Quaternion:
     """A Quaternion is an array of 4 floats representing a mathematical quaternion object"""
+
     def __init__(self, *args):
         """
         Define a simple quaternion
@@ -2109,6 +2112,7 @@ class BioExplorer:
 
 class AssemblyProtein:
     """An AssemblyProtein is a Protein that belongs to an assembly"""
+
     def __init__(
             self,
             assembly_name,
@@ -2126,8 +2130,7 @@ class AssemblyProtein:
             occurrences=1,
             random_seed=0,
             location_cutoff_angle=0.0,
-            position_randomization_type=BioExplorer.
-        POSITION_RANDOMIZATION_TYPE_CIRCULAR,
+            position_randomization_type=BioExplorer.POSITION_RANDOMIZATION_TYPE_CIRCULAR,
             position=Vector3(),
             orientation=Quaternion(),
             allowed_occurrences=list(),
@@ -2180,6 +2183,7 @@ class AssemblyProtein:
 
 class AssemblyMeshBasedMembrane:
     """An AssemblyMeshBasedMembrane is a Mesh-based membrane that belongs to an assembly"""
+
     def __init__(
             self,
             assembly_name,
@@ -2241,6 +2245,7 @@ class AssemblyMeshBasedMembrane:
 
 class Membrane:
     """A Membrane is a shaped assembly of phospholipids"""
+
     def __init__(
             self,
             sources,
@@ -2285,6 +2290,7 @@ class Membrane:
 
 class Sugars:
     """Sugars are glycan trees that can be added to the glycosylation sites of a given protein"""
+
     def __init__(
             self,
             assembly_name,
@@ -2332,6 +2338,7 @@ class Sugars:
 
 class RNASequence:
     """An RNASequence is an assembly of a given shape holding a given genetic code"""
+
     def __init__(
             self,
             source,
@@ -2366,6 +2373,7 @@ class RNASequence:
 
 class Surfactant:
     """A Surfactant is a lipoprotein complex composed of multiple branches + head structures"""
+
     def __init__(self, name, surfactant_protein, head_source, branch_source):
         """
         Surfactant descriptor
@@ -2383,6 +2391,7 @@ class Surfactant:
 
 class Cell:
     """A Cell is a membrane with receptors"""
+
     def __init__(self, name, size, shape, membrane, receptor):
         """
         Cell descriptor
@@ -2405,6 +2414,7 @@ class Cell:
 
 class Volume:
     """A volume define a 3D space in which proteins can be added"""
+
     def __init__(self, name, size, protein):
         """
         Volume description
@@ -2423,6 +2433,7 @@ class Volume:
 
 class Protein:
     """A Protein holds the 3D structure of a protein as well as it Amino Acid sequences"""
+
     def __init__(
             self,
             sources,
@@ -2470,6 +2481,7 @@ class Protein:
 
 class MeshBasedMembrane:
     """A MeshBasedMembrane is a membrane shaped by a 3D mesh"""
+
     def __init__(
             self,
             mesh_source,
@@ -2522,6 +2534,7 @@ class MeshBasedMembrane:
 
 class Virus:
     """A Virus is an assembly of proteins (S, M and E), a membrane, and an RNA sequence"""
+
     def __init__(
         self,
         name,
