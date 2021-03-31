@@ -46,7 +46,7 @@ using namespace std::chrono;
 
 namespace bioexplorer
 {
-const std::string PLUGIN_API_PREFIX = "be_";
+const std::string PLUGIN_API_PREFIX = "be-";
 
 #define CATCH_STD_EXCEPTION()                  \
     catch (const std::runtime_error &e)        \

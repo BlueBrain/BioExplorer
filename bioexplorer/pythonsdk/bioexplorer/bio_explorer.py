@@ -132,7 +132,7 @@ class Quaternion:
 class BioExplorer:
     """Blue Brain BioExplorer"""
 
-    PLUGIN_API_PREFIX = "be_"
+    PLUGIN_API_PREFIX = "be-"
 
     POSITION_RANDOMIZATION_TYPE_CIRCULAR = 0
     POSITION_RANDOMIZATION_TYPE_RADIAL = 1
