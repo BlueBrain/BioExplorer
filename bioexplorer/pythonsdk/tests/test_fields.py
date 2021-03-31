@@ -30,7 +30,7 @@ from bioexplorer import BioExplorer
 
 
 def test_fields():
-    resource_folder = os.getcwd() + 'tests/test_files/'
+    resource_folder = os.getcwd() + '/tests/test_files/'
     fields_folder = resource_folder + 'fields/'
 
     bio_explorer = BioExplorer('localhost:5000')
@@ -41,7 +41,7 @@ def test_fields():
     bio_explorer.core_api().set_application_parameters(image_stream_fps=0)
 
     # Import from file
-    bio_explorer.import_fields_from_file(fields_folder + 'protein.fields')
+    bio_explorer.import_fields_from_file(fields_folder + 'receptor.fields')
 
     # Virus
     bio_explorer.core_api().set_renderer(current='bio_explorer_fields',

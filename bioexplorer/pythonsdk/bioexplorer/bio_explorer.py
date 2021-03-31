@@ -1970,6 +1970,8 @@ class BioExplorer:
 
         params = dict()
         params["filename"] = filename
+        params["lowBounds"] = Vector3().to_list()
+        params["highBounds"] = Vector3().to_list()
         params["fileFormat"] = BioExplorer.FILE_FORMAT_UNSPECIFIED
         return self._client.rockets_client.request(
             self.PLUGIN_API_PREFIX + "import-fields-from-file", params)

@@ -120,7 +120,7 @@ def add_virus(bioexplorer, name, position, open_conformation_indices=list()):
 
     coronavirus = Virus(
         name=name, protein_s=virus_protein_s, protein_e=virus_protein_e, protein_m=virus_protein_m,
-        membrane=virus_membrane, rna_sequence=rna_sequence, assembly_params=Vector2(45.0, 1.5))
+        membrane=virus_membrane, rna_sequence=rna_sequence, assembly_params=Vector3(45.0, 1.5, 0.0))
 
     clip_planes = list()
     if ADD_RNA:

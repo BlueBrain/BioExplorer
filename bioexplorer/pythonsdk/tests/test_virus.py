@@ -104,7 +104,7 @@ def test_virus():
     coronavirus = Virus(
         name=name, protein_s=virus_protein_s, protein_e=virus_protein_e, protein_m=virus_protein_m,
         membrane=virus_membrane, rna_sequence=rna_sequence,
-        assembly_params=Vector2(virus_radius, 1.5))
+        assembly_params=Vector3(virus_radius, 1.5, 0.0))
 
     bio_explorer.add_virus(
         virus=coronavirus, position=Vector3(-70.0, -100.0, 230.0),
