@@ -416,7 +416,7 @@ class BioExplorer:
             self,
             name,
             resource_folder,
-            radius=45.0,
+            assembly_params=[45.0, 0, 0.0, 0, 0.0, 0.0],
             nb_protein_s=62,
             nb_protein_m=50,
             nb_protein_e=42,
@@ -428,8 +428,7 @@ class BioExplorer:
             clipping_planes=None,
             position=Vector3(),
             orientation=Quaternion(),
-            apply_colors=False,
-            morphing_step=0.0,
+            apply_colors=False
     ):
         """
         Add a virus with the default coronavirus parameters
@@ -516,7 +515,7 @@ class BioExplorer:
             protein_m=virus_protein_m,
             membrane=virus_membrane,
             rna_sequence=rna_sequence,
-            radius=radius  # 1.5, morphing_step
+            assembly_params=assembly_params
         )
 
         self.add_virus(
@@ -525,8 +524,7 @@ class BioExplorer:
             atom_radius_multiplier=atom_radius_multiplier,
             clipping_planes=clipping_planes,
             position=position,
-            orientation=orientation,
-            morphing_step=morphing_step,
+            orientation=orientation
         )
 
         if add_glycans:
@@ -647,8 +645,7 @@ class BioExplorer:
             representation=REPRESENTATION_ATOMS,
             clipping_planes=None,
             position=Vector3(),
-            orientation=Quaternion(),
-            morphing_step=0.0,
+            orientation=Quaternion()
     ):
         """
         Adds a virus assembly to the scene
@@ -674,10 +671,13 @@ class BioExplorer:
             name=virus.name,
             clipping_planes=clipping_planes,
             position=position,
-            orientation=orientation,
+            orientation=orientation
         )
 
         if virus.protein_s:
+            params = virus.protein_s.assembly_params
+            params[0] += virus.assembly_params[0]
+
             # S Protein
             if _protein_s.instance_indices[0]:
                 # Open conformation
@@ -688,9 +688,7 @@ class BioExplorer:
                     shape=shape,
                     load_hydrogen=_protein_s.load_hydrogen,
                     occurrences=_protein_s.occurences,
-                    assembly_params=[virus.radius + virus.protein_s.assembly_params.x, 0,
-                                     _protein_s.assembly_params.y,
-                                     0, 0.0, morphing_step],
+                    assembly_params=params,
                     atom_radius_multiplier=atom_radius_multiplier,
                     load_bonds=_protein_s.load_bonds,
                     load_non_polymer_chemicals=_protein_s.
@@ -712,9 +710,7 @@ class BioExplorer:
                     shape=shape,
                     load_hydrogen=_protein_s.load_hydrogen,
                     occurrences=_protein_s.occurences,
-                    assembly_params=[virus.radius + virus.protein_s.assembly_params.x, 0,
-                                     _protein_s.assembly_params.y,
-                                     0, 0.0, morphing_step],
+                    assembly_params=params,
                     atom_radius_multiplier=atom_radius_multiplier,
                     load_bonds=_protein_s.load_bonds,
                     load_non_polymer_chemicals=_protein_s.
@@ -729,16 +725,17 @@ class BioExplorer:
 
         if virus.protein_m:
             # M Protein
+            params = virus.protein_m.assembly_params
+            params[0] += virus.assembly_params[0]
+
             _protein_m = AssemblyProtein(
                 assembly_name=virus.name,
                 name=virus.name + "_" + self.NAME_PROTEIN_M,
                 source=virus.protein_m.sources[0],
                 shape=shape,
+                assembly_params=params,
                 load_hydrogen=virus.protein_m.load_hydrogen,
                 occurrences=virus.protein_m.occurences,
-                assembly_params=[virus.radius + virus.protein_m.assembly_params.x, 0,
-                                 virus.protein_m.assembly_params.y,
-                                 0, 0.0, morphing_step],
                 atom_radius_multiplier=atom_radius_multiplier,
                 load_bonds=virus.protein_m.load_bonds,
                 load_non_polymer_chemicals=virus.protein_m.
@@ -752,16 +749,17 @@ class BioExplorer:
 
         if virus.protein_e:
             # E Protein
+            params = virus.protein_e.assembly_params
+            params[0] += virus.assembly_params[0]
+
             _protein_e = AssemblyProtein(
                 assembly_name=virus.name,
                 name=virus.name + "_" + self.NAME_PROTEIN_E,
                 source=virus.protein_e.sources[0],
                 shape=shape,
+                assembly_params=params,
                 load_hydrogen=virus.protein_e.load_hydrogen,
                 occurrences=virus.protein_e.occurences,
-                assembly_params=[virus.radius + virus.protein_e.assembly_params.x, 0,
-                                 virus.protein_e.assembly_params.y,
-                                 0, 0.0, morphing_step],
                 atom_radius_multiplier=atom_radius_multiplier,
                 load_bonds=virus.protein_e.load_bonds,
                 load_non_polymer_chemicals=virus.protein_e.
@@ -784,8 +782,8 @@ class BioExplorer:
                 shape=BioExplorer.ASSEMBLY_SHAPE_SPHERICAL_TO_PLANAR,
                 position_randomization_type=BioExplorer.
                 POSITION_RANDOMIZATION_TYPE_RADIAL,
-                assembly_params=[virus.radius, 1, virus.radius / 20.0, 2, 0.3, 0],
-                random_seed=4,
+                assembly_params=virus.assembly_params,
+                random_seed=4
             )
 
         if virus.rna_sequence:
@@ -833,6 +831,7 @@ class BioExplorer:
                 assembly_name=cell.name,
                 name=cell.name + "_" + self.NAME_RECEPTOR,
                 shape=cell.shape,
+                position_randomization_type=self.POSITION_RANDOMIZATION_TYPE_RADIAL,
                 source=cell.receptor.sources[0],
                 load_non_polymer_chemicals=cell.receptor.
                 load_non_polymer_chemicals,
@@ -2446,6 +2445,7 @@ class Protein:
         assert isinstance(position, Vector3)
         assert isinstance(orientation, Quaternion)
         assert isinstance(instance_indices, list)
+        assert isinstance(assembly_params, list)
         self.sources = sources
         self.occurences = occurences
         self.assembly_params = assembly_params
@@ -2514,13 +2514,14 @@ class MeshBasedMembrane:
 class Virus:
     """A Virus is an assembly of proteins (S, M and E), a membrane, and an RNA sequence"""
 
-    def __init__(self, name, radius, protein_s=None, protein_e=None, protein_m=None, membrane=None,
-                 rna_sequence=None):
+    def __init__(self, name, assembly_params, protein_s=None, protein_e=None, protein_m=None,
+                 membrane=None, rna_sequence=None):
         """
         Virus descriptor
 
         :name: Name of the virus in the scene
-        :radius: Virus radius
+        :assembly_params: Assembly parameters (Virus radius and maximum range for random
+                                positions of membrane components)
         :protein_s: Protein S descriptor
         :protein_e: Protein E descriptor
         :protein_m: Protein M descriptor
@@ -2537,10 +2538,11 @@ class Virus:
             assert isinstance(membrane, Membrane)
         if rna_sequence is not None:
             assert isinstance(rna_sequence, RNASequence)
+        assert isinstance(assembly_params, list)
         self.name = name
         self.protein_s = protein_s
         self.protein_e = protein_e
         self.protein_m = protein_m
         self.membrane = membrane
         self.rna_sequence = rna_sequence
-        self.radius = radius
+        self.assembly_params = assembly_params

@@ -213,7 +213,7 @@ void Assembly::_processInstances(
             continue;
 
         Vector3f pos;
-        Vector3f dir;
+        Quaterniond dir;
 
         const size_t rndPosSeed = (params[1] == 0 ? 0 : params[1] + i);
         const size_t rndDirSeed = (params[3] == 0 ? 0 : params[3] + i);
@@ -222,14 +222,14 @@ void Assembly::_processInstances(
         {
         case AssemblyShape::spherical:
         {
-            getSphericalPosition(rnd, size, rndPosStength, randomizationType,
-                                 randomSeed, i, occurrences, position, pos,
-                                 dir);
+            getSphericalPosition(rnd, size, i, occurrences, randomizationType,
+                                 rndPosSeed, rndPosStength, rndDirSeed,
+                                 rndDirStrength, position, pos, dir);
             break;
         }
         case AssemblyShape::sinusoidal:
         {
-            getSinosoidalPosition(size, extraParameter, randomizationType,
+            getSinosoidalPosition(size, extraParameter, i, randomizationType,
                                   rndPosSeed, rndPosStength, rndDirSeed,
                                   rndDirStrength, position, pos, dir);
             break;
@@ -272,10 +272,11 @@ void Assembly::_processInstances(
         }
         case AssemblyShape::spherical_to_planar:
         {
-            getSphericalToPlanarPosition(rnd, size, rndPosStength,
-                                         randomizationType, randomSeed, i,
-                                         occurrences, position, extraParameter,
-                                         pos, dir);
+            getSphericalToPlanarPosition(rnd, size, i, occurrences,
+                                         randomizationType, rndPosSeed,
+                                         rndPosStength, rndDirSeed,
+                                         rndDirStrength, position,
+                                         extraParameter, pos, dir);
             break;
         }
         default:
@@ -284,8 +285,9 @@ void Assembly::_processInstances(
             break;
         }
 
-        // Remove membrane where proteins are. This is currently done according
-        // to the vector orientation
+#if 0 // TO REMOVE?
+      // Remove membrane where proteins are. This is currently done according
+      // to the vector orientation
         bool occupied{false};
         if (locationCutoffAngle != 0.f)
             for (const auto &occupiedDirection : _occupiedDirections)
@@ -297,24 +299,25 @@ void Assembly::_processInstances(
                 }
         if (occupied)
             continue;
-
-        const Quaterniond instanceOrientation = glm::quatLookAt(dir, UP_VECTOR);
+#endif
 
         Transformation tf;
         const Vector3f translation =
             assemblyPosition + Vector3f(assemblyOrientation * Vector3d(pos));
 
         tf.setTranslation(translation);
-        tf.setRotation(assemblyOrientation * instanceOrientation * orientation);
+        tf.setRotation(assemblyOrientation * dir * orientation);
 
         if (count == 0)
             md->setTransformation(tf);
         const ModelInstance instance(true, false, tf);
         md->addInstance(instance);
 
+#if 0
         // Store occupied direction
         if (locationCutoffAngle != 0.f)
             _occupiedDirections.push_back({dir, locationCutoffAngle});
+#endif
 
         ++count;
     }

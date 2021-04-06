@@ -145,7 +145,7 @@ void Membrane::_processInstances()
         PLUGIN_THROW(std::runtime_error("Invalid number of shape parameters"));
 
     const float size = params[0];
-    const float rndPosStength = params[2];
+    const float rndPosStrength = params[2];
     const float rndDirStrength = params[4];
     const float extraParameter = params[5];
 
@@ -174,28 +174,28 @@ void Membrane::_processInstances()
         const size_t rndDirSeed = (params[3] == 0 ? 0 : params[3] + i);
 
         Vector3f pos;
-        Vector3f dir{0.f, 1.f, 0.f};
+        Quaterniond dir;
         switch (_descriptor.shape)
         {
         case AssemblyShape::spherical:
         {
-            getSphericalPosition(rnd, size, rndPosStength,
+            getSphericalPosition(rnd, size, i, _descriptor.occurrences,
                                  _descriptor.positionRandomizationType,
-                                 _descriptor.randomSeed, i,
-                                 _descriptor.occurrences, Vector3f(), pos, dir);
+                                 rndPosSeed, rndPosStrength, rndDirSeed,
+                                 rndDirStrength, Vector3f(), pos, dir);
             break;
         }
         case AssemblyShape::sinusoidal:
         {
-            getSinosoidalPosition(size, extraParameter,
+            getSinosoidalPosition(size, extraParameter, i,
                                   _descriptor.positionRandomizationType,
-                                  rndPosSeed, rndPosStength, rndDirSeed,
+                                  rndPosSeed, rndPosStrength, rndDirSeed,
                                   rndDirStrength, Vector3f(), pos, dir);
             break;
         }
         case AssemblyShape::cubic:
         {
-            getCubicPosition(size, Vector3f(), rndPosSeed, rndPosStength,
+            getCubicPosition(size, Vector3f(), rndPosSeed, rndPosStrength,
                              rndDirSeed, rndDirStrength, pos, dir);
             break;
         }
@@ -232,10 +232,10 @@ void Membrane::_processInstances()
         }
         case AssemblyShape::spherical_to_planar:
         {
-            getSphericalToPlanarPosition(rnd, size, rndPosStength,
+            getSphericalToPlanarPosition(rnd, size, i, _descriptor.occurrences,
                                          _descriptor.positionRandomizationType,
-                                         _descriptor.randomSeed, i,
-                                         _descriptor.occurrences, Vector3f(),
+                                         rndPosSeed, rndPosStrength, rndDirSeed,
+                                         rndDirStrength, Vector3f(),
                                          extraParameter, pos, dir);
             break;
         }
@@ -245,8 +245,9 @@ void Membrane::_processInstances()
             break;
         }
 
-        // Remove membrane where proteins are. This is currently done
-        // according to the vector orientation
+#if 0 // TO REMOVE ?
+      // Remove membrane where proteins are. This is currently done
+      // according to the vector orientation
         bool occupied{false};
         if (_descriptor.locationCutoffAngle != 0.f)
             for (const auto &occupiedDirection : _occupiedDirections)
@@ -258,6 +259,7 @@ void Membrane::_processInstances()
                 }
         if (occupied)
             continue;
+#endif
 
         // Final transformation
         Transformation tf;
@@ -265,20 +267,18 @@ void Membrane::_processInstances()
             _position + Vector3f(_orientation * Vector3d(pos - center));
         tf.setTranslation(translation);
 
-        Quaterniond instanceOrientation = glm::quatLookAt(dir, UP_VECTOR);
-
 #if 1
-        tf.setRotation(_orientation * instanceOrientation * orientation);
+        tf.setRotation(_orientation * dir * orientation);
 #else
         if (_descriptor.randomSeed == 0)
-            tf.setRotation(_orientation * instanceOrientation * orientation);
+            tf.setRotation(_orientation * dir * orientation);
         else
         {
             // Add a bit of randomness in the orientation of the proteins
             Vector3f eulerAngles(0.3 * rnd(), 0.3 * rnd(), 0.3 * rnd());
             Quaterniond randomOrientation = glm::quat(eulerAngles);
 
-            tf.setRotation(_orientation * instanceOrientation * orientation *
+            tf.setRotation(_orientation * dir * orientation *
                            randomOrientation);
         }
 #endif

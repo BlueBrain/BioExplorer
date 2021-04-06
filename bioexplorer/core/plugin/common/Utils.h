@@ -68,12 +68,12 @@ bool isClipped(const Vector3f& position, const Vector4fs& clippingPlanes);
  * @param pos
  * @param dir
  */
-void getSphericalPosition(const size_t rnd, const float assemblyRadius,
-                          const float height,
-                          const PositionRandomizationType randomizationType,
-                          const size_t randomSeed, const size_t occurence,
-                          const size_t occurences, const Vector3f& position,
-                          Vector3f& pos, Vector3f& dir);
+void getSphericalPosition(
+    const size_t rnd, const float assemblyRadius, const size_t occurence,
+    const size_t occurences, const PositionRandomizationType randomizationType,
+    const size_t randomPositionSeed, const float randomPositionStength,
+    const size_t randomOrientationSeed, const float randomOrientationStength,
+    const Vector3f& position, Vector3f& pos, Quaterniond& dir);
 
 /**
  * @brief getPlanarPosition
@@ -87,7 +87,7 @@ void getSphericalPosition(const size_t rnd, const float assemblyRadius,
 void getPlanarPosition(const float assemblyRadius,
                        const PositionRandomizationType randomizationType,
                        const size_t randomSeed, const Vector3f& position,
-                       Vector3f& pos, Vector3f& dir);
+                       Vector3f& pos, Quaterniond& dir);
 
 /**
  * @brief getCubicPosition
@@ -101,7 +101,7 @@ void getCubicPosition(const float size, const Vector3f& position,
                       const float randomPositionStength,
                       const size_t randomOrientationSeed,
                       const float randomOrientationStength, Vector3f& pos,
-                      Vector3f& dir);
+                      Quaterniond& dir);
 /**
  * @brief sinusoide
  * @param x
@@ -120,14 +120,12 @@ float sinusoide(const float x, const float z);
  * @param pos
  * @param dir
  */
-void getSinosoidalPosition(const float size, const float amplitude,
-                           const PositionRandomizationType randomizationType,
-                           const size_t randomPositionSeed,
-                           const float randomPositionStrengh,
-                           const size_t randomOrientationSeed,
-                           const float randomOrientationStrengh,
-                           const Vector3f& position, Vector3f& pos,
-                           Vector3f& dir);
+void getSinosoidalPosition(
+    const float size, const float amplitude, const size_t occurence,
+    const PositionRandomizationType randomizationType,
+    const size_t randomPositionSeed, const float randomPositionStrength,
+    const size_t randomOrientationSeed, const float randomOrientationStrength,
+    const Vector3f& position, Vector3f& pos, Quaterniond& dir);
 
 /**
  * @brief getFanPosition
@@ -145,7 +143,7 @@ void getFanPosition(const size_t rnd, const float assemblyRadius,
                     const PositionRandomizationType randomizationType,
                     const size_t randomSeed, const size_t occurence,
                     const size_t occurences, const Vector3f& position,
-                    Vector3f& pos, Vector3f& dir);
+                    Vector3f& pos, Quaterniond& dir);
 
 /**
  * @brief getBezierPosition
@@ -156,16 +154,20 @@ void getFanPosition(const size_t rnd, const float assemblyRadius,
  * @param dir
  */
 void getBezierPosition(const Vector3fs& points, const float assemblyRadius,
-                       const float t, Vector3f& pos, Vector3f& dir);
+                       const float t, Vector3f& pos, Quaterniond& dir);
 
 void getSphericalToPlanarPosition(
-    const size_t rnd, const float assemblyRadius, const float height,
-    const PositionRandomizationType randomizationType, const size_t randomSeed,
-    const size_t occurence, const size_t occurences, const Vector3f& position,
-    const float morphingStep, Vector3f& pos, Vector3f& dir);
+    const size_t rnd, const float assemblyRadius, const size_t occurence,
+    const size_t occurences, const PositionRandomizationType randomizationType,
+    const size_t randomPositionSeed, const float randomPositionStrengh,
+    const size_t randomOrientationSeed, const float randomOrientationStrengh,
+    const Vector3f& position, const float morphingStep, Vector3f& pos,
+    Quaterniond& dir);
 
 void setTransferFunction(brayns::TransferFunction& tf);
 
 Vector4fs getClippingPlanes(const Scene& scene);
+
+Quaterniond randomQuaternion(const size_t seed);
 
 } // namespace bioexplorer
