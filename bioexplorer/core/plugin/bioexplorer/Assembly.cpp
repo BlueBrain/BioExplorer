@@ -193,6 +193,17 @@ void Assembly::_processInstances(
                                        _descriptor.position[1],
                                        _descriptor.position[2]};
 
+    // Shape parameters
+    const auto &params = assemblyParams;
+    if (params.size() < 6)
+        PLUGIN_THROW(std::runtime_error("Invalid number of shape parameters"));
+
+    const float size = params[0];
+    const float rndPosStength = params[2];
+    const float rndDirStrength = params[4];
+    const float extraParameter = params[5];
+
+    // Shape
     uint64_t count = 0;
     for (uint64_t i = 0; i < occurrences; ++i)
     {
@@ -203,35 +214,36 @@ void Assembly::_processInstances(
 
         Vector3f pos;
         Vector3f dir;
+
+        const size_t rndPosSeed = (params[1] == 0 ? 0 : params[1] + i);
+        const size_t rndDirSeed = (params[3] == 0 ? 0 : params[3] + i);
+
         switch (shape)
         {
         case AssemblyShape::spherical:
         {
-            getSphericalPosition(rnd, assemblyParams[0], assemblyParams[1],
-                                 randomizationType, randomSeed, i, occurrences,
-                                 position, pos, dir);
+            getSphericalPosition(rnd, size, rndPosStength, randomizationType,
+                                 randomSeed, i, occurrences, position, pos,
+                                 dir);
             break;
         }
         case AssemblyShape::sinusoidal:
         {
-            const auto assemblySize = assemblyParams[0];
-            const auto assemblyHeight = assemblyParams[1];
-            getSinosoidalPosition(assemblySize, assemblyHeight,
-                                  randomizationType, randomSeed, position, pos,
-                                  dir);
+            getSinosoidalPosition(size, extraParameter, randomizationType,
+                                  rndPosSeed, rndPosStength, rndDirSeed,
+                                  rndDirStrength, position, pos, dir);
             break;
         }
         case AssemblyShape::cubic:
         {
-            const auto assemblySize = assemblyParams[0];
-            getCubicPosition(assemblySize, position, pos, dir);
+            getCubicPosition(size, position, rndPosSeed, rndPosStength,
+                             rndDirSeed, rndDirStrength, pos, dir);
             break;
         }
         case AssemblyShape::fan:
         {
-            const auto assemblyRadius = assemblyParams[0];
-            getFanPosition(rnd, assemblyRadius, randomizationType, randomSeed,
-                           i, occurrences, position, pos, dir);
+            getFanPosition(rnd, size, randomizationType, randomSeed, i,
+                           occurrences, position, pos, dir);
             break;
         }
         case AssemblyShape::bezier:
@@ -260,16 +272,15 @@ void Assembly::_processInstances(
         }
         case AssemblyShape::spherical_to_planar:
         {
-            getSphericalToPlanarPosition(rnd, assemblyParams[0],
-                                         assemblyParams[1], randomizationType,
-                                         randomSeed, i, occurrences, {0, 0, 0},
-                                         assemblyParams[2], pos, dir);
+            getSphericalToPlanarPosition(rnd, size, rndPosStength,
+                                         randomizationType, randomSeed, i,
+                                         occurrences, position, extraParameter,
+                                         pos, dir);
             break;
         }
         default:
-            const auto assemblySize = assemblyParams[0];
-            getPlanarPosition(assemblySize, randomizationType, randomSeed,
-                              position, pos, dir);
+            getPlanarPosition(size, randomizationType, randomSeed, position,
+                              pos, dir);
             break;
         }
 

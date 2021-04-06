@@ -278,6 +278,7 @@ bool from_json(ProteinDescriptor &param, const std::string &payload)
         FROM_JSON(param, js, atomRadiusMultiplier);
         FROM_JSON(param, js, loadBonds);
         FROM_JSON(param, js, loadNonPolymerChemicals);
+        FROM_JSON(param, js, loadHydrogen);
         FROM_JSON(param, js, representation);
         FROM_JSON(param, js, chainIds);
         FROM_JSON(param, js, recenter);

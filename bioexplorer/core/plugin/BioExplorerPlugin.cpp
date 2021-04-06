@@ -452,11 +452,17 @@ Response BioExplorerPlugin::_setGeneralSettings(
 
 Response BioExplorerPlugin::_removeAssembly(const AssemblyDescriptor &payload)
 {
-    auto assembly = _assemblies.find(payload.name);
-    if (assembly != _assemblies.end())
-        _assemblies.erase(assembly);
-
-    return Response();
+    Response response;
+    try
+    {
+        auto assembly = _assemblies.find(payload.name);
+        if (assembly != _assemblies.end())
+            _assemblies.erase(assembly);
+        else
+            response.contents = "Assembly does not exist: " + payload.name;
+    }
+    CATCH_STD_EXCEPTION()
+    return response;
 }
 
 Response BioExplorerPlugin::_addAssembly(const AssemblyDescriptor &payload)
@@ -464,6 +470,9 @@ Response BioExplorerPlugin::_addAssembly(const AssemblyDescriptor &payload)
     Response response;
     try
     {
+        if (_assemblies.find(payload.name) != _assemblies.end())
+            PLUGIN_THROW(
+                std::runtime_error("Assembly already exists: " + payload.name));
         auto &scene = _api->getScene();
         AssemblyPtr assembly = AssemblyPtr(new Assembly(scene, payload));
         _assemblies[payload.name] = std::move(assembly);

@@ -124,9 +124,7 @@ Membrane::~Membrane()
 
 void Membrane::_processInstances()
 {
-    const float offset = 2.f / _descriptor.occurrences;
-    const float increment = M_PI * (3.f - sqrt(5.f));
-
+    // Randomization
     srand(_descriptor.randomSeed);
     size_t rnd{1};
     if (_descriptor.randomSeed != 0 && _descriptor.positionRandomizationType ==
@@ -140,6 +138,20 @@ void Membrane::_processInstances()
     std::map<size_t, size_t> instanceCounts;
     for (size_t i = 0; i < _proteins.size(); ++i)
         instanceCounts[i] = 0;
+
+    // Shape parameters
+    const auto &params = _descriptor.assemblyParams;
+    if (params.size() < 6)
+        PLUGIN_THROW(std::runtime_error("Invalid number of shape parameters"));
+
+    const float size = params[0];
+    const float rndPosStength = params[2];
+    const float rndDirStrength = params[4];
+    const float extraParameter = params[5];
+
+    // Shape instances
+    const float offset = 2.f / _descriptor.occurrences;
+    const float increment = M_PI * (3.f - sqrt(5.f));
 
     for (uint64_t i = 0; i < _descriptor.occurrences; ++i)
     {
@@ -158,41 +170,40 @@ void Membrane::_processInstances()
         const auto &bounds = model.getBounds();
         const Vector3f &center = bounds.getCenter();
 
+        const size_t rndPosSeed = (params[1] == 0 ? 0 : params[1] + i);
+        const size_t rndDirSeed = (params[3] == 0 ? 0 : params[3] + i);
+
         Vector3f pos;
         Vector3f dir{0.f, 1.f, 0.f};
         switch (_descriptor.shape)
         {
         case AssemblyShape::spherical:
         {
-            getSphericalPosition(rnd, _descriptor.assemblyParams[0],
-                                 _descriptor.assemblyParams[1],
+            getSphericalPosition(rnd, size, rndPosStength,
                                  _descriptor.positionRandomizationType,
                                  _descriptor.randomSeed, i,
-                                 _descriptor.occurrences, {0, 0, 0}, pos, dir);
+                                 _descriptor.occurrences, Vector3f(), pos, dir);
             break;
         }
         case AssemblyShape::sinusoidal:
         {
-            const auto assemblySize = _descriptor.assemblyParams[0];
-            const auto assemblyHeight = _descriptor.assemblyParams[1];
-            getSinosoidalPosition(assemblySize, assemblyHeight,
+            getSinosoidalPosition(size, extraParameter,
                                   _descriptor.positionRandomizationType,
-                                  _descriptor.randomSeed, {0, 0, 0}, pos, dir);
+                                  rndPosSeed, rndPosStength, rndDirSeed,
+                                  rndDirStrength, Vector3f(), pos, dir);
             break;
         }
         case AssemblyShape::cubic:
         {
-            const auto assemblySize = _descriptor.assemblyParams[0];
-            getCubicPosition(assemblySize, {0, 0, 0}, pos, dir);
+            getCubicPosition(size, Vector3f(), rndPosSeed, rndPosStength,
+                             rndDirSeed, rndDirStrength, pos, dir);
             break;
         }
         case AssemblyShape::fan:
         {
-            const auto assemblyRadius = _descriptor.assemblyParams[0];
-            getFanPosition(rnd, assemblyRadius,
-                           _descriptor.positionRandomizationType,
+            getFanPosition(rnd, size, _descriptor.positionRandomizationType,
                            _descriptor.randomSeed, i, _descriptor.occurrences,
-                           {0, 0, 0}, pos, dir);
+                           Vector3f(), pos, dir);
             break;
         }
         case AssemblyShape::bezier:
@@ -214,28 +225,23 @@ void Membrane::_processInstances()
                 {763, 768, 0}, {788, 792, 0}, {780, 820, 0}, {770, 859, 0},
                 {740, 882, 0}, {705, 911, 0}, {688, 931, 0}, {646, 973, 0},
                 {611, 992, 0}, {585, 1022, 0}};
-            const auto assemblySize = _descriptor.assemblyParams[0];
-            getBezierPosition(points, assemblySize,
+            getBezierPosition(points, size,
                               float(i) / float(_descriptor.occurrences), pos,
                               dir);
             break;
         }
         case AssemblyShape::spherical_to_planar:
         {
-            getSphericalToPlanarPosition(rnd, _descriptor.assemblyParams[0],
-                                         _descriptor.assemblyParams[1],
+            getSphericalToPlanarPosition(rnd, size, rndPosStength,
                                          _descriptor.positionRandomizationType,
                                          _descriptor.randomSeed, i,
-                                         _descriptor.occurrences, {0, 0, 0},
-                                         _descriptor.assemblyParams[2], pos,
-                                         dir);
+                                         _descriptor.occurrences, Vector3f(),
+                                         extraParameter, pos, dir);
             break;
         }
         default:
-            const auto assemblySize = _descriptor.assemblyParams[0];
-            getPlanarPosition(assemblySize,
-                              _descriptor.positionRandomizationType,
-                              _descriptor.randomSeed, {0, 0, 0}, pos, dir);
+            getPlanarPosition(size, _descriptor.positionRandomizationType,
+                              _descriptor.randomSeed, Vector3f(), pos, dir);
             break;
         }
 
@@ -261,27 +267,26 @@ void Membrane::_processInstances()
 
         Quaterniond instanceOrientation = glm::quatLookAt(dir, UP_VECTOR);
 
+#if 1
+        tf.setRotation(_orientation * instanceOrientation * orientation);
+#else
         if (_descriptor.randomSeed == 0)
             tf.setRotation(_orientation * instanceOrientation * orientation);
         else
         {
             // Add a bit of randomness in the orientation of the proteins
-            Vector3f eulerAngles(0.3 * (rand() % 100 / 100.0 - 0.5),
-                                 0.3 * (rand() % 100 / 100.0 - 0.5),
-                                 0.3 * (rand() % 100 / 100.0 - 0.5));
+            Vector3f eulerAngles(0.3 * rnd(), 0.3 * rnd(), 0.3 * rnd());
             Quaterniond randomOrientation = glm::quat(eulerAngles);
 
             tf.setRotation(_orientation * instanceOrientation * orientation *
                            randomOrientation);
         }
+#endif
 
         if (instanceCounts[id] == 0)
             md->setTransformation(tf);
         const ModelInstance instance(true, false, tf);
         md->addInstance(instance);
-
-        // Save initial transformation for later use
-        // _transformations[_descriptor.name].push_back(tf);
 
         instanceCounts[id] = instanceCounts[id] + 1;
     }

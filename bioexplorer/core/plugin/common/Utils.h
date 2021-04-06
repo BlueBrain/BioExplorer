@@ -96,8 +96,12 @@ void getPlanarPosition(const float assemblyRadius,
  * @param pos
  * @param dir
  */
-void getCubicPosition(const float assemblyRadius, const Vector3f& position,
-                      Vector3f& pos, Vector3f& dir);
+void getCubicPosition(const float size, const Vector3f& position,
+                      const size_t randomPositionSeed,
+                      const float randomPositionStength,
+                      const size_t randomOrientationSeed,
+                      const float randomOrientationStength, Vector3f& pos,
+                      Vector3f& dir);
 /**
  * @brief sinusoide
  * @param x
@@ -116,10 +120,14 @@ float sinusoide(const float x, const float z);
  * @param pos
  * @param dir
  */
-void getSinosoidalPosition(const float size, const float height,
+void getSinosoidalPosition(const float size, const float amplitude,
                            const PositionRandomizationType randomizationType,
-                           const size_t randomSeed, const Vector3f& position,
-                           Vector3f& pos, Vector3f& dir);
+                           const size_t randomPositionSeed,
+                           const float randomPositionStrengh,
+                           const size_t randomOrientationSeed,
+                           const float randomOrientationStrengh,
+                           const Vector3f& position, Vector3f& pos,
+                           Vector3f& dir);
 
 /**
  * @brief getFanPosition
