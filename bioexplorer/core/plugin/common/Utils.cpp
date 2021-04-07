@@ -61,7 +61,7 @@ const std::vector<float> randoms = {
     0.870761691473,   0.368350833275, 0.228505271004,  0.3741636072,
     0.347291149036,   0.753449262487, 0.890757112194,  0.167150644248};
 
-float rnd()
+float rnd1()
 {
     return float(rand() % 1000 - 500) / 1000.f;
 }
@@ -69,6 +69,11 @@ float rnd()
 float rnd2(const size_t index)
 {
     return randoms[index % randoms.size()] - 0.5f;
+}
+
+float rnd3(const size_t index)
+{
+    return cos(index * M_PI / 180.f) + sin(index * M_PI / 45.f);
 }
 } // namespace
 
@@ -120,20 +125,21 @@ void getSphericalPosition(
 {
     const float offset = 2.f / occurences;
     const float increment = M_PI * (3.f - sqrt(5.f));
+    const size_t index = (occurence + rnd) % occurences;
 
     // Position randomizer
     float radius = assemblyRadius;
     if (randomPositionSeed != 0 &&
         randomizationType == PositionRandomizationType::radial)
         radius *=
-            1.f + randomPositionStength * rnd2(randomPositionSeed + occurence);
+            1.f + randomPositionStength * rnd3(randomPositionSeed + index);
 
     // Sphere filling
     const float y = ((occurence * offset) - 1.f) + (offset / 2.f);
     const float r = sqrt(1.f - pow(y, 2.f));
-    const float phi = ((occurence + rnd) % occurences) * increment;
-    const float x = cos(phi) * r;
-    const float z = sin(phi) * r;
+    const float phi = index * increment;
+    const float x = cos(phi) * r + assemblyRadius * 0.001f * rnd1();
+    const float z = sin(phi) * r + assemblyRadius * 0.001f * rnd1();
     Vector3f d{x, y, z};
     if (randomizationType == PositionRandomizationType::radial)
         pos = (radius + position.y) * d;
@@ -143,9 +149,9 @@ void getSphericalPosition(
     // Orientation randomizer
     if (randomOrientationSeed != 0)
         d = d + randomOrientationStength *
-                    Vector3f(rnd2(randomOrientationSeed + occurence + 1),
-                             rnd2(randomOrientationSeed + occurence + 2),
-                             rnd2(randomOrientationSeed + occurence + 3));
+                    Vector3f(rnd2(randomOrientationSeed + index * 2),
+                             rnd2(randomOrientationSeed + index * 3),
+                             rnd2(randomOrientationSeed + index * 5));
     dir = glm::quatLookAt(normalize(d), UP_VECTOR);
 }
 
@@ -198,8 +204,8 @@ void getCubicPosition(const float size, const Vector3f& position,
                       const float randomOrientationStength, Vector3f& pos,
                       Quaterniond& dir)
 {
-    pos = position + Vector3f(rnd() * size, rnd() * size, rnd() * size);
-    dir = glm::quatLookAt({rnd(), rnd(), rnd()}, UP_VECTOR);
+    pos = position + Vector3f(rnd1() * size, rnd1() * size, rnd1() * size);
+    dir = glm::quatLookAt({rnd1(), rnd1(), rnd1()}, UP_VECTOR);
     if (randomOrientationSeed != 0)
         dir = dir + randomQuaternion(randomOrientationSeed);
 
@@ -231,11 +237,11 @@ void getSinosoidalPosition(
     float up = 1.f;
     if (randomPositionSeed != 0 &&
         randomizationType == PositionRandomizationType::radial)
-        up = 1.f +
-             randomPositionStrength * rnd2(randomOrientationSeed + occurence);
+        up = 1.f + randomPositionStrength *
+                       rnd3((randomOrientationSeed + occurence) * 10);
 
-    const float x = rnd() * size;
-    const float z = rnd() * size;
+    const float x = rnd1() * size;
+    const float z = rnd1() * size;
     const float y = amplitude * up * sinusoide(x * angle, z * angle);
 
     pos = Vector3f(x, y, z);

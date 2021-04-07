@@ -825,7 +825,7 @@ class BioExplorer:
 
         if cell.receptor.occurences != 0:
             receptor_params = cell.params
-            receptor_params[4] /= 10.0  # Receptor rotates 10 times less than lipids
+            receptor_params[4] /= 20.0  # Receptor rotates 20 times less than lipids
 
             _receptor = AssemblyProtein(
                 assembly_name=cell.name,
