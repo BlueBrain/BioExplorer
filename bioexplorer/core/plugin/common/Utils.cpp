@@ -75,10 +75,20 @@ float rnd3(const size_t index)
 {
     return cos(index * M_PI / 180.f) + sin(index * M_PI / 45.f);
 }
+
 } // namespace
 
 namespace bioexplorer
 {
+Quaterniond quatLookAt(const Vector3f& dir)
+{
+    const Vector3f d = normalize(dir);
+    Vector3f u = Vector3f(0.f, 0.f, 1.f);
+    if (abs(dot(d, u)) > 0.99f)
+        u = Vector3f(0.f, 1.f, 0.f);
+    return glm::quatLookAt(d, u);
+}
+
 std::string& ltrim(std::string& s)
 {
     s.erase(s.begin(), std::find_if(s.begin(), s.end(),
@@ -138,8 +148,8 @@ void getSphericalPosition(
     const float y = ((occurence * offset) - 1.f) + (offset / 2.f);
     const float r = sqrt(1.f - pow(y, 2.f));
     const float phi = index * increment;
-    const float x = cos(phi) * r + assemblyRadius * 0.001f * rnd1();
-    const float z = sin(phi) * r + assemblyRadius * 0.001f * rnd1();
+    const float x = cos(phi) * r;
+    const float z = sin(phi) * r;
     Vector3f d{x, y, z};
     if (randomizationType == PositionRandomizationType::radial)
         pos = (radius + position.y) * d;
@@ -152,7 +162,7 @@ void getSphericalPosition(
                     Vector3f(rnd2(randomOrientationSeed + index * 2),
                              rnd2(randomOrientationSeed + index * 3),
                              rnd2(randomOrientationSeed + index * 5));
-    dir = glm::quatLookAt(normalize(d), UP_VECTOR);
+    dir = quatLookAt(normalize(d), UP_VECTOR);
 }
 
 void getFanPosition(const size_t rnd, const float assemblyRadius,
@@ -178,7 +188,7 @@ void getFanPosition(const size_t rnd, const float assemblyRadius,
     const float z = sin(phi) * r;
     const Vector3f d{x, y, z};
     pos = position + radius * d;
-    dir = glm::quatLookAt(d, UP_VECTOR);
+    dir = quatLookAt(d, UP_VECTOR);
 }
 
 void getPlanarPosition(const float assemblyRadius,
@@ -194,7 +204,7 @@ void getPlanarPosition(const float assemblyRadius,
     pos = position +
           Vector3f(float(rand() % 1000 - 500) / 1000.f * assemblyRadius, up,
                    float(rand() % 1000 - 500) / 1000.f * assemblyRadius);
-    dir = glm::quatLookAt({0.f, 1.f, 0.f}, UP_VECTOR);
+    dir = quatLookAt({0.f, 1.f, 0.f}, UP_VECTOR);
 }
 
 void getCubicPosition(const float size, const Vector3f& position,
@@ -205,7 +215,7 @@ void getCubicPosition(const float size, const Vector3f& position,
                       Quaterniond& dir)
 {
     pos = position + Vector3f(rnd1() * size, rnd1() * size, rnd1() * size);
-    dir = glm::quatLookAt({rnd1(), rnd1(), rnd1()}, UP_VECTOR);
+    dir = quatLookAt({rnd1(), rnd1(), rnd1()}, UP_VECTOR);
     if (randomOrientationSeed != 0)
         dir = dir + randomQuaternion(randomOrientationSeed);
 
@@ -263,7 +273,7 @@ void getSinosoidalPosition(
                     Vector3f(rnd2(randomOrientationSeed + occurence + 1),
                              rnd2(randomOrientationSeed + occurence + 2),
                              rnd2(randomOrientationSeed + occurence + 3));
-    dir = glm::quatLookAt(normalize(d), UP_VECTOR);
+    dir = quatLookAt(normalize(d), UP_VECTOR);
 }
 
 void getBezierPosition(const Vector3fs& points, const float assemblyRadius,
@@ -281,38 +291,69 @@ void getBezierPosition(const Vector3fs& points, const float assemblyRadius,
                 bezierPoints[k] + t * (bezierPoints[k + 1] - bezierPoints[k]);
         --i;
     }
-    dir = glm::quatLookAt(normalize(cross({0, 0, 1},
-                                          bezierPoints[1] - bezierPoints[0])),
-                          UP_VECTOR);
+    dir = quatLookAt(normalize(
+                         cross({0, 0, 1}, bezierPoints[1] - bezierPoints[0])),
+                     UP_VECTOR);
     pos = bezierPoints[0];
 }
 
 void getSphericalToPlanarPosition(
     const size_t rnd, const float assemblyRadius, const size_t occurence,
     const size_t occurences, const PositionRandomizationType randomizationType,
-    const size_t randomPositionSeed, const float randomPositionStrengh,
-    const size_t randomOrientationSeed, const float randomOrientationStrengh,
+    const size_t randomPositionSeed, const float randomPositionStrength,
+    const size_t randomOrientationSeed, const float randomOrientationStrength,
     const Vector3f& position, const float morphingStep, Vector3f& pos,
     Quaterniond& dir)
 {
-    Vector3f startPos;
-    Quaterniond startDir;
-    getSphericalPosition(rnd, assemblyRadius, occurence, occurences,
-                         randomizationType, randomPositionSeed,
-                         randomPositionStrengh, randomOrientationSeed,
-                         randomOrientationStrengh, {0, 0, 0}, startPos,
-                         startDir);
-    Vector3f endPos;
+    const float offset = 2.f / occurences;
+    const float increment = M_PI * (3.f - sqrt(5.f));
+    const size_t index = (occurence + rnd) % occurences;
 
-    endPos = startPos;
-    endPos.z = -assemblyRadius;
-    endPos = endPos +
-             (1.f - (startPos.z + assemblyRadius) / (assemblyRadius * 2.f)) *
-                 Vector3f(assemblyRadius * 2.f, assemblyRadius * 2.f, 0.f) *
-                 normalize(Vector3f(startDir.x, startDir.y, 0.f));
+    // Position randomizer
+    float radius = assemblyRadius;
+    if (randomPositionSeed != 0 &&
+        randomizationType == PositionRandomizationType::radial)
+        radius *=
+            1.f + randomPositionStrength * rnd3(randomPositionSeed + index);
+
+    // Sphere filling
+    const float y = ((occurence * offset) - 1.f) + (offset / 2.f);
+    const float r = sqrt(1.f - pow(y, 2.f));
+    const float phi = index * increment;
+    const float x = cos(phi) * r;
+    const float z = sin(phi) * r;
+
+    Vector3f startPos;
+    Vector3f startDir = Vector3f(x, y, z);
+
+    if (randomizationType == PositionRandomizationType::radial)
+        startPos = (radius + position.y) * startDir;
+    else
+        startPos = position + radius * startDir;
+
+    Vector3f endPos = startPos;
+
+    // Orientation randomizer
+    if (randomOrientationSeed != 0)
+        startDir =
+            startDir + randomOrientationStrength *
+                           Vector3f(rnd2(randomOrientationSeed + index * 2),
+                                    rnd2(randomOrientationSeed + index * 3),
+                                    rnd2(randomOrientationSeed + index * 5));
+
+    radius = assemblyRadius;
+    const float endRadius = radius * 1.75f;
+
+    endPos.y = -radius;
+    endPos = endPos + (1.f - (startPos.y + radius) / endRadius) *
+                          Vector3f(endRadius, 0.f, endRadius) *
+                          normalize(Vector3f(startDir.x, 0.f, startDir.z));
+
+    const Vector3f endDir{0.f, 1.f, 0.f};
+    const Vector3f d = startDir + morphingStep * (endDir - startDir);
 
     pos = (endPos * morphingStep + startPos * (1.f - morphingStep));
-    dir = startDir;
+    dir = quatLookAt(normalize(d), UP_VECTOR);
 }
 
 void setTransferFunction(brayns::TransferFunction& tf)

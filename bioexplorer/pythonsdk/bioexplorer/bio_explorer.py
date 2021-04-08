@@ -461,12 +461,13 @@ class BioExplorer:
                 closed_conformation_indices.append(i)
 
         # Protein S
+        params = [11.5, 0, 0.0, assembly_params[3], 0.1, assembly_params[5]]
         virus_protein_s = Protein(
             sources=[
                 pdb_folder + "6vyb.pdb", pdb_folder + "sars-cov-2-v1.pdb"
             ],
             occurences=nb_protein_s,
-            assembly_params=Vector2(11.5, 0.0),
+            assembly_params=params,
             cutoff_angle=0.999,
             orientation=Quaternion(0.0, 1.0, 0.0, 0.0),
             instance_indices=[
@@ -475,33 +476,37 @@ class BioExplorer:
         )
 
         # Protein M (QHD43419)
+        params = [2.5, 1, 0.1, assembly_params[3] + 2, 0.3, assembly_params[5]]
         virus_protein_m = Protein(
             sources=[pdb_folder + "QHD43419a.pdb"],
             occurences=nb_protein_m,
-            assembly_params=Vector2(2.0, 0.0),
+            assembly_params=params,
             cutoff_angle=0.999,
             orientation=Quaternion(0.135, 0.99, 0.0, 0.0),
         )
 
         # Protein E (QHD43418 P0DTC4)
+        params = [2.5, 3, 0.1, assembly_params[3] + 4, 0.3, assembly_params[5]]
         virus_protein_e = Protein(
             sources=[pdb_folder + "QHD43418a.pdb"],
             occurences=nb_protein_e,
-            assembly_params=Vector2(3.0, 0.0),
+            assembly_params=params,
             cutoff_angle=0.9999,
             orientation=Quaternion(-0.04, 0.705, 0.705, -0.04),
         )
 
         # Virus membrane
-        virus_membrane = Membrane(sources=[pdb_folder + "membrane/popc.pdb"],
-                                  occurences=15000)
+        virus_membrane = Membrane(
+            sources=[pdb_folder + "membrane/popc.pdb"],
+            occurences=10000)
 
         # RNA Sequence
         rna_sequence = None
         if add_rna_sequence:
+            params = [11, 0, 0.0, 0, 0.0, assembly_params[5]]
             rna_sequence = RNASequence(
                 source=rna_folder + "sars-cov-2.rna",
-                assembly_params=Vector2(radius / 4.0, 0.5),
+                assembly_params=params,
                 t_range=Vector2(0, 30.5 * math.pi),
                 shape=self.RNA_SHAPE_TREFOIL_KNOT,
                 shape_params=Vector3(1.51, 1.12, 1.93),
@@ -515,7 +520,12 @@ class BioExplorer:
             protein_m=virus_protein_m,
             membrane=virus_membrane,
             rna_sequence=rna_sequence,
-            assembly_params=assembly_params
+            assembly_params=[
+                assembly_params[0],
+                assembly_params[1] + 6, 0.025 / assembly_params[0],
+                assembly_params[3] + 7, 0.4,
+                assembly_params[5]
+            ]
         )
 
         self.add_virus(
@@ -783,6 +793,7 @@ class BioExplorer:
                 position_randomization_type=BioExplorer.
                 POSITION_RANDOMIZATION_TYPE_RADIAL,
                 assembly_params=virus.assembly_params,
+                orientation=Quaternion(0.0, 0.0, 1.0, 0.0),
                 random_seed=4
             )
 
@@ -1217,6 +1228,7 @@ class BioExplorer:
         position_randomization_type,
         assembly_params,
         random_seed,
+        orientation=Quaternion()
     ):
         """
         Add a membrane to the scene
@@ -1228,6 +1240,7 @@ class BioExplorer:
         :position_randomization_type: Type of randomisation for the elements of the membrane
         :assembly_params: Size of the membrane
         :random_seed: Seed used to randomise position the elements in the membrane
+        :orientation: Orientation of the proteins in the membrane
         :return: Result of the call to the BioExplorer backend
         """
         assert isinstance(membrane, Membrane)
@@ -1256,7 +1269,7 @@ class BioExplorer:
         params["randomSeed"] = random_seed
         params["locationCutoffAngle"] = membrane.location_cutoff_angle
         params["positionRandomizationType"] = position_randomization_type
-        params["orientation"] = membrane.orientation.to_list()
+        params["orientation"] = orientation.to_list()
         return self._check(self._client.rockets_client.request(
             method=self.PLUGIN_API_PREFIX + "add-membrane", params=params))
 
