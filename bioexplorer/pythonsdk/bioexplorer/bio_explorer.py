@@ -1176,6 +1176,75 @@ class BioExplorer:
         self._client.set_renderer(accumulation=True)
         return result
 
+    def set_protein_instance_transformation(
+            self,
+            assembly_name,
+            name,
+            instance_index,
+            position=Vector3(),
+            orientation=Quaternion()
+    ):
+        """
+        Set a transformation to an instance of a protein in an assembly
+
+        :assembly_name: Name of the assembly containing the protein
+        :name: Name of the protein
+        :instance_index: Index of the protein instance
+        :position: Position of the instance
+        :orientation: Orientation of the instance
+        :return: Result of the call to the BioExplorer backend
+        """
+        assert isinstance(instance_index, int)
+        assert isinstance(position, Vector3)
+        assert isinstance(orientation, Quaternion)
+
+        params = dict()
+        params["assemblyName"] = assembly_name
+        params["name"] = name
+        params["instanceIndex"] = instance_index
+        params["position"] = position.to_list()
+        params["orientation"] = orientation.to_list()
+        result = self._client.rockets_client.request(
+            method=self.PLUGIN_API_PREFIX + "set-protein-instance-transformation",
+            params=params)
+        if not result["status"]:
+            raise RuntimeError(result["contents"])
+        self._client.set_renderer(accumulation=True)
+        return result
+
+    def get_protein_instance_transformation(
+            self,
+            assembly_name,
+            name,
+            instance_index
+    ):
+        """
+        Get a transformation to an instance of a protein in an assembly
+
+        :assembly_name: Name of the assembly containing the protein
+        :name: Name of the protein
+        :instance_index: Index of the protein instance
+        :return: A dictionnary containing the position and orientation of the instance
+        """
+        assert isinstance(instance_index, int)
+
+        params = dict()
+        params["assemblyName"] = assembly_name
+        params["name"] = name
+        params["instanceIndex"] = instance_index
+        params["position"] = Vector3().to_list()
+        params["orientation"] = Quaternion().to_list()
+        result = self._client.rockets_client.request(
+            method=self.PLUGIN_API_PREFIX + "get-protein-instance-transformation",
+            params=params)
+        if not result["status"]:
+            raise RuntimeError(result["contents"])
+        d = dict()
+        for param in result["contents"].split("|"):
+            s = param.split('=')
+            d[s[0]] = s[1]
+        return d
+
     def add_rna_sequence(self, assembly_name, name, rna_sequence):
         """
         Add an RNA sequence object to an assembly

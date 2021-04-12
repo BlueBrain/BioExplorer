@@ -107,6 +107,19 @@ public:
     const ProteinMap &getProteins() const { return _proteins; }
 
     /**
+     * @brief Set the transformation for a specific instance of a protein
+     * @param descriptor Information about the instance
+     */
+    void setProteinInstanceTransformation(
+        const ProteinInstanceTransformationDescriptor &descriptor);
+
+    /**
+     * @return The transformation for a specific instance of a protein
+     */
+    const Transformation getProteinInstanceTransformation(
+        const ProteinInstanceTransformationDescriptor &descriptor) const;
+
+    /**
      * @brief addMembrane Add a membrane to the assembly
      * @param descriptor Membrane descriptor
      */

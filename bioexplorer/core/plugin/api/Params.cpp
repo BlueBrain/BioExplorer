@@ -554,4 +554,23 @@ bool from_json(ModelsVisibility &param, const std::string &payload)
     return true;
 }
 
+bool from_json(ProteinInstanceTransformationDescriptor &param,
+               const std::string &payload)
+{
+    try
+    {
+        auto js = nlohmann::json::parse(payload);
+        FROM_JSON(param, js, assemblyName);
+        FROM_JSON(param, js, name);
+        FROM_JSON(param, js, instanceIndex);
+        FROM_JSON(param, js, position);
+        FROM_JSON(param, js, orientation);
+    }
+    catch (...)
+    {
+        return false;
+    }
+    return true;
+}
+
 } // namespace bioexplorer

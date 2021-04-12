@@ -227,6 +227,24 @@ void BioExplorerPlugin::init()
                 return _setAminoAcid(payload);
             });
 
+        entryPoint = PLUGIN_API_PREFIX + "set-protein-instance-transformation";
+        PLUGIN_INFO << "Registering '" + entryPoint + "' endpoint" << std::endl;
+        actionInterface->registerRequest<
+            ProteinInstanceTransformationDescriptor, Response>(
+            entryPoint,
+            [&](const ProteinInstanceTransformationDescriptor &payload) {
+                return _setProteinInstanceTransformation(payload);
+            });
+
+        entryPoint = PLUGIN_API_PREFIX + "get-protein-instance-transformation";
+        PLUGIN_INFO << "Registering '" + entryPoint + "' endpoint" << std::endl;
+        actionInterface->registerRequest<
+            ProteinInstanceTransformationDescriptor, Response>(
+            entryPoint,
+            [&](const ProteinInstanceTransformationDescriptor &payload) {
+                return _getProteinInstanceTransformation(payload);
+            });
+
         entryPoint = PLUGIN_API_PREFIX + "add-rna-sequence";
         PLUGIN_INFO << "Registering '" + entryPoint + "' endpoint" << std::endl;
         actionInterface->registerRequest<RNASequenceDescriptor, Response>(
@@ -678,11 +696,7 @@ Response BioExplorerPlugin::_addSugars(const SugarsDescriptor &payload) const
             response.contents = msg.str();
         }
     }
-    catch (const std::runtime_error &e)
-    {
-        response.status = false;
-        response.contents = e.what();
-    }
+    CATCH_STD_EXCEPTION()
     return response;
 }
 
@@ -703,11 +717,61 @@ Response BioExplorerPlugin::_setAminoAcid(const SetAminoAcid &payload) const
             response.contents = msg.str();
         }
     }
-    catch (const std::runtime_error &e)
+    CATCH_STD_EXCEPTION()
+    return response;
+}
+
+Response BioExplorerPlugin::_setProteinInstanceTransformation(
+    const ProteinInstanceTransformationDescriptor &payload) const
+{
+    Response response;
+    try
     {
-        response.status = false;
-        response.contents = e.what();
+        auto it = _assemblies.find(payload.assemblyName);
+        if (it != _assemblies.end())
+            (*it).second->setProteinInstanceTransformation(payload);
+        else
+        {
+            std::stringstream msg;
+            msg << "Assembly not found: " << payload.assemblyName;
+            PLUGIN_ERROR << msg.str() << std::endl;
+            response.status = false;
+            response.contents = msg.str();
+        }
     }
+    CATCH_STD_EXCEPTION()
+    return response;
+}
+
+Response BioExplorerPlugin::_getProteinInstanceTransformation(
+    const ProteinInstanceTransformationDescriptor &payload) const
+{
+    Response response;
+    try
+    {
+        auto it = _assemblies.find(payload.assemblyName);
+        if (it != _assemblies.end())
+        {
+            const auto transformation =
+                (*it).second->getProteinInstanceTransformation(payload);
+            const auto &position = transformation.getTranslation();
+            const auto &orientation = transformation.getRotation();
+            std::stringstream s;
+            s << "position=" << position.x << "," << position.y << ","
+              << position.z << "|orientation=" << orientation.w << ","
+              << orientation.x << "," << orientation.y << "," << orientation.z;
+            response.contents = s.str();
+        }
+        else
+        {
+            std::stringstream msg;
+            msg << "Assembly not found: " << payload.assemblyName;
+            PLUGIN_ERROR << msg.str() << std::endl;
+            response.status = false;
+            response.contents = msg.str();
+        }
+    }
+    CATCH_STD_EXCEPTION()
     return response;
 }
 

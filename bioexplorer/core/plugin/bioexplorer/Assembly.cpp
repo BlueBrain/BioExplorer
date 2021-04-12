@@ -471,4 +471,88 @@ void Assembly::addRNASequence(const RNASequenceDescriptor &rnad)
     const auto modelDescriptor = _rnaSequence->getModelDescriptor();
     _scene.addModel(modelDescriptor);
 }
+
+void Assembly::setProteinInstanceTransformation(
+    const ProteinInstanceTransformationDescriptor &descriptor)
+{
+    ProteinPtr protein{nullptr};
+    auto itProtein = _proteins.find(descriptor.name);
+    if (itProtein != _proteins.end())
+        protein = (*itProtein).second;
+    else
+        PLUGIN_THROW(std::runtime_error("Protein " + descriptor.name +
+                                        " not found on assembly " +
+                                        descriptor.assemblyName));
+
+    auto modelDescriptor = protein->getModelDescriptor();
+
+    auto &instances = modelDescriptor->getInstances();
+    if (descriptor.instanceIndex >= instances.size())
+        PLUGIN_THROW(std::runtime_error(
+            "Invalid instance index (" +
+            std::to_string(descriptor.instanceIndex) + ") for protein " +
+            descriptor.name + " in assembly " + descriptor.assemblyName));
+
+    auto instance = modelDescriptor->getInstance(descriptor.instanceIndex);
+    auto &transformation = instance->getTransformation();
+
+    if (descriptor.position.size() != 3)
+        PLUGIN_THROW(std::runtime_error(
+            "Invalid number of float for position of protein " +
+            descriptor.name + " in assembly " + descriptor.assemblyName));
+    const Vector3f position{descriptor.position[0], descriptor.position[1],
+                            descriptor.position[2]};
+
+    if (descriptor.orientation.size() != 4)
+        PLUGIN_THROW(std::runtime_error(
+            "Invalid number of float for position of protein " +
+            descriptor.name + " in assembly " + descriptor.assemblyName));
+    const Quaterniond orientation{descriptor.orientation[0],
+                                  descriptor.orientation[1],
+                                  descriptor.orientation[2],
+                                  descriptor.orientation[3]};
+
+    PLUGIN_INFO << "Modifying instance " << descriptor.instanceIndex
+                << " of protein " << descriptor.name << " in assembly "
+                << descriptor.assemblyName << " with position=" << position
+                << " and orientation=" << orientation << std::endl;
+    Transformation newTransformation = transformation;
+    newTransformation.setTranslation(position);
+    newTransformation.setRotation(orientation);
+    instance->setTransformation(newTransformation);
+    if (descriptor.instanceIndex == 0)
+        modelDescriptor->setTransformation(newTransformation);
+
+    _scene.markModified();
+}
+
+const Transformation Assembly::getProteinInstanceTransformation(
+    const ProteinInstanceTransformationDescriptor &descriptor) const
+{
+    ProteinPtr protein{nullptr};
+    auto itProtein = _proteins.find(descriptor.name);
+    if (itProtein != _proteins.end())
+        protein = (*itProtein).second;
+    else
+        PLUGIN_THROW(std::runtime_error("Protein " + descriptor.name +
+                                        " not found on assembly " +
+                                        descriptor.assemblyName));
+
+    auto modelDescriptor = protein->getModelDescriptor();
+
+    auto &instances = modelDescriptor->getInstances();
+    if (descriptor.instanceIndex >= instances.size())
+        PLUGIN_THROW(std::runtime_error(
+            "Invalid instance index (" +
+            std::to_string(descriptor.instanceIndex) + ") for protein " +
+            descriptor.name + " in assembly " + descriptor.assemblyName));
+
+    auto instance = modelDescriptor->getInstance(descriptor.instanceIndex);
+    auto transformation = instance->getTransformation();
+
+    if (descriptor.instanceIndex == 0)
+        transformation = modelDescriptor->getTransformation();
+    return transformation;
+}
+
 } // namespace bioexplorer

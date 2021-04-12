@@ -703,6 +703,20 @@ typedef struct
     std::vector<size_t> chainIds;
 } ColorSchemeDescriptor;
 
+typedef struct
+{
+    /** Name of the assembly */
+    std::string assemblyName;
+    /** Name of the protein in the assembly */
+    std::string name;
+    /** Index of the protein instance */
+    size_t instanceIndex;
+    /** Position of the protein instance */
+    std::vector<float> position;
+    /** Orientation of the protein instance */
+    std::vector<float> orientation;
+} ProteinInstanceTransformationDescriptor;
+
 /**
  * @brief List of material identifiers attached to a Brayns model
  *
