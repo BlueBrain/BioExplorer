@@ -31,12 +31,12 @@
 namespace bioexplorer
 {
 Membrane::Membrane(Scene &scene, const MembraneDescriptor &descriptor,
-                   const Vector3f &position, const Quaterniond &orientation,
+                   const Vector3f &position, const Quaterniond &rotation,
                    const Vector4fs &clippingPlanes,
                    const OccupiedDirections &occupiedDirections)
     : _scene(scene)
     , _position(position)
-    , _orientation(orientation)
+    , _rotation(rotation)
     , _descriptor(descriptor)
     , _clippingPlanes(clippingPlanes)
     , _occupiedDirections(occupiedDirections)
@@ -92,7 +92,7 @@ Membrane::Membrane(Scene &scene, const MembraneDescriptor &descriptor,
         pd.loadBonds = descriptor.loadBonds;
         pd.randomSeed = descriptor.randomSeed;
         pd.occurrences = 1;
-        pd.orientation = descriptor.orientation;
+        pd.rotation = descriptor.rotation;
         pd.assemblyParams = descriptor.assemblyParams;
         pd.atomRadiusMultiplier = descriptor.atomRadiusMultiplier;
         pd.representation = descriptor.representation;
@@ -131,10 +131,10 @@ void Membrane::_processInstances()
                                            PositionRandomizationType::circular)
         rnd = rand() % _descriptor.occurrences;
 
-    const Quaterniond orientation = {_descriptor.orientation[0],
-                                     _descriptor.orientation[1],
-                                     _descriptor.orientation[2],
-                                     _descriptor.orientation[3]};
+    const Quaterniond rotation = {_descriptor.rotation[0],
+                                  _descriptor.rotation[1],
+                                  _descriptor.rotation[2],
+                                  _descriptor.rotation[3]};
     std::map<size_t, size_t> instanceCounts;
     for (size_t i = 0; i < _proteins.size(); ++i)
         instanceCounts[i] = 0;
@@ -147,6 +147,7 @@ void Membrane::_processInstances()
     const float size = params[0];
 
     RandomizationInformation randInfo;
+    randInfo.seed = _descriptor.randomSeed;
     randInfo.randomizationType = _descriptor.positionRandomizationType;
     randInfo.positionStrength = params[2];
     randInfo.rotationStrength = params[4];
@@ -156,7 +157,8 @@ void Membrane::_processInstances()
     const float offset = 2.f / _descriptor.occurrences;
     const float increment = M_PI * (3.f - sqrt(5.f));
 
-    for (uint64_t i = 0; i < _descriptor.occurrences; ++i)
+    for (uint64_t occurence = 0; occurence < _descriptor.occurrences;
+         ++occurence)
     {
         const size_t id = rand() % _proteins.size();
         const auto name = _getElementNameFromId(id);
@@ -173,10 +175,8 @@ void Membrane::_processInstances()
         const auto &bounds = model.getBounds();
         const Vector3f &center = bounds.getCenter();
 
-        RandomizationInformation randInfo;
-        randInfo.randomizationType = _descriptor.positionRandomizationType;
-        randInfo.positionSeed = (params[1] == 0 ? 0 : params[1] + i);
-        randInfo.rotationSeed = (params[3] == 0 ? 0 : params[3] + i);
+        randInfo.positionSeed = (params[1] == 0 ? 0 : params[1] + occurence);
+        randInfo.rotationSeed = (params[3] == 0 ? 0 : params[3] + occurence);
 
         Transformation transformation;
         switch (_descriptor.shape)
@@ -184,14 +184,15 @@ void Membrane::_processInstances()
         case AssemblyShape::spherical:
         {
             transformation =
-                getSphericalPosition(rnd, Vector3f(), size, i,
+                getSphericalPosition(Vector3f(), size, occurence,
                                      _descriptor.occurrences, randInfo);
             break;
         }
         case AssemblyShape::sinusoidal:
         {
-            transformation = getSinosoidalPosition(Vector3f(), size,
-                                                   extraParameter, i, randInfo);
+            transformation =
+                getSinosoidalPosition(Vector3f(), size, extraParameter,
+                                      occurence, randInfo);
             break;
         }
         case AssemblyShape::cubic:
@@ -201,7 +202,7 @@ void Membrane::_processInstances()
         }
         case AssemblyShape::fan:
         {
-            transformation = getFanPosition(rnd, Vector3f(), size, i,
+            transformation = getFanPosition(Vector3f(), size, occurence,
                                             _descriptor.occurrences, randInfo);
             break;
         }
@@ -211,18 +212,19 @@ void Membrane::_processInstances()
                 PLUGIN_THROW(std::runtime_error(
                     "Invalid number of floats in assembly extra parameters"));
             Vector3fs points;
-            for (uint32_t j = 5; j < params.size(); j += 3)
+            for (uint32_t i = 5; i < params.size(); i += 3)
                 points.push_back(
-                    Vector3f(params[j], params[j + 1], params[j + 2]));
+                    Vector3f(params[i], params[i + 1], params[i + 2]));
             transformation =
                 getBezierPosition(points, size,
-                                  float(i) / float(_descriptor.occurrences));
+                                  float(occurence) /
+                                      float(_descriptor.occurrences));
             break;
         }
         case AssemblyShape::spherical_to_planar:
         {
             transformation =
-                getSphericalToPlanarPosition(rnd, Vector3f(), size, i,
+                getSphericalToPlanarPosition(Vector3f(), size, occurence,
                                              _descriptor.occurrences, randInfo,
                                              extraParameter);
             break;
@@ -234,7 +236,7 @@ void Membrane::_processInstances()
 
 #if 0 // TO REMOVE ?
       // Remove membrane where proteins are. This is currently done
-      // according to the vector orientation
+      // according to the vector rotation
         bool occupied{false};
         if (_descriptor.locationCutoffAngle != 0.f)
             for (const auto &occupiedDirection : _occupiedDirections)
@@ -249,14 +251,17 @@ void Membrane::_processInstances()
 #endif
 
         // Final transformation
-        Transformation finalTransformation;
         const Vector3f translation =
-            _position +
-            Vector3f(_orientation *
-                     (transformation.getTranslation() - Vector3d(center)));
+            _position + Vector3f(_rotation * (transformation.getTranslation() -
+                                              Vector3d(center)));
+
+        if (isClipped(translation, _clippingPlanes))
+            continue;
+
+        Transformation finalTransformation;
         finalTransformation.setTranslation(translation);
         finalTransformation.setRotation(
-            _orientation * transformation.getRotation() * orientation);
+            _rotation * transformation.getRotation() * rotation);
 
         if (instanceCounts[id] == 0)
             md->setTransformation(finalTransformation);
@@ -265,10 +270,6 @@ void Membrane::_processInstances()
 
         instanceCounts[id] = instanceCounts[id] + 1;
     }
-
-    for (size_t i = 0; i < _proteins.size(); ++i)
-        PLUGIN_INFO << "Instances for " << i << " : " << instanceCounts[i]
-                    << std::endl;
 }
 
 std::string Membrane::_getElementNameFromId(const size_t id)

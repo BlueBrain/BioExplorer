@@ -92,29 +92,29 @@ public:
      * protein
      *
      * @param positions Positions of glycosilation sites on the protein
-     * @param orientations Orientations of glycosilation sites on the protein
+     * @param rotations rotations of glycosilation sites on the protein
      * @param siteIndices Optional indices of sites for which positions and
      * rotations should be returned. If empty, positions and rotations are
      * returned for every glycosylation site on the protein
      */
     void getGlycosilationSites(std::vector<Vector3f>& positions,
-                               std::vector<Quaterniond>& orientations,
+                               std::vector<Quaterniond>& rotations,
                                const std::vector<size_t>& siteIndices) const;
 
     /**
-     * @brief Get the sugar binding sites positions and orientations
+     * @brief Get the sugar binding sites positions and rotations
      *
      * @param positions Positions of sugar binding sites on the protein
-     * @param orientations Orientations of sugar binding sites on the protein
+     * @param rotations rotations of sugar binding sites on the protein
      * @param siteIndices Optional indices of sites for which positions and
-     * orientations should be returned. If empty, positions and rotations are
+     * rotations should be returned. If empty, positions and rotations are
      * returned for every sugar binding site on the protein
      * @param chainIds Optional identifiers of chains for which positions and
-     * orientations should be returned. If empty, positions and orientations are
+     * rotations should be returned. If empty, positions and rotations are
      * returned for every sugar binding site on the protein
      */
     void getSugarBindingSites(std::vector<Vector3f>& positions,
-                              std::vector<Quaterniond>& orientations,
+                              std::vector<Quaterniond>& rotations,
                               const std::vector<size_t>& siteIndices,
                               const size_ts& chainIds) const;
 
@@ -162,8 +162,8 @@ private:
 
     // Utility functions
     void _processInstances(ModelDescriptorPtr md, const Vector3fs& positions,
-                           const Quaternions& orientations,
-                           const Quaterniond& proteinOrientation);
+                           const Quaternions& rotations,
+                           const Quaterniond& proteinrotation);
     void _buildAminoAcidBounds();
 
     // Class members

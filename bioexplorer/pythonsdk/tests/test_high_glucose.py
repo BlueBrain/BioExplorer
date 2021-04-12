@@ -39,12 +39,12 @@ PROTEIN_LOAD_HYDROGEN = False
 NB_PROTEIN_S = 62
 NB_PROTEIN_E = 42
 NB_PROTEIN_M = 50
-ADD_RNA = False
+ADD_RNA = True
 ADD_GLYCANS = True
 
 # Cell parameters
-CELL_SIZE = 1600
-CELL_HEIGHT = 80
+CELL_SIZE = 1600.0
+CELL_HEIGHT = 80.0
 
 # Resources
 RESOURCE_FOLDER = 'tests/test_files/'
@@ -78,25 +78,28 @@ def add_virus(bioexplorer, name, position, open_conformation_indices=list()):
         if i not in open_conformation_indices:
             closed_conformation_indices.append(i)
 
+    params = [11.5, 0, 0.0, 0, 0.0, 0.0]
     virus_protein_s = Protein(
         sources=[
             PDB_FOLDER + '6vyb.pdb',         # Open conformation
             PDB_FOLDER + 'sars-cov-2-v1.pdb'  # Closed conformation
         ],
         load_hydrogen=PROTEIN_LOAD_HYDROGEN, occurences=NB_PROTEIN_S,
-        assembly_params=Vector2(11.5, 0.0), cutoff_angle=0.999,
-        orientation=Quaternion(0.0, 1.0, 0.0, 0.0),
+        assembly_params=params, cutoff_angle=0.999,
+        rotation=Quaternion(0.0, 1.0, 0.0, 0.0),
         instance_indices=[open_conformation_indices, closed_conformation_indices])
 
+    params = [2.5, 0, 0.0, 0, 0.0, 0.0]
     virus_protein_m = Protein(
         sources=[PDB_FOLDER + 'QHD43419a.pdb'], load_hydrogen=PROTEIN_LOAD_HYDROGEN,
-        occurences=NB_PROTEIN_M, assembly_params=Vector2(2.0, 0.0), cutoff_angle=0.999,
-        orientation=Quaternion(0.99, 0.0, 0.0, 0.135))
+        occurences=NB_PROTEIN_M, assembly_params=params, cutoff_angle=0.999,
+        rotation=Quaternion(0.99, 0.0, 0.0, 0.135))
 
+    params = [2.5, 0, 0.0, 0, 0.0, 0.0]
     virus_protein_e = Protein(
         sources=[PDB_FOLDER + 'QHD43418a.pdb'], load_hydrogen=PROTEIN_LOAD_HYDROGEN,
-        occurences=NB_PROTEIN_E, assembly_params=Vector2(3.0, 0.0), cutoff_angle=0.9999,
-        orientation=Quaternion(0.705, 0.705, -0.04, -0.04))
+        occurences=NB_PROTEIN_E, assembly_params=params, cutoff_angle=0.9999,
+        rotation=Quaternion(0.705, 0.705, -0.04, -0.04))
 
     virus_membrane = Membrane(
         sources=[PDB_FOLDER + 'membrane/popc.pdb'],
@@ -107,13 +110,14 @@ def add_virus(bioexplorer, name, position, open_conformation_indices=list()):
     if ADD_RNA:
         rna_sequence = RNASequence(
             source=RNA_FOLDER + 'sars-cov-2.rna',
-            assembly_params=Vector2(11.0, 0.5),
+            assembly_params=[11.0, 0.5],
             t_range=Vector2(0, 30.5 * math.pi), shape=bioexplorer.RNA_SHAPE_TREFOIL_KNOT,
             shape_params=Vector3(1.51, 1.12, 1.93))
 
     coronavirus = Virus(
         name=name, protein_s=virus_protein_s, protein_e=virus_protein_e, protein_m=virus_protein_m,
-        membrane=virus_membrane, rna_sequence=rna_sequence, assembly_params=Vector3(45.0, 1.5, 0.0))
+        membrane=virus_membrane, rna_sequence=rna_sequence,
+        assembly_params=[45.0, 1, 0.025, 2, 0.4, 0.0])
 
     clip_planes = list()
     if ADD_RNA:
@@ -165,7 +169,7 @@ def add_virus(bioexplorer, name, position, open_conformation_indices=list()):
         # High-mannose glycans on Protein M
         indices = [5]
         high_mannose_glycans = Sugars(
-            orientation=Quaternion(0.707, 0.0, 0.0, 0.707),
+            rotation=Quaternion(0.707, 0.0, 0.0, 0.707),
             assembly_name=name, name=bioexplorer.NAME_GLYCAN_HIGH_MANNOSE,
             protein_name=name + '_' + bioexplorer.NAME_PROTEIN_M, source=HIGH_MANNOSE_PATHS[0],
             site_indices=indices,
@@ -176,7 +180,7 @@ def add_virus(bioexplorer, name, position, open_conformation_indices=list()):
         # Complex glycans on Protein E
         indices = [48, 66]
         complex_glycans = Sugars(
-            orientation=Quaternion(0.707, 0.0, 0.0, 0.707),
+            rotation=Quaternion(0.707, 0.0, 0.0, 0.707),
             assembly_name=name, name=bioexplorer.NAME_GLYCAN_COMPLEX,
             protein_name=name + '_' + bioexplorer.NAME_PROTEIN_E, source=COMPLEX_PATHS[0],
             site_indices=indices,
@@ -191,8 +195,8 @@ def add_cell(bioexplorer, name, size, height, position=Vector3()):
     membrane = Membrane(
         sources=[PDB_FOLDER + 'membrane/popc.pdb'], occurences=1200000)
     cell = Cell(
-        name=name, size=Vector2(size, height), shape=bioexplorer.ASSEMBLY_SHAPE_SINUSOIDAL,
-        membrane=membrane, receptor=ace2_receptor)
+        name=name, size=size, shape=bioexplorer.ASSEMBLY_SHAPE_SINUSOIDAL,
+        membrane=membrane, receptor=ace2_receptor, extra_parameters=[height])
     bioexplorer.add_cell(
         cell=cell, position=position, representation=PROTEIN_REPRESENTATION)
 
@@ -216,7 +220,7 @@ def add_cell(bioexplorer, name, size, height, position=Vector3()):
                 assembly_name=name, name=o_glycan_name, source=O_GLYCAN_PATHS[0],
                 protein_name=name + '_' + bioexplorer.NAME_RECEPTOR,
                 representation=PROTEIN_REPRESENTATION, chain_ids=[2, 4], site_indices=[index[0]],
-                orientation=index[1])
+                rotation=index[1])
             bioexplorer.add_sugars(o_glycan)
 
 
@@ -242,7 +246,7 @@ def add_glucose(bioexplorer, size, number):
     protein = Protein(
         sources=[GLUCOSE_PATH], load_non_polymer_chemicals=True, occurences=number)
     volume = Volume(
-        name=bioexplorer.NAME_GLUCOSE, size=Vector2(size, size), protein=protein)
+        name=bioexplorer.NAME_GLUCOSE, size=size, protein=protein)
     bioexplorer.add_volume(
         volume=volume, representation=bioexplorer.REPRESENTATION_ATOMS,
         position=Vector3(0.0, size / 2.0 - 200.0, 0.0))
@@ -252,7 +256,7 @@ def add_lactoferrins(bioexplorer, size, number):
     lactoferrins = Protein(
         sources=[LACTOFERRINS_PATH], load_non_polymer_chemicals=True, occurences=number)
     lactoferrins_volume = Volume(
-        name=bioexplorer.NAME_LACTOFERRIN, size=Vector2(size, size), protein=lactoferrins)
+        name=bioexplorer.NAME_LACTOFERRIN, size=size, protein=lactoferrins)
     bioexplorer.add_volume(
         volume=lactoferrins_volume, representation=bioexplorer.REPRESENTATION_ATOMS,
         position=Vector3(0.0, size / 2.0 - 200.0, 0.0))
@@ -262,7 +266,7 @@ def add_defensins(bioexplorer, size, number):
     defensins = Protein(
         sources=[DEFENSINS_PATH], load_non_polymer_chemicals=True, occurences=number)
     defensins_volume = Volume(
-        name=bioexplorer.NAME_DEFENSIN, size=Vector2(size, size), protein=defensins)
+        name=bioexplorer.NAME_DEFENSIN, size=size, protein=defensins)
     bioexplorer.add_volume(
         volume=defensins_volume, representation=bioexplorer.REPRESENTATION_ATOMS,
         position=Vector3(0.0, size / 2.0 - 200.0, 0.0))
@@ -281,21 +285,21 @@ def test_high_glucose():
 
         # Build full model
         add_virus(
-            bioexplorer, name='Coronavirus 1', position=Vector3(-289.5, -97, -97.5),
+            bioexplorer, name='Coronavirus 1', position=Vector3(-289.5, -97.0, -97.5),
             open_conformation_indices=[1])
         add_virus(
-            bioexplorer, name='Coronavirus 2', position=Vector3(-79.5, -102, 229.5),
+            bioexplorer, name='Coronavirus 2', position=Vector3(-79.5, -102.0, 229.5),
             open_conformation_indices=[1])
         add_virus(
-            bioexplorer, name='Coronavirus 3', position=Vector3(296.5, -125, 225.5),
+            bioexplorer, name='Coronavirus 3', position=Vector3(296.5, -125.0, 225.5),
             open_conformation_indices=[1])
         add_virus(
-            bioexplorer, name='Coronavirus 4', position=Vector3(4.5, 100, 7.5))
+            bioexplorer, name='Coronavirus 4', position=Vector3(4.5, 100.0, 7.5))
         add_virus(
-            bioexplorer, name='Coronavirus 5', position=Vector3(204.5, -100, 27.5),
+            bioexplorer, name='Coronavirus 5', position=Vector3(204.5, -100.0, 27.5),
             open_conformation_indices=[1])
         add_virus(
-            bioexplorer, name='Coronavirus 6', position=Vector3(54.5, -100, -257.5),
+            bioexplorer, name='Coronavirus 6', position=Vector3(54.5, -100.0, -257.5),
             open_conformation_indices=[1])
 
         add_cell(

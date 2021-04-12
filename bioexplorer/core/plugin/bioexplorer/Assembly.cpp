@@ -38,9 +38,9 @@ Assembly::Assembly(Scene &scene, const AssemblyDescriptor &ad)
         PLUGIN_THROW(std::runtime_error(
             "Position must be a sequence of 3 float values"));
 
-    if (ad.orientation.size() != 4)
+    if (ad.rotation.size() != 4)
         PLUGIN_THROW(std::runtime_error(
-            "Orientation must be a sequence of 4 float values"));
+            "rotation must be a sequence of 4 float values"));
 
     if (ad.clippingPlanes.size() % 4 != 0)
         PLUGIN_THROW(std::runtime_error(
@@ -88,13 +88,13 @@ void Assembly::addProtein(const ProteinDescriptor &pd)
     auto modelDescriptor = protein->getModelDescriptor();
 
     const Vector3f position = {pd.position[0], pd.position[1], pd.position[2]};
-    const Quaterniond orientation = {pd.orientation[0], pd.orientation[1],
-                                     pd.orientation[2], pd.orientation[3]};
+    const Quaterniond rotation = {pd.rotation[0], pd.rotation[1],
+                                  pd.rotation[2], pd.rotation[3]};
 
     _processInstances(modelDescriptor, pd.name, pd.shape, pd.assemblyParams,
-                      pd.occurrences, position, orientation,
-                      pd.allowedOccurrences, pd.randomSeed,
-                      pd.positionRandomizationType, pd.locationCutoffAngle);
+                      pd.occurrences, position, rotation, pd.allowedOccurrences,
+                      pd.randomSeed, pd.positionRandomizationType,
+                      pd.locationCutoffAngle);
 
     _proteins[pd.name] = std::move(protein);
     _scene.addModel(modelDescriptor);
@@ -109,12 +109,12 @@ void Assembly::addMembrane(const MembraneDescriptor &md)
 
     const Vector3f position = {_descriptor.position[0], _descriptor.position[1],
                                _descriptor.position[2]};
-    const Quaterniond orientation = {_descriptor.orientation[0],
-                                     _descriptor.orientation[1],
-                                     _descriptor.orientation[2],
-                                     _descriptor.orientation[3]};
+    const Quaterniond rotation = {_descriptor.rotation[0],
+                                  _descriptor.rotation[1],
+                                  _descriptor.rotation[2],
+                                  _descriptor.rotation[3]};
 
-    MembranePtr membrane(new Membrane(_scene, md, position, orientation,
+    MembranePtr membrane(new Membrane(_scene, md, position, rotation,
                                       _clippingPlanes, _occupiedDirections));
     _membrane = std::move(membrane);
 }
@@ -171,7 +171,7 @@ void Assembly::addMeshBasedMembrane(const MeshBasedMembraneDescriptor &md)
 void Assembly::_processInstances(
     ModelDescriptorPtr md, const std::string &name, const AssemblyShape shape,
     const floats &assemblyParams, const size_t occurrences,
-    const Vector3f &position, const Quaterniond &orientation,
+    const Vector3f &position, const Quaterniond &rotation,
     const size_ts &allowedOccurrences, const size_t randomSeed,
     const PositionRandomizationType &randomizationType,
     const float locationCutoffAngle)
@@ -185,10 +185,10 @@ void Assembly::_processInstances(
         randomizationType == PositionRandomizationType::circular)
         rnd = rand() % occurrences;
 
-    const Quaterniond assemblyOrientation = {_descriptor.orientation[0],
-                                             _descriptor.orientation[1],
-                                             _descriptor.orientation[2],
-                                             _descriptor.orientation[3]};
+    const Quaterniond assemblyrotation = {_descriptor.rotation[0],
+                                          _descriptor.rotation[1],
+                                          _descriptor.rotation[2],
+                                          _descriptor.rotation[3]};
     const Vector3f assemblyPosition = {_descriptor.position[0],
                                        _descriptor.position[1],
                                        _descriptor.position[2]};
@@ -200,6 +200,7 @@ void Assembly::_processInstances(
 
     const float size = params[0];
     RandomizationInformation randInfo;
+    randInfo.seed = randomSeed;
     randInfo.randomizationType = randomizationType;
     randInfo.positionStrength = params[2];
     randInfo.rotationStrength = params[4];
@@ -215,15 +216,15 @@ void Assembly::_processInstances(
             continue;
 
         Transformation transformation;
-        const size_t rndPosSeed = (params[1] == 0 ? 0 : params[1] + i);
-        const size_t rndDirSeed = (params[3] == 0 ? 0 : params[3] + i);
+        randInfo.positionSeed = (params[1] == 0 ? 0 : params[1] + i);
+        randInfo.rotationSeed = (params[3] == 0 ? 0 : params[3] + i);
 
         switch (shape)
         {
         case AssemblyShape::spherical:
         {
-            transformation = getSphericalPosition(rnd, position, size, i,
-                                                  occurrences, randInfo);
+            transformation =
+                getSphericalPosition(position, size, i, occurrences, randInfo);
             break;
         }
         case AssemblyShape::sinusoidal:
@@ -240,7 +241,7 @@ void Assembly::_processInstances(
         case AssemblyShape::fan:
         {
             transformation =
-                getFanPosition(rnd, position, size, i, occurrences, randInfo);
+                getFanPosition(position, size, i, occurrences, randInfo);
             break;
         }
         case AssemblyShape::bezier:
@@ -260,9 +261,8 @@ void Assembly::_processInstances(
         case AssemblyShape::spherical_to_planar:
         {
             transformation =
-                getSphericalToPlanarPosition(rnd, position, size, i,
-                                             occurrences, randInfo,
-                                             extraParameter);
+                getSphericalToPlanarPosition(position, size, i, occurrences,
+                                             randInfo, extraParameter);
             break;
         }
         default:
@@ -272,7 +272,7 @@ void Assembly::_processInstances(
 
 #if 0 // TO REMOVE?
       // Remove membrane where proteins are. This is currently done according
-      // to the vector orientation
+      // to the vector rotation
         bool occupied{false};
         if (locationCutoffAngle != 0.f)
             for (const auto &occupiedDirection : _occupiedDirections)
@@ -286,15 +286,19 @@ void Assembly::_processInstances(
             continue;
 #endif
 
-        Transformation finalTransformation;
+        // Final transformation
         const Vector3f translation =
             assemblyPosition +
-            Vector3f(assemblyOrientation *
+            Vector3f(assemblyrotation *
                      Vector3d(transformation.getTranslation()));
 
+        if (isClipped(translation, _clippingPlanes))
+            continue;
+
+        Transformation finalTransformation;
         finalTransformation.setTranslation(translation);
         finalTransformation.setRotation(
-            assemblyOrientation * transformation.getRotation() * orientation);
+            assemblyrotation * transformation.getRotation() * rotation);
 
         if (count == 0)
             md->setTransformation(finalTransformation);
@@ -485,22 +489,20 @@ void Assembly::setProteinInstanceTransformation(
     const Vector3f position{descriptor.position[0], descriptor.position[1],
                             descriptor.position[2]};
 
-    if (descriptor.orientation.size() != 4)
+    if (descriptor.rotation.size() != 4)
         PLUGIN_THROW(std::runtime_error(
             "Invalid number of float for position of protein " +
             descriptor.name + " in assembly " + descriptor.assemblyName));
-    const Quaterniond orientation{descriptor.orientation[0],
-                                  descriptor.orientation[1],
-                                  descriptor.orientation[2],
-                                  descriptor.orientation[3]};
+    const Quaterniond rotation{descriptor.rotation[0], descriptor.rotation[1],
+                               descriptor.rotation[2], descriptor.rotation[3]};
 
     PLUGIN_INFO << "Modifying instance " << descriptor.instanceIndex
                 << " of protein " << descriptor.name << " in assembly "
                 << descriptor.assemblyName << " with position=" << position
-                << " and orientation=" << orientation << std::endl;
+                << " and rotation=" << rotation << std::endl;
     Transformation newTransformation = transformation;
     newTransformation.setTranslation(position);
-    newTransformation.setRotation(orientation);
+    newTransformation.setRotation(rotation);
     instance->setTransformation(newTransformation);
     if (descriptor.instanceIndex == 0)
         modelDescriptor->setTransformation(newTransformation);

@@ -80,7 +80,7 @@ bool from_json(AssemblyDescriptor &param, const std::string &payload)
         auto js = nlohmann::json::parse(payload);
         FROM_JSON(param, js, name);
         FROM_JSON(param, js, position);
-        FROM_JSON(param, js, orientation);
+        FROM_JSON(param, js, rotation);
         FROM_JSON(param, js, clippingPlanes);
     }
     catch (...)
@@ -98,7 +98,7 @@ std::string to_json(const AssemblyDescriptor &payload)
 
         TO_JSON(payload, js, name);
         TO_JSON(payload, js, position);
-        TO_JSON(payload, js, orientation);
+        TO_JSON(payload, js, rotation);
         TO_JSON(payload, js, clippingPlanes);
         return js.dump();
     }
@@ -256,7 +256,7 @@ bool from_json(MembraneDescriptor &param, const std::string &payload)
         FROM_JSON(param, js, randomSeed);
         FROM_JSON(param, js, locationCutoffAngle);
         FROM_JSON(param, js, positionRandomizationType);
-        FROM_JSON(param, js, orientation);
+        FROM_JSON(param, js, rotation);
     }
     catch (...)
     {
@@ -288,7 +288,7 @@ bool from_json(ProteinDescriptor &param, const std::string &payload)
         FROM_JSON(param, js, locationCutoffAngle);
         FROM_JSON(param, js, positionRandomizationType);
         FROM_JSON(param, js, position);
-        FROM_JSON(param, js, orientation);
+        FROM_JSON(param, js, rotation);
     }
     catch (...)
     {
@@ -321,7 +321,7 @@ std::string to_json(const ProteinDescriptor &payload)
         TO_JSON(payload, js, locationCutoffAngle);
         TO_JSON(payload, js, positionRandomizationType);
         TO_JSON(payload, js, position);
-        TO_JSON(payload, js, orientation);
+        TO_JSON(payload, js, rotation);
         return js.dump();
     }
     catch (...)
@@ -346,7 +346,7 @@ bool from_json(SugarsDescriptor &param, const std::string &payload)
         FROM_JSON(param, js, recenter);
         FROM_JSON(param, js, chainIds);
         FROM_JSON(param, js, siteIndices);
-        FROM_JSON(param, js, orientation);
+        FROM_JSON(param, js, rotation);
     }
     catch (...)
     {
@@ -372,7 +372,7 @@ bool from_json(MeshBasedMembraneDescriptor &param, const std::string &payload)
         FROM_JSON(param, js, representation);
         FROM_JSON(param, js, randomSeed);
         FROM_JSON(param, js, position);
-        FROM_JSON(param, js, orientation);
+        FROM_JSON(param, js, rotation);
         FROM_JSON(param, js, scale);
     }
     catch (...)
@@ -564,7 +564,7 @@ bool from_json(ProteinInstanceTransformationDescriptor &param,
         FROM_JSON(param, js, name);
         FROM_JSON(param, js, instanceIndex);
         FROM_JSON(param, js, position);
-        FROM_JSON(param, js, orientation);
+        FROM_JSON(param, js, rotation);
     }
     catch (...)
     {

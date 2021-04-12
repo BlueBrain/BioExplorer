@@ -128,14 +128,14 @@ bool isClipped(const Vector3f& position, const Vector4fs& clippingPlanes)
     return !visible;
 }
 
-Transformation getSphericalPosition(const size_t rnd, const Vector3f& position,
+Transformation getSphericalPosition(const Vector3f& position,
                                     const float radius, const size_t occurence,
                                     const size_t occurences,
                                     const RandomizationInformation& randInfo)
 {
     const float offset = 2.f / occurences;
     const float increment = M_PI * (3.f - sqrt(5.f));
-    const size_t index = (occurence + rnd) % occurences;
+    const size_t index = (occurence + randInfo.seed) % occurences;
 
     // Position randomizer
     float R = radius;
@@ -157,7 +157,7 @@ Transformation getSphericalPosition(const size_t rnd, const Vector3f& position,
     else
         pos = position + R * d;
 
-    // Orientation randomizer
+    // rotation randomizer
     if (randInfo.rotationSeed != 0)
         d = d + randInfo.rotationStrength *
                     Vector3f(rnd2(randInfo.rotationSeed + index * 2),
@@ -170,9 +170,8 @@ Transformation getSphericalPosition(const size_t rnd, const Vector3f& position,
     return transformation;
 }
 
-Transformation getFanPosition(const size_t rnd, const Vector3f& position,
-                              const float radius, const size_t occurence,
-                              const size_t occurences,
+Transformation getFanPosition(const Vector3f& position, const float radius,
+                              const size_t occurence, const size_t occurences,
                               const RandomizationInformation& randInfo)
 {
     const float offset = 2.f / occurences;
@@ -187,7 +186,7 @@ Transformation getFanPosition(const size_t rnd, const Vector3f& position,
     // Sphere filling
     const float y = ((occurence * offset) - 1.f) + offset / 2.f;
     const float r = sqrt(1.f - pow(y, 2.f));
-    const float phi = ((occurence + rnd) % occurences) * increment;
+    const float phi = ((occurence + randInfo.seed) % occurences) * increment;
     const float x = cos(phi) * r;
     const float z = sin(phi) * r;
     const Vector3f d{x, y, z};
@@ -312,13 +311,13 @@ Transformation getBezierPosition(const Vector3fs& points, const float scale,
 }
 
 Transformation getSphericalToPlanarPosition(
-    const size_t rnd, const Vector3f& center, const float radius,
-    const size_t occurence, const size_t occurences,
-    const RandomizationInformation& randInfo, const float morphingStep)
+    const Vector3f& center, const float radius, const size_t occurence,
+    const size_t occurences, const RandomizationInformation& randInfo,
+    const float morphingStep)
 {
     const float offset = 2.f / occurences;
     const float increment = M_PI * (3.f - sqrt(5.f));
-    const size_t index = (occurence + rnd) % occurences;
+    const size_t index = (occurence + randInfo.seed) % occurences;
 
     // Position randomizer
     float R = radius;
@@ -343,7 +342,7 @@ Transformation getSphericalToPlanarPosition(
 
     Vector3f endPos = startPos;
 
-    // Orientation randomizer
+    // rotation randomizer
     if (randInfo.rotationSeed != 0)
         startDir =
             startDir + randInfo.rotationStrength *

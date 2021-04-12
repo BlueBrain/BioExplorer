@@ -58,7 +58,7 @@ std::string& trim(std::string& s);
 bool isClipped(const Vector3f& position, const Vector4fs& clippingPlanes);
 
 /**
- * @brief getSphericalPosition Provide a random position and orientation on a
+ * @brief getSphericalPosition Provide a random position and rotation on a
  * sphere
  * @param rnd Random seed for the position on the sphere
  * @param center Center of the sphere in the 3D scene
@@ -67,8 +67,8 @@ bool isClipped(const Vector3f& position, const Vector4fs& clippingPlanes);
  * (see next parameters)
  * @param occurences Maximum number of occurences on the sphere
  * @param randInfo Type of randomization to apply to the position and
- * orientation
- * @return Transformation of the random position and orientation on the sphere
+ * rotation
+ * @return Transformation of the random position and rotation on the sphere
  */
 Transformation getSphericalPosition(const Vector3f& position,
                                     const float radius, const size_t occurence,
@@ -81,8 +81,8 @@ Transformation getSphericalPosition(const Vector3f& position,
  * @param center Center of the delimited plane in the 3D scene
  * @param size Size of the side of square
  * @param randInfo Type of randomization to apply to the position and
- * orientation
- * @return Transformation of the random position and orientation on the plane
+ * rotation
+ * @return Transformation of the random position and rotation on the plane
  */
 Transformation getPlanarPosition(const Vector3f& position, const float size,
                                  const RandomizationInformation& randInfo);
@@ -93,8 +93,8 @@ Transformation getPlanarPosition(const Vector3f& position, const float size,
  * @param center Center of the cube in the 3D scene
  * @param size Size of the side of cube
  * @param randInfo Type of randomization to apply to the position and
- * orientation
- * @return Transformation of the random position and orientation on the plane
+ * rotation
+ * @return Transformation of the random position and rotation on the plane
  */
 Transformation getCubicPosition(const Vector3f& center, const float size,
                                 const RandomizationInformation& randInfo);
@@ -116,8 +116,8 @@ float sinusoide(const float x, const float z);
  * @param amplitude Amplitude of the sinosoidal function
  * @param occurence Occurence of the position amongst the maximum of occurences
  * @param randInfo Type of randomization to apply to the position and
- * orientation
- * @return Transformation of the random position and orientation on the plane
+ * rotation
+ * @return Transformation of the random position and rotation on the plane
  */
 Transformation getSinosoidalPosition(const Vector3f& center, const float size,
                                      const float amplitude,
@@ -133,8 +133,8 @@ Transformation getSinosoidalPosition(const Vector3f& center, const float size,
  * (see next parameters)
  * @param occurences Maximum number of occurences on the sphere
  * @param randInfo Type of randomization to apply to the position and
- * orientation
- * @return Transformation of the random position and orientation on the plane
+ * rotation
+ * @return Transformation of the random position and rotation on the plane
  */
 Transformation getFanPosition(const Vector3f& center, const float radius,
                               const size_t occurence, const size_t occurences,
@@ -146,7 +146,7 @@ Transformation getFanPosition(const Vector3f& center, const float radius,
  * @param points Points defining the Bezier curve
  * @param scale Scale to apply to the points
  * @param t Value of t along the Bezier curve (0..1)
- * @return Transformation of the position and orientation on the Bezier curve
+ * @return Transformation of the position and rotation on the Bezier curve
  */
 Transformation getBezierPosition(const Vector3fs& points, const float scale,
                                  const float t);
@@ -160,9 +160,9 @@ Transformation getBezierPosition(const Vector3fs& points, const float scale,
  * (see next parameters)
  * @param occurences Maximum number of occurences on the sphere
  * @param randInfo Type of randomization to apply to the position and
- * orientation
+ * rotation
  * @param morphingStep
- * @return Transformation of the random position and orientation on the plane
+ * @return Transformation of the random position and rotation on the plane
  */
 Transformation getSphericalToPlanarPosition(
     const Vector3f& center, const float radius, const size_t occurence,

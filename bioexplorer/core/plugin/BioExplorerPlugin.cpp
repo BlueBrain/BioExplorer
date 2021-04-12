@@ -755,11 +755,11 @@ Response BioExplorerPlugin::_getProteinInstanceTransformation(
             const auto transformation =
                 (*it).second->getProteinInstanceTransformation(payload);
             const auto &position = transformation.getTranslation();
-            const auto &orientation = transformation.getRotation();
+            const auto &rotation = transformation.getRotation();
             std::stringstream s;
             s << "position=" << position.x << "," << position.y << ","
-              << position.z << "|orientation=" << orientation.w << ","
-              << orientation.x << "," << orientation.y << "," << orientation.z;
+              << position.z << "|rotation=" << rotation.w << "," << rotation.x
+              << "," << rotation.y << "," << rotation.z;
             response.contents = s.str();
         }
         else

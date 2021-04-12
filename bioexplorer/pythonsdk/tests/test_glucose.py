@@ -43,7 +43,7 @@ def test_glucose():
     glucose_path = pdb_folder + 'glucose.pdb'
 
     # Scene parameters
-    scene_size = 800
+    scene_size = 800.0
 
     # Glucose
     protein = Protein(
@@ -53,9 +53,7 @@ def test_glucose():
     )
 
     volume = Volume(
-        name=bio_explorer.NAME_GLUCOSE,
-        size=Vector2(scene_size, scene_size),
-        protein=protein
+        name=bio_explorer.NAME_GLUCOSE, size=scene_size, protein=protein
     )
 
     bio_explorer.add_volume(

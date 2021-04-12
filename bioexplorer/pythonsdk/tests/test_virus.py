@@ -51,7 +51,7 @@ def test_virus():
     nb_protein_s_indices = [1, 27, 43]
     nb_protein_e = 42
     nb_protein_m = 50
-    show_rna = False
+    show_rna = True
 
     # Virus parameters
     show_functional_regions = False
@@ -67,24 +67,28 @@ def test_virus():
         if i not in open_conformation_indices:
             closed_conformation_indices.append(i)
 
+    params = [11.5, 0, 0.0, 0, 0.0, 0.0]
     virus_protein_s = Protein(
         sources=[pdb_folder + '6vyb.pdb', pdb_folder + 'sars-cov-2-v1.pdb'],
         load_hydrogen=protein_load_hydrogen, occurences=nb_protein_s,
-        assembly_params=Vector2(11.5, 0.0), cutoff_angle=0.999,
-        orientation=Quaternion(0.087, 0.0, 0.996, 0.0),
+        assembly_params=params, cutoff_angle=0.999,
+        rotation=Quaternion(0.087, 0.0, 0.996, 0.0),
         instance_indices=[open_conformation_indices, closed_conformation_indices])
 
     # Protein M (QHD43419)
+    params = [2.5, 0, 0.0, 0, 0.0, 0.0]
     virus_protein_m = Protein(
         sources=[pdb_folder + 'QHD43419a.pdb'],
         load_hydrogen=protein_load_hydrogen,
-        occurences=nb_protein_m, assembly_params=Vector2(2.0, 0.0), cutoff_angle=0.999,
-        orientation=Quaternion(0.99, 0.0, 0.0, 0.135))
+        occurences=nb_protein_m, assembly_params=params, cutoff_angle=0.999,
+        rotation=Quaternion(0.99, 0.0, 0.0, 0.135))
+
     # Protein E (QHD43418 P0DTC4)
+    params = [2.5, 0, 0.0, 0, 0.0, 0.0]
     virus_protein_e = Protein(
         sources=[pdb_folder + 'QHD43418a.pdb'], load_hydrogen=protein_load_hydrogen,
-        occurences=nb_protein_e, assembly_params=Vector2(3.0, 0.0), cutoff_angle=0.9999,
-        orientation=Quaternion(0.705, 0.705, -0.04, -0.04))
+        occurences=nb_protein_e, assembly_params=params, cutoff_angle=0.9999,
+        rotation=Quaternion(0.705, 0.705, -0.04, -0.04))
 
     # Virus membrane
     virus_membrane = Membrane(sources=[pdb_folder + 'membrane/popc.pdb'], occurences=15000)
@@ -95,7 +99,7 @@ def test_virus():
     if show_rna:
         clip_planes.append([0.0, 0.0, -1.0, 15.0])
         rna_sequence = RNASequence(
-            source=rna_folder + 'sars-cov-2.rna', assembly_params=Vector2(11.0, 0.5),
+            source=rna_folder + 'sars-cov-2.rna', assembly_params=[11.0, 0.5],
             t_range=Vector2(0, 30.5 * math.pi), shape=bio_explorer.RNA_SHAPE_TREFOIL_KNOT,
             shape_params=Vector3(1.51, 1.12, 1.93))
 
@@ -104,7 +108,7 @@ def test_virus():
     coronavirus = Virus(
         name=name, protein_s=virus_protein_s, protein_e=virus_protein_e, protein_m=virus_protein_m,
         membrane=virus_membrane, rna_sequence=rna_sequence,
-        assembly_params=Vector3(virus_radius, 1.5, 0.0))
+        assembly_params=[virus_radius, 1, 0.025, 2, 0.4, 0.0])
 
     bio_explorer.add_virus(
         virus=coronavirus, position=Vector3(-70.0, -100.0, 230.0),
@@ -160,7 +164,7 @@ def test_virus():
         indices = [5]
         protein_name = name + '_' + bio_explorer.NAME_PROTEIN_M
         high_mannose_glycans = Sugars(
-            orientation=Quaternion(0.707, 0.0, 0.0, 0.707),
+            rotation=Quaternion(0.707, 0.0, 0.0, 0.707),
             assembly_name=name, name=protein_name + '_' + bio_explorer.NAME_GLYCAN_HIGH_MANNOSE,
             protein_name=protein_name, source=high_mannose_paths[0],
             site_indices=indices,
@@ -172,7 +176,7 @@ def test_virus():
         indices = [48, 66]
         protein_name = name + '_' + bio_explorer.NAME_PROTEIN_E
         complex_glycans = Sugars(
-            orientation=Quaternion(0.707, 0.0, 0.0, 0.707),
+            rotation=Quaternion(0.707, 0.0, 0.0, 0.707),
             assembly_name=name, name=protein_name + '_' + bio_explorer.NAME_GLYCAN_COMPLEX,
             protein_name=protein_name, source=complex_paths[0],
             site_indices=indices,

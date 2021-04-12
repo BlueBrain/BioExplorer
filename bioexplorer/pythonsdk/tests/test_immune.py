@@ -54,9 +54,7 @@ def test_immune():
     )
 
     lactoferrins_volume = Volume(
-        name=bio_explorer.NAME_LACTOFERRIN,
-        size=Vector2(scene_size, scene_size),
-        protein=lactoferrins
+        name=bio_explorer.NAME_LACTOFERRIN, size=scene_size, protein=lactoferrins
     )
 
     bio_explorer.add_volume(
@@ -73,9 +71,7 @@ def test_immune():
     )
 
     defensins_volume = Volume(
-        name=bio_explorer.NAME_DEFENSIN,
-        size=Vector2(scene_size, scene_size),
-        protein=defensins
+        name=bio_explorer.NAME_DEFENSIN, size=scene_size, protein=defensins
     )
 
     bio_explorer.add_volume(

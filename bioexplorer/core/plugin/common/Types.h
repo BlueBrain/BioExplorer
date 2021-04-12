@@ -140,8 +140,8 @@ typedef struct
     std::string name;
     /** Position of the assembly in the scene */
     std::vector<float> position;
-    /** Orientation of the assembly in the scene */
-    std::vector<float> orientation;
+    /** rotation of the assembly in the scene */
+    std::vector<float> rotation;
     /** Clipping planes applied to the loading of elements of the assembly */
     std::vector<float> clippingPlanes;
 } AssemblyDescriptor;
@@ -186,7 +186,7 @@ enum class ProteinRepresentation
     surface = 3,
     /** Protein surface computed using union of balls */
     union_of_balls = 4,
-    /** Debug mode, usually showing size and orientation of the protein */
+    /** Debug mode, usually showing size and rotation of the protein */
     debug = 5
 };
 
@@ -258,8 +258,8 @@ typedef struct
     float locationCutoffAngle;
     /** Type of randomisation for the elements of the assembly */
     PositionRandomizationType positionRandomizationType;
-    /** Relative orientation of the protein in the assembly */
-    std::vector<float> orientation;
+    /** Relative rotation of the protein in the assembly */
+    std::vector<float> rotation;
 } MembraneDescriptor;
 
 class Membrane;
@@ -306,8 +306,8 @@ typedef struct
     PositionRandomizationType positionRandomizationType;
     /** Relative position of the protein in the assembly */
     std::vector<float> position;
-    /** Relative orientation of the protein in the assembly */
-    std::vector<float> orientation;
+    /** Relative rotation of the protein in the assembly */
+    std::vector<float> rotation;
 } ProteinDescriptor;
 
 class Protein;
@@ -341,8 +341,8 @@ typedef struct
     std::vector<size_t> chainIds;
     /** List of sites on which glycans can be added */
     std::vector<size_t> siteIndices;
-    /** Relative orientation of the glycans on the protein */
-    std::vector<float> orientation;
+    /** Relative rotation of the glycans on the protein */
+    std::vector<float> rotation;
 } SugarsDescriptor;
 
 class Glycans;
@@ -381,8 +381,8 @@ typedef struct
     size_t randomSeed;
     /** Relative position of the mesh in the assembly */
     std::vector<float> position;
-    /** Relative orientation of the mesh in the assembly */
-    std::vector<float> orientation;
+    /** Relative rotation of the mesh in the assembly */
+    std::vector<float> rotation;
     /** Scale of the mesh */
     std::vector<float> scale;
 } MeshBasedMembraneDescriptor;
@@ -723,8 +723,8 @@ typedef struct
     size_t instanceIndex;
     /** Position of the protein instance */
     std::vector<float> position;
-    /** Orientation of the protein instance */
-    std::vector<float> orientation;
+    /** rotation of the protein instance */
+    std::vector<float> rotation;
 } ProteinInstanceTransformationDescriptor;
 
 /**

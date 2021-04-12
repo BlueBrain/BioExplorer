@@ -41,8 +41,8 @@ MeshBasedMembrane::MeshBasedMembrane(Scene& scene,
 
     // Load protein
     const Vector3f position = {md.position[0], md.position[1], md.position[2]};
-    const Quaterniond orientation = {md.orientation[0], md.orientation[1],
-                                     md.orientation[2], md.orientation[3]};
+    const Quaterniond rotation = {md.rotation[0], md.rotation[1],
+                                  md.rotation[2], md.rotation[3]};
     const Vector3f scale = {md.scale[0], md.scale[1], md.scale[2]};
 
     ProteinDescriptor pd;
@@ -53,7 +53,7 @@ MeshBasedMembrane::MeshBasedMembrane(Scene& scene,
     pd.atomRadiusMultiplier = md.atomRadiusMultiplier;
     pd.representation = md.representation;
     pd.position = md.position;
-    pd.orientation = md.orientation;
+    pd.rotation = md.rotation;
 
     // Random seed
     srand(md.randomSeed);
@@ -113,20 +113,20 @@ MeshBasedMembrane::MeshBasedMembrane(Scene& scene,
                 const auto v1 =
                     position +
                     Vector3f(matrix * Vector4f(_toVector3f(i1, meshCenter,
-                                                           scale, orientation),
+                                                           scale, rotation),
                                                1.f));
                 const auto i2 = mesh->mVertices[mesh->mFaces[f].mIndices[1]];
                 const auto v2 =
                     position +
                     Vector3f(matrix * Vector4f(_toVector3f(i2, meshCenter,
-                                                           scale, orientation),
+                                                           scale, rotation),
                                                1.f));
 
                 const auto i3 = mesh->mVertices[mesh->mFaces[f].mIndices[2]];
                 const auto v3 =
                     position +
                     Vector3f(matrix * Vector4f(_toVector3f(i3, meshCenter,
-                                                           scale, orientation),
+                                                           scale, rotation),
                                                1.f));
 
                 if (!isClipped(v1, clipPlanes) || !isClipped(v2, clipPlanes) ||
@@ -140,11 +140,11 @@ MeshBasedMembrane::MeshBasedMembrane(Scene& scene,
         for (const auto& face : faces)
             meshSurface +=
                 _getSurfaceArea(_toVector3f(mesh->mVertices[face.x], meshCenter,
-                                            scale, orientation),
+                                            scale, rotation),
                                 _toVector3f(mesh->mVertices[face.y], meshCenter,
-                                            scale, orientation),
+                                            scale, rotation),
                                 _toVector3f(mesh->mVertices[face.z], meshCenter,
-                                            scale, orientation));
+                                            scale, rotation));
 
         const float proteinSurface = proteinSize.x * proteinSize.x;
 
@@ -154,7 +154,7 @@ MeshBasedMembrane::MeshBasedMembrane(Scene& scene,
 
         PLUGIN_INFO << "----===  MeshBasedMembrane  ===----" << std::endl;
         PLUGIN_INFO << "Position             : " << position << std::endl;
-        PLUGIN_INFO << "Orientation          : " << orientation << std::endl;
+        PLUGIN_INFO << "rotation          : " << rotation << std::endl;
         PLUGIN_INFO << "Scale                : " << scale << std::endl;
         PLUGIN_INFO << "Number of faces      : " << faces.size() << std::endl;
         PLUGIN_INFO << "Mesh surface area    : " << meshSurface << std::endl;
@@ -168,11 +168,11 @@ MeshBasedMembrane::MeshBasedMembrane(Scene& scene,
         for (const auto& face : faces)
         {
             const auto P0 = _toVector3f(mesh->mVertices[face.x], meshCenter,
-                                        scale, orientation);
+                                        scale, rotation);
             const auto P1 = _toVector3f(mesh->mVertices[face.y], meshCenter,
-                                        scale, orientation);
+                                        scale, rotation);
             const auto P2 = _toVector3f(mesh->mVertices[face.z], meshCenter,
-                                        scale, orientation);
+                                        scale, rotation);
 
             const auto V0 = P1 - P0;
             const auto V1 = P2 - P0;
@@ -188,7 +188,7 @@ MeshBasedMembrane::MeshBasedMembrane(Scene& scene,
                 size_t((meshCoveringProgress - instanceCoveringProgress) /
                        instanceSurface);
 
-            // compute protein positions and orientations
+            // compute protein positions and rotations
             for (size_t i = 0; i < nbProteins; ++i)
             {
                 instanceCoveringProgress += instanceSurface;
@@ -236,7 +236,7 @@ MeshBasedMembrane::MeshBasedMembrane(Scene& scene,
                     {
                         const Quaterniond rotation =
                             glm::quatLookAt(normal, UP_VECTOR);
-                        tf.setRotation(rotation * orientation);
+                        tf.setRotation(rotation * rotation);
                     }
                     translation = position + transformedVertex +
                                   normal * md.surfaceFixedOffset +
@@ -284,11 +284,11 @@ Vector3f MeshBasedMembrane::_toVector3f(const aiVector3D& v) const
 Vector3f MeshBasedMembrane::_toVector3f(const aiVector3D& v,
                                         const Vector3f& center,
                                         const Vector3f& scale,
-                                        const Quaterniond& orientation) const
+                                        const Quaterniond& rotation) const
 {
     const Vector3f p{v.x, v.y, v.z};
     const Vector3f a = p - center;
-    const Vector3f b = Vector3f(orientation * Vector3d(p + a)) * scale;
+    const Vector3f b = Vector3f(rotation * Vector3d(p + a)) * scale;
     return b;
 }
 

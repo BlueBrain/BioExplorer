@@ -73,11 +73,10 @@ private:
 
     Scene &_scene;
     Vector3f _position;
-    Quaterniond _orientation;
+    Quaterniond _rotation;
     MembraneDescriptor _descriptor;
     ProteinMap _proteins;
     Vector4fs _clippingPlanes;
-    //    std::map<std::string, std::vector<Transformation>> _transformations;
     const OccupiedDirections &_occupiedDirections;
 };
 } // namespace bioexplorer
