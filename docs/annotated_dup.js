@@ -45,6 +45,8 @@ var annotated_dup =
       [ "PointCloudMesher", "d0/d39/classbioexplorer_1_1PointCloudMesher.html", "d0/d39/classbioexplorer_1_1PointCloudMesher" ],
       [ "Protein", "db/d87/classbioexplorer_1_1Protein.html", "db/d87/classbioexplorer_1_1Protein" ],
       [ "ProteinDescriptor", "de/dc1/structbioexplorer_1_1ProteinDescriptor.html", "de/dc1/structbioexplorer_1_1ProteinDescriptor" ],
+      [ "ProteinInstanceTransformationDescriptor", "d9/d6c/structbioexplorer_1_1ProteinInstanceTransformationDescriptor.html", "d9/d6c/structbioexplorer_1_1ProteinInstanceTransformationDescriptor" ],
+      [ "RandomizationInformation", "df/db9/structbioexplorer_1_1RandomizationInformation.html", "df/db9/structbioexplorer_1_1RandomizationInformation" ],
       [ "Response", "d9/d72/structbioexplorer_1_1Response.html", "d9/d72/structbioexplorer_1_1Response" ],
       [ "RGBColor", "da/d3c/structbioexplorer_1_1RGBColor.html", "da/d3c/structbioexplorer_1_1RGBColor" ],
       [ "RNASequence", "d2/d77/classbioexplorer_1_1RNASequence.html", "d2/d77/classbioexplorer_1_1RNASequence" ],

@@ -126,6 +126,11 @@ Public Member Functions</h2></td></tr>
 <tr class="separator:aefd13aac39fb809f0b0ab056a8ffc9b9"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:af2809585ed88a8955897ae15faa975ee"><td class="memItemLeft" align="right" valign="top">const ProteinMap &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../db/db7/classbioexplorer_1_1Assembly.html#af2809585ed88a8955897ae15faa975ee">getProteins</a> () const</td></tr>
 <tr class="separator:af2809585ed88a8955897ae15faa975ee"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2d5d88a3d69d625259e136f537e1e93f"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../db/db7/classbioexplorer_1_1Assembly.html#a2d5d88a3d69d625259e136f537e1e93f">setProteinInstanceTransformation</a> (const <a class="el" href="../../d9/d6c/structbioexplorer_1_1ProteinInstanceTransformationDescriptor.html">ProteinInstanceTransformationDescriptor</a> &amp;descriptor)</td></tr>
+<tr class="memdesc:a2d5d88a3d69d625259e136f537e1e93f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set the transformation for a specific instance of a protein.  <a href="../../db/db7/classbioexplorer_1_1Assembly.html#a2d5d88a3d69d625259e136f537e1e93f">More...</a><br /></td></tr>
+<tr class="separator:a2d5d88a3d69d625259e136f537e1e93f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af3ca4e63a97402e8dd6a75477ab2dd56"><td class="memItemLeft" align="right" valign="top">const Transformation&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../db/db7/classbioexplorer_1_1Assembly.html#af3ca4e63a97402e8dd6a75477ab2dd56">getProteinInstanceTransformation</a> (const <a class="el" href="../../d9/d6c/structbioexplorer_1_1ProteinInstanceTransformationDescriptor.html">ProteinInstanceTransformationDescriptor</a> &amp;descriptor) const</td></tr>
+<tr class="separator:af3ca4e63a97402e8dd6a75477ab2dd56"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ae0ddb89b63ade59e32c96d3bb221495e"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../db/db7/classbioexplorer_1_1Assembly.html#ae0ddb89b63ade59e32c96d3bb221495e">addMembrane</a> (const <a class="el" href="../../de/d94/structbioexplorer_1_1MembraneDescriptor.html">MembraneDescriptor</a> &amp;descriptor)</td></tr>
 <tr class="memdesc:ae0ddb89b63ade59e32c96d3bb221495e"><td class="mdescLeft">&#160;</td><td class="mdescRight">addMembrane Add a membrane to the assembly  <a href="../../db/db7/classbioexplorer_1_1Assembly.html#ae0ddb89b63ade59e32c96d3bb221495e">More...</a><br /></td></tr>
 <tr class="separator:ae0ddb89b63ade59e32c96d3bb221495e"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -347,7 +352,7 @@ Public Member Functions</h2></td></tr>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="../../df/d5c/Assembly_8cpp_source.html#l00427">427</a> of file <a class="el" href="../../df/d5c/Assembly_8cpp_source.html">Assembly.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../df/d5c/Assembly_8cpp_source.html#l00423">423</a> of file <a class="el" href="../../df/d5c/Assembly_8cpp_source.html">Assembly.cpp</a>.</p>
 
 </div>
 </div>
@@ -402,7 +407,7 @@ Public Member Functions</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>Amino acid sequence and indices for a given protein of the assembly </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="../../df/d5c/Assembly_8cpp_source.html#l00379">379</a> of file <a class="el" href="../../df/d5c/Assembly_8cpp_source.html">Assembly.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../df/d5c/Assembly_8cpp_source.html#l00375">375</a> of file <a class="el" href="../../df/d5c/Assembly_8cpp_source.html">Assembly.cpp</a>.</p>
 
 </div>
 </div>
@@ -462,6 +467,27 @@ Public Member Functions</h2></td></tr>
 
 </div>
 </div>
+<a id="af3ca4e63a97402e8dd6a75477ab2dd56"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af3ca4e63a97402e8dd6a75477ab2dd56">&#9670;&nbsp;</a></span>getProteinInstanceTransformation()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">const Transformation bioexplorer::Assembly::getProteinInstanceTransformation </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="../../d9/d6c/structbioexplorer_1_1ProteinInstanceTransformationDescriptor.html">ProteinInstanceTransformationDescriptor</a> &amp;&#160;</td>
+          <td class="paramname"><em>descriptor</em></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<dl class="section return"><dt>Returns</dt><dd>The transformation for a specific instance of a protein </dd></dl>
+
+<p class="definition">Definition at line <a class="el" href="../../df/d5c/Assembly_8cpp_source.html#l00511">511</a> of file <a class="el" href="../../df/d5c/Assembly_8cpp_source.html">Assembly.cpp</a>.</p>
+
+</div>
+</div>
 <a id="af2809585ed88a8955897ae15faa975ee"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#af2809585ed88a8955897ae15faa975ee">&#9670;&nbsp;</a></span>getProteins()</h2>
 
@@ -514,7 +540,7 @@ Public Member Functions</h2></td></tr>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="../../df/d5c/Assembly_8cpp_source.html#l00417">417</a> of file <a class="el" href="../../df/d5c/Assembly_8cpp_source.html">Assembly.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../df/d5c/Assembly_8cpp_source.html#l00413">413</a> of file <a class="el" href="../../df/d5c/Assembly_8cpp_source.html">Assembly.cpp</a>.</p>
 
 </div>
 </div>
@@ -542,7 +568,7 @@ Public Member Functions</h2></td></tr>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="../../df/d5c/Assembly_8cpp_source.html#l00363">363</a> of file <a class="el" href="../../df/d5c/Assembly_8cpp_source.html">Assembly.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../df/d5c/Assembly_8cpp_source.html#l00359">359</a> of file <a class="el" href="../../df/d5c/Assembly_8cpp_source.html">Assembly.cpp</a>.</p>
 
 </div>
 </div>
@@ -570,7 +596,7 @@ Public Member Functions</h2></td></tr>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="../../df/d5c/Assembly_8cpp_source.html#l00353">353</a> of file <a class="el" href="../../df/d5c/Assembly_8cpp_source.html">Assembly.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../df/d5c/Assembly_8cpp_source.html#l00349">349</a> of file <a class="el" href="../../df/d5c/Assembly_8cpp_source.html">Assembly.cpp</a>.</p>
 
 </div>
 </div>
@@ -634,7 +660,35 @@ Public Member Functions</h2></td></tr>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="../../df/d5c/Assembly_8cpp_source.html#l00312">312</a> of file <a class="el" href="../../df/d5c/Assembly_8cpp_source.html">Assembly.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../df/d5c/Assembly_8cpp_source.html#l00308">308</a> of file <a class="el" href="../../df/d5c/Assembly_8cpp_source.html">Assembly.cpp</a>.</p>
+
+</div>
+</div>
+<a id="a2d5d88a3d69d625259e136f537e1e93f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a2d5d88a3d69d625259e136f537e1e93f">&#9670;&nbsp;</a></span>setProteinInstanceTransformation()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void bioexplorer::Assembly::setProteinInstanceTransformation </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="../../d9/d6c/structbioexplorer_1_1ProteinInstanceTransformationDescriptor.html">ProteinInstanceTransformationDescriptor</a> &amp;&#160;</td>
+          <td class="paramname"><em>descriptor</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Set the transformation for a specific instance of a protein. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">descriptor</td><td>Information about the instance </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p class="definition">Definition at line <a class="el" href="../../df/d5c/Assembly_8cpp_source.html#l00457">457</a> of file <a class="el" href="../../df/d5c/Assembly_8cpp_source.html">Assembly.cpp</a>.</p>
 
 </div>
 </div>
