@@ -145,8 +145,11 @@ void Membrane::_processInstances()
         PLUGIN_THROW(std::runtime_error("Invalid number of shape parameters"));
 
     const float size = params[0];
-    const float rndPosStrength = params[2];
-    const float rndDirStrength = params[4];
+
+    RandomizationInformation randInfo;
+    randInfo.randomizationType = _descriptor.positionRandomizationType;
+    randInfo.positionStrength = params[2];
+    randInfo.rotationStrength = params[4];
     const float extraParameter = params[5];
 
     // Shape instances
@@ -170,78 +173,62 @@ void Membrane::_processInstances()
         const auto &bounds = model.getBounds();
         const Vector3f &center = bounds.getCenter();
 
-        const size_t rndPosSeed = (params[1] == 0 ? 0 : params[1] + i);
-        const size_t rndDirSeed = (params[3] == 0 ? 0 : params[3] + i);
+        RandomizationInformation randInfo;
+        randInfo.randomizationType = _descriptor.positionRandomizationType;
+        randInfo.positionSeed = (params[1] == 0 ? 0 : params[1] + i);
+        randInfo.rotationSeed = (params[3] == 0 ? 0 : params[3] + i);
 
-        Vector3f pos;
-        Quaterniond dir;
+        Transformation transformation;
         switch (_descriptor.shape)
         {
         case AssemblyShape::spherical:
         {
-            getSphericalPosition(rnd, size, i, _descriptor.occurrences,
-                                 _descriptor.positionRandomizationType,
-                                 rndPosSeed, rndPosStrength, rndDirSeed,
-                                 rndDirStrength, Vector3f(), pos, dir);
+            transformation =
+                getSphericalPosition(rnd, Vector3f(), size, i,
+                                     _descriptor.occurrences, randInfo);
             break;
         }
         case AssemblyShape::sinusoidal:
         {
-            getSinosoidalPosition(size, extraParameter, i,
-                                  _descriptor.positionRandomizationType,
-                                  rndPosSeed, rndPosStrength, rndDirSeed,
-                                  rndDirStrength, Vector3f(), pos, dir);
+            transformation = getSinosoidalPosition(Vector3f(), size,
+                                                   extraParameter, i, randInfo);
             break;
         }
         case AssemblyShape::cubic:
         {
-            getCubicPosition(size, Vector3f(), rndPosSeed, rndPosStrength,
-                             rndDirSeed, rndDirStrength, pos, dir);
+            transformation = getCubicPosition(Vector3f(), size, randInfo);
             break;
         }
         case AssemblyShape::fan:
         {
-            getFanPosition(rnd, size, _descriptor.positionRandomizationType,
-                           _descriptor.randomSeed, i, _descriptor.occurrences,
-                           Vector3f(), pos, dir);
+            transformation = getFanPosition(rnd, Vector3f(), size, i,
+                                            _descriptor.occurrences, randInfo);
             break;
         }
         case AssemblyShape::bezier:
         {
-            const Vector3fs points = {
-                {1, 391, 0},   {25, 411, 0},  {48, 446, 0},  {58, 468, 0},
-                {70, 495, 0},  {83, 523, 0},  {110, 535, 0}, {157, 517, 0},
-                {181, 506, 0}, {214, 501, 0}, {216, 473, 0}, {204, 456, 0},
-                {223, 411, 0}, {241, 382, 0}, {261, 372, 0}, {297, 402, 0},
-                {308, 433, 0}, {327, 454, 0}, {355, 454, 0}, {389, 446, 0},
-                {406, 433, 0}, {431, 426, 0}, {458, 443, 0}, {478, 466, 0},
-                {518, 463, 0}, {559, 464, 0}, {584, 478, 0}, {582, 503, 0},
-                {550, 533, 0}, {540, 550, 0}, {540, 574, 0}, {560, 572, 0},
-                {599, 575, 0}, {629, 550, 0}, {666, 548, 0}, {696, 548, 0},
-                {701, 582, 0}, {701, 614, 0}, {683, 639, 0}, {653, 647, 0},
-                {632, 651, 0}, {597, 666, 0}, {570, 701, 0}, {564, 731, 0},
-                {559, 770, 0}, {565, 799, 0}, {577, 819, 0}, {611, 820, 0},
-                {661, 809, 0}, {683, 787, 0}, {700, 768, 0}, {735, 758, 0},
-                {763, 768, 0}, {788, 792, 0}, {780, 820, 0}, {770, 859, 0},
-                {740, 882, 0}, {705, 911, 0}, {688, 931, 0}, {646, 973, 0},
-                {611, 992, 0}, {585, 1022, 0}};
-            getBezierPosition(points, size,
-                              float(i) / float(_descriptor.occurrences), pos,
-                              dir);
+            if ((params.size() - 5) % 3 != 0)
+                PLUGIN_THROW(std::runtime_error(
+                    "Invalid number of floats in assembly extra parameters"));
+            Vector3fs points;
+            for (uint32_t j = 5; j < params.size(); j += 3)
+                points.push_back(
+                    Vector3f(params[j], params[j + 1], params[j + 2]));
+            transformation =
+                getBezierPosition(points, size,
+                                  float(i) / float(_descriptor.occurrences));
             break;
         }
         case AssemblyShape::spherical_to_planar:
         {
-            getSphericalToPlanarPosition(rnd, size, i, _descriptor.occurrences,
-                                         _descriptor.positionRandomizationType,
-                                         rndPosSeed, rndPosStrength, rndDirSeed,
-                                         rndDirStrength, Vector3f(),
-                                         extraParameter, pos, dir);
+            transformation =
+                getSphericalToPlanarPosition(rnd, Vector3f(), size, i,
+                                             _descriptor.occurrences, randInfo,
+                                             extraParameter);
             break;
         }
         default:
-            getPlanarPosition(size, _descriptor.positionRandomizationType,
-                              _descriptor.randomSeed, Vector3f(), pos, dir);
+            transformation = getPlanarPosition(Vector3f(), size, randInfo);
             break;
         }
 
@@ -262,30 +249,18 @@ void Membrane::_processInstances()
 #endif
 
         // Final transformation
-        Transformation tf;
+        Transformation finalTransformation;
         const Vector3f translation =
-            _position + Vector3f(_orientation * Vector3d(pos - center));
-        tf.setTranslation(translation);
-
-#if 1
-        tf.setRotation(_orientation * dir * orientation);
-#else
-        if (_descriptor.randomSeed == 0)
-            tf.setRotation(_orientation * dir * orientation);
-        else
-        {
-            // Add a bit of randomness in the orientation of the proteins
-            Vector3f eulerAngles(0.3 * rnd(), 0.3 * rnd(), 0.3 * rnd());
-            Quaterniond randomOrientation = glm::quat(eulerAngles);
-
-            tf.setRotation(_orientation * dir * orientation *
-                           randomOrientation);
-        }
-#endif
+            _position +
+            Vector3f(_orientation *
+                     (transformation.getTranslation() - Vector3d(center)));
+        finalTransformation.setTranslation(translation);
+        finalTransformation.setRotation(
+            _orientation * transformation.getRotation() * orientation);
 
         if (instanceCounts[id] == 0)
-            md->setTransformation(tf);
-        const ModelInstance instance(true, false, tf);
+            md->setTransformation(finalTransformation);
+        const ModelInstance instance(true, false, finalTransformation);
         md->addInstance(instance);
 
         instanceCounts[id] = instanceCounts[id] + 1;

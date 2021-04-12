@@ -98,6 +98,16 @@ enum class PositionRandomizationType
     radial = 1
 };
 
+typedef struct
+{
+    uint32_t seed;
+    PositionRandomizationType randomizationType;
+    uint32_t positionSeed;
+    float positionStrength;
+    uint32_t rotationSeed;
+    float rotationStrength;
+} RandomizationInformation;
+
 /**
  * @brief Shapes that can be used to enroll RNA into the virus capsid
  *

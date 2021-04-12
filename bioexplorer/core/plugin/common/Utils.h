@@ -28,146 +28,168 @@ namespace bioexplorer
 using namespace brayns;
 
 /**
- * @brief ltrim
- * @param s
- * @return
+ * @brief Left trim of a string
+ * @param s String to trim
+ * @return Trimmed string
  */
 std::string& ltrim(std::string& s);
 
 /**
- * @brief rtrim
- * @param s
- * @return
+ * @brief Right trim of a string
+ * @param s String to trim
+ * @return Trimmed string
  */
 std::string& rtrim(std::string& s);
 
 /**
- * @brief trim
- * @param s
- * @return
+ * @brief Left and right trim of a string
+ * @param s String to trim
+ * @return Trimmed string
  */
 std::string& trim(std::string& s);
 
 /**
- * @brief isClipped
- * @param position
- * @param clippingPlanes
- * @return
+ * @brief isClipped Determine if a 3d position is inside a volume defined by
+ * clipping planes
+ * @param position Position to check
+ * @param clippingPlanes Clipping planes defining the volume
+ * @return True if the position does not belong to the volume, false otherwise
  */
 bool isClipped(const Vector3f& position, const Vector4fs& clippingPlanes);
 
 /**
- * @brief getSphericalPosition
- * @param rnd
- * @param assemblyRadius
- * @param randomizationType
- * @param randomSeed
- * @param occurence
- * @param occurences
- * @param position
- * @param pos
- * @param dir
+ * @brief getSphericalPosition Provide a random position and orientation on a
+ * sphere
+ * @param rnd Random seed for the position on the sphere
+ * @param center Center of the sphere in the 3D scene
+ * @param radius Radius of the sphere
+ * @param occurence Occurence of the position amongst the maximum of occurences
+ * (see next parameters)
+ * @param occurences Maximum number of occurences on the sphere
+ * @param randInfo Type of randomization to apply to the position and
+ * orientation
+ * @return Transformation of the random position and orientation on the sphere
  */
-void getSphericalPosition(
-    const size_t rnd, const float assemblyRadius, const size_t occurence,
-    const size_t occurences, const PositionRandomizationType randomizationType,
-    const size_t randomPositionSeed, const float randomPositionStength,
-    const size_t randomOrientationSeed, const float randomOrientationStength,
-    const Vector3f& position, Vector3f& pos, Quaterniond& dir);
+Transformation getSphericalPosition(const Vector3f& position,
+                                    const float radius, const size_t occurence,
+                                    const size_t occurences,
+                                    const RandomizationInformation& randInfo);
 
 /**
- * @brief getPlanarPosition
- * @param assemblyRadius
- * @param randomizationType
- * @param randomSeed
- * @param position
- * @param pos
- * @param dir
+ * @brief Get a random position in a 2D square along the X and Z axis
+ *
+ * @param center Center of the delimited plane in the 3D scene
+ * @param size Size of the side of square
+ * @param randInfo Type of randomization to apply to the position and
+ * orientation
+ * @return Transformation of the random position and orientation on the plane
  */
-void getPlanarPosition(const float assemblyRadius,
-                       const PositionRandomizationType randomizationType,
-                       const size_t randomSeed, const Vector3f& position,
-                       Vector3f& pos, Quaterniond& dir);
+Transformation getPlanarPosition(const Vector3f& position, const float size,
+                                 const RandomizationInformation& randInfo);
 
 /**
- * @brief getCubicPosition
- * @param assemblyRadius
- * @param position
- * @param pos
- * @param dir
+ * @brief Get the Cubic Position object
+ *
+ * @param center Center of the cube in the 3D scene
+ * @param size Size of the side of cube
+ * @param randInfo Type of randomization to apply to the position and
+ * orientation
+ * @return Transformation of the random position and orientation on the plane
  */
-void getCubicPosition(const float size, const Vector3f& position,
-                      const size_t randomPositionSeed,
-                      const float randomPositionStength,
-                      const size_t randomOrientationSeed,
-                      const float randomOrientationStength, Vector3f& pos,
-                      Quaterniond& dir);
+Transformation getCubicPosition(const Vector3f& center, const float size,
+                                const RandomizationInformation& randInfo);
+
 /**
- * @brief sinusoide
- * @param x
- * @param z
- * @return
+ * @brief
+ *
+ * @param x Position along the x axis
+ * @param z Position along the z axis
+ * @return float Position along the y axis
  */
 float sinusoide(const float x, const float z);
 
 /**
- * @brief getSinosoidalPosition
- * @param size
- * @param height
- * @param randomizationType
- * @param randomSeed
- * @param position
- * @param pos
- * @param dir
+ * @brief Get the Sinosoidal Position object
+ *
+ * @param center Center of the sinosoidal function in the 3D scene
+ * @param size Size of the side of sinosoidal function
+ * @param amplitude Amplitude of the sinosoidal function
+ * @param occurence Occurence of the position amongst the maximum of occurences
+ * @param randInfo Type of randomization to apply to the position and
+ * orientation
+ * @return Transformation of the random position and orientation on the plane
  */
-void getSinosoidalPosition(
-    const float size, const float amplitude, const size_t occurence,
-    const PositionRandomizationType randomizationType,
-    const size_t randomPositionSeed, const float randomPositionStrength,
-    const size_t randomOrientationSeed, const float randomOrientationStrength,
-    const Vector3f& position, Vector3f& pos, Quaterniond& dir);
+Transformation getSinosoidalPosition(const Vector3f& center, const float size,
+                                     const float amplitude,
+                                     const size_t occurence,
+                                     const RandomizationInformation& randInfo);
 
 /**
- * @brief getFanPosition
- * @param rnd
- * @param assemblyRadius
- * @param randomizationType
- * @param randomSeed
- * @param occurence
- * @param occurences
- * @param position
- * @param pos
- * @param dir
+ * @brief Get the Fan Position object
+ *
+ * @param center Center of the fan in the 3D scene
+ * @param radius Radius of the fan in the 3D scene
+ * @param occurence Occurence of the position amongst the maximum of occurences
+ * (see next parameters)
+ * @param occurences Maximum number of occurences on the sphere
+ * @param randInfo Type of randomization to apply to the position and
+ * orientation
+ * @return Transformation of the random position and orientation on the plane
  */
-void getFanPosition(const size_t rnd, const float assemblyRadius,
-                    const PositionRandomizationType randomizationType,
-                    const size_t randomSeed, const size_t occurence,
-                    const size_t occurences, const Vector3f& position,
-                    Vector3f& pos, Quaterniond& dir);
+Transformation getFanPosition(const Vector3f& center, const float radius,
+                              const size_t occurence, const size_t occurences,
+                              const RandomizationInformation& randInfo);
 
 /**
- * @brief getBezierPosition
- * @param points
- * @param assemblyRadius
- * @param t
- * @param pos
- * @param dir
+ * @brief Get the Bezier Position object
+ *
+ * @param points Points defining the Bezier curve
+ * @param scale Scale to apply to the points
+ * @param t Value of t along the Bezier curve (0..1)
+ * @return Transformation of the position and orientation on the Bezier curve
  */
-void getBezierPosition(const Vector3fs& points, const float assemblyRadius,
-                       const float t, Vector3f& pos, Quaterniond& dir);
+Transformation getBezierPosition(const Vector3fs& points, const float scale,
+                                 const float t);
 
-void getSphericalToPlanarPosition(
-    const size_t rnd, const float assemblyRadius, const size_t occurence,
-    const size_t occurences, const PositionRandomizationType randomizationType,
-    const size_t randomPositionSeed, const float randomPositionStrengh,
-    const size_t randomOrientationSeed, const float randomOrientationStrengh,
-    const Vector3f& position, const float morphingStep, Vector3f& pos,
-    Quaterniond& dir);
+/**
+ * @brief Get the Spherical To Planar Position object
+ *
+ * @param center Center of the fan in the 3D scene
+ * @param radius Radius of the fan in the 3D scene
+ * @param occurence Occurence of the position amongst the maximum of occurences
+ * (see next parameters)
+ * @param occurences Maximum number of occurences on the sphere
+ * @param randInfo Type of randomization to apply to the position and
+ * orientation
+ * @param morphingStep
+ * @return Transformation of the random position and orientation on the plane
+ */
+Transformation getSphericalToPlanarPosition(
+    const Vector3f& center, const float radius, const size_t occurence,
+    const size_t occurences, const RandomizationInformation& randInfo,
+    const float morphingStep);
 
-void setTransferFunction(brayns::TransferFunction& tf);
+/**
+ * @brief Set the default transfer function (Unipolar) to a given model
+ *
+ * @param model Model to which the transfer function should be set
+ */
+void setDefaultTransferFunction(Model& model);
 
+/**
+ * @brief Get the Clipping Planes from the scene
+ *
+ * @param scene 3D scene
+ * @return Vector4fs List of clipping planes
+ */
 Vector4fs getClippingPlanes(const Scene& scene);
 
+/**
+ * @brief Generate a random quaternion
+ *
+ * @param seed Seed to apply to the randomness
+ * @return Quaterniond Random quaternion
+ */
 Quaterniond randomQuaternion(const size_t seed);
 
 } // namespace bioexplorer

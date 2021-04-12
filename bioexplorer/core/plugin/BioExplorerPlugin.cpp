@@ -1149,7 +1149,7 @@ void BioExplorerPlugin::_attachFieldsHandler(FieldsHandlerPtr handler)
                           std::to_string(spacing.z);
 
     model->setSimulationHandler(handler);
-    setTransferFunction(model->getTransferFunction());
+    setDefaultTransferFunction(*model);
 
     auto modelDescriptor =
         std::make_shared<ModelDescriptor>(std::move(model), "Fields", metadata);

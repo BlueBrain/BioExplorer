@@ -199,8 +199,10 @@ void Assembly::_processInstances(
         PLUGIN_THROW(std::runtime_error("Invalid number of shape parameters"));
 
     const float size = params[0];
-    const float rndPosStength = params[2];
-    const float rndDirStrength = params[4];
+    RandomizationInformation randInfo;
+    randInfo.randomizationType = randomizationType;
+    randInfo.positionStrength = params[2];
+    randInfo.rotationStrength = params[4];
     const float extraParameter = params[5];
 
     // Shape
@@ -212,9 +214,7 @@ void Assembly::_processInstances(
                       i) == allowedOccurrences.end())
             continue;
 
-        Vector3f pos;
-        Quaterniond dir;
-
+        Transformation transformation;
         const size_t rndPosSeed = (params[1] == 0 ? 0 : params[1] + i);
         const size_t rndDirSeed = (params[3] == 0 ? 0 : params[3] + i);
 
@@ -222,66 +222,51 @@ void Assembly::_processInstances(
         {
         case AssemblyShape::spherical:
         {
-            getSphericalPosition(rnd, size, i, occurrences, randomizationType,
-                                 rndPosSeed, rndPosStength, rndDirSeed,
-                                 rndDirStrength, position, pos, dir);
+            transformation = getSphericalPosition(rnd, position, size, i,
+                                                  occurrences, randInfo);
             break;
         }
         case AssemblyShape::sinusoidal:
         {
-            getSinosoidalPosition(size, extraParameter, i, randomizationType,
-                                  rndPosSeed, rndPosStength, rndDirSeed,
-                                  rndDirStrength, position, pos, dir);
+            transformation = getSinosoidalPosition(position, size,
+                                                   extraParameter, i, randInfo);
             break;
         }
         case AssemblyShape::cubic:
         {
-            getCubicPosition(size, position, rndPosSeed, rndPosStength,
-                             rndDirSeed, rndDirStrength, pos, dir);
+            transformation = getCubicPosition(position, size, randInfo);
             break;
         }
         case AssemblyShape::fan:
         {
-            getFanPosition(rnd, size, randomizationType, randomSeed, i,
-                           occurrences, position, pos, dir);
+            transformation =
+                getFanPosition(rnd, position, size, i, occurrences, randInfo);
             break;
         }
         case AssemblyShape::bezier:
         {
-            const Vector3fs points = {
-                {1, 391, 0},   {25, 411, 0},  {48, 446, 0},  {58, 468, 0},
-                {70, 495, 0},  {83, 523, 0},  {110, 535, 0}, {157, 517, 0},
-                {181, 506, 0}, {214, 501, 0}, {216, 473, 0}, {204, 456, 0},
-                {223, 411, 0}, {241, 382, 0}, {261, 372, 0}, {297, 402, 0},
-                {308, 433, 0}, {327, 454, 0}, {355, 454, 0}, {389, 446, 0},
-                {406, 433, 0}, {431, 426, 0}, {458, 443, 0}, {478, 466, 0},
-                {518, 463, 0}, {559, 464, 0}, {584, 478, 0}, {582, 503, 0},
-                {550, 533, 0}, {540, 550, 0}, {540, 574, 0}, {560, 572, 0},
-                {599, 575, 0}, {629, 550, 0}, {666, 548, 0}, {696, 548, 0},
-                {701, 582, 0}, {701, 614, 0}, {683, 639, 0}, {653, 647, 0},
-                {632, 651, 0}, {597, 666, 0}, {570, 701, 0}, {564, 731, 0},
-                {559, 770, 0}, {565, 799, 0}, {577, 819, 0}, {611, 820, 0},
-                {661, 809, 0}, {683, 787, 0}, {700, 768, 0}, {735, 758, 0},
-                {763, 768, 0}, {788, 792, 0}, {780, 820, 0}, {770, 859, 0},
-                {740, 882, 0}, {705, 911, 0}, {688, 931, 0}, {646, 973, 0},
-                {611, 992, 0}, {585, 1022, 0}};
+            if ((params.size() - 5) % 3 != 0)
+                PLUGIN_THROW(std::runtime_error(
+                    "Invalid number of floats in assembly extra parameters"));
+            Vector3fs points;
+            for (uint32_t j = 5; j < params.size(); j += 3)
+                points.push_back(
+                    Vector3f(params[j], params[j + 1], params[j + 2]));
             const auto assemblySize = assemblyParams[0];
-            getBezierPosition(points, assemblySize,
-                              float(i) / float(occurrences), pos, dir);
+            transformation = getBezierPosition(points, assemblySize,
+                                               float(i) / float(occurrences));
             break;
         }
         case AssemblyShape::spherical_to_planar:
         {
-            getSphericalToPlanarPosition(rnd, size, i, occurrences,
-                                         randomizationType, rndPosSeed,
-                                         rndPosStength, rndDirSeed,
-                                         rndDirStrength, position,
-                                         extraParameter, pos, dir);
+            transformation =
+                getSphericalToPlanarPosition(rnd, position, size, i,
+                                             occurrences, randInfo,
+                                             extraParameter);
             break;
         }
         default:
-            getPlanarPosition(size, randomizationType, randomSeed, position,
-                              pos, dir);
+            transformation = getPlanarPosition(position, size, randInfo);
             break;
         }
 
@@ -301,23 +286,20 @@ void Assembly::_processInstances(
             continue;
 #endif
 
-        Transformation tf;
+        Transformation finalTransformation;
         const Vector3f translation =
-            assemblyPosition + Vector3f(assemblyOrientation * Vector3d(pos));
+            assemblyPosition +
+            Vector3f(assemblyOrientation *
+                     Vector3d(transformation.getTranslation()));
 
-        tf.setTranslation(translation);
-        tf.setRotation(assemblyOrientation * dir * orientation);
+        finalTransformation.setTranslation(translation);
+        finalTransformation.setRotation(
+            assemblyOrientation * transformation.getRotation() * orientation);
 
         if (count == 0)
-            md->setTransformation(tf);
-        const ModelInstance instance(true, false, tf);
+            md->setTransformation(finalTransformation);
+        const ModelInstance instance(true, false, finalTransformation);
         md->addInstance(instance);
-
-#if 0
-        // Store occupied direction
-        if (locationCutoffAngle != 0.f)
-            _occupiedDirections.push_back({dir, locationCutoffAngle});
-#endif
 
         ++count;
     }
