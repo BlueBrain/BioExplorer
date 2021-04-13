@@ -58,7 +58,7 @@ def test_layout():
     bio_explorer.add_protein(
         name=name, protein=m_protein,
         atom_radius_multiplier=protein_radius_multiplier,
-        representation=protein_representation,
+        representation=protein_representation
     )
 
     # Glycans
@@ -69,7 +69,7 @@ def test_layout():
     # High-mannose glycans on Protein M
     indices = [48, 66]
     complex_glycans = Sugars(
-        orientation=Quaternion(0.707, 0.0, 0.0, 0.707),
+        rotation=Quaternion(0.707, 0.0, 0.0, 0.707),
         assembly_name=name, name=bio_explorer.NAME_GLYCAN_COMPLEX,
         protein_name=name, source=complex_paths[0],
         site_indices=indices,

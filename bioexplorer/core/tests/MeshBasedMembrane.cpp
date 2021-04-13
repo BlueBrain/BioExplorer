@@ -65,7 +65,7 @@ MeshBasedMembraneDescriptor getDescriptor()
     descriptor.representation = ProteinRepresentation::atoms;
     descriptor.randomSeed = 0;
     descriptor.position = {0.f, 0.f, 0.f};
-    descriptor.orientation = {1.f, 0.f, 0.f, 0.f};
+    descriptor.rotation = {1.f, 0.f, 0.f, 0.f};
     descriptor.scale = {1.f, 1.f, 1.f};
     return descriptor;
 }

@@ -46,7 +46,7 @@ using namespace std::chrono;
 
 namespace bioexplorer
 {
-const std::string PLUGIN_API_PREFIX = "be_";
+const std::string PLUGIN_API_PREFIX = "be-";
 
 #define CATCH_STD_EXCEPTION()                  \
     catch (const std::runtime_error &e)        \
@@ -225,6 +225,24 @@ void BioExplorerPlugin::init()
         actionInterface->registerRequest<SetAminoAcid, Response>(
             entryPoint, [&](const SetAminoAcid &payload) {
                 return _setAminoAcid(payload);
+            });
+
+        entryPoint = PLUGIN_API_PREFIX + "set-protein-instance-transformation";
+        PLUGIN_INFO << "Registering '" + entryPoint + "' endpoint" << std::endl;
+        actionInterface->registerRequest<
+            ProteinInstanceTransformationDescriptor, Response>(
+            entryPoint,
+            [&](const ProteinInstanceTransformationDescriptor &payload) {
+                return _setProteinInstanceTransformation(payload);
+            });
+
+        entryPoint = PLUGIN_API_PREFIX + "get-protein-instance-transformation";
+        PLUGIN_INFO << "Registering '" + entryPoint + "' endpoint" << std::endl;
+        actionInterface->registerRequest<
+            ProteinInstanceTransformationDescriptor, Response>(
+            entryPoint,
+            [&](const ProteinInstanceTransformationDescriptor &payload) {
+                return _getProteinInstanceTransformation(payload);
             });
 
         entryPoint = PLUGIN_API_PREFIX + "add-rna-sequence";
@@ -452,11 +470,17 @@ Response BioExplorerPlugin::_setGeneralSettings(
 
 Response BioExplorerPlugin::_removeAssembly(const AssemblyDescriptor &payload)
 {
-    auto assembly = _assemblies.find(payload.name);
-    if (assembly != _assemblies.end())
-        _assemblies.erase(assembly);
-
-    return Response();
+    Response response;
+    try
+    {
+        auto assembly = _assemblies.find(payload.name);
+        if (assembly != _assemblies.end())
+            _assemblies.erase(assembly);
+        else
+            response.contents = "Assembly does not exist: " + payload.name;
+    }
+    CATCH_STD_EXCEPTION()
+    return response;
 }
 
 Response BioExplorerPlugin::_addAssembly(const AssemblyDescriptor &payload)
@@ -464,6 +488,9 @@ Response BioExplorerPlugin::_addAssembly(const AssemblyDescriptor &payload)
     Response response;
     try
     {
+        if (_assemblies.find(payload.name) != _assemblies.end())
+            PLUGIN_THROW(
+                std::runtime_error("Assembly already exists: " + payload.name));
         auto &scene = _api->getScene();
         AssemblyPtr assembly = AssemblyPtr(new Assembly(scene, payload));
         _assemblies[payload.name] = std::move(assembly);
@@ -669,11 +696,7 @@ Response BioExplorerPlugin::_addSugars(const SugarsDescriptor &payload) const
             response.contents = msg.str();
         }
     }
-    catch (const std::runtime_error &e)
-    {
-        response.status = false;
-        response.contents = e.what();
-    }
+    CATCH_STD_EXCEPTION()
     return response;
 }
 
@@ -694,11 +717,61 @@ Response BioExplorerPlugin::_setAminoAcid(const SetAminoAcid &payload) const
             response.contents = msg.str();
         }
     }
-    catch (const std::runtime_error &e)
+    CATCH_STD_EXCEPTION()
+    return response;
+}
+
+Response BioExplorerPlugin::_setProteinInstanceTransformation(
+    const ProteinInstanceTransformationDescriptor &payload) const
+{
+    Response response;
+    try
     {
-        response.status = false;
-        response.contents = e.what();
+        auto it = _assemblies.find(payload.assemblyName);
+        if (it != _assemblies.end())
+            (*it).second->setProteinInstanceTransformation(payload);
+        else
+        {
+            std::stringstream msg;
+            msg << "Assembly not found: " << payload.assemblyName;
+            PLUGIN_ERROR << msg.str() << std::endl;
+            response.status = false;
+            response.contents = msg.str();
+        }
     }
+    CATCH_STD_EXCEPTION()
+    return response;
+}
+
+Response BioExplorerPlugin::_getProteinInstanceTransformation(
+    const ProteinInstanceTransformationDescriptor &payload) const
+{
+    Response response;
+    try
+    {
+        auto it = _assemblies.find(payload.assemblyName);
+        if (it != _assemblies.end())
+        {
+            const auto transformation =
+                (*it).second->getProteinInstanceTransformation(payload);
+            const auto &position = transformation.getTranslation();
+            const auto &rotation = transformation.getRotation();
+            std::stringstream s;
+            s << "position=" << position.x << "," << position.y << ","
+              << position.z << "|rotation=" << rotation.w << "," << rotation.x
+              << "," << rotation.y << "," << rotation.z;
+            response.contents = s.str();
+        }
+        else
+        {
+            std::stringstream msg;
+            msg << "Assembly not found: " << payload.assemblyName;
+            PLUGIN_ERROR << msg.str() << std::endl;
+            response.status = false;
+            response.contents = msg.str();
+        }
+    }
+    CATCH_STD_EXCEPTION()
     return response;
 }
 
@@ -1076,7 +1149,7 @@ void BioExplorerPlugin::_attachFieldsHandler(FieldsHandlerPtr handler)
                           std::to_string(spacing.z);
 
     model->setSimulationHandler(handler);
-    setTransferFunction(model->getTransferFunction());
+    setDefaultTransferFunction(*model);
 
     auto modelDescriptor =
         std::make_shared<ModelDescriptor>(std::move(model), "Fields", metadata);

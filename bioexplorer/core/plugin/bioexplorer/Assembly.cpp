@@ -38,9 +38,9 @@ Assembly::Assembly(Scene &scene, const AssemblyDescriptor &ad)
         PLUGIN_THROW(std::runtime_error(
             "Position must be a sequence of 3 float values"));
 
-    if (ad.orientation.size() != 4)
+    if (ad.rotation.size() != 4)
         PLUGIN_THROW(std::runtime_error(
-            "Orientation must be a sequence of 4 float values"));
+            "rotation must be a sequence of 4 float values"));
 
     if (ad.clippingPlanes.size() % 4 != 0)
         PLUGIN_THROW(std::runtime_error(
@@ -88,13 +88,12 @@ void Assembly::addProtein(const ProteinDescriptor &pd)
     auto modelDescriptor = protein->getModelDescriptor();
 
     const Vector3f position = {pd.position[0], pd.position[1], pd.position[2]};
-    const Quaterniond orientation = {pd.orientation[0], pd.orientation[1],
-                                     pd.orientation[2], pd.orientation[3]};
+    const Quaterniond rotation = {pd.rotation[0], pd.rotation[1],
+                                  pd.rotation[2], pd.rotation[3]};
 
     _processInstances(modelDescriptor, pd.name, pd.shape, pd.assemblyParams,
-                      pd.occurrences, position, orientation,
-                      pd.allowedOccurrences, pd.randomSeed,
-                      pd.positionRandomizationType, pd.locationCutoffAngle);
+                      pd.occurrences, position, rotation, pd.allowedOccurrences,
+                      pd.randomSeed, pd.positionRandomizationType);
 
     _proteins[pd.name] = std::move(protein);
     _scene.addModel(modelDescriptor);
@@ -109,13 +108,13 @@ void Assembly::addMembrane(const MembraneDescriptor &md)
 
     const Vector3f position = {_descriptor.position[0], _descriptor.position[1],
                                _descriptor.position[2]};
-    const Quaterniond orientation = {_descriptor.orientation[0],
-                                     _descriptor.orientation[1],
-                                     _descriptor.orientation[2],
-                                     _descriptor.orientation[3]};
+    const Quaterniond rotation = {_descriptor.rotation[0],
+                                  _descriptor.rotation[1],
+                                  _descriptor.rotation[2],
+                                  _descriptor.rotation[3]};
 
-    MembranePtr membrane(new Membrane(_scene, md, position, orientation,
-                                      _clippingPlanes, _occupiedDirections));
+    MembranePtr membrane(
+        new Membrane(_scene, md, position, rotation, _clippingPlanes));
     _membrane = std::move(membrane);
 }
 
@@ -171,10 +170,9 @@ void Assembly::addMeshBasedMembrane(const MeshBasedMembraneDescriptor &md)
 void Assembly::_processInstances(
     ModelDescriptorPtr md, const std::string &name, const AssemblyShape shape,
     const floats &assemblyParams, const size_t occurrences,
-    const Vector3f &position, const Quaterniond &orientation,
+    const Vector3f &position, const Quaterniond &rotation,
     const size_ts &allowedOccurrences, const size_t randomSeed,
-    const PositionRandomizationType &randomizationType,
-    const float locationCutoffAngle)
+    const PositionRandomizationType &randomizationType)
 {
     const float offset = 2.f / occurrences;
     const float increment = M_PI * (3.f - sqrt(5.f));
@@ -185,14 +183,28 @@ void Assembly::_processInstances(
         randomizationType == PositionRandomizationType::circular)
         rnd = rand() % occurrences;
 
-    const Quaterniond assemblyOrientation = {_descriptor.orientation[0],
-                                             _descriptor.orientation[1],
-                                             _descriptor.orientation[2],
-                                             _descriptor.orientation[3]};
+    const Quaterniond assemblyrotation = {_descriptor.rotation[0],
+                                          _descriptor.rotation[1],
+                                          _descriptor.rotation[2],
+                                          _descriptor.rotation[3]};
     const Vector3f assemblyPosition = {_descriptor.position[0],
                                        _descriptor.position[1],
                                        _descriptor.position[2]};
 
+    // Shape parameters
+    const auto &params = assemblyParams;
+    if (params.size() < 6)
+        PLUGIN_THROW(std::runtime_error("Invalid number of shape parameters"));
+
+    const float size = params[0];
+    RandomizationInformation randInfo;
+    randInfo.seed = randomSeed;
+    randInfo.randomizationType = randomizationType;
+    randInfo.positionStrength = params[2];
+    randInfo.rotationStrength = params[4];
+    const float extraParameter = params[5];
+
+    // Shape
     uint64_t count = 0;
     for (uint64_t i = 0; i < occurrences; ++i)
     {
@@ -201,109 +213,79 @@ void Assembly::_processInstances(
                       i) == allowedOccurrences.end())
             continue;
 
-        Vector3f pos;
-        Vector3f dir;
+        Transformation transformation;
+        randInfo.positionSeed = (params[1] == 0 ? 0 : params[1] + i);
+        randInfo.rotationSeed = (params[3] == 0 ? 0 : params[3] + i);
+
         switch (shape)
         {
         case AssemblyShape::spherical:
         {
-            getSphericalPosition(rnd, assemblyParams[0], assemblyParams[1],
-                                 randomizationType, randomSeed, i, occurrences,
-                                 position, pos, dir);
+            transformation =
+                getSphericalPosition(position, size, i, occurrences, randInfo);
             break;
         }
         case AssemblyShape::sinusoidal:
         {
-            const auto assemblySize = assemblyParams[0];
-            const auto assemblyHeight = assemblyParams[1];
-            getSinosoidalPosition(assemblySize, assemblyHeight,
-                                  randomizationType, randomSeed, position, pos,
-                                  dir);
+            transformation = getSinosoidalPosition(position, size,
+                                                   extraParameter, i, randInfo);
             break;
         }
         case AssemblyShape::cubic:
         {
-            const auto assemblySize = assemblyParams[0];
-            getCubicPosition(assemblySize, position, pos, dir);
+            transformation = getCubicPosition(position, size, randInfo);
             break;
         }
         case AssemblyShape::fan:
         {
-            const auto assemblyRadius = assemblyParams[0];
-            getFanPosition(rnd, assemblyRadius, randomizationType, randomSeed,
-                           i, occurrences, position, pos, dir);
+            transformation =
+                getFanPosition(position, size, i, occurrences, randInfo);
             break;
         }
         case AssemblyShape::bezier:
         {
-            const Vector3fs points = {
-                {1, 391, 0},   {25, 411, 0},  {48, 446, 0},  {58, 468, 0},
-                {70, 495, 0},  {83, 523, 0},  {110, 535, 0}, {157, 517, 0},
-                {181, 506, 0}, {214, 501, 0}, {216, 473, 0}, {204, 456, 0},
-                {223, 411, 0}, {241, 382, 0}, {261, 372, 0}, {297, 402, 0},
-                {308, 433, 0}, {327, 454, 0}, {355, 454, 0}, {389, 446, 0},
-                {406, 433, 0}, {431, 426, 0}, {458, 443, 0}, {478, 466, 0},
-                {518, 463, 0}, {559, 464, 0}, {584, 478, 0}, {582, 503, 0},
-                {550, 533, 0}, {540, 550, 0}, {540, 574, 0}, {560, 572, 0},
-                {599, 575, 0}, {629, 550, 0}, {666, 548, 0}, {696, 548, 0},
-                {701, 582, 0}, {701, 614, 0}, {683, 639, 0}, {653, 647, 0},
-                {632, 651, 0}, {597, 666, 0}, {570, 701, 0}, {564, 731, 0},
-                {559, 770, 0}, {565, 799, 0}, {577, 819, 0}, {611, 820, 0},
-                {661, 809, 0}, {683, 787, 0}, {700, 768, 0}, {735, 758, 0},
-                {763, 768, 0}, {788, 792, 0}, {780, 820, 0}, {770, 859, 0},
-                {740, 882, 0}, {705, 911, 0}, {688, 931, 0}, {646, 973, 0},
-                {611, 992, 0}, {585, 1022, 0}};
+            if ((params.size() - 5) % 3 != 0)
+                PLUGIN_THROW(std::runtime_error(
+                    "Invalid number of floats in assembly extra parameters"));
+            Vector3fs points;
+            for (uint32_t j = 5; j < params.size(); j += 3)
+                points.push_back(
+                    Vector3f(params[j], params[j + 1], params[j + 2]));
             const auto assemblySize = assemblyParams[0];
-            getBezierPosition(points, assemblySize,
-                              float(i) / float(occurrences), pos, dir);
+            transformation = getBezierPosition(points, assemblySize,
+                                               float(i) / float(occurrences));
             break;
         }
         case AssemblyShape::spherical_to_planar:
         {
-            getSphericalToPlanarPosition(rnd, assemblyParams[0],
-                                         assemblyParams[1], randomizationType,
-                                         randomSeed, i, occurrences, {0, 0, 0},
-                                         assemblyParams[2], pos, dir);
+            transformation =
+                getSphericalToPlanarPosition(position, size, i, occurrences,
+                                             randInfo, extraParameter);
             break;
         }
         default:
-            const auto assemblySize = assemblyParams[0];
-            getPlanarPosition(assemblySize, randomizationType, randomSeed,
-                              position, pos, dir);
+            transformation = getPlanarPosition(position, size, randInfo);
             break;
         }
 
-        // Remove membrane where proteins are. This is currently done according
-        // to the vector orientation
-        bool occupied{false};
-        if (locationCutoffAngle != 0.f)
-            for (const auto &occupiedDirection : _occupiedDirections)
-                if (dot(dir, occupiedDirection.first) >
-                    occupiedDirection.second)
-                {
-                    occupied = true;
-                    break;
-                }
-        if (occupied)
+        // Final transformation
+        const Vector3f translation =
+            assemblyPosition +
+            Vector3f(assemblyrotation *
+                     Vector3d(transformation.getTranslation()));
+
+        if (isClipped(translation, _clippingPlanes))
             continue;
 
-        const Quaterniond instanceOrientation = glm::quatLookAt(dir, UP_VECTOR);
-
-        Transformation tf;
-        const Vector3f translation =
-            assemblyPosition + Vector3f(assemblyOrientation * Vector3d(pos));
-
-        tf.setTranslation(translation);
-        tf.setRotation(assemblyOrientation * instanceOrientation * orientation);
+        Transformation finalTransformation;
+        finalTransformation.setTranslation(translation);
+        finalTransformation.setRotation(
+            assemblyrotation * transformation.getRotation() * rotation);
 
         if (count == 0)
-            md->setTransformation(tf);
-        const ModelInstance instance(true, false, tf);
+            md->setTransformation(finalTransformation);
+        const ModelInstance instance(true, false, finalTransformation);
         md->addInstance(instance);
-
-        // Store occupied direction
-        if (locationCutoffAngle != 0.f)
-            _occupiedDirections.push_back({dir, locationCutoffAngle});
 
         ++count;
     }
@@ -457,4 +439,86 @@ void Assembly::addRNASequence(const RNASequenceDescriptor &rnad)
     const auto modelDescriptor = _rnaSequence->getModelDescriptor();
     _scene.addModel(modelDescriptor);
 }
+
+void Assembly::setProteinInstanceTransformation(
+    const ProteinInstanceTransformationDescriptor &descriptor)
+{
+    ProteinPtr protein{nullptr};
+    auto itProtein = _proteins.find(descriptor.name);
+    if (itProtein != _proteins.end())
+        protein = (*itProtein).second;
+    else
+        PLUGIN_THROW(std::runtime_error("Protein " + descriptor.name +
+                                        " not found on assembly " +
+                                        descriptor.assemblyName));
+
+    auto modelDescriptor = protein->getModelDescriptor();
+
+    auto &instances = modelDescriptor->getInstances();
+    if (descriptor.instanceIndex >= instances.size())
+        PLUGIN_THROW(std::runtime_error(
+            "Invalid instance index (" +
+            std::to_string(descriptor.instanceIndex) + ") for protein " +
+            descriptor.name + " in assembly " + descriptor.assemblyName));
+
+    auto instance = modelDescriptor->getInstance(descriptor.instanceIndex);
+    auto &transformation = instance->getTransformation();
+
+    if (descriptor.position.size() != 3)
+        PLUGIN_THROW(std::runtime_error(
+            "Invalid number of float for position of protein " +
+            descriptor.name + " in assembly " + descriptor.assemblyName));
+    const Vector3f position{descriptor.position[0], descriptor.position[1],
+                            descriptor.position[2]};
+
+    if (descriptor.rotation.size() != 4)
+        PLUGIN_THROW(std::runtime_error(
+            "Invalid number of float for position of protein " +
+            descriptor.name + " in assembly " + descriptor.assemblyName));
+    const Quaterniond rotation{descriptor.rotation[0], descriptor.rotation[1],
+                               descriptor.rotation[2], descriptor.rotation[3]};
+
+    PLUGIN_INFO << "Modifying instance " << descriptor.instanceIndex
+                << " of protein " << descriptor.name << " in assembly "
+                << descriptor.assemblyName << " with position=" << position
+                << " and rotation=" << rotation << std::endl;
+    Transformation newTransformation = transformation;
+    newTransformation.setTranslation(position);
+    newTransformation.setRotation(rotation);
+    instance->setTransformation(newTransformation);
+    if (descriptor.instanceIndex == 0)
+        modelDescriptor->setTransformation(newTransformation);
+
+    _scene.markModified();
+}
+
+const Transformation Assembly::getProteinInstanceTransformation(
+    const ProteinInstanceTransformationDescriptor &descriptor) const
+{
+    ProteinPtr protein{nullptr};
+    auto itProtein = _proteins.find(descriptor.name);
+    if (itProtein != _proteins.end())
+        protein = (*itProtein).second;
+    else
+        PLUGIN_THROW(std::runtime_error("Protein " + descriptor.name +
+                                        " not found on assembly " +
+                                        descriptor.assemblyName));
+
+    auto modelDescriptor = protein->getModelDescriptor();
+
+    auto &instances = modelDescriptor->getInstances();
+    if (descriptor.instanceIndex >= instances.size())
+        PLUGIN_THROW(std::runtime_error(
+            "Invalid instance index (" +
+            std::to_string(descriptor.instanceIndex) + ") for protein " +
+            descriptor.name + " in assembly " + descriptor.assemblyName));
+
+    auto instance = modelDescriptor->getInstance(descriptor.instanceIndex);
+    auto transformation = instance->getTransformation();
+
+    if (descriptor.instanceIndex == 0)
+        transformation = modelDescriptor->getTransformation();
+    return transformation;
+}
+
 } // namespace bioexplorer

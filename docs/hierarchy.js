@@ -55,6 +55,8 @@ var hierarchy =
     [ "bioexplorer::OOCSceneConfiguration", "dc/daf/structbioexplorer_1_1OOCSceneConfiguration.html", null ],
     [ "bioexplorer::PointCloudMesher", "d0/d39/classbioexplorer_1_1PointCloudMesher.html", null ],
     [ "bioexplorer::ProteinDescriptor", "de/dc1/structbioexplorer_1_1ProteinDescriptor.html", null ],
+    [ "bioexplorer::ProteinInstanceTransformationDescriptor", "d9/d6c/structbioexplorer_1_1ProteinInstanceTransformationDescriptor.html", null ],
+    [ "bioexplorer::RandomizationInformation", "df/db9/structbioexplorer_1_1RandomizationInformation.html", null ],
     [ "Renderer", null, [
       [ "bioexplorer::AdvancedRenderer", "de/d08/classbioexplorer_1_1AdvancedRenderer.html", null ],
       [ "bioexplorer::FieldsRenderer", "d0/d37/classbioexplorer_1_1FieldsRenderer.html", null ]

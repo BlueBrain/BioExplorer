@@ -45,14 +45,10 @@ public:
      * @param descriptor The data structure describing the membrane
      * @param position The position of the membrane in the 3D scene
      * @param clippingPlanes The clipping planes to apply to the membrane
-     * @param occupiedDirections The list of directions for which proteins
-     * should not be added. This is typically used to remove lipid proteins from
-     * areas where other proteins have already been added
      */
     Membrane(Scene &scene, const MembraneDescriptor &descriptor,
              const Vector3f &position, const Quaterniond &orientation,
-             const Vector4fs &clippingPlanes,
-             const OccupiedDirections &occupiedDirections);
+             const Vector4fs &clippingPlanes);
 
     /**
      * @brief Destroy the Membrane object
@@ -73,11 +69,9 @@ private:
 
     Scene &_scene;
     Vector3f _position;
-    Quaterniond _orientation;
+    Quaterniond _rotation;
     MembraneDescriptor _descriptor;
     ProteinMap _proteins;
     Vector4fs _clippingPlanes;
-    //    std::map<std::string, std::vector<Transformation>> _transformations;
-    const OccupiedDirections &_occupiedDirections;
 };
 } // namespace bioexplorer

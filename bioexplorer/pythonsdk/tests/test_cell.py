@@ -42,7 +42,7 @@ def test_cell():
     protein_representation = bio_explorer.REPRESENTATION_ATOMS
 
     # Membrane parameters
-    membrane_size = 800
+    membrane_size = 800.0
     membrane_height = 80
     membrane_nb_receptors = 20
     membrane_nb_lipids = 1200000
@@ -58,10 +58,8 @@ def test_cell():
         occurences=membrane_nb_lipids)
 
     cell = Cell(
-        name='Cell',
-        size=Vector2(membrane_size, membrane_height),
-        shape=bio_explorer.ASSEMBLY_SHAPE_SINUSOIDAL,
-        membrane=membrane, receptor=ace2_receptor)
+        name='Cell', size=membrane_size, shape=bio_explorer.ASSEMBLY_SHAPE_SINUSOIDAL,
+        membrane=membrane, receptor=ace2_receptor, extra_parameters=[membrane_height])
 
     bio_explorer.add_cell(
         cell=cell, position=Vector3(4.5, -186, 7.0),

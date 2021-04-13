@@ -88,6 +88,12 @@ private:
         const AminoAcidInformationDescriptor &payload) const;
     Response _setAminoAcid(const SetAminoAcid &payload) const;
 
+    // Portein instances
+    Response _setProteinInstanceTransformation(
+        const ProteinInstanceTransformationDescriptor &payload) const;
+    Response _getProteinInstanceTransformation(
+        const ProteinInstanceTransformationDescriptor &payload) const;
+
     // Colors and materials
     Response _setColorScheme(const ColorSchemeDescriptor &payload) const;
     Response _setMaterials(const MaterialsDescriptor &payload);

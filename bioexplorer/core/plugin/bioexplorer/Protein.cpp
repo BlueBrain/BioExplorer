@@ -280,13 +280,11 @@ void Protein::_getSitesTransformations(
                 siteBounds = (*it).second;
                 siteCenter = siteBounds.getCenter();
 
-                // Orientation is determined by the center of the site and the
+                // rotation is determined by the center of the site and the
                 // center of the protein
-                const auto bindOrientation =
-                    normalize(siteCenter - proteinCenter);
+                const auto bindrotation = normalize(siteCenter - proteinCenter);
                 positions.push_back(siteCenter);
-                rotations.push_back(
-                    glm::quatLookAt(bindOrientation, UP_VECTOR));
+                rotations.push_back(glm::quatLookAt(bindrotation, UP_VECTOR));
             }
             else
                 PLUGIN_WARN << "Chain: " << chain.first << ", Site " << site + 1
@@ -326,11 +324,11 @@ void Protein::_getSitesTransformations(
                             << ": no atoms available. Extrapolating from sites "
                             << before << " and " << after << std::endl;
             }
-            // Orientation is determined by the center of the site and the
+            // rotation is determined by the center of the site and the
             // center of the protein
-            const auto bindOrientation = normalize(siteCenter - proteinCenter);
+            const auto bindrotation = normalize(siteCenter - proteinCenter);
             positions.push_back(siteCenter);
-            rotations.push_back(glm::quatLookAt(bindOrientation, UP_VECTOR));
+            rotations.push_back(glm::quatLookAt(bindrotation, UP_VECTOR));
 #endif
         }
     }
@@ -401,8 +399,8 @@ void Protein::setAminoAcid(const SetAminoAcid& aminoAcid)
 
 void Protein::_processInstances(ModelDescriptorPtr md,
                                 const Vector3fs& positions,
-                                const Quaternions& orientations,
-                                const Quaterniond& moleculeOrientation)
+                                const Quaternions& rotations,
+                                const Quaterniond& moleculerotation)
 {
     size_t count = 0;
     const auto& proteinInstances = _modelDescriptor->getInstances();
@@ -412,11 +410,11 @@ void Protein::_processInstances(ModelDescriptorPtr md,
         for (size_t i = 0; i < positions.size(); ++i)
         {
             const auto& position = positions[i];
-            const auto& orientation = orientations[i];
+            const auto& rotation = rotations[i];
 
             Transformation glycanTransformation;
             glycanTransformation.setTranslation(position);
-            glycanTransformation.setRotation(moleculeOrientation * orientation);
+            glycanTransformation.setRotation(moleculerotation * rotation);
 
             const Transformation combinedTransformation =
                 proteinTransformation * glycanTransformation;
@@ -439,8 +437,8 @@ void Protein::addGlycans(const SugarsDescriptor& sd)
             _descriptor.name + " of assembly " + _descriptor.assemblyName));
 
     Vector3fs glycanPositions;
-    Quaternions glycanOrientations;
-    getGlycosilationSites(glycanPositions, glycanOrientations, sd.siteIndices);
+    Quaternions glycanrotations;
+    getGlycosilationSites(glycanPositions, glycanrotations, sd.siteIndices);
 
     if (glycanPositions.empty())
         PLUGIN_THROW(std::runtime_error("No glycosylation site was found on " +
@@ -450,11 +448,10 @@ void Protein::addGlycans(const SugarsDescriptor& sd)
     // protein
     GlycansPtr glycans(new Glycans(_scene, sd));
     auto modelDescriptor = glycans->getModelDescriptor();
-    const Quaterniond proteinOrientation({sd.orientation[0], sd.orientation[1],
-                                          sd.orientation[2],
-                                          sd.orientation[3]});
-    _processInstances(modelDescriptor, glycanPositions, glycanOrientations,
-                      proteinOrientation);
+    const Quaterniond proteinrotation(
+        {sd.rotation[0], sd.rotation[1], sd.rotation[2], sd.rotation[3]});
+    _processInstances(modelDescriptor, glycanPositions, glycanrotations,
+                      proteinrotation);
 
     _glycans[sd.name] = std::move(glycans);
     _scene.addModel(modelDescriptor);
@@ -468,8 +465,8 @@ void Protein::addSugars(const SugarsDescriptor& sd)
             _descriptor.name + " of assembly " + _descriptor.assemblyName));
 
     Vector3fs positions;
-    Quaternions orientations;
-    getSugarBindingSites(positions, orientations, sd.siteIndices, sd.chainIds);
+    Quaternions rotations;
+    getSugarBindingSites(positions, rotations, sd.siteIndices, sd.chainIds);
 
     if (positions.empty())
         PLUGIN_THROW(std::runtime_error("No sugar binding site was found on " +
@@ -480,11 +477,9 @@ void Protein::addSugars(const SugarsDescriptor& sd)
 
     GlycansPtr glucoses(new Glycans(_scene, sd));
     auto modelDescriptor = glucoses->getModelDescriptor();
-    const Quaterniond proteinOrientation({sd.orientation[0], sd.orientation[1],
-                                          sd.orientation[2],
-                                          sd.orientation[3]});
-    _processInstances(modelDescriptor, positions, orientations,
-                      proteinOrientation);
+    const Quaterniond proteinrotation(
+        {sd.rotation[0], sd.rotation[1], sd.rotation[2], sd.rotation[3]});
+    _processInstances(modelDescriptor, positions, rotations, proteinrotation);
 
     _glycans[sd.name] = std::move(glucoses);
     _scene.addModel(modelDescriptor);

@@ -53,7 +53,7 @@ def test_layout():
     # ACE2 Receptor
     ace2_receptor = Protein(sources=[pdb_folder + '6m1d.pdb'])
     bio_explorer.add_protein('ACE2 receptor', ace2_receptor,
-                             orientation=Quaternion(0.5, 0.5, 1.0, 0.0))
+                             rotation=Quaternion(0.5, 0.5, 1.0, 0.0))
 
     # Restore image streaming
     bio_explorer.core_api().set_application_parameters(image_stream_fps=20)

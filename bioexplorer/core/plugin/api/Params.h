@@ -83,7 +83,9 @@ bool from_json(ModelIdFileAccess &param, const std::string &payload);
 // Point cloud
 bool from_json(BuildPointCloud &param, const std::string &payload);
 
-// Models
+// Models and instances
 bool from_json(ModelsVisibility &param, const std::string &payload);
+bool from_json(ProteinInstanceTransformationDescriptor &param,
+               const std::string &payload);
 
 } // namespace bioexplorer

@@ -92,7 +92,7 @@ Considering that the _BBBE_ server is running on the local host, on port 5000, t
 ```python
 from bioexplorer import BioExplorer
 be = BioExplorer('localhost:5000')
-resource_folder = '../tests/test_files/'
+resource_folder = '../../tests/test_files/'
 name='Coronavirus'
 be.add_coronavirus(name=name, resource_folder=resource_folder)
 ```

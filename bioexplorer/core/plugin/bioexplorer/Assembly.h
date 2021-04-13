@@ -107,6 +107,19 @@ public:
     const ProteinMap &getProteins() const { return _proteins; }
 
     /**
+     * @brief Set the transformation for a specific instance of a protein
+     * @param descriptor Information about the instance
+     */
+    void setProteinInstanceTransformation(
+        const ProteinInstanceTransformationDescriptor &descriptor);
+
+    /**
+     * @return The transformation for a specific instance of a protein
+     */
+    const Transformation getProteinInstanceTransformation(
+        const ProteinInstanceTransformationDescriptor &descriptor) const;
+
+    /**
      * @brief addMembrane Add a membrane to the assembly
      * @param descriptor Membrane descriptor
      */
@@ -152,8 +165,7 @@ private:
                            const Quaterniond &orientation,
                            const size_ts &allowedOccurrences,
                            const size_t randomSeed,
-                           const PositionRandomizationType &randomizationType,
-                           const float locationCutoffAngle = 0.f);
+                           const PositionRandomizationType &randomizationType);
 
     AssemblyDescriptor _descriptor;
     Scene &_scene;
@@ -161,7 +173,6 @@ private:
     MeshBasedMembraneMap _meshBasedMembranes;
     MembranePtr _membrane{nullptr};
     RNASequencePtr _rnaSequence{nullptr};
-    OccupiedDirections _occupiedDirections;
     Vector4fs _clippingPlanes;
 };
 } // namespace bioexplorer
