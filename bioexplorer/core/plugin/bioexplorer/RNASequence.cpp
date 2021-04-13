@@ -83,8 +83,8 @@ RNASequence::RNASequence(Scene& scene, const RNASequenceDetails& rd)
 
     const size_t nbMaterials = materialId;
 
-    PLUGIN_INFO << "Sequence total length: " << nbElements << std::endl;
-    PLUGIN_INFO << "Created " << nbMaterials << " materials" << std::endl;
+    PLUGIN_INFO("Sequence total length: " << nbElements);
+    PLUGIN_INFO("Created " << nbMaterials << " materials");
 
     Vector3f U{rd.range[0], rd.range[1], nbElements};
     Vector3f V{rd.range[0], rd.range[1], nbElements};
@@ -164,7 +164,7 @@ RNASequence::RNASequence(Scene& scene, const RNASequenceDetails& rd)
                 break;
             }
             default:
-                PLUGIN_THROW(std::runtime_error("Undefined shape"));
+                PLUGIN_THROW("Undefined shape");
                 break;
             }
 

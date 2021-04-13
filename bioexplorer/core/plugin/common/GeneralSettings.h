@@ -80,6 +80,9 @@ public:
      */
     void setOffFolder(const std::string& value) { _offFolder = value; }
 
+    bool getLoggingEnabled() const { return _loggingEnabled; }
+    void setLoggingEnabled(const bool value) { _loggingEnabled = value; }
+
     static std::mutex _mutex;
     static GeneralSettings* _instance;
 
@@ -88,5 +91,6 @@ private:
 
     bool _modelVisibilityOnCreation{true};
     std::string _offFolder{"/tmp/"};
+    bool _loggingEnabled{false};
 };
 } // namespace bioexplorer

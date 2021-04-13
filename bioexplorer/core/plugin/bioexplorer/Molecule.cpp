@@ -207,10 +207,10 @@ void Molecule::_computeReqSetOffset()
 
         sequence.second.offset =
             theoreticalReqSeq.find(physicalReqSeq) - firstReqSeq;
-        PLUGIN_INFO << "Sequence " << sequence.first
-                    << " offset: " << sequence.second.offset << std::endl
-                    << "Theoretical: " << theoreticalReqSeq << std::endl
-                    << "Physical   : " << physicalReqSeq << std::endl;
+        PLUGIN_INFO("Sequence " << sequence.first
+                                << " offset: " << sequence.second.offset
+                                << "Theoretical: " << theoreticalReqSeq
+                                << "Physical   : " << physicalReqSeq);
     }
 }
 
@@ -225,9 +225,8 @@ StringMap Molecule::getSequencesAsString() const
             shortSequence += aminoAcidMap[resName].shortName;
 
         sequencesAsStrings[sequence.first] = shortSequence;
-        PLUGIN_DEBUG << sequence.first << " ("
-                     << sequence.second.resNames.size()
-                     << "): " << shortSequence << std::endl;
+        PLUGIN_DEBUG(sequence.first << " (" << sequence.second.resNames.size()
+                                    << "): " << shortSequence);
     }
     return sequencesAsStrings;
 }
@@ -278,8 +277,7 @@ void Molecule::_buildAtomicStruture(const ProteinRepresentation representation,
     // Bonds
     if (loadBonds)
     {
-        PLUGIN_INFO << "Building " << _bondsMap.size() << " bonds..."
-                    << std::endl;
+        PLUGIN_INFO("Building " << _bondsMap.size() << " bonds...");
         for (const auto& bond : _bondsMap)
         {
             const auto& atomSrc = _atomMap.find(bond.first)->second;
@@ -303,8 +301,7 @@ void Molecule::_buildAtomicStruture(const ProteinRepresentation representation,
     // Sticks
     if (representation == ProteinRepresentation::atoms_and_sticks)
     {
-        PLUGIN_INFO << "Building sticks (" << _atomMap.size() << " atoms)..."
-                    << std::endl;
+        PLUGIN_INFO("Building sticks (" << _atomMap.size() << " atoms)...");
 #pragma omp parallel for
         for (const auto& atom1 : _atomMap)
             for (const auto& atom2 : _atomMap)
@@ -336,7 +333,7 @@ void Molecule::_buildModel(const std::string& assemblyName,
                            const float atomRadiusMultiplier,
                            const bool loadBonds)
 {
-    PLUGIN_INFO << "Building protein " << name << "..." << std::endl;
+    PLUGIN_INFO("Building protein " << name << "...");
 
     // Metadata
     ModelMetadata metadata;
@@ -422,7 +419,7 @@ void Molecule::_buildModel(const std::string& assemblyName,
     case ProteinRepresentation::surface:
     case ProteinRepresentation::union_of_balls:
     case ProteinRepresentation::contour:
-        PLUGIN_THROW(std::runtime_error("CGAL is required to create surfaces"));
+        PLUGIN_THROW("CGAL is required to create surfaces");
         break;
 #endif
     case ProteinRepresentation::debug:
@@ -466,15 +463,14 @@ void Molecule::_buildModel(const std::string& assemblyName,
     }
     }
 
-    PLUGIN_INFO << "Protein model successfully built" << std::endl;
+    PLUGIN_INFO("Protein model successfully built");
 
-    PLUGIN_INFO << "---===  Protein  ===--- " << std::endl;
-    PLUGIN_INFO << "Assembly name         : " << assemblyName << std::endl;
-    PLUGIN_INFO << "Name                  : " << name << std::endl;
-    PLUGIN_INFO << "Atom Radius multiplier: " << atomRadiusMultiplier
-                << std::endl;
-    PLUGIN_INFO << "Number of atoms       : " << _atomMap.size() << std::endl;
-    PLUGIN_INFO << "Number of bonds       : " << _bondsMap.size() << std::endl;
+    PLUGIN_INFO("---===  Protein  ===--- ");
+    PLUGIN_INFO("Assembly name         : " << assemblyName);
+    PLUGIN_INFO("Name                  : " << name);
+    PLUGIN_INFO("Atom Radius multiplier: " << atomRadiusMultiplier);
+    PLUGIN_INFO("Number of atoms       : " << _atomMap.size());
+    PLUGIN_INFO("Number of bonds       : " << _bondsMap.size());
 
     if (_modelDescriptor &&
         !GeneralSettings::getInstance()->getModelVisibilityOnCreation())
@@ -571,8 +567,8 @@ void Molecule::_readAtom(const std::string& line, const bool loadHydrogen)
         if (it != atomicRadii.end())
             atom.radius = 0.001f * (*it).second;
         else
-            PLUGIN_WARN << "[" << atom.element << "]/[" << atom.name
-                        << "] not found" << std::endl;
+            PLUGIN_WARN("[" << atom.element << "]/[" << atom.name
+                            << "] not found");
     }
 
     _atomMap.insert(std::make_pair(serial, atom));
@@ -733,15 +729,13 @@ void Molecule::_setAtomColorScheme()
 
         _setMaterialDiffuseColor(atom.first, atomColorMap[atom.second.element]);
     }
-    PLUGIN_INFO << "Applying atom color scheme (" << materialId.size() << ")"
-                << std::endl;
+    PLUGIN_INFO("Applying atom color scheme (" << materialId.size() << ")");
 }
 
 void Molecule::_setAminoAcidSequenceColorScheme(const Palette& palette)
 {
     if (palette.size() != 2)
-        PLUGIN_THROW(
-            std::runtime_error("Invalid palette size. 2 colors are expected"));
+        PLUGIN_THROW("Invalid palette size. 2 colors are expected");
 
     size_t atomCount = 0;
     for (const auto& sequence : _sequenceMap)
@@ -774,9 +768,8 @@ void Molecule::_setAminoAcidSequenceColorScheme(const Palette& palette)
                 shortSequence.find(_selectedAminoAcidSequence);
             if (sequencePosition != -1)
             {
-                PLUGIN_INFO << _selectedAminoAcidSequence
-                            << " was found at position " << sequencePosition
-                            << std::endl;
+                PLUGIN_INFO(_selectedAminoAcidSequence
+                            << " was found at position " << sequencePosition);
                 size_t minSeq = 1e6;
                 size_t maxSeq = 0;
                 for (auto& atom : _atomMap)
@@ -794,17 +787,16 @@ void Molecule::_setAminoAcidSequenceColorScheme(const Palette& palette)
                     else
                         _setMaterialDiffuseColor(atom.first, palette[0]);
                 }
-                PLUGIN_DEBUG << atomCount << "[" << minSeq << "," << maxSeq
-                             << "] atoms where colored" << std::endl;
+                PLUGIN_DEBUG(atomCount << "[" << minSeq << "," << maxSeq
+                                       << "] atoms where colored");
             }
             else
-                PLUGIN_WARN << _selectedAminoAcidSequence
-                            << " was not found in " << shortSequence
-                            << std::endl;
+                PLUGIN_WARN(_selectedAminoAcidSequence << " was not found in "
+                                                       << shortSequence);
         }
     }
-    PLUGIN_INFO << "Applying Amino Acid Sequence color scheme ("
-                << (atomCount > 0 ? "2" : "1") << ")" << std::endl;
+    PLUGIN_INFO("Applying Amino Acid Sequence color scheme ("
+                << (atomCount > 0 ? "2" : "1") << ")");
 }
 
 void Molecule::_setChainColorScheme(const Palette& palette)
@@ -816,8 +808,7 @@ void Molecule::_setChainColorScheme(const Palette& palette)
         materialId.insert(index);
         _setMaterialDiffuseColor(atom.first, palette[index]);
     }
-    PLUGIN_INFO << "Applying Chain color scheme (" << materialId.size() << ")"
-                << std::endl;
+    PLUGIN_INFO("Applying Chain color scheme (" << materialId.size() << ")");
 }
 
 void Molecule::_setResiduesColorScheme(const Palette& palette)
@@ -831,8 +822,7 @@ void Molecule::_setResiduesColorScheme(const Palette& palette)
         materialId.insert(index);
         _setMaterialDiffuseColor(atom.first, palette[index]);
     }
-    PLUGIN_INFO << "Applying Residues color scheme (" << materialId.size()
-                << ")" << std::endl;
+    PLUGIN_INFO("Applying Residues color scheme (" << materialId.size() << ")");
 }
 
 void Molecule::_setMaterialDiffuseColor(const size_t atomIndex,
@@ -863,7 +853,7 @@ void Molecule::_setMaterialDiffuseColor(const size_t atomIndex,
     }
     catch (const std::runtime_error& e)
     {
-        PLUGIN_ERROR << e.what() << std::endl;
+        PLUGIN_ERROR(e.what());
     }
 }
 

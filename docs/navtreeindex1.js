@@ -1,5 +1,7 @@
 var NAVTREEINDEX1 =
 {
+"d9/d72/structbioexplorer_1_1Response.html#ae30354ebb2ad0a53b873cdd73e8c263d":[3,0,0,47,1],
+"d9/d73/PointCloudMesher_8h_source.html":[4,0,0,1,5,1],
 "d9/dab/structbioexplorer_1_1SugarsDetails.html":[3,0,0,52],
 "d9/dab/structbioexplorer_1_1SugarsDetails.html#a0b334c2fa09bfc8bcdbcb07e94b7f312":[3,0,0,52,7],
 "d9/dab/structbioexplorer_1_1SugarsDetails.html#a2eac92d58b0eb08446986ec08347ae47":[3,0,0,52,0],
@@ -54,8 +56,9 @@ var NAVTREEINDEX1 =
 "da/d3c/structbioexplorer_1_1RGBColor.html#acf179744c77eec8b45350c5c421d89bd":[3,0,0,48,0],
 "da/d3c/structbioexplorer_1_1RGBColor.html#ae81b5de80f413f564ce4b0b3ea60d39b":[3,0,0,48,2],
 "da/d8a/structbioexplorer_1_1GeneralSettingsDetails.html":[3,0,0,23],
-"da/d8a/structbioexplorer_1_1GeneralSettingsDetails.html#a84b9363779015ac4e8989bae126df2ee":[3,0,0,23,1],
-"da/d8a/structbioexplorer_1_1GeneralSettingsDetails.html#ab4a5d138b2da74b0a5cbb1447a4ff94c":[3,0,0,23,0],
+"da/d8a/structbioexplorer_1_1GeneralSettingsDetails.html#a84b9363779015ac4e8989bae126df2ee":[3,0,0,23,2],
+"da/d8a/structbioexplorer_1_1GeneralSettingsDetails.html#ab4a5d138b2da74b0a5cbb1447a4ff94c":[3,0,0,23,1],
+"da/d8a/structbioexplorer_1_1GeneralSettingsDetails.html#ac87010eb85ed8a7f490e16ec598479f3":[3,0,0,23,0],
 "da/db3/structbioexplorer_1_1AdvancedMaterial.html":[3,0,0,1],
 "da/db3/structbioexplorer_1_1AdvancedMaterial.html#a0025c8914207908c2a208dd339bdc74c":[3,0,0,1,2],
 "da/db3/structbioexplorer_1_1AdvancedMaterial.html#a0499982d2332a40c47b912726d4b6839":[3,0,0,1,16],
@@ -246,8 +249,5 @@ var NAVTREEINDEX1 =
 "df/d61/structbioexplorer_1_1Nucleotid.html":[3,0,0,36],
 "df/d61/structbioexplorer_1_1Nucleotid.html#a7d3eb72a2ce12d892bb9b2cacc67c9c3":[3,0,0,36,0],
 "df/d61/structbioexplorer_1_1Nucleotid.html#a9ab788f4a14e1f081c4b67112411ab48":[3,0,0,36,2],
-"df/d61/structbioexplorer_1_1Nucleotid.html#ae14a5ff798dae2ad8f17a60a0e6b19ca":[3,0,0,36,1],
-"df/da2/DBConnector_8cpp_source.html":[4,0,0,1,4,0,0],
-"df/db9/structbioexplorer_1_1RandomizationInformation.html":[3,0,0,46],
-"df/db9/structbioexplorer_1_1RandomizationInformation.html#a26e785a2d2c4ca8d833e492e472c5e70":[3,0,0,46,1]
+"df/d61/structbioexplorer_1_1Nucleotid.html#ae14a5ff798dae2ad8f17a60a0e6b19ca":[3,0,0,36,1]
 };

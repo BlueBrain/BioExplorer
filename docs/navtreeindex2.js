@@ -1,5 +1,8 @@
 var NAVTREEINDEX2 =
 {
+"df/da2/DBConnector_8cpp_source.html":[4,0,0,1,4,0,0],
+"df/db9/structbioexplorer_1_1RandomizationInformation.html":[3,0,0,46],
+"df/db9/structbioexplorer_1_1RandomizationInformation.html#a26e785a2d2c4ca8d833e492e472c5e70":[3,0,0,46,1],
 "df/db9/structbioexplorer_1_1RandomizationInformation.html#a9350b4cf6950d69d7b33f8475a2fa0d8":[3,0,0,46,2],
 "df/db9/structbioexplorer_1_1RandomizationInformation.html#aac0d5cd558c05e5a57df9ae9c8e7cc9e":[3,0,0,46,5],
 "df/db9/structbioexplorer_1_1RandomizationInformation.html#ad630c6916d0e18f19d7e28383a3e8bbc":[3,0,0,46,3],
@@ -25,8 +28,8 @@ var NAVTREEINDEX2 =
 "dir_d70ee5a791dd24842ea56b45e9cf0bc6.html":[4,0,0,1,0],
 "dir_fe8a968409569ad05c4aef9d08f0fd67.html":[4,0,0,1,1],
 "files.html":[4,0],
-"functions.html":[3,3,0],
 "functions.html":[3,3,0,0],
+"functions.html":[3,3,0],
 "functions_b.html":[3,3,0,1],
 "functions_c.html":[3,3,0,2],
 "functions_d.html":[3,3,0,3],

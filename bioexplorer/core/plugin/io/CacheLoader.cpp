@@ -83,8 +83,7 @@ ModelDescriptorPtr CacheLoader::importFromBlob(
     Blob&& /*blob*/, const LoaderProgress& /*callback*/,
     const PropertyMap& /*properties*/) const
 {
-    throw std::runtime_error(
-        "Loading molecular systems from blob is not supported");
+    PLUGIN_THROW("Loading molecular systems from blob is not supported");
 }
 
 ModelDescriptorPtr CacheLoader::_importModel(std::stringstream& buffer,
@@ -387,13 +386,10 @@ std::vector<ModelDescriptorPtr> CacheLoader::importModelsFromFile(
     props.merge(properties);
 
     callback.updateProgress("Loading BioExplorer scene...", 0);
-    PLUGIN_DEBUG << "Loading models from cache file: " << filename << std::endl;
+    PLUGIN_DEBUG("Loading models from cache file: " << filename);
     std::ifstream file(filename, std::ios::in | std::ios::binary);
     if (!file.good())
-    {
-        const std::string msg = "Could not open cache file " + filename;
-        PLUGIN_THROW(std::runtime_error(msg));
-    }
+        PLUGIN_THROW("Could not open cache file " + filename);
 
     std::stringstream buffer;
     buffer << file.rdbuf();
@@ -402,12 +398,12 @@ std::vector<ModelDescriptorPtr> CacheLoader::importModelsFromFile(
     // File version
     size_t version;
     buffer.read((char*)&version, sizeof(size_t));
-    PLUGIN_DEBUG << "Version: " << version << std::endl;
+    PLUGIN_DEBUG("Version: " << version);
 
     // Models
     size_t nbModels;
     buffer.read((char*)&nbModels, sizeof(size_t));
-    PLUGIN_DEBUG << "Models : " << nbModels << std::endl;
+    PLUGIN_DEBUG("Models : " << nbModels);
     for (size_t i = 0; i < nbModels; ++i)
     {
         auto modelDescriptor = _importModel(buffer, brickId);
@@ -754,8 +750,7 @@ bool CacheLoader::_exportModel(const ModelDescriptorPtr modelDescriptor,
 void CacheLoader::exportToFile(const std::string& filename,
                                const Boxd& bounds) const
 {
-    PLUGIN_DEBUG << "Saving scene to BioExplorer file: " << filename
-                 << std::endl;
+    PLUGIN_DEBUG("Saving scene to BioExplorer file: " << filename);
 
     std::stringstream buffer;
     const size_t version = CACHE_VERSION_1;
@@ -774,10 +769,8 @@ void CacheLoader::exportToFile(const std::string& filename,
 
     std::ofstream file(filename, std::ios::out | std::ios::binary);
     if (!file.good())
-    {
-        const std::string msg = "Could not create BioExplorer file " + filename;
-        PLUGIN_THROW(std::runtime_error(msg));
-    }
+        PLUGIN_THROW("Could not create BioExplorer file " + filename);
+
     file.write((char*)buffer.str().c_str(), buffer.str().size());
     file.close();
 }
@@ -812,8 +805,8 @@ void CacheLoader::exportBrickToDB(DBConnector& connector, const int32_t brickId,
 
     if (nbModels > 0)
     {
-        PLUGIN_INFO << "Saving brick " << brickId << " ( " << nbModels
-                    << " models) to database" << std::endl;
+        PLUGIN_INFO("Saving brick " << brickId << " ( " << nbModels
+                                    << " models) to database");
 
         connector.insertBrick(brickId, CACHE_VERSION_1, nbModels, buffer);
     }
@@ -823,7 +816,7 @@ void CacheLoader::exportBrickToDB(DBConnector& connector, const int32_t brickId,
 void CacheLoader::exportToXYZ(const std::string& filename,
                               const XYZFileFormat fileFormat) const
 {
-    PLUGIN_INFO << "Saving scene to XYZ file: " << filename << std::endl;
+    PLUGIN_INFO("Saving scene to XYZ file: " << filename);
     std::ios_base::openmode flags = std::ios::out;
     if (fileFormat == XYZFileFormat::xyz_binary ||
         fileFormat == XYZFileFormat::xyzr_binary)
@@ -831,10 +824,7 @@ void CacheLoader::exportToXYZ(const std::string& filename,
 
     std::ofstream file(filename, flags);
     if (!file.good())
-    {
-        const std::string msg = "Could not create XYZ file " + filename;
-        PLUGIN_THROW(std::runtime_error(msg));
-    }
+        PLUGIN_THROW("Could not create XYZ file " + filename);
 
     const auto clipPlanes = getClippingPlanes(_scene);
 

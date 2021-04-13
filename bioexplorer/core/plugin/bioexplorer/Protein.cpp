@@ -101,8 +101,9 @@ Protein::~Protein()
     for (const auto& glycan : _glycans)
     {
         const auto modelId = glycan.second->getModelDescriptor()->getModelID();
-        PLUGIN_INFO << "Removing glycan [" << modelId << "] [" << glycan.first
-                    << "] from assembly [" << _details.name << "]" << std::endl;
+        PLUGIN_INFO("Removing glycan [" << modelId << "] [" << glycan.first
+                                        << "] from assembly [" << _details.name
+                                        << "]");
         _scene.removeModel(modelId);
     }
 }
@@ -135,7 +136,7 @@ void Protein::setColorScheme(const ColorScheme& colorScheme,
         _setRegionColorScheme(palette, chainIds);
         break;
     default:
-        PLUGIN_THROW(std::runtime_error("Unknown colorscheme"))
+        PLUGIN_THROW("Unknown colorscheme");
     }
 }
 
@@ -157,15 +158,14 @@ void Protein::_setRegionColorScheme(const Palette& palette,
             _setMaterialDiffuseColor(atom.first, palette[atom.second.reqSeq]);
     }
 
-    PLUGIN_INFO << "Applying Amino Acid Sequence color scheme ("
-                << (atomCount > 0 ? "2" : "1") << ")" << std::endl;
+    PLUGIN_INFO("Applying Amino Acid Sequence color scheme ("
+                << (atomCount > 0 ? "2" : "1") << ")");
 } // namespace bioexplorer
 
 void Protein::_setGlycosylationSiteColorScheme(const Palette& palette)
 {
     if (palette.size() != 2)
-        PLUGIN_THROW(
-            std::runtime_error("Invalid palette size. 2 colors are expected"));
+        PLUGIN_THROW("Invalid palette size. 2 colors are expected");
 
     // Initialize atom colors
     for (const auto& atom : _atomMap)
@@ -183,8 +183,8 @@ void Protein::_setGlycosylationSiteColorScheme(const Palette& palette)
                     atom.second.reqSeq == site)
                     _setMaterialDiffuseColor(atom.first, palette[1]);
 
-    PLUGIN_INFO << "Applying Glycosylation Site color scheme ("
-                << (sites.size() > 0 ? "2" : "1") << ")" << std::endl;
+    PLUGIN_INFO("Applying Glycosylation Site color scheme ("
+                << (sites.size() > 0 ? "2" : "1") << ")");
 }
 
 std::map<std::string, size_ts> Protein::getGlycosylationSites(
@@ -232,8 +232,8 @@ std::map<std::string, size_ts> Protein::getGlycosylationSites(
             indices += std::to_string(index + 1); // Indices start at 1, not 0
         }
         indices += "]";
-        PLUGIN_INFO << "Found " << site.second.size() << " glycosylation sites "
-                    << indices << " on sequence " << site.first << std::endl;
+        PLUGIN_INFO("Found " << site.second.size() << " glycosylation sites "
+                             << indices << " on sequence " << site.first);
     }
     return sites;
 }
@@ -260,7 +260,7 @@ void Protein::_getSitesTransformations(
     {
         const auto itAminoAcids = _aminoAcidBounds.find(chain.first);
         if (itAminoAcids == _aminoAcidBounds.end())
-            PLUGIN_THROW(std::runtime_error("Invalid chain"));
+            PLUGIN_THROW("Invalid chain");
 
         const auto aminoAcidsPerChain = (*itAminoAcids).second;
         for (const auto site : chain.second)
@@ -286,9 +286,9 @@ void Protein::_getSitesTransformations(
                 rotations.push_back(glm::quatLookAt(bindrotation, UP_VECTOR));
             }
             else
-                PLUGIN_WARN << "Chain: " << chain.first << ", Site " << site + 1
-                            << " is not available in the protein source"
-                            << std::endl;
+                PLUGIN_WARN("Chain: "
+                            << chain.first << ", Site " << site + 1
+                            << " is not available in the protein source");
 
 #if 0
             else
@@ -318,10 +318,10 @@ void Protein::_getSitesTransformations(
                 siteBounds.merge((*itAfter).second);
                 siteCenter = siteBounds.getCenter();
 
-                PLUGIN_WARN << "Chain: " << chain.first
+                PLUGIN_WARN("Chain: " << chain.first
                             << ", Site: " << site + 1
                             << ": no atoms available. Extrapolating from sites "
-                            << before << " and " << after << std::endl;
+                            << before << " and " << after);
             }
             // rotation is determined by the center of the site and the
             // center of the protein
@@ -387,8 +387,7 @@ void Protein::setAminoAcid(const AminoAcidDetails& aminoAcid)
         }
 
         if (aminoAcid.index >= sequence.second.resNames.size())
-            PLUGIN_THROW(std::runtime_error(
-                "Invalid index for the amino acid sequence"));
+            PLUGIN_THROW("Invalid index for the amino acid sequence");
 
         if (acceptChain)
             sequence.second.resNames[aminoAcid.index] =
@@ -431,17 +430,16 @@ void Protein::_processInstances(ModelDescriptorPtr md,
 void Protein::addGlycans(const SugarsDetails& sd)
 {
     if (_glycans.find(sd.name) != _glycans.end())
-        PLUGIN_THROW(std::runtime_error(
-            "A glycan named " + sd.name + " already exists in protein " +
-            _details.name + " of assembly " + _details.assemblyName));
+        PLUGIN_THROW("A glycan named " + sd.name +
+                     " already exists in protein " + _details.name +
+                     " of assembly " + _details.assemblyName);
 
     Vector3fs glycanPositions;
     Quaternions glycanrotations;
     getGlycosilationSites(glycanPositions, glycanrotations, sd.siteIndices);
 
     if (glycanPositions.empty())
-        PLUGIN_THROW(std::runtime_error("No glycosylation site was found on " +
-                                        sd.proteinName));
+        PLUGIN_THROW("No glycosylation site was found on " + sd.proteinName);
 
     // Create glycans and attach them to the glycosylation sites of the target
     // protein
@@ -459,20 +457,18 @@ void Protein::addGlycans(const SugarsDetails& sd)
 void Protein::addSugars(const SugarsDetails& sd)
 {
     if (_glycans.find(sd.name) != _glycans.end())
-        PLUGIN_THROW(std::runtime_error(
-            "A sugar named " + sd.name + " already exists in protein " +
-            _details.name + " of assembly " + _details.assemblyName));
+        PLUGIN_THROW("A sugar named " + sd.name +
+                     " already exists in protein " + _details.name +
+                     " of assembly " + _details.assemblyName);
 
     Vector3fs positions;
     Quaternions rotations;
     getSugarBindingSites(positions, rotations, sd.siteIndices, sd.chainIds);
 
     if (positions.empty())
-        PLUGIN_THROW(std::runtime_error("No sugar binding site was found on " +
-                                        sd.name));
+        PLUGIN_THROW("No sugar binding site was found on " + sd.name);
 
-    PLUGIN_INFO << positions.size() << " sugar sites found on "
-                << sd.proteinName << std::endl;
+    PLUGIN_INFO(positions.size() << " sugar sites found on " << sd.proteinName);
 
     GlycansPtr glucoses(new Glycans(_scene, sd));
     auto modelDescriptor = glucoses->getModelDescriptor();

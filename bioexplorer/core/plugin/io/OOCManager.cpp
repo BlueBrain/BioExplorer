@@ -60,25 +60,20 @@ OOCManager::OOCManager(Scene& scene, const Camera& camera,
 {
     _parseArguments(arguments);
 
-    PLUGIN_INFO << "=================================" << std::endl;
-    PLUGIN_INFO << "Out-Of-Core engine is now enabled" << std::endl;
-    PLUGIN_INFO << "---------------------------------" << std::endl;
-    PLUGIN_INFO << "DB Connection string: " << _dbConnectionString << std::endl;
-    PLUGIN_INFO << "DB Schema           : " << _dbSchema << std::endl;
-    PLUGIN_INFO << "Description         : " << _sceneConfiguration.description
-                << std::endl;
-    PLUGIN_INFO << "Update frequency    : " << _updateFrequency << std::endl;
-    PLUGIN_INFO << "Scene size          : " << _sceneConfiguration.sceneSize
-                << std::endl;
-    PLUGIN_INFO << "Brick size          : " << _sceneConfiguration.brickSize
-                << std::endl;
-    PLUGIN_INFO << "Nb of bricks        : " << _sceneConfiguration.nbBricks
-                << std::endl;
-    PLUGIN_INFO << "Visible bricks      : " << _nbVisibleBricks << std::endl;
-    PLUGIN_INFO << "Bricks per cycle    : " << _nbBricksPerCycle << std::endl;
-    PLUGIN_INFO << "Unload bricks       : " << (_unloadBricks ? "On" : "Off")
-                << std::endl;
-    PLUGIN_INFO << "=================================" << std::endl;
+    PLUGIN_INFO("=================================");
+    PLUGIN_INFO("Out-Of-Core engine is now enabled");
+    PLUGIN_INFO("---------------------------------");
+    PLUGIN_INFO("DB Connection string: " << _dbConnectionString);
+    PLUGIN_INFO("DB Schema           : " << _dbSchema);
+    PLUGIN_INFO("Description         : " << _sceneConfiguration.description);
+    PLUGIN_INFO("Update frequency    : " << _updateFrequency);
+    PLUGIN_INFO("Scene size          : " << _sceneConfiguration.sceneSize);
+    PLUGIN_INFO("Brick size          : " << _sceneConfiguration.brickSize);
+    PLUGIN_INFO("Nb of bricks        : " << _sceneConfiguration.nbBricks);
+    PLUGIN_INFO("Visible bricks      : " << _nbVisibleBricks);
+    PLUGIN_INFO("Bricks per cycle    : " << _nbBricksPerCycle);
+    PLUGIN_INFO("Unload bricks       : " << (_unloadBricks ? "On" : "Off"));
+    PLUGIN_INFO("=================================");
 }
 
 void OOCManager::loadBricks()
@@ -146,8 +141,8 @@ void OOCManager::_loadBricks()
                 }
 
             if (!bricksToLoad.empty())
-                PLUGIN_INFO << "Loading bricks   "
-                            << int32_set_to_string(bricksToLoad) << std::endl;
+                PLUGIN_INFO("Loading bricks   "
+                            << int32_set_to_string(bricksToLoad));
 
             _progress = float(bricksToLoad.size()) / float(_nbBricksPerCycle);
             // Loading bricks
@@ -172,7 +167,7 @@ void OOCManager::_loadBricks()
                 }
                 catch (std::runtime_error& e)
                 {
-                    PLUGIN_DEBUG << e.what() << std::endl;
+                    PLUGIN_DEBUG(e.what());
                 }
                 const auto duration =
                     std::chrono::duration_cast<std::chrono::milliseconds>(
@@ -186,12 +181,11 @@ void OOCManager::_loadBricks()
 
             if (bricksToLoad.size())
             {
-                PLUGIN_DEBUG << "Current brick Id: " << brickId << std::endl;
-                PLUGIN_DEBUG
-                    << "Loaded bricks   : " << int32_set_to_string(loadedBricks)
-                    << std::endl;
-                PLUGIN_DEBUG << "Visible bricks  : "
-                             << int32_set_to_string(visibleBricks) << std::endl;
+                PLUGIN_DEBUG("Current brick Id: " << brickId);
+                PLUGIN_DEBUG(
+                    "Loaded bricks   : " << int32_set_to_string(loadedBricks));
+                PLUGIN_DEBUG(
+                    "Visible bricks  : " << int32_set_to_string(visibleBricks));
 
                 bool visibilityModified = false;
 
@@ -241,8 +235,7 @@ void OOCManager::_loadBricks()
             {
                 for (auto md : modelsToRemoveFromScene)
                 {
-                    PLUGIN_DEBUG << "Removing model: " << md->getModelID()
-                                 << std::endl;
+                    PLUGIN_DEBUG("Removing model: " << md->getModelID());
                     _scene.removeModel(md->getModelID());
                     sceneModified = true;
                 }
@@ -253,8 +246,7 @@ void OOCManager::_loadBricks()
             {
                 md->setVisible(true);
                 _scene.addModel(md);
-                PLUGIN_DEBUG << "Adding model: " << md->getModelID()
-                             << std::endl;
+                PLUGIN_DEBUG("Adding model: " << md->getModelID());
                 sleep(_updateFrequency);
                 sceneModified = true;
             }
@@ -262,8 +254,7 @@ void OOCManager::_loadBricks()
 
             for (auto md : modelsToShow)
             {
-                PLUGIN_DEBUG << "Making model visible: " << md->getModelID()
-                             << std::endl;
+                PLUGIN_DEBUG("Making model visible: " << md->getModelID());
                 md->setVisible(true);
                 sceneModified = true;
             }
@@ -274,8 +265,7 @@ void OOCManager::_loadBricks()
 
         sleep(_updateFrequency);
         _averageLoadingTime = totalLoadingTime / nbLoads;
-        PLUGIN_DEBUG << "Average loading time (ms): " << _averageLoadingTime
-                     << std::endl;
+        PLUGIN_DEBUG("Average loading time (ms): " << _averageLoadingTime);
         previousBrickId = brickId;
     }
 }
@@ -326,9 +316,9 @@ void OOCManager::_parseArguments(const CommandLineArguments& arguments)
     const bool disableBroadcasting =
         std::getenv(ENV_ROCKETS_DISABLE_SCENE_BROADCASTING.c_str()) != nullptr;
     if (!disableBroadcasting)
-        PLUGIN_THROW(std::runtime_error(
+        PLUGIN_THROW(
             ENV_ROCKETS_DISABLE_SCENE_BROADCASTING +
-            " environment variable must be set when out-of-core is enabled"));
+            " environment variable must be set when out-of-core is enabled");
 }
 
 } // namespace bioexplorer

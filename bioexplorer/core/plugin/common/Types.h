@@ -85,6 +85,7 @@ typedef struct
 {
     bool modelVisibilityOnCreation;
     std::string offFolder;
+    bool loggingEnabled;
 } GeneralSettingsDetails;
 
 /**

@@ -105,80 +105,81 @@ $(document).ready(function(){initNavTree('d8/d20/tests_2Glycans_8cpp_source.html
 <div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;<span class="comment"> */</span></div>
 <div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160; </div>
 <div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;<span class="preprocessor">#include &lt;plugin/bioexplorer/Glycans.h&gt;</span></div>
-<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160; </div>
-<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;<span class="preprocessor">#include &lt;brayns/Brayns.h&gt;</span></div>
-<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;<span class="preprocessor">#include &lt;brayns/engineapi/Engine.h&gt;</span></div>
-<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;<span class="preprocessor">#include &lt;brayns/engineapi/Scene.h&gt;</span></div>
-<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160; </div>
-<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;<span class="preprocessor">#define BOOST_TEST_MODULE glycans</span></div>
-<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;<span class="preprocessor">#include &lt;boost/test/unit_test.hpp&gt;</span></div>
-<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160; </div>
-<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;<span class="preprocessor">#include &lt;fstream&gt;</span></div>
-<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;<span class="preprocessor">#include &lt;iostream&gt;</span></div>
-<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;<span class="preprocessor">#include &lt;sstream&gt;</span></div>
-<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160; </div>
-<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;<span class="keyword">using namespace </span>bioexplorer;</div>
-<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160; </div>
-<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;std::string getFileContents(<span class="keyword">const</span> std::string&amp; filename)</div>
-<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;{</div>
-<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;    std::ifstream file(filename);</div>
-<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;    std::string str;</div>
-<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;    <span class="keywordflow">if</span> (file)</div>
-<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;    {</div>
-<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;        std::ostringstream ss;</div>
-<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;        ss &lt;&lt; file.rdbuf();</div>
-<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;        str = ss.str();</div>
-<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;    }</div>
-<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;    <span class="keywordflow">else</span></div>
-<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;        <span class="keywordflow">throw</span> std::runtime_error(<span class="stringliteral">&quot;Failed to open &quot;</span> + filename);</div>
-<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;    <span class="keywordflow">return</span> str;</div>
-<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;}</div>
-<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160; </div>
-<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;<a class="code" href="../../d9/dab/structbioexplorer_1_1SugarsDetails.html">SugarsDetails</a> getDescriptor()</div>
-<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;{</div>
-<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;    <a class="code" href="../../d9/dab/structbioexplorer_1_1SugarsDetails.html">SugarsDetails</a> descriptor;</div>
-<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;    descriptor.<a class="code" href="../../d9/dab/structbioexplorer_1_1SugarsDetails.html#a2eac92d58b0eb08446986ec08347ae47">assemblyName</a> = <span class="stringliteral">&quot;test&quot;</span>;</div>
-<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;    descriptor.<a class="code" href="../../d9/dab/structbioexplorer_1_1SugarsDetails.html#aebf76eb5f50b52c509fdfc167deaaaa1">name</a> = <span class="stringliteral">&quot;test&quot;</span>;</div>
-<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;    descriptor.<a class="code" href="../../d9/dab/structbioexplorer_1_1SugarsDetails.html#aa597c89ea380d1a1efc5786e2f7993ab">contents</a> = getFileContents(</div>
-<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;        <span class="stringliteral">&quot;./bioexplorer/pythonsdk/tests/test_files/pdb/glycans/complex/1.pdb&quot;</span>);</div>
-<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;    descriptor.<a class="code" href="../../d9/dab/structbioexplorer_1_1SugarsDetails.html#a5e9144a053d0d1839187994e800379ba">proteinName</a>;</div>
-<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;    descriptor.<a class="code" href="../../d9/dab/structbioexplorer_1_1SugarsDetails.html#a3d581f48e328000d9b4843cfefefe4b6">atomRadiusMultiplier</a>;</div>
-<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;    descriptor.<a class="code" href="../../d9/dab/structbioexplorer_1_1SugarsDetails.html#aa3f2942ca095d9a781f3ab5862612897">loadBonds</a> = <span class="keyword">true</span>;</div>
-<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;    descriptor.<a class="code" href="../../d9/dab/structbioexplorer_1_1SugarsDetails.html#abdf97852da90dcd763672ab6488c5965">representation</a> = ProteinRepresentation::atoms;</div>
-<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;    descriptor.<a class="code" href="../../d9/dab/structbioexplorer_1_1SugarsDetails.html#a0b334c2fa09bfc8bcdbcb07e94b7f312">recenter</a> = <span class="keyword">true</span>;</div>
-<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;    descriptor.<a class="code" href="../../d9/dab/structbioexplorer_1_1SugarsDetails.html#ad1812c9e43bc28c4c5faab09f789f5fe">chainIds</a> = {};</div>
-<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;    descriptor.<a class="code" href="../../d9/dab/structbioexplorer_1_1SugarsDetails.html#a53bcc3fbd1f4d6795bee8afa37957b94">siteIndices</a> = {};</div>
-<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;    descriptor.<a class="code" href="../../d9/dab/structbioexplorer_1_1SugarsDetails.html#ad654495e771615c70e7c5de6b536ab57">rotation</a> = {0.f, 0.f, 0.f, 1.f};</div>
-<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;    <span class="keywordflow">return</span> descriptor;</div>
-<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;}</div>
-<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160; </div>
-<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;BOOST_AUTO_TEST_CASE(glycans)</div>
-<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;{</div>
-<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;    std::vector&lt;const char*&gt; argv{<span class="stringliteral">&quot;brayns&quot;</span>, <span class="stringliteral">&quot;--http-server&quot;</span>, <span class="stringliteral">&quot;localhost:0&quot;</span>,</div>
-<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;                                  <span class="stringliteral">&quot;--plugin&quot;</span>, <span class="stringliteral">&quot;BioExplorer&quot;</span>};</div>
-<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;    brayns::Brayns brayns(argv.size(), argv.data());</div>
-<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;    <span class="keyword">auto</span>&amp; scene = brayns.getEngine().getScene();</div>
-<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;    <a class="code" href="../../df/dc3/classbioexplorer_1_1Glycans.html">Glycans</a> glycans(scene, getDescriptor());</div>
-<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160; </div>
-<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;    BOOST_CHECK(glycans.getAtoms().size() == 291);</div>
-<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;    BOOST_CHECK(glycans.getResidues().size() == 6);</div>
-<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;    BOOST_CHECK(glycans.getSequencesAsString().size() == 0);</div>
-<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;}</div>
+<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;<span class="preprocessor">#include &lt;plugin/common/Logs.h&gt;</span></div>
+<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160; </div>
+<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;<span class="preprocessor">#include &lt;brayns/Brayns.h&gt;</span></div>
+<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;<span class="preprocessor">#include &lt;brayns/engineapi/Engine.h&gt;</span></div>
+<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;<span class="preprocessor">#include &lt;brayns/engineapi/Scene.h&gt;</span></div>
+<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160; </div>
+<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;<span class="preprocessor">#define BOOST_TEST_MODULE glycans</span></div>
+<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;<span class="preprocessor">#include &lt;boost/test/unit_test.hpp&gt;</span></div>
+<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160; </div>
+<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;<span class="preprocessor">#include &lt;fstream&gt;</span></div>
+<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;<span class="preprocessor">#include &lt;iostream&gt;</span></div>
+<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;<span class="preprocessor">#include &lt;sstream&gt;</span></div>
+<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160; </div>
+<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;<span class="keyword">using namespace </span>bioexplorer;</div>
+<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160; </div>
+<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;std::string getFileContents(<span class="keyword">const</span> std::string&amp; filename)</div>
+<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;{</div>
+<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;    std::ifstream file(filename);</div>
+<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;    std::string str;</div>
+<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;    <span class="keywordflow">if</span> (file)</div>
+<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;    {</div>
+<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;        std::ostringstream ss;</div>
+<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;        ss &lt;&lt; file.rdbuf();</div>
+<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;        str = ss.str();</div>
+<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;    }</div>
+<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;    <span class="keywordflow">else</span></div>
+<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;        PLUGIN_THROW(<span class="stringliteral">&quot;Failed to open &quot;</span> + filename);</div>
+<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;    <span class="keywordflow">return</span> str;</div>
+<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;}</div>
+<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160; </div>
+<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;<a class="code" href="../../d9/dab/structbioexplorer_1_1SugarsDetails.html">SugarsDetails</a> getDescriptor()</div>
+<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;{</div>
+<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;    <a class="code" href="../../d9/dab/structbioexplorer_1_1SugarsDetails.html">SugarsDetails</a> descriptor;</div>
+<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;    descriptor.<a class="code" href="../../d9/dab/structbioexplorer_1_1SugarsDetails.html#a2eac92d58b0eb08446986ec08347ae47">assemblyName</a> = <span class="stringliteral">&quot;test&quot;</span>;</div>
+<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;    descriptor.<a class="code" href="../../d9/dab/structbioexplorer_1_1SugarsDetails.html#aebf76eb5f50b52c509fdfc167deaaaa1">name</a> = <span class="stringliteral">&quot;test&quot;</span>;</div>
+<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;    descriptor.<a class="code" href="../../d9/dab/structbioexplorer_1_1SugarsDetails.html#aa597c89ea380d1a1efc5786e2f7993ab">contents</a> = getFileContents(</div>
+<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;        <span class="stringliteral">&quot;./bioexplorer/pythonsdk/tests/test_files/pdb/glycans/complex/1.pdb&quot;</span>);</div>
+<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;    descriptor.<a class="code" href="../../d9/dab/structbioexplorer_1_1SugarsDetails.html#a5e9144a053d0d1839187994e800379ba">proteinName</a>;</div>
+<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;    descriptor.<a class="code" href="../../d9/dab/structbioexplorer_1_1SugarsDetails.html#a3d581f48e328000d9b4843cfefefe4b6">atomRadiusMultiplier</a>;</div>
+<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;    descriptor.<a class="code" href="../../d9/dab/structbioexplorer_1_1SugarsDetails.html#aa3f2942ca095d9a781f3ab5862612897">loadBonds</a> = <span class="keyword">true</span>;</div>
+<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;    descriptor.<a class="code" href="../../d9/dab/structbioexplorer_1_1SugarsDetails.html#abdf97852da90dcd763672ab6488c5965">representation</a> = ProteinRepresentation::atoms;</div>
+<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;    descriptor.<a class="code" href="../../d9/dab/structbioexplorer_1_1SugarsDetails.html#a0b334c2fa09bfc8bcdbcb07e94b7f312">recenter</a> = <span class="keyword">true</span>;</div>
+<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;    descriptor.<a class="code" href="../../d9/dab/structbioexplorer_1_1SugarsDetails.html#ad1812c9e43bc28c4c5faab09f789f5fe">chainIds</a> = {};</div>
+<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;    descriptor.<a class="code" href="../../d9/dab/structbioexplorer_1_1SugarsDetails.html#a53bcc3fbd1f4d6795bee8afa37957b94">siteIndices</a> = {};</div>
+<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;    descriptor.<a class="code" href="../../d9/dab/structbioexplorer_1_1SugarsDetails.html#ad654495e771615c70e7c5de6b536ab57">rotation</a> = {0.f, 0.f, 0.f, 1.f};</div>
+<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;    <span class="keywordflow">return</span> descriptor;</div>
+<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;}</div>
+<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160; </div>
+<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;BOOST_AUTO_TEST_CASE(glycans)</div>
+<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;{</div>
+<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;    std::vector&lt;const char*&gt; argv{<span class="stringliteral">&quot;brayns&quot;</span>, <span class="stringliteral">&quot;--http-server&quot;</span>, <span class="stringliteral">&quot;localhost:0&quot;</span>,</div>
+<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;                                  <span class="stringliteral">&quot;--plugin&quot;</span>, <span class="stringliteral">&quot;BioExplorer&quot;</span>};</div>
+<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;    brayns::Brayns brayns(argv.size(), argv.data());</div>
+<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;    <span class="keyword">auto</span>&amp; scene = brayns.getEngine().getScene();</div>
+<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;    <a class="code" href="../../df/dc3/classbioexplorer_1_1Glycans.html">Glycans</a> glycans(scene, getDescriptor());</div>
+<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160; </div>
+<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;    BOOST_CHECK(glycans.getAtoms().size() == 291);</div>
+<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;    BOOST_CHECK(glycans.getResidues().size() == 6);</div>
+<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;    BOOST_CHECK(glycans.getSequencesAsString().size() == 0);</div>
+<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;}</div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
-<div class="ttc" id="astructbioexplorer_1_1SugarsDetails_html_a0b334c2fa09bfc8bcdbcb07e94b7f312"><div class="ttname"><a href="../../d9/dab/structbioexplorer_1_1SugarsDetails.html#a0b334c2fa09bfc8bcdbcb07e94b7f312">bioexplorer::SugarsDetails::recenter</a></div><div class="ttdeci">bool recenter</div><div class="ttdef"><b>Definition:</b> <a href="../../d7/df8/Types_8h_source.html#l00334">Types.h:334</a></div></div>
+<div class="ttc" id="astructbioexplorer_1_1SugarsDetails_html_a0b334c2fa09bfc8bcdbcb07e94b7f312"><div class="ttname"><a href="../../d9/dab/structbioexplorer_1_1SugarsDetails.html#a0b334c2fa09bfc8bcdbcb07e94b7f312">bioexplorer::SugarsDetails::recenter</a></div><div class="ttdeci">bool recenter</div><div class="ttdef"><b>Definition:</b> <a href="../../d7/df8/Types_8h_source.html#l00335">Types.h:335</a></div></div>
 <div class="ttc" id="aclassbioexplorer_1_1Glycans_html"><div class="ttname"><a href="../../df/dc3/classbioexplorer_1_1Glycans.html">bioexplorer::Glycans</a></div><div class="ttdoc">The Glycans class.</div><div class="ttdef"><b>Definition:</b> <a href="../../df/de2/Glycans_8h_source.html#l00033">Glycans.h:33</a></div></div>
-<div class="ttc" id="astructbioexplorer_1_1SugarsDetails_html_a5e9144a053d0d1839187994e800379ba"><div class="ttname"><a href="../../d9/dab/structbioexplorer_1_1SugarsDetails.html#a5e9144a053d0d1839187994e800379ba">bioexplorer::SugarsDetails::proteinName</a></div><div class="ttdeci">std::string proteinName</div><div class="ttdef"><b>Definition:</b> <a href="../../d7/df8/Types_8h_source.html#l00325">Types.h:325</a></div></div>
-<div class="ttc" id="astructbioexplorer_1_1SugarsDetails_html_a2eac92d58b0eb08446986ec08347ae47"><div class="ttname"><a href="../../d9/dab/structbioexplorer_1_1SugarsDetails.html#a2eac92d58b0eb08446986ec08347ae47">bioexplorer::SugarsDetails::assemblyName</a></div><div class="ttdeci">std::string assemblyName</div><div class="ttdef"><b>Definition:</b> <a href="../../d7/df8/Types_8h_source.html#l00319">Types.h:319</a></div></div>
-<div class="ttc" id="astructbioexplorer_1_1SugarsDetails_html_a53bcc3fbd1f4d6795bee8afa37957b94"><div class="ttname"><a href="../../d9/dab/structbioexplorer_1_1SugarsDetails.html#a53bcc3fbd1f4d6795bee8afa37957b94">bioexplorer::SugarsDetails::siteIndices</a></div><div class="ttdeci">std::vector&lt; size_t &gt; siteIndices</div><div class="ttdef"><b>Definition:</b> <a href="../../d7/df8/Types_8h_source.html#l00338">Types.h:338</a></div></div>
-<div class="ttc" id="astructbioexplorer_1_1SugarsDetails_html_aebf76eb5f50b52c509fdfc167deaaaa1"><div class="ttname"><a href="../../d9/dab/structbioexplorer_1_1SugarsDetails.html#aebf76eb5f50b52c509fdfc167deaaaa1">bioexplorer::SugarsDetails::name</a></div><div class="ttdeci">std::string name</div><div class="ttdef"><b>Definition:</b> <a href="../../d7/df8/Types_8h_source.html#l00321">Types.h:321</a></div></div>
-<div class="ttc" id="astructbioexplorer_1_1SugarsDetails_html_aa597c89ea380d1a1efc5786e2f7993ab"><div class="ttname"><a href="../../d9/dab/structbioexplorer_1_1SugarsDetails.html#aa597c89ea380d1a1efc5786e2f7993ab">bioexplorer::SugarsDetails::contents</a></div><div class="ttdeci">std::string contents</div><div class="ttdef"><b>Definition:</b> <a href="../../d7/df8/Types_8h_source.html#l00323">Types.h:323</a></div></div>
-<div class="ttc" id="astructbioexplorer_1_1SugarsDetails_html_a3d581f48e328000d9b4843cfefefe4b6"><div class="ttname"><a href="../../d9/dab/structbioexplorer_1_1SugarsDetails.html#a3d581f48e328000d9b4843cfefefe4b6">bioexplorer::SugarsDetails::atomRadiusMultiplier</a></div><div class="ttdeci">float atomRadiusMultiplier</div><div class="ttdef"><b>Definition:</b> <a href="../../d7/df8/Types_8h_source.html#l00327">Types.h:327</a></div></div>
-<div class="ttc" id="astructbioexplorer_1_1SugarsDetails_html_aa3f2942ca095d9a781f3ab5862612897"><div class="ttname"><a href="../../d9/dab/structbioexplorer_1_1SugarsDetails.html#aa3f2942ca095d9a781f3ab5862612897">bioexplorer::SugarsDetails::loadBonds</a></div><div class="ttdeci">bool loadBonds</div><div class="ttdef"><b>Definition:</b> <a href="../../d7/df8/Types_8h_source.html#l00329">Types.h:329</a></div></div>
-<div class="ttc" id="astructbioexplorer_1_1SugarsDetails_html"><div class="ttname"><a href="../../d9/dab/structbioexplorer_1_1SugarsDetails.html">bioexplorer::SugarsDetails</a></div><div class="ttdoc">Data structure describing the glycans.</div><div class="ttdef"><b>Definition:</b> <a href="../../d7/df8/Types_8h_source.html#l00316">Types.h:316</a></div></div>
-<div class="ttc" id="astructbioexplorer_1_1SugarsDetails_html_abdf97852da90dcd763672ab6488c5965"><div class="ttname"><a href="../../d9/dab/structbioexplorer_1_1SugarsDetails.html#abdf97852da90dcd763672ab6488c5965">bioexplorer::SugarsDetails::representation</a></div><div class="ttdeci">ProteinRepresentation representation</div><div class="ttdef"><b>Definition:</b> <a href="../../d7/df8/Types_8h_source.html#l00332">Types.h:332</a></div></div>
-<div class="ttc" id="astructbioexplorer_1_1SugarsDetails_html_ad1812c9e43bc28c4c5faab09f789f5fe"><div class="ttname"><a href="../../d9/dab/structbioexplorer_1_1SugarsDetails.html#ad1812c9e43bc28c4c5faab09f789f5fe">bioexplorer::SugarsDetails::chainIds</a></div><div class="ttdeci">std::vector&lt; size_t &gt; chainIds</div><div class="ttdef"><b>Definition:</b> <a href="../../d7/df8/Types_8h_source.html#l00336">Types.h:336</a></div></div>
-<div class="ttc" id="astructbioexplorer_1_1SugarsDetails_html_ad654495e771615c70e7c5de6b536ab57"><div class="ttname"><a href="../../d9/dab/structbioexplorer_1_1SugarsDetails.html#ad654495e771615c70e7c5de6b536ab57">bioexplorer::SugarsDetails::rotation</a></div><div class="ttdeci">std::vector&lt; float &gt; rotation</div><div class="ttdef"><b>Definition:</b> <a href="../../d7/df8/Types_8h_source.html#l00340">Types.h:340</a></div></div>
+<div class="ttc" id="astructbioexplorer_1_1SugarsDetails_html_a5e9144a053d0d1839187994e800379ba"><div class="ttname"><a href="../../d9/dab/structbioexplorer_1_1SugarsDetails.html#a5e9144a053d0d1839187994e800379ba">bioexplorer::SugarsDetails::proteinName</a></div><div class="ttdeci">std::string proteinName</div><div class="ttdef"><b>Definition:</b> <a href="../../d7/df8/Types_8h_source.html#l00326">Types.h:326</a></div></div>
+<div class="ttc" id="astructbioexplorer_1_1SugarsDetails_html_a2eac92d58b0eb08446986ec08347ae47"><div class="ttname"><a href="../../d9/dab/structbioexplorer_1_1SugarsDetails.html#a2eac92d58b0eb08446986ec08347ae47">bioexplorer::SugarsDetails::assemblyName</a></div><div class="ttdeci">std::string assemblyName</div><div class="ttdef"><b>Definition:</b> <a href="../../d7/df8/Types_8h_source.html#l00320">Types.h:320</a></div></div>
+<div class="ttc" id="astructbioexplorer_1_1SugarsDetails_html_a53bcc3fbd1f4d6795bee8afa37957b94"><div class="ttname"><a href="../../d9/dab/structbioexplorer_1_1SugarsDetails.html#a53bcc3fbd1f4d6795bee8afa37957b94">bioexplorer::SugarsDetails::siteIndices</a></div><div class="ttdeci">std::vector&lt; size_t &gt; siteIndices</div><div class="ttdef"><b>Definition:</b> <a href="../../d7/df8/Types_8h_source.html#l00339">Types.h:339</a></div></div>
+<div class="ttc" id="astructbioexplorer_1_1SugarsDetails_html_aebf76eb5f50b52c509fdfc167deaaaa1"><div class="ttname"><a href="../../d9/dab/structbioexplorer_1_1SugarsDetails.html#aebf76eb5f50b52c509fdfc167deaaaa1">bioexplorer::SugarsDetails::name</a></div><div class="ttdeci">std::string name</div><div class="ttdef"><b>Definition:</b> <a href="../../d7/df8/Types_8h_source.html#l00322">Types.h:322</a></div></div>
+<div class="ttc" id="astructbioexplorer_1_1SugarsDetails_html_aa597c89ea380d1a1efc5786e2f7993ab"><div class="ttname"><a href="../../d9/dab/structbioexplorer_1_1SugarsDetails.html#aa597c89ea380d1a1efc5786e2f7993ab">bioexplorer::SugarsDetails::contents</a></div><div class="ttdeci">std::string contents</div><div class="ttdef"><b>Definition:</b> <a href="../../d7/df8/Types_8h_source.html#l00324">Types.h:324</a></div></div>
+<div class="ttc" id="astructbioexplorer_1_1SugarsDetails_html_a3d581f48e328000d9b4843cfefefe4b6"><div class="ttname"><a href="../../d9/dab/structbioexplorer_1_1SugarsDetails.html#a3d581f48e328000d9b4843cfefefe4b6">bioexplorer::SugarsDetails::atomRadiusMultiplier</a></div><div class="ttdeci">float atomRadiusMultiplier</div><div class="ttdef"><b>Definition:</b> <a href="../../d7/df8/Types_8h_source.html#l00328">Types.h:328</a></div></div>
+<div class="ttc" id="astructbioexplorer_1_1SugarsDetails_html_aa3f2942ca095d9a781f3ab5862612897"><div class="ttname"><a href="../../d9/dab/structbioexplorer_1_1SugarsDetails.html#aa3f2942ca095d9a781f3ab5862612897">bioexplorer::SugarsDetails::loadBonds</a></div><div class="ttdeci">bool loadBonds</div><div class="ttdef"><b>Definition:</b> <a href="../../d7/df8/Types_8h_source.html#l00330">Types.h:330</a></div></div>
+<div class="ttc" id="astructbioexplorer_1_1SugarsDetails_html"><div class="ttname"><a href="../../d9/dab/structbioexplorer_1_1SugarsDetails.html">bioexplorer::SugarsDetails</a></div><div class="ttdoc">Data structure describing the glycans.</div><div class="ttdef"><b>Definition:</b> <a href="../../d7/df8/Types_8h_source.html#l00317">Types.h:317</a></div></div>
+<div class="ttc" id="astructbioexplorer_1_1SugarsDetails_html_abdf97852da90dcd763672ab6488c5965"><div class="ttname"><a href="../../d9/dab/structbioexplorer_1_1SugarsDetails.html#abdf97852da90dcd763672ab6488c5965">bioexplorer::SugarsDetails::representation</a></div><div class="ttdeci">ProteinRepresentation representation</div><div class="ttdef"><b>Definition:</b> <a href="../../d7/df8/Types_8h_source.html#l00333">Types.h:333</a></div></div>
+<div class="ttc" id="astructbioexplorer_1_1SugarsDetails_html_ad1812c9e43bc28c4c5faab09f789f5fe"><div class="ttname"><a href="../../d9/dab/structbioexplorer_1_1SugarsDetails.html#ad1812c9e43bc28c4c5faab09f789f5fe">bioexplorer::SugarsDetails::chainIds</a></div><div class="ttdeci">std::vector&lt; size_t &gt; chainIds</div><div class="ttdef"><b>Definition:</b> <a href="../../d7/df8/Types_8h_source.html#l00337">Types.h:337</a></div></div>
+<div class="ttc" id="astructbioexplorer_1_1SugarsDetails_html_ad654495e771615c70e7c5de6b536ab57"><div class="ttname"><a href="../../d9/dab/structbioexplorer_1_1SugarsDetails.html#ad654495e771615c70e7c5de6b536ab57">bioexplorer::SugarsDetails::rotation</a></div><div class="ttdeci">std::vector&lt; float &gt; rotation</div><div class="ttdef"><b>Definition:</b> <a href="../../d7/df8/Types_8h_source.html#l00341">Types.h:341</a></div></div>
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>

@@ -73,35 +73,33 @@ ModelDescriptorPtr SurfaceMesher::generateSurface(brayns::Scene& scene,
         title.substr(title.find("_") + 1) + ".off";
     try
     {
-        PLUGIN_INFO << "Trying to load surface from cache " << filename
-                    << std::endl;
+        PLUGIN_INFO("Trying to load surface from cache " << filename);
         modelDescriptor =
             meshLoader.importFromFile(filename, LoaderProgress(), {});
         _setMaterialExtraAttributes(modelDescriptor);
-        PLUGIN_INFO << "Surface loaded from cache " << filename << std::endl;
+        PLUGIN_INFO("Surface loaded from cache " << filename);
         return modelDescriptor;
     }
     catch (const std::runtime_error& e)
     {
-        PLUGIN_INFO << "Failed to load surface from cache (" << e.what()
-                    << "), constructing it..." << std::endl;
+        PLUGIN_INFO("Failed to load surface from cache ("
+                    << e.what() << "), constructing it...");
     }
 
     std::list<Weighted_point> l;
     for (const auto& atom : atoms)
         l.push_front(Weighted_point(Point_3(atom.x, atom.y, atom.z), atom.w));
 
-    PLUGIN_INFO << "Constructing skin surface from " << l.size() << " atoms"
-                << std::endl;
+    PLUGIN_INFO("Constructing skin surface from " << l.size() << " atoms");
 
     Polyhedron polyhedron;
     Skin_surface_3 skinSurface(l.begin(), l.end(), shrinkfactor);
 
-    PLUGIN_INFO << "Meshing skin surface..." << std::endl;
+    PLUGIN_INFO("Meshing skin surface...");
     CGAL::mesh_skin_surface_3(skinSurface, polyhedron);
     CGAL::Polygon_mesh_processing::triangulate_faces(polyhedron);
 
-    PLUGIN_INFO << "Adding mesh to model" << std::endl;
+    PLUGIN_INFO("Adding mesh to model");
     std::ofstream out(filename);
     out << polyhedron;
     modelDescriptor = meshLoader.importFromFile(filename, LoaderProgress(), {});
@@ -124,28 +122,26 @@ ModelDescriptorPtr SurfaceMesher::generateUnionOfBalls(brayns::Scene& scene,
         title.substr(title.find("_") + 1) + ".off";
     try
     {
-        PLUGIN_INFO << "Trying to load union of balls from cache " << filename
-                    << std::endl;
+        PLUGIN_INFO("Trying to load union of balls from cache " << filename);
         modelDescriptor =
             meshLoader.importFromFile(filename, LoaderProgress(), {});
         _setMaterialExtraAttributes(modelDescriptor);
-        PLUGIN_INFO << "Surface loaded from cache " << filename << std::endl;
+        PLUGIN_INFO("Surface loaded from cache " << filename);
         return modelDescriptor;
     }
     catch (const std::runtime_error& e)
     {
-        PLUGIN_INFO << "Failed to load union of balls from cache (" << e.what()
-                    << "), constructing it..." << std::endl;
+        PLUGIN_INFO("Failed to load union of balls from cache ("
+                    << e.what() << "), constructing it...");
     }
 
-    PLUGIN_INFO << "Constructing union of balls from " << l.size() << " atoms"
-                << std::endl;
+    PLUGIN_INFO("Constructing union of balls from " << l.size() << " atoms");
 
     Polyhedron polyhedron;
     Union_of_balls_3 union_of_balls(l.begin(), l.end());
     CGAL::mesh_union_of_balls_3(union_of_balls, polyhedron);
 
-    PLUGIN_INFO << "Adding mesh to model" << std::endl;
+    PLUGIN_INFO("Adding mesh to model");
     std::ofstream out(filename);
     out << polyhedron;
     modelDescriptor = meshLoader.importFromFile(filename, LoaderProgress(), {});

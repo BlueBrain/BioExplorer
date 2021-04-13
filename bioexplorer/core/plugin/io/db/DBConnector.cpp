@@ -40,14 +40,14 @@ void DBConnector::clearBricks()
     try
     {
         const auto sql = "DELETE FROM " + _schema + ".brick";
-        PLUGIN_DEBUG << sql << std::endl;
+        PLUGIN_DEBUG(sql);
         transaction.exec(sql);
         transaction.commit();
     }
     catch (pqxx::sql_error& e)
     {
         transaction.abort();
-        PLUGIN_THROW(e);
+        PLUGIN_THROW(e.what());
     }
 }
 
@@ -61,7 +61,7 @@ const OOCSceneConfigurationDetails DBConnector::getSceneConfiguration()
             "SELECT scene_size_x, scene_size_y, scene_size_z, nb_bricks, "
             "description FROM " +
             _schema + ".configuration";
-        PLUGIN_DEBUG << sql << std::endl;
+        PLUGIN_DEBUG(sql);
         auto res = transaction.exec(sql);
         for (auto c = res.begin(); c != res.end(); ++c)
         {
@@ -70,14 +70,14 @@ const OOCSceneConfigurationDetails DBConnector::getSceneConfiguration()
             sceneConfiguration.nbBricks = c[3].as<uint32_t>();
             sceneConfiguration.description = c[4].as<std::string>();
             if (sceneConfiguration.nbBricks == 0)
-                PLUGIN_THROW(std::runtime_error("Invalid number of bricks)"));
+                PLUGIN_THROW("Invalid number of bricks)");
             sceneConfiguration.brickSize =
                 sceneConfiguration.sceneSize / sceneConfiguration.nbBricks;
         }
     }
     catch (pqxx::sql_error& e)
     {
-        PLUGIN_THROW(e);
+        PLUGIN_THROW(e.what());
     }
     transaction.abort();
     return sceneConfiguration;
@@ -96,13 +96,12 @@ void DBConnector::insertBrick(const int32_t brickId, const uint32_t version,
                                     ".brick VALUES ($1, $2, $3, $4)",
                                 brickId, version, nbModels, tmp);
         transaction.commit();
-        PLUGIN_DEBUG << "Brick ID " << brickId << " successfully inserted"
-                     << std::endl;
+        PLUGIN_DEBUG("Brick ID " << brickId << " successfully inserted");
     }
     catch (pqxx::sql_error& e)
     {
         transaction.abort();
-        PLUGIN_THROW(e);
+        PLUGIN_THROW(e.what());
     }
 }
 
@@ -117,7 +116,7 @@ std::stringstream DBConnector::getBrick(const int32_t brickId,
         const auto sql = "SELECT nb_models, buffer FROM " + _schema +
                          ".brick WHERE guid=" + std::to_string(brickId) +
                          " AND version=" + std::to_string(version);
-        PLUGIN_DEBUG << sql << std::endl;
+        PLUGIN_DEBUG(sql);
         auto res = transaction.exec(sql);
         for (auto c = res.begin(); c != res.end(); ++c)
         {
@@ -132,7 +131,7 @@ std::stringstream DBConnector::getBrick(const int32_t brickId,
     }
     catch (pqxx::sql_error& e)
     {
-        PLUGIN_THROW(e);
+        PLUGIN_THROW(e.what());
     }
     transaction.abort();
 

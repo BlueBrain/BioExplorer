@@ -56,11 +56,10 @@ FieldsHandler::FieldsHandler(const std::string& filename)
 void FieldsHandler::_buildOctree(const Scene& scene, const float voxelSize,
                                  const float density)
 {
-    PLUGIN_INFO << "Building Octree" << std::endl;
+    PLUGIN_INFO("Building Octree");
 
     if (density > 1.f || density <= 0.f)
-        PLUGIN_THROW(
-            std::runtime_error("Density should be higher > 0 and <= 1"));
+        PLUGIN_THROW("Density should be higher > 0 and <= 1");
     const size_t densityRatio = 1.f / density;
 
     const auto clipPlanes = getClippingPlanes(scene);
@@ -140,24 +139,24 @@ void FieldsHandler::_buildOctree(const Scene& scene, const float voxelSize,
     _dimensions = morphoOctree.getVolumeDim();
     _spacing = sceneSize / glm::vec3(_dimensions);
 
-    PLUGIN_INFO << "--------------------------------------------" << std::endl;
-    PLUGIN_INFO << "Octree information" << std::endl;
-    PLUGIN_INFO << "--------------------------------------------" << std::endl;
-    PLUGIN_INFO << "Scene AABB        : [" << minAABB.x << "," << minAABB.y
-                << "," << minAABB.z << "] [" << maxAABB.x << "," << maxAABB.y
-                << "," << maxAABB.z << "]" << std::endl;
-    PLUGIN_INFO << "Scene dimension   : [" << sceneSize.x << "," << sceneSize.y
-                << "," << sceneSize.z << "]" << std::endl;
-    PLUGIN_INFO << "Element spacing   : [" << _spacing.x << ", " << _spacing.y
-                << ", " << _spacing.z << "] " << std::endl;
-    PLUGIN_INFO << "Volume dimensions : [" << _dimensions.x << ", "
-                << _dimensions.y << ", " << _dimensions.z
-                << "] = " << volumeSize << " bytes" << std::endl;
-    PLUGIN_INFO << "Element offset    : [" << _offset.x << ", " << _offset.y
-                << ", " << _offset.z << "] " << std::endl;
+    PLUGIN_INFO("--------------------------------------------");
+    PLUGIN_INFO("Octree information");
+    PLUGIN_INFO("--------------------------------------------");
+    PLUGIN_INFO("Scene AABB        : ["
+                << minAABB.x << "," << minAABB.y << "," << minAABB.z << "] ["
+                << maxAABB.x << "," << maxAABB.y << "," << maxAABB.z << "]");
+    PLUGIN_INFO("Scene dimension   : [" << sceneSize.x << "," << sceneSize.y
+                                        << "," << sceneSize.z << "]");
+    PLUGIN_INFO("Element spacing   : [" << _spacing.x << ", " << _spacing.y
+                                        << ", " << _spacing.z << "] ");
+    PLUGIN_INFO("Volume dimensions : ["
+                << _dimensions.x << ", " << _dimensions.y << ", "
+                << _dimensions.z << "] = " << volumeSize << " bytes");
+    PLUGIN_INFO("Element offset    : [" << _offset.x << ", " << _offset.y
+                                        << ", " << _offset.z << "] ");
 
     const auto& indices = morphoOctree.getFlatIndexes();
-    PLUGIN_INFO << "Indices size      : " << indices.size() << std::endl;
+    PLUGIN_INFO("Indices size      : " << indices.size());
     const auto& data = morphoOctree.getFlatData();
     _frameData.push_back(_offset.x);
     _frameData.push_back(_offset.y);
@@ -173,8 +172,8 @@ void FieldsHandler::_buildOctree(const Scene& scene, const float voxelSize,
     _frameData.insert(_frameData.end(), indices.begin(), indices.end());
     _frameData.insert(_frameData.end(), data.begin(), data.end());
     _frameSize = _frameData.size();
-    PLUGIN_INFO << "Data size         : " << _frameSize << std::endl;
-    PLUGIN_INFO << "--------------------------------------------" << std::endl;
+    PLUGIN_INFO("Data size         : " << _frameSize);
+    PLUGIN_INFO("--------------------------------------------");
 }
 
 FieldsHandler::FieldsHandler(const FieldsHandler& rhs)
@@ -194,13 +193,10 @@ void* FieldsHandler::getFrameData(const uint32_t frame)
 
 void FieldsHandler::exportToFile(const std::string& filename)
 {
-    PLUGIN_INFO << "Saving octree to file: " << filename << std::endl;
+    PLUGIN_INFO("Saving octree to file: " << filename);
     std::ofstream file(filename, std::ios::out | std::ios::binary);
     if (!file.good())
-    {
-        const std::string msg = "Could not export octree to " + filename;
-        PLUGIN_THROW(std::runtime_error(msg));
-    }
+        PLUGIN_THROW("Could not export octree to " + filename);
 
     file.write((char*)&_frameSize, sizeof(uint64_t));
     file.write((char*)_frameData.data(), _frameData.size() * sizeof(float));
@@ -210,13 +206,10 @@ void FieldsHandler::exportToFile(const std::string& filename)
 
 void FieldsHandler::importFromFile(const std::string& filename)
 {
-    PLUGIN_INFO << "Loading octree from file: " << filename << std::endl;
+    PLUGIN_INFO("Loading octree from file: " << filename);
     std::ifstream file(filename, std::ios::in | std::ios::binary);
     if (!file.good())
-    {
-        const std::string msg = "Could not import octree from " + filename;
-        PLUGIN_THROW(std::runtime_error(msg));
-    }
+        PLUGIN_THROW("Could not import octree from " + filename);
 
     file.read((char*)&_frameSize, sizeof(uint64_t));
     _frameData.resize(_frameSize);
@@ -226,9 +219,8 @@ void FieldsHandler::importFromFile(const std::string& filename)
     _spacing = {_frameData[3], _frameData[4], _frameData[5]};
     _dimensions = {_frameData[6], _frameData[7], _frameData[8]};
 
-    PLUGIN_INFO << "Octree: dimensions=" << _dimensions
-                << ", offset=" << _offset << ", spacing=" << _spacing
-                << std::endl;
+    PLUGIN_INFO("Octree: dimensions=" << _dimensions << ", offset=" << _offset
+                                      << ", spacing=" << _spacing);
 
     file.close();
 }
