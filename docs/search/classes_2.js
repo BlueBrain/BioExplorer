@@ -1,5 +1,5 @@
 var searchData=
 [
-  ['cacheloader_250',['CacheLoader',['../d9/d08/classbioexplorer_1_1CacheLoader.html',1,'bioexplorer']]],
-  ['colorschemedescriptor_251',['ColorSchemeDescriptor',['../dd/d82/structbioexplorer_1_1ColorSchemeDescriptor.html',1,'bioexplorer']]]
+  ['cacheloader_254',['CacheLoader',['../d9/d08/classbioexplorer_1_1CacheLoader.html',1,'bioexplorer']]],
+  ['colorschemedetails_255',['ColorSchemeDetails',['../d7/d0c/structbioexplorer_1_1ColorSchemeDetails.html',1,'bioexplorer']]]
 ];

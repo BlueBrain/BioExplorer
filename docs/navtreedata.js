@@ -86,7 +86,7 @@ var NAVTREE =
 var NAVTREEINDEX =
 [
 ".html",
-"da/db3/structbioexplorer_1_1AdvancedMaterial.html#a10b5cbfe1f3d39ed27cc2bf460eaaadc",
+"d9/dab/structbioexplorer_1_1SugarsDetails.html",
 "df/db9/structbioexplorer_1_1RandomizationInformation.html#a9350b4cf6950d69d7b33f8475a2fa0d8"
 ];
 
