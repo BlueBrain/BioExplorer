@@ -204,8 +204,8 @@ void Membrane::_processInstances()
         case AssemblyShape::bezier:
         {
             if ((params.size() - 5) % 3 != 0)
-                PLUGIN_THROW(std::runtime_error(
-                    "Invalid number of floats in assembly extra parameters"));
+                PLUGIN_THROW(
+                    "Invalid number of floats in assembly extra parameters");
             Vector3fs points;
             for (uint32_t i = 5; i < params.size(); i += 3)
                 points.push_back(

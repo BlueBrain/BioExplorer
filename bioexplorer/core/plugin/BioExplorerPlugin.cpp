@@ -60,11 +60,9 @@ Boxd vector_to_bounds(const std::vector<float> &lowBounds,
                       const std::vector<float> &highBounds)
 {
     if (!lowBounds.empty() && lowBounds.size() != 3)
-        PLUGIN_THROW(
-            std::runtime_error("Invalid low bounds. 3 floats expected"));
+        PLUGIN_THROW("Invalid low bounds. 3 floats expected");
     if (!highBounds.empty() && highBounds.size() != 3)
-        PLUGIN_THROW(
-            std::runtime_error("Invalid high bounds. 3 floats expected"));
+        PLUGIN_THROW("Invalid high bounds. 3 floats expected");
 
     Boxd bounds;
     if (!lowBounds.empty())
@@ -492,8 +490,7 @@ Response BioExplorerPlugin::_addAssembly(const AssemblyDetails &payload)
     try
     {
         if (_assemblies.find(payload.name) != _assemblies.end())
-            PLUGIN_THROW(
-                std::runtime_error("Assembly already exists: " + payload.name));
+            PLUGIN_THROW("Assembly already exists: " + payload.name);
         auto &scene = _api->getScene();
         AssemblyPtr assembly = AssemblyPtr(new Assembly(scene, payload));
         _assemblies[payload.name] = std::move(assembly);
@@ -531,7 +528,7 @@ Response BioExplorerPlugin::_setAminoAcidSequenceAsString(
     try
     {
         if (payload.sequence.empty())
-            throw std::runtime_error("A valid sequence must be specified");
+            PLUGIN_THROW("A valid sequence must be specified");
 
         auto it = _assemblies.find(payload.assemblyName);
         if (it != _assemblies.end())
@@ -556,7 +553,7 @@ Response BioExplorerPlugin::_setAminoAcidSequenceAsRanges(
     try
     {
         if (payload.ranges.size() % 2 != 0 || payload.ranges.size() < 2)
-            throw std::runtime_error("A valid range must be specified");
+            PLUGIN_THROW("A valid range must be specified");
 
         auto it = _assemblies.find(payload.assemblyName);
         if (it != _assemblies.end())
@@ -802,8 +799,7 @@ Response BioExplorerPlugin::_importFromFile(const FileAccessDetails &payload)
         const auto modelDescriptors =
             loader.importModelsFromFile(payload.filename);
         if (modelDescriptors.empty())
-            PLUGIN_THROW(std::runtime_error("No models were found in " +
-                                            payload.filename));
+            PLUGIN_THROW("No models were found in " + payload.filename);
         response.contents = std::to_string(modelDescriptors.size()) +
                             " models successfully loaded";
         for (const auto modelDescriptor : modelDescriptors)
@@ -1033,7 +1029,7 @@ MaterialIdsDetails BioExplorerPlugin::_getMaterialIds(
                 materialIds.ids.push_back(material.first);
     }
     else
-        PLUGIN_THROW(std::runtime_error("Invalid model ID"));
+        PLUGIN_THROW("Invalid model ID");
     return materialIds;
 }
 
@@ -1211,16 +1207,15 @@ Response BioExplorerPlugin::_exportFieldsToFile(
                 FieldsHandler *fieldsHandler =
                     dynamic_cast<FieldsHandler *>(handler.get());
                 if (!fieldsHandler)
-                    PLUGIN_THROW(
-                        std::runtime_error("Model has no fields handler"));
+                    PLUGIN_THROW("Model has no fields handler");
 
                 fieldsHandler->exportToFile(payload.filename);
             }
             else
-                PLUGIN_THROW(std::runtime_error("Model has no handler"));
+                PLUGIN_THROW("Model has no handler");
         }
         else
-            PLUGIN_THROW(std::runtime_error("Unknown model ID"));
+            PLUGIN_THROW("Unknown model ID");
     }
     CATCH_STD_EXCEPTION()
     return response;
@@ -1314,7 +1309,7 @@ Response BioExplorerPlugin::_setModelsVisibility(
 Response BioExplorerPlugin::_getOOCConfiguration() const
 {
     if (!_oocManager)
-        PLUGIN_THROW(std::runtime_error("Out-of-core engine is disabled"));
+        PLUGIN_THROW("Out-of-core engine is disabled");
 
     Response response;
     try
@@ -1339,7 +1334,7 @@ Response BioExplorerPlugin::_getOOCConfiguration() const
 Response BioExplorerPlugin::_getOOCProgress() const
 {
     if (!_oocManager)
-        PLUGIN_THROW(std::runtime_error("Out-of-core engine is disabled"));
+        PLUGIN_THROW("Out-of-core engine is disabled");
 
     Response response;
     try
@@ -1354,7 +1349,7 @@ Response BioExplorerPlugin::_getOOCProgress() const
 Response BioExplorerPlugin::_getOOCAverageLoadingTime() const
 {
     if (!_oocManager)
-        PLUGIN_THROW(std::runtime_error("Out-of-core engine is disabled"));
+        PLUGIN_THROW("Out-of-core engine is disabled");
 
     Response response;
     try

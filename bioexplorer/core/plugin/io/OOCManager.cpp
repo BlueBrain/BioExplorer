@@ -326,9 +326,9 @@ void OOCManager::_parseArguments(const CommandLineArguments& arguments)
     const bool disableBroadcasting =
         std::getenv(ENV_ROCKETS_DISABLE_SCENE_BROADCASTING.c_str()) != nullptr;
     if (!disableBroadcasting)
-        PLUGIN_THROW(std::runtime_error(
+        PLUGIN_THROW(
             ENV_ROCKETS_DISABLE_SCENE_BROADCASTING +
-            " environment variable must be set when out-of-core is enabled"));
+            " environment variable must be set when out-of-core is enabled");
 }
 
 } // namespace bioexplorer

@@ -59,8 +59,7 @@ void FieldsHandler::_buildOctree(const Scene& scene, const float voxelSize,
     PLUGIN_INFO << "Building Octree" << std::endl;
 
     if (density > 1.f || density <= 0.f)
-        PLUGIN_THROW(
-            std::runtime_error("Density should be higher > 0 and <= 1"));
+        PLUGIN_THROW("Density should be higher > 0 and <= 1");
     const size_t densityRatio = 1.f / density;
 
     const auto clipPlanes = getClippingPlanes(scene);
@@ -197,10 +196,7 @@ void FieldsHandler::exportToFile(const std::string& filename)
     PLUGIN_INFO << "Saving octree to file: " << filename << std::endl;
     std::ofstream file(filename, std::ios::out | std::ios::binary);
     if (!file.good())
-    {
-        const std::string msg = "Could not export octree to " + filename;
-        PLUGIN_THROW(std::runtime_error(msg));
-    }
+        PLUGIN_THROW("Could not export octree to " + filename);
 
     file.write((char*)&_frameSize, sizeof(uint64_t));
     file.write((char*)_frameData.data(), _frameData.size() * sizeof(float));
@@ -213,10 +209,7 @@ void FieldsHandler::importFromFile(const std::string& filename)
     PLUGIN_INFO << "Loading octree from file: " << filename << std::endl;
     std::ifstream file(filename, std::ios::in | std::ios::binary);
     if (!file.good())
-    {
-        const std::string msg = "Could not import octree from " + filename;
-        PLUGIN_THROW(std::runtime_error(msg));
-    }
+        PLUGIN_THROW("Could not import octree from " + filename);
 
     file.read((char*)&_frameSize, sizeof(uint64_t));
     _frameData.resize(_frameSize);

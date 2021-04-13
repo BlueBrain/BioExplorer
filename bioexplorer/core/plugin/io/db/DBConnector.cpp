@@ -47,7 +47,7 @@ void DBConnector::clearBricks()
     catch (pqxx::sql_error& e)
     {
         transaction.abort();
-        PLUGIN_THROW(e);
+        PLUGIN_THROW(e.what());
     }
 }
 
@@ -70,14 +70,14 @@ const OOCSceneConfigurationDetails DBConnector::getSceneConfiguration()
             sceneConfiguration.nbBricks = c[3].as<uint32_t>();
             sceneConfiguration.description = c[4].as<std::string>();
             if (sceneConfiguration.nbBricks == 0)
-                PLUGIN_THROW(std::runtime_error("Invalid number of bricks)"));
+                PLUGIN_THROW("Invalid number of bricks)");
             sceneConfiguration.brickSize =
                 sceneConfiguration.sceneSize / sceneConfiguration.nbBricks;
         }
     }
     catch (pqxx::sql_error& e)
     {
-        PLUGIN_THROW(e);
+        PLUGIN_THROW(e.what());
     }
     transaction.abort();
     return sceneConfiguration;
@@ -102,7 +102,7 @@ void DBConnector::insertBrick(const int32_t brickId, const uint32_t version,
     catch (pqxx::sql_error& e)
     {
         transaction.abort();
-        PLUGIN_THROW(e);
+        PLUGIN_THROW(e.what());
     }
 }
 
@@ -132,7 +132,7 @@ std::stringstream DBConnector::getBrick(const int32_t brickId,
     }
     catch (pqxx::sql_error& e)
     {
-        PLUGIN_THROW(e);
+        PLUGIN_THROW(e.what());
     }
     transaction.abort();
 

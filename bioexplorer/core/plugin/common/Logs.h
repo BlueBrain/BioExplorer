@@ -44,10 +44,10 @@ namespace bioexplorer
               << "] [DEBUG] [BIO_EXPLORER] "
 #endif
 
-#define PLUGIN_THROW(exc)                                         \
-    {                                                             \
-        PLUGIN_ERROR << "[" << std::this_thread::get_id() << "] " \
-                     << exc.what() << std::endl;                  \
-        throw exc;                                                \
+#define PLUGIN_THROW(message)                                                \
+    {                                                                        \
+        PLUGIN_ERROR << "[" << std::this_thread::get_id() << "] " << message \
+                     << std::endl;                                           \
+        throw std::runtime_error(message);                                   \
     }
 } // namespace bioexplorer

@@ -164,7 +164,7 @@ RNASequence::RNASequence(Scene& scene, const RNASequenceDetails& rd)
                 break;
             }
             default:
-                PLUGIN_THROW(std::runtime_error("Undefined shape"));
+                PLUGIN_THROW("Undefined shape");
                 break;
             }
 

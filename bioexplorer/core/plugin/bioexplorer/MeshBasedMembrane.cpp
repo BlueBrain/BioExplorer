@@ -81,10 +81,10 @@ MeshBasedMembrane::MeshBasedMembrane(Scene& scene,
                                         aiProcess_Triangulate);
 
     if (!aiScene)
-        PLUGIN_THROW(std::runtime_error(importer.GetErrorString()));
+        PLUGIN_THROW(importer.GetErrorString());
 
     if (!aiScene->HasMeshes())
-        PLUGIN_THROW(std::runtime_error("No MeshBasedMembranees found"));
+        PLUGIN_THROW("No MeshBasedMembranees found");
 
     const auto trfm = aiScene->mRootNode->mTransformation;
     const Matrix4f matrix{trfm.a1, trfm.b1, trfm.c1, trfm.d1, trfm.a2, trfm.b2,

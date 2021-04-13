@@ -18,6 +18,7 @@
 
 #include <plugin/bioexplorer/MeshBasedMembrane.h>
 #include <plugin/bioexplorer/Protein.h>
+#include <plugin/common/Logs.h>
 
 #include <brayns/Brayns.h>
 #include <brayns/engineapi/Engine.h>
@@ -43,7 +44,7 @@ std::string getFileContents(const std::string& filename)
         str = ss.str();
     }
     else
-        throw std::runtime_error("Failed to open " + filename);
+        PLUGIN_THROW("Failed to open " + filename);
     return str;
 }
 

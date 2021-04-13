@@ -35,16 +35,13 @@ Assembly::Assembly(Scene &scene, const AssemblyDetails &descriptor)
     , _scene(scene)
 {
     if (descriptor.position.size() != 3)
-        PLUGIN_THROW(std::runtime_error(
-            "Position must be a sequence of 3 float values"));
+        PLUGIN_THROW("Position must be a sequence of 3 float values");
 
     if (descriptor.rotation.size() != 4)
-        PLUGIN_THROW(std::runtime_error(
-            "rotation must be a sequence of 4 float values"));
+        PLUGIN_THROW("rotation must be a sequence of 4 float values");
 
     if (descriptor.clippingPlanes.size() % 4 != 0)
-        PLUGIN_THROW(std::runtime_error(
-            "Clipping planes must be defined by 4 float values"));
+        PLUGIN_THROW("Clipping planes must be defined by 4 float values");
     const auto &cp = descriptor.clippingPlanes;
     for (size_t i = 0; i < cp.size(); i += 4)
         _clippingPlanes.push_back({cp[i], cp[i + 1], cp[i + 2], cp[i + 3]});
@@ -102,7 +99,7 @@ void Assembly::addProtein(const ProteinDetails &pd)
 void Assembly::addMembrane(const MembraneDetails &md)
 {
     if (_membrane != nullptr)
-        PLUGIN_THROW(std::runtime_error("Assembly already has a membrane"));
+        PLUGIN_THROW("Assembly already has a membrane");
 
     const Vector3f position = {_details.position[0], _details.position[1],
                                _details.position[2]};
@@ -124,10 +121,9 @@ void Assembly::addSugars(const SugarsDetails &sd)
         std::string s;
         for (const auto &protein : _proteins)
             s += "[" + protein.first + "]";
-        PLUGIN_THROW(std::runtime_error("Target protein " + sd.proteinName +
-                                        " not registered in assembly " +
-                                        sd.assemblyName +
-                                        ". Registered proteins are " + s));
+        PLUGIN_THROW("Target protein " + sd.proteinName +
+                     " not registered in assembly " + sd.assemblyName +
+                     ". Registered proteins are " + s);
     }
     PLUGIN_INFO << "Adding sugars to protein " << sd.proteinName << std::endl;
     const auto targetProtein = (*it).second;
@@ -144,10 +140,9 @@ void Assembly::addGlycans(const SugarsDetails &sd)
         std::string s;
         for (const auto &protein : _proteins)
             s += "[" + protein.first + "]";
-        PLUGIN_THROW(std::runtime_error("Target protein " + sd.proteinName +
-                                        " not registered in assembly " +
-                                        sd.assemblyName +
-                                        ". Registered proteins are " + s));
+        PLUGIN_THROW("Target protein " + sd.proteinName +
+                     " not registered in assembly " + sd.assemblyName +
+                     ". Registered proteins are " + s);
     }
 
     PLUGIN_INFO << "Adding glycans to protein " << sd.proteinName << std::endl;
@@ -243,8 +238,8 @@ void Assembly::_processInstances(
         case AssemblyShape::bezier:
         {
             if ((params.size() - 5) % 3 != 0)
-                PLUGIN_THROW(std::runtime_error(
-                    "Invalid number of floats in assembly extra parameters"));
+                PLUGIN_THROW(
+                    "Invalid number of floats in assembly extra parameters");
             Vector3fs points;
             for (uint32_t i = 5; i < params.size(); i += 3)
                 points.push_back(
@@ -294,7 +289,7 @@ void Assembly::_processInstances(
 void Assembly::setColorScheme(const ColorSchemeDetails &csd)
 {
     if (csd.palette.size() < 3 || csd.palette.size() % 3 != 0)
-        PLUGIN_THROW(std::runtime_error("Invalid palette size"));
+        PLUGIN_THROW("Invalid palette size");
 
     ProteinPtr protein{nullptr};
     auto itProtein = _proteins.find(csd.name);
@@ -339,7 +334,7 @@ void Assembly::setAminoAcidSequenceAsString(
     if (it != _proteins.end())
         (*it).second->setAminoAcidSequenceAsString(aasd.sequence);
     else
-        PLUGIN_THROW(std::runtime_error("Protein not found: " + aasd.name));
+        PLUGIN_THROW("Protein not found: " + aasd.name);
 }
 
 void Assembly::setAminoAcidSequenceAsRange(
@@ -355,7 +350,7 @@ void Assembly::setAminoAcidSequenceAsRange(
         (*it).second->setAminoAcidSequenceAsRanges(ranges);
     }
     else
-        PLUGIN_THROW(std::runtime_error("Protein not found: " + aasd.name));
+        PLUGIN_THROW("Protein not found: " + aasd.name);
 }
 
 std::string Assembly::getAminoAcidInformation(
@@ -391,7 +386,7 @@ std::string Assembly::getAminoAcidInformation(
         }
     }
     else
-        PLUGIN_THROW(std::runtime_error("Protein not found: " + aasd.name));
+        PLUGIN_THROW("Protein not found: " + aasd.name);
 
     return response;
 }
@@ -402,22 +397,21 @@ void Assembly::setAminoAcid(const AminoAcidDetails &aminoAcid)
     if (it != _proteins.end())
         (*it).second->setAminoAcid(aminoAcid);
     else
-        PLUGIN_THROW(
-            std::runtime_error("Protein not found: " + aminoAcid.name));
+        PLUGIN_THROW("Protein not found: " + aminoAcid.name);
 }
 
 void Assembly::addRNASequence(const RNASequenceDetails &rnad)
 {
     auto rd = rnad;
     if (rd.range.size() != 2)
-        PLUGIN_THROW(std::runtime_error("Invalid range"));
+        PLUGIN_THROW("Invalid range");
     const Vector2f range{rd.range[0], rd.range[1]};
 
     if (rd.params.size() != 3)
-        PLUGIN_THROW(std::runtime_error("Invalid params"));
+        PLUGIN_THROW("Invalid params");
 
     if (rd.position.size() != 3)
-        PLUGIN_THROW(std::runtime_error("Invalid position"));
+        PLUGIN_THROW("Invalid position");
 
     const Vector3f params{rd.params[0], rd.params[1], rd.params[2]};
 
@@ -448,33 +442,32 @@ void Assembly::setProteinInstanceTransformation(
     if (itProtein != _proteins.end())
         protein = (*itProtein).second;
     else
-        PLUGIN_THROW(std::runtime_error("Protein " + descriptor.name +
-                                        " not found on assembly " +
-                                        descriptor.assemblyName));
+        PLUGIN_THROW("Protein " + descriptor.name + " not found on assembly " +
+                     descriptor.assemblyName);
 
     auto modelDescriptor = protein->getModelDescriptor();
 
     auto &instances = modelDescriptor->getInstances();
     if (descriptor.instanceIndex >= instances.size())
-        PLUGIN_THROW(std::runtime_error(
-            "Invalid instance index (" +
-            std::to_string(descriptor.instanceIndex) + ") for protein " +
-            descriptor.name + " in assembly " + descriptor.assemblyName));
+        PLUGIN_THROW("Invalid instance index (" +
+                     std::to_string(descriptor.instanceIndex) +
+                     ") for protein " + descriptor.name + " in assembly " +
+                     descriptor.assemblyName);
 
     auto instance = modelDescriptor->getInstance(descriptor.instanceIndex);
     auto &transformation = instance->getTransformation();
 
     if (descriptor.position.size() != 3)
-        PLUGIN_THROW(std::runtime_error(
-            "Invalid number of float for position of protein " +
-            descriptor.name + " in assembly " + descriptor.assemblyName));
+        PLUGIN_THROW("Invalid number of float for position of protein " +
+                     descriptor.name + " in assembly " +
+                     descriptor.assemblyName);
     const Vector3f position{descriptor.position[0], descriptor.position[1],
                             descriptor.position[2]};
 
     if (descriptor.rotation.size() != 4)
-        PLUGIN_THROW(std::runtime_error(
-            "Invalid number of float for position of protein " +
-            descriptor.name + " in assembly " + descriptor.assemblyName));
+        PLUGIN_THROW("Invalid number of float for position of protein " +
+                     descriptor.name + " in assembly " +
+                     descriptor.assemblyName);
     const Quaterniond rotation{descriptor.rotation[0], descriptor.rotation[1],
                                descriptor.rotation[2], descriptor.rotation[3]};
 
@@ -500,18 +493,17 @@ const Transformation Assembly::getProteinInstanceTransformation(
     if (itProtein != _proteins.end())
         protein = (*itProtein).second;
     else
-        PLUGIN_THROW(std::runtime_error("Protein " + descriptor.name +
-                                        " not found on assembly " +
-                                        descriptor.assemblyName));
+        PLUGIN_THROW("Protein " + descriptor.name + " not found on assembly " +
+                     descriptor.assemblyName);
 
     auto modelDescriptor = protein->getModelDescriptor();
 
     auto &instances = modelDescriptor->getInstances();
     if (descriptor.instanceIndex >= instances.size())
-        PLUGIN_THROW(std::runtime_error(
-            "Invalid instance index (" +
-            std::to_string(descriptor.instanceIndex) + ") for protein " +
-            descriptor.name + " in assembly " + descriptor.assemblyName));
+        PLUGIN_THROW("Invalid instance index (" +
+                     std::to_string(descriptor.instanceIndex) +
+                     ") for protein " + descriptor.name + " in assembly " +
+                     descriptor.assemblyName);
 
     auto instance = modelDescriptor->getInstance(descriptor.instanceIndex);
     auto transformation = instance->getTransformation();

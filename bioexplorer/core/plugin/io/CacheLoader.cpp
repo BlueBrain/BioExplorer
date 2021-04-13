@@ -83,8 +83,7 @@ ModelDescriptorPtr CacheLoader::importFromBlob(
     Blob&& /*blob*/, const LoaderProgress& /*callback*/,
     const PropertyMap& /*properties*/) const
 {
-    throw std::runtime_error(
-        "Loading molecular systems from blob is not supported");
+    PLUGIN_THROW("Loading molecular systems from blob is not supported");
 }
 
 ModelDescriptorPtr CacheLoader::_importModel(std::stringstream& buffer,
@@ -390,10 +389,7 @@ std::vector<ModelDescriptorPtr> CacheLoader::importModelsFromFile(
     PLUGIN_DEBUG << "Loading models from cache file: " << filename << std::endl;
     std::ifstream file(filename, std::ios::in | std::ios::binary);
     if (!file.good())
-    {
-        const std::string msg = "Could not open cache file " + filename;
-        PLUGIN_THROW(std::runtime_error(msg));
-    }
+        PLUGIN_THROW("Could not open cache file " + filename);
 
     std::stringstream buffer;
     buffer << file.rdbuf();
@@ -774,10 +770,8 @@ void CacheLoader::exportToFile(const std::string& filename,
 
     std::ofstream file(filename, std::ios::out | std::ios::binary);
     if (!file.good())
-    {
-        const std::string msg = "Could not create BioExplorer file " + filename;
-        PLUGIN_THROW(std::runtime_error(msg));
-    }
+        PLUGIN_THROW("Could not create BioExplorer file " + filename);
+
     file.write((char*)buffer.str().c_str(), buffer.str().size());
     file.close();
 }
@@ -831,10 +825,7 @@ void CacheLoader::exportToXYZ(const std::string& filename,
 
     std::ofstream file(filename, flags);
     if (!file.good())
-    {
-        const std::string msg = "Could not create XYZ file " + filename;
-        PLUGIN_THROW(std::runtime_error(msg));
-    }
+        PLUGIN_THROW("Could not create XYZ file " + filename);
 
     const auto clipPlanes = getClippingPlanes(_scene);
 

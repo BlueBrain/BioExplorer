@@ -422,7 +422,7 @@ void Molecule::_buildModel(const std::string& assemblyName,
     case ProteinRepresentation::surface:
     case ProteinRepresentation::union_of_balls:
     case ProteinRepresentation::contour:
-        PLUGIN_THROW(std::runtime_error("CGAL is required to create surfaces"));
+        PLUGIN_THROW("CGAL is required to create surfaces");
         break;
 #endif
     case ProteinRepresentation::debug:
@@ -740,8 +740,7 @@ void Molecule::_setAtomColorScheme()
 void Molecule::_setAminoAcidSequenceColorScheme(const Palette& palette)
 {
     if (palette.size() != 2)
-        PLUGIN_THROW(
-            std::runtime_error("Invalid palette size. 2 colors are expected"));
+        PLUGIN_THROW("Invalid palette size. 2 colors are expected");
 
     size_t atomCount = 0;
     for (const auto& sequence : _sequenceMap)
