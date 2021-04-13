@@ -38,7 +38,7 @@ Octree::Octree(const std::vector<float> &events, float voxelSize,
     , _volumeSize(0u)
     , _offsetPerLevel(nullptr)
 {
-    PLUGIN_INFO << "Nb of events : " << events.size() / 5 << std::endl;
+    PLUGIN_INFO("Nb of events : " << events.size() / 5);
 
     // **************** Octree creations *******************
     // *****************************************************
@@ -50,13 +50,12 @@ Octree::Octree(const std::vector<float> &events, float voxelSize,
     // This octree is always cubic
     _octreeSize = std::max(std::max(octreeSize.x, octreeSize.y), octreeSize.z);
 
-    PLUGIN_INFO << "Octree size  : " << _octreeSize << std::endl;
+    PLUGIN_INFO("Octree size  : " << _octreeSize);
 
     uint32_t octreeDepth = std::log2(_octreeSize) + 1u;
     std::vector<OctreeLevelMap> octree(octreeDepth);
 
-    PLUGIN_INFO << "Octree depth : " << octreeDepth << " " << octree.size()
-                << std::endl;
+    PLUGIN_INFO("Octree depth : " << octreeDepth << " " << octree.size());
 
     if (octreeDepth == 0)
         return;
@@ -129,8 +128,7 @@ Octree::Octree(const std::vector<float> &events, float voxelSize,
         }
     }
     for (uint32_t i = 0; i < octree.size(); ++i)
-        PLUGIN_DEBUG << "Number of leaves [" << i << "]: " << octree[i].size()
-                     << std::endl;
+        PLUGIN_DEBUG("Number of leaves [" << i << "]: " << octree[i].size());
 
     // **************** Octree flattening *******************
     // ******************************************************

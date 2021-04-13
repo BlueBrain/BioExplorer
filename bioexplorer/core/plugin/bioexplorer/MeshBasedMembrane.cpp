@@ -157,17 +157,16 @@ MeshBasedMembrane::MeshBasedMembrane(Scene& scene,
             descriptor.density * meshSurface / proteinSurface;
         const float instanceSurface = meshSurface / nbInstances;
 
-        PLUGIN_INFO << "----===  MeshBasedMembrane  ===----" << std::endl;
-        PLUGIN_INFO << "Position             : " << position << std::endl;
-        PLUGIN_INFO << "rotation          : " << rotation << std::endl;
-        PLUGIN_INFO << "Scale                : " << scale << std::endl;
-        PLUGIN_INFO << "Number of faces      : " << faces.size() << std::endl;
-        PLUGIN_INFO << "Mesh surface area    : " << meshSurface << std::endl;
-        PLUGIN_INFO << "Protein size         : " << proteinSize << std::endl;
-        PLUGIN_INFO << "Protein surface area : " << proteinSurface << std::endl;
-        PLUGIN_INFO << "Instance surface area: " << instanceSurface
-                    << std::endl;
-        PLUGIN_INFO << "Number of instances  : " << nbInstances << std::endl;
+        PLUGIN_INFO("----===  MeshBasedMembrane  ===----");
+        PLUGIN_INFO("Position             : " << position);
+        PLUGIN_INFO("rotation          : " << rotation);
+        PLUGIN_INFO("Scale                : " << scale);
+        PLUGIN_INFO("Number of faces      : " << faces.size());
+        PLUGIN_INFO("Mesh surface area    : " << meshSurface);
+        PLUGIN_INFO("Protein size         : " << proteinSize);
+        PLUGIN_INFO("Protein surface area : " << proteinSurface);
+        PLUGIN_INFO("Instance surface area: " << instanceSurface);
+        PLUGIN_INFO("Number of instances  : " << nbInstances);
 
 #pragma omp parallel for
         for (const auto& face : faces)

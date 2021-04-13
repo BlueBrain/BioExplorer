@@ -1938,19 +1938,20 @@ class BioExplorer:
         return self._client.rockets_client.request(
             self.PLUGIN_API_PREFIX + "add-grid", params)
 
-    def set_general_settings(self,
-                             model_visibility_on_creation=True,
-                             off_folder='/tmp'):
+    def set_general_settings(self, model_visibility_on_creation=True, off_folder='/tmp',
+                             logging_enabled=False):
         """
         Set general settings for the plugin
 
         :model_visibility_on_creation: Visibility of the model on creation
         :off_folder: Folder where off files are stored (to avoid recomputation of molecular surface)
+        :logging_enabled: Enable/Disable back-end logging
         :return: Result of the request submission
         """
         params = dict()
         params["modelVisibilityOnCreation"] = model_visibility_on_creation
         params["offFolder"] = off_folder
+        params["loggingEnabled"] = logging_enabled
         response = self._client.rockets_client.request(
             self.PLUGIN_API_PREFIX + "set-general-settings", params)
         return response

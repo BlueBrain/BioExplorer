@@ -20,34 +20,36 @@
 
 #pragma once
 
+#include "GeneralSettings.h"
+
 #include <iostream>
 #include <thread>
 
 namespace bioexplorer
 {
-#define PLUGIN_ERROR                               \
+#define PLUGIN_ERROR(message)                      \
     std::cerr << "[" << std::this_thread::get_id() \
-              << "] [ERROR] [BIO_EXPLORER] "
-#define PLUGIN_WARN                                \
+              << "] [ERROR] [BIO_EXPLORER] " << message << std::endl;
+#define PLUGIN_WARN(message)                       \
     std::cerr << "[" << std::this_thread::get_id() \
-              << "] [WARN ] [BIO_EXPLORER] "
-#define PLUGIN_INFO                                \
-    std::cout << "[" << std::this_thread::get_id() \
-              << "] [INFO ] [BIO_EXPLORER] "
+              << "] [WARN ] [BIO_EXPLORER] " << message << std::endl;
+#define PLUGIN_INFO(message)                                              \
+    if (GeneralSettings::getInstance()->getLoggingEnabled())              \
+    {                                                                     \
+        std::cout << "[" << std::this_thread::get_id()                    \
+                  << "] [INFO ] [BIO_EXPLORER] " << message << std::endl; \
+    }
 #ifdef NDEBUG
-#define PLUGIN_DEBUG \
-    if (false)       \
-    std::cout
+#define PLUGIN_DEBUG(message)
 #else
-#define PLUGIN_DEBUG                               \
+#define PLUGIN_DEBUG(message)                      \
     std::cout << "[" << std::this_thread::get_id() \
-              << "] [DEBUG] [BIO_EXPLORER] "
+              << "] [DEBUG] [BIO_EXPLORER] " << message << std::endl;
 #endif
 
-#define PLUGIN_THROW(message)                                                \
-    {                                                                        \
-        PLUGIN_ERROR << "[" << std::this_thread::get_id() << "] " << message \
-                     << std::endl;                                           \
-        throw std::runtime_error(message);                                   \
+#define PLUGIN_THROW(message)              \
+    {                                      \
+        PLUGIN_ERROR(message);             \
+        throw std::runtime_error(message); \
     }
 } // namespace bioexplorer

@@ -101,8 +101,9 @@ Protein::~Protein()
     for (const auto& glycan : _glycans)
     {
         const auto modelId = glycan.second->getModelDescriptor()->getModelID();
-        PLUGIN_INFO << "Removing glycan [" << modelId << "] [" << glycan.first
-                    << "] from assembly [" << _details.name << "]" << std::endl;
+        PLUGIN_INFO("Removing glycan [" << modelId << "] [" << glycan.first
+                                        << "] from assembly [" << _details.name
+                                        << "]");
         _scene.removeModel(modelId);
     }
 }
@@ -157,8 +158,8 @@ void Protein::_setRegionColorScheme(const Palette& palette,
             _setMaterialDiffuseColor(atom.first, palette[atom.second.reqSeq]);
     }
 
-    PLUGIN_INFO << "Applying Amino Acid Sequence color scheme ("
-                << (atomCount > 0 ? "2" : "1") << ")" << std::endl;
+    PLUGIN_INFO("Applying Amino Acid Sequence color scheme ("
+                << (atomCount > 0 ? "2" : "1") << ")");
 } // namespace bioexplorer
 
 void Protein::_setGlycosylationSiteColorScheme(const Palette& palette)
@@ -182,8 +183,8 @@ void Protein::_setGlycosylationSiteColorScheme(const Palette& palette)
                     atom.second.reqSeq == site)
                     _setMaterialDiffuseColor(atom.first, palette[1]);
 
-    PLUGIN_INFO << "Applying Glycosylation Site color scheme ("
-                << (sites.size() > 0 ? "2" : "1") << ")" << std::endl;
+    PLUGIN_INFO("Applying Glycosylation Site color scheme ("
+                << (sites.size() > 0 ? "2" : "1") << ")");
 }
 
 std::map<std::string, size_ts> Protein::getGlycosylationSites(
@@ -231,8 +232,8 @@ std::map<std::string, size_ts> Protein::getGlycosylationSites(
             indices += std::to_string(index + 1); // Indices start at 1, not 0
         }
         indices += "]";
-        PLUGIN_INFO << "Found " << site.second.size() << " glycosylation sites "
-                    << indices << " on sequence " << site.first << std::endl;
+        PLUGIN_INFO("Found " << site.second.size() << " glycosylation sites "
+                             << indices << " on sequence " << site.first);
     }
     return sites;
 }
@@ -285,9 +286,9 @@ void Protein::_getSitesTransformations(
                 rotations.push_back(glm::quatLookAt(bindrotation, UP_VECTOR));
             }
             else
-                PLUGIN_WARN << "Chain: " << chain.first << ", Site " << site + 1
-                            << " is not available in the protein source"
-                            << std::endl;
+                PLUGIN_WARN("Chain: "
+                            << chain.first << ", Site " << site + 1
+                            << " is not available in the protein source");
 
 #if 0
             else
@@ -317,10 +318,10 @@ void Protein::_getSitesTransformations(
                 siteBounds.merge((*itAfter).second);
                 siteCenter = siteBounds.getCenter();
 
-                PLUGIN_WARN << "Chain: " << chain.first
+                PLUGIN_WARN("Chain: " << chain.first
                             << ", Site: " << site + 1
                             << ": no atoms available. Extrapolating from sites "
-                            << before << " and " << after << std::endl;
+                            << before << " and " << after);
             }
             // rotation is determined by the center of the site and the
             // center of the protein
@@ -467,8 +468,7 @@ void Protein::addSugars(const SugarsDetails& sd)
     if (positions.empty())
         PLUGIN_THROW("No sugar binding site was found on " + sd.name);
 
-    PLUGIN_INFO << positions.size() << " sugar sites found on "
-                << sd.proteinName << std::endl;
+    PLUGIN_INFO(positions.size() << " sugar sites found on " << sd.proteinName);
 
     GlycansPtr glucoses(new Glycans(_scene, sd));
     auto modelDescriptor = glucoses->getModelDescriptor();

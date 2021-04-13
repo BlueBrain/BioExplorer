@@ -46,7 +46,7 @@ Assembly::Assembly(Scene &scene, const AssemblyDetails &descriptor)
     for (size_t i = 0; i < cp.size(); i += 4)
         _clippingPlanes.push_back({cp[i], cp[i + 1], cp[i + 2], cp[i + 3]});
 
-    PLUGIN_INFO << "Adding assembly [" << descriptor.name << "]" << std::endl;
+    PLUGIN_INFO("Adding assembly [" << descriptor.name << "]");
 }
 
 Assembly::~Assembly()
@@ -54,25 +54,26 @@ Assembly::~Assembly()
     for (const auto &protein : _proteins)
     {
         const auto modelId = protein.second->getModelDescriptor()->getModelID();
-        PLUGIN_INFO << "Removing protein [" << modelId << "] [" << protein.first
-                    << "] from assembly [" << _details.name << "]" << std::endl;
+        PLUGIN_INFO("Removing protein [" << modelId << "] [" << protein.first
+                                         << "] from assembly [" << _details.name
+                                         << "]");
         _scene.removeModel(protein.second->getModelDescriptor()->getModelID());
     }
     for (const auto &meshBasedMembrane : _meshBasedMembranes)
     {
         const auto modelId =
             meshBasedMembrane.second->getModelDescriptor()->getModelID();
-        PLUGIN_INFO << "Removing mesh [" << modelId << "] ["
-                    << meshBasedMembrane.first << "] from assembly ["
-                    << _details.name << "]" << std::endl;
+        PLUGIN_INFO("Removing mesh ["
+                    << modelId << "] [" << meshBasedMembrane.first
+                    << "] from assembly [" << _details.name << "]");
         _scene.removeModel(
             meshBasedMembrane.second->getModelDescriptor()->getModelID());
     }
     if (_rnaSequence)
     {
         const auto modelId = _rnaSequence->getModelDescriptor()->getModelID();
-        PLUGIN_INFO << "Removing RNA sequence [" << modelId
-                    << "] from assembly [" << _details.name << "]" << std::endl;
+        PLUGIN_INFO("Removing RNA sequence [" << modelId << "] from assembly ["
+                                              << _details.name << "]");
         _scene.removeModel(modelId);
     }
 }
@@ -92,8 +93,8 @@ void Assembly::addProtein(const ProteinDetails &pd)
 
     _proteins[pd.name] = std::move(protein);
     _scene.addModel(modelDescriptor);
-    PLUGIN_INFO << "Number of instances   : "
-                << modelDescriptor->getInstances().size() << std::endl;
+    PLUGIN_INFO(
+        "Number of instances: " << modelDescriptor->getInstances().size());
 }
 
 void Assembly::addMembrane(const MembraneDetails &md)
@@ -125,7 +126,7 @@ void Assembly::addSugars(const SugarsDetails &sd)
                      " not registered in assembly " + sd.assemblyName +
                      ". Registered proteins are " + s);
     }
-    PLUGIN_INFO << "Adding sugars to protein " << sd.proteinName << std::endl;
+    PLUGIN_INFO("Adding sugars to protein " << sd.proteinName);
     const auto targetProtein = (*it).second;
     targetProtein->addSugars(sd);
 }
@@ -145,7 +146,7 @@ void Assembly::addGlycans(const SugarsDetails &sd)
                      ". Registered proteins are " + s);
     }
 
-    PLUGIN_INFO << "Adding glycans to protein " << sd.proteinName << std::endl;
+    PLUGIN_INFO("Adding glycans to protein " << sd.proteinName);
     const auto targetProtein = (*it).second;
     targetProtein->addGlycans(sd);
 }
@@ -316,15 +317,15 @@ void Assembly::setColorScheme(const ColorSchemeDetails &csd)
             palette.push_back(
                 {csd.palette[i], csd.palette[i + 1], csd.palette[i + 2]});
 
-        PLUGIN_INFO << "Applying color scheme to protein " << csd.name
-                    << " on assembly " << csd.assemblyName << std::endl;
+        PLUGIN_INFO("Applying color scheme to protein "
+                    << csd.name << " on assembly " << csd.assemblyName);
         protein->setColorScheme(csd.colorScheme, palette, csd.chainIds);
 
         _scene.markModified();
     }
     else
-        PLUGIN_ERROR << "Protein " << csd.name << " not found on assembly "
-                     << csd.assemblyName << std::endl;
+        PLUGIN_ERROR("Protein " << csd.name << " not found on assembly "
+                                << csd.assemblyName);
 }
 
 void Assembly::setAminoAcidSequenceAsString(
@@ -356,8 +357,7 @@ void Assembly::setAminoAcidSequenceAsRange(
 std::string Assembly::getAminoAcidInformation(
     const AminoAcidInformationDetails &aasd) const
 {
-    PLUGIN_INFO << "Returning Amino Acid information from protein " << aasd.name
-                << std::endl;
+    PLUGIN_INFO("Returning Amino Acid information from protein " << aasd.name);
 
     std::string response;
     auto it = _proteins.find(aasd.name);
@@ -415,16 +415,14 @@ void Assembly::addRNASequence(const RNASequenceDetails &rnad)
 
     const Vector3f params{rd.params[0], rd.params[1], rd.params[2]};
 
-    PLUGIN_INFO << "Loading RNA sequence " << rd.name << " from " << rd.contents
-                << std::endl;
-    PLUGIN_INFO << "Assembly radius: " << rd.assemblyParams[0] << std::endl;
-    PLUGIN_INFO << "RNA radius     : " << rd.assemblyParams[1] << std::endl;
-    PLUGIN_INFO << "Range          : " << rd.range[0] << ", " << rd.range[1]
-                << std::endl;
-    PLUGIN_INFO << "Params         : " << rd.params[0] << ", " << rd.params[1]
-                << ", " << rd.params[2] << std::endl;
-    PLUGIN_INFO << "Position       : " << rd.position[0] << ", "
-                << rd.position[1] << ", " << rd.position[2] << std::endl;
+    PLUGIN_INFO("Loading RNA sequence " << rd.name << " from " << rd.contents);
+    PLUGIN_INFO("Assembly radius: " << rd.assemblyParams[0]);
+    PLUGIN_INFO("RNA radius     : " << rd.assemblyParams[1]);
+    PLUGIN_INFO("Range          : " << rd.range[0] << ", " << rd.range[1]);
+    PLUGIN_INFO("Params         : " << rd.params[0] << ", " << rd.params[1]
+                                    << ", " << rd.params[2]);
+    PLUGIN_INFO("Position       : " << rd.position[0] << ", " << rd.position[1]
+                                    << ", " << rd.position[2]);
 
     for (size_t i = 0; i < 3; ++i)
         rd.position[i] += _details.position[i];
@@ -471,10 +469,11 @@ void Assembly::setProteinInstanceTransformation(
     const Quaterniond rotation{descriptor.rotation[0], descriptor.rotation[1],
                                descriptor.rotation[2], descriptor.rotation[3]};
 
-    PLUGIN_INFO << "Modifying instance " << descriptor.instanceIndex
-                << " of protein " << descriptor.name << " in assembly "
-                << descriptor.assemblyName << " with position=" << position
-                << " and rotation=" << rotation << std::endl;
+    PLUGIN_INFO("Modifying instance "
+                << descriptor.instanceIndex << " of protein " << descriptor.name
+                << " in assembly " << descriptor.assemblyName
+                << " with position=" << position
+                << " and rotation=" << rotation);
     Transformation newTransformation = transformation;
     newTransformation.setTranslation(position);
     newTransformation.setRotation(rotation);

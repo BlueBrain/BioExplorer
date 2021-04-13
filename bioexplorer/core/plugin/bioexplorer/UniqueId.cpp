@@ -31,7 +31,7 @@ UniqueId::UniqueId() {}
 uint32_t UniqueId::get()
 {
     ++nextId;
-    PLUGIN_DEBUG << "Unique Id: " << nextId << std::endl;
+    PLUGIN_DEBUG("Unique Id: " << nextId);
     return nextId;
 }
 } // namespace bioexplorer

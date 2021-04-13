@@ -155,8 +155,7 @@ void Membrane::_processInstances()
         const auto name = _getElementNameFromId(id);
         if (_proteins.find(name) == _proteins.end())
         {
-            PLUGIN_ERROR << "Protein " << name << " is not registered"
-                         << std::endl;
+            PLUGIN_ERROR("Protein " << name << " is not registered");
             continue;
         }
         auto protein = _proteins[name];
