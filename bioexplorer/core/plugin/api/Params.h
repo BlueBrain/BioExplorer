@@ -32,60 +32,58 @@ struct Response
 std::string to_json(const Response &param);
 
 // Settings
-bool from_json(GeneralSettingsDescriptor &param, const std::string &payload);
+bool from_json(GeneralSettingsDetails &param, const std::string &payload);
 
 // Biological elements
-bool from_json(AssemblyDescriptor &param, const std::string &payload);
-std::string to_json(const AssemblyDescriptor &payload);
+bool from_json(AssemblyDetails &param, const std::string &payload);
+std::string to_json(const AssemblyDetails &payload);
 
-bool from_json(AssemblyTransformationsDescriptor &param,
+bool from_json(AssemblyTransformationsDetails &param,
                const std::string &payload);
 
-bool from_json(RNASequenceDescriptor &param, const std::string &payload);
+bool from_json(RNASequenceDetails &param, const std::string &payload);
 
-bool from_json(MembraneDescriptor &param, const std::string &payload);
+bool from_json(MembraneDetails &param, const std::string &payload);
 
-bool from_json(ProteinDescriptor &param, const std::string &payload);
-std::string to_json(const ProteinDescriptor &payload);
+bool from_json(ProteinDetails &param, const std::string &payload);
+std::string to_json(const ProteinDetails &payload);
 
-bool from_json(MeshBasedMembraneDescriptor &param, const std::string &payload);
-bool from_json(SugarsDescriptor &param, const std::string &payload);
+bool from_json(MeshBasedMembraneDetails &param, const std::string &payload);
+bool from_json(SugarsDetails &param, const std::string &payload);
 
 // Other elements
-bool from_json(AddGrid &param, const std::string &payload);
+bool from_json(AddGridDetails &param, const std::string &payload);
 
 // Amino acids
-bool from_json(AminoAcidSequenceAsStringDescriptor &param,
+bool from_json(AminoAcidSequenceAsStringDetails &param,
                const std::string &payload);
-bool from_json(AminoAcidSequenceAsRangesDescriptor &param,
+bool from_json(AminoAcidSequenceAsRangesDetails &param,
                const std::string &payload);
-bool from_json(AminoAcidInformationDescriptor &param,
-               const std::string &payload);
-bool from_json(SetAminoAcid &param, const std::string &payload);
+bool from_json(AminoAcidInformationDetails &param, const std::string &payload);
+bool from_json(AminoAcidDetails &param, const std::string &payload);
 
 // Files
-bool from_json(FileAccess &param, const std::string &payload);
+bool from_json(FileAccessDetails &param, const std::string &payload);
 
 // DB
-bool from_json(DatabaseAccess &param, const std::string &payload);
+bool from_json(DatabaseAccessDetails &param, const std::string &payload);
 
 // Color schemes and materials
-bool from_json(ColorSchemeDescriptor &param, const std::string &payload);
-bool from_json(ModelId &modelId, const std::string &payload);
-bool from_json(MaterialsDescriptor &materialsDescriptor,
-               const std::string &payload);
-std::string to_json(const MaterialIds &param);
+bool from_json(ColorSchemeDetails &param, const std::string &payload);
+bool from_json(ModelIdDetails &modelId, const std::string &payload);
+bool from_json(MaterialsDetails &materialsDetails, const std::string &payload);
+std::string to_json(const MaterialIdsDetails &param);
 
 // Fields
-bool from_json(BuildFields &param, const std::string &payload);
-bool from_json(ModelIdFileAccess &param, const std::string &payload);
+bool from_json(BuildFieldsDetails &param, const std::string &payload);
+bool from_json(ModelIdFileAccessDetails &param, const std::string &payload);
 
 // Point cloud
-bool from_json(BuildPointCloud &param, const std::string &payload);
+bool from_json(BuildPointCloudDetails &param, const std::string &payload);
 
 // Models and instances
-bool from_json(ModelsVisibility &param, const std::string &payload);
-bool from_json(ProteinInstanceTransformationDescriptor &param,
+bool from_json(ModelsVisibilityDetails &param, const std::string &payload);
+bool from_json(ProteinInstanceTransformationDetails &param,
                const std::string &payload);
 
 } // namespace bioexplorer

@@ -38,10 +38,10 @@ public:
      * @brief Construct a new RNASequence object
      *
      * @param scene Scene to which the RNA sequence should be added
-     * @param rnaDescriptor Description of the RNA sequence
+     * @param rnaDetails Description of the RNA sequence
      * @param position Relative position of the RNA sequence in the assembly
      */
-    RNASequence(Scene& scene, const RNASequenceDescriptor& rnaDescriptor);
+    RNASequence(Scene& scene, const RNASequenceDetails& rnaDetails);
 
     /**
      * @brief Get the map of RNA sequences
@@ -51,9 +51,9 @@ public:
     RNASequenceMap getRNASequences() { return _rnaSequenceMap; }
 
     /**
-     * @brief Get the Model Descriptor
+     * @brief Get the Model descriptor
      *
-     * @return The model Descriptor
+     * @return The model descriptor
      */
     ModelDescriptorPtr getModelDescriptor() { return _modelDescriptor; }
 

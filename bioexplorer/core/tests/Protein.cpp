@@ -46,9 +46,9 @@ std::string getFileContents(const std::string& filename)
     return str;
 }
 
-ProteinDescriptor getProteinDescriptor()
+ProteinDetails getProteinDescriptor()
 {
-    ProteinDescriptor descriptor;
+    ProteinDetails descriptor;
     descriptor.assemblyName = "test";
     descriptor.name = "test";
     descriptor.contents = getFileContents(

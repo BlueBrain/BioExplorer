@@ -30,13 +30,13 @@
 
 namespace bioexplorer
 {
-Glycans::Glycans(Scene& scene, const SugarsDescriptor& sd)
+Glycans::Glycans(Scene& scene, const SugarsDetails& sd)
     : Molecule(scene, {})
-    , _descriptor(sd)
+    , _details(sd)
 {
     size_t lineIndex{0};
 
-    std::stringstream lines{_descriptor.contents};
+    std::stringstream lines{_details.contents};
     std::string line;
     std::string title{sd.name};
     std::string header{sd.name};
@@ -56,7 +56,7 @@ Glycans::Glycans(Scene& scene, const SugarsDescriptor& sd)
     Boxf bounds;
 
     // Recenter
-    if (_descriptor.recenter)
+    if (_details.recenter)
     {
         // Get current center
         for (const auto& atom : _atomMap)
@@ -70,9 +70,9 @@ Glycans::Glycans(Scene& scene, const SugarsDescriptor& sd)
             atom.second.position -= translation;
     }
 
-    _buildModel(_descriptor.assemblyName, _descriptor.name, title, header,
-                _descriptor.representation, _descriptor.atomRadiusMultiplier,
-                _descriptor.loadBonds);
+    _buildModel(_details.assemblyName, _details.name, title, header,
+                _details.representation, _details.atomRadiusMultiplier,
+                _details.loadBonds);
 }
 
 } // namespace bioexplorer

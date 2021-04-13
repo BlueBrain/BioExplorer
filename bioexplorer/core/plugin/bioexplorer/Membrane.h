@@ -46,7 +46,7 @@ public:
      * @param position The position of the membrane in the 3D scene
      * @param clippingPlanes The clipping planes to apply to the membrane
      */
-    Membrane(Scene &scene, const MembraneDescriptor &descriptor,
+    Membrane(Scene &scene, const MembraneDetails &descriptor,
              const Vector3f &position, const Quaterniond &orientation,
              const Vector4fs &clippingPlanes);
 
@@ -70,7 +70,7 @@ private:
     Scene &_scene;
     Vector3f _position;
     Quaterniond _rotation;
-    MembraneDescriptor _descriptor;
+    MembraneDetails _details;
     ProteinMap _proteins;
     Vector4fs _clippingPlanes;
 };

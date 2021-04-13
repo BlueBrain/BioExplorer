@@ -36,7 +36,7 @@ public:
      * @param scene Scene to which assembly should be added
      * @param assemblyDescriptor Description of the assembly
      */
-    Assembly(Scene &scene, const AssemblyDescriptor &assemblyDescriptor);
+    Assembly(Scene &scene, const AssemblyDetails &assemblyDescriptor);
 
     /**
      * @brief Destroy the Assembly object
@@ -48,7 +48,7 @@ public:
      * @brief setColorScheme Set a color scheme to a protein of the assembly
      * @param descriptor Color scheme descriptor
      */
-    void setColorScheme(const ColorSchemeDescriptor &descriptor);
+    void setColorScheme(const ColorSchemeDetails &descriptor);
 
     /**
      * @brief setAminoAcidSequenceAsString Apply a color scheme to visualize a
@@ -56,7 +56,7 @@ public:
      * @param descriptor Amino acid sequence as a string
      */
     void setAminoAcidSequenceAsString(
-        const AminoAcidSequenceAsStringDescriptor &descriptor);
+        const AminoAcidSequenceAsStringDetails &descriptor);
 
     /**
      * @brief setAminoAcidSequenceAsRange Apply a color scheme to visualize a
@@ -64,7 +64,7 @@ public:
      * @param descriptor Amino acid sequence as a range of indices
      */
     void setAminoAcidSequenceAsRange(
-        const AminoAcidSequenceAsRangesDescriptor &descriptor);
+        const AminoAcidSequenceAsRangesDetails &descriptor);
 
     /**
      * @param descriptor Name of the assembly and name of the protein
@@ -72,7 +72,7 @@ public:
      * assembly
      */
     std::string getAminoAcidInformation(
-        const AminoAcidInformationDescriptor &descriptor) const;
+        const AminoAcidInformationDetails &descriptor) const;
 
     /**
      * @brief Set an amino acid at a given position in the protein sequences
@@ -80,7 +80,7 @@ public:
      * @param aminoAcid Structure containing the information related the amino
      * acid to be modified
      */
-    void setAminoAcid(const SetAminoAcid &aminoAcid);
+    void setAminoAcid(const AminoAcidDetails &aminoAcid);
 
     /**
      * @return Clipping planes applied to the assembly
@@ -99,7 +99,7 @@ public:
     /**
      * @return The description of the assembly
      */
-    const AssemblyDescriptor &getDescriptor() { return _descriptor; }
+    const AssemblyDetails &getDescriptor() { return _details; }
 
     /**
      * @return A map of the proteins in the assembly
@@ -111,51 +111,51 @@ public:
      * @param descriptor Information about the instance
      */
     void setProteinInstanceTransformation(
-        const ProteinInstanceTransformationDescriptor &descriptor);
+        const ProteinInstanceTransformationDetails &descriptor);
 
     /**
      * @return The transformation for a specific instance of a protein
      */
     const Transformation getProteinInstanceTransformation(
-        const ProteinInstanceTransformationDescriptor &descriptor) const;
+        const ProteinInstanceTransformationDetails &descriptor) const;
 
     /**
      * @brief addMembrane Add a membrane to the assembly
      * @param descriptor Membrane descriptor
      */
-    void addMembrane(const MembraneDescriptor &descriptor);
+    void addMembrane(const MembraneDetails &descriptor);
 
     /**
      * @brief addRNASequence Add an RNA sequence to the assembly
      * @param descriptor Descriptor of the RNA sequence
      */
-    void addRNASequence(const RNASequenceDescriptor &descriptor);
+    void addRNASequence(const RNASequenceDetails &descriptor);
 
     /**
      * @brief addProtein Add a protein to the assembly
      * @param descriptor Descriptor of the protein
      */
-    void addProtein(const ProteinDescriptor &descriptor);
+    void addProtein(const ProteinDetails &descriptor);
 
     /**
      * @brief addMeshBasedMembrane Add a mesh based membrane to the assembly
      * @param descriptor Descriptor of the mesh based membrane
      */
-    void addMeshBasedMembrane(const MeshBasedMembraneDescriptor &descriptor);
+    void addMeshBasedMembrane(const MeshBasedMembraneDetails &descriptor);
 
     /**
      * @brief addGlycans Add glycans to glycosilation sites of a given protein
      * in the assembly
      * @param descriptor Descriptor of the glycans
      */
-    void addGlycans(const SugarsDescriptor &descriptor);
+    void addGlycans(const SugarsDetails &descriptor);
 
     /**
      * @brief addSugars Add sugars to sugar binding sites of a given protein of
      * the assembly
      * @param descriptor Descriptor of the sugars
      */
-    void addSugars(const SugarsDescriptor &descriptor);
+    void addSugars(const SugarsDetails &descriptor);
 
 private:
     void _processInstances(ModelDescriptorPtr md, const std::string &name,
@@ -167,7 +167,7 @@ private:
                            const size_t randomSeed,
                            const PositionRandomizationType &randomizationType);
 
-    AssemblyDescriptor _descriptor;
+    AssemblyDetails _details;
     Scene &_scene;
     ProteinMap _proteins;
     MeshBasedMembraneMap _meshBasedMembranes;

@@ -47,10 +47,10 @@ std::string getFileContents(const std::string& filename)
     return str;
 }
 
-MeshBasedMembraneDescriptor getDescriptor()
+MeshBasedMembraneDetails getDescriptor()
 {
     const std::string folder = "./bioexplorer/pythonsdk/tests/test_files/";
-    MeshBasedMembraneDescriptor descriptor;
+    MeshBasedMembraneDetails descriptor;
 
     descriptor.assemblyName = "test";
     descriptor.name = "test";

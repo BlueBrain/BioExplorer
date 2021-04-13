@@ -85,7 +85,7 @@ typedef struct
 {
     bool modelVisibilityOnCreation;
     std::string offFolder;
-} GeneralSettingsDescriptor;
+} GeneralSettingsDetails;
 
 /**
  * @brief Model position randomization types
@@ -143,7 +143,7 @@ typedef struct
     std::vector<float> rotation;
     /** Clipping planes applied to the loading of elements of the assembly */
     std::vector<float> clippingPlanes;
-} AssemblyDescriptor;
+} AssemblyDetails;
 
 class Assembly;
 typedef std::shared_ptr<Assembly> AssemblyPtr;
@@ -162,7 +162,7 @@ typedef struct
     std::string name;
     /** List of transformations */
     std::vector<float> transformations;
-} AssemblyTransformationsDescriptor;
+} AssemblyTransformationsDetails;
 
 // Node
 class Node;
@@ -257,7 +257,7 @@ typedef struct
     PositionRandomizationType positionRandomizationType;
     /** Relative rotation of the protein in the assembly */
     std::vector<float> rotation;
-} MembraneDescriptor;
+} MembraneDetails;
 
 class Membrane;
 typedef std::shared_ptr<Membrane> MembranePtr;
@@ -303,7 +303,7 @@ typedef struct
     std::vector<float> position;
     /** Relative rotation of the protein in the assembly */
     std::vector<float> rotation;
-} ProteinDescriptor;
+} ProteinDetails;
 
 class Protein;
 typedef std::shared_ptr<Protein> ProteinPtr;
@@ -338,7 +338,7 @@ typedef struct
     std::vector<size_t> siteIndices;
     /** Relative rotation of the glycans on the protein */
     std::vector<float> rotation;
-} SugarsDescriptor;
+} SugarsDetails;
 
 class Glycans;
 typedef std::shared_ptr<Glycans> GlycansPtr;
@@ -380,7 +380,7 @@ typedef struct
     std::vector<float> rotation;
     /** Scale of the mesh */
     std::vector<float> scale;
-} MeshBasedMembraneDescriptor;
+} MeshBasedMembraneDetails;
 class MeshBasedMembrane;
 typedef std::shared_ptr<MeshBasedMembrane> MeshBasedMembranePtr;
 typedef std::map<std::string, MeshBasedMembranePtr> MeshBasedMembraneMap;
@@ -407,7 +407,7 @@ typedef struct
     std::vector<float> params;
     /** Relative position of the RNA sequence in the assembly */
     std::vector<float> position;
-} RNASequenceDescriptor;
+} RNASequenceDetails;
 class RNASequence;
 typedef std::shared_ptr<RNASequence> RNASequencePtr;
 
@@ -424,7 +424,7 @@ typedef struct
     std::string name;
     /** String containing the amino acid sequence to select */
     std::string sequence;
-} AminoAcidSequenceAsStringDescriptor;
+} AminoAcidSequenceAsStringDetails;
 
 /**
  * @brief Structure defining a selection of amino acids on a protein of an
@@ -440,13 +440,13 @@ typedef struct
     /** List of tuples of 2 integers defining indices in the sequence of amino
      * acid */
     std::vector<size_t> ranges;
-} AminoAcidSequenceAsRangesDescriptor;
+} AminoAcidSequenceAsRangesDetails;
 
 typedef struct
 {
     std::string assemblyName;
     std::string name;
-} AminoAcidInformationDescriptor;
+} AminoAcidInformationDetails;
 
 /**
  * @brief Structure used to set an amino acid in protein sequences
@@ -464,7 +464,7 @@ typedef struct
     std::string aminoAcidShortName;
     /** List of chains in which the amino acid is set */
     std::vector<size_t> chainIds;
-} SetAminoAcid;
+} AminoAcidDetails;
 
 /**
  * @brief Structure containing information about an atom, as stored in a PDB
@@ -666,7 +666,7 @@ typedef struct
     bool useColors;
     /** Position of the grid in the scene */
     std::vector<float> position;
-} AddGrid;
+} AddGridDetails;
 
 /**
  * @brief Color schemes that can be applied to proteins
@@ -706,7 +706,7 @@ typedef struct
     std::vector<float> palette;
     /** Ids of protein chains to which the colors scheme is applied */
     std::vector<size_t> chainIds;
-} ColorSchemeDescriptor;
+} ColorSchemeDetails;
 
 typedef struct
 {
@@ -720,7 +720,7 @@ typedef struct
     std::vector<float> position;
     /** rotation of the protein instance */
     std::vector<float> rotation;
-} ProteinInstanceTransformationDescriptor;
+} ProteinInstanceTransformationDetails;
 
 /**
  * @brief List of material identifiers attached to a Brayns model
@@ -730,7 +730,7 @@ typedef struct
 {
     /** List of material identifiers */
     std::vector<size_t> ids;
-} MaterialIds;
+} MaterialIdsDetails;
 
 /**
  * @brief Model identifier
@@ -740,7 +740,7 @@ typedef struct
 {
     /** Model identifier */
     size_t modelId;
-} ModelId;
+} ModelIdDetails;
 
 /**
  * @brief Structure containing attributes of materials attached to one or
@@ -774,7 +774,7 @@ typedef struct
     std::vector<float> userParameters;
     /** List of values for chameleon mode parameters */
     std::vector<int32_t> chameleonModes;
-} MaterialsDescriptor;
+} MaterialsDetails;
 
 /**
  * @brief Structure containing information about how to build magnetic fields
@@ -787,14 +787,14 @@ typedef struct
     float voxelSize;
     /** Density of atoms to consider (Between 0 and 1) */
     float density;
-} BuildFields;
+} BuildFieldsDetails;
 
 // IO
 typedef struct
 {
     size_t modelId;
     std::string filename;
-} ModelIdFileAccess;
+} ModelIdFileAccessDetails;
 
 /**
  * @brief File format for export of atom coordinates, radius and charge
@@ -833,7 +833,7 @@ typedef struct
     std::vector<float> lowBounds;
     std::vector<float> highBounds;
     XYZFileFormat fileFormat;
-} FileAccess;
+} FileAccessDetails;
 
 /**
  * @brief Structure defining how to export data into a DB
@@ -846,7 +846,7 @@ typedef struct
     int32_t brickId;
     std::vector<float> lowBounds;
     std::vector<float> highBounds;
-} DatabaseAccess;
+} DatabaseAccessDetails;
 
 /**
  * @brief Structure defining how to build a point cloud from the scene
@@ -855,7 +855,7 @@ typedef struct
 typedef struct
 {
     float radius;
-} BuildPointCloud;
+} BuildPointCloudDetails;
 
 /**
  * @brief Structure defining how visible models are in the scene
@@ -864,7 +864,7 @@ typedef struct
 typedef struct
 {
     bool visible;
-} ModelsVisibility;
+} ModelsVisibilityDetails;
 
 // Out of core brick manager
 class OOCManager;
@@ -880,6 +880,6 @@ typedef struct
     uint32_t nbBricks;
     /** Size of the each brick in the scene */
     Vector3f brickSize;
-} OOCSceneConfiguration;
+} OOCSceneConfigurationDetails;
 
 } // namespace bioexplorer

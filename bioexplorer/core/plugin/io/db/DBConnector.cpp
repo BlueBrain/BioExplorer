@@ -51,9 +51,9 @@ void DBConnector::clearBricks()
     }
 }
 
-const OOCSceneConfiguration DBConnector::getSceneConfiguration()
+const OOCSceneConfigurationDetails DBConnector::getSceneConfiguration()
 {
-    OOCSceneConfiguration sceneConfiguration;
+    OOCSceneConfigurationDetails sceneConfiguration;
     pqxx::read_transaction transaction(_connection);
     try
     {

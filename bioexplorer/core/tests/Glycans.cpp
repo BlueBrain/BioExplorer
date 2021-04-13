@@ -46,9 +46,9 @@ std::string getFileContents(const std::string& filename)
     return str;
 }
 
-SugarsDescriptor getDescriptor()
+SugarsDetails getDescriptor()
 {
-    SugarsDescriptor descriptor;
+    SugarsDetails descriptor;
     descriptor.assemblyName = "test";
     descriptor.name = "test";
     descriptor.contents = getFileContents(

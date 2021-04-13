@@ -30,24 +30,24 @@
 
 namespace bioexplorer
 {
-Protein::Protein(Scene& scene, const ProteinDescriptor& descriptor)
+Protein::Protein(Scene& scene, const ProteinDetails& descriptor)
     : Molecule(scene, descriptor.chainIds)
-    , _descriptor(descriptor)
+    , _details(descriptor)
 {
     size_t lineIndex{0};
 
-    std::stringstream lines{_descriptor.contents};
+    std::stringstream lines{_details.contents};
     std::string line;
-    std::string title{_descriptor.name};
-    std::string header{_descriptor.name};
+    std::string title{_details.name};
+    std::string header{_details.name};
 
     while (getline(lines, line, '\n'))
     {
         if (line.find(KEY_ATOM) == 0)
-            _readAtom(line, _descriptor.loadHydrogen);
+            _readAtom(line, _details.loadHydrogen);
         else if (descriptor.loadNonPolymerChemicals &&
                  line.find(KEY_HETATM) == 0)
-            _readAtom(line, _descriptor.loadHydrogen);
+            _readAtom(line, _details.loadHydrogen);
         else if (line.find(KEY_HEADER) == 0)
             header = _readHeader(line);
         else if (line.find(KEY_TITLE) == 0)
@@ -88,9 +88,9 @@ Protein::Protein(Scene& scene, const ProteinDescriptor& descriptor)
         _bounds = newBounds;
     }
 
-    _buildModel(_descriptor.assemblyName, _descriptor.name, title, header,
-                _descriptor.representation, _descriptor.atomRadiusMultiplier,
-                _descriptor.loadBonds);
+    _buildModel(_details.assemblyName, _details.name, title, header,
+                _details.representation, _details.atomRadiusMultiplier,
+                _details.loadBonds);
 
     _buildAminoAcidBounds();
     _computeReqSetOffset();
@@ -102,8 +102,7 @@ Protein::~Protein()
     {
         const auto modelId = glycan.second->getModelDescriptor()->getModelID();
         PLUGIN_INFO << "Removing glycan [" << modelId << "] [" << glycan.first
-                    << "] from assembly [" << _descriptor.name << "]"
-                    << std::endl;
+                    << "] from assembly [" << _details.name << "]" << std::endl;
         _scene.removeModel(modelId);
     }
 }
@@ -374,7 +373,7 @@ void Protein::getSugarBindingSites(std::vector<Vector3f>& positions,
     _getSitesTransformations(positions, rotations, sites);
 }
 
-void Protein::setAminoAcid(const SetAminoAcid& aminoAcid)
+void Protein::setAminoAcid(const AminoAcidDetails& aminoAcid)
 {
     for (auto& sequence : _sequenceMap)
     {
@@ -429,12 +428,12 @@ void Protein::_processInstances(ModelDescriptorPtr md,
     }
 }
 
-void Protein::addGlycans(const SugarsDescriptor& sd)
+void Protein::addGlycans(const SugarsDetails& sd)
 {
     if (_glycans.find(sd.name) != _glycans.end())
         PLUGIN_THROW(std::runtime_error(
             "A glycan named " + sd.name + " already exists in protein " +
-            _descriptor.name + " of assembly " + _descriptor.assemblyName));
+            _details.name + " of assembly " + _details.assemblyName));
 
     Vector3fs glycanPositions;
     Quaternions glycanrotations;
@@ -457,12 +456,12 @@ void Protein::addGlycans(const SugarsDescriptor& sd)
     _scene.addModel(modelDescriptor);
 }
 
-void Protein::addSugars(const SugarsDescriptor& sd)
+void Protein::addSugars(const SugarsDetails& sd)
 {
     if (_glycans.find(sd.name) != _glycans.end())
         PLUGIN_THROW(std::runtime_error(
             "A sugar named " + sd.name + " already exists in protein " +
-            _descriptor.name + " of assembly " + _descriptor.assemblyName));
+            _details.name + " of assembly " + _details.assemblyName));
 
     Vector3fs positions;
     Quaternions rotations;

@@ -54,12 +54,6 @@ typedef CGAL::Union_of_balls_3<Traits> Union_of_balls_3;
 typedef K::Vector_3 Vector;
 typedef CGAL::Surface_mesh<Point_3> Surface_mesh;
 
-typedef boost::graph_traits<Surface_mesh>::vertex_descriptor vertex_descriptor;
-typedef boost::graph_traits<Polyhedron>::face_descriptor face_descriptor;
-
-typedef Polyhedron::Facet_iterator Facet_iterator;
-typedef Polyhedron::Halfedge_around_facet_circulator Halfedge_facet_circulator;
-
 namespace bioexplorer
 {
 SurfaceMesher::SurfaceMesher(const uint32_t uuid)

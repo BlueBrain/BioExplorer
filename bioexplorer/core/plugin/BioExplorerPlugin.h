@@ -54,62 +54,62 @@ private:
 
     // Info and settings
     Response _version() const;
-    Response _setGeneralSettings(const GeneralSettingsDescriptor &payload);
+    Response _setGeneralSettings(const GeneralSettingsDetails &payload);
 
     // IO
-    Response _exportToFile(const FileAccess &payload);
-    Response _importFromFile(const FileAccess &payload);
-    Response _exportToXYZ(const FileAccess &payload);
+    Response _exportToFile(const FileAccessDetails &payload);
+    Response _importFromFile(const FileAccessDetails &payload);
+    Response _exportToXYZ(const FileAccessDetails &payload);
 #ifdef USE_PQXX
     // DB
-    Response _exportToDatabase(const DatabaseAccess &payload);
+    Response _exportToDatabase(const DatabaseAccessDetails &payload);
 #endif
 
     // Biological elements
-    Response _addAssembly(const AssemblyDescriptor &payload);
-    Response _removeAssembly(const AssemblyDescriptor &payload);
-    Response _addMembrane(const MembraneDescriptor &payload) const;
-    Response _addRNASequence(const RNASequenceDescriptor &payload) const;
-    Response _addProtein(const ProteinDescriptor &payload) const;
+    Response _addAssembly(const AssemblyDetails &payload);
+    Response _removeAssembly(const AssemblyDetails &payload);
+    Response _addMembrane(const MembraneDetails &payload) const;
+    Response _addRNASequence(const RNASequenceDetails &payload) const;
+    Response _addProtein(const ProteinDetails &payload) const;
     Response _addMeshBasedMembrane(
-        const MeshBasedMembraneDescriptor &payload) const;
-    Response _addGlycans(const SugarsDescriptor &payload) const;
-    Response _addSugars(const SugarsDescriptor &payload) const;
+        const MeshBasedMembraneDetails &payload) const;
+    Response _addGlycans(const SugarsDetails &payload) const;
+    Response _addSugars(const SugarsDetails &payload) const;
 
     // Other elements
-    Response _addGrid(const AddGrid &payload);
+    Response _addGrid(const AddGridDetails &payload);
 
     // Amino acids
     Response _setAminoAcidSequenceAsString(
-        const AminoAcidSequenceAsStringDescriptor &payload) const;
+        const AminoAcidSequenceAsStringDetails &payload) const;
     Response _setAminoAcidSequenceAsRanges(
-        const AminoAcidSequenceAsRangesDescriptor &payload) const;
+        const AminoAcidSequenceAsRangesDetails &payload) const;
     Response _getAminoAcidInformation(
-        const AminoAcidInformationDescriptor &payload) const;
-    Response _setAminoAcid(const SetAminoAcid &payload) const;
+        const AminoAcidInformationDetails &payload) const;
+    Response _setAminoAcid(const AminoAcidDetails &payload) const;
 
     // Portein instances
     Response _setProteinInstanceTransformation(
-        const ProteinInstanceTransformationDescriptor &payload) const;
+        const ProteinInstanceTransformationDetails &payload) const;
     Response _getProteinInstanceTransformation(
-        const ProteinInstanceTransformationDescriptor &payload) const;
+        const ProteinInstanceTransformationDetails &payload) const;
 
     // Colors and materials
-    Response _setColorScheme(const ColorSchemeDescriptor &payload) const;
-    Response _setMaterials(const MaterialsDescriptor &payload);
-    MaterialIds _getMaterialIds(const ModelId &modelId);
+    Response _setColorScheme(const ColorSchemeDetails &payload) const;
+    Response _setMaterials(const MaterialsDetails &payload);
+    MaterialIdsDetails _getMaterialIds(const ModelIdDetails &modelId);
 
     // Point clouds
-    Response _buildPointCloud(const BuildPointCloud &payload);
+    Response _buildPointCloud(const BuildPointCloudDetails &payload);
 
     // Fields
     void _attachFieldsHandler(FieldsHandlerPtr handler);
-    Response _buildFields(const BuildFields &payload);
-    Response _exportFieldsToFile(const ModelIdFileAccess &payload);
-    Response _importFieldsFromFile(const FileAccess &payload);
+    Response _buildFields(const BuildFieldsDetails &payload);
+    Response _exportFieldsToFile(const ModelIdFileAccessDetails &payload);
+    Response _importFieldsFromFile(const FileAccessDetails &payload);
 
     // Models
-    Response _setModelsVisibility(const ModelsVisibility &payload);
+    Response _setModelsVisibility(const ModelsVisibilityDetails &payload);
 
     // Out-Of-Core
     Response _getOOCConfiguration() const;
