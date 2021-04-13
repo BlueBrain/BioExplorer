@@ -30,18 +30,18 @@
 
 namespace bioexplorer
 {
-Membrane::Membrane(Scene &scene, const MembraneDescriptor &descriptor,
+Membrane::Membrane(Scene &scene, const MembraneDetails &descriptor,
                    const Vector3f &position, const Quaterniond &rotation,
                    const Vector4fs &clippingPlanes)
     : _scene(scene)
     , _position(position)
     , _rotation(rotation)
-    , _descriptor(descriptor)
+    , _details(descriptor)
     , _clippingPlanes(clippingPlanes)
 {
-    if (_descriptor.representation == ProteinRepresentation::contour)
+    if (_details.representation == ProteinRepresentation::contour)
     {
-        switch (_descriptor.shape)
+        switch (_details.shape)
         {
         case AssemblyShape::spherical:
             const std::string name{"Membrane"};
@@ -60,7 +60,7 @@ Membrane::Membrane(Scene &scene, const MembraneDescriptor &descriptor,
             material->updateProperties(props);
 
             model->addSphere(materialId,
-                             {_position, _descriptor.assemblyParams[0]});
+                             {_position, _details.assemblyParams[0]});
             auto modelDescriptor =
                 std::make_shared<ModelDescriptor>(std::move(model), name);
             _scene.addModel(modelDescriptor);
@@ -81,7 +81,7 @@ Membrane::Membrane(Scene &scene, const MembraneDescriptor &descriptor,
     size_t i = 0;
     for (const auto &content : proteinContents)
     {
-        ProteinDescriptor pd;
+        ProteinDetails pd;
         pd.assemblyName = descriptor.assemblyName;
         pd.name = _getElementNameFromId(i);
         pd.contents = content;
@@ -122,40 +122,34 @@ Membrane::~Membrane()
 void Membrane::_processInstances()
 {
     // Randomization
-    srand(_descriptor.randomSeed);
+    srand(_details.randomSeed);
     size_t rnd{1};
-    if (_descriptor.randomSeed != 0 && _descriptor.positionRandomizationType ==
-                                           PositionRandomizationType::circular)
-        rnd = rand() % _descriptor.occurrences;
+    if (_details.randomSeed != 0 && _details.positionRandomizationType ==
+                                        PositionRandomizationType::circular)
+        rnd = rand() % _details.occurrences;
 
-    const Quaterniond rotation = {_descriptor.rotation[0],
-                                  _descriptor.rotation[1],
-                                  _descriptor.rotation[2],
-                                  _descriptor.rotation[3]};
+    const Quaterniond rotation = {_details.rotation[0], _details.rotation[1],
+                                  _details.rotation[2], _details.rotation[3]};
     std::map<size_t, size_t> instanceCounts;
     for (size_t i = 0; i < _proteins.size(); ++i)
         instanceCounts[i] = 0;
 
     // Shape parameters
-    const auto &params = _descriptor.assemblyParams;
-    if (params.size() < 6)
-        PLUGIN_THROW(std::runtime_error("Invalid number of shape parameters"));
-
-    const float size = params[0];
+    const auto &params = _details.assemblyParams;
+    const float size = (params.size() > 0 ? params[0] : 0.f);
 
     RandomizationInformation randInfo;
-    randInfo.seed = _descriptor.randomSeed;
-    randInfo.randomizationType = _descriptor.positionRandomizationType;
-    randInfo.positionStrength = params[2];
-    randInfo.rotationStrength = params[4];
-    const float extraParameter = params[5];
+    randInfo.seed = _details.randomSeed;
+    randInfo.randomizationType = _details.positionRandomizationType;
+    randInfo.positionStrength = (params.size() > 2 ? params[2] : 0.f);
+    randInfo.rotationStrength = (params.size() > 4 ? params[4] : 0.f);
+    const float extraParameter = (params.size() > 5 ? params[5] : 0.f);
 
     // Shape instances
-    const float offset = 2.f / _descriptor.occurrences;
+    const float offset = 2.f / _details.occurrences;
     const float increment = M_PI * (3.f - sqrt(5.f));
 
-    for (uint64_t occurence = 0; occurence < _descriptor.occurrences;
-         ++occurence)
+    for (uint64_t occurence = 0; occurence < _details.occurrences; ++occurence)
     {
         const size_t id = rand() % _proteins.size();
         const auto name = _getElementNameFromId(id);
@@ -172,17 +166,21 @@ void Membrane::_processInstances()
         const auto &bounds = model.getBounds();
         const Vector3f &center = bounds.getCenter();
 
-        randInfo.positionSeed = (params[1] == 0 ? 0 : params[1] + occurence);
-        randInfo.rotationSeed = (params[3] == 0 ? 0 : params[3] + occurence);
+        randInfo.positionSeed =
+            (params.size() >= 2 ? (params[1] == 0 ? 0 : params[1] + occurence)
+                                : 0);
+        randInfo.rotationSeed =
+            (params.size() >= 4 ? (params[3] == 0 ? 0 : params[3] + occurence)
+                                : 0);
 
         Transformation transformation;
-        switch (_descriptor.shape)
+        switch (_details.shape)
         {
         case AssemblyShape::spherical:
         {
             transformation =
                 getSphericalPosition(Vector3f(), size, occurence,
-                                     _descriptor.occurrences, randInfo);
+                                     _details.occurrences, randInfo);
             break;
         }
         case AssemblyShape::sinusoidal:
@@ -200,7 +198,7 @@ void Membrane::_processInstances()
         case AssemblyShape::fan:
         {
             transformation = getFanPosition(Vector3f(), size, occurence,
-                                            _descriptor.occurrences, randInfo);
+                                            _details.occurrences, randInfo);
             break;
         }
         case AssemblyShape::bezier:
@@ -212,17 +210,16 @@ void Membrane::_processInstances()
             for (uint32_t i = 5; i < params.size(); i += 3)
                 points.push_back(
                     Vector3f(params[i], params[i + 1], params[i + 2]));
-            transformation =
-                getBezierPosition(points, size,
-                                  float(occurence) /
-                                      float(_descriptor.occurrences));
+            transformation = getBezierPosition(points, size,
+                                               float(occurence) /
+                                                   float(_details.occurrences));
             break;
         }
         case AssemblyShape::spherical_to_planar:
         {
             transformation =
                 getSphericalToPlanarPosition(Vector3f(), size, occurence,
-                                             _descriptor.occurrences, randInfo,
+                                             _details.occurrences, randInfo,
                                              extraParameter);
             break;
         }
@@ -255,6 +252,6 @@ void Membrane::_processInstances()
 
 std::string Membrane::_getElementNameFromId(const size_t id)
 {
-    return _descriptor.assemblyName + "_Membrane_" + std::to_string(id);
+    return _details.assemblyName + "_Membrane_" + std::to_string(id);
 }
 } // namespace bioexplorer

@@ -61,7 +61,7 @@ public:
      *
      * @return Configuration of the out-of-code read-only scene
      */
-    const OOCSceneConfiguration getSceneConfiguration();
+    const OOCSceneConfigurationDetails getSceneConfiguration();
 
     /**
      * @brief Get the Brick object

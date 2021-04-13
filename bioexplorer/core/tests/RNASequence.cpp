@@ -46,9 +46,9 @@ std::string getFileContents(const std::string& filename)
     return str;
 }
 
-RNASequenceDescriptor getDescriptor()
+RNASequenceDetails getDescriptor()
 {
-    RNASequenceDescriptor descriptor;
+    RNASequenceDetails descriptor;
 
     descriptor.assemblyName = "test";
     descriptor.name = "test";

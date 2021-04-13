@@ -30,26 +30,26 @@
 
 namespace bioexplorer
 {
-Assembly::Assembly(Scene &scene, const AssemblyDescriptor &ad)
-    : _descriptor(ad)
+Assembly::Assembly(Scene &scene, const AssemblyDetails &descriptor)
+    : _details(descriptor)
     , _scene(scene)
 {
-    if (ad.position.size() != 3)
+    if (descriptor.position.size() != 3)
         PLUGIN_THROW(std::runtime_error(
             "Position must be a sequence of 3 float values"));
 
-    if (ad.rotation.size() != 4)
+    if (descriptor.rotation.size() != 4)
         PLUGIN_THROW(std::runtime_error(
             "rotation must be a sequence of 4 float values"));
 
-    if (ad.clippingPlanes.size() % 4 != 0)
+    if (descriptor.clippingPlanes.size() % 4 != 0)
         PLUGIN_THROW(std::runtime_error(
             "Clipping planes must be defined by 4 float values"));
-    const auto &cp = ad.clippingPlanes;
+    const auto &cp = descriptor.clippingPlanes;
     for (size_t i = 0; i < cp.size(); i += 4)
         _clippingPlanes.push_back({cp[i], cp[i + 1], cp[i + 2], cp[i + 3]});
 
-    PLUGIN_INFO << "Adding assembly [" << ad.name << "]" << std::endl;
+    PLUGIN_INFO << "Adding assembly [" << descriptor.name << "]" << std::endl;
 }
 
 Assembly::~Assembly()
@@ -58,8 +58,7 @@ Assembly::~Assembly()
     {
         const auto modelId = protein.second->getModelDescriptor()->getModelID();
         PLUGIN_INFO << "Removing protein [" << modelId << "] [" << protein.first
-                    << "] from assembly [" << _descriptor.name << "]"
-                    << std::endl;
+                    << "] from assembly [" << _details.name << "]" << std::endl;
         _scene.removeModel(protein.second->getModelDescriptor()->getModelID());
     }
     for (const auto &meshBasedMembrane : _meshBasedMembranes)
@@ -68,7 +67,7 @@ Assembly::~Assembly()
             meshBasedMembrane.second->getModelDescriptor()->getModelID();
         PLUGIN_INFO << "Removing mesh [" << modelId << "] ["
                     << meshBasedMembrane.first << "] from assembly ["
-                    << _descriptor.name << "]" << std::endl;
+                    << _details.name << "]" << std::endl;
         _scene.removeModel(
             meshBasedMembrane.second->getModelDescriptor()->getModelID());
     }
@@ -76,13 +75,12 @@ Assembly::~Assembly()
     {
         const auto modelId = _rnaSequence->getModelDescriptor()->getModelID();
         PLUGIN_INFO << "Removing RNA sequence [" << modelId
-                    << "] from assembly [" << _descriptor.name << "]"
-                    << std::endl;
+                    << "] from assembly [" << _details.name << "]" << std::endl;
         _scene.removeModel(modelId);
     }
 }
 
-void Assembly::addProtein(const ProteinDescriptor &pd)
+void Assembly::addProtein(const ProteinDetails &pd)
 {
     ProteinPtr protein(new Protein(_scene, pd));
     auto modelDescriptor = protein->getModelDescriptor();
@@ -101,24 +99,22 @@ void Assembly::addProtein(const ProteinDescriptor &pd)
                 << modelDescriptor->getInstances().size() << std::endl;
 }
 
-void Assembly::addMembrane(const MembraneDescriptor &md)
+void Assembly::addMembrane(const MembraneDetails &md)
 {
     if (_membrane != nullptr)
         PLUGIN_THROW(std::runtime_error("Assembly already has a membrane"));
 
-    const Vector3f position = {_descriptor.position[0], _descriptor.position[1],
-                               _descriptor.position[2]};
-    const Quaterniond rotation = {_descriptor.rotation[0],
-                                  _descriptor.rotation[1],
-                                  _descriptor.rotation[2],
-                                  _descriptor.rotation[3]};
+    const Vector3f position = {_details.position[0], _details.position[1],
+                               _details.position[2]};
+    const Quaterniond rotation = {_details.rotation[0], _details.rotation[1],
+                                  _details.rotation[2], _details.rotation[3]};
 
     MembranePtr membrane(
         new Membrane(_scene, md, position, rotation, _clippingPlanes));
     _membrane = std::move(membrane);
 }
 
-void Assembly::addSugars(const SugarsDescriptor &sd)
+void Assembly::addSugars(const SugarsDetails &sd)
 {
     // Get information from target protein (attributes, number of instances,
     // glycosylation sites, etc)
@@ -138,7 +134,7 @@ void Assembly::addSugars(const SugarsDescriptor &sd)
     targetProtein->addSugars(sd);
 }
 
-void Assembly::addGlycans(const SugarsDescriptor &sd)
+void Assembly::addGlycans(const SugarsDetails &sd)
 {
     // Get information from target protein (attributes, number of instances,
     // glycosylation sites, etc)
@@ -159,7 +155,7 @@ void Assembly::addGlycans(const SugarsDescriptor &sd)
     targetProtein->addGlycans(sd);
 }
 
-void Assembly::addMeshBasedMembrane(const MeshBasedMembraneDescriptor &md)
+void Assembly::addMeshBasedMembrane(const MeshBasedMembraneDetails &md)
 {
     MeshBasedMembranePtr meshBaseMembrane(new MeshBasedMembrane(_scene, md));
     auto modelDescriptor = meshBaseMembrane->getModelDescriptor();
@@ -183,52 +179,54 @@ void Assembly::_processInstances(
         randomizationType == PositionRandomizationType::circular)
         rnd = rand() % occurrences;
 
-    const Quaterniond assemblyrotation = {_descriptor.rotation[0],
-                                          _descriptor.rotation[1],
-                                          _descriptor.rotation[2],
-                                          _descriptor.rotation[3]};
-    const Vector3f assemblyPosition = {_descriptor.position[0],
-                                       _descriptor.position[1],
-                                       _descriptor.position[2]};
+    const Quaterniond assemblyrotation = {_details.rotation[0],
+                                          _details.rotation[1],
+                                          _details.rotation[2],
+                                          _details.rotation[3]};
+    const Vector3f assemblyPosition = {_details.position[0],
+                                       _details.position[1],
+                                       _details.position[2]};
 
     // Shape parameters
     const auto &params = assemblyParams;
-    if (params.size() < 6)
-        PLUGIN_THROW(std::runtime_error("Invalid number of shape parameters"));
-
-    const float size = params[0];
+    const float size = (params.size() > 0 ? params[0] : 0.f);
     RandomizationInformation randInfo;
     randInfo.seed = randomSeed;
     randInfo.randomizationType = randomizationType;
-    randInfo.positionStrength = params[2];
-    randInfo.rotationStrength = params[4];
-    const float extraParameter = params[5];
+    randInfo.positionStrength = (params.size() > 2 ? params[2] : 0.f);
+    randInfo.rotationStrength = (params.size() > 4 ? params[4] : 0.f);
+    const float extraParameter = (params.size() > 5 ? params[5] : 0.f);
 
     // Shape
     uint64_t count = 0;
-    for (uint64_t i = 0; i < occurrences; ++i)
+    for (uint64_t occurence = 0; occurence < occurrences; ++occurence)
     {
         if (!allowedOccurrences.empty() &&
             std::find(allowedOccurrences.begin(), allowedOccurrences.end(),
-                      i) == allowedOccurrences.end())
+                      occurence) == allowedOccurrences.end())
             continue;
 
-        Transformation transformation;
-        randInfo.positionSeed = (params[1] == 0 ? 0 : params[1] + i);
-        randInfo.rotationSeed = (params[3] == 0 ? 0 : params[3] + i);
+        randInfo.positionSeed =
+            (params.size() > 1 ? (params[1] == 0 ? 0 : params[1] + occurence)
+                               : 0);
+        randInfo.rotationSeed =
+            (params.size() > 3 ? (params[3] == 0 ? 0 : params[3] + occurence)
+                               : 0);
 
+        Transformation transformation;
         switch (shape)
         {
         case AssemblyShape::spherical:
         {
-            transformation =
-                getSphericalPosition(position, size, i, occurrences, randInfo);
+            transformation = getSphericalPosition(position, size, occurence,
+                                                  occurrences, randInfo);
             break;
         }
         case AssemblyShape::sinusoidal:
         {
-            transformation = getSinosoidalPosition(position, size,
-                                                   extraParameter, i, randInfo);
+            transformation =
+                getSinosoidalPosition(position, size, extraParameter, occurence,
+                                      randInfo);
             break;
         }
         case AssemblyShape::cubic:
@@ -238,8 +236,8 @@ void Assembly::_processInstances(
         }
         case AssemblyShape::fan:
         {
-            transformation =
-                getFanPosition(position, size, i, occurrences, randInfo);
+            transformation = getFanPosition(position, size, occurence,
+                                            occurrences, randInfo);
             break;
         }
         case AssemblyShape::bezier:
@@ -248,19 +246,21 @@ void Assembly::_processInstances(
                 PLUGIN_THROW(std::runtime_error(
                     "Invalid number of floats in assembly extra parameters"));
             Vector3fs points;
-            for (uint32_t j = 5; j < params.size(); j += 3)
+            for (uint32_t i = 5; i < params.size(); i += 3)
                 points.push_back(
-                    Vector3f(params[j], params[j + 1], params[j + 2]));
+                    Vector3f(params[i], params[i + 1], params[i + 2]));
             const auto assemblySize = assemblyParams[0];
-            transformation = getBezierPosition(points, assemblySize,
-                                               float(i) / float(occurrences));
+            transformation =
+                getBezierPosition(points, assemblySize,
+                                  float(occurence) / float(occurrences));
             break;
         }
         case AssemblyShape::spherical_to_planar:
         {
             transformation =
-                getSphericalToPlanarPosition(position, size, i, occurrences,
-                                             randInfo, extraParameter);
+                getSphericalToPlanarPosition(position, size, occurence,
+                                             occurrences, randInfo,
+                                             extraParameter);
             break;
         }
         default:
@@ -291,7 +291,7 @@ void Assembly::_processInstances(
     }
 }
 
-void Assembly::setColorScheme(const ColorSchemeDescriptor &csd)
+void Assembly::setColorScheme(const ColorSchemeDetails &csd)
 {
     if (csd.palette.size() < 3 || csd.palette.size() % 3 != 0)
         PLUGIN_THROW(std::runtime_error("Invalid palette size"));
@@ -333,7 +333,7 @@ void Assembly::setColorScheme(const ColorSchemeDescriptor &csd)
 }
 
 void Assembly::setAminoAcidSequenceAsString(
-    const AminoAcidSequenceAsStringDescriptor &aasd)
+    const AminoAcidSequenceAsStringDetails &aasd)
 {
     auto it = _proteins.find(aasd.name);
     if (it != _proteins.end())
@@ -343,7 +343,7 @@ void Assembly::setAminoAcidSequenceAsString(
 }
 
 void Assembly::setAminoAcidSequenceAsRange(
-    const AminoAcidSequenceAsRangesDescriptor &aasd)
+    const AminoAcidSequenceAsRangesDetails &aasd)
 {
     auto it = _proteins.find(aasd.name);
     if (it != _proteins.end())
@@ -359,7 +359,7 @@ void Assembly::setAminoAcidSequenceAsRange(
 }
 
 std::string Assembly::getAminoAcidInformation(
-    const AminoAcidInformationDescriptor &aasd) const
+    const AminoAcidInformationDetails &aasd) const
 {
     PLUGIN_INFO << "Returning Amino Acid information from protein " << aasd.name
                 << std::endl;
@@ -396,7 +396,7 @@ std::string Assembly::getAminoAcidInformation(
     return response;
 }
 
-void Assembly::setAminoAcid(const SetAminoAcid &aminoAcid)
+void Assembly::setAminoAcid(const AminoAcidDetails &aminoAcid)
 {
     auto it = _proteins.find(aminoAcid.name);
     if (it != _proteins.end())
@@ -406,7 +406,7 @@ void Assembly::setAminoAcid(const SetAminoAcid &aminoAcid)
             std::runtime_error("Protein not found: " + aminoAcid.name));
 }
 
-void Assembly::addRNASequence(const RNASequenceDescriptor &rnad)
+void Assembly::addRNASequence(const RNASequenceDetails &rnad)
 {
     auto rd = rnad;
     if (rd.range.size() != 2)
@@ -433,7 +433,7 @@ void Assembly::addRNASequence(const RNASequenceDescriptor &rnad)
                 << rd.position[1] << ", " << rd.position[2] << std::endl;
 
     for (size_t i = 0; i < 3; ++i)
-        rd.position[i] += _descriptor.position[i];
+        rd.position[i] += _details.position[i];
 
     _rnaSequence = RNASequencePtr(new RNASequence(_scene, rd));
     const auto modelDescriptor = _rnaSequence->getModelDescriptor();
@@ -441,7 +441,7 @@ void Assembly::addRNASequence(const RNASequenceDescriptor &rnad)
 }
 
 void Assembly::setProteinInstanceTransformation(
-    const ProteinInstanceTransformationDescriptor &descriptor)
+    const ProteinInstanceTransformationDetails &descriptor)
 {
     ProteinPtr protein{nullptr};
     auto itProtein = _proteins.find(descriptor.name);
@@ -493,7 +493,7 @@ void Assembly::setProteinInstanceTransformation(
 }
 
 const Transformation Assembly::getProteinInstanceTransformation(
-    const ProteinInstanceTransformationDescriptor &descriptor) const
+    const ProteinInstanceTransformationDetails &descriptor) const
 {
     ProteinPtr protein{nullptr};
     auto itProtein = _proteins.find(descriptor.name);

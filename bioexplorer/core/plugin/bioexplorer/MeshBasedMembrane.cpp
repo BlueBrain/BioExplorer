@@ -34,29 +34,33 @@
 namespace bioexplorer
 {
 MeshBasedMembrane::MeshBasedMembrane(Scene& scene,
-                                     const MeshBasedMembraneDescriptor& md)
+                                     const MeshBasedMembraneDetails& descriptor)
     : Node()
 {
     const auto loader = MeshLoader(scene);
 
     // Load protein
-    const Vector3f position = {md.position[0], md.position[1], md.position[2]};
-    const Quaterniond rotation = {md.rotation[0], md.rotation[1],
-                                  md.rotation[2], md.rotation[3]};
-    const Vector3f scale = {md.scale[0], md.scale[1], md.scale[2]};
+    const Vector3f position = {descriptor.position[0], descriptor.position[1],
+                               descriptor.position[2]};
+    const Quaterniond rotation = {descriptor.rotation[0],
+                                  descriptor.rotation[1],
+                                  descriptor.rotation[2],
+                                  descriptor.rotation[3]};
+    const Vector3f scale = {descriptor.scale[0], descriptor.scale[1],
+                            descriptor.scale[2]};
 
-    ProteinDescriptor pd;
-    pd.assemblyName = md.assemblyName;
-    pd.name = md.name;
-    pd.contents = md.proteinContents;
+    ProteinDetails pd;
+    pd.assemblyName = descriptor.assemblyName;
+    pd.name = descriptor.name;
+    pd.contents = descriptor.proteinContents;
     pd.recenter = true;
-    pd.atomRadiusMultiplier = md.atomRadiusMultiplier;
-    pd.representation = md.representation;
-    pd.position = md.position;
-    pd.rotation = md.rotation;
+    pd.atomRadiusMultiplier = descriptor.atomRadiusMultiplier;
+    pd.representation = descriptor.representation;
+    pd.position = descriptor.position;
+    pd.rotation = descriptor.rotation;
 
     // Random seed
-    srand(md.randomSeed);
+    srand(descriptor.randomSeed);
 
     // Create model
     _protein = ProteinPtr(new Protein(scene, pd));
@@ -71,8 +75,8 @@ MeshBasedMembrane::MeshBasedMembrane(Scene& scene,
     // Load MeshBasedMembrane
     Assimp::Importer importer;
     const aiScene* aiScene =
-        importer.ReadFileFromMemory(md.meshContents.c_str(),
-                                    md.meshContents.length(),
+        importer.ReadFileFromMemory(descriptor.meshContents.c_str(),
+                                    descriptor.meshContents.length(),
                                     aiProcess_GenSmoothNormals |
                                         aiProcess_Triangulate);
 
@@ -149,7 +153,8 @@ MeshBasedMembrane::MeshBasedMembrane(Scene& scene,
         const float proteinSurface = proteinSize.x * proteinSize.x;
 
         // Total number of instance needed to fill the MeshBasedMembrane surface
-        const size_t nbInstances = md.density * meshSurface / proteinSurface;
+        const size_t nbInstances =
+            descriptor.density * meshSurface / proteinSurface;
         const float instanceSurface = meshSurface / nbInstances;
 
         PLUGIN_INFO << "----===  MeshBasedMembrane  ===----" << std::endl;
@@ -204,12 +209,13 @@ MeshBasedMembrane::MeshBasedMembrane(Scene& scene,
                 const Vector3f transformedVertex =
                     matrix * Vector4f(P.x, P.y, P.z, 1.f);
 
-                const float variableOffset =
-                    md.surfaceVariableOffset * (rand() % 1000 / 1000.f - 0.5f);
+                const float variableOffset = descriptor.surfaceVariableOffset *
+                                             (rand() % 1000 / 1000.f - 0.5f);
 
-                auto translation = position + transformedVertex +
-                                   defaultNormal * md.surfaceFixedOffset +
-                                   defaultNormal * variableOffset;
+                auto translation =
+                    position + transformedVertex +
+                    defaultNormal * descriptor.surfaceFixedOffset +
+                    defaultNormal * variableOffset;
 
                 if (mesh->HasNormals())
                 {
@@ -239,7 +245,7 @@ MeshBasedMembrane::MeshBasedMembrane(Scene& scene,
                         tf.setRotation(rotation * rotation);
                     }
                     translation = position + transformedVertex +
-                                  normal * md.surfaceFixedOffset +
+                                  normal * descriptor.surfaceFixedOffset +
                                   normal * variableOffset;
                 }
 

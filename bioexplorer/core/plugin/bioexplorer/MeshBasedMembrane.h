@@ -49,8 +49,7 @@ public:
      * @param descriptor The data structure describing the MeshBasedMembrane,
      * the protein, and the associated parameters
      */
-    MeshBasedMembrane(Scene& scene,
-                      const MeshBasedMembraneDescriptor& descriptor);
+    MeshBasedMembrane(Scene& scene, const MeshBasedMembraneDetails& descriptor);
 
     /**
      * @brief Get the Protein object

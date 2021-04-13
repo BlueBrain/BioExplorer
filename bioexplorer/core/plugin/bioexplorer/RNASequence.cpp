@@ -55,7 +55,7 @@ NucleotidMap nucleotidMap{{'A', {0, "Adenine", {0.f, 0.f, 1.f}}},
                           {'T', {3, "Thymine", {1.f, 0.f, 1.f}}},
                           {'C', {4, "Cytosine", {1.f, 1.f, 0.f}}}};
 
-RNASequence::RNASequence(Scene& scene, const RNASequenceDescriptor& rd)
+RNASequence::RNASequence(Scene& scene, const RNASequenceDetails& rd)
     : Node()
 {
     const auto& sequence = rd.contents;

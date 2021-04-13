@@ -1,6 +1,6 @@
 var searchData=
 [
-  ['usecolors_491',['useColors',['../db/d60/structbioexplorer_1_1AddGrid.html#a4a30aecf294b5fb7f0e7ba9b1eeee607',1,'bioexplorer::AddGrid']]],
-  ['userparameter_492',['userParameter',['../da/db3/structbioexplorer_1_1AdvancedMaterial.html#ac71b3c0805f83c57f77432a50b79c504',1,'bioexplorer::AdvancedMaterial']]],
-  ['userparameters_493',['userParameters',['../df/d61/structbioexplorer_1_1MaterialsDescriptor.html#a285301f1167707ae71890ec483e1b4b5',1,'bioexplorer::MaterialsDescriptor']]]
+  ['usecolors_492',['useColors',['../d6/d27/structbioexplorer_1_1AddGridDetails.html#ad334081e73bb7ae2f5ed27c55294523e',1,'bioexplorer::AddGridDetails']]],
+  ['userparameter_493',['userParameter',['../da/db3/structbioexplorer_1_1AdvancedMaterial.html#ac71b3c0805f83c57f77432a50b79c504',1,'bioexplorer::AdvancedMaterial']]],
+  ['userparameters_494',['userParameters',['../d6/df4/structbioexplorer_1_1MaterialsDetails.html#a9c1863ed995693fe8251ceeba6722854',1,'bioexplorer::MaterialsDetails']]]
 ];

@@ -39,7 +39,7 @@ public:
      * @param scene Scene to which assembly should be added
      * @param descriptor Description of the protein
      */
-    Protein(Scene& scene, const ProteinDescriptor& descriptor);
+    Protein(Scene& scene, const ProteinDetails& descriptor);
 
     /**
      * @brief Destroy the Protein object
@@ -85,7 +85,7 @@ public:
      *
      * @return The protein descriptor object
      */
-    const ProteinDescriptor& getDescriptor() const { return _descriptor; }
+    const ProteinDetails& getDescriptor() const { return _details; }
 
     /**
      * @brief Get the positions and rotations of glycosilation sites on the
@@ -134,21 +134,21 @@ public:
      * @param aminoAcid Structure containing the information related the amino
      * acid to be modified
      */
-    void setAminoAcid(const SetAminoAcid& aminoAcid);
+    void setAminoAcid(const AminoAcidDetails& aminoAcid);
 
     /**
      * @brief addGlycans Add glycans to glycosilation sites of a given protein
      * in the assembly
      * @param descriptor Descriptor of the glycans
      */
-    void addGlycans(const SugarsDescriptor& descriptor);
+    void addGlycans(const SugarsDetails& descriptor);
 
     /**
      * @brief addSugars Add sugars to sugar binding sites of a given protein of
      * the assembly
      * @param descriptor Descriptor of the sugars
      */
-    void addSugars(const SugarsDescriptor& descriptor);
+    void addSugars(const SugarsDetails& descriptor);
 
 private:
     // Analysis
@@ -167,7 +167,7 @@ private:
     void _buildAminoAcidBounds();
 
     // Class members
-    ProteinDescriptor _descriptor;
+    ProteinDetails _details;
     GlycansMap _glycans;
     std::map<std::string, std::map<size_t, Boxf>> _aminoAcidBounds;
 };

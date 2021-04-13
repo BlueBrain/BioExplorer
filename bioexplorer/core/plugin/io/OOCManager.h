@@ -109,7 +109,7 @@ public:
      *
      * @return const std::string&
      */
-    const OOCSceneConfiguration& getSceneConfiguration() const
+    const OOCSceneConfigurationDetails& getSceneConfiguration() const
     {
         return _sceneConfiguration;
     }
@@ -149,7 +149,7 @@ private:
     const Camera& _camera;
     FrameBuffer* _frameBuffer{nullptr};
 
-    OOCSceneConfiguration _sceneConfiguration;
+    OOCSceneConfigurationDetails _sceneConfiguration;
     float _updateFrequency{1.f};
     int32_t _nbVisibleBricks{0};
     bool _unloadBricks{false};

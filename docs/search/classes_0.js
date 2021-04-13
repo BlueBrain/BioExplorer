@@ -1,14 +1,15 @@
 var searchData=
 [
-  ['addgrid_237',['AddGrid',['../db/d60/structbioexplorer_1_1AddGrid.html',1,'bioexplorer']]],
-  ['advancedmaterial_238',['AdvancedMaterial',['../da/db3/structbioexplorer_1_1AdvancedMaterial.html',1,'bioexplorer']]],
-  ['advancedrenderer_239',['AdvancedRenderer',['../de/d08/classbioexplorer_1_1AdvancedRenderer.html',1,'bioexplorer']]],
-  ['aminoacid_240',['AminoAcid',['../d9/db8/structbioexplorer_1_1AminoAcid.html',1,'bioexplorer']]],
-  ['aminoacidinformationdescriptor_241',['AminoAcidInformationDescriptor',['../da/dc9/structbioexplorer_1_1AminoAcidInformationDescriptor.html',1,'bioexplorer']]],
-  ['aminoacidsequenceasrangesdescriptor_242',['AminoAcidSequenceAsRangesDescriptor',['../d3/db0/structbioexplorer_1_1AminoAcidSequenceAsRangesDescriptor.html',1,'bioexplorer']]],
-  ['aminoacidsequenceasstringdescriptor_243',['AminoAcidSequenceAsStringDescriptor',['../de/d42/structbioexplorer_1_1AminoAcidSequenceAsStringDescriptor.html',1,'bioexplorer']]],
-  ['assembly_244',['Assembly',['../db/db7/classbioexplorer_1_1Assembly.html',1,'bioexplorer']]],
-  ['assemblydescriptor_245',['AssemblyDescriptor',['../d4/dee/structbioexplorer_1_1AssemblyDescriptor.html',1,'bioexplorer']]],
-  ['assemblytransformationsdescriptor_246',['AssemblyTransformationsDescriptor',['../db/d89/structbioexplorer_1_1AssemblyTransformationsDescriptor.html',1,'bioexplorer']]],
-  ['atom_247',['Atom',['../db/d01/structbioexplorer_1_1Atom.html',1,'bioexplorer']]]
+  ['addgriddetails_239',['AddGridDetails',['../d6/d27/structbioexplorer_1_1AddGridDetails.html',1,'bioexplorer']]],
+  ['advancedmaterial_240',['AdvancedMaterial',['../da/db3/structbioexplorer_1_1AdvancedMaterial.html',1,'bioexplorer']]],
+  ['advancedrenderer_241',['AdvancedRenderer',['../de/d08/classbioexplorer_1_1AdvancedRenderer.html',1,'bioexplorer']]],
+  ['aminoacid_242',['AminoAcid',['../d9/db8/structbioexplorer_1_1AminoAcid.html',1,'bioexplorer']]],
+  ['aminoaciddetails_243',['AminoAcidDetails',['../d2/de1/structbioexplorer_1_1AminoAcidDetails.html',1,'bioexplorer']]],
+  ['aminoacidinformationdetails_244',['AminoAcidInformationDetails',['../d3/dac/structbioexplorer_1_1AminoAcidInformationDetails.html',1,'bioexplorer']]],
+  ['aminoacidsequenceasrangesdetails_245',['AminoAcidSequenceAsRangesDetails',['../d7/d35/structbioexplorer_1_1AminoAcidSequenceAsRangesDetails.html',1,'bioexplorer']]],
+  ['aminoacidsequenceasstringdetails_246',['AminoAcidSequenceAsStringDetails',['../d2/d03/structbioexplorer_1_1AminoAcidSequenceAsStringDetails.html',1,'bioexplorer']]],
+  ['assembly_247',['Assembly',['../db/db7/classbioexplorer_1_1Assembly.html',1,'bioexplorer']]],
+  ['assemblydetails_248',['AssemblyDetails',['../dd/d75/structbioexplorer_1_1AssemblyDetails.html',1,'bioexplorer']]],
+  ['assemblytransformationsdetails_249',['AssemblyTransformationsDetails',['../d3/d4a/structbioexplorer_1_1AssemblyTransformationsDetails.html',1,'bioexplorer']]],
+  ['atom_250',['Atom',['../db/d01/structbioexplorer_1_1Atom.html',1,'bioexplorer']]]
 ];

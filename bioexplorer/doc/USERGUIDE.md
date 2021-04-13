@@ -6,8 +6,8 @@ Proteins are loaded from PDB files. Atoms, non-polymer chemicals and bonds can b
 ```python
 virus_protein_s = Protein(
     sources=['6vyb.pdb', 'sars-cov-2-v1.pdb'],
-number_of_instances=nb_protein_s,
-        assembly_params=Vector2(11.5, 0.0))
+    number_of_instances=nb_protein_s,
+    assembly_params=[11.5])
 ```
 ![6vyb](./images/6vyb.png)
 
@@ -67,16 +67,15 @@ A viral particle (= “virus”) is an assembly consisting of a membrane, an RNA
 ```python
 virus_protein_s = Protein(
     sources=['6vyb.pdb', 'sars-cov-2-v1.pdb'],
-number_of_instances=62,
-        assembly_params=Vector2(11.5, 0.0))
+    number_of_instances=62, assembly_params=[11.5])
 
 virus_protein_e = Protein(
-    sources=[QHD43418a.pdb'],number_of_instances=42,
-        assembly_params=Vector2(3.0, 0.0))
+    sources=['QHD43418a.pdb'],number_of_instances=42,
+    assembly_params=[3.0])
 
 virus_protein_m = Protein(
-    sources=[QHD43419a.pdb'], number_of_instances=50,
-        assembly_params=Vector2(2.0, 0.0))
+    sources=['QHD43419a.pdb'], number_of_instances=50,
+    assembly_params=[2.0])
 
 virus_membrane = Membrane(
         sources=['popc.pdb'], number_of_instances=15000)
@@ -84,15 +83,15 @@ virus_membrane = Membrane(
 rna_sequence = RNASequence(
     source='sars-cov-2.rna',
     shape=be.RNA_SHAPE_TREFOIL_KNOT,
-    assembly_params=Vector2(11.0, 0.5),
+    assembly_params=[11.0, 0.5],
 t_range=Vector2(0, 30.5 * math.pi),
       shape_params=Vector3(1.51, 1.12, 1.93))
 
 coronavirus = Virus(
-name='coronavirus', protein_s=virus_protein_s,
+    name='coronavirus', protein_s=virus_protein_s,
     protein_e=virus_protein_e, protein_m=virus_protein_m,
     membrane=virus_membrane, rna_sequence=rna_sequence,
-    assembly_params=Vector2(45.0, 1.5))
+    assembly_params=[45.0, 1, 0.025, 2, 0.4])
 ```
 
 In order to ease the process of creating 3D detailed representations of viruses, an advanced API function with the default coronavirus parameters is provided by the BioExplorer:
@@ -111,14 +110,16 @@ A host cell is an assembly composed of a membrane of a given size and shape (cyl
 ```python
 ace2_receptor = Protein(
     sources=['6m1d.pdb'], number_of_instances=nb_receptors,
-        position=Vector3(0.0, 6.0, 0.0))
+    position=Vector3(0.0, 6.0, 0.0))
 
-membrane = Membrane(sources=['popc.pdb'], number_of_instances=1200000)
+membrane = Membrane(
+    sources=['popc.pdb'], 
+    number_of_instances=1200000)
 
 host_cell = Cell(
-    name='Host cell', size=Vector2(size, height),
+    name='Host cell', size=size, extra_parameters=[height],
     shape=be.ASSEMBLY_SHAPE_SINUSOIDAL,
-        membrane=membrane, receptor=ace2_receptor)
+    membrane=membrane, receptor=ace2_receptor)
 ```
 ![cell](./images/cell.png)
 

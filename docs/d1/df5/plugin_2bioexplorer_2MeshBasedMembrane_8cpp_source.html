@@ -121,294 +121,300 @@ $(document).ready(function(){initNavTree('d1/df5/plugin_2bioexplorer_2MeshBasedM
 <div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160; </div>
 <div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;<span class="keyword">namespace </span>bioexplorer</div>
 <div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;{</div>
-<div class="line"><a name="l00036"></a><span class="lineno"><a class="line" href="../../dd/d42/classbioexplorer_1_1MeshBasedMembrane.html#a28ab89d3f662a2482f22a919d2a7180d">   36</a></span>&#160;<a class="code" href="../../dd/d42/classbioexplorer_1_1MeshBasedMembrane.html#a28ab89d3f662a2482f22a919d2a7180d">MeshBasedMembrane::MeshBasedMembrane</a>(Scene&amp; scene,</div>
-<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;                                     <span class="keyword">const</span> <a class="code" href="../../d7/d2f/structbioexplorer_1_1MeshBasedMembraneDescriptor.html">MeshBasedMembraneDescriptor</a>&amp; md)</div>
+<div class="line"><a name="l00036"></a><span class="lineno"><a class="line" href="../../dd/d42/classbioexplorer_1_1MeshBasedMembrane.html#af47c819d7d7309188ab15d89b7493060">   36</a></span>&#160;<a class="code" href="../../dd/d42/classbioexplorer_1_1MeshBasedMembrane.html#af47c819d7d7309188ab15d89b7493060">MeshBasedMembrane::MeshBasedMembrane</a>(Scene&amp; scene,</div>
+<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;                                     <span class="keyword">const</span> <a class="code" href="../../d0/d14/structbioexplorer_1_1MeshBasedMembraneDetails.html">MeshBasedMembraneDetails</a>&amp; descriptor)</div>
 <div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;    : <a class="code" href="../../da/dba/classbioexplorer_1_1Node.html">Node</a>()</div>
 <div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;{</div>
 <div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;    <span class="keyword">const</span> <span class="keyword">auto</span> loader = MeshLoader(scene);</div>
 <div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160; </div>
 <div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;    <span class="comment">// Load protein</span></div>
-<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;    <span class="keyword">const</span> Vector3f position = {md.<a class="code" href="../../d7/d2f/structbioexplorer_1_1MeshBasedMembraneDescriptor.html#ab23765d9fd33f413a50c0fc43dfa7175">position</a>[0], md.<a class="code" href="../../d7/d2f/structbioexplorer_1_1MeshBasedMembraneDescriptor.html#ab23765d9fd33f413a50c0fc43dfa7175">position</a>[1], md.<a class="code" href="../../d7/d2f/structbioexplorer_1_1MeshBasedMembraneDescriptor.html#ab23765d9fd33f413a50c0fc43dfa7175">position</a>[2]};</div>
-<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;    <span class="keyword">const</span> Quaterniond orientation = {md.<a class="code" href="../../d7/d2f/structbioexplorer_1_1MeshBasedMembraneDescriptor.html#ad6cde4077da4b9ce8ce4f1bfd3a8c949">orientation</a>[0], md.<a class="code" href="../../d7/d2f/structbioexplorer_1_1MeshBasedMembraneDescriptor.html#ad6cde4077da4b9ce8ce4f1bfd3a8c949">orientation</a>[1],</div>
-<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;                                     md.<a class="code" href="../../d7/d2f/structbioexplorer_1_1MeshBasedMembraneDescriptor.html#ad6cde4077da4b9ce8ce4f1bfd3a8c949">orientation</a>[2], md.<a class="code" href="../../d7/d2f/structbioexplorer_1_1MeshBasedMembraneDescriptor.html#ad6cde4077da4b9ce8ce4f1bfd3a8c949">orientation</a>[3]};</div>
-<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;    <span class="keyword">const</span> Vector3f scale = {md.<a class="code" href="../../d7/d2f/structbioexplorer_1_1MeshBasedMembraneDescriptor.html#a98a9226072bd79671fd8c009f7663861">scale</a>[0], md.<a class="code" href="../../d7/d2f/structbioexplorer_1_1MeshBasedMembraneDescriptor.html#a98a9226072bd79671fd8c009f7663861">scale</a>[1], md.<a class="code" href="../../d7/d2f/structbioexplorer_1_1MeshBasedMembraneDescriptor.html#a98a9226072bd79671fd8c009f7663861">scale</a>[2]};</div>
-<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160; </div>
-<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;    <a class="code" href="../../de/dc1/structbioexplorer_1_1ProteinDescriptor.html">ProteinDescriptor</a> pd;</div>
-<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;    pd.<a class="code" href="../../de/dc1/structbioexplorer_1_1ProteinDescriptor.html#a78d226545afc447e068f8645cf5839d1">assemblyName</a> = md.<a class="code" href="../../d7/d2f/structbioexplorer_1_1MeshBasedMembraneDescriptor.html#a61e1918f7347ee966110f434e42e4a91">assemblyName</a>;</div>
-<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;    pd.<a class="code" href="../../de/dc1/structbioexplorer_1_1ProteinDescriptor.html#a872fff893066f4ce71bb0a7fdf2db749">name</a> = md.<a class="code" href="../../d7/d2f/structbioexplorer_1_1MeshBasedMembraneDescriptor.html#a9f292e0d249a69001c88afc30a5beec7">name</a>;</div>
-<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;    pd.<a class="code" href="../../de/dc1/structbioexplorer_1_1ProteinDescriptor.html#ae7f641d69fd6fb34d8338e8e1c924334">contents</a> = md.<a class="code" href="../../d7/d2f/structbioexplorer_1_1MeshBasedMembraneDescriptor.html#ad0d4652e9273ba8b83f22039082fd08e">proteinContents</a>;</div>
-<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;    pd.<a class="code" href="../../de/dc1/structbioexplorer_1_1ProteinDescriptor.html#adc387bcfb318f4952a17af92a9babc4f">recenter</a> = <span class="keyword">true</span>;</div>
-<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;    pd.<a class="code" href="../../de/dc1/structbioexplorer_1_1ProteinDescriptor.html#acbd55689caab237594b8a0a67ac257e8">atomRadiusMultiplier</a> = md.<a class="code" href="../../d7/d2f/structbioexplorer_1_1MeshBasedMembraneDescriptor.html#af93a200fc74bc83d171d9106e1c155dd">atomRadiusMultiplier</a>;</div>
-<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;    pd.<a class="code" href="../../de/dc1/structbioexplorer_1_1ProteinDescriptor.html#a8da98633c651599fc158f74f1582fca1">representation</a> = md.<a class="code" href="../../d7/d2f/structbioexplorer_1_1MeshBasedMembraneDescriptor.html#a4d5176711bff31b06ca35dfbeff9174e">representation</a>;</div>
-<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;    pd.<a class="code" href="../../de/dc1/structbioexplorer_1_1ProteinDescriptor.html#a0a7849ec19bd91005b1bbea8ae6bdbd1">position</a> = md.<a class="code" href="../../d7/d2f/structbioexplorer_1_1MeshBasedMembraneDescriptor.html#ab23765d9fd33f413a50c0fc43dfa7175">position</a>;</div>
-<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;    pd.<a class="code" href="../../de/dc1/structbioexplorer_1_1ProteinDescriptor.html#a06fe47969ba2e0072f1d3f1cde20c416">orientation</a> = md.<a class="code" href="../../d7/d2f/structbioexplorer_1_1MeshBasedMembraneDescriptor.html#ad6cde4077da4b9ce8ce4f1bfd3a8c949">orientation</a>;</div>
-<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160; </div>
-<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;    <span class="comment">// Random seed</span></div>
-<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;    srand(md.<a class="code" href="../../d7/d2f/structbioexplorer_1_1MeshBasedMembraneDescriptor.html#ad7b33e6a4ba0e50e53408eeec9a6b57e">randomSeed</a>);</div>
-<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160; </div>
-<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;    <span class="comment">// Create model</span></div>
-<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;    _protein = ProteinPtr(<span class="keyword">new</span> <a class="code" href="../../db/d87/classbioexplorer_1_1Protein.html">Protein</a>(scene, pd));</div>
-<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;    _modelDescriptor = _protein-&gt;getModelDescriptor();</div>
-<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;    <span class="keyword">auto</span> model = &amp;_modelDescriptor-&gt;getModel();</div>
-<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;    model-&gt;updateBounds();</div>
-<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;    <span class="keyword">const</span> <span class="keyword">auto</span> proteinSize = model-&gt;getBounds().getSize();</div>
-<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160; </div>
-<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;    <span class="comment">// Clipping planes</span></div>
-<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;    <span class="keyword">const</span> <span class="keyword">auto</span> clipPlanes = getClippingPlanes(scene);</div>
-<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160; </div>
-<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;    <span class="comment">// Load MeshBasedMembrane</span></div>
-<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;    Assimp::Importer importer;</div>
-<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;    <span class="keyword">const</span> aiScene* aiScene =</div>
-<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;        importer.ReadFileFromMemory(md.<a class="code" href="../../d7/d2f/structbioexplorer_1_1MeshBasedMembraneDescriptor.html#aeefb3e4a3b29c21e9f6db3f2f624104e">meshContents</a>.c_str(),</div>
-<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;                                    md.<a class="code" href="../../d7/d2f/structbioexplorer_1_1MeshBasedMembraneDescriptor.html#aeefb3e4a3b29c21e9f6db3f2f624104e">meshContents</a>.length(),</div>
-<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;                                    aiProcess_GenSmoothNormals |</div>
-<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;                                        aiProcess_Triangulate);</div>
-<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160; </div>
-<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;    <span class="keywordflow">if</span> (!aiScene)</div>
-<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;        PLUGIN_THROW(std::runtime_error(importer.GetErrorString()));</div>
-<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160; </div>
-<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;    <span class="keywordflow">if</span> (!aiScene-&gt;HasMeshes())</div>
-<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;        PLUGIN_THROW(std::runtime_error(<span class="stringliteral">&quot;No MeshBasedMembranees found&quot;</span>));</div>
-<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160; </div>
-<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;    <span class="keyword">const</span> <span class="keyword">auto</span> trfm = aiScene-&gt;mRootNode-&gt;mTransformation;</div>
-<div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;    <span class="keyword">const</span> Matrix4f matrix{trfm.a1, trfm.b1, trfm.c1, trfm.d1, trfm.a2, trfm.b2,</div>
-<div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;                          trfm.c2, trfm.d2, trfm.a3, trfm.b3, trfm.c3, trfm.d3,</div>
-<div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;                          trfm.a4, trfm.b4, trfm.c4, trfm.d4};</div>
-<div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160; </div>
-<div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160;    <span class="comment">// Add protein instances according to MeshBasedMembrane topology</span></div>
-<div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160;    <span class="keywordtype">size_t</span> instanceCount = 0;</div>
-<div class="line"><a name="l00092"></a><span class="lineno">   92</span>&#160;    <span class="keywordtype">float</span> meshCoveringProgress = 0.f;</div>
-<div class="line"><a name="l00093"></a><span class="lineno">   93</span>&#160;    <span class="keywordtype">float</span> instanceCoveringProgress = 0.f;</div>
-<div class="line"><a name="l00094"></a><span class="lineno">   94</span>&#160;    <span class="keywordflow">for</span> (<span class="keywordtype">size_t</span> m = 0; m &lt; aiScene-&gt;mNumMeshes; ++m)</div>
-<div class="line"><a name="l00095"></a><span class="lineno">   95</span>&#160;    {</div>
-<div class="line"><a name="l00096"></a><span class="lineno">   96</span>&#160;        <span class="keyword">const</span> <span class="keyword">auto</span>&amp; mesh = aiScene-&gt;mMeshes[m];</div>
-<div class="line"><a name="l00097"></a><span class="lineno">   97</span>&#160; </div>
-<div class="line"><a name="l00098"></a><span class="lineno">   98</span>&#160;        <span class="comment">// MeshBasedMembrane scaling</span></div>
-<div class="line"><a name="l00099"></a><span class="lineno">   99</span>&#160;        Vector3f meshCenter{0.f, 0.f, 0.f};</div>
-<div class="line"><a name="l00100"></a><span class="lineno">  100</span>&#160;        <span class="keywordflow">for</span> (<span class="keywordtype">size_t</span> i = 0; i &lt; mesh-&gt;mNumVertices; ++i)</div>
-<div class="line"><a name="l00101"></a><span class="lineno">  101</span>&#160;        {</div>
-<div class="line"><a name="l00102"></a><span class="lineno">  102</span>&#160;            <span class="keyword">const</span> <span class="keyword">auto</span>&amp; v = mesh-&gt;mVertices[i];</div>
-<div class="line"><a name="l00103"></a><span class="lineno">  103</span>&#160;            meshCenter += _toVector3f(v);</div>
-<div class="line"><a name="l00104"></a><span class="lineno">  104</span>&#160;        }</div>
-<div class="line"><a name="l00105"></a><span class="lineno">  105</span>&#160;        meshCenter /= mesh-&gt;mNumVertices;</div>
-<div class="line"><a name="l00106"></a><span class="lineno">  106</span>&#160; </div>
-<div class="line"><a name="l00107"></a><span class="lineno">  107</span>&#160;        <span class="comment">// Compute full MeshBasedMembrane area</span></div>
-<div class="line"><a name="l00108"></a><span class="lineno">  108</span>&#160;        std::vector&lt;Vector3ui&gt; faces;</div>
-<div class="line"><a name="l00109"></a><span class="lineno">  109</span>&#160;        <span class="keywordflow">for</span> (<span class="keywordtype">size_t</span> f = 0; f &lt; mesh-&gt;mNumFaces; ++f)</div>
-<div class="line"><a name="l00110"></a><span class="lineno">  110</span>&#160;            <span class="keywordflow">if</span> (mesh-&gt;mFaces[f].mNumIndices == 3)</div>
-<div class="line"><a name="l00111"></a><span class="lineno">  111</span>&#160;            {</div>
-<div class="line"><a name="l00112"></a><span class="lineno">  112</span>&#160;                <span class="keyword">const</span> <span class="keyword">auto</span> i1 = mesh-&gt;mVertices[mesh-&gt;mFaces[f].mIndices[0]];</div>
-<div class="line"><a name="l00113"></a><span class="lineno">  113</span>&#160;                <span class="keyword">const</span> <span class="keyword">auto</span> v1 =</div>
-<div class="line"><a name="l00114"></a><span class="lineno">  114</span>&#160;                    position +</div>
-<div class="line"><a name="l00115"></a><span class="lineno">  115</span>&#160;                    Vector3f(matrix * Vector4f(_toVector3f(i1, meshCenter,</div>
-<div class="line"><a name="l00116"></a><span class="lineno">  116</span>&#160;                                                           scale, orientation),</div>
-<div class="line"><a name="l00117"></a><span class="lineno">  117</span>&#160;                                               1.f));</div>
-<div class="line"><a name="l00118"></a><span class="lineno">  118</span>&#160;                <span class="keyword">const</span> <span class="keyword">auto</span> i2 = mesh-&gt;mVertices[mesh-&gt;mFaces[f].mIndices[1]];</div>
-<div class="line"><a name="l00119"></a><span class="lineno">  119</span>&#160;                <span class="keyword">const</span> <span class="keyword">auto</span> v2 =</div>
-<div class="line"><a name="l00120"></a><span class="lineno">  120</span>&#160;                    position +</div>
-<div class="line"><a name="l00121"></a><span class="lineno">  121</span>&#160;                    Vector3f(matrix * Vector4f(_toVector3f(i2, meshCenter,</div>
-<div class="line"><a name="l00122"></a><span class="lineno">  122</span>&#160;                                                           scale, orientation),</div>
-<div class="line"><a name="l00123"></a><span class="lineno">  123</span>&#160;                                               1.f));</div>
-<div class="line"><a name="l00124"></a><span class="lineno">  124</span>&#160; </div>
-<div class="line"><a name="l00125"></a><span class="lineno">  125</span>&#160;                <span class="keyword">const</span> <span class="keyword">auto</span> i3 = mesh-&gt;mVertices[mesh-&gt;mFaces[f].mIndices[2]];</div>
-<div class="line"><a name="l00126"></a><span class="lineno">  126</span>&#160;                <span class="keyword">const</span> <span class="keyword">auto</span> v3 =</div>
-<div class="line"><a name="l00127"></a><span class="lineno">  127</span>&#160;                    position +</div>
-<div class="line"><a name="l00128"></a><span class="lineno">  128</span>&#160;                    Vector3f(matrix * Vector4f(_toVector3f(i3, meshCenter,</div>
-<div class="line"><a name="l00129"></a><span class="lineno">  129</span>&#160;                                                           scale, orientation),</div>
-<div class="line"><a name="l00130"></a><span class="lineno">  130</span>&#160;                                               1.f));</div>
-<div class="line"><a name="l00131"></a><span class="lineno">  131</span>&#160; </div>
-<div class="line"><a name="l00132"></a><span class="lineno">  132</span>&#160;                <span class="keywordflow">if</span> (!isClipped(v1, clipPlanes) || !isClipped(v2, clipPlanes) ||</div>
-<div class="line"><a name="l00133"></a><span class="lineno">  133</span>&#160;                    !isClipped(v3, clipPlanes))</div>
-<div class="line"><a name="l00134"></a><span class="lineno">  134</span>&#160;                    faces.push_back(Vector3ui(mesh-&gt;mFaces[f].mIndices[0],</div>
-<div class="line"><a name="l00135"></a><span class="lineno">  135</span>&#160;                                              mesh-&gt;mFaces[f].mIndices[1],</div>
-<div class="line"><a name="l00136"></a><span class="lineno">  136</span>&#160;                                              mesh-&gt;mFaces[f].mIndices[2]));</div>
-<div class="line"><a name="l00137"></a><span class="lineno">  137</span>&#160;            }</div>
-<div class="line"><a name="l00138"></a><span class="lineno">  138</span>&#160; </div>
-<div class="line"><a name="l00139"></a><span class="lineno">  139</span>&#160;        <span class="keywordtype">float</span> meshSurface = 0.f;</div>
-<div class="line"><a name="l00140"></a><span class="lineno">  140</span>&#160;        <span class="keywordflow">for</span> (<span class="keyword">const</span> <span class="keyword">auto</span>&amp; face : faces)</div>
-<div class="line"><a name="l00141"></a><span class="lineno">  141</span>&#160;            meshSurface +=</div>
-<div class="line"><a name="l00142"></a><span class="lineno">  142</span>&#160;                _getSurfaceArea(_toVector3f(mesh-&gt;mVertices[face.x], meshCenter,</div>
-<div class="line"><a name="l00143"></a><span class="lineno">  143</span>&#160;                                            scale, orientation),</div>
-<div class="line"><a name="l00144"></a><span class="lineno">  144</span>&#160;                                _toVector3f(mesh-&gt;mVertices[face.y], meshCenter,</div>
-<div class="line"><a name="l00145"></a><span class="lineno">  145</span>&#160;                                            scale, orientation),</div>
-<div class="line"><a name="l00146"></a><span class="lineno">  146</span>&#160;                                _toVector3f(mesh-&gt;mVertices[face.z], meshCenter,</div>
-<div class="line"><a name="l00147"></a><span class="lineno">  147</span>&#160;                                            scale, orientation));</div>
-<div class="line"><a name="l00148"></a><span class="lineno">  148</span>&#160; </div>
-<div class="line"><a name="l00149"></a><span class="lineno">  149</span>&#160;        <span class="keyword">const</span> <span class="keywordtype">float</span> proteinSurface = proteinSize.x * proteinSize.x;</div>
-<div class="line"><a name="l00150"></a><span class="lineno">  150</span>&#160; </div>
-<div class="line"><a name="l00151"></a><span class="lineno">  151</span>&#160;        <span class="comment">// Total number of instance needed to fill the MeshBasedMembrane surface</span></div>
-<div class="line"><a name="l00152"></a><span class="lineno">  152</span>&#160;        <span class="keyword">const</span> <span class="keywordtype">size_t</span> nbInstances = md.<a class="code" href="../../d7/d2f/structbioexplorer_1_1MeshBasedMembraneDescriptor.html#a56751dd42ad867908496af62e085ea43">density</a> * meshSurface / proteinSurface;</div>
-<div class="line"><a name="l00153"></a><span class="lineno">  153</span>&#160;        <span class="keyword">const</span> <span class="keywordtype">float</span> instanceSurface = meshSurface / nbInstances;</div>
+<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;    <span class="keyword">const</span> Vector3f position = {descriptor.<a class="code" href="../../d0/d14/structbioexplorer_1_1MeshBasedMembraneDetails.html#a833327dd3bd49699cd1d2eb1fad920c7">position</a>[0], descriptor.<a class="code" href="../../d0/d14/structbioexplorer_1_1MeshBasedMembraneDetails.html#a833327dd3bd49699cd1d2eb1fad920c7">position</a>[1],</div>
+<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;                               descriptor.<a class="code" href="../../d0/d14/structbioexplorer_1_1MeshBasedMembraneDetails.html#a833327dd3bd49699cd1d2eb1fad920c7">position</a>[2]};</div>
+<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;    <span class="keyword">const</span> Quaterniond rotation = {descriptor.<a class="code" href="../../d0/d14/structbioexplorer_1_1MeshBasedMembraneDetails.html#a437a7d5691890276598d10383b0777c1">rotation</a>[0],</div>
+<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;                                  descriptor.<a class="code" href="../../d0/d14/structbioexplorer_1_1MeshBasedMembraneDetails.html#a437a7d5691890276598d10383b0777c1">rotation</a>[1],</div>
+<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;                                  descriptor.<a class="code" href="../../d0/d14/structbioexplorer_1_1MeshBasedMembraneDetails.html#a437a7d5691890276598d10383b0777c1">rotation</a>[2],</div>
+<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;                                  descriptor.<a class="code" href="../../d0/d14/structbioexplorer_1_1MeshBasedMembraneDetails.html#a437a7d5691890276598d10383b0777c1">rotation</a>[3]};</div>
+<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;    <span class="keyword">const</span> Vector3f scale = {descriptor.<a class="code" href="../../d0/d14/structbioexplorer_1_1MeshBasedMembraneDetails.html#acc22d892637a7a31457d8997f9eb2bcd">scale</a>[0], descriptor.<a class="code" href="../../d0/d14/structbioexplorer_1_1MeshBasedMembraneDetails.html#acc22d892637a7a31457d8997f9eb2bcd">scale</a>[1],</div>
+<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;                            descriptor.<a class="code" href="../../d0/d14/structbioexplorer_1_1MeshBasedMembraneDetails.html#acc22d892637a7a31457d8997f9eb2bcd">scale</a>[2]};</div>
+<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160; </div>
+<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;    <a class="code" href="../../da/df7/structbioexplorer_1_1ProteinDetails.html">ProteinDetails</a> pd;</div>
+<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;    pd.<a class="code" href="../../da/df7/structbioexplorer_1_1ProteinDetails.html#aadc4802aa93e8aee8e731d3ee8fb7a4f">assemblyName</a> = descriptor.<a class="code" href="../../d0/d14/structbioexplorer_1_1MeshBasedMembraneDetails.html#a79e33c9ad289ec8f2048a0f03f78f32d">assemblyName</a>;</div>
+<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;    pd.<a class="code" href="../../da/df7/structbioexplorer_1_1ProteinDetails.html#a91c4ecbc6d3be440a75a5c41651bfaee">name</a> = descriptor.<a class="code" href="../../d0/d14/structbioexplorer_1_1MeshBasedMembraneDetails.html#a671bd691762e226b050b286181fe6685">name</a>;</div>
+<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;    pd.<a class="code" href="../../da/df7/structbioexplorer_1_1ProteinDetails.html#a5b1f5a8de91f28fcbae62992df6c77e9">contents</a> = descriptor.<a class="code" href="../../d0/d14/structbioexplorer_1_1MeshBasedMembraneDetails.html#a5b158c9ce530ed4f67c7cd71360af723">proteinContents</a>;</div>
+<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;    pd.<a class="code" href="../../da/df7/structbioexplorer_1_1ProteinDetails.html#ace90aa431df28534bd8cfed96c90c189">recenter</a> = <span class="keyword">true</span>;</div>
+<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;    pd.<a class="code" href="../../da/df7/structbioexplorer_1_1ProteinDetails.html#aaf272f51db061acfc9fc7e3c148f120d">atomRadiusMultiplier</a> = descriptor.<a class="code" href="../../d0/d14/structbioexplorer_1_1MeshBasedMembraneDetails.html#a1cea19629fa91e4d4784bab7c308706d">atomRadiusMultiplier</a>;</div>
+<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;    pd.<a class="code" href="../../da/df7/structbioexplorer_1_1ProteinDetails.html#ab9f0c91fa7f9f6f0ccfc520001c75c90">representation</a> = descriptor.<a class="code" href="../../d0/d14/structbioexplorer_1_1MeshBasedMembraneDetails.html#a874829be65823cc8ea0c8b5fb4f4791a">representation</a>;</div>
+<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;    pd.<a class="code" href="../../da/df7/structbioexplorer_1_1ProteinDetails.html#a10fa46611b0bff4021c6e904ba67ab45">position</a> = descriptor.<a class="code" href="../../d0/d14/structbioexplorer_1_1MeshBasedMembraneDetails.html#a833327dd3bd49699cd1d2eb1fad920c7">position</a>;</div>
+<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;    pd.<a class="code" href="../../da/df7/structbioexplorer_1_1ProteinDetails.html#a232b10e91a655fffb6ace3c92ae2faab">rotation</a> = descriptor.<a class="code" href="../../d0/d14/structbioexplorer_1_1MeshBasedMembraneDetails.html#a437a7d5691890276598d10383b0777c1">rotation</a>;</div>
+<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160; </div>
+<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;    <span class="comment">// Random seed</span></div>
+<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;    srand(descriptor.<a class="code" href="../../d0/d14/structbioexplorer_1_1MeshBasedMembraneDetails.html#aec19af526c1c8fb590c21aa82571194a">randomSeed</a>);</div>
+<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160; </div>
+<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;    <span class="comment">// Create model</span></div>
+<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;    _protein = ProteinPtr(<span class="keyword">new</span> <a class="code" href="../../db/d87/classbioexplorer_1_1Protein.html">Protein</a>(scene, pd));</div>
+<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;    _modelDescriptor = _protein-&gt;getModelDescriptor();</div>
+<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;    <span class="keyword">auto</span> model = &amp;_modelDescriptor-&gt;getModel();</div>
+<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;    model-&gt;updateBounds();</div>
+<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;    <span class="keyword">const</span> <span class="keyword">auto</span> proteinSize = model-&gt;getBounds().getSize();</div>
+<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160; </div>
+<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;    <span class="comment">// Clipping planes</span></div>
+<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;    <span class="keyword">const</span> <span class="keyword">auto</span> clipPlanes = getClippingPlanes(scene);</div>
+<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160; </div>
+<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;    <span class="comment">// Load MeshBasedMembrane</span></div>
+<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;    Assimp::Importer importer;</div>
+<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;    <span class="keyword">const</span> aiScene* aiScene =</div>
+<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;        importer.ReadFileFromMemory(descriptor.<a class="code" href="../../d0/d14/structbioexplorer_1_1MeshBasedMembraneDetails.html#a277c1350713c19ec3381b84754d250e2">meshContents</a>.c_str(),</div>
+<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;                                    descriptor.<a class="code" href="../../d0/d14/structbioexplorer_1_1MeshBasedMembraneDetails.html#a277c1350713c19ec3381b84754d250e2">meshContents</a>.length(),</div>
+<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;                                    aiProcess_GenSmoothNormals |</div>
+<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;                                        aiProcess_Triangulate);</div>
+<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160; </div>
+<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;    <span class="keywordflow">if</span> (!aiScene)</div>
+<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;        PLUGIN_THROW(std::runtime_error(importer.GetErrorString()));</div>
+<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160; </div>
+<div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;    <span class="keywordflow">if</span> (!aiScene-&gt;HasMeshes())</div>
+<div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;        PLUGIN_THROW(std::runtime_error(<span class="stringliteral">&quot;No MeshBasedMembranees found&quot;</span>));</div>
+<div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160; </div>
+<div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160;    <span class="keyword">const</span> <span class="keyword">auto</span> trfm = aiScene-&gt;mRootNode-&gt;mTransformation;</div>
+<div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160;    <span class="keyword">const</span> Matrix4f matrix{trfm.a1, trfm.b1, trfm.c1, trfm.d1, trfm.a2, trfm.b2,</div>
+<div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160;                          trfm.c2, trfm.d2, trfm.a3, trfm.b3, trfm.c3, trfm.d3,</div>
+<div class="line"><a name="l00092"></a><span class="lineno">   92</span>&#160;                          trfm.a4, trfm.b4, trfm.c4, trfm.d4};</div>
+<div class="line"><a name="l00093"></a><span class="lineno">   93</span>&#160; </div>
+<div class="line"><a name="l00094"></a><span class="lineno">   94</span>&#160;    <span class="comment">// Add protein instances according to MeshBasedMembrane topology</span></div>
+<div class="line"><a name="l00095"></a><span class="lineno">   95</span>&#160;    <span class="keywordtype">size_t</span> instanceCount = 0;</div>
+<div class="line"><a name="l00096"></a><span class="lineno">   96</span>&#160;    <span class="keywordtype">float</span> meshCoveringProgress = 0.f;</div>
+<div class="line"><a name="l00097"></a><span class="lineno">   97</span>&#160;    <span class="keywordtype">float</span> instanceCoveringProgress = 0.f;</div>
+<div class="line"><a name="l00098"></a><span class="lineno">   98</span>&#160;    <span class="keywordflow">for</span> (<span class="keywordtype">size_t</span> m = 0; m &lt; aiScene-&gt;mNumMeshes; ++m)</div>
+<div class="line"><a name="l00099"></a><span class="lineno">   99</span>&#160;    {</div>
+<div class="line"><a name="l00100"></a><span class="lineno">  100</span>&#160;        <span class="keyword">const</span> <span class="keyword">auto</span>&amp; mesh = aiScene-&gt;mMeshes[m];</div>
+<div class="line"><a name="l00101"></a><span class="lineno">  101</span>&#160; </div>
+<div class="line"><a name="l00102"></a><span class="lineno">  102</span>&#160;        <span class="comment">// MeshBasedMembrane scaling</span></div>
+<div class="line"><a name="l00103"></a><span class="lineno">  103</span>&#160;        Vector3f meshCenter{0.f, 0.f, 0.f};</div>
+<div class="line"><a name="l00104"></a><span class="lineno">  104</span>&#160;        <span class="keywordflow">for</span> (<span class="keywordtype">size_t</span> i = 0; i &lt; mesh-&gt;mNumVertices; ++i)</div>
+<div class="line"><a name="l00105"></a><span class="lineno">  105</span>&#160;        {</div>
+<div class="line"><a name="l00106"></a><span class="lineno">  106</span>&#160;            <span class="keyword">const</span> <span class="keyword">auto</span>&amp; v = mesh-&gt;mVertices[i];</div>
+<div class="line"><a name="l00107"></a><span class="lineno">  107</span>&#160;            meshCenter += _toVector3f(v);</div>
+<div class="line"><a name="l00108"></a><span class="lineno">  108</span>&#160;        }</div>
+<div class="line"><a name="l00109"></a><span class="lineno">  109</span>&#160;        meshCenter /= mesh-&gt;mNumVertices;</div>
+<div class="line"><a name="l00110"></a><span class="lineno">  110</span>&#160; </div>
+<div class="line"><a name="l00111"></a><span class="lineno">  111</span>&#160;        <span class="comment">// Compute full MeshBasedMembrane area</span></div>
+<div class="line"><a name="l00112"></a><span class="lineno">  112</span>&#160;        std::vector&lt;Vector3ui&gt; faces;</div>
+<div class="line"><a name="l00113"></a><span class="lineno">  113</span>&#160;        <span class="keywordflow">for</span> (<span class="keywordtype">size_t</span> f = 0; f &lt; mesh-&gt;mNumFaces; ++f)</div>
+<div class="line"><a name="l00114"></a><span class="lineno">  114</span>&#160;            <span class="keywordflow">if</span> (mesh-&gt;mFaces[f].mNumIndices == 3)</div>
+<div class="line"><a name="l00115"></a><span class="lineno">  115</span>&#160;            {</div>
+<div class="line"><a name="l00116"></a><span class="lineno">  116</span>&#160;                <span class="keyword">const</span> <span class="keyword">auto</span> i1 = mesh-&gt;mVertices[mesh-&gt;mFaces[f].mIndices[0]];</div>
+<div class="line"><a name="l00117"></a><span class="lineno">  117</span>&#160;                <span class="keyword">const</span> <span class="keyword">auto</span> v1 =</div>
+<div class="line"><a name="l00118"></a><span class="lineno">  118</span>&#160;                    position +</div>
+<div class="line"><a name="l00119"></a><span class="lineno">  119</span>&#160;                    Vector3f(matrix * Vector4f(_toVector3f(i1, meshCenter,</div>
+<div class="line"><a name="l00120"></a><span class="lineno">  120</span>&#160;                                                           scale, rotation),</div>
+<div class="line"><a name="l00121"></a><span class="lineno">  121</span>&#160;                                               1.f));</div>
+<div class="line"><a name="l00122"></a><span class="lineno">  122</span>&#160;                <span class="keyword">const</span> <span class="keyword">auto</span> i2 = mesh-&gt;mVertices[mesh-&gt;mFaces[f].mIndices[1]];</div>
+<div class="line"><a name="l00123"></a><span class="lineno">  123</span>&#160;                <span class="keyword">const</span> <span class="keyword">auto</span> v2 =</div>
+<div class="line"><a name="l00124"></a><span class="lineno">  124</span>&#160;                    position +</div>
+<div class="line"><a name="l00125"></a><span class="lineno">  125</span>&#160;                    Vector3f(matrix * Vector4f(_toVector3f(i2, meshCenter,</div>
+<div class="line"><a name="l00126"></a><span class="lineno">  126</span>&#160;                                                           scale, rotation),</div>
+<div class="line"><a name="l00127"></a><span class="lineno">  127</span>&#160;                                               1.f));</div>
+<div class="line"><a name="l00128"></a><span class="lineno">  128</span>&#160; </div>
+<div class="line"><a name="l00129"></a><span class="lineno">  129</span>&#160;                <span class="keyword">const</span> <span class="keyword">auto</span> i3 = mesh-&gt;mVertices[mesh-&gt;mFaces[f].mIndices[2]];</div>
+<div class="line"><a name="l00130"></a><span class="lineno">  130</span>&#160;                <span class="keyword">const</span> <span class="keyword">auto</span> v3 =</div>
+<div class="line"><a name="l00131"></a><span class="lineno">  131</span>&#160;                    position +</div>
+<div class="line"><a name="l00132"></a><span class="lineno">  132</span>&#160;                    Vector3f(matrix * Vector4f(_toVector3f(i3, meshCenter,</div>
+<div class="line"><a name="l00133"></a><span class="lineno">  133</span>&#160;                                                           scale, rotation),</div>
+<div class="line"><a name="l00134"></a><span class="lineno">  134</span>&#160;                                               1.f));</div>
+<div class="line"><a name="l00135"></a><span class="lineno">  135</span>&#160; </div>
+<div class="line"><a name="l00136"></a><span class="lineno">  136</span>&#160;                <span class="keywordflow">if</span> (!isClipped(v1, clipPlanes) || !isClipped(v2, clipPlanes) ||</div>
+<div class="line"><a name="l00137"></a><span class="lineno">  137</span>&#160;                    !isClipped(v3, clipPlanes))</div>
+<div class="line"><a name="l00138"></a><span class="lineno">  138</span>&#160;                    faces.push_back(Vector3ui(mesh-&gt;mFaces[f].mIndices[0],</div>
+<div class="line"><a name="l00139"></a><span class="lineno">  139</span>&#160;                                              mesh-&gt;mFaces[f].mIndices[1],</div>
+<div class="line"><a name="l00140"></a><span class="lineno">  140</span>&#160;                                              mesh-&gt;mFaces[f].mIndices[2]));</div>
+<div class="line"><a name="l00141"></a><span class="lineno">  141</span>&#160;            }</div>
+<div class="line"><a name="l00142"></a><span class="lineno">  142</span>&#160; </div>
+<div class="line"><a name="l00143"></a><span class="lineno">  143</span>&#160;        <span class="keywordtype">float</span> meshSurface = 0.f;</div>
+<div class="line"><a name="l00144"></a><span class="lineno">  144</span>&#160;        <span class="keywordflow">for</span> (<span class="keyword">const</span> <span class="keyword">auto</span>&amp; face : faces)</div>
+<div class="line"><a name="l00145"></a><span class="lineno">  145</span>&#160;            meshSurface +=</div>
+<div class="line"><a name="l00146"></a><span class="lineno">  146</span>&#160;                _getSurfaceArea(_toVector3f(mesh-&gt;mVertices[face.x], meshCenter,</div>
+<div class="line"><a name="l00147"></a><span class="lineno">  147</span>&#160;                                            scale, rotation),</div>
+<div class="line"><a name="l00148"></a><span class="lineno">  148</span>&#160;                                _toVector3f(mesh-&gt;mVertices[face.y], meshCenter,</div>
+<div class="line"><a name="l00149"></a><span class="lineno">  149</span>&#160;                                            scale, rotation),</div>
+<div class="line"><a name="l00150"></a><span class="lineno">  150</span>&#160;                                _toVector3f(mesh-&gt;mVertices[face.z], meshCenter,</div>
+<div class="line"><a name="l00151"></a><span class="lineno">  151</span>&#160;                                            scale, rotation));</div>
+<div class="line"><a name="l00152"></a><span class="lineno">  152</span>&#160; </div>
+<div class="line"><a name="l00153"></a><span class="lineno">  153</span>&#160;        <span class="keyword">const</span> <span class="keywordtype">float</span> proteinSurface = proteinSize.x * proteinSize.x;</div>
 <div class="line"><a name="l00154"></a><span class="lineno">  154</span>&#160; </div>
-<div class="line"><a name="l00155"></a><span class="lineno">  155</span>&#160;        PLUGIN_INFO &lt;&lt; <span class="stringliteral">&quot;----===  MeshBasedMembrane  ===----&quot;</span> &lt;&lt; std::endl;</div>
-<div class="line"><a name="l00156"></a><span class="lineno">  156</span>&#160;        PLUGIN_INFO &lt;&lt; <span class="stringliteral">&quot;Position             : &quot;</span> &lt;&lt; position &lt;&lt; std::endl;</div>
-<div class="line"><a name="l00157"></a><span class="lineno">  157</span>&#160;        PLUGIN_INFO &lt;&lt; <span class="stringliteral">&quot;Orientation          : &quot;</span> &lt;&lt; orientation &lt;&lt; std::endl;</div>
-<div class="line"><a name="l00158"></a><span class="lineno">  158</span>&#160;        PLUGIN_INFO &lt;&lt; <span class="stringliteral">&quot;Scale                : &quot;</span> &lt;&lt; scale &lt;&lt; std::endl;</div>
-<div class="line"><a name="l00159"></a><span class="lineno">  159</span>&#160;        PLUGIN_INFO &lt;&lt; <span class="stringliteral">&quot;Number of faces      : &quot;</span> &lt;&lt; faces.size() &lt;&lt; std::endl;</div>
-<div class="line"><a name="l00160"></a><span class="lineno">  160</span>&#160;        PLUGIN_INFO &lt;&lt; <span class="stringliteral">&quot;Mesh surface area    : &quot;</span> &lt;&lt; meshSurface &lt;&lt; std::endl;</div>
-<div class="line"><a name="l00161"></a><span class="lineno">  161</span>&#160;        PLUGIN_INFO &lt;&lt; <span class="stringliteral">&quot;Protein size         : &quot;</span> &lt;&lt; proteinSize &lt;&lt; std::endl;</div>
-<div class="line"><a name="l00162"></a><span class="lineno">  162</span>&#160;        PLUGIN_INFO &lt;&lt; <span class="stringliteral">&quot;Protein surface area : &quot;</span> &lt;&lt; proteinSurface &lt;&lt; std::endl;</div>
-<div class="line"><a name="l00163"></a><span class="lineno">  163</span>&#160;        PLUGIN_INFO &lt;&lt; <span class="stringliteral">&quot;Instance surface area: &quot;</span> &lt;&lt; instanceSurface</div>
-<div class="line"><a name="l00164"></a><span class="lineno">  164</span>&#160;                    &lt;&lt; std::endl;</div>
-<div class="line"><a name="l00165"></a><span class="lineno">  165</span>&#160;        PLUGIN_INFO &lt;&lt; <span class="stringliteral">&quot;Number of instances  : &quot;</span> &lt;&lt; nbInstances &lt;&lt; std::endl;</div>
-<div class="line"><a name="l00166"></a><span class="lineno">  166</span>&#160; </div>
-<div class="line"><a name="l00167"></a><span class="lineno">  167</span>&#160;<span class="preprocessor">#pragma omp parallel for</span></div>
-<div class="line"><a name="l00168"></a><span class="lineno">  168</span>&#160;        <span class="keywordflow">for</span> (<span class="keyword">const</span> <span class="keyword">auto</span>&amp; face : faces)</div>
-<div class="line"><a name="l00169"></a><span class="lineno">  169</span>&#160;        {</div>
-<div class="line"><a name="l00170"></a><span class="lineno">  170</span>&#160;            <span class="keyword">const</span> <span class="keyword">auto</span> P0 = _toVector3f(mesh-&gt;mVertices[face.x], meshCenter,</div>
-<div class="line"><a name="l00171"></a><span class="lineno">  171</span>&#160;                                        scale, orientation);</div>
-<div class="line"><a name="l00172"></a><span class="lineno">  172</span>&#160;            <span class="keyword">const</span> <span class="keyword">auto</span> P1 = _toVector3f(mesh-&gt;mVertices[face.y], meshCenter,</div>
-<div class="line"><a name="l00173"></a><span class="lineno">  173</span>&#160;                                        scale, orientation);</div>
-<div class="line"><a name="l00174"></a><span class="lineno">  174</span>&#160;            <span class="keyword">const</span> <span class="keyword">auto</span> P2 = _toVector3f(mesh-&gt;mVertices[face.z], meshCenter,</div>
-<div class="line"><a name="l00175"></a><span class="lineno">  175</span>&#160;                                        scale, orientation);</div>
-<div class="line"><a name="l00176"></a><span class="lineno">  176</span>&#160; </div>
-<div class="line"><a name="l00177"></a><span class="lineno">  177</span>&#160;            <span class="keyword">const</span> <span class="keyword">auto</span> V0 = P1 - P0;</div>
-<div class="line"><a name="l00178"></a><span class="lineno">  178</span>&#160;            <span class="keyword">const</span> <span class="keyword">auto</span> V1 = P2 - P0;</div>
-<div class="line"><a name="l00179"></a><span class="lineno">  179</span>&#160; </div>
-<div class="line"><a name="l00180"></a><span class="lineno">  180</span>&#160;            <span class="keyword">const</span> Vector3f defaultNormal = glm::cross(V0, V1);</div>
+<div class="line"><a name="l00155"></a><span class="lineno">  155</span>&#160;        <span class="comment">// Total number of instance needed to fill the MeshBasedMembrane surface</span></div>
+<div class="line"><a name="l00156"></a><span class="lineno">  156</span>&#160;        <span class="keyword">const</span> <span class="keywordtype">size_t</span> nbInstances =</div>
+<div class="line"><a name="l00157"></a><span class="lineno">  157</span>&#160;            descriptor.<a class="code" href="../../d0/d14/structbioexplorer_1_1MeshBasedMembraneDetails.html#aad92a4db4709329d7031028ca96245c1">density</a> * meshSurface / proteinSurface;</div>
+<div class="line"><a name="l00158"></a><span class="lineno">  158</span>&#160;        <span class="keyword">const</span> <span class="keywordtype">float</span> instanceSurface = meshSurface / nbInstances;</div>
+<div class="line"><a name="l00159"></a><span class="lineno">  159</span>&#160; </div>
+<div class="line"><a name="l00160"></a><span class="lineno">  160</span>&#160;        PLUGIN_INFO &lt;&lt; <span class="stringliteral">&quot;----===  MeshBasedMembrane  ===----&quot;</span> &lt;&lt; std::endl;</div>
+<div class="line"><a name="l00161"></a><span class="lineno">  161</span>&#160;        PLUGIN_INFO &lt;&lt; <span class="stringliteral">&quot;Position             : &quot;</span> &lt;&lt; position &lt;&lt; std::endl;</div>
+<div class="line"><a name="l00162"></a><span class="lineno">  162</span>&#160;        PLUGIN_INFO &lt;&lt; <span class="stringliteral">&quot;rotation          : &quot;</span> &lt;&lt; rotation &lt;&lt; std::endl;</div>
+<div class="line"><a name="l00163"></a><span class="lineno">  163</span>&#160;        PLUGIN_INFO &lt;&lt; <span class="stringliteral">&quot;Scale                : &quot;</span> &lt;&lt; scale &lt;&lt; std::endl;</div>
+<div class="line"><a name="l00164"></a><span class="lineno">  164</span>&#160;        PLUGIN_INFO &lt;&lt; <span class="stringliteral">&quot;Number of faces      : &quot;</span> &lt;&lt; faces.size() &lt;&lt; std::endl;</div>
+<div class="line"><a name="l00165"></a><span class="lineno">  165</span>&#160;        PLUGIN_INFO &lt;&lt; <span class="stringliteral">&quot;Mesh surface area    : &quot;</span> &lt;&lt; meshSurface &lt;&lt; std::endl;</div>
+<div class="line"><a name="l00166"></a><span class="lineno">  166</span>&#160;        PLUGIN_INFO &lt;&lt; <span class="stringliteral">&quot;Protein size         : &quot;</span> &lt;&lt; proteinSize &lt;&lt; std::endl;</div>
+<div class="line"><a name="l00167"></a><span class="lineno">  167</span>&#160;        PLUGIN_INFO &lt;&lt; <span class="stringliteral">&quot;Protein surface area : &quot;</span> &lt;&lt; proteinSurface &lt;&lt; std::endl;</div>
+<div class="line"><a name="l00168"></a><span class="lineno">  168</span>&#160;        PLUGIN_INFO &lt;&lt; <span class="stringliteral">&quot;Instance surface area: &quot;</span> &lt;&lt; instanceSurface</div>
+<div class="line"><a name="l00169"></a><span class="lineno">  169</span>&#160;                    &lt;&lt; std::endl;</div>
+<div class="line"><a name="l00170"></a><span class="lineno">  170</span>&#160;        PLUGIN_INFO &lt;&lt; <span class="stringliteral">&quot;Number of instances  : &quot;</span> &lt;&lt; nbInstances &lt;&lt; std::endl;</div>
+<div class="line"><a name="l00171"></a><span class="lineno">  171</span>&#160; </div>
+<div class="line"><a name="l00172"></a><span class="lineno">  172</span>&#160;<span class="preprocessor">#pragma omp parallel for</span></div>
+<div class="line"><a name="l00173"></a><span class="lineno">  173</span>&#160;        <span class="keywordflow">for</span> (<span class="keyword">const</span> <span class="keyword">auto</span>&amp; face : faces)</div>
+<div class="line"><a name="l00174"></a><span class="lineno">  174</span>&#160;        {</div>
+<div class="line"><a name="l00175"></a><span class="lineno">  175</span>&#160;            <span class="keyword">const</span> <span class="keyword">auto</span> P0 = _toVector3f(mesh-&gt;mVertices[face.x], meshCenter,</div>
+<div class="line"><a name="l00176"></a><span class="lineno">  176</span>&#160;                                        scale, rotation);</div>
+<div class="line"><a name="l00177"></a><span class="lineno">  177</span>&#160;            <span class="keyword">const</span> <span class="keyword">auto</span> P1 = _toVector3f(mesh-&gt;mVertices[face.y], meshCenter,</div>
+<div class="line"><a name="l00178"></a><span class="lineno">  178</span>&#160;                                        scale, rotation);</div>
+<div class="line"><a name="l00179"></a><span class="lineno">  179</span>&#160;            <span class="keyword">const</span> <span class="keyword">auto</span> P2 = _toVector3f(mesh-&gt;mVertices[face.z], meshCenter,</div>
+<div class="line"><a name="l00180"></a><span class="lineno">  180</span>&#160;                                        scale, rotation);</div>
 <div class="line"><a name="l00181"></a><span class="lineno">  181</span>&#160; </div>
-<div class="line"><a name="l00182"></a><span class="lineno">  182</span>&#160;            <span class="comment">// Compute face surface</span></div>
-<div class="line"><a name="l00183"></a><span class="lineno">  183</span>&#160;            <span class="keyword">const</span> <span class="keywordtype">float</span> faceSurface = _getSurfaceArea(P0, P1, P2);</div>
+<div class="line"><a name="l00182"></a><span class="lineno">  182</span>&#160;            <span class="keyword">const</span> <span class="keyword">auto</span> V0 = P1 - P0;</div>
+<div class="line"><a name="l00183"></a><span class="lineno">  183</span>&#160;            <span class="keyword">const</span> <span class="keyword">auto</span> V1 = P2 - P0;</div>
 <div class="line"><a name="l00184"></a><span class="lineno">  184</span>&#160; </div>
-<div class="line"><a name="l00185"></a><span class="lineno">  185</span>&#160;            <span class="comment">// Estimate number of proteins for current face</span></div>
-<div class="line"><a name="l00186"></a><span class="lineno">  186</span>&#160;            meshCoveringProgress += faceSurface;</div>
-<div class="line"><a name="l00187"></a><span class="lineno">  187</span>&#160;            <span class="keyword">const</span> <span class="keywordtype">size_t</span> nbProteins =</div>
-<div class="line"><a name="l00188"></a><span class="lineno">  188</span>&#160;                size_t((meshCoveringProgress - instanceCoveringProgress) /</div>
-<div class="line"><a name="l00189"></a><span class="lineno">  189</span>&#160;                       instanceSurface);</div>
-<div class="line"><a name="l00190"></a><span class="lineno">  190</span>&#160; </div>
-<div class="line"><a name="l00191"></a><span class="lineno">  191</span>&#160;            <span class="comment">// compute protein positions and orientations</span></div>
-<div class="line"><a name="l00192"></a><span class="lineno">  192</span>&#160;            <span class="keywordflow">for</span> (<span class="keywordtype">size_t</span> i = 0; i &lt; nbProteins; ++i)</div>
-<div class="line"><a name="l00193"></a><span class="lineno">  193</span>&#160;            {</div>
-<div class="line"><a name="l00194"></a><span class="lineno">  194</span>&#160;                instanceCoveringProgress += instanceSurface;</div>
-<div class="line"><a name="l00195"></a><span class="lineno">  195</span>&#160;                Vector2f coordinates{1.f, 1.f};</div>
-<div class="line"><a name="l00196"></a><span class="lineno">  196</span>&#160;                <span class="keywordflow">while</span> (coordinates.x + coordinates.y &gt; 1.f)</div>
-<div class="line"><a name="l00197"></a><span class="lineno">  197</span>&#160;                {</div>
-<div class="line"><a name="l00198"></a><span class="lineno">  198</span>&#160;                    coordinates.x = float(rand() % nbProteins) / nbProteins;</div>
-<div class="line"><a name="l00199"></a><span class="lineno">  199</span>&#160;                    coordinates.y = float(rand() % nbProteins) / nbProteins;</div>
-<div class="line"><a name="l00200"></a><span class="lineno">  200</span>&#160;                }</div>
-<div class="line"><a name="l00201"></a><span class="lineno">  201</span>&#160; </div>
-<div class="line"><a name="l00202"></a><span class="lineno">  202</span>&#160;                Transformation tf;</div>
-<div class="line"><a name="l00203"></a><span class="lineno">  203</span>&#160;                <span class="keyword">const</span> Vector3f P = P0 + V0 * coordinates.x + V1 * coordinates.y;</div>
-<div class="line"><a name="l00204"></a><span class="lineno">  204</span>&#160;                <span class="keyword">const</span> Vector3f transformedVertex =</div>
-<div class="line"><a name="l00205"></a><span class="lineno">  205</span>&#160;                    matrix * Vector4f(P.x, P.y, P.z, 1.f);</div>
+<div class="line"><a name="l00185"></a><span class="lineno">  185</span>&#160;            <span class="keyword">const</span> Vector3f defaultNormal = glm::cross(V0, V1);</div>
+<div class="line"><a name="l00186"></a><span class="lineno">  186</span>&#160; </div>
+<div class="line"><a name="l00187"></a><span class="lineno">  187</span>&#160;            <span class="comment">// Compute face surface</span></div>
+<div class="line"><a name="l00188"></a><span class="lineno">  188</span>&#160;            <span class="keyword">const</span> <span class="keywordtype">float</span> faceSurface = _getSurfaceArea(P0, P1, P2);</div>
+<div class="line"><a name="l00189"></a><span class="lineno">  189</span>&#160; </div>
+<div class="line"><a name="l00190"></a><span class="lineno">  190</span>&#160;            <span class="comment">// Estimate number of proteins for current face</span></div>
+<div class="line"><a name="l00191"></a><span class="lineno">  191</span>&#160;            meshCoveringProgress += faceSurface;</div>
+<div class="line"><a name="l00192"></a><span class="lineno">  192</span>&#160;            <span class="keyword">const</span> <span class="keywordtype">size_t</span> nbProteins =</div>
+<div class="line"><a name="l00193"></a><span class="lineno">  193</span>&#160;                size_t((meshCoveringProgress - instanceCoveringProgress) /</div>
+<div class="line"><a name="l00194"></a><span class="lineno">  194</span>&#160;                       instanceSurface);</div>
+<div class="line"><a name="l00195"></a><span class="lineno">  195</span>&#160; </div>
+<div class="line"><a name="l00196"></a><span class="lineno">  196</span>&#160;            <span class="comment">// compute protein positions and rotations</span></div>
+<div class="line"><a name="l00197"></a><span class="lineno">  197</span>&#160;            <span class="keywordflow">for</span> (<span class="keywordtype">size_t</span> i = 0; i &lt; nbProteins; ++i)</div>
+<div class="line"><a name="l00198"></a><span class="lineno">  198</span>&#160;            {</div>
+<div class="line"><a name="l00199"></a><span class="lineno">  199</span>&#160;                instanceCoveringProgress += instanceSurface;</div>
+<div class="line"><a name="l00200"></a><span class="lineno">  200</span>&#160;                Vector2f coordinates{1.f, 1.f};</div>
+<div class="line"><a name="l00201"></a><span class="lineno">  201</span>&#160;                <span class="keywordflow">while</span> (coordinates.x + coordinates.y &gt; 1.f)</div>
+<div class="line"><a name="l00202"></a><span class="lineno">  202</span>&#160;                {</div>
+<div class="line"><a name="l00203"></a><span class="lineno">  203</span>&#160;                    coordinates.x = float(rand() % nbProteins) / nbProteins;</div>
+<div class="line"><a name="l00204"></a><span class="lineno">  204</span>&#160;                    coordinates.y = float(rand() % nbProteins) / nbProteins;</div>
+<div class="line"><a name="l00205"></a><span class="lineno">  205</span>&#160;                }</div>
 <div class="line"><a name="l00206"></a><span class="lineno">  206</span>&#160; </div>
-<div class="line"><a name="l00207"></a><span class="lineno">  207</span>&#160;                <span class="keyword">const</span> <span class="keywordtype">float</span> variableOffset =</div>
-<div class="line"><a name="l00208"></a><span class="lineno">  208</span>&#160;                    md.<a class="code" href="../../d7/d2f/structbioexplorer_1_1MeshBasedMembraneDescriptor.html#a331ad494cf0931bb5f26e9505294afed">surfaceVariableOffset</a> * (rand() % 1000 / 1000.f - 0.5f);</div>
-<div class="line"><a name="l00209"></a><span class="lineno">  209</span>&#160; </div>
-<div class="line"><a name="l00210"></a><span class="lineno">  210</span>&#160;                <span class="keyword">auto</span> translation = position + transformedVertex +</div>
-<div class="line"><a name="l00211"></a><span class="lineno">  211</span>&#160;                                   defaultNormal * md.<a class="code" href="../../d7/d2f/structbioexplorer_1_1MeshBasedMembraneDescriptor.html#a1b3280ee4f7a29d3afebfa88d2fda3bd">surfaceFixedOffset</a> +</div>
-<div class="line"><a name="l00212"></a><span class="lineno">  212</span>&#160;                                   defaultNormal * variableOffset;</div>
-<div class="line"><a name="l00213"></a><span class="lineno">  213</span>&#160; </div>
-<div class="line"><a name="l00214"></a><span class="lineno">  214</span>&#160;                <span class="keywordflow">if</span> (mesh-&gt;HasNormals())</div>
-<div class="line"><a name="l00215"></a><span class="lineno">  215</span>&#160;                {</div>
-<div class="line"><a name="l00216"></a><span class="lineno">  216</span>&#160;                    <span class="keyword">const</span> <span class="keyword">auto</span> v0 = P0 - P;</div>
-<div class="line"><a name="l00217"></a><span class="lineno">  217</span>&#160;                    <span class="keyword">const</span> <span class="keyword">auto</span> v1 = P1 - P;</div>
-<div class="line"><a name="l00218"></a><span class="lineno">  218</span>&#160;                    <span class="keyword">const</span> <span class="keyword">auto</span> v2 = P2 - P;</div>
+<div class="line"><a name="l00207"></a><span class="lineno">  207</span>&#160;                Transformation tf;</div>
+<div class="line"><a name="l00208"></a><span class="lineno">  208</span>&#160;                <span class="keyword">const</span> Vector3f P = P0 + V0 * coordinates.x + V1 * coordinates.y;</div>
+<div class="line"><a name="l00209"></a><span class="lineno">  209</span>&#160;                <span class="keyword">const</span> Vector3f transformedVertex =</div>
+<div class="line"><a name="l00210"></a><span class="lineno">  210</span>&#160;                    matrix * Vector4f(P.x, P.y, P.z, 1.f);</div>
+<div class="line"><a name="l00211"></a><span class="lineno">  211</span>&#160; </div>
+<div class="line"><a name="l00212"></a><span class="lineno">  212</span>&#160;                <span class="keyword">const</span> <span class="keywordtype">float</span> variableOffset = descriptor.<a class="code" href="../../d0/d14/structbioexplorer_1_1MeshBasedMembraneDetails.html#a30138cbe4625ed778e1fc85c44ddd23b">surfaceVariableOffset</a> *</div>
+<div class="line"><a name="l00213"></a><span class="lineno">  213</span>&#160;                                             (rand() % 1000 / 1000.f - 0.5f);</div>
+<div class="line"><a name="l00214"></a><span class="lineno">  214</span>&#160; </div>
+<div class="line"><a name="l00215"></a><span class="lineno">  215</span>&#160;                <span class="keyword">auto</span> translation =</div>
+<div class="line"><a name="l00216"></a><span class="lineno">  216</span>&#160;                    position + transformedVertex +</div>
+<div class="line"><a name="l00217"></a><span class="lineno">  217</span>&#160;                    defaultNormal * descriptor.<a class="code" href="../../d0/d14/structbioexplorer_1_1MeshBasedMembraneDetails.html#adac42c86ce7a9ef8ee07843cda7ac21c">surfaceFixedOffset</a> +</div>
+<div class="line"><a name="l00218"></a><span class="lineno">  218</span>&#160;                    defaultNormal * variableOffset;</div>
 <div class="line"><a name="l00219"></a><span class="lineno">  219</span>&#160; </div>
-<div class="line"><a name="l00220"></a><span class="lineno">  220</span>&#160;                    <span class="keyword">const</span> Vector3f areas{0.5f * length(glm::cross(v1, v2)),</div>
-<div class="line"><a name="l00221"></a><span class="lineno">  221</span>&#160;                                         0.5f * length(glm::cross(v0, v2)),</div>
-<div class="line"><a name="l00222"></a><span class="lineno">  222</span>&#160;                                         0.5f * length(glm::cross(v0, v1))};</div>
-<div class="line"><a name="l00223"></a><span class="lineno">  223</span>&#160; </div>
-<div class="line"><a name="l00224"></a><span class="lineno">  224</span>&#160;                    <span class="keyword">const</span> <span class="keyword">auto</span> N0 = _toVector3f(mesh-&gt;mNormals[face.x]);</div>
-<div class="line"><a name="l00225"></a><span class="lineno">  225</span>&#160;                    <span class="keyword">const</span> <span class="keyword">auto</span> N1 = _toVector3f(mesh-&gt;mNormals[face.y]);</div>
-<div class="line"><a name="l00226"></a><span class="lineno">  226</span>&#160;                    <span class="keyword">const</span> <span class="keyword">auto</span> N2 = _toVector3f(mesh-&gt;mNormals[face.z]);</div>
-<div class="line"><a name="l00227"></a><span class="lineno">  227</span>&#160; </div>
-<div class="line"><a name="l00228"></a><span class="lineno">  228</span>&#160;                    <span class="keyword">const</span> Vector3f normal = glm::normalize(</div>
-<div class="line"><a name="l00229"></a><span class="lineno">  229</span>&#160;                        matrix *</div>
-<div class="line"><a name="l00230"></a><span class="lineno">  230</span>&#160;                        Vector4f(glm::normalize((N0 * areas.x + N1 * areas.y +</div>
-<div class="line"><a name="l00231"></a><span class="lineno">  231</span>&#160;                                                 N2 * areas.z) /</div>
-<div class="line"><a name="l00232"></a><span class="lineno">  232</span>&#160;                                                (areas.x + areas.y + areas.z)),</div>
-<div class="line"><a name="l00233"></a><span class="lineno">  233</span>&#160;                                 1.f));</div>
-<div class="line"><a name="l00234"></a><span class="lineno">  234</span>&#160; </div>
-<div class="line"><a name="l00235"></a><span class="lineno">  235</span>&#160;                    <span class="keywordflow">if</span> (normal != UP_VECTOR)</div>
-<div class="line"><a name="l00236"></a><span class="lineno">  236</span>&#160;                    {</div>
-<div class="line"><a name="l00237"></a><span class="lineno">  237</span>&#160;                        <span class="keyword">const</span> Quaterniond rotation =</div>
-<div class="line"><a name="l00238"></a><span class="lineno">  238</span>&#160;                            glm::quatLookAt(normal, UP_VECTOR);</div>
-<div class="line"><a name="l00239"></a><span class="lineno">  239</span>&#160;                        tf.setRotation(rotation * orientation);</div>
-<div class="line"><a name="l00240"></a><span class="lineno">  240</span>&#160;                    }</div>
-<div class="line"><a name="l00241"></a><span class="lineno">  241</span>&#160;                    translation = position + transformedVertex +</div>
-<div class="line"><a name="l00242"></a><span class="lineno">  242</span>&#160;                                  normal * md.<a class="code" href="../../d7/d2f/structbioexplorer_1_1MeshBasedMembraneDescriptor.html#a1b3280ee4f7a29d3afebfa88d2fda3bd">surfaceFixedOffset</a> +</div>
-<div class="line"><a name="l00243"></a><span class="lineno">  243</span>&#160;                                  normal * variableOffset;</div>
-<div class="line"><a name="l00244"></a><span class="lineno">  244</span>&#160;                }</div>
-<div class="line"><a name="l00245"></a><span class="lineno">  245</span>&#160; </div>
-<div class="line"><a name="l00246"></a><span class="lineno">  246</span>&#160;                <span class="keywordflow">if</span> (isClipped(translation, clipPlanes))</div>
-<div class="line"><a name="l00247"></a><span class="lineno">  247</span>&#160;                    <span class="keywordflow">continue</span>;</div>
-<div class="line"><a name="l00248"></a><span class="lineno">  248</span>&#160; </div>
-<div class="line"><a name="l00249"></a><span class="lineno">  249</span>&#160;                tf.setTranslation(translation);</div>
-<div class="line"><a name="l00250"></a><span class="lineno">  250</span>&#160; </div>
-<div class="line"><a name="l00251"></a><span class="lineno">  251</span>&#160;                <span class="keywordflow">if</span> (instanceCount == 0)</div>
-<div class="line"><a name="l00252"></a><span class="lineno">  252</span>&#160;                    _modelDescriptor-&gt;setTransformation(tf);</div>
-<div class="line"><a name="l00253"></a><span class="lineno">  253</span>&#160; </div>
-<div class="line"><a name="l00254"></a><span class="lineno">  254</span>&#160;                <span class="keyword">const</span> ModelInstance instance(<span class="keyword">true</span>, <span class="keyword">false</span>, tf);</div>
-<div class="line"><a name="l00255"></a><span class="lineno">  255</span>&#160;<span class="preprocessor">#pragma omp critical</span></div>
-<div class="line"><a name="l00256"></a><span class="lineno">  256</span>&#160;                _modelDescriptor-&gt;addInstance(instance);</div>
-<div class="line"><a name="l00257"></a><span class="lineno">  257</span>&#160; </div>
-<div class="line"><a name="l00258"></a><span class="lineno">  258</span>&#160;                ++instanceCount;</div>
-<div class="line"><a name="l00259"></a><span class="lineno">  259</span>&#160;            }</div>
-<div class="line"><a name="l00260"></a><span class="lineno">  260</span>&#160;        }</div>
-<div class="line"><a name="l00261"></a><span class="lineno">  261</span>&#160;    }</div>
-<div class="line"><a name="l00262"></a><span class="lineno">  262</span>&#160;}</div>
+<div class="line"><a name="l00220"></a><span class="lineno">  220</span>&#160;                <span class="keywordflow">if</span> (mesh-&gt;HasNormals())</div>
+<div class="line"><a name="l00221"></a><span class="lineno">  221</span>&#160;                {</div>
+<div class="line"><a name="l00222"></a><span class="lineno">  222</span>&#160;                    <span class="keyword">const</span> <span class="keyword">auto</span> v0 = P0 - P;</div>
+<div class="line"><a name="l00223"></a><span class="lineno">  223</span>&#160;                    <span class="keyword">const</span> <span class="keyword">auto</span> v1 = P1 - P;</div>
+<div class="line"><a name="l00224"></a><span class="lineno">  224</span>&#160;                    <span class="keyword">const</span> <span class="keyword">auto</span> v2 = P2 - P;</div>
+<div class="line"><a name="l00225"></a><span class="lineno">  225</span>&#160; </div>
+<div class="line"><a name="l00226"></a><span class="lineno">  226</span>&#160;                    <span class="keyword">const</span> Vector3f areas{0.5f * length(glm::cross(v1, v2)),</div>
+<div class="line"><a name="l00227"></a><span class="lineno">  227</span>&#160;                                         0.5f * length(glm::cross(v0, v2)),</div>
+<div class="line"><a name="l00228"></a><span class="lineno">  228</span>&#160;                                         0.5f * length(glm::cross(v0, v1))};</div>
+<div class="line"><a name="l00229"></a><span class="lineno">  229</span>&#160; </div>
+<div class="line"><a name="l00230"></a><span class="lineno">  230</span>&#160;                    <span class="keyword">const</span> <span class="keyword">auto</span> N0 = _toVector3f(mesh-&gt;mNormals[face.x]);</div>
+<div class="line"><a name="l00231"></a><span class="lineno">  231</span>&#160;                    <span class="keyword">const</span> <span class="keyword">auto</span> N1 = _toVector3f(mesh-&gt;mNormals[face.y]);</div>
+<div class="line"><a name="l00232"></a><span class="lineno">  232</span>&#160;                    <span class="keyword">const</span> <span class="keyword">auto</span> N2 = _toVector3f(mesh-&gt;mNormals[face.z]);</div>
+<div class="line"><a name="l00233"></a><span class="lineno">  233</span>&#160; </div>
+<div class="line"><a name="l00234"></a><span class="lineno">  234</span>&#160;                    <span class="keyword">const</span> Vector3f normal = glm::normalize(</div>
+<div class="line"><a name="l00235"></a><span class="lineno">  235</span>&#160;                        matrix *</div>
+<div class="line"><a name="l00236"></a><span class="lineno">  236</span>&#160;                        Vector4f(glm::normalize((N0 * areas.x + N1 * areas.y +</div>
+<div class="line"><a name="l00237"></a><span class="lineno">  237</span>&#160;                                                 N2 * areas.z) /</div>
+<div class="line"><a name="l00238"></a><span class="lineno">  238</span>&#160;                                                (areas.x + areas.y + areas.z)),</div>
+<div class="line"><a name="l00239"></a><span class="lineno">  239</span>&#160;                                 1.f));</div>
+<div class="line"><a name="l00240"></a><span class="lineno">  240</span>&#160; </div>
+<div class="line"><a name="l00241"></a><span class="lineno">  241</span>&#160;                    <span class="keywordflow">if</span> (normal != UP_VECTOR)</div>
+<div class="line"><a name="l00242"></a><span class="lineno">  242</span>&#160;                    {</div>
+<div class="line"><a name="l00243"></a><span class="lineno">  243</span>&#160;                        <span class="keyword">const</span> Quaterniond rotation =</div>
+<div class="line"><a name="l00244"></a><span class="lineno">  244</span>&#160;                            glm::quatLookAt(normal, UP_VECTOR);</div>
+<div class="line"><a name="l00245"></a><span class="lineno">  245</span>&#160;                        tf.setRotation(rotation * rotation);</div>
+<div class="line"><a name="l00246"></a><span class="lineno">  246</span>&#160;                    }</div>
+<div class="line"><a name="l00247"></a><span class="lineno">  247</span>&#160;                    translation = position + transformedVertex +</div>
+<div class="line"><a name="l00248"></a><span class="lineno">  248</span>&#160;                                  normal * descriptor.<a class="code" href="../../d0/d14/structbioexplorer_1_1MeshBasedMembraneDetails.html#adac42c86ce7a9ef8ee07843cda7ac21c">surfaceFixedOffset</a> +</div>
+<div class="line"><a name="l00249"></a><span class="lineno">  249</span>&#160;                                  normal * variableOffset;</div>
+<div class="line"><a name="l00250"></a><span class="lineno">  250</span>&#160;                }</div>
+<div class="line"><a name="l00251"></a><span class="lineno">  251</span>&#160; </div>
+<div class="line"><a name="l00252"></a><span class="lineno">  252</span>&#160;                <span class="keywordflow">if</span> (isClipped(translation, clipPlanes))</div>
+<div class="line"><a name="l00253"></a><span class="lineno">  253</span>&#160;                    <span class="keywordflow">continue</span>;</div>
+<div class="line"><a name="l00254"></a><span class="lineno">  254</span>&#160; </div>
+<div class="line"><a name="l00255"></a><span class="lineno">  255</span>&#160;                tf.setTranslation(translation);</div>
+<div class="line"><a name="l00256"></a><span class="lineno">  256</span>&#160; </div>
+<div class="line"><a name="l00257"></a><span class="lineno">  257</span>&#160;                <span class="keywordflow">if</span> (instanceCount == 0)</div>
+<div class="line"><a name="l00258"></a><span class="lineno">  258</span>&#160;                    _modelDescriptor-&gt;setTransformation(tf);</div>
+<div class="line"><a name="l00259"></a><span class="lineno">  259</span>&#160; </div>
+<div class="line"><a name="l00260"></a><span class="lineno">  260</span>&#160;                <span class="keyword">const</span> ModelInstance instance(<span class="keyword">true</span>, <span class="keyword">false</span>, tf);</div>
+<div class="line"><a name="l00261"></a><span class="lineno">  261</span>&#160;<span class="preprocessor">#pragma omp critical</span></div>
+<div class="line"><a name="l00262"></a><span class="lineno">  262</span>&#160;                _modelDescriptor-&gt;addInstance(instance);</div>
 <div class="line"><a name="l00263"></a><span class="lineno">  263</span>&#160; </div>
-<div class="line"><a name="l00264"></a><span class="lineno">  264</span>&#160;<span class="keywordtype">float</span> MeshBasedMembrane::_getSurfaceArea(<span class="keyword">const</span> Vector3f&amp; v0, <span class="keyword">const</span> Vector3f&amp; v1,</div>
-<div class="line"><a name="l00265"></a><span class="lineno">  265</span>&#160;                                         <span class="keyword">const</span> Vector3f&amp; v2)<span class="keyword"> const</span></div>
-<div class="line"><a name="l00266"></a><span class="lineno">  266</span>&#160;<span class="keyword"></span>{</div>
-<div class="line"><a name="l00267"></a><span class="lineno">  267</span>&#160;    <span class="comment">// Compute triangle area</span></div>
-<div class="line"><a name="l00268"></a><span class="lineno">  268</span>&#160;    <span class="keyword">const</span> <span class="keywordtype">float</span> a = length(v1 - v0);</div>
-<div class="line"><a name="l00269"></a><span class="lineno">  269</span>&#160;    <span class="keyword">const</span> <span class="keywordtype">float</span> b = length(v2 - v1);</div>
-<div class="line"><a name="l00270"></a><span class="lineno">  270</span>&#160;    <span class="keyword">const</span> <span class="keywordtype">float</span> c = length(v0 - v2);</div>
-<div class="line"><a name="l00271"></a><span class="lineno">  271</span>&#160;    <span class="keyword">const</span> <span class="keywordtype">float</span> p = (a + b + c) / 2.f;</div>
-<div class="line"><a name="l00272"></a><span class="lineno">  272</span>&#160;    <span class="keyword">const</span> <span class="keywordtype">float</span> e = p * (p - a) * (p - b) * (p - c);</div>
-<div class="line"><a name="l00273"></a><span class="lineno">  273</span>&#160;    <span class="keywordflow">if</span> (e &lt; 0)</div>
-<div class="line"><a name="l00274"></a><span class="lineno">  274</span>&#160;        <span class="keywordflow">return</span> 0.f;</div>
-<div class="line"><a name="l00275"></a><span class="lineno">  275</span>&#160; </div>
-<div class="line"><a name="l00276"></a><span class="lineno">  276</span>&#160;    <span class="keywordflow">return</span> sqrt(e);</div>
-<div class="line"><a name="l00277"></a><span class="lineno">  277</span>&#160;}</div>
-<div class="line"><a name="l00278"></a><span class="lineno">  278</span>&#160; </div>
-<div class="line"><a name="l00279"></a><span class="lineno">  279</span>&#160;Vector3f MeshBasedMembrane::_toVector3f(<span class="keyword">const</span> aiVector3D&amp; v)<span class="keyword"> const</span></div>
-<div class="line"><a name="l00280"></a><span class="lineno">  280</span>&#160;<span class="keyword"></span>{</div>
-<div class="line"><a name="l00281"></a><span class="lineno">  281</span>&#160;    <span class="keywordflow">return</span> Vector3f(v.x, v.y, v.z);</div>
-<div class="line"><a name="l00282"></a><span class="lineno">  282</span>&#160;}</div>
-<div class="line"><a name="l00283"></a><span class="lineno">  283</span>&#160; </div>
-<div class="line"><a name="l00284"></a><span class="lineno">  284</span>&#160;Vector3f MeshBasedMembrane::_toVector3f(<span class="keyword">const</span> aiVector3D&amp; v,</div>
-<div class="line"><a name="l00285"></a><span class="lineno">  285</span>&#160;                                        <span class="keyword">const</span> Vector3f&amp; center,</div>
-<div class="line"><a name="l00286"></a><span class="lineno">  286</span>&#160;                                        <span class="keyword">const</span> Vector3f&amp; scale,</div>
-<div class="line"><a name="l00287"></a><span class="lineno">  287</span>&#160;                                        <span class="keyword">const</span> Quaterniond&amp; orientation)<span class="keyword"> const</span></div>
-<div class="line"><a name="l00288"></a><span class="lineno">  288</span>&#160;<span class="keyword"></span>{</div>
-<div class="line"><a name="l00289"></a><span class="lineno">  289</span>&#160;    <span class="keyword">const</span> Vector3f p{v.x, v.y, v.z};</div>
-<div class="line"><a name="l00290"></a><span class="lineno">  290</span>&#160;    <span class="keyword">const</span> Vector3f a = p - center;</div>
-<div class="line"><a name="l00291"></a><span class="lineno">  291</span>&#160;    <span class="keyword">const</span> Vector3f b = Vector3f(orientation * Vector3d(p + a)) * scale;</div>
-<div class="line"><a name="l00292"></a><span class="lineno">  292</span>&#160;    <span class="keywordflow">return</span> b;</div>
-<div class="line"><a name="l00293"></a><span class="lineno">  293</span>&#160;}</div>
-<div class="line"><a name="l00294"></a><span class="lineno">  294</span>&#160; </div>
-<div class="line"><a name="l00295"></a><span class="lineno">  295</span>&#160;} <span class="comment">// namespace bioexplorer</span></div>
+<div class="line"><a name="l00264"></a><span class="lineno">  264</span>&#160;                ++instanceCount;</div>
+<div class="line"><a name="l00265"></a><span class="lineno">  265</span>&#160;            }</div>
+<div class="line"><a name="l00266"></a><span class="lineno">  266</span>&#160;        }</div>
+<div class="line"><a name="l00267"></a><span class="lineno">  267</span>&#160;    }</div>
+<div class="line"><a name="l00268"></a><span class="lineno">  268</span>&#160;}</div>
+<div class="line"><a name="l00269"></a><span class="lineno">  269</span>&#160; </div>
+<div class="line"><a name="l00270"></a><span class="lineno">  270</span>&#160;<span class="keywordtype">float</span> MeshBasedMembrane::_getSurfaceArea(<span class="keyword">const</span> Vector3f&amp; v0, <span class="keyword">const</span> Vector3f&amp; v1,</div>
+<div class="line"><a name="l00271"></a><span class="lineno">  271</span>&#160;                                         <span class="keyword">const</span> Vector3f&amp; v2)<span class="keyword"> const</span></div>
+<div class="line"><a name="l00272"></a><span class="lineno">  272</span>&#160;<span class="keyword"></span>{</div>
+<div class="line"><a name="l00273"></a><span class="lineno">  273</span>&#160;    <span class="comment">// Compute triangle area</span></div>
+<div class="line"><a name="l00274"></a><span class="lineno">  274</span>&#160;    <span class="keyword">const</span> <span class="keywordtype">float</span> a = length(v1 - v0);</div>
+<div class="line"><a name="l00275"></a><span class="lineno">  275</span>&#160;    <span class="keyword">const</span> <span class="keywordtype">float</span> b = length(v2 - v1);</div>
+<div class="line"><a name="l00276"></a><span class="lineno">  276</span>&#160;    <span class="keyword">const</span> <span class="keywordtype">float</span> c = length(v0 - v2);</div>
+<div class="line"><a name="l00277"></a><span class="lineno">  277</span>&#160;    <span class="keyword">const</span> <span class="keywordtype">float</span> p = (a + b + c) / 2.f;</div>
+<div class="line"><a name="l00278"></a><span class="lineno">  278</span>&#160;    <span class="keyword">const</span> <span class="keywordtype">float</span> e = p * (p - a) * (p - b) * (p - c);</div>
+<div class="line"><a name="l00279"></a><span class="lineno">  279</span>&#160;    <span class="keywordflow">if</span> (e &lt; 0)</div>
+<div class="line"><a name="l00280"></a><span class="lineno">  280</span>&#160;        <span class="keywordflow">return</span> 0.f;</div>
+<div class="line"><a name="l00281"></a><span class="lineno">  281</span>&#160; </div>
+<div class="line"><a name="l00282"></a><span class="lineno">  282</span>&#160;    <span class="keywordflow">return</span> sqrt(e);</div>
+<div class="line"><a name="l00283"></a><span class="lineno">  283</span>&#160;}</div>
+<div class="line"><a name="l00284"></a><span class="lineno">  284</span>&#160; </div>
+<div class="line"><a name="l00285"></a><span class="lineno">  285</span>&#160;Vector3f MeshBasedMembrane::_toVector3f(<span class="keyword">const</span> aiVector3D&amp; v)<span class="keyword"> const</span></div>
+<div class="line"><a name="l00286"></a><span class="lineno">  286</span>&#160;<span class="keyword"></span>{</div>
+<div class="line"><a name="l00287"></a><span class="lineno">  287</span>&#160;    <span class="keywordflow">return</span> Vector3f(v.x, v.y, v.z);</div>
+<div class="line"><a name="l00288"></a><span class="lineno">  288</span>&#160;}</div>
+<div class="line"><a name="l00289"></a><span class="lineno">  289</span>&#160; </div>
+<div class="line"><a name="l00290"></a><span class="lineno">  290</span>&#160;Vector3f MeshBasedMembrane::_toVector3f(<span class="keyword">const</span> aiVector3D&amp; v,</div>
+<div class="line"><a name="l00291"></a><span class="lineno">  291</span>&#160;                                        <span class="keyword">const</span> Vector3f&amp; center,</div>
+<div class="line"><a name="l00292"></a><span class="lineno">  292</span>&#160;                                        <span class="keyword">const</span> Vector3f&amp; scale,</div>
+<div class="line"><a name="l00293"></a><span class="lineno">  293</span>&#160;                                        <span class="keyword">const</span> Quaterniond&amp; rotation)<span class="keyword"> const</span></div>
+<div class="line"><a name="l00294"></a><span class="lineno">  294</span>&#160;<span class="keyword"></span>{</div>
+<div class="line"><a name="l00295"></a><span class="lineno">  295</span>&#160;    <span class="keyword">const</span> Vector3f p{v.x, v.y, v.z};</div>
+<div class="line"><a name="l00296"></a><span class="lineno">  296</span>&#160;    <span class="keyword">const</span> Vector3f a = p - center;</div>
+<div class="line"><a name="l00297"></a><span class="lineno">  297</span>&#160;    <span class="keyword">const</span> Vector3f b = Vector3f(rotation * Vector3d(p + a)) * scale;</div>
+<div class="line"><a name="l00298"></a><span class="lineno">  298</span>&#160;    <span class="keywordflow">return</span> b;</div>
+<div class="line"><a name="l00299"></a><span class="lineno">  299</span>&#160;}</div>
+<div class="line"><a name="l00300"></a><span class="lineno">  300</span>&#160; </div>
+<div class="line"><a name="l00301"></a><span class="lineno">  301</span>&#160;} <span class="comment">// namespace bioexplorer</span></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
-<div class="ttc" id="astructbioexplorer_1_1ProteinDescriptor_html_a06fe47969ba2e0072f1d3f1cde20c416"><div class="ttname"><a href="../../de/dc1/structbioexplorer_1_1ProteinDescriptor.html#a06fe47969ba2e0072f1d3f1cde20c416">bioexplorer::ProteinDescriptor::orientation</a></div><div class="ttdeci">std::vector&lt; float &gt; orientation</div><div class="ttdef"><b>Definition:</b> <a href="../../d7/df8/Types_8h_source.html#l00310">Types.h:310</a></div></div>
-<div class="ttc" id="astructbioexplorer_1_1MeshBasedMembraneDescriptor_html_ab23765d9fd33f413a50c0fc43dfa7175"><div class="ttname"><a href="../../d7/d2f/structbioexplorer_1_1MeshBasedMembraneDescriptor.html#ab23765d9fd33f413a50c0fc43dfa7175">bioexplorer::MeshBasedMembraneDescriptor::position</a></div><div class="ttdeci">std::vector&lt; float &gt; position</div><div class="ttdef"><b>Definition:</b> <a href="../../d7/df8/Types_8h_source.html#l00383">Types.h:383</a></div></div>
-<div class="ttc" id="astructbioexplorer_1_1MeshBasedMembraneDescriptor_html_a98a9226072bd79671fd8c009f7663861"><div class="ttname"><a href="../../d7/d2f/structbioexplorer_1_1MeshBasedMembraneDescriptor.html#a98a9226072bd79671fd8c009f7663861">bioexplorer::MeshBasedMembraneDescriptor::scale</a></div><div class="ttdeci">std::vector&lt; float &gt; scale</div><div class="ttdef"><b>Definition:</b> <a href="../../d7/df8/Types_8h_source.html#l00387">Types.h:387</a></div></div>
-<div class="ttc" id="astructbioexplorer_1_1MeshBasedMembraneDescriptor_html_ad6cde4077da4b9ce8ce4f1bfd3a8c949"><div class="ttname"><a href="../../d7/d2f/structbioexplorer_1_1MeshBasedMembraneDescriptor.html#ad6cde4077da4b9ce8ce4f1bfd3a8c949">bioexplorer::MeshBasedMembraneDescriptor::orientation</a></div><div class="ttdeci">std::vector&lt; float &gt; orientation</div><div class="ttdef"><b>Definition:</b> <a href="../../d7/df8/Types_8h_source.html#l00385">Types.h:385</a></div></div>
-<div class="ttc" id="astructbioexplorer_1_1MeshBasedMembraneDescriptor_html_af93a200fc74bc83d171d9106e1c155dd"><div class="ttname"><a href="../../d7/d2f/structbioexplorer_1_1MeshBasedMembraneDescriptor.html#af93a200fc74bc83d171d9106e1c155dd">bioexplorer::MeshBasedMembraneDescriptor::atomRadiusMultiplier</a></div><div class="ttdeci">float atomRadiusMultiplier</div><div class="ttdef"><b>Definition:</b> <a href="../../d7/df8/Types_8h_source.html#l00377">Types.h:377</a></div></div>
-<div class="ttc" id="astructbioexplorer_1_1MeshBasedMembraneDescriptor_html_a1b3280ee4f7a29d3afebfa88d2fda3bd"><div class="ttname"><a href="../../d7/d2f/structbioexplorer_1_1MeshBasedMembraneDescriptor.html#a1b3280ee4f7a29d3afebfa88d2fda3bd">bioexplorer::MeshBasedMembraneDescriptor::surfaceFixedOffset</a></div><div class="ttdeci">float surfaceFixedOffset</div><div class="ttdef"><b>Definition:</b> <a href="../../d7/df8/Types_8h_source.html#l00372">Types.h:372</a></div></div>
-<div class="ttc" id="astructbioexplorer_1_1ProteinDescriptor_html"><div class="ttname"><a href="../../de/dc1/structbioexplorer_1_1ProteinDescriptor.html">bioexplorer::ProteinDescriptor</a></div><div class="ttdef"><b>Definition:</b> <a href="../../d7/df8/Types_8h_source.html#l00269">Types.h:269</a></div></div>
-<div class="ttc" id="astructbioexplorer_1_1MeshBasedMembraneDescriptor_html_a4d5176711bff31b06ca35dfbeff9174e"><div class="ttname"><a href="../../d7/d2f/structbioexplorer_1_1MeshBasedMembraneDescriptor.html#a4d5176711bff31b06ca35dfbeff9174e">bioexplorer::MeshBasedMembraneDescriptor::representation</a></div><div class="ttdeci">ProteinRepresentation representation</div><div class="ttdef"><b>Definition:</b> <a href="../../d7/df8/Types_8h_source.html#l00379">Types.h:379</a></div></div>
-<div class="ttc" id="astructbioexplorer_1_1MeshBasedMembraneDescriptor_html"><div class="ttname"><a href="../../d7/d2f/structbioexplorer_1_1MeshBasedMembraneDescriptor.html">bioexplorer::MeshBasedMembraneDescriptor</a></div><div class="ttdoc">Data structure describing a membrane based on the shape of a mesh.</div><div class="ttdef"><b>Definition:</b> <a href="../../d7/df8/Types_8h_source.html#l00356">Types.h:356</a></div></div>
-<div class="ttc" id="astructbioexplorer_1_1MeshBasedMembraneDescriptor_html_a61e1918f7347ee966110f434e42e4a91"><div class="ttname"><a href="../../d7/d2f/structbioexplorer_1_1MeshBasedMembraneDescriptor.html#a61e1918f7347ee966110f434e42e4a91">bioexplorer::MeshBasedMembraneDescriptor::assemblyName</a></div><div class="ttdeci">std::string assemblyName</div><div class="ttdef"><b>Definition:</b> <a href="../../d7/df8/Types_8h_source.html#l00359">Types.h:359</a></div></div>
-<div class="ttc" id="astructbioexplorer_1_1ProteinDescriptor_html_a8da98633c651599fc158f74f1582fca1"><div class="ttname"><a href="../../de/dc1/structbioexplorer_1_1ProteinDescriptor.html#a8da98633c651599fc158f74f1582fca1">bioexplorer::ProteinDescriptor::representation</a></div><div class="ttdeci">ProteinRepresentation representation</div><div class="ttdef"><b>Definition:</b> <a href="../../d7/df8/Types_8h_source.html#l00291">Types.h:291</a></div></div>
-<div class="ttc" id="astructbioexplorer_1_1MeshBasedMembraneDescriptor_html_aeefb3e4a3b29c21e9f6db3f2f624104e"><div class="ttname"><a href="../../d7/d2f/structbioexplorer_1_1MeshBasedMembraneDescriptor.html#aeefb3e4a3b29c21e9f6db3f2f624104e">bioexplorer::MeshBasedMembraneDescriptor::meshContents</a></div><div class="ttdeci">std::string meshContents</div><div class="ttdef"><b>Definition:</b> <a href="../../d7/df8/Types_8h_source.html#l00363">Types.h:363</a></div></div>
-<div class="ttc" id="astructbioexplorer_1_1ProteinDescriptor_html_a78d226545afc447e068f8645cf5839d1"><div class="ttname"><a href="../../de/dc1/structbioexplorer_1_1ProteinDescriptor.html#a78d226545afc447e068f8645cf5839d1">bioexplorer::ProteinDescriptor::assemblyName</a></div><div class="ttdeci">std::string assemblyName</div><div class="ttdef"><b>Definition:</b> <a href="../../d7/df8/Types_8h_source.html#l00272">Types.h:272</a></div></div>
-<div class="ttc" id="astructbioexplorer_1_1MeshBasedMembraneDescriptor_html_a331ad494cf0931bb5f26e9505294afed"><div class="ttname"><a href="../../d7/d2f/structbioexplorer_1_1MeshBasedMembraneDescriptor.html#a331ad494cf0931bb5f26e9505294afed">bioexplorer::MeshBasedMembraneDescriptor::surfaceVariableOffset</a></div><div class="ttdeci">float surfaceVariableOffset</div><div class="ttdef"><b>Definition:</b> <a href="../../d7/df8/Types_8h_source.html#l00375">Types.h:375</a></div></div>
-<div class="ttc" id="astructbioexplorer_1_1MeshBasedMembraneDescriptor_html_a56751dd42ad867908496af62e085ea43"><div class="ttname"><a href="../../d7/d2f/structbioexplorer_1_1MeshBasedMembraneDescriptor.html#a56751dd42ad867908496af62e085ea43">bioexplorer::MeshBasedMembraneDescriptor::density</a></div><div class="ttdeci">float density</div><div class="ttdef"><b>Definition:</b> <a href="../../d7/df8/Types_8h_source.html#l00369">Types.h:369</a></div></div>
-<div class="ttc" id="astructbioexplorer_1_1MeshBasedMembraneDescriptor_html_ad7b33e6a4ba0e50e53408eeec9a6b57e"><div class="ttname"><a href="../../d7/d2f/structbioexplorer_1_1MeshBasedMembraneDescriptor.html#ad7b33e6a4ba0e50e53408eeec9a6b57e">bioexplorer::MeshBasedMembraneDescriptor::randomSeed</a></div><div class="ttdeci">size_t randomSeed</div><div class="ttdef"><b>Definition:</b> <a href="../../d7/df8/Types_8h_source.html#l00381">Types.h:381</a></div></div>
-<div class="ttc" id="astructbioexplorer_1_1ProteinDescriptor_html_a0a7849ec19bd91005b1bbea8ae6bdbd1"><div class="ttname"><a href="../../de/dc1/structbioexplorer_1_1ProteinDescriptor.html#a0a7849ec19bd91005b1bbea8ae6bdbd1">bioexplorer::ProteinDescriptor::position</a></div><div class="ttdeci">std::vector&lt; float &gt; position</div><div class="ttdef"><b>Definition:</b> <a href="../../d7/df8/Types_8h_source.html#l00308">Types.h:308</a></div></div>
+<div class="ttc" id="astructbioexplorer_1_1ProteinDetails_html_aaf272f51db061acfc9fc7e3c148f120d"><div class="ttname"><a href="../../da/df7/structbioexplorer_1_1ProteinDetails.html#aaf272f51db061acfc9fc7e3c148f120d">bioexplorer::ProteinDetails::atomRadiusMultiplier</a></div><div class="ttdeci">float atomRadiusMultiplier</div><div class="ttdef"><b>Definition:</b> <a href="../../d7/df8/Types_8h_source.html#l00279">Types.h:279</a></div></div>
+<div class="ttc" id="astructbioexplorer_1_1MeshBasedMembraneDetails_html_adac42c86ce7a9ef8ee07843cda7ac21c"><div class="ttname"><a href="../../d0/d14/structbioexplorer_1_1MeshBasedMembraneDetails.html#adac42c86ce7a9ef8ee07843cda7ac21c">bioexplorer::MeshBasedMembraneDetails::surfaceFixedOffset</a></div><div class="ttdeci">float surfaceFixedOffset</div><div class="ttdef"><b>Definition:</b> <a href="../../d7/df8/Types_8h_source.html#l00367">Types.h:367</a></div></div>
+<div class="ttc" id="astructbioexplorer_1_1MeshBasedMembraneDetails_html_a30138cbe4625ed778e1fc85c44ddd23b"><div class="ttname"><a href="../../d0/d14/structbioexplorer_1_1MeshBasedMembraneDetails.html#a30138cbe4625ed778e1fc85c44ddd23b">bioexplorer::MeshBasedMembraneDetails::surfaceVariableOffset</a></div><div class="ttdeci">float surfaceVariableOffset</div><div class="ttdef"><b>Definition:</b> <a href="../../d7/df8/Types_8h_source.html#l00370">Types.h:370</a></div></div>
+<div class="ttc" id="astructbioexplorer_1_1ProteinDetails_html_aadc4802aa93e8aee8e731d3ee8fb7a4f"><div class="ttname"><a href="../../da/df7/structbioexplorer_1_1ProteinDetails.html#aadc4802aa93e8aee8e731d3ee8fb7a4f">bioexplorer::ProteinDetails::assemblyName</a></div><div class="ttdeci">std::string assemblyName</div><div class="ttdef"><b>Definition:</b> <a href="../../d7/df8/Types_8h_source.html#l00269">Types.h:269</a></div></div>
+<div class="ttc" id="aclassbioexplorer_1_1MeshBasedMembrane_html_af47c819d7d7309188ab15d89b7493060"><div class="ttname"><a href="../../dd/d42/classbioexplorer_1_1MeshBasedMembrane.html#af47c819d7d7309188ab15d89b7493060">bioexplorer::MeshBasedMembrane::MeshBasedMembrane</a></div><div class="ttdeci">MeshBasedMembrane(Scene &amp;scene, const MeshBasedMembraneDetails &amp;descriptor)</div><div class="ttdoc">Construct a new MeshBasedMembrane object.</div><div class="ttdef"><b>Definition:</b> <a href="../../d1/df5/plugin_2bioexplorer_2MeshBasedMembrane_8cpp_source.html#l00036">MeshBasedMembrane.cpp:36</a></div></div>
+<div class="ttc" id="astructbioexplorer_1_1MeshBasedMembraneDetails_html_a79e33c9ad289ec8f2048a0f03f78f32d"><div class="ttname"><a href="../../d0/d14/structbioexplorer_1_1MeshBasedMembraneDetails.html#a79e33c9ad289ec8f2048a0f03f78f32d">bioexplorer::MeshBasedMembraneDetails::assemblyName</a></div><div class="ttdeci">std::string assemblyName</div><div class="ttdef"><b>Definition:</b> <a href="../../d7/df8/Types_8h_source.html#l00354">Types.h:354</a></div></div>
+<div class="ttc" id="astructbioexplorer_1_1ProteinDetails_html_ab9f0c91fa7f9f6f0ccfc520001c75c90"><div class="ttname"><a href="../../da/df7/structbioexplorer_1_1ProteinDetails.html#ab9f0c91fa7f9f6f0ccfc520001c75c90">bioexplorer::ProteinDetails::representation</a></div><div class="ttdeci">ProteinRepresentation representation</div><div class="ttdef"><b>Definition:</b> <a href="../../d7/df8/Types_8h_source.html#l00288">Types.h:288</a></div></div>
+<div class="ttc" id="astructbioexplorer_1_1MeshBasedMembraneDetails_html_aec19af526c1c8fb590c21aa82571194a"><div class="ttname"><a href="../../d0/d14/structbioexplorer_1_1MeshBasedMembraneDetails.html#aec19af526c1c8fb590c21aa82571194a">bioexplorer::MeshBasedMembraneDetails::randomSeed</a></div><div class="ttdeci">size_t randomSeed</div><div class="ttdef"><b>Definition:</b> <a href="../../d7/df8/Types_8h_source.html#l00376">Types.h:376</a></div></div>
+<div class="ttc" id="astructbioexplorer_1_1MeshBasedMembraneDetails_html_a874829be65823cc8ea0c8b5fb4f4791a"><div class="ttname"><a href="../../d0/d14/structbioexplorer_1_1MeshBasedMembraneDetails.html#a874829be65823cc8ea0c8b5fb4f4791a">bioexplorer::MeshBasedMembraneDetails::representation</a></div><div class="ttdeci">ProteinRepresentation representation</div><div class="ttdef"><b>Definition:</b> <a href="../../d7/df8/Types_8h_source.html#l00374">Types.h:374</a></div></div>
+<div class="ttc" id="astructbioexplorer_1_1MeshBasedMembraneDetails_html"><div class="ttname"><a href="../../d0/d14/structbioexplorer_1_1MeshBasedMembraneDetails.html">bioexplorer::MeshBasedMembraneDetails</a></div><div class="ttdoc">Data structure describing a membrane based on the shape of a mesh.</div><div class="ttdef"><b>Definition:</b> <a href="../../d7/df8/Types_8h_source.html#l00351">Types.h:351</a></div></div>
+<div class="ttc" id="astructbioexplorer_1_1MeshBasedMembraneDetails_html_a833327dd3bd49699cd1d2eb1fad920c7"><div class="ttname"><a href="../../d0/d14/structbioexplorer_1_1MeshBasedMembraneDetails.html#a833327dd3bd49699cd1d2eb1fad920c7">bioexplorer::MeshBasedMembraneDetails::position</a></div><div class="ttdeci">std::vector&lt; float &gt; position</div><div class="ttdef"><b>Definition:</b> <a href="../../d7/df8/Types_8h_source.html#l00378">Types.h:378</a></div></div>
+<div class="ttc" id="astructbioexplorer_1_1ProteinDetails_html_a5b1f5a8de91f28fcbae62992df6c77e9"><div class="ttname"><a href="../../da/df7/structbioexplorer_1_1ProteinDetails.html#a5b1f5a8de91f28fcbae62992df6c77e9">bioexplorer::ProteinDetails::contents</a></div><div class="ttdeci">std::string contents</div><div class="ttdef"><b>Definition:</b> <a href="../../d7/df8/Types_8h_source.html#l00273">Types.h:273</a></div></div>
+<div class="ttc" id="astructbioexplorer_1_1MeshBasedMembraneDetails_html_a277c1350713c19ec3381b84754d250e2"><div class="ttname"><a href="../../d0/d14/structbioexplorer_1_1MeshBasedMembraneDetails.html#a277c1350713c19ec3381b84754d250e2">bioexplorer::MeshBasedMembraneDetails::meshContents</a></div><div class="ttdeci">std::string meshContents</div><div class="ttdef"><b>Definition:</b> <a href="../../d7/df8/Types_8h_source.html#l00358">Types.h:358</a></div></div>
+<div class="ttc" id="astructbioexplorer_1_1MeshBasedMembraneDetails_html_a671bd691762e226b050b286181fe6685"><div class="ttname"><a href="../../d0/d14/structbioexplorer_1_1MeshBasedMembraneDetails.html#a671bd691762e226b050b286181fe6685">bioexplorer::MeshBasedMembraneDetails::name</a></div><div class="ttdeci">std::string name</div><div class="ttdef"><b>Definition:</b> <a href="../../d7/df8/Types_8h_source.html#l00356">Types.h:356</a></div></div>
+<div class="ttc" id="astructbioexplorer_1_1MeshBasedMembraneDetails_html_a5b158c9ce530ed4f67c7cd71360af723"><div class="ttname"><a href="../../d0/d14/structbioexplorer_1_1MeshBasedMembraneDetails.html#a5b158c9ce530ed4f67c7cd71360af723">bioexplorer::MeshBasedMembraneDetails::proteinContents</a></div><div class="ttdeci">std::string proteinContents</div><div class="ttdef"><b>Definition:</b> <a href="../../d7/df8/Types_8h_source.html#l00360">Types.h:360</a></div></div>
+<div class="ttc" id="astructbioexplorer_1_1MeshBasedMembraneDetails_html_a1cea19629fa91e4d4784bab7c308706d"><div class="ttname"><a href="../../d0/d14/structbioexplorer_1_1MeshBasedMembraneDetails.html#a1cea19629fa91e4d4784bab7c308706d">bioexplorer::MeshBasedMembraneDetails::atomRadiusMultiplier</a></div><div class="ttdeci">float atomRadiusMultiplier</div><div class="ttdef"><b>Definition:</b> <a href="../../d7/df8/Types_8h_source.html#l00372">Types.h:372</a></div></div>
+<div class="ttc" id="astructbioexplorer_1_1ProteinDetails_html_a232b10e91a655fffb6ace3c92ae2faab"><div class="ttname"><a href="../../da/df7/structbioexplorer_1_1ProteinDetails.html#a232b10e91a655fffb6ace3c92ae2faab">bioexplorer::ProteinDetails::rotation</a></div><div class="ttdeci">std::vector&lt; float &gt; rotation</div><div class="ttdef"><b>Definition:</b> <a href="../../d7/df8/Types_8h_source.html#l00305">Types.h:305</a></div></div>
+<div class="ttc" id="astructbioexplorer_1_1MeshBasedMembraneDetails_html_acc22d892637a7a31457d8997f9eb2bcd"><div class="ttname"><a href="../../d0/d14/structbioexplorer_1_1MeshBasedMembraneDetails.html#acc22d892637a7a31457d8997f9eb2bcd">bioexplorer::MeshBasedMembraneDetails::scale</a></div><div class="ttdeci">std::vector&lt; float &gt; scale</div><div class="ttdef"><b>Definition:</b> <a href="../../d7/df8/Types_8h_source.html#l00382">Types.h:382</a></div></div>
+<div class="ttc" id="astructbioexplorer_1_1MeshBasedMembraneDetails_html_a437a7d5691890276598d10383b0777c1"><div class="ttname"><a href="../../d0/d14/structbioexplorer_1_1MeshBasedMembraneDetails.html#a437a7d5691890276598d10383b0777c1">bioexplorer::MeshBasedMembraneDetails::rotation</a></div><div class="ttdeci">std::vector&lt; float &gt; rotation</div><div class="ttdef"><b>Definition:</b> <a href="../../d7/df8/Types_8h_source.html#l00380">Types.h:380</a></div></div>
 <div class="ttc" id="aclassbioexplorer_1_1Protein_html"><div class="ttname"><a href="../../db/d87/classbioexplorer_1_1Protein.html">bioexplorer::Protein</a></div><div class="ttdoc">The Protein class.</div><div class="ttdef"><b>Definition:</b> <a href="../../d2/d6d/Protein_8h_source.html#l00033">Protein.h:33</a></div></div>
-<div class="ttc" id="astructbioexplorer_1_1MeshBasedMembraneDescriptor_html_a9f292e0d249a69001c88afc30a5beec7"><div class="ttname"><a href="../../d7/d2f/structbioexplorer_1_1MeshBasedMembraneDescriptor.html#a9f292e0d249a69001c88afc30a5beec7">bioexplorer::MeshBasedMembraneDescriptor::name</a></div><div class="ttdeci">std::string name</div><div class="ttdef"><b>Definition:</b> <a href="../../d7/df8/Types_8h_source.html#l00361">Types.h:361</a></div></div>
-<div class="ttc" id="aclassbioexplorer_1_1MeshBasedMembrane_html_a28ab89d3f662a2482f22a919d2a7180d"><div class="ttname"><a href="../../dd/d42/classbioexplorer_1_1MeshBasedMembrane.html#a28ab89d3f662a2482f22a919d2a7180d">bioexplorer::MeshBasedMembrane::MeshBasedMembrane</a></div><div class="ttdeci">MeshBasedMembrane(Scene &amp;scene, const MeshBasedMembraneDescriptor &amp;descriptor)</div><div class="ttdoc">Construct a new MeshBasedMembrane object.</div><div class="ttdef"><b>Definition:</b> <a href="../../d1/df5/plugin_2bioexplorer_2MeshBasedMembrane_8cpp_source.html#l00036">MeshBasedMembrane.cpp:36</a></div></div>
-<div class="ttc" id="astructbioexplorer_1_1MeshBasedMembraneDescriptor_html_ad0d4652e9273ba8b83f22039082fd08e"><div class="ttname"><a href="../../d7/d2f/structbioexplorer_1_1MeshBasedMembraneDescriptor.html#ad0d4652e9273ba8b83f22039082fd08e">bioexplorer::MeshBasedMembraneDescriptor::proteinContents</a></div><div class="ttdeci">std::string proteinContents</div><div class="ttdef"><b>Definition:</b> <a href="../../d7/df8/Types_8h_source.html#l00365">Types.h:365</a></div></div>
-<div class="ttc" id="astructbioexplorer_1_1ProteinDescriptor_html_ae7f641d69fd6fb34d8338e8e1c924334"><div class="ttname"><a href="../../de/dc1/structbioexplorer_1_1ProteinDescriptor.html#ae7f641d69fd6fb34d8338e8e1c924334">bioexplorer::ProteinDescriptor::contents</a></div><div class="ttdeci">std::string contents</div><div class="ttdef"><b>Definition:</b> <a href="../../d7/df8/Types_8h_source.html#l00276">Types.h:276</a></div></div>
-<div class="ttc" id="astructbioexplorer_1_1ProteinDescriptor_html_a872fff893066f4ce71bb0a7fdf2db749"><div class="ttname"><a href="../../de/dc1/structbioexplorer_1_1ProteinDescriptor.html#a872fff893066f4ce71bb0a7fdf2db749">bioexplorer::ProteinDescriptor::name</a></div><div class="ttdeci">std::string name</div><div class="ttdef"><b>Definition:</b> <a href="../../d7/df8/Types_8h_source.html#l00274">Types.h:274</a></div></div>
-<div class="ttc" id="astructbioexplorer_1_1ProteinDescriptor_html_acbd55689caab237594b8a0a67ac257e8"><div class="ttname"><a href="../../de/dc1/structbioexplorer_1_1ProteinDescriptor.html#acbd55689caab237594b8a0a67ac257e8">bioexplorer::ProteinDescriptor::atomRadiusMultiplier</a></div><div class="ttdeci">float atomRadiusMultiplier</div><div class="ttdef"><b>Definition:</b> <a href="../../d7/df8/Types_8h_source.html#l00282">Types.h:282</a></div></div>
+<div class="ttc" id="astructbioexplorer_1_1ProteinDetails_html"><div class="ttname"><a href="../../da/df7/structbioexplorer_1_1ProteinDetails.html">bioexplorer::ProteinDetails</a></div><div class="ttdef"><b>Definition:</b> <a href="../../d7/df8/Types_8h_source.html#l00266">Types.h:266</a></div></div>
+<div class="ttc" id="astructbioexplorer_1_1ProteinDetails_html_ace90aa431df28534bd8cfed96c90c189"><div class="ttname"><a href="../../da/df7/structbioexplorer_1_1ProteinDetails.html#ace90aa431df28534bd8cfed96c90c189">bioexplorer::ProteinDetails::recenter</a></div><div class="ttdeci">bool recenter</div><div class="ttdef"><b>Definition:</b> <a href="../../d7/df8/Types_8h_source.html#l00292">Types.h:292</a></div></div>
+<div class="ttc" id="astructbioexplorer_1_1MeshBasedMembraneDetails_html_aad92a4db4709329d7031028ca96245c1"><div class="ttname"><a href="../../d0/d14/structbioexplorer_1_1MeshBasedMembraneDetails.html#aad92a4db4709329d7031028ca96245c1">bioexplorer::MeshBasedMembraneDetails::density</a></div><div class="ttdeci">float density</div><div class="ttdef"><b>Definition:</b> <a href="../../d7/df8/Types_8h_source.html#l00364">Types.h:364</a></div></div>
+<div class="ttc" id="astructbioexplorer_1_1ProteinDetails_html_a10fa46611b0bff4021c6e904ba67ab45"><div class="ttname"><a href="../../da/df7/structbioexplorer_1_1ProteinDetails.html#a10fa46611b0bff4021c6e904ba67ab45">bioexplorer::ProteinDetails::position</a></div><div class="ttdeci">std::vector&lt; float &gt; position</div><div class="ttdef"><b>Definition:</b> <a href="../../d7/df8/Types_8h_source.html#l00303">Types.h:303</a></div></div>
 <div class="ttc" id="aclassbioexplorer_1_1Node_html"><div class="ttname"><a href="../../da/dba/classbioexplorer_1_1Node.html">bioexplorer::Node</a></div><div class="ttdoc">The Node class.</div><div class="ttdef"><b>Definition:</b> <a href="../../db/d92/Node_8h_source.html#l00030">Node.h:30</a></div></div>
-<div class="ttc" id="astructbioexplorer_1_1ProteinDescriptor_html_adc387bcfb318f4952a17af92a9babc4f"><div class="ttname"><a href="../../de/dc1/structbioexplorer_1_1ProteinDescriptor.html#adc387bcfb318f4952a17af92a9babc4f">bioexplorer::ProteinDescriptor::recenter</a></div><div class="ttdeci">bool recenter</div><div class="ttdef"><b>Definition:</b> <a href="../../d7/df8/Types_8h_source.html#l00295">Types.h:295</a></div></div>
+<div class="ttc" id="astructbioexplorer_1_1ProteinDetails_html_a91c4ecbc6d3be440a75a5c41651bfaee"><div class="ttname"><a href="../../da/df7/structbioexplorer_1_1ProteinDetails.html#a91c4ecbc6d3be440a75a5c41651bfaee">bioexplorer::ProteinDetails::name</a></div><div class="ttdeci">std::string name</div><div class="ttdef"><b>Definition:</b> <a href="../../d7/df8/Types_8h_source.html#l00271">Types.h:271</a></div></div>
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>

@@ -58,7 +58,7 @@ std::string to_json(const Response &param)
     return "";
 }
 
-bool from_json(GeneralSettingsDescriptor &param, const std::string &payload)
+bool from_json(GeneralSettingsDetails &param, const std::string &payload)
 {
     try
     {
@@ -73,7 +73,7 @@ bool from_json(GeneralSettingsDescriptor &param, const std::string &payload)
     return true;
 }
 
-bool from_json(AssemblyDescriptor &param, const std::string &payload)
+bool from_json(AssemblyDetails &param, const std::string &payload)
 {
     try
     {
@@ -90,7 +90,7 @@ bool from_json(AssemblyDescriptor &param, const std::string &payload)
     return true;
 }
 
-std::string to_json(const AssemblyDescriptor &payload)
+std::string to_json(const AssemblyDetails &payload)
 {
     try
     {
@@ -109,7 +109,7 @@ std::string to_json(const AssemblyDescriptor &payload)
     return "";
 }
 
-bool from_json(AssemblyTransformationsDescriptor &param,
+bool from_json(AssemblyTransformationsDetails &param,
                const std::string &payload)
 {
     try
@@ -126,7 +126,7 @@ bool from_json(AssemblyTransformationsDescriptor &param,
     return true;
 }
 
-bool from_json(ColorSchemeDescriptor &param, const std::string &payload)
+bool from_json(ColorSchemeDetails &param, const std::string &payload)
 {
     try
     {
@@ -144,7 +144,7 @@ bool from_json(ColorSchemeDescriptor &param, const std::string &payload)
     return true;
 }
 
-bool from_json(AminoAcidSequenceAsStringDescriptor &param,
+bool from_json(AminoAcidSequenceAsStringDetails &param,
                const std::string &payload)
 {
     try
@@ -161,7 +161,7 @@ bool from_json(AminoAcidSequenceAsStringDescriptor &param,
     return true;
 }
 
-bool from_json(AminoAcidSequenceAsRangesDescriptor &param,
+bool from_json(AminoAcidSequenceAsRangesDetails &param,
                const std::string &payload)
 {
     try
@@ -178,8 +178,7 @@ bool from_json(AminoAcidSequenceAsRangesDescriptor &param,
     return true;
 }
 
-bool from_json(AminoAcidInformationDescriptor &param,
-               const std::string &payload)
+bool from_json(AminoAcidInformationDetails &param, const std::string &payload)
 {
     try
     {
@@ -194,7 +193,7 @@ bool from_json(AminoAcidInformationDescriptor &param,
     return true;
 }
 
-bool from_json(SetAminoAcid &param, const std::string &payload)
+bool from_json(AminoAcidDetails &param, const std::string &payload)
 {
     try
     {
@@ -212,7 +211,7 @@ bool from_json(SetAminoAcid &param, const std::string &payload)
     return true;
 }
 
-bool from_json(RNASequenceDescriptor &param, const std::string &payload)
+bool from_json(RNASequenceDetails &param, const std::string &payload)
 {
     try
     {
@@ -233,7 +232,7 @@ bool from_json(RNASequenceDescriptor &param, const std::string &payload)
     return true;
 }
 
-bool from_json(MembraneDescriptor &param, const std::string &payload)
+bool from_json(MembraneDetails &param, const std::string &payload)
 {
     try
     {
@@ -264,7 +263,7 @@ bool from_json(MembraneDescriptor &param, const std::string &payload)
     return true;
 }
 
-bool from_json(ProteinDescriptor &param, const std::string &payload)
+bool from_json(ProteinDetails &param, const std::string &payload)
 {
     try
     {
@@ -295,7 +294,7 @@ bool from_json(ProteinDescriptor &param, const std::string &payload)
     return true;
 }
 
-std::string to_json(const ProteinDescriptor &payload)
+std::string to_json(const ProteinDetails &payload)
 {
     try
     {
@@ -328,7 +327,7 @@ std::string to_json(const ProteinDescriptor &payload)
     return "";
 }
 
-bool from_json(SugarsDescriptor &param, const std::string &payload)
+bool from_json(SugarsDetails &param, const std::string &payload)
 {
     try
     {
@@ -352,7 +351,7 @@ bool from_json(SugarsDescriptor &param, const std::string &payload)
     return true;
 }
 
-bool from_json(MeshBasedMembraneDescriptor &param, const std::string &payload)
+bool from_json(MeshBasedMembraneDetails &param, const std::string &payload)
 {
     try
     {
@@ -379,7 +378,7 @@ bool from_json(MeshBasedMembraneDescriptor &param, const std::string &payload)
     return true;
 }
 
-bool from_json(AddGrid &param, const std::string &payload)
+bool from_json(AddGridDetails &param, const std::string &payload)
 {
     try
     {
@@ -402,7 +401,7 @@ bool from_json(AddGrid &param, const std::string &payload)
     return true;
 }
 
-bool from_json(ModelId &param, const std::string &payload)
+bool from_json(ModelIdDetails &param, const std::string &payload)
 {
     try
     {
@@ -416,7 +415,7 @@ bool from_json(ModelId &param, const std::string &payload)
     return true;
 }
 
-bool from_json(MaterialsDescriptor &param, const std::string &payload)
+bool from_json(MaterialsDetails &param, const std::string &payload)
 {
     try
     {
@@ -442,7 +441,7 @@ bool from_json(MaterialsDescriptor &param, const std::string &payload)
     return true;
 }
 
-std::string to_json(const MaterialIds &param)
+std::string to_json(const MaterialIdsDetails &param)
 {
     try
     {
@@ -458,7 +457,7 @@ std::string to_json(const MaterialIds &param)
 }
 
 // Fields
-bool from_json(BuildFields &param, const std::string &payload)
+bool from_json(BuildFieldsDetails &param, const std::string &payload)
 {
     try
     {
@@ -473,7 +472,7 @@ bool from_json(BuildFields &param, const std::string &payload)
     return true;
 }
 
-bool from_json(FileAccess &param, const std::string &payload)
+bool from_json(FileAccessDetails &param, const std::string &payload)
 {
     try
     {
@@ -490,7 +489,7 @@ bool from_json(FileAccess &param, const std::string &payload)
     return true;
 }
 
-bool from_json(DatabaseAccess &param, const std::string &payload)
+bool from_json(DatabaseAccessDetails &param, const std::string &payload)
 {
     try
     {
@@ -508,7 +507,7 @@ bool from_json(DatabaseAccess &param, const std::string &payload)
     return true;
 }
 
-bool from_json(ModelIdFileAccess &param, const std::string &payload)
+bool from_json(ModelIdFileAccessDetails &param, const std::string &payload)
 {
     try
     {
@@ -523,7 +522,7 @@ bool from_json(ModelIdFileAccess &param, const std::string &payload)
     return true;
 }
 
-bool from_json(BuildPointCloud &param, const std::string &payload)
+bool from_json(BuildPointCloudDetails &param, const std::string &payload)
 {
     try
     {
@@ -537,7 +536,7 @@ bool from_json(BuildPointCloud &param, const std::string &payload)
     return true;
 }
 
-bool from_json(ModelsVisibility &param, const std::string &payload)
+bool from_json(ModelsVisibilityDetails &param, const std::string &payload)
 {
     try
     {
@@ -551,7 +550,7 @@ bool from_json(ModelsVisibility &param, const std::string &payload)
     return true;
 }
 
-bool from_json(ProteinInstanceTransformationDescriptor &param,
+bool from_json(ProteinInstanceTransformationDetails &param,
                const std::string &payload)
 {
     try
