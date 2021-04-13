@@ -138,7 +138,7 @@ void Membrane::_processInstances()
 
     // Shape parameters
     const auto &params = _descriptor.assemblyParams;
-    if (params.size() < 6)
+    if (params.size() < 1)
         PLUGIN_THROW(std::runtime_error("Invalid number of shape parameters"));
 
     const float size = params[0];
@@ -146,9 +146,9 @@ void Membrane::_processInstances()
     RandomizationInformation randInfo;
     randInfo.seed = _descriptor.randomSeed;
     randInfo.randomizationType = _descriptor.positionRandomizationType;
-    randInfo.positionStrength = params[2];
-    randInfo.rotationStrength = params[4];
-    const float extraParameter = params[5];
+    randInfo.positionStrength = (params.size() >= 3 ? params[2] : 0.f);
+    randInfo.rotationStrength = (params.size() >= 5 ? params[4] : 0.f);
+    const float extraParameter = (params.size() >= 6 ? params[5] : 0.f);
 
     // Shape instances
     const float offset = 2.f / _descriptor.occurrences;
@@ -172,8 +172,12 @@ void Membrane::_processInstances()
         const auto &bounds = model.getBounds();
         const Vector3f &center = bounds.getCenter();
 
-        randInfo.positionSeed = (params[1] == 0 ? 0 : params[1] + occurence);
-        randInfo.rotationSeed = (params[3] == 0 ? 0 : params[3] + occurence);
+        randInfo.positionSeed =
+            (params.size() >= 2 ? (params[1] == 0 ? 0 : params[1] + occurence)
+                                : 0);
+        randInfo.rotationSeed =
+            (params.size() >= 4 ? (params[3] == 0 ? 0 : params[3] + occurence)
+                                : 0);
 
         Transformation transformation;
         switch (_descriptor.shape)

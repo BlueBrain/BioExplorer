@@ -10,13 +10,12 @@ var structbioexplorer_1_1MembraneDescriptor =
     [ "content4", "de/d94/structbioexplorer_1_1MembraneDescriptor.html#ab9e38be02e51224294ece506aa70f7ae", null ],
     [ "loadBonds", "de/d94/structbioexplorer_1_1MembraneDescriptor.html#a41993a09eda081ceaea49894fbf3a5e7", null ],
     [ "loadNonPolymerChemicals", "de/d94/structbioexplorer_1_1MembraneDescriptor.html#accd0473c1c2afa2093ec677bac5cbef8", null ],
-    [ "locationCutoffAngle", "de/d94/structbioexplorer_1_1MembraneDescriptor.html#a74e471498a2995d3046e7c8da7a48c30", null ],
     [ "name", "de/d94/structbioexplorer_1_1MembraneDescriptor.html#af70bfa499ac56755eca4263dacd19c11", null ],
     [ "occurrences", "de/d94/structbioexplorer_1_1MembraneDescriptor.html#a4794481ce9540fb40c59b57d6c6840fe", null ],
-    [ "orientation", "de/d94/structbioexplorer_1_1MembraneDescriptor.html#a6f0644e5022749431e4c7d639d313aba", null ],
     [ "positionRandomizationType", "de/d94/structbioexplorer_1_1MembraneDescriptor.html#ab0efe96a8d41a5f4ad446a3429e3c6c8", null ],
     [ "randomSeed", "de/d94/structbioexplorer_1_1MembraneDescriptor.html#a3097785fc943f8f0ce156eff1c53a8cc", null ],
     [ "recenter", "de/d94/structbioexplorer_1_1MembraneDescriptor.html#a8613336d64c8887a84cbb3fe75ddd8e8", null ],
     [ "representation", "de/d94/structbioexplorer_1_1MembraneDescriptor.html#a790c3f92ce35801c0ea941666131c2eb", null ],
+    [ "rotation", "de/d94/structbioexplorer_1_1MembraneDescriptor.html#a81f4e17e0fc9081747713a9baaaab7c9", null ],
     [ "shape", "de/d94/structbioexplorer_1_1MembraneDescriptor.html#a77fb12ddfd1f3d7f4b31d429d27aad87", null ]
 ];

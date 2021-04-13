@@ -91,8 +91,8 @@ Protein</h1>
 <p>Proteins are loaded from PDB files. Atoms, non-polymer chemicals and bonds can be loaded and displayed in various colour schemes: chain id, atom, residue, etc.... Proteins also contain the amino acid sequences of the individual chains; these sequences can be used to query targeted sites (such as glycosylation sites), or functional regions of the protein.</p>
 <div class="fragment"><div class="line">virus_protein_s = Protein(</div>
 <div class="line">    sources=[&#39;6vyb.pdb&#39;, &#39;sars-cov-2-v1.pdb&#39;],</div>
-<div class="line">number_of_instances=nb_protein_s,</div>
-<div class="line">        assembly_params=Vector2(11.5, 0.0))</div>
+<div class="line">    number_of_instances=nb_protein_s,</div>
+<div class="line">    assembly_params=[11.5])</div>
 </div><!-- fragment --><div class="image">
 <img src="../../6vyb.png" alt=""/>
 <div class="caption">
@@ -144,16 +144,15 @@ Virus</h1>
 <p>A viral particle (= “virus”) is an assembly consisting of a membrane, an RNA sequence, and a given number of S, M and E proteins. The virus has a predefined spherical shape defined by its radius. The default parameters for the virus are a radius of 45 nanometers, 62 S proteins, 42 E proteins, and 50 M proteins. Dimensions and concentrations were retrieved from the literature (see list of dimensions and concentrations in appendix B2 and B3)</p>
 <div class="fragment"><div class="line">virus_protein_s = Protein(</div>
 <div class="line">    sources=[&#39;6vyb.pdb&#39;, &#39;sars-cov-2-v1.pdb&#39;],</div>
-<div class="line">number_of_instances=62,</div>
-<div class="line">        assembly_params=Vector2(11.5, 0.0))</div>
+<div class="line">    number_of_instances=62, assembly_params=[11.5])</div>
 <div class="line"> </div>
 <div class="line">virus_protein_e = Protein(</div>
-<div class="line">    sources=[QHD43418a.pdb&#39;],number_of_instances=42,</div>
-<div class="line">        assembly_params=Vector2(3.0, 0.0))</div>
+<div class="line">    sources=[&#39;QHD43418a.pdb&#39;],number_of_instances=42,</div>
+<div class="line">    assembly_params=[3.0])</div>
 <div class="line"> </div>
 <div class="line">virus_protein_m = Protein(</div>
-<div class="line">    sources=[QHD43419a.pdb&#39;], number_of_instances=50,</div>
-<div class="line">        assembly_params=Vector2(2.0, 0.0))</div>
+<div class="line">    sources=[&#39;QHD43419a.pdb&#39;], number_of_instances=50,</div>
+<div class="line">    assembly_params=[2.0])</div>
 <div class="line"> </div>
 <div class="line">virus_membrane = Membrane(</div>
 <div class="line">        sources=[&#39;popc.pdb&#39;], number_of_instances=15000)</div>
@@ -161,15 +160,15 @@ Virus</h1>
 <div class="line">rna_sequence = RNASequence(</div>
 <div class="line">    source=&#39;sars-cov-2.rna&#39;,</div>
 <div class="line">    shape=be.RNA_SHAPE_TREFOIL_KNOT,</div>
-<div class="line">    assembly_params=Vector2(11.0, 0.5),</div>
+<div class="line">    assembly_params=[11.0, 0.5],</div>
 <div class="line">t_range=Vector2(0, 30.5 * math.pi),</div>
 <div class="line">      shape_params=Vector3(1.51, 1.12, 1.93))</div>
 <div class="line"> </div>
 <div class="line">coronavirus = Virus(</div>
-<div class="line">name=&#39;coronavirus&#39;, protein_s=virus_protein_s,</div>
+<div class="line">    name=&#39;coronavirus&#39;, protein_s=virus_protein_s,</div>
 <div class="line">    protein_e=virus_protein_e, protein_m=virus_protein_m,</div>
 <div class="line">    membrane=virus_membrane, rna_sequence=rna_sequence,</div>
-<div class="line">    assembly_params=Vector2(45.0, 1.5))</div>
+<div class="line">    assembly_params=[45.0, 1, 0.025, 2, 0.4])</div>
 </div><!-- fragment --><p>In order to ease the process of creating 3D detailed representations of viruses, an advanced API function with the default coronavirus parameters is provided by the BioExplorer:</p>
 <div class="fragment"><div class="line">be.add_coronavirus(</div>
 <div class="line">    name=&#39;Coronavirus&#39;, resource_folder=resource_folder,</div>
@@ -184,14 +183,16 @@ Host cell</h1>
 <p>A host cell is an assembly composed of a membrane of a given size and shape (cylindric, sinusoidal, ect), and a given number of ACE2 receptors.</p>
 <div class="fragment"><div class="line">ace2_receptor = Protein(</div>
 <div class="line">    sources=[&#39;6m1d.pdb&#39;], number_of_instances=nb_receptors,</div>
-<div class="line">        position=Vector3(0.0, 6.0, 0.0))</div>
+<div class="line">    position=Vector3(0.0, 6.0, 0.0))</div>
 <div class="line"> </div>
-<div class="line">membrane = Membrane(sources=[&#39;popc.pdb&#39;], number_of_instances=1200000)</div>
+<div class="line">membrane = Membrane(</div>
+<div class="line">    sources=[&#39;popc.pdb&#39;], </div>
+<div class="line">    number_of_instances=1200000)</div>
 <div class="line"> </div>
 <div class="line">host_cell = Cell(</div>
-<div class="line">    name=&#39;Host cell&#39;, size=Vector2(size, height),</div>
+<div class="line">    name=&#39;Host cell&#39;, size=size, extra_parameters=[height],</div>
 <div class="line">    shape=be.ASSEMBLY_SHAPE_SINUSOIDAL,</div>
-<div class="line">        membrane=membrane, receptor=ace2_receptor)</div>
+<div class="line">    membrane=membrane, receptor=ace2_receptor)</div>
 </div><!-- fragment --><div class="image">
 <img src="../../cell.png" alt=""/>
 <div class="caption">

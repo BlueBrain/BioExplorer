@@ -6,9 +6,9 @@ var structbioexplorer_1_1SugarsDescriptor =
     [ "contents", "dd/dbd/structbioexplorer_1_1SugarsDescriptor.html#af6915ced146eabba3a50f185c12c63a2", null ],
     [ "loadBonds", "dd/dbd/structbioexplorer_1_1SugarsDescriptor.html#ab14bab4c7460dcaadebe481036bc14ac", null ],
     [ "name", "dd/dbd/structbioexplorer_1_1SugarsDescriptor.html#abe66387db4fb0a42f8e7d5a3c2b417d5", null ],
-    [ "orientation", "dd/dbd/structbioexplorer_1_1SugarsDescriptor.html#a8a1d5752f0e9b651043862997a2bd5ab", null ],
     [ "proteinName", "dd/dbd/structbioexplorer_1_1SugarsDescriptor.html#abb56da62f5d87ce447fbcbccb6b50cdd", null ],
     [ "recenter", "dd/dbd/structbioexplorer_1_1SugarsDescriptor.html#ad4d12d966e81eeecfa1a5d0f5f4fc6fe", null ],
     [ "representation", "dd/dbd/structbioexplorer_1_1SugarsDescriptor.html#a2a9b989fff55897d6ee079fa8db50505", null ],
+    [ "rotation", "dd/dbd/structbioexplorer_1_1SugarsDescriptor.html#a8ec0a32a01fe71ac91ba812b43252c97", null ],
     [ "siteIndices", "dd/dbd/structbioexplorer_1_1SugarsDescriptor.html#af2acf34c4b27229e10820810bba9df1b", null ]
 ];

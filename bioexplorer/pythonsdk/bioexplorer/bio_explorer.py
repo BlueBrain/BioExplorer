@@ -1294,7 +1294,7 @@ class BioExplorer:
         self.add_assembly(name=name)
         _protein = AssemblyProtein(
             assembly_name=name,
-            assembly_params=[0, 0, 0.0, 0, 0.0, 0.0],
+            assembly_params=protein.assembly_params,
             name=name,
             source=protein.sources[conformation_index],
             shape=self.ASSEMBLY_SHAPE_PLANAR,

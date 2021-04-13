@@ -193,42 +193,47 @@ void Assembly::_processInstances(
 
     // Shape parameters
     const auto &params = assemblyParams;
-    if (params.size() < 6)
+    if (params.size() < 1)
         PLUGIN_THROW(std::runtime_error("Invalid number of shape parameters"));
 
     const float size = params[0];
     RandomizationInformation randInfo;
     randInfo.seed = randomSeed;
     randInfo.randomizationType = randomizationType;
-    randInfo.positionStrength = params[2];
-    randInfo.rotationStrength = params[4];
-    const float extraParameter = params[5];
+    randInfo.positionStrength = (params.size() >= 3 ? params[2] : 0.f);
+    randInfo.rotationStrength = (params.size() >= 5 ? params[4] : 0.f);
+    const float extraParameter = (params.size() >= 6 ? params[5] : 0.f);
 
     // Shape
     uint64_t count = 0;
-    for (uint64_t i = 0; i < occurrences; ++i)
+    for (uint64_t occurence = 0; occurence < occurrences; ++occurence)
     {
         if (!allowedOccurrences.empty() &&
             std::find(allowedOccurrences.begin(), allowedOccurrences.end(),
-                      i) == allowedOccurrences.end())
+                      occurence) == allowedOccurrences.end())
             continue;
 
-        Transformation transformation;
-        randInfo.positionSeed = (params[1] == 0 ? 0 : params[1] + i);
-        randInfo.rotationSeed = (params[3] == 0 ? 0 : params[3] + i);
+        randInfo.positionSeed =
+            (params.size() >= 2 ? (params[1] == 0 ? 0 : params[1] + occurence)
+                                : 0);
+        randInfo.rotationSeed =
+            (params.size() >= 4 ? (params[3] == 0 ? 0 : params[3] + occurence)
+                                : 0);
 
+        Transformation transformation;
         switch (shape)
         {
         case AssemblyShape::spherical:
         {
-            transformation =
-                getSphericalPosition(position, size, i, occurrences, randInfo);
+            transformation = getSphericalPosition(position, size, occurence,
+                                                  occurrences, randInfo);
             break;
         }
         case AssemblyShape::sinusoidal:
         {
-            transformation = getSinosoidalPosition(position, size,
-                                                   extraParameter, i, randInfo);
+            transformation =
+                getSinosoidalPosition(position, size, extraParameter, occurence,
+                                      randInfo);
             break;
         }
         case AssemblyShape::cubic:
@@ -238,8 +243,8 @@ void Assembly::_processInstances(
         }
         case AssemblyShape::fan:
         {
-            transformation =
-                getFanPosition(position, size, i, occurrences, randInfo);
+            transformation = getFanPosition(position, size, occurence,
+                                            occurrences, randInfo);
             break;
         }
         case AssemblyShape::bezier:
@@ -248,19 +253,21 @@ void Assembly::_processInstances(
                 PLUGIN_THROW(std::runtime_error(
                     "Invalid number of floats in assembly extra parameters"));
             Vector3fs points;
-            for (uint32_t j = 5; j < params.size(); j += 3)
+            for (uint32_t i = 5; i < params.size(); i += 3)
                 points.push_back(
-                    Vector3f(params[j], params[j + 1], params[j + 2]));
+                    Vector3f(params[i], params[i + 1], params[i + 2]));
             const auto assemblySize = assemblyParams[0];
-            transformation = getBezierPosition(points, assemblySize,
-                                               float(i) / float(occurrences));
+            transformation =
+                getBezierPosition(points, assemblySize,
+                                  float(occurence) / float(occurrences));
             break;
         }
         case AssemblyShape::spherical_to_planar:
         {
             transformation =
-                getSphericalToPlanarPosition(position, size, i, occurrences,
-                                             randInfo, extraParameter);
+                getSphericalToPlanarPosition(position, size, occurence,
+                                             occurrences, randInfo,
+                                             extraParameter);
             break;
         }
         default:
