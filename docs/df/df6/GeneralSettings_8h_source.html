@@ -138,16 +138,20 @@ $(document).ready(function(){initNavTree('df/df6/GeneralSettings_8h_source.html'
 <div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160; </div>
 <div class="line"><a name="l00081"></a><span class="lineno"><a class="line" href="../../d4/ddc/classbioexplorer_1_1GeneralSettings.html#a571361e78c228d089b7b2befccbf2ad2">   81</a></span>&#160;    <span class="keywordtype">void</span> <a class="code" href="../../d4/ddc/classbioexplorer_1_1GeneralSettings.html#a571361e78c228d089b7b2befccbf2ad2">setOffFolder</a>(<span class="keyword">const</span> std::string&amp; value) { _offFolder = value; }</div>
 <div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160; </div>
-<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;    <span class="keyword">static</span> std::mutex _mutex;</div>
-<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;    <span class="keyword">static</span> <a class="code" href="../../d4/ddc/classbioexplorer_1_1GeneralSettings.html">GeneralSettings</a>* _instance;</div>
+<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;    <span class="keywordtype">bool</span> getLoggingEnabled()<span class="keyword"> const </span>{ <span class="keywordflow">return</span> _loggingEnabled; }</div>
+<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;    <span class="keywordtype">void</span> setLoggingEnabled(<span class="keyword">const</span> <span class="keywordtype">bool</span> value) { _loggingEnabled = value; }</div>
 <div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160; </div>
-<div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;<span class="keyword">private</span>:</div>
-<div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;    ~<a class="code" href="../../d4/ddc/classbioexplorer_1_1GeneralSettings.html">GeneralSettings</a>() {}</div>
+<div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;    <span class="keyword">static</span> std::mutex _mutex;</div>
+<div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;    <span class="keyword">static</span> GeneralSettings* _instance;</div>
 <div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160; </div>
-<div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160;    <span class="keywordtype">bool</span> _modelVisibilityOnCreation{<span class="keyword">true</span>};</div>
-<div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160;    std::string _offFolder{<span class="stringliteral">&quot;/tmp/&quot;</span>};</div>
-<div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160;};</div>
-<div class="line"><a name="l00092"></a><span class="lineno">   92</span>&#160;} <span class="comment">// namespace bioexplorer</span></div>
+<div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160;<span class="keyword">private</span>:</div>
+<div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160;    ~GeneralSettings() {}</div>
+<div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160; </div>
+<div class="line"><a name="l00092"></a><span class="lineno">   92</span>&#160;    <span class="keywordtype">bool</span> _modelVisibilityOnCreation{<span class="keyword">true</span>};</div>
+<div class="line"><a name="l00093"></a><span class="lineno">   93</span>&#160;    std::string _offFolder{<span class="stringliteral">&quot;/tmp/&quot;</span>};</div>
+<div class="line"><a name="l00094"></a><span class="lineno">   94</span>&#160;    <span class="keywordtype">bool</span> _loggingEnabled{<span class="keyword">false</span>};</div>
+<div class="line"><a name="l00095"></a><span class="lineno">   95</span>&#160;};</div>
+<div class="line"><a name="l00096"></a><span class="lineno">   96</span>&#160;} <span class="comment">// namespace bioexplorer</span></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
 <div class="ttc" id="aclassbioexplorer_1_1GeneralSettings_html_a095a55e82179c75ad7cf334e9bfcc9f8"><div class="ttname"><a href="../../d4/ddc/classbioexplorer_1_1GeneralSettings.html#a095a55e82179c75ad7cf334e9bfcc9f8">bioexplorer::GeneralSettings::setModelVisibilityOnCreation</a></div><div class="ttdeci">void setModelVisibilityOnCreation(const bool value)</div><div class="ttdoc">Set the Model Visibility On Creation object. If set to false, models are created but not added to the...</div><div class="ttdef"><b>Definition:</b> <a href="../../df/df6/GeneralSettings_8h_source.html#l00063">GeneralSettings.h:63</a></div></div>

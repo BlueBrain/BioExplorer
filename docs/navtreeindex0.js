@@ -112,11 +112,13 @@ var NAVTREEINDEX0 =
 "d4/dbf/classbioexplorer_1_1UniqueId.html":[3,0,0,54],
 "d4/dbf/classbioexplorer_1_1UniqueId.html#a618e91ec2c6950f8c5812cc4ccb8e8fd":[3,0,0,54,0],
 "d4/ddc/classbioexplorer_1_1GeneralSettings.html":[3,0,0,22],
-"d4/ddc/classbioexplorer_1_1GeneralSettings.html#a095a55e82179c75ad7cf334e9bfcc9f8":[3,0,0,22,3],
-"d4/ddc/classbioexplorer_1_1GeneralSettings.html#a571361e78c228d089b7b2befccbf2ad2":[3,0,0,22,4],
-"d4/ddc/classbioexplorer_1_1GeneralSettings.html#a6b405c501ea8f8c9c1c88ef473044dc4":[3,0,0,22,1],
-"d4/ddc/classbioexplorer_1_1GeneralSettings.html#a7cc75cd2ffcf9a422593716f7de45fa3":[3,0,0,22,2],
+"d4/ddc/classbioexplorer_1_1GeneralSettings.html#a095a55e82179c75ad7cf334e9bfcc9f8":[3,0,0,22,5],
+"d4/ddc/classbioexplorer_1_1GeneralSettings.html#a359442e91be3d7053fbdf3b78cd70e65":[3,0,0,22,1],
+"d4/ddc/classbioexplorer_1_1GeneralSettings.html#a571361e78c228d089b7b2befccbf2ad2":[3,0,0,22,6],
+"d4/ddc/classbioexplorer_1_1GeneralSettings.html#a6b405c501ea8f8c9c1c88ef473044dc4":[3,0,0,22,2],
+"d4/ddc/classbioexplorer_1_1GeneralSettings.html#a7cc75cd2ffcf9a422593716f7de45fa3":[3,0,0,22,3],
 "d4/ddc/classbioexplorer_1_1GeneralSettings.html#ac174180537de23001f9904cf0d5cf762":[3,0,0,22,0],
+"d4/ddc/classbioexplorer_1_1GeneralSettings.html#af3cf9b1f2dc1121e0f935fbb19e6d124":[3,0,0,22,4],
 "d4/dde/CommonTypes_8h_source.html":[4,0,0,1,2,0],
 "d5/d31/Params_8h_source.html":[4,0,0,1,0,1],
 "d5/dec/CacheLoader_8cpp_source.html":[4,0,0,1,4,1],
@@ -247,7 +249,5 @@ var NAVTREEINDEX0 =
 "d9/d55/structbioexplorer_1_1ModelIdDetails.html#ad6ca1875b3f56eae155551baff3e47c1":[3,0,0,31,0],
 "d9/d68/FieldsHandler_8h_source.html":[4,0,0,1,3,1],
 "d9/d72/structbioexplorer_1_1Response.html":[3,0,0,47],
-"d9/d72/structbioexplorer_1_1Response.html#aa7980710fbae818f0431b15a9a0061ba":[3,0,0,47,0],
-"d9/d72/structbioexplorer_1_1Response.html#ae30354ebb2ad0a53b873cdd73e8c263d":[3,0,0,47,1],
-"d9/d73/PointCloudMesher_8h_source.html":[4,0,0,1,5,1]
+"d9/d72/structbioexplorer_1_1Response.html#aa7980710fbae818f0431b15a9a0061ba":[3,0,0,47,0]
 };

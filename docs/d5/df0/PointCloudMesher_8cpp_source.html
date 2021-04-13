@@ -158,8 +158,8 @@ $(document).ready(function(){initNavTree('d5/df0/PointCloudMesher_8cpp_source.ht
 <div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;        CGAL::convex_hull_3(points.begin(), points.end(), obj);</div>
 <div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;        <span class="keywordflow">if</span> (<span class="keyword">const</span> Polyhedron_3* poly = CGAL::object_cast&lt;Polyhedron_3&gt;(&amp;obj))</div>
 <div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;        {</div>
-<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;            PLUGIN_INFO &lt;&lt; <span class="stringliteral">&quot;The convex hull contains &quot;</span></div>
-<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;                        &lt;&lt; poly-&gt;size_of_vertices() &lt;&lt; <span class="stringliteral">&quot; vertices&quot;</span> &lt;&lt; std::endl;</div>
+<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;            PLUGIN_INFO(<span class="stringliteral">&quot;The convex hull contains &quot;</span> &lt;&lt; poly-&gt;size_of_vertices()</div>
+<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;                                                    &lt;&lt; <span class="stringliteral">&quot; vertices&quot;</span>);</div>
 <div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160; </div>
 <div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;            <span class="keywordflow">for</span> (<span class="keyword">auto</span> eit = poly-&gt;edges_begin(); eit != poly-&gt;edges_end();</div>
 <div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;                 ++eit)</div>
@@ -173,7 +173,7 @@ $(document).ready(function(){initNavTree('d5/df0/PointCloudMesher_8cpp_source.ht
 <div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;            }</div>
 <div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;        }</div>
 <div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;        <span class="keywordflow">else</span></div>
-<div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;            PLUGIN_ERROR &lt;&lt; <span class="stringliteral">&quot;something else&quot;</span> &lt;&lt; std::endl;</div>
+<div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;            PLUGIN_ERROR(<span class="stringliteral">&quot;something else&quot;</span>);</div>
 <div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160;    }</div>
 <div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160;    <span class="keywordflow">return</span> addModel;</div>
 <div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160;<span class="preprocessor">#else</span></div>
