@@ -32,14 +32,12 @@ namespace bioexplorer
 {
 Membrane::Membrane(Scene &scene, const MembraneDescriptor &descriptor,
                    const Vector3f &position, const Quaterniond &rotation,
-                   const Vector4fs &clippingPlanes,
-                   const OccupiedDirections &occupiedDirections)
+                   const Vector4fs &clippingPlanes)
     : _scene(scene)
     , _position(position)
     , _rotation(rotation)
     , _descriptor(descriptor)
     , _clippingPlanes(clippingPlanes)
-    , _occupiedDirections(occupiedDirections)
 {
     if (_descriptor.representation == ProteinRepresentation::contour)
     {
@@ -96,7 +94,6 @@ Membrane::Membrane(Scene &scene, const MembraneDescriptor &descriptor,
         pd.assemblyParams = descriptor.assemblyParams;
         pd.atomRadiusMultiplier = descriptor.atomRadiusMultiplier;
         pd.representation = descriptor.representation;
-        pd.locationCutoffAngle = descriptor.locationCutoffAngle;
         pd.loadNonPolymerChemicals = descriptor.loadNonPolymerChemicals;
         pd.positionRandomizationType = descriptor.positionRandomizationType;
         pd.position = {0.f, 0.f, 0.f};
@@ -233,22 +230,6 @@ void Membrane::_processInstances()
             transformation = getPlanarPosition(Vector3f(), size, randInfo);
             break;
         }
-
-#if 0 // TO REMOVE ?
-      // Remove membrane where proteins are. This is currently done
-      // according to the vector rotation
-        bool occupied{false};
-        if (_descriptor.locationCutoffAngle != 0.f)
-            for (const auto &occupiedDirection : _occupiedDirections)
-                if (dot(dir, occupiedDirection.first) >
-                    occupiedDirection.second)
-                {
-                    occupied = true;
-                    break;
-                }
-        if (occupied)
-            continue;
-#endif
 
         // Final transformation
         const Vector3f translation =

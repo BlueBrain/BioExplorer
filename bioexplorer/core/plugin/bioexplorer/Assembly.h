@@ -165,8 +165,7 @@ private:
                            const Quaterniond &orientation,
                            const size_ts &allowedOccurrences,
                            const size_t randomSeed,
-                           const PositionRandomizationType &randomizationType,
-                           const float locationCutoffAngle = 0.f);
+                           const PositionRandomizationType &randomizationType);
 
     AssemblyDescriptor _descriptor;
     Scene &_scene;
@@ -174,7 +173,6 @@ private:
     MeshBasedMembraneMap _meshBasedMembranes;
     MembranePtr _membrane{nullptr};
     RNASequencePtr _rnaSequence{nullptr};
-    OccupiedDirections _occupiedDirections;
     Vector4fs _clippingPlanes;
 };
 } // namespace bioexplorer

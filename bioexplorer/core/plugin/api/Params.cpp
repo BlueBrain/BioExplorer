@@ -254,7 +254,6 @@ bool from_json(MembraneDescriptor &param, const std::string &payload)
         FROM_JSON(param, js, recenter);
         FROM_JSON(param, js, occurrences);
         FROM_JSON(param, js, randomSeed);
-        FROM_JSON(param, js, locationCutoffAngle);
         FROM_JSON(param, js, positionRandomizationType);
         FROM_JSON(param, js, rotation);
     }
@@ -285,7 +284,6 @@ bool from_json(ProteinDescriptor &param, const std::string &payload)
         FROM_JSON(param, js, occurrences);
         FROM_JSON(param, js, allowedOccurrences);
         FROM_JSON(param, js, randomSeed);
-        FROM_JSON(param, js, locationCutoffAngle);
         FROM_JSON(param, js, positionRandomizationType);
         FROM_JSON(param, js, position);
         FROM_JSON(param, js, rotation);
@@ -318,7 +316,6 @@ std::string to_json(const ProteinDescriptor &payload)
         TO_JSON(payload, js, occurrences);
         TO_JSON(payload, js, allowedOccurrences);
         TO_JSON(payload, js, randomSeed);
-        TO_JSON(payload, js, locationCutoffAngle);
         TO_JSON(payload, js, positionRandomizationType);
         TO_JSON(payload, js, position);
         TO_JSON(payload, js, rotation);

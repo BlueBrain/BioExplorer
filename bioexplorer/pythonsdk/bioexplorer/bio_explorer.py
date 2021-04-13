@@ -451,7 +451,6 @@ class BioExplorer:
             ],
             occurences=nb_protein_s,
             assembly_params=params,
-            cutoff_angle=0.999,
             rotation=Quaternion(0.0, 1.0, 0.0, 0.0),
             instance_indices=[
                 open_conformation_indices, closed_conformation_indices
@@ -464,7 +463,6 @@ class BioExplorer:
             sources=[pdb_folder + "QHD43419a.pdb"],
             occurences=nb_protein_m,
             assembly_params=params,
-            cutoff_angle=0.999,
             rotation=Quaternion(0.135, 0.99, 0.0, 0.0)
         )
 
@@ -474,7 +472,6 @@ class BioExplorer:
             sources=[pdb_folder + "QHD43418a.pdb"],
             occurences=nb_protein_e,
             assembly_params=params,
-            cutoff_angle=0.9999,
             rotation=Quaternion(-0.04, 0.705, 0.705, -0.04)
         )
 
@@ -684,7 +681,6 @@ class BioExplorer:
                     representation=representation,
                     random_seed=1,
                     position_randomization_type=self.POSITION_RANDOMIZATION_TYPE_RADIAL,
-                    location_cutoff_angle=_protein_s.cutoff_angle,
                     rotation=_protein_s.rotation,
                     allowed_occurrences=_protein_s.instance_indices[0]
                 )
@@ -707,7 +703,6 @@ class BioExplorer:
                     representation=representation,
                     random_seed=1,
                     position_randomization_type=self.POSITION_RANDOMIZATION_TYPE_RADIAL,
-                    location_cutoff_angle=_protein_s.cutoff_angle,
                     rotation=_protein_s.rotation,
                     allowed_occurrences=_protein_s.instance_indices[1]
                 )
@@ -733,7 +728,6 @@ class BioExplorer:
                 representation=representation,
                 random_seed=2,
                 position_randomization_type=self.POSITION_RANDOMIZATION_TYPE_RADIAL,
-                location_cutoff_angle=virus.protein_m.cutoff_angle,
                 rotation=virus.protein_m.rotation
             )
             self.add_assembly_protein(_protein_m)
@@ -758,7 +752,6 @@ class BioExplorer:
                 representation=representation,
                 random_seed=3,
                 position_randomization_type=self.POSITION_RANDOMIZATION_TYPE_RADIAL,
-                location_cutoff_angle=virus.protein_e.cutoff_angle,
                 rotation=virus.protein_e.rotation
             )
             self.add_assembly_protein(_protein_e)
@@ -1275,7 +1268,6 @@ class BioExplorer:
         params["recenter"] = membrane.recenter
         params["occurrences"] = membrane.occurences
         params["randomSeed"] = random_seed
-        params["locationCutoffAngle"] = membrane.location_cutoff_angle
         params["positionRandomizationType"] = position_randomization_type
         params["rotation"] = rotation.to_list()
         return self._check(self._client.rockets_client.request(
@@ -1341,7 +1333,6 @@ class BioExplorer:
         params["occurrences"] = protein.occurrences
         params["allowedOccurrences"] = protein.allowed_occurrences
         params["randomSeed"] = protein.random_seed
-        params["locationCutoffAngle"] = protein.location_cutoff_angle
         params[
             "positionRandomizationType"] = protein.position_randomization_type
         params["position"] = protein.position.to_list()
@@ -2026,7 +2017,7 @@ class AssemblyProtein:
                  shape=BioExplorer.ASSEMBLY_SHAPE_PLANAR, atom_radius_multiplier=1.0,
                  load_bonds=False, representation=BioExplorer.REPRESENTATION_ATOMS,
                  load_non_polymer_chemicals=False, load_hydrogen=True, chain_ids=list(),
-                 recenter=True, occurrences=1, random_seed=0, location_cutoff_angle=0.0,
+                 recenter=True, occurrences=1, random_seed=0,
                  position_randomization_type=BioExplorer.POSITION_RANDOMIZATION_TYPE_CIRCULAR,
                  position=Vector3(), rotation=Quaternion(), allowed_occurrences=list()):
         """
@@ -2047,7 +2038,6 @@ class AssemblyProtein:
         :recenter: Centers the protein if True
         :occurences: Number of occurences to be added to the assembly
         :random_seed: Seed for position randomization
-        :cutoff_angle: Angle for which membrane components should not be added
         :position_randomization_type: Type of randomisation for the elements of the membrane
         :position: Relative position of the protein in the assembly
         :rotation: Relative rotation of the protein in the assembly
@@ -2069,7 +2059,6 @@ class AssemblyProtein:
         self.occurrences = occurrences
         self.allowed_occurrences = allowed_occurrences
         self.random_seed = random_seed
-        self.location_cutoff_angle = location_cutoff_angle
         self.position_randomization_type = position_randomization_type
         self.position = position
         self.rotation = rotation
@@ -2129,7 +2118,7 @@ class Membrane:
 
     def __init__(self, sources, atom_radius_multiplier=1.0, load_bonds=False,
                  representation=BioExplorer.REPRESENTATION_ATOMS, load_non_polymer_chemicals=False,
-                 chain_ids=list(), recenter=True, occurences=1, location_cutoff_angle=0.0,
+                 chain_ids=list(), recenter=True, occurences=1,
                  position=Vector3(), rotation=Quaternion()):
         """
         A membrane is an assembly of proteins with a given size and shape
@@ -2142,9 +2131,8 @@ class Membrane:
         :chain_ids: IDs of the protein chains to be loaded
         :recenter: Defines if proteins should be centered when loaded from PDB files
         :occurences: Number of occurences of proteins defining the membrane
-        :location_cutoff_angle:
         :position: Position of the membrane in the assembly
-        :rotation: rotation of the membrane in the assembly
+        :rotation: Rotation of the membrane in the assembly
         """
         self.sources = sources
         self.atom_radius_multiplier = atom_radius_multiplier
@@ -2154,7 +2142,6 @@ class Membrane:
         self.chain_ids = chain_ids
         self.recenter = recenter
         self.occurences = occurences
-        self.location_cutoff_angle = location_cutoff_angle
         self.position = position
         self.rotation = rotation
 
@@ -2312,8 +2299,8 @@ class Protein:
     """A Protein holds the 3D structure of a protein as well as it Amino Acid sequences"""
 
     def __init__(self, sources, occurences=1, assembly_params=list(), load_bonds=False,
-                 load_hydrogen=False, load_non_polymer_chemicals=False, cutoff_angle=0.0,
-                 position=Vector3(), rotation=Quaternion(), instance_indices=list()):
+                 load_hydrogen=False, load_non_polymer_chemicals=False, position=Vector3(),
+                 rotation=Quaternion(), instance_indices=list()):
         """
         Protein descriptor
 
@@ -2324,9 +2311,8 @@ class Protein:
         :load_bonds: Loads bonds if True
         :load_hydrogen: Loads hydrogens if True
         :load_non_polymer_chemicals: Loads non-polymer chemicals if True
-        :cutoff_angle: Angle for which membrane components should not be added
         :position: Position of the mesh in the scene
-        :rotation: rotation of the mesh in the scene
+        :rotation: Rotation of the mesh in the scene
         :instance_indices: Specific indices for which an instance is added to the assembly
         """
         assert isinstance(sources, list)
@@ -2341,7 +2327,6 @@ class Protein:
         self.load_bonds = load_bonds
         self.load_hydrogen = load_hydrogen
         self.load_non_polymer_chemicals = load_non_polymer_chemicals
-        self.cutoff_angle = cutoff_angle
         self.position = position
         self.rotation = rotation
         self.instance_indices = instance_indices

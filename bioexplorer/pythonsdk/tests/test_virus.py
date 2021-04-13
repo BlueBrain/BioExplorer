@@ -71,23 +71,21 @@ def test_virus():
     virus_protein_s = Protein(
         sources=[pdb_folder + '6vyb.pdb', pdb_folder + 'sars-cov-2-v1.pdb'],
         load_hydrogen=protein_load_hydrogen, occurences=nb_protein_s,
-        assembly_params=params, cutoff_angle=0.999,
-        rotation=Quaternion(0.087, 0.0, 0.996, 0.0),
+        assembly_params=params, rotation=Quaternion(0.087, 0.0, 0.996, 0.0),
         instance_indices=[open_conformation_indices, closed_conformation_indices])
 
     # Protein M (QHD43419)
     params = [2.5, 0, 0.0, 0, 0.0, 0.0]
     virus_protein_m = Protein(
         sources=[pdb_folder + 'QHD43419a.pdb'],
-        load_hydrogen=protein_load_hydrogen,
-        occurences=nb_protein_m, assembly_params=params, cutoff_angle=0.999,
-        rotation=Quaternion(0.99, 0.0, 0.0, 0.135))
+        load_hydrogen=protein_load_hydrogen, occurences=nb_protein_m,
+        assembly_params=params, rotation=Quaternion(0.99, 0.0, 0.0, 0.135))
 
     # Protein E (QHD43418 P0DTC4)
     params = [2.5, 0, 0.0, 0, 0.0, 0.0]
     virus_protein_e = Protein(
         sources=[pdb_folder + 'QHD43418a.pdb'], load_hydrogen=protein_load_hydrogen,
-        occurences=nb_protein_e, assembly_params=params, cutoff_angle=0.9999,
+        occurences=nb_protein_e, assembly_params=params,
         rotation=Quaternion(0.705, 0.705, -0.04, -0.04))
 
     # Virus membrane

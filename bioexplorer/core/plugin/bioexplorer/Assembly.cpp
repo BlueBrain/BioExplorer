@@ -93,8 +93,7 @@ void Assembly::addProtein(const ProteinDescriptor &pd)
 
     _processInstances(modelDescriptor, pd.name, pd.shape, pd.assemblyParams,
                       pd.occurrences, position, rotation, pd.allowedOccurrences,
-                      pd.randomSeed, pd.positionRandomizationType,
-                      pd.locationCutoffAngle);
+                      pd.randomSeed, pd.positionRandomizationType);
 
     _proteins[pd.name] = std::move(protein);
     _scene.addModel(modelDescriptor);
@@ -114,8 +113,8 @@ void Assembly::addMembrane(const MembraneDescriptor &md)
                                   _descriptor.rotation[2],
                                   _descriptor.rotation[3]};
 
-    MembranePtr membrane(new Membrane(_scene, md, position, rotation,
-                                      _clippingPlanes, _occupiedDirections));
+    MembranePtr membrane(
+        new Membrane(_scene, md, position, rotation, _clippingPlanes));
     _membrane = std::move(membrane);
 }
 
@@ -173,8 +172,7 @@ void Assembly::_processInstances(
     const floats &assemblyParams, const size_t occurrences,
     const Vector3f &position, const Quaterniond &rotation,
     const size_ts &allowedOccurrences, const size_t randomSeed,
-    const PositionRandomizationType &randomizationType,
-    const float locationCutoffAngle)
+    const PositionRandomizationType &randomizationType)
 {
     const float offset = 2.f / occurrences;
     const float increment = M_PI * (3.f - sqrt(5.f));
@@ -269,22 +267,6 @@ void Assembly::_processInstances(
             transformation = getPlanarPosition(position, size, randInfo);
             break;
         }
-
-#if 0 // TO REMOVE?
-      // Remove membrane where proteins are. This is currently done according
-      // to the vector rotation
-        bool occupied{false};
-        if (locationCutoffAngle != 0.f)
-            for (const auto &occupiedDirection : _occupiedDirections)
-                if (dot(dir, occupiedDirection.first) >
-                    occupiedDirection.second)
-                {
-                    occupied = true;
-                    break;
-                }
-        if (occupied)
-            continue;
-#endif
 
         // Final transformation
         const Vector3f translation =

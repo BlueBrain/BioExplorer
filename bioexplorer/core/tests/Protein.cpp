@@ -65,7 +65,6 @@ ProteinDescriptor getProteinDescriptor()
     descriptor.occurrences = 1;
     descriptor.allowedOccurrences = {};
     descriptor.randomSeed = 0;
-    descriptor.locationCutoffAngle = 0.f;
     descriptor.positionRandomizationType = PositionRandomizationType::circular;
     descriptor.position = {0.f, 0.f, 0.f};
     descriptor.rotation = {0.f, 0.f, 0.f, 1.f};

@@ -75,7 +75,6 @@ typedef std::vector<Color> Palette;
 typedef std::vector<Quaterniond> Quaternions;
 typedef std::vector<Vector3f> Vector3fs;
 typedef std::vector<Vector2ui> Vector2uis;
-typedef std::vector<std::pair<Vector3f, float>> OccupiedDirections;
 typedef std::map<std::string, std::string> CommandLineArguments;
 
 /**
@@ -255,8 +254,6 @@ typedef struct
     /** Seed for position randomization */
     size_t randomSeed;
     /** Type of randomisation for the elements of the assembly */
-    float locationCutoffAngle;
-    /** Type of randomisation for the elements of the assembly */
     PositionRandomizationType positionRandomizationType;
     /** Relative rotation of the protein in the assembly */
     std::vector<float> rotation;
@@ -300,8 +297,6 @@ typedef struct
     std::vector<size_t> allowedOccurrences;
     /** Seed for position randomization */
     size_t randomSeed;
-    /** Angle for which proteins components should not be added */
-    float locationCutoffAngle;
     /** Type of randomisation for the elements of the assembly */
     PositionRandomizationType positionRandomizationType;
     /** Relative position of the protein in the assembly */

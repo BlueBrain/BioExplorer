@@ -85,20 +85,20 @@ def add_virus(bioexplorer, name, position, open_conformation_indices=list()):
             PDB_FOLDER + 'sars-cov-2-v1.pdb'  # Closed conformation
         ],
         load_hydrogen=PROTEIN_LOAD_HYDROGEN, occurences=NB_PROTEIN_S,
-        assembly_params=params, cutoff_angle=0.999,
+        assembly_params=params,
         rotation=Quaternion(0.0, 1.0, 0.0, 0.0),
         instance_indices=[open_conformation_indices, closed_conformation_indices])
 
     params = [2.5, 0, 0.0, 0, 0.0, 0.0]
     virus_protein_m = Protein(
         sources=[PDB_FOLDER + 'QHD43419a.pdb'], load_hydrogen=PROTEIN_LOAD_HYDROGEN,
-        occurences=NB_PROTEIN_M, assembly_params=params, cutoff_angle=0.999,
+        occurences=NB_PROTEIN_M, assembly_params=params,
         rotation=Quaternion(0.99, 0.0, 0.0, 0.135))
 
     params = [2.5, 0, 0.0, 0, 0.0, 0.0]
     virus_protein_e = Protein(
         sources=[PDB_FOLDER + 'QHD43418a.pdb'], load_hydrogen=PROTEIN_LOAD_HYDROGEN,
-        occurences=NB_PROTEIN_E, assembly_params=params, cutoff_angle=0.9999,
+        occurences=NB_PROTEIN_E, assembly_params=params,
         rotation=Quaternion(0.705, 0.705, -0.04, -0.04))
 
     virus_membrane = Membrane(
