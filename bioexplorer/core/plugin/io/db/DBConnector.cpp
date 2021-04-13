@@ -92,11 +92,9 @@ void DBConnector::insertBrick(const int32_t brickId, const uint32_t version,
     {
         const pqxx::binarystring tmp((void*)buffer.str().c_str(),
                                      buffer.str().size() * sizeof(char));
-        transaction
-            .parameterized("INSERT INTO " + _schema +
-                           ".brick VALUES ($1, $2, $3, $4)")(brickId)(version)(
-                nbModels)(tmp)
-            .exec();
+        transaction.exec_params("INSERT INTO " + _schema +
+                                    ".brick VALUES ($1, $2, $3, $4)",
+                                brickId, version, nbModels, tmp);
         transaction.commit();
         PLUGIN_DEBUG << "Brick ID " << brickId << " successfully inserted"
                      << std::endl;
