@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.17"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>BioExplorer: /home/favreau/git/BioExplorer/bioexplorer/core/plugin/bioexplorer/MeshBasedMembrane.h Source File</title>
+<title>BioExplorer: /home/favreau/git/BioExplorer/bioexplorer/core/plugin/biology/MeshBasedMembrane.h Source File</title>
 <link href="../../tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="../../jquery.js"></script>
 <script type="text/javascript" src="../../dynsections.js"></script>
@@ -108,7 +108,7 @@ $(document).ready(function(){initNavTree('d1/d0e/MeshBasedMembrane_8h_source.htm
 <div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160; </div>
 <div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;<span class="preprocessor">#pragma once</span></div>
 <div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160; </div>
-<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;<span class="preprocessor">#include &lt;plugin/bioexplorer/Node.h&gt;</span></div>
+<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;<span class="preprocessor">#include &lt;plugin/biology/Node.h&gt;</span></div>
 <div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;<span class="preprocessor">#include &lt;plugin/common/Types.h&gt;</span></div>
 <div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160; </div>
 <div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;<span class="preprocessor">#include &lt;brayns/engineapi/Model.h&gt;</span></div>
@@ -120,35 +120,38 @@ $(document).ready(function(){initNavTree('d1/d0e/MeshBasedMembrane_8h_source.htm
 <div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160; </div>
 <div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;<span class="keyword">namespace </span>bioexplorer</div>
 <div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;{</div>
-<div class="line"><a name="l00042"></a><span class="lineno"><a class="line" href="../../dd/d42/classbioexplorer_1_1MeshBasedMembrane.html">   42</a></span>&#160;<span class="keyword">class </span><a class="code" href="../../dd/d42/classbioexplorer_1_1MeshBasedMembrane.html">MeshBasedMembrane</a> : <span class="keyword">public</span> <a class="code" href="../../da/dba/classbioexplorer_1_1Node.html">Node</a></div>
-<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;{</div>
-<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;<span class="keyword">public</span>:</div>
-<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;    <a class="code" href="../../dd/d42/classbioexplorer_1_1MeshBasedMembrane.html#af47c819d7d7309188ab15d89b7493060">MeshBasedMembrane</a>(Scene&amp; scene, <span class="keyword">const</span> <a class="code" href="../../d0/d14/structbioexplorer_1_1MeshBasedMembraneDetails.html">MeshBasedMembraneDetails</a>&amp; descriptor);</div>
-<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160; </div>
-<div class="line"><a name="l00059"></a><span class="lineno"><a class="line" href="../../dd/d42/classbioexplorer_1_1MeshBasedMembrane.html#afe3b50ada84365a2884ccbb9580e0ea8">   59</a></span>&#160;    ProteinPtr <a class="code" href="../../dd/d42/classbioexplorer_1_1MeshBasedMembrane.html#afe3b50ada84365a2884ccbb9580e0ea8">getProtein</a>() { <span class="keywordflow">return</span> _protein; }</div>
-<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160; </div>
-<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;<span class="keyword">private</span>:</div>
-<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;    <span class="keywordtype">float</span> _getSurfaceArea(<span class="keyword">const</span> Vector3f&amp; a, <span class="keyword">const</span> Vector3f&amp; b,</div>
-<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;                          <span class="keyword">const</span> Vector3f&amp; c) <span class="keyword">const</span>;</div>
-<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;    Vector3f _toVector3f(<span class="keyword">const</span> aiVector3D&amp; v) <span class="keyword">const</span>;</div>
-<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;    Vector3f _toVector3f(<span class="keyword">const</span> aiVector3D&amp; v, <span class="keyword">const</span> Vector3f&amp; center,</div>
-<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;                         <span class="keyword">const</span> Vector3f&amp; scaling,</div>
-<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;                         <span class="keyword">const</span> Quaterniond&amp; rotation) <span class="keyword">const</span>;</div>
-<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160; </div>
-<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;    ProteinPtr _protein;</div>
-<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;};</div>
-<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;} <span class="comment">// namespace bioexplorer</span></div>
+<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;<span class="keyword">namespace </span>biology</div>
+<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;{</div>
+<div class="line"><a name="l00044"></a><span class="lineno"><a class="line" href="../../d5/d80/classbioexplorer_1_1biology_1_1MeshBasedMembrane.html">   44</a></span>&#160;<span class="keyword">class </span><a class="code" href="../../d5/d80/classbioexplorer_1_1biology_1_1MeshBasedMembrane.html">MeshBasedMembrane</a> : <span class="keyword">public</span> <a class="code" href="../../de/dc0/classbioexplorer_1_1biology_1_1Node.html">Node</a></div>
+<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;{</div>
+<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;<span class="keyword">public</span>:</div>
+<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;    <a class="code" href="../../d5/d80/classbioexplorer_1_1biology_1_1MeshBasedMembrane.html#a0a199474cf122f536ec722f060f95779">MeshBasedMembrane</a>(Scene&amp; scene, <span class="keyword">const</span> <a class="code" href="../../da/d3c/structbioexplorer_1_1details_1_1MeshBasedMembraneDetails.html">MeshBasedMembraneDetails</a>&amp; details);</div>
+<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160; </div>
+<div class="line"><a name="l00061"></a><span class="lineno"><a class="line" href="../../d5/d80/classbioexplorer_1_1biology_1_1MeshBasedMembrane.html#a5e37fd315038abbe400e65506a0c9279">   61</a></span>&#160;    ProteinPtr <a class="code" href="../../d5/d80/classbioexplorer_1_1biology_1_1MeshBasedMembrane.html#a5e37fd315038abbe400e65506a0c9279">getProtein</a>() { <span class="keywordflow">return</span> _protein; }</div>
+<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160; </div>
+<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;<span class="keyword">private</span>:</div>
+<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;    <span class="keywordtype">float</span> _getSurfaceArea(<span class="keyword">const</span> Vector3f&amp; a, <span class="keyword">const</span> Vector3f&amp; b,</div>
+<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;                          <span class="keyword">const</span> Vector3f&amp; c) <span class="keyword">const</span>;</div>
+<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;    Vector3f _toVector3f(<span class="keyword">const</span> aiVector3D&amp; v) <span class="keyword">const</span>;</div>
+<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;    Vector3f _toVector3f(<span class="keyword">const</span> aiVector3D&amp; v, <span class="keyword">const</span> Vector3f&amp; center,</div>
+<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;                         <span class="keyword">const</span> Vector3f&amp; scaling,</div>
+<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;                         <span class="keyword">const</span> Quaterniond&amp; rotation) <span class="keyword">const</span>;</div>
+<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160; </div>
+<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;    ProteinPtr _protein;</div>
+<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;};</div>
+<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;} <span class="comment">// namespace biology</span></div>
+<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;} <span class="comment">// namespace bioexplorer</span></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
-<div class="ttc" id="aclassbioexplorer_1_1MeshBasedMembrane_html_af47c819d7d7309188ab15d89b7493060"><div class="ttname"><a href="../../dd/d42/classbioexplorer_1_1MeshBasedMembrane.html#af47c819d7d7309188ab15d89b7493060">bioexplorer::MeshBasedMembrane::MeshBasedMembrane</a></div><div class="ttdeci">MeshBasedMembrane(Scene &amp;scene, const MeshBasedMembraneDetails &amp;descriptor)</div><div class="ttdoc">Construct a new MeshBasedMembrane object.</div><div class="ttdef"><b>Definition:</b> <a href="../../d1/df5/plugin_2bioexplorer_2MeshBasedMembrane_8cpp_source.html#l00036">MeshBasedMembrane.cpp:36</a></div></div>
-<div class="ttc" id="astructbioexplorer_1_1MeshBasedMembraneDetails_html"><div class="ttname"><a href="../../d0/d14/structbioexplorer_1_1MeshBasedMembraneDetails.html">bioexplorer::MeshBasedMembraneDetails</a></div><div class="ttdoc">Data structure describing a membrane based on the shape of a mesh.</div><div class="ttdef"><b>Definition:</b> <a href="../../d7/df8/Types_8h_source.html#l00352">Types.h:352</a></div></div>
-<div class="ttc" id="aclassbioexplorer_1_1MeshBasedMembrane_html"><div class="ttname"><a href="../../dd/d42/classbioexplorer_1_1MeshBasedMembrane.html">bioexplorer::MeshBasedMembrane</a></div><div class="ttdoc">A MeshBasedMembrane object implements a 3D structure that has the shape of a given OBJ Mesh,...</div><div class="ttdef"><b>Definition:</b> <a href="../../d1/d0e/MeshBasedMembrane_8h_source.html#l00042">MeshBasedMembrane.h:42</a></div></div>
-<div class="ttc" id="aclassbioexplorer_1_1Node_html"><div class="ttname"><a href="../../da/dba/classbioexplorer_1_1Node.html">bioexplorer::Node</a></div><div class="ttdoc">The Node class.</div><div class="ttdef"><b>Definition:</b> <a href="../../db/d92/Node_8h_source.html#l00030">Node.h:30</a></div></div>
-<div class="ttc" id="aclassbioexplorer_1_1MeshBasedMembrane_html_afe3b50ada84365a2884ccbb9580e0ea8"><div class="ttname"><a href="../../dd/d42/classbioexplorer_1_1MeshBasedMembrane.html#afe3b50ada84365a2884ccbb9580e0ea8">bioexplorer::MeshBasedMembrane::getProtein</a></div><div class="ttdeci">ProteinPtr getProtein()</div><div class="ttdoc">Get the Protein object.</div><div class="ttdef"><b>Definition:</b> <a href="../../d1/d0e/MeshBasedMembrane_8h_source.html#l00059">MeshBasedMembrane.h:59</a></div></div>
+<div class="ttc" id="aclassbioexplorer_1_1biology_1_1Node_html"><div class="ttname"><a href="../../de/dc0/classbioexplorer_1_1biology_1_1Node.html">bioexplorer::biology::Node</a></div><div class="ttdoc">The Node class.</div><div class="ttdef"><b>Definition:</b> <a href="../../db/d92/Node_8h_source.html#l00035">Node.h:35</a></div></div>
+<div class="ttc" id="aclassbioexplorer_1_1biology_1_1MeshBasedMembrane_html_a0a199474cf122f536ec722f060f95779"><div class="ttname"><a href="../../d5/d80/classbioexplorer_1_1biology_1_1MeshBasedMembrane.html#a0a199474cf122f536ec722f060f95779">bioexplorer::biology::MeshBasedMembrane::MeshBasedMembrane</a></div><div class="ttdeci">MeshBasedMembrane(Scene &amp;scene, const MeshBasedMembraneDetails &amp;details)</div><div class="ttdoc">Construct a new MeshBasedMembrane object.</div><div class="ttdef"><b>Definition:</b> <a href="../../d9/d18/plugin_2biology_2MeshBasedMembrane_8cpp_source.html#l00040">MeshBasedMembrane.cpp:40</a></div></div>
+<div class="ttc" id="aclassbioexplorer_1_1biology_1_1MeshBasedMembrane_html"><div class="ttname"><a href="../../d5/d80/classbioexplorer_1_1biology_1_1MeshBasedMembrane.html">bioexplorer::biology::MeshBasedMembrane</a></div><div class="ttdoc">A MeshBasedMembrane object implements a 3D structure that has the shape of a given OBJ Mesh,...</div><div class="ttdef"><b>Definition:</b> <a href="../../d1/d0e/MeshBasedMembrane_8h_source.html#l00044">MeshBasedMembrane.h:44</a></div></div>
+<div class="ttc" id="aclassbioexplorer_1_1biology_1_1MeshBasedMembrane_html_a5e37fd315038abbe400e65506a0c9279"><div class="ttname"><a href="../../d5/d80/classbioexplorer_1_1biology_1_1MeshBasedMembrane.html#a5e37fd315038abbe400e65506a0c9279">bioexplorer::biology::MeshBasedMembrane::getProtein</a></div><div class="ttdeci">ProteinPtr getProtein()</div><div class="ttdoc">Get the Protein object.</div><div class="ttdef"><b>Definition:</b> <a href="../../d1/d0e/MeshBasedMembrane_8h_source.html#l00061">MeshBasedMembrane.h:61</a></div></div>
+<div class="ttc" id="astructbioexplorer_1_1details_1_1MeshBasedMembraneDetails_html"><div class="ttname"><a href="../../da/d3c/structbioexplorer_1_1details_1_1MeshBasedMembraneDetails.html">bioexplorer::details::MeshBasedMembraneDetails</a></div><div class="ttdoc">Data structure describing a membrane based on the shape of a mesh.</div><div class="ttdef"><b>Definition:</b> <a href="../../d7/df8/Types_8h_source.html#l00356">Types.h:356</a></div></div>
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="../../dir_4270bfced15e0e73154b13468c7c9ad9.html">core</a></li><li class="navelem"><a class="el" href="../../dir_32c53a81047e6b1f79109ecf563d9b76.html">plugin</a></li><li class="navelem"><a class="el" href="../../dir_fe8a968409569ad05c4aef9d08f0fd67.html">bioexplorer</a></li><li class="navelem"><b>MeshBasedMembrane.h</b></li>
+    <li class="navelem"><a class="el" href="../../dir_4270bfced15e0e73154b13468c7c9ad9.html">core</a></li><li class="navelem"><a class="el" href="../../dir_32c53a81047e6b1f79109ecf563d9b76.html">plugin</a></li><li class="navelem"><a class="el" href="../../dir_9a9dde4b851279721bb1b60982956579.html">biology</a></li><li class="navelem"><b>MeshBasedMembrane.h</b></li>
     <li class="footer">Generated by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="../../doxygen.png" alt="doxygen"/></a> 1.8.17 </li>

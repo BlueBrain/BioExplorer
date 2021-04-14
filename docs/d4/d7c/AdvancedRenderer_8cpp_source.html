@@ -120,62 +120,65 @@ $(document).ready(function(){initNavTree('d4/d7c/AdvancedRenderer_8cpp_source.ht
 <div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160; </div>
 <div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;<span class="keyword">namespace </span>bioexplorer</div>
 <div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;{</div>
-<div class="line"><a name="l00035"></a><span class="lineno"><a class="line" href="../../de/d08/classbioexplorer_1_1AdvancedRenderer.html#a0b43069cac5edb596f8c96221c57232f">   35</a></span>&#160;<span class="keywordtype">void</span> AdvancedRenderer::commit()</div>
+<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;<span class="keyword">namespace </span>rendering</div>
 <div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;{</div>
-<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;    Renderer::commit();</div>
-<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160; </div>
-<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;    _lightData = (ospray::Data*)getParamData(<span class="stringliteral">&quot;lights&quot;</span>);</div>
-<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;    _lightArray.clear();</div>
-<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160; </div>
-<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;    <span class="keywordflow">if</span> (_lightData)</div>
-<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;        <span class="keywordflow">for</span> (<span class="keywordtype">size_t</span> i = 0; i &lt; _lightData-&gt;size(); ++i)</div>
-<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;            _lightArray.push_back(</div>
-<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;                ((ospray::Light**)_lightData-&gt;data)[i]-&gt;getIE());</div>
-<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160; </div>
-<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;    _lightPtr = _lightArray.empty() ? nullptr : &amp;_lightArray[0];</div>
+<div class="line"><a name="l00037"></a><span class="lineno"><a class="line" href="../../d9/d98/classbioexplorer_1_1rendering_1_1AdvancedRenderer.html#a5db00b10477aa3d6ba8133f0a76fd96d">   37</a></span>&#160;<span class="keywordtype">void</span> AdvancedRenderer::commit()</div>
+<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;{</div>
+<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;    Renderer::commit();</div>
+<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160; </div>
+<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;    _lightData = (ospray::Data*)getParamData(<span class="stringliteral">&quot;lights&quot;</span>);</div>
+<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;    _lightArray.clear();</div>
+<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160; </div>
+<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;    <span class="keywordflow">if</span> (_lightData)</div>
+<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;        <span class="keywordflow">for</span> (<span class="keywordtype">size_t</span> i = 0; i &lt; _lightData-&gt;size(); ++i)</div>
+<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;            _lightArray.push_back(</div>
+<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;                ((ospray::Light**)_lightData-&gt;data)[i]-&gt;getIE());</div>
 <div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160; </div>
-<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;    _timestamp = getParam1f(<span class="stringliteral">&quot;timestamp&quot;</span>, 0.f);</div>
-<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;    _bgMaterial = (<a class="code" href="../../da/db3/structbioexplorer_1_1AdvancedMaterial.html">AdvancedMaterial</a>*)getParamObject(<span class="stringliteral">&quot;bgMaterial&quot;</span>, <span class="keyword">nullptr</span>);</div>
-<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;    _exposure = getParam1f(<span class="stringliteral">&quot;exposure&quot;</span>, 1.f);</div>
-<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160; </div>
-<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;    _useHardwareRandomizer = getParam(<span class="stringliteral">&quot;useHardwareRandomizer&quot;</span>, 0);</div>
-<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;    _showBackground = getParam(<span class="stringliteral">&quot;showBackground&quot;</span>, 0);</div>
-<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160; </div>
-<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;    _fogThickness = getParam1f(<span class="stringliteral">&quot;fogThickness&quot;</span>, 1e6f);</div>
-<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;    _fogStart = getParam1f(<span class="stringliteral">&quot;fogStart&quot;</span>, 0.f);</div>
-<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160; </div>
-<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;    _shadows = getParam1f(<span class="stringliteral">&quot;shadows&quot;</span>, 0.f);</div>
-<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;    _softShadows = getParam1f(<span class="stringliteral">&quot;softShadows&quot;</span>, 0.f);</div>
-<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;    _softShadowsSamples = getParam1i(<span class="stringliteral">&quot;softShadowsSamples&quot;</span>, 1);</div>
-<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160; </div>
-<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;    _giStrength = getParam1f(<span class="stringliteral">&quot;giWeight&quot;</span>, 0.f);</div>
-<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;    _giDistance = getParam1f(<span class="stringliteral">&quot;giDistance&quot;</span>, 1e20f);</div>
-<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;    _giSamples = getParam1i(<span class="stringliteral">&quot;giSamples&quot;</span>, 1);</div>
-<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160; </div>
-<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;    _maxBounces = getParam1i(<span class="stringliteral">&quot;maxBounces&quot;</span>, 3);</div>
-<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;    _randomNumber = rand() % 1000;</div>
-<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160; </div>
-<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;    ispc::AdvancedRenderer_set(getIE(),</div>
-<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;                               (_bgMaterial ? _bgMaterial-&gt;getIE() : <span class="keyword">nullptr</span>),</div>
-<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;                               _shadows, _softShadows, _softShadowsSamples,</div>
-<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;                               _giStrength, _giDistance, _giSamples,</div>
-<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;                               _randomNumber, _timestamp, spp, _lightPtr,</div>
-<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;                               _lightArray.size(), _exposure, _fogThickness,</div>
-<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;                               _fogStart, _useHardwareRandomizer, _maxBounces,</div>
-<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;                               _showBackground);</div>
-<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;}</div>
-<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160; </div>
-<div class="line"><a name="l00080"></a><span class="lineno"><a class="line" href="../../de/d08/classbioexplorer_1_1AdvancedRenderer.html#a0484943e4ef2c1d949349f382b053ae2">   80</a></span>&#160;AdvancedRenderer::AdvancedRenderer()</div>
-<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;{</div>
-<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;    ispcEquivalent = ispc::AdvancedRenderer_create(<span class="keyword">this</span>);</div>
-<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;}</div>
-<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160; </div>
-<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;OSP_REGISTER_RENDERER(<a class="code" href="../../de/d08/classbioexplorer_1_1AdvancedRenderer.html">AdvancedRenderer</a>, bio_explorer);</div>
-<div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;} <span class="comment">// namespace bioexplorer</span></div>
+<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;    _lightPtr = _lightArray.empty() ? nullptr : &amp;_lightArray[0];</div>
+<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160; </div>
+<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;    _timestamp = getParam1f(<span class="stringliteral">&quot;timestamp&quot;</span>, 0.f);</div>
+<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;    _bgMaterial = (<a class="code" href="../../d5/d4e/structbioexplorer_1_1rendering_1_1AdvancedMaterial.html">AdvancedMaterial</a>*)getParamObject(<span class="stringliteral">&quot;bgMaterial&quot;</span>, <span class="keyword">nullptr</span>);</div>
+<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;    _exposure = getParam1f(<span class="stringliteral">&quot;exposure&quot;</span>, 1.f);</div>
+<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160; </div>
+<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;    _useHardwareRandomizer = getParam(<span class="stringliteral">&quot;useHardwareRandomizer&quot;</span>, 0);</div>
+<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;    _showBackground = getParam(<span class="stringliteral">&quot;showBackground&quot;</span>, 0);</div>
+<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160; </div>
+<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;    _fogThickness = getParam1f(<span class="stringliteral">&quot;fogThickness&quot;</span>, 1e6f);</div>
+<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;    _fogStart = getParam1f(<span class="stringliteral">&quot;fogStart&quot;</span>, 0.f);</div>
+<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160; </div>
+<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;    _shadows = getParam1f(<span class="stringliteral">&quot;shadows&quot;</span>, 0.f);</div>
+<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;    _softShadows = getParam1f(<span class="stringliteral">&quot;softShadows&quot;</span>, 0.f);</div>
+<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;    _softShadowsSamples = getParam1i(<span class="stringliteral">&quot;softShadowsSamples&quot;</span>, 1);</div>
+<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160; </div>
+<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;    _giStrength = getParam1f(<span class="stringliteral">&quot;giWeight&quot;</span>, 0.f);</div>
+<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;    _giDistance = getParam1f(<span class="stringliteral">&quot;giDistance&quot;</span>, 1e20f);</div>
+<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;    _giSamples = getParam1i(<span class="stringliteral">&quot;giSamples&quot;</span>, 1);</div>
+<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160; </div>
+<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;    _maxBounces = getParam1i(<span class="stringliteral">&quot;maxBounces&quot;</span>, 3);</div>
+<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;    _randomNumber = rand() % 1000;</div>
+<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160; </div>
+<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;    ispc::AdvancedRenderer_set(getIE(),</div>
+<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;                               (_bgMaterial ? _bgMaterial-&gt;getIE() : <span class="keyword">nullptr</span>),</div>
+<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;                               _shadows, _softShadows, _softShadowsSamples,</div>
+<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;                               _giStrength, _giDistance, _giSamples,</div>
+<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;                               _randomNumber, _timestamp, spp, _lightPtr,</div>
+<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;                               _lightArray.size(), _exposure, _fogThickness,</div>
+<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;                               _fogStart, _useHardwareRandomizer, _maxBounces,</div>
+<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;                               _showBackground);</div>
+<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;}</div>
+<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160; </div>
+<div class="line"><a name="l00082"></a><span class="lineno"><a class="line" href="../../d9/d98/classbioexplorer_1_1rendering_1_1AdvancedRenderer.html#ace9aeb88b90c18429a3f12698cdf1986">   82</a></span>&#160;AdvancedRenderer::AdvancedRenderer()</div>
+<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;{</div>
+<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;    ispcEquivalent = ispc::AdvancedRenderer_create(<span class="keyword">this</span>);</div>
+<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;}</div>
+<div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160; </div>
+<div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;OSP_REGISTER_RENDERER(<a class="code" href="../../d9/d98/classbioexplorer_1_1rendering_1_1AdvancedRenderer.html">AdvancedRenderer</a>, bio_explorer);</div>
+<div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;} <span class="comment">// namespace rendering</span></div>
+<div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160;} <span class="comment">// namespace bioexplorer</span></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
-<div class="ttc" id="aclassbioexplorer_1_1AdvancedRenderer_html"><div class="ttname"><a href="../../de/d08/classbioexplorer_1_1AdvancedRenderer.html">bioexplorer::AdvancedRenderer</a></div><div class="ttdoc">The AdvancedRenderer class is a renderer that can perform global illumination (light shading,...</div><div class="ttdef"><b>Definition:</b> <a href="../../de/d80/AdvancedRenderer_8h_source.html#l00034">AdvancedRenderer.h:34</a></div></div>
-<div class="ttc" id="astructbioexplorer_1_1AdvancedMaterial_html"><div class="ttname"><a href="../../da/db3/structbioexplorer_1_1AdvancedMaterial.html">bioexplorer::AdvancedMaterial</a></div><div class="ttdef"><b>Definition:</b> <a href="../../d2/de1/AdvancedMaterial_8h_source.html#l00032">AdvancedMaterial.h:32</a></div></div>
+<div class="ttc" id="aclassbioexplorer_1_1rendering_1_1AdvancedRenderer_html"><div class="ttname"><a href="../../d9/d98/classbioexplorer_1_1rendering_1_1AdvancedRenderer.html">bioexplorer::rendering::AdvancedRenderer</a></div><div class="ttdoc">The AdvancedRenderer class is a renderer that can perform global illumination (light shading,...</div><div class="ttdef"><b>Definition:</b> <a href="../../de/d80/AdvancedRenderer_8h_source.html#l00036">AdvancedRenderer.h:36</a></div></div>
+<div class="ttc" id="astructbioexplorer_1_1rendering_1_1AdvancedMaterial_html"><div class="ttname"><a href="../../d5/d4e/structbioexplorer_1_1rendering_1_1AdvancedMaterial.html">bioexplorer::rendering::AdvancedMaterial</a></div><div class="ttdef"><b>Definition:</b> <a href="../../d2/de1/AdvancedMaterial_8h_source.html#l00034">AdvancedMaterial.h:34</a></div></div>
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>

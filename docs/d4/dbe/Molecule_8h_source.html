@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.17"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>BioExplorer: /home/favreau/git/BioExplorer/bioexplorer/core/plugin/bioexplorer/Molecule.h Source File</title>
+<title>BioExplorer: /home/favreau/git/BioExplorer/bioexplorer/core/plugin/biology/Molecule.h Source File</title>
 <link href="../../tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="../../jquery.js"></script>
 <script type="text/javascript" src="../../dynsections.js"></script>
@@ -108,93 +108,97 @@ $(document).ready(function(){initNavTree('d4/dbe/Molecule_8h_source.html','../..
 <div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160; </div>
 <div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;<span class="preprocessor">#pragma once</span></div>
 <div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160; </div>
-<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;<span class="preprocessor">#include &lt;plugin/bioexplorer/Node.h&gt;</span></div>
+<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;<span class="preprocessor">#include &lt;plugin/biology/Node.h&gt;</span></div>
 <div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;<span class="preprocessor">#include &lt;plugin/common/Types.h&gt;</span></div>
 <div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160; </div>
 <div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;<span class="preprocessor">#include &lt;brayns/engineapi/Model.h&gt;</span></div>
 <div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160; </div>
 <div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;<span class="keyword">namespace </span>bioexplorer</div>
 <div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;{</div>
-<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;<span class="keyword">using namespace </span>brayns;</div>
-<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160; </div>
-<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;<span class="keyword">const</span> std::string KEY_UNDEFINED = <span class="stringliteral">&quot;Undefined&quot;</span>;</div>
-<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;<span class="keyword">const</span> std::string KEY_ATOM = <span class="stringliteral">&quot;ATOM&quot;</span>;</div>
-<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;<span class="keyword">const</span> std::string KEY_HETATM = <span class="stringliteral">&quot;HETATM&quot;</span>;</div>
-<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;<span class="keyword">const</span> std::string KEY_HEADER = <span class="stringliteral">&quot;HEADER&quot;</span>;</div>
-<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;<span class="keyword">const</span> std::string KEY_TITLE = <span class="stringliteral">&quot;TITLE&quot;</span>;</div>
-<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;<span class="keyword">const</span> std::string KEY_CONECT = <span class="stringliteral">&quot;CONECT&quot;</span>;</div>
-<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;<span class="keyword">const</span> std::string KEY_SEQRES = <span class="stringliteral">&quot;SEQRES&quot;</span>;</div>
-<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;<span class="keyword">const</span> std::string KEY_REMARK = <span class="stringliteral">&quot;REMARK&quot;</span>;</div>
-<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160; </div>
-<div class="line"><a name="l00048"></a><span class="lineno"><a class="line" href="../../d6/d81/classbioexplorer_1_1Molecule.html">   48</a></span>&#160;<span class="keyword">class </span><a class="code" href="../../d6/d81/classbioexplorer_1_1Molecule.html">Molecule</a> : <span class="keyword">public</span> <a class="code" href="../../da/dba/classbioexplorer_1_1Node.html">Node</a></div>
-<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;{</div>
-<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;<span class="keyword">public</span>:</div>
-<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;    <a class="code" href="../../d6/d81/classbioexplorer_1_1Molecule.html">Molecule</a>(Scene&amp; scene, <span class="keyword">const</span> size_ts&amp; chainIds);</div>
-<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160; </div>
-<div class="line"><a name="l00065"></a><span class="lineno"><a class="line" href="../../d6/d81/classbioexplorer_1_1Molecule.html#af23dcde22cc4414416aa5f845ed9fd4f">   65</a></span>&#160;    AtomMap&amp; <a class="code" href="../../d6/d81/classbioexplorer_1_1Molecule.html#af23dcde22cc4414416aa5f845ed9fd4f">getAtoms</a>() { <span class="keywordflow">return</span> _atomMap; }</div>
-<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160; </div>
-<div class="line"><a name="l00072"></a><span class="lineno"><a class="line" href="../../d6/d81/classbioexplorer_1_1Molecule.html#afd78e57170a12c5a53f79c99b4036cd9">   72</a></span>&#160;    Residues&amp; <a class="code" href="../../d6/d81/classbioexplorer_1_1Molecule.html#afd78e57170a12c5a53f79c99b4036cd9">getResidues</a>() { <span class="keywordflow">return</span> _residues; }</div>
-<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160; </div>
-<div class="line"><a name="l00081"></a><span class="lineno"><a class="line" href="../../d6/d81/classbioexplorer_1_1Molecule.html#acadff05aba4ec16acff6d95b59bde634">   81</a></span>&#160;    SequenceMap&amp; <a class="code" href="../../d6/d81/classbioexplorer_1_1Molecule.html#acadff05aba4ec16acff6d95b59bde634">getSequences</a>() { <span class="keywordflow">return</span> _sequenceMap; }</div>
-<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160; </div>
-<div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;    StringMap getSequencesAsString() <span class="keyword">const</span>;</div>
-<div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160; </div>
-<div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160;<span class="keyword">protected</span>:</div>
-<div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160;    <span class="keywordtype">void</span> _setAtomColorScheme();</div>
-<div class="line"><a name="l00092"></a><span class="lineno">   92</span>&#160;    <span class="keywordtype">void</span> _setChainColorScheme(<span class="keyword">const</span> Palette&amp; palette);</div>
-<div class="line"><a name="l00093"></a><span class="lineno">   93</span>&#160;    <span class="keywordtype">void</span> _setResiduesColorScheme(<span class="keyword">const</span> Palette&amp; palette);</div>
-<div class="line"><a name="l00094"></a><span class="lineno">   94</span>&#160;    <span class="keywordtype">void</span> _setAminoAcidSequenceColorScheme(<span class="keyword">const</span> Palette&amp; palette);</div>
-<div class="line"><a name="l00095"></a><span class="lineno">   95</span>&#160;    <span class="keywordtype">void</span> _setMaterialDiffuseColor(<span class="keyword">const</span> <span class="keywordtype">size_t</span> atomIndex,</div>
-<div class="line"><a name="l00096"></a><span class="lineno">   96</span>&#160;                                  <span class="keyword">const</span> <a class="code" href="../../da/d3c/structbioexplorer_1_1RGBColor.html">RGBColor</a>&amp; color);</div>
-<div class="line"><a name="l00097"></a><span class="lineno">   97</span>&#160;    <span class="keywordtype">void</span> _setMaterialDiffuseColor(<span class="keyword">const</span> <span class="keywordtype">size_t</span> atomIndex, <span class="keyword">const</span> Color&amp; color);</div>
-<div class="line"><a name="l00098"></a><span class="lineno">   98</span>&#160; </div>
-<div class="line"><a name="l00099"></a><span class="lineno">   99</span>&#160;    <span class="comment">// Geometry</span></div>
-<div class="line"><a name="l00100"></a><span class="lineno">  100</span>&#160;    <span class="keywordtype">void</span> _buildModel(<span class="keyword">const</span> std::string&amp; assemblyName, <span class="keyword">const</span> std::string&amp; name,</div>
-<div class="line"><a name="l00101"></a><span class="lineno">  101</span>&#160;                     <span class="keyword">const</span> std::string&amp; title, <span class="keyword">const</span> std::string&amp; header,</div>
-<div class="line"><a name="l00102"></a><span class="lineno">  102</span>&#160;                     <span class="keyword">const</span> ProteinRepresentation&amp; representation,</div>
-<div class="line"><a name="l00103"></a><span class="lineno">  103</span>&#160;                     <span class="keyword">const</span> <span class="keywordtype">float</span> atomRadiusMultiplier, <span class="keyword">const</span> <span class="keywordtype">bool</span> loadBonds);</div>
-<div class="line"><a name="l00104"></a><span class="lineno">  104</span>&#160; </div>
-<div class="line"><a name="l00105"></a><span class="lineno">  105</span>&#160;    <span class="keywordtype">void</span> _buildAtomicStruture(<span class="keyword">const</span> ProteinRepresentation representation,</div>
-<div class="line"><a name="l00106"></a><span class="lineno">  106</span>&#160;                              <span class="keyword">const</span> <span class="keywordtype">float</span> atomRadiusMultiplier,</div>
-<div class="line"><a name="l00107"></a><span class="lineno">  107</span>&#160;                              <span class="keyword">const</span> <span class="keywordtype">bool</span> surface, <span class="keyword">const</span> <span class="keywordtype">bool</span> loadBonds,</div>
-<div class="line"><a name="l00108"></a><span class="lineno">  108</span>&#160;                              Model&amp; model);</div>
-<div class="line"><a name="l00109"></a><span class="lineno">  109</span>&#160;    <span class="keywordtype">void</span> _computeReqSetOffset();</div>
-<div class="line"><a name="l00110"></a><span class="lineno">  110</span>&#160; </div>
-<div class="line"><a name="l00111"></a><span class="lineno">  111</span>&#160;    <span class="comment">// IO</span></div>
-<div class="line"><a name="l00112"></a><span class="lineno">  112</span>&#160;    <span class="keywordtype">void</span> _readAtom(<span class="keyword">const</span> std::string&amp; line, <span class="keyword">const</span> <span class="keywordtype">bool</span> loadHydrogen);</div>
-<div class="line"><a name="l00113"></a><span class="lineno">  113</span>&#160;    <span class="keywordtype">void</span> _readSequence(<span class="keyword">const</span> std::string&amp; line);</div>
-<div class="line"><a name="l00114"></a><span class="lineno">  114</span>&#160;    std::string _readHeader(<span class="keyword">const</span> std::string&amp; line);</div>
-<div class="line"><a name="l00115"></a><span class="lineno">  115</span>&#160;    std::string _readTitle(<span class="keyword">const</span> std::string&amp; line);</div>
-<div class="line"><a name="l00116"></a><span class="lineno">  116</span>&#160;    <span class="keywordtype">void</span> _readRemark(<span class="keyword">const</span> std::string&amp; line);</div>
-<div class="line"><a name="l00117"></a><span class="lineno">  117</span>&#160;    <span class="keywordtype">void</span> _readConnect(<span class="keyword">const</span> std::string&amp; line);</div>
-<div class="line"><a name="l00118"></a><span class="lineno">  118</span>&#160;    <span class="keywordtype">bool</span> _loadChain(<span class="keyword">const</span> <span class="keywordtype">size_t</span> chainId);</div>
-<div class="line"><a name="l00119"></a><span class="lineno">  119</span>&#160; </div>
-<div class="line"><a name="l00120"></a><span class="lineno">  120</span>&#160;    Scene&amp; _scene;</div>
-<div class="line"><a name="l00121"></a><span class="lineno">  121</span>&#160;    AtomMap _atomMap;</div>
-<div class="line"><a name="l00122"></a><span class="lineno">  122</span>&#160;    Residues _residues;</div>
-<div class="line"><a name="l00123"></a><span class="lineno">  123</span>&#160;    SequenceMap _sequenceMap;</div>
-<div class="line"><a name="l00124"></a><span class="lineno">  124</span>&#160;    BondsMap _bondsMap;</div>
-<div class="line"><a name="l00125"></a><span class="lineno">  125</span>&#160;    size_ts _chainIds;</div>
-<div class="line"><a name="l00126"></a><span class="lineno">  126</span>&#160; </div>
-<div class="line"><a name="l00127"></a><span class="lineno">  127</span>&#160;    Vector2ui _aminoAcidRange;</div>
-<div class="line"><a name="l00128"></a><span class="lineno">  128</span>&#160; </div>
-<div class="line"><a name="l00129"></a><span class="lineno">  129</span>&#160;    std::string _selectedAminoAcidSequence;</div>
-<div class="line"><a name="l00130"></a><span class="lineno">  130</span>&#160;    Vector2uis _selectedAminoAcidRanges;</div>
-<div class="line"><a name="l00131"></a><span class="lineno">  131</span>&#160;    Boxf _bounds;</div>
-<div class="line"><a name="l00132"></a><span class="lineno">  132</span>&#160;};</div>
-<div class="line"><a name="l00133"></a><span class="lineno">  133</span>&#160;} <span class="comment">// namespace bioexplorer</span></div>
+<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;<span class="keyword">namespace </span>biology</div>
+<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;{</div>
+<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;<span class="keyword">using namespace </span>brayns;</div>
+<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;<span class="keyword">using namespace </span>details;</div>
+<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160; </div>
+<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;<span class="keyword">const</span> std::string KEY_UNDEFINED = <span class="stringliteral">&quot;Undefined&quot;</span>;</div>
+<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;<span class="keyword">const</span> std::string KEY_ATOM = <span class="stringliteral">&quot;ATOM&quot;</span>;</div>
+<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;<span class="keyword">const</span> std::string KEY_HETATM = <span class="stringliteral">&quot;HETATM&quot;</span>;</div>
+<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;<span class="keyword">const</span> std::string KEY_HEADER = <span class="stringliteral">&quot;HEADER&quot;</span>;</div>
+<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;<span class="keyword">const</span> std::string KEY_TITLE = <span class="stringliteral">&quot;TITLE&quot;</span>;</div>
+<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;<span class="keyword">const</span> std::string KEY_CONECT = <span class="stringliteral">&quot;CONECT&quot;</span>;</div>
+<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;<span class="keyword">const</span> std::string KEY_SEQRES = <span class="stringliteral">&quot;SEQRES&quot;</span>;</div>
+<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;<span class="keyword">const</span> std::string KEY_REMARK = <span class="stringliteral">&quot;REMARK&quot;</span>;</div>
+<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160; </div>
+<div class="line"><a name="l00051"></a><span class="lineno"><a class="line" href="../../d7/dff/classbioexplorer_1_1biology_1_1Molecule.html">   51</a></span>&#160;<span class="keyword">class </span><a class="code" href="../../d7/dff/classbioexplorer_1_1biology_1_1Molecule.html">Molecule</a> : <span class="keyword">public</span> <a class="code" href="../../de/dc0/classbioexplorer_1_1biology_1_1Node.html">Node</a></div>
+<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;{</div>
+<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;<span class="keyword">public</span>:</div>
+<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;    <a class="code" href="../../d7/dff/classbioexplorer_1_1biology_1_1Molecule.html">Molecule</a>(Scene&amp; scene, <span class="keyword">const</span> size_ts&amp; chainIds);</div>
+<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160; </div>
+<div class="line"><a name="l00068"></a><span class="lineno"><a class="line" href="../../d7/dff/classbioexplorer_1_1biology_1_1Molecule.html#a5cbfb122fb62801bd0bb3494e4f9a2d7">   68</a></span>&#160;    AtomMap&amp; <a class="code" href="../../d7/dff/classbioexplorer_1_1biology_1_1Molecule.html#a5cbfb122fb62801bd0bb3494e4f9a2d7">getAtoms</a>() { <span class="keywordflow">return</span> _atomMap; }</div>
+<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160; </div>
+<div class="line"><a name="l00075"></a><span class="lineno"><a class="line" href="../../d7/dff/classbioexplorer_1_1biology_1_1Molecule.html#a4a2dba70d6c301f47735473323d1a68c">   75</a></span>&#160;    Residues&amp; <a class="code" href="../../d7/dff/classbioexplorer_1_1biology_1_1Molecule.html#a4a2dba70d6c301f47735473323d1a68c">getResidues</a>() { <span class="keywordflow">return</span> _residues; }</div>
+<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160; </div>
+<div class="line"><a name="l00084"></a><span class="lineno"><a class="line" href="../../d7/dff/classbioexplorer_1_1biology_1_1Molecule.html#a53f77b08e3537e049f3e943dda3a029c">   84</a></span>&#160;    ResidueSequenceMap&amp; <a class="code" href="../../d7/dff/classbioexplorer_1_1biology_1_1Molecule.html#a53f77b08e3537e049f3e943dda3a029c">getResidueSequences</a>() { <span class="keywordflow">return</span> _residueSequenceMap; }</div>
+<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160; </div>
+<div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160;    StringMap getSequencesAsString() <span class="keyword">const</span>;</div>
+<div class="line"><a name="l00092"></a><span class="lineno">   92</span>&#160; </div>
+<div class="line"><a name="l00093"></a><span class="lineno">   93</span>&#160;<span class="keyword">protected</span>:</div>
+<div class="line"><a name="l00094"></a><span class="lineno">   94</span>&#160;    <span class="keywordtype">void</span> _setAtomColorScheme();</div>
+<div class="line"><a name="l00095"></a><span class="lineno">   95</span>&#160;    <span class="keywordtype">void</span> _setChainColorScheme(<span class="keyword">const</span> Palette&amp; palette);</div>
+<div class="line"><a name="l00096"></a><span class="lineno">   96</span>&#160;    <span class="keywordtype">void</span> _setResiduesColorScheme(<span class="keyword">const</span> Palette&amp; palette);</div>
+<div class="line"><a name="l00097"></a><span class="lineno">   97</span>&#160;    <span class="keywordtype">void</span> _setAminoAcidSequenceColorScheme(<span class="keyword">const</span> Palette&amp; palette);</div>
+<div class="line"><a name="l00098"></a><span class="lineno">   98</span>&#160;    <span class="keywordtype">void</span> _setMaterialDiffuseColor(<span class="keyword">const</span> <span class="keywordtype">size_t</span> atomIndex,</div>
+<div class="line"><a name="l00099"></a><span class="lineno">   99</span>&#160;                                  <span class="keyword">const</span> <a class="code" href="../../df/dc7/structbioexplorer_1_1details_1_1RGBColorDetails.html">RGBColorDetails</a>&amp; color);</div>
+<div class="line"><a name="l00100"></a><span class="lineno">  100</span>&#160;    <span class="keywordtype">void</span> _setMaterialDiffuseColor(<span class="keyword">const</span> <span class="keywordtype">size_t</span> atomIndex, <span class="keyword">const</span> Color&amp; color);</div>
+<div class="line"><a name="l00101"></a><span class="lineno">  101</span>&#160; </div>
+<div class="line"><a name="l00102"></a><span class="lineno">  102</span>&#160;    <span class="comment">// Geometry</span></div>
+<div class="line"><a name="l00103"></a><span class="lineno">  103</span>&#160;    <span class="keywordtype">void</span> _buildModel(<span class="keyword">const</span> std::string&amp; assemblyName, <span class="keyword">const</span> std::string&amp; name,</div>
+<div class="line"><a name="l00104"></a><span class="lineno">  104</span>&#160;                     <span class="keyword">const</span> std::string&amp; title, <span class="keyword">const</span> std::string&amp; header,</div>
+<div class="line"><a name="l00105"></a><span class="lineno">  105</span>&#160;                     <span class="keyword">const</span> ProteinRepresentation&amp; representation,</div>
+<div class="line"><a name="l00106"></a><span class="lineno">  106</span>&#160;                     <span class="keyword">const</span> <span class="keywordtype">float</span> atomRadiusMultiplier, <span class="keyword">const</span> <span class="keywordtype">bool</span> loadBonds);</div>
+<div class="line"><a name="l00107"></a><span class="lineno">  107</span>&#160; </div>
+<div class="line"><a name="l00108"></a><span class="lineno">  108</span>&#160;    <span class="keywordtype">void</span> _buildAtomicStruture(<span class="keyword">const</span> ProteinRepresentation representation,</div>
+<div class="line"><a name="l00109"></a><span class="lineno">  109</span>&#160;                              <span class="keyword">const</span> <span class="keywordtype">float</span> atomRadiusMultiplier,</div>
+<div class="line"><a name="l00110"></a><span class="lineno">  110</span>&#160;                              <span class="keyword">const</span> <span class="keywordtype">bool</span> surface, <span class="keyword">const</span> <span class="keywordtype">bool</span> loadBonds,</div>
+<div class="line"><a name="l00111"></a><span class="lineno">  111</span>&#160;                              Model&amp; model);</div>
+<div class="line"><a name="l00112"></a><span class="lineno">  112</span>&#160;    <span class="keywordtype">void</span> _computeReqSetOffset();</div>
+<div class="line"><a name="l00113"></a><span class="lineno">  113</span>&#160; </div>
+<div class="line"><a name="l00114"></a><span class="lineno">  114</span>&#160;    <span class="comment">// IO</span></div>
+<div class="line"><a name="l00115"></a><span class="lineno">  115</span>&#160;    <span class="keywordtype">void</span> _readAtom(<span class="keyword">const</span> std::string&amp; line, <span class="keyword">const</span> <span class="keywordtype">bool</span> loadHydrogen);</div>
+<div class="line"><a name="l00116"></a><span class="lineno">  116</span>&#160;    <span class="keywordtype">void</span> _readSequence(<span class="keyword">const</span> std::string&amp; line);</div>
+<div class="line"><a name="l00117"></a><span class="lineno">  117</span>&#160;    std::string _readHeader(<span class="keyword">const</span> std::string&amp; line);</div>
+<div class="line"><a name="l00118"></a><span class="lineno">  118</span>&#160;    std::string _readTitle(<span class="keyword">const</span> std::string&amp; line);</div>
+<div class="line"><a name="l00119"></a><span class="lineno">  119</span>&#160;    <span class="keywordtype">void</span> _readRemark(<span class="keyword">const</span> std::string&amp; line);</div>
+<div class="line"><a name="l00120"></a><span class="lineno">  120</span>&#160;    <span class="keywordtype">void</span> _readConnect(<span class="keyword">const</span> std::string&amp; line);</div>
+<div class="line"><a name="l00121"></a><span class="lineno">  121</span>&#160;    <span class="keywordtype">bool</span> _loadChain(<span class="keyword">const</span> <span class="keywordtype">size_t</span> chainId);</div>
+<div class="line"><a name="l00122"></a><span class="lineno">  122</span>&#160; </div>
+<div class="line"><a name="l00123"></a><span class="lineno">  123</span>&#160;    Scene&amp; _scene;</div>
+<div class="line"><a name="l00124"></a><span class="lineno">  124</span>&#160;    AtomMap _atomMap;</div>
+<div class="line"><a name="l00125"></a><span class="lineno">  125</span>&#160;    Residues _residues;</div>
+<div class="line"><a name="l00126"></a><span class="lineno">  126</span>&#160;    ResidueSequenceMap _residueSequenceMap;</div>
+<div class="line"><a name="l00127"></a><span class="lineno">  127</span>&#160;    BondsMap _bondsMap;</div>
+<div class="line"><a name="l00128"></a><span class="lineno">  128</span>&#160;    size_ts _chainIds;</div>
+<div class="line"><a name="l00129"></a><span class="lineno">  129</span>&#160; </div>
+<div class="line"><a name="l00130"></a><span class="lineno">  130</span>&#160;    Vector2ui _aminoAcidRange;</div>
+<div class="line"><a name="l00131"></a><span class="lineno">  131</span>&#160; </div>
+<div class="line"><a name="l00132"></a><span class="lineno">  132</span>&#160;    std::string _selectedAminoAcidSequence;</div>
+<div class="line"><a name="l00133"></a><span class="lineno">  133</span>&#160;    Vector2uis _selectedAminoAcidRanges;</div>
+<div class="line"><a name="l00134"></a><span class="lineno">  134</span>&#160;    Boxf _bounds;</div>
+<div class="line"><a name="l00135"></a><span class="lineno">  135</span>&#160;};</div>
+<div class="line"><a name="l00136"></a><span class="lineno">  136</span>&#160;} <span class="comment">// namespace biology</span></div>
+<div class="line"><a name="l00137"></a><span class="lineno">  137</span>&#160;} <span class="comment">// namespace bioexplorer</span></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
-<div class="ttc" id="aclassbioexplorer_1_1Molecule_html"><div class="ttname"><a href="../../d6/d81/classbioexplorer_1_1Molecule.html">bioexplorer::Molecule</a></div><div class="ttdoc">The Molecule class implements the 3D representation of a molecule. The object also contains metadata ...</div><div class="ttdef"><b>Definition:</b> <a href="../../d4/dbe/Molecule_8h_source.html#l00048">Molecule.h:48</a></div></div>
-<div class="ttc" id="aclassbioexplorer_1_1Molecule_html_afd78e57170a12c5a53f79c99b4036cd9"><div class="ttname"><a href="../../d6/d81/classbioexplorer_1_1Molecule.html#afd78e57170a12c5a53f79c99b4036cd9">bioexplorer::Molecule::getResidues</a></div><div class="ttdeci">Residues &amp; getResidues()</div><div class="ttdoc">Get the Residues object.</div><div class="ttdef"><b>Definition:</b> <a href="../../d4/dbe/Molecule_8h_source.html#l00072">Molecule.h:72</a></div></div>
-<div class="ttc" id="aclassbioexplorer_1_1Molecule_html_af23dcde22cc4414416aa5f845ed9fd4f"><div class="ttname"><a href="../../d6/d81/classbioexplorer_1_1Molecule.html#af23dcde22cc4414416aa5f845ed9fd4f">bioexplorer::Molecule::getAtoms</a></div><div class="ttdeci">AtomMap &amp; getAtoms()</div><div class="ttdoc">Get the Atoms object.</div><div class="ttdef"><b>Definition:</b> <a href="../../d4/dbe/Molecule_8h_source.html#l00065">Molecule.h:65</a></div></div>
-<div class="ttc" id="astructbioexplorer_1_1RGBColor_html"><div class="ttname"><a href="../../da/d3c/structbioexplorer_1_1RGBColor.html">bioexplorer::RGBColor</a></div><div class="ttdoc">Structure defining the RGB color of atoms according to the JMol Scheme.</div><div class="ttdef"><b>Definition:</b> <a href="../../d7/df8/Types_8h_source.html#l00554">Types.h:554</a></div></div>
-<div class="ttc" id="aclassbioexplorer_1_1Molecule_html_acadff05aba4ec16acff6d95b59bde634"><div class="ttname"><a href="../../d6/d81/classbioexplorer_1_1Molecule.html#acadff05aba4ec16acff6d95b59bde634">bioexplorer::Molecule::getSequences</a></div><div class="ttdeci">SequenceMap &amp; getSequences()</div><div class="ttdoc">Get the Sequences object.</div><div class="ttdef"><b>Definition:</b> <a href="../../d4/dbe/Molecule_8h_source.html#l00081">Molecule.h:81</a></div></div>
-<div class="ttc" id="aclassbioexplorer_1_1Node_html"><div class="ttname"><a href="../../da/dba/classbioexplorer_1_1Node.html">bioexplorer::Node</a></div><div class="ttdoc">The Node class.</div><div class="ttdef"><b>Definition:</b> <a href="../../db/d92/Node_8h_source.html#l00030">Node.h:30</a></div></div>
+<div class="ttc" id="astructbioexplorer_1_1details_1_1RGBColorDetails_html"><div class="ttname"><a href="../../df/dc7/structbioexplorer_1_1details_1_1RGBColorDetails.html">bioexplorer::details::RGBColorDetails</a></div><div class="ttdoc">Structure defining the RGB color of atoms according to the JMol Scheme.</div><div class="ttdef"><b>Definition:</b> <a href="../../d7/df8/Types_8h_source.html#l00086">Types.h:86</a></div></div>
+<div class="ttc" id="aclassbioexplorer_1_1biology_1_1Node_html"><div class="ttname"><a href="../../de/dc0/classbioexplorer_1_1biology_1_1Node.html">bioexplorer::biology::Node</a></div><div class="ttdoc">The Node class.</div><div class="ttdef"><b>Definition:</b> <a href="../../db/d92/Node_8h_source.html#l00035">Node.h:35</a></div></div>
+<div class="ttc" id="aclassbioexplorer_1_1biology_1_1Molecule_html_a4a2dba70d6c301f47735473323d1a68c"><div class="ttname"><a href="../../d7/dff/classbioexplorer_1_1biology_1_1Molecule.html#a4a2dba70d6c301f47735473323d1a68c">bioexplorer::biology::Molecule::getResidues</a></div><div class="ttdeci">Residues &amp; getResidues()</div><div class="ttdoc">Get the Residues object.</div><div class="ttdef"><b>Definition:</b> <a href="../../d4/dbe/Molecule_8h_source.html#l00075">Molecule.h:75</a></div></div>
+<div class="ttc" id="aclassbioexplorer_1_1biology_1_1Molecule_html_a5cbfb122fb62801bd0bb3494e4f9a2d7"><div class="ttname"><a href="../../d7/dff/classbioexplorer_1_1biology_1_1Molecule.html#a5cbfb122fb62801bd0bb3494e4f9a2d7">bioexplorer::biology::Molecule::getAtoms</a></div><div class="ttdeci">AtomMap &amp; getAtoms()</div><div class="ttdoc">Get the Atoms object.</div><div class="ttdef"><b>Definition:</b> <a href="../../d4/dbe/Molecule_8h_source.html#l00068">Molecule.h:68</a></div></div>
+<div class="ttc" id="aclassbioexplorer_1_1biology_1_1Molecule_html_a53f77b08e3537e049f3e943dda3a029c"><div class="ttname"><a href="../../d7/dff/classbioexplorer_1_1biology_1_1Molecule.html#a53f77b08e3537e049f3e943dda3a029c">bioexplorer::biology::Molecule::getResidueSequences</a></div><div class="ttdeci">ResidueSequenceMap &amp; getResidueSequences()</div><div class="ttdoc">Get the Sequences object.</div><div class="ttdef"><b>Definition:</b> <a href="../../d4/dbe/Molecule_8h_source.html#l00084">Molecule.h:84</a></div></div>
+<div class="ttc" id="aclassbioexplorer_1_1biology_1_1Molecule_html"><div class="ttname"><a href="../../d7/dff/classbioexplorer_1_1biology_1_1Molecule.html">bioexplorer::biology::Molecule</a></div><div class="ttdoc">The Molecule class implements the 3D representation of a molecule. The object also contains metadata ...</div><div class="ttdef"><b>Definition:</b> <a href="../../d4/dbe/Molecule_8h_source.html#l00051">Molecule.h:51</a></div></div>
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="../../dir_4270bfced15e0e73154b13468c7c9ad9.html">core</a></li><li class="navelem"><a class="el" href="../../dir_32c53a81047e6b1f79109ecf563d9b76.html">plugin</a></li><li class="navelem"><a class="el" href="../../dir_fe8a968409569ad05c4aef9d08f0fd67.html">bioexplorer</a></li><li class="navelem"><b>Molecule.h</b></li>
+    <li class="navelem"><a class="el" href="../../dir_4270bfced15e0e73154b13468c7c9ad9.html">core</a></li><li class="navelem"><a class="el" href="../../dir_32c53a81047e6b1f79109ecf563d9b76.html">plugin</a></li><li class="navelem"><a class="el" href="../../dir_9a9dde4b851279721bb1b60982956579.html">biology</a></li><li class="navelem"><b>Molecule.h</b></li>
     <li class="footer">Generated by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="../../doxygen.png" alt="doxygen"/></a> 1.8.17 </li>

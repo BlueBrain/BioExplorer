@@ -1,5 +1,5 @@
 var searchData=
 [
-  ['element_422',['element',['../db/d01/structbioexplorer_1_1Atom.html#a99e31ba77c79c37567f5732dc12b4338',1,'bioexplorer::Atom']]],
-  ['emissions_423',['emissions',['../d6/df4/structbioexplorer_1_1MaterialsDetails.html#a1a6454c40a0e8a99e6d77bcb4fce39c9',1,'bioexplorer::MaterialsDetails']]]
+  ['element_428',['element',['../df/d99/structbioexplorer_1_1biology_1_1Atom.html#a30356c0a806b4d194d8e41eece2918e0',1,'bioexplorer::biology::Atom']]],
+  ['emissions_429',['emissions',['../d7/d84/structbioexplorer_1_1details_1_1MaterialsDetails.html#aae87c0d0dcd9bddd724823a23624b752',1,'bioexplorer::details::MaterialsDetails']]]
 ];

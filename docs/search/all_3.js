@@ -1,9 +1,9 @@
 var searchData=
 [
-  ['databaseaccessdetails_48',['DatabaseAccessDetails',['../d8/d69/structbioexplorer_1_1DatabaseAccessDetails.html',1,'bioexplorer']]],
-  ['dbconnector_49',['DBConnector',['../d3/d1a/classbioexplorer_1_1DBConnector.html',1,'bioexplorer::DBConnector'],['../d3/d1a/classbioexplorer_1_1DBConnector.html#a48ad91bfb37f2010355e8a329768a11b',1,'bioexplorer::DBConnector::DBConnector()']]],
-  ['density_50',['density',['../d0/d14/structbioexplorer_1_1MeshBasedMembraneDetails.html#aad92a4db4709329d7031028ca96245c1',1,'bioexplorer::MeshBasedMembraneDetails::density()'],['../dd/d9e/structbioexplorer_1_1BuildFieldsDetails.html#a77d5819b63c8dca19ff9518eb6650afe',1,'bioexplorer::BuildFieldsDetails::density()']]],
-  ['description_51',['description',['../d8/db3/structbioexplorer_1_1OOCSceneConfigurationDetails.html#a56caed5bd6ea5378e30c755431b5f14c',1,'bioexplorer::OOCSceneConfigurationDetails']]],
-  ['diffusecolors_52',['diffuseColors',['../d6/df4/structbioexplorer_1_1MaterialsDetails.html#a02d25734249b81c844f5613859f8bf77',1,'bioexplorer::MaterialsDetails']]],
+  ['databaseaccessdetails_48',['DatabaseAccessDetails',['../dc/dd9/structbioexplorer_1_1details_1_1DatabaseAccessDetails.html',1,'bioexplorer::details']]],
+  ['dbconnector_49',['DBConnector',['../d9/d96/classbioexplorer_1_1io_1_1db_1_1DBConnector.html',1,'bioexplorer::io::db::DBConnector'],['../d9/d96/classbioexplorer_1_1io_1_1db_1_1DBConnector.html#a6b38ff1b0a59d26e3545bb2480c04b35',1,'bioexplorer::io::db::DBConnector::DBConnector()']]],
+  ['density_50',['density',['../da/d3c/structbioexplorer_1_1details_1_1MeshBasedMembraneDetails.html#ac20c08650a6555c855e8c9582ecdb388',1,'bioexplorer::details::MeshBasedMembraneDetails::density()'],['../dc/d5b/structbioexplorer_1_1details_1_1BuildFieldsDetails.html#a920738939f587a759b102c85a8d7d936',1,'bioexplorer::details::BuildFieldsDetails::density()']]],
+  ['description_51',['description',['../d1/d25/structbioexplorer_1_1details_1_1OOCSceneConfigurationDetails.html#a14e9f653aeab2a6e89e94e454d0153b4',1,'bioexplorer::details::OOCSceneConfigurationDetails']]],
+  ['diffusecolors_52',['diffuseColors',['../d7/d84/structbioexplorer_1_1details_1_1MaterialsDetails.html#ad5445f0005de017a5e697c65d384ab15',1,'bioexplorer::details::MaterialsDetails']]],
   ['docker_53',['Docker',['../d9/d23/md__home_favreau_git_BioExplorer_DOCKER.html',1,'']]]
 ];

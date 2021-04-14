@@ -1,0 +1,9 @@
+<map id="bioexplorer::biology::Node" name="bioexplorer::biology::Node">
+<area shape="rect" id="node1" title="The Node class." alt="" coords="5,104,140,145"/>
+<area shape="rect" id="node2" href="$de/dd4/classbioexplorer_1_1biology_1_1Membrane.html" title="A Membrane object implements a 3D structure of a given shape, but with a surface composed of instance..." alt="" coords="201,5,335,47"/>
+<area shape="rect" id="node3" href="$d5/d80/classbioexplorer_1_1biology_1_1MeshBasedMembrane.html" title="A MeshBasedMembrane object implements a 3D structure that has the shape of a given OBJ Mesh,..." alt="" coords="188,71,348,112"/>
+<area shape="rect" id="node4" href="$d7/dff/classbioexplorer_1_1biology_1_1Molecule.html" title="The Molecule class implements the 3D representation of a molecule. The object also contains metadata ..." alt="" coords="201,136,335,177"/>
+<area shape="rect" id="node7" href="$d0/d5f/classbioexplorer_1_1biology_1_1RNASequence.html" title="The RNASequence class." alt="" coords="201,201,335,243"/>
+<area shape="rect" id="node5" href="$d0/d3d/classbioexplorer_1_1biology_1_1Glycans.html" title="The Glycans class." alt="" coords="396,104,531,145"/>
+<area shape="rect" id="node6" href="$db/dba/classbioexplorer_1_1biology_1_1Protein.html" title="The Protein class." alt="" coords="396,169,531,211"/>
+</map>

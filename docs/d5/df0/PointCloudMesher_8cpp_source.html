@@ -131,61 +131,63 @@ $(document).ready(function(){initNavTree('d5/df0/PointCloudMesher_8cpp_source.ht
 <div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160; </div>
 <div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;<span class="keyword">namespace </span>bioexplorer</div>
 <div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;{</div>
-<div class="line"><a name="l00046"></a><span class="lineno"><a class="line" href="../../d0/d39/classbioexplorer_1_1PointCloudMesher.html#a73dc1903edc87d55cdebda0b4387a4c3">   46</a></span>&#160;<a class="code" href="../../d0/d39/classbioexplorer_1_1PointCloudMesher.html#a73dc1903edc87d55cdebda0b4387a4c3">PointCloudMesher::PointCloudMesher</a>() {}</div>
-<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160; </div>
-<div class="line"><a name="l00048"></a><span class="lineno"><a class="line" href="../../d0/d39/classbioexplorer_1_1PointCloudMesher.html#a01018aa7eda5cae58384bd4475c929e7">   48</a></span>&#160;<span class="keywordtype">bool</span> <a class="code" href="../../d0/d39/classbioexplorer_1_1PointCloudMesher.html#a01018aa7eda5cae58384bd4475c929e7">PointCloudMesher::toConvexHull</a>(Model&amp; model, <span class="keyword">const</span> PointCloud&amp; pointCloud)</div>
-<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;{</div>
-<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;<span class="preprocessor">#ifdef USE_CGAL</span></div>
-<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;    <span class="keywordtype">bool</span> addModel{<span class="keyword">false</span>};</div>
-<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;    <span class="keywordflow">for</span> (<span class="keyword">const</span> <span class="keyword">auto</span>&amp; point : pointCloud)</div>
-<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;    {</div>
-<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;        <span class="keyword">auto</span> material =</div>
-<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;            model.createMaterial(point.first, std::to_string(point.first));</div>
-<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;        brayns::PropertyMap props;</div>
-<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;        props.setProperty({MATERIAL_PROPERTY_SHADING_MODE,</div>
-<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;                           <span class="keyword">static_cast&lt;</span><span class="keywordtype">int</span><span class="keyword">&gt;</span>(MaterialShadingMode::diffuse)});</div>
-<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;        props.setProperty({MATERIAL_PROPERTY_USER_PARAMETER, 1.0});</div>
-<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;        props.setProperty({MATERIAL_PROPERTY_CHAMELEON_MODE,</div>
-<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;                           <span class="keyword">static_cast&lt;</span><span class="keywordtype">int</span><span class="keyword">&gt;</span>(MaterialChameleonMode::receiver)});</div>
-<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;        material-&gt;updateProperties(props);</div>
-<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160; </div>
-<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;        std::vector&lt;Point_3&gt; points;</div>
-<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;        <span class="keywordflow">for</span> (<span class="keyword">const</span> <span class="keyword">auto</span>&amp; c : point.second)</div>
-<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;            points.push_back({c.x, c.y, c.z});</div>
-<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160; </div>
-<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;        CGAL::Object obj;</div>
-<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;        <span class="comment">// compute convex hull of non-collinear points</span></div>
-<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;        CGAL::convex_hull_3(points.begin(), points.end(), obj);</div>
-<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;        <span class="keywordflow">if</span> (<span class="keyword">const</span> Polyhedron_3* poly = CGAL::object_cast&lt;Polyhedron_3&gt;(&amp;obj))</div>
-<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;        {</div>
-<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;            PLUGIN_INFO(<span class="stringliteral">&quot;The convex hull contains &quot;</span> &lt;&lt; poly-&gt;size_of_vertices()</div>
-<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;                                                    &lt;&lt; <span class="stringliteral">&quot; vertices&quot;</span>);</div>
-<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160; </div>
-<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;            <span class="keywordflow">for</span> (<span class="keyword">auto</span> eit = poly-&gt;edges_begin(); eit != poly-&gt;edges_end();</div>
-<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;                 ++eit)</div>
-<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;            {</div>
-<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;                Point_3 a = eit-&gt;vertex()-&gt;point();</div>
-<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;                Point_3 b = eit-&gt;opposite()-&gt;vertex()-&gt;point();</div>
-<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;                model.addCylinder(point.first, {{a.x(), a.y(), a.z()},</div>
-<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;                                                {b.x(), b.y(), b.z()},</div>
-<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;                                                point.second[0].w});</div>
-<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;                addModel = <span class="keyword">true</span>;</div>
-<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;            }</div>
-<div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;        }</div>
-<div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;        <span class="keywordflow">else</span></div>
-<div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;            PLUGIN_ERROR(<span class="stringliteral">&quot;something else&quot;</span>);</div>
-<div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160;    }</div>
-<div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160;    <span class="keywordflow">return</span> addModel;</div>
-<div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160;<span class="preprocessor">#else</span></div>
-<div class="line"><a name="l00092"></a><span class="lineno">   92</span>&#160;    <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
-<div class="line"><a name="l00093"></a><span class="lineno">   93</span>&#160;<span class="preprocessor">#endif</span></div>
-<div class="line"><a name="l00094"></a><span class="lineno">   94</span>&#160;}</div>
-<div class="line"><a name="l00095"></a><span class="lineno">   95</span>&#160; </div>
-<div class="line"><a name="l00096"></a><span class="lineno">   96</span>&#160;} <span class="comment">// namespace bioexplorer</span></div>
+<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;<span class="keyword">namespace </span>meshing</div>
+<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;{</div>
+<div class="line"><a name="l00048"></a><span class="lineno"><a class="line" href="../../d2/d99/classbioexplorer_1_1meshing_1_1PointCloudMesher.html#a8c76232076650a45b041cf2b66635f18">   48</a></span>&#160;<a class="code" href="../../d2/d99/classbioexplorer_1_1meshing_1_1PointCloudMesher.html#a8c76232076650a45b041cf2b66635f18">PointCloudMesher::PointCloudMesher</a>() {}</div>
+<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160; </div>
+<div class="line"><a name="l00050"></a><span class="lineno"><a class="line" href="../../d2/d99/classbioexplorer_1_1meshing_1_1PointCloudMesher.html#ae66b68e3ed119dbb8cef7e92e4285a3b">   50</a></span>&#160;<span class="keywordtype">bool</span> <a class="code" href="../../d2/d99/classbioexplorer_1_1meshing_1_1PointCloudMesher.html#ae66b68e3ed119dbb8cef7e92e4285a3b">PointCloudMesher::toConvexHull</a>(Model&amp; model, <span class="keyword">const</span> PointCloud&amp; pointCloud)</div>
+<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;{</div>
+<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;<span class="preprocessor">#ifdef USE_CGAL</span></div>
+<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;    <span class="keywordtype">bool</span> addModel{<span class="keyword">false</span>};</div>
+<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;    <span class="keywordflow">for</span> (<span class="keyword">const</span> <span class="keyword">auto</span>&amp; point : pointCloud)</div>
+<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;    {</div>
+<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;        <span class="keyword">auto</span> material =</div>
+<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;            model.createMaterial(point.first, std::to_string(point.first));</div>
+<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;        brayns::PropertyMap props;</div>
+<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;        props.setProperty({MATERIAL_PROPERTY_SHADING_MODE,</div>
+<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;                           <span class="keyword">static_cast&lt;</span><span class="keywordtype">int</span><span class="keyword">&gt;</span>(MaterialShadingMode::diffuse)});</div>
+<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;        props.setProperty({MATERIAL_PROPERTY_USER_PARAMETER, 1.0});</div>
+<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;        props.setProperty({MATERIAL_PROPERTY_CHAMELEON_MODE,</div>
+<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;                           <span class="keyword">static_cast&lt;</span><span class="keywordtype">int</span><span class="keyword">&gt;</span>(MaterialChameleonMode::receiver)});</div>
+<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;        material-&gt;updateProperties(props);</div>
+<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160; </div>
+<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;        std::vector&lt;Point_3&gt; points;</div>
+<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;        <span class="keywordflow">for</span> (<span class="keyword">const</span> <span class="keyword">auto</span>&amp; c : point.second)</div>
+<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;            points.push_back({c.x, c.y, c.z});</div>
+<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160; </div>
+<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;        CGAL::Object obj;</div>
+<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;        <span class="comment">// compute convex hull of non-collinear points</span></div>
+<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;        CGAL::convex_hull_3(points.begin(), points.end(), obj);</div>
+<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;        <span class="keywordflow">if</span> (<span class="keyword">const</span> Polyhedron_3* poly = CGAL::object_cast&lt;Polyhedron_3&gt;(&amp;obj))</div>
+<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;        {</div>
+<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;            PLUGIN_INFO(<span class="stringliteral">&quot;The convex hull contains &quot;</span> &lt;&lt; poly-&gt;size_of_vertices()</div>
+<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;                                                    &lt;&lt; <span class="stringliteral">&quot; vertices&quot;</span>);</div>
+<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160; </div>
+<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;            <span class="keywordflow">for</span> (<span class="keyword">auto</span> eit = poly-&gt;edges_begin(); eit != poly-&gt;edges_end();</div>
+<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;                 ++eit)</div>
+<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;            {</div>
+<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;                Point_3 a = eit-&gt;vertex()-&gt;point();</div>
+<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;                Point_3 b = eit-&gt;opposite()-&gt;vertex()-&gt;point();</div>
+<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;                model.addCylinder(point.first, {{a.x(), a.y(), a.z()},</div>
+<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;                                                {b.x(), b.y(), b.z()},</div>
+<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;                                                point.second[0].w});</div>
+<div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;                addModel = <span class="keyword">true</span>;</div>
+<div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;            }</div>
+<div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;        }</div>
+<div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160;        <span class="keywordflow">else</span></div>
+<div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160;            PLUGIN_ERROR(<span class="stringliteral">&quot;something else&quot;</span>);</div>
+<div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160;    }</div>
+<div class="line"><a name="l00092"></a><span class="lineno">   92</span>&#160;    <span class="keywordflow">return</span> addModel;</div>
+<div class="line"><a name="l00093"></a><span class="lineno">   93</span>&#160;<span class="preprocessor">#else</span></div>
+<div class="line"><a name="l00094"></a><span class="lineno">   94</span>&#160;    <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
+<div class="line"><a name="l00095"></a><span class="lineno">   95</span>&#160;<span class="preprocessor">#endif</span></div>
+<div class="line"><a name="l00096"></a><span class="lineno">   96</span>&#160;}</div>
+<div class="line"><a name="l00097"></a><span class="lineno">   97</span>&#160;} <span class="comment">// namespace meshing</span></div>
+<div class="line"><a name="l00098"></a><span class="lineno">   98</span>&#160;} <span class="comment">// namespace bioexplorer</span></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
-<div class="ttc" id="aclassbioexplorer_1_1PointCloudMesher_html_a73dc1903edc87d55cdebda0b4387a4c3"><div class="ttname"><a href="../../d0/d39/classbioexplorer_1_1PointCloudMesher.html#a73dc1903edc87d55cdebda0b4387a4c3">bioexplorer::PointCloudMesher::PointCloudMesher</a></div><div class="ttdeci">PointCloudMesher()</div><div class="ttdoc">Construct a new Point Cloud Mesher object.</div><div class="ttdef"><b>Definition:</b> <a href="../../d5/df0/PointCloudMesher_8cpp_source.html#l00046">PointCloudMesher.cpp:46</a></div></div>
-<div class="ttc" id="aclassbioexplorer_1_1PointCloudMesher_html_a01018aa7eda5cae58384bd4475c929e7"><div class="ttname"><a href="../../d0/d39/classbioexplorer_1_1PointCloudMesher.html#a01018aa7eda5cae58384bd4475c929e7">bioexplorer::PointCloudMesher::toConvexHull</a></div><div class="ttdeci">bool toConvexHull(Model &amp;model, const PointCloud &amp;pointCloud)</div><div class="ttdef"><b>Definition:</b> <a href="../../d5/df0/PointCloudMesher_8cpp_source.html#l00048">PointCloudMesher.cpp:48</a></div></div>
+<div class="ttc" id="aclassbioexplorer_1_1meshing_1_1PointCloudMesher_html_ae66b68e3ed119dbb8cef7e92e4285a3b"><div class="ttname"><a href="../../d2/d99/classbioexplorer_1_1meshing_1_1PointCloudMesher.html#ae66b68e3ed119dbb8cef7e92e4285a3b">bioexplorer::meshing::PointCloudMesher::toConvexHull</a></div><div class="ttdeci">bool toConvexHull(Model &amp;model, const PointCloud &amp;pointCloud)</div><div class="ttdef"><b>Definition:</b> <a href="../../d5/df0/PointCloudMesher_8cpp_source.html#l00050">PointCloudMesher.cpp:50</a></div></div>
+<div class="ttc" id="aclassbioexplorer_1_1meshing_1_1PointCloudMesher_html_a8c76232076650a45b041cf2b66635f18"><div class="ttname"><a href="../../d2/d99/classbioexplorer_1_1meshing_1_1PointCloudMesher.html#a8c76232076650a45b041cf2b66635f18">bioexplorer::meshing::PointCloudMesher::PointCloudMesher</a></div><div class="ttdeci">PointCloudMesher()</div><div class="ttdoc">Construct a new Point Cloud Mesher object.</div><div class="ttdef"><b>Definition:</b> <a href="../../d5/df0/PointCloudMesher_8cpp_source.html#l00048">PointCloudMesher.cpp:48</a></div></div>
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>

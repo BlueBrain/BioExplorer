@@ -104,7 +104,7 @@ $(document).ready(function(){initNavTree('d3/d6d/tests_2RNASequence_8cpp_source.
 <div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;<span class="comment"> * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.</span></div>
 <div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;<span class="comment"> */</span></div>
 <div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160; </div>
-<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;<span class="preprocessor">#include &lt;plugin/bioexplorer/RNASequence.h&gt;</span></div>
+<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;<span class="preprocessor">#include &lt;plugin/biology/RNASequence.h&gt;</span></div>
 <div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;<span class="preprocessor">#include &lt;plugin/common/Logs.h&gt;</span></div>
 <div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160; </div>
 <div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;<span class="preprocessor">#include &lt;brayns/Brayns.h&gt;</span></div>
@@ -115,64 +115,57 @@ $(document).ready(function(){initNavTree('d3/d6d/tests_2RNASequence_8cpp_source.
 <div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;<span class="preprocessor">#include &lt;boost/test/unit_test.hpp&gt;</span></div>
 <div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160; </div>
 <div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;<span class="preprocessor">#include &lt;fstream&gt;</span></div>
-<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;<span class="preprocessor">#include &lt;iostream&gt;</span></div>
-<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;<span class="preprocessor">#include &lt;sstream&gt;</span></div>
-<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160; </div>
+<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160; </div>
+<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;<span class="keyword">namespace </span>tests</div>
+<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;{</div>
 <div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;<span class="keyword">using namespace </span>bioexplorer;</div>
-<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160; </div>
-<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;std::string getFileContents(<span class="keyword">const</span> std::string&amp; filename)</div>
-<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;{</div>
-<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;    std::ifstream file(filename);</div>
-<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;    std::string str;</div>
-<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;    <span class="keywordflow">if</span> (file)</div>
-<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;    {</div>
-<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;        std::ostringstream ss;</div>
-<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;        ss &lt;&lt; file.rdbuf();</div>
-<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;        str = ss.str();</div>
-<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;    }</div>
-<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;    <span class="keywordflow">else</span></div>
-<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;        PLUGIN_THROW(<span class="stringliteral">&quot;Failed to open &quot;</span> + filename);</div>
-<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;    <span class="keywordflow">return</span> str;</div>
-<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;}</div>
-<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160; </div>
-<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;<a class="code" href="../../dc/d0c/structbioexplorer_1_1RNASequenceDetails.html">RNASequenceDetails</a> getDescriptor()</div>
-<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;{</div>
-<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;    <a class="code" href="../../dc/d0c/structbioexplorer_1_1RNASequenceDetails.html">RNASequenceDetails</a> descriptor;</div>
-<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160; </div>
-<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;    descriptor.<a class="code" href="../../dc/d0c/structbioexplorer_1_1RNASequenceDetails.html#a0761e90963836a1e0a6c59fc4c354074">assemblyName</a> = <span class="stringliteral">&quot;test&quot;</span>;</div>
-<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;    descriptor.<a class="code" href="../../dc/d0c/structbioexplorer_1_1RNASequenceDetails.html#a0906ff26cc107f423207cb974668e174">name</a> = <span class="stringliteral">&quot;test&quot;</span>;</div>
-<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;    descriptor.<a class="code" href="../../dc/d0c/structbioexplorer_1_1RNASequenceDetails.html#ab91e9600c922dfdb24e49b18ecf44432">contents</a> = getFileContents(</div>
-<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;        <span class="stringliteral">&quot;./bioexplorer/pythonsdk/tests/test_files/rna/sars-cov-2.rna&quot;</span>);</div>
-<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;    descriptor.<a class="code" href="../../dc/d0c/structbioexplorer_1_1RNASequenceDetails.html#a2f0fe4ccc0e2834a0e58f9fd803dfa8f">shape</a> = RNAShape::trefoilKnot;</div>
-<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;    descriptor.<a class="code" href="../../dc/d0c/structbioexplorer_1_1RNASequenceDetails.html#a31e2f89e7c55f13bec79cf289159ba9c">assemblyParams</a> = {11.f, 0.5f};</div>
-<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;    descriptor.<a class="code" href="../../dc/d0c/structbioexplorer_1_1RNASequenceDetails.html#a9d6221b22ac240afc9585de87c6aa3a1">range</a> = {0.f, 30.5f * <span class="keyword">static_cast&lt;</span><span class="keywordtype">float</span><span class="keyword">&gt;</span>(M_PI)};</div>
-<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;    descriptor.<a class="code" href="../../dc/d0c/structbioexplorer_1_1RNASequenceDetails.html#a6b29d7580c94d3f29ee0f240d91247bf">params</a> = {1.51f, 1.12f, 1.93f};</div>
-<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;    descriptor.<a class="code" href="../../dc/d0c/structbioexplorer_1_1RNASequenceDetails.html#a0282f19e50d9f87b054846f838d6ba6a">position</a> = {0.f, 0.f, 0.f};</div>
-<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;    <span class="keywordflow">return</span> descriptor;</div>
-<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;}</div>
-<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160; </div>
-<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;BOOST_AUTO_TEST_CASE(rna_sequence)</div>
-<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;{</div>
-<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;    std::vector&lt;const char*&gt; argv{<span class="stringliteral">&quot;brayns&quot;</span>, <span class="stringliteral">&quot;--http-server&quot;</span>, <span class="stringliteral">&quot;localhost:0&quot;</span>,</div>
-<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;                                  <span class="stringliteral">&quot;--plugin&quot;</span>, <span class="stringliteral">&quot;BioExplorer&quot;</span>};</div>
-<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;    brayns::Brayns brayns(argv.size(), argv.data());</div>
-<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;    <span class="keyword">auto</span>&amp; scene = brayns.getEngine().getScene();</div>
-<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;    <a class="code" href="../../d2/d77/classbioexplorer_1_1RNASequence.html">RNASequence</a> rnaSequence(scene, getDescriptor());</div>
-<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160; </div>
-<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;    BOOST_CHECK(rnaSequence.getRNASequences().size() == 0);</div>
-<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;}</div>
+<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;<span class="keyword">using namespace </span>biology;</div>
+<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160; </div>
+<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;std::string getFileContents(<span class="keyword">const</span> std::string&amp; filename)</div>
+<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;{</div>
+<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;    std::ifstream file(filename);</div>
+<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;    std::string str;</div>
+<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;    <span class="keywordflow">if</span> (file)</div>
+<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;    {</div>
+<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;        std::ostringstream ss;</div>
+<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;        ss &lt;&lt; file.rdbuf();</div>
+<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;        str = ss.str();</div>
+<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;    }</div>
+<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;    <span class="keywordflow">else</span></div>
+<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;        PLUGIN_THROW(<span class="stringliteral">&quot;Failed to open &quot;</span> + filename);</div>
+<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;    <span class="keywordflow">return</span> str;</div>
+<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;}</div>
+<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160; </div>
+<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;RNASequenceDetails getDescriptor()</div>
+<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;{</div>
+<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;    RNASequenceDetails descriptor;</div>
+<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160; </div>
+<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;    descriptor.<a class="code" href="../../dd/d92/structbioexplorer_1_1details_1_1SugarsDetails.html#a81aecb2570b4818ceed97e0f6ff73a9e">assemblyName</a> = <span class="stringliteral">&quot;test&quot;</span>;</div>
+<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;    descriptor.name = <span class="stringliteral">&quot;test&quot;</span>;</div>
+<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;    descriptor.contents = getFileContents(</div>
+<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;        <span class="stringliteral">&quot;./bioexplorer/pythonsdk/tests/test_files/rna/sars-cov-2.rna&quot;</span>);</div>
+<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;    descriptor.shape = RNAShape::trefoilKnot;</div>
+<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;    descriptor.assemblyParams = {11.f, 0.5f};</div>
+<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;    descriptor.range = {0.f, 30.5f * <span class="keyword">static_cast&lt;</span><span class="keywordtype">float</span><span class="keyword">&gt;</span>(M_PI)};</div>
+<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;    descriptor.params = {1.51f, 1.12f, 1.93f};</div>
+<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;    descriptor.position = {0.f, 0.f, 0.f};</div>
+<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;    <span class="keywordflow">return</span> descriptor;</div>
+<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;}</div>
+<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160; </div>
+<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;BOOST_AUTO_TEST_CASE(rna_sequence)</div>
+<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;{</div>
+<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;    std::vector&lt;const char*&gt; argv{<span class="stringliteral">&quot;brayns&quot;</span>, <span class="stringliteral">&quot;--http-server&quot;</span>, <span class="stringliteral">&quot;localhost:0&quot;</span>,</div>
+<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;                                  <span class="stringliteral">&quot;--plugin&quot;</span>, <span class="stringliteral">&quot;BioExplorer&quot;</span>};</div>
+<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;    brayns::Brayns brayns(argv.size(), argv.data());</div>
+<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;    <span class="keyword">auto</span>&amp; scene = brayns.getEngine().getScene();</div>
+<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;    RNASequence rnaSequence(scene, getDescriptor());</div>
+<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160; </div>
+<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;    BOOST_CHECK(rnaSequence.getRNASequences().size() == 0);</div>
+<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;}</div>
+<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;} <span class="comment">// namespace tests</span></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
-<div class="ttc" id="astructbioexplorer_1_1RNASequenceDetails_html"><div class="ttname"><a href="../../dc/d0c/structbioexplorer_1_1RNASequenceDetails.html">bioexplorer::RNASequenceDetails</a></div><div class="ttdoc">RNA sequence descriptor.</div><div class="ttdef"><b>Definition:</b> <a href="../../d7/df8/Types_8h_source.html#l00393">Types.h:393</a></div></div>
-<div class="ttc" id="astructbioexplorer_1_1RNASequenceDetails_html_a31e2f89e7c55f13bec79cf289159ba9c"><div class="ttname"><a href="../../dc/d0c/structbioexplorer_1_1RNASequenceDetails.html#a31e2f89e7c55f13bec79cf289159ba9c">bioexplorer::RNASequenceDetails::assemblyParams</a></div><div class="ttdeci">std::vector&lt; float &gt; assemblyParams</div><div class="ttdef"><b>Definition:</b> <a href="../../d7/df8/Types_8h_source.html#l00404">Types.h:404</a></div></div>
-<div class="ttc" id="astructbioexplorer_1_1RNASequenceDetails_html_a0906ff26cc107f423207cb974668e174"><div class="ttname"><a href="../../dc/d0c/structbioexplorer_1_1RNASequenceDetails.html#a0906ff26cc107f423207cb974668e174">bioexplorer::RNASequenceDetails::name</a></div><div class="ttdeci">std::string name</div><div class="ttdef"><b>Definition:</b> <a href="../../d7/df8/Types_8h_source.html#l00398">Types.h:398</a></div></div>
-<div class="ttc" id="astructbioexplorer_1_1RNASequenceDetails_html_a6b29d7580c94d3f29ee0f240d91247bf"><div class="ttname"><a href="../../dc/d0c/structbioexplorer_1_1RNASequenceDetails.html#a6b29d7580c94d3f29ee0f240d91247bf">bioexplorer::RNASequenceDetails::params</a></div><div class="ttdeci">std::vector&lt; float &gt; params</div><div class="ttdef"><b>Definition:</b> <a href="../../d7/df8/Types_8h_source.html#l00408">Types.h:408</a></div></div>
-<div class="ttc" id="astructbioexplorer_1_1RNASequenceDetails_html_a9d6221b22ac240afc9585de87c6aa3a1"><div class="ttname"><a href="../../dc/d0c/structbioexplorer_1_1RNASequenceDetails.html#a9d6221b22ac240afc9585de87c6aa3a1">bioexplorer::RNASequenceDetails::range</a></div><div class="ttdeci">std::vector&lt; float &gt; range</div><div class="ttdef"><b>Definition:</b> <a href="../../d7/df8/Types_8h_source.html#l00406">Types.h:406</a></div></div>
-<div class="ttc" id="aclassbioexplorer_1_1RNASequence_html"><div class="ttname"><a href="../../d2/d77/classbioexplorer_1_1RNASequence.html">bioexplorer::RNASequence</a></div><div class="ttdoc">The RNASequence class.</div><div class="ttdef"><b>Definition:</b> <a href="../../d0/d7d/RNASequence_8h_source.html#l00034">RNASequence.h:34</a></div></div>
-<div class="ttc" id="astructbioexplorer_1_1RNASequenceDetails_html_a0282f19e50d9f87b054846f838d6ba6a"><div class="ttname"><a href="../../dc/d0c/structbioexplorer_1_1RNASequenceDetails.html#a0282f19e50d9f87b054846f838d6ba6a">bioexplorer::RNASequenceDetails::position</a></div><div class="ttdeci">std::vector&lt; float &gt; position</div><div class="ttdef"><b>Definition:</b> <a href="../../d7/df8/Types_8h_source.html#l00410">Types.h:410</a></div></div>
-<div class="ttc" id="astructbioexplorer_1_1RNASequenceDetails_html_a0761e90963836a1e0a6c59fc4c354074"><div class="ttname"><a href="../../dc/d0c/structbioexplorer_1_1RNASequenceDetails.html#a0761e90963836a1e0a6c59fc4c354074">bioexplorer::RNASequenceDetails::assemblyName</a></div><div class="ttdeci">std::string assemblyName</div><div class="ttdef"><b>Definition:</b> <a href="../../d7/df8/Types_8h_source.html#l00396">Types.h:396</a></div></div>
-<div class="ttc" id="astructbioexplorer_1_1RNASequenceDetails_html_a2f0fe4ccc0e2834a0e58f9fd803dfa8f"><div class="ttname"><a href="../../dc/d0c/structbioexplorer_1_1RNASequenceDetails.html#a2f0fe4ccc0e2834a0e58f9fd803dfa8f">bioexplorer::RNASequenceDetails::shape</a></div><div class="ttdeci">RNAShape shape</div><div class="ttdef"><b>Definition:</b> <a href="../../d7/df8/Types_8h_source.html#l00402">Types.h:402</a></div></div>
-<div class="ttc" id="astructbioexplorer_1_1RNASequenceDetails_html_ab91e9600c922dfdb24e49b18ecf44432"><div class="ttname"><a href="../../dc/d0c/structbioexplorer_1_1RNASequenceDetails.html#ab91e9600c922dfdb24e49b18ecf44432">bioexplorer::RNASequenceDetails::contents</a></div><div class="ttdeci">std::string contents</div><div class="ttdef"><b>Definition:</b> <a href="../../d7/df8/Types_8h_source.html#l00400">Types.h:400</a></div></div>
+<div class="ttc" id="astructbioexplorer_1_1details_1_1SugarsDetails_html_a81aecb2570b4818ceed97e0f6ff73a9e"><div class="ttname"><a href="../../dd/d92/structbioexplorer_1_1details_1_1SugarsDetails.html#a81aecb2570b4818ceed97e0f6ff73a9e">bioexplorer::details::SugarsDetails::assemblyName</a></div><div class="ttdeci">std::string assemblyName</div><div class="ttdef"><b>Definition:</b> <a href="../../d7/df8/Types_8h_source.html#l00328">Types.h:328</a></div></div>
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>

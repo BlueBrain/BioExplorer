@@ -1,5 +1,5 @@
 var searchData=
 [
-  ['databaseaccessdetails_256',['DatabaseAccessDetails',['../d8/d69/structbioexplorer_1_1DatabaseAccessDetails.html',1,'bioexplorer']]],
-  ['dbconnector_257',['DBConnector',['../d3/d1a/classbioexplorer_1_1DBConnector.html',1,'bioexplorer']]]
+  ['databaseaccessdetails_260',['DatabaseAccessDetails',['../dc/dd9/structbioexplorer_1_1details_1_1DatabaseAccessDetails.html',1,'bioexplorer::details']]],
+  ['dbconnector_261',['DBConnector',['../d9/d96/classbioexplorer_1_1io_1_1db_1_1DBConnector.html',1,'bioexplorer::io::db']]]
 ];

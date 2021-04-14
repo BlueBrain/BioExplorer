@@ -1,4 +1,3 @@
 <map id="Graphical Class Hierarchy" name="Graphical Class Hierarchy">
-<area shape="rect" id="node1" title=" " alt="" coords="5,13,121,39"/>
-<area shape="rect" id="node2" href="$d7/d7b/classbioexplorer_1_1BioExplorerPlugin.html" title="This class implements the BioExplorer plugin." alt="" coords="169,5,329,47"/>
+<area shape="rect" id="node1" href="$db/de5/structbioexplorer_1_1details_1_1AminoAcidSequenceAsRangesDetails.html" title="Structure defining a selection of amino acids on a protein of an assembly. The selection is defined a..." alt="" coords="5,5,217,61"/>
 </map>

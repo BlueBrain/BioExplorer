@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['node_369',['Node',['../da/dba/classbioexplorer_1_1Node.html#a1a75c700a6b2b1fcf048367e2f2f6fc0',1,'bioexplorer::Node']]]
+  ['node_374',['Node',['../de/dc0/classbioexplorer_1_1biology_1_1Node.html#a2b56af16626b832014845ee9bf007af0',1,'bioexplorer::biology::Node']]]
 ];

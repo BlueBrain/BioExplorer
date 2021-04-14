@@ -114,40 +114,42 @@ $(document).ready(function(){initNavTree('dc/d8e/PerspectiveStereoCamera_8h_sour
 <div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160; </div>
 <div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;<span class="keyword">namespace </span>bioexplorer</div>
 <div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;{</div>
-<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;<span class="keyword">using namespace </span>ospray;</div>
-<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160; </div>
-<div class="line"><a name="l00031"></a><span class="lineno"><a class="line" href="../../d3/d23/structbioexplorer_1_1PerspectiveStereoCamera.html">   31</a></span>&#160;<span class="keyword">struct </span>OSPRAY_SDK_INTERFACE <a class="code" href="../../d3/d23/structbioexplorer_1_1PerspectiveStereoCamera.html">PerspectiveStereoCamera</a> : <span class="keyword">public</span> Camera</div>
-<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;{</div>
-<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;    <a class="code" href="../../d3/d23/structbioexplorer_1_1PerspectiveStereoCamera.html">PerspectiveStereoCamera</a>();</div>
-<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160; </div>
-<div class="line"><a name="l00044"></a><span class="lineno"><a class="line" href="../../d3/d23/structbioexplorer_1_1PerspectiveStereoCamera.html#add4343d0c29ee5c6b01a2b24f54167ce">   44</a></span>&#160;    <span class="keyword">virtual</span> std::string <a class="code" href="../../d3/d23/structbioexplorer_1_1PerspectiveStereoCamera.html#add4343d0c29ee5c6b01a2b24f54167ce">toString</a>()<span class="keyword"> const</span></div>
-<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;<span class="keyword">    </span>{</div>
-<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;        <span class="keywordflow">return</span> <span class="stringliteral">&quot;bioexplorer::PerspectiveStereoCamera&quot;</span>;</div>
-<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;    }</div>
-<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160; </div>
-<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;    <span class="keyword">virtual</span> <span class="keywordtype">void</span> commit();</div>
-<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160; </div>
-<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;<span class="keyword">public</span>:</div>
-<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;    <span class="keywordtype">float</span> fovy;</div>
-<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;    <span class="keywordtype">float</span> aspect;</div>
-<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;    <span class="keywordtype">float</span> apertureRadius;</div>
-<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;    <span class="keywordtype">float</span> focusDistance;</div>
-<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;    <span class="keywordtype">bool</span> architectural;</div>
-<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160; </div>
-<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;    <span class="comment">// Clip planes</span></div>
-<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;    <span class="keywordtype">bool</span> enableClippingPlanes{<span class="keyword">false</span>};</div>
-<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;    Ref&lt;Data&gt; clipPlanes;</div>
-<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160; </div>
-<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;    <span class="comment">// Stereo</span></div>
-<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;    CameraStereoMode stereoMode;</div>
-<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;    <span class="keywordtype">float</span> interpupillaryDistance;</div>
-<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;};</div>
-<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160; </div>
-<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;} <span class="comment">// namespace bioexplorer</span></div>
+<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;<span class="keyword">namespace </span>rendering</div>
+<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;{</div>
+<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;<span class="keyword">using namespace </span>ospray;</div>
+<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160; </div>
+<div class="line"><a name="l00033"></a><span class="lineno"><a class="line" href="../../d8/d50/structbioexplorer_1_1rendering_1_1PerspectiveStereoCamera.html">   33</a></span>&#160;<span class="keyword">struct </span>OSPRAY_SDK_INTERFACE <a class="code" href="../../d8/d50/structbioexplorer_1_1rendering_1_1PerspectiveStereoCamera.html">PerspectiveStereoCamera</a> : <span class="keyword">public</span> Camera</div>
+<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;{</div>
+<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;    <a class="code" href="../../d8/d50/structbioexplorer_1_1rendering_1_1PerspectiveStereoCamera.html">PerspectiveStereoCamera</a>();</div>
+<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160; </div>
+<div class="line"><a name="l00046"></a><span class="lineno"><a class="line" href="../../d8/d50/structbioexplorer_1_1rendering_1_1PerspectiveStereoCamera.html#a841e2d57a050b3bfe3a83af7fb374e11">   46</a></span>&#160;    <span class="keyword">virtual</span> std::string <a class="code" href="../../d8/d50/structbioexplorer_1_1rendering_1_1PerspectiveStereoCamera.html#a841e2d57a050b3bfe3a83af7fb374e11">toString</a>()<span class="keyword"> const</span></div>
+<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;<span class="keyword">    </span>{</div>
+<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;        <span class="keywordflow">return</span> <span class="stringliteral">&quot;bioexplorer::PerspectiveStereoCamera&quot;</span>;</div>
+<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;    }</div>
+<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160; </div>
+<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;    <span class="keyword">virtual</span> <span class="keywordtype">void</span> commit();</div>
+<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160; </div>
+<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;<span class="keyword">public</span>:</div>
+<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;    <span class="keywordtype">float</span> fovy;</div>
+<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;    <span class="keywordtype">float</span> aspect;</div>
+<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;    <span class="keywordtype">float</span> apertureRadius;</div>
+<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;    <span class="keywordtype">float</span> focusDistance;</div>
+<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;    <span class="keywordtype">bool</span> architectural;</div>
+<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160; </div>
+<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;    <span class="comment">// Clip planes</span></div>
+<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;    <span class="keywordtype">bool</span> enableClippingPlanes{<span class="keyword">false</span>};</div>
+<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;    Ref&lt;Data&gt; clipPlanes;</div>
+<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160; </div>
+<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;    <span class="comment">// Stereo</span></div>
+<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;    CameraStereoMode stereoMode;</div>
+<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;    <span class="keywordtype">float</span> interpupillaryDistance;</div>
+<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;};</div>
+<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;} <span class="comment">// namespace rendering</span></div>
+<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;} <span class="comment">// namespace bioexplorer</span></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
-<div class="ttc" id="astructbioexplorer_1_1PerspectiveStereoCamera_html"><div class="ttname"><a href="../../d3/d23/structbioexplorer_1_1PerspectiveStereoCamera.html">bioexplorer::PerspectiveStereoCamera</a></div><div class="ttdef"><b>Definition:</b> <a href="../../dc/d8e/PerspectiveStereoCamera_8h_source.html#l00031">PerspectiveStereoCamera.h:31</a></div></div>
-<div class="ttc" id="astructbioexplorer_1_1PerspectiveStereoCamera_html_add4343d0c29ee5c6b01a2b24f54167ce"><div class="ttname"><a href="../../d3/d23/structbioexplorer_1_1PerspectiveStereoCamera.html#add4343d0c29ee5c6b01a2b24f54167ce">bioexplorer::PerspectiveStereoCamera::toString</a></div><div class="ttdeci">virtual std::string toString() const</div><div class="ttdoc">Returns the name of the camera.</div><div class="ttdef"><b>Definition:</b> <a href="../../dc/d8e/PerspectiveStereoCamera_8h_source.html#l00044">PerspectiveStereoCamera.h:44</a></div></div>
+<div class="ttc" id="astructbioexplorer_1_1rendering_1_1PerspectiveStereoCamera_html"><div class="ttname"><a href="../../d8/d50/structbioexplorer_1_1rendering_1_1PerspectiveStereoCamera.html">bioexplorer::rendering::PerspectiveStereoCamera</a></div><div class="ttdef"><b>Definition:</b> <a href="../../dc/d8e/PerspectiveStereoCamera_8h_source.html#l00033">PerspectiveStereoCamera.h:33</a></div></div>
+<div class="ttc" id="astructbioexplorer_1_1rendering_1_1PerspectiveStereoCamera_html_a841e2d57a050b3bfe3a83af7fb374e11"><div class="ttname"><a href="../../d8/d50/structbioexplorer_1_1rendering_1_1PerspectiveStereoCamera.html#a841e2d57a050b3bfe3a83af7fb374e11">bioexplorer::rendering::PerspectiveStereoCamera::toString</a></div><div class="ttdeci">virtual std::string toString() const</div><div class="ttdoc">Returns the name of the camera.</div><div class="ttdef"><b>Definition:</b> <a href="../../dc/d8e/PerspectiveStereoCamera_8h_source.html#l00046">PerspectiveStereoCamera.h:46</a></div></div>
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>

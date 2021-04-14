@@ -1,7 +1,7 @@
 var searchData=
 [
-  ['icode_426',['iCode',['../db/d01/structbioexplorer_1_1Atom.html#ab0bb029d3a2e03bab75045a455b09881',1,'bioexplorer::Atom']]],
-  ['ids_427',['ids',['../d7/dff/structbioexplorer_1_1MaterialIdsDetails.html#a479916c97b230fb3e4145eeb196a84e2',1,'bioexplorer::MaterialIdsDetails']]],
-  ['index_428',['index',['../df/d61/structbioexplorer_1_1Nucleotid.html#ae14a5ff798dae2ad8f17a60a0e6b19ca',1,'bioexplorer::Nucleotid::index()'],['../d2/de1/structbioexplorer_1_1AminoAcidDetails.html#aa55e78c1fd6e694082f4134ca1fb22dd',1,'bioexplorer::AminoAcidDetails::index()']]],
-  ['instanceindex_429',['instanceIndex',['../db/d82/structbioexplorer_1_1ProteinInstanceTransformationDetails.html#afe9f4b1645f35f20b3796419e794c899',1,'bioexplorer::ProteinInstanceTransformationDetails']]]
+  ['icode_432',['iCode',['../df/d99/structbioexplorer_1_1biology_1_1Atom.html#acacf98997ba5c46c7b15ba26b8be8da4',1,'bioexplorer::biology::Atom']]],
+  ['ids_433',['ids',['../d3/d7d/structbioexplorer_1_1details_1_1MaterialIdsDetails.html#a949ed6cca238aaafc213c2ce42c0efe4',1,'bioexplorer::details::MaterialIdsDetails']]],
+  ['index_434',['index',['../d2/dab/structbioexplorer_1_1biology_1_1Nucleotid.html#ae2afcb7c129fec3be362ccf07b68ad97',1,'bioexplorer::biology::Nucleotid::index()'],['../d3/dd3/structbioexplorer_1_1details_1_1AminoAcidDetails.html#a513bc0b65ebadfb21525db5059f15119',1,'bioexplorer::details::AminoAcidDetails::index()']]],
+  ['instanceindex_435',['instanceIndex',['../d7/dab/structbioexplorer_1_1details_1_1ProteinInstanceTransformationDetails.html#a985e5b98b04fd18affa7881a1185a3d5',1,'bioexplorer::details::ProteinInstanceTransformationDetails']]]
 ];

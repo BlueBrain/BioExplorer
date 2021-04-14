@@ -1,5 +1,5 @@
 var searchData=
 [
-  ['glossiness_424',['glossiness',['../da/db3/structbioexplorer_1_1AdvancedMaterial.html#ae926a118e03f315e9ad4a815b3e06611',1,'bioexplorer::AdvancedMaterial']]],
-  ['glossinesses_425',['glossinesses',['../d6/df4/structbioexplorer_1_1MaterialsDetails.html#aba75352f87f951f0867182a2f74013fd',1,'bioexplorer::MaterialsDetails']]]
+  ['glossiness_430',['glossiness',['../d5/d4e/structbioexplorer_1_1rendering_1_1AdvancedMaterial.html#a5972b3a4fb67941b8b4260148fe54ba9',1,'bioexplorer::rendering::AdvancedMaterial']]],
+  ['glossinesses_431',['glossinesses',['../d7/d84/structbioexplorer_1_1details_1_1MaterialsDetails.html#a01d955e03e0b2e181d7bac068092b8d8',1,'bioexplorer::details::MaterialsDetails']]]
 ];

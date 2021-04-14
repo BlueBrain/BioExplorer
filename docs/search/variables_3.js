@@ -1,6 +1,6 @@
 var searchData=
 [
-  ['density_419',['density',['../d0/d14/structbioexplorer_1_1MeshBasedMembraneDetails.html#aad92a4db4709329d7031028ca96245c1',1,'bioexplorer::MeshBasedMembraneDetails::density()'],['../dd/d9e/structbioexplorer_1_1BuildFieldsDetails.html#a77d5819b63c8dca19ff9518eb6650afe',1,'bioexplorer::BuildFieldsDetails::density()']]],
-  ['description_420',['description',['../d8/db3/structbioexplorer_1_1OOCSceneConfigurationDetails.html#a56caed5bd6ea5378e30c755431b5f14c',1,'bioexplorer::OOCSceneConfigurationDetails']]],
-  ['diffusecolors_421',['diffuseColors',['../d6/df4/structbioexplorer_1_1MaterialsDetails.html#a02d25734249b81c844f5613859f8bf77',1,'bioexplorer::MaterialsDetails']]]
+  ['density_425',['density',['../da/d3c/structbioexplorer_1_1details_1_1MeshBasedMembraneDetails.html#ac20c08650a6555c855e8c9582ecdb388',1,'bioexplorer::details::MeshBasedMembraneDetails::density()'],['../dc/d5b/structbioexplorer_1_1details_1_1BuildFieldsDetails.html#a920738939f587a759b102c85a8d7d936',1,'bioexplorer::details::BuildFieldsDetails::density()']]],
+  ['description_426',['description',['../d1/d25/structbioexplorer_1_1details_1_1OOCSceneConfigurationDetails.html#a14e9f653aeab2a6e89e94e454d0153b4',1,'bioexplorer::details::OOCSceneConfigurationDetails']]],
+  ['diffusecolors_427',['diffuseColors',['../d7/d84/structbioexplorer_1_1details_1_1MaterialsDetails.html#ad5445f0005de017a5e697c65d384ab15',1,'bioexplorer::details::MaterialsDetails']]]
 ];

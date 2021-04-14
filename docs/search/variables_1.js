@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['bricksize_405',['brickSize',['../d8/db3/structbioexplorer_1_1OOCSceneConfigurationDetails.html#a09517b086d4727f0ae52c47cc32cfe64',1,'bioexplorer::OOCSceneConfigurationDetails']]]
+  ['bricksize_411',['brickSize',['../d1/d25/structbioexplorer_1_1details_1_1OOCSceneConfigurationDetails.html#a4216aabd383f17207757843e98d4176b',1,'bioexplorer::details::OOCSceneConfigurationDetails']]]
 ];

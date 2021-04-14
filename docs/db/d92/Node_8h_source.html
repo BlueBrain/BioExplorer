@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.17"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>BioExplorer: /home/favreau/git/BioExplorer/bioexplorer/core/plugin/bioexplorer/Node.h Source File</title>
+<title>BioExplorer: /home/favreau/git/BioExplorer/bioexplorer/core/plugin/biology/Node.h Source File</title>
 <link href="../../tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="../../jquery.js"></script>
 <script type="text/javascript" src="../../dynsections.js"></script>
@@ -112,30 +112,34 @@ $(document).ready(function(){initNavTree('db/d92/Node_8h_source.html','../../');
 <div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160; </div>
 <div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;<span class="keyword">namespace </span>bioexplorer</div>
 <div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;{</div>
-<div class="line"><a name="l00030"></a><span class="lineno"><a class="line" href="../../da/dba/classbioexplorer_1_1Node.html">   30</a></span>&#160;<span class="keyword">class </span><a class="code" href="../../da/dba/classbioexplorer_1_1Node.html">Node</a></div>
-<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;{</div>
-<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;<span class="keyword">public</span>:</div>
-<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;    <a class="code" href="../../da/dba/classbioexplorer_1_1Node.html#a1a75c700a6b2b1fcf048367e2f2f6fc0">Node</a>();</div>
-<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160; </div>
-<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;    <span class="keyword">virtual</span> <a class="code" href="../../da/dba/classbioexplorer_1_1Node.html#a66bec073a21991079163f1647b946a57">~Node</a>();</div>
-<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160; </div>
-<div class="line"><a name="l00050"></a><span class="lineno"><a class="line" href="../../da/dba/classbioexplorer_1_1Node.html#aeba6089384d146d6fe3fb7b3f27ac159">   50</a></span>&#160;    ModelDescriptorPtr <a class="code" href="../../da/dba/classbioexplorer_1_1Node.html#aeba6089384d146d6fe3fb7b3f27ac159">getModelDescriptor</a>() { <span class="keywordflow">return</span> _modelDescriptor; }</div>
-<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160; </div>
-<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;<span class="keyword">protected</span>:</div>
-<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;    ModelDescriptorPtr _modelDescriptor{<span class="keyword">nullptr</span>};</div>
-<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;    uint32_t _uuid;</div>
-<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;};</div>
-<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;} <span class="comment">// namespace bioexplorer</span></div>
+<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;<span class="keyword">namespace </span>biology</div>
+<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;{</div>
+<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;<span class="keyword">using namespace </span>brayns;</div>
+<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;<span class="keyword">using namespace </span>details;</div>
+<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160; </div>
+<div class="line"><a name="l00035"></a><span class="lineno"><a class="line" href="../../de/dc0/classbioexplorer_1_1biology_1_1Node.html">   35</a></span>&#160;<span class="keyword">class </span><a class="code" href="../../de/dc0/classbioexplorer_1_1biology_1_1Node.html">Node</a></div>
+<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;{</div>
+<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;<span class="keyword">public</span>:</div>
+<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;    <a class="code" href="../../de/dc0/classbioexplorer_1_1biology_1_1Node.html">Node</a>();</div>
+<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160; </div>
+<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;    <span class="keyword">virtual</span> ~<a class="code" href="../../de/dc0/classbioexplorer_1_1biology_1_1Node.html">Node</a>();</div>
+<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160; </div>
+<div class="line"><a name="l00055"></a><span class="lineno"><a class="line" href="../../de/dc0/classbioexplorer_1_1biology_1_1Node.html#a05df29b370a8dede72883e627ec50653">   55</a></span>&#160;    ModelDescriptorPtr <a class="code" href="../../de/dc0/classbioexplorer_1_1biology_1_1Node.html#a05df29b370a8dede72883e627ec50653">getModelDescriptor</a>() { <span class="keywordflow">return</span> _modelDescriptor; }</div>
+<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160; </div>
+<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;<span class="keyword">protected</span>:</div>
+<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;    ModelDescriptorPtr _modelDescriptor{<span class="keyword">nullptr</span>};</div>
+<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;    uint32_t _uuid;</div>
+<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;};</div>
+<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;} <span class="comment">// namespace biology</span></div>
+<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;} <span class="comment">// namespace bioexplorer</span></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
-<div class="ttc" id="aclassbioexplorer_1_1Node_html_a66bec073a21991079163f1647b946a57"><div class="ttname"><a href="../../da/dba/classbioexplorer_1_1Node.html#a66bec073a21991079163f1647b946a57">bioexplorer::Node::~Node</a></div><div class="ttdeci">virtual ~Node()</div><div class="ttdoc">Destroy the Node object.</div><div class="ttdef"><b>Definition:</b> <a href="../../dc/d73/Node_8cpp_source.html#l00032">Node.cpp:32</a></div></div>
-<div class="ttc" id="aclassbioexplorer_1_1Node_html_aeba6089384d146d6fe3fb7b3f27ac159"><div class="ttname"><a href="../../da/dba/classbioexplorer_1_1Node.html#aeba6089384d146d6fe3fb7b3f27ac159">bioexplorer::Node::getModelDescriptor</a></div><div class="ttdeci">ModelDescriptorPtr getModelDescriptor()</div><div class="ttdoc">Get the Model Descriptor object.</div><div class="ttdef"><b>Definition:</b> <a href="../../db/d92/Node_8h_source.html#l00050">Node.h:50</a></div></div>
-<div class="ttc" id="aclassbioexplorer_1_1Node_html_a1a75c700a6b2b1fcf048367e2f2f6fc0"><div class="ttname"><a href="../../da/dba/classbioexplorer_1_1Node.html#a1a75c700a6b2b1fcf048367e2f2f6fc0">bioexplorer::Node::Node</a></div><div class="ttdeci">Node()</div><div class="ttdoc">Construct a new Node object.</div><div class="ttdef"><b>Definition:</b> <a href="../../dc/d73/Node_8cpp_source.html#l00026">Node.cpp:26</a></div></div>
-<div class="ttc" id="aclassbioexplorer_1_1Node_html"><div class="ttname"><a href="../../da/dba/classbioexplorer_1_1Node.html">bioexplorer::Node</a></div><div class="ttdoc">The Node class.</div><div class="ttdef"><b>Definition:</b> <a href="../../db/d92/Node_8h_source.html#l00030">Node.h:30</a></div></div>
+<div class="ttc" id="aclassbioexplorer_1_1biology_1_1Node_html"><div class="ttname"><a href="../../de/dc0/classbioexplorer_1_1biology_1_1Node.html">bioexplorer::biology::Node</a></div><div class="ttdoc">The Node class.</div><div class="ttdef"><b>Definition:</b> <a href="../../db/d92/Node_8h_source.html#l00035">Node.h:35</a></div></div>
+<div class="ttc" id="aclassbioexplorer_1_1biology_1_1Node_html_a05df29b370a8dede72883e627ec50653"><div class="ttname"><a href="../../de/dc0/classbioexplorer_1_1biology_1_1Node.html#a05df29b370a8dede72883e627ec50653">bioexplorer::biology::Node::getModelDescriptor</a></div><div class="ttdeci">ModelDescriptorPtr getModelDescriptor()</div><div class="ttdoc">Get the Model Descriptor object.</div><div class="ttdef"><b>Definition:</b> <a href="../../db/d92/Node_8h_source.html#l00055">Node.h:55</a></div></div>
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="../../dir_4270bfced15e0e73154b13468c7c9ad9.html">core</a></li><li class="navelem"><a class="el" href="../../dir_32c53a81047e6b1f79109ecf563d9b76.html">plugin</a></li><li class="navelem"><a class="el" href="../../dir_fe8a968409569ad05c4aef9d08f0fd67.html">bioexplorer</a></li><li class="navelem"><b>Node.h</b></li>
+    <li class="navelem"><a class="el" href="../../dir_4270bfced15e0e73154b13468c7c9ad9.html">core</a></li><li class="navelem"><a class="el" href="../../dir_32c53a81047e6b1f79109ecf563d9b76.html">plugin</a></li><li class="navelem"><a class="el" href="../../dir_9a9dde4b851279721bb1b60982956579.html">biology</a></li><li class="navelem"><b>Node.h</b></li>
     <li class="footer">Generated by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="../../doxygen.png" alt="doxygen"/></a> 1.8.17 </li>

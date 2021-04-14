@@ -1,8 +1,8 @@
 var searchData=
 [
-  ['user_20guide_225',['User guide',['../da/df0/md_USERGUIDE.html',1,'']]],
-  ['uniqueid_226',['UniqueId',['../d4/dbf/classbioexplorer_1_1UniqueId.html',1,'bioexplorer::UniqueId'],['../d4/dbf/classbioexplorer_1_1UniqueId.html#a618e91ec2c6950f8c5812cc4ccb8e8fd',1,'bioexplorer::UniqueId::UniqueId()']]],
-  ['usecolors_227',['useColors',['../d6/d27/structbioexplorer_1_1AddGridDetails.html#ad334081e73bb7ae2f5ed27c55294523e',1,'bioexplorer::AddGridDetails']]],
-  ['userparameter_228',['userParameter',['../da/db3/structbioexplorer_1_1AdvancedMaterial.html#ac71b3c0805f83c57f77432a50b79c504',1,'bioexplorer::AdvancedMaterial']]],
-  ['userparameters_229',['userParameters',['../d6/df4/structbioexplorer_1_1MaterialsDetails.html#a9c1863ed995693fe8251ceeba6722854',1,'bioexplorer::MaterialsDetails']]]
+  ['user_20guide_229',['User guide',['../da/df0/md_USERGUIDE.html',1,'']]],
+  ['uniqueid_230',['UniqueId',['../d0/dbd/classbioexplorer_1_1common_1_1UniqueId.html',1,'bioexplorer::common::UniqueId'],['../d0/dbd/classbioexplorer_1_1common_1_1UniqueId.html#ae59dd2b6ed232c1865a5811e558fe33a',1,'bioexplorer::common::UniqueId::UniqueId()']]],
+  ['usecolors_231',['useColors',['../db/dd8/structbioexplorer_1_1details_1_1AddGridDetails.html#a03242b839ef5a10701f3ab0744d38074',1,'bioexplorer::details::AddGridDetails']]],
+  ['userparameter_232',['userParameter',['../d5/d4e/structbioexplorer_1_1rendering_1_1AdvancedMaterial.html#a9cf08f6a82f61bcab19976ffc7c20afd',1,'bioexplorer::rendering::AdvancedMaterial']]],
+  ['userparameters_233',['userParameters',['../d7/d84/structbioexplorer_1_1details_1_1MaterialsDetails.html#abdd6e1eb126e386fcdf9ed85a8dbf1c6',1,'bioexplorer::details::MaterialsDetails']]]
 ];
