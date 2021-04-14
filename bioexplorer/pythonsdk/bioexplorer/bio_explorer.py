@@ -483,7 +483,7 @@ class BioExplorer:
         # RNA Sequence
         rna_sequence = None
         if add_rna_sequence:
-            params = [11, 0, 0.0, 0, 0.0, assembly_params[5]]
+            params = [11.0, 0.5]
             rna_sequence = RNASequence(
                 source=rna_folder + "sars-cov-2.rna",
                 assembly_params=params,
@@ -623,15 +623,8 @@ class BioExplorer:
             self.apply_default_color_scheme(
                 shading_mode=self.SHADING_MODE_BASIC)
 
-    def add_virus(
-            self,
-            virus,
-            atom_radius_multiplier=1.0,
-            representation=REPRESENTATION_ATOMS,
-            clipping_planes=None,
-            position=Vector3(),
-            rotation=Quaternion()
-    ):
+    def add_virus(self, virus, atom_radius_multiplier=1.0, representation=REPRESENTATION_ATOMS,
+                  clipping_planes=None, position=Vector3(), rotation=Quaternion()):
         """
         Adds a virus assembly to the scene
 
