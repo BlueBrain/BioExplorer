@@ -26,6 +26,8 @@
 
 namespace bioexplorer
 {
+namespace rendering
+{
 using namespace ospray;
 
 /**
@@ -82,4 +84,5 @@ private:
     ospray::Ref<ospray::Data> _userData;
     ospray::uint64 _userDataSize;
 };
+} // namespace rendering
 } // namespace bioexplorer

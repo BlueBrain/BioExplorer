@@ -32,6 +32,8 @@ using namespace ospray;
 
 namespace bioexplorer
 {
+namespace rendering
+{
 void AdvancedRenderer::commit()
 {
     Renderer::commit();
@@ -83,4 +85,5 @@ AdvancedRenderer::AdvancedRenderer()
 }
 
 OSP_REGISTER_RENDERER(AdvancedRenderer, bio_explorer);
+} // namespace rendering
 } // namespace bioexplorer

@@ -22,13 +22,10 @@
 
 #include <plugin/common/Types.h>
 
-namespace bioexplorer
-{
-struct Response
-{
-    bool status{true};
-    std::string contents;
-};
+using namespace bioexplorer;
+using namespace details;
+
+// Response
 std::string to_json(const Response &param);
 
 // Settings
@@ -85,5 +82,3 @@ bool from_json(BuildPointCloudDetails &param, const std::string &payload);
 bool from_json(ModelsVisibilityDetails &param, const std::string &payload);
 bool from_json(ProteinInstanceTransformationDetails &param,
                const std::string &payload);
-
-} // namespace bioexplorer

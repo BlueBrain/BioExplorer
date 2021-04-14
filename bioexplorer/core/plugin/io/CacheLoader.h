@@ -32,6 +32,10 @@ using namespace brayns;
 
 namespace bioexplorer
 {
+namespace io
+{
+using namespace db;
+
 const int32_t UNDEFINED_BOX_ID = std::numeric_limits<int32_t>::max();
 
 /**
@@ -175,4 +179,5 @@ private:
 
     PropertyMap _defaults;
 };
+} // namespace io
 } // namespace bioexplorer

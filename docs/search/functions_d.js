@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['rnasequence_376',['RNASequence',['../d2/d77/classbioexplorer_1_1RNASequence.html#a6ea4fe171a388aa2eb32656ff34dd7b3',1,'bioexplorer::RNASequence']]]
+  ['rnasequence_381',['RNASequence',['../d0/d5f/classbioexplorer_1_1biology_1_1RNASequence.html#aefa8008cd961953e5b95243f8a669a82',1,'bioexplorer::biology::RNASequence']]]
 ];

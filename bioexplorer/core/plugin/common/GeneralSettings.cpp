@@ -22,6 +22,9 @@
 
 namespace bioexplorer
 {
+namespace common
+{
 GeneralSettings *GeneralSettings::_instance = nullptr;
 std::mutex GeneralSettings::_mutex;
-}
+} // namespace common
+} // namespace bioexplorer

@@ -24,7 +24,10 @@
 
 namespace bioexplorer
 {
+namespace io
+{
 using namespace brayns;
+using namespace details;
 
 /**
  * @brief The OOCManager classes manager the out-of-core engine of the
@@ -166,4 +169,5 @@ private:
     std::string _bricksFolder;
 #endif
 };
+} // namespace io
 } // namespace bioexplorer

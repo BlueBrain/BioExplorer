@@ -56,20 +56,20 @@ set(${NAME}_SOURCES
     module/ispc/render/FieldsRenderer.cpp
     plugin/common/GeneralSettings.cpp
     plugin/common/Utils.cpp
+    plugin/common/UniqueId.cpp
     plugin/fields/FieldsHandler.cpp
     plugin/fields/Octree.cpp
     plugin/fields/OctreeNode.cpp
     plugin/io/CacheLoader.cpp
     plugin/io/OOCManager.cpp
-    plugin/bioexplorer/UniqueId.cpp
-    plugin/bioexplorer/Molecule.cpp
-    plugin/bioexplorer/Assembly.cpp
-    plugin/bioexplorer/Node.cpp
-    plugin/bioexplorer/Membrane.cpp
-    plugin/bioexplorer/Glycans.cpp
-    plugin/bioexplorer/MeshBasedMembrane.cpp
-    plugin/bioexplorer/Protein.cpp
-    plugin/bioexplorer/RNASequence.cpp
+    plugin/biology/Molecule.cpp
+    plugin/biology/Assembly.cpp
+    plugin/biology/Node.cpp
+    plugin/biology/Membrane.cpp
+    plugin/biology/Glycans.cpp
+    plugin/biology/MeshBasedMembrane.cpp
+    plugin/biology/Protein.cpp
+    plugin/biology/RNASequence.cpp
     plugin/api/Params.cpp
     plugin/BioExplorerPlugin.cpp
 )
@@ -77,15 +77,15 @@ set(${NAME}_SOURCES
 set(${NAME}_PUBLIC_HEADERS
     plugin/io/OOCManager.h
     plugin/io/CacheLoader.h
-    plugin/bioexplorer/UniqueId.h
-    plugin/bioexplorer/Molecule.h
-    plugin/bioexplorer/Assembly.h
-    plugin/bioexplorer/Node.h
-    plugin/bioexplorer/Glycans.h
-    plugin/bioexplorer/MeshBasedMembrane.h
-    plugin/bioexplorer/Membrane.h
-    plugin/bioexplorer/Protein.h
-    plugin/bioexplorer/RNASequence.h
+    plugin/biology/Molecule.h
+    plugin/biology/Assembly.h
+    plugin/biology/Node.h
+    plugin/biology/Glycans.h
+    plugin/biology/MeshBasedMembrane.h
+    plugin/biology/Membrane.h
+    plugin/biology/Protein.h
+    plugin/biology/RNASequence.h
+    plugin/common/UniqueId.h
     plugin/common/GeneralSettings.h
     plugin/common/CommonTypes.h
     plugin/api/Params.h

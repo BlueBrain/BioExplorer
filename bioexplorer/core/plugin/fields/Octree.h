@@ -28,6 +28,8 @@
 
 namespace bioexplorer
 {
+namespace fields
+{
 /**
  * @brief The Octree class implements the Octree acceleration structure used by
  * the FieldsRenderer class to render magnetic fields
@@ -112,4 +114,5 @@ private:
     std::vector<uint32_t> _flatIndexes;
     std::vector<float> _flatData;
 };
+} // namespace fields
 } // namespace bioexplorer

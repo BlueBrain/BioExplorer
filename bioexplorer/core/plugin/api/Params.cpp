@@ -21,8 +21,6 @@
 #include "Params.h"
 #include "json.hpp"
 
-namespace bioexplorer
-{
 #ifndef BRAYNS_DEBUG_JSON_ENABLED
 #define FROM_JSON(PARAM, JSON, NAME) \
     PARAM.NAME = JSON[#NAME].get<decltype(PARAM.NAME)>()
@@ -568,5 +566,3 @@ bool from_json(ProteinInstanceTransformationDetails &param,
     }
     return true;
 }
-
-} // namespace bioexplorer

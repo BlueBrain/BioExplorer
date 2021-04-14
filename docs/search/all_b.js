@@ -1,11 +1,11 @@
 var searchData=
 [
-  ['occupancy_155',['occupancy',['../db/d01/structbioexplorer_1_1Atom.html#ad0c419829a86f22b87c721686aa7e043',1,'bioexplorer::Atom']]],
-  ['occurrences_156',['occurrences',['../d9/df5/structbioexplorer_1_1MembraneDetails.html#a22cd31403afb637be03d6b8270b49996',1,'bioexplorer::MembraneDetails::occurrences()'],['../da/df7/structbioexplorer_1_1ProteinDetails.html#a1982c7e6df850bf5f6ad056b458ee76b',1,'bioexplorer::ProteinDetails::occurrences()']]],
-  ['octree_157',['Octree',['../d1/d8e/classbioexplorer_1_1Octree.html',1,'bioexplorer::Octree'],['../d1/d8e/classbioexplorer_1_1Octree.html#a1dcd7514bae3f306d9891ea65bee5591',1,'bioexplorer::Octree::Octree()']]],
-  ['octreenode_158',['OctreeNode',['../d9/dfb/classbioexplorer_1_1OctreeNode.html',1,'bioexplorer::OctreeNode'],['../d9/dfb/classbioexplorer_1_1OctreeNode.html#a5ecec7ae854f636354b5bce55da92e04',1,'bioexplorer::OctreeNode::OctreeNode()']]],
-  ['offset_159',['offset',['../d9/db8/structbioexplorer_1_1Sequence.html#aef250e6ca11da2a4cd825bef5d736d4d',1,'bioexplorer::Sequence']]],
-  ['oocmanager_160',['OOCManager',['../d0/d4b/classbioexplorer_1_1OOCManager.html',1,'bioexplorer::OOCManager'],['../d0/d4b/classbioexplorer_1_1OOCManager.html#a9a1eedea22d3eb1d8a6eb7db7fbb5678',1,'bioexplorer::OOCManager::OOCManager()']]],
-  ['oocsceneconfigurationdetails_161',['OOCSceneConfigurationDetails',['../d8/db3/structbioexplorer_1_1OOCSceneConfigurationDetails.html',1,'bioexplorer']]],
-  ['opacities_162',['opacities',['../d6/df4/structbioexplorer_1_1MaterialsDetails.html#a1cfdc69b5bad374847c321365975a5a6',1,'bioexplorer::MaterialsDetails']]]
+  ['occupancy_156',['occupancy',['../df/d99/structbioexplorer_1_1biology_1_1Atom.html#abed497d224b8b9a9c47573200f72c409',1,'bioexplorer::biology::Atom']]],
+  ['occurrences_157',['occurrences',['../d0/ddb/structbioexplorer_1_1details_1_1MembraneDetails.html#a991fea5a0dae751549cb5697e8b62d19',1,'bioexplorer::details::MembraneDetails::occurrences()'],['../de/d0e/structbioexplorer_1_1details_1_1ProteinDetails.html#a21028bb0639c0b790235dc4e125f9580',1,'bioexplorer::details::ProteinDetails::occurrences()']]],
+  ['octree_158',['Octree',['../dc/d5a/classbioexplorer_1_1fields_1_1Octree.html',1,'bioexplorer::fields::Octree'],['../dc/d5a/classbioexplorer_1_1fields_1_1Octree.html#abc0b2440d1637693c2f52829ab52d6cd',1,'bioexplorer::fields::Octree::Octree()']]],
+  ['octreenode_159',['OctreeNode',['../d1/d60/classbioexplorer_1_1fields_1_1OctreeNode.html',1,'bioexplorer::fields::OctreeNode'],['../d1/d60/classbioexplorer_1_1fields_1_1OctreeNode.html#af14eaa436ea278b2a4911c162a36a977',1,'bioexplorer::fields::OctreeNode::OctreeNode()']]],
+  ['offset_160',['offset',['../de/dde/structbioexplorer_1_1biology_1_1ResidueSequence.html#a749948327ed7edb959e9576887ebe3e3',1,'bioexplorer::biology::ResidueSequence']]],
+  ['oocmanager_161',['OOCManager',['../da/d6e/classbioexplorer_1_1io_1_1OOCManager.html',1,'bioexplorer::io::OOCManager'],['../da/d6e/classbioexplorer_1_1io_1_1OOCManager.html#a1d53ee9e3121dcf75fe8841d6b5e6a7e',1,'bioexplorer::io::OOCManager::OOCManager()']]],
+  ['oocsceneconfigurationdetails_162',['OOCSceneConfigurationDetails',['../d1/d25/structbioexplorer_1_1details_1_1OOCSceneConfigurationDetails.html',1,'bioexplorer::details']]],
+  ['opacities_163',['opacities',['../d7/d84/structbioexplorer_1_1details_1_1MaterialsDetails.html#a28c4100c77ab6922bfa74bf3ff8253b9',1,'bioexplorer::details::MaterialsDetails']]]
 ];

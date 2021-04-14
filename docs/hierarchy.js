@@ -1,72 +1,72 @@
 var hierarchy =
 [
     [ "AbstractSimulationHandler", null, [
-      [ "bioexplorer::FieldsHandler", "dc/d44/classbioexplorer_1_1FieldsHandler.html", null ]
+      [ "bioexplorer::fields::FieldsHandler", "d9/d6e/classbioexplorer_1_1fields_1_1FieldsHandler.html", null ]
     ] ],
-    [ "bioexplorer::AddGridDetails", "d6/d27/structbioexplorer_1_1AddGridDetails.html", null ],
-    [ "bioexplorer::AminoAcid", "d9/db8/structbioexplorer_1_1AminoAcid.html", null ],
-    [ "bioexplorer::AminoAcidDetails", "d2/de1/structbioexplorer_1_1AminoAcidDetails.html", null ],
-    [ "bioexplorer::AminoAcidInformationDetails", "d3/dac/structbioexplorer_1_1AminoAcidInformationDetails.html", null ],
-    [ "bioexplorer::AminoAcidSequenceAsRangesDetails", "d7/d35/structbioexplorer_1_1AminoAcidSequenceAsRangesDetails.html", null ],
-    [ "bioexplorer::AminoAcidSequenceAsStringDetails", "d2/d03/structbioexplorer_1_1AminoAcidSequenceAsStringDetails.html", null ],
-    [ "bioexplorer::Assembly", "db/db7/classbioexplorer_1_1Assembly.html", null ],
-    [ "bioexplorer::AssemblyDetails", "dd/d75/structbioexplorer_1_1AssemblyDetails.html", null ],
-    [ "bioexplorer::AssemblyTransformationsDetails", "d3/d4a/structbioexplorer_1_1AssemblyTransformationsDetails.html", null ],
-    [ "bioexplorer::Atom", "db/d01/structbioexplorer_1_1Atom.html", null ],
-    [ "bioexplorer::BuildFieldsDetails", "dd/d9e/structbioexplorer_1_1BuildFieldsDetails.html", null ],
-    [ "bioexplorer::BuildPointCloudDetails", "de/d84/structbioexplorer_1_1BuildPointCloudDetails.html", null ],
+    [ "bioexplorer::details::AddGridDetails", "db/dd8/structbioexplorer_1_1details_1_1AddGridDetails.html", null ],
+    [ "bioexplorer::biology::AminoAcid", "da/d20/structbioexplorer_1_1biology_1_1AminoAcid.html", null ],
+    [ "bioexplorer::details::AminoAcidDetails", "d3/dd3/structbioexplorer_1_1details_1_1AminoAcidDetails.html", null ],
+    [ "bioexplorer::details::AminoAcidInformationDetails", "d6/dda/structbioexplorer_1_1details_1_1AminoAcidInformationDetails.html", null ],
+    [ "bioexplorer::details::AminoAcidSequenceAsRangesDetails", "db/de5/structbioexplorer_1_1details_1_1AminoAcidSequenceAsRangesDetails.html", null ],
+    [ "bioexplorer::details::AminoAcidSequenceAsStringDetails", "d8/d02/structbioexplorer_1_1details_1_1AminoAcidSequenceAsStringDetails.html", null ],
+    [ "bioexplorer::biology::Assembly", "d6/dc2/classbioexplorer_1_1biology_1_1Assembly.html", null ],
+    [ "bioexplorer::details::AssemblyDetails", "d1/da5/structbioexplorer_1_1details_1_1AssemblyDetails.html", null ],
+    [ "bioexplorer::details::AssemblyTransformationsDetails", "d6/dd0/structbioexplorer_1_1details_1_1AssemblyTransformationsDetails.html", null ],
+    [ "bioexplorer::biology::Atom", "df/d99/structbioexplorer_1_1biology_1_1Atom.html", null ],
+    [ "bioexplorer::details::BuildFieldsDetails", "dc/d5b/structbioexplorer_1_1details_1_1BuildFieldsDetails.html", null ],
+    [ "bioexplorer::details::BuildPointCloudDetails", "d5/dc6/structbioexplorer_1_1details_1_1BuildPointCloudDetails.html", null ],
     [ "Camera", null, [
-      [ "bioexplorer::PerspectiveStereoCamera", "d3/d23/structbioexplorer_1_1PerspectiveStereoCamera.html", null ]
+      [ "bioexplorer::rendering::PerspectiveStereoCamera", "d8/d50/structbioexplorer_1_1rendering_1_1PerspectiveStereoCamera.html", null ]
     ] ],
-    [ "bioexplorer::ColorSchemeDetails", "d7/d0c/structbioexplorer_1_1ColorSchemeDetails.html", null ],
-    [ "bioexplorer::DatabaseAccessDetails", "d8/d69/structbioexplorer_1_1DatabaseAccessDetails.html", null ],
-    [ "bioexplorer::DBConnector", "d3/d1a/classbioexplorer_1_1DBConnector.html", null ],
+    [ "bioexplorer::details::ColorSchemeDetails", "d3/dd5/structbioexplorer_1_1details_1_1ColorSchemeDetails.html", null ],
+    [ "bioexplorer::details::DatabaseAccessDetails", "dc/dd9/structbioexplorer_1_1details_1_1DatabaseAccessDetails.html", null ],
+    [ "bioexplorer::io::db::DBConnector", "d9/d96/classbioexplorer_1_1io_1_1db_1_1DBConnector.html", null ],
     [ "ExtensionPlugin", null, [
       [ "bioexplorer::BioExplorerPlugin", "d7/d7b/classbioexplorer_1_1BioExplorerPlugin.html", null ]
     ] ],
-    [ "bioexplorer::FileAccessDetails", "db/daa/structbioexplorer_1_1FileAccessDetails.html", null ],
-    [ "bioexplorer::GeneralSettings", "d4/ddc/classbioexplorer_1_1GeneralSettings.html", null ],
-    [ "bioexplorer::GeneralSettingsDetails", "da/d8a/structbioexplorer_1_1GeneralSettingsDetails.html", null ],
+    [ "bioexplorer::details::FileAccessDetails", "de/d38/structbioexplorer_1_1details_1_1FileAccessDetails.html", null ],
+    [ "bioexplorer::common::GeneralSettings", "d2/da7/classbioexplorer_1_1common_1_1GeneralSettings.html", null ],
+    [ "bioexplorer::details::GeneralSettingsDetails", "d0/d14/structbioexplorer_1_1details_1_1GeneralSettingsDetails.html", null ],
     [ "Loader", null, [
-      [ "bioexplorer::CacheLoader", "d9/d08/classbioexplorer_1_1CacheLoader.html", null ]
+      [ "bioexplorer::io::CacheLoader", "d1/d5f/classbioexplorer_1_1io_1_1CacheLoader.html", null ]
     ] ],
     [ "Material", null, [
-      [ "bioexplorer::AdvancedMaterial", "da/db3/structbioexplorer_1_1AdvancedMaterial.html", null ]
+      [ "bioexplorer::rendering::AdvancedMaterial", "d5/d4e/structbioexplorer_1_1rendering_1_1AdvancedMaterial.html", null ]
     ] ],
-    [ "bioexplorer::MaterialIdsDetails", "d7/dff/structbioexplorer_1_1MaterialIdsDetails.html", null ],
-    [ "bioexplorer::MaterialsDetails", "d6/df4/structbioexplorer_1_1MaterialsDetails.html", null ],
-    [ "bioexplorer::MembraneDetails", "d9/df5/structbioexplorer_1_1MembraneDetails.html", null ],
-    [ "bioexplorer::MeshBasedMembraneDetails", "d0/d14/structbioexplorer_1_1MeshBasedMembraneDetails.html", null ],
-    [ "bioexplorer::ModelIdDetails", "d9/d55/structbioexplorer_1_1ModelIdDetails.html", null ],
-    [ "bioexplorer::ModelIdFileAccessDetails", "d6/d54/structbioexplorer_1_1ModelIdFileAccessDetails.html", null ],
-    [ "bioexplorer::ModelsVisibilityDetails", "d4/d8b/structbioexplorer_1_1ModelsVisibilityDetails.html", null ],
-    [ "bioexplorer::Node", "da/dba/classbioexplorer_1_1Node.html", [
-      [ "bioexplorer::Membrane", "d6/dca/classbioexplorer_1_1Membrane.html", null ],
-      [ "bioexplorer::MeshBasedMembrane", "dd/d42/classbioexplorer_1_1MeshBasedMembrane.html", null ],
-      [ "bioexplorer::Molecule", "d6/d81/classbioexplorer_1_1Molecule.html", [
-        [ "bioexplorer::Glycans", "df/dc3/classbioexplorer_1_1Glycans.html", null ],
-        [ "bioexplorer::Protein", "db/d87/classbioexplorer_1_1Protein.html", null ]
+    [ "bioexplorer::details::MaterialIdsDetails", "d3/d7d/structbioexplorer_1_1details_1_1MaterialIdsDetails.html", null ],
+    [ "bioexplorer::details::MaterialsDetails", "d7/d84/structbioexplorer_1_1details_1_1MaterialsDetails.html", null ],
+    [ "bioexplorer::details::MembraneDetails", "d0/ddb/structbioexplorer_1_1details_1_1MembraneDetails.html", null ],
+    [ "bioexplorer::details::MeshBasedMembraneDetails", "da/d3c/structbioexplorer_1_1details_1_1MeshBasedMembraneDetails.html", null ],
+    [ "bioexplorer::details::ModelIdDetails", "d6/dc9/structbioexplorer_1_1details_1_1ModelIdDetails.html", null ],
+    [ "bioexplorer::details::ModelIdFileAccessDetails", "d8/d1b/structbioexplorer_1_1details_1_1ModelIdFileAccessDetails.html", null ],
+    [ "bioexplorer::details::ModelsVisibilityDetails", "d7/dbc/structbioexplorer_1_1details_1_1ModelsVisibilityDetails.html", null ],
+    [ "bioexplorer::biology::Node", "de/dc0/classbioexplorer_1_1biology_1_1Node.html", [
+      [ "bioexplorer::biology::Membrane", "de/dd4/classbioexplorer_1_1biology_1_1Membrane.html", null ],
+      [ "bioexplorer::biology::MeshBasedMembrane", "d5/d80/classbioexplorer_1_1biology_1_1MeshBasedMembrane.html", null ],
+      [ "bioexplorer::biology::Molecule", "d7/dff/classbioexplorer_1_1biology_1_1Molecule.html", [
+        [ "bioexplorer::biology::Glycans", "d0/d3d/classbioexplorer_1_1biology_1_1Glycans.html", null ],
+        [ "bioexplorer::biology::Protein", "db/dba/classbioexplorer_1_1biology_1_1Protein.html", null ]
       ] ],
-      [ "bioexplorer::RNASequence", "d2/d77/classbioexplorer_1_1RNASequence.html", null ]
+      [ "bioexplorer::biology::RNASequence", "d0/d5f/classbioexplorer_1_1biology_1_1RNASequence.html", null ]
     ] ],
-    [ "bioexplorer::Nucleotid", "df/d61/structbioexplorer_1_1Nucleotid.html", null ],
-    [ "bioexplorer::Octree", "d1/d8e/classbioexplorer_1_1Octree.html", null ],
-    [ "bioexplorer::OctreeNode", "d9/dfb/classbioexplorer_1_1OctreeNode.html", null ],
-    [ "bioexplorer::OOCManager", "d0/d4b/classbioexplorer_1_1OOCManager.html", null ],
-    [ "bioexplorer::OOCSceneConfigurationDetails", "d8/db3/structbioexplorer_1_1OOCSceneConfigurationDetails.html", null ],
-    [ "bioexplorer::PointCloudMesher", "d0/d39/classbioexplorer_1_1PointCloudMesher.html", null ],
-    [ "bioexplorer::ProteinDetails", "da/df7/structbioexplorer_1_1ProteinDetails.html", null ],
-    [ "bioexplorer::ProteinInstanceTransformationDetails", "db/d82/structbioexplorer_1_1ProteinInstanceTransformationDetails.html", null ],
-    [ "bioexplorer::RandomizationInformation", "df/db9/structbioexplorer_1_1RandomizationInformation.html", null ],
+    [ "bioexplorer::biology::Nucleotid", "d2/dab/structbioexplorer_1_1biology_1_1Nucleotid.html", null ],
+    [ "bioexplorer::fields::Octree", "dc/d5a/classbioexplorer_1_1fields_1_1Octree.html", null ],
+    [ "bioexplorer::fields::OctreeNode", "d1/d60/classbioexplorer_1_1fields_1_1OctreeNode.html", null ],
+    [ "bioexplorer::io::OOCManager", "da/d6e/classbioexplorer_1_1io_1_1OOCManager.html", null ],
+    [ "bioexplorer::details::OOCSceneConfigurationDetails", "d1/d25/structbioexplorer_1_1details_1_1OOCSceneConfigurationDetails.html", null ],
+    [ "bioexplorer::meshing::PointCloudMesher", "d2/d99/classbioexplorer_1_1meshing_1_1PointCloudMesher.html", null ],
+    [ "bioexplorer::details::ProteinDetails", "de/d0e/structbioexplorer_1_1details_1_1ProteinDetails.html", null ],
+    [ "bioexplorer::details::ProteinInstanceTransformationDetails", "d7/dab/structbioexplorer_1_1details_1_1ProteinInstanceTransformationDetails.html", null ],
+    [ "bioexplorer::details::RandomizationDetails", "d7/dd2/structbioexplorer_1_1details_1_1RandomizationDetails.html", null ],
     [ "Renderer", null, [
-      [ "bioexplorer::AdvancedRenderer", "de/d08/classbioexplorer_1_1AdvancedRenderer.html", null ],
-      [ "bioexplorer::FieldsRenderer", "d0/d37/classbioexplorer_1_1FieldsRenderer.html", null ]
+      [ "bioexplorer::rendering::AdvancedRenderer", "d9/d98/classbioexplorer_1_1rendering_1_1AdvancedRenderer.html", null ],
+      [ "bioexplorer::rendering::FieldsRenderer", "de/d6a/classbioexplorer_1_1rendering_1_1FieldsRenderer.html", null ]
     ] ],
-    [ "bioexplorer::Response", "d9/d72/structbioexplorer_1_1Response.html", null ],
-    [ "bioexplorer::RGBColor", "da/d3c/structbioexplorer_1_1RGBColor.html", null ],
-    [ "bioexplorer::RNASequenceDetails", "dc/d0c/structbioexplorer_1_1RNASequenceDetails.html", null ],
-    [ "bioexplorer::Sequence", "d9/db8/structbioexplorer_1_1Sequence.html", null ],
-    [ "bioexplorer::SugarsDetails", "d9/dab/structbioexplorer_1_1SugarsDetails.html", null ],
-    [ "bioexplorer::SurfaceMesher", "db/d99/classbioexplorer_1_1SurfaceMesher.html", null ],
-    [ "bioexplorer::UniqueId", "d4/dbf/classbioexplorer_1_1UniqueId.html", null ]
+    [ "bioexplorer::biology::ResidueSequence", "de/dde/structbioexplorer_1_1biology_1_1ResidueSequence.html", null ],
+    [ "bioexplorer::details::Response", "d6/d45/structbioexplorer_1_1details_1_1Response.html", null ],
+    [ "bioexplorer::details::RGBColorDetails", "df/dc7/structbioexplorer_1_1details_1_1RGBColorDetails.html", null ],
+    [ "bioexplorer::details::RNASequenceDetails", "d1/d00/structbioexplorer_1_1details_1_1RNASequenceDetails.html", null ],
+    [ "bioexplorer::details::SugarsDetails", "dd/d92/structbioexplorer_1_1details_1_1SugarsDetails.html", null ],
+    [ "bioexplorer::meshing::SurfaceMesher", "d8/df9/classbioexplorer_1_1meshing_1_1SurfaceMesher.html", null ],
+    [ "bioexplorer::common::UniqueId", "d0/dbd/classbioexplorer_1_1common_1_1UniqueId.html", null ]
 ];

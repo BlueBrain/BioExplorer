@@ -21,10 +21,11 @@
 #include "AdvancedMaterial.h"
 #include "AdvancedMaterial_ispc.h"
 
-//#include <common/types.h>
 #include <ospray/SDK/common/Data.h>
 
 namespace bioexplorer
+{
+namespace rendering
 {
 void AdvancedMaterial::commit()
 {
@@ -115,4 +116,5 @@ void AdvancedMaterial::commit()
 
 OSP_REGISTER_MATERIAL(bio_explorer, AdvancedMaterial, default);
 OSP_REGISTER_MATERIAL(bio_explorer_fields, AdvancedMaterial, default);
+} // namespace rendering
 } // namespace bioexplorer

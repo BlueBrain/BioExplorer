@@ -23,8 +23,8 @@
 #include "CacheLoader.h"
 
 #include <plugin/api/Params.h>
-#include <plugin/bioexplorer/Assembly.h>
-#include <plugin/bioexplorer/Protein.h>
+#include <plugin/biology/Assembly.h>
+#include <plugin/biology/Protein.h>
 #include <plugin/common/CommonTypes.h>
 #include <plugin/common/GeneralSettings.h>
 #include <plugin/common/Utils.h>
@@ -51,7 +51,11 @@ bool inBounds(const Vector3f& point, const Boxd& bounds)
 
 namespace bioexplorer
 {
-const std::string LOADER_NAME = "Bio Explorer cache loader";
+namespace io
+{
+using namespace common;
+
+const std::string LOADER_NAME = "BioExplorer cache loader";
 const std::string SUPPORTED_EXTENTION_BIOEXPLORER = "bioexplorer";
 
 const size_t CACHE_VERSION_1 = 1;
@@ -896,4 +900,5 @@ PropertyMap CacheLoader::getCLIProperties()
     PropertyMap pm("BioExplorerLoader");
     return pm;
 }
+} // namespace io
 } // namespace bioexplorer

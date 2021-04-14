@@ -27,6 +27,11 @@
 
 namespace bioexplorer
 {
+using namespace fields;
+using namespace biology;
+using namespace details;
+using namespace io;
+
 /**
  * @brief This class implements the BioExplorer plugin
  */

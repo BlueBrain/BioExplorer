@@ -26,6 +26,8 @@
 
 namespace bioexplorer
 {
+namespace rendering
+{
 /**
  * @brief The AdvancedRenderer class is a renderer that can
  * perform global illumination (light shading, shadows, ambient occlusion, color
@@ -81,4 +83,5 @@ private:
     float _giDistance{1e6f};
     ospray::uint32 _giSamples{0};
 };
+} // namespace rendering
 } // namespace bioexplorer

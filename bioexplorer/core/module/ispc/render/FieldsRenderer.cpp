@@ -30,6 +30,8 @@
 
 namespace bioexplorer
 {
+namespace rendering
+{
 void FieldsRenderer::commit()
 {
     Renderer::commit();
@@ -88,4 +90,5 @@ FieldsRenderer::FieldsRenderer()
 }
 
 OSP_REGISTER_RENDERER(FieldsRenderer, bio_explorer_fields);
+} // namespace rendering
 } // namespace bioexplorer

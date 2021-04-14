@@ -25,6 +25,8 @@
 
 namespace bioexplorer
 {
+namespace fields
+{
 /**
  * @brief The OctreeNode class implement a spherical node of the Octree
  * acceleration structure used by the Fields renderer
@@ -84,4 +86,5 @@ private:
 
     std::vector<OctreeNode*> _children;
 };
+} // namespace fields
 } // namespace bioexplorer

@@ -28,6 +28,8 @@
 
 namespace bioexplorer
 {
+namespace fields
+{
 using namespace brayns;
 
 /**
@@ -129,4 +131,5 @@ private:
     glm::vec3 _offset;
 };
 typedef std::shared_ptr<FieldsHandler> FieldsHandlerPtr;
+} // namespace fields
 } // namespace bioexplorer

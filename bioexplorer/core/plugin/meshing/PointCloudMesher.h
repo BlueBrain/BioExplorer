@@ -25,6 +25,8 @@
 
 namespace bioexplorer
 {
+namespace meshing
+{
 using namespace brayns;
 
 typedef std::map<size_t, Vector4fs> PointCloud;
@@ -48,5 +50,5 @@ public:
      */
     bool toConvexHull(Model& model, const PointCloud& pointCloud);
 };
-
+} // namespace meshing
 } // namespace bioexplorer

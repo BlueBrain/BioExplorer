@@ -1,14 +1,14 @@
 var searchData=
 [
-  ['icode_110',['iCode',['../db/d01/structbioexplorer_1_1Atom.html#ab0bb029d3a2e03bab75045a455b09881',1,'bioexplorer::Atom']]],
-  ['ids_111',['ids',['../d7/dff/structbioexplorer_1_1MaterialIdsDetails.html#a479916c97b230fb3e4145eeb196a84e2',1,'bioexplorer::MaterialIdsDetails']]],
-  ['importfromblob_112',['importFromBlob',['../d9/d08/classbioexplorer_1_1CacheLoader.html#a7d3ddca73ae2afdc61f29415a79f1a44',1,'bioexplorer::CacheLoader']]],
-  ['importfromfile_113',['importFromFile',['../dc/d44/classbioexplorer_1_1FieldsHandler.html#ade40a77169a02d059bcd2111a9e6f6dd',1,'bioexplorer::FieldsHandler::importFromFile()'],['../d9/d08/classbioexplorer_1_1CacheLoader.html#a53fa71eeed51d4872d465d40c1e3ffe4',1,'bioexplorer::CacheLoader::importFromFile()']]],
-  ['importmodelsfromfile_114',['importModelsFromFile',['../d9/d08/classbioexplorer_1_1CacheLoader.html#add23e43876f2246ed8f20acec6c46e48',1,'bioexplorer::CacheLoader']]],
-  ['index_115',['index',['../df/d61/structbioexplorer_1_1Nucleotid.html#ae14a5ff798dae2ad8f17a60a0e6b19ca',1,'bioexplorer::Nucleotid::index()'],['../d2/de1/structbioexplorer_1_1AminoAcidDetails.html#aa55e78c1fd6e694082f4134ca1fb22dd',1,'bioexplorer::AminoAcidDetails::index()']]],
-  ['init_116',['init',['../d7/d7b/classbioexplorer_1_1BioExplorerPlugin.html#a66054e540bd4b90e00ffb04a1b4d2daa',1,'bioexplorer::BioExplorerPlugin']]],
-  ['insertbrick_117',['insertBrick',['../d3/d1a/classbioexplorer_1_1DBConnector.html#a9cf767646d9f656a89e3df39aca82950',1,'bioexplorer::DBConnector']]],
-  ['instanceindex_118',['instanceIndex',['../db/d82/structbioexplorer_1_1ProteinInstanceTransformationDetails.html#afe9f4b1645f35f20b3796419e794c899',1,'bioexplorer::ProteinInstanceTransformationDetails']]],
-  ['isready_119',['isReady',['../dc/d44/classbioexplorer_1_1FieldsHandler.html#a6d3267912002538960a102a30a9a3bd3',1,'bioexplorer::FieldsHandler']]],
-  ['issupported_120',['isSupported',['../d9/d08/classbioexplorer_1_1CacheLoader.html#ac63d9727beef8188bb4d317bd5d37b82',1,'bioexplorer::CacheLoader']]]
+  ['icode_111',['iCode',['../df/d99/structbioexplorer_1_1biology_1_1Atom.html#acacf98997ba5c46c7b15ba26b8be8da4',1,'bioexplorer::biology::Atom']]],
+  ['ids_112',['ids',['../d3/d7d/structbioexplorer_1_1details_1_1MaterialIdsDetails.html#a949ed6cca238aaafc213c2ce42c0efe4',1,'bioexplorer::details::MaterialIdsDetails']]],
+  ['importfromblob_113',['importFromBlob',['../d1/d5f/classbioexplorer_1_1io_1_1CacheLoader.html#a989999b8075ef0ee87c70a6da274759a',1,'bioexplorer::io::CacheLoader']]],
+  ['importfromfile_114',['importFromFile',['../d9/d6e/classbioexplorer_1_1fields_1_1FieldsHandler.html#af4f89f599ee4e2d5b18dbc836d8c2f63',1,'bioexplorer::fields::FieldsHandler::importFromFile()'],['../d1/d5f/classbioexplorer_1_1io_1_1CacheLoader.html#af30d14d25b5fcb13a20b3d08eb69030f',1,'bioexplorer::io::CacheLoader::importFromFile()']]],
+  ['importmodelsfromfile_115',['importModelsFromFile',['../d1/d5f/classbioexplorer_1_1io_1_1CacheLoader.html#ae6a60cf0ed712d14f0dfd2e8f8752ac6',1,'bioexplorer::io::CacheLoader']]],
+  ['index_116',['index',['../d2/dab/structbioexplorer_1_1biology_1_1Nucleotid.html#ae2afcb7c129fec3be362ccf07b68ad97',1,'bioexplorer::biology::Nucleotid::index()'],['../d3/dd3/structbioexplorer_1_1details_1_1AminoAcidDetails.html#a513bc0b65ebadfb21525db5059f15119',1,'bioexplorer::details::AminoAcidDetails::index()']]],
+  ['init_117',['init',['../d7/d7b/classbioexplorer_1_1BioExplorerPlugin.html#a66054e540bd4b90e00ffb04a1b4d2daa',1,'bioexplorer::BioExplorerPlugin']]],
+  ['insertbrick_118',['insertBrick',['../d9/d96/classbioexplorer_1_1io_1_1db_1_1DBConnector.html#a6aaea01883244f16522bc9cf799364c1',1,'bioexplorer::io::db::DBConnector']]],
+  ['instanceindex_119',['instanceIndex',['../d7/dab/structbioexplorer_1_1details_1_1ProteinInstanceTransformationDetails.html#a985e5b98b04fd18affa7881a1185a3d5',1,'bioexplorer::details::ProteinInstanceTransformationDetails']]],
+  ['isready_120',['isReady',['../d9/d6e/classbioexplorer_1_1fields_1_1FieldsHandler.html#a4962251acd82b39e7b76bbd3af84258c',1,'bioexplorer::fields::FieldsHandler']]],
+  ['issupported_121',['isSupported',['../d1/d5f/classbioexplorer_1_1io_1_1CacheLoader.html#a4f523a4a3bd5e743ff715a5ac02c9c16',1,'bioexplorer::io::CacheLoader']]]
 ];

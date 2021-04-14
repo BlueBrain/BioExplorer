@@ -34,14 +34,11 @@
 #include <CGAL/Polygon_mesh_processing/triangulate_faces.h>
 #include <CGAL/Polyhedron_3.h>
 #include <CGAL/Skin_surface_3.h>
-#include <CGAL/Surface_mesh.h>
 #include <CGAL/Union_of_balls_3.h>
 #include <CGAL/mesh_skin_surface_3.h>
 #include <CGAL/mesh_union_of_balls_3.h>
-#include <CGAL/subdivide_skin_surface_mesh_3.h>
 #include <CGAL/subdivide_union_of_balls_mesh_3.h>
 #include <fstream>
-#include <list>
 
 typedef CGAL::Exact_predicates_inexact_constructions_kernel K;
 typedef CGAL::Skin_surface_traits_3<K> Traits;
@@ -51,11 +48,13 @@ typedef CGAL::Polyhedron_3<K> Polyhedron;
 typedef CGAL::Skin_surface_traits_3<K> Traits;
 typedef CGAL::Skin_surface_3<Traits> Skin_surface_3;
 typedef CGAL::Union_of_balls_3<Traits> Union_of_balls_3;
-typedef K::Vector_3 Vector;
-typedef CGAL::Surface_mesh<Point_3> Surface_mesh;
 
 namespace bioexplorer
 {
+namespace meshing
+{
+using namespace common;
+
 SurfaceMesher::SurfaceMesher(const uint32_t uuid)
     : _uuid(uuid)
 {
@@ -165,4 +164,5 @@ void SurfaceMesher::_setMaterialExtraAttributes(
         material.second->updateProperties(props);
     }
 }
+} // namespace meshing
 } // namespace bioexplorer

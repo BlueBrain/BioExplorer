@@ -24,6 +24,8 @@
 
 namespace bioexplorer
 {
+namespace fields
+{
 OctreeNode::OctreeNode(const glm::vec3 center, const float size)
     : _value(0)
     , _center(center)
@@ -56,4 +58,5 @@ const std::vector<OctreeNode*>& OctreeNode::getChildren() const
 {
     return _children;
 }
+} // namespace fields
 } // namespace bioexplorer

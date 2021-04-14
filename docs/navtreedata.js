@@ -29,9 +29,9 @@ var NAVTREE =
       [ "General components", "index.html#autotoc_md3", [
         [ "Assemblies", "index.html#autotoc_md4", null ],
         [ "Proteins", "index.html#autotoc_md5", null ],
-        [ "Meshes", "index.html#autotoc_md6", null ],
-        [ "Glycans", "index.html#autotoc_md7", null ],
-        [ "RNA sequence", "index.html#autotoc_md8", null ]
+        [ "Glycans", "index.html#autotoc_md6", null ],
+        [ "RNA sequence", "index.html#autotoc_md7", null ],
+        [ "Mesh-based membranes", "index.html#autotoc_md8", null ]
       ] ],
       [ "Python SDK", "index.html#autotoc_md9", null ],
       [ "Deployment", "index.html#autotoc_md10", [
@@ -86,8 +86,8 @@ var NAVTREE =
 var NAVTREEINDEX =
 [
 ".html",
-"d9/d72/structbioexplorer_1_1Response.html#ae30354ebb2ad0a53b873cdd73e8c263d",
-"df/da2/DBConnector_8cpp_source.html"
+"d7/dff/classbioexplorer_1_1biology_1_1Molecule.html#a375c6617997550b422f57c03d3ae6701",
+"df/d99/structbioexplorer_1_1biology_1_1Atom.html"
 ];
 
 var SYNCONMSG = 'click to disable panel synchronisation';

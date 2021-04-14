@@ -53,6 +53,10 @@ std::string int32_set_to_string(const std::set<int32_t>& s)
 
 namespace bioexplorer
 {
+namespace io
+{
+using namespace common;
+
 OOCManager::OOCManager(Scene& scene, const Camera& camera,
                        const CommandLineArguments& arguments)
     : _scene(scene)
@@ -320,5 +324,5 @@ void OOCManager::_parseArguments(const CommandLineArguments& arguments)
             ENV_ROCKETS_DISABLE_SCENE_BROADCASTING +
             " environment variable must be set when out-of-core is enabled");
 }
-
+} // namespace io
 } // namespace bioexplorer

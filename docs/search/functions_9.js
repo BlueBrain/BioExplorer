@@ -1,6 +1,6 @@
 var searchData=
 [
-  ['membrane_366',['Membrane',['../d6/dca/classbioexplorer_1_1Membrane.html#abf30c346992a6ac35667742c0e1080fa',1,'bioexplorer::Membrane']]],
-  ['meshbasedmembrane_367',['MeshBasedMembrane',['../dd/d42/classbioexplorer_1_1MeshBasedMembrane.html#af47c819d7d7309188ab15d89b7493060',1,'bioexplorer::MeshBasedMembrane']]],
-  ['molecule_368',['Molecule',['../d6/d81/classbioexplorer_1_1Molecule.html#a6a1350c9c1cfb05824cd061e9e56755f',1,'bioexplorer::Molecule']]]
+  ['membrane_371',['Membrane',['../de/dd4/classbioexplorer_1_1biology_1_1Membrane.html#ac7b3f5ddf6aa33327376010027c94aeb',1,'bioexplorer::biology::Membrane']]],
+  ['meshbasedmembrane_372',['MeshBasedMembrane',['../d5/d80/classbioexplorer_1_1biology_1_1MeshBasedMembrane.html#a0a199474cf122f536ec722f060f95779',1,'bioexplorer::biology::MeshBasedMembrane']]],
+  ['molecule_373',['Molecule',['../d7/dff/classbioexplorer_1_1biology_1_1Molecule.html#a6e92ebcb753bdf4f5cd8e711b1ae38bd',1,'bioexplorer::biology::Molecule']]]
 ];

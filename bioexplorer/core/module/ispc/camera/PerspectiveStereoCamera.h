@@ -26,6 +26,8 @@
 
 namespace bioexplorer
 {
+namespace rendering
+{
 using namespace ospray;
 
 struct OSPRAY_SDK_INTERFACE PerspectiveStereoCamera : public Camera
@@ -67,5 +69,5 @@ public:
     CameraStereoMode stereoMode;
     float interpupillaryDistance;
 };
-
+} // namespace rendering
 } // namespace bioexplorer

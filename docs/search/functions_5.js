@@ -1,5 +1,5 @@
 var searchData=
 [
-  ['fieldshandler_311',['FieldsHandler',['../dc/d44/classbioexplorer_1_1FieldsHandler.html#ac361b9f817fc6569fa2c02498d7f1a4a',1,'bioexplorer::FieldsHandler::FieldsHandler(const Scene &amp;scene, const float voxelSize, const float density)'],['../dc/d44/classbioexplorer_1_1FieldsHandler.html#a0193da0bf227f847d9e45d90bef94dbd',1,'bioexplorer::FieldsHandler::FieldsHandler(const std::string &amp;filename)'],['../dc/d44/classbioexplorer_1_1FieldsHandler.html#a513d4ad056ad586a6909ed16f35c0ed1',1,'bioexplorer::FieldsHandler::FieldsHandler(const FieldsHandler &amp;rhs)']]],
-  ['fieldsrenderer_312',['FieldsRenderer',['../d0/d37/classbioexplorer_1_1FieldsRenderer.html#ab0709d225266183037af1ee4454a0b6b',1,'bioexplorer::FieldsRenderer']]]
+  ['fieldshandler_315',['FieldsHandler',['../d9/d6e/classbioexplorer_1_1fields_1_1FieldsHandler.html#a8661e05179c869bb54192c95bf86412f',1,'bioexplorer::fields::FieldsHandler::FieldsHandler(const Scene &amp;scene, const float voxelSize, const float density)'],['../d9/d6e/classbioexplorer_1_1fields_1_1FieldsHandler.html#af0c2bea0262c4fa3b5d143c4a0d1b096',1,'bioexplorer::fields::FieldsHandler::FieldsHandler(const std::string &amp;filename)'],['../d9/d6e/classbioexplorer_1_1fields_1_1FieldsHandler.html#a15d7731c38bb2a040c554dbe89e73431',1,'bioexplorer::fields::FieldsHandler::FieldsHandler(const FieldsHandler &amp;rhs)']]],
+  ['fieldsrenderer_316',['FieldsRenderer',['../de/d6a/classbioexplorer_1_1rendering_1_1FieldsRenderer.html#ad83c6f06b14a267800724cf063c1798a',1,'bioexplorer::rendering::FieldsRenderer']]]
 ];

@@ -16,8 +16,8 @@
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
 
-#include <plugin/bioexplorer/MeshBasedMembrane.h>
-#include <plugin/bioexplorer/Protein.h>
+#include <plugin/biology/MeshBasedMembrane.h>
+#include <plugin/biology/Protein.h>
 #include <plugin/common/Logs.h>
 
 #include <brayns/Brayns.h>
@@ -28,10 +28,11 @@
 #include <boost/test/unit_test.hpp>
 
 #include <fstream>
-#include <iostream>
-#include <sstream>
 
+namespace tests
+{
 using namespace bioexplorer;
+using namespace biology;
 
 std::string getFileContents(const std::string& filename)
 {
@@ -81,3 +82,4 @@ BOOST_AUTO_TEST_CASE(meshBasedMembrane)
 
     BOOST_CHECK(meshBasedMembrane.getProtein()->getAtoms().size() == 426);
 }
+} // namespace tests

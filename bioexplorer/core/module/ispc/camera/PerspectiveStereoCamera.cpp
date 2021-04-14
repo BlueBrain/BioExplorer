@@ -32,6 +32,8 @@
 
 namespace bioexplorer
 {
+namespace rendering
+{
 PerspectiveStereoCamera::PerspectiveStereoCamera()
 {
     ispcEquivalent = ispc::PerspectiveStereoCamera_create(this);
@@ -102,5 +104,5 @@ void PerspectiveStereoCamera::commit()
 }
 
 OSP_REGISTER_CAMERA(PerspectiveStereoCamera, bio_explorer_perspective);
-
+} // namespace rendering
 } // namespace bioexplorer

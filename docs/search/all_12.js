@@ -1,11 +1,11 @@
 var searchData=
 [
-  ['_7eassembly_231',['~Assembly',['../db/db7/classbioexplorer_1_1Assembly.html#a57209ab4209a88e61fa1de6a8233bf73',1,'bioexplorer::Assembly']]],
-  ['_7edbconnector_232',['~DBConnector',['../d3/d1a/classbioexplorer_1_1DBConnector.html#af73fb69d328ae1ba4d60a5197b53bca2',1,'bioexplorer::DBConnector']]],
-  ['_7efieldshandler_233',['~FieldsHandler',['../dc/d44/classbioexplorer_1_1FieldsHandler.html#ab04b49daadb5514c5777a4913229b89c',1,'bioexplorer::FieldsHandler']]],
-  ['_7emembrane_234',['~Membrane',['../d6/dca/classbioexplorer_1_1Membrane.html#a2670afa7b58262c3ff51dfd49f0b4a07',1,'bioexplorer::Membrane']]],
-  ['_7enode_235',['~Node',['../da/dba/classbioexplorer_1_1Node.html#a66bec073a21991079163f1647b946a57',1,'bioexplorer::Node']]],
-  ['_7eoctree_236',['~Octree',['../d1/d8e/classbioexplorer_1_1Octree.html#a76ac08ee925fbcfac1a3737732f66db0',1,'bioexplorer::Octree']]],
-  ['_7eoocmanager_237',['~OOCManager',['../d0/d4b/classbioexplorer_1_1OOCManager.html#ac4cc5c532b30a564f36a48da64ff61aa',1,'bioexplorer::OOCManager']]],
-  ['_7eprotein_238',['~Protein',['../db/d87/classbioexplorer_1_1Protein.html#a61d5895dc2bc9be52d1cd6a55644c02d',1,'bioexplorer::Protein']]]
+  ['_7eassembly_235',['~Assembly',['../d6/dc2/classbioexplorer_1_1biology_1_1Assembly.html#a1958c7c42cee31bce159a14acf7801b5',1,'bioexplorer::biology::Assembly']]],
+  ['_7edbconnector_236',['~DBConnector',['../d9/d96/classbioexplorer_1_1io_1_1db_1_1DBConnector.html#a0c00814b3a4a6849cf7d921c375e4bc5',1,'bioexplorer::io::db::DBConnector']]],
+  ['_7efieldshandler_237',['~FieldsHandler',['../d9/d6e/classbioexplorer_1_1fields_1_1FieldsHandler.html#a128d90979aa7c28c963b2e222388d498',1,'bioexplorer::fields::FieldsHandler']]],
+  ['_7emembrane_238',['~Membrane',['../de/dd4/classbioexplorer_1_1biology_1_1Membrane.html#a945ddadd91fa8fd0f2dc61bf1aee4849',1,'bioexplorer::biology::Membrane']]],
+  ['_7enode_239',['~Node',['../de/dc0/classbioexplorer_1_1biology_1_1Node.html#a1d02dc5b33293f53296cde67fc346496',1,'bioexplorer::biology::Node']]],
+  ['_7eoctree_240',['~Octree',['../dc/d5a/classbioexplorer_1_1fields_1_1Octree.html#aa112587bf8fe2d11bcfd58c4c93a4969',1,'bioexplorer::fields::Octree']]],
+  ['_7eoocmanager_241',['~OOCManager',['../da/d6e/classbioexplorer_1_1io_1_1OOCManager.html#a145bda1edb34a4aa59e2df05eb5fc2e6',1,'bioexplorer::io::OOCManager']]],
+  ['_7eprotein_242',['~Protein',['../db/dba/classbioexplorer_1_1biology_1_1Protein.html#af7ef0b4db5ec769f13e43aaead0d72a1',1,'bioexplorer::biology::Protein']]]
 ];
