@@ -20,14 +20,17 @@
 
 #pragma once
 
-#include <plugin/bioexplorer/Node.h>
+#include <plugin/biology/Node.h>
 #include <plugin/common/Types.h>
 
 #include <brayns/engineapi/Model.h>
 
 namespace bioexplorer
 {
+namespace biology
+{
 using namespace brayns;
+using namespace details;
 
 const std::string KEY_UNDEFINED = "Undefined";
 const std::string KEY_ATOM = "ATOM";
@@ -78,7 +81,7 @@ public:
      * molecule. The key of the map is the id of the chain, as defined in the
      * PDB file
      */
-    SequenceMap& getSequences() { return _sequenceMap; }
+    ResidueSequenceMap& getResidueSequences() { return _residueSequenceMap; }
 
     /**
      * @brief Get the Sequences As String object
@@ -93,7 +96,7 @@ protected:
     void _setResiduesColorScheme(const Palette& palette);
     void _setAminoAcidSequenceColorScheme(const Palette& palette);
     void _setMaterialDiffuseColor(const size_t atomIndex,
-                                  const RGBColor& color);
+                                  const RGBColorDetails& color);
     void _setMaterialDiffuseColor(const size_t atomIndex, const Color& color);
 
     // Geometry
@@ -120,7 +123,7 @@ protected:
     Scene& _scene;
     AtomMap _atomMap;
     Residues _residues;
-    SequenceMap _sequenceMap;
+    ResidueSequenceMap _residueSequenceMap;
     BondsMap _bondsMap;
     size_ts _chainIds;
 
@@ -130,4 +133,5 @@ protected:
     Vector2uis _selectedAminoAcidRanges;
     Boxf _bounds;
 };
+} // namespace biology
 } // namespace bioexplorer

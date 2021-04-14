@@ -21,15 +21,15 @@
 #pragma once
 
 #include <plugin/api/Params.h>
-#include <plugin/bioexplorer/Node.h>
+#include <plugin/biology/Node.h>
 #include <plugin/common/Types.h>
 
 #include <brayns/engineapi/Model.h>
 
 namespace bioexplorer
 {
-using namespace brayns;
-
+namespace biology
+{
 /**
  * @brief A Membrane object implements a 3D structure of a given shape, but with
  * a surface composed of instances of one or several proteins
@@ -42,11 +42,11 @@ public:
      * @brief Construct a new Membrane object
      *
      * @param scene The 3D scene where the glycans are added
-     * @param descriptor The data structure describing the membrane
+     * @param details The data structure describing the membrane
      * @param position The position of the membrane in the 3D scene
      * @param clippingPlanes The clipping planes to apply to the membrane
      */
-    Membrane(Scene &scene, const MembraneDetails &descriptor,
+    Membrane(Scene &scene, const MembraneDetails &details,
              const Vector3f &position, const Quaterniond &orientation,
              const Vector4fs &clippingPlanes);
 
@@ -74,4 +74,5 @@ private:
     ProteinMap _proteins;
     Vector4fs _clippingPlanes;
 };
+} // namespace biology
 } // namespace bioexplorer

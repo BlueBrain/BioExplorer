@@ -18,20 +18,21 @@
  * this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-#include "UniqueId.h"
-
-#include <plugin/common/Logs.h>
+#include "Node.h"
+#include <plugin/common/UniqueId.h>
 
 namespace bioexplorer
 {
-uint32_t UniqueId::nextId = 0;
-
-UniqueId::UniqueId() {}
-
-uint32_t UniqueId::get()
+namespace biology
 {
-    ++nextId;
-    PLUGIN_DEBUG("Unique Id: " << nextId);
-    return nextId;
+using namespace common;
+
+Node::Node()
+{
+    // Unique ID
+    _uuid = UniqueId::get();
 }
+
+Node::~Node() {}
+} // namespace biology
 } // namespace bioexplorer

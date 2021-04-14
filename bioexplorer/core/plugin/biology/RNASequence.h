@@ -21,12 +21,14 @@
 #pragma once
 
 #include <brayns/engineapi/Model.h>
-#include <plugin/bioexplorer/Node.h>
+#include <plugin/biology/Node.h>
 #include <plugin/common/Types.h>
 
 namespace bioexplorer
 {
-typedef std::map<std::string, std::string> RNASequenceMap;
+namespace biology
+{
+using namespace details;
 
 /**
  * @brief The RNASequence class
@@ -38,10 +40,10 @@ public:
      * @brief Construct a new RNASequence object
      *
      * @param scene Scene to which the RNA sequence should be added
-     * @param rnaDetails Description of the RNA sequence
+     * @param details Details of the RNA sequence
      * @param position Relative position of the RNA sequence in the assembly
      */
-    RNASequence(Scene& scene, const RNASequenceDetails& rnaDetails);
+    RNASequence(Scene& scene, const RNASequenceDetails& details);
 
     /**
      * @brief Get the map of RNA sequences
@@ -68,4 +70,5 @@ private:
 
     RNASequenceMap _rnaSequenceMap;
 };
+} // namespace biology
 } // namespace bioexplorer

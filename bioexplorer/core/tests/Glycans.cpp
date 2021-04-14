@@ -16,7 +16,7 @@
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
 
-#include <plugin/bioexplorer/Glycans.h>
+#include <plugin/biology/Glycans.h>
 #include <plugin/common/Logs.h>
 
 #include <brayns/Brayns.h>
@@ -27,10 +27,11 @@
 #include <boost/test/unit_test.hpp>
 
 #include <fstream>
-#include <iostream>
-#include <sstream>
 
+namespace tests
+{
 using namespace bioexplorer;
+using namespace biology;
 
 std::string getFileContents(const std::string& filename)
 {
@@ -77,3 +78,4 @@ BOOST_AUTO_TEST_CASE(glycans)
     BOOST_CHECK(glycans.getResidues().size() == 6);
     BOOST_CHECK(glycans.getSequencesAsString().size() == 0);
 }
+} // namespace tests

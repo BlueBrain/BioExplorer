@@ -25,7 +25,10 @@
 
 namespace bioexplorer
 {
+namespace common
+{
 using namespace brayns;
+using namespace details;
 
 /**
  * @brief Left trim of a string
@@ -73,7 +76,7 @@ bool isClipped(const Vector3f& position, const Vector4fs& clippingPlanes);
 Transformation getSphericalPosition(const Vector3f& position,
                                     const float radius, const size_t occurence,
                                     const size_t occurences,
-                                    const RandomizationInformation& randInfo);
+                                    const RandomizationDetails& randInfo);
 
 /**
  * @brief Get a random position in a 2D square along the X and Z axis
@@ -85,7 +88,7 @@ Transformation getSphericalPosition(const Vector3f& position,
  * @return Transformation of the random position and rotation on the plane
  */
 Transformation getPlanarPosition(const Vector3f& position, const float size,
-                                 const RandomizationInformation& randInfo);
+                                 const RandomizationDetails& randInfo);
 
 /**
  * @brief Get the Cubic Position object
@@ -97,7 +100,7 @@ Transformation getPlanarPosition(const Vector3f& position, const float size,
  * @return Transformation of the random position and rotation on the plane
  */
 Transformation getCubicPosition(const Vector3f& center, const float size,
-                                const RandomizationInformation& randInfo);
+                                const RandomizationDetails& randInfo);
 
 /**
  * @brief
@@ -122,7 +125,7 @@ float sinusoide(const float x, const float z);
 Transformation getSinosoidalPosition(const Vector3f& center, const float size,
                                      const float amplitude,
                                      const size_t occurence,
-                                     const RandomizationInformation& randInfo);
+                                     const RandomizationDetails& randInfo);
 
 /**
  * @brief Get the Fan Position object
@@ -138,7 +141,7 @@ Transformation getSinosoidalPosition(const Vector3f& center, const float size,
  */
 Transformation getFanPosition(const Vector3f& center, const float radius,
                               const size_t occurence, const size_t occurences,
-                              const RandomizationInformation& randInfo);
+                              const RandomizationDetails& randInfo);
 
 /**
  * @brief Get the Bezier Position object
@@ -166,7 +169,7 @@ Transformation getBezierPosition(const Vector3fs& points, const float scale,
  */
 Transformation getSphericalToPlanarPosition(
     const Vector3f& center, const float radius, const size_t occurence,
-    const size_t occurences, const RandomizationInformation& randInfo,
+    const size_t occurences, const RandomizationDetails& randInfo,
     const float morphingStep);
 
 /**
@@ -191,5 +194,5 @@ Vector4fs getClippingPlanes(const Scene& scene);
  * @return Quaterniond Random quaternion
  */
 Quaterniond randomQuaternion(const size_t seed);
-
+} // namespace common
 } // namespace bioexplorer

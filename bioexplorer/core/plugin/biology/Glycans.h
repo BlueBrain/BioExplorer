@@ -20,37 +20,31 @@
 
 #pragma once
 
+#include <brayns/engineapi/Model.h>
+#include <plugin/api/Params.h>
+#include <plugin/biology/Molecule.h>
 #include <plugin/common/Types.h>
 
 namespace bioexplorer
 {
+namespace biology
+{
 /**
- * @brief The Node class
+ * @brief The Glycans class
  */
-class Node
+class Glycans : public Molecule
 {
 public:
     /**
-     * @brief Construct a new Node object
+     * @brief Construct a new Glycans object
      *
+     * @param scene The 3D scene where the glycans are added
+     * @param details The data structure describing the glycans
      */
-    Node();
+    Glycans(Scene& scene, const SugarsDetails& details);
 
-    /**
-     * @brief Destroy the Node object
-     *
-     */
-    virtual ~Node();
-
-    /**
-     * @brief Get the Model Descriptor object
-     *
-     * @return ModelDescriptorPtr
-     */
-    ModelDescriptorPtr getModelDescriptor() { return _modelDescriptor; }
-
-protected:
-    ModelDescriptorPtr _modelDescriptor{nullptr};
-    uint32_t _uuid;
+private:
+    SugarsDetails _details;
 };
+} // namespace biology
 } // namespace bioexplorer

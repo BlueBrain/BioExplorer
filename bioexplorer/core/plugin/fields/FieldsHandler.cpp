@@ -31,6 +31,10 @@
 
 namespace bioexplorer
 {
+namespace fields
+{
+using namespace common;
+
 FieldsHandler::FieldsHandler(const Scene& scene, const float voxelSize,
                              const float density)
     : AbstractSimulationHandler()
@@ -229,4 +233,5 @@ AbstractSimulationHandlerPtr FieldsHandler::clone() const
 {
     return std::make_shared<FieldsHandler>(*this);
 }
+} // namespace fields
 } // namespace bioexplorer

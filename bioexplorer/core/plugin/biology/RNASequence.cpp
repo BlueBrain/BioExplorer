@@ -30,6 +30,10 @@
 
 namespace bioexplorer
 {
+namespace biology
+{
+using namespace common;
+
 /**
  * @brief Structure representing a nucleotid
  *
@@ -55,10 +59,10 @@ NucleotidMap nucleotidMap{{'A', {0, "Adenine", {0.f, 0.f, 1.f}}},
                           {'T', {3, "Thymine", {1.f, 0.f, 1.f}}},
                           {'C', {4, "Cytosine", {1.f, 1.f, 0.f}}}};
 
-RNASequence::RNASequence(Scene& scene, const RNASequenceDetails& rd)
+RNASequence::RNASequence(Scene& scene, const RNASequenceDetails& details)
     : Node()
 {
-    const auto& sequence = rd.contents;
+    const auto& sequence = details.contents;
     const size_t nbElements = sequence.length();
 
     auto model = scene.createModel();
@@ -86,10 +90,10 @@ RNASequence::RNASequence(Scene& scene, const RNASequenceDetails& rd)
     PLUGIN_INFO("Sequence total length: " << nbElements);
     PLUGIN_INFO("Created " << nbMaterials << " materials");
 
-    Vector3f U{rd.range[0], rd.range[1], nbElements};
-    Vector3f V{rd.range[0], rd.range[1], nbElements};
+    Vector3f U{details.range[0], details.range[1], nbElements};
+    Vector3f V{details.range[0], details.range[1], nbElements};
 
-    switch (rd.shape)
+    switch (details.shape)
     {
     case RNAShape::moebius:
         U = {2.f * M_PI, 4.f * M_PI, nbElements};
@@ -113,54 +117,60 @@ RNASequence::RNASequence(Scene& scene, const RNASequenceDetails& rd)
         {
             Vector3f src;
             Vector3f dst;
-            switch (rd.shape)
+            switch (details.shape)
             {
             case RNAShape::moebius:
             {
-                src = _moebius(rd.assemblyParams[0], u, v);
-                dst = _moebius(rd.assemblyParams[0], u + uStep, v);
+                src = _moebius(details.assemblyParams[0], u, v);
+                dst = _moebius(details.assemblyParams[0], u + uStep, v);
                 break;
             }
             case RNAShape::torus:
             {
-                src = _torus(rd.assemblyParams[0], u,
-                             {rd.params[0], rd.params[1], rd.params[2]});
-                dst = _torus(rd.assemblyParams[0], u + uStep,
-                             {rd.params[0], rd.params[1], rd.params[2]});
+                src = _torus(details.assemblyParams[0], u,
+                             {details.params[0], details.params[1],
+                              details.params[2]});
+                dst = _torus(details.assemblyParams[0], u + uStep,
+                             {details.params[0], details.params[1],
+                              details.params[2]});
                 break;
             }
             case RNAShape::star:
             {
-                src = _star(rd.assemblyParams[0], u);
-                dst = _star(rd.assemblyParams[0], u + uStep);
+                src = _star(details.assemblyParams[0], u);
+                dst = _star(details.assemblyParams[0], u + uStep);
                 break;
             }
             case RNAShape::spring:
             {
-                src = _spring(rd.assemblyParams[0], u);
-                dst = _spring(rd.assemblyParams[0], u + uStep);
+                src = _spring(details.assemblyParams[0], u);
+                dst = _spring(details.assemblyParams[0], u + uStep);
                 break;
             }
             case RNAShape::trefoilKnot:
             {
-                src = _trefoilKnot(rd.assemblyParams[0], u,
-                                   {rd.params[0], rd.params[1], rd.params[2]});
-                dst = _trefoilKnot(rd.assemblyParams[0], u + uStep,
-                                   {rd.params[0], rd.params[1], rd.params[2]});
+                src = _trefoilKnot(details.assemblyParams[0], u,
+                                   {details.params[0], details.params[1],
+                                    details.params[2]});
+                dst = _trefoilKnot(details.assemblyParams[0], u + uStep,
+                                   {details.params[0], details.params[1],
+                                    details.params[2]});
                 break;
             }
             case RNAShape::heart:
             {
-                src = _heart(rd.assemblyParams[0], u);
-                dst = _heart(rd.assemblyParams[0], u + uStep);
+                src = _heart(details.assemblyParams[0], u);
+                dst = _heart(details.assemblyParams[0], u + uStep);
                 break;
             }
             case RNAShape::thing:
             {
-                src = _thing(rd.assemblyParams[0], u,
-                             {rd.params[0], rd.params[1], rd.params[2]});
-                dst = _thing(rd.assemblyParams[0], u + uStep,
-                             {rd.params[0], rd.params[1], rd.params[2]});
+                src = _thing(details.assemblyParams[0], u,
+                             {details.params[0], details.params[1],
+                              details.params[2]});
+                dst = _thing(details.assemblyParams[0], u + uStep,
+                             {details.params[0], details.params[1],
+                              details.params[2]});
                 break;
             }
             default:
@@ -173,9 +183,10 @@ RNASequence::RNASequence(Scene& scene, const RNASequenceDetails& rd)
             {
                 const auto& codon = nucleotidMap[letter];
                 const auto materialId = codon.index;
-                const auto radius = rd.assemblyParams[1];
-                const Vector3f position = {rd.position[0], rd.position[1],
-                                           rd.position[2]};
+                const auto radius = details.assemblyParams[1];
+                const Vector3f position{details.position[0],
+                                        details.position[1],
+                                        details.position[2]};
                 model->addCylinder(materialId,
                                    {position + src, position + dst, radius});
                 if (elementId == 0)
@@ -191,10 +202,11 @@ RNASequence::RNASequence(Scene& scene, const RNASequenceDetails& rd)
 
     // Metadata
     ModelMetadata metadata;
-    metadata[METADATA_ASSEMBLY] = rd.assemblyName;
+    metadata[METADATA_ASSEMBLY] = details.assemblyName;
     metadata["RNA sequence"] = sequence;
     _modelDescriptor =
-        std::make_shared<ModelDescriptor>(std::move(model), rd.name, metadata);
+        std::make_shared<ModelDescriptor>(std::move(model), details.name,
+                                          metadata);
     if (_modelDescriptor &&
         !GeneralSettings::getInstance()->getModelVisibilityOnCreation())
         _modelDescriptor->setVisible(false);
@@ -250,4 +262,5 @@ Vector3f RNASequence::_moebius(const float radius, const float u, const float v)
             4.f * radius * (sin(u) + v * cos(u / 2.f) * sin(u)),
             8.f * radius * (v * sin(u / 2.f))};
 }
+} // namespace biology
 } // namespace bioexplorer

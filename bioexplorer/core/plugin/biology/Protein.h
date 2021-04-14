@@ -22,10 +22,12 @@
 
 #include <plugin/api/Params.h>
 
-#include <plugin/bioexplorer/Molecule.h>
+#include <plugin/biology/Molecule.h>
 #include <plugin/common/Types.h>
 
 namespace bioexplorer
+{
+namespace biology
 {
 /**
  * @brief The Protein class
@@ -37,9 +39,9 @@ public:
      * @brief Construct a new Protein object
      *
      * @param scene Scene to which assembly should be added
-     * @param descriptor Description of the protein
+     * @param details Details of the protein
      */
-    Protein(Scene& scene, const ProteinDetails& descriptor);
+    Protein(Scene& scene, const ProteinDetails& details);
 
     /**
      * @brief Destroy the Protein object
@@ -131,24 +133,24 @@ public:
     /**
      * @brief Set an amino acid at a given position in the protein sequences
      *
-     * @param aminoAcid Structure containing the information related the amino
+     * @param details Structure containing the information related the amino
      * acid to be modified
      */
-    void setAminoAcid(const AminoAcidDetails& aminoAcid);
+    void setAminoAcid(const AminoAcidDetails& details);
 
     /**
      * @brief addGlycans Add glycans to glycosilation sites of a given protein
      * in the assembly
-     * @param descriptor Descriptor of the glycans
+     * @param details Details of the glycans
      */
-    void addGlycans(const SugarsDetails& descriptor);
+    void addGlycans(const SugarsDetails& details);
 
     /**
      * @brief addSugars Add sugars to sugar binding sites of a given protein of
      * the assembly
-     * @param descriptor Descriptor of the sugars
+     * @param details Details of the sugars
      */
-    void addSugars(const SugarsDetails& descriptor);
+    void addSugars(const SugarsDetails& details);
 
 private:
     // Analysis
@@ -171,4 +173,5 @@ private:
     GlycansMap _glycans;
     std::map<std::string, std::map<size_t, Boxf>> _aminoAcidBounds;
 };
+} // namespace biology
 } // namespace bioexplorer

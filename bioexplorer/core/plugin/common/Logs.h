@@ -27,6 +27,8 @@
 
 namespace bioexplorer
 {
+namespace common
+{
 #define PLUGIN_ERROR(message)                      \
     std::cerr << "[" << std::this_thread::get_id() \
               << "] [ERROR] [BIO_EXPLORER] " << message << std::endl;
@@ -34,7 +36,7 @@ namespace bioexplorer
     std::cerr << "[" << std::this_thread::get_id() \
               << "] [WARN ] [BIO_EXPLORER] " << message << std::endl;
 #define PLUGIN_INFO(message)                                              \
-    if (GeneralSettings::getInstance()->getLoggingEnabled())              \
+    if (common::GeneralSettings::getInstance()->getLoggingEnabled())      \
     {                                                                     \
         std::cout << "[" << std::this_thread::get_id()                    \
                   << "] [INFO ] [BIO_EXPLORER] " << message << std::endl; \
@@ -52,4 +54,5 @@ namespace bioexplorer
         PLUGIN_ERROR(message);             \
         throw std::runtime_error(message); \
     }
+} // namespace common
 } // namespace bioexplorer

@@ -30,13 +30,17 @@
 
 namespace bioexplorer
 {
-Membrane::Membrane(Scene &scene, const MembraneDetails &descriptor,
+namespace biology
+{
+using namespace common;
+
+Membrane::Membrane(Scene &scene, const MembraneDetails &details,
                    const Vector3f &position, const Quaterniond &rotation,
                    const Vector4fs &clippingPlanes)
     : _scene(scene)
     , _position(position)
     , _rotation(rotation)
-    , _details(descriptor)
+    , _details(details)
     , _clippingPlanes(clippingPlanes)
 {
     if (_details.representation == ProteinRepresentation::contour)
@@ -69,33 +73,33 @@ Membrane::Membrane(Scene &scene, const MembraneDetails &descriptor,
     }
 
     std::vector<std::string> proteinContents;
-    proteinContents.push_back(descriptor.content1);
-    if (!descriptor.content2.empty())
-        proteinContents.push_back(descriptor.content2);
-    if (!descriptor.content3.empty())
-        proteinContents.push_back(descriptor.content3);
-    if (!descriptor.content4.empty())
-        proteinContents.push_back(descriptor.content4);
+    proteinContents.push_back(details.content1);
+    if (!details.content2.empty())
+        proteinContents.push_back(details.content2);
+    if (!details.content3.empty())
+        proteinContents.push_back(details.content3);
+    if (!details.content4.empty())
+        proteinContents.push_back(details.content4);
 
     // Load proteins
     size_t i = 0;
     for (const auto &content : proteinContents)
     {
         ProteinDetails pd;
-        pd.assemblyName = descriptor.assemblyName;
+        pd.assemblyName = details.assemblyName;
         pd.name = _getElementNameFromId(i);
         pd.contents = content;
-        pd.chainIds = descriptor.chainIds;
-        pd.recenter = descriptor.recenter;
-        pd.loadBonds = descriptor.loadBonds;
-        pd.randomSeed = descriptor.randomSeed;
+        pd.chainIds = details.chainIds;
+        pd.recenter = details.recenter;
+        pd.loadBonds = details.loadBonds;
+        pd.randomSeed = details.randomSeed;
         pd.occurrences = 1;
-        pd.rotation = descriptor.rotation;
-        pd.assemblyParams = descriptor.assemblyParams;
-        pd.atomRadiusMultiplier = descriptor.atomRadiusMultiplier;
-        pd.representation = descriptor.representation;
-        pd.loadNonPolymerChemicals = descriptor.loadNonPolymerChemicals;
-        pd.positionRandomizationType = descriptor.positionRandomizationType;
+        pd.rotation = details.rotation;
+        pd.assemblyParams = details.assemblyParams;
+        pd.atomRadiusMultiplier = details.atomRadiusMultiplier;
+        pd.representation = details.representation;
+        pd.loadNonPolymerChemicals = details.loadNonPolymerChemicals;
+        pd.positionRandomizationType = details.positionRandomizationType;
         pd.position = {0.f, 0.f, 0.f};
 
         ProteinPtr protein(new Protein(_scene, pd));
@@ -138,7 +142,7 @@ void Membrane::_processInstances()
     const auto &params = _details.assemblyParams;
     const float size = (params.size() > 0 ? params[0] : 0.f);
 
-    RandomizationInformation randInfo;
+    RandomizationDetails randInfo;
     randInfo.seed = _details.randomSeed;
     randInfo.randomizationType = _details.positionRandomizationType;
     randInfo.positionStrength = (params.size() > 2 ? params[2] : 0.f);
@@ -253,4 +257,5 @@ std::string Membrane::_getElementNameFromId(const size_t id)
 {
     return _details.assemblyName + "_Membrane_" + std::to_string(id);
 }
+} // namespace biology
 } // namespace bioexplorer

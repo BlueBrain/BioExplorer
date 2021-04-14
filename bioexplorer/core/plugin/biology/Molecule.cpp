@@ -36,6 +36,11 @@
 
 namespace bioexplorer
 {
+namespace biology
+{
+using namespace common;
+using namespace meshing;
+
 const std::string METADATA_AA_RANGE = "Amino acids range";
 const std::string METADATA_AA_SEQUENCE = "Amino Acid Sequence";
 
@@ -168,7 +173,7 @@ Molecule::Molecule(Scene& scene, const size_ts& chainIds)
 
 void Molecule::_computeReqSetOffset()
 {
-    for (auto& sequence : _sequenceMap)
+    for (auto& sequence : _residueSequenceMap)
     {
         std::string physicalReqSeq;
         size_t firstReqSeq;
@@ -217,7 +222,7 @@ void Molecule::_computeReqSetOffset()
 StringMap Molecule::getSequencesAsString() const
 {
     StringMap sequencesAsStrings;
-    for (const auto& sequence : _sequenceMap)
+    for (const auto& sequence : _residueSequenceMap)
     {
         std::string shortSequence = std::to_string(_aminoAcidRange.x) + "," +
                                     std::to_string(_aminoAcidRange.y) + ",";
@@ -243,7 +248,7 @@ void Molecule::_buildAtomicStruture(const ProteinRepresentation representation,
         auto material =
             model.createMaterial(atom.first, std::to_string(atom.first));
 
-        RGBColor rgb{255, 255, 255};
+        RGBColorDetails rgb{255, 255, 255};
         const auto it = atomColorMap.find(atom.second.element);
         if (it != atomColorMap.end())
             rgb = (*it).second;
@@ -597,9 +602,7 @@ void Molecule::_readSequence(const std::string& line)
 
     std::string s = line.substr(11, 1);
 
-    Sequence& sequence = _sequenceMap[s];
-    // sequence.serNum = static_cast<size_t>(atoi(line.substr(7,
-    // 3).c_str()));
+    ResidueSequence& sequence = _residueSequenceMap[s];
     sequence.numRes = static_cast<size_t>(atoi(line.substr(13, 4).c_str()));
 
     for (size_t i = 19; i < line.length(); i += 4)
@@ -680,7 +683,7 @@ void Molecule::_readRemark(const std::string& line)
         return;
 
     s = line.substr(22, line.length() - 23);
-    Sequence& sequence = _sequenceMap[0];
+    ResidueSequence& sequence = _residueSequenceMap[0];
     if (sequence.resNames.empty())
         sequence.resNames.push_back(s);
     else
@@ -706,13 +709,11 @@ bool Molecule::_loadChain(const size_t chainId)
     {
         found = false;
         for (const auto id : _chainIds)
-        {
             if (id == chainId)
             {
                 found = true;
                 break;
             }
-        }
     }
     return found;
 }
@@ -738,7 +739,7 @@ void Molecule::_setAminoAcidSequenceColorScheme(const Palette& palette)
         PLUGIN_THROW("Invalid palette size. 2 colors are expected");
 
     size_t atomCount = 0;
-    for (const auto& sequence : _sequenceMap)
+    for (const auto& sequence : _residueSequenceMap)
     {
         if (_selectedAminoAcidSequence.empty())
         {
@@ -826,7 +827,7 @@ void Molecule::_setResiduesColorScheme(const Palette& palette)
 }
 
 void Molecule::_setMaterialDiffuseColor(const size_t atomIndex,
-                                        const RGBColor& color)
+                                        const RGBColorDetails& color)
 {
     auto& model = _modelDescriptor->getModel();
     auto material = model.getMaterial(atomIndex);
@@ -836,6 +837,9 @@ void Molecule::_setMaterialDiffuseColor(const size_t atomIndex,
             {color.r / 255.f, color.g / 255.f, color.b / 255.f});
         material->commit();
     }
+    else
+        PLUGIN_THROW("Model has no material for atom " +
+                     std::to_string(atomIndex));
 }
 
 void Molecule::_setMaterialDiffuseColor(const size_t atomIndex,
@@ -850,11 +854,14 @@ void Molecule::_setMaterialDiffuseColor(const size_t atomIndex,
             material->setDiffuseColor(color);
             material->markModified();
         }
+        else
+            PLUGIN_THROW("Model has no material for atom " +
+                         std::to_string(atomIndex));
     }
     catch (const std::runtime_error& e)
     {
         PLUGIN_ERROR(e.what());
     }
 }
-
+} // namespace biology
 } // namespace bioexplorer

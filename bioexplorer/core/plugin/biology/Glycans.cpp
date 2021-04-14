@@ -30,16 +30,18 @@
 
 namespace bioexplorer
 {
-Glycans::Glycans(Scene& scene, const SugarsDetails& sd)
+namespace biology
+{
+Glycans::Glycans(Scene& scene, const SugarsDetails& details)
     : Molecule(scene, {})
-    , _details(sd)
+    , _details(details)
 {
     size_t lineIndex{0};
 
     std::stringstream lines{_details.contents};
     std::string line;
-    std::string title{sd.name};
-    std::string header{sd.name};
+    std::string title{details.name};
+    std::string header{details.name};
 
     while (getline(lines, line, '\n'))
     {
@@ -74,5 +76,5 @@ Glycans::Glycans(Scene& scene, const SugarsDetails& sd)
                 _details.representation, _details.atomRadiusMultiplier,
                 _details.loadBonds);
 }
-
+} // namespace biology
 } // namespace bioexplorer

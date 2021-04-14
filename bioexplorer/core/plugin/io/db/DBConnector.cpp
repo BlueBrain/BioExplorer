@@ -22,6 +22,10 @@
 
 namespace bioexplorer
 {
+namespace io
+{
+namespace db
+{
 DBConnector::DBConnector(const std::string& connectionString,
                          const std::string& schema)
     : _connection(connectionString)
@@ -137,5 +141,6 @@ std::stringstream DBConnector::getBrick(const int32_t brickId,
 
     return s;
 }
-
+} // namespace db
+} // namespace io
 } // namespace bioexplorer

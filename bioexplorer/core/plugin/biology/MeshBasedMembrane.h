@@ -20,7 +20,7 @@
 
 #pragma once
 
-#include <plugin/bioexplorer/Node.h>
+#include <plugin/biology/Node.h>
 #include <plugin/common/Types.h>
 
 #include <brayns/engineapi/Model.h>
@@ -31,6 +31,8 @@
 #include <assimp/version.h>
 
 namespace bioexplorer
+{
+namespace biology
 {
 /**
  * @brief A MeshBasedMembrane object implements a 3D structure that has the
@@ -49,7 +51,7 @@ public:
      * @param descriptor The data structure describing the MeshBasedMembrane,
      * the protein, and the associated parameters
      */
-    MeshBasedMembrane(Scene& scene, const MeshBasedMembraneDetails& descriptor);
+    MeshBasedMembrane(Scene& scene, const MeshBasedMembraneDetails& details);
 
     /**
      * @brief Get the Protein object
@@ -68,4 +70,5 @@ private:
 
     ProteinPtr _protein;
 };
+} // namespace biology
 } // namespace bioexplorer

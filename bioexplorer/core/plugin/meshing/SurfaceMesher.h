@@ -24,6 +24,8 @@
 
 namespace bioexplorer
 {
+namespace meshing
+{
 using namespace brayns;
 
 class SurfaceMesher
@@ -55,4 +57,5 @@ private:
 
     uint32_t _uuid;
 };
+} // namespace meshing
 } // namespace bioexplorer

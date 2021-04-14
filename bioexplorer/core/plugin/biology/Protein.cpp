@@ -20,7 +20,7 @@
 
 #include "Protein.h"
 
-#include <plugin/bioexplorer/Glycans.h>
+#include <plugin/biology/Glycans.h>
 #include <plugin/common/Logs.h>
 
 #include <brayns/engineapi/Material.h>
@@ -30,9 +30,12 @@
 
 namespace bioexplorer
 {
-Protein::Protein(Scene& scene, const ProteinDetails& descriptor)
-    : Molecule(scene, descriptor.chainIds)
-    , _details(descriptor)
+namespace biology
+{
+using namespace common;
+Protein::Protein(Scene& scene, const ProteinDetails& details)
+    : Molecule(scene, details.chainIds)
+    , _details(details)
 {
     size_t lineIndex{0};
 
@@ -45,14 +48,13 @@ Protein::Protein(Scene& scene, const ProteinDetails& descriptor)
     {
         if (line.find(KEY_ATOM) == 0)
             _readAtom(line, _details.loadHydrogen);
-        else if (descriptor.loadNonPolymerChemicals &&
-                 line.find(KEY_HETATM) == 0)
+        else if (details.loadNonPolymerChemicals && line.find(KEY_HETATM) == 0)
             _readAtom(line, _details.loadHydrogen);
         else if (line.find(KEY_HEADER) == 0)
             header = _readHeader(line);
         else if (line.find(KEY_TITLE) == 0)
             title = _readTitle(line);
-        else if (descriptor.loadBonds && line.find(KEY_CONECT) == 0)
+        else if (details.loadBonds && line.find(KEY_CONECT) == 0)
             _readConnect(line);
         else if (line.find(KEY_SEQRES) == 0)
             _readSequence(line);
@@ -60,23 +62,23 @@ Protein::Protein(Scene& scene, const ProteinDetails& descriptor)
         //            _readRemark(line);
     }
 
-    if (_sequenceMap.empty())
+    if (_residueSequenceMap.empty())
     {
-        // Build AA sequences from ATOMS if not SEQRES record exists
+        // Build AA sequences from ATOMS if no SEQRES record exists
         size_t previousReqSeq = std::numeric_limits<size_t>::max();
         for (const auto& atom : _atomMap)
         {
-            auto& sequence = _sequenceMap[atom.second.chainId];
+            auto& sequence = _residueSequenceMap[atom.second.chainId];
             if (previousReqSeq != atom.second.reqSeq)
                 sequence.resNames.push_back(atom.second.resName);
             previousReqSeq = atom.second.reqSeq;
         }
-        for (auto& sequence : _sequenceMap)
+        for (auto& sequence : _residueSequenceMap)
             sequence.second.numRes = sequence.second.resNames.size();
     }
 
     // Build 3d models according to atoms positions (re-centered to origin)
-    if (descriptor.recenter)
+    if (details.recenter)
     {
         brayns::Boxf newBounds;
         const auto& center = _bounds.getCenter();
@@ -191,7 +193,7 @@ std::map<std::string, size_ts> Protein::getGlycosylationSites(
     const std::vector<size_t>& siteIndices) const
 {
     std::map<std::string, size_ts> sites;
-    for (const auto& sequence : _sequenceMap)
+    for (const auto& sequence : _residueSequenceMap)
     {
         std::string shortSequence;
         for (const auto& resName : sequence.second.resNames)
@@ -373,25 +375,25 @@ void Protein::getSugarBindingSites(std::vector<Vector3f>& positions,
     _getSitesTransformations(positions, rotations, sites);
 }
 
-void Protein::setAminoAcid(const AminoAcidDetails& aminoAcid)
+void Protein::setAminoAcid(const AminoAcidDetails& details)
 {
-    for (auto& sequence : _sequenceMap)
+    for (auto& sequence : _residueSequenceMap)
     {
         bool acceptChain = true;
-        if (!aminoAcid.chainIds.empty())
+        if (!details.chainIds.empty())
         {
             const size_t chainId = static_cast<size_t>(sequence.first[0]) - 64;
-            auto it = find(aminoAcid.chainIds.begin(), aminoAcid.chainIds.end(),
-                           chainId);
-            acceptChain = (it == aminoAcid.chainIds.end());
+            auto it =
+                find(details.chainIds.begin(), details.chainIds.end(), chainId);
+            acceptChain = (it == details.chainIds.end());
         }
 
-        if (aminoAcid.index >= sequence.second.resNames.size())
+        if (details.index >= sequence.second.resNames.size())
             PLUGIN_THROW("Invalid index for the amino acid sequence");
 
         if (acceptChain)
-            sequence.second.resNames[aminoAcid.index] =
-                aminoAcid.aminoAcidShortName;
+            sequence.second.resNames[details.index] =
+                details.aminoAcidShortName;
     }
 }
 
@@ -427,57 +429,63 @@ void Protein::_processInstances(ModelDescriptorPtr md,
     }
 }
 
-void Protein::addGlycans(const SugarsDetails& sd)
+void Protein::addGlycans(const SugarsDetails& details)
 {
-    if (_glycans.find(sd.name) != _glycans.end())
-        PLUGIN_THROW("A glycan named " + sd.name +
+    if (_glycans.find(details.name) != _glycans.end())
+        PLUGIN_THROW("A glycan named " + details.name +
                      " already exists in protein " + _details.name +
                      " of assembly " + _details.assemblyName);
 
     Vector3fs glycanPositions;
     Quaternions glycanrotations;
-    getGlycosilationSites(glycanPositions, glycanrotations, sd.siteIndices);
+    getGlycosilationSites(glycanPositions, glycanrotations,
+                          details.siteIndices);
 
     if (glycanPositions.empty())
-        PLUGIN_THROW("No glycosylation site was found on " + sd.proteinName);
+        PLUGIN_THROW("No glycosylation site was found on " +
+                     details.proteinName);
 
     // Create glycans and attach them to the glycosylation sites of the target
     // protein
-    GlycansPtr glycans(new Glycans(_scene, sd));
+    GlycansPtr glycans(new Glycans(_scene, details));
     auto modelDescriptor = glycans->getModelDescriptor();
-    const Quaterniond proteinrotation(
-        {sd.rotation[0], sd.rotation[1], sd.rotation[2], sd.rotation[3]});
+    const Quaterniond proteinrotation({details.rotation[0], details.rotation[1],
+                                       details.rotation[2],
+                                       details.rotation[3]});
     _processInstances(modelDescriptor, glycanPositions, glycanrotations,
                       proteinrotation);
 
-    _glycans[sd.name] = std::move(glycans);
+    _glycans[details.name] = std::move(glycans);
     _scene.addModel(modelDescriptor);
 }
 
-void Protein::addSugars(const SugarsDetails& sd)
+void Protein::addSugars(const SugarsDetails& details)
 {
-    if (_glycans.find(sd.name) != _glycans.end())
-        PLUGIN_THROW("A sugar named " + sd.name +
+    if (_glycans.find(details.name) != _glycans.end())
+        PLUGIN_THROW("A sugar named " + details.name +
                      " already exists in protein " + _details.name +
                      " of assembly " + _details.assemblyName);
 
     Vector3fs positions;
     Quaternions rotations;
-    getSugarBindingSites(positions, rotations, sd.siteIndices, sd.chainIds);
+    getSugarBindingSites(positions, rotations, details.siteIndices,
+                         details.chainIds);
 
     if (positions.empty())
-        PLUGIN_THROW("No sugar binding site was found on " + sd.name);
+        PLUGIN_THROW("No sugar binding site was found on " + details.name);
 
-    PLUGIN_INFO(positions.size() << " sugar sites found on " << sd.proteinName);
+    PLUGIN_INFO(positions.size()
+                << " sugar sites found on " << details.proteinName);
 
-    GlycansPtr glucoses(new Glycans(_scene, sd));
+    GlycansPtr glucoses(new Glycans(_scene, details));
     auto modelDescriptor = glucoses->getModelDescriptor();
-    const Quaterniond proteinrotation(
-        {sd.rotation[0], sd.rotation[1], sd.rotation[2], sd.rotation[3]});
+    const Quaterniond proteinrotation({details.rotation[0], details.rotation[1],
+                                       details.rotation[2],
+                                       details.rotation[3]});
     _processInstances(modelDescriptor, positions, rotations, proteinrotation);
 
-    _glycans[sd.name] = std::move(glucoses);
+    _glycans[details.name] = std::move(glucoses);
     _scene.addModel(modelDescriptor);
 }
-
+} // namespace biology
 } // namespace bioexplorer

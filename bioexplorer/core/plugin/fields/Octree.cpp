@@ -30,6 +30,8 @@ using namespace std;
 
 namespace bioexplorer
 {
+namespace fields
+{
 typedef std::map<uint64_t, OctreeNode> OctreeLevelMap;
 
 Octree::Octree(const std::vector<float> &events, float voxelSize,
@@ -221,4 +223,5 @@ uint64_t Octree::getVolumeSize() const
 {
     return _volumeSize;
 }
+} // namespace fields
 } // namespace bioexplorer

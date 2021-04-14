@@ -20,33 +20,37 @@
 
 #include "Assembly.h"
 
-#include <plugin/bioexplorer/Membrane.h>
-#include <plugin/bioexplorer/MeshBasedMembrane.h>
-#include <plugin/bioexplorer/Protein.h>
-#include <plugin/bioexplorer/RNASequence.h>
+#include <plugin/biology/Membrane.h>
+#include <plugin/biology/MeshBasedMembrane.h>
+#include <plugin/biology/Protein.h>
+#include <plugin/biology/RNASequence.h>
 #include <plugin/common/GeneralSettings.h>
 #include <plugin/common/Logs.h>
 #include <plugin/common/Utils.h>
 
 namespace bioexplorer
 {
-Assembly::Assembly(Scene &scene, const AssemblyDetails &descriptor)
-    : _details(descriptor)
+namespace biology
+{
+using namespace common;
+
+Assembly::Assembly(Scene &scene, const AssemblyDetails &details)
+    : _details(details)
     , _scene(scene)
 {
-    if (descriptor.position.size() != 3)
+    if (details.position.size() != 3)
         PLUGIN_THROW("Position must be a sequence of 3 float values");
 
-    if (descriptor.rotation.size() != 4)
+    if (details.rotation.size() != 4)
         PLUGIN_THROW("rotation must be a sequence of 4 float values");
 
-    if (descriptor.clippingPlanes.size() % 4 != 0)
+    if (details.clippingPlanes.size() % 4 != 0)
         PLUGIN_THROW("Clipping planes must be defined by 4 float values");
-    const auto &cp = descriptor.clippingPlanes;
+    const auto &cp = details.clippingPlanes;
     for (size_t i = 0; i < cp.size(); i += 4)
         _clippingPlanes.push_back({cp[i], cp[i + 1], cp[i + 2], cp[i + 3]});
 
-    PLUGIN_INFO("Adding assembly [" << descriptor.name << "]");
+    PLUGIN_INFO("Adding assembly [" << details.name << "]");
 }
 
 Assembly::~Assembly()
@@ -78,26 +82,28 @@ Assembly::~Assembly()
     }
 }
 
-void Assembly::addProtein(const ProteinDetails &pd)
+void Assembly::addProtein(const ProteinDetails &details)
 {
-    ProteinPtr protein(new Protein(_scene, pd));
+    ProteinPtr protein(new Protein(_scene, details));
     auto modelDescriptor = protein->getModelDescriptor();
 
-    const Vector3f position = {pd.position[0], pd.position[1], pd.position[2]};
-    const Quaterniond rotation = {pd.rotation[0], pd.rotation[1],
-                                  pd.rotation[2], pd.rotation[3]};
+    const Vector3f position = {details.position[0], details.position[1],
+                               details.position[2]};
+    const Quaterniond rotation = {details.rotation[0], details.rotation[1],
+                                  details.rotation[2], details.rotation[3]};
 
-    _processInstances(modelDescriptor, pd.name, pd.shape, pd.assemblyParams,
-                      pd.occurrences, position, rotation, pd.allowedOccurrences,
-                      pd.randomSeed, pd.positionRandomizationType);
+    _processInstances(modelDescriptor, details.name, details.shape,
+                      details.assemblyParams, details.occurrences, position,
+                      rotation, details.allowedOccurrences, details.randomSeed,
+                      details.positionRandomizationType);
 
-    _proteins[pd.name] = std::move(protein);
+    _proteins[details.name] = std::move(protein);
     _scene.addModel(modelDescriptor);
     PLUGIN_INFO(
         "Number of instances: " << modelDescriptor->getInstances().size());
 }
 
-void Assembly::addMembrane(const MembraneDetails &md)
+void Assembly::addMembrane(const MembraneDetails &details)
 {
     if (_membrane != nullptr)
         PLUGIN_THROW("Assembly already has a membrane");
@@ -108,54 +114,55 @@ void Assembly::addMembrane(const MembraneDetails &md)
                                   _details.rotation[2], _details.rotation[3]};
 
     MembranePtr membrane(
-        new Membrane(_scene, md, position, rotation, _clippingPlanes));
+        new Membrane(_scene, details, position, rotation, _clippingPlanes));
     _membrane = std::move(membrane);
 }
 
-void Assembly::addSugars(const SugarsDetails &sd)
+void Assembly::addSugars(const SugarsDetails &details)
 {
     // Get information from target protein (attributes, number of instances,
     // glycosylation sites, etc)
-    const auto it = _proteins.find(sd.proteinName);
+    const auto it = _proteins.find(details.proteinName);
     if (it == _proteins.end())
     {
         std::string s;
         for (const auto &protein : _proteins)
             s += "[" + protein.first + "]";
-        PLUGIN_THROW("Target protein " + sd.proteinName +
-                     " not registered in assembly " + sd.assemblyName +
+        PLUGIN_THROW("Target protein " + details.proteinName +
+                     " not registered in assembly " + details.assemblyName +
                      ". Registered proteins are " + s);
     }
-    PLUGIN_INFO("Adding sugars to protein " << sd.proteinName);
+    PLUGIN_INFO("Adding sugars to protein " << details.proteinName);
     const auto targetProtein = (*it).second;
-    targetProtein->addSugars(sd);
+    targetProtein->addSugars(details);
 }
 
-void Assembly::addGlycans(const SugarsDetails &sd)
+void Assembly::addGlycans(const SugarsDetails &details)
 {
     // Get information from target protein (attributes, number of instances,
     // glycosylation sites, etc)
-    const auto it = _proteins.find(sd.proteinName);
+    const auto it = _proteins.find(details.proteinName);
     if (it == _proteins.end())
     {
         std::string s;
         for (const auto &protein : _proteins)
             s += "[" + protein.first + "]";
-        PLUGIN_THROW("Target protein " + sd.proteinName +
-                     " not registered in assembly " + sd.assemblyName +
+        PLUGIN_THROW("Target protein " + details.proteinName +
+                     " not registered in assembly " + details.assemblyName +
                      ". Registered proteins are " + s);
     }
 
-    PLUGIN_INFO("Adding glycans to protein " << sd.proteinName);
+    PLUGIN_INFO("Adding glycans to protein " << details.proteinName);
     const auto targetProtein = (*it).second;
-    targetProtein->addGlycans(sd);
+    targetProtein->addGlycans(details);
 }
 
-void Assembly::addMeshBasedMembrane(const MeshBasedMembraneDetails &md)
+void Assembly::addMeshBasedMembrane(const MeshBasedMembraneDetails &details)
 {
-    MeshBasedMembranePtr meshBaseMembrane(new MeshBasedMembrane(_scene, md));
+    MeshBasedMembranePtr meshBaseMembrane(
+        new MeshBasedMembrane(_scene, details));
     auto modelDescriptor = meshBaseMembrane->getModelDescriptor();
-    _meshBasedMembranes[md.name] = std::move(meshBaseMembrane);
+    _meshBasedMembranes[details.name] = std::move(meshBaseMembrane);
     _scene.addModel(modelDescriptor);
 }
 
@@ -186,7 +193,7 @@ void Assembly::_processInstances(
     // Shape parameters
     const auto &params = assemblyParams;
     const float size = (params.size() > 0 ? params[0] : 0.f);
-    RandomizationInformation randInfo;
+    RandomizationDetails randInfo;
     randInfo.seed = randomSeed;
     randInfo.randomizationType = randomizationType;
     randInfo.positionStrength = (params.size() > 2 ? params[2] : 0.f);
@@ -433,83 +440,78 @@ void Assembly::addRNASequence(const RNASequenceDetails &rnad)
 }
 
 void Assembly::setProteinInstanceTransformation(
-    const ProteinInstanceTransformationDetails &descriptor)
+    const ProteinInstanceTransformationDetails &details)
 {
     ProteinPtr protein{nullptr};
-    auto itProtein = _proteins.find(descriptor.name);
+    auto itProtein = _proteins.find(details.name);
     if (itProtein != _proteins.end())
         protein = (*itProtein).second;
     else
-        PLUGIN_THROW("Protein " + descriptor.name + " not found on assembly " +
-                     descriptor.assemblyName);
+        PLUGIN_THROW("Protein " + details.name + " not found on assembly " +
+                     details.assemblyName);
 
     auto modelDescriptor = protein->getModelDescriptor();
 
     auto &instances = modelDescriptor->getInstances();
-    if (descriptor.instanceIndex >= instances.size())
+    if (details.instanceIndex >= instances.size())
         PLUGIN_THROW("Invalid instance index (" +
-                     std::to_string(descriptor.instanceIndex) +
-                     ") for protein " + descriptor.name + " in assembly " +
-                     descriptor.assemblyName);
+                     std::to_string(details.instanceIndex) + ") for protein " +
+                     details.name + " in assembly " + details.assemblyName);
 
-    auto instance = modelDescriptor->getInstance(descriptor.instanceIndex);
+    auto instance = modelDescriptor->getInstance(details.instanceIndex);
     auto &transformation = instance->getTransformation();
 
-    if (descriptor.position.size() != 3)
+    if (details.position.size() != 3)
         PLUGIN_THROW("Invalid number of float for position of protein " +
-                     descriptor.name + " in assembly " +
-                     descriptor.assemblyName);
-    const Vector3f position{descriptor.position[0], descriptor.position[1],
-                            descriptor.position[2]};
+                     details.name + " in assembly " + details.assemblyName);
+    const Vector3f position{details.position[0], details.position[1],
+                            details.position[2]};
 
-    if (descriptor.rotation.size() != 4)
+    if (details.rotation.size() != 4)
         PLUGIN_THROW("Invalid number of float for position of protein " +
-                     descriptor.name + " in assembly " +
-                     descriptor.assemblyName);
-    const Quaterniond rotation{descriptor.rotation[0], descriptor.rotation[1],
-                               descriptor.rotation[2], descriptor.rotation[3]};
+                     details.name + " in assembly " + details.assemblyName);
+    const Quaterniond rotation{details.rotation[0], details.rotation[1],
+                               details.rotation[2], details.rotation[3]};
 
     PLUGIN_INFO("Modifying instance "
-                << descriptor.instanceIndex << " of protein " << descriptor.name
-                << " in assembly " << descriptor.assemblyName
-                << " with position=" << position
-                << " and rotation=" << rotation);
+                << details.instanceIndex << " of protein " << details.name
+                << " in assembly " << details.assemblyName << " with position="
+                << position << " and rotation=" << rotation);
     Transformation newTransformation = transformation;
     newTransformation.setTranslation(position);
     newTransformation.setRotation(rotation);
     instance->setTransformation(newTransformation);
-    if (descriptor.instanceIndex == 0)
+    if (details.instanceIndex == 0)
         modelDescriptor->setTransformation(newTransformation);
 
     _scene.markModified();
 }
 
 const Transformation Assembly::getProteinInstanceTransformation(
-    const ProteinInstanceTransformationDetails &descriptor) const
+    const ProteinInstanceTransformationDetails &details) const
 {
     ProteinPtr protein{nullptr};
-    auto itProtein = _proteins.find(descriptor.name);
+    auto itProtein = _proteins.find(details.name);
     if (itProtein != _proteins.end())
         protein = (*itProtein).second;
     else
-        PLUGIN_THROW("Protein " + descriptor.name + " not found on assembly " +
-                     descriptor.assemblyName);
+        PLUGIN_THROW("Protein " + details.name + " not found on assembly " +
+                     details.assemblyName);
 
     auto modelDescriptor = protein->getModelDescriptor();
 
     auto &instances = modelDescriptor->getInstances();
-    if (descriptor.instanceIndex >= instances.size())
+    if (details.instanceIndex >= instances.size())
         PLUGIN_THROW("Invalid instance index (" +
-                     std::to_string(descriptor.instanceIndex) +
-                     ") for protein " + descriptor.name + " in assembly " +
-                     descriptor.assemblyName);
+                     std::to_string(details.instanceIndex) + ") for protein " +
+                     details.name + " in assembly " + details.assemblyName);
 
-    auto instance = modelDescriptor->getInstance(descriptor.instanceIndex);
+    auto instance = modelDescriptor->getInstance(details.instanceIndex);
     auto transformation = instance->getTransformation();
 
-    if (descriptor.instanceIndex == 0)
+    if (details.instanceIndex == 0)
         transformation = modelDescriptor->getTransformation();
     return transformation;
 }
-
+} // namespace biology
 } // namespace bioexplorer

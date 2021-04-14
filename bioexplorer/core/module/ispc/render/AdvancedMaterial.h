@@ -27,6 +27,8 @@
 
 namespace bioexplorer
 {
+namespace rendering
+{
 typedef ospray::vec3f Color;
 
 struct AdvancedMaterial : public ospray::Material
@@ -89,4 +91,5 @@ struct AdvancedMaterial : public ospray::Material
     std::string toString() const final { return "default_material"; }
     void commit() final;
 };
+} // namespace rendering
 } // namespace bioexplorer

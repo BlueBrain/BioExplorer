@@ -27,6 +27,12 @@
 
 namespace bioexplorer
 {
+namespace io
+{
+namespace db
+{
+using namespace details;
+
 /**
  * @brief The DBConnector class allows the BioExplorer to communicate with a
  * PostgreSQL database. The DBConnector requires the pqxx library to be found at
@@ -94,5 +100,6 @@ private:
 };
 
 typedef std::shared_ptr<DBConnector> DBConnectorPtr;
-
+} // namespace db
+} // namespace io
 } // namespace bioexplorer

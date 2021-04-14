@@ -43,6 +43,8 @@ typedef K::Triangle_3 Triangle_3;
 
 namespace bioexplorer
 {
+namespace meshing
+{
 PointCloudMesher::PointCloudMesher() {}
 
 bool PointCloudMesher::toConvexHull(Model& model, const PointCloud& pointCloud)
@@ -92,5 +94,5 @@ bool PointCloudMesher::toConvexHull(Model& model, const PointCloud& pointCloud)
     return false;
 #endif
 }
-
+} // namespace meshing
 } // namespace bioexplorer

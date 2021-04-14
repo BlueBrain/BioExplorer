@@ -82,6 +82,8 @@ float rnd3(const size_t index)
 
 namespace bioexplorer
 {
+namespace common
+{
 Quaterniond quatLookAt(const Vector3f& dir)
 {
     const Vector3f d = normalize(dir);
@@ -131,7 +133,7 @@ bool isClipped(const Vector3f& position, const Vector4fs& clippingPlanes)
 Transformation getSphericalPosition(const Vector3f& position,
                                     const float radius, const size_t occurence,
                                     const size_t occurences,
-                                    const RandomizationInformation& randInfo)
+                                    const RandomizationDetails& randInfo)
 {
     const float offset = 2.f / occurences;
     const float increment = M_PI * (3.f - sqrt(5.f));
@@ -172,7 +174,7 @@ Transformation getSphericalPosition(const Vector3f& position,
 
 Transformation getFanPosition(const Vector3f& position, const float radius,
                               const size_t occurence, const size_t occurences,
-                              const RandomizationInformation& randInfo)
+                              const RandomizationDetails& randInfo)
 {
     const float offset = 2.f / occurences;
     const float increment = 0.1f * M_PI * (3.f - sqrt(5.f));
@@ -198,7 +200,7 @@ Transformation getFanPosition(const Vector3f& position, const float radius,
 }
 
 Transformation getPlanarPosition(const Vector3f& position, const float size,
-                                 const RandomizationInformation& randInfo)
+                                 const RandomizationDetails& randInfo)
 {
     float up = 0.f;
     if (randInfo.seed != 0 &&
@@ -213,7 +215,7 @@ Transformation getPlanarPosition(const Vector3f& position, const float size,
 }
 
 Transformation getCubicPosition(const Vector3f& position, const float size,
-                                const RandomizationInformation& randInfo)
+                                const RandomizationDetails& randInfo)
 {
     Vector3f pos =
         position + Vector3f(rnd1() * size, rnd1() * size, rnd1() * size);
@@ -246,7 +248,7 @@ float sinusoide(const float x, const float z)
 Transformation getSinosoidalPosition(const Vector3f& position, const float size,
                                      const float amplitude,
                                      const size_t occurence,
-                                     const RandomizationInformation& randInfo)
+                                     const RandomizationDetails& randInfo)
 {
     const float step = 0.01f;
     const float angle = 0.01f;
@@ -312,7 +314,7 @@ Transformation getBezierPosition(const Vector3fs& points, const float scale,
 
 Transformation getSphericalToPlanarPosition(
     const Vector3f& center, const float radius, const size_t occurence,
-    const size_t occurences, const RandomizationInformation& randInfo,
+    const size_t occurences, const RandomizationDetails& randInfo,
     const float morphingStep)
 {
     const float offset = 2.f / occurences;
@@ -537,5 +539,5 @@ Quaterniond randomQuaternion(const size_t seed)
     s = sqrt((1.0 - z) / w);
     return Quaterniond(x, y, s * u, s * v);
 }
-
+} // namespace common
 } // namespace bioexplorer

@@ -26,6 +26,8 @@
 
 namespace bioexplorer
 {
+namespace common
+{
 /**
  * @brief GeneralSettings is a singleton class that holds general settings for
  * the plugin
@@ -80,7 +82,19 @@ public:
      */
     void setOffFolder(const std::string& value) { _offFolder = value; }
 
+    /**
+     * @brief Get the Logging state
+     *
+     * @return true Logging is enabled
+     * @return false Logging is disabled
+     */
     bool getLoggingEnabled() const { return _loggingEnabled; }
+
+    /**
+     * @brief Set the Logging state
+     *
+     * @param value Enabled is true, disabled otherwise
+     */
     void setLoggingEnabled(const bool value) { _loggingEnabled = value; }
 
     static std::mutex _mutex;
@@ -93,4 +107,5 @@ private:
     std::string _offFolder{"/tmp/"};
     bool _loggingEnabled{false};
 };
+} // namespace common
 } // namespace bioexplorer

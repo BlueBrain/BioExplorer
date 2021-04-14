@@ -18,32 +18,23 @@
  * this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-#include <stdint.h>
+#include "UniqueId.h"
+
+#include <plugin/common/Logs.h>
 
 namespace bioexplorer
 {
-/**
- * @brief The UniqueID class provides a way to get a unique identifier accross
- * the application
- *
- */
-class UniqueId
+namespace common
 {
-protected:
-    static uint32_t nextId;
+uint32_t UniqueId::nextId = 0;
 
-public:
-    /**
-     * @brief Construct a new UniqueId object
-     *
-     */
-    UniqueId();
+UniqueId::UniqueId() {}
 
-    /**
-     * @brief Get a unique identifier
-     *
-     * @return uint32_t
-     */
-    static uint32_t get();
-};
+uint32_t UniqueId::get()
+{
+    ++nextId;
+    PLUGIN_DEBUG("Unique Id: " << nextId);
+    return nextId;
+}
+} // namespace common
 } // namespace bioexplorer

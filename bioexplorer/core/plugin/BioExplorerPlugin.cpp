@@ -20,7 +20,7 @@
 
 #include "BioExplorerPlugin.h"
 
-#include <plugin/bioexplorer/Assembly.h>
+#include <plugin/biology/Assembly.h>
 #include <plugin/common/CommonTypes.h>
 #include <plugin/common/GeneralSettings.h>
 #include <plugin/common/Logs.h>
@@ -42,10 +42,12 @@
 #include <fstream>
 #include <thread>
 
-using namespace std::chrono;
-
 namespace bioexplorer
 {
+using namespace std::chrono;
+using namespace common;
+using namespace io;
+
 const std::string PLUGIN_API_PREFIX = "be-";
 
 #define CATCH_STD_EXCEPTION()           \
