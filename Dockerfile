@@ -33,6 +33,7 @@ RUN apt-get update \
    libtbb-dev \
    libturbojpeg0-dev \
    libuv1-dev \
+   libpqxx-dev \
    pkg-config \
    wget \
    ca-certificates \
