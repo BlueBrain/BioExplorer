@@ -32,19 +32,13 @@
 #include <brayns/common/scene/ClipPlane.h>
 #include <brayns/engineapi/Camera.h>
 #include <brayns/engineapi/Engine.h>
-#include <brayns/engineapi/FrameBuffer.h>
 #include <brayns/engineapi/Material.h>
 #include <brayns/engineapi/Model.h>
 #include <brayns/parameters/ParametersManager.h>
 #include <brayns/pluginapi/Plugin.h>
 
-#include <chrono>
-#include <fstream>
-#include <thread>
-
 namespace bioexplorer
 {
-using namespace std::chrono;
 using namespace common;
 using namespace io;
 
@@ -57,6 +51,44 @@ const std::string PLUGIN_API_PREFIX = "be-";
         response.contents = e.what();   \
         PLUGIN_ERROR(e.what());         \
     }
+
+#define ASSEMBLY_CALL(__name__, __stmt__)               \
+    Response response;                                  \
+    try                                                 \
+    {                                                   \
+        auto it = _assemblies.find(__name__);           \
+        if (it != _assemblies.end())                    \
+            response.contents = (*it).second->__stmt__; \
+        else                                            \
+        {                                               \
+            std::stringstream msg;                      \
+            msg << "Assembly not found: " << __name__;  \
+            PLUGIN_ERROR(msg.str());                    \
+            response.status = false;                    \
+            response.contents = msg.str();              \
+        }                                               \
+    }                                                   \
+    CATCH_STD_EXCEPTION()                               \
+    return response;
+
+#define ASSEMBLY_CALL_VOID(__name__, __stmt__)         \
+    Response response;                                 \
+    try                                                \
+    {                                                  \
+        auto it = _assemblies.find(__name__);          \
+        if (it != _assemblies.end())                   \
+            (*it).second->__stmt__;                    \
+        else                                           \
+        {                                              \
+            std::stringstream msg;                     \
+            msg << "Assembly not found: " << __name__; \
+            PLUGIN_ERROR(msg.str());                   \
+            response.status = false;                   \
+            response.contents = msg.str();             \
+        }                                              \
+    }                                                  \
+    CATCH_STD_EXCEPTION()                              \
+    return response;
 
 Boxd vector_to_bounds(const std::vector<float> &lowBounds,
                       const std::vector<float> &highBounds)
@@ -506,244 +538,75 @@ Response BioExplorerPlugin::_addAssembly(const AssemblyDetails &payload)
 Response BioExplorerPlugin::_setColorScheme(
     const ColorSchemeDetails &payload) const
 {
-    Response response;
-    try
-    {
-        auto it = _assemblies.find(payload.assemblyName);
-        if (it != _assemblies.end())
-            (*it).second->setColorScheme(payload);
-        else
-        {
-            std::stringstream msg;
-            msg << "Assembly not found: " << payload.assemblyName;
-            PLUGIN_ERROR(msg.str());
-            response.status = false;
-            response.contents = msg.str();
-        }
-    }
-    CATCH_STD_EXCEPTION()
-    return response;
+    ASSEMBLY_CALL_VOID(payload.assemblyName, setColorScheme(payload));
 }
 
 Response BioExplorerPlugin::_setAminoAcidSequenceAsString(
     const AminoAcidSequenceAsStringDetails &payload) const
 {
-    Response response;
-    try
-    {
-        if (payload.sequence.empty())
-            PLUGIN_THROW("A valid sequence must be specified");
-
-        auto it = _assemblies.find(payload.assemblyName);
-        if (it != _assemblies.end())
-            (*it).second->setAminoAcidSequenceAsString(payload);
-        else
-        {
-            std::stringstream msg;
-            msg << "Assembly not found: " << payload.assemblyName;
-            PLUGIN_ERROR(msg.str());
-            response.status = false;
-            response.contents = msg.str();
-        }
-    }
-    CATCH_STD_EXCEPTION()
-    return response;
+    if (payload.sequence.empty())
+        PLUGIN_THROW("A valid sequence must be specified");
+    ASSEMBLY_CALL_VOID(payload.assemblyName,
+                       setAminoAcidSequenceAsString(payload));
 }
 
 Response BioExplorerPlugin::_setAminoAcidSequenceAsRanges(
     const AminoAcidSequenceAsRangesDetails &payload) const
 {
-    Response response;
-    try
-    {
-        if (payload.ranges.size() % 2 != 0 || payload.ranges.size() < 2)
-            PLUGIN_THROW("A valid range must be specified");
-
-        auto it = _assemblies.find(payload.assemblyName);
-        if (it != _assemblies.end())
-            (*it).second->setAminoAcidSequenceAsRange(payload);
-        else
-        {
-            std::stringstream msg;
-            msg << "Assembly not found: " << payload.assemblyName;
-            PLUGIN_ERROR(msg.str());
-            response.status = false;
-            response.contents = msg.str();
-        }
-    }
-    CATCH_STD_EXCEPTION()
-    return response;
+    if (payload.ranges.size() % 2 != 0 || payload.ranges.size() < 2)
+        PLUGIN_THROW("A valid range must be specified");
+    ASSEMBLY_CALL_VOID(payload.assemblyName,
+                       setAminoAcidSequenceAsRange(payload));
 }
 
 Response BioExplorerPlugin::_getAminoAcidInformation(
     const AminoAcidInformationDetails &payload) const
 {
-    Response response;
-    try
-    {
-        auto it = _assemblies.find(payload.assemblyName);
-        if (it != _assemblies.end())
-            response.contents = (*it).second->getAminoAcidInformation(payload);
-        else
-        {
-            std::stringstream msg;
-            msg << "Assembly not found: " << payload.assemblyName;
-            PLUGIN_ERROR(msg.str());
-            response.status = false;
-            response.contents = msg.str();
-        }
-    }
-    CATCH_STD_EXCEPTION()
-    return response;
+    ASSEMBLY_CALL_VOID(payload.assemblyName, getAminoAcidInformation(payload));
 }
 
 Response BioExplorerPlugin::_addRNASequence(
     const RNASequenceDetails &payload) const
 {
-    Response response;
-    try
-    {
-        auto it = _assemblies.find(payload.assemblyName);
-        if (it != _assemblies.end())
-            (*it).second->addRNASequence(payload);
-        else
-        {
-            std::stringstream msg;
-            msg << "Assembly not found: " << payload.assemblyName;
-            PLUGIN_ERROR(msg.str());
-            response.status = false;
-            response.contents = msg.str();
-        }
-    }
-    CATCH_STD_EXCEPTION()
-    return response;
+    ASSEMBLY_CALL_VOID(payload.assemblyName, addRNASequence(payload));
 }
 
 Response BioExplorerPlugin::_addMembrane(const MembraneDetails &payload) const
 {
-    Response response;
-    try
-    {
-        auto it = _assemblies.find(payload.assemblyName);
-        if (it != _assemblies.end())
-            (*it).second->addMembrane(payload);
-        else
-        {
-            std::stringstream msg;
-            msg << "Assembly not found: " << payload.assemblyName;
-            PLUGIN_ERROR(msg.str());
-            response.status = false;
-            response.contents = msg.str();
-        }
-    }
-    CATCH_STD_EXCEPTION()
-    return response;
+    ASSEMBLY_CALL_VOID(payload.assemblyName, addMembrane(payload));
 }
 
 Response BioExplorerPlugin::_addProtein(const ProteinDetails &payload) const
 {
-    Response response;
-    try
-    {
-        auto it = _assemblies.find(payload.assemblyName);
-        if (it != _assemblies.end())
-            (*it).second->addProtein(payload);
-        else
-        {
-            std::stringstream msg;
-            msg << "Assembly not found: " << payload.assemblyName;
-            PLUGIN_ERROR(msg.str());
-            response.status = false;
-            response.contents = msg.str();
-        }
-    }
-    CATCH_STD_EXCEPTION()
-    return response;
+    ASSEMBLY_CALL_VOID(payload.assemblyName, addProtein(payload));
 }
 
 Response BioExplorerPlugin::_addGlycans(const SugarsDetails &payload) const
 {
-    Response response;
-    try
-    {
-        auto it = _assemblies.find(payload.assemblyName);
-        if (it != _assemblies.end())
-            (*it).second->addGlycans(payload);
-        else
-        {
-            std::stringstream msg;
-            msg << "Assembly not found: " << payload.assemblyName;
-            PLUGIN_ERROR(msg.str());
-            response.status = false;
-            response.contents = msg.str();
-        }
-    }
-    CATCH_STD_EXCEPTION()
-    return response;
+    ASSEMBLY_CALL_VOID(payload.assemblyName, addGlycans(payload));
 }
 
 Response BioExplorerPlugin::_addSugars(const SugarsDetails &payload) const
 {
-    Response response;
-    try
-    {
-        auto it = _assemblies.find(payload.assemblyName);
-        if (it != _assemblies.end())
-            (*it).second->addSugars(payload);
-        else
-        {
-            std::stringstream msg;
-            msg << "Assembly not found: " << payload.assemblyName;
-            PLUGIN_ERROR(msg.str());
-            response.status = false;
-            response.contents = msg.str();
-        }
-    }
-    CATCH_STD_EXCEPTION()
-    return response;
+    ASSEMBLY_CALL_VOID(payload.assemblyName, addSugars(payload));
+}
+
+Response BioExplorerPlugin::_addMeshBasedMembrane(
+    const MeshBasedMembraneDetails &payload) const
+{
+    ASSEMBLY_CALL_VOID(payload.assemblyName, addMeshBasedMembrane(payload));
 }
 
 Response BioExplorerPlugin::_setAminoAcid(const AminoAcidDetails &payload) const
 {
-    Response response;
-    try
-    {
-        auto it = _assemblies.find(payload.assemblyName);
-        if (it != _assemblies.end())
-            (*it).second->setAminoAcid(payload);
-        else
-        {
-            std::stringstream msg;
-            msg << "Assembly not found: " << payload.assemblyName;
-            PLUGIN_ERROR(msg.str());
-            response.status = false;
-            response.contents = msg.str();
-        }
-    }
-    CATCH_STD_EXCEPTION()
-    return response;
+    ASSEMBLY_CALL_VOID(payload.assemblyName, setAminoAcid(payload));
 }
 
 Response BioExplorerPlugin::_setProteinInstanceTransformation(
     const ProteinInstanceTransformationDetails &payload) const
 {
-    Response response;
-    try
-    {
-        auto it = _assemblies.find(payload.assemblyName);
-        if (it != _assemblies.end())
-            (*it).second->setProteinInstanceTransformation(payload);
-        else
-        {
-            std::stringstream msg;
-            msg << "Assembly not found: " << payload.assemblyName;
-            PLUGIN_ERROR(msg.str());
-            response.status = false;
-            response.contents = msg.str();
-        }
-    }
-    CATCH_STD_EXCEPTION()
-    return response;
+    ASSEMBLY_CALL_VOID(payload.assemblyName,
+                       setProteinInstanceTransformation(payload));
 }
 
 Response BioExplorerPlugin::_getProteinInstanceTransformation(
@@ -821,28 +684,6 @@ Response BioExplorerPlugin::_exportToXYZ(const FileAccessDetails &payload)
         auto &scene = _api->getScene();
         CacheLoader loader(scene);
         loader.exportToXYZ(payload.filename, payload.fileFormat);
-    }
-    CATCH_STD_EXCEPTION()
-    return response;
-}
-
-Response BioExplorerPlugin::_addMeshBasedMembrane(
-    const MeshBasedMembraneDetails &payload) const
-{
-    Response response;
-    try
-    {
-        auto it = _assemblies.find(payload.assemblyName);
-        if (it != _assemblies.end())
-            (*it).second->addMeshBasedMembrane(payload);
-        else
-        {
-            std::stringstream msg;
-            msg << "Assembly not found: " << payload.assemblyName;
-            PLUGIN_ERROR(msg.str());
-            response.status = false;
-            response.contents = msg.str();
-        }
     }
     CATCH_STD_EXCEPTION()
     return response;
