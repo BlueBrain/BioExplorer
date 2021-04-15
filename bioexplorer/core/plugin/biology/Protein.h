@@ -20,10 +20,7 @@
 
 #pragma once
 
-#include <plugin/api/Params.h>
-
 #include <plugin/biology/Molecule.h>
-#include <plugin/common/Types.h>
 
 namespace bioexplorer
 {
@@ -99,9 +96,8 @@ public:
      * rotations should be returned. If empty, positions and rotations are
      * returned for every glycosylation site on the protein
      */
-    void getGlycosilationSites(std::vector<Vector3f>& positions,
-                               std::vector<Quaterniond>& rotations,
-                               const std::vector<size_t>& siteIndices) const;
+    void getGlycosilationSites(Vector3fs& positions, Quaternions& rotations,
+                               const size_ts& siteIndices) const;
 
     /**
      * @brief Get the sugar binding sites positions and rotations
@@ -115,9 +111,8 @@ public:
      * rotations should be returned. If empty, positions and rotations are
      * returned for every sugar binding site on the protein
      */
-    void getSugarBindingSites(std::vector<Vector3f>& positions,
-                              std::vector<Quaterniond>& rotations,
-                              const std::vector<size_t>& siteIndices,
+    void getSugarBindingSites(Vector3fs& positions, Quaternions& rotations,
+                              const size_ts& siteIndices,
                               const size_ts& chainIds) const;
 
     /**
@@ -127,7 +122,7 @@ public:
      * sites should be returned. If empty, all sites are returned
      * @return Glycosylation sites of the protein
      */
-    std::map<std::string, size_ts> getGlycosylationSites(
+    const std::map<std::string, size_ts> getGlycosylationSites(
         const size_ts& siteIndices) const;
 
     /**
@@ -155,7 +150,7 @@ public:
 private:
     // Analysis
     void _getSitesTransformations(
-        std::vector<Vector3f>& positions, std::vector<Quaterniond>& rotations,
+        Vector3fs& positions, Quaternions& rotations,
         const std::map<std::string, size_ts>& sites) const;
 
     // Color schemes

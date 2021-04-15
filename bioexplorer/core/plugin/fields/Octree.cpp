@@ -18,24 +18,20 @@
  * this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-#include <iostream>
-#include <map>
-#include <string.h>
-
 #include "Octree.h"
 
 #include <plugin/common/Logs.h>
-
-using namespace std;
 
 namespace bioexplorer
 {
 namespace fields
 {
+using namespace std;
+
 typedef std::map<uint64_t, OctreeNode> OctreeLevelMap;
 
-Octree::Octree(const std::vector<float> &events, float voxelSize,
-               const glm::vec3 &minAABB, const glm::vec3 &maxAABB)
+Octree::Octree(const floats &events, float voxelSize, const glm::vec3 &minAABB,
+               const glm::vec3 &maxAABB)
     : _volumeDim(glm::uvec3(0u, 0u, 0u))
     , _volumeSize(0u)
     , _offsetPerLevel(nullptr)
@@ -199,17 +195,17 @@ void Octree::_flattenChildren(const OctreeNode *node, uint32_t level)
         _flattenChildren(child, level - 1u);
 }
 
-uint32_t Octree::getOctreeSize() const
+const uint32_t Octree::getOctreeSize() const
 {
     return _octreeSize;
 }
 
-const std::vector<uint32_t> &Octree::getFlatIndexes() const
+const uint32_ts &Octree::getFlatIndexes() const
 {
     return _flatIndexes;
 }
 
-const std::vector<float> &Octree::getFlatData() const
+const floats &Octree::getFlatData() const
 {
     return _flatData;
 }
@@ -219,7 +215,7 @@ const glm::uvec3 &Octree::getVolumeDim() const
     return _volumeDim;
 }
 
-uint64_t Octree::getVolumeSize() const
+const uint64_t Octree::getVolumeSize() const
 {
     return _volumeSize;
 }

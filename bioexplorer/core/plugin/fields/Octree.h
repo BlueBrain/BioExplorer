@@ -20,9 +20,7 @@
 
 #pragma once
 
-#include <glm/glm.hpp>
-#include <stdint.h>
-#include <vector>
+#include <brayns/common/types.h>
 
 #include "OctreeNode.h"
 
@@ -47,8 +45,8 @@ public:
      * @param minAABB Lower bound of the scene bounding box
      * @param maxAABB Upper bound of the scene bounding box
      */
-    Octree(const std::vector<float> &events, float voxelSize,
-           const glm::vec3 &minAABB, const glm::vec3 &maxAABB);
+    Octree(const floats &events, float voxelSize, const glm::vec3 &minAABB,
+           const glm::vec3 &maxAABB);
 
     /**
      * @brief Destroy the Octree object
@@ -68,28 +66,28 @@ public:
      *
      * @return The size of the volume
      */
-    uint64_t getVolumeSize() const;
+    const uint64_t getVolumeSize() const;
 
     /**
      * @brief Get the size of the Octree
      *
      * @return The size of the Octree
      */
-    uint32_t getOctreeSize() const;
+    const uint32_t getOctreeSize() const;
 
     /**
      * @brief Get a flattened representation of the Octree indices
      *
      * @return A flattened representation of the Octree indices
      */
-    const std::vector<uint32_t> &getFlatIndexes() const;
+    const uint32_ts &getFlatIndexes() const;
 
     /**
      * @brief Get a flattened representation of the Octree data (node values)
      *
      * @return A flattened representation of the Octree data (node values)
      */
-    const std::vector<float> &getFlatData() const;
+    const floats &getFlatData() const;
 
 private:
     void _flattenChildren(const OctreeNode *node, uint32_t level);
@@ -111,8 +109,8 @@ private:
 
     uint32_t *_offsetPerLevel;
 
-    std::vector<uint32_t> _flatIndexes;
-    std::vector<float> _flatData;
+    uint32_ts _flatIndexes;
+    floats _flatData;
 };
 } // namespace fields
 } // namespace bioexplorer

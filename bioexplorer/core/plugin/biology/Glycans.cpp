@@ -26,8 +26,6 @@
 #include <brayns/engineapi/Material.h>
 #include <brayns/engineapi/Scene.h>
 
-#include <sstream>
-
 namespace bioexplorer
 {
 namespace biology

@@ -20,10 +20,11 @@
 
 #pragma once
 
-#include <pqxx/pqxx>
+#include <plugin/common/Types.h>
 
 #include <brayns/common/types.h>
-#include <plugin/common/Types.h>
+
+#include <pqxx/pqxx>
 
 namespace bioexplorer
 {
@@ -91,8 +92,9 @@ public:
      * @param nbModels The number of models contained in the brick
      * @param buffer The binary buffer with the contents of the brick
      */
-    void insertBrick(const int32_t brickId, const uint32_t version,
-                     const uint32_t nbModels, const std::stringstream& buffer);
+    const void insertBrick(const int32_t brickId, const uint32_t version,
+                           const uint32_t nbModels,
+                           const std::stringstream& buffer);
 
 private:
     pqxx::connection _connection;

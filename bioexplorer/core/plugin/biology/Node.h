@@ -52,7 +52,10 @@ public:
      *
      * @return ModelDescriptorPtr Pointer to the model descriptor
      */
-    ModelDescriptorPtr getModelDescriptor() { return _modelDescriptor; }
+    const ModelDescriptorPtr getModelDescriptor() const
+    {
+        return _modelDescriptor;
+    }
 
 protected:
     ModelDescriptorPtr _modelDescriptor{nullptr};

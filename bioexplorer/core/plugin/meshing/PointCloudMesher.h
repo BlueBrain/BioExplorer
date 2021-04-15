@@ -21,7 +21,6 @@
 #pragma once
 
 #include <brayns/common/types.h>
-#include <map>
 
 namespace bioexplorer
 {
@@ -41,12 +40,13 @@ public:
     PointCloudMesher();
 
     /**
-     * @brief
+     * @brief Convert a point cloud into a 3D representation using the Convex
+     * Hull alogithm
      *
-     * @param model
-     * @param pointCloud
-     * @return true
-     * @return false
+     * @param model Model into which the 3D represenation is created
+     * @param pointCloud The list of points
+     * @return true If the 3D representation is possible
+     * @return false If the 3D representation could not be built
      */
     bool toConvexHull(Model& model, const PointCloud& pointCloud);
 };

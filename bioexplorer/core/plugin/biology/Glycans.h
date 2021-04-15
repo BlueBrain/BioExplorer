@@ -23,7 +23,6 @@
 #include <brayns/engineapi/Model.h>
 #include <plugin/api/Params.h>
 #include <plugin/biology/Molecule.h>
-#include <plugin/common/Types.h>
 
 namespace bioexplorer
 {

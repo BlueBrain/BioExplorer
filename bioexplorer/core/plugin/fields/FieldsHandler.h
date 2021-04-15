@@ -22,7 +22,6 @@
 
 #include <brayns/common/simulation/AbstractSimulationHandler.h>
 
-#include <brayns/api.h>
 #include <brayns/common/types.h>
 #include <brayns/engineapi/Scene.h>
 
@@ -36,7 +35,7 @@ using namespace brayns;
  * @brief The FieldsHandler class handles electro-magnetic fields data
  * structures
  */
-class FieldsHandler : public brayns::AbstractSimulationHandler
+class FieldsHandler : public AbstractSimulationHandler
 {
 public:
     /**
@@ -46,16 +45,16 @@ public:
                   const float density);
 
     /**
-     * @brief Construct a new Fields Handler object
+     * @brief Construct a new FieldsHandler from a file
      *
-     * @param filename
+     * @param filename Full path of the file
      */
     FieldsHandler(const std::string& filename);
 
     /**
-     * @brief Construct a new Fields Handler object
+     * @brief Construct a new FieldsHandler object
      *
-     * @param rhs
+     * @param rhs A copy of the FieldsHandler object
      */
     FieldsHandler(const FieldsHandler& rhs);
 
@@ -68,57 +67,58 @@ public:
     /**
      * @brief Get the Frame Data object
      *
-     * @return void*
+     * @return void* A buffer of the data for the current frame
      */
     void* getFrameData(const uint32_t) final;
 
     /**
-     * @brief
+     * @brief Current state of the handler
      *
-     * @return true
-     * @return false
+     * @return true The data is loaded in memory and available
+     * @return false The data is not yet available
      */
     bool isReady() const final { return true; }
 
     /**
-     * @brief
+     * @brief Clone the AbstractSimulationHandler
      *
-     * @return brayns::AbstractSimulationHandlerPtr
+     * @return AbstractSimulationHandlerPtr Clone of the
+     * AbstractSimulationHandler
      */
-    brayns::AbstractSimulationHandlerPtr clone() const final;
+    AbstractSimulationHandlerPtr clone() const final;
 
     /**
-     * @brief
+     * @brief Export the octree information to a file
      *
-     * @param filename
+     * @param filename Full path of the file
      */
-    void exportToFile(const std::string& filename);
+    const void exportToFile(const std::string& filename) const;
 
     /**
-     * @brief
+     * @brief Import the octree information from a file
      *
-     * @param filename
+     * @param filename Full path of the file
      */
     void importFromFile(const std::string& filename);
 
     /**
-     * @brief Get the Dimensions object
+     * @brief Get the Dimensions of the octree
      *
-     * @return const glm::uvec3&
+     * @return const glm::uvec3& Dimensions of the octree
      */
     const glm::uvec3& getDimensions() const { return _dimensions; }
 
     /**
-     * @brief Get the Spacing object
+     * @brief Get the voxel spacing information
      *
-     * @return const glm::vec3&
+     * @return const glm::vec3& The voxel spacing information
      */
     const glm::vec3& getSpacing() const { return _spacing; }
 
     /**
-     * @brief Get the Offset object
+     * @brief Get the offset of the octree
      *
-     * @return const glm::vec3&
+     * @return const glm::vec3& Offset of the octree
      */
     const glm::vec3& getOffset() const { return _offset; }
 

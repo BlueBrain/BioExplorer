@@ -19,8 +19,6 @@
  */
 
 #include "OctreeNode.h"
-#include <iostream>
-#include <stdint.h>
 
 namespace bioexplorer
 {
@@ -49,7 +47,7 @@ const glm::vec3& OctreeNode::getCenter() const
     return _center;
 }
 
-float OctreeNode::getValue() const
+const float OctreeNode::getValue() const
 {
     return _value;
 }

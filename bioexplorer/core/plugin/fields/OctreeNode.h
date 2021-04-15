@@ -20,8 +20,7 @@
 
 #pragma once
 
-#include <glm/glm.hpp>
-#include <vector>
+#include <brayns/common/types.h>
 
 namespace bioexplorer
 {
@@ -76,7 +75,7 @@ public:
      *
      * @return The value of the node
      */
-    float getValue() const;
+    const float getValue() const;
 
 private:
     float _value;
