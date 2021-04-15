@@ -952,6 +952,52 @@ class BioExplorer:
             raise RuntimeError(result["contents"])
         return result
 
+    @staticmethod
+    def get_mol():
+        """
+        Provide a hint to the meaning of life
+
+        Provide a hint by solving a polynomial using Neville interpolation according to the given
+        parameters provided by the BioExplorer. More information available at
+        https://www.dcode.fr/function-equation-finder
+
+        :return: A hint to the meaning of life
+        """
+        coefs = [
+            [
+                [32341, 39916800], [89063, 1814400], [937889, 725760], [234527, 12096],
+                [221003071, 1209600], [97061099, 86400], [3289126079, 725760],
+                [106494629, 9072], [16747876289, 907200], [8214593, 525], [73270357, 13860],
+                [97, 1]
+            ],
+            [
+                [2039, 13305600], [481, 43200], [251567, 725760], [6809, 1120],
+                [80200787, 1209600], [2243617, 4800], [172704437, 80640], [13473253, 2160],
+                [9901558223, 907200], [16059286, 1575], [10483043, 2772], [108, 1]
+            ],
+            [
+                [13, 86400], [661, 72576], [269, 1120], [437929, 120960],
+                [6933401, 201600], [3696647, 17280], [7570727, 8640], [839289373, 362880],
+                [20844207, 5600], [32765923, 10080], [64229, 56], [100, 0]
+            ]
+        ]
+
+        def mol(x, y):
+            value = 0.0
+            for i in range(len(coefs[y]) - 1):
+                j = len(coefs[y]) - i - 1
+                if i % 2 == coefs[y][len(coefs[y]) - 1][1]:
+                    value -= coefs[y][i][0] * math.pow(x, j) / coefs[y][i][1]
+                else:
+                    value += coefs[y][i][0] * math.pow(x, j) / coefs[y][i][1]
+            value += coefs[y][len(coefs[y]) - 1][0]
+            return round(value)
+
+        result = ''
+        for x in range(33):
+            result += chr(mol(x % 12, int(x / 12)))
+        return 'You asked for the meaning of life and the answer is: ' + result
+
     def add_assembly(self, name, clipping_planes=None, position=Vector3(), rotation=Quaternion()):
         """
         Add an assembly to the scene
@@ -2300,7 +2346,7 @@ class Protein:
 
         :sources: Full paths to the PDB files for the various conformations
         :occurences: Number of occurences to be added to the assembly
-        :assembly_params: Assembly parameters (Virus radius and maximum range for random positions 
+        :assembly_params: Assembly parameters (Virus radius and maximum range for random positions
                           of membrane components)
         :load_bonds: Loads bonds if True
         :load_hydrogen: Loads hydrogens if True
