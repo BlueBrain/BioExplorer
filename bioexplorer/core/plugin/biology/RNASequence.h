@@ -20,9 +20,9 @@
 
 #pragma once
 
-#include <brayns/engineapi/Model.h>
 #include <plugin/biology/Node.h>
-#include <plugin/common/Types.h>
+
+#include <brayns/engineapi/Model.h>
 
 namespace bioexplorer
 {
@@ -51,13 +51,6 @@ public:
      * @return The map of RNA sequences
      */
     RNASequenceMap getRNASequences() { return _rnaSequenceMap; }
-
-    /**
-     * @brief Get the Model descriptor
-     *
-     * @return The model descriptor
-     */
-    ModelDescriptorPtr getModelDescriptor() { return _modelDescriptor; }
 
 private:
     Vector3f _trefoilKnot(float R, float t, const Vector3f& params);

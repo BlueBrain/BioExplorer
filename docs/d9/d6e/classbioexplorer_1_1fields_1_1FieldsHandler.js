@@ -5,7 +5,7 @@ var classbioexplorer_1_1fields_1_1FieldsHandler =
     [ "FieldsHandler", "d9/d6e/classbioexplorer_1_1fields_1_1FieldsHandler.html#a15d7731c38bb2a040c554dbe89e73431", null ],
     [ "~FieldsHandler", "d9/d6e/classbioexplorer_1_1fields_1_1FieldsHandler.html#a128d90979aa7c28c963b2e222388d498", null ],
     [ "clone", "d9/d6e/classbioexplorer_1_1fields_1_1FieldsHandler.html#aa440980478d312db5380dd0528c65e38", null ],
-    [ "exportToFile", "d9/d6e/classbioexplorer_1_1fields_1_1FieldsHandler.html#a158bfa15a323e5713548bd53da99e356", null ],
+    [ "exportToFile", "d9/d6e/classbioexplorer_1_1fields_1_1FieldsHandler.html#aebfbadc89ab259eab8ab8a78d71af1fe", null ],
     [ "getDimensions", "d9/d6e/classbioexplorer_1_1fields_1_1FieldsHandler.html#a2dae1a58a744e8dd5ac71e1862dbe544", null ],
     [ "getFrameData", "d9/d6e/classbioexplorer_1_1fields_1_1FieldsHandler.html#a0ea7ffc0282b783469586eff6dfceeaf", null ],
     [ "getOffset", "d9/d6e/classbioexplorer_1_1fields_1_1FieldsHandler.html#a85b549358ff5df6d0f217b53143c4f23", null ],

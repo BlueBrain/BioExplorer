@@ -20,12 +20,8 @@
 
 #pragma once
 
-#include <plugin/common/Types.h>
-
 #include <plugin/io/db/DBConnector.h>
 
-#include <brayns/common/loader/Loader.h>
-#include <brayns/common/types.h>
 #include <brayns/parameters/GeometryParameters.h>
 
 using namespace brayns;

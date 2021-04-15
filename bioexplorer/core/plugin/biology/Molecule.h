@@ -21,7 +21,6 @@
 #pragma once
 
 #include <plugin/biology/Node.h>
-#include <plugin/common/Types.h>
 
 #include <brayns/engineapi/Model.h>
 
@@ -65,14 +64,14 @@ public:
      * @return AtomMap& The map of atoms composing the molecule. The key of the
      * map is the id of the atom, as defined in the PDB file
      */
-    AtomMap& getAtoms() { return _atomMap; }
+    const AtomMap& getAtoms() const { return _atomMap; }
 
     /**
      * @brief Get the Residues object
      *
      * @return Residues& The list of residues composing the molecule
      */
-    Residues& getResidues() { return _residues; }
+    const Residues& getResidues() const { return _residues; }
 
     /**
      * @brief Get the Sequences object
@@ -81,14 +80,17 @@ public:
      * molecule. The key of the map is the id of the chain, as defined in the
      * PDB file
      */
-    ResidueSequenceMap& getResidueSequences() { return _residueSequenceMap; }
+    const ResidueSequenceMap& getResidueSequences() const
+    {
+        return _residueSequenceMap;
+    }
 
     /**
      * @brief Get the Sequences As String object
      *
      * @return StringMap
      */
-    StringMap getSequencesAsString() const;
+    const StringMap getSequencesAsString() const;
 
 protected:
     void _setAtomColorScheme();

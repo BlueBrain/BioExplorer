@@ -20,9 +20,7 @@
 
 #pragma once
 
-#include <plugin/api/Params.h>
 #include <plugin/biology/Node.h>
-#include <plugin/common/Types.h>
 
 #include <brayns/engineapi/Model.h>
 

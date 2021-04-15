@@ -73,8 +73,10 @@ typedef std::map<std::string, std::string> StringMap;
 typedef Vector3f Color;
 typedef std::vector<Color> Palette;
 typedef std::vector<Quaterniond> Quaternions;
+typedef std::vector<float> floats;
 typedef std::vector<Vector3f> Vector3fs;
 typedef std::vector<Vector2ui> Vector2uis;
+typedef std::vector<uint32_t> uint32_ts;
 typedef std::map<std::string, std::string> CommandLineArguments;
 
 namespace details

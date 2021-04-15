@@ -8,7 +8,7 @@ var classbioexplorer_1_1biology_1_1Assembly =
     [ "addProtein", "d6/dc2/classbioexplorer_1_1biology_1_1Assembly.html#aa5e391ad199ce359399f1235d109d240", null ],
     [ "addRNASequence", "d6/dc2/classbioexplorer_1_1biology_1_1Assembly.html#a7f28e8ee7fa2a89ad4db57a12299125b", null ],
     [ "addSugars", "d6/dc2/classbioexplorer_1_1biology_1_1Assembly.html#a5eaa52cd94f4472154b09c4a2e965d5b", null ],
-    [ "getAminoAcidInformation", "d6/dc2/classbioexplorer_1_1biology_1_1Assembly.html#a7b49cf19e7f0c2e353ca1767a925ef45", null ],
+    [ "getAminoAcidInformation", "d6/dc2/classbioexplorer_1_1biology_1_1Assembly.html#afd5a58cda3b6421ecc7fe393676a8694", null ],
     [ "getClippingPlanes", "d6/dc2/classbioexplorer_1_1biology_1_1Assembly.html#ab84124620176168e67b664b260b0c68d", null ],
     [ "getDescriptor", "d6/dc2/classbioexplorer_1_1biology_1_1Assembly.html#a539934b562224c150c16d678fc00e310", null ],
     [ "getProteinInstanceTransformation", "d6/dc2/classbioexplorer_1_1biology_1_1Assembly.html#aa13fef9c962072878d25118a8f8d0984", null ],

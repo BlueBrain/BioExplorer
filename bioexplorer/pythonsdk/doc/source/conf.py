@@ -13,8 +13,8 @@
 # documentation root, use os.path.abspath to make it absolute, like shown here.
 #
 
-import os
 import sys
+import os
 sys.path.insert(0, os.path.abspath('../../bioexplorer'))
 
 from version import VERSION as __version__
@@ -22,7 +22,7 @@ from version import VERSION as __version__
 
 # -- Project information -----------------------------------------------------
 
-project = u'BioExplorer'
+project = u'Blue Brain BioExplorer'
 copyright = u'2020-2021, BBP EPFL'
 author = u'Cyrille Favreau'
 
@@ -45,7 +45,8 @@ extensions = [
     'sphinx.ext.autodoc',
     'sphinx.ext.autosummary',
     'sphinx.ext.viewcode',
-    'nbsphinx'
+    'nbsphinx',
+    'm2r'
 ]
 
 # Add any paths that contain templates here, relative to this directory.
@@ -135,7 +136,7 @@ latex_elements = {
 # (source start file, target name, title,
 #  author, documentclass [howto, manual, or own class]).
 latex_documents = [
-    (master_doc, 'BioExplorer.tex', u'BioExplorer Documentation',
+    (master_doc, 'BioExplorer.tex', u'Blue Brain BioExplorer Documentation',
      u'Cyrille Favreau', 'manual'),
 ]
 
@@ -145,7 +146,7 @@ latex_documents = [
 # One entry per manual page. List of tuples
 # (source start file, name, description, authors, manual section).
 man_pages = [
-    (master_doc, 'bioexplorer', u'BioExplorer Documentation',
+    (master_doc, 'bioexplorer', u'Blue Brain BioExplorer Documentation',
      [author], 1)
 ]
 
@@ -156,7 +157,7 @@ man_pages = [
 # (source start file, target name, title, author,
 #  dir menu entry, description, category)
 texinfo_documents = [
-    (master_doc, 'BioExplorer', u'BioExplorer Documentation',
+    (master_doc, 'BioExplorer', u'Blue Brain BioExplorer Documentation',
      author, 'BioExplorer', 'One line description of project.',
      'Miscellaneous'),
 ]

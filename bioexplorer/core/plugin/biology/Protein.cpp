@@ -26,8 +26,6 @@
 #include <brayns/engineapi/Material.h>
 #include <brayns/engineapi/Scene.h>
 
-#include <sstream>
-
 namespace bioexplorer
 {
 namespace biology
@@ -189,8 +187,8 @@ void Protein::_setGlycosylationSiteColorScheme(const Palette& palette)
                 << (sites.size() > 0 ? "2" : "1") << ")");
 }
 
-std::map<std::string, size_ts> Protein::getGlycosylationSites(
-    const std::vector<size_t>& siteIndices) const
+const std::map<std::string, size_ts> Protein::getGlycosylationSites(
+    const size_ts& siteIndices) const
 {
     std::map<std::string, size_ts> sites;
     for (const auto& sequence : _residueSequenceMap)
@@ -255,7 +253,7 @@ void Protein::_buildAminoAcidBounds()
 }
 
 void Protein::_getSitesTransformations(
-    std::vector<Vector3f>& positions, std::vector<Quaterniond>& rotations,
+    Vector3fs& positions, Quaternions& rotations,
     const std::map<std::string, size_ts>& sitesPerChain) const
 {
     for (const auto& chain : sitesPerChain)
@@ -335,8 +333,8 @@ void Protein::_getSitesTransformations(
     }
 }
 
-void Protein::getGlycosilationSites(std::vector<Vector3f>& positions,
-                                    std::vector<Quaterniond>& rotations,
+void Protein::getGlycosilationSites(Vector3fs& positions,
+                                    Quaternions& rotations,
                                     const size_ts& siteIndices) const
 {
     positions.clear();
@@ -347,8 +345,7 @@ void Protein::getGlycosilationSites(std::vector<Vector3f>& positions,
     _getSitesTransformations(positions, rotations, sites);
 }
 
-void Protein::getSugarBindingSites(std::vector<Vector3f>& positions,
-                                   std::vector<Quaterniond>& rotations,
+void Protein::getSugarBindingSites(Vector3fs& positions, Quaternions& rotations,
                                    const size_ts& siteIndices,
                                    const size_ts& chainIds) const
 {

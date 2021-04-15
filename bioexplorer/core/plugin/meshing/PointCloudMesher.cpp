@@ -22,7 +22,6 @@
 
 #include <plugin/common/CommonTypes.h>
 #include <plugin/common/Logs.h>
-#include <plugin/common/Types.h>
 
 #include <brayns/engineapi/Material.h>
 #include <brayns/engineapi/Model.h>

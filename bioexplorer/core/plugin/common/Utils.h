@@ -20,8 +20,9 @@
 
 #pragma once
 
-#include <brayns/common/types.h>
 #include <plugin/common/Types.h>
+
+#include <brayns/common/types.h>
 
 namespace bioexplorer
 {
@@ -32,6 +33,7 @@ using namespace details;
 
 /**
  * @brief Left trim of a string
+ *
  * @param s String to trim
  * @return Trimmed string
  */
@@ -39,6 +41,7 @@ std::string& ltrim(std::string& s);
 
 /**
  * @brief Right trim of a string
+ *
  * @param s String to trim
  * @return Trimmed string
  */
@@ -46,6 +49,7 @@ std::string& rtrim(std::string& s);
 
 /**
  * @brief Left and right trim of a string
+ *
  * @param s String to trim
  * @return Trimmed string
  */
@@ -54,6 +58,7 @@ std::string& trim(std::string& s);
 /**
  * @brief isClipped Determine if a 3d position is inside a volume defined by
  * clipping planes
+ *
  * @param position Position to check
  * @param clippingPlanes Clipping planes defining the volume
  * @return True if the position does not belong to the volume, false otherwise
@@ -63,6 +68,7 @@ bool isClipped(const Vector3f& position, const Vector4fs& clippingPlanes);
 /**
  * @brief getSphericalPosition Provide a random position and rotation on a
  * sphere
+ *
  * @param rnd Random seed for the position on the sphere
  * @param center Center of the sphere in the 3D scene
  * @param radius Radius of the sphere
@@ -103,7 +109,7 @@ Transformation getCubicPosition(const Vector3f& center, const float size,
                                 const RandomizationDetails& randInfo);
 
 /**
- * @brief
+ * @brief Get the Cubic Position object
  *
  * @param x Position along the x axis
  * @param z Position along the z axis

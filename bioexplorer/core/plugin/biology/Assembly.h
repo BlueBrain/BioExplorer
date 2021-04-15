@@ -75,7 +75,7 @@ public:
      * @return Amino acid sequence and indices for a given protein of the
      * assembly
      */
-    std::string getAminoAcidInformation(
+    const std::string getAminoAcidInformation(
         const AminoAcidInformationDetails &details) const;
 
     /**

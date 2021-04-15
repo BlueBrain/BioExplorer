@@ -219,7 +219,7 @@ void Molecule::_computeReqSetOffset()
     }
 }
 
-StringMap Molecule::getSequencesAsString() const
+const StringMap Molecule::getSequencesAsString() const
 {
     StringMap sequencesAsStrings;
     for (const auto& sequence : _residueSequenceMap)

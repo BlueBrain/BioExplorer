@@ -294,24 +294,24 @@ void Assembly::_processInstances(
     }
 }
 
-void Assembly::setColorScheme(const ColorSchemeDetails &csd)
+void Assembly::setColorScheme(const ColorSchemeDetails &details)
 {
-    if (csd.palette.size() < 3 || csd.palette.size() % 3 != 0)
+    if (details.palette.size() < 3 || details.palette.size() % 3 != 0)
         PLUGIN_THROW("Invalid palette size");
 
     ProteinPtr protein{nullptr};
-    auto itProtein = _proteins.find(csd.name);
+    const auto itProtein = _proteins.find(details.name);
     if (itProtein != _proteins.end())
         protein = (*itProtein).second;
     else
     {
-        auto itMesh = _meshBasedMembranes.find(csd.name);
+        auto itMesh = _meshBasedMembranes.find(details.name);
         if (itMesh != _meshBasedMembranes.end())
             protein = (*itMesh).second->getProtein();
         else if (_membrane)
         {
             const auto membraneProteins = _membrane->getProteins();
-            auto it = membraneProteins.find(csd.name);
+            const auto it = membraneProteins.find(details.name);
             if (it != membraneProteins.end())
                 protein = (*it).second;
         }
@@ -320,54 +320,55 @@ void Assembly::setColorScheme(const ColorSchemeDetails &csd)
     if (protein)
     {
         Palette palette;
-        for (size_t i = 0; i < csd.palette.size(); i += 3)
-            palette.push_back(
-                {csd.palette[i], csd.palette[i + 1], csd.palette[i + 2]});
+        for (size_t i = 0; i < details.palette.size(); i += 3)
+            palette.push_back({details.palette[i], details.palette[i + 1],
+                               details.palette[i + 2]});
 
         PLUGIN_INFO("Applying color scheme to protein "
-                    << csd.name << " on assembly " << csd.assemblyName);
-        protein->setColorScheme(csd.colorScheme, palette, csd.chainIds);
+                    << details.name << " on assembly " << details.assemblyName);
+        protein->setColorScheme(details.colorScheme, palette, details.chainIds);
 
         _scene.markModified();
     }
     else
-        PLUGIN_ERROR("Protein " << csd.name << " not found on assembly "
-                                << csd.assemblyName);
+        PLUGIN_ERROR("Protein " << details.name << " not found on assembly "
+                                << details.assemblyName);
 }
 
 void Assembly::setAminoAcidSequenceAsString(
-    const AminoAcidSequenceAsStringDetails &aasd)
+    const AminoAcidSequenceAsStringDetails &details)
 {
-    auto it = _proteins.find(aasd.name);
+    const auto it = _proteins.find(details.name);
     if (it != _proteins.end())
-        (*it).second->setAminoAcidSequenceAsString(aasd.sequence);
+        (*it).second->setAminoAcidSequenceAsString(details.sequence);
     else
-        PLUGIN_THROW("Protein not found: " + aasd.name);
+        PLUGIN_THROW("Protein not found: " + details.name);
 }
 
 void Assembly::setAminoAcidSequenceAsRange(
-    const AminoAcidSequenceAsRangesDetails &aasd)
+    const AminoAcidSequenceAsRangesDetails &details)
 {
-    auto it = _proteins.find(aasd.name);
+    const auto it = _proteins.find(details.name);
     if (it != _proteins.end())
     {
         Vector2uis ranges;
-        for (size_t i = 0; i < aasd.ranges.size(); i += 2)
-            ranges.push_back({aasd.ranges[i], aasd.ranges[i + 1]});
+        for (size_t i = 0; i < details.ranges.size(); i += 2)
+            ranges.push_back({details.ranges[i], details.ranges[i + 1]});
 
         (*it).second->setAminoAcidSequenceAsRanges(ranges);
     }
     else
-        PLUGIN_THROW("Protein not found: " + aasd.name);
+        PLUGIN_THROW("Protein not found: " + details.name);
 }
 
-std::string Assembly::getAminoAcidInformation(
-    const AminoAcidInformationDetails &aasd) const
+const std::string Assembly::getAminoAcidInformation(
+    const AminoAcidInformationDetails &details) const
 {
-    PLUGIN_INFO("Returning Amino Acid information from protein " << aasd.name);
+    PLUGIN_INFO("Returning Amino Acid information from protein "
+                << details.name);
 
     std::string response;
-    auto it = _proteins.find(aasd.name);
+    const auto it = _proteins.find(details.name);
     if (it != _proteins.end())
     {
         // Sequences
@@ -393,23 +394,23 @@ std::string Assembly::getAminoAcidInformation(
         }
     }
     else
-        PLUGIN_THROW("Protein not found: " + aasd.name);
+        PLUGIN_THROW("Protein not found: " + details.name);
 
     return response;
 }
 
-void Assembly::setAminoAcid(const AminoAcidDetails &aminoAcid)
+void Assembly::setAminoAcid(const AminoAcidDetails &details)
 {
-    auto it = _proteins.find(aminoAcid.name);
+    auto it = _proteins.find(details.name);
     if (it != _proteins.end())
-        (*it).second->setAminoAcid(aminoAcid);
+        (*it).second->setAminoAcid(details);
     else
-        PLUGIN_THROW("Protein not found: " + aminoAcid.name);
+        PLUGIN_THROW("Protein not found: " + details.name);
 }
 
-void Assembly::addRNASequence(const RNASequenceDetails &rnad)
+void Assembly::addRNASequence(const RNASequenceDetails &details)
 {
-    auto rd = rnad;
+    auto rd = details;
     if (rd.range.size() != 2)
         PLUGIN_THROW("Invalid range");
     const Vector2f range{rd.range[0], rd.range[1]};
@@ -443,23 +444,23 @@ void Assembly::setProteinInstanceTransformation(
     const ProteinInstanceTransformationDetails &details)
 {
     ProteinPtr protein{nullptr};
-    auto itProtein = _proteins.find(details.name);
+    const auto itProtein = _proteins.find(details.name);
     if (itProtein != _proteins.end())
         protein = (*itProtein).second;
     else
         PLUGIN_THROW("Protein " + details.name + " not found on assembly " +
                      details.assemblyName);
 
-    auto modelDescriptor = protein->getModelDescriptor();
+    const auto modelDescriptor = protein->getModelDescriptor();
 
-    auto &instances = modelDescriptor->getInstances();
+    const auto &instances = modelDescriptor->getInstances();
     if (details.instanceIndex >= instances.size())
         PLUGIN_THROW("Invalid instance index (" +
                      std::to_string(details.instanceIndex) + ") for protein " +
                      details.name + " in assembly " + details.assemblyName);
 
-    auto instance = modelDescriptor->getInstance(details.instanceIndex);
-    auto &transformation = instance->getTransformation();
+    const auto instance = modelDescriptor->getInstance(details.instanceIndex);
+    const auto &transformation = instance->getTransformation();
 
     if (details.position.size() != 3)
         PLUGIN_THROW("Invalid number of float for position of protein " +
@@ -491,22 +492,22 @@ const Transformation Assembly::getProteinInstanceTransformation(
     const ProteinInstanceTransformationDetails &details) const
 {
     ProteinPtr protein{nullptr};
-    auto itProtein = _proteins.find(details.name);
+    const auto itProtein = _proteins.find(details.name);
     if (itProtein != _proteins.end())
         protein = (*itProtein).second;
     else
         PLUGIN_THROW("Protein " + details.name + " not found on assembly " +
                      details.assemblyName);
 
-    auto modelDescriptor = protein->getModelDescriptor();
+    const auto modelDescriptor = protein->getModelDescriptor();
 
-    auto &instances = modelDescriptor->getInstances();
+    const auto &instances = modelDescriptor->getInstances();
     if (details.instanceIndex >= instances.size())
         PLUGIN_THROW("Invalid instance index (" +
                      std::to_string(details.instanceIndex) + ") for protein " +
                      details.name + " in assembly " + details.assemblyName);
 
-    auto instance = modelDescriptor->getInstance(details.instanceIndex);
+    const auto instance = modelDescriptor->getInstance(details.instanceIndex);
     auto transformation = instance->getTransformation();
 
     if (details.instanceIndex == 0)

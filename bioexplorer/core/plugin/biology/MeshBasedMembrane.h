@@ -21,7 +21,6 @@
 #pragma once
 
 #include <plugin/biology/Node.h>
-#include <plugin/common/Types.h>
 
 #include <brayns/engineapi/Model.h>
 
@@ -58,7 +57,7 @@ public:
      *
      * @return ProteinPtr The Protein object
      */
-    ProteinPtr getProtein() { return _protein; }
+    const ProteinPtr getProtein() const { return _protein; }
 
 private:
     float _getSurfaceArea(const Vector3f& a, const Vector3f& b,
