@@ -1,6 +1,6 @@
 # Blue Brain BioExplorer
 
-![banner](./bioexplorer/doc/images/BBBE_banner.png)
+![](./bioexplorer/pythonsdk/doc/source/images/BBBE_banner.png)
 
 ## Description
 The Blue Brain BioExplorer (_BBBE_) is a tool for scientists to extract and analyse scientific data from visualization. BBBE is built on top of [Blue Brain Brayns](https://github.com/BlueBrain/Brayns), the Blue Brain rendering platform.
@@ -57,7 +57,7 @@ sudo docker run -ti --rm -p 5001:8888 bluebrain/bioexplorer-python-sdk:0.7.0
 sudo docker run -ti --rm -p 5002:8080 bluebrain/bioexplorer-ui:0.7.0
 ```
 
-![Screenshot](./bioexplorer/doc/images/BBBE_screenshot.png)
+![](./bioexplorer/doc/images/BBBE_screenshot.png)
 
 ## Building from Source
 

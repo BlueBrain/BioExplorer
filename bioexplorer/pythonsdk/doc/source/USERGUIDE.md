@@ -9,7 +9,7 @@ virus_protein_s = Protein(
     number_of_instances=nb_protein_s,
     assembly_params=[11.5])
 ```
-![6vyb](./images/6vyb.png)
+![](./images/6vyb.png)
 
 
 The Jupyter Python notebooks provide a simple and convenient way to create molecular systems. The BioExplorer exposes a number of primitives such as proteins or sugars, as well as complex systems like viruses or membranes. In the paragraph, we describe how to load and visualize a single protein, its glycosylation sites, and the glycans attached to them.
@@ -58,8 +58,8 @@ be.add_surfactant(
         atom_radius_multiplier=protein_radius_multiplier,
         position=Vector3(), random_seed=2)
 ```
-![surfactant-d](./images/surfactant-d.png)
-![surfactant-a](./images/surfactant-a.png)
+![](./images/surfactant-d.png)
+![](./images/surfactant-a.png)
 
 ## Virus
 A viral particle (= “virus”) is an assembly consisting of a membrane, an RNA sequence, and a given number of S, M and E proteins. The virus has a predefined spherical shape defined by its radius. The default parameters for the virus are a radius of 45 nanometers, 62 S proteins, 42 E proteins, and 50 M proteins. Dimensions and concentrations were retrieved from the literature (see list of dimensions and concentrations in appendix B2 and B3) 
@@ -102,7 +102,7 @@ be.add_coronavirus(
     representation=be.REPRESENTATION_ATOMS,
     add_glycans=True)
 ```
-![coronavirus](./images/coronavirus.png)
+![](./images/coronavirus.png)
 
 ## Host cell
 A host cell is an assembly composed of a membrane of a given size and shape (cylindric, sinusoidal, ect), and a given number of ACE2 receptors.
@@ -121,7 +121,7 @@ host_cell = Cell(
     shape=be.ASSEMBLY_SHAPE_SINUSOIDAL,
     membrane=membrane, receptor=ace2_receptor)
 ```
-![cell](./images/cell.png)
+![](./images/cell.png)
 
 
 ## Glycans Models
@@ -134,7 +134,7 @@ status = be.set_protein_color_scheme(
     color_scheme=be.COLOR_SCHEME_GLYCOSYLATION_SITE,
     palette_name='Set1', palette_size=2)
 ```
-![6vyb_glycosylation_sites](./images/6vyb_glycosylation_sites.png)
+![](./images/6vyb_glycosylation_sites.png)
 
 Glycosylation sites are automatically identified according to the amino acids sequence. When a N is found in the sequence, a glycosylation site exists if the next amino acid in the sequence is a not a P, and the following one is a T or a S.
 
@@ -147,7 +147,7 @@ glycans = Sugars(
     name=glycan_name, source='10.pdb')
 Status = be.add_glycans(glycans)
 ```
-![6vyb_glycans](./images/6vyb_glycans.png)
+![](./images/6vyb_glycans.png)
 
 Multiple types of glycan trees can be also added to the Protein object, for specific glycosylation sites.
 
@@ -159,7 +159,7 @@ complex_glycans = Sugars(
     site_indices=[36, 93, 168], ...)
 status = be.add_glycans(complex_glycans)
 ```
-![6vyb_all_glycans](./images/6vyb_all_glycans.png)
+![](./images/6vyb_all_glycans.png)
 
 ## Visualization
 
@@ -173,7 +173,7 @@ status = be.set_protein_color_scheme(
     color_scheme=be.COLOR_SCHEME_AMINO_ACID_SEQUENCE,
     palette_name='Set1', palette_size=2)
 ```
-![6vyb_aa_by_range](./images/6vyb_aa_by_range.png)
+![](./images/6vyb_aa_by_range.png)
 
 A specific site or an amino-acid sequence can also be specified by substring of the sequence, and applying a specific color scheme (COLOR_SCHEME_AMINO_ACID_SEQUENCE) to the protein.
 
@@ -188,7 +188,7 @@ status = be.set_protein_color_scheme(
     color_scheme=be.COLOR_SCHEME_AMINO_ACID_SEQUENCE,
     palette_name='Set1', palette_size=2)
 ```
-![6vyb_aa_by_string](./images/6vyb_aa_by_string.png)
+![](./images/6vyb_aa_by_string.png)
 
 Functional regions of a protein can be visualized by providing the indices of the regions in the amino acids sequence, and applying a specific color scheme (COLOR_SCHEME_REGIONS) to the protein.
 
@@ -203,4 +203,4 @@ status = be.set_protein_color_scheme(
     color_scheme=be.COLOR_SCHEME_REGION, palette=palette)
 ```
 
-![6vyb_regions](./images/6vyb_regions.png)
+![](./images/6vyb_regions.png)

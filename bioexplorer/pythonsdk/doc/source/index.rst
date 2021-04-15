@@ -3,20 +3,18 @@
    You can adapt this file completely to your liking, but it should at least
    contain the root `toctree` directive.
 
-BioExplorer python SDK
-======================
+Blue Brain BioExplorer python SDK
+=================================
 
-The BioExplorer python library provides access to remote control a running BioExplorer instance 
-using websockets and HTTP requests messaging.
+The Blue Brain BioExplorer python library provides access to remote control a running back-end instance using websockets and HTTP requests messaging.
 
-It provides a generated API from the current running BioExplorer instance.
+It provides a generated API from the current running BioExplorer back-end instance.
 
 .. toctree::
-   :maxdepth: 2
+   :maxdepth: 3
 
    api
-   examples
-
+   userguide
 
 Indices and tables
 ==================
