@@ -110,35 +110,34 @@ $(document).ready(function(){initNavTree('d9/d68/FieldsHandler_8h_source.html','
 <div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160; </div>
 <div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;<span class="preprocessor">#include &lt;brayns/common/simulation/AbstractSimulationHandler.h&gt;</span></div>
 <div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160; </div>
-<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;<span class="preprocessor">#include &lt;brayns/api.h&gt;</span></div>
-<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;<span class="preprocessor">#include &lt;brayns/common/types.h&gt;</span></div>
-<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;<span class="preprocessor">#include &lt;brayns/engineapi/Scene.h&gt;</span></div>
-<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160; </div>
-<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;<span class="keyword">namespace </span>bioexplorer</div>
-<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;{</div>
-<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;<span class="keyword">namespace </span>fields</div>
-<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;{</div>
-<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;<span class="keyword">using namespace </span>brayns;</div>
-<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160; </div>
-<div class="line"><a name="l00039"></a><span class="lineno"><a class="line" href="../../d9/d6e/classbioexplorer_1_1fields_1_1FieldsHandler.html">   39</a></span>&#160;<span class="keyword">class </span><a class="code" href="../../d9/d6e/classbioexplorer_1_1fields_1_1FieldsHandler.html">FieldsHandler</a> : <span class="keyword">public</span> brayns::AbstractSimulationHandler</div>
-<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;{</div>
-<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;<span class="keyword">public</span>:</div>
-<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;    <a class="code" href="../../d9/d6e/classbioexplorer_1_1fields_1_1FieldsHandler.html">FieldsHandler</a>(<span class="keyword">const</span> Scene&amp; scene, <span class="keyword">const</span> <span class="keywordtype">float</span> voxelSize,</div>
-<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;                  <span class="keyword">const</span> <span class="keywordtype">float</span> density);</div>
-<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160; </div>
-<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;    <a class="code" href="../../d9/d6e/classbioexplorer_1_1fields_1_1FieldsHandler.html">FieldsHandler</a>(<span class="keyword">const</span> std::string&amp; filename);</div>
-<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160; </div>
-<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;    <a class="code" href="../../d9/d6e/classbioexplorer_1_1fields_1_1FieldsHandler.html">FieldsHandler</a>(<span class="keyword">const</span> <a class="code" href="../../d9/d6e/classbioexplorer_1_1fields_1_1FieldsHandler.html">FieldsHandler</a>&amp; rhs);</div>
-<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160; </div>
-<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;    ~<a class="code" href="../../d9/d6e/classbioexplorer_1_1fields_1_1FieldsHandler.html">FieldsHandler</a>();</div>
-<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160; </div>
-<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;    <span class="keywordtype">void</span>* getFrameData(<span class="keyword">const</span> uint32_t) <span class="keyword">final</span>;</div>
-<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160; </div>
-<div class="line"><a name="l00081"></a><span class="lineno"><a class="line" href="../../d9/d6e/classbioexplorer_1_1fields_1_1FieldsHandler.html#a4962251acd82b39e7b76bbd3af84258c">   81</a></span>&#160;    <span class="keywordtype">bool</span> <a class="code" href="../../d9/d6e/classbioexplorer_1_1fields_1_1FieldsHandler.html#a4962251acd82b39e7b76bbd3af84258c">isReady</a>() const final { <span class="keywordflow">return</span> <span class="keyword">true</span>; }</div>
-<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160; </div>
-<div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;    brayns::AbstractSimulationHandlerPtr clone() const final;</div>
+<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;<span class="preprocessor">#include &lt;brayns/common/types.h&gt;</span></div>
+<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;<span class="preprocessor">#include &lt;brayns/engineapi/Scene.h&gt;</span></div>
+<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160; </div>
+<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;<span class="keyword">namespace </span>bioexplorer</div>
+<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;{</div>
+<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;<span class="keyword">namespace </span>fields</div>
+<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;{</div>
+<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;<span class="keyword">using namespace </span>brayns;</div>
+<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160; </div>
+<div class="line"><a name="l00038"></a><span class="lineno"><a class="line" href="../../d9/d6e/classbioexplorer_1_1fields_1_1FieldsHandler.html">   38</a></span>&#160;<span class="keyword">class </span><a class="code" href="../../d9/d6e/classbioexplorer_1_1fields_1_1FieldsHandler.html">FieldsHandler</a> : <span class="keyword">public</span> AbstractSimulationHandler</div>
+<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;{</div>
+<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;<span class="keyword">public</span>:</div>
+<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;    <a class="code" href="../../d9/d6e/classbioexplorer_1_1fields_1_1FieldsHandler.html">FieldsHandler</a>(<span class="keyword">const</span> Scene&amp; scene, <span class="keyword">const</span> <span class="keywordtype">float</span> voxelSize,</div>
+<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;                  <span class="keyword">const</span> <span class="keywordtype">float</span> density);</div>
+<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160; </div>
+<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;    <a class="code" href="../../d9/d6e/classbioexplorer_1_1fields_1_1FieldsHandler.html">FieldsHandler</a>(<span class="keyword">const</span> std::string&amp; filename);</div>
+<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160; </div>
+<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;    <a class="code" href="../../d9/d6e/classbioexplorer_1_1fields_1_1FieldsHandler.html">FieldsHandler</a>(<span class="keyword">const</span> <a class="code" href="../../d9/d6e/classbioexplorer_1_1fields_1_1FieldsHandler.html">FieldsHandler</a>&amp; rhs);</div>
+<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160; </div>
+<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;    ~<a class="code" href="../../d9/d6e/classbioexplorer_1_1fields_1_1FieldsHandler.html">FieldsHandler</a>();</div>
+<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160; </div>
+<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;    <span class="keywordtype">void</span>* getFrameData(<span class="keyword">const</span> uint32_t) <span class="keyword">final</span>;</div>
+<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160; </div>
+<div class="line"><a name="l00080"></a><span class="lineno"><a class="line" href="../../d9/d6e/classbioexplorer_1_1fields_1_1FieldsHandler.html#a4962251acd82b39e7b76bbd3af84258c">   80</a></span>&#160;    <span class="keywordtype">bool</span> <a class="code" href="../../d9/d6e/classbioexplorer_1_1fields_1_1FieldsHandler.html#a4962251acd82b39e7b76bbd3af84258c">isReady</a>() const final { <span class="keywordflow">return</span> <span class="keyword">true</span>; }</div>
+<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160; </div>
+<div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;    AbstractSimulationHandlerPtr clone() const final;</div>
 <div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160; </div>
-<div class="line"><a name="l00095"></a><span class="lineno">   95</span>&#160;    <span class="keywordtype">void</span> exportToFile(const std::<span class="keywordtype">string</span>&amp; filename);</div>
+<div class="line"><a name="l00095"></a><span class="lineno">   95</span>&#160;    const <span class="keywordtype">void</span> exportToFile(const std::<span class="keywordtype">string</span>&amp; filename) const;</div>
 <div class="line"><a name="l00096"></a><span class="lineno">   96</span>&#160; </div>
 <div class="line"><a name="l00102"></a><span class="lineno">  102</span>&#160;    <span class="keywordtype">void</span> importFromFile(const std::<span class="keywordtype">string</span>&amp; filename);</div>
 <div class="line"><a name="l00103"></a><span class="lineno">  103</span>&#160; </div>
@@ -161,10 +160,10 @@ $(document).ready(function(){initNavTree('d9/d68/FieldsHandler_8h_source.html','
 <div class="line"><a name="l00135"></a><span class="lineno">  135</span>&#160;} <span class="comment">// namespace bioexplorer</span></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
-<div class="ttc" id="aclassbioexplorer_1_1fields_1_1FieldsHandler_html_a85b549358ff5df6d0f217b53143c4f23"><div class="ttname"><a href="../../d9/d6e/classbioexplorer_1_1fields_1_1FieldsHandler.html#a85b549358ff5df6d0f217b53143c4f23">bioexplorer::fields::FieldsHandler::getOffset</a></div><div class="ttdeci">const glm::vec3 &amp; getOffset() const</div><div class="ttdoc">Get the Offset object.</div><div class="ttdef"><b>Definition:</b> <a href="../../d9/d68/FieldsHandler_8h_source.html#l00123">FieldsHandler.h:123</a></div></div>
-<div class="ttc" id="aclassbioexplorer_1_1fields_1_1FieldsHandler_html_a0413e00a6060aeb8bedd0d7fcf978370"><div class="ttname"><a href="../../d9/d6e/classbioexplorer_1_1fields_1_1FieldsHandler.html#a0413e00a6060aeb8bedd0d7fcf978370">bioexplorer::fields::FieldsHandler::getSpacing</a></div><div class="ttdeci">const glm::vec3 &amp; getSpacing() const</div><div class="ttdoc">Get the Spacing object.</div><div class="ttdef"><b>Definition:</b> <a href="../../d9/d68/FieldsHandler_8h_source.html#l00116">FieldsHandler.h:116</a></div></div>
-<div class="ttc" id="aclassbioexplorer_1_1fields_1_1FieldsHandler_html"><div class="ttname"><a href="../../d9/d6e/classbioexplorer_1_1fields_1_1FieldsHandler.html">bioexplorer::fields::FieldsHandler</a></div><div class="ttdoc">The FieldsHandler class handles electro-magnetic fields data structures.</div><div class="ttdef"><b>Definition:</b> <a href="../../d9/d68/FieldsHandler_8h_source.html#l00039">FieldsHandler.h:39</a></div></div>
-<div class="ttc" id="aclassbioexplorer_1_1fields_1_1FieldsHandler_html_a4962251acd82b39e7b76bbd3af84258c"><div class="ttname"><a href="../../d9/d6e/classbioexplorer_1_1fields_1_1FieldsHandler.html#a4962251acd82b39e7b76bbd3af84258c">bioexplorer::fields::FieldsHandler::isReady</a></div><div class="ttdeci">bool isReady() const final</div><div class="ttdef"><b>Definition:</b> <a href="../../d9/d68/FieldsHandler_8h_source.html#l00081">FieldsHandler.h:81</a></div></div>
+<div class="ttc" id="aclassbioexplorer_1_1fields_1_1FieldsHandler_html_a85b549358ff5df6d0f217b53143c4f23"><div class="ttname"><a href="../../d9/d6e/classbioexplorer_1_1fields_1_1FieldsHandler.html#a85b549358ff5df6d0f217b53143c4f23">bioexplorer::fields::FieldsHandler::getOffset</a></div><div class="ttdeci">const glm::vec3 &amp; getOffset() const</div><div class="ttdoc">Get the offset of the octree.</div><div class="ttdef"><b>Definition:</b> <a href="../../d9/d68/FieldsHandler_8h_source.html#l00123">FieldsHandler.h:123</a></div></div>
+<div class="ttc" id="aclassbioexplorer_1_1fields_1_1FieldsHandler_html_a0413e00a6060aeb8bedd0d7fcf978370"><div class="ttname"><a href="../../d9/d6e/classbioexplorer_1_1fields_1_1FieldsHandler.html#a0413e00a6060aeb8bedd0d7fcf978370">bioexplorer::fields::FieldsHandler::getSpacing</a></div><div class="ttdeci">const glm::vec3 &amp; getSpacing() const</div><div class="ttdoc">Get the voxel spacing information.</div><div class="ttdef"><b>Definition:</b> <a href="../../d9/d68/FieldsHandler_8h_source.html#l00116">FieldsHandler.h:116</a></div></div>
+<div class="ttc" id="aclassbioexplorer_1_1fields_1_1FieldsHandler_html"><div class="ttname"><a href="../../d9/d6e/classbioexplorer_1_1fields_1_1FieldsHandler.html">bioexplorer::fields::FieldsHandler</a></div><div class="ttdoc">The FieldsHandler class handles electro-magnetic fields data structures.</div><div class="ttdef"><b>Definition:</b> <a href="../../d9/d68/FieldsHandler_8h_source.html#l00038">FieldsHandler.h:38</a></div></div>
+<div class="ttc" id="aclassbioexplorer_1_1fields_1_1FieldsHandler_html_a4962251acd82b39e7b76bbd3af84258c"><div class="ttname"><a href="../../d9/d6e/classbioexplorer_1_1fields_1_1FieldsHandler.html#a4962251acd82b39e7b76bbd3af84258c">bioexplorer::fields::FieldsHandler::isReady</a></div><div class="ttdeci">bool isReady() const final</div><div class="ttdoc">Current state of the handler.</div><div class="ttdef"><b>Definition:</b> <a href="../../d9/d68/FieldsHandler_8h_source.html#l00080">FieldsHandler.h:80</a></div></div>
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>

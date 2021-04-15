@@ -108,70 +108,68 @@ $(document).ready(function(){initNavTree('d2/dc3/Octree_8h_source.html','../../'
 <div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160; </div>
 <div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;<span class="preprocessor">#pragma once</span></div>
 <div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160; </div>
-<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;<span class="preprocessor">#include &lt;glm/glm.hpp&gt;</span></div>
-<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;<span class="preprocessor">#include &lt;stdint.h&gt;</span></div>
-<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;<span class="preprocessor">#include &lt;vector&gt;</span></div>
+<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;<span class="preprocessor">#include &lt;brayns/common/types.h&gt;</span></div>
+<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160; </div>
+<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;<span class="preprocessor">#include &quot;OctreeNode.h&quot;</span></div>
 <div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160; </div>
-<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;<span class="preprocessor">#include &quot;OctreeNode.h&quot;</span></div>
-<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160; </div>
-<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;<span class="keyword">namespace </span>bioexplorer</div>
+<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;<span class="keyword">namespace </span>bioexplorer</div>
+<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;{</div>
+<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;<span class="keyword">namespace </span>fields</div>
 <div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;{</div>
-<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;<span class="keyword">namespace </span>fields</div>
-<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;{</div>
-<div class="line"><a name="l00038"></a><span class="lineno"><a class="line" href="../../dc/d5a/classbioexplorer_1_1fields_1_1Octree.html">   38</a></span>&#160;<span class="keyword">class </span><a class="code" href="../../dc/d5a/classbioexplorer_1_1fields_1_1Octree.html">Octree</a></div>
-<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;{</div>
-<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;<span class="keyword">public</span>:</div>
-<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;    <a class="code" href="../../dc/d5a/classbioexplorer_1_1fields_1_1Octree.html#abc0b2440d1637693c2f52829ab52d6cd">Octree</a>(<span class="keyword">const</span> std::vector&lt;float&gt; &amp;events, <span class="keywordtype">float</span> voxelSize,</div>
-<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;           <span class="keyword">const</span> glm::vec3 &amp;minAABB, <span class="keyword">const</span> glm::vec3 &amp;maxAABB);</div>
-<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160; </div>
-<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;    <a class="code" href="../../dc/d5a/classbioexplorer_1_1fields_1_1Octree.html#aa112587bf8fe2d11bcfd58c4c93a4969">~Octree</a>();</div>
-<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160; </div>
-<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;    <span class="keyword">const</span> glm::uvec3 &amp;<a class="code" href="../../dc/d5a/classbioexplorer_1_1fields_1_1Octree.html#adecc4835cd7993aff4b5fb27aed27e6f">getVolumeDim</a>() <span class="keyword">const</span>;</div>
-<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160; </div>
-<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;    uint64_t <a class="code" href="../../dc/d5a/classbioexplorer_1_1fields_1_1Octree.html#a4fceed482aa4cc31b281608a6fcd2aed">getVolumeSize</a>() <span class="keyword">const</span>;</div>
-<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160; </div>
-<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;    uint32_t <a class="code" href="../../dc/d5a/classbioexplorer_1_1fields_1_1Octree.html#a8e02f58f917d88233949254a5594867e">getOctreeSize</a>() <span class="keyword">const</span>;</div>
-<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160; </div>
-<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;    <span class="keyword">const</span> std::vector&lt;uint32_t&gt; &amp;<a class="code" href="../../dc/d5a/classbioexplorer_1_1fields_1_1Octree.html#a39da6a66f760452a0214b9ea8e46f77d">getFlatIndexes</a>() <span class="keyword">const</span>;</div>
-<div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160; </div>
-<div class="line"><a name="l00092"></a><span class="lineno">   92</span>&#160;    <span class="keyword">const</span> std::vector&lt;float&gt; &amp;<a class="code" href="../../dc/d5a/classbioexplorer_1_1fields_1_1Octree.html#a074a2f27b40a1ab9845e6caadb5a7d30">getFlatData</a>() <span class="keyword">const</span>;</div>
-<div class="line"><a name="l00093"></a><span class="lineno">   93</span>&#160; </div>
-<div class="line"><a name="l00094"></a><span class="lineno">   94</span>&#160;<span class="keyword">private</span>:</div>
-<div class="line"><a name="l00095"></a><span class="lineno">   95</span>&#160;    <span class="keywordtype">void</span> _flattenChildren(<span class="keyword">const</span> <a class="code" href="../../d1/d60/classbioexplorer_1_1fields_1_1OctreeNode.html">OctreeNode</a> *node, uint32_t level);</div>
-<div class="line"><a name="l00096"></a><span class="lineno">   96</span>&#160; </div>
-<div class="line"><a name="l00097"></a><span class="lineno">   97</span>&#160;    <span class="keyword">inline</span> uint32_t _pow2roundup(uint32_t x)</div>
-<div class="line"><a name="l00098"></a><span class="lineno">   98</span>&#160;    {</div>
-<div class="line"><a name="l00099"></a><span class="lineno">   99</span>&#160;        --x;</div>
-<div class="line"><a name="l00100"></a><span class="lineno">  100</span>&#160;        x |= x &gt;&gt; 1;</div>
-<div class="line"><a name="l00101"></a><span class="lineno">  101</span>&#160;        x |= x &gt;&gt; 2;</div>
-<div class="line"><a name="l00102"></a><span class="lineno">  102</span>&#160;        x |= x &gt;&gt; 4;</div>
-<div class="line"><a name="l00103"></a><span class="lineno">  103</span>&#160;        x |= x &gt;&gt; 8;</div>
-<div class="line"><a name="l00104"></a><span class="lineno">  104</span>&#160;        x |= x &gt;&gt; 16;</div>
-<div class="line"><a name="l00105"></a><span class="lineno">  105</span>&#160;        <span class="keywordflow">return</span> x + 1;</div>
-<div class="line"><a name="l00106"></a><span class="lineno">  106</span>&#160;    }</div>
-<div class="line"><a name="l00107"></a><span class="lineno">  107</span>&#160; </div>
-<div class="line"><a name="l00108"></a><span class="lineno">  108</span>&#160;    glm::uvec3 _volumeDim;</div>
-<div class="line"><a name="l00109"></a><span class="lineno">  109</span>&#160;    uint64_t _volumeSize;</div>
-<div class="line"><a name="l00110"></a><span class="lineno">  110</span>&#160;    uint32_t _octreeSize;</div>
+<div class="line"><a name="l00036"></a><span class="lineno"><a class="line" href="../../dc/d5a/classbioexplorer_1_1fields_1_1Octree.html">   36</a></span>&#160;<span class="keyword">class </span><a class="code" href="../../dc/d5a/classbioexplorer_1_1fields_1_1Octree.html">Octree</a></div>
+<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;{</div>
+<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;<span class="keyword">public</span>:</div>
+<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;    <a class="code" href="../../dc/d5a/classbioexplorer_1_1fields_1_1Octree.html#a6b7d7e8ba65b6617517569beda5c993f">Octree</a>(<span class="keyword">const</span> floats &amp;events, <span class="keywordtype">float</span> voxelSize, <span class="keyword">const</span> glm::vec3 &amp;minAABB,</div>
+<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;           <span class="keyword">const</span> glm::vec3 &amp;maxAABB);</div>
+<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160; </div>
+<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;    <a class="code" href="../../dc/d5a/classbioexplorer_1_1fields_1_1Octree.html#aa112587bf8fe2d11bcfd58c4c93a4969">~Octree</a>();</div>
+<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160; </div>
+<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;    <span class="keyword">const</span> glm::uvec3 &amp;<a class="code" href="../../dc/d5a/classbioexplorer_1_1fields_1_1Octree.html#adecc4835cd7993aff4b5fb27aed27e6f">getVolumeDim</a>() <span class="keyword">const</span>;</div>
+<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160; </div>
+<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;    <span class="keyword">const</span> uint64_t <a class="code" href="../../dc/d5a/classbioexplorer_1_1fields_1_1Octree.html#af64d241440afc4006889356c36f388a6">getVolumeSize</a>() <span class="keyword">const</span>;</div>
+<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160; </div>
+<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;    <span class="keyword">const</span> uint32_t <a class="code" href="../../dc/d5a/classbioexplorer_1_1fields_1_1Octree.html#a629d350e554877702b0b8a6dc99132e7">getOctreeSize</a>() <span class="keyword">const</span>;</div>
+<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160; </div>
+<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;    <span class="keyword">const</span> uint32_ts &amp;<a class="code" href="../../dc/d5a/classbioexplorer_1_1fields_1_1Octree.html#a1028fc61fd5800990f65048877587150">getFlatIndexes</a>() <span class="keyword">const</span>;</div>
+<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160; </div>
+<div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160;    <span class="keyword">const</span> floats &amp;<a class="code" href="../../dc/d5a/classbioexplorer_1_1fields_1_1Octree.html#af07110e7d89a336cee162e3f68b74f29">getFlatData</a>() <span class="keyword">const</span>;</div>
+<div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160; </div>
+<div class="line"><a name="l00092"></a><span class="lineno">   92</span>&#160;<span class="keyword">private</span>:</div>
+<div class="line"><a name="l00093"></a><span class="lineno">   93</span>&#160;    <span class="keywordtype">void</span> _flattenChildren(<span class="keyword">const</span> <a class="code" href="../../d1/d60/classbioexplorer_1_1fields_1_1OctreeNode.html">OctreeNode</a> *node, uint32_t level);</div>
+<div class="line"><a name="l00094"></a><span class="lineno">   94</span>&#160; </div>
+<div class="line"><a name="l00095"></a><span class="lineno">   95</span>&#160;    <span class="keyword">inline</span> uint32_t _pow2roundup(uint32_t x)</div>
+<div class="line"><a name="l00096"></a><span class="lineno">   96</span>&#160;    {</div>
+<div class="line"><a name="l00097"></a><span class="lineno">   97</span>&#160;        --x;</div>
+<div class="line"><a name="l00098"></a><span class="lineno">   98</span>&#160;        x |= x &gt;&gt; 1;</div>
+<div class="line"><a name="l00099"></a><span class="lineno">   99</span>&#160;        x |= x &gt;&gt; 2;</div>
+<div class="line"><a name="l00100"></a><span class="lineno">  100</span>&#160;        x |= x &gt;&gt; 4;</div>
+<div class="line"><a name="l00101"></a><span class="lineno">  101</span>&#160;        x |= x &gt;&gt; 8;</div>
+<div class="line"><a name="l00102"></a><span class="lineno">  102</span>&#160;        x |= x &gt;&gt; 16;</div>
+<div class="line"><a name="l00103"></a><span class="lineno">  103</span>&#160;        <span class="keywordflow">return</span> x + 1;</div>
+<div class="line"><a name="l00104"></a><span class="lineno">  104</span>&#160;    }</div>
+<div class="line"><a name="l00105"></a><span class="lineno">  105</span>&#160; </div>
+<div class="line"><a name="l00106"></a><span class="lineno">  106</span>&#160;    glm::uvec3 _volumeDim;</div>
+<div class="line"><a name="l00107"></a><span class="lineno">  107</span>&#160;    uint64_t _volumeSize;</div>
+<div class="line"><a name="l00108"></a><span class="lineno">  108</span>&#160;    uint32_t _octreeSize;</div>
+<div class="line"><a name="l00109"></a><span class="lineno">  109</span>&#160; </div>
+<div class="line"><a name="l00110"></a><span class="lineno">  110</span>&#160;    uint32_t *_offsetPerLevel;</div>
 <div class="line"><a name="l00111"></a><span class="lineno">  111</span>&#160; </div>
-<div class="line"><a name="l00112"></a><span class="lineno">  112</span>&#160;    uint32_t *_offsetPerLevel;</div>
-<div class="line"><a name="l00113"></a><span class="lineno">  113</span>&#160; </div>
-<div class="line"><a name="l00114"></a><span class="lineno">  114</span>&#160;    std::vector&lt;uint32_t&gt; _flatIndexes;</div>
-<div class="line"><a name="l00115"></a><span class="lineno">  115</span>&#160;    std::vector&lt;float&gt; _flatData;</div>
-<div class="line"><a name="l00116"></a><span class="lineno">  116</span>&#160;};</div>
-<div class="line"><a name="l00117"></a><span class="lineno">  117</span>&#160;} <span class="comment">// namespace fields</span></div>
-<div class="line"><a name="l00118"></a><span class="lineno">  118</span>&#160;} <span class="comment">// namespace bioexplorer</span></div>
+<div class="line"><a name="l00112"></a><span class="lineno">  112</span>&#160;    uint32_ts _flatIndexes;</div>
+<div class="line"><a name="l00113"></a><span class="lineno">  113</span>&#160;    floats _flatData;</div>
+<div class="line"><a name="l00114"></a><span class="lineno">  114</span>&#160;};</div>
+<div class="line"><a name="l00115"></a><span class="lineno">  115</span>&#160;} <span class="comment">// namespace fields</span></div>
+<div class="line"><a name="l00116"></a><span class="lineno">  116</span>&#160;} <span class="comment">// namespace bioexplorer</span></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
-<div class="ttc" id="aclassbioexplorer_1_1fields_1_1Octree_html_adecc4835cd7993aff4b5fb27aed27e6f"><div class="ttname"><a href="../../dc/d5a/classbioexplorer_1_1fields_1_1Octree.html#adecc4835cd7993aff4b5fb27aed27e6f">bioexplorer::fields::Octree::getVolumeDim</a></div><div class="ttdeci">const glm::uvec3 &amp; getVolumeDim() const</div><div class="ttdoc">Get the volume dimentions defined by the scene and the voxel sizes.</div><div class="ttdef"><b>Definition:</b> <a href="../../dd/d4a/Octree_8cpp_source.html#l00217">Octree.cpp:217</a></div></div>
-<div class="ttc" id="aclassbioexplorer_1_1fields_1_1Octree_html_abc0b2440d1637693c2f52829ab52d6cd"><div class="ttname"><a href="../../dc/d5a/classbioexplorer_1_1fields_1_1Octree.html#abc0b2440d1637693c2f52829ab52d6cd">bioexplorer::fields::Octree::Octree</a></div><div class="ttdeci">Octree(const std::vector&lt; float &gt; &amp;events, float voxelSize, const glm::vec3 &amp;minAABB, const glm::vec3 &amp;maxAABB)</div><div class="ttdoc">Construct a new Octree object.</div><div class="ttdef"><b>Definition:</b> <a href="../../dd/d4a/Octree_8cpp_source.html#l00037">Octree.cpp:37</a></div></div>
-<div class="ttc" id="aclassbioexplorer_1_1fields_1_1Octree_html_aa112587bf8fe2d11bcfd58c4c93a4969"><div class="ttname"><a href="../../dc/d5a/classbioexplorer_1_1fields_1_1Octree.html#aa112587bf8fe2d11bcfd58c4c93a4969">bioexplorer::fields::Octree::~Octree</a></div><div class="ttdeci">~Octree()</div><div class="ttdoc">Destroy the Octree object.</div><div class="ttdef"><b>Definition:</b> <a href="../../dd/d4a/Octree_8cpp_source.html#l00169">Octree.cpp:169</a></div></div>
-<div class="ttc" id="aclassbioexplorer_1_1fields_1_1Octree_html_a8e02f58f917d88233949254a5594867e"><div class="ttname"><a href="../../dc/d5a/classbioexplorer_1_1fields_1_1Octree.html#a8e02f58f917d88233949254a5594867e">bioexplorer::fields::Octree::getOctreeSize</a></div><div class="ttdeci">uint32_t getOctreeSize() const</div><div class="ttdoc">Get the size of the Octree.</div><div class="ttdef"><b>Definition:</b> <a href="../../dd/d4a/Octree_8cpp_source.html#l00202">Octree.cpp:202</a></div></div>
-<div class="ttc" id="aclassbioexplorer_1_1fields_1_1OctreeNode_html"><div class="ttname"><a href="../../d1/d60/classbioexplorer_1_1fields_1_1OctreeNode.html">bioexplorer::fields::OctreeNode</a></div><div class="ttdoc">The OctreeNode class implement a spherical node of the Octree acceleration structure used by the Fiel...</div><div class="ttdef"><b>Definition:</b> <a href="../../d9/dde/OctreeNode_8h_source.html#l00035">OctreeNode.h:35</a></div></div>
-<div class="ttc" id="aclassbioexplorer_1_1fields_1_1Octree_html_a074a2f27b40a1ab9845e6caadb5a7d30"><div class="ttname"><a href="../../dc/d5a/classbioexplorer_1_1fields_1_1Octree.html#a074a2f27b40a1ab9845e6caadb5a7d30">bioexplorer::fields::Octree::getFlatData</a></div><div class="ttdeci">const std::vector&lt; float &gt; &amp; getFlatData() const</div><div class="ttdoc">Get a flattened representation of the Octree data (node values)</div><div class="ttdef"><b>Definition:</b> <a href="../../dd/d4a/Octree_8cpp_source.html#l00212">Octree.cpp:212</a></div></div>
-<div class="ttc" id="aclassbioexplorer_1_1fields_1_1Octree_html"><div class="ttname"><a href="../../dc/d5a/classbioexplorer_1_1fields_1_1Octree.html">bioexplorer::fields::Octree</a></div><div class="ttdoc">The Octree class implements the Octree acceleration structure used by the FieldsRenderer class to ren...</div><div class="ttdef"><b>Definition:</b> <a href="../../d2/dc3/Octree_8h_source.html#l00038">Octree.h:38</a></div></div>
-<div class="ttc" id="aclassbioexplorer_1_1fields_1_1Octree_html_a4fceed482aa4cc31b281608a6fcd2aed"><div class="ttname"><a href="../../dc/d5a/classbioexplorer_1_1fields_1_1Octree.html#a4fceed482aa4cc31b281608a6fcd2aed">bioexplorer::fields::Octree::getVolumeSize</a></div><div class="ttdeci">uint64_t getVolumeSize() const</div><div class="ttdoc">Get the size of the volume.</div><div class="ttdef"><b>Definition:</b> <a href="../../dd/d4a/Octree_8cpp_source.html#l00222">Octree.cpp:222</a></div></div>
-<div class="ttc" id="aclassbioexplorer_1_1fields_1_1Octree_html_a39da6a66f760452a0214b9ea8e46f77d"><div class="ttname"><a href="../../dc/d5a/classbioexplorer_1_1fields_1_1Octree.html#a39da6a66f760452a0214b9ea8e46f77d">bioexplorer::fields::Octree::getFlatIndexes</a></div><div class="ttdeci">const std::vector&lt; uint32_t &gt; &amp; getFlatIndexes() const</div><div class="ttdoc">Get a flattened representation of the Octree indices.</div><div class="ttdef"><b>Definition:</b> <a href="../../dd/d4a/Octree_8cpp_source.html#l00207">Octree.cpp:207</a></div></div>
+<div class="ttc" id="aclassbioexplorer_1_1fields_1_1Octree_html_adecc4835cd7993aff4b5fb27aed27e6f"><div class="ttname"><a href="../../dc/d5a/classbioexplorer_1_1fields_1_1Octree.html#adecc4835cd7993aff4b5fb27aed27e6f">bioexplorer::fields::Octree::getVolumeDim</a></div><div class="ttdeci">const glm::uvec3 &amp; getVolumeDim() const</div><div class="ttdoc">Get the volume dimentions defined by the scene and the voxel sizes.</div><div class="ttdef"><b>Definition:</b> <a href="../../dd/d4a/Octree_8cpp_source.html#l00213">Octree.cpp:213</a></div></div>
+<div class="ttc" id="aclassbioexplorer_1_1fields_1_1Octree_html_a629d350e554877702b0b8a6dc99132e7"><div class="ttname"><a href="../../dc/d5a/classbioexplorer_1_1fields_1_1Octree.html#a629d350e554877702b0b8a6dc99132e7">bioexplorer::fields::Octree::getOctreeSize</a></div><div class="ttdeci">const uint32_t getOctreeSize() const</div><div class="ttdoc">Get the size of the Octree.</div><div class="ttdef"><b>Definition:</b> <a href="../../dd/d4a/Octree_8cpp_source.html#l00198">Octree.cpp:198</a></div></div>
+<div class="ttc" id="aclassbioexplorer_1_1fields_1_1Octree_html_af07110e7d89a336cee162e3f68b74f29"><div class="ttname"><a href="../../dc/d5a/classbioexplorer_1_1fields_1_1Octree.html#af07110e7d89a336cee162e3f68b74f29">bioexplorer::fields::Octree::getFlatData</a></div><div class="ttdeci">const floats &amp; getFlatData() const</div><div class="ttdoc">Get a flattened representation of the Octree data (node values)</div><div class="ttdef"><b>Definition:</b> <a href="../../dd/d4a/Octree_8cpp_source.html#l00208">Octree.cpp:208</a></div></div>
+<div class="ttc" id="aclassbioexplorer_1_1fields_1_1Octree_html_a1028fc61fd5800990f65048877587150"><div class="ttname"><a href="../../dc/d5a/classbioexplorer_1_1fields_1_1Octree.html#a1028fc61fd5800990f65048877587150">bioexplorer::fields::Octree::getFlatIndexes</a></div><div class="ttdeci">const uint32_ts &amp; getFlatIndexes() const</div><div class="ttdoc">Get a flattened representation of the Octree indices.</div><div class="ttdef"><b>Definition:</b> <a href="../../dd/d4a/Octree_8cpp_source.html#l00203">Octree.cpp:203</a></div></div>
+<div class="ttc" id="aclassbioexplorer_1_1fields_1_1Octree_html_aa112587bf8fe2d11bcfd58c4c93a4969"><div class="ttname"><a href="../../dc/d5a/classbioexplorer_1_1fields_1_1Octree.html#aa112587bf8fe2d11bcfd58c4c93a4969">bioexplorer::fields::Octree::~Octree</a></div><div class="ttdeci">~Octree()</div><div class="ttdoc">Destroy the Octree object.</div><div class="ttdef"><b>Definition:</b> <a href="../../dd/d4a/Octree_8cpp_source.html#l00165">Octree.cpp:165</a></div></div>
+<div class="ttc" id="aclassbioexplorer_1_1fields_1_1Octree_html_af64d241440afc4006889356c36f388a6"><div class="ttname"><a href="../../dc/d5a/classbioexplorer_1_1fields_1_1Octree.html#af64d241440afc4006889356c36f388a6">bioexplorer::fields::Octree::getVolumeSize</a></div><div class="ttdeci">const uint64_t getVolumeSize() const</div><div class="ttdoc">Get the size of the volume.</div><div class="ttdef"><b>Definition:</b> <a href="../../dd/d4a/Octree_8cpp_source.html#l00218">Octree.cpp:218</a></div></div>
+<div class="ttc" id="aclassbioexplorer_1_1fields_1_1OctreeNode_html"><div class="ttname"><a href="../../d1/d60/classbioexplorer_1_1fields_1_1OctreeNode.html">bioexplorer::fields::OctreeNode</a></div><div class="ttdoc">The OctreeNode class implement a spherical node of the Octree acceleration structure used by the Fiel...</div><div class="ttdef"><b>Definition:</b> <a href="../../d9/dde/OctreeNode_8h_source.html#l00034">OctreeNode.h:34</a></div></div>
+<div class="ttc" id="aclassbioexplorer_1_1fields_1_1Octree_html"><div class="ttname"><a href="../../dc/d5a/classbioexplorer_1_1fields_1_1Octree.html">bioexplorer::fields::Octree</a></div><div class="ttdoc">The Octree class implements the Octree acceleration structure used by the FieldsRenderer class to ren...</div><div class="ttdef"><b>Definition:</b> <a href="../../d2/dc3/Octree_8h_source.html#l00036">Octree.h:36</a></div></div>
+<div class="ttc" id="aclassbioexplorer_1_1fields_1_1Octree_html_a6b7d7e8ba65b6617517569beda5c993f"><div class="ttname"><a href="../../dc/d5a/classbioexplorer_1_1fields_1_1Octree.html#a6b7d7e8ba65b6617517569beda5c993f">bioexplorer::fields::Octree::Octree</a></div><div class="ttdeci">Octree(const floats &amp;events, float voxelSize, const glm::vec3 &amp;minAABB, const glm::vec3 &amp;maxAABB)</div><div class="ttdoc">Construct a new Octree object.</div><div class="ttdef"><b>Definition:</b> <a href="../../dd/d4a/Octree_8cpp_source.html#l00033">Octree.cpp:33</a></div></div>
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>

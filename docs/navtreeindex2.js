@@ -1,6 +1,5 @@
 var NAVTREEINDEX2 =
 {
-"df/d99/structbioexplorer_1_1biology_1_1Atom.html":[3,0,0,0,2],
 "df/d99/structbioexplorer_1_1biology_1_1Atom.html#a30356c0a806b4d194d8e41eece2918e0":[3,0,0,0,2,3],
 "df/d99/structbioexplorer_1_1biology_1_1Atom.html#a39c49c5ab9cba060d4edd4946e0402f8":[3,0,0,0,2,1],
 "df/d99/structbioexplorer_1_1biology_1_1Atom.html#a4b7e8d54c7d3066c1e7f5cb08ae1cbd0":[3,0,0,0,2,0],
@@ -59,8 +58,8 @@ var NAVTREEINDEX2 =
 "functions_vars.html":[3,3,2],
 "functions_~.html":[3,3,0,18],
 "hierarchy.html":[3,2],
-"index.html":[0],
 "index.html":[],
+"index.html":[0],
 "index.html#autotoc_md1":[0,0],
 "index.html#autotoc_md10":[0,4],
 "index.html#autotoc_md11":[0,4,0],
