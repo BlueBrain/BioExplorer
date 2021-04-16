@@ -1,0 +1,13 @@
+on: [push]
+
+jobs:
+  bioexplorer_job:
+    runs-on: ubuntu-latest
+    name: BioExplorer
+    steps:
+    - name: BioExplorer action step
+      id: bioexplorer_python_sdk
+      uses:  BlueBrain/BioExplorer/bioexplorer/pythonsdk@1.0.0
+    - name: BioExplorer back-end
+      id: bioexplorer_backend
+      uses:  BlueBrain/BioExplorer@1.0.0

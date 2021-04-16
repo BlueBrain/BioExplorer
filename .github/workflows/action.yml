@@ -1,0 +1,6 @@
+- name: 'BioExplorer'
+- description: 'BioExplorer'
+- runs:
+    using: 'docker'
+    image: 'Dockerfile'
+
