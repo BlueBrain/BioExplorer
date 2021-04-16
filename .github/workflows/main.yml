@@ -7,4 +7,4 @@ jobs:
     steps:
     - name: BioExplorer action step
       id: bioexplorer
-      uses:  favreau/BioExplorer@0.7.0
+      uses:  favreau/BioExplorer@1.0.0
