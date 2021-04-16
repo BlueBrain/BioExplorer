@@ -5,6 +5,13 @@ jobs:
     runs-on: ubuntu-latest
     name: BioExplorer
     steps:
+    - name: Build python package
+      run: >-
+        cd bioexplorer/pythonsdk
+        virtualenv -p python3 env
+        source env/bin/activate
+        pip install -r requirements_dev.txt
+        python setup.py install
     - name: Publish to PyPI (test)
       uses: pypa/gh-action-pypi-publish@release/v1
       with:
