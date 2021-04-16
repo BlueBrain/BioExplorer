@@ -10,7 +10,9 @@ matrix:
     - language: python
       python: 3.5
       install:
-        - cd python
+        - cd bioexplorer/pythonsdk
+        - pip install pip==9.0.2
+        - pip install -r requirements_dev.txt
         - pip install .
         - pip install tox-travis
       script:
@@ -19,7 +21,9 @@ matrix:
     - language: python
       python: 3.6
       install:
-        - cd python
+        - cd bioexplorer/pythonsdk
+        - pip install pip==9.0.2
+        - pip install -r requirements_dev.txt
         - pip install .
         - pip install tox-travis
       script:
@@ -43,7 +47,9 @@ matrix:
       sudo: true
       python: 3.7
       install:
-        - cd python
+        - cd bioexplorer/pythonsdk
+        - pip install pip==9.0.2
+        - pip install -r requirements_dev.txt
         - pip install .
         - pip install tox-travis
       script:
