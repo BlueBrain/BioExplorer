@@ -7,4 +7,4 @@ jobs:
     steps:
     - name: BioExplorer action step
       id: bioexplorer
-      uses:  favreau/BioExplorer/.github/workflows/
+      uses:  favreau/BioExplorer/.github/workflows@v1
