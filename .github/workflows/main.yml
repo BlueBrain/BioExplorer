@@ -1,0 +1,10 @@
+on: [push]
+
+jobs:
+  bioexplorer_job:
+    runs-on: ubuntu-latest
+    name: BioExplorer
+    steps:
+    - name: BioExplorer action step
+      id: bioexplorer
+      uses: actions/bioexplorer-docker-action@v1
