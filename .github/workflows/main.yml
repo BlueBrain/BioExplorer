@@ -10,4 +10,4 @@ jobs:
       uses:  ./bioexplorer/pythonsdk@1.0.0
     - name: BioExplorer back-end
       id: bioexplorer_backend
-      uses:  .@1.0.0
+      uses:  ./@1.0.0
