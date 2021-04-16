@@ -12,6 +12,8 @@ matrix:
       install:
         - cd bioexplorer/pythonsdk
         - pip install pip==9.0.2
+        - pip install brayns==1.0.0
+        - pip install --upgrade pip
         - pip install -r requirements_dev.txt
         - pip install .
         - pip install tox-travis
@@ -23,6 +25,8 @@ matrix:
       install:
         - cd bioexplorer/pythonsdk
         - pip install pip==9.0.2
+        - pip install brayns==1.0.0
+        - pip install --upgrade pip
         - pip install -r requirements_dev.txt
         - pip install .
         - pip install tox-travis
@@ -49,6 +53,8 @@ matrix:
       install:
         - cd bioexplorer/pythonsdk
         - pip install pip==9.0.2
+        - pip install brayns==1.0.0
+        - pip install --upgrade pip
         - pip install -r requirements_dev.txt
         - pip install .
         - pip install tox-travis

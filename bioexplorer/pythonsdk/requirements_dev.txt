@@ -34,4 +34,4 @@ tox~=3.6.1
 mock~=2.0.0
 Sphinx~=1.8.3
 sphinx_rtd_theme~=0.4.2
-nbsphinx~=0.8.1
+nbsphinx~=0.8.3
