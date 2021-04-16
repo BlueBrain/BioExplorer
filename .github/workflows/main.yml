@@ -9,7 +9,7 @@ jobs:
       uses: actions/checkout@v2
     - name: BioExplorer action step
       id: bioexplorer_python_sdk
-      uses:  ./bioexplorer/pythonsdk@1.0.0
+      uses:  .bioexplorer/pythonsdk@1.0.0
     - name: BioExplorer back-end
       id: bioexplorer_backend
       uses:  ./@1.0.0
