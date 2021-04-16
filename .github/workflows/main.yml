@@ -5,6 +5,8 @@ jobs:
     runs-on: ubuntu-latest
     name: BioExplorer
     steps:
+    - name: Checkout
+      uses: actions/checkout@v2
     - name: BioExplorer action step
       id: bioexplorer_python_sdk
       uses:  ./bioexplorer/pythonsdk@1.0.0
