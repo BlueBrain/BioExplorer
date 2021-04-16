@@ -7,4 +7,4 @@ jobs:
     steps:
     - name: BioExplorer action step
       id: bioexplorer
-      uses: actions/bioexplorer-docker-action@v1
+      uses: actions/.github/workflows@v1
