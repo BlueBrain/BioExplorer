@@ -3,7 +3,7 @@
 ![](./bioexplorer/pythonsdk/doc/source/images/BBBE_banner.png)
 
 
-<table>
+<table border=0>
 <tr>
   <td>Latest Release</td>
   <td>
@@ -18,14 +18,18 @@
     <a href="https://github.com/BlueBrain/BioExplorer/blob/master/LICENSE.md">
     <img src="https://img.shields.io/github/license/BlueBrain/BioExplorer" alt="License" />
     </a>
-</td>
+  </td>
+</tr>
 <tr>
-	<td>Code Style</td>
+	<td>Documentation Style</td>
 	<td>
 		<a href="http://www.pydocstyle.org/">
 		<img src="https://img.shields.io/badge/docstrings-pydocstyle-informational" alt="Pydocstyle">
 		</a>
 	</td>
+</tr>
+<tr>
+	<td>Code Style</td>
 	<td>
 		<a href="https://pypi.org/project/pycodestyle/">
 		<img src="https://img.shields.io/badge/docstrings-pycodestyle-informational" alt="Pycodestyle">
