@@ -1,0 +1,50 @@
+on:
+  push:
+    tags:
+      - 1.*
+
+jobs:
+  bioexplorer_job:
+    runs-on: ubuntu-latest
+    name: BioExplorer
+    steps:
+    - uses: actions/checkout@v2
+      name: Check out code
+    - name: Set up Python
+      uses: actions/setup-python@v2
+      with:
+        python-version: '3.x'
+    - name: Build Python package
+      run: |
+        cd bioexplorer/pythonsdk
+        python -m pip install pip==9.0.2
+        python -m pip install brayns==1.0.0
+        python -m pip install --upgrade pip
+        pip install -r requirements_dev.txt    
+        python setup.py bdist_egg
+    - name: Publish Python package to PyPI (test)
+      uses: pypa/gh-action-pypi-publish@release/v1
+      with:
+        user: __token__
+        password: ${{ secrets.PYPI_API_TOKEN }}
+        repository_url: https://upload.pypi.org/
+        packages_dir: bioexplorer/pythonsdk/dist/
+    - name: Login to DockerHub
+      uses: docker/login-action@v1.8.0
+      with:
+        username: ${{ secrets.DOCKERHUB_USERNAME }}
+        password: ${{ secrets.DOCKERHUB_TOKEN }}
+    - name: Build and push Docker Back-end image
+      uses: docker/build-push-action@v2
+      with:
+        context: .
+        push: true
+        tags: ${{ secrets.DOCKERHUB_USERNAME }}/bioexplorer:latest
+    - name: Build and push Docker Python SDK image
+      uses: docker/build-push-action@v2
+      with:
+        context: ./bioexplorer/pythonsdk
+        push: true
+        tags: ${{ secrets.DOCKERHUB_USERNAME }}/bioexplorer_python_sdk:latest
+    - name: Image digest
+      run: echo ${{ steps.docker_build.outputs.digest }}
