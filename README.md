@@ -2,6 +2,38 @@
 
 ![](./bioexplorer/pythonsdk/doc/source/images/BBBE_banner.png)
 
+
+<table>
+<tr>
+  <td>Latest Release</td>
+  <td>
+    <a href="https://github.com/BlueBrain/BioExplorer/tags">
+    <img src="https://img.shields.io/github/v/tag/BlueBrain/BioExplorer" alt="Latest release" />
+    </a>
+  </td>
+</tr>
+<tr>
+  <td>License</td>
+  <td>
+    <a href="https://github.com/BlueBrain/BioExplorer/blob/master/LICENSE.md">
+    <img src="https://img.shields.io/github/license/BlueBrain/BioExplorer" alt="License" />
+    </a>
+</td>
+<tr>
+	<td>Code Style</td>
+	<td>
+		<a href="http://www.pydocstyle.org/">
+		<img src="https://img.shields.io/badge/docstrings-pydocstyle-informational" alt="Pydocstyle">
+		</a>
+	</td>
+	<td>
+		<a href="https://pypi.org/project/pycodestyle/">
+		<img src="https://img.shields.io/badge/docstrings-pycodestyle-informational" alt="Pycodestyle">
+		</a>
+	</td>
+</tr>
+</table>
+
 ## Description
 The Blue Brain BioExplorer (_BBBE_) is a tool for scientists to extract and analyse scientific data from visualization. BBBE is built on top of [Blue Brain Brayns](https://github.com/BlueBrain/Brayns), the Blue Brain rendering platform.
 
@@ -42,22 +74,22 @@ In this example, we will expose the server on port 5000, the python SDK jupyter 
 ### Server
 
 ```bash
-docker run -ti --rm -p 5000:8200 bluebrain/bioexplorer:0.7.0
+docker run -ti --rm -p 5000:8200 bluebrain/bioexplorer
 ```
 
 ### Python SDK
 
 ```bash
-sudo docker run -ti --rm -p 5001:8888 bluebrain/bioexplorer-python-sdk:0.7.0
+sudo docker run -ti --rm -p 5001:8888 bluebrain/bioexplorer-python-sdk
 ```
 
 ### Web User Interface
 
 ```bash
-sudo docker run -ti --rm -p 5002:8080 bluebrain/bioexplorer-ui:0.7.0
+sudo docker run -ti --rm -p 5002:8080 bluebrain/bioexplorer-ui
 ```
 
-![](./bioexplorer/doc/images/BBBE_screenshot.png)
+![](./bioexplorer/pythonsdk/doc/source/images/BBBE_screenshot.png)
 
 ## Building from Source
 
@@ -99,6 +131,7 @@ be.add_coronavirus(name=name, resource_folder=resource_folder)
 
 # License
 _BBBE_ is available to download and use under the GNU General Public License ([GPL](https://www.gnu.org/licenses/gpl.html), or “free software”). The code is open sourced with approval from the open sourcing committee and principal coordinators of the Blue Brain Project in February 2021.
+
 
 # Contact
 For more information on _BBBE_, please contact:
