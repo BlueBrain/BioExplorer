@@ -18,9 +18,9 @@
 # All rights reserved. Do not distribute without further notice.
 
 
-pygments==2.7.4
+pygments==2.4.1
 matplotlib~=2.1.2
-pillow==8.1.1
+pillow==5.4.1
 brayns==1.0.0
 seaborn~=0.8.1
 stringcase~=1.2.0
