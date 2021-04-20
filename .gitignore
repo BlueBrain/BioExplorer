@@ -29,3 +29,5 @@ venv
 caches
 movies
 off
+node_modules
+package-lock.json
