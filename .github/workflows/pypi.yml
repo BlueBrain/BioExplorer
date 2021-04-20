@@ -27,5 +27,5 @@ jobs:
       with:
         user: __token__
         password: ${{ secrets.PYPI_PASSWORD }}
-        repository_url: https://pypi.python.org/
+        repository_url: https://upload.pypi.org/legacy/ 
         packages_dir: bioexplorer/pythonsdk/dist/
