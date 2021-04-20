@@ -1,7 +1,7 @@
 on:
   push:
     tags:
-      - 0.*
+      - 1.*
 
 jobs:
   bioexplorer_job:
