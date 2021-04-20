@@ -10,6 +10,11 @@ jobs:
     steps:
     - uses: actions/checkout@v2
       name: Check out code
+    - name: Get tag
+      id: tag
+      uses: dawidd6/action-get-tag@v1
+    - name: Use tag
+      run: echo ${{steps.tag.outputs.tag}}
     - name: Login to DockerHub
       uses: docker/login-action@v1.8.0
       with:
@@ -20,18 +25,18 @@ jobs:
       with:
         context: ./bioexplorer/core
         push: true
-        tags: ${{ secrets.DOCKERHUB_USERNAME }}/bioexplorer:latest
+        tags: ${{ secrets.DOCKERHUB_USERNAME }}/bioexplorer:${{steps.tag.outputs.tag}}
     - name: Build and push Docker Python SDK image
       uses: docker/build-push-action@v2
       with:
         context: ./bioexplorer/pythonsdk
         push: true
-        tags: ${{ secrets.DOCKERHUB_USERNAME }}/bioexplorer_python_sdk:latest
+        tags: ${{ secrets.DOCKERHUB_USERNAME }}/bioexplorer_python_sdk:${{steps.tag.outputs.tag}}
     - name: Build and push Docker User Interface
       uses: docker/build-push-action@v2
       with:
         context: ./bioexplorer/ui
         push: true
-        tags: ${{ secrets.DOCKERHUB_USERNAME }}/bioexplorer_ui:latest
+        tags: ${{ secrets.DOCKERHUB_USERNAME }}/bioexplorer_ui:${{steps.tag.outputs.tag}}
     - name: Image digest
       run: echo ${{ steps.docker_build.outputs.digest }}
