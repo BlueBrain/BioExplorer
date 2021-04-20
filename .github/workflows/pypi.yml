@@ -1,0 +1,31 @@
+on:
+  push:
+    tags:
+      - 1.*
+
+jobs:
+  bioexplorer_job:
+    runs-on: ubuntu-latest
+    name: BioExplorer
+    steps:
+    - uses: actions/checkout@v2
+      name: Check out code
+    - name: Set up Python
+      uses: actions/setup-python@v2
+      with:
+        python-version: '3.x'
+    - name: Build Python package
+      run: |
+        cd bioexplorer/pythonsdk
+        python -m pip install pip==9.0.2
+        python -m pip install brayns==1.0.0
+        python -m pip install --upgrade pip
+        pip install -r requirements_dev.txt    
+        python setup.py bdist_egg
+    - name: Publish Python package to PyPI (test)
+      uses: pypa/gh-action-pypi-publish@release/v1
+      with:
+        user: __token__
+        password: ${{ secrets.PYPI_PASSWORD }}
+        repository_url: https://pypi.python.org/
+        packages_dir: bioexplorer/pythonsdk/dist/
