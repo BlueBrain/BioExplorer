@@ -23,12 +23,12 @@ jobs:
       with:
         context: ./bioexplorer/pythonsdk
         push: true
-        tags: ${{ secrets.DOCKERHUB_USERNAME }}/bioexplorer_python_sdk:latest
+        tags: ${{ secrets.DOCKERHUB_USERNAME }}/bioexplorer-python-sdk:latest
     - name: Build and push Docker User Interface
       uses: docker/build-push-action@v2
       with:
         context: ./bioexplorer/ui
         push: true
-        tags: ${{ secrets.DOCKERHUB_USERNAME }}/bioexplorer_ui:latest
+        tags: ${{ secrets.DOCKERHUB_USERNAME }}/bioexplorer-ui:latest
     - name: Image digest
       run: echo ${{ steps.docker_build.outputs.digest }}
