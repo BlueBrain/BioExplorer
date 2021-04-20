@@ -1,4 +1,4 @@
-# Blue Brain BioExplorer
+# Blue Brain BioExplorer Python SDK
 
 The bioexplorer package provides an extended python API for the Blue Brain BioExplorer application
 

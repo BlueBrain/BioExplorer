@@ -1,4 +1,4 @@
-FROM node:8.15.0-jessie as builder
+FROM node:10.18.0-jessie as builder
 LABEL maintainer="cyrille.favreau@epfl.ch"
 
 ARG DIST_PATH=/app/dist
