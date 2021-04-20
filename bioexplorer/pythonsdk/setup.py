@@ -1,6 +1,4 @@
 #!/usr/bin/env python
-"""setup.py"""
-
 # -*- coding: utf-8 -*-
 
 # The Blue Brain BioExplorer is a tool for scientists to extract and analyse
@@ -21,35 +19,43 @@
 # You should have received a copy of the GNU General Public License along with
 # this program.  If not, see <https://www.gnu.org/licenses/>.
 
-import re
-from setuptools import setup
-from bioexplorer.version import VERSION as __version__
+"""setup.py"""
+import os
+import pathlib
+import pkg_resources
+from setuptools import find_packages, setup
+
+BASEDIR = os.path.dirname(os.path.abspath(__file__))
+
+def parse_reqs(reqs_file):
+    ''' parse the requirements '''
+    install_reqs = list()
+    with pathlib.Path(reqs_file).open() as requirements_txt:
+        install_reqs = [str(requirement)
+                        for requirement
+                        in pkg_resources.parse_requirements(requirements_txt)]
+    return install_reqs
 
 
-def parse_requirements(filename):
-    """ load requirements from a pip requirements file """
-    lineiter = (line.strip() for line in open(filename))
-    return [line for line in lineiter if line and not line.startswith("#")]
+REQS = parse_reqs(os.path.join(BASEDIR, "requirements.txt"))
 
+# read the contents of README.md
+this_directory = os.path.abspath(os.path.dirname(__file__))
+with open(os.path.join(this_directory, 'README.md')) as f:
+    long_description = f.read()
 
-VERSIONFILE = "bioexplorer/version.py"
-ver_file = open(VERSIONFILE, "rt").read()
-VSRE = r"^VERSION = ['\"]([^'\"]*)['\"]"
-mo = re.search(VSRE, ver_file, re.M)
-
-if mo:
-    version = mo.group(1)
-else:
-    raise RuntimeError("Unable to find version string in %s." % (VERSIONFILE,))
-
-install_reqs = parse_requirements('requirements.txt')
-reqs = install_reqs
-
-setup(name='bioexplorer',
-      version=__version__,
-      description='Helper functions for the Blue Brain BioExplorer',
-      packages=['bioexplorer'],
-      url='https://github.com/BlueBrain/BioExplorer.git',
-      author='Blue Brain Project, EPFL',
-      license='GNU GPL',
-      install_requires=reqs,)
+setup(
+    packages=find_packages(),
+    install_requires=REQS,
+    name='bioexplorer',
+    description='Python API for the Blue Brain BioExplorer',
+    long_description=long_description,
+    long_description_content_type='text/markdown',
+    url='https://github.com/BlueBrain/BioExplorer.git',
+    author='Blue Brain Project, EPFL',
+    license='LGPLv3',
+    project_urls={
+            "Documentation": "https://bluebrain.github.io/BioExplorer/",
+            "Source": "https://github.com/BlueBrain/BioExplorer",
+    }
+)
