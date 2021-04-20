@@ -27,7 +27,7 @@ jobs:
       with:
         user: __token__
         password: ${{ secrets.PYPI_PASSWORD }}
-        repository_url: https://upload.pypi.org/
+        repository_url: https://pypi.python.org/
         packages_dir: bioexplorer/pythonsdk/dist/
     - name: Login to DockerHub
       uses: docker/login-action@v1.8.0
