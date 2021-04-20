@@ -88,13 +88,13 @@ docker run -ti --rm -p 5000:8200 bluebrain/bioexplorer
 ### Python SDK
 
 ```bash
-sudo docker run -ti --rm -p 5001:8888 bluebrain/bioexplorer-python-sdk
+docker run -ti --rm -p 5001:8888 bluebrain/bioexplorer-python-sdk
 ```
 
 ### Web User Interface
 
 ```bash
-sudo docker run -ti --rm -p 5002:8080 bluebrain/bioexplorer-ui
+docker run -ti --rm -p 5002:8080 bluebrain/bioexplorer-ui
 ```
 
 ![](./bioexplorer/pythonsdk/doc/source/images/BBBE_screenshot.png)
