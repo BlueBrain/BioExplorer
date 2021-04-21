@@ -19,7 +19,7 @@
 
 
 brayns==1.0.0
-ipyTransferFunction~=0.1.0
+ipyTransferFunction~=0.2.0
 mediamaker~=0.1.0
 stringcase~=1.2.0
 pygments~=2.4.1
