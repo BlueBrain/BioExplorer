@@ -19,9 +19,6 @@
 
 
 brayns==1.0.0
-ipywidgets~=7.5.1
-matplotlib~=3.0.2
-pygments==2.4.1
-pillow==5.4.1
-seaborn~=0.8.1
 stringcase~=1.2.0
+ipyTransferFunction~=0.1.0
+mediamaker~=0.1.0
