@@ -1,7 +1,7 @@
-# Media Maker plugin
+# Media Maker Python SDK
 
 ## Description
-The Media Maker plugin provides media generation API for [Blue Brain BioExplorer](https://github.com/BlueBrain/BioExplorer).
+The Media Maker plugin provides a media generation API for [Blue Brain BioExplorer](https://github.com/BlueBrain/BioExplorer).
 
 ## API
 
