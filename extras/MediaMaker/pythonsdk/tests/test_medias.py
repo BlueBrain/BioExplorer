@@ -21,14 +21,15 @@
 # You should have received a copy of the GNU General Public License along with
 # this program.  If not, see <https://www.gnu.org/licenses/>.
 
-from brayns import Client
+from bioexplorer import BioExplorer
 from mediamaker import MovieMaker
 
 def test_movie_maker():
-    brayns = Client('localhost:5000')
-    movie_maker = MovieMaker(brayns)
+    bio_explorer = BioExplorer('localhost:5000')
+    core = bio_explorer.core_api()
+    movie_maker = MovieMaker(bio_explorer)
 
-    brayns.set_camera(current='bio_explorer_perspective')
+    core.set_camera(current='bio_explorer_perspective')
 
     control_points = [
         {
@@ -54,18 +55,15 @@ def test_movie_maker():
 
     movie_maker.set_current_frame(10)
     movie_maker.create_movie(
-        path='/tmp', size=[512, 512], samples_per_pixel=16, start_frame=10, end_frame=20,
-        exportIntermediateFrames=False)
+        path='/tmp', size=[512, 512], samples_per_pixel=16, start_frame=10, end_frame=20)
 
     movie_maker.set_current_frame(20)
     movie_maker.create_snapshot(
-        path='/tmp/test_20.png',size=[512, 512], samples_per_pixel=16,
-        exportIntermediateFrames=True)
+        path='/tmp/test_20.png',size=[512, 512], samples_per_pixel=16)
 
     movie_maker.set_current_frame(30)
     movie_maker.create_snapshot(
-        path='/tmp/test_30.png', size=[512, 512], samples_per_pixel=16,
-        exportIntermediateFrames=False)
+        path='/tmp/test_30.png', size=[512, 512], samples_per_pixel=16)
 
 if __name__ == '__main__':
     import nose

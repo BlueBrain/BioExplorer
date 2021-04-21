@@ -9,8 +9,8 @@ cmake_minimum_required(VERSION 3.1 FATAL_ERROR)
 # ==============================================================================
 # Project
 # ==============================================================================
-set(NAME BRAYNSMEDIAMAKER)
-set(LIBRARY_NAME braynsMediaMaker)
+set(NAME MEDIAMAKER)
+set(LIBRARY_NAME mediaMaker)
 project(${NAME} VERSION 0.1.0)
 set(${NAME}_VERSION_ABI 1)
 
@@ -19,7 +19,7 @@ set(${NAME}_VERSION_ABI 1)
 # ==============================================================================
 list(APPEND CMAKE_MODULE_PATH ${PROJECT_SOURCE_DIR}/CMake)
 set(${NAME}_MODULES_DIR ${PROJECT_SOURCE_DIR})
-set(CMAKE_CXX_STANDARD 14) # C+q+ 14
+set(CMAKE_CXX_STANDARD 14)
 
 find_package(Brayns REQUIRED SYSTEM)
 

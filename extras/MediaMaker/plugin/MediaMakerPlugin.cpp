@@ -34,8 +34,8 @@ namespace mediamaker
 {
 using namespace brayns;
 
-const std::string PLUGIN_VERSION = "0.1.0";
-const std::string PLUGIN_API_PREFIX = "mm_";
+const std::string PLUGIN_VERSION = "0.3.0";
+const std::string PLUGIN_API_PREFIX = "mm-";
 
 // Number of floats used to define the camera
 const size_t CAMERA_DEFINITION_SIZE = 12;
@@ -261,7 +261,7 @@ FrameExportProgress MediaMakerPlugin::_getFrameExportProgress()
 
 extern "C" ExtensionPlugin *brayns_plugin_create(int /*argc*/, char ** /*argv*/)
 {
-    PLUGIN_INFO << "Initializing Movie Maker plug-in (version " << PLUGIN_VERSION << ")" << std::endl;
+    PLUGIN_INFO << "Initializing Media Maker plug-in (version " << PLUGIN_VERSION << ")" << std::endl;
     PLUGIN_INFO << std::endl;
     PLUGIN_INFO << "_|      _|                  _|  _|                _|      _|            _|                          " << std::endl;
     PLUGIN_INFO << "_|_|  _|_|    _|_|      _|_|_|        _|_|_|      _|_|  _|_|    _|_|_|  _|  _|      _|_|    _|  _|_|" << std::endl;

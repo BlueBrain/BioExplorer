@@ -216,4 +216,4 @@ EXPOSE 8200
 # See https://docs.docker.com/engine/reference/run/#entrypoint-default-command-to-execute-at-runtime
 # for more docs
 ENTRYPOINT ["braynsService"]
-CMD ["--http-server", ":8200", "--plugin", "braynsMediaMaker", "--plugin", "BioExplorer"]
+CMD ["--http-server", ":8200", "--plugin", "mediaMaker", "--plugin", "BioExplorer"]

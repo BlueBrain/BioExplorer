@@ -1,7 +1,7 @@
 # Media Maker plugin
 
 ## Description
-The Media Maker plugin provides media generation API for [Blue Brain Brayns](https://github.com/BlueBrain/Brayns), the Blue Brain rendering platform.
+The Media Maker plugin provides media generation API for [Blue Brain BioExplorer](https://github.com/BlueBrain/BioExplorer).
 
 # License
 This software is available to download and use under the GNU General Public License ([GPL](https://www.gnu.org/licenses/gpl.html), or “free software”). The code is open sourced with approval from the open sourcing committee and principal coordinators of the Blue Brain Project in February 2021.

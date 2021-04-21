@@ -26,7 +26,7 @@ import copy
 import os
 import time
 from ipywidgets import IntSlider, IntProgress
-from brayns import Client
+from bioexplorer import BioExplorer
 from IPython.display import display
 
 # pylint: disable=no-member
@@ -38,16 +38,16 @@ from IPython.display import display
 class MovieMaker:
     """Movie maker"""
 
-    PLUGIN_API_PREFIX = 'mm_'
+    PLUGIN_API_PREFIX = 'mm-'
 
-    def __init__(self, brayns):
+    def __init__(self, bioexplorer):
         """
         Initialize the MovieMaker object
 
-        :brayns: Brayns client
+        :bioexplorer: BioExplorer client
         """
-        assert isinstance(brayns, Client)
-        self._client = brayns
+        assert isinstance(bioexplorer, BioExplorer)
+        self._client = bioexplorer.core_api()
         self._smoothed_key_frames = list()
 
     def build_camera_path(self, control_points, nb_steps_between_control_points, smoothing_size=1):
@@ -322,8 +322,8 @@ class MovieMaker:
         :size: Frame buffer size
         :path: Full path of the snapshot image
         :samples_per_pixel: Samples per pixel
-        :export_intermediate_frames: If True, intermediate samples are stored to disk. Otherwise, only
-        the final accumulation is exported
+        :export_intermediate_frames: If True, intermediate samples are stored to disk. Otherwise,
+        only the final accumulation is exported
         """
         application_params = self._client.get_application_parameters()
         renderer_params = self._client.get_renderer()
@@ -374,7 +374,8 @@ class MovieMaker:
 
     def create_movie(
             self, path, size, animation_frames=list(), quality=100, samples_per_pixel=1,
-            start_frame=0, end_frame=0, interpupillary_distance=0.0, exportIntermediateFrames=True):
+            start_frame=0, end_frame=0, interpupillary_distance=0.0,
+            export_intermediate_frames=True):
         """
         Create and export a set of PNG frames for later movie generation
 
@@ -387,8 +388,8 @@ class MovieMaker:
         :end_frame: Last frame to export in the provided sequence
         :interpupillary_distance: Interpupillary distance for stereo rendering. If set to 0, stereo
         is disabled
-        :exportIntermediateFrames: If True, intermediate samples are stored to disk. Otherwise, only
-        the final accumulation is exported
+        :export_intermediate_frames: If True, intermediate samples are stored to disk. Otherwise,
+        only the final accumulation is exported
         """
         application_params = self._client.get_application_parameters()
         renderer_params = self._client.get_renderer()
@@ -408,7 +409,7 @@ class MovieMaker:
             path=path, animation_frames=animation_frames, start_frame=start_frame,
             end_frame=end_frame, size=size, samples_per_pixel=samples_per_pixel, quality=quality,
             interpupillary_distance=interpupillary_distance,
-            exportIntermediateFrames=exportIntermediateFrames)
+            export_intermediate_frames=export_intermediate_frames)
 
         done = False
         while not done:
