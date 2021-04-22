@@ -4,27 +4,37 @@
 <tr>
   <td>
     <a href="https://github.com/BlueBrain/BioExplorer/tags">
-    <img src="https://img.shields.io/github/v/tag/BlueBrain/BioExplorer" alt="Latest release" />
+    <img src="https://img.shields.io/github/v/tag/BlueBrain/BioExplorer?style=for-the-badge" alt="Latest release" />
     </a>
   </td>
   <td>
     <a href="https://github.com/BlueBrain/BioExplorer/blob/master/LICENSE.md">
-    <img src="https://img.shields.io/github/license/BlueBrain/BioExplorer" alt="License" />
+    <img src="https://img.shields.io/github/license/BlueBrain/BioExplorer?style=for-the-badge" alt="License" />
     </a>
   </td>
 	<td>
-		<a href="https://github.com/BlueBrain/BioExplorer/actions">
-		<img src="https://img.shields.io/endpoint.svg?url=https%3A%2F%2Factions-badge.atrox.dev%2Fbluebrain%2Fbioexplorer%2Fbadge%3Fref%3Dmaster&style=flat" alt="Actions">
+		<a href="https://github.com/BlueBrain/BioExplorer/forks">
+		<img src="https://img.shields.io/endpoint.svg?url=https%3A%2F%2Factions-badge.atrox.dev%2Fbluebrain%2Fbioexplorer%2Fbadge%3Fref%3Dmaster&style=for-the-badge" alt="Actions">
 		</a>
 	</td>
+  <td>
+    <a href="https://github.com/BlueBrain/BioExplorer/stargazers">
+    <img src="https://img.shields.io/github/stars/BlueBrain/BioExplorer?style=for-the-badge" alt="Stars" />
+    </a>
+  </td>
+  <td>
+    <a href="https://github.com/BlueBrain/BioExplorer/network/members">
+    <img src="https://img.shields.io/github/forks/BlueBrain/BioExplorer?style=for-the-badge" alt="Forks" />
+    </a>
+  </td>
 	<td>
 		<a href="http://www.pydocstyle.org/">
-		<img src="https://img.shields.io/badge/docstrings-pydocstyle-informational" alt="Pydocstyle">
+		<img src="https://img.shields.io/badge/docstrings-pydocstyle-informational?style=for-the-badge" alt="Pydocstyle">
 		</a>
 	</td>
 	<td>
 		<a href="https://pypi.org/project/pycodestyle/">
-		<img src="https://img.shields.io/badge/docstrings-pycodestyle-informational" alt="Pycodestyle">
+		<img src="https://img.shields.io/badge/docstrings-pycodestyle-informational?style=for-the-badge" alt="Pycodestyle">
 		</a>
 	</td>
 </tr>
