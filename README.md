@@ -1,35 +1,27 @@
 # Blue Brain BioExplorer
 
-![](./bioexplorer/pythonsdk/doc/source/images/BBBE_banner.png)
-
-
 <table border=0>
 <tr>
-  <td>Latest Release</td>
   <td>
     <a href="https://github.com/BlueBrain/BioExplorer/tags">
     <img src="https://img.shields.io/github/v/tag/BlueBrain/BioExplorer" alt="Latest release" />
     </a>
   </td>
-</tr>
-<tr>
-  <td>License</td>
   <td>
     <a href="https://github.com/BlueBrain/BioExplorer/blob/master/LICENSE.md">
     <img src="https://img.shields.io/github/license/BlueBrain/BioExplorer" alt="License" />
     </a>
   </td>
-</tr>
-<tr>
-	<td>Documentation Style</td>
+	<td>
+		<a href="https://github.com/BlueBrain/BioExplorer/actions">
+		<img src="https://img.shields.io/endpoint.svg?url=https%3A%2F%2Factions-badge.atrox.dev%2Fbluebrain%2Fbioexplorer%2Fbadge%3Fref%3Dmaster&style=flat" alt="Actions">
+		</a>
+	</td>
 	<td>
 		<a href="http://www.pydocstyle.org/">
 		<img src="https://img.shields.io/badge/docstrings-pydocstyle-informational" alt="Pydocstyle">
 		</a>
 	</td>
-</tr>
-<tr>
-	<td>Code Style</td>
 	<td>
 		<a href="https://pypi.org/project/pycodestyle/">
 		<img src="https://img.shields.io/badge/docstrings-pycodestyle-informational" alt="Pycodestyle">
@@ -37,6 +29,9 @@
 	</td>
 </tr>
 </table>
+
+![](./bioexplorer/pythonsdk/doc/source/images/BBBE_banner.png)
+
 
 ## Description
 The Blue Brain BioExplorer (_BBBE_) is a tool for scientists to extract and analyse scientific data from visualization. _BBBE_ is built on top of [Blue Brain Brayns](https://github.com/BlueBrain/Brayns), the Blue Brain rendering platform.
