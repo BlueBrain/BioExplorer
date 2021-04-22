@@ -1,4 +1,4 @@
-# Blue Brain BioExplorer
+# Blue Brain BioExplorer Python SDK
 
 The bioexplorer package provides an extended python API for the Blue Brain BioExplorer application
 
@@ -14,7 +14,8 @@ Clone the repository and install it:
 
 ```
 (venv)$ git clone https://github.com/BlueBrain/BioExplorer.git
-(venv)$ pip install -e ./bioexplorer
+(venv)$ cd BioExplorer/bioexplorer/pythonsdk
+(venv)$ python setup.py install
 ```
 
 ## Connect to running Blue Brain BioExplorer instance

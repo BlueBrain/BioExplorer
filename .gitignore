@@ -23,9 +23,11 @@ dist
 .tox
 pylintrc
 pycodestyle.txt
+pydocstyle.txt
 pylint.txt
 venv
 caches
-images
 movies
 off
+node_modules
+package-lock.json

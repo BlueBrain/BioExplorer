@@ -89,7 +89,17 @@ $(document).ready(function(){initNavTree('index.html',''); initResizable(); });
 <div class="textblock"><div class="image">
 <img src="BBBE_banner.png" alt=""/>
 </div>
-   <h1><a class="anchor" id="autotoc_md1"></a>
+   <table border="0">
+<tr>
+<td>Latest Release </td><td><a href="https://github.com/BlueBrain/BioExplorer/tags"><img src="https://img.shields.io/github/v/tag/BlueBrain/BioExplorer" alt="Latest release" class="inline"/> </a>   </td></tr>
+<tr>
+<td>License </td><td><a href="https://github.com/BlueBrain/BioExplorer/blob/master/LICENSE.md"><img src="https://img.shields.io/github/license/BlueBrain/BioExplorer" alt="License" class="inline"/> </a>   </td></tr>
+<tr>
+<td>Documentation Style </td><td><a href="http://www.pydocstyle.org/"><img src="https://img.shields.io/badge/docstrings-pydocstyle-informational" alt="Pydocstyle" class="inline"/> </a>   </td></tr>
+<tr>
+<td>Code Style </td><td><a href="https://pypi.org/project/pycodestyle/"><img src="https://img.shields.io/badge/docstrings-pycodestyle-informational" alt="Pycodestyle" class="inline"/> </a>   </td></tr>
+</table>
+<h1><a class="anchor" id="autotoc_md1"></a>
 Description</h1>
 <p>The Blue Brain BioExplorer (<em>BBBE</em>) is a tool for scientists to extract and analyse scientific data from visualization. BBBE is built on top of <a href="https://github.com/BlueBrain/Brayns">Blue Brain Brayns</a>, the Blue Brain rendering platform.</p>
 <h1><a class="anchor" id="autotoc_md2"></a>
@@ -116,27 +126,32 @@ Mesh-based membranes</h2>
 Python SDK</h1>
 <p>A simple API if exposed via the <em>BBBE</em> python library. The API allows scientists to easily create and modify assemblies, according the biological parameters. The <em>BBBE</em> programming language is not necessarily reflecting the underlying implementation, but is meant to be as simple as close as possible to the language used by the scientists to describe biological assemblies.</p>
 <h1><a class="anchor" id="autotoc_md10"></a>
+Documentation</h1>
+<p>See <a href="https://bluebrain.github.io/BioExplorer/">here</a> for detailed documentation of the source code.</p>
+<h1><a class="anchor" id="autotoc_md11"></a>
 Deployment</h1>
 <p>BBBE binaries are publicaly available as docker images. BBE is designed to run in distributed mode, and is composed of 3 modules: A <a href="https://hub.docker.com/r/bluebrain/bioexplorer">server</a>, a <a href="https://hub.docker.com/r/bluebrain/bioexplorer-python-sdk">python SDK</a>, and a <a href="https://hub.docker.com/r/bluebrain/bioexplorer-ui">web user interface</a>. This means that there are 3 docker images to be downloaded on run. Those images can of course run on different machines.</p>
 <p>In this example, we will expose the server on port 5000, the python SDK jupyter notebooks on port 5001, and the user inferface on port 5002. One is free to change those ports at will.</p>
-<h2><a class="anchor" id="autotoc_md11"></a>
+<h2><a class="anchor" id="autotoc_md12"></a>
 Server</h2>
-<div class="fragment"><div class="line">docker run -ti --rm -p 5000:8200 bluebrain/bioexplorer:0.7.0</div>
-</div><!-- fragment --><h2><a class="anchor" id="autotoc_md12"></a>
-Python SDK</h2>
-<div class="fragment"><div class="line">sudo docker run -ti --rm -p 5001:8888 bluebrain/bioexplorer-python-sdk:0.7.0</div>
+<div class="fragment"><div class="line">docker run -ti --rm -p 5000:8200 bluebrain/bioexplorer</div>
 </div><!-- fragment --><h2><a class="anchor" id="autotoc_md13"></a>
+Python SDK</h2>
+<div class="fragment"><div class="line">docker run -ti --rm -p 5001:8888 bluebrain/bioexplorer-python-sdk</div>
+</div><!-- fragment --><h2><a class="anchor" id="autotoc_md14"></a>
 Web User Interface</h2>
-<div class="fragment"><div class="line">sudo docker run -ti --rm -p 5002:8080 bluebrain/bioexplorer-ui:0.7.0</div>
-</div><!-- fragment --><p><img src="./bioexplorer/doc/images/BBBE_screenshot.png" alt="" class="inline"/></p>
-<h1><a class="anchor" id="autotoc_md14"></a>
+<div class="fragment"><div class="line">docker run -ti --rm -p 5002:8080 bluebrain/bioexplorer-ui</div>
+</div><!-- fragment --><div class="image">
+<img src="BBBE_screenshot.png" alt=""/>
+</div>
+   <h1><a class="anchor" id="autotoc_md15"></a>
 Building from Source</h1>
-<h2><a class="anchor" id="autotoc_md15"></a>
+<h2><a class="anchor" id="autotoc_md16"></a>
 Blue Brain Brayns 1.0.0</h2>
 <p>In order to run the BioExplorer, it is necessary to build Blue Brain Brayns first. Please refer to the <a href="https://github.com/favreau/Brayns/blob/master/README.md">documentation</a> and following the steps in the "Building from source" paragraph. Note that the BioExplorer is currently only supported with <a href="https://github.com/favreau/Brayns/releases/tag/1.0.1">version 1.0.0 (e12fa84)</a> of <a href="https://github.com/favreau/Brayns/">Blue Brain Brayns</a>.</p>
-<h2><a class="anchor" id="autotoc_md16"></a>
+<h2><a class="anchor" id="autotoc_md17"></a>
 BioExplorer</h2>
-<h3><a class="anchor" id="autotoc_md17"></a>
+<h3><a class="anchor" id="autotoc_md18"></a>
 Compile</h3>
 <p>With <a href="https://github.com/favreau/Brayns/">Blue Brain Brayns</a> compiled and installed in the &lt;brayns_installation_folder&gt;, run the statements to build the BioExplorer.</p>
 <div class="fragment"><div class="line">git clone https://github.com/BlueBrain/BioExplorer.git</div>
@@ -144,30 +159,30 @@ Compile</h3>
 <div class="line">cd build</div>
 <div class="line">CMAKE_PREFIX_PATH=&lt;brayns_installation_folder&gt; cmake .. -DCMAKE_INSTALL_PREFIX=&lt;brayns_installation_folder&gt;</div>
 <div class="line">make install</div>
-</div><!-- fragment --><h3><a class="anchor" id="autotoc_md18"></a>
+</div><!-- fragment --><h3><a class="anchor" id="autotoc_md19"></a>
 Run</h3>
 <p>The BioExplorer being a plug-in for <a href="https://github.com/favreau/Brayns/">Blue Brain Brayns</a>, the following commands can be used to start the backend:</p>
 <div class="fragment"><div class="line">export LD_LIBRARY_PATH=&lt;brayns_installation_folder&gt;/lib:${LD_LIBRARY_PATH}</div>
 <div class="line">export PATH=&lt;brayns_installation_folder&gt;/bin:${PATH}</div>
 <div class="line">braynsService --http-server localhost:5000 --plugin BioExplorer</div>
-</div><!-- fragment --><h1><a class="anchor" id="autotoc_md19"></a>
+</div><!-- fragment --><h1><a class="anchor" id="autotoc_md20"></a>
 Simple example</h1>
 <p>Considering that the <em>BBBE</em> server is running on the local host, on port 5000, the simplest example to visualize a coronavirus is: </p><div class="fragment"><div class="line">from bioexplorer import BioExplorer</div>
 <div class="line">be = BioExplorer(&#39;localhost:5000&#39;)</div>
 <div class="line">resource_folder = &#39;../../tests/test_files/&#39;</div>
 <div class="line">name=&#39;Coronavirus&#39;</div>
 <div class="line">be.add_coronavirus(name=name, resource_folder=resource_folder)</div>
-</div><!-- fragment --><h1><a class="anchor" id="autotoc_md20"></a>
+</div><!-- fragment --><h1><a class="anchor" id="autotoc_md21"></a>
 License</h1>
 <p><em>BBBE</em> is available to download and use under the GNU General Public License (<a href="https://www.gnu.org/licenses/gpl.html">GPL</a>, or “free software”). The code is open sourced with approval from the open sourcing committee and principal coordinators of the Blue Brain Project in February 2021.</p>
-<h1><a class="anchor" id="autotoc_md21"></a>
+<h1><a class="anchor" id="autotoc_md22"></a>
 Contact</h1>
 <p>For more information on <em>BBBE</em>, please contact:</p>
 <p><b>Cyrille Favreau</b> <br  />
  Senior Scientific Visualization Engineer <br  />
  Blue Brain Project <br  />
  <a href="cyrille.favreau@epfl.ch">cyrille.favreau@epfl.ch</a></p>
-<h1><a class="anchor" id="autotoc_md22"></a>
+<h1><a class="anchor" id="autotoc_md23"></a>
 Funding &amp; Acknowledgment</h1>
 <p>The development of this software was supported by funding to the Blue Brain Project, a research center of the École polytechnique fédérale de Lausanne (EPFL), from the Swiss government’s ETH Board of the Swiss Federal Institutes of Technology.</p>
 <p>COPYRIGHT 2020–2021, Blue Brain Project/EPFL </p>

@@ -1,0 +1,47 @@
+on: [push]
+  
+jobs:
+  bioexplorer_job:
+    runs-on: ubuntu-latest
+    name: BioExplorer
+    steps:
+    - name: Build python package
+      run: >-
+        cd bioexplorer/pythonsdk &&
+        virtualenv -p python3 env &&
+        source env/bin/activate &&
+        pip install -r requirements_dev.txt &&
+        python setup.py install
+    - name: Publish to PyPI (test)
+      uses: pypa/gh-action-pypi-publish@release/v1
+      with:
+        user: __token__
+        password: ${{ secrets.PYPI_TEST_API_TOKEN }}
+        repository_url: https://test.pypi.org/legacy/
+    - uses: actions/checkout@v2
+      name: Check out code
+    - name: Login to DockerHub
+      uses: docker/login-action@v1.8.0
+      with:
+        username: ${{ secrets.DOCKERHUB_USERNAME }}
+        password: ${{ secrets.DOCKERHUB_TOKEN }}
+    - name: Build and push Docker Back-end image
+      uses: docker/build-push-action@v2
+      with:
+        context: ./bioexplorer/core
+        push: true
+        tags: ${{ secrets.DOCKERHUB_ORGANIZATION }}/bioexplorer:latest
+    - name: Build and push Docker Python SDK image
+      uses: docker/build-push-action@v2
+      with:
+        context: ./bioexplorer/pythonsdk
+        push: true
+        tags: ${{ secrets.DOCKERHUB_ORGANIZATION }}/bioexplorer-python-sdk:latest
+    - name: Build and push Docker User Interface
+      uses: docker/build-push-action@v2
+      with:
+        context: ./bioexplorer/ui
+        push: true
+        tags: ${{ secrets.DOCKERHUB_ORGANIZATION }}/bioexplorer-ui:latest
+    - name: Image digest
+      run: echo ${{ steps.docker_build.outputs.digest }}
