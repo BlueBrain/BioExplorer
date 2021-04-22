@@ -86,22 +86,16 @@ $(document).ready(function(){initNavTree('index.html',''); initResizable(); });
 <div class="title">Blue Brain BioExplorer </div>  </div>
 </div><!--header-->
 <div class="contents">
-<div class="textblock"><div class="image">
+<div class="textblock"><table border="0">
+<tr>
+<td><a href="https://github.com/BlueBrain/BioExplorer/tags"><img src="https://img.shields.io/github/v/tag/BlueBrain/BioExplorer?style=for-the-badge" alt="Latest release" class="inline"/> </a>  </td><td><a href="https://github.com/BlueBrain/BioExplorer/blob/master/LICENSE.md"><img src="https://img.shields.io/github/license/BlueBrain/BioExplorer?style=for-the-badge" alt="License" class="inline"/> </a>  </td><td><a href="https://github.com/BlueBrain/BioExplorer/forks"><object type="image/svg+xml" data="https://img.shields.io/endpoint.svg?url=https%3A%2F%2Factions-badge.atrox.dev%2Fbluebrain%2Fbioexplorer%2Fbadge%3Fref%3Dmaster&amp;style=for-the-badge" style="pointer-events: none;">Actions</object> </a>  </td><td><a href="https://github.com/BlueBrain/BioExplorer/stargazers"><img src="https://img.shields.io/github/stars/BlueBrain/BioExplorer?style=for-the-badge" alt="Stars" class="inline"/> </a>  </td><td><a href="https://github.com/BlueBrain/BioExplorer/network/members"><img src="https://img.shields.io/github/forks/BlueBrain/BioExplorer?style=for-the-badge" alt="Forks" class="inline"/> </a>  </td><td><a href="http://www.pydocstyle.org/"><img src="https://img.shields.io/badge/docstrings-pydocstyle-informational?style=for-the-badge" alt="Pydocstyle" class="inline"/> </a>  </td><td><a href="https://pypi.org/project/pycodestyle/"><img src="https://img.shields.io/badge/docstrings-pycodestyle-informational?style=for-the-badge" alt="Pycodestyle" class="inline"/> </a>   </td></tr>
+</table>
+<div class="image">
 <img src="BBBE_banner.png" alt=""/>
 </div>
-   <table border="0">
-<tr>
-<td>Latest Release </td><td><a href="https://github.com/BlueBrain/BioExplorer/tags"><img src="https://img.shields.io/github/v/tag/BlueBrain/BioExplorer" alt="Latest release" class="inline"/> </a>   </td></tr>
-<tr>
-<td>License </td><td><a href="https://github.com/BlueBrain/BioExplorer/blob/master/LICENSE.md"><img src="https://img.shields.io/github/license/BlueBrain/BioExplorer" alt="License" class="inline"/> </a>   </td></tr>
-<tr>
-<td>Documentation Style </td><td><a href="http://www.pydocstyle.org/"><img src="https://img.shields.io/badge/docstrings-pydocstyle-informational" alt="Pydocstyle" class="inline"/> </a>   </td></tr>
-<tr>
-<td>Code Style </td><td><a href="https://pypi.org/project/pycodestyle/"><img src="https://img.shields.io/badge/docstrings-pycodestyle-informational" alt="Pycodestyle" class="inline"/> </a>   </td></tr>
-</table>
-<h1><a class="anchor" id="autotoc_md1"></a>
+   <h1><a class="anchor" id="autotoc_md1"></a>
 Description</h1>
-<p>The Blue Brain BioExplorer (<em>BBBE</em>) is a tool for scientists to extract and analyse scientific data from visualization. BBBE is built on top of <a href="https://github.com/BlueBrain/Brayns">Blue Brain Brayns</a>, the Blue Brain rendering platform.</p>
+<p>The Blue Brain BioExplorer (<em>BBBE</em>) is a tool for scientists to extract and analyse scientific data from visualization. <em>BBBE</em> is built on top of <a href="https://github.com/BlueBrain/Brayns">Blue Brain Brayns</a>, the Blue Brain rendering platform.</p>
 <h1><a class="anchor" id="autotoc_md2"></a>
 Architecture</h1>
 <p>The <em>BBBE</em> application is built on top of Brayns, the Blue Brain rendering platform. The role of the application is to use the underlying technical capabilities of the rendering platform to create large scale and accurate 3D scenes from Jupyter notebooks.</p>
@@ -125,12 +119,13 @@ Mesh-based membranes</h2>
 <h1><a class="anchor" id="autotoc_md9"></a>
 Python SDK</h1>
 <p>A simple API if exposed via the <em>BBBE</em> python library. The API allows scientists to easily create and modify assemblies, according the biological parameters. The <em>BBBE</em> programming language is not necessarily reflecting the underlying implementation, but is meant to be as simple as close as possible to the language used by the scientists to describe biological assemblies.</p>
+<p>The <em>BBBE</em> Python SDK is available on <a href="https://pypi.org/project/bioexplorer/">pypi</a></p>
 <h1><a class="anchor" id="autotoc_md10"></a>
 Documentation</h1>
 <p>See <a href="https://bluebrain.github.io/BioExplorer/">here</a> for detailed documentation of the source code.</p>
 <h1><a class="anchor" id="autotoc_md11"></a>
 Deployment</h1>
-<p>BBBE binaries are publicaly available as docker images. BBE is designed to run in distributed mode, and is composed of 3 modules: A <a href="https://hub.docker.com/r/bluebrain/bioexplorer">server</a>, a <a href="https://hub.docker.com/r/bluebrain/bioexplorer-python-sdk">python SDK</a>, and a <a href="https://hub.docker.com/r/bluebrain/bioexplorer-ui">web user interface</a>. This means that there are 3 docker images to be downloaded on run. Those images can of course run on different machines.</p>
+<p><em>BBBE</em> binaries are publicaly available as docker images. <em>BBBE</em> is designed to run in distributed mode, and is composed of 3 modules: A <a href="https://hub.docker.com/r/bluebrain/bioexplorer">server</a>, a <a href="https://hub.docker.com/r/bluebrain/bioexplorer-python-sdk">python SDK</a>, and a <a href="https://hub.docker.com/r/bluebrain/bioexplorer-ui">web user interface</a>. This means that there are 3 docker images to be downloaded on run. Those images can of course run on different machines.</p>
 <p>In this example, we will expose the server on port 5000, the python SDK jupyter notebooks on port 5001, and the user inferface on port 5002. One is free to change those ports at will.</p>
 <h2><a class="anchor" id="autotoc_md12"></a>
 Server</h2>

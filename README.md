@@ -1,45 +1,50 @@
 # Blue Brain BioExplorer
 
-![](./bioexplorer/pythonsdk/doc/source/images/BBBE_banner.png)
-
-
 <table border=0>
 <tr>
-  <td>Latest Release</td>
   <td>
     <a href="https://github.com/BlueBrain/BioExplorer/tags">
-    <img src="https://img.shields.io/github/v/tag/BlueBrain/BioExplorer" alt="Latest release" />
+    <img src="https://img.shields.io/github/v/tag/BlueBrain/BioExplorer?style=for-the-badge" alt="Latest release" />
     </a>
   </td>
-</tr>
-<tr>
-  <td>License</td>
   <td>
     <a href="https://github.com/BlueBrain/BioExplorer/blob/master/LICENSE.md">
-    <img src="https://img.shields.io/github/license/BlueBrain/BioExplorer" alt="License" />
+    <img src="https://img.shields.io/github/license/BlueBrain/BioExplorer?style=for-the-badge" alt="License" />
     </a>
   </td>
-</tr>
-<tr>
-	<td>Documentation Style</td>
 	<td>
-		<a href="http://www.pydocstyle.org/">
-		<img src="https://img.shields.io/badge/docstrings-pydocstyle-informational" alt="Pydocstyle">
+		<a href="https://github.com/BlueBrain/BioExplorer/forks">
+		<img src="https://img.shields.io/endpoint.svg?url=https%3A%2F%2Factions-badge.atrox.dev%2Fbluebrain%2Fbioexplorer%2Fbadge%3Fref%3Dmaster&style=for-the-badge" alt="Actions">
 		</a>
 	</td>
-</tr>
-<tr>
-	<td>Code Style</td>
+  <td>
+    <a href="https://github.com/BlueBrain/BioExplorer/stargazers">
+    <img src="https://img.shields.io/github/stars/BlueBrain/BioExplorer?style=for-the-badge" alt="Stars" />
+    </a>
+  </td>
+  <td>
+    <a href="https://github.com/BlueBrain/BioExplorer/network/members">
+    <img src="https://img.shields.io/github/forks/BlueBrain/BioExplorer?style=for-the-badge" alt="Forks" />
+    </a>
+  </td>
+	<td>
+		<a href="http://www.pydocstyle.org/">
+		<img src="https://img.shields.io/badge/docstrings-pydocstyle-informational?style=for-the-badge" alt="Pydocstyle">
+		</a>
+	</td>
 	<td>
 		<a href="https://pypi.org/project/pycodestyle/">
-		<img src="https://img.shields.io/badge/docstrings-pycodestyle-informational" alt="Pycodestyle">
+		<img src="https://img.shields.io/badge/docstrings-pycodestyle-informational?style=for-the-badge" alt="Pycodestyle">
 		</a>
 	</td>
 </tr>
 </table>
 
+![](./bioexplorer/pythonsdk/doc/source/images/BBBE_banner.png)
+
+
 ## Description
-The Blue Brain BioExplorer (_BBBE_) is a tool for scientists to extract and analyse scientific data from visualization. BBBE is built on top of [Blue Brain Brayns](https://github.com/BlueBrain/Brayns), the Blue Brain rendering platform.
+The Blue Brain BioExplorer (_BBBE_) is a tool for scientists to extract and analyse scientific data from visualization. _BBBE_ is built on top of [Blue Brain Brayns](https://github.com/BlueBrain/Brayns), the Blue Brain rendering platform.
 
 ## Architecture
 The _BBBE_ application is built on top of Brayns, the Blue Brain rendering platform. The role of the application is to use the underlying technical capabilities of the rendering platform to create large scale and accurate 3D scenes from Jupyter notebooks.
@@ -69,13 +74,15 @@ Mesh-based membranes create membranes based on 3D meshes. This allows the constr
 ## Python SDK
 A simple API if exposed via the _BBBE_ python library. The API allows scientists to easily create and modify assemblies, according the biological parameters. The _BBBE_ programming language is not necessarily reflecting the underlying implementation, but is meant to be as simple as close as possible to the language used by the scientists to describe biological assemblies.
 
+The _BBBE_ Python SDK is available on [pypi](https://pypi.org/project/bioexplorer/)
+
 ## Documentation
 
 See [here](https://bluebrain.github.io/BioExplorer/) for detailed documentation of the source code.
 
 ## Deployment
 
-BBBE binaries are publicaly available as docker images. BBE is designed to run in distributed mode, and is composed of 3 modules: A [server](https://hub.docker.com/r/bluebrain/bioexplorer), a [python SDK](https://hub.docker.com/r/bluebrain/bioexplorer-python-sdk), and a [web user interface](https://hub.docker.com/r/bluebrain/bioexplorer-ui). This means that there are 3 docker images to be downloaded on run. Those images can of course run on different machines.
+_BBBE_ binaries are publicaly available as docker images. _BBBE_ is designed to run in distributed mode, and is composed of 3 modules: A [server](https://hub.docker.com/r/bluebrain/bioexplorer), a [python SDK](https://hub.docker.com/r/bluebrain/bioexplorer-python-sdk), and a [web user interface](https://hub.docker.com/r/bluebrain/bioexplorer-ui). This means that there are 3 docker images to be downloaded on run. Those images can of course run on different machines.
 
 In this example, we will expose the server on port 5000, the python SDK jupyter notebooks on port 5001, and the user inferface on port 5002. One is free to change those ports at will.
 
