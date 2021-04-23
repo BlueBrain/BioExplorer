@@ -1,0 +1,286 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.17">
+  <compounddef id="structbioexplorer_1_1details_1_1ProteinDetails" kind="struct" language="C++" prot="public">
+    <compoundname>bioexplorer::details::ProteinDetails</compoundname>
+      <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structbioexplorer_1_1details_1_1ProteinDetails_1a98fa861c1249a21edc6c39941e3672c1" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string bioexplorer::details::ProteinDetails::assemblyName</definition>
+        <argsstring></argsstring>
+        <name>assemblyName</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Name of the assembly </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/favreau/git/BioExplorer/bioexplorer/core/plugin/common/Types.h" line="284" column="17" bodyfile="/home/favreau/git/BioExplorer/bioexplorer/core/plugin/common/Types.h" bodystart="284" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structbioexplorer_1_1details_1_1ProteinDetails_1a5917cfa981741c54649569f1eb733de4" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string bioexplorer::details::ProteinDetails::name</definition>
+        <argsstring></argsstring>
+        <name>name</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Name of the protein in the assembly </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/favreau/git/BioExplorer/bioexplorer/core/plugin/common/Types.h" line="286" column="17" bodyfile="/home/favreau/git/BioExplorer/bioexplorer/core/plugin/common/Types.h" bodystart="286" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structbioexplorer_1_1details_1_1ProteinDetails_1a6cf860d090db12ee48b7fc96cc4b3409" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string bioexplorer::details::ProteinDetails::contents</definition>
+        <argsstring></argsstring>
+        <name>contents</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>String containing a PDB representation of the protein </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/favreau/git/BioExplorer/bioexplorer/core/plugin/common/Types.h" line="288" column="17" bodyfile="/home/favreau/git/BioExplorer/bioexplorer/core/plugin/common/Types.h" bodystart="288" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structbioexplorer_1_1details_1_1ProteinDetails_1a99610686312eaf88ed68be6165e20902" prot="public" static="no" mutable="no">
+        <type>AssemblyShape</type>
+        <definition>AssemblyShape bioexplorer::details::ProteinDetails::shape</definition>
+        <argsstring></argsstring>
+        <name>shape</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Shape of the assembly containing the protein </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/favreau/git/BioExplorer/bioexplorer/core/plugin/common/Types.h" line="290" column="19" bodyfile="/home/favreau/git/BioExplorer/bioexplorer/core/plugin/common/Types.h" bodystart="290" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structbioexplorer_1_1details_1_1ProteinDetails_1a275595510362a9b7db31b9b548e7bc08" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; float &gt;</type>
+        <definition>std::vector&lt;float&gt; bioexplorer::details::ProteinDetails::assemblyParams</definition>
+        <argsstring></argsstring>
+        <name>assemblyParams</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Parameters of the assembly shape </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/favreau/git/BioExplorer/bioexplorer/core/plugin/common/Types.h" line="292" column="17" bodyfile="/home/favreau/git/BioExplorer/bioexplorer/core/plugin/common/Types.h" bodystart="292" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structbioexplorer_1_1details_1_1ProteinDetails_1ad01cd5d641744fcaa42325bdcddaec2b" prot="public" static="no" mutable="no">
+        <type>float</type>
+        <definition>float bioexplorer::details::ProteinDetails::atomRadiusMultiplier</definition>
+        <argsstring></argsstring>
+        <name>atomRadiusMultiplier</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Multiplier applied to the radius of the protein atoms </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/favreau/git/BioExplorer/bioexplorer/core/plugin/common/Types.h" line="294" column="11" bodyfile="/home/favreau/git/BioExplorer/bioexplorer/core/plugin/common/Types.h" bodystart="294" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structbioexplorer_1_1details_1_1ProteinDetails_1a12b36899e4c43d1ad1c7b1c886988537" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool bioexplorer::details::ProteinDetails::loadBonds</definition>
+        <argsstring></argsstring>
+        <name>loadBonds</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Enable the loading of protein bonds </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/favreau/git/BioExplorer/bioexplorer/core/plugin/common/Types.h" line="296" column="10" bodyfile="/home/favreau/git/BioExplorer/bioexplorer/core/plugin/common/Types.h" bodystart="296" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structbioexplorer_1_1details_1_1ProteinDetails_1ac16628b11fffae63ceabaf84ae753cae" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool bioexplorer::details::ProteinDetails::loadNonPolymerChemicals</definition>
+        <argsstring></argsstring>
+        <name>loadNonPolymerChemicals</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Enable the loading of non polymer chemicals </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/favreau/git/BioExplorer/bioexplorer/core/plugin/common/Types.h" line="298" column="10" bodyfile="/home/favreau/git/BioExplorer/bioexplorer/core/plugin/common/Types.h" bodystart="298" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structbioexplorer_1_1details_1_1ProteinDetails_1a65c406560e7a6b2615d5307408a5af49" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool bioexplorer::details::ProteinDetails::loadHydrogen</definition>
+        <argsstring></argsstring>
+        <name>loadHydrogen</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Enable the loading of hydrogen atoms </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/favreau/git/BioExplorer/bioexplorer/core/plugin/common/Types.h" line="300" column="10" bodyfile="/home/favreau/git/BioExplorer/bioexplorer/core/plugin/common/Types.h" bodystart="300" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structbioexplorer_1_1details_1_1ProteinDetails_1ac71bf6c5ca866c38ef92d2322ed08632" prot="public" static="no" mutable="no">
+        <type>ProteinRepresentation</type>
+        <definition>ProteinRepresentation bioexplorer::details::ProteinDetails::representation</definition>
+        <argsstring></argsstring>
+        <name>representation</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Defines the representation of the protein (Atoms, atoms and sticks, surface, etc) </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/favreau/git/BioExplorer/bioexplorer/core/plugin/common/Types.h" line="303" column="27" bodyfile="/home/favreau/git/BioExplorer/bioexplorer/core/plugin/common/Types.h" bodystart="303" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structbioexplorer_1_1details_1_1ProteinDetails_1a11b8b01294c06429dcb1d9a9fa82a52c" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; size_t &gt;</type>
+        <definition>std::vector&lt;size_t&gt; bioexplorer::details::ProteinDetails::chainIds</definition>
+        <argsstring></argsstring>
+        <name>chainIds</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Identifiers of chains to be loaded </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/favreau/git/BioExplorer/bioexplorer/core/plugin/common/Types.h" line="305" column="17" bodyfile="/home/favreau/git/BioExplorer/bioexplorer/core/plugin/common/Types.h" bodystart="305" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structbioexplorer_1_1details_1_1ProteinDetails_1ae10023b565d13d83c2ee88f84b674892" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool bioexplorer::details::ProteinDetails::recenter</definition>
+        <argsstring></argsstring>
+        <name>recenter</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Recenters the protein <linebreak/>
+ </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/favreau/git/BioExplorer/bioexplorer/core/plugin/common/Types.h" line="307" column="10" bodyfile="/home/favreau/git/BioExplorer/bioexplorer/core/plugin/common/Types.h" bodystart="307" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structbioexplorer_1_1details_1_1ProteinDetails_1a21028bb0639c0b790235dc4e125f9580" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t bioexplorer::details::ProteinDetails::occurrences</definition>
+        <argsstring></argsstring>
+        <name>occurrences</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Number of protein occurences to be added to the assembly </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/favreau/git/BioExplorer/bioexplorer/core/plugin/common/Types.h" line="309" column="12" bodyfile="/home/favreau/git/BioExplorer/bioexplorer/core/plugin/common/Types.h" bodystart="309" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structbioexplorer_1_1details_1_1ProteinDetails_1a7a0ea3c84c80e63c556b2aea5886e62e" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; size_t &gt;</type>
+        <definition>std::vector&lt;size_t&gt; bioexplorer::details::ProteinDetails::allowedOccurrences</definition>
+        <argsstring></argsstring>
+        <name>allowedOccurrences</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Indices of protein occurences in the assembly for which proteins are added </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/favreau/git/BioExplorer/bioexplorer/core/plugin/common/Types.h" line="312" column="17" bodyfile="/home/favreau/git/BioExplorer/bioexplorer/core/plugin/common/Types.h" bodystart="312" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structbioexplorer_1_1details_1_1ProteinDetails_1aa30e50807142af7350a1f0553c2364fd" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t bioexplorer::details::ProteinDetails::randomSeed</definition>
+        <argsstring></argsstring>
+        <name>randomSeed</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Seed for position randomization </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/favreau/git/BioExplorer/bioexplorer/core/plugin/common/Types.h" line="314" column="12" bodyfile="/home/favreau/git/BioExplorer/bioexplorer/core/plugin/common/Types.h" bodystart="314" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structbioexplorer_1_1details_1_1ProteinDetails_1a7781951526f8bda35ef12d8f8877b95e" prot="public" static="no" mutable="no">
+        <type>PositionRandomizationType</type>
+        <definition>PositionRandomizationType bioexplorer::details::ProteinDetails::positionRandomizationType</definition>
+        <argsstring></argsstring>
+        <name>positionRandomizationType</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Type of randomisation for the elements of the assembly </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/favreau/git/BioExplorer/bioexplorer/core/plugin/common/Types.h" line="316" column="31" bodyfile="/home/favreau/git/BioExplorer/bioexplorer/core/plugin/common/Types.h" bodystart="316" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structbioexplorer_1_1details_1_1ProteinDetails_1a7c7d41ca865b6c6c1103645bc8b2a263" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; float &gt;</type>
+        <definition>std::vector&lt;float&gt; bioexplorer::details::ProteinDetails::position</definition>
+        <argsstring></argsstring>
+        <name>position</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Relative position of the protein in the assembly </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/favreau/git/BioExplorer/bioexplorer/core/plugin/common/Types.h" line="318" column="17" bodyfile="/home/favreau/git/BioExplorer/bioexplorer/core/plugin/common/Types.h" bodystart="318" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structbioexplorer_1_1details_1_1ProteinDetails_1a010b1c0f20187f8704a865840a1458ab" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; float &gt;</type>
+        <definition>std::vector&lt;float&gt; bioexplorer::details::ProteinDetails::rotation</definition>
+        <argsstring></argsstring>
+        <name>rotation</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Relative rotation of the protein in the assembly </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/favreau/git/BioExplorer/bioexplorer/core/plugin/common/Types.h" line="320" column="17" bodyfile="/home/favreau/git/BioExplorer/bioexplorer/core/plugin/common/Types.h" bodystart="320" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="/home/favreau/git/BioExplorer/bioexplorer/core/plugin/common/Types.h" line="282" column="1" bodyfile="/home/favreau/git/BioExplorer/bioexplorer/core/plugin/common/Types.h" bodystart="281" bodyend="321"/>
+    <listofallmembers>
+      <member refid="structbioexplorer_1_1details_1_1ProteinDetails_1a7a0ea3c84c80e63c556b2aea5886e62e" prot="public" virt="non-virtual"><scope>bioexplorer::details::ProteinDetails</scope><name>allowedOccurrences</name></member>
+      <member refid="structbioexplorer_1_1details_1_1ProteinDetails_1a98fa861c1249a21edc6c39941e3672c1" prot="public" virt="non-virtual"><scope>bioexplorer::details::ProteinDetails</scope><name>assemblyName</name></member>
+      <member refid="structbioexplorer_1_1details_1_1ProteinDetails_1a275595510362a9b7db31b9b548e7bc08" prot="public" virt="non-virtual"><scope>bioexplorer::details::ProteinDetails</scope><name>assemblyParams</name></member>
+      <member refid="structbioexplorer_1_1details_1_1ProteinDetails_1ad01cd5d641744fcaa42325bdcddaec2b" prot="public" virt="non-virtual"><scope>bioexplorer::details::ProteinDetails</scope><name>atomRadiusMultiplier</name></member>
+      <member refid="structbioexplorer_1_1details_1_1ProteinDetails_1a11b8b01294c06429dcb1d9a9fa82a52c" prot="public" virt="non-virtual"><scope>bioexplorer::details::ProteinDetails</scope><name>chainIds</name></member>
+      <member refid="structbioexplorer_1_1details_1_1ProteinDetails_1a6cf860d090db12ee48b7fc96cc4b3409" prot="public" virt="non-virtual"><scope>bioexplorer::details::ProteinDetails</scope><name>contents</name></member>
+      <member refid="structbioexplorer_1_1details_1_1ProteinDetails_1a12b36899e4c43d1ad1c7b1c886988537" prot="public" virt="non-virtual"><scope>bioexplorer::details::ProteinDetails</scope><name>loadBonds</name></member>
+      <member refid="structbioexplorer_1_1details_1_1ProteinDetails_1a65c406560e7a6b2615d5307408a5af49" prot="public" virt="non-virtual"><scope>bioexplorer::details::ProteinDetails</scope><name>loadHydrogen</name></member>
+      <member refid="structbioexplorer_1_1details_1_1ProteinDetails_1ac16628b11fffae63ceabaf84ae753cae" prot="public" virt="non-virtual"><scope>bioexplorer::details::ProteinDetails</scope><name>loadNonPolymerChemicals</name></member>
+      <member refid="structbioexplorer_1_1details_1_1ProteinDetails_1a5917cfa981741c54649569f1eb733de4" prot="public" virt="non-virtual"><scope>bioexplorer::details::ProteinDetails</scope><name>name</name></member>
+      <member refid="structbioexplorer_1_1details_1_1ProteinDetails_1a21028bb0639c0b790235dc4e125f9580" prot="public" virt="non-virtual"><scope>bioexplorer::details::ProteinDetails</scope><name>occurrences</name></member>
+      <member refid="structbioexplorer_1_1details_1_1ProteinDetails_1a7c7d41ca865b6c6c1103645bc8b2a263" prot="public" virt="non-virtual"><scope>bioexplorer::details::ProteinDetails</scope><name>position</name></member>
+      <member refid="structbioexplorer_1_1details_1_1ProteinDetails_1a7781951526f8bda35ef12d8f8877b95e" prot="public" virt="non-virtual"><scope>bioexplorer::details::ProteinDetails</scope><name>positionRandomizationType</name></member>
+      <member refid="structbioexplorer_1_1details_1_1ProteinDetails_1aa30e50807142af7350a1f0553c2364fd" prot="public" virt="non-virtual"><scope>bioexplorer::details::ProteinDetails</scope><name>randomSeed</name></member>
+      <member refid="structbioexplorer_1_1details_1_1ProteinDetails_1ae10023b565d13d83c2ee88f84b674892" prot="public" virt="non-virtual"><scope>bioexplorer::details::ProteinDetails</scope><name>recenter</name></member>
+      <member refid="structbioexplorer_1_1details_1_1ProteinDetails_1ac71bf6c5ca866c38ef92d2322ed08632" prot="public" virt="non-virtual"><scope>bioexplorer::details::ProteinDetails</scope><name>representation</name></member>
+      <member refid="structbioexplorer_1_1details_1_1ProteinDetails_1a010b1c0f20187f8704a865840a1458ab" prot="public" virt="non-virtual"><scope>bioexplorer::details::ProteinDetails</scope><name>rotation</name></member>
+      <member refid="structbioexplorer_1_1details_1_1ProteinDetails_1a99610686312eaf88ed68be6165e20902" prot="public" virt="non-virtual"><scope>bioexplorer::details::ProteinDetails</scope><name>shape</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,130 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.17">
+  <compounddef id="d2/dc3/Octree_8h" kind="file" language="C++">
+    <compoundname>Octree.h</compoundname>
+    <includes local="no">brayns/common/types.h</includes>
+    <includes refid="d9/dde/OctreeNode_8h" local="yes">OctreeNode.h</includes>
+    <includedby refid="d9/dc0/FieldsHandler_8cpp" local="yes">/home/favreau/git/BioExplorer/bioexplorer/core/plugin/fields/FieldsHandler.cpp</includedby>
+    <includedby refid="dd/d4a/Octree_8cpp" local="yes">/home/favreau/git/BioExplorer/bioexplorer/core/plugin/fields/Octree.cpp</includedby>
+    <incdepgraph>
+      <node id="3">
+        <label>OctreeNode.h</label>
+        <link refid="d9/dde/OctreeNode_8h_source"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>/home/favreau/git/BioExplorer/bioexplorer/core/plugin/fields/Octree.h</label>
+        <link refid="d2/dc3/Octree_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>brayns/common/types.h</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="1">
+        <label>/home/favreau/git/BioExplorer/bioexplorer/core/plugin/fields/Octree.h</label>
+        <link refid="d2/dc3/Octree_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>/home/favreau/git/BioExplorer/bioexplorer/core/plugin/fields/FieldsHandler.cpp</label>
+        <link refid="d9/dc0/FieldsHandler_8cpp_source"/>
+      </node>
+      <node id="3">
+        <label>/home/favreau/git/BioExplorer/bioexplorer/core/plugin/fields/Octree.cpp</label>
+        <link refid="dd/d4a/Octree_8cpp_source"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="dc/d5a/classbioexplorer_1_1fields_1_1Octree" prot="public">bioexplorer::fields::Octree</innerclass>
+    <innernamespace refid="d8/d8e/namespacebioexplorer">bioexplorer</innernamespace>
+    <innernamespace refid="d9/dc7/namespacebioexplorer_1_1fields">bioexplorer::fields</innernamespace>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="comment">/*</highlight></codeline>
+<codeline lineno="2"><highlight class="comment"><sp/>*<sp/>The<sp/>Blue<sp/>Brain<sp/>BioExplorer<sp/>is<sp/>a<sp/>tool<sp/>for<sp/>scientists<sp/>to<sp/>extract<sp/>and<sp/>analyse</highlight></codeline>
+<codeline lineno="3"><highlight class="comment"><sp/>*<sp/>scientific<sp/>data<sp/>from<sp/>visualization</highlight></codeline>
+<codeline lineno="4"><highlight class="comment"><sp/>*</highlight></codeline>
+<codeline lineno="5"><highlight class="comment"><sp/>*<sp/>Copyright<sp/>2020-2021<sp/>Blue<sp/>BrainProject<sp/>/<sp/>EPFL</highlight></codeline>
+<codeline lineno="6"><highlight class="comment"><sp/>*</highlight></codeline>
+<codeline lineno="7"><highlight class="comment"><sp/>*<sp/>This<sp/>program<sp/>is<sp/>free<sp/>software:<sp/>you<sp/>can<sp/>redistribute<sp/>it<sp/>and/or<sp/>modify<sp/>it<sp/>under</highlight></codeline>
+<codeline lineno="8"><highlight class="comment"><sp/>*<sp/>the<sp/>terms<sp/>of<sp/>the<sp/>GNU<sp/>General<sp/>Public<sp/>License<sp/>as<sp/>published<sp/>by<sp/>the<sp/>Free<sp/>Software</highlight></codeline>
+<codeline lineno="9"><highlight class="comment"><sp/>*<sp/>Foundation,<sp/>either<sp/>version<sp/>3<sp/>of<sp/>the<sp/>License,<sp/>or<sp/>(at<sp/>your<sp/>option)<sp/>any<sp/>later</highlight></codeline>
+<codeline lineno="10"><highlight class="comment"><sp/>*<sp/>version.</highlight></codeline>
+<codeline lineno="11"><highlight class="comment"><sp/>*</highlight></codeline>
+<codeline lineno="12"><highlight class="comment"><sp/>*<sp/>This<sp/>program<sp/>is<sp/>distributed<sp/>in<sp/>the<sp/>hope<sp/>that<sp/>it<sp/>will<sp/>be<sp/>useful,<sp/>but<sp/>WITHOUT</highlight></codeline>
+<codeline lineno="13"><highlight class="comment"><sp/>*<sp/>ANY<sp/>WARRANTY;<sp/>without<sp/>even<sp/>the<sp/>implied<sp/>warranty<sp/>of<sp/>MERCHANTABILITY<sp/>or<sp/>FITNESS</highlight></codeline>
+<codeline lineno="14"><highlight class="comment"><sp/>*<sp/>FOR<sp/>A<sp/>PARTICULAR<sp/>PURPOSE.<sp/><sp/>See<sp/>the<sp/>GNU<sp/>General<sp/>Public<sp/>License<sp/>for<sp/>more</highlight></codeline>
+<codeline lineno="15"><highlight class="comment"><sp/>*<sp/>details.</highlight></codeline>
+<codeline lineno="16"><highlight class="comment"><sp/>*</highlight></codeline>
+<codeline lineno="17"><highlight class="comment"><sp/>*<sp/>You<sp/>should<sp/>have<sp/>received<sp/>a<sp/>copy<sp/>of<sp/>the<sp/>GNU<sp/>General<sp/>Public<sp/>License<sp/>along<sp/>with</highlight></codeline>
+<codeline lineno="18"><highlight class="comment"><sp/>*<sp/>this<sp/>program.<sp/><sp/>If<sp/>not,<sp/>see<sp/>&lt;https://www.gnu.org/licenses/&gt;.</highlight></codeline>
+<codeline lineno="19"><highlight class="comment"><sp/>*/</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;brayns/common/types.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;OctreeNode.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal">bioexplorer</highlight></codeline>
+<codeline lineno="28"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="29"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal">fields</highlight></codeline>
+<codeline lineno="30"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="36" refid="dc/d5a/classbioexplorer_1_1fields_1_1Octree" refkind="compound"><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="dc/d5a/classbioexplorer_1_1fields_1_1Octree" kindref="compound">Octree</ref></highlight></codeline>
+<codeline lineno="37"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="38"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="48"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="dc/d5a/classbioexplorer_1_1fields_1_1Octree_1a6b7d7e8ba65b6617517569beda5c993f" kindref="member">Octree</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>floats<sp/>&amp;events,<sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/>voxelSize,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>glm::vec3<sp/>&amp;minAABB,</highlight></codeline>
+<codeline lineno="49"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>glm::vec3<sp/>&amp;maxAABB);</highlight></codeline>
+<codeline lineno="50"><highlight class="normal"></highlight></codeline>
+<codeline lineno="55"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="dc/d5a/classbioexplorer_1_1fields_1_1Octree_1aa112587bf8fe2d11bcfd58c4c93a4969" kindref="member">~Octree</ref>();</highlight></codeline>
+<codeline lineno="56"><highlight class="normal"></highlight></codeline>
+<codeline lineno="62"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>glm::uvec3<sp/>&amp;<ref refid="dc/d5a/classbioexplorer_1_1fields_1_1Octree_1adecc4835cd7993aff4b5fb27aed27e6f" kindref="member">getVolumeDim</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="63"><highlight class="normal"></highlight></codeline>
+<codeline lineno="69"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>uint64_t<sp/><ref refid="dc/d5a/classbioexplorer_1_1fields_1_1Octree_1af64d241440afc4006889356c36f388a6" kindref="member">getVolumeSize</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="70"><highlight class="normal"></highlight></codeline>
+<codeline lineno="76"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>uint32_t<sp/><ref refid="dc/d5a/classbioexplorer_1_1fields_1_1Octree_1a629d350e554877702b0b8a6dc99132e7" kindref="member">getOctreeSize</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="77"><highlight class="normal"></highlight></codeline>
+<codeline lineno="83"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>uint32_ts<sp/>&amp;<ref refid="dc/d5a/classbioexplorer_1_1fields_1_1Octree_1a1028fc61fd5800990f65048877587150" kindref="member">getFlatIndexes</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="84"><highlight class="normal"></highlight></codeline>
+<codeline lineno="90"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>floats<sp/>&amp;<ref refid="dc/d5a/classbioexplorer_1_1fields_1_1Octree_1af07110e7d89a336cee162e3f68b74f29" kindref="member">getFlatData</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="91"><highlight class="normal"></highlight></codeline>
+<codeline lineno="92"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="93"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>_flattenChildren(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="d1/d60/classbioexplorer_1_1fields_1_1OctreeNode" kindref="compound">OctreeNode</ref><sp/>*node,<sp/>uint32_t<sp/>level);</highlight></codeline>
+<codeline lineno="94"><highlight class="normal"></highlight></codeline>
+<codeline lineno="95"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/>uint32_t<sp/>_pow2roundup(uint32_t<sp/>x)</highlight></codeline>
+<codeline lineno="96"><highlight class="normal"><sp/><sp/><sp/><sp/>{</highlight></codeline>
+<codeline lineno="97"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>--x;</highlight></codeline>
+<codeline lineno="98"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>x<sp/>|=<sp/>x<sp/>&gt;&gt;<sp/>1;</highlight></codeline>
+<codeline lineno="99"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>x<sp/>|=<sp/>x<sp/>&gt;&gt;<sp/>2;</highlight></codeline>
+<codeline lineno="100"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>x<sp/>|=<sp/>x<sp/>&gt;&gt;<sp/>4;</highlight></codeline>
+<codeline lineno="101"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>x<sp/>|=<sp/>x<sp/>&gt;&gt;<sp/>8;</highlight></codeline>
+<codeline lineno="102"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>x<sp/>|=<sp/>x<sp/>&gt;&gt;<sp/>16;</highlight></codeline>
+<codeline lineno="103"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>x<sp/>+<sp/>1;</highlight></codeline>
+<codeline lineno="104"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="105"><highlight class="normal"></highlight></codeline>
+<codeline lineno="106"><highlight class="normal"><sp/><sp/><sp/><sp/>glm::uvec3<sp/>_volumeDim;</highlight></codeline>
+<codeline lineno="107"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/>_volumeSize;</highlight></codeline>
+<codeline lineno="108"><highlight class="normal"><sp/><sp/><sp/><sp/>uint32_t<sp/>_octreeSize;</highlight></codeline>
+<codeline lineno="109"><highlight class="normal"></highlight></codeline>
+<codeline lineno="110"><highlight class="normal"><sp/><sp/><sp/><sp/>uint32_t<sp/>*_offsetPerLevel;</highlight></codeline>
+<codeline lineno="111"><highlight class="normal"></highlight></codeline>
+<codeline lineno="112"><highlight class="normal"><sp/><sp/><sp/><sp/>uint32_ts<sp/>_flatIndexes;</highlight></codeline>
+<codeline lineno="113"><highlight class="normal"><sp/><sp/><sp/><sp/>floats<sp/>_flatData;</highlight></codeline>
+<codeline lineno="114"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="115"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>fields</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="116"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>bioexplorer</highlight></codeline>
+    </programlisting>
+    <location file="/home/favreau/git/BioExplorer/bioexplorer/core/plugin/fields/Octree.h"/>
+  </compounddef>
+</doxygen>

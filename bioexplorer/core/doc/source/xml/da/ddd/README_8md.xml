@@ -1,0 +1,176 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.17">
+  <compounddef id="da/ddd/README_8md" kind="file" language="Markdown">
+    <compoundname>README.md</compoundname>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline><highlight class="normal">#<sp/>Blue<sp/>Brain<sp/>BioExplorer</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">&lt;table<sp/>border=0&gt;</highlight></codeline>
+<codeline><highlight class="normal">&lt;tr&gt;</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/>&lt;td&gt;</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>&lt;a<sp/>href=&quot;https://github.com/BlueBrain/BioExplorer/tags&quot;&gt;</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>&lt;img<sp/>src=&quot;https://img.shields.io/github/v/tag/BlueBrain/BioExplorer?style=for-the-badge&quot;<sp/>alt=&quot;Latest<sp/>release&quot;<sp/>/&gt;</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>&lt;/a&gt;</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/>&lt;/td&gt;</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/>&lt;td&gt;</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>&lt;a<sp/>href=&quot;https://github.com/BlueBrain/BioExplorer/blob/master/LICENSE.md&quot;&gt;</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>&lt;img<sp/>src=&quot;https://img.shields.io/github/license/BlueBrain/BioExplorer?style=for-the-badge&quot;<sp/>alt=&quot;License&quot;<sp/>/&gt;</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>&lt;/a&gt;</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/>&lt;/td&gt;</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>&lt;td&gt;</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;a<sp/>href=&quot;https://github.com/BlueBrain/BioExplorer/forks&quot;&gt;</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;img<sp/>src=&quot;https://img.shields.io/endpoint.svg?url=https%3A%2F%2Factions-badge.atrox.dev%2Fbluebrain%2Fbioexplorer%2Fbadge%3Fref%3Dmaster&amp;style=for-the-badge&quot;<sp/>alt=&quot;Actions&quot;&gt;</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;/a&gt;</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>&lt;/td&gt;</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/>&lt;td&gt;</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>&lt;a<sp/>href=&quot;https://github.com/BlueBrain/BioExplorer/stargazers&quot;&gt;</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>&lt;img<sp/>src=&quot;https://img.shields.io/github/stars/BlueBrain/BioExplorer?style=for-the-badge&quot;<sp/>alt=&quot;Stars&quot;<sp/>/&gt;</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>&lt;/a&gt;</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/>&lt;/td&gt;</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/>&lt;td&gt;</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>&lt;a<sp/>href=&quot;https://github.com/BlueBrain/BioExplorer/network/members&quot;&gt;</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>&lt;img<sp/>src=&quot;https://img.shields.io/github/forks/BlueBrain/BioExplorer?style=for-the-badge&quot;<sp/>alt=&quot;Forks&quot;<sp/>/&gt;</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>&lt;/a&gt;</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/>&lt;/td&gt;</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>&lt;td&gt;</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;a<sp/>href=&quot;http://www.pydocstyle.org/&quot;&gt;</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;img<sp/>src=&quot;https://img.shields.io/badge/docstrings-pydocstyle-informational?style=for-the-badge&quot;<sp/>alt=&quot;Pydocstyle&quot;&gt;</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;/a&gt;</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>&lt;/td&gt;</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>&lt;td&gt;</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;a<sp/>href=&quot;https://pypi.org/project/pycodestyle/&quot;&gt;</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;img<sp/>src=&quot;https://img.shields.io/badge/docstrings-pycodestyle-informational?style=for-the-badge&quot;<sp/>alt=&quot;Pycodestyle&quot;&gt;</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;/a&gt;</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>&lt;/td&gt;</highlight></codeline>
+<codeline><highlight class="normal">&lt;/tr&gt;</highlight></codeline>
+<codeline><highlight class="normal">&lt;/table&gt;</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">![](./bioexplorer/pythonsdk/doc/source/images/BBBE_banner.png)</highlight></codeline>
+<codeline></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">##<sp/>Description</highlight></codeline>
+<codeline><highlight class="normal">The<sp/>Blue<sp/>Brain<sp/>BioExplorer<sp/>(_BBBE_)<sp/>is<sp/>a<sp/>tool<sp/>for<sp/>scientists<sp/>to<sp/>extract<sp/>and<sp/>analyse<sp/>scientific<sp/>data<sp/>from<sp/>visualization.<sp/>_BBBE_<sp/>is<sp/>built<sp/>on<sp/>top<sp/>of<sp/>[Blue<sp/>Brain<sp/>Brayns](https://github.com/BlueBrain/Brayns),<sp/>the<sp/>Blue<sp/>Brain<sp/>rendering<sp/>platform.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">##<sp/>Architecture</highlight></codeline>
+<codeline><highlight class="normal">The<sp/>_BBBE_<sp/>application<sp/>is<sp/>built<sp/>on<sp/>top<sp/>of<sp/>Brayns,<sp/>the<sp/>Blue<sp/>Brain<sp/>rendering<sp/>platform.<sp/>The<sp/>role<sp/>of<sp/>the<sp/>application<sp/>is<sp/>to<sp/>use<sp/>the<sp/>underlying<sp/>technical<sp/>capabilities<sp/>of<sp/>the<sp/>rendering<sp/>platform<sp/>to<sp/>create<sp/>large<sp/>scale<sp/>and<sp/>accurate<sp/>3D<sp/>scenes<sp/>from<sp/>Jupyter<sp/>notebooks.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">##<sp/>General<sp/>components</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">###<sp/>Assemblies</highlight></codeline>
+<codeline><highlight class="normal">Assemblies<sp/>are<sp/>groups<sp/>of<sp/>biological<sp/>elements,<sp/>such<sp/>as<sp/>proteins,<sp/>membranes,<sp/>glycans,<sp/>etc.<sp/></highlight></codeline>
+<codeline><highlight class="normal">As<sp/>an<sp/>example,<sp/>a<sp/>virion<sp/>is<sp/>made<sp/>of<sp/>a<sp/>lipid<sp/>membrane,<sp/>spikes<sp/>proteins,<sp/>an<sp/>RNA<sp/>sequence,<sp/>etc,<sp/>and<sp/>all<sp/>those<sp/>elements<sp/>belong<sp/>to<sp/>the<sp/>same<sp/>object.<sp/>That’s<sp/>why<sp/>they<sp/>need<sp/>to<sp/>belong<sp/>to<sp/>the<sp/>same<sp/>container,<sp/>the<sp/>assembly.</highlight></codeline>
+<codeline><highlight class="normal">Assemblies<sp/>can<sp/>have<sp/>different<sp/>shapes:<sp/>Sphere,<sp/>Cube,<sp/>etc,<sp/>that<sp/>are<sp/>automatically<sp/>generated<sp/>according<sp/>to<sp/>the<sp/>parameters<sp/>of<sp/>individual</highlight></codeline>
+<codeline><highlight class="normal">components.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">###<sp/>Proteins</highlight></codeline>
+<codeline><highlight class="normal">Proteins<sp/>are<sp/>loaded<sp/>from<sp/>PDB<sp/>files.<sp/>Atoms,<sp/>non-polymer<sp/>chemicals<sp/>and<sp/>bonds<sp/>can<sp/>be<sp/>loaded<sp/>and<sp/>displayed<sp/>in<sp/>various<sp/>colour<sp/>schemes:<sp/>chain<sp/>id,<sp/>atom,<sp/>residue,<sp/>etc.</highlight></codeline>
+<codeline><highlight class="normal">Proteins<sp/>also<sp/>contain<sp/>the<sp/>amino<sp/>acid<sp/>sequences<sp/>of<sp/>the<sp/>individual<sp/>chains.<sp/>Sequences<sp/>that<sp/>can<sp/>be<sp/>used<sp/>to<sp/>query<sp/>glycosylation<sp/>sites,<sp/>or<sp/>functional<sp/>regions<sp/>of<sp/>the<sp/>protein.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">###<sp/>Glycans</highlight></codeline>
+<codeline><highlight class="normal">Glycans<sp/>are<sp/>small<sp/>proteins<sp/>that<sp/>are<sp/>attached<sp/>to<sp/>an<sp/>existing<sp/>protein<sp/>of<sp/>the<sp/>assembly.<sp/>Individual<sp/>glycan<sp/>trees<sp/>are<sp/>loaded<sp/>from<sp/>PDB<sp/>files<sp/>and<sp/>attached<sp/>to<sp/>the<sp/>glycosylation<sp/>sites<sp/>of<sp/>the<sp/>specified<sp/>protein.<sp/>By<sp/>default,<sp/>glycans<sp/>are<sp/>attached<sp/>to<sp/>all<sp/>available<sp/>glycosylation<sp/>sites,<sp/>but<sp/>a<sp/>set<sp/>of<sp/>specific<sp/>sites<sp/>can<sp/>be<sp/>specified.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">###<sp/>RNA<sp/>sequence</highlight></codeline>
+<codeline><highlight class="normal">An<sp/>RNA<sp/>sequence<sp/>can<sp/>be<sp/>loaded<sp/>from<sp/>a<sp/>text<sp/>sequence<sp/>of<sp/>codons.</highlight></codeline>
+<codeline><highlight class="normal">Various<sp/>shapes<sp/>can<sp/>be<sp/>selected<sp/>to<sp/>represent<sp/>the<sp/>RNA<sp/>sequence:<sp/>Trefoil<sp/>knot,<sp/>torus,<sp/>star,<sp/>etc.<sp/>This<sp/>allows<sp/>the<sp/>sequence<sp/>to<sp/>be<sp/>efficiently<sp/>packed<sp/>into<sp/>a<sp/>given<sp/>volume.<sp/>A<sp/>different<sp/>color<sp/>is<sp/>assigned<sp/>per<sp/>type<sp/>of<sp/>codon.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">###<sp/>Mesh-based<sp/>membranes</highlight></codeline>
+<codeline><highlight class="normal">Mesh-based<sp/>membranes<sp/>create<sp/>membranes<sp/>based<sp/>on<sp/>3D<sp/>meshes.<sp/>This<sp/>allows<sp/>the<sp/>construction<sp/>of<sp/>complex<sp/>membranes<sp/>where<sp/>mesh<sp/>faces<sp/>are<sp/>filled<sp/>with<sp/>proteins.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">##<sp/>Python<sp/>SDK</highlight></codeline>
+<codeline><highlight class="normal">A<sp/>simple<sp/>API<sp/>if<sp/>exposed<sp/>via<sp/>the<sp/>_BBBE_<sp/>python<sp/>library.<sp/>The<sp/>API<sp/>allows<sp/>scientists<sp/>to<sp/>easily<sp/>create<sp/>and<sp/>modify<sp/>assemblies,<sp/>according<sp/>the<sp/>biological<sp/>parameters.<sp/>The<sp/>_BBBE_<sp/>programming<sp/>language<sp/>is<sp/>not<sp/>necessarily<sp/>reflecting<sp/>the<sp/>underlying<sp/>implementation,<sp/>but<sp/>is<sp/>meant<sp/>to<sp/>be<sp/>as<sp/>simple<sp/>as<sp/>close<sp/>as<sp/>possible<sp/>to<sp/>the<sp/>language<sp/>used<sp/>by<sp/>the<sp/>scientists<sp/>to<sp/>describe<sp/>biological<sp/>assemblies.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">The<sp/>_BBBE_<sp/>Python<sp/>SDK<sp/>is<sp/>available<sp/>on<sp/>[pypi](https://pypi.org/project/bioexplorer/)</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">##<sp/>Documentation</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">See<sp/>[here](https://bluebrain.github.io/BioExplorer/)<sp/>for<sp/>detailed<sp/>documentation<sp/>of<sp/>the<sp/>source<sp/>code.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">##<sp/>Deployment</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">_BBBE_<sp/>binaries<sp/>are<sp/>publicaly<sp/>available<sp/>as<sp/>docker<sp/>images.<sp/>_BBBE_<sp/>is<sp/>designed<sp/>to<sp/>run<sp/>in<sp/>distributed<sp/>mode,<sp/>and<sp/>is<sp/>composed<sp/>of<sp/>3<sp/>modules:<sp/>A<sp/>[server](https://hub.docker.com/r/bluebrain/bioexplorer),<sp/>a<sp/>[python<sp/>SDK](https://hub.docker.com/r/bluebrain/bioexplorer-python-sdk),<sp/>and<sp/>a<sp/>[web<sp/>user<sp/>interface](https://hub.docker.com/r/bluebrain/bioexplorer-ui).<sp/>This<sp/>means<sp/>that<sp/>there<sp/>are<sp/>3<sp/>docker<sp/>images<sp/>to<sp/>be<sp/>downloaded<sp/>on<sp/>run.<sp/>Those<sp/>images<sp/>can<sp/>of<sp/>course<sp/>run<sp/>on<sp/>different<sp/>machines.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">In<sp/>this<sp/>example,<sp/>we<sp/>will<sp/>expose<sp/>the<sp/>server<sp/>on<sp/>port<sp/>5000,<sp/>the<sp/>python<sp/>SDK<sp/>jupyter<sp/>notebooks<sp/>on<sp/>port<sp/>5001,<sp/>and<sp/>the<sp/>user<sp/>inferface<sp/>on<sp/>port<sp/>5002.<sp/>One<sp/>is<sp/>free<sp/>to<sp/>change<sp/>those<sp/>ports<sp/>at<sp/>will.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">###<sp/>Server</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">```bash</highlight></codeline>
+<codeline><highlight class="normal">docker<sp/>run<sp/>-ti<sp/>--rm<sp/>-p<sp/>5000:8200<sp/>bluebrain/bioexplorer</highlight></codeline>
+<codeline><highlight class="normal">```</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">###<sp/>Python<sp/>SDK</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">```bash</highlight></codeline>
+<codeline><highlight class="normal">docker<sp/>run<sp/>-ti<sp/>--rm<sp/>-p<sp/>5001:8888<sp/>bluebrain/bioexplorer-python-sdk</highlight></codeline>
+<codeline><highlight class="normal">```</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">###<sp/>Web<sp/>User<sp/>Interface</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">```bash</highlight></codeline>
+<codeline><highlight class="normal">docker<sp/>run<sp/>-ti<sp/>--rm<sp/>-p<sp/>5002:8080<sp/>bluebrain/bioexplorer-ui</highlight></codeline>
+<codeline><highlight class="normal">```</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">![](./bioexplorer/pythonsdk/doc/source/images/BBBE_screenshot.png)</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">##<sp/>Building<sp/>from<sp/>Source</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">###<sp/>Blue<sp/>Brain<sp/>Brayns<sp/>1.0.0</highlight></codeline>
+<codeline><highlight class="normal">In<sp/>order<sp/>to<sp/>run<sp/>the<sp/>BioExplorer,<sp/>it<sp/>is<sp/>necessary<sp/>to<sp/>build<sp/>Blue<sp/>Brain<sp/>Brayns<sp/>first.<sp/>Please<sp/>refer<sp/>to<sp/>the<sp/>[documentation](https://github.com/favreau/Brayns/blob/master/README.md)<sp/>and<sp/>following<sp/>the<sp/>steps<sp/>in<sp/>the<sp/>&quot;Building<sp/>from<sp/>source&quot;<sp/>paragraph.<sp/>Note<sp/>that<sp/>the<sp/>BioExplorer<sp/>is<sp/>currently<sp/>only<sp/>supported<sp/>with<sp/>[version<sp/>1.0.0<sp/>(e12fa84)](https://github.com/favreau/Brayns/releases/tag/1.0.1)<sp/>of<sp/>[Blue<sp/>Brain<sp/>Brayns](https://github.com/favreau/Brayns/).</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">###<sp/>BioExplorer</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">####<sp/>Compile</highlight></codeline>
+<codeline><highlight class="normal">With<sp/>[Blue<sp/>Brain<sp/>Brayns](https://github.com/favreau/Brayns/)<sp/>compiled<sp/>and<sp/>installed<sp/>in<sp/>the<sp/>&lt;brayns_installation_folder&gt;,<sp/>run<sp/>the<sp/>statements<sp/>to<sp/>build<sp/>the<sp/>BioExplorer.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">```bash</highlight></codeline>
+<codeline><highlight class="normal">git<sp/>clone<sp/>https://github.com/BlueBrain/BioExplorer.git</highlight></codeline>
+<codeline><highlight class="normal">mkdir<sp/>build</highlight></codeline>
+<codeline><highlight class="normal">cd<sp/>build</highlight></codeline>
+<codeline><highlight class="normal">CMAKE_PREFIX_PATH=&lt;brayns_installation_folder&gt;<sp/>cmake<sp/>..<sp/>-DCMAKE_INSTALL_PREFIX=&lt;brayns_installation_folder&gt;</highlight></codeline>
+<codeline><highlight class="normal">make<sp/>install</highlight></codeline>
+<codeline><highlight class="normal">```</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">####<sp/>Run</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">The<sp/>BioExplorer<sp/>being<sp/>a<sp/>plug-in<sp/>for<sp/>[Blue<sp/>Brain<sp/>Brayns](https://github.com/favreau/Brayns/),<sp/>the<sp/>following<sp/>commands<sp/>can<sp/>be<sp/>used<sp/>to<sp/>start<sp/>the<sp/>backend:</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">```bash</highlight></codeline>
+<codeline><highlight class="normal">export<sp/>LD_LIBRARY_PATH=&lt;brayns_installation_folder&gt;/lib:${LD_LIBRARY_PATH}</highlight></codeline>
+<codeline><highlight class="normal">export<sp/>PATH=&lt;brayns_installation_folder&gt;/bin:${PATH}</highlight></codeline>
+<codeline><highlight class="normal">braynsService<sp/>--http-server<sp/>localhost:5000<sp/>--plugin<sp/>BioExplorer</highlight></codeline>
+<codeline><highlight class="normal">```</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">##<sp/>Simple<sp/>example</highlight></codeline>
+<codeline><highlight class="normal">Considering<sp/>that<sp/>the<sp/>_BBBE_<sp/>server<sp/>is<sp/>running<sp/>on<sp/>the<sp/>local<sp/>host,<sp/>on<sp/>port<sp/>5000,<sp/>the<sp/>simplest<sp/>example<sp/>to<sp/>visualize<sp/>a<sp/>coronavirus<sp/>is:</highlight></codeline>
+<codeline><highlight class="normal">```python</highlight></codeline>
+<codeline><highlight class="normal">from<sp/>bioexplorer<sp/>import<sp/>BioExplorer</highlight></codeline>
+<codeline><highlight class="normal">be<sp/>=<sp/>BioExplorer(&apos;localhost:5000&apos;)</highlight></codeline>
+<codeline><highlight class="normal">resource_folder<sp/>=<sp/>&apos;../../tests/test_files/&apos;</highlight></codeline>
+<codeline><highlight class="normal">name=&apos;Coronavirus&apos;</highlight></codeline>
+<codeline><highlight class="normal">be.add_coronavirus(name=name,<sp/>resource_folder=resource_folder)</highlight></codeline>
+<codeline><highlight class="normal">```</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">#<sp/>License</highlight></codeline>
+<codeline><highlight class="normal">_BBBE_<sp/>is<sp/>available<sp/>to<sp/>download<sp/>and<sp/>use<sp/>under<sp/>the<sp/>GNU<sp/>General<sp/>Public<sp/>License<sp/>([GPL](https://www.gnu.org/licenses/gpl.html),<sp/>or<sp/>“free<sp/>software”).<sp/>The<sp/>code<sp/>is<sp/>open<sp/>sourced<sp/>with<sp/>approval<sp/>from<sp/>the<sp/>open<sp/>sourcing<sp/>committee<sp/>and<sp/>principal<sp/>coordinators<sp/>of<sp/>the<sp/>Blue<sp/>Brain<sp/>Project<sp/>in<sp/>February<sp/>2021.</highlight></codeline>
+<codeline></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">#<sp/>Contact</highlight></codeline>
+<codeline><highlight class="normal">For<sp/>more<sp/>information<sp/>on<sp/>_BBBE_,<sp/>please<sp/>contact:</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">__Cyrille<sp/>Favreau__<sp/><sp/></highlight></codeline>
+<codeline><highlight class="normal">Senior<sp/>Scientific<sp/>Visualization<sp/>Engineer<sp/><sp/></highlight></codeline>
+<codeline><highlight class="normal">Blue<sp/>Brain<sp/>Project<sp/><sp/></highlight></codeline>
+<codeline><highlight class="normal">[cyrille.favreau@epfl.ch](cyrille.favreau@epfl.ch)<sp/></highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">#<sp/>Funding<sp/>&amp;<sp/>Acknowledgment</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">The<sp/>development<sp/>of<sp/>this<sp/>software<sp/>was<sp/>supported<sp/>by<sp/>funding<sp/>to<sp/>the<sp/>Blue<sp/>Brain<sp/>Project,<sp/>a<sp/>research<sp/>center<sp/>of<sp/>the<sp/>École<sp/>polytechnique<sp/>fédérale<sp/>de<sp/>Lausanne<sp/>(EPFL),<sp/>from<sp/>the<sp/>Swiss<sp/>government’s<sp/>ETH<sp/>Board<sp/>of<sp/>the<sp/>Swiss<sp/>Federal<sp/>Institutes<sp/>of<sp/>Technology.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">COPYRIGHT<sp/>2020–2021,<sp/>Blue<sp/>Brain<sp/>Project/EPFL</highlight></codeline>
+    </programlisting>
+    <location file="/home/favreau/git/BioExplorer/README.md"/>
+  </compounddef>
+</doxygen>

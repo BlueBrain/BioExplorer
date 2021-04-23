@@ -1,0 +1,212 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.17">
+  <compounddef id="d7/d84/structbioexplorer_1_1details_1_1MaterialsDetails" kind="struct" language="C++" prot="public">
+    <compoundname>bioexplorer::details::MaterialsDetails</compoundname>
+    <includes refid="d7/df8/Types_8h" local="no">Types.h</includes>
+      <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="d7/d84/structbioexplorer_1_1details_1_1MaterialsDetails_1a1907d0558dea63b36e4ade285a06bfb5" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; int32_t &gt;</type>
+        <definition>std::vector&lt;int32_t&gt; bioexplorer::details::MaterialsDetails::modelIds</definition>
+        <argsstring></argsstring>
+        <name>modelIds</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>List of model identifiers </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/favreau/git/BioExplorer/bioexplorer/core/plugin/common/Types.h" line="580" column="17" bodyfile="/home/favreau/git/BioExplorer/bioexplorer/core/plugin/common/Types.h" bodystart="580" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="d7/d84/structbioexplorer_1_1details_1_1MaterialsDetails_1a6f6ef2b481c114920d816557e5397c37" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; int32_t &gt;</type>
+        <definition>std::vector&lt;int32_t&gt; bioexplorer::details::MaterialsDetails::materialIds</definition>
+        <argsstring></argsstring>
+        <name>materialIds</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>List of material identifiers </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/favreau/git/BioExplorer/bioexplorer/core/plugin/common/Types.h" line="582" column="17" bodyfile="/home/favreau/git/BioExplorer/bioexplorer/core/plugin/common/Types.h" bodystart="582" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="d7/d84/structbioexplorer_1_1details_1_1MaterialsDetails_1ad5445f0005de017a5e697c65d384ab15" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; float &gt;</type>
+        <definition>std::vector&lt;float&gt; bioexplorer::details::MaterialsDetails::diffuseColors</definition>
+        <argsstring></argsstring>
+        <name>diffuseColors</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>List of RGB values for diffuse colors </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/favreau/git/BioExplorer/bioexplorer/core/plugin/common/Types.h" line="584" column="17" bodyfile="/home/favreau/git/BioExplorer/bioexplorer/core/plugin/common/Types.h" bodystart="584" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="d7/d84/structbioexplorer_1_1details_1_1MaterialsDetails_1a80d0c4edbbfa9f92556637401d30b0a0" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; float &gt;</type>
+        <definition>std::vector&lt;float&gt; bioexplorer::details::MaterialsDetails::specularColors</definition>
+        <argsstring></argsstring>
+        <name>specularColors</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>List of RGB values for specular colors </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/favreau/git/BioExplorer/bioexplorer/core/plugin/common/Types.h" line="586" column="17" bodyfile="/home/favreau/git/BioExplorer/bioexplorer/core/plugin/common/Types.h" bodystart="586" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="d7/d84/structbioexplorer_1_1details_1_1MaterialsDetails_1a19ced7cbd4eb3d7dcf3fd924907a6026" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; float &gt;</type>
+        <definition>std::vector&lt;float&gt; bioexplorer::details::MaterialsDetails::specularExponents</definition>
+        <argsstring></argsstring>
+        <name>specularExponents</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>List of values for specular exponents </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/favreau/git/BioExplorer/bioexplorer/core/plugin/common/Types.h" line="588" column="17" bodyfile="/home/favreau/git/BioExplorer/bioexplorer/core/plugin/common/Types.h" bodystart="588" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="d7/d84/structbioexplorer_1_1details_1_1MaterialsDetails_1ab2c8e5939ab8378170b077cca0ff4e8e" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; float &gt;</type>
+        <definition>std::vector&lt;float&gt; bioexplorer::details::MaterialsDetails::reflectionIndices</definition>
+        <argsstring></argsstring>
+        <name>reflectionIndices</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>List of values for reflection indices </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/favreau/git/BioExplorer/bioexplorer/core/plugin/common/Types.h" line="590" column="17" bodyfile="/home/favreau/git/BioExplorer/bioexplorer/core/plugin/common/Types.h" bodystart="590" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="d7/d84/structbioexplorer_1_1details_1_1MaterialsDetails_1a28c4100c77ab6922bfa74bf3ff8253b9" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; float &gt;</type>
+        <definition>std::vector&lt;float&gt; bioexplorer::details::MaterialsDetails::opacities</definition>
+        <argsstring></argsstring>
+        <name>opacities</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>List of values for opacities </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/favreau/git/BioExplorer/bioexplorer/core/plugin/common/Types.h" line="592" column="17" bodyfile="/home/favreau/git/BioExplorer/bioexplorer/core/plugin/common/Types.h" bodystart="592" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="d7/d84/structbioexplorer_1_1details_1_1MaterialsDetails_1a9bd1aba343dfa08bd81fc3f9aadf4835" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; float &gt;</type>
+        <definition>std::vector&lt;float&gt; bioexplorer::details::MaterialsDetails::refractionIndices</definition>
+        <argsstring></argsstring>
+        <name>refractionIndices</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>List of values for refraction indices </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/favreau/git/BioExplorer/bioexplorer/core/plugin/common/Types.h" line="594" column="17" bodyfile="/home/favreau/git/BioExplorer/bioexplorer/core/plugin/common/Types.h" bodystart="594" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="d7/d84/structbioexplorer_1_1details_1_1MaterialsDetails_1aae87c0d0dcd9bddd724823a23624b752" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; float &gt;</type>
+        <definition>std::vector&lt;float&gt; bioexplorer::details::MaterialsDetails::emissions</definition>
+        <argsstring></argsstring>
+        <name>emissions</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>List of values for light emission </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/favreau/git/BioExplorer/bioexplorer/core/plugin/common/Types.h" line="596" column="17" bodyfile="/home/favreau/git/BioExplorer/bioexplorer/core/plugin/common/Types.h" bodystart="596" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="d7/d84/structbioexplorer_1_1details_1_1MaterialsDetails_1a01d955e03e0b2e181d7bac068092b8d8" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; float &gt;</type>
+        <definition>std::vector&lt;float&gt; bioexplorer::details::MaterialsDetails::glossinesses</definition>
+        <argsstring></argsstring>
+        <name>glossinesses</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>List of values for glossiness </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/favreau/git/BioExplorer/bioexplorer/core/plugin/common/Types.h" line="598" column="17" bodyfile="/home/favreau/git/BioExplorer/bioexplorer/core/plugin/common/Types.h" bodystart="598" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="d7/d84/structbioexplorer_1_1details_1_1MaterialsDetails_1a88040e1014c4e80c48ae3e666a79d093" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; int32_t &gt;</type>
+        <definition>std::vector&lt;int32_t&gt; bioexplorer::details::MaterialsDetails::shadingModes</definition>
+        <argsstring></argsstring>
+        <name>shadingModes</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>List of values for shading modes </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/favreau/git/BioExplorer/bioexplorer/core/plugin/common/Types.h" line="600" column="17" bodyfile="/home/favreau/git/BioExplorer/bioexplorer/core/plugin/common/Types.h" bodystart="600" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="d7/d84/structbioexplorer_1_1details_1_1MaterialsDetails_1abdd6e1eb126e386fcdf9ed85a8dbf1c6" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; float &gt;</type>
+        <definition>std::vector&lt;float&gt; bioexplorer::details::MaterialsDetails::userParameters</definition>
+        <argsstring></argsstring>
+        <name>userParameters</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>List of values for user defined parameters </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/favreau/git/BioExplorer/bioexplorer/core/plugin/common/Types.h" line="602" column="17" bodyfile="/home/favreau/git/BioExplorer/bioexplorer/core/plugin/common/Types.h" bodystart="602" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="d7/d84/structbioexplorer_1_1details_1_1MaterialsDetails_1a954692e07755f928b8af8061e9705644" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; int32_t &gt;</type>
+        <definition>std::vector&lt;int32_t&gt; bioexplorer::details::MaterialsDetails::chameleonModes</definition>
+        <argsstring></argsstring>
+        <name>chameleonModes</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>List of values for chameleon mode parameters </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/favreau/git/BioExplorer/bioexplorer/core/plugin/common/Types.h" line="604" column="17" bodyfile="/home/favreau/git/BioExplorer/bioexplorer/core/plugin/common/Types.h" bodystart="604" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+<para>Structure containing attributes of materials attached to one or several Brayns models. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="/home/favreau/git/BioExplorer/bioexplorer/core/plugin/common/Types.h" line="578" column="1" bodyfile="/home/favreau/git/BioExplorer/bioexplorer/core/plugin/common/Types.h" bodystart="577" bodyend="605"/>
+    <listofallmembers>
+      <member refid="d7/d84/structbioexplorer_1_1details_1_1MaterialsDetails_1a954692e07755f928b8af8061e9705644" prot="public" virt="non-virtual"><scope>bioexplorer::details::MaterialsDetails</scope><name>chameleonModes</name></member>
+      <member refid="d7/d84/structbioexplorer_1_1details_1_1MaterialsDetails_1ad5445f0005de017a5e697c65d384ab15" prot="public" virt="non-virtual"><scope>bioexplorer::details::MaterialsDetails</scope><name>diffuseColors</name></member>
+      <member refid="d7/d84/structbioexplorer_1_1details_1_1MaterialsDetails_1aae87c0d0dcd9bddd724823a23624b752" prot="public" virt="non-virtual"><scope>bioexplorer::details::MaterialsDetails</scope><name>emissions</name></member>
+      <member refid="d7/d84/structbioexplorer_1_1details_1_1MaterialsDetails_1a01d955e03e0b2e181d7bac068092b8d8" prot="public" virt="non-virtual"><scope>bioexplorer::details::MaterialsDetails</scope><name>glossinesses</name></member>
+      <member refid="d7/d84/structbioexplorer_1_1details_1_1MaterialsDetails_1a6f6ef2b481c114920d816557e5397c37" prot="public" virt="non-virtual"><scope>bioexplorer::details::MaterialsDetails</scope><name>materialIds</name></member>
+      <member refid="d7/d84/structbioexplorer_1_1details_1_1MaterialsDetails_1a1907d0558dea63b36e4ade285a06bfb5" prot="public" virt="non-virtual"><scope>bioexplorer::details::MaterialsDetails</scope><name>modelIds</name></member>
+      <member refid="d7/d84/structbioexplorer_1_1details_1_1MaterialsDetails_1a28c4100c77ab6922bfa74bf3ff8253b9" prot="public" virt="non-virtual"><scope>bioexplorer::details::MaterialsDetails</scope><name>opacities</name></member>
+      <member refid="d7/d84/structbioexplorer_1_1details_1_1MaterialsDetails_1ab2c8e5939ab8378170b077cca0ff4e8e" prot="public" virt="non-virtual"><scope>bioexplorer::details::MaterialsDetails</scope><name>reflectionIndices</name></member>
+      <member refid="d7/d84/structbioexplorer_1_1details_1_1MaterialsDetails_1a9bd1aba343dfa08bd81fc3f9aadf4835" prot="public" virt="non-virtual"><scope>bioexplorer::details::MaterialsDetails</scope><name>refractionIndices</name></member>
+      <member refid="d7/d84/structbioexplorer_1_1details_1_1MaterialsDetails_1a88040e1014c4e80c48ae3e666a79d093" prot="public" virt="non-virtual"><scope>bioexplorer::details::MaterialsDetails</scope><name>shadingModes</name></member>
+      <member refid="d7/d84/structbioexplorer_1_1details_1_1MaterialsDetails_1a80d0c4edbbfa9f92556637401d30b0a0" prot="public" virt="non-virtual"><scope>bioexplorer::details::MaterialsDetails</scope><name>specularColors</name></member>
+      <member refid="d7/d84/structbioexplorer_1_1details_1_1MaterialsDetails_1a19ced7cbd4eb3d7dcf3fd924907a6026" prot="public" virt="non-virtual"><scope>bioexplorer::details::MaterialsDetails</scope><name>specularExponents</name></member>
+      <member refid="d7/d84/structbioexplorer_1_1details_1_1MaterialsDetails_1abdd6e1eb126e386fcdf9ed85a8dbf1c6" prot="public" virt="non-virtual"><scope>bioexplorer::details::MaterialsDetails</scope><name>userParameters</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

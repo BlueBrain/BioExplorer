@@ -1,0 +1,13 @@
+.. _exhale_variable_Types_8h_1ae4a8587ecd8638555731648552a4a117:
+
+Variable bioexplorer::ARG_OOC_BRICKS_FOLDER
+===========================================
+
+- Defined in :ref:`file__home_favreau_git_BioExplorer_bioexplorer_core_plugin_common_Types.h`
+
+
+Variable Documentation
+----------------------
+
+
+.. doxygenvariable:: bioexplorer::ARG_OOC_BRICKS_FOLDER

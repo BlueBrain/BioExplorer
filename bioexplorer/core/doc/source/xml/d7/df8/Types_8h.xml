@@ -1,0 +1,1017 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.17">
+  <compounddef id="d7/df8/Types_8h" kind="file" language="C++">
+    <compoundname>Types.h</compoundname>
+    <includes local="no">Defines.h</includes>
+    <includes local="no">brayns/engineapi/Scene.h</includes>
+    <includes local="no">map</includes>
+    <includes local="no">set</includes>
+    <includes local="no">string</includes>
+    <includes local="no">vector</includes>
+    <includedby refid="d5/d31/Params_8h" local="no">/home/favreau/git/BioExplorer/bioexplorer/core/plugin/api/Params.h</includedby>
+    <includedby refid="d9/d2b/Assembly_8h" local="no">/home/favreau/git/BioExplorer/bioexplorer/core/plugin/biology/Assembly.h</includedby>
+    <includedby refid="db/d92/Node_8h" local="no">/home/favreau/git/BioExplorer/bioexplorer/core/plugin/biology/Node.h</includedby>
+    <includedby refid="df/df6/GeneralSettings_8h" local="yes">/home/favreau/git/BioExplorer/bioexplorer/core/plugin/common/GeneralSettings.h</includedby>
+    <includedby refid="d9/ded/Utils_8h" local="no">/home/favreau/git/BioExplorer/bioexplorer/core/plugin/common/Utils.h</includedby>
+    <includedby refid="d0/d36/DBConnector_8h" local="no">/home/favreau/git/BioExplorer/bioexplorer/core/plugin/io/db/DBConnector.h</includedby>
+    <includedby refid="d2/ddf/OOCManager_8h" local="no">/home/favreau/git/BioExplorer/bioexplorer/core/plugin/io/OOCManager.h</includedby>
+    <incdepgraph>
+      <node id="3">
+        <label>brayns/engineapi/Scene.h</label>
+      </node>
+      <node id="6">
+        <label>string</label>
+      </node>
+      <node id="4">
+        <label>map</label>
+      </node>
+      <node id="7">
+        <label>vector</label>
+      </node>
+      <node id="1">
+        <label>/home/favreau/git/BioExplorer/bioexplorer/core/plugin/common/Types.h</label>
+        <link refid="d7/df8/Types_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+      </node>
+      <node id="5">
+        <label>set</label>
+      </node>
+      <node id="2">
+        <label>Defines.h</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="36">
+        <label>/home/favreau/git/BioExplorer/bioexplorer/core/plugin/meshing/PointCloudMesher.cpp</label>
+        <link refid="d5/df0/PointCloudMesher_8cpp_source"/>
+      </node>
+      <node id="16">
+        <label>/home/favreau/git/BioExplorer/bioexplorer/core/plugin/biology/MeshBasedMembrane.h</label>
+        <link refid="d1/d0e/MeshBasedMembrane_8h_source"/>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+        <childnode refid="18" relation="include">
+        </childnode>
+      </node>
+      <node id="35">
+        <label>/home/favreau/git/BioExplorer/bioexplorer/core/plugin/io/OOCManager.cpp</label>
+        <link refid="de/d91/OOCManager_8cpp_source"/>
+      </node>
+      <node id="28">
+        <label>/home/favreau/git/BioExplorer/bioexplorer/core/plugin/common/GeneralSettings.cpp</label>
+        <link refid="d6/d4b/GeneralSettings_8cpp_source"/>
+      </node>
+      <node id="39">
+        <label>/home/favreau/git/BioExplorer/bioexplorer/core/plugin/io/db/DBConnector.h</label>
+        <link refid="d0/d36/DBConnector_8h_source"/>
+        <childnode refid="40" relation="include">
+        </childnode>
+        <childnode refid="34" relation="include">
+        </childnode>
+        <childnode refid="35" relation="include">
+        </childnode>
+      </node>
+      <node id="12">
+        <label>/home/favreau/git/BioExplorer/bioexplorer/core/plugin/biology/Assembly.cpp</label>
+        <link refid="df/d5c/Assembly_8cpp_source"/>
+      </node>
+      <node id="37">
+        <label>/home/favreau/git/BioExplorer/bioexplorer/core/plugin/meshing/SurfaceMesher.cpp</label>
+        <link refid="d8/de3/SurfaceMesher_8cpp_source"/>
+      </node>
+      <node id="20">
+        <label>/home/favreau/git/BioExplorer/bioexplorer/core/plugin/biology/Protein.h</label>
+        <link refid="d2/d6d/Protein_8h_source"/>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="18" relation="include">
+        </childnode>
+        <childnode refid="21" relation="include">
+        </childnode>
+      </node>
+      <node id="21">
+        <label>/home/favreau/git/BioExplorer/bioexplorer/core/tests/Protein.cpp</label>
+        <link refid="d1/df4/tests_2Protein_8cpp_source"/>
+      </node>
+      <node id="17">
+        <label>/home/favreau/git/BioExplorer/bioexplorer/core/plugin/biology/MeshBasedMembrane.cpp</label>
+        <link refid="d9/d18/plugin_2biology_2MeshBasedMembrane_8cpp_source"/>
+      </node>
+      <node id="30">
+        <label>/home/favreau/git/BioExplorer/bioexplorer/core/plugin/common/UniqueId.cpp</label>
+        <link refid="d7/d1b/UniqueId_8cpp_source"/>
+      </node>
+      <node id="11">
+        <label>/home/favreau/git/BioExplorer/bioexplorer/core/plugin/biology/Assembly.h</label>
+        <link refid="d9/d2b/Assembly_8h_source"/>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>/home/favreau/git/BioExplorer/bioexplorer/core/plugin/api/Params.h</label>
+        <link refid="d5/d31/Params_8h_source"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+      </node>
+      <node id="8">
+        <label>/home/favreau/git/BioExplorer/bioexplorer/core/plugin/biology/Protein.cpp</label>
+        <link refid="de/d3a/plugin_2biology_2Protein_8cpp_source"/>
+      </node>
+      <node id="38">
+        <label>/home/favreau/git/BioExplorer/bioexplorer/core/plugin/common/Utils.h</label>
+        <link refid="d9/ded/Utils_8h_source"/>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+        <childnode refid="22" relation="include">
+        </childnode>
+        <childnode refid="25" relation="include">
+        </childnode>
+        <childnode refid="31" relation="include">
+        </childnode>
+        <childnode refid="32" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>/home/favreau/git/BioExplorer/bioexplorer/core/plugin/BioExplorerPlugin.h</label>
+        <link refid="d1/d09/BioExplorerPlugin_8h_source"/>
+        <childnode refid="5" relation="include">
+        </childnode>
+      </node>
+      <node id="40">
+        <label>/home/favreau/git/BioExplorer/bioexplorer/core/plugin/io/CacheLoader.h</label>
+        <link refid="d4/d44/CacheLoader_8h_source"/>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="35" relation="include">
+        </childnode>
+      </node>
+      <node id="9">
+        <label>/home/favreau/git/BioExplorer/bioexplorer/core/tests/Glycans.cpp</label>
+        <link refid="d8/d20/tests_2Glycans_8cpp_source"/>
+      </node>
+      <node id="29">
+        <label>/home/favreau/git/BioExplorer/bioexplorer/core/plugin/common/Logs.h</label>
+        <link refid="db/d12/Logs_8h_source"/>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+        <childnode refid="22" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="25" relation="include">
+        </childnode>
+        <childnode refid="27" relation="include">
+        </childnode>
+        <childnode refid="30" relation="include">
+        </childnode>
+        <childnode refid="31" relation="include">
+        </childnode>
+        <childnode refid="32" relation="include">
+        </childnode>
+        <childnode refid="33" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="34" relation="include">
+        </childnode>
+        <childnode refid="35" relation="include">
+        </childnode>
+        <childnode refid="36" relation="include">
+        </childnode>
+        <childnode refid="37" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="18" relation="include">
+        </childnode>
+        <childnode refid="21" relation="include">
+        </childnode>
+        <childnode refid="26" relation="include">
+        </childnode>
+      </node>
+      <node id="10">
+        <label>/home/favreau/git/BioExplorer/bioexplorer/core/plugin/io/CacheLoader.cpp</label>
+        <link refid="d5/dec/CacheLoader_8cpp_source"/>
+      </node>
+      <node id="3">
+        <label>/home/favreau/git/BioExplorer/bioexplorer/core/plugin/api/Params.cpp</label>
+        <link refid="db/d37/Params_8cpp_source"/>
+      </node>
+      <node id="34">
+        <label>/home/favreau/git/BioExplorer/bioexplorer/core/plugin/io/db/DBConnector.cpp</label>
+        <link refid="df/da2/DBConnector_8cpp_source"/>
+      </node>
+      <node id="5">
+        <label>/home/favreau/git/BioExplorer/bioexplorer/core/plugin/BioExplorerPlugin.cpp</label>
+        <link refid="d2/d19/BioExplorerPlugin_8cpp_source"/>
+      </node>
+      <node id="26">
+        <label>/home/favreau/git/BioExplorer/bioexplorer/core/tests/RNASequence.cpp</label>
+        <link refid="d3/d6d/tests_2RNASequence_8cpp_source"/>
+      </node>
+      <node id="15">
+        <label>/home/favreau/git/BioExplorer/bioexplorer/core/plugin/biology/Membrane.cpp</label>
+        <link refid="d9/d00/Membrane_8cpp_source"/>
+      </node>
+      <node id="19">
+        <label>/home/favreau/git/BioExplorer/bioexplorer/core/plugin/biology/Molecule.h</label>
+        <link refid="d4/dbe/Molecule_8h_source"/>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="20" relation="include">
+        </childnode>
+        <childnode refid="22" relation="include">
+        </childnode>
+      </node>
+      <node id="32">
+        <label>/home/favreau/git/BioExplorer/bioexplorer/core/plugin/fields/FieldsHandler.cpp</label>
+        <link refid="d9/dc0/FieldsHandler_8cpp_source"/>
+      </node>
+      <node id="41">
+        <label>/home/favreau/git/BioExplorer/bioexplorer/core/plugin/io/OOCManager.h</label>
+        <link refid="d2/ddf/OOCManager_8h_source"/>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="35" relation="include">
+        </childnode>
+      </node>
+      <node id="23">
+        <label>/home/favreau/git/BioExplorer/bioexplorer/core/plugin/biology/Node.cpp</label>
+        <link refid="dc/d73/Node_8cpp_source"/>
+      </node>
+      <node id="13">
+        <label>/home/favreau/git/BioExplorer/bioexplorer/core/plugin/biology/Node.h</label>
+        <link refid="db/d92/Node_8h_source"/>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+        <childnode refid="19" relation="include">
+        </childnode>
+        <childnode refid="23" relation="include">
+        </childnode>
+        <childnode refid="24" relation="include">
+        </childnode>
+      </node>
+      <node id="22">
+        <label>/home/favreau/git/BioExplorer/bioexplorer/core/plugin/biology/Molecule.cpp</label>
+        <link refid="dc/db1/Molecule_8cpp_source"/>
+      </node>
+      <node id="1">
+        <label>/home/favreau/git/BioExplorer/bioexplorer/core/plugin/common/Types.h</label>
+        <link refid="d7/df8/Types_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="27" relation="include">
+        </childnode>
+        <childnode refid="38" relation="include">
+        </childnode>
+        <childnode refid="39" relation="include">
+        </childnode>
+        <childnode refid="41" relation="include">
+        </childnode>
+      </node>
+      <node id="7">
+        <label>/home/favreau/git/BioExplorer/bioexplorer/core/plugin/biology/Glycans.cpp</label>
+        <link refid="de/d05/plugin_2biology_2Glycans_8cpp_source"/>
+      </node>
+      <node id="18">
+        <label>/home/favreau/git/BioExplorer/bioexplorer/core/tests/MeshBasedMembrane.cpp</label>
+        <link refid="de/de2/tests_2MeshBasedMembrane_8cpp_source"/>
+      </node>
+      <node id="24">
+        <label>/home/favreau/git/BioExplorer/bioexplorer/core/plugin/biology/RNASequence.h</label>
+        <link refid="d0/d7d/RNASequence_8h_source"/>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="25" relation="include">
+        </childnode>
+        <childnode refid="26" relation="include">
+        </childnode>
+      </node>
+      <node id="33">
+        <label>/home/favreau/git/BioExplorer/bioexplorer/core/plugin/fields/Octree.cpp</label>
+        <link refid="dd/d4a/Octree_8cpp_source"/>
+      </node>
+      <node id="14">
+        <label>/home/favreau/git/BioExplorer/bioexplorer/core/plugin/biology/Membrane.h</label>
+        <link refid="d1/d66/Membrane_8h_source"/>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+      </node>
+      <node id="27">
+        <label>/home/favreau/git/BioExplorer/bioexplorer/core/plugin/common/GeneralSettings.h</label>
+        <link refid="df/df6/GeneralSettings_8h_source"/>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="22" relation="include">
+        </childnode>
+        <childnode refid="25" relation="include">
+        </childnode>
+        <childnode refid="28" relation="include">
+        </childnode>
+        <childnode refid="29" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="35" relation="include">
+        </childnode>
+        <childnode refid="37" relation="include">
+        </childnode>
+      </node>
+      <node id="31">
+        <label>/home/favreau/git/BioExplorer/bioexplorer/core/plugin/common/Utils.cpp</label>
+        <link refid="df/d0c/Utils_8cpp_source"/>
+      </node>
+      <node id="6">
+        <label>/home/favreau/git/BioExplorer/bioexplorer/core/plugin/biology/Glycans.h</label>
+        <link refid="df/de2/Glycans_8h_source"/>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+      </node>
+      <node id="25">
+        <label>/home/favreau/git/BioExplorer/bioexplorer/core/plugin/biology/RNASequence.cpp</label>
+        <link refid="d2/dab/plugin_2biology_2RNASequence_8cpp_source"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="df/dc7/structbioexplorer_1_1details_1_1RGBColorDetails" prot="public">bioexplorer::details::RGBColorDetails</innerclass>
+    <innerclass refid="d6/d45/structbioexplorer_1_1details_1_1Response" prot="public">bioexplorer::details::Response</innerclass>
+    <innerclass refid="d0/d14/structbioexplorer_1_1details_1_1GeneralSettingsDetails" prot="public">bioexplorer::details::GeneralSettingsDetails</innerclass>
+    <innerclass refid="d7/dd2/structbioexplorer_1_1details_1_1RandomizationDetails" prot="public">bioexplorer::details::RandomizationDetails</innerclass>
+    <innerclass refid="d1/da5/structbioexplorer_1_1details_1_1AssemblyDetails" prot="public">bioexplorer::details::AssemblyDetails</innerclass>
+    <innerclass refid="d6/dd0/structbioexplorer_1_1details_1_1AssemblyTransformationsDetails" prot="public">bioexplorer::details::AssemblyTransformationsDetails</innerclass>
+    <innerclass refid="d0/ddb/structbioexplorer_1_1details_1_1MembraneDetails" prot="public">bioexplorer::details::MembraneDetails</innerclass>
+    <innerclass refid="de/d0e/structbioexplorer_1_1details_1_1ProteinDetails" prot="public">bioexplorer::details::ProteinDetails</innerclass>
+    <innerclass refid="dd/d92/structbioexplorer_1_1details_1_1SugarsDetails" prot="public">bioexplorer::details::SugarsDetails</innerclass>
+    <innerclass refid="da/d3c/structbioexplorer_1_1details_1_1MeshBasedMembraneDetails" prot="public">bioexplorer::details::MeshBasedMembraneDetails</innerclass>
+    <innerclass refid="d1/d00/structbioexplorer_1_1details_1_1RNASequenceDetails" prot="public">bioexplorer::details::RNASequenceDetails</innerclass>
+    <innerclass refid="d8/d02/structbioexplorer_1_1details_1_1AminoAcidSequenceAsStringDetails" prot="public">bioexplorer::details::AminoAcidSequenceAsStringDetails</innerclass>
+    <innerclass refid="db/de5/structbioexplorer_1_1details_1_1AminoAcidSequenceAsRangesDetails" prot="public">bioexplorer::details::AminoAcidSequenceAsRangesDetails</innerclass>
+    <innerclass refid="d6/dda/structbioexplorer_1_1details_1_1AminoAcidInformationDetails" prot="public">bioexplorer::details::AminoAcidInformationDetails</innerclass>
+    <innerclass refid="d3/dd3/structbioexplorer_1_1details_1_1AminoAcidDetails" prot="public">bioexplorer::details::AminoAcidDetails</innerclass>
+    <innerclass refid="db/dd8/structbioexplorer_1_1details_1_1AddGridDetails" prot="public">bioexplorer::details::AddGridDetails</innerclass>
+    <innerclass refid="d3/dd5/structbioexplorer_1_1details_1_1ColorSchemeDetails" prot="public">bioexplorer::details::ColorSchemeDetails</innerclass>
+    <innerclass refid="d7/dab/structbioexplorer_1_1details_1_1ProteinInstanceTransformationDetails" prot="public">bioexplorer::details::ProteinInstanceTransformationDetails</innerclass>
+    <innerclass refid="d3/d7d/structbioexplorer_1_1details_1_1MaterialIdsDetails" prot="public">bioexplorer::details::MaterialIdsDetails</innerclass>
+    <innerclass refid="d6/dc9/structbioexplorer_1_1details_1_1ModelIdDetails" prot="public">bioexplorer::details::ModelIdDetails</innerclass>
+    <innerclass refid="d7/d84/structbioexplorer_1_1details_1_1MaterialsDetails" prot="public">bioexplorer::details::MaterialsDetails</innerclass>
+    <innerclass refid="dc/d5b/structbioexplorer_1_1details_1_1BuildFieldsDetails" prot="public">bioexplorer::details::BuildFieldsDetails</innerclass>
+    <innerclass refid="d8/d1b/structbioexplorer_1_1details_1_1ModelIdFileAccessDetails" prot="public">bioexplorer::details::ModelIdFileAccessDetails</innerclass>
+    <innerclass refid="de/d38/structbioexplorer_1_1details_1_1FileAccessDetails" prot="public">bioexplorer::details::FileAccessDetails</innerclass>
+    <innerclass refid="dc/dd9/structbioexplorer_1_1details_1_1DatabaseAccessDetails" prot="public">bioexplorer::details::DatabaseAccessDetails</innerclass>
+    <innerclass refid="d5/dc6/structbioexplorer_1_1details_1_1BuildPointCloudDetails" prot="public">bioexplorer::details::BuildPointCloudDetails</innerclass>
+    <innerclass refid="d7/dbc/structbioexplorer_1_1details_1_1ModelsVisibilityDetails" prot="public">bioexplorer::details::ModelsVisibilityDetails</innerclass>
+    <innerclass refid="d1/d25/structbioexplorer_1_1details_1_1OOCSceneConfigurationDetails" prot="public">bioexplorer::details::OOCSceneConfigurationDetails</innerclass>
+    <innerclass refid="df/d99/structbioexplorer_1_1biology_1_1Atom" prot="public">bioexplorer::biology::Atom</innerclass>
+    <innerclass refid="de/dde/structbioexplorer_1_1biology_1_1ResidueSequence" prot="public">bioexplorer::biology::ResidueSequence</innerclass>
+    <innerclass refid="da/d20/structbioexplorer_1_1biology_1_1AminoAcid" prot="public">bioexplorer::biology::AminoAcid</innerclass>
+    <innernamespace refid="d8/d8e/namespacebioexplorer">bioexplorer</innernamespace>
+    <innernamespace refid="d0/d1f/namespacebioexplorer_1_1details">bioexplorer::details</innernamespace>
+    <innernamespace refid="db/d42/namespacebioexplorer_1_1biology">bioexplorer::biology</innernamespace>
+    <innernamespace refid="d1/d74/namespacebioexplorer_1_1io">bioexplorer::io</innernamespace>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="comment">/*</highlight></codeline>
+<codeline lineno="2"><highlight class="comment"><sp/>*<sp/>The<sp/>Blue<sp/>Brain<sp/>BioExplorer<sp/>is<sp/>a<sp/>tool<sp/>for<sp/>scientists<sp/>to<sp/>extract<sp/>and<sp/>analyse</highlight></codeline>
+<codeline lineno="3"><highlight class="comment"><sp/>*<sp/>scientific<sp/>data<sp/>from<sp/>visualization</highlight></codeline>
+<codeline lineno="4"><highlight class="comment"><sp/>*</highlight></codeline>
+<codeline lineno="5"><highlight class="comment"><sp/>*<sp/>Copyright<sp/>2020-2021<sp/>Blue<sp/>BrainProject<sp/>/<sp/>EPFL</highlight></codeline>
+<codeline lineno="6"><highlight class="comment"><sp/>*</highlight></codeline>
+<codeline lineno="7"><highlight class="comment"><sp/>*<sp/>This<sp/>program<sp/>is<sp/>free<sp/>software:<sp/>you<sp/>can<sp/>redistribute<sp/>it<sp/>and/or<sp/>modify<sp/>it<sp/>under</highlight></codeline>
+<codeline lineno="8"><highlight class="comment"><sp/>*<sp/>the<sp/>terms<sp/>of<sp/>the<sp/>GNU<sp/>General<sp/>Public<sp/>License<sp/>as<sp/>published<sp/>by<sp/>the<sp/>Free<sp/>Software</highlight></codeline>
+<codeline lineno="9"><highlight class="comment"><sp/>*<sp/>Foundation,<sp/>either<sp/>version<sp/>3<sp/>of<sp/>the<sp/>License,<sp/>or<sp/>(at<sp/>your<sp/>option)<sp/>any<sp/>later</highlight></codeline>
+<codeline lineno="10"><highlight class="comment"><sp/>*<sp/>version.</highlight></codeline>
+<codeline lineno="11"><highlight class="comment"><sp/>*</highlight></codeline>
+<codeline lineno="12"><highlight class="comment"><sp/>*<sp/>This<sp/>program<sp/>is<sp/>distributed<sp/>in<sp/>the<sp/>hope<sp/>that<sp/>it<sp/>will<sp/>be<sp/>useful,<sp/>but<sp/>WITHOUT</highlight></codeline>
+<codeline lineno="13"><highlight class="comment"><sp/>*<sp/>ANY<sp/>WARRANTY;<sp/>without<sp/>even<sp/>the<sp/>implied<sp/>warranty<sp/>of<sp/>MERCHANTABILITY<sp/>or<sp/>FITNESS</highlight></codeline>
+<codeline lineno="14"><highlight class="comment"><sp/>*<sp/>FOR<sp/>A<sp/>PARTICULAR<sp/>PURPOSE.<sp/><sp/>See<sp/>the<sp/>GNU<sp/>General<sp/>Public<sp/>License<sp/>for<sp/>more</highlight></codeline>
+<codeline lineno="15"><highlight class="comment"><sp/>*<sp/>details.</highlight></codeline>
+<codeline lineno="16"><highlight class="comment"><sp/>*</highlight></codeline>
+<codeline lineno="17"><highlight class="comment"><sp/>*<sp/>You<sp/>should<sp/>have<sp/>received<sp/>a<sp/>copy<sp/>of<sp/>the<sp/>GNU<sp/>General<sp/>Public<sp/>License<sp/>along<sp/>with</highlight></codeline>
+<codeline lineno="18"><highlight class="comment"><sp/>*<sp/>this<sp/>program.<sp/><sp/>If<sp/>not,<sp/>see<sp/>&lt;https://www.gnu.org/licenses/&gt;.</highlight></codeline>
+<codeline lineno="19"><highlight class="comment"><sp/>*/</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;Defines.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;brayns/engineapi/Scene.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;map&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;set&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="29"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="30"><highlight class="normal"></highlight></codeline>
+<codeline lineno="31"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal">bioexplorer</highlight></codeline>
+<codeline lineno="32"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="33"><highlight class="normal"></highlight><highlight class="keyword">using<sp/>namespace<sp/></highlight><highlight class="normal">brayns;</highlight></codeline>
+<codeline lineno="34"><highlight class="normal"></highlight></codeline>
+<codeline lineno="35"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Consts</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="36"><highlight class="normal"></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/>BOND_RADIUS<sp/>=<sp/>0.025f;</highlight></codeline>
+<codeline lineno="37"><highlight class="normal"></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/>DEFAULT_STICK_DISTANCE<sp/>=<sp/>0.175f;</highlight></codeline>
+<codeline lineno="38"><highlight class="normal"></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>brayns::Vector3f<sp/>UP_VECTOR<sp/>=<sp/>{0.f,<sp/>0.f,<sp/>1.f};</highlight></codeline>
+<codeline lineno="39"><highlight class="normal"></highlight></codeline>
+<codeline lineno="40"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Metadata</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="41"><highlight class="normal"></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/>METADATA_ASSEMBLY<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;Assembly&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="42"><highlight class="normal"></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/>METADATA_TITLE<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;Title&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="43"><highlight class="normal"></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/>METADATA_HEADER<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;Header&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="44"><highlight class="normal"></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/>METADATA_ATOMS<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;Atoms&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="45"><highlight class="normal"></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/>METADATA_BONDS<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;Bonds&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="46"><highlight class="normal"></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/>METADATA_SIZE<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;Size&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="47"><highlight class="normal"></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/>METADATA_BRICK_ID<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;BrickId&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="48"><highlight class="normal"></highlight></codeline>
+<codeline lineno="49"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Command<sp/>line<sp/>arguments</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="50"><highlight class="normal"></highlight><highlight class="preprocessor">#ifdef<sp/>USE_PQXX</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="51"><highlight class="normal"></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/>ARG_OOC_ENABLED<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;--ooc-enabled&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="52"><highlight class="normal"></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/>ARG_OOC_DB_HOST<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;--ooc-db-host&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="53"><highlight class="normal"></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/>ARG_OOC_DB_PORT<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;--ooc-db-port&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="54"><highlight class="normal"></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/>ARG_OOC_DB_NAME<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;--ooc-db-dbname&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="55"><highlight class="normal"></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/>ARG_OOC_DB_USER<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;--ooc-db-user&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="56"><highlight class="normal"></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/>ARG_OOC_DB_PASSWORD<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;--ooc-db-password&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="57"><highlight class="normal"></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/>ARG_OOC_DB_SCHEMA<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;--ooc-db-schema&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="58"><highlight class="normal"></highlight><highlight class="preprocessor">#else</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="59"><highlight class="normal"></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/>ARG_OOC_BRICKS_FOLDER<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;--ooc-bricks-folder&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="60"><highlight class="normal"></highlight><highlight class="preprocessor">#endif</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="61"><highlight class="normal"></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/>ARG_OOC_VISIBLE_BRICKS<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;--ooc-visible-bricks&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="62"><highlight class="normal"></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/>ARG_OOC_UPDATE_FREQUENCY<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;--ooc-update-frequency&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="63"><highlight class="normal"></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/>ARG_OOC_UNLOAD_BRICKS<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;--ooc-unload-bricks&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="64"><highlight class="normal"></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/>ARG_OOC_SHOW_GRID<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;--ooc-show-grid&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="65"><highlight class="normal"></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/>ARG_OOC_NB_BRICKS_PER_CYCLE<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;--ooc-nb-bricks-per-cycle&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="66"><highlight class="normal"></highlight></codeline>
+<codeline lineno="67"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Environment<sp/>variables</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="68"><highlight class="normal"></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/>ENV_ROCKETS_DISABLE_SCENE_BROADCASTING<sp/>=</highlight></codeline>
+<codeline lineno="69"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;ROCKETS_DISABLE_SCENE_BROADCASTING&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="70"><highlight class="normal"></highlight></codeline>
+<codeline lineno="71"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Typedefs</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="72"><highlight class="normal"></highlight><highlight class="keyword">typedef</highlight><highlight class="normal"><sp/>std::map&lt;std::string,<sp/>std::string&gt;<sp/>StringMap;</highlight></codeline>
+<codeline lineno="73"><highlight class="normal"></highlight><highlight class="keyword">typedef</highlight><highlight class="normal"><sp/>Vector3f<sp/>Color;</highlight></codeline>
+<codeline lineno="74"><highlight class="normal"></highlight><highlight class="keyword">typedef</highlight><highlight class="normal"><sp/>std::vector&lt;Color&gt;<sp/>Palette;</highlight></codeline>
+<codeline lineno="75"><highlight class="normal"></highlight><highlight class="keyword">typedef</highlight><highlight class="normal"><sp/>std::vector&lt;Quaterniond&gt;<sp/>Quaternions;</highlight></codeline>
+<codeline lineno="76"><highlight class="normal"></highlight><highlight class="keyword">typedef</highlight><highlight class="normal"><sp/>std::vector&lt;float&gt;<sp/>floats;</highlight></codeline>
+<codeline lineno="77"><highlight class="normal"></highlight><highlight class="keyword">typedef</highlight><highlight class="normal"><sp/>std::vector&lt;Vector3f&gt;<sp/>Vector3fs;</highlight></codeline>
+<codeline lineno="78"><highlight class="normal"></highlight><highlight class="keyword">typedef</highlight><highlight class="normal"><sp/>std::vector&lt;Vector2ui&gt;<sp/>Vector2uis;</highlight></codeline>
+<codeline lineno="79"><highlight class="normal"></highlight><highlight class="keyword">typedef</highlight><highlight class="normal"><sp/>std::vector&lt;uint32_t&gt;<sp/>uint32_ts;</highlight></codeline>
+<codeline lineno="80"><highlight class="normal"></highlight><highlight class="keyword">typedef</highlight><highlight class="normal"><sp/>std::map&lt;std::string,<sp/>std::string&gt;<sp/>CommandLineArguments;</highlight></codeline>
+<codeline lineno="81"><highlight class="normal"></highlight></codeline>
+<codeline lineno="82"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal">details</highlight></codeline>
+<codeline lineno="83"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="88" refid="df/dc7/structbioexplorer_1_1details_1_1RGBColorDetails" refkind="compound"><highlight class="keyword">typedef</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">struct</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="89"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="90"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">short</highlight><highlight class="normal"><sp/>r,<sp/>g,<sp/>b;</highlight></codeline>
+<codeline lineno="91"><highlight class="normal">}<sp/><ref refid="df/dc7/structbioexplorer_1_1details_1_1RGBColorDetails" kindref="compound">RGBColorDetails</ref>;</highlight></codeline>
+<codeline lineno="92"><highlight class="normal"></highlight><highlight class="keyword">typedef</highlight><highlight class="normal"><sp/>std::map&lt;std::string,<sp/>RGBColorDetails&gt;<sp/>RGBColorDetailsMap;</highlight></codeline>
+<codeline lineno="93"><highlight class="normal"></highlight></codeline>
+<codeline lineno="98" refid="d6/d45/structbioexplorer_1_1details_1_1Response" refkind="compound"><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="d6/d45/structbioexplorer_1_1details_1_1Response" kindref="compound">Response</ref></highlight></codeline>
+<codeline lineno="99"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="101" refid="d6/d45/structbioexplorer_1_1details_1_1Response_1aa57d15d34301b53895c82a161a1e9adf" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>status{</highlight><highlight class="keyword">true</highlight><highlight class="normal">};</highlight></codeline>
+<codeline lineno="103" refid="d6/d45/structbioexplorer_1_1details_1_1Response_1a82e8722e8bccf30450394fbbfb7053bb" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="d6/d45/structbioexplorer_1_1details_1_1Response_1a82e8722e8bccf30450394fbbfb7053bb" kindref="member">contents</ref>;</highlight></codeline>
+<codeline lineno="104"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="105"><highlight class="normal"></highlight></codeline>
+<codeline lineno="110" refid="d0/d14/structbioexplorer_1_1details_1_1GeneralSettingsDetails" refkind="compound"><highlight class="keyword">typedef</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">struct</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="111"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="112"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>modelVisibilityOnCreation;</highlight></codeline>
+<codeline lineno="113"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>offFolder;</highlight></codeline>
+<codeline lineno="114"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>loggingEnabled;</highlight></codeline>
+<codeline lineno="115"><highlight class="normal">}<sp/><ref refid="d0/d14/structbioexplorer_1_1details_1_1GeneralSettingsDetails" kindref="compound">GeneralSettingsDetails</ref>;</highlight></codeline>
+<codeline lineno="116"><highlight class="normal"></highlight></codeline>
+<codeline lineno="121"><highlight class="keyword">enum<sp/>class</highlight><highlight class="normal"><sp/>PositionRandomizationType</highlight></codeline>
+<codeline lineno="122"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="123"><highlight class="normal"><sp/><sp/><sp/><sp/>circular<sp/>=<sp/>0,</highlight></codeline>
+<codeline lineno="124"><highlight class="normal"><sp/><sp/><sp/><sp/>radial<sp/>=<sp/>1</highlight></codeline>
+<codeline lineno="125"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="126"><highlight class="normal"></highlight></codeline>
+<codeline lineno="127" refid="d7/dd2/structbioexplorer_1_1details_1_1RandomizationDetails" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">typedef</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">struct</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="128"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="129"><highlight class="normal"><sp/><sp/><sp/><sp/>uint32_t<sp/>seed;</highlight></codeline>
+<codeline lineno="130"><highlight class="normal"><sp/><sp/><sp/><sp/>PositionRandomizationType<sp/>randomizationType;</highlight></codeline>
+<codeline lineno="131"><highlight class="normal"><sp/><sp/><sp/><sp/>uint32_t<sp/>positionSeed;</highlight></codeline>
+<codeline lineno="132"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/>positionStrength;</highlight></codeline>
+<codeline lineno="133"><highlight class="normal"><sp/><sp/><sp/><sp/>uint32_t<sp/>rotationSeed;</highlight></codeline>
+<codeline lineno="134"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/>rotationStrength;</highlight></codeline>
+<codeline lineno="135"><highlight class="normal">}<sp/><ref refid="d7/dd2/structbioexplorer_1_1details_1_1RandomizationDetails" kindref="compound">RandomizationDetails</ref>;</highlight></codeline>
+<codeline lineno="136"><highlight class="normal"></highlight></codeline>
+<codeline lineno="141"><highlight class="keyword">enum<sp/>class</highlight><highlight class="normal"><sp/>RNAShape</highlight></codeline>
+<codeline lineno="142"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="144"><highlight class="normal"><sp/><sp/><sp/><sp/>trefoilKnot<sp/>=<sp/>0,</highlight></codeline>
+<codeline lineno="146"><highlight class="normal"><sp/><sp/><sp/><sp/>torus<sp/>=<sp/>1,</highlight></codeline>
+<codeline lineno="148"><highlight class="normal"><sp/><sp/><sp/><sp/>star<sp/>=<sp/>2,</highlight></codeline>
+<codeline lineno="150"><highlight class="normal"><sp/><sp/><sp/><sp/>spring<sp/>=<sp/>3,</highlight></codeline>
+<codeline lineno="152"><highlight class="normal"><sp/><sp/><sp/><sp/>heart<sp/>=<sp/>4,</highlight></codeline>
+<codeline lineno="154"><highlight class="normal"><sp/><sp/><sp/><sp/>thing<sp/>=<sp/>5,</highlight></codeline>
+<codeline lineno="156"><highlight class="normal"><sp/><sp/><sp/><sp/>moebius<sp/>=<sp/>6</highlight></codeline>
+<codeline lineno="157"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="158"><highlight class="normal"></highlight></codeline>
+<codeline lineno="163" refid="d1/da5/structbioexplorer_1_1details_1_1AssemblyDetails" refkind="compound"><highlight class="keyword">typedef</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">struct</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="164"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="166" refid="d1/da5/structbioexplorer_1_1details_1_1AssemblyDetails_1a8c92de193c5ae17d6e198a314c276263" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="d1/da5/structbioexplorer_1_1details_1_1AssemblyDetails_1a8c92de193c5ae17d6e198a314c276263" kindref="member">name</ref>;</highlight></codeline>
+<codeline lineno="168" refid="d1/da5/structbioexplorer_1_1details_1_1AssemblyDetails_1acb7b453ddb1e5abd43f692525ad8aba1" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;float&gt;<sp/><ref refid="d1/da5/structbioexplorer_1_1details_1_1AssemblyDetails_1acb7b453ddb1e5abd43f692525ad8aba1" kindref="member">position</ref>;</highlight></codeline>
+<codeline lineno="170" refid="d1/da5/structbioexplorer_1_1details_1_1AssemblyDetails_1a864d39143710d71acb35ab76286f39c7" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;float&gt;<sp/><ref refid="d1/da5/structbioexplorer_1_1details_1_1AssemblyDetails_1a864d39143710d71acb35ab76286f39c7" kindref="member">rotation</ref>;</highlight></codeline>
+<codeline lineno="172" refid="d1/da5/structbioexplorer_1_1details_1_1AssemblyDetails_1ad45c3317a0ebdfb92b8b31628a473faf" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;float&gt;<sp/><ref refid="d1/da5/structbioexplorer_1_1details_1_1AssemblyDetails_1ad45c3317a0ebdfb92b8b31628a473faf" kindref="member">clippingPlanes</ref>;</highlight></codeline>
+<codeline lineno="173"><highlight class="normal">}<sp/><ref refid="d1/da5/structbioexplorer_1_1details_1_1AssemblyDetails" kindref="compound">AssemblyDetails</ref>;</highlight></codeline>
+<codeline lineno="174"><highlight class="normal"></highlight></codeline>
+<codeline lineno="179" refid="d6/dd0/structbioexplorer_1_1details_1_1AssemblyTransformationsDetails" refkind="compound"><highlight class="keyword">typedef</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">struct</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="180"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="182" refid="d6/dd0/structbioexplorer_1_1details_1_1AssemblyTransformationsDetails_1a258b623562c96345938227ede7203d1b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="d6/dd0/structbioexplorer_1_1details_1_1AssemblyTransformationsDetails_1a258b623562c96345938227ede7203d1b" kindref="member">assemblyName</ref>;</highlight></codeline>
+<codeline lineno="185" refid="d6/dd0/structbioexplorer_1_1details_1_1AssemblyTransformationsDetails_1a11db84b7858ed743341030c976bb4aed" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="d6/dd0/structbioexplorer_1_1details_1_1AssemblyTransformationsDetails_1a11db84b7858ed743341030c976bb4aed" kindref="member">name</ref>;</highlight></codeline>
+<codeline lineno="187" refid="d6/dd0/structbioexplorer_1_1details_1_1AssemblyTransformationsDetails_1ab36738fae9855df4c02ea9d3bc979ebe" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;float&gt;<sp/><ref refid="d6/dd0/structbioexplorer_1_1details_1_1AssemblyTransformationsDetails_1ab36738fae9855df4c02ea9d3bc979ebe" kindref="member">transformations</ref>;</highlight></codeline>
+<codeline lineno="188"><highlight class="normal">}<sp/><ref refid="d6/dd0/structbioexplorer_1_1details_1_1AssemblyTransformationsDetails" kindref="compound">AssemblyTransformationsDetails</ref>;</highlight></codeline>
+<codeline lineno="189"><highlight class="normal"></highlight></codeline>
+<codeline lineno="194"><highlight class="keyword">enum<sp/>class</highlight><highlight class="normal"><sp/>ProteinRepresentation</highlight></codeline>
+<codeline lineno="195"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="197"><highlight class="normal"><sp/><sp/><sp/><sp/>atoms<sp/>=<sp/>0,</highlight></codeline>
+<codeline lineno="199"><highlight class="normal"><sp/><sp/><sp/><sp/>atoms_and_sticks<sp/>=<sp/>1,</highlight></codeline>
+<codeline lineno="201"><highlight class="normal"><sp/><sp/><sp/><sp/>contour<sp/>=<sp/>2,</highlight></codeline>
+<codeline lineno="203"><highlight class="normal"><sp/><sp/><sp/><sp/>surface<sp/>=<sp/>3,</highlight></codeline>
+<codeline lineno="205"><highlight class="normal"><sp/><sp/><sp/><sp/>union_of_balls<sp/>=<sp/>4,</highlight></codeline>
+<codeline lineno="207"><highlight class="normal"><sp/><sp/><sp/><sp/>debug<sp/>=<sp/>5</highlight></codeline>
+<codeline lineno="208"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="209"><highlight class="normal"></highlight></codeline>
+<codeline lineno="214"><highlight class="keyword">enum<sp/>class</highlight><highlight class="normal"><sp/>AssemblyShape</highlight></codeline>
+<codeline lineno="215"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="217"><highlight class="normal"><sp/><sp/><sp/><sp/>spherical<sp/>=<sp/>0,</highlight></codeline>
+<codeline lineno="219"><highlight class="normal"><sp/><sp/><sp/><sp/>planar<sp/>=<sp/>1,</highlight></codeline>
+<codeline lineno="221"><highlight class="normal"><sp/><sp/><sp/><sp/>sinusoidal<sp/>=<sp/>2,</highlight></codeline>
+<codeline lineno="223"><highlight class="normal"><sp/><sp/><sp/><sp/>cubic<sp/>=<sp/>3,</highlight></codeline>
+<codeline lineno="225"><highlight class="normal"><sp/><sp/><sp/><sp/>fan<sp/>=<sp/>4,</highlight></codeline>
+<codeline lineno="227"><highlight class="normal"><sp/><sp/><sp/><sp/>bezier<sp/>=<sp/>5,</highlight></codeline>
+<codeline lineno="229"><highlight class="normal"><sp/><sp/><sp/><sp/>spherical_to_planar<sp/>=<sp/>6</highlight></codeline>
+<codeline lineno="230"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="231"><highlight class="normal"></highlight></codeline>
+<codeline lineno="236" refid="d0/ddb/structbioexplorer_1_1details_1_1MembraneDetails" refkind="compound"><highlight class="keyword">typedef</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">struct</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="237"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="239" refid="d0/ddb/structbioexplorer_1_1details_1_1MembraneDetails_1aa5a20257edd8f55a83eea2236ec68f4a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="d0/ddb/structbioexplorer_1_1details_1_1MembraneDetails_1aa5a20257edd8f55a83eea2236ec68f4a" kindref="member">assemblyName</ref>;</highlight></codeline>
+<codeline lineno="241" refid="d0/ddb/structbioexplorer_1_1details_1_1MembraneDetails_1ab6fcf548034dd9a61eff941c78158e3d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="d0/ddb/structbioexplorer_1_1details_1_1MembraneDetails_1ab6fcf548034dd9a61eff941c78158e3d" kindref="member">name</ref>;</highlight></codeline>
+<codeline lineno="243" refid="d0/ddb/structbioexplorer_1_1details_1_1MembraneDetails_1a30aefc04997b7ff46f1ba5d1221c15b6" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="d0/ddb/structbioexplorer_1_1details_1_1MembraneDetails_1a30aefc04997b7ff46f1ba5d1221c15b6" kindref="member">content1</ref>;</highlight></codeline>
+<codeline lineno="246" refid="d0/ddb/structbioexplorer_1_1details_1_1MembraneDetails_1a7555f64c23e5123a32f425090ca1323b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="d0/ddb/structbioexplorer_1_1details_1_1MembraneDetails_1a7555f64c23e5123a32f425090ca1323b" kindref="member">content2</ref>;</highlight></codeline>
+<codeline lineno="249" refid="d0/ddb/structbioexplorer_1_1details_1_1MembraneDetails_1a0f245cdb5f1f3514d1023f5e03f2e49f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="d0/ddb/structbioexplorer_1_1details_1_1MembraneDetails_1a0f245cdb5f1f3514d1023f5e03f2e49f" kindref="member">content3</ref>;</highlight></codeline>
+<codeline lineno="252" refid="d0/ddb/structbioexplorer_1_1details_1_1MembraneDetails_1a76a585e518f075e4c92f5b8ccc58a899" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="d0/ddb/structbioexplorer_1_1details_1_1MembraneDetails_1a76a585e518f075e4c92f5b8ccc58a899" kindref="member">content4</ref>;</highlight></codeline>
+<codeline lineno="254" refid="d0/ddb/structbioexplorer_1_1details_1_1MembraneDetails_1a53da2ad086cf6c76c0f68792a09d423d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>AssemblyShape<sp/><ref refid="d0/ddb/structbioexplorer_1_1details_1_1MembraneDetails_1a53da2ad086cf6c76c0f68792a09d423d" kindref="member">shape</ref>;</highlight></codeline>
+<codeline lineno="256" refid="d0/ddb/structbioexplorer_1_1details_1_1MembraneDetails_1ad49c53f9b7dfde983be650c6b1301125" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;float&gt;<sp/><ref refid="d0/ddb/structbioexplorer_1_1details_1_1MembraneDetails_1ad49c53f9b7dfde983be650c6b1301125" kindref="member">assemblyParams</ref>;</highlight></codeline>
+<codeline lineno="258" refid="d0/ddb/structbioexplorer_1_1details_1_1MembraneDetails_1a3e82e2f03f4db4c9ba300e1f746cd2d8" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/><ref refid="d0/ddb/structbioexplorer_1_1details_1_1MembraneDetails_1a3e82e2f03f4db4c9ba300e1f746cd2d8" kindref="member">atomRadiusMultiplier</ref>;</highlight></codeline>
+<codeline lineno="260" refid="d0/ddb/structbioexplorer_1_1details_1_1MembraneDetails_1a67cdbfc91a0dde4e72e665da01318006" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="d0/ddb/structbioexplorer_1_1details_1_1MembraneDetails_1a67cdbfc91a0dde4e72e665da01318006" kindref="member">loadBonds</ref>;</highlight></codeline>
+<codeline lineno="262" refid="d0/ddb/structbioexplorer_1_1details_1_1MembraneDetails_1ad5833c005a4d0e25c44191b448ae3c56" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="d0/ddb/structbioexplorer_1_1details_1_1MembraneDetails_1ad5833c005a4d0e25c44191b448ae3c56" kindref="member">loadNonPolymerChemicals</ref>;</highlight></codeline>
+<codeline lineno="265" refid="d0/ddb/structbioexplorer_1_1details_1_1MembraneDetails_1a4857b2b56adb5e781eed76e49b69fd19" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>ProteinRepresentation<sp/><ref refid="d0/ddb/structbioexplorer_1_1details_1_1MembraneDetails_1a4857b2b56adb5e781eed76e49b69fd19" kindref="member">representation</ref>;</highlight></codeline>
+<codeline lineno="267" refid="d0/ddb/structbioexplorer_1_1details_1_1MembraneDetails_1afd97f33d63711b4146885da3a5f24bd3" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;size_t&gt;<sp/><ref refid="d0/ddb/structbioexplorer_1_1details_1_1MembraneDetails_1afd97f33d63711b4146885da3a5f24bd3" kindref="member">chainIds</ref>;</highlight></codeline>
+<codeline lineno="269" refid="d0/ddb/structbioexplorer_1_1details_1_1MembraneDetails_1a5b8aff232c54391521bc4fa2a7c1d64f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="d0/ddb/structbioexplorer_1_1details_1_1MembraneDetails_1a5b8aff232c54391521bc4fa2a7c1d64f" kindref="member">recenter</ref>;</highlight></codeline>
+<codeline lineno="271" refid="d0/ddb/structbioexplorer_1_1details_1_1MembraneDetails_1a991fea5a0dae751549cb5697e8b62d19" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="d0/ddb/structbioexplorer_1_1details_1_1MembraneDetails_1a991fea5a0dae751549cb5697e8b62d19" kindref="member">occurrences</ref>;</highlight></codeline>
+<codeline lineno="273" refid="d0/ddb/structbioexplorer_1_1details_1_1MembraneDetails_1a24be96838fdd96a4b6eed6b172ae5399" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="d0/ddb/structbioexplorer_1_1details_1_1MembraneDetails_1a24be96838fdd96a4b6eed6b172ae5399" kindref="member">randomSeed</ref>;</highlight></codeline>
+<codeline lineno="275" refid="d0/ddb/structbioexplorer_1_1details_1_1MembraneDetails_1a3d20d636030f960161a5c7c1bf11d246" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>PositionRandomizationType<sp/><ref refid="d0/ddb/structbioexplorer_1_1details_1_1MembraneDetails_1a3d20d636030f960161a5c7c1bf11d246" kindref="member">positionRandomizationType</ref>;</highlight></codeline>
+<codeline lineno="277" refid="d0/ddb/structbioexplorer_1_1details_1_1MembraneDetails_1ae6ec6601a5b81ccc0ddbe7d8df0ae5bd" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;float&gt;<sp/><ref refid="d0/ddb/structbioexplorer_1_1details_1_1MembraneDetails_1ae6ec6601a5b81ccc0ddbe7d8df0ae5bd" kindref="member">rotation</ref>;</highlight></codeline>
+<codeline lineno="278"><highlight class="normal">}<sp/><ref refid="d0/ddb/structbioexplorer_1_1details_1_1MembraneDetails" kindref="compound">MembraneDetails</ref>;</highlight></codeline>
+<codeline lineno="279"><highlight class="normal"></highlight></codeline>
+<codeline lineno="280"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Protein</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="281" refid="de/d0e/structbioexplorer_1_1details_1_1ProteinDetails" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">typedef</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">struct</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="282"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="284" refid="de/d0e/structbioexplorer_1_1details_1_1ProteinDetails_1a98fa861c1249a21edc6c39941e3672c1" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="de/d0e/structbioexplorer_1_1details_1_1ProteinDetails_1a98fa861c1249a21edc6c39941e3672c1" kindref="member">assemblyName</ref>;</highlight></codeline>
+<codeline lineno="286" refid="de/d0e/structbioexplorer_1_1details_1_1ProteinDetails_1a5917cfa981741c54649569f1eb733de4" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="de/d0e/structbioexplorer_1_1details_1_1ProteinDetails_1a5917cfa981741c54649569f1eb733de4" kindref="member">name</ref>;</highlight></codeline>
+<codeline lineno="288" refid="de/d0e/structbioexplorer_1_1details_1_1ProteinDetails_1a6cf860d090db12ee48b7fc96cc4b3409" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="de/d0e/structbioexplorer_1_1details_1_1ProteinDetails_1a6cf860d090db12ee48b7fc96cc4b3409" kindref="member">contents</ref>;</highlight></codeline>
+<codeline lineno="290" refid="de/d0e/structbioexplorer_1_1details_1_1ProteinDetails_1a99610686312eaf88ed68be6165e20902" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>AssemblyShape<sp/><ref refid="de/d0e/structbioexplorer_1_1details_1_1ProteinDetails_1a99610686312eaf88ed68be6165e20902" kindref="member">shape</ref>;</highlight></codeline>
+<codeline lineno="292" refid="de/d0e/structbioexplorer_1_1details_1_1ProteinDetails_1a275595510362a9b7db31b9b548e7bc08" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;float&gt;<sp/><ref refid="de/d0e/structbioexplorer_1_1details_1_1ProteinDetails_1a275595510362a9b7db31b9b548e7bc08" kindref="member">assemblyParams</ref>;</highlight></codeline>
+<codeline lineno="294" refid="de/d0e/structbioexplorer_1_1details_1_1ProteinDetails_1ad01cd5d641744fcaa42325bdcddaec2b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/><ref refid="de/d0e/structbioexplorer_1_1details_1_1ProteinDetails_1ad01cd5d641744fcaa42325bdcddaec2b" kindref="member">atomRadiusMultiplier</ref>;</highlight></codeline>
+<codeline lineno="296" refid="de/d0e/structbioexplorer_1_1details_1_1ProteinDetails_1a12b36899e4c43d1ad1c7b1c886988537" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="de/d0e/structbioexplorer_1_1details_1_1ProteinDetails_1a12b36899e4c43d1ad1c7b1c886988537" kindref="member">loadBonds</ref>;</highlight></codeline>
+<codeline lineno="298" refid="de/d0e/structbioexplorer_1_1details_1_1ProteinDetails_1ac16628b11fffae63ceabaf84ae753cae" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="de/d0e/structbioexplorer_1_1details_1_1ProteinDetails_1ac16628b11fffae63ceabaf84ae753cae" kindref="member">loadNonPolymerChemicals</ref>;</highlight></codeline>
+<codeline lineno="300" refid="de/d0e/structbioexplorer_1_1details_1_1ProteinDetails_1a65c406560e7a6b2615d5307408a5af49" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="de/d0e/structbioexplorer_1_1details_1_1ProteinDetails_1a65c406560e7a6b2615d5307408a5af49" kindref="member">loadHydrogen</ref>;</highlight></codeline>
+<codeline lineno="303" refid="de/d0e/structbioexplorer_1_1details_1_1ProteinDetails_1ac71bf6c5ca866c38ef92d2322ed08632" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>ProteinRepresentation<sp/><ref refid="de/d0e/structbioexplorer_1_1details_1_1ProteinDetails_1ac71bf6c5ca866c38ef92d2322ed08632" kindref="member">representation</ref>;</highlight></codeline>
+<codeline lineno="305" refid="de/d0e/structbioexplorer_1_1details_1_1ProteinDetails_1a11b8b01294c06429dcb1d9a9fa82a52c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;size_t&gt;<sp/><ref refid="de/d0e/structbioexplorer_1_1details_1_1ProteinDetails_1a11b8b01294c06429dcb1d9a9fa82a52c" kindref="member">chainIds</ref>;</highlight></codeline>
+<codeline lineno="307" refid="de/d0e/structbioexplorer_1_1details_1_1ProteinDetails_1ae10023b565d13d83c2ee88f84b674892" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="de/d0e/structbioexplorer_1_1details_1_1ProteinDetails_1ae10023b565d13d83c2ee88f84b674892" kindref="member">recenter</ref>;</highlight></codeline>
+<codeline lineno="309" refid="de/d0e/structbioexplorer_1_1details_1_1ProteinDetails_1a21028bb0639c0b790235dc4e125f9580" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="de/d0e/structbioexplorer_1_1details_1_1ProteinDetails_1a21028bb0639c0b790235dc4e125f9580" kindref="member">occurrences</ref>;</highlight></codeline>
+<codeline lineno="312" refid="de/d0e/structbioexplorer_1_1details_1_1ProteinDetails_1a7a0ea3c84c80e63c556b2aea5886e62e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;size_t&gt;<sp/><ref refid="de/d0e/structbioexplorer_1_1details_1_1ProteinDetails_1a7a0ea3c84c80e63c556b2aea5886e62e" kindref="member">allowedOccurrences</ref>;</highlight></codeline>
+<codeline lineno="314" refid="de/d0e/structbioexplorer_1_1details_1_1ProteinDetails_1aa30e50807142af7350a1f0553c2364fd" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="de/d0e/structbioexplorer_1_1details_1_1ProteinDetails_1aa30e50807142af7350a1f0553c2364fd" kindref="member">randomSeed</ref>;</highlight></codeline>
+<codeline lineno="316" refid="de/d0e/structbioexplorer_1_1details_1_1ProteinDetails_1a7781951526f8bda35ef12d8f8877b95e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>PositionRandomizationType<sp/><ref refid="de/d0e/structbioexplorer_1_1details_1_1ProteinDetails_1a7781951526f8bda35ef12d8f8877b95e" kindref="member">positionRandomizationType</ref>;</highlight></codeline>
+<codeline lineno="318" refid="de/d0e/structbioexplorer_1_1details_1_1ProteinDetails_1a7c7d41ca865b6c6c1103645bc8b2a263" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;float&gt;<sp/><ref refid="de/d0e/structbioexplorer_1_1details_1_1ProteinDetails_1a7c7d41ca865b6c6c1103645bc8b2a263" kindref="member">position</ref>;</highlight></codeline>
+<codeline lineno="320" refid="de/d0e/structbioexplorer_1_1details_1_1ProteinDetails_1a010b1c0f20187f8704a865840a1458ab" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;float&gt;<sp/><ref refid="de/d0e/structbioexplorer_1_1details_1_1ProteinDetails_1a010b1c0f20187f8704a865840a1458ab" kindref="member">rotation</ref>;</highlight></codeline>
+<codeline lineno="321"><highlight class="normal">}<sp/><ref refid="de/d0e/structbioexplorer_1_1details_1_1ProteinDetails" kindref="compound">ProteinDetails</ref>;</highlight></codeline>
+<codeline lineno="322"><highlight class="normal"></highlight></codeline>
+<codeline lineno="327" refid="dd/d92/structbioexplorer_1_1details_1_1SugarsDetails" refkind="compound"><highlight class="keyword">typedef</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">struct</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="328"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="330" refid="dd/d92/structbioexplorer_1_1details_1_1SugarsDetails_1a81aecb2570b4818ceed97e0f6ff73a9e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="dd/d92/structbioexplorer_1_1details_1_1SugarsDetails_1a81aecb2570b4818ceed97e0f6ff73a9e" kindref="member">assemblyName</ref>;</highlight></codeline>
+<codeline lineno="332" refid="dd/d92/structbioexplorer_1_1details_1_1SugarsDetails_1a48fa7ec9a2680552857308fbbb2eaed9" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="dd/d92/structbioexplorer_1_1details_1_1SugarsDetails_1a48fa7ec9a2680552857308fbbb2eaed9" kindref="member">name</ref>;</highlight></codeline>
+<codeline lineno="334" refid="dd/d92/structbioexplorer_1_1details_1_1SugarsDetails_1a2d46730726450e18f2b327cced20f308" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="dd/d92/structbioexplorer_1_1details_1_1SugarsDetails_1a2d46730726450e18f2b327cced20f308" kindref="member">contents</ref>;</highlight></codeline>
+<codeline lineno="336" refid="dd/d92/structbioexplorer_1_1details_1_1SugarsDetails_1a5e93ee9f96f180efdc628dab1e64c58d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="dd/d92/structbioexplorer_1_1details_1_1SugarsDetails_1a5e93ee9f96f180efdc628dab1e64c58d" kindref="member">proteinName</ref>;</highlight></codeline>
+<codeline lineno="338" refid="dd/d92/structbioexplorer_1_1details_1_1SugarsDetails_1a96cf71d5535731e9e35f55dc6fce281f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/><ref refid="dd/d92/structbioexplorer_1_1details_1_1SugarsDetails_1a96cf71d5535731e9e35f55dc6fce281f" kindref="member">atomRadiusMultiplier</ref>;</highlight></codeline>
+<codeline lineno="340" refid="dd/d92/structbioexplorer_1_1details_1_1SugarsDetails_1a2243ede92403c62c7102c72fcfa9a73b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="dd/d92/structbioexplorer_1_1details_1_1SugarsDetails_1a2243ede92403c62c7102c72fcfa9a73b" kindref="member">loadBonds</ref>;</highlight></codeline>
+<codeline lineno="343" refid="dd/d92/structbioexplorer_1_1details_1_1SugarsDetails_1ab7e8a1940851832d2dd02487efab9320" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>ProteinRepresentation<sp/><ref refid="dd/d92/structbioexplorer_1_1details_1_1SugarsDetails_1ab7e8a1940851832d2dd02487efab9320" kindref="member">representation</ref>;</highlight></codeline>
+<codeline lineno="345" refid="dd/d92/structbioexplorer_1_1details_1_1SugarsDetails_1adb675a9fc3f9fd596771d6956d36321a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="dd/d92/structbioexplorer_1_1details_1_1SugarsDetails_1adb675a9fc3f9fd596771d6956d36321a" kindref="member">recenter</ref>;</highlight></codeline>
+<codeline lineno="347" refid="dd/d92/structbioexplorer_1_1details_1_1SugarsDetails_1aa7150553fb82dd6fbca6db68a16c2c22" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;size_t&gt;<sp/><ref refid="dd/d92/structbioexplorer_1_1details_1_1SugarsDetails_1aa7150553fb82dd6fbca6db68a16c2c22" kindref="member">chainIds</ref>;</highlight></codeline>
+<codeline lineno="349" refid="dd/d92/structbioexplorer_1_1details_1_1SugarsDetails_1af6507f50241cfde2bddc0128459c843a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;size_t&gt;<sp/><ref refid="dd/d92/structbioexplorer_1_1details_1_1SugarsDetails_1af6507f50241cfde2bddc0128459c843a" kindref="member">siteIndices</ref>;</highlight></codeline>
+<codeline lineno="351" refid="dd/d92/structbioexplorer_1_1details_1_1SugarsDetails_1afa3ac7957085b22ef7c19fcb00b2392b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;float&gt;<sp/><ref refid="dd/d92/structbioexplorer_1_1details_1_1SugarsDetails_1afa3ac7957085b22ef7c19fcb00b2392b" kindref="member">rotation</ref>;</highlight></codeline>
+<codeline lineno="352"><highlight class="normal">}<sp/><ref refid="dd/d92/structbioexplorer_1_1details_1_1SugarsDetails" kindref="compound">SugarsDetails</ref>;</highlight></codeline>
+<codeline lineno="353"><highlight class="normal"></highlight></codeline>
+<codeline lineno="358" refid="da/d3c/structbioexplorer_1_1details_1_1MeshBasedMembraneDetails" refkind="compound"><highlight class="keyword">typedef</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">struct</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="359"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="361" refid="da/d3c/structbioexplorer_1_1details_1_1MeshBasedMembraneDetails_1a9178fc135d1576c1e29fff3d56ad8994" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="da/d3c/structbioexplorer_1_1details_1_1MeshBasedMembraneDetails_1a9178fc135d1576c1e29fff3d56ad8994" kindref="member">assemblyName</ref>;</highlight></codeline>
+<codeline lineno="363" refid="da/d3c/structbioexplorer_1_1details_1_1MeshBasedMembraneDetails_1a28251c09a337ec62d40b4cd830bccc90" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="da/d3c/structbioexplorer_1_1details_1_1MeshBasedMembraneDetails_1a28251c09a337ec62d40b4cd830bccc90" kindref="member">name</ref>;</highlight></codeline>
+<codeline lineno="365" refid="da/d3c/structbioexplorer_1_1details_1_1MeshBasedMembraneDetails_1a815f4aaa04c9dc5d390a45c6226649fa" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="da/d3c/structbioexplorer_1_1details_1_1MeshBasedMembraneDetails_1a815f4aaa04c9dc5d390a45c6226649fa" kindref="member">meshContents</ref>;</highlight></codeline>
+<codeline lineno="367" refid="da/d3c/structbioexplorer_1_1details_1_1MeshBasedMembraneDetails_1ac9f6042494504514075e9696cb882fc7" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="da/d3c/structbioexplorer_1_1details_1_1MeshBasedMembraneDetails_1ac9f6042494504514075e9696cb882fc7" kindref="member">proteinContents</ref>;</highlight></codeline>
+<codeline lineno="369" refid="da/d3c/structbioexplorer_1_1details_1_1MeshBasedMembraneDetails_1a30bb0b1230e24e0c93cfdbe7d34e9bc9" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="da/d3c/structbioexplorer_1_1details_1_1MeshBasedMembraneDetails_1a30bb0b1230e24e0c93cfdbe7d34e9bc9" kindref="member">recenter</ref>;</highlight></codeline>
+<codeline lineno="371" refid="da/d3c/structbioexplorer_1_1details_1_1MeshBasedMembraneDetails_1ac20c08650a6555c855e8c9582ecdb388" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/><ref refid="da/d3c/structbioexplorer_1_1details_1_1MeshBasedMembraneDetails_1ac20c08650a6555c855e8c9582ecdb388" kindref="member">density</ref>;</highlight></codeline>
+<codeline lineno="374" refid="da/d3c/structbioexplorer_1_1details_1_1MeshBasedMembraneDetails_1a31133685df96d9684c8e928e8196934b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/><ref refid="da/d3c/structbioexplorer_1_1details_1_1MeshBasedMembraneDetails_1a31133685df96d9684c8e928e8196934b" kindref="member">surfaceFixedOffset</ref>;</highlight></codeline>
+<codeline lineno="377" refid="da/d3c/structbioexplorer_1_1details_1_1MeshBasedMembraneDetails_1a89484746bb83997971fb1408e6e8d0b1" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/><ref refid="da/d3c/structbioexplorer_1_1details_1_1MeshBasedMembraneDetails_1a89484746bb83997971fb1408e6e8d0b1" kindref="member">surfaceVariableOffset</ref>;</highlight></codeline>
+<codeline lineno="379" refid="da/d3c/structbioexplorer_1_1details_1_1MeshBasedMembraneDetails_1aa79a62988a1c01a91daf73e8ce5772af" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/><ref refid="da/d3c/structbioexplorer_1_1details_1_1MeshBasedMembraneDetails_1aa79a62988a1c01a91daf73e8ce5772af" kindref="member">atomRadiusMultiplier</ref>;</highlight></codeline>
+<codeline lineno="381" refid="da/d3c/structbioexplorer_1_1details_1_1MeshBasedMembraneDetails_1acb1e20ee239ef5cac013df83e1077182" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>ProteinRepresentation<sp/><ref refid="da/d3c/structbioexplorer_1_1details_1_1MeshBasedMembraneDetails_1acb1e20ee239ef5cac013df83e1077182" kindref="member">representation</ref>;</highlight></codeline>
+<codeline lineno="383" refid="da/d3c/structbioexplorer_1_1details_1_1MeshBasedMembraneDetails_1a641219d208fcf91a4ad49e261bcab9e9" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="da/d3c/structbioexplorer_1_1details_1_1MeshBasedMembraneDetails_1a641219d208fcf91a4ad49e261bcab9e9" kindref="member">randomSeed</ref>;</highlight></codeline>
+<codeline lineno="385" refid="da/d3c/structbioexplorer_1_1details_1_1MeshBasedMembraneDetails_1a0619c3d91a359a9ca9b40dad3304458b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;float&gt;<sp/><ref refid="da/d3c/structbioexplorer_1_1details_1_1MeshBasedMembraneDetails_1a0619c3d91a359a9ca9b40dad3304458b" kindref="member">position</ref>;</highlight></codeline>
+<codeline lineno="387" refid="da/d3c/structbioexplorer_1_1details_1_1MeshBasedMembraneDetails_1a4d4cc6a583fc4e1e9f004e810c105604" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;float&gt;<sp/><ref refid="da/d3c/structbioexplorer_1_1details_1_1MeshBasedMembraneDetails_1a4d4cc6a583fc4e1e9f004e810c105604" kindref="member">rotation</ref>;</highlight></codeline>
+<codeline lineno="389" refid="da/d3c/structbioexplorer_1_1details_1_1MeshBasedMembraneDetails_1a45bda1eeec721636c3cefb41657777a4" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;float&gt;<sp/><ref refid="da/d3c/structbioexplorer_1_1details_1_1MeshBasedMembraneDetails_1a45bda1eeec721636c3cefb41657777a4" kindref="member">scale</ref>;</highlight></codeline>
+<codeline lineno="390"><highlight class="normal">}<sp/><ref refid="da/d3c/structbioexplorer_1_1details_1_1MeshBasedMembraneDetails" kindref="compound">MeshBasedMembraneDetails</ref>;</highlight></codeline>
+<codeline lineno="391"><highlight class="normal"></highlight></codeline>
+<codeline lineno="396" refid="d1/d00/structbioexplorer_1_1details_1_1RNASequenceDetails" refkind="compound"><highlight class="keyword">typedef</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">struct</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="397"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="399" refid="d1/d00/structbioexplorer_1_1details_1_1RNASequenceDetails_1ae72e9a82fa1b08c17e14e38e5c3d3240" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="d1/d00/structbioexplorer_1_1details_1_1RNASequenceDetails_1ae72e9a82fa1b08c17e14e38e5c3d3240" kindref="member">assemblyName</ref>;</highlight></codeline>
+<codeline lineno="401" refid="d1/d00/structbioexplorer_1_1details_1_1RNASequenceDetails_1ae389cc191ef9c7845c2a63130d8afa25" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="d1/d00/structbioexplorer_1_1details_1_1RNASequenceDetails_1ae389cc191ef9c7845c2a63130d8afa25" kindref="member">name</ref>;</highlight></codeline>
+<codeline lineno="403" refid="d1/d00/structbioexplorer_1_1details_1_1RNASequenceDetails_1afa03929786f1efd6a3b07d197601e5be" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="d1/d00/structbioexplorer_1_1details_1_1RNASequenceDetails_1afa03929786f1efd6a3b07d197601e5be" kindref="member">contents</ref>;</highlight></codeline>
+<codeline lineno="405" refid="d1/d00/structbioexplorer_1_1details_1_1RNASequenceDetails_1a8a85e1af38bc1bb654be374de8521068" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>RNAShape<sp/><ref refid="d1/d00/structbioexplorer_1_1details_1_1RNASequenceDetails_1a8a85e1af38bc1bb654be374de8521068" kindref="member">shape</ref>;</highlight></codeline>
+<codeline lineno="407" refid="d1/d00/structbioexplorer_1_1details_1_1RNASequenceDetails_1a9d64b4739c0f71a84def11d182e70e3a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;float&gt;<sp/><ref refid="d1/d00/structbioexplorer_1_1details_1_1RNASequenceDetails_1a9d64b4739c0f71a84def11d182e70e3a" kindref="member">assemblyParams</ref>;</highlight></codeline>
+<codeline lineno="409" refid="d1/d00/structbioexplorer_1_1details_1_1RNASequenceDetails_1a852c3809b9f8a520a1f47b81a049b6a3" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;float&gt;<sp/><ref refid="d1/d00/structbioexplorer_1_1details_1_1RNASequenceDetails_1a852c3809b9f8a520a1f47b81a049b6a3" kindref="member">range</ref>;</highlight></codeline>
+<codeline lineno="411" refid="d1/d00/structbioexplorer_1_1details_1_1RNASequenceDetails_1af8d17d4095b75cf6efac5341e7c333ea" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;float&gt;<sp/><ref refid="d1/d00/structbioexplorer_1_1details_1_1RNASequenceDetails_1af8d17d4095b75cf6efac5341e7c333ea" kindref="member">params</ref>;</highlight></codeline>
+<codeline lineno="413" refid="d1/d00/structbioexplorer_1_1details_1_1RNASequenceDetails_1a11919ed58573bcc910212c22abfc9728" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;float&gt;<sp/><ref refid="d1/d00/structbioexplorer_1_1details_1_1RNASequenceDetails_1a11919ed58573bcc910212c22abfc9728" kindref="member">position</ref>;</highlight></codeline>
+<codeline lineno="414"><highlight class="normal">}<sp/><ref refid="d1/d00/structbioexplorer_1_1details_1_1RNASequenceDetails" kindref="compound">RNASequenceDetails</ref>;</highlight></codeline>
+<codeline lineno="415"><highlight class="normal"></highlight></codeline>
+<codeline lineno="421" refid="d8/d02/structbioexplorer_1_1details_1_1AminoAcidSequenceAsStringDetails" refkind="compound"><highlight class="keyword">typedef</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">struct</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="422"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="424" refid="d8/d02/structbioexplorer_1_1details_1_1AminoAcidSequenceAsStringDetails_1a86992b8a785e310834f2bd30d0c5f5fd" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="d8/d02/structbioexplorer_1_1details_1_1AminoAcidSequenceAsStringDetails_1a86992b8a785e310834f2bd30d0c5f5fd" kindref="member">assemblyName</ref>;</highlight></codeline>
+<codeline lineno="426" refid="d8/d02/structbioexplorer_1_1details_1_1AminoAcidSequenceAsStringDetails_1a6e6440f7c0c48f74720db3362a707ba6" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="d8/d02/structbioexplorer_1_1details_1_1AminoAcidSequenceAsStringDetails_1a6e6440f7c0c48f74720db3362a707ba6" kindref="member">name</ref>;</highlight></codeline>
+<codeline lineno="428" refid="d8/d02/structbioexplorer_1_1details_1_1AminoAcidSequenceAsStringDetails_1a07a5e6f14a3baf40541379494cdf2cb7" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="d8/d02/structbioexplorer_1_1details_1_1AminoAcidSequenceAsStringDetails_1a07a5e6f14a3baf40541379494cdf2cb7" kindref="member">sequence</ref>;</highlight></codeline>
+<codeline lineno="429"><highlight class="normal">}<sp/><ref refid="d8/d02/structbioexplorer_1_1details_1_1AminoAcidSequenceAsStringDetails" kindref="compound">AminoAcidSequenceAsStringDetails</ref>;</highlight></codeline>
+<codeline lineno="430"><highlight class="normal"></highlight></codeline>
+<codeline lineno="436" refid="db/de5/structbioexplorer_1_1details_1_1AminoAcidSequenceAsRangesDetails" refkind="compound"><highlight class="keyword">typedef</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">struct</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="437"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="439" refid="db/de5/structbioexplorer_1_1details_1_1AminoAcidSequenceAsRangesDetails_1a3bed45e9ed6f84b4aaf57303c05db659" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="db/de5/structbioexplorer_1_1details_1_1AminoAcidSequenceAsRangesDetails_1a3bed45e9ed6f84b4aaf57303c05db659" kindref="member">assemblyName</ref>;</highlight></codeline>
+<codeline lineno="441" refid="db/de5/structbioexplorer_1_1details_1_1AminoAcidSequenceAsRangesDetails_1a2e133a2fcae1a42c9b2435b09768bfb5" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="db/de5/structbioexplorer_1_1details_1_1AminoAcidSequenceAsRangesDetails_1a2e133a2fcae1a42c9b2435b09768bfb5" kindref="member">name</ref>;</highlight></codeline>
+<codeline lineno="444" refid="db/de5/structbioexplorer_1_1details_1_1AminoAcidSequenceAsRangesDetails_1af0769a75b90af7f98f2c860e3562ded8" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;size_t&gt;<sp/><ref refid="db/de5/structbioexplorer_1_1details_1_1AminoAcidSequenceAsRangesDetails_1af0769a75b90af7f98f2c860e3562ded8" kindref="member">ranges</ref>;</highlight></codeline>
+<codeline lineno="445"><highlight class="normal">}<sp/><ref refid="db/de5/structbioexplorer_1_1details_1_1AminoAcidSequenceAsRangesDetails" kindref="compound">AminoAcidSequenceAsRangesDetails</ref>;</highlight></codeline>
+<codeline lineno="446"><highlight class="normal"></highlight></codeline>
+<codeline lineno="447" refid="d6/dda/structbioexplorer_1_1details_1_1AminoAcidInformationDetails" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">typedef</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">struct</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="448"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="449"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>assemblyName;</highlight></codeline>
+<codeline lineno="450"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>name;</highlight></codeline>
+<codeline lineno="451"><highlight class="normal">}<sp/><ref refid="d6/dda/structbioexplorer_1_1details_1_1AminoAcidInformationDetails" kindref="compound">AminoAcidInformationDetails</ref>;</highlight></codeline>
+<codeline lineno="452"><highlight class="normal"></highlight></codeline>
+<codeline lineno="457" refid="d3/dd3/structbioexplorer_1_1details_1_1AminoAcidDetails" refkind="compound"><highlight class="keyword">typedef</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">struct</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="458"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="460" refid="d3/dd3/structbioexplorer_1_1details_1_1AminoAcidDetails_1a21df04d3ccd462c7ad37321ed681fbb6" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="d3/dd3/structbioexplorer_1_1details_1_1AminoAcidDetails_1a21df04d3ccd462c7ad37321ed681fbb6" kindref="member">assemblyName</ref>;</highlight></codeline>
+<codeline lineno="462" refid="d3/dd3/structbioexplorer_1_1details_1_1AminoAcidDetails_1a3e96c4e2b19ed736c6d62abd76d7a1f8" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="d3/dd3/structbioexplorer_1_1details_1_1AminoAcidDetails_1a3e96c4e2b19ed736c6d62abd76d7a1f8" kindref="member">name</ref>;</highlight></codeline>
+<codeline lineno="464" refid="d3/dd3/structbioexplorer_1_1details_1_1AminoAcidDetails_1a513bc0b65ebadfb21525db5059f15119" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="d3/dd3/structbioexplorer_1_1details_1_1AminoAcidDetails_1a513bc0b65ebadfb21525db5059f15119" kindref="member">index</ref>;</highlight></codeline>
+<codeline lineno="466" refid="d3/dd3/structbioexplorer_1_1details_1_1AminoAcidDetails_1ab7fa3e3ba3ae83f16685a181f89698b9" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="d3/dd3/structbioexplorer_1_1details_1_1AminoAcidDetails_1ab7fa3e3ba3ae83f16685a181f89698b9" kindref="member">aminoAcidShortName</ref>;</highlight></codeline>
+<codeline lineno="468" refid="d3/dd3/structbioexplorer_1_1details_1_1AminoAcidDetails_1a642e862a5c3d4d0bfab4f3e18d144f25" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;size_t&gt;<sp/><ref refid="d3/dd3/structbioexplorer_1_1details_1_1AminoAcidDetails_1a642e862a5c3d4d0bfab4f3e18d144f25" kindref="member">chainIds</ref>;</highlight></codeline>
+<codeline lineno="469"><highlight class="normal">}<sp/><ref refid="d3/dd3/structbioexplorer_1_1details_1_1AminoAcidDetails" kindref="compound">AminoAcidDetails</ref>;</highlight></codeline>
+<codeline lineno="470"><highlight class="normal"></highlight></codeline>
+<codeline lineno="475" refid="db/dd8/structbioexplorer_1_1details_1_1AddGridDetails" refkind="compound"><highlight class="keyword">typedef</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">struct</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="476"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="478" refid="db/dd8/structbioexplorer_1_1details_1_1AddGridDetails_1a94c1cfb27d0a046683a99f763a911235" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/><ref refid="db/dd8/structbioexplorer_1_1details_1_1AddGridDetails_1a94c1cfb27d0a046683a99f763a911235" kindref="member">minValue</ref>;</highlight></codeline>
+<codeline lineno="480" refid="db/dd8/structbioexplorer_1_1details_1_1AddGridDetails_1ae2da44906b8e3dd60ea787d2ea999c1a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/><ref refid="db/dd8/structbioexplorer_1_1details_1_1AddGridDetails_1ae2da44906b8e3dd60ea787d2ea999c1a" kindref="member">maxValue</ref>;</highlight></codeline>
+<codeline lineno="482" refid="db/dd8/structbioexplorer_1_1details_1_1AddGridDetails_1a6aaf3b6d17bd0d25860d4a7f7a28b6bb" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/><ref refid="db/dd8/structbioexplorer_1_1details_1_1AddGridDetails_1a6aaf3b6d17bd0d25860d4a7f7a28b6bb" kindref="member">steps</ref>;</highlight></codeline>
+<codeline lineno="484" refid="db/dd8/structbioexplorer_1_1details_1_1AddGridDetails_1acd4f3bedd2209fbdd7811bc58cdd5e2d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/><ref refid="db/dd8/structbioexplorer_1_1details_1_1AddGridDetails_1acd4f3bedd2209fbdd7811bc58cdd5e2d" kindref="member">radius</ref>;</highlight></codeline>
+<codeline lineno="486" refid="db/dd8/structbioexplorer_1_1details_1_1AddGridDetails_1a1cb140ebfe273fb8b65e927355f9797c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/><ref refid="db/dd8/structbioexplorer_1_1details_1_1AddGridDetails_1a1cb140ebfe273fb8b65e927355f9797c" kindref="member">planeOpacity</ref>;</highlight></codeline>
+<codeline lineno="488" refid="db/dd8/structbioexplorer_1_1details_1_1AddGridDetails_1a18e36aa4fd55810d83c18a5cdd762c3e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="db/dd8/structbioexplorer_1_1details_1_1AddGridDetails_1a18e36aa4fd55810d83c18a5cdd762c3e" kindref="member">showAxis</ref>;</highlight></codeline>
+<codeline lineno="490" refid="db/dd8/structbioexplorer_1_1details_1_1AddGridDetails_1a30f0580c0ab841062cd2c70ddfb24994" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="db/dd8/structbioexplorer_1_1details_1_1AddGridDetails_1a30f0580c0ab841062cd2c70ddfb24994" kindref="member">showPlanes</ref>;</highlight></codeline>
+<codeline lineno="492" refid="db/dd8/structbioexplorer_1_1details_1_1AddGridDetails_1a1602719cfbe8086fa76c952e4a6e15ff" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="db/dd8/structbioexplorer_1_1details_1_1AddGridDetails_1a1602719cfbe8086fa76c952e4a6e15ff" kindref="member">showFullGrid</ref>;</highlight></codeline>
+<codeline lineno="494" refid="db/dd8/structbioexplorer_1_1details_1_1AddGridDetails_1a03242b839ef5a10701f3ab0744d38074" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="db/dd8/structbioexplorer_1_1details_1_1AddGridDetails_1a03242b839ef5a10701f3ab0744d38074" kindref="member">useColors</ref>;</highlight></codeline>
+<codeline lineno="496" refid="db/dd8/structbioexplorer_1_1details_1_1AddGridDetails_1a184e511cfcb00e6d1b8a3ec8f8151945" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;float&gt;<sp/><ref refid="db/dd8/structbioexplorer_1_1details_1_1AddGridDetails_1a184e511cfcb00e6d1b8a3ec8f8151945" kindref="member">position</ref>;</highlight></codeline>
+<codeline lineno="497"><highlight class="normal">}<sp/><ref refid="db/dd8/structbioexplorer_1_1details_1_1AddGridDetails" kindref="compound">AddGridDetails</ref>;</highlight></codeline>
+<codeline lineno="498"><highlight class="normal"></highlight></codeline>
+<codeline lineno="503"><highlight class="keyword">enum<sp/>class</highlight><highlight class="normal"><sp/>ColorScheme</highlight></codeline>
+<codeline lineno="504"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="506"><highlight class="normal"><sp/><sp/><sp/><sp/>none<sp/>=<sp/>0,</highlight></codeline>
+<codeline lineno="508"><highlight class="normal"><sp/><sp/><sp/><sp/>atoms<sp/>=<sp/>1,</highlight></codeline>
+<codeline lineno="510"><highlight class="normal"><sp/><sp/><sp/><sp/>chains<sp/>=<sp/>2,</highlight></codeline>
+<codeline lineno="512"><highlight class="normal"><sp/><sp/><sp/><sp/>residues<sp/>=<sp/>3,</highlight></codeline>
+<codeline lineno="514"><highlight class="normal"><sp/><sp/><sp/><sp/>amino_acid_sequence<sp/>=<sp/>4,</highlight></codeline>
+<codeline lineno="516"><highlight class="normal"><sp/><sp/><sp/><sp/>glycosylation_site<sp/>=<sp/>5,</highlight></codeline>
+<codeline lineno="518"><highlight class="normal"><sp/><sp/><sp/><sp/>region<sp/>=<sp/>6</highlight></codeline>
+<codeline lineno="519"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="520"><highlight class="normal"></highlight></codeline>
+<codeline lineno="525" refid="d3/dd5/structbioexplorer_1_1details_1_1ColorSchemeDetails" refkind="compound"><highlight class="keyword">typedef</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">struct</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="526"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="528" refid="d3/dd5/structbioexplorer_1_1details_1_1ColorSchemeDetails_1a3b6995a9a066689f3fcac56ee473cc29" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="d3/dd5/structbioexplorer_1_1details_1_1ColorSchemeDetails_1a3b6995a9a066689f3fcac56ee473cc29" kindref="member">assemblyName</ref>;</highlight></codeline>
+<codeline lineno="530" refid="d3/dd5/structbioexplorer_1_1details_1_1ColorSchemeDetails_1ade53a2e460f72d2ba14c365fa70943c7" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="d3/dd5/structbioexplorer_1_1details_1_1ColorSchemeDetails_1ade53a2e460f72d2ba14c365fa70943c7" kindref="member">name</ref>;</highlight></codeline>
+<codeline lineno="532" refid="d3/dd5/structbioexplorer_1_1details_1_1ColorSchemeDetails_1a14a07a87226dae2476782146dbb20733" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>ColorScheme<sp/><ref refid="d3/dd5/structbioexplorer_1_1details_1_1ColorSchemeDetails_1a14a07a87226dae2476782146dbb20733" kindref="member">colorScheme</ref>;</highlight></codeline>
+<codeline lineno="534" refid="d3/dd5/structbioexplorer_1_1details_1_1ColorSchemeDetails_1a862bc960439c1db81372342694d1f627" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;float&gt;<sp/><ref refid="d3/dd5/structbioexplorer_1_1details_1_1ColorSchemeDetails_1a862bc960439c1db81372342694d1f627" kindref="member">palette</ref>;</highlight></codeline>
+<codeline lineno="536" refid="d3/dd5/structbioexplorer_1_1details_1_1ColorSchemeDetails_1aadd74378e6ae025397c09fcb645a528f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;size_t&gt;<sp/><ref refid="d3/dd5/structbioexplorer_1_1details_1_1ColorSchemeDetails_1aadd74378e6ae025397c09fcb645a528f" kindref="member">chainIds</ref>;</highlight></codeline>
+<codeline lineno="537"><highlight class="normal">}<sp/><ref refid="d3/dd5/structbioexplorer_1_1details_1_1ColorSchemeDetails" kindref="compound">ColorSchemeDetails</ref>;</highlight></codeline>
+<codeline lineno="538"><highlight class="normal"></highlight></codeline>
+<codeline lineno="539" refid="d7/dab/structbioexplorer_1_1details_1_1ProteinInstanceTransformationDetails" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">typedef</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">struct</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="540"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="542" refid="d7/dab/structbioexplorer_1_1details_1_1ProteinInstanceTransformationDetails_1ade46f658a2ecfdac367e771390240877" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="d7/dab/structbioexplorer_1_1details_1_1ProteinInstanceTransformationDetails_1ade46f658a2ecfdac367e771390240877" kindref="member">assemblyName</ref>;</highlight></codeline>
+<codeline lineno="544" refid="d7/dab/structbioexplorer_1_1details_1_1ProteinInstanceTransformationDetails_1abd4f536c509e03c5f0cc0eb4d82b3b43" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="d7/dab/structbioexplorer_1_1details_1_1ProteinInstanceTransformationDetails_1abd4f536c509e03c5f0cc0eb4d82b3b43" kindref="member">name</ref>;</highlight></codeline>
+<codeline lineno="546" refid="d7/dab/structbioexplorer_1_1details_1_1ProteinInstanceTransformationDetails_1a985e5b98b04fd18affa7881a1185a3d5" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="d7/dab/structbioexplorer_1_1details_1_1ProteinInstanceTransformationDetails_1a985e5b98b04fd18affa7881a1185a3d5" kindref="member">instanceIndex</ref>;</highlight></codeline>
+<codeline lineno="548" refid="d7/dab/structbioexplorer_1_1details_1_1ProteinInstanceTransformationDetails_1a034ec1dcbca014ec333a8e92ae498feb" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;float&gt;<sp/><ref refid="d7/dab/structbioexplorer_1_1details_1_1ProteinInstanceTransformationDetails_1a034ec1dcbca014ec333a8e92ae498feb" kindref="member">position</ref>;</highlight></codeline>
+<codeline lineno="550" refid="d7/dab/structbioexplorer_1_1details_1_1ProteinInstanceTransformationDetails_1ac2b05b020cf78db452d2697c0c16a630" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;float&gt;<sp/><ref refid="d7/dab/structbioexplorer_1_1details_1_1ProteinInstanceTransformationDetails_1ac2b05b020cf78db452d2697c0c16a630" kindref="member">rotation</ref>;</highlight></codeline>
+<codeline lineno="551"><highlight class="normal">}<sp/><ref refid="d7/dab/structbioexplorer_1_1details_1_1ProteinInstanceTransformationDetails" kindref="compound">ProteinInstanceTransformationDetails</ref>;</highlight></codeline>
+<codeline lineno="552"><highlight class="normal"></highlight></codeline>
+<codeline lineno="557" refid="d3/d7d/structbioexplorer_1_1details_1_1MaterialIdsDetails" refkind="compound"><highlight class="keyword">typedef</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">struct</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="558"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="560" refid="d3/d7d/structbioexplorer_1_1details_1_1MaterialIdsDetails_1a949ed6cca238aaafc213c2ce42c0efe4" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;size_t&gt;<sp/><ref refid="d3/d7d/structbioexplorer_1_1details_1_1MaterialIdsDetails_1a949ed6cca238aaafc213c2ce42c0efe4" kindref="member">ids</ref>;</highlight></codeline>
+<codeline lineno="561"><highlight class="normal">}<sp/><ref refid="d3/d7d/structbioexplorer_1_1details_1_1MaterialIdsDetails" kindref="compound">MaterialIdsDetails</ref>;</highlight></codeline>
+<codeline lineno="562"><highlight class="normal"></highlight></codeline>
+<codeline lineno="567" refid="d6/dc9/structbioexplorer_1_1details_1_1ModelIdDetails" refkind="compound"><highlight class="keyword">typedef</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">struct</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="568"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="570" refid="d6/dc9/structbioexplorer_1_1details_1_1ModelIdDetails_1afce19d687701e9ff1e185b87b33aef21" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="d6/dc9/structbioexplorer_1_1details_1_1ModelIdDetails_1afce19d687701e9ff1e185b87b33aef21" kindref="member">modelId</ref>;</highlight></codeline>
+<codeline lineno="571"><highlight class="normal">}<sp/><ref refid="d6/dc9/structbioexplorer_1_1details_1_1ModelIdDetails" kindref="compound">ModelIdDetails</ref>;</highlight></codeline>
+<codeline lineno="572"><highlight class="normal"></highlight></codeline>
+<codeline lineno="577" refid="d7/d84/structbioexplorer_1_1details_1_1MaterialsDetails" refkind="compound"><highlight class="keyword">typedef</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">struct</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="578"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="580" refid="d7/d84/structbioexplorer_1_1details_1_1MaterialsDetails_1a1907d0558dea63b36e4ade285a06bfb5" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;int32_t&gt;<sp/><ref refid="d7/d84/structbioexplorer_1_1details_1_1MaterialsDetails_1a1907d0558dea63b36e4ade285a06bfb5" kindref="member">modelIds</ref>;</highlight></codeline>
+<codeline lineno="582" refid="d7/d84/structbioexplorer_1_1details_1_1MaterialsDetails_1a6f6ef2b481c114920d816557e5397c37" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;int32_t&gt;<sp/><ref refid="d7/d84/structbioexplorer_1_1details_1_1MaterialsDetails_1a6f6ef2b481c114920d816557e5397c37" kindref="member">materialIds</ref>;</highlight></codeline>
+<codeline lineno="584" refid="d7/d84/structbioexplorer_1_1details_1_1MaterialsDetails_1ad5445f0005de017a5e697c65d384ab15" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;float&gt;<sp/><ref refid="d7/d84/structbioexplorer_1_1details_1_1MaterialsDetails_1ad5445f0005de017a5e697c65d384ab15" kindref="member">diffuseColors</ref>;</highlight></codeline>
+<codeline lineno="586" refid="d7/d84/structbioexplorer_1_1details_1_1MaterialsDetails_1a80d0c4edbbfa9f92556637401d30b0a0" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;float&gt;<sp/><ref refid="d7/d84/structbioexplorer_1_1details_1_1MaterialsDetails_1a80d0c4edbbfa9f92556637401d30b0a0" kindref="member">specularColors</ref>;</highlight></codeline>
+<codeline lineno="588" refid="d7/d84/structbioexplorer_1_1details_1_1MaterialsDetails_1a19ced7cbd4eb3d7dcf3fd924907a6026" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;float&gt;<sp/><ref refid="d7/d84/structbioexplorer_1_1details_1_1MaterialsDetails_1a19ced7cbd4eb3d7dcf3fd924907a6026" kindref="member">specularExponents</ref>;</highlight></codeline>
+<codeline lineno="590" refid="d7/d84/structbioexplorer_1_1details_1_1MaterialsDetails_1ab2c8e5939ab8378170b077cca0ff4e8e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;float&gt;<sp/><ref refid="d7/d84/structbioexplorer_1_1details_1_1MaterialsDetails_1ab2c8e5939ab8378170b077cca0ff4e8e" kindref="member">reflectionIndices</ref>;</highlight></codeline>
+<codeline lineno="592" refid="d7/d84/structbioexplorer_1_1details_1_1MaterialsDetails_1a28c4100c77ab6922bfa74bf3ff8253b9" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;float&gt;<sp/><ref refid="d7/d84/structbioexplorer_1_1details_1_1MaterialsDetails_1a28c4100c77ab6922bfa74bf3ff8253b9" kindref="member">opacities</ref>;</highlight></codeline>
+<codeline lineno="594" refid="d7/d84/structbioexplorer_1_1details_1_1MaterialsDetails_1a9bd1aba343dfa08bd81fc3f9aadf4835" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;float&gt;<sp/><ref refid="d7/d84/structbioexplorer_1_1details_1_1MaterialsDetails_1a9bd1aba343dfa08bd81fc3f9aadf4835" kindref="member">refractionIndices</ref>;</highlight></codeline>
+<codeline lineno="596" refid="d7/d84/structbioexplorer_1_1details_1_1MaterialsDetails_1aae87c0d0dcd9bddd724823a23624b752" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;float&gt;<sp/><ref refid="d7/d84/structbioexplorer_1_1details_1_1MaterialsDetails_1aae87c0d0dcd9bddd724823a23624b752" kindref="member">emissions</ref>;</highlight></codeline>
+<codeline lineno="598" refid="d7/d84/structbioexplorer_1_1details_1_1MaterialsDetails_1a01d955e03e0b2e181d7bac068092b8d8" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;float&gt;<sp/><ref refid="d7/d84/structbioexplorer_1_1details_1_1MaterialsDetails_1a01d955e03e0b2e181d7bac068092b8d8" kindref="member">glossinesses</ref>;</highlight></codeline>
+<codeline lineno="600" refid="d7/d84/structbioexplorer_1_1details_1_1MaterialsDetails_1a88040e1014c4e80c48ae3e666a79d093" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;int32_t&gt;<sp/><ref refid="d7/d84/structbioexplorer_1_1details_1_1MaterialsDetails_1a88040e1014c4e80c48ae3e666a79d093" kindref="member">shadingModes</ref>;</highlight></codeline>
+<codeline lineno="602" refid="d7/d84/structbioexplorer_1_1details_1_1MaterialsDetails_1abdd6e1eb126e386fcdf9ed85a8dbf1c6" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;float&gt;<sp/><ref refid="d7/d84/structbioexplorer_1_1details_1_1MaterialsDetails_1abdd6e1eb126e386fcdf9ed85a8dbf1c6" kindref="member">userParameters</ref>;</highlight></codeline>
+<codeline lineno="604" refid="d7/d84/structbioexplorer_1_1details_1_1MaterialsDetails_1a954692e07755f928b8af8061e9705644" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;int32_t&gt;<sp/><ref refid="d7/d84/structbioexplorer_1_1details_1_1MaterialsDetails_1a954692e07755f928b8af8061e9705644" kindref="member">chameleonModes</ref>;</highlight></codeline>
+<codeline lineno="605"><highlight class="normal">}<sp/><ref refid="d7/d84/structbioexplorer_1_1details_1_1MaterialsDetails" kindref="compound">MaterialsDetails</ref>;</highlight></codeline>
+<codeline lineno="606"><highlight class="normal"></highlight></codeline>
+<codeline lineno="612" refid="dc/d5b/structbioexplorer_1_1details_1_1BuildFieldsDetails" refkind="compound"><highlight class="keyword">typedef</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">struct</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="613"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="615" refid="dc/d5b/structbioexplorer_1_1details_1_1BuildFieldsDetails_1adaf6e73c9314eaad382e19a1ac116bcd" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/><ref refid="dc/d5b/structbioexplorer_1_1details_1_1BuildFieldsDetails_1adaf6e73c9314eaad382e19a1ac116bcd" kindref="member">voxelSize</ref>;</highlight></codeline>
+<codeline lineno="617" refid="dc/d5b/structbioexplorer_1_1details_1_1BuildFieldsDetails_1a920738939f587a759b102c85a8d7d936" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/><ref refid="dc/d5b/structbioexplorer_1_1details_1_1BuildFieldsDetails_1a920738939f587a759b102c85a8d7d936" kindref="member">density</ref>;</highlight></codeline>
+<codeline lineno="618"><highlight class="normal">}<sp/><ref refid="dc/d5b/structbioexplorer_1_1details_1_1BuildFieldsDetails" kindref="compound">BuildFieldsDetails</ref>;</highlight></codeline>
+<codeline lineno="619"><highlight class="normal"></highlight></codeline>
+<codeline lineno="620"><highlight class="normal"></highlight><highlight class="comment">//<sp/>IO</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="621" refid="d8/d1b/structbioexplorer_1_1details_1_1ModelIdFileAccessDetails" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">typedef</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">struct</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="622"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="623"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>modelId;</highlight></codeline>
+<codeline lineno="624"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>filename;</highlight></codeline>
+<codeline lineno="625"><highlight class="normal">}<sp/><ref refid="d8/d1b/structbioexplorer_1_1details_1_1ModelIdFileAccessDetails" kindref="compound">ModelIdFileAccessDetails</ref>;</highlight></codeline>
+<codeline lineno="626"><highlight class="normal"></highlight></codeline>
+<codeline lineno="631"><highlight class="keyword">enum<sp/>class</highlight><highlight class="normal"><sp/>XYZFileFormat</highlight></codeline>
+<codeline lineno="632"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="634"><highlight class="normal"><sp/><sp/><sp/><sp/>unspecified<sp/>=<sp/>0,</highlight></codeline>
+<codeline lineno="636"><highlight class="normal"><sp/><sp/><sp/><sp/>xyz_binary<sp/>=<sp/>1,</highlight></codeline>
+<codeline lineno="639"><highlight class="normal"><sp/><sp/><sp/><sp/>xyzr_binary<sp/>=<sp/>2,</highlight></codeline>
+<codeline lineno="642"><highlight class="normal"><sp/><sp/><sp/><sp/>xyzrv_binary<sp/>=<sp/>3,</highlight></codeline>
+<codeline lineno="645"><highlight class="normal"><sp/><sp/><sp/><sp/>xyz_ascii<sp/>=<sp/>4,</highlight></codeline>
+<codeline lineno="648"><highlight class="normal"><sp/><sp/><sp/><sp/>xyzr_ascii<sp/>=<sp/>5,</highlight></codeline>
+<codeline lineno="651"><highlight class="normal"><sp/><sp/><sp/><sp/>xyzrv_ascii<sp/>=<sp/>6</highlight></codeline>
+<codeline lineno="652"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="653"><highlight class="normal"></highlight></codeline>
+<codeline lineno="658" refid="de/d38/structbioexplorer_1_1details_1_1FileAccessDetails" refkind="compound"><highlight class="keyword">typedef</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">struct</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="659"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="660"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>filename;</highlight></codeline>
+<codeline lineno="661"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;float&gt;<sp/>lowBounds;</highlight></codeline>
+<codeline lineno="662"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;float&gt;<sp/>highBounds;</highlight></codeline>
+<codeline lineno="663"><highlight class="normal"><sp/><sp/><sp/><sp/>XYZFileFormat<sp/>fileFormat;</highlight></codeline>
+<codeline lineno="664"><highlight class="normal">}<sp/><ref refid="de/d38/structbioexplorer_1_1details_1_1FileAccessDetails" kindref="compound">FileAccessDetails</ref>;</highlight></codeline>
+<codeline lineno="665"><highlight class="normal"></highlight></codeline>
+<codeline lineno="670" refid="dc/dd9/structbioexplorer_1_1details_1_1DatabaseAccessDetails" refkind="compound"><highlight class="keyword">typedef</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">struct</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="671"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="672"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>connectionString;</highlight></codeline>
+<codeline lineno="673"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>schema;</highlight></codeline>
+<codeline lineno="674"><highlight class="normal"><sp/><sp/><sp/><sp/>int32_t<sp/>brickId;</highlight></codeline>
+<codeline lineno="675"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;float&gt;<sp/>lowBounds;</highlight></codeline>
+<codeline lineno="676"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;float&gt;<sp/>highBounds;</highlight></codeline>
+<codeline lineno="677"><highlight class="normal">}<sp/><ref refid="dc/dd9/structbioexplorer_1_1details_1_1DatabaseAccessDetails" kindref="compound">DatabaseAccessDetails</ref>;</highlight></codeline>
+<codeline lineno="678"><highlight class="normal"></highlight></codeline>
+<codeline lineno="683" refid="d5/dc6/structbioexplorer_1_1details_1_1BuildPointCloudDetails" refkind="compound"><highlight class="keyword">typedef</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">struct</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="684"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="685"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/>radius;</highlight></codeline>
+<codeline lineno="686"><highlight class="normal">}<sp/><ref refid="d5/dc6/structbioexplorer_1_1details_1_1BuildPointCloudDetails" kindref="compound">BuildPointCloudDetails</ref>;</highlight></codeline>
+<codeline lineno="687"><highlight class="normal"></highlight></codeline>
+<codeline lineno="692" refid="d7/dbc/structbioexplorer_1_1details_1_1ModelsVisibilityDetails" refkind="compound"><highlight class="keyword">typedef</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">struct</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="693"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="694"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>visible;</highlight></codeline>
+<codeline lineno="695"><highlight class="normal">}<sp/><ref refid="d7/dbc/structbioexplorer_1_1details_1_1ModelsVisibilityDetails" kindref="compound">ModelsVisibilityDetails</ref>;</highlight></codeline>
+<codeline lineno="696"><highlight class="normal"></highlight></codeline>
+<codeline lineno="697" refid="d1/d25/structbioexplorer_1_1details_1_1OOCSceneConfigurationDetails" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">typedef</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">struct</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="698"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="700" refid="d1/d25/structbioexplorer_1_1details_1_1OOCSceneConfigurationDetails_1a14e9f653aeab2a6e89e94e454d0153b4" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="d1/d25/structbioexplorer_1_1details_1_1OOCSceneConfigurationDetails_1a14e9f653aeab2a6e89e94e454d0153b4" kindref="member">description</ref>;</highlight></codeline>
+<codeline lineno="702" refid="d1/d25/structbioexplorer_1_1details_1_1OOCSceneConfigurationDetails_1a090198a2f0c35b25718bbc351513c69c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>Vector3f<sp/><ref refid="d1/d25/structbioexplorer_1_1details_1_1OOCSceneConfigurationDetails_1a090198a2f0c35b25718bbc351513c69c" kindref="member">sceneSize</ref>;</highlight></codeline>
+<codeline lineno="704" refid="d1/d25/structbioexplorer_1_1details_1_1OOCSceneConfigurationDetails_1a93b21e710b3a8a738741d23da99159ad" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint32_t<sp/><ref refid="d1/d25/structbioexplorer_1_1details_1_1OOCSceneConfigurationDetails_1a93b21e710b3a8a738741d23da99159ad" kindref="member">nbBricks</ref>;</highlight></codeline>
+<codeline lineno="706" refid="d1/d25/structbioexplorer_1_1details_1_1OOCSceneConfigurationDetails_1a4216aabd383f17207757843e98d4176b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>Vector3f<sp/><ref refid="d1/d25/structbioexplorer_1_1details_1_1OOCSceneConfigurationDetails_1a4216aabd383f17207757843e98d4176b" kindref="member">brickSize</ref>;</highlight></codeline>
+<codeline lineno="707"><highlight class="normal">}<sp/><ref refid="d1/d25/structbioexplorer_1_1details_1_1OOCSceneConfigurationDetails" kindref="compound">OOCSceneConfigurationDetails</ref>;</highlight></codeline>
+<codeline lineno="708"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>details</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="709"><highlight class="normal"></highlight></codeline>
+<codeline lineno="710"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal">biology</highlight></codeline>
+<codeline lineno="711"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="712"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="de/dc0/classbioexplorer_1_1biology_1_1Node" kindref="compound">Node</ref>;</highlight></codeline>
+<codeline lineno="713"><highlight class="normal"></highlight><highlight class="keyword">typedef</highlight><highlight class="normal"><sp/>std::shared_ptr&lt;Node&gt;<sp/>NodePtr;</highlight></codeline>
+<codeline lineno="714"><highlight class="normal"></highlight><highlight class="keyword">typedef</highlight><highlight class="normal"><sp/>std::map&lt;std::string,<sp/>NodePtr&gt;<sp/>NodeMap;</highlight></codeline>
+<codeline lineno="715"><highlight class="normal"></highlight></codeline>
+<codeline lineno="716"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="d6/dc2/classbioexplorer_1_1biology_1_1Assembly" kindref="compound">Assembly</ref>;</highlight></codeline>
+<codeline lineno="717"><highlight class="normal"></highlight><highlight class="keyword">typedef</highlight><highlight class="normal"><sp/>std::shared_ptr&lt;Assembly&gt;<sp/>AssemblyPtr;</highlight></codeline>
+<codeline lineno="718"><highlight class="normal"></highlight><highlight class="keyword">typedef</highlight><highlight class="normal"><sp/>std::map&lt;std::string,<sp/>AssemblyPtr&gt;<sp/>AssemblyMap;</highlight></codeline>
+<codeline lineno="719"><highlight class="normal"></highlight></codeline>
+<codeline lineno="720"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="de/dd4/classbioexplorer_1_1biology_1_1Membrane" kindref="compound">Membrane</ref>;</highlight></codeline>
+<codeline lineno="721"><highlight class="normal"></highlight><highlight class="keyword">typedef</highlight><highlight class="normal"><sp/>std::shared_ptr&lt;Membrane&gt;<sp/>MembranePtr;</highlight></codeline>
+<codeline lineno="722"><highlight class="normal"></highlight></codeline>
+<codeline lineno="723"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="db/dba/classbioexplorer_1_1biology_1_1Protein" kindref="compound">Protein</ref>;</highlight></codeline>
+<codeline lineno="724"><highlight class="normal"></highlight><highlight class="keyword">typedef</highlight><highlight class="normal"><sp/>std::shared_ptr&lt;Protein&gt;<sp/>ProteinPtr;</highlight></codeline>
+<codeline lineno="725"><highlight class="normal"></highlight><highlight class="keyword">typedef</highlight><highlight class="normal"><sp/>std::map&lt;std::string,<sp/>ProteinPtr&gt;<sp/>ProteinMap;</highlight></codeline>
+<codeline lineno="726"><highlight class="normal"></highlight></codeline>
+<codeline lineno="727"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="d0/d3d/classbioexplorer_1_1biology_1_1Glycans" kindref="compound">Glycans</ref>;</highlight></codeline>
+<codeline lineno="728"><highlight class="normal"></highlight><highlight class="keyword">typedef</highlight><highlight class="normal"><sp/>std::shared_ptr&lt;Glycans&gt;<sp/>GlycansPtr;</highlight></codeline>
+<codeline lineno="729"><highlight class="normal"></highlight><highlight class="keyword">typedef</highlight><highlight class="normal"><sp/>std::map&lt;std::string,<sp/>GlycansPtr&gt;<sp/>GlycansMap;</highlight></codeline>
+<codeline lineno="730"><highlight class="normal"></highlight></codeline>
+<codeline lineno="731"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="d5/d80/classbioexplorer_1_1biology_1_1MeshBasedMembrane" kindref="compound">MeshBasedMembrane</ref>;</highlight></codeline>
+<codeline lineno="732"><highlight class="normal"></highlight><highlight class="keyword">typedef</highlight><highlight class="normal"><sp/>std::shared_ptr&lt;MeshBasedMembrane&gt;<sp/>MeshBasedMembranePtr;</highlight></codeline>
+<codeline lineno="733"><highlight class="normal"></highlight><highlight class="keyword">typedef</highlight><highlight class="normal"><sp/>std::map&lt;std::string,<sp/>MeshBasedMembranePtr&gt;<sp/>MeshBasedMembraneMap;</highlight></codeline>
+<codeline lineno="734"><highlight class="normal"></highlight></codeline>
+<codeline lineno="735"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="d0/d5f/classbioexplorer_1_1biology_1_1RNASequence" kindref="compound">RNASequence</ref>;</highlight></codeline>
+<codeline lineno="736"><highlight class="normal"></highlight><highlight class="keyword">typedef</highlight><highlight class="normal"><sp/>std::shared_ptr&lt;RNASequence&gt;<sp/>RNASequencePtr;</highlight></codeline>
+<codeline lineno="737"><highlight class="normal"></highlight><highlight class="keyword">typedef</highlight><highlight class="normal"><sp/>std::map&lt;std::string,<sp/>std::string&gt;<sp/>RNASequenceMap;</highlight></codeline>
+<codeline lineno="738"><highlight class="normal"></highlight></codeline>
+<codeline lineno="744" refid="df/d99/structbioexplorer_1_1biology_1_1Atom" refkind="compound"><highlight class="keyword">typedef</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">struct</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="745"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="747" refid="df/d99/structbioexplorer_1_1biology_1_1Atom_1a8076bb313ab590d9f396ea573e817e34" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="df/d99/structbioexplorer_1_1biology_1_1Atom_1a8076bb313ab590d9f396ea573e817e34" kindref="member">name</ref>;</highlight></codeline>
+<codeline lineno="749" refid="df/d99/structbioexplorer_1_1biology_1_1Atom_1a4b7e8d54c7d3066c1e7f5cb08ae1cbd0" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="df/d99/structbioexplorer_1_1biology_1_1Atom_1a4b7e8d54c7d3066c1e7f5cb08ae1cbd0" kindref="member">altLoc</ref>;</highlight></codeline>
+<codeline lineno="751" refid="df/d99/structbioexplorer_1_1biology_1_1Atom_1ab9d8c34337b3af067e331d125ee2e6fb" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="df/d99/structbioexplorer_1_1biology_1_1Atom_1ab9d8c34337b3af067e331d125ee2e6fb" kindref="member">resName</ref>;</highlight></codeline>
+<codeline lineno="753" refid="df/d99/structbioexplorer_1_1biology_1_1Atom_1a39c49c5ab9cba060d4edd4946e0402f8" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="df/d99/structbioexplorer_1_1biology_1_1Atom_1a39c49c5ab9cba060d4edd4946e0402f8" kindref="member">chainId</ref>;</highlight></codeline>
+<codeline lineno="755" refid="df/d99/structbioexplorer_1_1biology_1_1Atom_1a8703f6207720c7a080bb0847a6e49fad" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="df/d99/structbioexplorer_1_1biology_1_1Atom_1a8703f6207720c7a080bb0847a6e49fad" kindref="member">reqSeq</ref>;</highlight></codeline>
+<codeline lineno="757" refid="df/d99/structbioexplorer_1_1biology_1_1Atom_1acacf98997ba5c46c7b15ba26b8be8da4" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="df/d99/structbioexplorer_1_1biology_1_1Atom_1acacf98997ba5c46c7b15ba26b8be8da4" kindref="member">iCode</ref>;</highlight></codeline>
+<codeline lineno="759" refid="df/d99/structbioexplorer_1_1biology_1_1Atom_1a8cf0086c7a8f044904bbee0ba3fcab8c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>Vector3f<sp/><ref refid="df/d99/structbioexplorer_1_1biology_1_1Atom_1a8cf0086c7a8f044904bbee0ba3fcab8c" kindref="member">position</ref>;</highlight></codeline>
+<codeline lineno="761" refid="df/d99/structbioexplorer_1_1biology_1_1Atom_1abed497d224b8b9a9c47573200f72c409" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/><ref refid="df/d99/structbioexplorer_1_1biology_1_1Atom_1abed497d224b8b9a9c47573200f72c409" kindref="member">occupancy</ref>;</highlight></codeline>
+<codeline lineno="763" refid="df/d99/structbioexplorer_1_1biology_1_1Atom_1ad0a48beb6843d75691570a38f1d77ffb" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/><ref refid="df/d99/structbioexplorer_1_1biology_1_1Atom_1ad0a48beb6843d75691570a38f1d77ffb" kindref="member">tempFactor</ref>;</highlight></codeline>
+<codeline lineno="765" refid="df/d99/structbioexplorer_1_1biology_1_1Atom_1a30356c0a806b4d194d8e41eece2918e0" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="df/d99/structbioexplorer_1_1biology_1_1Atom_1a30356c0a806b4d194d8e41eece2918e0" kindref="member">element</ref>;</highlight></codeline>
+<codeline lineno="767" refid="df/d99/structbioexplorer_1_1biology_1_1Atom_1a72689eea6dbf05efcc9d51410119b50b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="df/d99/structbioexplorer_1_1biology_1_1Atom_1a72689eea6dbf05efcc9d51410119b50b" kindref="member">charge</ref>;</highlight></codeline>
+<codeline lineno="769" refid="df/d99/structbioexplorer_1_1biology_1_1Atom_1ade7ba3cb81c3f1b973ff459562a35508" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/><ref refid="df/d99/structbioexplorer_1_1biology_1_1Atom_1ade7ba3cb81c3f1b973ff459562a35508" kindref="member">radius</ref>;</highlight></codeline>
+<codeline lineno="770"><highlight class="normal">}<sp/><ref refid="df/d99/structbioexplorer_1_1biology_1_1Atom" kindref="compound">Atom</ref>;</highlight></codeline>
+<codeline lineno="771"><highlight class="normal"></highlight><highlight class="keyword">typedef</highlight><highlight class="normal"><sp/>std::multimap&lt;size_t,<sp/>Atom,<sp/>std::less&lt;size_t&gt;&gt;<sp/>AtomMap;</highlight></codeline>
+<codeline lineno="772"><highlight class="normal"></highlight></codeline>
+<codeline lineno="777" refid="de/dde/structbioexplorer_1_1biology_1_1ResidueSequence" refkind="compound"><highlight class="keyword">typedef</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">struct</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="778"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="780" refid="de/dde/structbioexplorer_1_1biology_1_1ResidueSequence_1a76a8eded625c3edf1ad65adb918d7f11" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="de/dde/structbioexplorer_1_1biology_1_1ResidueSequence_1a76a8eded625c3edf1ad65adb918d7f11" kindref="member">numRes</ref>;</highlight></codeline>
+<codeline lineno="782" refid="de/dde/structbioexplorer_1_1biology_1_1ResidueSequence_1a5b3b460dfec1c7b8a343f8f86f9c4d18" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::string&gt;<sp/><ref refid="de/dde/structbioexplorer_1_1biology_1_1ResidueSequence_1a5b3b460dfec1c7b8a343f8f86f9c4d18" kindref="member">resNames</ref>;</highlight></codeline>
+<codeline lineno="784" refid="de/dde/structbioexplorer_1_1biology_1_1ResidueSequence_1a749948327ed7edb959e9576887ebe3e3" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="de/dde/structbioexplorer_1_1biology_1_1ResidueSequence_1a749948327ed7edb959e9576887ebe3e3" kindref="member">offset</ref>;</highlight></codeline>
+<codeline lineno="785"><highlight class="normal">}<sp/><ref refid="de/dde/structbioexplorer_1_1biology_1_1ResidueSequence" kindref="compound">ResidueSequence</ref>;</highlight></codeline>
+<codeline lineno="786"><highlight class="normal"></highlight><highlight class="keyword">typedef</highlight><highlight class="normal"><sp/>std::map&lt;std::string,<sp/>ResidueSequence&gt;<sp/>ResidueSequenceMap;</highlight></codeline>
+<codeline lineno="787"><highlight class="normal"></highlight></codeline>
+<codeline lineno="792"><highlight class="keyword">typedef</highlight><highlight class="normal"><sp/>std::map&lt;size_t,<sp/>std::vector&lt;size_t&gt;&gt;<sp/>BondsMap;</highlight></codeline>
+<codeline lineno="793"><highlight class="normal"></highlight></codeline>
+<codeline lineno="798" refid="da/d20/structbioexplorer_1_1biology_1_1AminoAcid" refkind="compound"><highlight class="keyword">typedef</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">struct</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="799"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="801" refid="da/d20/structbioexplorer_1_1biology_1_1AminoAcid_1aaeeda451f305e66c56655366c26f1213" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="da/d20/structbioexplorer_1_1biology_1_1AminoAcid_1aaeeda451f305e66c56655366c26f1213" kindref="member">name</ref>;</highlight></codeline>
+<codeline lineno="803" refid="da/d20/structbioexplorer_1_1biology_1_1AminoAcid_1a3d9d8872e1a7536cf5993a2159b1fe33" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="da/d20/structbioexplorer_1_1biology_1_1AminoAcid_1a3d9d8872e1a7536cf5993a2159b1fe33" kindref="member">shortName</ref>;</highlight></codeline>
+<codeline lineno="804"><highlight class="normal">}<sp/><ref refid="da/d20/structbioexplorer_1_1biology_1_1AminoAcid" kindref="compound">AminoAcid</ref>;</highlight></codeline>
+<codeline lineno="805"><highlight class="normal"></highlight><highlight class="keyword">typedef</highlight><highlight class="normal"><sp/>std::map&lt;std::string,<sp/>AminoAcid&gt;<sp/>AminoAcidMap;</highlight></codeline>
+<codeline lineno="806"><highlight class="normal"></highlight></codeline>
+<codeline lineno="811"><highlight class="keyword">typedef</highlight><highlight class="normal"><sp/>std::set&lt;std::string&gt;<sp/>Residues;</highlight></codeline>
+<codeline lineno="812"><highlight class="normal"></highlight></codeline>
+<codeline lineno="817"><highlight class="keyword">typedef</highlight><highlight class="normal"><sp/>std::map&lt;std::string,<sp/>float&gt;<sp/>AtomicRadii;</highlight></codeline>
+<codeline lineno="818"><highlight class="normal"></highlight></codeline>
+<codeline lineno="819"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Amino<sp/>acids</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="820"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>AminoAcidMap<sp/>aminoAcidMap<sp/>=<sp/>{{</highlight><highlight class="stringliteral">&quot;.&quot;</highlight><highlight class="normal">,<sp/>{</highlight><highlight class="stringliteral">&quot;.&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;.&quot;</highlight><highlight class="normal">}},</highlight></codeline>
+<codeline lineno="821"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;ALA&quot;</highlight><highlight class="normal">,<sp/>{</highlight><highlight class="stringliteral">&quot;Alanine&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;A&quot;</highlight><highlight class="normal">}},</highlight></codeline>
+<codeline lineno="822"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;CYS&quot;</highlight><highlight class="normal">,<sp/>{</highlight><highlight class="stringliteral">&quot;Cysteine&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;C&quot;</highlight><highlight class="normal">}},</highlight></codeline>
+<codeline lineno="823"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;ASP&quot;</highlight><highlight class="normal">,<sp/>{</highlight><highlight class="stringliteral">&quot;Aspartic<sp/>acid&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;D&quot;</highlight><highlight class="normal">}},</highlight></codeline>
+<codeline lineno="824"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;GLU&quot;</highlight><highlight class="normal">,<sp/>{</highlight><highlight class="stringliteral">&quot;Glutamic<sp/>acid&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;E&quot;</highlight><highlight class="normal">}},</highlight></codeline>
+<codeline lineno="825"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;PHE&quot;</highlight><highlight class="normal">,<sp/>{</highlight><highlight class="stringliteral">&quot;Phenylalanine&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;F&quot;</highlight><highlight class="normal">}},</highlight></codeline>
+<codeline lineno="826"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;GLY&quot;</highlight><highlight class="normal">,<sp/>{</highlight><highlight class="stringliteral">&quot;Glycine&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;G&quot;</highlight><highlight class="normal">}},</highlight></codeline>
+<codeline lineno="827"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;HIS&quot;</highlight><highlight class="normal">,<sp/>{</highlight><highlight class="stringliteral">&quot;Histidine&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;H&quot;</highlight><highlight class="normal">}},</highlight></codeline>
+<codeline lineno="828"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;ILE&quot;</highlight><highlight class="normal">,<sp/>{</highlight><highlight class="stringliteral">&quot;Isoleucine&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;I&quot;</highlight><highlight class="normal">}},</highlight></codeline>
+<codeline lineno="829"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;LYS&quot;</highlight><highlight class="normal">,<sp/>{</highlight><highlight class="stringliteral">&quot;Lysine&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;K&quot;</highlight><highlight class="normal">}},</highlight></codeline>
+<codeline lineno="830"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;LEU&quot;</highlight><highlight class="normal">,<sp/>{</highlight><highlight class="stringliteral">&quot;Leucine&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;L&quot;</highlight><highlight class="normal">}},</highlight></codeline>
+<codeline lineno="831"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;MET&quot;</highlight><highlight class="normal">,<sp/>{</highlight><highlight class="stringliteral">&quot;Methionine&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;M&quot;</highlight><highlight class="normal">}},</highlight></codeline>
+<codeline lineno="832"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;ASN&quot;</highlight><highlight class="normal">,<sp/>{</highlight><highlight class="stringliteral">&quot;Asparagine&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;N&quot;</highlight><highlight class="normal">}},</highlight></codeline>
+<codeline lineno="833"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;HYP&quot;</highlight><highlight class="normal">,<sp/>{</highlight><highlight class="stringliteral">&quot;Hydroxyproline&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;O&quot;</highlight><highlight class="normal">}},</highlight></codeline>
+<codeline lineno="834"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;PRO&quot;</highlight><highlight class="normal">,<sp/>{</highlight><highlight class="stringliteral">&quot;Proline&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;P&quot;</highlight><highlight class="normal">}},</highlight></codeline>
+<codeline lineno="835"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;GLN&quot;</highlight><highlight class="normal">,<sp/>{</highlight><highlight class="stringliteral">&quot;Glutamine&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;Q&quot;</highlight><highlight class="normal">}},</highlight></codeline>
+<codeline lineno="836"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;ARG&quot;</highlight><highlight class="normal">,<sp/>{</highlight><highlight class="stringliteral">&quot;Arginine&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;R&quot;</highlight><highlight class="normal">}},</highlight></codeline>
+<codeline lineno="837"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;SER&quot;</highlight><highlight class="normal">,<sp/>{</highlight><highlight class="stringliteral">&quot;Serine&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;S&quot;</highlight><highlight class="normal">}},</highlight></codeline>
+<codeline lineno="838"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;THR&quot;</highlight><highlight class="normal">,<sp/>{</highlight><highlight class="stringliteral">&quot;Threonine&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;T&quot;</highlight><highlight class="normal">}},</highlight></codeline>
+<codeline lineno="839"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;GLP&quot;</highlight><highlight class="normal">,<sp/>{</highlight><highlight class="stringliteral">&quot;Pyroglutamatic&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;U&quot;</highlight><highlight class="normal">}},</highlight></codeline>
+<codeline lineno="840"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;VAL&quot;</highlight><highlight class="normal">,<sp/>{</highlight><highlight class="stringliteral">&quot;Valine&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;V&quot;</highlight><highlight class="normal">}},</highlight></codeline>
+<codeline lineno="841"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;TRP&quot;</highlight><highlight class="normal">,<sp/>{</highlight><highlight class="stringliteral">&quot;Tryptophan&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;W&quot;</highlight><highlight class="normal">}},</highlight></codeline>
+<codeline lineno="842"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;TYR&quot;</highlight><highlight class="normal">,<sp/>{</highlight><highlight class="stringliteral">&quot;Tyrosine&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;Y&quot;</highlight><highlight class="normal">}}};</highlight></codeline>
+<codeline lineno="843"><highlight class="normal"></highlight></codeline>
+<codeline lineno="844"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Protein<sp/>color<sp/>maps</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="845"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>details::RGBColorDetailsMap<sp/>atomColorMap<sp/>=<sp/>{</highlight></codeline>
+<codeline lineno="846"><highlight class="normal"><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;H&quot;</highlight><highlight class="normal">,<sp/>{0xDF,<sp/>0xDF,<sp/>0xDF}},<sp/><sp/>{</highlight><highlight class="stringliteral">&quot;He&quot;</highlight><highlight class="normal">,<sp/>{0xD9,<sp/>0xFF,<sp/>0xFF}},</highlight></codeline>
+<codeline lineno="847"><highlight class="normal"><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;Li&quot;</highlight><highlight class="normal">,<sp/>{0xCC,<sp/>0x80,<sp/>0xFF}},<sp/>{</highlight><highlight class="stringliteral">&quot;Be&quot;</highlight><highlight class="normal">,<sp/>{0xC2,<sp/>0xFF,<sp/>0x00}},</highlight></codeline>
+<codeline lineno="848"><highlight class="normal"><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;B&quot;</highlight><highlight class="normal">,<sp/>{0xFF,<sp/>0xB5,<sp/>0xB5}},<sp/><sp/>{</highlight><highlight class="stringliteral">&quot;C&quot;</highlight><highlight class="normal">,<sp/>{0x90,<sp/>0x90,<sp/>0x90}},</highlight></codeline>
+<codeline lineno="849"><highlight class="normal"><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;N&quot;</highlight><highlight class="normal">,<sp/>{0x30,<sp/>0x50,<sp/>0xF8}},<sp/><sp/>{</highlight><highlight class="stringliteral">&quot;O&quot;</highlight><highlight class="normal">,<sp/>{0xFF,<sp/>0x0D,<sp/>0x0D}},</highlight></codeline>
+<codeline lineno="850"><highlight class="normal"><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;F&quot;</highlight><highlight class="normal">,<sp/>{0x9E,<sp/>0x05,<sp/>0x1}},<sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;Ne&quot;</highlight><highlight class="normal">,<sp/>{0xB3,<sp/>0xE3,<sp/>0xF5}},</highlight></codeline>
+<codeline lineno="851"><highlight class="normal"><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;Na&quot;</highlight><highlight class="normal">,<sp/>{0xAB,<sp/>0x5C,<sp/>0xF2}},<sp/>{</highlight><highlight class="stringliteral">&quot;Mg&quot;</highlight><highlight class="normal">,<sp/>{0x8A,<sp/>0xFF,<sp/>0x00}},</highlight></codeline>
+<codeline lineno="852"><highlight class="normal"><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;Al&quot;</highlight><highlight class="normal">,<sp/>{0xBF,<sp/>0xA6,<sp/>0xA6}},<sp/>{</highlight><highlight class="stringliteral">&quot;Si&quot;</highlight><highlight class="normal">,<sp/>{0xF0,<sp/>0xC8,<sp/>0xA0}},</highlight></codeline>
+<codeline lineno="853"><highlight class="normal"><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;P&quot;</highlight><highlight class="normal">,<sp/>{0xFF,<sp/>0x80,<sp/>0x00}},<sp/><sp/>{</highlight><highlight class="stringliteral">&quot;S&quot;</highlight><highlight class="normal">,<sp/>{0xFF,<sp/>0xFF,<sp/>0x30}},</highlight></codeline>
+<codeline lineno="854"><highlight class="normal"><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;Cl&quot;</highlight><highlight class="normal">,<sp/>{0x1F,<sp/>0xF0,<sp/>0x1F}},<sp/>{</highlight><highlight class="stringliteral">&quot;Ar&quot;</highlight><highlight class="normal">,<sp/>{0x80,<sp/>0xD1,<sp/>0xE3}},</highlight></codeline>
+<codeline lineno="855"><highlight class="normal"><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;K&quot;</highlight><highlight class="normal">,<sp/>{0x8F,<sp/>0x40,<sp/>0xD4}},<sp/><sp/>{</highlight><highlight class="stringliteral">&quot;Ca&quot;</highlight><highlight class="normal">,<sp/>{0x3D,<sp/>0xFF,<sp/>0x00}},</highlight></codeline>
+<codeline lineno="856"><highlight class="normal"><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;Sc&quot;</highlight><highlight class="normal">,<sp/>{0xE6,<sp/>0xE6,<sp/>0xE6}},<sp/>{</highlight><highlight class="stringliteral">&quot;Ti&quot;</highlight><highlight class="normal">,<sp/>{0xBF,<sp/>0xC2,<sp/>0xC7}},</highlight></codeline>
+<codeline lineno="857"><highlight class="normal"><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;V&quot;</highlight><highlight class="normal">,<sp/>{0xA6,<sp/>0xA6,<sp/>0xAB}},<sp/><sp/>{</highlight><highlight class="stringliteral">&quot;Cr&quot;</highlight><highlight class="normal">,<sp/>{0x8A,<sp/>0x99,<sp/>0xC7}},</highlight></codeline>
+<codeline lineno="858"><highlight class="normal"><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;Mn&quot;</highlight><highlight class="normal">,<sp/>{0x9C,<sp/>0x7A,<sp/>0xC7}},<sp/>{</highlight><highlight class="stringliteral">&quot;Fe&quot;</highlight><highlight class="normal">,<sp/>{0xE0,<sp/>0x66,<sp/>0x33}},</highlight></codeline>
+<codeline lineno="859"><highlight class="normal"><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;Co&quot;</highlight><highlight class="normal">,<sp/>{0xF0,<sp/>0x90,<sp/>0xA0}},<sp/>{</highlight><highlight class="stringliteral">&quot;Ni&quot;</highlight><highlight class="normal">,<sp/>{0x50,<sp/>0xD0,<sp/>0x50}},</highlight></codeline>
+<codeline lineno="860"><highlight class="normal"><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;Cu&quot;</highlight><highlight class="normal">,<sp/>{0xC8,<sp/>0x80,<sp/>0x33}},<sp/>{</highlight><highlight class="stringliteral">&quot;Zn&quot;</highlight><highlight class="normal">,<sp/>{0x7D,<sp/>0x80,<sp/>0xB0}},</highlight></codeline>
+<codeline lineno="861"><highlight class="normal"><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;Ga&quot;</highlight><highlight class="normal">,<sp/>{0xC2,<sp/>0x8F,<sp/>0x8F}},<sp/>{</highlight><highlight class="stringliteral">&quot;Ge&quot;</highlight><highlight class="normal">,<sp/>{0x66,<sp/>0x8F,<sp/>0x8F}},</highlight></codeline>
+<codeline lineno="862"><highlight class="normal"><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;As&quot;</highlight><highlight class="normal">,<sp/>{0xBD,<sp/>0x80,<sp/>0xE3}},<sp/>{</highlight><highlight class="stringliteral">&quot;Se&quot;</highlight><highlight class="normal">,<sp/>{0xFF,<sp/>0xA1,<sp/>0x00}},</highlight></codeline>
+<codeline lineno="863"><highlight class="normal"><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;Br&quot;</highlight><highlight class="normal">,<sp/>{0xA6,<sp/>0x29,<sp/>0x29}},<sp/>{</highlight><highlight class="stringliteral">&quot;Kr&quot;</highlight><highlight class="normal">,<sp/>{0x5C,<sp/>0xB8,<sp/>0xD1}},</highlight></codeline>
+<codeline lineno="864"><highlight class="normal"><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;Rb&quot;</highlight><highlight class="normal">,<sp/>{0x70,<sp/>0x2E,<sp/>0xB0}},<sp/>{</highlight><highlight class="stringliteral">&quot;Sr&quot;</highlight><highlight class="normal">,<sp/>{0x00,<sp/>0xFF,<sp/>0x00}},</highlight></codeline>
+<codeline lineno="865"><highlight class="normal"><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;Y&quot;</highlight><highlight class="normal">,<sp/>{0x94,<sp/>0xFF,<sp/>0xFF}},<sp/><sp/>{</highlight><highlight class="stringliteral">&quot;Zr&quot;</highlight><highlight class="normal">,<sp/>{0x94,<sp/>0xE0,<sp/>0xE0}},</highlight></codeline>
+<codeline lineno="866"><highlight class="normal"><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;Nb&quot;</highlight><highlight class="normal">,<sp/>{0x73,<sp/>0xC2,<sp/>0xC9}},<sp/>{</highlight><highlight class="stringliteral">&quot;Mo&quot;</highlight><highlight class="normal">,<sp/>{0x54,<sp/>0xB5,<sp/>0xB5}},</highlight></codeline>
+<codeline lineno="867"><highlight class="normal"><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;Tc&quot;</highlight><highlight class="normal">,<sp/>{0x3B,<sp/>0x9E,<sp/>0x9E}},<sp/>{</highlight><highlight class="stringliteral">&quot;Ru&quot;</highlight><highlight class="normal">,<sp/>{0x24,<sp/>0x8F,<sp/>0x8F}},</highlight></codeline>
+<codeline lineno="868"><highlight class="normal"><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;Rh&quot;</highlight><highlight class="normal">,<sp/>{0x0A,<sp/>0x7D,<sp/>0x8C}},<sp/>{</highlight><highlight class="stringliteral">&quot;Pd&quot;</highlight><highlight class="normal">,<sp/>{0x69,<sp/>0x85,<sp/>0x00}},</highlight></codeline>
+<codeline lineno="869"><highlight class="normal"><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;Ag&quot;</highlight><highlight class="normal">,<sp/>{0xC0,<sp/>0xC0,<sp/>0xC0}},<sp/>{</highlight><highlight class="stringliteral">&quot;Cd&quot;</highlight><highlight class="normal">,<sp/>{0xFF,<sp/>0xD9,<sp/>0x8F}},</highlight></codeline>
+<codeline lineno="870"><highlight class="normal"><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;In&quot;</highlight><highlight class="normal">,<sp/>{0xA6,<sp/>0x75,<sp/>0x73}},<sp/>{</highlight><highlight class="stringliteral">&quot;Sn&quot;</highlight><highlight class="normal">,<sp/>{0x66,<sp/>0x80,<sp/>0x80}},</highlight></codeline>
+<codeline lineno="871"><highlight class="normal"><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;Sb&quot;</highlight><highlight class="normal">,<sp/>{0x9E,<sp/>0x63,<sp/>0xB5}},<sp/>{</highlight><highlight class="stringliteral">&quot;Te&quot;</highlight><highlight class="normal">,<sp/>{0xD4,<sp/>0x7A,<sp/>0x00}},</highlight></codeline>
+<codeline lineno="872"><highlight class="normal"><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;I&quot;</highlight><highlight class="normal">,<sp/>{0x94,<sp/>0x00,<sp/>0x94}},<sp/><sp/>{</highlight><highlight class="stringliteral">&quot;Xe&quot;</highlight><highlight class="normal">,<sp/>{0x42,<sp/>0x9E,<sp/>0xB0}},</highlight></codeline>
+<codeline lineno="873"><highlight class="normal"><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;Cs&quot;</highlight><highlight class="normal">,<sp/>{0x57,<sp/>0x17,<sp/>0x8F}},<sp/>{</highlight><highlight class="stringliteral">&quot;Ba&quot;</highlight><highlight class="normal">,<sp/>{0x00,<sp/>0xC9,<sp/>0x00}},</highlight></codeline>
+<codeline lineno="874"><highlight class="normal"><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;La&quot;</highlight><highlight class="normal">,<sp/>{0x70,<sp/>0xD4,<sp/>0xFF}},<sp/>{</highlight><highlight class="stringliteral">&quot;Ce&quot;</highlight><highlight class="normal">,<sp/>{0xFF,<sp/>0xFF,<sp/>0xC7}},</highlight></codeline>
+<codeline lineno="875"><highlight class="normal"><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;Pr&quot;</highlight><highlight class="normal">,<sp/>{0xD9,<sp/>0xFF,<sp/>0xC7}},<sp/>{</highlight><highlight class="stringliteral">&quot;Nd&quot;</highlight><highlight class="normal">,<sp/>{0xC7,<sp/>0xFF,<sp/>0xC7}},</highlight></codeline>
+<codeline lineno="876"><highlight class="normal"><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;Pm&quot;</highlight><highlight class="normal">,<sp/>{0xA3,<sp/>0xFF,<sp/>0xC7}},<sp/>{</highlight><highlight class="stringliteral">&quot;Sm&quot;</highlight><highlight class="normal">,<sp/>{0x8F,<sp/>0xFF,<sp/>0xC7}},</highlight></codeline>
+<codeline lineno="877"><highlight class="normal"><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;Eu&quot;</highlight><highlight class="normal">,<sp/>{0x61,<sp/>0xFF,<sp/>0xC7}},<sp/>{</highlight><highlight class="stringliteral">&quot;Gd&quot;</highlight><highlight class="normal">,<sp/>{0x45,<sp/>0xFF,<sp/>0xC7}},</highlight></codeline>
+<codeline lineno="878"><highlight class="normal"><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;Tb&quot;</highlight><highlight class="normal">,<sp/>{0x30,<sp/>0xFF,<sp/>0xC7}},<sp/>{</highlight><highlight class="stringliteral">&quot;Dy&quot;</highlight><highlight class="normal">,<sp/>{0x1F,<sp/>0xFF,<sp/>0xC7}},</highlight></codeline>
+<codeline lineno="879"><highlight class="normal"><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;Ho&quot;</highlight><highlight class="normal">,<sp/>{0x00,<sp/>0xFF,<sp/>0x9C}},<sp/>{</highlight><highlight class="stringliteral">&quot;Er&quot;</highlight><highlight class="normal">,<sp/>{0x00,<sp/>0xE6,<sp/>0x75}},</highlight></codeline>
+<codeline lineno="880"><highlight class="normal"><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;Tm&quot;</highlight><highlight class="normal">,<sp/>{0x00,<sp/>0xD4,<sp/>0x52}},<sp/>{</highlight><highlight class="stringliteral">&quot;Yb&quot;</highlight><highlight class="normal">,<sp/>{0x00,<sp/>0xBF,<sp/>0x38}},</highlight></codeline>
+<codeline lineno="881"><highlight class="normal"><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;Lu&quot;</highlight><highlight class="normal">,<sp/>{0x00,<sp/>0xAB,<sp/>0x24}},<sp/>{</highlight><highlight class="stringliteral">&quot;Hf&quot;</highlight><highlight class="normal">,<sp/>{0x4D,<sp/>0xC2,<sp/>0xFF}},</highlight></codeline>
+<codeline lineno="882"><highlight class="normal"><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;Ta&quot;</highlight><highlight class="normal">,<sp/>{0x4D,<sp/>0xA6,<sp/>0xFF}},<sp/>{</highlight><highlight class="stringliteral">&quot;W&quot;</highlight><highlight class="normal">,<sp/>{0x21,<sp/>0x94,<sp/>0xD6}},</highlight></codeline>
+<codeline lineno="883"><highlight class="normal"><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;Re&quot;</highlight><highlight class="normal">,<sp/>{0x26,<sp/>0x7D,<sp/>0xAB}},<sp/>{</highlight><highlight class="stringliteral">&quot;Os&quot;</highlight><highlight class="normal">,<sp/>{0x26,<sp/>0x66,<sp/>0x96}},</highlight></codeline>
+<codeline lineno="884"><highlight class="normal"><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;Ir&quot;</highlight><highlight class="normal">,<sp/>{0x17,<sp/>0x54,<sp/>0x87}},<sp/>{</highlight><highlight class="stringliteral">&quot;Pt&quot;</highlight><highlight class="normal">,<sp/>{0xD0,<sp/>0xD0,<sp/>0xE0}},</highlight></codeline>
+<codeline lineno="885"><highlight class="normal"><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;Au&quot;</highlight><highlight class="normal">,<sp/>{0xFF,<sp/>0xD1,<sp/>0x23}},<sp/>{</highlight><highlight class="stringliteral">&quot;Hg&quot;</highlight><highlight class="normal">,<sp/>{0xB8,<sp/>0xB8,<sp/>0xD0}},</highlight></codeline>
+<codeline lineno="886"><highlight class="normal"><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;Tl&quot;</highlight><highlight class="normal">,<sp/>{0xA6,<sp/>0x54,<sp/>0x4D}},<sp/>{</highlight><highlight class="stringliteral">&quot;Pb&quot;</highlight><highlight class="normal">,<sp/>{0x57,<sp/>0x59,<sp/>0x61}},</highlight></codeline>
+<codeline lineno="887"><highlight class="normal"><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;Bi&quot;</highlight><highlight class="normal">,<sp/>{0x9E,<sp/>0x4F,<sp/>0xB5}},<sp/>{</highlight><highlight class="stringliteral">&quot;Po&quot;</highlight><highlight class="normal">,<sp/>{0xAB,<sp/>0x5C,<sp/>0x00}},</highlight></codeline>
+<codeline lineno="888"><highlight class="normal"><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;At&quot;</highlight><highlight class="normal">,<sp/>{0x75,<sp/>0x4F,<sp/>0x45}},<sp/>{</highlight><highlight class="stringliteral">&quot;Rn&quot;</highlight><highlight class="normal">,<sp/>{0x42,<sp/>0x82,<sp/>0x96}},</highlight></codeline>
+<codeline lineno="889"><highlight class="normal"><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;Fr&quot;</highlight><highlight class="normal">,<sp/>{0x42,<sp/>0x00,<sp/>0x66}},<sp/>{</highlight><highlight class="stringliteral">&quot;Ra&quot;</highlight><highlight class="normal">,<sp/>{0x00,<sp/>0x7D,<sp/>0x00}},</highlight></codeline>
+<codeline lineno="890"><highlight class="normal"><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;Ac&quot;</highlight><highlight class="normal">,<sp/>{0x70,<sp/>0xAB,<sp/>0xFA}},<sp/>{</highlight><highlight class="stringliteral">&quot;Th&quot;</highlight><highlight class="normal">,<sp/>{0x00,<sp/>0xBA,<sp/>0xFF}},</highlight></codeline>
+<codeline lineno="891"><highlight class="normal"><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;Pa&quot;</highlight><highlight class="normal">,<sp/>{0x00,<sp/>0xA1,<sp/>0xFF}},<sp/>{</highlight><highlight class="stringliteral">&quot;U&quot;</highlight><highlight class="normal">,<sp/>{0x00,<sp/>0x8F,<sp/>0xFF}},</highlight></codeline>
+<codeline lineno="892"><highlight class="normal"><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;Np&quot;</highlight><highlight class="normal">,<sp/>{0x00,<sp/>0x80,<sp/>0xFF}},<sp/>{</highlight><highlight class="stringliteral">&quot;Pu&quot;</highlight><highlight class="normal">,<sp/>{0x00,<sp/>0x6B,<sp/>0xFF}},</highlight></codeline>
+<codeline lineno="893"><highlight class="normal"><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;Am&quot;</highlight><highlight class="normal">,<sp/>{0x54,<sp/>0x5C,<sp/>0xF2}},<sp/>{</highlight><highlight class="stringliteral">&quot;Cm&quot;</highlight><highlight class="normal">,<sp/>{0x78,<sp/>0x5C,<sp/>0xE3}},</highlight></codeline>
+<codeline lineno="894"><highlight class="normal"><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;Bk&quot;</highlight><highlight class="normal">,<sp/>{0x8A,<sp/>0x4F,<sp/>0xE3}},<sp/>{</highlight><highlight class="stringliteral">&quot;Cf&quot;</highlight><highlight class="normal">,<sp/>{0xA1,<sp/>0x36,<sp/>0xD4}},</highlight></codeline>
+<codeline lineno="895"><highlight class="normal"><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;Es&quot;</highlight><highlight class="normal">,<sp/>{0xB3,<sp/>0x1F,<sp/>0xD4}},<sp/>{</highlight><highlight class="stringliteral">&quot;Fm&quot;</highlight><highlight class="normal">,<sp/>{0xB3,<sp/>0x1F,<sp/>0xBA}},</highlight></codeline>
+<codeline lineno="896"><highlight class="normal"><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;Md&quot;</highlight><highlight class="normal">,<sp/>{0xB3,<sp/>0x0D,<sp/>0xA6}},<sp/>{</highlight><highlight class="stringliteral">&quot;No&quot;</highlight><highlight class="normal">,<sp/>{0xBD,<sp/>0x0D,<sp/>0x87}},</highlight></codeline>
+<codeline lineno="897"><highlight class="normal"><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;Lr&quot;</highlight><highlight class="normal">,<sp/>{0xC7,<sp/>0x00,<sp/>0x66}},<sp/>{</highlight><highlight class="stringliteral">&quot;Rf&quot;</highlight><highlight class="normal">,<sp/>{0xCC,<sp/>0x00,<sp/>0x59}},</highlight></codeline>
+<codeline lineno="898"><highlight class="normal"><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;Db&quot;</highlight><highlight class="normal">,<sp/>{0xD1,<sp/>0x00,<sp/>0x4F}},<sp/>{</highlight><highlight class="stringliteral">&quot;Sg&quot;</highlight><highlight class="normal">,<sp/>{0xD9,<sp/>0x00,<sp/>0x45}},</highlight></codeline>
+<codeline lineno="899"><highlight class="normal"><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;Bh&quot;</highlight><highlight class="normal">,<sp/>{0xE0,<sp/>0x00,<sp/>0x38}},<sp/>{</highlight><highlight class="stringliteral">&quot;Hs&quot;</highlight><highlight class="normal">,<sp/>{0xE6,<sp/>0x00,<sp/>0x2E}},</highlight></codeline>
+<codeline lineno="900"><highlight class="normal"><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;Mt&quot;</highlight><highlight class="normal">,<sp/>{0xEB,<sp/>0x00,<sp/>0x26}},<sp/>{</highlight><highlight class="stringliteral">&quot;none&quot;</highlight><highlight class="normal">,<sp/>{0xFF,<sp/>0xFF,<sp/>0xFF}},</highlight></codeline>
+<codeline lineno="901"><highlight class="normal"><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;O1&quot;</highlight><highlight class="normal">,<sp/>{0xFF,<sp/>0x0D,<sp/>0x0D}},<sp/>{</highlight><highlight class="stringliteral">&quot;selection&quot;</highlight><highlight class="normal">,<sp/>{0xFF,<sp/>0x00,<sp/>0x00}}};</highlight></codeline>
+<codeline lineno="902"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>biology</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="903"><highlight class="normal"></highlight></codeline>
+<codeline lineno="904"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal">io</highlight></codeline>
+<codeline lineno="905"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="906"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Out<sp/>of<sp/>core<sp/>brick<sp/>manager</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="907"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal">OOCManager;</highlight></codeline>
+<codeline lineno="908"><highlight class="normal"></highlight><highlight class="keyword">typedef</highlight><highlight class="normal"><sp/>std::shared_ptr&lt;OOCManager&gt;<sp/>OOCManagerPtr;</highlight></codeline>
+<codeline lineno="909"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>io</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="910"><highlight class="normal"></highlight></codeline>
+<codeline lineno="911"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>bioexplorer</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="/home/favreau/git/BioExplorer/bioexplorer/core/plugin/common/Types.h"/>
+  </compounddef>
+</doxygen>

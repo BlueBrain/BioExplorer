@@ -1,0 +1,11 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.17">
+  <compounddef id="d8/da8/namespace_0d47" kind="namespace" language="C++">
+    <compoundname>@47</compoundname>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="/home/favreau/git/BioExplorer/bioexplorer/core/plugin/io/OOCManager.cpp" line="37" column="1"/>
+  </compounddef>
+</doxygen>

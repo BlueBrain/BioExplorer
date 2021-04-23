@@ -1,0 +1,61 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.17">
+  <compounddef id="d2/dab/structbioexplorer_1_1biology_1_1Nucleotid" kind="struct" language="C++" prot="public">
+    <compoundname>bioexplorer::biology::Nucleotid</compoundname>
+      <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="d2/dab/structbioexplorer_1_1biology_1_1Nucleotid_1ae2afcb7c129fec3be362ccf07b68ad97" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t bioexplorer::biology::Nucleotid::index</definition>
+        <argsstring></argsstring>
+        <name>index</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Index </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/favreau/git/BioExplorer/bioexplorer/core/plugin/biology/RNASequence.cpp" line="44" column="12" bodyfile="/home/favreau/git/BioExplorer/bioexplorer/core/plugin/biology/RNASequence.cpp" bodystart="44" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="d2/dab/structbioexplorer_1_1biology_1_1Nucleotid_1a56e61b104bac35c0ca024ff99393a516" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string bioexplorer::biology::Nucleotid::name</definition>
+        <argsstring></argsstring>
+        <name>name</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Long name </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/favreau/git/BioExplorer/bioexplorer/core/plugin/biology/RNASequence.cpp" line="46" column="17" bodyfile="/home/favreau/git/BioExplorer/bioexplorer/core/plugin/biology/RNASequence.cpp" bodystart="46" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="d2/dab/structbioexplorer_1_1biology_1_1Nucleotid_1a57c13aa1a6adeb8301592331e828fe43" prot="public" static="no" mutable="no">
+        <type>Vector3f</type>
+        <definition>Vector3f bioexplorer::biology::Nucleotid::color</definition>
+        <argsstring></argsstring>
+        <name>color</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Color </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/favreau/git/BioExplorer/bioexplorer/core/plugin/biology/RNASequence.cpp" line="48" column="14" bodyfile="/home/favreau/git/BioExplorer/bioexplorer/core/plugin/biology/RNASequence.cpp" bodystart="48" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+<para>Structure representing a nucleotid. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="/home/favreau/git/BioExplorer/bioexplorer/core/plugin/biology/RNASequence.cpp" line="42" column="1" bodyfile="/home/favreau/git/BioExplorer/bioexplorer/core/plugin/biology/RNASequence.cpp" bodystart="41" bodyend="49"/>
+    <listofallmembers>
+      <member refid="d2/dab/structbioexplorer_1_1biology_1_1Nucleotid_1a57c13aa1a6adeb8301592331e828fe43" prot="public" virt="non-virtual"><scope>bioexplorer::biology::Nucleotid</scope><name>color</name></member>
+      <member refid="d2/dab/structbioexplorer_1_1biology_1_1Nucleotid_1ae2afcb7c129fec3be362ccf07b68ad97" prot="public" virt="non-virtual"><scope>bioexplorer::biology::Nucleotid</scope><name>index</name></member>
+      <member refid="d2/dab/structbioexplorer_1_1biology_1_1Nucleotid_1a56e61b104bac35c0ca024ff99393a516" prot="public" virt="non-virtual"><scope>bioexplorer::biology::Nucleotid</scope><name>name</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

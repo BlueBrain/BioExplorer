@@ -1,0 +1,109 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.17">
+  <compounddef id="d3/dc5/BioExplorerRandomGenerator_8ih" kind="file" language="C++">
+    <compoundname>BioExplorerRandomGenerator.ih</compoundname>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline><highlight class="normal">/*</highlight></codeline>
+<codeline><highlight class="normal"><sp/>*<sp/>The<sp/>Blue<sp/>Brain<sp/>BioExplorer<sp/>is<sp/>a<sp/>tool<sp/>for<sp/>scientists<sp/>to<sp/>extract<sp/>and<sp/>analyse</highlight></codeline>
+<codeline><highlight class="normal"><sp/>*<sp/>scientific<sp/>data<sp/>from<sp/>visualization</highlight></codeline>
+<codeline><highlight class="normal"><sp/>*</highlight></codeline>
+<codeline><highlight class="normal"><sp/>*<sp/>Copyright<sp/>2020-2021<sp/>Blue<sp/>BrainProject<sp/>/<sp/>EPFL</highlight></codeline>
+<codeline><highlight class="normal"><sp/>*</highlight></codeline>
+<codeline><highlight class="normal"><sp/>*<sp/>This<sp/>program<sp/>is<sp/>free<sp/>software:<sp/>you<sp/>can<sp/>redistribute<sp/>it<sp/>and/or<sp/>modify<sp/>it<sp/>under</highlight></codeline>
+<codeline><highlight class="normal"><sp/>*<sp/>the<sp/>terms<sp/>of<sp/>the<sp/>GNU<sp/>General<sp/>Public<sp/>License<sp/>as<sp/>published<sp/>by<sp/>the<sp/>Free<sp/>Software</highlight></codeline>
+<codeline><highlight class="normal"><sp/>*<sp/>Foundation,<sp/>either<sp/>version<sp/>3<sp/>of<sp/>the<sp/>License,<sp/>or<sp/>(at<sp/>your<sp/>option)<sp/>any<sp/>later</highlight></codeline>
+<codeline><highlight class="normal"><sp/>*<sp/>version.</highlight></codeline>
+<codeline><highlight class="normal"><sp/>*</highlight></codeline>
+<codeline><highlight class="normal"><sp/>*<sp/>This<sp/>program<sp/>is<sp/>distributed<sp/>in<sp/>the<sp/>hope<sp/>that<sp/>it<sp/>will<sp/>be<sp/>useful,<sp/>but<sp/>WITHOUT</highlight></codeline>
+<codeline><highlight class="normal"><sp/>*<sp/>ANY<sp/>WARRANTY;<sp/>without<sp/>even<sp/>the<sp/>implied<sp/>warranty<sp/>of<sp/>MERCHANTABILITY<sp/>or<sp/>FITNESS</highlight></codeline>
+<codeline><highlight class="normal"><sp/>*<sp/>FOR<sp/>A<sp/>PARTICULAR<sp/>PURPOSE.<sp/><sp/>See<sp/>the<sp/>GNU<sp/>General<sp/>Public<sp/>License<sp/>for<sp/>more</highlight></codeline>
+<codeline><highlight class="normal"><sp/>*<sp/>details.</highlight></codeline>
+<codeline><highlight class="normal"><sp/>*</highlight></codeline>
+<codeline><highlight class="normal"><sp/>*<sp/>You<sp/>should<sp/>have<sp/>received<sp/>a<sp/>copy<sp/>of<sp/>the<sp/>GNU<sp/>General<sp/>Public<sp/>License<sp/>along<sp/>with</highlight></codeline>
+<codeline><highlight class="normal"><sp/>*<sp/>this<sp/>program.<sp/><sp/>If<sp/>not,<sp/>see<sp/>&lt;https://www.gnu.org/licenses/&gt;.</highlight></codeline>
+<codeline><highlight class="normal"><sp/>*/</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">#pragma<sp/>once</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">#include<sp/>&lt;ospray/SDK/math/random.ih&gt;</highlight></codeline>
+<codeline><highlight class="normal">#include<sp/>&lt;ospray/SDK/math/vec.ih&gt;</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">float<sp/>getRandomValue(const<sp/>bool<sp/>useHardware,<sp/>const<sp/>varying<sp/>ScreenSample&amp;<sp/>sample,</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>const<sp/>int<sp/>randomNumber);</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">/**</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>Returns<sp/>a<sp/>random<sp/>direction<sp/>based<sp/>on<sp/>location<sp/>in<sp/>the<sp/>frame<sp/>buffer,<sp/>the<sp/>normal</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/>to<sp/>the<sp/>surface<sp/>and<sp/>rotation<sp/>parameters<sp/>for<sp/>the<sp/>precomputed<sp/>hard-coded<sp/>random</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/>distribution.</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>@param<sp/>useHardware<sp/>Use<sp/>hardware<sp/>acceleration<sp/>if<sp/>set<sp/>to<sp/>true</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>@param<sp/>frameBufferWidth<sp/>Width<sp/>of<sp/>the<sp/>frame<sp/>buffer</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>@param<sp/>sample<sp/>Frame<sp/>buffer<sp/>sample<sp/>being<sp/>rendered</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>@param<sp/>normal<sp/>Normal<sp/>vector<sp/>to<sp/>the<sp/>surface</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>@param<sp/>randomNumber<sp/>A<sp/>random<sp/>number<sp/>that<sp/>introduces<sp/>noise<sp/>in<sp/>the</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/>distribution</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>@return<sp/>A<sp/>random<sp/>direction<sp/>based<sp/>on<sp/>specified<sp/>parameters</highlight></codeline>
+<codeline><highlight class="normal">*/</highlight></codeline>
+<codeline><highlight class="normal">vec3f<sp/>getRandomVector(const<sp/>bool<sp/>useHardware,</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>const<sp/>unsigned<sp/>int<sp/>frameBufferWidth,</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>const<sp/>varying<sp/>ScreenSample&amp;<sp/>sample,<sp/>const<sp/>vec3f&amp;<sp/>normal,</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>const<sp/>int<sp/>randomNumber);</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">/**</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>Returns<sp/>tangent<sp/>vectors<sp/>for<sp/>a<sp/>given<sp/>normal.</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>@param<sp/>useHardware<sp/>Use<sp/>hardware<sp/>acceleration<sp/>if<sp/>set<sp/>to<sp/>true</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>@param<sp/>normal<sp/>Given<sp/>normal<sp/>vector</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>@param<sp/>tangent<sp/>The<sp/>tangent<sp/>vector<sp/>is<sp/>typically<sp/>regarded<sp/>as<sp/>one<sp/>vector<sp/>that</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/>exists<sp/>within<sp/>the<sp/>surface&apos;s<sp/>plane<sp/>(for<sp/>a<sp/>flat<sp/>surface)<sp/>or<sp/>which<sp/>lies<sp/>tangent</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/>to<sp/>a<sp/>reference<sp/>point<sp/>on<sp/>a<sp/>curved<sp/>surface</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>@param<sp/>biTangent<sp/>The<sp/>BiTangent<sp/>vector<sp/>which<sp/>is<sp/>effectively<sp/>the<sp/>&quot;other&quot;</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/>tangent<sp/>vector<sp/>for<sp/>the<sp/>surface,<sp/>which<sp/>is<sp/>orthogonal<sp/>to<sp/>both<sp/>the<sp/>Normal<sp/>vector</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/>and<sp/>the<sp/>chosen<sp/>tangent<sp/>vector</highlight></codeline>
+<codeline><highlight class="normal">*/</highlight></codeline>
+<codeline><highlight class="normal">void<sp/>getTangentVectors(const<sp/>vec3f&amp;<sp/>normal,<sp/>vec3f&amp;<sp/>tangent,<sp/>vec3f&amp;<sp/>biTangent);</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">/**</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>@brief<sp/>Returns<sp/>a<sp/>random<sp/>direction<sp/>according<sp/>to<sp/>specified<sp/>parameters</highlight></codeline>
+<codeline><highlight class="normal">*/</highlight></codeline>
+<codeline><highlight class="normal">vec3f<sp/>getRandomDir(const<sp/>bool<sp/>useHardware,<sp/>varying<sp/>RandomTEA*<sp/>uniform<sp/>rng,</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>const<sp/>vec3f&amp;<sp/>biNorm0,<sp/>const<sp/>vec3f&amp;<sp/>biNorm1,</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>const<sp/>vec3f&amp;<sp/>gNormal,<sp/>const<sp/>float<sp/>rot_x,<sp/>const<sp/>float<sp/>rot_y,</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>const<sp/>uniform<sp/>float<sp/>epsilon);</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">/**</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>@return<sp/>A<sp/>random<sp/>vector<sp/>within<sp/>a<sp/>specified<sp/>cone</highlight></codeline>
+<codeline><highlight class="normal"><sp/>*/</highlight></codeline>
+<codeline><highlight class="normal">vec3f<sp/>getConeSample(const<sp/>bool<sp/>useHardware,<sp/>const<sp/>vec3f&amp;<sp/>direction,</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>varying<sp/>RandomTEA*<sp/>uniform<sp/>rng,<sp/>const<sp/>float<sp/>extent);</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">/**</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>@return<sp/>A<sp/>random<sp/>generator<sp/>according<sp/>to<sp/>the<sp/>location<sp/>in<sp/>the<sp/>frame<sp/>buffer</highlight></codeline>
+<codeline><highlight class="normal">*/</highlight></codeline>
+<codeline><highlight class="normal">varying<sp/>RandomTEA*<sp/>uniform<sp/>createRandomNumberGenerator(</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>const<sp/>uniform<sp/>Renderer*<sp/>uniform<sp/>self,<sp/>const<sp/>varying<sp/>ScreenSample&amp;<sp/>sample);</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">/**</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>@return<sp/>An<sp/>orthogonal<sp/>vector<sp/>(and<sp/>combining<sp/>coconuts)</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>http://lolengine.net/blog/2013/09/21/picking-orthogonal-vector-combing-coconuts</highlight></codeline>
+<codeline><highlight class="normal">*/</highlight></codeline>
+<codeline><highlight class="normal">vec3f<sp/>ortho(const<sp/>vec3f&amp;<sp/>v);</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">inline<sp/>float<sp/>mix(const<sp/>float<sp/>x,<sp/>const<sp/>float<sp/>y,<sp/>const<sp/>float<sp/>a);</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">inline<sp/>float<sp/>hash(float<sp/>n);</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">inline<sp/>vec3f<sp/>mod(const<sp/>vec3f&amp;<sp/>v,<sp/>const<sp/>int<sp/>m);</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">//<sp/>hash<sp/>based<sp/>3d<sp/>value<sp/>noise</highlight></codeline>
+<codeline><highlight class="normal">float<sp/>noise(const<sp/>vec3f&amp;<sp/>x);</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">float<sp/>cells(const<sp/>vec3f&amp;<sp/>p,<sp/>float<sp/>cellCount);</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">float<sp/>worleyNoise(const<sp/>vec3f&amp;<sp/>p,<sp/>float<sp/>cellCount);</highlight></codeline>
+    </programlisting>
+    <location file="/home/favreau/git/BioExplorer/bioexplorer/core/module/ispc/render/utils/BioExplorerRandomGenerator.ih"/>
+  </compounddef>
+</doxygen>

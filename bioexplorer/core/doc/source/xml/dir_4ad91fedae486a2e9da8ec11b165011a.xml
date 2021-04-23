@@ -1,0 +1,17 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.17">
+  <compounddef id="dir_4ad91fedae486a2e9da8ec11b165011a" kind="dir">
+    <compoundname>/home/favreau/git/BioExplorer/bioexplorer/core/plugin/fields</compoundname>
+    <innerfile refid="d9/dc0/FieldsHandler_8cpp">FieldsHandler.cpp</innerfile>
+    <innerfile refid="d9/d68/FieldsHandler_8h">FieldsHandler.h</innerfile>
+    <innerfile refid="dd/d4a/Octree_8cpp">Octree.cpp</innerfile>
+    <innerfile refid="d2/dc3/Octree_8h">Octree.h</innerfile>
+    <innerfile refid="d6/de5/OctreeNode_8cpp">OctreeNode.cpp</innerfile>
+    <innerfile refid="d9/dde/OctreeNode_8h">OctreeNode.h</innerfile>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="/home/favreau/git/BioExplorer/bioexplorer/core/plugin/fields/"/>
+  </compounddef>
+</doxygen>

@@ -25,6 +25,7 @@
 using namespace bioexplorer;
 using namespace details;
 
+#if !defined(DOXYGEN_SHOULD_SKIP_THIS)
 // Response
 std::string to_json(const Response &param);
 
@@ -82,3 +83,4 @@ bool from_json(BuildPointCloudDetails &param, const std::string &payload);
 bool from_json(ModelsVisibilityDetails &param, const std::string &payload);
 bool from_json(ProteinInstanceTransformationDetails &param,
                const std::string &payload);
+#endif

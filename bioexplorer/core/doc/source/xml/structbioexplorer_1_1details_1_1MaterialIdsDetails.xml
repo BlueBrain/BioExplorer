@@ -1,0 +1,32 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.17">
+  <compounddef id="structbioexplorer_1_1details_1_1MaterialIdsDetails" kind="struct" language="C++" prot="public">
+    <compoundname>bioexplorer::details::MaterialIdsDetails</compoundname>
+    <includes refid="Types_8h" local="no">Types.h</includes>
+      <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structbioexplorer_1_1details_1_1MaterialIdsDetails_1a949ed6cca238aaafc213c2ce42c0efe4" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; size_t &gt;</type>
+        <definition>std::vector&lt;size_t&gt; bioexplorer::details::MaterialIdsDetails::ids</definition>
+        <argsstring></argsstring>
+        <name>ids</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>List of material identifiers </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/favreau/git/BioExplorer/bioexplorer/core/plugin/common/Types.h" line="560" column="17" bodyfile="/home/favreau/git/BioExplorer/bioexplorer/core/plugin/common/Types.h" bodystart="560" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+<para>List of material identifiers attached to a Brayns model. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="/home/favreau/git/BioExplorer/bioexplorer/core/plugin/common/Types.h" line="558" column="1" bodyfile="/home/favreau/git/BioExplorer/bioexplorer/core/plugin/common/Types.h" bodystart="557" bodyend="561"/>
+    <listofallmembers>
+      <member refid="structbioexplorer_1_1details_1_1MaterialIdsDetails_1a949ed6cca238aaafc213c2ce42c0efe4" prot="public" virt="non-virtual"><scope>bioexplorer::details::MaterialIdsDetails</scope><name>ids</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

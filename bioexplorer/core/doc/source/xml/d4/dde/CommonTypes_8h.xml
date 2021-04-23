@@ -1,0 +1,418 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.17">
+  <compounddef id="d4/dde/CommonTypes_8h" kind="file" language="C++">
+    <compoundname>CommonTypes.h</compoundname>
+    <includedby refid="dc/d8e/PerspectiveStereoCamera_8h" local="no">/home/favreau/git/BioExplorer/bioexplorer/core/module/ispc/camera/PerspectiveStereoCamera.h</includedby>
+    <includedby refid="d2/de1/AdvancedMaterial_8h" local="no">/home/favreau/git/BioExplorer/bioexplorer/core/module/ispc/render/AdvancedMaterial.h</includedby>
+    <includedby refid="d2/d19/BioExplorerPlugin_8cpp" local="no">/home/favreau/git/BioExplorer/bioexplorer/core/plugin/BioExplorerPlugin.cpp</includedby>
+    <includedby refid="de/d05/plugin_2biology_2Glycans_8cpp" local="no">/home/favreau/git/BioExplorer/bioexplorer/core/plugin/biology/Glycans.cpp</includedby>
+    <includedby refid="d9/d00/Membrane_8cpp" local="no">/home/favreau/git/BioExplorer/bioexplorer/core/plugin/biology/Membrane.cpp</includedby>
+    <includedby refid="d9/d18/plugin_2biology_2MeshBasedMembrane_8cpp" local="no">/home/favreau/git/BioExplorer/bioexplorer/core/plugin/biology/MeshBasedMembrane.cpp</includedby>
+    <includedby refid="dc/db1/Molecule_8cpp" local="no">/home/favreau/git/BioExplorer/bioexplorer/core/plugin/biology/Molecule.cpp</includedby>
+    <includedby refid="d2/dab/plugin_2biology_2RNASequence_8cpp" local="no">/home/favreau/git/BioExplorer/bioexplorer/core/plugin/biology/RNASequence.cpp</includedby>
+    <includedby refid="d5/dec/CacheLoader_8cpp" local="no">/home/favreau/git/BioExplorer/bioexplorer/core/plugin/io/CacheLoader.cpp</includedby>
+    <includedby refid="d5/df0/PointCloudMesher_8cpp" local="no">/home/favreau/git/BioExplorer/bioexplorer/core/plugin/meshing/PointCloudMesher.cpp</includedby>
+    <includedby refid="d8/de3/SurfaceMesher_8cpp" local="no">/home/favreau/git/BioExplorer/bioexplorer/core/plugin/meshing/SurfaceMesher.cpp</includedby>
+    <invincdepgraph>
+      <node id="17">
+        <label>/home/favreau/git/BioExplorer/bioexplorer/core/plugin/meshing/PointCloudMesher.cpp</label>
+        <link refid="d5/df0/PointCloudMesher_8cpp_source"/>
+      </node>
+      <node id="18">
+        <label>/home/favreau/git/BioExplorer/bioexplorer/core/plugin/meshing/SurfaceMesher.cpp</label>
+        <link refid="d8/de3/SurfaceMesher_8cpp_source"/>
+      </node>
+      <node id="6">
+        <label>/home/favreau/git/BioExplorer/bioexplorer/core/module/ispc/render/AdvancedRenderer.h</label>
+        <link refid="de/d80/AdvancedRenderer_8h_source"/>
+        <childnode refid="7" relation="include">
+        </childnode>
+      </node>
+      <node id="5">
+        <label>/home/favreau/git/BioExplorer/bioexplorer/core/module/ispc/render/AdvancedMaterial.cpp</label>
+        <link refid="d6/de1/AdvancedMaterial_8cpp_source"/>
+      </node>
+      <node id="13">
+        <label>/home/favreau/git/BioExplorer/bioexplorer/core/plugin/biology/MeshBasedMembrane.cpp</label>
+        <link refid="d9/d18/plugin_2biology_2MeshBasedMembrane_8cpp_source"/>
+      </node>
+      <node id="9">
+        <label>/home/favreau/git/BioExplorer/bioexplorer/core/module/ispc/render/FieldsRenderer.cpp</label>
+        <link refid="dc/d15/FieldsRenderer_8cpp_source"/>
+      </node>
+      <node id="1">
+        <label>/home/favreau/git/BioExplorer/bioexplorer/core/plugin/common/CommonTypes.h</label>
+        <link refid="d4/dde/CommonTypes_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+        <childnode refid="18" relation="include">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>/home/favreau/git/BioExplorer/bioexplorer/core/module/ispc/camera/PerspectiveStereoCamera.cpp</label>
+        <link refid="d6/d10/PerspectiveStereoCamera_8cpp_source"/>
+      </node>
+      <node id="8">
+        <label>/home/favreau/git/BioExplorer/bioexplorer/core/module/ispc/render/FieldsRenderer.h</label>
+        <link refid="da/d33/FieldsRenderer_8h_source"/>
+        <childnode refid="9" relation="include">
+        </childnode>
+      </node>
+      <node id="16">
+        <label>/home/favreau/git/BioExplorer/bioexplorer/core/plugin/io/CacheLoader.cpp</label>
+        <link refid="d5/dec/CacheLoader_8cpp_source"/>
+      </node>
+      <node id="4">
+        <label>/home/favreau/git/BioExplorer/bioexplorer/core/module/ispc/render/AdvancedMaterial.h</label>
+        <link refid="d2/de1/AdvancedMaterial_8h_source"/>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>/home/favreau/git/BioExplorer/bioexplorer/core/module/ispc/camera/PerspectiveStereoCamera.h</label>
+        <link refid="dc/d8e/PerspectiveStereoCamera_8h_source"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+      </node>
+      <node id="10">
+        <label>/home/favreau/git/BioExplorer/bioexplorer/core/plugin/BioExplorerPlugin.cpp</label>
+        <link refid="d2/d19/BioExplorerPlugin_8cpp_source"/>
+      </node>
+      <node id="12">
+        <label>/home/favreau/git/BioExplorer/bioexplorer/core/plugin/biology/Membrane.cpp</label>
+        <link refid="d9/d00/Membrane_8cpp_source"/>
+      </node>
+      <node id="14">
+        <label>/home/favreau/git/BioExplorer/bioexplorer/core/plugin/biology/Molecule.cpp</label>
+        <link refid="dc/db1/Molecule_8cpp_source"/>
+      </node>
+      <node id="11">
+        <label>/home/favreau/git/BioExplorer/bioexplorer/core/plugin/biology/Glycans.cpp</label>
+        <link refid="de/d05/plugin_2biology_2Glycans_8cpp_source"/>
+      </node>
+      <node id="7">
+        <label>/home/favreau/git/BioExplorer/bioexplorer/core/module/ispc/render/AdvancedRenderer.cpp</label>
+        <link refid="d4/d7c/AdvancedRenderer_8cpp_source"/>
+      </node>
+      <node id="15">
+        <label>/home/favreau/git/BioExplorer/bioexplorer/core/plugin/biology/RNASequence.cpp</label>
+        <link refid="d2/dab/plugin_2biology_2RNASequence_8cpp_source"/>
+      </node>
+    </invincdepgraph>
+      <sectiondef kind="define">
+      <memberdef kind="define" id="d4/dde/CommonTypes_8h_1a02fab6b664bd3e0664b7fa297e35be86" prot="public" static="no">
+        <name>DEFAULT_SKY_POWER</name>
+        <initializer>4.f</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/favreau/git/BioExplorer/bioexplorer/core/plugin/common/CommonTypes.h" line="23" column="9" bodyfile="/home/favreau/git/BioExplorer/bioexplorer/core/plugin/common/CommonTypes.h" bodystart="23" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="d4/dde/CommonTypes_8h_1aeee92cb43a2cf0b396fde970dba4e696" prot="public" static="no">
+        <name>MATERIAL_PROPERTY_SHADING_MODE</name>
+        <initializer>&quot;shading_mode&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Additional material attributes </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/favreau/git/BioExplorer/bioexplorer/core/plugin/common/CommonTypes.h" line="26" column="9" bodyfile="/home/favreau/git/BioExplorer/bioexplorer/core/plugin/common/CommonTypes.h" bodystart="26" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="d4/dde/CommonTypes_8h_1a7e1002e921217935e714cd4aa389427b" prot="public" static="no">
+        <name>MATERIAL_PROPERTY_USER_PARAMETER</name>
+        <initializer>&quot;user_parameter&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/favreau/git/BioExplorer/bioexplorer/core/plugin/common/CommonTypes.h" line="27" column="9" bodyfile="/home/favreau/git/BioExplorer/bioexplorer/core/plugin/common/CommonTypes.h" bodystart="27" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="d4/dde/CommonTypes_8h_1ac1210dc06f1e928cbaf15357778265fc" prot="public" static="no">
+        <name>MATERIAL_PROPERTY_CHAMELEON_MODE</name>
+        <initializer>&quot;chameleon_mode&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/favreau/git/BioExplorer/bioexplorer/core/plugin/common/CommonTypes.h" line="28" column="9" bodyfile="/home/favreau/git/BioExplorer/bioexplorer/core/plugin/common/CommonTypes.h" bodystart="28" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="d4/dde/CommonTypes_8h_1ae524df5b490026eae94d3b36e9995c10" prot="public" static="no">
+        <name>MATERIAL_PROPERTY_NODE_ID</name>
+        <initializer>&quot;node_id&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/favreau/git/BioExplorer/bioexplorer/core/plugin/common/CommonTypes.h" line="29" column="9" bodyfile="/home/favreau/git/BioExplorer/bioexplorer/core/plugin/common/CommonTypes.h" bodystart="29" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="enum">
+      <memberdef kind="enum" id="d4/dde/CommonTypes_8h_1a5edacf75df3097a9bc552abfe7902df7" prot="public" static="no" strong="no">
+        <type></type>
+        <name>MaterialShadingMode</name>
+        <enumvalue id="d4/dde/CommonTypes_8h_1a5edacf75df3097a9bc552abfe7902df7a3477bded3ed4ba30eaecabaf1d004131" prot="public">
+          <name>undefined_shading_mode</name>
+          <initializer>= 0</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="d4/dde/CommonTypes_8h_1a5edacf75df3097a9bc552abfe7902df7a94c3facd4fc52de1d46fd692ac82aff7" prot="public">
+          <name>basic</name>
+          <initializer>= 1</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="d4/dde/CommonTypes_8h_1a5edacf75df3097a9bc552abfe7902df7a6d3e8173b3b8cbba6f3fbaa4e1b8ee6d" prot="public">
+          <name>diffuse</name>
+          <initializer>= 2</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="d4/dde/CommonTypes_8h_1a5edacf75df3097a9bc552abfe7902df7a1e4c9e1097c8f3bbb41c25b3b3176b6b" prot="public">
+          <name>electron</name>
+          <initializer>= 3</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="d4/dde/CommonTypes_8h_1a5edacf75df3097a9bc552abfe7902df7a82101604536bc4d6bb29c46d3267270c" prot="public">
+          <name>cartoon</name>
+          <initializer>= 4</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="d4/dde/CommonTypes_8h_1a5edacf75df3097a9bc552abfe7902df7a6375905e4d6687d73f36cd3ab4745fa5" prot="public">
+          <name>electron_transparency</name>
+          <initializer>= 5</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="d4/dde/CommonTypes_8h_1a5edacf75df3097a9bc552abfe7902df7aad26c122db3c5d2818db33e160f340ba" prot="public">
+          <name>perlin</name>
+          <initializer>= 6</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="d4/dde/CommonTypes_8h_1a5edacf75df3097a9bc552abfe7902df7add9f727a353fee69ace92aa57e0cda4d" prot="public">
+          <name>diffuse_transparency</name>
+          <initializer>= 7</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="d4/dde/CommonTypes_8h_1a5edacf75df3097a9bc552abfe7902df7a94b912a497ea840b60a4bc09378096a5" prot="public">
+          <name>checker</name>
+          <initializer>= 8</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="d4/dde/CommonTypes_8h_1a5edacf75df3097a9bc552abfe7902df7a8e5ec7c5681dd1e77146a21d10e57504" prot="public">
+          <name>goodsell</name>
+          <initializer>= 9</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/favreau/git/BioExplorer/bioexplorer/core/plugin/common/CommonTypes.h" line="32" column="1" bodyfile="/home/favreau/git/BioExplorer/bioexplorer/core/plugin/common/CommonTypes.h" bodystart="31" bodyend="43"/>
+      </memberdef>
+      <memberdef kind="enum" id="d4/dde/CommonTypes_8h_1a0553a2f3ec528d0da520ac1151de4086" prot="public" static="no" strong="no">
+        <type></type>
+        <name>MaterialChameleonMode</name>
+        <enumvalue id="d4/dde/CommonTypes_8h_1a0553a2f3ec528d0da520ac1151de4086aa94f355bea53982914f906d6e6e8875e" prot="public">
+          <name>undefined_chameleon_mode</name>
+          <initializer>= 0</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="d4/dde/CommonTypes_8h_1a0553a2f3ec528d0da520ac1151de4086ad7ef125cd242d0ccda37178211b0d468" prot="public">
+          <name>emitter</name>
+          <initializer>= 1</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="d4/dde/CommonTypes_8h_1a0553a2f3ec528d0da520ac1151de4086aa5c0c7a481319b5bda654ae3516404e3" prot="public">
+          <name>receiver</name>
+          <initializer>= 2</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/favreau/git/BioExplorer/bioexplorer/core/plugin/common/CommonTypes.h" line="46" column="1" bodyfile="/home/favreau/git/BioExplorer/bioexplorer/core/plugin/common/CommonTypes.h" bodystart="45" bodyend="50"/>
+      </memberdef>
+      <memberdef kind="enum" id="d4/dde/CommonTypes_8h_1ab7b7378c2c192d77fc2b7097708c6e86" prot="public" static="no" strong="no">
+        <type></type>
+        <name>CameraStereoMode</name>
+        <enumvalue id="d4/dde/CommonTypes_8h_1ab7b7378c2c192d77fc2b7097708c6e86a105c91f33f6b7468e7e85e2524586aa8" prot="public">
+          <name>mono</name>
+          <initializer>= 0</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="d4/dde/CommonTypes_8h_1ab7b7378c2c192d77fc2b7097708c6e86ab0ac36b187aa60c167ffcead3d5a03c0" prot="public">
+          <name>left</name>
+          <initializer>= 1</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="d4/dde/CommonTypes_8h_1ab7b7378c2c192d77fc2b7097708c6e86af763d610923b0c4614e8ecd65212666a" prot="public">
+          <name>right</name>
+          <initializer>= 2</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="d4/dde/CommonTypes_8h_1ab7b7378c2c192d77fc2b7097708c6e86ac1dd67f062859d763998dbec0a22f947" prot="public">
+          <name>side_by_side</name>
+          <initializer>= 3</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/favreau/git/BioExplorer/bioexplorer/core/plugin/common/CommonTypes.h" line="53" column="1" bodyfile="/home/favreau/git/BioExplorer/bioexplorer/core/plugin/common/CommonTypes.h" bodystart="52" bodyend="58"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="comment">/*</highlight></codeline>
+<codeline lineno="2"><highlight class="comment"><sp/>*<sp/>The<sp/>Blue<sp/>Brain<sp/>BioExplorer<sp/>is<sp/>a<sp/>tool<sp/>for<sp/>scientists<sp/>to<sp/>extract<sp/>and<sp/>analyse</highlight></codeline>
+<codeline lineno="3"><highlight class="comment"><sp/>*<sp/>scientific<sp/>data<sp/>from<sp/>visualization</highlight></codeline>
+<codeline lineno="4"><highlight class="comment"><sp/>*</highlight></codeline>
+<codeline lineno="5"><highlight class="comment"><sp/>*<sp/>Copyright<sp/>2020-2021<sp/>Blue<sp/>BrainProject<sp/>/<sp/>EPFL</highlight></codeline>
+<codeline lineno="6"><highlight class="comment"><sp/>*</highlight></codeline>
+<codeline lineno="7"><highlight class="comment"><sp/>*<sp/>This<sp/>program<sp/>is<sp/>free<sp/>software:<sp/>you<sp/>can<sp/>redistribute<sp/>it<sp/>and/or<sp/>modify<sp/>it<sp/>under</highlight></codeline>
+<codeline lineno="8"><highlight class="comment"><sp/>*<sp/>the<sp/>terms<sp/>of<sp/>the<sp/>GNU<sp/>General<sp/>Public<sp/>License<sp/>as<sp/>published<sp/>by<sp/>the<sp/>Free<sp/>Software</highlight></codeline>
+<codeline lineno="9"><highlight class="comment"><sp/>*<sp/>Foundation,<sp/>either<sp/>version<sp/>3<sp/>of<sp/>the<sp/>License,<sp/>or<sp/>(at<sp/>your<sp/>option)<sp/>any<sp/>later</highlight></codeline>
+<codeline lineno="10"><highlight class="comment"><sp/>*<sp/>version.</highlight></codeline>
+<codeline lineno="11"><highlight class="comment"><sp/>*</highlight></codeline>
+<codeline lineno="12"><highlight class="comment"><sp/>*<sp/>This<sp/>program<sp/>is<sp/>distributed<sp/>in<sp/>the<sp/>hope<sp/>that<sp/>it<sp/>will<sp/>be<sp/>useful,<sp/>but<sp/>WITHOUT</highlight></codeline>
+<codeline lineno="13"><highlight class="comment"><sp/>*<sp/>ANY<sp/>WARRANTY;<sp/>without<sp/>even<sp/>the<sp/>implied<sp/>warranty<sp/>of<sp/>MERCHANTABILITY<sp/>or<sp/>FITNESS</highlight></codeline>
+<codeline lineno="14"><highlight class="comment"><sp/>*<sp/>FOR<sp/>A<sp/>PARTICULAR<sp/>PURPOSE.<sp/><sp/>See<sp/>the<sp/>GNU<sp/>General<sp/>Public<sp/>License<sp/>for<sp/>more</highlight></codeline>
+<codeline lineno="15"><highlight class="comment"><sp/>*<sp/>details.</highlight></codeline>
+<codeline lineno="16"><highlight class="comment"><sp/>*</highlight></codeline>
+<codeline lineno="17"><highlight class="comment"><sp/>*<sp/>You<sp/>should<sp/>have<sp/>received<sp/>a<sp/>copy<sp/>of<sp/>the<sp/>GNU<sp/>General<sp/>Public<sp/>License<sp/>along<sp/>with</highlight></codeline>
+<codeline lineno="18"><highlight class="comment"><sp/>*<sp/>this<sp/>program.<sp/><sp/>If<sp/>not,<sp/>see<sp/>&lt;https://www.gnu.org/licenses/&gt;.</highlight></codeline>
+<codeline lineno="19"><highlight class="comment"><sp/>*/</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>DEFAULT_SKY_POWER<sp/>4.f</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight></codeline>
+<codeline lineno="26"><highlight class="preprocessor">#define<sp/>MATERIAL_PROPERTY_SHADING_MODE<sp/>&quot;shading_mode&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>MATERIAL_PROPERTY_USER_PARAMETER<sp/>&quot;user_parameter&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>MATERIAL_PROPERTY_CHAMELEON_MODE<sp/>&quot;chameleon_mode&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="29"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>MATERIAL_PROPERTY_NODE_ID<sp/>&quot;node_id&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="30"><highlight class="normal"></highlight></codeline>
+<codeline lineno="31"><highlight class="normal"></highlight><highlight class="keyword">enum</highlight><highlight class="normal"><sp/>MaterialShadingMode</highlight></codeline>
+<codeline lineno="32"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="33"><highlight class="normal"><sp/><sp/><sp/><sp/>undefined_shading_mode<sp/>=<sp/>0,</highlight></codeline>
+<codeline lineno="34"><highlight class="normal"><sp/><sp/><sp/><sp/>basic<sp/>=<sp/>1,</highlight></codeline>
+<codeline lineno="35"><highlight class="normal"><sp/><sp/><sp/><sp/>diffuse<sp/>=<sp/>2,</highlight></codeline>
+<codeline lineno="36"><highlight class="normal"><sp/><sp/><sp/><sp/>electron<sp/>=<sp/>3,</highlight></codeline>
+<codeline lineno="37"><highlight class="normal"><sp/><sp/><sp/><sp/>cartoon<sp/>=<sp/>4,</highlight></codeline>
+<codeline lineno="38"><highlight class="normal"><sp/><sp/><sp/><sp/>electron_transparency<sp/>=<sp/>5,</highlight></codeline>
+<codeline lineno="39"><highlight class="normal"><sp/><sp/><sp/><sp/>perlin<sp/>=<sp/>6,</highlight></codeline>
+<codeline lineno="40"><highlight class="normal"><sp/><sp/><sp/><sp/>diffuse_transparency<sp/>=<sp/>7,</highlight></codeline>
+<codeline lineno="41"><highlight class="normal"><sp/><sp/><sp/><sp/>checker<sp/>=<sp/>8,</highlight></codeline>
+<codeline lineno="42"><highlight class="normal"><sp/><sp/><sp/><sp/>goodsell<sp/>=<sp/>9</highlight></codeline>
+<codeline lineno="43"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="44"><highlight class="normal"></highlight></codeline>
+<codeline lineno="45"><highlight class="normal"></highlight><highlight class="keyword">enum</highlight><highlight class="normal"><sp/>MaterialChameleonMode</highlight></codeline>
+<codeline lineno="46"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="47"><highlight class="normal"><sp/><sp/><sp/><sp/>undefined_chameleon_mode<sp/>=<sp/>0,</highlight></codeline>
+<codeline lineno="48"><highlight class="normal"><sp/><sp/><sp/><sp/>emitter<sp/>=<sp/>1,</highlight></codeline>
+<codeline lineno="49"><highlight class="normal"><sp/><sp/><sp/><sp/>receiver<sp/>=<sp/>2</highlight></codeline>
+<codeline lineno="50"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="51"><highlight class="normal"></highlight></codeline>
+<codeline lineno="52"><highlight class="normal"></highlight><highlight class="keyword">enum</highlight><highlight class="normal"><sp/>CameraStereoMode</highlight></codeline>
+<codeline lineno="53"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="54"><highlight class="normal"><sp/><sp/><sp/><sp/>mono<sp/>=<sp/>0,</highlight></codeline>
+<codeline lineno="55"><highlight class="normal"><sp/><sp/><sp/><sp/>left<sp/>=<sp/>1,</highlight></codeline>
+<codeline lineno="56"><highlight class="normal"><sp/><sp/><sp/><sp/>right<sp/>=<sp/>2,</highlight></codeline>
+<codeline lineno="57"><highlight class="normal"><sp/><sp/><sp/><sp/>side_by_side<sp/>=<sp/>3</highlight></codeline>
+<codeline lineno="58"><highlight class="normal">};</highlight></codeline>
+    </programlisting>
+    <location file="/home/favreau/git/BioExplorer/bioexplorer/core/plugin/common/CommonTypes.h"/>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,16 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.17">
+  <compounddef id="dir_b1abf906ba9816066f71e56a48bb03ad" kind="dir">
+    <compoundname>/home/favreau/git/BioExplorer/bioexplorer/core/plugin/io</compoundname>
+    <innerdir refid="dir_9b010c0af6d3ec07efce0b60ea356e7f">/home/favreau/git/BioExplorer/bioexplorer/core/plugin/io/db</innerdir>
+    <innerfile refid="CacheLoader_8cpp">CacheLoader.cpp</innerfile>
+    <innerfile refid="CacheLoader_8h">CacheLoader.h</innerfile>
+    <innerfile refid="OOCManager_8cpp">OOCManager.cpp</innerfile>
+    <innerfile refid="OOCManager_8h">OOCManager.h</innerfile>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="/home/favreau/git/BioExplorer/bioexplorer/core/plugin/io/"/>
+  </compounddef>
+</doxygen>

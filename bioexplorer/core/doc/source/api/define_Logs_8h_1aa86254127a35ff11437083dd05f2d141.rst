@@ -1,0 +1,13 @@
+.. _exhale_define_Logs_8h_1aa86254127a35ff11437083dd05f2d141:
+
+Define PLUGIN_THROW
+===================
+
+- Defined in :ref:`file__home_favreau_git_BioExplorer_bioexplorer_core_plugin_common_Logs.h`
+
+
+Define Documentation
+--------------------
+
+
+.. doxygendefine:: PLUGIN_THROW

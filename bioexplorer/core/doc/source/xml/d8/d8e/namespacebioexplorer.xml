@@ -1,0 +1,488 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.17">
+  <compounddef id="d8/d8e/namespacebioexplorer" kind="namespace" language="C++">
+    <compoundname>bioexplorer</compoundname>
+    <innerclass refid="d7/d7b/classbioexplorer_1_1BioExplorerPlugin" prot="public">bioexplorer::BioExplorerPlugin</innerclass>
+    <innernamespace refid="db/d42/namespacebioexplorer_1_1biology">bioexplorer::biology</innernamespace>
+    <innernamespace refid="da/d0b/namespacebioexplorer_1_1common">bioexplorer::common</innernamespace>
+    <innernamespace refid="d0/d1f/namespacebioexplorer_1_1details">bioexplorer::details</innernamespace>
+    <innernamespace refid="d9/dc7/namespacebioexplorer_1_1fields">bioexplorer::fields</innernamespace>
+    <innernamespace refid="d1/d74/namespacebioexplorer_1_1io">bioexplorer::io</innernamespace>
+    <innernamespace refid="d0/d9c/namespacebioexplorer_1_1meshing">bioexplorer::meshing</innernamespace>
+    <innernamespace refid="d7/dee/namespacebioexplorer_1_1rendering">bioexplorer::rendering</innernamespace>
+      <sectiondef kind="typedef">
+      <memberdef kind="typedef" id="d7/df8/Types_8h_1afdfc3afd87165ff08ff225dbb511b98a" prot="public" static="no">
+        <type>std::map&lt; std::string, std::string &gt;</type>
+        <definition>typedef std::map&lt;std::string, std::string&gt; bioexplorer::StringMap</definition>
+        <argsstring></argsstring>
+        <name>StringMap</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/favreau/git/BioExplorer/bioexplorer/core/plugin/common/Types.h" line="72" column="18" bodyfile="/home/favreau/git/BioExplorer/bioexplorer/core/plugin/common/Types.h" bodystart="72" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="d7/df8/Types_8h_1af9b13bb0784989d20481736886a9aec1" prot="public" static="no">
+        <type>Vector3f</type>
+        <definition>typedef Vector3f bioexplorer::Color</definition>
+        <argsstring></argsstring>
+        <name>Color</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/favreau/git/BioExplorer/bioexplorer/core/plugin/common/Types.h" line="73" column="18" bodyfile="/home/favreau/git/BioExplorer/bioexplorer/core/plugin/common/Types.h" bodystart="73" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="d7/df8/Types_8h_1a776e217413b2d39300e24e74d5f0f46c" prot="public" static="no">
+        <type>std::vector&lt; Color &gt;</type>
+        <definition>typedef std::vector&lt;Color&gt; bioexplorer::Palette</definition>
+        <argsstring></argsstring>
+        <name>Palette</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/favreau/git/BioExplorer/bioexplorer/core/plugin/common/Types.h" line="74" column="21" bodyfile="/home/favreau/git/BioExplorer/bioexplorer/core/plugin/common/Types.h" bodystart="74" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="d7/df8/Types_8h_1a35e3c597d529aec37b61932d51eb8a05" prot="public" static="no">
+        <type>std::vector&lt; Quaterniond &gt;</type>
+        <definition>typedef std::vector&lt;Quaterniond&gt; bioexplorer::Quaternions</definition>
+        <argsstring></argsstring>
+        <name>Quaternions</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/favreau/git/BioExplorer/bioexplorer/core/plugin/common/Types.h" line="75" column="21" bodyfile="/home/favreau/git/BioExplorer/bioexplorer/core/plugin/common/Types.h" bodystart="75" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="d7/df8/Types_8h_1a8201803ad36c6ec2f809e2b35e866a1c" prot="public" static="no">
+        <type>std::vector&lt; float &gt;</type>
+        <definition>typedef std::vector&lt;float&gt; bioexplorer::floats</definition>
+        <argsstring></argsstring>
+        <name>floats</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/favreau/git/BioExplorer/bioexplorer/core/plugin/common/Types.h" line="76" column="21" bodyfile="/home/favreau/git/BioExplorer/bioexplorer/core/plugin/common/Types.h" bodystart="76" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="d7/df8/Types_8h_1aeea15e2abb63ce302b7cfe197bfc3b0c" prot="public" static="no">
+        <type>std::vector&lt; Vector3f &gt;</type>
+        <definition>typedef std::vector&lt;Vector3f&gt; bioexplorer::Vector3fs</definition>
+        <argsstring></argsstring>
+        <name>Vector3fs</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/favreau/git/BioExplorer/bioexplorer/core/plugin/common/Types.h" line="77" column="21" bodyfile="/home/favreau/git/BioExplorer/bioexplorer/core/plugin/common/Types.h" bodystart="77" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="d7/df8/Types_8h_1a0fa48dd12f27f399ac92864eb4de669a" prot="public" static="no">
+        <type>std::vector&lt; Vector2ui &gt;</type>
+        <definition>typedef std::vector&lt;Vector2ui&gt; bioexplorer::Vector2uis</definition>
+        <argsstring></argsstring>
+        <name>Vector2uis</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/favreau/git/BioExplorer/bioexplorer/core/plugin/common/Types.h" line="78" column="21" bodyfile="/home/favreau/git/BioExplorer/bioexplorer/core/plugin/common/Types.h" bodystart="78" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="d7/df8/Types_8h_1ad67532cde831fbd45a47c6ecdf1118c9" prot="public" static="no">
+        <type>std::vector&lt; uint32_t &gt;</type>
+        <definition>typedef std::vector&lt;uint32_t&gt; bioexplorer::uint32_ts</definition>
+        <argsstring></argsstring>
+        <name>uint32_ts</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/favreau/git/BioExplorer/bioexplorer/core/plugin/common/Types.h" line="79" column="21" bodyfile="/home/favreau/git/BioExplorer/bioexplorer/core/plugin/common/Types.h" bodystart="79" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="d7/df8/Types_8h_1a7a6085d2753b2cbea22638e196b55cd5" prot="public" static="no">
+        <type>std::map&lt; std::string, std::string &gt;</type>
+        <definition>typedef std::map&lt;std::string, std::string&gt; bioexplorer::CommandLineArguments</definition>
+        <argsstring></argsstring>
+        <name>CommandLineArguments</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/favreau/git/BioExplorer/bioexplorer/core/plugin/common/Types.h" line="80" column="18" bodyfile="/home/favreau/git/BioExplorer/bioexplorer/core/plugin/common/Types.h" bodystart="80" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="var">
+      <memberdef kind="variable" id="d2/d19/BioExplorerPlugin_8cpp_1af17810938343b0dca8ce90a09c4ea725" prot="public" static="no" mutable="no">
+        <type>const std::string</type>
+        <definition>const std::string bioexplorer::PLUGIN_API_PREFIX</definition>
+        <argsstring></argsstring>
+        <name>PLUGIN_API_PREFIX</name>
+        <initializer>= &quot;be-&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/favreau/git/BioExplorer/bioexplorer/core/plugin/BioExplorerPlugin.cpp" line="45" column="19" bodyfile="/home/favreau/git/BioExplorer/bioexplorer/core/plugin/BioExplorerPlugin.cpp" bodystart="45" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="d7/df8/Types_8h_1a234d7843b084900d483f63c2ba6ca660" prot="public" static="no" mutable="no">
+        <type>const float</type>
+        <definition>const float bioexplorer::BOND_RADIUS</definition>
+        <argsstring></argsstring>
+        <name>BOND_RADIUS</name>
+        <initializer>= 0.025f</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/favreau/git/BioExplorer/bioexplorer/core/plugin/common/Types.h" line="36" column="13" bodyfile="/home/favreau/git/BioExplorer/bioexplorer/core/plugin/common/Types.h" bodystart="36" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="d7/df8/Types_8h_1a47e649eddbfd5b6319f0dfd0619cf619" prot="public" static="no" mutable="no">
+        <type>const float</type>
+        <definition>const float bioexplorer::DEFAULT_STICK_DISTANCE</definition>
+        <argsstring></argsstring>
+        <name>DEFAULT_STICK_DISTANCE</name>
+        <initializer>= 0.175f</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/favreau/git/BioExplorer/bioexplorer/core/plugin/common/Types.h" line="37" column="13" bodyfile="/home/favreau/git/BioExplorer/bioexplorer/core/plugin/common/Types.h" bodystart="37" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="d7/df8/Types_8h_1ad2a3cf412adc8f6865bd4e87d9d240bf" prot="public" static="no" mutable="no">
+        <type>const brayns::Vector3f</type>
+        <definition>const brayns::Vector3f bioexplorer::UP_VECTOR</definition>
+        <argsstring></argsstring>
+        <name>UP_VECTOR</name>
+        <initializer>= {0.f, 0.f, 1.f}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/favreau/git/BioExplorer/bioexplorer/core/plugin/common/Types.h" line="38" column="24" bodyfile="/home/favreau/git/BioExplorer/bioexplorer/core/plugin/common/Types.h" bodystart="38" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="d7/df8/Types_8h_1aa9d899dce41340017ebeb296be9ee21d" prot="public" static="no" mutable="no">
+        <type>const std::string</type>
+        <definition>const std::string bioexplorer::METADATA_ASSEMBLY</definition>
+        <argsstring></argsstring>
+        <name>METADATA_ASSEMBLY</name>
+        <initializer>= &quot;Assembly&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/favreau/git/BioExplorer/bioexplorer/core/plugin/common/Types.h" line="41" column="19" bodyfile="/home/favreau/git/BioExplorer/bioexplorer/core/plugin/common/Types.h" bodystart="41" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="d7/df8/Types_8h_1ae8cb18e1de06659d02c49416bc6cdd40" prot="public" static="no" mutable="no">
+        <type>const std::string</type>
+        <definition>const std::string bioexplorer::METADATA_TITLE</definition>
+        <argsstring></argsstring>
+        <name>METADATA_TITLE</name>
+        <initializer>= &quot;Title&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/favreau/git/BioExplorer/bioexplorer/core/plugin/common/Types.h" line="42" column="19" bodyfile="/home/favreau/git/BioExplorer/bioexplorer/core/plugin/common/Types.h" bodystart="42" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="d7/df8/Types_8h_1aa8fb6f5bdb96801abd98b1d3ac25aa28" prot="public" static="no" mutable="no">
+        <type>const std::string</type>
+        <definition>const std::string bioexplorer::METADATA_HEADER</definition>
+        <argsstring></argsstring>
+        <name>METADATA_HEADER</name>
+        <initializer>= &quot;Header&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/favreau/git/BioExplorer/bioexplorer/core/plugin/common/Types.h" line="43" column="19" bodyfile="/home/favreau/git/BioExplorer/bioexplorer/core/plugin/common/Types.h" bodystart="43" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="d7/df8/Types_8h_1a0332ccb7ef8c10db2f439fce38db2e28" prot="public" static="no" mutable="no">
+        <type>const std::string</type>
+        <definition>const std::string bioexplorer::METADATA_ATOMS</definition>
+        <argsstring></argsstring>
+        <name>METADATA_ATOMS</name>
+        <initializer>= &quot;Atoms&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/favreau/git/BioExplorer/bioexplorer/core/plugin/common/Types.h" line="44" column="19" bodyfile="/home/favreau/git/BioExplorer/bioexplorer/core/plugin/common/Types.h" bodystart="44" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="d7/df8/Types_8h_1a4fbfe390a6612cebe61c4fc21b3f7208" prot="public" static="no" mutable="no">
+        <type>const std::string</type>
+        <definition>const std::string bioexplorer::METADATA_BONDS</definition>
+        <argsstring></argsstring>
+        <name>METADATA_BONDS</name>
+        <initializer>= &quot;Bonds&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/favreau/git/BioExplorer/bioexplorer/core/plugin/common/Types.h" line="45" column="19" bodyfile="/home/favreau/git/BioExplorer/bioexplorer/core/plugin/common/Types.h" bodystart="45" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="d7/df8/Types_8h_1a6f43723ba906d18fe432cab0ffececda" prot="public" static="no" mutable="no">
+        <type>const std::string</type>
+        <definition>const std::string bioexplorer::METADATA_SIZE</definition>
+        <argsstring></argsstring>
+        <name>METADATA_SIZE</name>
+        <initializer>= &quot;Size&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/favreau/git/BioExplorer/bioexplorer/core/plugin/common/Types.h" line="46" column="19" bodyfile="/home/favreau/git/BioExplorer/bioexplorer/core/plugin/common/Types.h" bodystart="46" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="d7/df8/Types_8h_1a31a6fee2a64c50a15185c9b3ec3338ed" prot="public" static="no" mutable="no">
+        <type>const std::string</type>
+        <definition>const std::string bioexplorer::METADATA_BRICK_ID</definition>
+        <argsstring></argsstring>
+        <name>METADATA_BRICK_ID</name>
+        <initializer>= &quot;BrickId&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/favreau/git/BioExplorer/bioexplorer/core/plugin/common/Types.h" line="47" column="19" bodyfile="/home/favreau/git/BioExplorer/bioexplorer/core/plugin/common/Types.h" bodystart="47" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="d7/df8/Types_8h_1ae4a8587ecd8638555731648552a4a117" prot="public" static="no" mutable="no">
+        <type>const std::string</type>
+        <definition>const std::string bioexplorer::ARG_OOC_BRICKS_FOLDER</definition>
+        <argsstring></argsstring>
+        <name>ARG_OOC_BRICKS_FOLDER</name>
+        <initializer>= &quot;--ooc-bricks-folder&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/favreau/git/BioExplorer/bioexplorer/core/plugin/common/Types.h" line="59" column="19" bodyfile="/home/favreau/git/BioExplorer/bioexplorer/core/plugin/common/Types.h" bodystart="59" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="d7/df8/Types_8h_1afb16397ea088983031093f673fdb1cd2" prot="public" static="no" mutable="no">
+        <type>const std::string</type>
+        <definition>const std::string bioexplorer::ARG_OOC_VISIBLE_BRICKS</definition>
+        <argsstring></argsstring>
+        <name>ARG_OOC_VISIBLE_BRICKS</name>
+        <initializer>= &quot;--ooc-visible-bricks&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/favreau/git/BioExplorer/bioexplorer/core/plugin/common/Types.h" line="61" column="19" bodyfile="/home/favreau/git/BioExplorer/bioexplorer/core/plugin/common/Types.h" bodystart="61" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="d7/df8/Types_8h_1ab79aa17f2cd1b587386037914bc97660" prot="public" static="no" mutable="no">
+        <type>const std::string</type>
+        <definition>const std::string bioexplorer::ARG_OOC_UPDATE_FREQUENCY</definition>
+        <argsstring></argsstring>
+        <name>ARG_OOC_UPDATE_FREQUENCY</name>
+        <initializer>= &quot;--ooc-update-frequency&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/favreau/git/BioExplorer/bioexplorer/core/plugin/common/Types.h" line="62" column="19" bodyfile="/home/favreau/git/BioExplorer/bioexplorer/core/plugin/common/Types.h" bodystart="62" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="d7/df8/Types_8h_1afeac13d40c39a2bc9a5119e7c255c1fb" prot="public" static="no" mutable="no">
+        <type>const std::string</type>
+        <definition>const std::string bioexplorer::ARG_OOC_UNLOAD_BRICKS</definition>
+        <argsstring></argsstring>
+        <name>ARG_OOC_UNLOAD_BRICKS</name>
+        <initializer>= &quot;--ooc-unload-bricks&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/favreau/git/BioExplorer/bioexplorer/core/plugin/common/Types.h" line="63" column="19" bodyfile="/home/favreau/git/BioExplorer/bioexplorer/core/plugin/common/Types.h" bodystart="63" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="d7/df8/Types_8h_1a67cb91a2a11cde57a7379da48427fa25" prot="public" static="no" mutable="no">
+        <type>const std::string</type>
+        <definition>const std::string bioexplorer::ARG_OOC_SHOW_GRID</definition>
+        <argsstring></argsstring>
+        <name>ARG_OOC_SHOW_GRID</name>
+        <initializer>= &quot;--ooc-show-grid&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/favreau/git/BioExplorer/bioexplorer/core/plugin/common/Types.h" line="64" column="19" bodyfile="/home/favreau/git/BioExplorer/bioexplorer/core/plugin/common/Types.h" bodystart="64" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="d7/df8/Types_8h_1abad5cdd7e073ce0b27051baa7f403353" prot="public" static="no" mutable="no">
+        <type>const std::string</type>
+        <definition>const std::string bioexplorer::ARG_OOC_NB_BRICKS_PER_CYCLE</definition>
+        <argsstring></argsstring>
+        <name>ARG_OOC_NB_BRICKS_PER_CYCLE</name>
+        <initializer>= &quot;--ooc-nb-bricks-per-cycle&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/favreau/git/BioExplorer/bioexplorer/core/plugin/common/Types.h" line="65" column="19" bodyfile="/home/favreau/git/BioExplorer/bioexplorer/core/plugin/common/Types.h" bodystart="65" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="d7/df8/Types_8h_1adb49b3db9e712dae6771709fe4cfab53" prot="public" static="no" mutable="no">
+        <type>const std::string</type>
+        <definition>const std::string bioexplorer::ENV_ROCKETS_DISABLE_SCENE_BROADCASTING</definition>
+        <argsstring></argsstring>
+        <name>ENV_ROCKETS_DISABLE_SCENE_BROADCASTING</name>
+        <initializer>=
+    &quot;ROCKETS_DISABLE_SCENE_BROADCASTING&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/favreau/git/BioExplorer/bioexplorer/core/plugin/common/Types.h" line="68" column="19" bodyfile="/home/favreau/git/BioExplorer/bioexplorer/core/plugin/common/Types.h" bodystart="68" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="func">
+      <memberdef kind="function" id="d2/d19/BioExplorerPlugin_8cpp_1a426f51a5b87b4d97bd29fbe6fdbb06a1" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Boxd</type>
+        <definition>Boxd bioexplorer::vector_to_bounds</definition>
+        <argsstring>(const std::vector&lt; float &gt; &amp;lowBounds, const std::vector&lt; float &gt; &amp;highBounds)</argsstring>
+        <name>vector_to_bounds</name>
+        <param>
+          <type>const std::vector&lt; float &gt; &amp;</type>
+          <declname>lowBounds</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; float &gt; &amp;</type>
+          <declname>highBounds</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/favreau/git/BioExplorer/bioexplorer/core/plugin/BioExplorerPlugin.cpp" line="96" column="6" bodyfile="/home/favreau/git/BioExplorer/bioexplorer/core/plugin/BioExplorerPlugin.cpp" bodystart="96" bodyend="110"/>
+      </memberdef>
+      <memberdef kind="function" id="d2/d19/BioExplorerPlugin_8cpp_1ae65c41b374e1149661e236bfe040ad70" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void bioexplorer::_addBioExplorerRenderer</definition>
+        <argsstring>(brayns::Engine &amp;engine)</argsstring>
+        <name>_addBioExplorerRenderer</name>
+        <param>
+          <type>brayns::Engine &amp;</type>
+          <declname>engine</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/favreau/git/BioExplorer/bioexplorer/core/plugin/BioExplorerPlugin.cpp" line="112" column="6" bodyfile="/home/favreau/git/BioExplorer/bioexplorer/core/plugin/BioExplorerPlugin.cpp" bodystart="112" bodyend="136"/>
+      </memberdef>
+      <memberdef kind="function" id="d2/d19/BioExplorerPlugin_8cpp_1a7d80f24fa0e375966850b491c3e437cb" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void bioexplorer::_addBioExplorerFieldsRenderer</definition>
+        <argsstring>(brayns::Engine &amp;engine)</argsstring>
+        <name>_addBioExplorerFieldsRenderer</name>
+        <param>
+          <type>brayns::Engine &amp;</type>
+          <declname>engine</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/favreau/git/BioExplorer/bioexplorer/core/plugin/BioExplorerPlugin.cpp" line="138" column="6" bodyfile="/home/favreau/git/BioExplorer/bioexplorer/core/plugin/BioExplorerPlugin.cpp" bodystart="138" bodyend="159"/>
+      </memberdef>
+      <memberdef kind="function" id="d2/d19/BioExplorerPlugin_8cpp_1af3380c08ed5e8e145323dd3404060e61" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void bioexplorer::_addBioExplorerPerspectiveCamera</definition>
+        <argsstring>(brayns::Engine &amp;engine)</argsstring>
+        <name>_addBioExplorerPerspectiveCamera</name>
+        <param>
+          <type>brayns::Engine &amp;</type>
+          <declname>engine</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/favreau/git/BioExplorer/bioexplorer/core/plugin/BioExplorerPlugin.cpp" line="161" column="6" bodyfile="/home/favreau/git/BioExplorer/bioexplorer/core/plugin/BioExplorerPlugin.cpp" bodystart="161" bodyend="175"/>
+      </memberdef>
+      <memberdef kind="function" id="d2/d19/BioExplorerPlugin_8cpp_1ace09be43469bdc86ceca0a738a0da8f6" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>ExtensionPlugin *</type>
+        <definition>ExtensionPlugin* bioexplorer::brayns_plugin_create</definition>
+        <argsstring>(int argc, char **argv)</argsstring>
+        <name>brayns_plugin_create</name>
+        <param>
+          <type>int</type>
+          <declname>argc</declname>
+        </param>
+        <param>
+          <type>char **</type>
+          <declname>argv</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/favreau/git/BioExplorer/bioexplorer/core/plugin/BioExplorerPlugin.cpp" line="1228" column="28" bodyfile="/home/favreau/git/BioExplorer/bioexplorer/core/plugin/BioExplorerPlugin.cpp" bodystart="1228" bodyend="1261"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="/home/favreau/git/BioExplorer/bioexplorer/core/module/ispc/camera/PerspectiveStereoCamera.cpp" line="34" column="1"/>
+  </compounddef>
+</doxygen>

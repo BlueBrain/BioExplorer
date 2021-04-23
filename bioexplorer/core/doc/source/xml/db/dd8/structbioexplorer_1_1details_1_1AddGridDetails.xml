@@ -1,0 +1,167 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.17">
+  <compounddef id="db/dd8/structbioexplorer_1_1details_1_1AddGridDetails" kind="struct" language="C++" prot="public">
+    <compoundname>bioexplorer::details::AddGridDetails</compoundname>
+    <includes refid="d7/df8/Types_8h" local="no">Types.h</includes>
+      <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="db/dd8/structbioexplorer_1_1details_1_1AddGridDetails_1a94c1cfb27d0a046683a99f763a911235" prot="public" static="no" mutable="no">
+        <type>float</type>
+        <definition>float bioexplorer::details::AddGridDetails::minValue</definition>
+        <argsstring></argsstring>
+        <name>minValue</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Minimum value on the axis </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/favreau/git/BioExplorer/bioexplorer/core/plugin/common/Types.h" line="478" column="11" bodyfile="/home/favreau/git/BioExplorer/bioexplorer/core/plugin/common/Types.h" bodystart="478" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="db/dd8/structbioexplorer_1_1details_1_1AddGridDetails_1ae2da44906b8e3dd60ea787d2ea999c1a" prot="public" static="no" mutable="no">
+        <type>float</type>
+        <definition>float bioexplorer::details::AddGridDetails::maxValue</definition>
+        <argsstring></argsstring>
+        <name>maxValue</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Maximum value on the axis </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/favreau/git/BioExplorer/bioexplorer/core/plugin/common/Types.h" line="480" column="11" bodyfile="/home/favreau/git/BioExplorer/bioexplorer/core/plugin/common/Types.h" bodystart="480" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="db/dd8/structbioexplorer_1_1details_1_1AddGridDetails_1a6aaf3b6d17bd0d25860d4a7f7a28b6bb" prot="public" static="no" mutable="no">
+        <type>float</type>
+        <definition>float bioexplorer::details::AddGridDetails::steps</definition>
+        <argsstring></argsstring>
+        <name>steps</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Interval between lines of the grid </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/favreau/git/BioExplorer/bioexplorer/core/plugin/common/Types.h" line="482" column="11" bodyfile="/home/favreau/git/BioExplorer/bioexplorer/core/plugin/common/Types.h" bodystart="482" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="db/dd8/structbioexplorer_1_1details_1_1AddGridDetails_1acd4f3bedd2209fbdd7811bc58cdd5e2d" prot="public" static="no" mutable="no">
+        <type>float</type>
+        <definition>float bioexplorer::details::AddGridDetails::radius</definition>
+        <argsstring></argsstring>
+        <name>radius</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Radius of the lines </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/favreau/git/BioExplorer/bioexplorer/core/plugin/common/Types.h" line="484" column="11" bodyfile="/home/favreau/git/BioExplorer/bioexplorer/core/plugin/common/Types.h" bodystart="484" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="db/dd8/structbioexplorer_1_1details_1_1AddGridDetails_1a1cb140ebfe273fb8b65e927355f9797c" prot="public" static="no" mutable="no">
+        <type>float</type>
+        <definition>float bioexplorer::details::AddGridDetails::planeOpacity</definition>
+        <argsstring></argsstring>
+        <name>planeOpacity</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Opacity of the grid </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/favreau/git/BioExplorer/bioexplorer/core/plugin/common/Types.h" line="486" column="11" bodyfile="/home/favreau/git/BioExplorer/bioexplorer/core/plugin/common/Types.h" bodystart="486" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="db/dd8/structbioexplorer_1_1details_1_1AddGridDetails_1a18e36aa4fd55810d83c18a5cdd762c3e" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool bioexplorer::details::AddGridDetails::showAxis</definition>
+        <argsstring></argsstring>
+        <name>showAxis</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Defines if axes should be shown </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/favreau/git/BioExplorer/bioexplorer/core/plugin/common/Types.h" line="488" column="10" bodyfile="/home/favreau/git/BioExplorer/bioexplorer/core/plugin/common/Types.h" bodystart="488" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="db/dd8/structbioexplorer_1_1details_1_1AddGridDetails_1a30f0580c0ab841062cd2c70ddfb24994" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool bioexplorer::details::AddGridDetails::showPlanes</definition>
+        <argsstring></argsstring>
+        <name>showPlanes</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Defines if planes should be shown </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/favreau/git/BioExplorer/bioexplorer/core/plugin/common/Types.h" line="490" column="10" bodyfile="/home/favreau/git/BioExplorer/bioexplorer/core/plugin/common/Types.h" bodystart="490" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="db/dd8/structbioexplorer_1_1details_1_1AddGridDetails_1a1602719cfbe8086fa76c952e4a6e15ff" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool bioexplorer::details::AddGridDetails::showFullGrid</definition>
+        <argsstring></argsstring>
+        <name>showFullGrid</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Defines if full grid should be shown </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/favreau/git/BioExplorer/bioexplorer/core/plugin/common/Types.h" line="492" column="10" bodyfile="/home/favreau/git/BioExplorer/bioexplorer/core/plugin/common/Types.h" bodystart="492" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="db/dd8/structbioexplorer_1_1details_1_1AddGridDetails_1a03242b839ef5a10701f3ab0744d38074" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool bioexplorer::details::AddGridDetails::useColors</definition>
+        <argsstring></argsstring>
+        <name>useColors</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Defines if the RGB color scheme shoudl be applied to axis </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/favreau/git/BioExplorer/bioexplorer/core/plugin/common/Types.h" line="494" column="10" bodyfile="/home/favreau/git/BioExplorer/bioexplorer/core/plugin/common/Types.h" bodystart="494" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="db/dd8/structbioexplorer_1_1details_1_1AddGridDetails_1a184e511cfcb00e6d1b8a3ec8f8151945" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; float &gt;</type>
+        <definition>std::vector&lt;float&gt; bioexplorer::details::AddGridDetails::position</definition>
+        <argsstring></argsstring>
+        <name>position</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Position of the grid in the scene </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/favreau/git/BioExplorer/bioexplorer/core/plugin/common/Types.h" line="496" column="17" bodyfile="/home/favreau/git/BioExplorer/bioexplorer/core/plugin/common/Types.h" bodystart="496" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+<para>Defines the parameters needed when adding 3D grid in the scene. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="/home/favreau/git/BioExplorer/bioexplorer/core/plugin/common/Types.h" line="476" column="1" bodyfile="/home/favreau/git/BioExplorer/bioexplorer/core/plugin/common/Types.h" bodystart="475" bodyend="497"/>
+    <listofallmembers>
+      <member refid="db/dd8/structbioexplorer_1_1details_1_1AddGridDetails_1ae2da44906b8e3dd60ea787d2ea999c1a" prot="public" virt="non-virtual"><scope>bioexplorer::details::AddGridDetails</scope><name>maxValue</name></member>
+      <member refid="db/dd8/structbioexplorer_1_1details_1_1AddGridDetails_1a94c1cfb27d0a046683a99f763a911235" prot="public" virt="non-virtual"><scope>bioexplorer::details::AddGridDetails</scope><name>minValue</name></member>
+      <member refid="db/dd8/structbioexplorer_1_1details_1_1AddGridDetails_1a1cb140ebfe273fb8b65e927355f9797c" prot="public" virt="non-virtual"><scope>bioexplorer::details::AddGridDetails</scope><name>planeOpacity</name></member>
+      <member refid="db/dd8/structbioexplorer_1_1details_1_1AddGridDetails_1a184e511cfcb00e6d1b8a3ec8f8151945" prot="public" virt="non-virtual"><scope>bioexplorer::details::AddGridDetails</scope><name>position</name></member>
+      <member refid="db/dd8/structbioexplorer_1_1details_1_1AddGridDetails_1acd4f3bedd2209fbdd7811bc58cdd5e2d" prot="public" virt="non-virtual"><scope>bioexplorer::details::AddGridDetails</scope><name>radius</name></member>
+      <member refid="db/dd8/structbioexplorer_1_1details_1_1AddGridDetails_1a18e36aa4fd55810d83c18a5cdd762c3e" prot="public" virt="non-virtual"><scope>bioexplorer::details::AddGridDetails</scope><name>showAxis</name></member>
+      <member refid="db/dd8/structbioexplorer_1_1details_1_1AddGridDetails_1a1602719cfbe8086fa76c952e4a6e15ff" prot="public" virt="non-virtual"><scope>bioexplorer::details::AddGridDetails</scope><name>showFullGrid</name></member>
+      <member refid="db/dd8/structbioexplorer_1_1details_1_1AddGridDetails_1a30f0580c0ab841062cd2c70ddfb24994" prot="public" virt="non-virtual"><scope>bioexplorer::details::AddGridDetails</scope><name>showPlanes</name></member>
+      <member refid="db/dd8/structbioexplorer_1_1details_1_1AddGridDetails_1a6aaf3b6d17bd0d25860d4a7f7a28b6bb" prot="public" virt="non-virtual"><scope>bioexplorer::details::AddGridDetails</scope><name>steps</name></member>
+      <member refid="db/dd8/structbioexplorer_1_1details_1_1AddGridDetails_1a03242b839ef5a10701f3ab0744d38074" prot="public" virt="non-virtual"><scope>bioexplorer::details::AddGridDetails</scope><name>useColors</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

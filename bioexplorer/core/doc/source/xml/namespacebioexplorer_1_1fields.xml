@@ -1,0 +1,42 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.17">
+  <compounddef id="namespacebioexplorer_1_1fields" kind="namespace" language="C++">
+    <compoundname>bioexplorer::fields</compoundname>
+    <innerclass refid="classbioexplorer_1_1fields_1_1FieldsHandler" prot="public">bioexplorer::fields::FieldsHandler</innerclass>
+    <innerclass refid="classbioexplorer_1_1fields_1_1Octree" prot="public">bioexplorer::fields::Octree</innerclass>
+    <innerclass refid="classbioexplorer_1_1fields_1_1OctreeNode" prot="public">bioexplorer::fields::OctreeNode</innerclass>
+      <sectiondef kind="typedef">
+      <memberdef kind="typedef" id="FieldsHandler_8h_1a1e0c4e30f56e52e13803753ee8273780" prot="public" static="no">
+        <type>std::shared_ptr&lt; <ref refid="classbioexplorer_1_1fields_1_1FieldsHandler" kindref="compound">FieldsHandler</ref> &gt;</type>
+        <definition>typedef std::shared_ptr&lt;FieldsHandler&gt; bioexplorer::fields::FieldsHandlerPtr</definition>
+        <argsstring></argsstring>
+        <name>FieldsHandlerPtr</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/favreau/git/BioExplorer/bioexplorer/core/plugin/fields/FieldsHandler.h" line="133" column="25" bodyfile="/home/favreau/git/BioExplorer/bioexplorer/core/plugin/fields/FieldsHandler.h" bodystart="133" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="Octree_8cpp_1ad792346b77b140fea60684f132205041" prot="public" static="no">
+        <type>std::map&lt; uint64_t, <ref refid="classbioexplorer_1_1fields_1_1OctreeNode" kindref="compound">OctreeNode</ref> &gt;</type>
+        <definition>typedef std::map&lt;uint64_t, OctreeNode&gt; bioexplorer::fields::OctreeLevelMap</definition>
+        <argsstring></argsstring>
+        <name>OctreeLevelMap</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/favreau/git/BioExplorer/bioexplorer/core/plugin/fields/Octree.cpp" line="31" column="18" bodyfile="/home/favreau/git/BioExplorer/bioexplorer/core/plugin/fields/Octree.cpp" bodystart="31" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="/home/favreau/git/BioExplorer/bioexplorer/core/plugin/fields/FieldsHandler.cpp" line="35" column="1"/>
+  </compounddef>
+</doxygen>

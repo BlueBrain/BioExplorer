@@ -1,0 +1,722 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.17">
+  <compounddef id="classbioexplorer_1_1BioExplorerPlugin" kind="class" language="C++" prot="public">
+    <compoundname>bioexplorer::BioExplorerPlugin</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">ExtensionPlugin</basecompoundref>
+    <includes refid="BioExplorerPlugin_8h" local="no">BioExplorerPlugin.h</includes>
+      <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classbioexplorer_1_1BioExplorerPlugin_1a8b2bcfa4f05197dceff2910d04566e49" prot="private" static="no" mutable="no">
+        <type>OOCManagerPtr</type>
+        <definition>OOCManagerPtr bioexplorer::BioExplorerPlugin::_oocManager</definition>
+        <argsstring></argsstring>
+        <name>_oocManager</name>
+        <initializer>{nullptr}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/favreau/git/BioExplorer/bioexplorer/core/plugin/BioExplorerPlugin.h" line="123" column="19" bodyfile="/home/favreau/git/BioExplorer/bioexplorer/core/plugin/BioExplorerPlugin.h" bodystart="123" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classbioexplorer_1_1BioExplorerPlugin_1a54365f324eae424bd0c19f340f956cbb" prot="private" static="no" mutable="no">
+        <type>AssemblyMap</type>
+        <definition>AssemblyMap bioexplorer::BioExplorerPlugin::_assemblies</definition>
+        <argsstring></argsstring>
+        <name>_assemblies</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/favreau/git/BioExplorer/bioexplorer/core/plugin/BioExplorerPlugin.h" line="126" column="17" bodyfile="/home/favreau/git/BioExplorer/bioexplorer/core/plugin/BioExplorerPlugin.h" bodystart="126" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classbioexplorer_1_1BioExplorerPlugin_1ad544f4adcae7e3e46a8c984b7f241167" prot="private" static="no" mutable="no">
+        <type>std::map&lt; std::string, std::string &gt;</type>
+        <definition>std::map&lt;std::string, std::string&gt; bioexplorer::BioExplorerPlugin::_commandLineArguments</definition>
+        <argsstring></argsstring>
+        <name>_commandLineArguments</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/favreau/git/BioExplorer/bioexplorer/core/plugin/BioExplorerPlugin.h" line="129" column="14" bodyfile="/home/favreau/git/BioExplorer/bioexplorer/core/plugin/BioExplorerPlugin.h" bodystart="129" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="public-func">
+      <memberdef kind="function" id="classbioexplorer_1_1BioExplorerPlugin_1af06bb8a9b0514fdcd368bab3066581e5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>bioexplorer::BioExplorerPlugin::BioExplorerPlugin</definition>
+        <argsstring>(int argc, char **argv)</argsstring>
+        <name>BioExplorerPlugin</name>
+        <param>
+          <type>int</type>
+          <declname>argc</declname>
+        </param>
+        <param>
+          <type>char **</type>
+          <declname>argv</declname>
+        </param>
+        <briefdescription>
+<para>Construct a new Bio Explorer Plugin object. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/favreau/git/BioExplorer/bioexplorer/core/plugin/BioExplorerPlugin.h" line="45" column="5" bodyfile="/home/favreau/git/BioExplorer/bioexplorer/core/plugin/BioExplorerPlugin.cpp" bodystart="177" bodyend="181"/>
+      </memberdef>
+      <memberdef kind="function" id="classbioexplorer_1_1BioExplorerPlugin_1a66054e540bd4b90e00ffb04a1b4d2daa" prot="public" static="no" const="no" explicit="no" inline="no" final="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void bioexplorer::BioExplorerPlugin::init</definition>
+        <argsstring>() final</argsstring>
+        <name>init</name>
+        <briefdescription>
+<para>Plugin initialization, registration of end-points, renderers, cameras, etc. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/favreau/git/BioExplorer/bioexplorer/core/plugin/BioExplorerPlugin.h" line="52" column="10" bodyfile="/home/favreau/git/BioExplorer/bioexplorer/core/plugin/BioExplorerPlugin.cpp" bodystart="183" bodyend="452"/>
+      </memberdef>
+      <memberdef kind="function" id="classbioexplorer_1_1BioExplorerPlugin_1a666e3d2ae8c399768ad1072527f2a0be" prot="public" static="no" const="no" explicit="no" inline="no" final="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void bioexplorer::BioExplorerPlugin::preRender</definition>
+        <argsstring>() final</argsstring>
+        <name>preRender</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/favreau/git/BioExplorer/bioexplorer/core/plugin/BioExplorerPlugin.h" line="54" column="10" bodyfile="/home/favreau/git/BioExplorer/bioexplorer/core/plugin/BioExplorerPlugin.cpp" bodystart="473" bodyend="483"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="private-func">
+      <memberdef kind="function" id="classbioexplorer_1_1BioExplorerPlugin_1a7bd11d4d0ff383705877c18c0a18942e" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void bioexplorer::BioExplorerPlugin::_parseCommandLineArguments</definition>
+        <argsstring>(int argc, char **argv)</argsstring>
+        <name>_parseCommandLineArguments</name>
+        <param>
+          <type>int</type>
+          <declname>argc</declname>
+        </param>
+        <param>
+          <type>char **</type>
+          <declname>argv</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/favreau/git/BioExplorer/bioexplorer/core/plugin/BioExplorerPlugin.h" line="58" column="10" bodyfile="/home/favreau/git/BioExplorer/bioexplorer/core/plugin/BioExplorerPlugin.cpp" bodystart="454" bodyend="471"/>
+      </memberdef>
+      <memberdef kind="function" id="classbioexplorer_1_1BioExplorerPlugin_1afccd5c0d09bc2d200938708c62ad4787" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structbioexplorer_1_1details_1_1Response" kindref="compound">Response</ref></type>
+        <definition>Response bioexplorer::BioExplorerPlugin::_version</definition>
+        <argsstring>() const</argsstring>
+        <name>_version</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/favreau/git/BioExplorer/bioexplorer/core/plugin/BioExplorerPlugin.h" line="61" column="14" bodyfile="/home/favreau/git/BioExplorer/bioexplorer/core/plugin/BioExplorerPlugin.cpp" bodystart="485" bodyend="490"/>
+      </memberdef>
+      <memberdef kind="function" id="classbioexplorer_1_1BioExplorerPlugin_1a311a4260852827d0e3b414a2ce2ee76e" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structbioexplorer_1_1details_1_1Response" kindref="compound">Response</ref></type>
+        <definition>Response bioexplorer::BioExplorerPlugin::_setGeneralSettings</definition>
+        <argsstring>(const GeneralSettingsDetails &amp;payload)</argsstring>
+        <name>_setGeneralSettings</name>
+        <param>
+          <type>const <ref refid="structbioexplorer_1_1details_1_1GeneralSettingsDetails" kindref="compound">GeneralSettingsDetails</ref> &amp;</type>
+          <declname>payload</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/favreau/git/BioExplorer/bioexplorer/core/plugin/BioExplorerPlugin.h" line="62" column="14" bodyfile="/home/favreau/git/BioExplorer/bioexplorer/core/plugin/BioExplorerPlugin.cpp" bodystart="492" bodyend="509"/>
+      </memberdef>
+      <memberdef kind="function" id="classbioexplorer_1_1BioExplorerPlugin_1a4a8bb1eac7ab5db31d6d5ff63e20de0e" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structbioexplorer_1_1details_1_1Response" kindref="compound">Response</ref></type>
+        <definition>Response bioexplorer::BioExplorerPlugin::_exportToFile</definition>
+        <argsstring>(const FileAccessDetails &amp;payload)</argsstring>
+        <name>_exportToFile</name>
+        <param>
+          <type>const <ref refid="structbioexplorer_1_1details_1_1FileAccessDetails" kindref="compound">FileAccessDetails</ref> &amp;</type>
+          <declname>payload</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/favreau/git/BioExplorer/bioexplorer/core/plugin/BioExplorerPlugin.h" line="65" column="14" bodyfile="/home/favreau/git/BioExplorer/bioexplorer/core/plugin/BioExplorerPlugin.cpp" bodystart="647" bodyend="660"/>
+      </memberdef>
+      <memberdef kind="function" id="classbioexplorer_1_1BioExplorerPlugin_1a45c2673dc8c915c4754537dbe0b7a6eb" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structbioexplorer_1_1details_1_1Response" kindref="compound">Response</ref></type>
+        <definition>Response bioexplorer::BioExplorerPlugin::_importFromFile</definition>
+        <argsstring>(const FileAccessDetails &amp;payload)</argsstring>
+        <name>_importFromFile</name>
+        <param>
+          <type>const <ref refid="structbioexplorer_1_1details_1_1FileAccessDetails" kindref="compound">FileAccessDetails</ref> &amp;</type>
+          <declname>payload</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/favreau/git/BioExplorer/bioexplorer/core/plugin/BioExplorerPlugin.h" line="66" column="14" bodyfile="/home/favreau/git/BioExplorer/bioexplorer/core/plugin/BioExplorerPlugin.cpp" bodystart="662" bodyend="680"/>
+      </memberdef>
+      <memberdef kind="function" id="classbioexplorer_1_1BioExplorerPlugin_1a33d8ec84abd30b6d4f910d8247de55a2" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structbioexplorer_1_1details_1_1Response" kindref="compound">Response</ref></type>
+        <definition>Response bioexplorer::BioExplorerPlugin::_exportToXYZ</definition>
+        <argsstring>(const FileAccessDetails &amp;payload)</argsstring>
+        <name>_exportToXYZ</name>
+        <param>
+          <type>const <ref refid="structbioexplorer_1_1details_1_1FileAccessDetails" kindref="compound">FileAccessDetails</ref> &amp;</type>
+          <declname>payload</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/favreau/git/BioExplorer/bioexplorer/core/plugin/BioExplorerPlugin.h" line="67" column="14" bodyfile="/home/favreau/git/BioExplorer/bioexplorer/core/plugin/BioExplorerPlugin.cpp" bodystart="682" bodyend="693"/>
+      </memberdef>
+      <memberdef kind="function" id="classbioexplorer_1_1BioExplorerPlugin_1ab90966c45bf45b21038c43070b15ca12" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structbioexplorer_1_1details_1_1Response" kindref="compound">Response</ref></type>
+        <definition>Response bioexplorer::BioExplorerPlugin::_addAssembly</definition>
+        <argsstring>(const AssemblyDetails &amp;payload)</argsstring>
+        <name>_addAssembly</name>
+        <param>
+          <type>const <ref refid="structbioexplorer_1_1details_1_1AssemblyDetails" kindref="compound">AssemblyDetails</ref> &amp;</type>
+          <declname>payload</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/favreau/git/BioExplorer/bioexplorer/core/plugin/BioExplorerPlugin.h" line="74" column="14" bodyfile="/home/favreau/git/BioExplorer/bioexplorer/core/plugin/BioExplorerPlugin.cpp" bodystart="526" bodyend="539"/>
+      </memberdef>
+      <memberdef kind="function" id="classbioexplorer_1_1BioExplorerPlugin_1a5fc19e10819b0545f7b608769e94ea44" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structbioexplorer_1_1details_1_1Response" kindref="compound">Response</ref></type>
+        <definition>Response bioexplorer::BioExplorerPlugin::_removeAssembly</definition>
+        <argsstring>(const AssemblyDetails &amp;payload)</argsstring>
+        <name>_removeAssembly</name>
+        <param>
+          <type>const <ref refid="structbioexplorer_1_1details_1_1AssemblyDetails" kindref="compound">AssemblyDetails</ref> &amp;</type>
+          <declname>payload</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/favreau/git/BioExplorer/bioexplorer/core/plugin/BioExplorerPlugin.h" line="75" column="14" bodyfile="/home/favreau/git/BioExplorer/bioexplorer/core/plugin/BioExplorerPlugin.cpp" bodystart="511" bodyend="524"/>
+      </memberdef>
+      <memberdef kind="function" id="classbioexplorer_1_1BioExplorerPlugin_1ac74c500b4bc9eac7e5bc5a2994d7e32f" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structbioexplorer_1_1details_1_1Response" kindref="compound">Response</ref></type>
+        <definition>Response bioexplorer::BioExplorerPlugin::_addMembrane</definition>
+        <argsstring>(const MembraneDetails &amp;payload) const</argsstring>
+        <name>_addMembrane</name>
+        <param>
+          <type>const <ref refid="structbioexplorer_1_1details_1_1MembraneDetails" kindref="compound">MembraneDetails</ref> &amp;</type>
+          <declname>payload</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/favreau/git/BioExplorer/bioexplorer/core/plugin/BioExplorerPlugin.h" line="76" column="14" bodyfile="/home/favreau/git/BioExplorer/bioexplorer/core/plugin/BioExplorerPlugin.cpp" bodystart="577" bodyend="580"/>
+      </memberdef>
+      <memberdef kind="function" id="classbioexplorer_1_1BioExplorerPlugin_1a9c101268e0600c5257742cf20aa11ba1" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structbioexplorer_1_1details_1_1Response" kindref="compound">Response</ref></type>
+        <definition>Response bioexplorer::BioExplorerPlugin::_addRNASequence</definition>
+        <argsstring>(const RNASequenceDetails &amp;payload) const</argsstring>
+        <name>_addRNASequence</name>
+        <param>
+          <type>const <ref refid="structbioexplorer_1_1details_1_1RNASequenceDetails" kindref="compound">RNASequenceDetails</ref> &amp;</type>
+          <declname>payload</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/favreau/git/BioExplorer/bioexplorer/core/plugin/BioExplorerPlugin.h" line="77" column="14" bodyfile="/home/favreau/git/BioExplorer/bioexplorer/core/plugin/BioExplorerPlugin.cpp" bodystart="571" bodyend="575"/>
+      </memberdef>
+      <memberdef kind="function" id="classbioexplorer_1_1BioExplorerPlugin_1a3aa7fa2c2924c2ee565ceace464aec74" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structbioexplorer_1_1details_1_1Response" kindref="compound">Response</ref></type>
+        <definition>Response bioexplorer::BioExplorerPlugin::_addProtein</definition>
+        <argsstring>(const ProteinDetails &amp;payload) const</argsstring>
+        <name>_addProtein</name>
+        <param>
+          <type>const <ref refid="structbioexplorer_1_1details_1_1ProteinDetails" kindref="compound">ProteinDetails</ref> &amp;</type>
+          <declname>payload</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/favreau/git/BioExplorer/bioexplorer/core/plugin/BioExplorerPlugin.h" line="78" column="14" bodyfile="/home/favreau/git/BioExplorer/bioexplorer/core/plugin/BioExplorerPlugin.cpp" bodystart="582" bodyend="585"/>
+      </memberdef>
+      <memberdef kind="function" id="classbioexplorer_1_1BioExplorerPlugin_1aa51466e53eb9ac523df3431fe34f43a2" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structbioexplorer_1_1details_1_1Response" kindref="compound">Response</ref></type>
+        <definition>Response bioexplorer::BioExplorerPlugin::_addMeshBasedMembrane</definition>
+        <argsstring>(const MeshBasedMembraneDetails &amp;payload) const</argsstring>
+        <name>_addMeshBasedMembrane</name>
+        <param>
+          <type>const <ref refid="structbioexplorer_1_1details_1_1MeshBasedMembraneDetails" kindref="compound">MeshBasedMembraneDetails</ref> &amp;</type>
+          <declname>payload</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/favreau/git/BioExplorer/bioexplorer/core/plugin/BioExplorerPlugin.h" line="79" column="14" bodyfile="/home/favreau/git/BioExplorer/bioexplorer/core/plugin/BioExplorerPlugin.cpp" bodystart="597" bodyend="601"/>
+      </memberdef>
+      <memberdef kind="function" id="classbioexplorer_1_1BioExplorerPlugin_1a8545e69eafde9aa2aaece5a2bd098550" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structbioexplorer_1_1details_1_1Response" kindref="compound">Response</ref></type>
+        <definition>Response bioexplorer::BioExplorerPlugin::_addGlycans</definition>
+        <argsstring>(const SugarsDetails &amp;payload) const</argsstring>
+        <name>_addGlycans</name>
+        <param>
+          <type>const <ref refid="structbioexplorer_1_1details_1_1SugarsDetails" kindref="compound">SugarsDetails</ref> &amp;</type>
+          <declname>payload</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/favreau/git/BioExplorer/bioexplorer/core/plugin/BioExplorerPlugin.h" line="81" column="14" bodyfile="/home/favreau/git/BioExplorer/bioexplorer/core/plugin/BioExplorerPlugin.cpp" bodystart="587" bodyend="590"/>
+      </memberdef>
+      <memberdef kind="function" id="classbioexplorer_1_1BioExplorerPlugin_1a3f00507486766ee41a2503e5ee535c2f" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structbioexplorer_1_1details_1_1Response" kindref="compound">Response</ref></type>
+        <definition>Response bioexplorer::BioExplorerPlugin::_addSugars</definition>
+        <argsstring>(const SugarsDetails &amp;payload) const</argsstring>
+        <name>_addSugars</name>
+        <param>
+          <type>const <ref refid="structbioexplorer_1_1details_1_1SugarsDetails" kindref="compound">SugarsDetails</ref> &amp;</type>
+          <declname>payload</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/favreau/git/BioExplorer/bioexplorer/core/plugin/BioExplorerPlugin.h" line="82" column="14" bodyfile="/home/favreau/git/BioExplorer/bioexplorer/core/plugin/BioExplorerPlugin.cpp" bodystart="592" bodyend="595"/>
+      </memberdef>
+      <memberdef kind="function" id="classbioexplorer_1_1BioExplorerPlugin_1abc65d5b05e24b6e81a9d3390f18ab938" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structbioexplorer_1_1details_1_1Response" kindref="compound">Response</ref></type>
+        <definition>Response bioexplorer::BioExplorerPlugin::_addGrid</definition>
+        <argsstring>(const AddGridDetails &amp;payload)</argsstring>
+        <name>_addGrid</name>
+        <param>
+          <type>const <ref refid="structbioexplorer_1_1details_1_1AddGridDetails" kindref="compound">AddGridDetails</ref> &amp;</type>
+          <declname>payload</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Grid</para>
+        </inbodydescription>
+        <location file="/home/favreau/git/BioExplorer/bioexplorer/core/plugin/BioExplorerPlugin.h" line="85" column="14" bodyfile="/home/favreau/git/BioExplorer/bioexplorer/core/plugin/BioExplorerPlugin.cpp" bodystart="695" bodyend="865"/>
+      </memberdef>
+      <memberdef kind="function" id="classbioexplorer_1_1BioExplorerPlugin_1a12228c3cc20bd618a098c511968c5102" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structbioexplorer_1_1details_1_1Response" kindref="compound">Response</ref></type>
+        <definition>Response bioexplorer::BioExplorerPlugin::_setAminoAcidSequenceAsString</definition>
+        <argsstring>(const AminoAcidSequenceAsStringDetails &amp;payload) const</argsstring>
+        <name>_setAminoAcidSequenceAsString</name>
+        <param>
+          <type>const <ref refid="structbioexplorer_1_1details_1_1AminoAcidSequenceAsStringDetails" kindref="compound">AminoAcidSequenceAsStringDetails</ref> &amp;</type>
+          <declname>payload</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/favreau/git/BioExplorer/bioexplorer/core/plugin/BioExplorerPlugin.h" line="88" column="14" bodyfile="/home/favreau/git/BioExplorer/bioexplorer/core/plugin/BioExplorerPlugin.cpp" bodystart="547" bodyend="554"/>
+      </memberdef>
+      <memberdef kind="function" id="classbioexplorer_1_1BioExplorerPlugin_1ae63ca2fd1de9c35bf0e7400451d47c23" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structbioexplorer_1_1details_1_1Response" kindref="compound">Response</ref></type>
+        <definition>Response bioexplorer::BioExplorerPlugin::_setAminoAcidSequenceAsRanges</definition>
+        <argsstring>(const AminoAcidSequenceAsRangesDetails &amp;payload) const</argsstring>
+        <name>_setAminoAcidSequenceAsRanges</name>
+        <param>
+          <type>const <ref refid="structbioexplorer_1_1details_1_1AminoAcidSequenceAsRangesDetails" kindref="compound">AminoAcidSequenceAsRangesDetails</ref> &amp;</type>
+          <declname>payload</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/favreau/git/BioExplorer/bioexplorer/core/plugin/BioExplorerPlugin.h" line="90" column="14" bodyfile="/home/favreau/git/BioExplorer/bioexplorer/core/plugin/BioExplorerPlugin.cpp" bodystart="556" bodyend="563"/>
+      </memberdef>
+      <memberdef kind="function" id="classbioexplorer_1_1BioExplorerPlugin_1abcdda8d4e62bc5f9029e6276aa7ba0e4" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structbioexplorer_1_1details_1_1Response" kindref="compound">Response</ref></type>
+        <definition>Response bioexplorer::BioExplorerPlugin::_getAminoAcidInformation</definition>
+        <argsstring>(const AminoAcidInformationDetails &amp;payload) const</argsstring>
+        <name>_getAminoAcidInformation</name>
+        <param>
+          <type>const <ref refid="structbioexplorer_1_1details_1_1AminoAcidInformationDetails" kindref="compound">AminoAcidInformationDetails</ref> &amp;</type>
+          <declname>payload</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/favreau/git/BioExplorer/bioexplorer/core/plugin/BioExplorerPlugin.h" line="92" column="14" bodyfile="/home/favreau/git/BioExplorer/bioexplorer/core/plugin/BioExplorerPlugin.cpp" bodystart="565" bodyend="569"/>
+      </memberdef>
+      <memberdef kind="function" id="classbioexplorer_1_1BioExplorerPlugin_1a67a9fe6d0e74f0c23c6e0c222d71991b" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structbioexplorer_1_1details_1_1Response" kindref="compound">Response</ref></type>
+        <definition>Response bioexplorer::BioExplorerPlugin::_setAminoAcid</definition>
+        <argsstring>(const AminoAcidDetails &amp;payload) const</argsstring>
+        <name>_setAminoAcid</name>
+        <param>
+          <type>const <ref refid="structbioexplorer_1_1details_1_1AminoAcidDetails" kindref="compound">AminoAcidDetails</ref> &amp;</type>
+          <declname>payload</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/favreau/git/BioExplorer/bioexplorer/core/plugin/BioExplorerPlugin.h" line="94" column="14" bodyfile="/home/favreau/git/BioExplorer/bioexplorer/core/plugin/BioExplorerPlugin.cpp" bodystart="603" bodyend="606"/>
+      </memberdef>
+      <memberdef kind="function" id="classbioexplorer_1_1BioExplorerPlugin_1a3e5a83cc2f7ffd123cfbd63d89f4d5da" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structbioexplorer_1_1details_1_1Response" kindref="compound">Response</ref></type>
+        <definition>Response bioexplorer::BioExplorerPlugin::_setProteinInstanceTransformation</definition>
+        <argsstring>(const ProteinInstanceTransformationDetails &amp;payload) const</argsstring>
+        <name>_setProteinInstanceTransformation</name>
+        <param>
+          <type>const <ref refid="structbioexplorer_1_1details_1_1ProteinInstanceTransformationDetails" kindref="compound">ProteinInstanceTransformationDetails</ref> &amp;</type>
+          <declname>payload</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/favreau/git/BioExplorer/bioexplorer/core/plugin/BioExplorerPlugin.h" line="97" column="14" bodyfile="/home/favreau/git/BioExplorer/bioexplorer/core/plugin/BioExplorerPlugin.cpp" bodystart="608" bodyend="613"/>
+      </memberdef>
+      <memberdef kind="function" id="classbioexplorer_1_1BioExplorerPlugin_1a2f1f86cc4dada7f0dbab48dff2bee70e" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structbioexplorer_1_1details_1_1Response" kindref="compound">Response</ref></type>
+        <definition>Response bioexplorer::BioExplorerPlugin::_getProteinInstanceTransformation</definition>
+        <argsstring>(const ProteinInstanceTransformationDetails &amp;payload) const</argsstring>
+        <name>_getProteinInstanceTransformation</name>
+        <param>
+          <type>const <ref refid="structbioexplorer_1_1details_1_1ProteinInstanceTransformationDetails" kindref="compound">ProteinInstanceTransformationDetails</ref> &amp;</type>
+          <declname>payload</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/favreau/git/BioExplorer/bioexplorer/core/plugin/BioExplorerPlugin.h" line="99" column="14" bodyfile="/home/favreau/git/BioExplorer/bioexplorer/core/plugin/BioExplorerPlugin.cpp" bodystart="615" bodyend="645"/>
+      </memberdef>
+      <memberdef kind="function" id="classbioexplorer_1_1BioExplorerPlugin_1afe92d420059b69a61d668f6a3ad23d1a" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structbioexplorer_1_1details_1_1Response" kindref="compound">Response</ref></type>
+        <definition>Response bioexplorer::BioExplorerPlugin::_setColorScheme</definition>
+        <argsstring>(const ColorSchemeDetails &amp;payload) const</argsstring>
+        <name>_setColorScheme</name>
+        <param>
+          <type>const <ref refid="structbioexplorer_1_1details_1_1ColorSchemeDetails" kindref="compound">ColorSchemeDetails</ref> &amp;</type>
+          <declname>payload</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/favreau/git/BioExplorer/bioexplorer/core/plugin/BioExplorerPlugin.h" line="103" column="14" bodyfile="/home/favreau/git/BioExplorer/bioexplorer/core/plugin/BioExplorerPlugin.cpp" bodystart="541" bodyend="545"/>
+      </memberdef>
+      <memberdef kind="function" id="classbioexplorer_1_1BioExplorerPlugin_1a0c61be085293d15169b223932ad0543e" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structbioexplorer_1_1details_1_1Response" kindref="compound">Response</ref></type>
+        <definition>Response bioexplorer::BioExplorerPlugin::_setMaterials</definition>
+        <argsstring>(const MaterialsDetails &amp;payload)</argsstring>
+        <name>_setMaterials</name>
+        <param>
+          <type>const <ref refid="structbioexplorer_1_1details_1_1MaterialsDetails" kindref="compound">MaterialsDetails</ref> &amp;</type>
+          <declname>payload</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/favreau/git/BioExplorer/bioexplorer/core/plugin/BioExplorerPlugin.h" line="104" column="14" bodyfile="/home/favreau/git/BioExplorer/bioexplorer/core/plugin/BioExplorerPlugin.cpp" bodystart="884" bodyend="970"/>
+      </memberdef>
+      <memberdef kind="function" id="classbioexplorer_1_1BioExplorerPlugin_1aaab909d8291ba4bc7f2fd4ca12c09129" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structbioexplorer_1_1details_1_1MaterialIdsDetails" kindref="compound">MaterialIdsDetails</ref></type>
+        <definition>MaterialIdsDetails bioexplorer::BioExplorerPlugin::_getMaterialIds</definition>
+        <argsstring>(const ModelIdDetails &amp;modelId)</argsstring>
+        <name>_getMaterialIds</name>
+        <param>
+          <type>const <ref refid="structbioexplorer_1_1details_1_1ModelIdDetails" kindref="compound">ModelIdDetails</ref> &amp;</type>
+          <declname>modelId</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/favreau/git/BioExplorer/bioexplorer/core/plugin/BioExplorerPlugin.h" line="105" column="24" bodyfile="/home/favreau/git/BioExplorer/bioexplorer/core/plugin/BioExplorerPlugin.cpp" bodystart="867" bodyend="882"/>
+      </memberdef>
+      <memberdef kind="function" id="classbioexplorer_1_1BioExplorerPlugin_1a5d9e61fa6486624ac059c00ac724c469" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structbioexplorer_1_1details_1_1Response" kindref="compound">Response</ref></type>
+        <definition>Response bioexplorer::BioExplorerPlugin::_buildPointCloud</definition>
+        <argsstring>(const BuildPointCloudDetails &amp;payload)</argsstring>
+        <name>_buildPointCloud</name>
+        <param>
+          <type>const <ref refid="structbioexplorer_1_1details_1_1BuildPointCloudDetails" kindref="compound">BuildPointCloudDetails</ref> &amp;</type>
+          <declname>payload</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/favreau/git/BioExplorer/bioexplorer/core/plugin/BioExplorerPlugin.h" line="108" column="14" bodyfile="/home/favreau/git/BioExplorer/bioexplorer/core/plugin/BioExplorerPlugin.cpp" bodystart="1069" bodyend="1133"/>
+      </memberdef>
+      <memberdef kind="function" id="classbioexplorer_1_1BioExplorerPlugin_1ad03f2b82cc4f54b5642cb063f48f0e09" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void bioexplorer::BioExplorerPlugin::_attachFieldsHandler</definition>
+        <argsstring>(FieldsHandlerPtr handler)</argsstring>
+        <name>_attachFieldsHandler</name>
+        <param>
+          <type>FieldsHandlerPtr</type>
+          <declname>handler</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/favreau/git/BioExplorer/bioexplorer/core/plugin/BioExplorerPlugin.h" line="111" column="10" bodyfile="/home/favreau/git/BioExplorer/bioexplorer/core/plugin/BioExplorerPlugin.cpp" bodystart="972" bodyend="1005"/>
+      </memberdef>
+      <memberdef kind="function" id="classbioexplorer_1_1BioExplorerPlugin_1ad1b4808044213b531a52f08b9f0cb42a" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structbioexplorer_1_1details_1_1Response" kindref="compound">Response</ref></type>
+        <definition>Response bioexplorer::BioExplorerPlugin::_buildFields</definition>
+        <argsstring>(const BuildFieldsDetails &amp;payload)</argsstring>
+        <name>_buildFields</name>
+        <param>
+          <type>const <ref refid="structbioexplorer_1_1details_1_1BuildFieldsDetails" kindref="compound">BuildFieldsDetails</ref> &amp;</type>
+          <declname>payload</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/favreau/git/BioExplorer/bioexplorer/core/plugin/BioExplorerPlugin.h" line="112" column="14" bodyfile="/home/favreau/git/BioExplorer/bioexplorer/core/plugin/BioExplorerPlugin.cpp" bodystart="1007" bodyend="1021"/>
+      </memberdef>
+      <memberdef kind="function" id="classbioexplorer_1_1BioExplorerPlugin_1a04bf0e2b57830ff7d307426e4517316d" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structbioexplorer_1_1details_1_1Response" kindref="compound">Response</ref></type>
+        <definition>Response bioexplorer::BioExplorerPlugin::_exportFieldsToFile</definition>
+        <argsstring>(const ModelIdFileAccessDetails &amp;payload)</argsstring>
+        <name>_exportFieldsToFile</name>
+        <param>
+          <type>const <ref refid="structbioexplorer_1_1details_1_1ModelIdFileAccessDetails" kindref="compound">ModelIdFileAccessDetails</ref> &amp;</type>
+          <declname>payload</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/favreau/git/BioExplorer/bioexplorer/core/plugin/BioExplorerPlugin.h" line="113" column="14" bodyfile="/home/favreau/git/BioExplorer/bioexplorer/core/plugin/BioExplorerPlugin.cpp" bodystart="1038" bodyend="1067"/>
+      </memberdef>
+      <memberdef kind="function" id="classbioexplorer_1_1BioExplorerPlugin_1a3ab3e210441366af7f4e11a453f8769d" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structbioexplorer_1_1details_1_1Response" kindref="compound">Response</ref></type>
+        <definition>Response bioexplorer::BioExplorerPlugin::_importFieldsFromFile</definition>
+        <argsstring>(const FileAccessDetails &amp;payload)</argsstring>
+        <name>_importFieldsFromFile</name>
+        <param>
+          <type>const <ref refid="structbioexplorer_1_1details_1_1FileAccessDetails" kindref="compound">FileAccessDetails</ref> &amp;</type>
+          <declname>payload</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/favreau/git/BioExplorer/bioexplorer/core/plugin/BioExplorerPlugin.h" line="114" column="14" bodyfile="/home/favreau/git/BioExplorer/bioexplorer/core/plugin/BioExplorerPlugin.cpp" bodystart="1023" bodyend="1036"/>
+      </memberdef>
+      <memberdef kind="function" id="classbioexplorer_1_1BioExplorerPlugin_1a89e08cdea3f3218042cd43512e08d20c" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structbioexplorer_1_1details_1_1Response" kindref="compound">Response</ref></type>
+        <definition>Response bioexplorer::BioExplorerPlugin::_setModelsVisibility</definition>
+        <argsstring>(const ModelsVisibilityDetails &amp;payload)</argsstring>
+        <name>_setModelsVisibility</name>
+        <param>
+          <type>const <ref refid="structbioexplorer_1_1details_1_1ModelsVisibilityDetails" kindref="compound">ModelsVisibilityDetails</ref> &amp;</type>
+          <declname>payload</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/favreau/git/BioExplorer/bioexplorer/core/plugin/BioExplorerPlugin.h" line="117" column="14" bodyfile="/home/favreau/git/BioExplorer/bioexplorer/core/plugin/BioExplorerPlugin.cpp" bodystart="1135" bodyend="1152"/>
+      </memberdef>
+      <memberdef kind="function" id="classbioexplorer_1_1BioExplorerPlugin_1a4888574d64145cbdad4684d42415f816" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structbioexplorer_1_1details_1_1Response" kindref="compound">Response</ref></type>
+        <definition>Response bioexplorer::BioExplorerPlugin::_getOOCConfiguration</definition>
+        <argsstring>() const</argsstring>
+        <name>_getOOCConfiguration</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/favreau/git/BioExplorer/bioexplorer/core/plugin/BioExplorerPlugin.h" line="120" column="14" bodyfile="/home/favreau/git/BioExplorer/bioexplorer/core/plugin/BioExplorerPlugin.cpp" bodystart="1154" bodyend="1177"/>
+      </memberdef>
+      <memberdef kind="function" id="classbioexplorer_1_1BioExplorerPlugin_1a7a43d1359efd8516606e6484392dd51c" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structbioexplorer_1_1details_1_1Response" kindref="compound">Response</ref></type>
+        <definition>Response bioexplorer::BioExplorerPlugin::_getOOCProgress</definition>
+        <argsstring>() const</argsstring>
+        <name>_getOOCProgress</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/favreau/git/BioExplorer/bioexplorer/core/plugin/BioExplorerPlugin.h" line="121" column="14" bodyfile="/home/favreau/git/BioExplorer/bioexplorer/core/plugin/BioExplorerPlugin.cpp" bodystart="1179" bodyend="1192"/>
+      </memberdef>
+      <memberdef kind="function" id="classbioexplorer_1_1BioExplorerPlugin_1a70a4b95611a560739d52b54a164d5656" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structbioexplorer_1_1details_1_1Response" kindref="compound">Response</ref></type>
+        <definition>Response bioexplorer::BioExplorerPlugin::_getOOCAverageLoadingTime</definition>
+        <argsstring>() const</argsstring>
+        <name>_getOOCAverageLoadingTime</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/favreau/git/BioExplorer/bioexplorer/core/plugin/BioExplorerPlugin.h" line="122" column="14" bodyfile="/home/favreau/git/BioExplorer/bioexplorer/core/plugin/BioExplorerPlugin.cpp" bodystart="1194" bodyend="1207"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+<para>This class implements the BioExplorer plugin. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>bioexplorer::BioExplorerPlugin</label>
+        <link refid="classbioexplorer_1_1BioExplorerPlugin"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>ExtensionPlugin</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>bioexplorer::BioExplorerPlugin</label>
+        <link refid="classbioexplorer_1_1BioExplorerPlugin"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>ExtensionPlugin</label>
+      </node>
+    </collaborationgraph>
+    <location file="/home/favreau/git/BioExplorer/bioexplorer/core/plugin/BioExplorerPlugin.h" line="39" column="1" bodyfile="/home/favreau/git/BioExplorer/bioexplorer/core/plugin/BioExplorerPlugin.h" bodystart="38" bodyend="130"/>
+    <listofallmembers>
+      <member refid="classbioexplorer_1_1BioExplorerPlugin_1ab90966c45bf45b21038c43070b15ca12" prot="private" virt="non-virtual"><scope>bioexplorer::BioExplorerPlugin</scope><name>_addAssembly</name></member>
+      <member refid="classbioexplorer_1_1BioExplorerPlugin_1a8545e69eafde9aa2aaece5a2bd098550" prot="private" virt="non-virtual"><scope>bioexplorer::BioExplorerPlugin</scope><name>_addGlycans</name></member>
+      <member refid="classbioexplorer_1_1BioExplorerPlugin_1abc65d5b05e24b6e81a9d3390f18ab938" prot="private" virt="non-virtual"><scope>bioexplorer::BioExplorerPlugin</scope><name>_addGrid</name></member>
+      <member refid="classbioexplorer_1_1BioExplorerPlugin_1ac74c500b4bc9eac7e5bc5a2994d7e32f" prot="private" virt="non-virtual"><scope>bioexplorer::BioExplorerPlugin</scope><name>_addMembrane</name></member>
+      <member refid="classbioexplorer_1_1BioExplorerPlugin_1aa51466e53eb9ac523df3431fe34f43a2" prot="private" virt="non-virtual"><scope>bioexplorer::BioExplorerPlugin</scope><name>_addMeshBasedMembrane</name></member>
+      <member refid="classbioexplorer_1_1BioExplorerPlugin_1a3aa7fa2c2924c2ee565ceace464aec74" prot="private" virt="non-virtual"><scope>bioexplorer::BioExplorerPlugin</scope><name>_addProtein</name></member>
+      <member refid="classbioexplorer_1_1BioExplorerPlugin_1a9c101268e0600c5257742cf20aa11ba1" prot="private" virt="non-virtual"><scope>bioexplorer::BioExplorerPlugin</scope><name>_addRNASequence</name></member>
+      <member refid="classbioexplorer_1_1BioExplorerPlugin_1a3f00507486766ee41a2503e5ee535c2f" prot="private" virt="non-virtual"><scope>bioexplorer::BioExplorerPlugin</scope><name>_addSugars</name></member>
+      <member refid="classbioexplorer_1_1BioExplorerPlugin_1a54365f324eae424bd0c19f340f956cbb" prot="private" virt="non-virtual"><scope>bioexplorer::BioExplorerPlugin</scope><name>_assemblies</name></member>
+      <member refid="classbioexplorer_1_1BioExplorerPlugin_1ad03f2b82cc4f54b5642cb063f48f0e09" prot="private" virt="non-virtual"><scope>bioexplorer::BioExplorerPlugin</scope><name>_attachFieldsHandler</name></member>
+      <member refid="classbioexplorer_1_1BioExplorerPlugin_1ad1b4808044213b531a52f08b9f0cb42a" prot="private" virt="non-virtual"><scope>bioexplorer::BioExplorerPlugin</scope><name>_buildFields</name></member>
+      <member refid="classbioexplorer_1_1BioExplorerPlugin_1a5d9e61fa6486624ac059c00ac724c469" prot="private" virt="non-virtual"><scope>bioexplorer::BioExplorerPlugin</scope><name>_buildPointCloud</name></member>
+      <member refid="classbioexplorer_1_1BioExplorerPlugin_1ad544f4adcae7e3e46a8c984b7f241167" prot="private" virt="non-virtual"><scope>bioexplorer::BioExplorerPlugin</scope><name>_commandLineArguments</name></member>
+      <member refid="classbioexplorer_1_1BioExplorerPlugin_1a04bf0e2b57830ff7d307426e4517316d" prot="private" virt="non-virtual"><scope>bioexplorer::BioExplorerPlugin</scope><name>_exportFieldsToFile</name></member>
+      <member refid="classbioexplorer_1_1BioExplorerPlugin_1a4a8bb1eac7ab5db31d6d5ff63e20de0e" prot="private" virt="non-virtual"><scope>bioexplorer::BioExplorerPlugin</scope><name>_exportToFile</name></member>
+      <member refid="classbioexplorer_1_1BioExplorerPlugin_1a33d8ec84abd30b6d4f910d8247de55a2" prot="private" virt="non-virtual"><scope>bioexplorer::BioExplorerPlugin</scope><name>_exportToXYZ</name></member>
+      <member refid="classbioexplorer_1_1BioExplorerPlugin_1abcdda8d4e62bc5f9029e6276aa7ba0e4" prot="private" virt="non-virtual"><scope>bioexplorer::BioExplorerPlugin</scope><name>_getAminoAcidInformation</name></member>
+      <member refid="classbioexplorer_1_1BioExplorerPlugin_1aaab909d8291ba4bc7f2fd4ca12c09129" prot="private" virt="non-virtual"><scope>bioexplorer::BioExplorerPlugin</scope><name>_getMaterialIds</name></member>
+      <member refid="classbioexplorer_1_1BioExplorerPlugin_1a70a4b95611a560739d52b54a164d5656" prot="private" virt="non-virtual"><scope>bioexplorer::BioExplorerPlugin</scope><name>_getOOCAverageLoadingTime</name></member>
+      <member refid="classbioexplorer_1_1BioExplorerPlugin_1a4888574d64145cbdad4684d42415f816" prot="private" virt="non-virtual"><scope>bioexplorer::BioExplorerPlugin</scope><name>_getOOCConfiguration</name></member>
+      <member refid="classbioexplorer_1_1BioExplorerPlugin_1a7a43d1359efd8516606e6484392dd51c" prot="private" virt="non-virtual"><scope>bioexplorer::BioExplorerPlugin</scope><name>_getOOCProgress</name></member>
+      <member refid="classbioexplorer_1_1BioExplorerPlugin_1a2f1f86cc4dada7f0dbab48dff2bee70e" prot="private" virt="non-virtual"><scope>bioexplorer::BioExplorerPlugin</scope><name>_getProteinInstanceTransformation</name></member>
+      <member refid="classbioexplorer_1_1BioExplorerPlugin_1a3ab3e210441366af7f4e11a453f8769d" prot="private" virt="non-virtual"><scope>bioexplorer::BioExplorerPlugin</scope><name>_importFieldsFromFile</name></member>
+      <member refid="classbioexplorer_1_1BioExplorerPlugin_1a45c2673dc8c915c4754537dbe0b7a6eb" prot="private" virt="non-virtual"><scope>bioexplorer::BioExplorerPlugin</scope><name>_importFromFile</name></member>
+      <member refid="classbioexplorer_1_1BioExplorerPlugin_1a8b2bcfa4f05197dceff2910d04566e49" prot="private" virt="non-virtual"><scope>bioexplorer::BioExplorerPlugin</scope><name>_oocManager</name></member>
+      <member refid="classbioexplorer_1_1BioExplorerPlugin_1a7bd11d4d0ff383705877c18c0a18942e" prot="private" virt="non-virtual"><scope>bioexplorer::BioExplorerPlugin</scope><name>_parseCommandLineArguments</name></member>
+      <member refid="classbioexplorer_1_1BioExplorerPlugin_1a5fc19e10819b0545f7b608769e94ea44" prot="private" virt="non-virtual"><scope>bioexplorer::BioExplorerPlugin</scope><name>_removeAssembly</name></member>
+      <member refid="classbioexplorer_1_1BioExplorerPlugin_1a67a9fe6d0e74f0c23c6e0c222d71991b" prot="private" virt="non-virtual"><scope>bioexplorer::BioExplorerPlugin</scope><name>_setAminoAcid</name></member>
+      <member refid="classbioexplorer_1_1BioExplorerPlugin_1ae63ca2fd1de9c35bf0e7400451d47c23" prot="private" virt="non-virtual"><scope>bioexplorer::BioExplorerPlugin</scope><name>_setAminoAcidSequenceAsRanges</name></member>
+      <member refid="classbioexplorer_1_1BioExplorerPlugin_1a12228c3cc20bd618a098c511968c5102" prot="private" virt="non-virtual"><scope>bioexplorer::BioExplorerPlugin</scope><name>_setAminoAcidSequenceAsString</name></member>
+      <member refid="classbioexplorer_1_1BioExplorerPlugin_1afe92d420059b69a61d668f6a3ad23d1a" prot="private" virt="non-virtual"><scope>bioexplorer::BioExplorerPlugin</scope><name>_setColorScheme</name></member>
+      <member refid="classbioexplorer_1_1BioExplorerPlugin_1a311a4260852827d0e3b414a2ce2ee76e" prot="private" virt="non-virtual"><scope>bioexplorer::BioExplorerPlugin</scope><name>_setGeneralSettings</name></member>
+      <member refid="classbioexplorer_1_1BioExplorerPlugin_1a0c61be085293d15169b223932ad0543e" prot="private" virt="non-virtual"><scope>bioexplorer::BioExplorerPlugin</scope><name>_setMaterials</name></member>
+      <member refid="classbioexplorer_1_1BioExplorerPlugin_1a89e08cdea3f3218042cd43512e08d20c" prot="private" virt="non-virtual"><scope>bioexplorer::BioExplorerPlugin</scope><name>_setModelsVisibility</name></member>
+      <member refid="classbioexplorer_1_1BioExplorerPlugin_1a3e5a83cc2f7ffd123cfbd63d89f4d5da" prot="private" virt="non-virtual"><scope>bioexplorer::BioExplorerPlugin</scope><name>_setProteinInstanceTransformation</name></member>
+      <member refid="classbioexplorer_1_1BioExplorerPlugin_1afccd5c0d09bc2d200938708c62ad4787" prot="private" virt="non-virtual"><scope>bioexplorer::BioExplorerPlugin</scope><name>_version</name></member>
+      <member refid="classbioexplorer_1_1BioExplorerPlugin_1af06bb8a9b0514fdcd368bab3066581e5" prot="public" virt="non-virtual"><scope>bioexplorer::BioExplorerPlugin</scope><name>BioExplorerPlugin</name></member>
+      <member refid="classbioexplorer_1_1BioExplorerPlugin_1a66054e540bd4b90e00ffb04a1b4d2daa" prot="public" virt="non-virtual"><scope>bioexplorer::BioExplorerPlugin</scope><name>init</name></member>
+      <member refid="classbioexplorer_1_1BioExplorerPlugin_1a666e3d2ae8c399768ad1072527f2a0be" prot="public" virt="non-virtual"><scope>bioexplorer::BioExplorerPlugin</scope><name>preRender</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

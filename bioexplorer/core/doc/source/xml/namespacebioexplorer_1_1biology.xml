@@ -1,0 +1,525 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.17">
+  <compounddef id="namespacebioexplorer_1_1biology" kind="namespace" language="C++">
+    <compoundname>bioexplorer::biology</compoundname>
+    <innerclass refid="structbioexplorer_1_1biology_1_1AminoAcid" prot="public">bioexplorer::biology::AminoAcid</innerclass>
+    <innerclass refid="classbioexplorer_1_1biology_1_1Assembly" prot="public">bioexplorer::biology::Assembly</innerclass>
+    <innerclass refid="structbioexplorer_1_1biology_1_1Atom" prot="public">bioexplorer::biology::Atom</innerclass>
+    <innerclass refid="classbioexplorer_1_1biology_1_1Glycans" prot="public">bioexplorer::biology::Glycans</innerclass>
+    <innerclass refid="classbioexplorer_1_1biology_1_1Membrane" prot="public">bioexplorer::biology::Membrane</innerclass>
+    <innerclass refid="classbioexplorer_1_1biology_1_1MeshBasedMembrane" prot="public">bioexplorer::biology::MeshBasedMembrane</innerclass>
+    <innerclass refid="classbioexplorer_1_1biology_1_1Molecule" prot="public">bioexplorer::biology::Molecule</innerclass>
+    <innerclass refid="classbioexplorer_1_1biology_1_1Node" prot="public">bioexplorer::biology::Node</innerclass>
+    <innerclass refid="structbioexplorer_1_1biology_1_1Nucleotid" prot="public">bioexplorer::biology::Nucleotid</innerclass>
+    <innerclass refid="classbioexplorer_1_1biology_1_1Protein" prot="public">bioexplorer::biology::Protein</innerclass>
+    <innerclass refid="structbioexplorer_1_1biology_1_1ResidueSequence" prot="public">bioexplorer::biology::ResidueSequence</innerclass>
+    <innerclass refid="classbioexplorer_1_1biology_1_1RNASequence" prot="public">bioexplorer::biology::RNASequence</innerclass>
+      <sectiondef kind="typedef">
+      <memberdef kind="typedef" id="RNASequence_8cpp_1a9dccac7bb5366a68877c87cc42cef216" prot="public" static="no">
+        <type>std::map&lt; char, <ref refid="structbioexplorer_1_1biology_1_1Nucleotid" kindref="compound">Nucleotid</ref> &gt;</type>
+        <definition>typedef std::map&lt;char, Nucleotid&gt; bioexplorer::biology::NucleotidMap</definition>
+        <argsstring></argsstring>
+        <name>NucleotidMap</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/favreau/git/BioExplorer/bioexplorer/core/plugin/biology/RNASequence.cpp" line="50" column="18" bodyfile="/home/favreau/git/BioExplorer/bioexplorer/core/plugin/biology/RNASequence.cpp" bodystart="50" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="Types_8h_1ab9b121cbc09aa335496e6cf8e2c91309" prot="public" static="no">
+        <type>std::shared_ptr&lt; <ref refid="classbioexplorer_1_1biology_1_1Node" kindref="compound">Node</ref> &gt;</type>
+        <definition>typedef std::shared_ptr&lt;Node&gt; bioexplorer::biology::NodePtr</definition>
+        <argsstring></argsstring>
+        <name>NodePtr</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/favreau/git/BioExplorer/bioexplorer/core/plugin/common/Types.h" line="713" column="25" bodyfile="/home/favreau/git/BioExplorer/bioexplorer/core/plugin/common/Types.h" bodystart="712" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="Types_8h_1a4865457ccab89965d2bfae977bae4a4a" prot="public" static="no">
+        <type>std::map&lt; std::string, NodePtr &gt;</type>
+        <definition>typedef std::map&lt;std::string, NodePtr&gt; bioexplorer::biology::NodeMap</definition>
+        <argsstring></argsstring>
+        <name>NodeMap</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/favreau/git/BioExplorer/bioexplorer/core/plugin/common/Types.h" line="714" column="18" bodyfile="/home/favreau/git/BioExplorer/bioexplorer/core/plugin/common/Types.h" bodystart="714" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="Types_8h_1a9112d09a04feb9a8526cfe7e9db20b82" prot="public" static="no">
+        <type>std::shared_ptr&lt; <ref refid="classbioexplorer_1_1biology_1_1Assembly" kindref="compound">Assembly</ref> &gt;</type>
+        <definition>typedef std::shared_ptr&lt;Assembly&gt; bioexplorer::biology::AssemblyPtr</definition>
+        <argsstring></argsstring>
+        <name>AssemblyPtr</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/favreau/git/BioExplorer/bioexplorer/core/plugin/common/Types.h" line="717" column="25" bodyfile="/home/favreau/git/BioExplorer/bioexplorer/core/plugin/common/Types.h" bodystart="716" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="Types_8h_1ae65cf43274901671fd9436b61eb93760" prot="public" static="no">
+        <type>std::map&lt; std::string, AssemblyPtr &gt;</type>
+        <definition>typedef std::map&lt;std::string, AssemblyPtr&gt; bioexplorer::biology::AssemblyMap</definition>
+        <argsstring></argsstring>
+        <name>AssemblyMap</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/favreau/git/BioExplorer/bioexplorer/core/plugin/common/Types.h" line="718" column="18" bodyfile="/home/favreau/git/BioExplorer/bioexplorer/core/plugin/common/Types.h" bodystart="718" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="Types_8h_1a5d626d1e2229418dd9d6da8db41606bf" prot="public" static="no">
+        <type>std::shared_ptr&lt; <ref refid="classbioexplorer_1_1biology_1_1Membrane" kindref="compound">Membrane</ref> &gt;</type>
+        <definition>typedef std::shared_ptr&lt;Membrane&gt; bioexplorer::biology::MembranePtr</definition>
+        <argsstring></argsstring>
+        <name>MembranePtr</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/favreau/git/BioExplorer/bioexplorer/core/plugin/common/Types.h" line="721" column="25" bodyfile="/home/favreau/git/BioExplorer/bioexplorer/core/plugin/common/Types.h" bodystart="720" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="Types_8h_1a74739e7e713d20aa925357f4b32a69b1" prot="public" static="no">
+        <type>std::shared_ptr&lt; <ref refid="classbioexplorer_1_1biology_1_1Protein" kindref="compound">Protein</ref> &gt;</type>
+        <definition>typedef std::shared_ptr&lt;Protein&gt; bioexplorer::biology::ProteinPtr</definition>
+        <argsstring></argsstring>
+        <name>ProteinPtr</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/favreau/git/BioExplorer/bioexplorer/core/plugin/common/Types.h" line="724" column="25" bodyfile="/home/favreau/git/BioExplorer/bioexplorer/core/plugin/common/Types.h" bodystart="723" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="Types_8h_1a75efd03305604c6a3f9f08686a9b2c10" prot="public" static="no">
+        <type>std::map&lt; std::string, ProteinPtr &gt;</type>
+        <definition>typedef std::map&lt;std::string, ProteinPtr&gt; bioexplorer::biology::ProteinMap</definition>
+        <argsstring></argsstring>
+        <name>ProteinMap</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/favreau/git/BioExplorer/bioexplorer/core/plugin/common/Types.h" line="725" column="18" bodyfile="/home/favreau/git/BioExplorer/bioexplorer/core/plugin/common/Types.h" bodystart="725" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="Types_8h_1aa197742b344c442b9c9d45311f485265" prot="public" static="no">
+        <type>std::shared_ptr&lt; <ref refid="classbioexplorer_1_1biology_1_1Glycans" kindref="compound">Glycans</ref> &gt;</type>
+        <definition>typedef std::shared_ptr&lt;Glycans&gt; bioexplorer::biology::GlycansPtr</definition>
+        <argsstring></argsstring>
+        <name>GlycansPtr</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/favreau/git/BioExplorer/bioexplorer/core/plugin/common/Types.h" line="728" column="25" bodyfile="/home/favreau/git/BioExplorer/bioexplorer/core/plugin/common/Types.h" bodystart="727" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="Types_8h_1ae9bc33077a3c8506588a7c1bd4435916" prot="public" static="no">
+        <type>std::map&lt; std::string, GlycansPtr &gt;</type>
+        <definition>typedef std::map&lt;std::string, GlycansPtr&gt; bioexplorer::biology::GlycansMap</definition>
+        <argsstring></argsstring>
+        <name>GlycansMap</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/favreau/git/BioExplorer/bioexplorer/core/plugin/common/Types.h" line="729" column="18" bodyfile="/home/favreau/git/BioExplorer/bioexplorer/core/plugin/common/Types.h" bodystart="729" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="Types_8h_1a59dd68b4888f011c27d3fb4938808410" prot="public" static="no">
+        <type>std::shared_ptr&lt; <ref refid="classbioexplorer_1_1biology_1_1MeshBasedMembrane" kindref="compound">MeshBasedMembrane</ref> &gt;</type>
+        <definition>typedef std::shared_ptr&lt;MeshBasedMembrane&gt; bioexplorer::biology::MeshBasedMembranePtr</definition>
+        <argsstring></argsstring>
+        <name>MeshBasedMembranePtr</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/favreau/git/BioExplorer/bioexplorer/core/plugin/common/Types.h" line="732" column="25" bodyfile="/home/favreau/git/BioExplorer/bioexplorer/core/plugin/common/Types.h" bodystart="731" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="Types_8h_1a24e5df9e2de1ec6dcfcd7f9683b72a64" prot="public" static="no">
+        <type>std::map&lt; std::string, MeshBasedMembranePtr &gt;</type>
+        <definition>typedef std::map&lt;std::string, MeshBasedMembranePtr&gt; bioexplorer::biology::MeshBasedMembraneMap</definition>
+        <argsstring></argsstring>
+        <name>MeshBasedMembraneMap</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/favreau/git/BioExplorer/bioexplorer/core/plugin/common/Types.h" line="733" column="18" bodyfile="/home/favreau/git/BioExplorer/bioexplorer/core/plugin/common/Types.h" bodystart="733" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="Types_8h_1a834119af9cfc3c4afd65f55c6f39f17a" prot="public" static="no">
+        <type>std::shared_ptr&lt; <ref refid="classbioexplorer_1_1biology_1_1RNASequence" kindref="compound">RNASequence</ref> &gt;</type>
+        <definition>typedef std::shared_ptr&lt;RNASequence&gt; bioexplorer::biology::RNASequencePtr</definition>
+        <argsstring></argsstring>
+        <name>RNASequencePtr</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/favreau/git/BioExplorer/bioexplorer/core/plugin/common/Types.h" line="736" column="25" bodyfile="/home/favreau/git/BioExplorer/bioexplorer/core/plugin/common/Types.h" bodystart="735" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="Types_8h_1a5af1ca36e9d3c1365688edd23517566b" prot="public" static="no">
+        <type>std::map&lt; std::string, std::string &gt;</type>
+        <definition>typedef std::map&lt;std::string, std::string&gt; bioexplorer::biology::RNASequenceMap</definition>
+        <argsstring></argsstring>
+        <name>RNASequenceMap</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/favreau/git/BioExplorer/bioexplorer/core/plugin/common/Types.h" line="737" column="18" bodyfile="/home/favreau/git/BioExplorer/bioexplorer/core/plugin/common/Types.h" bodystart="737" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="Types_8h_1a304945a7a38e4c573fe0e8ff3f4e6c92" prot="public" static="no">
+        <type>std::multimap&lt; size_t, <ref refid="structbioexplorer_1_1biology_1_1Atom" kindref="compound">Atom</ref>, std::less&lt; size_t &gt; &gt;</type>
+        <definition>typedef std::multimap&lt;size_t, Atom, std::less&lt;size_t&gt; &gt; bioexplorer::biology::AtomMap</definition>
+        <argsstring></argsstring>
+        <name>AtomMap</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/favreau/git/BioExplorer/bioexplorer/core/plugin/common/Types.h" line="771" column="23" bodyfile="/home/favreau/git/BioExplorer/bioexplorer/core/plugin/common/Types.h" bodystart="771" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="Types_8h_1a51c795232427196d596331c9fc3c90ab" prot="public" static="no">
+        <type>std::map&lt; std::string, <ref refid="structbioexplorer_1_1biology_1_1ResidueSequence" kindref="compound">ResidueSequence</ref> &gt;</type>
+        <definition>typedef std::map&lt;std::string, ResidueSequence&gt; bioexplorer::biology::ResidueSequenceMap</definition>
+        <argsstring></argsstring>
+        <name>ResidueSequenceMap</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/favreau/git/BioExplorer/bioexplorer/core/plugin/common/Types.h" line="786" column="18" bodyfile="/home/favreau/git/BioExplorer/bioexplorer/core/plugin/common/Types.h" bodystart="786" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="Types_8h_1a03036786b45332453fe8418816d8cb33" prot="public" static="no">
+        <type>std::map&lt; size_t, std::vector&lt; size_t &gt; &gt;</type>
+        <definition>typedef std::map&lt;size_t, std::vector&lt;size_t&gt; &gt; bioexplorer::biology::BondsMap</definition>
+        <argsstring></argsstring>
+        <name>BondsMap</name>
+        <briefdescription>
+<para>Bonds map. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/favreau/git/BioExplorer/bioexplorer/core/plugin/common/Types.h" line="792" column="18" bodyfile="/home/favreau/git/BioExplorer/bioexplorer/core/plugin/common/Types.h" bodystart="792" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="Types_8h_1a98eab0da36dc7e56a5331c541cc0f399" prot="public" static="no">
+        <type>std::map&lt; std::string, <ref refid="structbioexplorer_1_1biology_1_1AminoAcid" kindref="compound">AminoAcid</ref> &gt;</type>
+        <definition>typedef std::map&lt;std::string, AminoAcid&gt; bioexplorer::biology::AminoAcidMap</definition>
+        <argsstring></argsstring>
+        <name>AminoAcidMap</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/favreau/git/BioExplorer/bioexplorer/core/plugin/common/Types.h" line="805" column="18" bodyfile="/home/favreau/git/BioExplorer/bioexplorer/core/plugin/common/Types.h" bodystart="805" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="Types_8h_1aeeb35015e42c61f3a6958aa8dd8eac01" prot="public" static="no">
+        <type>std::set&lt; std::string &gt;</type>
+        <definition>typedef std::set&lt;std::string&gt; bioexplorer::biology::Residues</definition>
+        <argsstring></argsstring>
+        <name>Residues</name>
+        <briefdescription>
+<para>Set of residue names. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/favreau/git/BioExplorer/bioexplorer/core/plugin/common/Types.h" line="811" column="18" bodyfile="/home/favreau/git/BioExplorer/bioexplorer/core/plugin/common/Types.h" bodystart="811" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="Types_8h_1aae7b29d2fbb77859abdcc3fc4095dcbd" prot="public" static="no">
+        <type>std::map&lt; std::string, float &gt;</type>
+        <definition>typedef std::map&lt;std::string, float&gt; bioexplorer::biology::AtomicRadii</definition>
+        <argsstring></argsstring>
+        <name>AtomicRadii</name>
+        <briefdescription>
+<para><ref refid="structbioexplorer_1_1biology_1_1Atom" kindref="compound">Atom</ref> radii in microns. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/favreau/git/BioExplorer/bioexplorer/core/plugin/common/Types.h" line="817" column="18" bodyfile="/home/favreau/git/BioExplorer/bioexplorer/core/plugin/common/Types.h" bodystart="817" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="var">
+      <memberdef kind="variable" id="Molecule_8cpp_1a05a9be2bcd7ca515e052b56ce6715cdb" prot="public" static="no" mutable="no">
+        <type>const std::string</type>
+        <definition>const std::string bioexplorer::biology::METADATA_AA_RANGE</definition>
+        <argsstring></argsstring>
+        <name>METADATA_AA_RANGE</name>
+        <initializer>= &quot;Amino acids range&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/favreau/git/BioExplorer/bioexplorer/core/plugin/biology/Molecule.cpp" line="44" column="19" bodyfile="/home/favreau/git/BioExplorer/bioexplorer/core/plugin/biology/Molecule.cpp" bodystart="44" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="Molecule_8cpp_1ab0dfd28a01b8e053332732d5779d9bce" prot="public" static="no" mutable="no">
+        <type>const std::string</type>
+        <definition>const std::string bioexplorer::biology::METADATA_AA_SEQUENCE</definition>
+        <argsstring></argsstring>
+        <name>METADATA_AA_SEQUENCE</name>
+        <initializer>= &quot;Amino Acid Sequence&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/favreau/git/BioExplorer/bioexplorer/core/plugin/biology/Molecule.cpp" line="45" column="19" bodyfile="/home/favreau/git/BioExplorer/bioexplorer/core/plugin/biology/Molecule.cpp" bodystart="45" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="Molecule_8cpp_1afb1be072e26862e153834c54516aab3e" prot="public" static="no" mutable="no">
+        <type>const float</type>
+        <definition>const float bioexplorer::biology::DEFAULT_ATOM_RADIUS</definition>
+        <argsstring></argsstring>
+        <name>DEFAULT_ATOM_RADIUS</name>
+        <initializer>= 25.f</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/favreau/git/BioExplorer/bioexplorer/core/plugin/biology/Molecule.cpp" line="48" column="13" bodyfile="/home/favreau/git/BioExplorer/bioexplorer/core/plugin/biology/Molecule.cpp" bodystart="48" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="Molecule_8cpp_1a8bce69e28249caffc1cc9652f675dc80" prot="public" static="yes" mutable="no">
+        <type>AtomicRadii</type>
+        <definition>AtomicRadii bioexplorer::biology::atomicRadii</definition>
+        <argsstring></argsstring>
+        <name>atomicRadii</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/favreau/git/BioExplorer/bioexplorer/core/plugin/biology/Molecule.cpp" line="49" column="20" bodyfile="/home/favreau/git/BioExplorer/bioexplorer/core/plugin/biology/Molecule.cpp" bodystart="49" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="Molecule_8h_1aafc9f9c155c88f34d3fec5e6ea9634c3" prot="public" static="no" mutable="no">
+        <type>const std::string</type>
+        <definition>const std::string bioexplorer::biology::KEY_UNDEFINED</definition>
+        <argsstring></argsstring>
+        <name>KEY_UNDEFINED</name>
+        <initializer>= &quot;Undefined&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/favreau/git/BioExplorer/bioexplorer/core/plugin/biology/Molecule.h" line="34" column="19" bodyfile="/home/favreau/git/BioExplorer/bioexplorer/core/plugin/biology/Molecule.h" bodystart="34" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="Molecule_8h_1a2d8cb840f455db0644ca208c30e32cb2" prot="public" static="no" mutable="no">
+        <type>const std::string</type>
+        <definition>const std::string bioexplorer::biology::KEY_ATOM</definition>
+        <argsstring></argsstring>
+        <name>KEY_ATOM</name>
+        <initializer>= &quot;ATOM&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/favreau/git/BioExplorer/bioexplorer/core/plugin/biology/Molecule.h" line="35" column="19" bodyfile="/home/favreau/git/BioExplorer/bioexplorer/core/plugin/biology/Molecule.h" bodystart="35" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="Molecule_8h_1aa73bc18e186ec9730189e5a182fab961" prot="public" static="no" mutable="no">
+        <type>const std::string</type>
+        <definition>const std::string bioexplorer::biology::KEY_HETATM</definition>
+        <argsstring></argsstring>
+        <name>KEY_HETATM</name>
+        <initializer>= &quot;HETATM&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/favreau/git/BioExplorer/bioexplorer/core/plugin/biology/Molecule.h" line="36" column="19" bodyfile="/home/favreau/git/BioExplorer/bioexplorer/core/plugin/biology/Molecule.h" bodystart="36" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="Molecule_8h_1a2509f001dcd4d89ce71fa4bd017040a1" prot="public" static="no" mutable="no">
+        <type>const std::string</type>
+        <definition>const std::string bioexplorer::biology::KEY_HEADER</definition>
+        <argsstring></argsstring>
+        <name>KEY_HEADER</name>
+        <initializer>= &quot;HEADER&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/favreau/git/BioExplorer/bioexplorer/core/plugin/biology/Molecule.h" line="37" column="19" bodyfile="/home/favreau/git/BioExplorer/bioexplorer/core/plugin/biology/Molecule.h" bodystart="37" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="Molecule_8h_1a2b0e73e2a373973d5afb8ef5f1ae803d" prot="public" static="no" mutable="no">
+        <type>const std::string</type>
+        <definition>const std::string bioexplorer::biology::KEY_TITLE</definition>
+        <argsstring></argsstring>
+        <name>KEY_TITLE</name>
+        <initializer>= &quot;TITLE&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/favreau/git/BioExplorer/bioexplorer/core/plugin/biology/Molecule.h" line="38" column="19" bodyfile="/home/favreau/git/BioExplorer/bioexplorer/core/plugin/biology/Molecule.h" bodystart="38" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="Molecule_8h_1ab590bd92eb56783eddaf616d4dbeb5c1" prot="public" static="no" mutable="no">
+        <type>const std::string</type>
+        <definition>const std::string bioexplorer::biology::KEY_CONECT</definition>
+        <argsstring></argsstring>
+        <name>KEY_CONECT</name>
+        <initializer>= &quot;CONECT&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/favreau/git/BioExplorer/bioexplorer/core/plugin/biology/Molecule.h" line="39" column="19" bodyfile="/home/favreau/git/BioExplorer/bioexplorer/core/plugin/biology/Molecule.h" bodystart="39" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="Molecule_8h_1a0edc232a1dbf952a0619587ff04bb61d" prot="public" static="no" mutable="no">
+        <type>const std::string</type>
+        <definition>const std::string bioexplorer::biology::KEY_SEQRES</definition>
+        <argsstring></argsstring>
+        <name>KEY_SEQRES</name>
+        <initializer>= &quot;SEQRES&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/favreau/git/BioExplorer/bioexplorer/core/plugin/biology/Molecule.h" line="40" column="19" bodyfile="/home/favreau/git/BioExplorer/bioexplorer/core/plugin/biology/Molecule.h" bodystart="40" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="Molecule_8h_1a49032cb28de420f7b98ddedaeea73450" prot="public" static="no" mutable="no">
+        <type>const std::string</type>
+        <definition>const std::string bioexplorer::biology::KEY_REMARK</definition>
+        <argsstring></argsstring>
+        <name>KEY_REMARK</name>
+        <initializer>= &quot;REMARK&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/favreau/git/BioExplorer/bioexplorer/core/plugin/biology/Molecule.h" line="41" column="19" bodyfile="/home/favreau/git/BioExplorer/bioexplorer/core/plugin/biology/Molecule.h" bodystart="41" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="RNASequence_8cpp_1a05e96776873ff84a787974092f02a3e0" prot="public" static="no" mutable="no">
+        <type>NucleotidMap</type>
+        <definition>NucleotidMap bioexplorer::biology::nucleotidMap</definition>
+        <argsstring></argsstring>
+        <name>nucleotidMap</name>
+        <initializer>{{&apos;A&apos;, {0, &quot;Adenine&quot;, {0.f, 0.f, 1.f}}},
+                          {&apos;U&apos;, {1, &quot;Uracile&quot;, {0.f, 1.f, 0.f}}},
+                          {&apos;G&apos;, {2, &quot;Guanine&quot;, {1.f, 0.f, 0.f}}},
+                          {&apos;T&apos;, {3, &quot;Thymine&quot;, {1.f, 0.f, 1.f}}},
+                          {&apos;C&apos;, {4, &quot;Cytosine&quot;, {1.f, 1.f, 0.f}}}}</initializer>
+        <briefdescription>
+<para>Map of nucleotids indexed by short name. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/favreau/git/BioExplorer/bioexplorer/core/plugin/biology/RNASequence.cpp" line="56" column="14" bodyfile="/home/favreau/git/BioExplorer/bioexplorer/core/plugin/biology/RNASequence.cpp" bodystart="56" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="Types_8h_1a7f90ab774c9430b2ec34f70005230064" prot="public" static="yes" mutable="no">
+        <type>AminoAcidMap</type>
+        <definition>AminoAcidMap bioexplorer::biology::aminoAcidMap</definition>
+        <argsstring></argsstring>
+        <name>aminoAcidMap</name>
+        <initializer>= {{&quot;.&quot;, {&quot;.&quot;, &quot;.&quot;}},
+                                    {&quot;ALA&quot;, {&quot;Alanine&quot;, &quot;A&quot;}},
+                                    {&quot;CYS&quot;, {&quot;Cysteine&quot;, &quot;C&quot;}},
+                                    {&quot;ASP&quot;, {&quot;Aspartic acid&quot;, &quot;D&quot;}},
+                                    {&quot;GLU&quot;, {&quot;Glutamic acid&quot;, &quot;E&quot;}},
+                                    {&quot;PHE&quot;, {&quot;Phenylalanine&quot;, &quot;F&quot;}},
+                                    {&quot;GLY&quot;, {&quot;Glycine&quot;, &quot;G&quot;}},
+                                    {&quot;HIS&quot;, {&quot;Histidine&quot;, &quot;H&quot;}},
+                                    {&quot;ILE&quot;, {&quot;Isoleucine&quot;, &quot;I&quot;}},
+                                    {&quot;LYS&quot;, {&quot;Lysine&quot;, &quot;K&quot;}},
+                                    {&quot;LEU&quot;, {&quot;Leucine&quot;, &quot;L&quot;}},
+                                    {&quot;MET&quot;, {&quot;Methionine&quot;, &quot;M&quot;}},
+                                    {&quot;ASN&quot;, {&quot;Asparagine&quot;, &quot;N&quot;}},
+                                    {&quot;HYP&quot;, {&quot;Hydroxyproline&quot;, &quot;O&quot;}},
+                                    {&quot;PRO&quot;, {&quot;Proline&quot;, &quot;P&quot;}},
+                                    {&quot;GLN&quot;, {&quot;Glutamine&quot;, &quot;Q&quot;}},
+                                    {&quot;ARG&quot;, {&quot;Arginine&quot;, &quot;R&quot;}},
+                                    {&quot;SER&quot;, {&quot;Serine&quot;, &quot;S&quot;}},
+                                    {&quot;THR&quot;, {&quot;Threonine&quot;, &quot;T&quot;}},
+                                    {&quot;GLP&quot;, {&quot;Pyroglutamatic&quot;, &quot;U&quot;}},
+                                    {&quot;VAL&quot;, {&quot;Valine&quot;, &quot;V&quot;}},
+                                    {&quot;TRP&quot;, {&quot;Tryptophan&quot;, &quot;W&quot;}},
+                                    {&quot;TYR&quot;, {&quot;Tyrosine&quot;, &quot;Y&quot;}}}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/favreau/git/BioExplorer/bioexplorer/core/plugin/common/Types.h" line="820" column="21" bodyfile="/home/favreau/git/BioExplorer/bioexplorer/core/plugin/common/Types.h" bodystart="820" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="Types_8h_1ad2c5cb8fc14aa5e336a590047be5f708" prot="public" static="yes" mutable="no">
+        <type>details::RGBColorDetailsMap</type>
+        <definition>details::RGBColorDetailsMap bioexplorer::biology::atomColorMap</definition>
+        <argsstring></argsstring>
+        <name>atomColorMap</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/favreau/git/BioExplorer/bioexplorer/core/plugin/common/Types.h" line="845" column="36" bodyfile="/home/favreau/git/BioExplorer/bioexplorer/core/plugin/common/Types.h" bodystart="845" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="/home/favreau/git/BioExplorer/bioexplorer/core/plugin/biology/Assembly.cpp" line="34" column="1"/>
+  </compounddef>
+</doxygen>

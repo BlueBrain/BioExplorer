@@ -1,0 +1,450 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.17">
+  <compounddef id="namespacebioexplorer_1_1details" kind="namespace" language="C++">
+    <compoundname>bioexplorer::details</compoundname>
+    <innerclass refid="structbioexplorer_1_1details_1_1AddGridDetails" prot="public">bioexplorer::details::AddGridDetails</innerclass>
+    <innerclass refid="structbioexplorer_1_1details_1_1AminoAcidDetails" prot="public">bioexplorer::details::AminoAcidDetails</innerclass>
+    <innerclass refid="structbioexplorer_1_1details_1_1AminoAcidInformationDetails" prot="public">bioexplorer::details::AminoAcidInformationDetails</innerclass>
+    <innerclass refid="structbioexplorer_1_1details_1_1AminoAcidSequenceAsRangesDetails" prot="public">bioexplorer::details::AminoAcidSequenceAsRangesDetails</innerclass>
+    <innerclass refid="structbioexplorer_1_1details_1_1AminoAcidSequenceAsStringDetails" prot="public">bioexplorer::details::AminoAcidSequenceAsStringDetails</innerclass>
+    <innerclass refid="structbioexplorer_1_1details_1_1AssemblyDetails" prot="public">bioexplorer::details::AssemblyDetails</innerclass>
+    <innerclass refid="structbioexplorer_1_1details_1_1AssemblyTransformationsDetails" prot="public">bioexplorer::details::AssemblyTransformationsDetails</innerclass>
+    <innerclass refid="structbioexplorer_1_1details_1_1BuildFieldsDetails" prot="public">bioexplorer::details::BuildFieldsDetails</innerclass>
+    <innerclass refid="structbioexplorer_1_1details_1_1BuildPointCloudDetails" prot="public">bioexplorer::details::BuildPointCloudDetails</innerclass>
+    <innerclass refid="structbioexplorer_1_1details_1_1ColorSchemeDetails" prot="public">bioexplorer::details::ColorSchemeDetails</innerclass>
+    <innerclass refid="structbioexplorer_1_1details_1_1DatabaseAccessDetails" prot="public">bioexplorer::details::DatabaseAccessDetails</innerclass>
+    <innerclass refid="structbioexplorer_1_1details_1_1FileAccessDetails" prot="public">bioexplorer::details::FileAccessDetails</innerclass>
+    <innerclass refid="structbioexplorer_1_1details_1_1GeneralSettingsDetails" prot="public">bioexplorer::details::GeneralSettingsDetails</innerclass>
+    <innerclass refid="structbioexplorer_1_1details_1_1MaterialIdsDetails" prot="public">bioexplorer::details::MaterialIdsDetails</innerclass>
+    <innerclass refid="structbioexplorer_1_1details_1_1MaterialsDetails" prot="public">bioexplorer::details::MaterialsDetails</innerclass>
+    <innerclass refid="structbioexplorer_1_1details_1_1MembraneDetails" prot="public">bioexplorer::details::MembraneDetails</innerclass>
+    <innerclass refid="structbioexplorer_1_1details_1_1MeshBasedMembraneDetails" prot="public">bioexplorer::details::MeshBasedMembraneDetails</innerclass>
+    <innerclass refid="structbioexplorer_1_1details_1_1ModelIdDetails" prot="public">bioexplorer::details::ModelIdDetails</innerclass>
+    <innerclass refid="structbioexplorer_1_1details_1_1ModelIdFileAccessDetails" prot="public">bioexplorer::details::ModelIdFileAccessDetails</innerclass>
+    <innerclass refid="structbioexplorer_1_1details_1_1ModelsVisibilityDetails" prot="public">bioexplorer::details::ModelsVisibilityDetails</innerclass>
+    <innerclass refid="structbioexplorer_1_1details_1_1OOCSceneConfigurationDetails" prot="public">bioexplorer::details::OOCSceneConfigurationDetails</innerclass>
+    <innerclass refid="structbioexplorer_1_1details_1_1ProteinDetails" prot="public">bioexplorer::details::ProteinDetails</innerclass>
+    <innerclass refid="structbioexplorer_1_1details_1_1ProteinInstanceTransformationDetails" prot="public">bioexplorer::details::ProteinInstanceTransformationDetails</innerclass>
+    <innerclass refid="structbioexplorer_1_1details_1_1RandomizationDetails" prot="public">bioexplorer::details::RandomizationDetails</innerclass>
+    <innerclass refid="structbioexplorer_1_1details_1_1Response" prot="public">bioexplorer::details::Response</innerclass>
+    <innerclass refid="structbioexplorer_1_1details_1_1RGBColorDetails" prot="public">bioexplorer::details::RGBColorDetails</innerclass>
+    <innerclass refid="structbioexplorer_1_1details_1_1RNASequenceDetails" prot="public">bioexplorer::details::RNASequenceDetails</innerclass>
+    <innerclass refid="structbioexplorer_1_1details_1_1SugarsDetails" prot="public">bioexplorer::details::SugarsDetails</innerclass>
+      <sectiondef kind="enum">
+      <memberdef kind="enum" id="Types_8h_1a14130b7ea14b48d0344cd81ccc650876" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>PositionRandomizationType</name>
+        <enumvalue id="Types_8h_1a14130b7ea14b48d0344cd81ccc650876ad5a124c9445ae5eeadb48b050b9cff72" prot="public">
+          <name>circular</name>
+          <initializer>= 0</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="Types_8h_1a14130b7ea14b48d0344cd81ccc650876a869836a44b607137a7e094cf8a308938" prot="public">
+          <name>radial</name>
+          <initializer>= 1</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+<para>Model position randomization types. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/favreau/git/BioExplorer/bioexplorer/core/plugin/common/Types.h" line="122" column="1" bodyfile="/home/favreau/git/BioExplorer/bioexplorer/core/plugin/common/Types.h" bodystart="121" bodyend="125"/>
+      </memberdef>
+      <memberdef kind="enum" id="Types_8h_1a7191aee7d8a39a5731241b756d209e8b" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>RNAShape</name>
+        <enumvalue id="Types_8h_1a7191aee7d8a39a5731241b756d209e8bacc90d605a389b56fe42b312e58100ae6" prot="public">
+          <name>trefoilKnot</name>
+          <initializer>= 0</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>Trefoil knot </para>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="Types_8h_1a7191aee7d8a39a5731241b756d209e8bae1c6d04754724238c4e8df744035fba9" prot="public">
+          <name>torus</name>
+          <initializer>= 1</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>Torus </para>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="Types_8h_1a7191aee7d8a39a5731241b756d209e8ba8ff953dd97c4405234a04291dee39e0b" prot="public">
+          <name>star</name>
+          <initializer>= 2</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>Star </para>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="Types_8h_1a7191aee7d8a39a5731241b756d209e8ba2a2d595e6ed9a0b24f027f2b63b134d6" prot="public">
+          <name>spring</name>
+          <initializer>= 3</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>Spring </para>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="Types_8h_1a7191aee7d8a39a5731241b756d209e8ba3189934774aa880fa7fbf8da8f9e446d" prot="public">
+          <name>heart</name>
+          <initializer>= 4</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>Heart (all we need is love) </para>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="Types_8h_1a7191aee7d8a39a5731241b756d209e8ba8afc1e9bec810034dafd45c6854f1dd9" prot="public">
+          <name>thing</name>
+          <initializer>= 5</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>Thing (weird shape) </para>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="Types_8h_1a7191aee7d8a39a5731241b756d209e8ba232c40590dd6da50138b7f9dba438566" prot="public">
+          <name>moebius</name>
+          <initializer>= 6</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>Moebius knot </para>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+<para>Shapes that can be used to enroll RNA into the virus capsid. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/favreau/git/BioExplorer/bioexplorer/core/plugin/common/Types.h" line="142" column="1" bodyfile="/home/favreau/git/BioExplorer/bioexplorer/core/plugin/common/Types.h" bodystart="141" bodyend="157"/>
+      </memberdef>
+      <memberdef kind="enum" id="Types_8h_1aad9e1645c632a352d331a058fa332cc5" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>ProteinRepresentation</name>
+        <enumvalue id="Types_8h_1aad9e1645c632a352d331a058fa332cc5a2bb8d809d871a7c1a392fec36563a8f7" prot="public">
+          <name>atoms</name>
+          <initializer>= 0</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>Atoms only </para>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="Types_8h_1aad9e1645c632a352d331a058fa332cc5aa8478b1ba39a0998e72ba8a5a93ab603" prot="public">
+          <name>atoms_and_sticks</name>
+          <initializer>= 1</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>Atoms and sticks </para>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="Types_8h_1aad9e1645c632a352d331a058fa332cc5a5865f57e17007694772b743b2560914f" prot="public">
+          <name>contour</name>
+          <initializer>= 2</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>Protein contours </para>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="Types_8h_1aad9e1645c632a352d331a058fa332cc5ad302e976c9dd527a9521a88c012437c5" prot="public">
+          <name>surface</name>
+          <initializer>= 3</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>Protein surface computed using metaballs </para>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="Types_8h_1aad9e1645c632a352d331a058fa332cc5a49b002b2a7b50ba019a5924a29584c0f" prot="public">
+          <name>union_of_balls</name>
+          <initializer>= 4</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>Protein surface computed using union of balls </para>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="Types_8h_1aad9e1645c632a352d331a058fa332cc5aad42f6697b035b7580e4fef93be20b4d" prot="public">
+          <name>debug</name>
+          <initializer>= 5</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>Debug mode, usually showing size and rotation of the protein </para>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+<para>Protein representation (atoms, atoms and sticks, etc) </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/favreau/git/BioExplorer/bioexplorer/core/plugin/common/Types.h" line="195" column="1" bodyfile="/home/favreau/git/BioExplorer/bioexplorer/core/plugin/common/Types.h" bodystart="194" bodyend="208"/>
+      </memberdef>
+      <memberdef kind="enum" id="Types_8h_1af608e48ca83174d68456a1069a6f07a1" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>AssemblyShape</name>
+        <enumvalue id="Types_8h_1af608e48ca83174d68456a1069a6f07a1a6683a3be9c0472d8c680cc93a424c198" prot="public">
+          <name>spherical</name>
+          <initializer>= 0</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>Spherical </para>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="Types_8h_1af608e48ca83174d68456a1069a6f07a1a3be411765e710adc7764f5056e44138c" prot="public">
+          <name>planar</name>
+          <initializer>= 1</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>Planar </para>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="Types_8h_1af608e48ca83174d68456a1069a6f07a1a8d05fe90ba3abd8ab69b7b2a6cdd8e77" prot="public">
+          <name>sinusoidal</name>
+          <initializer>= 2</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>Sinusoidal </para>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="Types_8h_1af608e48ca83174d68456a1069a6f07a1a7ab93feeb36d98e584d10de2e2f68843" prot="public">
+          <name>cubic</name>
+          <initializer>= 3</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>Cubic </para>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="Types_8h_1af608e48ca83174d68456a1069a6f07a1a50bd8c21bfafa6e4e962f6a948b1ef92" prot="public">
+          <name>fan</name>
+          <initializer>= 4</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>Fan </para>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="Types_8h_1af608e48ca83174d68456a1069a6f07a1ab4f49419e540cdfc505f0af52fe7524a" prot="public">
+          <name>bezier</name>
+          <initializer>= 5</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>Bezier (experimental) </para>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="Types_8h_1af608e48ca83174d68456a1069a6f07a1aa56b32c6641509fd6192724acdb27df4" prot="public">
+          <name>spherical_to_planar</name>
+          <initializer>= 6</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>Sphere to plane </para>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+<para>Assembly shapes. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/favreau/git/BioExplorer/bioexplorer/core/plugin/common/Types.h" line="215" column="1" bodyfile="/home/favreau/git/BioExplorer/bioexplorer/core/plugin/common/Types.h" bodystart="214" bodyend="230"/>
+      </memberdef>
+      <memberdef kind="enum" id="Types_8h_1a0ee980ba08a1fc03e3239098ecd48c94" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>ColorScheme</name>
+        <enumvalue id="Types_8h_1a0ee980ba08a1fc03e3239098ecd48c94a334c4a4c42fdb79d7ebc3e73b517e6f8" prot="public">
+          <name>none</name>
+          <initializer>= 0</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>All atoms use the same color </para>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="Types_8h_1a0ee980ba08a1fc03e3239098ecd48c94a2bb8d809d871a7c1a392fec36563a8f7" prot="public">
+          <name>atoms</name>
+          <initializer>= 1</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>Colored by atom according to the Pymol color scheme </para>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="Types_8h_1a0ee980ba08a1fc03e3239098ecd48c94a99469f92ab96d54efce3d605a4bb4fbe" prot="public">
+          <name>chains</name>
+          <initializer>= 2</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>Colored by chain </para>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="Types_8h_1a0ee980ba08a1fc03e3239098ecd48c94a3e5a3e323766c2626c2be0d6feafa1da" prot="public">
+          <name>residues</name>
+          <initializer>= 3</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>Colored by residue </para>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="Types_8h_1a0ee980ba08a1fc03e3239098ecd48c94a97e01ccc12fc16f0b91d71a569a5a4a5" prot="public">
+          <name>amino_acid_sequence</name>
+          <initializer>= 4</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>Colored by sequence of amino acids </para>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="Types_8h_1a0ee980ba08a1fc03e3239098ecd48c94ae867fa204ecf88ad4a468c611aa6233e" prot="public">
+          <name>glycosylation_site</name>
+          <initializer>= 5</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>Colored by glysolysation site </para>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="Types_8h_1a0ee980ba08a1fc03e3239098ecd48c94a960db2ed82202a9706b97775a4269378" prot="public">
+          <name>region</name>
+          <initializer>= 6</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>Colored by functional region </para>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+<para>Color schemes that can be applied to proteins. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/favreau/git/BioExplorer/bioexplorer/core/plugin/common/Types.h" line="504" column="1" bodyfile="/home/favreau/git/BioExplorer/bioexplorer/core/plugin/common/Types.h" bodystart="503" bodyend="519"/>
+      </memberdef>
+      <memberdef kind="enum" id="Types_8h_1abc9bc73bc7dd36d78f738158e7dd1e5a" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>XYZFileFormat</name>
+        <enumvalue id="Types_8h_1abc9bc73bc7dd36d78f738158e7dd1e5aad415f0e30c471dfdd9bc4f827329ef48" prot="public">
+          <name>unspecified</name>
+          <initializer>= 0</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>Unspecified </para>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="Types_8h_1abc9bc73bc7dd36d78f738158e7dd1e5aa9e4cbb42b5d6c466ad8c3dd174950bac" prot="public">
+          <name>xyz_binary</name>
+          <initializer>= 1</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>x, y, z coordinates stored in binary representation (4 byte float) </para>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="Types_8h_1abc9bc73bc7dd36d78f738158e7dd1e5aad34a1e2b43c12f14e140b83d570383a8" prot="public">
+          <name>xyzr_binary</name>
+          <initializer>= 2</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>x, y, z coordinates and radius stored in binary representation (4 byte float) </para>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="Types_8h_1abc9bc73bc7dd36d78f738158e7dd1e5aa5da2ae2700a3ad945d2c9d5a619c8fcd" prot="public">
+          <name>xyzrv_binary</name>
+          <initializer>= 3</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>x, y, z coordinates, radius, and charge stored in binary representation (4 byte float) </para>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="Types_8h_1abc9bc73bc7dd36d78f738158e7dd1e5aad649628ba216d8f8a764c8ab204c3144" prot="public">
+          <name>xyz_ascii</name>
+          <initializer>= 4</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>x, y, z coordinates stored in space separated ascii representation. One line per atom </para>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="Types_8h_1abc9bc73bc7dd36d78f738158e7dd1e5aa44a4be84a01bb0b61c876d93b36cc9c5" prot="public">
+          <name>xyzr_ascii</name>
+          <initializer>= 5</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>x, y, z coordinates and radius stored in space separated ascii representation. One line per atom </para>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="Types_8h_1abc9bc73bc7dd36d78f738158e7dd1e5aaba550d0f752fd13169f7c9b7b6866182" prot="public">
+          <name>xyzrv_ascii</name>
+          <initializer>= 6</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>x, y, z coordinates, radius, and charge stored in space separated ascii representation. One line per atom </para>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+<para>File format for export of atom coordinates, radius and charge. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/favreau/git/BioExplorer/bioexplorer/core/plugin/common/Types.h" line="632" column="1" bodyfile="/home/favreau/git/BioExplorer/bioexplorer/core/plugin/common/Types.h" bodystart="631" bodyend="652"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="typedef">
+      <memberdef kind="typedef" id="Types_8h_1a902994f816872c0feaab3b47421f4566" prot="public" static="no">
+        <type>std::map&lt; std::string, <ref refid="structbioexplorer_1_1details_1_1RGBColorDetails" kindref="compound">RGBColorDetails</ref> &gt;</type>
+        <definition>typedef std::map&lt;std::string, RGBColorDetails&gt; bioexplorer::details::RGBColorDetailsMap</definition>
+        <argsstring></argsstring>
+        <name>RGBColorDetailsMap</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/favreau/git/BioExplorer/bioexplorer/core/plugin/common/Types.h" line="92" column="18" bodyfile="/home/favreau/git/BioExplorer/bioexplorer/core/plugin/common/Types.h" bodystart="92" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="/home/favreau/git/BioExplorer/bioexplorer/core/plugin/common/Types.h" line="83" column="1"/>
+  </compounddef>
+</doxygen>

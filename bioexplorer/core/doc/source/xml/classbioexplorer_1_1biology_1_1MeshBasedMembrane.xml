@@ -1,0 +1,198 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.17">
+  <compounddef id="classbioexplorer_1_1biology_1_1MeshBasedMembrane" kind="class" language="C++" prot="public">
+    <compoundname>bioexplorer::biology::MeshBasedMembrane</compoundname>
+    <basecompoundref refid="classbioexplorer_1_1biology_1_1Node" prot="public" virt="non-virtual">bioexplorer::biology::Node</basecompoundref>
+    <includes refid="MeshBasedMembrane_8h" local="no">MeshBasedMembrane.h</includes>
+      <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classbioexplorer_1_1biology_1_1MeshBasedMembrane_1ac471e60c3766da006e6c5e3cda939b66" prot="private" static="no" mutable="no">
+        <type>ProteinPtr</type>
+        <definition>ProteinPtr bioexplorer::biology::MeshBasedMembrane::_protein</definition>
+        <argsstring></argsstring>
+        <name>_protein</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/favreau/git/BioExplorer/bioexplorer/core/plugin/biology/MeshBasedMembrane.h" line="70" column="16" bodyfile="/home/favreau/git/BioExplorer/bioexplorer/core/plugin/biology/MeshBasedMembrane.h" bodystart="70" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="public-func">
+      <memberdef kind="function" id="classbioexplorer_1_1biology_1_1MeshBasedMembrane_1a0a199474cf122f536ec722f060f95779" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>bioexplorer::biology::MeshBasedMembrane::MeshBasedMembrane</definition>
+        <argsstring>(Scene &amp;scene, const MeshBasedMembraneDetails &amp;details)</argsstring>
+        <name>MeshBasedMembrane</name>
+        <param>
+          <type>Scene &amp;</type>
+          <declname>scene</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structbioexplorer_1_1details_1_1MeshBasedMembraneDetails" kindref="compound">MeshBasedMembraneDetails</ref> &amp;</type>
+          <declname>details</declname>
+        </param>
+        <briefdescription>
+<para>Construct a new <ref refid="classbioexplorer_1_1biology_1_1MeshBasedMembrane" kindref="compound">MeshBasedMembrane</ref> object. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>scene</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The 3D scene where the glycans are added </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>descriptor</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The data structure describing the <ref refid="classbioexplorer_1_1biology_1_1MeshBasedMembrane" kindref="compound">MeshBasedMembrane</ref>, the protein, and the associated parameters </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/favreau/git/BioExplorer/bioexplorer/core/plugin/biology/MeshBasedMembrane.h" line="53" column="5" bodyfile="/home/favreau/git/BioExplorer/bioexplorer/core/plugin/biology/MeshBasedMembrane.cpp" bodystart="40" bodyend="268"/>
+      </memberdef>
+      <memberdef kind="function" id="classbioexplorer_1_1biology_1_1MeshBasedMembrane_1a86239773d86c7f1cff32a00d5864c22a" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>const ProteinPtr</type>
+        <definition>const ProteinPtr bioexplorer::biology::MeshBasedMembrane::getProtein</definition>
+        <argsstring>() const</argsstring>
+        <name>getProtein</name>
+        <briefdescription>
+<para>Get the <ref refid="classbioexplorer_1_1biology_1_1Protein" kindref="compound">Protein</ref> object. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>ProteinPtr The <ref refid="classbioexplorer_1_1biology_1_1Protein" kindref="compound">Protein</ref> object </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/favreau/git/BioExplorer/bioexplorer/core/plugin/biology/MeshBasedMembrane.h" line="60" column="22" bodyfile="/home/favreau/git/BioExplorer/bioexplorer/core/plugin/biology/MeshBasedMembrane.h" bodystart="60" bodyend="60"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="private-func">
+      <memberdef kind="function" id="classbioexplorer_1_1biology_1_1MeshBasedMembrane_1a46120a5311cad54aee5ace50b49f4737" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>float</type>
+        <definition>float bioexplorer::biology::MeshBasedMembrane::_getSurfaceArea</definition>
+        <argsstring>(const Vector3f &amp;a, const Vector3f &amp;b, const Vector3f &amp;c) const</argsstring>
+        <name>_getSurfaceArea</name>
+        <param>
+          <type>const Vector3f &amp;</type>
+          <declname>a</declname>
+        </param>
+        <param>
+          <type>const Vector3f &amp;</type>
+          <declname>b</declname>
+        </param>
+        <param>
+          <type>const Vector3f &amp;</type>
+          <declname>c</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/favreau/git/BioExplorer/bioexplorer/core/plugin/biology/MeshBasedMembrane.h" line="63" column="11" bodyfile="/home/favreau/git/BioExplorer/bioexplorer/core/plugin/biology/MeshBasedMembrane.cpp" bodystart="270" bodyend="283"/>
+      </memberdef>
+      <memberdef kind="function" id="classbioexplorer_1_1biology_1_1MeshBasedMembrane_1a36dedaad873c8f05d63f6093670e3447" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>Vector3f</type>
+        <definition>Vector3f bioexplorer::biology::MeshBasedMembrane::_toVector3f</definition>
+        <argsstring>(const aiVector3D &amp;v) const</argsstring>
+        <name>_toVector3f</name>
+        <param>
+          <type>const aiVector3D &amp;</type>
+          <declname>v</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/favreau/git/BioExplorer/bioexplorer/core/plugin/biology/MeshBasedMembrane.h" line="65" column="14" bodyfile="/home/favreau/git/BioExplorer/bioexplorer/core/plugin/biology/MeshBasedMembrane.cpp" bodystart="285" bodyend="288"/>
+      </memberdef>
+      <memberdef kind="function" id="classbioexplorer_1_1biology_1_1MeshBasedMembrane_1a0c9b3df6a51e6ab64a51cec49f98ac47" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>Vector3f</type>
+        <definition>Vector3f bioexplorer::biology::MeshBasedMembrane::_toVector3f</definition>
+        <argsstring>(const aiVector3D &amp;v, const Vector3f &amp;center, const Vector3f &amp;scaling, const Quaterniond &amp;rotation) const</argsstring>
+        <name>_toVector3f</name>
+        <param>
+          <type>const aiVector3D &amp;</type>
+          <declname>v</declname>
+        </param>
+        <param>
+          <type>const Vector3f &amp;</type>
+          <declname>center</declname>
+        </param>
+        <param>
+          <type>const Vector3f &amp;</type>
+          <declname>scaling</declname>
+        </param>
+        <param>
+          <type>const Quaterniond &amp;</type>
+          <declname>rotation</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/favreau/git/BioExplorer/bioexplorer/core/plugin/biology/MeshBasedMembrane.h" line="66" column="14" bodyfile="/home/favreau/git/BioExplorer/bioexplorer/core/plugin/biology/MeshBasedMembrane.cpp" bodystart="290" bodyend="299"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+<para>A <ref refid="classbioexplorer_1_1biology_1_1MeshBasedMembrane" kindref="compound">MeshBasedMembrane</ref> object implements a 3D structure that has the shape of a given OBJ Mesh, but with a surface composed of instances of a protein. This class is typicaly used to create membranes with a shape provided by a 3D Mesh. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>bioexplorer::biology::Node</label>
+        <link refid="classbioexplorer_1_1biology_1_1Node"/>
+      </node>
+      <node id="1">
+        <label>bioexplorer::biology::MeshBasedMembrane</label>
+        <link refid="classbioexplorer_1_1biology_1_1MeshBasedMembrane"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="2">
+        <label>bioexplorer::biology::Node</label>
+        <link refid="classbioexplorer_1_1biology_1_1Node"/>
+      </node>
+      <node id="1">
+        <label>bioexplorer::biology::MeshBasedMembrane</label>
+        <link refid="classbioexplorer_1_1biology_1_1MeshBasedMembrane"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="/home/favreau/git/BioExplorer/bioexplorer/core/plugin/biology/MeshBasedMembrane.h" line="44" column="1" bodyfile="/home/favreau/git/BioExplorer/bioexplorer/core/plugin/biology/MeshBasedMembrane.h" bodystart="43" bodyend="71"/>
+    <listofallmembers>
+      <member refid="classbioexplorer_1_1biology_1_1MeshBasedMembrane_1a46120a5311cad54aee5ace50b49f4737" prot="private" virt="non-virtual"><scope>bioexplorer::biology::MeshBasedMembrane</scope><name>_getSurfaceArea</name></member>
+      <member refid="classbioexplorer_1_1biology_1_1Node_1afb69572f3597ae900eba1ad4a6b469a5" prot="protected" virt="non-virtual"><scope>bioexplorer::biology::MeshBasedMembrane</scope><name>_modelDescriptor</name></member>
+      <member refid="classbioexplorer_1_1biology_1_1MeshBasedMembrane_1ac471e60c3766da006e6c5e3cda939b66" prot="private" virt="non-virtual"><scope>bioexplorer::biology::MeshBasedMembrane</scope><name>_protein</name></member>
+      <member refid="classbioexplorer_1_1biology_1_1MeshBasedMembrane_1a36dedaad873c8f05d63f6093670e3447" prot="private" virt="non-virtual"><scope>bioexplorer::biology::MeshBasedMembrane</scope><name>_toVector3f</name></member>
+      <member refid="classbioexplorer_1_1biology_1_1MeshBasedMembrane_1a0c9b3df6a51e6ab64a51cec49f98ac47" prot="private" virt="non-virtual"><scope>bioexplorer::biology::MeshBasedMembrane</scope><name>_toVector3f</name></member>
+      <member refid="classbioexplorer_1_1biology_1_1Node_1a5388117456e0bc7ab516ace1c49e1cee" prot="protected" virt="non-virtual"><scope>bioexplorer::biology::MeshBasedMembrane</scope><name>_uuid</name></member>
+      <member refid="classbioexplorer_1_1biology_1_1Node_1a415bffbb900abe3e0e7ac12c6bf96a32" prot="public" virt="non-virtual"><scope>bioexplorer::biology::MeshBasedMembrane</scope><name>getModelDescriptor</name></member>
+      <member refid="classbioexplorer_1_1biology_1_1MeshBasedMembrane_1a86239773d86c7f1cff32a00d5864c22a" prot="public" virt="non-virtual"><scope>bioexplorer::biology::MeshBasedMembrane</scope><name>getProtein</name></member>
+      <member refid="classbioexplorer_1_1biology_1_1MeshBasedMembrane_1a0a199474cf122f536ec722f060f95779" prot="public" virt="non-virtual"><scope>bioexplorer::biology::MeshBasedMembrane</scope><name>MeshBasedMembrane</name></member>
+      <member refid="classbioexplorer_1_1biology_1_1Node_1a2b56af16626b832014845ee9bf007af0" prot="public" virt="non-virtual"><scope>bioexplorer::biology::MeshBasedMembrane</scope><name>Node</name></member>
+      <member refid="classbioexplorer_1_1biology_1_1Node_1a1d02dc5b33293f53296cde67fc346496" prot="public" virt="virtual"><scope>bioexplorer::biology::MeshBasedMembrane</scope><name>~Node</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>
