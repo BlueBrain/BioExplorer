@@ -1,0 +1,87 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.17">
+  <compounddef id="namespacebioexplorer_1_1io" kind="namespace" language="C++">
+    <compoundname>bioexplorer::io</compoundname>
+    <innerclass refid="classbioexplorer_1_1io_1_1CacheLoader" prot="public">bioexplorer::io::CacheLoader</innerclass>
+    <innerclass refid="classbioexplorer_1_1io_1_1OOCManager" prot="public">bioexplorer::io::OOCManager</innerclass>
+    <innernamespace refid="namespacebioexplorer_1_1io_1_1db">bioexplorer::io::db</innernamespace>
+      <sectiondef kind="typedef">
+      <memberdef kind="typedef" id="Types_8h_1a4b74835d3eaf5b040caf381c4d57b95f" prot="public" static="no">
+        <type>std::shared_ptr&lt; <ref refid="classbioexplorer_1_1io_1_1OOCManager" kindref="compound">OOCManager</ref> &gt;</type>
+        <definition>typedef std::shared_ptr&lt;OOCManager&gt; bioexplorer::io::OOCManagerPtr</definition>
+        <argsstring></argsstring>
+        <name>OOCManagerPtr</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/favreau/git/BioExplorer/bioexplorer/core/plugin/common/Types.h" line="908" column="25" bodyfile="/home/favreau/git/BioExplorer/bioexplorer/core/plugin/common/Types.h" bodystart="907" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="var">
+      <memberdef kind="variable" id="CacheLoader_8cpp_1a11cdb26029ad3055e326268d1c6cac82" prot="public" static="no" mutable="no">
+        <type>const std::string</type>
+        <definition>const std::string bioexplorer::io::LOADER_NAME</definition>
+        <argsstring></argsstring>
+        <name>LOADER_NAME</name>
+        <initializer>= &quot;BioExplorer cache loader&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/favreau/git/BioExplorer/bioexplorer/core/plugin/io/CacheLoader.cpp" line="58" column="19" bodyfile="/home/favreau/git/BioExplorer/bioexplorer/core/plugin/io/CacheLoader.cpp" bodystart="58" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="CacheLoader_8cpp_1a24ac874bc89d4fc0217f32a258014a20" prot="public" static="no" mutable="no">
+        <type>const std::string</type>
+        <definition>const std::string bioexplorer::io::SUPPORTED_EXTENTION_BIOEXPLORER</definition>
+        <argsstring></argsstring>
+        <name>SUPPORTED_EXTENTION_BIOEXPLORER</name>
+        <initializer>= &quot;bioexplorer&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/favreau/git/BioExplorer/bioexplorer/core/plugin/io/CacheLoader.cpp" line="59" column="19" bodyfile="/home/favreau/git/BioExplorer/bioexplorer/core/plugin/io/CacheLoader.cpp" bodystart="59" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="CacheLoader_8cpp_1a19ada104f40164babe9ea7b5cccec34d" prot="public" static="no" mutable="no">
+        <type>const size_t</type>
+        <definition>const size_t bioexplorer::io::CACHE_VERSION_1</definition>
+        <argsstring></argsstring>
+        <name>CACHE_VERSION_1</name>
+        <initializer>= 1</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/favreau/git/BioExplorer/bioexplorer/core/plugin/io/CacheLoader.cpp" line="61" column="14" bodyfile="/home/favreau/git/BioExplorer/bioexplorer/core/plugin/io/CacheLoader.cpp" bodystart="61" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="CacheLoader_8h_1a2106cf168cbc0484f2bf29dd6d0faced" prot="public" static="no" mutable="no">
+        <type>const int32_t</type>
+        <definition>const int32_t bioexplorer::io::UNDEFINED_BOX_ID</definition>
+        <argsstring></argsstring>
+        <name>UNDEFINED_BOX_ID</name>
+        <initializer>= std::numeric_limits&lt;int32_t&gt;::max()</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/favreau/git/BioExplorer/bioexplorer/core/plugin/io/CacheLoader.h" line="35" column="15" bodyfile="/home/favreau/git/BioExplorer/bioexplorer/core/plugin/io/CacheLoader.h" bodystart="35" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="/home/favreau/git/BioExplorer/bioexplorer/core/plugin/common/Types.h" line="905" column="1"/>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,965 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygenindex xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="index.xsd" version="1.8.17">
+  <compound refid="structbioexplorer_1_1details_1_1AddGridDetails" kind="struct"><name>bioexplorer::details::AddGridDetails</name>
+    <member refid="structbioexplorer_1_1details_1_1AddGridDetails_1a94c1cfb27d0a046683a99f763a911235" kind="variable"><name>minValue</name></member>
+    <member refid="structbioexplorer_1_1details_1_1AddGridDetails_1ae2da44906b8e3dd60ea787d2ea999c1a" kind="variable"><name>maxValue</name></member>
+    <member refid="structbioexplorer_1_1details_1_1AddGridDetails_1a6aaf3b6d17bd0d25860d4a7f7a28b6bb" kind="variable"><name>steps</name></member>
+    <member refid="structbioexplorer_1_1details_1_1AddGridDetails_1acd4f3bedd2209fbdd7811bc58cdd5e2d" kind="variable"><name>radius</name></member>
+    <member refid="structbioexplorer_1_1details_1_1AddGridDetails_1a1cb140ebfe273fb8b65e927355f9797c" kind="variable"><name>planeOpacity</name></member>
+    <member refid="structbioexplorer_1_1details_1_1AddGridDetails_1a18e36aa4fd55810d83c18a5cdd762c3e" kind="variable"><name>showAxis</name></member>
+    <member refid="structbioexplorer_1_1details_1_1AddGridDetails_1a30f0580c0ab841062cd2c70ddfb24994" kind="variable"><name>showPlanes</name></member>
+    <member refid="structbioexplorer_1_1details_1_1AddGridDetails_1a1602719cfbe8086fa76c952e4a6e15ff" kind="variable"><name>showFullGrid</name></member>
+    <member refid="structbioexplorer_1_1details_1_1AddGridDetails_1a03242b839ef5a10701f3ab0744d38074" kind="variable"><name>useColors</name></member>
+    <member refid="structbioexplorer_1_1details_1_1AddGridDetails_1a184e511cfcb00e6d1b8a3ec8f8151945" kind="variable"><name>position</name></member>
+  </compound>
+  <compound refid="structbioexplorer_1_1rendering_1_1AdvancedMaterial" kind="struct"><name>bioexplorer::rendering::AdvancedMaterial</name>
+    <member refid="structbioexplorer_1_1rendering_1_1AdvancedMaterial_1ac6950871bfaa04c6c1cd743b05f2747c" kind="variable"><name>map_d</name></member>
+    <member refid="structbioexplorer_1_1rendering_1_1AdvancedMaterial_1adabc818531106c8590719c7a735bbacc" kind="variable"><name>xform_d</name></member>
+    <member refid="structbioexplorer_1_1rendering_1_1AdvancedMaterial_1a0da7355251a8b55994aa98e49d269030" kind="variable"><name>d</name></member>
+    <member refid="structbioexplorer_1_1rendering_1_1AdvancedMaterial_1abb662254cf8548bf6747ba1ed743e373" kind="variable"><name>map_Refraction</name></member>
+    <member refid="structbioexplorer_1_1rendering_1_1AdvancedMaterial_1a62017d086f5941ee1cf866d6cc096104" kind="variable"><name>xform_Refraction</name></member>
+    <member refid="structbioexplorer_1_1rendering_1_1AdvancedMaterial_1af4656a1ef277d20c45e0c13968349935" kind="variable"><name>refraction</name></member>
+    <member refid="structbioexplorer_1_1rendering_1_1AdvancedMaterial_1a32a23811a63dfc0fee0de8b07a89b972" kind="variable"><name>map_Reflection</name></member>
+    <member refid="structbioexplorer_1_1rendering_1_1AdvancedMaterial_1a6ab303a7be22dac226bd1719c2f6c5d3" kind="variable"><name>xform_Reflection</name></member>
+    <member refid="structbioexplorer_1_1rendering_1_1AdvancedMaterial_1a82bfe05f2ca82a84c35c0482eb533379" kind="variable"><name>reflection</name></member>
+    <member refid="structbioexplorer_1_1rendering_1_1AdvancedMaterial_1aaf201aedce75ba9009391e4275fea363" kind="variable"><name>map_a</name></member>
+    <member refid="structbioexplorer_1_1rendering_1_1AdvancedMaterial_1a7dd30cdb70dbcc0199f2873bf3038423" kind="variable"><name>xform_a</name></member>
+    <member refid="structbioexplorer_1_1rendering_1_1AdvancedMaterial_1a20a0d5b9291bd2a34cecd389bacf2b90" kind="variable"><name>a</name></member>
+    <member refid="structbioexplorer_1_1rendering_1_1AdvancedMaterial_1ada92f9beafd2a1452e256210f9a43af1" kind="variable"><name>map_Kd</name></member>
+    <member refid="structbioexplorer_1_1rendering_1_1AdvancedMaterial_1ae94cd9c21c2103be54ea60d7e88d8a17" kind="variable"><name>xform_Kd</name></member>
+    <member refid="structbioexplorer_1_1rendering_1_1AdvancedMaterial_1ac51a8004733db94856040ab287f74034" kind="variable"><name>Kd</name></member>
+    <member refid="structbioexplorer_1_1rendering_1_1AdvancedMaterial_1a2e8f204636463b2b40c9562266976cb1" kind="variable"><name>map_Ks</name></member>
+    <member refid="structbioexplorer_1_1rendering_1_1AdvancedMaterial_1a362547573630a9d732e0305670e3c4a5" kind="variable"><name>xform_Ks</name></member>
+    <member refid="structbioexplorer_1_1rendering_1_1AdvancedMaterial_1ad2635310aa6687ae1e5bb9c9e738af67" kind="variable"><name>Ks</name></member>
+    <member refid="structbioexplorer_1_1rendering_1_1AdvancedMaterial_1a8a1e1b3d276d3af3adaf1e4922d5246a" kind="variable"><name>map_Ns</name></member>
+    <member refid="structbioexplorer_1_1rendering_1_1AdvancedMaterial_1acddd56b81a25438e77701caa5a4990dc" kind="variable"><name>xform_Ns</name></member>
+    <member refid="structbioexplorer_1_1rendering_1_1AdvancedMaterial_1aeeeb26f7fcb40ff707460867d9ea7288" kind="variable"><name>Ns</name></member>
+    <member refid="structbioexplorer_1_1rendering_1_1AdvancedMaterial_1a5972b3a4fb67941b8b4260148fe54ba9" kind="variable"><name>glossiness</name></member>
+    <member refid="structbioexplorer_1_1rendering_1_1AdvancedMaterial_1a8c9b70d27d10007bfe4a23a93cf12a4d" kind="variable"><name>map_Bump</name></member>
+    <member refid="structbioexplorer_1_1rendering_1_1AdvancedMaterial_1a9c4bb2608b89d5a3e35c4ab13a847c17" kind="variable"><name>xform_Bump</name></member>
+    <member refid="structbioexplorer_1_1rendering_1_1AdvancedMaterial_1a29793a8517e8b91464b2acbb7b0fc62e" kind="variable"><name>rot_Bump</name></member>
+    <member refid="structbioexplorer_1_1rendering_1_1AdvancedMaterial_1a055f2b5d721c5bfc3247514fb528f17f" kind="variable"><name>shadingMode</name></member>
+    <member refid="structbioexplorer_1_1rendering_1_1AdvancedMaterial_1a9cf08f6a82f61bcab19976ffc7c20afd" kind="variable"><name>userParameter</name></member>
+    <member refid="structbioexplorer_1_1rendering_1_1AdvancedMaterial_1a74e4a3ee7b6ec7fbcc88e9a003258772" kind="variable"><name>nodeId</name></member>
+    <member refid="structbioexplorer_1_1rendering_1_1AdvancedMaterial_1a64565093b51b8f9abcc766416a236578" kind="variable"><name>chameleonMode</name></member>
+    <member refid="structbioexplorer_1_1rendering_1_1AdvancedMaterial_1a563c10fba82b4cbefbc8a158dd017ee2" kind="function"><name>toString</name></member>
+    <member refid="structbioexplorer_1_1rendering_1_1AdvancedMaterial_1a183fa5745072608cafb0f4f05d0a751d" kind="function"><name>commit</name></member>
+  </compound>
+  <compound refid="classbioexplorer_1_1rendering_1_1AdvancedRenderer" kind="class"><name>bioexplorer::rendering::AdvancedRenderer</name>
+    <member refid="classbioexplorer_1_1rendering_1_1AdvancedRenderer_1a1dcf09a247a87e15e4784a75909dee11" kind="variable"><name>_lightArray</name></member>
+    <member refid="classbioexplorer_1_1rendering_1_1AdvancedRenderer_1a0c6b1f866e28de1e7f7b5087bb514b16" kind="variable"><name>_lightPtr</name></member>
+    <member refid="classbioexplorer_1_1rendering_1_1AdvancedRenderer_1a10735a5197e8fa2b2cd269810144c56f" kind="variable"><name>_lightData</name></member>
+    <member refid="classbioexplorer_1_1rendering_1_1AdvancedRenderer_1a44664fcf9c9b024f4e93de23c89f6591" kind="variable"><name>_bgMaterial</name></member>
+    <member refid="classbioexplorer_1_1rendering_1_1AdvancedRenderer_1af194c6017ffe88f6403a46dafc6e9855" kind="variable"><name>_useHardwareRandomizer</name></member>
+    <member refid="classbioexplorer_1_1rendering_1_1AdvancedRenderer_1aa8ba1de289a17216c4a29585a763bc78" kind="variable"><name>_showBackground</name></member>
+    <member refid="classbioexplorer_1_1rendering_1_1AdvancedRenderer_1a68abc8b67032182a5a70052c7908bbed" kind="variable"><name>_timestamp</name></member>
+    <member refid="classbioexplorer_1_1rendering_1_1AdvancedRenderer_1af639317c989ee170f77790828a1d70c3" kind="variable"><name>_exposure</name></member>
+    <member refid="classbioexplorer_1_1rendering_1_1AdvancedRenderer_1ac077850c0fa041d557ee9993e21143b9" kind="variable"><name>_fogThickness</name></member>
+    <member refid="classbioexplorer_1_1rendering_1_1AdvancedRenderer_1a1fc8e8dc9ab398683bacecfe127601a2" kind="variable"><name>_fogStart</name></member>
+    <member refid="classbioexplorer_1_1rendering_1_1AdvancedRenderer_1a2f846e5ee959ebad8e8c69989a2fee31" kind="variable"><name>_maxBounces</name></member>
+    <member refid="classbioexplorer_1_1rendering_1_1AdvancedRenderer_1a9b5148fd071f9c22e7cafa635a9bb446" kind="variable"><name>_randomNumber</name></member>
+    <member refid="classbioexplorer_1_1rendering_1_1AdvancedRenderer_1a2620ef49faee5a26fd1502046df4f0cb" kind="variable"><name>_shadows</name></member>
+    <member refid="classbioexplorer_1_1rendering_1_1AdvancedRenderer_1ab72a2e3a46c4ecbff6a13979bbff29f4" kind="variable"><name>_softShadows</name></member>
+    <member refid="classbioexplorer_1_1rendering_1_1AdvancedRenderer_1a8efb0d16c7fb4e304d0431df91952b97" kind="variable"><name>_softShadowsSamples</name></member>
+    <member refid="classbioexplorer_1_1rendering_1_1AdvancedRenderer_1a2852923b49b2f61d14d1ec57dd65bb9a" kind="variable"><name>_giStrength</name></member>
+    <member refid="classbioexplorer_1_1rendering_1_1AdvancedRenderer_1a073237ebf4f5624dbf72310e4e1ed08a" kind="variable"><name>_giDistance</name></member>
+    <member refid="classbioexplorer_1_1rendering_1_1AdvancedRenderer_1aa2a9744ce664208236c611d7ebeff250" kind="variable"><name>_giSamples</name></member>
+    <member refid="classbioexplorer_1_1rendering_1_1AdvancedRenderer_1ace9aeb88b90c18429a3f12698cdf1986" kind="function"><name>AdvancedRenderer</name></member>
+    <member refid="classbioexplorer_1_1rendering_1_1AdvancedRenderer_1ab0f9d4ea8ca21a459510a9a28c169387" kind="function"><name>toString</name></member>
+    <member refid="classbioexplorer_1_1rendering_1_1AdvancedRenderer_1a5db00b10477aa3d6ba8133f0a76fd96d" kind="function"><name>commit</name></member>
+  </compound>
+  <compound refid="structbioexplorer_1_1biology_1_1AminoAcid" kind="struct"><name>bioexplorer::biology::AminoAcid</name>
+    <member refid="structbioexplorer_1_1biology_1_1AminoAcid_1aaeeda451f305e66c56655366c26f1213" kind="variable"><name>name</name></member>
+    <member refid="structbioexplorer_1_1biology_1_1AminoAcid_1a3d9d8872e1a7536cf5993a2159b1fe33" kind="variable"><name>shortName</name></member>
+  </compound>
+  <compound refid="structbioexplorer_1_1details_1_1AminoAcidDetails" kind="struct"><name>bioexplorer::details::AminoAcidDetails</name>
+    <member refid="structbioexplorer_1_1details_1_1AminoAcidDetails_1a21df04d3ccd462c7ad37321ed681fbb6" kind="variable"><name>assemblyName</name></member>
+    <member refid="structbioexplorer_1_1details_1_1AminoAcidDetails_1a3e96c4e2b19ed736c6d62abd76d7a1f8" kind="variable"><name>name</name></member>
+    <member refid="structbioexplorer_1_1details_1_1AminoAcidDetails_1a513bc0b65ebadfb21525db5059f15119" kind="variable"><name>index</name></member>
+    <member refid="structbioexplorer_1_1details_1_1AminoAcidDetails_1ab7fa3e3ba3ae83f16685a181f89698b9" kind="variable"><name>aminoAcidShortName</name></member>
+    <member refid="structbioexplorer_1_1details_1_1AminoAcidDetails_1a642e862a5c3d4d0bfab4f3e18d144f25" kind="variable"><name>chainIds</name></member>
+  </compound>
+  <compound refid="structbioexplorer_1_1details_1_1AminoAcidInformationDetails" kind="struct"><name>bioexplorer::details::AminoAcidInformationDetails</name>
+    <member refid="structbioexplorer_1_1details_1_1AminoAcidInformationDetails_1ad9aecbd6fcb73dc455a10466d4f358d5" kind="variable"><name>assemblyName</name></member>
+    <member refid="structbioexplorer_1_1details_1_1AminoAcidInformationDetails_1a8f4b584d3ad64381b5b383c955ba0f0c" kind="variable"><name>name</name></member>
+  </compound>
+  <compound refid="structbioexplorer_1_1details_1_1AminoAcidSequenceAsRangesDetails" kind="struct"><name>bioexplorer::details::AminoAcidSequenceAsRangesDetails</name>
+    <member refid="structbioexplorer_1_1details_1_1AminoAcidSequenceAsRangesDetails_1a3bed45e9ed6f84b4aaf57303c05db659" kind="variable"><name>assemblyName</name></member>
+    <member refid="structbioexplorer_1_1details_1_1AminoAcidSequenceAsRangesDetails_1a2e133a2fcae1a42c9b2435b09768bfb5" kind="variable"><name>name</name></member>
+    <member refid="structbioexplorer_1_1details_1_1AminoAcidSequenceAsRangesDetails_1af0769a75b90af7f98f2c860e3562ded8" kind="variable"><name>ranges</name></member>
+  </compound>
+  <compound refid="structbioexplorer_1_1details_1_1AminoAcidSequenceAsStringDetails" kind="struct"><name>bioexplorer::details::AminoAcidSequenceAsStringDetails</name>
+    <member refid="structbioexplorer_1_1details_1_1AminoAcidSequenceAsStringDetails_1a86992b8a785e310834f2bd30d0c5f5fd" kind="variable"><name>assemblyName</name></member>
+    <member refid="structbioexplorer_1_1details_1_1AminoAcidSequenceAsStringDetails_1a6e6440f7c0c48f74720db3362a707ba6" kind="variable"><name>name</name></member>
+    <member refid="structbioexplorer_1_1details_1_1AminoAcidSequenceAsStringDetails_1a07a5e6f14a3baf40541379494cdf2cb7" kind="variable"><name>sequence</name></member>
+  </compound>
+  <compound refid="classbioexplorer_1_1biology_1_1Assembly" kind="class"><name>bioexplorer::biology::Assembly</name>
+    <member refid="classbioexplorer_1_1biology_1_1Assembly_1ac0e0da9598666bf0f353eec03da38ac2" kind="variable"><name>_details</name></member>
+    <member refid="classbioexplorer_1_1biology_1_1Assembly_1aaf70d5de2b3536ceb686111af126d87d" kind="variable"><name>_scene</name></member>
+    <member refid="classbioexplorer_1_1biology_1_1Assembly_1a5d9d337a5dfcc5c9fa4ba303c314ff25" kind="variable"><name>_proteins</name></member>
+    <member refid="classbioexplorer_1_1biology_1_1Assembly_1a02857c89866417546470020b6b31f348" kind="variable"><name>_meshBasedMembranes</name></member>
+    <member refid="classbioexplorer_1_1biology_1_1Assembly_1a9f710f122c80a015b8775c1105115568" kind="variable"><name>_membrane</name></member>
+    <member refid="classbioexplorer_1_1biology_1_1Assembly_1a796bfb90766ca649323f49ef1b5488ac" kind="variable"><name>_rnaSequence</name></member>
+    <member refid="classbioexplorer_1_1biology_1_1Assembly_1a7871253656e467292a336833a9e130a0" kind="variable"><name>_clippingPlanes</name></member>
+    <member refid="classbioexplorer_1_1biology_1_1Assembly_1a9faa63b86cbe4fd44015e149550a2f9b" kind="function"><name>Assembly</name></member>
+    <member refid="classbioexplorer_1_1biology_1_1Assembly_1a1958c7c42cee31bce159a14acf7801b5" kind="function"><name>~Assembly</name></member>
+    <member refid="classbioexplorer_1_1biology_1_1Assembly_1a19cf107db2ee1f04daffb02d9e1569c9" kind="function"><name>setColorScheme</name></member>
+    <member refid="classbioexplorer_1_1biology_1_1Assembly_1a7fc3b8dc382a0a19ca8465bcf0a744df" kind="function"><name>setAminoAcidSequenceAsString</name></member>
+    <member refid="classbioexplorer_1_1biology_1_1Assembly_1a6be36c71fbe1ff2fbc48860d66a2ea67" kind="function"><name>setAminoAcidSequenceAsRange</name></member>
+    <member refid="classbioexplorer_1_1biology_1_1Assembly_1afd5a58cda3b6421ecc7fe393676a8694" kind="function"><name>getAminoAcidInformation</name></member>
+    <member refid="classbioexplorer_1_1biology_1_1Assembly_1a70c02531af8239a10acd2636b3dfaebf" kind="function"><name>setAminoAcid</name></member>
+    <member refid="classbioexplorer_1_1biology_1_1Assembly_1ab84124620176168e67b664b260b0c68d" kind="function"><name>getClippingPlanes</name></member>
+    <member refid="classbioexplorer_1_1biology_1_1Assembly_1ac975ec5ab176b278400782066bce8dc7" kind="function"><name>setClippingPlanes</name></member>
+    <member refid="classbioexplorer_1_1biology_1_1Assembly_1a539934b562224c150c16d678fc00e310" kind="function"><name>getDescriptor</name></member>
+    <member refid="classbioexplorer_1_1biology_1_1Assembly_1a6f941a7f2893aa118c481ad95af671bc" kind="function"><name>getProteins</name></member>
+    <member refid="classbioexplorer_1_1biology_1_1Assembly_1af13303dfc046da28fccef9914e9e912d" kind="function"><name>setProteinInstanceTransformation</name></member>
+    <member refid="classbioexplorer_1_1biology_1_1Assembly_1aa13fef9c962072878d25118a8f8d0984" kind="function"><name>getProteinInstanceTransformation</name></member>
+    <member refid="classbioexplorer_1_1biology_1_1Assembly_1a0f74dc2942ec591230b9f00cebb66f72" kind="function"><name>addMembrane</name></member>
+    <member refid="classbioexplorer_1_1biology_1_1Assembly_1a7f28e8ee7fa2a89ad4db57a12299125b" kind="function"><name>addRNASequence</name></member>
+    <member refid="classbioexplorer_1_1biology_1_1Assembly_1aa5e391ad199ce359399f1235d109d240" kind="function"><name>addProtein</name></member>
+    <member refid="classbioexplorer_1_1biology_1_1Assembly_1a897da1e5277ecce42b352feaa6f3c300" kind="function"><name>addMeshBasedMembrane</name></member>
+    <member refid="classbioexplorer_1_1biology_1_1Assembly_1af4caca0e2856c99a91bb169822957d9c" kind="function"><name>addGlycans</name></member>
+    <member refid="classbioexplorer_1_1biology_1_1Assembly_1a5eaa52cd94f4472154b09c4a2e965d5b" kind="function"><name>addSugars</name></member>
+    <member refid="classbioexplorer_1_1biology_1_1Assembly_1a9cbc6427b5d073431629bbf50c24cab6" kind="function"><name>_processInstances</name></member>
+  </compound>
+  <compound refid="structbioexplorer_1_1details_1_1AssemblyDetails" kind="struct"><name>bioexplorer::details::AssemblyDetails</name>
+    <member refid="structbioexplorer_1_1details_1_1AssemblyDetails_1a8c92de193c5ae17d6e198a314c276263" kind="variable"><name>name</name></member>
+    <member refid="structbioexplorer_1_1details_1_1AssemblyDetails_1acb7b453ddb1e5abd43f692525ad8aba1" kind="variable"><name>position</name></member>
+    <member refid="structbioexplorer_1_1details_1_1AssemblyDetails_1a864d39143710d71acb35ab76286f39c7" kind="variable"><name>rotation</name></member>
+    <member refid="structbioexplorer_1_1details_1_1AssemblyDetails_1ad45c3317a0ebdfb92b8b31628a473faf" kind="variable"><name>clippingPlanes</name></member>
+  </compound>
+  <compound refid="structbioexplorer_1_1details_1_1AssemblyTransformationsDetails" kind="struct"><name>bioexplorer::details::AssemblyTransformationsDetails</name>
+    <member refid="structbioexplorer_1_1details_1_1AssemblyTransformationsDetails_1a258b623562c96345938227ede7203d1b" kind="variable"><name>assemblyName</name></member>
+    <member refid="structbioexplorer_1_1details_1_1AssemblyTransformationsDetails_1a11db84b7858ed743341030c976bb4aed" kind="variable"><name>name</name></member>
+    <member refid="structbioexplorer_1_1details_1_1AssemblyTransformationsDetails_1ab36738fae9855df4c02ea9d3bc979ebe" kind="variable"><name>transformations</name></member>
+  </compound>
+  <compound refid="structbioexplorer_1_1biology_1_1Atom" kind="struct"><name>bioexplorer::biology::Atom</name>
+    <member refid="structbioexplorer_1_1biology_1_1Atom_1a8076bb313ab590d9f396ea573e817e34" kind="variable"><name>name</name></member>
+    <member refid="structbioexplorer_1_1biology_1_1Atom_1a4b7e8d54c7d3066c1e7f5cb08ae1cbd0" kind="variable"><name>altLoc</name></member>
+    <member refid="structbioexplorer_1_1biology_1_1Atom_1ab9d8c34337b3af067e331d125ee2e6fb" kind="variable"><name>resName</name></member>
+    <member refid="structbioexplorer_1_1biology_1_1Atom_1a39c49c5ab9cba060d4edd4946e0402f8" kind="variable"><name>chainId</name></member>
+    <member refid="structbioexplorer_1_1biology_1_1Atom_1a8703f6207720c7a080bb0847a6e49fad" kind="variable"><name>reqSeq</name></member>
+    <member refid="structbioexplorer_1_1biology_1_1Atom_1acacf98997ba5c46c7b15ba26b8be8da4" kind="variable"><name>iCode</name></member>
+    <member refid="structbioexplorer_1_1biology_1_1Atom_1a8cf0086c7a8f044904bbee0ba3fcab8c" kind="variable"><name>position</name></member>
+    <member refid="structbioexplorer_1_1biology_1_1Atom_1abed497d224b8b9a9c47573200f72c409" kind="variable"><name>occupancy</name></member>
+    <member refid="structbioexplorer_1_1biology_1_1Atom_1ad0a48beb6843d75691570a38f1d77ffb" kind="variable"><name>tempFactor</name></member>
+    <member refid="structbioexplorer_1_1biology_1_1Atom_1a30356c0a806b4d194d8e41eece2918e0" kind="variable"><name>element</name></member>
+    <member refid="structbioexplorer_1_1biology_1_1Atom_1a72689eea6dbf05efcc9d51410119b50b" kind="variable"><name>charge</name></member>
+    <member refid="structbioexplorer_1_1biology_1_1Atom_1ade7ba3cb81c3f1b973ff459562a35508" kind="variable"><name>radius</name></member>
+  </compound>
+  <compound refid="classbioexplorer_1_1BioExplorerPlugin" kind="class"><name>bioexplorer::BioExplorerPlugin</name>
+    <member refid="classbioexplorer_1_1BioExplorerPlugin_1a8b2bcfa4f05197dceff2910d04566e49" kind="variable"><name>_oocManager</name></member>
+    <member refid="classbioexplorer_1_1BioExplorerPlugin_1a54365f324eae424bd0c19f340f956cbb" kind="variable"><name>_assemblies</name></member>
+    <member refid="classbioexplorer_1_1BioExplorerPlugin_1ad544f4adcae7e3e46a8c984b7f241167" kind="variable"><name>_commandLineArguments</name></member>
+    <member refid="classbioexplorer_1_1BioExplorerPlugin_1af06bb8a9b0514fdcd368bab3066581e5" kind="function"><name>BioExplorerPlugin</name></member>
+    <member refid="classbioexplorer_1_1BioExplorerPlugin_1a66054e540bd4b90e00ffb04a1b4d2daa" kind="function"><name>init</name></member>
+    <member refid="classbioexplorer_1_1BioExplorerPlugin_1a666e3d2ae8c399768ad1072527f2a0be" kind="function"><name>preRender</name></member>
+    <member refid="classbioexplorer_1_1BioExplorerPlugin_1a7bd11d4d0ff383705877c18c0a18942e" kind="function"><name>_parseCommandLineArguments</name></member>
+    <member refid="classbioexplorer_1_1BioExplorerPlugin_1afccd5c0d09bc2d200938708c62ad4787" kind="function"><name>_version</name></member>
+    <member refid="classbioexplorer_1_1BioExplorerPlugin_1a311a4260852827d0e3b414a2ce2ee76e" kind="function"><name>_setGeneralSettings</name></member>
+    <member refid="classbioexplorer_1_1BioExplorerPlugin_1a4a8bb1eac7ab5db31d6d5ff63e20de0e" kind="function"><name>_exportToFile</name></member>
+    <member refid="classbioexplorer_1_1BioExplorerPlugin_1a45c2673dc8c915c4754537dbe0b7a6eb" kind="function"><name>_importFromFile</name></member>
+    <member refid="classbioexplorer_1_1BioExplorerPlugin_1a33d8ec84abd30b6d4f910d8247de55a2" kind="function"><name>_exportToXYZ</name></member>
+    <member refid="classbioexplorer_1_1BioExplorerPlugin_1ab90966c45bf45b21038c43070b15ca12" kind="function"><name>_addAssembly</name></member>
+    <member refid="classbioexplorer_1_1BioExplorerPlugin_1a5fc19e10819b0545f7b608769e94ea44" kind="function"><name>_removeAssembly</name></member>
+    <member refid="classbioexplorer_1_1BioExplorerPlugin_1ac74c500b4bc9eac7e5bc5a2994d7e32f" kind="function"><name>_addMembrane</name></member>
+    <member refid="classbioexplorer_1_1BioExplorerPlugin_1a9c101268e0600c5257742cf20aa11ba1" kind="function"><name>_addRNASequence</name></member>
+    <member refid="classbioexplorer_1_1BioExplorerPlugin_1a3aa7fa2c2924c2ee565ceace464aec74" kind="function"><name>_addProtein</name></member>
+    <member refid="classbioexplorer_1_1BioExplorerPlugin_1aa51466e53eb9ac523df3431fe34f43a2" kind="function"><name>_addMeshBasedMembrane</name></member>
+    <member refid="classbioexplorer_1_1BioExplorerPlugin_1a8545e69eafde9aa2aaece5a2bd098550" kind="function"><name>_addGlycans</name></member>
+    <member refid="classbioexplorer_1_1BioExplorerPlugin_1a3f00507486766ee41a2503e5ee535c2f" kind="function"><name>_addSugars</name></member>
+    <member refid="classbioexplorer_1_1BioExplorerPlugin_1abc65d5b05e24b6e81a9d3390f18ab938" kind="function"><name>_addGrid</name></member>
+    <member refid="classbioexplorer_1_1BioExplorerPlugin_1a12228c3cc20bd618a098c511968c5102" kind="function"><name>_setAminoAcidSequenceAsString</name></member>
+    <member refid="classbioexplorer_1_1BioExplorerPlugin_1ae63ca2fd1de9c35bf0e7400451d47c23" kind="function"><name>_setAminoAcidSequenceAsRanges</name></member>
+    <member refid="classbioexplorer_1_1BioExplorerPlugin_1abcdda8d4e62bc5f9029e6276aa7ba0e4" kind="function"><name>_getAminoAcidInformation</name></member>
+    <member refid="classbioexplorer_1_1BioExplorerPlugin_1a67a9fe6d0e74f0c23c6e0c222d71991b" kind="function"><name>_setAminoAcid</name></member>
+    <member refid="classbioexplorer_1_1BioExplorerPlugin_1a3e5a83cc2f7ffd123cfbd63d89f4d5da" kind="function"><name>_setProteinInstanceTransformation</name></member>
+    <member refid="classbioexplorer_1_1BioExplorerPlugin_1a2f1f86cc4dada7f0dbab48dff2bee70e" kind="function"><name>_getProteinInstanceTransformation</name></member>
+    <member refid="classbioexplorer_1_1BioExplorerPlugin_1afe92d420059b69a61d668f6a3ad23d1a" kind="function"><name>_setColorScheme</name></member>
+    <member refid="classbioexplorer_1_1BioExplorerPlugin_1a0c61be085293d15169b223932ad0543e" kind="function"><name>_setMaterials</name></member>
+    <member refid="classbioexplorer_1_1BioExplorerPlugin_1aaab909d8291ba4bc7f2fd4ca12c09129" kind="function"><name>_getMaterialIds</name></member>
+    <member refid="classbioexplorer_1_1BioExplorerPlugin_1a5d9e61fa6486624ac059c00ac724c469" kind="function"><name>_buildPointCloud</name></member>
+    <member refid="classbioexplorer_1_1BioExplorerPlugin_1ad03f2b82cc4f54b5642cb063f48f0e09" kind="function"><name>_attachFieldsHandler</name></member>
+    <member refid="classbioexplorer_1_1BioExplorerPlugin_1ad1b4808044213b531a52f08b9f0cb42a" kind="function"><name>_buildFields</name></member>
+    <member refid="classbioexplorer_1_1BioExplorerPlugin_1a04bf0e2b57830ff7d307426e4517316d" kind="function"><name>_exportFieldsToFile</name></member>
+    <member refid="classbioexplorer_1_1BioExplorerPlugin_1a3ab3e210441366af7f4e11a453f8769d" kind="function"><name>_importFieldsFromFile</name></member>
+    <member refid="classbioexplorer_1_1BioExplorerPlugin_1a89e08cdea3f3218042cd43512e08d20c" kind="function"><name>_setModelsVisibility</name></member>
+    <member refid="classbioexplorer_1_1BioExplorerPlugin_1a4888574d64145cbdad4684d42415f816" kind="function"><name>_getOOCConfiguration</name></member>
+    <member refid="classbioexplorer_1_1BioExplorerPlugin_1a7a43d1359efd8516606e6484392dd51c" kind="function"><name>_getOOCProgress</name></member>
+    <member refid="classbioexplorer_1_1BioExplorerPlugin_1a70a4b95611a560739d52b54a164d5656" kind="function"><name>_getOOCAverageLoadingTime</name></member>
+  </compound>
+  <compound refid="structbioexplorer_1_1details_1_1BuildFieldsDetails" kind="struct"><name>bioexplorer::details::BuildFieldsDetails</name>
+    <member refid="structbioexplorer_1_1details_1_1BuildFieldsDetails_1adaf6e73c9314eaad382e19a1ac116bcd" kind="variable"><name>voxelSize</name></member>
+    <member refid="structbioexplorer_1_1details_1_1BuildFieldsDetails_1a920738939f587a759b102c85a8d7d936" kind="variable"><name>density</name></member>
+  </compound>
+  <compound refid="structbioexplorer_1_1details_1_1BuildPointCloudDetails" kind="struct"><name>bioexplorer::details::BuildPointCloudDetails</name>
+    <member refid="structbioexplorer_1_1details_1_1BuildPointCloudDetails_1aa26eb9f94690c14797a7397a8ce8b3ac" kind="variable"><name>radius</name></member>
+  </compound>
+  <compound refid="classbioexplorer_1_1io_1_1CacheLoader" kind="class"><name>bioexplorer::io::CacheLoader</name>
+    <member refid="classbioexplorer_1_1io_1_1CacheLoader_1a72c7bca52c8e7c4d16a499950512ef22" kind="variable"><name>_defaults</name></member>
+    <member refid="classbioexplorer_1_1io_1_1CacheLoader_1a7aa3b9f88b14126cf83443dfe054cd6a" kind="function"><name>CacheLoader</name></member>
+    <member refid="classbioexplorer_1_1io_1_1CacheLoader_1a99849599a8a4e5fd4190fb572ac2f49d" kind="function"><name>getName</name></member>
+    <member refid="classbioexplorer_1_1io_1_1CacheLoader_1a797d7d83c8a511dc4cec12ed1b0488d5" kind="function"><name>getSupportedExtensions</name></member>
+    <member refid="classbioexplorer_1_1io_1_1CacheLoader_1a4f523a4a3bd5e743ff715a5ac02c9c16" kind="function"><name>isSupported</name></member>
+    <member refid="classbioexplorer_1_1io_1_1CacheLoader_1ae1adf25b81ba2700e14ee1cf7cd20288" kind="function"><name>getProperties</name></member>
+    <member refid="classbioexplorer_1_1io_1_1CacheLoader_1a989999b8075ef0ee87c70a6da274759a" kind="function"><name>importFromBlob</name></member>
+    <member refid="classbioexplorer_1_1io_1_1CacheLoader_1af30d14d25b5fcb13a20b3d08eb69030f" kind="function"><name>importFromFile</name></member>
+    <member refid="classbioexplorer_1_1io_1_1CacheLoader_1ae6a60cf0ed712d14f0dfd2e8f8752ac6" kind="function"><name>importModelsFromFile</name></member>
+    <member refid="classbioexplorer_1_1io_1_1CacheLoader_1aa2d208b60fb8ee68480c00c8f9ad280a" kind="function"><name>exportToFile</name></member>
+    <member refid="classbioexplorer_1_1io_1_1CacheLoader_1a3f8d953e368f1ae9bc776845b500a457" kind="function"><name>exportToXYZ</name></member>
+    <member refid="classbioexplorer_1_1io_1_1CacheLoader_1a55c399f5ef67c05c46f757f40bc8a752" kind="function"><name>getCLIProperties</name></member>
+    <member refid="classbioexplorer_1_1io_1_1CacheLoader_1a2c2b9727d52cc03d0026d439b72653c4" kind="function"><name>_readString</name></member>
+    <member refid="classbioexplorer_1_1io_1_1CacheLoader_1ad4c2b24cc4bb18a496879768132c5fbf" kind="function"><name>_importModel</name></member>
+    <member refid="classbioexplorer_1_1io_1_1CacheLoader_1ace9e6876f33d5c51874d898a0fac84b6" kind="function"><name>_exportModel</name></member>
+  </compound>
+  <compound refid="structbioexplorer_1_1details_1_1ColorSchemeDetails" kind="struct"><name>bioexplorer::details::ColorSchemeDetails</name>
+    <member refid="structbioexplorer_1_1details_1_1ColorSchemeDetails_1a3b6995a9a066689f3fcac56ee473cc29" kind="variable"><name>assemblyName</name></member>
+    <member refid="structbioexplorer_1_1details_1_1ColorSchemeDetails_1ade53a2e460f72d2ba14c365fa70943c7" kind="variable"><name>name</name></member>
+    <member refid="structbioexplorer_1_1details_1_1ColorSchemeDetails_1a14a07a87226dae2476782146dbb20733" kind="variable"><name>colorScheme</name></member>
+    <member refid="structbioexplorer_1_1details_1_1ColorSchemeDetails_1a862bc960439c1db81372342694d1f627" kind="variable"><name>palette</name></member>
+    <member refid="structbioexplorer_1_1details_1_1ColorSchemeDetails_1aadd74378e6ae025397c09fcb645a528f" kind="variable"><name>chainIds</name></member>
+  </compound>
+  <compound refid="structbioexplorer_1_1details_1_1DatabaseAccessDetails" kind="struct"><name>bioexplorer::details::DatabaseAccessDetails</name>
+    <member refid="structbioexplorer_1_1details_1_1DatabaseAccessDetails_1a556fc28984c563b1a1fedf4c99c0160d" kind="variable"><name>connectionString</name></member>
+    <member refid="structbioexplorer_1_1details_1_1DatabaseAccessDetails_1a07f0574faae67d3b18f81dddb2084841" kind="variable"><name>schema</name></member>
+    <member refid="structbioexplorer_1_1details_1_1DatabaseAccessDetails_1a2896d8c076caedb070863c2c341c63e7" kind="variable"><name>brickId</name></member>
+    <member refid="structbioexplorer_1_1details_1_1DatabaseAccessDetails_1a68781fc1eb1e7bd12f358aa90ecaf552" kind="variable"><name>lowBounds</name></member>
+    <member refid="structbioexplorer_1_1details_1_1DatabaseAccessDetails_1a625ee1393ae5b4f7aa5a45421f9dcafb" kind="variable"><name>highBounds</name></member>
+  </compound>
+  <compound refid="classbioexplorer_1_1io_1_1db_1_1DBConnector" kind="class"><name>bioexplorer::io::db::DBConnector</name>
+    <member refid="classbioexplorer_1_1io_1_1db_1_1DBConnector_1ad2df50808e1161d1195d6fe45b9ba09a" kind="variable"><name>_connection</name></member>
+    <member refid="classbioexplorer_1_1io_1_1db_1_1DBConnector_1af2350847ac4792ed67af338e1d65632c" kind="variable"><name>_schema</name></member>
+    <member refid="classbioexplorer_1_1io_1_1db_1_1DBConnector_1a6b38ff1b0a59d26e3545bb2480c04b35" kind="function"><name>DBConnector</name></member>
+    <member refid="classbioexplorer_1_1io_1_1db_1_1DBConnector_1a0c00814b3a4a6849cf7d921c375e4bc5" kind="function"><name>~DBConnector</name></member>
+    <member refid="classbioexplorer_1_1io_1_1db_1_1DBConnector_1ad02d54aff9bd925e722fba2a1a92a5d1" kind="function"><name>clearBricks</name></member>
+    <member refid="classbioexplorer_1_1io_1_1db_1_1DBConnector_1ae91b451a6d92811c8c313645aecd1573" kind="function"><name>getSceneConfiguration</name></member>
+    <member refid="classbioexplorer_1_1io_1_1db_1_1DBConnector_1a75462f861b2e29143cca4432da740624" kind="function"><name>getBrick</name></member>
+    <member refid="classbioexplorer_1_1io_1_1db_1_1DBConnector_1aec6e6b1fdfa8da1a02d7d17a002e33b2" kind="function"><name>insertBrick</name></member>
+  </compound>
+  <compound refid="classbioexplorer_1_1fields_1_1FieldsHandler" kind="class"><name>bioexplorer::fields::FieldsHandler</name>
+    <member refid="classbioexplorer_1_1fields_1_1FieldsHandler_1a2881ab0f75ca11da5c799591f542a17d" kind="variable"><name>_dimensions</name></member>
+    <member refid="classbioexplorer_1_1fields_1_1FieldsHandler_1a187dd4ff27a85131b1aa7cfb82c6d9e5" kind="variable"><name>_spacing</name></member>
+    <member refid="classbioexplorer_1_1fields_1_1FieldsHandler_1a84e993028e109e8edf580e43f2c1e158" kind="variable"><name>_offset</name></member>
+    <member refid="classbioexplorer_1_1fields_1_1FieldsHandler_1a8661e05179c869bb54192c95bf86412f" kind="function"><name>FieldsHandler</name></member>
+    <member refid="classbioexplorer_1_1fields_1_1FieldsHandler_1af0c2bea0262c4fa3b5d143c4a0d1b096" kind="function"><name>FieldsHandler</name></member>
+    <member refid="classbioexplorer_1_1fields_1_1FieldsHandler_1a15d7731c38bb2a040c554dbe89e73431" kind="function"><name>FieldsHandler</name></member>
+    <member refid="classbioexplorer_1_1fields_1_1FieldsHandler_1a128d90979aa7c28c963b2e222388d498" kind="function"><name>~FieldsHandler</name></member>
+    <member refid="classbioexplorer_1_1fields_1_1FieldsHandler_1a0ea7ffc0282b783469586eff6dfceeaf" kind="function"><name>getFrameData</name></member>
+    <member refid="classbioexplorer_1_1fields_1_1FieldsHandler_1a4962251acd82b39e7b76bbd3af84258c" kind="function"><name>isReady</name></member>
+    <member refid="classbioexplorer_1_1fields_1_1FieldsHandler_1aa440980478d312db5380dd0528c65e38" kind="function"><name>clone</name></member>
+    <member refid="classbioexplorer_1_1fields_1_1FieldsHandler_1aebfbadc89ab259eab8ab8a78d71af1fe" kind="function"><name>exportToFile</name></member>
+    <member refid="classbioexplorer_1_1fields_1_1FieldsHandler_1af4f89f599ee4e2d5b18dbc836d8c2f63" kind="function"><name>importFromFile</name></member>
+    <member refid="classbioexplorer_1_1fields_1_1FieldsHandler_1a2dae1a58a744e8dd5ac71e1862dbe544" kind="function"><name>getDimensions</name></member>
+    <member refid="classbioexplorer_1_1fields_1_1FieldsHandler_1a0413e00a6060aeb8bedd0d7fcf978370" kind="function"><name>getSpacing</name></member>
+    <member refid="classbioexplorer_1_1fields_1_1FieldsHandler_1a85b549358ff5df6d0f217b53143c4f23" kind="function"><name>getOffset</name></member>
+    <member refid="classbioexplorer_1_1fields_1_1FieldsHandler_1aea8d6248a69676808274fe64abb0ff39" kind="function"><name>_buildOctree</name></member>
+  </compound>
+  <compound refid="classbioexplorer_1_1rendering_1_1FieldsRenderer" kind="class"><name>bioexplorer::rendering::FieldsRenderer</name>
+    <member refid="classbioexplorer_1_1rendering_1_1FieldsRenderer_1a39d55e6e4091adf0c8090eef28113ec9" kind="variable"><name>_lightArray</name></member>
+    <member refid="classbioexplorer_1_1rendering_1_1FieldsRenderer_1a2fc8af124aabd8415de6f487ee139a91" kind="variable"><name>_lightPtr</name></member>
+    <member refid="classbioexplorer_1_1rendering_1_1FieldsRenderer_1a78c2f428065eb39e31f714f592b722ba" kind="variable"><name>_lightData</name></member>
+    <member refid="classbioexplorer_1_1rendering_1_1FieldsRenderer_1acc9b79cef63ae5a31b63c5edbad3ba2c" kind="variable"><name>_bgMaterial</name></member>
+    <member refid="classbioexplorer_1_1rendering_1_1FieldsRenderer_1a78fa79a844025c368467e4b271d11e24" kind="variable"><name>_useHardwareRandomizer</name></member>
+    <member refid="classbioexplorer_1_1rendering_1_1FieldsRenderer_1a4cd1286e1c7515c1f6cbf8d4b8719418" kind="variable"><name>_randomNumber</name></member>
+    <member refid="classbioexplorer_1_1rendering_1_1FieldsRenderer_1a4e72992015ea9705f65d6541777724b5" kind="variable"><name>_timestamp</name></member>
+    <member refid="classbioexplorer_1_1rendering_1_1FieldsRenderer_1a13c5cf886fd52b3de5e2d30808a6b668" kind="variable"><name>_exposure</name></member>
+    <member refid="classbioexplorer_1_1rendering_1_1FieldsRenderer_1a63709ae8d9c498f6bb7fbaf3600d6d57" kind="variable"><name>_alphaCorrection</name></member>
+    <member refid="classbioexplorer_1_1rendering_1_1FieldsRenderer_1ac43c2710c203d9d097095b9409e3d748" kind="variable"><name>_minRayStep</name></member>
+    <member refid="classbioexplorer_1_1rendering_1_1FieldsRenderer_1a5e408cee2d6e6fba14abc227279f2692" kind="variable"><name>_nbRaySteps</name></member>
+    <member refid="classbioexplorer_1_1rendering_1_1FieldsRenderer_1afb1be204cd1655250de608d7c79e0d9d" kind="variable"><name>_nbRayRefinementSteps</name></member>
+    <member refid="classbioexplorer_1_1rendering_1_1FieldsRenderer_1a60d98d10ab5fad1e1f6ffc3d06521080" kind="variable"><name>_cutoff</name></member>
+    <member refid="classbioexplorer_1_1rendering_1_1FieldsRenderer_1a61c71f7cdfc9fa995aaea60fdbcbc81d" kind="variable"><name>_userData</name></member>
+    <member refid="classbioexplorer_1_1rendering_1_1FieldsRenderer_1a8116c745a12b5830dbadd25d249dbed9" kind="variable"><name>_userDataSize</name></member>
+    <member refid="classbioexplorer_1_1rendering_1_1FieldsRenderer_1ad83c6f06b14a267800724cf063c1798a" kind="function"><name>FieldsRenderer</name></member>
+    <member refid="classbioexplorer_1_1rendering_1_1FieldsRenderer_1a90f79f5b52f2847d84559539d306908c" kind="function"><name>toString</name></member>
+    <member refid="classbioexplorer_1_1rendering_1_1FieldsRenderer_1aa02d4cdf73eae3f8aef11bfd13cab8b5" kind="function"><name>commit</name></member>
+  </compound>
+  <compound refid="structbioexplorer_1_1details_1_1FileAccessDetails" kind="struct"><name>bioexplorer::details::FileAccessDetails</name>
+    <member refid="structbioexplorer_1_1details_1_1FileAccessDetails_1a7b4e34c828171789ed92eab5ee440e87" kind="variable"><name>filename</name></member>
+    <member refid="structbioexplorer_1_1details_1_1FileAccessDetails_1ab6c5397d518e2b66f017fcdce3cccdc9" kind="variable"><name>lowBounds</name></member>
+    <member refid="structbioexplorer_1_1details_1_1FileAccessDetails_1ac12eeab4f38053801ec6c199c6429843" kind="variable"><name>highBounds</name></member>
+    <member refid="structbioexplorer_1_1details_1_1FileAccessDetails_1aefd80aaaca82c2e0c0b7c46a8377104d" kind="variable"><name>fileFormat</name></member>
+  </compound>
+  <compound refid="classbioexplorer_1_1common_1_1GeneralSettings" kind="class"><name>bioexplorer::common::GeneralSettings</name>
+    <member refid="classbioexplorer_1_1common_1_1GeneralSettings_1a32b30046f3c30b8db73704c91b10cadc" kind="variable"><name>_mutex</name></member>
+    <member refid="classbioexplorer_1_1common_1_1GeneralSettings_1ae635cff241ac522068d228b89c29e069" kind="variable"><name>_instance</name></member>
+    <member refid="classbioexplorer_1_1common_1_1GeneralSettings_1a8020a22ac5d2e2a0ffed805935e1d12a" kind="variable"><name>_modelVisibilityOnCreation</name></member>
+    <member refid="classbioexplorer_1_1common_1_1GeneralSettings_1a33a81a7c57f3083d98027a003b37b2b8" kind="variable"><name>_offFolder</name></member>
+    <member refid="classbioexplorer_1_1common_1_1GeneralSettings_1a03574c3213474b674c01ded989815abc" kind="variable"><name>_loggingEnabled</name></member>
+    <member refid="classbioexplorer_1_1common_1_1GeneralSettings_1a53be3f73259e58f109b22152794b4694" kind="function"><name>GeneralSettings</name></member>
+    <member refid="classbioexplorer_1_1common_1_1GeneralSettings_1aa8ea62637029fef1262f4f99cd08af28" kind="function"><name>getModelVisibilityOnCreation</name></member>
+    <member refid="classbioexplorer_1_1common_1_1GeneralSettings_1a0a922c9405a28ba50e349c9a3badb829" kind="function"><name>setModelVisibilityOnCreation</name></member>
+    <member refid="classbioexplorer_1_1common_1_1GeneralSettings_1a911b732dc5737664cc2c5a6b5a22cc31" kind="function"><name>getOffFolder</name></member>
+    <member refid="classbioexplorer_1_1common_1_1GeneralSettings_1a506c4c3066d1e3ab7ee47c081b3c4b98" kind="function"><name>setOffFolder</name></member>
+    <member refid="classbioexplorer_1_1common_1_1GeneralSettings_1a1e6e87a8ceeb96895872786718412e0c" kind="function"><name>getLoggingEnabled</name></member>
+    <member refid="classbioexplorer_1_1common_1_1GeneralSettings_1a6c59a4bf1d14d23f6b7758b865f43cb5" kind="function"><name>setLoggingEnabled</name></member>
+    <member refid="classbioexplorer_1_1common_1_1GeneralSettings_1a596198a4745a7eef5e8788a4d9b5c8f5" kind="function"><name>getInstance</name></member>
+    <member refid="classbioexplorer_1_1common_1_1GeneralSettings_1afadd7ee8698203e03227c301df816eae" kind="function"><name>~GeneralSettings</name></member>
+  </compound>
+  <compound refid="structbioexplorer_1_1details_1_1GeneralSettingsDetails" kind="struct"><name>bioexplorer::details::GeneralSettingsDetails</name>
+    <member refid="structbioexplorer_1_1details_1_1GeneralSettingsDetails_1a5a50321a5b698668fb2d07dcae1007fe" kind="variable"><name>modelVisibilityOnCreation</name></member>
+    <member refid="structbioexplorer_1_1details_1_1GeneralSettingsDetails_1a043273644312d5b60e79c2458402d60f" kind="variable"><name>offFolder</name></member>
+    <member refid="structbioexplorer_1_1details_1_1GeneralSettingsDetails_1a6413508aaeb92e19370256d20aa4197b" kind="variable"><name>loggingEnabled</name></member>
+  </compound>
+  <compound refid="classbioexplorer_1_1biology_1_1Glycans" kind="class"><name>bioexplorer::biology::Glycans</name>
+    <member refid="classbioexplorer_1_1biology_1_1Glycans_1a3b8f275cc75313bc24fecad9bf18a263" kind="variable"><name>_details</name></member>
+    <member refid="classbioexplorer_1_1biology_1_1Glycans_1acdcec4cda9946ce70fdc6c7e21cdf277" kind="function"><name>Glycans</name></member>
+  </compound>
+  <compound refid="structbioexplorer_1_1details_1_1MaterialIdsDetails" kind="struct"><name>bioexplorer::details::MaterialIdsDetails</name>
+    <member refid="structbioexplorer_1_1details_1_1MaterialIdsDetails_1a949ed6cca238aaafc213c2ce42c0efe4" kind="variable"><name>ids</name></member>
+  </compound>
+  <compound refid="structbioexplorer_1_1details_1_1MaterialsDetails" kind="struct"><name>bioexplorer::details::MaterialsDetails</name>
+    <member refid="structbioexplorer_1_1details_1_1MaterialsDetails_1a1907d0558dea63b36e4ade285a06bfb5" kind="variable"><name>modelIds</name></member>
+    <member refid="structbioexplorer_1_1details_1_1MaterialsDetails_1a6f6ef2b481c114920d816557e5397c37" kind="variable"><name>materialIds</name></member>
+    <member refid="structbioexplorer_1_1details_1_1MaterialsDetails_1ad5445f0005de017a5e697c65d384ab15" kind="variable"><name>diffuseColors</name></member>
+    <member refid="structbioexplorer_1_1details_1_1MaterialsDetails_1a80d0c4edbbfa9f92556637401d30b0a0" kind="variable"><name>specularColors</name></member>
+    <member refid="structbioexplorer_1_1details_1_1MaterialsDetails_1a19ced7cbd4eb3d7dcf3fd924907a6026" kind="variable"><name>specularExponents</name></member>
+    <member refid="structbioexplorer_1_1details_1_1MaterialsDetails_1ab2c8e5939ab8378170b077cca0ff4e8e" kind="variable"><name>reflectionIndices</name></member>
+    <member refid="structbioexplorer_1_1details_1_1MaterialsDetails_1a28c4100c77ab6922bfa74bf3ff8253b9" kind="variable"><name>opacities</name></member>
+    <member refid="structbioexplorer_1_1details_1_1MaterialsDetails_1a9bd1aba343dfa08bd81fc3f9aadf4835" kind="variable"><name>refractionIndices</name></member>
+    <member refid="structbioexplorer_1_1details_1_1MaterialsDetails_1aae87c0d0dcd9bddd724823a23624b752" kind="variable"><name>emissions</name></member>
+    <member refid="structbioexplorer_1_1details_1_1MaterialsDetails_1a01d955e03e0b2e181d7bac068092b8d8" kind="variable"><name>glossinesses</name></member>
+    <member refid="structbioexplorer_1_1details_1_1MaterialsDetails_1a88040e1014c4e80c48ae3e666a79d093" kind="variable"><name>shadingModes</name></member>
+    <member refid="structbioexplorer_1_1details_1_1MaterialsDetails_1abdd6e1eb126e386fcdf9ed85a8dbf1c6" kind="variable"><name>userParameters</name></member>
+    <member refid="structbioexplorer_1_1details_1_1MaterialsDetails_1a954692e07755f928b8af8061e9705644" kind="variable"><name>chameleonModes</name></member>
+  </compound>
+  <compound refid="classbioexplorer_1_1biology_1_1Membrane" kind="class"><name>bioexplorer::biology::Membrane</name>
+    <member refid="classbioexplorer_1_1biology_1_1Membrane_1a31f55eb6add5fb9e5d862098d01c6e49" kind="variable"><name>_scene</name></member>
+    <member refid="classbioexplorer_1_1biology_1_1Membrane_1a90ada10c5adf8e0fdf4086047b873bb7" kind="variable"><name>_position</name></member>
+    <member refid="classbioexplorer_1_1biology_1_1Membrane_1afbdc8f5d74f4f0969b24533245987ef3" kind="variable"><name>_rotation</name></member>
+    <member refid="classbioexplorer_1_1biology_1_1Membrane_1a080f581661ecae7badae66e19461f16e" kind="variable"><name>_details</name></member>
+    <member refid="classbioexplorer_1_1biology_1_1Membrane_1aae286044066f4d3323bc907e01183e5a" kind="variable"><name>_proteins</name></member>
+    <member refid="classbioexplorer_1_1biology_1_1Membrane_1aa611463bd092cf117adeacacfd07add8" kind="variable"><name>_clippingPlanes</name></member>
+    <member refid="classbioexplorer_1_1biology_1_1Membrane_1ac7b3f5ddf6aa33327376010027c94aeb" kind="function"><name>Membrane</name></member>
+    <member refid="classbioexplorer_1_1biology_1_1Membrane_1a945ddadd91fa8fd0f2dc61bf1aee4849" kind="function"><name>~Membrane</name></member>
+    <member refid="classbioexplorer_1_1biology_1_1Membrane_1a044083130bc9fb94a7ad4d184a8d0683" kind="function"><name>getProteins</name></member>
+    <member refid="classbioexplorer_1_1biology_1_1Membrane_1a18f31b5b38c34512760c9df6983dc413" kind="function"><name>_processInstances</name></member>
+    <member refid="classbioexplorer_1_1biology_1_1Membrane_1a759d05e1664ae0d622ef2c12b6a22cac" kind="function"><name>_getElementNameFromId</name></member>
+  </compound>
+  <compound refid="structbioexplorer_1_1details_1_1MembraneDetails" kind="struct"><name>bioexplorer::details::MembraneDetails</name>
+    <member refid="structbioexplorer_1_1details_1_1MembraneDetails_1aa5a20257edd8f55a83eea2236ec68f4a" kind="variable"><name>assemblyName</name></member>
+    <member refid="structbioexplorer_1_1details_1_1MembraneDetails_1ab6fcf548034dd9a61eff941c78158e3d" kind="variable"><name>name</name></member>
+    <member refid="structbioexplorer_1_1details_1_1MembraneDetails_1a30aefc04997b7ff46f1ba5d1221c15b6" kind="variable"><name>content1</name></member>
+    <member refid="structbioexplorer_1_1details_1_1MembraneDetails_1a7555f64c23e5123a32f425090ca1323b" kind="variable"><name>content2</name></member>
+    <member refid="structbioexplorer_1_1details_1_1MembraneDetails_1a0f245cdb5f1f3514d1023f5e03f2e49f" kind="variable"><name>content3</name></member>
+    <member refid="structbioexplorer_1_1details_1_1MembraneDetails_1a76a585e518f075e4c92f5b8ccc58a899" kind="variable"><name>content4</name></member>
+    <member refid="structbioexplorer_1_1details_1_1MembraneDetails_1a53da2ad086cf6c76c0f68792a09d423d" kind="variable"><name>shape</name></member>
+    <member refid="structbioexplorer_1_1details_1_1MembraneDetails_1ad49c53f9b7dfde983be650c6b1301125" kind="variable"><name>assemblyParams</name></member>
+    <member refid="structbioexplorer_1_1details_1_1MembraneDetails_1a3e82e2f03f4db4c9ba300e1f746cd2d8" kind="variable"><name>atomRadiusMultiplier</name></member>
+    <member refid="structbioexplorer_1_1details_1_1MembraneDetails_1a67cdbfc91a0dde4e72e665da01318006" kind="variable"><name>loadBonds</name></member>
+    <member refid="structbioexplorer_1_1details_1_1MembraneDetails_1ad5833c005a4d0e25c44191b448ae3c56" kind="variable"><name>loadNonPolymerChemicals</name></member>
+    <member refid="structbioexplorer_1_1details_1_1MembraneDetails_1a4857b2b56adb5e781eed76e49b69fd19" kind="variable"><name>representation</name></member>
+    <member refid="structbioexplorer_1_1details_1_1MembraneDetails_1afd97f33d63711b4146885da3a5f24bd3" kind="variable"><name>chainIds</name></member>
+    <member refid="structbioexplorer_1_1details_1_1MembraneDetails_1a5b8aff232c54391521bc4fa2a7c1d64f" kind="variable"><name>recenter</name></member>
+    <member refid="structbioexplorer_1_1details_1_1MembraneDetails_1a991fea5a0dae751549cb5697e8b62d19" kind="variable"><name>occurrences</name></member>
+    <member refid="structbioexplorer_1_1details_1_1MembraneDetails_1a24be96838fdd96a4b6eed6b172ae5399" kind="variable"><name>randomSeed</name></member>
+    <member refid="structbioexplorer_1_1details_1_1MembraneDetails_1a3d20d636030f960161a5c7c1bf11d246" kind="variable"><name>positionRandomizationType</name></member>
+    <member refid="structbioexplorer_1_1details_1_1MembraneDetails_1ae6ec6601a5b81ccc0ddbe7d8df0ae5bd" kind="variable"><name>rotation</name></member>
+  </compound>
+  <compound refid="classbioexplorer_1_1biology_1_1MeshBasedMembrane" kind="class"><name>bioexplorer::biology::MeshBasedMembrane</name>
+    <member refid="classbioexplorer_1_1biology_1_1MeshBasedMembrane_1ac471e60c3766da006e6c5e3cda939b66" kind="variable"><name>_protein</name></member>
+    <member refid="classbioexplorer_1_1biology_1_1MeshBasedMembrane_1a0a199474cf122f536ec722f060f95779" kind="function"><name>MeshBasedMembrane</name></member>
+    <member refid="classbioexplorer_1_1biology_1_1MeshBasedMembrane_1a86239773d86c7f1cff32a00d5864c22a" kind="function"><name>getProtein</name></member>
+    <member refid="classbioexplorer_1_1biology_1_1MeshBasedMembrane_1a46120a5311cad54aee5ace50b49f4737" kind="function"><name>_getSurfaceArea</name></member>
+    <member refid="classbioexplorer_1_1biology_1_1MeshBasedMembrane_1a36dedaad873c8f05d63f6093670e3447" kind="function"><name>_toVector3f</name></member>
+    <member refid="classbioexplorer_1_1biology_1_1MeshBasedMembrane_1a0c9b3df6a51e6ab64a51cec49f98ac47" kind="function"><name>_toVector3f</name></member>
+  </compound>
+  <compound refid="structbioexplorer_1_1details_1_1MeshBasedMembraneDetails" kind="struct"><name>bioexplorer::details::MeshBasedMembraneDetails</name>
+    <member refid="structbioexplorer_1_1details_1_1MeshBasedMembraneDetails_1a9178fc135d1576c1e29fff3d56ad8994" kind="variable"><name>assemblyName</name></member>
+    <member refid="structbioexplorer_1_1details_1_1MeshBasedMembraneDetails_1a28251c09a337ec62d40b4cd830bccc90" kind="variable"><name>name</name></member>
+    <member refid="structbioexplorer_1_1details_1_1MeshBasedMembraneDetails_1a815f4aaa04c9dc5d390a45c6226649fa" kind="variable"><name>meshContents</name></member>
+    <member refid="structbioexplorer_1_1details_1_1MeshBasedMembraneDetails_1ac9f6042494504514075e9696cb882fc7" kind="variable"><name>proteinContents</name></member>
+    <member refid="structbioexplorer_1_1details_1_1MeshBasedMembraneDetails_1a30bb0b1230e24e0c93cfdbe7d34e9bc9" kind="variable"><name>recenter</name></member>
+    <member refid="structbioexplorer_1_1details_1_1MeshBasedMembraneDetails_1ac20c08650a6555c855e8c9582ecdb388" kind="variable"><name>density</name></member>
+    <member refid="structbioexplorer_1_1details_1_1MeshBasedMembraneDetails_1a31133685df96d9684c8e928e8196934b" kind="variable"><name>surfaceFixedOffset</name></member>
+    <member refid="structbioexplorer_1_1details_1_1MeshBasedMembraneDetails_1a89484746bb83997971fb1408e6e8d0b1" kind="variable"><name>surfaceVariableOffset</name></member>
+    <member refid="structbioexplorer_1_1details_1_1MeshBasedMembraneDetails_1aa79a62988a1c01a91daf73e8ce5772af" kind="variable"><name>atomRadiusMultiplier</name></member>
+    <member refid="structbioexplorer_1_1details_1_1MeshBasedMembraneDetails_1acb1e20ee239ef5cac013df83e1077182" kind="variable"><name>representation</name></member>
+    <member refid="structbioexplorer_1_1details_1_1MeshBasedMembraneDetails_1a641219d208fcf91a4ad49e261bcab9e9" kind="variable"><name>randomSeed</name></member>
+    <member refid="structbioexplorer_1_1details_1_1MeshBasedMembraneDetails_1a0619c3d91a359a9ca9b40dad3304458b" kind="variable"><name>position</name></member>
+    <member refid="structbioexplorer_1_1details_1_1MeshBasedMembraneDetails_1a4d4cc6a583fc4e1e9f004e810c105604" kind="variable"><name>rotation</name></member>
+    <member refid="structbioexplorer_1_1details_1_1MeshBasedMembraneDetails_1a45bda1eeec721636c3cefb41657777a4" kind="variable"><name>scale</name></member>
+  </compound>
+  <compound refid="structbioexplorer_1_1details_1_1ModelIdDetails" kind="struct"><name>bioexplorer::details::ModelIdDetails</name>
+    <member refid="structbioexplorer_1_1details_1_1ModelIdDetails_1afce19d687701e9ff1e185b87b33aef21" kind="variable"><name>modelId</name></member>
+  </compound>
+  <compound refid="structbioexplorer_1_1details_1_1ModelIdFileAccessDetails" kind="struct"><name>bioexplorer::details::ModelIdFileAccessDetails</name>
+    <member refid="structbioexplorer_1_1details_1_1ModelIdFileAccessDetails_1abc16eb131a3d37ad57478c3334b94672" kind="variable"><name>modelId</name></member>
+    <member refid="structbioexplorer_1_1details_1_1ModelIdFileAccessDetails_1a3c098e54b7cecbeb9f03a04648b4a88b" kind="variable"><name>filename</name></member>
+  </compound>
+  <compound refid="structbioexplorer_1_1details_1_1ModelsVisibilityDetails" kind="struct"><name>bioexplorer::details::ModelsVisibilityDetails</name>
+    <member refid="structbioexplorer_1_1details_1_1ModelsVisibilityDetails_1a9900fe53e17bf3c2152ae3758469f831" kind="variable"><name>visible</name></member>
+  </compound>
+  <compound refid="classbioexplorer_1_1biology_1_1Molecule" kind="class"><name>bioexplorer::biology::Molecule</name>
+    <member refid="classbioexplorer_1_1biology_1_1Molecule_1a2166d8b16faa45c9da421c32caeb9ab9" kind="variable"><name>_scene</name></member>
+    <member refid="classbioexplorer_1_1biology_1_1Molecule_1a6d3e855179fd31cfe3eef97d1f63ba28" kind="variable"><name>_atomMap</name></member>
+    <member refid="classbioexplorer_1_1biology_1_1Molecule_1a8e277ce8221c6d2cb09d3a43243c965e" kind="variable"><name>_residues</name></member>
+    <member refid="classbioexplorer_1_1biology_1_1Molecule_1a62423407fa24c3cefc93f81aea075ecb" kind="variable"><name>_residueSequenceMap</name></member>
+    <member refid="classbioexplorer_1_1biology_1_1Molecule_1a4a8ac72f236bd1d08f797e8ca3a895fc" kind="variable"><name>_bondsMap</name></member>
+    <member refid="classbioexplorer_1_1biology_1_1Molecule_1aa10e6985bf449e7b86bfb5482b7e635c" kind="variable"><name>_chainIds</name></member>
+    <member refid="classbioexplorer_1_1biology_1_1Molecule_1a84856488af6b6561e5ff02db7dac811a" kind="variable"><name>_aminoAcidRange</name></member>
+    <member refid="classbioexplorer_1_1biology_1_1Molecule_1a49168b6fa15782fd8a5fb0146e538d15" kind="variable"><name>_selectedAminoAcidSequence</name></member>
+    <member refid="classbioexplorer_1_1biology_1_1Molecule_1ab1b804bc14654d48b52c61296c51db45" kind="variable"><name>_selectedAminoAcidRanges</name></member>
+    <member refid="classbioexplorer_1_1biology_1_1Molecule_1ae3f642f1686e9bda06af5803b2c0a0b2" kind="variable"><name>_bounds</name></member>
+    <member refid="classbioexplorer_1_1biology_1_1Molecule_1a6e92ebcb753bdf4f5cd8e711b1ae38bd" kind="function"><name>Molecule</name></member>
+    <member refid="classbioexplorer_1_1biology_1_1Molecule_1a33392eb54d4ec0ddd200b42a702018b1" kind="function"><name>getAtoms</name></member>
+    <member refid="classbioexplorer_1_1biology_1_1Molecule_1a77f61cadfb0ce00bfaa3d86e2307c622" kind="function"><name>getResidues</name></member>
+    <member refid="classbioexplorer_1_1biology_1_1Molecule_1a921fcced6cab9755296f5c05c030ff89" kind="function"><name>getResidueSequences</name></member>
+    <member refid="classbioexplorer_1_1biology_1_1Molecule_1ac12ba0810e3eaff36b927a5b71555b75" kind="function"><name>getSequencesAsString</name></member>
+    <member refid="classbioexplorer_1_1biology_1_1Molecule_1ab23ee8936d7660af48809b66b98ab148" kind="function"><name>_setAtomColorScheme</name></member>
+    <member refid="classbioexplorer_1_1biology_1_1Molecule_1a00a5883f2f86a235afc20fee8264a565" kind="function"><name>_setChainColorScheme</name></member>
+    <member refid="classbioexplorer_1_1biology_1_1Molecule_1ae5c34567aa817b2bf29a834bbad77986" kind="function"><name>_setResiduesColorScheme</name></member>
+    <member refid="classbioexplorer_1_1biology_1_1Molecule_1a375c6617997550b422f57c03d3ae6701" kind="function"><name>_setAminoAcidSequenceColorScheme</name></member>
+    <member refid="classbioexplorer_1_1biology_1_1Molecule_1a303a84f330e24fb20322c4154625691e" kind="function"><name>_setMaterialDiffuseColor</name></member>
+    <member refid="classbioexplorer_1_1biology_1_1Molecule_1afa8a533f7c6ab941ffe1730d5c45028e" kind="function"><name>_setMaterialDiffuseColor</name></member>
+    <member refid="classbioexplorer_1_1biology_1_1Molecule_1a1450b9cb01682a1e0ee33aa945913951" kind="function"><name>_buildModel</name></member>
+    <member refid="classbioexplorer_1_1biology_1_1Molecule_1a9303ac72eb465e00750c594ba58e2ed8" kind="function"><name>_buildAtomicStruture</name></member>
+    <member refid="classbioexplorer_1_1biology_1_1Molecule_1a6caa04f4037dbc3912efd4c647ffd362" kind="function"><name>_computeReqSetOffset</name></member>
+    <member refid="classbioexplorer_1_1biology_1_1Molecule_1af8134ba8a614f4973fd973d9cf60bb15" kind="function"><name>_readAtom</name></member>
+    <member refid="classbioexplorer_1_1biology_1_1Molecule_1afa17cc7680f575cde0cd341c784c551c" kind="function"><name>_readSequence</name></member>
+    <member refid="classbioexplorer_1_1biology_1_1Molecule_1a8e786b977d10c225217e59d1e97a4695" kind="function"><name>_readHeader</name></member>
+    <member refid="classbioexplorer_1_1biology_1_1Molecule_1a2473281806a00892fd71fdaca87bd79a" kind="function"><name>_readTitle</name></member>
+    <member refid="classbioexplorer_1_1biology_1_1Molecule_1ab60f1573cb964bfa458afbce1cac2616" kind="function"><name>_readRemark</name></member>
+    <member refid="classbioexplorer_1_1biology_1_1Molecule_1a76587336d1ad994bf4d6a2580d4f7d4a" kind="function"><name>_readConnect</name></member>
+    <member refid="classbioexplorer_1_1biology_1_1Molecule_1aa50f3b5db6af4663e31f204ff57bdc7b" kind="function"><name>_loadChain</name></member>
+  </compound>
+  <compound refid="classbioexplorer_1_1biology_1_1Node" kind="class"><name>bioexplorer::biology::Node</name>
+    <member refid="classbioexplorer_1_1biology_1_1Node_1afb69572f3597ae900eba1ad4a6b469a5" kind="variable"><name>_modelDescriptor</name></member>
+    <member refid="classbioexplorer_1_1biology_1_1Node_1a5388117456e0bc7ab516ace1c49e1cee" kind="variable"><name>_uuid</name></member>
+    <member refid="classbioexplorer_1_1biology_1_1Node_1a2b56af16626b832014845ee9bf007af0" kind="function"><name>Node</name></member>
+    <member refid="classbioexplorer_1_1biology_1_1Node_1a1d02dc5b33293f53296cde67fc346496" kind="function"><name>~Node</name></member>
+    <member refid="classbioexplorer_1_1biology_1_1Node_1a415bffbb900abe3e0e7ac12c6bf96a32" kind="function"><name>getModelDescriptor</name></member>
+  </compound>
+  <compound refid="structbioexplorer_1_1biology_1_1Nucleotid" kind="struct"><name>bioexplorer::biology::Nucleotid</name>
+    <member refid="structbioexplorer_1_1biology_1_1Nucleotid_1ae2afcb7c129fec3be362ccf07b68ad97" kind="variable"><name>index</name></member>
+    <member refid="structbioexplorer_1_1biology_1_1Nucleotid_1a56e61b104bac35c0ca024ff99393a516" kind="variable"><name>name</name></member>
+    <member refid="structbioexplorer_1_1biology_1_1Nucleotid_1a57c13aa1a6adeb8301592331e828fe43" kind="variable"><name>color</name></member>
+  </compound>
+  <compound refid="classbioexplorer_1_1fields_1_1Octree" kind="class"><name>bioexplorer::fields::Octree</name>
+    <member refid="classbioexplorer_1_1fields_1_1Octree_1aee259d8de1d4df4480de3079a3d66fb0" kind="variable"><name>_volumeDim</name></member>
+    <member refid="classbioexplorer_1_1fields_1_1Octree_1ae544e8c8ac8058db01a02d7e677ac845" kind="variable"><name>_volumeSize</name></member>
+    <member refid="classbioexplorer_1_1fields_1_1Octree_1aa9587b7cc4b53c01255a31715cb322a0" kind="variable"><name>_octreeSize</name></member>
+    <member refid="classbioexplorer_1_1fields_1_1Octree_1a1bfc464e0d56403887eac45913bec55b" kind="variable"><name>_offsetPerLevel</name></member>
+    <member refid="classbioexplorer_1_1fields_1_1Octree_1a5df0680d385865a919e390109f42ddde" kind="variable"><name>_flatIndexes</name></member>
+    <member refid="classbioexplorer_1_1fields_1_1Octree_1a2e8f81d763efd114f60d0505a2cb061f" kind="variable"><name>_flatData</name></member>
+    <member refid="classbioexplorer_1_1fields_1_1Octree_1a6b7d7e8ba65b6617517569beda5c993f" kind="function"><name>Octree</name></member>
+    <member refid="classbioexplorer_1_1fields_1_1Octree_1aa112587bf8fe2d11bcfd58c4c93a4969" kind="function"><name>~Octree</name></member>
+    <member refid="classbioexplorer_1_1fields_1_1Octree_1adecc4835cd7993aff4b5fb27aed27e6f" kind="function"><name>getVolumeDim</name></member>
+    <member refid="classbioexplorer_1_1fields_1_1Octree_1af64d241440afc4006889356c36f388a6" kind="function"><name>getVolumeSize</name></member>
+    <member refid="classbioexplorer_1_1fields_1_1Octree_1a629d350e554877702b0b8a6dc99132e7" kind="function"><name>getOctreeSize</name></member>
+    <member refid="classbioexplorer_1_1fields_1_1Octree_1a1028fc61fd5800990f65048877587150" kind="function"><name>getFlatIndexes</name></member>
+    <member refid="classbioexplorer_1_1fields_1_1Octree_1af07110e7d89a336cee162e3f68b74f29" kind="function"><name>getFlatData</name></member>
+    <member refid="classbioexplorer_1_1fields_1_1Octree_1a04bdef14e11a70b64eb8bbf680bb914f" kind="function"><name>_flattenChildren</name></member>
+    <member refid="classbioexplorer_1_1fields_1_1Octree_1a8b044f3041e94c93f30719c7a71da773" kind="function"><name>_pow2roundup</name></member>
+  </compound>
+  <compound refid="classbioexplorer_1_1fields_1_1OctreeNode" kind="class"><name>bioexplorer::fields::OctreeNode</name>
+    <member refid="classbioexplorer_1_1fields_1_1OctreeNode_1a1c6e9aeeebb33c57adf49b0b45e83d70" kind="variable"><name>_value</name></member>
+    <member refid="classbioexplorer_1_1fields_1_1OctreeNode_1a9fa44ffe70adfafd997e5bab868b8b53" kind="variable"><name>_center</name></member>
+    <member refid="classbioexplorer_1_1fields_1_1OctreeNode_1ab1ca5052d4552f9b8b6e62fc6fee8968" kind="variable"><name>_size</name></member>
+    <member refid="classbioexplorer_1_1fields_1_1OctreeNode_1a638a091d26ec07f2c56b42321db1be58" kind="variable"><name>_children</name></member>
+    <member refid="classbioexplorer_1_1fields_1_1OctreeNode_1af14eaa436ea278b2a4911c162a36a977" kind="function"><name>OctreeNode</name></member>
+    <member refid="classbioexplorer_1_1fields_1_1OctreeNode_1a997e12b039004564a71d71b28ddd38ee" kind="function"><name>addValue</name></member>
+    <member refid="classbioexplorer_1_1fields_1_1OctreeNode_1ae94b80e751e9b35ae1dd0887d9797a83" kind="function"><name>setChild</name></member>
+    <member refid="classbioexplorer_1_1fields_1_1OctreeNode_1a54bedbac0493e7709772a3d782ed448d" kind="function"><name>getChildren</name></member>
+    <member refid="classbioexplorer_1_1fields_1_1OctreeNode_1a6900bdcfb6dad26161e7310c580c737f" kind="function"><name>getCenter</name></member>
+    <member refid="classbioexplorer_1_1fields_1_1OctreeNode_1a5b751d08fa5670a8b893f4f9d0fa1a3f" kind="function"><name>getValue</name></member>
+  </compound>
+  <compound refid="classbioexplorer_1_1io_1_1OOCManager" kind="class"><name>bioexplorer::io::OOCManager</name>
+    <member refid="classbioexplorer_1_1io_1_1OOCManager_1aef50c05783d9ce28fa2e95007c9d6875" kind="variable"><name>_scene</name></member>
+    <member refid="classbioexplorer_1_1io_1_1OOCManager_1af40af8cedd986a123a46d4196a5f8f75" kind="variable"><name>_camera</name></member>
+    <member refid="classbioexplorer_1_1io_1_1OOCManager_1a37e9c6f50293cc9189034353b13c1b1c" kind="variable"><name>_frameBuffer</name></member>
+    <member refid="classbioexplorer_1_1io_1_1OOCManager_1a174dccea72e5fc42467a10f77789119e" kind="variable"><name>_sceneConfiguration</name></member>
+    <member refid="classbioexplorer_1_1io_1_1OOCManager_1ac83d45ce6c2710cde72a2c23f4fab571" kind="variable"><name>_updateFrequency</name></member>
+    <member refid="classbioexplorer_1_1io_1_1OOCManager_1aa285cea996c2c1a0037c27dc82b1de8b" kind="variable"><name>_nbVisibleBricks</name></member>
+    <member refid="classbioexplorer_1_1io_1_1OOCManager_1a9992fcdb9927a602bbddf8214cefc68b" kind="variable"><name>_unloadBricks</name></member>
+    <member refid="classbioexplorer_1_1io_1_1OOCManager_1ab5e3a0b3d29ad070e4a59227766459e3" kind="variable"><name>_showGrid</name></member>
+    <member refid="classbioexplorer_1_1io_1_1OOCManager_1a48f9f482eaee4adaea6941111597850c" kind="variable"><name>_nbBricksPerCycle</name></member>
+    <member refid="classbioexplorer_1_1io_1_1OOCManager_1ab95f59fee78cbaaad0a706caaba50def" kind="variable"><name>_progress</name></member>
+    <member refid="classbioexplorer_1_1io_1_1OOCManager_1a573328659fed32cbf55e0059a109a4d0" kind="variable"><name>_averageLoadingTime</name></member>
+    <member refid="classbioexplorer_1_1io_1_1OOCManager_1a5c1413709ec909abb91a77eb09e1bc85" kind="variable"><name>_bricksFolder</name></member>
+    <member refid="classbioexplorer_1_1io_1_1OOCManager_1a1d53ee9e3121dcf75fe8841d6b5e6a7e" kind="function"><name>OOCManager</name></member>
+    <member refid="classbioexplorer_1_1io_1_1OOCManager_1a145bda1edb34a4aa59e2df05eb5fc2e6" kind="function"><name>~OOCManager</name></member>
+    <member refid="classbioexplorer_1_1io_1_1OOCManager_1a3efa8762f2f5f6e4ef0664e273d052d9" kind="function"><name>setFrameBuffer</name></member>
+    <member refid="classbioexplorer_1_1io_1_1OOCManager_1ab9d17f6903bc3c8d99ebc8c99752f7c0" kind="function"><name>getFrameBuffer</name></member>
+    <member refid="classbioexplorer_1_1io_1_1OOCManager_1aa16c8142c73fa6ce0e61d845749478cc" kind="function"><name>loadBricks</name></member>
+    <member refid="classbioexplorer_1_1io_1_1OOCManager_1ab538fab4651ce13fc496d723e965c55a" kind="function"><name>getSceneConfiguration</name></member>
+    <member refid="classbioexplorer_1_1io_1_1OOCManager_1a6f1ff4feb1e00440b355c94e325665b3" kind="function"><name>getShowGrid</name></member>
+    <member refid="classbioexplorer_1_1io_1_1OOCManager_1a1ae88b446fc1481f00fcf80ea99307c0" kind="function"><name>getVisibleBricks</name></member>
+    <member refid="classbioexplorer_1_1io_1_1OOCManager_1a0f85f5f00eccec66b24026a826d449d2" kind="function"><name>getUpdateFrequency</name></member>
+    <member refid="classbioexplorer_1_1io_1_1OOCManager_1a841a35abdf4c09f3cd60605ad89bda1f" kind="function"><name>getProgress</name></member>
+    <member refid="classbioexplorer_1_1io_1_1OOCManager_1a9b1602b9d6228f2f57ac5bcd8dc3e104" kind="function"><name>getAverageLoadingTime</name></member>
+    <member refid="classbioexplorer_1_1io_1_1OOCManager_1a603426229d9919ceae75e35c46415d9f" kind="function"><name>_parseArguments</name></member>
+    <member refid="classbioexplorer_1_1io_1_1OOCManager_1ad1c8679de2da643d327e1072800eaa74" kind="function"><name>_loadBricks</name></member>
+  </compound>
+  <compound refid="structbioexplorer_1_1details_1_1OOCSceneConfigurationDetails" kind="struct"><name>bioexplorer::details::OOCSceneConfigurationDetails</name>
+    <member refid="structbioexplorer_1_1details_1_1OOCSceneConfigurationDetails_1a14e9f653aeab2a6e89e94e454d0153b4" kind="variable"><name>description</name></member>
+    <member refid="structbioexplorer_1_1details_1_1OOCSceneConfigurationDetails_1a090198a2f0c35b25718bbc351513c69c" kind="variable"><name>sceneSize</name></member>
+    <member refid="structbioexplorer_1_1details_1_1OOCSceneConfigurationDetails_1a93b21e710b3a8a738741d23da99159ad" kind="variable"><name>nbBricks</name></member>
+    <member refid="structbioexplorer_1_1details_1_1OOCSceneConfigurationDetails_1a4216aabd383f17207757843e98d4176b" kind="variable"><name>brickSize</name></member>
+  </compound>
+  <compound refid="structbioexplorer_1_1rendering_1_1PerspectiveStereoCamera" kind="struct"><name>bioexplorer::rendering::PerspectiveStereoCamera</name>
+    <member refid="structbioexplorer_1_1rendering_1_1PerspectiveStereoCamera_1aca89b8b4c29cfd9969c4fcf0e6af9d1c" kind="variable"><name>fovy</name></member>
+    <member refid="structbioexplorer_1_1rendering_1_1PerspectiveStereoCamera_1a1eac6016dcdcb2af573b67e076f04d18" kind="variable"><name>aspect</name></member>
+    <member refid="structbioexplorer_1_1rendering_1_1PerspectiveStereoCamera_1afd098710cb504bb31226bb34e18b4555" kind="variable"><name>apertureRadius</name></member>
+    <member refid="structbioexplorer_1_1rendering_1_1PerspectiveStereoCamera_1a4a2f9b213dc31cc87c945b70bf7908ca" kind="variable"><name>focusDistance</name></member>
+    <member refid="structbioexplorer_1_1rendering_1_1PerspectiveStereoCamera_1a7815bc78f8429a480cfb27b042438878" kind="variable"><name>architectural</name></member>
+    <member refid="structbioexplorer_1_1rendering_1_1PerspectiveStereoCamera_1af36277c22bbfa470f37a8086c5750092" kind="variable"><name>enableClippingPlanes</name></member>
+    <member refid="structbioexplorer_1_1rendering_1_1PerspectiveStereoCamera_1a9c795f6fc33e89aab080b9cbc9df42ee" kind="variable"><name>clipPlanes</name></member>
+    <member refid="structbioexplorer_1_1rendering_1_1PerspectiveStereoCamera_1a400744f8ab95dbf7b86c4c4b4baf40aa" kind="variable"><name>stereoMode</name></member>
+    <member refid="structbioexplorer_1_1rendering_1_1PerspectiveStereoCamera_1ac7af9939588b4a3529e633087d6e7eb6" kind="variable"><name>interpupillaryDistance</name></member>
+    <member refid="structbioexplorer_1_1rendering_1_1PerspectiveStereoCamera_1a4d78780c9e9c64a8203ed33625d53194" kind="function"><name>PerspectiveStereoCamera</name></member>
+    <member refid="structbioexplorer_1_1rendering_1_1PerspectiveStereoCamera_1a841e2d57a050b3bfe3a83af7fb374e11" kind="function"><name>toString</name></member>
+    <member refid="structbioexplorer_1_1rendering_1_1PerspectiveStereoCamera_1aec0b92857c673fba74585cd347274bfa" kind="function"><name>commit</name></member>
+  </compound>
+  <compound refid="classbioexplorer_1_1meshing_1_1PointCloudMesher" kind="class"><name>bioexplorer::meshing::PointCloudMesher</name>
+    <member refid="classbioexplorer_1_1meshing_1_1PointCloudMesher_1a8c76232076650a45b041cf2b66635f18" kind="function"><name>PointCloudMesher</name></member>
+    <member refid="classbioexplorer_1_1meshing_1_1PointCloudMesher_1ae66b68e3ed119dbb8cef7e92e4285a3b" kind="function"><name>toConvexHull</name></member>
+  </compound>
+  <compound refid="classbioexplorer_1_1biology_1_1Protein" kind="class"><name>bioexplorer::biology::Protein</name>
+    <member refid="classbioexplorer_1_1biology_1_1Protein_1a25e3d0a3d48e04b79e17740d0be4b249" kind="variable"><name>_details</name></member>
+    <member refid="classbioexplorer_1_1biology_1_1Protein_1acb89263a1dd05d7fa61a3847b64218e2" kind="variable"><name>_glycans</name></member>
+    <member refid="classbioexplorer_1_1biology_1_1Protein_1a05628de42094488997cedee61c6d9d41" kind="variable"><name>_aminoAcidBounds</name></member>
+    <member refid="classbioexplorer_1_1biology_1_1Protein_1a53d6a27bb005ca4bda134db46a1e2d92" kind="function"><name>Protein</name></member>
+    <member refid="classbioexplorer_1_1biology_1_1Protein_1af7ef0b4db5ec769f13e43aaead0d72a1" kind="function"><name>~Protein</name></member>
+    <member refid="classbioexplorer_1_1biology_1_1Protein_1ae1fc344cc5583c3307d8133b30e7f808" kind="function"><name>setColorScheme</name></member>
+    <member refid="classbioexplorer_1_1biology_1_1Protein_1ab40a2ed0fe3be4dea6b1dd960428cf0f" kind="function"><name>setAminoAcidSequenceAsString</name></member>
+    <member refid="classbioexplorer_1_1biology_1_1Protein_1a71f766c418564f3f1a9b57aeec24dbef" kind="function"><name>setAminoAcidSequenceAsRanges</name></member>
+    <member refid="classbioexplorer_1_1biology_1_1Protein_1ada86d054d8c14ae9749b32d144cda502" kind="function"><name>getDescriptor</name></member>
+    <member refid="classbioexplorer_1_1biology_1_1Protein_1a26666852b256a4babcb7d2ae6a2324b1" kind="function"><name>getGlycosilationSites</name></member>
+    <member refid="classbioexplorer_1_1biology_1_1Protein_1a5cceaad12d2b8385fdb35335f4d80526" kind="function"><name>getSugarBindingSites</name></member>
+    <member refid="classbioexplorer_1_1biology_1_1Protein_1aaf17d6efad3c2bddffb15551d0aaa785" kind="function"><name>getGlycosylationSites</name></member>
+    <member refid="classbioexplorer_1_1biology_1_1Protein_1a8721dc4aa7054f5c26e75221717ee667" kind="function"><name>setAminoAcid</name></member>
+    <member refid="classbioexplorer_1_1biology_1_1Protein_1a073173783a0bb415c8ccc86110cdaa47" kind="function"><name>addGlycans</name></member>
+    <member refid="classbioexplorer_1_1biology_1_1Protein_1a4eab6f87a0aa115663997432566f28d1" kind="function"><name>addSugars</name></member>
+    <member refid="classbioexplorer_1_1biology_1_1Protein_1a61479387755fca120af403bc6cdc34a4" kind="function"><name>_getSitesTransformations</name></member>
+    <member refid="classbioexplorer_1_1biology_1_1Protein_1a6665c3975899a63a1bd6af757a56561e" kind="function"><name>_setRegionColorScheme</name></member>
+    <member refid="classbioexplorer_1_1biology_1_1Protein_1a1e24161a1b9fe4f4e81b4f02d7ca627e" kind="function"><name>_setGlycosylationSiteColorScheme</name></member>
+    <member refid="classbioexplorer_1_1biology_1_1Protein_1a6d4ebcdcb57e4efdff660dfac6fb4cc5" kind="function"><name>_processInstances</name></member>
+    <member refid="classbioexplorer_1_1biology_1_1Protein_1a7bb62611d6319726bc8bbd6b91275e0e" kind="function"><name>_buildAminoAcidBounds</name></member>
+  </compound>
+  <compound refid="structbioexplorer_1_1details_1_1ProteinDetails" kind="struct"><name>bioexplorer::details::ProteinDetails</name>
+    <member refid="structbioexplorer_1_1details_1_1ProteinDetails_1a98fa861c1249a21edc6c39941e3672c1" kind="variable"><name>assemblyName</name></member>
+    <member refid="structbioexplorer_1_1details_1_1ProteinDetails_1a5917cfa981741c54649569f1eb733de4" kind="variable"><name>name</name></member>
+    <member refid="structbioexplorer_1_1details_1_1ProteinDetails_1a6cf860d090db12ee48b7fc96cc4b3409" kind="variable"><name>contents</name></member>
+    <member refid="structbioexplorer_1_1details_1_1ProteinDetails_1a99610686312eaf88ed68be6165e20902" kind="variable"><name>shape</name></member>
+    <member refid="structbioexplorer_1_1details_1_1ProteinDetails_1a275595510362a9b7db31b9b548e7bc08" kind="variable"><name>assemblyParams</name></member>
+    <member refid="structbioexplorer_1_1details_1_1ProteinDetails_1ad01cd5d641744fcaa42325bdcddaec2b" kind="variable"><name>atomRadiusMultiplier</name></member>
+    <member refid="structbioexplorer_1_1details_1_1ProteinDetails_1a12b36899e4c43d1ad1c7b1c886988537" kind="variable"><name>loadBonds</name></member>
+    <member refid="structbioexplorer_1_1details_1_1ProteinDetails_1ac16628b11fffae63ceabaf84ae753cae" kind="variable"><name>loadNonPolymerChemicals</name></member>
+    <member refid="structbioexplorer_1_1details_1_1ProteinDetails_1a65c406560e7a6b2615d5307408a5af49" kind="variable"><name>loadHydrogen</name></member>
+    <member refid="structbioexplorer_1_1details_1_1ProteinDetails_1ac71bf6c5ca866c38ef92d2322ed08632" kind="variable"><name>representation</name></member>
+    <member refid="structbioexplorer_1_1details_1_1ProteinDetails_1a11b8b01294c06429dcb1d9a9fa82a52c" kind="variable"><name>chainIds</name></member>
+    <member refid="structbioexplorer_1_1details_1_1ProteinDetails_1ae10023b565d13d83c2ee88f84b674892" kind="variable"><name>recenter</name></member>
+    <member refid="structbioexplorer_1_1details_1_1ProteinDetails_1a21028bb0639c0b790235dc4e125f9580" kind="variable"><name>occurrences</name></member>
+    <member refid="structbioexplorer_1_1details_1_1ProteinDetails_1a7a0ea3c84c80e63c556b2aea5886e62e" kind="variable"><name>allowedOccurrences</name></member>
+    <member refid="structbioexplorer_1_1details_1_1ProteinDetails_1aa30e50807142af7350a1f0553c2364fd" kind="variable"><name>randomSeed</name></member>
+    <member refid="structbioexplorer_1_1details_1_1ProteinDetails_1a7781951526f8bda35ef12d8f8877b95e" kind="variable"><name>positionRandomizationType</name></member>
+    <member refid="structbioexplorer_1_1details_1_1ProteinDetails_1a7c7d41ca865b6c6c1103645bc8b2a263" kind="variable"><name>position</name></member>
+    <member refid="structbioexplorer_1_1details_1_1ProteinDetails_1a010b1c0f20187f8704a865840a1458ab" kind="variable"><name>rotation</name></member>
+  </compound>
+  <compound refid="structbioexplorer_1_1details_1_1ProteinInstanceTransformationDetails" kind="struct"><name>bioexplorer::details::ProteinInstanceTransformationDetails</name>
+    <member refid="structbioexplorer_1_1details_1_1ProteinInstanceTransformationDetails_1ade46f658a2ecfdac367e771390240877" kind="variable"><name>assemblyName</name></member>
+    <member refid="structbioexplorer_1_1details_1_1ProteinInstanceTransformationDetails_1abd4f536c509e03c5f0cc0eb4d82b3b43" kind="variable"><name>name</name></member>
+    <member refid="structbioexplorer_1_1details_1_1ProteinInstanceTransformationDetails_1a985e5b98b04fd18affa7881a1185a3d5" kind="variable"><name>instanceIndex</name></member>
+    <member refid="structbioexplorer_1_1details_1_1ProteinInstanceTransformationDetails_1a034ec1dcbca014ec333a8e92ae498feb" kind="variable"><name>position</name></member>
+    <member refid="structbioexplorer_1_1details_1_1ProteinInstanceTransformationDetails_1ac2b05b020cf78db452d2697c0c16a630" kind="variable"><name>rotation</name></member>
+  </compound>
+  <compound refid="structbioexplorer_1_1details_1_1RandomizationDetails" kind="struct"><name>bioexplorer::details::RandomizationDetails</name>
+    <member refid="structbioexplorer_1_1details_1_1RandomizationDetails_1a4856df468e1f032a8a616213cd42c51a" kind="variable"><name>seed</name></member>
+    <member refid="structbioexplorer_1_1details_1_1RandomizationDetails_1a025feb5467d8deebfa6429384e58e1d0" kind="variable"><name>randomizationType</name></member>
+    <member refid="structbioexplorer_1_1details_1_1RandomizationDetails_1a202ceb08d83359567fa5235059e50d16" kind="variable"><name>positionSeed</name></member>
+    <member refid="structbioexplorer_1_1details_1_1RandomizationDetails_1a9c1b254e0a9d2b353c9bd06489d9ce6a" kind="variable"><name>positionStrength</name></member>
+    <member refid="structbioexplorer_1_1details_1_1RandomizationDetails_1a650c726c1385b10b163d7c904f755d4f" kind="variable"><name>rotationSeed</name></member>
+    <member refid="structbioexplorer_1_1details_1_1RandomizationDetails_1a5e2404c591b2520101cfd441097ff2e4" kind="variable"><name>rotationStrength</name></member>
+  </compound>
+  <compound refid="structbioexplorer_1_1biology_1_1ResidueSequence" kind="struct"><name>bioexplorer::biology::ResidueSequence</name>
+    <member refid="structbioexplorer_1_1biology_1_1ResidueSequence_1a76a8eded625c3edf1ad65adb918d7f11" kind="variable"><name>numRes</name></member>
+    <member refid="structbioexplorer_1_1biology_1_1ResidueSequence_1a5b3b460dfec1c7b8a343f8f86f9c4d18" kind="variable"><name>resNames</name></member>
+    <member refid="structbioexplorer_1_1biology_1_1ResidueSequence_1a749948327ed7edb959e9576887ebe3e3" kind="variable"><name>offset</name></member>
+  </compound>
+  <compound refid="structbioexplorer_1_1details_1_1Response" kind="struct"><name>bioexplorer::details::Response</name>
+    <member refid="structbioexplorer_1_1details_1_1Response_1aa57d15d34301b53895c82a161a1e9adf" kind="variable"><name>status</name></member>
+    <member refid="structbioexplorer_1_1details_1_1Response_1a82e8722e8bccf30450394fbbfb7053bb" kind="variable"><name>contents</name></member>
+  </compound>
+  <compound refid="structbioexplorer_1_1details_1_1RGBColorDetails" kind="struct"><name>bioexplorer::details::RGBColorDetails</name>
+    <member refid="structbioexplorer_1_1details_1_1RGBColorDetails_1af9fe17c9f87c4928951b7bd7c021d11e" kind="variable"><name>r</name></member>
+    <member refid="structbioexplorer_1_1details_1_1RGBColorDetails_1ab035e9b4baaf5e10cf34cf09198761c2" kind="variable"><name>g</name></member>
+    <member refid="structbioexplorer_1_1details_1_1RGBColorDetails_1ab0d6301a3375d9078483ab011dbe3b96" kind="variable"><name>b</name></member>
+  </compound>
+  <compound refid="classbioexplorer_1_1biology_1_1RNASequence" kind="class"><name>bioexplorer::biology::RNASequence</name>
+    <member refid="classbioexplorer_1_1biology_1_1RNASequence_1ae571f4551262203c9090c4fde3feb4c1" kind="variable"><name>_rnaSequenceMap</name></member>
+    <member refid="classbioexplorer_1_1biology_1_1RNASequence_1aefa8008cd961953e5b95243f8a669a82" kind="function"><name>RNASequence</name></member>
+    <member refid="classbioexplorer_1_1biology_1_1RNASequence_1a82b2e7bcfba9798adc101e00a02f89f5" kind="function"><name>getRNASequences</name></member>
+    <member refid="classbioexplorer_1_1biology_1_1RNASequence_1a2a1fa0f75ef1f6b1139c1d2a7f04b80e" kind="function"><name>_trefoilKnot</name></member>
+    <member refid="classbioexplorer_1_1biology_1_1RNASequence_1aed49667e0573ad6c9d57a4760a845cc1" kind="function"><name>_torus</name></member>
+    <member refid="classbioexplorer_1_1biology_1_1RNASequence_1af34cce9b1114b8ca1559563baa85c067" kind="function"><name>_star</name></member>
+    <member refid="classbioexplorer_1_1biology_1_1RNASequence_1afa6bf81ef6f4ada87f715a5238da2725" kind="function"><name>_spring</name></member>
+    <member refid="classbioexplorer_1_1biology_1_1RNASequence_1a5f050b2cb374280bd9d8b40fc51aa2d5" kind="function"><name>_heart</name></member>
+    <member refid="classbioexplorer_1_1biology_1_1RNASequence_1a6b7bec44e97f79a56456e66c17f107b3" kind="function"><name>_thing</name></member>
+    <member refid="classbioexplorer_1_1biology_1_1RNASequence_1af9cd526ee224e8efe82862d93ad65e0d" kind="function"><name>_moebius</name></member>
+  </compound>
+  <compound refid="structbioexplorer_1_1details_1_1RNASequenceDetails" kind="struct"><name>bioexplorer::details::RNASequenceDetails</name>
+    <member refid="structbioexplorer_1_1details_1_1RNASequenceDetails_1ae72e9a82fa1b08c17e14e38e5c3d3240" kind="variable"><name>assemblyName</name></member>
+    <member refid="structbioexplorer_1_1details_1_1RNASequenceDetails_1ae389cc191ef9c7845c2a63130d8afa25" kind="variable"><name>name</name></member>
+    <member refid="structbioexplorer_1_1details_1_1RNASequenceDetails_1afa03929786f1efd6a3b07d197601e5be" kind="variable"><name>contents</name></member>
+    <member refid="structbioexplorer_1_1details_1_1RNASequenceDetails_1a8a85e1af38bc1bb654be374de8521068" kind="variable"><name>shape</name></member>
+    <member refid="structbioexplorer_1_1details_1_1RNASequenceDetails_1a9d64b4739c0f71a84def11d182e70e3a" kind="variable"><name>assemblyParams</name></member>
+    <member refid="structbioexplorer_1_1details_1_1RNASequenceDetails_1a852c3809b9f8a520a1f47b81a049b6a3" kind="variable"><name>range</name></member>
+    <member refid="structbioexplorer_1_1details_1_1RNASequenceDetails_1af8d17d4095b75cf6efac5341e7c333ea" kind="variable"><name>params</name></member>
+    <member refid="structbioexplorer_1_1details_1_1RNASequenceDetails_1a11919ed58573bcc910212c22abfc9728" kind="variable"><name>position</name></member>
+  </compound>
+  <compound refid="structbioexplorer_1_1details_1_1SugarsDetails" kind="struct"><name>bioexplorer::details::SugarsDetails</name>
+    <member refid="structbioexplorer_1_1details_1_1SugarsDetails_1a81aecb2570b4818ceed97e0f6ff73a9e" kind="variable"><name>assemblyName</name></member>
+    <member refid="structbioexplorer_1_1details_1_1SugarsDetails_1a48fa7ec9a2680552857308fbbb2eaed9" kind="variable"><name>name</name></member>
+    <member refid="structbioexplorer_1_1details_1_1SugarsDetails_1a2d46730726450e18f2b327cced20f308" kind="variable"><name>contents</name></member>
+    <member refid="structbioexplorer_1_1details_1_1SugarsDetails_1a5e93ee9f96f180efdc628dab1e64c58d" kind="variable"><name>proteinName</name></member>
+    <member refid="structbioexplorer_1_1details_1_1SugarsDetails_1a96cf71d5535731e9e35f55dc6fce281f" kind="variable"><name>atomRadiusMultiplier</name></member>
+    <member refid="structbioexplorer_1_1details_1_1SugarsDetails_1a2243ede92403c62c7102c72fcfa9a73b" kind="variable"><name>loadBonds</name></member>
+    <member refid="structbioexplorer_1_1details_1_1SugarsDetails_1ab7e8a1940851832d2dd02487efab9320" kind="variable"><name>representation</name></member>
+    <member refid="structbioexplorer_1_1details_1_1SugarsDetails_1adb675a9fc3f9fd596771d6956d36321a" kind="variable"><name>recenter</name></member>
+    <member refid="structbioexplorer_1_1details_1_1SugarsDetails_1aa7150553fb82dd6fbca6db68a16c2c22" kind="variable"><name>chainIds</name></member>
+    <member refid="structbioexplorer_1_1details_1_1SugarsDetails_1af6507f50241cfde2bddc0128459c843a" kind="variable"><name>siteIndices</name></member>
+    <member refid="structbioexplorer_1_1details_1_1SugarsDetails_1afa3ac7957085b22ef7c19fcb00b2392b" kind="variable"><name>rotation</name></member>
+  </compound>
+  <compound refid="classbioexplorer_1_1meshing_1_1SurfaceMesher" kind="class"><name>bioexplorer::meshing::SurfaceMesher</name>
+    <member refid="classbioexplorer_1_1meshing_1_1SurfaceMesher_1a8daae2d0cca7198e516692bf9bc30c87" kind="variable"><name>_uuid</name></member>
+    <member refid="classbioexplorer_1_1meshing_1_1SurfaceMesher_1a8b99241376e73f1cac6f35653177babd" kind="function"><name>SurfaceMesher</name></member>
+    <member refid="classbioexplorer_1_1meshing_1_1SurfaceMesher_1aaff13d2b4c0377bf1897389aecd85566" kind="function"><name>generateSurface</name></member>
+    <member refid="classbioexplorer_1_1meshing_1_1SurfaceMesher_1a61f4fbcc9f0332f0dbc499d74368ae7d" kind="function"><name>generateUnionOfBalls</name></member>
+    <member refid="classbioexplorer_1_1meshing_1_1SurfaceMesher_1a9f53cac89294e8b0b69d0ebb91b3c629" kind="function"><name>_setMaterialExtraAttributes</name></member>
+  </compound>
+  <compound refid="classbioexplorer_1_1common_1_1UniqueId" kind="class"><name>bioexplorer::common::UniqueId</name>
+    <member refid="classbioexplorer_1_1common_1_1UniqueId_1abbd445c6be8396c9910090db6aea08e3" kind="variable"><name>nextId</name></member>
+    <member refid="classbioexplorer_1_1common_1_1UniqueId_1ae59dd2b6ed232c1865a5811e558fe33a" kind="function"><name>UniqueId</name></member>
+    <member refid="classbioexplorer_1_1common_1_1UniqueId_1acea06a610c8d56ec1a964eca3c5b4e2a" kind="function"><name>get</name></member>
+  </compound>
+  <compound refid="namespace_0d27" kind="namespace"><name>@27</name>
+  </compound>
+  <compound refid="namespace_0d35" kind="namespace"><name>@35</name>
+  </compound>
+  <compound refid="namespace_0d39" kind="namespace"><name>@39</name>
+  </compound>
+  <compound refid="namespacebioexplorer" kind="namespace"><name>bioexplorer</name>
+    <member refid="Types_8h_1afdfc3afd87165ff08ff225dbb511b98a" kind="typedef"><name>StringMap</name></member>
+    <member refid="Types_8h_1af9b13bb0784989d20481736886a9aec1" kind="typedef"><name>Color</name></member>
+    <member refid="Types_8h_1a776e217413b2d39300e24e74d5f0f46c" kind="typedef"><name>Palette</name></member>
+    <member refid="Types_8h_1a35e3c597d529aec37b61932d51eb8a05" kind="typedef"><name>Quaternions</name></member>
+    <member refid="Types_8h_1a8201803ad36c6ec2f809e2b35e866a1c" kind="typedef"><name>floats</name></member>
+    <member refid="Types_8h_1aeea15e2abb63ce302b7cfe197bfc3b0c" kind="typedef"><name>Vector3fs</name></member>
+    <member refid="Types_8h_1a0fa48dd12f27f399ac92864eb4de669a" kind="typedef"><name>Vector2uis</name></member>
+    <member refid="Types_8h_1ad67532cde831fbd45a47c6ecdf1118c9" kind="typedef"><name>uint32_ts</name></member>
+    <member refid="Types_8h_1a7a6085d2753b2cbea22638e196b55cd5" kind="typedef"><name>CommandLineArguments</name></member>
+    <member refid="BioExplorerPlugin_8cpp_1af17810938343b0dca8ce90a09c4ea725" kind="variable"><name>PLUGIN_API_PREFIX</name></member>
+    <member refid="Types_8h_1a234d7843b084900d483f63c2ba6ca660" kind="variable"><name>BOND_RADIUS</name></member>
+    <member refid="Types_8h_1a47e649eddbfd5b6319f0dfd0619cf619" kind="variable"><name>DEFAULT_STICK_DISTANCE</name></member>
+    <member refid="Types_8h_1ad2a3cf412adc8f6865bd4e87d9d240bf" kind="variable"><name>UP_VECTOR</name></member>
+    <member refid="Types_8h_1aa9d899dce41340017ebeb296be9ee21d" kind="variable"><name>METADATA_ASSEMBLY</name></member>
+    <member refid="Types_8h_1ae8cb18e1de06659d02c49416bc6cdd40" kind="variable"><name>METADATA_TITLE</name></member>
+    <member refid="Types_8h_1aa8fb6f5bdb96801abd98b1d3ac25aa28" kind="variable"><name>METADATA_HEADER</name></member>
+    <member refid="Types_8h_1a0332ccb7ef8c10db2f439fce38db2e28" kind="variable"><name>METADATA_ATOMS</name></member>
+    <member refid="Types_8h_1a4fbfe390a6612cebe61c4fc21b3f7208" kind="variable"><name>METADATA_BONDS</name></member>
+    <member refid="Types_8h_1a6f43723ba906d18fe432cab0ffececda" kind="variable"><name>METADATA_SIZE</name></member>
+    <member refid="Types_8h_1a31a6fee2a64c50a15185c9b3ec3338ed" kind="variable"><name>METADATA_BRICK_ID</name></member>
+    <member refid="Types_8h_1ae4a8587ecd8638555731648552a4a117" kind="variable"><name>ARG_OOC_BRICKS_FOLDER</name></member>
+    <member refid="Types_8h_1afb16397ea088983031093f673fdb1cd2" kind="variable"><name>ARG_OOC_VISIBLE_BRICKS</name></member>
+    <member refid="Types_8h_1ab79aa17f2cd1b587386037914bc97660" kind="variable"><name>ARG_OOC_UPDATE_FREQUENCY</name></member>
+    <member refid="Types_8h_1afeac13d40c39a2bc9a5119e7c255c1fb" kind="variable"><name>ARG_OOC_UNLOAD_BRICKS</name></member>
+    <member refid="Types_8h_1a67cb91a2a11cde57a7379da48427fa25" kind="variable"><name>ARG_OOC_SHOW_GRID</name></member>
+    <member refid="Types_8h_1abad5cdd7e073ce0b27051baa7f403353" kind="variable"><name>ARG_OOC_NB_BRICKS_PER_CYCLE</name></member>
+    <member refid="Types_8h_1adb49b3db9e712dae6771709fe4cfab53" kind="variable"><name>ENV_ROCKETS_DISABLE_SCENE_BROADCASTING</name></member>
+    <member refid="BioExplorerPlugin_8cpp_1a426f51a5b87b4d97bd29fbe6fdbb06a1" kind="function"><name>vector_to_bounds</name></member>
+    <member refid="BioExplorerPlugin_8cpp_1ae65c41b374e1149661e236bfe040ad70" kind="function"><name>_addBioExplorerRenderer</name></member>
+    <member refid="BioExplorerPlugin_8cpp_1a7d80f24fa0e375966850b491c3e437cb" kind="function"><name>_addBioExplorerFieldsRenderer</name></member>
+    <member refid="BioExplorerPlugin_8cpp_1af3380c08ed5e8e145323dd3404060e61" kind="function"><name>_addBioExplorerPerspectiveCamera</name></member>
+    <member refid="BioExplorerPlugin_8cpp_1ace09be43469bdc86ceca0a738a0da8f6" kind="function"><name>brayns_plugin_create</name></member>
+  </compound>
+  <compound refid="namespacebioexplorer_1_1biology" kind="namespace"><name>bioexplorer::biology</name>
+    <member refid="RNASequence_8cpp_1a9dccac7bb5366a68877c87cc42cef216" kind="typedef"><name>NucleotidMap</name></member>
+    <member refid="Types_8h_1ab9b121cbc09aa335496e6cf8e2c91309" kind="typedef"><name>NodePtr</name></member>
+    <member refid="Types_8h_1a4865457ccab89965d2bfae977bae4a4a" kind="typedef"><name>NodeMap</name></member>
+    <member refid="Types_8h_1a9112d09a04feb9a8526cfe7e9db20b82" kind="typedef"><name>AssemblyPtr</name></member>
+    <member refid="Types_8h_1ae65cf43274901671fd9436b61eb93760" kind="typedef"><name>AssemblyMap</name></member>
+    <member refid="Types_8h_1a5d626d1e2229418dd9d6da8db41606bf" kind="typedef"><name>MembranePtr</name></member>
+    <member refid="Types_8h_1a74739e7e713d20aa925357f4b32a69b1" kind="typedef"><name>ProteinPtr</name></member>
+    <member refid="Types_8h_1a75efd03305604c6a3f9f08686a9b2c10" kind="typedef"><name>ProteinMap</name></member>
+    <member refid="Types_8h_1aa197742b344c442b9c9d45311f485265" kind="typedef"><name>GlycansPtr</name></member>
+    <member refid="Types_8h_1ae9bc33077a3c8506588a7c1bd4435916" kind="typedef"><name>GlycansMap</name></member>
+    <member refid="Types_8h_1a59dd68b4888f011c27d3fb4938808410" kind="typedef"><name>MeshBasedMembranePtr</name></member>
+    <member refid="Types_8h_1a24e5df9e2de1ec6dcfcd7f9683b72a64" kind="typedef"><name>MeshBasedMembraneMap</name></member>
+    <member refid="Types_8h_1a834119af9cfc3c4afd65f55c6f39f17a" kind="typedef"><name>RNASequencePtr</name></member>
+    <member refid="Types_8h_1a5af1ca36e9d3c1365688edd23517566b" kind="typedef"><name>RNASequenceMap</name></member>
+    <member refid="Types_8h_1a304945a7a38e4c573fe0e8ff3f4e6c92" kind="typedef"><name>AtomMap</name></member>
+    <member refid="Types_8h_1a51c795232427196d596331c9fc3c90ab" kind="typedef"><name>ResidueSequenceMap</name></member>
+    <member refid="Types_8h_1a03036786b45332453fe8418816d8cb33" kind="typedef"><name>BondsMap</name></member>
+    <member refid="Types_8h_1a98eab0da36dc7e56a5331c541cc0f399" kind="typedef"><name>AminoAcidMap</name></member>
+    <member refid="Types_8h_1aeeb35015e42c61f3a6958aa8dd8eac01" kind="typedef"><name>Residues</name></member>
+    <member refid="Types_8h_1aae7b29d2fbb77859abdcc3fc4095dcbd" kind="typedef"><name>AtomicRadii</name></member>
+    <member refid="Molecule_8cpp_1a05a9be2bcd7ca515e052b56ce6715cdb" kind="variable"><name>METADATA_AA_RANGE</name></member>
+    <member refid="Molecule_8cpp_1ab0dfd28a01b8e053332732d5779d9bce" kind="variable"><name>METADATA_AA_SEQUENCE</name></member>
+    <member refid="Molecule_8cpp_1afb1be072e26862e153834c54516aab3e" kind="variable"><name>DEFAULT_ATOM_RADIUS</name></member>
+    <member refid="Molecule_8cpp_1a8bce69e28249caffc1cc9652f675dc80" kind="variable"><name>atomicRadii</name></member>
+    <member refid="Molecule_8h_1aafc9f9c155c88f34d3fec5e6ea9634c3" kind="variable"><name>KEY_UNDEFINED</name></member>
+    <member refid="Molecule_8h_1a2d8cb840f455db0644ca208c30e32cb2" kind="variable"><name>KEY_ATOM</name></member>
+    <member refid="Molecule_8h_1aa73bc18e186ec9730189e5a182fab961" kind="variable"><name>KEY_HETATM</name></member>
+    <member refid="Molecule_8h_1a2509f001dcd4d89ce71fa4bd017040a1" kind="variable"><name>KEY_HEADER</name></member>
+    <member refid="Molecule_8h_1a2b0e73e2a373973d5afb8ef5f1ae803d" kind="variable"><name>KEY_TITLE</name></member>
+    <member refid="Molecule_8h_1ab590bd92eb56783eddaf616d4dbeb5c1" kind="variable"><name>KEY_CONECT</name></member>
+    <member refid="Molecule_8h_1a0edc232a1dbf952a0619587ff04bb61d" kind="variable"><name>KEY_SEQRES</name></member>
+    <member refid="Molecule_8h_1a49032cb28de420f7b98ddedaeea73450" kind="variable"><name>KEY_REMARK</name></member>
+    <member refid="RNASequence_8cpp_1a05e96776873ff84a787974092f02a3e0" kind="variable"><name>nucleotidMap</name></member>
+    <member refid="Types_8h_1a7f90ab774c9430b2ec34f70005230064" kind="variable"><name>aminoAcidMap</name></member>
+    <member refid="Types_8h_1ad2c5cb8fc14aa5e336a590047be5f708" kind="variable"><name>atomColorMap</name></member>
+  </compound>
+  <compound refid="namespacebioexplorer_1_1common" kind="namespace"><name>bioexplorer::common</name>
+    <member refid="Utils_8cpp_1a7f991bebc8560bfd1770ba2fed2eb803" kind="function"><name>quatLookAt</name></member>
+    <member refid="Utils_8cpp_1ad03e4e4645f1947184d7ff6d8adb8a56" kind="function"><name>ltrim</name></member>
+    <member refid="Utils_8cpp_1a99f90f37521e9d61f59f2b632beec36c" kind="function"><name>rtrim</name></member>
+    <member refid="Utils_8cpp_1abd875ed3e0e2421f483661531a434e87" kind="function"><name>trim</name></member>
+    <member refid="Utils_8cpp_1a92785b1a52181dfc57c7d6972b6d678e" kind="function"><name>isClipped</name></member>
+    <member refid="Utils_8cpp_1ae5d230aab60dcba41c739b32a55eb416" kind="function"><name>getSphericalPosition</name></member>
+    <member refid="Utils_8cpp_1a3e77965f22c33eec6b6f379c8ceff35a" kind="function"><name>getFanPosition</name></member>
+    <member refid="Utils_8cpp_1a7f7a715a6cc8088bf16427642546560b" kind="function"><name>getPlanarPosition</name></member>
+    <member refid="Utils_8cpp_1a7cbb0761876adc3633748e13c04e8f6b" kind="function"><name>getCubicPosition</name></member>
+    <member refid="Utils_8cpp_1ab6a1adeb8184a642762dab9ef65a30ef" kind="function"><name>sinusoide</name></member>
+    <member refid="Utils_8cpp_1a0f03f65d4b09dd9eae595d90777c9556" kind="function"><name>getSinosoidalPosition</name></member>
+    <member refid="Utils_8cpp_1a74373d66b93f08434a69b86aa0af99c6" kind="function"><name>getBezierPosition</name></member>
+    <member refid="Utils_8cpp_1a646dead0371de62293f0d7315ec2e6a2" kind="function"><name>getSphericalToPlanarPosition</name></member>
+    <member refid="Utils_8cpp_1a00dd5ccb1d55c38152492925e97a738f" kind="function"><name>setDefaultTransferFunction</name></member>
+    <member refid="Utils_8cpp_1a17a051f03b2ba2e2b80d8ae436ca660c" kind="function"><name>getClippingPlanes</name></member>
+    <member refid="Utils_8cpp_1adf9e686f787f2ce883b90c0a80000b7e" kind="function"><name>randomQuaternion</name></member>
+  </compound>
+  <compound refid="namespacebioexplorer_1_1details" kind="namespace"><name>bioexplorer::details</name>
+    <member refid="Types_8h_1a14130b7ea14b48d0344cd81ccc650876" kind="enum"><name>PositionRandomizationType</name></member>
+    <member refid="Types_8h_1a14130b7ea14b48d0344cd81ccc650876ad5a124c9445ae5eeadb48b050b9cff72" kind="enumvalue"><name>circular</name></member>
+    <member refid="Types_8h_1a14130b7ea14b48d0344cd81ccc650876a869836a44b607137a7e094cf8a308938" kind="enumvalue"><name>radial</name></member>
+    <member refid="Types_8h_1a7191aee7d8a39a5731241b756d209e8b" kind="enum"><name>RNAShape</name></member>
+    <member refid="Types_8h_1a7191aee7d8a39a5731241b756d209e8bacc90d605a389b56fe42b312e58100ae6" kind="enumvalue"><name>trefoilKnot</name></member>
+    <member refid="Types_8h_1a7191aee7d8a39a5731241b756d209e8bae1c6d04754724238c4e8df744035fba9" kind="enumvalue"><name>torus</name></member>
+    <member refid="Types_8h_1a7191aee7d8a39a5731241b756d209e8ba8ff953dd97c4405234a04291dee39e0b" kind="enumvalue"><name>star</name></member>
+    <member refid="Types_8h_1a7191aee7d8a39a5731241b756d209e8ba2a2d595e6ed9a0b24f027f2b63b134d6" kind="enumvalue"><name>spring</name></member>
+    <member refid="Types_8h_1a7191aee7d8a39a5731241b756d209e8ba3189934774aa880fa7fbf8da8f9e446d" kind="enumvalue"><name>heart</name></member>
+    <member refid="Types_8h_1a7191aee7d8a39a5731241b756d209e8ba8afc1e9bec810034dafd45c6854f1dd9" kind="enumvalue"><name>thing</name></member>
+    <member refid="Types_8h_1a7191aee7d8a39a5731241b756d209e8ba232c40590dd6da50138b7f9dba438566" kind="enumvalue"><name>moebius</name></member>
+    <member refid="Types_8h_1aad9e1645c632a352d331a058fa332cc5" kind="enum"><name>ProteinRepresentation</name></member>
+    <member refid="Types_8h_1aad9e1645c632a352d331a058fa332cc5a2bb8d809d871a7c1a392fec36563a8f7" kind="enumvalue"><name>atoms</name></member>
+    <member refid="Types_8h_1aad9e1645c632a352d331a058fa332cc5aa8478b1ba39a0998e72ba8a5a93ab603" kind="enumvalue"><name>atoms_and_sticks</name></member>
+    <member refid="Types_8h_1aad9e1645c632a352d331a058fa332cc5a5865f57e17007694772b743b2560914f" kind="enumvalue"><name>contour</name></member>
+    <member refid="Types_8h_1aad9e1645c632a352d331a058fa332cc5ad302e976c9dd527a9521a88c012437c5" kind="enumvalue"><name>surface</name></member>
+    <member refid="Types_8h_1aad9e1645c632a352d331a058fa332cc5a49b002b2a7b50ba019a5924a29584c0f" kind="enumvalue"><name>union_of_balls</name></member>
+    <member refid="Types_8h_1aad9e1645c632a352d331a058fa332cc5aad42f6697b035b7580e4fef93be20b4d" kind="enumvalue"><name>debug</name></member>
+    <member refid="Types_8h_1af608e48ca83174d68456a1069a6f07a1" kind="enum"><name>AssemblyShape</name></member>
+    <member refid="Types_8h_1af608e48ca83174d68456a1069a6f07a1a6683a3be9c0472d8c680cc93a424c198" kind="enumvalue"><name>spherical</name></member>
+    <member refid="Types_8h_1af608e48ca83174d68456a1069a6f07a1a3be411765e710adc7764f5056e44138c" kind="enumvalue"><name>planar</name></member>
+    <member refid="Types_8h_1af608e48ca83174d68456a1069a6f07a1a8d05fe90ba3abd8ab69b7b2a6cdd8e77" kind="enumvalue"><name>sinusoidal</name></member>
+    <member refid="Types_8h_1af608e48ca83174d68456a1069a6f07a1a7ab93feeb36d98e584d10de2e2f68843" kind="enumvalue"><name>cubic</name></member>
+    <member refid="Types_8h_1af608e48ca83174d68456a1069a6f07a1a50bd8c21bfafa6e4e962f6a948b1ef92" kind="enumvalue"><name>fan</name></member>
+    <member refid="Types_8h_1af608e48ca83174d68456a1069a6f07a1ab4f49419e540cdfc505f0af52fe7524a" kind="enumvalue"><name>bezier</name></member>
+    <member refid="Types_8h_1af608e48ca83174d68456a1069a6f07a1aa56b32c6641509fd6192724acdb27df4" kind="enumvalue"><name>spherical_to_planar</name></member>
+    <member refid="Types_8h_1a0ee980ba08a1fc03e3239098ecd48c94" kind="enum"><name>ColorScheme</name></member>
+    <member refid="Types_8h_1a0ee980ba08a1fc03e3239098ecd48c94a334c4a4c42fdb79d7ebc3e73b517e6f8" kind="enumvalue"><name>none</name></member>
+    <member refid="Types_8h_1a0ee980ba08a1fc03e3239098ecd48c94a2bb8d809d871a7c1a392fec36563a8f7" kind="enumvalue"><name>atoms</name></member>
+    <member refid="Types_8h_1a0ee980ba08a1fc03e3239098ecd48c94a99469f92ab96d54efce3d605a4bb4fbe" kind="enumvalue"><name>chains</name></member>
+    <member refid="Types_8h_1a0ee980ba08a1fc03e3239098ecd48c94a3e5a3e323766c2626c2be0d6feafa1da" kind="enumvalue"><name>residues</name></member>
+    <member refid="Types_8h_1a0ee980ba08a1fc03e3239098ecd48c94a97e01ccc12fc16f0b91d71a569a5a4a5" kind="enumvalue"><name>amino_acid_sequence</name></member>
+    <member refid="Types_8h_1a0ee980ba08a1fc03e3239098ecd48c94ae867fa204ecf88ad4a468c611aa6233e" kind="enumvalue"><name>glycosylation_site</name></member>
+    <member refid="Types_8h_1a0ee980ba08a1fc03e3239098ecd48c94a960db2ed82202a9706b97775a4269378" kind="enumvalue"><name>region</name></member>
+    <member refid="Types_8h_1abc9bc73bc7dd36d78f738158e7dd1e5a" kind="enum"><name>XYZFileFormat</name></member>
+    <member refid="Types_8h_1abc9bc73bc7dd36d78f738158e7dd1e5aad415f0e30c471dfdd9bc4f827329ef48" kind="enumvalue"><name>unspecified</name></member>
+    <member refid="Types_8h_1abc9bc73bc7dd36d78f738158e7dd1e5aa9e4cbb42b5d6c466ad8c3dd174950bac" kind="enumvalue"><name>xyz_binary</name></member>
+    <member refid="Types_8h_1abc9bc73bc7dd36d78f738158e7dd1e5aad34a1e2b43c12f14e140b83d570383a8" kind="enumvalue"><name>xyzr_binary</name></member>
+    <member refid="Types_8h_1abc9bc73bc7dd36d78f738158e7dd1e5aa5da2ae2700a3ad945d2c9d5a619c8fcd" kind="enumvalue"><name>xyzrv_binary</name></member>
+    <member refid="Types_8h_1abc9bc73bc7dd36d78f738158e7dd1e5aad649628ba216d8f8a764c8ab204c3144" kind="enumvalue"><name>xyz_ascii</name></member>
+    <member refid="Types_8h_1abc9bc73bc7dd36d78f738158e7dd1e5aa44a4be84a01bb0b61c876d93b36cc9c5" kind="enumvalue"><name>xyzr_ascii</name></member>
+    <member refid="Types_8h_1abc9bc73bc7dd36d78f738158e7dd1e5aaba550d0f752fd13169f7c9b7b6866182" kind="enumvalue"><name>xyzrv_ascii</name></member>
+    <member refid="Types_8h_1a902994f816872c0feaab3b47421f4566" kind="typedef"><name>RGBColorDetailsMap</name></member>
+  </compound>
+  <compound refid="namespacebioexplorer_1_1fields" kind="namespace"><name>bioexplorer::fields</name>
+    <member refid="FieldsHandler_8h_1a1e0c4e30f56e52e13803753ee8273780" kind="typedef"><name>FieldsHandlerPtr</name></member>
+    <member refid="Octree_8cpp_1ad792346b77b140fea60684f132205041" kind="typedef"><name>OctreeLevelMap</name></member>
+  </compound>
+  <compound refid="namespacebioexplorer_1_1io" kind="namespace"><name>bioexplorer::io</name>
+    <member refid="Types_8h_1a4b74835d3eaf5b040caf381c4d57b95f" kind="typedef"><name>OOCManagerPtr</name></member>
+    <member refid="CacheLoader_8cpp_1a11cdb26029ad3055e326268d1c6cac82" kind="variable"><name>LOADER_NAME</name></member>
+    <member refid="CacheLoader_8cpp_1a24ac874bc89d4fc0217f32a258014a20" kind="variable"><name>SUPPORTED_EXTENTION_BIOEXPLORER</name></member>
+    <member refid="CacheLoader_8cpp_1a19ada104f40164babe9ea7b5cccec34d" kind="variable"><name>CACHE_VERSION_1</name></member>
+    <member refid="CacheLoader_8h_1a2106cf168cbc0484f2bf29dd6d0faced" kind="variable"><name>UNDEFINED_BOX_ID</name></member>
+  </compound>
+  <compound refid="namespacebioexplorer_1_1io_1_1db" kind="namespace"><name>bioexplorer::io::db</name>
+    <member refid="DBConnector_8h_1ae305a637da7cdf47a6334dd29e1f5a55" kind="typedef"><name>DBConnectorPtr</name></member>
+  </compound>
+  <compound refid="namespacebioexplorer_1_1meshing" kind="namespace"><name>bioexplorer::meshing</name>
+    <member refid="PointCloudMesher_8h_1aa9167f3f1047cf837e99e12eb1d49693" kind="typedef"><name>PointCloud</name></member>
+  </compound>
+  <compound refid="namespacebioexplorer_1_1rendering" kind="namespace"><name>bioexplorer::rendering</name>
+    <member refid="AdvancedMaterial_8h_1ab3f7d20e410857fe87d93c8ba2490ec2" kind="typedef"><name>Color</name></member>
+    <member refid="PerspectiveStereoCamera_8cpp_1a0057077aff03f89a17e81c5c9fe74111" kind="function"><name>OSP_REGISTER_CAMERA</name></member>
+    <member refid="AdvancedRenderer_8cpp_1a83a67f94bf54f840a2d3895f54591b85" kind="function"><name>OSP_REGISTER_RENDERER</name></member>
+    <member refid="FieldsRenderer_8cpp_1a05f60d7e70016f07362b3feef277d94e" kind="function"><name>OSP_REGISTER_RENDERER</name></member>
+  </compound>
+  <compound refid="namespacebrayns" kind="namespace"><name>brayns</name>
+  </compound>
+  <compound refid="namespaceospray" kind="namespace"><name>ospray</name>
+  </compound>
+  <compound refid="namespacestd" kind="namespace"><name>std</name>
+  </compound>
+  <compound refid="PerspectiveStereoCamera_8cpp" kind="file"><name>PerspectiveStereoCamera.cpp</name>
+  </compound>
+  <compound refid="PerspectiveStereoCamera_8h" kind="file"><name>PerspectiveStereoCamera.h</name>
+  </compound>
+  <compound refid="AdvancedMaterial_8cpp" kind="file"><name>AdvancedMaterial.cpp</name>
+  </compound>
+  <compound refid="AdvancedMaterial_8h" kind="file"><name>AdvancedMaterial.h</name>
+  </compound>
+  <compound refid="AdvancedRenderer_8cpp" kind="file"><name>AdvancedRenderer.cpp</name>
+  </compound>
+  <compound refid="AdvancedRenderer_8h" kind="file"><name>AdvancedRenderer.h</name>
+  </compound>
+  <compound refid="FieldsRenderer_8cpp" kind="file"><name>FieldsRenderer.cpp</name>
+  </compound>
+  <compound refid="FieldsRenderer_8h" kind="file"><name>FieldsRenderer.h</name>
+  </compound>
+  <compound refid="Params_8cpp" kind="file"><name>Params.cpp</name>
+  </compound>
+  <compound refid="Params_8h" kind="file"><name>Params.h</name>
+  </compound>
+  <compound refid="BioExplorerPlugin_8cpp" kind="file"><name>BioExplorerPlugin.cpp</name>
+  </compound>
+  <compound refid="BioExplorerPlugin_8h" kind="file"><name>BioExplorerPlugin.h</name>
+  </compound>
+  <compound refid="Assembly_8cpp" kind="file"><name>Assembly.cpp</name>
+  </compound>
+  <compound refid="Assembly_8h" kind="file"><name>Assembly.h</name>
+  </compound>
+  <compound refid="Glycans_8cpp" kind="file"><name>Glycans.cpp</name>
+  </compound>
+  <compound refid="Glycans_8h" kind="file"><name>Glycans.h</name>
+  </compound>
+  <compound refid="Membrane_8cpp" kind="file"><name>Membrane.cpp</name>
+  </compound>
+  <compound refid="Membrane_8h" kind="file"><name>Membrane.h</name>
+  </compound>
+  <compound refid="MeshBasedMembrane_8cpp" kind="file"><name>MeshBasedMembrane.cpp</name>
+  </compound>
+  <compound refid="MeshBasedMembrane_8h" kind="file"><name>MeshBasedMembrane.h</name>
+  </compound>
+  <compound refid="Molecule_8cpp" kind="file"><name>Molecule.cpp</name>
+  </compound>
+  <compound refid="Molecule_8h" kind="file"><name>Molecule.h</name>
+  </compound>
+  <compound refid="Node_8cpp" kind="file"><name>Node.cpp</name>
+  </compound>
+  <compound refid="Node_8h" kind="file"><name>Node.h</name>
+  </compound>
+  <compound refid="Protein_8cpp" kind="file"><name>Protein.cpp</name>
+  </compound>
+  <compound refid="Protein_8h" kind="file"><name>Protein.h</name>
+  </compound>
+  <compound refid="RNASequence_8cpp" kind="file"><name>RNASequence.cpp</name>
+  </compound>
+  <compound refid="RNASequence_8h" kind="file"><name>RNASequence.h</name>
+  </compound>
+  <compound refid="CommonTypes_8h" kind="file"><name>CommonTypes.h</name>
+    <member refid="CommonTypes_8h_1a02fab6b664bd3e0664b7fa297e35be86" kind="define"><name>DEFAULT_SKY_POWER</name></member>
+    <member refid="CommonTypes_8h_1aeee92cb43a2cf0b396fde970dba4e696" kind="define"><name>MATERIAL_PROPERTY_SHADING_MODE</name></member>
+    <member refid="CommonTypes_8h_1a7e1002e921217935e714cd4aa389427b" kind="define"><name>MATERIAL_PROPERTY_USER_PARAMETER</name></member>
+    <member refid="CommonTypes_8h_1ac1210dc06f1e928cbaf15357778265fc" kind="define"><name>MATERIAL_PROPERTY_CHAMELEON_MODE</name></member>
+    <member refid="CommonTypes_8h_1ae524df5b490026eae94d3b36e9995c10" kind="define"><name>MATERIAL_PROPERTY_NODE_ID</name></member>
+    <member refid="CommonTypes_8h_1a5edacf75df3097a9bc552abfe7902df7" kind="enum"><name>MaterialShadingMode</name></member>
+    <member refid="CommonTypes_8h_1a5edacf75df3097a9bc552abfe7902df7a3477bded3ed4ba30eaecabaf1d004131" kind="enumvalue"><name>undefined_shading_mode</name></member>
+    <member refid="CommonTypes_8h_1a5edacf75df3097a9bc552abfe7902df7a94c3facd4fc52de1d46fd692ac82aff7" kind="enumvalue"><name>basic</name></member>
+    <member refid="CommonTypes_8h_1a5edacf75df3097a9bc552abfe7902df7a6d3e8173b3b8cbba6f3fbaa4e1b8ee6d" kind="enumvalue"><name>diffuse</name></member>
+    <member refid="CommonTypes_8h_1a5edacf75df3097a9bc552abfe7902df7a1e4c9e1097c8f3bbb41c25b3b3176b6b" kind="enumvalue"><name>electron</name></member>
+    <member refid="CommonTypes_8h_1a5edacf75df3097a9bc552abfe7902df7a82101604536bc4d6bb29c46d3267270c" kind="enumvalue"><name>cartoon</name></member>
+    <member refid="CommonTypes_8h_1a5edacf75df3097a9bc552abfe7902df7a6375905e4d6687d73f36cd3ab4745fa5" kind="enumvalue"><name>electron_transparency</name></member>
+    <member refid="CommonTypes_8h_1a5edacf75df3097a9bc552abfe7902df7aad26c122db3c5d2818db33e160f340ba" kind="enumvalue"><name>perlin</name></member>
+    <member refid="CommonTypes_8h_1a5edacf75df3097a9bc552abfe7902df7add9f727a353fee69ace92aa57e0cda4d" kind="enumvalue"><name>diffuse_transparency</name></member>
+    <member refid="CommonTypes_8h_1a5edacf75df3097a9bc552abfe7902df7a94b912a497ea840b60a4bc09378096a5" kind="enumvalue"><name>checker</name></member>
+    <member refid="CommonTypes_8h_1a5edacf75df3097a9bc552abfe7902df7a8e5ec7c5681dd1e77146a21d10e57504" kind="enumvalue"><name>goodsell</name></member>
+    <member refid="CommonTypes_8h_1a0553a2f3ec528d0da520ac1151de4086" kind="enum"><name>MaterialChameleonMode</name></member>
+    <member refid="CommonTypes_8h_1a0553a2f3ec528d0da520ac1151de4086aa94f355bea53982914f906d6e6e8875e" kind="enumvalue"><name>undefined_chameleon_mode</name></member>
+    <member refid="CommonTypes_8h_1a0553a2f3ec528d0da520ac1151de4086ad7ef125cd242d0ccda37178211b0d468" kind="enumvalue"><name>emitter</name></member>
+    <member refid="CommonTypes_8h_1a0553a2f3ec528d0da520ac1151de4086aa5c0c7a481319b5bda654ae3516404e3" kind="enumvalue"><name>receiver</name></member>
+    <member refid="CommonTypes_8h_1ab7b7378c2c192d77fc2b7097708c6e86" kind="enum"><name>CameraStereoMode</name></member>
+    <member refid="CommonTypes_8h_1ab7b7378c2c192d77fc2b7097708c6e86a105c91f33f6b7468e7e85e2524586aa8" kind="enumvalue"><name>mono</name></member>
+    <member refid="CommonTypes_8h_1ab7b7378c2c192d77fc2b7097708c6e86ab0ac36b187aa60c167ffcead3d5a03c0" kind="enumvalue"><name>left</name></member>
+    <member refid="CommonTypes_8h_1ab7b7378c2c192d77fc2b7097708c6e86af763d610923b0c4614e8ecd65212666a" kind="enumvalue"><name>right</name></member>
+    <member refid="CommonTypes_8h_1ab7b7378c2c192d77fc2b7097708c6e86ac1dd67f062859d763998dbec0a22f947" kind="enumvalue"><name>side_by_side</name></member>
+  </compound>
+  <compound refid="GeneralSettings_8cpp" kind="file"><name>GeneralSettings.cpp</name>
+  </compound>
+  <compound refid="GeneralSettings_8h" kind="file"><name>GeneralSettings.h</name>
+  </compound>
+  <compound refid="Logs_8h" kind="file"><name>Logs.h</name>
+    <member refid="Logs_8h_1a07fa5840258bb1711a63689b6c155eee" kind="define"><name>PLUGIN_ERROR</name></member>
+    <member refid="Logs_8h_1a247c9c206a8fe37878bd990635ecd9f0" kind="define"><name>PLUGIN_WARN</name></member>
+    <member refid="Logs_8h_1a65704c473dacab683ed3e853058fef2b" kind="define"><name>PLUGIN_INFO</name></member>
+    <member refid="Logs_8h_1aaf72f095b0a7a37d2da4566b0da68459" kind="define"><name>PLUGIN_DEBUG</name></member>
+    <member refid="Logs_8h_1aa86254127a35ff11437083dd05f2d141" kind="define"><name>PLUGIN_THROW</name></member>
+  </compound>
+  <compound refid="Types_8h" kind="file"><name>Types.h</name>
+  </compound>
+  <compound refid="UniqueId_8cpp" kind="file"><name>UniqueId.cpp</name>
+  </compound>
+  <compound refid="UniqueId_8h" kind="file"><name>UniqueId.h</name>
+  </compound>
+  <compound refid="Utils_8cpp" kind="file"><name>Utils.cpp</name>
+  </compound>
+  <compound refid="Utils_8h" kind="file"><name>Utils.h</name>
+  </compound>
+  <compound refid="FieldsHandler_8cpp" kind="file"><name>FieldsHandler.cpp</name>
+  </compound>
+  <compound refid="FieldsHandler_8h" kind="file"><name>FieldsHandler.h</name>
+  </compound>
+  <compound refid="Octree_8cpp" kind="file"><name>Octree.cpp</name>
+  </compound>
+  <compound refid="Octree_8h" kind="file"><name>Octree.h</name>
+  </compound>
+  <compound refid="OctreeNode_8cpp" kind="file"><name>OctreeNode.cpp</name>
+  </compound>
+  <compound refid="OctreeNode_8h" kind="file"><name>OctreeNode.h</name>
+  </compound>
+  <compound refid="CacheLoader_8cpp" kind="file"><name>CacheLoader.cpp</name>
+  </compound>
+  <compound refid="CacheLoader_8h" kind="file"><name>CacheLoader.h</name>
+  </compound>
+  <compound refid="DBConnector_8cpp" kind="file"><name>DBConnector.cpp</name>
+  </compound>
+  <compound refid="DBConnector_8h" kind="file"><name>DBConnector.h</name>
+  </compound>
+  <compound refid="OOCManager_8cpp" kind="file"><name>OOCManager.cpp</name>
+  </compound>
+  <compound refid="OOCManager_8h" kind="file"><name>OOCManager.h</name>
+  </compound>
+  <compound refid="PointCloudMesher_8cpp" kind="file"><name>PointCloudMesher.cpp</name>
+  </compound>
+  <compound refid="PointCloudMesher_8h" kind="file"><name>PointCloudMesher.h</name>
+  </compound>
+  <compound refid="SurfaceMesher_8cpp" kind="file"><name>SurfaceMesher.cpp</name>
+  </compound>
+  <compound refid="SurfaceMesher_8h" kind="file"><name>SurfaceMesher.h</name>
+  </compound>
+  <compound refid="dir_121304bf542fdcead82ecaa6ac67baae" kind="dir"><name>/home/favreau/git/BioExplorer/bioexplorer/core/plugin/api</name>
+  </compound>
+  <compound refid="dir_85b1aefe8396f9c168fc9251bbcc7e70" kind="dir"><name>/home/favreau/git/BioExplorer/bioexplorer/core/plugin/biology</name>
+  </compound>
+  <compound refid="dir_5488f46523affb6e74858420858b505f" kind="dir"><name>/home/favreau/git/BioExplorer/bioexplorer/core/module/ispc/camera</name>
+  </compound>
+  <compound refid="dir_904a50d0e61c28714282831140d8ceb0" kind="dir"><name>/home/favreau/git/BioExplorer/bioexplorer/core/plugin/common</name>
+  </compound>
+  <compound refid="dir_9b010c0af6d3ec07efce0b60ea356e7f" kind="dir"><name>/home/favreau/git/BioExplorer/bioexplorer/core/plugin/io/db</name>
+  </compound>
+  <compound refid="dir_4e403143937ea5907e93f118035462f3" kind="dir"><name>/home/favreau/git/BioExplorer/bioexplorer/core/plugin/fields</name>
+  </compound>
+  <compound refid="dir_b1abf906ba9816066f71e56a48bb03ad" kind="dir"><name>/home/favreau/git/BioExplorer/bioexplorer/core/plugin/io</name>
+  </compound>
+  <compound refid="dir_0423a43496b518778baa7186ff64b9dd" kind="dir"><name>/home/favreau/git/BioExplorer/bioexplorer/core/module/ispc</name>
+  </compound>
+  <compound refid="dir_b76e65a4fe4dcb1da09261074ae071d4" kind="dir"><name>/home/favreau/git/BioExplorer/bioexplorer/core/plugin/meshing</name>
+  </compound>
+  <compound refid="dir_a7b0466279106ea0b8f86f609f621680" kind="dir"><name>/home/favreau/git/BioExplorer/bioexplorer/core/module</name>
+  </compound>
+  <compound refid="dir_b4c3aec6cd8f28418150dce663061cfa" kind="dir"><name>/home/favreau/git/BioExplorer/bioexplorer/core/plugin</name>
+  </compound>
+  <compound refid="dir_ee6281596bde7cc4b92e14debecf50c0" kind="dir"><name>/home/favreau/git/BioExplorer/bioexplorer/core/module/ispc/render</name>
+  </compound>
+</doxygenindex>

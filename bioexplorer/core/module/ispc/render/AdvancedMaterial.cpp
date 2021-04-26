@@ -114,7 +114,9 @@ void AdvancedMaterial::commit()
         (const ispc::MaterialChameleonMode&)chameleonMode, nodeId);
 }
 
+#if !defined(DOXYGEN_SHOULD_SKIP_THIS)
 OSP_REGISTER_MATERIAL(bio_explorer, AdvancedMaterial, default);
 OSP_REGISTER_MATERIAL(bio_explorer_fields, AdvancedMaterial, default);
+#endif
 } // namespace rendering
 } // namespace bioexplorer

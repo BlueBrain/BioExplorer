@@ -1,0 +1,62 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.17">
+  <compounddef id="de/dde/structbioexplorer_1_1biology_1_1ResidueSequence" kind="struct" language="C++" prot="public">
+    <compoundname>bioexplorer::biology::ResidueSequence</compoundname>
+    <includes refid="d7/df8/Types_8h" local="no">Types.h</includes>
+      <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="de/dde/structbioexplorer_1_1biology_1_1ResidueSequence_1a76a8eded625c3edf1ad65adb918d7f11" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t bioexplorer::biology::ResidueSequence::numRes</definition>
+        <argsstring></argsstring>
+        <name>numRes</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Number of residues in the chain </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/favreau/git/BioExplorer/bioexplorer/core/plugin/common/Types.h" line="780" column="12" bodyfile="/home/favreau/git/BioExplorer/bioexplorer/core/plugin/common/Types.h" bodystart="780" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="de/dde/structbioexplorer_1_1biology_1_1ResidueSequence_1a5b3b460dfec1c7b8a343f8f86f9c4d18" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; bioexplorer::biology::ResidueSequence::resNames</definition>
+        <argsstring></argsstring>
+        <name>resNames</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Residue name </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/favreau/git/BioExplorer/bioexplorer/core/plugin/common/Types.h" line="782" column="17" bodyfile="/home/favreau/git/BioExplorer/bioexplorer/core/plugin/common/Types.h" bodystart="782" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="de/dde/structbioexplorer_1_1biology_1_1ResidueSequence_1a749948327ed7edb959e9576887ebe3e3" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t bioexplorer::biology::ResidueSequence::offset</definition>
+        <argsstring></argsstring>
+        <name>offset</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><ref refid="df/d99/structbioexplorer_1_1biology_1_1Atom" kindref="compound">Atom</ref> Offset </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/favreau/git/BioExplorer/bioexplorer/core/plugin/common/Types.h" line="784" column="12" bodyfile="/home/favreau/git/BioExplorer/bioexplorer/core/plugin/common/Types.h" bodystart="784" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+<para>Sequence of residues. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="/home/favreau/git/BioExplorer/bioexplorer/core/plugin/common/Types.h" line="778" column="1" bodyfile="/home/favreau/git/BioExplorer/bioexplorer/core/plugin/common/Types.h" bodystart="777" bodyend="785"/>
+    <listofallmembers>
+      <member refid="de/dde/structbioexplorer_1_1biology_1_1ResidueSequence_1a76a8eded625c3edf1ad65adb918d7f11" prot="public" virt="non-virtual"><scope>bioexplorer::biology::ResidueSequence</scope><name>numRes</name></member>
+      <member refid="de/dde/structbioexplorer_1_1biology_1_1ResidueSequence_1a749948327ed7edb959e9576887ebe3e3" prot="public" virt="non-virtual"><scope>bioexplorer::biology::ResidueSequence</scope><name>offset</name></member>
+      <member refid="de/dde/structbioexplorer_1_1biology_1_1ResidueSequence_1a5b3b460dfec1c7b8a343f8f86f9c4d18" prot="public" virt="non-virtual"><scope>bioexplorer::biology::ResidueSequence</scope><name>resNames</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

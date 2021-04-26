@@ -1,0 +1,13 @@
+.. _exhale_define_Logs_8h_1a07fa5840258bb1711a63689b6c155eee:
+
+Define PLUGIN_ERROR
+===================
+
+- Defined in :ref:`file__home_favreau_git_BioExplorer_bioexplorer_core_plugin_common_Logs.h`
+
+
+Define Documentation
+--------------------
+
+
+.. doxygendefine:: PLUGIN_ERROR

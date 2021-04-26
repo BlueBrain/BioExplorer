@@ -1,0 +1,13 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.17">
+  <compounddef id="dir_80d9b4fd87151657797b0f0fb91d761f" kind="dir">
+    <compoundname>/home/favreau/git/BioExplorer/bioexplorer/core/plugin/io/db</compoundname>
+    <innerfile refid="df/da2/DBConnector_8cpp">DBConnector.cpp</innerfile>
+    <innerfile refid="d0/d36/DBConnector_8h">DBConnector.h</innerfile>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="/home/favreau/git/BioExplorer/bioexplorer/core/plugin/io/db/"/>
+  </compounddef>
+</doxygen>

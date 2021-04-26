@@ -1,0 +1,42 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.17">
+  <compounddef id="dc/d4f/md__home_favreau_git_BioExplorer_bioexplorer_core_DOCKER" kind="page">
+    <compoundname>md__home_favreau_git_BioExplorer_bioexplorer_core_DOCKER</compoundname>
+    <title>Docker</title>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><blockquote><para>Use <ulink url="https://docs.docker.com">Docker</ulink> to run Blue Brain BioExplorer as a service and avoid painful tooling setup. </para>
+</blockquote></para>
+<sect1 id="dc/d4f/md__home_favreau_git_BioExplorer_bioexplorer_core_DOCKER_1autotoc_md25">
+<title>Prerequisites</title>
+<para>Head over to <ulink url="https://docs.docker.com/engine/installation/#supported-platforms">Docker</ulink> and install Docker for your own platform.</para>
+</sect1>
+<sect1 id="dc/d4f/md__home_favreau_git_BioExplorer_bioexplorer_core_DOCKER_1autotoc_md26">
+<title>Setup</title>
+<para>First build the image (<emphasis>it&apos;s necessary to do this step if you want to run Brayns</emphasis>): <programlisting filename=".bash"><codeline><highlight class="normal">docker<sp/>build<sp/>.<sp/>-t<sp/>bioexplorer</highlight></codeline>
+</programlisting></para>
+</sect1>
+<sect1 id="dc/d4f/md__home_favreau_git_BioExplorer_bioexplorer_core_DOCKER_1autotoc_md27">
+<title>Usage</title>
+<para>By default, the entrypoint when running the image is <computeroutput>braynsService</computeroutput>, but if you want to ssh into the container use: <programlisting filename=".bash"><codeline><highlight class="normal">#<sp/>`-p<sp/>5000:5000`<sp/>is<sp/>used<sp/>only<sp/>to<sp/>provide<sp/>some<sp/>port<sp/>bindings<sp/>(host:container)<sp/>if<sp/>you<sp/>want<sp/>to<sp/>run<sp/>and<sp/>access<sp/>Brayns<sp/>from<sp/>your<sp/>host<sp/>while<sp/>in<sp/>the<sp/>container</highlight></codeline>
+<codeline><highlight class="normal">docker<sp/>run<sp/>-ti<sp/>--rm<sp/>--entrypoint<sp/>bash<sp/>-p<sp/>5000:5000<sp/>bioexplorer</highlight></codeline>
+</programlisting></para>
+<para>If you want to run Blue Brain BioExplorer use: <programlisting filename=".bash"><codeline><highlight class="normal">#<sp/>Runs<sp/>Blue<sp/>Brain<sp/>BioExplorer<sp/>as<sp/>a<sp/>service<sp/>with<sp/>the<sp/>HTTP<sp/>interface<sp/>binded<sp/>on<sp/>port<sp/>5000</highlight></codeline>
+<codeline><highlight class="normal">docker<sp/>run<sp/>-ti<sp/>--rm<sp/>-p<sp/>5000:5000<sp/>bioexplorer</highlight></codeline>
+</programlisting></para>
+<para><bold>NOTE</bold> If you are having trouble exiting the process after you run the container (with the above command), use <computeroutput>docker stop &lt;container-id&gt;</computeroutput> to stop the container. <computeroutput>docker ps</computeroutput> will give you the current running process.</para>
+<para>If you&apos;d like to also run the UI, use <ulink url="https://docs.docker.com/get-started/part5">docker stack</ulink>: <programlisting filename=".bash"><codeline><highlight class="normal">#<sp/>UI<sp/>on<sp/>port<sp/>8000<sp/>and<sp/>Python<sp/>SDK<sp/>on<sp/>port<sp/>8888</highlight></codeline>
+<codeline><highlight class="normal">docker<sp/>stack<sp/>deploy<sp/>-c<sp/>docker-compose.yml<sp/>bioexplorer</highlight></codeline>
+</programlisting></para>
+<para><bold>NOTE</bold> You have to build both the UI and API images (using <computeroutput>docker-compose build</computeroutput>) before you can run them using stacks.</para>
+<para>Run Blue Brain BioExplorer with the HTTP interface binded to a different port: <programlisting filename=".bash"><codeline><highlight class="normal">docker<sp/>run<sp/>-ti<sp/>--rm<sp/>-p<sp/>5000:5000<sp/>bioexplorer<sp/>--http-server<sp/>:5000</highlight></codeline>
+</programlisting></para>
+<para>Provide other flags (or env vars) to <computeroutput>braynsService</computeroutput>: <programlisting filename=".bash"><codeline><highlight class="normal">docker<sp/>run<sp/>-ti<sp/>--rm<sp/>-p<sp/>5000:5000<sp/>bioexplorer<sp/>\</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>--http-server<sp/>:5000<sp/>\</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>--plugin<sp/>BioExplorer</highlight></codeline>
+</programlisting> </para>
+</sect1>
+    </detaileddescription>
+  </compounddef>
+</doxygen>

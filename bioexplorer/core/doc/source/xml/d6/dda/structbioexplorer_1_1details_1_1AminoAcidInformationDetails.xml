@@ -1,0 +1,43 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.17">
+  <compounddef id="d6/dda/structbioexplorer_1_1details_1_1AminoAcidInformationDetails" kind="struct" language="C++" prot="public">
+    <compoundname>bioexplorer::details::AminoAcidInformationDetails</compoundname>
+      <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="d6/dda/structbioexplorer_1_1details_1_1AminoAcidInformationDetails_1ad9aecbd6fcb73dc455a10466d4f358d5" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string bioexplorer::details::AminoAcidInformationDetails::assemblyName</definition>
+        <argsstring></argsstring>
+        <name>assemblyName</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/favreau/git/BioExplorer/bioexplorer/core/plugin/common/Types.h" line="449" column="17" bodyfile="/home/favreau/git/BioExplorer/bioexplorer/core/plugin/common/Types.h" bodystart="449" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="d6/dda/structbioexplorer_1_1details_1_1AminoAcidInformationDetails_1a8f4b584d3ad64381b5b383c955ba0f0c" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string bioexplorer::details::AminoAcidInformationDetails::name</definition>
+        <argsstring></argsstring>
+        <name>name</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/favreau/git/BioExplorer/bioexplorer/core/plugin/common/Types.h" line="450" column="17" bodyfile="/home/favreau/git/BioExplorer/bioexplorer/core/plugin/common/Types.h" bodystart="450" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="/home/favreau/git/BioExplorer/bioexplorer/core/plugin/common/Types.h" line="448" column="1" bodyfile="/home/favreau/git/BioExplorer/bioexplorer/core/plugin/common/Types.h" bodystart="447" bodyend="451"/>
+    <listofallmembers>
+      <member refid="d6/dda/structbioexplorer_1_1details_1_1AminoAcidInformationDetails_1ad9aecbd6fcb73dc455a10466d4f358d5" prot="public" virt="non-virtual"><scope>bioexplorer::details::AminoAcidInformationDetails</scope><name>assemblyName</name></member>
+      <member refid="d6/dda/structbioexplorer_1_1details_1_1AminoAcidInformationDetails_1a8f4b584d3ad64381b5b383c955ba0f0c" prot="public" virt="non-virtual"><scope>bioexplorer::details::AminoAcidInformationDetails</scope><name>name</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

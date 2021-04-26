@@ -1,0 +1,48 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.17">
+  <compounddef id="structbioexplorer_1_1details_1_1Response" kind="struct" language="C++" prot="public">
+    <compoundname>bioexplorer::details::Response</compoundname>
+    <includes refid="Types_8h" local="no">Types.h</includes>
+      <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structbioexplorer_1_1details_1_1Response_1aa57d15d34301b53895c82a161a1e9adf" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool bioexplorer::details::Response::status</definition>
+        <argsstring></argsstring>
+        <name>status</name>
+        <initializer>{true}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Status of the response </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/favreau/git/BioExplorer/bioexplorer/core/plugin/common/Types.h" line="101" column="10" bodyfile="/home/favreau/git/BioExplorer/bioexplorer/core/plugin/common/Types.h" bodystart="101" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structbioexplorer_1_1details_1_1Response_1a82e8722e8bccf30450394fbbfb7053bb" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string bioexplorer::details::Response::contents</definition>
+        <argsstring></argsstring>
+        <name>contents</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Contents of the response (optional) </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/favreau/git/BioExplorer/bioexplorer/core/plugin/common/Types.h" line="103" column="17" bodyfile="/home/favreau/git/BioExplorer/bioexplorer/core/plugin/common/Types.h" bodystart="103" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+<para>Structure defining the entry point response of the remote API. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="/home/favreau/git/BioExplorer/bioexplorer/core/plugin/common/Types.h" line="99" column="1" bodyfile="/home/favreau/git/BioExplorer/bioexplorer/core/plugin/common/Types.h" bodystart="98" bodyend="104"/>
+    <listofallmembers>
+      <member refid="structbioexplorer_1_1details_1_1Response_1a82e8722e8bccf30450394fbbfb7053bb" prot="public" virt="non-virtual"><scope>bioexplorer::details::Response</scope><name>contents</name></member>
+      <member refid="structbioexplorer_1_1details_1_1Response_1aa57d15d34301b53895c82a161a1e9adf" prot="public" virt="non-virtual"><scope>bioexplorer::details::Response</scope><name>status</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

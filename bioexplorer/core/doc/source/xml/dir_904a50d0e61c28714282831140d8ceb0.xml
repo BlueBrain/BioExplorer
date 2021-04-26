@@ -1,0 +1,20 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.17">
+  <compounddef id="dir_904a50d0e61c28714282831140d8ceb0" kind="dir">
+    <compoundname>/home/favreau/git/BioExplorer/bioexplorer/core/plugin/common</compoundname>
+    <innerfile refid="CommonTypes_8h">CommonTypes.h</innerfile>
+    <innerfile refid="GeneralSettings_8cpp">GeneralSettings.cpp</innerfile>
+    <innerfile refid="GeneralSettings_8h">GeneralSettings.h</innerfile>
+    <innerfile refid="Logs_8h">Logs.h</innerfile>
+    <innerfile refid="Types_8h">Types.h</innerfile>
+    <innerfile refid="UniqueId_8cpp">UniqueId.cpp</innerfile>
+    <innerfile refid="UniqueId_8h">UniqueId.h</innerfile>
+    <innerfile refid="Utils_8cpp">Utils.cpp</innerfile>
+    <innerfile refid="Utils_8h">Utils.h</innerfile>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="/home/favreau/git/BioExplorer/bioexplorer/core/plugin/common/"/>
+  </compounddef>
+</doxygen>

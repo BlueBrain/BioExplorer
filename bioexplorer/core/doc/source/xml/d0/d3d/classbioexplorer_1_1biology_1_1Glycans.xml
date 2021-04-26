@@ -1,0 +1,147 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.17">
+  <compounddef id="d0/d3d/classbioexplorer_1_1biology_1_1Glycans" kind="class" language="C++" prot="public">
+    <compoundname>bioexplorer::biology::Glycans</compoundname>
+    <basecompoundref refid="d7/dff/classbioexplorer_1_1biology_1_1Molecule" prot="public" virt="non-virtual">bioexplorer::biology::Molecule</basecompoundref>
+    <includes refid="df/de2/Glycans_8h" local="no">Glycans.h</includes>
+      <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="d0/d3d/classbioexplorer_1_1biology_1_1Glycans_1a3b8f275cc75313bc24fecad9bf18a263" prot="private" static="no" mutable="no">
+        <type><ref refid="dd/d92/structbioexplorer_1_1details_1_1SugarsDetails" kindref="compound">SugarsDetails</ref></type>
+        <definition>SugarsDetails bioexplorer::biology::Glycans::_details</definition>
+        <argsstring></argsstring>
+        <name>_details</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/favreau/git/BioExplorer/bioexplorer/core/plugin/biology/Glycans.h" line="46" column="19" bodyfile="/home/favreau/git/BioExplorer/bioexplorer/core/plugin/biology/Glycans.h" bodystart="46" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="public-func">
+      <memberdef kind="function" id="d0/d3d/classbioexplorer_1_1biology_1_1Glycans_1acdcec4cda9946ce70fdc6c7e21cdf277" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>bioexplorer::biology::Glycans::Glycans</definition>
+        <argsstring>(Scene &amp;scene, const SugarsDetails &amp;details)</argsstring>
+        <name>Glycans</name>
+        <param>
+          <type>Scene &amp;</type>
+          <declname>scene</declname>
+        </param>
+        <param>
+          <type>const <ref refid="dd/d92/structbioexplorer_1_1details_1_1SugarsDetails" kindref="compound">SugarsDetails</ref> &amp;</type>
+          <declname>details</declname>
+        </param>
+        <briefdescription>
+<para>Construct a new <ref refid="d0/d3d/classbioexplorer_1_1biology_1_1Glycans" kindref="compound">Glycans</ref> object. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>scene</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The 3D scene where the glycans are added </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>details</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The data structure describing the glycans </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/favreau/git/BioExplorer/bioexplorer/core/plugin/biology/Glycans.h" line="43" column="5" bodyfile="/home/favreau/git/BioExplorer/bioexplorer/core/plugin/biology/Glycans.cpp" bodystart="33" bodyend="76"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+<para>The <ref refid="d0/d3d/classbioexplorer_1_1biology_1_1Glycans" kindref="compound">Glycans</ref> class. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>bioexplorer::biology::Glycans</label>
+        <link refid="d0/d3d/classbioexplorer_1_1biology_1_1Glycans"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>bioexplorer::biology::Node</label>
+        <link refid="de/dc0/classbioexplorer_1_1biology_1_1Node"/>
+      </node>
+      <node id="2">
+        <label>bioexplorer::biology::Molecule</label>
+        <link refid="d7/dff/classbioexplorer_1_1biology_1_1Molecule"/>
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>bioexplorer::biology::Glycans</label>
+        <link refid="d0/d3d/classbioexplorer_1_1biology_1_1Glycans"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>bioexplorer::biology::Node</label>
+        <link refid="de/dc0/classbioexplorer_1_1biology_1_1Node"/>
+      </node>
+      <node id="2">
+        <label>bioexplorer::biology::Molecule</label>
+        <link refid="d7/dff/classbioexplorer_1_1biology_1_1Molecule"/>
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="/home/favreau/git/BioExplorer/bioexplorer/core/plugin/biology/Glycans.h" line="35" column="1" bodyfile="/home/favreau/git/BioExplorer/bioexplorer/core/plugin/biology/Glycans.h" bodystart="34" bodyend="47"/>
+    <listofallmembers>
+      <member refid="d7/dff/classbioexplorer_1_1biology_1_1Molecule_1a84856488af6b6561e5ff02db7dac811a" prot="protected" virt="non-virtual"><scope>bioexplorer::biology::Glycans</scope><name>_aminoAcidRange</name></member>
+      <member refid="d7/dff/classbioexplorer_1_1biology_1_1Molecule_1a6d3e855179fd31cfe3eef97d1f63ba28" prot="protected" virt="non-virtual"><scope>bioexplorer::biology::Glycans</scope><name>_atomMap</name></member>
+      <member refid="d7/dff/classbioexplorer_1_1biology_1_1Molecule_1a4a8ac72f236bd1d08f797e8ca3a895fc" prot="protected" virt="non-virtual"><scope>bioexplorer::biology::Glycans</scope><name>_bondsMap</name></member>
+      <member refid="d7/dff/classbioexplorer_1_1biology_1_1Molecule_1ae3f642f1686e9bda06af5803b2c0a0b2" prot="protected" virt="non-virtual"><scope>bioexplorer::biology::Glycans</scope><name>_bounds</name></member>
+      <member refid="d7/dff/classbioexplorer_1_1biology_1_1Molecule_1a9303ac72eb465e00750c594ba58e2ed8" prot="protected" virt="non-virtual"><scope>bioexplorer::biology::Glycans</scope><name>_buildAtomicStruture</name></member>
+      <member refid="d7/dff/classbioexplorer_1_1biology_1_1Molecule_1a1450b9cb01682a1e0ee33aa945913951" prot="protected" virt="non-virtual"><scope>bioexplorer::biology::Glycans</scope><name>_buildModel</name></member>
+      <member refid="d7/dff/classbioexplorer_1_1biology_1_1Molecule_1aa10e6985bf449e7b86bfb5482b7e635c" prot="protected" virt="non-virtual"><scope>bioexplorer::biology::Glycans</scope><name>_chainIds</name></member>
+      <member refid="d7/dff/classbioexplorer_1_1biology_1_1Molecule_1a6caa04f4037dbc3912efd4c647ffd362" prot="protected" virt="non-virtual"><scope>bioexplorer::biology::Glycans</scope><name>_computeReqSetOffset</name></member>
+      <member refid="d0/d3d/classbioexplorer_1_1biology_1_1Glycans_1a3b8f275cc75313bc24fecad9bf18a263" prot="private" virt="non-virtual"><scope>bioexplorer::biology::Glycans</scope><name>_details</name></member>
+      <member refid="d7/dff/classbioexplorer_1_1biology_1_1Molecule_1aa50f3b5db6af4663e31f204ff57bdc7b" prot="protected" virt="non-virtual"><scope>bioexplorer::biology::Glycans</scope><name>_loadChain</name></member>
+      <member refid="de/dc0/classbioexplorer_1_1biology_1_1Node_1afb69572f3597ae900eba1ad4a6b469a5" prot="protected" virt="non-virtual"><scope>bioexplorer::biology::Glycans</scope><name>_modelDescriptor</name></member>
+      <member refid="d7/dff/classbioexplorer_1_1biology_1_1Molecule_1af8134ba8a614f4973fd973d9cf60bb15" prot="protected" virt="non-virtual"><scope>bioexplorer::biology::Glycans</scope><name>_readAtom</name></member>
+      <member refid="d7/dff/classbioexplorer_1_1biology_1_1Molecule_1a76587336d1ad994bf4d6a2580d4f7d4a" prot="protected" virt="non-virtual"><scope>bioexplorer::biology::Glycans</scope><name>_readConnect</name></member>
+      <member refid="d7/dff/classbioexplorer_1_1biology_1_1Molecule_1a8e786b977d10c225217e59d1e97a4695" prot="protected" virt="non-virtual"><scope>bioexplorer::biology::Glycans</scope><name>_readHeader</name></member>
+      <member refid="d7/dff/classbioexplorer_1_1biology_1_1Molecule_1ab60f1573cb964bfa458afbce1cac2616" prot="protected" virt="non-virtual"><scope>bioexplorer::biology::Glycans</scope><name>_readRemark</name></member>
+      <member refid="d7/dff/classbioexplorer_1_1biology_1_1Molecule_1afa17cc7680f575cde0cd341c784c551c" prot="protected" virt="non-virtual"><scope>bioexplorer::biology::Glycans</scope><name>_readSequence</name></member>
+      <member refid="d7/dff/classbioexplorer_1_1biology_1_1Molecule_1a2473281806a00892fd71fdaca87bd79a" prot="protected" virt="non-virtual"><scope>bioexplorer::biology::Glycans</scope><name>_readTitle</name></member>
+      <member refid="d7/dff/classbioexplorer_1_1biology_1_1Molecule_1a8e277ce8221c6d2cb09d3a43243c965e" prot="protected" virt="non-virtual"><scope>bioexplorer::biology::Glycans</scope><name>_residues</name></member>
+      <member refid="d7/dff/classbioexplorer_1_1biology_1_1Molecule_1a62423407fa24c3cefc93f81aea075ecb" prot="protected" virt="non-virtual"><scope>bioexplorer::biology::Glycans</scope><name>_residueSequenceMap</name></member>
+      <member refid="d7/dff/classbioexplorer_1_1biology_1_1Molecule_1a2166d8b16faa45c9da421c32caeb9ab9" prot="protected" virt="non-virtual"><scope>bioexplorer::biology::Glycans</scope><name>_scene</name></member>
+      <member refid="d7/dff/classbioexplorer_1_1biology_1_1Molecule_1ab1b804bc14654d48b52c61296c51db45" prot="protected" virt="non-virtual"><scope>bioexplorer::biology::Glycans</scope><name>_selectedAminoAcidRanges</name></member>
+      <member refid="d7/dff/classbioexplorer_1_1biology_1_1Molecule_1a49168b6fa15782fd8a5fb0146e538d15" prot="protected" virt="non-virtual"><scope>bioexplorer::biology::Glycans</scope><name>_selectedAminoAcidSequence</name></member>
+      <member refid="d7/dff/classbioexplorer_1_1biology_1_1Molecule_1a375c6617997550b422f57c03d3ae6701" prot="protected" virt="non-virtual"><scope>bioexplorer::biology::Glycans</scope><name>_setAminoAcidSequenceColorScheme</name></member>
+      <member refid="d7/dff/classbioexplorer_1_1biology_1_1Molecule_1ab23ee8936d7660af48809b66b98ab148" prot="protected" virt="non-virtual"><scope>bioexplorer::biology::Glycans</scope><name>_setAtomColorScheme</name></member>
+      <member refid="d7/dff/classbioexplorer_1_1biology_1_1Molecule_1a00a5883f2f86a235afc20fee8264a565" prot="protected" virt="non-virtual"><scope>bioexplorer::biology::Glycans</scope><name>_setChainColorScheme</name></member>
+      <member refid="d7/dff/classbioexplorer_1_1biology_1_1Molecule_1a303a84f330e24fb20322c4154625691e" prot="protected" virt="non-virtual"><scope>bioexplorer::biology::Glycans</scope><name>_setMaterialDiffuseColor</name></member>
+      <member refid="d7/dff/classbioexplorer_1_1biology_1_1Molecule_1afa8a533f7c6ab941ffe1730d5c45028e" prot="protected" virt="non-virtual"><scope>bioexplorer::biology::Glycans</scope><name>_setMaterialDiffuseColor</name></member>
+      <member refid="d7/dff/classbioexplorer_1_1biology_1_1Molecule_1ae5c34567aa817b2bf29a834bbad77986" prot="protected" virt="non-virtual"><scope>bioexplorer::biology::Glycans</scope><name>_setResiduesColorScheme</name></member>
+      <member refid="de/dc0/classbioexplorer_1_1biology_1_1Node_1a5388117456e0bc7ab516ace1c49e1cee" prot="protected" virt="non-virtual"><scope>bioexplorer::biology::Glycans</scope><name>_uuid</name></member>
+      <member refid="d7/dff/classbioexplorer_1_1biology_1_1Molecule_1a33392eb54d4ec0ddd200b42a702018b1" prot="public" virt="non-virtual"><scope>bioexplorer::biology::Glycans</scope><name>getAtoms</name></member>
+      <member refid="de/dc0/classbioexplorer_1_1biology_1_1Node_1a415bffbb900abe3e0e7ac12c6bf96a32" prot="public" virt="non-virtual"><scope>bioexplorer::biology::Glycans</scope><name>getModelDescriptor</name></member>
+      <member refid="d7/dff/classbioexplorer_1_1biology_1_1Molecule_1a77f61cadfb0ce00bfaa3d86e2307c622" prot="public" virt="non-virtual"><scope>bioexplorer::biology::Glycans</scope><name>getResidues</name></member>
+      <member refid="d7/dff/classbioexplorer_1_1biology_1_1Molecule_1a921fcced6cab9755296f5c05c030ff89" prot="public" virt="non-virtual"><scope>bioexplorer::biology::Glycans</scope><name>getResidueSequences</name></member>
+      <member refid="d7/dff/classbioexplorer_1_1biology_1_1Molecule_1ac12ba0810e3eaff36b927a5b71555b75" prot="public" virt="non-virtual"><scope>bioexplorer::biology::Glycans</scope><name>getSequencesAsString</name></member>
+      <member refid="d0/d3d/classbioexplorer_1_1biology_1_1Glycans_1acdcec4cda9946ce70fdc6c7e21cdf277" prot="public" virt="non-virtual"><scope>bioexplorer::biology::Glycans</scope><name>Glycans</name></member>
+      <member refid="d7/dff/classbioexplorer_1_1biology_1_1Molecule_1a6e92ebcb753bdf4f5cd8e711b1ae38bd" prot="public" virt="non-virtual"><scope>bioexplorer::biology::Glycans</scope><name>Molecule</name></member>
+      <member refid="de/dc0/classbioexplorer_1_1biology_1_1Node_1a2b56af16626b832014845ee9bf007af0" prot="public" virt="non-virtual"><scope>bioexplorer::biology::Glycans</scope><name>Node</name></member>
+      <member refid="de/dc0/classbioexplorer_1_1biology_1_1Node_1a1d02dc5b33293f53296cde67fc346496" prot="public" virt="virtual"><scope>bioexplorer::biology::Glycans</scope><name>~Node</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

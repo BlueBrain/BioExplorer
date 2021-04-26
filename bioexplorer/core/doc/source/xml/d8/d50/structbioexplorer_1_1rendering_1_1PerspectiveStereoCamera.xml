@@ -1,0 +1,215 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.17">
+  <compounddef id="d8/d50/structbioexplorer_1_1rendering_1_1PerspectiveStereoCamera" kind="struct" language="C++" prot="public">
+    <compoundname>bioexplorer::rendering::PerspectiveStereoCamera</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">Camera</basecompoundref>
+      <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="d8/d50/structbioexplorer_1_1rendering_1_1PerspectiveStereoCamera_1aca89b8b4c29cfd9969c4fcf0e6af9d1c" prot="public" static="no" mutable="no">
+        <type>float</type>
+        <definition>float bioexplorer::rendering::PerspectiveStereoCamera::fovy</definition>
+        <argsstring></argsstring>
+        <name>fovy</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/favreau/git/BioExplorer/bioexplorer/core/module/ispc/camera/PerspectiveStereoCamera.h" line="58" column="11" bodyfile="/home/favreau/git/BioExplorer/bioexplorer/core/module/ispc/camera/PerspectiveStereoCamera.h" bodystart="58" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="d8/d50/structbioexplorer_1_1rendering_1_1PerspectiveStereoCamera_1a1eac6016dcdcb2af573b67e076f04d18" prot="public" static="no" mutable="no">
+        <type>float</type>
+        <definition>float bioexplorer::rendering::PerspectiveStereoCamera::aspect</definition>
+        <argsstring></argsstring>
+        <name>aspect</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/favreau/git/BioExplorer/bioexplorer/core/module/ispc/camera/PerspectiveStereoCamera.h" line="59" column="11" bodyfile="/home/favreau/git/BioExplorer/bioexplorer/core/module/ispc/camera/PerspectiveStereoCamera.h" bodystart="59" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="d8/d50/structbioexplorer_1_1rendering_1_1PerspectiveStereoCamera_1afd098710cb504bb31226bb34e18b4555" prot="public" static="no" mutable="no">
+        <type>float</type>
+        <definition>float bioexplorer::rendering::PerspectiveStereoCamera::apertureRadius</definition>
+        <argsstring></argsstring>
+        <name>apertureRadius</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/favreau/git/BioExplorer/bioexplorer/core/module/ispc/camera/PerspectiveStereoCamera.h" line="60" column="11" bodyfile="/home/favreau/git/BioExplorer/bioexplorer/core/module/ispc/camera/PerspectiveStereoCamera.h" bodystart="60" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="d8/d50/structbioexplorer_1_1rendering_1_1PerspectiveStereoCamera_1a4a2f9b213dc31cc87c945b70bf7908ca" prot="public" static="no" mutable="no">
+        <type>float</type>
+        <definition>float bioexplorer::rendering::PerspectiveStereoCamera::focusDistance</definition>
+        <argsstring></argsstring>
+        <name>focusDistance</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/favreau/git/BioExplorer/bioexplorer/core/module/ispc/camera/PerspectiveStereoCamera.h" line="61" column="11" bodyfile="/home/favreau/git/BioExplorer/bioexplorer/core/module/ispc/camera/PerspectiveStereoCamera.h" bodystart="61" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="d8/d50/structbioexplorer_1_1rendering_1_1PerspectiveStereoCamera_1a7815bc78f8429a480cfb27b042438878" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool bioexplorer::rendering::PerspectiveStereoCamera::architectural</definition>
+        <argsstring></argsstring>
+        <name>architectural</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/favreau/git/BioExplorer/bioexplorer/core/module/ispc/camera/PerspectiveStereoCamera.h" line="62" column="10" bodyfile="/home/favreau/git/BioExplorer/bioexplorer/core/module/ispc/camera/PerspectiveStereoCamera.h" bodystart="62" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="d8/d50/structbioexplorer_1_1rendering_1_1PerspectiveStereoCamera_1af36277c22bbfa470f37a8086c5750092" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool bioexplorer::rendering::PerspectiveStereoCamera::enableClippingPlanes</definition>
+        <argsstring></argsstring>
+        <name>enableClippingPlanes</name>
+        <initializer>{false}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/favreau/git/BioExplorer/bioexplorer/core/module/ispc/camera/PerspectiveStereoCamera.h" line="65" column="10" bodyfile="/home/favreau/git/BioExplorer/bioexplorer/core/module/ispc/camera/PerspectiveStereoCamera.h" bodystart="65" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="d8/d50/structbioexplorer_1_1rendering_1_1PerspectiveStereoCamera_1a9c795f6fc33e89aab080b9cbc9df42ee" prot="public" static="no" mutable="no">
+        <type>Ref&lt; Data &gt;</type>
+        <definition>Ref&lt;Data&gt; bioexplorer::rendering::PerspectiveStereoCamera::clipPlanes</definition>
+        <argsstring></argsstring>
+        <name>clipPlanes</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/favreau/git/BioExplorer/bioexplorer/core/module/ispc/camera/PerspectiveStereoCamera.h" line="66" column="9" bodyfile="/home/favreau/git/BioExplorer/bioexplorer/core/module/ispc/camera/PerspectiveStereoCamera.h" bodystart="66" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="d8/d50/structbioexplorer_1_1rendering_1_1PerspectiveStereoCamera_1a400744f8ab95dbf7b86c4c4b4baf40aa" prot="public" static="no" mutable="no">
+        <type>CameraStereoMode</type>
+        <definition>CameraStereoMode bioexplorer::rendering::PerspectiveStereoCamera::stereoMode</definition>
+        <argsstring></argsstring>
+        <name>stereoMode</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/favreau/git/BioExplorer/bioexplorer/core/module/ispc/camera/PerspectiveStereoCamera.h" line="69" column="22" bodyfile="/home/favreau/git/BioExplorer/bioexplorer/core/module/ispc/camera/PerspectiveStereoCamera.h" bodystart="69" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="d8/d50/structbioexplorer_1_1rendering_1_1PerspectiveStereoCamera_1ac7af9939588b4a3529e633087d6e7eb6" prot="public" static="no" mutable="no">
+        <type>float</type>
+        <definition>float bioexplorer::rendering::PerspectiveStereoCamera::interpupillaryDistance</definition>
+        <argsstring></argsstring>
+        <name>interpupillaryDistance</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/favreau/git/BioExplorer/bioexplorer/core/module/ispc/camera/PerspectiveStereoCamera.h" line="70" column="11" bodyfile="/home/favreau/git/BioExplorer/bioexplorer/core/module/ispc/camera/PerspectiveStereoCamera.h" bodystart="70" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="public-func">
+      <memberdef kind="function" id="d8/d50/structbioexplorer_1_1rendering_1_1PerspectiveStereoCamera_1a4d78780c9e9c64a8203ed33625d53194" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>bioexplorer::rendering::PerspectiveStereoCamera::PerspectiveStereoCamera</definition>
+        <argsstring>()</argsstring>
+        <name>PerspectiveStereoCamera</name>
+        <briefdescription>
+<para>Construct a new Perspective Stereo Camera object. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/favreau/git/BioExplorer/bioexplorer/core/module/ispc/camera/PerspectiveStereoCamera.h" line="39" column="5" bodyfile="/home/favreau/git/BioExplorer/bioexplorer/core/module/ispc/camera/PerspectiveStereoCamera.cpp" bodystart="37" bodyend="40"/>
+      </memberdef>
+      <memberdef kind="function" id="d8/d50/structbioexplorer_1_1rendering_1_1PerspectiveStereoCamera_1a841e2d57a050b3bfe3a83af7fb374e11" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="virtual">
+        <type>std::string</type>
+        <definition>virtual std::string bioexplorer::rendering::PerspectiveStereoCamera::toString</definition>
+        <argsstring>() const</argsstring>
+        <name>toString</name>
+        <briefdescription>
+<para>Returns the name of the camera. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>std::string The name of the camera </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/favreau/git/BioExplorer/bioexplorer/core/module/ispc/camera/PerspectiveStereoCamera.h" line="46" column="25" bodyfile="/home/favreau/git/BioExplorer/bioexplorer/core/module/ispc/camera/PerspectiveStereoCamera.h" bodystart="46" bodyend="49"/>
+      </memberdef>
+      <memberdef kind="function" id="d8/d50/structbioexplorer_1_1rendering_1_1PerspectiveStereoCamera_1aec0b92857c673fba74585cd347274bfa" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>void</type>
+        <definition>void bioexplorer::rendering::PerspectiveStereoCamera::commit</definition>
+        <argsstring>()</argsstring>
+        <name>commit</name>
+        <briefdescription>
+<para>Commit the changes to the OSPRay engine. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/favreau/git/BioExplorer/bioexplorer/core/module/ispc/camera/PerspectiveStereoCamera.h" line="55" column="18" bodyfile="/home/favreau/git/BioExplorer/bioexplorer/core/module/ispc/camera/PerspectiveStereoCamera.cpp" bodystart="42" bodyend="104"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>Camera</label>
+      </node>
+      <node id="1">
+        <label>bioexplorer::rendering::PerspectiveStereoCamera</label>
+        <link refid="d8/d50/structbioexplorer_1_1rendering_1_1PerspectiveStereoCamera"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="2">
+        <label>Camera</label>
+      </node>
+      <node id="1">
+        <label>bioexplorer::rendering::PerspectiveStereoCamera</label>
+        <link refid="d8/d50/structbioexplorer_1_1rendering_1_1PerspectiveStereoCamera"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="/home/favreau/git/BioExplorer/bioexplorer/core/module/ispc/camera/PerspectiveStereoCamera.h" line="34" column="1" bodyfile="/home/favreau/git/BioExplorer/bioexplorer/core/module/ispc/camera/PerspectiveStereoCamera.h" bodystart="33" bodyend="71"/>
+    <listofallmembers>
+      <member refid="d8/d50/structbioexplorer_1_1rendering_1_1PerspectiveStereoCamera_1afd098710cb504bb31226bb34e18b4555" prot="public" virt="non-virtual"><scope>bioexplorer::rendering::PerspectiveStereoCamera</scope><name>apertureRadius</name></member>
+      <member refid="d8/d50/structbioexplorer_1_1rendering_1_1PerspectiveStereoCamera_1a7815bc78f8429a480cfb27b042438878" prot="public" virt="non-virtual"><scope>bioexplorer::rendering::PerspectiveStereoCamera</scope><name>architectural</name></member>
+      <member refid="d8/d50/structbioexplorer_1_1rendering_1_1PerspectiveStereoCamera_1a1eac6016dcdcb2af573b67e076f04d18" prot="public" virt="non-virtual"><scope>bioexplorer::rendering::PerspectiveStereoCamera</scope><name>aspect</name></member>
+      <member refid="d8/d50/structbioexplorer_1_1rendering_1_1PerspectiveStereoCamera_1a9c795f6fc33e89aab080b9cbc9df42ee" prot="public" virt="non-virtual"><scope>bioexplorer::rendering::PerspectiveStereoCamera</scope><name>clipPlanes</name></member>
+      <member refid="d8/d50/structbioexplorer_1_1rendering_1_1PerspectiveStereoCamera_1aec0b92857c673fba74585cd347274bfa" prot="public" virt="virtual"><scope>bioexplorer::rendering::PerspectiveStereoCamera</scope><name>commit</name></member>
+      <member refid="d8/d50/structbioexplorer_1_1rendering_1_1PerspectiveStereoCamera_1af36277c22bbfa470f37a8086c5750092" prot="public" virt="non-virtual"><scope>bioexplorer::rendering::PerspectiveStereoCamera</scope><name>enableClippingPlanes</name></member>
+      <member refid="d8/d50/structbioexplorer_1_1rendering_1_1PerspectiveStereoCamera_1a4a2f9b213dc31cc87c945b70bf7908ca" prot="public" virt="non-virtual"><scope>bioexplorer::rendering::PerspectiveStereoCamera</scope><name>focusDistance</name></member>
+      <member refid="d8/d50/structbioexplorer_1_1rendering_1_1PerspectiveStereoCamera_1aca89b8b4c29cfd9969c4fcf0e6af9d1c" prot="public" virt="non-virtual"><scope>bioexplorer::rendering::PerspectiveStereoCamera</scope><name>fovy</name></member>
+      <member refid="d8/d50/structbioexplorer_1_1rendering_1_1PerspectiveStereoCamera_1ac7af9939588b4a3529e633087d6e7eb6" prot="public" virt="non-virtual"><scope>bioexplorer::rendering::PerspectiveStereoCamera</scope><name>interpupillaryDistance</name></member>
+      <member refid="d8/d50/structbioexplorer_1_1rendering_1_1PerspectiveStereoCamera_1a4d78780c9e9c64a8203ed33625d53194" prot="public" virt="non-virtual"><scope>bioexplorer::rendering::PerspectiveStereoCamera</scope><name>PerspectiveStereoCamera</name></member>
+      <member refid="d8/d50/structbioexplorer_1_1rendering_1_1PerspectiveStereoCamera_1a400744f8ab95dbf7b86c4c4b4baf40aa" prot="public" virt="non-virtual"><scope>bioexplorer::rendering::PerspectiveStereoCamera</scope><name>stereoMode</name></member>
+      <member refid="d8/d50/structbioexplorer_1_1rendering_1_1PerspectiveStereoCamera_1a841e2d57a050b3bfe3a83af7fb374e11" prot="public" virt="virtual"><scope>bioexplorer::rendering::PerspectiveStereoCamera</scope><name>toString</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,120 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.17">
+  <compounddef id="d9/df4/namespacetests" kind="namespace" language="C++">
+    <compoundname>tests</compoundname>
+      <sectiondef kind="func">
+      <memberdef kind="function" id="d8/d20/tests_2Glycans_8cpp_1a17d10ba12ec56c6c077fe8d07b6dd6ca" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string tests::getFileContents</definition>
+        <argsstring>(const std::string &amp;filename)</argsstring>
+        <name>getFileContents</name>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>filename</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/favreau/git/BioExplorer/bioexplorer/core/tests/Glycans.cpp" line="36" column="13" bodyfile="/home/favreau/git/BioExplorer/bioexplorer/core/tests/Glycans.cpp" bodystart="36" bodyend="49"/>
+      </memberdef>
+      <memberdef kind="function" id="d8/d20/tests_2Glycans_8cpp_1aff0aead1041fa83d004c40c9c982a0c9" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="dd/d92/structbioexplorer_1_1details_1_1SugarsDetails" kindref="compound">SugarsDetails</ref></type>
+        <definition>RNASequenceDetails tests::getDescriptor</definition>
+        <argsstring>()</argsstring>
+        <name>getDescriptor</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/favreau/git/BioExplorer/bioexplorer/core/tests/Glycans.cpp" line="51" column="15" bodyfile="/home/favreau/git/BioExplorer/bioexplorer/core/tests/Glycans.cpp" bodystart="51" bodyend="67"/>
+      </memberdef>
+      <memberdef kind="function" id="d8/d20/tests_2Glycans_8cpp_1a47ca6ca2c1549b8dab8288505ee5083c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>tests::BOOST_AUTO_TEST_CASE</definition>
+        <argsstring>(glycans)</argsstring>
+        <name>BOOST_AUTO_TEST_CASE</name>
+        <param>
+          <type>glycans</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/favreau/git/BioExplorer/bioexplorer/core/tests/Glycans.cpp" line="69" column="1" bodyfile="/home/favreau/git/BioExplorer/bioexplorer/core/tests/Glycans.cpp" bodystart="69" bodyend="80"/>
+      </memberdef>
+      <memberdef kind="function" id="de/de2/tests_2MeshBasedMembrane_8cpp_1a27f78528c0b6e0bf9000cd4121faaf02" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>tests::BOOST_AUTO_TEST_CASE</definition>
+        <argsstring>(meshBasedMembrane)</argsstring>
+        <name>BOOST_AUTO_TEST_CASE</name>
+        <param>
+          <type>meshBasedMembrane</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/favreau/git/BioExplorer/bioexplorer/core/tests/MeshBasedMembrane.cpp" line="75" column="1" bodyfile="/home/favreau/git/BioExplorer/bioexplorer/core/tests/MeshBasedMembrane.cpp" bodystart="75" bodyend="84"/>
+      </memberdef>
+      <memberdef kind="function" id="d1/df4/tests_2Protein_8cpp_1a8f5758eb78a935446c811dc29752fdae" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>ProteinDetails</type>
+        <definition>ProteinDetails tests::getProteinDescriptor</definition>
+        <argsstring>()</argsstring>
+        <name>getProteinDescriptor</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/favreau/git/BioExplorer/bioexplorer/core/tests/Protein.cpp" line="51" column="16" bodyfile="/home/favreau/git/BioExplorer/bioexplorer/core/tests/Protein.cpp" bodystart="51" bodyend="74"/>
+      </memberdef>
+      <memberdef kind="function" id="d1/df4/tests_2Protein_8cpp_1a64f9f3d8bab49843a5d3262872e12544" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>tests::BOOST_AUTO_TEST_CASE</definition>
+        <argsstring>(protein)</argsstring>
+        <name>BOOST_AUTO_TEST_CASE</name>
+        <param>
+          <type>protein</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/favreau/git/BioExplorer/bioexplorer/core/tests/Protein.cpp" line="76" column="1" bodyfile="/home/favreau/git/BioExplorer/bioexplorer/core/tests/Protein.cpp" bodystart="76" bodyend="112"/>
+      </memberdef>
+      <memberdef kind="function" id="d3/d6d/tests_2RNASequence_8cpp_1adab984e84b2b43a3f4e4519d8b301f8a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>tests::BOOST_AUTO_TEST_CASE</definition>
+        <argsstring>(rna_sequence)</argsstring>
+        <name>BOOST_AUTO_TEST_CASE</name>
+        <param>
+          <type>rna_sequence</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/favreau/git/BioExplorer/bioexplorer/core/tests/RNASequence.cpp" line="67" column="1" bodyfile="/home/favreau/git/BioExplorer/bioexplorer/core/tests/RNASequence.cpp" bodystart="67" bodyend="76"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="/home/favreau/git/BioExplorer/bioexplorer/core/tests/Glycans.cpp" line="32" column="1"/>
+  </compounddef>
+</doxygen>

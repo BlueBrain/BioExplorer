@@ -1,0 +1,13 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.17">
+  <compounddef id="dir_5488f46523affb6e74858420858b505f" kind="dir">
+    <compoundname>/home/favreau/git/BioExplorer/bioexplorer/core/module/ispc/camera</compoundname>
+    <innerfile refid="PerspectiveStereoCamera_8cpp">PerspectiveStereoCamera.cpp</innerfile>
+    <innerfile refid="PerspectiveStereoCamera_8h">PerspectiveStereoCamera.h</innerfile>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="/home/favreau/git/BioExplorer/bioexplorer/core/module/ispc/camera/"/>
+  </compounddef>
+</doxygen>

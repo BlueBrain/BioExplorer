@@ -44,6 +44,8 @@ using namespace io;
 
 const std::string PLUGIN_API_PREFIX = "be-";
 
+#if !defined(DOXYGEN_SHOULD_SKIP_THIS)
+
 #define CATCH_STD_EXCEPTION()           \
     catch (const std::runtime_error &e) \
     {                                   \
@@ -89,6 +91,7 @@ const std::string PLUGIN_API_PREFIX = "be-";
     }                                                  \
     CATCH_STD_EXCEPTION()                              \
     return response;
+#endif
 
 Boxd vector_to_bounds(const std::vector<float> &lowBounds,
                       const std::vector<float> &highBounds)

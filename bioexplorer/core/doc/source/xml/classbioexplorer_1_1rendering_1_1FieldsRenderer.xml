@@ -1,0 +1,305 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.17">
+  <compounddef id="classbioexplorer_1_1rendering_1_1FieldsRenderer" kind="class" language="C++" prot="public">
+    <compoundname>bioexplorer::rendering::FieldsRenderer</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">Renderer</basecompoundref>
+    <includes refid="FieldsRenderer_8h" local="no">FieldsRenderer.h</includes>
+      <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classbioexplorer_1_1rendering_1_1FieldsRenderer_1a39d55e6e4091adf0c8090eef28113ec9" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; void * &gt;</type>
+        <definition>std::vector&lt;void*&gt; bioexplorer::rendering::FieldsRenderer::_lightArray</definition>
+        <argsstring></argsstring>
+        <name>_lightArray</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/favreau/git/BioExplorer/bioexplorer/core/module/ispc/render/FieldsRenderer.h" line="64" column="17" bodyfile="/home/favreau/git/BioExplorer/bioexplorer/core/module/ispc/render/FieldsRenderer.h" bodystart="64" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classbioexplorer_1_1rendering_1_1FieldsRenderer_1a2fc8af124aabd8415de6f487ee139a91" prot="private" static="no" mutable="no">
+        <type>void **</type>
+        <definition>void** bioexplorer::rendering::FieldsRenderer::_lightPtr</definition>
+        <argsstring></argsstring>
+        <name>_lightPtr</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/favreau/git/BioExplorer/bioexplorer/core/module/ispc/render/FieldsRenderer.h" line="65" column="10" bodyfile="/home/favreau/git/BioExplorer/bioexplorer/core/module/ispc/render/FieldsRenderer.h" bodystart="65" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classbioexplorer_1_1rendering_1_1FieldsRenderer_1a78c2f428065eb39e31f714f592b722ba" prot="private" static="no" mutable="no">
+        <type>ospray::Data *</type>
+        <definition>ospray::Data* bioexplorer::rendering::FieldsRenderer::_lightData</definition>
+        <argsstring></argsstring>
+        <name>_lightData</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/favreau/git/BioExplorer/bioexplorer/core/module/ispc/render/FieldsRenderer.h" line="66" column="18" bodyfile="/home/favreau/git/BioExplorer/bioexplorer/core/module/ispc/render/FieldsRenderer.h" bodystart="66" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classbioexplorer_1_1rendering_1_1FieldsRenderer_1acc9b79cef63ae5a31b63c5edbad3ba2c" prot="private" static="no" mutable="no">
+        <type><ref refid="structbioexplorer_1_1rendering_1_1AdvancedMaterial" kindref="compound">AdvancedMaterial</ref> *</type>
+        <definition>AdvancedMaterial* bioexplorer::rendering::FieldsRenderer::_bgMaterial</definition>
+        <argsstring></argsstring>
+        <name>_bgMaterial</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/favreau/git/BioExplorer/bioexplorer/core/module/ispc/render/FieldsRenderer.h" line="68" column="22" bodyfile="/home/favreau/git/BioExplorer/bioexplorer/core/module/ispc/render/FieldsRenderer.h" bodystart="68" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classbioexplorer_1_1rendering_1_1FieldsRenderer_1a78fa79a844025c368467e4b271d11e24" prot="private" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool bioexplorer::rendering::FieldsRenderer::_useHardwareRandomizer</definition>
+        <argsstring></argsstring>
+        <name>_useHardwareRandomizer</name>
+        <initializer>{false}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/favreau/git/BioExplorer/bioexplorer/core/module/ispc/render/FieldsRenderer.h" line="70" column="10" bodyfile="/home/favreau/git/BioExplorer/bioexplorer/core/module/ispc/render/FieldsRenderer.h" bodystart="70" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classbioexplorer_1_1rendering_1_1FieldsRenderer_1a4cd1286e1c7515c1f6cbf8d4b8719418" prot="private" static="no" mutable="no">
+        <type>ospray::uint32</type>
+        <definition>ospray::uint32 bioexplorer::rendering::FieldsRenderer::_randomNumber</definition>
+        <argsstring></argsstring>
+        <name>_randomNumber</name>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/favreau/git/BioExplorer/bioexplorer/core/module/ispc/render/FieldsRenderer.h" line="71" column="20" bodyfile="/home/favreau/git/BioExplorer/bioexplorer/core/module/ispc/render/FieldsRenderer.h" bodystart="71" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classbioexplorer_1_1rendering_1_1FieldsRenderer_1a4e72992015ea9705f65d6541777724b5" prot="private" static="no" mutable="no">
+        <type>float</type>
+        <definition>float bioexplorer::rendering::FieldsRenderer::_timestamp</definition>
+        <argsstring></argsstring>
+        <name>_timestamp</name>
+        <initializer>{0.f}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/favreau/git/BioExplorer/bioexplorer/core/module/ispc/render/FieldsRenderer.h" line="73" column="11" bodyfile="/home/favreau/git/BioExplorer/bioexplorer/core/module/ispc/render/FieldsRenderer.h" bodystart="73" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classbioexplorer_1_1rendering_1_1FieldsRenderer_1a13c5cf886fd52b3de5e2d30808a6b668" prot="private" static="no" mutable="no">
+        <type>float</type>
+        <definition>float bioexplorer::rendering::FieldsRenderer::_exposure</definition>
+        <argsstring></argsstring>
+        <name>_exposure</name>
+        <initializer>{1.f}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/favreau/git/BioExplorer/bioexplorer/core/module/ispc/render/FieldsRenderer.h" line="74" column="11" bodyfile="/home/favreau/git/BioExplorer/bioexplorer/core/module/ispc/render/FieldsRenderer.h" bodystart="74" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classbioexplorer_1_1rendering_1_1FieldsRenderer_1a63709ae8d9c498f6bb7fbaf3600d6d57" prot="private" static="no" mutable="no">
+        <type>float</type>
+        <definition>float bioexplorer::rendering::FieldsRenderer::_alphaCorrection</definition>
+        <argsstring></argsstring>
+        <name>_alphaCorrection</name>
+        <initializer>{1.f}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/favreau/git/BioExplorer/bioexplorer/core/module/ispc/render/FieldsRenderer.h" line="76" column="11" bodyfile="/home/favreau/git/BioExplorer/bioexplorer/core/module/ispc/render/FieldsRenderer.h" bodystart="76" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classbioexplorer_1_1rendering_1_1FieldsRenderer_1ac43c2710c203d9d097095b9409e3d748" prot="private" static="no" mutable="no">
+        <type>float</type>
+        <definition>float bioexplorer::rendering::FieldsRenderer::_minRayStep</definition>
+        <argsstring></argsstring>
+        <name>_minRayStep</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/favreau/git/BioExplorer/bioexplorer/core/module/ispc/render/FieldsRenderer.h" line="79" column="11" bodyfile="/home/favreau/git/BioExplorer/bioexplorer/core/module/ispc/render/FieldsRenderer.h" bodystart="79" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classbioexplorer_1_1rendering_1_1FieldsRenderer_1a5e408cee2d6e6fba14abc227279f2692" prot="private" static="no" mutable="no">
+        <type>ospray::uint32</type>
+        <definition>ospray::uint32 bioexplorer::rendering::FieldsRenderer::_nbRaySteps</definition>
+        <argsstring></argsstring>
+        <name>_nbRaySteps</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/favreau/git/BioExplorer/bioexplorer/core/module/ispc/render/FieldsRenderer.h" line="80" column="20" bodyfile="/home/favreau/git/BioExplorer/bioexplorer/core/module/ispc/render/FieldsRenderer.h" bodystart="80" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classbioexplorer_1_1rendering_1_1FieldsRenderer_1afb1be204cd1655250de608d7c79e0d9d" prot="private" static="no" mutable="no">
+        <type>ospray::uint32</type>
+        <definition>ospray::uint32 bioexplorer::rendering::FieldsRenderer::_nbRayRefinementSteps</definition>
+        <argsstring></argsstring>
+        <name>_nbRayRefinementSteps</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/favreau/git/BioExplorer/bioexplorer/core/module/ispc/render/FieldsRenderer.h" line="81" column="20" bodyfile="/home/favreau/git/BioExplorer/bioexplorer/core/module/ispc/render/FieldsRenderer.h" bodystart="81" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classbioexplorer_1_1rendering_1_1FieldsRenderer_1a60d98d10ab5fad1e1f6ffc3d06521080" prot="private" static="no" mutable="no">
+        <type>float</type>
+        <definition>float bioexplorer::rendering::FieldsRenderer::_cutoff</definition>
+        <argsstring></argsstring>
+        <name>_cutoff</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/favreau/git/BioExplorer/bioexplorer/core/module/ispc/render/FieldsRenderer.h" line="83" column="11" bodyfile="/home/favreau/git/BioExplorer/bioexplorer/core/module/ispc/render/FieldsRenderer.h" bodystart="83" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classbioexplorer_1_1rendering_1_1FieldsRenderer_1a61c71f7cdfc9fa995aaea60fdbcbc81d" prot="private" static="no" mutable="no">
+        <type>ospray::Ref&lt; ospray::Data &gt;</type>
+        <definition>ospray::Ref&lt;ospray::Data&gt; bioexplorer::rendering::FieldsRenderer::_userData</definition>
+        <argsstring></argsstring>
+        <name>_userData</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/favreau/git/BioExplorer/bioexplorer/core/module/ispc/render/FieldsRenderer.h" line="84" column="17" bodyfile="/home/favreau/git/BioExplorer/bioexplorer/core/module/ispc/render/FieldsRenderer.h" bodystart="84" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classbioexplorer_1_1rendering_1_1FieldsRenderer_1a8116c745a12b5830dbadd25d249dbed9" prot="private" static="no" mutable="no">
+        <type>ospray::uint64</type>
+        <definition>ospray::uint64 bioexplorer::rendering::FieldsRenderer::_userDataSize</definition>
+        <argsstring></argsstring>
+        <name>_userDataSize</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/favreau/git/BioExplorer/bioexplorer/core/module/ispc/render/FieldsRenderer.h" line="85" column="20" bodyfile="/home/favreau/git/BioExplorer/bioexplorer/core/module/ispc/render/FieldsRenderer.h" bodystart="85" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="public-func">
+      <memberdef kind="function" id="classbioexplorer_1_1rendering_1_1FieldsRenderer_1ad83c6f06b14a267800724cf063c1798a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>bioexplorer::rendering::FieldsRenderer::FieldsRenderer</definition>
+        <argsstring>()</argsstring>
+        <name>FieldsRenderer</name>
+        <briefdescription>
+<para>Construct a new Bio Explorer Fields Renderer object. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/favreau/git/BioExplorer/bioexplorer/core/module/ispc/render/FieldsRenderer.h" line="47" column="5" bodyfile="/home/favreau/git/BioExplorer/bioexplorer/core/module/ispc/render/FieldsRenderer.cpp" bodystart="87" bodyend="90"/>
+      </memberdef>
+      <memberdef kind="function" id="classbioexplorer_1_1rendering_1_1FieldsRenderer_1a90f79f5b52f2847d84559539d306908c" prot="public" static="no" const="yes" explicit="no" inline="yes" final="yes" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string bioexplorer::rendering::FieldsRenderer::toString</definition>
+        <argsstring>() const final</argsstring>
+        <name>toString</name>
+        <briefdescription>
+<para>Returns the class name as a string. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>A string containing the full name of the class </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/favreau/git/BioExplorer/bioexplorer/core/module/ispc/render/FieldsRenderer.h" line="54" column="17" bodyfile="/home/favreau/git/BioExplorer/bioexplorer/core/module/ispc/render/FieldsRenderer.h" bodystart="54" bodyend="54"/>
+      </memberdef>
+      <memberdef kind="function" id="classbioexplorer_1_1rendering_1_1FieldsRenderer_1aa02d4cdf73eae3f8aef11bfd13cab8b5" prot="public" static="no" const="no" explicit="no" inline="no" final="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void bioexplorer::rendering::FieldsRenderer::commit</definition>
+        <argsstring>() final</argsstring>
+        <name>commit</name>
+        <briefdescription>
+<para>Commit the changes to the OSPRay engine. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/favreau/git/BioExplorer/bioexplorer/core/module/ispc/render/FieldsRenderer.h" line="60" column="10" bodyfile="/home/favreau/git/BioExplorer/bioexplorer/core/module/ispc/render/FieldsRenderer.cpp" bodystart="35" bodyend="85"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+<para>The <ref refid="classbioexplorer_1_1rendering_1_1FieldsRenderer" kindref="compound">FieldsRenderer</ref> class allows visualization of magnetic fields created by atoms in the 3D scene. An Octree acceleration structure has to be built by the be_build_fields API in order to feed the renderer with the information needed to compute the value of the field for every point in the 3D space. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>bioexplorer::rendering::FieldsRenderer</label>
+        <link refid="classbioexplorer_1_1rendering_1_1FieldsRenderer"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>ospray::Renderer</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>bioexplorer::rendering::FieldsRenderer</label>
+        <link refid="classbioexplorer_1_1rendering_1_1FieldsRenderer"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>ospray::Renderer</label>
+      </node>
+    </collaborationgraph>
+    <location file="/home/favreau/git/BioExplorer/bioexplorer/core/module/ispc/render/FieldsRenderer.h" line="41" column="1" bodyfile="/home/favreau/git/BioExplorer/bioexplorer/core/module/ispc/render/FieldsRenderer.h" bodystart="40" bodyend="86"/>
+    <listofallmembers>
+      <member refid="classbioexplorer_1_1rendering_1_1FieldsRenderer_1a63709ae8d9c498f6bb7fbaf3600d6d57" prot="private" virt="non-virtual"><scope>bioexplorer::rendering::FieldsRenderer</scope><name>_alphaCorrection</name></member>
+      <member refid="classbioexplorer_1_1rendering_1_1FieldsRenderer_1acc9b79cef63ae5a31b63c5edbad3ba2c" prot="private" virt="non-virtual"><scope>bioexplorer::rendering::FieldsRenderer</scope><name>_bgMaterial</name></member>
+      <member refid="classbioexplorer_1_1rendering_1_1FieldsRenderer_1a60d98d10ab5fad1e1f6ffc3d06521080" prot="private" virt="non-virtual"><scope>bioexplorer::rendering::FieldsRenderer</scope><name>_cutoff</name></member>
+      <member refid="classbioexplorer_1_1rendering_1_1FieldsRenderer_1a13c5cf886fd52b3de5e2d30808a6b668" prot="private" virt="non-virtual"><scope>bioexplorer::rendering::FieldsRenderer</scope><name>_exposure</name></member>
+      <member refid="classbioexplorer_1_1rendering_1_1FieldsRenderer_1a39d55e6e4091adf0c8090eef28113ec9" prot="private" virt="non-virtual"><scope>bioexplorer::rendering::FieldsRenderer</scope><name>_lightArray</name></member>
+      <member refid="classbioexplorer_1_1rendering_1_1FieldsRenderer_1a78c2f428065eb39e31f714f592b722ba" prot="private" virt="non-virtual"><scope>bioexplorer::rendering::FieldsRenderer</scope><name>_lightData</name></member>
+      <member refid="classbioexplorer_1_1rendering_1_1FieldsRenderer_1a2fc8af124aabd8415de6f487ee139a91" prot="private" virt="non-virtual"><scope>bioexplorer::rendering::FieldsRenderer</scope><name>_lightPtr</name></member>
+      <member refid="classbioexplorer_1_1rendering_1_1FieldsRenderer_1ac43c2710c203d9d097095b9409e3d748" prot="private" virt="non-virtual"><scope>bioexplorer::rendering::FieldsRenderer</scope><name>_minRayStep</name></member>
+      <member refid="classbioexplorer_1_1rendering_1_1FieldsRenderer_1afb1be204cd1655250de608d7c79e0d9d" prot="private" virt="non-virtual"><scope>bioexplorer::rendering::FieldsRenderer</scope><name>_nbRayRefinementSteps</name></member>
+      <member refid="classbioexplorer_1_1rendering_1_1FieldsRenderer_1a5e408cee2d6e6fba14abc227279f2692" prot="private" virt="non-virtual"><scope>bioexplorer::rendering::FieldsRenderer</scope><name>_nbRaySteps</name></member>
+      <member refid="classbioexplorer_1_1rendering_1_1FieldsRenderer_1a4cd1286e1c7515c1f6cbf8d4b8719418" prot="private" virt="non-virtual"><scope>bioexplorer::rendering::FieldsRenderer</scope><name>_randomNumber</name></member>
+      <member refid="classbioexplorer_1_1rendering_1_1FieldsRenderer_1a4e72992015ea9705f65d6541777724b5" prot="private" virt="non-virtual"><scope>bioexplorer::rendering::FieldsRenderer</scope><name>_timestamp</name></member>
+      <member refid="classbioexplorer_1_1rendering_1_1FieldsRenderer_1a78fa79a844025c368467e4b271d11e24" prot="private" virt="non-virtual"><scope>bioexplorer::rendering::FieldsRenderer</scope><name>_useHardwareRandomizer</name></member>
+      <member refid="classbioexplorer_1_1rendering_1_1FieldsRenderer_1a61c71f7cdfc9fa995aaea60fdbcbc81d" prot="private" virt="non-virtual"><scope>bioexplorer::rendering::FieldsRenderer</scope><name>_userData</name></member>
+      <member refid="classbioexplorer_1_1rendering_1_1FieldsRenderer_1a8116c745a12b5830dbadd25d249dbed9" prot="private" virt="non-virtual"><scope>bioexplorer::rendering::FieldsRenderer</scope><name>_userDataSize</name></member>
+      <member refid="classbioexplorer_1_1rendering_1_1FieldsRenderer_1aa02d4cdf73eae3f8aef11bfd13cab8b5" prot="public" virt="non-virtual"><scope>bioexplorer::rendering::FieldsRenderer</scope><name>commit</name></member>
+      <member refid="classbioexplorer_1_1rendering_1_1FieldsRenderer_1ad83c6f06b14a267800724cf063c1798a" prot="public" virt="non-virtual"><scope>bioexplorer::rendering::FieldsRenderer</scope><name>FieldsRenderer</name></member>
+      <member refid="classbioexplorer_1_1rendering_1_1FieldsRenderer_1a90f79f5b52f2847d84559539d306908c" prot="public" virt="non-virtual"><scope>bioexplorer::rendering::FieldsRenderer</scope><name>toString</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

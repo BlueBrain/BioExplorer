@@ -1,0 +1,788 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.17">
+  <compounddef id="da/d0b/namespacebioexplorer_1_1common" kind="namespace" language="C++">
+    <compoundname>bioexplorer::common</compoundname>
+    <innerclass refid="d2/da7/classbioexplorer_1_1common_1_1GeneralSettings" prot="public">bioexplorer::common::GeneralSettings</innerclass>
+    <innerclass refid="d0/dbd/classbioexplorer_1_1common_1_1UniqueId" prot="public">bioexplorer::common::UniqueId</innerclass>
+      <sectiondef kind="func">
+      <memberdef kind="function" id="df/d0c/Utils_8cpp_1a7f991bebc8560bfd1770ba2fed2eb803" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Quaterniond</type>
+        <definition>Quaterniond bioexplorer::common::quatLookAt</definition>
+        <argsstring>(const Vector3f &amp;dir)</argsstring>
+        <name>quatLookAt</name>
+        <param>
+          <type>const Vector3f &amp;</type>
+          <declname>dir</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/favreau/git/BioExplorer/bioexplorer/core/plugin/common/Utils.cpp" line="87" column="13" bodyfile="/home/favreau/git/BioExplorer/bioexplorer/core/plugin/common/Utils.cpp" bodystart="87" bodyend="94"/>
+      </memberdef>
+      <memberdef kind="function" id="df/d0c/Utils_8cpp_1ad03e4e4645f1947184d7ff6d8adb8a56" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string &amp;</type>
+        <definition>std::string &amp; bioexplorer::common::ltrim</definition>
+        <argsstring>(std::string &amp;s)</argsstring>
+        <name>ltrim</name>
+        <param>
+          <type>std::string &amp;</type>
+          <declname>s</declname>
+        </param>
+        <briefdescription>
+<para>Left trim of a string. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>s</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>String to trim </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Trimmed string </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/favreau/git/BioExplorer/bioexplorer/core/plugin/common/Utils.cpp" line="96" column="13" bodyfile="/home/favreau/git/BioExplorer/bioexplorer/core/plugin/common/Utils.cpp" bodystart="96" bodyend="101" declfile="/home/favreau/git/BioExplorer/bioexplorer/core/plugin/common/Utils.h" declline="40" declcolumn="13"/>
+      </memberdef>
+      <memberdef kind="function" id="df/d0c/Utils_8cpp_1a99f90f37521e9d61f59f2b632beec36c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string &amp;</type>
+        <definition>std::string &amp; bioexplorer::common::rtrim</definition>
+        <argsstring>(std::string &amp;s)</argsstring>
+        <name>rtrim</name>
+        <param>
+          <type>std::string &amp;</type>
+          <declname>s</declname>
+        </param>
+        <briefdescription>
+<para>Right trim of a string. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>s</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>String to trim </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Trimmed string </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/favreau/git/BioExplorer/bioexplorer/core/plugin/common/Utils.cpp" line="103" column="13" bodyfile="/home/favreau/git/BioExplorer/bioexplorer/core/plugin/common/Utils.cpp" bodystart="103" bodyend="110" declfile="/home/favreau/git/BioExplorer/bioexplorer/core/plugin/common/Utils.h" declline="48" declcolumn="13"/>
+      </memberdef>
+      <memberdef kind="function" id="df/d0c/Utils_8cpp_1abd875ed3e0e2421f483661531a434e87" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string &amp;</type>
+        <definition>std::string &amp; bioexplorer::common::trim</definition>
+        <argsstring>(std::string &amp;s)</argsstring>
+        <name>trim</name>
+        <param>
+          <type>std::string &amp;</type>
+          <declname>s</declname>
+        </param>
+        <briefdescription>
+<para>Left and right trim of a string. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>s</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>String to trim </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Trimmed string </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/favreau/git/BioExplorer/bioexplorer/core/plugin/common/Utils.cpp" line="112" column="13" bodyfile="/home/favreau/git/BioExplorer/bioexplorer/core/plugin/common/Utils.cpp" bodystart="112" bodyend="115" declfile="/home/favreau/git/BioExplorer/bioexplorer/core/plugin/common/Utils.h" declline="56" declcolumn="13"/>
+      </memberdef>
+      <memberdef kind="function" id="df/d0c/Utils_8cpp_1a92785b1a52181dfc57c7d6972b6d678e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool bioexplorer::common::isClipped</definition>
+        <argsstring>(const Vector3f &amp;position, const Vector4fs &amp;clippingPlanes)</argsstring>
+        <name>isClipped</name>
+        <param>
+          <type>const Vector3f &amp;</type>
+          <declname>position</declname>
+        </param>
+        <param>
+          <type>const Vector4fs &amp;</type>
+          <declname>clippingPlanes</declname>
+        </param>
+        <briefdescription>
+<para>isClipped Determine if a 3d position is inside a volume defined by clipping planes </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>position</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Position to check </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>clippingPlanes</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Clipping planes defining the volume </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True if the position does not belong to the volume, false otherwise </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/favreau/git/BioExplorer/bioexplorer/core/plugin/common/Utils.cpp" line="117" column="6" bodyfile="/home/favreau/git/BioExplorer/bioexplorer/core/plugin/common/Utils.cpp" bodystart="117" bodyend="131" declfile="/home/favreau/git/BioExplorer/bioexplorer/core/plugin/common/Utils.h" declline="66" declcolumn="6"/>
+      </memberdef>
+      <memberdef kind="function" id="df/d0c/Utils_8cpp_1ae5d230aab60dcba41c739b32a55eb416" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Transformation</type>
+        <definition>Transformation bioexplorer::common::getSphericalPosition</definition>
+        <argsstring>(const Vector3f &amp;position, const float radius, const size_t occurence, const size_t occurences, const RandomizationDetails &amp;randInfo)</argsstring>
+        <name>getSphericalPosition</name>
+        <param>
+          <type>const Vector3f &amp;</type>
+          <declname>position</declname>
+        </param>
+        <param>
+          <type>const float</type>
+          <declname>radius</declname>
+        </param>
+        <param>
+          <type>const size_t</type>
+          <declname>occurence</declname>
+        </param>
+        <param>
+          <type>const size_t</type>
+          <declname>occurences</declname>
+        </param>
+        <param>
+          <type>const <ref refid="d7/dd2/structbioexplorer_1_1details_1_1RandomizationDetails" kindref="compound">RandomizationDetails</ref> &amp;</type>
+          <declname>randInfo</declname>
+        </param>
+        <briefdescription>
+<para>getSphericalPosition Provide a random position and rotation on a sphere </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>rnd</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Random seed for the position on the sphere </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>center</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Center of the sphere in the 3D scene </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>radius</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Radius of the sphere </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>occurence</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Occurence of the position amongst the maximum of occurences (see next parameters) </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>occurences</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Maximum number of occurences on the sphere </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>randInfo</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Type of randomization to apply to the position and rotation </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Transformation of the random position and rotation on the sphere </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/favreau/git/BioExplorer/bioexplorer/core/plugin/common/Utils.cpp" line="133" column="16" bodyfile="/home/favreau/git/BioExplorer/bioexplorer/core/plugin/common/Utils.cpp" bodystart="133" bodyend="173" declfile="/home/favreau/git/BioExplorer/bioexplorer/core/plugin/common/Utils.h" declline="82" declcolumn="16"/>
+      </memberdef>
+      <memberdef kind="function" id="df/d0c/Utils_8cpp_1a3e77965f22c33eec6b6f379c8ceff35a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Transformation</type>
+        <definition>Transformation bioexplorer::common::getFanPosition</definition>
+        <argsstring>(const Vector3f &amp;center, const float radius, const size_t occurence, const size_t occurences, const RandomizationDetails &amp;randInfo)</argsstring>
+        <name>getFanPosition</name>
+        <param>
+          <type>const Vector3f &amp;</type>
+          <declname>center</declname>
+        </param>
+        <param>
+          <type>const float</type>
+          <declname>radius</declname>
+        </param>
+        <param>
+          <type>const size_t</type>
+          <declname>occurence</declname>
+        </param>
+        <param>
+          <type>const size_t</type>
+          <declname>occurences</declname>
+        </param>
+        <param>
+          <type>const <ref refid="d7/dd2/structbioexplorer_1_1details_1_1RandomizationDetails" kindref="compound">RandomizationDetails</ref> &amp;</type>
+          <declname>randInfo</declname>
+        </param>
+        <briefdescription>
+<para>Get the Fan Position object. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>center</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Center of the fan in the 3D scene </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>radius</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Radius of the fan in the 3D scene </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>occurence</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Occurence of the position amongst the maximum of occurences (see next parameters) </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>occurences</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Maximum number of occurences on the sphere </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>randInfo</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Type of randomization to apply to the position and rotation </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Transformation of the random position and rotation on the plane </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/favreau/git/BioExplorer/bioexplorer/core/plugin/common/Utils.cpp" line="175" column="16" bodyfile="/home/favreau/git/BioExplorer/bioexplorer/core/plugin/common/Utils.cpp" bodystart="175" bodyend="200" declfile="/home/favreau/git/BioExplorer/bioexplorer/core/plugin/common/Utils.h" declline="148" declcolumn="16"/>
+      </memberdef>
+      <memberdef kind="function" id="df/d0c/Utils_8cpp_1a7f7a715a6cc8088bf16427642546560b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Transformation</type>
+        <definition>Transformation bioexplorer::common::getPlanarPosition</definition>
+        <argsstring>(const Vector3f &amp;position, const float size, const RandomizationDetails &amp;randInfo)</argsstring>
+        <name>getPlanarPosition</name>
+        <param>
+          <type>const Vector3f &amp;</type>
+          <declname>position</declname>
+        </param>
+        <param>
+          <type>const float</type>
+          <declname>size</declname>
+        </param>
+        <param>
+          <type>const <ref refid="d7/dd2/structbioexplorer_1_1details_1_1RandomizationDetails" kindref="compound">RandomizationDetails</ref> &amp;</type>
+          <declname>randInfo</declname>
+        </param>
+        <briefdescription>
+<para>Get a random position in a 2D square along the X and Z axis. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>center</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Center of the delimited plane in the 3D scene </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>size</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Size of the side of square </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>randInfo</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Type of randomization to apply to the position and rotation </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Transformation of the random position and rotation on the plane </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/favreau/git/BioExplorer/bioexplorer/core/plugin/common/Utils.cpp" line="202" column="16" bodyfile="/home/favreau/git/BioExplorer/bioexplorer/core/plugin/common/Utils.cpp" bodystart="202" bodyend="215" declfile="/home/favreau/git/BioExplorer/bioexplorer/core/plugin/common/Utils.h" declline="96" declcolumn="16"/>
+      </memberdef>
+      <memberdef kind="function" id="df/d0c/Utils_8cpp_1a7cbb0761876adc3633748e13c04e8f6b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Transformation</type>
+        <definition>Transformation bioexplorer::common::getCubicPosition</definition>
+        <argsstring>(const Vector3f &amp;center, const float size, const RandomizationDetails &amp;randInfo)</argsstring>
+        <name>getCubicPosition</name>
+        <param>
+          <type>const Vector3f &amp;</type>
+          <declname>center</declname>
+        </param>
+        <param>
+          <type>const float</type>
+          <declname>size</declname>
+        </param>
+        <param>
+          <type>const <ref refid="d7/dd2/structbioexplorer_1_1details_1_1RandomizationDetails" kindref="compound">RandomizationDetails</ref> &amp;</type>
+          <declname>randInfo</declname>
+        </param>
+        <briefdescription>
+<para>Get the Cubic Position object. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>center</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Center of the cube in the 3D scene </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>size</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Size of the side of cube </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>randInfo</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Type of randomization to apply to the position and rotation </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Transformation of the random position and rotation on the plane </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/favreau/git/BioExplorer/bioexplorer/core/plugin/common/Utils.cpp" line="217" column="16" bodyfile="/home/favreau/git/BioExplorer/bioexplorer/core/plugin/common/Utils.cpp" bodystart="217" bodyend="241" declfile="/home/favreau/git/BioExplorer/bioexplorer/core/plugin/common/Utils.h" declline="108" declcolumn="16"/>
+      </memberdef>
+      <memberdef kind="function" id="df/d0c/Utils_8cpp_1ab6a1adeb8184a642762dab9ef65a30ef" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>float</type>
+        <definition>float bioexplorer::common::sinusoide</definition>
+        <argsstring>(const float x, const float z)</argsstring>
+        <name>sinusoide</name>
+        <param>
+          <type>const float</type>
+          <declname>x</declname>
+        </param>
+        <param>
+          <type>const float</type>
+          <declname>z</declname>
+        </param>
+        <briefdescription>
+<para>Get the Cubic Position object. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>x</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Position along the x axis </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>z</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Position along the z axis </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>float Position along the y axis </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/favreau/git/BioExplorer/bioexplorer/core/plugin/common/Utils.cpp" line="243" column="7" bodyfile="/home/favreau/git/BioExplorer/bioexplorer/core/plugin/common/Utils.cpp" bodystart="243" bodyend="246" declfile="/home/favreau/git/BioExplorer/bioexplorer/core/plugin/common/Utils.h" declline="118" declcolumn="7"/>
+      </memberdef>
+      <memberdef kind="function" id="df/d0c/Utils_8cpp_1a0f03f65d4b09dd9eae595d90777c9556" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Transformation</type>
+        <definition>Transformation bioexplorer::common::getSinosoidalPosition</definition>
+        <argsstring>(const Vector3f &amp;center, const float size, const float amplitude, const size_t occurence, const RandomizationDetails &amp;randInfo)</argsstring>
+        <name>getSinosoidalPosition</name>
+        <param>
+          <type>const Vector3f &amp;</type>
+          <declname>center</declname>
+        </param>
+        <param>
+          <type>const float</type>
+          <declname>size</declname>
+        </param>
+        <param>
+          <type>const float</type>
+          <declname>amplitude</declname>
+        </param>
+        <param>
+          <type>const size_t</type>
+          <declname>occurence</declname>
+        </param>
+        <param>
+          <type>const <ref refid="d7/dd2/structbioexplorer_1_1details_1_1RandomizationDetails" kindref="compound">RandomizationDetails</ref> &amp;</type>
+          <declname>randInfo</declname>
+        </param>
+        <briefdescription>
+<para>Get the Sinosoidal Position object. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>center</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Center of the sinosoidal function in the 3D scene </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>size</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Size of the side of sinosoidal function </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>amplitude</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Amplitude of the sinosoidal function </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>occurence</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Occurence of the position amongst the maximum of occurences </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>randInfo</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Type of randomization to apply to the position and rotation </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Transformation of the random position and rotation on the plane </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/favreau/git/BioExplorer/bioexplorer/core/plugin/common/Utils.cpp" line="248" column="16" bodyfile="/home/favreau/git/BioExplorer/bioexplorer/core/plugin/common/Utils.cpp" bodystart="248" bodyend="289" declfile="/home/favreau/git/BioExplorer/bioexplorer/core/plugin/common/Utils.h" declline="131" declcolumn="16"/>
+      </memberdef>
+      <memberdef kind="function" id="df/d0c/Utils_8cpp_1a74373d66b93f08434a69b86aa0af99c6" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Transformation</type>
+        <definition>Transformation bioexplorer::common::getBezierPosition</definition>
+        <argsstring>(const Vector3fs &amp;points, const float scale, const float t)</argsstring>
+        <name>getBezierPosition</name>
+        <param>
+          <type>const Vector3fs &amp;</type>
+          <declname>points</declname>
+        </param>
+        <param>
+          <type>const float</type>
+          <declname>scale</declname>
+        </param>
+        <param>
+          <type>const float</type>
+          <declname>t</declname>
+        </param>
+        <briefdescription>
+<para>Get the Bezier Position object. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>points</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Points defining the Bezier curve </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>scale</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Scale to apply to the points </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>t</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Value of t along the Bezier curve (0..1) </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Transformation of the position and rotation on the Bezier curve </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/favreau/git/BioExplorer/bioexplorer/core/plugin/common/Utils.cpp" line="291" column="16" bodyfile="/home/favreau/git/BioExplorer/bioexplorer/core/plugin/common/Utils.cpp" bodystart="291" bodyend="313" declfile="/home/favreau/git/BioExplorer/bioexplorer/core/plugin/common/Utils.h" declline="160" declcolumn="16"/>
+      </memberdef>
+      <memberdef kind="function" id="df/d0c/Utils_8cpp_1a646dead0371de62293f0d7315ec2e6a2" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Transformation</type>
+        <definition>Transformation bioexplorer::common::getSphericalToPlanarPosition</definition>
+        <argsstring>(const Vector3f &amp;center, const float radius, const size_t occurence, const size_t occurences, const RandomizationDetails &amp;randInfo, const float morphingStep)</argsstring>
+        <name>getSphericalToPlanarPosition</name>
+        <param>
+          <type>const Vector3f &amp;</type>
+          <declname>center</declname>
+        </param>
+        <param>
+          <type>const float</type>
+          <declname>radius</declname>
+        </param>
+        <param>
+          <type>const size_t</type>
+          <declname>occurence</declname>
+        </param>
+        <param>
+          <type>const size_t</type>
+          <declname>occurences</declname>
+        </param>
+        <param>
+          <type>const <ref refid="d7/dd2/structbioexplorer_1_1details_1_1RandomizationDetails" kindref="compound">RandomizationDetails</ref> &amp;</type>
+          <declname>randInfo</declname>
+        </param>
+        <param>
+          <type>const float</type>
+          <declname>morphingStep</declname>
+        </param>
+        <briefdescription>
+<para>Get the Spherical To Planar Position object. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>center</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Center of the fan in the 3D scene </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>radius</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Radius of the fan in the 3D scene </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>occurence</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Occurence of the position amongst the maximum of occurences (see next parameters) </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>occurences</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Maximum number of occurences on the sphere </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>randInfo</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Type of randomization to apply to the position and rotation </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>morphingStep</parametername>
+</parameternamelist>
+<parameterdescription>
+<para></para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Transformation of the random position and rotation on the plane </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/favreau/git/BioExplorer/bioexplorer/core/plugin/common/Utils.cpp" line="315" column="16" bodyfile="/home/favreau/git/BioExplorer/bioexplorer/core/plugin/common/Utils.cpp" bodystart="315" bodyend="371" declfile="/home/favreau/git/BioExplorer/bioexplorer/core/plugin/common/Utils.h" declline="176" declcolumn="16"/>
+      </memberdef>
+      <memberdef kind="function" id="df/d0c/Utils_8cpp_1a00dd5ccb1d55c38152492925e97a738f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void bioexplorer::common::setDefaultTransferFunction</definition>
+        <argsstring>(Model &amp;model)</argsstring>
+        <name>setDefaultTransferFunction</name>
+        <param>
+          <type>Model &amp;</type>
+          <declname>model</declname>
+        </param>
+        <briefdescription>
+<para>Set the default transfer function (Unipolar) to a given model. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>model</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Model to which the transfer function should be set </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/favreau/git/BioExplorer/bioexplorer/core/plugin/common/Utils.cpp" line="373" column="6" bodyfile="/home/favreau/git/BioExplorer/bioexplorer/core/plugin/common/Utils.cpp" bodystart="373" bodyend="509" declfile="/home/favreau/git/BioExplorer/bioexplorer/core/plugin/common/Utils.h" declline="186" declcolumn="6"/>
+      </memberdef>
+      <memberdef kind="function" id="df/d0c/Utils_8cpp_1a17a051f03b2ba2e2b80d8ae436ca660c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Vector4fs</type>
+        <definition>Vector4fs bioexplorer::common::getClippingPlanes</definition>
+        <argsstring>(const Scene &amp;scene)</argsstring>
+        <name>getClippingPlanes</name>
+        <param>
+          <type>const Scene &amp;</type>
+          <declname>scene</declname>
+        </param>
+        <briefdescription>
+<para>Get the Clipping Planes from the scene. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>scene</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>3D scene </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Vector4fs List of clipping planes </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/favreau/git/BioExplorer/bioexplorer/core/plugin/common/Utils.cpp" line="511" column="11" bodyfile="/home/favreau/git/BioExplorer/bioexplorer/core/plugin/common/Utils.cpp" bodystart="511" bodyend="522" declfile="/home/favreau/git/BioExplorer/bioexplorer/core/plugin/common/Utils.h" declline="194" declcolumn="11"/>
+      </memberdef>
+      <memberdef kind="function" id="df/d0c/Utils_8cpp_1adf9e686f787f2ce883b90c0a80000b7e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Quaterniond</type>
+        <definition>Quaterniond bioexplorer::common::randomQuaternion</definition>
+        <argsstring>(const size_t seed)</argsstring>
+        <name>randomQuaternion</name>
+        <param>
+          <type>const size_t</type>
+          <declname>seed</declname>
+        </param>
+        <briefdescription>
+<para>Generate a random quaternion. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>seed</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Seed to apply to the randomness </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Quaterniond Random quaternion </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/favreau/git/BioExplorer/bioexplorer/core/plugin/common/Utils.cpp" line="524" column="13" bodyfile="/home/favreau/git/BioExplorer/bioexplorer/core/plugin/common/Utils.cpp" bodystart="524" bodyend="541" declfile="/home/favreau/git/BioExplorer/bioexplorer/core/plugin/common/Utils.h" declline="202" declcolumn="13"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="/home/favreau/git/BioExplorer/bioexplorer/core/plugin/common/GeneralSettings.cpp" line="26" column="1"/>
+  </compounddef>
+</doxygen>

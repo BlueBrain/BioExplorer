@@ -1,0 +1,302 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.17">
+  <compounddef id="classbioexplorer_1_1biology_1_1RNASequence" kind="class" language="C++" prot="public">
+    <compoundname>bioexplorer::biology::RNASequence</compoundname>
+    <basecompoundref refid="classbioexplorer_1_1biology_1_1Node" prot="public" virt="non-virtual">bioexplorer::biology::Node</basecompoundref>
+    <includes refid="RNASequence_8h" local="no">RNASequence.h</includes>
+      <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classbioexplorer_1_1biology_1_1RNASequence_1ae571f4551262203c9090c4fde3feb4c1" prot="private" static="no" mutable="no">
+        <type>RNASequenceMap</type>
+        <definition>RNASequenceMap bioexplorer::biology::RNASequence::_rnaSequenceMap</definition>
+        <argsstring></argsstring>
+        <name>_rnaSequenceMap</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/favreau/git/BioExplorer/bioexplorer/core/plugin/biology/RNASequence.h" line="64" column="20" bodyfile="/home/favreau/git/BioExplorer/bioexplorer/core/plugin/biology/RNASequence.h" bodystart="64" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="public-func">
+      <memberdef kind="function" id="classbioexplorer_1_1biology_1_1RNASequence_1aefa8008cd961953e5b95243f8a669a82" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>bioexplorer::biology::RNASequence::RNASequence</definition>
+        <argsstring>(Scene &amp;scene, const RNASequenceDetails &amp;details)</argsstring>
+        <name>RNASequence</name>
+        <param>
+          <type>Scene &amp;</type>
+          <declname>scene</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structbioexplorer_1_1details_1_1RNASequenceDetails" kindref="compound">RNASequenceDetails</ref> &amp;</type>
+          <declname>details</declname>
+        </param>
+        <briefdescription>
+<para>Construct a new <ref refid="classbioexplorer_1_1biology_1_1RNASequence" kindref="compound">RNASequence</ref> object. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>scene</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Scene to which the RNA sequence should be added </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>details</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Details of the RNA sequence </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>position</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Relative position of the RNA sequence in the assembly </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/favreau/git/BioExplorer/bioexplorer/core/plugin/biology/RNASequence.h" line="46" column="5" bodyfile="/home/favreau/git/BioExplorer/bioexplorer/core/plugin/biology/RNASequence.cpp" bodystart="62" bodyend="213"/>
+      </memberdef>
+      <memberdef kind="function" id="classbioexplorer_1_1biology_1_1RNASequence_1a82b2e7bcfba9798adc101e00a02f89f5" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>RNASequenceMap</type>
+        <definition>RNASequenceMap bioexplorer::biology::RNASequence::getRNASequences</definition>
+        <argsstring>()</argsstring>
+        <name>getRNASequences</name>
+        <briefdescription>
+<para>Get the map of RNA sequences. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>The map of RNA sequences </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/favreau/git/BioExplorer/bioexplorer/core/plugin/biology/RNASequence.h" line="53" column="20" bodyfile="/home/favreau/git/BioExplorer/bioexplorer/core/plugin/biology/RNASequence.h" bodystart="53" bodyend="53"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="private-func">
+      <memberdef kind="function" id="classbioexplorer_1_1biology_1_1RNASequence_1a2a1fa0f75ef1f6b1139c1d2a7f04b80e" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Vector3f</type>
+        <definition>Vector3f bioexplorer::biology::RNASequence::_trefoilKnot</definition>
+        <argsstring>(float R, float t, const Vector3f &amp;params)</argsstring>
+        <name>_trefoilKnot</name>
+        <param>
+          <type>float</type>
+          <declname>R</declname>
+        </param>
+        <param>
+          <type>float</type>
+          <declname>t</declname>
+        </param>
+        <param>
+          <type>const Vector3f &amp;</type>
+          <declname>params</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/favreau/git/BioExplorer/bioexplorer/core/plugin/biology/RNASequence.h" line="56" column="14" bodyfile="/home/favreau/git/BioExplorer/bioexplorer/core/plugin/biology/RNASequence.cpp" bodystart="215" bodyend="221"/>
+      </memberdef>
+      <memberdef kind="function" id="classbioexplorer_1_1biology_1_1RNASequence_1aed49667e0573ad6c9d57a4760a845cc1" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Vector3f</type>
+        <definition>Vector3f bioexplorer::biology::RNASequence::_torus</definition>
+        <argsstring>(float R, float t, const Vector3f &amp;params)</argsstring>
+        <name>_torus</name>
+        <param>
+          <type>float</type>
+          <declname>R</declname>
+        </param>
+        <param>
+          <type>float</type>
+          <declname>t</declname>
+        </param>
+        <param>
+          <type>const Vector3f &amp;</type>
+          <declname>params</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/favreau/git/BioExplorer/bioexplorer/core/plugin/biology/RNASequence.h" line="57" column="14" bodyfile="/home/favreau/git/BioExplorer/bioexplorer/core/plugin/biology/RNASequence.cpp" bodystart="223" bodyend="229"/>
+      </memberdef>
+      <memberdef kind="function" id="classbioexplorer_1_1biology_1_1RNASequence_1af34cce9b1114b8ca1559563baa85c067" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Vector3f</type>
+        <definition>Vector3f bioexplorer::biology::RNASequence::_star</definition>
+        <argsstring>(float R, float t)</argsstring>
+        <name>_star</name>
+        <param>
+          <type>float</type>
+          <declname>R</declname>
+        </param>
+        <param>
+          <type>float</type>
+          <declname>t</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/favreau/git/BioExplorer/bioexplorer/core/plugin/biology/RNASequence.h" line="58" column="14" bodyfile="/home/favreau/git/BioExplorer/bioexplorer/core/plugin/biology/RNASequence.cpp" bodystart="231" bodyend="235"/>
+      </memberdef>
+      <memberdef kind="function" id="classbioexplorer_1_1biology_1_1RNASequence_1afa6bf81ef6f4ada87f715a5238da2725" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Vector3f</type>
+        <definition>Vector3f bioexplorer::biology::RNASequence::_spring</definition>
+        <argsstring>(float R, float t)</argsstring>
+        <name>_spring</name>
+        <param>
+          <type>float</type>
+          <declname>R</declname>
+        </param>
+        <param>
+          <type>float</type>
+          <declname>t</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/favreau/git/BioExplorer/bioexplorer/core/plugin/biology/RNASequence.h" line="59" column="14" bodyfile="/home/favreau/git/BioExplorer/bioexplorer/core/plugin/biology/RNASequence.cpp" bodystart="237" bodyend="240"/>
+      </memberdef>
+      <memberdef kind="function" id="classbioexplorer_1_1biology_1_1RNASequence_1a5f050b2cb374280bd9d8b40fc51aa2d5" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Vector3f</type>
+        <definition>Vector3f bioexplorer::biology::RNASequence::_heart</definition>
+        <argsstring>(float R, float u)</argsstring>
+        <name>_heart</name>
+        <param>
+          <type>float</type>
+          <declname>R</declname>
+        </param>
+        <param>
+          <type>float</type>
+          <declname>u</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/favreau/git/BioExplorer/bioexplorer/core/plugin/biology/RNASequence.h" line="60" column="14" bodyfile="/home/favreau/git/BioExplorer/bioexplorer/core/plugin/biology/RNASequence.cpp" bodystart="242" bodyend="249"/>
+      </memberdef>
+      <memberdef kind="function" id="classbioexplorer_1_1biology_1_1RNASequence_1a6b7bec44e97f79a56456e66c17f107b3" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Vector3f</type>
+        <definition>Vector3f bioexplorer::biology::RNASequence::_thing</definition>
+        <argsstring>(float R, float t, const Vector3f &amp;a)</argsstring>
+        <name>_thing</name>
+        <param>
+          <type>float</type>
+          <declname>R</declname>
+        </param>
+        <param>
+          <type>float</type>
+          <declname>t</declname>
+        </param>
+        <param>
+          <type>const Vector3f &amp;</type>
+          <declname>a</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/favreau/git/BioExplorer/bioexplorer/core/plugin/biology/RNASequence.h" line="61" column="14" bodyfile="/home/favreau/git/BioExplorer/bioexplorer/core/plugin/biology/RNASequence.cpp" bodystart="251" bodyend="257"/>
+      </memberdef>
+      <memberdef kind="function" id="classbioexplorer_1_1biology_1_1RNASequence_1af9cd526ee224e8efe82862d93ad65e0d" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Vector3f</type>
+        <definition>Vector3f bioexplorer::biology::RNASequence::_moebius</definition>
+        <argsstring>(float R, float u, float v)</argsstring>
+        <name>_moebius</name>
+        <param>
+          <type>float</type>
+          <declname>R</declname>
+        </param>
+        <param>
+          <type>float</type>
+          <declname>u</declname>
+        </param>
+        <param>
+          <type>float</type>
+          <declname>v</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/favreau/git/BioExplorer/bioexplorer/core/plugin/biology/RNASequence.h" line="62" column="14" bodyfile="/home/favreau/git/BioExplorer/bioexplorer/core/plugin/biology/RNASequence.cpp" bodystart="259" bodyend="264"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+<para>The <ref refid="classbioexplorer_1_1biology_1_1RNASequence" kindref="compound">RNASequence</ref> class. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>bioexplorer::biology::Node</label>
+        <link refid="classbioexplorer_1_1biology_1_1Node"/>
+      </node>
+      <node id="1">
+        <label>bioexplorer::biology::RNASequence</label>
+        <link refid="classbioexplorer_1_1biology_1_1RNASequence"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="2">
+        <label>bioexplorer::biology::Node</label>
+        <link refid="classbioexplorer_1_1biology_1_1Node"/>
+      </node>
+      <node id="1">
+        <label>bioexplorer::biology::RNASequence</label>
+        <link refid="classbioexplorer_1_1biology_1_1RNASequence"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="/home/favreau/git/BioExplorer/bioexplorer/core/plugin/biology/RNASequence.h" line="37" column="1" bodyfile="/home/favreau/git/BioExplorer/bioexplorer/core/plugin/biology/RNASequence.h" bodystart="36" bodyend="65"/>
+    <listofallmembers>
+      <member refid="classbioexplorer_1_1biology_1_1RNASequence_1a5f050b2cb374280bd9d8b40fc51aa2d5" prot="private" virt="non-virtual"><scope>bioexplorer::biology::RNASequence</scope><name>_heart</name></member>
+      <member refid="classbioexplorer_1_1biology_1_1Node_1afb69572f3597ae900eba1ad4a6b469a5" prot="protected" virt="non-virtual"><scope>bioexplorer::biology::RNASequence</scope><name>_modelDescriptor</name></member>
+      <member refid="classbioexplorer_1_1biology_1_1RNASequence_1af9cd526ee224e8efe82862d93ad65e0d" prot="private" virt="non-virtual"><scope>bioexplorer::biology::RNASequence</scope><name>_moebius</name></member>
+      <member refid="classbioexplorer_1_1biology_1_1RNASequence_1ae571f4551262203c9090c4fde3feb4c1" prot="private" virt="non-virtual"><scope>bioexplorer::biology::RNASequence</scope><name>_rnaSequenceMap</name></member>
+      <member refid="classbioexplorer_1_1biology_1_1RNASequence_1afa6bf81ef6f4ada87f715a5238da2725" prot="private" virt="non-virtual"><scope>bioexplorer::biology::RNASequence</scope><name>_spring</name></member>
+      <member refid="classbioexplorer_1_1biology_1_1RNASequence_1af34cce9b1114b8ca1559563baa85c067" prot="private" virt="non-virtual"><scope>bioexplorer::biology::RNASequence</scope><name>_star</name></member>
+      <member refid="classbioexplorer_1_1biology_1_1RNASequence_1a6b7bec44e97f79a56456e66c17f107b3" prot="private" virt="non-virtual"><scope>bioexplorer::biology::RNASequence</scope><name>_thing</name></member>
+      <member refid="classbioexplorer_1_1biology_1_1RNASequence_1aed49667e0573ad6c9d57a4760a845cc1" prot="private" virt="non-virtual"><scope>bioexplorer::biology::RNASequence</scope><name>_torus</name></member>
+      <member refid="classbioexplorer_1_1biology_1_1RNASequence_1a2a1fa0f75ef1f6b1139c1d2a7f04b80e" prot="private" virt="non-virtual"><scope>bioexplorer::biology::RNASequence</scope><name>_trefoilKnot</name></member>
+      <member refid="classbioexplorer_1_1biology_1_1Node_1a5388117456e0bc7ab516ace1c49e1cee" prot="protected" virt="non-virtual"><scope>bioexplorer::biology::RNASequence</scope><name>_uuid</name></member>
+      <member refid="classbioexplorer_1_1biology_1_1Node_1a415bffbb900abe3e0e7ac12c6bf96a32" prot="public" virt="non-virtual"><scope>bioexplorer::biology::RNASequence</scope><name>getModelDescriptor</name></member>
+      <member refid="classbioexplorer_1_1biology_1_1RNASequence_1a82b2e7bcfba9798adc101e00a02f89f5" prot="public" virt="non-virtual"><scope>bioexplorer::biology::RNASequence</scope><name>getRNASequences</name></member>
+      <member refid="classbioexplorer_1_1biology_1_1Node_1a2b56af16626b832014845ee9bf007af0" prot="public" virt="non-virtual"><scope>bioexplorer::biology::RNASequence</scope><name>Node</name></member>
+      <member refid="classbioexplorer_1_1biology_1_1RNASequence_1aefa8008cd961953e5b95243f8a669a82" prot="public" virt="non-virtual"><scope>bioexplorer::biology::RNASequence</scope><name>RNASequence</name></member>
+      <member refid="classbioexplorer_1_1biology_1_1Node_1a1d02dc5b33293f53296cde67fc346496" prot="public" virt="virtual"><scope>bioexplorer::biology::RNASequence</scope><name>~Node</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

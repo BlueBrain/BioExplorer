@@ -1,0 +1,13 @@
+.. _exhale_typedef_Types_8h_1a59dd68b4888f011c27d3fb4938808410:
+
+Typedef bioexplorer::biology::MeshBasedMembranePtr
+==================================================
+
+- Defined in :ref:`file__home_favreau_git_BioExplorer_bioexplorer_core_plugin_common_Types.h`
+
+
+Typedef Documentation
+---------------------
+
+
+.. doxygentypedef:: bioexplorer::biology::MeshBasedMembranePtr

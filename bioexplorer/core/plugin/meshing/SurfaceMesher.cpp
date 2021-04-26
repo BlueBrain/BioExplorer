@@ -29,6 +29,9 @@
 #include <brayns/engineapi/Scene.h>
 #include <brayns/io/MeshLoader.h>
 
+#include <fstream>
+
+#if !defined(DOXYGEN_SHOULD_SKIP_THIS)
 #include <CGAL/Exact_predicates_inexact_constructions_kernel.h>
 #include <CGAL/Polygon_mesh_processing/compute_normal.h>
 #include <CGAL/Polygon_mesh_processing/triangulate_faces.h>
@@ -38,7 +41,6 @@
 #include <CGAL/mesh_skin_surface_3.h>
 #include <CGAL/mesh_union_of_balls_3.h>
 #include <CGAL/subdivide_union_of_balls_mesh_3.h>
-#include <fstream>
 
 typedef CGAL::Exact_predicates_inexact_constructions_kernel K;
 typedef CGAL::Skin_surface_traits_3<K> Traits;
@@ -48,6 +50,7 @@ typedef CGAL::Polyhedron_3<K> Polyhedron;
 typedef CGAL::Skin_surface_traits_3<K> Traits;
 typedef CGAL::Skin_surface_3<Traits> Skin_surface_3;
 typedef CGAL::Union_of_balls_3<Traits> Union_of_balls_3;
+#endif
 
 namespace bioexplorer
 {

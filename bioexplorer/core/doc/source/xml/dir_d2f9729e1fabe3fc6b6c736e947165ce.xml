@@ -1,0 +1,15 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.17">
+  <compounddef id="dir_d2f9729e1fabe3fc6b6c736e947165ce" kind="dir">
+    <compoundname>/home/favreau/git/BioExplorer/bioexplorer/core/plugin/meshing</compoundname>
+    <innerfile refid="d5/df0/PointCloudMesher_8cpp">PointCloudMesher.cpp</innerfile>
+    <innerfile refid="d9/d73/PointCloudMesher_8h">PointCloudMesher.h</innerfile>
+    <innerfile refid="d8/de3/SurfaceMesher_8cpp">SurfaceMesher.cpp</innerfile>
+    <innerfile refid="d2/dd7/SurfaceMesher_8h">SurfaceMesher.h</innerfile>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="/home/favreau/git/BioExplorer/bioexplorer/core/plugin/meshing/"/>
+  </compounddef>
+</doxygen>

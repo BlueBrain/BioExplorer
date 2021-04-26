@@ -1,0 +1,27 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.17">
+  <compounddef id="dir_9a9dde4b851279721bb1b60982956579" kind="dir">
+    <compoundname>/home/favreau/git/BioExplorer/bioexplorer/core/plugin/biology</compoundname>
+    <innerfile refid="df/d5c/Assembly_8cpp">Assembly.cpp</innerfile>
+    <innerfile refid="d9/d2b/Assembly_8h">Assembly.h</innerfile>
+    <innerfile refid="de/d05/plugin_2biology_2Glycans_8cpp">Glycans.cpp</innerfile>
+    <innerfile refid="df/de2/Glycans_8h">Glycans.h</innerfile>
+    <innerfile refid="d9/d00/Membrane_8cpp">Membrane.cpp</innerfile>
+    <innerfile refid="d1/d66/Membrane_8h">Membrane.h</innerfile>
+    <innerfile refid="d9/d18/plugin_2biology_2MeshBasedMembrane_8cpp">MeshBasedMembrane.cpp</innerfile>
+    <innerfile refid="d1/d0e/MeshBasedMembrane_8h">MeshBasedMembrane.h</innerfile>
+    <innerfile refid="dc/db1/Molecule_8cpp">Molecule.cpp</innerfile>
+    <innerfile refid="d4/dbe/Molecule_8h">Molecule.h</innerfile>
+    <innerfile refid="dc/d73/Node_8cpp">Node.cpp</innerfile>
+    <innerfile refid="db/d92/Node_8h">Node.h</innerfile>
+    <innerfile refid="de/d3a/plugin_2biology_2Protein_8cpp">Protein.cpp</innerfile>
+    <innerfile refid="d2/d6d/Protein_8h">Protein.h</innerfile>
+    <innerfile refid="d2/dab/plugin_2biology_2RNASequence_8cpp">RNASequence.cpp</innerfile>
+    <innerfile refid="d0/d7d/RNASequence_8h">RNASequence.h</innerfile>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="/home/favreau/git/BioExplorer/bioexplorer/core/plugin/biology/"/>
+  </compounddef>
+</doxygen>

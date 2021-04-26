@@ -1,0 +1,13 @@
+.. _exhale_enum_Types_8h_1a14130b7ea14b48d0344cd81ccc650876:
+
+Enum PositionRandomizationType
+==============================
+
+- Defined in :ref:`file__home_favreau_git_BioExplorer_bioexplorer_core_plugin_common_Types.h`
+
+
+Enum Documentation
+------------------
+
+
+.. doxygenenum:: bioexplorer::details::PositionRandomizationType

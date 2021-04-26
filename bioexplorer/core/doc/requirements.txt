@@ -1,0 +1,4 @@
+sphinx==3.5.4
+sphinx-bluebrain-theme==0.2.4
+exhale==0.2.3
+breathe==4.29.0 

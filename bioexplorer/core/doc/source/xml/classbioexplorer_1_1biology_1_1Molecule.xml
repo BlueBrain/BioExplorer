@@ -1,0 +1,650 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.17">
+  <compounddef id="classbioexplorer_1_1biology_1_1Molecule" kind="class" language="C++" prot="public">
+    <compoundname>bioexplorer::biology::Molecule</compoundname>
+    <basecompoundref refid="classbioexplorer_1_1biology_1_1Node" prot="public" virt="non-virtual">bioexplorer::biology::Node</basecompoundref>
+    <derivedcompoundref refid="classbioexplorer_1_1biology_1_1Glycans" prot="public" virt="non-virtual">bioexplorer::biology::Glycans</derivedcompoundref>
+    <derivedcompoundref refid="classbioexplorer_1_1biology_1_1Protein" prot="public" virt="non-virtual">bioexplorer::biology::Protein</derivedcompoundref>
+    <includes refid="Molecule_8h" local="no">Molecule.h</includes>
+      <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="classbioexplorer_1_1biology_1_1Molecule_1a2166d8b16faa45c9da421c32caeb9ab9" prot="protected" static="no" mutable="no">
+        <type>Scene &amp;</type>
+        <definition>Scene&amp; bioexplorer::biology::Molecule::_scene</definition>
+        <argsstring></argsstring>
+        <name>_scene</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/favreau/git/BioExplorer/bioexplorer/core/plugin/biology/Molecule.h" line="125" column="11" bodyfile="/home/favreau/git/BioExplorer/bioexplorer/core/plugin/biology/Molecule.h" bodystart="125" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classbioexplorer_1_1biology_1_1Molecule_1a6d3e855179fd31cfe3eef97d1f63ba28" prot="protected" static="no" mutable="no">
+        <type>AtomMap</type>
+        <definition>AtomMap bioexplorer::biology::Molecule::_atomMap</definition>
+        <argsstring></argsstring>
+        <name>_atomMap</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/favreau/git/BioExplorer/bioexplorer/core/plugin/biology/Molecule.h" line="126" column="13" bodyfile="/home/favreau/git/BioExplorer/bioexplorer/core/plugin/biology/Molecule.h" bodystart="126" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classbioexplorer_1_1biology_1_1Molecule_1a8e277ce8221c6d2cb09d3a43243c965e" prot="protected" static="no" mutable="no">
+        <type>Residues</type>
+        <definition>Residues bioexplorer::biology::Molecule::_residues</definition>
+        <argsstring></argsstring>
+        <name>_residues</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/favreau/git/BioExplorer/bioexplorer/core/plugin/biology/Molecule.h" line="127" column="14" bodyfile="/home/favreau/git/BioExplorer/bioexplorer/core/plugin/biology/Molecule.h" bodystart="127" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classbioexplorer_1_1biology_1_1Molecule_1a62423407fa24c3cefc93f81aea075ecb" prot="protected" static="no" mutable="no">
+        <type>ResidueSequenceMap</type>
+        <definition>ResidueSequenceMap bioexplorer::biology::Molecule::_residueSequenceMap</definition>
+        <argsstring></argsstring>
+        <name>_residueSequenceMap</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/favreau/git/BioExplorer/bioexplorer/core/plugin/biology/Molecule.h" line="128" column="24" bodyfile="/home/favreau/git/BioExplorer/bioexplorer/core/plugin/biology/Molecule.h" bodystart="128" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classbioexplorer_1_1biology_1_1Molecule_1a4a8ac72f236bd1d08f797e8ca3a895fc" prot="protected" static="no" mutable="no">
+        <type>BondsMap</type>
+        <definition>BondsMap bioexplorer::biology::Molecule::_bondsMap</definition>
+        <argsstring></argsstring>
+        <name>_bondsMap</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/favreau/git/BioExplorer/bioexplorer/core/plugin/biology/Molecule.h" line="129" column="14" bodyfile="/home/favreau/git/BioExplorer/bioexplorer/core/plugin/biology/Molecule.h" bodystart="129" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classbioexplorer_1_1biology_1_1Molecule_1aa10e6985bf449e7b86bfb5482b7e635c" prot="protected" static="no" mutable="no">
+        <type>size_ts</type>
+        <definition>size_ts bioexplorer::biology::Molecule::_chainIds</definition>
+        <argsstring></argsstring>
+        <name>_chainIds</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/favreau/git/BioExplorer/bioexplorer/core/plugin/biology/Molecule.h" line="130" column="13" bodyfile="/home/favreau/git/BioExplorer/bioexplorer/core/plugin/biology/Molecule.h" bodystart="130" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classbioexplorer_1_1biology_1_1Molecule_1a84856488af6b6561e5ff02db7dac811a" prot="protected" static="no" mutable="no">
+        <type>Vector2ui</type>
+        <definition>Vector2ui bioexplorer::biology::Molecule::_aminoAcidRange</definition>
+        <argsstring></argsstring>
+        <name>_aminoAcidRange</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/favreau/git/BioExplorer/bioexplorer/core/plugin/biology/Molecule.h" line="132" column="15" bodyfile="/home/favreau/git/BioExplorer/bioexplorer/core/plugin/biology/Molecule.h" bodystart="132" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classbioexplorer_1_1biology_1_1Molecule_1a49168b6fa15782fd8a5fb0146e538d15" prot="protected" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string bioexplorer::biology::Molecule::_selectedAminoAcidSequence</definition>
+        <argsstring></argsstring>
+        <name>_selectedAminoAcidSequence</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/favreau/git/BioExplorer/bioexplorer/core/plugin/biology/Molecule.h" line="134" column="17" bodyfile="/home/favreau/git/BioExplorer/bioexplorer/core/plugin/biology/Molecule.h" bodystart="134" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classbioexplorer_1_1biology_1_1Molecule_1ab1b804bc14654d48b52c61296c51db45" prot="protected" static="no" mutable="no">
+        <type>Vector2uis</type>
+        <definition>Vector2uis bioexplorer::biology::Molecule::_selectedAminoAcidRanges</definition>
+        <argsstring></argsstring>
+        <name>_selectedAminoAcidRanges</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/favreau/git/BioExplorer/bioexplorer/core/plugin/biology/Molecule.h" line="135" column="16" bodyfile="/home/favreau/git/BioExplorer/bioexplorer/core/plugin/biology/Molecule.h" bodystart="135" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classbioexplorer_1_1biology_1_1Molecule_1ae3f642f1686e9bda06af5803b2c0a0b2" prot="protected" static="no" mutable="no">
+        <type>Boxf</type>
+        <definition>Boxf bioexplorer::biology::Molecule::_bounds</definition>
+        <argsstring></argsstring>
+        <name>_bounds</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/favreau/git/BioExplorer/bioexplorer/core/plugin/biology/Molecule.h" line="136" column="10" bodyfile="/home/favreau/git/BioExplorer/bioexplorer/core/plugin/biology/Molecule.h" bodystart="136" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="public-func">
+      <memberdef kind="function" id="classbioexplorer_1_1biology_1_1Molecule_1a6e92ebcb753bdf4f5cd8e711b1ae38bd" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>bioexplorer::biology::Molecule::Molecule</definition>
+        <argsstring>(Scene &amp;scene, const size_ts &amp;chainIds)</argsstring>
+        <name>Molecule</name>
+        <param>
+          <type>Scene &amp;</type>
+          <declname>scene</declname>
+        </param>
+        <param>
+          <type>const size_ts &amp;</type>
+          <declname>chainIds</declname>
+        </param>
+        <briefdescription>
+<para>Construct a new <ref refid="classbioexplorer_1_1biology_1_1Molecule" kindref="compound">Molecule</ref> object. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>scene</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The 3D scene where the glycans are added </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>chainIds</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>IDs of chains to be used to construct the molecule object </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/favreau/git/BioExplorer/bioexplorer/core/plugin/biology/Molecule.h" line="59" column="5" bodyfile="/home/favreau/git/BioExplorer/bioexplorer/core/plugin/biology/Molecule.cpp" bodystart="166" bodyend="172"/>
+      </memberdef>
+      <memberdef kind="function" id="classbioexplorer_1_1biology_1_1Molecule_1a33392eb54d4ec0ddd200b42a702018b1" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>const AtomMap &amp;</type>
+        <definition>const AtomMap&amp; bioexplorer::biology::Molecule::getAtoms</definition>
+        <argsstring>() const</argsstring>
+        <name>getAtoms</name>
+        <briefdescription>
+<para>Get the Atoms object. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>AtomMap&amp; The map of atoms composing the molecule. The key of the map is the id of the atom, as defined in the PDB file </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/favreau/git/BioExplorer/bioexplorer/core/plugin/biology/Molecule.h" line="67" column="19" bodyfile="/home/favreau/git/BioExplorer/bioexplorer/core/plugin/biology/Molecule.h" bodystart="67" bodyend="67"/>
+      </memberdef>
+      <memberdef kind="function" id="classbioexplorer_1_1biology_1_1Molecule_1a77f61cadfb0ce00bfaa3d86e2307c622" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>const Residues &amp;</type>
+        <definition>const Residues&amp; bioexplorer::biology::Molecule::getResidues</definition>
+        <argsstring>() const</argsstring>
+        <name>getResidues</name>
+        <briefdescription>
+<para>Get the Residues object. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Residues&amp; The list of residues composing the molecule </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/favreau/git/BioExplorer/bioexplorer/core/plugin/biology/Molecule.h" line="74" column="20" bodyfile="/home/favreau/git/BioExplorer/bioexplorer/core/plugin/biology/Molecule.h" bodystart="74" bodyend="74"/>
+      </memberdef>
+      <memberdef kind="function" id="classbioexplorer_1_1biology_1_1Molecule_1a921fcced6cab9755296f5c05c030ff89" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>const ResidueSequenceMap &amp;</type>
+        <definition>const ResidueSequenceMap&amp; bioexplorer::biology::Molecule::getResidueSequences</definition>
+        <argsstring>() const</argsstring>
+        <name>getResidueSequences</name>
+        <briefdescription>
+<para>Get the Sequences object. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>SequenceMap&amp; The map of acid amino sequences composing the molecule. The key of the map is the id of the chain, as defined in the PDB file </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/favreau/git/BioExplorer/bioexplorer/core/plugin/biology/Molecule.h" line="83" column="30" bodyfile="/home/favreau/git/BioExplorer/bioexplorer/core/plugin/biology/Molecule.h" bodystart="83" bodyend="86"/>
+      </memberdef>
+      <memberdef kind="function" id="classbioexplorer_1_1biology_1_1Molecule_1ac12ba0810e3eaff36b927a5b71555b75" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>const StringMap</type>
+        <definition>const StringMap bioexplorer::biology::Molecule::getSequencesAsString</definition>
+        <argsstring>() const</argsstring>
+        <name>getSequencesAsString</name>
+        <briefdescription>
+<para>Get the Sequences As String object. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>StringMap </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/favreau/git/BioExplorer/bioexplorer/core/plugin/biology/Molecule.h" line="93" column="21" bodyfile="/home/favreau/git/BioExplorer/bioexplorer/core/plugin/biology/Molecule.cpp" bodystart="222" bodyend="237"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="protected-func">
+      <memberdef kind="function" id="classbioexplorer_1_1biology_1_1Molecule_1ab23ee8936d7660af48809b66b98ab148" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void bioexplorer::biology::Molecule::_setAtomColorScheme</definition>
+        <argsstring>()</argsstring>
+        <name>_setAtomColorScheme</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/favreau/git/BioExplorer/bioexplorer/core/plugin/biology/Molecule.h" line="96" column="10" bodyfile="/home/favreau/git/BioExplorer/bioexplorer/core/plugin/biology/Molecule.cpp" bodystart="721" bodyend="734"/>
+      </memberdef>
+      <memberdef kind="function" id="classbioexplorer_1_1biology_1_1Molecule_1a00a5883f2f86a235afc20fee8264a565" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void bioexplorer::biology::Molecule::_setChainColorScheme</definition>
+        <argsstring>(const Palette &amp;palette)</argsstring>
+        <name>_setChainColorScheme</name>
+        <param>
+          <type>const Palette &amp;</type>
+          <declname>palette</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/favreau/git/BioExplorer/bioexplorer/core/plugin/biology/Molecule.h" line="97" column="10" bodyfile="/home/favreau/git/BioExplorer/bioexplorer/core/plugin/biology/Molecule.cpp" bodystart="803" bodyend="813"/>
+      </memberdef>
+      <memberdef kind="function" id="classbioexplorer_1_1biology_1_1Molecule_1ae5c34567aa817b2bf29a834bbad77986" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void bioexplorer::biology::Molecule::_setResiduesColorScheme</definition>
+        <argsstring>(const Palette &amp;palette)</argsstring>
+        <name>_setResiduesColorScheme</name>
+        <param>
+          <type>const Palette &amp;</type>
+          <declname>palette</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/favreau/git/BioExplorer/bioexplorer/core/plugin/biology/Molecule.h" line="98" column="10" bodyfile="/home/favreau/git/BioExplorer/bioexplorer/core/plugin/biology/Molecule.cpp" bodystart="815" bodyend="827"/>
+      </memberdef>
+      <memberdef kind="function" id="classbioexplorer_1_1biology_1_1Molecule_1a375c6617997550b422f57c03d3ae6701" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void bioexplorer::biology::Molecule::_setAminoAcidSequenceColorScheme</definition>
+        <argsstring>(const Palette &amp;palette)</argsstring>
+        <name>_setAminoAcidSequenceColorScheme</name>
+        <param>
+          <type>const Palette &amp;</type>
+          <declname>palette</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/favreau/git/BioExplorer/bioexplorer/core/plugin/biology/Molecule.h" line="99" column="10" bodyfile="/home/favreau/git/BioExplorer/bioexplorer/core/plugin/biology/Molecule.cpp" bodystart="736" bodyend="801"/>
+      </memberdef>
+      <memberdef kind="function" id="classbioexplorer_1_1biology_1_1Molecule_1a303a84f330e24fb20322c4154625691e" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void bioexplorer::biology::Molecule::_setMaterialDiffuseColor</definition>
+        <argsstring>(const size_t atomIndex, const RGBColorDetails &amp;color)</argsstring>
+        <name>_setMaterialDiffuseColor</name>
+        <param>
+          <type>const size_t</type>
+          <declname>atomIndex</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structbioexplorer_1_1details_1_1RGBColorDetails" kindref="compound">RGBColorDetails</ref> &amp;</type>
+          <declname>color</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/favreau/git/BioExplorer/bioexplorer/core/plugin/biology/Molecule.h" line="100" column="10" bodyfile="/home/favreau/git/BioExplorer/bioexplorer/core/plugin/biology/Molecule.cpp" bodystart="829" bodyend="843"/>
+      </memberdef>
+      <memberdef kind="function" id="classbioexplorer_1_1biology_1_1Molecule_1afa8a533f7c6ab941ffe1730d5c45028e" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void bioexplorer::biology::Molecule::_setMaterialDiffuseColor</definition>
+        <argsstring>(const size_t atomIndex, const Color &amp;color)</argsstring>
+        <name>_setMaterialDiffuseColor</name>
+        <param>
+          <type>const size_t</type>
+          <declname>atomIndex</declname>
+        </param>
+        <param>
+          <type>const Color &amp;</type>
+          <declname>color</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/favreau/git/BioExplorer/bioexplorer/core/plugin/biology/Molecule.h" line="102" column="10" bodyfile="/home/favreau/git/BioExplorer/bioexplorer/core/plugin/biology/Molecule.cpp" bodystart="845" bodyend="865"/>
+      </memberdef>
+      <memberdef kind="function" id="classbioexplorer_1_1biology_1_1Molecule_1a1450b9cb01682a1e0ee33aa945913951" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void bioexplorer::biology::Molecule::_buildModel</definition>
+        <argsstring>(const std::string &amp;assemblyName, const std::string &amp;name, const std::string &amp;title, const std::string &amp;header, const ProteinRepresentation &amp;representation, const float atomRadiusMultiplier, const bool loadBonds)</argsstring>
+        <name>_buildModel</name>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>assemblyName</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>name</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>title</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>header</declname>
+        </param>
+        <param>
+          <type>const ProteinRepresentation &amp;</type>
+          <declname>representation</declname>
+        </param>
+        <param>
+          <type>const float</type>
+          <declname>atomRadiusMultiplier</declname>
+        </param>
+        <param>
+          <type>const bool</type>
+          <declname>loadBonds</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/favreau/git/BioExplorer/bioexplorer/core/plugin/biology/Molecule.h" line="105" column="10" bodyfile="/home/favreau/git/BioExplorer/bioexplorer/core/plugin/biology/Molecule.cpp" bodystart="334" bodyend="483"/>
+      </memberdef>
+      <memberdef kind="function" id="classbioexplorer_1_1biology_1_1Molecule_1a9303ac72eb465e00750c594ba58e2ed8" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void bioexplorer::biology::Molecule::_buildAtomicStruture</definition>
+        <argsstring>(const ProteinRepresentation representation, const float atomRadiusMultiplier, const bool surface, const bool loadBonds, Model &amp;model)</argsstring>
+        <name>_buildAtomicStruture</name>
+        <param>
+          <type>const ProteinRepresentation</type>
+          <declname>representation</declname>
+        </param>
+        <param>
+          <type>const float</type>
+          <declname>atomRadiusMultiplier</declname>
+        </param>
+        <param>
+          <type>const bool</type>
+          <declname>surface</declname>
+        </param>
+        <param>
+          <type>const bool</type>
+          <declname>loadBonds</declname>
+        </param>
+        <param>
+          <type>Model &amp;</type>
+          <declname>model</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/favreau/git/BioExplorer/bioexplorer/core/plugin/biology/Molecule.h" line="110" column="10" bodyfile="/home/favreau/git/BioExplorer/bioexplorer/core/plugin/biology/Molecule.cpp" bodystart="239" bodyend="332"/>
+      </memberdef>
+      <memberdef kind="function" id="classbioexplorer_1_1biology_1_1Molecule_1a6caa04f4037dbc3912efd4c647ffd362" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void bioexplorer::biology::Molecule::_computeReqSetOffset</definition>
+        <argsstring>()</argsstring>
+        <name>_computeReqSetOffset</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/favreau/git/BioExplorer/bioexplorer/core/plugin/biology/Molecule.h" line="114" column="10" bodyfile="/home/favreau/git/BioExplorer/bioexplorer/core/plugin/biology/Molecule.cpp" bodystart="174" bodyend="220"/>
+      </memberdef>
+      <memberdef kind="function" id="classbioexplorer_1_1biology_1_1Molecule_1af8134ba8a614f4973fd973d9cf60bb15" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void bioexplorer::biology::Molecule::_readAtom</definition>
+        <argsstring>(const std::string &amp;line, const bool loadHydrogen)</argsstring>
+        <name>_readAtom</name>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>line</declname>
+        </param>
+        <param>
+          <type>const bool</type>
+          <declname>loadHydrogen</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/favreau/git/BioExplorer/bioexplorer/core/plugin/biology/Molecule.h" line="117" column="10" bodyfile="/home/favreau/git/BioExplorer/bioexplorer/core/plugin/biology/Molecule.cpp" bodystart="485" bodyend="580"/>
+      </memberdef>
+      <memberdef kind="function" id="classbioexplorer_1_1biology_1_1Molecule_1afa17cc7680f575cde0cd341c784c551c" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void bioexplorer::biology::Molecule::_readSequence</definition>
+        <argsstring>(const std::string &amp;line)</argsstring>
+        <name>_readSequence</name>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>line</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/favreau/git/BioExplorer/bioexplorer/core/plugin/biology/Molecule.h" line="118" column="10" bodyfile="/home/favreau/git/BioExplorer/bioexplorer/core/plugin/biology/Molecule.cpp" bodystart="582" bodyend="615"/>
+      </memberdef>
+      <memberdef kind="function" id="classbioexplorer_1_1biology_1_1Molecule_1a8e786b977d10c225217e59d1e97a4695" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string bioexplorer::biology::Molecule::_readHeader</definition>
+        <argsstring>(const std::string &amp;line)</argsstring>
+        <name>_readHeader</name>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>line</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/favreau/git/BioExplorer/bioexplorer/core/plugin/biology/Molecule.h" line="119" column="17" bodyfile="/home/favreau/git/BioExplorer/bioexplorer/core/plugin/biology/Molecule.cpp" bodystart="699" bodyend="703"/>
+      </memberdef>
+      <memberdef kind="function" id="classbioexplorer_1_1biology_1_1Molecule_1a2473281806a00892fd71fdaca87bd79a" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string bioexplorer::biology::Molecule::_readTitle</definition>
+        <argsstring>(const std::string &amp;line)</argsstring>
+        <name>_readTitle</name>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>line</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/favreau/git/BioExplorer/bioexplorer/core/plugin/biology/Molecule.h" line="120" column="17" bodyfile="/home/favreau/git/BioExplorer/bioexplorer/core/plugin/biology/Molecule.cpp" bodystart="693" bodyend="697"/>
+      </memberdef>
+      <memberdef kind="function" id="classbioexplorer_1_1biology_1_1Molecule_1ab60f1573cb964bfa458afbce1cac2616" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void bioexplorer::biology::Molecule::_readRemark</definition>
+        <argsstring>(const std::string &amp;line)</argsstring>
+        <name>_readRemark</name>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>line</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/favreau/git/BioExplorer/bioexplorer/core/plugin/biology/Molecule.h" line="121" column="10" bodyfile="/home/favreau/git/BioExplorer/bioexplorer/core/plugin/biology/Molecule.cpp" bodystart="650" bodyend="691"/>
+      </memberdef>
+      <memberdef kind="function" id="classbioexplorer_1_1biology_1_1Molecule_1a76587336d1ad994bf4d6a2580d4f7d4a" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void bioexplorer::biology::Molecule::_readConnect</definition>
+        <argsstring>(const std::string &amp;line)</argsstring>
+        <name>_readConnect</name>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>line</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/favreau/git/BioExplorer/bioexplorer/core/plugin/biology/Molecule.h" line="122" column="10" bodyfile="/home/favreau/git/BioExplorer/bioexplorer/core/plugin/biology/Molecule.cpp" bodystart="617" bodyend="648"/>
+      </memberdef>
+      <memberdef kind="function" id="classbioexplorer_1_1biology_1_1Molecule_1aa50f3b5db6af4663e31f204ff57bdc7b" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool bioexplorer::biology::Molecule::_loadChain</definition>
+        <argsstring>(const size_t chainId)</argsstring>
+        <name>_loadChain</name>
+        <param>
+          <type>const size_t</type>
+          <declname>chainId</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/favreau/git/BioExplorer/bioexplorer/core/plugin/biology/Molecule.h" line="123" column="10" bodyfile="/home/favreau/git/BioExplorer/bioexplorer/core/plugin/biology/Molecule.cpp" bodystart="705" bodyend="719"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+<para>The <ref refid="classbioexplorer_1_1biology_1_1Molecule" kindref="compound">Molecule</ref> class implements the 3D representation of a molecule. The object also contains metadata attached to the molecule itself, such as the amino acids sequence, or the chain ids for example. The current implementation only supports PDB as an input format for the molecule data and metadata. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="3">
+        <label>bioexplorer::biology::Glycans</label>
+        <link refid="classbioexplorer_1_1biology_1_1Glycans"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>bioexplorer::biology::Node</label>
+        <link refid="classbioexplorer_1_1biology_1_1Node"/>
+      </node>
+      <node id="1">
+        <label>bioexplorer::biology::Molecule</label>
+        <link refid="classbioexplorer_1_1biology_1_1Molecule"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>bioexplorer::biology::Protein</label>
+        <link refid="classbioexplorer_1_1biology_1_1Protein"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="2">
+        <label>bioexplorer::biology::Node</label>
+        <link refid="classbioexplorer_1_1biology_1_1Node"/>
+      </node>
+      <node id="1">
+        <label>bioexplorer::biology::Molecule</label>
+        <link refid="classbioexplorer_1_1biology_1_1Molecule"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="/home/favreau/git/BioExplorer/bioexplorer/core/plugin/biology/Molecule.h" line="51" column="1" bodyfile="/home/favreau/git/BioExplorer/bioexplorer/core/plugin/biology/Molecule.h" bodystart="50" bodyend="137"/>
+    <listofallmembers>
+      <member refid="classbioexplorer_1_1biology_1_1Molecule_1a84856488af6b6561e5ff02db7dac811a" prot="protected" virt="non-virtual"><scope>bioexplorer::biology::Molecule</scope><name>_aminoAcidRange</name></member>
+      <member refid="classbioexplorer_1_1biology_1_1Molecule_1a6d3e855179fd31cfe3eef97d1f63ba28" prot="protected" virt="non-virtual"><scope>bioexplorer::biology::Molecule</scope><name>_atomMap</name></member>
+      <member refid="classbioexplorer_1_1biology_1_1Molecule_1a4a8ac72f236bd1d08f797e8ca3a895fc" prot="protected" virt="non-virtual"><scope>bioexplorer::biology::Molecule</scope><name>_bondsMap</name></member>
+      <member refid="classbioexplorer_1_1biology_1_1Molecule_1ae3f642f1686e9bda06af5803b2c0a0b2" prot="protected" virt="non-virtual"><scope>bioexplorer::biology::Molecule</scope><name>_bounds</name></member>
+      <member refid="classbioexplorer_1_1biology_1_1Molecule_1a9303ac72eb465e00750c594ba58e2ed8" prot="protected" virt="non-virtual"><scope>bioexplorer::biology::Molecule</scope><name>_buildAtomicStruture</name></member>
+      <member refid="classbioexplorer_1_1biology_1_1Molecule_1a1450b9cb01682a1e0ee33aa945913951" prot="protected" virt="non-virtual"><scope>bioexplorer::biology::Molecule</scope><name>_buildModel</name></member>
+      <member refid="classbioexplorer_1_1biology_1_1Molecule_1aa10e6985bf449e7b86bfb5482b7e635c" prot="protected" virt="non-virtual"><scope>bioexplorer::biology::Molecule</scope><name>_chainIds</name></member>
+      <member refid="classbioexplorer_1_1biology_1_1Molecule_1a6caa04f4037dbc3912efd4c647ffd362" prot="protected" virt="non-virtual"><scope>bioexplorer::biology::Molecule</scope><name>_computeReqSetOffset</name></member>
+      <member refid="classbioexplorer_1_1biology_1_1Molecule_1aa50f3b5db6af4663e31f204ff57bdc7b" prot="protected" virt="non-virtual"><scope>bioexplorer::biology::Molecule</scope><name>_loadChain</name></member>
+      <member refid="classbioexplorer_1_1biology_1_1Node_1afb69572f3597ae900eba1ad4a6b469a5" prot="protected" virt="non-virtual"><scope>bioexplorer::biology::Molecule</scope><name>_modelDescriptor</name></member>
+      <member refid="classbioexplorer_1_1biology_1_1Molecule_1af8134ba8a614f4973fd973d9cf60bb15" prot="protected" virt="non-virtual"><scope>bioexplorer::biology::Molecule</scope><name>_readAtom</name></member>
+      <member refid="classbioexplorer_1_1biology_1_1Molecule_1a76587336d1ad994bf4d6a2580d4f7d4a" prot="protected" virt="non-virtual"><scope>bioexplorer::biology::Molecule</scope><name>_readConnect</name></member>
+      <member refid="classbioexplorer_1_1biology_1_1Molecule_1a8e786b977d10c225217e59d1e97a4695" prot="protected" virt="non-virtual"><scope>bioexplorer::biology::Molecule</scope><name>_readHeader</name></member>
+      <member refid="classbioexplorer_1_1biology_1_1Molecule_1ab60f1573cb964bfa458afbce1cac2616" prot="protected" virt="non-virtual"><scope>bioexplorer::biology::Molecule</scope><name>_readRemark</name></member>
+      <member refid="classbioexplorer_1_1biology_1_1Molecule_1afa17cc7680f575cde0cd341c784c551c" prot="protected" virt="non-virtual"><scope>bioexplorer::biology::Molecule</scope><name>_readSequence</name></member>
+      <member refid="classbioexplorer_1_1biology_1_1Molecule_1a2473281806a00892fd71fdaca87bd79a" prot="protected" virt="non-virtual"><scope>bioexplorer::biology::Molecule</scope><name>_readTitle</name></member>
+      <member refid="classbioexplorer_1_1biology_1_1Molecule_1a8e277ce8221c6d2cb09d3a43243c965e" prot="protected" virt="non-virtual"><scope>bioexplorer::biology::Molecule</scope><name>_residues</name></member>
+      <member refid="classbioexplorer_1_1biology_1_1Molecule_1a62423407fa24c3cefc93f81aea075ecb" prot="protected" virt="non-virtual"><scope>bioexplorer::biology::Molecule</scope><name>_residueSequenceMap</name></member>
+      <member refid="classbioexplorer_1_1biology_1_1Molecule_1a2166d8b16faa45c9da421c32caeb9ab9" prot="protected" virt="non-virtual"><scope>bioexplorer::biology::Molecule</scope><name>_scene</name></member>
+      <member refid="classbioexplorer_1_1biology_1_1Molecule_1ab1b804bc14654d48b52c61296c51db45" prot="protected" virt="non-virtual"><scope>bioexplorer::biology::Molecule</scope><name>_selectedAminoAcidRanges</name></member>
+      <member refid="classbioexplorer_1_1biology_1_1Molecule_1a49168b6fa15782fd8a5fb0146e538d15" prot="protected" virt="non-virtual"><scope>bioexplorer::biology::Molecule</scope><name>_selectedAminoAcidSequence</name></member>
+      <member refid="classbioexplorer_1_1biology_1_1Molecule_1a375c6617997550b422f57c03d3ae6701" prot="protected" virt="non-virtual"><scope>bioexplorer::biology::Molecule</scope><name>_setAminoAcidSequenceColorScheme</name></member>
+      <member refid="classbioexplorer_1_1biology_1_1Molecule_1ab23ee8936d7660af48809b66b98ab148" prot="protected" virt="non-virtual"><scope>bioexplorer::biology::Molecule</scope><name>_setAtomColorScheme</name></member>
+      <member refid="classbioexplorer_1_1biology_1_1Molecule_1a00a5883f2f86a235afc20fee8264a565" prot="protected" virt="non-virtual"><scope>bioexplorer::biology::Molecule</scope><name>_setChainColorScheme</name></member>
+      <member refid="classbioexplorer_1_1biology_1_1Molecule_1a303a84f330e24fb20322c4154625691e" prot="protected" virt="non-virtual"><scope>bioexplorer::biology::Molecule</scope><name>_setMaterialDiffuseColor</name></member>
+      <member refid="classbioexplorer_1_1biology_1_1Molecule_1afa8a533f7c6ab941ffe1730d5c45028e" prot="protected" virt="non-virtual"><scope>bioexplorer::biology::Molecule</scope><name>_setMaterialDiffuseColor</name></member>
+      <member refid="classbioexplorer_1_1biology_1_1Molecule_1ae5c34567aa817b2bf29a834bbad77986" prot="protected" virt="non-virtual"><scope>bioexplorer::biology::Molecule</scope><name>_setResiduesColorScheme</name></member>
+      <member refid="classbioexplorer_1_1biology_1_1Node_1a5388117456e0bc7ab516ace1c49e1cee" prot="protected" virt="non-virtual"><scope>bioexplorer::biology::Molecule</scope><name>_uuid</name></member>
+      <member refid="classbioexplorer_1_1biology_1_1Molecule_1a33392eb54d4ec0ddd200b42a702018b1" prot="public" virt="non-virtual"><scope>bioexplorer::biology::Molecule</scope><name>getAtoms</name></member>
+      <member refid="classbioexplorer_1_1biology_1_1Node_1a415bffbb900abe3e0e7ac12c6bf96a32" prot="public" virt="non-virtual"><scope>bioexplorer::biology::Molecule</scope><name>getModelDescriptor</name></member>
+      <member refid="classbioexplorer_1_1biology_1_1Molecule_1a77f61cadfb0ce00bfaa3d86e2307c622" prot="public" virt="non-virtual"><scope>bioexplorer::biology::Molecule</scope><name>getResidues</name></member>
+      <member refid="classbioexplorer_1_1biology_1_1Molecule_1a921fcced6cab9755296f5c05c030ff89" prot="public" virt="non-virtual"><scope>bioexplorer::biology::Molecule</scope><name>getResidueSequences</name></member>
+      <member refid="classbioexplorer_1_1biology_1_1Molecule_1ac12ba0810e3eaff36b927a5b71555b75" prot="public" virt="non-virtual"><scope>bioexplorer::biology::Molecule</scope><name>getSequencesAsString</name></member>
+      <member refid="classbioexplorer_1_1biology_1_1Molecule_1a6e92ebcb753bdf4f5cd8e711b1ae38bd" prot="public" virt="non-virtual"><scope>bioexplorer::biology::Molecule</scope><name>Molecule</name></member>
+      <member refid="classbioexplorer_1_1biology_1_1Node_1a2b56af16626b832014845ee9bf007af0" prot="public" virt="non-virtual"><scope>bioexplorer::biology::Molecule</scope><name>Node</name></member>
+      <member refid="classbioexplorer_1_1biology_1_1Node_1a1d02dc5b33293f53296cde67fc346496" prot="public" virt="virtual"><scope>bioexplorer::biology::Molecule</scope><name>~Node</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>
