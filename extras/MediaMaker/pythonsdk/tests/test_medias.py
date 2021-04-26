@@ -28,6 +28,7 @@ def test_movie_maker():
     bio_explorer = BioExplorer('localhost:5000')
     core = bio_explorer.core_api()
     movie_maker = MovieMaker(bio_explorer)
+    movie_maker.version()
 
     core.set_camera(current='bio_explorer_perspective')
 

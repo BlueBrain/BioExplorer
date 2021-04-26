@@ -23,48 +23,51 @@ for the JavaScript code in this file
 var NAVTREE =
 [
   [ "Blue Brain BioExplorer", "index.html", [
-    [ "Description", "index.html#autotoc_md1", null ],
-    [ "Architecture", "index.html#autotoc_md2", null ],
-    [ "General components", "index.html#autotoc_md3", [
-      [ "Assemblies", "index.html#autotoc_md4", null ],
-      [ "Proteins", "index.html#autotoc_md5", null ],
-      [ "Glycans", "index.html#autotoc_md6", null ],
-      [ "RNA sequence", "index.html#autotoc_md7", null ],
-      [ "Mesh-based membranes", "index.html#autotoc_md8", null ]
+    [ "Blue Brain BioExplorer", "index.html#autotoc_md0", [
+      [ "Description", "index.html#autotoc_md1", null ],
+      [ "Architecture", "index.html#autotoc_md2", null ],
+      [ "General components", "index.html#autotoc_md3", [
+        [ "Assemblies", "index.html#autotoc_md4", null ],
+        [ "Proteins", "index.html#autotoc_md5", null ],
+        [ "Glycans", "index.html#autotoc_md6", null ],
+        [ "RNA sequence (work in progress)", "index.html#autotoc_md7", null ],
+        [ "Mesh-based membranes", "index.html#autotoc_md8", null ],
+        [ "Virus", "index.html#autotoc_md9", null ]
+      ] ],
+      [ "Python SDK", "index.html#autotoc_md10", null ],
+      [ "Documentation", "index.html#autotoc_md11", null ],
+      [ "Deployment", "index.html#autotoc_md12", [
+        [ "Server", "index.html#autotoc_md13", null ],
+        [ "Python SDK", "index.html#autotoc_md14", null ],
+        [ "Web User Interface", "index.html#autotoc_md15", null ]
+      ] ],
+      [ "Building from Source", "index.html#autotoc_md16", [
+        [ "Blue Brain Brayns 1.0.0", "index.html#autotoc_md17", null ],
+        [ "BioExplorer", "index.html#autotoc_md18", [
+          [ "Compile", "index.html#autotoc_md19", null ],
+          [ "Run", "index.html#autotoc_md20", null ]
+        ] ]
+      ] ],
+      [ "Simple example", "index.html#autotoc_md21", null ]
     ] ],
-    [ "Python SDK", "index.html#autotoc_md9", null ],
-    [ "Documentation", "index.html#autotoc_md10", null ],
-    [ "Deployment", "index.html#autotoc_md11", [
-      [ "Server", "index.html#autotoc_md12", null ],
-      [ "Python SDK", "index.html#autotoc_md13", null ],
-      [ "Web User Interface", "index.html#autotoc_md14", null ]
-    ] ],
-    [ "Building from Source", "index.html#autotoc_md15", [
-      [ "Blue Brain Brayns 1.0.0", "index.html#autotoc_md16", null ],
-      [ "BioExplorer", "index.html#autotoc_md17", [
-        [ "Compile", "index.html#autotoc_md18", null ],
-        [ "Run", "index.html#autotoc_md19", null ]
-      ] ]
-    ] ],
-    [ "Simple example", "index.html#autotoc_md20", null ],
-    [ "License", "index.html#autotoc_md21", null ],
-    [ "Contact", "index.html#autotoc_md22", null ],
-    [ "Funding & Acknowledgment", "index.html#autotoc_md23", null ],
+    [ "License", "index.html#autotoc_md22", null ],
+    [ "Contact", "index.html#autotoc_md23", null ],
+    [ "Funding & Acknowledgment", "index.html#autotoc_md24", null ],
     [ "Docker", "dc/d4f/md__home_favreau_git_BioExplorer_bioexplorer_core_DOCKER.html", [
-      [ "Prerequisites", "dc/d4f/md__home_favreau_git_BioExplorer_bioexplorer_core_DOCKER.html#autotoc_md25", null ],
-      [ "Setup", "dc/d4f/md__home_favreau_git_BioExplorer_bioexplorer_core_DOCKER.html#autotoc_md26", null ],
-      [ "Usage", "dc/d4f/md__home_favreau_git_BioExplorer_bioexplorer_core_DOCKER.html#autotoc_md27", null ]
+      [ "Prerequisites", "dc/d4f/md__home_favreau_git_BioExplorer_bioexplorer_core_DOCKER.html#autotoc_md26", null ],
+      [ "Setup", "dc/d4f/md__home_favreau_git_BioExplorer_bioexplorer_core_DOCKER.html#autotoc_md27", null ],
+      [ "Usage", "dc/d4f/md__home_favreau_git_BioExplorer_bioexplorer_core_DOCKER.html#autotoc_md28", null ]
     ] ],
     [ "User guide", "d0/de8/md__home_favreau_git_BioExplorer_bioexplorer_pythonsdk_doc_source_USERGUIDE.html", [
-      [ "Protein", "d0/de8/md__home_favreau_git_BioExplorer_bioexplorer_pythonsdk_doc_source_USERGUIDE.html#autotoc_md29", null ],
-      [ "Glycan", "d0/de8/md__home_favreau_git_BioExplorer_bioexplorer_pythonsdk_doc_source_USERGUIDE.html#autotoc_md30", null ],
-      [ "RNA sequence", "d0/de8/md__home_favreau_git_BioExplorer_bioexplorer_pythonsdk_doc_source_USERGUIDE.html#autotoc_md31", null ],
-      [ "Membrane", "d0/de8/md__home_favreau_git_BioExplorer_bioexplorer_pythonsdk_doc_source_USERGUIDE.html#autotoc_md32", null ],
-      [ "Surfactants", "d0/de8/md__home_favreau_git_BioExplorer_bioexplorer_pythonsdk_doc_source_USERGUIDE.html#autotoc_md33", null ],
-      [ "Virus", "d0/de8/md__home_favreau_git_BioExplorer_bioexplorer_pythonsdk_doc_source_USERGUIDE.html#autotoc_md34", null ],
-      [ "Host cell", "d0/de8/md__home_favreau_git_BioExplorer_bioexplorer_pythonsdk_doc_source_USERGUIDE.html#autotoc_md35", null ],
-      [ "Glycans Models", "d0/de8/md__home_favreau_git_BioExplorer_bioexplorer_pythonsdk_doc_source_USERGUIDE.html#autotoc_md36", null ],
-      [ "Visualization", "d0/de8/md__home_favreau_git_BioExplorer_bioexplorer_pythonsdk_doc_source_USERGUIDE.html#autotoc_md37", null ]
+      [ "Protein", "d0/de8/md__home_favreau_git_BioExplorer_bioexplorer_pythonsdk_doc_source_USERGUIDE.html#autotoc_md30", null ],
+      [ "Glycan", "d0/de8/md__home_favreau_git_BioExplorer_bioexplorer_pythonsdk_doc_source_USERGUIDE.html#autotoc_md31", null ],
+      [ "RNA sequence", "d0/de8/md__home_favreau_git_BioExplorer_bioexplorer_pythonsdk_doc_source_USERGUIDE.html#autotoc_md32", null ],
+      [ "Membrane", "d0/de8/md__home_favreau_git_BioExplorer_bioexplorer_pythonsdk_doc_source_USERGUIDE.html#autotoc_md33", null ],
+      [ "Surfactants", "d0/de8/md__home_favreau_git_BioExplorer_bioexplorer_pythonsdk_doc_source_USERGUIDE.html#autotoc_md34", null ],
+      [ "Virus", "d0/de8/md__home_favreau_git_BioExplorer_bioexplorer_pythonsdk_doc_source_USERGUIDE.html#autotoc_md35", null ],
+      [ "Host cell", "d0/de8/md__home_favreau_git_BioExplorer_bioexplorer_pythonsdk_doc_source_USERGUIDE.html#autotoc_md36", null ],
+      [ "Glycans Models", "d0/de8/md__home_favreau_git_BioExplorer_bioexplorer_pythonsdk_doc_source_USERGUIDE.html#autotoc_md37", null ],
+      [ "Visualization", "d0/de8/md__home_favreau_git_BioExplorer_bioexplorer_pythonsdk_doc_source_USERGUIDE.html#autotoc_md38", null ]
     ] ],
     [ "Classes", "annotated.html", [
       [ "Class List", "annotated.html", "annotated_dup" ],

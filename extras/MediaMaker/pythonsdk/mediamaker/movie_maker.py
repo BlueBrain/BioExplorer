@@ -28,6 +28,7 @@ import time
 from ipywidgets import IntSlider, IntProgress
 from bioexplorer import BioExplorer
 from IPython.display import display
+from .version import __version__
 
 # pylint: disable=no-member
 # pylint: disable=dangerous-default-value
@@ -49,6 +50,15 @@ class MovieMaker:
         assert isinstance(bioexplorer, BioExplorer)
         self._client = bioexplorer.core_api()
         self._smoothed_key_frames = list()
+
+    def version(self):
+        """
+        Get the version of the SDK
+
+        :return: The version of the SDK
+        :rtype: string
+        """
+        return __version__
 
     def build_camera_path(self, control_points, nb_steps_between_control_points, smoothing_size=1):
         """
