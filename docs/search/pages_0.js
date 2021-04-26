@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['blue_20brain_20bioexplorer_503',['Blue Brain BioExplorer',['../index.html',1,'']]]
+  ['docker_502',['Docker',['../dc/d4f/md__home_favreau_git_BioExplorer_bioexplorer_core_DOCKER.html',1,'']]]
 ];

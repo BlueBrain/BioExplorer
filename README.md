@@ -1,3 +1,5 @@
+<link href="./bioexplorer/core/doc/extra.css" rel="stylesheet"></link>
+
 # Blue Brain BioExplorer
 
 <table border=0>
@@ -40,14 +42,15 @@
 </tr>
 </table>
 
-![](./bioexplorer/pythonsdk/doc/source/images/BBBE_banner.png)
-
+![___](./bioexplorer/pythonsdk/doc/source/images/BBBE_banner.png)
 
 ## Description
-The Blue Brain BioExplorer (_BBBE_) is a tool for scientists to extract and analyse scientific data from visualization. _BBBE_ is built on top of [Blue Brain Brayns](https://github.com/BlueBrain/Brayns), the Blue Brain rendering platform.
+The Blue Brain BioExplorer (_BBBE_) started as an internal project involving a team of Blue Brain researchers across the Computing and Simulation Neuroscience divisions with the aim to answer key scientific questions related to the Coronavirus as a use case. This project aimed to deliver a visualization tool, the BioExplorer, to reconstruct, visualize and describe in detail the structure and function of the Coronavirus.
 
 ## Architecture
-The _BBBE_ application is built on top of Brayns, the Blue Brain rendering platform. The role of the application is to use the underlying technical capabilities of the rendering platform to create large scale and accurate 3D scenes from Jupyter notebooks.
+The _BBBE_ application is built on top of [Blue Brain Brayns](https://github.com/BlueBrain/Brayns), the Blue Brain rendering platform. The _BBBE_ uses the underlying technical capabilities of the rendering platform to create large scale and accurate 3D scenes from Jupyter notebooks.
+
+![___](./bioexplorer/pythonsdk/doc/source/images/architecture.png)
 
 ## General components
 
@@ -61,20 +64,34 @@ components.
 Proteins are loaded from PDB files. Atoms, non-polymer chemicals and bonds can be loaded and displayed in various colour schemes: chain id, atom, residue, etc.
 Proteins also contain the amino acid sequences of the individual chains. Sequences that can be used to query glycosylation sites, or functional regions of the protein.
 
+![___](./bioexplorer/pythonsdk/doc/source/images/6vyb_regions.gif)
+
 ### Glycans
 Glycans are small proteins that are attached to an existing protein of the assembly. Individual glycan trees are loaded from PDB files and attached to the glycosylation sites of the specified protein. By default, glycans are attached to all available glycosylation sites, but a set of specific sites can be specified.
 
-### RNA sequence
+Glycan trees models located in the python sdk test folder were generated with [Glycam Builder](http://glycam.org/Pre-builtLibraries.jsp]).
+
+![___](./bioexplorer/pythonsdk/doc/source/images/receptor_all_glycans.gif)
+
+### RNA sequence (work in progress)
 An RNA sequence can be loaded from a text sequence of codons.
 Various shapes can be selected to represent the RNA sequence: Trefoil knot, torus, star, etc. This allows the sequence to be efficiently packed into a given volume. A different color is assigned per type of codon.
 
 ### Mesh-based membranes
 Mesh-based membranes create membranes based on 3D meshes. This allows the construction of complex membranes where mesh faces are filled with proteins.
 
+### Virus
+
+A viral particle (= “virus”) is an assembly consisting of a membrane, an RNA sequence, and a given number of S, M and E proteins. The virus has a predefined spherical shape defined by its radius. The default parameters for the virus are a radius of 45 nanometers, 62 S proteins, 42 E proteins, and 50 M proteins. Dimensions and concentrations were retrieved from the literature.
+
+![___](./bioexplorer/pythonsdk/doc/source/images/coronavirus.gif)
+
 ## Python SDK
 A simple API if exposed via the _BBBE_ python library. The API allows scientists to easily create and modify assemblies, according the biological parameters. The _BBBE_ programming language is not necessarily reflecting the underlying implementation, but is meant to be as simple as close as possible to the language used by the scientists to describe biological assemblies.
 
-The _BBBE_ Python SDK is available on [pypi](https://pypi.org/project/bioexplorer/)
+The _BBBE_ Python SDK is available on [pypi](https://pypi.org/project/bioexplorer/).
+
+A large number of examples (as python notebooks) are provided in the [notebooks](https://github.com/BlueBrain/BioExplorer/tree/master/bioexplorer/pythonsdk/notebooks) folder.
 
 ## Documentation
 
@@ -104,7 +121,7 @@ docker run -ti --rm -p 5001:8888 bluebrain/bioexplorer-python-sdk
 docker run -ti --rm -p 5002:8080 bluebrain/bioexplorer-ui
 ```
 
-![](./bioexplorer/pythonsdk/doc/source/images/BBBE_screenshot.png)
+![___](./bioexplorer/pythonsdk/doc/source/images/BBBE_screenshot.png)
 
 ## Building from Source
 
