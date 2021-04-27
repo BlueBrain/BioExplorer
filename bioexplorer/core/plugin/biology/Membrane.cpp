@@ -231,13 +231,14 @@ void Membrane::_processInstances()
             break;
         }
 
-        // Final transformation
-        const Vector3f translation =
-            _position + Vector3f(_rotation * (transformation.getTranslation() -
-                                              Vector3d(center)));
-
+        // Clipping planes
+        Vector3f translation = Vector3f(
+            _rotation * (transformation.getTranslation() - Vector3d(center)));
         if (isClipped(translation, _clippingPlanes))
             continue;
+
+        // Final transformation
+        translation += _position;
 
         Transformation finalTransformation;
         finalTransformation.setTranslation(translation);

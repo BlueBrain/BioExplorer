@@ -271,14 +271,14 @@ void Assembly::_processInstances(
             break;
         }
 
-        // Final transformation
-        const Vector3f translation =
-            assemblyPosition +
-            Vector3f(assemblyrotation *
-                     Vector3d(transformation.getTranslation()));
-
+        // Clipping planes
+        Vector3f translation = Vector3f(
+            assemblyrotation * Vector3d(transformation.getTranslation()));
         if (isClipped(translation, _clippingPlanes))
             continue;
+
+        // Final transformation
+        translation += assemblyPosition;
 
         Transformation finalTransformation;
         finalTransformation.setTranslation(translation);
