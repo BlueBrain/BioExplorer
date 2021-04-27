@@ -436,6 +436,7 @@ class BioExplorer:
         pdb_folder = resource_folder + "pdb/"
         rna_folder = resource_folder + "rna/"
         glycan_folder = pdb_folder + "glycans/"
+        membrane_folder = pdb_folder + "membrane/"
 
         open_conformation_indices = open_protein_s_indices
         closed_conformation_indices = list()
@@ -458,7 +459,10 @@ class BioExplorer:
         )
 
         # Protein M (QHD43419)
-        params = [2.5, 1, 0.1, assembly_params[3] + 2, 0.3, assembly_params[5]]
+        params = [
+            2.5, 1, assembly_params[2], assembly_params[3] + 2, assembly_params[4],
+            assembly_params[5]
+        ]
         virus_protein_m = Protein(
             sources=[pdb_folder + "QHD43419a.pdb"],
             occurences=nb_protein_m,
@@ -467,7 +471,10 @@ class BioExplorer:
         )
 
         # Protein E (QHD43418 P0DTC4)
-        params = [2.5, 3, 0.1, assembly_params[3] + 4, 0.3, assembly_params[5]]
+        params = [
+            2.5, 3, assembly_params[2], assembly_params[3] + 4, assembly_params[4], 
+            assembly_params[5]
+        ]
         virus_protein_e = Protein(
             sources=[pdb_folder + "QHD43418a.pdb"],
             occurences=nb_protein_e,
@@ -477,8 +484,14 @@ class BioExplorer:
 
         # Virus membrane
         virus_membrane = Membrane(
-            sources=[pdb_folder + "membrane/popc.pdb"],
-            occurences=10000)
+            sources=[
+                membrane_folder + 'segA.pdb',
+                membrane_folder + 'segB.pdb',
+                membrane_folder + 'segC.pdb',
+                membrane_folder + 'segD.pdb'
+            ],
+            occurences=10000
+        )
 
         # RNA Sequence
         rna_sequence = None
