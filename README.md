@@ -69,7 +69,7 @@ Proteins also contain the amino acid sequences of the individual chains. Sequenc
 ### Glycans
 Glycans are small proteins that are attached to an existing protein of the assembly. Individual glycan trees are loaded from PDB files and attached to the glycosylation sites of the specified protein. By default, glycans are attached to all available glycosylation sites, but a set of specific sites can be specified.
 
-Glycan trees models located in the python sdk test folder were generated with [Glycam Builder](http://glycam.org/Pre-builtLibraries.jsp]).
+Glycan trees models located in the python sdk test folder were generated with [Glycam Builder](http://glycam.org).
 
 ![___](./bioexplorer/pythonsdk/doc/source/images/receptor_all_glycans.gif)
 
