@@ -472,7 +472,7 @@ class BioExplorer:
 
         # Protein E (QHD43418 P0DTC4)
         params = [
-            2.5, 3, assembly_params[2], assembly_params[3] + 4, assembly_params[4], 
+            2.5, 3, assembly_params[2], assembly_params[3] + 4, assembly_params[4],
             assembly_params[5]
         ]
         virus_protein_e = Protein(
@@ -666,7 +666,7 @@ class BioExplorer:
         )
 
         if virus.protein_s:
-            params = virus.protein_s.assembly_params
+            params = virus.protein_s.assembly_params.copy()
             params[0] += virus.assembly_params[0]
 
             # S Protein
@@ -716,7 +716,7 @@ class BioExplorer:
 
         if virus.protein_m:
             # M Protein
-            params = virus.protein_m.assembly_params
+            params = virus.protein_m.assembly_params.copy()
             params[0] += virus.assembly_params[0]
 
             _protein_m = AssemblyProtein(
@@ -740,7 +740,7 @@ class BioExplorer:
 
         if virus.protein_e:
             # E Protein
-            params = virus.protein_e.assembly_params
+            params = virus.protein_e.assembly_params.copy()
             params[0] += virus.assembly_params[0]
 
             _protein_e = AssemblyProtein(
@@ -815,7 +815,7 @@ class BioExplorer:
         )
 
         if cell.receptor.occurences != 0:
-            receptor_params = cell.params
+            receptor_params = cell.params.copy()
             receptor_params[4] /= 20.0  # Receptor rotates 20 times less than lipids
 
             _receptor = AssemblyProtein(
@@ -831,7 +831,7 @@ class BioExplorer:
                 atom_radius_multiplier=atom_radius_multiplier,
                 load_bonds=False,
                 representation=representation,
-                random_seed=1,
+                random_seed=random_seed,
                 position=cell.receptor.position,
                 rotation=cell.receptor.rotation
             )
@@ -845,8 +845,7 @@ class BioExplorer:
             shape=cell.shape,
             assembly_params=cell.params,
             random_seed=random_seed,
-            position_randomization_type=self.
-            POSITION_RANDOMIZATION_TYPE_RADIAL,
+            position_randomization_type=self.POSITION_RANDOMIZATION_TYPE_RADIAL,
             membrane=cell.membrane
         )
 

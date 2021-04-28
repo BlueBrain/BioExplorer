@@ -177,11 +177,6 @@ void Assembly::_processInstances(
     const float increment = M_PI * (3.f - sqrt(5.f));
 
     srand(randomSeed);
-    size_t rnd{1};
-    if (occurrences != 0 && randomSeed != 0 &&
-        randomizationType == PositionRandomizationType::circular)
-        rnd = rand() % occurrences;
-
     const Quaterniond assemblyrotation = {_details.rotation[0],
                                           _details.rotation[1],
                                           _details.rotation[2],

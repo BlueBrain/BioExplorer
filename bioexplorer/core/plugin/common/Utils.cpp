@@ -135,9 +135,14 @@ Transformation getSphericalPosition(const Vector3f& position,
                                     const size_t occurences,
                                     const RandomizationDetails& randInfo)
 {
+    size_t rnd = 1;
+    if (occurences != 0 && randInfo.seed != 0 &&
+        randInfo.randomizationType == PositionRandomizationType::circular)
+        rnd = rand() % occurences;
+
     const float offset = 2.f / occurences;
     const float increment = M_PI * (3.f - sqrt(5.f));
-    const size_t index = (occurence + randInfo.seed) % occurences;
+    const size_t index = (occurence + rnd) % occurences;
 
     // Position randomizer
     float R = radius;
@@ -252,24 +257,28 @@ Transformation getSinosoidalPosition(const Vector3f& position, const float size,
 {
     const float step = 0.01f;
     const float angle = 0.01f;
-    float up = 1.f;
+    float upOffset = 0.f;
     if (randInfo.positionSeed != 0 &&
         randInfo.randomizationType == PositionRandomizationType::radial)
-        up = 1.f + randInfo.positionStrength *
-                       rnd3((randInfo.positionSeed + occurence) * 10);
+        upOffset = randInfo.positionStrength *
+                   rnd3((randInfo.positionSeed + occurence) * 10);
 
     const float x = rnd1() * size;
     const float z = rnd1() * size;
-    const float y = amplitude * up * sinusoide(x * angle, z * angle);
+    const float y = upOffset + amplitude * sinusoide(x * angle, z * angle);
 
     Vector3f pos = Vector3f(x, y, z);
 
     const Vector3f v1 =
         Vector3f(x + step,
-                 amplitude * up * sinusoide((x + step) * angle, z * angle), z) -
+                 upOffset +
+                     amplitude * sinusoide((x + step) * angle, z * angle),
+                 z) -
         pos;
     const Vector3f v2 =
-        Vector3f(x, amplitude * up * sinusoide(x * angle, (z + step) * angle),
+        Vector3f(x,
+                 upOffset +
+                     amplitude * sinusoide(x * angle, (z + step) * angle),
                  z + step) -
         pos;
 
@@ -317,9 +326,14 @@ Transformation getSphericalToPlanarPosition(
     const size_t occurences, const RandomizationDetails& randInfo,
     const float morphingStep)
 {
+    size_t rnd = 1;
+    if (occurences != 0 && randInfo.seed != 0 &&
+        randInfo.randomizationType == PositionRandomizationType::circular)
+        rnd = rand() % occurences;
+
     const float offset = 2.f / occurences;
     const float increment = M_PI * (3.f - sqrt(5.f));
-    const size_t index = (occurence + randInfo.seed) % occurences;
+    const size_t index = (occurence + rnd) % occurences;
 
     // Position randomizer
     float R = radius;
