@@ -407,7 +407,7 @@ class BioExplorer:
             raise RuntimeError(result["contents"])
         return result
 
-    def add_coronavirus(self, name, resource_folder, assembly_params=[45.0, 1, 0.025, 2, 0.4, 0.0],
+    def add_coronavirus(self, name, resource_folder, assembly_params=[45.0, 1, 1.0, 2, 0.6, 0.0],
                         nb_protein_s=62, nb_protein_m=50, nb_protein_e=42,
                         open_protein_s_indices=list([1]), atom_radius_multiplier=1.0,
                         add_glycans=False, add_rna_sequence=False,
@@ -490,7 +490,7 @@ class BioExplorer:
                 membrane_folder + 'segC.pdb',
                 membrane_folder + 'segD.pdb'
             ],
-            occurences=10000
+            occurences=6000
         )
 
         # RNA Sequence

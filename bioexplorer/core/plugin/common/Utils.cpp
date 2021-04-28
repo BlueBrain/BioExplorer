@@ -135,26 +135,24 @@ Transformation getSphericalPosition(const Vector3f& position,
                                     const size_t occurences,
                                     const RandomizationDetails& randInfo)
 {
-    size_t rnd = 1;
+    size_t rnd = occurence;
     if (occurences != 0 && randInfo.seed != 0 &&
         randInfo.randomizationType == PositionRandomizationType::circular)
         rnd = rand() % occurences;
 
     const float offset = 2.f / occurences;
     const float increment = M_PI * (3.f - sqrt(5.f));
-    const size_t index = (occurence + rnd) % occurences;
 
     // Position randomizer
     float R = radius;
     if (randInfo.positionSeed != 0 &&
         randInfo.randomizationType == PositionRandomizationType::radial)
-        R *= 1.f +
-             randInfo.positionStrength * rnd3(randInfo.positionSeed + index);
+        R += randInfo.positionStrength * rnd3(randInfo.positionSeed + rnd);
 
     // Sphere filling
     const float y = ((occurence * offset) - 1.f) + offset / 2.f;
     const float r = sqrt(1.f - pow(y, 2.f));
-    const float phi = index * increment;
+    const float phi = rnd * increment;
     const float x = cos(phi) * r;
     const float z = sin(phi) * r;
     Vector3f d{x, y, z};
@@ -167,9 +165,9 @@ Transformation getSphericalPosition(const Vector3f& position,
     // rotation randomizer
     if (randInfo.rotationSeed != 0)
         d = d + randInfo.rotationStrength *
-                    Vector3f(rnd2(randInfo.rotationSeed + index * 2),
-                             rnd2(randInfo.rotationSeed + index * 3),
-                             rnd2(randInfo.rotationSeed + index * 5));
+                    Vector3f(rnd2(randInfo.rotationSeed + rnd * 2),
+                             rnd2(randInfo.rotationSeed + rnd * 3),
+                             rnd2(randInfo.rotationSeed + rnd * 5));
 
     Transformation transformation;
     transformation.setTranslation(pos);
@@ -326,26 +324,24 @@ Transformation getSphericalToPlanarPosition(
     const size_t occurences, const RandomizationDetails& randInfo,
     const float morphingStep)
 {
-    size_t rnd = 1;
+    size_t rnd = occurence;
     if (occurences != 0 && randInfo.seed != 0 &&
         randInfo.randomizationType == PositionRandomizationType::circular)
         rnd = rand() % occurences;
 
     const float offset = 2.f / occurences;
     const float increment = M_PI * (3.f - sqrt(5.f));
-    const size_t index = (occurence + rnd) % occurences;
 
     // Position randomizer
     float R = radius;
     if (randInfo.positionSeed != 0 &&
         randInfo.randomizationType == PositionRandomizationType::radial)
-        R *= 1.f +
-             randInfo.positionStrength * rnd3(randInfo.positionSeed + index);
+        R += randInfo.positionStrength * rnd3(randInfo.positionSeed + rnd);
 
     // Sphere filling
-    const float y = ((occurence * offset) - 1.f) + (offset / 2.f);
+    const float y = ((rnd * offset) - 1.f) + (offset / 2.f);
     const float r = sqrt(1.f - pow(y, 2.f));
-    const float phi = index * increment;
+    const float phi = rnd * increment;
     const float x = cos(phi) * r;
     const float z = sin(phi) * r;
 
@@ -362,9 +358,9 @@ Transformation getSphericalToPlanarPosition(
     if (randInfo.rotationSeed != 0)
         startDir =
             startDir + randInfo.rotationStrength *
-                           Vector3f(rnd2(randInfo.rotationSeed + index * 2),
-                                    rnd2(randInfo.rotationSeed + index * 3),
-                                    rnd2(randInfo.rotationSeed + index * 5));
+                           Vector3f(rnd2(randInfo.rotationSeed + rnd * 2),
+                                    rnd2(randInfo.rotationSeed + rnd * 3),
+                                    rnd2(randInfo.rotationSeed + rnd * 5));
 
     R = radius;
     const float endRadius = R * 1.75f;
