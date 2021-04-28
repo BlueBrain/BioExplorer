@@ -343,6 +343,12 @@ void BioExplorerPlugin::init()
         actionInterface->registerNotification<AddGridDetails>(
             Details, [&](const AddGridDetails &payload) { _addGrid(payload); });
 
+        Details = PLUGIN_API_PREFIX + "add-sphere";
+        PLUGIN_INFO("Registering '" + Details + "' endpoint");
+        actionInterface->registerNotification<AddSphereDetails>(
+            Details,
+            [&](const AddSphereDetails &payload) { _addSphere(payload); });
+
         Details = PLUGIN_API_PREFIX + "set-materials";
         PLUGIN_INFO("Registering '" + Details + "' endpoint");
         actionInterface->registerNotification<MaterialsDetails>(
@@ -565,7 +571,7 @@ Response BioExplorerPlugin::_setAminoAcidSequenceAsRanges(
 Response BioExplorerPlugin::_getAminoAcidInformation(
     const AminoAcidInformationDetails &payload) const
 {
-    ASSEMBLY_CALL_VOID(payload.assemblyName, getAminoAcidInformation(payload));
+    ASSEMBLY_CALL(payload.assemblyName, getAminoAcidInformation(payload));
 }
 
 Response BioExplorerPlugin::_addRNASequence(
@@ -859,6 +865,47 @@ Response BioExplorerPlugin::_addGrid(const AddGridDetails &payload)
         scene.addModel(
             std::make_shared<brayns::ModelDescriptor>(std::move(model),
                                                       "Grid"));
+    }
+    CATCH_STD_EXCEPTION()
+    return response;
+}
+
+Response BioExplorerPlugin::_addSphere(const AddSphereDetails &payload)
+{
+    Response response;
+    try
+    {
+        if (payload.position.size() != 3)
+            PLUGIN_THROW("Invalid number of float for position");
+        if (payload.color.size() != 3)
+            PLUGIN_THROW("Invalid number of float for color");
+
+        auto &scene = _api->getScene();
+        auto model = scene.createModel();
+
+        brayns::PropertyMap props;
+        props.setProperty({MATERIAL_PROPERTY_SHADING_MODE,
+                           static_cast<int>(MaterialShadingMode::electron)});
+        props.setProperty({MATERIAL_PROPERTY_USER_PARAMETER, 1.0});
+        props.setProperty(
+            {MATERIAL_PROPERTY_CHAMELEON_MODE,
+             static_cast<int>(
+                 MaterialChameleonMode::undefined_chameleon_mode)});
+
+        auto material = model->createMaterial(0, "Sphere");
+        material->setDiffuseColor(
+            {payload.color[0], payload.color[1], payload.color[2]});
+        material->setProperties(props);
+        const auto &position =
+            brayns::Vector3f(payload.position[0], payload.position[1],
+                             payload.position[2]);
+
+        PLUGIN_INFO("Adding sphere " + payload.name + "to the scene");
+
+        model->addSphere(0, {position, payload.radius});
+        scene.addModel(
+            std::make_shared<brayns::ModelDescriptor>(std::move(model),
+                                                      payload.name));
     }
     CATCH_STD_EXCEPTION()
     return response;

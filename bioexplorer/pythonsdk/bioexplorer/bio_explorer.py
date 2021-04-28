@@ -409,7 +409,7 @@ class BioExplorer:
 
     def add_coronavirus(self, name, resource_folder, assembly_params=[45.0, 1, 1.0, 2, 0.6, 0.0],
                         nb_protein_s=62, nb_protein_m=50, nb_protein_e=42,
-                        open_protein_s_indices=list([1]), atom_radius_multiplier=1.0,
+                        open_protein_s_indices=list([0]), atom_radius_multiplier=1.0,
                         add_glycans=False, add_rna_sequence=False,
                         representation=REPRESENTATION_ATOMS, clipping_planes=None,
                         position=Vector3(), rotation=Quaternion(), apply_colors=False):
@@ -1988,6 +1988,29 @@ class BioExplorer:
         params["position"] = position.to_list()
         return self._client.rockets_client.request(
             self.PLUGIN_API_PREFIX + "add-grid", params)
+
+    def add_sphere(self, name, position, radius, color=Vector3(1.0, 1.0, 1.0)):
+        """
+        Add a reference grid to the scene
+
+        :name: Name of the sphere
+        :position: Position of the sphere
+        :radius: Radius of the sphere
+        :color: RGB Color of the sphere (0..1)
+        :return: Result of the request submission
+        """
+        if self._client is None:
+            return
+
+        assert isinstance(position, Vector3)
+        assert isinstance(color, Vector3)
+        params = dict()
+        params["name"] = name
+        params["position"] = position.to_list()
+        params["radius"] = radius
+        params["color"] = color.to_list()
+        return self._client.rockets_client.request(
+            self.PLUGIN_API_PREFIX + "add-sphere", params)
 
     def set_general_settings(self, model_visibility_on_creation=True, off_folder='/tmp',
                              logging_enabled=False):
