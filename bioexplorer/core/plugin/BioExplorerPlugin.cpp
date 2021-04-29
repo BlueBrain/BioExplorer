@@ -900,7 +900,7 @@ Response BioExplorerPlugin::_addSphere(const AddSphereDetails &payload)
             brayns::Vector3f(payload.position[0], payload.position[1],
                              payload.position[2]);
 
-        PLUGIN_INFO("Adding sphere " + payload.name + "to the scene");
+        PLUGIN_INFO("Adding sphere " + payload.name + " to the scene");
 
         model->addSphere(0, {position, payload.radius});
         scene.addModel(

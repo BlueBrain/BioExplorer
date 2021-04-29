@@ -179,6 +179,11 @@ Transformation getFanPosition(const Vector3f& position, const float radius,
                               const size_t occurence, const size_t occurences,
                               const RandomizationDetails& randInfo)
 {
+    size_t rnd = occurence;
+    if (occurences != 0 && randInfo.seed != 0 &&
+        randInfo.randomizationType == PositionRandomizationType::circular)
+        rnd = rand() % occurences;
+
     const float offset = 2.f / occurences;
     const float increment = 0.1f * M_PI * (3.f - sqrt(5.f));
 
@@ -191,7 +196,7 @@ Transformation getFanPosition(const Vector3f& position, const float radius,
     // Sphere filling
     const float y = ((occurence * offset) - 1.f) + offset / 2.f;
     const float r = sqrt(1.f - pow(y, 2.f));
-    const float phi = ((occurence + randInfo.seed) % occurences) * increment;
+    const float phi = rnd * increment;
     const float x = cos(phi) * r;
     const float z = sin(phi) * r;
     const Vector3f d{x, y, z};
