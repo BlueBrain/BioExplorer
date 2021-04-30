@@ -175,7 +175,7 @@ private:
     AssemblyDetails _details;
     Scene &_scene;
     ProteinMap _proteins;
-    MeshBasedMembraneMap _meshBasedMembranes;
+    MeshBasedMembranePtr _meshBasedMembrane{nullptr};
     MembranePtr _membrane{nullptr};
     RNASequencePtr _rnaSequence{nullptr};
     Vector4fs _clippingPlanes;

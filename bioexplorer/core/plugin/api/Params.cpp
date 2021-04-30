@@ -359,7 +359,10 @@ bool from_json(MeshBasedMembraneDetails &param, const std::string &payload)
         FROM_JSON(param, js, assemblyName);
         FROM_JSON(param, js, name);
         FROM_JSON(param, js, meshContents);
-        FROM_JSON(param, js, proteinContents);
+        FROM_JSON(param, js, proteinContents1);
+        FROM_JSON(param, js, proteinContents2);
+        FROM_JSON(param, js, proteinContents3);
+        FROM_JSON(param, js, proteinContents4);
         FROM_JSON(param, js, recenter);
         FROM_JSON(param, js, density);
         FROM_JSON(param, js, surfaceFixedOffset);

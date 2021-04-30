@@ -63,16 +63,6 @@ Assembly::~Assembly()
                                          << "]");
         _scene.removeModel(protein.second->getModelDescriptor()->getModelID());
     }
-    for (const auto &meshBasedMembrane : _meshBasedMembranes)
-    {
-        const auto modelId =
-            meshBasedMembrane.second->getModelDescriptor()->getModelID();
-        PLUGIN_INFO("Removing mesh ["
-                    << modelId << "] [" << meshBasedMembrane.first
-                    << "] from assembly [" << _details.name << "]");
-        _scene.removeModel(
-            meshBasedMembrane.second->getModelDescriptor()->getModelID());
-    }
     if (_rnaSequence)
     {
         const auto modelId = _rnaSequence->getModelDescriptor()->getModelID();
@@ -105,7 +95,7 @@ void Assembly::addProtein(const ProteinDetails &details)
 
 void Assembly::addMembrane(const MembraneDetails &details)
 {
-    if (_membrane != nullptr)
+    if (_membrane)
         PLUGIN_THROW("Assembly already has a membrane");
 
     const Vector3f position = {_details.position[0], _details.position[1],
@@ -159,11 +149,12 @@ void Assembly::addGlycans(const SugarsDetails &details)
 
 void Assembly::addMeshBasedMembrane(const MeshBasedMembraneDetails &details)
 {
-    MeshBasedMembranePtr meshBaseMembrane(
+    if (_meshBasedMembrane)
+        PLUGIN_THROW("Assembly already has a mesh-based membrane");
+
+    MeshBasedMembranePtr meshBasedMembrane(
         new MeshBasedMembrane(_scene, details));
-    auto modelDescriptor = meshBaseMembrane->getModelDescriptor();
-    _meshBasedMembranes[details.name] = std::move(meshBaseMembrane);
-    _scene.addModel(modelDescriptor);
+    _meshBasedMembrane = std::move(meshBasedMembrane);
 }
 
 void Assembly::_processInstances(
@@ -300,13 +291,19 @@ void Assembly::setColorScheme(const ColorSchemeDetails &details)
         protein = (*itProtein).second;
     else
     {
-        auto itMesh = _meshBasedMembranes.find(details.name);
-        if (itMesh != _meshBasedMembranes.end())
-            protein = (*itMesh).second->getProtein();
+        if (_meshBasedMembrane)
+        {
+            const auto membraneProteins = _meshBasedMembrane->getProteins();
+            const auto it = membraneProteins.find(details.assemblyName + '_' +
+                                                  details.name);
+            if (it != membraneProteins.end())
+                protein = (*it).second;
+        }
         else if (_membrane)
         {
             const auto membraneProteins = _membrane->getProteins();
-            const auto it = membraneProteins.find(details.name);
+            const auto it = membraneProteins.find(details.assemblyName + '_' +
+                                                  details.name);
             if (it != membraneProteins.end())
                 protein = (*it).second;
         }

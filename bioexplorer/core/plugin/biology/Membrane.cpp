@@ -152,13 +152,7 @@ void Membrane::_processInstances()
     for (uint64_t occurence = 0; occurence < _details.occurrences; ++occurence)
     {
         const size_t id = rand() % _proteins.size();
-        const auto name = _getElementNameFromId(id);
-        if (_proteins.find(name) == _proteins.end())
-        {
-            PLUGIN_ERROR("Protein " << name << " is not registered");
-            continue;
-        }
-        auto protein = _proteins[name];
+        auto protein = _proteins[_getElementNameFromId(id)];
         auto md = protein->getModelDescriptor();
 
         const auto &model = md->getModel();

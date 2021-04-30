@@ -57,8 +57,11 @@ MeshBasedMembraneDetails getDescriptor()
     descriptor.assemblyName = "test";
     descriptor.name = "test";
     descriptor.meshContents = getFileContents(folder + "obj/suzanne.obj");
-    descriptor.proteinContents =
+    descriptor.proteinContents1 =
         getFileContents(folder + "pdb/membrane/popc.pdb");
+    descriptor.proteinContents2 = "";
+    descriptor.proteinContents3 = "";
+    descriptor.proteinContents4 = "";
     descriptor.recenter = true;
     descriptor.density = 0.1;
     descriptor.surfaceFixedOffset = 0.f;
@@ -80,6 +83,8 @@ BOOST_AUTO_TEST_CASE(meshBasedMembrane)
     auto& scene = brayns.getEngine().getScene();
     MeshBasedMembrane meshBasedMembrane(scene, getDescriptor());
 
-    BOOST_CHECK(meshBasedMembrane.getProtein()->getAtoms().size() == 426);
+    BOOST_CHECK(
+        meshBasedMembrane.getProteins().begin()->second->getAtoms().size() ==
+        426);
 }
 } // namespace tests

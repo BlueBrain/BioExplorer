@@ -363,8 +363,14 @@ typedef struct
     std::string name;
     /** String containing an OBJ representation of the mesh */
     std::string meshContents;
-    /** String containing an PDB representation of the protein */
-    std::string proteinContents;
+    /** String containing an PDB representation of the protein 1*/
+    std::string proteinContents1;
+    /** String containing an PDB representation of the protein 2 (optional)*/
+    std::string proteinContents2;
+    /** String containing an PDB representation of the protein 3 (optional)*/
+    std::string proteinContents3;
+    /** String containing an PDB representation of the protein 4 (optional)*/
+    std::string proteinContents4;
     /** Recenters the protein  */
     bool recenter;
     /** Density of proteins in surface of the mesh */
