@@ -127,10 +127,6 @@ void Membrane::_processInstances()
 {
     // Randomization
     srand(_details.randomSeed);
-    size_t rnd{1};
-    if (_details.randomSeed != 0 && _details.positionRandomizationType ==
-                                        PositionRandomizationType::circular)
-        rnd = rand() % _details.occurrences;
 
     const Quaterniond rotation = {_details.rotation[0], _details.rotation[1],
                                   _details.rotation[2], _details.rotation[3]};

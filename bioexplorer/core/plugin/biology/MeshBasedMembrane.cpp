@@ -161,7 +161,7 @@ MeshBasedMembrane::MeshBasedMembrane(Scene& scene,
 
         PLUGIN_INFO("----===  MeshBasedMembrane  ===----");
         PLUGIN_INFO("Position             : " << position);
-        PLUGIN_INFO("rotation          : " << rotation);
+        PLUGIN_INFO("Rotation             : " << rotation);
         PLUGIN_INFO("Scale                : " << scale);
         PLUGIN_INFO("Number of faces      : " << faces.size());
         PLUGIN_INFO("Mesh surface area    : " << meshSurface);

@@ -407,9 +407,9 @@ class BioExplorer:
             raise RuntimeError(result["contents"])
         return result
 
-    def add_coronavirus(self, name, resource_folder, assembly_params=[45.0, 1, 0.025, 2, 0.4, 0.0],
+    def add_coronavirus(self, name, resource_folder, assembly_params=[45.0, 1, 1.0, 2, 0.6, 0.0],
                         nb_protein_s=62, nb_protein_m=50, nb_protein_e=42,
-                        open_protein_s_indices=list([1]), atom_radius_multiplier=1.0,
+                        open_protein_s_indices=list([0]), atom_radius_multiplier=1.0,
                         add_glycans=False, add_rna_sequence=False,
                         representation=REPRESENTATION_ATOMS, clipping_planes=None,
                         position=Vector3(), rotation=Quaternion(), apply_colors=False):
@@ -436,6 +436,7 @@ class BioExplorer:
         pdb_folder = resource_folder + "pdb/"
         rna_folder = resource_folder + "rna/"
         glycan_folder = pdb_folder + "glycans/"
+        membrane_folder = pdb_folder + "membrane/"
 
         open_conformation_indices = open_protein_s_indices
         closed_conformation_indices = list()
@@ -458,7 +459,10 @@ class BioExplorer:
         )
 
         # Protein M (QHD43419)
-        params = [2.5, 1, 0.1, assembly_params[3] + 2, 0.3, assembly_params[5]]
+        params = [
+            2.5, 1, assembly_params[2], assembly_params[3] + 2, assembly_params[4],
+            assembly_params[5]
+        ]
         virus_protein_m = Protein(
             sources=[pdb_folder + "QHD43419a.pdb"],
             occurences=nb_protein_m,
@@ -467,7 +471,10 @@ class BioExplorer:
         )
 
         # Protein E (QHD43418 P0DTC4)
-        params = [2.5, 3, 0.1, assembly_params[3] + 4, 0.3, assembly_params[5]]
+        params = [
+            2.5, 3, assembly_params[2], assembly_params[3] + 4, assembly_params[4],
+            assembly_params[5]
+        ]
         virus_protein_e = Protein(
             sources=[pdb_folder + "QHD43418a.pdb"],
             occurences=nb_protein_e,
@@ -477,8 +484,14 @@ class BioExplorer:
 
         # Virus membrane
         virus_membrane = Membrane(
-            sources=[pdb_folder + "membrane/popc.pdb"],
-            occurences=10000)
+            sources=[
+                membrane_folder + 'segA.pdb',
+                membrane_folder + 'segB.pdb',
+                membrane_folder + 'segC.pdb',
+                membrane_folder + 'segD.pdb'
+            ],
+            occurences=6000
+        )
 
         # RNA Sequence
         rna_sequence = None
@@ -653,7 +666,7 @@ class BioExplorer:
         )
 
         if virus.protein_s:
-            params = virus.protein_s.assembly_params
+            params = virus.protein_s.assembly_params.copy()
             params[0] += virus.assembly_params[0]
 
             # S Protein
@@ -703,7 +716,7 @@ class BioExplorer:
 
         if virus.protein_m:
             # M Protein
-            params = virus.protein_m.assembly_params
+            params = virus.protein_m.assembly_params.copy()
             params[0] += virus.assembly_params[0]
 
             _protein_m = AssemblyProtein(
@@ -727,7 +740,7 @@ class BioExplorer:
 
         if virus.protein_e:
             # E Protein
-            params = virus.protein_e.assembly_params
+            params = virus.protein_e.assembly_params.copy()
             params[0] += virus.assembly_params[0]
 
             _protein_e = AssemblyProtein(
@@ -802,7 +815,7 @@ class BioExplorer:
         )
 
         if cell.receptor.occurences != 0:
-            receptor_params = cell.params
+            receptor_params = cell.params.copy()
             receptor_params[4] /= 20.0  # Receptor rotates 20 times less than lipids
 
             _receptor = AssemblyProtein(
@@ -818,7 +831,7 @@ class BioExplorer:
                 atom_radius_multiplier=atom_radius_multiplier,
                 load_bonds=False,
                 representation=representation,
-                random_seed=1,
+                random_seed=random_seed,
                 position=cell.receptor.position,
                 rotation=cell.receptor.rotation
             )
@@ -832,8 +845,7 @@ class BioExplorer:
             shape=cell.shape,
             assembly_params=cell.params,
             random_seed=random_seed,
-            position_randomization_type=self.
-            POSITION_RANDOMIZATION_TYPE_RADIAL,
+            position_randomization_type=self.POSITION_RANDOMIZATION_TYPE_RADIAL,
             membrane=cell.membrane
         )
 
@@ -1976,6 +1988,29 @@ class BioExplorer:
         params["position"] = position.to_list()
         return self._client.rockets_client.request(
             self.PLUGIN_API_PREFIX + "add-grid", params)
+
+    def add_sphere(self, name, position, radius, color=Vector3(1.0, 1.0, 1.0)):
+        """
+        Add a reference grid to the scene
+
+        :name: Name of the sphere
+        :position: Position of the sphere
+        :radius: Radius of the sphere
+        :color: RGB Color of the sphere (0..1)
+        :return: Result of the request submission
+        """
+        if self._client is None:
+            return
+
+        assert isinstance(position, Vector3)
+        assert isinstance(color, Vector3)
+        params = dict()
+        params["name"] = name
+        params["position"] = position.to_list()
+        params["radius"] = radius
+        params["color"] = color.to_list()
+        return self._client.rockets_client.request(
+            self.PLUGIN_API_PREFIX + "add-sphere", params)
 
     def set_general_settings(self, model_visibility_on_creation=True, off_folder='/tmp',
                              logging_enabled=False):

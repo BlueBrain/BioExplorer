@@ -497,6 +497,22 @@ typedef struct
 } AddGridDetails;
 
 /**
+ * @brief Defines the parameters needed when adding 3D sphere to the scene
+ *
+ */
+typedef struct
+{
+    /** Name of the sphere */
+    std::string name;
+    /** Position of the sphere in the scene */
+    std::vector<float> position;
+    /** Radius of the sphere */
+    float radius;
+    /** RGB Color of the sphere */
+    std::vector<float> color;
+} AddSphereDetails;
+
+/**
  * @brief Color schemes that can be applied to proteins
  *
  */

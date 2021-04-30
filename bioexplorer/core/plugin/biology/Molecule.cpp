@@ -212,10 +212,10 @@ void Molecule::_computeReqSetOffset()
 
         sequence.second.offset =
             theoreticalReqSeq.find(physicalReqSeq) - firstReqSeq;
-        PLUGIN_INFO("Sequence " << sequence.first
-                                << " offset: " << sequence.second.offset
-                                << "Theoretical: " << theoreticalReqSeq
-                                << "Physical   : " << physicalReqSeq);
+        PLUGIN_INFO("Sequence [" << sequence.first
+                                 << "], offset: " << sequence.second.offset
+                                 << ", Theoretical: " << theoreticalReqSeq
+                                 << ", Physical: " << physicalReqSeq);
     }
 }
 

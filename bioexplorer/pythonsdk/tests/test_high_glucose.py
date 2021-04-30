@@ -39,7 +39,7 @@ PROTEIN_LOAD_HYDROGEN = False
 NB_PROTEIN_S = 62
 NB_PROTEIN_E = 42
 NB_PROTEIN_M = 50
-ADD_RNA = True
+ADD_RNA = False
 ADD_GLYCANS = True
 
 # Cell parameters
@@ -52,6 +52,7 @@ PDB_FOLDER = RESOURCE_FOLDER + 'pdb/'
 RNA_FOLDER = RESOURCE_FOLDER + 'rna/'
 OBJ_FOLDER = RESOURCE_FOLDER + 'obj/'
 GLYCAN_FOLDER = PDB_FOLDER + 'glycans/'
+MEMBRANE_FOLDER = PDB_FOLDER + 'membrane/'
 
 COMPLEX_PATHS = [
     GLYCAN_FOLDER + 'complex/5.pdb', GLYCAN_FOLDER + 'complex/15.pdb',
@@ -72,13 +73,16 @@ LACTOFERRINS_PATH = PDB_FOLDER + 'immune/1b0l.pdb'
 DEFENSINS_PATH = PDB_FOLDER + 'immune/1ijv.pdb'
 
 
-def add_virus(bioexplorer, name, position, open_conformation_indices=list()):
+def add_virus(
+        bioexplorer, name, position, open_conformation_indices=list(),
+        assembly_params=[45.0, 1, 0.025, 2, 0.4, 0.0]):
+
     closed_conformation_indices = list()
     for i in range(NB_PROTEIN_S):
         if i not in open_conformation_indices:
             closed_conformation_indices.append(i)
 
-    params = [11.5, 0, 0.0, 0, 0.0, 0.0]
+    params = [11.5, 0, 0.0, assembly_params[3], 0.1, assembly_params[5]]
     virus_protein_s = Protein(
         sources=[
             PDB_FOLDER + '6vyb.pdb',         # Open conformation
@@ -89,20 +93,29 @@ def add_virus(bioexplorer, name, position, open_conformation_indices=list()):
         rotation=Quaternion(0.0, 1.0, 0.0, 0.0),
         instance_indices=[open_conformation_indices, closed_conformation_indices])
 
-    params = [2.5, 0, 0.0, 0, 0.0, 0.0]
+    params = [
+        2.5, 1, assembly_params[2], assembly_params[3] + 2, assembly_params[4], assembly_params[5]
+    ]
     virus_protein_m = Protein(
         sources=[PDB_FOLDER + 'QHD43419a.pdb'], load_hydrogen=PROTEIN_LOAD_HYDROGEN,
         occurences=NB_PROTEIN_M, assembly_params=params,
         rotation=Quaternion(0.99, 0.0, 0.0, 0.135))
 
-    params = [2.5, 0, 0.0, 0, 0.0, 0.0]
+    params = [
+        2.5, 3, assembly_params[2], assembly_params[3] + 4, assembly_params[4], assembly_params[5]
+    ]
     virus_protein_e = Protein(
         sources=[PDB_FOLDER + 'QHD43418a.pdb'], load_hydrogen=PROTEIN_LOAD_HYDROGEN,
         occurences=NB_PROTEIN_E, assembly_params=params,
         rotation=Quaternion(0.705, 0.705, -0.04, -0.04))
 
     virus_membrane = Membrane(
-        sources=[PDB_FOLDER + 'membrane/popc.pdb'],
+        sources=[
+            MEMBRANE_FOLDER + 'segA.pdb',
+            MEMBRANE_FOLDER + 'segB.pdb',
+            MEMBRANE_FOLDER + 'segC.pdb',
+            MEMBRANE_FOLDER + 'segD.pdb'
+        ],
         occurences=15000
     )
 
@@ -117,7 +130,7 @@ def add_virus(bioexplorer, name, position, open_conformation_indices=list()):
     coronavirus = Virus(
         name=name, protein_s=virus_protein_s, protein_e=virus_protein_e, protein_m=virus_protein_m,
         membrane=virus_membrane, rna_sequence=rna_sequence,
-        assembly_params=[45.0, 1, 0.025, 2, 0.4, 0.0])
+        assembly_params=assembly_params)
 
     clip_planes = list()
     if ADD_RNA:
@@ -193,12 +206,21 @@ def add_cell(bioexplorer, name, size, height, position=Vector3()):
     ace2_receptor = Protein(
         sources=[PDB_FOLDER + '6m18.pdb'], occurences=20, position=Vector3(0.0, 6.0, 0.0))
     membrane = Membrane(
-        sources=[PDB_FOLDER + 'membrane/popc.pdb'], occurences=1200000)
+        sources=[
+            MEMBRANE_FOLDER + 'segA.pdb',
+            MEMBRANE_FOLDER + 'segB.pdb',
+            MEMBRANE_FOLDER + 'segC.pdb',
+            MEMBRANE_FOLDER + 'segD.pdb'
+        ],
+        occurences=1200000
+    )
     cell = Cell(
         name=name, size=size, shape=bioexplorer.ASSEMBLY_SHAPE_SINUSOIDAL,
-        membrane=membrane, receptor=ace2_receptor, extra_parameters=[height])
-    bioexplorer.add_cell(
-        cell=cell, position=position, representation=PROTEIN_REPRESENTATION)
+        membrane=membrane, receptor=ace2_receptor, extra_parameters=[height],
+        random_position_seed=1, random_position_strength=0.025,
+        random_rotation_seed=2, random_rotation_strength=2.0
+    )
+    bioexplorer.add_cell(cell=cell, position=position, representation=PROTEIN_REPRESENTATION)
 
     if ADD_GLYCANS:
         bioexplorer.add_multiple_glycans(
@@ -283,6 +305,11 @@ def test_high_glucose():
         # Suspend image streaming
         core.set_application_parameters(image_stream_fps=0)
 
+        # Accelerate loading by not showing models as they are loaded
+        bioexplorer.set_general_settings(
+            logging_enabled=True,
+            model_visibility_on_creation=False)
+
         # Build full model
         add_virus(
             bioexplorer, name='Coronavirus 1', position=Vector3(-289.5, -97.0, -97.5),
@@ -335,6 +362,10 @@ def test_high_glucose():
 
         # Restore image streaming
         core.set_application_parameters(image_stream_fps=20)
+
+        # Show all model now that they are loaded
+        bioexplorer.set_models_visibility(True)
+
     except Exception as ex:
         print(ex)
         raise
