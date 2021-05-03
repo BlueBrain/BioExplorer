@@ -115,7 +115,7 @@ def add_virus(
         occurences=NB_PROTEIN_E, assembly_params=params,
         rotation=Quaternion(0.705, 0.705, -0.04, -0.04))
 
-    virus_membrane = Membrane(
+    virus_membrane = ParametricMembrane(
         sources=[
             MEMBRANE_FOLDER + 'segA.pdb',
             MEMBRANE_FOLDER + 'segB.pdb',
@@ -218,7 +218,7 @@ def add_virus(
 def add_cell(bioexplorer, name, size, height, position=Vector3()):
     ace2_receptor = Protein(
         sources=[PDB_FOLDER + '6m18.pdb'], occurences=20, position=Vector3(0.0, 6.0, 0.0))
-    membrane = Membrane(
+    membrane = ParametricMembrane(
         sources=[
             MEMBRANE_FOLDER + 'segA.pdb',
             MEMBRANE_FOLDER + 'segB.pdb',
@@ -319,7 +319,7 @@ def test_low_glucose():
         core.set_application_parameters(image_stream_fps=0)
 
         # Accelerate loading by not showing models as they are loaded
-        bioexplorer.set_general_settings(
+        bio_explorer.set_general_settings(
             logging_enabled=True,
             model_visibility_on_creation=False)
 
@@ -389,7 +389,7 @@ def test_low_glucose():
         core.set_application_parameters(image_stream_fps=20)
 
         # Show all model now that they are loaded
-        bioexplorer.set_models_visibility(True)
+        bio_explorer.set_models_visibility(True)
 
     except Exception as ex:
         print(ex)

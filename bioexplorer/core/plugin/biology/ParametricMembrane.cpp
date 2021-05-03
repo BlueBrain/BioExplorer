@@ -24,6 +24,7 @@
 #include <plugin/common/CommonTypes.h>
 #include <plugin/common/GeneralSettings.h>
 #include <plugin/common/Logs.h>
+#include <plugin/common/Shapes.h>
 #include <plugin/common/Utils.h>
 
 #include <brayns/engineapi/Material.h>

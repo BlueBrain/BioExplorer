@@ -57,6 +57,7 @@ public:
         return _modelDescriptor;
     }
 
+
 protected:
     ModelDescriptorPtr _modelDescriptor{nullptr};
     uint32_t _uuid;
