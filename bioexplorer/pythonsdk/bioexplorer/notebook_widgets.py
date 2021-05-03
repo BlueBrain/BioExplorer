@@ -27,12 +27,14 @@ import threading
 import time
 import glob
 import os
+import io
 from ipywidgets import FloatSlider, Select, HBox, VBox, Layout, Button, SelectMultiple, \
-    Checkbox, IntRangeSlider, ColorPicker, IntSlider, Label, Text
-from IPython.display import display
+    Checkbox, IntRangeSlider, ColorPicker, IntSlider, Label, Text, Image
+from IPython.display import display, clear_output
 import matplotlib
 import seaborn as sns
 from stringcase import pascalcase
+from PIL import ImageDraw
 
 
 # pylint: disable=unused-argument
@@ -86,7 +88,7 @@ class Widgets:
         self._be = bioexplorer
         self._client = bioexplorer.core_api()
 
-    def display_focal_distance(self):
+    def display_focal_distance(self, with_preview=False):
         """Display visual controls for setting camera focal distance"""
         x_slider = FloatSlider(description='X', min=0, max=1, value=0.5)
         y_slider = FloatSlider(description='Y', min=0, max=1, value=0.5)
@@ -95,11 +97,12 @@ class Widgets:
         d_slider = FloatSlider(description='Focus distance', min=0,
                                max=10000, value=0, disabled=True)
         f_button = Button(description='Refresh')
+        f_target = Button(description='Target')
 
         class Updated:
             """Class object embedding communication with remote server"""
 
-            def __init__(self, client):
+            def __init__(self, client, with_preview):
                 self._client = client
                 self._widget_value = None
                 self._x = 0.5
@@ -108,15 +111,16 @@ class Widgets:
                 self._focus_radius = 0.01
                 self._focus_distance = 0.0
                 self._nb_focus_points = 20
+                self._snapshot = None
+                self._with_preview = with_preview
 
             def _update_camera(self):
-                self._focus_distance = 0.0
+                self._focus_distance = 1e6
                 for _ in range(self._nb_focus_points):
-                    self._focus_distance = self._focus_distance + self._get_focal_distance(
-                        (self._x + (random.random() - 0.5) * self._focus_radius,
-                         self._y + (random.random() - 0.5) * self._focus_radius))
+                    self._focus_distance = min(self._focus_distance, self._get_focal_distance(
+                        (self._x + random.random() * self._focus_radius,
+                         self._y + random.random() * self._focus_radius)))
 
-                self._focus_distance = self._focus_distance / self._nb_focus_points
                 params = self._client.BioExplorerPerspectiveCameraParams()
                 params.focus_distance = self._focus_distance
                 params.aperture_radius = self._aperture
@@ -124,9 +128,25 @@ class Widgets:
                 d_slider.value = self._focus_distance
                 self._client.set_camera_params(params)
 
+                '''Display preview'''
+                if self._with_preview:
+                    self._get_preview(False)
+
             def update(self):
                 """Update all settings of the camera"""
                 self._update_camera()
+
+                '''Display preview'''
+                if self._with_preview:
+                    self._get_preview(True)
+
+            def update_target(self):
+                """Update camera target"""
+                inspection = self._client.inspect([self._x, self._y])
+                if inspection['hit']:
+                    position = inspection['position']
+                    self._client.set_camera(target=position)
+                    self._client.set_renderer()
 
             def update_focus_radius(self, val_dict) -> None:
                 """Update camera focus radius"""
@@ -168,7 +188,31 @@ class Widgets:
                 return math.sqrt(
                     vector[0] * vector[0] + vector[1] * vector[1] + vector[2] * vector[2])
 
-        update_class = Updated(self._client)
+            def _get_preview(self, update_image):
+                viewport = self._client.get_application_parameters()['viewport']
+                ratio = viewport[1] / viewport[0]
+                size = [256, int(256.0 * ratio)]
+                if update_image:
+                    self._snapshot = self._client.image(size=size, samples_per_pixel=4)
+
+                if self._snapshot is None:
+                    return
+
+                x = self._x * size[0]
+                y = (1.0 - self._y) * size[1]
+                rx = self._focus_radius * size[0]
+                ry = self._focus_radius * size[1]
+                byte_io = io.BytesIO()
+                snapshot = self._snapshot.copy()
+                draw = ImageDraw.Draw(snapshot)
+                draw.ellipse((x - rx, y - ry, x + rx, y + ry))
+                draw.ellipse((x - 5, y - 5, x + 5, y + 5))
+                snapshot.save(byte_io, 'png')
+                preview.width = size[0]
+                preview.height = size[1]
+                preview.value = byte_io.getvalue()
+
+        update_class = Updated(self._client, with_preview)
 
         def update_x(value):
             update_class.update_x(value)
@@ -185,16 +229,25 @@ class Widgets:
         def update_button(_):
             update_class.update()
 
+        def update_target(_):
+            update_class.update_target()
+
         x_slider.observe(update_x, 'value')
         y_slider.observe(update_y, 'value')
         a_slider.observe(update_aperture, 'value')
         f_slider.observe(update_focus_radius, 'value')
         f_button.on_click(update_button)
+        f_target.on_click(update_target)
 
-        position_box = VBox([x_slider, y_slider, f_button])
+        position_box = VBox([x_slider, y_slider, f_button, f_target])
         parameters_box = VBox([a_slider, f_slider, d_slider])
         horizontal_box = HBox([position_box, parameters_box], layout=DEFAULT_GRID_LAYOUT)
         display(horizontal_box)
+
+        if with_preview:
+            byte_io = io.BytesIO()
+            preview = Image(value=byte_io.getvalue(), format='png', width=1, height=1)
+            display(preview)
 
     def display_palette_for_models(self):
         """Display visual controls for color palettes applied to models"""
@@ -436,7 +489,7 @@ class Widgets:
                 if self._object_type == 'renderer':
                     self._client.set_renderer_params(self._params)
 
-            @staticmethod
+            @ staticmethod
             def _get_value(props, key, default_value):
                 """Return value of a property"""
                 try:
