@@ -193,233 +193,239 @@ void BioExplorerPlugin::init()
 
     if (actionInterface)
     {
-        std::string Details = PLUGIN_API_PREFIX + "version";
-        PLUGIN_INFO("Registering '" + Details + "' endpoint");
-        actionInterface->registerRequest<Response>(Details, [&]() {
-            return _version();
+        std::string endPoint = PLUGIN_API_PREFIX + "get-version";
+        PLUGIN_INFO("Registering '" + endPoint + "' endpoint");
+        actionInterface->registerRequest<Response>(endPoint, [&]() {
+            return _getVersion();
         });
 
-        Details = PLUGIN_API_PREFIX + "set-general-settings";
-        PLUGIN_INFO("Registering '" + Details + "' endpoint");
+        endPoint = PLUGIN_API_PREFIX + "get-scene-information";
+        PLUGIN_INFO("Registering '" + endPoint + "' endpoint");
+        actionInterface->registerRequest<SceneInformationDetails>(
+            endPoint, [&]() { return _getSceneInformation(); });
+
+        endPoint = PLUGIN_API_PREFIX + "set-general-settings";
+        PLUGIN_INFO("Registering '" + endPoint + "' endpoint");
         actionInterface->registerRequest<GeneralSettingsDetails, Response>(
-            Details, [&](const GeneralSettingsDetails &payload) {
+            endPoint, [&](const GeneralSettingsDetails &payload) {
                 return _setGeneralSettings(payload);
             });
 
-        Details = PLUGIN_API_PREFIX + "remove-assembly";
-        PLUGIN_INFO("Registering '" + Details + "' endpoint");
+        endPoint = PLUGIN_API_PREFIX + "remove-assembly";
+        PLUGIN_INFO("Registering '" + endPoint + "' endpoint");
         actionInterface->registerRequest<AssemblyDetails, Response>(
-            Details, [&](const AssemblyDetails &payload) {
+            endPoint, [&](const AssemblyDetails &payload) {
                 return _removeAssembly(payload);
             });
 
-        Details = PLUGIN_API_PREFIX + "add-assembly";
-        PLUGIN_INFO("Registering '" + Details + "' endpoint");
+        endPoint = PLUGIN_API_PREFIX + "add-assembly";
+        PLUGIN_INFO("Registering '" + endPoint + "' endpoint");
         actionInterface->registerRequest<AssemblyDetails, Response>(
-            Details, [&](const AssemblyDetails &payload) {
+            endPoint, [&](const AssemblyDetails &payload) {
                 return _addAssembly(payload);
             });
 
-        Details = PLUGIN_API_PREFIX + "set-protein-color-scheme";
-        PLUGIN_INFO("Registering '" + Details + "' endpoint");
+        endPoint = PLUGIN_API_PREFIX + "set-protein-color-scheme";
+        PLUGIN_INFO("Registering '" + endPoint + "' endpoint");
         actionInterface->registerRequest<ColorSchemeDetails, Response>(
-            Details, [&](const ColorSchemeDetails &payload) {
+            endPoint, [&](const ColorSchemeDetails &payload) {
                 return _setColorScheme(payload);
             });
 
-        Details =
+        endPoint =
             PLUGIN_API_PREFIX + "set-protein-amino-acid-sequence-as-string";
-        PLUGIN_INFO("Registering '" + Details + "' endpoint");
+        PLUGIN_INFO("Registering '" + endPoint + "' endpoint");
         actionInterface
             ->registerRequest<AminoAcidSequenceAsStringDetails, Response>(
-                Details, [&](const AminoAcidSequenceAsStringDetails &payload) {
+                endPoint, [&](const AminoAcidSequenceAsStringDetails &payload) {
                     return _setAminoAcidSequenceAsString(payload);
                 });
 
-        Details =
+        endPoint =
             PLUGIN_API_PREFIX + "set-protein-amino-acid-sequence-as-ranges";
-        PLUGIN_INFO("Registering '" + Details + "' endpoint");
+        PLUGIN_INFO("Registering '" + endPoint + "' endpoint");
         actionInterface
             ->registerRequest<AminoAcidSequenceAsRangesDetails, Response>(
-                Details, [&](const AminoAcidSequenceAsRangesDetails &payload) {
+                endPoint, [&](const AminoAcidSequenceAsRangesDetails &payload) {
                     return _setAminoAcidSequenceAsRanges(payload);
                 });
 
-        Details = PLUGIN_API_PREFIX + "get-protein-amino-acid-information";
-        PLUGIN_INFO("Registering '" + Details + "' endpoint");
+        endPoint = PLUGIN_API_PREFIX + "get-protein-amino-acid-information";
+        PLUGIN_INFO("Registering '" + endPoint + "' endpoint");
         actionInterface->registerRequest<AminoAcidInformationDetails, Response>(
-            Details, [&](const AminoAcidInformationDetails &payload) {
+            endPoint, [&](const AminoAcidInformationDetails &payload) {
                 return _getAminoAcidInformation(payload);
             });
 
-        Details = PLUGIN_API_PREFIX + "set-protein-amino-acid";
-        PLUGIN_INFO("Registering '" + Details + "' endpoint");
+        endPoint = PLUGIN_API_PREFIX + "set-protein-amino-acid";
+        PLUGIN_INFO("Registering '" + endPoint + "' endpoint");
         actionInterface->registerRequest<AminoAcidDetails, Response>(
-            Details, [&](const AminoAcidDetails &payload) {
+            endPoint, [&](const AminoAcidDetails &payload) {
                 return _setAminoAcid(payload);
             });
 
-        Details = PLUGIN_API_PREFIX + "set-protein-instance-transformation";
-        PLUGIN_INFO("Registering '" + Details + "' endpoint");
+        endPoint = PLUGIN_API_PREFIX + "set-protein-instance-transformation";
+        PLUGIN_INFO("Registering '" + endPoint + "' endpoint");
         actionInterface
             ->registerRequest<ProteinInstanceTransformationDetails, Response>(
-                Details,
+                endPoint,
                 [&](const ProteinInstanceTransformationDetails &payload) {
                     return _setProteinInstanceTransformation(payload);
                 });
 
-        Details = PLUGIN_API_PREFIX + "get-protein-instance-transformation";
-        PLUGIN_INFO("Registering '" + Details + "' endpoint");
+        endPoint = PLUGIN_API_PREFIX + "get-protein-instance-transformation";
+        PLUGIN_INFO("Registering '" + endPoint + "' endpoint");
         actionInterface
             ->registerRequest<ProteinInstanceTransformationDetails, Response>(
-                Details,
+                endPoint,
                 [&](const ProteinInstanceTransformationDetails &payload) {
                     return _getProteinInstanceTransformation(payload);
                 });
 
-        Details = PLUGIN_API_PREFIX + "add-rna-sequence";
-        PLUGIN_INFO("Registering '" + Details + "' endpoint");
+        endPoint = PLUGIN_API_PREFIX + "add-rna-sequence";
+        PLUGIN_INFO("Registering '" + endPoint + "' endpoint");
         actionInterface->registerRequest<RNASequenceDetails, Response>(
-            Details, [&](const RNASequenceDetails &payload) {
+            endPoint, [&](const RNASequenceDetails &payload) {
                 return _addRNASequence(payload);
             });
 
-        Details = PLUGIN_API_PREFIX + "add-membrane";
-        PLUGIN_INFO("Registering '" + Details + "' endpoint");
+        endPoint = PLUGIN_API_PREFIX + "add-membrane";
+        PLUGIN_INFO("Registering '" + endPoint + "' endpoint");
         actionInterface->registerRequest<ParametricMembraneDetails, Response>(
-            Details, [&](const ParametricMembraneDetails &payload) {
+            endPoint, [&](const ParametricMembraneDetails &payload) {
                 return _addParametricMembrane(payload);
             });
 
-        Details = PLUGIN_API_PREFIX + "add-mesh-based-membrane";
-        PLUGIN_INFO("Registering '" + Details + "' endpoint");
+        endPoint = PLUGIN_API_PREFIX + "add-mesh-based-membrane";
+        PLUGIN_INFO("Registering '" + endPoint + "' endpoint");
         actionInterface->registerRequest<MeshBasedMembraneDetails, Response>(
-            Details, [&](const MeshBasedMembraneDetails &payload) {
+            endPoint, [&](const MeshBasedMembraneDetails &payload) {
                 return _addMeshBasedMembrane(payload);
             });
 
-        Details = PLUGIN_API_PREFIX + "add-protein";
-        PLUGIN_INFO("Registering '" + Details + "' endpoint");
+        endPoint = PLUGIN_API_PREFIX + "add-protein";
+        PLUGIN_INFO("Registering '" + endPoint + "' endpoint");
         actionInterface->registerRequest<ProteinDetails, Response>(
-            Details, [&](const ProteinDetails &payload) {
+            endPoint, [&](const ProteinDetails &payload) {
                 return _addProtein(payload);
             });
 
-        Details = PLUGIN_API_PREFIX + "add-glycans";
-        PLUGIN_INFO("Registering '" + Details + "' endpoint");
+        endPoint = PLUGIN_API_PREFIX + "add-glycans";
+        PLUGIN_INFO("Registering '" + endPoint + "' endpoint");
         actionInterface->registerRequest<SugarsDetails, Response>(
-            Details,
+            endPoint,
             [&](const SugarsDetails &payload) { return _addGlycans(payload); });
 
-        Details = PLUGIN_API_PREFIX + "add-sugars";
-        PLUGIN_INFO("Registering '" + Details + "' endpoint");
+        endPoint = PLUGIN_API_PREFIX + "add-sugars";
+        PLUGIN_INFO("Registering '" + endPoint + "' endpoint");
         actionInterface->registerRequest<SugarsDetails, Response>(
-            Details,
+            endPoint,
             [&](const SugarsDetails &payload) { return _addSugars(payload); });
 
-        Details = PLUGIN_API_PREFIX + "export-to-file";
-        PLUGIN_INFO("Registering '" + Details + "' endpoint");
+        endPoint = PLUGIN_API_PREFIX + "export-to-file";
+        PLUGIN_INFO("Registering '" + endPoint + "' endpoint");
         actionInterface->registerRequest<FileAccessDetails, Response>(
-            Details, [&](const FileAccessDetails &payload) {
+            endPoint, [&](const FileAccessDetails &payload) {
                 return _exportToFile(payload);
             });
 
-        Details = PLUGIN_API_PREFIX + "import-from-file";
-        PLUGIN_INFO("Registering '" + Details + "' endpoint");
+        endPoint = PLUGIN_API_PREFIX + "import-from-file";
+        PLUGIN_INFO("Registering '" + endPoint + "' endpoint");
         actionInterface->registerRequest<FileAccessDetails, Response>(
-            Details, [&](const FileAccessDetails &payload) {
+            endPoint, [&](const FileAccessDetails &payload) {
                 return _importFromFile(payload);
             });
 
-        Details = PLUGIN_API_PREFIX + "export-to-xyz";
-        PLUGIN_INFO("Registering '" + Details + "' endpoint");
+        endPoint = PLUGIN_API_PREFIX + "export-to-xyz";
+        PLUGIN_INFO("Registering '" + endPoint + "' endpoint");
         actionInterface->registerRequest<FileAccessDetails, Response>(
-            Details, [&](const FileAccessDetails &payload) {
+            endPoint, [&](const FileAccessDetails &payload) {
                 return _exportToXYZ(payload);
             });
 
-        Details = PLUGIN_API_PREFIX + "add-grid";
-        PLUGIN_INFO("Registering '" + Details + "' endpoint");
+        endPoint = PLUGIN_API_PREFIX + "add-grid";
+        PLUGIN_INFO("Registering '" + endPoint + "' endpoint");
         actionInterface->registerNotification<AddGridDetails>(
-            Details, [&](const AddGridDetails &payload) { _addGrid(payload); });
+            endPoint,
+            [&](const AddGridDetails &payload) { _addGrid(payload); });
 
-        Details = PLUGIN_API_PREFIX + "add-sphere";
-        PLUGIN_INFO("Registering '" + Details + "' endpoint");
+        endPoint = PLUGIN_API_PREFIX + "add-sphere";
+        PLUGIN_INFO("Registering '" + endPoint + "' endpoint");
         actionInterface->registerNotification<AddSphereDetails>(
-            Details,
+            endPoint,
             [&](const AddSphereDetails &payload) { _addSphere(payload); });
 
-        Details = PLUGIN_API_PREFIX + "set-materials";
-        PLUGIN_INFO("Registering '" + Details + "' endpoint");
+        endPoint = PLUGIN_API_PREFIX + "set-materials";
+        PLUGIN_INFO("Registering '" + endPoint + "' endpoint");
         actionInterface->registerNotification<MaterialsDetails>(
-            Details,
+            endPoint,
             [&](const MaterialsDetails &payload) { _setMaterials(payload); });
 
-        Details = PLUGIN_API_PREFIX + "get-material-ids";
-        PLUGIN_INFO("Registering '" + Details + "' endpoint");
+        endPoint = PLUGIN_API_PREFIX + "get-material-ids";
+        PLUGIN_INFO("Registering '" + endPoint + "' endpoint");
         actionInterface->registerRequest<ModelIdDetails, MaterialIdsDetails>(
-            Details, [&](const ModelIdDetails &payload) -> MaterialIdsDetails {
+            endPoint, [&](const ModelIdDetails &payload) -> MaterialIdsDetails {
                 return _getMaterialIds(payload);
             });
 
-        Details = PLUGIN_API_PREFIX + "build-fields";
-        PLUGIN_INFO("Registering '" + Details + "' endpoint");
+        endPoint = PLUGIN_API_PREFIX + "build-fields";
+        PLUGIN_INFO("Registering '" + endPoint + "' endpoint");
         actionInterface->registerRequest<BuildFieldsDetails, Response>(
-            Details, [&](const BuildFieldsDetails &payload) {
+            endPoint, [&](const BuildFieldsDetails &payload) {
                 return _buildFields(payload);
             });
 
-        Details = PLUGIN_API_PREFIX + "export-fields-to-file";
-        PLUGIN_INFO("Registering '" + Details + "' endpoint");
+        endPoint = PLUGIN_API_PREFIX + "export-fields-to-file";
+        PLUGIN_INFO("Registering '" + endPoint + "' endpoint");
         actionInterface->registerRequest<ModelIdFileAccessDetails, Response>(
-            Details, [&](const ModelIdFileAccessDetails &payload) {
+            endPoint, [&](const ModelIdFileAccessDetails &payload) {
                 return _exportFieldsToFile(payload);
             });
 
-        Details = PLUGIN_API_PREFIX + "import-fields-from-file";
-        PLUGIN_INFO("Registering '" + Details + "' endpoint");
+        endPoint = PLUGIN_API_PREFIX + "import-fields-from-file";
+        PLUGIN_INFO("Registering '" + endPoint + "' endpoint");
         actionInterface->registerRequest<FileAccessDetails, Response>(
-            Details, [&](const FileAccessDetails &payload) {
+            endPoint, [&](const FileAccessDetails &payload) {
                 return _importFieldsFromFile(payload);
             });
 
-        Details = PLUGIN_API_PREFIX + "build-point-cloud";
-        PLUGIN_INFO("Registering '" + Details + "' endpoint");
+        endPoint = PLUGIN_API_PREFIX + "build-point-cloud";
+        PLUGIN_INFO("Registering '" + endPoint + "' endpoint");
         actionInterface->registerRequest<BuildPointCloudDetails, Response>(
-            Details, [&](const BuildPointCloudDetails &payload) {
+            endPoint, [&](const BuildPointCloudDetails &payload) {
                 return _buildPointCloud(payload);
             });
 
-        Details = PLUGIN_API_PREFIX + "set-models-visibility";
-        PLUGIN_INFO("Registering '" + Details + "' endpoint");
+        endPoint = PLUGIN_API_PREFIX + "set-models-visibility";
+        PLUGIN_INFO("Registering '" + endPoint + "' endpoint");
         actionInterface->registerRequest<ModelsVisibilityDetails, Response>(
-            Details, [&](const ModelsVisibilityDetails &payload) {
+            endPoint, [&](const ModelsVisibilityDetails &payload) {
                 return _setModelsVisibility(payload);
             });
 
-        Details = PLUGIN_API_PREFIX + "get-out-of-core-configuration";
-        PLUGIN_INFO("Registering '" + Details + "' endpoint");
-        actionInterface->registerRequest<Response>(Details, [&]() {
+        endPoint = PLUGIN_API_PREFIX + "get-out-of-core-configuration";
+        PLUGIN_INFO("Registering '" + endPoint + "' endpoint");
+        actionInterface->registerRequest<Response>(endPoint, [&]() {
             return _getOOCConfiguration();
         });
 
-        Details = PLUGIN_API_PREFIX + "get-out-of-core-progress";
-        PLUGIN_INFO("Registering '" + Details + "' endpoint");
-        actionInterface->registerRequest<Response>(Details, [&]() {
+        endPoint = PLUGIN_API_PREFIX + "get-out-of-core-progress";
+        PLUGIN_INFO("Registering '" + endPoint + "' endpoint");
+        actionInterface->registerRequest<Response>(endPoint, [&]() {
             return _getOOCProgress();
         });
 
-        Details = PLUGIN_API_PREFIX + "get-out-of-core-average-loading-time";
-        PLUGIN_INFO("Registering '" + Details + "' endpoint");
-        actionInterface->registerRequest<Response>(Details, [&]() {
+        endPoint = PLUGIN_API_PREFIX + "get-out-of-core-average-loading-time";
+        PLUGIN_INFO("Registering '" + endPoint + "' endpoint");
+        actionInterface->registerRequest<Response>(endPoint, [&]() {
             return _getOOCAverageLoadingTime();
         });
 
 #ifdef USE_PQXX
-        Details = PLUGIN_API_PREFIX + "export-to-database";
-        PLUGIN_INFO("Registering '" + Details + "' endpoint");
+        endPoint = PLUGIN_API_PREFIX + "export-to-database";
+        PLUGIN_INFO("Registering '" + endPoint + "' endpoint");
         actionInterface->registerRequest<DatabaseAccessDetails, Response>(
-            Details, [&](const DatabaseAccessDetails &payload) {
+            endPoint, [&](const DatabaseAccessDetails &payload) {
                 return _exportToDatabase(payload);
             });
 #endif
@@ -488,11 +494,42 @@ void BioExplorerPlugin::preRender()
         }
 }
 
-Response BioExplorerPlugin::_version() const
+Response BioExplorerPlugin::_getVersion() const
 {
     Response response;
     response.contents = BIOEXPLORER_VERSION;
     return response;
+}
+
+SceneInformationDetails BioExplorerPlugin::_getSceneInformation() const
+{
+    SceneInformationDetails sceneInfo;
+    auto &scene = _api->getScene();
+    for (const auto modelDescriptor : scene.getModelDescriptors())
+    {
+        const auto &instances = modelDescriptor->getInstances();
+        const auto nbInstances = instances.size();
+        auto &model = modelDescriptor->getModel();
+        for (const auto &spheres : model.getSpheres())
+            sceneInfo.nbSpheres += nbInstances * spheres.second.size();
+        for (const auto &cylinders : model.getCylinders())
+            sceneInfo.nbCylinders += nbInstances * cylinders.second.size();
+        for (const auto &cones : model.getCones())
+            sceneInfo.nbCones += nbInstances * cones.second.size();
+        for (const auto &triangleMesh : model.getTriangleMeshes())
+        {
+            const auto &triangle = triangleMesh.second;
+            sceneInfo.nbIndices += nbInstances * triangle.indices.size();
+            sceneInfo.nbVertices += nbInstances * triangle.vertices.size();
+            sceneInfo.nbNormals += nbInstances * triangle.normals.size();
+            sceneInfo.nbColors += nbInstances * triangle.colors.size();
+        }
+        sceneInfo.nbMaterials +=
+            nbInstances *
+            (model.getSpheres().size() + model.getCylinders().size() +
+             model.getCones().size() + model.getTriangleMeshes().size());
+    }
+    return sceneInfo;
 }
 
 Response BioExplorerPlugin::_setGeneralSettings(

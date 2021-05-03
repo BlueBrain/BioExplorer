@@ -45,9 +45,30 @@ std::string to_json(const Response &param)
     try
     {
         nlohmann::json js;
-
         TO_JSON(param, js, status);
         TO_JSON(param, js, contents);
+        return js.dump();
+    }
+    catch (...)
+    {
+        return "";
+    }
+    return "";
+}
+
+std::string to_json(const SceneInformationDetails &param)
+{
+    try
+    {
+        nlohmann::json js;
+        TO_JSON(param, js, nbMaterials);
+        TO_JSON(param, js, nbSpheres);
+        TO_JSON(param, js, nbCylinders);
+        TO_JSON(param, js, nbCones);
+        TO_JSON(param, js, nbVertices);
+        TO_JSON(param, js, nbIndices);
+        TO_JSON(param, js, nbNormals);
+        TO_JSON(param, js, nbColors);
         return js.dump();
     }
     catch (...)

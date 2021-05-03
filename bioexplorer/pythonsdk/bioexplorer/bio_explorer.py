@@ -265,10 +265,22 @@ class BioExplorer:
             return __version__
 
         result = self._client.rockets_client.request(
-            method=self.PLUGIN_API_PREFIX + "version")
+            method=self.PLUGIN_API_PREFIX + "get-version")
         if not result["status"]:
             raise RuntimeError(result["contents"])
         return result["contents"]
+
+    def scene_information(self):
+        """
+        Metrics about the scene handled by the BioExplorer backend
+
+        :rtype: Metrics
+        """
+        if self._client is None:
+            return __version__
+
+        return self._client.rockets_client.request(
+            method=self.PLUGIN_API_PREFIX + "get-scene-information")
 
     @staticmethod
     def authors():

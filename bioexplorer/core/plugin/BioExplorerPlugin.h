@@ -58,7 +58,8 @@ private:
     void _parseCommandLineArguments(int argc, char **argv);
 
     // Info and settings
-    Response _version() const;
+    Response _getVersion() const;
+    SceneInformationDetails _getSceneInformation() const;
     Response _setGeneralSettings(const GeneralSettingsDetails &payload);
 
     // IO

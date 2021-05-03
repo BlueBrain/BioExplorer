@@ -32,6 +32,9 @@ std::string to_json(const Response &param);
 // Settings
 bool from_json(GeneralSettingsDetails &param, const std::string &payload);
 
+// Scene information
+std::string to_json(const SceneInformationDetails &param);
+
 // Biological elements
 bool from_json(AssemblyDetails &param, const std::string &payload);
 std::string to_json(const AssemblyDetails &payload);

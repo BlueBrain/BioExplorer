@@ -728,6 +728,30 @@ typedef struct
     /** Size of the each brick in the scene */
     Vector3f brickSize;
 } OOCSceneConfigurationDetails;
+
+/**
+ * @brief List of metrics for the current scene
+ *
+ */
+typedef struct
+{
+    /** Number of materials */
+    uint32_t nbMaterials{0};
+    /** Number of spheres */
+    uint32_t nbSpheres{0};
+    /** Number of cylinders */
+    uint32_t nbCylinders{0};
+    /** Number of cones */
+    uint32_t nbCones{0};
+    /** Number of triangle mesh vertices */
+    uint32_t nbVertices{0};
+    /** Number of triangle mesh indices */
+    uint32_t nbIndices{0};
+    /** Number of triangle mesh normals */
+    uint32_t nbNormals{0};
+    /** Number of triangle mesh colors */
+    uint32_t nbColors{0};
+} SceneInformationDetails;
 } // namespace details
 
 namespace biology
