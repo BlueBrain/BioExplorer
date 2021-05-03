@@ -30,7 +30,7 @@ import os
 import io
 from ipywidgets import FloatSlider, Select, HBox, VBox, Layout, Button, SelectMultiple, \
     Checkbox, IntRangeSlider, ColorPicker, IntSlider, Label, Text, Image
-from IPython.display import display, clear_output
+from IPython.display import display
 import matplotlib
 import seaborn as sns
 from stringcase import pascalcase
@@ -128,7 +128,6 @@ class Widgets:
                 d_slider.value = self._focus_distance
                 self._client.set_camera_params(params)
 
-                '''Display preview'''
                 if self._with_preview:
                     self._get_preview(False)
 
@@ -136,7 +135,6 @@ class Widgets:
                 """Update all settings of the camera"""
                 self._update_camera()
 
-                '''Display preview'''
                 if self._with_preview:
                     self._get_preview(True)
 
