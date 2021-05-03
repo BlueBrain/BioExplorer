@@ -145,32 +145,37 @@ $(document).ready(function(){initNavTree('de/de2/tests_2MeshBasedMembrane_8cpp_s
 <div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;    descriptor.<a class="code" href="../../dd/d92/structbioexplorer_1_1details_1_1SugarsDetails.html#a81aecb2570b4818ceed97e0f6ff73a9e">assemblyName</a> = <span class="stringliteral">&quot;test&quot;</span>;</div>
 <div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;    descriptor.name = <span class="stringliteral">&quot;test&quot;</span>;</div>
 <div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;    descriptor.meshContents = getFileContents(folder + <span class="stringliteral">&quot;obj/suzanne.obj&quot;</span>);</div>
-<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;    descriptor.proteinContents =</div>
+<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;    descriptor.proteinContents1 =</div>
 <div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;        getFileContents(folder + <span class="stringliteral">&quot;pdb/membrane/popc.pdb&quot;</span>);</div>
-<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;    descriptor.recenter = <span class="keyword">true</span>;</div>
-<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;    descriptor.density = 0.1;</div>
-<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;    descriptor.surfaceFixedOffset = 0.f;</div>
-<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;    descriptor.surfaceVariableOffset = 0.f;</div>
-<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;    descriptor.atomRadiusMultiplier = 1.f;</div>
-<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;    descriptor.representation = ProteinRepresentation::atoms;</div>
-<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;    descriptor.randomSeed = 0;</div>
-<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;    descriptor.position = {0.f, 0.f, 0.f};</div>
-<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;    descriptor.rotation = {1.f, 0.f, 0.f, 0.f};</div>
-<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;    descriptor.scale = {1.f, 1.f, 1.f};</div>
-<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;    <span class="keywordflow">return</span> descriptor;</div>
-<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;}</div>
-<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160; </div>
-<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;BOOST_AUTO_TEST_CASE(meshBasedMembrane)</div>
-<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;{</div>
-<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;    std::vector&lt;const char*&gt; argv{<span class="stringliteral">&quot;brayns&quot;</span>, <span class="stringliteral">&quot;--http-server&quot;</span>, <span class="stringliteral">&quot;localhost:0&quot;</span>,</div>
-<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;                                  <span class="stringliteral">&quot;--plugin&quot;</span>, <span class="stringliteral">&quot;BioExplorer&quot;</span>};</div>
-<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;    brayns::Brayns brayns(argv.size(), argv.data());</div>
-<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;    <span class="keyword">auto</span>&amp; scene = brayns.getEngine().getScene();</div>
-<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;    MeshBasedMembrane meshBasedMembrane(scene, getDescriptor());</div>
-<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160; </div>
-<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;    BOOST_CHECK(meshBasedMembrane.getProtein()-&gt;getAtoms().size() == 426);</div>
-<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;}</div>
-<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;} <span class="comment">// namespace tests</span></div>
+<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;    descriptor.proteinContents2 = <span class="stringliteral">&quot;&quot;</span>;</div>
+<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;    descriptor.proteinContents3 = <span class="stringliteral">&quot;&quot;</span>;</div>
+<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;    descriptor.proteinContents4 = <span class="stringliteral">&quot;&quot;</span>;</div>
+<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;    descriptor.recenter = <span class="keyword">true</span>;</div>
+<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;    descriptor.density = 0.1;</div>
+<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;    descriptor.surfaceFixedOffset = 0.f;</div>
+<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;    descriptor.surfaceVariableOffset = 0.f;</div>
+<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;    descriptor.atomRadiusMultiplier = 1.f;</div>
+<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;    descriptor.representation = ProteinRepresentation::atoms;</div>
+<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;    descriptor.randomSeed = 0;</div>
+<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;    descriptor.position = {0.f, 0.f, 0.f};</div>
+<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;    descriptor.rotation = {1.f, 0.f, 0.f, 0.f};</div>
+<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;    descriptor.scale = {1.f, 1.f, 1.f};</div>
+<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;    <span class="keywordflow">return</span> descriptor;</div>
+<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;}</div>
+<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160; </div>
+<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;BOOST_AUTO_TEST_CASE(meshBasedMembrane)</div>
+<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;{</div>
+<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;    std::vector&lt;const char*&gt; argv{<span class="stringliteral">&quot;brayns&quot;</span>, <span class="stringliteral">&quot;--http-server&quot;</span>, <span class="stringliteral">&quot;localhost:0&quot;</span>,</div>
+<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;                                  <span class="stringliteral">&quot;--plugin&quot;</span>, <span class="stringliteral">&quot;BioExplorer&quot;</span>};</div>
+<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;    brayns::Brayns brayns(argv.size(), argv.data());</div>
+<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;    <span class="keyword">auto</span>&amp; scene = brayns.getEngine().getScene();</div>
+<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;    MeshBasedMembrane meshBasedMembrane(scene, getDescriptor());</div>
+<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160; </div>
+<div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;    BOOST_CHECK(</div>
+<div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;        meshBasedMembrane.getProteins().begin()-&gt;second-&gt;getAtoms().size() ==</div>
+<div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;        426);</div>
+<div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160;}</div>
+<div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160;} <span class="comment">// namespace tests</span></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
 <div class="ttc" id="astructbioexplorer_1_1details_1_1SugarsDetails_html_a81aecb2570b4818ceed97e0f6ff73a9e"><div class="ttname"><a href="../../dd/d92/structbioexplorer_1_1details_1_1SugarsDetails.html#a81aecb2570b4818ceed97e0f6ff73a9e">bioexplorer::details::SugarsDetails::assemblyName</a></div><div class="ttdeci">std::string assemblyName</div><div class="ttdef"><b>Definition:</b> <a href="../../d7/df8/Types_8h_source.html#l00330">Types.h:330</a></div></div>

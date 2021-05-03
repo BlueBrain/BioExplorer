@@ -11,6 +11,7 @@ var annotated_dup =
         [ "Molecule", "d7/dff/classbioexplorer_1_1biology_1_1Molecule.html", "d7/dff/classbioexplorer_1_1biology_1_1Molecule" ],
         [ "Node", "de/dc0/classbioexplorer_1_1biology_1_1Node.html", "de/dc0/classbioexplorer_1_1biology_1_1Node" ],
         [ "Nucleotid", "d2/dab/structbioexplorer_1_1biology_1_1Nucleotid.html", "d2/dab/structbioexplorer_1_1biology_1_1Nucleotid" ],
+        [ "ParametricMembrane", "dd/dc5/classbioexplorer_1_1biology_1_1ParametricMembrane.html", "dd/dc5/classbioexplorer_1_1biology_1_1ParametricMembrane" ],
         [ "Protein", "db/dba/classbioexplorer_1_1biology_1_1Protein.html", "db/dba/classbioexplorer_1_1biology_1_1Protein" ],
         [ "ResidueSequence", "de/dde/structbioexplorer_1_1biology_1_1ResidueSequence.html", "de/dde/structbioexplorer_1_1biology_1_1ResidueSequence" ],
         [ "RNASequence", "d0/d5f/classbioexplorer_1_1biology_1_1RNASequence.html", "d0/d5f/classbioexplorer_1_1biology_1_1RNASequence" ]
@@ -21,6 +22,7 @@ var annotated_dup =
       ] ],
       [ "details", null, [
         [ "AddGridDetails", "db/dd8/structbioexplorer_1_1details_1_1AddGridDetails.html", "db/dd8/structbioexplorer_1_1details_1_1AddGridDetails" ],
+        [ "AddSphereDetails", "db/d48/structbioexplorer_1_1details_1_1AddSphereDetails.html", "db/d48/structbioexplorer_1_1details_1_1AddSphereDetails" ],
         [ "AminoAcidDetails", "d3/dd3/structbioexplorer_1_1details_1_1AminoAcidDetails.html", "d3/dd3/structbioexplorer_1_1details_1_1AminoAcidDetails" ],
         [ "AminoAcidInformationDetails", "d6/dda/structbioexplorer_1_1details_1_1AminoAcidInformationDetails.html", "d6/dda/structbioexplorer_1_1details_1_1AminoAcidInformationDetails" ],
         [ "AminoAcidSequenceAsRangesDetails", "db/de5/structbioexplorer_1_1details_1_1AminoAcidSequenceAsRangesDetails.html", "db/de5/structbioexplorer_1_1details_1_1AminoAcidSequenceAsRangesDetails" ],
@@ -35,18 +37,19 @@ var annotated_dup =
         [ "GeneralSettingsDetails", "d0/d14/structbioexplorer_1_1details_1_1GeneralSettingsDetails.html", "d0/d14/structbioexplorer_1_1details_1_1GeneralSettingsDetails" ],
         [ "MaterialIdsDetails", "d3/d7d/structbioexplorer_1_1details_1_1MaterialIdsDetails.html", "d3/d7d/structbioexplorer_1_1details_1_1MaterialIdsDetails" ],
         [ "MaterialsDetails", "d7/d84/structbioexplorer_1_1details_1_1MaterialsDetails.html", "d7/d84/structbioexplorer_1_1details_1_1MaterialsDetails" ],
-        [ "MembraneDetails", "d0/ddb/structbioexplorer_1_1details_1_1MembraneDetails.html", "d0/ddb/structbioexplorer_1_1details_1_1MembraneDetails" ],
         [ "MeshBasedMembraneDetails", "da/d3c/structbioexplorer_1_1details_1_1MeshBasedMembraneDetails.html", "da/d3c/structbioexplorer_1_1details_1_1MeshBasedMembraneDetails" ],
         [ "ModelIdDetails", "d6/dc9/structbioexplorer_1_1details_1_1ModelIdDetails.html", "d6/dc9/structbioexplorer_1_1details_1_1ModelIdDetails" ],
         [ "ModelIdFileAccessDetails", "d8/d1b/structbioexplorer_1_1details_1_1ModelIdFileAccessDetails.html", "d8/d1b/structbioexplorer_1_1details_1_1ModelIdFileAccessDetails" ],
         [ "ModelsVisibilityDetails", "d7/dbc/structbioexplorer_1_1details_1_1ModelsVisibilityDetails.html", "d7/dbc/structbioexplorer_1_1details_1_1ModelsVisibilityDetails" ],
         [ "OOCSceneConfigurationDetails", "d1/d25/structbioexplorer_1_1details_1_1OOCSceneConfigurationDetails.html", "d1/d25/structbioexplorer_1_1details_1_1OOCSceneConfigurationDetails" ],
+        [ "ParametricMembraneDetails", "db/dfc/structbioexplorer_1_1details_1_1ParametricMembraneDetails.html", "db/dfc/structbioexplorer_1_1details_1_1ParametricMembraneDetails" ],
         [ "ProteinDetails", "de/d0e/structbioexplorer_1_1details_1_1ProteinDetails.html", "de/d0e/structbioexplorer_1_1details_1_1ProteinDetails" ],
         [ "ProteinInstanceTransformationDetails", "d7/dab/structbioexplorer_1_1details_1_1ProteinInstanceTransformationDetails.html", "d7/dab/structbioexplorer_1_1details_1_1ProteinInstanceTransformationDetails" ],
         [ "RandomizationDetails", "d7/dd2/structbioexplorer_1_1details_1_1RandomizationDetails.html", "d7/dd2/structbioexplorer_1_1details_1_1RandomizationDetails" ],
         [ "Response", "d6/d45/structbioexplorer_1_1details_1_1Response.html", "d6/d45/structbioexplorer_1_1details_1_1Response" ],
         [ "RGBColorDetails", "df/dc7/structbioexplorer_1_1details_1_1RGBColorDetails.html", "df/dc7/structbioexplorer_1_1details_1_1RGBColorDetails" ],
         [ "RNASequenceDetails", "d1/d00/structbioexplorer_1_1details_1_1RNASequenceDetails.html", "d1/d00/structbioexplorer_1_1details_1_1RNASequenceDetails" ],
+        [ "SceneInformationDetails", "d2/d03/structbioexplorer_1_1details_1_1SceneInformationDetails.html", "d2/d03/structbioexplorer_1_1details_1_1SceneInformationDetails" ],
         [ "SugarsDetails", "dd/d92/structbioexplorer_1_1details_1_1SugarsDetails.html", "dd/d92/structbioexplorer_1_1details_1_1SugarsDetails" ]
       ] ],
       [ "fields", null, [

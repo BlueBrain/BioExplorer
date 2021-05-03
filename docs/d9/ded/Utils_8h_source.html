@@ -127,43 +127,12 @@ $(document).ready(function(){initNavTree('d9/ded/Utils_8h_source.html','../../')
 <div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160; </div>
 <div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;<span class="keywordtype">bool</span> isClipped(<span class="keyword">const</span> Vector3f&amp; position, <span class="keyword">const</span> Vector4fs&amp; clippingPlanes);</div>
 <div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160; </div>
-<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;Transformation getSphericalPosition(<span class="keyword">const</span> Vector3f&amp; position,</div>
-<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;                                    <span class="keyword">const</span> <span class="keywordtype">float</span> radius, <span class="keyword">const</span> <span class="keywordtype">size_t</span> occurence,</div>
-<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;                                    <span class="keyword">const</span> <span class="keywordtype">size_t</span> occurences,</div>
-<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;                                    <span class="keyword">const</span> RandomizationDetails&amp; randInfo);</div>
-<div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160; </div>
-<div class="line"><a name="l00096"></a><span class="lineno">   96</span>&#160;Transformation getPlanarPosition(<span class="keyword">const</span> Vector3f&amp; position, <span class="keyword">const</span> <span class="keywordtype">float</span> size,</div>
-<div class="line"><a name="l00097"></a><span class="lineno">   97</span>&#160;                                 <span class="keyword">const</span> RandomizationDetails&amp; randInfo);</div>
-<div class="line"><a name="l00098"></a><span class="lineno">   98</span>&#160; </div>
-<div class="line"><a name="l00108"></a><span class="lineno">  108</span>&#160;Transformation getCubicPosition(<span class="keyword">const</span> Vector3f&amp; center, <span class="keyword">const</span> <span class="keywordtype">float</span> size,</div>
-<div class="line"><a name="l00109"></a><span class="lineno">  109</span>&#160;                                <span class="keyword">const</span> RandomizationDetails&amp; randInfo);</div>
-<div class="line"><a name="l00110"></a><span class="lineno">  110</span>&#160; </div>
-<div class="line"><a name="l00118"></a><span class="lineno">  118</span>&#160;<span class="keywordtype">float</span> sinusoide(<span class="keyword">const</span> <span class="keywordtype">float</span> x, <span class="keyword">const</span> <span class="keywordtype">float</span> z);</div>
-<div class="line"><a name="l00119"></a><span class="lineno">  119</span>&#160; </div>
-<div class="line"><a name="l00131"></a><span class="lineno">  131</span>&#160;Transformation getSinosoidalPosition(<span class="keyword">const</span> Vector3f&amp; center, <span class="keyword">const</span> <span class="keywordtype">float</span> size,</div>
-<div class="line"><a name="l00132"></a><span class="lineno">  132</span>&#160;                                     <span class="keyword">const</span> <span class="keywordtype">float</span> amplitude,</div>
-<div class="line"><a name="l00133"></a><span class="lineno">  133</span>&#160;                                     <span class="keyword">const</span> <span class="keywordtype">size_t</span> occurence,</div>
-<div class="line"><a name="l00134"></a><span class="lineno">  134</span>&#160;                                     <span class="keyword">const</span> RandomizationDetails&amp; randInfo);</div>
-<div class="line"><a name="l00135"></a><span class="lineno">  135</span>&#160; </div>
-<div class="line"><a name="l00148"></a><span class="lineno">  148</span>&#160;Transformation getFanPosition(<span class="keyword">const</span> Vector3f&amp; center, <span class="keyword">const</span> <span class="keywordtype">float</span> radius,</div>
-<div class="line"><a name="l00149"></a><span class="lineno">  149</span>&#160;                              <span class="keyword">const</span> <span class="keywordtype">size_t</span> occurence, <span class="keyword">const</span> <span class="keywordtype">size_t</span> occurences,</div>
-<div class="line"><a name="l00150"></a><span class="lineno">  150</span>&#160;                              <span class="keyword">const</span> RandomizationDetails&amp; randInfo);</div>
-<div class="line"><a name="l00151"></a><span class="lineno">  151</span>&#160; </div>
-<div class="line"><a name="l00160"></a><span class="lineno">  160</span>&#160;Transformation getBezierPosition(<span class="keyword">const</span> Vector3fs&amp; points, <span class="keyword">const</span> <span class="keywordtype">float</span> scale,</div>
-<div class="line"><a name="l00161"></a><span class="lineno">  161</span>&#160;                                 <span class="keyword">const</span> <span class="keywordtype">float</span> t);</div>
-<div class="line"><a name="l00162"></a><span class="lineno">  162</span>&#160; </div>
-<div class="line"><a name="l00176"></a><span class="lineno">  176</span>&#160;Transformation getSphericalToPlanarPosition(</div>
-<div class="line"><a name="l00177"></a><span class="lineno">  177</span>&#160;    <span class="keyword">const</span> Vector3f&amp; center, <span class="keyword">const</span> <span class="keywordtype">float</span> radius, <span class="keyword">const</span> <span class="keywordtype">size_t</span> occurence,</div>
-<div class="line"><a name="l00178"></a><span class="lineno">  178</span>&#160;    <span class="keyword">const</span> <span class="keywordtype">size_t</span> occurences, <span class="keyword">const</span> RandomizationDetails&amp; randInfo,</div>
-<div class="line"><a name="l00179"></a><span class="lineno">  179</span>&#160;    <span class="keyword">const</span> <span class="keywordtype">float</span> morphingStep);</div>
-<div class="line"><a name="l00180"></a><span class="lineno">  180</span>&#160; </div>
-<div class="line"><a name="l00186"></a><span class="lineno">  186</span>&#160;<span class="keywordtype">void</span> setDefaultTransferFunction(Model&amp; model);</div>
-<div class="line"><a name="l00187"></a><span class="lineno">  187</span>&#160; </div>
-<div class="line"><a name="l00194"></a><span class="lineno">  194</span>&#160;Vector4fs getClippingPlanes(<span class="keyword">const</span> Scene&amp; scene);</div>
-<div class="line"><a name="l00195"></a><span class="lineno">  195</span>&#160; </div>
-<div class="line"><a name="l00202"></a><span class="lineno">  202</span>&#160;Quaterniond randomQuaternion(<span class="keyword">const</span> <span class="keywordtype">size_t</span> seed);</div>
-<div class="line"><a name="l00203"></a><span class="lineno">  203</span>&#160;} <span class="comment">// namespace common</span></div>
-<div class="line"><a name="l00204"></a><span class="lineno">  204</span>&#160;} <span class="comment">// namespace bioexplorer</span></div>
+<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;<span class="keywordtype">void</span> setDefaultTransferFunction(Model&amp; model);</div>
+<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160; </div>
+<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;Vector4fs getClippingPlanes(<span class="keyword">const</span> Scene&amp; scene);</div>
+<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160; </div>
+<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;} <span class="comment">// namespace common</span></div>
+<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;} <span class="comment">// namespace bioexplorer</span></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->

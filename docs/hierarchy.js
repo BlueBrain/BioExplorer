@@ -4,6 +4,7 @@ var hierarchy =
       [ "bioexplorer::fields::FieldsHandler", "d9/d6e/classbioexplorer_1_1fields_1_1FieldsHandler.html", null ]
     ] ],
     [ "bioexplorer::details::AddGridDetails", "db/dd8/structbioexplorer_1_1details_1_1AddGridDetails.html", null ],
+    [ "bioexplorer::details::AddSphereDetails", "db/d48/structbioexplorer_1_1details_1_1AddSphereDetails.html", null ],
     [ "bioexplorer::biology::AminoAcid", "da/d20/structbioexplorer_1_1biology_1_1AminoAcid.html", null ],
     [ "bioexplorer::details::AminoAcidDetails", "d3/dd3/structbioexplorer_1_1details_1_1AminoAcidDetails.html", null ],
     [ "bioexplorer::details::AminoAcidInformationDetails", "d6/dda/structbioexplorer_1_1details_1_1AminoAcidInformationDetails.html", null ],
@@ -35,14 +36,15 @@ var hierarchy =
     ] ],
     [ "bioexplorer::details::MaterialIdsDetails", "d3/d7d/structbioexplorer_1_1details_1_1MaterialIdsDetails.html", null ],
     [ "bioexplorer::details::MaterialsDetails", "d7/d84/structbioexplorer_1_1details_1_1MaterialsDetails.html", null ],
-    [ "bioexplorer::details::MembraneDetails", "d0/ddb/structbioexplorer_1_1details_1_1MembraneDetails.html", null ],
     [ "bioexplorer::details::MeshBasedMembraneDetails", "da/d3c/structbioexplorer_1_1details_1_1MeshBasedMembraneDetails.html", null ],
     [ "bioexplorer::details::ModelIdDetails", "d6/dc9/structbioexplorer_1_1details_1_1ModelIdDetails.html", null ],
     [ "bioexplorer::details::ModelIdFileAccessDetails", "d8/d1b/structbioexplorer_1_1details_1_1ModelIdFileAccessDetails.html", null ],
     [ "bioexplorer::details::ModelsVisibilityDetails", "d7/dbc/structbioexplorer_1_1details_1_1ModelsVisibilityDetails.html", null ],
     [ "bioexplorer::biology::Node", "de/dc0/classbioexplorer_1_1biology_1_1Node.html", [
-      [ "bioexplorer::biology::Membrane", "de/dd4/classbioexplorer_1_1biology_1_1Membrane.html", null ],
-      [ "bioexplorer::biology::MeshBasedMembrane", "d5/d80/classbioexplorer_1_1biology_1_1MeshBasedMembrane.html", null ],
+      [ "bioexplorer::biology::Membrane", "de/dd4/classbioexplorer_1_1biology_1_1Membrane.html", [
+        [ "bioexplorer::biology::MeshBasedMembrane", "d5/d80/classbioexplorer_1_1biology_1_1MeshBasedMembrane.html", null ],
+        [ "bioexplorer::biology::ParametricMembrane", "dd/dc5/classbioexplorer_1_1biology_1_1ParametricMembrane.html", null ]
+      ] ],
       [ "bioexplorer::biology::Molecule", "d7/dff/classbioexplorer_1_1biology_1_1Molecule.html", [
         [ "bioexplorer::biology::Glycans", "d0/d3d/classbioexplorer_1_1biology_1_1Glycans.html", null ],
         [ "bioexplorer::biology::Protein", "db/dba/classbioexplorer_1_1biology_1_1Protein.html", null ]
@@ -54,6 +56,7 @@ var hierarchy =
     [ "bioexplorer::fields::OctreeNode", "d1/d60/classbioexplorer_1_1fields_1_1OctreeNode.html", null ],
     [ "bioexplorer::io::OOCManager", "da/d6e/classbioexplorer_1_1io_1_1OOCManager.html", null ],
     [ "bioexplorer::details::OOCSceneConfigurationDetails", "d1/d25/structbioexplorer_1_1details_1_1OOCSceneConfigurationDetails.html", null ],
+    [ "bioexplorer::details::ParametricMembraneDetails", "db/dfc/structbioexplorer_1_1details_1_1ParametricMembraneDetails.html", null ],
     [ "bioexplorer::meshing::PointCloudMesher", "d2/d99/classbioexplorer_1_1meshing_1_1PointCloudMesher.html", null ],
     [ "bioexplorer::details::ProteinDetails", "de/d0e/structbioexplorer_1_1details_1_1ProteinDetails.html", null ],
     [ "bioexplorer::details::ProteinInstanceTransformationDetails", "d7/dab/structbioexplorer_1_1details_1_1ProteinInstanceTransformationDetails.html", null ],
@@ -66,6 +69,7 @@ var hierarchy =
     [ "bioexplorer::details::Response", "d6/d45/structbioexplorer_1_1details_1_1Response.html", null ],
     [ "bioexplorer::details::RGBColorDetails", "df/dc7/structbioexplorer_1_1details_1_1RGBColorDetails.html", null ],
     [ "bioexplorer::details::RNASequenceDetails", "d1/d00/structbioexplorer_1_1details_1_1RNASequenceDetails.html", null ],
+    [ "bioexplorer::details::SceneInformationDetails", "d2/d03/structbioexplorer_1_1details_1_1SceneInformationDetails.html", null ],
     [ "bioexplorer::details::SugarsDetails", "dd/d92/structbioexplorer_1_1details_1_1SugarsDetails.html", null ],
     [ "bioexplorer::meshing::SurfaceMesher", "d8/df9/classbioexplorer_1_1meshing_1_1SurfaceMesher.html", null ],
     [ "bioexplorer::common::UniqueId", "d0/dbd/classbioexplorer_1_1common_1_1UniqueId.html", null ]
