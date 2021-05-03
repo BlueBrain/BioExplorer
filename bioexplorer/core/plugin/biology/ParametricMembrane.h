@@ -18,30 +18,41 @@
  * this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
+#pragma once
+
 #include "Membrane.h"
-#include "Protein.h"
-
-#include <plugin/common/CommonTypes.h>
-#include <plugin/common/GeneralSettings.h>
-#include <plugin/common/Logs.h>
-#include <plugin/common/Utils.h>
-
-#include <brayns/engineapi/Material.h>
 
 namespace bioexplorer
 {
 namespace biology
 {
-Membrane::Membrane(Scene& scene)
-    : _scene(scene)
+/**
+ * @brief A Membrane object implements a 3D structure of a given shape, but with
+ * a surface composed of instances of one or several proteins
+ *
+ */
+class ParametricMembrane : public Membrane
 {
-}
+public:
+    /**
+     * @brief Construct a new Membrane object
+     *
+     * @param scene The 3D scene where the glycans are added
+     * @param details The data structure describing the membrane
+     */
+    ParametricMembrane(Scene &scene, const ParametricMembraneDetails &details);
 
-Membrane::~Membrane()
-{
-    for (const auto& protein : _proteins)
-        _scene.removeModel(protein.second->getModelDescriptor()->getModelID());
-}
+    /**
+     * @brief Destroy the Parametric Membrane object
+     *
+     */
+    ~ParametricMembrane();
 
+private:
+    void _processInstances();
+    std::string _getElementNameFromId(const size_t id);
+
+    ParametricMembraneDetails _details;
+};
 } // namespace biology
 } // namespace bioexplorer

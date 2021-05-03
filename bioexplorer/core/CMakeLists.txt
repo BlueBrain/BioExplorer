@@ -67,6 +67,7 @@ set(${NAME}_SOURCES
     plugin/biology/Node.cpp
     plugin/biology/Membrane.cpp
     plugin/biology/Glycans.cpp
+    plugin/biology/ParametricMembrane.cpp
     plugin/biology/MeshBasedMembrane.cpp
     plugin/biology/Protein.cpp
     plugin/biology/RNASequence.cpp
@@ -81,6 +82,7 @@ set(${NAME}_PUBLIC_HEADERS
     plugin/biology/Assembly.h
     plugin/biology/Node.h
     plugin/biology/Glycans.h
+    plugin/biology/ParametricMembrane.h
     plugin/biology/MeshBasedMembrane.h
     plugin/biology/Membrane.h
     plugin/biology/Protein.h

@@ -230,7 +230,7 @@ enum class AssemblyShape
 };
 
 /**
- * @brief A Membrane is a shaped assembly of phospholipids
+ * @brief A Parametric membrane is a shaped assembly of phospholipids
  *
  */
 typedef struct
@@ -250,7 +250,7 @@ typedef struct
     /** String containing a PDB representation of the 4th optional protein
      */
     std::string content4;
-    /** Shape of the assembly containing the membrane */
+    /** Shape of the assembly containing the parametric membrane */
     AssemblyShape shape;
     /** Parameters of the assembly shape */
     std::vector<float> assemblyParams;
@@ -275,7 +275,7 @@ typedef struct
     PositionRandomizationType positionRandomizationType;
     /** Relative rotation of the protein in the assembly */
     std::vector<float> rotation;
-} MembraneDetails;
+} ParametricMembraneDetails;
 
 // Protein
 typedef struct
@@ -352,7 +352,8 @@ typedef struct
 } SugarsDetails;
 
 /**
- * @brief Data structure describing a membrane based on the shape of a mesh
+ * @brief Data structure describing a mesh-based membrane based on the shape of
+ * a mesh
  *
  */
 typedef struct
@@ -742,6 +743,13 @@ typedef std::map<std::string, AssemblyPtr> AssemblyMap;
 class Membrane;
 typedef std::shared_ptr<Membrane> MembranePtr;
 
+class ParametricMembrane;
+typedef std::shared_ptr<ParametricMembrane> ParametricMembranePtr;
+
+class MeshBasedMembrane;
+typedef std::shared_ptr<MeshBasedMembrane> MeshBasedMembranePtr;
+typedef std::map<std::string, MeshBasedMembranePtr> MeshBasedMembraneMap;
+
 class Protein;
 typedef std::shared_ptr<Protein> ProteinPtr;
 typedef std::map<std::string, ProteinPtr> ProteinMap;
@@ -749,10 +757,6 @@ typedef std::map<std::string, ProteinPtr> ProteinMap;
 class Glycans;
 typedef std::shared_ptr<Glycans> GlycansPtr;
 typedef std::map<std::string, GlycansPtr> GlycansMap;
-
-class MeshBasedMembrane;
-typedef std::shared_ptr<MeshBasedMembrane> MeshBasedMembranePtr;
-typedef std::map<std::string, MeshBasedMembranePtr> MeshBasedMembraneMap;
 
 class RNASequence;
 typedef std::shared_ptr<RNASequence> RNASequencePtr;

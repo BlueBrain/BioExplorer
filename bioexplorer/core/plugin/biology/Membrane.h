@@ -40,19 +40,14 @@ public:
      * @brief Construct a new Membrane object
      *
      * @param scene The 3D scene where the glycans are added
-     * @param details The data structure describing the membrane
-     * @param position The position of the membrane in the 3D scene
-     * @param clippingPlanes The clipping planes to apply to the membrane
      */
-    Membrane(Scene &scene, const MembraneDetails &details,
-             const Vector3f &position, const Quaterniond &orientation,
-             const Vector4fs &clippingPlanes);
+    Membrane(Scene &scene);
 
     /**
      * @brief Destroy the Membrane object
      *
      */
-    ~Membrane();
+    virtual ~Membrane();
 
     /**
      * @brief Get the list of proteins defining the membrane
@@ -61,16 +56,11 @@ public:
      */
     const ProteinMap &getProteins() const { return _proteins; }
 
-private:
-    void _processInstances();
-    std::string _getElementNameFromId(const size_t id);
-
+protected:
     Scene &_scene;
     Vector3f _position;
     Quaterniond _rotation;
-    MembraneDetails _details;
     ProteinMap _proteins;
-    Vector4fs _clippingPlanes;
 };
 } // namespace biology
 } // namespace bioexplorer

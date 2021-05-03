@@ -23,8 +23,8 @@
 
 import math
 import seaborn as sns
-from bioexplorer import BioExplorer, Membrane, Protein, Sugars, Virus, RNASequence, Vector2, \
-    Vector3, Quaternion
+from bioexplorer import BioExplorer, ParametricMembrane, Protein, Sugars, Virus, RNASequence, \
+    Vector2, Vector3, Quaternion
 
 # pylint: disable=no-member
 # pylint: disable=missing-function-docstring
@@ -89,7 +89,9 @@ def test_virus():
         rotation=Quaternion(0.705, 0.705, -0.04, -0.04))
 
     # Virus membrane
-    virus_membrane = Membrane(sources=[pdb_folder + 'membrane/popc.pdb'], occurences=15000)
+    virus_membrane = ParametricMembrane(
+        sources=[pdb_folder + 'membrane/popc.pdb'],
+        occurences=15000)
 
     # RNA Sequence
     clip_planes = list()

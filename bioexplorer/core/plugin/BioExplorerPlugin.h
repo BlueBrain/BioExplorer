@@ -73,11 +73,12 @@ private:
     // Biological elements
     Response _addAssembly(const AssemblyDetails &payload);
     Response _removeAssembly(const AssemblyDetails &payload);
-    Response _addMembrane(const MembraneDetails &payload) const;
-    Response _addRNASequence(const RNASequenceDetails &payload) const;
-    Response _addProtein(const ProteinDetails &payload) const;
+    Response _addParametricMembrane(
+        const ParametricMembraneDetails &payload) const;
     Response _addMeshBasedMembrane(
         const MeshBasedMembraneDetails &payload) const;
+    Response _addRNASequence(const RNASequenceDetails &payload) const;
+    Response _addProtein(const ProteinDetails &payload) const;
     Response _addGlycans(const SugarsDetails &payload) const;
     Response _addSugars(const SugarsDetails &payload) const;
 

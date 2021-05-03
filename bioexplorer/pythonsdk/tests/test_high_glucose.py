@@ -22,8 +22,8 @@
 # this program.  If not, see <https://www.gnu.org/licenses/>.
 
 import math
-from bioexplorer import BioExplorer, RNASequence, Protein, Virus, Surfactant, Membrane, Cell, \
-    Sugars, Volume, Vector2, Vector3, Quaternion
+from bioexplorer import BioExplorer, RNASequence, Protein, Virus, Surfactant, ParametricMembrane, \
+    Cell, Sugars, Volume, Vector2, Vector3, Quaternion
 
 # pylint: disable=no-member
 # pylint: disable=missing-function-docstring
@@ -109,7 +109,7 @@ def add_virus(
         occurences=NB_PROTEIN_E, assembly_params=params,
         rotation=Quaternion(0.705, 0.705, -0.04, -0.04))
 
-    virus_membrane = Membrane(
+    virus_membrane = ParametricMembrane(
         sources=[
             MEMBRANE_FOLDER + 'segA.pdb',
             MEMBRANE_FOLDER + 'segB.pdb',
@@ -205,7 +205,7 @@ def add_virus(
 def add_cell(bioexplorer, name, size, height, position=Vector3()):
     ace2_receptor = Protein(
         sources=[PDB_FOLDER + '6m18.pdb'], occurences=20, position=Vector3(0.0, 6.0, 0.0))
-    membrane = Membrane(
+    membrane = ParametricMembrane(
         sources=[
             MEMBRANE_FOLDER + 'segA.pdb',
             MEMBRANE_FOLDER + 'segB.pdb',

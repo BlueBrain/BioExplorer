@@ -20,8 +20,8 @@
 
 #include "Assembly.h"
 
-#include <plugin/biology/Membrane.h>
 #include <plugin/biology/MeshBasedMembrane.h>
+#include <plugin/biology/ParametricMembrane.h>
 #include <plugin/biology/Protein.h>
 #include <plugin/biology/RNASequence.h>
 #include <plugin/common/GeneralSettings.h>
@@ -93,18 +93,26 @@ void Assembly::addProtein(const ProteinDetails &details)
         "Number of instances: " << modelDescriptor->getInstances().size());
 }
 
-void Assembly::addMembrane(const MembraneDetails &details)
+void Assembly::addParametricMembrane(const ParametricMembraneDetails &details)
 {
     if (_membrane)
-        PLUGIN_THROW("Assembly already has a membrane");
+        PLUGIN_THROW("Assembly already has a parametric membrane");
 
     const Vector3f position = {_details.position[0], _details.position[1],
                                _details.position[2]};
     const Quaterniond rotation = {_details.rotation[0], _details.rotation[1],
                                   _details.rotation[2], _details.rotation[3]};
 
-    MembranePtr membrane(
-        new Membrane(_scene, details, position, rotation, _clippingPlanes));
+    ParametricMembranePtr membrane(new ParametricMembrane(_scene, details));
+    _membrane = std::move(membrane);
+}
+
+void Assembly::addMeshBasedMembrane(const MeshBasedMembraneDetails &details)
+{
+    if (_membrane)
+        PLUGIN_THROW("Assembly already has a mesh-based membrane");
+
+    MeshBasedMembranePtr membrane(new MeshBasedMembrane(_scene, details));
     _membrane = std::move(membrane);
 }
 
@@ -145,16 +153,6 @@ void Assembly::addGlycans(const SugarsDetails &details)
     PLUGIN_INFO("Adding glycans to protein " << details.proteinName);
     const auto targetProtein = (*it).second;
     targetProtein->addGlycans(details);
-}
-
-void Assembly::addMeshBasedMembrane(const MeshBasedMembraneDetails &details)
-{
-    if (_meshBasedMembrane)
-        PLUGIN_THROW("Assembly already has a mesh-based membrane");
-
-    MeshBasedMembranePtr meshBasedMembrane(
-        new MeshBasedMembrane(_scene, details));
-    _meshBasedMembrane = std::move(meshBasedMembrane);
 }
 
 void Assembly::_processInstances(
@@ -289,24 +287,13 @@ void Assembly::setColorScheme(const ColorSchemeDetails &details)
     const auto itProtein = _proteins.find(details.name);
     if (itProtein != _proteins.end())
         protein = (*itProtein).second;
-    else
+    else if (_membrane)
     {
-        if (_meshBasedMembrane)
-        {
-            const auto membraneProteins = _meshBasedMembrane->getProteins();
-            const auto it = membraneProteins.find(details.assemblyName + '_' +
-                                                  details.name);
-            if (it != membraneProteins.end())
-                protein = (*it).second;
-        }
-        else if (_membrane)
-        {
-            const auto membraneProteins = _membrane->getProteins();
-            const auto it = membraneProteins.find(details.assemblyName + '_' +
-                                                  details.name);
-            if (it != membraneProteins.end())
-                protein = (*it).second;
-        }
+        const auto membraneProteins = _membrane->getProteins();
+        const auto it =
+            membraneProteins.find(details.assemblyName + '_' + details.name);
+        if (it != membraneProteins.end())
+            protein = (*it).second;
     }
 
     if (protein)
