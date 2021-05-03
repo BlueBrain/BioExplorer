@@ -286,16 +286,9 @@ void BioExplorerPlugin::init()
 
         Details = PLUGIN_API_PREFIX + "add-membrane";
         PLUGIN_INFO("Registering '" + Details + "' endpoint");
-        actionInterface->registerRequest<MembraneDetails, Response>(
-            Details, [&](const MembraneDetails &payload) {
-                return _addMembrane(payload);
-            });
-
-        Details = PLUGIN_API_PREFIX + "add-protein";
-        PLUGIN_INFO("Registering '" + Details + "' endpoint");
-        actionInterface->registerRequest<ProteinDetails, Response>(
-            Details, [&](const ProteinDetails &payload) {
-                return _addProtein(payload);
+        actionInterface->registerRequest<ParametricMembraneDetails, Response>(
+            Details, [&](const ParametricMembraneDetails &payload) {
+                return _addParametricMembrane(payload);
             });
 
         Details = PLUGIN_API_PREFIX + "add-mesh-based-membrane";
@@ -303,6 +296,13 @@ void BioExplorerPlugin::init()
         actionInterface->registerRequest<MeshBasedMembraneDetails, Response>(
             Details, [&](const MeshBasedMembraneDetails &payload) {
                 return _addMeshBasedMembrane(payload);
+            });
+
+        Details = PLUGIN_API_PREFIX + "add-protein";
+        PLUGIN_INFO("Registering '" + Details + "' endpoint");
+        actionInterface->registerRequest<ProteinDetails, Response>(
+            Details, [&](const ProteinDetails &payload) {
+                return _addProtein(payload);
             });
 
         Details = PLUGIN_API_PREFIX + "add-glycans";
@@ -580,9 +580,16 @@ Response BioExplorerPlugin::_addRNASequence(
     ASSEMBLY_CALL_VOID(payload.assemblyName, addRNASequence(payload));
 }
 
-Response BioExplorerPlugin::_addMembrane(const MembraneDetails &payload) const
+Response BioExplorerPlugin::_addParametricMembrane(
+    const ParametricMembraneDetails &payload) const
 {
-    ASSEMBLY_CALL_VOID(payload.assemblyName, addMembrane(payload));
+    ASSEMBLY_CALL_VOID(payload.assemblyName, addParametricMembrane(payload));
+}
+
+Response BioExplorerPlugin::_addMeshBasedMembrane(
+    const MeshBasedMembraneDetails &payload) const
+{
+    ASSEMBLY_CALL_VOID(payload.assemblyName, addMeshBasedMembrane(payload));
 }
 
 Response BioExplorerPlugin::_addProtein(const ProteinDetails &payload) const
@@ -598,12 +605,6 @@ Response BioExplorerPlugin::_addGlycans(const SugarsDetails &payload) const
 Response BioExplorerPlugin::_addSugars(const SugarsDetails &payload) const
 {
     ASSEMBLY_CALL_VOID(payload.assemblyName, addSugars(payload));
-}
-
-Response BioExplorerPlugin::_addMeshBasedMembrane(
-    const MeshBasedMembraneDetails &payload) const
-{
-    ASSEMBLY_CALL_VOID(payload.assemblyName, addMeshBasedMembrane(payload));
 }
 
 Response BioExplorerPlugin::_setAminoAcid(const AminoAcidDetails &payload) const

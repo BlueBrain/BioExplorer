@@ -232,7 +232,7 @@ bool from_json(RNASequenceDetails &param, const std::string &payload)
     return true;
 }
 
-bool from_json(MembraneDetails &param, const std::string &payload)
+bool from_json(ParametricMembraneDetails &param, const std::string &payload)
 {
     try
     {

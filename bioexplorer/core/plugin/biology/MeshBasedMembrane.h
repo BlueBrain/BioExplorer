@@ -20,7 +20,7 @@
 
 #pragma once
 
-#include <plugin/biology/Node.h>
+#include "Membrane.h"
 
 #include <brayns/engineapi/Model.h>
 
@@ -40,7 +40,7 @@ namespace biology
  * a shape provided by a 3D Mesh
  *
  */
-class MeshBasedMembrane : public Node
+class MeshBasedMembrane : public Membrane
 {
 public:
     /**
@@ -52,19 +52,6 @@ public:
      */
     MeshBasedMembrane(Scene& scene, const MeshBasedMembraneDetails& details);
 
-    /**
-     * @brief Destroy the Mesh Based Membrane object
-     *
-     */
-    ~MeshBasedMembrane();
-
-    /**
-     * @brief Get the list of proteins defining the membrane
-     *
-     * @return const ProteinMap& list of proteins defining the membrane
-     */
-    const ProteinMap& getProteins() const { return _proteins; }
-
 private:
     void _processInstances(const Vector3f& proteinsAverageSize);
     float _getSurfaceArea(const Vector3f& a, const Vector3f& b,
@@ -73,11 +60,9 @@ private:
     Vector3f _toVector3f(const aiVector3D& v, const Vector3f& center,
                          const Vector3f& scaling,
                          const Quaterniond& rotation) const;
-    const std::string _getElementNameFromId(const size_t id) const;
+    std::string _getElementNameFromId(const size_t id);
 
-    Scene& _scene;
     MeshBasedMembraneDetails _details;
-    ProteinMap _proteins;
 };
 } // namespace biology
 } // namespace bioexplorer

@@ -21,7 +21,7 @@
 # You should have received a copy of the GNU General Public License along with
 # this program.  If not, see <https://www.gnu.org/licenses/>.
 
-from bioexplorer import BioExplorer, Cell, Membrane, Protein, Vector2, Vector3
+from bioexplorer import BioExplorer, Cell, ParametricMembrane, Protein, Vector2, Vector3
 
 # pylint: disable=no-member
 # pylint: disable=missing-function-docstring
@@ -53,7 +53,7 @@ def test_cell():
         occurences=membrane_nb_receptors,
         position=Vector3(0.0, 6.0, 0.0))
 
-    membrane = Membrane(
+    membrane = ParametricMembrane(
         sources=[pdb_folder + 'membrane/popc.pdb'],
         occurences=membrane_nb_lipids)
 

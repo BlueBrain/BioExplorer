@@ -125,10 +125,16 @@ public:
         const ProteinInstanceTransformationDetails &details) const;
 
     /**
-     * @brief addMembrane Add a membrane to the assembly
-     * @param details Membrane details
+     * @brief addParametricMembrane Add a parametric membrane to the assembly
+     * @param details Parametric membrane details
      */
-    void addMembrane(const MembraneDetails &details);
+    void addParametricMembrane(const ParametricMembraneDetails &details);
+
+    /**
+     * @brief addMeshBasedMembrane Add a mesh based membrane to the assembly
+     * @param details Details of the mesh based membrane
+     */
+    void addMeshBasedMembrane(const MeshBasedMembraneDetails &details);
 
     /**
      * @brief addRNASequence Add an RNA sequence to the assembly
@@ -141,12 +147,6 @@ public:
      * @param details Details of the protein
      */
     void addProtein(const ProteinDetails &details);
-
-    /**
-     * @brief addMeshBasedMembrane Add a mesh based membrane to the assembly
-     * @param details Details of the mesh based membrane
-     */
-    void addMeshBasedMembrane(const MeshBasedMembraneDetails &details);
 
     /**
      * @brief addGlycans Add glycans to glycosilation sites of a given protein
@@ -175,7 +175,6 @@ private:
     AssemblyDetails _details;
     Scene &_scene;
     ProteinMap _proteins;
-    MeshBasedMembranePtr _meshBasedMembrane{nullptr};
     MembranePtr _membrane{nullptr};
     RNASequencePtr _rnaSequence{nullptr};
     Vector4fs _clippingPlanes;

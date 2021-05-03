@@ -483,7 +483,7 @@ class BioExplorer:
         )
 
         # Virus membrane
-        virus_membrane = Membrane(
+        virus_membrane = ParametricMembrane(
             sources=[
                 membrane_folder + 'segA.pdb',
                 membrane_folder + 'segB.pdb',
@@ -763,10 +763,10 @@ class BioExplorer:
             self.add_assembly_protein(_protein_e)
 
         if virus.membrane:
-            # Membrane
+            # Parametric membrane
             virus.membrane.representation = representation
             virus.membrane.atom_radius_multiplier = atom_radius_multiplier
-            self.add_membrane(
+            self.add_parametric_membrane(
                 assembly_name=virus.name,
                 name=virus.name + "_" + self.NAME_MEMBRANE,
                 membrane=virus.membrane,
@@ -839,7 +839,7 @@ class BioExplorer:
 
         cell.membrane.representation = representation
         cell.membrane.atom_radius_multiplier = atom_radius_multiplier
-        return self.add_membrane(
+        return self.add_parametric_membrane(
             assembly_name=cell.name,
             name=cell.name + "_" + self.NAME_MEMBRANE,
             shape=cell.shape,
@@ -1280,22 +1280,23 @@ class BioExplorer:
         return self._check(self._client.rockets_client.request(
             method=self.PLUGIN_API_PREFIX + "add-rna-sequence", params=params))
 
-    def add_membrane(self, assembly_name, name, membrane, shape, position_randomization_type,
-                     assembly_params, random_seed, rotation=Quaternion()):
+    def add_parametric_membrane(self, assembly_name, name, membrane, shape,
+                                position_randomization_type, assembly_params, random_seed,
+                                rotation=Quaternion()):
         """
-        Add a membrane to the scene
+        Add a parametric membrane to the scene
 
         :assembly_name: Name of the assembly
         :name: Name of the cell
-        :membrane: Description of the membrane
-        :shape: Shape of the membrane
+        :membrane: Description of the parametric membrane
+        :shape: Shape of the parametric membrane
         :position_randomization_type: Type of randomisation for the elements of the membrane
         :assembly_params: Size of the membrane
-        :random_seed: Seed used to randomise position the elements in the membrane
-        :rotation: rotation of the proteins in the membrane
+        :random_seed: Seed used to randomise position the elements in the parametric membrane
+        :rotation: rotation of the proteins in the parametric membrane
         :return: Result of the call to the BioExplorer backend
         """
-        assert isinstance(membrane, Membrane)
+        assert isinstance(membrane, ParametricMembrane)
         assert isinstance(assembly_params, list)
 
         contents = ["", "", "", ""]
@@ -2200,15 +2201,15 @@ class AssemblyMeshBasedMembrane:
 # External classes
 
 
-class Membrane:
-    """A Membrane is a shaped assembly of phospholipids"""
+class ParametricMembrane:
+    """A Parametric membrane is a shaped assembly of phospholipids"""
 
     def __init__(self, sources, atom_radius_multiplier=1.0, load_bonds=False,
                  representation=BioExplorer.REPRESENTATION_ATOMS, load_non_polymer_chemicals=False,
                  chain_ids=list(), recenter=True, occurences=1,
                  position=Vector3(), rotation=Quaternion()):
         """
-        A membrane is an assembly of proteins with a given size and shape
+        A parametric membrane is an assembly of proteins with a given size and shape
 
         :sources: Full paths of the PDB files containing the building blocks of the membrane
         :atom_radius_multiplier: Multiplies atom radius by the specified value
@@ -2217,9 +2218,9 @@ class Membrane:
         :load_non_polymer_chemicals: Defines if non-polymer chemical should be loaded
         :chain_ids: IDs of the protein chains to be loaded
         :recenter: Defines if proteins should be centered when loaded from PDB files
-        :occurences: Number of occurences of proteins defining the membrane
-        :position: Position of the membrane in the assembly
-        :rotation: Rotation of the membrane in the assembly
+        :occurences: Number of occurences of proteins defining the parametric membrane
+        :position: Position of the parametric membrane in the assembly
+        :rotation: Rotation of the parametric membrane in the assembly
         """
         self.sources = sources
         self.atom_radius_multiplier = atom_radius_multiplier
@@ -2337,7 +2338,7 @@ class Cell:
         :extra_parameters: Extra parameters depending on the selected shape
         """
         assert isinstance(size, float)
-        assert isinstance(membrane, Membrane)
+        assert isinstance(membrane, ParametricMembrane)
         assert isinstance(receptor, Protein)
         assert isinstance(random_position_seed, int)
         assert isinstance(random_position_strength, float)
@@ -2488,7 +2489,7 @@ class Virus:
         if protein_m is not None:
             assert isinstance(protein_m, Protein)
         if membrane is not None:
-            assert isinstance(membrane, Membrane)
+            assert isinstance(membrane, ParametricMembrane)
         if rna_sequence is not None:
             assert isinstance(rna_sequence, RNASequence)
         assert isinstance(assembly_params, list)

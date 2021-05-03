@@ -23,7 +23,7 @@
 
 import math
 from bioexplorer import BioExplorer, RNASequence, Protein, AssemblyProtein, Virus, Surfactant, \
-    Membrane, Cell, Sugars, Volume, Vector2, Vector3, Quaternion
+    ParametricMembrane, Cell, Sugars, Volume, Vector2, Vector3, Quaternion
 
 # pylint: disable=no-member
 # pylint: disable=missing-function-docstring

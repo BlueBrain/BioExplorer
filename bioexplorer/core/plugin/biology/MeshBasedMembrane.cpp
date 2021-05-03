@@ -39,8 +39,7 @@ using namespace common;
 
 MeshBasedMembrane::MeshBasedMembrane(Scene& scene,
                                      const MeshBasedMembraneDetails& details)
-    : Node()
-    , _scene(scene)
+    : Membrane(scene)
     , _details(details)
 {
     // Random seed
@@ -86,12 +85,6 @@ MeshBasedMembrane::MeshBasedMembrane(Scene& scene,
     for (size_t i = 0; i < proteinContents.size(); ++i)
         _scene.addModel(
             _proteins[_getElementNameFromId(i)]->getModelDescriptor());
-}
-
-MeshBasedMembrane::~MeshBasedMembrane()
-{
-    for (const auto& protein : _proteins)
-        _scene.removeModel(protein.second->getModelDescriptor()->getModelID());
 }
 
 void MeshBasedMembrane::_processInstances(const Vector3f& proteinsAverageSize)
@@ -339,11 +332,9 @@ Vector3f MeshBasedMembrane::_toVector3f(const aiVector3D& v,
     return b;
 }
 
-const std::string MeshBasedMembrane::_getElementNameFromId(
-    const size_t id) const
+std::string MeshBasedMembrane::_getElementNameFromId(const size_t id)
 {
     return _details.assemblyName + "_Membrane_" + std::to_string(id);
 }
-
 } // namespace biology
 } // namespace bioexplorer
