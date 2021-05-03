@@ -57,6 +57,7 @@ set(${NAME}_SOURCES
     plugin/common/GeneralSettings.cpp
     plugin/common/Utils.cpp
     plugin/common/UniqueId.cpp
+    plugin/common/Shapes.cpp
     plugin/fields/FieldsHandler.cpp
     plugin/fields/Octree.cpp
     plugin/fields/OctreeNode.cpp
@@ -90,6 +91,7 @@ set(${NAME}_PUBLIC_HEADERS
     plugin/common/UniqueId.h
     plugin/common/GeneralSettings.h
     plugin/common/CommonTypes.h
+    plugin/common/Shapes.h
     plugin/api/Params.h
     plugin/BioExplorerPlugin.h
 )

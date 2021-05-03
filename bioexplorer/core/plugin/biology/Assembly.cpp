@@ -26,6 +26,7 @@
 #include <plugin/biology/RNASequence.h>
 #include <plugin/common/GeneralSettings.h>
 #include <plugin/common/Logs.h>
+#include <plugin/common/Shapes.h>
 #include <plugin/common/Utils.h>
 
 namespace bioexplorer
