@@ -12,6 +12,8 @@ var dir_9a9dde4b851279721bb1b60982956579 =
     [ "Molecule.h", "d4/dbe/Molecule_8h_source.html", null ],
     [ "Node.cpp", "dc/d73/Node_8cpp_source.html", null ],
     [ "Node.h", "db/d92/Node_8h_source.html", null ],
+    [ "ParametricMembrane.cpp", "d0/d81/ParametricMembrane_8cpp_source.html", null ],
+    [ "ParametricMembrane.h", "d6/da5/ParametricMembrane_8h_source.html", null ],
     [ "Protein.cpp", "de/d3a/plugin_2biology_2Protein_8cpp_source.html", null ],
     [ "Protein.h", "d2/d6d/Protein_8h_source.html", null ],
     [ "RNASequence.cpp", "d2/dab/plugin_2biology_2RNASequence_8cpp_source.html", null ],
