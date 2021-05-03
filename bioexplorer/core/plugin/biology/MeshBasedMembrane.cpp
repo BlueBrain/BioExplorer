@@ -12,7 +12,7 @@
  * This program is distributed in the hope that it will be useful, but WITHOUT
  * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
  * FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more
- * details.
+ * _details.
  *
  * You should have received a copy of the GNU General Public License along with
  * this program.  If not, see <https://www.gnu.org/licenses/>.
@@ -40,45 +40,79 @@ using namespace common;
 MeshBasedMembrane::MeshBasedMembrane(Scene& scene,
                                      const MeshBasedMembraneDetails& details)
     : Node()
+    , _scene(scene)
+    , _details(details)
 {
-    const auto loader = MeshLoader(scene);
-
-    // Load protein
-    const Vector3f position = {details.position[0], details.position[1],
-                               details.position[2]};
-    const Quaterniond rotation = {details.rotation[0], details.rotation[1],
-                                  details.rotation[2], details.rotation[3]};
-    const Vector3f scale = {details.scale[0], details.scale[1],
-                            details.scale[2]};
-
-    ProteinDetails pd;
-    pd.assemblyName = details.assemblyName;
-    pd.name = details.name;
-    pd.contents = details.proteinContents;
-    pd.recenter = true;
-    pd.atomRadiusMultiplier = details.atomRadiusMultiplier;
-    pd.representation = details.representation;
-    pd.position = details.position;
-    pd.rotation = details.rotation;
-
     // Random seed
-    srand(details.randomSeed);
+    srand(_details.randomSeed);
 
-    // Create model
-    _protein = ProteinPtr(new Protein(scene, pd));
-    _modelDescriptor = _protein->getModelDescriptor();
-    auto model = &_modelDescriptor->getModel();
-    model->updateBounds();
-    const auto proteinSize = model->getBounds().getSize();
+    std::vector<std::string> proteinContents;
+    proteinContents.push_back(_details.proteinContents1);
+    if (!_details.proteinContents2.empty())
+        proteinContents.push_back(_details.proteinContents2);
+    if (!_details.proteinContents3.empty())
+        proteinContents.push_back(_details.proteinContents3);
+    if (!_details.proteinContents4.empty())
+        proteinContents.push_back(_details.proteinContents4);
+
+    Vector3f proteinsAverageSize;
+    size_t i = 0;
+    for (const auto& proteinContent : proteinContents)
+    {
+        ProteinDetails pd;
+        pd.assemblyName = _details.assemblyName;
+        pd.name = _getElementNameFromId(i);
+        pd.contents = proteinContent;
+        pd.recenter = true;
+        pd.atomRadiusMultiplier = _details.atomRadiusMultiplier;
+        pd.representation = _details.representation;
+        pd.position = _details.position;
+        pd.rotation = _details.rotation;
+
+        // Create model
+        ProteinPtr protein(new Protein(scene, pd));
+        _modelDescriptor = protein->getModelDescriptor();
+        auto model = &_modelDescriptor->getModel();
+        model->updateBounds();
+        proteinsAverageSize += model->getBounds().getSize();
+        _proteins[pd.name] = std::move(protein);
+        ++i;
+    }
+    proteinsAverageSize /= proteinContents.size();
+
+    _processInstances(proteinsAverageSize);
+
+    // Add proteins to the scene
+    for (size_t i = 0; i < proteinContents.size(); ++i)
+        _scene.addModel(
+            _proteins[_getElementNameFromId(i)]->getModelDescriptor());
+}
+
+MeshBasedMembrane::~MeshBasedMembrane()
+{
+    for (const auto& protein : _proteins)
+        _scene.removeModel(protein.second->getModelDescriptor()->getModelID());
+}
+
+void MeshBasedMembrane::_processInstances(const Vector3f& proteinsAverageSize)
+{
+    // Load proteins
+    const Vector3f position = {_details.position[0], _details.position[1],
+                               _details.position[2]};
+    const Quaterniond rotation = {_details.rotation[0], _details.rotation[1],
+                                  _details.rotation[2], _details.rotation[3]};
+    const Vector3f scale = {_details.scale[0], _details.scale[1],
+                            _details.scale[2]};
 
     // Clipping planes
-    const auto clipPlanes = getClippingPlanes(scene);
+    const auto clipPlanes = getClippingPlanes(_scene);
 
     // Load MeshBasedMembrane
+    const auto loader = MeshLoader(_scene);
     Assimp::Importer importer;
     const aiScene* aiScene =
-        importer.ReadFileFromMemory(details.meshContents.c_str(),
-                                    details.meshContents.length(),
+        importer.ReadFileFromMemory(_details.meshContents.c_str(),
+                                    _details.meshContents.length(),
                                     aiProcess_GenSmoothNormals |
                                         aiProcess_Triangulate);
 
@@ -86,7 +120,7 @@ MeshBasedMembrane::MeshBasedMembrane(Scene& scene,
         PLUGIN_THROW(importer.GetErrorString());
 
     if (!aiScene->HasMeshes())
-        PLUGIN_THROW("No MeshBasedMembranees found");
+        PLUGIN_THROW("No mesh found");
 
     const auto trfm = aiScene->mRootNode->mTransformation;
     const Matrix4f matrix{trfm.a1, trfm.b1, trfm.c1, trfm.d1, trfm.a2, trfm.b2,
@@ -94,7 +128,6 @@ MeshBasedMembrane::MeshBasedMembrane(Scene& scene,
                           trfm.a4, trfm.b4, trfm.c4, trfm.d4};
 
     // Add protein instances according to MeshBasedMembrane topology
-    size_t instanceCount = 0;
     float meshCoveringProgress = 0.f;
     float instanceCoveringProgress = 0.f;
     for (size_t m = 0; m < aiScene->mNumMeshes; ++m)
@@ -152,11 +185,12 @@ MeshBasedMembrane::MeshBasedMembrane(Scene& scene,
                                 _toVector3f(mesh->mVertices[face.z], meshCenter,
                                             scale, rotation));
 
-        const float proteinSurface = proteinSize.x * proteinSize.x;
+        const float proteinSurface =
+            proteinsAverageSize.x * proteinsAverageSize.x;
 
         // Total number of instance needed to fill the MeshBasedMembrane surface
         const size_t nbInstances =
-            details.density * meshSurface / proteinSurface;
+            _details.density * meshSurface / proteinSurface;
         const float instanceSurface = meshSurface / nbInstances;
 
         PLUGIN_INFO("----===  MeshBasedMembrane  ===----");
@@ -165,12 +199,15 @@ MeshBasedMembrane::MeshBasedMembrane(Scene& scene,
         PLUGIN_INFO("Scale                : " << scale);
         PLUGIN_INFO("Number of faces      : " << faces.size());
         PLUGIN_INFO("Mesh surface area    : " << meshSurface);
-        PLUGIN_INFO("Protein size         : " << proteinSize);
+        PLUGIN_INFO("Protein size         : " << proteinsAverageSize);
         PLUGIN_INFO("Protein surface area : " << proteinSurface);
         PLUGIN_INFO("Instance surface area: " << instanceSurface);
         PLUGIN_INFO("Number of instances  : " << nbInstances);
 
-#pragma omp parallel for
+        std::map<size_t, size_t> instanceCounts;
+        for (size_t i = 0; i < _proteins.size(); ++i)
+            instanceCounts[i] = 0;
+
         for (const auto& face : faces)
         {
             const auto P0 = _toVector3f(mesh->mVertices[face.x], meshCenter,
@@ -210,11 +247,11 @@ MeshBasedMembrane::MeshBasedMembrane(Scene& scene,
                 const Vector3f transformedVertex =
                     matrix * Vector4f(P.x, P.y, P.z, 1.f);
 
-                const float variableOffset = details.surfaceVariableOffset *
+                const float variableOffset = _details.surfaceVariableOffset *
                                              (rand() % 1000 / 1000.f - 0.5f);
 
                 auto translation = position + transformedVertex +
-                                   defaultNormal * details.surfaceFixedOffset +
+                                   defaultNormal * _details.surfaceFixedOffset +
                                    defaultNormal * variableOffset;
 
                 if (mesh->HasNormals())
@@ -236,32 +273,36 @@ MeshBasedMembrane::MeshBasedMembrane(Scene& scene,
                         Vector4f(glm::normalize((N0 * areas.x + N1 * areas.y +
                                                  N2 * areas.z) /
                                                 (areas.x + areas.y + areas.z)),
-                                 1.f));
+                                 0.f));
 
                     if (normal != UP_VECTOR)
                     {
                         const Quaterniond rotation =
                             glm::quatLookAt(normal, UP_VECTOR);
-                        tf.setRotation(rotation * rotation);
+                        tf.setRotation(rotation);
                     }
                     translation = position + transformedVertex +
-                                  normal * details.surfaceFixedOffset +
+                                  normal * _details.surfaceFixedOffset +
                                   normal * variableOffset;
                 }
 
+                // Clipping planes
                 if (isClipped(translation, clipPlanes))
                     continue;
 
-                tf.setTranslation(translation);
+                // Instance
+                const size_t id = rand() % _proteins.size();
+                auto protein = _proteins[_getElementNameFromId(id)];
+                auto md = protein->getModelDescriptor();
 
-                if (instanceCount == 0)
-                    _modelDescriptor->setTransformation(tf);
+                tf.setTranslation(translation);
+                if (instanceCounts[id] == 0)
+                    md->setTransformation(tf);
 
                 const ModelInstance instance(true, false, tf);
-#pragma omp critical
-                _modelDescriptor->addInstance(instance);
+                md->addInstance(instance);
 
-                ++instanceCount;
+                instanceCounts[id] = instanceCounts[id] + 1;
             }
         }
     }
@@ -297,5 +338,12 @@ Vector3f MeshBasedMembrane::_toVector3f(const aiVector3D& v,
     const Vector3f b = Vector3f(rotation * Vector3d(p + a)) * scale;
     return b;
 }
+
+const std::string MeshBasedMembrane::_getElementNameFromId(
+    const size_t id) const
+{
+    return _details.assemblyName + "_Membrane_" + std::to_string(id);
+}
+
 } // namespace biology
 } // namespace bioexplorer

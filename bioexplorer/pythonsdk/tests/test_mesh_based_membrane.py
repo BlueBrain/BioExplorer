@@ -31,6 +31,7 @@ def test_mesh():
     resource_folder = 'tests/test_files/'
     pdb_folder = resource_folder + 'pdb/'
     obj_folder = resource_folder + 'obj/'
+    membrane_folder = pdb_folder + 'membrane/'
 
     bio_explorer = BioExplorer('localhost:5000')
     bio_explorer.reset()
@@ -40,15 +41,21 @@ def test_mesh():
     scale = Vector3(5, 5, 5)
 
     # Membrane
-    protein_source = pdb_folder + 'membrane/popc.pdb'
-    mesh_based_membrane = MeshBasedMembrane(mesh_source=mesh_source, protein_source=protein_source,
+    protein_sources = [
+        membrane_folder + 'segA.pdb',
+        membrane_folder + 'segB.pdb',
+        membrane_folder + 'segC.pdb',
+        membrane_folder + 'segD.pdb'
+    ]
+    mesh_based_membrane = MeshBasedMembrane(mesh_source=mesh_source,
+                                            protein_sources=protein_sources,
                                             density=5.0, surface_variable_offset=2.0)
     bio_explorer.add_mesh_based_membrane('Mesh', mesh_based_membrane, scale=scale)
 
     # Receptors
-    protein_source = pdb_folder + '6m1d.pdb'
+    protein_sources = [pdb_folder + '6m1d.pdb']
     mesh_based_membrane = MeshBasedMembrane(
-        mesh_source=mesh_source, protein_source=protein_source,
+        mesh_source=mesh_source, protein_sources=protein_sources,
         density=0.02, surface_fixed_offset=5.0)
     bio_explorer.add_mesh_based_membrane('Receptors', mesh_based_membrane, scale=scale)
 

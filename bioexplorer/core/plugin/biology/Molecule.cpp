@@ -307,27 +307,32 @@ void Molecule::_buildAtomicStruture(const ProteinRepresentation representation,
     if (representation == ProteinRepresentation::atoms_and_sticks)
     {
         PLUGIN_INFO("Building sticks (" << _atomMap.size() << " atoms)...");
-#pragma omp parallel for
-        for (const auto& atom1 : _atomMap)
-            for (const auto& atom2 : _atomMap)
-                if (atom1.first != atom2.first &&
-                    atom1.second.reqSeq == atom2.second.reqSeq &&
-                    atom1.second.chainId == atom2.second.chainId)
+        auto it1 = _atomMap.begin();
+        while (it1 != _atomMap.end())
+        {
+            const auto atom1 = (*it1);
+            auto it2 = it1;
+            ++it2;
+            while ((*it2).second.reqSeq == atom1.second.reqSeq)
+            {
+                const auto stick =
+                    (*it2).second.position - atom1.second.position;
+                if (length(stick) < DEFAULT_STICK_DISTANCE)
                 {
-                    const auto stick =
-                        atom2.second.position - atom1.second.position;
-
-                    if (length(stick) < DEFAULT_STICK_DISTANCE)
-                    {
-                        const auto center =
-                            (atom2.second.position + atom1.second.position) /
-                            2.f;
-#pragma omp critical
-                        model.addCylinder(atom1.first,
-                                          {atom1.second.position, center,
-                                           atomRadiusMultiplier * BOND_RADIUS});
-                    }
+                    const auto center =
+                        ((*it2).second.position + atom1.second.position) / 2.f;
+                    model.addCylinder(atom1.first,
+                                      {atom1.second.position, center,
+                                       atomRadiusMultiplier * BOND_RADIUS});
+                    model.addCylinder((*it2).first,
+                                      {(*it2).second.position, center,
+                                       atomRadiusMultiplier * BOND_RADIUS});
                 }
+                ++it2;
+                ++it1;
+            }
+            ++it1;
+        }
     }
 }
 

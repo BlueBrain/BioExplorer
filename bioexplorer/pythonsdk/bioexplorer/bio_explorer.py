@@ -173,8 +173,8 @@ class BioExplorer:
     RNA_SHAPE_THING = 5
     RNA_SHAPE_MOEBIUS = 6
 
-    IMAGE_QUALITY_LOW = 0
-    IMAGE_QUALITY_HIGH = 1
+    RENDERING_QUALITY_LOW = 0
+    RENDERING_QUALITY_HIGH = 1
 
     REPRESENTATION_ATOMS = 0
     REPRESENTATION_ATOMS_AND_STICKS = 1
@@ -1410,7 +1410,7 @@ class BioExplorer:
             assembly_name=name,
             name=name,
             mesh_source=mesh_based_membrane.mesh_source,
-            protein_source=mesh_based_membrane.protein_source,
+            protein_sources=mesh_based_membrane.protein_sources,
             density=mesh_based_membrane.density,
             surface_fixed_offset=mesh_based_membrane.surface_fixed_offset,
             surface_variable_offset=mesh_based_membrane.
@@ -1433,11 +1433,18 @@ class BioExplorer:
         """
         assert isinstance(mesh_based_membrane, AssemblyMeshBasedMembrane)
 
+        contents = ["", "", "", ""]
+        for i in range(len(mesh_based_membrane.protein_sources)):
+            contents[i] = "".join(open(mesh_based_membrane.protein_sources[i]).readlines())
+
         params = dict()
         params["assemblyName"] = mesh_based_membrane.assembly_name
         params["name"] = mesh_based_membrane.name
-        params["meshContents"] = mesh_based_membrane.mesh_contents
-        params["proteinContents"] = mesh_based_membrane.protein_contents
+        params["meshContents"] = "".join(open(mesh_based_membrane.mesh_source).readlines())
+        params["proteinContents1"] = contents[0]
+        params["proteinContents2"] = contents[1]
+        params["proteinContents3"] = contents[2]
+        params["proteinContents4"] = contents[3]
         params["recenter"] = mesh_based_membrane.recenter
         params["density"] = mesh_based_membrane.density
         params["surfaceFixedOffset"] = mesh_based_membrane.surface_fixed_offset
@@ -1548,38 +1555,42 @@ class BioExplorer:
         return self._check(self._client.rockets_client.request(
             method=self.PLUGIN_API_PREFIX + "add-sugars", params=params))
 
-    def set_image_quality(self, image_quality):
+    def set_rendering_quality(self, image_quality):
         """
-        Set image quality using hard-coded presets
+        Set rendering quality using presets
 
-        :image_quality: Quality of the image (IMAGE_QUALITY_LOW or IMAGE_QUALITY_HIGH)
+        :image_quality: Quality of the image (RENDERING_QUALITY_LOW or RENDERING_QUALITY_HIGH)
         :return: Result of the call to the BioExplorer backend
         """
-        if image_quality == self.IMAGE_QUALITY_HIGH:
-            self._client.set_renderer(
-                background_color=[96 / 255, 125 / 255, 139 / 255],
-                current="bio_explorer",
-                samples_per_pixel=1,
-                subsampling=4,
-                max_accum_frames=128,
+        if image_quality == self.RENDERING_QUALITY_HIGH:
+            self._client.clear_lights()
+            self._client.add_light_directional(
+                angularDiameter=0.5, color=[1, 1, 1], direction=[-0.7, -0.4, -1],
+                intensity=1.0, is_visible=False
             )
 
+            self._client.set_renderer(
+                head_light=False, background_color=[96 / 255, 125 / 255, 139 / 255],
+                current='bio_explorer', samples_per_pixel=1, subsampling=4,
+                max_accum_frames=128)
             params = self._client.BioExplorerRendererParams()
-            params.gi_samples = 3
-            params.gi_weight = 0.25
-            params.gi_distance = 20
+            params.exposure = 1.0
+            params.gi_samples = 1
+            params.gi_weight = 0.3
+            params.gi_distance = 5000
             params.shadows = 1.0
-            params.soft_shadows = 1.0
-            params.fog_start = 1300
-            params.fog_thickness = 1300
-            params.max_bounces = 3
+            params.soft_shadows = 0.1
+            params.fog_start = 1200.0
+            params.fog_thickness = 300.0
+            params.max_bounces = 1
+            params.use_hardware_randomizer = True
             return self._client.set_renderer_params(params)
         return self._client.set_renderer(
             background_color=Vector3(),
             current="basic",
             samples_per_pixel=1,
             subsampling=4,
-            max_accum_frames=16,
+            max_accum_frames=16
         )
 
     def get_material_ids(self, model_id):
@@ -2142,7 +2153,7 @@ class AssemblyProtein:
 class AssemblyMeshBasedMembrane:
     """An AssemblyMeshBasedMembrane is a Mesh-based membrane that belongs to an assembly"""
 
-    def __init__(self, assembly_name, name, mesh_source, protein_source, recenter=True, density=1,
+    def __init__(self, assembly_name, name, mesh_source, protein_sources, recenter=True, density=1,
                  surface_fixed_offset=0, surface_variable_offset=0, atom_radius_multiplier=1.0,
                  representation=BioExplorer.REPRESENTATION_ATOMS, random_seed=0, position=Vector3(),
                  rotation=Quaternion(), scale=Vector3()):
@@ -2152,7 +2163,7 @@ class AssemblyMeshBasedMembrane:
         :assembly_name: Name of the assembly
         :name: Name of the mesh-based membrane
         :mesh_source: Full paths to the mesh file defining the shape of the membrane
-        :protein_source: Full paths to the PDB file defining the protein
+        :protein_sources: Full paths to the PDB files defining the protein (Maximum 4)
         :recenter: Centers the protein if True
         :density: Density of proteins in surface of the mesh
         :surface_fixed_offset: Fixed offset for the position of the protein above the
@@ -2169,10 +2180,11 @@ class AssemblyMeshBasedMembrane:
         assert isinstance(position, Vector3)
         assert isinstance(rotation, Quaternion)
         assert isinstance(scale, Vector3)
+
         self.assembly_name = assembly_name
         self.name = name
-        self.mesh_contents = "".join(open(mesh_source).readlines())
-        self.protein_contents = "".join(open(protein_source).readlines())
+        self.mesh_source = mesh_source
+        self.protein_sources = protein_sources
         self.recenter = recenter
         self.density = density
         self.surface_fixed_offset = surface_fixed_offset
@@ -2410,7 +2422,7 @@ class Protein:
 class MeshBasedMembrane:
     """A MeshBasedMembrane is a membrane shaped by a 3D mesh"""
 
-    def __init__(self, mesh_source, protein_source, density=1, surface_fixed_offset=0.0,
+    def __init__(self, mesh_source, protein_sources, density=1, surface_fixed_offset=0.0,
                  surface_variable_offset=0.0, atom_radius_multiplier=1.0,
                  representation=BioExplorer.REPRESENTATION_ATOMS, random_seed=0, recenter=True,
                  position=Vector3(), rotation=Quaternion(), scale=Vector3()):
@@ -2418,7 +2430,7 @@ class MeshBasedMembrane:
         Mesh-based membrane descriptor
 
         :mesh_source: Full path to the OBJ file
-        :protein_source: Full path to the PDB file
+        :protein_sources: Full path to the PDB files (Maximum 4)
         :density: Density of proteins on the surface of the mesh
         :surface_fixed_offset: Fixed offset of the protein position at the surface of the
                                       mesh
@@ -2435,8 +2447,11 @@ class MeshBasedMembrane:
         assert isinstance(position, Vector3)
         assert isinstance(rotation, Quaternion)
         assert isinstance(scale, Vector3)
+        assert len(protein_sources) <= 4
+        assert len(protein_sources) > 0
+
         self.mesh_source = mesh_source
-        self.protein_source = protein_source
+        self.protein_sources = protein_sources
         self.density = density
         self.surface_fixed_offset = surface_fixed_offset
         self.surface_variable_offset = surface_variable_offset
