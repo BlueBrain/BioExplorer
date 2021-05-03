@@ -173,8 +173,8 @@ class BioExplorer:
     RNA_SHAPE_THING = 5
     RNA_SHAPE_MOEBIUS = 6
 
-    IMAGE_QUALITY_LOW = 0
-    IMAGE_QUALITY_HIGH = 1
+    RENDERING_QUALITY_LOW = 0
+    RENDERING_QUALITY_HIGH = 1
 
     REPRESENTATION_ATOMS = 0
     REPRESENTATION_ATOMS_AND_STICKS = 1
@@ -1555,38 +1555,42 @@ class BioExplorer:
         return self._check(self._client.rockets_client.request(
             method=self.PLUGIN_API_PREFIX + "add-sugars", params=params))
 
-    def set_image_quality(self, image_quality):
+    def set_rendering_quality(self, image_quality):
         """
-        Set image quality using hard-coded presets
+        Set rendering quality using presets
 
-        :image_quality: Quality of the image (IMAGE_QUALITY_LOW or IMAGE_QUALITY_HIGH)
+        :image_quality: Quality of the image (RENDERING_QUALITY_LOW or RENDERING_QUALITY_HIGH)
         :return: Result of the call to the BioExplorer backend
         """
-        if image_quality == self.IMAGE_QUALITY_HIGH:
-            self._client.set_renderer(
-                background_color=[96 / 255, 125 / 255, 139 / 255],
-                current="bio_explorer",
-                samples_per_pixel=1,
-                subsampling=4,
-                max_accum_frames=128,
+        if image_quality == self.RENDERING_QUALITY_HIGH:
+            self._client.clear_lights()
+            self._client.add_light_directional(
+                angularDiameter=0.5, color=[1, 1, 1], direction=[-0.7, -0.4, -1],
+                intensity=1.0, is_visible=False
             )
 
+            self._client.set_renderer(
+                head_light=False, background_color=[96 / 255, 125 / 255, 139 / 255],
+                current='bio_explorer', samples_per_pixel=1, subsampling=4,
+                max_accum_frames=128)
             params = self._client.BioExplorerRendererParams()
-            params.gi_samples = 3
-            params.gi_weight = 0.25
-            params.gi_distance = 20
+            params.exposure = 1.0
+            params.gi_samples = 1
+            params.gi_weight = 0.3
+            params.gi_distance = 5000
             params.shadows = 1.0
-            params.soft_shadows = 1.0
-            params.fog_start = 1300
-            params.fog_thickness = 1300
-            params.max_bounces = 3
+            params.soft_shadows = 0.1
+            params.fog_start = 1200.0
+            params.fog_thickness = 300.0
+            params.max_bounces = 1
+            params.use_hardware_randomizer = True
             return self._client.set_renderer_params(params)
         return self._client.set_renderer(
             background_color=Vector3(),
             current="basic",
             samples_per_pixel=1,
             subsampling=4,
-            max_accum_frames=16,
+            max_accum_frames=16
         )
 
     def get_material_ids(self, model_id):
