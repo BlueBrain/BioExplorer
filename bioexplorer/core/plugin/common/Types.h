@@ -349,6 +349,8 @@ typedef struct
     std::vector<size_t> siteIndices;
     /** Relative rotation of the glycans on the protein */
     std::vector<float> rotation;
+    /** Extra optional parameters for positioning on the protein */
+    std::vector<float> assemblyParams;
 } SugarsDetails;
 
 /**

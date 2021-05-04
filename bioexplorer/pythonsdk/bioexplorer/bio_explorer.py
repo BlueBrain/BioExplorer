@@ -1495,12 +1495,14 @@ class BioExplorer:
         params["chainIds"] = glycans.chain_ids
         params["siteIndices"] = glycans.site_indices
         params["rotation"] = glycans.rotation.to_list()
+        params["assemblyParams"] = glycans.assembly_params
         return self._check(self._client.rockets_client.request(
             method=self.PLUGIN_API_PREFIX + "add-glycans", params=params))
 
     def add_multiple_glycans(
             self, assembly_name, glycan_type, protein_name, paths, representation, chain_ids=list(),
-            indices=list(), load_bonds=False, atom_radius_multiplier=1.0, rotation=Quaternion()):
+            indices=list(), load_bonds=False, atom_radius_multiplier=1.0, rotation=Quaternion(),
+            assembly_params=list()):
         """
         Add glycans to a protein in a assembly
 
@@ -1514,6 +1516,7 @@ class BioExplorer:
         :load_bonds: Defines if bonds should be loaded
         :atom_radius_multiplier: Multiplies atom radius by the specified value
         :rotation: rotation applied to the glycan on the protein
+        :assembly_params: Extra optional parameters for positioning on the protein
         """
         assert isinstance(chain_ids, list)
         assert isinstance(indices, list)
@@ -1540,6 +1543,7 @@ class BioExplorer:
                     recenter=True,
                     site_indices=site_indices,
                     rotation=rotation,
+                    assembly_params=assembly_params
                 )
                 self.add_glycans(_glycans)
             path_index += 1
@@ -1565,6 +1569,7 @@ class BioExplorer:
         params["chainIds"] = sugars.chain_ids
         params["siteIndices"] = sugars.site_indices
         params["rotation"] = sugars.rotation.to_list()
+        params["assemblyParams"] = sugars.assembly_params
         return self._check(self._client.rockets_client.request(
             method=self.PLUGIN_API_PREFIX + "add-sugars", params=params))
 
@@ -2251,7 +2256,8 @@ class Sugars:
 
     def __init__(self, assembly_name, name, source, protein_name, atom_radius_multiplier=1.0,
                  load_bonds=False, representation=BioExplorer.REPRESENTATION_ATOMS,
-                 recenter=True, chain_ids=list(), site_indices=list(), rotation=Quaternion()):
+                 recenter=True, chain_ids=list(), site_indices=list(), rotation=Quaternion(),
+                 assembly_params=list()):
         """
         Sugar descriptor
 
@@ -2265,11 +2271,14 @@ class Sugars:
         :recenter: Centers the protein if True
         :chain_ids: Ids of chains to be loaded
         :site_indices: Indices on which sugars should be added on the protein
-        :rotation: rotation of the sugar on the protein
+        :rotation: Rotation of the sugar on the protein
+        :assembly_params: Extra optional parameters for positioning on the protein 
         """
         assert isinstance(chain_ids, list)
         assert isinstance(site_indices, list)
         assert isinstance(rotation, Quaternion)
+        assert isinstance(assembly_params, list)
+
         self.assembly_name = assembly_name
         self.name = name
         self.contents = "".join(open(source).readlines())
@@ -2281,6 +2290,7 @@ class Sugars:
         self.chain_ids = chain_ids
         self.site_indices = site_indices
         self.rotation = rotation
+        self.assembly_params = assembly_params
 
 
 class RNASequence:

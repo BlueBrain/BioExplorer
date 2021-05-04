@@ -22,6 +22,7 @@
 
 #include <plugin/biology/Glycans.h>
 #include <plugin/common/Logs.h>
+#include <plugin/common/Shapes.h>
 
 #include <brayns/engineapi/Material.h>
 #include <brayns/engineapi/Scene.h>
@@ -397,7 +398,8 @@ void Protein::setAminoAcid(const AminoAcidDetails& details)
 void Protein::_processInstances(ModelDescriptorPtr md,
                                 const Vector3fs& positions,
                                 const Quaternions& rotations,
-                                const Quaterniond& moleculerotation)
+                                const Quaterniond& moleculerotation,
+                                const RandomizationDetails& randInfo)
 {
     size_t count = 0;
     const auto& proteinInstances = _modelDescriptor->getInstances();
@@ -407,10 +409,16 @@ void Protein::_processInstances(ModelDescriptorPtr md,
         for (size_t i = 0; i < positions.size(); ++i)
         {
             const auto& position = positions[i];
-            const auto& rotation = rotations[i];
+            auto rotation = rotations[i];
 
             Transformation glycanTransformation;
             glycanTransformation.setTranslation(position);
+
+            if (randInfo.rotationSeed != 0)
+                rotation =
+                    weightedRandomRotation(randInfo.rotationSeed, i, rotation,
+                                           randInfo.rotationStrength);
+
             glycanTransformation.setRotation(moleculerotation * rotation);
 
             const Transformation combinedTransformation =
@@ -449,8 +457,18 @@ void Protein::addGlycans(const SugarsDetails& details)
     const Quaterniond proteinrotation({details.rotation[0], details.rotation[1],
                                        details.rotation[2],
                                        details.rotation[3]});
+
+    const auto& params = details.assemblyParams;
+    RandomizationDetails randInfo;
+    randInfo.seed = 0;
+    randInfo.randomizationType = PositionRandomizationType::radial;
+    randInfo.positionSeed = (params.size() > 1 ? params[1] : 0.f);
+    randInfo.positionStrength = (params.size() > 2 ? params[2] : 0.f);
+    randInfo.rotationSeed = (params.size() > 3 ? params[3] : 0.f);
+    randInfo.rotationStrength = (params.size() > 4 ? params[4] : 0.f);
+
     _processInstances(modelDescriptor, glycanPositions, glycanrotations,
-                      proteinrotation);
+                      proteinrotation, randInfo);
 
     _glycans[details.name] = std::move(glycans);
     _scene.addModel(modelDescriptor);
@@ -479,7 +497,18 @@ void Protein::addSugars(const SugarsDetails& details)
     const Quaterniond proteinrotation({details.rotation[0], details.rotation[1],
                                        details.rotation[2],
                                        details.rotation[3]});
-    _processInstances(modelDescriptor, positions, rotations, proteinrotation);
+
+    const auto& params = details.assemblyParams;
+    RandomizationDetails randInfo;
+    randInfo.seed = 0;
+    randInfo.randomizationType = PositionRandomizationType::radial;
+    randInfo.positionSeed = (params.size() > 1 ? params[1] : 0.f);
+    randInfo.positionStrength = (params.size() > 2 ? params[2] : 0.f);
+    randInfo.rotationSeed = (params.size() > 3 ? params[3] : 0.f);
+    randInfo.rotationStrength = (params.size() > 4 ? params[4] : 0.f);
+
+    _processInstances(modelDescriptor, positions, rotations, proteinrotation,
+                      randInfo);
 
     _glycans[details.name] = std::move(glucoses);
     _scene.addModel(modelDescriptor);

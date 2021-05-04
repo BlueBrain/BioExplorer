@@ -160,7 +160,8 @@ private:
     // Utility functions
     void _processInstances(ModelDescriptorPtr md, const Vector3fs& positions,
                            const Quaternions& rotations,
-                           const Quaterniond& proteinrotation);
+                           const Quaterniond& proteinrotation,
+                           const RandomizationDetails& randInfo);
     void _buildAminoAcidBounds();
 
     // Class members

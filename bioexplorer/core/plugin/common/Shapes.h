@@ -31,6 +31,9 @@ namespace common
 using namespace details;
 using namespace brayns;
 
+Quaterniond weightedRandomRotation(const size_t seed, const size_t index,
+                                   const Quaterniond& q, const float s);
+
 /**
  * @brief Generate a random quaternion
  *

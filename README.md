@@ -45,7 +45,7 @@
 ![___](./bioexplorer/pythonsdk/doc/source/images/BBBE_banner.png)
 
 ## Description
-In the context of the [Elevated blood glucose levels as a primary risk factor for the severity of COVID-19 study](https://www.medrxiv.org/content/10.1101/2021.04.29.21256294v1), the Blue Brain BioExplorer (_BBBE_) started as an internal project with the aim to answer key scientific questions related to the Coronavirus as a use case. This project aimed to deliver a visualization tool, the BioExplorer, to reconstruct, visualize, explore and describe in detail the structure and function of the Coronavirus.
+In the context of the "[Elevated blood glucose levels as a primary risk factor for the severity of COVID-19](https://www.medrxiv.org/content/10.1101/2021.04.29.21256294v1)" study, the Blue Brain BioExplorer (_BBBE_) started as an internal project with the aim to answer key scientific questions related to the Coronavirus as a use case. This project aimed to deliver a visualization tool, the BioExplorer, to reconstruct, visualize, explore and describe in detail the structure and function of the Coronavirus.
 
 <div align="center">
       <a href="https://www.youtube.com/watch?v=hkgqG0nzW9I">
