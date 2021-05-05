@@ -160,13 +160,10 @@ void Assembly::_processInstances(
 
     // Shape parameters
     const auto &params = assemblyParams;
-    const float size = (params.size() > 0 ? params[0] : 0.f);
-    RandomizationDetails randInfo;
-    randInfo.seed = randomSeed;
-    randInfo.randomizationType = randomizationType;
-    randInfo.positionStrength = (params.size() > 2 ? params[2] : 0.f);
-    randInfo.rotationStrength = (params.size() > 4 ? params[4] : 0.f);
-    const float extraParameter = (params.size() > 5 ? params[5] : 0.f);
+    const auto size = (params.size() > 0 ? params[0] : 0.f);
+    const auto extraParameter = (params.size() > 5 ? params[5] : 0.f);
+    auto randInfo =
+        floatsToRandomizationDetails(params, randomSeed, randomizationType);
 
     // Shape
     uint64_t count = 0;
@@ -214,16 +211,15 @@ void Assembly::_processInstances(
         }
         case AssemblyShape::bezier:
         {
-            if ((params.size() - 5) % 3 != 0)
+            if ((assemblyParams.size() - 5) % 3 != 0)
                 PLUGIN_THROW(
                     "Invalid number of floats in assembly extra parameters");
             Vector3fs points;
             for (uint32_t i = 5; i < params.size(); i += 3)
                 points.push_back(
                     Vector3f(params[i], params[i + 1], params[i + 2]));
-            const auto assemblySize = assemblyParams[0];
             transformation =
-                getBezierPosition(points, assemblySize,
+                getBezierPosition(points, size,
                                   float(occurence) / float(occurrences));
             break;
         }
@@ -384,7 +380,7 @@ void Assembly::addRNASequence(const RNASequenceDetails &details)
     if (rd.position.size() != 3)
         PLUGIN_THROW("Invalid position");
 
-    const Vector3f params{rd.params[0], rd.params[1], rd.params[2]};
+    const auto params = floatsToVector3f(rd.params);
 
     PLUGIN_INFO("Loading RNA sequence " << rd.name << " from " << rd.contents);
     PLUGIN_INFO("Assembly radius: " << rd.assemblyParams[0]);
