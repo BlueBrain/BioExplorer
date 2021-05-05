@@ -202,6 +202,7 @@ void Assembly::_processInstances(
                                : 0);
 
         Transformation transformation;
+
         switch (shape)
         {
         case AssemblyShape::spherical:

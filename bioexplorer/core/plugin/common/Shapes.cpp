@@ -78,6 +78,18 @@ float rnd3(const size_t index)
     return cos(index * M_PI / 180.f) + sin(index * M_PI / 45.f);
 }
 
+Quaterniond weightedRandomRotation(const size_t seed, const size_t index,
+                                   const Quaterniond& q, const float s)
+{
+    const Quaterniond qPitch =
+        glm::angleAxis(s * rnd2(seed + index * 2), Vector3f(1.f, 0.f, 0.f));
+    const Quaterniond qYaw =
+        glm::angleAxis(s * rnd2(seed + index * 3), Vector3f(0.f, 1.f, 0.f));
+    const Quaterniond qRoll =
+        glm::angleAxis(s * rnd2(seed + index * 5), Vector3f(0.f, 0.f, 1.f));
+    return q * qPitch * qYaw * qRoll;
+}
+
 Quaterniond randomQuaternion(const size_t seed)
 {
     double x, y, z, u, v, w, s;
@@ -107,38 +119,38 @@ Transformation getSphericalPosition(const Vector3f& position,
         randInfo.randomizationType == PositionRandomizationType::circular)
         rnd = rand() % occurences;
 
-    const float offset = 2.f / occurences;
-    const float increment = M_PI * (3.f - sqrt(5.f));
+    const double offset = 2.0 / occurences;
+    const double increment = M_PI * (3.0 - sqrt(5.0));
 
     // Position randomizer
-    float R = radius;
+    double R = radius;
     if (randInfo.positionSeed != 0 &&
         randInfo.randomizationType == PositionRandomizationType::radial)
         R += randInfo.positionStrength * rnd3(randInfo.positionSeed + rnd);
 
     // Sphere filling
-    const float y = ((occurence * offset) - 1.f) + offset / 2.f;
-    const float r = sqrt(1.f - pow(y, 2.f));
-    const float phi = rnd * increment;
-    const float x = cos(phi) * r;
-    const float z = sin(phi) * r;
-    Vector3f d{x, y, z};
-    Vector3f pos;
+    const double y = ((occurence * offset) - 1.0) + offset / 2.0;
+    const double r = sqrt(1.0 - pow(y, 2.0));
+    const double phi = rnd * increment;
+    const double x = cos(phi) * r;
+    const double z = sin(phi) * r;
+
+    Vector3d d{x, y, z};
+    Vector3d pos;
     if (randInfo.randomizationType == PositionRandomizationType::radial)
         pos = (R + position.y) * d;
     else
-        pos = position + R * d;
+        pos = Vector3d(position) + R * d;
 
-    // rotation randomizer
+    // Rotation
+    Quaterniond rotation = quatLookAt(d, Vector3d(UP_VECTOR));
     if (randInfo.rotationSeed != 0)
-        d = d + randInfo.rotationStrength *
-                    Vector3f(rnd2(randInfo.rotationSeed + rnd * 2),
-                             rnd2(randInfo.rotationSeed + rnd * 3),
-                             rnd2(randInfo.rotationSeed + rnd * 5));
+        rotation = weightedRandomRotation(randInfo.rotationSeed, rnd, rotation,
+                                          randInfo.rotationStrength);
 
     Transformation transformation;
     transformation.setTranslation(pos);
-    transformation.setRotation(quatLookAt(normalize(d), UP_VECTOR));
+    transformation.setRotation(rotation);
     return transformation;
 }
 
@@ -254,16 +266,16 @@ Transformation getSinosoidalPosition(const Vector3f& position, const float size,
 
     pos += position;
 
+    // Rotation
     Vector3f d = cross(normalize(v1), normalize(v2));
+    Quaterniond rotation = quatLookAt(normalize(d), UP_VECTOR);
     if (randInfo.rotationSeed != 0)
-        d = d + randInfo.rotationStrength *
-                    Vector3f(rnd2(randInfo.rotationSeed + occurence + 1),
-                             rnd2(randInfo.rotationSeed + occurence + 2),
-                             rnd2(randInfo.rotationSeed + occurence + 3));
+        rotation = weightedRandomRotation(randInfo.rotationSeed, occurence,
+                                          rotation, randInfo.rotationStrength);
 
     Transformation transformation;
     transformation.setTranslation(pos);
-    transformation.setRotation(quatLookAt(normalize(d), UP_VECTOR));
+    transformation.setRotation(rotation);
     return transformation;
 }
 
@@ -301,54 +313,56 @@ Transformation getSphericalToPlanarPosition(
         randInfo.randomizationType == PositionRandomizationType::circular)
         rnd = rand() % occurences;
 
-    const float offset = 2.f / occurences;
-    const float increment = M_PI * (3.f - sqrt(5.f));
+    const double offset = 2.0 / occurences;
+    const double increment = M_PI * (3.0 - sqrt(5.0));
 
     // Position randomizer
-    float R = radius;
+    double R = radius;
     if (randInfo.positionSeed != 0 &&
         randInfo.randomizationType == PositionRandomizationType::radial)
         R += randInfo.positionStrength * rnd3(randInfo.positionSeed + rnd);
 
     // Sphere filling
-    const float y = ((rnd * offset) - 1.f) + (offset / 2.f);
-    const float r = sqrt(1.f - pow(y, 2.f));
-    const float phi = rnd * increment;
-    const float x = cos(phi) * r;
-    const float z = sin(phi) * r;
+    const double y = ((rnd * offset) - 1.0) + (offset / 2.0);
+    const double r = sqrt(1.f - pow(y, 2.0));
+    const double phi = rnd * increment;
+    const double x = cos(phi) * r;
+    const double z = sin(phi) * r;
 
-    Vector3f startPos;
-    Vector3f startDir = Vector3f(x, y, z);
+    Vector3d startPos;
+    Vector3d endPos = startPos;
+
+    Vector3d startDir{x, y, z};
     if (randInfo.randomizationType == PositionRandomizationType::radial)
         startPos = (R + center.y) * startDir;
     else
-        startPos = center + R * startDir;
+        startPos = Vector3d(center) + R * startDir;
 
-    Vector3f endPos = startPos;
-
-    // rotation randomizer
+    Quaterniond startRotation = quatLookAt(startDir, Vector3d(UP_VECTOR));
     if (randInfo.rotationSeed != 0)
-        startDir =
-            startDir + randInfo.rotationStrength *
-                           Vector3f(rnd2(randInfo.rotationSeed + rnd * 2),
-                                    rnd2(randInfo.rotationSeed + rnd * 3),
-                                    rnd2(randInfo.rotationSeed + rnd * 5));
+        startRotation =
+            weightedRandomRotation(randInfo.rotationSeed, rnd, startRotation,
+                                   randInfo.rotationStrength);
 
     R = radius;
-    const float endRadius = R * 1.75f;
+    const double endRadius = R * 2.0;
 
     endPos.y = -R;
-    endPos = endPos + (1.f - (startPos.y + R) / endRadius) *
-                          Vector3f(endRadius, 0.f, endRadius) *
-                          normalize(Vector3f(startDir.x, 0.f, startDir.z));
+    endPos = endPos + (1.0 - (startPos.y + R) / endRadius) *
+                          Vector3d(endRadius, 0.0, endRadius) *
+                          normalize(Vector3d(startDir.x, 0.0, startDir.z));
 
-    const Vector3f endDir{0.f, 1.f, 0.f};
-    const Vector3f d = startDir + morphingStep * (endDir - startDir);
+    const Quaterniond endRotation =
+        quatLookAt({0.0, 1.0, 0.0}, Vector3d(UP_VECTOR));
+    const Quaterniond finalRotation =
+        glm::lerp(startRotation, endRotation, double(morphingStep));
 
+    // Final transformation
     Transformation transformation;
-    transformation.setTranslation(endPos * morphingStep +
-                                  startPos * (1.f - morphingStep));
-    transformation.setRotation(quatLookAt(normalize(d), UP_VECTOR));
+    const Vector3d finalTranslation =
+        endPos * double(morphingStep) + startPos * (1.0 - morphingStep);
+    transformation.setTranslation(finalTranslation);
+    transformation.setRotation(finalRotation);
     return transformation;
 }
 } // namespace common
