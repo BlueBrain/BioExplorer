@@ -36,8 +36,11 @@ namespace biology
 using namespace common;
 
 ParametricMembrane::ParametricMembrane(Scene &scene,
+                                       const Vector3f &assemblyPosition,
+                                       const Quaterniond &assemblyRotation,
+                                       const Vector4fs &clippingPlanes,
                                        const ParametricMembraneDetails &details)
-    : Membrane(scene)
+    : Membrane(scene, assemblyPosition, assemblyRotation, clippingPlanes)
     , _details(details)
 {
     if (_details.representation == ProteinRepresentation::contour)
@@ -61,7 +64,7 @@ ParametricMembrane::ParametricMembrane(Scene &scene,
             material->updateProperties(props);
 
             model->addSphere(materialId,
-                             {_position, _details.assemblyParams[0]});
+                             {_assemblyPosition, _details.assemblyParams[0]});
             auto modelDescriptor =
                 std::make_shared<ModelDescriptor>(std::move(model), name);
             _scene.addModel(modelDescriptor);
@@ -122,14 +125,10 @@ ParametricMembrane::~ParametricMembrane()
 
 void ParametricMembrane::_processInstances()
 {
-    // Clipping planes
-    const auto clipPlanes = getClippingPlanes(_scene);
-
     // Randomization
     srand(_details.randomSeed);
 
-    const Quaterniond rotation = {_details.rotation[0], _details.rotation[1],
-                                  _details.rotation[2], _details.rotation[3]};
+    const auto rotation = floatsToQuaterniond(_details.rotation);
     std::map<size_t, size_t> instanceCounts;
     for (size_t i = 0; i < _proteins.size(); ++i)
         instanceCounts[i] = 0;
@@ -221,20 +220,21 @@ void ParametricMembrane::_processInstances()
             break;
         }
 
-        Vector3f translation = Vector3f(
-            _rotation * (transformation.getTranslation() - Vector3d(center)));
+        Vector3f translation =
+            Vector3f(_assemblyRotation *
+                     (transformation.getTranslation() - Vector3d(center)));
 
         // Clipping planes
-        if (isClipped(translation, clipPlanes))
+        if (isClipped(translation, _clippingPlanes))
             continue;
 
         // Final transformation
-        translation += _position;
+        translation += _assemblyPosition;
 
         Transformation finalTransformation;
         finalTransformation.setTranslation(translation);
         finalTransformation.setRotation(
-            _rotation * transformation.getRotation() * rotation);
+            _assemblyRotation * transformation.getRotation() * rotation);
 
         if (instanceCounts[id] == 0)
             md->setTransformation(finalTransformation);

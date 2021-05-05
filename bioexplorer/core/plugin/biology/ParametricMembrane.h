@@ -40,7 +40,10 @@ public:
      * @param scene The 3D scene where the glycans are added
      * @param details The data structure describing the membrane
      */
-    ParametricMembrane(Scene &scene, const ParametricMembraneDetails &details);
+    ParametricMembrane(Scene& scene, const Vector3f& assemblyPosition,
+                       const Quaterniond& assemblyRotation,
+                       const Vector4fs& clippingPlanes,
+                       const ParametricMembraneDetails& details);
 
     /**
      * @brief Destroy the Parametric Membrane object

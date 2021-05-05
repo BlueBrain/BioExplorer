@@ -41,7 +41,9 @@ public:
      *
      * @param scene The 3D scene where the glycans are added
      */
-    Membrane(Scene &scene);
+    Membrane(Scene &scene, const Vector3f &assemblyPosition,
+             const Quaterniond &assemblyRotation,
+             const Vector4fs &clippingPlanes);
 
     /**
      * @brief Destroy the Membrane object
@@ -58,9 +60,10 @@ public:
 
 protected:
     Scene &_scene;
-    Vector3f _position;
-    Quaterniond _rotation;
+    const Vector3f _assemblyPosition;
+    const Quaterniond _assemblyRotation;
     ProteinMap _proteins;
+    Vector4fs _clippingPlanes;
 };
 } // namespace biology
 } // namespace bioexplorer

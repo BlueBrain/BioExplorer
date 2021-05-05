@@ -105,7 +105,7 @@ private:
 
     bool _modelVisibilityOnCreation{true};
     std::string _offFolder{"/tmp/"};
-    bool _loggingEnabled{false};
+    bool _loggingEnabled{true};
 };
 } // namespace common
 } // namespace bioexplorer

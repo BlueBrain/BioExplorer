@@ -39,19 +39,12 @@ Assembly::Assembly(Scene &scene, const AssemblyDetails &details)
     : _details(details)
     , _scene(scene)
 {
-    if (details.position.size() != 3)
-        PLUGIN_THROW("Position must be a sequence of 3 float values");
+    _position = floatsToVector3f(_details.position);
+    _rotation = floatsToQuaterniond(_details.rotation);
+    _clippingPlanes = floatsToVector4fs(details.clippingPlanes);
 
-    if (details.rotation.size() != 4)
-        PLUGIN_THROW("rotation must be a sequence of 4 float values");
-
-    if (details.clippingPlanes.size() % 4 != 0)
-        PLUGIN_THROW("Clipping planes must be defined by 4 float values");
-    const auto &cp = details.clippingPlanes;
-    for (size_t i = 0; i < cp.size(); i += 4)
-        _clippingPlanes.push_back({cp[i], cp[i + 1], cp[i + 2], cp[i + 3]});
-
-    PLUGIN_INFO("Adding assembly [" << details.name << "]");
+    PLUGIN_INFO("Adding assembly [" << details.name << "] at position "
+                                    << _position << ", rotation " << _rotation);
 }
 
 Assembly::~Assembly()
@@ -78,14 +71,12 @@ void Assembly::addProtein(const ProteinDetails &details)
     ProteinPtr protein(new Protein(_scene, details));
     auto modelDescriptor = protein->getModelDescriptor();
 
-    const Vector3f position = {details.position[0], details.position[1],
-                               details.position[2]};
-    const Quaterniond rotation = {details.rotation[0], details.rotation[1],
-                                  details.rotation[2], details.rotation[3]};
-
+    const auto proteinPosition = floatsToVector3f(details.position);
+    const auto proteinRotation = floatsToQuaterniond(details.rotation);
     _processInstances(modelDescriptor, details.name, details.shape,
-                      details.assemblyParams, details.occurrences, position,
-                      rotation, details.allowedOccurrences, details.randomSeed,
+                      details.assemblyParams, details.occurrences,
+                      proteinPosition, proteinRotation,
+                      details.allowedOccurrences, details.randomSeed,
                       details.positionRandomizationType);
 
     _proteins[details.name] = std::move(protein);
@@ -97,23 +88,22 @@ void Assembly::addProtein(const ProteinDetails &details)
 void Assembly::addParametricMembrane(const ParametricMembraneDetails &details)
 {
     if (_membrane)
-        PLUGIN_THROW("Assembly already has a parametric membrane");
+        PLUGIN_THROW("Assembly already has a membrane");
 
-    const Vector3f position = {_details.position[0], _details.position[1],
-                               _details.position[2]};
-    const Quaterniond rotation = {_details.rotation[0], _details.rotation[1],
-                                  _details.rotation[2], _details.rotation[3]};
-
-    ParametricMembranePtr membrane(new ParametricMembrane(_scene, details));
+    ParametricMembranePtr membrane(
+        new ParametricMembrane(_scene, _position, _rotation, _clippingPlanes,
+                               details));
     _membrane = std::move(membrane);
 }
 
 void Assembly::addMeshBasedMembrane(const MeshBasedMembraneDetails &details)
 {
     if (_membrane)
-        PLUGIN_THROW("Assembly already has a mesh-based membrane");
+        PLUGIN_THROW("Assembly already has a membrane");
 
-    MeshBasedMembranePtr membrane(new MeshBasedMembrane(_scene, details));
+    MeshBasedMembranePtr membrane(
+        new MeshBasedMembrane(_scene, _position, _rotation, _clippingPlanes,
+                              details));
     _membrane = std::move(membrane);
 }
 
@@ -167,13 +157,6 @@ void Assembly::_processInstances(
     const float increment = M_PI * (3.f - sqrt(5.f));
 
     srand(randomSeed);
-    const Quaterniond assemblyrotation = {_details.rotation[0],
-                                          _details.rotation[1],
-                                          _details.rotation[2],
-                                          _details.rotation[3]};
-    const Vector3f assemblyPosition = {_details.position[0],
-                                       _details.position[1],
-                                       _details.position[2]};
 
     // Shape parameters
     const auto &params = assemblyParams;
@@ -258,18 +241,17 @@ void Assembly::_processInstances(
         }
 
         // Clipping planes
-        Vector3f translation = Vector3f(
-            assemblyrotation * Vector3d(transformation.getTranslation()));
+        Vector3f translation = _rotation * transformation.getTranslation();
         if (isClipped(translation, _clippingPlanes))
             continue;
 
         // Final transformation
-        translation += assemblyPosition;
+        translation += _position;
 
         Transformation finalTransformation;
         finalTransformation.setTranslation(translation);
         finalTransformation.setRotation(
-            assemblyrotation * transformation.getRotation() * rotation);
+            _rotation * transformation.getRotation() * rotation);
 
         if (count == 0)
             md->setTransformation(finalTransformation);
@@ -443,17 +425,8 @@ void Assembly::setProteinInstanceTransformation(
     const auto instance = modelDescriptor->getInstance(details.instanceIndex);
     const auto &transformation = instance->getTransformation();
 
-    if (details.position.size() != 3)
-        PLUGIN_THROW("Invalid number of float for position of protein " +
-                     details.name + " in assembly " + details.assemblyName);
-    const Vector3f position{details.position[0], details.position[1],
-                            details.position[2]};
-
-    if (details.rotation.size() != 4)
-        PLUGIN_THROW("Invalid number of float for position of protein " +
-                     details.name + " in assembly " + details.assemblyName);
-    const Quaterniond rotation{details.rotation[0], details.rotation[1],
-                               details.rotation[2], details.rotation[3]};
+    const auto position = floatsToVector3f(details.position);
+    const auto rotation = floatsToQuaterniond(details.rotation);
 
     PLUGIN_INFO("Modifying instance "
                 << details.instanceIndex << " of protein " << details.name

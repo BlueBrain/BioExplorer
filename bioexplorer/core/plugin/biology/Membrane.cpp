@@ -32,8 +32,13 @@ namespace bioexplorer
 {
 namespace biology
 {
-Membrane::Membrane(Scene& scene)
+Membrane::Membrane(Scene& scene, const Vector3f& assemblyPosition,
+                   const Quaterniond& assemblyRotation,
+                   const Vector4fs& clippingPlanes)
     : _scene(scene)
+    , _assemblyPosition(assemblyPosition)
+    , _assemblyRotation(assemblyRotation)
+    , _clippingPlanes(clippingPlanes)
 {
 }
 

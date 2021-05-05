@@ -128,11 +128,9 @@ RNASequence::RNASequence(Scene& scene, const RNASequenceDetails& details)
             case RNAShape::torus:
             {
                 src = _torus(details.assemblyParams[0], u,
-                             {details.params[0], details.params[1],
-                              details.params[2]});
+                             floatsToVector3f(details.params));
                 dst = _torus(details.assemblyParams[0], u + uStep,
-                             {details.params[0], details.params[1],
-                              details.params[2]});
+                             floatsToVector3f(details.params));
                 break;
             }
             case RNAShape::star:
@@ -150,11 +148,9 @@ RNASequence::RNASequence(Scene& scene, const RNASequenceDetails& details)
             case RNAShape::trefoilKnot:
             {
                 src = _trefoilKnot(details.assemblyParams[0], u,
-                                   {details.params[0], details.params[1],
-                                    details.params[2]});
+                                   floatsToVector3f(details.params));
                 dst = _trefoilKnot(details.assemblyParams[0], u + uStep,
-                                   {details.params[0], details.params[1],
-                                    details.params[2]});
+                                   floatsToVector3f(details.params));
                 break;
             }
             case RNAShape::heart:
@@ -166,11 +162,9 @@ RNASequence::RNASequence(Scene& scene, const RNASequenceDetails& details)
             case RNAShape::thing:
             {
                 src = _thing(details.assemblyParams[0], u,
-                             {details.params[0], details.params[1],
-                              details.params[2]});
+                             floatsToVector3f(details.params));
                 dst = _thing(details.assemblyParams[0], u + uStep,
-                             {details.params[0], details.params[1],
-                              details.params[2]});
+                             floatsToVector3f(details.params));
                 break;
             }
             default:
@@ -184,9 +178,7 @@ RNASequence::RNASequence(Scene& scene, const RNASequenceDetails& details)
                 const auto& codon = nucleotidMap[letter];
                 const auto materialId = codon.index;
                 const auto radius = details.assemblyParams[1];
-                const Vector3f position{details.position[0],
-                                        details.position[1],
-                                        details.position[2]};
+                const auto position = floatsToVector3f(details.position);
                 model->addCylinder(materialId,
                                    {position + src, position + dst, radius});
                 if (elementId == 0)

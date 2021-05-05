@@ -21,7 +21,7 @@
 # You should have received a copy of the GNU General Public License along with
 # this program.  If not, see <https://www.gnu.org/licenses/>.
 
-from bioexplorer import BioExplorer, Cell, ParametricMembrane, Protein, Vector2, Vector3
+from bioexplorer import BioExplorer, Cell, ParametricMembrane, Protein, Vector2, Vector3, Quaternion
 
 # pylint: disable=no-member
 # pylint: disable=missing-function-docstring
@@ -62,7 +62,7 @@ def test_cell():
         membrane=membrane, receptor=ace2_receptor, extra_parameters=[membrane_height])
 
     bio_explorer.add_cell(
-        cell=cell, position=Vector3(4.5, -186, 7.0),
+        cell=cell, position=Vector3(4.5, -186, 7.0), rotation=Quaternion(1, 0, 0, 0),
         representation=protein_representation, random_seed=1)
 
     # Set rendering settings

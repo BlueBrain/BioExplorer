@@ -177,6 +177,8 @@ private:
     ProteinMap _proteins;
     MembranePtr _membrane{nullptr};
     RNASequencePtr _rnaSequence{nullptr};
+    Vector3f _position;
+    Quaterniond _rotation;
     Vector4fs _clippingPlanes;
 };
 } // namespace biology

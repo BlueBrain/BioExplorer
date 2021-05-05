@@ -109,10 +109,10 @@ Boxd vector_to_bounds(const std::vector<float> &lowBounds,
     return bounds;
 }
 
-void _addBioExplorerRenderer(brayns::Engine &engine)
+void _addBioExplorerRenderer(Engine &engine)
 {
     PLUGIN_INFO("Registering 'bio_explorer' renderer");
-    brayns::PropertyMap properties;
+    PropertyMap properties;
     properties.setProperty(
         {"giDistance", 10000., {"Global illumination distance"}});
     properties.setProperty(
@@ -135,10 +135,10 @@ void _addBioExplorerRenderer(brayns::Engine &engine)
     engine.addRendererType("bio_explorer", properties);
 }
 
-void _addBioExplorerFieldsRenderer(brayns::Engine &engine)
+void _addBioExplorerFieldsRenderer(Engine &engine)
 {
     PLUGIN_INFO("Registering 'bio_explorer_fields' renderer");
-    brayns::PropertyMap properties;
+    PropertyMap properties;
     properties.setProperty({"exposure", 1., 1., 10., {"Exposure"}});
     properties.setProperty({"useHardwareRandomizer",
                             false,
@@ -158,11 +158,11 @@ void _addBioExplorerFieldsRenderer(brayns::Engine &engine)
     engine.addRendererType("bio_explorer_fields", properties);
 }
 
-void _addBioExplorerPerspectiveCamera(brayns::Engine &engine)
+void _addBioExplorerPerspectiveCamera(Engine &engine)
 {
     PLUGIN_INFO("Registering 'bio_explorer_perspective' camera");
 
-    brayns::PropertyMap properties;
+    PropertyMap properties;
     properties.setProperty({"fovy", 45., .1, 360., {"Field of view"}});
     properties.setProperty({"aspect", 1., {"Aspect ratio"}});
     properties.setProperty({"apertureRadius", 0., {"Aperture radius"}});
@@ -746,12 +746,12 @@ Response BioExplorerPlugin::_addGrid(const AddGridDetails &payload)
         auto &scene = _api->getScene();
         auto model = scene.createModel();
 
-        const brayns::Vector3f red = {1, 0, 0};
-        const brayns::Vector3f green = {0, 1, 0};
-        const brayns::Vector3f blue = {0, 0, 1};
-        const brayns::Vector3f grey = {0.5, 0.5, 0.5};
+        const Vector3f red = {1, 0, 0};
+        const Vector3f green = {0, 1, 0};
+        const Vector3f blue = {0, 0, 1};
+        const Vector3f grey = {0.5, 0.5, 0.5};
 
-        brayns::PropertyMap props;
+        PropertyMap props;
         props.setProperty({MATERIAL_PROPERTY_SHADING_MODE,
                            static_cast<int>(MaterialShadingMode::basic)});
         props.setProperty({MATERIAL_PROPERTY_USER_PARAMETER, 1.0});
@@ -763,9 +763,7 @@ Response BioExplorerPlugin::_addGrid(const AddGridDetails &payload)
         auto material = model->createMaterial(0, "x");
         material->setDiffuseColor(grey);
         material->setProperties(props);
-        const auto &position =
-            brayns::Vector3f(payload.position[0], payload.position[1],
-                             payload.position[2]);
+        const auto position = floatsToVector3f(payload.position);
 
         const float m = payload.minValue;
         const float M = payload.maxValue;
@@ -781,15 +779,12 @@ Response BioExplorerPlugin::_addGrid(const AddGridDetails &payload)
                     showFullGrid = (fabs(x) < 0.001f || fabs(y) < 0.001f);
                 if (showFullGrid)
                 {
-                    model->addCylinder(0, {position + brayns::Vector3f(x, y, m),
-                                           position + brayns::Vector3f(x, y, M),
-                                           r});
-                    model->addCylinder(0, {position + brayns::Vector3f(m, x, y),
-                                           position + brayns::Vector3f(M, x, y),
-                                           r});
-                    model->addCylinder(0, {position + brayns::Vector3f(x, m, y),
-                                           position + brayns::Vector3f(x, M, y),
-                                           r});
+                    model->addCylinder(0, {position + Vector3f(x, y, m),
+                                           position + Vector3f(x, y, M), r});
+                    model->addCylinder(0, {position + Vector3f(m, x, y),
+                                           position + Vector3f(M, x, y), r});
+                    model->addCylinder(0, {position + Vector3f(x, m, y),
+                                           position + Vector3f(x, M, y), r});
                 }
             }
 
@@ -801,36 +796,36 @@ Response BioExplorerPlugin::_addGrid(const AddGridDetails &payload)
             material->setOpacity(payload.planeOpacity);
             material->setProperties(props);
             auto &tmx = model->getTriangleMeshes()[1];
-            tmx.vertices.push_back(position + brayns::Vector3f(m, 0, m));
-            tmx.vertices.push_back(position + brayns::Vector3f(M, 0, m));
-            tmx.vertices.push_back(position + brayns::Vector3f(M, 0, M));
-            tmx.vertices.push_back(position + brayns::Vector3f(m, 0, M));
-            tmx.indices.push_back(brayns::Vector3ui(0, 1, 2));
-            tmx.indices.push_back(brayns::Vector3ui(2, 3, 0));
+            tmx.vertices.push_back(position + Vector3f(m, 0, m));
+            tmx.vertices.push_back(position + Vector3f(M, 0, m));
+            tmx.vertices.push_back(position + Vector3f(M, 0, M));
+            tmx.vertices.push_back(position + Vector3f(m, 0, M));
+            tmx.indices.push_back(Vector3ui(0, 1, 2));
+            tmx.indices.push_back(Vector3ui(2, 3, 0));
 
             material = model->createMaterial(2, "plane_y");
             material->setDiffuseColor(payload.useColors ? green : grey);
             material->setOpacity(payload.planeOpacity);
             material->setProperties(props);
             auto &tmy = model->getTriangleMeshes()[2];
-            tmy.vertices.push_back(position + brayns::Vector3f(m, m, 0));
-            tmy.vertices.push_back(position + brayns::Vector3f(M, m, 0));
-            tmy.vertices.push_back(position + brayns::Vector3f(M, M, 0));
-            tmy.vertices.push_back(position + brayns::Vector3f(m, M, 0));
-            tmy.indices.push_back(brayns::Vector3ui(0, 1, 2));
-            tmy.indices.push_back(brayns::Vector3ui(2, 3, 0));
+            tmy.vertices.push_back(position + Vector3f(m, m, 0));
+            tmy.vertices.push_back(position + Vector3f(M, m, 0));
+            tmy.vertices.push_back(position + Vector3f(M, M, 0));
+            tmy.vertices.push_back(position + Vector3f(m, M, 0));
+            tmy.indices.push_back(Vector3ui(0, 1, 2));
+            tmy.indices.push_back(Vector3ui(2, 3, 0));
 
             material = model->createMaterial(3, "plane_z");
             material->setDiffuseColor(payload.useColors ? blue : grey);
             material->setOpacity(payload.planeOpacity);
             material->setProperties(props);
             auto &tmz = model->getTriangleMeshes()[3];
-            tmz.vertices.push_back(position + brayns::Vector3f(0, m, m));
-            tmz.vertices.push_back(position + brayns::Vector3f(0, m, M));
-            tmz.vertices.push_back(position + brayns::Vector3f(0, M, M));
-            tmz.vertices.push_back(position + brayns::Vector3f(0, M, m));
-            tmz.indices.push_back(brayns::Vector3ui(0, 1, 2));
-            tmz.indices.push_back(brayns::Vector3ui(2, 3, 0));
+            tmz.vertices.push_back(position + Vector3f(0, m, m));
+            tmz.vertices.push_back(position + Vector3f(0, m, M));
+            tmz.vertices.push_back(position + Vector3f(0, M, M));
+            tmz.vertices.push_back(position + Vector3f(0, M, m));
+            tmz.indices.push_back(Vector3ui(0, 1, 2));
+            tmz.indices.push_back(Vector3ui(2, 3, 0));
         }
 
         // Axis
@@ -842,7 +837,7 @@ Response BioExplorerPlugin::_addGrid(const AddGridDetails &payload)
             const float l1 = l * 0.89;
             const float l2 = l * 0.90;
 
-            brayns::PropertyMap props;
+            PropertyMap props;
             props.setProperty({MATERIAL_PROPERTY_USER_PARAMETER, 1.0});
             props.setProperty({MATERIAL_PROPERTY_SHADING_MODE,
                                static_cast<int>(MaterialShadingMode::basic)});
@@ -856,53 +851,46 @@ Response BioExplorerPlugin::_addGrid(const AddGridDetails &payload)
             material->setDiffuseColor(red);
             material->setProperties(props);
 
-            model->addCylinder(4,
-                               {position, position + brayns::Vector3f(l1, 0, 0),
-                                smallRadius});
-            model->addCone(4, {position + brayns::Vector3f(l1, 0, 0),
-                               position + brayns::Vector3f(l2, 0, 0),
-                               smallRadius, largeRadius});
-            model->addCone(4, {position + brayns::Vector3f(l2, 0, 0),
-                               position + brayns::Vector3f(M, 0, 0),
-                               largeRadius, 0});
+            model->addCylinder(4, {position, position + Vector3f(l1, 0, 0),
+                                   smallRadius});
+            model->addCone(4, {position + Vector3f(l1, 0, 0),
+                               position + Vector3f(l2, 0, 0), smallRadius,
+                               largeRadius});
+            model->addCone(4, {position + Vector3f(l2, 0, 0),
+                               position + Vector3f(M, 0, 0), largeRadius, 0});
 
             // Y
             material = model->createMaterial(5, "y_axis");
             material->setDiffuseColor(green);
             material->setProperties(props);
 
-            model->addCylinder(5,
-                               {position, position + brayns::Vector3f(0, l1, 0),
-                                smallRadius});
-            model->addCone(5, {position + brayns::Vector3f(0, l1, 0),
-                               position + brayns::Vector3f(0, l2, 0),
-                               smallRadius, largeRadius});
-            model->addCone(5, {position + brayns::Vector3f(0, l2, 0),
-                               position + brayns::Vector3f(0, M, 0),
-                               largeRadius, 0});
+            model->addCylinder(5, {position, position + Vector3f(0, l1, 0),
+                                   smallRadius});
+            model->addCone(5, {position + Vector3f(0, l1, 0),
+                               position + Vector3f(0, l2, 0), smallRadius,
+                               largeRadius});
+            model->addCone(5, {position + Vector3f(0, l2, 0),
+                               position + Vector3f(0, M, 0), largeRadius, 0});
 
             // Z
             material = model->createMaterial(6, "z_axis");
             material->setDiffuseColor(blue);
             material->setProperties(props);
 
-            model->addCylinder(6,
-                               {position, position + brayns::Vector3f(0, 0, l1),
-                                smallRadius});
-            model->addCone(6, {position + brayns::Vector3f(0, 0, l1),
-                               position + brayns::Vector3f(0, 0, l2),
-                               smallRadius, largeRadius});
-            model->addCone(6, {position + brayns::Vector3f(0, 0, l2),
-                               position + brayns::Vector3f(0, 0, M),
-                               largeRadius, 0});
+            model->addCylinder(6, {position, position + Vector3f(0, 0, l1),
+                                   smallRadius});
+            model->addCone(6, {position + Vector3f(0, 0, l1),
+                               position + Vector3f(0, 0, l2), smallRadius,
+                               largeRadius});
+            model->addCone(6, {position + Vector3f(0, 0, l2),
+                               position + Vector3f(0, 0, M), largeRadius, 0});
 
             // Origin
             model->addSphere(0, {position, smallRadius});
         }
 
         scene.addModel(
-            std::make_shared<brayns::ModelDescriptor>(std::move(model),
-                                                      "Grid"));
+            std::make_shared<ModelDescriptor>(std::move(model), "Grid"));
     }
     CATCH_STD_EXCEPTION()
     return response;
@@ -921,7 +909,7 @@ Response BioExplorerPlugin::_addSphere(const AddSphereDetails &payload)
         auto &scene = _api->getScene();
         auto model = scene.createModel();
 
-        brayns::PropertyMap props;
+        PropertyMap props;
         props.setProperty({MATERIAL_PROPERTY_SHADING_MODE,
                            static_cast<int>(MaterialShadingMode::electron)});
         props.setProperty({MATERIAL_PROPERTY_USER_PARAMETER, 1.0});
@@ -930,20 +918,18 @@ Response BioExplorerPlugin::_addSphere(const AddSphereDetails &payload)
              static_cast<int>(
                  MaterialChameleonMode::undefined_chameleon_mode)});
 
+        const auto color = floatsToVector3f(payload.color);
+        const auto position = floatsToVector3f(payload.position);
+
         auto material = model->createMaterial(0, "Sphere");
-        material->setDiffuseColor(
-            {payload.color[0], payload.color[1], payload.color[2]});
+        material->setDiffuseColor(color);
         material->setProperties(props);
-        const auto &position =
-            brayns::Vector3f(payload.position[0], payload.position[1],
-                             payload.position[2]);
 
         PLUGIN_INFO("Adding sphere " + payload.name + " to the scene");
 
         model->addSphere(0, {position, payload.radius});
         scene.addModel(
-            std::make_shared<brayns::ModelDescriptor>(std::move(model),
-                                                      payload.name));
+            std::make_shared<ModelDescriptor>(std::move(model), payload.name));
     }
     CATCH_STD_EXCEPTION()
     return response;
@@ -957,8 +943,8 @@ MaterialIdsDetails BioExplorerPlugin::_getMaterialIds(
     if (modelDescriptor)
     {
         for (const auto &material : modelDescriptor->getModel().getMaterials())
-            if (material.first != brayns::BOUNDINGBOX_MATERIAL_ID &&
-                material.first != brayns::SECONDARY_MODEL_MATERIAL_ID)
+            if (material.first != BOUNDINGBOX_MATERIAL_ID &&
+                material.first != SECONDARY_MODEL_MATERIAL_ID)
                 materialIds.ids.push_back(material.first);
     }
     else
@@ -1061,12 +1047,12 @@ void BioExplorerPlugin::_attachFieldsHandler(FieldsHandlerPtr handler)
     const auto &spacing = Vector3f(handler->getSpacing());
     const auto &size = Vector3f(handler->getDimensions()) * spacing;
     const auto &offset = Vector3f(handler->getOffset());
-    const brayns::Vector3f center{(offset + size / 2.f)};
+    const Vector3f center{(offset + size / 2.f)};
 
     const size_t materialId = 0;
     auto material = model->createMaterial(materialId, "default");
 
-    brayns::TriangleMesh box = brayns::createBox(offset, offset + size);
+    TriangleMesh box = createBox(offset, offset + size);
     model->getTriangleMeshes()[materialId] = box;
     ModelMetadata metadata;
     metadata["Center"] = std::to_string(center.x) + "," +
@@ -1167,7 +1153,7 @@ Response BioExplorerPlugin::_buildPointCloud(
         const size_t materialId = 0;
         auto material = model->createMaterial(materialId, "Point cloud");
 
-        brayns::PropertyMap props;
+        PropertyMap props;
         props.setProperty({MATERIAL_PROPERTY_SHADING_MODE,
                            static_cast<int>(MaterialShadingMode::basic)});
         props.setProperty({MATERIAL_PROPERTY_USER_PARAMETER, 1.0});
