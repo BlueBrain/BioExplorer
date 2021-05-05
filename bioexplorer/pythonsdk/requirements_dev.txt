@@ -35,3 +35,4 @@ sphinx==1.8.3
 sphinx_rtd_theme==0.4.2
 nbsphinx==0.8.3
 m2r==0.2.1
+pyquaternion~=0.9.9
