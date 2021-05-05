@@ -22,3 +22,4 @@ brayns==1.0.0
 stringcase~=1.2.0
 ipyTransferFunction~=0.2.0
 mediamaker~=0.3.0
+pyquaternion~=0.9.9

@@ -25,6 +25,7 @@ import math
 
 from ipywidgets import IntProgress
 from IPython.display import display
+from pyquaternion import Quaternion
 
 import seaborn as sns
 
@@ -99,34 +100,6 @@ class Vector2:
     def to_list(self):
         """:return: A list containing the values of x and y attributes"""
         return [self.x, self.y]
-
-
-class Quaternion:
-    """A Quaternion is an array of 4 floats representing a mathematical quaternion object"""
-
-    def __init__(self, *args):
-        """
-        Define a simple quaternion
-
-        :args: 4 float values for w, x, y and z
-        :raises: RuntimeError: Invalid number of floats
-        """
-        if len(args) not in [0, 4]:
-            raise RuntimeError("Invalid number of floats (0 or 4 expected)")
-
-        self.w = 1.0
-        self.x = 0.0
-        self.y = 0.0
-        self.z = 0.0
-        if len(args) == 4:
-            self.w = args[0]
-            self.x = args[1]
-            self.y = args[2]
-            self.z = args[3]
-
-    def to_list(self):
-        """:return: A list containing the values of x, y, z and w attributes"""
-        return [self.w, self.x, self.y, self.z]
 
 
 class BioExplorer:
@@ -411,7 +384,7 @@ class BioExplorer:
         params = dict()
         params["name"] = name
         params["position"] = Vector3().to_list()
-        params["rotation"] = Quaternion().to_list()
+        params["rotation"] = list(Quaternion())
         params["clippingPlanes"] = list()
         result = self._client.rockets_client.request(
             method=self.PLUGIN_API_PREFIX + "remove-assembly", params=params)
@@ -811,8 +784,7 @@ class BioExplorer:
         :random_seed: Seed used to randomise position the elements in the membrane
         """
         assert isinstance(cell, Cell)
-        if clipping_planes:
-            assert isinstance(clipping_planes, list)
+        assert isinstance(clipping_planes, list)
         assert isinstance(position, Vector3)
         assert isinstance(rotation, Quaternion)
         assert len(cell.receptor.sources) == 1
@@ -1042,7 +1014,7 @@ class BioExplorer:
         params = dict()
         params["name"] = name
         params["position"] = position.to_list()
-        params["rotation"] = rotation.to_list()
+        params["rotation"] = list(rotation)
         params["clippingPlanes"] = clipping_planes_values
         result = self._client.rockets_client.request(
             method=self.PLUGIN_API_PREFIX + "add-assembly", params=params)
@@ -1209,7 +1181,7 @@ class BioExplorer:
         params["name"] = name
         params["instanceIndex"] = instance_index
         params["position"] = position.to_list()
-        params["rotation"] = rotation.to_list()
+        params["rotation"] = list(rotation)
         result = self._client.rockets_client.request(
             method=self.PLUGIN_API_PREFIX + "set-protein-instance-transformation",
             params=params)
@@ -1330,7 +1302,7 @@ class BioExplorer:
         params["occurrences"] = membrane.occurences
         params["randomSeed"] = random_seed
         params["positionRandomizationType"] = position_randomization_type
-        params["rotation"] = rotation.to_list()
+        params["rotation"] = list(rotation)
         return self._check(self._client.rockets_client.request(
             method=self.PLUGIN_API_PREFIX + "add-membrane", params=params))
 
@@ -1397,7 +1369,7 @@ class BioExplorer:
         params[
             "positionRandomizationType"] = protein.position_randomization_type
         params["position"] = protein.position.to_list()
-        params["rotation"] = protein.rotation.to_list()
+        params["rotation"] = list(protein.rotation)
         return self._check(self._client.rockets_client.request(
             method=self.PLUGIN_API_PREFIX + "add-protein", params=params))
 
@@ -1471,7 +1443,7 @@ class BioExplorer:
         params["representation"] = mesh_based_membrane.representation
         params["randomSeed"] = mesh_based_membrane.random_seed
         params["position"] = mesh_based_membrane.position.to_list()
-        params["rotation"] = mesh_based_membrane.rotation.to_list()
+        params["rotation"] = list(mesh_based_membrane.rotation)
         params["scale"] = mesh_based_membrane.scale.to_list()
         return self._check(self._client.rockets_client.request(
             method=self.PLUGIN_API_PREFIX + "add-mesh-based-membrane",
@@ -1497,7 +1469,7 @@ class BioExplorer:
         params["recenter"] = glycans.recenter
         params["chainIds"] = glycans.chain_ids
         params["siteIndices"] = glycans.site_indices
-        params["rotation"] = glycans.rotation.to_list()
+        params["rotation"] = list(glycans.rotation)
         params["assemblyParams"] = glycans.assembly_params
         return self._check(self._client.rockets_client.request(
             method=self.PLUGIN_API_PREFIX + "add-glycans", params=params))
@@ -1571,7 +1543,7 @@ class BioExplorer:
         params["recenter"] = sugars.recenter
         params["chainIds"] = sugars.chain_ids
         params["siteIndices"] = sugars.site_indices
-        params["rotation"] = sugars.rotation.to_list()
+        params["rotation"] = list(sugars.rotation)
         params["assemblyParams"] = sugars.assembly_params
         return self._check(self._client.rockets_client.request(
             method=self.PLUGIN_API_PREFIX + "add-sugars", params=params))
