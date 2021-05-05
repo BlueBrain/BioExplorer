@@ -133,37 +133,39 @@ $(document).ready(function(){initNavTree('de/d05/plugin_2biology_2Glycans_8cpp_s
 <div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;    {</div>
 <div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;        <span class="keywordflow">if</span> (line.find(KEY_ATOM) == 0 || line.find(KEY_HETATM) == 0)</div>
 <div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;            _readAtom(line, <span class="keyword">true</span>);</div>
-<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;        <span class="keywordflow">else</span> <span class="keywordflow">if</span> (line.find(KEY_HEADER) == 0)</div>
-<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;            header = _readHeader(line);</div>
-<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;        <span class="keywordflow">else</span> <span class="keywordflow">if</span> (line.find(KEY_TITLE) == 0)</div>
-<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;            title = _readTitle(line);</div>
-<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;    }</div>
-<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;    <span class="keyword">auto</span> model = scene.createModel();</div>
-<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160; </div>
-<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;    <span class="comment">// Build 3d models according to atoms positions (re-centered to origin)</span></div>
-<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;    Boxf bounds;</div>
-<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160; </div>
-<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;    <span class="comment">// Recenter</span></div>
-<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;    <span class="keywordflow">if</span> (_details.<a class="code" href="../../dd/d92/structbioexplorer_1_1details_1_1SugarsDetails.html#adb675a9fc3f9fd596771d6956d36321a">recenter</a>)</div>
-<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;    {</div>
-<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;        <span class="comment">// Get current center</span></div>
-<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;        <span class="keywordflow">for</span> (<span class="keyword">const</span> <span class="keyword">auto</span>&amp; atom : _atomMap)</div>
-<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;            bounds.merge(atom.second.position);</div>
-<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;        <span class="keyword">const</span> <span class="keyword">auto</span>&amp; center = bounds.getCenter();</div>
-<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160; </div>
-<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;        <span class="keyword">const</span> <span class="keyword">auto</span> firstAtomPosition = _atomMap.begin()-&gt;second.position;</div>
-<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;        <span class="keyword">const</span> <span class="keyword">auto</span> translation = center - firstAtomPosition;</div>
-<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;        <span class="comment">// Translate according to position of first atom</span></div>
-<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;        <span class="keywordflow">for</span> (<span class="keyword">auto</span>&amp; atom : _atomMap)</div>
-<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;            atom.second.position -= translation;</div>
-<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;    }</div>
-<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160; </div>
-<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;    _buildModel(_details.<a class="code" href="../../dd/d92/structbioexplorer_1_1details_1_1SugarsDetails.html#a81aecb2570b4818ceed97e0f6ff73a9e">assemblyName</a>, _details.<a class="code" href="../../dd/d92/structbioexplorer_1_1details_1_1SugarsDetails.html#a48fa7ec9a2680552857308fbbb2eaed9">name</a>, title, header,</div>
-<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;                _details.<a class="code" href="../../dd/d92/structbioexplorer_1_1details_1_1SugarsDetails.html#ab7e8a1940851832d2dd02487efab9320">representation</a>, _details.<a class="code" href="../../dd/d92/structbioexplorer_1_1details_1_1SugarsDetails.html#a96cf71d5535731e9e35f55dc6fce281f">atomRadiusMultiplier</a>,</div>
-<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;                _details.<a class="code" href="../../dd/d92/structbioexplorer_1_1details_1_1SugarsDetails.html#a2243ede92403c62c7102c72fcfa9a73b">loadBonds</a>);</div>
-<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;}</div>
-<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;} <span class="comment">// namespace biology</span></div>
-<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;} <span class="comment">// namespace bioexplorer</span></div>
+<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;        <span class="keywordflow">else</span> <span class="keywordflow">if</span> (details.loadBonds &amp;&amp; line.find(KEY_CONECT) == 0)</div>
+<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;            _readConnect(line);</div>
+<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;        <span class="keywordflow">else</span> <span class="keywordflow">if</span> (line.find(KEY_HEADER) == 0)</div>
+<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;            header = _readHeader(line);</div>
+<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;        <span class="keywordflow">else</span> <span class="keywordflow">if</span> (line.find(KEY_TITLE) == 0)</div>
+<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;            title = _readTitle(line);</div>
+<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;    }</div>
+<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;    <span class="keyword">auto</span> model = scene.createModel();</div>
+<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160; </div>
+<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;    <span class="comment">// Build 3d models according to atoms positions (re-centered to origin)</span></div>
+<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;    Boxf bounds;</div>
+<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160; </div>
+<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;    <span class="comment">// Recenter</span></div>
+<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;    <span class="keywordflow">if</span> (_details.<a class="code" href="../../dd/d92/structbioexplorer_1_1details_1_1SugarsDetails.html#adb675a9fc3f9fd596771d6956d36321a">recenter</a>)</div>
+<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;    {</div>
+<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;        <span class="comment">// Get current center</span></div>
+<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;        <span class="keywordflow">for</span> (<span class="keyword">const</span> <span class="keyword">auto</span>&amp; atom : _atomMap)</div>
+<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;            bounds.merge(atom.second.position);</div>
+<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;        <span class="keyword">const</span> <span class="keyword">auto</span>&amp; center = bounds.getCenter();</div>
+<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160; </div>
+<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;        <span class="keyword">const</span> <span class="keyword">auto</span> firstAtomPosition = _atomMap.begin()-&gt;second.position;</div>
+<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;        <span class="keyword">const</span> <span class="keyword">auto</span> translation = center - firstAtomPosition;</div>
+<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;        <span class="comment">// Translate according to position of first atom</span></div>
+<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;        <span class="keywordflow">for</span> (<span class="keyword">auto</span>&amp; atom : _atomMap)</div>
+<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;            atom.second.position -= translation;</div>
+<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;    }</div>
+<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160; </div>
+<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;    _buildModel(_details.<a class="code" href="../../dd/d92/structbioexplorer_1_1details_1_1SugarsDetails.html#a81aecb2570b4818ceed97e0f6ff73a9e">assemblyName</a>, _details.<a class="code" href="../../dd/d92/structbioexplorer_1_1details_1_1SugarsDetails.html#a48fa7ec9a2680552857308fbbb2eaed9">name</a>, title, header,</div>
+<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;                _details.<a class="code" href="../../dd/d92/structbioexplorer_1_1details_1_1SugarsDetails.html#ab7e8a1940851832d2dd02487efab9320">representation</a>, _details.<a class="code" href="../../dd/d92/structbioexplorer_1_1details_1_1SugarsDetails.html#a96cf71d5535731e9e35f55dc6fce281f">atomRadiusMultiplier</a>,</div>
+<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;                _details.<a class="code" href="../../dd/d92/structbioexplorer_1_1details_1_1SugarsDetails.html#a2243ede92403c62c7102c72fcfa9a73b">loadBonds</a>);</div>
+<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;}</div>
+<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;} <span class="comment">// namespace biology</span></div>
+<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;} <span class="comment">// namespace bioexplorer</span></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
 <div class="ttc" id="astructbioexplorer_1_1details_1_1SugarsDetails_html_a96cf71d5535731e9e35f55dc6fce281f"><div class="ttname"><a href="../../dd/d92/structbioexplorer_1_1details_1_1SugarsDetails.html#a96cf71d5535731e9e35f55dc6fce281f">bioexplorer::details::SugarsDetails::atomRadiusMultiplier</a></div><div class="ttdeci">float atomRadiusMultiplier</div><div class="ttdef"><b>Definition:</b> <a href="../../d7/df8/Types_8h_source.html#l00338">Types.h:338</a></div></div>
