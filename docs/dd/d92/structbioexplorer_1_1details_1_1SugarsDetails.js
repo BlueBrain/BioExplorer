@@ -1,6 +1,7 @@
 var structbioexplorer_1_1details_1_1SugarsDetails =
 [
     [ "assemblyName", "dd/d92/structbioexplorer_1_1details_1_1SugarsDetails.html#a81aecb2570b4818ceed97e0f6ff73a9e", null ],
+    [ "assemblyParams", "dd/d92/structbioexplorer_1_1details_1_1SugarsDetails.html#a356f8fa4a3379fa06bbab74117d111fa", null ],
     [ "atomRadiusMultiplier", "dd/d92/structbioexplorer_1_1details_1_1SugarsDetails.html#a96cf71d5535731e9e35f55dc6fce281f", null ],
     [ "chainIds", "dd/d92/structbioexplorer_1_1details_1_1SugarsDetails.html#aa7150553fb82dd6fbca6db68a16c2c22", null ],
     [ "contents", "dd/d92/structbioexplorer_1_1details_1_1SugarsDetails.html#a2d46730726450e18f2b327cced20f308", null ],

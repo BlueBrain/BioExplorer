@@ -38,8 +38,11 @@ namespace biology
 using namespace common;
 
 MeshBasedMembrane::MeshBasedMembrane(Scene& scene,
+                                     const Vector3f& assemblyPosition,
+                                     const Quaterniond& assemblyRotation,
+                                     const Vector4fs& clippingPlanes,
                                      const MeshBasedMembraneDetails& details)
-    : Membrane(scene)
+    : Membrane(scene, assemblyPosition, assemblyRotation, clippingPlanes)
     , _details(details)
 {
     // Random seed
@@ -90,15 +93,9 @@ MeshBasedMembrane::MeshBasedMembrane(Scene& scene,
 void MeshBasedMembrane::_processInstances(const Vector3f& proteinsAverageSize)
 {
     // Load proteins
-    const Vector3f position = {_details.position[0], _details.position[1],
-                               _details.position[2]};
-    const Quaterniond rotation = {_details.rotation[0], _details.rotation[1],
-                                  _details.rotation[2], _details.rotation[3]};
-    const Vector3f scale = {_details.scale[0], _details.scale[1],
-                            _details.scale[2]};
-
-    // Clipping planes
-    const auto clipPlanes = getClippingPlanes(_scene);
+    const auto position = floatsToVector3f(_details.position);
+    const auto rotation = floatsToQuaterniond(_details.rotation);
+    const auto scale = floatsToVector3f(_details.scale);
 
     // Load MeshBasedMembrane
     const auto loader = MeshLoader(_scene);
@@ -161,8 +158,9 @@ void MeshBasedMembrane::_processInstances(const Vector3f& proteinsAverageSize)
                                                            scale, rotation),
                                                1.f));
 
-                if (!isClipped(v1, clipPlanes) || !isClipped(v2, clipPlanes) ||
-                    !isClipped(v3, clipPlanes))
+                if (!isClipped(v1, _clippingPlanes) ||
+                    !isClipped(v2, _clippingPlanes) ||
+                    !isClipped(v3, _clippingPlanes))
                     faces.push_back(Vector3ui(mesh->mFaces[f].mIndices[0],
                                               mesh->mFaces[f].mIndices[1],
                                               mesh->mFaces[f].mIndices[2]));
@@ -280,7 +278,7 @@ void MeshBasedMembrane::_processInstances(const Vector3f& proteinsAverageSize)
                 }
 
                 // Clipping planes
-                if (isClipped(translation, clipPlanes))
+                if (isClipped(translation, _clippingPlanes))
                     continue;
 
                 // Instance

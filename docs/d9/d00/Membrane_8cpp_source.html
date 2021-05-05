@@ -120,23 +120,28 @@ $(document).ready(function(){initNavTree('d9/d00/Membrane_8cpp_source.html','../
 <div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;{</div>
 <div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;<span class="keyword">namespace </span>biology</div>
 <div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;{</div>
-<div class="line"><a name="l00035"></a><span class="lineno"><a class="line" href="../../de/dd4/classbioexplorer_1_1biology_1_1Membrane.html#ae77643b9a16ce99f6c87ec3300fae825">   35</a></span>&#160;<a class="code" href="../../de/dd4/classbioexplorer_1_1biology_1_1Membrane.html#ae77643b9a16ce99f6c87ec3300fae825">Membrane::Membrane</a>(Scene&amp; scene)</div>
-<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;    : _scene(scene)</div>
-<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;{</div>
-<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;}</div>
-<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160; </div>
-<div class="line"><a name="l00040"></a><span class="lineno"><a class="line" href="../../de/dd4/classbioexplorer_1_1biology_1_1Membrane.html#a945ddadd91fa8fd0f2dc61bf1aee4849">   40</a></span>&#160;<a class="code" href="../../de/dd4/classbioexplorer_1_1biology_1_1Membrane.html#a945ddadd91fa8fd0f2dc61bf1aee4849">Membrane::~Membrane</a>()</div>
-<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;{</div>
-<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;    <span class="keywordflow">for</span> (<span class="keyword">const</span> <span class="keyword">auto</span>&amp; protein : _proteins)</div>
-<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;        _scene.removeModel(protein.second-&gt;getModelDescriptor()-&gt;getModelID());</div>
-<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;}</div>
-<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160; </div>
-<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;} <span class="comment">// namespace biology</span></div>
-<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;} <span class="comment">// namespace bioexplorer</span></div>
+<div class="line"><a name="l00035"></a><span class="lineno"><a class="line" href="../../de/dd4/classbioexplorer_1_1biology_1_1Membrane.html#ad492e2f8b188148672ef01c2349cc6d4">   35</a></span>&#160;<a class="code" href="../../de/dd4/classbioexplorer_1_1biology_1_1Membrane.html#ad492e2f8b188148672ef01c2349cc6d4">Membrane::Membrane</a>(Scene&amp; scene, <span class="keyword">const</span> Vector3f&amp; assemblyPosition,</div>
+<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;                   <span class="keyword">const</span> Quaterniond&amp; assemblyRotation,</div>
+<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;                   <span class="keyword">const</span> Vector4fs&amp; clippingPlanes)</div>
+<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;    : _scene(scene)</div>
+<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;    , _assemblyPosition(assemblyPosition)</div>
+<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;    , _assemblyRotation(assemblyRotation)</div>
+<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;    , _clippingPlanes(clippingPlanes)</div>
+<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;{</div>
+<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;}</div>
+<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160; </div>
+<div class="line"><a name="l00045"></a><span class="lineno"><a class="line" href="../../de/dd4/classbioexplorer_1_1biology_1_1Membrane.html#a945ddadd91fa8fd0f2dc61bf1aee4849">   45</a></span>&#160;<a class="code" href="../../de/dd4/classbioexplorer_1_1biology_1_1Membrane.html#a945ddadd91fa8fd0f2dc61bf1aee4849">Membrane::~Membrane</a>()</div>
+<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;{</div>
+<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;    <span class="keywordflow">for</span> (<span class="keyword">const</span> <span class="keyword">auto</span>&amp; protein : _proteins)</div>
+<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;        _scene.removeModel(protein.second-&gt;getModelDescriptor()-&gt;getModelID());</div>
+<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;}</div>
+<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160; </div>
+<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;} <span class="comment">// namespace biology</span></div>
+<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;} <span class="comment">// namespace bioexplorer</span></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
-<div class="ttc" id="aclassbioexplorer_1_1biology_1_1Membrane_html_a945ddadd91fa8fd0f2dc61bf1aee4849"><div class="ttname"><a href="../../de/dd4/classbioexplorer_1_1biology_1_1Membrane.html#a945ddadd91fa8fd0f2dc61bf1aee4849">bioexplorer::biology::Membrane::~Membrane</a></div><div class="ttdeci">virtual ~Membrane()</div><div class="ttdoc">Destroy the Membrane object.</div><div class="ttdef"><b>Definition:</b> <a href="../../d9/d00/Membrane_8cpp_source.html#l00040">Membrane.cpp:40</a></div></div>
-<div class="ttc" id="aclassbioexplorer_1_1biology_1_1Membrane_html_ae77643b9a16ce99f6c87ec3300fae825"><div class="ttname"><a href="../../de/dd4/classbioexplorer_1_1biology_1_1Membrane.html#ae77643b9a16ce99f6c87ec3300fae825">bioexplorer::biology::Membrane::Membrane</a></div><div class="ttdeci">Membrane(Scene &amp;scene)</div><div class="ttdoc">Construct a new Membrane object.</div><div class="ttdef"><b>Definition:</b> <a href="../../d9/d00/Membrane_8cpp_source.html#l00035">Membrane.cpp:35</a></div></div>
+<div class="ttc" id="aclassbioexplorer_1_1biology_1_1Membrane_html_a945ddadd91fa8fd0f2dc61bf1aee4849"><div class="ttname"><a href="../../de/dd4/classbioexplorer_1_1biology_1_1Membrane.html#a945ddadd91fa8fd0f2dc61bf1aee4849">bioexplorer::biology::Membrane::~Membrane</a></div><div class="ttdeci">virtual ~Membrane()</div><div class="ttdoc">Destroy the Membrane object.</div><div class="ttdef"><b>Definition:</b> <a href="../../d9/d00/Membrane_8cpp_source.html#l00045">Membrane.cpp:45</a></div></div>
+<div class="ttc" id="aclassbioexplorer_1_1biology_1_1Membrane_html_ad492e2f8b188148672ef01c2349cc6d4"><div class="ttname"><a href="../../de/dd4/classbioexplorer_1_1biology_1_1Membrane.html#ad492e2f8b188148672ef01c2349cc6d4">bioexplorer::biology::Membrane::Membrane</a></div><div class="ttdeci">Membrane(Scene &amp;scene, const Vector3f &amp;assemblyPosition, const Quaterniond &amp;assemblyRotation, const Vector4fs &amp;clippingPlanes)</div><div class="ttdoc">Construct a new Membrane object.</div><div class="ttdef"><b>Definition:</b> <a href="../../d9/d00/Membrane_8cpp_source.html#l00035">Membrane.cpp:35</a></div></div>
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>

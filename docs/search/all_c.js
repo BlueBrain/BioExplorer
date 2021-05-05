@@ -1,7 +1,7 @@
 var searchData=
 [
   ['palette_170',['palette',['../d3/dd5/structbioexplorer_1_1details_1_1ColorSchemeDetails.html#a862bc960439c1db81372342694d1f627',1,'bioexplorer::details::ColorSchemeDetails']]],
-  ['parametricmembrane_171',['ParametricMembrane',['../dd/dc5/classbioexplorer_1_1biology_1_1ParametricMembrane.html',1,'bioexplorer::biology::ParametricMembrane'],['../dd/dc5/classbioexplorer_1_1biology_1_1ParametricMembrane.html#a8b71e3a9447d4a0e613167a2e012c339',1,'bioexplorer::biology::ParametricMembrane::ParametricMembrane()']]],
+  ['parametricmembrane_171',['ParametricMembrane',['../dd/dc5/classbioexplorer_1_1biology_1_1ParametricMembrane.html',1,'bioexplorer::biology::ParametricMembrane'],['../dd/dc5/classbioexplorer_1_1biology_1_1ParametricMembrane.html#a414eec91004fed05877561eb239abf40',1,'bioexplorer::biology::ParametricMembrane::ParametricMembrane()']]],
   ['parametricmembranedetails_172',['ParametricMembraneDetails',['../db/dfc/structbioexplorer_1_1details_1_1ParametricMembraneDetails.html',1,'bioexplorer::details']]],
   ['params_173',['params',['../d1/d00/structbioexplorer_1_1details_1_1RNASequenceDetails.html#af8d17d4095b75cf6efac5341e7c333ea',1,'bioexplorer::details::RNASequenceDetails']]],
   ['perspectivestereocamera_174',['PerspectiveStereoCamera',['../d8/d50/structbioexplorer_1_1rendering_1_1PerspectiveStereoCamera.html',1,'bioexplorer::rendering::PerspectiveStereoCamera'],['../d8/d50/structbioexplorer_1_1rendering_1_1PerspectiveStereoCamera.html#a4d78780c9e9c64a8203ed33625d53194',1,'bioexplorer::rendering::PerspectiveStereoCamera::PerspectiveStereoCamera()']]],

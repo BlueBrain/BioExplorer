@@ -45,6 +45,8 @@ Glycans::Glycans(Scene& scene, const SugarsDetails& details)
     {
         if (line.find(KEY_ATOM) == 0 || line.find(KEY_HETATM) == 0)
             _readAtom(line, true);
+        else if (details.loadBonds && line.find(KEY_CONECT) == 0)
+            _readConnect(line);
         else if (line.find(KEY_HEADER) == 0)
             header = _readHeader(line);
         else if (line.find(KEY_TITLE) == 0)

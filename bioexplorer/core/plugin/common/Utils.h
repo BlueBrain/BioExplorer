@@ -80,5 +80,29 @@ void setDefaultTransferFunction(Model& model);
  */
 Vector4fs getClippingPlanes(const Scene& scene);
 
+/**
+ * @brief Converts a vector of floats into a 3D vector
+ *
+ * @param value Vector of floats
+ * @return Vector3f A 3D vector
+ */
+Vector3f floatsToVector3f(const floats& value);
+
+/**
+ * @brief Converts a vector of floats into a Quaternion
+ *
+ * @param value Vector of floats
+ * @return Quaternion A quaternion
+ */
+Quaterniond floatsToQuaterniond(const floats& value);
+
+/**
+ * @brief Converts a vector of floats into vector of 4D vectors
+ *
+ * @param value Vector of floats
+ * @return Quaternion A vector of 4D vectors
+ */
+Vector4fs floatsToVector4fs(const floats& value);
+
 } // namespace common
 } // namespace bioexplorer

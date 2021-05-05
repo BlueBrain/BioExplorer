@@ -50,7 +50,10 @@ public:
      * @param descriptor The data structure describing the MeshBasedMembrane,
      * the protein, and the associated parameters
      */
-    MeshBasedMembrane(Scene& scene, const MeshBasedMembraneDetails& details);
+    MeshBasedMembrane(Scene& scene, const Vector3f& assemblyPosition,
+                      const Quaterniond& assemblyRotation,
+                      const Vector4fs& clippingPlanes,
+                      const MeshBasedMembraneDetails& details);
 
 private:
     void _processInstances(const Vector3f& proteinsAverageSize);

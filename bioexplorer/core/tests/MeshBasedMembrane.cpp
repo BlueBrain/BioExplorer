@@ -81,7 +81,8 @@ BOOST_AUTO_TEST_CASE(meshBasedMembrane)
                                   "--plugin", "BioExplorer"};
     brayns::Brayns brayns(argv.size(), argv.data());
     auto& scene = brayns.getEngine().getScene();
-    MeshBasedMembrane meshBasedMembrane(scene, getDescriptor());
+    MeshBasedMembrane meshBasedMembrane(scene, Vector3f(), Quaterniond(), {},
+                                        getDescriptor());
 
     BOOST_CHECK(
         meshBasedMembrane.getProteins().begin()->second->getAtoms().size() ==

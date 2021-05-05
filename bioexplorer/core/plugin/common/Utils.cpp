@@ -20,6 +20,8 @@
 
 #include "Utils.h"
 
+#include <plugin/common/Logs.h>
+
 #include <brayns/common/scene/ClipPlane.h>
 #include <brayns/common/transferFunction/TransferFunction.h>
 #include <brayns/engineapi/Model.h>
@@ -225,6 +227,32 @@ Vector4fs getClippingPlanes(const Scene& scene)
         clipPlanes.push_back(plane);
     }
     return clipPlanes;
+}
+
+Vector3f floatsToVector3f(const floats& value)
+{
+    if (value.size() != 3)
+        PLUGIN_THROW("Invalid number of floats (3 expected)");
+    return Vector3f(value[0], value[1], value[2]);
+}
+
+Quaterniond floatsToQuaterniond(const floats& value)
+{
+    if (value.size() != 4)
+        PLUGIN_THROW("Invalid number of floats (4 expected)");
+    return Quaterniond(value[0], value[1], value[2], value[3]);
+}
+
+Vector4fs floatsToVector4fs(const floats& value)
+{
+    if (value.size() % 4 != 0)
+        PLUGIN_THROW("Clipping planes must be defined by 4 float values");
+
+    Vector4fs clippingPlanes;
+    for (size_t i = 0; i < value.size(); i += 4)
+        clippingPlanes.push_back(
+            {value[i], value[i + 1], value[i + 2], value[i + 3]});
+    return clippingPlanes;
 }
 
 } // namespace common

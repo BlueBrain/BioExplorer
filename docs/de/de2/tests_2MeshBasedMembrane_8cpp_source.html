@@ -169,13 +169,14 @@ $(document).ready(function(){initNavTree('de/de2/tests_2MeshBasedMembrane_8cpp_s
 <div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;                                  <span class="stringliteral">&quot;--plugin&quot;</span>, <span class="stringliteral">&quot;BioExplorer&quot;</span>};</div>
 <div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;    brayns::Brayns brayns(argv.size(), argv.data());</div>
 <div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;    <span class="keyword">auto</span>&amp; scene = brayns.getEngine().getScene();</div>
-<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;    MeshBasedMembrane meshBasedMembrane(scene, getDescriptor());</div>
-<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160; </div>
-<div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;    BOOST_CHECK(</div>
-<div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;        meshBasedMembrane.getProteins().begin()-&gt;second-&gt;getAtoms().size() ==</div>
-<div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;        426);</div>
-<div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160;}</div>
-<div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160;} <span class="comment">// namespace tests</span></div>
+<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;    MeshBasedMembrane meshBasedMembrane(scene, Vector3f(), Quaterniond(), {},</div>
+<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;                                        getDescriptor());</div>
+<div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160; </div>
+<div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;    BOOST_CHECK(</div>
+<div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;        meshBasedMembrane.getProteins().begin()-&gt;second-&gt;getAtoms().size() ==</div>
+<div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160;        426);</div>
+<div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160;}</div>
+<div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160;} <span class="comment">// namespace tests</span></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
 <div class="ttc" id="astructbioexplorer_1_1details_1_1SugarsDetails_html_a81aecb2570b4818ceed97e0f6ff73a9e"><div class="ttname"><a href="../../dd/d92/structbioexplorer_1_1details_1_1SugarsDetails.html#a81aecb2570b4818ceed97e0f6ff73a9e">bioexplorer::details::SugarsDetails::assemblyName</a></div><div class="ttdeci">std::string assemblyName</div><div class="ttdef"><b>Definition:</b> <a href="../../d7/df8/Types_8h_source.html#l00330">Types.h:330</a></div></div>
