@@ -537,7 +537,8 @@ class BioExplorer:
                 paths=high_mannose_paths,
                 indices=indices_closed,
                 representation=representation,
-                atom_radius_multiplier=atom_radius_multiplier
+                atom_radius_multiplier=atom_radius_multiplier,
+                assembly_params=[0, 0, 0.0, assembly_params[3] + 7, assembly_params[4]]
             )
             self.add_multiple_glycans(
                 assembly_name=name,
@@ -546,7 +547,8 @@ class BioExplorer:
                 paths=high_mannose_paths,
                 indices=indices_open,
                 representation=representation,
-                atom_radius_multiplier=atom_radius_multiplier
+                atom_radius_multiplier=atom_radius_multiplier,
+                assembly_params=[0, 0, 0.0, assembly_params[3] + 7, assembly_params[4]]
             )
 
             # Complex
@@ -560,7 +562,8 @@ class BioExplorer:
                 paths=complex_paths,
                 indices=indices_closed,
                 representation=representation,
-                atom_radius_multiplier=atom_radius_multiplier
+                atom_radius_multiplier=atom_radius_multiplier,
+                assembly_params=[0, 0, 0.0, assembly_params[3] + 8, assembly_params[4]]
             )
 
             self.add_multiple_glycans(
@@ -570,7 +573,8 @@ class BioExplorer:
                 paths=complex_paths,
                 indices=indices_open,
                 representation=representation,
-                atom_radius_multiplier=atom_radius_multiplier
+                atom_radius_multiplier=atom_radius_multiplier,
+                assembly_params=[0, 0, 0.0, assembly_params[3] + 8, assembly_params[4]]
             )
 
             # O-Glycans
@@ -584,7 +588,8 @@ class BioExplorer:
                     protein_name=name + "_" + self.NAME_PROTEIN_S_CLOSED,
                     site_indices=[index],
                     representation=representation,
-                    atom_radius_multiplier=atom_radius_multiplier
+                    atom_radius_multiplier=atom_radius_multiplier,
+                    assembly_params=[0, 0, 0.0, assembly_params[3] + 9, assembly_params[4]]
                 )
                 self.add_sugars(o_glycan)
 
@@ -598,7 +603,8 @@ class BioExplorer:
                 protein_name=protein_name,
                 source=high_mannose_paths[0],
                 site_indices=indices,
-                representation=representation
+                representation=representation,
+                assembly_params=[0, 0, 0.0, assembly_params[3] + 10, assembly_params[4]]
             )
             self.add_glycans(high_mannose_glycans)
 
@@ -612,7 +618,8 @@ class BioExplorer:
                 protein_name=protein_name,
                 source=complex_paths[0],
                 site_indices=indices,
-                representation=representation
+                representation=representation,
+                assembly_params=[0, 0, 0.0, assembly_params[3] + 11, assembly_params[4]]
             )
             self.add_glycans(complex_glycans)
 
@@ -1738,14 +1745,6 @@ class BioExplorer:
             self._client = Client(self._url)
 
         glycans_colors = [[0, 1, 1], [1, 1, 0], [1, 0, 1], [0.2, 0.2, 0.7]]
-
-        progress = IntProgress(value=0,
-                               min=0,
-                               max=len(self._client.scene.models),
-                               rotation="horizontal")
-        display(progress)
-
-        i = 0
         for model in self._client.scene.models:
             model_id = model["id"]
             model_name = model["name"]
@@ -1900,9 +1899,6 @@ class BioExplorer:
                     glossiness=glossiness,
                     specular_exponent=specular_exponent,
                 )
-
-            i += 1
-            progress.value = i
         self._client.scene.commit()
 
     def build_fields(self, voxel_size, density=1.0):
