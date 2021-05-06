@@ -504,8 +504,11 @@ Response BioExplorerPlugin::_getVersion() const
 SceneInformationDetails BioExplorerPlugin::_getSceneInformation() const
 {
     SceneInformationDetails sceneInfo;
-    auto &scene = _api->getScene();
-    for (const auto modelDescriptor : scene.getModelDescriptors())
+    const auto &scene = _api->getScene();
+    const auto &modelDescriptors = scene.getModelDescriptors();
+    sceneInfo.nbModels = modelDescriptors.size();
+
+    for (const auto modelDescriptor : modelDescriptors)
     {
         const auto &instances = modelDescriptor->getInstances();
         const auto nbInstances = instances.size();

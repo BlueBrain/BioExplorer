@@ -737,6 +737,8 @@ typedef struct
  */
 typedef struct
 {
+    /** Number of models */
+    uint32_t nbModels{0};
     /** Number of materials */
     uint32_t nbMaterials{0};
     /** Number of spheres */

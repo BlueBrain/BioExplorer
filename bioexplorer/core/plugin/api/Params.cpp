@@ -61,6 +61,7 @@ std::string to_json(const SceneInformationDetails &param)
     try
     {
         nlohmann::json js;
+        TO_JSON(param, js, nbModels);
         TO_JSON(param, js, nbMaterials);
         TO_JSON(param, js, nbSpheres);
         TO_JSON(param, js, nbCylinders);
