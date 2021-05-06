@@ -73,7 +73,7 @@ public:
      *
      * @return The path to the folder
      */
-    std::string getOffFolder() { return _offFolder; }
+    std::string getOffFolder() { return _offFolder + "/"; }
 
     /**
      * @brief Set the Off folder location
@@ -104,7 +104,7 @@ private:
     ~GeneralSettings() {}
 
     bool _modelVisibilityOnCreation{true};
-    std::string _offFolder{"/tmp/"};
+    std::string _offFolder{"/tmp"};
     bool _loggingEnabled{true};
 };
 } // namespace common
