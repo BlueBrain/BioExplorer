@@ -1,5 +1,6 @@
 var NAVTREEINDEX1 =
 {
+"d7/dff/classbioexplorer_1_1biology_1_1Molecule.html#a2166d8b16faa45c9da421c32caeb9ab9":[6,0,0,0,6,28],
 "d7/dff/classbioexplorer_1_1biology_1_1Molecule.html#a2473281806a00892fd71fdaca87bd79a":[6,0,0,0,6,10],
 "d7/dff/classbioexplorer_1_1biology_1_1Molecule.html#a303a84f330e24fb20322c4154625691e":[6,0,0,0,6,15],
 "d7/dff/classbioexplorer_1_1biology_1_1Molecule.html#a33392eb54d4ec0ddd200b42a702018b1":[6,0,0,0,6,17],
@@ -248,6 +249,5 @@ var NAVTREEINDEX1 =
 "de/d38/structbioexplorer_1_1details_1_1FileAccessDetails.html#ab6c5397d518e2b66f017fcdce3cccdc9":[6,0,0,2,12,3],
 "de/d38/structbioexplorer_1_1details_1_1FileAccessDetails.html#ac12eeab4f38053801ec6c199c6429843":[6,0,0,2,12,2],
 "de/d38/structbioexplorer_1_1details_1_1FileAccessDetails.html#aefd80aaaca82c2e0c0b7c46a8377104d":[6,0,0,2,12,0],
-"de/d3a/plugin_2biology_2Protein_8cpp_source.html":[7,0,1,1,14],
-"de/d6a/classbioexplorer_1_1rendering_1_1FieldsRenderer.html":[6,0,0,6,2]
+"de/d3a/plugin_2biology_2Protein_8cpp_source.html":[7,0,1,1,14]
 };

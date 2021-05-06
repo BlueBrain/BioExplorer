@@ -78,11 +78,12 @@ var NAVTREEINDEX0 =
 "d1/da5/structbioexplorer_1_1details_1_1AssemblyDetails.html#ad45c3317a0ebdfb92b8b31628a473faf":[6,0,0,2,6,0],
 "d1/df4/tests_2Protein_8cpp_source.html":[7,0,2,2],
 "d2/d03/structbioexplorer_1_1details_1_1SceneInformationDetails.html":[6,0,0,2,28],
+"d2/d03/structbioexplorer_1_1details_1_1SceneInformationDetails.html#a0ce1083f6fe8a589dc55207bad54a9ba":[6,0,0,2,28,5],
 "d2/d03/structbioexplorer_1_1details_1_1SceneInformationDetails.html#a50bb092f2ec5a4e486eec6d3d83873d0":[6,0,0,2,28,0],
-"d2/d03/structbioexplorer_1_1details_1_1SceneInformationDetails.html#a5573f9910b21fa833949cd476ff92205":[6,0,0,2,28,6],
-"d2/d03/structbioexplorer_1_1details_1_1SceneInformationDetails.html#aa4854b40ca3f67e9cf51e3c0ebaf26ec":[6,0,0,2,28,5],
+"d2/d03/structbioexplorer_1_1details_1_1SceneInformationDetails.html#a5573f9910b21fa833949cd476ff92205":[6,0,0,2,28,7],
+"d2/d03/structbioexplorer_1_1details_1_1SceneInformationDetails.html#aa4854b40ca3f67e9cf51e3c0ebaf26ec":[6,0,0,2,28,6],
 "d2/d03/structbioexplorer_1_1details_1_1SceneInformationDetails.html#aabfb2ab7d3b81008f68195ef22cdd204":[6,0,0,2,28,2],
-"d2/d03/structbioexplorer_1_1details_1_1SceneInformationDetails.html#adb23575f8cff150277ee10ec7f663428":[6,0,0,2,28,7],
+"d2/d03/structbioexplorer_1_1details_1_1SceneInformationDetails.html#adb23575f8cff150277ee10ec7f663428":[6,0,0,2,28,8],
 "d2/d03/structbioexplorer_1_1details_1_1SceneInformationDetails.html#ae42ba1b32d31c9d2065c6dc9b1ad6b3a":[6,0,0,2,28,4],
 "d2/d03/structbioexplorer_1_1details_1_1SceneInformationDetails.html#aeba1b882d37b7bb58700308d789f9bd1":[6,0,0,2,28,1],
 "d2/d03/structbioexplorer_1_1details_1_1SceneInformationDetails.html#afb82b12f9b4e4d50e236f60061a7531e":[6,0,0,2,28,3],
@@ -248,6 +249,5 @@ var NAVTREEINDEX0 =
 "d7/df9/AdvancedMaterial_8ih_source.html":[7,0,0,0,1,3],
 "d7/dff/classbioexplorer_1_1biology_1_1Molecule.html":[6,0,0,0,6],
 "d7/dff/classbioexplorer_1_1biology_1_1Molecule.html#a00a5883f2f86a235afc20fee8264a565":[6,0,0,0,6,13],
-"d7/dff/classbioexplorer_1_1biology_1_1Molecule.html#a1450b9cb01682a1e0ee33aa945913951":[6,0,0,0,6,2],
-"d7/dff/classbioexplorer_1_1biology_1_1Molecule.html#a2166d8b16faa45c9da421c32caeb9ab9":[6,0,0,0,6,28]
+"d7/dff/classbioexplorer_1_1biology_1_1Molecule.html#a1450b9cb01682a1e0ee33aa945913951":[6,0,0,0,6,2]
 };

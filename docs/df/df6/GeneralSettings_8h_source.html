@@ -136,7 +136,7 @@ $(document).ready(function(){initNavTree('df/df6/GeneralSettings_8h_source.html'
 <div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;        _modelVisibilityOnCreation = value;</div>
 <div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;    }</div>
 <div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160; </div>
-<div class="line"><a name="l00076"></a><span class="lineno"><a class="line" href="../../d2/da7/classbioexplorer_1_1common_1_1GeneralSettings.html#a911b732dc5737664cc2c5a6b5a22cc31">   76</a></span>&#160;    std::string <a class="code" href="../../d2/da7/classbioexplorer_1_1common_1_1GeneralSettings.html#a911b732dc5737664cc2c5a6b5a22cc31">getOffFolder</a>() { <span class="keywordflow">return</span> _offFolder; }</div>
+<div class="line"><a name="l00076"></a><span class="lineno"><a class="line" href="../../d2/da7/classbioexplorer_1_1common_1_1GeneralSettings.html#a911b732dc5737664cc2c5a6b5a22cc31">   76</a></span>&#160;    std::string <a class="code" href="../../d2/da7/classbioexplorer_1_1common_1_1GeneralSettings.html#a911b732dc5737664cc2c5a6b5a22cc31">getOffFolder</a>() { <span class="keywordflow">return</span> _offFolder + <span class="stringliteral">&quot;/&quot;</span>; }</div>
 <div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160; </div>
 <div class="line"><a name="l00083"></a><span class="lineno"><a class="line" href="../../d2/da7/classbioexplorer_1_1common_1_1GeneralSettings.html#a506c4c3066d1e3ab7ee47c081b3c4b98">   83</a></span>&#160;    <span class="keywordtype">void</span> <a class="code" href="../../d2/da7/classbioexplorer_1_1common_1_1GeneralSettings.html#a506c4c3066d1e3ab7ee47c081b3c4b98">setOffFolder</a>(<span class="keyword">const</span> std::string&amp; value) { _offFolder = value; }</div>
 <div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160; </div>
@@ -151,7 +151,7 @@ $(document).ready(function(){initNavTree('df/df6/GeneralSettings_8h_source.html'
 <div class="line"><a name="l00104"></a><span class="lineno">  104</span>&#160;    ~<a class="code" href="../../d2/da7/classbioexplorer_1_1common_1_1GeneralSettings.html">GeneralSettings</a>() {}</div>
 <div class="line"><a name="l00105"></a><span class="lineno">  105</span>&#160; </div>
 <div class="line"><a name="l00106"></a><span class="lineno">  106</span>&#160;    <span class="keywordtype">bool</span> _modelVisibilityOnCreation{<span class="keyword">true</span>};</div>
-<div class="line"><a name="l00107"></a><span class="lineno">  107</span>&#160;    std::string _offFolder{<span class="stringliteral">&quot;/tmp/&quot;</span>};</div>
+<div class="line"><a name="l00107"></a><span class="lineno">  107</span>&#160;    std::string _offFolder{<span class="stringliteral">&quot;/tmp&quot;</span>};</div>
 <div class="line"><a name="l00108"></a><span class="lineno">  108</span>&#160;    <span class="keywordtype">bool</span> _loggingEnabled{<span class="keyword">true</span>};</div>
 <div class="line"><a name="l00109"></a><span class="lineno">  109</span>&#160;};</div>
 <div class="line"><a name="l00110"></a><span class="lineno">  110</span>&#160;} <span class="comment">// namespace common</span></div>

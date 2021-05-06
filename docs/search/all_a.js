@@ -7,11 +7,12 @@ var searchData=
   ['nbcylinders_152',['nbCylinders',['../d2/d03/structbioexplorer_1_1details_1_1SceneInformationDetails.html#aabfb2ab7d3b81008f68195ef22cdd204',1,'bioexplorer::details::SceneInformationDetails']]],
   ['nbindices_153',['nbIndices',['../d2/d03/structbioexplorer_1_1details_1_1SceneInformationDetails.html#afb82b12f9b4e4d50e236f60061a7531e',1,'bioexplorer::details::SceneInformationDetails']]],
   ['nbmaterials_154',['nbMaterials',['../d2/d03/structbioexplorer_1_1details_1_1SceneInformationDetails.html#ae42ba1b32d31c9d2065c6dc9b1ad6b3a',1,'bioexplorer::details::SceneInformationDetails']]],
-  ['nbnormals_155',['nbNormals',['../d2/d03/structbioexplorer_1_1details_1_1SceneInformationDetails.html#aa4854b40ca3f67e9cf51e3c0ebaf26ec',1,'bioexplorer::details::SceneInformationDetails']]],
-  ['nbspheres_156',['nbSpheres',['../d2/d03/structbioexplorer_1_1details_1_1SceneInformationDetails.html#a5573f9910b21fa833949cd476ff92205',1,'bioexplorer::details::SceneInformationDetails']]],
-  ['nbvertices_157',['nbVertices',['../d2/d03/structbioexplorer_1_1details_1_1SceneInformationDetails.html#adb23575f8cff150277ee10ec7f663428',1,'bioexplorer::details::SceneInformationDetails']]],
-  ['node_158',['Node',['../de/dc0/classbioexplorer_1_1biology_1_1Node.html',1,'bioexplorer::biology::Node'],['../de/dc0/classbioexplorer_1_1biology_1_1Node.html#a2b56af16626b832014845ee9bf007af0',1,'bioexplorer::biology::Node::Node()']]],
-  ['nodeid_159',['nodeId',['../d5/d4e/structbioexplorer_1_1rendering_1_1AdvancedMaterial.html#a74e4a3ee7b6ec7fbcc88e9a003258772',1,'bioexplorer::rendering::AdvancedMaterial']]],
-  ['nucleotid_160',['Nucleotid',['../d2/dab/structbioexplorer_1_1biology_1_1Nucleotid.html',1,'bioexplorer::biology']]],
-  ['numres_161',['numRes',['../de/dde/structbioexplorer_1_1biology_1_1ResidueSequence.html#a76a8eded625c3edf1ad65adb918d7f11',1,'bioexplorer::biology::ResidueSequence']]]
+  ['nbmodels_155',['nbModels',['../d2/d03/structbioexplorer_1_1details_1_1SceneInformationDetails.html#a0ce1083f6fe8a589dc55207bad54a9ba',1,'bioexplorer::details::SceneInformationDetails']]],
+  ['nbnormals_156',['nbNormals',['../d2/d03/structbioexplorer_1_1details_1_1SceneInformationDetails.html#aa4854b40ca3f67e9cf51e3c0ebaf26ec',1,'bioexplorer::details::SceneInformationDetails']]],
+  ['nbspheres_157',['nbSpheres',['../d2/d03/structbioexplorer_1_1details_1_1SceneInformationDetails.html#a5573f9910b21fa833949cd476ff92205',1,'bioexplorer::details::SceneInformationDetails']]],
+  ['nbvertices_158',['nbVertices',['../d2/d03/structbioexplorer_1_1details_1_1SceneInformationDetails.html#adb23575f8cff150277ee10ec7f663428',1,'bioexplorer::details::SceneInformationDetails']]],
+  ['node_159',['Node',['../de/dc0/classbioexplorer_1_1biology_1_1Node.html',1,'bioexplorer::biology::Node'],['../de/dc0/classbioexplorer_1_1biology_1_1Node.html#a2b56af16626b832014845ee9bf007af0',1,'bioexplorer::biology::Node::Node()']]],
+  ['nodeid_160',['nodeId',['../d5/d4e/structbioexplorer_1_1rendering_1_1AdvancedMaterial.html#a74e4a3ee7b6ec7fbcc88e9a003258772',1,'bioexplorer::rendering::AdvancedMaterial']]],
+  ['nucleotid_161',['Nucleotid',['../d2/dab/structbioexplorer_1_1biology_1_1Nucleotid.html',1,'bioexplorer::biology']]],
+  ['numres_162',['numRes',['../de/dde/structbioexplorer_1_1biology_1_1ResidueSequence.html#a76a8eded625c3edf1ad65adb918d7f11',1,'bioexplorer::biology::ResidueSequence']]]
 ];
