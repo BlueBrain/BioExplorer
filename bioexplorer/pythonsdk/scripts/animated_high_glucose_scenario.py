@@ -139,20 +139,20 @@ class HighGlucoseScenario():
         end_rot = data[3]
         rot = Quaternion.slerp(start_rot, end_rot, progress)
 
-        return [Vector3(pos[0], pos[1], pos[2]), rot]
+        return [Vector3(pos[0], pos[1], pos[2]), rot, progress * 100.0]
 
     def _add_viruses(self, frame):
         # Second Virus is the one used for the ACE2 close-up
         virus_radii = [45.0, 44.0, 45.0, 43.0, 44.0, 43.0]
         virus_sequences = [
-            [[-1000, 999], [1000, 1099], [1100, 1299], [1300, 1e6]],
-            [[0, 2100], [2200, 2299], [2300, 2499], [2500, 1e6]],
-            [[-800, 1199], [1200, 1299], [1300, 1499], [1500, 1e6]],
-            [[-1400, 2750], [1e6, 1e6], [1e6, 1e6], [1e6, 1e6]],
-            [[-400, 1599], [1600, 1699], [1700, 1899], [1900, 1e6]],
-            [[0, 1999], [2000, 2099], [2100, 2399], [2400, 1e6]],
+            [[-1000, 999], [1000, 1099], [1100, 1299], [1300, 2999], [3000, 3099], [3100, 3750]],
+            [[0, 2100], [2200, 2299], [2300, 2499], [2500, 3049], [3050, 3149], [3150, 3750]],
+            [[-800, 1199], [1200, 1299], [1300, 1499], [1500, 3199], [3200, 3299], [3300, 3750]],
+            [[-1400, 3750], [1e6, 1e6], [1e6, 1e6], [1e6, 1e6], [1e6, 1e6], [1e6, 1e6]],
+            [[-400, 1599], [1600, 1699], [1700, 1899], [1900, 3119], [3120, 3219], [3220, 3750]],
+            [[0, 1999], [2000, 2099], [2100, 2399], [2400, 2799], [2800, 2899], [2900, 3750]],
         ]
-        virus_flights = [
+        virus_flights_in = [
             [Vector3(-250.0, 100.0, -70.0), Quaternion(0.519, 0.671, 0.528, -0.036),
              Vector3(-337.3, -92.3, -99.2), Quaternion(1.0, 0.0, 0.0, 0.0)],
             [Vector3(-50.0, 300.0, 250.0), Quaternion(0.456, 0.129, -0.185, -0.860),
@@ -167,6 +167,21 @@ class HighGlucoseScenario():
              Vector3(211.5, -104.9, 339.2), Quaternion(1.0, 0.0, 0.0, 0.0)]
         ]
 
+        virus_flights_out = [
+            [Vector3(-250.0, -150.0, -70.0), Quaternion(1.0, 0.0, 0.0, 0.0),
+             Vector3(-270.0, 200.0, -99.2), Quaternion(0.519, 0.671, 0.528, -0.036)],
+            [Vector3(-50.0, -150.0, 250.0), Quaternion(1.0, 0.0, 0.0, 0.0),
+             Vector3(-75.0, 200.0, 228.8), Quaternion(0.456, 0.129, -0.185, -0.860)],
+            [Vector3(150.0, -150.0, 50.0), Quaternion(1.0, 0.0, 0.0, 0.0),
+             Vector3(187.0, 200.0, 51.2), Quaternion(0.087, 0.971, -0.147, -0.161)],
+            [Vector3(40.0, -150.0, -50.0), Quaternion(1.0, 0.0, 0.0, 0.0),
+             Vector3(60.0,  200.0, -30.0), Quaternion(0.0, 0.0, 0.0, 1.0)],
+            [Vector3(60.0, -150.0, -240.0), Quaternion(1.0, 0.0, 0.0, 0.0),
+             Vector3(74.0, 200.0, -220.0), Quaternion(-0.095, 0.652, -0.326, 0.677)],
+            [Vector3(200.0, -150.0, 300.0), Quaternion(1.0, 0.0, 0.0, 0.0),
+             Vector3(210.0, 200.0, 330.0), Quaternion(-0.866, 0.201, 0.308, -0.336)]
+        ]
+
         for virus_index in range(len(virus_sequences)):
             name = 'Coronavirus ' + str(virus_index)
             current_sequence = 0
@@ -176,8 +191,6 @@ class HighGlucoseScenario():
                     current_sequence = i
 
             '''Initialize position and rotation to end-of-flight values'''
-            pos = virus_flights[virus_index][2]
-            rot = virus_flights[virus_index][3]
             start_frame = sequences[current_sequence][0]
             end_frame = sequences[current_sequence][1]
             progress_in_sequence = (frame - start_frame) / (end_frame - start_frame)
@@ -185,24 +198,41 @@ class HighGlucoseScenario():
 
             if current_sequence == 0:
                 '''Flying'''
-                pos, rot = self._get_transformation(start_frame, end_frame,
-                                                    frame, virus_flights[virus_index])
-                print('-   Virus %d is flying...' % virus_index)
+                pos, rot, progress = self._get_transformation(start_frame, end_frame,
+                                                              frame, virus_flights_in[virus_index])
+                print('-   Virus %d is flying in... (%.01f pct)' % (virus_index, progress))
             elif current_sequence == 1:
                 '''Landing'''
+                pos = virus_flights_in[virus_index][2]
+                rot = virus_flights_in[virus_index][3]
                 pos.y -= landing_distance * progress_in_sequence
                 print('-   Virus %d is landing...' % virus_index)
             elif current_sequence == 2:
-                '''Merging'''
+                '''Merging into cell'''
+                pos = virus_flights_in[virus_index][2]
+                rot = virus_flights_in[virus_index][3]
                 morphing_step = (frame - start_frame) / (end_frame - start_frame)
                 pos.y -= landing_distance
-                print('-   Virus %d is merging (%f pct)' % (virus_index, morphing_step * 100.0))
-            else:
+                print('-   Virus %d is merging in (%.01f pct)' %
+                      (virus_index, morphing_step * 100.0))
+            elif current_sequence == 3:
                 '''Inside cell'''
                 print('-   Virus %d is inside cell' % virus_index)
                 '''Virus is not added to the scene'''
                 self._be.remove_assembly(name=name)
                 continue
+            elif current_sequence == 4:
+                '''Merging out of cell'''
+                pos = virus_flights_out[virus_index][0]
+                rot = virus_flights_out[virus_index][1]
+                morphing_step = 1.0 - (frame - start_frame) / (end_frame - start_frame)
+                print('-   Virus %d is merging out (%.01f pct)' %
+                      (virus_index, morphing_step * 100.0))
+            else:
+                '''Flying out'''
+                pos, rot, progress = self._get_transformation(start_frame, end_frame,
+                                                              frame, virus_flights_out[virus_index])
+                print('-   Virus %d is flying out... (%.01f pct)' % (virus_index, progress))
 
             self._be.add_coronavirus(
                 name=name, resource_folder=resource_folder,
@@ -339,42 +369,44 @@ class HighGlucoseScenario():
             self._be.add_sugars(glucose)
 
     def _add_surfactants_d(self, frame):
-        spd_sequences = [[0, 1100], [0, 2750], [0, 2750]]
+        spd_sequences = [[0, 1100], [0, 3750], [0, 3750]]
         spd_random_seeds = [1, 2, 6]
         spd_flights = [
-            [Vector3(-240.0, 0.0, -100.0), Quaternion(-0.095, 0.652, -0.326, 0.677),
+            [Vector3(-340.0, 0.0, -100.0), Quaternion(-0.095, 0.652, -0.326, 0.677),
              Vector3(74.0, 24.0, -45.0), Quaternion(1.0, 0.0, 0.0, 0.0)],
-            [Vector3(-100, 0.0, -200.0), Quaternion(0.087, 0.971, -0.147, -0.161),
-             Vector3(204.0, 75.0, -100.0), Quaternion(1.0, 0.0, 0.0, 0.0)],
-            [Vector3(-360.0, 50.0, 0.0), Quaternion(0.519, 0.671, 0.528, -0.036),
-             Vector3(60.0, -50.0, -50.0), Quaternion(1.0, 0.0, 0.0, 0.0)]
+            [Vector3(-200, 0.0, -200.0), Quaternion(0.087, 0.971, -0.147, -0.161),
+             Vector3(304.0, 75.0, -100.0), Quaternion(1.0, 0.0, 0.0, 0.0)],
+            [Vector3(-460.0, 50.0, 0.0), Quaternion(0.519, 0.671, 0.528, -0.036),
+             Vector3(160.0, -50.0, -50.0), Quaternion(1.0, 0.0, 0.0, 0.0)]
         ]
 
         for surfactant_index in range(len(spd_sequences)):
             name = 'Surfactant-D ' + str(surfactant_index)
             sequence = spd_sequences[surfactant_index]
-            pos, rot = self._get_transformation(
+            pos, rot, progress = self._get_transformation(
                 start_frame=sequence[0], end_frame=sequence[1],
                 frame=frame, data=spd_flights[surfactant_index])
+            print('-   ' + name + '  (%.01f pct)' % progress)
             self._add_surfactant_d(
                 name=name, position=pos, rotation=rot,
                 random_seed=spd_random_seeds[surfactant_index])
             self._add_glucose_to_surfactant_head(name=name)
 
     def _add_surfactants_a(self, frame):
-        spa_sequences = [[0, 2750]]
+        spa_sequences = [[0, 3750]]
         spa_random_seeds = [2]
         spa_frames = [
-            [Vector3(-300.0, -100.0, 100.0), Quaternion(-0.095, 0.652, -0.326, 0.677),
-             Vector3(150.0, -50.0, 100.0), Quaternion(1.0, 0.0, 0.0, 0.0)],
+            [Vector3(-400.0, -100.0, 100.0), Quaternion(-0.095, 0.652, -0.326, 0.677),
+             Vector3(250.0, -50.0, 100.0), Quaternion(1.0, 0.0, 0.0, 0.0)],
         ]
 
         for surfactant_index in range(len(spa_frames)):
             name = 'Surfactant-A ' + str(surfactant_index)
             sequence = spa_sequences[surfactant_index]
-            pos, rot = self._get_transformation(
+            pos, rot, progress = self._get_transformation(
                 start_frame=sequence[0], end_frame=sequence[1],
                 frame=frame, data=spa_frames[surfactant_index])
+            print('-   ' + name + '  (%.01f pct)' % progress)
             self._add_surfactant_a(
                 name=name, position=pos, rotation=rot,
                 random_seed=spa_random_seeds[surfactant_index])
@@ -574,6 +606,18 @@ class HighGlucoseScenario():
                 'direction': [0.009, 0.055, -0.998],
                 'origin': [0.293, 19.604, 1000],
                 'up': [0.017, 0.998, 0.055]
+            }, {  # Membrane overview
+                'apertureRadius': aperture_ratio * 0.0,
+                'focusDistance': 60,
+                'direction': [0.009, 0.055, -0.998],
+                'origin': [0.293, 19.604, 1000],
+                'up': [0.017, 0.998, 0.055]
+            }, {  # Membrane overview
+                'apertureRadius': aperture_ratio * 0.0,
+                'focusDistance': 60,
+                'direction': [0.009, 0.055, -0.998],
+                'origin': [0.293, 19.604, 1000],
+                'up': [0.017, 0.998, 0.055]
             }
         ]
 
@@ -588,6 +632,8 @@ class HighGlucoseScenario():
 
         if end_frame == 0:
             end_frame = mm.get_nb_frames()
+
+        print('- Total number of frames: %d' % mm.get_nb_frames())
 
         self._core.set_application_parameters(viewport=self._image_size)
         self._core.set_application_parameters(image_stream_fps=0)
