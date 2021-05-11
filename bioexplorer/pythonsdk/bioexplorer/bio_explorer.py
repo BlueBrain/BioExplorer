@@ -1213,7 +1213,7 @@ class BioExplorer:
         params["name"] = name
         params["instanceIndex"] = instance_index
         params["position"] = Vector3().to_list()
-        params["rotation"] = Quaternion().to_list()
+        params["rotation"] = list(Quaternion())
         result = self._client.rockets_client.request(
             method=self.PLUGIN_API_PREFIX + "get-protein-instance-transformation",
             params=params)

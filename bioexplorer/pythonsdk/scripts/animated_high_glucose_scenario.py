@@ -60,6 +60,7 @@ nb_protein_s = 62
 nb_protein_e = 42
 nb_protein_m = 50
 add_rna = False
+landing_distance = 40.0
 
 # Immune system
 nb_glucoses = 360000
@@ -144,21 +145,21 @@ class HighGlucoseScenario():
         # Second Virus is the one used for the ACE2 close-up
         virus_radii = [45.0, 44.0, 45.0, 43.0, 44.0, 43.0]
         virus_sequences = [
-            [[-1000, 999], [1000, 1099], [1100, 1299], [1300, 2750]],
-            [[-1600, 399], [2200, 2299], [2300, 2499], [2500, 2750]],
-            [[-800, 1199], [1200, 1299], [1300, 1499], [1500, 2750]],
-            [[-1400, 599], [600, 699], [700, 899], [900, 2750]],
-            [[-400, 1599], [1600, 1699], [1700, 1899], [1900, 2750]],
-            [[0, 1999], [2000, 2099], [2100, 2399], [2400, 2750]],
+            [[-1000, 999], [1000, 1099], [1100, 1299], [1300, 1e6]],
+            [[0, 2100], [2200, 2299], [2300, 2499], [2500, 1e6]],
+            [[-800, 1199], [1200, 1299], [1300, 1499], [1500, 1e6]],
+            [[-1400, 2750], [1e6, 1e6], [1e6, 1e6], [1e6, 1e6]],
+            [[-400, 1599], [1600, 1699], [1700, 1899], [1900, 1e6]],
+            [[0, 1999], [2000, 2099], [2100, 2399], [2400, 1e6]],
         ]
         virus_flights = [
             [Vector3(-250.0, 100.0, -70.0), Quaternion(0.519, 0.671, 0.528, -0.036),
              Vector3(-337.3, -92.3, -99.2), Quaternion(1.0, 0.0, 0.0, 0.0)],
-            [Vector3(-50.0, 100.0, 250.0), Quaternion(0.456, 0.129, -0.185, -0.860),
-             Vector3(-74.9, -97.1, 228.8), Quaternion(1.0, 0.0, 0.0, 0.0)],
+            [Vector3(-50.0, 300.0, 250.0), Quaternion(0.456, 0.129, -0.185, -0.860),
+             Vector3(-74.9, -99.0, 228.8), Quaternion(1.0, 0.0, 0.0, 0.0)],
             [Vector3(150.0, 100.0, 50.0), Quaternion(0.087, 0.971, -0.147, -0.161),
              Vector3(187.5, -110.4, 51.2), Quaternion(1.0, 0.0, 0.0, 0.0)],
-            [Vector3(40.0, 100.0, -50), Quaternion(0.0, 0.0, 0.0, 1.0),
+            [Vector3(40.0, 250.0, -50), Quaternion(0.0, 0.0, 0.0, 1.0),
              Vector3(4.5,  100.0, 7.5), Quaternion(1.0, 0.0, 0.0, 0.0)],
             [Vector3(60.0, 100.0, -240.0), Quaternion(-0.095, 0.652, -0.326, 0.677),
              Vector3(73.9, -117.1, -190.4), Quaternion(1.0, 0.0, 0.0, 0.0)],
@@ -182,7 +183,6 @@ class HighGlucoseScenario():
             progress_in_sequence = (frame - start_frame) / (end_frame - start_frame)
             morphing_step = 0.0
 
-            add_model = True
             if current_sequence == 0:
                 '''Flying'''
                 pos, rot = self._get_transformation(start_frame, end_frame,
@@ -190,26 +190,27 @@ class HighGlucoseScenario():
                 print('-   Virus %d is flying...' % virus_index)
             elif current_sequence == 1:
                 '''Landing'''
-                pos.y -= 50.0 * progress_in_sequence
+                pos.y -= landing_distance * progress_in_sequence
                 print('-   Virus %d is landing...' % virus_index)
             elif current_sequence == 2:
                 '''Merging'''
                 morphing_step = (frame - start_frame) / (end_frame - start_frame)
-                pos.y -= 50.0
+                pos.y -= landing_distance
                 print('-   Virus %d is merging (%f pct)' % (virus_index, morphing_step * 100.0))
             else:
                 '''Inside cell'''
-                add_model = False
                 print('-   Virus %d is inside cell' % virus_index)
+                '''Virus is not added to the scene'''
+                self._be.remove_assembly(name=name)
+                continue
 
-            if add_model:
-                self._be.add_coronavirus(
-                    name=name, resource_folder=resource_folder,
-                    representation=protein_representation, position=pos, rotation=rot,
-                    add_glycans=add_glycans,
-                    assembly_params=[virus_radii[virus_index], 5 * frame + 2 * virus_index,
-                                     1.0, frame + 2 * virus_index + 1, 0.2, morphing_step]
-                )
+            self._be.add_coronavirus(
+                name=name, resource_folder=resource_folder,
+                representation=protein_representation, position=pos, rotation=rot,
+                add_glycans=add_glycans,
+                assembly_params=[virus_radii[virus_index], 5 * frame + 2 * virus_index,
+                                 1.0, frame + 2 * virus_index + 1, 0.2, morphing_step]
+            )
 
     def _add_cell(self, frame):
 
@@ -276,6 +277,40 @@ class HighGlucoseScenario():
                 self._be.add_sugars(o_glycan)
                 count += 1
 
+        '''Modify receptor position when attached virus enters the cell'''
+        receptors_instances = [90, 23, 24, 98, 37]
+        receptors_sequences = [[1000, 1099], [2200, 2299], [1200, 1299], [1600, 1699], [2000, 2099]]
+
+        for i in range(len(receptors_instances)):
+            instance_index = receptors_instances[i]
+            sequence = receptors_sequences[i]
+            start_frame = sequence[0]
+            end_frame = sequence[1]
+            if frame >= start_frame:
+                if frame > end_frame:
+                    '''Send receptor to outter space'''
+                    status = self._be.set_protein_instance_transformation(
+                        assembly_name=name, name=name + '_' + BioExplorer.NAME_RECEPTOR,
+                        instance_index=instance_index, position=Vector3(0.0, 1e6, 0.0)
+                    )
+                else:
+                    progress = (frame - start_frame) * 1.0 / (end_frame - start_frame)
+                    transformation = self._be.get_protein_instance_transformation(
+                        assembly_name=name, name=name + '_' + BioExplorer.NAME_RECEPTOR,
+                        instance_index=instance_index
+                    )
+
+                    p = transformation['position'].split(',')
+                    q = transformation['rotation'].split(',')
+                    pos = Vector3(float(p[0]), float(p[1]), float(p[2]))
+                    rot = Quaternion(float(q[0]), float(q[1]), float(q[2]), float(q[3]))
+                    pos.y -= landing_distance * progress
+
+                    status = self._be.set_protein_instance_transformation(
+                        assembly_name=name, name=name + '_' + BioExplorer.NAME_RECEPTOR,
+                        instance_index=instance_index, position=pos, rotation=rot
+                    )
+
     def _add_surfactant_d(self, name, position, rotation, random_seed):
         surfactant_d = Surfactant(
             name=name, surfactant_protein=BioExplorer.SURFACTANT_PROTEIN_D,
@@ -307,38 +342,42 @@ class HighGlucoseScenario():
         spd_sequences = [[0, 1100], [0, 2750], [0, 2750]]
         spd_random_seeds = [1, 2, 6]
         spd_flights = [
-            [Vector3(74.0 - 250.0, 24.0, -45.0), Quaternion(-0.095, 0.652, -0.326, 0.677),
+            [Vector3(-240.0, 0.0, -100.0), Quaternion(-0.095, 0.652, -0.326, 0.677),
              Vector3(74.0, 24.0, -45.0), Quaternion(1.0, 0.0, 0.0, 0.0)],
-            [Vector3(104.0 - 200, 175.0, -89.0), Quaternion(0.087, 0.971, -0.147, -0.161),
-             Vector3(104.0, 175.0, -89.0), Quaternion(1.0, 0.0, 0.0, 0.0)],
-            [Vector3(-260.0 - 100, 50.0, 0.0), Quaternion(0.519, 0.671, 0.528, -0.036),
-             Vector3(-260.0, 50.0, 0.0), Quaternion(1.0, 0.0, 0.0, 0.0)]
+            [Vector3(-100, 0.0, -200.0), Quaternion(0.087, 0.971, -0.147, -0.161),
+             Vector3(204.0, 75.0, -100.0), Quaternion(1.0, 0.0, 0.0, 0.0)],
+            [Vector3(-360.0, 50.0, 0.0), Quaternion(0.519, 0.671, 0.528, -0.036),
+             Vector3(60.0, -50.0, -50.0), Quaternion(1.0, 0.0, 0.0, 0.0)]
         ]
 
         for surfactant_index in range(len(spd_sequences)):
-            sequence = spd_sequences[surfactant_index]
-            pos, rot = self._get_transformation(sequence[0], sequence[1],
-                                                frame, spd_flights[surfactant_index])
             name = 'Surfactant-D ' + str(surfactant_index)
-            self._add_surfactant_d(name=name, position=pos, rotation=rot,
-                                   random_seed=spd_random_seeds[surfactant_index])
+            sequence = spd_sequences[surfactant_index]
+            pos, rot = self._get_transformation(
+                start_frame=sequence[0], end_frame=sequence[1],
+                frame=frame, data=spd_flights[surfactant_index])
+            self._add_surfactant_d(
+                name=name, position=pos, rotation=rot,
+                random_seed=spd_random_seeds[surfactant_index])
             self._add_glucose_to_surfactant_head(name=name)
 
     def _add_surfactants_a(self, frame):
         spa_sequences = [[0, 2750]]
         spa_random_seeds = [2]
         spa_frames = [
-            [Vector3(-100.0 - 200, -100.0, 100.0), Quaternion(-0.095, 0.652, -0.326, 0.677),
-             Vector3(-100.0, -50.0, 100.0), Quaternion(1.0, 0.0, 0.0, 0.0)],
+            [Vector3(-300.0, -100.0, 100.0), Quaternion(-0.095, 0.652, -0.326, 0.677),
+             Vector3(150.0, -50.0, 100.0), Quaternion(1.0, 0.0, 0.0, 0.0)],
         ]
 
         for surfactant_index in range(len(spa_frames)):
-            sequence = spa_sequences[surfactant_index]
-            pos, rot = self._get_transformation(sequence[0], sequence[1],
-                                                frame, spa_frames[surfactant_index])
             name = 'Surfactant-A ' + str(surfactant_index)
-            self._add_surfactant_a(name=name, position=pos, rotation=rot,
-                                   random_seed=spa_random_seeds[surfactant_index])
+            sequence = spa_sequences[surfactant_index]
+            pos, rot = self._get_transformation(
+                start_frame=sequence[0], end_frame=sequence[1],
+                frame=frame, data=spa_frames[surfactant_index])
+            self._add_surfactant_a(
+                name=name, position=pos, rotation=rot,
+                random_seed=spa_random_seeds[surfactant_index])
             self._add_glucose_to_surfactant_head(name=name)
 
     def _add_glucose(self, frame):
@@ -352,7 +391,8 @@ class HighGlucoseScenario():
         )
         status = self._be.add_volume(
             volume=volume, representation=protein_representation,
-            position=Vector3(0.0, scene_size / 2.0 - 200.0, 0.0))
+            position=Vector3(0.0, scene_size / 2.0 - 200.0, 0.0),
+            random_seed=100)
 
     def _add_lactoferrins(self, frame):
         lactoferrin = Protein(
@@ -366,7 +406,7 @@ class HighGlucoseScenario():
         status = self._be.add_volume(
             volume=lactoferrins_volume, representation=protein_representation,
             position=Vector3(0.0, scene_size / 2.0 - 200.0, 0.0),
-            random_seed=2)
+            random_seed=101)
 
     def _add_defensins(self, frame):
         defensin = Protein(
@@ -380,9 +420,12 @@ class HighGlucoseScenario():
         status = self._be.add_volume(
             volume=defensins_volume, representation=protein_representation,
             position=Vector3(0.0, scene_size / 2.0 - 200.0, 0.0),
-            random_seed=3)
+            random_seed=102)
 
     def _set_materials(self):
+        '''Update scene'''
+        status = self._core.scene.commit()
+
         '''Default materials'''
         self._be.apply_default_color_scheme(
             shading_mode=BioExplorer.SHADING_MODE_DIFFUSE, specular_exponent=50.0)
