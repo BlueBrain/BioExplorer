@@ -25,6 +25,8 @@ from bioexplorer import BioExplorer, RNASequence, Protein, \
     AssemblyProtein, Virus, Surfactant, ParametricMembrane, Cell, Sugars, \
     Volume, Vector2, Vector3, Quaternion
 from mediamaker import MovieMaker
+import math
+from datetime import datetime, timedelta
 import time
 import sys
 
@@ -98,6 +100,12 @@ defensin_path = pdb_folder + 'immune/1ijv.pdb'
 surfactant_head_source = pdb_folder + 'surfactant/1pw9.pdb'
 surfactant_branch_source = pdb_folder + 'surfactant/1k6f.pdb'
 
+# --------------------------------------------------------------------------------
+# Enums
+# --------------------------------------------------------------------------------
+ROTATION_MODE_LINEAR = 0
+ROTATION_MODE_SINUSOIDAL = 1
+
 
 class HighGlucoseScenario():
 
@@ -138,6 +146,8 @@ class HighGlucoseScenario():
         start_rot = data[1]
         end_rot = data[3]
         rot = Quaternion.slerp(start_rot, end_rot, progress)
+        if data[4] == ROTATION_MODE_SINUSOIDAL:
+            rot = Quaternion.slerp(start_rot, end_rot, math.cos((progress - 0.5) * math.pi))
 
         return [Vector3(pos[0], pos[1], pos[2]), rot, progress * 100.0]
 
@@ -154,32 +164,44 @@ class HighGlucoseScenario():
         ]
         virus_flights_in = [
             [Vector3(-250.0, 100.0, -70.0), Quaternion(0.519, 0.671, 0.528, -0.036),
-             Vector3(-337.3, -92.3, -99.2), Quaternion(1.0, 0.0, 0.0, 0.0)],
+             Vector3(-337.3, -92.3, -99.2), Quaternion(1.0, 0.0, 0.0, 0.0),
+             ROTATION_MODE_LINEAR],
             [Vector3(-50.0, 300.0, 250.0), Quaternion(0.456, 0.129, -0.185, -0.860),
-             Vector3(-74.9, -99.0, 228.8), Quaternion(1.0, 0.0, 0.0, 0.0)],
+             Vector3(-74.9, -99.0, 228.8), Quaternion(1.0, 0.0, 0.0, 0.0),
+             ROTATION_MODE_LINEAR],
             [Vector3(150.0, 100.0, 50.0), Quaternion(0.087, 0.971, -0.147, -0.161),
-             Vector3(187.5, -110.4, 51.2), Quaternion(1.0, 0.0, 0.0, 0.0)],
+             Vector3(187.5, -110.4, 51.2), Quaternion(1.0, 0.0, 0.0, 0.0),
+             ROTATION_MODE_LINEAR],
             [Vector3(40.0, 250.0, -50), Quaternion(0.0, 0.0, 0.0, 1.0),
-             Vector3(4.5,  100.0, 7.5), Quaternion(1.0, 0.0, 0.0, 0.0)],
+             Vector3(4.5,  100.0, 7.5), Quaternion(1.0, 0.0, 0.0, 0.0),
+             ROTATION_MODE_LINEAR],
             [Vector3(60.0, 100.0, -240.0), Quaternion(-0.095, 0.652, -0.326, 0.677),
-             Vector3(73.9, -117.1, -190.4), Quaternion(1.0, 0.0, 0.0, 0.0)],
+             Vector3(73.9, -117.1, -190.4), Quaternion(1.0, 0.0, 0.0, 0.0),
+             ROTATION_MODE_LINEAR],
             [Vector3(200.0, 100.0, 300.0), Quaternion(-0.866, 0.201, 0.308, -0.336),
-             Vector3(211.5, -104.9, 339.2), Quaternion(1.0, 0.0, 0.0, 0.0)]
+             Vector3(211.5, -104.9, 339.2), Quaternion(1.0, 0.0, 0.0, 0.0),
+             ROTATION_MODE_LINEAR]
         ]
 
         virus_flights_out = [
             [Vector3(-250.0, -150.0, -70.0), Quaternion(1.0, 0.0, 0.0, 0.0),
-             Vector3(-270.0, 200.0, -99.2), Quaternion(0.519, 0.671, 0.528, -0.036)],
+             Vector3(-270.0, 200.0, -99.2), Quaternion(0.519, 0.671, 0.528, -0.036),
+             ROTATION_MODE_LINEAR],
             [Vector3(-50.0, -150.0, 250.0), Quaternion(1.0, 0.0, 0.0, 0.0),
-             Vector3(-75.0, 200.0, 228.8), Quaternion(0.456, 0.129, -0.185, -0.860)],
+             Vector3(-75.0, 200.0, 228.8), Quaternion(0.456, 0.129, -0.185, -0.860),
+             ROTATION_MODE_LINEAR],
             [Vector3(150.0, -150.0, 50.0), Quaternion(1.0, 0.0, 0.0, 0.0),
-             Vector3(187.0, 200.0, 51.2), Quaternion(0.087, 0.971, -0.147, -0.161)],
+             Vector3(187.0, 200.0, 51.2), Quaternion(0.087, 0.971, -0.147, -0.161),
+             ROTATION_MODE_LINEAR],
             [Vector3(40.0, -150.0, -50.0), Quaternion(1.0, 0.0, 0.0, 0.0),
-             Vector3(60.0,  200.0, -30.0), Quaternion(0.0, 0.0, 0.0, 1.0)],
+             Vector3(60.0,  200.0, -30.0), Quaternion(0.0, 0.0, 0.0, 1.0),
+             ROTATION_MODE_LINEAR],
             [Vector3(60.0, -150.0, -240.0), Quaternion(1.0, 0.0, 0.0, 0.0),
-             Vector3(74.0, 200.0, -220.0), Quaternion(-0.095, 0.652, -0.326, 0.677)],
+             Vector3(74.0, 200.0, -220.0), Quaternion(-0.095, 0.652, -0.326, 0.677),
+             ROTATION_MODE_LINEAR],
             [Vector3(200.0, -150.0, 300.0), Quaternion(1.0, 0.0, 0.0, 0.0),
-             Vector3(210.0, 200.0, 330.0), Quaternion(-0.866, 0.201, 0.308, -0.336)]
+             Vector3(210.0, 200.0, 330.0), Quaternion(-0.866, 0.201, 0.308, -0.336),
+             ROTATION_MODE_LINEAR]
         ]
 
         for virus_index in range(len(virus_sequences)):
@@ -279,34 +301,6 @@ class HighGlucoseScenario():
             representation=protein_representation,
             random_seed=random_seed)
 
-        if nb_receptors != 0 and add_glycans:
-            self._be.add_multiple_glycans(
-                representation=glycan_representation, assembly_name=name,
-                glycan_type=BioExplorer.NAME_GLYCAN_COMPLEX,
-                protein_name=BioExplorer.NAME_RECEPTOR, paths=complex_paths,
-                indices=[53, 90, 103, 322, 432, 690],
-                assembly_params=[0, 0, 0.0, frame + 3, 0.2]
-            )
-            self._be.add_multiple_glycans(
-                representation=glycan_representation, assembly_name=name,
-                glycan_type=BioExplorer.NAME_GLYCAN_HYBRID,
-                protein_name=BioExplorer.NAME_RECEPTOR, paths=hybrid_paths,
-                indices=[546],
-                assembly_params=[0, 0, 0.0, frame + 4, 0.2])
-
-            indices = [[155, Quaternion(0.707, 0.0, 0.707, 0.0)],
-                       [730, Quaternion(0.707, 0.0, 0.707, 0.0)]]
-            count = 0
-            for index in indices:
-                o_glycan_name = name + '_' + BioExplorer.NAME_GLYCAN_O_GLYCAN + '_' + str(index[0])
-                o_glycan = Sugars(
-                    assembly_name=name, name=o_glycan_name, source=o_glycan_paths[0],
-                    protein_name=name + '_' + BioExplorer.NAME_RECEPTOR, representation=glycan_representation,
-                    chain_ids=[2, 4], site_indices=[index[0]], rotation=index[1],
-                    assembly_params=[0, 0, 0.0, frame + count + 5, 0.2])
-                self._be.add_sugars(o_glycan)
-                count += 1
-
         '''Modify receptor position when attached virus enters the cell'''
         receptors_instances = [90, 23, 24, 98, 37]
         receptors_sequences = [[1000, 1099], [2200, 2299], [1200, 1299], [1600, 1699], [2000, 2099]]
@@ -341,6 +335,35 @@ class HighGlucoseScenario():
                         instance_index=instance_index, position=pos, rotation=rot
                     )
 
+        '''Glycans'''
+        if nb_receptors != 0 and add_glycans:
+            self._be.add_multiple_glycans(
+                representation=glycan_representation, assembly_name=name,
+                glycan_type=BioExplorer.NAME_GLYCAN_COMPLEX,
+                protein_name=BioExplorer.NAME_RECEPTOR, paths=complex_paths,
+                indices=[53, 90, 103, 322, 432, 690],
+                assembly_params=[0, 0, 0.0, frame + 3, 0.2]
+            )
+            self._be.add_multiple_glycans(
+                representation=glycan_representation, assembly_name=name,
+                glycan_type=BioExplorer.NAME_GLYCAN_HYBRID,
+                protein_name=BioExplorer.NAME_RECEPTOR, paths=hybrid_paths,
+                indices=[546],
+                assembly_params=[0, 0, 0.0, frame + 4, 0.2])
+
+            indices = [[155, Quaternion(0.707, 0.0, 0.707, 0.0)],
+                       [730, Quaternion(0.707, 0.0, 0.707, 0.0)]]
+            count = 0
+            for index in indices:
+                o_glycan_name = name + '_' + BioExplorer.NAME_GLYCAN_O_GLYCAN + '_' + str(index[0])
+                o_glycan = Sugars(
+                    assembly_name=name, name=o_glycan_name, source=o_glycan_paths[0],
+                    protein_name=name + '_' + BioExplorer.NAME_RECEPTOR, representation=glycan_representation,
+                    chain_ids=[2, 4], site_indices=[index[0]], rotation=index[1],
+                    assembly_params=[0, 0, 0.0, frame + count + 5, 0.2])
+                self._be.add_sugars(o_glycan)
+                count += 1
+
     def _add_surfactant_d(self, name, position, rotation, random_seed):
         surfactant_d = Surfactant(
             name=name, surfactant_protein=BioExplorer.SURFACTANT_PROTEIN_D,
@@ -369,15 +392,20 @@ class HighGlucoseScenario():
             self._be.add_sugars(glucose)
 
     def _add_surfactants_d(self, frame):
-        spd_sequences = [[0, 1100], [0, 3750], [0, 3750]]
+        # 74.0, 24.0, -45.0
+        spd_sequences = [[-1550, 3750], [0, 3750], [0, 3750]]
         spd_random_seeds = [1, 2, 6]
         spd_flights = [
             [Vector3(-340.0, 0.0, -100.0), Quaternion(-0.095, 0.652, -0.326, 0.677),
-             Vector3(74.0, 24.0, -45.0), Quaternion(1.0, 0.0, 0.0, 0.0)],
+             Vector3(74.0 + (74.0 + 340), 24.0 + (24.0 - 0.0), -45.0 +
+                     (-45.0 + 100)), Quaternion(1.0, 0.0, 0.0, 0.0),
+             ROTATION_MODE_SINUSOIDAL],
             [Vector3(-200, 0.0, -200.0), Quaternion(0.087, 0.971, -0.147, -0.161),
-             Vector3(304.0, 75.0, -100.0), Quaternion(1.0, 0.0, 0.0, 0.0)],
+             Vector3(304.0, 75.0, -100.0), Quaternion(1.0, 0.0, 0.0, 0.0),
+             ROTATION_MODE_SINUSOIDAL],
             [Vector3(-460.0, 50.0, 0.0), Quaternion(0.519, 0.671, 0.528, -0.036),
-             Vector3(160.0, -50.0, -50.0), Quaternion(1.0, 0.0, 0.0, 0.0)]
+             Vector3(160.0, -50.0, -50.0), Quaternion(1.0, 0.0, 0.0, 0.0),
+             ROTATION_MODE_SINUSOIDAL]
         ]
 
         for surfactant_index in range(len(spd_sequences)):
@@ -386,7 +414,7 @@ class HighGlucoseScenario():
             pos, rot, progress = self._get_transformation(
                 start_frame=sequence[0], end_frame=sequence[1],
                 frame=frame, data=spd_flights[surfactant_index])
-            print('-   ' + name + '  (%.01f pct)' % progress)
+            print('-   ' + name + ' (%.01f pct)' % progress)
             self._add_surfactant_d(
                 name=name, position=pos, rotation=rot,
                 random_seed=spd_random_seeds[surfactant_index])
@@ -397,7 +425,8 @@ class HighGlucoseScenario():
         spa_random_seeds = [2]
         spa_frames = [
             [Vector3(-400.0, -100.0, 100.0), Quaternion(-0.095, 0.652, -0.326, 0.677),
-             Vector3(250.0, -50.0, 100.0), Quaternion(1.0, 0.0, 0.0, 0.0)],
+             Vector3(250.0, -50.0, 100.0), Quaternion(1.0, 0.0, 0.0, 0.0),
+             ROTATION_MODE_SINUSOIDAL],
         ]
 
         for surfactant_index in range(len(spa_frames)):
@@ -406,7 +435,7 @@ class HighGlucoseScenario():
             pos, rot, progress = self._get_transformation(
                 start_frame=sequence[0], end_frame=sequence[1],
                 frame=frame, data=spa_frames[surfactant_index])
-            print('-   ' + name + '  (%.01f pct)' % progress)
+            print('-   ' + name + ' (%.01f pct)' % progress)
             self._add_surfactant_a(
                 name=name, position=pos, rotation=rot,
                 random_seed=spa_random_seeds[surfactant_index])
@@ -639,7 +668,7 @@ class HighGlucoseScenario():
         self._core.set_application_parameters(image_stream_fps=0)
 
         cumulated_rendering_time = 0
-        nb_frames = (end_frame + 1 - start_frame) / frame_step
+        nb_frames = 1 + (end_frame - start_frame) / frame_step
         frame_count = 1
         for frame in range(start_frame, end_frame + 1, frame_step):
             start = time.time()
@@ -658,8 +687,15 @@ class HighGlucoseScenario():
             remaining_rendering_time = (nb_frames - frame_count) * average_rendering_time
             print('------------------------------')
             print('Frame %i successfully rendered in %i seconds' % (frame, rendering_time))
-            print('Remaining estimated time: %i seconds (%i hours)' %
-                  (remaining_rendering_time, remaining_rendering_time/3600))
+
+            hours = math.floor(remaining_rendering_time / 3600)
+            minutes = math.floor((remaining_rendering_time - hours * 3600) / 60)
+            seconds = math.floor(remaining_rendering_time - hours * 3600 - minutes * 60)
+
+            expected_end_time = datetime.now() + timedelta(seconds=remaining_rendering_time)
+            print('Estimated remaining time: %i hours, %i minutes, %i seconds' %
+                  (hours, minutes, seconds))
+            print('Expected end time       : %s' % expected_end_time)
             print('--------------------------------------------------------------------------------')
             frame_count += 1
 
@@ -683,6 +719,8 @@ def main(argv):
         start_frame=int(argv[6]),
         end_frame=int(argv[7]),
         frame_step=int(argv[8]))
+
+    print('Movie rendered, live long and prosper \V/')
 
 
 if __name__ == "__main__":
