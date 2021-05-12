@@ -62,7 +62,7 @@ nb_protein_s = 62
 nb_protein_e = 42
 nb_protein_m = 50
 add_rna = False
-landing_distance = 40.0
+landing_distance = 50.0
 
 # Immune system
 nb_glucoses = 360000
@@ -72,6 +72,7 @@ nb_defensins_on_virus = 2
 
 # Cell
 cell_nb_receptors = 100
+# cell_nb_lipids = 1
 cell_nb_lipids = 1200000
 
 # --------------------------------------------------------------------------------
@@ -318,17 +319,23 @@ class HighGlucoseScenario():
                         instance_index=instance_index, position=Vector3(0.0, 1e6, 0.0)
                     )
                 else:
-                    progress = (frame - start_frame) * 1.0 / (end_frame - start_frame)
+                    '''Current receptor transformation'''
                     transformation = self._be.get_protein_instance_transformation(
                         assembly_name=name, name=name + '_' + BioExplorer.NAME_RECEPTOR,
                         instance_index=instance_index
                     )
-
                     p = transformation['position'].split(',')
                     q = transformation['rotation'].split(',')
                     pos = Vector3(float(p[0]), float(p[1]), float(p[2]))
-                    rot = Quaternion(float(q[0]), float(q[1]), float(q[2]), float(q[3]))
-                    pos.y -= landing_distance * progress
+                    q2 = Quaternion(float(q[0]), float(q[1]), float(q[2]), float(q[3]))
+
+                    '''Bend receptor'''
+                    progress = (frame - start_frame) * 1.0 / (end_frame - start_frame)
+                    q1 = Quaternion(axis=[0, 1, 0], angle=math.pi * progress)
+                    rot = q2 * q1
+
+                    pos.x += landing_distance * progress * 0.3
+                    pos.y -= landing_distance * progress * 0.3
 
                     status = self._be.set_protein_instance_transformation(
                         assembly_name=name, name=name + '_' + BioExplorer.NAME_RECEPTOR,
