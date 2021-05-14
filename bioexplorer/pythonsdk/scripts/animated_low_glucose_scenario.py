@@ -162,11 +162,11 @@ class LowGlucoseScenario():
     def _add_viruses(self, frame):
         virus_radii = [45.0, 44.0, 45.0, 43.0, 44.0]
         virus_sequences = [
-            [[0, 2599], [2600, 3750], [3750, 3750], [3750, 3750], [3750, 3750], [3750, 3750]],
-            [[0, 2599], [2600, 3750], [3750, 3750], [3750, 3750], [3750, 3750], [3750, 3750]],
-            [[0, 2599], [2600, 3750], [3750, 3750], [3750, 3750], [3750, 3750], [3750, 3750]],
-            [[0, 2999], [3000, 3099], [3100, 3299], [3300, 3750], [3750, 3750], [3750, 3750]],
-            [[0, 3750], [3750, 3750], [3750, 3750], [3750, 3750], [3750, 3750], [3750, 3750]],
+            [[0, 2599], [1e6, 1e6], [1e6, 1e6], [1e6, 1e6], [1e6, 1e6], [1e6, 1e6]],
+            [[0, 2599], [1e6, 1e6], [1e6, 1e6], [1e6, 1e6], [1e6, 1e6], [1e6, 1e6]],
+            [[0, 2599], [1e6, 1e6], [1e6, 1e6], [1e6, 1e6], [1e6, 1e6], [1e6, 1e6]],
+            [[0, 2999], [3000, 3099], [3100, 3299], [3300, 3750], [1e6, 1e6], [1e6, 1e6]],
+            [[0, 599], [1e6, 1e6], [1e6, 1e6], [1e6, 1e6], [1e6, 1e6], [600, 3750]],
         ]
         virus_flights_in = [
             [Vector3(-35.0, 300.0, 0.0), Quaternion(0.519, 0.671, 0.528, -0.036),
@@ -175,32 +175,39 @@ class LowGlucoseScenario():
             [Vector3(153.0, 300.0, -200.0), Quaternion(0.456, 0.129, -0.185, -0.860),
              Vector3(73.0, 93.0, -115.0), Quaternion(1.0, 0.0, 0.0, 0.0),
              ROTATION_MODE_LINEAR],
-            [Vector3(-184.0, 300.0, -75.0), Quaternion(0.087, 0.971, -0.147, -0.161),
+            [Vector3(-100.0, 300.0, 20.0), Quaternion(0.087, 0.971, -0.147, -0.161),
              Vector3(-84.0, 110.0, 75.0), Quaternion(1.0, 0.0, 0.0, 0.0),
              ROTATION_MODE_LINEAR],
-            [Vector3(-124.9, 300.0, 120.0), Quaternion(-0.095, 0.652, -0.326, 0.677),
-             Vector3(-74.9, -97.1, 228.8), Quaternion(1.0, 0.0, 0.0, 0.0),
+            # Virus getting inside cell
+            [Vector3(224.9, 300.0, 120.0), Quaternion(-0.095, 0.652, -0.326, 0.677),
+             Vector3(211.5, -104.9, 339.2), Quaternion(1.0, 0.0, 0.0, 0.0),
              ROTATION_MODE_LINEAR],
+            # Virus used for detailed view of the Spike
             [Vector3(200.0, 20.0, -150.0), Quaternion(1.0, 0.0, 0.0, 0.0),
              Vector3(200.0, 20.0, -150.0), Quaternion(1.0, 0.0, 0.0, 0.0),
              ROTATION_MODE_LINEAR]
         ]
 
         virus_flights_out = [
-            [Vector3(-250.0, -150.0, -70.0), Quaternion(1.0, 0.0, 0.0, 0.0),
-             Vector3(-270.0, 200.0, -99.2), Quaternion(0.519, 0.671, 0.528, -0.036),
+            # Unused
+            [Vector3(0.0, 0.0, 0.0), Quaternion(1.0, 0.0, 0.0, 0.0),
+             Vector3(0.0, 0.0, 0.0), Quaternion(1.0, 0.0, 0.0, 0.0),
              ROTATION_MODE_LINEAR],
-            [Vector3(-50.0, -150.0, 250.0), Quaternion(1.0, 0.0, 0.0, 0.0),
-             Vector3(-75.0, 200.0, 228.8), Quaternion(0.456, 0.129, -0.185, -0.860),
+            # Unused
+            [Vector3(0.0, 0.0, 0.0), Quaternion(1.0, 0.0, 0.0, 0.0),
+             Vector3(0.0, 0.0, 0.0), Quaternion(1.0, 0.0, 0.0, 0.0),
              ROTATION_MODE_LINEAR],
-            [Vector3(150.0, -150.0, 50.0), Quaternion(1.0, 0.0, 0.0, 0.0),
-             Vector3(187.0, 200.0, 51.2), Quaternion(0.087, 0.971, -0.147, -0.161),
+            # Virus used for detailed view of the Spike
+            [Vector3(-84.0, 110.0, 75.0), Quaternion(1.0, 0.0, 0.0, 0.0),
+             Vector3(-100.0, -100.0, 51.2), Quaternion(0.087, 0.971, -0.147, -0.161),
              ROTATION_MODE_LINEAR],
-            [Vector3(40.0, -150.0, -50.0), Quaternion(1.0, 0.0, 0.0, 0.0),
-             Vector3(60.0,  200.0, -30.0), Quaternion(0.0, 0.0, 0.0, 1.0),
+            # Unused
+            [Vector3(0.0, 0.0, 0.0), Quaternion(1.0, 0.0, 0.0, 0.0),
+             Vector3(0.0, 0.0, 0.0), Quaternion(1.0, 0.0, 0.0, 0.0),
              ROTATION_MODE_LINEAR],
-            [Vector3(60.0, -150.0, -240.0), Quaternion(1.0, 0.0, 0.0, 0.0),
-             Vector3(74.0, 200.0, -220.0), Quaternion(-0.095, 0.652, -0.326, 0.677),
+            # Virus used for detailed view of the Spike
+            [Vector3(200.0, 20.0, -150.0), Quaternion(1.0, 0.0, 0.0, 0.0),
+             Vector3(230.0, -50.0, -130.0), Quaternion(0.456, 0.129, -0.185, -0.860),
              ROTATION_MODE_LINEAR]
         ]
 
@@ -302,8 +309,8 @@ class LowGlucoseScenario():
             random_seed=random_seed)
 
         '''Modify receptor position when attached virus enters the cell'''
-        receptors_instances = [90, 23, 24, 98, 37]
-        receptors_sequences = [[1000, 1099], [2200, 2299], [1200, 1299], [1600, 1699], [2000, 2099]]
+        receptors_instances = [37]
+        receptors_sequences = [[3000, 3099]]
 
         for i in range(len(receptors_instances)):
             instance_index = receptors_instances[i]
@@ -402,7 +409,6 @@ class LowGlucoseScenario():
         spd_sequences = [[0, 3750], [0, 2600], [0, 2600], [0, 3750]]
         spd_random_seeds = [1, 1, 1, 2]
 
-        # 3rd SP-D is used for the head focus on 3rd virus spike
         spd_flights = [
             [Vector3(300,  124.0, 0.0), Quaternion(-0.095, 0.652, -0.326, 0.677),
              Vector3(74.0,  24.0, -45.0), Quaternion(1.0, 0.0, 0.0, 0.0),
@@ -410,6 +416,7 @@ class LowGlucoseScenario():
             [Vector3(-50,  50.0, 20.0), Quaternion(0.087, 0.971, -0.147, -0.161),
              Vector3(-11.0,  108.0, 20.0), Quaternion(1.0, 0.0, 0.0, 0.0),
              ROTATION_MODE_LINEAR],
+            # SP-D is used for the head focus on 3rd virus spike
             [Vector3(200.0, 100.0, -105.0), Quaternion(0.519, 0.671, 0.528, -0.036),
              Vector3(-165.0, 140.0, 105.0), Quaternion(1.0, 0.0, 0.0, 0.0),
              ROTATION_MODE_LINEAR],
@@ -497,8 +504,8 @@ class LowGlucoseScenario():
         name = 'Emile'
         lymphocyte_sequence = [0, 3750]
         lymphocyte_seeds = [2]
-        lymphocyte_frames = [Vector3(-1935.0, 0.0, 0.0), Quaternion(1.0, 0.0, 0.0, 0.0),
-                             Vector3(-1700.0, 0.0, 0.0), Quaternion(0.707, 0.707, 0.0, 0.0),
+        lymphocyte_frames = [Vector3(-2200.0, 0.0, 0.0), Quaternion(1.0, 0.0, 0.0, 0.0),
+                             Vector3(-1500.0, 0.0, 0.0), Quaternion(0.707, 0.707, 0.0, 0.0),
                              ROTATION_MODE_LINEAR]
 
         protein_sources = [
@@ -586,30 +593,30 @@ class LowGlucoseScenario():
         self._log('- Resetting scene...')
         self._be.reset()
 
-        # self._log('- Building viruses...')
-        # self._add_viruses(frame)
+        self._log('- Building viruses...')
+        self._add_viruses(frame)
 
-        # self._log('- Building surfactants...')
-        # self._add_surfactants_d(frame)
-        # self._add_surfactants_a(frame)
+        self._log('- Building surfactants...')
+        self._add_surfactants_d(frame)
+        self._add_surfactants_a(frame)
 
-        # self._log('- Building glucose...')
-        # self._add_glucose(frame)
+        self._log('- Building glucose...')
+        self._add_glucose(frame)
 
-        # self._log('- Building lactoferrins...')
-        # self._add_lactoferrins(frame)
+        self._log('- Building lactoferrins...')
+        self._add_lactoferrins(frame)
 
-        # self._log('- Building defensins...')
-        # self._add_defensins(frame)
+        self._log('- Building defensins...')
+        self._add_defensins(frame)
 
-        # self._log('- Building cell...')
-        # self._add_cell(frame)
+        self._log('- Building cell...')
+        self._add_cell(frame)
 
         self._log('- Building lymphocyte...')
         self._add_lymphocyte(frame)
 
-        # self._log('- Setting materials...')
-        # self._set_materials()
+        self._log('- Setting materials...')
+        self._set_materials()
 
         self._log('- Showing models...')
         status = self._be.set_models_visibility(True)
