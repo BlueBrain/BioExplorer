@@ -1,5 +1,5 @@
 #!/usr/bin/env python
-"""Animated high glucose scenario"""
+"""Animated low glucose scenario"""
 
 # -*- coding: utf-8 -*-
 
@@ -21,7 +21,7 @@
 # You should have received a copy of the GNU General Public License along with
 # this program.  If not, see <https://www.gnu.org/licenses/>.
 
-from bioexplorer import BioExplorer, RNASequence, Protein, \
+from bioexplorer import BioExplorer, RNASequence, Protein, MeshBasedMembrane, \
     AssemblyProtein, Virus, Surfactant, ParametricMembrane, Cell, Sugars, \
     Volume, Vector2, Vector3, Quaternion
 from mediamaker import MovieMaker
@@ -44,7 +44,7 @@ image_output_folder = '/tmp'
 # --------------------------------------------------------------------------------
 # Scenario
 # --------------------------------------------------------------------------------
-scenario = 'high_glucose'
+scenario = 'low_glucose'
 # Scene
 scene_size = 800.0
 
@@ -102,6 +102,8 @@ defensin_path = pdb_folder + 'immune/1ijv.pdb'
 surfactant_head_source = pdb_folder + 'surfactant/1pw9.pdb'
 surfactant_branch_source = pdb_folder + 'surfactant/1k6f.pdb'
 
+lymphocyte_path = obj_folder + 'lymphocyte.obj'
+
 # --------------------------------------------------------------------------------
 # Enums
 # --------------------------------------------------------------------------------
@@ -109,7 +111,7 @@ ROTATION_MODE_LINEAR = 0
 ROTATION_MODE_SINUSOIDAL = 1
 
 
-class HighGlucoseScenario():
+class LowGlucoseScenario():
 
     def __init__(self, hostname, port, projection, output_folder, image_k=4, image_samples_per_pixels=64):
         self._hostname = hostname
@@ -158,34 +160,29 @@ class HighGlucoseScenario():
         return [Vector3(pos[0], pos[1], pos[2]), rot, progress * 100.0]
 
     def _add_viruses(self, frame):
-        # Second Virus is the one used for the ACE2 close-up
-        virus_radii = [45.0, 44.0, 45.0, 43.0, 44.0, 43.0]
+        virus_radii = [45.0, 44.0, 45.0, 43.0, 44.0]
         virus_sequences = [
-            [[-1000, 999], [1000, 1099], [1100, 1299], [1300, 2999], [3000, 3099], [3100, 3750]],
-            [[0, 2100], [2200, 2299], [2300, 2499], [2500, 3049], [3050, 3149], [3150, 3750]],
-            [[-800, 1199], [1200, 1299], [1300, 1499], [1500, 3199], [3200, 3299], [3300, 3750]],
-            [[-1400, 3750], [1e6, 1e6], [1e6, 1e6], [1e6, 1e6], [1e6, 1e6], [1e6, 1e6]],
-            [[-400, 1599], [1600, 1699], [1700, 1899], [1900, 3119], [3120, 3219], [3220, 3750]],
-            [[0, 1999], [2000, 2099], [2100, 2399], [2400, 2799], [2800, 2899], [2900, 3750]],
+            [[0, 2599], [2600, 3750], [3750, 3750], [3750, 3750], [3750, 3750], [3750, 3750]],
+            [[0, 2599], [2600, 3750], [3750, 3750], [3750, 3750], [3750, 3750], [3750, 3750]],
+            [[0, 2599], [2600, 3750], [3750, 3750], [3750, 3750], [3750, 3750], [3750, 3750]],
+            [[0, 2999], [3000, 3099], [3100, 3299], [3300, 3750], [3750, 3750], [3750, 3750]],
+            [[0, 3750], [3750, 3750], [3750, 3750], [3750, 3750], [3750, 3750], [3750, 3750]],
         ]
         virus_flights_in = [
-            [Vector3(-250.0, 100.0, -70.0), Quaternion(0.519, 0.671, 0.528, -0.036),
-             Vector3(-337.3, -92.3, -99.2), Quaternion(1.0, 0.0, 0.0, 0.0),
+            [Vector3(-35.0, 300.0, 0.0), Quaternion(0.519, 0.671, 0.528, -0.036),
+             Vector3(-5.0, 30.0, -36.0), Quaternion(1.0, 0.0, 0.0, 0.0),
              ROTATION_MODE_LINEAR],
-            [Vector3(-50.0, 300.0, 250.0), Quaternion(0.456, 0.129, -0.185, -0.860),
-             Vector3(-74.9, -99.0, 228.8), Quaternion(1.0, 0.0, 0.0, 0.0),
+            [Vector3(153.0, 300.0, -200.0), Quaternion(0.456, 0.129, -0.185, -0.860),
+             Vector3(73.0, 93.0, -115.0), Quaternion(1.0, 0.0, 0.0, 0.0),
              ROTATION_MODE_LINEAR],
-            [Vector3(150.0, 100.0, 50.0), Quaternion(0.087, 0.971, -0.147, -0.161),
-             Vector3(187.5, -110.4, 51.2), Quaternion(1.0, 0.0, 0.0, 0.0),
+            [Vector3(-184.0, 300.0, -75.0), Quaternion(0.087, 0.971, -0.147, -0.161),
+             Vector3(-84.0, 110.0, 75.0), Quaternion(1.0, 0.0, 0.0, 0.0),
              ROTATION_MODE_LINEAR],
-            [Vector3(40.0, 250.0, -50), Quaternion(0.0, 0.0, 0.0, 1.0),
-             Vector3(4.5,  100.0, 7.5), Quaternion(1.0, 0.0, 0.0, 0.0),
+            [Vector3(-124.9, 300.0, 120.0), Quaternion(-0.095, 0.652, -0.326, 0.677),
+             Vector3(-74.9, -97.1, 228.8), Quaternion(1.0, 0.0, 0.0, 0.0),
              ROTATION_MODE_LINEAR],
-            [Vector3(60.0, 100.0, -240.0), Quaternion(-0.095, 0.652, -0.326, 0.677),
-             Vector3(73.9, -117.1, -190.4), Quaternion(1.0, 0.0, 0.0, 0.0),
-             ROTATION_MODE_LINEAR],
-            [Vector3(200.0, 100.0, 300.0), Quaternion(-0.866, 0.201, 0.308, -0.336),
-             Vector3(211.5, -104.9, 339.2), Quaternion(1.0, 0.0, 0.0, 0.0),
+            [Vector3(200.0, 20.0, -150.0), Quaternion(1.0, 0.0, 0.0, 0.0),
+             Vector3(200.0, 20.0, -150.0), Quaternion(1.0, 0.0, 0.0, 0.0),
              ROTATION_MODE_LINEAR]
         ]
 
@@ -204,9 +201,6 @@ class HighGlucoseScenario():
              ROTATION_MODE_LINEAR],
             [Vector3(60.0, -150.0, -240.0), Quaternion(1.0, 0.0, 0.0, 0.0),
              Vector3(74.0, 200.0, -220.0), Quaternion(-0.095, 0.652, -0.326, 0.677),
-             ROTATION_MODE_LINEAR],
-            [Vector3(200.0, -150.0, 300.0), Quaternion(1.0, 0.0, 0.0, 0.0),
-             Vector3(210.0, 200.0, 330.0), Quaternion(-0.866, 0.201, 0.308, -0.336),
              ROTATION_MODE_LINEAR]
         ]
 
@@ -405,18 +399,22 @@ class HighGlucoseScenario():
 
     def _add_surfactants_d(self, frame):
         # 74.0, 24.0, -45.0
-        spd_sequences = [[-1550, 3750], [0, 3750], [0, 3750]]
-        spd_random_seeds = [1, 2, 6]
+        spd_sequences = [[0, 3750], [0, 2600], [0, 2600], [0, 3750]]
+        spd_random_seeds = [1, 1, 1, 2]
+
+        # 3rd SP-D is used for the head focus on 3rd virus spike
         spd_flights = [
-            [Vector3(-340.0, 0.0, -100.0), Quaternion(-0.095, 0.652, -0.326, 0.677),
-             Vector3(74.0 + (74.0 + 340), 24.0 + (24.0 - 0.0), -45.0 +
-                     (-45.0 + 100)), Quaternion(1.0, 0.0, 0.0, 0.0),
+            [Vector3(300,  124.0, 0.0), Quaternion(-0.095, 0.652, -0.326, 0.677),
+             Vector3(74.0,  24.0, -45.0), Quaternion(1.0, 0.0, 0.0, 0.0),
              ROTATION_MODE_SINUSOIDAL],
-            [Vector3(-200, 0.0, -200.0), Quaternion(0.087, 0.971, -0.147, -0.161),
-             Vector3(304.0, 75.0, -100.0), Quaternion(1.0, 0.0, 0.0, 0.0),
-             ROTATION_MODE_SINUSOIDAL],
-            [Vector3(-460.0, 50.0, 0.0), Quaternion(0.519, 0.671, 0.528, -0.036),
-             Vector3(160.0, -50.0, -50.0), Quaternion(1.0, 0.0, 0.0, 0.0),
+            [Vector3(-50,  50.0, 20.0), Quaternion(0.087, 0.971, -0.147, -0.161),
+             Vector3(-11.0,  108.0, 20.0), Quaternion(1.0, 0.0, 0.0, 0.0),
+             ROTATION_MODE_LINEAR],
+            [Vector3(200.0, 100.0, -105.0), Quaternion(0.519, 0.671, 0.528, -0.036),
+             Vector3(-165.0, 140.0, 105.0), Quaternion(1.0, 0.0, 0.0, 0.0),
+             ROTATION_MODE_LINEAR],
+            [Vector3(100.0,  0.0, -80.0), Quaternion(-0.095, 0.652, -0.326, 0.677),
+             Vector3(-260.0,  50.0, 150.0), Quaternion(1.0, 0.0, 0.0, 0.0),
              ROTATION_MODE_SINUSOIDAL]
         ]
 
@@ -436,8 +434,8 @@ class HighGlucoseScenario():
         spa_sequences = [[0, 3750]]
         spa_random_seeds = [2]
         spa_frames = [
-            [Vector3(-400.0, -100.0, 100.0), Quaternion(-0.095, 0.652, -0.326, 0.677),
-             Vector3(250.0, -50.0, 100.0), Quaternion(1.0, 0.0, 0.0, 0.0),
+            [Vector3(300.0,  -50.0, -50.0), Quaternion(-0.095, 0.652, -0.326, 0.677),
+             Vector3(100.0,  50.0, 150.0), Quaternion(1.0, 0.0, 0.0, 0.0),
              ROTATION_MODE_SINUSOIDAL],
         ]
 
@@ -465,7 +463,7 @@ class HighGlucoseScenario():
         status = self._be.add_volume(
             volume=volume, representation=protein_representation,
             position=Vector3(0.0, scene_size / 2.0 - 200.0, 0.0),
-            random_seed=100)
+            random_seed=10)
 
     def _add_lactoferrins(self, frame):
         lactoferrin = Protein(
@@ -495,10 +493,49 @@ class HighGlucoseScenario():
             position=Vector3(0.0, scene_size / 2.0 - 200.0, 0.0),
             random_seed=102)
 
-    def _set_materials(self):
-        '''Update scene'''
-        status = self._core.scene.commit()
+    def _add_lymphocyte(self, frame):
+        name = 'Emile'
+        lymphocyte_sequence = [0, 3750]
+        lymphocyte_seeds = [2]
+        lymphocyte_frames = [Vector3(-1935.0, 0.0, 0.0), Quaternion(1.0, 0.0, 0.0, 0.0),
+                             Vector3(-1700.0, 0.0, 0.0), Quaternion(0.707, 0.707, 0.0, 0.0),
+                             ROTATION_MODE_LINEAR]
 
+        protein_sources = [
+            membrane_folder + 'segA.pdb',
+            membrane_folder + 'segB.pdb',
+            membrane_folder + 'segC.pdb',
+            membrane_folder + 'segD.pdb'
+        ]
+
+        clip_planes = [
+            [1.0, 0.0, 0.0, scene_size / 1.5 + 5],
+            [-1.0, 0.0, 0.0, scene_size / 2.0 + 5],
+            [0.0, 1.0, 0.0, 250.0],
+            [0.0, -1.0, 0.0, 550.0]
+        ]
+
+        mesh_based_membrane = MeshBasedMembrane(
+            mesh_source=lymphocyte_path, protein_sources=protein_sources,
+            density=5.0, surface_variable_offset=5.0)
+
+        pos, rot, progress = self._get_transformation(
+            start_frame=lymphocyte_sequence[0], end_frame=lymphocyte_sequence[1],
+            frame=frame, data=lymphocyte_frames)
+        self._log('-   ' + name + ' (%.01f pct)' % progress)
+
+        scale = Vector3(1.0, 1.0, 1.0)
+        status = self._be.add_mesh_based_membrane(
+            name, mesh_based_membrane, position=pos,
+            rotation=rot, scale=scale, clipping_planes=clip_planes)
+
+        for i in range(len(protein_sources)):
+            status = self._be.set_protein_color_scheme(
+                assembly_name=name, name=BioExplorer.NAME_MEMBRANE + '_' + str(i),
+                color_scheme=BioExplorer.COLOR_SCHEME_CHAINS,
+                palette_name='OrRd', palette_size=5)
+
+    def _set_materials(self):
         '''Default materials'''
         self._be.apply_default_color_scheme(
             shading_mode=BioExplorer.SHADING_MODE_DIFFUSE, specular_exponent=50.0)
@@ -549,27 +586,30 @@ class HighGlucoseScenario():
         self._log('- Resetting scene...')
         self._be.reset()
 
-        self._log('- Building viruses...')
-        self._add_viruses(frame)
+        # self._log('- Building viruses...')
+        # self._add_viruses(frame)
 
-        self._log('- Building surfactants...')
-        self._add_surfactants_d(frame)
-        self._add_surfactants_a(frame)
+        # self._log('- Building surfactants...')
+        # self._add_surfactants_d(frame)
+        # self._add_surfactants_a(frame)
 
-        self._log('- Building glucose...')
-        self._add_glucose(frame)
+        # self._log('- Building glucose...')
+        # self._add_glucose(frame)
 
-        self._log('- Building lactoferrins...')
-        self._add_lactoferrins(frame)
+        # self._log('- Building lactoferrins...')
+        # self._add_lactoferrins(frame)
 
-        self._log('- Building defensins...')
-        self._add_defensins(frame)
+        # self._log('- Building defensins...')
+        # self._add_defensins(frame)
 
-        self._log('- Building cell...')
-        self._add_cell(frame)
+        # self._log('- Building cell...')
+        # self._add_cell(frame)
 
-        self._log('- Setting materials...')
-        self._set_materials()
+        self._log('- Building lymphocyte...')
+        self._add_lymphocyte(frame)
+
+        # self._log('- Setting materials...')
+        # self._set_materials()
 
         self._log('- Showing models...')
         status = self._be.set_models_visibility(True)
@@ -611,54 +651,61 @@ class HighGlucoseScenario():
 
         aperture_ratio = 0.0
         cameras_key_frames = [
-            {  # Membrane
+            {  # Virus overview (on 5th virus)
+                'apertureRadius': 0.0,
+                'direction': [0.0, 0.0, -1.0],
+                'focusDistance': 0.0,
+                'origin': [199.83972305912192, 20.634432026109216, 34.66443381246302],
+                'up': [0.0, 1.0, 0.0]
+            },
+            {  # Protein S (on 5th virus)
+                'apertureRadius': 0.0,
+                'direction': [0.0, 0.0, -1.0],
+                'focusDistance': 0.0,
+                'origin': [195.93735856921757, 74.31861758273486, -111.76702974880394],
+                'up': [0.0, 1.0, 0.0]
+            },
+            {  # Protein M et E (on 5th virus)
+                'apertureRadius': 0.0,
+                'direction': [-0.5334584190437728, 0.030020278245166274, -0.8452933798660683],
+                'focusDistance': 0.0,
+                'origin': [242.97900264670213, 20.91487566923993, -74.40488243394907],
+                'up': [0.005091461668538368, 0.9994658168737568, 0.032282470769007775]
+            },
+            {  # Overview SPA
+                'apertureRadius': aperture_ratio * 0.02,
+                'focusDistance': 160,
+                'direction': [-0.4714996076768658, -0.005614694091156256, -0.8818483969315953],
+                'origin': [238.16345098602685, 46.43696346532851, 372.58472309655],
+                'up': [0.003995001611884731, 0.999955871095688, -0.008502695065977069]
+            },
+            {  # Overview SPD
+                'apertureRadius': aperture_ratio * 0.02,
+                'focusDistance': 393.51,
+                'direction': [-0.4714996076768658, -0.005614694091156256, -0.8818483969315953],
+                'origin': [238.16345098602685, 46.43696346532851, 372.58472309655],
+                'up': [0.003995001611884731, 0.999955871095688, -0.008502695065977069]
+            },
+            {  # Zoom SPD (on 3rd virus)
+                'apertureRadius': aperture_ratio * 0.02,
+                'focusDistance': 48.60,
+                'direction': [-0.8211061109992552, 0.20283488545924253, -0.5335192252584856],
+                'origin': [-9.82707604633258, 110.72057107874232, 60.94402791128543],
+                'up': [0.1780937547672968, 0.979106660404594, 0.09814663552179895]
+            },
+            {  # Overview scene
+                'apertureRadius': aperture_ratio * 0.0,
+                'focusDistance': 1.0,
+                'direction': [-1.0, 0.0, -2.220446049250313e-16],
+                'origin': [1008.9571707246668, 29.057131512062583, 113.28364588186702],
+                'up': [0.0, 1.0, 0.0]
+            },
+            {  # Cell view
                 'apertureRadius': aperture_ratio * 0.0,
                 'focusDistance': 1.0,
                 'direction': [-1.0, 0.0, 0.0],
                 'origin': [150.0, -160, 100],
                 'up': [0.0, 1.0, 0.0]
-            }, {
-                'apertureRadius': aperture_ratio * 0.0,
-                'focusDistance': 0,
-                'direction': [0.0, 0.0, -1.0],
-                'origin': [-67.501, -17.451, 254.786],
-                'up': [0.0, 1.0, 0.0]
-            }, {  # Surfactant Head
-                'apertureRadius': aperture_ratio * 0.01,
-                'focusDistance': 30,
-                'direction': [0.276, -0.049, -0.959],
-                'origin': [38.749, 35.228, 5.536],
-                'up': [0.0, 1.0, 0.0]
-            }, {  # Virus overview
-                'apertureRadius': aperture_ratio * 0.0,
-                'focusDistance': 349.75,
-                'direction': [0.009, 0.055, -0.998],
-                'origin': [-0.832, 72.134, 387.389],
-                'up': [0.017, 0.998, 0.055]
-            }, {  # ACE2 receptor
-                'apertureRadius': aperture_ratio * 0.01,
-                'focusDistance': 45.31,
-                'direction': [-0.436, 0.035, -0.898],
-                'origin': [-33.619, -164.994, 276.296],
-                'up': [0.011, 0.999, 0.033]
-            }, {  # Membrane overview
-                'apertureRadius': aperture_ratio * 0.0,
-                'focusDistance': 60,
-                'direction': [0.009, 0.055, -0.998],
-                'origin': [0.293, 19.604, 1000],
-                'up': [0.017, 0.998, 0.055]
-            }, {  # Membrane overview
-                'apertureRadius': aperture_ratio * 0.0,
-                'focusDistance': 60,
-                'direction': [0.009, 0.055, -0.998],
-                'origin': [0.293, 19.604, 1000],
-                'up': [0.017, 0.998, 0.055]
-            }, {  # Membrane overview
-                'apertureRadius': aperture_ratio * 0.0,
-                'focusDistance': 60,
-                'direction': [0.009, 0.055, -0.998],
-                'origin': [0.293, 19.604, 1000],
-                'up': [0.017, 0.998, 0.055]
             }
         ]
 
@@ -742,7 +789,7 @@ def main(argv):
                         help='List of frames to render', default=list())
     args = parser.parse_args(argv)
 
-    scenario = HighGlucoseScenario(
+    scenario = LowGlucoseScenario(
         hostname=args.hostname,
         port=args.port,
         projection=args.projection,
