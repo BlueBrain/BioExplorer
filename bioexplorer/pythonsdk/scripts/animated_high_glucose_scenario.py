@@ -29,6 +29,7 @@ import math
 from datetime import datetime, timedelta
 import time
 import sys
+import argparse
 
 resource_folder = './tests/test_files/'
 
@@ -597,7 +598,7 @@ class HighGlucoseScenario():
             projection + '/' + str(self._image_size[0]) + 'x' + str(self._image_size[1])
         self._make_export_folder()
 
-    def render_movie(self, start_frame=0, end_frame=0, frame_step=1):
+    def render_movie(self, start_frame=0, end_frame=0, frame_step=1, frame_list=list()):
         '''Rendering settings'''
         self._set_rendering_settings()
 
@@ -665,19 +666,25 @@ class HighGlucoseScenario():
 
         mm = MovieMaker(self._be)
         mm.build_camera_path(key_frames, 250, 150)
-
-        if end_frame == 0:
-            end_frame = mm.get_nb_frames()
-
         print('- Total number of frames: %d' % mm.get_nb_frames())
 
         self._core.set_application_parameters(viewport=self._image_size)
         self._core.set_application_parameters(image_stream_fps=0)
 
+        frames_to_render = list()
+        if len(frame_list) != 0:
+            frames_to_render = frame_list
+        else:
+            if end_frame == 0:
+                end_frame = mm.get_nb_frames()
+            for i in range(start_frame, end_frame + 1, frame_step):
+                frames_to_render.append(i)
+
         cumulated_rendering_time = 0
-        nb_frames = 1 + (end_frame - start_frame) / frame_step
+        nb_frames = len(frames_to_render)
         frame_count = 1
-        for frame in range(start_frame, end_frame + 1, frame_step):
+
+        for frame in frames_to_render:
             start = time.time()
             print('- Rendering frame %i (%i/%i)' % (frame, frame_count, nb_frames))
             print('------------------------------')
@@ -710,22 +717,39 @@ class HighGlucoseScenario():
 
 
 def main(argv):
-    if len(argv) != 9:
-        print('Expected arguments: <hostname> <port> <projection> <export_folder> <image_k> <image_spp> <start_frame> <end_frame> <frame_step>')
-        return
+    parser = argparse.ArgumentParser(description='Missing frames')
+    parser.add_argument('-e', '--export_folder', help='Export folder', type=str, default='/tmp')
+    parser.add_argument('-n', '--hostname',
+                        help='BioExplorer server hostname', type=str, default='localhost')
+    parser.add_argument('-p', '--port',
+                        help='BioExplorer server port', type=int, default=5000)
+    parser.add_argument('-j', '--projection', help='Camera projection',
+                        type=str, default='perspective',
+                        choices=['perspective', 'fisheye', 'panoramic', 'opendeck'])
+    parser.add_argument('-k', '--image_resolution_k',
+                        help='Image resolution in K', type=int, default=4)
+    parser.add_argument('-s', '--image_samples_per_pixel',
+                        help='Image samples per pixel', type=int, default=64)
+    parser.add_argument('-f', '--from_frame', type=int, help='Start frame', default=0)
+    parser.add_argument('-t', '--to_frame', type=int, help='End frame', default=0)
+    parser.add_argument('-m', '--frame_step', type=int, help='Frame step', default=1)
+    parser.add_argument('-l', '--frame-list', type=int, nargs='*',
+                        help='List of frames to render', default=list())
+    args = parser.parse_args(argv)
 
     scenario = HighGlucoseScenario(
-        hostname=argv[0],
-        port=int(argv[1]),
-        projection=argv[2],
-        output_folder=argv[3],
-        image_k=int(argv[4]),
-        image_samples_per_pixels=int(argv[5]))
+        hostname=args.hostname,
+        port=args.port,
+        projection=args.projection,
+        output_folder=args.export_folder,
+        image_k=args.image_resolution_k,
+        image_samples_per_pixels=args.image_samples_per_pixel)
 
     scenario.render_movie(
-        start_frame=int(argv[6]),
-        end_frame=int(argv[7]),
-        frame_step=int(argv[8]))
+        start_frame=args.from_frame,
+        end_frame=args.to_frame,
+        frame_step=args.frame_step,
+        frame_list=args.frame_list)
 
     print('Movie rendered, live long and prosper \V/')
 
