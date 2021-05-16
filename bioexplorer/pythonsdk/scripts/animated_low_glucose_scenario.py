@@ -73,8 +73,11 @@ nb_defensins_on_virus = 2
 
 # Cell
 cell_nb_receptors = 100
-# cell_nb_lipids = 1
 cell_nb_lipids = 1200000
+
+# Lymphocyte
+lymphocyte_density = 18.0
+lymphocyte_surface_variable_offset = 0.0
 
 # --------------------------------------------------------------------------------
 # Resources
@@ -115,8 +118,8 @@ class LowGlucoseScenario():
 
     def __init__(self, hostname, port, projection, output_folder, image_k=4, image_samples_per_pixels=64):
         self._hostname = hostname
-        url = hostname + ':' + str(port)
-        self._be = BioExplorer(url)
+        self._url = hostname + ':' + str(port)
+        self._be = BioExplorer(self._url)
         self._core = self._be.core_api()
         self._image_size = [1920, 1080]
         self._image_samples_per_pixels = image_samples_per_pixels
@@ -125,7 +128,7 @@ class LowGlucoseScenario():
         self._prepare_movie(projection, image_k)
         self._log('================================================================================')
         self._log('- Version          : ' + self._be.version())
-        self._log('- URL              : ' + url)
+        self._log('- URL              : ' + self._url)
         self._log('- Projection       : ' + projection)
         self._log('- Frame size       : ' + str(self._image_size))
         self._log('- Export folder    : ' + self._image_output_folder)
@@ -162,25 +165,26 @@ class LowGlucoseScenario():
     def _add_viruses(self, frame):
         virus_radii = [45.0, 44.0, 45.0, 43.0, 44.0]
         virus_sequences = [
-            [[0, 2599], [1e6, 1e6], [1e6, 1e6], [1e6, 1e6], [1e6, 1e6], [1e6, 1e6]],
-            [[0, 2599], [1e6, 1e6], [1e6, 1e6], [1e6, 1e6], [1e6, 1e6], [1e6, 1e6]],
+            [[0, 2599], [1e6, 1e6], [1e6, 1e6], [1e6, 1e6], [1e6, 1e6], [2700, 3750]],
+            [[0, 2599], [1e6, 1e6], [1e6, 1e6], [1e6, 1e6], [1e6, 1e6], [2700, 3750]],
             [[0, 2599], [1e6, 1e6], [1e6, 1e6], [1e6, 1e6], [1e6, 1e6], [1e6, 1e6]],
             [[0, 2999], [3000, 3099], [3100, 3299], [3300, 3750], [1e6, 1e6], [1e6, 1e6]],
             [[0, 599], [1e6, 1e6], [1e6, 1e6], [1e6, 1e6], [1e6, 1e6], [600, 3750]],
         ]
         virus_flights_in = [
-            [Vector3(-35.0, 300.0, 0.0), Quaternion(0.519, 0.671, 0.528, -0.036),
-             Vector3(-5.0, 30.0, -36.0), Quaternion(1.0, 0.0, 0.0, 0.0),
+            [Vector3(-35.0, 300.0, -70.0), Quaternion(0.519, 0.671, 0.528, -0.036),
+             Vector3(-5.0, 45.0, -33.0), Quaternion(1.0, 0.0, 0.0, 0.0),
              ROTATION_MODE_LINEAR],
             [Vector3(153.0, 300.0, -200.0), Quaternion(0.456, 0.129, -0.185, -0.860),
-             Vector3(73.0, 93.0, -115.0), Quaternion(1.0, 0.0, 0.0, 0.0),
+             Vector3(73.0, 93.0, -130.0), Quaternion(1.0, 0.0, 0.0, 0.0),
              ROTATION_MODE_LINEAR],
+            # Virus used for SP-D zoom
             [Vector3(-100.0, 300.0, 20.0), Quaternion(0.087, 0.971, -0.147, -0.161),
              Vector3(-84.0, 110.0, 75.0), Quaternion(1.0, 0.0, 0.0, 0.0),
              ROTATION_MODE_LINEAR],
             # Virus getting inside cell
-            [Vector3(224.9, 300.0, 120.0), Quaternion(-0.095, 0.652, -0.326, 0.677),
-             Vector3(211.5, -104.9, 339.2), Quaternion(1.0, 0.0, 0.0, 0.0),
+            [Vector3(224.9, 300.0, -220.0), Quaternion(-0.095, 0.652, -0.326, 0.677),
+             Vector3(211.5, -104.9, -339.2), Quaternion(1.0, 0.0, 0.0, 0.0),
              ROTATION_MODE_LINEAR],
             # Virus used for detailed view of the Spike
             [Vector3(200.0, 20.0, -150.0), Quaternion(1.0, 0.0, 0.0, 0.0),
@@ -190,12 +194,12 @@ class LowGlucoseScenario():
 
         virus_flights_out = [
             # Unused
-            [Vector3(0.0, 0.0, 0.0), Quaternion(1.0, 0.0, 0.0, 0.0),
-             Vector3(0.0, 0.0, 0.0), Quaternion(1.0, 0.0, 0.0, 0.0),
+            [Vector3(-5.0, 45.0, -33.0), Quaternion(1.0, 0.0, 0.0, 0.0),
+             Vector3(-105.0, 45.0, -33.0), Quaternion(0.0, 1.0, 0.0, 0.0),
              ROTATION_MODE_LINEAR],
             # Unused
-            [Vector3(0.0, 0.0, 0.0), Quaternion(1.0, 0.0, 0.0, 0.0),
-             Vector3(0.0, 0.0, 0.0), Quaternion(1.0, 0.0, 0.0, 0.0),
+            [Vector3(73.0, 93.0, -130.0), Quaternion(1.0, 0.0, 0.0, 0.0),
+             Vector3(-33.0, 93.0, -130.0), Quaternion(0.0, 0.0, 1.0, 0.0),
              ROTATION_MODE_LINEAR],
             # Virus used for detailed view of the Spike
             [Vector3(-84.0, 110.0, 75.0), Quaternion(1.0, 0.0, 0.0, 0.0),
@@ -207,7 +211,7 @@ class LowGlucoseScenario():
              ROTATION_MODE_LINEAR],
             # Virus used for detailed view of the Spike
             [Vector3(200.0, 20.0, -150.0), Quaternion(1.0, 0.0, 0.0, 0.0),
-             Vector3(230.0, -50.0, -130.0), Quaternion(0.456, 0.129, -0.185, -0.860),
+             Vector3(230.0, -150.0, -100.0), Quaternion(0.456, 0.129, -0.185, -0.860),
              ROTATION_MODE_LINEAR]
         ]
 
@@ -268,7 +272,7 @@ class LowGlucoseScenario():
                 representation=protein_representation, position=pos, rotation=rot,
                 add_glycans=add_glycans,
                 assembly_params=[virus_radii[virus_index], 5 * frame + 2 * virus_index,
-                                 1.0, frame + 2 * virus_index + 1, 0.2, morphing_step]
+                                 0.5, frame + 2 * virus_index + 1, 0.1, morphing_step]
             )
 
     def _add_cell(self, frame):
@@ -413,12 +417,13 @@ class LowGlucoseScenario():
             [Vector3(300,  124.0, 0.0), Quaternion(-0.095, 0.652, -0.326, 0.677),
              Vector3(74.0,  24.0, -45.0), Quaternion(1.0, 0.0, 0.0, 0.0),
              ROTATION_MODE_SINUSOIDAL],
+            # SP-D is used for the head focus on 3rd virus spike
             [Vector3(-50,  50.0, 20.0), Quaternion(0.087, 0.971, -0.147, -0.161),
              Vector3(-11.0,  108.0, 20.0), Quaternion(1.0, 0.0, 0.0, 0.0),
              ROTATION_MODE_LINEAR],
-            # SP-D is used for the head focus on 3rd virus spike
-            [Vector3(200.0, 100.0, -105.0), Quaternion(0.519, 0.671, 0.528, -0.036),
-             Vector3(-165.0, 140.0, 105.0), Quaternion(1.0, 0.0, 0.0, 0.0),
+            # SP-D attaching to lymphocyte
+            [Vector3(-200.0, 100.0, 100.0), Quaternion(0.519, 0.671, 0.528, -0.036),
+             Vector3(-135.0, 135.0, 140.0), Quaternion(1.0, 0.0, 0.0, 0.0),
              ROTATION_MODE_LINEAR],
             [Vector3(100.0,  0.0, -80.0), Quaternion(-0.095, 0.652, -0.326, 0.677),
              Vector3(-260.0,  50.0, 150.0), Quaternion(1.0, 0.0, 0.0, 0.0),
@@ -470,7 +475,7 @@ class LowGlucoseScenario():
         status = self._be.add_volume(
             volume=volume, representation=protein_representation,
             position=Vector3(0.0, scene_size / 2.0 - 200.0, 0.0),
-            random_seed=10)
+            random_seed=100)
 
     def _add_lactoferrins(self, frame):
         lactoferrin = Protein(
@@ -501,11 +506,15 @@ class LowGlucoseScenario():
             random_seed=102)
 
     def _add_lymphocyte(self, frame):
+        if frame < 1400:
+            '''Lymphocyte is not in the field of view'''
+            return
+
         name = 'Emile'
         lymphocyte_sequence = [0, 3750]
         lymphocyte_seeds = [2]
-        lymphocyte_frames = [Vector3(-2200.0, 0.0, 0.0), Quaternion(1.0, 0.0, 0.0, 0.0),
-                             Vector3(-1500.0, 0.0, 0.0), Quaternion(0.707, 0.707, 0.0, 0.0),
+        lymphocyte_frames = [Vector3(-2700.0, 100.0, 0.0), Quaternion(1.0, 0.0, 0.0, 0.0),
+                             Vector3(-1530.0, 100.0, 0.0), Quaternion(0.707, 0.707, 0.0, 0.0),
                              ROTATION_MODE_LINEAR]
 
         protein_sources = [
@@ -516,15 +525,17 @@ class LowGlucoseScenario():
         ]
 
         clip_planes = [
-            [1.0, 0.0, 0.0, scene_size / 1.5 + 5],
-            [-1.0, 0.0, 0.0, scene_size / 2.0 + 5],
+            [1.0, 0.0, 0.0, scene_size * 1.5 + 5],
+            [-1.0, 0.0, 0.0, scene_size * 1.5 + 5],
             [0.0, 1.0, 0.0, 250.0],
-            [0.0, -1.0, 0.0, 550.0]
+            [0.0, -1.0, 0.0, 550.0],
+            [0.0, 0.0, 1.0, scene_size + 5],
+            [0.0, 0.0, -1.0, scene_size + 5]
         ]
 
         mesh_based_membrane = MeshBasedMembrane(
             mesh_source=lymphocyte_path, protein_sources=protein_sources,
-            density=5.0, surface_variable_offset=5.0)
+            density=lymphocyte_density, surface_variable_offset=lymphocyte_surface_variable_offset)
 
         pos, rot, progress = self._get_transformation(
             start_frame=lymphocyte_sequence[0], end_frame=lymphocyte_sequence[1],
@@ -570,7 +581,7 @@ class LowGlucoseScenario():
         status = self._core.set_renderer(
             background_color=[96 / 255, 125 / 255, 139 / 255],
             current='bio_explorer', head_light=False,
-            samples_per_pixel=1, subsampling=1, max_accum_frames=128)
+            samples_per_pixel=1, subsampling=1, max_accum_frames=self._image_samples_per_pixels)
         params = self._core.BioExplorerRendererParams()
         params.exposure = 1.0
         params.gi_samples = 1
@@ -581,7 +592,7 @@ class LowGlucoseScenario():
         params.fog_start = 1000
         params.fog_thickness = 300
         params.max_bounces = 1
-        params.use_hardware_randomizer = True
+        params.use_hardware_randomizer = False
         status = self._core.set_renderer_params(params)
         status = self._core.clear_lights()
         status = self._core.add_light_directional(
@@ -592,9 +603,6 @@ class LowGlucoseScenario():
     def _build_frame(self, frame):
         self._log('- Resetting scene...')
         self._be.reset()
-
-        self._log('- Building viruses...')
-        self._add_viruses(frame)
 
         self._log('- Building surfactants...')
         self._add_surfactants_d(frame)
@@ -608,6 +616,9 @@ class LowGlucoseScenario():
 
         self._log('- Building defensins...')
         self._add_defensins(frame)
+
+        self._log('- Building viruses...')
+        self._add_viruses(frame)
 
         self._log('- Building cell...')
         self._add_cell(frame)
@@ -743,33 +754,39 @@ class LowGlucoseScenario():
         frame_count = 1
 
         for frame in frames_to_render:
-            start = time.time()
-            self._log('- Rendering frame %i (%i/%i)' % (frame, frame_count, nb_frames))
-            self._log('------------------------------')
-            self._build_frame(frame)
-            mm.set_current_frame(frame)
-            mm.create_snapshot(size=self._image_size,
-                               path=self._image_output_folder + '/%05d.png' % frame,
-                               samples_per_pixel=self._image_samples_per_pixels)
-            end = time.time()
+            try:
+                start = time.time()
+                self._log('- Rendering frame %i (%i/%i)' % (frame, frame_count, nb_frames))
+                self._log('------------------------------')
+                self._build_frame(frame)
+                mm.set_current_frame(frame)
+                mm.create_snapshot(size=self._image_size,
+                                   path=self._image_output_folder + '/%05d.png' % frame,
+                                   samples_per_pixel=self._image_samples_per_pixels)
+                end = time.time()
 
-            rendering_time = end - start
-            cumulated_rendering_time += rendering_time
-            average_rendering_time = cumulated_rendering_time / frame_count
-            remaining_rendering_time = (nb_frames - frame_count) * average_rendering_time
-            self._log('------------------------------')
-            self._log('Frame %i successfully rendered in %i seconds' % (frame, rendering_time))
+                rendering_time = end - start
+                cumulated_rendering_time += rendering_time
+                average_rendering_time = cumulated_rendering_time / frame_count
+                remaining_rendering_time = (nb_frames - frame_count) * average_rendering_time
+                self._log('------------------------------')
+                self._log('Frame %i successfully rendered in %i seconds' % (frame, rendering_time))
 
-            hours = math.floor(remaining_rendering_time / 3600)
-            minutes = math.floor((remaining_rendering_time - hours * 3600) / 60)
-            seconds = math.floor(remaining_rendering_time - hours * 3600 - minutes * 60)
+                hours = math.floor(remaining_rendering_time / 3600)
+                minutes = math.floor((remaining_rendering_time - hours * 3600) / 60)
+                seconds = math.floor(remaining_rendering_time - hours * 3600 - minutes * 60)
 
-            expected_end_time = datetime.now() + timedelta(seconds=remaining_rendering_time)
-            self._log('Estimated remaining time: %i hours, %i minutes, %i seconds' %
-                      (hours, minutes, seconds))
-            self._log('Expected end time       : %s' % expected_end_time)
-            self._log('--------------------------------------------------------------------------------')
-            frame_count += 1
+                expected_end_time = datetime.now() + timedelta(seconds=remaining_rendering_time)
+                self._log('Estimated remaining time: %i hours, %i minutes, %i seconds' %
+                          (hours, minutes, seconds))
+                self._log('Expected end time       : %s' % expected_end_time)
+                self._log('--------------------------------------------------------------------------------')
+                frame_count += 1
+            except Exception as e:
+                self._log('ERROR: Failed to render frame %i' % frame)
+                self._be = BioExplorer(self._url)
+                self._core = self._be.core_api()
+                mm = MovieMaker(self._be)
 
         self._core.set_application_parameters(image_stream_fps=20)
         self._log('Movie rendered, live long and prosper \V/')

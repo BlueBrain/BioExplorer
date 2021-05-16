@@ -73,7 +73,6 @@ nb_defensins_on_virus = 2
 
 # Cell
 cell_nb_receptors = 100
-# cell_nb_lipids = 1
 cell_nb_lipids = 1200000
 
 # --------------------------------------------------------------------------------
@@ -113,8 +112,8 @@ class HighGlucoseScenario():
 
     def __init__(self, hostname, port, projection, output_folder, image_k=4, image_samples_per_pixels=64):
         self._hostname = hostname
-        url = hostname + ':' + str(port)
-        self._be = BioExplorer(url)
+        self._url = hostname + ':' + str(port)
+        self._be = BioExplorer(self._url)
         self._core = self._be.core_api()
         self._image_size = [1920, 1080]
         self._image_samples_per_pixels = image_samples_per_pixels
@@ -123,7 +122,7 @@ class HighGlucoseScenario():
         self._prepare_movie(projection, image_k)
         self._log('================================================================================')
         self._log('- Version          : ' + self._be.version())
-        self._log('- URL              : ' + url)
+        self._log('- URL              : ' + self._url)
         self._log('- Projection       : ' + projection)
         self._log('- Frame size       : ' + str(self._image_size))
         self._log('- Export folder    : ' + self._image_output_folder)
@@ -267,7 +266,7 @@ class HighGlucoseScenario():
                 representation=protein_representation, position=pos, rotation=rot,
                 add_glycans=add_glycans,
                 assembly_params=[virus_radii[virus_index], 5 * frame + 2 * virus_index,
-                                 1.0, frame + 2 * virus_index + 1, 0.2, morphing_step]
+                                 0.5, frame + 2 * virus_index + 1, 0.1, morphing_step]
             )
 
     def _add_cell(self, frame):
@@ -537,7 +536,7 @@ class HighGlucoseScenario():
         params.fog_start = 1000
         params.fog_thickness = 300
         params.max_bounces = 1
-        params.use_hardware_randomizer = True
+        params.use_hardware_randomizer = False
         status = self._core.set_renderer_params(params)
         status = self._core.clear_lights()
         status = self._core.add_light_directional(
@@ -689,33 +688,39 @@ class HighGlucoseScenario():
         frame_count = 1
 
         for frame in frames_to_render:
-            start = time.time()
-            self._log('- Rendering frame %i (%i/%i)' % (frame, frame_count, nb_frames))
-            self._log('------------------------------')
-            self._build_frame(frame)
-            mm.set_current_frame(frame)
-            mm.create_snapshot(size=self._image_size,
-                               path=self._image_output_folder + '/%05d.png' % frame,
-                               samples_per_pixel=self._image_samples_per_pixels)
-            end = time.time()
+            try:
+                start = time.time()
+                self._log('- Rendering frame %i (%i/%i)' % (frame, frame_count, nb_frames))
+                self._log('------------------------------')
+                self._build_frame(frame)
+                mm.set_current_frame(frame)
+                mm.create_snapshot(size=self._image_size,
+                                   path=self._image_output_folder + '/%05d.png' % frame,
+                                   samples_per_pixel=self._image_samples_per_pixels)
+                end = time.time()
 
-            rendering_time = end - start
-            cumulated_rendering_time += rendering_time
-            average_rendering_time = cumulated_rendering_time / frame_count
-            remaining_rendering_time = (nb_frames - frame_count) * average_rendering_time
-            self._log('------------------------------')
-            self._log('Frame %i successfully rendered in %i seconds' % (frame, rendering_time))
+                rendering_time = end - start
+                cumulated_rendering_time += rendering_time
+                average_rendering_time = cumulated_rendering_time / frame_count
+                remaining_rendering_time = (nb_frames - frame_count) * average_rendering_time
+                self._log('------------------------------')
+                self._log('Frame %i successfully rendered in %i seconds' % (frame, rendering_time))
 
-            hours = math.floor(remaining_rendering_time / 3600)
-            minutes = math.floor((remaining_rendering_time - hours * 3600) / 60)
-            seconds = math.floor(remaining_rendering_time - hours * 3600 - minutes * 60)
+                hours = math.floor(remaining_rendering_time / 3600)
+                minutes = math.floor((remaining_rendering_time - hours * 3600) / 60)
+                seconds = math.floor(remaining_rendering_time - hours * 3600 - minutes * 60)
 
-            expected_end_time = datetime.now() + timedelta(seconds=remaining_rendering_time)
-            self._log('Estimated remaining time: %i hours, %i minutes, %i seconds' %
-                      (hours, minutes, seconds))
-            self._log('Expected end time       : %s' % expected_end_time)
-            self._log('--------------------------------------------------------------------------------')
-            frame_count += 1
+                expected_end_time = datetime.now() + timedelta(seconds=remaining_rendering_time)
+                self._log('Estimated remaining time: %i hours, %i minutes, %i seconds' %
+                          (hours, minutes, seconds))
+                self._log('Expected end time       : %s' % expected_end_time)
+                self._log('--------------------------------------------------------------------------------')
+                frame_count += 1
+            except Exception as e:
+                self._log('ERROR: Failed to render frame %i' % frame)
+                self._be = BioExplorer(self._url)
+                self._core = self._be.core_api()
+                mm = MovieMaker(self._be)
 
         self._core.set_application_parameters(image_stream_fps=20)
         self._log('Movie rendered, live long and prosper \V/')
