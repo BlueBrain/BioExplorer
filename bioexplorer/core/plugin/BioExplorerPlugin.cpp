@@ -952,7 +952,7 @@ MaterialIdsDetails BioExplorerPlugin::_getMaterialIds(
                 materialIds.ids.push_back(material.first);
     }
     else
-        PLUGIN_THROW("Trying to get materials from an invalid model ID: " +
+        PLUGIN_ERROR("Trying to get materials from an invalid model ID: " +
                      std::to_string(payload.modelId));
     return materialIds;
 }
