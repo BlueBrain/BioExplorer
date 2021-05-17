@@ -522,10 +522,11 @@ class HighGlucoseScenario():
         status = self._core.scene.commit()
 
     def _set_rendering_settings(self):
+        '''Renderer'''
         status = self._core.set_renderer(
             background_color=[96 / 255, 125 / 255, 139 / 255],
             current='bio_explorer', head_light=False,
-            samples_per_pixel=1, subsampling=1, max_accum_frames=128)
+            samples_per_pixel=1, subsampling=1, max_accum_frames=self._image_samples_per_pixels)
         params = self._core.BioExplorerRendererParams()
         params.exposure = 1.0
         params.gi_samples = 1
@@ -538,18 +539,20 @@ class HighGlucoseScenario():
         params.max_bounces = 1
         params.use_hardware_randomizer = False
         status = self._core.set_renderer_params(params)
+
+        '''Lights'''
         status = self._core.clear_lights()
         status = self._core.add_light_directional(
             angularDiameter=0.5, color=[1, 1, 1], direction=[-0.7, -0.4, -1],
             intensity=1.0, is_visible=False
         )
 
+        '''Camera'''
+        status = self._core.set_camera(current='bio_explorer_perspective')
+
     def _build_frame(self, frame):
         self._log('- Resetting scene...')
         self._be.reset()
-
-        self._log('- Building viruses...')
-        self._add_viruses(frame)
 
         self._log('- Building surfactants...')
         self._add_surfactants_d(frame)
@@ -563,6 +566,9 @@ class HighGlucoseScenario():
 
         self._log('- Building defensins...')
         self._add_defensins(frame)
+
+        self._log('- Building viruses...')
+        self._add_viruses(frame)
 
         self._log('- Building cell...')
         self._add_cell(frame)
@@ -608,51 +614,58 @@ class HighGlucoseScenario():
         '''Accelerate loading by not showing models as they are loaded'''
         status = self._be.set_general_settings(model_visibility_on_creation=False)
 
-        aperture_ratio = 0.0
+        aperture_ratio = 1.0
         cameras_key_frames = [
-            {  # Membrane
+            {  # 1. Cell view (frame 0)
                 'apertureRadius': aperture_ratio * 0.0,
-                'focusDistance': 1.0,
-                'direction': [-1.0, 0.0, 0.0],
-                'origin': [150.0, -160, 100],
-                'up': [0.0, 1.0, 0.0]
-            }, {
-                'apertureRadius': aperture_ratio * 0.0,
-                'focusDistance': 0,
                 'direction': [0.0, 0.0, -1.0],
+                'focusDistance': 1.0,
+                'origin': [150.0, -170.0, 400.0],
+                'up': [0.0, 1.0, 0.0]
+            },
+            {  # 2. Virus view (frame 500)
+                'apertureRadius': aperture_ratio * 0.02,
+                'direction': [0.0, 0.0, -1.0],
+                'focusDistance': 449.50,
                 'origin': [-67.501, -17.451, 254.786],
                 'up': [0.0, 1.0, 0.0]
-            }, {  # Surfactant Head
-                'apertureRadius': aperture_ratio * 0.01,
-                'focusDistance': 30,
+            },
+            {  # 3. Surfactant Head (frame 1000)
+                'apertureRadius': aperture_ratio * 0.02,
                 'direction': [0.276, -0.049, -0.959],
+                'focusDistance': 25.54,
                 'origin': [38.749, 35.228, 5.536],
                 'up': [0.0, 1.0, 0.0]
-            }, {  # Virus overview
-                'apertureRadius': aperture_ratio * 0.0,
-                'focusDistance': 349.75,
+            },
+            {  # 4. Virus overview (frame 1500)
+                'apertureRadius': aperture_ratio * 0.01,
                 'direction': [0.009, 0.055, -0.998],
+                'focusDistance': 109.59,
                 'origin': [-0.832, 72.134, 387.389],
                 'up': [0.017, 0.998, 0.055]
-            }, {  # ACE2 receptor
+            },
+            {  # 5. ACE2 receptor (frame 2000)
                 'apertureRadius': aperture_ratio * 0.01,
-                'focusDistance': 45.31,
                 'direction': [-0.436, 0.035, -0.898],
+                'focusDistance': 62.17,
                 'origin': [-33.619, -164.994, 276.296],
                 'up': [0.011, 0.999, 0.033]
-            }, {  # Membrane overview
+            },
+            {  # 6. Membrane overview (frame 2500)
                 'apertureRadius': aperture_ratio * 0.0,
-                'focusDistance': 60,
+                'direction': [0.009, 0.055, -0.998],
+                'focusDistance': 1.0,
+                'origin': [0.293, 19.604, 1000],
+                'up': [0.017, 0.998, 0.055]
+            },
+            {  # 7. (frame 3000)
+                'apertureRadius': aperture_ratio * 0.0,
+                'focusDistance': 1.0,
                 'direction': [0.009, 0.055, -0.998],
                 'origin': [0.293, 19.604, 1000],
                 'up': [0.017, 0.998, 0.055]
-            }, {  # Membrane overview
-                'apertureRadius': aperture_ratio * 0.0,
-                'focusDistance': 60,
-                'direction': [0.009, 0.055, -0.998],
-                'origin': [0.293, 19.604, 1000],
-                'up': [0.017, 0.998, 0.055]
-            }, {  # Membrane overview
+            },
+            {  # 8. (frame 3500)
                 'apertureRadius': aperture_ratio * 0.0,
                 'focusDistance': 60,
                 'direction': [0.009, 0.055, -0.998],
@@ -693,10 +706,12 @@ class HighGlucoseScenario():
                 self._log('- Rendering frame %i (%i/%i)' % (frame, frame_count, nb_frames))
                 self._log('------------------------------')
                 self._build_frame(frame)
-                mm.set_current_frame(frame)
-                mm.create_snapshot(size=self._image_size,
-                                   path=self._image_output_folder, base_name='%05d' % frame,
-                                   samples_per_pixel=self._image_samples_per_pixels)
+                mm.set_current_frame(
+                    frame=frame, camera_params=self._core.BioExplorerPerspectiveCameraParams())
+                mm.create_snapshot(
+                    size=self._image_size,
+                    path=self._image_output_folder, base_name='%05d' % frame,
+                    samples_per_pixel=self._image_samples_per_pixels)
                 end = time.time()
 
                 rendering_time = end - start
