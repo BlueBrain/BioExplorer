@@ -76,7 +76,7 @@ cell_nb_receptors = 100
 cell_nb_lipids = 1200000
 
 # Lymphocyte
-lymphocyte_density = 18.0
+lymphocyte_density = 7.5
 lymphocyte_surface_variable_offset = 0.0
 
 # --------------------------------------------------------------------------------
@@ -165,11 +165,11 @@ class LowGlucoseScenario():
     def _add_viruses(self, frame):
         virus_radii = [45.0, 44.0, 45.0, 43.0, 44.0]
         virus_sequences = [
-            [[0, 2599], [1e6, 1e6], [1e6, 1e6], [1e6, 1e6], [1e6, 1e6], [2700, 3750]],
-            [[0, 2599], [1e6, 1e6], [1e6, 1e6], [1e6, 1e6], [1e6, 1e6], [2700, 3750]],
+            [[0, 2599], [1e6, 1e6], [1e6, 1e6], [1e6, 1e6], [1e6, 1e6], [1e6, 1e6]],
+            [[0, 2599], [1e6, 1e6], [1e6, 1e6], [1e6, 1e6], [1e6, 1e6], [1e6, 1e6]],
             [[0, 2599], [1e6, 1e6], [1e6, 1e6], [1e6, 1e6], [1e6, 1e6], [1e6, 1e6]],
             [[0, 2999], [3000, 3099], [3100, 3299], [3300, 3750], [1e6, 1e6], [1e6, 1e6]],
-            [[0, 599], [1e6, 1e6], [1e6, 1e6], [1e6, 1e6], [1e6, 1e6], [600, 3750]],
+            [[0, 599], [1e6, 1e6], [1e6, 1e6], [1e6, 1e6], [1e6, 1e6], [1600, 3750]],
         ]
         virus_flights_in = [
             [Vector3(-35.0, 300.0, -70.0), Quaternion(0.519, 0.671, 0.528, -0.036),
@@ -180,7 +180,7 @@ class LowGlucoseScenario():
              ROTATION_MODE_LINEAR],
             # Virus used for SP-D zoom
             [Vector3(-100.0, 300.0, 20.0), Quaternion(0.087, 0.971, -0.147, -0.161),
-             Vector3(-84.0, 110.0, 75.0), Quaternion(1.0, 0.0, 0.0, 0.0),
+             Vector3(-79.0, 108.0, 80.0), Quaternion(1.0, 0.0, 0.0, 0.0),
              ROTATION_MODE_LINEAR],
             # Virus getting inside cell
             [Vector3(224.9, 300.0, -220.0), Quaternion(-0.095, 0.652, -0.326, 0.677),
@@ -201,7 +201,7 @@ class LowGlucoseScenario():
             [Vector3(73.0, 93.0, -130.0), Quaternion(1.0, 0.0, 0.0, 0.0),
              Vector3(-33.0, 93.0, -130.0), Quaternion(0.0, 0.0, 1.0, 0.0),
              ROTATION_MODE_LINEAR],
-            # Virus used for detailed view of the Spike
+            # Virus used for SP-D zoom
             [Vector3(-84.0, 110.0, 75.0), Quaternion(1.0, 0.0, 0.0, 0.0),
              Vector3(-100.0, -100.0, 51.2), Quaternion(0.087, 0.971, -0.147, -0.161),
              ROTATION_MODE_LINEAR],
@@ -211,7 +211,7 @@ class LowGlucoseScenario():
              ROTATION_MODE_LINEAR],
             # Virus used for detailed view of the Spike
             [Vector3(200.0, 20.0, -150.0), Quaternion(1.0, 0.0, 0.0, 0.0),
-             Vector3(230.0, -150.0, -100.0), Quaternion(0.456, 0.129, -0.185, -0.860),
+             Vector3(230.0, -130.0, -100.0), Quaternion(0.456, 0.129, -0.185, -0.860),
              ROTATION_MODE_LINEAR]
         ]
 
@@ -409,7 +409,6 @@ class LowGlucoseScenario():
             self._be.add_sugars(glucose)
 
     def _add_surfactants_d(self, frame):
-        # 74.0, 24.0, -45.0
         spd_sequences = [[0, 3750], [0, 2600], [0, 2600], [0, 3750]]
         spd_random_seeds = [1, 1, 1, 2]
 
@@ -578,6 +577,7 @@ class LowGlucoseScenario():
         status = self._core.scene.commit()
 
     def _set_rendering_settings(self):
+        '''Renderer'''
         status = self._core.set_renderer(
             background_color=[96 / 255, 125 / 255, 139 / 255],
             current='bio_explorer', head_light=False,
@@ -594,11 +594,16 @@ class LowGlucoseScenario():
         params.max_bounces = 1
         params.use_hardware_randomizer = False
         status = self._core.set_renderer_params(params)
+
+        '''Lights'''
         status = self._core.clear_lights()
         status = self._core.add_light_directional(
             angularDiameter=0.5, color=[1, 1, 1], direction=[-0.7, -0.4, -1],
             intensity=1.0, is_visible=False
         )
+
+        '''Camera'''
+        status = self._core.set_camera(current='bio_explorer_perspective')
 
     def _build_frame(self, frame):
         self._log('- Resetting scene...')
@@ -608,23 +613,23 @@ class LowGlucoseScenario():
         self._add_surfactants_d(frame)
         self._add_surfactants_a(frame)
 
-        # self._log('- Building glucose...')
-        # self._add_glucose(frame)
+        self._log('- Building glucose...')
+        self._add_glucose(frame)
 
-        # self._log('- Building lactoferrins...')
-        # self._add_lactoferrins(frame)
+        self._log('- Building lactoferrins...')
+        self._add_lactoferrins(frame)
 
-        # self._log('- Building defensins...')
-        # self._add_defensins(frame)
+        self._log('- Building defensins...')
+        self._add_defensins(frame)
 
-        # self._log('- Building viruses...')
-        # self._add_viruses(frame)
+        self._log('- Building viruses...')
+        self._add_viruses(frame)
 
-        # self._log('- Building cell...')
-        # self._add_cell(frame)
+        self._log('- Building cell...')
+        self._add_cell(frame)
 
-        # self._log('- Building lymphocyte...')
-        # self._add_lymphocyte(frame)
+        self._log('- Building lymphocyte...')
+        self._add_lymphocyte(frame)
 
         self._log('- Setting materials...')
         self._set_materials()
@@ -667,62 +672,62 @@ class LowGlucoseScenario():
         '''Accelerate loading by not showing models as they are loaded'''
         status = self._be.set_general_settings(model_visibility_on_creation=False)
 
-        aperture_ratio = 0.0
+        aperture_ratio = 1.0
         cameras_key_frames = [
             {  # Virus overview (on 5th virus)
-                'apertureRadius': 0.0,
+                'apertureRadius': aperture_ratio * 0.02,
                 'direction': [0.0, 0.0, -1.0],
-                'focusDistance': 0.0,
-                'origin': [199.83972305912192, 20.634432026109216, 34.66443381246302],
+                'focusDistance': 139.56,
+                'origin': [199.840, 20.634, 34.664],
                 'up': [0.0, 1.0, 0.0]
             },
             {  # Protein S (on 5th virus)
-                'apertureRadius': 0.0,
+                'apertureRadius': aperture_ratio * 0.02,
                 'direction': [0.0, 0.0, -1.0],
-                'focusDistance': 0.0,
-                'origin': [195.93735856921757, 74.31861758273486, -111.76702974880394],
+                'focusDistance': 23.60,
+                'origin': [195.937, 74.319, -111.767],
                 'up': [0.0, 1.0, 0.0]
             },
-            {  # Protein M et E (on 5th virus)
-                'apertureRadius': 0.0,
-                'direction': [-0.5334584190437728, 0.030020278245166274, -0.8452933798660683],
-                'focusDistance': 0.0,
-                'origin': [242.97900264670213, 20.91487566923993, -74.40488243394907],
-                'up': [0.005091461668538368, 0.9994658168737568, 0.032282470769007775]
+            {  # Protein M and E
+                'apertureRadius': aperture_ratio * 0.02,
+                'direction': [-0.047, -0.298, -0.953],
+                'focusDistance': 54.56,
+                'origin': [208.156, 55.792, -59.805],
+                'up': [0.003, 0.954, -0.298]
             },
             {  # Overview SPA
-                'apertureRadius': aperture_ratio * 0.02,
-                'focusDistance': 160,
-                'direction': [-0.4714996076768658, -0.005614694091156256, -0.8818483969315953],
-                'origin': [238.16345098602685, 46.43696346532851, 372.58472309655],
-                'up': [0.003995001611884731, 0.999955871095688, -0.008502695065977069]
+                'apertureRadius': aperture_ratio * 0.001,
+                'direction': [-0.471, -0.006, -0.882],
+                'focusDistance': 444.63,
+                'origin': [238.163, 46.437, 372.585],
+                'up': [0.0, 1.0, 0.0]
             },
             {  # Overview SPD
-                'apertureRadius': aperture_ratio * 0.02,
-                'focusDistance': 393.51,
-                'direction': [-0.4714996076768658, -0.005614694091156256, -0.8818483969315953],
-                'origin': [238.16345098602685, 46.43696346532851, 372.58472309655],
-                'up': [0.003995001611884731, 0.999955871095688, -0.008502695065977069]
+                'apertureRadius': aperture_ratio * 0.001,
+                'focusDistance': 444.63,
+                'direction': [-0.471, -0.005, -0.881],
+                'origin': [238.163, 46.436, 372.584],
+                'up': [0.0, 1.0, 0.0]
             },
             {  # Zoom SPD (on 3rd virus)
                 'apertureRadius': aperture_ratio * 0.02,
-                'focusDistance': 48.60,
-                'direction': [-0.8211061109992552, 0.20283488545924253, -0.5335192252584856],
-                'origin': [-9.82707604633258, 110.72057107874232, 60.94402791128543],
-                'up': [0.1780937547672968, 0.979106660404594, 0.09814663552179895]
+                'focusDistance': 31.86,
+                'direction': [-0.821, 0.202, -0.533],
+                'origin': [-9.827, 110.720, 60.944],
+                'up': [0.178, 0.979, 0.098]
             },
             {  # Overview scene
                 'apertureRadius': aperture_ratio * 0.0,
                 'focusDistance': 1.0,
-                'direction': [-1.0, 0.0, -2.220446049250313e-16],
-                'origin': [1008.9571707246668, 29.057131512062583, 113.28364588186702],
+                'direction': [-1.0, 0.0, 0.0],
+                'origin': [1008.957, 29.057, 113.283],
                 'up': [0.0, 1.0, 0.0]
             },
             {  # Cell view
                 'apertureRadius': aperture_ratio * 0.0,
+                'direction': [0.0, 0.0, -1.0],
                 'focusDistance': 1.0,
-                'direction': [-1.0, 0.0, 0.0],
-                'origin': [150.0, -160, 100],
+                'origin': [201.119, -167.802, 564.232],
                 'up': [0.0, 1.0, 0.0]
             }
         ]
@@ -759,10 +764,12 @@ class LowGlucoseScenario():
                 self._log('- Rendering frame %i (%i/%i)' % (frame, frame_count, nb_frames))
                 self._log('------------------------------')
                 self._build_frame(frame)
-                mm.set_current_frame(frame)
-                mm.create_snapshot(size=self._image_size,
-                                   path=self._image_output_folder, base_name='%05d' % frame,
-                                   samples_per_pixel=self._image_samples_per_pixels)
+                mm.set_current_frame(
+                    frame=frame, camera_params=self._core.BioExplorerPerspectiveCameraParams())
+                mm.create_snapshot(
+                    size=self._image_size,
+                    path=self._image_output_folder, base_name='%05d' % frame,
+                    samples_per_pixel=self._image_samples_per_pixels)
                 end = time.time()
 
                 rendering_time = end - start
