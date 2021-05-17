@@ -48,6 +48,7 @@ std::string to_json(const CameraDefinition &param);
 struct ExportFramesToDisk
 {
     std::string path;
+    std::string baseName;
     std::string format;
     uint16_t quality{100};
     uint16_t spp{0};

@@ -24,6 +24,7 @@
 from bioexplorer import BioExplorer
 from mediamaker import MovieMaker
 
+
 def test_movie_maker():
     bio_explorer = BioExplorer('localhost:5000')
     core = bio_explorer.core_api()
@@ -60,11 +61,12 @@ def test_movie_maker():
 
     movie_maker.set_current_frame(20)
     movie_maker.create_snapshot(
-        path='/tmp/test_20.png',size=[512, 512], samples_per_pixel=16)
+        path='/tmp', base_name='test_20', size=[512, 512], samples_per_pixel=16)
 
     movie_maker.set_current_frame(30)
     movie_maker.create_snapshot(
-        path='/tmp/test_30.png', size=[512, 512], samples_per_pixel=16)
+        path='/tmp', base_name='test_30', size=[512, 512], samples_per_pixel=16)
+
 
 if __name__ == '__main__':
     import nose

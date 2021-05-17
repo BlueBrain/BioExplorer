@@ -188,7 +188,7 @@ class MovieMaker:
         """
         return self._client.rockets_client.request(self.PLUGIN_API_PREFIX + 'get-odu-camera')
 
-    def export_frames(self, path, size, image_format='png',
+    def export_frames(self, size, path, base_name, image_format='png',
                       animation_frames=list(), quality=100, samples_per_pixel=1, start_frame=0,
                       end_frame=0, interpupillary_distance=0.0, export_intermediate_frames=False):
         """
@@ -228,6 +228,7 @@ class MovieMaker:
 
         params = dict()
         params['path'] = path
+        params['baseName'] = base_name
         params['format'] = image_format
         params['quality'] = quality
         params['spp'] = samples_per_pixel
@@ -278,6 +279,7 @@ class MovieMaker:
         """
         params = dict()
         params['path'] = '/tmp'
+        params['baseName'] = ''
         params['format'] = 'png'
         params['quality'] = 100
         params['spp'] = 1
@@ -325,12 +327,14 @@ class MovieMaker:
         frame.observe(update_frame, 'value')
         display(frame)
 
-    def create_snapshot(self, size, path, samples_per_pixel, export_intermediate_frames=False):
+    def create_snapshot(self, size, path, base_name, samples_per_pixel,
+                        export_intermediate_frames=False):
         """
         Create a snapshot of the current frame
 
         :size: Frame buffer size
-        :path: Full path of the snapshot image
+        :path: Path where the snapshot file is exported
+        :base_name: Base name of the snapshot file
         :samples_per_pixel: Samples per pixel
         :export_intermediate_frames: If True, intermediate samples are stored to disk. Otherwise,
         only the final accumulation is exported
@@ -357,9 +361,8 @@ class MovieMaker:
         progress_widget = IntProgress(description='In progress...', min=0, max=100, value=0)
         display(progress_widget)
 
-        base_dir = os.path.dirname(path)
         self.export_frames(
-            path=base_dir, animation_frames=animation_frames, size=size,
+            path=path, base_name=base_name, animation_frames=animation_frames, size=size,
             samples_per_pixel=samples_per_pixel,
             export_intermediate_frames=export_intermediate_frames)
 
@@ -372,9 +375,6 @@ class MovieMaker:
 
         progress_widget.description = 'Done'
         progress_widget.value = 100
-        frame_path = base_dir + '/00000.png'
-        if os.path.exists(frame_path):
-            os.rename(frame_path, path)
 
         self._client.set_application_parameters(image_stream_fps=old_image_stream_fps,
                                                 viewport=old_viewport_size)
@@ -416,7 +416,7 @@ class MovieMaker:
         display(progress_widget)
 
         self.export_frames(
-            path=path, animation_frames=animation_frames, start_frame=start_frame,
+            path=path, base_name='', animation_frames=animation_frames, start_frame=start_frame,
             end_frame=end_frame, size=size, samples_per_pixel=samples_per_pixel, quality=quality,
             interpupillary_distance=interpupillary_distance,
             export_intermediate_frames=export_intermediate_frames)

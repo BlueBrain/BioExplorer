@@ -597,7 +597,7 @@ class HighGlucoseScenario():
             self._image_size = [7*2160, 3840]
             self._core.set_camera(current='cylindric')
 
-        self._image_output_folder = self._image_output_folder + '/' + self._hostname + '/' + \
+        self._image_output_folder = self._image_output_folder + '/' + \
             projection + '/' + str(self._image_size[0]) + 'x' + str(self._image_size[1])
         self._make_export_folder()
 
@@ -695,7 +695,7 @@ class HighGlucoseScenario():
                 self._build_frame(frame)
                 mm.set_current_frame(frame)
                 mm.create_snapshot(size=self._image_size,
-                                   path=self._image_output_folder + '/%05d.png' % frame,
+                                   path=self._image_output_folder, base_name='%05d' % frame,
                                    samples_per_pixel=self._image_samples_per_pixels)
                 end = time.time()
 

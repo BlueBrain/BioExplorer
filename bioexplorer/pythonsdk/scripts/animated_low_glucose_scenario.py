@@ -608,23 +608,23 @@ class LowGlucoseScenario():
         self._add_surfactants_d(frame)
         self._add_surfactants_a(frame)
 
-        self._log('- Building glucose...')
-        self._add_glucose(frame)
+        # self._log('- Building glucose...')
+        # self._add_glucose(frame)
 
-        self._log('- Building lactoferrins...')
-        self._add_lactoferrins(frame)
+        # self._log('- Building lactoferrins...')
+        # self._add_lactoferrins(frame)
 
-        self._log('- Building defensins...')
-        self._add_defensins(frame)
+        # self._log('- Building defensins...')
+        # self._add_defensins(frame)
 
-        self._log('- Building viruses...')
-        self._add_viruses(frame)
+        # self._log('- Building viruses...')
+        # self._add_viruses(frame)
 
-        self._log('- Building cell...')
-        self._add_cell(frame)
+        # self._log('- Building cell...')
+        # self._add_cell(frame)
 
-        self._log('- Building lymphocyte...')
-        self._add_lymphocyte(frame)
+        # self._log('- Building lymphocyte...')
+        # self._add_lymphocyte(frame)
 
         self._log('- Setting materials...')
         self._set_materials()
@@ -656,7 +656,7 @@ class LowGlucoseScenario():
             self._image_size = [7*2160, 3840]
             self._core.set_camera(current='cylindric')
 
-        self._image_output_folder = self._image_output_folder + '/' + self._hostname + '/' + \
+        self._image_output_folder = self._image_output_folder + '/' + \
             projection + '/' + str(self._image_size[0]) + 'x' + str(self._image_size[1])
         self._make_export_folder()
 
@@ -761,7 +761,7 @@ class LowGlucoseScenario():
                 self._build_frame(frame)
                 mm.set_current_frame(frame)
                 mm.create_snapshot(size=self._image_size,
-                                   path=self._image_output_folder + '/%05d.png' % frame,
+                                   path=self._image_output_folder, base_name='%05d' % frame,
                                    samples_per_pixel=self._image_samples_per_pixels)
                 end = time.time()
 
@@ -784,6 +784,7 @@ class LowGlucoseScenario():
                 frame_count += 1
             except Exception as e:
                 self._log('ERROR: Failed to render frame %i' % frame)
+                self._log(str(e))
                 self._be = BioExplorer(self._url)
                 self._core = self._be.core_api()
                 mm = MovieMaker(self._be)
