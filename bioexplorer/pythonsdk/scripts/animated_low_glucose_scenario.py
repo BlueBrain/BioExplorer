@@ -66,10 +66,9 @@ add_rna = False
 landing_distance = 50.0
 
 # Immune system
-nb_glucoses = 360000
-nb_lactoferrins = 50
-nb_defensins = 100
-nb_defensins_on_virus = 2
+nb_glucoses = 120000
+nb_lactoferrins = 150
+nb_defensins = 300
 
 # Cell
 cell_nb_receptors = 100
@@ -666,13 +665,10 @@ class LowGlucoseScenario():
         self._make_export_folder()
 
     def render_movie(self, start_frame=0, end_frame=0, frame_step=1, frame_list=list()):
-        '''Rendering settings'''
-        self._set_rendering_settings()
-
         '''Accelerate loading by not showing models as they are loaded'''
         status = self._be.set_general_settings(model_visibility_on_creation=False)
 
-        aperture_ratio = 1.0
+        aperture_ratio = 0.5
         cameras_key_frames = [
             {  # Virus overview (on 5th virus)
                 'apertureRadius': aperture_ratio * 0.02,
@@ -758,6 +754,10 @@ class LowGlucoseScenario():
         nb_frames = len(frames_to_render)
         frame_count = 1
 
+        '''Rendering settings'''
+        self._set_rendering_settings()
+
+        '''Frames'''
         for frame in frames_to_render:
             try:
                 start = time.time()

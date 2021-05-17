@@ -608,13 +608,10 @@ class HighGlucoseScenario():
         self._make_export_folder()
 
     def render_movie(self, start_frame=0, end_frame=0, frame_step=1, frame_list=list()):
-        '''Rendering settings'''
-        self._set_rendering_settings()
-
         '''Accelerate loading by not showing models as they are loaded'''
         status = self._be.set_general_settings(model_visibility_on_creation=False)
 
-        aperture_ratio = 1.0
+        aperture_ratio = 0.5
         cameras_key_frames = [
             {  # 1. Cell view (frame 0)
                 'apertureRadius': aperture_ratio * 0.0,
@@ -624,7 +621,7 @@ class HighGlucoseScenario():
                 'up': [0.0, 1.0, 0.0]
             },
             {  # 2. Virus view (frame 500)
-                'apertureRadius': aperture_ratio * 0.02,
+                'apertureRadius': aperture_ratio * 0.0,
                 'direction': [0.0, 0.0, -1.0],
                 'focusDistance': 449.50,
                 'origin': [-67.501, -17.451, 254.786],
@@ -638,14 +635,14 @@ class HighGlucoseScenario():
                 'up': [0.0, 1.0, 0.0]
             },
             {  # 4. Virus overview (frame 1500)
-                'apertureRadius': aperture_ratio * 0.01,
+                'apertureRadius': aperture_ratio * 0.0,
                 'direction': [0.009, 0.055, -0.998],
                 'focusDistance': 109.59,
                 'origin': [-0.832, 72.134, 387.389],
                 'up': [0.017, 0.998, 0.055]
             },
             {  # 5. ACE2 receptor (frame 2000)
-                'apertureRadius': aperture_ratio * 0.01,
+                'apertureRadius': aperture_ratio * 0.02,
                 'direction': [-0.436, 0.035, -0.898],
                 'focusDistance': 62.17,
                 'origin': [-33.619, -164.994, 276.296],
@@ -700,6 +697,10 @@ class HighGlucoseScenario():
         nb_frames = len(frames_to_render)
         frame_count = 1
 
+        '''Rendering settings'''
+        self._set_rendering_settings()
+
+        '''Frames'''
         for frame in frames_to_render:
             try:
                 start = time.time()
