@@ -211,7 +211,7 @@ class LowGlucoseScenario():
              ROTATION_MODE_LINEAR],
             # Virus used for detailed view of the Spike
             [Vector3(200.0, 20.0, -150.0), Quaternion(1.0, 0.0, 0.0, 0.0),
-             Vector3(230.0, -130.0, -100.0), Quaternion(0.456, 0.129, -0.185, -0.860),
+             Vector3(230.0, -100.0, -100.0), Quaternion(0.456, 0.129, -0.185, -0.860),
              ROTATION_MODE_LINEAR]
         ]
 
@@ -727,7 +727,7 @@ class LowGlucoseScenario():
                 'apertureRadius': aperture_ratio * 0.0,
                 'direction': [0.0, 0.0, -1.0],
                 'focusDistance': 1.0,
-                'origin': [201.119, -167.802, 564.232],
+                'origin': [150.0, -170.0, 400.0],
                 'up': [0.0, 1.0, 0.0]
             }
         ]
