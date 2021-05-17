@@ -105,7 +105,7 @@ private:
     // Colors and materials
     Response _setColorScheme(const ColorSchemeDetails &payload) const;
     Response _setMaterials(const MaterialsDetails &payload);
-    MaterialIdsDetails _getMaterialIds(const ModelIdDetails &modelId);
+    MaterialIdsDetails _getMaterialIds(const ModelIdDetails &payload);
 
     // Point clouds
     Response _buildPointCloud(const BuildPointCloudDetails &payload);

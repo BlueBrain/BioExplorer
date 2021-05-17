@@ -939,10 +939,11 @@ Response BioExplorerPlugin::_addSphere(const AddSphereDetails &payload)
 }
 
 MaterialIdsDetails BioExplorerPlugin::_getMaterialIds(
-    const ModelIdDetails &modelId)
+    const ModelIdDetails &payload)
 {
     MaterialIdsDetails materialIds;
-    auto modelDescriptor = _api->getScene().getModel(modelId.modelId);
+    auto &scene = _api->getScene();
+    auto modelDescriptor = scene.getModel(payload.modelId);
     if (modelDescriptor)
     {
         for (const auto &material : modelDescriptor->getModel().getMaterials())
@@ -951,7 +952,8 @@ MaterialIdsDetails BioExplorerPlugin::_getMaterialIds(
                 materialIds.ids.push_back(material.first);
     }
     else
-        PLUGIN_THROW("Invalid model ID");
+        PLUGIN_THROW("Trying to get materials from an invalid model ID: " +
+                     std::to_string(payload.modelId));
     return materialIds;
 }
 

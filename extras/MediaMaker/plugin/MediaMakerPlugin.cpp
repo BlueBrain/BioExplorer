@@ -34,7 +34,7 @@ namespace mediamaker
 {
 using namespace brayns;
 
-const std::string PLUGIN_VERSION = "0.3.0";
+const std::string PLUGIN_VERSION = "0.3.1";
 const std::string PLUGIN_API_PREFIX = "mm-";
 
 // Number of floats used to define the camera

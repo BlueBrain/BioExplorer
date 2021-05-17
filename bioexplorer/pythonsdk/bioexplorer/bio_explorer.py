@@ -1740,11 +1740,12 @@ class BioExplorer:
         :specular_exponent: Specular exponent for diffuse shading modes
         :glossiness: Glossiness
         """
-        if self._url is not None:
-            # Refresh connection to Brayns to make sure we get all current models
-            self._client = Client(self._url)
-
         glycans_colors = [[0, 1, 1], [1, 1, 0], [1, 0, 1], [0.2, 0.2, 0.7]]
+
+        # Force reconnection to Brayns to make sure we get the latest scene description (Bug in
+        # Brayns?)
+        self._client = Client(self._url)
+
         for model in self._client.scene.models:
             model_id = model["id"]
             model_name = model["name"]
