@@ -500,6 +500,9 @@ class LowGlucoseScenario():
             '''Lymphocyte is not in the field of view'''
             return
 
+        '''Protein animation params'''
+        params = [0, 0, 0.0, frame + 2, 0.2]
+
         clip_planes = [
             [1.0, 0.0, 0.0, scene_size * 1.5 + 5],
             [-1.0, 0.0, 0.0, scene_size * 1.5 + 5],
@@ -510,8 +513,8 @@ class LowGlucoseScenario():
         name = 'Emile'
         lymphocyte_sequence = [0, 3750]
         lymphocyte_seeds = [2]
-        lymphocyte_frames = [Vector3(-2300.0, 100.0, 0.0), Quaternion(1.0, 0.0, 0.0, 0.0),
-                             Vector3(-1030.0, 100.0, 0.0), Quaternion(0.707, 0.707, 0.0, 0.0),
+        lymphocyte_frames = [Vector3(-2500.0, 100.0, 30.0), Quaternion(1.0, 0.0, 0.0, 0.0),
+                             Vector3(-830.0, 100.0, 30.0), Quaternion(0.707, 0.707, 0.0, 0.0),
                              ROTATION_MODE_LINEAR]
 
         protein_sources = [
@@ -523,7 +526,9 @@ class LowGlucoseScenario():
 
         mesh_based_membrane = MeshBasedMembrane(
             mesh_source=lymphocyte_path, protein_sources=protein_sources,
-            density=lymphocyte_density, surface_variable_offset=lymphocyte_surface_variable_offset)
+            density=lymphocyte_density, surface_variable_offset=lymphocyte_surface_variable_offset,
+            assembly_params=params
+        )
 
         pos, rot, progress = self._get_transformation(
             start_frame=lymphocyte_sequence[0], end_frame=lymphocyte_sequence[1],
@@ -677,7 +682,7 @@ class LowGlucoseScenario():
         '''Accelerate loading by not showing models as they are loaded'''
         status = self._be.set_general_settings(model_visibility_on_creation=False)
 
-        aperture_ratio = 0.5
+        aperture_ratio = 0.0
         cameras_key_frames = [
             {  # Virus overview (on 5th virus)
                 'apertureRadius': aperture_ratio * 0.02,

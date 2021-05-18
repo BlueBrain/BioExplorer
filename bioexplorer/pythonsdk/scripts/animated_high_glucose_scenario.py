@@ -607,11 +607,28 @@ class HighGlucoseScenario():
             projection + '/' + str(self._image_size[0]) + 'x' + str(self._image_size[1])
         self._make_export_folder()
 
+    def _set_clipping_planes(self):
+        '''Clipping planes'''
+        clip_planes = [
+            [1.0, 0.0, 0.0, scene_size * 1.5 + 5],
+            [-1.0, 0.0, 0.0, scene_size * 1.5 + 5],
+            [0.0, 0.0, 1.0, scene_size + 5],
+            [0.0, 0.0, -1.0, scene_size + 5]
+        ]
+        cps = self._core.get_clip_planes()
+        ids = list()
+        if cps:
+            for cp in cps:
+                ids.append(cp['id'])
+        self._core.remove_clip_planes(ids)
+        for plane in clip_planes:
+            self._core.add_clip_plane(plane)
+
     def render_movie(self, start_frame=0, end_frame=0, frame_step=1, frame_list=list()):
         '''Accelerate loading by not showing models as they are loaded'''
         status = self._be.set_general_settings(model_visibility_on_creation=False)
 
-        aperture_ratio = 0.5
+        aperture_ratio = 0.0
         cameras_key_frames = [
             {  # 1. Cell view (frame 0)
                 'apertureRadius': aperture_ratio * 0.0,
@@ -699,6 +716,9 @@ class HighGlucoseScenario():
 
         '''Rendering settings'''
         self._set_rendering_settings()
+
+        '''Clipping planes'''
+        self._set_clipping_planes()
 
         '''Frames'''
         for frame in frames_to_render:
