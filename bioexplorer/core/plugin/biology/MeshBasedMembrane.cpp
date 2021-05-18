@@ -164,12 +164,9 @@ void MeshBasedMembrane::_processInstances(const Vector3f& proteinsAverageSize)
                                                            scale, rotation),
                                                1.f));
 
-                if (!isClipped(v1, _clippingPlanes) ||
-                    !isClipped(v2, _clippingPlanes) ||
-                    !isClipped(v3, _clippingPlanes))
-                    faces.push_back(Vector3ui(mesh->mFaces[f].mIndices[0],
-                                              mesh->mFaces[f].mIndices[1],
-                                              mesh->mFaces[f].mIndices[2]));
+                faces.push_back(Vector3ui(mesh->mFaces[f].mIndices[0],
+                                          mesh->mFaces[f].mIndices[1],
+                                          mesh->mFaces[f].mIndices[2]));
             }
 
         float meshSurface = 0.f;
@@ -294,7 +291,8 @@ void MeshBasedMembrane::_processInstances(const Vector3f& proteinsAverageSize)
                     continue;
 
                 // Instance
-                const size_t id = rand() % _proteins.size();
+                // const size_t id = rand() % _proteins.size();
+                const size_t id = i % _proteins.size();
                 auto protein = _proteins[_getElementNameFromId(id)];
                 auto md = protein->getModelDescriptor();
 

@@ -104,7 +104,7 @@ defensin_path = pdb_folder + 'immune/1ijv.pdb'
 surfactant_head_source = pdb_folder + 'surfactant/1pw9.pdb'
 surfactant_branch_source = pdb_folder + 'surfactant/1k6f.pdb'
 
-lymphocyte_path = obj_folder + 'lymphocyte.obj'
+lymphocyte_path = obj_folder + 'clipped_lymphocyte.obj'
 
 # --------------------------------------------------------------------------------
 # Enums
@@ -266,13 +266,16 @@ class LowGlucoseScenario():
                                                               frame, virus_flights_out[virus_index])
                 self._log('-   Virus %d is flying out... (%.01f pct)' % (virus_index, progress))
 
-            self._be.add_coronavirus(
-                name=name, resource_folder=resource_folder,
-                representation=protein_representation, position=pos, rotation=rot,
-                add_glycans=add_glycans,
-                assembly_params=[virus_radii[virus_index], 5 * frame + 2 * virus_index,
-                                 0.5, frame + 2 * virus_index + 1, 0.1, morphing_step]
-            )
+            if False:
+                self._be.add_sphere(name=name, position=pos, radius=virus_radii[virus_index])
+            else:
+                self._be.add_coronavirus(
+                    name=name, resource_folder=resource_folder,
+                    representation=protein_representation, position=pos, rotation=rot,
+                    add_glycans=add_glycans,
+                    assembly_params=[virus_radii[virus_index], 5 * frame + 2 * virus_index,
+                                     0.5, frame + 2 * virus_index + 1, 0.1, morphing_step]
+                )
 
     def _add_cell(self, frame):
 
@@ -497,11 +500,18 @@ class LowGlucoseScenario():
             '''Lymphocyte is not in the field of view'''
             return
 
+        clip_planes = [
+            [1.0, 0.0, 0.0, scene_size * 1.5 + 5],
+            [-1.0, 0.0, 0.0, scene_size * 1.5 + 5],
+            [0.0, 0.0, 1.0, scene_size + 5],
+            [0.0, 0.0, -1.0, scene_size + 5]
+        ]
+
         name = 'Emile'
         lymphocyte_sequence = [0, 3750]
         lymphocyte_seeds = [2]
-        lymphocyte_frames = [Vector3(-2700.0, 100.0, 0.0), Quaternion(1.0, 0.0, 0.0, 0.0),
-                             Vector3(-1530.0, 100.0, 0.0), Quaternion(0.707, 0.707, 0.0, 0.0),
+        lymphocyte_frames = [Vector3(-2300.0, 100.0, 0.0), Quaternion(1.0, 0.0, 0.0, 0.0),
+                             Vector3(-1030.0, 100.0, 0.0), Quaternion(0.707, 0.707, 0.0, 0.0),
                              ROTATION_MODE_LINEAR]
 
         protein_sources = [
@@ -509,15 +519,6 @@ class LowGlucoseScenario():
             membrane_folder + 'segB.pdb',
             membrane_folder + 'segC.pdb',
             membrane_folder + 'segD.pdb'
-        ]
-
-        clip_planes = [
-            [1.0, 0.0, 0.0, scene_size * 1.5 + 5],
-            [-1.0, 0.0, 0.0, scene_size * 1.5 + 5],
-            [0.0, 1.0, 0.0, 250.0],
-            [0.0, -1.0, 0.0, 550.0],
-            [0.0, 0.0, 1.0, scene_size + 5],
-            [0.0, 0.0, -1.0, scene_size + 5]
         ]
 
         mesh_based_membrane = MeshBasedMembrane(
@@ -532,7 +533,9 @@ class LowGlucoseScenario():
         scale = Vector3(1.0, 1.0, 1.0)
         status = self._be.add_mesh_based_membrane(
             name, mesh_based_membrane, position=pos,
-            rotation=rot, scale=scale, clipping_planes=clip_planes)
+            rotation=rot, scale=scale,
+            clipping_planes=clip_planes
+        )
 
         for i in range(len(protein_sources)):
             status = self._be.set_protein_color_scheme(
@@ -653,6 +656,23 @@ class LowGlucoseScenario():
             projection + '/' + str(self._image_size[0]) + 'x' + str(self._image_size[1])
         self._make_export_folder()
 
+    def _set_clipping_planes(self):
+        '''Clipping planes'''
+        clip_planes = [
+            [1.0, 0.0, 0.0, scene_size * 1.5 + 5],
+            [-1.0, 0.0, 0.0, scene_size * 1.5 + 5],
+            [0.0, 0.0, 1.0, scene_size + 5],
+            [0.0, 0.0, -1.0, scene_size + 5]
+        ]
+        cps = self._core.get_clip_planes()
+        ids = list()
+        if cps:
+            for cp in cps:
+                ids.append(cp['id'])
+        self._core.remove_clip_planes(ids)
+        for plane in clip_planes:
+            self._core.add_clip_plane(plane)
+
     def render_movie(self, start_frame=0, end_frame=0, frame_step=1, frame_list=list()):
         '''Accelerate loading by not showing models as they are loaded'''
         status = self._be.set_general_settings(model_visibility_on_creation=False)
@@ -745,6 +765,9 @@ class LowGlucoseScenario():
 
         '''Rendering settings'''
         self._set_rendering_settings()
+
+        '''Clipping planes'''
+        self._set_clipping_planes()
 
         '''Frames'''
         for frame in frames_to_render:
