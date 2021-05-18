@@ -398,15 +398,6 @@ class LowGlucoseScenario():
             surfactant=surfactant_a, representation=protein_representation,
             position=position, rotation=rotation, random_seed=random_seed)
 
-    def _add_glucose_to_surfactant_head(self, name):
-        for index in [321, 323]:
-            glucose_name = name + '_' + BioExplorer.NAME_GLUCOSE + '_' + str(index)
-            glucose = Sugars(
-                assembly_name=name, name=glucose_name, source=glucose_path,
-                protein_name=name + '_' + BioExplorer.NAME_SURFACTANT_HEAD,
-                representation=glycan_representation, site_indices=[index])
-            self._be.add_sugars(glucose)
-
     def _add_surfactants_d(self, frame):
         spd_sequences = [[0, 3750], [0, 2600], [0, 2600], [0, 3750]]
         spd_random_seeds = [1, 1, 1, 2]
@@ -438,7 +429,6 @@ class LowGlucoseScenario():
             self._add_surfactant_d(
                 name=name, position=pos, rotation=rot,
                 random_seed=spd_random_seeds[surfactant_index])
-            self._add_glucose_to_surfactant_head(name=name)
 
     def _add_surfactants_a(self, frame):
         spa_sequences = [[0, 3750]]
@@ -459,7 +449,6 @@ class LowGlucoseScenario():
             self._add_surfactant_a(
                 name=name, position=pos, rotation=rot,
                 random_seed=spa_random_seeds[surfactant_index])
-            self._add_glucose_to_surfactant_head(name=name)
 
     def _add_glucose(self, frame):
         glucose = Protein(
