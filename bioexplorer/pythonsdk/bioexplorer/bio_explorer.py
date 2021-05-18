@@ -1411,6 +1411,7 @@ class BioExplorer:
             surface_variable_offset=mesh_based_membrane.
             surface_variable_offset,
             atom_radius_multiplier=mesh_based_membrane.atom_radius_multiplier,
+            assembly_params=mesh_based_membrane.assembly_params,
             representation=mesh_based_membrane.representation,
             random_seed=mesh_based_membrane.random_seed,
             position=position,
@@ -1443,10 +1444,9 @@ class BioExplorer:
         params["recenter"] = mesh_based_membrane.recenter
         params["density"] = mesh_based_membrane.density
         params["surfaceFixedOffset"] = mesh_based_membrane.surface_fixed_offset
-        params[
-            "surfaceVariableOffset"] = mesh_based_membrane.surface_variable_offset
-        params[
-            "atomRadiusMultiplier"] = mesh_based_membrane.atom_radius_multiplier
+        params["surfaceVariableOffset"] = mesh_based_membrane.surface_variable_offset
+        params["assemblyParams"] = mesh_based_membrane.assembly_params
+        params["atomRadiusMultiplier"] = mesh_based_membrane.atom_radius_multiplier
         params["representation"] = mesh_based_membrane.representation
         params["randomSeed"] = mesh_based_membrane.random_seed
         params["position"] = mesh_based_membrane.position.to_list()
@@ -1583,7 +1583,7 @@ class BioExplorer:
             params.fog_start = 1200.0
             params.fog_thickness = 300.0
             params.max_bounces = 1
-            params.use_hardware_randomizer = True
+            params.use_hardware_randomizer = False
             return self._client.set_renderer_params(params)
         return self._client.set_renderer(
             background_color=Vector3(),
@@ -2144,7 +2144,8 @@ class AssemblyMeshBasedMembrane:
     """An AssemblyMeshBasedMembrane is a Mesh-based membrane that belongs to an assembly"""
 
     def __init__(self, assembly_name, name, mesh_source, protein_sources, recenter=True, density=1,
-                 surface_fixed_offset=0, surface_variable_offset=0, atom_radius_multiplier=1.0,
+                 surface_fixed_offset=0, surface_variable_offset=0, assembly_params=list(),
+                 atom_radius_multiplier=1.0,
                  representation=BioExplorer.REPRESENTATION_ATOMS, random_seed=0, position=Vector3(),
                  rotation=Quaternion(), scale=Vector3()):
         """
@@ -2180,6 +2181,7 @@ class AssemblyMeshBasedMembrane:
         self.surface_fixed_offset = surface_fixed_offset
         self.surface_variable_offset = surface_variable_offset
         self.atom_radius_multiplier = atom_radius_multiplier
+        self.assembly_params = assembly_params
         self.representation = representation
         self.random_seed = random_seed
         self.position = position
@@ -2419,7 +2421,7 @@ class MeshBasedMembrane:
     """A MeshBasedMembrane is a membrane shaped by a 3D mesh"""
 
     def __init__(self, mesh_source, protein_sources, density=1, surface_fixed_offset=0.0,
-                 surface_variable_offset=0.0, atom_radius_multiplier=1.0,
+                 surface_variable_offset=0.0, assembly_params=list(), atom_radius_multiplier=1.0,
                  representation=BioExplorer.REPRESENTATION_ATOMS, random_seed=0, recenter=True,
                  position=Vector3(), rotation=Quaternion(), scale=Vector3()):
         """
@@ -2432,6 +2434,7 @@ class MeshBasedMembrane:
                                       mesh
         :surface_variable_offset: Random ranged offset of the protein position at the
                                          surface of the mesh
+        :assembly_params: Assembly parameters for animation purposes
         :atom_radius_multiplier: Multiplies atom radius by the specified value
         :representation: Representation of the protein (Atoms, atoms and sticks, etc)
         :random_seed: Rand seed for surface_variable_offset parameter
@@ -2445,11 +2448,13 @@ class MeshBasedMembrane:
         assert isinstance(scale, Vector3)
         assert len(protein_sources) <= 4
         assert len(protein_sources) > 0
+        assert isinstance(assembly_params, list)
 
         self.mesh_source = mesh_source
         self.protein_sources = protein_sources
         self.density = density
         self.surface_fixed_offset = surface_fixed_offset
+        self.assembly_params = assembly_params
         self.surface_variable_offset = surface_variable_offset
         self.atom_radius_multiplier = atom_radius_multiplier
         self.representation = representation

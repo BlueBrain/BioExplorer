@@ -23,6 +23,7 @@
 
 #include <plugin/common/CommonTypes.h>
 #include <plugin/common/Logs.h>
+#include <plugin/common/Shapes.h>
 #include <plugin/common/Utils.h>
 
 #include <brayns/engineapi/Material.h>
@@ -92,6 +93,11 @@ MeshBasedMembrane::MeshBasedMembrane(Scene& scene,
 
 void MeshBasedMembrane::_processInstances(const Vector3f& proteinsAverageSize)
 {
+    const auto& params = _details.assemblyParams;
+    auto randInfo =
+        floatsToRandomizationDetails(params, _details.randomSeed,
+                                     PositionRandomizationType::radial);
+
     // Load proteins
     const auto position = floatsToVector3f(_details.position);
     const auto rotation = floatsToQuaterniond(_details.rotation);
@@ -229,8 +235,8 @@ void MeshBasedMembrane::_processInstances(const Vector3f& proteinsAverageSize)
                 Vector2f coordinates{1.f, 1.f};
                 while (coordinates.x + coordinates.y > 1.f)
                 {
-                    coordinates.x = float(rand() % nbProteins) / nbProteins;
-                    coordinates.y = float(rand() % nbProteins) / nbProteins;
+                    coordinates.x = 0.5f + rnd1();
+                    coordinates.y = 0.5f + rnd1();
                 }
 
                 Transformation tf;
@@ -238,8 +244,10 @@ void MeshBasedMembrane::_processInstances(const Vector3f& proteinsAverageSize)
                 const Vector3f transformedVertex =
                     matrix * Vector4f(P.x, P.y, P.z, 1.f);
 
-                const float variableOffset = _details.surfaceVariableOffset *
-                                             (rand() % 1000 / 1000.f - 0.5f);
+                float variableOffset = _details.surfaceVariableOffset;
+                if (randInfo.positionSeed != 0)
+                    variableOffset += randInfo.positionStrength *
+                                      rnd3((randInfo.positionSeed + i) * 10);
 
                 auto translation = position + transformedVertex +
                                    defaultNormal * _details.surfaceFixedOffset +
@@ -268,8 +276,12 @@ void MeshBasedMembrane::_processInstances(const Vector3f& proteinsAverageSize)
 
                     if (normal != UP_VECTOR)
                     {
-                        const Quaterniond rotation =
+                        Quaterniond rotation =
                             glm::quatLookAt(normal, UP_VECTOR);
+                        if (randInfo.rotationSeed != 0)
+                            rotation = weightedRandomRotation(
+                                randInfo.rotationSeed, i, rotation,
+                                randInfo.rotationStrength);
                         tf.setRotation(rotation);
                     }
                     translation = position + transformedVertex +

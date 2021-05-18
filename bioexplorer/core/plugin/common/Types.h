@@ -381,9 +381,11 @@ typedef struct
     /** Fixed offset for the position of the protein above the surface of the
      * mesh*/
     float surfaceFixedOffset;
-    /** ariable (randomized) offset for the position of the protein above the
+    /** Variable (randomized) offset for the position of the protein above the
      * surface of the mesh*/
     float surfaceVariableOffset;
+    /** Parameters of the assembly shape */
+    std::vector<float> assemblyParams;
     /** Multiplier applied to atom radius */
     float atomRadiusMultiplier;
     /** Representation of the protein (Atoms, atoms and sticks, etc) */

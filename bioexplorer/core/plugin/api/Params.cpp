@@ -390,6 +390,7 @@ bool from_json(MeshBasedMembraneDetails &param, const std::string &payload)
         FROM_JSON(param, js, density);
         FROM_JSON(param, js, surfaceFixedOffset);
         FROM_JSON(param, js, surfaceVariableOffset);
+        FROM_JSON(param, js, assemblyParams);
         FROM_JSON(param, js, atomRadiusMultiplier);
         FROM_JSON(param, js, representation);
         FROM_JSON(param, js, randomSeed);
