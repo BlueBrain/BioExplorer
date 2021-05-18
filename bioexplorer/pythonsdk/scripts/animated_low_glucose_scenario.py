@@ -210,7 +210,7 @@ class LowGlucoseScenario():
              ROTATION_MODE_LINEAR],
             # Virus used for detailed view of the Spike
             [Vector3(200.0, 20.0, -150.0), Quaternion(1.0, 0.0, 0.0, 0.0),
-             Vector3(230.0, -100.0, -100.0), Quaternion(0.456, 0.129, -0.185, -0.860),
+             Vector3(300.0, -100.0, -100.0), Quaternion(0.456, 0.129, -0.185, -0.860),
              ROTATION_MODE_LINEAR]
         ]
 
@@ -407,7 +407,7 @@ class LowGlucoseScenario():
              Vector3(74.0,  24.0, -45.0), Quaternion(1.0, 0.0, 0.0, 0.0),
              ROTATION_MODE_SINUSOIDAL],
             # SP-D is used for the head focus on 3rd virus spike
-            [Vector3(-50,  50.0, 20.0), Quaternion(0.087, 0.971, -0.147, -0.161),
+            [Vector3(-50,  250.0, 20.0), Quaternion(0.087, 0.971, -0.147, -0.161),
              Vector3(-11.0,  108.0, 20.0), Quaternion(1.0, 0.0, 0.0, 0.0),
              ROTATION_MODE_LINEAR],
             # SP-D attaching to lymphocyte
