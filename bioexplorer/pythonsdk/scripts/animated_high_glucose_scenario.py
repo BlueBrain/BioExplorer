@@ -266,7 +266,7 @@ class HighGlucoseScenario():
                 representation=protein_representation, position=pos, rotation=rot,
                 add_glycans=add_glycans,
                 assembly_params=[virus_radii[virus_index], 5 * frame + 2 * virus_index,
-                                 0.5, frame + 2 * virus_index + 1, 0.1, morphing_step]
+                                 0.25, frame + 2 * virus_index + 1, 0.1, morphing_step]
             )
 
     def _add_cell(self, frame):
@@ -307,8 +307,9 @@ class HighGlucoseScenario():
             random_seed=random_seed)
 
         '''Modify receptor position when attached virus enters the cell'''
-        receptors_instances = [90, 23, 24, 98, 37]
-        receptors_sequences = [[1000, 1099], [2200, 2299], [1200, 1299], [1600, 1699], [2000, 2099]]
+        receptors_instances = [90, 23, 24, 98, 37, 44]
+        receptors_sequences = [[1000, 1099], [2200, 2299], [
+            1200, 1299], [1600, 1699], [2000, 2099], [-1, -1]]
 
         for i in range(len(receptors_instances)):
             instance_index = receptors_instances[i]
@@ -403,7 +404,6 @@ class HighGlucoseScenario():
             self._be.add_sugars(glucose)
 
     def _add_surfactants_d(self, frame):
-        # 74.0, 24.0, -45.0
         spd_sequences = [[-1550, 3750], [0, 3750], [0, 3750]]
         spd_random_seeds = [1, 2, 6]
         spd_flights = [
@@ -503,27 +503,20 @@ class HighGlucoseScenario():
         '''Renderer'''
         status = self._core.set_renderer(
             background_color=[96 / 255, 125 / 255, 139 / 255],
-            current='bio_explorer', head_light=False,
+            current='bio_explorer', head_light=True,
             samples_per_pixel=1, subsampling=1, max_accum_frames=self._image_samples_per_pixels)
         params = self._core.BioExplorerRendererParams()
         params.exposure = 1.0
         params.gi_samples = 1
         params.gi_weight = 0.3
-        params.gi_distance = 5000
+        params.gi_distance = 500
         params.shadows = 1.0
-        params.soft_shadows = 0.02
+        params.soft_shadows = 1.0
         params.fog_start = 1000
         params.fog_thickness = 300
         params.max_bounces = 1
-        params.use_hardware_randomizer = False
+        params.use_hardware_randomizer = True
         status = self._core.set_renderer_params(params)
-
-        '''Lights'''
-        status = self._core.clear_lights()
-        status = self._core.add_light_directional(
-            angularDiameter=0.5, color=[1, 1, 1], direction=[-0.7, -0.4, -1],
-            intensity=1.0, is_visible=False
-        )
 
         '''Camera'''
         status = self._core.set_camera(current='bio_explorer_perspective')
@@ -732,6 +725,7 @@ class HighGlucoseScenario():
                 frame_count += 1
             except Exception as e:
                 self._log('ERROR: Failed to render frame %i' % frame)
+                self._log(str(e))
                 self._be = BioExplorer(self._url)
                 self._core = self._be.core_api()
                 mm = MovieMaker(self._be)
