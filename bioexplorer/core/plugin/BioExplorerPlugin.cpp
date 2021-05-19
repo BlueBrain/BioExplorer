@@ -511,15 +511,6 @@ void BioExplorerPlugin::preRender()
             _oocManager->setFrameBuffer(&frameBuffer);
             _oocManager->loadBricks();
         }
-
-    if (_resetScene)
-    {
-        auto &scene = _api->getScene();
-        const auto &modelDescriptors = scene.getModelDescriptors();
-        for (const auto modelDescriptor : modelDescriptors)
-            scene.removeModel(modelDescriptor->getModelID());
-        _resetScene = false;
-    }
 }
 
 Response BioExplorerPlugin::_getVersion() const
@@ -533,7 +524,12 @@ Response BioExplorerPlugin::_reset()
 {
     Response response;
     auto &scene = _api->getScene();
-    const auto &modelDescriptors = scene.getModelDescriptors();
+    const auto modelDescriptors = scene.getModelDescriptors();
+
+    for (const auto modelDescriptor : modelDescriptors)
+        scene.removeModel(modelDescriptor->getModelID());
+
+    scene.commit();
     response.contents =
         "Removed " + std::to_string(modelDescriptors.size()) + " models";
     return response;

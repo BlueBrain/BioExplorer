@@ -135,8 +135,5 @@ private:
 
     // Command line arguments
     std::map<std::string, std::string> _commandLineArguments;
-
-    // Scene management
-    bool _resetScene{false};
 };
 } // namespace bioexplorer
