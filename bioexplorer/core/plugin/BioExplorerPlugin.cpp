@@ -355,6 +355,20 @@ void BioExplorerPlugin::init()
             endPoint,
             [&](const AddSphereDetails &payload) { _addSphere(payload); });
 
+        endPoint = PLUGIN_API_PREFIX + "get-model-ids";
+        PLUGIN_INFO("Registering '" + endPoint + "' endpoint");
+        actionInterface->registerRequest<IdsDetails>(endPoint,
+                                                     [&]() -> IdsDetails {
+                                                         return _getModelIds();
+                                                     });
+
+        endPoint = PLUGIN_API_PREFIX + "get-model-name";
+        PLUGIN_INFO("Registering '" + endPoint + "' endpoint");
+        actionInterface->registerRequest<ModelIdDetails, ModelNameDetails>(
+            endPoint, [&](const ModelIdDetails &payload) -> ModelNameDetails {
+                return _getModelName(payload);
+            });
+
         endPoint = PLUGIN_API_PREFIX + "set-materials";
         PLUGIN_INFO("Registering '" + endPoint + "' endpoint");
         actionInterface->registerNotification<MaterialsDetails>(
@@ -363,8 +377,8 @@ void BioExplorerPlugin::init()
 
         endPoint = PLUGIN_API_PREFIX + "get-material-ids";
         PLUGIN_INFO("Registering '" + endPoint + "' endpoint");
-        actionInterface->registerRequest<ModelIdDetails, MaterialIdsDetails>(
-            endPoint, [&](const ModelIdDetails &payload) -> MaterialIdsDetails {
+        actionInterface->registerRequest<ModelIdDetails, IdsDetails>(
+            endPoint, [&](const ModelIdDetails &payload) -> IdsDetails {
                 return _getMaterialIds(payload);
             });
 
@@ -938,10 +952,38 @@ Response BioExplorerPlugin::_addSphere(const AddSphereDetails &payload)
     return response;
 }
 
-MaterialIdsDetails BioExplorerPlugin::_getMaterialIds(
-    const ModelIdDetails &payload)
+IdsDetails BioExplorerPlugin::_getModelIds() const
 {
-    MaterialIdsDetails materialIds;
+    auto &scene = _api->getScene();
+    const auto &modelDescriptors = scene.getModelDescriptors();
+    IdsDetails modelIds;
+    for (const auto &modelDescriptor : modelDescriptors)
+    {
+        const auto &modelId = modelDescriptor->getModelID();
+        PLUGIN_INFO("Adding model id: " + std::to_string(modelId));
+        modelIds.ids.push_back(modelId);
+    }
+    return modelIds;
+}
+
+ModelNameDetails BioExplorerPlugin::_getModelName(
+    const ModelIdDetails &payload) const
+{
+    auto &scene = _api->getScene();
+    auto modelDescriptor = scene.getModel(payload.modelId);
+    if (modelDescriptor)
+    {
+        ModelNameDetails modelName;
+        modelName.name = modelDescriptor->getName();
+        return modelName;
+    }
+    PLUGIN_THROW("Trying to get name from an invalid model ID: " +
+                 std::to_string(payload.modelId));
+}
+
+IdsDetails BioExplorerPlugin::_getMaterialIds(const ModelIdDetails &payload)
+{
+    IdsDetails materialIds;
     auto &scene = _api->getScene();
     auto modelDescriptor = scene.getModel(payload.modelId);
     if (modelDescriptor)

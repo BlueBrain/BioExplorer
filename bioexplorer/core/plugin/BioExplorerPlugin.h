@@ -102,10 +102,14 @@ private:
     Response _getProteinInstanceTransformation(
         const ProteinInstanceTransformationDetails &payload) const;
 
+    // Models
+    ModelNameDetails _getModelName(const ModelIdDetails &payload) const;
+    IdsDetails _getModelIds() const;
+
     // Colors and materials
     Response _setColorScheme(const ColorSchemeDetails &payload) const;
     Response _setMaterials(const MaterialsDetails &payload);
-    MaterialIdsDetails _getMaterialIds(const ModelIdDetails &payload);
+    IdsDetails _getMaterialIds(const ModelIdDetails &payload);
 
     // Point clouds
     Response _buildPointCloud(const BuildPointCloudDetails &payload);

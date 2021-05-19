@@ -578,14 +578,24 @@ typedef struct
 } ProteinInstanceTransformationDetails;
 
 /**
- * @brief List of material identifiers attached to a Brayns model
+ * @brief List of identifiers
  *
  */
 typedef struct
 {
-    /** List of material identifiers */
+    /** List of identifiers */
     std::vector<size_t> ids;
-} MaterialIdsDetails;
+} IdsDetails;
+
+/**
+ * @brief Model name
+ *
+ */
+typedef struct
+{
+    /** Model name */
+    std::string name;
+} ModelNameDetails;
 
 /**
  * @brief Model identifier

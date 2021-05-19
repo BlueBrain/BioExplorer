@@ -1593,6 +1593,26 @@ class BioExplorer:
             max_accum_frames=16
         )
 
+    def get_model_name(self, model_id):
+        """
+        Return the list of model ids in the current scene
+
+        :return: List of model Ids
+        """
+        params = dict()
+        params["modelId"] = model_id
+        return self._client.rockets_client.request(
+            self.PLUGIN_API_PREFIX + "get-model-name", params)
+
+    def get_model_ids(self):
+        """
+        Return the list of model ids in the current scene
+
+        :return: List of model Ids
+        """
+        return self._client.rockets_client.request(
+            self.PLUGIN_API_PREFIX + "get-model-ids")
+
     def get_material_ids(self, model_id):
         """
         Return the list of material Ids for a given model
@@ -1730,8 +1750,9 @@ class BioExplorer:
             chameleon_modes=chameleon_modes
         )
 
-    def apply_default_color_scheme(self, shading_mode, user_parameter=3.0, specular_exponent=5.0,
-                                   glossiness=1.0, glycans=True, proteins=True, membranes=True):
+    def apply_default_color_scheme(
+            self, shading_mode, user_parameter=3.0, specular_exponent=5.0, glossiness=1.0,
+            glycans=True, proteins=True, membranes=True, collagen=True):
         """
         Apply a default color scheme to all components in the scene
 
@@ -1742,14 +1763,10 @@ class BioExplorer:
         """
         glycans_colors = [[0, 1, 1], [1, 1, 0], [1, 0, 1], [0.2, 0.2, 0.7]]
 
-        # Force reconnection to Brayns to make sure we get the latest scene description (Bug in
-        # Brayns?)
-        self._client = Client(self._url)
+        model_ids = self.get_model_ids()
 
-        for model in self._client.scene.models:
-            model_id = model["id"]
-            model_name = model["name"]
-
+        for model_id in model_ids["ids"]:
+            model_name = self.get_model_name(model_id)['name']
             material_ids = self.get_material_ids(model_id)["ids"]
             nb_materials = len(material_ids)
 
@@ -1900,6 +1917,19 @@ class BioExplorer:
                     glossiness=glossiness,
                     specular_exponent=specular_exponent,
                 )
+
+            if collagen and self.NAME_COLLAGEN in model_name:
+                palette = list()
+                emissions = list()
+                for i in range(nb_materials):
+                    palette.append([1, 1, 1])
+                    emissions.append(0.2)
+                self.set_materials(
+                    model_ids=[model_id], material_ids=material_ids,
+                    diffuse_colors=palette, specular_colors=palette,
+                    emissions=emissions
+                )
+
         self._client.scene.commit()
 
     def build_fields(self, voxel_size, density=1.0):

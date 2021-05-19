@@ -553,25 +553,6 @@ class LowGlucoseScenario():
         self._be.apply_default_color_scheme(
             shading_mode=BioExplorer.SHADING_MODE_DIFFUSE, specular_exponent=50.0)
 
-        '''Collagen'''
-        for model in self._core.scene.models:
-            model_id = model['id']
-            model_name = model['name']
-            if BioExplorer.NAME_COLLAGEN in model_name:
-                material_ids = list(self._be.get_material_ids(model_id)['ids'])
-                nb_materials = len(material_ids)
-                palette = list()
-                emissions = list()
-                for i in range(nb_materials):
-                    palette.append([1, 1, 1])
-                    emissions.append(0.1)
-                status = self._be.set_materials(
-                    model_ids=[model_id], material_ids=material_ids,
-                    diffuse_colors=palette, specular_colors=palette,
-                    emissions=emissions
-                )
-        status = self._core.scene.commit()
-
     def _set_rendering_settings(self):
         '''Renderer'''
         status = self._core.set_renderer(

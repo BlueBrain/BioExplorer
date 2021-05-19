@@ -485,12 +485,27 @@ bool from_json(MaterialsDetails &param, const std::string &payload)
     return true;
 }
 
-std::string to_json(const MaterialIdsDetails &param)
+std::string to_json(const IdsDetails &param)
 {
     try
     {
         nlohmann::json js;
         TO_JSON(param, js, ids);
+        return js.dump();
+    }
+    catch (...)
+    {
+        return "";
+    }
+    return "";
+}
+
+std::string to_json(const ModelNameDetails &param)
+{
+    try
+    {
+        nlohmann::json js;
+        TO_JSON(param, js, name);
         return js.dump();
     }
     catch (...)
