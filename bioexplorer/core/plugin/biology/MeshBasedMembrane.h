@@ -62,7 +62,7 @@ private:
     Vector3f _toVector3f(const aiVector3D& v) const;
     Vector3f _toVector3f(const aiVector3D& v, const Vector3f& center,
                          const Vector3f& scaling,
-                         const Quaterniond& rotation) const;
+                         const Quaterniond& rotation = Quaterniond()) const;
     std::string _getElementNameFromId(const size_t id);
 
     MeshBasedMembraneDetails _details;

@@ -99,9 +99,9 @@ void MeshBasedMembrane::_processInstances(const Vector3f& proteinsAverageSize)
                                      PositionRandomizationType::radial);
 
     // Load proteins
-    const auto position = floatsToVector3f(_details.position);
-    const auto rotation = floatsToQuaterniond(_details.rotation);
-    const auto scale = floatsToVector3f(_details.scale);
+    const auto membranePosition = floatsToVector3f(_details.position);
+    const auto membraneRotation = floatsToQuaterniond(_details.rotation);
+    const auto membraneScale = floatsToVector3f(_details.scale);
 
     // Load MeshBasedMembrane
     const auto loader = MeshLoader(_scene);
@@ -146,22 +146,22 @@ void MeshBasedMembrane::_processInstances(const Vector3f& proteinsAverageSize)
             {
                 const auto i1 = mesh->mVertices[mesh->mFaces[f].mIndices[0]];
                 const auto v1 =
-                    position +
+                    membranePosition +
                     Vector3f(matrix * Vector4f(_toVector3f(i1, meshCenter,
-                                                           scale, rotation),
+                                                           membraneScale),
                                                1.f));
                 const auto i2 = mesh->mVertices[mesh->mFaces[f].mIndices[1]];
                 const auto v2 =
-                    position +
+                    membranePosition +
                     Vector3f(matrix * Vector4f(_toVector3f(i2, meshCenter,
-                                                           scale, rotation),
+                                                           membraneScale),
                                                1.f));
 
                 const auto i3 = mesh->mVertices[mesh->mFaces[f].mIndices[2]];
                 const auto v3 =
-                    position +
+                    membranePosition +
                     Vector3f(matrix * Vector4f(_toVector3f(i3, meshCenter,
-                                                           scale, rotation),
+                                                           membraneScale),
                                                1.f));
 
                 faces.push_back(Vector3ui(mesh->mFaces[f].mIndices[0],
@@ -171,13 +171,11 @@ void MeshBasedMembrane::_processInstances(const Vector3f& proteinsAverageSize)
 
         float meshSurface = 0.f;
         for (const auto& face : faces)
-            meshSurface +=
-                _getSurfaceArea(_toVector3f(mesh->mVertices[face.x], meshCenter,
-                                            scale, rotation),
-                                _toVector3f(mesh->mVertices[face.y], meshCenter,
-                                            scale, rotation),
-                                _toVector3f(mesh->mVertices[face.z], meshCenter,
-                                            scale, rotation));
+            meshSurface += _getSurfaceArea(
+                _toVector3f(mesh->mVertices[face.x], meshCenter, membraneScale),
+                _toVector3f(mesh->mVertices[face.y], meshCenter, membraneScale),
+                _toVector3f(mesh->mVertices[face.z], meshCenter,
+                            membraneScale));
 
         const float proteinSurface =
             proteinsAverageSize.x * proteinsAverageSize.x;
@@ -188,9 +186,9 @@ void MeshBasedMembrane::_processInstances(const Vector3f& proteinsAverageSize)
         const float instanceSurface = meshSurface / nbInstances;
 
         PLUGIN_INFO("----===  MeshBasedMembrane  ===----");
-        PLUGIN_INFO("Position             : " << position);
-        PLUGIN_INFO("Rotation             : " << rotation);
-        PLUGIN_INFO("Scale                : " << scale);
+        PLUGIN_INFO("Position             : " << membranePosition);
+        PLUGIN_INFO("Rotation             : " << membraneRotation);
+        PLUGIN_INFO("Scale                : " << membraneScale);
         PLUGIN_INFO("Number of faces      : " << faces.size());
         PLUGIN_INFO("Mesh surface area    : " << meshSurface);
         PLUGIN_INFO("Protein size         : " << proteinsAverageSize);
@@ -204,12 +202,12 @@ void MeshBasedMembrane::_processInstances(const Vector3f& proteinsAverageSize)
 
         for (const auto& face : faces)
         {
-            const auto P0 = _toVector3f(mesh->mVertices[face.x], meshCenter,
-                                        scale, rotation);
-            const auto P1 = _toVector3f(mesh->mVertices[face.y], meshCenter,
-                                        scale, rotation);
-            const auto P2 = _toVector3f(mesh->mVertices[face.z], meshCenter,
-                                        scale, rotation);
+            const auto P0 =
+                _toVector3f(mesh->mVertices[face.x], meshCenter, membraneScale);
+            const auto P1 =
+                _toVector3f(mesh->mVertices[face.y], meshCenter, membraneScale);
+            const auto P2 =
+                _toVector3f(mesh->mVertices[face.z], meshCenter, membraneScale);
 
             const auto V0 = P1 - P0;
             const auto V1 = P2 - P0;
@@ -239,14 +237,15 @@ void MeshBasedMembrane::_processInstances(const Vector3f& proteinsAverageSize)
                 Transformation tf;
                 const Vector3f P = P0 + V0 * coordinates.x + V1 * coordinates.y;
                 const Vector3f transformedVertex =
-                    matrix * Vector4f(P.x, P.y, P.z, 1.f);
+                    membraneRotation *
+                    Vector3d(matrix * Vector4f(P.x, P.y, P.z, 1.f));
 
                 float variableOffset = _details.surfaceVariableOffset;
                 if (randInfo.positionSeed != 0)
                     variableOffset += randInfo.positionStrength *
                                       rnd3((randInfo.positionSeed + i) * 10);
 
-                auto translation = position + transformedVertex +
+                auto translation = membranePosition + transformedVertex +
                                    defaultNormal * _details.surfaceFixedOffset +
                                    defaultNormal * variableOffset;
 
@@ -279,9 +278,9 @@ void MeshBasedMembrane::_processInstances(const Vector3f& proteinsAverageSize)
                             rotation = weightedRandomRotation(
                                 randInfo.rotationSeed, i, rotation,
                                 randInfo.rotationStrength);
-                        tf.setRotation(rotation);
+                        tf.setRotation(membraneRotation * rotation);
                     }
-                    translation = position + transformedVertex +
+                    translation = membranePosition + transformedVertex +
                                   normal * _details.surfaceFixedOffset +
                                   normal * variableOffset;
                 }
