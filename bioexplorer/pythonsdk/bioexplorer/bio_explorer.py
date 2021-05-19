@@ -1925,8 +1925,6 @@ class BioExplorer:
                     emissions=emissions
                 )
 
-        self._client.scene.commit()
-
     def build_fields(self, voxel_size, density=1.0):
         """
         Build fields acceleration structures and creates according data handler
