@@ -563,7 +563,7 @@ class BioExplorer:
                 indices=indices_closed,
                 representation=representation,
                 atom_radius_multiplier=atom_radius_multiplier,
-                assembly_params=[0, 0, 0.0, assembly_params[3] + 8, assembly_params[4]]
+                assembly_params=[0, 0, 0.0, assembly_params[3] + 8, 2.0 * assembly_params[4]]
             )
 
             self.add_multiple_glycans(
@@ -574,7 +574,7 @@ class BioExplorer:
                 indices=indices_open,
                 representation=representation,
                 atom_radius_multiplier=atom_radius_multiplier,
-                assembly_params=[0, 0, 0.0, assembly_params[3] + 8, assembly_params[4]]
+                assembly_params=[0, 0, 0.0, assembly_params[3] + 8, 2.0 * assembly_params[4]]
             )
 
             # O-Glycans
@@ -589,7 +589,7 @@ class BioExplorer:
                     site_indices=[index],
                     representation=representation,
                     atom_radius_multiplier=atom_radius_multiplier,
-                    assembly_params=[0, 0, 0.0, assembly_params[3] + 9, assembly_params[4]]
+                    assembly_params=[0, 0, 0.0, assembly_params[3] + 9, 2.0 * assembly_params[4]]
                 )
                 self.add_sugars(o_glycan)
 
@@ -604,7 +604,7 @@ class BioExplorer:
                 source=high_mannose_paths[0],
                 site_indices=indices,
                 representation=representation,
-                assembly_params=[0, 0, 0.0, assembly_params[3] + 10, assembly_params[4]]
+                assembly_params=[0, 0, 0.0, assembly_params[3] + 10, 2.0 * assembly_params[4]]
             )
             self.add_glycans(high_mannose_glycans)
 
@@ -619,7 +619,7 @@ class BioExplorer:
                 source=complex_paths[0],
                 site_indices=indices,
                 representation=representation,
-                assembly_params=[0, 0, 0.0, assembly_params[3] + 11, assembly_params[4]]
+                assembly_params=[0, 0, 0.0, assembly_params[3] + 11, 2.0 * assembly_params[4]]
             )
             self.add_glycans(complex_glycans)
 
