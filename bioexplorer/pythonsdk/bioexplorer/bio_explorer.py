@@ -278,13 +278,8 @@ class BioExplorer:
         :return: Result of the call to the BioExplorer backend
         :rtype: Response
         """
-        if self._client is None:
-            return None
-
-        ids = list()
-        for model in self._client.scene.models:
-            ids.append(model["id"])
-        return self._client.remove_model(array=ids)
+        return self._client.rockets_client.request(
+            method=self.PLUGIN_API_PREFIX + "reset")
 
     def export_to_file(self, filename, low_bounds=Vector3(-1e38, -1e38, -1e38),
                        high_bounds=Vector3(1e38, 1e38, 1e38)):

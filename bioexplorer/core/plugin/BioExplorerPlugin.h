@@ -61,6 +61,7 @@ private:
     Response _getVersion() const;
     SceneInformationDetails _getSceneInformation() const;
     Response _setGeneralSettings(const GeneralSettingsDetails &payload);
+    Response _reset();
 
     // IO
     Response _exportToFile(const FileAccessDetails &payload);
@@ -134,5 +135,8 @@ private:
 
     // Command line arguments
     std::map<std::string, std::string> _commandLineArguments;
+
+    // Scene management
+    bool _resetScene{false};
 };
 } // namespace bioexplorer

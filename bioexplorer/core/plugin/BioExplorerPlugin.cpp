@@ -211,6 +211,11 @@ void BioExplorerPlugin::init()
                 return _setGeneralSettings(payload);
             });
 
+        endPoint = PLUGIN_API_PREFIX + "reset";
+        PLUGIN_INFO("Registering '" + endPoint + "' endpoint");
+        actionInterface->registerRequest<Response>(endPoint,
+                                                   [&]() { return _reset(); });
+
         endPoint = PLUGIN_API_PREFIX + "remove-assembly";
         PLUGIN_INFO("Registering '" + endPoint + "' endpoint");
         actionInterface->registerRequest<AssemblyDetails, Response>(
@@ -506,12 +511,31 @@ void BioExplorerPlugin::preRender()
             _oocManager->setFrameBuffer(&frameBuffer);
             _oocManager->loadBricks();
         }
+
+    if (_resetScene)
+    {
+        auto &scene = _api->getScene();
+        const auto &modelDescriptors = scene.getModelDescriptors();
+        for (const auto modelDescriptor : modelDescriptors)
+            scene.removeModel(modelDescriptor->getModelID());
+        _resetScene = false;
+    }
 }
 
 Response BioExplorerPlugin::_getVersion() const
 {
     Response response;
     response.contents = BIOEXPLORER_VERSION;
+    return response;
+}
+
+Response BioExplorerPlugin::_reset()
+{
+    Response response;
+    auto &scene = _api->getScene();
+    const auto &modelDescriptors = scene.getModelDescriptors();
+    response.contents =
+        "Removed " + std::to_string(modelDescriptors.size()) + " models";
     return response;
 }
 
