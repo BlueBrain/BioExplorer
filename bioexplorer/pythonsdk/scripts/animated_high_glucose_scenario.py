@@ -110,7 +110,9 @@ ROTATION_MODE_SINUSOIDAL = 1
 
 class HighGlucoseScenario():
 
-    def __init__(self, hostname, port, projection, output_folder, image_k=4, image_samples_per_pixels=64):
+    def __init__(self, hostname, port, projection, output_folder, image_k=4,
+                 image_samples_per_pixels=64, log_level=1):
+        self._log_level = log_level
         self._hostname = hostname
         self._url = hostname + ':' + str(port)
         self._be = BioExplorer(self._url)
@@ -120,19 +122,18 @@ class HighGlucoseScenario():
         self._image_projection = projection
         self._image_output_folder = output_folder
         self._prepare_movie(projection, image_k)
-        self._log('================================================================================')
-        self._log('- Version          : ' + self._be.version())
-        self._log('- URL              : ' + self._url)
-        self._log('- Projection       : ' + projection)
-        self._log('- Frame size       : ' + str(self._image_size))
-        self._log('- Export folder    : ' + self._image_output_folder)
-        self._log('- Samples per pixel: ' + str(self._image_samples_per_pixels))
-        self._log('================================================================================')
-        self._log('')
+        self._log(1, '================================================================================')
+        self._log(1, '- Version          : ' + self._be.version())
+        self._log(1, '- URL              : ' + self._url)
+        self._log(1, '- Projection       : ' + projection)
+        self._log(1, '- Frame size       : ' + str(self._image_size))
+        self._log(1, '- Export folder    : ' + self._image_output_folder)
+        self._log(1, '- Samples per pixel: ' + str(self._image_samples_per_pixels))
+        self._log(1, '================================================================================')
 
-    @ staticmethod
-    def _log(message):
-        print('[' + str(datetime.now()) + '] ' + message)
+    def _log(self, level, message):
+        if level <= self._log_level:
+            print('[' + str(datetime.now()) + '] ' + message)
 
     def _get_transformation(self, start_frame, end_frame, frame, data):
         '''Progress'''
@@ -227,24 +228,24 @@ class HighGlucoseScenario():
                 '''Flying'''
                 pos, rot, progress = self._get_transformation(start_frame, end_frame,
                                                               frame, virus_flights_in[virus_index])
-                self._log('-   Virus %d is flying in... (%.01f pct)' % (virus_index, progress))
+                self._log(3, '-   Virus %d is flying in... (%.01f pct)' % (virus_index, progress))
             elif current_sequence == 1:
                 '''Landing'''
                 pos = virus_flights_in[virus_index][2]
                 rot = virus_flights_in[virus_index][3]
                 pos.y -= landing_distance * progress_in_sequence
-                self._log('-   Virus %d is landing...' % virus_index)
+                self._log(3, '-   Virus %d is landing...' % virus_index)
             elif current_sequence == 2:
                 '''Merging into cell'''
                 pos = virus_flights_in[virus_index][2]
                 rot = virus_flights_in[virus_index][3]
                 morphing_step = (frame - start_frame) / (end_frame - start_frame)
                 pos.y -= landing_distance
-                self._log('-   Virus %d is merging in (%.01f pct)' %
+                self._log(3, '-   Virus %d is merging in (%.01f pct)' %
                           (virus_index, morphing_step * 100.0))
             elif current_sequence == 3:
                 '''Inside cell'''
-                self._log('-   Virus %d is inside cell' % virus_index)
+                self._log(3, '-   Virus %d is inside cell' % virus_index)
                 '''Virus is not added to the scene'''
                 self._be.remove_assembly(name=name)
                 continue
@@ -253,13 +254,13 @@ class HighGlucoseScenario():
                 pos = virus_flights_out[virus_index][0]
                 rot = virus_flights_out[virus_index][1]
                 morphing_step = 1.0 - (frame - start_frame) / (end_frame - start_frame)
-                self._log('-   Virus %d is merging out (%.01f pct)' %
+                self._log(3, '-   Virus %d is merging out (%.01f pct)' %
                           (virus_index, morphing_step * 100.0))
             else:
                 '''Flying out'''
                 pos, rot, progress = self._get_transformation(start_frame, end_frame,
                                                               frame, virus_flights_out[virus_index])
-                self._log('-   Virus %d is flying out... (%.01f pct)' % (virus_index, progress))
+                self._log(3, '-   Virus %d is flying out... (%.01f pct)' % (virus_index, progress))
 
             self._be.add_coronavirus(
                 name=name, resource_folder=resource_folder,
@@ -425,7 +426,7 @@ class HighGlucoseScenario():
             pos, rot, progress = self._get_transformation(
                 start_frame=sequence[0], end_frame=sequence[1],
                 frame=frame, data=spd_flights[surfactant_index])
-            self._log('-   ' + name + ' (%.01f pct)' % progress)
+            self._log(3, '-   ' + name + ' (%.01f pct)' % progress)
             self._add_surfactant_d(
                 name=name, position=pos, rotation=rot,
                 random_seed=spd_random_seeds[surfactant_index])
@@ -446,7 +447,7 @@ class HighGlucoseScenario():
             pos, rot, progress = self._get_transformation(
                 start_frame=sequence[0], end_frame=sequence[1],
                 frame=frame, data=spa_frames[surfactant_index])
-            self._log('-   ' + name + ' (%.01f pct)' % progress)
+            self._log(3, '-   ' + name + ' (%.01f pct)' % progress)
             self._add_surfactant_a(
                 name=name, position=pos, rotation=rot,
                 random_seed=spa_random_seeds[surfactant_index])
@@ -522,32 +523,32 @@ class HighGlucoseScenario():
         status = self._core.set_camera(current='bio_explorer_perspective')
 
     def _build_frame(self, frame):
-        self._log('- Resetting scene...')
+        self._log(2, '- Resetting scene...')
         self._be.reset()
 
-        self._log('- Building surfactants...')
+        self._log(2, '- Building surfactants...')
         self._add_surfactants_d(frame)
         self._add_surfactants_a(frame)
 
-        self._log('- Building glucose...')
+        self._log(2, '- Building glucose...')
         self._add_glucose(frame)
 
-        self._log('- Building lactoferrins...')
+        self._log(2, '- Building lactoferrins...')
         self._add_lactoferrins(frame)
 
-        self._log('- Building defensins...')
+        self._log(2, '- Building defensins...')
         self._add_defensins(frame)
 
-        self._log('- Building viruses...')
+        self._log(2, '- Building viruses...')
         self._add_viruses(frame)
 
-        self._log('- Building cell...')
+        self._log(2, '- Building cell...')
         self._add_cell(frame)
 
-        self._log('- Setting materials...')
+        self._log(2, '- Setting materials...')
         self._set_materials()
 
-        self._log('- Showing models...')
+        self._log(2, '- Showing models...')
         status = self._be.set_models_visibility(True)
         status = self._core.set_renderer()
 
@@ -557,7 +558,7 @@ class HighGlucoseScenario():
         os.system(command_line)
         command_line = 'ls ' + self._image_output_folder
         if os.system(command_line) != 0:
-            self._log('ERROR: Failed to create output folder')
+            self._log(3, 'ERROR: Failed to create output folder')
 
     def _prepare_movie(self, projection, image_k):
         if projection == 'perspective':
@@ -667,7 +668,7 @@ class HighGlucoseScenario():
 
         mm = MovieMaker(self._be)
         mm.build_camera_path(key_frames, 250, 150)
-        self._log('- Total number of frames: %d' % mm.get_nb_frames())
+        self._log(1, '- Total number of frames: %d' % mm.get_nb_frames())
 
         self._core.set_application_parameters(viewport=self._image_size)
         self._core.set_application_parameters(image_stream_fps=0)
@@ -695,8 +696,8 @@ class HighGlucoseScenario():
         for frame in frames_to_render:
             try:
                 start = time.time()
-                self._log('- Rendering frame %i (%i/%i)' % (frame, frame_count, nb_frames))
-                self._log('------------------------------')
+                self._log(1, '- Rendering frame %i (%i/%i)' % (frame, frame_count, nb_frames))
+                self._log(1, '------------------------------')
                 self._build_frame(frame)
                 mm.set_current_frame(
                     frame=frame, camera_params=self._core.BioExplorerPerspectiveCameraParams())
@@ -710,28 +711,31 @@ class HighGlucoseScenario():
                 cumulated_rendering_time += rendering_time
                 average_rendering_time = cumulated_rendering_time / frame_count
                 remaining_rendering_time = (nb_frames - frame_count) * average_rendering_time
-                self._log('------------------------------')
-                self._log('Frame %i successfully rendered in %i seconds' % (frame, rendering_time))
+                self._log(1, '------------------------------')
+                self._log(1, 'Frame %i successfully rendered in %i seconds' %
+                          (frame, rendering_time))
 
                 hours = math.floor(remaining_rendering_time / 3600)
                 minutes = math.floor((remaining_rendering_time - hours * 3600) / 60)
                 seconds = math.floor(remaining_rendering_time - hours * 3600 - minutes * 60)
 
                 expected_end_time = datetime.now() + timedelta(seconds=remaining_rendering_time)
-                self._log('Estimated remaining time: %i hours, %i minutes, %i seconds' %
+                self._log(1, 'Estimated remaining time: %i hours, %i minutes, %i seconds' %
                           (hours, minutes, seconds))
-                self._log('Expected end time       : %s' % expected_end_time)
-                self._log('--------------------------------------------------------------------------------')
+                self._log(1, 'Expected end time       : %s' % expected_end_time)
+                self._log(
+                    1, '--------------------------------------------------------------------------------')
                 frame_count += 1
             except Exception as e:
-                self._log('ERROR: Failed to render frame %i' % frame)
-                self._log(str(e))
+                self._log(1, 'ERROR: Failed to render frame %i' % frame)
+                self._log(1, str(e))
+                time.sleep(10)
                 self._be = BioExplorer(self._url)
                 self._core = self._be.core_api()
                 mm = MovieMaker(self._be)
 
         self._core.set_application_parameters(image_stream_fps=20)
-        self._log('Movie rendered, live long and prosper \V/')
+        self._log(1, 'Movie rendered, live long and prosper \V/')
 
 
 def main(argv):
@@ -751,6 +755,7 @@ def main(argv):
     parser.add_argument('-f', '--from_frame', type=int, help='Start frame', default=0)
     parser.add_argument('-t', '--to_frame', type=int, help='End frame', default=0)
     parser.add_argument('-m', '--frame_step', type=int, help='Frame step', default=1)
+    parser.add_argument('-g', '--log-level', type=int, help='Frame step', default=1)
     parser.add_argument('-l', '--frame-list', type=int, nargs='*',
                         help='List of frames to render', default=list())
     args = parser.parse_args(argv)
@@ -761,7 +766,8 @@ def main(argv):
         projection=args.projection,
         output_folder=args.export_folder,
         image_k=args.image_resolution_k,
-        image_samples_per_pixels=args.image_samples_per_pixel)
+        image_samples_per_pixels=args.image_samples_per_pixel,
+        log_level=args.log_level)
 
     scenario.render_movie(
         start_frame=args.from_frame,
