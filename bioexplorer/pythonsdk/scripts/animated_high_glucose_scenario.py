@@ -510,14 +510,21 @@ class HighGlucoseScenario():
         params.exposure = 1.0
         params.gi_samples = 1
         params.gi_weight = 0.3
-        params.gi_distance = 500
+        params.gi_distance = 5000
         params.shadows = 1.0
-        params.soft_shadows = 1.0
+        params.soft_shadows = 0.02
         params.fog_start = 1000
         params.fog_thickness = 300
         params.max_bounces = 1
         params.use_hardware_randomizer = True
         status = self._core.set_renderer_params(params)
+
+        '''Lights'''
+        status = self._core.clear_lights()
+        status = self._core.add_light_directional(
+            angularDiameter=0.5, color=[1, 1, 1], direction=[-0.7, -0.4, -1],
+            intensity=1.0, is_visible=False
+        )
 
         '''Camera'''
         status = self._core.set_camera(current='bio_explorer_perspective')
@@ -698,7 +705,7 @@ class HighGlucoseScenario():
                 start = time.time()
                 self._log(1, '- Rendering frame %i (%i/%i)' % (frame, frame_count, nb_frames))
                 self._log(1, '------------------------------')
-                self._build_frame(frame)
+                # self._build_frame(frame)
                 mm.set_current_frame(
                     frame=frame, camera_params=self._core.BioExplorerPerspectiveCameraParams())
                 mm.create_snapshot(

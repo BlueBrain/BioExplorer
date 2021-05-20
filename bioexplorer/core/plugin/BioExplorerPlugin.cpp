@@ -1102,6 +1102,7 @@ Response BioExplorerPlugin::_setMaterials(const MaterialsDetails &payload)
             else
                 PLUGIN_INFO("Model " << modelId << " is not registered");
         }
+        scene.markModified(false);
     }
     CATCH_STD_EXCEPTION()
     return response;

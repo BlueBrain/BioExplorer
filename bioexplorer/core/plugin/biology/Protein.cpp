@@ -487,10 +487,10 @@ void Protein::addSugars(const SugarsDetails& details)
 
     GlycansPtr glucoses(new Glycans(_scene, details));
     auto modelDescriptor = glucoses->getModelDescriptor();
-    const auto proteinrotation = floatsToQuaterniond(details.rotation);
+    const auto sugarRotation = floatsToQuaterniond(details.rotation);
 
     const auto randInfo = floatsToRandomizationDetails(details.assemblyParams);
-    _processInstances(modelDescriptor, positions, rotations, proteinrotation,
+    _processInstances(modelDescriptor, positions, rotations, sugarRotation,
                       randInfo);
 
     _glycans[details.name] = std::move(glucoses);

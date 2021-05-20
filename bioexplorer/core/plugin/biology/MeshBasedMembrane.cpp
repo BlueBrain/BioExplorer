@@ -290,7 +290,6 @@ void MeshBasedMembrane::_processInstances(const Vector3f& proteinsAverageSize)
                     continue;
 
                 // Instance
-                // const size_t id = rand() % _proteins.size();
                 const size_t id = i % _proteins.size();
                 auto protein = _proteins[_getElementNameFromId(id)];
                 auto md = protein->getModelDescriptor();
