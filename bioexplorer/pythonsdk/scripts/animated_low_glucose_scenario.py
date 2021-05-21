@@ -557,15 +557,15 @@ class LowGlucoseScenario():
         '''Renderer'''
         status = self._core.set_renderer(
             background_color=[96 / 255, 125 / 255, 139 / 255],
-            current='bio_explorer', head_light=True,
+            current='bio_explorer', head_light=False,
             samples_per_pixel=1, subsampling=1, max_accum_frames=self._image_samples_per_pixels)
         params = self._core.BioExplorerRendererParams()
         params.exposure = 1.0
         params.gi_samples = 1
         params.gi_weight = 0.3
         params.gi_distance = 5000
-        params.shadows = 1.0
-        params.soft_shadows = 0.02
+        params.shadows = 0.8
+        params.soft_shadows = 0.05
         params.fog_start = 1000
         params.fog_thickness = 300
         params.max_bounces = 1
@@ -761,9 +761,17 @@ class LowGlucoseScenario():
                 start = time.time()
                 self._log(1, '- Rendering frame %i (%i/%i)' % (frame, frame_count, nb_frames))
                 self._log(1, '------------------------------')
+
+                '''Stop rendering during the loading of the scene'''
+                status = self._core.set_renderer(
+                    samples_per_pixel=1, subsampling=1, max_accum_frames=1)
+
+                '''Frame setup'''
                 self._build_frame(frame)
                 mm.set_current_frame(
                     frame=frame, camera_params=self._core.BioExplorerPerspectiveCameraParams())
+
+                '''Create snapshot'''
                 mm.create_snapshot(
                     size=self._image_size,
                     path=self._image_output_folder, base_name='%05d' % frame,

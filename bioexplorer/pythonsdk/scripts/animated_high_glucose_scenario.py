@@ -166,7 +166,7 @@ class HighGlucoseScenario():
             [[-800, 2549], [2550, 2649], [2650, 2849], [2850, 3199], [3200, 3299], [3300, 3750]],
             [[-1400, 3750], [1e6, 1e6], [1e6, 1e6], [1e6, 1e6], [1e6, 1e6], [1e6, 1e6]],
             [[-400, 2599], [2600, 2699], [2700, 2899], [2900, 3119], [3120, 3219], [3220, 3750]],
-            [[0, 2649], [2650, 2749], [2750, 2849], [2850, 3199], [3200, 3299], [3300, 3750]],
+            [[0, 2649], [2650, 2749], [2750, 2949], [2950, 3199], [3200, 3299], [3300, 3750]],
         ]
         virus_flights_in = [
             [Vector3(-250.0, 100.0, -70.0), Quaternion(0.519, 0.671, 0.528, -0.036),
@@ -309,8 +309,8 @@ class HighGlucoseScenario():
 
         '''Modify receptor position when attached virus enters the cell'''
         receptors_instances = [90, 23, 24, 98, 37, 44]
-        receptors_sequences = [[1000, 1099], [2200, 2299], [
-            1200, 1299], [1600, 1699], [2000, 2099], [-1, -1]]
+        receptors_sequences = [[2500, 2599], [2200, 2299], [
+            2550, 2649], [2600, 2699], [2650, 2749], [-1, -1]]
 
         for i in range(len(receptors_instances)):
             instance_index = receptors_instances[i]
@@ -504,15 +504,15 @@ class HighGlucoseScenario():
         '''Renderer'''
         status = self._core.set_renderer(
             background_color=[96 / 255, 125 / 255, 139 / 255],
-            current='bio_explorer', head_light=True,
+            current='bio_explorer', head_light=False,
             samples_per_pixel=1, subsampling=1, max_accum_frames=self._image_samples_per_pixels)
         params = self._core.BioExplorerRendererParams()
         params.exposure = 1.0
         params.gi_samples = 1
         params.gi_weight = 0.3
         params.gi_distance = 5000
-        params.shadows = 1.0
-        params.soft_shadows = 0.02
+        params.shadows = 0.8
+        params.soft_shadows = 0.05
         params.fog_start = 1000
         params.fog_thickness = 300
         params.max_bounces = 1
@@ -705,9 +705,17 @@ class HighGlucoseScenario():
                 start = time.time()
                 self._log(1, '- Rendering frame %i (%i/%i)' % (frame, frame_count, nb_frames))
                 self._log(1, '------------------------------')
+
+                '''Stop rendering during the loading of the scene'''
+                status = self._core.set_renderer(
+                    samples_per_pixel=1, subsampling=1, max_accum_frames=1)
+
+                '''Frame setup'''
                 self._build_frame(frame)
                 mm.set_current_frame(
                     frame=frame, camera_params=self._core.BioExplorerPerspectiveCameraParams())
+
+                '''Create snapshot'''
                 mm.create_snapshot(
                     size=self._image_size,
                     path=self._image_output_folder, base_name='%05d' % frame,
