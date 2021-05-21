@@ -158,15 +158,15 @@ class HighGlucoseScenario():
         return [Vector3(pos[0], pos[1], pos[2]), rot, progress * 100.0]
 
     def _add_viruses(self, frame):
-        # Second Virus is the one used for the ACE2 close-up
         virus_radii = [45.0, 44.0, 45.0, 43.0, 44.0, 43.0]
         virus_sequences = [
-            [[-1000, 999], [1000, 1099], [1100, 1299], [1300, 2999], [3000, 3099], [3100, 3750]],
+            [[-1000, 2499], [2500, 2599], [2600, 2799], [2800, 2999], [3000, 3099], [3100, 3750]],
+            # Virus used for the ACE2 close-up
             [[0, 2100], [2200, 2299], [2300, 2499], [2500, 3049], [3050, 3149], [3150, 3750]],
-            [[-800, 1199], [1200, 1299], [1300, 1499], [1500, 3199], [3200, 3299], [3300, 3750]],
+            [[-800, 2549], [2550, 2649], [2650, 2849], [2850, 3199], [3200, 3299], [3300, 3750]],
             [[-1400, 3750], [1e6, 1e6], [1e6, 1e6], [1e6, 1e6], [1e6, 1e6], [1e6, 1e6]],
-            [[-400, 1599], [1600, 1699], [1700, 1899], [1900, 3119], [3120, 3219], [3220, 3750]],
-            [[0, 1999], [2000, 2099], [2100, 2399], [2400, 2799], [2800, 2899], [2900, 3750]],
+            [[-400, 2599], [2600, 2699], [2700, 2899], [2900, 3119], [3120, 3219], [3220, 3750]],
+            [[0, 2649], [2650, 2749], [2750, 2849], [2850, 3199], [3200, 3299], [3300, 3750]],
         ]
         virus_flights_in = [
             [Vector3(-250.0, 100.0, -70.0), Quaternion(0.519, 0.671, 0.528, -0.036),
@@ -705,7 +705,7 @@ class HighGlucoseScenario():
                 start = time.time()
                 self._log(1, '- Rendering frame %i (%i/%i)' % (frame, frame_count, nb_frames))
                 self._log(1, '------------------------------')
-                # self._build_frame(frame)
+                self._build_frame(frame)
                 mm.set_current_frame(
                     frame=frame, camera_params=self._core.BioExplorerPerspectiveCameraParams())
                 mm.create_snapshot(
