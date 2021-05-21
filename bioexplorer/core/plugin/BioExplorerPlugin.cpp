@@ -529,7 +529,7 @@ Response BioExplorerPlugin::_reset()
     for (const auto modelDescriptor : modelDescriptors)
         scene.removeModel(modelDescriptor->getModelID());
 
-    scene.commit();
+    scene.markModified();
     response.contents =
         "Removed " + std::to_string(modelDescriptors.size()) + " models";
     return response;

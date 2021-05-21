@@ -2470,7 +2470,6 @@ class MeshBasedMembrane:
         assert isinstance(rotation, Quaternion)
         assert isinstance(scale, Vector3)
         assert len(protein_sources) <= 4
-        assert len(protein_sources) > 0
         assert isinstance(assembly_params, list)
 
         self.mesh_source = mesh_source

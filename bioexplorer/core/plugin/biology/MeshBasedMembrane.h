@@ -56,7 +56,10 @@ public:
                       const MeshBasedMembraneDetails& details);
 
 private:
-    void _processInstances(const Vector3f& proteinsAverageSize);
+    void _processMesh();
+    void _processMeshAsTriangles();
+    void _processMeshAsProteinInstances();
+
     float _getSurfaceArea(const Vector3f& a, const Vector3f& b,
                           const Vector3f& c) const;
     Vector3f _toVector3f(const aiVector3D& v) const;

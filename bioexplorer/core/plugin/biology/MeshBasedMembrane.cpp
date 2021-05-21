@@ -46,9 +46,36 @@ MeshBasedMembrane::MeshBasedMembrane(Scene& scene,
     : Membrane(scene, assemblyPosition, assemblyRotation, clippingPlanes)
     , _details(details)
 {
+    _processMesh();
+}
+
+void MeshBasedMembrane::_processMeshAsProteinInstances()
+{
     // Random seed
     srand(_details.randomSeed);
 
+    // Load mesh
+    const auto loader = MeshLoader(_scene);
+    Assimp::Importer importer;
+    const aiScene* aiScene =
+        importer.ReadFileFromMemory(_details.meshContents.c_str(),
+                                    _details.meshContents.length(),
+                                    aiProcess_GenSmoothNormals |
+                                        aiProcess_Triangulate);
+
+    if (!aiScene)
+        PLUGIN_THROW(importer.GetErrorString());
+
+    if (!aiScene->HasMeshes())
+        PLUGIN_THROW("No mesh found");
+
+    const auto trfm = aiScene->mRootNode->mTransformation;
+    const Matrix4f mainTransformation{trfm.a1, trfm.b1, trfm.c1, trfm.d1,
+                                      trfm.a2, trfm.b2, trfm.c2, trfm.d2,
+                                      trfm.a3, trfm.b3, trfm.c3, trfm.d3,
+                                      trfm.a4, trfm.b4, trfm.c4, trfm.d4};
+
+    // Protein models
     std::vector<std::string> proteinContents;
     proteinContents.push_back(_details.proteinContents1);
     if (!_details.proteinContents2.empty())
@@ -73,64 +100,29 @@ MeshBasedMembrane::MeshBasedMembrane(Scene& scene,
         pd.rotation = _details.rotation;
 
         // Create model
-        ProteinPtr protein(new Protein(scene, pd));
-        _modelDescriptor = protein->getModelDescriptor();
-        auto model = &_modelDescriptor->getModel();
-        model->updateBounds();
-        proteinsAverageSize += model->getBounds().getSize();
+        ProteinPtr protein(new Protein(_scene, pd));
+        proteinsAverageSize += protein->getBounds().getSize();
         _proteins[pd.name] = std::move(protein);
         ++i;
     }
     proteinsAverageSize /= proteinContents.size();
 
-    _processInstances(proteinsAverageSize);
-
-    // Add proteins to the scene
-    for (size_t i = 0; i < proteinContents.size(); ++i)
-        _scene.addModel(
-            _proteins[_getElementNameFromId(i)]->getModelDescriptor());
-}
-
-void MeshBasedMembrane::_processInstances(const Vector3f& proteinsAverageSize)
-{
-    const auto& params = _details.assemblyParams;
-    auto randInfo =
-        floatsToRandomizationDetails(params, _details.randomSeed,
-                                     PositionRandomizationType::radial);
-
-    // Load proteins
+    // Transformation
     const auto membranePosition = floatsToVector3f(_details.position);
     const auto membraneRotation = floatsToQuaterniond(_details.rotation);
     const auto membraneScale = floatsToVector3f(_details.scale);
 
-    // Load MeshBasedMembrane
-    const auto loader = MeshLoader(_scene);
-    Assimp::Importer importer;
-    const aiScene* aiScene =
-        importer.ReadFileFromMemory(_details.meshContents.c_str(),
-                                    _details.meshContents.length(),
-                                    aiProcess_GenSmoothNormals |
-                                        aiProcess_Triangulate);
-
-    if (!aiScene)
-        PLUGIN_THROW(importer.GetErrorString());
-
-    if (!aiScene->HasMeshes())
-        PLUGIN_THROW("No mesh found");
-
-    const auto trfm = aiScene->mRootNode->mTransformation;
-    const Matrix4f matrix{trfm.a1, trfm.b1, trfm.c1, trfm.d1, trfm.a2, trfm.b2,
-                          trfm.c2, trfm.d2, trfm.a3, trfm.b3, trfm.c3, trfm.d3,
-                          trfm.a4, trfm.b4, trfm.c4, trfm.d4};
-
-    // Add protein instances according to MeshBasedMembrane topology
-    float meshCoveringProgress = 0.f;
-    float instanceCoveringProgress = 0.f;
+    // Add protein instances according to membrane topology
     for (size_t m = 0; m < aiScene->mNumMeshes; ++m)
     {
-        const auto& mesh = aiScene->mMeshes[m];
+        aiMesh* mesh = aiScene->mMeshes[m];
 
-        // MeshBasedMembrane scaling
+        // Randomization
+        const auto& params = _details.assemblyParams;
+        auto randInfo =
+            floatsToRandomizationDetails(params, _details.randomSeed,
+                                         PositionRandomizationType::radial);
+
         Vector3f meshCenter{0.f, 0.f, 0.f};
         for (size_t i = 0; i < mesh->mNumVertices; ++i)
         {
@@ -139,30 +131,32 @@ void MeshBasedMembrane::_processInstances(const Vector3f& proteinsAverageSize)
         }
         meshCenter /= mesh->mNumVertices;
 
-        // Compute full MeshBasedMembrane area
+        // Compute full membrane area
+        float meshCoveringProgress = 0.f;
+        float instanceCoveringProgress = 0.f;
         std::vector<Vector3ui> faces;
         for (size_t f = 0; f < mesh->mNumFaces; ++f)
             if (mesh->mFaces[f].mNumIndices == 3)
             {
                 const auto i1 = mesh->mVertices[mesh->mFaces[f].mIndices[0]];
-                const auto v1 =
-                    membranePosition +
-                    Vector3f(matrix * Vector4f(_toVector3f(i1, meshCenter,
-                                                           membraneScale),
-                                               1.f));
+                const auto v1 = membranePosition +
+                                Vector3f(mainTransformation *
+                                         Vector4f(_toVector3f(i1, meshCenter,
+                                                              membraneScale),
+                                                  1.f));
                 const auto i2 = mesh->mVertices[mesh->mFaces[f].mIndices[1]];
-                const auto v2 =
-                    membranePosition +
-                    Vector3f(matrix * Vector4f(_toVector3f(i2, meshCenter,
-                                                           membraneScale),
-                                               1.f));
+                const auto v2 = membranePosition +
+                                Vector3f(mainTransformation *
+                                         Vector4f(_toVector3f(i2, meshCenter,
+                                                              membraneScale),
+                                                  1.f));
 
                 const auto i3 = mesh->mVertices[mesh->mFaces[f].mIndices[2]];
-                const auto v3 =
-                    membranePosition +
-                    Vector3f(matrix * Vector4f(_toVector3f(i3, meshCenter,
-                                                           membraneScale),
-                                               1.f));
+                const auto v3 = membranePosition +
+                                Vector3f(mainTransformation *
+                                         Vector4f(_toVector3f(i3, meshCenter,
+                                                              membraneScale),
+                                                  1.f));
 
                 faces.push_back(Vector3ui(mesh->mFaces[f].mIndices[0],
                                           mesh->mFaces[f].mIndices[1],
@@ -180,7 +174,7 @@ void MeshBasedMembrane::_processInstances(const Vector3f& proteinsAverageSize)
         const float proteinSurface =
             proteinsAverageSize.x * proteinsAverageSize.x;
 
-        // Total number of instance needed to fill the MeshBasedMembrane surface
+        // Total number of instance needed to fill the membrane surface
         const size_t nbInstances =
             _details.density * meshSurface / proteinSurface;
         const float instanceSurface = meshSurface / nbInstances;
@@ -223,7 +217,7 @@ void MeshBasedMembrane::_processInstances(const Vector3f& proteinsAverageSize)
                 size_t((meshCoveringProgress - instanceCoveringProgress) /
                        instanceSurface);
 
-            // compute protein positions and rotations
+            // Compute protein positions and rotations
             for (size_t i = 0; i < nbProteins; ++i)
             {
                 instanceCoveringProgress += instanceSurface;
@@ -238,7 +232,7 @@ void MeshBasedMembrane::_processInstances(const Vector3f& proteinsAverageSize)
                 const Vector3f P = P0 + V0 * coordinates.x + V1 * coordinates.y;
                 const Vector3f transformedVertex =
                     membraneRotation *
-                    Vector3d(matrix * Vector4f(P.x, P.y, P.z, 1.f));
+                    Vector3d(mainTransformation * Vector4f(P.x, P.y, P.z, 1.f));
 
                 float variableOffset = _details.surfaceVariableOffset;
                 if (randInfo.positionSeed != 0)
@@ -264,7 +258,7 @@ void MeshBasedMembrane::_processInstances(const Vector3f& proteinsAverageSize)
                     const auto N2 = _toVector3f(mesh->mNormals[face.z]);
 
                     const Vector3f normal = glm::normalize(
-                        matrix *
+                        mainTransformation *
                         Vector4f(glm::normalize((N0 * areas.x + N1 * areas.y +
                                                  N2 * areas.z) /
                                                 (areas.x + areas.y + areas.z)),
@@ -305,6 +299,49 @@ void MeshBasedMembrane::_processInstances(const Vector3f& proteinsAverageSize)
             }
         }
     }
+
+    // Add proteins to the scene
+    for (size_t i = 0; i < proteinContents.size(); ++i)
+        _scene.addModel(
+            _proteins[_getElementNameFromId(i)]->getModelDescriptor());
+}
+
+void MeshBasedMembrane::_processMeshAsTriangles()
+{
+    const auto loader = MeshLoader(_scene);
+    const auto len = _details.meshContents.length();
+    uint8_ts data(len);
+    for (size_t i = 0; i < len; ++i)
+        data.push_back(_details.meshContents[i]);
+    Blob blob = {"obj", _details.assemblyName, data};
+    auto modelDescriptor =
+        loader.importFromBlob(std::move(blob), LoaderProgress(), PropertyMap());
+    if (modelDescriptor)
+    {
+        // Transformation
+        const auto membranePosition = floatsToVector3f(_details.position);
+        const auto membraneRotation = floatsToQuaterniond(_details.rotation);
+        const auto membraneScale = 2.f * floatsToVector3f(_details.scale);
+
+        Transformation transformation;
+        transformation.setTranslation(membranePosition);
+        transformation.setRotation(membraneRotation);
+        transformation.setScale(membraneScale);
+
+        modelDescriptor->setTransformation(transformation);
+
+        _scene.addModel(modelDescriptor);
+    }
+}
+
+void MeshBasedMembrane::_processMesh()
+{
+    if (_details.proteinContents1.empty() &&
+        _details.proteinContents2.empty() &&
+        _details.proteinContents3.empty() && _details.proteinContents4.empty())
+        _processMeshAsTriangles();
+    else
+        _processMeshAsProteinInstances();
 }
 
 float MeshBasedMembrane::_getSurfaceArea(const Vector3f& v0, const Vector3f& v1,
