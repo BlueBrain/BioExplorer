@@ -213,9 +213,9 @@ void MeshBasedMembrane::_processMeshAsProteinInstances()
 
             // Estimate number of proteins for current face
             meshCoveringProgress += faceSurface;
-            const size_t nbProteins =
-                size_t((meshCoveringProgress - instanceCoveringProgress) /
-                       instanceSurface);
+            const size_t nbProteins = std::max(0.f, (meshCoveringProgress -
+                                                     instanceCoveringProgress) /
+                                                        instanceSurface);
 
             // Compute protein positions and rotations
             for (size_t i = 0; i < nbProteins; ++i)
