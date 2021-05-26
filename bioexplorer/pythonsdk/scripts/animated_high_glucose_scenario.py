@@ -158,7 +158,6 @@ class HighGlucoseScenario():
         return [Vector3(pos[0], pos[1], pos[2]), rot, progress * 100.0]
 
     def _add_viruses(self, frame):
-        virus_radii = [45.0, 44.0, 45.0, 43.0, 44.0, 43.0]
         virus_sequences = [
             [[-1000, 2499], [2500, 2599], [2600, 2799], [2800, 2999], [3000, 3099], [3100, 3750]],
             # Virus used for the ACE2 close-up
@@ -167,7 +166,15 @@ class HighGlucoseScenario():
             [[-1400, 3750], [1e6, 1e6], [1e6, 1e6], [1e6, 1e6], [1e6, 1e6], [1e6, 1e6]],
             [[-400, 2599], [2600, 2699], [2700, 2899], [2900, 3119], [3120, 3219], [3220, 3750]],
             [[0, 2649], [2650, 2749], [2750, 2949], [2950, 3199], [3200, 3299], [3300, 3750]],
+
+            # new Viruses
+            [[-1, -1], [-1, -1], [-1, -1], [-1, 3212], [3213, 3312], [3313, 3750]],
+            [[-1, -1], [-1, -1], [-1, -1], [-1, 3201], [3202, 3301], [3302, 3750]],
+            [[-1, -1], [-1, -1], [-1, -1], [-1, 3171], [3172, 3271], [3272, 3750]],
+            [[-1, -1], [-1, -1], [-1, -1], [-1, 3152], [3153, 3252], [3253, 3750]],
+            [[-1, -1], [-1, -1], [-1, -1], [-1, 3358], [3359, 3458], [3459, 3750]]
         ]
+        virus_radii = [45.0, 44.0, 45.0, 43.0, 44.0, 43.0, 45.0, 46.0, 44.0, 45.0, 44.0]
         virus_flights_in = [
             [Vector3(-250.0, 100.0, -70.0), Quaternion(0.519, 0.671, 0.528, -0.036),
              Vector3(-337.3, -92.3, -99.2), Quaternion(1.0, 0.0, 0.0, 0.0),
@@ -186,27 +193,45 @@ class HighGlucoseScenario():
              ROTATION_MODE_LINEAR],
             [Vector3(200.0, 100.0, 300.0), Quaternion(-0.866, 0.201, 0.308, -0.336),
              Vector3(211.5, -104.9, 339.2), Quaternion(1.0, 0.0, 0.0, 0.0),
-             ROTATION_MODE_LINEAR]
+             ROTATION_MODE_LINEAR],
+            # New viruses (no flying in, only flying out)
+            [Vector3(), Quaternion(), Vector3(), Quaternion(), ROTATION_MODE_LINEAR],
+            [Vector3(), Quaternion(), Vector3(), Quaternion(), ROTATION_MODE_LINEAR],
+            [Vector3(), Quaternion(), Vector3(), Quaternion(), ROTATION_MODE_LINEAR],
+            [Vector3(), Quaternion(), Vector3(), Quaternion(), ROTATION_MODE_LINEAR],
+            [Vector3(), Quaternion(), Vector3(), Quaternion(), ROTATION_MODE_LINEAR]
         ]
-
         virus_flights_out = [
-            [Vector3(-250.0, -150.0, -70.0), Quaternion(1.0, 0.0, 0.0, 0.0),
+            [Vector3(-250.0, -150.0, -70.0), Quaternion(),
              Vector3(-270.0, 200.0, -99.2), Quaternion(0.519, 0.671, 0.528, -0.036),
              ROTATION_MODE_LINEAR],
-            [Vector3(-50.0, -150.0, 250.0), Quaternion(1.0, 0.0, 0.0, 0.0),
-             Vector3(-75.0, 200.0, 228.8), Quaternion(0.456, 0.129, -0.185, -0.860),
+            [Vector3(-50.0, -150.0, 250.0), Quaternion(),
+             Vector3(-75.0, 240.0, 228.8), Quaternion(0.456, 0.129, -0.185, -0.860),
              ROTATION_MODE_LINEAR],
-            [Vector3(150.0, -150.0, 50.0), Quaternion(1.0, 0.0, 0.0, 0.0),
-             Vector3(187.0, 200.0, 51.2), Quaternion(0.087, 0.971, -0.147, -0.161),
+            [Vector3(150.0, -150.0, 50.0), Quaternion(),
+             Vector3(187.0, 300.0, 51.2), Quaternion(0.087, 0.971, -0.147, -0.161),
              ROTATION_MODE_LINEAR],
-            [Vector3(40.0, -150.0, -50.0), Quaternion(1.0, 0.0, 0.0, 0.0),
-             Vector3(60.0,  200.0, -30.0), Quaternion(0.0, 0.0, 0.0, 1.0),
+            [Vector3(), Quaternion(), Vector3(), Quaternion(), ROTATION_MODE_LINEAR],
+            [Vector3(60.0, -150.0, -240.0), Quaternion(),
+             Vector3(74.0, 195.0, -220.0), Quaternion(-0.095, 0.652, -0.326, 0.677),
              ROTATION_MODE_LINEAR],
-            [Vector3(60.0, -150.0, -240.0), Quaternion(1.0, 0.0, 0.0, 0.0),
-             Vector3(74.0, 200.0, -220.0), Quaternion(-0.095, 0.652, -0.326, 0.677),
+            [Vector3(-200.0, -150.0, 300.0), Quaternion(),
+             Vector3(-210.0, 205.0, 330.0), Quaternion(-0.866, 0.201, 0.308, -0.336),
              ROTATION_MODE_LINEAR],
-            [Vector3(200.0, -150.0, 300.0), Quaternion(1.0, 0.0, 0.0, 0.0),
-             Vector3(210.0, 200.0, 330.0), Quaternion(-0.866, 0.201, 0.308, -0.336),
+            [Vector3(531, -150.0, -34.0), Quaternion(),
+             Vector3(500.0, 215.0, -50.0), Quaternion(0.431, -0.145, -0.700, -0.550),
+             ROTATION_MODE_LINEAR],
+            [Vector3(225.0, -150.0, 554.0), Quaternion(),
+             Vector3(200.0, 190.0, 520.0), Quaternion(-0.466, -0.086, -0.616, -0.629),
+             ROTATION_MODE_LINEAR],
+            [Vector3(-171, -150.0, -5.0), Quaternion(),
+             Vector3(-160.0, 300.0, 10.0), Quaternion(0.227, 0.834, -0.187, 0.468),
+             ROTATION_MODE_LINEAR],
+            [Vector3(-331, -150.0, 343), Quaternion(),
+             Vector3(-310.0, 230.0, 350.0), Quaternion(0.417, 0.849, -0.075, -0.316),
+             ROTATION_MODE_LINEAR],
+            [Vector3(159.0, -150.0, -341.0), Quaternion(),
+             Vector3(170.0, 100.0, -360.0), Quaternion(0.483, -0.352, 0.769, -0.226),
              ROTATION_MODE_LINEAR]
         ]
 
