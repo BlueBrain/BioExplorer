@@ -28,17 +28,18 @@ var hierarchy =
     [ "bioexplorer::details::FileAccessDetails", "de/d38/structbioexplorer_1_1details_1_1FileAccessDetails.html", null ],
     [ "bioexplorer::common::GeneralSettings", "d2/da7/classbioexplorer_1_1common_1_1GeneralSettings.html", null ],
     [ "bioexplorer::details::GeneralSettingsDetails", "d0/d14/structbioexplorer_1_1details_1_1GeneralSettingsDetails.html", null ],
+    [ "bioexplorer::details::IdsDetails", "d1/d91/structbioexplorer_1_1details_1_1IdsDetails.html", null ],
     [ "Loader", null, [
       [ "bioexplorer::io::CacheLoader", "d1/d5f/classbioexplorer_1_1io_1_1CacheLoader.html", null ]
     ] ],
     [ "Material", null, [
       [ "bioexplorer::rendering::AdvancedMaterial", "d5/d4e/structbioexplorer_1_1rendering_1_1AdvancedMaterial.html", null ]
     ] ],
-    [ "bioexplorer::details::MaterialIdsDetails", "d3/d7d/structbioexplorer_1_1details_1_1MaterialIdsDetails.html", null ],
     [ "bioexplorer::details::MaterialsDetails", "d7/d84/structbioexplorer_1_1details_1_1MaterialsDetails.html", null ],
     [ "bioexplorer::details::MeshBasedMembraneDetails", "da/d3c/structbioexplorer_1_1details_1_1MeshBasedMembraneDetails.html", null ],
     [ "bioexplorer::details::ModelIdDetails", "d6/dc9/structbioexplorer_1_1details_1_1ModelIdDetails.html", null ],
     [ "bioexplorer::details::ModelIdFileAccessDetails", "d8/d1b/structbioexplorer_1_1details_1_1ModelIdFileAccessDetails.html", null ],
+    [ "bioexplorer::details::ModelNameDetails", "dd/d11/structbioexplorer_1_1details_1_1ModelNameDetails.html", null ],
     [ "bioexplorer::details::ModelsVisibilityDetails", "d7/dbc/structbioexplorer_1_1details_1_1ModelsVisibilityDetails.html", null ],
     [ "bioexplorer::biology::Node", "de/dc0/classbioexplorer_1_1biology_1_1Node.html", [
       [ "bioexplorer::biology::Membrane", "de/dd4/classbioexplorer_1_1biology_1_1Membrane.html", [

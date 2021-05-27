@@ -75,7 +75,8 @@ float rnd2(const size_t index)
 
 float rnd3(const size_t index)
 {
-    return cos(index * M_PI / 180.f) + sin(index * M_PI / 45.f);
+    return cos(index * M_PI / 180.f) + sin(index * M_PI / 45.f) +
+           cos(index * M_PI / 72.f);
 }
 
 Quaterniond weightedRandomRotation(const size_t seed, const size_t index,
@@ -206,7 +207,7 @@ Transformation getCubicPosition(const Vector3f& position, const float size,
 {
     Vector3f pos =
         position + Vector3f(rnd1() * size, rnd1() * size, rnd1() * size);
-    Quaterniond dir = quatLookAt({rnd1(), rnd1(), rnd1()}, UP_VECTOR);
+    Quaterniond dir;
 
     if (randInfo.positionSeed != 0)
     {
@@ -219,7 +220,7 @@ Transformation getCubicPosition(const Vector3f& position, const float size,
     }
 
     if (randInfo.rotationSeed != 0)
-        dir = dir + randomQuaternion(randInfo.rotationSeed);
+        dir = randomQuaternion(randInfo.rotationSeed);
 
     Transformation transformation;
     transformation.setTranslation(pos);

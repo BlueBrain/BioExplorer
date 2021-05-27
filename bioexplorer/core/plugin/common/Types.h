@@ -381,9 +381,11 @@ typedef struct
     /** Fixed offset for the position of the protein above the surface of the
      * mesh*/
     float surfaceFixedOffset;
-    /** ariable (randomized) offset for the position of the protein above the
+    /** Variable (randomized) offset for the position of the protein above the
      * surface of the mesh*/
     float surfaceVariableOffset;
+    /** Parameters of the assembly shape */
+    std::vector<float> assemblyParams;
     /** Multiplier applied to atom radius */
     float atomRadiusMultiplier;
     /** Representation of the protein (Atoms, atoms and sticks, etc) */
@@ -576,14 +578,24 @@ typedef struct
 } ProteinInstanceTransformationDetails;
 
 /**
- * @brief List of material identifiers attached to a Brayns model
+ * @brief List of identifiers
  *
  */
 typedef struct
 {
-    /** List of material identifiers */
+    /** List of identifiers */
     std::vector<size_t> ids;
-} MaterialIdsDetails;
+} IdsDetails;
+
+/**
+ * @brief Model name
+ *
+ */
+typedef struct
+{
+    /** Model name */
+    std::string name;
+} ModelNameDetails;
 
 /**
  * @brief Model identifier
@@ -737,6 +749,8 @@ typedef struct
  */
 typedef struct
 {
+    /** Number of models */
+    uint32_t nbModels{0};
     /** Number of materials */
     uint32_t nbMaterials{0};
     /** Number of spheres */

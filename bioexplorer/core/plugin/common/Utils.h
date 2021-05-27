@@ -91,18 +91,31 @@ Vector3f floatsToVector3f(const floats& value);
 /**
  * @brief Converts a vector of floats into a Quaternion
  *
- * @param value Vector of floats
+ * @param values Vector of floats
  * @return Quaternion A quaternion
  */
-Quaterniond floatsToQuaterniond(const floats& value);
+Quaterniond floatsToQuaterniond(const floats& values);
 
 /**
  * @brief Converts a vector of floats into vector of 4D vectors
  *
- * @param value Vector of floats
+ * @param values Vector of floats
  * @return Quaternion A vector of 4D vectors
  */
-Vector4fs floatsToVector4fs(const floats& value);
+Vector4fs floatsToVector4fs(const floats& values);
+
+/**
+ * @brief Converts a vector of floats into randomization details
+ *
+ * @param randomSeed Randomization seed
+ * @param randomizationType Type of randomization
+ * @param value Vector of floats
+ * @return RandomizationDetails The randomization details
+ */
+RandomizationDetails floatsToRandomizationDetails(
+    const floats& values, const float randomSeed = 0,
+    const PositionRandomizationType randomizationType =
+        PositionRandomizationType::radial);
 
 } // namespace common
 } // namespace bioexplorer

@@ -154,5 +154,30 @@ Transformation getSphericalToPlanarPosition(
     const Vector3f& center, const float radius, const size_t occurence,
     const size_t occurences, const RandomizationDetails& randInfo,
     const float morphingStep);
+
+/**
+ * @brief Return a random float between -0.5 and 0.5
+ *
+ * @return float A random float between -0.5 and 0.5
+ */
+float rnd1();
+
+/**
+ * @brief Return a predefined random float between -0.5 and 0.5
+ *
+ * @param index Index of the random float in a predefined array
+ * @return float A random float between -0.5 and 0.5
+ */
+float rnd2(const size_t index);
+
+/**
+ * @brief Return a controlled random float between -0.5 and 0.5, currently a
+ * sinusoidal function
+ *
+ * @param index Index of the random float in a sinusoidal function
+ * @return float A random float between -0.5 and 0.5
+ */
+float rnd3(const size_t index);
+
 } // namespace common
 } // namespace bioexplorer

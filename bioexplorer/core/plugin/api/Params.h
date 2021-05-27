@@ -70,11 +70,12 @@ bool from_json(FileAccessDetails &param, const std::string &payload);
 // DB
 bool from_json(DatabaseAccessDetails &param, const std::string &payload);
 
-// Color schemes and materials
+// Models, Color schemes and materials
 bool from_json(ColorSchemeDetails &param, const std::string &payload);
 bool from_json(ModelIdDetails &modelId, const std::string &payload);
 bool from_json(MaterialsDetails &materialsDetails, const std::string &payload);
-std::string to_json(const MaterialIdsDetails &param);
+std::string to_json(const IdsDetails &param);
+std::string to_json(const ModelNameDetails &param);
 
 // Fields
 bool from_json(BuildFieldsDetails &param, const std::string &payload);

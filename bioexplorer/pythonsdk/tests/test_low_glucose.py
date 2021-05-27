@@ -23,7 +23,7 @@
 
 import math
 from bioexplorer import BioExplorer, RNASequence, Protein, AssemblyProtein, Virus, Surfactant, \
-    ParametricMembrane, Cell, Sugars, Volume, Vector2, Vector3, Quaternion
+    ParametricMembrane, MeshBasedMembrane, Cell, Sugars, Volume, Vector2, Vector3, Quaternion
 
 # pylint: disable=no-member
 # pylint: disable=missing-function-docstring
@@ -77,7 +77,7 @@ SURFACTANT_BRANCH_SOURCE = PDB_FOLDER + 'surfactant/1k6f.pdb'
 GLUCOSE_PATH = PDB_FOLDER + 'glucose.pdb'
 LACTOFERRINS_PATH = PDB_FOLDER + 'immune/1b0l.pdb'
 DEFENSINS_PATH = PDB_FOLDER + 'immune/1ijv.pdb'
-LYMPHOCYTE_PATH = OBJ_FOLDER + 'lymphocyte.obj'
+LYMPHOCYTE_PATH = OBJ_FOLDER + 'clipped_lymphocyte.obj'
 
 
 def add_virus(
@@ -307,6 +307,40 @@ def add_defensins(bioexplorer, size, number):
                            position=Vector3(0.0, size / 2.0 - 200.0, 0.0))
 
 
+def add_lymphocyte(bioexplorer, size):
+    clip_planes = [
+        [1.0, 0.0, 0.0, size * 1.5 + 5],
+        [-1.0, 0.0, 0.0, size * 1.5 + 5],
+        [0.0, 0.0, 1.0, size + 5],
+        [0.0, 0.0, -1.0, size + 5]
+    ]
+
+    protein_sources = [
+        MEMBRANE_FOLDER + 'segA.pdb',
+        MEMBRANE_FOLDER + 'segB.pdb',
+        MEMBRANE_FOLDER + 'segC.pdb',
+        MEMBRANE_FOLDER + 'segD.pdb'
+    ]
+
+    mesh_based_membrane = MeshBasedMembrane(
+        mesh_source=LYMPHOCYTE_PATH, protein_sources=protein_sources,
+        density=5.0, surface_variable_offset=0.0
+    )
+
+    name = 'Emile'
+    status = bioexplorer.add_mesh_based_membrane(
+        name, mesh_based_membrane, position=Vector3(-830.0, 100.0, 30.0),
+        rotation=Quaternion(0.707, 0.707, 0.0, 0.0), scale=Vector3(1.0, 1.0, 1.0),
+        clipping_planes=clip_planes
+    )
+
+    for i in range(len(protein_sources)):
+        status = bioexplorer.set_protein_color_scheme(
+            assembly_name=name, name=bioexplorer.NAME_MEMBRANE + '_' + str(i),
+            color_scheme=bioexplorer.COLOR_SCHEME_CHAINS,
+            palette_name='OrRd', palette_size=5)
+
+
 def test_low_glucose():
     try:
         # Connect to BioExplorer server
@@ -361,17 +395,7 @@ def test_low_glucose():
         add_defensins(
             bio_explorer, CELL_SIZE, 300)
 
-        # BBP only
-        #
-        # core.add_model(name='Emile', path=LYMPHOCYTE_PATH)
-        # models = core.scene.models
-        # lymphocyte_model_id = models[len(models) - 1]['id']
-        # transformation = {'rotation': [0.707, 0.707, 0.0, 0.0],
-        #                   'rotation_center': [0.0, 0.0, 0.0],
-        #                   'scale': [2.0, 2.0, 2.0],
-        #                   'translation': [-935.0, 0.0, 0.0]}
-        # core.update_model(
-        #     id=lymphocyte_model_id, transformation=transformation)
+        add_lymphocyte(bio_explorer, CELL_SIZE)
 
         # Apply default materials
         bio_explorer.apply_default_color_scheme(bio_explorer.SHADING_MODE_BASIC)

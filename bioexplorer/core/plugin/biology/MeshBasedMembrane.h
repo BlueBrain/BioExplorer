@@ -56,13 +56,16 @@ public:
                       const MeshBasedMembraneDetails& details);
 
 private:
-    void _processInstances(const Vector3f& proteinsAverageSize);
+    void _processMesh();
+    void _processMeshAsTriangles();
+    void _processMeshAsProteinInstances();
+
     float _getSurfaceArea(const Vector3f& a, const Vector3f& b,
                           const Vector3f& c) const;
     Vector3f _toVector3f(const aiVector3D& v) const;
     Vector3f _toVector3f(const aiVector3D& v, const Vector3f& center,
                          const Vector3f& scaling,
-                         const Quaterniond& rotation) const;
+                         const Quaterniond& rotation = Quaterniond()) const;
     std::string _getElementNameFromId(const size_t id);
 
     MeshBasedMembraneDetails _details;

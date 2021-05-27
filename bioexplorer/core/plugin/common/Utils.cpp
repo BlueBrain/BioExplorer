@@ -236,24 +236,37 @@ Vector3f floatsToVector3f(const floats& value)
     return Vector3f(value[0], value[1], value[2]);
 }
 
-Quaterniond floatsToQuaterniond(const floats& value)
+Quaterniond floatsToQuaterniond(const floats& values)
 {
-    if (value.size() != 4)
+    if (values.size() != 4)
         PLUGIN_THROW("Invalid number of floats (4 expected)");
-    return Quaterniond(value[0], value[1], value[2], value[3]);
+    return Quaterniond(values[0], values[1], values[2], values[3]);
 }
 
-Vector4fs floatsToVector4fs(const floats& value)
+Vector4fs floatsToVector4fs(const floats& values)
 {
-    if (value.size() % 4 != 0)
+    if (values.size() % 4 != 0)
         PLUGIN_THROW("Clipping planes must be defined by 4 float values");
 
     Vector4fs clippingPlanes;
-    for (size_t i = 0; i < value.size(); i += 4)
+    for (size_t i = 0; i < values.size(); i += 4)
         clippingPlanes.push_back(
-            {value[i], value[i + 1], value[i + 2], value[i + 3]});
+            {values[i], values[i + 1], values[i + 2], values[i + 3]});
     return clippingPlanes;
 }
 
+RandomizationDetails floatsToRandomizationDetails(
+    const floats& values, const float randomSeed,
+    const PositionRandomizationType randomizationType)
+{
+    RandomizationDetails randInfo;
+    randInfo.seed = randomSeed;
+    randInfo.randomizationType = randomizationType;
+    randInfo.positionSeed = (values.size() > 1 ? values[1] : 0.f);
+    randInfo.positionStrength = (values.size() > 2 ? values[2] : 0.f);
+    randInfo.rotationSeed = (values.size() > 3 ? values[3] : 0.f);
+    randInfo.rotationStrength = (values.size() > 4 ? values[4] : 0.f);
+    return randInfo;
+}
 } // namespace common
 } // namespace bioexplorer

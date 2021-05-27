@@ -23,8 +23,6 @@
 
 import math
 
-from ipywidgets import IntProgress
-from IPython.display import display
 from pyquaternion import Quaternion
 
 import seaborn as sns
@@ -278,13 +276,8 @@ class BioExplorer:
         :return: Result of the call to the BioExplorer backend
         :rtype: Response
         """
-        if self._client is None:
-            return None
-
-        ids = list()
-        for model in self._client.scene.models:
-            ids.append(model["id"])
-        return self._client.remove_model(array=ids)
+        return self._client.rockets_client.request(
+            method=self.PLUGIN_API_PREFIX + "reset")
 
     def export_to_file(self, filename, low_bounds=Vector3(-1e38, -1e38, -1e38),
                        high_bounds=Vector3(1e38, 1e38, 1e38)):
@@ -537,7 +530,8 @@ class BioExplorer:
                 paths=high_mannose_paths,
                 indices=indices_closed,
                 representation=representation,
-                atom_radius_multiplier=atom_radius_multiplier
+                atom_radius_multiplier=atom_radius_multiplier,
+                assembly_params=[0, 0, 0.0, assembly_params[3] + 7, assembly_params[4]]
             )
             self.add_multiple_glycans(
                 assembly_name=name,
@@ -546,7 +540,8 @@ class BioExplorer:
                 paths=high_mannose_paths,
                 indices=indices_open,
                 representation=representation,
-                atom_radius_multiplier=atom_radius_multiplier
+                atom_radius_multiplier=atom_radius_multiplier,
+                assembly_params=[0, 0, 0.0, assembly_params[3] + 7, assembly_params[4]]
             )
 
             # Complex
@@ -560,7 +555,8 @@ class BioExplorer:
                 paths=complex_paths,
                 indices=indices_closed,
                 representation=representation,
-                atom_radius_multiplier=atom_radius_multiplier
+                atom_radius_multiplier=atom_radius_multiplier,
+                assembly_params=[0, 0, 0.0, assembly_params[3] + 8, 2.0 * assembly_params[4]]
             )
 
             self.add_multiple_glycans(
@@ -570,7 +566,8 @@ class BioExplorer:
                 paths=complex_paths,
                 indices=indices_open,
                 representation=representation,
-                atom_radius_multiplier=atom_radius_multiplier
+                atom_radius_multiplier=atom_radius_multiplier,
+                assembly_params=[0, 0, 0.0, assembly_params[3] + 8, 2.0 * assembly_params[4]]
             )
 
             # O-Glycans
@@ -584,7 +581,8 @@ class BioExplorer:
                     protein_name=name + "_" + self.NAME_PROTEIN_S_CLOSED,
                     site_indices=[index],
                     representation=representation,
-                    atom_radius_multiplier=atom_radius_multiplier
+                    atom_radius_multiplier=atom_radius_multiplier,
+                    assembly_params=[0, 0, 0.0, assembly_params[3] + 9, 2.0 * assembly_params[4]]
                 )
                 self.add_sugars(o_glycan)
 
@@ -598,7 +596,8 @@ class BioExplorer:
                 protein_name=protein_name,
                 source=high_mannose_paths[0],
                 site_indices=indices,
-                representation=representation
+                representation=representation,
+                assembly_params=[0, 0, 0.0, assembly_params[3] + 10, 2.0 * assembly_params[4]]
             )
             self.add_glycans(high_mannose_glycans)
 
@@ -612,7 +611,8 @@ class BioExplorer:
                 protein_name=protein_name,
                 source=complex_paths[0],
                 site_indices=indices,
-                representation=representation
+                representation=representation,
+                assembly_params=[0, 0, 0.0, assembly_params[3] + 11, 2.0 * assembly_params[4]]
             )
             self.add_glycans(complex_glycans)
 
@@ -1206,7 +1206,7 @@ class BioExplorer:
         params["name"] = name
         params["instanceIndex"] = instance_index
         params["position"] = Vector3().to_list()
-        params["rotation"] = Quaternion().to_list()
+        params["rotation"] = list(Quaternion())
         result = self._client.rockets_client.request(
             method=self.PLUGIN_API_PREFIX + "get-protein-instance-transformation",
             params=params)
@@ -1404,6 +1404,7 @@ class BioExplorer:
             surface_variable_offset=mesh_based_membrane.
             surface_variable_offset,
             atom_radius_multiplier=mesh_based_membrane.atom_radius_multiplier,
+            assembly_params=mesh_based_membrane.assembly_params,
             representation=mesh_based_membrane.representation,
             random_seed=mesh_based_membrane.random_seed,
             position=position,
@@ -1436,10 +1437,9 @@ class BioExplorer:
         params["recenter"] = mesh_based_membrane.recenter
         params["density"] = mesh_based_membrane.density
         params["surfaceFixedOffset"] = mesh_based_membrane.surface_fixed_offset
-        params[
-            "surfaceVariableOffset"] = mesh_based_membrane.surface_variable_offset
-        params[
-            "atomRadiusMultiplier"] = mesh_based_membrane.atom_radius_multiplier
+        params["surfaceVariableOffset"] = mesh_based_membrane.surface_variable_offset
+        params["assemblyParams"] = mesh_based_membrane.assembly_params
+        params["atomRadiusMultiplier"] = mesh_based_membrane.atom_radius_multiplier
         params["representation"] = mesh_based_membrane.representation
         params["randomSeed"] = mesh_based_membrane.random_seed
         params["position"] = mesh_based_membrane.position.to_list()
@@ -1576,7 +1576,7 @@ class BioExplorer:
             params.fog_start = 1200.0
             params.fog_thickness = 300.0
             params.max_bounces = 1
-            params.use_hardware_randomizer = True
+            params.use_hardware_randomizer = False
             return self._client.set_renderer_params(params)
         return self._client.set_renderer(
             background_color=Vector3(),
@@ -1585,6 +1585,26 @@ class BioExplorer:
             subsampling=4,
             max_accum_frames=16
         )
+
+    def get_model_name(self, model_id):
+        """
+        Return the list of model ids in the current scene
+
+        :return: List of model Ids
+        """
+        params = dict()
+        params["modelId"] = model_id
+        return self._client.rockets_client.request(
+            self.PLUGIN_API_PREFIX + "get-model-name", params)
+
+    def get_model_ids(self):
+        """
+        Return the list of model ids in the current scene
+
+        :return: List of model Ids
+        """
+        return self._client.rockets_client.request(
+            self.PLUGIN_API_PREFIX + "get-model-ids")
 
     def get_material_ids(self, model_id):
         """
@@ -1723,8 +1743,9 @@ class BioExplorer:
             chameleon_modes=chameleon_modes
         )
 
-    def apply_default_color_scheme(self, shading_mode, user_parameter=3.0, specular_exponent=5.0,
-                                   glossiness=1.0, glycans=True, proteins=True, membranes=True):
+    def apply_default_color_scheme(
+            self, shading_mode, user_parameter=3.0, specular_exponent=5.0, glossiness=1.0,
+            glycans=True, proteins=True, membranes=True, collagen=True):
         """
         Apply a default color scheme to all components in the scene
 
@@ -1733,23 +1754,12 @@ class BioExplorer:
         :specular_exponent: Specular exponent for diffuse shading modes
         :glossiness: Glossiness
         """
-        if self._url is not None:
-            # Refresh connection to Brayns to make sure we get all current models
-            self._client = Client(self._url)
-
         glycans_colors = [[0, 1, 1], [1, 1, 0], [1, 0, 1], [0.2, 0.2, 0.7]]
 
-        progress = IntProgress(value=0,
-                               min=0,
-                               max=len(self._client.scene.models),
-                               rotation="horizontal")
-        display(progress)
+        model_ids = self.get_model_ids()
 
-        i = 0
-        for model in self._client.scene.models:
-            model_id = model["id"]
-            model_name = model["name"]
-
+        for model_id in model_ids["ids"]:
+            model_name = self.get_model_name(model_id)['name']
             material_ids = self.get_material_ids(model_id)["ids"]
             nb_materials = len(material_ids)
 
@@ -1901,9 +1911,17 @@ class BioExplorer:
                     specular_exponent=specular_exponent,
                 )
 
-            i += 1
-            progress.value = i
-        self._client.scene.commit()
+            if collagen and self.NAME_COLLAGEN in model_name:
+                palette = list()
+                emissions = list()
+                for _ in range(nb_materials):
+                    palette.append([1, 1, 1])
+                    emissions.append(0.2)
+                self.set_materials(
+                    model_ids=[model_id], material_ids=material_ids,
+                    diffuse_colors=palette, specular_colors=palette,
+                    emissions=emissions
+                )
 
     def build_fields(self, voxel_size, density=1.0):
         """
@@ -2147,7 +2165,8 @@ class AssemblyMeshBasedMembrane:
     """An AssemblyMeshBasedMembrane is a Mesh-based membrane that belongs to an assembly"""
 
     def __init__(self, assembly_name, name, mesh_source, protein_sources, recenter=True, density=1,
-                 surface_fixed_offset=0, surface_variable_offset=0, atom_radius_multiplier=1.0,
+                 surface_fixed_offset=0, surface_variable_offset=0, assembly_params=list(),
+                 atom_radius_multiplier=1.0,
                  representation=BioExplorer.REPRESENTATION_ATOMS, random_seed=0, position=Vector3(),
                  rotation=Quaternion(), scale=Vector3()):
         """
@@ -2183,6 +2202,7 @@ class AssemblyMeshBasedMembrane:
         self.surface_fixed_offset = surface_fixed_offset
         self.surface_variable_offset = surface_variable_offset
         self.atom_radius_multiplier = atom_radius_multiplier
+        self.assembly_params = assembly_params
         self.representation = representation
         self.random_seed = random_seed
         self.position = position
@@ -2247,7 +2267,7 @@ class Sugars:
         :chain_ids: Ids of chains to be loaded
         :site_indices: Indices on which sugars should be added on the protein
         :rotation: Rotation of the sugar on the protein
-        :assembly_params: Extra optional parameters for positioning on the protein 
+        :assembly_params: Extra optional parameters for positioning on the protein
         """
         assert isinstance(chain_ids, list)
         assert isinstance(site_indices, list)
@@ -2422,7 +2442,7 @@ class MeshBasedMembrane:
     """A MeshBasedMembrane is a membrane shaped by a 3D mesh"""
 
     def __init__(self, mesh_source, protein_sources, density=1, surface_fixed_offset=0.0,
-                 surface_variable_offset=0.0, atom_radius_multiplier=1.0,
+                 surface_variable_offset=0.0, assembly_params=list(), atom_radius_multiplier=1.0,
                  representation=BioExplorer.REPRESENTATION_ATOMS, random_seed=0, recenter=True,
                  position=Vector3(), rotation=Quaternion(), scale=Vector3()):
         """
@@ -2435,6 +2455,7 @@ class MeshBasedMembrane:
                                       mesh
         :surface_variable_offset: Random ranged offset of the protein position at the
                                          surface of the mesh
+        :assembly_params: Assembly parameters for animation purposes
         :atom_radius_multiplier: Multiplies atom radius by the specified value
         :representation: Representation of the protein (Atoms, atoms and sticks, etc)
         :random_seed: Rand seed for surface_variable_offset parameter
@@ -2447,12 +2468,13 @@ class MeshBasedMembrane:
         assert isinstance(rotation, Quaternion)
         assert isinstance(scale, Vector3)
         assert len(protein_sources) <= 4
-        assert len(protein_sources) > 0
+        assert isinstance(assembly_params, list)
 
         self.mesh_source = mesh_source
         self.protein_sources = protein_sources
         self.density = density
         self.surface_fixed_offset = surface_fixed_offset
+        self.assembly_params = assembly_params
         self.surface_variable_offset = surface_variable_offset
         self.atom_radius_multiplier = atom_radius_multiplier
         self.representation = representation

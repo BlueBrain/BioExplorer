@@ -23,6 +23,7 @@
 #include <plugin/biology/Glycans.h>
 #include <plugin/common/Logs.h>
 #include <plugin/common/Shapes.h>
+#include <plugin/common/Utils.h>
 
 #include <brayns/engineapi/Material.h>
 #include <brayns/engineapi/Scene.h>
@@ -458,15 +459,7 @@ void Protein::addGlycans(const SugarsDetails& details)
                                        details.rotation[2],
                                        details.rotation[3]});
 
-    const auto& params = details.assemblyParams;
-    RandomizationDetails randInfo;
-    randInfo.seed = 0;
-    randInfo.randomizationType = PositionRandomizationType::radial;
-    randInfo.positionSeed = (params.size() > 1 ? params[1] : 0.f);
-    randInfo.positionStrength = (params.size() > 2 ? params[2] : 0.f);
-    randInfo.rotationSeed = (params.size() > 3 ? params[3] : 0.f);
-    randInfo.rotationStrength = (params.size() > 4 ? params[4] : 0.f);
-
+    const auto randInfo = floatsToRandomizationDetails(details.assemblyParams);
     _processInstances(modelDescriptor, glycanPositions, glycanrotations,
                       proteinrotation, randInfo);
 
@@ -494,20 +487,10 @@ void Protein::addSugars(const SugarsDetails& details)
 
     GlycansPtr glucoses(new Glycans(_scene, details));
     auto modelDescriptor = glucoses->getModelDescriptor();
-    const Quaterniond proteinrotation({details.rotation[0], details.rotation[1],
-                                       details.rotation[2],
-                                       details.rotation[3]});
+    const auto sugarRotation = floatsToQuaterniond(details.rotation);
 
-    const auto& params = details.assemblyParams;
-    RandomizationDetails randInfo;
-    randInfo.seed = 0;
-    randInfo.randomizationType = PositionRandomizationType::radial;
-    randInfo.positionSeed = (params.size() > 1 ? params[1] : 0.f);
-    randInfo.positionStrength = (params.size() > 2 ? params[2] : 0.f);
-    randInfo.rotationSeed = (params.size() > 3 ? params[3] : 0.f);
-    randInfo.rotationStrength = (params.size() > 4 ? params[4] : 0.f);
-
-    _processInstances(modelDescriptor, positions, rotations, proteinrotation,
+    const auto randInfo = floatsToRandomizationDetails(details.assemblyParams);
+    _processInstances(modelDescriptor, positions, rotations, sugarRotation,
                       randInfo);
 
     _glycans[details.name] = std::move(glucoses);

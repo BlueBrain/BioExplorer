@@ -1,6 +1,7 @@
 var structbioexplorer_1_1details_1_1MeshBasedMembraneDetails =
 [
     [ "assemblyName", "da/d3c/structbioexplorer_1_1details_1_1MeshBasedMembraneDetails.html#a9178fc135d1576c1e29fff3d56ad8994", null ],
+    [ "assemblyParams", "da/d3c/structbioexplorer_1_1details_1_1MeshBasedMembraneDetails.html#a14caff07db00f0c03d80353ab0c1450e", null ],
     [ "atomRadiusMultiplier", "da/d3c/structbioexplorer_1_1details_1_1MeshBasedMembraneDetails.html#aa79a62988a1c01a91daf73e8ce5772af", null ],
     [ "density", "da/d3c/structbioexplorer_1_1details_1_1MeshBasedMembraneDetails.html#ac20c08650a6555c855e8c9582ecdb388", null ],
     [ "meshContents", "da/d3c/structbioexplorer_1_1details_1_1MeshBasedMembraneDetails.html#a815f4aaa04c9dc5d390a45c6226649fa", null ],

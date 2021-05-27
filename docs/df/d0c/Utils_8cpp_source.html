@@ -324,27 +324,40 @@ $(document).ready(function(){initNavTree('df/d0c/Utils_8cpp_source.html','../../
 <div class="line"><a name="l00236"></a><span class="lineno">  236</span>&#160;    <span class="keywordflow">return</span> Vector3f(value[0], value[1], value[2]);</div>
 <div class="line"><a name="l00237"></a><span class="lineno">  237</span>&#160;}</div>
 <div class="line"><a name="l00238"></a><span class="lineno">  238</span>&#160; </div>
-<div class="line"><a name="l00239"></a><span class="lineno">  239</span>&#160;Quaterniond floatsToQuaterniond(<span class="keyword">const</span> floats&amp; value)</div>
+<div class="line"><a name="l00239"></a><span class="lineno">  239</span>&#160;Quaterniond floatsToQuaterniond(<span class="keyword">const</span> floats&amp; values)</div>
 <div class="line"><a name="l00240"></a><span class="lineno">  240</span>&#160;{</div>
-<div class="line"><a name="l00241"></a><span class="lineno">  241</span>&#160;    <span class="keywordflow">if</span> (value.size() != 4)</div>
+<div class="line"><a name="l00241"></a><span class="lineno">  241</span>&#160;    <span class="keywordflow">if</span> (values.size() != 4)</div>
 <div class="line"><a name="l00242"></a><span class="lineno">  242</span>&#160;        PLUGIN_THROW(<span class="stringliteral">&quot;Invalid number of floats (4 expected)&quot;</span>);</div>
-<div class="line"><a name="l00243"></a><span class="lineno">  243</span>&#160;    <span class="keywordflow">return</span> Quaterniond(value[0], value[1], value[2], value[3]);</div>
+<div class="line"><a name="l00243"></a><span class="lineno">  243</span>&#160;    <span class="keywordflow">return</span> Quaterniond(values[0], values[1], values[2], values[3]);</div>
 <div class="line"><a name="l00244"></a><span class="lineno">  244</span>&#160;}</div>
 <div class="line"><a name="l00245"></a><span class="lineno">  245</span>&#160; </div>
-<div class="line"><a name="l00246"></a><span class="lineno">  246</span>&#160;Vector4fs floatsToVector4fs(<span class="keyword">const</span> floats&amp; value)</div>
+<div class="line"><a name="l00246"></a><span class="lineno">  246</span>&#160;Vector4fs floatsToVector4fs(<span class="keyword">const</span> floats&amp; values)</div>
 <div class="line"><a name="l00247"></a><span class="lineno">  247</span>&#160;{</div>
-<div class="line"><a name="l00248"></a><span class="lineno">  248</span>&#160;    <span class="keywordflow">if</span> (value.size() % 4 != 0)</div>
+<div class="line"><a name="l00248"></a><span class="lineno">  248</span>&#160;    <span class="keywordflow">if</span> (values.size() % 4 != 0)</div>
 <div class="line"><a name="l00249"></a><span class="lineno">  249</span>&#160;        PLUGIN_THROW(<span class="stringliteral">&quot;Clipping planes must be defined by 4 float values&quot;</span>);</div>
 <div class="line"><a name="l00250"></a><span class="lineno">  250</span>&#160; </div>
 <div class="line"><a name="l00251"></a><span class="lineno">  251</span>&#160;    Vector4fs clippingPlanes;</div>
-<div class="line"><a name="l00252"></a><span class="lineno">  252</span>&#160;    <span class="keywordflow">for</span> (<span class="keywordtype">size_t</span> i = 0; i &lt; value.size(); i += 4)</div>
+<div class="line"><a name="l00252"></a><span class="lineno">  252</span>&#160;    <span class="keywordflow">for</span> (<span class="keywordtype">size_t</span> i = 0; i &lt; values.size(); i += 4)</div>
 <div class="line"><a name="l00253"></a><span class="lineno">  253</span>&#160;        clippingPlanes.push_back(</div>
-<div class="line"><a name="l00254"></a><span class="lineno">  254</span>&#160;            {value[i], value[i + 1], value[i + 2], value[i + 3]});</div>
+<div class="line"><a name="l00254"></a><span class="lineno">  254</span>&#160;            {values[i], values[i + 1], values[i + 2], values[i + 3]});</div>
 <div class="line"><a name="l00255"></a><span class="lineno">  255</span>&#160;    <span class="keywordflow">return</span> clippingPlanes;</div>
 <div class="line"><a name="l00256"></a><span class="lineno">  256</span>&#160;}</div>
 <div class="line"><a name="l00257"></a><span class="lineno">  257</span>&#160; </div>
-<div class="line"><a name="l00258"></a><span class="lineno">  258</span>&#160;} <span class="comment">// namespace common</span></div>
-<div class="line"><a name="l00259"></a><span class="lineno">  259</span>&#160;} <span class="comment">// namespace bioexplorer</span></div>
+<div class="line"><a name="l00258"></a><span class="lineno">  258</span>&#160;RandomizationDetails floatsToRandomizationDetails(</div>
+<div class="line"><a name="l00259"></a><span class="lineno">  259</span>&#160;    <span class="keyword">const</span> floats&amp; values, <span class="keyword">const</span> <span class="keywordtype">float</span> randomSeed,</div>
+<div class="line"><a name="l00260"></a><span class="lineno">  260</span>&#160;    <span class="keyword">const</span> PositionRandomizationType randomizationType)</div>
+<div class="line"><a name="l00261"></a><span class="lineno">  261</span>&#160;{</div>
+<div class="line"><a name="l00262"></a><span class="lineno">  262</span>&#160;    RandomizationDetails randInfo;</div>
+<div class="line"><a name="l00263"></a><span class="lineno">  263</span>&#160;    randInfo.seed = randomSeed;</div>
+<div class="line"><a name="l00264"></a><span class="lineno">  264</span>&#160;    randInfo.randomizationType = randomizationType;</div>
+<div class="line"><a name="l00265"></a><span class="lineno">  265</span>&#160;    randInfo.positionSeed = (values.size() &gt; 1 ? values[1] : 0.f);</div>
+<div class="line"><a name="l00266"></a><span class="lineno">  266</span>&#160;    randInfo.positionStrength = (values.size() &gt; 2 ? values[2] : 0.f);</div>
+<div class="line"><a name="l00267"></a><span class="lineno">  267</span>&#160;    randInfo.rotationSeed = (values.size() &gt; 3 ? values[3] : 0.f);</div>
+<div class="line"><a name="l00268"></a><span class="lineno">  268</span>&#160;    randInfo.rotationStrength = (values.size() &gt; 4 ? values[4] : 0.f);</div>
+<div class="line"><a name="l00269"></a><span class="lineno">  269</span>&#160;    <span class="keywordflow">return</span> randInfo;</div>
+<div class="line"><a name="l00270"></a><span class="lineno">  270</span>&#160;}</div>
+<div class="line"><a name="l00271"></a><span class="lineno">  271</span>&#160;} <span class="comment">// namespace common</span></div>
+<div class="line"><a name="l00272"></a><span class="lineno">  272</span>&#160;} <span class="comment">// namespace bioexplorer</span></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->

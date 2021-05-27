@@ -61,6 +61,7 @@ private:
     Response _getVersion() const;
     SceneInformationDetails _getSceneInformation() const;
     Response _setGeneralSettings(const GeneralSettingsDetails &payload);
+    Response _reset();
 
     // IO
     Response _exportToFile(const FileAccessDetails &payload);
@@ -102,10 +103,14 @@ private:
     Response _getProteinInstanceTransformation(
         const ProteinInstanceTransformationDetails &payload) const;
 
+    // Models
+    ModelNameDetails _getModelName(const ModelIdDetails &payload) const;
+    IdsDetails _getModelIds() const;
+
     // Colors and materials
     Response _setColorScheme(const ColorSchemeDetails &payload) const;
     Response _setMaterials(const MaterialsDetails &payload);
-    MaterialIdsDetails _getMaterialIds(const ModelIdDetails &modelId);
+    IdsDetails _getMaterialIds(const ModelIdDetails &payload);
 
     // Point clouds
     Response _buildPointCloud(const BuildPointCloudDetails &payload);

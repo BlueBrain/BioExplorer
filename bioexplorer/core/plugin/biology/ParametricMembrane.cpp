@@ -136,13 +136,10 @@ void ParametricMembrane::_processInstances()
     // Shape parameters
     const auto &params = _details.assemblyParams;
     const float size = (params.size() > 0 ? params[0] : 0.f);
-
-    RandomizationDetails randInfo;
-    randInfo.seed = _details.randomSeed;
-    randInfo.randomizationType = _details.positionRandomizationType;
-    randInfo.positionStrength = (params.size() > 2 ? params[2] : 0.f);
-    randInfo.rotationStrength = (params.size() > 4 ? params[4] : 0.f);
     const float extraParameter = (params.size() > 5 ? params[5] : 0.f);
+    auto randInfo =
+        floatsToRandomizationDetails(params, _details.randomSeed,
+                                     _details.positionRandomizationType);
 
     // Shape instances
     const float offset = 2.f / _details.occurrences;

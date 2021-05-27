@@ -211,6 +211,11 @@ void BioExplorerPlugin::init()
                 return _setGeneralSettings(payload);
             });
 
+        endPoint = PLUGIN_API_PREFIX + "reset";
+        PLUGIN_INFO("Registering '" + endPoint + "' endpoint");
+        actionInterface->registerRequest<Response>(endPoint,
+                                                   [&]() { return _reset(); });
+
         endPoint = PLUGIN_API_PREFIX + "remove-assembly";
         PLUGIN_INFO("Registering '" + endPoint + "' endpoint");
         actionInterface->registerRequest<AssemblyDetails, Response>(
@@ -355,6 +360,20 @@ void BioExplorerPlugin::init()
             endPoint,
             [&](const AddSphereDetails &payload) { _addSphere(payload); });
 
+        endPoint = PLUGIN_API_PREFIX + "get-model-ids";
+        PLUGIN_INFO("Registering '" + endPoint + "' endpoint");
+        actionInterface->registerRequest<IdsDetails>(endPoint,
+                                                     [&]() -> IdsDetails {
+                                                         return _getModelIds();
+                                                     });
+
+        endPoint = PLUGIN_API_PREFIX + "get-model-name";
+        PLUGIN_INFO("Registering '" + endPoint + "' endpoint");
+        actionInterface->registerRequest<ModelIdDetails, ModelNameDetails>(
+            endPoint, [&](const ModelIdDetails &payload) -> ModelNameDetails {
+                return _getModelName(payload);
+            });
+
         endPoint = PLUGIN_API_PREFIX + "set-materials";
         PLUGIN_INFO("Registering '" + endPoint + "' endpoint");
         actionInterface->registerNotification<MaterialsDetails>(
@@ -363,8 +382,8 @@ void BioExplorerPlugin::init()
 
         endPoint = PLUGIN_API_PREFIX + "get-material-ids";
         PLUGIN_INFO("Registering '" + endPoint + "' endpoint");
-        actionInterface->registerRequest<ModelIdDetails, MaterialIdsDetails>(
-            endPoint, [&](const ModelIdDetails &payload) -> MaterialIdsDetails {
+        actionInterface->registerRequest<ModelIdDetails, IdsDetails>(
+            endPoint, [&](const ModelIdDetails &payload) -> IdsDetails {
                 return _getMaterialIds(payload);
             });
 
@@ -501,11 +520,29 @@ Response BioExplorerPlugin::_getVersion() const
     return response;
 }
 
+Response BioExplorerPlugin::_reset()
+{
+    Response response;
+    auto &scene = _api->getScene();
+    const auto modelDescriptors = scene.getModelDescriptors();
+
+    for (const auto modelDescriptor : modelDescriptors)
+        scene.removeModel(modelDescriptor->getModelID());
+
+    scene.markModified();
+    response.contents =
+        "Removed " + std::to_string(modelDescriptors.size()) + " models";
+    return response;
+}
+
 SceneInformationDetails BioExplorerPlugin::_getSceneInformation() const
 {
     SceneInformationDetails sceneInfo;
-    auto &scene = _api->getScene();
-    for (const auto modelDescriptor : scene.getModelDescriptors())
+    const auto &scene = _api->getScene();
+    const auto &modelDescriptors = scene.getModelDescriptors();
+    sceneInfo.nbModels = modelDescriptors.size();
+
+    for (const auto modelDescriptor : modelDescriptors)
     {
         const auto &instances = modelDescriptor->getInstances();
         const auto nbInstances = instances.size();
@@ -935,11 +972,40 @@ Response BioExplorerPlugin::_addSphere(const AddSphereDetails &payload)
     return response;
 }
 
-MaterialIdsDetails BioExplorerPlugin::_getMaterialIds(
-    const ModelIdDetails &modelId)
+IdsDetails BioExplorerPlugin::_getModelIds() const
 {
-    MaterialIdsDetails materialIds;
-    auto modelDescriptor = _api->getScene().getModel(modelId.modelId);
+    auto &scene = _api->getScene();
+    const auto &modelDescriptors = scene.getModelDescriptors();
+    IdsDetails modelIds;
+    for (const auto &modelDescriptor : modelDescriptors)
+    {
+        const auto &modelId = modelDescriptor->getModelID();
+        PLUGIN_INFO("Adding model id: " + std::to_string(modelId));
+        modelIds.ids.push_back(modelId);
+    }
+    return modelIds;
+}
+
+ModelNameDetails BioExplorerPlugin::_getModelName(
+    const ModelIdDetails &payload) const
+{
+    auto &scene = _api->getScene();
+    auto modelDescriptor = scene.getModel(payload.modelId);
+    if (modelDescriptor)
+    {
+        ModelNameDetails modelName;
+        modelName.name = modelDescriptor->getName();
+        return modelName;
+    }
+    PLUGIN_THROW("Trying to get name from an invalid model ID: " +
+                 std::to_string(payload.modelId));
+}
+
+IdsDetails BioExplorerPlugin::_getMaterialIds(const ModelIdDetails &payload)
+{
+    IdsDetails materialIds;
+    auto &scene = _api->getScene();
+    auto modelDescriptor = scene.getModel(payload.modelId);
     if (modelDescriptor)
     {
         for (const auto &material : modelDescriptor->getModel().getMaterials())
@@ -948,7 +1014,8 @@ MaterialIdsDetails BioExplorerPlugin::_getMaterialIds(
                 materialIds.ids.push_back(material.first);
     }
     else
-        PLUGIN_THROW("Invalid model ID");
+        PLUGIN_ERROR("Trying to get materials from an invalid model ID: " +
+                     std::to_string(payload.modelId));
     return materialIds;
 }
 
@@ -1035,6 +1102,7 @@ Response BioExplorerPlugin::_setMaterials(const MaterialsDetails &payload)
             else
                 PLUGIN_INFO("Model " << modelId << " is not registered");
         }
+        scene.markModified(false);
     }
     CATCH_STD_EXCEPTION()
     return response;

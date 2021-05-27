@@ -92,6 +92,13 @@ public:
      */
     const StringMap getSequencesAsString() const;
 
+    /**
+     * @brief Get the bounds of the molecule atomic structure
+     *
+     * @return const Boxf& Bounds of the molecule atomic structure
+     */
+    const Boxf& getBounds() const { return _bounds; };
+
 protected:
     void _setAtomColorScheme();
     void _setChainColorScheme(const Palette& palette);

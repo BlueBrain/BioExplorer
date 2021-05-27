@@ -38,9 +38,9 @@ struct CameraDefinition
     std::vector<double> origin;
     std::vector<double> direction;
     std::vector<double> up;
-    double apertureRadius;
-    double focusDistance;
-    double interpupillaryDistance;
+    double apertureRadius{0.0};
+    double focusDistance{1e6};
+    double interpupillaryDistance{0.0};
 };
 bool from_json(CameraDefinition &param, const std::string &payload);
 std::string to_json(const CameraDefinition &param);
@@ -48,6 +48,7 @@ std::string to_json(const CameraDefinition &param);
 struct ExportFramesToDisk
 {
     std::string path;
+    std::string baseName;
     std::string format;
     uint16_t quality{100};
     uint16_t spp{0};

@@ -61,6 +61,7 @@ std::string to_json(const SceneInformationDetails &param)
     try
     {
         nlohmann::json js;
+        TO_JSON(param, js, nbModels);
         TO_JSON(param, js, nbMaterials);
         TO_JSON(param, js, nbSpheres);
         TO_JSON(param, js, nbCylinders);
@@ -389,6 +390,7 @@ bool from_json(MeshBasedMembraneDetails &param, const std::string &payload)
         FROM_JSON(param, js, density);
         FROM_JSON(param, js, surfaceFixedOffset);
         FROM_JSON(param, js, surfaceVariableOffset);
+        FROM_JSON(param, js, assemblyParams);
         FROM_JSON(param, js, atomRadiusMultiplier);
         FROM_JSON(param, js, representation);
         FROM_JSON(param, js, randomSeed);
@@ -483,12 +485,27 @@ bool from_json(MaterialsDetails &param, const std::string &payload)
     return true;
 }
 
-std::string to_json(const MaterialIdsDetails &param)
+std::string to_json(const IdsDetails &param)
 {
     try
     {
         nlohmann::json js;
         TO_JSON(param, js, ids);
+        return js.dump();
+    }
+    catch (...)
+    {
+        return "";
+    }
+    return "";
+}
+
+std::string to_json(const ModelNameDetails &param)
+{
+    try
+    {
+        nlohmann::json js;
+        TO_JSON(param, js, name);
         return js.dump();
     }
     catch (...)
