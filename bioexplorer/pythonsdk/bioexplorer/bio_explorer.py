@@ -23,8 +23,6 @@
 
 import math
 
-from ipywidgets import IntProgress
-from IPython.display import display
 from pyquaternion import Quaternion
 
 import seaborn as sns
@@ -1916,7 +1914,7 @@ class BioExplorer:
             if collagen and self.NAME_COLLAGEN in model_name:
                 palette = list()
                 emissions = list()
-                for i in range(nb_materials):
+                for _ in range(nb_materials):
                     palette.append([1, 1, 1])
                     emissions.append(0.2)
                 self.set_materials(
@@ -2269,7 +2267,7 @@ class Sugars:
         :chain_ids: Ids of chains to be loaded
         :site_indices: Indices on which sugars should be added on the protein
         :rotation: Rotation of the sugar on the protein
-        :assembly_params: Extra optional parameters for positioning on the protein 
+        :assembly_params: Extra optional parameters for positioning on the protein
         """
         assert isinstance(chain_ids, list)
         assert isinstance(site_indices, list)
