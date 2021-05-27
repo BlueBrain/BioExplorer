@@ -23,7 +23,6 @@
 
 
 import copy
-import os
 import time
 from ipywidgets import IntSlider, IntProgress
 from bioexplorer import BioExplorer
@@ -51,7 +50,8 @@ class MovieMaker:
         self._client = bioexplorer.core_api()
         self._smoothed_key_frames = list()
 
-    def version(self):
+    @staticmethod
+    def version():
         """
         Get the version of the SDK
 
@@ -223,7 +223,7 @@ class MovieMaker:
             subsampling=1)
 
         camera_definitions = list()
-        for i in range(self.get_nb_frames()):
+        for i in range(start_frame, end_frame):
             camera_definitions.append(self.get_key_frame(i))
 
         params = dict()
