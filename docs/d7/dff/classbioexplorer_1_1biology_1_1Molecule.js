@@ -18,6 +18,7 @@ var classbioexplorer_1_1biology_1_1Molecule =
     [ "_setMaterialDiffuseColor", "d7/dff/classbioexplorer_1_1biology_1_1Molecule.html#a303a84f330e24fb20322c4154625691e", null ],
     [ "_setResiduesColorScheme", "d7/dff/classbioexplorer_1_1biology_1_1Molecule.html#ae5c34567aa817b2bf29a834bbad77986", null ],
     [ "getAtoms", "d7/dff/classbioexplorer_1_1biology_1_1Molecule.html#a33392eb54d4ec0ddd200b42a702018b1", null ],
+    [ "getBounds", "d7/dff/classbioexplorer_1_1biology_1_1Molecule.html#ae4cac7018bc82c2b3025ade963bd3276", null ],
     [ "getResidues", "d7/dff/classbioexplorer_1_1biology_1_1Molecule.html#a77f61cadfb0ce00bfaa3d86e2307c622", null ],
     [ "getResidueSequences", "d7/dff/classbioexplorer_1_1biology_1_1Molecule.html#a921fcced6cab9755296f5c05c030ff89", null ],
     [ "getSequencesAsString", "d7/dff/classbioexplorer_1_1biology_1_1Molecule.html#ac12ba0810e3eaff36b927a5b71555b75", null ],
