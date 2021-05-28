@@ -21,8 +21,7 @@
 # You should have received a copy of the GNU General Public License along with
 # this program.  If not, see <https://www.gnu.org/licenses/>.
 
-from bioexplorer import BioExplorer
-from mediamaker import MovieMaker
+from bioexplorer import BioExplorer, MovieMaker
 
 
 def test_movie_maker():

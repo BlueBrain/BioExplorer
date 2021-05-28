@@ -25,9 +25,9 @@
 import copy
 import time
 from ipywidgets import IntSlider, IntProgress
-from bioexplorer import BioExplorer
 from IPython.display import display
-from .version import __version__
+from .bio_explorer import BioExplorer
+from .version import VERSION as __version__
 
 # pylint: disable=no-member
 # pylint: disable=dangerous-default-value

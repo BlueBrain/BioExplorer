@@ -23,8 +23,7 @@
 
 from bioexplorer import BioExplorer, RNASequence, Protein, MeshBasedMembrane, \
     AssemblyProtein, Virus, Surfactant, ParametricMembrane, Cell, Sugars, \
-    Volume, Vector2, Vector3, Quaternion
-from mediamaker import MovieMaker
+    Volume, Vector2, Vector3, Quaternion, MovieMaker
 import math
 from datetime import datetime, timedelta
 import time
