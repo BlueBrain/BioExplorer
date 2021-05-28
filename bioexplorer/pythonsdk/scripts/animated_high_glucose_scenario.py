@@ -83,6 +83,7 @@ rna_folder = resource_folder + 'rna/'
 obj_folder = resource_folder + 'obj/'
 glycan_folder = pdb_folder + 'glycans/'
 membrane_folder = pdb_folder + 'membrane/'
+colormap_folder = resource_folder + 'colormap/'
 
 complex_paths = [glycan_folder + 'complex/33.pdb', glycan_folder + 'complex/34.pdb',
                  glycan_folder + 'complex/35.pdb', glycan_folder + 'complex/36.pdb']
@@ -110,7 +111,7 @@ ROTATION_MODE_SINUSOIDAL = 1
 class HighGlucoseScenario():
 
     def __init__(self, hostname, port, projection, output_folder, image_k=4,
-                 image_samples_per_pixels=64, log_level=1):
+                 image_samples_per_pixels=64, log_level=1, magnetic=False):
         self._log_level = log_level
         self._hostname = hostname
         self._url = hostname + ':' + str(port)
@@ -120,6 +121,7 @@ class HighGlucoseScenario():
         self._image_samples_per_pixels = image_samples_per_pixels
         self._image_projection = projection
         self._image_output_folder = output_folder
+        self._magnetic = magnetic
         self._prepare_movie(projection, image_k)
         self._log(1, '================================================================================')
         self._log(1, '- Version          : ' + self._be.version())
@@ -234,7 +236,11 @@ class HighGlucoseScenario():
              ROTATION_MODE_LINEAR]
         ]
 
-        for virus_index in range(len(virus_sequences)):
+        indices = range(len(virus_sequences))
+        if self._magnetic:
+            indices = [1]
+
+        for virus_index in indices:
             name = 'Coronavirus ' + str(virus_index)
             current_sequence = 0
             sequences = virus_sequences[virus_index]
@@ -525,30 +531,45 @@ class HighGlucoseScenario():
             shading_mode=BioExplorer.SHADING_MODE_DIFFUSE, specular_exponent=50.0)
 
     def _set_rendering_settings(self):
-        '''Renderer'''
-        status = self._core.set_renderer(
-            background_color=[96 / 255, 125 / 255, 139 / 255],
-            current='bio_explorer', head_light=False,
-            samples_per_pixel=1, subsampling=1, max_accum_frames=self._image_samples_per_pixels)
-        params = self._core.BioExplorerRendererParams()
-        params.exposure = 1.0
-        params.gi_samples = 1
-        params.gi_weight = 0.3
-        params.gi_distance = 5000
-        params.shadows = 0.8
-        params.soft_shadows = 0.05
-        params.fog_start = 1000
-        params.fog_thickness = 300
-        params.max_bounces = 1
-        params.use_hardware_randomizer = True
-        status = self._core.set_renderer_params(params)
+        if self._magnetic:
+            '''Renderer'''
+            status = self._core.set_renderer(
+                current='bio_explorer_fields',
+                samples_per_pixel=1, subsampling=1,
+                max_accum_frames=self._image_samples_per_pixels)
+            params = self._core.BioExplorerFieldsRendererParams()
+            params.alpha_correction = 0.2
+            params.cutoff = 450
+            params.exposure = 1.0
+            params.nb_ray_steps = 128
+            params.nb_ray_refinement_steps = self._image_samples_per_pixels
+            params.use_hardware_randomizer = True
+            status = self._core.set_renderer_params(params)
+        else:
+            '''Renderer'''
+            status = self._core.set_renderer(
+                background_color=[96 / 255, 125 / 255, 139 / 255],
+                current='bio_explorer', head_light=False,
+                samples_per_pixel=1, subsampling=1, max_accum_frames=self._image_samples_per_pixels)
+            params = self._core.BioExplorerRendererParams()
+            params.exposure = 1.0
+            params.gi_samples = 1
+            params.gi_weight = 0.3
+            params.gi_distance = 5000
+            params.shadows = 0.8
+            params.soft_shadows = 0.05
+            params.fog_start = 1000
+            params.fog_thickness = 300
+            params.max_bounces = 1
+            params.use_hardware_randomizer = True
+            status = self._core.set_renderer_params(params)
 
-        '''Lights'''
-        status = self._core.clear_lights()
-        status = self._core.add_light_directional(
-            angularDiameter=0.5, color=[1, 1, 1], direction=[-0.7, -0.4, -1],
-            intensity=1.0, is_visible=False
-        )
+            '''Lights'''
+            status = self._core.clear_lights()
+            status = self._core.add_light_directional(
+                angularDiameter=0.5, color=[1, 1, 1], direction=[-0.7, -0.4, -1],
+                intensity=1.0, is_visible=False
+            )
 
         '''Camera'''
         status = self._core.set_camera(current='bio_explorer_perspective')
@@ -576,12 +597,18 @@ class HighGlucoseScenario():
         self._log(2, '- Building cell...')
         self._add_cell(frame)
 
-        self._log(2, '- Setting materials...')
-        self._set_materials()
+        if self._magnetic:
+            self._log(2, '- Building fields...')
+            self._be.go_magnetic(
+                colormap_filename=colormap_folder + 'high_glucose_v2.1dt',
+                voxel_size=0.5, density=0.1, colormap_range=[0.0, 1.0])
+        else:
+            self._log(2, '- Setting materials...')
+            self._set_materials()
 
-        self._log(2, '- Showing models...')
-        status = self._be.set_models_visibility(True)
-        status = self._core.set_renderer()
+            self._log(2, '- Showing models...')
+            status = self._be.set_models_visibility(True)
+            status = self._core.set_renderer()
 
     def _make_export_folder(self):
         import os
@@ -612,12 +639,22 @@ class HighGlucoseScenario():
 
     def _set_clipping_planes(self):
         '''Clipping planes'''
-        clip_planes = [
-            [1.0, 0.0, 0.0, scene_size * 1.5 + 5],
-            [-1.0, 0.0, 0.0, scene_size * 1.5 + 5],
-            [0.0, 0.0, 1.0, scene_size + 5],
-            [0.0, 0.0, -1.0, scene_size + 5]
-        ]
+        clip_planes = list()
+        if self._magnetic:
+            pos = Vector3(-74.9, -99.0, 228.8)
+            size = Vector3(70.0, 100.0, 70.0)
+            clip_planes.append([1.0, 0.0, 0.0, -pos.x + size.x])
+            clip_planes.append([-1.0, 0.0, 0.0, pos.x + size.x])
+            clip_planes.append([0.0, 1.0, 0.0, -pos.y + size.y])
+            clip_planes.append([0.0, -1.0, 0.0, pos.y + size.y])
+            clip_planes.append([0.0, 0.0, 1.0,  -pos.z + size.z])
+            clip_planes.append([0.0, 0.0, -1.0, pos.z + size.z])
+        else:
+            clip_planes.append([1.0, 0.0, 0.0, scene_size * 1.5 + 5])
+            clip_planes.append([-1.0, 0.0, 0.0, scene_size * 1.5 + 5])
+            clip_planes.append([0.0, 0.0, 1.0, scene_size + 5])
+            clip_planes.append([0.0, 0.0, -1.0, scene_size + 5])
+
         cps = self._core.get_clip_planes()
         ids = list()
         if cps:
@@ -717,9 +754,6 @@ class HighGlucoseScenario():
         nb_frames = len(frames_to_render)
         frame_count = 1
 
-        '''Rendering settings'''
-        self._set_rendering_settings()
-
         '''Clipping planes'''
         self._set_clipping_planes()
 
@@ -738,6 +772,9 @@ class HighGlucoseScenario():
                 self._build_frame(frame)
                 mm.set_current_frame(
                     frame=frame, camera_params=self._core.BioExplorerPerspectiveCameraParams())
+
+                '''Rendering settings'''
+                self._set_rendering_settings()
 
                 '''Create snapshot'''
                 mm.create_snapshot(
@@ -797,6 +834,7 @@ def main(argv):
     parser.add_argument('-g', '--log-level', type=int, help='Frame step', default=1)
     parser.add_argument('-l', '--frame-list', type=int, nargs='*',
                         help='List of frames to render', default=list())
+    parser.add_argument('-z', '--magnetic', help='Magnetic fields', action='store_true')
     args = parser.parse_args(argv)
 
     scenario = HighGlucoseScenario(
@@ -806,7 +844,9 @@ def main(argv):
         output_folder=args.export_folder,
         image_k=args.image_resolution_k,
         image_samples_per_pixels=args.image_samples_per_pixel,
-        log_level=args.log_level)
+        log_level=args.log_level,
+        magnetic=args.magnetic
+    )
 
     scenario.render_movie(
         start_frame=args.from_frame,

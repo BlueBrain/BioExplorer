@@ -1957,6 +1957,8 @@ class BioExplorer:
                 bioexplorer=self, model_id=fields_model_id,
                 filename=colormap_filename)
             tf.set_range(colormap_range)
+            return tf
+        return None
 
     def build_fields(self, voxel_size, density=1.0):
         """
