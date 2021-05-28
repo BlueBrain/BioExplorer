@@ -25,10 +25,11 @@ from .bio_explorer import BioExplorer, Volume, MeshBasedMembrane, AssemblyProtei
     Sugars, RNASequence, Cell, ParametricMembrane, Surfactant, Virus, Vector2, Vector3, \
     Quaternion
 from .movie_maker import MovieMaker
+from .transfer_function import TransferFunction
 from .notebook_widgets import Widgets
 from .version import VERSION as __version__
 
 __all__ = [
     'Widgets', 'BioExplorer', 'MeshBasedMembrane', 'Protein', 'AssemblyProtein', 'Sugars',
     'RNASequence', 'ParametricMembrane', 'Volume', 'Surfactant', 'Cell', 'Vector2', 'Vector3',
-    'Quaternion', 'Virus', 'MovieMaker', '__version__']
+    'Quaternion', 'Virus', 'MovieMaker', 'TransferFunction', '__version__']

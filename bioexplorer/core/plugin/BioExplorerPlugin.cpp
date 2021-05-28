@@ -1108,7 +1108,7 @@ Response BioExplorerPlugin::_setMaterials(const MaterialsDetails &payload)
     return response;
 }
 
-void BioExplorerPlugin::_attachFieldsHandler(FieldsHandlerPtr handler)
+size_t BioExplorerPlugin::_attachFieldsHandler(FieldsHandlerPtr handler)
 {
     auto &scene = _api->getScene();
     auto model = scene.createModel();
@@ -1139,8 +1139,9 @@ void BioExplorerPlugin::_attachFieldsHandler(FieldsHandlerPtr handler)
         std::make_shared<ModelDescriptor>(std::move(model), "Fields", metadata);
     scene.addModel(modelDescriptor);
 
-    PLUGIN_INFO("Fields model " << modelDescriptor->getModelID()
-                                << " was successfully created");
+    size_t modelId = modelDescriptor->getModelID();
+    PLUGIN_INFO("Fields model " << modelId << " was successfully created");
+    return modelId;
 }
 
 Response BioExplorerPlugin::_buildFields(const BuildFieldsDetails &payload)
@@ -1150,10 +1151,17 @@ Response BioExplorerPlugin::_buildFields(const BuildFieldsDetails &payload)
     {
         PLUGIN_INFO("Building Fields from scene");
         auto &scene = _api->getScene();
+        auto modelDescriptors = scene.getModelDescriptors();
+        for (auto &modelDescriptor : modelDescriptors)
+            if (modelDescriptor->getName() == "Fields")
+                PLUGIN_THROW(
+                    "BioExplorer can only handle one single fields model");
+
         FieldsHandlerPtr handler =
             std::make_shared<FieldsHandler>(scene, payload.voxelSize,
                                             payload.density);
-        _attachFieldsHandler(handler);
+        const auto modelId = _attachFieldsHandler(handler);
+        response.contents = std::to_string(modelId);
     }
     CATCH_STD_EXCEPTION()
     return response;

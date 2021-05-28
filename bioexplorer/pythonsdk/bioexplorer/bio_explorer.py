@@ -28,6 +28,7 @@ from pyquaternion import Quaternion
 import seaborn as sns
 
 from brayns import Client
+from .transfer_function import TransferFunction
 from .version import VERSION as __version__
 
 # pylint: disable=no-member
@@ -196,12 +197,10 @@ class BioExplorer:
     FILE_FORMAT_XYZR_ASCII = 5
     FILE_FORMAT_XYZRV_ASCII = 6
 
-    def __init__(self, url=None):
+    def __init__(self, url='localhost:5000'):
         """Create a new BioExplorer instance"""
         self._url = url
-        self._client = None
-        if url is not None:
-            self._client = Client(url)
+        self._client = Client(url)
 
         backend_version = self.version()
         if __version__ != backend_version:
@@ -1922,6 +1921,42 @@ class BioExplorer:
                     diffuse_colors=palette, specular_colors=palette,
                     emissions=emissions
                 )
+
+    def go_magnetic(
+            self, colormap_filename=None, colormap_range=[0, 0.008], voxel_size=0.01,
+            density=1.0, samples_per_pixel=64):
+        """
+        Build fields from current scene and switch to default rendering settings
+
+        :colormap_filename: Colormap full file name
+        :colormap_range: Colormap value range
+        :voxel_size: Voxel size
+        :voxel_size: Density of atoms to consider (between 0 and 1)
+        :samples_per_pixel: Samples per pixel
+        """
+        # Build fields acceleration structures
+        result = self.build_fields(voxel_size=voxel_size, density=density)
+        fields_model_id = int(result['contents'])
+
+        # Rendering settings
+        self._client.set_renderer(
+            current='bio_explorer_fields',
+            samples_per_pixel=1, subsampling=8,
+            max_accum_frames=samples_per_pixel)
+        params = self._client.BioExplorerFieldsRendererParams()
+        params.cutoff = 5000
+        params.exposure = 2.0
+        params.alpha_correction = 0.1
+        params.nb_ray_steps = 16
+        params.nb_ray_refinement_steps = samples_per_pixel
+        params.use_hardware_randomizer = True
+        self._client.set_renderer_params(params)
+
+        if colormap_filename:
+            tf = TransferFunction(
+                bioexplorer=self, model_id=fields_model_id,
+                filename=colormap_filename)
+            tf.set_range(colormap_range)
 
     def build_fields(self, voxel_size, density=1.0):
         """
