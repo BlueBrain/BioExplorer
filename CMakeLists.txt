@@ -6,6 +6,8 @@
 
 cmake_minimum_required(VERSION 3.1 FATAL_ERROR)
 
+set(PACKAGE_VERSION 1.0.1)
+
 add_subdirectory(bioexplorer/core)
 
 option(BIOEXPLORER_MEDIA_MAKER_ENABLED "Enable media maker plugin" ON)

@@ -516,7 +516,7 @@ void BioExplorerPlugin::preRender()
 Response BioExplorerPlugin::_getVersion() const
 {
     Response response;
-    response.contents = BIOEXPLORER_VERSION;
+    response.contents = PACKAGE_VERSION;
     return response;
 }
 
@@ -1387,8 +1387,8 @@ extern "C" ExtensionPlugin *brayns_plugin_create(int argc, char **argv)
     PLUGIN_INFO(
         "                                             _|                       "
         "                           ");
-    PLUGIN_INFO("Initializing BioExplorer plug-in (version "
-                << BIOEXPLORER_VERSION << ")");
+    PLUGIN_INFO("Initializing BioExplorer plug-in (version " << PACKAGE_VERSION
+                                                             << ")");
 #ifdef USE_CGAL
     PLUGIN_INFO("- CGAL module loaded");
 #endif

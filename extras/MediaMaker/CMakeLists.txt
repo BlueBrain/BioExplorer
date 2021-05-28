@@ -11,7 +11,7 @@ cmake_minimum_required(VERSION 3.1 FATAL_ERROR)
 # ==============================================================================
 set(NAME MEDIAMAKER)
 set(LIBRARY_NAME mediaMaker)
-project(${NAME} VERSION 0.1.0)
+project(${NAME} VERSION ${PACKAGE_VERSION})
 set(${NAME}_VERSION_ABI 1)
 
 # ==============================================================================
@@ -22,6 +22,9 @@ set(${NAME}_MODULES_DIR ${PROJECT_SOURCE_DIR})
 set(CMAKE_CXX_STANDARD 14)
 
 find_package(Brayns REQUIRED SYSTEM)
+
+configure_file( plugin/Defines.h.in ${CMAKE_BINARY_DIR}/generated/Defines.h )
+include_directories( ${CMAKE_BINARY_DIR}/generated/ ) # Make sure it can be included...
 
 # ==============================================================================
 # Sources
