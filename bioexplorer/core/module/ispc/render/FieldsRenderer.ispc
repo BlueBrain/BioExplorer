@@ -46,14 +46,20 @@ float treeWalker(const uniform FieldsRenderer* uniform self, const vec3f& point,
                        self->userData[idxData + 2]);
         const vec3f delta = point - childCenter;
 
-        const float d =
+        float d =
             sqrt(delta.x * delta.x + delta.y * delta.y + delta.z * delta.z);
 
+        // Minimum distance
+        if (d < self->spacing.x / 2.f)
+            d = self->spacing.x / 2.f;
+
         if (d >= cutoff)
+        {
             // Child is further than the cutoff distance, no need to evaluate
             // events in the child node, we take the precomputed value of node
             // instead
             voxelValue += self->userData[idxData + 3] / (d * d);
+        }
         else
             // Dive into the child node and compute its contents
             voxelValue += treeWalker(self, point, d, cutoff / 2.f, childIndex);
@@ -113,8 +119,10 @@ inline vec3f FieldsRenderer_shadeRay(const uniform FieldsRenderer* uniform self,
         const vec3f p = ray.org + t * ray.dir;
         const vec3f point = (p - self->offset) / self->spacing;
 
-        const float value =
-            treeWalker(self, point, self->distance, self->cutoff);
+        float value = treeWalker(self, point, self->distance, self->cutoff);
+
+        value = clamp(value, self->transferFunction->valueRange.x,
+                      self->transferFunction->valueRange.y);
 
         const float sampleOpacity =
             self->transferFunction->getOpacityForValue(self->transferFunction,
