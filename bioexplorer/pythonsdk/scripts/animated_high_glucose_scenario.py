@@ -36,7 +36,7 @@ resource_folder = './tests/test_files/'
 # Movie settings
 # --------------------------------------------------------------------------------
 image_k = 4
-image_samples_per_pixels = 64
+image_samples_per_pixel = 64
 image_projection = 'perspective'
 image_output_folder = '/tmp'
 
@@ -111,7 +111,7 @@ ROTATION_MODE_SINUSOIDAL = 1
 class HighGlucoseScenario():
 
     def __init__(self, hostname, port, projection, output_folder, image_k=4,
-                 image_samples_per_pixels=64, log_level=1, shaders=list(['bio_explorer']),
+                 image_samples_per_pixel=64, log_level=1, shaders=list(['bio_explorer']),
                  magnetic=False):
         self._log_level = log_level
         self._hostname = hostname
@@ -119,7 +119,7 @@ class HighGlucoseScenario():
         self._be = BioExplorer(self._url)
         self._core = self._be.core_api()
         self._image_size = [1920, 1080]
-        self._image_samples_per_pixels = image_samples_per_pixels
+        self._image_samples_per_pixel = image_samples_per_pixel
         self._image_projection = projection
         self._image_output_folder = output_folder
         self._shaders = shaders
@@ -131,7 +131,7 @@ class HighGlucoseScenario():
         self._log(1, '- Projection       : ' + projection)
         self._log(1, '- Frame size       : ' + str(self._image_size))
         self._log(1, '- Export folder    : ' + self._image_output_folder)
-        self._log(1, '- Samples per pixel: ' + str(self._image_samples_per_pixels))
+        self._log(1, '- Samples per pixel: ' + str(self._image_samples_per_pixel))
         self._log(1, '================================================================================')
 
     def _log(self, level, message):
@@ -550,7 +550,7 @@ class HighGlucoseScenario():
             status = self._core.set_renderer(
                 current='depth', samples_per_pixel=1, subsampling=1, max_accum_frames=1)
             params = status = self._core.DepthRendererParams()
-            params.infinity = 3000.0
+            params.infinity = 2000.0
             status = self._core.set_renderer_params(params)
             samples_per_pixel = 2
         elif shader == 'raycast_Ns':
@@ -865,7 +865,7 @@ def main(argv):
         projection=args.projection,
         output_folder=args.export_folder,
         image_k=args.image_resolution_k,
-        image_samples_per_pixels=args.image_samples_per_pixel,
+        image_samples_per_pixel=args.image_samples_per_pixel,
         log_level=args.log_level,
         shaders=args.shaders,
         magnetic=args.magnetic

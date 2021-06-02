@@ -571,7 +571,7 @@ class LowGlucoseScenario():
             status = self._core.set_renderer(
                 current='depth', samples_per_pixel=1, subsampling=1, max_accum_frames=1)
             params = status = self._core.DepthRendererParams()
-            params.infinity = 3000.0
+            params.infinity = 2000.0
             status = self._core.set_renderer_params(params)
             samples_per_pixel = 2
         elif shader == 'raycast_Ns':
