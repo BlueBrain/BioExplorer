@@ -116,7 +116,7 @@ private:
     Response _buildPointCloud(const BuildPointCloudDetails &payload);
 
     // Fields
-    void _attachFieldsHandler(FieldsHandlerPtr handler);
+    size_t _attachFieldsHandler(FieldsHandlerPtr handler);
     Response _buildFields(const BuildFieldsDetails &payload);
     Response _exportFieldsToFile(const ModelIdFileAccessDetails &payload);
     Response _importFieldsFromFile(const FileAccessDetails &payload);

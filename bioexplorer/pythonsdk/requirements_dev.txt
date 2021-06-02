@@ -19,7 +19,6 @@
 
 
 brayns==1.0.0
-ipyTransferFunction~=0.2.0
 stringcase~=1.2.0
 pygments~=2.4.1
 pylint~=2.6.0
@@ -35,3 +34,4 @@ sphinx_rtd_theme==0.4.2
 nbsphinx==0.8.3
 m2r==0.2.1
 pyquaternion~=0.9.9
+webcolors~=1.8.1
