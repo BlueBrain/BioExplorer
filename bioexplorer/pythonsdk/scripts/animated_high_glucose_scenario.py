@@ -111,7 +111,8 @@ ROTATION_MODE_SINUSOIDAL = 1
 class HighGlucoseScenario():
 
     def __init__(self, hostname, port, projection, output_folder, image_k=4,
-                 image_samples_per_pixels=64, log_level=1, magnetic=False):
+                 image_samples_per_pixels=64, log_level=1, shaders=list(['bio_explorer']),
+                 magnetic=False):
         self._log_level = log_level
         self._hostname = hostname
         self._url = hostname + ':' + str(port)
@@ -121,6 +122,7 @@ class HighGlucoseScenario():
         self._image_samples_per_pixels = image_samples_per_pixels
         self._image_projection = projection
         self._image_output_folder = output_folder
+        self._shaders = shaders
         self._magnetic = magnetic
         self._prepare_movie(projection, image_k)
         self._log(1, '================================================================================')
@@ -530,27 +532,36 @@ class HighGlucoseScenario():
         self._be.apply_default_color_scheme(
             shading_mode=BioExplorer.SHADING_MODE_DIFFUSE, specular_exponent=50.0)
 
-    def _set_rendering_settings(self):
-        if self._magnetic:
-            '''Renderer'''
+    def _create_snapshot(self, shader, frame, movie_maker):
+        samples_per_pixel = self._image_samples_per_pixel
+
+        '''Renderer'''
+        if shader == 'albedo':
+            self._core.set_renderer(current='albedo')
+        elif shader == 'ambient_occlusion':
+            self._core.set_renderer(
+                current='ambient_occlusion', samples_per_pixel=1, subsampling=1, max_accum_frames=1)
+            params = self._core.AmbientOcclusionRendererParams()
+            params.samplesPerFrame = 32
+            params.rayLength = 5.0
+            self._core.set_renderer_params(params)
+            samples_per_pixel = 4
+        elif shader == 'depth':
             status = self._core.set_renderer(
-                current='bio_explorer_fields',
-                samples_per_pixel=1, subsampling=1,
-                max_accum_frames=self._image_samples_per_pixels)
-            params = self._core.BioExplorerFieldsRendererParams()
-            params.alpha_correction = 0.2
-            params.cutoff = 450
-            params.exposure = 1.0
-            params.nb_ray_steps = 128
-            params.nb_ray_refinement_steps = self._image_samples_per_pixels
-            params.use_hardware_randomizer = True
+                current='depth', samples_per_pixel=1, subsampling=1, max_accum_frames=1)
+            params = status = self._core.DepthRendererParams()
+            params.infinity = 3000.0
             status = self._core.set_renderer_params(params)
+            samples_per_pixel = 2
+        elif shader == 'raycast_Ns':
+            status = self._core.set_renderer(
+                current='raycast_Ns', samples_per_pixel=1, subsampling=1, max_accum_frames=1)
+            samples_per_pixel = 2
         else:
-            '''Renderer'''
             status = self._core.set_renderer(
                 background_color=[96 / 255, 125 / 255, 139 / 255],
                 current='bio_explorer', head_light=False,
-                samples_per_pixel=1, subsampling=1, max_accum_frames=self._image_samples_per_pixels)
+                samples_per_pixel=1, subsampling=1, max_accum_frames=1)
             params = self._core.BioExplorerRendererParams()
             params.exposure = 1.0
             params.gi_samples = 1
@@ -563,6 +574,7 @@ class HighGlucoseScenario():
             params.max_bounces = 1
             params.use_hardware_randomizer = True
             status = self._core.set_renderer_params(params)
+            samples_per_pixel = self._image_samples_per_pixel
 
             '''Lights'''
             status = self._core.clear_lights()
@@ -570,6 +582,10 @@ class HighGlucoseScenario():
                 angularDiameter=0.5, color=[1, 1, 1], direction=[-0.7, -0.4, -1],
                 intensity=1.0, is_visible=False
             )
+
+        movie_maker.create_snapshot(
+            size=self._image_size, path=self._image_output_folder + '/' + shader,
+            base_name='%05d' % frame, samples_per_pixel=samples_per_pixel)
 
         '''Camera'''
         status = self._core.set_camera(current='bio_explorer_perspective')
@@ -610,13 +626,18 @@ class HighGlucoseScenario():
             status = self._be.set_models_visibility(True)
             status = self._core.set_renderer()
 
-    def _make_export_folder(self):
+    def _make_export_folder(self, folder):
         import os
-        command_line = 'mkdir -p ' + self._image_output_folder
+        path = self._image_output_folder + '/' + folder
+        command_line = 'mkdir -p ' + path
         os.system(command_line)
-        command_line = 'ls ' + self._image_output_folder
+        command_line = 'ls ' + path
         if os.system(command_line) != 0:
-            self._log(3, 'ERROR: Failed to create output folder')
+            self._log(3, 'ERROR: Failed to create folder ' + path)
+
+    def _make_export_folders(self):
+        for folder in self._shaders:
+            self._make_export_folder(folder)
 
     def _prepare_movie(self, projection, image_k):
         if projection == 'perspective':
@@ -635,7 +656,7 @@ class HighGlucoseScenario():
 
         self._image_output_folder = self._image_output_folder + '/' + \
             projection + '/' + str(self._image_size[0]) + 'x' + str(self._image_size[1])
-        self._make_export_folder()
+        self._make_export_folders()
 
     def _set_clipping_planes(self):
         '''Clipping planes'''
@@ -773,14 +794,12 @@ class HighGlucoseScenario():
                 mm.set_current_frame(
                     frame=frame, camera_params=self._core.BioExplorerPerspectiveCameraParams())
 
-                '''Rendering settings'''
-                self._set_rendering_settings()
+                self._log(1, '- Frame buffers')
+                for shader in self._shaders:
+                    '''Rendering settings'''
+                    self._log(2, '-   ' + shader)
+                    self._create_snapshot(shader, frame, mm)
 
-                '''Create snapshot'''
-                mm.create_snapshot(
-                    size=self._image_size,
-                    path=self._image_output_folder, base_name='%05d' % frame,
-                    samples_per_pixel=self._image_samples_per_pixels)
                 end = time.time()
 
                 rendering_time = end - start
@@ -824,6 +843,9 @@ def main(argv):
     parser.add_argument('-j', '--projection', help='Camera projection',
                         type=str, default='perspective',
                         choices=['perspective', 'fisheye', 'panoramic', 'opendeck'])
+    parser.add_argument('-r', '--shaders', help='Camera projection',
+                        type=str, nargs='*', default=list(),
+                        choices=['albedo', 'ambient_occlusion', 'depth', 'raycast_Ns', 'bio_explorer'])
     parser.add_argument('-k', '--image_resolution_k',
                         help='Image resolution in K', type=int, default=4)
     parser.add_argument('-s', '--image_samples_per_pixel',
@@ -845,6 +867,7 @@ def main(argv):
         image_k=args.image_resolution_k,
         image_samples_per_pixels=args.image_samples_per_pixel,
         log_level=args.log_level,
+        shaders=args.shaders,
         magnetic=args.magnetic
     )
 
