@@ -9,9 +9,7 @@ cmake_minimum_required(VERSION 3.1 FATAL_ERROR)
 # ==============================================================================
 # Project
 # ==============================================================================
-set(NAME BIOEXPLORER)
 set(LIBRARY_NAME BioExplorer)
-project(${NAME} VERSION ${PACKAGE_VERSION})
 set(${NAME}_VERSION_ABI 1)
 
 # ==============================================================================
@@ -43,7 +41,7 @@ endif()
 include(ispc)
 
 configure_file( plugin/common/Defines.h.in ${CMAKE_BINARY_DIR}/generated/Defines.h )
-include_directories( ${CMAKE_BINARY_DIR}/generated/ ) # Make sure it can be included...
+include_directories( ${PROJECT_SOURCE_DIR}/bioexplorer/core ${CMAKE_BINARY_DIR}/generated/ )
 
 
 # ==============================================================================

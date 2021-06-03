@@ -54,10 +54,10 @@ var NAVTREE =
     [ "License", "index.html#autotoc_md23", null ],
     [ "Contact", "index.html#autotoc_md24", null ],
     [ "Funding & Acknowledgment", "index.html#autotoc_md25", null ],
-    [ "Docker", "dc/d4f/md__home_favreau_git_BioExplorer_bioexplorer_core_DOCKER.html", [
-      [ "Prerequisites", "dc/d4f/md__home_favreau_git_BioExplorer_bioexplorer_core_DOCKER.html#autotoc_md27", null ],
-      [ "Setup", "dc/d4f/md__home_favreau_git_BioExplorer_bioexplorer_core_DOCKER.html#autotoc_md28", null ],
-      [ "Usage", "dc/d4f/md__home_favreau_git_BioExplorer_bioexplorer_core_DOCKER.html#autotoc_md29", null ]
+    [ "Docker", "d9/d23/md__home_favreau_git_BioExplorer_DOCKER.html", [
+      [ "Prerequisites", "d9/d23/md__home_favreau_git_BioExplorer_DOCKER.html#autotoc_md27", null ],
+      [ "Setup", "d9/d23/md__home_favreau_git_BioExplorer_DOCKER.html#autotoc_md28", null ],
+      [ "Usage", "d9/d23/md__home_favreau_git_BioExplorer_DOCKER.html#autotoc_md29", null ]
     ] ],
     [ "User guide", "d0/de8/md__home_favreau_git_BioExplorer_bioexplorer_pythonsdk_doc_source_USERGUIDE.html", [
       [ "Protein", "d0/de8/md__home_favreau_git_BioExplorer_bioexplorer_pythonsdk_doc_source_USERGUIDE.html#autotoc_md31", null ],
