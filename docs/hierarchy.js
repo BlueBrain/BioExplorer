@@ -64,6 +64,7 @@ var hierarchy =
     [ "bioexplorer::details::RandomizationDetails", "d7/dd2/structbioexplorer_1_1details_1_1RandomizationDetails.html", null ],
     [ "Renderer", null, [
       [ "bioexplorer::rendering::AdvancedRenderer", "d9/d98/classbioexplorer_1_1rendering_1_1AdvancedRenderer.html", null ],
+      [ "bioexplorer::rendering::DensityRenderer", "de/d24/classbioexplorer_1_1rendering_1_1DensityRenderer.html", null ],
       [ "bioexplorer::rendering::FieldsRenderer", "de/d6a/classbioexplorer_1_1rendering_1_1FieldsRenderer.html", null ]
     ] ],
     [ "bioexplorer::biology::ResidueSequence", "de/dde/structbioexplorer_1_1biology_1_1ResidueSequence.html", null ],

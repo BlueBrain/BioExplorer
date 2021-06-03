@@ -112,6 +112,7 @@ var NAVTREEINDEX0 =
 "d2/dd7/SurfaceMesher_8h_source.html":[7,0,1,5,3],
 "d2/ddf/OOCManager_8h_source.html":[7,0,1,4,4],
 "d2/de1/AdvancedMaterial_8h_source.html":[7,0,0,0,1,2],
+"d3/d65/DensityRenderer_8h_source.html":[7,0,0,0,1,10],
 "d3/d6d/tests_2RNASequence_8cpp_source.html":[7,0,2,3],
 "d3/da9/utils_8ispc_source.html":[7,0,0,0,0,4],
 "d3/dc3/BioExplorerSkyBox_8ispc_source.html":[7,0,0,0,1,0,3],
@@ -130,6 +131,7 @@ var NAVTREEINDEX0 =
 "d3/dd5/structbioexplorer_1_1details_1_1ColorSchemeDetails.html#ade53a2e460f72d2ba14c365fa70943c7":[6,0,0,2,10,3],
 "d4/d44/CacheLoader_8h_source.html":[7,0,1,4,2],
 "d4/d7c/AdvancedRenderer_8cpp_source.html":[7,0,0,0,1,5],
+"d4/db5/DensityRenderer_8ispc_source.html":[7,0,0,0,1,12],
 "d4/dbc/Shapes_8h_source.html":[7,0,1,2,5],
 "d4/dbe/Molecule_8h_source.html":[7,0,1,1,9],
 "d4/dde/CommonTypes_8h_source.html":[7,0,1,2,0],
@@ -247,7 +249,5 @@ var NAVTREEINDEX0 =
 "d7/dd2/structbioexplorer_1_1details_1_1RandomizationDetails.html#a9c1b254e0a9d2b353c9bd06489d9ce6a":[6,0,0,2,25,1],
 "d7/df8/Types_8h_source.html":[7,0,1,2,6],
 "d7/df9/AdvancedMaterial_8ih_source.html":[7,0,0,0,1,3],
-"d7/dff/classbioexplorer_1_1biology_1_1Molecule.html":[6,0,0,0,6],
-"d7/dff/classbioexplorer_1_1biology_1_1Molecule.html#a00a5883f2f86a235afc20fee8264a565":[6,0,0,0,6,13],
-"d7/dff/classbioexplorer_1_1biology_1_1Molecule.html#a1450b9cb01682a1e0ee33aa945913951":[6,0,0,0,6,2]
+"d7/dff/classbioexplorer_1_1biology_1_1Molecule.html":[6,0,0,0,6]
 };
