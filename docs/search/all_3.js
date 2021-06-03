@@ -6,5 +6,5 @@ var searchData=
   ['densityrenderer_51',['DensityRenderer',['../de/d24/classbioexplorer_1_1rendering_1_1DensityRenderer.html',1,'bioexplorer::rendering::DensityRenderer'],['../de/d24/classbioexplorer_1_1rendering_1_1DensityRenderer.html#aada116d6d795762fa201d3201fe4edd5',1,'bioexplorer::rendering::DensityRenderer::DensityRenderer()']]],
   ['description_52',['description',['../d1/d25/structbioexplorer_1_1details_1_1OOCSceneConfigurationDetails.html#a14e9f653aeab2a6e89e94e454d0153b4',1,'bioexplorer::details::OOCSceneConfigurationDetails']]],
   ['diffusecolors_53',['diffuseColors',['../d7/d84/structbioexplorer_1_1details_1_1MaterialsDetails.html#ad5445f0005de017a5e697c65d384ab15',1,'bioexplorer::details::MaterialsDetails']]],
-  ['docker_54',['Docker',['../dc/d4f/md__home_favreau_git_BioExplorer_bioexplorer_core_DOCKER.html',1,'']]]
+  ['docker_54',['Docker',['../d9/d23/md__home_favreau_git_BioExplorer_DOCKER.html',1,'']]]
 ];

@@ -23,7 +23,7 @@ jobs:
     - name: Build and push Docker Back-end image
       uses: docker/build-push-action@v2
       with:
-        context: ./bioexplorer/core
+        context: .
         push: true
         tags: ${{ secrets.DOCKERHUB_ORGANIZATION }}/bioexplorer:${{steps.tag.outputs.tag}}
     - name: Build and push Docker Python SDK image
