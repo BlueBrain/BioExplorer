@@ -31,17 +31,14 @@ namespace rendering
 using namespace ospray;
 
 /**
- * @brief The DensityRenderer class allows visualization of magnetic
- * fields created by atoms in the 3D scene. An Octree acceleration structure has
- * to be built by the be_build_fields API in order to feed the renderer with the
- * information needed to compute the value of the field for every point in the
- * 3D space
+ * @brief The DensityRenderer class allows visualization of atom density in the
+ * 3D scene
  */
 class DensityRenderer : public ospray::Renderer
 {
 public:
     /**
-     * @brief Construct a new Bio Explorer Fields Renderer object
+     * @brief Construct a new Bio Explorer Density Renderer object
      *
      */
     DensityRenderer();
@@ -51,7 +48,7 @@ public:
      *
      * @return A string containing the full name of the class
      */
-    std::string toString() const final { return "bio_explorer_fields"; }
+    std::string toString() const final { return "bio_explorer_density"; }
 
     /**
      * @brief Commit the changes to the OSPRay engine

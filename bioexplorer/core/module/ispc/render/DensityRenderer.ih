@@ -37,8 +37,6 @@ struct DensityRenderer
     Renderer super;
 
     // Rendering attributes
-    const uniform Light* uniform* uniform lights;
-    uint32 numLights;
     AdvancedMaterial* bgMaterial;
 
     // Transfer function attributes

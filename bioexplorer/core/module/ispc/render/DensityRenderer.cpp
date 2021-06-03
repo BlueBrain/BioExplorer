@@ -36,16 +36,6 @@ void DensityRenderer::commit()
 {
     Renderer::commit();
 
-    _lightData = (ospray::Data*)getParamData("lights");
-    _lightArray.clear();
-
-    if (_lightData)
-        for (size_t i = 0; i < _lightData->size(); ++i)
-            _lightArray.push_back(
-                ((ospray::Light**)_lightData->data)[i]->getIE());
-
-    _lightPtr = _lightArray.empty() ? nullptr : &_lightArray[0];
-
     _bgMaterial = (AdvancedMaterial*)getParamObject("bgMaterial", nullptr);
 
     _exposure = getParam1f("exposure", 1.f);
@@ -68,9 +58,9 @@ void DensityRenderer::commit()
     // Renderer
     ispc::DensityRenderer_set(getIE(),
                               (_bgMaterial ? _bgMaterial->getIE() : nullptr),
-                              _timestamp, spp, _lightPtr, _lightArray.size(),
-                              _farPlane, _searchLength, _rayStep, _sampleCount,
-                              _exposure, _alphaCorrection);
+                              _timestamp, spp, _farPlane, _searchLength,
+                              _rayStep, _sampleCount, _exposure,
+                              _alphaCorrection);
 }
 
 DensityRenderer::DensityRenderer()

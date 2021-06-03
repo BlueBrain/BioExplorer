@@ -134,7 +134,6 @@ export void* uniform DensityRenderer_create(void* uniform cppE)
 export void DensityRenderer_set(
     void* uniform _self, void* uniform bgMaterial,
     const uniform float& timestamp, const uniform int& spp,
-    void** uniform lights, const uniform int32 numLights,
     const uniform float& farPlane, const uniform float& searchLength,
     const uniform float& rayStep, const uniform int32& sampleCount,
     const uniform float& exposure, const uniform float& alphaCorrection)
@@ -144,9 +143,6 @@ export void DensityRenderer_set(
 
     // OSPRay
     self->super.spp = spp;
-
-    self->lights = (const uniform Light* uniform* uniform)lights;
-    self->numLights = numLights;
 
     // Bio explorer
     self->bgMaterial = (uniform AdvancedMaterial * uniform) bgMaterial;
