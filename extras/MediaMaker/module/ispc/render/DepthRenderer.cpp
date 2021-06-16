@@ -16,43 +16,37 @@
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
 
-#pragma once
+#include "DepthRenderer.h"
 
-#include <plugin/api/Params.h>
+// ospray
+#include <ospray/SDK/lights/Light.h>
 
-#include <brayns/pluginapi/ExtensionPlugin.h>
+// ispc exports
+#include "DepthRenderer_ispc.h"
+
+using namespace ospray;
 
 namespace bioexplorer
 {
 namespace mediamaker
 {
-/**
- * @brief This class implements the Media Maker plugin for Brayns
- */
-class MediaMakerPlugin : public brayns::ExtensionPlugin
+namespace rendering
 {
-public:
-    MediaMakerPlugin();
+void DepthRenderer::commit()
+{
+    Renderer::commit();
 
-    void init() final;
-    void preRender() final;
-    void postRender() final;
+    _infinity = getParam1f("infinity", 1e6f);
 
-private:
-    Response _version() const;
+    ispc::DepthRenderer_set(getIE(), spp, _infinity);
+}
 
-    // Movie and frames
-    ExportFramesToDisk _exportFramesToDiskPayload;
-    bool _exportFramesToDiskDirty{false};
-    uint16_t _frameNumber{0};
-    int16_t _accumulationFrameNumber{0};
-    std::string _baseName;
+DepthRenderer::DepthRenderer()
+{
+    ispcEquivalent = ispc::DepthRenderer_create(this);
+}
 
-    void _setCamera(const CameraDefinition &);
-    CameraDefinition _getCamera();
-    void _exportFramesToDisk(const ExportFramesToDisk &payload);
-    FrameExportProgress _getFrameExportProgress();
-    void _doExportFrameToDisk();
-};
+OSP_REGISTER_RENDERER(DepthRenderer, depth);
+} // namespace rendering
 } // namespace mediamaker
 } // namespace bioexplorer

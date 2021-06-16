@@ -31,6 +31,8 @@
 
 #include <fstream>
 
+namespace bioexplorer
+{
 namespace mediamaker
 {
 using namespace brayns;
@@ -48,6 +50,31 @@ const size_t CAMERA_DEFINITION_SIZE = 12;
         PLUGIN_ERROR << e.what() << std::endl; \
     }
 
+void _addDepthRenderer(brayns::Engine &engine)
+{
+    PLUGIN_INFO << "Registering 'depth' renderer" << std::endl;
+    brayns::PropertyMap properties;
+    properties.setProperty({"infinity", 1e6, 0., 1e6, {"Infinity"}});
+    engine.addRendererType("depth", properties);
+}
+
+void _addAlbedoRenderer(brayns::Engine &engine)
+{
+    PLUGIN_INFO << "Registering 'albedo' renderer" << std::endl;
+    brayns::PropertyMap properties;
+    engine.addRendererType("albedo", properties);
+}
+
+void _addAmbientOcclusionRenderer(brayns::Engine &engine)
+{
+    PLUGIN_INFO << "Registering 'ambient occlusion' renderer" << std::endl;
+    brayns::PropertyMap properties;
+    properties.setProperty(
+        {"samplesPerFrame", 16, 1, 256, {"Samples per frame"}});
+    properties.setProperty({"rayLength", 1e6, 1e-3, 1e6, {"Ray length"}});
+    engine.addRendererType("ambient_occlusion", properties);
+}
+
 MediaMakerPlugin::MediaMakerPlugin()
     : ExtensionPlugin()
 {
@@ -56,14 +83,14 @@ MediaMakerPlugin::MediaMakerPlugin()
 void MediaMakerPlugin::init()
 {
     auto actionInterface = _api->getActionInterface();
+    auto &engine = _api->getEngine();
 
     if (actionInterface)
     {
         std::string entryPoint = PLUGIN_API_PREFIX + "version";
         PLUGIN_INFO << "Registering '" + entryPoint + "' endpoint" << std::endl;
-        actionInterface->registerRequest<Response>(entryPoint, [&]() {
-            return _version();
-        });
+        actionInterface->registerRequest<Response>(entryPoint, [&]()
+                                                   { return _version(); });
 
         entryPoint = PLUGIN_API_PREFIX + "set-odu-camera";
         PLUGIN_INFO << "Registering '" + entryPoint + "' endpoint" << std::endl;
@@ -84,10 +111,17 @@ void MediaMakerPlugin::init()
         entryPoint = PLUGIN_API_PREFIX + "get-export-frames-progress";
         PLUGIN_INFO << "Registering '" + entryPoint + "' endpoint" << std::endl;
         actionInterface->registerRequest<FrameExportProgress>(
-            entryPoint, [&](void) -> FrameExportProgress {
-                return _getFrameExportProgress();
-            });
+            entryPoint,
+            [&](void) -> FrameExportProgress
+            { return _getFrameExportProgress(); });
     }
+
+    _addDepthRenderer(engine);
+    _addAlbedoRenderer(engine);
+    _addAmbientOcclusionRenderer(engine);
+
+    engine.addRendererType("raycast_Ng");
+    engine.addRendererType("raycast_Ns");
 }
 
 Response MediaMakerPlugin::_version() const
@@ -331,3 +365,4 @@ extern "C" ExtensionPlugin *brayns_plugin_create(int /*argc*/, char ** /*argv*/)
 }
 
 } // namespace mediamaker
+} // namespace bioexplorer

@@ -18,41 +18,27 @@
 
 #pragma once
 
-#include <plugin/api/Params.h>
-
-#include <brayns/pluginapi/ExtensionPlugin.h>
+#include <ospray/SDK/common/Material.h>
+#include <ospray/SDK/render/Renderer.h>
 
 namespace bioexplorer
 {
 namespace mediamaker
 {
-/**
- * @brief This class implements the Media Maker plugin for Brayns
- */
-class MediaMakerPlugin : public brayns::ExtensionPlugin
+namespace rendering
+{
+class AlbedoRenderer : public ospray::Renderer
 {
 public:
-    MediaMakerPlugin();
+    AlbedoRenderer();
 
-    void init() final;
-    void preRender() final;
-    void postRender() final;
-
-private:
-    Response _version() const;
-
-    // Movie and frames
-    ExportFramesToDisk _exportFramesToDiskPayload;
-    bool _exportFramesToDiskDirty{false};
-    uint16_t _frameNumber{0};
-    int16_t _accumulationFrameNumber{0};
-    std::string _baseName;
-
-    void _setCamera(const CameraDefinition &);
-    CameraDefinition _getCamera();
-    void _exportFramesToDisk(const ExportFramesToDisk &payload);
-    FrameExportProgress _getFrameExportProgress();
-    void _doExportFrameToDisk();
+    /**
+       Returns the class name as a string
+       @return string containing the full name of the class
+    */
+    std::string toString() const final { return "albedo"; }
+    void commit() final;
 };
+} // namespace rendering
 } // namespace mediamaker
 } // namespace bioexplorer

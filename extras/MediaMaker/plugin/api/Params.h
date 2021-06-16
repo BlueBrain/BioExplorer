@@ -22,6 +22,8 @@
 #include <string>
 #include <vector>
 
+namespace bioexplorer
+{
 namespace mediamaker
 {
 // Response
@@ -68,3 +70,4 @@ struct FrameExportProgress
 std::string to_json(const FrameExportProgress &exportProgress);
 
 } // namespace mediamaker
+} // namespace bioexplorer
