@@ -1,5 +1,5 @@
 <map id="bioexplorer::biology::Protein" name="bioexplorer::biology::Protein">
-<area shape="rect" id="node1" title="The Protein class." alt="" coords="5,184,140,225"/>
-<area shape="rect" id="node2" href="$d7/dff/classbioexplorer_1_1biology_1_1Molecule.html" title="The Molecule class implements the 3D representation of a molecule. The object also contains metadata ..." alt="" coords="5,95,140,136"/>
-<area shape="rect" id="node3" href="$de/dc0/classbioexplorer_1_1biology_1_1Node.html" title="The Node class." alt="" coords="5,5,140,47"/>
+<area shape="rect" id="node1" title="The Protein class." alt="" coords="5,184,157,225"/>
+<area shape="rect" id="node2" href="$d7/dff/classbioexplorer_1_1biology_1_1Molecule.html" title="The Molecule class implements the 3D representation of a molecule. The object also contains metadata ..." alt="" coords="5,95,157,136"/>
+<area shape="rect" id="node3" href="$de/dc0/classbioexplorer_1_1biology_1_1Node.html" title="The Node class." alt="" coords="5,5,157,47"/>
 </map>

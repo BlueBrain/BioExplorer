@@ -49,7 +49,7 @@ In the context of the "[Elevated blood glucose levels as a primary risk factor f
 
 <div align="center">
       <a href="https://www.youtube.com/watch?v=hkgqG0nzW9I">
-         <img src="https://img.youtube.com/vi/hkgqG0nzW9I/0.jpg" style="width:100%;">
+         <img src="https://img.youtube.com/vi/hkgqG0nzW9I/0.jpg" style="width:50%;">
       </a>
 </div>
 

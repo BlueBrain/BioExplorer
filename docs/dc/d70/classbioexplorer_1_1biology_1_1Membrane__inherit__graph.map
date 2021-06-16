@@ -1,6 +1,6 @@
 <map id="bioexplorer::biology::Membrane" name="bioexplorer::biology::Membrane">
-<area shape="rect" id="node1" title="A Membrane object implements a 3D structure of a given shape, but with a surface composed of instance..." alt="" coords="109,95,243,136"/>
-<area shape="rect" id="node3" href="$d5/d80/classbioexplorer_1_1biology_1_1MeshBasedMembrane.html" title="A MeshBasedMembrane object implements a 3D structure that has the shape of a given OBJ Mesh,..." alt="" coords="5,184,165,225"/>
-<area shape="rect" id="node4" href="$dd/dc5/classbioexplorer_1_1biology_1_1ParametricMembrane.html" title="A Membrane object implements a 3D structure of a given shape, but with a surface composed of instance..." alt="" coords="189,184,344,225"/>
-<area shape="rect" id="node2" href="$de/dc0/classbioexplorer_1_1biology_1_1Node.html" title="The Node class." alt="" coords="109,5,243,47"/>
+<area shape="rect" id="node1" title="A Membrane object implements a 3D structure of a given shape, but with a surface composed of instance..." alt="" coords="115,95,267,136"/>
+<area shape="rect" id="node3" href="$d5/d80/classbioexplorer_1_1biology_1_1MeshBasedMembrane.html" title="A MeshBasedMembrane object implements a 3D structure that has the shape of a given OBJ Mesh,..." alt="" coords="5,184,180,225"/>
+<area shape="rect" id="node4" href="$dd/dc5/classbioexplorer_1_1biology_1_1ParametricMembrane.html" title="A Membrane object implements a 3D structure of a given shape, but with a surface composed of instance..." alt="" coords="205,184,375,225"/>
+<area shape="rect" id="node2" href="$de/dc0/classbioexplorer_1_1biology_1_1Node.html" title="The Node class." alt="" coords="115,5,267,47"/>
 </map>
