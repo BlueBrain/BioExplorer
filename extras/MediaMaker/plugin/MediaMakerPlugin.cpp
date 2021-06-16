@@ -1,24 +1,25 @@
-/* Copyright (c) 2020, EPFL/Blue Brain Project
- * All rights reserved. Do not distribute without permission.
- * Responsible Author: Cyrille Favreau <cyrille.favreau@epfl.ch>
+/*
+ * The Blue Brain BioExplorer is a tool for scientists to extract and analyse
+ * scientific data from visualization
  *
- * This library is free software; you can redistribute it and/or modify it under
- * the terms of the GNU Lesser General Public License version 3.0 as published
- * by the Free Software Foundation.
+ * Copyright 2020-2021 Blue BrainProject / EPFL
  *
- * This library is distributed in the hope that it will be useful, but WITHOUT
+ * This program is free software: you can redistribute it and/or modify it under
+ * the terms of the GNU General Public License as published by the Free Software
+ * Foundation, either version 3 of the License, or (at your option) any later
+ * version.
+ *
+ * This program is distributed in the hope that it will be useful, but WITHOUT
  * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
- * FOR A PARTICULAR PURPOSE.  See the GNU Lesser General Public License for more
+ * FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more
  * details.
  *
- * You should have received a copy of the GNU Lesser General Public License
- * along with this library; if not, write to the Free Software Foundation, Inc.,
- * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should have received a copy of the GNU General Public License along with
+ * this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
 #include "MediaMakerPlugin.h"
-
-#include <log.h>
+#include "Logs.h"
 
 #include <Defines.h>
 #include <brayns/common/ActionInterface.h>
@@ -42,17 +43,17 @@ const std::string PLUGIN_API_PREFIX = "mm-";
 // Number of floats used to define the camera
 const size_t CAMERA_DEFINITION_SIZE = 12;
 
-#define CATCH_STD_EXCEPTION()                  \
-    catch (const std::runtime_error &e)        \
-    {                                          \
-        response.status = false;               \
-        response.contents = e.what();          \
-        PLUGIN_ERROR << e.what() << std::endl; \
+#define CATCH_STD_EXCEPTION()           \
+    catch (const std::runtime_error &e) \
+    {                                   \
+        response.status = false;        \
+        response.contents = e.what();   \
+        PLUGIN_ERROR << e.what() );     \
     }
 
 void _addDepthRenderer(brayns::Engine &engine)
 {
-    PLUGIN_INFO << "Registering 'depth' renderer" << std::endl;
+    PLUGIN_INFO("Registering 'depth' renderer");
     brayns::PropertyMap properties;
     properties.setProperty({"infinity", 1e6, 0., 1e6, {"Infinity"}});
     engine.addRendererType("depth", properties);
@@ -60,14 +61,14 @@ void _addDepthRenderer(brayns::Engine &engine)
 
 void _addAlbedoRenderer(brayns::Engine &engine)
 {
-    PLUGIN_INFO << "Registering 'albedo' renderer" << std::endl;
+    PLUGIN_INFO("Registering 'albedo' renderer");
     brayns::PropertyMap properties;
     engine.addRendererType("albedo", properties);
 }
 
 void _addAmbientOcclusionRenderer(brayns::Engine &engine)
 {
-    PLUGIN_INFO << "Registering 'ambient occlusion' renderer" << std::endl;
+    PLUGIN_INFO("Registering 'ambient occlusion' renderer");
     brayns::PropertyMap properties;
     properties.setProperty(
         {"samplesPerFrame", 16, 1, 256, {"Samples per frame"}});
@@ -88,28 +89,28 @@ void MediaMakerPlugin::init()
     if (actionInterface)
     {
         std::string entryPoint = PLUGIN_API_PREFIX + "version";
-        PLUGIN_INFO << "Registering '" + entryPoint + "' endpoint" << std::endl;
+        PLUGIN_INFO("Registering '" + entryPoint + "' endpoint");
         actionInterface->registerRequest<Response>(entryPoint, [&]()
                                                    { return _version(); });
 
         entryPoint = PLUGIN_API_PREFIX + "set-odu-camera";
-        PLUGIN_INFO << "Registering '" + entryPoint + "' endpoint" << std::endl;
+        PLUGIN_INFO("Registering '" + entryPoint + "' endpoint");
         actionInterface->registerNotification<CameraDefinition>(
             entryPoint, [&](const CameraDefinition &s) { _setCamera(s); });
 
         entryPoint = PLUGIN_API_PREFIX + "get-odu-camera";
-        PLUGIN_INFO << "Registering '" + entryPoint + "' endpoint" << std::endl;
+        PLUGIN_INFO("Registering '" + entryPoint + "' endpoint");
         actionInterface->registerRequest<CameraDefinition>(
             entryPoint, [&]() -> CameraDefinition { return _getCamera(); });
 
         entryPoint = PLUGIN_API_PREFIX + "export-frames-to-disk";
-        PLUGIN_INFO << "Registering '" + entryPoint + "' endpoint" << std::endl;
+        PLUGIN_INFO("Registering '" + entryPoint + "' endpoint");
         actionInterface->registerNotification<ExportFramesToDisk>(
             entryPoint,
             [&](const ExportFramesToDisk &s) { _exportFramesToDisk(s); });
 
         entryPoint = PLUGIN_API_PREFIX + "get-export-frames-progress";
-        PLUGIN_INFO << "Registering '" + entryPoint + "' endpoint" << std::endl;
+        PLUGIN_INFO("Registering '" + entryPoint + "' endpoint");
         actionInterface->registerRequest<FrameExportProgress>(
             entryPoint,
             [&](void) -> FrameExportProgress
@@ -240,8 +241,7 @@ void MediaMakerPlugin::_doExportFrameToDisk()
     if (fif == FIF_JPEG)
         image.reset(FreeImage_ConvertTo24Bits(image.get()));
     else if (fif == FIF_UNKNOWN)
-        throw std::runtime_error("Unknown format: " +
-                                 _exportFramesToDiskPayload.format);
+        PLUGIN_THROW("Unknown format: " + _exportFramesToDiskPayload.format);
 
     int flags = _exportFramesToDiskPayload.quality;
     if (fif == FIF_TIFF)
@@ -269,14 +269,14 @@ void MediaMakerPlugin::_doExportFrameToDisk()
     std::ofstream file;
     file.open(filename, std::ios_base::binary);
     if (!file.is_open())
-        PLUGIN_THROW(std::runtime_error("Failed to create " + filename));
+        PLUGIN_THROW("Failed to create " + filename);
 
     file.write((char *)pixels, numPixels);
     file.close();
 
     frameBuffer.clear();
 
-    PLUGIN_INFO << "Frame saved to " << filename << std::endl;
+    PLUGIN_INFO("Frame saved to " + filename);
 }
 
 void MediaMakerPlugin::_exportFramesToDisk(const ExportFramesToDisk &payload)
@@ -287,32 +287,30 @@ void MediaMakerPlugin::_exportFramesToDisk(const ExportFramesToDisk &payload)
     _accumulationFrameNumber = 0;
     _baseName = payload.baseName;
     auto &frameBuffer = _api->getEngine().getFrameBuffer();
+    const auto size = frameBuffer.getSize();
     frameBuffer.clear();
     const size_t nbFrames = _exportFramesToDiskPayload.endFrame -
                             _exportFramesToDiskPayload.startFrame;
-    PLUGIN_INFO << "-----------------------------------------------------------"
-                   "---------------------"
-                << std::endl;
-    PLUGIN_INFO << "Movie settings               :" << std::endl;
-    PLUGIN_INFO << "- Samples per pixel          : " << payload.spp
-                << std::endl;
-    PLUGIN_INFO << "- Frame size                 : " << frameBuffer.getSize()
-                << std::endl;
-    PLUGIN_INFO << "- Export folder              : " << payload.path
-                << std::endl;
-    PLUGIN_INFO << "- Export intermediate frames : "
-                << (payload.exportIntermediateFrames ? "Yes" : "No")
-                << std::endl;
-    PLUGIN_INFO << "- Start frame                : " << payload.startFrame
-                << std::endl;
-    PLUGIN_INFO << "- End frame                  : " << payload.endFrame
-                << std::endl;
-    PLUGIN_INFO << "- Frame base name            : " << payload.baseName
-                << std::endl;
-    PLUGIN_INFO << "- Number of frames           : " << nbFrames << std::endl;
-    PLUGIN_INFO << "-----------------------------------------------------------"
-                   "---------------------"
-                << std::endl;
+    PLUGIN_INFO(
+        "----------------------------------------------------------------------"
+        "----------");
+    PLUGIN_INFO("Movie settings               :");
+    PLUGIN_INFO("- Samples per pixel          : " +
+                std::to_string(payload.spp));
+    PLUGIN_INFO("- Frame size                 : " + std::to_string(size.x) +
+                "x" + std::to_string(size.y));
+    PLUGIN_INFO("- Export folder              : " + payload.path);
+    PLUGIN_INFO("- Export intermediate frames : " +
+                std::string(payload.exportIntermediateFrames ? "Yes" : "No"));
+    PLUGIN_INFO("- Start frame                : " +
+                std::to_string(payload.startFrame));
+    PLUGIN_INFO(
+        "- End frame                  : " << std::to_string(payload.endFrame));
+    PLUGIN_INFO("- Frame base name            : " << payload.baseName);
+    PLUGIN_INFO("- Number of frames           : " << std::to_string(nbFrames));
+    PLUGIN_INFO(
+        "-----------------------------------------------------------"
+        "---------------------");
 }
 
 FrameExportProgress MediaMakerPlugin::_getFrameExportProgress()
@@ -334,33 +332,32 @@ FrameExportProgress MediaMakerPlugin::_getFrameExportProgress()
     }
     result.progress = percentage;
     result.done = !_exportFramesToDiskDirty;
-    PLUGIN_DEBUG << "Percentage = " << result.progress
-                 << ", Done = " << (result.done ? "True" : "False")
-                 << std::endl;
+    PLUGIN_DEBUG("Percentage = " << result.progress << ", Done = "
+                                 << (result.done ? "True" : "False"));
     return result;
 }
 
 extern "C" ExtensionPlugin *brayns_plugin_create(int /*argc*/, char ** /*argv*/)
 {
-    PLUGIN_INFO << "Initializing Media Maker plug-in (version "
-                << PACKAGE_VERSION << ")" << std::endl;
-    PLUGIN_INFO << std::endl;
-    PLUGIN_INFO << "_|      _|                  _|  _|                _|      "
-                   "_|            _|                          "
-                << std::endl;
-    PLUGIN_INFO << "_|_|  _|_|    _|_|      _|_|_|        _|_|_|      _|_|  "
-                   "_|_|    _|_|_|  _|  _|      _|_|    _|  _|_|"
-                << std::endl;
-    PLUGIN_INFO << "_|  _|  _|  _|_|_|_|  _|    _|  _|  _|    _|      _|  _|  "
-                   "_|  _|    _|  _|_|      _|_|_|_|  _|_|    "
-                << std::endl;
-    PLUGIN_INFO << "_|      _|  _|        _|    _|  _|  _|    _|      _|      "
-                   "_|  _|    _|  _|  _|    _|        _|      "
-                << std::endl;
-    PLUGIN_INFO << "_|      _|    _|_|_|    _|_|_|  _|    _|_|_|      _|      "
-                   "_|    _|_|_|  _|    _|    _|_|_|  _|      "
-                << std::endl;
-    PLUGIN_INFO << std::endl;
+    PLUGIN_INFO("Initializing Media Maker plug-in (version " << PACKAGE_VERSION
+                                                             << ")");
+    PLUGIN_INFO("");
+    PLUGIN_INFO(
+        "_|      _|                  _|  _|                _|      "
+        "_|            _|                          ");
+    PLUGIN_INFO(
+        "_|_|  _|_|    _|_|      _|_|_|        _|_|_|      _|_|  "
+        "_|_|    _|_|_|  _|  _|      _|_|    _|  _|_|");
+    PLUGIN_INFO(
+        "_|  _|  _|  _|_|_|_|  _|    _|  _|  _|    _|      _|  _|  "
+        "_|  _|    _|  _|_|      _|_|_|_|  _|_|    ");
+    PLUGIN_INFO(
+        "_|      _|  _|        _|    _|  _|  _|    _|      _|      "
+        "_|  _|    _|  _|  _|    _|        _|      ");
+    PLUGIN_INFO(
+        "_|      _|    _|_|_|    _|_|_|  _|    _|_|_|      _|      "
+        "_|    _|_|_|  _|    _|    _|_|_|  _|      ");
+    PLUGIN_INFO("");
     return new MediaMakerPlugin();
 }
 
