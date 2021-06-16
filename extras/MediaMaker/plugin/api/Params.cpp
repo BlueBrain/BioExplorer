@@ -19,6 +19,8 @@
 #include "Params.h"
 #include "json.hpp"
 
+namespace bioexplorer
+{
 namespace mediamaker
 {
 #ifndef BRAYNS_DEBUG_JSON_ENABLED
@@ -133,3 +135,4 @@ std::string to_json(const FrameExportProgress &exportProgress)
 }
 
 } // namespace mediamaker
+} // namespace bioexplorer

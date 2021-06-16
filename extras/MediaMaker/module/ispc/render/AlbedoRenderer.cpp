@@ -16,43 +16,35 @@
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
 
-#pragma once
+#include "AlbedoRenderer.h"
 
-#include <plugin/api/Params.h>
+// ospray
+#include <ospray/SDK/lights/Light.h>
 
-#include <brayns/pluginapi/ExtensionPlugin.h>
+// ispc exports
+#include "AlbedoRenderer_ispc.h"
+
+using namespace ospray;
 
 namespace bioexplorer
 {
 namespace mediamaker
 {
-/**
- * @brief This class implements the Media Maker plugin for Brayns
- */
-class MediaMakerPlugin : public brayns::ExtensionPlugin
+namespace rendering
 {
-public:
-    MediaMakerPlugin();
+void AlbedoRenderer::commit()
+{
+    Renderer::commit();
 
-    void init() final;
-    void preRender() final;
-    void postRender() final;
+    ispc::AlbedoRenderer_set(getIE(), spp);
+}
 
-private:
-    Response _version() const;
+AlbedoRenderer::AlbedoRenderer()
+{
+    ispcEquivalent = ispc::AlbedoRenderer_create(this);
+}
 
-    // Movie and frames
-    ExportFramesToDisk _exportFramesToDiskPayload;
-    bool _exportFramesToDiskDirty{false};
-    uint16_t _frameNumber{0};
-    int16_t _accumulationFrameNumber{0};
-    std::string _baseName;
-
-    void _setCamera(const CameraDefinition &);
-    CameraDefinition _getCamera();
-    void _exportFramesToDisk(const ExportFramesToDisk &payload);
-    FrameExportProgress _getFrameExportProgress();
-    void _doExportFrameToDisk();
-};
+OSP_REGISTER_RENDERER(AlbedoRenderer, albedo);
+} // namespace rendering
 } // namespace mediamaker
 } // namespace bioexplorer
