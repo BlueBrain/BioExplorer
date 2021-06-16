@@ -20,6 +20,8 @@
 
 #pragma once
 
+#include <plugin/common/Types.h>
+
 #include <limits>
 #include <string>
 #include <vector>
@@ -61,6 +63,7 @@ struct ExportFramesToDisk
     bool exportIntermediateFrames{false};
     std::vector<uint64_t> animationInformation;
     std::vector<double> cameraInformation;
+    FrameBufferMode frameBufferMode{FrameBufferMode::color};
 };
 bool from_json(ExportFramesToDisk &param, const std::string &payload);
 

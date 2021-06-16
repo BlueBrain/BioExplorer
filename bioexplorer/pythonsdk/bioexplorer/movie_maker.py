@@ -39,6 +39,8 @@ class MovieMaker:
     """Movie maker"""
 
     PLUGIN_API_PREFIX = 'mm-'
+    FRAME_BUFFER_MODE_COLOR = 0
+    FRAME_BUFFER_MODE_DEPTH = 1
 
     def __init__(self, bioexplorer):
         """
@@ -190,7 +192,8 @@ class MovieMaker:
 
     def export_frames(self, size, path, base_name, image_format='png',
                       animation_frames=list(), quality=100, samples_per_pixel=1, start_frame=0,
-                      end_frame=0, interpupillary_distance=0.0, export_intermediate_frames=False):
+                      end_frame=0, interpupillary_distance=0.0, export_intermediate_frames=False,
+                      frame_buffer_mode=FRAME_BUFFER_MODE_COLOR):
         """
         Exports frames to disk. Frames are named using a 6 digit representation of the frame number
 
@@ -236,6 +239,7 @@ class MovieMaker:
         params['endFrame'] = end_frame
         params['exportIntermediateFrames'] = export_intermediate_frames
         params['animationInformation'] = animation_frames
+        params['frameBufferMode'] = frame_buffer_mode
         values = list()
         for camera_definition in camera_definitions:
             # Origin
@@ -288,6 +292,7 @@ class MovieMaker:
         params['exportIntermediateFrames'] = False
         params['animationInformation'] = []
         params['cameraInformation'] = []
+        params['frameBufferMode'] = MovieMaker.FRAME_BUFFER_MODE_COLOR
         return self._client.rockets_client.request(
             self.PLUGIN_API_PREFIX + 'export-frames-to-disk', params)
 
@@ -328,7 +333,8 @@ class MovieMaker:
         display(frame)
 
     def create_snapshot(self, size, path, base_name, samples_per_pixel,
-                        export_intermediate_frames=False):
+                        export_intermediate_frames=False,
+                        frame_buffer_mode=FRAME_BUFFER_MODE_COLOR):
         """
         Create a snapshot of the current frame
 
@@ -364,7 +370,8 @@ class MovieMaker:
         self.export_frames(
             path=path, base_name=base_name, animation_frames=animation_frames, size=size,
             samples_per_pixel=samples_per_pixel,
-            export_intermediate_frames=export_intermediate_frames)
+            export_intermediate_frames=export_intermediate_frames,
+            frame_buffer_mode=frame_buffer_mode)
 
         done = False
         while not done:
