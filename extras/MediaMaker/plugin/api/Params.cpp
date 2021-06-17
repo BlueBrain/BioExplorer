@@ -112,6 +112,7 @@ bool from_json(ExportFramesToDisk &param, const std::string &payload)
         FROM_JSON(param, js, exportIntermediateFrames);
         FROM_JSON(param, js, animationInformation);
         FROM_JSON(param, js, cameraInformation);
+        FROM_JSON(param, js, frameBufferMode);
     }
     catch (...)
     {

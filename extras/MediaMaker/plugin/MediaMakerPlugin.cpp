@@ -19,7 +19,7 @@
  */
 
 #include "MediaMakerPlugin.h"
-#include "Logs.h"
+#include <plugin/common/Logs.h>
 
 #include <Defines.h>
 #include <brayns/common/ActionInterface.h>
@@ -31,6 +31,8 @@
 #include <brayns/pluginapi/Plugin.h>
 
 #include <fstream>
+
+#include <tiffio.h>
 
 namespace bioexplorer
 {
@@ -163,11 +165,11 @@ void MediaMakerPlugin::postRender()
     if (_exportFramesToDiskDirty)
     {
         if (_exportFramesToDiskPayload.exportIntermediateFrames)
-            _doExportFrameToDisk();
+            _exportFrameToDisk();
 
         if (_accumulationFrameNumber == _exportFramesToDiskPayload.spp)
         {
-            _doExportFrameToDisk();
+            _exportFrameToDisk();
             ++_frameNumber;
             _accumulationFrameNumber = 0;
             _exportFramesToDiskDirty =
@@ -230,7 +232,20 @@ CameraDefinition MediaMakerPlugin::_getCamera()
     return cd;
 }
 
-void MediaMakerPlugin::_doExportFrameToDisk()
+const std::string MediaMakerPlugin::_getFileName(
+    const std::string &format) const
+{
+    std::string baseName = _baseName;
+    if (baseName.empty())
+    {
+        char frame[7];
+        sprintf(frame, "%05d", _frameNumber);
+        baseName = frame;
+    }
+    return _exportFramesToDiskPayload.path + '/' + baseName + "." + format;
+}
+
+void MediaMakerPlugin::_exportColorBuffer() const
 {
     auto &frameBuffer = _api->getEngine().getFrameBuffer();
     auto image = frameBuffer.getImage();
@@ -255,17 +270,7 @@ void MediaMakerPlugin::_doExportFrameToDisk()
     DWORD numPixels = 0;
     FreeImage_AcquireMemory(memory.get(), &pixels, &numPixels);
 
-    std::string baseName = _baseName;
-    if (baseName.empty())
-    {
-        char frame[7];
-        sprintf(frame, "%05d", _frameNumber);
-        baseName = frame;
-    }
-    const std::string filename = _exportFramesToDiskPayload.path + '/' +
-                                 baseName + "." +
-                                 _exportFramesToDiskPayload.format;
-
+    const auto filename = _getFileName(_exportFramesToDiskPayload.format);
     std::ofstream file;
     file.open(filename, std::ios_base::binary);
     if (!file.is_open())
@@ -273,10 +278,61 @@ void MediaMakerPlugin::_doExportFrameToDisk()
 
     file.write((char *)pixels, numPixels);
     file.close();
-
     frameBuffer.clear();
 
-    PLUGIN_INFO("Frame saved to " + filename);
+    PLUGIN_INFO("Color frame saved to " + filename);
+}
+
+void MediaMakerPlugin::_exportDepthBuffer() const
+{
+    auto &frameBuffer = _api->getEngine().getFrameBuffer();
+    frameBuffer.map();
+    const auto depthBuffer = frameBuffer.getDepthBuffer();
+    const auto &size = frameBuffer.getSize();
+
+    const auto filename = _getFileName("tiff");
+
+    TIFF *image = TIFFOpen(filename.c_str(), "w");
+    TIFFSetField(image, TIFFTAG_IMAGEWIDTH, size.x);
+    TIFFSetField(image, TIFFTAG_IMAGELENGTH, size.y);
+    TIFFSetField(image, TIFFTAG_BITSPERSAMPLE, 32);
+    TIFFSetField(image, TIFFTAG_SAMPLESPERPIXEL, 1);
+    TIFFSetField(image, TIFFTAG_ROWSPERSTRIP, 1);
+    TIFFSetField(image, TIFFTAG_ORIENTATION, ORIENTATION_TOPLEFT);
+    TIFFSetField(image, TIFFTAG_PLANARCONFIG, PLANARCONFIG_CONTIG);
+    TIFFSetField(image, TIFFTAG_PHOTOMETRIC, PHOTOMETRIC_MINISBLACK);
+    TIFFSetField(image, TIFFTAG_SAMPLEFORMAT, SAMPLEFORMAT_IEEEFP);
+    TIFFSetField(image, TIFFTAG_COMPRESSION, COMPRESSION_NONE);
+
+    float *scan_line = (float *)malloc(size.x * (sizeof(float)));
+
+    for (uint32_t i = 0; i < size.y; ++i)
+    {
+        memcpy(scan_line, &depthBuffer[i * size.x], size.x * sizeof(float));
+        TIFFWriteScanline(image, scan_line, size.y - 1 - i, 0);
+    }
+
+    TIFFClose(image);
+    free(scan_line);
+
+    PLUGIN_INFO("Depth frame saved to " + filename);
+
+    frameBuffer.unmap();
+}
+
+void MediaMakerPlugin::_exportFrameToDisk() const
+{
+    switch (_exportFramesToDiskPayload.frameBufferMode)
+    {
+    case FrameBufferMode::color:
+        _exportColorBuffer();
+        break;
+    case FrameBufferMode::depth:
+        _exportDepthBuffer();
+        break;
+    default:
+        PLUGIN_THROW("Undefined frame buffer mode")
+    }
 }
 
 void MediaMakerPlugin::_exportFramesToDisk(const ExportFramesToDisk &payload)
@@ -309,8 +365,8 @@ void MediaMakerPlugin::_exportFramesToDisk(const ExportFramesToDisk &payload)
     PLUGIN_INFO("- Frame base name            : " << payload.baseName);
     PLUGIN_INFO("- Number of frames           : " << std::to_string(nbFrames));
     PLUGIN_INFO(
-        "-----------------------------------------------------------"
-        "---------------------");
+        "----------------------------------------------------------------------"
+        "----------");
 }
 
 FrameExportProgress MediaMakerPlugin::_getFrameExportProgress()

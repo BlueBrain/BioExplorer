@@ -21,6 +21,7 @@
 #pragma once
 
 #include <plugin/api/Params.h>
+#include <plugin/common/Types.h>
 
 #include <brayns/pluginapi/ExtensionPlugin.h>
 
@@ -54,7 +55,11 @@ private:
     CameraDefinition _getCamera();
     void _exportFramesToDisk(const ExportFramesToDisk &payload);
     FrameExportProgress _getFrameExportProgress();
-    void _doExportFrameToDisk();
+    void _exportDepthBuffer() const;
+    void _exportColorBuffer() const;
+    void _exportFrameToDisk() const;
+
+    const std::string _getFileName(const std::string &format) const;
 };
 } // namespace mediamaker
 } // namespace bioexplorer

@@ -38,6 +38,7 @@ RUN apt-get update \
    wget \
    ca-certificates \
    libcgal-dev \
+   libtiff-dev \
    && apt-get clean \
    && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 

@@ -23,6 +23,7 @@ set(CMAKE_CXX_STANDARD 14)
 
 find_package(Brayns REQUIRED SYSTEM)
 find_package(ospray REQUIRED SYSTEM)
+find_package(TIFF REQUIRED SYSTEM)
 
 include(ispc)
 
@@ -71,11 +72,12 @@ include_directories(
     ${PROJECT_SOURCE_DIR}
     ${BRAYNS_INCLUDE_DIRS}
     ${OSPRAY_INCLUDE_DIRS}
+    ${TIFF_INCLUDE_DIRS}
     ${${NAME}_MODULES_DIR}
 )
 
 set(${NAME}_LINK_LIBRARIES
-    PUBLIC ${OSPRAY_LIBRARIES} 
+    PUBLIC ${OSPRAY_LIBRARIES} ${TIFF_LIBRARIES}
     PRIVATE braynsParameters braynsPluginAPI braynsCommon braynsEngine braynsIO
 )
 
