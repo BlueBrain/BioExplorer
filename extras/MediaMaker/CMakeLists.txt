@@ -27,8 +27,8 @@ find_package(TIFF REQUIRED SYSTEM)
 
 include(ispc)
 
-configure_file( plugin/Defines.h.in ${CMAKE_BINARY_DIR}/generated/Defines.h )
-include_directories( ${CMAKE_BINARY_DIR}/generated/ ) # Make sure it can be included...
+configure_file( plugin/Defines.h.in ${CMAKE_BINARY_DIR}/generated/mediamaker/Defines.h )
+include_directories( ${CMAKE_BINARY_DIR}/generated/mediamaker ) # Make sure it can be included...
 
 # ==============================================================================
 # Sources

@@ -67,8 +67,10 @@ OOCManager::OOCManager(Scene& scene, const Camera& camera,
     PLUGIN_INFO("=================================");
     PLUGIN_INFO("Out-Of-Core engine is now enabled");
     PLUGIN_INFO("---------------------------------");
+#ifdef USE_PQXX
     PLUGIN_INFO("DB Connection string: " << _dbConnectionString);
     PLUGIN_INFO("DB Schema           : " << _dbSchema);
+#endif
     PLUGIN_INFO("Description         : " << _sceneConfiguration.description);
     PLUGIN_INFO("Update frequency    : " << _updateFrequency);
     PLUGIN_INFO("Scene size          : " << _sceneConfiguration.sceneSize);
@@ -96,7 +98,9 @@ void OOCManager::_loadBricks()
     std::vector<ModelDescriptorPtr> modelsToShow;
     int32_t previousBrickId{std::numeric_limits<int32_t>::max()};
     CacheLoader loader(_scene);
+#ifdef USE_PQXX
     DBConnector connector(_dbConnectionString, _dbSchema);
+#endif
 
     uint32_t nbLoads = 0;
     float totalLoadingTime = 0.f;
@@ -308,6 +312,7 @@ void OOCManager::_parseArguments(const CommandLineArguments& arguments)
             _nbBricksPerCycle = atoi(argument.second.c_str());
     }
 
+#ifdef USE_PQXX
     // Sanity checks
     _dbConnectionString = "host=" + dbHost + " port=" + dbPort +
                           " dbname=" + dbName + " user=" + dbUser +
@@ -316,6 +321,7 @@ void OOCManager::_parseArguments(const CommandLineArguments& arguments)
     // Configuration
     DBConnector connector(_dbConnectionString, _dbSchema);
     _sceneConfiguration = connector.getSceneConfiguration();
+#endif
 
     const bool disableBroadcasting =
         std::getenv(ENV_ROCKETS_DISABLE_SCENE_BROADCASTING.c_str()) != nullptr;

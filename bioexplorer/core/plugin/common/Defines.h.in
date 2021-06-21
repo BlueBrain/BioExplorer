@@ -23,14 +23,12 @@
 // clang-format off
 
 // CGAL
-#define CGAL_USED @CGAL_FOUND@
-#if defined(CGAL_USED)
+#if @CGAL_FOUND@==1
 #  define USE_CGAL
 #endif
 
 // PQXX
-#define PQXX_USED @PQXX_FOUND@
-#if defined(PQXX_USED)
+#if @PQXX_FOUND@==1
 #  define USE_PQXX
 #endif
 

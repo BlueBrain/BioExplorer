@@ -47,8 +47,8 @@ const std::string METADATA_SIZE = "Size";
 const std::string METADATA_BRICK_ID = "BrickId";
 
 // Command line arguments
-#ifdef USE_PQXX
 const std::string ARG_OOC_ENABLED = "--ooc-enabled";
+#ifdef USE_PQXX
 const std::string ARG_OOC_DB_HOST = "--ooc-db-host";
 const std::string ARG_OOC_DB_PORT = "--ooc-db-port";
 const std::string ARG_OOC_DB_NAME = "--ooc-db-dbname";
