@@ -39,7 +39,9 @@ namespace bioexplorer
 namespace biology
 {
 using namespace common;
+#ifdef USE_CGAL
 using namespace meshing;
+#endif
 
 const std::string METADATA_AA_RANGE = "Amino acids range";
 const std::string METADATA_AA_SEQUENCE = "Amino Acid Sequence";

@@ -28,20 +28,22 @@ find_package(FreeImage REQUIRED)
 find_package(OpenMP)
 
 # Optional packages (managed by Defines.h.in)
+set(CGAL_FOUND 0)
 option(${NAME}_USE_CGAL "Use CGAL meshing features" ON)
-if(${NAME}_USE_CGAL)
+if(${${NAME}_USE_CGAL})
     find_package(CGAL)
 endif()
 
+set(PQXX_FOUND 0)
 option(${NAME}_USE_PQXX "Use PostgreSQL database" ON)
-if(${NAME}_USE_PQXX)
+if(${${NAME}_USE_PQXX})
     find_package(PQXX)
 endif()
 
 include(ispc)
 
-configure_file( plugin/common/Defines.h.in ${CMAKE_BINARY_DIR}/generated/Defines.h )
-include_directories( ${PROJECT_SOURCE_DIR}/bioexplorer/core ${CMAKE_BINARY_DIR}/generated/ )
+configure_file( plugin/common/Defines.h.in ${CMAKE_BINARY_DIR}/generated/bioexplorer/Defines.h )
+include_directories( ${PROJECT_SOURCE_DIR}/bioexplorer/core ${CMAKE_BINARY_DIR}/generated/bioexplorer )
 
 
 # ==============================================================================
