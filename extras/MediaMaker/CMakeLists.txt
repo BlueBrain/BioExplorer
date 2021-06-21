@@ -78,7 +78,7 @@ include_directories(
 
 set(${NAME}_LINK_LIBRARIES
     PUBLIC ${OSPRAY_LIBRARIES} ${TIFF_LIBRARIES}
-    PRIVATE braynsParameters braynsPluginAPI braynsCommon braynsEngine braynsIO
+    PRIVATE braynsParameters braynsPluginAPI braynsCommon braynsEngine braynsIO braynsOSPRayEngine
 )
 
 add_library(
