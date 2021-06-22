@@ -118,6 +118,7 @@ void AdvancedMaterial::commit()
 OSP_REGISTER_MATERIAL(bio_explorer, AdvancedMaterial, default);
 OSP_REGISTER_MATERIAL(bio_explorer_fields, AdvancedMaterial, default);
 OSP_REGISTER_MATERIAL(bio_explorer_density, AdvancedMaterial, default);
+OSP_REGISTER_MATERIAL(bio_explorer_path_tracing, AdvancedMaterial, default);
 #endif
 } // namespace rendering
 } // namespace bioexplorer

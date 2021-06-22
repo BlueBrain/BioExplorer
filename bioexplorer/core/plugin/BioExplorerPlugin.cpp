@@ -174,6 +174,22 @@ void _addBioExplorerDensityRenderer(Engine &engine)
     engine.addRendererType("bio_explorer_density", properties);
 }
 
+void _addBioExplorerPathTracingRenderer(Engine &engine)
+{
+    PLUGIN_INFO("Registering 'bio_explorer_path_tracing' renderer");
+    PropertyMap properties;
+    properties.setProperty({"exposure", 1., 0.1, 10., {"Exposure"}});
+    properties.setProperty({"useHardwareRandomizer",
+                            false,
+                            {"Use hardware accelerated randomizer"}});
+    properties.setProperty({"showBackground", false, {"Show background"}});
+    properties.setProperty(
+        {"aoStrength", 1.0, 0.0001, 10.0, {"Sample search strength"}});
+    properties.setProperty(
+        {"aoDistance", 1e6, 0.1, 1e6, {"Sample search distance"}});
+    engine.addRendererType("bio_explorer_path_tracing", properties);
+}
+
 void _addBioExplorerPerspectiveCamera(Engine &engine)
 {
     PLUGIN_INFO("Registering 'bio_explorer_perspective' camera");
@@ -446,6 +462,7 @@ void BioExplorerPlugin::init()
     _addBioExplorerRenderer(engine);
     _addBioExplorerFieldsRenderer(engine);
     _addBioExplorerDensityRenderer(engine);
+    _addBioExplorerPathTracingRenderer(engine);
 
     // Out-of-core
     if (_commandLineArguments.find(ARG_OOC_ENABLED) !=
