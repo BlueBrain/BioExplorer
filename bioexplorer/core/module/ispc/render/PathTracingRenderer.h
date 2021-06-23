@@ -28,6 +28,10 @@ namespace bioexplorer
 {
 namespace rendering
 {
+/**
+ * @brief The PathTracingRenderer class is a renderer that processes the
+ * rendering of the 3D scene using the path tracing algorythm
+ */
 class PathTracingRenderer : public ospray::Renderer
 {
 public:

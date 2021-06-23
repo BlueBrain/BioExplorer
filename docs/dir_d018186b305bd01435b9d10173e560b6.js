@@ -16,5 +16,9 @@ var dir_d018186b305bd01435b9d10173e560b6 =
     [ "FieldsRenderer.cpp", "dc/d15/FieldsRenderer_8cpp_source.html", null ],
     [ "FieldsRenderer.h", "da/d33/FieldsRenderer_8h_source.html", null ],
     [ "FieldsRenderer.ih", "db/dce/FieldsRenderer_8ih_source.html", null ],
-    [ "FieldsRenderer.ispc", "dd/ded/FieldsRenderer_8ispc_source.html", null ]
+    [ "FieldsRenderer.ispc", "dd/ded/FieldsRenderer_8ispc_source.html", null ],
+    [ "PathTracingRenderer.cpp", "d8/df6/PathTracingRenderer_8cpp_source.html", null ],
+    [ "PathTracingRenderer.h", "de/df2/PathTracingRenderer_8h_source.html", null ],
+    [ "PathTracingRenderer.ih", "d7/d2b/PathTracingRenderer_8ih_source.html", null ],
+    [ "PathTracingRenderer.ispc", "da/ded/PathTracingRenderer_8ispc_source.html", null ]
 ];
