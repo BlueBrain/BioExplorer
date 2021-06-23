@@ -213,6 +213,7 @@ var NAVTREEINDEX0 =
 "d6/de1/AdvancedMaterial_8cpp_source.html":[7,0,0,0,1,1],
 "d6/de5/OctreeNode_8cpp_source.html":[7,0,1,3,4],
 "d7/d1b/UniqueId_8cpp_source.html":[7,0,1,2,7],
+"d7/d2b/PathTracingRenderer_8ih_source.html":[7,0,0,0,1,19],
 "d7/d76/AdvancedRenderer_8ispc_source.html":[7,0,0,0,1,8],
 "d7/d7b/classbioexplorer_1_1BioExplorerPlugin.html":[6,0,0,7],
 "d7/d7b/classbioexplorer_1_1BioExplorerPlugin.html#a66054e540bd4b90e00ffb04a1b4d2daa":[6,0,0,7,1],
@@ -248,6 +249,5 @@ var NAVTREEINDEX0 =
 "d7/dd2/structbioexplorer_1_1details_1_1RandomizationDetails.html#a650c726c1385b10b163d7c904f755d4f":[6,0,0,2,25,3],
 "d7/dd2/structbioexplorer_1_1details_1_1RandomizationDetails.html#a9c1b254e0a9d2b353c9bd06489d9ce6a":[6,0,0,2,25,1],
 "d7/df8/Types_8h_source.html":[7,0,1,2,6],
-"d7/df9/AdvancedMaterial_8ih_source.html":[7,0,0,0,1,3],
-"d7/dff/classbioexplorer_1_1biology_1_1Molecule.html":[6,0,0,0,6]
+"d7/df9/AdvancedMaterial_8ih_source.html":[7,0,0,0,1,3]
 };

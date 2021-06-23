@@ -55,6 +55,7 @@ set(${NAME}_SOURCES
     module/ispc/render/AdvancedRenderer.cpp
     module/ispc/render/FieldsRenderer.cpp
     module/ispc/render/DensityRenderer.cpp
+    module/ispc/render/PathTracingRenderer.cpp
     plugin/common/GeneralSettings.cpp
     plugin/common/Utils.cpp
     plugin/common/UniqueId.cpp
@@ -126,6 +127,7 @@ set(${NAME}_ISPC_SOURCES
     module/ispc/render/DensityRenderer.ispc
     module/ispc/render/AdvancedRenderer.ispc
     module/ispc/render/AdvancedMaterial.ispc
+    module/ispc/render/PathTracingRenderer.ispc
 )
 
 # ==============================================================================

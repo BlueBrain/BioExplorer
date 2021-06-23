@@ -65,7 +65,8 @@ var hierarchy =
     [ "Renderer", null, [
       [ "bioexplorer::rendering::AdvancedRenderer", "d9/d98/classbioexplorer_1_1rendering_1_1AdvancedRenderer.html", null ],
       [ "bioexplorer::rendering::DensityRenderer", "de/d24/classbioexplorer_1_1rendering_1_1DensityRenderer.html", null ],
-      [ "bioexplorer::rendering::FieldsRenderer", "de/d6a/classbioexplorer_1_1rendering_1_1FieldsRenderer.html", null ]
+      [ "bioexplorer::rendering::FieldsRenderer", "de/d6a/classbioexplorer_1_1rendering_1_1FieldsRenderer.html", null ],
+      [ "bioexplorer::rendering::PathTracingRenderer", "de/da9/classbioexplorer_1_1rendering_1_1PathTracingRenderer.html", null ]
     ] ],
     [ "bioexplorer::biology::ResidueSequence", "de/dde/structbioexplorer_1_1biology_1_1ResidueSequence.html", null ],
     [ "bioexplorer::details::Response", "d6/d45/structbioexplorer_1_1details_1_1Response.html", null ],

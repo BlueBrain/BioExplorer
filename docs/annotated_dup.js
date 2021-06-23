@@ -74,6 +74,7 @@ var annotated_dup =
         [ "AdvancedRenderer", "d9/d98/classbioexplorer_1_1rendering_1_1AdvancedRenderer.html", "d9/d98/classbioexplorer_1_1rendering_1_1AdvancedRenderer" ],
         [ "DensityRenderer", "de/d24/classbioexplorer_1_1rendering_1_1DensityRenderer.html", "de/d24/classbioexplorer_1_1rendering_1_1DensityRenderer" ],
         [ "FieldsRenderer", "de/d6a/classbioexplorer_1_1rendering_1_1FieldsRenderer.html", "de/d6a/classbioexplorer_1_1rendering_1_1FieldsRenderer" ],
+        [ "PathTracingRenderer", "de/da9/classbioexplorer_1_1rendering_1_1PathTracingRenderer.html", "de/da9/classbioexplorer_1_1rendering_1_1PathTracingRenderer" ],
         [ "PerspectiveStereoCamera", "d8/d50/structbioexplorer_1_1rendering_1_1PerspectiveStereoCamera.html", "d8/d50/structbioexplorer_1_1rendering_1_1PerspectiveStereoCamera" ]
       ] ],
       [ "BioExplorerPlugin", "d7/d7b/classbioexplorer_1_1BioExplorerPlugin.html", "d7/d7b/classbioexplorer_1_1BioExplorerPlugin" ]

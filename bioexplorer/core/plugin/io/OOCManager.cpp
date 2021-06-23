@@ -116,7 +116,7 @@ void OOCManager::_loadBricks()
                                 brick.x * _sceneConfiguration.nbBricks *
                                     _sceneConfiguration.nbBricks;
 
-        if (_frameBuffer && _frameBuffer->getAccumFrames() > 1)
+        if (_frameBuffer && _frameBuffer->numAccumFrames() > 1)
         {
             bricksToLoad.clear();
 
