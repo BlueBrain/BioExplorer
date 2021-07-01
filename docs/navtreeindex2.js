@@ -1,5 +1,8 @@
 var NAVTREEINDEX2 =
 {
+"de/d0e/structbioexplorer_1_1details_1_1ProteinDetails.html#a7c7d41ca865b6c6c1103645bc8b2a263":[6,0,0,2,23,11],
+"de/d0e/structbioexplorer_1_1details_1_1ProteinDetails.html#a98fa861c1249a21edc6c39941e3672c1":[6,0,0,2,23,1],
+"de/d0e/structbioexplorer_1_1details_1_1ProteinDetails.html#a99610686312eaf88ed68be6165e20902":[6,0,0,2,23,17],
 "de/d0e/structbioexplorer_1_1details_1_1ProteinDetails.html#aa30e50807142af7350a1f0553c2364fd":[6,0,0,2,23,13],
 "de/d0e/structbioexplorer_1_1details_1_1ProteinDetails.html#ac16628b11fffae63ceabaf84ae753cae":[6,0,0,2,23,8],
 "de/d0e/structbioexplorer_1_1details_1_1ProteinDetails.html#ac71bf6c5ca866c38ef92d2322ed08632":[6,0,0,2,23,15],
@@ -84,8 +87,8 @@ var NAVTREEINDEX2 =
 "dir_d2f9729e1fabe3fc6b6c736e947165ce.html":[7,0,1,5],
 "dir_d70ee5a791dd24842ea56b45e9cf0bc6.html":[7,0,1,0],
 "files.html":[7,0],
-"functions.html":[6,3,0,0],
 "functions.html":[6,3,0],
+"functions.html":[6,3,0,0],
 "functions_b.html":[6,3,0,1],
 "functions_c.html":[6,3,0,2],
 "functions_d.html":[6,3,0,3],
