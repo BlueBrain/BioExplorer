@@ -78,6 +78,17 @@ void _addAmbientOcclusionRenderer(brayns::Engine &engine)
     engine.addRendererType("ambient_occlusion", properties);
 }
 
+void _addShadowRenderer(brayns::Engine &engine)
+{
+    PLUGIN_INFO("Registering 'shadow' renderer");
+    brayns::PropertyMap properties;
+    properties.setProperty(
+        {"samplesPerFrame", 16, 1, 256, {"Samples per frame"}});
+    properties.setProperty({"rayLength", 1e6, 1e-3, 1e6, {"Ray length"}});
+    properties.setProperty({"softness", 0.0, 0.0, 1.0, {"Shadow softness"}});
+    engine.addRendererType("shadow", properties);
+}
+
 MediaMakerPlugin::MediaMakerPlugin()
     : ExtensionPlugin()
 {
@@ -122,6 +133,7 @@ void MediaMakerPlugin::init()
     _addDepthRenderer(engine);
     _addAlbedoRenderer(engine);
     _addAmbientOcclusionRenderer(engine);
+    _addShadowRenderer(engine);
 
     engine.addRendererType("raycast_Ng");
     engine.addRendererType("raycast_Ns");

@@ -101,6 +101,7 @@ void DefaultMaterial::commit()
 OSP_REGISTER_MATERIAL(depth, DefaultMaterial, default);
 OSP_REGISTER_MATERIAL(albedo, DefaultMaterial, default);
 OSP_REGISTER_MATERIAL(ambient_occlusion, DefaultMaterial, default);
+OSP_REGISTER_MATERIAL(shadow, DefaultMaterial, default);
 
 } // namespace rendering
 } // namespace mediamaker
