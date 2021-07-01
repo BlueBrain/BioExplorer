@@ -1,5 +1,8 @@
 var NAVTREEINDEX1 =
 {
+"d7/dd2/structbioexplorer_1_1details_1_1RandomizationDetails.html#a9c1b254e0a9d2b353c9bd06489d9ce6a":[6,0,0,2,25,1],
+"d7/df8/Types_8h_source.html":[7,0,1,2,6],
+"d7/df9/AdvancedMaterial_8ih_source.html":[7,0,0,0,1,3],
 "d7/dff/classbioexplorer_1_1biology_1_1Molecule.html":[6,0,0,0,6],
 "d7/dff/classbioexplorer_1_1biology_1_1Molecule.html#a00a5883f2f86a235afc20fee8264a565":[6,0,0,0,6,13],
 "d7/dff/classbioexplorer_1_1biology_1_1Molecule.html#a1450b9cb01682a1e0ee33aa945913951":[6,0,0,0,6,2],
@@ -246,8 +249,5 @@ var NAVTREEINDEX1 =
 "de/d0e/structbioexplorer_1_1details_1_1ProteinDetails.html#a65c406560e7a6b2615d5307408a5af49":[6,0,0,2,23,7],
 "de/d0e/structbioexplorer_1_1details_1_1ProteinDetails.html#a6cf860d090db12ee48b7fc96cc4b3409":[6,0,0,2,23,5],
 "de/d0e/structbioexplorer_1_1details_1_1ProteinDetails.html#a7781951526f8bda35ef12d8f8877b95e":[6,0,0,2,23,12],
-"de/d0e/structbioexplorer_1_1details_1_1ProteinDetails.html#a7a0ea3c84c80e63c556b2aea5886e62e":[6,0,0,2,23,0],
-"de/d0e/structbioexplorer_1_1details_1_1ProteinDetails.html#a7c7d41ca865b6c6c1103645bc8b2a263":[6,0,0,2,23,11],
-"de/d0e/structbioexplorer_1_1details_1_1ProteinDetails.html#a98fa861c1249a21edc6c39941e3672c1":[6,0,0,2,23,1],
-"de/d0e/structbioexplorer_1_1details_1_1ProteinDetails.html#a99610686312eaf88ed68be6165e20902":[6,0,0,2,23,17]
+"de/d0e/structbioexplorer_1_1details_1_1ProteinDetails.html#a7a0ea3c84c80e63c556b2aea5886e62e":[6,0,0,2,23,0]
 };

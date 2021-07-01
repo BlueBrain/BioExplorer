@@ -1,6 +1,6 @@
 var searchData=
 [
-  ['fieldshandler_282',['FieldsHandler',['../d9/d6e/classbioexplorer_1_1fields_1_1FieldsHandler.html',1,'bioexplorer::fields']]],
-  ['fieldsrenderer_283',['FieldsRenderer',['../de/d6a/classbioexplorer_1_1rendering_1_1FieldsRenderer.html',1,'bioexplorer::rendering']]],
-  ['fileaccessdetails_284',['FileAccessDetails',['../de/d38/structbioexplorer_1_1details_1_1FileAccessDetails.html',1,'bioexplorer::details']]]
+  ['fieldshandler_283',['FieldsHandler',['../d9/d6e/classbioexplorer_1_1fields_1_1FieldsHandler.html',1,'bioexplorer::fields']]],
+  ['fieldsrenderer_284',['FieldsRenderer',['../de/d6a/classbioexplorer_1_1rendering_1_1FieldsRenderer.html',1,'bioexplorer::rendering']]],
+  ['fileaccessdetails_285',['FileAccessDetails',['../de/d38/structbioexplorer_1_1details_1_1FileAccessDetails.html',1,'bioexplorer::details']]]
 ];

@@ -89,8 +89,8 @@ var NAVTREE =
 var NAVTREEINDEX =
 [
 ".html",
-"d7/dff/classbioexplorer_1_1biology_1_1Molecule.html",
-"de/d0e/structbioexplorer_1_1details_1_1ProteinDetails.html#aa30e50807142af7350a1f0553c2364fd"
+"d7/dd2/structbioexplorer_1_1details_1_1RandomizationDetails.html#a9c1b254e0a9d2b353c9bd06489d9ce6a",
+"de/d0e/structbioexplorer_1_1details_1_1ProteinDetails.html#a7c7d41ca865b6c6c1103645bc8b2a263"
 ];
 
 var SYNCONMSG = 'click to disable panel synchronisation';
