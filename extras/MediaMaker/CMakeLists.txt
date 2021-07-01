@@ -38,6 +38,7 @@ set(${NAME}_SOURCES
     module/ispc/render/AmbientOcclusionRenderer.cpp
     module/ispc/render/DepthRenderer.cpp
     module/ispc/render/AlbedoRenderer.cpp
+    module/ispc/render/ShadowRenderer.cpp
     plugin/api/Params.cpp
     plugin/MediaMakerPlugin.cpp
 )
@@ -52,6 +53,7 @@ set(${NAME}_ISPC_SOURCES
     module/ispc/render/AmbientOcclusionRenderer.ispc
     module/ispc/render/AlbedoRenderer.ispc
     module/ispc/render/DepthRenderer.ispc
+    module/ispc/render/ShadowRenderer.ispc
 )
 
 # ==============================================================================
