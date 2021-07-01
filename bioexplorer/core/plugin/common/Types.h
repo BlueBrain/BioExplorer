@@ -291,29 +291,31 @@ typedef struct
     /** Parameters of the assembly shape */
     std::vector<float> assemblyParams;
     /** Multiplier applied to the radius of the protein atoms */
-    float atomRadiusMultiplier;
+    float atomRadiusMultiplier{1.f};
     /** Enable the loading of protein bonds */
-    bool loadBonds;
+    bool loadBonds{false};
     /** Enable the loading of non polymer chemicals */
-    bool loadNonPolymerChemicals;
+    bool loadNonPolymerChemicals{false};
     /** Enable the loading of hydrogen atoms */
-    bool loadHydrogen;
+    bool loadHydrogen{false};
     /** Defines the representation of the protein (Atoms, atoms and sticks,
      * surface, etc) */
-    ProteinRepresentation representation;
+    ProteinRepresentation representation{
+        ProteinRepresentation::atoms_and_sticks};
     /** Identifiers of chains to be loaded */
     std::vector<size_t> chainIds;
     /** Recenters the protein  */
-    bool recenter;
+    bool recenter{false};
     /** Number of protein occurences to be added to the assembly */
-    size_t occurrences;
+    size_t occurrences{1};
     /** Indices of protein occurences in the assembly for which proteins are
      * added */
     std::vector<size_t> allowedOccurrences;
     /** Seed for position randomization */
-    size_t randomSeed;
+    size_t randomSeed{0};
     /** Type of randomisation for the elements of the assembly */
-    PositionRandomizationType positionRandomizationType;
+    PositionRandomizationType positionRandomizationType{
+        PositionRandomizationType::circular};
     /** Relative position of the protein in the assembly */
     std::vector<float> position;
     /** Relative rotation of the protein in the assembly */
@@ -412,6 +414,8 @@ typedef struct
     std::string name;
     /** A string containing the list of codons */
     std::string contents;
+    /** A string containing an PDB representation of the N protein */
+    std::string proteinContents;
     /** A given shape */
     RNAShape shape;
     /** Assembly parameters (size) */
@@ -422,6 +426,8 @@ typedef struct
     std::vector<float> params;
     /** Relative position of the RNA sequence in the assembly */
     std::vector<float> position;
+    /** Relative rotation of the RNA sequence in the assembly */
+    std::vector<float> rotation;
 } RNASequenceDetails;
 
 /**

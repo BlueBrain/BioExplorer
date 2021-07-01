@@ -237,13 +237,13 @@ void Assembly::_processInstances(
         }
 
         // Clipping planes
-        Vector3f translation = _rotation * transformation.getTranslation();
-        if (isClipped(translation, _clippingPlanes))
+        if (isClipped(transformation.getTranslation(), _clippingPlanes))
             continue;
 
-        // Final transformation
-        translation += _position;
+        const Vector3f translation =
+            _position + Vector3f(_rotation * transformation.getTranslation());
 
+        // Final transformation
         Transformation finalTransformation;
         finalTransformation.setTranslation(translation);
         finalTransformation.setRotation(
@@ -394,9 +394,16 @@ void Assembly::addRNASequence(const RNASequenceDetails &details)
     for (size_t i = 0; i < 3; ++i)
         rd.position[i] += _details.position[i];
 
-    _rnaSequence = RNASequencePtr(new RNASequence(_scene, rd));
+    _rnaSequence =
+        RNASequencePtr(new RNASequence(_scene, rd, _position, _rotation));
     const auto modelDescriptor = _rnaSequence->getModelDescriptor();
     _scene.addModel(modelDescriptor);
+    auto protein = _rnaSequence->getProtein();
+    if (protein)
+    {
+        const auto name = protein->getDescriptor().name;
+        _proteins[name] = std::move(protein);
+    }
 }
 
 void Assembly::setProteinInstanceTransformation(

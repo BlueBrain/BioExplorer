@@ -384,7 +384,7 @@ class BioExplorer:
             raise RuntimeError(result["contents"])
         return result
 
-    def add_coronavirus(self, name, resource_folder, assembly_params=[45.0, 1, 1.0, 2, 0.6, 0.0],
+    def add_coronavirus(self, name, resource_folder, assembly_params=[45.0, 1, 0.25, 2, 0.1, 0.0],
                         nb_protein_s=62, nb_protein_m=50, nb_protein_e=42,
                         open_protein_s_indices=list([0]), atom_radius_multiplier=1.0,
                         add_glycans=False, add_rna_sequence=False,
@@ -473,14 +473,14 @@ class BioExplorer:
         # RNA Sequence
         rna_sequence = None
         if add_rna_sequence:
-            params = [11.0, 0.5]
+            params = [assembly_params[0] * 0.6, 0.5]
             rna_sequence = RNASequence(
-                source=rna_folder + "sars-cov-2.rna",
+                source=rna_folder + 'sars-cov-2.rna',
+                protein_source=pdb_folder + '7bv1.pdb',
                 assembly_params=params,
-                t_range=Vector2(0, 30.5 * math.pi),
+                t_range=Vector2(-8.0 * math.pi, 8.0 * math.pi),
                 shape=self.RNA_SHAPE_TREFOIL_KNOT,
-                shape_params=Vector3(1.51, 1.12, 1.93),
-                position=Vector3()
+                shape_params=Vector3(1.51, 1.12, 1.93)
             )
 
         coronavirus = Virus(
@@ -1248,15 +1248,21 @@ class BioExplorer:
         else:
             shape_params = rna_sequence.shape_params
 
+        protein_contents = ''
+        if rna_sequence.protein_source:
+            protein_contents = "".join(open(rna_sequence.protein_source).readlines())
+
         params = dict()
         params["assemblyName"] = assembly_name
         params["name"] = name
         params["contents"] = "".join(open(rna_sequence.source).readlines())
+        params["proteinContents"] = protein_contents
         params["shape"] = rna_sequence.shape
         params["assemblyParams"] = rna_sequence.assembly_params
         params["range"] = t_range.to_list()
         params["params"] = shape_params.to_list()
         params["position"] = rna_sequence.position.to_list()
+        params["rotation"] = list(rna_sequence.rotation)
         return self._check(self._client.rockets_client.request(
             method=self.PLUGIN_API_PREFIX + "add-rna-sequence", params=params))
 
@@ -1555,12 +1561,6 @@ class BioExplorer:
         :return: Result of the call to the BioExplorer backend
         """
         if image_quality == self.RENDERING_QUALITY_HIGH:
-            self._client.clear_lights()
-            self._client.add_light_directional(
-                angularDiameter=0.5, color=[1, 1, 1], direction=[-0.7, -0.4, -1],
-                intensity=1.0, is_visible=False
-            )
-
             self._client.set_renderer(
                 head_light=False, background_color=[96 / 255, 125 / 255, 139 / 255],
                 current='bio_explorer', samples_per_pixel=1, subsampling=4,
@@ -1774,7 +1774,8 @@ class BioExplorer:
                     specular_exponent=specular_exponent,
                 )
 
-            if proteins and self.NAME_RECEPTOR in model_name:
+            if proteins and (self.NAME_RECEPTOR in model_name or
+                             self.NAME_RNA_SEQUENCE in model_name):
                 palette = sns.color_palette("OrRd_r", nb_materials)
                 self.set_materials_from_palette(
                     model_ids=[model_id],
@@ -2328,29 +2329,34 @@ class Sugars:
 class RNASequence:
     """An RNASequence is an assembly of a given shape holding a given genetic code"""
 
-    def __init__(self, source, shape, assembly_params, t_range=Vector2(), shape_params=Vector3(),
-                 position=Vector3()):
+    def __init__(self, source, shape, assembly_params, protein_source='', t_range=Vector2(),
+                 shape_params=Vector3(), position=Vector3(), rotation=Quaternion()):
         """
         RNA sequence descriptor
 
         :source: Full path of the file containing the RNA sequence
+        :protein_source: Full path of the file containing the PDB representation of the N protein
         :shape: Shape of the sequence (Trefoil knot, torus, star, spring, heart, Moebiusknot,
                       etc)
         :assembly_params: Assembly parameters (radius, etc.)
         :t_range: Range of values used to enroll the RNA thread
         :shape_params: Shape parameters
-        :position: Position of the RNA sequence in the 3D scene
+        :position: Relative position of the RNA sequence in the assembly
+        :rotation: Relative position of the RNA sequence in the assembly
         """
         assert isinstance(t_range, Vector2)
         assert isinstance(shape_params, Vector3)
         assert isinstance(assembly_params, list)
         assert isinstance(position, Vector3)
+        assert isinstance(rotation, Quaternion)
         self.source = source
+        self.protein_source = protein_source
         self.shape = shape
         self.assembly_params = assembly_params
         self.t_range = t_range
         self.shape_params = shape_params
         self.position = position
+        self.rotation = rotation
 
 
 class Surfactant:

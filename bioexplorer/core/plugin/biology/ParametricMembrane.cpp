@@ -217,17 +217,16 @@ void ParametricMembrane::_processInstances()
             break;
         }
 
-        Vector3f translation =
+        // Clipping planes
+        if (isClipped(transformation.getTranslation(), _clippingPlanes))
+            continue;
+
+        const Vector3f translation =
+            _assemblyPosition +
             Vector3f(_assemblyRotation *
                      (transformation.getTranslation() - Vector3d(center)));
 
-        // Clipping planes
-        if (isClipped(translation, _clippingPlanes))
-            continue;
-
         // Final transformation
-        translation += _assemblyPosition;
-
         Transformation finalTransformation;
         finalTransformation.setTranslation(translation);
         finalTransformation.setRotation(

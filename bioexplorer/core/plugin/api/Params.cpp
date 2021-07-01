@@ -241,11 +241,13 @@ bool from_json(RNASequenceDetails &param, const std::string &payload)
         FROM_JSON(param, js, assemblyName);
         FROM_JSON(param, js, name);
         FROM_JSON(param, js, contents);
+        FROM_JSON(param, js, proteinContents);
         FROM_JSON(param, js, shape);
         FROM_JSON(param, js, assemblyParams);
         FROM_JSON(param, js, range);
         FROM_JSON(param, js, params);
         FROM_JSON(param, js, position);
+        FROM_JSON(param, js, rotation);
     }
     catch (...)
     {
