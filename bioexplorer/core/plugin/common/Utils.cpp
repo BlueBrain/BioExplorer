@@ -268,5 +268,26 @@ RandomizationDetails floatsToRandomizationDetails(
     randInfo.rotationStrength = (values.size() > 4 ? values[4] : 0.f);
     return randInfo;
 }
+
+std::vector<std::string> split(const std::string& s,
+                               const std::string& delimiter)
+{
+    std::vector<std::string> values;
+    if (s.empty())
+        return values;
+
+    std::string str = s;
+    size_t pos = 0;
+    std::string token;
+    while ((pos = str.find(delimiter)) != std::string::npos)
+    {
+        token = str.substr(0, pos);
+        values.push_back(token);
+        str.erase(0, pos + delimiter.length());
+    }
+    values.push_back(str);
+    return values;
+}
+
 } // namespace common
 } // namespace bioexplorer

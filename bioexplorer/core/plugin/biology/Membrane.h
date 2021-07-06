@@ -58,6 +58,8 @@ public:
      */
     const ProteinMap &getProteins() const { return _proteins; }
 
+    virtual bool isInside(const Vector3f &point) const = 0;
+
 protected:
     Scene &_scene;
     const Vector3f _assemblyPosition;

@@ -57,9 +57,9 @@ public:
         return _modelDescriptor;
     }
 
-
 protected:
     ModelDescriptorPtr _modelDescriptor{nullptr};
+    Boxf _bounds;
     uint32_t _uuid;
 };
 } // namespace biology

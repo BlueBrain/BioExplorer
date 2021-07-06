@@ -51,6 +51,8 @@ public:
      */
     ~ParametricMembrane();
 
+    bool isInside(const Vector3f& point) const final;
+
 private:
     void _processInstances();
     std::string _getElementNameFromId(const size_t id);

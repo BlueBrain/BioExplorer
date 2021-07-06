@@ -55,6 +55,8 @@ public:
                       const Vector4fs& clippingPlanes,
                       const MeshBasedMembraneDetails& details);
 
+    bool isInside(const Vector3f& point) const final;
+
 private:
     void _processMesh();
     void _processMeshAsTriangles();
@@ -67,6 +69,9 @@ private:
                          const Vector3f& scaling,
                          const Quaterniond& rotation = Quaterniond()) const;
     std::string _getElementNameFromId(const size_t id);
+    bool _rayBoxIntersection(const Vector3f& origin, const Vector3f& direction,
+                             const Boxf& box, const float t0,
+                             const float t1) const;
 
     MeshBasedMembraneDetails _details;
 };

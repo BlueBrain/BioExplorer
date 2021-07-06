@@ -146,7 +146,8 @@ public:
      * @brief addProtein Add a protein to the assembly
      * @param details Details of the protein
      */
-    void addProtein(const ProteinDetails &details);
+    void addProtein(const ProteinDetails &details,
+                    const AssemblyConstraints &constraints);
 
     /**
      * @brief addGlycans Add glycans to glycosilation sites of a given protein
@@ -162,6 +163,8 @@ public:
      */
     void addSugars(const SugarsDetails &details);
 
+    bool isInside(const Vector3f &point) const;
+
 private:
     void _processInstances(ModelDescriptorPtr md, const std::string &name,
                            const AssemblyShape shape,
@@ -170,7 +173,8 @@ private:
                            const Quaterniond &orientation,
                            const size_ts &allowedOccurrences,
                            const size_t randomSeed,
-                           const PositionRandomizationType &randomizationType);
+                           const PositionRandomizationType &randomizationType,
+                           const AssemblyConstraints &constraints);
 
     AssemblyDetails _details;
     Scene &_scene;

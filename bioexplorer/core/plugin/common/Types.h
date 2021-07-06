@@ -320,6 +320,11 @@ typedef struct
     std::vector<float> position;
     /** Relative rotation of the protein in the assembly */
     std::vector<float> rotation;
+    /** List of assembly names used to constrain the placement of the protein.
+     * If the assembly name is prefixed by a +, proteins are not allowed inside
+     * the spedified assembly. If the name is prefixed by a -, proteins are not
+     * allowed outside of the assembly */
+    std::string constraints;
 } ProteinDetails;
 
 /**
@@ -356,8 +361,8 @@ typedef struct
 } SugarsDetails;
 
 /**
- * @brief Data structure describing a mesh-based membrane based on the shape of
- * a mesh
+ * @brief Data structure describing a mesh-based membrane based on the shape
+ * of a mesh
  *
  */
 typedef struct
@@ -370,21 +375,24 @@ typedef struct
     std::string meshContents;
     /** String containing an PDB representation of the protein 1*/
     std::string proteinContents1;
-    /** String containing an PDB representation of the protein 2 (optional)*/
+    /** String containing an PDB representation of the protein 2
+     * (optional)*/
     std::string proteinContents2;
-    /** String containing an PDB representation of the protein 3 (optional)*/
+    /** String containing an PDB representation of the protein 3
+     * (optional)*/
     std::string proteinContents3;
-    /** String containing an PDB representation of the protein 4 (optional)*/
+    /** String containing an PDB representation of the protein 4
+     * (optional)*/
     std::string proteinContents4;
     /** Recenters the protein  */
     bool recenter;
     /** Density of proteins in surface of the mesh */
     float density;
-    /** Fixed offset for the position of the protein above the surface of the
-     * mesh*/
+    /** Fixed offset for the position of the protein above the surface of
+     * the mesh*/
     float surfaceFixedOffset;
-    /** Variable (randomized) offset for the position of the protein above the
-     * surface of the mesh*/
+    /** Variable (randomized) offset for the position of the protein above
+     * the surface of the mesh*/
     float surfaceVariableOffset;
     /** Parameters of the assembly shape */
     std::vector<float> assemblyParams;
@@ -456,8 +464,8 @@ typedef struct
     std::string assemblyName;
     /** Name of the protein in the assembly */
     std::string name;
-    /** List of tuples of 2 integers defining indices in the sequence of amino
-     * acid */
+    /** List of tuples of 2 integers defining indices in the sequence of
+     * amino acid */
     std::vector<size_t> ranges;
 } AminoAcidSequenceAsRangesDetails;
 
@@ -648,8 +656,8 @@ typedef struct
 } MaterialsDetails;
 
 /**
- * @brief Structure containing information about how to build magnetic fields
- * from atom positions and charge
+ * @brief Structure containing information about how to build magnetic
+ * fields from atom positions and charge
  *
  */
 typedef struct
@@ -675,22 +683,23 @@ enum class XYZFileFormat
 {
     /** Unspecified */
     unspecified = 0,
-    /** x, y, z coordinates stored in binary representation (4 byte float) */
+    /** x, y, z coordinates stored in binary representation (4 byte float)
+     */
     xyz_binary = 1,
-    /** x, y, z coordinates and radius stored in binary representation (4 byte
-       float) */
+    /** x, y, z coordinates and radius stored in binary representation (4
+       byte float) */
     xyzr_binary = 2,
-    /** x, y, z coordinates, radius, and charge stored in binary representation
-       (4 byte float) */
+    /** x, y, z coordinates, radius, and charge stored in binary
+       representation (4 byte float) */
     xyzrv_binary = 3,
-    /** x, y, z coordinates stored in space separated ascii representation. One
-       line per atom*/
+    /** x, y, z coordinates stored in space separated ascii representation.
+       One line per atom*/
     xyz_ascii = 4,
     /** x, y, z coordinates and radius stored in space separated ascii
        representation. One line per atom*/
     xyzr_ascii = 5,
-    /** x, y, z coordinates, radius, and charge stored in space separated ascii
-       representation. One line per atom*/
+    /** x, y, z coordinates, radius, and charge stored in space separated
+       ascii representation. One line per atom*/
     xyzrv_ascii = 6
 };
 
@@ -783,8 +792,15 @@ typedef std::shared_ptr<Node> NodePtr;
 typedef std::map<std::string, NodePtr> NodeMap;
 
 class Assembly;
+enum class AssemblyConstraintType
+{
+    inside = 0,
+    outside = 1
+};
 typedef std::shared_ptr<Assembly> AssemblyPtr;
 typedef std::map<std::string, AssemblyPtr> AssemblyMap;
+typedef std::pair<AssemblyConstraintType, AssemblyPtr> AssemblyConstraint;
+typedef std::vector<AssemblyConstraint> AssemblyConstraints;
 
 class Membrane;
 typedef std::shared_ptr<Membrane> MembranePtr;
