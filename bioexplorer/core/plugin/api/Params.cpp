@@ -310,6 +310,7 @@ bool from_json(ProteinDetails &param, const std::string &payload)
         FROM_JSON(param, js, positionRandomizationType);
         FROM_JSON(param, js, position);
         FROM_JSON(param, js, rotation);
+        FROM_JSON(param, js, constraints);
     }
     catch (...)
     {

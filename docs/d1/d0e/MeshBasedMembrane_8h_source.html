@@ -129,29 +129,34 @@ $(document).ready(function(){initNavTree('d1/d0e/MeshBasedMembrane_8h_source.htm
 <div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;                      <span class="keyword">const</span> Vector4fs&amp; clippingPlanes,</div>
 <div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;                      <span class="keyword">const</span> <a class="code" href="../../da/d3c/structbioexplorer_1_1details_1_1MeshBasedMembraneDetails.html">MeshBasedMembraneDetails</a>&amp; details);</div>
 <div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160; </div>
-<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;<span class="keyword">private</span>:</div>
-<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;    <span class="keywordtype">void</span> _processMesh();</div>
-<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;    <span class="keywordtype">void</span> _processMeshAsTriangles();</div>
-<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;    <span class="keywordtype">void</span> _processMeshAsProteinInstances();</div>
-<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160; </div>
-<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;    <span class="keywordtype">float</span> _getSurfaceArea(<span class="keyword">const</span> Vector3f&amp; a, <span class="keyword">const</span> Vector3f&amp; b,</div>
-<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;                          <span class="keyword">const</span> Vector3f&amp; c) <span class="keyword">const</span>;</div>
-<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;    Vector3f _toVector3f(<span class="keyword">const</span> aiVector3D&amp; v) <span class="keyword">const</span>;</div>
-<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;    Vector3f _toVector3f(<span class="keyword">const</span> aiVector3D&amp; v, <span class="keyword">const</span> Vector3f&amp; center,</div>
-<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;                         <span class="keyword">const</span> Vector3f&amp; scaling,</div>
-<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;                         <span class="keyword">const</span> Quaterniond&amp; rotation = Quaterniond()) <span class="keyword">const</span>;</div>
-<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;    std::string _getElementNameFromId(<span class="keyword">const</span> <span class="keywordtype">size_t</span> <span class="keywordtype">id</span>);</div>
-<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160; </div>
-<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;    <a class="code" href="../../da/d3c/structbioexplorer_1_1details_1_1MeshBasedMembraneDetails.html">MeshBasedMembraneDetails</a> _details;</div>
-<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;};</div>
-<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;} <span class="comment">// namespace biology</span></div>
-<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;} <span class="comment">// namespace bioexplorer</span></div>
+<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;    <span class="keywordtype">bool</span> isInside(<span class="keyword">const</span> Vector3f&amp; point) <span class="keyword">const</span> <span class="keyword">final</span>;</div>
+<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160; </div>
+<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;<span class="keyword">private</span>:</div>
+<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;    <span class="keywordtype">void</span> _processMesh();</div>
+<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;    <span class="keywordtype">void</span> _processMeshAsTriangles();</div>
+<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;    <span class="keywordtype">void</span> _processMeshAsProteinInstances();</div>
+<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160; </div>
+<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;    <span class="keywordtype">float</span> _getSurfaceArea(<span class="keyword">const</span> Vector3f&amp; a, <span class="keyword">const</span> Vector3f&amp; b,</div>
+<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;                          <span class="keyword">const</span> Vector3f&amp; c) <span class="keyword">const</span>;</div>
+<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;    Vector3f _toVector3f(<span class="keyword">const</span> aiVector3D&amp; v) <span class="keyword">const</span>;</div>
+<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;    Vector3f _toVector3f(<span class="keyword">const</span> aiVector3D&amp; v, <span class="keyword">const</span> Vector3f&amp; center,</div>
+<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;                         <span class="keyword">const</span> Vector3f&amp; scaling,</div>
+<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;                         <span class="keyword">const</span> Quaterniond&amp; rotation = Quaterniond()) <span class="keyword">const</span>;</div>
+<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;    std::string _getElementNameFromId(<span class="keyword">const</span> <span class="keywordtype">size_t</span> <span class="keywordtype">id</span>);</div>
+<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;    <span class="keywordtype">bool</span> _rayBoxIntersection(<span class="keyword">const</span> Vector3f&amp; origin, <span class="keyword">const</span> Vector3f&amp; direction,</div>
+<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;                             <span class="keyword">const</span> Boxf&amp; box, <span class="keyword">const</span> <span class="keywordtype">float</span> t0,</div>
+<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;                             <span class="keyword">const</span> <span class="keywordtype">float</span> t1) <span class="keyword">const</span>;</div>
+<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160; </div>
+<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;    <a class="code" href="../../da/d3c/structbioexplorer_1_1details_1_1MeshBasedMembraneDetails.html">MeshBasedMembraneDetails</a> _details;</div>
+<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;};</div>
+<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;} <span class="comment">// namespace biology</span></div>
+<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;} <span class="comment">// namespace bioexplorer</span></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
 <div class="ttc" id="aclassbioexplorer_1_1biology_1_1MeshBasedMembrane_html_a410e4fcb3c6288dc1bc2b58875e225ac"><div class="ttname"><a href="../../d5/d80/classbioexplorer_1_1biology_1_1MeshBasedMembrane.html#a410e4fcb3c6288dc1bc2b58875e225ac">bioexplorer::biology::MeshBasedMembrane::MeshBasedMembrane</a></div><div class="ttdeci">MeshBasedMembrane(Scene &amp;scene, const Vector3f &amp;assemblyPosition, const Quaterniond &amp;assemblyRotation, const Vector4fs &amp;clippingPlanes, const MeshBasedMembraneDetails &amp;details)</div><div class="ttdoc">Construct a new MeshBasedMembrane object.</div><div class="ttdef"><b>Definition:</b> <a href="../../d9/d18/plugin_2biology_2MeshBasedMembrane_8cpp_source.html#l00041">MeshBasedMembrane.cpp:41</a></div></div>
 <div class="ttc" id="aclassbioexplorer_1_1biology_1_1Membrane_html"><div class="ttname"><a href="../../de/dd4/classbioexplorer_1_1biology_1_1Membrane.html">bioexplorer::biology::Membrane</a></div><div class="ttdoc">A Membrane object implements a 3D structure of a given shape, but with a surface composed of instance...</div><div class="ttdef"><b>Definition:</b> <a href="../../d1/d66/Membrane_8h_source.html#l00036">Membrane.h:36</a></div></div>
 <div class="ttc" id="aclassbioexplorer_1_1biology_1_1MeshBasedMembrane_html"><div class="ttname"><a href="../../d5/d80/classbioexplorer_1_1biology_1_1MeshBasedMembrane.html">bioexplorer::biology::MeshBasedMembrane</a></div><div class="ttdoc">A MeshBasedMembrane object implements a 3D structure that has the shape of a given OBJ Mesh,...</div><div class="ttdef"><b>Definition:</b> <a href="../../d1/d0e/MeshBasedMembrane_8h_source.html#l00043">MeshBasedMembrane.h:43</a></div></div>
-<div class="ttc" id="astructbioexplorer_1_1details_1_1MeshBasedMembraneDetails_html"><div class="ttname"><a href="../../da/d3c/structbioexplorer_1_1details_1_1MeshBasedMembraneDetails.html">bioexplorer::details::MeshBasedMembraneDetails</a></div><div class="ttdoc">Data structure describing a mesh-based membrane based on the shape of a mesh.</div><div class="ttdef"><b>Definition:</b> <a href="../../d7/df8/Types_8h_source.html#l00363">Types.h:363</a></div></div>
+<div class="ttc" id="astructbioexplorer_1_1details_1_1MeshBasedMembraneDetails_html"><div class="ttname"><a href="../../da/d3c/structbioexplorer_1_1details_1_1MeshBasedMembraneDetails.html">bioexplorer::details::MeshBasedMembraneDetails</a></div><div class="ttdoc">Data structure describing a mesh-based membrane based on the shape of a mesh.</div><div class="ttdef"><b>Definition:</b> <a href="../../d7/df8/Types_8h_source.html#l00368">Types.h:368</a></div></div>
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>

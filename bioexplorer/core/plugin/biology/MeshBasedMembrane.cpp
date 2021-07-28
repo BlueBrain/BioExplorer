@@ -49,6 +49,69 @@ MeshBasedMembrane::MeshBasedMembrane(Scene& scene,
     _processMesh();
 }
 
+bool MeshBasedMembrane::isInside(const Vector3f& point) const
+{
+    const Vector3f& center = _bounds.getCenter();
+    const Vector3f rayDirection = center - point;
+    const float rayLength = length(rayDirection);
+    const Vector3f direction = normalize(rayDirection);
+    for (const auto& protein : _proteins)
+    {
+        const auto modelDescriptor = protein.second->getModelDescriptor();
+        const auto& proteinBounds = protein.second->getBounds();
+        for (const auto& instance : modelDescriptor->getInstances())
+        {
+            const auto& tf = instance.getTransformation();
+            const Vector3f& translation = tf.getTranslation();
+            Boxf box;
+            box.merge(translation + proteinBounds.getMin());
+            box.merge(translation + proteinBounds.getMax());
+            if (_rayBoxIntersection(point, direction, box, rayLength / 10.f,
+                                    rayLength))
+                return false;
+        }
+    }
+    return true;
+}
+
+bool MeshBasedMembrane::_rayBoxIntersection(const Vector3f& origin,
+                                            const Vector3f& direction,
+                                            const Boxf& box, const float t0,
+                                            const float t1) const
+{
+    const Vector3f bounds[2]{box.getMin(), box.getMax()};
+    const Vector3f invDir = 1.f / direction;
+    const Vector3ui sign{invDir.x < 0.f, invDir.y < 0.f, invDir.z < 0.f};
+
+    float tmin, tmax, tymin, tymax, tzmin, tzmax;
+
+    tmin = (bounds[sign.x].x - origin.x) * invDir.x;
+    tmax = (bounds[1 - sign.x].x - origin.x) * invDir.x;
+    tymin = (bounds[sign.y].y - origin.y) * invDir.y;
+    tymax = (bounds[1 - sign.y].y - origin.y) * invDir.y;
+
+    if ((tmin > tymax) || (tymin > tmax))
+        return false;
+
+    if (tymin > tmin)
+        tmin = tymin;
+    if (tymax < tmax)
+        tmax = tymax;
+
+    tzmin = (bounds[sign.z].z - origin.z) * invDir.z;
+    tzmax = (bounds[1 - sign.z].z - origin.z) * invDir.z;
+
+    if ((tmin > tzmax) || (tzmin > tmax))
+        return false;
+
+    if (tzmin > tmin)
+        tmin = tzmin;
+    if (tzmax < tmax)
+        tmax = tzmax;
+
+    return (tmin < t1 && tmax > t0);
+}
+
 void MeshBasedMembrane::_processMeshAsProteinInstances()
 {
     // Random seed
@@ -179,17 +242,6 @@ void MeshBasedMembrane::_processMeshAsProteinInstances()
             _details.density * meshSurface / proteinSurface;
         const float instanceSurface = meshSurface / nbInstances;
 
-        PLUGIN_INFO("----===  MeshBasedMembrane  ===----");
-        PLUGIN_INFO("Position             : " << membranePosition);
-        PLUGIN_INFO("Rotation             : " << membraneRotation);
-        PLUGIN_INFO("Scale                : " << membraneScale);
-        PLUGIN_INFO("Number of faces      : " << faces.size());
-        PLUGIN_INFO("Mesh surface area    : " << meshSurface);
-        PLUGIN_INFO("Protein size         : " << proteinsAverageSize);
-        PLUGIN_INFO("Protein surface area : " << proteinSurface);
-        PLUGIN_INFO("Instance surface area: " << instanceSurface);
-        PLUGIN_INFO("Number of instances  : " << nbInstances);
-
         std::map<size_t, size_t> instanceCounts;
         for (size_t i = 0; i < _proteins.size(); ++i)
             instanceCounts[i] = 0;
@@ -286,18 +338,33 @@ void MeshBasedMembrane::_processMeshAsProteinInstances()
                 // Instance
                 const size_t id = i % _proteins.size();
                 auto protein = _proteins[_getElementNameFromId(id)];
-                auto md = protein->getModelDescriptor();
+                auto modelDescriptor = protein->getModelDescriptor();
 
                 tf.setTranslation(translation);
                 if (instanceCounts[id] == 0)
-                    md->setTransformation(tf);
+                    modelDescriptor->setTransformation(tf);
 
                 const ModelInstance instance(true, false, tf);
-                md->addInstance(instance);
+                modelDescriptor->addInstance(instance);
 
                 instanceCounts[id] = instanceCounts[id] + 1;
+
+                // Bounds
+                _bounds.merge(translation);
             }
         }
+
+        PLUGIN_INFO("----===  MeshBasedMembrane  ===----");
+        PLUGIN_INFO("Position             : " << membranePosition);
+        PLUGIN_INFO("Rotation             : " << membraneRotation);
+        PLUGIN_INFO("Scale                : " << membraneScale);
+        PLUGIN_INFO("Number of faces      : " << faces.size());
+        PLUGIN_INFO("Mesh surface area    : " << meshSurface);
+        PLUGIN_INFO("Protein size         : " << proteinsAverageSize);
+        PLUGIN_INFO("Protein surface area : " << proteinSurface);
+        PLUGIN_INFO("Instance surface area: " << instanceSurface);
+        PLUGIN_INFO("Number of instances  : " << nbInstances);
+        PLUGIN_INFO("Bounds               : " << _bounds);
     }
 
     // Add proteins to the scene
@@ -314,9 +381,9 @@ void MeshBasedMembrane::_processMeshAsTriangles()
     for (size_t i = 0; i < len; ++i)
         data.push_back(_details.meshContents[i]);
     Blob blob = {"obj", _details.assemblyName, data};
-    auto modelDescriptor =
+    _modelDescriptor =
         loader.importFromBlob(std::move(blob), LoaderProgress(), PropertyMap());
-    if (modelDescriptor)
+    if (_modelDescriptor)
     {
         // Transformation
         const auto membranePosition = floatsToVector3f(_details.position);
@@ -328,9 +395,12 @@ void MeshBasedMembrane::_processMeshAsTriangles()
         transformation.setRotation(membraneRotation);
         transformation.setScale(membraneScale);
 
-        modelDescriptor->setTransformation(transformation);
+        _modelDescriptor->setTransformation(transformation);
 
-        _scene.addModel(modelDescriptor);
+        _scene.addModel(_modelDescriptor);
+
+        // Bounds
+        _bounds.merge(membranePosition);
     }
 }
 

@@ -66,7 +66,8 @@ Assembly::~Assembly()
     }
 }
 
-void Assembly::addProtein(const ProteinDetails &details)
+void Assembly::addProtein(const ProteinDetails &details,
+                          const AssemblyConstraints &constraints)
 {
     ProteinPtr protein(new Protein(_scene, details));
     auto modelDescriptor = protein->getModelDescriptor();
@@ -77,7 +78,7 @@ void Assembly::addProtein(const ProteinDetails &details)
                       details.assemblyParams, details.occurrences,
                       proteinPosition, proteinRotation,
                       details.allowedOccurrences, details.randomSeed,
-                      details.positionRandomizationType);
+                      details.positionRandomizationType, constraints);
 
     _proteins[details.name] = std::move(protein);
     _scene.addModel(modelDescriptor);
@@ -151,7 +152,8 @@ void Assembly::_processInstances(
     const floats &assemblyParams, const size_t occurrences,
     const Vector3f &position, const Quaterniond &rotation,
     const size_ts &allowedOccurrences, const size_t randomSeed,
-    const PositionRandomizationType &randomizationType)
+    const PositionRandomizationType &randomizationType,
+    const AssemblyConstraints &constraints)
 {
     const float offset = 2.f / occurrences;
     const float increment = M_PI * (3.f - sqrt(5.f));
@@ -248,6 +250,20 @@ void Assembly::_processInstances(
         finalTransformation.setTranslation(translation);
         finalTransformation.setRotation(
             _rotation * transformation.getRotation() * rotation);
+
+        // Assembly constaints
+        bool addInstance = true;
+        for (const auto &constraint : constraints)
+        {
+            if (constraint.first == AssemblyConstraintType::inside &&
+                !constraint.second->isInside(translation))
+                addInstance = false;
+            if (constraint.first == AssemblyConstraintType::outside &&
+                constraint.second->isInside(translation))
+                addInstance = false;
+        }
+        if (!addInstance)
+            continue;
 
         if (count == 0)
             md->setTransformation(finalTransformation);
@@ -470,6 +486,14 @@ const Transformation Assembly::getProteinInstanceTransformation(
     if (details.instanceIndex == 0)
         transformation = modelDescriptor->getTransformation();
     return transformation;
+}
+
+bool Assembly::isInside(const Vector3f &point) const
+{
+    bool result = false;
+    if (_membrane)
+        result |= _membrane->isInside(point);
+    return result;
 }
 } // namespace biology
 } // namespace bioexplorer

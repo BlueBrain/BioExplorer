@@ -677,7 +677,27 @@ Response BioExplorerPlugin::_addMeshBasedMembrane(
 
 Response BioExplorerPlugin::_addProtein(const ProteinDetails &payload) const
 {
-    ASSEMBLY_CALL_VOID(payload.assemblyName, addProtein(payload));
+    AssemblyConstraints constraints;
+    const auto values = split(payload.constraints, "|");
+    for (const auto &value : values)
+    {
+        const auto assemblyConstraintType =
+            (value[0] == '+' ? AssemblyConstraintType::inside
+                             : AssemblyConstraintType::outside);
+        auto assemblyName = value;
+        assemblyName.erase(0, 1);
+
+        const auto it = _assemblies.find(assemblyName);
+        if (it != _assemblies.end())
+            constraints.push_back(
+                AssemblyConstraint(assemblyConstraintType, (*it).second));
+        else
+            PLUGIN_THROW(
+                "Unknown assembly specified in the location constraints: " +
+                assemblyName);
+    }
+
+    ASSEMBLY_CALL_VOID(payload.assemblyName, addProtein(payload, constraints));
 }
 
 Response BioExplorerPlugin::_addGlycans(const SugarsDetails &payload) const

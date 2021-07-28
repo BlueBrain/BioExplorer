@@ -63,7 +63,7 @@ MeshBasedMembraneDetails getDescriptor()
     descriptor.proteinContents3 = "";
     descriptor.proteinContents4 = "";
     descriptor.recenter = true;
-    descriptor.density = 0.1;
+    descriptor.density = 5.0;
     descriptor.surfaceFixedOffset = 0.f;
     descriptor.surfaceVariableOffset = 0.f;
     descriptor.atomRadiusMultiplier = 1.f;
@@ -71,7 +71,7 @@ MeshBasedMembraneDetails getDescriptor()
     descriptor.randomSeed = 0;
     descriptor.position = {0.f, 0.f, 0.f};
     descriptor.rotation = {1.f, 0.f, 0.f, 0.f};
-    descriptor.scale = {1.f, 1.f, 1.f};
+    descriptor.scale = {2.5f, 2.5f, 2.5f};
     return descriptor;
 }
 
@@ -87,5 +87,7 @@ BOOST_AUTO_TEST_CASE(meshBasedMembrane)
     BOOST_CHECK(
         meshBasedMembrane.getProteins().begin()->second->getAtoms().size() ==
         426);
+
+    BOOST_CHECK(meshBasedMembrane.isInside(Vector3f(140.f, 0.f, 0.f)));
 }
 } // namespace tests

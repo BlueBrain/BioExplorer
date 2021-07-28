@@ -197,6 +197,9 @@ class BioExplorer:
     FILE_FORMAT_XYZR_ASCII = 5
     FILE_FORMAT_XYZRV_ASCII = 6
 
+    POSITION_CONSTRAINT_INSIDE = 0
+    POSITION_CONSTRAINT_OUTSIDE = 1
+
     def __init__(self, url='localhost:5000'):
         """Create a new BioExplorer instance"""
         self._url = url
@@ -832,7 +835,7 @@ class BioExplorer:
         )
 
     def add_volume(self, volume, atom_radius_multiplier=1.0, representation=REPRESENTATION_ATOMS,
-                   position=Vector3(), random_seed=1):
+                   position=Vector3(), random_seed=1, constraints=list()):
         """
         Add a volume assembly to the scene
 
@@ -841,9 +844,11 @@ class BioExplorer:
         :representation: Multiplies atom radius by the specified value
         :position: Position of the volume in the scene
         :random_seed: Random seed used to define the positions of the proteins in the volume
+        :constraints: List of assemblies that constraint the placememnt of the proteins
         """
         assert isinstance(volume, Volume)
         assert isinstance(position, Vector3)
+        assert isinstance(constraints, list)
         assert len(volume.protein.sources) == 1
 
         _protein = AssemblyProtein(
@@ -860,7 +865,8 @@ class BioExplorer:
             representation=representation,
             random_seed=random_seed,
             position=volume.protein.position,
-            rotation=volume.protein.rotation
+            rotation=volume.protein.rotation,
+            constraints=constraints
         )
 
         self.remove_assembly(volume.name)
@@ -1355,6 +1361,17 @@ class BioExplorer:
         """
         assert isinstance(protein, AssemblyProtein)
 
+        constraints = ''
+        for constraint in protein.constraints:
+            if constraints != '':
+                constraints += '|'
+            if constraint[0] == BioExplorer.POSITION_CONSTRAINT_INSIDE:
+                constraints += '+' + constraint[1]
+            elif constraint[0] == BioExplorer.POSITION_CONSTRAINT_OUTSIDE:
+                constraints += '-' + constraint[1]
+            else:
+                raise RuntimeError("Unknown position constraint")
+
         params = dict()
         params["assemblyName"] = protein.assembly_name
         params["name"] = protein.name
@@ -1375,6 +1392,7 @@ class BioExplorer:
             "positionRandomizationType"] = protein.position_randomization_type
         params["position"] = protein.position.to_list()
         params["rotation"] = list(protein.rotation)
+        params["constraints"] = constraints
         return self._check(self._client.rockets_client.request(
             method=self.PLUGIN_API_PREFIX + "add-protein", params=params))
 
@@ -2154,7 +2172,8 @@ class AssemblyProtein:
                  load_non_polymer_chemicals=False, load_hydrogen=True, chain_ids=list(),
                  recenter=True, occurrences=1, random_seed=0,
                  position_randomization_type=BioExplorer.POSITION_RANDOMIZATION_TYPE_CIRCULAR,
-                 position=Vector3(), rotation=Quaternion(), allowed_occurrences=list()):
+                 position=Vector3(), rotation=Quaternion(), allowed_occurrences=list(),
+                 constraints=list()):
         """
         An AssemblyProtein is a protein that belongs to an assembly
 
@@ -2178,6 +2197,7 @@ class AssemblyProtein:
         :rotation: Relative rotation of the protein in the assembly
         :allowed_occurrences: Indices of protein occurences in the assembly for
                                     which proteins are added
+        :constraints: List of assemblies that constraint the placememnt of the proteins
         """
         self.assembly_name = assembly_name
         self.name = name
@@ -2197,6 +2217,7 @@ class AssemblyProtein:
         self.position_randomization_type = position_randomization_type
         self.position = position
         self.rotation = rotation
+        self.constraints = constraints
 
 
 class AssemblyMeshBasedMembrane:
@@ -2449,7 +2470,7 @@ class Protein:
 
     def __init__(self, sources, occurences=1, assembly_params=list(), load_bonds=False,
                  load_hydrogen=False, load_non_polymer_chemicals=False, position=Vector3(),
-                 rotation=Quaternion(), instance_indices=list()):
+                 rotation=Quaternion(), instance_indices=list(), constraint=''):
         """
         Protein descriptor
 

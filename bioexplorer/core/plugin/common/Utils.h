@@ -117,5 +117,8 @@ RandomizationDetails floatsToRandomizationDetails(
     const PositionRandomizationType randomizationType =
         PositionRandomizationType::radial);
 
+std::vector<std::string> split(const std::string& s,
+                               const std::string& delimiter);
+
 } // namespace common
 } // namespace bioexplorer

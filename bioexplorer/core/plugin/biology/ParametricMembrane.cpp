@@ -245,5 +245,10 @@ std::string ParametricMembrane::_getElementNameFromId(const size_t id)
 {
     return _details.assemblyName + "_Membrane_" + std::to_string(id);
 }
+
+bool ParametricMembrane::isInside(const Vector3f &point) const
+{
+    PLUGIN_THROW("ParametricMembrane::isInside is Not implemented");
+}
 } // namespace biology
 } // namespace bioexplorer

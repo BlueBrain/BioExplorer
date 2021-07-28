@@ -4,7 +4,7 @@ var searchData=
   ['addgriddetails_1',['AddGridDetails',['../db/dd8/structbioexplorer_1_1details_1_1AddGridDetails.html',1,'bioexplorer::details']]],
   ['addmeshbasedmembrane_2',['addMeshBasedMembrane',['../d6/dc2/classbioexplorer_1_1biology_1_1Assembly.html#a897da1e5277ecce42b352feaa6f3c300',1,'bioexplorer::biology::Assembly']]],
   ['addparametricmembrane_3',['addParametricMembrane',['../d6/dc2/classbioexplorer_1_1biology_1_1Assembly.html#a6f17257041c340f216f6806191ba4e97',1,'bioexplorer::biology::Assembly']]],
-  ['addprotein_4',['addProtein',['../d6/dc2/classbioexplorer_1_1biology_1_1Assembly.html#aa5e391ad199ce359399f1235d109d240',1,'bioexplorer::biology::Assembly']]],
+  ['addprotein_4',['addProtein',['../d6/dc2/classbioexplorer_1_1biology_1_1Assembly.html#a9380dbb7565b6ea70cdbd940ab598374',1,'bioexplorer::biology::Assembly']]],
   ['addrnasequence_5',['addRNASequence',['../d6/dc2/classbioexplorer_1_1biology_1_1Assembly.html#a7f28e8ee7fa2a89ad4db57a12299125b',1,'bioexplorer::biology::Assembly']]],
   ['addspheredetails_6',['AddSphereDetails',['../db/d48/structbioexplorer_1_1details_1_1AddSphereDetails.html',1,'bioexplorer::details']]],
   ['addsugars_7',['addSugars',['../d6/dc2/classbioexplorer_1_1biology_1_1Assembly.html#a5eaa52cd94f4472154b09c4a2e965d5b',1,'bioexplorer::biology::Assembly::addSugars()'],['../db/dba/classbioexplorer_1_1biology_1_1Protein.html#a4eab6f87a0aa115663997432566f28d1',1,'bioexplorer::biology::Protein::addSugars()']]],
