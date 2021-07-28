@@ -45,7 +45,15 @@
 ![___](./bioexplorer/pythonsdk/doc/source/images/BBBE_banner.png)
 
 ## Description
-In the context of the "[Elevated blood glucose levels as a primary risk factor for the severity of COVID-19](https://www.medrxiv.org/content/10.1101/2021.04.29.21256294v1)" study, the Blue Brain BioExplorer (_BBBE_) started as an internal project with the aim to answer key scientific questions related to the Coronavirus as a use case. This project aimed to deliver a visualization tool, the BioExplorer, to reconstruct, visualize, explore and describe in detail the structure and function of the Coronavirus.
+In the context of the "[A Machine-Generated View of the Role of Blood Glucose Levels in the Severity of COVID-19](https://www.frontiersin.org/articles/10.3389/fpubh.2021.695139/full?utm_source=fweb&utm_medium=nblog&utm_campaign=ba-sci-fpubh-covid-19-elevated-blood-glucose-blue-brain)" study, the Blue Brain BioExplorer (_BBBE_) started as an internal project with the aim to answer key scientific questions related to the Coronavirus as a use case. This project aimed to deliver a visualization tool, the BioExplorer, to reconstruct, visualize, explore and describe in detail the structure and function of the Coronavirus.
+
+Check out the movie by clicking on the following image, and see the coronavirus as you have never seen it before!
+
+<div align="center">
+      <a href="https://youtu.be/Czn-YGLGfiA"/>
+         <img src="https://github.com/BlueBrain/BioExplorer/bioexplorer/pythonsdk/doc/source/images/movie_preview.png" style="width:50%;">
+      </a>
+</div>
 
 ## Architecture
 The _BBBE_ application is built on top of [Blue Brain Brayns](https://github.com/BlueBrain/Brayns), the Blue Brain rendering platform. The _BBBE_ uses the underlying technical capabilities of the rendering platform to create large scale and accurate 3D scenes from Jupyter notebooks.

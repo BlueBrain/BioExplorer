@@ -5,6 +5,7 @@ var structbioexplorer_1_1details_1_1ProteinDetails =
     [ "assemblyParams", "de/d0e/structbioexplorer_1_1details_1_1ProteinDetails.html#a275595510362a9b7db31b9b548e7bc08", null ],
     [ "atomRadiusMultiplier", "de/d0e/structbioexplorer_1_1details_1_1ProteinDetails.html#ad01cd5d641744fcaa42325bdcddaec2b", null ],
     [ "chainIds", "de/d0e/structbioexplorer_1_1details_1_1ProteinDetails.html#a11b8b01294c06429dcb1d9a9fa82a52c", null ],
+    [ "constraints", "de/d0e/structbioexplorer_1_1details_1_1ProteinDetails.html#a904fa8860fc02c065b51b4a803c140c7", null ],
     [ "contents", "de/d0e/structbioexplorer_1_1details_1_1ProteinDetails.html#a6cf860d090db12ee48b7fc96cc4b3409", null ],
     [ "loadBonds", "de/d0e/structbioexplorer_1_1details_1_1ProteinDetails.html#a12b36899e4c43d1ad1c7b1c886988537", null ],
     [ "loadHydrogen", "de/d0e/structbioexplorer_1_1details_1_1ProteinDetails.html#a65c406560e7a6b2615d5307408a5af49", null ],

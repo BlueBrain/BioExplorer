@@ -1,5 +1,7 @@
 var NAVTREEINDEX1 =
 {
+"d7/dd2/structbioexplorer_1_1details_1_1RandomizationDetails.html#a5e2404c591b2520101cfd441097ff2e4":[6,0,0,2,25,4],
+"d7/dd2/structbioexplorer_1_1details_1_1RandomizationDetails.html#a650c726c1385b10b163d7c904f755d4f":[6,0,0,2,25,3],
 "d7/dd2/structbioexplorer_1_1details_1_1RandomizationDetails.html#a9c1b254e0a9d2b353c9bd06489d9ce6a":[6,0,0,2,25,1],
 "d7/df8/Types_8h_source.html":[7,0,1,2,6],
 "d7/df9/AdvancedMaterial_8ih_source.html":[7,0,0,0,1,3],
@@ -234,20 +236,18 @@ var NAVTREEINDEX1 =
 "dd/d92/structbioexplorer_1_1details_1_1SugarsDetails.html#af6507f50241cfde2bddc0128459c843a":[6,0,0,2,30,11],
 "dd/d92/structbioexplorer_1_1details_1_1SugarsDetails.html#afa3ac7957085b22ef7c19fcb00b2392b":[6,0,0,2,30,10],
 "dd/dc5/classbioexplorer_1_1biology_1_1ParametricMembrane.html":[6,0,0,0,9],
+"dd/dc5/classbioexplorer_1_1biology_1_1ParametricMembrane.html#a34f9628ad09a408d1f171bcbda188487":[6,0,0,0,9,2],
 "dd/dc5/classbioexplorer_1_1biology_1_1ParametricMembrane.html#a414eec91004fed05877561eb239abf40":[6,0,0,0,9,0],
 "dd/dc5/classbioexplorer_1_1biology_1_1ParametricMembrane.html#a7dfe3506bfe1a723869030356136ae56":[6,0,0,0,9,1],
 "dd/ded/FieldsRenderer_8ispc_source.html":[7,0,0,0,1,16],
 "dd/df6/DensityRenderer_8cpp_source.html":[7,0,0,0,1,9],
 "de/d05/plugin_2biology_2Glycans_8cpp_source.html":[7,0,1,1,2],
 "de/d0e/structbioexplorer_1_1details_1_1ProteinDetails.html":[6,0,0,2,23],
-"de/d0e/structbioexplorer_1_1details_1_1ProteinDetails.html#a010b1c0f20187f8704a865840a1458ab":[6,0,0,2,23,16],
+"de/d0e/structbioexplorer_1_1details_1_1ProteinDetails.html#a010b1c0f20187f8704a865840a1458ab":[6,0,0,2,23,17],
 "de/d0e/structbioexplorer_1_1details_1_1ProteinDetails.html#a11b8b01294c06429dcb1d9a9fa82a52c":[6,0,0,2,23,4],
-"de/d0e/structbioexplorer_1_1details_1_1ProteinDetails.html#a12b36899e4c43d1ad1c7b1c886988537":[6,0,0,2,23,6],
-"de/d0e/structbioexplorer_1_1details_1_1ProteinDetails.html#a21028bb0639c0b790235dc4e125f9580":[6,0,0,2,23,10],
+"de/d0e/structbioexplorer_1_1details_1_1ProteinDetails.html#a12b36899e4c43d1ad1c7b1c886988537":[6,0,0,2,23,7],
+"de/d0e/structbioexplorer_1_1details_1_1ProteinDetails.html#a21028bb0639c0b790235dc4e125f9580":[6,0,0,2,23,11],
 "de/d0e/structbioexplorer_1_1details_1_1ProteinDetails.html#a275595510362a9b7db31b9b548e7bc08":[6,0,0,2,23,2],
-"de/d0e/structbioexplorer_1_1details_1_1ProteinDetails.html#a5917cfa981741c54649569f1eb733de4":[6,0,0,2,23,9],
-"de/d0e/structbioexplorer_1_1details_1_1ProteinDetails.html#a65c406560e7a6b2615d5307408a5af49":[6,0,0,2,23,7],
-"de/d0e/structbioexplorer_1_1details_1_1ProteinDetails.html#a6cf860d090db12ee48b7fc96cc4b3409":[6,0,0,2,23,5],
-"de/d0e/structbioexplorer_1_1details_1_1ProteinDetails.html#a7781951526f8bda35ef12d8f8877b95e":[6,0,0,2,23,12],
-"de/d0e/structbioexplorer_1_1details_1_1ProteinDetails.html#a7a0ea3c84c80e63c556b2aea5886e62e":[6,0,0,2,23,0]
+"de/d0e/structbioexplorer_1_1details_1_1ProteinDetails.html#a5917cfa981741c54649569f1eb733de4":[6,0,0,2,23,10],
+"de/d0e/structbioexplorer_1_1details_1_1ProteinDetails.html#a65c406560e7a6b2615d5307408a5af49":[6,0,0,2,23,8]
 };

@@ -151,7 +151,7 @@ $(document).ready(function(){initNavTree('de/de2/tests_2MeshBasedMembrane_8cpp_s
 <div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;    descriptor.proteinContents3 = <span class="stringliteral">&quot;&quot;</span>;</div>
 <div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;    descriptor.proteinContents4 = <span class="stringliteral">&quot;&quot;</span>;</div>
 <div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;    descriptor.recenter = <span class="keyword">true</span>;</div>
-<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;    descriptor.density = 0.1;</div>
+<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;    descriptor.density = 5.0;</div>
 <div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;    descriptor.surfaceFixedOffset = 0.f;</div>
 <div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;    descriptor.surfaceVariableOffset = 0.f;</div>
 <div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;    descriptor.atomRadiusMultiplier = 1.f;</div>
@@ -159,7 +159,7 @@ $(document).ready(function(){initNavTree('de/de2/tests_2MeshBasedMembrane_8cpp_s
 <div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;    descriptor.randomSeed = 0;</div>
 <div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;    descriptor.position = {0.f, 0.f, 0.f};</div>
 <div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;    descriptor.rotation = {1.f, 0.f, 0.f, 0.f};</div>
-<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;    descriptor.scale = {1.f, 1.f, 1.f};</div>
+<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;    descriptor.scale = {2.5f, 2.5f, 2.5f};</div>
 <div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;    <span class="keywordflow">return</span> descriptor;</div>
 <div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;}</div>
 <div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160; </div>
@@ -175,11 +175,13 @@ $(document).ready(function(){initNavTree('de/de2/tests_2MeshBasedMembrane_8cpp_s
 <div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;    BOOST_CHECK(</div>
 <div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;        meshBasedMembrane.getProteins().begin()-&gt;second-&gt;getAtoms().size() ==</div>
 <div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160;        426);</div>
-<div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160;}</div>
-<div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160;} <span class="comment">// namespace tests</span></div>
+<div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160; </div>
+<div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160;    BOOST_CHECK(meshBasedMembrane.isInside(Vector3f(140.f, 0.f, 0.f)));</div>
+<div class="line"><a name="l00092"></a><span class="lineno">   92</span>&#160;}</div>
+<div class="line"><a name="l00093"></a><span class="lineno">   93</span>&#160;} <span class="comment">// namespace tests</span></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
-<div class="ttc" id="astructbioexplorer_1_1details_1_1SugarsDetails_html_a81aecb2570b4818ceed97e0f6ff73a9e"><div class="ttname"><a href="../../dd/d92/structbioexplorer_1_1details_1_1SugarsDetails.html#a81aecb2570b4818ceed97e0f6ff73a9e">bioexplorer::details::SugarsDetails::assemblyName</a></div><div class="ttdeci">std::string assemblyName</div><div class="ttdef"><b>Definition:</b> <a href="../../d7/df8/Types_8h_source.html#l00332">Types.h:332</a></div></div>
+<div class="ttc" id="astructbioexplorer_1_1details_1_1SugarsDetails_html_a81aecb2570b4818ceed97e0f6ff73a9e"><div class="ttname"><a href="../../dd/d92/structbioexplorer_1_1details_1_1SugarsDetails.html#a81aecb2570b4818ceed97e0f6ff73a9e">bioexplorer::details::SugarsDetails::assemblyName</a></div><div class="ttdeci">std::string assemblyName</div><div class="ttdef"><b>Definition:</b> <a href="../../d7/df8/Types_8h_source.html#l00337">Types.h:337</a></div></div>
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
