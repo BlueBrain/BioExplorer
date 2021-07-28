@@ -51,7 +51,7 @@ Check out the movie by clicking on the following image, and see the coronavirus 
 
 <div align="center">
       <a href="https://youtu.be/Czn-YGLGfiA"/>
-         <img src="https://github.com/BlueBrain/BioExplorer/bioexplorer/pythonsdk/doc/source/images/movie_preview.png" style="width:50%;">
+         <img src="https://github.com/BlueBrain/BioExplorer/blob/master/bioexplorer/pythonsdk/doc/source/images/movie_preview.png" style="width:50%;">
       </a>
 </div>
 
