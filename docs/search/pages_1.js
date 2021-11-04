@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['user_20guide_547',['User guide',['../d0/de8/md__home_favreau_git_BioExplorer_bioexplorer_pythonsdk_doc_source_USERGUIDE.html',1,'']]]
+  ['docker_0',['Docker',['../da/d7a/md__Users_favreau_git_BioExplorer_DOCKER.html',1,'']]]
 ];

@@ -1,0 +1,161 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.2" xml:lang="en-US">
+  <compounddef id="d2/d03/structbioexplorer_1_1details_1_1SceneInformationDetails" kind="struct" language="C++" prot="public">
+    <compoundname>bioexplorer::details::SceneInformationDetails</compoundname>
+    <includes refid="d7/df8/Types_8h" local="no">Types.h</includes>
+      <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="d2/d03/structbioexplorer_1_1details_1_1SceneInformationDetails_1a0ce1083f6fe8a589dc55207bad54a9ba" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t bioexplorer::details::SceneInformationDetails::nbModels</definition>
+        <argsstring></argsstring>
+        <name>nbModels</name>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Number of models </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/favreau/git/BioExplorer/bioexplorer/core/plugin/common/Types.h" line="768" column="14" bodyfile="/Users/favreau/git/BioExplorer/bioexplorer/core/plugin/common/Types.h" bodystart="768" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="d2/d03/structbioexplorer_1_1details_1_1SceneInformationDetails_1ae42ba1b32d31c9d2065c6dc9b1ad6b3a" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t bioexplorer::details::SceneInformationDetails::nbMaterials</definition>
+        <argsstring></argsstring>
+        <name>nbMaterials</name>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Number of materials </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/favreau/git/BioExplorer/bioexplorer/core/plugin/common/Types.h" line="770" column="14" bodyfile="/Users/favreau/git/BioExplorer/bioexplorer/core/plugin/common/Types.h" bodystart="770" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="d2/d03/structbioexplorer_1_1details_1_1SceneInformationDetails_1a5573f9910b21fa833949cd476ff92205" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t bioexplorer::details::SceneInformationDetails::nbSpheres</definition>
+        <argsstring></argsstring>
+        <name>nbSpheres</name>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Number of spheres </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/favreau/git/BioExplorer/bioexplorer/core/plugin/common/Types.h" line="772" column="14" bodyfile="/Users/favreau/git/BioExplorer/bioexplorer/core/plugin/common/Types.h" bodystart="772" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="d2/d03/structbioexplorer_1_1details_1_1SceneInformationDetails_1aabfb2ab7d3b81008f68195ef22cdd204" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t bioexplorer::details::SceneInformationDetails::nbCylinders</definition>
+        <argsstring></argsstring>
+        <name>nbCylinders</name>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Number of cylinders </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/favreau/git/BioExplorer/bioexplorer/core/plugin/common/Types.h" line="774" column="14" bodyfile="/Users/favreau/git/BioExplorer/bioexplorer/core/plugin/common/Types.h" bodystart="774" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="d2/d03/structbioexplorer_1_1details_1_1SceneInformationDetails_1aeba1b882d37b7bb58700308d789f9bd1" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t bioexplorer::details::SceneInformationDetails::nbCones</definition>
+        <argsstring></argsstring>
+        <name>nbCones</name>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Number of cones </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/favreau/git/BioExplorer/bioexplorer/core/plugin/common/Types.h" line="776" column="14" bodyfile="/Users/favreau/git/BioExplorer/bioexplorer/core/plugin/common/Types.h" bodystart="776" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="d2/d03/structbioexplorer_1_1details_1_1SceneInformationDetails_1adb23575f8cff150277ee10ec7f663428" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t bioexplorer::details::SceneInformationDetails::nbVertices</definition>
+        <argsstring></argsstring>
+        <name>nbVertices</name>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Number of triangle mesh vertices </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/favreau/git/BioExplorer/bioexplorer/core/plugin/common/Types.h" line="778" column="14" bodyfile="/Users/favreau/git/BioExplorer/bioexplorer/core/plugin/common/Types.h" bodystart="778" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="d2/d03/structbioexplorer_1_1details_1_1SceneInformationDetails_1afb82b12f9b4e4d50e236f60061a7531e" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t bioexplorer::details::SceneInformationDetails::nbIndices</definition>
+        <argsstring></argsstring>
+        <name>nbIndices</name>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Number of triangle mesh indices </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/favreau/git/BioExplorer/bioexplorer/core/plugin/common/Types.h" line="780" column="14" bodyfile="/Users/favreau/git/BioExplorer/bioexplorer/core/plugin/common/Types.h" bodystart="780" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="d2/d03/structbioexplorer_1_1details_1_1SceneInformationDetails_1aa4854b40ca3f67e9cf51e3c0ebaf26ec" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t bioexplorer::details::SceneInformationDetails::nbNormals</definition>
+        <argsstring></argsstring>
+        <name>nbNormals</name>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Number of triangle mesh normals </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/favreau/git/BioExplorer/bioexplorer/core/plugin/common/Types.h" line="782" column="14" bodyfile="/Users/favreau/git/BioExplorer/bioexplorer/core/plugin/common/Types.h" bodystart="782" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="d2/d03/structbioexplorer_1_1details_1_1SceneInformationDetails_1a50bb092f2ec5a4e486eec6d3d83873d0" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t bioexplorer::details::SceneInformationDetails::nbColors</definition>
+        <argsstring></argsstring>
+        <name>nbColors</name>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Number of triangle mesh colors </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/favreau/git/BioExplorer/bioexplorer/core/plugin/common/Types.h" line="784" column="14" bodyfile="/Users/favreau/git/BioExplorer/bioexplorer/core/plugin/common/Types.h" bodystart="784" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+<para>List of metrics for the current scene. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="/Users/favreau/git/BioExplorer/bioexplorer/core/plugin/common/Types.h" line="765" column="1" bodyfile="/Users/favreau/git/BioExplorer/bioexplorer/core/plugin/common/Types.h" bodystart="766" bodyend="785"/>
+    <listofallmembers>
+      <member refid="d2/d03/structbioexplorer_1_1details_1_1SceneInformationDetails_1a50bb092f2ec5a4e486eec6d3d83873d0" prot="public" virt="non-virtual"><scope>bioexplorer::details::SceneInformationDetails</scope><name>nbColors</name></member>
+      <member refid="d2/d03/structbioexplorer_1_1details_1_1SceneInformationDetails_1aeba1b882d37b7bb58700308d789f9bd1" prot="public" virt="non-virtual"><scope>bioexplorer::details::SceneInformationDetails</scope><name>nbCones</name></member>
+      <member refid="d2/d03/structbioexplorer_1_1details_1_1SceneInformationDetails_1aabfb2ab7d3b81008f68195ef22cdd204" prot="public" virt="non-virtual"><scope>bioexplorer::details::SceneInformationDetails</scope><name>nbCylinders</name></member>
+      <member refid="d2/d03/structbioexplorer_1_1details_1_1SceneInformationDetails_1afb82b12f9b4e4d50e236f60061a7531e" prot="public" virt="non-virtual"><scope>bioexplorer::details::SceneInformationDetails</scope><name>nbIndices</name></member>
+      <member refid="d2/d03/structbioexplorer_1_1details_1_1SceneInformationDetails_1ae42ba1b32d31c9d2065c6dc9b1ad6b3a" prot="public" virt="non-virtual"><scope>bioexplorer::details::SceneInformationDetails</scope><name>nbMaterials</name></member>
+      <member refid="d2/d03/structbioexplorer_1_1details_1_1SceneInformationDetails_1a0ce1083f6fe8a589dc55207bad54a9ba" prot="public" virt="non-virtual"><scope>bioexplorer::details::SceneInformationDetails</scope><name>nbModels</name></member>
+      <member refid="d2/d03/structbioexplorer_1_1details_1_1SceneInformationDetails_1aa4854b40ca3f67e9cf51e3c0ebaf26ec" prot="public" virt="non-virtual"><scope>bioexplorer::details::SceneInformationDetails</scope><name>nbNormals</name></member>
+      <member refid="d2/d03/structbioexplorer_1_1details_1_1SceneInformationDetails_1a5573f9910b21fa833949cd476ff92205" prot="public" virt="non-virtual"><scope>bioexplorer::details::SceneInformationDetails</scope><name>nbSpheres</name></member>
+      <member refid="d2/d03/structbioexplorer_1_1details_1_1SceneInformationDetails_1adb23575f8cff150277ee10ec7f663428" prot="public" virt="non-virtual"><scope>bioexplorer::details::SceneInformationDetails</scope><name>nbVertices</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

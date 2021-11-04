@@ -1,0 +1,59 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.2" xml:lang="en-US">
+  <compounddef id="df/dc7/structbioexplorer_1_1details_1_1RGBColorDetails" kind="struct" language="C++" prot="public">
+    <compoundname>bioexplorer::details::RGBColorDetails</compoundname>
+    <includes refid="d7/df8/Types_8h" local="no">Types.h</includes>
+      <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="df/dc7/structbioexplorer_1_1details_1_1RGBColorDetails_1af9fe17c9f87c4928951b7bd7c021d11e" prot="public" static="no" mutable="no">
+        <type>short</type>
+        <definition>short bioexplorer::details::RGBColorDetails::r</definition>
+        <argsstring></argsstring>
+        <name>r</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/favreau/git/BioExplorer/bioexplorer/core/plugin/common/Types.h" line="90" column="11" bodyfile="/Users/favreau/git/BioExplorer/bioexplorer/core/plugin/common/Types.h" bodystart="90" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="df/dc7/structbioexplorer_1_1details_1_1RGBColorDetails_1ab035e9b4baaf5e10cf34cf09198761c2" prot="public" static="no" mutable="no">
+        <type>short</type>
+        <definition>short bioexplorer::details::RGBColorDetails::g</definition>
+        <argsstring></argsstring>
+        <name>g</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/favreau/git/BioExplorer/bioexplorer/core/plugin/common/Types.h" line="90" column="13" bodyfile="/Users/favreau/git/BioExplorer/bioexplorer/core/plugin/common/Types.h" bodystart="90" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="df/dc7/structbioexplorer_1_1details_1_1RGBColorDetails_1ab0d6301a3375d9078483ab011dbe3b96" prot="public" static="no" mutable="no">
+        <type>short</type>
+        <definition>short bioexplorer::details::RGBColorDetails::b</definition>
+        <argsstring></argsstring>
+        <name>b</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/favreau/git/BioExplorer/bioexplorer/core/plugin/common/Types.h" line="90" column="15" bodyfile="/Users/favreau/git/BioExplorer/bioexplorer/core/plugin/common/Types.h" bodystart="90" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+<para>Structure defining the RGB color of atoms according to the JMol Scheme. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="/Users/favreau/git/BioExplorer/bioexplorer/core/plugin/common/Types.h" line="88" column="1" bodyfile="/Users/favreau/git/BioExplorer/bioexplorer/core/plugin/common/Types.h" bodystart="89" bodyend="91"/>
+    <listofallmembers>
+      <member refid="df/dc7/structbioexplorer_1_1details_1_1RGBColorDetails_1ab0d6301a3375d9078483ab011dbe3b96" prot="public" virt="non-virtual"><scope>bioexplorer::details::RGBColorDetails</scope><name>b</name></member>
+      <member refid="df/dc7/structbioexplorer_1_1details_1_1RGBColorDetails_1ab035e9b4baaf5e10cf34cf09198761c2" prot="public" virt="non-virtual"><scope>bioexplorer::details::RGBColorDetails</scope><name>g</name></member>
+      <member refid="df/dc7/structbioexplorer_1_1details_1_1RGBColorDetails_1af9fe17c9f87c4928951b7bd7c021d11e" prot="public" virt="non-virtual"><scope>bioexplorer::details::RGBColorDetails</scope><name>r</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

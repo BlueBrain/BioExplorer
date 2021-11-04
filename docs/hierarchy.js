@@ -32,7 +32,7 @@ var hierarchy =
     [ "Loader", null, [
       [ "bioexplorer::io::CacheLoader", "d1/d5f/classbioexplorer_1_1io_1_1CacheLoader.html", null ]
     ] ],
-    [ "Material", null, [
+    [ "ospray::Material", null, [
       [ "bioexplorer::rendering::AdvancedMaterial", "d5/d4e/structbioexplorer_1_1rendering_1_1AdvancedMaterial.html", null ]
     ] ],
     [ "bioexplorer::details::MaterialsDetails", "d7/d84/structbioexplorer_1_1details_1_1MaterialsDetails.html", null ],
@@ -62,7 +62,7 @@ var hierarchy =
     [ "bioexplorer::details::ProteinDetails", "de/d0e/structbioexplorer_1_1details_1_1ProteinDetails.html", null ],
     [ "bioexplorer::details::ProteinInstanceTransformationDetails", "d7/dab/structbioexplorer_1_1details_1_1ProteinInstanceTransformationDetails.html", null ],
     [ "bioexplorer::details::RandomizationDetails", "d7/dd2/structbioexplorer_1_1details_1_1RandomizationDetails.html", null ],
-    [ "Renderer", null, [
+    [ "ospray::Renderer", null, [
       [ "bioexplorer::rendering::AdvancedRenderer", "d9/d98/classbioexplorer_1_1rendering_1_1AdvancedRenderer.html", null ],
       [ "bioexplorer::rendering::DensityRenderer", "de/d24/classbioexplorer_1_1rendering_1_1DensityRenderer.html", null ],
       [ "bioexplorer::rendering::FieldsRenderer", "de/d6a/classbioexplorer_1_1rendering_1_1FieldsRenderer.html", null ],

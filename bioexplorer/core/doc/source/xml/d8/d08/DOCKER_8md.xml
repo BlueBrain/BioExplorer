@@ -1,0 +1,61 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.2" xml:lang="en-US">
+  <compounddef id="d8/d08/DOCKER_8md" kind="file" language="Markdown">
+    <compoundname>DOCKER.md</compoundname>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline><highlight class="normal">#<sp/>Docker</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">&gt;<sp/>Use<sp/>[Docker](https://docs.docker.com)<sp/>to<sp/>run<sp/>Blue<sp/>Brain<sp/>BioExplorer<sp/>as<sp/>a<sp/>service<sp/>and<sp/>avoid<sp/>painful<sp/>tooling<sp/>setup.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">##<sp/>Prerequisites</highlight></codeline>
+<codeline><highlight class="normal">Head<sp/>over<sp/>to<sp/>[Docker](https://docs.docker.com/engine/installation/#supported-platforms)<sp/>and<sp/>install<sp/>Docker<sp/>for<sp/>your<sp/>own<sp/>platform.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">##<sp/>Setup</highlight></codeline>
+<codeline><highlight class="normal">First<sp/>build<sp/>the<sp/>image<sp/>(*it&apos;s<sp/>necessary<sp/>to<sp/>do<sp/>this<sp/>step<sp/>if<sp/>you<sp/>want<sp/>to<sp/>run<sp/>Brayns*):</highlight></codeline>
+<codeline><highlight class="normal">```bash</highlight></codeline>
+<codeline><highlight class="normal">docker<sp/>build<sp/>.<sp/>-t<sp/>bioexplorer</highlight></codeline>
+<codeline><highlight class="normal">```</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">##<sp/>Usage</highlight></codeline>
+<codeline><highlight class="normal">By<sp/>default,<sp/>the<sp/>entrypoint<sp/>when<sp/>running<sp/>the<sp/>image<sp/>is<sp/>`braynsService`,<sp/>but<sp/>if<sp/>you<sp/>want<sp/>to<sp/>ssh<sp/>into<sp/>the<sp/>container<sp/>use:</highlight></codeline>
+<codeline><highlight class="normal">```bash</highlight></codeline>
+<codeline><highlight class="normal">#<sp/>`-p<sp/>5000:5000`<sp/>is<sp/>used<sp/>only<sp/>to<sp/>provide<sp/>some<sp/>port<sp/>bindings<sp/>(host:container)<sp/>if<sp/>you<sp/>want<sp/>to<sp/>run<sp/>and<sp/>access<sp/>Brayns<sp/>from<sp/>your<sp/>host<sp/>while<sp/>in<sp/>the<sp/>container</highlight></codeline>
+<codeline><highlight class="normal">docker<sp/>run<sp/>-ti<sp/>--rm<sp/>--entrypoint<sp/>bash<sp/>-p<sp/>5000:5000<sp/>bioexplorer</highlight></codeline>
+<codeline><highlight class="normal">```</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">If<sp/>you<sp/>want<sp/>to<sp/>run<sp/>Blue<sp/>Brain<sp/>BioExplorer<sp/>use:</highlight></codeline>
+<codeline><highlight class="normal">```bash</highlight></codeline>
+<codeline><highlight class="normal">#<sp/>Runs<sp/>Blue<sp/>Brain<sp/>BioExplorer<sp/>as<sp/>a<sp/>service<sp/>with<sp/>the<sp/>HTTP<sp/>interface<sp/>binded<sp/>on<sp/>port<sp/>5000</highlight></codeline>
+<codeline><highlight class="normal">docker<sp/>run<sp/>-ti<sp/>--rm<sp/>-p<sp/>5000:5000<sp/>bioexplorer</highlight></codeline>
+<codeline><highlight class="normal">```</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">**NOTE**<sp/>If<sp/>you<sp/>are<sp/>having<sp/>trouble<sp/>exiting<sp/>the<sp/>process<sp/>after<sp/>you<sp/>run<sp/>the<sp/>container<sp/>(with<sp/>the<sp/>above<sp/>command),<sp/>use<sp/>`docker<sp/>stop<sp/>&lt;container-id&gt;`<sp/>to<sp/>stop<sp/>the<sp/>container.</highlight></codeline>
+<codeline><highlight class="normal">`docker<sp/>ps`<sp/>will<sp/>give<sp/>you<sp/>the<sp/>current<sp/>running<sp/>process.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">If<sp/>you&apos;d<sp/>like<sp/>to<sp/>also<sp/>run<sp/>the<sp/>UI,<sp/>use<sp/>[docker<sp/>stack](https://docs.docker.com/get-started/part5):</highlight></codeline>
+<codeline><highlight class="normal">```bash</highlight></codeline>
+<codeline><highlight class="normal">#<sp/>UI<sp/>on<sp/>port<sp/>8000<sp/>and<sp/>Python<sp/>SDK<sp/>on<sp/>port<sp/>8888</highlight></codeline>
+<codeline><highlight class="normal">docker<sp/>stack<sp/>deploy<sp/>-c<sp/>docker-compose.yml<sp/>bioexplorer</highlight></codeline>
+<codeline><highlight class="normal">```</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">**NOTE**<sp/>You<sp/>have<sp/>to<sp/>build<sp/>both<sp/>the<sp/>UI<sp/>and<sp/>API<sp/>images<sp/>(using<sp/>`docker-compose<sp/>build`)<sp/>before<sp/>you<sp/>can<sp/>run<sp/>them<sp/>using<sp/>stacks.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">Run<sp/>Blue<sp/>Brain<sp/>BioExplorer<sp/>with<sp/>the<sp/>HTTP<sp/>interface<sp/>binded<sp/>to<sp/>a<sp/>different<sp/>port:</highlight></codeline>
+<codeline><highlight class="normal">```bash</highlight></codeline>
+<codeline><highlight class="normal">docker<sp/>run<sp/>-ti<sp/>--rm<sp/>-p<sp/>5000:5000<sp/>bioexplorer<sp/>--http-server<sp/>:5000</highlight></codeline>
+<codeline><highlight class="normal">```</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">Provide<sp/>other<sp/>flags<sp/>(or<sp/>env<sp/>vars)<sp/>to<sp/>`braynsService`:</highlight></codeline>
+<codeline><highlight class="normal">```bash</highlight></codeline>
+<codeline><highlight class="normal">docker<sp/>run<sp/>-ti<sp/>--rm<sp/>-p<sp/>5000:5000<sp/>bioexplorer<sp/>\</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>--http-server<sp/>:5000<sp/>\</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>--plugin<sp/>BioExplorer</highlight></codeline>
+<codeline><highlight class="normal">```</highlight></codeline>
+    </programlisting>
+    <location file="/Users/favreau/git/BioExplorer/DOCKER.md"/>
+  </compounddef>
+</doxygen>

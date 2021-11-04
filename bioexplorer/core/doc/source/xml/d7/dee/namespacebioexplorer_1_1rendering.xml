@@ -1,0 +1,129 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.2" xml:lang="en-US">
+  <compounddef id="d7/dee/namespacebioexplorer_1_1rendering" kind="namespace" language="C++">
+    <compoundname>bioexplorer::rendering</compoundname>
+    <innerclass refid="d5/d4e/structbioexplorer_1_1rendering_1_1AdvancedMaterial" prot="public">bioexplorer::rendering::AdvancedMaterial</innerclass>
+    <innerclass refid="d9/d98/classbioexplorer_1_1rendering_1_1AdvancedRenderer" prot="public">bioexplorer::rendering::AdvancedRenderer</innerclass>
+    <innerclass refid="de/d24/classbioexplorer_1_1rendering_1_1DensityRenderer" prot="public">bioexplorer::rendering::DensityRenderer</innerclass>
+    <innerclass refid="de/d6a/classbioexplorer_1_1rendering_1_1FieldsRenderer" prot="public">bioexplorer::rendering::FieldsRenderer</innerclass>
+    <innerclass refid="de/da9/classbioexplorer_1_1rendering_1_1PathTracingRenderer" prot="public">bioexplorer::rendering::PathTracingRenderer</innerclass>
+    <innerclass refid="d8/d50/structbioexplorer_1_1rendering_1_1PerspectiveStereoCamera" prot="public">bioexplorer::rendering::PerspectiveStereoCamera</innerclass>
+      <sectiondef kind="typedef">
+      <memberdef kind="typedef" id="d2/de1/AdvancedMaterial_8h_1ab3f7d20e410857fe87d93c8ba2490ec2" prot="public" static="no">
+        <type>ospray::vec3f</type>
+        <definition>typedef ospray::vec3f bioexplorer::rendering::Color</definition>
+        <argsstring></argsstring>
+        <name>Color</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/favreau/git/BioExplorer/bioexplorer/core/module/ispc/render/AdvancedMaterial.h" line="32" column="23" bodyfile="/Users/favreau/git/BioExplorer/bioexplorer/core/module/ispc/render/AdvancedMaterial.h" bodystart="32" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="func">
+      <memberdef kind="function" id="d6/d10/PerspectiveStereoCamera_8cpp_1a0057077aff03f89a17e81c5c9fe74111" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>bioexplorer::rendering::OSP_REGISTER_CAMERA</definition>
+        <argsstring>(PerspectiveStereoCamera, bio_explorer_perspective)</argsstring>
+        <name>OSP_REGISTER_CAMERA</name>
+        <param>
+          <type><ref refid="d8/d50/structbioexplorer_1_1rendering_1_1PerspectiveStereoCamera" kindref="compound">PerspectiveStereoCamera</ref></type>
+        </param>
+        <param>
+          <type>bio_explorer_perspective</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/favreau/git/BioExplorer/bioexplorer/core/module/ispc/camera/PerspectiveStereoCamera.cpp" line="106" column="1" declfile="/Users/favreau/git/BioExplorer/bioexplorer/core/module/ispc/camera/PerspectiveStereoCamera.cpp" declline="106" declcolumn="1"/>
+      </memberdef>
+      <memberdef kind="function" id="d4/d7c/AdvancedRenderer_8cpp_1a83a67f94bf54f840a2d3895f54591b85" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>bioexplorer::rendering::OSP_REGISTER_RENDERER</definition>
+        <argsstring>(AdvancedRenderer, bio_explorer)</argsstring>
+        <name>OSP_REGISTER_RENDERER</name>
+        <param>
+          <type><ref refid="d9/d98/classbioexplorer_1_1rendering_1_1AdvancedRenderer" kindref="compound">AdvancedRenderer</ref></type>
+        </param>
+        <param>
+          <type>bio_explorer</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/favreau/git/BioExplorer/bioexplorer/core/module/ispc/render/AdvancedRenderer.cpp" line="87" column="1" declfile="/Users/favreau/git/BioExplorer/bioexplorer/core/module/ispc/render/AdvancedRenderer.cpp" declline="87" declcolumn="1"/>
+      </memberdef>
+      <memberdef kind="function" id="dd/df6/DensityRenderer_8cpp_1a51addb6963bf1761d6c784f840c1e60b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>bioexplorer::rendering::OSP_REGISTER_RENDERER</definition>
+        <argsstring>(DensityRenderer, bio_explorer_density)</argsstring>
+        <name>OSP_REGISTER_RENDERER</name>
+        <param>
+          <type><ref refid="de/d24/classbioexplorer_1_1rendering_1_1DensityRenderer" kindref="compound">DensityRenderer</ref></type>
+        </param>
+        <param>
+          <type>bio_explorer_density</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/favreau/git/BioExplorer/bioexplorer/core/module/ispc/render/DensityRenderer.cpp" line="71" column="1" declfile="/Users/favreau/git/BioExplorer/bioexplorer/core/module/ispc/render/DensityRenderer.cpp" declline="71" declcolumn="1"/>
+      </memberdef>
+      <memberdef kind="function" id="dc/d15/FieldsRenderer_8cpp_1a05f60d7e70016f07362b3feef277d94e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>bioexplorer::rendering::OSP_REGISTER_RENDERER</definition>
+        <argsstring>(FieldsRenderer, bio_explorer_fields)</argsstring>
+        <name>OSP_REGISTER_RENDERER</name>
+        <param>
+          <type><ref refid="de/d6a/classbioexplorer_1_1rendering_1_1FieldsRenderer" kindref="compound">FieldsRenderer</ref></type>
+        </param>
+        <param>
+          <type>bio_explorer_fields</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/favreau/git/BioExplorer/bioexplorer/core/module/ispc/render/FieldsRenderer.cpp" line="92" column="1" declfile="/Users/favreau/git/BioExplorer/bioexplorer/core/module/ispc/render/FieldsRenderer.cpp" declline="92" declcolumn="1"/>
+      </memberdef>
+      <memberdef kind="function" id="d8/df6/PathTracingRenderer_8cpp_1a80f0858b1f6ff25dcead19a9ff49742b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>bioexplorer::rendering::OSP_REGISTER_RENDERER</definition>
+        <argsstring>(PathTracingRenderer, bio_explorer_path_tracing)</argsstring>
+        <name>OSP_REGISTER_RENDERER</name>
+        <param>
+          <type><ref refid="de/da9/classbioexplorer_1_1rendering_1_1PathTracingRenderer" kindref="compound">PathTracingRenderer</ref></type>
+        </param>
+        <param>
+          <type>bio_explorer_path_tracing</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/favreau/git/BioExplorer/bioexplorer/core/module/ispc/render/PathTracingRenderer.cpp" line="69" column="1" declfile="/Users/favreau/git/BioExplorer/bioexplorer/core/module/ispc/render/PathTracingRenderer.cpp" declline="69" declcolumn="1"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="/Users/favreau/git/BioExplorer/bioexplorer/core/module/ispc/camera/PerspectiveStereoCamera.cpp" line="35" column="1"/>
+  </compounddef>
+</doxygen>

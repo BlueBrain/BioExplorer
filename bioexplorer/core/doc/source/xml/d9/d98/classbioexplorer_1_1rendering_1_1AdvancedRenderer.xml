@@ -1,0 +1,356 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.2" xml:lang="en-US">
+  <compounddef id="d9/d98/classbioexplorer_1_1rendering_1_1AdvancedRenderer" kind="class" language="C++" prot="public">
+    <compoundname>bioexplorer::rendering::AdvancedRenderer</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">ospray::Renderer</basecompoundref>
+    <includes refid="de/d80/AdvancedRenderer_8h" local="no">AdvancedRenderer.h</includes>
+      <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="d9/d98/classbioexplorer_1_1rendering_1_1AdvancedRenderer_1a1dcf09a247a87e15e4784a75909dee11" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; void * &gt;</type>
+        <definition>std::vector&lt;void*&gt; bioexplorer::rendering::AdvancedRenderer::_lightArray</definition>
+        <argsstring></argsstring>
+        <name>_lightArray</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/favreau/git/BioExplorer/bioexplorer/core/module/ispc/render/AdvancedRenderer.h" line="60" column="17" bodyfile="/Users/favreau/git/BioExplorer/bioexplorer/core/module/ispc/render/AdvancedRenderer.h" bodystart="60" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="d9/d98/classbioexplorer_1_1rendering_1_1AdvancedRenderer_1a0c6b1f866e28de1e7f7b5087bb514b16" prot="private" static="no" mutable="no">
+        <type>void **</type>
+        <definition>void** bioexplorer::rendering::AdvancedRenderer::_lightPtr</definition>
+        <argsstring></argsstring>
+        <name>_lightPtr</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/favreau/git/BioExplorer/bioexplorer/core/module/ispc/render/AdvancedRenderer.h" line="61" column="10" bodyfile="/Users/favreau/git/BioExplorer/bioexplorer/core/module/ispc/render/AdvancedRenderer.h" bodystart="61" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="d9/d98/classbioexplorer_1_1rendering_1_1AdvancedRenderer_1a10735a5197e8fa2b2cd269810144c56f" prot="private" static="no" mutable="no">
+        <type>ospray::Data *</type>
+        <definition>ospray::Data* bioexplorer::rendering::AdvancedRenderer::_lightData</definition>
+        <argsstring></argsstring>
+        <name>_lightData</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/favreau/git/BioExplorer/bioexplorer/core/module/ispc/render/AdvancedRenderer.h" line="62" column="18" bodyfile="/Users/favreau/git/BioExplorer/bioexplorer/core/module/ispc/render/AdvancedRenderer.h" bodystart="62" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="d9/d98/classbioexplorer_1_1rendering_1_1AdvancedRenderer_1a44664fcf9c9b024f4e93de23c89f6591" prot="private" static="no" mutable="no">
+        <type><ref refid="d5/d4e/structbioexplorer_1_1rendering_1_1AdvancedMaterial" kindref="compound">AdvancedMaterial</ref> *</type>
+        <definition>AdvancedMaterial* bioexplorer::rendering::AdvancedRenderer::_bgMaterial</definition>
+        <argsstring></argsstring>
+        <name>_bgMaterial</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/favreau/git/BioExplorer/bioexplorer/core/module/ispc/render/AdvancedRenderer.h" line="64" column="22" bodyfile="/Users/favreau/git/BioExplorer/bioexplorer/core/module/ispc/render/AdvancedRenderer.h" bodystart="64" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="d9/d98/classbioexplorer_1_1rendering_1_1AdvancedRenderer_1af194c6017ffe88f6403a46dafc6e9855" prot="private" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool bioexplorer::rendering::AdvancedRenderer::_useHardwareRandomizer</definition>
+        <argsstring></argsstring>
+        <name>_useHardwareRandomizer</name>
+        <initializer>{false}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/favreau/git/BioExplorer/bioexplorer/core/module/ispc/render/AdvancedRenderer.h" line="66" column="10" bodyfile="/Users/favreau/git/BioExplorer/bioexplorer/core/module/ispc/render/AdvancedRenderer.h" bodystart="66" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="d9/d98/classbioexplorer_1_1rendering_1_1AdvancedRenderer_1aa8ba1de289a17216c4a29585a763bc78" prot="private" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool bioexplorer::rendering::AdvancedRenderer::_showBackground</definition>
+        <argsstring></argsstring>
+        <name>_showBackground</name>
+        <initializer>{false}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/favreau/git/BioExplorer/bioexplorer/core/module/ispc/render/AdvancedRenderer.h" line="67" column="10" bodyfile="/Users/favreau/git/BioExplorer/bioexplorer/core/module/ispc/render/AdvancedRenderer.h" bodystart="67" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="d9/d98/classbioexplorer_1_1rendering_1_1AdvancedRenderer_1a68abc8b67032182a5a70052c7908bbed" prot="private" static="no" mutable="no">
+        <type>float</type>
+        <definition>float bioexplorer::rendering::AdvancedRenderer::_timestamp</definition>
+        <argsstring></argsstring>
+        <name>_timestamp</name>
+        <initializer>{0.f}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/favreau/git/BioExplorer/bioexplorer/core/module/ispc/render/AdvancedRenderer.h" line="69" column="11" bodyfile="/Users/favreau/git/BioExplorer/bioexplorer/core/module/ispc/render/AdvancedRenderer.h" bodystart="69" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="d9/d98/classbioexplorer_1_1rendering_1_1AdvancedRenderer_1af639317c989ee170f77790828a1d70c3" prot="private" static="no" mutable="no">
+        <type>float</type>
+        <definition>float bioexplorer::rendering::AdvancedRenderer::_exposure</definition>
+        <argsstring></argsstring>
+        <name>_exposure</name>
+        <initializer>{1.f}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/favreau/git/BioExplorer/bioexplorer/core/module/ispc/render/AdvancedRenderer.h" line="70" column="11" bodyfile="/Users/favreau/git/BioExplorer/bioexplorer/core/module/ispc/render/AdvancedRenderer.h" bodystart="70" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="d9/d98/classbioexplorer_1_1rendering_1_1AdvancedRenderer_1ac077850c0fa041d557ee9993e21143b9" prot="private" static="no" mutable="no">
+        <type>float</type>
+        <definition>float bioexplorer::rendering::AdvancedRenderer::_fogThickness</definition>
+        <argsstring></argsstring>
+        <name>_fogThickness</name>
+        <initializer>{1e6f}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/favreau/git/BioExplorer/bioexplorer/core/module/ispc/render/AdvancedRenderer.h" line="72" column="11" bodyfile="/Users/favreau/git/BioExplorer/bioexplorer/core/module/ispc/render/AdvancedRenderer.h" bodystart="72" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="d9/d98/classbioexplorer_1_1rendering_1_1AdvancedRenderer_1a1fc8e8dc9ab398683bacecfe127601a2" prot="private" static="no" mutable="no">
+        <type>float</type>
+        <definition>float bioexplorer::rendering::AdvancedRenderer::_fogStart</definition>
+        <argsstring></argsstring>
+        <name>_fogStart</name>
+        <initializer>{0.f}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/favreau/git/BioExplorer/bioexplorer/core/module/ispc/render/AdvancedRenderer.h" line="73" column="11" bodyfile="/Users/favreau/git/BioExplorer/bioexplorer/core/module/ispc/render/AdvancedRenderer.h" bodystart="73" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="d9/d98/classbioexplorer_1_1rendering_1_1AdvancedRenderer_1a2f846e5ee959ebad8e8c69989a2fee31" prot="private" static="no" mutable="no">
+        <type>ospray::uint32</type>
+        <definition>ospray::uint32 bioexplorer::rendering::AdvancedRenderer::_maxBounces</definition>
+        <argsstring></argsstring>
+        <name>_maxBounces</name>
+        <initializer>{3}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/favreau/git/BioExplorer/bioexplorer/core/module/ispc/render/AdvancedRenderer.h" line="75" column="20" bodyfile="/Users/favreau/git/BioExplorer/bioexplorer/core/module/ispc/render/AdvancedRenderer.h" bodystart="75" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="d9/d98/classbioexplorer_1_1rendering_1_1AdvancedRenderer_1a9b5148fd071f9c22e7cafa635a9bb446" prot="private" static="no" mutable="no">
+        <type>ospray::uint32</type>
+        <definition>ospray::uint32 bioexplorer::rendering::AdvancedRenderer::_randomNumber</definition>
+        <argsstring></argsstring>
+        <name>_randomNumber</name>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/favreau/git/BioExplorer/bioexplorer/core/module/ispc/render/AdvancedRenderer.h" line="76" column="20" bodyfile="/Users/favreau/git/BioExplorer/bioexplorer/core/module/ispc/render/AdvancedRenderer.h" bodystart="76" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="d9/d98/classbioexplorer_1_1rendering_1_1AdvancedRenderer_1a2620ef49faee5a26fd1502046df4f0cb" prot="private" static="no" mutable="no">
+        <type>float</type>
+        <definition>float bioexplorer::rendering::AdvancedRenderer::_shadows</definition>
+        <argsstring></argsstring>
+        <name>_shadows</name>
+        <initializer>{0.f}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/favreau/git/BioExplorer/bioexplorer/core/module/ispc/render/AdvancedRenderer.h" line="78" column="11" bodyfile="/Users/favreau/git/BioExplorer/bioexplorer/core/module/ispc/render/AdvancedRenderer.h" bodystart="78" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="d9/d98/classbioexplorer_1_1rendering_1_1AdvancedRenderer_1ab72a2e3a46c4ecbff6a13979bbff29f4" prot="private" static="no" mutable="no">
+        <type>float</type>
+        <definition>float bioexplorer::rendering::AdvancedRenderer::_softShadows</definition>
+        <argsstring></argsstring>
+        <name>_softShadows</name>
+        <initializer>{0.f}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/favreau/git/BioExplorer/bioexplorer/core/module/ispc/render/AdvancedRenderer.h" line="79" column="11" bodyfile="/Users/favreau/git/BioExplorer/bioexplorer/core/module/ispc/render/AdvancedRenderer.h" bodystart="79" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="d9/d98/classbioexplorer_1_1rendering_1_1AdvancedRenderer_1a8efb0d16c7fb4e304d0431df91952b97" prot="private" static="no" mutable="no">
+        <type>ospray::uint32</type>
+        <definition>ospray::uint32 bioexplorer::rendering::AdvancedRenderer::_softShadowsSamples</definition>
+        <argsstring></argsstring>
+        <name>_softShadowsSamples</name>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/favreau/git/BioExplorer/bioexplorer/core/module/ispc/render/AdvancedRenderer.h" line="80" column="20" bodyfile="/Users/favreau/git/BioExplorer/bioexplorer/core/module/ispc/render/AdvancedRenderer.h" bodystart="80" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="d9/d98/classbioexplorer_1_1rendering_1_1AdvancedRenderer_1a2852923b49b2f61d14d1ec57dd65bb9a" prot="private" static="no" mutable="no">
+        <type>float</type>
+        <definition>float bioexplorer::rendering::AdvancedRenderer::_giStrength</definition>
+        <argsstring></argsstring>
+        <name>_giStrength</name>
+        <initializer>{0.f}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/favreau/git/BioExplorer/bioexplorer/core/module/ispc/render/AdvancedRenderer.h" line="82" column="11" bodyfile="/Users/favreau/git/BioExplorer/bioexplorer/core/module/ispc/render/AdvancedRenderer.h" bodystart="82" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="d9/d98/classbioexplorer_1_1rendering_1_1AdvancedRenderer_1a073237ebf4f5624dbf72310e4e1ed08a" prot="private" static="no" mutable="no">
+        <type>float</type>
+        <definition>float bioexplorer::rendering::AdvancedRenderer::_giDistance</definition>
+        <argsstring></argsstring>
+        <name>_giDistance</name>
+        <initializer>{1e6f}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/favreau/git/BioExplorer/bioexplorer/core/module/ispc/render/AdvancedRenderer.h" line="83" column="11" bodyfile="/Users/favreau/git/BioExplorer/bioexplorer/core/module/ispc/render/AdvancedRenderer.h" bodystart="83" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="d9/d98/classbioexplorer_1_1rendering_1_1AdvancedRenderer_1aa2a9744ce664208236c611d7ebeff250" prot="private" static="no" mutable="no">
+        <type>ospray::uint32</type>
+        <definition>ospray::uint32 bioexplorer::rendering::AdvancedRenderer::_giSamples</definition>
+        <argsstring></argsstring>
+        <name>_giSamples</name>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/favreau/git/BioExplorer/bioexplorer/core/module/ispc/render/AdvancedRenderer.h" line="84" column="20" bodyfile="/Users/favreau/git/BioExplorer/bioexplorer/core/module/ispc/render/AdvancedRenderer.h" bodystart="84" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="public-func">
+      <memberdef kind="function" id="d9/d98/classbioexplorer_1_1rendering_1_1AdvancedRenderer_1ace9aeb88b90c18429a3f12698cdf1986" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>bioexplorer::rendering::AdvancedRenderer::AdvancedRenderer</definition>
+        <argsstring>()</argsstring>
+        <name>AdvancedRenderer</name>
+        <briefdescription>
+<para>Construct a new Bio Explorer Renderer object. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/favreau/git/BioExplorer/bioexplorer/core/module/ispc/render/AdvancedRenderer.h" line="43" column="5" bodyfile="/Users/favreau/git/BioExplorer/bioexplorer/core/module/ispc/render/AdvancedRenderer.cpp" bodystart="82" bodyend="85"/>
+      </memberdef>
+      <memberdef kind="function" id="d9/d98/classbioexplorer_1_1rendering_1_1AdvancedRenderer_1ab0f9d4ea8ca21a459510a9a28c169387" prot="public" static="no" const="yes" explicit="no" inline="yes" final="yes" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string bioexplorer::rendering::AdvancedRenderer::toString</definition>
+        <argsstring>() const final</argsstring>
+        <name>toString</name>
+        <briefdescription>
+<para>Returns the class name as a string. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>A string containing the full name of the class </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/favreau/git/BioExplorer/bioexplorer/core/module/ispc/render/AdvancedRenderer.h" line="50" column="17" bodyfile="/Users/favreau/git/BioExplorer/bioexplorer/core/module/ispc/render/AdvancedRenderer.h" bodystart="50" bodyend="50"/>
+      </memberdef>
+      <memberdef kind="function" id="d9/d98/classbioexplorer_1_1rendering_1_1AdvancedRenderer_1a5db00b10477aa3d6ba8133f0a76fd96d" prot="public" static="no" const="no" explicit="no" inline="no" final="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void bioexplorer::rendering::AdvancedRenderer::commit</definition>
+        <argsstring>() final</argsstring>
+        <name>commit</name>
+        <briefdescription>
+<para>Commit the changes to the OSPRay engine. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/favreau/git/BioExplorer/bioexplorer/core/module/ispc/render/AdvancedRenderer.h" line="56" column="10" bodyfile="/Users/favreau/git/BioExplorer/bioexplorer/core/module/ispc/render/AdvancedRenderer.cpp" bodystart="37" bodyend="80"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+<para>The <ref refid="d9/d98/classbioexplorer_1_1rendering_1_1AdvancedRenderer" kindref="compound">AdvancedRenderer</ref> class is a renderer that can perform global illumination (light shading, shadows, ambient occlusion, color bleeding, light emission) </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>bioexplorer::rendering::AdvancedRenderer</label>
+        <link refid="d9/d98/classbioexplorer_1_1rendering_1_1AdvancedRenderer"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>ospray::Renderer</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>bioexplorer::rendering::AdvancedRenderer</label>
+        <link refid="d9/d98/classbioexplorer_1_1rendering_1_1AdvancedRenderer"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>ospray::Renderer</label>
+      </node>
+    </collaborationgraph>
+    <location file="/Users/favreau/git/BioExplorer/bioexplorer/core/module/ispc/render/AdvancedRenderer.h" line="36" column="1" bodyfile="/Users/favreau/git/BioExplorer/bioexplorer/core/module/ispc/render/AdvancedRenderer.h" bodystart="37" bodyend="85"/>
+    <listofallmembers>
+      <member refid="d9/d98/classbioexplorer_1_1rendering_1_1AdvancedRenderer_1a44664fcf9c9b024f4e93de23c89f6591" prot="private" virt="non-virtual"><scope>bioexplorer::rendering::AdvancedRenderer</scope><name>_bgMaterial</name></member>
+      <member refid="d9/d98/classbioexplorer_1_1rendering_1_1AdvancedRenderer_1af639317c989ee170f77790828a1d70c3" prot="private" virt="non-virtual"><scope>bioexplorer::rendering::AdvancedRenderer</scope><name>_exposure</name></member>
+      <member refid="d9/d98/classbioexplorer_1_1rendering_1_1AdvancedRenderer_1a1fc8e8dc9ab398683bacecfe127601a2" prot="private" virt="non-virtual"><scope>bioexplorer::rendering::AdvancedRenderer</scope><name>_fogStart</name></member>
+      <member refid="d9/d98/classbioexplorer_1_1rendering_1_1AdvancedRenderer_1ac077850c0fa041d557ee9993e21143b9" prot="private" virt="non-virtual"><scope>bioexplorer::rendering::AdvancedRenderer</scope><name>_fogThickness</name></member>
+      <member refid="d9/d98/classbioexplorer_1_1rendering_1_1AdvancedRenderer_1a073237ebf4f5624dbf72310e4e1ed08a" prot="private" virt="non-virtual"><scope>bioexplorer::rendering::AdvancedRenderer</scope><name>_giDistance</name></member>
+      <member refid="d9/d98/classbioexplorer_1_1rendering_1_1AdvancedRenderer_1aa2a9744ce664208236c611d7ebeff250" prot="private" virt="non-virtual"><scope>bioexplorer::rendering::AdvancedRenderer</scope><name>_giSamples</name></member>
+      <member refid="d9/d98/classbioexplorer_1_1rendering_1_1AdvancedRenderer_1a2852923b49b2f61d14d1ec57dd65bb9a" prot="private" virt="non-virtual"><scope>bioexplorer::rendering::AdvancedRenderer</scope><name>_giStrength</name></member>
+      <member refid="d9/d98/classbioexplorer_1_1rendering_1_1AdvancedRenderer_1a1dcf09a247a87e15e4784a75909dee11" prot="private" virt="non-virtual"><scope>bioexplorer::rendering::AdvancedRenderer</scope><name>_lightArray</name></member>
+      <member refid="d9/d98/classbioexplorer_1_1rendering_1_1AdvancedRenderer_1a10735a5197e8fa2b2cd269810144c56f" prot="private" virt="non-virtual"><scope>bioexplorer::rendering::AdvancedRenderer</scope><name>_lightData</name></member>
+      <member refid="d9/d98/classbioexplorer_1_1rendering_1_1AdvancedRenderer_1a0c6b1f866e28de1e7f7b5087bb514b16" prot="private" virt="non-virtual"><scope>bioexplorer::rendering::AdvancedRenderer</scope><name>_lightPtr</name></member>
+      <member refid="d9/d98/classbioexplorer_1_1rendering_1_1AdvancedRenderer_1a2f846e5ee959ebad8e8c69989a2fee31" prot="private" virt="non-virtual"><scope>bioexplorer::rendering::AdvancedRenderer</scope><name>_maxBounces</name></member>
+      <member refid="d9/d98/classbioexplorer_1_1rendering_1_1AdvancedRenderer_1a9b5148fd071f9c22e7cafa635a9bb446" prot="private" virt="non-virtual"><scope>bioexplorer::rendering::AdvancedRenderer</scope><name>_randomNumber</name></member>
+      <member refid="d9/d98/classbioexplorer_1_1rendering_1_1AdvancedRenderer_1a2620ef49faee5a26fd1502046df4f0cb" prot="private" virt="non-virtual"><scope>bioexplorer::rendering::AdvancedRenderer</scope><name>_shadows</name></member>
+      <member refid="d9/d98/classbioexplorer_1_1rendering_1_1AdvancedRenderer_1aa8ba1de289a17216c4a29585a763bc78" prot="private" virt="non-virtual"><scope>bioexplorer::rendering::AdvancedRenderer</scope><name>_showBackground</name></member>
+      <member refid="d9/d98/classbioexplorer_1_1rendering_1_1AdvancedRenderer_1ab72a2e3a46c4ecbff6a13979bbff29f4" prot="private" virt="non-virtual"><scope>bioexplorer::rendering::AdvancedRenderer</scope><name>_softShadows</name></member>
+      <member refid="d9/d98/classbioexplorer_1_1rendering_1_1AdvancedRenderer_1a8efb0d16c7fb4e304d0431df91952b97" prot="private" virt="non-virtual"><scope>bioexplorer::rendering::AdvancedRenderer</scope><name>_softShadowsSamples</name></member>
+      <member refid="d9/d98/classbioexplorer_1_1rendering_1_1AdvancedRenderer_1a68abc8b67032182a5a70052c7908bbed" prot="private" virt="non-virtual"><scope>bioexplorer::rendering::AdvancedRenderer</scope><name>_timestamp</name></member>
+      <member refid="d9/d98/classbioexplorer_1_1rendering_1_1AdvancedRenderer_1af194c6017ffe88f6403a46dafc6e9855" prot="private" virt="non-virtual"><scope>bioexplorer::rendering::AdvancedRenderer</scope><name>_useHardwareRandomizer</name></member>
+      <member refid="d9/d98/classbioexplorer_1_1rendering_1_1AdvancedRenderer_1ace9aeb88b90c18429a3f12698cdf1986" prot="public" virt="non-virtual"><scope>bioexplorer::rendering::AdvancedRenderer</scope><name>AdvancedRenderer</name></member>
+      <member refid="d9/d98/classbioexplorer_1_1rendering_1_1AdvancedRenderer_1a5db00b10477aa3d6ba8133f0a76fd96d" prot="public" virt="non-virtual"><scope>bioexplorer::rendering::AdvancedRenderer</scope><name>commit</name></member>
+      <member refid="d9/d98/classbioexplorer_1_1rendering_1_1AdvancedRenderer_1ab0f9d4ea8ca21a459510a9a28c169387" prot="public" virt="non-virtual"><scope>bioexplorer::rendering::AdvancedRenderer</scope><name>toString</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

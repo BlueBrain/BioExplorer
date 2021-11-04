@@ -1,0 +1,263 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.2" xml:lang="en-US">
+  <compounddef id="db/d92/Node_8h" kind="file" language="C++">
+    <compoundname>Node.h</compoundname>
+    <includes refid="d7/df8/Types_8h" local="no">plugin/common/Types.h</includes>
+    <includedby refid="d1/d66/Membrane_8h" local="no">/Users/favreau/git/BioExplorer/bioexplorer/core/plugin/biology/Membrane.h</includedby>
+    <includedby refid="d4/dbe/Molecule_8h" local="no">/Users/favreau/git/BioExplorer/bioexplorer/core/plugin/biology/Molecule.h</includedby>
+    <includedby refid="dc/d73/Node_8cpp" local="yes">/Users/favreau/git/BioExplorer/bioexplorer/core/plugin/biology/Node.cpp</includedby>
+    <includedby refid="d0/d7d/RNASequence_8h" local="no">/Users/favreau/git/BioExplorer/bioexplorer/core/plugin/biology/RNASequence.h</includedby>
+    <incdepgraph>
+      <node id="1">
+        <label>/Users/favreau/git/BioExplorer/bioexplorer/core/plugin/biology/Node.h</label>
+        <link refid="db/d92/Node_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>plugin/common/Types.h</label>
+        <link refid="d7/df8/Types_8h_source"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>Defines.h</label>
+      </node>
+      <node id="4">
+        <label>brayns/engineapi/Scene.h</label>
+      </node>
+      <node id="5">
+        <label>map</label>
+      </node>
+      <node id="6">
+        <label>set</label>
+      </node>
+      <node id="7">
+        <label>string</label>
+      </node>
+      <node id="8">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="5">
+        <label>/Users/favreau/git/BioExplorer/bioexplorer/core/plugin/biology/Assembly.cpp</label>
+        <link refid="df/d5c/Assembly_8cpp_source"/>
+      </node>
+      <node id="12">
+        <label>/Users/favreau/git/BioExplorer/bioexplorer/core/plugin/biology/Glycans.cpp</label>
+        <link refid="de/d05/plugin_2biology_2Glycans_8cpp_source"/>
+      </node>
+      <node id="11">
+        <label>/Users/favreau/git/BioExplorer/bioexplorer/core/plugin/biology/Glycans.h</label>
+        <link refid="df/de2/Glycans_8h_source"/>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>/Users/favreau/git/BioExplorer/bioexplorer/core/plugin/biology/Membrane.cpp</label>
+        <link refid="d9/d00/Membrane_8cpp_source"/>
+      </node>
+      <node id="2">
+        <label>/Users/favreau/git/BioExplorer/bioexplorer/core/plugin/biology/Membrane.h</label>
+        <link refid="d1/d66/Membrane_8h_source"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+      </node>
+      <node id="6">
+        <label>/Users/favreau/git/BioExplorer/bioexplorer/core/plugin/biology/MeshBasedMembrane.cpp</label>
+        <link refid="d9/d18/plugin_2biology_2MeshBasedMembrane_8cpp_source"/>
+      </node>
+      <node id="4">
+        <label>/Users/favreau/git/BioExplorer/bioexplorer/core/plugin/biology/MeshBasedMembrane.h</label>
+        <link refid="d1/d0e/MeshBasedMembrane_8h_source"/>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+      </node>
+      <node id="15">
+        <label>/Users/favreau/git/BioExplorer/bioexplorer/core/plugin/biology/Molecule.cpp</label>
+        <link refid="dc/db1/Molecule_8cpp_source"/>
+      </node>
+      <node id="10">
+        <label>/Users/favreau/git/BioExplorer/bioexplorer/core/plugin/biology/Molecule.h</label>
+        <link refid="d4/dbe/Molecule_8h_source"/>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+      </node>
+      <node id="20">
+        <label>/Users/favreau/git/BioExplorer/bioexplorer/core/plugin/biology/Node.cpp</label>
+        <link refid="dc/d73/Node_8cpp_source"/>
+      </node>
+      <node id="1">
+        <label>/Users/favreau/git/BioExplorer/bioexplorer/core/plugin/biology/Node.h</label>
+        <link refid="db/d92/Node_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="20" relation="include">
+        </childnode>
+        <childnode refid="21" relation="include">
+        </childnode>
+      </node>
+      <node id="9">
+        <label>/Users/favreau/git/BioExplorer/bioexplorer/core/plugin/biology/ParametricMembrane.cpp</label>
+        <link refid="d0/d81/ParametricMembrane_8cpp_source"/>
+      </node>
+      <node id="8">
+        <label>/Users/favreau/git/BioExplorer/bioexplorer/core/plugin/biology/ParametricMembrane.h</label>
+        <link refid="d6/da5/ParametricMembrane_8h_source"/>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+      </node>
+      <node id="13">
+        <label>/Users/favreau/git/BioExplorer/bioexplorer/core/plugin/biology/Protein.cpp</label>
+        <link refid="de/d3a/plugin_2biology_2Protein_8cpp_source"/>
+      </node>
+      <node id="16">
+        <label>/Users/favreau/git/BioExplorer/bioexplorer/core/plugin/biology/Protein.h</label>
+        <link refid="d2/d6d/Protein_8h_source"/>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+        <childnode refid="18" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="19" relation="include">
+        </childnode>
+      </node>
+      <node id="17">
+        <label>/Users/favreau/git/BioExplorer/bioexplorer/core/plugin/biology/RNASequence.cpp</label>
+        <link refid="d2/dab/plugin_2biology_2RNASequence_8cpp_source"/>
+      </node>
+      <node id="21">
+        <label>/Users/favreau/git/BioExplorer/bioexplorer/core/plugin/biology/RNASequence.h</label>
+        <link refid="d0/d7d/RNASequence_8h_source"/>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+        <childnode refid="22" relation="include">
+        </childnode>
+      </node>
+      <node id="18">
+        <label>/Users/favreau/git/BioExplorer/bioexplorer/core/plugin/io/CacheLoader.cpp</label>
+        <link refid="d5/dec/CacheLoader_8cpp_source"/>
+      </node>
+      <node id="14">
+        <label>/Users/favreau/git/BioExplorer/bioexplorer/core/tests/Glycans.cpp</label>
+        <link refid="d8/d20/tests_2Glycans_8cpp_source"/>
+      </node>
+      <node id="7">
+        <label>/Users/favreau/git/BioExplorer/bioexplorer/core/tests/MeshBasedMembrane.cpp</label>
+        <link refid="de/de2/tests_2MeshBasedMembrane_8cpp_source"/>
+      </node>
+      <node id="19">
+        <label>/Users/favreau/git/BioExplorer/bioexplorer/core/tests/Protein.cpp</label>
+        <link refid="d1/df4/tests_2Protein_8cpp_source"/>
+      </node>
+      <node id="22">
+        <label>/Users/favreau/git/BioExplorer/bioexplorer/core/tests/RNASequence.cpp</label>
+        <link refid="d3/d6d/tests_2RNASequence_8cpp_source"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="de/dc0/classbioexplorer_1_1biology_1_1Node" prot="public">bioexplorer::biology::Node</innerclass>
+    <innernamespace refid="d8/d8e/namespacebioexplorer">bioexplorer</innernamespace>
+    <innernamespace refid="db/d42/namespacebioexplorer_1_1biology">bioexplorer::biology</innernamespace>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="comment">/*</highlight></codeline>
+<codeline lineno="2"><highlight class="comment"><sp/>*<sp/>The<sp/>Blue<sp/>Brain<sp/>BioExplorer<sp/>is<sp/>a<sp/>tool<sp/>for<sp/>scientists<sp/>to<sp/>extract<sp/>and<sp/>analyse</highlight></codeline>
+<codeline lineno="3"><highlight class="comment"><sp/>*<sp/>scientific<sp/>data<sp/>from<sp/>visualization</highlight></codeline>
+<codeline lineno="4"><highlight class="comment"><sp/>*</highlight></codeline>
+<codeline lineno="5"><highlight class="comment"><sp/>*<sp/>Copyright<sp/>2020-2021<sp/>Blue<sp/>BrainProject<sp/>/<sp/>EPFL</highlight></codeline>
+<codeline lineno="6"><highlight class="comment"><sp/>*</highlight></codeline>
+<codeline lineno="7"><highlight class="comment"><sp/>*<sp/>This<sp/>program<sp/>is<sp/>free<sp/>software:<sp/>you<sp/>can<sp/>redistribute<sp/>it<sp/>and/or<sp/>modify<sp/>it<sp/>under</highlight></codeline>
+<codeline lineno="8"><highlight class="comment"><sp/>*<sp/>the<sp/>terms<sp/>of<sp/>the<sp/>GNU<sp/>General<sp/>Public<sp/>License<sp/>as<sp/>published<sp/>by<sp/>the<sp/>Free<sp/>Software</highlight></codeline>
+<codeline lineno="9"><highlight class="comment"><sp/>*<sp/>Foundation,<sp/>either<sp/>version<sp/>3<sp/>of<sp/>the<sp/>License,<sp/>or<sp/>(at<sp/>your<sp/>option)<sp/>any<sp/>later</highlight></codeline>
+<codeline lineno="10"><highlight class="comment"><sp/>*<sp/>version.</highlight></codeline>
+<codeline lineno="11"><highlight class="comment"><sp/>*</highlight></codeline>
+<codeline lineno="12"><highlight class="comment"><sp/>*<sp/>This<sp/>program<sp/>is<sp/>distributed<sp/>in<sp/>the<sp/>hope<sp/>that<sp/>it<sp/>will<sp/>be<sp/>useful,<sp/>but<sp/>WITHOUT</highlight></codeline>
+<codeline lineno="13"><highlight class="comment"><sp/>*<sp/>ANY<sp/>WARRANTY;<sp/>without<sp/>even<sp/>the<sp/>implied<sp/>warranty<sp/>of<sp/>MERCHANTABILITY<sp/>or<sp/>FITNESS</highlight></codeline>
+<codeline lineno="14"><highlight class="comment"><sp/>*<sp/>FOR<sp/>A<sp/>PARTICULAR<sp/>PURPOSE.<sp/><sp/>See<sp/>the<sp/>GNU<sp/>General<sp/>Public<sp/>License<sp/>for<sp/>more</highlight></codeline>
+<codeline lineno="15"><highlight class="comment"><sp/>*<sp/>details.</highlight></codeline>
+<codeline lineno="16"><highlight class="comment"><sp/>*</highlight></codeline>
+<codeline lineno="17"><highlight class="comment"><sp/>*<sp/>You<sp/>should<sp/>have<sp/>received<sp/>a<sp/>copy<sp/>of<sp/>the<sp/>GNU<sp/>General<sp/>Public<sp/>License<sp/>along<sp/>with</highlight></codeline>
+<codeline lineno="18"><highlight class="comment"><sp/>*<sp/>this<sp/>program.<sp/><sp/>If<sp/>not,<sp/>see<sp/>&lt;https://www.gnu.org/licenses/&gt;.</highlight></codeline>
+<codeline lineno="19"><highlight class="comment"><sp/>*/</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;plugin/common/Types.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal">bioexplorer</highlight></codeline>
+<codeline lineno="26"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal">biology</highlight></codeline>
+<codeline lineno="28"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="29"><highlight class="normal"></highlight><highlight class="keyword">using<sp/>namespace<sp/></highlight><highlight class="normal">brayns;</highlight></codeline>
+<codeline lineno="30"><highlight class="normal"></highlight><highlight class="keyword">using<sp/>namespace<sp/></highlight><highlight class="normal">details;</highlight></codeline>
+<codeline lineno="31"><highlight class="normal"></highlight></codeline>
+<codeline lineno="35" refid="de/dc0/classbioexplorer_1_1biology_1_1Node" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="de/dc0/classbioexplorer_1_1biology_1_1Node" kindref="compound">Node</ref></highlight></codeline>
+<codeline lineno="36"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="37"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="42"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="de/dc0/classbioexplorer_1_1biology_1_1Node_1a2b56af16626b832014845ee9bf007af0" kindref="member">Node</ref>();</highlight></codeline>
+<codeline lineno="43"><highlight class="normal"></highlight></codeline>
+<codeline lineno="48"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/><ref refid="de/dc0/classbioexplorer_1_1biology_1_1Node_1a1d02dc5b33293f53296cde67fc346496" kindref="member">~Node</ref>();</highlight></codeline>
+<codeline lineno="49"><highlight class="normal"></highlight></codeline>
+<codeline lineno="55" refid="de/dc0/classbioexplorer_1_1biology_1_1Node_1a415bffbb900abe3e0e7ac12c6bf96a32" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>ModelDescriptorPtr<sp/><ref refid="de/dc0/classbioexplorer_1_1biology_1_1Node_1a415bffbb900abe3e0e7ac12c6bf96a32" kindref="member">getModelDescriptor</ref>()</highlight><highlight class="keyword"><sp/>const</highlight></codeline>
+<codeline lineno="56"><highlight class="keyword"><sp/><sp/><sp/><sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="57"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>_modelDescriptor;</highlight></codeline>
+<codeline lineno="58"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="59"><highlight class="normal"></highlight></codeline>
+<codeline lineno="60"><highlight class="normal"></highlight><highlight class="keyword">protected</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="61"><highlight class="normal"><sp/><sp/><sp/><sp/>ModelDescriptorPtr<sp/>_modelDescriptor{</highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">};</highlight></codeline>
+<codeline lineno="62"><highlight class="normal"><sp/><sp/><sp/><sp/>Boxf<sp/>_bounds;</highlight></codeline>
+<codeline lineno="63"><highlight class="normal"><sp/><sp/><sp/><sp/>uint32_t<sp/>_uuid;</highlight></codeline>
+<codeline lineno="64"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="65"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>biology</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="66"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>bioexplorer</highlight></codeline>
+    </programlisting>
+    <location file="/Users/favreau/git/BioExplorer/bioexplorer/core/plugin/biology/Node.h"/>
+  </compounddef>
+</doxygen>
