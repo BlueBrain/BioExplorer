@@ -1,24 +1,26 @@
 /*
-@licstart  The following is the entire license notice for the
-JavaScript code in this file.
+ @licstart  The following is the entire license notice for the JavaScript code in this file.
 
-Copyright (C) 1997-2019 by Dimitri van Heesch
+ The MIT License (MIT)
 
-This program is free software; you can redistribute it and/or modify
-it under the terms of version 2 of the GNU General Public License as published by
-the Free Software Foundation
+ Copyright (C) 1997-2020 by Dimitri van Heesch
 
-This program is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
-GNU General Public License for more details.
+ Permission is hereby granted, free of charge, to any person obtaining a copy of this software
+ and associated documentation files (the "Software"), to deal in the Software without restriction,
+ including without limitation the rights to use, copy, modify, merge, publish, distribute,
+ sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is
+ furnished to do so, subject to the following conditions:
 
-You should have received a copy of the GNU General Public License along
-with this program; if not, write to the Free Software Foundation, Inc.,
-51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
+ The above copyright notice and this permission notice shall be included in all copies or
+ substantial portions of the Software.
 
-@licend  The above is the entire license notice
-for the JavaScript code in this file
+ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING
+ BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+ NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
+ DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+
+ @licend  The above is the entire license notice for the JavaScript code in this file
 */
 var NAVTREE =
 [
@@ -54,21 +56,21 @@ var NAVTREE =
     [ "License", "index.html#autotoc_md23", null ],
     [ "Contact", "index.html#autotoc_md24", null ],
     [ "Funding & Acknowledgment", "index.html#autotoc_md25", null ],
-    [ "Docker", "d9/d23/md__home_favreau_git_BioExplorer_DOCKER.html", [
-      [ "Prerequisites", "d9/d23/md__home_favreau_git_BioExplorer_DOCKER.html#autotoc_md27", null ],
-      [ "Setup", "d9/d23/md__home_favreau_git_BioExplorer_DOCKER.html#autotoc_md28", null ],
-      [ "Usage", "d9/d23/md__home_favreau_git_BioExplorer_DOCKER.html#autotoc_md29", null ]
+    [ "Docker", "da/d7a/md__Users_favreau_git_BioExplorer_DOCKER.html", [
+      [ "Prerequisites", "da/d7a/md__Users_favreau_git_BioExplorer_DOCKER.html#autotoc_md27", null ],
+      [ "Setup", "da/d7a/md__Users_favreau_git_BioExplorer_DOCKER.html#autotoc_md28", null ],
+      [ "Usage", "da/d7a/md__Users_favreau_git_BioExplorer_DOCKER.html#autotoc_md29", null ]
     ] ],
-    [ "User guide", "d0/de8/md__home_favreau_git_BioExplorer_bioexplorer_pythonsdk_doc_source_USERGUIDE.html", [
-      [ "Protein", "d0/de8/md__home_favreau_git_BioExplorer_bioexplorer_pythonsdk_doc_source_USERGUIDE.html#autotoc_md31", null ],
-      [ "Glycan", "d0/de8/md__home_favreau_git_BioExplorer_bioexplorer_pythonsdk_doc_source_USERGUIDE.html#autotoc_md32", null ],
-      [ "RNA sequence", "d0/de8/md__home_favreau_git_BioExplorer_bioexplorer_pythonsdk_doc_source_USERGUIDE.html#autotoc_md33", null ],
-      [ "Membrane", "d0/de8/md__home_favreau_git_BioExplorer_bioexplorer_pythonsdk_doc_source_USERGUIDE.html#autotoc_md34", null ],
-      [ "Surfactants", "d0/de8/md__home_favreau_git_BioExplorer_bioexplorer_pythonsdk_doc_source_USERGUIDE.html#autotoc_md35", null ],
-      [ "Virus", "d0/de8/md__home_favreau_git_BioExplorer_bioexplorer_pythonsdk_doc_source_USERGUIDE.html#autotoc_md36", null ],
-      [ "Host cell", "d0/de8/md__home_favreau_git_BioExplorer_bioexplorer_pythonsdk_doc_source_USERGUIDE.html#autotoc_md37", null ],
-      [ "Glycans Models", "d0/de8/md__home_favreau_git_BioExplorer_bioexplorer_pythonsdk_doc_source_USERGUIDE.html#autotoc_md38", null ],
-      [ "Visualization", "d0/de8/md__home_favreau_git_BioExplorer_bioexplorer_pythonsdk_doc_source_USERGUIDE.html#autotoc_md39", null ]
+    [ "User guide", "dd/ded/md__Users_favreau_git_BioExplorer_bioexplorer_pythonsdk_doc_source_USERGUIDE.html", [
+      [ "Protein", "dd/ded/md__Users_favreau_git_BioExplorer_bioexplorer_pythonsdk_doc_source_USERGUIDE.html#autotoc_md31", null ],
+      [ "Glycan", "dd/ded/md__Users_favreau_git_BioExplorer_bioexplorer_pythonsdk_doc_source_USERGUIDE.html#autotoc_md32", null ],
+      [ "RNA sequence", "dd/ded/md__Users_favreau_git_BioExplorer_bioexplorer_pythonsdk_doc_source_USERGUIDE.html#autotoc_md33", null ],
+      [ "Membrane", "dd/ded/md__Users_favreau_git_BioExplorer_bioexplorer_pythonsdk_doc_source_USERGUIDE.html#autotoc_md34", null ],
+      [ "Surfactants", "dd/ded/md__Users_favreau_git_BioExplorer_bioexplorer_pythonsdk_doc_source_USERGUIDE.html#autotoc_md35", null ],
+      [ "Virus", "dd/ded/md__Users_favreau_git_BioExplorer_bioexplorer_pythonsdk_doc_source_USERGUIDE.html#autotoc_md36", null ],
+      [ "Host cell", "dd/ded/md__Users_favreau_git_BioExplorer_bioexplorer_pythonsdk_doc_source_USERGUIDE.html#autotoc_md37", null ],
+      [ "Glycans Models", "dd/ded/md__Users_favreau_git_BioExplorer_bioexplorer_pythonsdk_doc_source_USERGUIDE.html#autotoc_md38", null ],
+      [ "Visualization", "dd/ded/md__Users_favreau_git_BioExplorer_bioexplorer_pythonsdk_doc_source_USERGUIDE.html#autotoc_md39", null ]
     ] ],
     [ "Classes", "annotated.html", [
       [ "Class List", "annotated.html", "annotated_dup" ],
@@ -88,9 +90,9 @@ var NAVTREE =
 
 var NAVTREEINDEX =
 [
-".html",
-"d7/dd2/structbioexplorer_1_1details_1_1RandomizationDetails.html#a5e2404c591b2520101cfd441097ff2e4",
-"de/d0e/structbioexplorer_1_1details_1_1ProteinDetails.html#a6cf860d090db12ee48b7fc96cc4b3409"
+"annotated.html",
+"d9/d98/classbioexplorer_1_1rendering_1_1AdvancedRenderer.html",
+"functions_p.html"
 ];
 
 var SYNCONMSG = 'click to disable panel synchronisation';

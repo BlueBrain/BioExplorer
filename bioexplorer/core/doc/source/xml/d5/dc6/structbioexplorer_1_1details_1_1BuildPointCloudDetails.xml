@@ -1,0 +1,31 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.2" xml:lang="en-US">
+  <compounddef id="d5/dc6/structbioexplorer_1_1details_1_1BuildPointCloudDetails" kind="struct" language="C++" prot="public">
+    <compoundname>bioexplorer::details::BuildPointCloudDetails</compoundname>
+    <includes refid="d7/df8/Types_8h" local="no">Types.h</includes>
+      <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="d5/dc6/structbioexplorer_1_1details_1_1BuildPointCloudDetails_1aa26eb9f94690c14797a7397a8ce8b3ac" prot="public" static="no" mutable="no">
+        <type>float</type>
+        <definition>float bioexplorer::details::BuildPointCloudDetails::radius</definition>
+        <argsstring></argsstring>
+        <name>radius</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/favreau/git/BioExplorer/bioexplorer/core/plugin/common/Types.h" line="737" column="11" bodyfile="/Users/favreau/git/BioExplorer/bioexplorer/core/plugin/common/Types.h" bodystart="737" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+<para>Structure defining how to build a point cloud from the scene. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="/Users/favreau/git/BioExplorer/bioexplorer/core/plugin/common/Types.h" line="735" column="1" bodyfile="/Users/favreau/git/BioExplorer/bioexplorer/core/plugin/common/Types.h" bodystart="736" bodyend="738"/>
+    <listofallmembers>
+      <member refid="d5/dc6/structbioexplorer_1_1details_1_1BuildPointCloudDetails_1aa26eb9f94690c14797a7397a8ce8b3ac" prot="public" virt="non-virtual"><scope>bioexplorer::details::BuildPointCloudDetails</scope><name>radius</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

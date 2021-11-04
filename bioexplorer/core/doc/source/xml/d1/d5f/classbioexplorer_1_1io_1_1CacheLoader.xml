@@ -1,0 +1,528 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.2" xml:lang="en-US">
+  <compounddef id="d1/d5f/classbioexplorer_1_1io_1_1CacheLoader" kind="class" language="C++" prot="public">
+    <compoundname>bioexplorer::io::CacheLoader</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">Loader</basecompoundref>
+    <includes refid="d4/d44/CacheLoader_8h" local="no">CacheLoader.h</includes>
+      <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="d1/d5f/classbioexplorer_1_1io_1_1CacheLoader_1a72c7bca52c8e7c4d16a499950512ef22" prot="private" static="no" mutable="no">
+        <type>PropertyMap</type>
+        <definition>PropertyMap bioexplorer::io::CacheLoader::_defaults</definition>
+        <argsstring></argsstring>
+        <name>_defaults</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/favreau/git/BioExplorer/bioexplorer/core/plugin/io/CacheLoader.h" line="176" column="17" bodyfile="/Users/favreau/git/BioExplorer/bioexplorer/core/plugin/io/CacheLoader.h" bodystart="176" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="public-func">
+      <memberdef kind="function" id="d1/d5f/classbioexplorer_1_1io_1_1CacheLoader_1a7aa3b9f88b14126cf83443dfe054cd6a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>bioexplorer::io::CacheLoader::CacheLoader</definition>
+        <argsstring>(Scene &amp;scene, PropertyMap &amp;&amp;loaderParams={})</argsstring>
+        <name>CacheLoader</name>
+        <param>
+          <type>Scene &amp;</type>
+          <declname>scene</declname>
+        </param>
+        <param>
+          <type>PropertyMap &amp;&amp;</type>
+          <declname>loaderParams</declname>
+          <defval>{}</defval>
+        </param>
+        <briefdescription>
+<para>Construct a new Bio Explorer Loader object. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>scene</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Scene to which the file contents should be loaded </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>loaderParams</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Loader parameters </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/favreau/git/BioExplorer/bioexplorer/core/plugin/io/CacheLoader.h" line="50" column="5" bodyfile="/Users/favreau/git/BioExplorer/bioexplorer/core/plugin/io/CacheLoader.cpp" bodystart="63" bodyend="67"/>
+      </memberdef>
+      <memberdef kind="function" id="d1/d5f/classbioexplorer_1_1io_1_1CacheLoader_1a99849599a8a4e5fd4190fb572ac2f49d" prot="public" static="no" const="yes" explicit="no" inline="no" final="yes" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string bioexplorer::io::CacheLoader::getName</definition>
+        <argsstring>() const final</argsstring>
+        <name>getName</name>
+        <briefdescription>
+<para>Get the name of the loader. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>A string containing the name of the loader </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/favreau/git/BioExplorer/bioexplorer/core/plugin/io/CacheLoader.h" line="57" column="17" bodyfile="/Users/favreau/git/BioExplorer/bioexplorer/core/plugin/io/CacheLoader.cpp" bodystart="69" bodyend="72"/>
+      </memberdef>
+      <memberdef kind="function" id="d1/d5f/classbioexplorer_1_1io_1_1CacheLoader_1a797d7d83c8a511dc4cec12ed1b0488d5" prot="public" static="no" const="yes" explicit="no" inline="no" final="yes" virt="non-virtual">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt; std::string &gt; bioexplorer::io::CacheLoader::getSupportedExtensions</definition>
+        <argsstring>() const final</argsstring>
+        <name>getSupportedExtensions</name>
+        <briefdescription>
+<para>Get the list of extensions supported by loaded. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>The list of extensions supported by loaded </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/favreau/git/BioExplorer/bioexplorer/core/plugin/io/CacheLoader.h" line="64" column="17" bodyfile="/Users/favreau/git/BioExplorer/bioexplorer/core/plugin/io/CacheLoader.cpp" bodystart="74" bodyend="77"/>
+      </memberdef>
+      <memberdef kind="function" id="d1/d5f/classbioexplorer_1_1io_1_1CacheLoader_1a4f523a4a3bd5e743ff715a5ac02c9c16" prot="public" static="no" const="yes" explicit="no" inline="no" final="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool bioexplorer::io::CacheLoader::isSupported</definition>
+        <argsstring>(const std::string &amp;filename, const std::string &amp;extension) const final</argsstring>
+        <name>isSupported</name>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>filename</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>extension</declname>
+        </param>
+        <briefdescription>
+<para>Returns whever a file extention is supported by the loader. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>filename</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Name of the file </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>extension</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Extension of the file </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>true if the file extension is supported by the loader, false otherwise </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/favreau/git/BioExplorer/bioexplorer/core/plugin/io/CacheLoader.h" line="74" column="10" bodyfile="/Users/favreau/git/BioExplorer/bioexplorer/core/plugin/io/CacheLoader.cpp" bodystart="79" bodyend="84"/>
+      </memberdef>
+      <memberdef kind="function" id="d1/d5f/classbioexplorer_1_1io_1_1CacheLoader_1ae1adf25b81ba2700e14ee1cf7cd20288" prot="public" static="no" const="yes" explicit="no" inline="no" final="yes" virt="non-virtual">
+        <type>PropertyMap</type>
+        <definition>PropertyMap bioexplorer::io::CacheLoader::getProperties</definition>
+        <argsstring>() const final</argsstring>
+        <name>getProperties</name>
+        <briefdescription>
+<para>Returns the list of loader properties. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>The list of loader properties </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/favreau/git/BioExplorer/bioexplorer/core/plugin/io/CacheLoader.h" line="89" column="17" bodyfile="/Users/favreau/git/BioExplorer/bioexplorer/core/plugin/io/CacheLoader.cpp" bodystart="893" bodyend="896"/>
+      </memberdef>
+      <memberdef kind="function" id="d1/d5f/classbioexplorer_1_1io_1_1CacheLoader_1a989999b8075ef0ee87c70a6da274759a" prot="public" static="no" const="yes" explicit="no" inline="no" final="yes" virt="non-virtual">
+        <type>ModelDescriptorPtr</type>
+        <definition>ModelDescriptorPtr bioexplorer::io::CacheLoader::importFromBlob</definition>
+        <argsstring>(Blob &amp;&amp;blob, const LoaderProgress &amp;callback, const PropertyMap &amp;properties) const final</argsstring>
+        <name>importFromBlob</name>
+        <param>
+          <type>Blob &amp;&amp;</type>
+          <declname>blob</declname>
+        </param>
+        <param>
+          <type>const LoaderProgress &amp;</type>
+          <declname>callback</declname>
+        </param>
+        <param>
+          <type>const PropertyMap &amp;</type>
+          <declname>properties</declname>
+        </param>
+        <briefdescription>
+<para>Imports a 3D scene from an in-memory blob storage. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>blob</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>In-memory blob storage </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>callback</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Callback object providing the status of the loading process </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>properties</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Loader properties </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>A brayns model if loading is successfull </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/favreau/git/BioExplorer/bioexplorer/core/plugin/io/CacheLoader.h" line="100" column="24" bodyfile="/Users/favreau/git/BioExplorer/bioexplorer/core/plugin/io/CacheLoader.cpp" bodystart="86" bodyend="91"/>
+      </memberdef>
+      <memberdef kind="function" id="d1/d5f/classbioexplorer_1_1io_1_1CacheLoader_1af30d14d25b5fcb13a20b3d08eb69030f" prot="public" static="no" const="yes" explicit="no" inline="no" final="yes" virt="non-virtual">
+        <type>ModelDescriptorPtr</type>
+        <definition>ModelDescriptorPtr bioexplorer::io::CacheLoader::importFromFile</definition>
+        <argsstring>(const std::string &amp;filename, const LoaderProgress &amp;callback, const PropertyMap &amp;properties) const final</argsstring>
+        <name>importFromFile</name>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>filename</declname>
+        </param>
+        <param>
+          <type>const LoaderProgress &amp;</type>
+          <declname>callback</declname>
+        </param>
+        <param>
+          <type>const PropertyMap &amp;</type>
+          <declname>properties</declname>
+        </param>
+        <briefdescription>
+<para>Imports a 3D scene from file. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>filename</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Full path of the file </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>callback</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Callback object providing the status of the loading process </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>properties</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Loader properties </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>A brayns model if loading is successfull </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/favreau/git/BioExplorer/bioexplorer/core/plugin/io/CacheLoader.h" line="113" column="24" bodyfile="/Users/favreau/git/BioExplorer/bioexplorer/core/plugin/io/CacheLoader.cpp" bodystart="423" bodyend="433"/>
+      </memberdef>
+      <memberdef kind="function" id="d1/d5f/classbioexplorer_1_1io_1_1CacheLoader_1ae6a60cf0ed712d14f0dfd2e8f8752ac6" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; ModelDescriptorPtr &gt;</type>
+        <definition>std::vector&lt; ModelDescriptorPtr &gt; bioexplorer::io::CacheLoader::importModelsFromFile</definition>
+        <argsstring>(const std::string &amp;filename, const int32_t brickId=UNDEFINED_BOX_ID, const LoaderProgress &amp;callback=LoaderProgress(), const PropertyMap &amp;properties=PropertyMap()) const</argsstring>
+        <name>importModelsFromFile</name>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>filename</declname>
+        </param>
+        <param>
+          <type>const int32_t</type>
+          <declname>brickId</declname>
+          <defval>UNDEFINED_BOX_ID</defval>
+        </param>
+        <param>
+          <type>const LoaderProgress &amp;</type>
+          <declname>callback</declname>
+          <defval>LoaderProgress()</defval>
+        </param>
+        <param>
+          <type>const PropertyMap &amp;</type>
+          <declname>properties</declname>
+          <defval>PropertyMap()</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>filename</parametername>
+</parameternamelist>
+<parameterdescription>
+<para></para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>callback</parametername>
+</parameternamelist>
+<parameterdescription>
+<para></para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>properties</parametername>
+</parameternamelist>
+<parameterdescription>
+<para></para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>std::vector&lt;ModelDescriptorPtr&gt; </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/favreau/git/BioExplorer/bioexplorer/core/plugin/io/CacheLoader.h" line="125" column="17" bodyfile="/Users/favreau/git/BioExplorer/bioexplorer/core/plugin/io/CacheLoader.cpp" bodystart="384" bodyend="421"/>
+      </memberdef>
+      <memberdef kind="function" id="d1/d5f/classbioexplorer_1_1io_1_1CacheLoader_1aa2d208b60fb8ee68480c00c8f9ad280a" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void bioexplorer::io::CacheLoader::exportToFile</definition>
+        <argsstring>(const std::string &amp;filename, const Boxd &amp;bounds) const</argsstring>
+        <name>exportToFile</name>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>filename</declname>
+        </param>
+        <param>
+          <type>const Boxd &amp;</type>
+          <declname>bounds</declname>
+        </param>
+        <briefdescription>
+<para>Exports an optimized binary representation the 3D scene to a file. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>filename</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Full path of the file </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/favreau/git/BioExplorer/bioexplorer/core/plugin/io/CacheLoader.h" line="135" column="10" bodyfile="/Users/favreau/git/BioExplorer/bioexplorer/core/plugin/io/CacheLoader.cpp" bodystart="754" bodyend="780"/>
+      </memberdef>
+      <memberdef kind="function" id="d1/d5f/classbioexplorer_1_1io_1_1CacheLoader_1a3f8d953e368f1ae9bc776845b500a457" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void bioexplorer::io::CacheLoader::exportToXYZ</definition>
+        <argsstring>(const std::string &amp;filename, const XYZFileFormat format) const</argsstring>
+        <name>exportToXYZ</name>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>filename</declname>
+        </param>
+        <param>
+          <type>const XYZFileFormat</type>
+          <declname>format</declname>
+        </param>
+        <briefdescription>
+<para>Exports atom information from the 3D scene to a file. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>filename</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Full path of the file </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>format</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>File format to be used for the export </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/favreau/git/BioExplorer/bioexplorer/core/plugin/io/CacheLoader.h" line="164" column="10" bodyfile="/Users/favreau/git/BioExplorer/bioexplorer/core/plugin/io/CacheLoader.cpp" bodystart="820" bodyend="891"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="d1/d5f/classbioexplorer_1_1io_1_1CacheLoader_1a55c399f5ef67c05c46f757f40bc8a752" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>PropertyMap</type>
+        <definition>PropertyMap bioexplorer::io::CacheLoader::getCLIProperties</definition>
+        <argsstring>()</argsstring>
+        <name>getCLIProperties</name>
+        <briefdescription>
+<para>Returns the list of loader command line arguments. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>The list of loader command line arguments </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/favreau/git/BioExplorer/bioexplorer/core/plugin/io/CacheLoader.h" line="82" column="24" bodyfile="/Users/favreau/git/BioExplorer/bioexplorer/core/plugin/io/CacheLoader.cpp" bodystart="898" bodyend="902"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="private-func">
+      <memberdef kind="function" id="d1/d5f/classbioexplorer_1_1io_1_1CacheLoader_1a2c2b9727d52cc03d0026d439b72653c4" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string bioexplorer::io::CacheLoader::_readString</definition>
+        <argsstring>(std::stringstream &amp;f) const</argsstring>
+        <name>_readString</name>
+        <param>
+          <type>std::stringstream &amp;</type>
+          <declname>f</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/favreau/git/BioExplorer/bioexplorer/core/plugin/io/CacheLoader.h" line="168" column="17" bodyfile="/Users/favreau/git/BioExplorer/bioexplorer/core/plugin/io/CacheLoader.cpp" bodystart="435" bodyend="445"/>
+      </memberdef>
+      <memberdef kind="function" id="d1/d5f/classbioexplorer_1_1io_1_1CacheLoader_1ad4c2b24cc4bb18a496879768132c5fbf" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>ModelDescriptorPtr</type>
+        <definition>ModelDescriptorPtr bioexplorer::io::CacheLoader::_importModel</definition>
+        <argsstring>(std::stringstream &amp;buffer, const int32_t brickId) const</argsstring>
+        <name>_importModel</name>
+        <param>
+          <type>std::stringstream &amp;</type>
+          <declname>buffer</declname>
+        </param>
+        <param>
+          <type>const int32_t</type>
+          <declname>brickId</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/favreau/git/BioExplorer/bioexplorer/core/plugin/io/CacheLoader.h" line="170" column="24" bodyfile="/Users/favreau/git/BioExplorer/bioexplorer/core/plugin/io/CacheLoader.cpp" bodystart="93" bodyend="382"/>
+      </memberdef>
+      <memberdef kind="function" id="d1/d5f/classbioexplorer_1_1io_1_1CacheLoader_1ace9e6876f33d5c51874d898a0fac84b6" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool bioexplorer::io::CacheLoader::_exportModel</definition>
+        <argsstring>(const ModelDescriptorPtr modelDescriptor, std::stringstream &amp;buffer, const Boxd &amp;bounds) const</argsstring>
+        <name>_exportModel</name>
+        <param>
+          <type>const ModelDescriptorPtr</type>
+          <declname>modelDescriptor</declname>
+        </param>
+        <param>
+          <type>std::stringstream &amp;</type>
+          <declname>buffer</declname>
+        </param>
+        <param>
+          <type>const Boxd &amp;</type>
+          <declname>bounds</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/favreau/git/BioExplorer/bioexplorer/core/plugin/io/CacheLoader.h" line="173" column="10" bodyfile="/Users/favreau/git/BioExplorer/bioexplorer/core/plugin/io/CacheLoader.cpp" bodystart="447" bodyend="752"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para>Load molecular systems from an optimized binary representation of the 3D scene </para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>Loader</label>
+      </node>
+      <node id="1">
+        <label>bioexplorer::io::CacheLoader</label>
+        <link refid="d1/d5f/classbioexplorer_1_1io_1_1CacheLoader"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="2">
+        <label>Loader</label>
+      </node>
+      <node id="1">
+        <label>bioexplorer::io::CacheLoader</label>
+        <link refid="d1/d5f/classbioexplorer_1_1io_1_1CacheLoader"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="/Users/favreau/git/BioExplorer/bioexplorer/core/plugin/io/CacheLoader.h" line="41" column="1" bodyfile="/Users/favreau/git/BioExplorer/bioexplorer/core/plugin/io/CacheLoader.h" bodystart="42" bodyend="177"/>
+    <listofallmembers>
+      <member refid="d1/d5f/classbioexplorer_1_1io_1_1CacheLoader_1a72c7bca52c8e7c4d16a499950512ef22" prot="private" virt="non-virtual"><scope>bioexplorer::io::CacheLoader</scope><name>_defaults</name></member>
+      <member refid="d1/d5f/classbioexplorer_1_1io_1_1CacheLoader_1ace9e6876f33d5c51874d898a0fac84b6" prot="private" virt="non-virtual"><scope>bioexplorer::io::CacheLoader</scope><name>_exportModel</name></member>
+      <member refid="d1/d5f/classbioexplorer_1_1io_1_1CacheLoader_1ad4c2b24cc4bb18a496879768132c5fbf" prot="private" virt="non-virtual"><scope>bioexplorer::io::CacheLoader</scope><name>_importModel</name></member>
+      <member refid="d1/d5f/classbioexplorer_1_1io_1_1CacheLoader_1a2c2b9727d52cc03d0026d439b72653c4" prot="private" virt="non-virtual"><scope>bioexplorer::io::CacheLoader</scope><name>_readString</name></member>
+      <member refid="d1/d5f/classbioexplorer_1_1io_1_1CacheLoader_1a7aa3b9f88b14126cf83443dfe054cd6a" prot="public" virt="non-virtual"><scope>bioexplorer::io::CacheLoader</scope><name>CacheLoader</name></member>
+      <member refid="d1/d5f/classbioexplorer_1_1io_1_1CacheLoader_1aa2d208b60fb8ee68480c00c8f9ad280a" prot="public" virt="non-virtual"><scope>bioexplorer::io::CacheLoader</scope><name>exportToFile</name></member>
+      <member refid="d1/d5f/classbioexplorer_1_1io_1_1CacheLoader_1a3f8d953e368f1ae9bc776845b500a457" prot="public" virt="non-virtual"><scope>bioexplorer::io::CacheLoader</scope><name>exportToXYZ</name></member>
+      <member refid="d1/d5f/classbioexplorer_1_1io_1_1CacheLoader_1a55c399f5ef67c05c46f757f40bc8a752" prot="public" virt="non-virtual"><scope>bioexplorer::io::CacheLoader</scope><name>getCLIProperties</name></member>
+      <member refid="d1/d5f/classbioexplorer_1_1io_1_1CacheLoader_1a99849599a8a4e5fd4190fb572ac2f49d" prot="public" virt="non-virtual"><scope>bioexplorer::io::CacheLoader</scope><name>getName</name></member>
+      <member refid="d1/d5f/classbioexplorer_1_1io_1_1CacheLoader_1ae1adf25b81ba2700e14ee1cf7cd20288" prot="public" virt="non-virtual"><scope>bioexplorer::io::CacheLoader</scope><name>getProperties</name></member>
+      <member refid="d1/d5f/classbioexplorer_1_1io_1_1CacheLoader_1a797d7d83c8a511dc4cec12ed1b0488d5" prot="public" virt="non-virtual"><scope>bioexplorer::io::CacheLoader</scope><name>getSupportedExtensions</name></member>
+      <member refid="d1/d5f/classbioexplorer_1_1io_1_1CacheLoader_1a989999b8075ef0ee87c70a6da274759a" prot="public" virt="non-virtual"><scope>bioexplorer::io::CacheLoader</scope><name>importFromBlob</name></member>
+      <member refid="d1/d5f/classbioexplorer_1_1io_1_1CacheLoader_1af30d14d25b5fcb13a20b3d08eb69030f" prot="public" virt="non-virtual"><scope>bioexplorer::io::CacheLoader</scope><name>importFromFile</name></member>
+      <member refid="d1/d5f/classbioexplorer_1_1io_1_1CacheLoader_1ae6a60cf0ed712d14f0dfd2e8f8752ac6" prot="public" virt="non-virtual"><scope>bioexplorer::io::CacheLoader</scope><name>importModelsFromFile</name></member>
+      <member refid="d1/d5f/classbioexplorer_1_1io_1_1CacheLoader_1a4f523a4a3bd5e743ff715a5ac02c9c16" prot="public" virt="non-virtual"><scope>bioexplorer::io::CacheLoader</scope><name>isSupported</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

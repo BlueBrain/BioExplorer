@@ -1,0 +1,247 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.2" xml:lang="en-US">
+  <compounddef id="de/d24/classbioexplorer_1_1rendering_1_1DensityRenderer" kind="class" language="C++" prot="public">
+    <compoundname>bioexplorer::rendering::DensityRenderer</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">ospray::Renderer</basecompoundref>
+    <includes refid="d3/d65/DensityRenderer_8h" local="no">DensityRenderer.h</includes>
+      <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="de/d24/classbioexplorer_1_1rendering_1_1DensityRenderer_1a818d554f534ec9b522908d95ad9a1522" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; void * &gt;</type>
+        <definition>std::vector&lt;void*&gt; bioexplorer::rendering::DensityRenderer::_lightArray</definition>
+        <argsstring></argsstring>
+        <name>_lightArray</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/favreau/git/BioExplorer/bioexplorer/core/module/ispc/render/DensityRenderer.h" line="61" column="17" bodyfile="/Users/favreau/git/BioExplorer/bioexplorer/core/module/ispc/render/DensityRenderer.h" bodystart="61" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="de/d24/classbioexplorer_1_1rendering_1_1DensityRenderer_1a048bf207351dbc6e8a0d59d2d705ef13" prot="private" static="no" mutable="no">
+        <type>void **</type>
+        <definition>void** bioexplorer::rendering::DensityRenderer::_lightPtr</definition>
+        <argsstring></argsstring>
+        <name>_lightPtr</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/favreau/git/BioExplorer/bioexplorer/core/module/ispc/render/DensityRenderer.h" line="62" column="10" bodyfile="/Users/favreau/git/BioExplorer/bioexplorer/core/module/ispc/render/DensityRenderer.h" bodystart="62" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="de/d24/classbioexplorer_1_1rendering_1_1DensityRenderer_1a98dbf5bff1559c9daad6e3447d07489e" prot="private" static="no" mutable="no">
+        <type>ospray::Data *</type>
+        <definition>ospray::Data* bioexplorer::rendering::DensityRenderer::_lightData</definition>
+        <argsstring></argsstring>
+        <name>_lightData</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/favreau/git/BioExplorer/bioexplorer/core/module/ispc/render/DensityRenderer.h" line="63" column="18" bodyfile="/Users/favreau/git/BioExplorer/bioexplorer/core/module/ispc/render/DensityRenderer.h" bodystart="63" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="de/d24/classbioexplorer_1_1rendering_1_1DensityRenderer_1aea56e79467bed2c517c9c4193ae23b41" prot="private" static="no" mutable="no">
+        <type><ref refid="d5/d4e/structbioexplorer_1_1rendering_1_1AdvancedMaterial" kindref="compound">AdvancedMaterial</ref> *</type>
+        <definition>AdvancedMaterial* bioexplorer::rendering::DensityRenderer::_bgMaterial</definition>
+        <argsstring></argsstring>
+        <name>_bgMaterial</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/favreau/git/BioExplorer/bioexplorer/core/module/ispc/render/DensityRenderer.h" line="65" column="22" bodyfile="/Users/favreau/git/BioExplorer/bioexplorer/core/module/ispc/render/DensityRenderer.h" bodystart="65" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="de/d24/classbioexplorer_1_1rendering_1_1DensityRenderer_1a29f7d5da51262cafa3457026be39a3a3" prot="private" static="no" mutable="no">
+        <type>float</type>
+        <definition>float bioexplorer::rendering::DensityRenderer::_timestamp</definition>
+        <argsstring></argsstring>
+        <name>_timestamp</name>
+        <initializer>{0.f}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/favreau/git/BioExplorer/bioexplorer/core/module/ispc/render/DensityRenderer.h" line="67" column="11" bodyfile="/Users/favreau/git/BioExplorer/bioexplorer/core/module/ispc/render/DensityRenderer.h" bodystart="67" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="de/d24/classbioexplorer_1_1rendering_1_1DensityRenderer_1a926261adb0268c2e85aca5389cbceffe" prot="private" static="no" mutable="no">
+        <type>float</type>
+        <definition>float bioexplorer::rendering::DensityRenderer::_exposure</definition>
+        <argsstring></argsstring>
+        <name>_exposure</name>
+        <initializer>{1.f}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/favreau/git/BioExplorer/bioexplorer/core/module/ispc/render/DensityRenderer.h" line="68" column="11" bodyfile="/Users/favreau/git/BioExplorer/bioexplorer/core/module/ispc/render/DensityRenderer.h" bodystart="68" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="de/d24/classbioexplorer_1_1rendering_1_1DensityRenderer_1a22c44ad569520107d455a9717c426a02" prot="private" static="no" mutable="no">
+        <type>float</type>
+        <definition>float bioexplorer::rendering::DensityRenderer::_alphaCorrection</definition>
+        <argsstring></argsstring>
+        <name>_alphaCorrection</name>
+        <initializer>{1.f}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/favreau/git/BioExplorer/bioexplorer/core/module/ispc/render/DensityRenderer.h" line="70" column="11" bodyfile="/Users/favreau/git/BioExplorer/bioexplorer/core/module/ispc/render/DensityRenderer.h" bodystart="70" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="de/d24/classbioexplorer_1_1rendering_1_1DensityRenderer_1a7cd3f3ea111f4f4869cee1e914d761f1" prot="private" static="no" mutable="no">
+        <type>float</type>
+        <definition>float bioexplorer::rendering::DensityRenderer::_rayStep</definition>
+        <argsstring></argsstring>
+        <name>_rayStep</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/favreau/git/BioExplorer/bioexplorer/core/module/ispc/render/DensityRenderer.h" line="72" column="11" bodyfile="/Users/favreau/git/BioExplorer/bioexplorer/core/module/ispc/render/DensityRenderer.h" bodystart="72" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="de/d24/classbioexplorer_1_1rendering_1_1DensityRenderer_1a5eaedc892ffee101c531acd5e99dd87d" prot="private" static="no" mutable="no">
+        <type>float</type>
+        <definition>float bioexplorer::rendering::DensityRenderer::_searchLength</definition>
+        <argsstring></argsstring>
+        <name>_searchLength</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/favreau/git/BioExplorer/bioexplorer/core/module/ispc/render/DensityRenderer.h" line="73" column="11" bodyfile="/Users/favreau/git/BioExplorer/bioexplorer/core/module/ispc/render/DensityRenderer.h" bodystart="73" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="de/d24/classbioexplorer_1_1rendering_1_1DensityRenderer_1a59391f944d5d5a86371177be21e2ef65" prot="private" static="no" mutable="no">
+        <type>float</type>
+        <definition>float bioexplorer::rendering::DensityRenderer::_farPlane</definition>
+        <argsstring></argsstring>
+        <name>_farPlane</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/favreau/git/BioExplorer/bioexplorer/core/module/ispc/render/DensityRenderer.h" line="74" column="11" bodyfile="/Users/favreau/git/BioExplorer/bioexplorer/core/module/ispc/render/DensityRenderer.h" bodystart="74" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="de/d24/classbioexplorer_1_1rendering_1_1DensityRenderer_1a42621936e12a9c1688100f44657a113d" prot="private" static="no" mutable="no">
+        <type>ospray::uint32</type>
+        <definition>ospray::uint32 bioexplorer::rendering::DensityRenderer::_sampleCount</definition>
+        <argsstring></argsstring>
+        <name>_sampleCount</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/favreau/git/BioExplorer/bioexplorer/core/module/ispc/render/DensityRenderer.h" line="75" column="20" bodyfile="/Users/favreau/git/BioExplorer/bioexplorer/core/module/ispc/render/DensityRenderer.h" bodystart="75" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="public-func">
+      <memberdef kind="function" id="de/d24/classbioexplorer_1_1rendering_1_1DensityRenderer_1aada116d6d795762fa201d3201fe4edd5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>bioexplorer::rendering::DensityRenderer::DensityRenderer</definition>
+        <argsstring>()</argsstring>
+        <name>DensityRenderer</name>
+        <briefdescription>
+<para>Construct a new Bio Explorer Density Renderer object. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/favreau/git/BioExplorer/bioexplorer/core/module/ispc/render/DensityRenderer.h" line="44" column="5" bodyfile="/Users/favreau/git/BioExplorer/bioexplorer/core/module/ispc/render/DensityRenderer.cpp" bodystart="66" bodyend="69"/>
+      </memberdef>
+      <memberdef kind="function" id="de/d24/classbioexplorer_1_1rendering_1_1DensityRenderer_1aa0272ec506f2f694d37e1b24d193c09e" prot="public" static="no" const="yes" explicit="no" inline="yes" final="yes" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string bioexplorer::rendering::DensityRenderer::toString</definition>
+        <argsstring>() const final</argsstring>
+        <name>toString</name>
+        <briefdescription>
+<para>Returns the class name as a string. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>A string containing the full name of the class </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/favreau/git/BioExplorer/bioexplorer/core/module/ispc/render/DensityRenderer.h" line="51" column="17" bodyfile="/Users/favreau/git/BioExplorer/bioexplorer/core/module/ispc/render/DensityRenderer.h" bodystart="51" bodyend="51"/>
+      </memberdef>
+      <memberdef kind="function" id="de/d24/classbioexplorer_1_1rendering_1_1DensityRenderer_1a8aeee142b96c8e1a9a2e5e8c082c3222" prot="public" static="no" const="no" explicit="no" inline="no" final="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void bioexplorer::rendering::DensityRenderer::commit</definition>
+        <argsstring>() final</argsstring>
+        <name>commit</name>
+        <briefdescription>
+<para>Commit the changes to the OSPRay engine. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/favreau/git/BioExplorer/bioexplorer/core/module/ispc/render/DensityRenderer.h" line="57" column="10" bodyfile="/Users/favreau/git/BioExplorer/bioexplorer/core/module/ispc/render/DensityRenderer.cpp" bodystart="35" bodyend="64"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+<para>The <ref refid="de/d24/classbioexplorer_1_1rendering_1_1DensityRenderer" kindref="compound">DensityRenderer</ref> class allows visualization of atom density in the 3D scene. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>bioexplorer::rendering::DensityRenderer</label>
+        <link refid="de/d24/classbioexplorer_1_1rendering_1_1DensityRenderer"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>ospray::Renderer</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>bioexplorer::rendering::DensityRenderer</label>
+        <link refid="de/d24/classbioexplorer_1_1rendering_1_1DensityRenderer"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>ospray::Renderer</label>
+      </node>
+    </collaborationgraph>
+    <location file="/Users/favreau/git/BioExplorer/bioexplorer/core/module/ispc/render/DensityRenderer.h" line="37" column="1" bodyfile="/Users/favreau/git/BioExplorer/bioexplorer/core/module/ispc/render/DensityRenderer.h" bodystart="38" bodyend="76"/>
+    <listofallmembers>
+      <member refid="de/d24/classbioexplorer_1_1rendering_1_1DensityRenderer_1a22c44ad569520107d455a9717c426a02" prot="private" virt="non-virtual"><scope>bioexplorer::rendering::DensityRenderer</scope><name>_alphaCorrection</name></member>
+      <member refid="de/d24/classbioexplorer_1_1rendering_1_1DensityRenderer_1aea56e79467bed2c517c9c4193ae23b41" prot="private" virt="non-virtual"><scope>bioexplorer::rendering::DensityRenderer</scope><name>_bgMaterial</name></member>
+      <member refid="de/d24/classbioexplorer_1_1rendering_1_1DensityRenderer_1a926261adb0268c2e85aca5389cbceffe" prot="private" virt="non-virtual"><scope>bioexplorer::rendering::DensityRenderer</scope><name>_exposure</name></member>
+      <member refid="de/d24/classbioexplorer_1_1rendering_1_1DensityRenderer_1a59391f944d5d5a86371177be21e2ef65" prot="private" virt="non-virtual"><scope>bioexplorer::rendering::DensityRenderer</scope><name>_farPlane</name></member>
+      <member refid="de/d24/classbioexplorer_1_1rendering_1_1DensityRenderer_1a818d554f534ec9b522908d95ad9a1522" prot="private" virt="non-virtual"><scope>bioexplorer::rendering::DensityRenderer</scope><name>_lightArray</name></member>
+      <member refid="de/d24/classbioexplorer_1_1rendering_1_1DensityRenderer_1a98dbf5bff1559c9daad6e3447d07489e" prot="private" virt="non-virtual"><scope>bioexplorer::rendering::DensityRenderer</scope><name>_lightData</name></member>
+      <member refid="de/d24/classbioexplorer_1_1rendering_1_1DensityRenderer_1a048bf207351dbc6e8a0d59d2d705ef13" prot="private" virt="non-virtual"><scope>bioexplorer::rendering::DensityRenderer</scope><name>_lightPtr</name></member>
+      <member refid="de/d24/classbioexplorer_1_1rendering_1_1DensityRenderer_1a7cd3f3ea111f4f4869cee1e914d761f1" prot="private" virt="non-virtual"><scope>bioexplorer::rendering::DensityRenderer</scope><name>_rayStep</name></member>
+      <member refid="de/d24/classbioexplorer_1_1rendering_1_1DensityRenderer_1a42621936e12a9c1688100f44657a113d" prot="private" virt="non-virtual"><scope>bioexplorer::rendering::DensityRenderer</scope><name>_sampleCount</name></member>
+      <member refid="de/d24/classbioexplorer_1_1rendering_1_1DensityRenderer_1a5eaedc892ffee101c531acd5e99dd87d" prot="private" virt="non-virtual"><scope>bioexplorer::rendering::DensityRenderer</scope><name>_searchLength</name></member>
+      <member refid="de/d24/classbioexplorer_1_1rendering_1_1DensityRenderer_1a29f7d5da51262cafa3457026be39a3a3" prot="private" virt="non-virtual"><scope>bioexplorer::rendering::DensityRenderer</scope><name>_timestamp</name></member>
+      <member refid="de/d24/classbioexplorer_1_1rendering_1_1DensityRenderer_1a8aeee142b96c8e1a9a2e5e8c082c3222" prot="public" virt="non-virtual"><scope>bioexplorer::rendering::DensityRenderer</scope><name>commit</name></member>
+      <member refid="de/d24/classbioexplorer_1_1rendering_1_1DensityRenderer_1aada116d6d795762fa201d3201fe4edd5" prot="public" virt="non-virtual"><scope>bioexplorer::rendering::DensityRenderer</scope><name>DensityRenderer</name></member>
+      <member refid="de/d24/classbioexplorer_1_1rendering_1_1DensityRenderer_1aa0272ec506f2f694d37e1b24d193c09e" prot="public" virt="non-virtual"><scope>bioexplorer::rendering::DensityRenderer</scope><name>toString</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

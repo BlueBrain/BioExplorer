@@ -1,0 +1,77 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.2" xml:lang="en-US">
+  <compounddef id="db/d48/structbioexplorer_1_1details_1_1AddSphereDetails" kind="struct" language="C++" prot="public">
+    <compoundname>bioexplorer::details::AddSphereDetails</compoundname>
+    <includes refid="d7/df8/Types_8h" local="no">Types.h</includes>
+      <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="db/d48/structbioexplorer_1_1details_1_1AddSphereDetails_1a88271f8d3ca26a612fedec1348957166" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string bioexplorer::details::AddSphereDetails::name</definition>
+        <argsstring></argsstring>
+        <name>name</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Name of the sphere </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/favreau/git/BioExplorer/bioexplorer/core/plugin/common/Types.h" line="531" column="17" bodyfile="/Users/favreau/git/BioExplorer/bioexplorer/core/plugin/common/Types.h" bodystart="531" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="db/d48/structbioexplorer_1_1details_1_1AddSphereDetails_1a02f4847a0b027ece65d6210d05ecf396" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; float &gt;</type>
+        <definition>std::vector&lt;float&gt; bioexplorer::details::AddSphereDetails::position</definition>
+        <argsstring></argsstring>
+        <name>position</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Position of the sphere in the scene </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/favreau/git/BioExplorer/bioexplorer/core/plugin/common/Types.h" line="533" column="17" bodyfile="/Users/favreau/git/BioExplorer/bioexplorer/core/plugin/common/Types.h" bodystart="533" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="db/d48/structbioexplorer_1_1details_1_1AddSphereDetails_1ab55b1af0e197c09a104968d249f4e084" prot="public" static="no" mutable="no">
+        <type>float</type>
+        <definition>float bioexplorer::details::AddSphereDetails::radius</definition>
+        <argsstring></argsstring>
+        <name>radius</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Radius of the sphere </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/favreau/git/BioExplorer/bioexplorer/core/plugin/common/Types.h" line="535" column="11" bodyfile="/Users/favreau/git/BioExplorer/bioexplorer/core/plugin/common/Types.h" bodystart="535" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="db/d48/structbioexplorer_1_1details_1_1AddSphereDetails_1a6479932a15c349ca9d12bc41bf60c952" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; float &gt;</type>
+        <definition>std::vector&lt;float&gt; bioexplorer::details::AddSphereDetails::color</definition>
+        <argsstring></argsstring>
+        <name>color</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>RGB Color of the sphere </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/favreau/git/BioExplorer/bioexplorer/core/plugin/common/Types.h" line="537" column="17" bodyfile="/Users/favreau/git/BioExplorer/bioexplorer/core/plugin/common/Types.h" bodystart="537" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+<para>Defines the parameters needed when adding 3D sphere to the scene. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="/Users/favreau/git/BioExplorer/bioexplorer/core/plugin/common/Types.h" line="528" column="1" bodyfile="/Users/favreau/git/BioExplorer/bioexplorer/core/plugin/common/Types.h" bodystart="529" bodyend="538"/>
+    <listofallmembers>
+      <member refid="db/d48/structbioexplorer_1_1details_1_1AddSphereDetails_1a6479932a15c349ca9d12bc41bf60c952" prot="public" virt="non-virtual"><scope>bioexplorer::details::AddSphereDetails</scope><name>color</name></member>
+      <member refid="db/d48/structbioexplorer_1_1details_1_1AddSphereDetails_1a88271f8d3ca26a612fedec1348957166" prot="public" virt="non-virtual"><scope>bioexplorer::details::AddSphereDetails</scope><name>name</name></member>
+      <member refid="db/d48/structbioexplorer_1_1details_1_1AddSphereDetails_1a02f4847a0b027ece65d6210d05ecf396" prot="public" virt="non-virtual"><scope>bioexplorer::details::AddSphereDetails</scope><name>position</name></member>
+      <member refid="db/d48/structbioexplorer_1_1details_1_1AddSphereDetails_1ab55b1af0e197c09a104968d249f4e084" prot="public" virt="non-virtual"><scope>bioexplorer::details::AddSphereDetails</scope><name>radius</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,86 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.2" xml:lang="en-US">
+  <compounddef id="d3/dc3/BioExplorerSkyBox_8ispc" kind="file" language="C++">
+    <compoundname>BioExplorerSkyBox.ispc</compoundname>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline><highlight class="normal">/*</highlight></codeline>
+<codeline><highlight class="normal"><sp/>*<sp/>The<sp/>Blue<sp/>Brain<sp/>BioExplorer<sp/>is<sp/>a<sp/>tool<sp/>for<sp/>scientists<sp/>to<sp/>extract<sp/>and<sp/>analyse</highlight></codeline>
+<codeline><highlight class="normal"><sp/>*<sp/>scientific<sp/>data<sp/>from<sp/>visualization</highlight></codeline>
+<codeline><highlight class="normal"><sp/>*</highlight></codeline>
+<codeline><highlight class="normal"><sp/>*<sp/>Copyright<sp/>2020-2021<sp/>Blue<sp/>BrainProject<sp/>/<sp/>EPFL</highlight></codeline>
+<codeline><highlight class="normal"><sp/>*</highlight></codeline>
+<codeline><highlight class="normal"><sp/>*<sp/>This<sp/>program<sp/>is<sp/>free<sp/>software:<sp/>you<sp/>can<sp/>redistribute<sp/>it<sp/>and/or<sp/>modify<sp/>it<sp/>under</highlight></codeline>
+<codeline><highlight class="normal"><sp/>*<sp/>the<sp/>terms<sp/>of<sp/>the<sp/>GNU<sp/>General<sp/>Public<sp/>License<sp/>as<sp/>published<sp/>by<sp/>the<sp/>Free<sp/>Software</highlight></codeline>
+<codeline><highlight class="normal"><sp/>*<sp/>Foundation,<sp/>either<sp/>version<sp/>3<sp/>of<sp/>the<sp/>License,<sp/>or<sp/>(at<sp/>your<sp/>option)<sp/>any<sp/>later</highlight></codeline>
+<codeline><highlight class="normal"><sp/>*<sp/>version.</highlight></codeline>
+<codeline><highlight class="normal"><sp/>*</highlight></codeline>
+<codeline><highlight class="normal"><sp/>*<sp/>This<sp/>program<sp/>is<sp/>distributed<sp/>in<sp/>the<sp/>hope<sp/>that<sp/>it<sp/>will<sp/>be<sp/>useful,<sp/>but<sp/>WITHOUT</highlight></codeline>
+<codeline><highlight class="normal"><sp/>*<sp/>ANY<sp/>WARRANTY;<sp/>without<sp/>even<sp/>the<sp/>implied<sp/>warranty<sp/>of<sp/>MERCHANTABILITY<sp/>or<sp/>FITNESS</highlight></codeline>
+<codeline><highlight class="normal"><sp/>*<sp/>FOR<sp/>A<sp/>PARTICULAR<sp/>PURPOSE.<sp/><sp/>See<sp/>the<sp/>GNU<sp/>General<sp/>Public<sp/>License<sp/>for<sp/>more</highlight></codeline>
+<codeline><highlight class="normal"><sp/>*<sp/>details.</highlight></codeline>
+<codeline><highlight class="normal"><sp/>*</highlight></codeline>
+<codeline><highlight class="normal"><sp/>*<sp/>You<sp/>should<sp/>have<sp/>received<sp/>a<sp/>copy<sp/>of<sp/>the<sp/>GNU<sp/>General<sp/>Public<sp/>License<sp/>along<sp/>with</highlight></codeline>
+<codeline><highlight class="normal"><sp/>*<sp/>this<sp/>program.<sp/><sp/>If<sp/>not,<sp/>see<sp/>&lt;https://www.gnu.org/licenses/&gt;.</highlight></codeline>
+<codeline><highlight class="normal"><sp/>*/</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">#include<sp/>&lt;ospray/SDK/render/Renderer.ih&gt;</highlight></codeline>
+<codeline><highlight class="normal">#include<sp/>&lt;ospray/SDK/render/util.ih&gt;</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">#include<sp/>&quot;../AdvancedMaterial.ih&quot;</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">vec4f<sp/>skyboxMapping(const<sp/>uniform<sp/>Renderer*<sp/>uniform<sp/>renderer,</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>const<sp/>varying<sp/>Ray&amp;<sp/>ray,</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>const<sp/>uniform<sp/>AdvancedMaterial*<sp/>uniform<sp/>bgMaterial)</highlight></codeline>
+<codeline><highlight class="normal">{</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>varying<sp/>vec4f<sp/>result<sp/>=<sp/>make_vec4f(bgMaterial-&gt;Kd);</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>const<sp/>varying<sp/>float<sp/>radius<sp/>=<sp/>1e6;</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>if<sp/>(!valid(bgMaterial-&gt;map_Kd))</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>return<sp/>result;</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>//<sp/>solve<sp/>the<sp/>equation<sp/>sphere-ray<sp/>to<sp/>find<sp/>the<sp/>intersections</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>const<sp/>varying<sp/>float<sp/>a<sp/>=<sp/>2.f<sp/>*<sp/>dot(ray.dir,<sp/>ray.dir);</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>const<sp/>varying<sp/>float<sp/>b<sp/>=<sp/>2.f<sp/>*<sp/>dot(ray.org,<sp/>ray.dir);</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>const<sp/>varying<sp/>float<sp/>c<sp/>=<sp/>dot(ray.org,<sp/>ray.org)<sp/>-<sp/>radius<sp/>*<sp/>radius;</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>const<sp/>varying<sp/>float<sp/>d<sp/>=<sp/>b<sp/>*<sp/>b<sp/>-<sp/>2.f<sp/>*<sp/>a<sp/>*<sp/>c;</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>if<sp/>(d<sp/>&lt;=<sp/>0.f<sp/>||<sp/>a<sp/>==<sp/>0.f)</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>return<sp/>result;</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>const<sp/>varying<sp/>float<sp/>r<sp/>=<sp/>sqrt(d);</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>const<sp/>varying<sp/>float<sp/>t1<sp/>=<sp/>(-b<sp/>-<sp/>r)<sp/>/<sp/>a;</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>const<sp/>varying<sp/>float<sp/>t2<sp/>=<sp/>(-b<sp/>+<sp/>r)<sp/>/<sp/>a;</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>const<sp/>varying<sp/>float<sp/>epsilon<sp/>=<sp/>0.00001f;</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>if<sp/>(t1<sp/>&lt;=<sp/>epsilon<sp/>&amp;&amp;<sp/>t2<sp/>&lt;=<sp/>epsilon)</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>return<sp/>result;<sp/>//<sp/>both<sp/>intersections<sp/>are<sp/>behind<sp/>the<sp/>ray<sp/>origin</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>varying<sp/>float<sp/>t<sp/>=<sp/>0.f;</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>if<sp/>(t1<sp/>&lt;=<sp/>epsilon)</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>t<sp/>=<sp/>t2;</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>else<sp/>if<sp/>(t2<sp/>&lt;=<sp/>epsilon)</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>t<sp/>=<sp/>t1;</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>else</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>t<sp/>=<sp/>(t1<sp/>&lt;<sp/>t2)<sp/>?<sp/>t1<sp/>:<sp/>t2;</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>if<sp/>(t<sp/>&lt;<sp/>epsilon<sp/>||<sp/>t<sp/>&gt;<sp/>ray.t)</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>return<sp/>result;<sp/>//<sp/>Too<sp/>close<sp/>to<sp/>intersection</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>const<sp/>varying<sp/>vec3f<sp/>intersection<sp/>=<sp/>normalize(ray.org<sp/>+<sp/>t<sp/>*<sp/>ray.dir);</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>//<sp/>Only<sp/>st<sp/>needs<sp/>to<sp/>be<sp/>set<sp/>to<sp/>sample<sp/>from<sp/>Texture2D</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>varying<sp/>DifferentialGeometry<sp/>dg;</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>dg.st<sp/>=</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>make_vec2f(((atan2(-intersection.x,<sp/>intersection.z)<sp/>/<sp/>PI)<sp/>+<sp/>1.f)<sp/>*<sp/>.5f,</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>(asin(intersection.y)<sp/>/<sp/>PI)<sp/>+<sp/>.5f);</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>return<sp/>get4f(bgMaterial-&gt;map_Kd.map,<sp/>dg);</highlight></codeline>
+<codeline><highlight class="normal">}</highlight></codeline>
+    </programlisting>
+    <location file="/Users/favreau/git/BioExplorer/bioexplorer/core/module/ispc/render/utils/BioExplorerSkyBox.ispc"/>
+  </compounddef>
+</doxygen>

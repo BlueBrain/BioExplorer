@@ -1,0 +1,161 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.2" xml:lang="en-US">
+  <compounddef id="de/dc0/classbioexplorer_1_1biology_1_1Node" kind="class" language="C++" prot="public">
+    <compoundname>bioexplorer::biology::Node</compoundname>
+    <derivedcompoundref refid="de/dd4/classbioexplorer_1_1biology_1_1Membrane" prot="public" virt="non-virtual">bioexplorer::biology::Membrane</derivedcompoundref>
+    <derivedcompoundref refid="d7/dff/classbioexplorer_1_1biology_1_1Molecule" prot="public" virt="non-virtual">bioexplorer::biology::Molecule</derivedcompoundref>
+    <derivedcompoundref refid="d0/d5f/classbioexplorer_1_1biology_1_1RNASequence" prot="public" virt="non-virtual">bioexplorer::biology::RNASequence</derivedcompoundref>
+    <includes refid="db/d92/Node_8h" local="no">Node.h</includes>
+      <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="de/dc0/classbioexplorer_1_1biology_1_1Node_1afb69572f3597ae900eba1ad4a6b469a5" prot="protected" static="no" mutable="no">
+        <type>ModelDescriptorPtr</type>
+        <definition>ModelDescriptorPtr bioexplorer::biology::Node::_modelDescriptor</definition>
+        <argsstring></argsstring>
+        <name>_modelDescriptor</name>
+        <initializer>{nullptr}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/favreau/git/BioExplorer/bioexplorer/core/plugin/biology/Node.h" line="61" column="24" bodyfile="/Users/favreau/git/BioExplorer/bioexplorer/core/plugin/biology/Node.h" bodystart="61" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="de/dc0/classbioexplorer_1_1biology_1_1Node_1a998df0f51c27774a2fbbc34c8714559b" prot="protected" static="no" mutable="no">
+        <type>Boxf</type>
+        <definition>Boxf bioexplorer::biology::Node::_bounds</definition>
+        <argsstring></argsstring>
+        <name>_bounds</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/favreau/git/BioExplorer/bioexplorer/core/plugin/biology/Node.h" line="62" column="10" bodyfile="/Users/favreau/git/BioExplorer/bioexplorer/core/plugin/biology/Node.h" bodystart="62" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="de/dc0/classbioexplorer_1_1biology_1_1Node_1a5388117456e0bc7ab516ace1c49e1cee" prot="protected" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t bioexplorer::biology::Node::_uuid</definition>
+        <argsstring></argsstring>
+        <name>_uuid</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/favreau/git/BioExplorer/bioexplorer/core/plugin/biology/Node.h" line="63" column="14" bodyfile="/Users/favreau/git/BioExplorer/bioexplorer/core/plugin/biology/Node.h" bodystart="63" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="public-func">
+      <memberdef kind="function" id="de/dc0/classbioexplorer_1_1biology_1_1Node_1a2b56af16626b832014845ee9bf007af0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>bioexplorer::biology::Node::Node</definition>
+        <argsstring>()</argsstring>
+        <name>Node</name>
+        <briefdescription>
+<para>Construct a new <ref refid="de/dc0/classbioexplorer_1_1biology_1_1Node" kindref="compound">Node</ref> object. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/favreau/git/BioExplorer/bioexplorer/core/plugin/biology/Node.h" line="42" column="5" bodyfile="/Users/favreau/git/BioExplorer/bioexplorer/core/plugin/biology/Node.cpp" bodystart="30" bodyend="34"/>
+      </memberdef>
+      <memberdef kind="function" id="de/dc0/classbioexplorer_1_1biology_1_1Node_1a1d02dc5b33293f53296cde67fc346496" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type></type>
+        <definition>bioexplorer::biology::Node::~Node</definition>
+        <argsstring>()</argsstring>
+        <name>~Node</name>
+        <briefdescription>
+<para>Destroy the <ref refid="de/dc0/classbioexplorer_1_1biology_1_1Node" kindref="compound">Node</ref> object. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/favreau/git/BioExplorer/bioexplorer/core/plugin/biology/Node.h" line="48" column="13" bodyfile="/Users/favreau/git/BioExplorer/bioexplorer/core/plugin/biology/Node.cpp" bodystart="36" bodyend="36"/>
+      </memberdef>
+      <memberdef kind="function" id="de/dc0/classbioexplorer_1_1biology_1_1Node_1a415bffbb900abe3e0e7ac12c6bf96a32" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>const ModelDescriptorPtr</type>
+        <definition>const ModelDescriptorPtr bioexplorer::biology::Node::getModelDescriptor</definition>
+        <argsstring>() const</argsstring>
+        <name>getModelDescriptor</name>
+        <briefdescription>
+<para>Get the Model Descriptor object. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>ModelDescriptorPtr Pointer to the model descriptor </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/favreau/git/BioExplorer/bioexplorer/core/plugin/biology/Node.h" line="55" column="30" bodyfile="/Users/favreau/git/BioExplorer/bioexplorer/core/plugin/biology/Node.h" bodystart="55" bodyend="58"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+<para>The <ref refid="de/dc0/classbioexplorer_1_1biology_1_1Node" kindref="compound">Node</ref> class. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="6">
+        <label>bioexplorer::biology::Glycans</label>
+        <link refid="d0/d3d/classbioexplorer_1_1biology_1_1Glycans"/>
+        <childnode refid="5" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>bioexplorer::biology::Membrane</label>
+        <link refid="de/dd4/classbioexplorer_1_1biology_1_1Membrane"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>bioexplorer::biology::MeshBasedMembrane</label>
+        <link refid="d5/d80/classbioexplorer_1_1biology_1_1MeshBasedMembrane"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="5">
+        <label>bioexplorer::biology::Molecule</label>
+        <link refid="d7/dff/classbioexplorer_1_1biology_1_1Molecule"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>bioexplorer::biology::Node</label>
+        <link refid="de/dc0/classbioexplorer_1_1biology_1_1Node"/>
+      </node>
+      <node id="4">
+        <label>bioexplorer::biology::ParametricMembrane</label>
+        <link refid="dd/dc5/classbioexplorer_1_1biology_1_1ParametricMembrane"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="7">
+        <label>bioexplorer::biology::Protein</label>
+        <link refid="db/dba/classbioexplorer_1_1biology_1_1Protein"/>
+        <childnode refid="5" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="8">
+        <label>bioexplorer::biology::RNASequence</label>
+        <link refid="d0/d5f/classbioexplorer_1_1biology_1_1RNASequence"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <location file="/Users/favreau/git/BioExplorer/bioexplorer/core/plugin/biology/Node.h" line="35" column="1" bodyfile="/Users/favreau/git/BioExplorer/bioexplorer/core/plugin/biology/Node.h" bodystart="36" bodyend="64"/>
+    <listofallmembers>
+      <member refid="de/dc0/classbioexplorer_1_1biology_1_1Node_1a998df0f51c27774a2fbbc34c8714559b" prot="protected" virt="non-virtual"><scope>bioexplorer::biology::Node</scope><name>_bounds</name></member>
+      <member refid="de/dc0/classbioexplorer_1_1biology_1_1Node_1afb69572f3597ae900eba1ad4a6b469a5" prot="protected" virt="non-virtual"><scope>bioexplorer::biology::Node</scope><name>_modelDescriptor</name></member>
+      <member refid="de/dc0/classbioexplorer_1_1biology_1_1Node_1a5388117456e0bc7ab516ace1c49e1cee" prot="protected" virt="non-virtual"><scope>bioexplorer::biology::Node</scope><name>_uuid</name></member>
+      <member refid="de/dc0/classbioexplorer_1_1biology_1_1Node_1a415bffbb900abe3e0e7ac12c6bf96a32" prot="public" virt="non-virtual"><scope>bioexplorer::biology::Node</scope><name>getModelDescriptor</name></member>
+      <member refid="de/dc0/classbioexplorer_1_1biology_1_1Node_1a2b56af16626b832014845ee9bf007af0" prot="public" virt="non-virtual"><scope>bioexplorer::biology::Node</scope><name>Node</name></member>
+      <member refid="de/dc0/classbioexplorer_1_1biology_1_1Node_1a1d02dc5b33293f53296cde67fc346496" prot="public" virt="virtual"><scope>bioexplorer::biology::Node</scope><name>~Node</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>
