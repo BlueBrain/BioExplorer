@@ -350,7 +350,8 @@ class BioExplorer:
             raise RuntimeError(result["contents"])
         return result
 
-    def export_to_xyz(self, filename, file_format):
+    def export_to_xyz(self, filename, file_format, low_bounds=Vector3(-1e38, -1e38, -1e38),
+                      high_bounds=Vector3(1e38, 1e38, 1e38)):
         """
         Exports current scene to file as a XYZ file
 
@@ -361,6 +362,8 @@ class BioExplorer:
         """
         params = dict()
         params["filename"] = filename
+        params["lowBounds"] = low_bounds.to_list()
+        params["highBounds"] = high_bounds.to_list()
         params["fileFormat"] = file_format
         result = self._client.rockets_client.request(
             method=self.PLUGIN_API_PREFIX + "export-to-xyz", params=params)
