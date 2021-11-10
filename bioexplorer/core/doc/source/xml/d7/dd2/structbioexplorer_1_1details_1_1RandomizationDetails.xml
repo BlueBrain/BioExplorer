@@ -1,0 +1,99 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.2" xml:lang="en-US">
+  <compounddef id="d7/dd2/structbioexplorer_1_1details_1_1RandomizationDetails" kind="struct" language="C++" prot="public">
+    <compoundname>bioexplorer::details::RandomizationDetails</compoundname>
+      <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="d7/dd2/structbioexplorer_1_1details_1_1RandomizationDetails_1a4856df468e1f032a8a616213cd42c51a" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t bioexplorer::details::RandomizationDetails::seed</definition>
+        <argsstring></argsstring>
+        <name>seed</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/favreau/git/BioExplorer/bioexplorer/core/plugin/common/Types.h" line="129" column="14" bodyfile="/Users/favreau/git/BioExplorer/bioexplorer/core/plugin/common/Types.h" bodystart="129" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="d7/dd2/structbioexplorer_1_1details_1_1RandomizationDetails_1a025feb5467d8deebfa6429384e58e1d0" prot="public" static="no" mutable="no">
+        <type>PositionRandomizationType</type>
+        <definition>PositionRandomizationType bioexplorer::details::RandomizationDetails::randomizationType</definition>
+        <argsstring></argsstring>
+        <name>randomizationType</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/favreau/git/BioExplorer/bioexplorer/core/plugin/common/Types.h" line="130" column="31" bodyfile="/Users/favreau/git/BioExplorer/bioexplorer/core/plugin/common/Types.h" bodystart="130" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="d7/dd2/structbioexplorer_1_1details_1_1RandomizationDetails_1a202ceb08d83359567fa5235059e50d16" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t bioexplorer::details::RandomizationDetails::positionSeed</definition>
+        <argsstring></argsstring>
+        <name>positionSeed</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/favreau/git/BioExplorer/bioexplorer/core/plugin/common/Types.h" line="131" column="14" bodyfile="/Users/favreau/git/BioExplorer/bioexplorer/core/plugin/common/Types.h" bodystart="131" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="d7/dd2/structbioexplorer_1_1details_1_1RandomizationDetails_1a9c1b254e0a9d2b353c9bd06489d9ce6a" prot="public" static="no" mutable="no">
+        <type>float</type>
+        <definition>float bioexplorer::details::RandomizationDetails::positionStrength</definition>
+        <argsstring></argsstring>
+        <name>positionStrength</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/favreau/git/BioExplorer/bioexplorer/core/plugin/common/Types.h" line="132" column="11" bodyfile="/Users/favreau/git/BioExplorer/bioexplorer/core/plugin/common/Types.h" bodystart="132" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="d7/dd2/structbioexplorer_1_1details_1_1RandomizationDetails_1a650c726c1385b10b163d7c904f755d4f" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t bioexplorer::details::RandomizationDetails::rotationSeed</definition>
+        <argsstring></argsstring>
+        <name>rotationSeed</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/favreau/git/BioExplorer/bioexplorer/core/plugin/common/Types.h" line="133" column="14" bodyfile="/Users/favreau/git/BioExplorer/bioexplorer/core/plugin/common/Types.h" bodystart="133" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="d7/dd2/structbioexplorer_1_1details_1_1RandomizationDetails_1a5e2404c591b2520101cfd441097ff2e4" prot="public" static="no" mutable="no">
+        <type>float</type>
+        <definition>float bioexplorer::details::RandomizationDetails::rotationStrength</definition>
+        <argsstring></argsstring>
+        <name>rotationStrength</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/favreau/git/BioExplorer/bioexplorer/core/plugin/common/Types.h" line="134" column="11" bodyfile="/Users/favreau/git/BioExplorer/bioexplorer/core/plugin/common/Types.h" bodystart="134" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="/Users/favreau/git/BioExplorer/bioexplorer/core/plugin/common/Types.h" line="127" column="1" bodyfile="/Users/favreau/git/BioExplorer/bioexplorer/core/plugin/common/Types.h" bodystart="128" bodyend="135"/>
+    <listofallmembers>
+      <member refid="d7/dd2/structbioexplorer_1_1details_1_1RandomizationDetails_1a202ceb08d83359567fa5235059e50d16" prot="public" virt="non-virtual"><scope>bioexplorer::details::RandomizationDetails</scope><name>positionSeed</name></member>
+      <member refid="d7/dd2/structbioexplorer_1_1details_1_1RandomizationDetails_1a9c1b254e0a9d2b353c9bd06489d9ce6a" prot="public" virt="non-virtual"><scope>bioexplorer::details::RandomizationDetails</scope><name>positionStrength</name></member>
+      <member refid="d7/dd2/structbioexplorer_1_1details_1_1RandomizationDetails_1a025feb5467d8deebfa6429384e58e1d0" prot="public" virt="non-virtual"><scope>bioexplorer::details::RandomizationDetails</scope><name>randomizationType</name></member>
+      <member refid="d7/dd2/structbioexplorer_1_1details_1_1RandomizationDetails_1a650c726c1385b10b163d7c904f755d4f" prot="public" virt="non-virtual"><scope>bioexplorer::details::RandomizationDetails</scope><name>rotationSeed</name></member>
+      <member refid="d7/dd2/structbioexplorer_1_1details_1_1RandomizationDetails_1a5e2404c591b2520101cfd441097ff2e4" prot="public" virt="non-virtual"><scope>bioexplorer::details::RandomizationDetails</scope><name>rotationStrength</name></member>
+      <member refid="d7/dd2/structbioexplorer_1_1details_1_1RandomizationDetails_1a4856df468e1f032a8a616213cd42c51a" prot="public" virt="non-virtual"><scope>bioexplorer::details::RandomizationDetails</scope><name>seed</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

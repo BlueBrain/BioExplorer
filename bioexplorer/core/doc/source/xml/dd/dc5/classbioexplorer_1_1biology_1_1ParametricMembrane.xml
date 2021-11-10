@@ -1,0 +1,205 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.2" xml:lang="en-US">
+  <compounddef id="dd/dc5/classbioexplorer_1_1biology_1_1ParametricMembrane" kind="class" language="C++" prot="public">
+    <compoundname>bioexplorer::biology::ParametricMembrane</compoundname>
+    <basecompoundref refid="de/dd4/classbioexplorer_1_1biology_1_1Membrane" prot="public" virt="non-virtual">bioexplorer::biology::Membrane</basecompoundref>
+    <includes refid="d6/da5/ParametricMembrane_8h" local="no">ParametricMembrane.h</includes>
+      <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="dd/dc5/classbioexplorer_1_1biology_1_1ParametricMembrane_1a07718df03d06e507d695f91a912d3616" prot="private" static="no" mutable="no">
+        <type><ref refid="db/dfc/structbioexplorer_1_1details_1_1ParametricMembraneDetails" kindref="compound">ParametricMembraneDetails</ref></type>
+        <definition>ParametricMembraneDetails bioexplorer::biology::ParametricMembrane::_details</definition>
+        <argsstring></argsstring>
+        <name>_details</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/favreau/git/BioExplorer/bioexplorer/core/plugin/biology/ParametricMembrane.h" line="60" column="31" bodyfile="/Users/favreau/git/BioExplorer/bioexplorer/core/plugin/biology/ParametricMembrane.h" bodystart="60" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="public-func">
+      <memberdef kind="function" id="dd/dc5/classbioexplorer_1_1biology_1_1ParametricMembrane_1a414eec91004fed05877561eb239abf40" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>bioexplorer::biology::ParametricMembrane::ParametricMembrane</definition>
+        <argsstring>(Scene &amp;scene, const Vector3f &amp;assemblyPosition, const Quaterniond &amp;assemblyRotation, const Vector4fs &amp;clippingPlanes, const ParametricMembraneDetails &amp;details)</argsstring>
+        <name>ParametricMembrane</name>
+        <param>
+          <type>Scene &amp;</type>
+          <declname>scene</declname>
+        </param>
+        <param>
+          <type>const Vector3f &amp;</type>
+          <declname>assemblyPosition</declname>
+        </param>
+        <param>
+          <type>const Quaterniond &amp;</type>
+          <declname>assemblyRotation</declname>
+        </param>
+        <param>
+          <type>const Vector4fs &amp;</type>
+          <declname>clippingPlanes</declname>
+        </param>
+        <param>
+          <type>const <ref refid="db/dfc/structbioexplorer_1_1details_1_1ParametricMembraneDetails" kindref="compound">ParametricMembraneDetails</ref> &amp;</type>
+          <declname>details</declname>
+        </param>
+        <briefdescription>
+<para>Construct a new <ref refid="de/dd4/classbioexplorer_1_1biology_1_1Membrane" kindref="compound">Membrane</ref> object. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>scene</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The 3D scene where the glycans are added </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>details</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The data structure describing the membrane </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/favreau/git/BioExplorer/bioexplorer/core/plugin/biology/ParametricMembrane.h" line="43" column="5" bodyfile="/Users/favreau/git/BioExplorer/bioexplorer/core/plugin/biology/ParametricMembrane.cpp" bodystart="38" bodyend="118"/>
+      </memberdef>
+      <memberdef kind="function" id="dd/dc5/classbioexplorer_1_1biology_1_1ParametricMembrane_1a7dfe3506bfe1a723869030356136ae56" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>bioexplorer::biology::ParametricMembrane::~ParametricMembrane</definition>
+        <argsstring>()</argsstring>
+        <name>~ParametricMembrane</name>
+        <briefdescription>
+<para>Destroy the Parametric <ref refid="de/dd4/classbioexplorer_1_1biology_1_1Membrane" kindref="compound">Membrane</ref> object. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/favreau/git/BioExplorer/bioexplorer/core/plugin/biology/ParametricMembrane.h" line="52" column="5" bodyfile="/Users/favreau/git/BioExplorer/bioexplorer/core/plugin/biology/ParametricMembrane.cpp" bodystart="120" bodyend="124"/>
+      </memberdef>
+      <memberdef kind="function" id="dd/dc5/classbioexplorer_1_1biology_1_1ParametricMembrane_1a34f9628ad09a408d1f171bcbda188487" prot="public" static="no" const="yes" explicit="no" inline="no" final="yes" virt="virtual">
+        <type>bool</type>
+        <definition>bool bioexplorer::biology::ParametricMembrane::isInside</definition>
+        <argsstring>(const Vector3f &amp;point) const final</argsstring>
+        <name>isInside</name>
+        <reimplements refid="de/dd4/classbioexplorer_1_1biology_1_1Membrane_1a0ada510af511de3651a4234c635d99ec">isInside</reimplements>
+        <param>
+          <type>const Vector3f &amp;</type>
+          <declname>point</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/favreau/git/BioExplorer/bioexplorer/core/plugin/biology/ParametricMembrane.h" line="54" column="10" bodyfile="/Users/favreau/git/BioExplorer/bioexplorer/core/plugin/biology/ParametricMembrane.cpp" bodystart="249" bodyend="252"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="private-func">
+      <memberdef kind="function" id="dd/dc5/classbioexplorer_1_1biology_1_1ParametricMembrane_1a7026e2eae64878e0d3bd316e1c9e64f3" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void bioexplorer::biology::ParametricMembrane::_processInstances</definition>
+        <argsstring>()</argsstring>
+        <name>_processInstances</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/favreau/git/BioExplorer/bioexplorer/core/plugin/biology/ParametricMembrane.h" line="57" column="10" bodyfile="/Users/favreau/git/BioExplorer/bioexplorer/core/plugin/biology/ParametricMembrane.cpp" bodystart="126" bodyend="242"/>
+      </memberdef>
+      <memberdef kind="function" id="dd/dc5/classbioexplorer_1_1biology_1_1ParametricMembrane_1a4a6e1d2e738ae9aa7f502cae5a966f0e" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string bioexplorer::biology::ParametricMembrane::_getElementNameFromId</definition>
+        <argsstring>(const size_t id)</argsstring>
+        <name>_getElementNameFromId</name>
+        <param>
+          <type>const size_t</type>
+          <declname>id</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/favreau/git/BioExplorer/bioexplorer/core/plugin/biology/ParametricMembrane.h" line="58" column="17" bodyfile="/Users/favreau/git/BioExplorer/bioexplorer/core/plugin/biology/ParametricMembrane.cpp" bodystart="244" bodyend="247"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+<para>A <ref refid="de/dd4/classbioexplorer_1_1biology_1_1Membrane" kindref="compound">Membrane</ref> object implements a 3D structure of a given shape, but with a surface composed of instances of one or several proteins. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>bioexplorer::biology::Membrane</label>
+        <link refid="de/dd4/classbioexplorer_1_1biology_1_1Membrane"/>
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>bioexplorer::biology::Node</label>
+        <link refid="de/dc0/classbioexplorer_1_1biology_1_1Node"/>
+      </node>
+      <node id="1">
+        <label>bioexplorer::biology::ParametricMembrane</label>
+        <link refid="dd/dc5/classbioexplorer_1_1biology_1_1ParametricMembrane"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="2">
+        <label>bioexplorer::biology::Membrane</label>
+        <link refid="de/dd4/classbioexplorer_1_1biology_1_1Membrane"/>
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>bioexplorer::biology::Node</label>
+        <link refid="de/dc0/classbioexplorer_1_1biology_1_1Node"/>
+      </node>
+      <node id="1">
+        <label>bioexplorer::biology::ParametricMembrane</label>
+        <link refid="dd/dc5/classbioexplorer_1_1biology_1_1ParametricMembrane"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="/Users/favreau/git/BioExplorer/bioexplorer/core/plugin/biology/ParametricMembrane.h" line="34" column="1" bodyfile="/Users/favreau/git/BioExplorer/bioexplorer/core/plugin/biology/ParametricMembrane.h" bodystart="35" bodyend="61"/>
+    <listofallmembers>
+      <member refid="de/dd4/classbioexplorer_1_1biology_1_1Membrane_1a095ac4e7a0a68cfd611c8c2bd941f62a" prot="protected" virt="non-virtual"><scope>bioexplorer::biology::ParametricMembrane</scope><name>_assemblyPosition</name></member>
+      <member refid="de/dd4/classbioexplorer_1_1biology_1_1Membrane_1a7f9572f8cfd040e0349591854254aefd" prot="protected" virt="non-virtual"><scope>bioexplorer::biology::ParametricMembrane</scope><name>_assemblyRotation</name></member>
+      <member refid="de/dc0/classbioexplorer_1_1biology_1_1Node_1a998df0f51c27774a2fbbc34c8714559b" prot="protected" virt="non-virtual"><scope>bioexplorer::biology::ParametricMembrane</scope><name>_bounds</name></member>
+      <member refid="de/dd4/classbioexplorer_1_1biology_1_1Membrane_1aa611463bd092cf117adeacacfd07add8" prot="protected" virt="non-virtual"><scope>bioexplorer::biology::ParametricMembrane</scope><name>_clippingPlanes</name></member>
+      <member refid="dd/dc5/classbioexplorer_1_1biology_1_1ParametricMembrane_1a07718df03d06e507d695f91a912d3616" prot="private" virt="non-virtual"><scope>bioexplorer::biology::ParametricMembrane</scope><name>_details</name></member>
+      <member refid="dd/dc5/classbioexplorer_1_1biology_1_1ParametricMembrane_1a4a6e1d2e738ae9aa7f502cae5a966f0e" prot="private" virt="non-virtual"><scope>bioexplorer::biology::ParametricMembrane</scope><name>_getElementNameFromId</name></member>
+      <member refid="de/dc0/classbioexplorer_1_1biology_1_1Node_1afb69572f3597ae900eba1ad4a6b469a5" prot="protected" virt="non-virtual"><scope>bioexplorer::biology::ParametricMembrane</scope><name>_modelDescriptor</name></member>
+      <member refid="dd/dc5/classbioexplorer_1_1biology_1_1ParametricMembrane_1a7026e2eae64878e0d3bd316e1c9e64f3" prot="private" virt="non-virtual"><scope>bioexplorer::biology::ParametricMembrane</scope><name>_processInstances</name></member>
+      <member refid="de/dd4/classbioexplorer_1_1biology_1_1Membrane_1aae286044066f4d3323bc907e01183e5a" prot="protected" virt="non-virtual"><scope>bioexplorer::biology::ParametricMembrane</scope><name>_proteins</name></member>
+      <member refid="de/dd4/classbioexplorer_1_1biology_1_1Membrane_1a31f55eb6add5fb9e5d862098d01c6e49" prot="protected" virt="non-virtual"><scope>bioexplorer::biology::ParametricMembrane</scope><name>_scene</name></member>
+      <member refid="de/dc0/classbioexplorer_1_1biology_1_1Node_1a5388117456e0bc7ab516ace1c49e1cee" prot="protected" virt="non-virtual"><scope>bioexplorer::biology::ParametricMembrane</scope><name>_uuid</name></member>
+      <member refid="de/dc0/classbioexplorer_1_1biology_1_1Node_1a415bffbb900abe3e0e7ac12c6bf96a32" prot="public" virt="non-virtual"><scope>bioexplorer::biology::ParametricMembrane</scope><name>getModelDescriptor</name></member>
+      <member refid="de/dd4/classbioexplorer_1_1biology_1_1Membrane_1a3ca41d16396643b259e6372a31e7b477" prot="public" virt="non-virtual"><scope>bioexplorer::biology::ParametricMembrane</scope><name>getProteins</name></member>
+      <member refid="dd/dc5/classbioexplorer_1_1biology_1_1ParametricMembrane_1a34f9628ad09a408d1f171bcbda188487" prot="public" virt="virtual"><scope>bioexplorer::biology::ParametricMembrane</scope><name>isInside</name></member>
+      <member refid="de/dd4/classbioexplorer_1_1biology_1_1Membrane_1ad492e2f8b188148672ef01c2349cc6d4" prot="public" virt="non-virtual"><scope>bioexplorer::biology::ParametricMembrane</scope><name>Membrane</name></member>
+      <member refid="de/dc0/classbioexplorer_1_1biology_1_1Node_1a2b56af16626b832014845ee9bf007af0" prot="public" virt="non-virtual"><scope>bioexplorer::biology::ParametricMembrane</scope><name>Node</name></member>
+      <member refid="dd/dc5/classbioexplorer_1_1biology_1_1ParametricMembrane_1a414eec91004fed05877561eb239abf40" prot="public" virt="non-virtual"><scope>bioexplorer::biology::ParametricMembrane</scope><name>ParametricMembrane</name></member>
+      <member refid="de/dd4/classbioexplorer_1_1biology_1_1Membrane_1a945ddadd91fa8fd0f2dc61bf1aee4849" prot="public" virt="virtual"><scope>bioexplorer::biology::ParametricMembrane</scope><name>~Membrane</name></member>
+      <member refid="de/dc0/classbioexplorer_1_1biology_1_1Node_1a1d02dc5b33293f53296cde67fc346496" prot="public" virt="virtual"><scope>bioexplorer::biology::ParametricMembrane</scope><name>~Node</name></member>
+      <member refid="dd/dc5/classbioexplorer_1_1biology_1_1ParametricMembrane_1a7dfe3506bfe1a723869030356136ae56" prot="public" virt="non-virtual"><scope>bioexplorer::biology::ParametricMembrane</scope><name>~ParametricMembrane</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

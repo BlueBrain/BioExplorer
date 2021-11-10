@@ -1,0 +1,288 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.2" xml:lang="en-US">
+  <compounddef id="da/d3c/structbioexplorer_1_1details_1_1MeshBasedMembraneDetails" kind="struct" language="C++" prot="public">
+    <compoundname>bioexplorer::details::MeshBasedMembraneDetails</compoundname>
+    <includes refid="d7/df8/Types_8h" local="no">Types.h</includes>
+      <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="da/d3c/structbioexplorer_1_1details_1_1MeshBasedMembraneDetails_1a9178fc135d1576c1e29fff3d56ad8994" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string bioexplorer::details::MeshBasedMembraneDetails::assemblyName</definition>
+        <argsstring></argsstring>
+        <name>assemblyName</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Name of the assembly </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/favreau/git/BioExplorer/bioexplorer/core/plugin/common/Types.h" line="371" column="17" bodyfile="/Users/favreau/git/BioExplorer/bioexplorer/core/plugin/common/Types.h" bodystart="371" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="da/d3c/structbioexplorer_1_1details_1_1MeshBasedMembraneDetails_1a28251c09a337ec62d40b4cd830bccc90" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string bioexplorer::details::MeshBasedMembraneDetails::name</definition>
+        <argsstring></argsstring>
+        <name>name</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Name of the mesh of the assembly </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/favreau/git/BioExplorer/bioexplorer/core/plugin/common/Types.h" line="373" column="17" bodyfile="/Users/favreau/git/BioExplorer/bioexplorer/core/plugin/common/Types.h" bodystart="373" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="da/d3c/structbioexplorer_1_1details_1_1MeshBasedMembraneDetails_1a815f4aaa04c9dc5d390a45c6226649fa" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string bioexplorer::details::MeshBasedMembraneDetails::meshContents</definition>
+        <argsstring></argsstring>
+        <name>meshContents</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>String containing an OBJ representation of the mesh </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/favreau/git/BioExplorer/bioexplorer/core/plugin/common/Types.h" line="375" column="17" bodyfile="/Users/favreau/git/BioExplorer/bioexplorer/core/plugin/common/Types.h" bodystart="375" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="da/d3c/structbioexplorer_1_1details_1_1MeshBasedMembraneDetails_1a42c121b5a282c1f9f93368f6ec135de8" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string bioexplorer::details::MeshBasedMembraneDetails::proteinContents1</definition>
+        <argsstring></argsstring>
+        <name>proteinContents1</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>String containing an PDB representation of the protein 1 </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/favreau/git/BioExplorer/bioexplorer/core/plugin/common/Types.h" line="377" column="17" bodyfile="/Users/favreau/git/BioExplorer/bioexplorer/core/plugin/common/Types.h" bodystart="377" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="da/d3c/structbioexplorer_1_1details_1_1MeshBasedMembraneDetails_1a8e5d5b48245a0c0d5b2a1c9e368dfe92" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string bioexplorer::details::MeshBasedMembraneDetails::proteinContents2</definition>
+        <argsstring></argsstring>
+        <name>proteinContents2</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>String containing an PDB representation of the protein 2 (optional) </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/favreau/git/BioExplorer/bioexplorer/core/plugin/common/Types.h" line="380" column="17" bodyfile="/Users/favreau/git/BioExplorer/bioexplorer/core/plugin/common/Types.h" bodystart="380" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="da/d3c/structbioexplorer_1_1details_1_1MeshBasedMembraneDetails_1a4a218421e840e77602d8600cec6b295d" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string bioexplorer::details::MeshBasedMembraneDetails::proteinContents3</definition>
+        <argsstring></argsstring>
+        <name>proteinContents3</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>String containing an PDB representation of the protein 3 (optional) </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/favreau/git/BioExplorer/bioexplorer/core/plugin/common/Types.h" line="383" column="17" bodyfile="/Users/favreau/git/BioExplorer/bioexplorer/core/plugin/common/Types.h" bodystart="383" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="da/d3c/structbioexplorer_1_1details_1_1MeshBasedMembraneDetails_1a30222d34bd92d260e96eab80bde862a0" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string bioexplorer::details::MeshBasedMembraneDetails::proteinContents4</definition>
+        <argsstring></argsstring>
+        <name>proteinContents4</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>String containing an PDB representation of the protein 4 (optional) </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/favreau/git/BioExplorer/bioexplorer/core/plugin/common/Types.h" line="386" column="17" bodyfile="/Users/favreau/git/BioExplorer/bioexplorer/core/plugin/common/Types.h" bodystart="386" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="da/d3c/structbioexplorer_1_1details_1_1MeshBasedMembraneDetails_1a30bb0b1230e24e0c93cfdbe7d34e9bc9" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool bioexplorer::details::MeshBasedMembraneDetails::recenter</definition>
+        <argsstring></argsstring>
+        <name>recenter</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Recenters the protein <linebreak/>
+ </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/favreau/git/BioExplorer/bioexplorer/core/plugin/common/Types.h" line="388" column="10" bodyfile="/Users/favreau/git/BioExplorer/bioexplorer/core/plugin/common/Types.h" bodystart="388" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="da/d3c/structbioexplorer_1_1details_1_1MeshBasedMembraneDetails_1ac20c08650a6555c855e8c9582ecdb388" prot="public" static="no" mutable="no">
+        <type>float</type>
+        <definition>float bioexplorer::details::MeshBasedMembraneDetails::density</definition>
+        <argsstring></argsstring>
+        <name>density</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Density of proteins in surface of the mesh </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/favreau/git/BioExplorer/bioexplorer/core/plugin/common/Types.h" line="390" column="11" bodyfile="/Users/favreau/git/BioExplorer/bioexplorer/core/plugin/common/Types.h" bodystart="390" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="da/d3c/structbioexplorer_1_1details_1_1MeshBasedMembraneDetails_1a31133685df96d9684c8e928e8196934b" prot="public" static="no" mutable="no">
+        <type>float</type>
+        <definition>float bioexplorer::details::MeshBasedMembraneDetails::surfaceFixedOffset</definition>
+        <argsstring></argsstring>
+        <name>surfaceFixedOffset</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Fixed offset for the position of the protein above the surface of the mesh </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/favreau/git/BioExplorer/bioexplorer/core/plugin/common/Types.h" line="393" column="11" bodyfile="/Users/favreau/git/BioExplorer/bioexplorer/core/plugin/common/Types.h" bodystart="393" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="da/d3c/structbioexplorer_1_1details_1_1MeshBasedMembraneDetails_1a89484746bb83997971fb1408e6e8d0b1" prot="public" static="no" mutable="no">
+        <type>float</type>
+        <definition>float bioexplorer::details::MeshBasedMembraneDetails::surfaceVariableOffset</definition>
+        <argsstring></argsstring>
+        <name>surfaceVariableOffset</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Variable (randomized) offset for the position of the protein above the surface of the mesh </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/favreau/git/BioExplorer/bioexplorer/core/plugin/common/Types.h" line="396" column="11" bodyfile="/Users/favreau/git/BioExplorer/bioexplorer/core/plugin/common/Types.h" bodystart="396" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="da/d3c/structbioexplorer_1_1details_1_1MeshBasedMembraneDetails_1a14caff07db00f0c03d80353ab0c1450e" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; float &gt;</type>
+        <definition>std::vector&lt;float&gt; bioexplorer::details::MeshBasedMembraneDetails::assemblyParams</definition>
+        <argsstring></argsstring>
+        <name>assemblyParams</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Parameters of the assembly shape </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/favreau/git/BioExplorer/bioexplorer/core/plugin/common/Types.h" line="398" column="17" bodyfile="/Users/favreau/git/BioExplorer/bioexplorer/core/plugin/common/Types.h" bodystart="398" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="da/d3c/structbioexplorer_1_1details_1_1MeshBasedMembraneDetails_1aa79a62988a1c01a91daf73e8ce5772af" prot="public" static="no" mutable="no">
+        <type>float</type>
+        <definition>float bioexplorer::details::MeshBasedMembraneDetails::atomRadiusMultiplier</definition>
+        <argsstring></argsstring>
+        <name>atomRadiusMultiplier</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Multiplier applied to atom radius </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/favreau/git/BioExplorer/bioexplorer/core/plugin/common/Types.h" line="400" column="11" bodyfile="/Users/favreau/git/BioExplorer/bioexplorer/core/plugin/common/Types.h" bodystart="400" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="da/d3c/structbioexplorer_1_1details_1_1MeshBasedMembraneDetails_1acb1e20ee239ef5cac013df83e1077182" prot="public" static="no" mutable="no">
+        <type>ProteinRepresentation</type>
+        <definition>ProteinRepresentation bioexplorer::details::MeshBasedMembraneDetails::representation</definition>
+        <argsstring></argsstring>
+        <name>representation</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Representation of the protein (Atoms, atoms and sticks, etc) </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/favreau/git/BioExplorer/bioexplorer/core/plugin/common/Types.h" line="402" column="27" bodyfile="/Users/favreau/git/BioExplorer/bioexplorer/core/plugin/common/Types.h" bodystart="402" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="da/d3c/structbioexplorer_1_1details_1_1MeshBasedMembraneDetails_1a641219d208fcf91a4ad49e261bcab9e9" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t bioexplorer::details::MeshBasedMembraneDetails::randomSeed</definition>
+        <argsstring></argsstring>
+        <name>randomSeed</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Seed for randomization of the variable offset </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/favreau/git/BioExplorer/bioexplorer/core/plugin/common/Types.h" line="404" column="12" bodyfile="/Users/favreau/git/BioExplorer/bioexplorer/core/plugin/common/Types.h" bodystart="404" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="da/d3c/structbioexplorer_1_1details_1_1MeshBasedMembraneDetails_1a0619c3d91a359a9ca9b40dad3304458b" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; float &gt;</type>
+        <definition>std::vector&lt;float&gt; bioexplorer::details::MeshBasedMembraneDetails::position</definition>
+        <argsstring></argsstring>
+        <name>position</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Relative position of the mesh in the assembly </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/favreau/git/BioExplorer/bioexplorer/core/plugin/common/Types.h" line="406" column="17" bodyfile="/Users/favreau/git/BioExplorer/bioexplorer/core/plugin/common/Types.h" bodystart="406" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="da/d3c/structbioexplorer_1_1details_1_1MeshBasedMembraneDetails_1a4d4cc6a583fc4e1e9f004e810c105604" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; float &gt;</type>
+        <definition>std::vector&lt;float&gt; bioexplorer::details::MeshBasedMembraneDetails::rotation</definition>
+        <argsstring></argsstring>
+        <name>rotation</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Relative rotation of the mesh in the assembly </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/favreau/git/BioExplorer/bioexplorer/core/plugin/common/Types.h" line="408" column="17" bodyfile="/Users/favreau/git/BioExplorer/bioexplorer/core/plugin/common/Types.h" bodystart="408" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="da/d3c/structbioexplorer_1_1details_1_1MeshBasedMembraneDetails_1a45bda1eeec721636c3cefb41657777a4" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; float &gt;</type>
+        <definition>std::vector&lt;float&gt; bioexplorer::details::MeshBasedMembraneDetails::scale</definition>
+        <argsstring></argsstring>
+        <name>scale</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Scale of the mesh </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/favreau/git/BioExplorer/bioexplorer/core/plugin/common/Types.h" line="410" column="17" bodyfile="/Users/favreau/git/BioExplorer/bioexplorer/core/plugin/common/Types.h" bodystart="410" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+<para>Data structure describing a mesh-based membrane based on the shape of a mesh. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="/Users/favreau/git/BioExplorer/bioexplorer/core/plugin/common/Types.h" line="368" column="1" bodyfile="/Users/favreau/git/BioExplorer/bioexplorer/core/plugin/common/Types.h" bodystart="369" bodyend="411"/>
+    <listofallmembers>
+      <member refid="da/d3c/structbioexplorer_1_1details_1_1MeshBasedMembraneDetails_1a9178fc135d1576c1e29fff3d56ad8994" prot="public" virt="non-virtual"><scope>bioexplorer::details::MeshBasedMembraneDetails</scope><name>assemblyName</name></member>
+      <member refid="da/d3c/structbioexplorer_1_1details_1_1MeshBasedMembraneDetails_1a14caff07db00f0c03d80353ab0c1450e" prot="public" virt="non-virtual"><scope>bioexplorer::details::MeshBasedMembraneDetails</scope><name>assemblyParams</name></member>
+      <member refid="da/d3c/structbioexplorer_1_1details_1_1MeshBasedMembraneDetails_1aa79a62988a1c01a91daf73e8ce5772af" prot="public" virt="non-virtual"><scope>bioexplorer::details::MeshBasedMembraneDetails</scope><name>atomRadiusMultiplier</name></member>
+      <member refid="da/d3c/structbioexplorer_1_1details_1_1MeshBasedMembraneDetails_1ac20c08650a6555c855e8c9582ecdb388" prot="public" virt="non-virtual"><scope>bioexplorer::details::MeshBasedMembraneDetails</scope><name>density</name></member>
+      <member refid="da/d3c/structbioexplorer_1_1details_1_1MeshBasedMembraneDetails_1a815f4aaa04c9dc5d390a45c6226649fa" prot="public" virt="non-virtual"><scope>bioexplorer::details::MeshBasedMembraneDetails</scope><name>meshContents</name></member>
+      <member refid="da/d3c/structbioexplorer_1_1details_1_1MeshBasedMembraneDetails_1a28251c09a337ec62d40b4cd830bccc90" prot="public" virt="non-virtual"><scope>bioexplorer::details::MeshBasedMembraneDetails</scope><name>name</name></member>
+      <member refid="da/d3c/structbioexplorer_1_1details_1_1MeshBasedMembraneDetails_1a0619c3d91a359a9ca9b40dad3304458b" prot="public" virt="non-virtual"><scope>bioexplorer::details::MeshBasedMembraneDetails</scope><name>position</name></member>
+      <member refid="da/d3c/structbioexplorer_1_1details_1_1MeshBasedMembraneDetails_1a42c121b5a282c1f9f93368f6ec135de8" prot="public" virt="non-virtual"><scope>bioexplorer::details::MeshBasedMembraneDetails</scope><name>proteinContents1</name></member>
+      <member refid="da/d3c/structbioexplorer_1_1details_1_1MeshBasedMembraneDetails_1a8e5d5b48245a0c0d5b2a1c9e368dfe92" prot="public" virt="non-virtual"><scope>bioexplorer::details::MeshBasedMembraneDetails</scope><name>proteinContents2</name></member>
+      <member refid="da/d3c/structbioexplorer_1_1details_1_1MeshBasedMembraneDetails_1a4a218421e840e77602d8600cec6b295d" prot="public" virt="non-virtual"><scope>bioexplorer::details::MeshBasedMembraneDetails</scope><name>proteinContents3</name></member>
+      <member refid="da/d3c/structbioexplorer_1_1details_1_1MeshBasedMembraneDetails_1a30222d34bd92d260e96eab80bde862a0" prot="public" virt="non-virtual"><scope>bioexplorer::details::MeshBasedMembraneDetails</scope><name>proteinContents4</name></member>
+      <member refid="da/d3c/structbioexplorer_1_1details_1_1MeshBasedMembraneDetails_1a641219d208fcf91a4ad49e261bcab9e9" prot="public" virt="non-virtual"><scope>bioexplorer::details::MeshBasedMembraneDetails</scope><name>randomSeed</name></member>
+      <member refid="da/d3c/structbioexplorer_1_1details_1_1MeshBasedMembraneDetails_1a30bb0b1230e24e0c93cfdbe7d34e9bc9" prot="public" virt="non-virtual"><scope>bioexplorer::details::MeshBasedMembraneDetails</scope><name>recenter</name></member>
+      <member refid="da/d3c/structbioexplorer_1_1details_1_1MeshBasedMembraneDetails_1acb1e20ee239ef5cac013df83e1077182" prot="public" virt="non-virtual"><scope>bioexplorer::details::MeshBasedMembraneDetails</scope><name>representation</name></member>
+      <member refid="da/d3c/structbioexplorer_1_1details_1_1MeshBasedMembraneDetails_1a4d4cc6a583fc4e1e9f004e810c105604" prot="public" virt="non-virtual"><scope>bioexplorer::details::MeshBasedMembraneDetails</scope><name>rotation</name></member>
+      <member refid="da/d3c/structbioexplorer_1_1details_1_1MeshBasedMembraneDetails_1a45bda1eeec721636c3cefb41657777a4" prot="public" virt="non-virtual"><scope>bioexplorer::details::MeshBasedMembraneDetails</scope><name>scale</name></member>
+      <member refid="da/d3c/structbioexplorer_1_1details_1_1MeshBasedMembraneDetails_1a31133685df96d9684c8e928e8196934b" prot="public" virt="non-virtual"><scope>bioexplorer::details::MeshBasedMembraneDetails</scope><name>surfaceFixedOffset</name></member>
+      <member refid="da/d3c/structbioexplorer_1_1details_1_1MeshBasedMembraneDetails_1a89484746bb83997971fb1408e6e8d0b1" prot="public" virt="non-virtual"><scope>bioexplorer::details::MeshBasedMembraneDetails</scope><name>surfaceVariableOffset</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

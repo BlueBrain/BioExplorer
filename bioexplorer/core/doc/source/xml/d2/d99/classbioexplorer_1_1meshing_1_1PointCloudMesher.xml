@@ -1,0 +1,75 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.2" xml:lang="en-US">
+  <compounddef id="d2/d99/classbioexplorer_1_1meshing_1_1PointCloudMesher" kind="class" language="C++" prot="public">
+    <compoundname>bioexplorer::meshing::PointCloudMesher</compoundname>
+      <sectiondef kind="public-func">
+      <memberdef kind="function" id="d2/d99/classbioexplorer_1_1meshing_1_1PointCloudMesher_1a8c76232076650a45b041cf2b66635f18" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>bioexplorer::meshing::PointCloudMesher::PointCloudMesher</definition>
+        <argsstring>()</argsstring>
+        <name>PointCloudMesher</name>
+        <briefdescription>
+<para>Construct a new Point Cloud Mesher object. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/favreau/git/BioExplorer/bioexplorer/core/plugin/meshing/PointCloudMesher.h" line="40" column="5" bodyfile="/Users/favreau/git/BioExplorer/bioexplorer/core/plugin/meshing/PointCloudMesher.cpp" bodystart="47" bodyend="47"/>
+      </memberdef>
+      <memberdef kind="function" id="d2/d99/classbioexplorer_1_1meshing_1_1PointCloudMesher_1ae66b68e3ed119dbb8cef7e92e4285a3b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool bioexplorer::meshing::PointCloudMesher::toConvexHull</definition>
+        <argsstring>(Model &amp;model, const PointCloud &amp;pointCloud)</argsstring>
+        <name>toConvexHull</name>
+        <param>
+          <type>Model &amp;</type>
+          <declname>model</declname>
+        </param>
+        <param>
+          <type>const PointCloud &amp;</type>
+          <declname>pointCloud</declname>
+        </param>
+        <briefdescription>
+<para>Convert a point cloud into a 3D representation using the Convex Hull alogithm. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>model</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Model into which the 3D represenation is created </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>pointCloud</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The list of points </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>true If the 3D representation is possible </para>
+</simplesect>
+<simplesect kind="return"><para>false If the 3D representation could not be built </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/favreau/git/BioExplorer/bioexplorer/core/plugin/meshing/PointCloudMesher.h" line="51" column="10" bodyfile="/Users/favreau/git/BioExplorer/bioexplorer/core/plugin/meshing/PointCloudMesher.cpp" bodystart="49" bodyend="95"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="/Users/favreau/git/BioExplorer/bioexplorer/core/plugin/meshing/PointCloudMesher.h" line="33" column="1" bodyfile="/Users/favreau/git/BioExplorer/bioexplorer/core/plugin/meshing/PointCloudMesher.h" bodystart="34" bodyend="52"/>
+    <listofallmembers>
+      <member refid="d2/d99/classbioexplorer_1_1meshing_1_1PointCloudMesher_1a8c76232076650a45b041cf2b66635f18" prot="public" virt="non-virtual"><scope>bioexplorer::meshing::PointCloudMesher</scope><name>PointCloudMesher</name></member>
+      <member refid="d2/d99/classbioexplorer_1_1meshing_1_1PointCloudMesher_1ae66b68e3ed119dbb8cef7e92e4285a3b" prot="public" virt="non-virtual"><scope>bioexplorer::meshing::PointCloudMesher</scope><name>toConvexHull</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

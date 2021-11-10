@@ -1,0 +1,179 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.2" xml:lang="en-US">
+  <compounddef id="d4/db5/DensityRenderer_8ispc" kind="file" language="C++">
+    <compoundname>DensityRenderer.ispc</compoundname>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline><highlight class="normal">/*</highlight></codeline>
+<codeline><highlight class="normal"><sp/>*<sp/>The<sp/>Blue<sp/>Brain<sp/>BioExplorer<sp/>is<sp/>a<sp/>tool<sp/>for<sp/>scientists<sp/>to<sp/>extract<sp/>and<sp/>analyse</highlight></codeline>
+<codeline><highlight class="normal"><sp/>*<sp/>scientific<sp/>data<sp/>from<sp/>visualization</highlight></codeline>
+<codeline><highlight class="normal"><sp/>*</highlight></codeline>
+<codeline><highlight class="normal"><sp/>*<sp/>Copyright<sp/>2020-2021<sp/>Blue<sp/>BrainProject<sp/>/<sp/>EPFL</highlight></codeline>
+<codeline><highlight class="normal"><sp/>*</highlight></codeline>
+<codeline><highlight class="normal"><sp/>*<sp/>This<sp/>program<sp/>is<sp/>free<sp/>software:<sp/>you<sp/>can<sp/>redistribute<sp/>it<sp/>and/or<sp/>modify<sp/>it<sp/>under</highlight></codeline>
+<codeline><highlight class="normal"><sp/>*<sp/>the<sp/>terms<sp/>of<sp/>the<sp/>GNU<sp/>General<sp/>Public<sp/>License<sp/>as<sp/>published<sp/>by<sp/>the<sp/>Free<sp/>Software</highlight></codeline>
+<codeline><highlight class="normal"><sp/>*<sp/>Foundation,<sp/>either<sp/>version<sp/>3<sp/>of<sp/>the<sp/>License,<sp/>or<sp/>(at<sp/>your<sp/>option)<sp/>any<sp/>later</highlight></codeline>
+<codeline><highlight class="normal"><sp/>*<sp/>version.</highlight></codeline>
+<codeline><highlight class="normal"><sp/>*</highlight></codeline>
+<codeline><highlight class="normal"><sp/>*<sp/>This<sp/>program<sp/>is<sp/>distributed<sp/>in<sp/>the<sp/>hope<sp/>that<sp/>it<sp/>will<sp/>be<sp/>useful,<sp/>but<sp/>WITHOUT</highlight></codeline>
+<codeline><highlight class="normal"><sp/>*<sp/>ANY<sp/>WARRANTY;<sp/>without<sp/>even<sp/>the<sp/>implied<sp/>warranty<sp/>of<sp/>MERCHANTABILITY<sp/>or<sp/>FITNESS</highlight></codeline>
+<codeline><highlight class="normal"><sp/>*<sp/>FOR<sp/>A<sp/>PARTICULAR<sp/>PURPOSE.<sp/><sp/>See<sp/>the<sp/>GNU<sp/>General<sp/>Public<sp/>License<sp/>for<sp/>more</highlight></codeline>
+<codeline><highlight class="normal"><sp/>*<sp/>details.</highlight></codeline>
+<codeline><highlight class="normal"><sp/>*</highlight></codeline>
+<codeline><highlight class="normal"><sp/>*<sp/>You<sp/>should<sp/>have<sp/>received<sp/>a<sp/>copy<sp/>of<sp/>the<sp/>GNU<sp/>General<sp/>Public<sp/>License<sp/>along<sp/>with</highlight></codeline>
+<codeline><highlight class="normal"><sp/>*<sp/>this<sp/>program.<sp/><sp/>If<sp/>not,<sp/>see<sp/>&lt;https://www.gnu.org/licenses/&gt;.</highlight></codeline>
+<codeline><highlight class="normal"><sp/>*/</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">#include<sp/>&quot;DensityRenderer.ih&quot;</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">#include<sp/>&quot;utils/BioExplorerRandomGenerator.ih&quot;</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">#include<sp/>&lt;ospray/SDK/math/sampling.ih&gt;</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">/**</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>Composes<sp/>source<sp/>and<sp/>destination<sp/>colors<sp/>according<sp/>to<sp/>specified<sp/>alpha</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/>correction</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>@param<sp/>src<sp/>Source<sp/>RGBA<sp/>color</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>@param<sp/>dst<sp/>Returned<sp/>destination<sp/>RGBA<sp/>color</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>@param<sp/>alphaCorrection<sp/>Alpha<sp/>correction<sp/>used<sp/>to<sp/>blend<sp/>colors</highlight></codeline>
+<codeline><highlight class="normal">*/</highlight></codeline>
+<codeline><highlight class="normal">inline<sp/>void<sp/>composite(const<sp/>varying<sp/>vec4f&amp;<sp/>src,<sp/>varying<sp/>vec4f&amp;<sp/>dst,</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>const<sp/>varying<sp/>float<sp/>alphaCorrection)</highlight></codeline>
+<codeline><highlight class="normal">{</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>const<sp/>float<sp/>alpha<sp/>=</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>1.f<sp/>-<sp/>pow(1.f<sp/>-<sp/>min(src.w,<sp/>1.f<sp/>-<sp/>1.f<sp/>/<sp/>256.f),<sp/>alphaCorrection);</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>const<sp/>float<sp/>a<sp/>=<sp/>alpha<sp/>*<sp/>(1.f<sp/>-<sp/>dst.w);</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>dst.x<sp/>=<sp/>dst.x<sp/>+<sp/>src.x<sp/>*<sp/>a;</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>dst.y<sp/>=<sp/>dst.y<sp/>+<sp/>src.y<sp/>*<sp/>a;</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>dst.z<sp/>=<sp/>dst.z<sp/>+<sp/>src.z<sp/>*<sp/>a;</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>dst.w<sp/>+=<sp/>(alpha<sp/>*<sp/>(1.f<sp/>-<sp/>dst.w));</highlight></codeline>
+<codeline><highlight class="normal">}</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">inline<sp/>vec3f<sp/>DensityRenderer_shadeRay(</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>const<sp/>uniform<sp/>DensityRenderer*<sp/>uniform<sp/>self,<sp/>varying<sp/>ScreenSample&amp;<sp/>sample)</highlight></codeline>
+<codeline><highlight class="normal">{</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>const<sp/>Ray<sp/>ray<sp/>=<sp/>sample.ray;</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>if<sp/>(sample.sampleID.z<sp/>==<sp/>0)</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>{</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>sample.alpha<sp/>=<sp/>0.f;</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>sample.z<sp/>=<sp/>inf;</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>//<sp/>init<sp/>TEA<sp/>RNG<sp/>//</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>uniform<sp/>FrameBuffer*<sp/>uniform<sp/>fb<sp/>=<sp/>self-&gt;super.fb;</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>RandomTEA<sp/>rng_state;</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>varying<sp/>RandomTEA*<sp/>const<sp/>uniform<sp/>rng<sp/>=<sp/>&amp;rng_state;</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>RandomTEA__Constructor(rng,<sp/>0x290374,</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>(fb-&gt;size.x<sp/>*<sp/>sample.sampleID.y)<sp/>+</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>sample.sampleID.x);</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>const<sp/>vec2f<sp/>rot<sp/>=<sp/>RandomTEA__getFloats(rng);</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>vec4f<sp/>finalColor<sp/>=<sp/>make_vec4f(0.f);</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>bool<sp/>firstVisibleVoxel<sp/>=<sp/>true;</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>float<sp/>t<sp/>=<sp/>self-&gt;rayStep;</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>while<sp/>(finalColor.w<sp/>&lt;<sp/>0.9f<sp/>&amp;&amp;<sp/>t<sp/>&lt;<sp/>self-&gt;farPlane)</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>{</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>const<sp/>vec3f<sp/>p<sp/>=<sp/>ray.org<sp/>+<sp/>t<sp/>*<sp/>ray.dir;</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>int<sp/>hits<sp/>=<sp/>0;</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>const<sp/>vec3f<sp/>N<sp/>=<sp/>ray.dir;</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>const<sp/>linear3f<sp/>localToWorld<sp/>=<sp/>frame(N);</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>for<sp/>(uniform<sp/>int<sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>self-&gt;sampleCount;<sp/>++i)</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>const<sp/>vec2f<sp/>halton<sp/>=</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>HaltonSequence_get2D(self-&gt;sampleCount<sp/>*<sp/>sample.sampleID.z<sp/>+<sp/>i);</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>const<sp/>vec2f<sp/>r<sp/>=<sp/>CranleyPattersonRotation(halton,<sp/>rot);</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>const<sp/>vec3f<sp/>local_ao_dir<sp/>=<sp/>cosineSampleHemisphere(r);</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>const<sp/>vec3f<sp/>ao_dir<sp/>=<sp/>localToWorld<sp/>*<sp/>local_ao_dir;</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>Ray<sp/>ao_ray;</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>setRay(ao_ray,<sp/>p,<sp/>ao_dir,<sp/>0.f,<sp/>self-&gt;searchLength);</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>if<sp/>(isOccluded(self-&gt;super.model,<sp/>ao_ray))</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>++hits;</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>if<sp/>(hits<sp/>&gt;<sp/>0)</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>const<sp/>float<sp/>a<sp/>=<sp/>(float)hits<sp/>/<sp/>(float)self-&gt;sampleCount;</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>const<sp/>vec3f<sp/>sampleColor<sp/>=<sp/>make_vec3f(a,<sp/>a,<sp/>1.f<sp/>-<sp/>a);</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>const<sp/>float<sp/>alpha<sp/>=<sp/>1.f<sp/>/<sp/>(float)self-&gt;sampleCount;</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>composite(make_vec4f(sampleColor,<sp/>alpha),<sp/>finalColor,<sp/>1.0f);</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>if<sp/>(firstVisibleVoxel)</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>sample.z<sp/>=<sp/>min(t,<sp/>sample.z);</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>firstVisibleVoxel<sp/>=<sp/>false;</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>t<sp/>+=<sp/>self-&gt;rayStep;</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>sample.alpha<sp/>=<sp/>finalColor.w;</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>return<sp/>clamp(make_vec3f(finalColor)<sp/>*<sp/>self-&gt;exposure,<sp/>make_vec3f(0.f),</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>make_vec3f(1.f));</highlight></codeline>
+<codeline><highlight class="normal">}</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">void<sp/>DensityRenderer_renderSample(uniform<sp/>Renderer*<sp/>uniform<sp/>_self,</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>void*<sp/>uniform<sp/>perFrameData,</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>varying<sp/>ScreenSample&amp;<sp/>sample)</highlight></codeline>
+<codeline><highlight class="normal">{</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>uniform<sp/>DensityRenderer*<sp/>uniform<sp/>self<sp/>=</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>(uniform<sp/>DensityRenderer<sp/>*<sp/>uniform)<sp/>_self;</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>sample.ray.time<sp/>=<sp/>self-&gt;timestamp;</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>sample.rgb<sp/>=<sp/>DensityRenderer_shadeRay(self,<sp/>sample);</highlight></codeline>
+<codeline><highlight class="normal">}</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">//<sp/>Exports<sp/>(called<sp/>from<sp/>C++)</highlight></codeline>
+<codeline><highlight class="normal">export<sp/>void*<sp/>uniform<sp/>DensityRenderer_create(void*<sp/>uniform<sp/>cppE)</highlight></codeline>
+<codeline><highlight class="normal">{</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>uniform<sp/>DensityRenderer*<sp/>uniform<sp/>self<sp/>=<sp/>uniform<sp/>new<sp/>uniform<sp/>DensityRenderer;</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>Renderer_Constructor(&amp;self-&gt;super,<sp/>cppE);</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>self-&gt;super.renderSample<sp/>=<sp/>DensityRenderer_renderSample;</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>return<sp/>self;</highlight></codeline>
+<codeline><highlight class="normal">}</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">export<sp/>void<sp/>DensityRenderer_set(</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>void*<sp/>uniform<sp/>_self,<sp/>void*<sp/>uniform<sp/>bgMaterial,</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>const<sp/>uniform<sp/>float&amp;<sp/>timestamp,<sp/>const<sp/>uniform<sp/>int&amp;<sp/>spp,</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>const<sp/>uniform<sp/>float&amp;<sp/>farPlane,<sp/>const<sp/>uniform<sp/>float&amp;<sp/>searchLength,</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>const<sp/>uniform<sp/>float&amp;<sp/>rayStep,<sp/>const<sp/>uniform<sp/>int32&amp;<sp/>sampleCount,</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>const<sp/>uniform<sp/>float&amp;<sp/>exposure,<sp/>const<sp/>uniform<sp/>float&amp;<sp/>alphaCorrection)</highlight></codeline>
+<codeline><highlight class="normal">{</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>uniform<sp/>DensityRenderer*<sp/>uniform<sp/>self<sp/>=</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>(uniform<sp/>DensityRenderer<sp/>*<sp/>uniform)<sp/>_self;</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>//<sp/>OSPRay</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>self-&gt;super.spp<sp/>=<sp/>spp;</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>//<sp/>Bio<sp/>explorer</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>self-&gt;bgMaterial<sp/>=<sp/>(uniform<sp/>AdvancedMaterial<sp/>*<sp/>uniform)<sp/>bgMaterial;</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>self-&gt;timestamp<sp/>=<sp/>timestamp;</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>self-&gt;exposure<sp/>=<sp/>exposure;</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>self-&gt;rayStep<sp/>=<sp/>rayStep;</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>self-&gt;searchLength<sp/>=<sp/>searchLength;</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>self-&gt;sampleCount<sp/>=<sp/>sampleCount;</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>self-&gt;farPlane<sp/>=<sp/>farPlane;</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>self-&gt;alphaCorrection<sp/>=<sp/>alphaCorrection;</highlight></codeline>
+<codeline><highlight class="normal">}</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">export<sp/>void<sp/>DensityRenderer_setTransferFunction(void*<sp/>uniform<sp/>_self,</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>void*<sp/>uniform<sp/>value)</highlight></codeline>
+<codeline><highlight class="normal">{</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>uniform<sp/>DensityRenderer*<sp/>uniform<sp/>self<sp/>=</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>(uniform<sp/>DensityRenderer<sp/>*<sp/>uniform)<sp/>_self;</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>self-&gt;transferFunction<sp/>=<sp/>(TransferFunction<sp/>*<sp/>uniform)<sp/>value;</highlight></codeline>
+<codeline><highlight class="normal">}</highlight></codeline>
+    </programlisting>
+    <location file="/Users/favreau/git/BioExplorer/bioexplorer/core/module/ispc/render/DensityRenderer.ispc"/>
+  </compounddef>
+</doxygen>

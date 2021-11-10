@@ -1,0 +1,43 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.2" xml:lang="en-US">
+  <compounddef id="d8/d1b/structbioexplorer_1_1details_1_1ModelIdFileAccessDetails" kind="struct" language="C++" prot="public">
+    <compoundname>bioexplorer::details::ModelIdFileAccessDetails</compoundname>
+      <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="d8/d1b/structbioexplorer_1_1details_1_1ModelIdFileAccessDetails_1abc16eb131a3d37ad57478c3334b94672" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t bioexplorer::details::ModelIdFileAccessDetails::modelId</definition>
+        <argsstring></argsstring>
+        <name>modelId</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/favreau/git/BioExplorer/bioexplorer/core/plugin/common/Types.h" line="674" column="12" bodyfile="/Users/favreau/git/BioExplorer/bioexplorer/core/plugin/common/Types.h" bodystart="674" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="d8/d1b/structbioexplorer_1_1details_1_1ModelIdFileAccessDetails_1a3c098e54b7cecbeb9f03a04648b4a88b" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string bioexplorer::details::ModelIdFileAccessDetails::filename</definition>
+        <argsstring></argsstring>
+        <name>filename</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/favreau/git/BioExplorer/bioexplorer/core/plugin/common/Types.h" line="675" column="17" bodyfile="/Users/favreau/git/BioExplorer/bioexplorer/core/plugin/common/Types.h" bodystart="675" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="/Users/favreau/git/BioExplorer/bioexplorer/core/plugin/common/Types.h" line="672" column="1" bodyfile="/Users/favreau/git/BioExplorer/bioexplorer/core/plugin/common/Types.h" bodystart="673" bodyend="676"/>
+    <listofallmembers>
+      <member refid="d8/d1b/structbioexplorer_1_1details_1_1ModelIdFileAccessDetails_1a3c098e54b7cecbeb9f03a04648b4a88b" prot="public" virt="non-virtual"><scope>bioexplorer::details::ModelIdFileAccessDetails</scope><name>filename</name></member>
+      <member refid="d8/d1b/structbioexplorer_1_1details_1_1ModelIdFileAccessDetails_1abc16eb131a3d37ad57478c3334b94672" prot="public" virt="non-virtual"><scope>bioexplorer::details::ModelIdFileAccessDetails</scope><name>modelId</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

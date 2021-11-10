@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['docker_546',['Docker',['../d9/d23/md__home_favreau_git_BioExplorer_DOCKER.html',1,'']]]
+  ['blue_20brain_20bioexplorer_0',['Blue Brain BioExplorer',['../index.html',1,'']]]
 ];

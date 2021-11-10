@@ -1,0 +1,32 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.2" xml:lang="en-US">
+  <compounddef id="d6/dc9/structbioexplorer_1_1details_1_1ModelIdDetails" kind="struct" language="C++" prot="public">
+    <compoundname>bioexplorer::details::ModelIdDetails</compoundname>
+    <includes refid="d7/df8/Types_8h" local="no">Types.h</includes>
+      <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="d6/dc9/structbioexplorer_1_1details_1_1ModelIdDetails_1afce19d687701e9ff1e185b87b33aef21" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t bioexplorer::details::ModelIdDetails::modelId</definition>
+        <argsstring></argsstring>
+        <name>modelId</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Model identifier </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/favreau/git/BioExplorer/bioexplorer/core/plugin/common/Types.h" line="621" column="12" bodyfile="/Users/favreau/git/BioExplorer/bioexplorer/core/plugin/common/Types.h" bodystart="621" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+<para>Model identifier. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="/Users/favreau/git/BioExplorer/bioexplorer/core/plugin/common/Types.h" line="618" column="1" bodyfile="/Users/favreau/git/BioExplorer/bioexplorer/core/plugin/common/Types.h" bodystart="619" bodyend="622"/>
+    <listofallmembers>
+      <member refid="d6/dc9/structbioexplorer_1_1details_1_1ModelIdDetails_1afce19d687701e9ff1e185b87b33aef21" prot="public" virt="non-virtual"><scope>bioexplorer::details::ModelIdDetails</scope><name>modelId</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>
