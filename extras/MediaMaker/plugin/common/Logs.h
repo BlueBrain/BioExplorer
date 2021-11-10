@@ -21,30 +21,28 @@
 #pragma once
 
 #include <iostream>
-#include <thread>
 
 namespace bioexplorer
 {
 namespace mediamaker
 {
-#define PLUGIN_ERROR(message)                      \
-    std::cerr << "[" << std::this_thread::get_id() \
-              << "] [ERROR] [MEDIA_MAKER] " << message << std::endl;
-#define PLUGIN_WARN(message)                       \
-    std::cerr << "[" << std::this_thread::get_id() \
-              << "] [WARN ] [MEDIA_MAKER] " << message << std::endl;
-#define PLUGIN_INFO(message)                                             \
-    {                                                                    \
-        std::cout << "[" << std::this_thread::get_id()                   \
-                  << "] [INFO ] [MEDIA_MAKER] " << message << std::endl; \
-    }
+#define PLUGIN_PREFIX "MM"
+
+#define PLUGIN_ERROR(message) \
+    std::cerr << "E [" << PLUGIN_PREFIX << "] " << message << std::endl;
+#define PLUGIN_WARN(message) \
+    std::cerr << "W [" << PLUGIN_PREFIX << "] " << message << std::endl;
+#define PLUGIN_INFO(message) \
+    std::cout << "I [" << PLUGIN_PREFIX << "] " << message << std::endl;
 #ifdef NDEBUG
-#define PLUGIN_DEBUG(message)
+#define PLUGIN_DEBUG(message) ;
 #else
-#define PLUGIN_DEBUG(message)                      \
-    std::cout << "[" << std::this_thread::get_id() \
-              << "] [DEBUG] [MEDIA_MAKER] " << message << std::endl;
+#define PLUGIN_DEBUG(message) \
+    std::cout << "D [" << PLUGIN_PREFIX << "] " << message << std::endl;
 #endif
+#define PLUGIN_TIMER(__time, __msg)                                         \
+    std::cout << "T [" << PLUGIN_PREFIX << "] [" << __time << "] " << __msg \
+              << std::endl;
 
 #define PLUGIN_THROW(message)              \
     {                                      \
