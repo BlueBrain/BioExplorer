@@ -23,31 +23,28 @@
 #include "GeneralSettings.h"
 
 #include <iostream>
-#include <thread>
 
 namespace bioexplorer
 {
 namespace common
 {
-#define PLUGIN_ERROR(message)                      \
-    std::cerr << "[" << std::this_thread::get_id() \
-              << "] [ERROR] [BIO_EXPLORER] " << message << std::endl;
-#define PLUGIN_WARN(message)                       \
-    std::cerr << "[" << std::this_thread::get_id() \
-              << "] [WARN ] [BIO_EXPLORER] " << message << std::endl;
-#define PLUGIN_INFO(message)                                              \
-    if (common::GeneralSettings::getInstance()->getLoggingEnabled())      \
-    {                                                                     \
-        std::cout << "[" << std::this_thread::get_id()                    \
-                  << "] [INFO ] [BIO_EXPLORER] " << message << std::endl; \
-    }
+#define PLUGIN_PREFIX "BE"
+
+#define PLUGIN_ERROR(message) \
+    std::cerr << "E [" << PLUGIN_PREFIX << "] " << message << std::endl;
+#define PLUGIN_WARN(message) \
+    std::cerr << "W [" << PLUGIN_PREFIX << "] " << message << std::endl;
+#define PLUGIN_INFO(message) \
+    std::cout << "I [" << PLUGIN_PREFIX << "] " << message << std::endl;
 #ifdef NDEBUG
-#define PLUGIN_DEBUG(message)
+#define PLUGIN_DEBUG(message) ;
 #else
-#define PLUGIN_DEBUG(message)                      \
-    std::cout << "[" << std::this_thread::get_id() \
-              << "] [DEBUG] [BIO_EXPLORER] " << message << std::endl;
+#define PLUGIN_DEBUG(message) \
+    std::cout << "D [" << PLUGIN_PREFIX << "] " << message << std::endl;
 #endif
+#define PLUGIN_TIMER(__time, __msg)                                         \
+    std::cout << "T [" << PLUGIN_PREFIX << "] [" << __time << "] " << __msg \
+              << std::endl;
 
 #define PLUGIN_THROW(message)              \
     {                                      \
