@@ -10,7 +10,7 @@ cmake_minimum_required(VERSION 3.1 FATAL_ERROR)
 # Project
 # ==============================================================================
 set(NAME MEDIAMAKER)
-set(LIBRARY_NAME mediaMaker)
+set(LIBRARY_NAME MediaMaker)
 project(${NAME} VERSION ${PACKAGE_VERSION})
 set(${NAME}_VERSION_ABI 1)
 

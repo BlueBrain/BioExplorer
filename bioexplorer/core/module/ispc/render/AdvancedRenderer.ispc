@@ -829,6 +829,8 @@ inline vec3f AdvancedRenderer_shadeRay(
     const uniform AdvancedRenderer* uniform self, varying ScreenSample& sample)
 {
     Ray ray = sample.ray;
+    float maxt = self->fogStart + self->fogThickness;
+
     vec4f color = make_vec4f(0.f);
     vec3f bgColor = make_vec3f(0.f);
     if (self->showBackground)
@@ -839,7 +841,8 @@ inline vec3f AdvancedRenderer_shadeRay(
     uint32 depth = 0;
     float oldlocalRefraction = 1.f;
 
-    sample.z = inf;
+    sample.z = maxt;
+    ray.t = maxt;
     bool moreRebounds = true;
 
     while (moreRebounds && depth < self->maxBounces && color.w < 0.95f)
@@ -950,7 +953,8 @@ inline vec3f AdvancedRenderer_shadeRay(
                 ++depth;
             }
 
-            ray.t = inf - ray.t;
+            maxt -= ray.t;
+            ray.t = maxt;
             ray.primID = -1;
             ray.geomID = -1;
             ray.instID = -1;
