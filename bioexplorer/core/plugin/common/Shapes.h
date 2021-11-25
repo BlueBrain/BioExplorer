@@ -82,7 +82,7 @@ Transformation getPlanarPosition(const Vector3f& position, const float size,
  * rotation
  * @return Transformation of the random position and rotation on the plane
  */
-Transformation getCubicPosition(const Vector3f& center, const float size,
+Transformation getCubicPosition(const Vector3f& center, const Vector3f& size,
                                 const RandomizationDetails& randInfo);
 
 /**
@@ -105,7 +105,8 @@ float sinusoide(const float x, const float z);
  * rotation
  * @return Transformation of the random position and rotation on the plane
  */
-Transformation getSinosoidalPosition(const Vector3f& center, const float size,
+Transformation getSinosoidalPosition(const Vector3f& center,
+                                     const Vector2f& size,
                                      const float amplitude,
                                      const size_t occurence,
                                      const RandomizationDetails& randInfo);

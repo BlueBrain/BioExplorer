@@ -202,11 +202,11 @@ Transformation getPlanarPosition(const Vector3f& position, const float size,
     return transformation;
 }
 
-Transformation getCubicPosition(const Vector3f& position, const float size,
+Transformation getCubicPosition(const Vector3f& position, const Vector3f& size,
                                 const RandomizationDetails& randInfo)
 {
     Vector3f pos =
-        position + Vector3f(rnd1() * size, rnd1() * size, rnd1() * size);
+        position + Vector3f(rnd1() * size.x, rnd1() * size.y, rnd1() * size.z);
     Quaterniond dir;
 
     if (randInfo.positionSeed != 0)
@@ -233,7 +233,8 @@ float sinusoide(const float x, const float z)
     return 0.2f * cos(x) * sin(z) + 0.05f * cos(x * 2.3f) * sin(z * 4.6f);
 }
 
-Transformation getSinosoidalPosition(const Vector3f& position, const float size,
+Transformation getSinosoidalPosition(const Vector3f& position,
+                                     const Vector2f& size,
                                      const float amplitude,
                                      const size_t occurence,
                                      const RandomizationDetails& randInfo)
@@ -246,8 +247,8 @@ Transformation getSinosoidalPosition(const Vector3f& position, const float size,
         upOffset = randInfo.positionStrength *
                    rnd3((randInfo.positionSeed + occurence) * 10);
 
-    const float x = rnd1() * size;
-    const float z = rnd1() * size;
+    const float x = rnd1() * size.x;
+    const float z = rnd1() * size.y;
     const float y = upOffset + amplitude * sinusoide(x * angle, z * angle);
 
     Vector3f pos = Vector3f(x, y, z);

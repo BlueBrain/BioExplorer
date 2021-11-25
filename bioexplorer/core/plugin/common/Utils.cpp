@@ -262,10 +262,18 @@ RandomizationDetails floatsToRandomizationDetails(
     RandomizationDetails randInfo;
     randInfo.seed = randomSeed;
     randInfo.randomizationType = randomizationType;
-    randInfo.positionSeed = (values.size() > 1 ? values[1] : 0.f);
-    randInfo.positionStrength = (values.size() > 2 ? values[2] : 0.f);
-    randInfo.rotationSeed = (values.size() > 3 ? values[3] : 0.f);
-    randInfo.rotationStrength = (values.size() > 4 ? values[4] : 0.f);
+    randInfo.positionSeed = (values.size() > PARAMS_OFFSET_POSITION_SEED
+                                 ? values[PARAMS_OFFSET_POSITION_SEED]
+                                 : 0.f);
+    randInfo.positionStrength = (values.size() > PARAMS_OFFSET_POSITION_STRENGTH
+                                     ? values[PARAMS_OFFSET_POSITION_STRENGTH]
+                                     : 0.f);
+    randInfo.rotationSeed = (values.size() > PARAMS_OFFSET_ROTATION_SEED
+                                 ? values[PARAMS_OFFSET_ROTATION_SEED]
+                                 : 0.f);
+    randInfo.rotationStrength = (values.size() > PARAMS_OFFSET_ROTATION_STRENGTH
+                                     ? values[PARAMS_OFFSET_ROTATION_STRENGTH]
+                                     : 0.f);
     return randInfo;
 }
 

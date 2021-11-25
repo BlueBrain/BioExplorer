@@ -162,8 +162,14 @@ void Assembly::_processInstances(
 
     // Shape parameters
     const auto &params = assemblyParams;
-    const auto size = (params.size() > 0 ? params[0] : 0.f);
-    const auto extraParameter = (params.size() > 5 ? params[5] : 0.f);
+    const Vector3f size =
+        (params.size() > 0 ? Vector3f(params[PARAMS_OFFSET_DIMENSION_1],
+                                      params[PARAMS_OFFSET_DIMENSION_2],
+                                      params[PARAMS_OFFSET_DIMENSION_3])
+                           : Vector3f(0.f));
+    const auto extraParameter =
+        (params.size() > PARAMS_OFFSET_EXTRA ? params[PARAMS_OFFSET_EXTRA]
+                                             : 0.f);
     auto randInfo =
         floatsToRandomizationDetails(params, randomSeed, randomizationType);
 
@@ -177,11 +183,17 @@ void Assembly::_processInstances(
             continue;
 
         randInfo.positionSeed =
-            (params.size() > 1 ? (params[1] == 0 ? 0 : params[1] + occurence)
-                               : 0);
+            (params.size() > PARAMS_OFFSET_POSITION_SEED
+                 ? (params[PARAMS_OFFSET_POSITION_SEED] == 0
+                        ? 0
+                        : params[PARAMS_OFFSET_POSITION_SEED] + occurence)
+                 : 0);
         randInfo.rotationSeed =
-            (params.size() > 3 ? (params[3] == 0 ? 0 : params[3] + occurence)
-                               : 0);
+            (params.size() > PARAMS_OFFSET_ROTATION_SEED
+                 ? (params[PARAMS_OFFSET_ROTATION_SEED] == 0
+                        ? 0
+                        : params[PARAMS_OFFSET_ROTATION_SEED] + occurence)
+                 : 0);
 
         Transformation transformation;
 
@@ -189,15 +201,15 @@ void Assembly::_processInstances(
         {
         case AssemblyShape::spherical:
         {
-            transformation = getSphericalPosition(position, size, occurence,
+            transformation = getSphericalPosition(position, size.x, occurence,
                                                   occurrences, randInfo);
             break;
         }
         case AssemblyShape::sinusoidal:
         {
             transformation =
-                getSinosoidalPosition(position, size, extraParameter, occurence,
-                                      randInfo);
+                getSinosoidalPosition(position, Vector2f(size.x, size.z),
+                                      extraParameter, occurence, randInfo);
             break;
         }
         case AssemblyShape::cubic:
@@ -207,34 +219,34 @@ void Assembly::_processInstances(
         }
         case AssemblyShape::fan:
         {
-            transformation = getFanPosition(position, size, occurence,
+            transformation = getFanPosition(position, size.x, occurence,
                                             occurrences, randInfo);
             break;
         }
         case AssemblyShape::bezier:
         {
-            if ((assemblyParams.size() - 5) % 3 != 0)
+            if ((assemblyParams.size() - PARAMS_OFFSET_EXTRA) % 3 != 0)
                 PLUGIN_THROW(
                     "Invalid number of floats in assembly extra parameters");
             Vector3fs points;
-            for (uint32_t i = 5; i < params.size(); i += 3)
+            for (uint32_t i = PARAMS_OFFSET_EXTRA; i < params.size(); i += 3)
                 points.push_back(
                     Vector3f(params[i], params[i + 1], params[i + 2]));
             transformation =
-                getBezierPosition(points, size,
+                getBezierPosition(points, size.x,
                                   float(occurence) / float(occurrences));
             break;
         }
         case AssemblyShape::spherical_to_planar:
         {
             transformation =
-                getSphericalToPlanarPosition(position, size, occurence,
+                getSphericalToPlanarPosition(position, size.x, occurence,
                                              occurrences, randInfo,
                                              extraParameter);
             break;
         }
         default:
-            transformation = getPlanarPosition(position, size, randInfo);
+            transformation = getPlanarPosition(position, size.x, randInfo);
             break;
         }
 
@@ -399,13 +411,16 @@ void Assembly::addRNASequence(const RNASequenceDetails &details)
     const auto params = floatsToVector3f(rd.params);
 
     PLUGIN_INFO("Loading RNA sequence " << rd.name << " from " << rd.contents);
-    PLUGIN_INFO("Assembly radius: " << rd.assemblyParams[0]);
-    PLUGIN_INFO("RNA radius     : " << rd.assemblyParams[1]);
-    PLUGIN_INFO("Range          : " << rd.range[0] << ", " << rd.range[1]);
-    PLUGIN_INFO("Params         : " << rd.params[0] << ", " << rd.params[1]
-                                    << ", " << rd.params[2]);
-    PLUGIN_INFO("Position       : " << rd.position[0] << ", " << rd.position[1]
-                                    << ", " << rd.position[2]);
+    PLUGIN_INFO("Assembly dimensions : "
+                << rd.assemblyParams[PARAMS_OFFSET_DIMENSION_1]);
+    PLUGIN_INFO("RNA radius          : "
+                << rd.assemblyParams[PARAMS_OFFSET_DIMENSION_2]);
+    PLUGIN_INFO("Range               : " << rd.range[0] << ", " << rd.range[1]);
+    PLUGIN_INFO("Params              : " << rd.params[0] << ", " << rd.params[1]
+                                         << ", " << rd.params[2]);
+    PLUGIN_INFO("Position            : " << rd.position[0] << ", "
+                                         << rd.position[1] << ", "
+                                         << rd.position[2]);
 
     for (size_t i = 0; i < 3; ++i)
         rd.position[i] += _details.position[i];

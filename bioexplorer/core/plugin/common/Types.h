@@ -64,6 +64,15 @@ const std::string ARG_OOC_UNLOAD_BRICKS = "--ooc-unload-bricks";
 const std::string ARG_OOC_SHOW_GRID = "--ooc-show-grid";
 const std::string ARG_OOC_NB_BRICKS_PER_CYCLE = "--ooc-nb-bricks-per-cycle";
 
+const size_t PARAMS_OFFSET_DIMENSION_1 = 0;
+const size_t PARAMS_OFFSET_DIMENSION_2 = 1;
+const size_t PARAMS_OFFSET_DIMENSION_3 = 2;
+const size_t PARAMS_OFFSET_POSITION_SEED = 3;
+const size_t PARAMS_OFFSET_POSITION_STRENGTH = 4;
+const size_t PARAMS_OFFSET_ROTATION_SEED = 5;
+const size_t PARAMS_OFFSET_ROTATION_STRENGTH = 6;
+const size_t PARAMS_OFFSET_EXTRA = 7;
+
 // Environment variables
 const std::string ENV_ROCKETS_DISABLE_SCENE_BROADCASTING =
     "ROCKETS_DISABLE_SCENE_BROADCASTING";

@@ -135,8 +135,14 @@ void ParametricMembrane::_processInstances()
 
     // Shape parameters
     const auto &params = _details.assemblyParams;
-    const float size = (params.size() > 0 ? params[0] : 0.f);
-    const float extraParameter = (params.size() > 5 ? params[5] : 0.f);
+    const Vector3f size =
+        (params.size() > 0 ? Vector3f(params[PARAMS_OFFSET_DIMENSION_1],
+                                      params[PARAMS_OFFSET_DIMENSION_2],
+                                      params[PARAMS_OFFSET_DIMENSION_3])
+                           : Vector3f(0.f));
+    const auto extraParameter =
+        (params.size() > PARAMS_OFFSET_EXTRA ? params[PARAMS_OFFSET_EXTRA]
+                                             : 0.f);
     auto randInfo =
         floatsToRandomizationDetails(params, _details.randomSeed,
                                      _details.positionRandomizationType);
@@ -156,11 +162,17 @@ void ParametricMembrane::_processInstances()
         const Vector3f &center = bounds.getCenter();
 
         randInfo.positionSeed =
-            (params.size() >= 2 ? (params[1] == 0 ? 0 : params[1] + occurence)
-                                : 0);
+            (params.size() > PARAMS_OFFSET_POSITION_SEED
+                 ? (params[PARAMS_OFFSET_POSITION_SEED] == 0
+                        ? 0
+                        : params[PARAMS_OFFSET_POSITION_SEED] + occurence)
+                 : 0);
         randInfo.rotationSeed =
-            (params.size() >= 4 ? (params[3] == 0 ? 0 : params[3] + occurence)
-                                : 0);
+            (params.size() > PARAMS_OFFSET_ROTATION_SEED
+                 ? (params[PARAMS_OFFSET_ROTATION_SEED] == 0
+                        ? 0
+                        : params[PARAMS_OFFSET_ROTATION_SEED] + occurence)
+                 : 0);
 
         Transformation transformation;
         switch (_details.shape)
@@ -168,15 +180,15 @@ void ParametricMembrane::_processInstances()
         case AssemblyShape::spherical:
         {
             transformation =
-                getSphericalPosition(Vector3f(), size, occurence,
+                getSphericalPosition(Vector3f(), size.x, occurence,
                                      _details.occurrences, randInfo);
             break;
         }
         case AssemblyShape::sinusoidal:
         {
             transformation =
-                getSinosoidalPosition(Vector3f(), size, extraParameter,
-                                      occurence, randInfo);
+                getSinosoidalPosition(Vector3f(), Vector2f(size.x, size.z),
+                                      extraParameter, occurence, randInfo);
             break;
         }
         case AssemblyShape::cubic:
@@ -186,7 +198,7 @@ void ParametricMembrane::_processInstances()
         }
         case AssemblyShape::fan:
         {
-            transformation = getFanPosition(Vector3f(), size, occurence,
+            transformation = getFanPosition(Vector3f(), size.x, occurence,
                                             _details.occurrences, randInfo);
             break;
         }
@@ -199,7 +211,7 @@ void ParametricMembrane::_processInstances()
             for (uint32_t i = 5; i < params.size(); i += 3)
                 points.push_back(
                     Vector3f(params[i], params[i + 1], params[i + 2]));
-            transformation = getBezierPosition(points, size,
+            transformation = getBezierPosition(points, size.x,
                                                float(occurence) /
                                                    float(_details.occurrences));
             break;
@@ -207,13 +219,13 @@ void ParametricMembrane::_processInstances()
         case AssemblyShape::spherical_to_planar:
         {
             transformation =
-                getSphericalToPlanarPosition(Vector3f(), size, occurence,
+                getSphericalToPlanarPosition(Vector3f(), size.x, occurence,
                                              _details.occurrences, randInfo,
                                              extraParameter);
             break;
         }
         default:
-            transformation = getPlanarPosition(Vector3f(), size, randInfo);
+            transformation = getPlanarPosition(Vector3f(), size.x, randInfo);
             break;
         }
 

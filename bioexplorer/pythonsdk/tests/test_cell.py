@@ -42,7 +42,7 @@ def test_cell():
     protein_representation = bio_explorer.REPRESENTATION_ATOMS
 
     # Membrane parameters
-    membrane_size = 800.0
+    membrane_size = Vector2(800.0, 800.0)
     membrane_height = 80
     membrane_nb_receptors = 20
     membrane_nb_lipids = 1200000

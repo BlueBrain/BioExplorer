@@ -46,6 +46,16 @@ from .version import VERSION as __version__
 # pylint: disable=missing-raises-doc
 
 
+PARAMS_OFFSET_DIMENSION_1 = 0
+PARAMS_OFFSET_DIMENSION_2 = 1
+PARAMS_OFFSET_DIMENSION_3 = 2
+PARAMS_OFFSET_POSITION_SEED = 3
+PARAMS_OFFSET_POSITION_STRENGTH = 4
+PARAMS_OFFSET_ROTATION_SEED = 5
+PARAMS_OFFSET_ROTATION_STRENGTH = 6
+PARAMS_OFFSET_EXTRA = 7
+
+
 class Vector3:
     """A Vector3 is an array of 3 floats representing a 3D vector"""
 
@@ -390,7 +400,8 @@ class BioExplorer:
             raise RuntimeError(result["contents"])
         return result
 
-    def add_coronavirus(self, name, resource_folder, assembly_params=[45.0, 1, 0.25, 2, 0.1, 0.0],
+    def add_coronavirus(self, name, resource_folder,
+                        assembly_params=[45.0, 0.0, 0.0, 1, 0.25, 2, 0.1, 0.0],
                         nb_protein_s=62, nb_protein_m=50, nb_protein_e=42,
                         open_protein_s_indices=list([0]), atom_radius_multiplier=1.0,
                         add_glycans=False, add_rna_sequence=False,
@@ -428,7 +439,8 @@ class BioExplorer:
                 closed_conformation_indices.append(i)
 
         # Protein S
-        params = [11.5, 0, 0.0, assembly_params[3], 0.1, assembly_params[5]]
+        params = [11.5, 0.0, 0.0, 0, 0.0,
+                  assembly_params[PARAMS_OFFSET_ROTATION_SEED], 0.1, assembly_params[PARAMS_OFFSET_EXTRA]]
         virus_protein_s = Protein(
             sources=[
                 pdb_folder + "6vyb.pdb", pdb_folder + "sars-cov-2-v1.pdb"
@@ -443,8 +455,9 @@ class BioExplorer:
 
         # Protein M (QHD43419)
         params = [
-            2.5, 1, assembly_params[2], assembly_params[3] + 2, assembly_params[4],
-            assembly_params[5]
+            2.5, 0.0, 0.0, 1, assembly_params[PARAMS_OFFSET_POSITION_STRENGTH], assembly_params[PARAMS_OFFSET_ROTATION_SEED] +
+            2, assembly_params[PARAMS_OFFSET_ROTATION_STRENGTH],
+            assembly_params[PARAMS_OFFSET_EXTRA]
         ]
         virus_protein_m = Protein(
             sources=[pdb_folder + "QHD43419a.pdb"],
@@ -455,8 +468,9 @@ class BioExplorer:
 
         # Protein E (QHD43418 P0DTC4)
         params = [
-            2.5, 3, assembly_params[2], assembly_params[3] + 4, assembly_params[4],
-            assembly_params[5]
+            2.5, 0.0, 0.0, 3, assembly_params[PARAMS_OFFSET_POSITION_STRENGTH], assembly_params[
+                PARAMS_OFFSET_ROTATION_SEED] + 4, assembly_params[PARAMS_OFFSET_ROTATION_STRENGTH],
+            assembly_params[PARAMS_OFFSET_EXTRA]
         ]
         virus_protein_e = Protein(
             sources=[pdb_folder + "QHD43418a.pdb"],
@@ -479,7 +493,7 @@ class BioExplorer:
         # RNA Sequence
         rna_sequence = None
         if add_rna_sequence:
-            params = [assembly_params[0] * 0.6, 0.5]
+            params = [assembly_params[PARAMS_OFFSET_DIMENSION_1] * 0.6, 0.5]
             rna_sequence = RNASequence(
                 source=rna_folder + 'sars-cov-2.rna',
                 protein_source=pdb_folder + '7bv1.pdb',
@@ -536,7 +550,8 @@ class BioExplorer:
                 indices=indices_closed,
                 representation=representation,
                 atom_radius_multiplier=atom_radius_multiplier,
-                assembly_params=[0, 0, 0.0, assembly_params[3] + 7, assembly_params[4]]
+                assembly_params=[0.0, 0.0, 0.0, 0, 0.0,
+                                 assembly_params[PARAMS_OFFSET_ROTATION_SEED] + 7, assembly_params[PARAMS_OFFSET_ROTATION_STRENGTH]]
             )
             self.add_multiple_glycans(
                 assembly_name=name,
@@ -546,7 +561,8 @@ class BioExplorer:
                 indices=indices_open,
                 representation=representation,
                 atom_radius_multiplier=atom_radius_multiplier,
-                assembly_params=[0, 0, 0.0, assembly_params[3] + 7, assembly_params[4]]
+                assembly_params=[0.0, 0.0, 0.0, 0, 0.0,
+                                 assembly_params[PARAMS_OFFSET_ROTATION_SEED] + 7, assembly_params[PARAMS_OFFSET_ROTATION_STRENGTH]]
             )
 
             # Complex
@@ -561,7 +577,8 @@ class BioExplorer:
                 indices=indices_closed,
                 representation=representation,
                 atom_radius_multiplier=atom_radius_multiplier,
-                assembly_params=[0, 0, 0.0, assembly_params[3] + 8, 2.0 * assembly_params[4]]
+                assembly_params=[0.0, 0.0, 0.0, 0, 0.0,
+                                 assembly_params[PARAMS_OFFSET_ROTATION_SEED] + 8, 2.0 * assembly_params[PARAMS_OFFSET_ROTATION_STRENGTH]]
             )
 
             self.add_multiple_glycans(
@@ -572,7 +589,8 @@ class BioExplorer:
                 indices=indices_open,
                 representation=representation,
                 atom_radius_multiplier=atom_radius_multiplier,
-                assembly_params=[0, 0, 0.0, assembly_params[3] + 8, 2.0 * assembly_params[4]]
+                assembly_params=[0.0, 0.0, 0.0, 0, 0.0,
+                                 assembly_params[PARAMS_OFFSET_ROTATION_SEED] + 8, 2.0 * assembly_params[PARAMS_OFFSET_ROTATION_STRENGTH]]
             )
 
             # O-Glycans
@@ -587,7 +605,8 @@ class BioExplorer:
                     site_indices=[index],
                     representation=representation,
                     atom_radius_multiplier=atom_radius_multiplier,
-                    assembly_params=[0, 0, 0.0, assembly_params[3] + 9, 2.0 * assembly_params[4]]
+                    assembly_params=[0.0, 0.0, 0.0, 0, 0.0,
+                                     assembly_params[PARAMS_OFFSET_ROTATION_SEED] + 9, 2.0 * assembly_params[PARAMS_OFFSET_ROTATION_STRENGTH]]
                 )
                 self.add_sugars(o_glycan)
 
@@ -602,7 +621,8 @@ class BioExplorer:
                 source=high_mannose_paths[0],
                 site_indices=indices,
                 representation=representation,
-                assembly_params=[0, 0, 0.0, assembly_params[3] + 10, 2.0 * assembly_params[4]]
+                assembly_params=[0.0, 0.0, 0.0,  0, 0.0,
+                                 assembly_params[PARAMS_OFFSET_ROTATION_SEED] + 10, 2.0 * assembly_params[PARAMS_OFFSET_ROTATION_STRENGTH]]
             )
             self.add_glycans(high_mannose_glycans)
 
@@ -617,7 +637,8 @@ class BioExplorer:
                 source=complex_paths[0],
                 site_indices=indices,
                 representation=representation,
-                assembly_params=[0, 0, 0.0, assembly_params[3] + 11, 2.0 * assembly_params[4]]
+                assembly_params=[0.0, 0.0, 0.0, 0, 0.0,
+                                 assembly_params[PARAMS_OFFSET_ROTATION_SEED] + 11, 2.0 * assembly_params[PARAMS_OFFSET_ROTATION_STRENGTH]]
             )
             self.add_glycans(complex_glycans)
 
@@ -656,7 +677,8 @@ class BioExplorer:
 
         if virus.protein_s:
             params = virus.protein_s.assembly_params.copy()
-            params[0] += virus.assembly_params[0]
+            for i in range(3):
+                params[i] += virus.assembly_params[i]
 
             # S Protein
             if _protein_s.instance_indices[0]:
@@ -706,7 +728,8 @@ class BioExplorer:
         if virus.protein_m:
             # M Protein
             params = virus.protein_m.assembly_params.copy()
-            params[0] += virus.assembly_params[0]
+            for i in range(3):
+                params[i] += virus.assembly_params[i]
 
             _protein_m = AssemblyProtein(
                 assembly_name=virus.name,
@@ -730,7 +753,8 @@ class BioExplorer:
         if virus.protein_e:
             # E Protein
             params = virus.protein_e.assembly_params.copy()
-            params[0] += virus.assembly_params[0]
+            for i in range(3):
+                params[i] += virus.assembly_params[i]
 
             _protein_e = AssemblyProtein(
                 assembly_name=virus.name,
@@ -804,7 +828,8 @@ class BioExplorer:
 
         if cell.receptor.occurences != 0:
             receptor_params = cell.params.copy()
-            receptor_params[4] /= 20.0  # Receptor rotates 20 times less than lipids
+            # Receptor rotates 20 times less than lipids
+            receptor_params[PARAMS_OFFSET_ROTATION_STRENGTH] /= 20.0
 
             _receptor = AssemblyProtein(
                 assembly_name=cell.name,
@@ -917,7 +942,8 @@ class BioExplorer:
             shape=shape,
             source=surfactant.head_source,
             occurrences=nb_branches,
-            assembly_params=[collagen_size * (nb_collagens + 1) - 9.0, 0, 0.0, 0, 0.0, 0.0],
+            assembly_params=[collagen_size * (nb_collagens + 1) -
+                             9.0, 0.0, 0.0, 0, 0.0, 0, 0.0, 0.0],
             atom_radius_multiplier=atom_radius_multiplier,
             random_seed=random_seed,
             representation=representation,
@@ -934,7 +960,7 @@ class BioExplorer:
                     atom_radius_multiplier=atom_radius_multiplier,
                     source=surfactant.branch_source,
                     occurrences=nb_branches,
-                    assembly_params=[collagen_size * (i + 1) - 7.0, 0, 0.0, 0, 0.0, 0.0],
+                    assembly_params=[collagen_size * (i + 1) - 7.0, 0.0, 0.0, 0, 0.0, 0, 0.0, 0.0],
                     random_seed=random_seed,
                     representation=representation
                 ))
@@ -2421,7 +2447,7 @@ class Cell:
         :random_rotation_strength: TODO
         :extra_parameters: Extra parameters depending on the selected shape
         """
-        assert isinstance(size, float)
+        assert isinstance(size, Vector2)
         assert isinstance(membrane, ParametricMembrane)
         assert isinstance(receptor, Protein)
         assert isinstance(random_position_seed, int)
@@ -2432,7 +2458,7 @@ class Cell:
         self.name = name
         self.shape = shape
         self.params = [
-            size, random_position_seed, random_position_strength, random_rotation_seed,
+            size.x, 0.0, size.y, random_position_seed, random_position_strength, random_rotation_seed,
             random_rotation_strength] + extra_parameters
         self.membrane = membrane
         self.receptor = receptor
@@ -2454,6 +2480,7 @@ class Volume:
         :random_rotation_stength: TODO
         :protein: Protein descriptor
         """
+        assert isinstance(size, Vector3)
         assert isinstance(random_position_seed, int)
         assert isinstance(random_position_stength, float)
         assert isinstance(random_rotation_seed, int)
@@ -2463,8 +2490,8 @@ class Volume:
         self.name = name
         self.shape = BioExplorer.ASSEMBLY_SHAPE_CUBIC
         self.params = [
-            size, random_position_seed, random_position_stength, random_rotation_seed,
-            random_rotation_stength, 0]
+            size.x, size.y, size.z, random_position_seed, random_position_stength,
+            random_rotation_seed, random_rotation_stength, 0]
         self.protein = protein
 
 
