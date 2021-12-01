@@ -846,7 +846,8 @@ class BioExplorer:
                 representation=representation,
                 random_seed=random_seed,
                 position=cell.receptor.position,
-                rotation=cell.receptor.rotation
+                rotation=cell.receptor.rotation,
+                chain_ids=cell.receptor.chain_ids
             )
             self.add_assembly_protein(_receptor)
 
@@ -1377,7 +1378,7 @@ class BioExplorer:
             load_non_polymer_chemicals=protein.load_non_polymer_chemicals,
             representation=representation,
             position=position,
-            rotation=rotation
+            rotation=rotation, chain_ids=protein.chain_ids
         )
         return self.add_assembly_protein(_protein)
 
@@ -2500,7 +2501,7 @@ class Protein:
 
     def __init__(self, sources, occurences=1, assembly_params=list(), load_bonds=False,
                  load_hydrogen=False, load_non_polymer_chemicals=False, position=Vector3(),
-                 rotation=Quaternion(), instance_indices=list(), constraint=''):
+                 rotation=Quaternion(), instance_indices=list(), constraint='', chain_ids=list()):
         """
         Protein descriptor
 
@@ -2530,6 +2531,7 @@ class Protein:
         self.position = position
         self.rotation = rotation
         self.instance_indices = instance_indices
+        self.chain_ids = chain_ids
 
 
 class MeshBasedMembrane:
