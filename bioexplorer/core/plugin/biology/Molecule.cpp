@@ -198,8 +198,9 @@ void Molecule::_computeReqSetOffset()
                 if (atom.second.reqSeq != previousReqSeq + 1)
                     break;
 
-                physicalReqSeq +=
-                    aminoAcidMap.find(atom.second.resName)->second.shortName;
+                const auto it = aminoAcidMap.find(atom.second.resName);
+                if (it != aminoAcidMap.end())
+                    physicalReqSeq += it->second.shortName;
 
                 if (physicalReqSeq.length() > 10)
                     break;
