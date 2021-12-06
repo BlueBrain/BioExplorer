@@ -580,8 +580,8 @@ void Molecule::_readAtom(const std::string& line, const bool loadHydrogen)
         if (it != atomicRadii.end())
             atom.radius = 0.001f * (*it).second;
         else
-            PLUGIN_WARN("[" << atom.element << "]/[" << atom.name
-                            << "] not found");
+            PLUGIN_DEBUG("[" << atom.element << "]/[" << atom.name
+                             << "] not found");
     }
 
     _atomMap.insert(std::make_pair(serial, atom));

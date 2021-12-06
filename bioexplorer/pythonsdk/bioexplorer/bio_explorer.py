@@ -114,7 +114,8 @@ class Vector2:
 class BioExplorer:
     """Blue Brain BioExplorer"""
 
-    PLUGIN_API_PREFIX = "be-"
+    PLUGIN_API_PREFIX = 'be-'
+    PDB_CONTENTS_DELIMITER = '||||'
 
     POSITION_RANDOMIZATION_TYPE_CIRCULAR = 0
     POSITION_RANDOMIZATION_TYPE_RADIAL = 1
@@ -1321,17 +1322,16 @@ class BioExplorer:
         assert isinstance(membrane, ParametricMembrane)
         assert isinstance(assembly_params, list)
 
-        contents = ["", "", "", ""]
-        for i in range(len(membrane.sources)):
-            contents[i] = "".join(open(membrane.sources[i]).readlines())
+        contents = ''
+        for source in membrane.sources:
+            if contents != '':
+                contents += BioExplorer.PDB_CONTENTS_DELIMITER
+            contents += ''.join(open(source).readlines())
 
         params = dict()
         params["assemblyName"] = assembly_name
         params["name"] = name
-        params["content1"] = contents[0]
-        params["content2"] = contents[1]
-        params["content3"] = contents[2]
-        params["content4"] = contents[3]
+        params["contents"] = contents
         params["shape"] = shape
         params["assemblyParams"] = assembly_params
         params["atomRadiusMultiplier"] = membrane.atom_radius_multiplier
@@ -1345,9 +1345,9 @@ class BioExplorer:
         params["positionRandomizationType"] = position_randomization_type
         params["rotation"] = list(rotation)
         return self._check(self._client.rockets_client.request(
-            method=self.PLUGIN_API_PREFIX + "add-membrane", params=params))
+            method=self.PLUGIN_API_PREFIX + "add-parametric-membrane", params=params))
 
-    def add_protein(self, name, protein, representation=REPRESENTATION_ATOMS, conformation_index=0,
+    def add_protein(self, name, protein, recenter=True, representation=REPRESENTATION_ATOMS, conformation_index=0,
                     atom_radius_multiplier=1.0, position=Vector3(), rotation=Quaternion()):
         """
         Add a protein to the scene
@@ -1369,7 +1369,7 @@ class BioExplorer:
         _protein = AssemblyProtein(
             assembly_name=name,
             assembly_params=protein.assembly_params,
-            name=name,
+            name=name, recenter=recenter,
             source=protein.sources[conformation_index],
             shape=self.ASSEMBLY_SHAPE_PLANAR,
             load_hydrogen=protein.load_hydrogen,
@@ -1451,11 +1451,13 @@ class BioExplorer:
             assembly_name=name,
             name=name,
             mesh_source=mesh_based_membrane.mesh_source,
-            protein_sources=mesh_based_membrane.protein_sources,
+            lipid_sources=mesh_based_membrane.lipid_sources,
             density=mesh_based_membrane.density,
             surface_fixed_offset=mesh_based_membrane.surface_fixed_offset,
             surface_variable_offset=mesh_based_membrane.
             surface_variable_offset,
+            load_bonds=mesh_based_membrane.load_bonds,
+            load_non_polymer_chemicals=mesh_based_membrane.load_non_polymer_chemicals,
             atom_radius_multiplier=mesh_based_membrane.atom_radius_multiplier,
             assembly_params=mesh_based_membrane.assembly_params,
             representation=mesh_based_membrane.representation,
@@ -1475,24 +1477,25 @@ class BioExplorer:
         """
         assert isinstance(mesh_based_membrane, AssemblyMeshBasedMembrane)
 
-        contents = ["", "", "", ""]
-        for i in range(len(mesh_based_membrane.protein_sources)):
-            contents[i] = "".join(open(mesh_based_membrane.protein_sources[i]).readlines())
+        lipidContents = ''
+        for source in mesh_based_membrane.lipid_sources:
+            if lipidContents != '':
+                lipidContents += BioExplorer.PDB_CONTENTS_DELIMITER
+            lipidContents += ''.join(open(source).readlines())
 
         params = dict()
         params["assemblyName"] = mesh_based_membrane.assembly_name
         params["name"] = mesh_based_membrane.name
         params["meshContents"] = "".join(open(mesh_based_membrane.mesh_source).readlines())
-        params["proteinContents1"] = contents[0]
-        params["proteinContents2"] = contents[1]
-        params["proteinContents3"] = contents[2]
-        params["proteinContents4"] = contents[3]
+        params["lipidContents"] = lipidContents
         params["recenter"] = mesh_based_membrane.recenter
         params["density"] = mesh_based_membrane.density
         params["surfaceFixedOffset"] = mesh_based_membrane.surface_fixed_offset
         params["surfaceVariableOffset"] = mesh_based_membrane.surface_variable_offset
         params["assemblyParams"] = mesh_based_membrane.assembly_params
         params["atomRadiusMultiplier"] = mesh_based_membrane.atom_radius_multiplier
+        params["loadBonds"] = mesh_based_membrane.load_bonds
+        params["loadNonPolymerChemicals"] = mesh_based_membrane.load_non_polymer_chemicals
         params["representation"] = mesh_based_membrane.representation
         params["randomSeed"] = mesh_based_membrane.random_seed
         params["position"] = mesh_based_membrane.position.to_list()
@@ -2253,9 +2256,9 @@ class AssemblyProtein:
 class AssemblyMeshBasedMembrane:
     """An AssemblyMeshBasedMembrane is a Mesh-based membrane that belongs to an assembly"""
 
-    def __init__(self, assembly_name, name, mesh_source, protein_sources, recenter=True, density=1,
+    def __init__(self, assembly_name, name, mesh_source, lipid_sources, recenter=True, density=1,
                  surface_fixed_offset=0, surface_variable_offset=0, assembly_params=list(),
-                 atom_radius_multiplier=1.0,
+                 atom_radius_multiplier=1.0, load_bonds=False, load_non_polymer_chemicals=False,
                  representation=BioExplorer.REPRESENTATION_ATOMS, random_seed=0, position=Vector3(),
                  rotation=Quaternion(), scale=Vector3()):
         """
@@ -2264,7 +2267,7 @@ class AssemblyMeshBasedMembrane:
         :assembly_name: Name of the assembly
         :name: Name of the mesh-based membrane
         :mesh_source: Full paths to the mesh file defining the shape of the membrane
-        :protein_sources: Full paths to the PDB files defining the protein (Maximum 4)
+        :lipid_sources: Full paths to the PDB files defining the lipids
         :recenter: Centers the protein if True
         :density: Density of proteins in surface of the mesh
         :surface_fixed_offset: Fixed offset for the position of the protein above the
@@ -2285,7 +2288,7 @@ class AssemblyMeshBasedMembrane:
         self.assembly_name = assembly_name
         self.name = name
         self.mesh_source = mesh_source
-        self.protein_sources = protein_sources
+        self.lipid_sources = lipid_sources
         self.recenter = recenter
         self.density = density
         self.surface_fixed_offset = surface_fixed_offset
@@ -2293,6 +2296,8 @@ class AssemblyMeshBasedMembrane:
         self.atom_radius_multiplier = atom_radius_multiplier
         self.assembly_params = assembly_params
         self.representation = representation
+        self.load_bonds = load_bonds
+        self.load_non_polymer_chemicals = load_non_polymer_chemicals
         self.random_seed = random_seed
         self.position = position
         self.rotation = rotation
@@ -2333,6 +2338,57 @@ class ParametricMembrane:
         self.occurences = occurences
         self.position = position
         self.rotation = rotation
+
+
+class MeshBasedMembrane:
+    """A MeshBasedMembrane is a membrane shaped by a 3D mesh"""
+
+    def __init__(self, mesh_source, lipid_sources, density=1, surface_fixed_offset=0.0,
+                 surface_variable_offset=0.0, assembly_params=list(), atom_radius_multiplier=1.0, load_bonds=False, load_non_polymer_chemicals=False,
+                 representation=BioExplorer.REPRESENTATION_ATOMS, random_seed=0, recenter=True,
+                 position=Vector3(), rotation=Quaternion(), scale=Vector3()):
+        """
+        Mesh-based membrane descriptor
+
+        :mesh_source: Full path to the OBJ file
+        :lipid_sources: Full path to the PDB files
+        :density: Density of proteins on the surface of the mesh
+        :surface_fixed_offset: Fixed offset of the protein position at the surface of the
+                                      mesh
+        :surface_variable_offset: Random ranged offset of the protein position at the
+                                         surface of the mesh
+        :assembly_params: Assembly parameters for animation purposes
+        :atom_radius_multiplier: Multiplies atom radius by the specified value
+        :load_bonds: Defines if bonds should be loaded
+        :load_non_polymer_chemicals: Defines if non-polymer chemical should be loaded
+        :representation: Representation of the protein (Atoms, atoms and sticks, etc)
+        :random_seed: Rand seed for surface_variable_offset parameter
+        :recenter: Centers the protein if True
+        :position: Position of the mesh in the scene
+        :rotation: rotation of the mesh in the scene
+        :scale: Scale of the mesh in the scene
+        """
+        assert isinstance(position, Vector3)
+        assert isinstance(rotation, Quaternion)
+        assert isinstance(scale, Vector3)
+        assert isinstance(lipid_sources, list)
+        assert isinstance(assembly_params, list)
+
+        self.mesh_source = mesh_source
+        self.lipid_sources = lipid_sources
+        self.density = density
+        self.surface_fixed_offset = surface_fixed_offset
+        self.assembly_params = assembly_params
+        self.surface_variable_offset = surface_variable_offset
+        self.atom_radius_multiplier = atom_radius_multiplier
+        self.load_bonds = load_bonds
+        self.load_non_polymer_chemicals = load_non_polymer_chemicals
+        self.representation = representation
+        self.recenter = recenter
+        self.random_seed = random_seed
+        self.position = position
+        self.rotation = rotation
+        self.scale = scale
 
 
 class Sugars:
@@ -2386,7 +2442,7 @@ class RNASequence:
         RNA sequence descriptor
 
         :source: Full path of the file containing the RNA sequence
-        :protein_source: Full path of the file containing the PDB representation of the N protein
+        :lipid_sources: Full path of the file containing the PDB representation of the N protein
         :shape: Shape of the sequence (Trefoil knot, torus, star, spring, heart, Moebiusknot,
                       etc)
         :assembly_params: Assembly parameters (radius, etc.)
@@ -2532,53 +2588,6 @@ class Protein:
         self.rotation = rotation
         self.instance_indices = instance_indices
         self.chain_ids = chain_ids
-
-
-class MeshBasedMembrane:
-    """A MeshBasedMembrane is a membrane shaped by a 3D mesh"""
-
-    def __init__(self, mesh_source, protein_sources, density=1, surface_fixed_offset=0.0,
-                 surface_variable_offset=0.0, assembly_params=list(), atom_radius_multiplier=1.0,
-                 representation=BioExplorer.REPRESENTATION_ATOMS, random_seed=0, recenter=True,
-                 position=Vector3(), rotation=Quaternion(), scale=Vector3()):
-        """
-        Mesh-based membrane descriptor
-
-        :mesh_source: Full path to the OBJ file
-        :protein_sources: Full path to the PDB files (Maximum 4)
-        :density: Density of proteins on the surface of the mesh
-        :surface_fixed_offset: Fixed offset of the protein position at the surface of the
-                                      mesh
-        :surface_variable_offset: Random ranged offset of the protein position at the
-                                         surface of the mesh
-        :assembly_params: Assembly parameters for animation purposes
-        :atom_radius_multiplier: Multiplies atom radius by the specified value
-        :representation: Representation of the protein (Atoms, atoms and sticks, etc)
-        :random_seed: Rand seed for surface_variable_offset parameter
-        :recenter: Centers the protein if True
-        :position: Position of the mesh in the scene
-        :rotation: rotation of the mesh in the scene
-        :scale: Scale of the mesh in the scene
-        """
-        assert isinstance(position, Vector3)
-        assert isinstance(rotation, Quaternion)
-        assert isinstance(scale, Vector3)
-        assert len(protein_sources) <= 4
-        assert isinstance(assembly_params, list)
-
-        self.mesh_source = mesh_source
-        self.protein_sources = protein_sources
-        self.density = density
-        self.surface_fixed_offset = surface_fixed_offset
-        self.assembly_params = assembly_params
-        self.surface_variable_offset = surface_variable_offset
-        self.atom_radius_multiplier = atom_radius_multiplier
-        self.representation = representation
-        self.recenter = recenter
-        self.random_seed = random_seed
-        self.position = position
-        self.rotation = rotation
-        self.scale = scale
 
 
 class Virus:

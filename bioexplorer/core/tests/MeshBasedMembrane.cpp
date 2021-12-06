@@ -57,11 +57,8 @@ MeshBasedMembraneDetails getDescriptor()
     descriptor.assemblyName = "test";
     descriptor.name = "test";
     descriptor.meshContents = getFileContents(folder + "obj/suzanne.obj");
-    descriptor.proteinContents1 =
+    descriptor.lipidContents =
         getFileContents(folder + "pdb/membrane/popc.pdb");
-    descriptor.proteinContents2 = "";
-    descriptor.proteinContents3 = "";
-    descriptor.proteinContents4 = "";
     descriptor.recenter = true;
     descriptor.density = 5.0;
     descriptor.surfaceFixedOffset = 0.f;

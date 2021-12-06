@@ -138,37 +138,33 @@ void MeshBasedMembrane::_processMeshAsProteinInstances()
                                       trfm.a3, trfm.b3, trfm.c3, trfm.d3,
                                       trfm.a4, trfm.b4, trfm.c4, trfm.d4};
 
-    // Protein models
-    std::vector<std::string> proteinContents;
-    proteinContents.push_back(_details.proteinContents1);
-    if (!_details.proteinContents2.empty())
-        proteinContents.push_back(_details.proteinContents2);
-    if (!_details.proteinContents3.empty())
-        proteinContents.push_back(_details.proteinContents3);
-    if (!_details.proteinContents4.empty())
-        proteinContents.push_back(_details.proteinContents4);
+    // Lipid models
+    std::vector<std::string> lipidContents =
+        split(_details.lipidContents, PDB_CONTENTS_DELIMITER);
 
-    Vector3f proteinsAverageSize;
+    Vector3f lipidAverageSize;
     size_t i = 0;
-    for (const auto& proteinContent : proteinContents)
+    for (const auto& lipidContent : lipidContents)
     {
         ProteinDetails pd;
         pd.assemblyName = _details.assemblyName;
         pd.name = _getElementNameFromId(i);
-        pd.contents = proteinContent;
+        pd.contents = lipidContent;
         pd.recenter = true;
         pd.atomRadiusMultiplier = _details.atomRadiusMultiplier;
         pd.representation = _details.representation;
         pd.position = _details.position;
         pd.rotation = _details.rotation;
+        pd.loadBonds = _details.loadBonds;
+        pd.loadNonPolymerChemicals = _details.loadNonPolymerChemicals;
 
         // Create model
         ProteinPtr protein(new Protein(_scene, pd));
-        proteinsAverageSize += protein->getBounds().getSize();
+        lipidAverageSize += protein->getBounds().getSize();
         _proteins[pd.name] = std::move(protein);
         ++i;
     }
-    proteinsAverageSize /= proteinContents.size();
+    lipidAverageSize /= lipidContents.size();
 
     // Transformation
     const auto membranePosition = floatsToVector3f(_details.position);
@@ -234,12 +230,11 @@ void MeshBasedMembrane::_processMeshAsProteinInstances()
                 _toVector3f(mesh->mVertices[face.z], meshCenter,
                             membraneScale));
 
-        const float proteinSurface =
-            proteinsAverageSize.x * proteinsAverageSize.x;
+        const float lipidSurface = lipidAverageSize.x * lipidAverageSize.x;
 
         // Total number of instance needed to fill the membrane surface
         const size_t nbInstances =
-            _details.density * meshSurface / proteinSurface;
+            _details.density * meshSurface / lipidSurface;
         const float instanceSurface = meshSurface / nbInstances;
 
         std::map<size_t, size_t> instanceCounts;
@@ -360,15 +355,15 @@ void MeshBasedMembrane::_processMeshAsProteinInstances()
         PLUGIN_INFO("Scale                : " << membraneScale);
         PLUGIN_INFO("Number of faces      : " << faces.size());
         PLUGIN_INFO("Mesh surface area    : " << meshSurface);
-        PLUGIN_INFO("Protein size         : " << proteinsAverageSize);
-        PLUGIN_INFO("Protein surface area : " << proteinSurface);
+        PLUGIN_INFO("Protein size         : " << lipidAverageSize);
+        PLUGIN_INFO("Protein surface area : " << lipidSurface);
         PLUGIN_INFO("Instance surface area: " << instanceSurface);
         PLUGIN_INFO("Number of instances  : " << nbInstances);
         PLUGIN_INFO("Bounds               : " << _bounds);
     }
 
     // Add proteins to the scene
-    for (size_t i = 0; i < proteinContents.size(); ++i)
+    for (size_t i = 0; i < lipidContents.size(); ++i)
         _scene.addModel(
             _proteins[_getElementNameFromId(i)]->getModelDescriptor());
 }
@@ -406,9 +401,7 @@ void MeshBasedMembrane::_processMeshAsTriangles()
 
 void MeshBasedMembrane::_processMesh()
 {
-    if (_details.proteinContents1.empty() &&
-        _details.proteinContents2.empty() &&
-        _details.proteinContents3.empty() && _details.proteinContents4.empty())
+    if (_details.lipidContents.empty())
         _processMeshAsTriangles();
     else
         _processMeshAsProteinInstances();

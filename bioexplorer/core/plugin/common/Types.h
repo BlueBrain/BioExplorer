@@ -37,6 +37,8 @@ const float BOND_RADIUS = 0.025f;
 const float DEFAULT_STICK_DISTANCE = 0.175f;
 const brayns::Vector3f UP_VECTOR = {0.f, 0.f, 1.f};
 
+const std::string PDB_CONTENTS_DELIMITER = "||||";
+
 // Metadata
 const std::string METADATA_ASSEMBLY = "Assembly";
 const std::string METADATA_TITLE = "Title";
@@ -248,17 +250,9 @@ typedef struct
     std::string assemblyName;
     /** Name of the protein in the assembly */
     std::string name;
-    /** String containing a PDB representation of the 1st protein */
-    std::string content1;
-    /** String containing a PDB representation of the 2nd optional protein
-     */
-    std::string content2;
-    /** String containing a PDB representation of the 3rd optional protein
-     */
-    std::string content3;
-    /** String containing a PDB representation of the 4th optional protein
-     */
-    std::string content4;
+    /** String containing a list of PDB description for the lipids, delimited by
+     * PDB_CONTENTS_DELIMITER */
+    std::string contents;
     /** Shape of the assembly containing the parametric membrane */
     AssemblyShape shape;
     /** Parameters of the assembly shape */
@@ -382,17 +376,9 @@ typedef struct
     std::string name;
     /** String containing an OBJ representation of the mesh */
     std::string meshContents;
-    /** String containing an PDB representation of the protein 1*/
-    std::string proteinContents1;
-    /** String containing an PDB representation of the protein 2
-     * (optional)*/
-    std::string proteinContents2;
-    /** String containing an PDB representation of the protein 3
-     * (optional)*/
-    std::string proteinContents3;
-    /** String containing an PDB representation of the protein 4
-     * (optional)*/
-    std::string proteinContents4;
+    /** String containing an PDB representation of the lipids separated by
+     * PDB_CONTENTS_DELIMITER*/
+    std::string lipidContents;
     /** Recenters the protein  */
     bool recenter;
     /** Density of proteins in surface of the mesh */
@@ -407,6 +393,10 @@ typedef struct
     std::vector<float> assemblyParams;
     /** Multiplier applied to atom radius */
     float atomRadiusMultiplier;
+    /** Enable the loading of protein bonds */
+    bool loadBonds{false};
+    /** Enable the loading of non polymer chemicals */
+    bool loadNonPolymerChemicals{false};
     /** Representation of the protein (Atoms, atoms and sticks, etc) */
     ProteinRepresentation representation;
     /** Seed for randomization of the variable offset */

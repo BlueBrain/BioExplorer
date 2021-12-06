@@ -72,14 +72,8 @@ ParametricMembrane::ParametricMembrane(Scene &scene,
         }
     }
 
-    std::vector<std::string> proteinContents;
-    proteinContents.push_back(details.content1);
-    if (!details.content2.empty())
-        proteinContents.push_back(details.content2);
-    if (!details.content3.empty())
-        proteinContents.push_back(details.content3);
-    if (!details.content4.empty())
-        proteinContents.push_back(details.content4);
+    std::vector<std::string> proteinContents =
+        split(details.contents, PDB_CONTENTS_DELIMITER);
 
     // Load proteins
     size_t i = 0;

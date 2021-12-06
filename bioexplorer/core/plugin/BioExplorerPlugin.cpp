@@ -314,7 +314,7 @@ void BioExplorerPlugin::init()
             endPoint, [&](const RNASequenceDetails &payload)
             { return _addRNASequence(payload); });
 
-        endPoint = PLUGIN_API_PREFIX + "add-membrane";
+        endPoint = PLUGIN_API_PREFIX + "add-parametric-membrane";
         PLUGIN_INFO("Registering '" + endPoint + "' endpoint");
         actionInterface->registerRequest<ParametricMembraneDetails, Response>(
             endPoint, [&](const ParametricMembraneDetails &payload)
