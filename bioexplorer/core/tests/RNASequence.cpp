@@ -61,6 +61,7 @@ RNASequenceDetails getDescriptor()
     descriptor.range = {0.f, 30.5f * static_cast<float>(M_PI)};
     descriptor.params = {1.51f, 1.12f, 1.93f};
     descriptor.position = {0.f, 0.f, 0.f};
+    descriptor.rotation = {1.f, 0.f, 0.f, 0.f};
     return descriptor;
 }
 
