@@ -45,7 +45,7 @@ image_output_folder = '/tmp'
 # --------------------------------------------------------------------------------
 scenario = 'high_glucose'
 # Scene
-scene_size = 800.0
+scene_size = Vector3(800.0, 800.0, 800.0)
 
 # Proteins
 protein_radius_multiplier = 1.0
@@ -298,7 +298,7 @@ class HighGlucoseScenario():
                 name=name, resource_folder=resource_folder,
                 representation=protein_representation, position=pos, rotation=rot,
                 add_glycans=add_glycans,
-                assembly_params=[virus_radii[virus_index], 5 * frame + 2 * virus_index,
+                assembly_params=[virus_radii[virus_index], 0.0, 0.0, 5 * frame + 2 * virus_index,
                                  0.25, frame + 2 * virus_index + 1, 0.1, morphing_step]
             )
 
@@ -306,8 +306,8 @@ class HighGlucoseScenario():
 
         name = 'Cell'
         nb_receptors = cell_nb_receptors
-        size = scene_size * 2.0
-        height = scene_size / 10.0
+        size = Vector2(scene_size.x * 2.0, scene_size.z * 2.0)
+        height = scene_size.y / 10.0
         position = Vector3(4.5, -186.0, 7.0)
         random_seed = 10
 
@@ -329,7 +329,7 @@ class HighGlucoseScenario():
         cell = Cell(
             name=name, size=size, extra_parameters=[height],
             shape=BioExplorer.ASSEMBLY_SHAPE_SINUSOIDAL,
-            membrane=membrane, receptor=ace2_receptor,
+            membrane=membrane, proteins=[ace2_receptor],
             random_position_seed=frame + 1, random_position_strength=0.025,
             random_rotation_seed=frame + 2, random_rotation_strength=0.2
         )
@@ -491,12 +491,12 @@ class HighGlucoseScenario():
             occurences=nb_glucoses)
         volume = Volume(
             name=BioExplorer.NAME_GLUCOSE, size=scene_size, protein=glucose,
-            random_position_seed=frame + 20, random_position_stength=scene_size / 600.0,
+            random_position_seed=frame + 20, random_position_stength=scene_size.y / 600.0,
             random_rotation_seed=frame + 21, random_rotation_stength=0.3
         )
-        status = self._be.add_volume(
+        return self._be.add_volume(
             volume=volume, representation=protein_representation,
-            position=Vector3(0.0, scene_size / 2.0 - 200.0, 0.0),
+            position=Vector3(0.0, scene_size.y / 2.0 - 200.0, 0.0),
             random_seed=100)
 
     def _add_lactoferrins(self, frame):
@@ -505,12 +505,12 @@ class HighGlucoseScenario():
             occurences=nb_lactoferrins)
         lactoferrins_volume = Volume(
             name=BioExplorer.NAME_LACTOFERRIN, size=scene_size, protein=lactoferrin,
-            random_position_seed=frame + 30, random_position_stength=scene_size / 400.0,
+            random_position_seed=frame + 30, random_position_stength=scene_size.y / 400.0,
             random_rotation_seed=frame + 31, random_rotation_stength=0.3
         )
         status = self._be.add_volume(
             volume=lactoferrins_volume, representation=protein_representation,
-            position=Vector3(0.0, scene_size / 2.0 - 200.0, 0.0),
+            position=Vector3(0.0, scene_size.y / 2.0 - 200.0, 0.0),
             random_seed=101)
 
     def _add_defensins(self, frame):
@@ -519,12 +519,12 @@ class HighGlucoseScenario():
             occurences=nb_defensins)
         defensins_volume = Volume(
             name=BioExplorer.NAME_DEFENSIN, size=scene_size, protein=defensin,
-            random_position_seed=frame + 40, random_position_stength=scene_size / 400.0,
+            random_position_seed=frame + 40, random_position_stength=scene_size.y / 400.0,
             random_rotation_seed=frame + 41, random_rotation_stength=0.3
         )
         status = self._be.add_volume(
             volume=defensins_volume, representation=protein_representation,
-            position=Vector3(0.0, scene_size / 2.0 - 200.0, 0.0),
+            position=Vector3(0.0, scene_size.y / 2.0 - 200.0, 0.0),
             random_seed=102)
 
     def _set_materials(self):
@@ -671,10 +671,10 @@ class HighGlucoseScenario():
             clip_planes.append([0.0, 0.0, 1.0,  -pos.z + size.z])
             clip_planes.append([0.0, 0.0, -1.0, pos.z + size.z])
         else:
-            clip_planes.append([1.0, 0.0, 0.0, scene_size * 1.5 + 5])
-            clip_planes.append([-1.0, 0.0, 0.0, scene_size * 1.5 + 5])
-            clip_planes.append([0.0, 0.0, 1.0, scene_size + 5])
-            clip_planes.append([0.0, 0.0, -1.0, scene_size + 5])
+            clip_planes.append([1.0, 0.0, 0.0, scene_size.x * 1.5 + 5])
+            clip_planes.append([-1.0, 0.0, 0.0, scene_size.x * 1.5 + 5])
+            clip_planes.append([0.0, 0.0, 1.0, scene_size.z + 5])
+            clip_planes.append([0.0, 0.0, -1.0, scene_size.z + 5])
 
         cps = self._core.get_clip_planes()
         ids = list()

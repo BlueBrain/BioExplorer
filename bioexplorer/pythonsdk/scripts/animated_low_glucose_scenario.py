@@ -45,7 +45,7 @@ image_output_folder = '/tmp'
 # --------------------------------------------------------------------------------
 scenario = 'low_glucose'
 # Scene
-scene_size = 800.0
+scene_size = Vector3(800.0, 800.0, 800.0)
 
 # Proteins
 protein_radius_multiplier = 1.0
@@ -274,16 +274,17 @@ class LowGlucoseScenario():
                     name=name, resource_folder=resource_folder,
                     representation=protein_representation, position=pos, rotation=rot,
                     add_glycans=add_glycans,
-                    assembly_params=[virus_radii[virus_index], 5 * frame + 2 * virus_index,
-                                     0.25, frame + 2 * virus_index + 1, 0.1, morphing_step]
+                    assembly_params=[virus_radii[virus_index], 0.0, 0.0,
+                                     5 * frame + 2 * virus_index, 0.25,
+                                     frame + 2 * virus_index + 1, 0.1, morphing_step]
                 )
 
     def _add_cell(self, frame):
 
         name = 'Cell'
         nb_receptors = cell_nb_receptors
-        size = scene_size * 2.0
-        height = scene_size / 10.0
+        size = Vector2(scene_size.x * 2.0, scene_size.x * 2.0)
+        height = scene_size.y / 10.0
         position = Vector3(4.5, -186.0, 7.0)
         random_seed = 10
 
@@ -305,7 +306,7 @@ class LowGlucoseScenario():
         cell = Cell(
             name=name, size=size, extra_parameters=[height],
             shape=BioExplorer.ASSEMBLY_SHAPE_SINUSOIDAL,
-            membrane=membrane, receptor=ace2_receptor,
+            membrane=membrane, proteins=[ace2_receptor],
             random_position_seed=frame + 1, random_position_strength=0.025,
             random_rotation_seed=frame + 2, random_rotation_strength=0.2
         )
@@ -460,12 +461,12 @@ class LowGlucoseScenario():
             occurences=nb_glucoses)
         volume = Volume(
             name=BioExplorer.NAME_GLUCOSE, size=scene_size, protein=glucose,
-            random_position_seed=frame + 20, random_position_stength=scene_size / 600.0,
+            random_position_seed=frame + 20, random_position_stength=scene_size.y / 600.0,
             random_rotation_seed=frame + 21, random_rotation_stength=0.3
         )
         status = self._be.add_volume(
             volume=volume, representation=protein_representation,
-            position=Vector3(0.0, scene_size / 2.0 - 200.0, 0.0),
+            position=Vector3(0.0, scene_size.y / 2.0 - 200.0, 0.0),
             random_seed=100)
 
     def _add_lactoferrins(self, frame):
@@ -474,12 +475,12 @@ class LowGlucoseScenario():
             occurences=nb_lactoferrins)
         lactoferrins_volume = Volume(
             name=BioExplorer.NAME_LACTOFERRIN, size=scene_size, protein=lactoferrin,
-            random_position_seed=frame + 30, random_position_stength=scene_size / 400.0,
+            random_position_seed=frame + 30, random_position_stength=scene_size.y / 400.0,
             random_rotation_seed=frame + 31, random_rotation_stength=0.3
         )
         status = self._be.add_volume(
             volume=lactoferrins_volume, representation=protein_representation,
-            position=Vector3(0.0, scene_size / 2.0 - 200.0, 0.0),
+            position=Vector3(0.0, scene_size.y / 2.0 - 200.0, 0.0),
             random_seed=101)
 
     def _add_defensins(self, frame):
@@ -488,12 +489,12 @@ class LowGlucoseScenario():
             occurences=nb_defensins)
         defensins_volume = Volume(
             name=BioExplorer.NAME_DEFENSIN, size=scene_size, protein=defensin,
-            random_position_seed=frame + 40, random_position_stength=scene_size / 400.0,
+            random_position_seed=frame + 40, random_position_stength=scene_size.y / 400.0,
             random_rotation_seed=frame + 41, random_rotation_stength=0.3
         )
         status = self._be.add_volume(
             volume=defensins_volume, representation=protein_representation,
-            position=Vector3(0.0, scene_size / 2.0 - 200.0, 0.0),
+            position=Vector3(0.0, scene_size.y / 2.0 - 200.0, 0.0),
             random_seed=102)
 
     def _add_lymphocyte(self, frame):
@@ -505,10 +506,10 @@ class LowGlucoseScenario():
         params = [0, 0, 0.0, frame + 2, 0.2]
 
         clip_planes = [
-            [1.0, 0.0, 0.0, scene_size * 1.5 + 5],
-            [-1.0, 0.0, 0.0, scene_size * 1.5 + 5],
-            [0.0, 0.0, 1.0, scene_size + 5],
-            [0.0, 0.0, -1.0, scene_size + 5]
+            [1.0, 0.0, 0.0, scene_size.x * 1.5 + 5],
+            [-1.0, 0.0, 0.0, scene_size.x * 1.5 + 5],
+            [0.0, 0.0, 1.0, scene_size.z + 5],
+            [0.0, 0.0, -1.0, scene_size.z + 5]
         ]
 
         name = 'Emile'
@@ -517,7 +518,7 @@ class LowGlucoseScenario():
                              Vector3(-830.0, 100.0, 30.0), Quaternion(0.707, 0.707, 0.0, 0.0),
                              ROTATION_MODE_LINEAR]
 
-        protein_sources = [
+        lipid_sources = [
             membrane_folder + 'segA.pdb',
             membrane_folder + 'segB.pdb',
             membrane_folder + 'segC.pdb',
@@ -525,7 +526,7 @@ class LowGlucoseScenario():
         ]
 
         mesh_based_membrane = MeshBasedMembrane(
-            mesh_source=lymphocyte_path, protein_sources=protein_sources,
+            mesh_source=lymphocyte_path, lipid_sources=lipid_sources,
             density=lymphocyte_density, surface_variable_offset=lymphocyte_surface_variable_offset,
             assembly_params=params
         )
@@ -542,7 +543,7 @@ class LowGlucoseScenario():
             clipping_planes=clip_planes
         )
 
-        for i in range(len(protein_sources)):
+        for i in range(len(lipid_sources)):
             status = self._be.set_protein_color_scheme(
                 assembly_name=name, name=BioExplorer.NAME_MEMBRANE + '_' + str(i),
                 color_scheme=BioExplorer.COLOR_SCHEME_CHAINS,
@@ -679,10 +680,10 @@ class LowGlucoseScenario():
     def _set_clipping_planes(self):
         '''Clipping planes'''
         clip_planes = [
-            [1.0, 0.0, 0.0, scene_size * 1.5 + 5],
-            [-1.0, 0.0, 0.0, scene_size * 1.5 + 5],
-            [0.0, 0.0, 1.0, scene_size + 5],
-            [0.0, 0.0, -1.0, scene_size + 5]
+            [1.0, 0.0, 0.0, scene_size.x * 1.5 + 5],
+            [-1.0, 0.0, 0.0, scene_size.x * 1.5 + 5],
+            [0.0, 0.0, 1.0, scene_size.z + 5],
+            [0.0, 0.0, -1.0, scene_size.z + 5]
         ]
         cps = self._core.get_clip_planes()
         ids = list()

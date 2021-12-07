@@ -817,7 +817,8 @@ class BioExplorer:
         assert isinstance(clipping_planes, list)
         assert isinstance(position, Vector3)
         assert isinstance(rotation, Quaternion)
-        assert len(cell.receptor.sources) == 1
+        for protein in cell.proteins:
+            assert len(protein.sources) == 1
 
         self.remove_assembly(cell.name)
         self.add_assembly(
@@ -827,30 +828,31 @@ class BioExplorer:
             clipping_planes=clipping_planes
         )
 
-        if cell.receptor.occurences != 0:
-            receptor_params = cell.params.copy()
-            # Receptor rotates 20 times less than lipids
-            receptor_params[PARAMS_OFFSET_ROTATION_STRENGTH] /= 20.0
+        for protein in cell.proteins:
+            if protein.occurences != 0:
+                protein_params = cell.params.copy()
+                # Receptor rotates 20 times less than lipids
+                protein_params[PARAMS_OFFSET_ROTATION_STRENGTH] /= 20.0
 
-            _receptor = AssemblyProtein(
-                assembly_name=cell.name,
-                name=cell.name + "_" + self.NAME_RECEPTOR,
-                shape=cell.shape,
-                position_randomization_type=self.POSITION_RANDOMIZATION_TYPE_RADIAL,
-                source=cell.receptor.sources[0],
-                load_non_polymer_chemicals=cell.receptor.
-                load_non_polymer_chemicals,
-                occurrences=cell.receptor.occurences,
-                assembly_params=receptor_params,
-                atom_radius_multiplier=atom_radius_multiplier,
-                load_bonds=True,
-                representation=representation,
-                random_seed=random_seed,
-                position=cell.receptor.position,
-                rotation=cell.receptor.rotation,
-                chain_ids=cell.receptor.chain_ids
-            )
-            self.add_assembly_protein(_receptor)
+                _protein = AssemblyProtein(
+                    assembly_name=cell.name,
+                    name=cell.name + "_" + self.NAME_RECEPTOR,
+                    shape=cell.shape,
+                    position_randomization_type=self.POSITION_RANDOMIZATION_TYPE_RADIAL,
+                    source=protein.sources[0],
+                    load_non_polymer_chemicals=protein.
+                    load_non_polymer_chemicals,
+                    occurrences=protein.occurences,
+                    assembly_params=protein_params,
+                    atom_radius_multiplier=atom_radius_multiplier,
+                    load_bonds=True,
+                    representation=representation,
+                    random_seed=random_seed,
+                    position=protein.position,
+                    rotation=protein.rotation,
+                    chain_ids=protein.chain_ids
+                )
+                self.add_assembly_protein(_protein)
 
         cell.membrane.representation = representation
         cell.membrane.atom_radius_multiplier = atom_radius_multiplier
@@ -2487,7 +2489,7 @@ class Surfactant:
 class Cell:
     """A Cell is a membrane with receptors"""
 
-    def __init__(self, name, size, shape, membrane, receptor, random_position_seed=0,
+    def __init__(self, name, size, shape, membrane, proteins, random_position_seed=0,
                  random_position_strength=0.0, random_rotation_seed=0,
                  random_rotation_strength=0.0, extra_parameters=list()):
         """
@@ -2497,7 +2499,7 @@ class Cell:
         :size: Size of the cell in the scene (in nanometers)
         :shape: Shape of the membrane (Spherical, planar, sinusoidal, cubic, etc)
         :membrane: Membrane descriptor
-        :receptor: Receptor descriptor
+        :proteins: List of trans-membrane proteins
         :random_position_seed: TODO
         :random_position_strength: TODO
         :random_rotation_seed: TODO
@@ -2506,7 +2508,7 @@ class Cell:
         """
         assert isinstance(size, Vector2)
         assert isinstance(membrane, ParametricMembrane)
-        assert isinstance(receptor, Protein)
+        assert isinstance(proteins, list)
         assert isinstance(random_position_seed, int)
         assert isinstance(random_position_strength, float)
         assert isinstance(random_rotation_seed, int)
@@ -2518,7 +2520,7 @@ class Cell:
             size.x, 0.0, size.y, random_position_seed, random_position_strength, random_rotation_seed,
             random_rotation_strength] + extra_parameters
         self.membrane = membrane
-        self.receptor = receptor
+        self.proteins = proteins
 
 
 class Volume:
