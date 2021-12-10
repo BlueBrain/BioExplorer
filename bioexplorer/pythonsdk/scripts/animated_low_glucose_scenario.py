@@ -554,35 +554,14 @@ class LowGlucoseScenario():
         self._be.apply_default_color_scheme(
             shading_mode=BioExplorer.SHADING_MODE_DIFFUSE, specular_exponent=50.0)
 
-    def _create_snapshot(self, shader, frame, movie_maker):
+    def _create_snapshot(self, renderer, frame, movie_maker):
         samples_per_pixel = self._image_samples_per_pixel
 
         '''Renderer'''
-        if shader == 'albedo':
-            self._core.set_renderer(current='albedo')
-        elif shader == 'ambient_occlusion':
-            self._core.set_renderer(
-                current='ambient_occlusion', samples_per_pixel=1, subsampling=1, max_accum_frames=1)
-            params = self._core.AmbientOcclusionRendererParams()
-            params.samplesPerFrame = 32
-            params.rayLength = 5.0
-            self._core.set_renderer_params(params)
-            samples_per_pixel = 4
-        elif shader == 'depth':
-            status = self._core.set_renderer(
-                current='depth', samples_per_pixel=1, subsampling=1, max_accum_frames=1)
-            params = status = self._core.DepthRendererParams()
-            params.infinity = 2000.0
-            status = self._core.set_renderer_params(params)
-            samples_per_pixel = 2
-        elif shader == 'raycast_Ns':
-            status = self._core.set_renderer(
-                current='raycast_Ns', samples_per_pixel=1, subsampling=1, max_accum_frames=1)
-            samples_per_pixel = 2
-        else:
+        if renderer == 'bio_explorer':
             status = self._core.set_renderer(
                 background_color=[96 / 255, 125 / 255, 139 / 255],
-                current='bio_explorer', head_light=False,
+                current=renderer, head_light=False,
                 samples_per_pixel=1, subsampling=1, max_accum_frames=1)
             params = self._core.BioExplorerRendererParams()
             params.exposure = 1.0
@@ -606,7 +585,8 @@ class LowGlucoseScenario():
             )
 
         movie_maker.create_snapshot(
-            size=self._image_size, path=self._image_output_folder + '/' + shader,
+            renderer=renderer,
+            size=self._image_size, path=self._image_output_folder + '/' + renderer,
             base_name='%05d' % frame, samples_per_pixel=samples_per_pixel)
 
         '''Camera'''

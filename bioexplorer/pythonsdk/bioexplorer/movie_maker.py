@@ -332,19 +332,49 @@ class MovieMaker:
         frame.observe(update_frame, 'value')
         display(frame)
 
-    def create_snapshot(self, size, path, base_name, samples_per_pixel,
-                        export_intermediate_frames=False,
-                        frame_buffer_mode=FRAME_BUFFER_MODE_COLOR):
+    def _set_renderer(self, name, gi_length=5.0):
+        """
+        Set renderer with default parameters
+
+        Args:
+            name (string): Name of the renderer
+            gi_length (float, optional): Max length of global illumination rays. Defaults to 5.0.
+
+        Returns:
+            int: Frame buffer mode (color or depth)
+        """
+        frame_buffer_mode = MovieMaker.FRAME_BUFFER_MODE_COLOR
+        self._client.set_renderer(current=name)
+        if name == 'ambient_occlusion':
+            params = self._client.AmbientOcclusionRendererParams()
+            params.samplesPerFrame = 1
+            params.rayLength = gi_length
+            self._client.set_renderer_params(params)
+        elif name == 'depth':
+            frame_buffer_mode = MovieMaker.FRAME_BUFFER_MODE_DEPTH
+        elif name == 'shadow':
+            params = self._client.ShadowRendererParams()
+            params.rayLength = gi_length
+            params.samplesPerFrame = 1
+            self._client.set_renderer_params(params)
+        return frame_buffer_mode
+
+    def create_snapshot(self, renderer, size, path, base_name, samples_per_pixel,
+                        export_intermediate_frames=False, gi_length=1e6):
         """
         Create a snapshot of the current frame
 
+        :renderer: Name of the renderer
         :size: Frame buffer size
         :path: Path where the snapshot file is exported
         :base_name: Base name of the snapshot file
         :samples_per_pixel: Samples per pixel
         :export_intermediate_frames: If True, intermediate samples are stored to disk. Otherwise,
         only the final accumulation is exported
+        gi_length (float, optional): Max length of global illumination rays. Defaults to 5.0.
         """
+        frame_buffer_mode = self._set_renderer(renderer, gi_length)
+
         application_params = self._client.get_application_parameters()
         renderer_params = self._client.get_renderer()
         old_image_stream_fps = application_params['image_stream_fps']

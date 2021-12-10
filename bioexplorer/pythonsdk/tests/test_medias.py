@@ -60,10 +60,12 @@ def test_movie_maker():
 
     movie_maker.set_current_frame(20)
     movie_maker.create_snapshot(
+        renderer='bio_explorer',
         path='/tmp', base_name='test_20', size=[512, 512], samples_per_pixel=16)
 
     movie_maker.set_current_frame(30)
     movie_maker.create_snapshot(
+        renderer='bio_explorer',
         path='/tmp', base_name='test_30', size=[512, 512], samples_per_pixel=16)
 
 

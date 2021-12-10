@@ -40,7 +40,7 @@ bio_explorer = BioExplorer('localhost:5000')
 movie_maker = MovieMaker(bio_explorer)
 
 movie_maker.create_snapshot(
-    path='/tmp', base_name='test', ,size=[512, 512], samples_per_pixel=16)
+    renderer='bio_explorer', path='/tmp', base_name='test', ,size=[512, 512], samples_per_pixel=16)
 ```
 
 ### Movie
