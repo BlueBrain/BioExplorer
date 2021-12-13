@@ -55,6 +55,7 @@ bool from_json(SugarsDetails &param, const std::string &payload);
 // Other elements
 bool from_json(AddGridDetails &param, const std::string &payload);
 bool from_json(AddSphereDetails &param, const std::string &payload);
+bool from_json(AddBoundingBoxDetails &param, const std::string &payload);
 
 // Amino acids
 bool from_json(AminoAcidSequenceAsStringDetails &param,

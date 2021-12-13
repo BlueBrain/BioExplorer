@@ -828,6 +828,8 @@ class BioExplorer:
             clipping_planes=clipping_planes
         )
 
+        rs = random_seed + 10
+        count = 0
         for protein in cell.proteins:
             if protein.occurences != 0:
                 protein_params = cell.params.copy()
@@ -836,7 +838,7 @@ class BioExplorer:
 
                 _protein = AssemblyProtein(
                     assembly_name=cell.name,
-                    name=cell.name + "_" + self.NAME_RECEPTOR,
+                    name=cell.name + "_" + self.NAME_TRANS_MEMBRANE + '_' + str(count),
                     shape=cell.shape,
                     position_randomization_type=self.POSITION_RANDOMIZATION_TYPE_RADIAL,
                     source=protein.sources[0],
@@ -847,12 +849,14 @@ class BioExplorer:
                     atom_radius_multiplier=atom_radius_multiplier,
                     load_bonds=True,
                     representation=representation,
-                    random_seed=random_seed,
+                    random_seed=rs,
                     position=protein.position,
                     rotation=protein.rotation,
                     chain_ids=protein.chain_ids
                 )
                 self.add_assembly_protein(_protein)
+                rs += 10
+                count += 1
 
         cell.membrane.representation = representation
         cell.membrane.atom_radius_multiplier = atom_radius_multiplier
@@ -1828,6 +1832,7 @@ class BioExplorer:
                 )
 
             if proteins and (self.NAME_RECEPTOR in model_name or
+                             self.NAME_TRANS_MEMBRANE in model_name or
                              self.NAME_RNA_SEQUENCE in model_name):
                 palette = sns.color_palette("OrRd_r", nb_materials)
                 self.set_materials_from_palette(
@@ -2101,6 +2106,32 @@ class BioExplorer:
         params["position"] = position.to_list()
         return self._client.rockets_client.request(
             self.PLUGIN_API_PREFIX + "add-grid", params)
+
+    def add_bounding_box(self, name, bottom_left_corner, top_right_corner, radius=1.0, color=Vector3(1.0, 1.0, 1.0)):
+        """
+        Add a bounding box to the scene
+
+        :bottom_left_corner: Bottom left corner
+        :top_right_corner: Top right corner
+        :radius: Radius of box lines
+        :color: Color of the bounding box
+        :return: Result of the request submission
+        """
+        if self._client is None:
+            return
+
+        assert isinstance(bottom_left_corner, Vector3)
+        assert isinstance(top_right_corner, Vector3)
+        assert isinstance(radius, float)
+        assert isinstance(color, Vector3)
+        params = dict()
+        params["name"] = name
+        params["bottomLeft"] = bottom_left_corner.to_list()
+        params["topRight"] = top_right_corner.to_list()
+        params["radius"] = radius
+        params["color"] = color.to_list()
+        return self._client.rockets_client.request(
+            self.PLUGIN_API_PREFIX + "add-bounding-box", params)
 
     def add_sphere(self, name, position, radius, color=Vector3(1.0, 1.0, 1.0)):
         """

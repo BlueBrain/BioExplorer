@@ -87,6 +87,7 @@ private:
     // Other elements
     Response _addGrid(const AddGridDetails &payload);
     Response _addSphere(const AddSphereDetails &payload);
+    Response _addBoundingBox(const AddBoundingBoxDetails &payload);
 
     // Amino acids
     Response _setAminoAcidSequenceAsString(

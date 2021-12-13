@@ -374,6 +374,12 @@ void BioExplorerPlugin::init()
             endPoint,
             [&](const AddSphereDetails &payload) { _addSphere(payload); });
 
+        endPoint = PLUGIN_API_PREFIX + "add-bounding-box";
+        PLUGIN_INFO("Registering '" + endPoint + "' endpoint");
+        actionInterface->registerNotification<AddBoundingBoxDetails>(
+            endPoint, [&](const AddBoundingBoxDetails &payload)
+            { _addBoundingBox(payload); });
+
         endPoint = PLUGIN_API_PREFIX + "get-model-ids";
         PLUGIN_INFO("Registering '" + endPoint + "' endpoint");
         actionInterface->registerRequest<IdsDetails>(endPoint,
@@ -1001,6 +1007,82 @@ Response BioExplorerPlugin::_addSphere(const AddSphereDetails &payload)
     return response;
 }
 
+Response BioExplorerPlugin::_addBoundingBox(
+    const AddBoundingBoxDetails &payload)
+{
+    Response response;
+    try
+    {
+        if (payload.bottomLeft.size() != 3)
+            PLUGIN_THROW("Invalid number of float for bottom left corner");
+        if (payload.topRight.size() != 3)
+            PLUGIN_THROW("Invalid number of float for top right corner");
+        if (payload.color.size() != 3)
+            PLUGIN_THROW("Invalid number of float for color");
+
+        auto &scene = _api->getScene();
+        auto model = scene.createModel();
+
+        PropertyMap props;
+        props.setProperty({MATERIAL_PROPERTY_SHADING_MODE,
+                           static_cast<int>(MaterialShadingMode::diffuse)});
+        props.setProperty({MATERIAL_PROPERTY_USER_PARAMETER, 1.0});
+        props.setProperty(
+            {MATERIAL_PROPERTY_CHAMELEON_MODE,
+             static_cast<int>(
+                 MaterialChameleonMode::undefined_chameleon_mode)});
+
+        const auto color = floatsToVector3f(payload.color);
+        auto material = model->createMaterial(0, "BoundingBox");
+        material->setDiffuseColor(color);
+        material->setProperties(props);
+
+        PLUGIN_INFO("Adding bounding box " + payload.name + " to the scene");
+
+        const auto bottomLeft = floatsToVector3f(payload.bottomLeft);
+        const auto topRight = floatsToVector3f(payload.topRight);
+        Boxf bbox;
+        bbox.merge(bottomLeft);
+        bbox.merge(topRight);
+
+        const Vector3f s = bbox.getSize();
+        const Vector3f c = bbox.getCenter();
+        const Vector3f positions[8] = {
+            {c.x - s.x, c.y - s.y, c.z - s.z},
+            {c.x + s.x, c.y - s.y, c.z - s.z}, //    6--------7
+            {c.x - s.x, c.y + s.y, c.z - s.z}, //   /|       /|
+            {c.x + s.x, c.y + s.y, c.z - s.z}, //  2--------3 |
+            {c.x - s.x, c.y - s.y, c.z + s.z}, //  | |      | |
+            {c.x + s.x, c.y - s.y, c.z + s.z}, //  | 4------|-5
+            {c.x - s.x, c.y + s.y, c.z + s.z}, //  |/       |/
+            {c.x + s.x, c.y + s.y, c.z + s.z}  //  0--------1
+        };
+
+        for (size_t i = 0; i < 8; ++i)
+            model->addSphere(0, {positions[i], payload.radius});
+
+        model->addCylinder(0, {positions[0], positions[1], payload.radius});
+        model->addCylinder(0, {positions[2], positions[3], payload.radius});
+        model->addCylinder(0, {positions[4], positions[5], payload.radius});
+        model->addCylinder(0, {positions[6], positions[7], payload.radius});
+
+        model->addCylinder(0, {positions[0], positions[2], payload.radius});
+        model->addCylinder(0, {positions[1], positions[3], payload.radius});
+        model->addCylinder(0, {positions[4], positions[6], payload.radius});
+        model->addCylinder(0, {positions[5], positions[7], payload.radius});
+
+        model->addCylinder(0, {positions[0], positions[4], payload.radius});
+        model->addCylinder(0, {positions[1], positions[5], payload.radius});
+        model->addCylinder(0, {positions[2], positions[6], payload.radius});
+        model->addCylinder(0, {positions[3], positions[7], payload.radius});
+
+        scene.addModel(
+            std::make_shared<ModelDescriptor>(std::move(model), payload.name));
+    }
+    CATCH_STD_EXCEPTION()
+    return response;
+}
+
 IdsDetails BioExplorerPlugin::_getModelIds() const
 {
     auto &scene = _api->getScene();
@@ -1038,7 +1120,7 @@ IdsDetails BioExplorerPlugin::_getMaterialIds(const ModelIdDetails &payload)
     if (modelDescriptor)
     {
         for (const auto &material : modelDescriptor->getModel().getMaterials())
-            if (material.first != BOUNDINGBOX_MATERIAL_ID &&
+            if (material.first != 0 &&
                 material.first != SECONDARY_MODEL_MATERIAL_ID)
                 materialIds.ids.push_back(material.first);
     }

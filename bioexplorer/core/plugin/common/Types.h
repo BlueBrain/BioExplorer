@@ -537,6 +537,24 @@ typedef struct
 } AddSphereDetails;
 
 /**
+ * @brief Defines the parameters needed when adding 3D sphere to the scene
+ *
+ */
+typedef struct
+{
+    /** Name of the bounding box */
+    std::string name;
+    /** Position of the bottom left corner in the scene */
+    std::vector<float> bottomLeft;
+    /** Position of the top right corner in the scene */
+    std::vector<float> topRight;
+    /** Radius of the borders */
+    float radius;
+    /** RGB Color of the sphere */
+    std::vector<float> color;
+} AddBoundingBoxDetails;
+
+/**
  * @brief Color schemes that can be applied to proteins
  *
  */
