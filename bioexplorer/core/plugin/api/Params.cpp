@@ -263,7 +263,7 @@ bool from_json(ParametricMembraneDetails &param, const std::string &payload)
         auto js = nlohmann::json::parse(payload);
         FROM_JSON(param, js, assemblyName);
         FROM_JSON(param, js, name);
-        FROM_JSON(param, js, contents);
+        FROM_JSON(param, js, lipidContents);
         FROM_JSON(param, js, shape);
         FROM_JSON(param, js, assemblyParams);
         FROM_JSON(param, js, atomRadiusMultiplier);

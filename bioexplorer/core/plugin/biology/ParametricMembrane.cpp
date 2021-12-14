@@ -39,7 +39,8 @@ ParametricMembrane::ParametricMembrane(Scene &scene,
                                        const Vector3f &assemblyPosition,
                                        const Quaterniond &assemblyRotation,
                                        const Vector4fs &clippingPlanes,
-                                       const ParametricMembraneDetails &details)
+                                       const ParametricMembraneDetails &details,
+                                       const ModelDescriptors &modelDescriptors)
     : Membrane(scene, assemblyPosition, assemblyRotation, clippingPlanes)
     , _details(details)
 {
@@ -72,12 +73,12 @@ ParametricMembrane::ParametricMembrane(Scene &scene,
         }
     }
 
-    std::vector<std::string> proteinContents =
-        split(details.contents, PDB_CONTENTS_DELIMITER);
+    std::vector<std::string> lipidContents =
+        split(details.lipidContents, PDB_CONTENTS_DELIMITER);
 
-    // Load proteins
+    // Load lipids
     size_t i = 0;
-    for (const auto &content : proteinContents)
+    for (const auto &content : lipidContents)
     {
         ProteinDetails pd;
         pd.assemblyName = details.assemblyName;
@@ -96,35 +97,30 @@ ParametricMembrane::ParametricMembrane(Scene &scene,
         pd.positionRandomizationType = details.positionRandomizationType;
         pd.position = {0.f, 0.f, 0.f};
 
-        ProteinPtr protein(new Protein(_scene, pd));
-        auto modelDescriptor = protein->getModelDescriptor();
-        _proteins[pd.name] = std::move(protein);
+        ProteinPtr lipid(new Protein(_scene, pd));
+        auto modelDescriptor = lipid->getModelDescriptor();
+        _lipids[pd.name] = std::move(lipid);
         ++i;
     }
 
-    // Assemble proteins
-    _processInstances();
+    // Assemble lipids
+    _processInstances(modelDescriptors);
 
-    // Add proteins to the scene
-    for (size_t i = 0; i < proteinContents.size(); ++i)
+    // Add models to the scene
+    for (size_t i = 0; i < lipidContents.size(); ++i)
         _scene.addModel(
-            _proteins[_getElementNameFromId(i)]->getModelDescriptor());
+            _lipids[_getElementNameFromId(i)]->getModelDescriptor());
 }
 
-ParametricMembrane::~ParametricMembrane()
-{
-    for (const auto &protein : _proteins)
-        _scene.removeModel(protein.second->getModelDescriptor()->getModelID());
-}
-
-void ParametricMembrane::_processInstances()
+void ParametricMembrane::_processInstances(
+    const ModelDescriptors &modelDescriptors)
 {
     // Randomization
     srand(_details.randomSeed);
 
     const auto rotation = floatsToQuaterniond(_details.rotation);
     std::map<size_t, size_t> instanceCounts;
-    for (size_t i = 0; i < _proteins.size(); ++i)
+    for (size_t i = 0; i < _lipids.size(); ++i)
         instanceCounts[i] = 0;
 
     // Shape parameters
@@ -147,9 +143,9 @@ void ParametricMembrane::_processInstances()
 
     for (uint64_t occurence = 0; occurence < _details.occurrences; ++occurence)
     {
-        const size_t id = rand() % _proteins.size();
-        auto protein = _proteins[_getElementNameFromId(id)];
-        auto md = protein->getModelDescriptor();
+        const size_t id = rand() % _lipids.size();
+        auto lipid = _lipids[_getElementNameFromId(id)];
+        auto md = lipid->getModelDescriptor();
 
         const auto &model = md->getModel();
         const auto &bounds = model.getBounds();
@@ -231,6 +227,27 @@ void ParametricMembrane::_processInstances()
             _assemblyPosition +
             Vector3f(_assemblyRotation *
                      (transformation.getTranslation() - Vector3d(center)));
+
+        // Collision with trans-membrane proteins
+        bool collision = false;
+        for (const auto &modelDescriptor : modelDescriptors)
+        {
+            const auto &instances = modelDescriptor->getInstances();
+            const auto &instanceSize =
+                modelDescriptor->getModel().getBounds().getSize();
+            for (const auto &instance : instances)
+            {
+                const auto &tf = instance.getTransformation();
+                const Vector3f &t = tf.getTranslation();
+                if (length(translation - t) < instanceSize.x / 2.0)
+                {
+                    collision = true;
+                    break;
+                }
+            }
+        }
+        if (collision)
+            continue;
 
         // Final transformation
         Transformation finalTransformation;

@@ -248,35 +248,35 @@ typedef struct
 {
     /** Name of the assembly */
     std::string assemblyName;
-    /** Name of the protein in the assembly */
+    /** Name of the lipid in the assembly */
     std::string name;
     /** String containing a list of PDB description for the lipids, delimited by
      * PDB_CONTENTS_DELIMITER */
-    std::string contents;
+    std::string lipidContents;
     /** Shape of the assembly containing the parametric membrane */
     AssemblyShape shape;
     /** Parameters of the assembly shape */
     std::vector<float> assemblyParams;
-    /** Multiplier applied to the radius of the protein atoms */
+    /** Multiplier applied to the radius of the lipid atoms */
     float atomRadiusMultiplier;
-    /** Enable the loading of protein bonds */
+    /** Enable the loading of lipid bonds */
     bool loadBonds;
     /** Enable the loading of non polymer chemicals */
     bool loadNonPolymerChemicals;
-    /** Defines the representation of the protein (Atoms, atoms and sticks,
+    /** Defines the representation of the lipid (Atoms, atoms and sticks,
      * surface, etc) */
     ProteinRepresentation representation;
     /** Identifiers of chains to be loaded */
     std::vector<size_t> chainIds;
-    /** Recenters the protein  */
+    /** Recenters the lipid  */
     bool recenter;
-    /** Number of protein occurences to be added to the assembly */
+    /** Number of lipid occurences to be added to the assembly */
     size_t occurrences;
     /** Seed for position randomization */
     size_t randomSeed;
     /** Type of randomisation for the elements of the assembly */
     PositionRandomizationType positionRandomizationType;
-    /** Relative rotation of the protein in the assembly */
+    /** Relative rotation of the lipid in the assembly */
     std::vector<float> rotation;
 } ParametricMembraneDetails;
 
@@ -818,6 +818,7 @@ typedef std::shared_ptr<Assembly> AssemblyPtr;
 typedef std::map<std::string, AssemblyPtr> AssemblyMap;
 typedef std::pair<AssemblyConstraintType, AssemblyPtr> AssemblyConstraint;
 typedef std::vector<AssemblyConstraint> AssemblyConstraints;
+typedef std::vector<ModelDescriptorPtr> ModelDescriptors;
 
 class Membrane;
 typedef std::shared_ptr<Membrane> MembranePtr;

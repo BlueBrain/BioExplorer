@@ -44,8 +44,8 @@ Membrane::Membrane(Scene& scene, const Vector3f& assemblyPosition,
 
 Membrane::~Membrane()
 {
-    for (const auto& protein : _proteins)
-        _scene.removeModel(protein.second->getModelDescriptor()->getModelID());
+    for (const auto& lipid : _lipids)
+        _scene.removeModel(lipid.second->getModelDescriptor()->getModelID());
 }
 
 } // namespace biology

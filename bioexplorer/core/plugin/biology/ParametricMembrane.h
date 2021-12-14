@@ -43,18 +43,13 @@ public:
     ParametricMembrane(Scene& scene, const Vector3f& assemblyPosition,
                        const Quaterniond& assemblyRotation,
                        const Vector4fs& clippingPlanes,
-                       const ParametricMembraneDetails& details);
-
-    /**
-     * @brief Destroy the Parametric Membrane object
-     *
-     */
-    ~ParametricMembrane();
+                       const ParametricMembraneDetails& details,
+                       const ModelDescriptors& modelDescriptors);
 
     bool isInside(const Vector3f& point) const final;
 
 private:
-    void _processInstances();
+    void _processInstances(const ModelDescriptors& modelDescriptors);
     std::string _getElementNameFromId(const size_t id);
 
     ParametricMembraneDetails _details;

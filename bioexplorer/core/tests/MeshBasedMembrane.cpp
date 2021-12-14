@@ -82,7 +82,7 @@ BOOST_AUTO_TEST_CASE(meshBasedMembrane)
                                         getDescriptor());
 
     BOOST_CHECK(
-        meshBasedMembrane.getProteins().begin()->second->getAtoms().size() ==
+        meshBasedMembrane.getLipids().begin()->second->getAtoms().size() ==
         426);
 
     BOOST_CHECK(meshBasedMembrane.isInside(Vector3f(0.f, 0.f, 0.f)));

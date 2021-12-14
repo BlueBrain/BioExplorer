@@ -64,6 +64,7 @@ Assembly::~Assembly()
                                               << _details.name << "]");
         _scene.removeModel(modelId);
     }
+    _modelDescriptors.clear();
 }
 
 void Assembly::addProtein(const ProteinDetails &details,
@@ -81,6 +82,7 @@ void Assembly::addProtein(const ProteinDetails &details,
                       details.positionRandomizationType, constraints);
 
     _proteins[details.name] = std::move(protein);
+    _modelDescriptors.push_back(modelDescriptor);
     _scene.addModel(modelDescriptor);
     PLUGIN_INFO(
         "Number of instances: " << modelDescriptor->getInstances().size());
@@ -93,7 +95,7 @@ void Assembly::addParametricMembrane(const ParametricMembraneDetails &details)
 
     ParametricMembranePtr membrane(
         new ParametricMembrane(_scene, _position, _rotation, _clippingPlanes,
-                               details));
+                               details, _modelDescriptors));
     _membrane = std::move(membrane);
 }
 
@@ -297,10 +299,10 @@ void Assembly::setColorScheme(const ColorSchemeDetails &details)
         protein = (*itProtein).second;
     else if (_membrane)
     {
-        const auto membraneProteins = _membrane->getProteins();
+        const auto membraneLipids = _membrane->getLipids();
         const auto it =
-            membraneProteins.find(details.assemblyName + '_' + details.name);
-        if (it != membraneProteins.end())
+            membraneLipids.find(details.assemblyName + '_' + details.name);
+        if (it != membraneLipids.end())
             protein = (*it).second;
     }
 
@@ -428,6 +430,7 @@ void Assembly::addRNASequence(const RNASequenceDetails &details)
     _rnaSequence =
         RNASequencePtr(new RNASequence(_scene, rd, _position, _rotation));
     const auto modelDescriptor = _rnaSequence->getModelDescriptor();
+    _modelDescriptors.push_back(modelDescriptor);
     _scene.addModel(modelDescriptor);
     auto protein = _rnaSequence->getProtein();
     if (protein)

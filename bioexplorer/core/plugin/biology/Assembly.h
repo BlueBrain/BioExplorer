@@ -184,6 +184,7 @@ private:
     Vector3f _position;
     Quaterniond _rotation;
     Vector4fs _clippingPlanes;
+    ModelDescriptors _modelDescriptors;
 };
 } // namespace biology
 } // namespace bioexplorer

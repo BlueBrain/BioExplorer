@@ -214,7 +214,9 @@ void Molecule::_computeReqSetOffset()
             theoreticalReqSeq += aminoAcidMap.find(aa)->second.shortName;
 
         sequence.second.offset =
-            theoreticalReqSeq.find(physicalReqSeq) - firstReqSeq;
+            (theoreticalReqSeq.empty()
+                 ? 0
+                 : theoreticalReqSeq.find(physicalReqSeq) - firstReqSeq);
         PLUGIN_INFO("Sequence [" << sequence.first
                                  << "], offset: " << sequence.second.offset
                                  << ", Theoretical: " << theoreticalReqSeq
@@ -476,9 +478,9 @@ void Molecule::_buildModel(const std::string& assemblyName,
     }
     }
 
-    PLUGIN_INFO("Protein model successfully built");
+    PLUGIN_INFO("Molecule model successfully built");
 
-    PLUGIN_INFO("---===  Protein  ===--- ");
+    PLUGIN_INFO("---=== Molecule ===--- ");
     PLUGIN_INFO("Assembly name         : " << assemblyName);
     PLUGIN_INFO("Name                  : " << name);
     PLUGIN_INFO("Atom Radius multiplier: " << atomRadiusMultiplier);

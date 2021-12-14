@@ -56,7 +56,7 @@ public:
      *
      * @return const ProteinMap& list of proteins defining the membrane
      */
-    const ProteinMap &getProteins() const { return _proteins; }
+    const ProteinMap &getLipids() const { return _lipids; }
 
     virtual bool isInside(const Vector3f &point) const = 0;
 
@@ -64,7 +64,7 @@ protected:
     Scene &_scene;
     const Vector3f _assemblyPosition;
     const Quaterniond _assemblyRotation;
-    ProteinMap _proteins;
+    ProteinMap _lipids;
     Vector4fs _clippingPlanes;
 };
 } // namespace biology

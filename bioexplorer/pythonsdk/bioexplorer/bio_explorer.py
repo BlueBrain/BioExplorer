@@ -828,7 +828,7 @@ class BioExplorer:
             clipping_planes=clipping_planes
         )
 
-        rs = random_seed + 10
+        rs = random_seed + 1
         count = 0
         for protein in cell.proteins:
             if protein.occurences != 0:
@@ -855,7 +855,7 @@ class BioExplorer:
                     chain_ids=protein.chain_ids
                 )
                 self.add_assembly_protein(_protein)
-                rs += 10
+                rs += 1
                 count += 1
 
         cell.membrane.representation = representation
@@ -1337,7 +1337,7 @@ class BioExplorer:
         params = dict()
         params["assemblyName"] = assembly_name
         params["name"] = name
-        params["contents"] = contents
+        params["lipidContents"] = contents
         params["shape"] = shape
         params["assemblyParams"] = assembly_params
         params["atomRadiusMultiplier"] = membrane.atom_radius_multiplier

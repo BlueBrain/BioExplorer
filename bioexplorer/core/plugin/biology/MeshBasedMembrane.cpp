@@ -55,17 +55,17 @@ bool MeshBasedMembrane::isInside(const Vector3f& point) const
     const Vector3f rayDirection = center - point;
     const float rayLength = length(rayDirection);
     const Vector3f direction = normalize(rayDirection);
-    for (const auto& protein : _proteins)
+    for (const auto& lipid : _lipids)
     {
-        const auto modelDescriptor = protein.second->getModelDescriptor();
-        const auto& proteinBounds = protein.second->getBounds();
+        const auto modelDescriptor = lipid.second->getModelDescriptor();
+        const auto& lipidBounds = lipid.second->getBounds();
         for (const auto& instance : modelDescriptor->getInstances())
         {
             const auto& tf = instance.getTransformation();
             const Vector3f& translation = tf.getTranslation();
             Boxf box;
-            box.merge(translation + proteinBounds.getMin());
-            box.merge(translation + proteinBounds.getMax());
+            box.merge(translation + lipidBounds.getMin());
+            box.merge(translation + lipidBounds.getMax());
             if (_rayBoxIntersection(point, direction, box, rayLength / 10.f,
                                     rayLength))
                 return false;
@@ -159,9 +159,9 @@ void MeshBasedMembrane::_processMeshAsProteinInstances()
         pd.loadNonPolymerChemicals = _details.loadNonPolymerChemicals;
 
         // Create model
-        ProteinPtr protein(new Protein(_scene, pd));
-        lipidAverageSize += protein->getBounds().getSize();
-        _proteins[pd.name] = std::move(protein);
+        ProteinPtr lipid(new Protein(_scene, pd));
+        lipidAverageSize += lipid->getBounds().getSize();
+        _lipids[pd.name] = std::move(lipid);
         ++i;
     }
     lipidAverageSize /= lipidContents.size();
@@ -238,7 +238,7 @@ void MeshBasedMembrane::_processMeshAsProteinInstances()
         const float instanceSurface = meshSurface / nbInstances;
 
         std::map<size_t, size_t> instanceCounts;
-        for (size_t i = 0; i < _proteins.size(); ++i)
+        for (size_t i = 0; i < _lipids.size(); ++i)
             instanceCounts[i] = 0;
 
         for (const auto& face : faces)
@@ -331,9 +331,9 @@ void MeshBasedMembrane::_processMeshAsProteinInstances()
                     continue;
 
                 // Instance
-                const size_t id = i % _proteins.size();
-                auto protein = _proteins[_getElementNameFromId(id)];
-                auto modelDescriptor = protein->getModelDescriptor();
+                const size_t id = i % _lipids.size();
+                auto lipid = _lipids[_getElementNameFromId(id)];
+                auto modelDescriptor = lipid->getModelDescriptor();
 
                 tf.setTranslation(translation);
                 if (instanceCounts[id] == 0)
@@ -365,7 +365,7 @@ void MeshBasedMembrane::_processMeshAsProteinInstances()
     // Add proteins to the scene
     for (size_t i = 0; i < lipidContents.size(); ++i)
         _scene.addModel(
-            _proteins[_getElementNameFromId(i)]->getModelDescriptor());
+            _lipids[_getElementNameFromId(i)]->getModelDescriptor());
 }
 
 void MeshBasedMembrane::_processMeshAsTriangles()
