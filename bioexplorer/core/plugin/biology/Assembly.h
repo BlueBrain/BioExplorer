@@ -27,6 +27,7 @@ namespace bioexplorer
 namespace biology
 {
 using namespace details;
+using namespace common;
 
 /**
  * @brief The Assembly class is a container for biological entities (proteins,
@@ -125,22 +126,25 @@ public:
         const ProteinInstanceTransformationDetails &details) const;
 
     /**
-     * @brief addParametricMembrane Add a parametric membrane to the assembly
-     * @param details Parametric membrane details
+     * @brief addMembrane Add a membrane to the assembly
+     * @param details Membrane details
      */
-    void addParametricMembrane(const ParametricMembraneDetails &details);
+    void addMembrane(const MembraneDetails &details);
 
     /**
-     * @brief addMeshBasedMembrane Add a mesh based membrane to the assembly
-     * @param details Details of the mesh based membrane
+     * @brief Get the Membrane object
+     *
+     * @return const MembranePtr
      */
-    void addMeshBasedMembrane(const MeshBasedMembraneDetails &details);
+    const MembranePtr getMembrane() const { return _membrane; }
 
     /**
      * @brief addRNASequence Add an RNA sequence to the assembly
      * @param details Details of the RNA sequence
      */
     void addRNASequence(const RNASequenceDetails &details);
+
+    const RNASequencePtr getRNASequence() { return _rnaSequence; }
 
     /**
      * @brief addProtein Add a protein to the assembly
@@ -163,17 +167,22 @@ public:
      */
     void addSugars(const SugarsDetails &details);
 
-    bool isInside(const Vector3f &point) const;
+    /**
+     * @brief Check if a location is inside the assembly
+     *
+     * @param point Location to check
+     * @return true if the location is inside
+     * @return false if the location is outside
+     */
+    bool isInside(const Vector3f &location) const;
 
 private:
     void _processInstances(ModelDescriptorPtr md, const std::string &name,
-                           const AssemblyShape shape,
-                           const floats &assemblyParams,
                            const size_t occurrences, const Vector3f &position,
-                           const Quaterniond &orientation,
+                           const Quaterniond &rotation,
                            const size_ts &allowedOccurrences,
-                           const size_t randomSeed,
-                           const PositionRandomizationType &randomizationType,
+                           const RandomizationDetails &randDetails,
+                           const float offset,
                            const AssemblyConstraints &constraints);
 
     AssemblyDetails _details;
@@ -185,6 +194,7 @@ private:
     Quaterniond _rotation;
     Vector4fs _clippingPlanes;
     ModelDescriptors _modelDescriptors;
+    ShapePtr _shape{nullptr};
 };
 } // namespace biology
 } // namespace bioexplorer

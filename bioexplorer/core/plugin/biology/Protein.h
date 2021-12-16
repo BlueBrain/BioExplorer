@@ -46,6 +46,9 @@ public:
      */
     ~Protein();
 
+    float getTransMembraneOffset() const { return _transMembraneOffset; }
+    float getTransMembraneRadius() const { return _transMembraneRadius; }
+
     /**
      * @brief Set the Color Scheme object
      *
@@ -167,6 +170,8 @@ private:
     // Class members
     ProteinDetails _details;
     GlycansMap _glycans;
+    float _transMembraneOffset{0.f};
+    float _transMembraneRadius;
     std::map<std::string, std::map<size_t, Boxf>> _aminoAcidBounds;
 };
 } // namespace biology

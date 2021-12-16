@@ -241,10 +241,15 @@ void BioExplorerPlugin::init()
             endPoint, [&](const GeneralSettingsDetails &payload)
             { return _setGeneralSettings(payload); });
 
-        endPoint = PLUGIN_API_PREFIX + "reset";
+        endPoint = PLUGIN_API_PREFIX + "reset-scene";
         PLUGIN_INFO("Registering '" + endPoint + "' endpoint");
-        actionInterface->registerRequest<Response>(endPoint,
-                                                   [&]() { return _reset(); });
+        actionInterface->registerRequest<Response>(endPoint, [&]()
+                                                   { return _resetScene(); });
+
+        endPoint = PLUGIN_API_PREFIX + "reset-camera";
+        PLUGIN_INFO("Registering '" + endPoint + "' endpoint");
+        actionInterface->registerRequest<Response>(endPoint, [&]()
+                                                   { return _resetCamera(); });
 
         endPoint = PLUGIN_API_PREFIX + "remove-assembly";
         PLUGIN_INFO("Registering '" + endPoint + "' endpoint");
@@ -314,17 +319,11 @@ void BioExplorerPlugin::init()
             endPoint, [&](const RNASequenceDetails &payload)
             { return _addRNASequence(payload); });
 
-        endPoint = PLUGIN_API_PREFIX + "add-parametric-membrane";
+        endPoint = PLUGIN_API_PREFIX + "add-membrane";
         PLUGIN_INFO("Registering '" + endPoint + "' endpoint");
-        actionInterface->registerRequest<ParametricMembraneDetails, Response>(
-            endPoint, [&](const ParametricMembraneDetails &payload)
-            { return _addParametricMembrane(payload); });
-
-        endPoint = PLUGIN_API_PREFIX + "add-mesh-based-membrane";
-        PLUGIN_INFO("Registering '" + endPoint + "' endpoint");
-        actionInterface->registerRequest<MeshBasedMembraneDetails, Response>(
-            endPoint, [&](const MeshBasedMembraneDetails &payload)
-            { return _addMeshBasedMembrane(payload); });
+        actionInterface->registerRequest<MembraneDetails, Response>(
+            endPoint, [&](const MembraneDetails &payload)
+            { return _addMembrane(payload); });
 
         endPoint = PLUGIN_API_PREFIX + "add-protein";
         PLUGIN_INFO("Registering '" + endPoint + "' endpoint");
@@ -364,21 +363,21 @@ void BioExplorerPlugin::init()
 
         endPoint = PLUGIN_API_PREFIX + "add-grid";
         PLUGIN_INFO("Registering '" + endPoint + "' endpoint");
-        actionInterface->registerNotification<AddGridDetails>(
+        actionInterface->registerRequest<AddGridDetails, Response>(
             endPoint,
-            [&](const AddGridDetails &payload) { _addGrid(payload); });
+            [&](const AddGridDetails &payload) { return _addGrid(payload); });
 
         endPoint = PLUGIN_API_PREFIX + "add-sphere";
         PLUGIN_INFO("Registering '" + endPoint + "' endpoint");
-        actionInterface->registerNotification<AddSphereDetails>(
-            endPoint,
-            [&](const AddSphereDetails &payload) { _addSphere(payload); });
+        actionInterface->registerRequest<AddSphereDetails, Response>(
+            endPoint, [&](const AddSphereDetails &payload)
+            { return _addSphere(payload); });
 
         endPoint = PLUGIN_API_PREFIX + "add-bounding-box";
         PLUGIN_INFO("Registering '" + endPoint + "' endpoint");
-        actionInterface->registerNotification<AddBoundingBoxDetails>(
+        actionInterface->registerRequest<AddBoundingBoxDetails, Response>(
             endPoint, [&](const AddBoundingBoxDetails &payload)
-            { _addBoundingBox(payload); });
+            { return _addBoundingBox(payload); });
 
         endPoint = PLUGIN_API_PREFIX + "get-model-ids";
         PLUGIN_INFO("Registering '" + endPoint + "' endpoint");
@@ -396,9 +395,9 @@ void BioExplorerPlugin::init()
 
         endPoint = PLUGIN_API_PREFIX + "set-materials";
         PLUGIN_INFO("Registering '" + endPoint + "' endpoint");
-        actionInterface->registerNotification<MaterialsDetails>(
-            endPoint,
-            [&](const MaterialsDetails &payload) { _setMaterials(payload); });
+        actionInterface->registerRequest<MaterialsDetails, Response>(
+            endPoint, [&](const MaterialsDetails &payload)
+            { return _setMaterials(payload); });
 
         endPoint = PLUGIN_API_PREFIX + "get-material-ids";
         PLUGIN_INFO("Registering '" + endPoint + "' endpoint");
@@ -535,7 +534,7 @@ Response BioExplorerPlugin::_getVersion() const
     return response;
 }
 
-Response BioExplorerPlugin::_reset()
+Response BioExplorerPlugin::_resetScene()
 {
     Response response;
     auto &scene = _api->getScene();
@@ -547,6 +546,14 @@ Response BioExplorerPlugin::_reset()
     scene.markModified();
     response.contents =
         "Removed " + std::to_string(modelDescriptors.size()) + " models";
+    return response;
+}
+
+Response BioExplorerPlugin::_resetCamera()
+{
+    Response response;
+    auto &camera = _api->getCamera();
+    camera.reset();
     return response;
 }
 
@@ -669,22 +676,15 @@ Response BioExplorerPlugin::_addRNASequence(
     ASSEMBLY_CALL_VOID(payload.assemblyName, addRNASequence(payload));
 }
 
-Response BioExplorerPlugin::_addParametricMembrane(
-    const ParametricMembraneDetails &payload) const
+Response BioExplorerPlugin::_addMembrane(const MembraneDetails &payload) const
 {
-    ASSEMBLY_CALL_VOID(payload.assemblyName, addParametricMembrane(payload));
-}
-
-Response BioExplorerPlugin::_addMeshBasedMembrane(
-    const MeshBasedMembraneDetails &payload) const
-{
-    ASSEMBLY_CALL_VOID(payload.assemblyName, addMeshBasedMembrane(payload));
+    ASSEMBLY_CALL_VOID(payload.assemblyName, addMembrane(payload));
 }
 
 Response BioExplorerPlugin::_addProtein(const ProteinDetails &payload) const
 {
     AssemblyConstraints constraints;
-    const auto values = split(payload.constraints, "|");
+    const auto values = split(payload.constraints, CONTENTS_DELIMITER);
     for (const auto &value : values)
     {
         const auto assemblyConstraintType =

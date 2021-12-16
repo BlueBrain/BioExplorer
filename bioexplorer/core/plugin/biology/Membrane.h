@@ -28,6 +28,8 @@ namespace bioexplorer
 {
 namespace biology
 {
+using namespace common;
+
 /**
  * @brief A Membrane object implements a 3D structure of a given shape, but with
  * a surface composed of instances of one or several proteins
@@ -39,11 +41,12 @@ public:
     /**
      * @brief Construct a new Membrane object
      *
-     * @param scene The 3D scene where the glycans are added
+     * @param scene The 3D scene where the membrane are added
      */
-    Membrane(Scene &scene, const Vector3f &assemblyPosition,
-             const Quaterniond &assemblyRotation,
-             const Vector4fs &clippingPlanes);
+    Membrane(const MembraneDetails &details, Scene &scene,
+             const Vector3f &assemblyPosition,
+             const Quaterniond &assemblyRotation, const ShapePtr shape,
+             const ProteinMap &transmembraneProteins);
 
     /**
      * @brief Destroy the Membrane object
@@ -58,14 +61,18 @@ public:
      */
     const ProteinMap &getLipids() const { return _lipids; }
 
-    virtual bool isInside(const Vector3f &point) const = 0;
+private:
+    void _processInstances();
+    std::string _getElementNameFromId(const size_t id) const;
 
-protected:
     Scene &_scene;
+    MembraneDetails _details;
+    uint64_t _nbOccurences;
+    const ProteinMap &_transmembraneProteins;
     const Vector3f _assemblyPosition;
     const Quaterniond _assemblyRotation;
     ProteinMap _lipids;
-    Vector4fs _clippingPlanes;
+    ShapePtr _shape{nullptr};
 };
 } // namespace biology
 } // namespace bioexplorer

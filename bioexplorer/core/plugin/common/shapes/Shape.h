@@ -22,7 +22,7 @@
 
 #include <plugin/common/Types.h>
 
-#include <brayns/common/types.h>
+#include <brayns/common/Transformation.h>
 
 namespace bioexplorer
 {
@@ -31,35 +31,70 @@ namespace common
 using namespace details;
 using namespace brayns;
 
-Quaterniond weightedRandomRotation(const size_t seed, const size_t index,
-                                   const Quaterniond& q, const float s);
+class Shape
+{
+public:
+    Shape(const Vector4fs& clippingPlanes);
+    ~Shape();
 
-/**
- * @brief Generate a random quaternion
- *
- * @param seed Seed to apply to the randomness
- * @return Quaterniond Random quaternion
- */
-Quaterniond randomQuaternion(const size_t seed);
+    virtual Transformation getTransformation(
+        const uint64_t occurence, const uint64_t nbOccurences,
+        const RandomizationDetails& randDetails, const float offset) const = 0;
 
-/**
- * @brief getSphericalPosition Provide a random position and rotation on a
- * sphere
- *
- * @param rnd Random seed for the position on the sphere
- * @param center Center of the sphere in the 3D scene
- * @param radius Radius of the sphere
- * @param occurence Occurence of the position amongst the maximum of occurences
- * (see next parameters)
- * @param occurences Maximum number of occurences on the sphere
- * @param randInfo Type of randomization to apply to the position and
- * rotation
- * @return Transformation of the random position and rotation on the sphere
- */
-Transformation getSphericalPosition(const Vector3f& position,
-                                    const float radius, const size_t occurence,
-                                    const size_t occurences,
-                                    const RandomizationDetails& randInfo);
+    virtual Transformation getTransformation(
+        const uint64_t occurence, const uint64_t nbOccurences,
+        const RandomizationDetails& randDetails, const float offset,
+        const float morphingStep) const = 0;
+
+    virtual bool isInside(const Vector3f& point) const = 0;
+
+    float getSurface() const { return _surface; }
+
+    Boxf getBounds() const { return _bounds; }
+
+    static Quaterniond weightedRandomRotation(const Quaterniond& q,
+                                              const size_t seed,
+                                              const size_t index,
+                                              const float s);
+
+    /**
+     * @brief Return a random float between -0.5 and 0.5
+     *
+     * @return float A random float between -0.5 and 0.5
+     */
+    static float rnd1();
+
+    /**
+     * @brief Return a predefined random float between -0.5 and 0.5
+     *
+     * @param index Index of the random float in a predefined array
+     * @return float A random float between -0.5 and 0.5
+     */
+    static float rnd2(const uint64_t index);
+
+    /**
+     * @brief Return a controlled random float between -0.5 and 0.5, currently a
+     * sinusoidal function
+     *
+     * @param index Index of the random float in a sinusoidal function
+     * @return float A random float between -0.5 and 0.5
+     */
+    static float rnd3(const uint64_t index);
+
+protected:
+    /**
+     * @brief Generate a random quaternion
+     *
+     * @param seed Seed to apply to the randomness
+     * @return Quaterniond Random quaternion
+     */
+    Quaterniond randomQuaternion(const size_t seed) const;
+
+protected:
+    Boxf _bounds;
+    float _surface;
+    Vector4fs _clippingPlanes;
+};
 
 /**
  * @brief Get a random position in a 2D square along the X and Z axis
@@ -155,30 +190,6 @@ Transformation getSphericalToPlanarPosition(
     const Vector3f& center, const float radius, const size_t occurence,
     const size_t occurences, const RandomizationDetails& randInfo,
     const float morphingStep);
-
-/**
- * @brief Return a random float between -0.5 and 0.5
- *
- * @return float A random float between -0.5 and 0.5
- */
-float rnd1();
-
-/**
- * @brief Return a predefined random float between -0.5 and 0.5
- *
- * @param index Index of the random float in a predefined array
- * @return float A random float between -0.5 and 0.5
- */
-float rnd2(const size_t index);
-
-/**
- * @brief Return a controlled random float between -0.5 and 0.5, currently a
- * sinusoidal function
- *
- * @param index Index of the random float in a sinusoidal function
- * @return float A random float between -0.5 and 0.5
- */
-float rnd3(const size_t index);
 
 } // namespace common
 } // namespace bioexplorer

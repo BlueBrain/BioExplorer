@@ -25,6 +25,7 @@
 #include <plugin/common/GeneralSettings.h>
 #include <plugin/common/Logs.h>
 #include <plugin/common/Utils.h>
+#include <plugin/common/shapes/Shape.h>
 
 #include <brayns/engineapi/Material.h>
 
@@ -32,20 +33,141 @@ namespace bioexplorer
 {
 namespace biology
 {
-Membrane::Membrane(Scene& scene, const Vector3f& assemblyPosition,
-                   const Quaterniond& assemblyRotation,
-                   const Vector4fs& clippingPlanes)
+Membrane::Membrane(const MembraneDetails& details, Scene& scene,
+                   const Vector3f& assemblyPosition,
+                   const Quaterniond& assemblyRotation, const ShapePtr shape,
+                   const ProteinMap& transmembraneProteins)
     : _scene(scene)
+    , _details(details)
+    , _nbOccurences{0}
+    , _transmembraneProteins(transmembraneProteins)
     , _assemblyPosition(assemblyPosition)
     , _assemblyRotation(assemblyRotation)
-    , _clippingPlanes(clippingPlanes)
+    , _shape(shape)
 {
+    // Lipid models
+    std::vector<std::string> lipidContents =
+        split(_details.lipidContents, CONTENTS_DELIMITER);
+
+    float lipidAverageSize = 0.f;
+    size_t i = 0;
+    for (const auto& lipidContent : lipidContents)
+    {
+        ProteinDetails pd;
+        pd.assemblyName = _details.assemblyName;
+        pd.name = _getElementNameFromId(i);
+        pd.contents = lipidContent;
+        pd.recenter = true;
+        pd.atomRadiusMultiplier = _details.atomRadiusMultiplier;
+        pd.representation = _details.representation;
+        pd.loadBonds = _details.loadBonds;
+        pd.loadNonPolymerChemicals = _details.loadNonPolymerChemicals;
+
+        // Create model
+        ProteinPtr lipid(new Protein(_scene, pd));
+        const auto& lipidSize = lipid->getBounds().getSize();
+        lipidAverageSize +=
+            std::min(lipidSize.x, std::min(lipidSize.y, lipidSize.z));
+        _lipids[pd.name] = std::move(lipid);
+        ++i;
+    }
+    lipidAverageSize /= lipidContents.size();
+
+    _nbOccurences =
+        _shape->getSurface() / (lipidAverageSize * lipidAverageSize);
+
+    _processInstances();
+
+    // Add models to the scene
+    for (size_t i = 0; i < lipidContents.size(); ++i)
+        _scene.addModel(
+            _lipids[_getElementNameFromId(i)]->getModelDescriptor());
 }
 
 Membrane::~Membrane()
 {
     for (const auto& lipid : _lipids)
         _scene.removeModel(lipid.second->getModelDescriptor()->getModelID());
+}
+
+void Membrane::_processInstances()
+{
+    const auto rotation = floatsToQuaterniond(_details.lipidRotation);
+    const auto randDetails =
+        floatsToRandomizationDetails(_details.randomParams);
+
+    std::map<size_t, size_t> instanceCounts;
+    for (size_t i = 0; i < _lipids.size(); ++i)
+        instanceCounts[i] = 0;
+
+    for (uint64_t occurence = 0; occurence < _nbOccurences; ++occurence)
+    {
+        const size_t id = occurence % _lipids.size();
+        auto lipid = _lipids[_getElementNameFromId(id)];
+        auto md = lipid->getModelDescriptor();
+
+        const auto& model = md->getModel();
+        const auto& bounds = model.getBounds();
+        const Vector3f& center = bounds.getCenter();
+
+        Transformations transformations;
+
+        Transformation assemblyTransformation;
+        assemblyTransformation.setTranslation(_assemblyPosition);
+        assemblyTransformation.setRotation(_assemblyRotation);
+        transformations.push_back(assemblyTransformation);
+
+        const auto shapeTransformation =
+            _shape->getTransformation(occurence, _nbOccurences, randDetails,
+                                      0.f);
+        // Clipping planes (TODO: MOVE TO SHAPE)
+        // if (isClipped(transformation.getTranslation(), _clippingPlanes))
+        //     continue;
+        transformations.push_back(shapeTransformation);
+
+        Transformation lipidTransformation;
+        lipidTransformation.setRotation(rotation);
+        transformations.push_back(lipidTransformation);
+
+        const Transformation finalTransformation =
+            combineTransformations(transformations);
+        const Vector3f& translation = finalTransformation.getTranslation();
+
+        // Collision with trans-membrane proteins
+        bool collision = false;
+        for (const auto& protein : _transmembraneProteins)
+        {
+            auto modelDescriptor = protein.second->getModelDescriptor();
+            const auto& instances = modelDescriptor->getInstances();
+            const auto& instanceSize =
+                modelDescriptor->getModel().getBounds().getSize();
+            for (const auto& instance : instances)
+            {
+                const auto& tf = instance.getTransformation();
+                const Vector3f& t = tf.getTranslation();
+                if (length(translation - t) <
+                    protein.second->getTransMembraneRadius())
+                {
+                    collision = true;
+                    break;
+                }
+            }
+        }
+        if (collision)
+            continue;
+
+        if (instanceCounts[id] == 0)
+            md->setTransformation(finalTransformation);
+        const ModelInstance instance(true, false, finalTransformation);
+        md->addInstance(instance);
+
+        instanceCounts[id] = instanceCounts[id] + 1;
+    }
+}
+
+std::string Membrane::_getElementNameFromId(const size_t id) const
+{
+    return _details.assemblyName + "_Membrane_" + std::to_string(id);
 }
 
 } // namespace biology

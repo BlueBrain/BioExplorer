@@ -22,8 +22,8 @@
 
 #include <plugin/biology/Glycans.h>
 #include <plugin/common/Logs.h>
-#include <plugin/common/Shapes.h>
 #include <plugin/common/Utils.h>
+#include <plugin/common/shapes/Shape.h>
 
 #include <brayns/engineapi/Material.h>
 #include <brayns/engineapi/Scene.h>
@@ -96,6 +96,12 @@ Protein::Protein(Scene& scene, const ProteinDetails& details)
 
     _buildAminoAcidBounds();
     _computeReqSetOffset();
+
+    // Trans-membrane information
+    const auto transmembraneParams =
+        floatsToVector2f(details.transmembraneParams);
+    _transMembraneOffset = transmembraneParams.x;
+    _transMembraneRadius = transmembraneParams.y;
 }
 
 Protein::~Protein()
@@ -417,8 +423,9 @@ void Protein::_processInstances(ModelDescriptorPtr md,
 
             if (randInfo.rotationSeed != 0)
                 rotation =
-                    weightedRandomRotation(randInfo.rotationSeed, i, rotation,
-                                           randInfo.rotationStrength);
+                    Shape::weightedRandomRotation(rotation,
+                                                  randInfo.rotationSeed, i,
+                                                  randInfo.rotationStrength);
 
             glycanTransformation.setRotation(moleculerotation * rotation);
 
@@ -459,7 +466,7 @@ void Protein::addGlycans(const SugarsDetails& details)
                                        details.rotation[2],
                                        details.rotation[3]});
 
-    const auto randInfo = floatsToRandomizationDetails(details.assemblyParams);
+    const auto randInfo = floatsToRandomizationDetails(details.randomParams);
     _processInstances(modelDescriptor, glycanPositions, glycanrotations,
                       proteinrotation, randInfo);
 
@@ -489,7 +496,7 @@ void Protein::addSugars(const SugarsDetails& details)
     auto modelDescriptor = glucoses->getModelDescriptor();
     const auto sugarRotation = floatsToQuaterniond(details.rotation);
 
-    const auto randInfo = floatsToRandomizationDetails(details.assemblyParams);
+    const auto randInfo = floatsToRandomizationDetails(details.randomParams);
     _processInstances(modelDescriptor, positions, rotations, sugarRotation,
                       randInfo);
 

@@ -26,6 +26,8 @@
 #include <brayns/common/transferFunction/TransferFunction.h>
 #include <brayns/engineapi/Model.h>
 
+#include <glm/gtx/matrix_decompose.hpp>
+
 namespace bioexplorer
 {
 namespace common
@@ -229,8 +231,19 @@ Vector4fs getClippingPlanes(const Scene& scene)
     return clipPlanes;
 }
 
+Vector2f floatsToVector2f(const floats& value)
+{
+    if (value.empty())
+        return Vector2f();
+    if (value.size() != 2)
+        PLUGIN_THROW("Invalid number of floats (2 expected)");
+    return Vector2f(value[0], value[1]);
+}
+
 Vector3f floatsToVector3f(const floats& value)
 {
+    if (value.empty())
+        return Vector3f();
     if (value.size() != 3)
         PLUGIN_THROW("Invalid number of floats (3 expected)");
     return Vector3f(value[0], value[1], value[2]);
@@ -238,6 +251,8 @@ Vector3f floatsToVector3f(const floats& value)
 
 Quaterniond floatsToQuaterniond(const floats& values)
 {
+    if (values.empty())
+        return Quaterniond();
     if (values.size() != 4)
         PLUGIN_THROW("Invalid number of floats (4 expected)");
     return Quaterniond(values[0], values[1], values[2], values[3]);
@@ -245,6 +260,8 @@ Quaterniond floatsToQuaterniond(const floats& values)
 
 Vector4fs floatsToVector4fs(const floats& values)
 {
+    if (values.empty())
+        return Vector4fs();
     if (values.size() % 4 != 0)
         PLUGIN_THROW("Clipping planes must be defined by 4 float values");
 
@@ -255,25 +272,14 @@ Vector4fs floatsToVector4fs(const floats& values)
     return clippingPlanes;
 }
 
-RandomizationDetails floatsToRandomizationDetails(
-    const floats& values, const float randomSeed,
-    const PositionRandomizationType randomizationType)
+RandomizationDetails floatsToRandomizationDetails(const floats& values)
 {
     RandomizationDetails randInfo;
-    randInfo.seed = randomSeed;
-    randInfo.randomizationType = randomizationType;
-    randInfo.positionSeed = (values.size() > PARAMS_OFFSET_POSITION_SEED
-                                 ? values[PARAMS_OFFSET_POSITION_SEED]
-                                 : 0.f);
-    randInfo.positionStrength = (values.size() > PARAMS_OFFSET_POSITION_STRENGTH
-                                     ? values[PARAMS_OFFSET_POSITION_STRENGTH]
-                                     : 0.f);
-    randInfo.rotationSeed = (values.size() > PARAMS_OFFSET_ROTATION_SEED
-                                 ? values[PARAMS_OFFSET_ROTATION_SEED]
-                                 : 0.f);
-    randInfo.rotationStrength = (values.size() > PARAMS_OFFSET_ROTATION_STRENGTH
-                                     ? values[PARAMS_OFFSET_ROTATION_STRENGTH]
-                                     : 0.f);
+    randInfo.seed = (values.size() > 0 ? values[0] : 0.f);
+    randInfo.positionSeed = (values.size() > 1 ? values[1] : 0.f);
+    randInfo.positionStrength = (values.size() > 2 ? values[2] : 0.f);
+    randInfo.rotationSeed = (values.size() > 3 ? values[3] : 0.f);
+    randInfo.rotationStrength = (values.size() > 4 ? values[4] : 0.f);
     return randInfo;
 }
 
@@ -295,6 +301,28 @@ std::vector<std::string> split(const std::string& s,
     }
     values.push_back(str);
     return values;
+}
+
+Transformation combineTransformations(const Transformations& transformations)
+{
+    Transformation transformation;
+    glm::mat4 finalMatrix;
+    for (const auto& transformation : transformations)
+    {
+        glm::mat4 matrix = transformation.toMatrix();
+        finalMatrix *= matrix;
+    }
+
+    glm::vec3 s;
+    glm::quat r;
+    glm::vec3 t;
+    glm::vec3 skew;
+    glm::vec4 perspective;
+    glm::decompose(finalMatrix, s, r, t, skew, perspective);
+
+    transformation.setTranslation(t);
+    transformation.setRotation(r);
+    return transformation;
 }
 
 } // namespace common

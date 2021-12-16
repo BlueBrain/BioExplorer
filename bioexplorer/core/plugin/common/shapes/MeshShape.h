@@ -20,9 +20,7 @@
 
 #pragma once
 
-#include "Membrane.h"
-
-#include <brayns/engineapi/Model.h>
+#include "Shape.h"
 
 #include <assimp/Importer.hpp>
 #include <assimp/postprocess.h>
@@ -31,49 +29,58 @@
 
 namespace bioexplorer
 {
-namespace biology
+namespace common
 {
-/**
- * @brief A MeshBasedMembrane object implements a 3D structure that has the
- * shape of a given OBJ Mesh, but with a surface composed of
- * instances of a protein. This class is typicaly used to create membranes with
- * a shape provided by a 3D Mesh
- *
- */
-class MeshBasedMembrane : public Membrane
+using namespace details;
+using namespace brayns;
+
+class MeshShape : public Shape
 {
 public:
+    MeshShape(const Vector3f& scale, const Vector4fs& clippingPlanes,
+              const std::string& contents);
+
     /**
-     * @brief Construct a new MeshBasedMembrane object
+     * @brief getTransformation Provide a random position and rotation on a
+     * sphere
      *
-     * @param scene The 3D scene where the glycans are added
-     * @param descriptor The data structure describing the MeshBasedMembrane,
-     * the protein, and the associated parameters
+     * @param occurence Occurence of the position amongst the maximum of
+     * occurences (see next parameters)
+     * @return Transformation of the random position and rotation on the fan
      */
-    MeshBasedMembrane(Scene& scene, const Vector3f& assemblyPosition,
-                      const Quaterniond& assemblyRotation,
-                      const Vector4fs& clippingPlanes,
-                      const MeshBasedMembraneDetails& details);
+    Transformation getTransformation(const uint64_t occurence,
+                                     const uint64_t nbOccurences,
+                                     const RandomizationDetails& randDetails,
+                                     const float offset) const final;
+
+    Transformation getTransformation(const uint64_t occurence,
+                                     const uint64_t nbOccurences,
+                                     const RandomizationDetails& randDetails,
+                                     const float offset,
+                                     const float morphingStep) const final;
 
     bool isInside(const Vector3f& point) const final;
 
 private:
-    void _processMesh();
-    void _processMeshAsTriangles();
-    void _processMeshAsProteinInstances();
-
     float _getSurfaceArea(const Vector3f& a, const Vector3f& b,
                           const Vector3f& c) const;
+
     Vector3f _toVector3f(const aiVector3D& v) const;
     Vector3f _toVector3f(const aiVector3D& v, const Vector3f& center,
-                         const Vector3f& scaling,
-                         const Quaterniond& rotation = Quaterniond()) const;
-    std::string _getElementNameFromId(const size_t id);
+                         const Vector3f& scale) const;
+    Vector3f _toVector3f(const aiVector3D& v, const Vector3f& center,
+                         const Vector3f& scale,
+                         const Quaterniond& rotation) const;
+
     bool _rayBoxIntersection(const Vector3f& origin, const Vector3f& direction,
                              const Boxf& box, const float t0,
                              const float t1) const;
 
-    MeshBasedMembraneDetails _details;
+    std::vector<Vector3ui> _faces;
+    floats _faceSurfaces;
+    Vector3fs _vertices;
+    Vector3fs _normals;
 };
-} // namespace biology
+
+} // namespace common
 } // namespace bioexplorer

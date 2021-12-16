@@ -35,9 +35,9 @@ using namespace brayns;
 // Consts
 const float BOND_RADIUS = 0.025f;
 const float DEFAULT_STICK_DISTANCE = 0.175f;
-const brayns::Vector3f UP_VECTOR = {0.f, 0.f, 1.f};
+const brayns::Vector3f UP_VECTOR = {0.f, 1.f, 0.f};
 
-const std::string PDB_CONTENTS_DELIMITER = "||||";
+const std::string CONTENTS_DELIMITER = "||||";
 
 // Metadata
 const std::string METADATA_ASSEMBLY = "Assembly";
@@ -66,15 +66,6 @@ const std::string ARG_OOC_UNLOAD_BRICKS = "--ooc-unload-bricks";
 const std::string ARG_OOC_SHOW_GRID = "--ooc-show-grid";
 const std::string ARG_OOC_NB_BRICKS_PER_CYCLE = "--ooc-nb-bricks-per-cycle";
 
-const size_t PARAMS_OFFSET_DIMENSION_1 = 0;
-const size_t PARAMS_OFFSET_DIMENSION_2 = 1;
-const size_t PARAMS_OFFSET_DIMENSION_3 = 2;
-const size_t PARAMS_OFFSET_POSITION_SEED = 3;
-const size_t PARAMS_OFFSET_POSITION_STRENGTH = 4;
-const size_t PARAMS_OFFSET_ROTATION_SEED = 5;
-const size_t PARAMS_OFFSET_ROTATION_STRENGTH = 6;
-const size_t PARAMS_OFFSET_EXTRA = 7;
-
 // Environment variables
 const std::string ENV_ROCKETS_DISABLE_SCENE_BROADCASTING =
     "ROCKETS_DISABLE_SCENE_BROADCASTING";
@@ -89,6 +80,7 @@ typedef std::vector<Vector3f> Vector3fs;
 typedef std::vector<Vector2ui> Vector2uis;
 typedef std::vector<uint32_t> uint32_ts;
 typedef std::map<std::string, std::string> CommandLineArguments;
+typedef std::vector<Transformation> Transformations;
 
 namespace details
 {
@@ -125,20 +117,9 @@ typedef struct
     bool loggingEnabled;
 } GeneralSettingsDetails;
 
-/**
- * @brief Model position randomization types
- *
- */
-enum class PositionRandomizationType
-{
-    circular = 0,
-    radial = 1
-};
-
 typedef struct
 {
     uint32_t seed;
-    PositionRandomizationType randomizationType;
     uint32_t positionSeed;
     float positionStrength;
     uint32_t rotationSeed;
@@ -146,10 +127,34 @@ typedef struct
 } RandomizationDetails;
 
 /**
+ * @brief Assembly shapes
+ *
+ */
+enum class AssemblyShape
+{
+    /** Point */
+    point = 0,
+    /** Spherical */
+    sphere = 1,
+    /** Planar */
+    plane = 2,
+    /** Sinusoidal */
+    sinusoid = 3,
+    /** Cubic */
+    cube = 4,
+    /** Fan */
+    fan = 5,
+    /** Bezier (experimental) */
+    bezier = 6,
+    /** mesh-based */
+    mesh = 7
+};
+
+/**
  * @brief Shapes that can be used to enroll RNA into the virus capsid
  *
  */
-enum class RNAShape
+enum class RNAShapeType
 {
     /** Trefoil knot */
     trefoilKnot = 0,
@@ -175,6 +180,12 @@ typedef struct
 {
     /** Name of the assembly */
     std::string name;
+    /** Shape of the assembly containing the parametric membrane */
+    AssemblyShape shape;
+    /** Shape parameters */
+    std::vector<float> shapeParams;
+    /** Contents of the mesh for mesh-based shapes */
+    std::string shapeMeshContents;
     /** Position of the assembly in the scene */
     std::vector<float> position;
     /** rotation of the assembly in the scene */
@@ -219,29 +230,7 @@ enum class ProteinRepresentation
 };
 
 /**
- * @brief Assembly shapes
- *
- */
-enum class AssemblyShape
-{
-    /** Spherical */
-    spherical = 0,
-    /** Planar */
-    planar = 1,
-    /** Sinusoidal */
-    sinusoidal = 2,
-    /** Cubic */
-    cubic = 3,
-    /** Fan */
-    fan = 4,
-    /** Bezier (experimental) */
-    bezier = 5,
-    /** Sphere to plane */
-    spherical_to_planar = 6
-};
-
-/**
- * @brief A Parametric membrane is a shaped assembly of phospholipids
+ * @brief A membrane is a shaped assembly of phospholipids
  *
  */
 typedef struct
@@ -253,10 +242,8 @@ typedef struct
     /** String containing a list of PDB description for the lipids, delimited by
      * PDB_CONTENTS_DELIMITER */
     std::string lipidContents;
-    /** Shape of the assembly containing the parametric membrane */
-    AssemblyShape shape;
-    /** Parameters of the assembly shape */
-    std::vector<float> assemblyParams;
+    /** Relative rotation of the lipid in the membrane */
+    std::vector<float> lipidRotation;
     /** Multiplier applied to the radius of the lipid atoms */
     float atomRadiusMultiplier;
     /** Enable the loading of lipid bonds */
@@ -270,15 +257,9 @@ typedef struct
     std::vector<size_t> chainIds;
     /** Recenters the lipid  */
     bool recenter;
-    /** Number of lipid occurences to be added to the assembly */
-    size_t occurrences;
-    /** Seed for position randomization */
-    size_t randomSeed;
-    /** Type of randomisation for the elements of the assembly */
-    PositionRandomizationType positionRandomizationType;
-    /** Relative rotation of the lipid in the assembly */
-    std::vector<float> rotation;
-} ParametricMembraneDetails;
+    /** Extra optional parameters for positioning on the molecule */
+    std::vector<float> randomParams;
+} MembraneDetails;
 
 // Protein
 typedef struct
@@ -289,10 +270,6 @@ typedef struct
     std::string name;
     /** String containing a PDB representation of the protein */
     std::string contents;
-    /** Shape of the assembly containing the protein */
-    AssemblyShape shape;
-    /** Parameters of the assembly shape */
-    std::vector<float> assemblyParams;
     /** Multiplier applied to the radius of the protein atoms */
     float atomRadiusMultiplier{1.f};
     /** Enable the loading of protein bonds */
@@ -314,11 +291,10 @@ typedef struct
     /** Indices of protein occurences in the assembly for which proteins are
      * added */
     std::vector<size_t> allowedOccurrences;
-    /** Seed for position randomization */
-    size_t randomSeed{0};
-    /** Type of randomisation for the elements of the assembly */
-    PositionRandomizationType positionRandomizationType{
-        PositionRandomizationType::circular};
+    /** Trans-membrane parameters */
+    std::vector<float> transmembraneParams;
+    /** Extra optional parameters for positioning on the molecule */
+    std::vector<float> randomParams;
     /** Relative position of the protein in the assembly */
     std::vector<float> position;
     /** Relative rotation of the protein in the assembly */
@@ -344,11 +320,11 @@ typedef struct
     std::string contents;
     /** Name of the protein on which glycans are added */
     std::string proteinName;
-    /** Multiplier applied to the radius of the protein atoms */
+    /** Multiplier applied to the radius of the molecule atoms */
     float atomRadiusMultiplier;
-    /** Enable the loading of protein bonds */
+    /** Enable the loading of molecule bonds */
     bool loadBonds;
-    /** Defines the representation of the protein (Atoms, atoms and sticks,
+    /** Defines the representation of the molecule (Atoms, atoms and sticks,
      * surface, etc) */
     ProteinRepresentation representation;
     /** Recenters the protein  */
@@ -357,57 +333,11 @@ typedef struct
     std::vector<size_t> chainIds;
     /** List of sites on which glycans can be added */
     std::vector<size_t> siteIndices;
-    /** Relative rotation of the glycans on the protein */
+    /** Relative rotation of the glycans on the molecule */
     std::vector<float> rotation;
-    /** Extra optional parameters for positioning on the protein */
-    std::vector<float> assemblyParams;
+    /** Extra optional parameters for positioning on the molecule */
+    std::vector<float> randomParams;
 } SugarsDetails;
-
-/**
- * @brief Data structure describing a mesh-based membrane based on the shape
- * of a mesh
- *
- */
-typedef struct
-{
-    /** Name of the assembly */
-    std::string assemblyName;
-    /** Name of the mesh of the assembly */
-    std::string name;
-    /** String containing an OBJ representation of the mesh */
-    std::string meshContents;
-    /** String containing an PDB representation of the lipids separated by
-     * PDB_CONTENTS_DELIMITER*/
-    std::string lipidContents;
-    /** Recenters the protein  */
-    bool recenter;
-    /** Density of proteins in surface of the mesh */
-    float density;
-    /** Fixed offset for the position of the protein above the surface of
-     * the mesh*/
-    float surfaceFixedOffset;
-    /** Variable (randomized) offset for the position of the protein above
-     * the surface of the mesh*/
-    float surfaceVariableOffset;
-    /** Parameters of the assembly shape */
-    std::vector<float> assemblyParams;
-    /** Multiplier applied to atom radius */
-    float atomRadiusMultiplier;
-    /** Enable the loading of protein bonds */
-    bool loadBonds{false};
-    /** Enable the loading of non polymer chemicals */
-    bool loadNonPolymerChemicals{false};
-    /** Representation of the protein (Atoms, atoms and sticks, etc) */
-    ProteinRepresentation representation;
-    /** Seed for randomization of the variable offset */
-    size_t randomSeed;
-    /** Relative position of the mesh in the assembly */
-    std::vector<float> position;
-    /** Relative rotation of the mesh in the assembly */
-    std::vector<float> rotation;
-    /** Scale of the mesh */
-    std::vector<float> scale;
-} MeshBasedMembraneDetails;
 
 /**
  * @brief RNA sequence descriptor
@@ -424,13 +354,15 @@ typedef struct
     /** A string containing an PDB representation of the N protein */
     std::string proteinContents;
     /** A given shape */
-    RNAShape shape;
-    /** Assembly parameters (size) */
-    std::vector<float> assemblyParams;
+    RNAShapeType shape;
+    /** Shape radius */
+    std::vector<float> shapeParams;
     /** Range of values used to compute the shape */
-    std::vector<float> range;
+    std::vector<float> valuesRange;
     /** Parameters used to compute the shape */
-    std::vector<float> params;
+    std::vector<float> curveParams;
+    /** Randomization params */
+    std::vector<float> randomParams;
     /** Relative position of the RNA sequence in the assembly */
     std::vector<float> position;
     /** Relative rotation of the RNA sequence in the assembly */
@@ -823,13 +755,6 @@ typedef std::vector<ModelDescriptorPtr> ModelDescriptors;
 class Membrane;
 typedef std::shared_ptr<Membrane> MembranePtr;
 
-class ParametricMembrane;
-typedef std::shared_ptr<ParametricMembrane> ParametricMembranePtr;
-
-class MeshBasedMembrane;
-typedef std::shared_ptr<MeshBasedMembrane> MeshBasedMembranePtr;
-typedef std::map<std::string, MeshBasedMembranePtr> MeshBasedMembraneMap;
-
 class Protein;
 typedef std::shared_ptr<Protein> ProteinPtr;
 typedef std::map<std::string, ProteinPtr> ProteinMap;
@@ -1013,5 +938,13 @@ namespace io
 class OOCManager;
 typedef std::shared_ptr<OOCManager> OOCManagerPtr;
 } // namespace io
+
+namespace common
+{
+class Shape;
+typedef std::shared_ptr<Shape> ShapePtr;
+class RNAShape;
+typedef std::shared_ptr<RNAShape> RNAShapePtr;
+} // namespace common
 
 } // namespace bioexplorer

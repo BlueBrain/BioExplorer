@@ -81,6 +81,14 @@ void setDefaultTransferFunction(Model& model);
 Vector4fs getClippingPlanes(const Scene& scene);
 
 /**
+ * @brief Converts a vector of floats into a 2D vector
+ *
+ * @param value Vector of floats
+ * @return Vector2f A 2D vector
+ */
+Vector2f floatsToVector2f(const floats& value);
+
+/**
  * @brief Converts a vector of floats into a 3D vector
  *
  * @param value Vector of floats
@@ -107,18 +115,15 @@ Vector4fs floatsToVector4fs(const floats& values);
 /**
  * @brief Converts a vector of floats into randomization details
  *
- * @param randomSeed Randomization seed
- * @param randomizationType Type of randomization
  * @param value Vector of floats
  * @return RandomizationDetails The randomization details
  */
-RandomizationDetails floatsToRandomizationDetails(
-    const floats& values, const float randomSeed = 0,
-    const PositionRandomizationType randomizationType =
-        PositionRandomizationType::radial);
+RandomizationDetails floatsToRandomizationDetails(const floats& values);
 
 std::vector<std::string> split(const std::string& s,
                                const std::string& delimiter);
+
+Transformation combineTransformations(const Transformations& transformations);
 
 } // namespace common
 } // namespace bioexplorer

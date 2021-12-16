@@ -44,8 +44,7 @@ bool from_json(AssemblyTransformationsDetails &param,
 
 bool from_json(RNASequenceDetails &param, const std::string &payload);
 
-bool from_json(ParametricMembraneDetails &param, const std::string &payload);
-bool from_json(MeshBasedMembraneDetails &param, const std::string &payload);
+bool from_json(MembraneDetails &param, const std::string &payload);
 
 bool from_json(ProteinDetails &param, const std::string &payload);
 std::string to_json(const ProteinDetails &payload);

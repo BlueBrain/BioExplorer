@@ -16,7 +16,8 @@
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
 
-#include <plugin/biology/MeshBasedMembrane.h>
+#include <plugin/biology/Assembly.h>
+#include <plugin/biology/Membrane.h>
 #include <plugin/biology/Protein.h>
 #include <plugin/common/Logs.h>
 
@@ -34,6 +35,8 @@ namespace tests
 using namespace bioexplorer;
 using namespace biology;
 
+const std::string folder = "./bioexplorer/pythonsdk/tests/test_files/";
+
 std::string getFileContents(const std::string& filename)
 {
     std::ifstream file(filename);
@@ -49,26 +52,25 @@ std::string getFileContents(const std::string& filename)
     return str;
 }
 
-MeshBasedMembraneDetails getDescriptor()
+AssemblyDetails getAssemblyDescriptor()
 {
-    const std::string folder = "./bioexplorer/pythonsdk/tests/test_files/";
-    MeshBasedMembraneDetails descriptor;
+    AssemblyDetails descriptor;
+    descriptor.name = "assembly";
+    descriptor.shape = AssemblyShape::mesh;
+    descriptor.shapeMeshContents = getFileContents(folder + "obj/suzanne.obj");
+    return descriptor;
+}
+
+MembraneDetails getMembraneDescriptor()
+{
+    MembraneDetails descriptor;
 
     descriptor.assemblyName = "test";
     descriptor.name = "test";
-    descriptor.meshContents = getFileContents(folder + "obj/suzanne.obj");
     descriptor.lipidContents =
         getFileContents(folder + "pdb/membrane/popc.pdb");
-    descriptor.recenter = true;
-    descriptor.density = 5.0;
-    descriptor.surfaceFixedOffset = 0.f;
-    descriptor.surfaceVariableOffset = 0.f;
-    descriptor.atomRadiusMultiplier = 1.f;
     descriptor.representation = ProteinRepresentation::atoms;
-    descriptor.randomSeed = 0;
-    descriptor.position = {0.f, 0.f, 0.f};
-    descriptor.rotation = {1.f, 0.f, 0.f, 0.f};
-    descriptor.scale = {2.5f, 2.5f, 2.5f};
+    descriptor.randomParams = {};
     return descriptor;
 }
 
@@ -78,13 +80,16 @@ BOOST_AUTO_TEST_CASE(meshBasedMembrane)
                                   "--plugin", "BioExplorer"};
     brayns::Brayns brayns(argv.size(), argv.data());
     auto& scene = brayns.getEngine().getScene();
-    MeshBasedMembrane meshBasedMembrane(scene, Vector3f(), Quaterniond(), {},
-                                        getDescriptor());
 
-    BOOST_CHECK(
-        meshBasedMembrane.getLipids().begin()->second->getAtoms().size() ==
-        426);
+    Assembly assembly(scene, getAssemblyDescriptor());
+    assembly.addMembrane(getMembraneDescriptor());
 
-    BOOST_CHECK(meshBasedMembrane.isInside(Vector3f(0.f, 0.f, 0.f)));
+    BOOST_CHECK(assembly.getMembrane()
+                    ->getLipids()
+                    .begin()
+                    ->second->getAtoms()
+                    .size() == 426);
+
+    BOOST_CHECK(assembly.isInside(Vector3f(0.f, 0.f, 0.f)));
 }
 } // namespace tests

@@ -22,13 +22,12 @@
 
 #include <plugin/biology/Node.h>
 
-#include <brayns/engineapi/Model.h>
-
 namespace bioexplorer
 {
 namespace biology
 {
 using namespace details;
+using namespace common;
 
 /**
  * @brief The RNASequence class
@@ -57,28 +56,17 @@ public:
     ProteinPtr getProtein() const { return _protein; }
 
 private:
-    void _getSegment(const float u, const float v, const float uStep,
-                     Vector3f& src, Vector3f& dst);
-    void _buildRNAAsProteinInstances(const Vector3f& U, const Vector3f& V,
-                                     const Quaterniond& rotation,
-                                     const RandomizationDetails& randInfo);
-    void _buildRNAAsCurve(const Vector3f& U, const Vector3f& V,
-                          const Quaterniond& rotation,
-                          const RandomizationDetails& randInfo);
-    Vector3f _trefoilKnot(float R, float t, const Vector3f& params);
-    Vector3f _torus(float R, float t, const Vector3f& params);
-    Vector3f _star(float R, float t);
-    Vector3f _spring(float R, float t, const Vector3f& params);
-    Vector3f _heart(float R, float u);
-    Vector3f _thing(float R, float t, const Vector3f& a);
-    Vector3f _moebius(float R, float u, float v);
+    void _buildRNAAsProteinInstances(const Quaterniond& rotation);
+    void _buildRNAAsCurve(const Quaterniond& rotation);
 
     Scene& _scene;
+    uint64_t _nbElements;
     RNASequenceDetails _details;
     RNASequenceMap _rnaSequenceMap;
     ProteinPtr _protein{nullptr};
     const Vector3f& _assemblyPosition;
     const Quaterniond& _assemblyRotation;
+    RNAShapePtr _shape{nullptr};
 };
 } // namespace biology
 } // namespace bioexplorer

@@ -55,8 +55,6 @@ ProteinDetails getProteinDescriptor()
     descriptor.name = "test";
     descriptor.contents = getFileContents(
         "./bioexplorer/pythonsdk/tests/test_files/pdb/6m1d.pdb");
-    descriptor.shape = AssemblyShape::spherical;
-    descriptor.assemblyParams = {0.f, 0.f};
     descriptor.atomRadiusMultiplier = 1.f;
     descriptor.loadBonds = true;
     descriptor.loadNonPolymerChemicals = true;
@@ -66,8 +64,7 @@ ProteinDetails getProteinDescriptor()
     descriptor.recenter = true;
     descriptor.occurrences = 1;
     descriptor.allowedOccurrences = {};
-    descriptor.randomSeed = 0;
-    descriptor.positionRandomizationType = PositionRandomizationType::circular;
+    descriptor.randomParams = {};
     descriptor.position = {0.f, 0.f, 0.f};
     descriptor.rotation = {0.f, 0.f, 0.f, 1.f};
     return descriptor;
