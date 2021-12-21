@@ -82,6 +82,8 @@ private:
     float _giStrength{0.f};
     float _giDistance{1e6f};
     ospray::uint32 _giSamples{0};
+
+    bool _matrixFilter{false};
 };
 } // namespace rendering
 } // namespace bioexplorer

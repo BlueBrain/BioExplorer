@@ -69,6 +69,8 @@ void AdvancedRenderer::commit()
     _maxBounces = getParam1i("maxBounces", 3);
     _randomNumber = rand() % 1000;
 
+    _matrixFilter = getParam("matrixFilter", 0);
+
     ispc::AdvancedRenderer_set(getIE(),
                                (_bgMaterial ? _bgMaterial->getIE() : nullptr),
                                _shadows, _softShadows, _softShadowsSamples,
@@ -76,7 +78,7 @@ void AdvancedRenderer::commit()
                                _randomNumber, _timestamp, spp, _lightPtr,
                                _lightArray.size(), _exposure, _fogThickness,
                                _fogStart, _useHardwareRandomizer, _maxBounces,
-                               _showBackground);
+                               _showBackground, _matrixFilter);
 }
 
 AdvancedRenderer::AdvancedRenderer()

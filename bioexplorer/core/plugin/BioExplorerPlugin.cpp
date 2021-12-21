@@ -132,6 +132,7 @@ void _addBioExplorerRenderer(Engine &engine)
                             false,
                             {"Use hardware accelerated randomizer"}});
     properties.setProperty({"showBackground", false, {"Show background"}});
+    properties.setProperty({"matrixFilter", false, {"Matrix filter"}});
     engine.addRendererType("bio_explorer", properties);
 }
 

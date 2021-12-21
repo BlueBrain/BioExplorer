@@ -969,9 +969,16 @@ inline vec3f AdvancedRenderer_shadeRay(
     const float fog = 1.f - color.w * (1.f - fogAttenuation);
 
     // Final color
-    const vec3f finalColor = make_vec3f(color) * (1.f - fog) + fog * bgColor;
     sample.alpha = min(1.f, color.w);
-    return make_vec3f(finalColor * self->exposure);
+    vec3f finalColor =
+        (make_vec3f(color) * (1.f - fog) + fog * bgColor) * self->exposure;
+
+    if (self->matrixFilter)
+        finalColor = make_vec3f(finalColor.x * 0.666f, finalColor.y * 0.8f,
+                                finalColor.z * 0.666f);
+
+    finalColor = clamp(finalColor, make_vec3f(0.f), make_vec3f(1.f));
+    return finalColor;
 }
 
 void AdvancedRenderer_renderSample(uniform Renderer* uniform _self,
@@ -1003,7 +1010,8 @@ export void AdvancedRenderer_set(
     void** uniform lights, const uniform uint32 numLights,
     const uniform float exposure, const uniform float fogThickness,
     const uniform float fogStart, const uniform bool useHardwareRandomizer,
-    const uniform uint32 maxBounces, const uniform bool showBackground)
+    const uniform uint32 maxBounces, const uniform bool showBackground,
+    const uniform bool matrixFilter)
 {
     uniform AdvancedRenderer* uniform self =
         (uniform AdvancedRenderer * uniform) _self;
@@ -1035,4 +1043,6 @@ export void AdvancedRenderer_set(
 
     self->randomNumber = randomNumber;
     self->maxBounces = maxBounces;
+
+    self->matrixFilter = matrixFilter;
 }

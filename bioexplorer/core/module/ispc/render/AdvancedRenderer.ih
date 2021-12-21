@@ -60,4 +60,7 @@ struct AdvancedRenderer
     // Fog
     float fogThickness;
     float fogStart;
+
+    // Matrix filter (just for fun)
+    bool matrixFilter;
 };
