@@ -164,7 +164,7 @@ private:
     void _processInstances(ModelDescriptorPtr md, const Vector3fs& positions,
                            const Quaternions& rotations,
                            const Quaterniond& proteinrotation,
-                           const RandomizationDetails& randInfo);
+                           const AnimationDetails& randInfo);
     void _buildAminoAcidBounds();
 
     // Class members

@@ -21,6 +21,7 @@
 #include "SphereShape.h"
 
 #include <plugin/common/Logs.h>
+#include <plugin/common/Utils.h>
 
 namespace bioexplorer
 {
@@ -41,17 +42,29 @@ SphereShape::SphereShape(const Vector4fs& clippingPlanes, const float radius)
 
 Transformation SphereShape::getTransformation(
     const uint64_t occurence, const uint64_t nbOccurences,
-    const RandomizationDetails& randDetails, const float offset) const
+    const AnimationDetails& animationDetails, const float offset) const
+{
+    if (animationDetails.morphingStep == 0.f)
+        return _getTransformation(occurence, nbOccurences, animationDetails,
+                                  offset);
+    else
+        return _getMorphedTransformation(occurence, nbOccurences,
+                                         animationDetails, offset);
+}
+
+Transformation SphereShape::_getTransformation(
+    const uint64_t occurence, const uint64_t nbOccurences,
+    const AnimationDetails& animationDetails, const float offset) const
 {
     size_t rnd = occurence;
-    if (nbOccurences != 0 && randDetails.seed != 0)
+    if (nbOccurences != 0 && animationDetails.seed != 0)
         rnd = rand() % nbOccurences;
 
     // Position randomizer
-    float R = _radius + (randDetails.positionSeed == 0
-                             ? randDetails.positionStrength
-                             : randDetails.positionStrength *
-                                   rnd3(randDetails.positionSeed + rnd));
+    float R = _radius + (animationDetails.positionSeed == 0
+                             ? animationDetails.positionStrength
+                             : animationDetails.positionStrength *
+                                   rnd3(animationDetails.positionSeed + rnd));
 
     // Sphere filling
     const float off = 2.f / nbOccurences;
@@ -65,11 +78,14 @@ Transformation SphereShape::getTransformation(
     const Vector3f d{x, y, z};
     const Vector3f pos = d * (R + offset);
 
+    if (isClipped(pos, _clippingPlanes))
+        throw std::runtime_error("Instance is clipped");
+
     // Rotation
     Quaterniond rot = quatLookAt(d, UP_VECTOR);
-    if (randDetails.rotationSeed != 0)
-        rot = weightedRandomRotation(rot, randDetails.rotationSeed, rnd,
-                                     randDetails.rotationStrength);
+    if (animationDetails.rotationSeed != 0)
+        rot = weightedRandomRotation(rot, animationDetails.rotationSeed, rnd,
+                                     animationDetails.rotationStrength);
 
     Transformation transformation;
     transformation.setTranslation(pos);
@@ -77,20 +93,19 @@ Transformation SphereShape::getTransformation(
     return transformation;
 }
 
-Transformation SphereShape::getTransformation(
+Transformation SphereShape::_getMorphedTransformation(
     const uint64_t occurence, const uint64_t nbOccurences,
-    const RandomizationDetails& randDetails, const float offset,
-    const float morphingStep) const
+    const AnimationDetails& animationDetails, const float offset) const
 {
     size_t rnd = occurence;
-    if (nbOccurences != 0 && randDetails.seed != 0)
+    if (nbOccurences != 0 && animationDetails.seed != 0)
         rnd = rand() % nbOccurences;
 
     // Position randomizer
-    float R = _radius + (randDetails.positionSeed == 0
-                             ? randDetails.positionStrength
-                             : randDetails.positionStrength *
-                                   rnd3(randDetails.positionSeed + rnd));
+    float R = _radius + (animationDetails.positionSeed == 0
+                             ? animationDetails.positionStrength
+                             : animationDetails.positionStrength *
+                                   rnd3(animationDetails.positionSeed + rnd));
 
     // Sphere filling
     const double off = 2.0 / nbOccurences;
@@ -103,13 +118,17 @@ Transformation SphereShape::getTransformation(
 
     const Vector3f startDir{x, y, z};
     const Vector3f startPos = (R + offset) * startDir;
+
+    if (isClipped(startPos, _clippingPlanes))
+        throw std::runtime_error("Instance is clipped");
+
     Vector3f endPos = startPos;
 
     Quaterniond startRotation = quatLookAt(startDir, UP_VECTOR);
-    if (randDetails.rotationSeed != 0)
+    if (animationDetails.rotationSeed != 0)
         startRotation =
-            weightedRandomRotation(startRotation, randDetails.rotationSeed, rnd,
-                                   randDetails.rotationStrength);
+            weightedRandomRotation(startRotation, animationDetails.rotationSeed,
+                                   rnd, animationDetails.rotationStrength);
 
     R = _radius;
     const float endRadius = R * 2.f;
@@ -119,14 +138,16 @@ Transformation SphereShape::getTransformation(
                           Vector3f(endRadius, 0.f, endRadius) *
                           normalize(Vector3f(startDir.x, 0.f, startDir.z));
 
-    const Quaterniond endRotation = quatLookAt({0.f, 1.f, 0.f}, UP_VECTOR);
+    const Quaterniond endRotation{0.f, 0.f, 0.707f, 0.707f};
     const Quaterniond finalRotation =
-        glm::lerp(startRotation, endRotation, double(morphingStep));
+        glm::lerp(startRotation, endRotation,
+                  double(animationDetails.morphingStep));
 
     // Final transformation
     Transformation transformation;
     const Vector3f finalTranslation =
-        endPos * morphingStep + startPos * (1.f - morphingStep);
+        endPos * animationDetails.morphingStep +
+        startPos * (1.f - animationDetails.morphingStep);
     transformation.setTranslation(finalTranslation);
     transformation.setRotation(finalRotation);
     return transformation;

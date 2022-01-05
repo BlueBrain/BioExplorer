@@ -21,6 +21,7 @@
 #include "CubeShape.h"
 
 #include <plugin/common/Logs.h>
+#include <plugin/common/Utils.h>
 
 namespace bioexplorer
 {
@@ -41,37 +42,34 @@ CubeShape::CubeShape(const Vector4fs& clippingPlanes, const Vector3f& size)
 
 Transformation CubeShape::getTransformation(
     const uint64_t occurence, const uint64_t nbOccurences,
-    const RandomizationDetails& randDetails, const float /*offset*/) const
+    const AnimationDetails& animationDetails, const float /*offset*/) const
 {
     Vector3f pos =
         Vector3f(rnd1() * _size.x, rnd1() * _size.y, rnd1() * _size.z);
+
+    if (isClipped(pos, _clippingPlanes))
+        throw std::runtime_error("Instance is clipped");
+
     Quaterniond dir;
 
-    if (randDetails.positionSeed != 0)
+    if (animationDetails.positionSeed != 0)
     {
-        const Vector3f posOffset = randDetails.positionStrength *
-                                   Vector3f(rnd2(randDetails.positionSeed),
-                                            rnd2(randDetails.positionSeed + 1),
-                                            rnd2(randDetails.positionSeed + 2));
+        const Vector3f posOffset =
+            animationDetails.positionStrength *
+            Vector3f(rnd2(occurence + animationDetails.positionSeed),
+                     rnd2(occurence + animationDetails.positionSeed + 1),
+                     rnd2(occurence + animationDetails.positionSeed + 2));
 
         pos += posOffset;
     }
 
-    if (randDetails.rotationSeed != 0)
-        dir = randomQuaternion(randDetails.rotationSeed);
+    if (animationDetails.rotationSeed != 0)
+        dir = randomQuaternion(animationDetails.rotationSeed);
 
     Transformation transformation;
     transformation.setTranslation(pos);
     transformation.setRotation(dir);
     return transformation;
-}
-
-Transformation CubeShape::getTransformation(
-    const uint64_t occurence, const uint64_t nbOccurences,
-    const RandomizationDetails& randDetails, const float offset,
-    const float /*morphingStep*/) const
-{
-    return getTransformation(occurence, nbOccurences, randDetails, offset);
 }
 
 bool CubeShape::isInside(const Vector3f& point) const

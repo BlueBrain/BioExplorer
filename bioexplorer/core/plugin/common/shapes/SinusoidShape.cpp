@@ -21,6 +21,7 @@
 #include "SinusoidShape.h"
 
 #include <plugin/common/Logs.h>
+#include <plugin/common/Utils.h>
 
 namespace bioexplorer
 {
@@ -46,20 +47,24 @@ float SinusoidShape::_sinusoide(const float x, const float z) const
 
 Transformation SinusoidShape::getTransformation(
     const uint64_t occurence, const uint64_t nbOccurences,
-    const RandomizationDetails& randDetails, const float offset) const
+    const AnimationDetails& animationDetails, const float offset) const
 {
     const float step = 0.01f;
     const float angle = 0.01f;
     float upOffset = 0.f;
-    if (randDetails.positionSeed != 0)
-        upOffset = randDetails.positionStrength *
-                   rnd3((randDetails.positionSeed + occurence) * 10);
+    if (animationDetails.positionSeed != 0)
+        upOffset = animationDetails.positionStrength *
+                   rnd3((animationDetails.positionSeed + occurence) * 10);
 
     const float x = rnd1() * _size.x;
     const float z = rnd1() * _size.z;
     const float y = upOffset + _size.y * _sinusoide(x * angle, z * angle);
 
     Vector3f pos = Vector3f(x, y, z);
+
+    if (isClipped(pos, _clippingPlanes))
+        throw std::runtime_error("Instance is clipped");
+
     const Vector3f v1 =
         Vector3f(x + step,
                  upOffset + _size.y * _sinusoide((x + step) * angle, z * angle),
@@ -74,9 +79,10 @@ Transformation SinusoidShape::getTransformation(
     // Rotation
     const Vector3f normal = cross(normalize(v1), normalize(v2));
     Quaterniond rot = quatLookAt(normal, UP_VECTOR);
-    if (randDetails.rotationSeed != 0)
-        rot = weightedRandomRotation(rot, randDetails.rotationSeed, occurence,
-                                     randDetails.rotationStrength);
+    if (animationDetails.rotationSeed != 0)
+        rot = weightedRandomRotation(rot, animationDetails.rotationSeed,
+                                     occurence,
+                                     animationDetails.rotationStrength);
 
     pos += normal * offset;
 
@@ -84,14 +90,6 @@ Transformation SinusoidShape::getTransformation(
     transformation.setTranslation(pos);
     transformation.setRotation(rot);
     return transformation;
-}
-
-Transformation SinusoidShape::getTransformation(
-    const uint64_t occurence, const uint64_t nbOccurences,
-    const RandomizationDetails& randDetails, const float offset,
-    const float /*morphingStep*/) const
-{
-    return getTransformation(occurence, nbOccurences, randDetails, offset);
 }
 
 bool SinusoidShape::isInside(const Vector3f& point) const

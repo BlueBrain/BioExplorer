@@ -119,12 +119,13 @@ typedef struct
 
 typedef struct
 {
-    uint32_t seed;
-    uint32_t positionSeed;
-    float positionStrength;
-    uint32_t rotationSeed;
-    float rotationStrength;
-} RandomizationDetails;
+    uint32_t seed{0};
+    uint32_t positionSeed{0};
+    float positionStrength{0.f};
+    uint32_t rotationSeed{0};
+    float rotationStrength{0.f};
+    float morphingStep{0.f};
+} AnimationDetails;
 
 /**
  * @brief Assembly shapes
@@ -258,7 +259,7 @@ typedef struct
     /** Recenters the lipid  */
     bool recenter;
     /** Extra optional parameters for positioning on the molecule */
-    std::vector<float> randomParams;
+    std::vector<float> animationParams;
 } MembraneDetails;
 
 // Protein
@@ -294,7 +295,7 @@ typedef struct
     /** Trans-membrane parameters */
     std::vector<float> transmembraneParams;
     /** Extra optional parameters for positioning on the molecule */
-    std::vector<float> randomParams;
+    std::vector<float> animationParams;
     /** Relative position of the protein in the assembly */
     std::vector<float> position;
     /** Relative rotation of the protein in the assembly */
@@ -336,7 +337,7 @@ typedef struct
     /** Relative rotation of the glycans on the molecule */
     std::vector<float> rotation;
     /** Extra optional parameters for positioning on the molecule */
-    std::vector<float> randomParams;
+    std::vector<float> animationParams;
 } SugarsDetails;
 
 /**
@@ -361,8 +362,8 @@ typedef struct
     std::vector<float> valuesRange;
     /** Parameters used to compute the shape */
     std::vector<float> curveParams;
-    /** Randomization params */
-    std::vector<float> randomParams;
+    /** Animation params */
+    std::vector<float> animationParams;
     /** Relative position of the RNA sequence in the assembly */
     std::vector<float> position;
     /** Relative rotation of the RNA sequence in the assembly */

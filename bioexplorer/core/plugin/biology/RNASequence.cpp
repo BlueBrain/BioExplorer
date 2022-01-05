@@ -62,6 +62,7 @@ NucleotidMap nucleotidMap{{'A', {0, "Adenine", {0.f, 0.f, 1.f}}},
                           {'C', {4, "Cytosine", {1.f, 1.f, 0.f}}}};
 
 RNASequence::RNASequence(Scene& scene, const RNASequenceDetails& details,
+                         const Vector4fs& clippingPlanes,
                          const Vector3f& assemblyPosition,
                          const Quaterniond& assemblyRotation)
     : Node()
@@ -79,8 +80,8 @@ RNASequence::RNASequence(Scene& scene, const RNASequenceDetails& details,
     const auto shapeParams = floatsToVector2f(_details.shapeParams);
     const auto valuesRange = floatsToVector2f(_details.valuesRange);
     const auto curveParams = floatsToVector3f(_details.curveParams);
-    const auto randDetails =
-        floatsToRandomizationDetails(_details.randomParams);
+    const auto animationDetails =
+        floatsToAnimationDetails(_details.animationParams);
 
     PLUGIN_INFO("Loading RNA sequence " << details.name << " from "
                                         << details.contents);
@@ -90,8 +91,9 @@ RNASequence::RNASequence(Scene& scene, const RNASequenceDetails& details,
     PLUGIN_INFO("- Position            : " << position);
     PLUGIN_INFO("- RNA Sequence length : " << _nbElements);
 
-    _shape = RNAShapePtr(new RNAShape(Vector4fs(), _details.shape, _nbElements,
-                                      shapeParams, valuesRange, curveParams));
+    _shape =
+        RNAShapePtr(new RNAShape(clippingPlanes, _details.shape, _nbElements,
+                                 shapeParams, valuesRange, curveParams));
 
     if (processAsProtein)
         _buildRNAAsProteinInstances(rotation);
@@ -101,7 +103,12 @@ RNASequence::RNASequence(Scene& scene, const RNASequenceDetails& details,
 
 void RNASequence::_buildRNAAsCurve(const Quaterniond& rotation)
 {
-#if 0
+    const auto& sequence = _details.contents;
+    const auto animationDetails =
+        floatsToAnimationDetails(_details.animationParams);
+    const auto shapeParams = floatsToVector2f(_details.shapeParams);
+    const auto radius = shapeParams.y;
+
     auto model = _scene.createModel();
 
     size_t materialId = 0;
@@ -123,48 +130,23 @@ void RNASequence::_buildRNAAsCurve(const Quaterniond& rotation)
     }
     PLUGIN_INFO("Created " << materialId << " materials");
 
-    const float uStep = (U.y - U.x) / U.z;
-    const float vStep = (V.y - V.x) / V.z;
-
-    const std::string& sequence = _details.contents;
-    const size_t nbElements = sequence.length();
-    const auto position = floatsToVector3f(_details.position);
-    const auto radius = _details.assemblyParams[5];
-
-    size_t elementId = 0;
-    for (float v(V.x); v < V.y; v += vStep)
+    const auto occurrences = _nbElements;
+    for (uint64_t occurrence = 0; occurrence < occurrences - 1; ++occurrence)
     {
-        for (float u(U.x); u < U.y; u += uStep)
+        const char letter = sequence[occurrence];
+        if (nucleotidMap.find(letter) != nucleotidMap.end())
         {
-            Vector3f src, dst;
-            _getSegment(u, v, uStep, src, dst);
+            const auto& codon = nucleotidMap[letter];
+            const auto materialId = codon.index;
 
-            const char letter = sequence[elementId];
-            if (nucleotidMap.find(letter) != nucleotidMap.end())
-            {
-                const auto& codon = nucleotidMap[letter];
-                const auto materialId = codon.index;
+            const auto src = _shape->getTransformation(occurrence, occurrences,
+                                                       animationDetails, 0.f);
+            const auto dst =
+                _shape->getTransformation(occurrence + 1, occurrences,
+                                          animationDetails, 0.f);
 
-                const Vector3f assemblyPosition =
-                    Vector3f(_assemblyRotation * Vector3d(_assemblyPosition));
-                const Vector3f translationSrc =
-                    assemblyPosition + position +
-                    Vector3f(_assemblyRotation * rotation * Vector3d(src));
-                const Vector3f translationDst =
-                    assemblyPosition + position +
-                    Vector3f(_assemblyRotation * rotation * Vector3d(dst));
-
-                model->addCylinder(materialId,
-                                   {translationSrc, translationDst, radius});
-                if (elementId == 0)
-                    model->addSphere(materialId, {translationSrc, radius});
-                if (elementId == nbElements - 1)
-                    model->addSphere(materialId, {translationDst, radius});
-            }
-
-            if (elementId >= nbElements)
-                break;
-            ++elementId;
+            model->addCylinder(materialId, {src.getTranslation(),
+                                            dst.getTranslation(), radius});
         }
     }
 
@@ -178,14 +160,13 @@ void RNASequence::_buildRNAAsCurve(const Quaterniond& rotation)
     if (_modelDescriptor &&
         !GeneralSettings::getInstance()->getModelVisibilityOnCreation())
         _modelDescriptor->setVisible(false);
-#endif
 }
 
 void RNASequence::_buildRNAAsProteinInstances(const Quaterniond& rotation)
 {
     const auto& sequence = _details.contents;
-    const auto randDetails =
-        floatsToRandomizationDetails(_details.randomParams);
+    const auto animationDetails =
+        floatsToAnimationDetails(_details.animationParams);
     const size_t nbElements = sequence.length();
     Vector3f position = Vector3f(0.f);
 
@@ -201,81 +182,56 @@ void RNASequence::_buildRNAAsProteinInstances(const Quaterniond& rotation)
     _protein = ProteinPtr(new Protein(_scene, pd));
     _modelDescriptor = _protein->getModelDescriptor();
 
+    const auto proteinBounds = _protein->getBounds().getSize();
+    const float proteinSize =
+        std::min(proteinBounds.x, std::min(proteinBounds.y, proteinBounds.z));
+    float proteinSpacing = 0.f;
+
+    Vector3f previousTranslation;
+
     const auto occurrences = _nbElements;
+    uint64_t nbInstances = 0;
     for (uint64_t occurrence = 0; occurrence < occurrences; ++occurrence)
     {
-        const auto transformation =
-            _shape->getTransformation(occurrence, occurrences, randDetails,
-                                      0.f);
+        try
+        {
+            Transformations transformations;
 
-        const char letter = sequence[occurrence];
-        if (nucleotidMap.find(letter) == nucleotidMap.end())
-            continue;
+            Transformation assemblyTransformation;
+            assemblyTransformation.setTranslation(_assemblyPosition);
+            assemblyTransformation.setRotation(_assemblyRotation);
+            transformations.push_back(assemblyTransformation);
 
-        if (occurrence == 0)
-            _modelDescriptor->setTransformation(transformation);
-        const ModelInstance instance(true, false, transformation);
-        _modelDescriptor->addInstance(instance);
+            const auto shapeTransformation =
+                _shape->getTransformation(occurrence, occurrences,
+                                          animationDetails, 0.f);
+            transformations.push_back(shapeTransformation);
+
+            const Transformation finalTransformation =
+                combineTransformations(transformations);
+
+            const Vector3f translation = finalTransformation.getTranslation();
+
+            if (nbInstances == 0)
+                _modelDescriptor->setTransformation(finalTransformation);
+            else
+            {
+                proteinSpacing += length(previousTranslation - translation);
+                if (proteinSpacing < proteinSize)
+                    continue;
+            }
+            previousTranslation = translation;
+            ++nbInstances;
+
+            const ModelInstance instance(true, false, finalTransformation);
+            _modelDescriptor->addInstance(instance);
+            proteinSpacing = 0.f;
+        }
+        catch (const std::runtime_error&)
+        {
+            // Instance is clipped
+        }
     }
-
-    // size_t elementId = 0;
-    // for (float v(V.x); v < V.y; v += vStep)
-    // {
-    //     for (float u(U.x); u < U.y; u += uStep)
-    //     {
-    //         Vector3f src, dst;
-    //         _getSegment(u, v, uStep, src, dst);
-
-    //         const char letter = sequence[elementId];
-    //         if (nucleotidMap.find(letter) != nucleotidMap.end())
-    //         {
-    //             const Vector3f direction = normalize(dst - src);
-    //             const Vector3f normal = cross(UP_VECTOR, direction);
-    //             if (elementId % 50 == 0)
-    //             {
-    //                 Transformation finalTransformation;
-
-    //                 float upOffset = 0.f;
-    //                 if (randDetails.positionSeed != 0)
-    //                     upOffset =
-    //                         randDetails.positionStrength *
-    //                         rnd3((randDetails.positionSeed + elementId) *
-    //                         10);
-
-    //                 const Vector3f translation =
-    //                     Vector3f(_assemblyRotation *
-    //                              Vector3d(_assemblyPosition)) +
-    //                     position +
-    //                     Vector3f(_assemblyRotation * rotation *
-    //                              Vector3d(src + normal * upOffset));
-    //                 finalTransformation.setTranslation(translation);
-
-    //                 Quaterniond instanceRotation =
-    //                     glm::quatLookAt(normal, UP_VECTOR);
-    //                 if (randDetails.rotationSeed != 0)
-    //                     instanceRotation =
-    //                         weightedRandomRotation(randDetails.rotationSeed,
-    //                                                elementId,
-    //                                                instanceRotation,
-    //                                                randDetails.rotationStrength);
-    //                 finalTransformation.setRotation(rotation *
-    //                                                 instanceRotation);
-
-    //                 if (elementId == 0)
-    //                     _modelDescriptor->setTransformation(
-    //                         finalTransformation);
-    //                 const ModelInstance instance(true, false,
-    //                                              finalTransformation);
-    //                 _modelDescriptor->addInstance(instance);
-    //             }
-    //         }
-
-    //         if (elementId >= nbElements)
-    //             break;
-    //         ++elementId;
-    //     }
-    // }
 }
-
 } // namespace biology
 } // namespace bioexplorer

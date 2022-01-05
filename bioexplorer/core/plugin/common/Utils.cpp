@@ -272,15 +272,16 @@ Vector4fs floatsToVector4fs(const floats& values)
     return clippingPlanes;
 }
 
-RandomizationDetails floatsToRandomizationDetails(const floats& values)
+AnimationDetails floatsToAnimationDetails(const floats& values)
 {
-    RandomizationDetails randInfo;
-    randInfo.seed = (values.size() > 0 ? values[0] : 0.f);
-    randInfo.positionSeed = (values.size() > 1 ? values[1] : 0.f);
-    randInfo.positionStrength = (values.size() > 2 ? values[2] : 0.f);
-    randInfo.rotationSeed = (values.size() > 3 ? values[3] : 0.f);
-    randInfo.rotationStrength = (values.size() > 4 ? values[4] : 0.f);
-    return randInfo;
+    AnimationDetails details;
+    details.seed = (values.size() > 0 ? values[0] : 0);
+    details.positionSeed = (values.size() > 1 ? values[1] : 0);
+    details.positionStrength = (values.size() > 2 ? values[2] : 0.f);
+    details.rotationSeed = (values.size() > 3 ? values[3] : 0);
+    details.rotationStrength = (values.size() > 4 ? values[4] : 0.f);
+    details.morphingStep = (values.size() > 5 ? values[5] : 0.f);
+    return details;
 }
 
 std::vector<std::string> split(const std::string& s,

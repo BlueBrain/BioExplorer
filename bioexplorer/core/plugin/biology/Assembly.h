@@ -181,7 +181,7 @@ private:
                            const size_t occurrences, const Vector3f &position,
                            const Quaterniond &rotation,
                            const size_ts &allowedOccurrences,
-                           const RandomizationDetails &randDetails,
+                           const AnimationDetails &animationDetails,
                            const float offset,
                            const AssemblyConstraints &constraints);
 

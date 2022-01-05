@@ -21,6 +21,7 @@
 #include "PlaneShape.h"
 
 #include <plugin/common/Logs.h>
+#include <plugin/common/Utils.h>
 
 namespace bioexplorer
 {
@@ -40,29 +41,24 @@ PlaneShape::PlaneShape(const Vector4fs& clippingPlanes, const Vector2f& size)
 
 Transformation PlaneShape::getTransformation(
     const uint64_t occurence, const uint64_t nbOccurences,
-    const RandomizationDetails& randDetails, const float offset) const
+    const AnimationDetails& animationDetails, const float offset) const
 {
     float up = 0.f;
-    if (randDetails.seed != 0)
-        up = rnd1() * randDetails.positionStrength;
+    if (animationDetails.seed != 0)
+        up = rnd1() * animationDetails.positionStrength;
 
     Vector3f pos{rnd1() * _size.x, up, rnd1() * _size.y};
     const Quaterniond rot{0.f, 0.f, 0.707f, 0.707f};
 
     pos += UP_VECTOR * offset;
 
+    if (isClipped(pos, _clippingPlanes))
+        throw std::runtime_error("Instance is clipped");
+
     Transformation transformation;
     transformation.setTranslation(pos);
     transformation.setRotation(rot);
     return transformation;
-}
-
-Transformation PlaneShape::getTransformation(
-    const uint64_t occurence, const uint64_t nbOccurences,
-    const RandomizationDetails& randDetails, const float offset,
-    const float /*morphingStep*/) const
-{
-    return getTransformation(occurence, nbOccurences, randDetails, offset);
 }
 
 bool PlaneShape::isInside(const Vector3f& point) const

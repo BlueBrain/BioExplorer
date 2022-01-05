@@ -70,9 +70,6 @@ MeshShape::MeshShape(const Vector3f& scale, const Vector4fs& clippingPlanes,
         for (uint64_t i = 0; i < mesh->mNumVertices; ++i)
         {
             const auto v = _toVector3f(mesh->mVertices[i], meshCenter, scale);
-            // Clipping planes
-            if (isClipped(v, _clippingPlanes))
-                continue;
             _vertices.push_back(v);
             _bounds.merge(v);
         }
@@ -84,6 +81,7 @@ MeshShape::MeshShape(const Vector3f& scale, const Vector4fs& clippingPlanes,
                 const Vector3ui face(mesh->mFaces[f].mIndices[0],
                                      mesh->mFaces[f].mIndices[1],
                                      mesh->mFaces[f].mIndices[2]);
+
                 _faces.push_back(face);
                 const auto faceSurface =
                     _getSurfaceArea(_vertices[face.x], _vertices[face.y],
@@ -130,7 +128,7 @@ MeshShape::MeshShape(const Vector3f& scale, const Vector4fs& clippingPlanes,
 
 Transformation MeshShape::getTransformation(
     const uint64_t occurence, const uint64_t nbOccurences,
-    const RandomizationDetails& randDetails, const float offset) const
+    const AnimationDetails& animationDetails, const float offset) const
 {
     const float instanceSurface = _surface / nbOccurences;
     const float expectedSurfaceCovering = instanceSurface * occurence;
@@ -158,6 +156,11 @@ Transformation MeshShape::getTransformation(
     Vector3f pos =
         _vertices[face.x] + v00 * coordinates.x + v01 * coordinates.y;
 
+    // Clipping planes
+    if (isClipped(pos, _clippingPlanes))
+        throw std::runtime_error("Instance is clipped");
+
+    // Normals
     const auto v10 = _vertices[face.x] - pos;
     const auto v11 = _vertices[face.y] - pos;
     const auto v12 = _vertices[face.z] - pos;
@@ -175,15 +178,16 @@ Transformation MeshShape::getTransformation(
                  0.f));
 
     Quaterniond rot = glm::quatLookAt(normal, UP_VECTOR);
-    if (randDetails.positionSeed != 0)
-        pos += randDetails.positionStrength *
-               Vector3f(rnd2(randDetails.positionSeed),
-                        rnd2(randDetails.positionSeed + 1),
-                        rnd2(randDetails.positionSeed + 2));
+    if (animationDetails.positionSeed != 0)
+        pos += animationDetails.positionStrength *
+               Vector3f(rnd2(animationDetails.positionSeed),
+                        rnd2(animationDetails.positionSeed + 1),
+                        rnd2(animationDetails.positionSeed + 2));
 
-    if (randDetails.rotationSeed != 0)
-        rot = weightedRandomRotation(rot, randDetails.rotationSeed, occurence,
-                                     randDetails.rotationStrength);
+    if (animationDetails.rotationSeed != 0)
+        rot = weightedRandomRotation(rot, animationDetails.rotationSeed,
+                                     occurence,
+                                     animationDetails.rotationStrength);
 
     pos += offset * normal;
 
@@ -191,14 +195,6 @@ Transformation MeshShape::getTransformation(
     transformation.setTranslation(pos);
     transformation.setRotation(rot);
     return transformation;
-}
-
-Transformation MeshShape::getTransformation(
-    const uint64_t occurence, const uint64_t nbOccurences,
-    const RandomizationDetails& randDetails, const float offset,
-    const float /*morphingStep*/) const
-{
-    return getTransformation(occurence, nbOccurences, randDetails, offset);
 }
 
 bool MeshShape::isInside(const Vector3f& point) const

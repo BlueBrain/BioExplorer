@@ -44,28 +44,21 @@ public:
      */
     Transformation getTransformation(const uint64_t occurence,
                                      const uint64_t nbOccurences,
-                                     const RandomizationDetails& randDetails,
+                                     const AnimationDetails& animationDetails,
                                      const float offset) const final;
-
-    /**
-     * @brief getTransformation Provide a random position and rotation on a
-     * sphere that morphs to a plane
-     *
-     * @param occurence Occurence of the position amongst the maximum of
-     * occurences (see next parameters)
-     * @param morphingStep Morphing step between 0 and 1. 0 is sphere, 1 is
-     * plane
-     * @return Transformation of the random position and rotation on the sphere
-     */
-    Transformation getTransformation(const uint64_t occurence,
-                                     const uint64_t nbOccurences,
-                                     const RandomizationDetails& randDetails,
-                                     const float offset,
-                                     const float morphingStep) const final;
 
     bool isInside(const Vector3f& point) const final;
 
 private:
+    Transformation _getTransformation(const uint64_t occurence,
+                                      const uint64_t nbOccurences,
+                                      const AnimationDetails& animationDetails,
+                                      const float offset) const;
+
+    Transformation _getMorphedTransformation(
+        const uint64_t occurence, const uint64_t nbOccurences,
+        const AnimationDetails& animationDetails, const float offset) const;
+
     float _radius;
 };
 

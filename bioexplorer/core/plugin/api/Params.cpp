@@ -251,7 +251,7 @@ bool from_json(RNASequenceDetails &param, const std::string &payload)
         FROM_JSON(param, js, curveParams);
         FROM_JSON(param, js, position);
         FROM_JSON(param, js, rotation);
-        FROM_JSON(param, js, randomParams);
+        FROM_JSON(param, js, animationParams);
     }
     catch (...)
     {
@@ -275,7 +275,7 @@ bool from_json(MembraneDetails &param, const std::string &payload)
         FROM_JSON(param, js, representation);
         FROM_JSON(param, js, chainIds);
         FROM_JSON(param, js, recenter);
-        FROM_JSON(param, js, randomParams);
+        FROM_JSON(param, js, animationParams);
     }
     catch (...)
     {
@@ -302,7 +302,7 @@ bool from_json(ProteinDetails &param, const std::string &payload)
         FROM_JSON(param, js, transmembraneParams);
         FROM_JSON(param, js, occurrences);
         FROM_JSON(param, js, allowedOccurrences);
-        FROM_JSON(param, js, randomParams);
+        FROM_JSON(param, js, animationParams);
         FROM_JSON(param, js, position);
         FROM_JSON(param, js, rotation);
         FROM_JSON(param, js, constraints);
@@ -332,7 +332,7 @@ std::string to_json(const ProteinDetails &payload)
         TO_JSON(payload, js, recenter);
         TO_JSON(payload, js, occurrences);
         TO_JSON(payload, js, allowedOccurrences);
-        TO_JSON(payload, js, randomParams);
+        TO_JSON(payload, js, animationParams);
         TO_JSON(payload, js, position);
         TO_JSON(payload, js, rotation);
         return js.dump();
@@ -360,7 +360,7 @@ bool from_json(SugarsDetails &param, const std::string &payload)
         FROM_JSON(param, js, chainIds);
         FROM_JSON(param, js, siteIndices);
         FROM_JSON(param, js, rotation);
-        FROM_JSON(param, js, randomParams);
+        FROM_JSON(param, js, animationParams);
     }
     catch (...)
     {

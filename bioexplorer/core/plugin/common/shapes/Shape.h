@@ -39,12 +39,7 @@ public:
 
     virtual Transformation getTransformation(
         const uint64_t occurence, const uint64_t nbOccurences,
-        const RandomizationDetails& randDetails, const float offset) const = 0;
-
-    virtual Transformation getTransformation(
-        const uint64_t occurence, const uint64_t nbOccurences,
-        const RandomizationDetails& randDetails, const float offset,
-        const float morphingStep) const = 0;
+        const AnimationDetails& animationDetails, const float offset) const = 0;
 
     virtual bool isInside(const Vector3f& point) const = 0;
 
@@ -106,7 +101,7 @@ protected:
  * @return Transformation of the random position and rotation on the plane
  */
 Transformation getPlanarPosition(const Vector3f& position, const float size,
-                                 const RandomizationDetails& randInfo);
+                                 const AnimationDetails& randInfo);
 
 /**
  * @brief Get the Cubic Position object
@@ -118,7 +113,7 @@ Transformation getPlanarPosition(const Vector3f& position, const float size,
  * @return Transformation of the random position and rotation on the plane
  */
 Transformation getCubicPosition(const Vector3f& center, const Vector3f& size,
-                                const RandomizationDetails& randInfo);
+                                const AnimationDetails& randInfo);
 
 /**
  * @brief Get the Cubic Position object
@@ -144,7 +139,7 @@ Transformation getSinosoidalPosition(const Vector3f& center,
                                      const Vector2f& size,
                                      const float amplitude,
                                      const size_t occurence,
-                                     const RandomizationDetails& randInfo);
+                                     const AnimationDetails& randInfo);
 
 /**
  * @brief Get the Fan Position object
@@ -160,7 +155,7 @@ Transformation getSinosoidalPosition(const Vector3f& center,
  */
 Transformation getFanPosition(const Vector3f& center, const float radius,
                               const size_t occurence, const size_t occurences,
-                              const RandomizationDetails& randInfo);
+                              const AnimationDetails& randInfo);
 
 /**
  * @brief Get the Bezier Position object
@@ -186,10 +181,12 @@ Transformation getBezierPosition(const Vector3fs& points, const float scale,
  * @param morphingStep
  * @return Transformation of the random position and rotation on the plane
  */
-Transformation getSphericalToPlanarPosition(
-    const Vector3f& center, const float radius, const size_t occurence,
-    const size_t occurences, const RandomizationDetails& randInfo,
-    const float morphingStep);
+Transformation getSphericalToPlanarPosition(const Vector3f& center,
+                                            const float radius,
+                                            const size_t occurence,
+                                            const size_t occurences,
+                                            const AnimationDetails& randInfo,
+                                            const float morphingStep);
 
 } // namespace common
 } // namespace bioexplorer

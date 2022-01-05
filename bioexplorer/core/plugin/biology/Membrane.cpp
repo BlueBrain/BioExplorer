@@ -73,8 +73,8 @@ Membrane::Membrane(const MembraneDetails& details, Scene& scene,
     }
     lipidAverageSize /= lipidContents.size();
 
-    _nbOccurences =
-        _shape->getSurface() / (lipidAverageSize * lipidAverageSize);
+    _nbOccurences = _shape->getSurface() / lipidAverageSize *
+                    2.f; // WHY DO I HAVE TO DOUBLE IT!
 
     _processInstances();
 
@@ -93,8 +93,9 @@ Membrane::~Membrane()
 void Membrane::_processInstances()
 {
     const auto rotation = floatsToQuaterniond(_details.lipidRotation);
-    const auto randDetails =
-        floatsToRandomizationDetails(_details.randomParams);
+    const auto animationDetails =
+        floatsToAnimationDetails(_details.animationParams);
+    srand(animationDetails.seed);
 
     std::map<size_t, size_t> instanceCounts;
     for (size_t i = 0; i < _lipids.size(); ++i)
@@ -102,66 +103,70 @@ void Membrane::_processInstances()
 
     for (uint64_t occurence = 0; occurence < _nbOccurences; ++occurence)
     {
-        const size_t id = occurence % _lipids.size();
-        auto lipid = _lipids[_getElementNameFromId(id)];
-        auto md = lipid->getModelDescriptor();
-
-        const auto& model = md->getModel();
-        const auto& bounds = model.getBounds();
-        const Vector3f& center = bounds.getCenter();
-
-        Transformations transformations;
-
-        Transformation assemblyTransformation;
-        assemblyTransformation.setTranslation(_assemblyPosition);
-        assemblyTransformation.setRotation(_assemblyRotation);
-        transformations.push_back(assemblyTransformation);
-
-        const auto shapeTransformation =
-            _shape->getTransformation(occurence, _nbOccurences, randDetails,
-                                      0.f);
-        // Clipping planes (TODO: MOVE TO SHAPE)
-        // if (isClipped(transformation.getTranslation(), _clippingPlanes))
-        //     continue;
-        transformations.push_back(shapeTransformation);
-
-        Transformation lipidTransformation;
-        lipidTransformation.setRotation(rotation);
-        transformations.push_back(lipidTransformation);
-
-        const Transformation finalTransformation =
-            combineTransformations(transformations);
-        const Vector3f& translation = finalTransformation.getTranslation();
-
-        // Collision with trans-membrane proteins
-        bool collision = false;
-        for (const auto& protein : _transmembraneProteins)
+        try
         {
-            auto modelDescriptor = protein.second->getModelDescriptor();
-            const auto& instances = modelDescriptor->getInstances();
-            const auto& instanceSize =
-                modelDescriptor->getModel().getBounds().getSize();
-            for (const auto& instance : instances)
+            const size_t id = occurence % _lipids.size();
+            auto lipid = _lipids[_getElementNameFromId(id)];
+            auto md = lipid->getModelDescriptor();
+
+            const auto& model = md->getModel();
+            const auto& bounds = model.getBounds();
+            const Vector3f& center = bounds.getCenter();
+
+            Transformations transformations;
+
+            Transformation assemblyTransformation;
+            assemblyTransformation.setTranslation(_assemblyPosition);
+            assemblyTransformation.setRotation(_assemblyRotation);
+            transformations.push_back(assemblyTransformation);
+
+            const auto shapeTransformation =
+                _shape->getTransformation(occurence, _nbOccurences,
+                                          animationDetails, 0.f);
+            transformations.push_back(shapeTransformation);
+
+            Transformation lipidTransformation;
+            lipidTransformation.setRotation(rotation);
+            transformations.push_back(lipidTransformation);
+
+            const Transformation finalTransformation =
+                combineTransformations(transformations);
+            const Vector3f& translation = finalTransformation.getTranslation();
+
+            // Collision with trans-membrane proteins
+            bool collision = false;
+            for (const auto& protein : _transmembraneProteins)
             {
-                const auto& tf = instance.getTransformation();
-                const Vector3f& t = tf.getTranslation();
-                if (length(translation - t) <
-                    protein.second->getTransMembraneRadius())
+                auto modelDescriptor = protein.second->getModelDescriptor();
+                const auto& instances = modelDescriptor->getInstances();
+                const auto& instanceSize =
+                    modelDescriptor->getModel().getBounds().getSize();
+                for (const auto& instance : instances)
                 {
-                    collision = true;
-                    break;
+                    const auto& tf = instance.getTransformation();
+                    const Vector3f& t = tf.getTranslation();
+                    if (length(translation - t) <
+                        protein.second->getTransMembraneRadius())
+                    {
+                        collision = true;
+                        break;
+                    }
                 }
             }
+            if (collision)
+                continue;
+
+            if (instanceCounts[id] == 0)
+                md->setTransformation(finalTransformation);
+            const ModelInstance instance(true, false, finalTransformation);
+            md->addInstance(instance);
+
+            instanceCounts[id] = instanceCounts[id] + 1;
         }
-        if (collision)
-            continue;
-
-        if (instanceCounts[id] == 0)
-            md->setTransformation(finalTransformation);
-        const ModelInstance instance(true, false, finalTransformation);
-        md->addInstance(instance);
-
-        instanceCounts[id] = instanceCounts[id] + 1;
+        catch (const std::runtime_error&)
+        {
+            // Instance is clipped
+        }
     }
 }
 

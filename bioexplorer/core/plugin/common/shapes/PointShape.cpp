@@ -21,6 +21,7 @@
 #include "PointShape.h"
 
 #include <plugin/common/Logs.h>
+#include <plugin/common/Utils.h>
 
 namespace bioexplorer
 {
@@ -37,22 +38,18 @@ PointShape::PointShape(const Vector4fs& clippingPlanes)
 
 Transformation PointShape::getTransformation(
     const uint64_t occurence, const uint64_t nbOccurences,
-    const RandomizationDetails& randDetails, const float offset) const
+    const AnimationDetails& animationDetails, const float offset) const
 {
     const Vector3f pos{0.f, 0.f, 0.f};
+
+    if (isClipped(pos, _clippingPlanes))
+        throw std::runtime_error("Instance is clipped");
+
     const Quaterniond rot{0, 0, 0, 1};
     Transformation transformation;
     transformation.setTranslation(pos);
     transformation.setRotation(rot);
     return transformation;
-}
-
-Transformation PointShape::getTransformation(
-    const uint64_t occurence, const uint64_t nbOccurences,
-    const RandomizationDetails& randDetails, const float offset,
-    const float /*morphingStep*/) const
-{
-    return getTransformation(occurence, nbOccurences, randDetails, offset);
 }
 
 bool PointShape::isInside(const Vector3f& point) const

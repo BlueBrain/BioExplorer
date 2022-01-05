@@ -21,6 +21,7 @@
 #include "FanShape.h"
 
 #include <plugin/common/Logs.h>
+#include <plugin/common/Utils.h>
 
 namespace bioexplorer
 {
@@ -41,15 +42,15 @@ FanShape::FanShape(const Vector4fs& clippingPlanes, const float radius)
 
 Transformation FanShape::getTransformation(
     const uint64_t occurence, const uint64_t nbOccurences,
-    const RandomizationDetails& randDetails, const float offset) const
+    const AnimationDetails& animationDetails, const float offset) const
 {
     size_t rnd = occurence;
-    if (nbOccurences != 0 && randDetails.seed != 0)
+    if (nbOccurences != 0 && animationDetails.seed != 0)
         rnd = rand() % nbOccurences;
 
     // Randomizer
     float R = _radius;
-    if (randDetails.seed != 0)
+    if (animationDetails.seed != 0)
         R *= 1.f + rnd1() / 30.f;
 
     // Sphere filling
@@ -63,20 +64,16 @@ Transformation FanShape::getTransformation(
     const Vector3f normal{x, y, z};
 
     const Vector3f pos = normal * (R + offset);
+
+    if (isClipped(pos, _clippingPlanes))
+        throw std::runtime_error("Instance is clipped");
+
     const Quaterniond rot = quatLookAt(normal, UP_VECTOR);
 
     Transformation transformation;
     transformation.setTranslation(pos);
     transformation.setRotation(rot);
     return transformation;
-}
-
-Transformation FanShape::getTransformation(
-    const uint64_t occurence, const uint64_t nbOccurences,
-    const RandomizationDetails& randDetails, const float offset,
-    const float /*morphingStep*/) const
-{
-    return getTransformation(occurence, nbOccurences, randDetails, offset);
 }
 
 bool FanShape::isInside(const Vector3f& point) const

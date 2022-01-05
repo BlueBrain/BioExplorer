@@ -44,14 +44,8 @@ public:
      */
     Transformation getTransformation(const uint64_t occurence,
                                      const uint64_t nbOccurences,
-                                     const RandomizationDetails& randDetails,
+                                     const AnimationDetails& animationDetails,
                                      const float offset) const final;
-
-    Transformation getTransformation(const uint64_t occurence,
-                                     const uint64_t nbOccurences,
-                                     const RandomizationDetails& randDetails,
-                                     const float offset,
-                                     const float morphingStep) const final;
 
     bool isInside(const Vector3f& point) const final;
 };

@@ -117,8 +117,8 @@ void Assembly::addProtein(const ProteinDetails &details,
 {
     ProteinPtr protein(new Protein(_scene, details));
     auto modelDescriptor = protein->getModelDescriptor();
-    const auto randomParams =
-        floatsToRandomizationDetails(details.randomParams);
+    const auto animationParams =
+        floatsToAnimationDetails(details.animationParams);
     const auto proteinPosition = floatsToVector3f(details.position);
     const auto proteinRotation = floatsToQuaterniond(details.rotation);
     const auto transmembraneParams =
@@ -126,7 +126,7 @@ void Assembly::addProtein(const ProteinDetails &details,
 
     _processInstances(modelDescriptor, details.name, details.occurrences,
                       proteinPosition, proteinRotation,
-                      details.allowedOccurrences, randomParams,
+                      details.allowedOccurrences, animationParams,
                       transmembraneParams.x, constraints);
 
     _proteins[details.name] = std::move(protein);
@@ -188,66 +188,69 @@ void Assembly::addGlycans(const SugarsDetails &details)
 void Assembly::_processInstances(
     ModelDescriptorPtr md, const std::string &name, const size_t occurrences,
     const Vector3f &position, const Quaterniond &rotation,
-    const size_ts &allowedOccurrences, const RandomizationDetails &randDetails,
+    const size_ts &allowedOccurrences, const AnimationDetails &animationDetails,
     const float offset, const AssemblyConstraints &constraints)
 {
-    srand(randDetails.seed);
+    srand(animationDetails.seed);
 
     // Shape
     uint64_t count = 0;
     for (uint64_t occurence = 0; occurence < occurrences; ++occurence)
     {
-        if (!allowedOccurrences.empty() &&
-            std::find(allowedOccurrences.begin(), allowedOccurrences.end(),
-                      occurence) == allowedOccurrences.end())
-            continue;
-
-        Transformations transformations;
-
-        Transformation assemblyTransformation;
-        assemblyTransformation.setTranslation(_position);
-        assemblyTransformation.setRotation(_rotation);
-        transformations.push_back(assemblyTransformation);
-
-        Transformation shapeTransformation =
-            _shape->getTransformation(occurence, occurrences, randDetails,
-                                      offset);
-
-        // TODO in shape
-        if (isClipped(shapeTransformation.getTranslation(), _clippingPlanes))
-            continue;
-
-        transformations.push_back(shapeTransformation);
-
-        Transformation proteinTransformation;
-        proteinTransformation.setTranslation(position);
-        proteinTransformation.setRotation(rotation);
-        transformations.push_back(proteinTransformation);
-
-        const Transformation finalTransformation =
-            combineTransformations(transformations);
-        const auto &translation = finalTransformation.getTranslation();
-
-        // Assembly constaints
-        bool addInstance = true;
-        for (const auto &constraint : constraints)
+        try
         {
-            if (constraint.first == AssemblyConstraintType::inside &&
-                !constraint.second->isInside(translation))
-                addInstance = false;
-            if (constraint.first == AssemblyConstraintType::outside &&
-                constraint.second->isInside(translation))
-                addInstance = false;
+            if (!allowedOccurrences.empty() &&
+                std::find(allowedOccurrences.begin(), allowedOccurrences.end(),
+                          occurence) == allowedOccurrences.end())
+                continue;
+
+            Transformations transformations;
+
+            Transformation assemblyTransformation;
+            assemblyTransformation.setTranslation(_position);
+            assemblyTransformation.setRotation(_rotation);
+            transformations.push_back(assemblyTransformation);
+
+            Transformation shapeTransformation =
+                _shape->getTransformation(occurence, occurrences,
+                                          animationDetails, offset);
+
+            transformations.push_back(shapeTransformation);
+
+            Transformation proteinTransformation;
+            proteinTransformation.setTranslation(position);
+            proteinTransformation.setRotation(rotation);
+            transformations.push_back(proteinTransformation);
+
+            const Transformation finalTransformation =
+                combineTransformations(transformations);
+            const auto &translation = finalTransformation.getTranslation();
+
+            // Assembly constaints
+            bool addInstance = true;
+            for (const auto &constraint : constraints)
+            {
+                if (constraint.first == AssemblyConstraintType::inside &&
+                    !constraint.second->isInside(translation))
+                    addInstance = false;
+                if (constraint.first == AssemblyConstraintType::outside &&
+                    constraint.second->isInside(translation))
+                    addInstance = false;
+            }
+            if (!addInstance)
+                continue;
+
+            if (count == 0)
+                md->setTransformation(finalTransformation);
+            const ModelInstance instance(true, false, finalTransformation);
+            md->addInstance(instance);
+
+            ++count;
         }
-        if (!addInstance)
-            continue;
-
-        if (count == 0)
-            md->setTransformation(finalTransformation);
-        const ModelInstance instance(true, false, finalTransformation);
-        md->addInstance(instance);
-
-        ++count;
+        catch (const std::runtime_error &)
+        {
+            // Instance is clipped
+        }
     }
 }
 
@@ -367,8 +370,8 @@ void Assembly::addRNASequence(const RNASequenceDetails &details)
     for (size_t i = 0; i < 3; ++i)
         rd.position[i] += _details.position[i];
 
-    _rnaSequence =
-        RNASequencePtr(new RNASequence(_scene, rd, _position, _rotation));
+    _rnaSequence = RNASequencePtr(
+        new RNASequence(_scene, rd, _clippingPlanes, _position, _rotation));
     const auto modelDescriptor = _rnaSequence->getModelDescriptor();
     _modelDescriptors.push_back(modelDescriptor);
     _scene.addModel(modelDescriptor);

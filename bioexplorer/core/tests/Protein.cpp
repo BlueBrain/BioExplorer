@@ -64,7 +64,7 @@ ProteinDetails getProteinDescriptor()
     descriptor.recenter = true;
     descriptor.occurrences = 1;
     descriptor.allowedOccurrences = {};
-    descriptor.randomParams = {};
+    descriptor.animationParams = {};
     descriptor.position = {0.f, 0.f, 0.f};
     descriptor.rotation = {0.f, 0.f, 0.f, 1.f};
     return descriptor;

@@ -406,7 +406,7 @@ void Protein::_processInstances(ModelDescriptorPtr md,
                                 const Vector3fs& positions,
                                 const Quaternions& rotations,
                                 const Quaterniond& moleculerotation,
-                                const RandomizationDetails& randInfo)
+                                const AnimationDetails& randInfo)
 {
     size_t count = 0;
     const auto& proteinInstances = _modelDescriptor->getInstances();
@@ -466,7 +466,7 @@ void Protein::addGlycans(const SugarsDetails& details)
                                        details.rotation[2],
                                        details.rotation[3]});
 
-    const auto randInfo = floatsToRandomizationDetails(details.randomParams);
+    const auto randInfo = floatsToAnimationDetails(details.animationParams);
     _processInstances(modelDescriptor, glycanPositions, glycanrotations,
                       proteinrotation, randInfo);
 
@@ -496,7 +496,7 @@ void Protein::addSugars(const SugarsDetails& details)
     auto modelDescriptor = glucoses->getModelDescriptor();
     const auto sugarRotation = floatsToQuaterniond(details.rotation);
 
-    const auto randInfo = floatsToRandomizationDetails(details.randomParams);
+    const auto randInfo = floatsToAnimationDetails(details.animationParams);
     _processInstances(modelDescriptor, positions, rotations, sugarRotation,
                       randInfo);
 

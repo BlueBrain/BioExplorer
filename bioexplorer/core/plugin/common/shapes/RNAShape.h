@@ -46,14 +46,8 @@ public:
      */
     Transformation getTransformation(const uint64_t occurence,
                                      const uint64_t nbOccurences,
-                                     const RandomizationDetails& randDetails,
+                                     const AnimationDetails& animationDetails,
                                      const float offset) const final;
-
-    Transformation getTransformation(const uint64_t occurence,
-                                     const uint64_t nbOccurences,
-                                     const RandomizationDetails& randDetails,
-                                     const float offset,
-                                     const float morphingStep) const final;
 
     bool isInside(const Vector3f& point) const final;
 
@@ -72,10 +66,7 @@ private:
 
     Vector3f _U;
     Vector3f _V;
-    float _uStep;
-    float _vStep;
-    float _du;
-    float _dv;
+    float _step;
 
     Vector2f _shapeParams;
     Vector2f _valuesRange;

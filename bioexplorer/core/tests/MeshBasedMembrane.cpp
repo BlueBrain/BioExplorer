@@ -70,7 +70,7 @@ MembraneDetails getMembraneDescriptor()
     descriptor.lipidContents =
         getFileContents(folder + "pdb/membrane/popc.pdb");
     descriptor.representation = ProteinRepresentation::atoms;
-    descriptor.randomParams = {};
+    descriptor.animationParams = {};
     return descriptor;
 }
 

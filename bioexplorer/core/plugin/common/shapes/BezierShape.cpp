@@ -21,6 +21,7 @@
 #include "BezierShape.h"
 
 #include <plugin/common/Logs.h>
+#include <plugin/common/Utils.h>
 
 namespace bioexplorer
 {
@@ -40,7 +41,7 @@ BezierShape::BezierShape(const Vector4fs& clippingPlanes,
 
 Transformation BezierShape::getTransformation(
     const uint64_t occurence, const uint64_t nbOccurences,
-    const RandomizationDetails& randDetails, const float offset) const
+    const AnimationDetails& animationDetails, const float offset) const
 {
     Vector3fs bezierPoints = _points;
     size_t i = bezierPoints.size() - 1;
@@ -56,6 +57,10 @@ Transformation BezierShape::getTransformation(
         cross({0.f, 0.f, 1.f}, normalize(bezierPoints[1] - bezierPoints[0]));
 
     Vector3f pos = bezierPoints[0];
+
+    if (isClipped(pos, _clippingPlanes))
+        throw std::runtime_error("Instance is clipped");
+
     const Quaterniond rot = quatLookAt(normal, UP_VECTOR);
 
     pos += normal * offset;
@@ -64,14 +69,6 @@ Transformation BezierShape::getTransformation(
     transformation.setTranslation(pos);
     transformation.setRotation(rot);
     return transformation;
-}
-
-Transformation BezierShape::getTransformation(
-    const uint64_t occurence, const uint64_t nbOccurences,
-    const RandomizationDetails& randDetails, const float offset,
-    const float /*morphingStep*/) const
-{
-    return getTransformation(occurence, nbOccurences, randDetails, offset);
 }
 
 bool BezierShape::isInside(const Vector3f& point) const

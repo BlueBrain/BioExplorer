@@ -116,9 +116,9 @@ Vector4fs floatsToVector4fs(const floats& values);
  * @brief Converts a vector of floats into randomization details
  *
  * @param value Vector of floats
- * @return RandomizationDetails The randomization details
+ * @return AnimationDetails The randomization details
  */
-RandomizationDetails floatsToRandomizationDetails(const floats& values);
+AnimationDetails floatsToAnimationDetails(const floats& values);
 
 std::vector<std::string> split(const std::string& s,
                                const std::string& delimiter);

@@ -21,6 +21,7 @@
 #include "RNAShape.h"
 
 #include <plugin/common/Logs.h>
+#include <plugin/common/Utils.h>
 
 namespace bioexplorer
 {
@@ -61,18 +62,15 @@ RNAShape::RNAShape(const Vector4fs& clippingPlanes,
         break;
     }
 
-    _uStep = (_U.y - _U.x) / _U.z;
-    _vStep = (_V.y - _V.x) / _V.z;
-    _du = (_U.y - _U.x) / _uStep;
-    _dv = (_V.y - _V.x) / _vStep;
+    _step = (_U.y - _U.x) / _U.z;
 }
 
 Transformation RNAShape::getTransformation(
     const uint64_t occurence, const uint64_t nbOccurences,
-    const RandomizationDetails& randDetails, const float offset) const
+    const AnimationDetails& animationDetails, const float offset) const
 {
-    const size_t u = occurence / uint64_t(_dv);
-    const size_t v = occurence % uint64_t(_du);
+    const float u = _valuesRange.x + _step * occurence;
+    const float v = _valuesRange.x + _step * (occurence + 1);
 
     Vector3f src, dst;
     _getSegment(u, v, src, dst);
@@ -80,31 +78,25 @@ Transformation RNAShape::getTransformation(
     const Vector3f direction = normalize(dst - src);
     const Vector3f normal = cross(UP_VECTOR, direction);
     float upOffset = 0.f;
-    if (randDetails.positionSeed != 0)
-        upOffset = randDetails.positionStrength *
-                   rnd3((randDetails.positionSeed + occurence) * 10);
+    if (animationDetails.positionSeed != 0)
+        upOffset = animationDetails.positionStrength *
+                   rnd3(animationDetails.positionSeed + occurence);
 
     Vector3f pos = src + normal * (offset + upOffset);
 
-    Quaterniond rot = glm::quatLookAt(normal, UP_VECTOR);
-    if (randDetails.rotationSeed != 0)
-        rot = weightedRandomRotation(rot, randDetails.rotationSeed, occurence,
-                                     randDetails.rotationStrength);
+    if (isClipped(pos, _clippingPlanes))
+        throw std::runtime_error("Instance is clipped");
 
-    pos += normal * offset;
+    Quaterniond rot = glm::quatLookAt(normal, UP_VECTOR);
+    if (animationDetails.rotationSeed != 0)
+        rot = weightedRandomRotation(rot, animationDetails.rotationSeed,
+                                     occurence,
+                                     animationDetails.rotationStrength);
 
     Transformation transformation;
     transformation.setTranslation(pos);
     transformation.setRotation(rot);
     return transformation;
-}
-
-Transformation RNAShape::getTransformation(
-    const uint64_t occurence, const uint64_t nbOccurences,
-    const RandomizationDetails& randDetails, const float offset,
-    const float /*morphingStep*/) const
-{
-    return getTransformation(occurence, nbOccurences, randDetails, offset);
 }
 
 bool RNAShape::isInside(const Vector3f& point) const
@@ -120,43 +112,43 @@ void RNAShape::_getSegment(const float u, const float v, Vector3f& src,
     case RNAShapeType::moebius:
     {
         src = _moebius(u, v);
-        dst = _moebius(u + _uStep, v);
+        dst = _moebius(u + _step, v);
         break;
     }
     case RNAShapeType::torus:
     {
         src = _torus(u);
-        dst = _torus(u + _uStep);
+        dst = _torus(u + _step);
         break;
     }
     case RNAShapeType::star:
     {
         src = _star(u);
-        dst = _star(u + _uStep);
+        dst = _star(u + _step);
         break;
     }
     case RNAShapeType::spring:
     {
         src = _spring(u);
-        dst = _spring(u + _uStep);
+        dst = _spring(u + _step);
         break;
     }
     case RNAShapeType::trefoilKnot:
     {
         src = _trefoilKnot(u);
-        dst = _trefoilKnot(u + _uStep);
+        dst = _trefoilKnot(u + _step);
         break;
     }
     case RNAShapeType::heart:
     {
         src = _heart(u);
-        dst = _heart(u + _uStep);
+        dst = _heart(u + _step);
         break;
     }
     case RNAShapeType::thing:
     {
         src = _thing(u);
-        dst = _thing(u + _uStep);
+        dst = _thing(u + _step);
         break;
     }
     default:
