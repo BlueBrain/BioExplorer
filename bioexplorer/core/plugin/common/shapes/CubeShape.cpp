@@ -30,22 +30,22 @@ namespace common
 using namespace brayns;
 using namespace details;
 
-CubeShape::CubeShape(const Vector4fs& clippingPlanes, const Vector3f& size)
+CubeShape::CubeShape(const Vector4ds& clippingPlanes, const Vector3d& size)
     : Shape(clippingPlanes)
     , _size(size)
 {
-    _bounds.merge(Vector3f(-size.x / 2.f, -size.y / 2.f, -size.z / 2.f));
-    _bounds.merge(Vector3f(size.x / 2.f, size.y / 2.f, size.z / 2.f));
+    _bounds.merge(Vector3d(-size.x / 2.f, -size.y / 2.f, -size.z / 2.f));
+    _bounds.merge(Vector3d(size.x / 2.f, size.y / 2.f, size.z / 2.f));
     _surface = 2.f * (size.x * size.y) + 2.f * (size.x * size.z) +
                2.f * (size.y * size.z);
 }
 
 Transformation CubeShape::getTransformation(
-    const uint64_t occurence, const uint64_t nbOccurences,
-    const AnimationDetails& animationDetails, const float /*offset*/) const
+    const uint64_t occurrence, const uint64_t nbOccurrences,
+    const AnimationDetails& animationDetails, const double /*offset*/) const
 {
-    Vector3f pos =
-        Vector3f(rnd1() * _size.x, rnd1() * _size.y, rnd1() * _size.z);
+    Vector3d pos =
+        Vector3d(rnd1() * _size.x, rnd1() * _size.y, rnd1() * _size.z);
 
     if (isClipped(pos, _clippingPlanes))
         throw std::runtime_error("Instance is clipped");
@@ -54,17 +54,17 @@ Transformation CubeShape::getTransformation(
 
     if (animationDetails.positionSeed != 0)
     {
-        const Vector3f posOffset =
+        const Vector3d posOffset =
             animationDetails.positionStrength *
-            Vector3f(rnd2(occurence + animationDetails.positionSeed),
-                     rnd2(occurence + animationDetails.positionSeed + 1),
-                     rnd2(occurence + animationDetails.positionSeed + 2));
+            Vector3d(rnd2(occurrence + animationDetails.positionSeed),
+                     rnd2(occurrence + animationDetails.positionSeed + 1),
+                     rnd2(occurrence + animationDetails.positionSeed + 2));
 
         pos += posOffset;
     }
 
     if (animationDetails.rotationSeed != 0)
-        dir = randomQuaternion(animationDetails.rotationSeed);
+        dir = randomQuaternion(occurrence + animationDetails.rotationSeed);
 
     Transformation transformation;
     transformation.setTranslation(pos);
@@ -72,7 +72,7 @@ Transformation CubeShape::getTransformation(
     return transformation;
 }
 
-bool CubeShape::isInside(const Vector3f& point) const
+bool CubeShape::isInside(const Vector3d& point) const
 {
     PLUGIN_THROW("isInside is not implemented for Cube shapes");
 }

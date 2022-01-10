@@ -93,8 +93,7 @@ const std::string PLUGIN_API_PREFIX = "be-";
     return response;
 #endif
 
-Boxd vector_to_bounds(const std::vector<float> &lowBounds,
-                      const std::vector<float> &highBounds)
+Boxd vector_to_bounds(const doubles &lowBounds, const doubles &highBounds)
 {
     if (!lowBounds.empty() && lowBounds.size() != 3)
         PLUGIN_THROW("Invalid low bounds. 3 floats expected");
@@ -483,8 +482,8 @@ void BioExplorerPlugin::init()
                 _oocManager->getSceneConfiguration();
             const auto sceneSize = sceneConfiguration.sceneSize.x;
             const auto brickSize = sceneConfiguration.brickSize.x;
-            grid.position = {-brickSize / 2.f, -brickSize / 2.f,
-                             -brickSize / 2.f};
+            grid.position = {-brickSize / 2.0, -brickSize / 2.0,
+                             -brickSize / 2.0};
             grid.minValue = -sceneSize / 2.0;
             grid.maxValue = sceneSize / 2.0;
             grid.steps = brickSize;
@@ -819,10 +818,10 @@ Response BioExplorerPlugin::_addGrid(const AddGridDetails &payload)
         auto &scene = _api->getScene();
         auto model = scene.createModel();
 
-        const Vector3f red = {1, 0, 0};
-        const Vector3f green = {0, 1, 0};
-        const Vector3f blue = {0, 0, 1};
-        const Vector3f grey = {0.5, 0.5, 0.5};
+        const Vector3d red = {1, 0, 0};
+        const Vector3d green = {0, 1, 0};
+        const Vector3d blue = {0, 0, 1};
+        const Vector3d grey = {0.5, 0.5, 0.5};
 
         PropertyMap props;
         props.setProperty({MATERIAL_PROPERTY_SHADING_MODE,
@@ -836,28 +835,28 @@ Response BioExplorerPlugin::_addGrid(const AddGridDetails &payload)
         auto material = model->createMaterial(0, "x");
         material->setDiffuseColor(grey);
         material->setProperties(props);
-        const auto position = floatsToVector3f(payload.position);
+        const auto position = doublesToVector3d(payload.position);
 
-        const float m = payload.minValue;
-        const float M = payload.maxValue;
-        const float s = payload.steps;
-        const float r = payload.radius;
+        const double m = payload.minValue;
+        const double M = payload.maxValue;
+        const double s = payload.steps;
+        const float r = static_cast<float>(payload.radius);
 
         /// Grid
-        for (float x = m; x <= M; x += s)
-            for (float y = m; y <= M; y += s)
+        for (double x = m; x <= M; x += s)
+            for (double y = m; y <= M; y += s)
             {
                 bool showFullGrid = true;
                 if (!payload.showFullGrid)
                     showFullGrid = (fabs(x) < 0.001f || fabs(y) < 0.001f);
                 if (showFullGrid)
                 {
-                    model->addCylinder(0, {position + Vector3f(x, y, m),
-                                           position + Vector3f(x, y, M), r});
-                    model->addCylinder(0, {position + Vector3f(m, x, y),
-                                           position + Vector3f(M, x, y), r});
-                    model->addCylinder(0, {position + Vector3f(x, m, y),
-                                           position + Vector3f(x, M, y), r});
+                    model->addCylinder(0, {position + Vector3d(x, y, m),
+                                           position + Vector3d(x, y, M), r});
+                    model->addCylinder(0, {position + Vector3d(m, x, y),
+                                           position + Vector3d(M, x, y), r});
+                    model->addCylinder(0, {position + Vector3d(x, m, y),
+                                           position + Vector3d(x, M, y), r});
                 }
             }
 
@@ -869,10 +868,10 @@ Response BioExplorerPlugin::_addGrid(const AddGridDetails &payload)
             material->setOpacity(payload.planeOpacity);
             material->setProperties(props);
             auto &tmx = model->getTriangleMeshes()[1];
-            tmx.vertices.push_back(position + Vector3f(m, 0, m));
-            tmx.vertices.push_back(position + Vector3f(M, 0, m));
-            tmx.vertices.push_back(position + Vector3f(M, 0, M));
-            tmx.vertices.push_back(position + Vector3f(m, 0, M));
+            tmx.vertices.push_back(position + Vector3d(m, 0, m));
+            tmx.vertices.push_back(position + Vector3d(M, 0, m));
+            tmx.vertices.push_back(position + Vector3d(M, 0, M));
+            tmx.vertices.push_back(position + Vector3d(m, 0, M));
             tmx.indices.push_back(Vector3ui(0, 1, 2));
             tmx.indices.push_back(Vector3ui(2, 3, 0));
 
@@ -881,10 +880,10 @@ Response BioExplorerPlugin::_addGrid(const AddGridDetails &payload)
             material->setOpacity(payload.planeOpacity);
             material->setProperties(props);
             auto &tmy = model->getTriangleMeshes()[2];
-            tmy.vertices.push_back(position + Vector3f(m, m, 0));
-            tmy.vertices.push_back(position + Vector3f(M, m, 0));
-            tmy.vertices.push_back(position + Vector3f(M, M, 0));
-            tmy.vertices.push_back(position + Vector3f(m, M, 0));
+            tmy.vertices.push_back(position + Vector3d(m, m, 0));
+            tmy.vertices.push_back(position + Vector3d(M, m, 0));
+            tmy.vertices.push_back(position + Vector3d(M, M, 0));
+            tmy.vertices.push_back(position + Vector3d(m, M, 0));
             tmy.indices.push_back(Vector3ui(0, 1, 2));
             tmy.indices.push_back(Vector3ui(2, 3, 0));
 
@@ -893,10 +892,10 @@ Response BioExplorerPlugin::_addGrid(const AddGridDetails &payload)
             material->setOpacity(payload.planeOpacity);
             material->setProperties(props);
             auto &tmz = model->getTriangleMeshes()[3];
-            tmz.vertices.push_back(position + Vector3f(0, m, m));
-            tmz.vertices.push_back(position + Vector3f(0, m, M));
-            tmz.vertices.push_back(position + Vector3f(0, M, M));
-            tmz.vertices.push_back(position + Vector3f(0, M, m));
+            tmz.vertices.push_back(position + Vector3d(0, m, m));
+            tmz.vertices.push_back(position + Vector3d(0, m, M));
+            tmz.vertices.push_back(position + Vector3d(0, M, M));
+            tmz.vertices.push_back(position + Vector3d(0, M, m));
             tmz.indices.push_back(Vector3ui(0, 1, 2));
             tmz.indices.push_back(Vector3ui(2, 3, 0));
         }
@@ -904,11 +903,11 @@ Response BioExplorerPlugin::_addGrid(const AddGridDetails &payload)
         // Axis
         if (payload.showAxis)
         {
-            const float l = M;
-            const float smallRadius = payload.radius * 25.0;
-            const float largeRadius = payload.radius * 50.0;
-            const float l1 = l * 0.89;
-            const float l2 = l * 0.90;
+            const double l = M;
+            const float smallRadius = r * 25.0;
+            const float largeRadius = r * 50.0;
+            const double l1 = l * 0.89;
+            const double l2 = l * 0.90;
 
             PropertyMap props;
             props.setProperty({MATERIAL_PROPERTY_USER_PARAMETER, 1.0});
@@ -924,39 +923,39 @@ Response BioExplorerPlugin::_addGrid(const AddGridDetails &payload)
             material->setDiffuseColor(red);
             material->setProperties(props);
 
-            model->addCylinder(4, {position, position + Vector3f(l1, 0, 0),
+            model->addCylinder(4, {position, position + Vector3d(l1, 0, 0),
                                    smallRadius});
-            model->addCone(4, {position + Vector3f(l1, 0, 0),
-                               position + Vector3f(l2, 0, 0), smallRadius,
+            model->addCone(4, {position + Vector3d(l1, 0, 0),
+                               position + Vector3d(l2, 0, 0), smallRadius,
                                largeRadius});
-            model->addCone(4, {position + Vector3f(l2, 0, 0),
-                               position + Vector3f(M, 0, 0), largeRadius, 0});
+            model->addCone(4, {position + Vector3d(l2, 0, 0),
+                               position + Vector3d(M, 0, 0), largeRadius, 0});
 
             // Y
             material = model->createMaterial(5, "y_axis");
             material->setDiffuseColor(green);
             material->setProperties(props);
 
-            model->addCylinder(5, {position, position + Vector3f(0, l1, 0),
+            model->addCylinder(5, {position, position + Vector3d(0, l1, 0),
                                    smallRadius});
-            model->addCone(5, {position + Vector3f(0, l1, 0),
-                               position + Vector3f(0, l2, 0), smallRadius,
+            model->addCone(5, {position + Vector3d(0, l1, 0),
+                               position + Vector3d(0, l2, 0), smallRadius,
                                largeRadius});
-            model->addCone(5, {position + Vector3f(0, l2, 0),
-                               position + Vector3f(0, M, 0), largeRadius, 0});
+            model->addCone(5, {position + Vector3d(0, l2, 0),
+                               position + Vector3d(0, M, 0), largeRadius, 0});
 
             // Z
             material = model->createMaterial(6, "z_axis");
             material->setDiffuseColor(blue);
             material->setProperties(props);
 
-            model->addCylinder(6, {position, position + Vector3f(0, 0, l1),
+            model->addCylinder(6, {position, position + Vector3d(0, 0, l1),
                                    smallRadius});
-            model->addCone(6, {position + Vector3f(0, 0, l1),
-                               position + Vector3f(0, 0, l2), smallRadius,
+            model->addCone(6, {position + Vector3d(0, 0, l1),
+                               position + Vector3d(0, 0, l2), smallRadius,
                                largeRadius});
-            model->addCone(6, {position + Vector3f(0, 0, l2),
-                               position + Vector3f(0, 0, M), largeRadius, 0});
+            model->addCone(6, {position + Vector3d(0, 0, l2),
+                               position + Vector3d(0, 0, M), largeRadius, 0});
 
             // Origin
             model->addSphere(0, {position, smallRadius});
@@ -975,9 +974,9 @@ Response BioExplorerPlugin::_addSphere(const AddSphereDetails &payload)
     try
     {
         if (payload.position.size() != 3)
-            PLUGIN_THROW("Invalid number of float for position");
+            PLUGIN_THROW("Invalid number of double for position");
         if (payload.color.size() != 3)
-            PLUGIN_THROW("Invalid number of float for color");
+            PLUGIN_THROW("Invalid number of double for color");
 
         auto &scene = _api->getScene();
         auto model = scene.createModel();
@@ -991,8 +990,8 @@ Response BioExplorerPlugin::_addSphere(const AddSphereDetails &payload)
              static_cast<int>(
                  MaterialChameleonMode::undefined_chameleon_mode)});
 
-        const auto color = floatsToVector3f(payload.color);
-        const auto position = floatsToVector3f(payload.position);
+        const auto color = doublesToVector3d(payload.color);
+        const auto position = doublesToVector3d(payload.position);
 
         auto material = model->createMaterial(0, "Sphere");
         material->setDiffuseColor(color);
@@ -1000,7 +999,7 @@ Response BioExplorerPlugin::_addSphere(const AddSphereDetails &payload)
 
         PLUGIN_INFO("Adding sphere " + payload.name + " to the scene");
 
-        model->addSphere(0, {position, payload.radius});
+        model->addSphere(0, {position, static_cast<float>(payload.radius)});
         scene.addModel(
             std::make_shared<ModelDescriptor>(std::move(model), payload.name));
     }
@@ -1015,11 +1014,11 @@ Response BioExplorerPlugin::_addBoundingBox(
     try
     {
         if (payload.bottomLeft.size() != 3)
-            PLUGIN_THROW("Invalid number of float for bottom left corner");
+            PLUGIN_THROW("Invalid number of double for bottom left corner");
         if (payload.topRight.size() != 3)
-            PLUGIN_THROW("Invalid number of float for top right corner");
+            PLUGIN_THROW("Invalid number of double for top right corner");
         if (payload.color.size() != 3)
-            PLUGIN_THROW("Invalid number of float for color");
+            PLUGIN_THROW("Invalid number of double for color");
 
         auto &scene = _api->getScene();
         auto model = scene.createModel();
@@ -1033,22 +1032,22 @@ Response BioExplorerPlugin::_addBoundingBox(
              static_cast<int>(
                  MaterialChameleonMode::undefined_chameleon_mode)});
 
-        const auto color = floatsToVector3f(payload.color);
+        const auto color = doublesToVector3d(payload.color);
         auto material = model->createMaterial(0, "BoundingBox");
         material->setDiffuseColor(color);
         material->setProperties(props);
 
         PLUGIN_INFO("Adding bounding box " + payload.name + " to the scene");
 
-        const auto bottomLeft = floatsToVector3f(payload.bottomLeft);
-        const auto topRight = floatsToVector3f(payload.topRight);
+        const auto bottomLeft = doublesToVector3d(payload.bottomLeft);
+        const auto topRight = doublesToVector3d(payload.topRight);
         Boxf bbox;
         bbox.merge(bottomLeft);
         bbox.merge(topRight);
 
-        const Vector3f s = bbox.getSize();
-        const Vector3f c = bbox.getCenter();
-        const Vector3f positions[8] = {
+        const Vector3d s = bbox.getSize();
+        const Vector3d c = bbox.getCenter();
+        const Vector3d positions[8] = {
             {c.x - s.x, c.y - s.y, c.z - s.z},
             {c.x + s.x, c.y - s.y, c.z - s.z}, //    6--------7
             {c.x - s.x, c.y + s.y, c.z - s.z}, //   /|       /|
@@ -1059,23 +1058,24 @@ Response BioExplorerPlugin::_addBoundingBox(
             {c.x + s.x, c.y + s.y, c.z + s.z}  //  0--------1
         };
 
+        const float radius = static_cast<float>(payload.radius);
         for (size_t i = 0; i < 8; ++i)
-            model->addSphere(0, {positions[i], payload.radius});
+            model->addSphere(0, {positions[i], radius});
 
-        model->addCylinder(0, {positions[0], positions[1], payload.radius});
-        model->addCylinder(0, {positions[2], positions[3], payload.radius});
-        model->addCylinder(0, {positions[4], positions[5], payload.radius});
-        model->addCylinder(0, {positions[6], positions[7], payload.radius});
+        model->addCylinder(0, {positions[0], positions[1], radius});
+        model->addCylinder(0, {positions[2], positions[3], radius});
+        model->addCylinder(0, {positions[4], positions[5], radius});
+        model->addCylinder(0, {positions[6], positions[7], radius});
 
-        model->addCylinder(0, {positions[0], positions[2], payload.radius});
-        model->addCylinder(0, {positions[1], positions[3], payload.radius});
-        model->addCylinder(0, {positions[4], positions[6], payload.radius});
-        model->addCylinder(0, {positions[5], positions[7], payload.radius});
+        model->addCylinder(0, {positions[0], positions[2], radius});
+        model->addCylinder(0, {positions[1], positions[3], radius});
+        model->addCylinder(0, {positions[4], positions[6], radius});
+        model->addCylinder(0, {positions[5], positions[7], radius});
 
-        model->addCylinder(0, {positions[0], positions[4], payload.radius});
-        model->addCylinder(0, {positions[1], positions[5], payload.radius});
-        model->addCylinder(0, {positions[2], positions[6], payload.radius});
-        model->addCylinder(0, {positions[3], positions[7], payload.radius});
+        model->addCylinder(0, {positions[0], positions[4], radius});
+        model->addCylinder(0, {positions[1], positions[5], radius});
+        model->addCylinder(0, {positions[2], positions[6], radius});
+        model->addCylinder(0, {positions[3], positions[7], radius});
 
         scene.addModel(
             std::make_shared<ModelDescriptor>(std::move(model), payload.name));
@@ -1224,10 +1224,10 @@ size_t BioExplorerPlugin::_attachFieldsHandler(FieldsHandlerPtr handler)
 {
     auto &scene = _api->getScene();
     auto model = scene.createModel();
-    const auto &spacing = Vector3f(handler->getSpacing());
-    const auto &size = Vector3f(handler->getDimensions()) * spacing;
-    const auto &offset = Vector3f(handler->getOffset());
-    const Vector3f center{(offset + size / 2.f)};
+    const auto &spacing = Vector3d(handler->getSpacing());
+    const auto &size = Vector3d(handler->getDimensions()) * spacing;
+    const auto &offset = Vector3d(handler->getOffset());
+    const Vector3d center{(offset + size / 2.0)};
 
     const size_t materialId = 0;
     auto material = model->createMaterial(materialId, "default");
@@ -1351,7 +1351,7 @@ Response BioExplorerPlugin::_buildPointCloud(
                  MaterialChameleonMode::undefined_chameleon_mode)});
         props.setProperty({MATERIAL_PROPERTY_NODE_ID, static_cast<int>(0)});
 
-        material->setDiffuseColor({1.f, 1.f, 1.f});
+        material->setDiffuseColor({1.0, 1.0, 1.0});
         material->updateProperties(props);
 
         const auto &modelDescriptors = scene.getModelDescriptors();
@@ -1372,12 +1372,13 @@ Response BioExplorerPlugin::_buildPointCloud(
                             tf.getRotation() * (Vector3d(sphere.center) -
                                                 tf.getRotationCenter());
 
-                        const Vector3f c = center;
+                        const Vector3d c = center;
                         if (isClipped(c, clipPlanes))
                             continue;
 
-                        model->addSphere(materialId,
-                                         {c, payload.radius * sphere.radius});
+                        model->addSphere(materialId, {c, static_cast<float>(
+                                                             payload.radius) *
+                                                             sphere.radius});
                     }
                 }
             }

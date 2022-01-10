@@ -47,7 +47,7 @@ struct Nucleotid
     /** Long name */
     std::string name;
     /** Color */
-    Vector3f color;
+    Vector3d color;
 };
 typedef std::map<char, Nucleotid> NucleotidMap;
 
@@ -62,8 +62,8 @@ NucleotidMap nucleotidMap{{'A', {0, "Adenine", {0.f, 0.f, 1.f}}},
                           {'C', {4, "Cytosine", {1.f, 1.f, 0.f}}}};
 
 RNASequence::RNASequence(Scene& scene, const RNASequenceDetails& details,
-                         const Vector4fs& clippingPlanes,
-                         const Vector3f& assemblyPosition,
+                         const Vector4ds& clippingPlanes,
+                         const Vector3d& assemblyPosition,
                          const Quaterniond& assemblyRotation)
     : Node()
     , _scene(scene)
@@ -72,16 +72,16 @@ RNASequence::RNASequence(Scene& scene, const RNASequenceDetails& details,
     , _assemblyRotation(assemblyRotation)
 {
     const bool processAsProtein = !_details.proteinContents.empty();
-    const auto position = floatsToVector3f(_details.position);
-    const auto rotation = floatsToQuaterniond(_details.rotation);
+    const auto position = doublesToVector3d(_details.position);
+    const auto rotation = doublesToQuaterniond(_details.rotation);
     const std::string& sequence = _details.contents;
     _nbElements = sequence.length();
 
-    const auto shapeParams = floatsToVector2f(_details.shapeParams);
-    const auto valuesRange = floatsToVector2f(_details.valuesRange);
-    const auto curveParams = floatsToVector3f(_details.curveParams);
+    const auto shapeParams = doublesToVector2d(_details.shapeParams);
+    const auto valuesRange = doublesToVector2d(_details.valuesRange);
+    const auto curveParams = doublesToVector3d(_details.curveParams);
     const auto animationDetails =
-        floatsToAnimationDetails(_details.animationParams);
+        doublesToAnimationDetails(_details.animationParams);
 
     PLUGIN_INFO("Loading RNA sequence " << details.name << " from "
                                         << details.contents);
@@ -105,8 +105,8 @@ void RNASequence::_buildRNAAsCurve(const Quaterniond& rotation)
 {
     const auto& sequence = _details.contents;
     const auto animationDetails =
-        floatsToAnimationDetails(_details.animationParams);
-    const auto shapeParams = floatsToVector2f(_details.shapeParams);
+        doublesToAnimationDetails(_details.animationParams);
+    const auto shapeParams = doublesToVector2d(_details.shapeParams);
     const auto radius = shapeParams.y;
 
     auto model = _scene.createModel();
@@ -145,8 +145,9 @@ void RNASequence::_buildRNAAsCurve(const Quaterniond& rotation)
                 _shape->getTransformation(occurrence + 1, occurrences,
                                           animationDetails, 0.f);
 
-            model->addCylinder(materialId, {src.getTranslation(),
-                                            dst.getTranslation(), radius});
+            model->addCylinder(materialId,
+                               {src.getTranslation(), dst.getTranslation(),
+                                static_cast<float>(radius)});
         }
     }
 
@@ -166,9 +167,9 @@ void RNASequence::_buildRNAAsProteinInstances(const Quaterniond& rotation)
 {
     const auto& sequence = _details.contents;
     const auto animationDetails =
-        floatsToAnimationDetails(_details.animationParams);
+        doublesToAnimationDetails(_details.animationParams);
     const size_t nbElements = sequence.length();
-    Vector3f position = Vector3f(0.f);
+    Vector3d position = Vector3d(0.f);
 
     // Load protein
     ModelPtr model{nullptr};
@@ -183,11 +184,11 @@ void RNASequence::_buildRNAAsProteinInstances(const Quaterniond& rotation)
     _modelDescriptor = _protein->getModelDescriptor();
 
     const auto proteinBounds = _protein->getBounds().getSize();
-    const float proteinSize =
+    const double proteinSize =
         std::min(proteinBounds.x, std::min(proteinBounds.y, proteinBounds.z));
-    float proteinSpacing = 0.f;
+    double proteinSpacing = 0.f;
 
-    Vector3f previousTranslation;
+    Vector3d previousTranslation;
 
     const auto occurrences = _nbElements;
     uint64_t nbInstances = 0;
@@ -210,7 +211,7 @@ void RNASequence::_buildRNAAsProteinInstances(const Quaterniond& rotation)
             const Transformation finalTransformation =
                 combineTransformations(transformations);
 
-            const Vector3f translation = finalTransformation.getTranslation();
+            const Vector3d translation = finalTransformation.getTranslation();
 
             if (nbInstances == 0)
                 _modelDescriptor->setTransformation(finalTransformation);

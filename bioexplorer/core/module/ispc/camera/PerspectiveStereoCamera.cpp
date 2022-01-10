@@ -76,15 +76,15 @@ void PerspectiveStereoCamera::commit()
         break;
     }
 
-    float imgPlane_size_y = 2.f * tanf(deg2rad(0.5f * fovy));
-    float imgPlane_size_x = imgPlane_size_y * aspect;
+    double imgPlane_size_y = 2.f * tanf(deg2rad(0.5f * fovy));
+    double imgPlane_size_x = imgPlane_size_y * aspect;
 
     dir_du *= imgPlane_size_x;
     dir_dv *= imgPlane_size_y;
 
     vec3f dir_00 = dir - 0.5f * dir_du - 0.5f * dir_dv;
 
-    float scaledAperture = 0.f;
+    double scaledAperture = 0.f;
     if (apertureRadius > 0.f)
     {
         dir_du *= focusDistance;

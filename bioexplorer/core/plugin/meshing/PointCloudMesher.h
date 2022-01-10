@@ -20,7 +20,7 @@
 
 #pragma once
 
-#include <brayns/common/types.h>
+#include <plugin/common/Types.h>
 
 namespace bioexplorer
 {
@@ -28,7 +28,7 @@ namespace meshing
 {
 using namespace brayns;
 
-typedef std::map<size_t, Vector4fs> PointCloud;
+typedef std::map<size_t, Vector4ds> PointCloud;
 
 class PointCloudMesher
 {

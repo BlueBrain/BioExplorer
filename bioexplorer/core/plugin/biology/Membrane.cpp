@@ -34,12 +34,12 @@ namespace bioexplorer
 namespace biology
 {
 Membrane::Membrane(const MembraneDetails& details, Scene& scene,
-                   const Vector3f& assemblyPosition,
+                   const Vector3d& assemblyPosition,
                    const Quaterniond& assemblyRotation, const ShapePtr shape,
                    const ProteinMap& transmembraneProteins)
     : _scene(scene)
     , _details(details)
-    , _nbOccurences{0}
+    , _nbOccurrences{0}
     , _transmembraneProteins(transmembraneProteins)
     , _assemblyPosition(assemblyPosition)
     , _assemblyRotation(assemblyRotation)
@@ -49,7 +49,7 @@ Membrane::Membrane(const MembraneDetails& details, Scene& scene,
     std::vector<std::string> lipidContents =
         split(_details.lipidContents, CONTENTS_DELIMITER);
 
-    float lipidAverageSize = 0.f;
+    double lipidAverageSize = 0.f;
     size_t i = 0;
     for (const auto& lipidContent : lipidContents)
     {
@@ -73,8 +73,8 @@ Membrane::Membrane(const MembraneDetails& details, Scene& scene,
     }
     lipidAverageSize /= lipidContents.size();
 
-    _nbOccurences = _shape->getSurface() / lipidAverageSize *
-                    2.f; // WHY DO I HAVE TO DOUBLE IT!
+    _nbOccurrences = _shape->getSurface() / lipidAverageSize *
+                     2.f; // WHY DO I HAVE TO DOUBLE IT!
 
     _processInstances();
 
@@ -92,26 +92,26 @@ Membrane::~Membrane()
 
 void Membrane::_processInstances()
 {
-    const auto rotation = floatsToQuaterniond(_details.lipidRotation);
+    const auto rotation = doublesToQuaterniond(_details.lipidRotation);
     const auto animationDetails =
-        floatsToAnimationDetails(_details.animationParams);
+        doublesToAnimationDetails(_details.animationParams);
     srand(animationDetails.seed);
 
     std::map<size_t, size_t> instanceCounts;
     for (size_t i = 0; i < _lipids.size(); ++i)
         instanceCounts[i] = 0;
 
-    for (uint64_t occurence = 0; occurence < _nbOccurences; ++occurence)
+    for (uint64_t occurrence = 0; occurrence < _nbOccurrences; ++occurrence)
     {
         try
         {
-            const size_t id = occurence % _lipids.size();
+            const size_t id = occurrence % _lipids.size();
             auto lipid = _lipids[_getElementNameFromId(id)];
             auto md = lipid->getModelDescriptor();
 
             const auto& model = md->getModel();
             const auto& bounds = model.getBounds();
-            const Vector3f& center = bounds.getCenter();
+            const Vector3d& center = bounds.getCenter();
 
             Transformations transformations;
 
@@ -121,7 +121,7 @@ void Membrane::_processInstances()
             transformations.push_back(assemblyTransformation);
 
             const auto shapeTransformation =
-                _shape->getTransformation(occurence, _nbOccurences,
+                _shape->getTransformation(occurrence, _nbOccurrences,
                                           animationDetails, 0.f);
             transformations.push_back(shapeTransformation);
 
@@ -131,12 +131,14 @@ void Membrane::_processInstances()
 
             const Transformation finalTransformation =
                 combineTransformations(transformations);
-            const Vector3f& translation = finalTransformation.getTranslation();
+            const Vector3d& translation = finalTransformation.getTranslation();
 
             // Collision with trans-membrane proteins
             bool collision = false;
             for (const auto& protein : _transmembraneProteins)
             {
+                const auto transMembraneRadius =
+                    protein.second->getTransMembraneRadius();
                 auto modelDescriptor = protein.second->getModelDescriptor();
                 const auto& instances = modelDescriptor->getInstances();
                 const auto& instanceSize =
@@ -144,9 +146,8 @@ void Membrane::_processInstances()
                 for (const auto& instance : instances)
                 {
                     const auto& tf = instance.getTransformation();
-                    const Vector3f& t = tf.getTranslation();
-                    if (length(translation - t) <
-                        protein.second->getTransMembraneRadius())
+                    const Vector3d& t = tf.getTranslation();
+                    if (length(translation - t) < transMembraneRadius)
                     {
                         collision = true;
                         break;

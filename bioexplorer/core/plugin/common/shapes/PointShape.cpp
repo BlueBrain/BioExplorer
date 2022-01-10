@@ -30,17 +30,17 @@ namespace common
 using namespace brayns;
 using namespace details;
 
-PointShape::PointShape(const Vector4fs& clippingPlanes)
+PointShape::PointShape(const Vector4ds& clippingPlanes)
     : Shape(clippingPlanes)
 {
-    _bounds.merge(Vector3f());
+    _bounds.merge(Vector3d());
 }
 
 Transformation PointShape::getTransformation(
-    const uint64_t occurence, const uint64_t nbOccurences,
-    const AnimationDetails& animationDetails, const float offset) const
+    const uint64_t occurrence, const uint64_t nbOccurrences,
+    const AnimationDetails& animationDetails, const double offset) const
 {
-    const Vector3f pos{0.f, 0.f, 0.f};
+    const Vector3d pos{0.f, 0.f, 0.f};
 
     if (isClipped(pos, _clippingPlanes))
         throw std::runtime_error("Instance is clipped");
@@ -52,7 +52,7 @@ Transformation PointShape::getTransformation(
     return transformation;
 }
 
-bool PointShape::isInside(const Vector3f& point) const
+bool PointShape::isInside(const Vector3d& point) const
 {
     PLUGIN_THROW("isInside is not implemented for Plane shapes");
 }

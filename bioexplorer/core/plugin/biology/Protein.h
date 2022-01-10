@@ -46,8 +46,8 @@ public:
      */
     ~Protein();
 
-    float getTransMembraneOffset() const { return _transMembraneOffset; }
-    float getTransMembraneRadius() const { return _transMembraneRadius; }
+    double getTransMembraneOffset() const { return _transMembraneOffset; }
+    double getTransMembraneRadius() const { return _transMembraneRadius; }
 
     /**
      * @brief Set the Color Scheme object
@@ -99,7 +99,7 @@ public:
      * rotations should be returned. If empty, positions and rotations are
      * returned for every glycosylation site on the protein
      */
-    void getGlycosilationSites(Vector3fs& positions, Quaternions& rotations,
+    void getGlycosilationSites(Vector3ds& positions, Quaternions& rotations,
                                const size_ts& siteIndices) const;
 
     /**
@@ -114,7 +114,7 @@ public:
      * rotations should be returned. If empty, positions and rotations are
      * returned for every sugar binding site on the protein
      */
-    void getSugarBindingSites(Vector3fs& positions, Quaternions& rotations,
+    void getSugarBindingSites(Vector3ds& positions, Quaternions& rotations,
                               const size_ts& siteIndices,
                               const size_ts& chainIds) const;
 
@@ -153,7 +153,7 @@ public:
 private:
     // Analysis
     void _getSitesTransformations(
-        Vector3fs& positions, Quaternions& rotations,
+        Vector3ds& positions, Quaternions& rotations,
         const std::map<std::string, size_ts>& sites) const;
 
     // Color schemes
@@ -161,7 +161,7 @@ private:
     void _setGlycosylationSiteColorScheme(const Palette& palette);
 
     // Utility functions
-    void _processInstances(ModelDescriptorPtr md, const Vector3fs& positions,
+    void _processInstances(ModelDescriptorPtr md, const Vector3ds& positions,
                            const Quaternions& rotations,
                            const Quaterniond& proteinrotation,
                            const AnimationDetails& randInfo);
@@ -170,8 +170,8 @@ private:
     // Class members
     ProteinDetails _details;
     GlycansMap _glycans;
-    float _transMembraneOffset{0.f};
-    float _transMembraneRadius;
+    double _transMembraneOffset{0.f};
+    double _transMembraneRadius;
     std::map<std::string, std::map<size_t, Boxf>> _aminoAcidBounds;
 };
 } // namespace biology

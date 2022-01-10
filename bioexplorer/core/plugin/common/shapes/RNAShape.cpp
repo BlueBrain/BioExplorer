@@ -30,33 +30,33 @@ namespace common
 using namespace brayns;
 using namespace details;
 
-RNAShape::RNAShape(const Vector4fs& clippingPlanes,
+RNAShape::RNAShape(const Vector4ds& clippingPlanes,
                    const RNAShapeType& shapeType, const uint64_t nbElements,
                    const Vector2f& shapeParams, const Vector2f& valuesRange,
-                   const Vector3f& curveParams)
+                   const Vector3d& curveParams)
     : Shape(clippingPlanes)
     , _shapeType(shapeType)
     , _shapeParams(shapeParams)
     , _valuesRange(valuesRange)
     , _curveParams(curveParams)
 {
-    _bounds.merge(Vector3f(-curveParams.x / 2.f, -curveParams.y / 2.f,
-                           -curveParams.z / 2.f));
-    _bounds.merge(Vector3f(curveParams.x / 2.f, curveParams.y / 2.f,
-                           curveParams.z / 2.f));
+    _bounds.merge(Vector3d(-curveParams.x / 2.0, -curveParams.y / 2.0,
+                           -curveParams.z / 2.0));
+    _bounds.merge(Vector3d(curveParams.x / 2.0, curveParams.y / 2.0,
+                           curveParams.z / 2.0));
 
-    _U = Vector3f(valuesRange.x, valuesRange.y, nbElements);
-    _V = Vector3f(valuesRange.x, valuesRange.y, nbElements);
+    _U = Vector3d(valuesRange.x, valuesRange.y, nbElements);
+    _V = Vector3d(valuesRange.x, valuesRange.y, nbElements);
 
     switch (_shapeType)
     {
     case RNAShapeType::moebius:
-        _U = {2.f * M_PI, 4.f * M_PI, nbElements};
-        _V = {-0.4f, 0.4f, 1.f};
+        _U = {2.0 * M_PI, 4.0 * M_PI, nbElements};
+        _V = {-0.4, 0.4, 1.0};
         break;
     case RNAShapeType::heart:
-        _U = {0.f, 2.f * M_PI, nbElements};
-        _V = {0.f, 1.f, 1.f};
+        _U = {0.0, 2.0 * M_PI, nbElements};
+        _V = {0.0, 1.0, 1.0};
         break;
     default:
         break;
@@ -66,31 +66,31 @@ RNAShape::RNAShape(const Vector4fs& clippingPlanes,
 }
 
 Transformation RNAShape::getTransformation(
-    const uint64_t occurence, const uint64_t nbOccurences,
-    const AnimationDetails& animationDetails, const float offset) const
+    const uint64_t occurrence, const uint64_t nbOccurrences,
+    const AnimationDetails& animationDetails, const double offset) const
 {
-    const float u = _valuesRange.x + _step * occurence;
-    const float v = _valuesRange.x + _step * (occurence + 1);
+    const double u = _valuesRange.x + _step * occurrence;
+    const double v = _valuesRange.x + _step * (occurrence + 1);
 
-    Vector3f src, dst;
+    Vector3d src, dst;
     _getSegment(u, v, src, dst);
 
-    const Vector3f direction = normalize(dst - src);
-    const Vector3f normal = cross(UP_VECTOR, direction);
-    float upOffset = 0.f;
+    const Vector3d direction = normalize(dst - src);
+    const Vector3d normal = cross(UP_VECTOR, direction);
+    double upOffset = 0.0;
     if (animationDetails.positionSeed != 0)
         upOffset = animationDetails.positionStrength *
-                   rnd3(animationDetails.positionSeed + occurence);
+                   rnd3(animationDetails.positionSeed + occurrence);
 
-    Vector3f pos = src + normal * (offset + upOffset);
+    Vector3d pos = src + normal * (offset + upOffset);
 
     if (isClipped(pos, _clippingPlanes))
         throw std::runtime_error("Instance is clipped");
 
-    Quaterniond rot = glm::quatLookAt(normal, UP_VECTOR);
+    Quaterniond rot = safeQuatlookAt(normal);
     if (animationDetails.rotationSeed != 0)
         rot = weightedRandomRotation(rot, animationDetails.rotationSeed,
-                                     occurence,
+                                     occurrence,
                                      animationDetails.rotationStrength);
 
     Transformation transformation;
@@ -99,13 +99,13 @@ Transformation RNAShape::getTransformation(
     return transformation;
 }
 
-bool RNAShape::isInside(const Vector3f& point) const
+bool RNAShape::isInside(const Vector3d& point) const
 {
     PLUGIN_THROW("isInside is not implemented for Parametric shapes");
 }
 
-void RNAShape::_getSegment(const float u, const float v, Vector3f& src,
-                           Vector3f& dst) const
+void RNAShape::_getSegment(const double u, const double v, Vector3d& src,
+                           Vector3d& dst) const
 {
     switch (_shapeType)
     {
@@ -157,14 +157,14 @@ void RNAShape::_getSegment(const float u, const float v, Vector3f& src,
     }
 }
 
-Vector3f RNAShape::_trefoilKnot(const float t) const
+Vector3d RNAShape::_trefoilKnot(const double t) const
 {
-    return {_shapeParams.x * ((sin(t) + 2.f * sin(_curveParams.x * t))) / 3.f,
-            _shapeParams.x * ((cos(t) - 2.f * cos(_curveParams.y * t))) / 3.f,
+    return {_shapeParams.x * ((sin(t) + 2.0 * sin(_curveParams.x * t))) / 3.0,
+            _shapeParams.x * ((cos(t) - 2.0 * cos(_curveParams.y * t))) / 3.0,
             _shapeParams.x * (-sin(_curveParams.z * t))};
 }
 
-Vector3f RNAShape::_torus(const float t) const
+Vector3d RNAShape::_torus(const double t) const
 {
     return {_shapeParams.x *
                 (cos(t) + _curveParams.x * cos(_curveParams.y * t) * cos(t)),
@@ -173,14 +173,14 @@ Vector3f RNAShape::_torus(const float t) const
             _shapeParams.x * _curveParams.x * sin(_curveParams.y * t)};
 }
 
-Vector3f RNAShape::_star(const float t) const
+Vector3d RNAShape::_star(const double t) const
 {
-    return {_shapeParams.x * (2.f * sin(3.f * t) * cos(t)),
-            _shapeParams.x * (2.f * sin(3.f * t) * sin(t)),
-            _shapeParams.x * sin(3.f * t)};
+    return {_shapeParams.x * (2.0 * sin(3.0 * t) * cos(t)),
+            _shapeParams.x * (2.0 * sin(3.0 * t) * sin(t)),
+            _shapeParams.x * sin(3.0 * t)};
 }
 
-Vector3f RNAShape::_spring(const float t) const
+Vector3d RNAShape::_spring(const double t) const
 {
     return {_shapeParams.x * cos(t) +
                 (+_curveParams.x * cos(_curveParams.y * t)) * cos(t),
@@ -189,16 +189,16 @@ Vector3f RNAShape::_spring(const float t) const
             _shapeParams.x * t + _curveParams.x * sin(_curveParams.y * t)};
 }
 
-Vector3f RNAShape::_heart(const float u) const
+Vector3d RNAShape::_heart(const double u) const
 {
-    return {_shapeParams.x * 4.f * pow(sin(u), 3.f),
-            _shapeParams.x * 0.25f *
-                (13.f * cos(u) - 5.f * cos(2.f * u) - 2.f * cos(3.f * u) -
-                 cos(4.f * u)),
-            0.f};
+    return {_shapeParams.x * 4.0 * pow(sin(u), 3.0),
+            _shapeParams.x * 0.25 *
+                (13.0 * cos(u) - 5.0 * cos(2.0 * u) - 2.0 * cos(3.0 * u) -
+                 cos(4.0 * u)),
+            0.0};
 }
 
-Vector3f RNAShape::_thing(const float t) const
+Vector3d RNAShape::_thing(const double t) const
 {
     return {_shapeParams.x *
                 (sin(t) + _curveParams.x * sin(_curveParams.y * t)),
@@ -207,11 +207,11 @@ Vector3f RNAShape::_thing(const float t) const
             _shapeParams.x * (-sin(_curveParams.z * t))};
 }
 
-Vector3f RNAShape::_moebius(const float u, const float v) const
+Vector3d RNAShape::_moebius(const double u, const double v) const
 {
-    return {4.f * _shapeParams.x * (cos(u) + v * cos(u / 2.f) * cos(u)),
-            4.f * _shapeParams.x * (sin(u) + v * cos(u / 2.f) * sin(u)),
-            8.f * _shapeParams.x * (v * sin(u / 2.f))};
+    return {4.0 * _shapeParams.x * (cos(u) + v * cos(u / 2.0) * cos(u)),
+            4.0 * _shapeParams.x * (sin(u) + v * cos(u / 2.0) * sin(u)),
+            8.0 * _shapeParams.x * (v * sin(u / 2.0))};
 }
 
 } // namespace common

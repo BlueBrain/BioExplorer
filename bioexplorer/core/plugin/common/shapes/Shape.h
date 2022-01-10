@@ -34,47 +34,48 @@ using namespace brayns;
 class Shape
 {
 public:
-    Shape(const Vector4fs& clippingPlanes);
+    Shape(const Vector4ds& clippingPlanes);
     ~Shape();
 
     virtual Transformation getTransformation(
-        const uint64_t occurence, const uint64_t nbOccurences,
-        const AnimationDetails& animationDetails, const float offset) const = 0;
+        const uint64_t occurrence, const uint64_t nbOccurrences,
+        const AnimationDetails& animationDetails,
+        const double offset) const = 0;
 
-    virtual bool isInside(const Vector3f& point) const = 0;
+    virtual bool isInside(const Vector3d& point) const = 0;
 
-    float getSurface() const { return _surface; }
+    double getSurface() const { return _surface; }
 
     Boxf getBounds() const { return _bounds; }
 
     static Quaterniond weightedRandomRotation(const Quaterniond& q,
-                                              const size_t seed,
-                                              const size_t index,
-                                              const float s);
+                                              const uint64_t seed,
+                                              const uint64_t index,
+                                              const double s);
 
     /**
-     * @brief Return a random float between -0.5 and 0.5
+     * @brief Return a random double between -0.5 and 0.5
      *
-     * @return float A random float between -0.5 and 0.5
+     * @return double A random double between -0.5 and 0.5
      */
-    static float rnd1();
+    static double rnd1();
 
     /**
-     * @brief Return a predefined random float between -0.5 and 0.5
+     * @brief Return a predefined random double between -0.5 and 0.5
      *
-     * @param index Index of the random float in a predefined array
-     * @return float A random float between -0.5 and 0.5
+     * @param index Index of the random double in a predefined array
+     * @return double A random double between -0.5 and 0.5
      */
-    static float rnd2(const uint64_t index);
+    static double rnd2(const uint64_t index);
 
     /**
-     * @brief Return a controlled random float between -0.5 and 0.5, currently a
-     * sinusoidal function
+     * @brief Return a controlled random double between -0.5 and 0.5, currently
+     * a sinusoidal function
      *
-     * @param index Index of the random float in a sinusoidal function
-     * @return float A random float between -0.5 and 0.5
+     * @param index Index of the random double in a sinusoidal function
+     * @return double A random double between -0.5 and 0.5
      */
-    static float rnd3(const uint64_t index);
+    static double rnd3(const uint64_t index);
 
 protected:
     /**
@@ -83,110 +84,12 @@ protected:
      * @param seed Seed to apply to the randomness
      * @return Quaterniond Random quaternion
      */
-    Quaterniond randomQuaternion(const size_t seed) const;
+    Quaterniond randomQuaternion(const uint64_t seed) const;
 
 protected:
     Boxf _bounds;
-    float _surface;
-    Vector4fs _clippingPlanes;
+    double _surface;
+    Vector4ds _clippingPlanes;
 };
-
-/**
- * @brief Get a random position in a 2D square along the X and Z axis
- *
- * @param center Center of the delimited plane in the 3D scene
- * @param size Size of the side of square
- * @param randInfo Type of randomization to apply to the position and
- * rotation
- * @return Transformation of the random position and rotation on the plane
- */
-Transformation getPlanarPosition(const Vector3f& position, const float size,
-                                 const AnimationDetails& randInfo);
-
-/**
- * @brief Get the Cubic Position object
- *
- * @param center Center of the cube in the 3D scene
- * @param size Size of the side of cube
- * @param randInfo Type of randomization to apply to the position and
- * rotation
- * @return Transformation of the random position and rotation on the plane
- */
-Transformation getCubicPosition(const Vector3f& center, const Vector3f& size,
-                                const AnimationDetails& randInfo);
-
-/**
- * @brief Get the Cubic Position object
- *
- * @param x Position along the x axis
- * @param z Position along the z axis
- * @return float Position along the y axis
- */
-float sinusoide(const float x, const float z);
-
-/**
- * @brief Get the Sinosoidal Position object
- *
- * @param center Center of the sinosoidal function in the 3D scene
- * @param size Size of the side of sinosoidal function
- * @param amplitude Amplitude of the sinosoidal function
- * @param occurence Occurence of the position amongst the maximum of occurences
- * @param randInfo Type of randomization to apply to the position and
- * rotation
- * @return Transformation of the random position and rotation on the plane
- */
-Transformation getSinosoidalPosition(const Vector3f& center,
-                                     const Vector2f& size,
-                                     const float amplitude,
-                                     const size_t occurence,
-                                     const AnimationDetails& randInfo);
-
-/**
- * @brief Get the Fan Position object
- *
- * @param center Center of the fan in the 3D scene
- * @param radius Radius of the fan in the 3D scene
- * @param occurence Occurence of the position amongst the maximum of occurences
- * (see next parameters)
- * @param occurences Maximum number of occurences on the sphere
- * @param randInfo Type of randomization to apply to the position and
- * rotation
- * @return Transformation of the random position and rotation on the plane
- */
-Transformation getFanPosition(const Vector3f& center, const float radius,
-                              const size_t occurence, const size_t occurences,
-                              const AnimationDetails& randInfo);
-
-/**
- * @brief Get the Bezier Position object
- *
- * @param points Points defining the Bezier curve
- * @param scale Scale to apply to the points
- * @param t Value of t along the Bezier curve (0..1)
- * @return Transformation of the position and rotation on the Bezier curve
- */
-Transformation getBezierPosition(const Vector3fs& points, const float scale,
-                                 const float t);
-
-/**
- * @brief Get the Spherical To Planar Position object
- *
- * @param center Center of the fan in the 3D scene
- * @param radius Radius of the fan in the 3D scene
- * @param occurence Occurence of the position amongst the maximum of occurences
- * (see next parameters)
- * @param occurences Maximum number of occurences on the sphere
- * @param randInfo Type of randomization to apply to the position and
- * rotation
- * @param morphingStep
- * @return Transformation of the random position and rotation on the plane
- */
-Transformation getSphericalToPlanarPosition(const Vector3f& center,
-                                            const float radius,
-                                            const size_t occurence,
-                                            const size_t occurences,
-                                            const AnimationDetails& randInfo,
-                                            const float morphingStep);
-
 } // namespace common
 } // namespace bioexplorer

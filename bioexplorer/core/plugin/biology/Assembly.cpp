@@ -44,10 +44,10 @@ Assembly::Assembly(Scene &scene, const AssemblyDetails &details)
     : _details(details)
     , _scene(scene)
 {
-    const auto size = floatsToVector3f(details.shapeParams);
-    _position = floatsToVector3f(_details.position);
-    _rotation = floatsToQuaterniond(_details.rotation);
-    _clippingPlanes = floatsToVector4fs(details.clippingPlanes);
+    const auto size = doublesToVector3d(details.shapeParams);
+    _position = doublesToVector3d(_details.position);
+    _rotation = doublesToQuaterniond(_details.rotation);
+    _clippingPlanes = doublesToVector4ds(details.clippingPlanes);
 
     switch (details.shape)
     {
@@ -118,11 +118,11 @@ void Assembly::addProtein(const ProteinDetails &details,
     ProteinPtr protein(new Protein(_scene, details));
     auto modelDescriptor = protein->getModelDescriptor();
     const auto animationParams =
-        floatsToAnimationDetails(details.animationParams);
-    const auto proteinPosition = floatsToVector3f(details.position);
-    const auto proteinRotation = floatsToQuaterniond(details.rotation);
+        doublesToAnimationDetails(details.animationParams);
+    const auto proteinPosition = doublesToVector3d(details.position);
+    const auto proteinRotation = doublesToQuaterniond(details.rotation);
     const auto transmembraneParams =
-        floatsToVector2f(details.transmembraneParams);
+        doublesToVector2d(details.transmembraneParams);
 
     _processInstances(modelDescriptor, details.name, details.occurrences,
                       proteinPosition, proteinRotation,
@@ -185,23 +185,26 @@ void Assembly::addGlycans(const SugarsDetails &details)
     targetProtein->addGlycans(details);
 }
 
-void Assembly::_processInstances(
-    ModelDescriptorPtr md, const std::string &name, const size_t occurrences,
-    const Vector3f &position, const Quaterniond &rotation,
-    const size_ts &allowedOccurrences, const AnimationDetails &animationDetails,
-    const float offset, const AssemblyConstraints &constraints)
+void Assembly::_processInstances(ModelDescriptorPtr md, const std::string &name,
+                                 const size_t occurrences,
+                                 const Vector3d &position,
+                                 const Quaterniond &rotation,
+                                 const uint64_ts &allowedOccurrences,
+                                 const AnimationDetails &animationDetails,
+                                 const double offset,
+                                 const AssemblyConstraints &constraints)
 {
     srand(animationDetails.seed);
 
     // Shape
     uint64_t count = 0;
-    for (uint64_t occurence = 0; occurence < occurrences; ++occurence)
+    for (uint64_t occurrence = 0; occurrence < occurrences; ++occurrence)
     {
         try
         {
             if (!allowedOccurrences.empty() &&
                 std::find(allowedOccurrences.begin(), allowedOccurrences.end(),
-                          occurence) == allowedOccurrences.end())
+                          occurrence) == allowedOccurrences.end())
                 continue;
 
             Transformations transformations;
@@ -212,7 +215,7 @@ void Assembly::_processInstances(
             transformations.push_back(assemblyTransformation);
 
             Transformation shapeTransformation =
-                _shape->getTransformation(occurence, occurrences,
+                _shape->getTransformation(occurrence, occurrences,
                                           animationDetails, offset);
 
             transformations.push_back(shapeTransformation);
@@ -244,7 +247,6 @@ void Assembly::_processInstances(
                 md->setTransformation(finalTransformation);
             const ModelInstance instance(true, false, finalTransformation);
             md->addInstance(instance);
-
             ++count;
         }
         catch (const std::runtime_error &)
@@ -405,8 +407,8 @@ void Assembly::setProteinInstanceTransformation(
     const auto instance = modelDescriptor->getInstance(details.instanceIndex);
     const auto &transformation = instance->getTransformation();
 
-    const auto position = floatsToVector3f(details.position);
-    const auto rotation = floatsToQuaterniond(details.rotation);
+    const auto position = doublesToVector3d(details.position);
+    const auto rotation = doublesToQuaterniond(details.rotation);
 
     PLUGIN_INFO("Modifying instance "
                 << details.instanceIndex << " of protein " << details.name
@@ -415,9 +417,10 @@ void Assembly::setProteinInstanceTransformation(
     Transformation newTransformation = transformation;
     newTransformation.setTranslation(position);
     newTransformation.setRotation(rotation);
-    instance->setTransformation(newTransformation);
     if (details.instanceIndex == 0)
         modelDescriptor->setTransformation(newTransformation);
+    else
+        instance->setTransformation(Transformation());
 
     _scene.markModified();
 }
@@ -441,15 +444,14 @@ const Transformation Assembly::getProteinInstanceTransformation(
                      std::to_string(details.instanceIndex) + ") for protein " +
                      details.name + " in assembly " + details.assemblyName);
 
-    const auto instance = modelDescriptor->getInstance(details.instanceIndex);
-    auto transformation = instance->getTransformation();
-
     if (details.instanceIndex == 0)
-        transformation = modelDescriptor->getTransformation();
-    return transformation;
+        return modelDescriptor->getTransformation();
+
+    const auto instance = modelDescriptor->getInstance(details.instanceIndex);
+    return instance->getTransformation();
 }
 
-bool Assembly::isInside(const Vector3f &location) const
+bool Assembly::isInside(const Vector3d &location) const
 {
     bool result = false;
     if (_shape)

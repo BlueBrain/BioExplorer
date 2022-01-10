@@ -99,7 +99,7 @@ Protein::Protein(Scene& scene, const ProteinDetails& details)
 
     // Trans-membrane information
     const auto transmembraneParams =
-        floatsToVector2f(details.transmembraneParams);
+        doublesToVector2d(details.transmembraneParams);
     _transMembraneOffset = transmembraneParams.x;
     _transMembraneRadius = transmembraneParams.y;
 }
@@ -261,7 +261,7 @@ void Protein::_buildAminoAcidBounds()
 }
 
 void Protein::_getSitesTransformations(
-    Vector3fs& positions, Quaternions& rotations,
+    Vector3ds& positions, Quaternions& rotations,
     const std::map<std::string, size_ts>& sitesPerChain) const
 {
     for (const auto& chain : sitesPerChain)
@@ -274,9 +274,9 @@ void Protein::_getSitesTransformations(
         for (const auto site : chain.second)
         {
             // Protein center
-            const auto& proteinCenter = _bounds.getCenter();
+            const Vector3d proteinCenter = _bounds.getCenter();
             Boxf siteBounds;
-            Vector3f siteCenter;
+            Vector3d siteCenter;
 
             const auto offsetSite = site;
 
@@ -291,7 +291,7 @@ void Protein::_getSitesTransformations(
                 // center of the protein
                 const auto bindrotation = normalize(siteCenter - proteinCenter);
                 positions.push_back(siteCenter);
-                rotations.push_back(glm::quatLookAt(bindrotation, UP_VECTOR));
+                rotations.push_back(safeQuatlookAt(bindrotation));
             }
             else
                 PLUGIN_WARN("Chain: "
@@ -335,13 +335,13 @@ void Protein::_getSitesTransformations(
             // center of the protein
             const auto bindrotation = normalize(siteCenter - proteinCenter);
             positions.push_back(siteCenter);
-            rotations.push_back(glm::quatLookAt(bindrotation, UP_VECTOR));
+            rotations.push_back(glm::safeQuatlookAt(bindrotation, UP_VECTOR));
 #endif
         }
     }
 }
 
-void Protein::getGlycosilationSites(Vector3fs& positions,
+void Protein::getGlycosilationSites(Vector3ds& positions,
                                     Quaternions& rotations,
                                     const size_ts& siteIndices) const
 {
@@ -353,7 +353,7 @@ void Protein::getGlycosilationSites(Vector3fs& positions,
     _getSitesTransformations(positions, rotations, sites);
 }
 
-void Protein::getSugarBindingSites(Vector3fs& positions, Quaternions& rotations,
+void Protein::getSugarBindingSites(Vector3ds& positions, Quaternions& rotations,
                                    const size_ts& siteIndices,
                                    const size_ts& chainIds) const
 {
@@ -403,7 +403,7 @@ void Protein::setAminoAcid(const AminoAcidDetails& details)
 }
 
 void Protein::_processInstances(ModelDescriptorPtr md,
-                                const Vector3fs& positions,
+                                const Vector3ds& positions,
                                 const Quaternions& rotations,
                                 const Quaterniond& moleculerotation,
                                 const AnimationDetails& randInfo)
@@ -432,8 +432,8 @@ void Protein::_processInstances(ModelDescriptorPtr md,
             const Transformation combinedTransformation =
                 proteinTransformation * glycanTransformation;
 
-            if (count == 0)
-                md->setTransformation(combinedTransformation);
+            // if (count == 0)
+            //     md->setTransformation(combinedTransformation);
 
             const ModelInstance instance(true, false, combinedTransformation);
             md->addInstance(instance);
@@ -449,7 +449,7 @@ void Protein::addGlycans(const SugarsDetails& details)
                      " already exists in protein " + _details.name +
                      " of assembly " + _details.assemblyName);
 
-    Vector3fs glycanPositions;
+    Vector3ds glycanPositions;
     Quaternions glycanrotations;
     getGlycosilationSites(glycanPositions, glycanrotations,
                           details.siteIndices);
@@ -462,11 +462,9 @@ void Protein::addGlycans(const SugarsDetails& details)
     // protein
     GlycansPtr glycans(new Glycans(_scene, details));
     auto modelDescriptor = glycans->getModelDescriptor();
-    const Quaterniond proteinrotation({details.rotation[0], details.rotation[1],
-                                       details.rotation[2],
-                                       details.rotation[3]});
+    const Quaterniond proteinrotation = doublesToQuaterniond(details.rotation);
 
-    const auto randInfo = floatsToAnimationDetails(details.animationParams);
+    const auto randInfo = doublesToAnimationDetails(details.animationParams);
     _processInstances(modelDescriptor, glycanPositions, glycanrotations,
                       proteinrotation, randInfo);
 
@@ -481,7 +479,7 @@ void Protein::addSugars(const SugarsDetails& details)
                      " already exists in protein " + _details.name +
                      " of assembly " + _details.assemblyName);
 
-    Vector3fs positions;
+    Vector3ds positions;
     Quaternions rotations;
     getSugarBindingSites(positions, rotations, details.siteIndices,
                          details.chainIds);
@@ -494,9 +492,9 @@ void Protein::addSugars(const SugarsDetails& details)
 
     GlycansPtr glucoses(new Glycans(_scene, details));
     auto modelDescriptor = glucoses->getModelDescriptor();
-    const auto sugarRotation = floatsToQuaterniond(details.rotation);
+    const auto sugarRotation = doublesToQuaterniond(details.rotation);
 
-    const auto randInfo = floatsToAnimationDetails(details.animationParams);
+    const auto randInfo = doublesToAnimationDetails(details.animationParams);
     _processInstances(modelDescriptor, positions, rotations, sugarRotation,
                       randInfo);
 

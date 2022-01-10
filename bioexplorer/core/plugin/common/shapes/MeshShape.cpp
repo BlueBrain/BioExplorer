@@ -30,7 +30,7 @@ namespace common
 using namespace brayns;
 using namespace details;
 
-MeshShape::MeshShape(const Vector3f& scale, const Vector4fs& clippingPlanes,
+MeshShape::MeshShape(const Vector3d& scale, const Vector4ds& clippingPlanes,
                      const std::string& contents)
     : Shape(clippingPlanes)
 {
@@ -58,18 +58,18 @@ MeshShape::MeshShape(const Vector3f& scale, const Vector4fs& clippingPlanes,
         aiMesh* mesh = aiScene->mMeshes[m];
 
         // Determine mesh center
-        Vector3f meshCenter{0.f, 0.f, 0.f};
+        Vector3d meshCenter{0.0, 0.0, 0.0};
         for (uint64_t i = 0; i < mesh->mNumVertices; ++i)
         {
             const auto& v = mesh->mVertices[i];
-            meshCenter += _toVector3f(v);
+            meshCenter += _toVector3d(v);
         }
         meshCenter /= mesh->mNumVertices;
 
         // Recenter mesh and store transformed vertices
         for (uint64_t i = 0; i < mesh->mNumVertices; ++i)
         {
-            const auto v = _toVector3f(mesh->mVertices[i], meshCenter, scale);
+            const auto v = _toVector3d(mesh->mVertices[i], meshCenter, scale);
             _vertices.push_back(v);
             _bounds.merge(v);
         }
@@ -97,11 +97,11 @@ MeshShape::MeshShape(const Vector3f& scale, const Vector4fs& clippingPlanes,
             for (const auto& face : _faces)
             {
                 auto normal =
-                    glm::normalize(_toVector3f(mesh->mNormals[face.x]));
+                    glm::normalize(_toVector3d(mesh->mNormals[face.x]));
                 _normals[face.x] = normal;
-                normal = glm::normalize(_toVector3f(mesh->mNormals[face.y]));
+                normal = glm::normalize(_toVector3d(mesh->mNormals[face.y]));
                 _normals[face.y] = normal;
-                normal = glm::normalize(_toVector3f(mesh->mNormals[face.z]));
+                normal = glm::normalize(_toVector3d(mesh->mNormals[face.z]));
                 _normals[face.z] = normal;
             }
         }
@@ -127,12 +127,12 @@ MeshShape::MeshShape(const Vector3f& scale, const Vector4fs& clippingPlanes,
 }
 
 Transformation MeshShape::getTransformation(
-    const uint64_t occurence, const uint64_t nbOccurences,
-    const AnimationDetails& animationDetails, const float offset) const
+    const uint64_t occurrence, const uint64_t nbOccurrences,
+    const AnimationDetails& animationDetails, const double offset) const
 {
-    const float instanceSurface = _surface / nbOccurences;
-    const float expectedSurfaceCovering = instanceSurface * occurence;
-    float surfaceCoveringProcess = 0.f;
+    const double instanceSurface = _surface / nbOccurrences;
+    const double expectedSurfaceCovering = instanceSurface * occurrence;
+    double surfaceCoveringProcess = 0.0;
     uint64_t faceIndex = 0;
     while (true)
     {
@@ -144,8 +144,8 @@ Transformation MeshShape::getTransformation(
 
     const auto face = _faces[faceIndex];
 
-    Vector2f coordinates{1.f, 1.f};
-    while (coordinates.x + coordinates.y > 1.f)
+    Vector2d coordinates{1.0, 1.0};
+    while (coordinates.x + coordinates.y > 1.0)
     {
         coordinates.x = 0.5f + rnd1();
         coordinates.y = 0.5f + rnd1();
@@ -153,7 +153,7 @@ Transformation MeshShape::getTransformation(
 
     const auto v00 = _vertices[face.y] - _vertices[face.x];
     const auto v01 = _vertices[face.z] - _vertices[face.x];
-    Vector3f pos =
+    Vector3d pos =
         _vertices[face.x] + v00 * coordinates.x + v01 * coordinates.y;
 
     // Clipping planes
@@ -164,29 +164,29 @@ Transformation MeshShape::getTransformation(
     const auto v10 = _vertices[face.x] - pos;
     const auto v11 = _vertices[face.y] - pos;
     const auto v12 = _vertices[face.z] - pos;
-    const Vector3f areas{0.5f * length(glm::cross(v11, v12)),
-                         0.5f * length(glm::cross(v10, v12)),
-                         0.5f * length(glm::cross(v10, v11))};
+    const Vector3d areas{0.5 * length(glm::cross(v11, v12)),
+                         0.5 * length(glm::cross(v10, v12)),
+                         0.5 * length(glm::cross(v10, v11))};
 
     const auto n0 = _normals[face.x];
     const auto n1 = _normals[face.y];
     const auto n2 = _normals[face.z];
 
-    const Vector3f normal = glm::normalize(
-        Vector4f(glm::normalize((n0 * areas.x + n1 * areas.y + n2 * areas.z) /
+    const Vector3d normal = glm::normalize(
+        Vector4d(glm::normalize((n0 * areas.x + n1 * areas.y + n2 * areas.z) /
                                 (areas.x + areas.y + areas.z)),
-                 0.f));
+                 0.0));
 
-    Quaterniond rot = glm::quatLookAt(normal, UP_VECTOR);
+    Quaterniond rot = safeQuatlookAt(normal);
     if (animationDetails.positionSeed != 0)
         pos += animationDetails.positionStrength *
-               Vector3f(rnd2(animationDetails.positionSeed),
+               Vector3d(rnd2(animationDetails.positionSeed),
                         rnd2(animationDetails.positionSeed + 1),
                         rnd2(animationDetails.positionSeed + 2));
 
     if (animationDetails.rotationSeed != 0)
         rot = weightedRandomRotation(rot, animationDetails.rotationSeed,
-                                     occurence,
+                                     occurrence,
                                      animationDetails.rotationStrength);
 
     pos += offset * normal;
@@ -197,34 +197,34 @@ Transformation MeshShape::getTransformation(
     return transformation;
 }
 
-bool MeshShape::isInside(const Vector3f& point) const
+bool MeshShape::isInside(const Vector3d& point) const
 {
-    const Vector3f& center = _bounds.getCenter();
-    const Vector3f rayDirection = center - point;
-    const float rayLength = length(rayDirection);
-    const Vector3f direction = normalize(rayDirection);
+    const Vector3d& center = _bounds.getCenter();
+    const Vector3d rayDirection = center - point;
+    const double rayLength = length(rayDirection);
+    const Vector3d direction = normalize(rayDirection);
     for (const auto& face : _faces)
     {
         Boxf box;
         box.merge(_vertices[face.x]);
         box.merge(_vertices[face.y]);
         box.merge(_vertices[face.z]);
-        if (_rayBoxIntersection(point, direction, box, rayLength / 10.f,
+        if (_rayBoxIntersection(point, direction, box, rayLength / 10.0,
                                 rayLength))
             return false;
     }
     return true;
 }
 
-bool MeshShape::_rayBoxIntersection(const Vector3f& origin,
-                                    const Vector3f& direction, const Boxf& box,
-                                    const float t0, const float t1) const
+bool MeshShape::_rayBoxIntersection(const Vector3d& origin,
+                                    const Vector3d& direction, const Boxf& box,
+                                    const double t0, const double t1) const
 {
-    const Vector3f bounds[2]{box.getMin(), box.getMax()};
-    const Vector3f invDir = 1.f / direction;
-    const Vector3ui sign{invDir.x < 0.f, invDir.y < 0.f, invDir.z < 0.f};
+    const Vector3d bounds[2]{box.getMin(), box.getMax()};
+    const Vector3d invDir = 1.0 / direction;
+    const Vector3ui sign{invDir.x < 0.0, invDir.y < 0.0, invDir.z < 0.0};
 
-    float tmin, tmax, tymin, tymax, tzmin, tzmax;
+    double tmin, tmax, tymin, tymax, tzmin, tzmax;
 
     tmin = (bounds[sign.x].x - origin.x) * invDir.x;
     tmax = (bounds[1 - sign.x].x - origin.x) * invDir.x;
@@ -253,39 +253,39 @@ bool MeshShape::_rayBoxIntersection(const Vector3f& origin,
     return (tmin < t1 && tmax > t0);
 }
 
-Vector3f MeshShape::_toVector3f(const aiVector3D& v) const
+Vector3d MeshShape::_toVector3d(const aiVector3D& v) const
 {
-    return Vector3f(v.x, v.y, v.z);
+    return Vector3d(v.x, v.y, v.z);
 }
 
-Vector3f MeshShape::_toVector3f(const aiVector3D& v, const Vector3f& center,
-                                const Vector3f& scale) const
+Vector3d MeshShape::_toVector3d(const aiVector3D& v, const Vector3d& center,
+                                const Vector3d& scale) const
 {
-    const Vector3f p{v.x, v.y, v.z};
-    const Vector3f a = p - center;
-    const Vector3f b = (p + a) * scale;
+    const Vector3d p{v.x, v.y, v.z};
+    const Vector3d a = p - center;
+    const Vector3d b = (p + a) * scale;
     return b;
 }
 
-Vector3f MeshShape::_toVector3f(const aiVector3D& v, const Vector3f& center,
-                                const Vector3f& scale,
+Vector3d MeshShape::_toVector3d(const aiVector3D& v, const Vector3d& center,
+                                const Vector3d& scale,
                                 const Quaterniond& rotation) const
 {
-    const Vector3f p{v.x, v.y, v.z};
-    const Vector3f a = p - center;
-    const Vector3f b = Vector3f(rotation * Vector3d(p + a)) * scale;
+    const Vector3d p{v.x, v.y, v.z};
+    const Vector3d a = p - center;
+    const Vector3d b = Vector3d(rotation * Vector3d(p + a)) * scale;
     return b;
 }
 
-float MeshShape::_getSurfaceArea(const Vector3f& v0, const Vector3f& v1,
-                                 const Vector3f& v2) const
+double MeshShape::_getSurfaceArea(const Vector3d& v0, const Vector3d& v1,
+                                  const Vector3d& v2) const
 {
     // Compute triangle area
-    const float a = length(v1 - v0);
-    const float b = length(v2 - v0);
-    const float c = length(v2 - v1);
-    const float s = (a + b + c) / 2.f;
-    const float e = s * (s - a) * (s - b) * (s - c);
+    const double a = length(v1 - v0);
+    const double b = length(v2 - v0);
+    const double c = length(v2 - v1);
+    const double s = (a + b + c) / 2.0;
+    const double e = s * (s - a) * (s - b) * (s - c);
     return sqrt(e);
 }
 

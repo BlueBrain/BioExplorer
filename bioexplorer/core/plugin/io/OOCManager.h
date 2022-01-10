@@ -132,17 +132,17 @@ public:
     /**
      * @return Get the update frequency (in seconds) of the bricks in the scene
      */
-    const float getUpdateFrequency() const { return _updateFrequency; }
+    const double getUpdateFrequency() const { return _updateFrequency; }
 
     /**
      * @return Get current loading progress
      */
-    const float getProgress() const { return _progress; }
+    const double getProgress() const { return _progress; }
 
     /**
      * @return Get average loading time (in milliseconds)
      */
-    const float getAverageLoadingTime() const { return _averageLoadingTime; }
+    const double getAverageLoadingTime() const { return _averageLoadingTime; }
 
 private:
     void _parseArguments(const CommandLineArguments& arguments);
@@ -153,13 +153,13 @@ private:
     FrameBuffer* _frameBuffer{nullptr};
 
     OOCSceneConfigurationDetails _sceneConfiguration;
-    float _updateFrequency{1.f};
+    double _updateFrequency{1.f};
     int32_t _nbVisibleBricks{0};
     bool _unloadBricks{false};
     bool _showGrid{false};
     uint32_t _nbBricksPerCycle{5};
-    float _progress{0.f};
-    float _averageLoadingTime{0.f};
+    double _progress{0.f};
+    double _averageLoadingTime{0.f};
 
     // IO
 #ifdef USE_PQXX

@@ -52,11 +52,11 @@ private:
 
     AdvancedMaterial* _bgMaterial;
 
-    float _exposure{1.f};
-    float _aoStrength{1.f};
-    float _aoDistance{100.f};
+    double _exposure{1.f};
+    double _aoStrength{1.f};
+    double _aoDistance{100.f};
     ospray::uint32 _randomNumber{0};
-    float _timestamp{0.f};
+    double _timestamp{0.f};
     bool _useHardwareRandomizer{false};
     bool _showBackground{false};
 };

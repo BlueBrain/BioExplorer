@@ -65,7 +65,7 @@ SurfaceMesher::SurfaceMesher(const uint32_t uuid)
 
 ModelDescriptorPtr SurfaceMesher::generateSurface(brayns::Scene& scene,
                                                   const std::string& title,
-                                                  const Vector4fs& atoms,
+                                                  const Vector4ds& atoms,
                                                   const double shrinkfactor)
 {
     ModelDescriptorPtr modelDescriptor{nullptr};
@@ -111,7 +111,7 @@ ModelDescriptorPtr SurfaceMesher::generateSurface(brayns::Scene& scene,
 
 ModelDescriptorPtr SurfaceMesher::generateUnionOfBalls(brayns::Scene& scene,
                                                        const std::string& title,
-                                                       const Vector4fs& atoms)
+                                                       const Vector4ds& atoms)
 {
     std::list<Weighted_point> l;
     for (const auto& atom : atoms)

@@ -36,22 +36,22 @@ struct AdvancedMaterial : public ospray::Material
     /*! opacity: 0 (transparent), 1 (opaque) */
     ospray::Texture2D* map_d;
     ospray::affine2f xform_d;
-    float d;
+    double d;
 
     /*! refraction index */
     ospray::Texture2D* map_Refraction;
     ospray::affine2f xform_Refraction;
-    float refraction;
+    double refraction;
 
     /*! reflection index */
     ospray::Texture2D* map_Reflection;
     ospray::affine2f xform_Reflection;
-    float reflection;
+    double reflection;
 
     /*! radiance: 0 (none), 1 (full) */
     ospray::Texture2D* map_a;
     ospray::affine2f xform_a;
-    float a;
+    double a;
 
     /*! diffuse  reflectance: 0 (none), 1 (full) */
     ospray::Texture2D* map_Kd;
@@ -66,10 +66,10 @@ struct AdvancedMaterial : public ospray::Material
     /*! specular exponent: 0 (diffuse), infinity (specular) */
     ospray::Texture2D* map_Ns;
     ospray::affine2f xform_Ns;
-    float Ns;
+    double Ns;
 
     /*! Glossiness: 0 (none), 1 (full) */
-    float glossiness;
+    double glossiness;
 
     /*! bump map */
     ospray::Texture2D* map_Bump;
@@ -80,7 +80,7 @@ struct AdvancedMaterial : public ospray::Material
     MaterialShadingMode shadingMode;
 
     /*! User parameter */
-    float userParameter;
+    double userParameter;
 
     /*! Model ID */
     ospray::uint32 nodeId;

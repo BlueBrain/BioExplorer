@@ -29,7 +29,7 @@ namespace common
 using namespace brayns;
 using namespace details;
 
-const std::vector<float> randoms = {
+const std::vector<double> randoms = {
     0.28148369141,    0.796861024715, 0.074193743197,  0.482440306945,
     0.992773878589,   0.709310247315, 0.988484235866,  0.714714091734,
     0.643116781373,   0.718637647581, 0.926101047171,  0.846328419497,
@@ -63,44 +63,44 @@ const std::vector<float> randoms = {
     0.870761691473,   0.368350833275, 0.228505271004,  0.3741636072,
     0.347291149036,   0.753449262487, 0.890757112194,  0.167150644248};
 
-Shape::Shape(const Vector4fs& clippingPlanes)
+Shape::Shape(const Vector4ds& clippingPlanes)
     : _clippingPlanes(clippingPlanes)
-    , _surface(0.f)
+    , _surface(0.0)
 {
 }
 
 Shape::~Shape() {}
 
-float Shape::rnd1()
+double Shape::rnd1()
 {
-    return float(rand() % 1000 - 500) / 1000.f;
+    return static_cast<double>(rand() % 1000 - 500) / 1000.0;
 }
 
-float Shape::rnd2(const uint64_t index)
+double Shape::rnd2(const uint64_t index)
 {
-    return randoms[index % randoms.size()] - 0.5f;
+    return randoms[index % randoms.size()] - 0.5;
 }
 
-float Shape::rnd3(const uint64_t index)
+double Shape::rnd3(const uint64_t index)
 {
-    return cos(index * M_PI / 180.f) + sin(index * M_PI / 45.f) +
-           cos(index * M_PI / 72.f);
+    return cos(index * M_PI / 180.0) + sin(index * M_PI / 45.0) +
+           cos(index * M_PI / 72.0);
 }
 
 Quaterniond Shape::weightedRandomRotation(const Quaterniond& q,
-                                          const size_t seed, const size_t index,
-                                          const float s)
+                                          const uint64_t seed,
+                                          const uint64_t index, const double s)
 {
     const Quaterniond qPitch =
-        glm::angleAxis(s * rnd2(seed + index * 2), Vector3f(1.f, 0.f, 0.f));
+        angleAxis(s * rnd2(seed + index * 2), Vector3d(1.0, 0.0, 0.0));
     const Quaterniond qYaw =
-        glm::angleAxis(s * rnd2(seed + index * 3), Vector3f(0.f, 1.f, 0.f));
+        angleAxis(s * rnd2(seed + index * 3), Vector3d(0.0, 1.0, 0.0));
     const Quaterniond qRoll =
-        glm::angleAxis(s * rnd2(seed + index * 5), Vector3f(0.f, 0.f, 1.f));
+        angleAxis(s * rnd2(seed + index * 5), Vector3d(0.0, 0.0, 1.0));
     return q * qPitch * qYaw * qRoll;
 }
 
-Quaterniond Shape::randomQuaternion(const size_t seed) const
+Quaterniond Shape::randomQuaternion(const uint64_t seed) const
 {
     double x, y, z, u, v, w, s;
     do

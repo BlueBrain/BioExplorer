@@ -90,6 +90,6 @@ BOOST_AUTO_TEST_CASE(meshBasedMembrane)
                     ->second->getAtoms()
                     .size() == 426);
 
-    BOOST_CHECK(assembly.isInside(Vector3f(0.f, 0.f, 0.f)));
+    BOOST_CHECK(assembly.isInside(Vector3d(0.f, 0.f, 0.f)));
 }
 } // namespace tests

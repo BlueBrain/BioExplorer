@@ -40,14 +40,14 @@ public:
      * @param The center of the node
      * @param The node size
      */
-    OctreeNode(const glm::vec3 center, const float size);
+    OctreeNode(const glm::vec3 center, const double size);
 
     /**
      * @brief Add a value to the node
      *
      * @param The value of the node
      */
-    void addValue(const float value);
+    void addValue(const double value);
 
     /**
      * @brief Add a Child to the node
@@ -75,10 +75,10 @@ public:
      *
      * @return The value of the node
      */
-    const float getValue() const;
+    const double getValue() const;
 
 private:
-    float _value;
+    double _value;
 
     glm::vec3 _center;
     glm::vec3 _size;

@@ -196,22 +196,22 @@ void MediaMakerPlugin::_setCamera(const CameraDefinition &payload)
 
     // Origin
     const auto &o = payload.origin;
-    brayns::Vector3f origin{o[0], o[1], o[2]};
+    brayns::Vector3d origin{o[0], o[1], o[2]};
     camera.setPosition(origin);
 
     // Target
     const auto &d = payload.direction;
-    brayns::Vector3f direction{d[0], d[1], d[2]};
+    brayns::Vector3d direction{d[0], d[1], d[2]};
     camera.setTarget(origin + direction);
 
     // Up
     const auto &u = payload.up;
-    brayns::Vector3f up{u[0], u[1], u[2]};
+    brayns::Vector3d up{u[0], u[1], u[2]};
 
     // Orientation
-    const glm::quat q = glm::inverse(
-        glm::lookAt(origin, origin + direction,
-                    up)); // Not quite sure why this should be inverted?!?
+    const auto q = glm::inverse(glm::lookAt(origin, origin + direction,
+                                            up)); // Not quite sure why this
+                                                  // should be inverted?!?
     camera.setOrientation(q);
 
     // Aperture
@@ -316,11 +316,11 @@ void MediaMakerPlugin::_exportDepthBuffer() const
     TIFFSetField(image, TIFFTAG_SAMPLEFORMAT, SAMPLEFORMAT_IEEEFP);
     TIFFSetField(image, TIFFTAG_COMPRESSION, COMPRESSION_NONE);
 
-    float *scan_line = (float *)malloc(size.x * (sizeof(float)));
+    double *scan_line = (double *)malloc(size.x * (sizeof(double)));
 
     for (uint32_t i = 0; i < size.y; ++i)
     {
-        memcpy(scan_line, &depthBuffer[i * size.x], size.x * sizeof(float));
+        memcpy(scan_line, &depthBuffer[i * size.x], size.x * sizeof(double));
         TIFFWriteScanline(image, scan_line, size.y - 1 - i, 0);
     }
 
@@ -384,7 +384,7 @@ void MediaMakerPlugin::_exportFramesToDisk(const ExportFramesToDisk &payload)
 FrameExportProgress MediaMakerPlugin::_getFrameExportProgress()
 {
     FrameExportProgress result;
-    float percentage = 1.f;
+    double percentage = 1.f;
     const size_t nbFrames =
         _exportFramesToDiskPayload.cameraInformation.size() /
         CAMERA_DEFINITION_SIZE;
@@ -393,10 +393,10 @@ FrameExportProgress MediaMakerPlugin::_getFrameExportProgress()
 
     if (totalNumberOfFrames != 0)
     {
-        const float currentProgress =
+        const double currentProgress =
             _frameNumber * _exportFramesToDiskPayload.spp +
             _accumulationFrameNumber;
-        percentage = currentProgress / float(totalNumberOfFrames);
+        percentage = currentProgress / double(totalNumberOfFrames);
     }
     result.progress = percentage;
     result.done = !_exportFramesToDiskDirty;

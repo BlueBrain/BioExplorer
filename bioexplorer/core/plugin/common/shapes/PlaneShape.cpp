@@ -30,27 +30,27 @@ namespace common
 using namespace brayns;
 using namespace details;
 
-PlaneShape::PlaneShape(const Vector4fs& clippingPlanes, const Vector2f& size)
+PlaneShape::PlaneShape(const Vector4ds& clippingPlanes, const Vector2f& size)
     : Shape(clippingPlanes)
     , _size(size)
 {
-    _bounds.merge(Vector3f(-size.x / 2.f, -size.y / 2.f, 0.f));
-    _bounds.merge(Vector3f(size.x / 2.f, size.y / 2.f, 0.f));
+    _bounds.merge(Vector3d(-size.x / 2.f, -size.y / 2.f, 0.f));
+    _bounds.merge(Vector3d(size.x / 2.f, size.y / 2.f, 0.f));
     _surface = size.x * size.y;
 }
 
 Transformation PlaneShape::getTransformation(
-    const uint64_t occurence, const uint64_t nbOccurences,
-    const AnimationDetails& animationDetails, const float offset) const
+    const uint64_t occurrence, const uint64_t nbOccurrences,
+    const AnimationDetails& animationDetails, const double offset) const
 {
-    float up = 0.f;
+    double up = 0.f;
     if (animationDetails.seed != 0)
         up = rnd1() * animationDetails.positionStrength;
 
-    Vector3f pos{rnd1() * _size.x, up, rnd1() * _size.y};
-    const Quaterniond rot{0.f, 0.f, 0.707f, 0.707f};
+    Vector3d pos{rnd1() * _size.x, up, rnd1() * _size.y};
+    const Quaterniond rot{0.0, 0.0, 0.707, 0.707};
 
-    pos += UP_VECTOR * offset;
+    pos += offset * UP_VECTOR;
 
     if (isClipped(pos, _clippingPlanes))
         throw std::runtime_error("Instance is clipped");
@@ -61,7 +61,7 @@ Transformation PlaneShape::getTransformation(
     return transformation;
 }
 
-bool PlaneShape::isInside(const Vector3f& point) const
+bool PlaneShape::isInside(const Vector3d& point) const
 {
     PLUGIN_THROW("isInside is not implemented for Plane shapes");
 }

@@ -43,8 +43,8 @@ public:
      * @param position Relative position of the RNA sequence in the assembly
      */
     RNASequence(Scene& scene, const RNASequenceDetails& details,
-                const Vector4fs& clippingPlanes,
-                const Vector3f& assemblyPosition = Vector3f(),
+                const Vector4ds& clippingPlanes,
+                const Vector3d& assemblyPosition = Vector3d(),
                 const Quaterniond& assemblyRotation = Quaterniond());
 
     /**
@@ -65,7 +65,7 @@ private:
     RNASequenceDetails _details;
     RNASequenceMap _rnaSequenceMap;
     ProteinPtr _protein{nullptr};
-    const Vector3f& _assemblyPosition;
+    const Vector3d& _assemblyPosition;
     const Quaterniond& _assemblyRotation;
     RNAShapePtr _shape{nullptr};
 };

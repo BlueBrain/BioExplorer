@@ -47,123 +47,123 @@ const std::string METADATA_AA_RANGE = "Amino acids range";
 const std::string METADATA_AA_SEQUENCE = "Amino Acid Sequence";
 
 // Atomic radii in picometers (10e-12 meters)
-const float DEFAULT_ATOM_RADIUS = 25.f;
-static AtomicRadii atomicRadii = {{{"H"}, {53.f}},
-                                  {{"C"}, {67.f}},
-                                  {{"N"}, {56.f}},
-                                  {{"O"}, {48.f}},
-                                  {{"H"}, {53.f}},
-                                  {{"B"}, {87.f}},
-                                  {{"F"}, {42.f}},
-                                  {{"P"}, {98.f}},
-                                  {{"S"}, {88.f}},
-                                  {{"V"}, {171.f}},
-                                  {{"K"}, {243.f}},
-                                  {{"HE"}, {31.f}},
-                                  {{"LI"}, {167.f}},
-                                  {{"BE"}, {112.f}},
-                                  {{"NE"}, {38.f}},
-                                  {{"NA"}, {190.f}},
-                                  {{"MG"}, {145.f}},
-                                  {{"AL"}, {118.f}},
-                                  {{"SI"}, {111.f}},
-                                  {{"CL"}, {79.f}},
-                                  {{"Cl"}, {79.f}},
-                                  {{"AR"}, {71.f}},
-                                  {{"CA"}, {194.f}},
-                                  {{"SC"}, {184.f}},
-                                  {{"TI"}, {176.f}},
-                                  {{"CR"}, {166.f}},
-                                  {{"MN"}, {161.f}},
-                                  {{"FE"}, {156.f}},
-                                  {{"CO"}, {152.f}},
-                                  {{"NI"}, {149.f}},
-                                  {{"CU"}, {145.f}},
-                                  {{"ZN"}, {142.f}},
-                                  {{"GA"}, {136.f}},
-                                  {{"GE"}, {125.f}},
-                                  {{"AS"}, {114.f}},
-                                  {{"SE"}, {103.f}},
-                                  {{"BR"}, {94.f}},
-                                  {{"KR"}, {88.f}},
+const double DEFAULT_ATOM_RADIUS = 25.0;
+static AtomicRadii atomicRadii = {{{"H"}, {53.0}},
+                                  {{"C"}, {67.0}},
+                                  {{"N"}, {56.0}},
+                                  {{"O"}, {48.0}},
+                                  {{"H"}, {53.0}},
+                                  {{"B"}, {87.0}},
+                                  {{"F"}, {42.0}},
+                                  {{"P"}, {98.0}},
+                                  {{"S"}, {88.0}},
+                                  {{"V"}, {171.0}},
+                                  {{"K"}, {243.0}},
+                                  {{"HE"}, {31.0}},
+                                  {{"LI"}, {167.0}},
+                                  {{"BE"}, {112.0}},
+                                  {{"NE"}, {38.0}},
+                                  {{"NA"}, {190.0}},
+                                  {{"MG"}, {145.0}},
+                                  {{"AL"}, {118.0}},
+                                  {{"SI"}, {111.0}},
+                                  {{"CL"}, {79.0}},
+                                  {{"Cl"}, {79.0}},
+                                  {{"AR"}, {71.0}},
+                                  {{"CA"}, {194.0}},
+                                  {{"SC"}, {184.0}},
+                                  {{"TI"}, {176.0}},
+                                  {{"CR"}, {166.0}},
+                                  {{"MN"}, {161.0}},
+                                  {{"FE"}, {156.0}},
+                                  {{"CO"}, {152.0}},
+                                  {{"NI"}, {149.0}},
+                                  {{"CU"}, {145.0}},
+                                  {{"ZN"}, {142.0}},
+                                  {{"GA"}, {136.0}},
+                                  {{"GE"}, {125.0}},
+                                  {{"AS"}, {114.0}},
+                                  {{"SE"}, {103.0}},
+                                  {{"BR"}, {94.0}},
+                                  {{"KR"}, {88.0}},
                                   // TODO
-                                  {{"OD1"}, {25.f}},
-                                  {{"OD2"}, {25.f}},
-                                  {{"CG1"}, {25.f}},
-                                  {{"CG2"}, {25.f}},
-                                  {{"CD1"}, {25.f}},
-                                  {{"CB"}, {25.f}},
-                                  {{"CG"}, {25.f}},
-                                  {{"CD"}, {25.f}},
-                                  {{"OE1"}, {25.f}},
-                                  {{"NE2"}, {25.f}},
-                                  {{"CZ"}, {25.f}},
-                                  {{"NH1"}, {25.f}},
-                                  {{"NH2"}, {25.f}},
-                                  {{"CD2"}, {25.f}},
-                                  {{"CE1"}, {25.f}},
-                                  {{"CE2"}, {25.f}},
-                                  {{"CE"}, {25.f}},
-                                  {{"NZ"}, {25.f}},
-                                  {{"OH"}, {25.f}},
-                                  {{"CE"}, {25.f}},
-                                  {{"ND1"}, {25.f}},
-                                  {{"ND2"}, {25.f}},
-                                  {{"OXT"}, {25.f}},
-                                  {{"OG1"}, {25.f}},
-                                  {{"NE1"}, {25.f}},
-                                  {{"CE3"}, {25.f}},
-                                  {{"CZ2"}, {25.f}},
-                                  {{"CZ3"}, {25.f}},
-                                  {{"CH2"}, {25.f}},
-                                  {{"OE2"}, {25.f}},
-                                  {{"OG"}, {25.f}},
-                                  {{"OE2"}, {25.f}},
-                                  {{"SD"}, {25.f}},
-                                  {{"SG"}, {25.f}},
-                                  {{"C1*"}, {25.f}},
-                                  {{"C2"}, {25.f}},
-                                  {{"C2*"}, {25.f}},
-                                  {{"C3*"}, {25.f}},
-                                  {{"C4"}, {25.f}},
-                                  {{"C4*"}, {25.f}},
-                                  {{"C5"}, {25.f}},
-                                  {{"C5*"}, {25.f}},
-                                  {{"C5M"}, {25.f}},
-                                  {{"C6"}, {25.f}},
-                                  {{"C8"}, {25.f}},
-                                  {{"H1"}, {25.f}},
-                                  {{"H1*"}, {25.f}},
-                                  {{"H2"}, {25.f}},
-                                  {{"H2*"}, {25.f}},
-                                  {{"H3"}, {25.f}},
-                                  {{"H3*"}, {25.f}},
-                                  {{"H3P"}, {25.f}},
-                                  {{"H4"}, {25.f}},
-                                  {{"H4*"}, {25.f}},
-                                  {{"H5"}, {25.f}},
-                                  {{"H5*"}, {25.f}},
-                                  {{"H5M"}, {25.f}},
-                                  {{"H6"}, {25.f}},
-                                  {{"H8"}, {25.f}},
-                                  {{"N1"}, {25.f}},
-                                  {{"N2"}, {25.f}},
-                                  {{"N3"}, {25.f}},
-                                  {{"N4"}, {25.f}},
-                                  {{"N6"}, {25.f}},
-                                  {{"N7"}, {25.f}},
-                                  {{"N9"}, {25.f}},
-                                  {{"O1P"}, {25.f}},
-                                  {{"O2"}, {25.f}},
-                                  {{"O2P"}, {25.f}},
-                                  {{"O3*"}, {25.f}},
-                                  {{"O3P"}, {25.f}},
-                                  {{"O4"}, {25.f}},
-                                  {{"O4*"}, {25.f}},
-                                  {{"O5*"}, {25.f}},
-                                  {{"O6"}, {25.f}},
-                                  {{"OXT"}, {25.f}},
-                                  {{"P"}, 25.f}};
+                                  {{"OD1"}, {25.0}},
+                                  {{"OD2"}, {25.0}},
+                                  {{"CG1"}, {25.0}},
+                                  {{"CG2"}, {25.0}},
+                                  {{"CD1"}, {25.0}},
+                                  {{"CB"}, {25.0}},
+                                  {{"CG"}, {25.0}},
+                                  {{"CD"}, {25.0}},
+                                  {{"OE1"}, {25.0}},
+                                  {{"NE2"}, {25.0}},
+                                  {{"CZ"}, {25.0}},
+                                  {{"NH1"}, {25.0}},
+                                  {{"NH2"}, {25.0}},
+                                  {{"CD2"}, {25.0}},
+                                  {{"CE1"}, {25.0}},
+                                  {{"CE2"}, {25.0}},
+                                  {{"CE"}, {25.0}},
+                                  {{"NZ"}, {25.0}},
+                                  {{"OH"}, {25.0}},
+                                  {{"CE"}, {25.0}},
+                                  {{"ND1"}, {25.0}},
+                                  {{"ND2"}, {25.0}},
+                                  {{"OXT"}, {25.0}},
+                                  {{"OG1"}, {25.0}},
+                                  {{"NE1"}, {25.0}},
+                                  {{"CE3"}, {25.0}},
+                                  {{"CZ2"}, {25.0}},
+                                  {{"CZ3"}, {25.0}},
+                                  {{"CH2"}, {25.0}},
+                                  {{"OE2"}, {25.0}},
+                                  {{"OG"}, {25.0}},
+                                  {{"OE2"}, {25.0}},
+                                  {{"SD"}, {25.0}},
+                                  {{"SG"}, {25.0}},
+                                  {{"C1*"}, {25.0}},
+                                  {{"C2"}, {25.0}},
+                                  {{"C2*"}, {25.0}},
+                                  {{"C3*"}, {25.0}},
+                                  {{"C4"}, {25.0}},
+                                  {{"C4*"}, {25.0}},
+                                  {{"C5"}, {25.0}},
+                                  {{"C5*"}, {25.0}},
+                                  {{"C5M"}, {25.0}},
+                                  {{"C6"}, {25.0}},
+                                  {{"C8"}, {25.0}},
+                                  {{"H1"}, {25.0}},
+                                  {{"H1*"}, {25.0}},
+                                  {{"H2"}, {25.0}},
+                                  {{"H2*"}, {25.0}},
+                                  {{"H3"}, {25.0}},
+                                  {{"H3*"}, {25.0}},
+                                  {{"H3P"}, {25.0}},
+                                  {{"H4"}, {25.0}},
+                                  {{"H4*"}, {25.0}},
+                                  {{"H5"}, {25.0}},
+                                  {{"H5*"}, {25.0}},
+                                  {{"H5M"}, {25.0}},
+                                  {{"H6"}, {25.0}},
+                                  {{"H8"}, {25.0}},
+                                  {{"N1"}, {25.0}},
+                                  {{"N2"}, {25.0}},
+                                  {{"N3"}, {25.0}},
+                                  {{"N4"}, {25.0}},
+                                  {{"N6"}, {25.0}},
+                                  {{"N7"}, {25.0}},
+                                  {{"N9"}, {25.0}},
+                                  {{"O1P"}, {25.0}},
+                                  {{"O2"}, {25.0}},
+                                  {{"O2P"}, {25.0}},
+                                  {{"O3*"}, {25.0}},
+                                  {{"O3P"}, {25.0}},
+                                  {{"O4"}, {25.0}},
+                                  {{"O4*"}, {25.0}},
+                                  {{"O5*"}, {25.0}},
+                                  {{"O6"}, {25.0}},
+                                  {{"OXT"}, {25.0}},
+                                  {{"P"}, 25.0}};
 
 Molecule::Molecule(Scene& scene, const size_ts& chainIds)
     : _aminoAcidRange(std::numeric_limits<size_t>::max(),
@@ -242,7 +242,7 @@ const StringMap Molecule::getSequencesAsString() const
 }
 
 void Molecule::_buildAtomicStruture(const ProteinRepresentation representation,
-                                    const float atomRadiusMultiplier,
+                                    const double atomRadiusMultiplier,
                                     const bool surface, const bool loadBonds,
                                     Model& model)
 {
@@ -275,13 +275,13 @@ void Molecule::_buildAtomicStruture(const ProteinRepresentation representation,
         props.setProperty({MATERIAL_PROPERTY_NODE_ID, static_cast<int>(_uuid)});
 
         material->setDiffuseColor(
-            {rgb.r / 255.f, rgb.g / 255.f, rgb.b / 255.f});
+            {rgb.r / 255.0, rgb.g / 255.0, rgb.b / 255.0});
         material->updateProperties(props);
 
         // Geometry
-        model.addSphere(atom.first,
-                        {atom.second.position,
-                         atom.second.radius * atomRadiusMultiplier});
+        model.addSphere(atom.first, {atom.second.position,
+                                     static_cast<float>(atom.second.radius *
+                                                        atomRadiusMultiplier)});
     }
 
     // Bonds
@@ -295,15 +295,17 @@ void Molecule::_buildAtomicStruture(const ProteinRepresentation representation,
             {
                 const auto& atomDst = _atomMap.find(bondedAtom)->second;
 
-                const auto center = (atomSrc.position + atomDst.position) / 2.f;
+                const auto center = (atomSrc.position + atomDst.position) / 2.0;
 
                 model.addCylinder(bond.first,
                                   {atomSrc.position, center,
-                                   atomRadiusMultiplier * BOND_RADIUS});
+                                   static_cast<float>(atomRadiusMultiplier *
+                                                      BOND_RADIUS)});
 
                 model.addCylinder(bondedAtom,
                                   {atomDst.position, center,
-                                   atomRadiusMultiplier * BOND_RADIUS});
+                                   static_cast<float>(atomRadiusMultiplier *
+                                                      BOND_RADIUS)});
             }
         }
     }
@@ -325,13 +327,15 @@ void Molecule::_buildAtomicStruture(const ProteinRepresentation representation,
                 if (length(stick) < DEFAULT_STICK_DISTANCE)
                 {
                     const auto center =
-                        ((*it2).second.position + atom1.second.position) / 2.f;
+                        ((*it2).second.position + atom1.second.position) / 2.0;
                     model.addCylinder(atom1.first,
                                       {atom1.second.position, center,
-                                       atomRadiusMultiplier * BOND_RADIUS});
+                                       static_cast<float>(atomRadiusMultiplier *
+                                                          BOND_RADIUS)});
                     model.addCylinder((*it2).first,
                                       {(*it2).second.position, center,
-                                       atomRadiusMultiplier * BOND_RADIUS});
+                                       static_cast<float>(atomRadiusMultiplier *
+                                                          BOND_RADIUS)});
                 }
                 ++it2;
                 ++it1;
@@ -345,7 +349,7 @@ void Molecule::_buildModel(const std::string& assemblyName,
                            const std::string& name, const std::string& title,
                            const std::string& header,
                            const ProteinRepresentation& representation,
-                           const float atomRadiusMultiplier,
+                           const double atomRadiusMultiplier,
                            const bool loadBonds)
 {
     PLUGIN_INFO("Building protein " << name << "...");
@@ -388,7 +392,7 @@ void Molecule::_buildModel(const std::string& assemblyName,
     case ProteinRepresentation::union_of_balls:
     {
         // Surface
-        Vector4fs pointCloud;
+        Vector4ds pointCloud;
         const size_t materialId{0};
         for (const auto& atom : _atomMap)
         {
@@ -409,7 +413,7 @@ void Molecule::_buildModel(const std::string& assemblyName,
         _modelDescriptor->setMetadata(metadata);
 
         Model& model = _modelDescriptor->getModel();
-        _buildAtomicStruture(representation, atomRadiusMultiplier * 2.f, true,
+        _buildAtomicStruture(representation, atomRadiusMultiplier * 2.0, true,
                              loadBonds, model);
         break;
     }
@@ -450,7 +454,7 @@ void Molecule::_buildModel(const std::string& assemblyName,
             {MATERIAL_PROPERTY_CHAMELEON_MODE,
              static_cast<int>(
                  MaterialChameleonMode::undefined_chameleon_mode)});
-        material->setDiffuseColor({1.f, 1.f, 1.f});
+        material->setDiffuseColor({1.0, 1.0, 1.0});
         material->updateProperties(props);
 
         brayns::Boxf box;
@@ -458,19 +462,24 @@ void Molecule::_buildModel(const std::string& assemblyName,
             box.merge({atom.second.position.x, atom.second.position.y,
                        atom.second.position.z});
 
-        const auto halfSize = box.getSize() * 0.5f;
+        const auto halfSize = box.getSize() * 0.5;
         const auto center = box.getCenter();
 
-        const brayns::Vector3f a = {0.f, 0.f, center.z + halfSize.z};
-        const brayns::Vector3f b = {0.f, 0.f, center.z - halfSize.z * 0.5f};
-        const brayns::Vector3f c = {0.f, 0.f, center.z - halfSize.z * 0.51f};
-        const brayns::Vector3f d = {0.f, 0.f, center.z - halfSize.z};
+        const brayns::Vector3d a = {0.0, 0.0, center.z + halfSize.z};
+        const brayns::Vector3d b = {0.0, 0.0, center.z - halfSize.z * 0.5};
+        const brayns::Vector3d c = {0.0, 0.0, center.z - halfSize.z * 0.51};
+        const brayns::Vector3d d = {0.0, 0.0, center.z - halfSize.z};
 
-        model->addSphere(materialId, {a, atomRadiusMultiplier * 0.2f});
-        model->addCylinder(materialId, {a, b, atomRadiusMultiplier * 0.2f});
-        model->addCone(materialId, {b, c, atomRadiusMultiplier * 0.2f,
-                                    atomRadiusMultiplier});
-        model->addCone(materialId, {c, d, atomRadiusMultiplier, 0.f});
+        model->addSphere(materialId,
+                         {a, static_cast<float>(atomRadiusMultiplier * 0.2)});
+        model->addCylinder(materialId,
+                           {a, b,
+                            static_cast<float>(atomRadiusMultiplier * 0.2)});
+        model->addCone(materialId,
+                       {b, c, static_cast<float>(atomRadiusMultiplier * 0.2),
+                        static_cast<float>(atomRadiusMultiplier)});
+        model->addCone(materialId,
+                       {c, d, static_cast<float>(atomRadiusMultiplier, 0.0)});
         _modelDescriptor =
             std::make_shared<ModelDescriptor>(std::move(model), name, header,
                                               metadata);
@@ -541,15 +550,15 @@ void Molecule::_readAtom(const std::string& line, const bool loadHydrogen)
 
     atom.iCode = line.substr(26, 1);
 
-    atom.position.x = static_cast<float>(atof(line.substr(30, 8).c_str()));
-    atom.position.y = static_cast<float>(atof(line.substr(38, 8).c_str()));
-    atom.position.z = static_cast<float>(atof(line.substr(46, 8).c_str()));
+    atom.position.x = static_cast<double>(atof(line.substr(30, 8).c_str()));
+    atom.position.y = static_cast<double>(atof(line.substr(38, 8).c_str()));
+    atom.position.z = static_cast<double>(atof(line.substr(46, 8).c_str()));
 
     if (line.length() >= 60)
-        atom.occupancy = static_cast<float>(atof(line.substr(54, 6).c_str()));
+        atom.occupancy = static_cast<double>(atof(line.substr(54, 6).c_str()));
 
     if (line.length() >= 66)
-        atom.tempFactor = static_cast<float>(atof(line.substr(60, 6).c_str()));
+        atom.tempFactor = static_cast<double>(atof(line.substr(60, 6).c_str()));
 
     if (line.length() >= 78)
     {
@@ -566,21 +575,21 @@ void Molecule::_readAtom(const std::string& line, const bool loadHydrogen)
     }
 
     // Convert position from amstrom (10e-10) to nanometers (10e-9)
-    atom.position = 0.1f * atom.position;
+    atom.position = 0.1 * atom.position;
 
     // Bounds
     _bounds.merge(atom.position);
 
     // Convert radius from picometers (10e-12) to nanometers (10e-9)
-    atom.radius = 0.001f * DEFAULT_ATOM_RADIUS;
+    atom.radius = 0.001 * DEFAULT_ATOM_RADIUS;
     auto it = atomicRadii.find(atom.element);
     if (it != atomicRadii.end())
-        atom.radius = 0.001f * (*it).second;
+        atom.radius = 0.001 * (*it).second;
     else
     {
         it = atomicRadii.find(atom.name);
         if (it != atomicRadii.end())
-            atom.radius = 0.001f * (*it).second;
+            atom.radius = 0.001 * (*it).second;
         else
             PLUGIN_DEBUG("[" << atom.element << "]/[" << atom.name
                              << "] not found");
@@ -844,7 +853,7 @@ void Molecule::_setMaterialDiffuseColor(const size_t atomIndex,
     if (material)
     {
         material->setDiffuseColor(
-            {color.r / 255.f, color.g / 255.f, color.b / 255.f});
+            {color.r / 255.0, color.g / 255.0, color.b / 255.0});
         material->commit();
     }
     else

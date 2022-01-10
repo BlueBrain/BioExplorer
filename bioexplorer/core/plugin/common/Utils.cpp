@@ -34,13 +34,14 @@ namespace common
 {
 using namespace brayns;
 
-Quaterniond quatLookAt(const Vector3f& dir)
+Quaterniond safeQuatlookAt(const Vector3d& v)
 {
-    const Vector3f d = normalize(dir);
-    Vector3f u = Vector3f(0.f, 0.f, 1.f);
-    if (abs(dot(d, u)) > 0.99f)
-        u = Vector3f(0.f, 1.f, 0.f);
-    return glm::quatLookAt(d, u);
+    const Vector3d vector = normalize(v);
+    auto upVector = UP_VECTOR;
+    if (abs(dot(vector, upVector)) > 0.999)
+        // Gimble lock
+        upVector = Vector3d(0.0, 0.0, 1.0);
+    return quatLookAtRH(vector, upVector);
 }
 
 std::string& ltrim(std::string& s)
@@ -64,7 +65,7 @@ std::string& trim(std::string& s)
     return ltrim(rtrim(s));
 }
 
-bool isClipped(const Vector3f& position, const Vector4fs& clippingPlanes)
+bool isClipped(const Vector3d& position, const Vector4ds& clippingPlanes)
 {
     if (clippingPlanes.empty())
         return false;
@@ -72,10 +73,10 @@ bool isClipped(const Vector3f& position, const Vector4fs& clippingPlanes)
     bool visible = true;
     for (auto plane : clippingPlanes)
     {
-        const Vector3f normal = {plane.x, plane.y, plane.z};
-        const float d = plane.w;
-        const float distance = dot(normal, position) + d;
-        visible &= (distance > 0.f);
+        const Vector3d normal = {plane.x, plane.y, plane.z};
+        const double d = plane.w;
+        const double distance = dot(normal, position) + d;
+        visible &= (distance > 0.0);
     }
     return !visible;
 }
@@ -218,69 +219,69 @@ void setDefaultTransferFunction(Model& model)
     tf.setValuesRange({0.0, 1.0});
 }
 
-Vector4fs getClippingPlanes(const Scene& scene)
+Vector4ds getClippingPlanes(const Scene& scene)
 {
     const auto& clippingPlanes = scene.getClipPlanes();
-    Vector4fs clipPlanes;
+    Vector4ds clipPlanes;
     for (const auto cp : clippingPlanes)
     {
         const auto& p = cp->getPlane();
-        Vector4f plane{p[0], p[1], p[2], p[3]};
+        Vector4d plane{p[0], p[1], p[2], p[3]};
         clipPlanes.push_back(plane);
     }
     return clipPlanes;
 }
 
-Vector2f floatsToVector2f(const floats& value)
+Vector2d doublesToVector2d(const doubles& value)
 {
     if (value.empty())
-        return Vector2f();
+        return Vector2d();
     if (value.size() != 2)
-        PLUGIN_THROW("Invalid number of floats (2 expected)");
-    return Vector2f(value[0], value[1]);
+        PLUGIN_THROW("Invalid number of doubles (2 expected)");
+    return Vector2d(value[0], value[1]);
 }
 
-Vector3f floatsToVector3f(const floats& value)
+Vector3d doublesToVector3d(const doubles& value)
 {
     if (value.empty())
-        return Vector3f();
+        return Vector3d();
     if (value.size() != 3)
-        PLUGIN_THROW("Invalid number of floats (3 expected)");
-    return Vector3f(value[0], value[1], value[2]);
+        PLUGIN_THROW("Invalid number of doubles (3 expected)");
+    return Vector3d(value[0], value[1], value[2]);
 }
 
-Quaterniond floatsToQuaterniond(const floats& values)
+Quaterniond doublesToQuaterniond(const doubles& values)
 {
     if (values.empty())
         return Quaterniond();
     if (values.size() != 4)
-        PLUGIN_THROW("Invalid number of floats (4 expected)");
+        PLUGIN_THROW("Invalid number of doubles (4 expected)");
     return Quaterniond(values[0], values[1], values[2], values[3]);
 }
 
-Vector4fs floatsToVector4fs(const floats& values)
+Vector4ds doublesToVector4ds(const doubles& values)
 {
     if (values.empty())
-        return Vector4fs();
+        return Vector4ds();
     if (values.size() % 4 != 0)
-        PLUGIN_THROW("Clipping planes must be defined by 4 float values");
+        PLUGIN_THROW("Clipping planes must be defined by 4 double values");
 
-    Vector4fs clippingPlanes;
+    Vector4ds clippingPlanes;
     for (size_t i = 0; i < values.size(); i += 4)
         clippingPlanes.push_back(
             {values[i], values[i + 1], values[i + 2], values[i + 3]});
     return clippingPlanes;
 }
 
-AnimationDetails floatsToAnimationDetails(const floats& values)
+AnimationDetails doublesToAnimationDetails(const doubles& values)
 {
     AnimationDetails details;
     details.seed = (values.size() > 0 ? values[0] : 0);
     details.positionSeed = (values.size() > 1 ? values[1] : 0);
-    details.positionStrength = (values.size() > 2 ? values[2] : 0.f);
+    details.positionStrength = (values.size() > 2 ? values[2] : 0.0);
     details.rotationSeed = (values.size() > 3 ? values[3] : 0);
-    details.rotationStrength = (values.size() > 4 ? values[4] : 0.f);
-    details.morphingStep = (values.size() > 5 ? values[5] : 0.f);
+    details.rotationStrength = (values.size() > 4 ? values[4] : 0.0);
+    details.morphingStep = (values.size() > 5 ? values[5] : 0.0);
     return details;
 }
 
@@ -306,24 +307,46 @@ std::vector<std::string> split(const std::string& s,
 
 Transformation combineTransformations(const Transformations& transformations)
 {
-    Transformation transformation;
     glm::mat4 finalMatrix;
     for (const auto& transformation : transformations)
     {
-        glm::mat4 matrix = transformation.toMatrix();
+        const glm::mat4 matrix = transformation.toMatrix();
         finalMatrix *= matrix;
     }
 
-    glm::vec3 s;
-    glm::quat r;
-    glm::vec3 t;
+    glm::vec3 scale;
+    glm::quat rotation;
+    glm::vec3 translation;
     glm::vec3 skew;
     glm::vec4 perspective;
-    glm::decompose(finalMatrix, s, r, t, skew, perspective);
+    glm::decompose(finalMatrix, scale, rotation, translation, skew,
+                   perspective);
 
-    transformation.setTranslation(t);
-    transformation.setRotation(r);
+    Transformation transformation;
+    transformation.setTranslation(translation);
+    transformation.setRotation(rotation);
+    transformation.setScale(scale);
     return transformation;
+}
+
+void sphereFilling(const double radius, const uint64_t occurrence,
+                   const uint64_t occurrences, Vector3d& position,
+                   Quaterniond& rotation, const double radiusOffset,
+                   const double ratio)
+{
+    const double o = static_cast<double>(occurrence);
+    const double os = static_cast<double>(occurrences);
+    const double off = 2.0 / os;
+    const double increment = ratio * M_PI * (3.0 - sqrt(5.0));
+    const double y = ((o * off) - 1.0) + off / 2.0;
+    const double r = sqrt(1.0 - pow(y, 2.0));
+    const double phi = o * increment;
+    const double x = cos(phi) * r;
+    const double z = sin(phi) * r;
+
+    const Vector3d normal = Vector3d(x, y, z);
+    position = normal * (radius + radiusOffset);
+    rotation = safeQuatlookAt(normal);
 }
 
 } // namespace common

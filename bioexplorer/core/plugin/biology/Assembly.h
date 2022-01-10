@@ -90,13 +90,13 @@ public:
     /**
      * @return Clipping planes applied to the assembly
      */
-    Vector4fs &getClippingPlanes() { return _clippingPlanes; }
+    Vector4ds &getClippingPlanes() { return _clippingPlanes; }
 
     /**
      * @brief setClippingPlanes Set clipping planes on the assembly
-     * @param clippingPlanes Clipping planes as a vector of 4 floats
+     * @param clippingPlanes Clipping planes as a vector of 4 doubles
      */
-    void setClippingPlanes(const Vector4fs &clippingPlanes)
+    void setClippingPlanes(const Vector4ds &clippingPlanes)
     {
         _clippingPlanes = clippingPlanes;
     }
@@ -161,28 +161,29 @@ public:
     void addGlycans(const SugarsDetails &details);
 
     /**
-     * @brief addSugars Add sugars to sugar binding sites of a given protein of
-     * the assembly
-     * @param details Details of the sugars
-     */
-    void addSugars(const SugarsDetails &details);
-
-    /**
      * @brief Check if a location is inside the assembly
      *
      * @param point Location to check
      * @return true if the location is inside
      * @return false if the location is outside
      */
-    bool isInside(const Vector3f &location) const;
+    bool isInside(const Vector3d &location) const;
+
+    /**
+     * @brief Returns information about the object at a given location in space
+     *
+     * @param location Location in space
+     * @return ObjectDetails Details about the object
+     */
+    ObjectDetails inspect(const Vector3d &location) const;
 
 private:
     void _processInstances(ModelDescriptorPtr md, const std::string &name,
-                           const size_t occurrences, const Vector3f &position,
+                           const size_t occurrences, const Vector3d &position,
                            const Quaterniond &rotation,
-                           const size_ts &allowedOccurrences,
+                           const uint64_ts &allowedOccurrences,
                            const AnimationDetails &animationDetails,
-                           const float offset,
+                           const double offset,
                            const AssemblyConstraints &constraints);
 
     AssemblyDetails _details;
@@ -190,9 +191,9 @@ private:
     ProteinMap _proteins;
     MembranePtr _membrane{nullptr};
     RNASequencePtr _rnaSequence{nullptr};
-    Vector3f _position;
+    Vector3d _position;
     Quaterniond _rotation;
-    Vector4fs _clippingPlanes;
+    Vector4ds _clippingPlanes;
     ModelDescriptors _modelDescriptors;
     ShapePtr _shape{nullptr};
 };

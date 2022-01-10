@@ -20,7 +20,7 @@
 
 #pragma once
 
-#include <brayns/common/types.h>
+#include <plugin/common/Types.h>
 
 namespace bioexplorer
 {
@@ -40,7 +40,7 @@ public:
      */
     ModelDescriptorPtr generateSurface(brayns::Scene& scene,
                                        const std::string& title,
-                                       const Vector4fs& atoms,
+                                       const Vector4ds& atoms,
                                        const double shrinkfactor = 0.5);
 
     /** Generates a triangle based mesh model
@@ -50,7 +50,7 @@ public:
      */
     ModelDescriptorPtr generateUnionOfBalls(brayns::Scene& scene,
                                             const std::string& title,
-                                            const Vector4fs& atoms);
+                                            const Vector4ds& atoms);
 
 private:
     void _setMaterialExtraAttributes(ModelDescriptorPtr modelDescriptor);

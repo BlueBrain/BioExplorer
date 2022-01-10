@@ -32,25 +32,25 @@ using namespace brayns;
 class BezierShape : public Shape
 {
 public:
-    BezierShape(const Vector4fs& clippingPlanes, const Vector3fs points);
+    BezierShape(const Vector4ds& clippingPlanes, const Vector3ds points);
 
     /**
      * @brief getTransformation Provide a random position and rotation on a
      * sphere
      *
-     * @param occurence Occurence of the position amongst the maximum of
-     * occurences (see next parameters)
+     * @param occurrence occurrence of the position amongst the maximum of
+     * occurrences (see next parameters)
      * @return Transformation of the random position and rotation on the fan
      */
-    Transformation getTransformation(const uint64_t occurence,
-                                     const uint64_t nbOccurences,
+    Transformation getTransformation(const uint64_t occurrence,
+                                     const uint64_t nbOccurrences,
                                      const AnimationDetails& animationDetails,
-                                     const float offset) const final;
+                                     const double offset) const final;
 
-    bool isInside(const Vector3f& point) const final;
+    bool isInside(const Vector3d& point) const final;
 
 private:
-    Vector3fs _points;
+    Vector3ds _points;
 };
 
 } // namespace common

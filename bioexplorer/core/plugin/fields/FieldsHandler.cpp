@@ -35,8 +35,8 @@ namespace fields
 {
 using namespace common;
 
-FieldsHandler::FieldsHandler(const Scene& scene, const float voxelSize,
-                             const float density)
+FieldsHandler::FieldsHandler(const Scene& scene, const double voxelSize,
+                             const double density)
     : AbstractSimulationHandler()
 {
     // Load simulation information from compartment reports
@@ -57,8 +57,8 @@ FieldsHandler::FieldsHandler(const std::string& filename)
     _unit = "microns";
 }
 
-void FieldsHandler::_buildOctree(const Scene& scene, const float voxelSize,
-                                 const float density)
+void FieldsHandler::_buildOctree(const Scene& scene, const double voxelSize,
+                                 const double density)
 {
     PLUGIN_INFO("Building Octree");
 
@@ -89,7 +89,7 @@ void FieldsHandler::_buildOctree(const Scene& scene, const float voxelSize,
                         tf.getRotation() *
                             (Vector3d(sphere.center) - tf.getRotationCenter());
 
-                    const Vector3f c = center;
+                    const Vector3d c = center;
                     if (isClipped(c, clipPlanes))
                         continue;
 
@@ -108,12 +108,12 @@ void FieldsHandler::_buildOctree(const Scene& scene, const float voxelSize,
     }
 
     // Determine model bounding box
-    glm::vec3 minAABB(std::numeric_limits<float>::max(),
-                      std::numeric_limits<float>::max(),
-                      std::numeric_limits<float>::max());
-    glm::vec3 maxAABB(-std::numeric_limits<float>::max(),
-                      -std::numeric_limits<float>::max(),
-                      -std::numeric_limits<float>::max());
+    glm::vec3 minAABB(std::numeric_limits<double>::max(),
+                      std::numeric_limits<double>::max(),
+                      std::numeric_limits<double>::max());
+    glm::vec3 maxAABB(-std::numeric_limits<double>::max(),
+                      -std::numeric_limits<double>::max(),
+                      -std::numeric_limits<double>::max());
     for (uint64_t i = 0; i < events.size(); i += 5)
     {
         if (events[i + 4] != 0.f)
@@ -203,7 +203,7 @@ const void FieldsHandler::exportToFile(const std::string& filename) const
         PLUGIN_THROW("Could not export octree to " + filename);
 
     file.write((char*)&_frameSize, sizeof(uint64_t));
-    file.write((char*)_frameData.data(), _frameData.size() * sizeof(float));
+    file.write((char*)_frameData.data(), _frameData.size() * sizeof(double));
 
     file.close();
 }
@@ -217,7 +217,7 @@ void FieldsHandler::importFromFile(const std::string& filename)
 
     file.read((char*)&_frameSize, sizeof(uint64_t));
     _frameData.resize(_frameSize);
-    file.read((char*)_frameData.data(), _frameData.size() * sizeof(float));
+    file.read((char*)_frameData.data(), _frameData.size() * sizeof(double));
 
     _offset = {_frameData[0], _frameData[1], _frameData[2]};
     _spacing = {_frameData[3], _frameData[4], _frameData[5]};

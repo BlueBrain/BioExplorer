@@ -64,14 +64,14 @@ private:
 
     AdvancedMaterial* _bgMaterial;
 
-    float _timestamp{0.f};
-    float _exposure{1.f};
+    double _timestamp{0.f};
+    double _exposure{1.f};
 
-    float _alphaCorrection{1.f};
+    double _alphaCorrection{1.f};
 
-    float _rayStep;
-    float _searchLength;
-    float _farPlane;
+    double _rayStep;
+    double _searchLength;
+    double _farPlane;
     ospray::uint32 _sampleCount;
 };
 } // namespace rendering

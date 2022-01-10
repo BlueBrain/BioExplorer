@@ -103,13 +103,13 @@ void OOCManager::_loadBricks()
 #endif
 
     uint32_t nbLoads = 0;
-    float totalLoadingTime = 0.f;
+    double totalLoadingTime = 0.f;
 
     while (true)
     {
-        const Vector3f& cameraPosition = _camera.getPosition();
+        const Vector3d& cameraPosition = _camera.getPosition();
         const Vector3i brick =
-            (cameraPosition - _sceneConfiguration.brickSize / 2.f) /
+            (cameraPosition - _sceneConfiguration.brickSize / 2.0) /
             _sceneConfiguration.brickSize;
         const int32_t brickId = brick.z +
                                 brick.y * _sceneConfiguration.nbBricks +
@@ -152,7 +152,7 @@ void OOCManager::_loadBricks()
                 PLUGIN_INFO("Loading bricks   "
                             << int32_set_to_string(bricksToLoad));
 
-            _progress = float(bricksToLoad.size()) / float(_nbBricksPerCycle);
+            _progress = double(bricksToLoad.size()) / double(_nbBricksPerCycle);
             // Loading bricks
             if (!bricksToLoad.empty())
             {

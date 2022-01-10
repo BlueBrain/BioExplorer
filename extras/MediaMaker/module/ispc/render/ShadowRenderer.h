@@ -47,8 +47,8 @@ private:
     ospray::Data* _lightData;
 
     int _samplesPerFrame;
-    float _rayLength;
-    float _softness;
+    double _rayLength;
+    double _softness;
 };
 } // namespace rendering
 } // namespace mediamaker

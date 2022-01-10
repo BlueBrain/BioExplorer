@@ -52,13 +52,13 @@ class AnimationParams:
     """Parameters used to introduce some randomness in the position and orientation of the protein. This is mainly used to make assemblies more realistic, and for animation purpose too.
     """
 
-    def __init__(self, seed=0, position_seed=0, position_strength=0, rotation_seed=0, rotation_strength=0, morphing_step=0.0):
-        self._seed = seed
-        self._position_seed = position_seed
-        self._position_strength = position_strength
-        self._rotation_seed = rotation_seed
-        self._rotation_strength = rotation_strength
-        self._morphing_step = morphing_step
+    def __init__(self, seed=0, position_seed=0, position_strength=0.0, rotation_seed=0, rotation_strength=0.0, morphing_step=0.0):
+        self.seed = seed
+        self.position_seed = position_seed
+        self.position_strength = position_strength
+        self.rotation_seed = rotation_seed
+        self.rotation_strength = rotation_strength
+        self.morphing_step = morphing_step
 
     def to_list(self):
         """
@@ -67,10 +67,10 @@ class AnimationParams:
         :return: A list containing the values of class members
         :rtype: list
         """
-        return [self._seed, self._position_seed, self._position_strength, self._rotation_seed, self._rotation_strength, self._morphing_step]
+        return [self.seed, self.position_seed, self.position_strength, self.rotation_seed, self.rotation_strength, self.morphing_step]
 
     def copy(self):
-        return AnimationParams(self._seed, self._position_seed, self._position_strength, self._rotation_seed, self._rotation_strength, self._morphing_step)
+        return AnimationParams(self.seed, self.position_seed, self.position_strength, self.rotation_seed, self.rotation_strength, self.morphing_step)
 
 
 class Vector3:
@@ -103,6 +103,9 @@ class Vector3:
         """
         return [self.x, self.y, self.z]
 
+    def copy(self):
+        return Vector3(self.x, self.y, self.z)
+
 
 class Vector2:
     """A Vector2 is an array of 2 floats representing a 2D vector"""
@@ -126,6 +129,9 @@ class Vector2:
     def to_list(self):
         """:return: A list containing the values of x and y attributes"""
         return [self.x, self.y]
+
+    def copy(self):
+        return Vector2(self.x, self.y)
 
 
 class BioExplorer:
@@ -411,7 +417,7 @@ class BioExplorer:
 
     def add_coronavirus(self, name, resource_folder,
                         shape_params=Vector3(45.0, 0.0, 0.0),
-                        animation_params=AnimationParams(1),
+                        animation_params=AnimationParams(0, 0, 0.0, 1, 0.03),
                         nb_protein_s=62, nb_protein_m=50, nb_protein_e=42,
                         open_protein_s_indices=[0], atom_radius_multiplier=1.0,
                         add_glycans=False, add_rna_sequence=False,
@@ -451,19 +457,18 @@ class BioExplorer:
             if i not in open_conformation_indices:
                 closed_conformation_indices.append(i)
 
-        rp = AnimationParams(0, animation_params._position_seed, animation_params._position_strength,
-                             animation_params._rotation_seed, animation_params._rotation_strength,
-                             animation_params._morphing_step)
+        ap = animation_params.copy()
 
         # Protein S (open)
+        ap.seed = 0
         membrane_proteins.append(Protein(
             name=name + '_' + self.NAME_PROTEIN_S_OPEN,
             source=pdb_folder + "6vyb.pdb",
             occurences=nb_protein_s,
             rotation=Quaternion(0.0, 1.0, 0.0, 0.0),
             allowed_occurrences=open_conformation_indices,
-            transmembrane_params=Vector2(7.5, 5.0),
-            animation_params=rp
+            transmembrane_params=Vector2(8.5, 8.0),
+            animation_params=ap
         ))
 
         # Protein S (closed)
@@ -473,39 +478,42 @@ class BioExplorer:
             occurences=nb_protein_s,
             rotation=Quaternion(0.0, 1.0, 0.0, 0.0),
             allowed_occurrences=closed_conformation_indices,
-            transmembrane_params=Vector2(7.5, 5.0),
-            animation_params=rp
+            transmembrane_params=Vector2(8.5, 8.0),
+            animation_params=ap
         ))
 
         # Protein M (QHD43419)
+        ap.seed = 2
         membrane_proteins.append(Protein(
             name=name + '_' + self.NAME_PROTEIN_M,
             source=pdb_folder + "QHD43419a.pdb",
             occurences=nb_protein_m,
             position=Vector3(2.5, 0.0, 0.0),
             rotation=Quaternion(0.135, 0.99, 0.0, 0.0),
-            transmembrane_params=Vector2(0.0, 1.0),
-            animation_params=rp
+            transmembrane_params=Vector2(1.0, 2.0),
+            animation_params=ap
         ))
 
         # Protein E (QHD43418 P0DTC4)
+        ap.seed = 3
         membrane_proteins.append(Protein(
             name=name + '_' + self.NAME_PROTEIN_E,
             source=pdb_folder + "QHD43418a.pdb",
             occurences=nb_protein_e,
             position=Vector3(2.5, 0.0, 0.0),
-            rotation=Quaternion(-0.04, 0.705, 0.705, -0.04),
-            transmembrane_params=Vector2(0.0, 1.0),
-            animation_params=rp
+            rotation=Quaternion(0.0, 0.707, 0.707, 0.0),
+            transmembrane_params=Vector2(1.0, 2.0),
+            animation_params=ap
         ))
 
         # Virus membrane
+        ap.seed = 4
         lipid_sources = glob.glob(lipids_folder + '*.pdb')[:8]
         virus_membrane = Membrane(
             lipid_sources=lipid_sources,
             lipid_rotation=Quaternion(0.707, 0.707, 0.0, 0.0),
             load_bonds=True, load_non_polymer_chemicals=True,
-            animation_params=animation_params
+            animation_params=ap
         )
 
         # Cell
@@ -531,7 +539,7 @@ class BioExplorer:
                 shape_params=params,
                 values_range=Vector2(-8.0 * math.pi, 8.0 * math.pi),
                 curve_params=Vector3(1.51, 1.12, 1.93),
-                animation_params=rp
+                animation_params=ap
             )
             self.add_rna_sequence(
                 assembly_name=name,
@@ -567,8 +575,8 @@ class BioExplorer:
                 representation=representation,
                 atom_radius_multiplier=atom_radius_multiplier,
                 animation_params=AnimationParams(0, 0, 0.0,
-                                                 animation_params._rotation_seed + 7,
-                                                 animation_params._rotation_strength)
+                                                 animation_params.rotation_seed + 7,
+                                                 animation_params.rotation_strength)
             )
             self.add_multiple_glycans(
                 assembly_name=name,
@@ -579,8 +587,8 @@ class BioExplorer:
                 representation=representation,
                 atom_radius_multiplier=atom_radius_multiplier,
                 animation_params=AnimationParams(0, 0, 0.0,
-                                                 animation_params._rotation_seed + 7,
-                                                 animation_params._rotation_strength)
+                                                 animation_params.rotation_seed + 7,
+                                                 animation_params.rotation_strength)
             )
 
             # Complex
@@ -596,8 +604,8 @@ class BioExplorer:
                 representation=representation,
                 atom_radius_multiplier=atom_radius_multiplier,
                 animation_params=AnimationParams(0, 0, 0.0,
-                                                 animation_params._rotation_seed + 8,
-                                                 2.0 * animation_params._rotation_strength)
+                                                 animation_params.rotation_seed + 8,
+                                                 2.0 * animation_params.rotation_strength)
             )
 
             self.add_multiple_glycans(
@@ -609,8 +617,8 @@ class BioExplorer:
                 representation=representation,
                 atom_radius_multiplier=atom_radius_multiplier,
                 animation_params=AnimationParams(0, 0, 0.0,
-                                                 animation_params._rotation_seed + 8,
-                                                 2.0 * animation_params._rotation_strength)
+                                                 animation_params.rotation_seed + 8,
+                                                 2.0 * animation_params.rotation_strength)
             )
 
             # O-Glycans
@@ -626,8 +634,8 @@ class BioExplorer:
                     representation=representation,
                     atom_radius_multiplier=atom_radius_multiplier,
                     animation_params=AnimationParams(0, 0, 0.0,
-                                                     animation_params._rotation_seed + 9,
-                                                     2.0 * animation_params._rotation_strength)
+                                                     animation_params.rotation_seed + 9,
+                                                     2.0 * animation_params.rotation_strength)
                 )
                 self.add_sugars(o_glycan)
 
@@ -643,8 +651,8 @@ class BioExplorer:
                 site_indices=indices,
                 representation=representation,
                 animation_params=AnimationParams(0, 0, 0.0,
-                                                 animation_params._rotation_seed + 10,
-                                                 2.0 * animation_params._rotation_strength)
+                                                 animation_params.rotation_seed + 10,
+                                                 2.0 * animation_params.rotation_strength)
             )
             self.add_glycans(high_mannose_glycans)
 
@@ -660,8 +668,8 @@ class BioExplorer:
                 site_indices=indices,
                 representation=representation,
                 animation_params=AnimationParams(0, 0, 0.0,
-                                                 animation_params._rotation_seed + 11,
-                                                 2.0 * animation_params._rotation_strength)
+                                                 animation_params.rotation_seed + 11,
+                                                 2.0 * animation_params.rotation_strength)
             )
             self.add_glycans(complex_glycans)
 
@@ -2019,13 +2027,13 @@ class AssemblyProtein:
         self.load_non_polymer_chemicals = load_non_polymer_chemicals
         self.load_hydrogen = load_hydrogen
         self.representation = representation
-        self.transmembrane_params = transmembrane_params
-        self.chain_ids = chain_ids
+        self.transmembrane_params = transmembrane_params.copy()
+        self.chain_ids = chain_ids.copy()
         self.recenter = recenter
         self.occurrences = occurrences
-        self.allowed_occurrences = allowed_occurrences
-        self.animation_params = animation_params
-        self.position = position
+        self.allowed_occurrences = allowed_occurrences.copy()
+        self.animation_params = animation_params.copy()
+        self.position = position.copy()
         self.rotation = rotation
         self.constraints = constraints
 
@@ -2065,9 +2073,9 @@ class Membrane:
         self.load_bonds = load_bonds
         self.load_non_polymer_chemicals = load_non_polymer_chemicals
         self.representation = representation
-        self.chain_ids = chain_ids
+        self.chain_ids = chain_ids.copy()
         self.recenter = recenter
-        self.animation_params = animation_params
+        self.animation_params = animation_params.copy()
 
 
 class Sugars:
@@ -2106,10 +2114,10 @@ class Sugars:
         self.load_bonds = load_bonds
         self.representation = representation
         self.recenter = recenter
-        self.chain_ids = chain_ids
-        self.site_indices = site_indices
+        self.chain_ids = chain_ids.copy()
+        self.site_indices = site_indices.copy()
         self.rotation = rotation
-        self.animation_params = animation_params
+        self.animation_params = animation_params.copy()
 
 
 class RNASequence:
@@ -2140,11 +2148,11 @@ class RNASequence:
         self.source = source
         self.protein_source = protein_source
         self.shape = shape
-        self.shape_params = shape_params
-        self.values_range = values_range
-        self.curve_params = curve_params
-        self.animation_params = animation_params
-        self.position = position
+        self.shape_params = shape_params.copy()
+        self.values_range = values_range.copy()
+        self.curve_params = curve_params.copy()
+        self.animation_params = animation_params.copy()
+        self.position = position.copy()
         self.rotation = rotation
 
 
@@ -2182,10 +2190,10 @@ class Cell:
         assert isinstance(proteins, list)
         self.name = name
         self.shape = shape
-        self.shape_params = shape_params
+        self.shape_params = shape_params.copy()
         self.shape_mesh_source = shape_mesh_source
         self.membrane = membrane
-        self.proteins = proteins
+        self.proteins = proteins.copy()
 
 
 class Volume:
@@ -2204,7 +2212,7 @@ class Volume:
 
         self.name = name
         self.shape = shape
-        self.shape_params = shape_params
+        self.shape_params = shape_params.copy()
         self.protein = protein
 
 
@@ -2238,12 +2246,12 @@ class Protein:
         self.load_bonds = load_bonds
         self.load_hydrogen = load_hydrogen
         self.load_non_polymer_chemicals = load_non_polymer_chemicals
-        self.position = position
+        self.position = position.copy()
         self.rotation = rotation
-        self.allowed_occurrences = allowed_occurrences
-        self.chain_ids = chain_ids
-        self.transmembrane_params = transmembrane_params
-        self.animation_params = animation_params
+        self.allowed_occurrences = allowed_occurrences.copy()
+        self.chain_ids = chain_ids.copy()
+        self.transmembrane_params = transmembrane_params.copy()
+        self.animation_params = animation_params.copy()
 
 
 class Virus:

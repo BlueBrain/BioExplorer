@@ -30,45 +30,44 @@ namespace common
 using namespace brayns;
 using namespace details;
 
-FanShape::FanShape(const Vector4fs& clippingPlanes, const float radius)
+FanShape::FanShape(const Vector4ds& clippingPlanes, const double radius)
     : Shape(clippingPlanes)
     , _radius(radius)
 {
     const auto r = radius / 2.f;
-    _bounds.merge(Vector3f(-r, -r, -r));
-    _bounds.merge(Vector3f(r, r, r));
+    _bounds.merge(Vector3d(-r, -r, -r));
+    _bounds.merge(Vector3d(r, r, r));
     _surface = 4.f * M_PI * _radius * _radius;
 }
 
 Transformation FanShape::getTransformation(
-    const uint64_t occurence, const uint64_t nbOccurences,
-    const AnimationDetails& animationDetails, const float offset) const
+    const uint64_t occurrence, const uint64_t nbOccurrences,
+    const AnimationDetails& animationDetails, const double offset) const
 {
-    size_t rnd = occurence;
-    if (nbOccurences != 0 && animationDetails.seed != 0)
-        rnd = rand() % nbOccurences;
+    uint64_t occ = occurrence;
+    uint64_t occs = nbOccurrences;
+    if (occs != 0 && animationDetails.seed != 0)
+    {
+        occs = 36000;
+        occ = rand() % occs;
+    }
 
-    // Randomizer
-    float R = _radius;
-    if (animationDetails.seed != 0)
-        R *= 1.f + rnd1() / 30.f;
+    const double radius =
+        _radius + (animationDetails.positionSeed == 0
+                       ? animationDetails.positionStrength
+                       : animationDetails.positionStrength *
+                             rnd3(animationDetails.positionSeed + occ));
 
-    // Sphere filling
-    const float off = 2.f / nbOccurences;
-    const float increment = 0.1f * M_PI * (3.f - sqrt(5.f));
-    const float y = ((occurence * off) - 1.f) + off / 2.f;
-    const float r = sqrt(1.f - pow(y, 2.f));
-    const float phi = rnd * increment;
-    const float x = cos(phi) * r;
-    const float z = sin(phi) * r;
-    const Vector3f normal{x, y, z};
-
-    const Vector3f pos = normal * (R + offset);
+    Vector3d pos;
+    Quaterniond rot;
+    sphereFilling(radius, occ, occs, pos, rot, offset, 0.1);
 
     if (isClipped(pos, _clippingPlanes))
         throw std::runtime_error("Instance is clipped");
 
-    const Quaterniond rot = quatLookAt(normal, UP_VECTOR);
+    if (animationDetails.rotationSeed != 0)
+        rot = weightedRandomRotation(rot, animationDetails.rotationSeed, occ,
+                                     animationDetails.rotationStrength);
 
     Transformation transformation;
     transformation.setTranslation(pos);
@@ -76,7 +75,7 @@ Transformation FanShape::getTransformation(
     return transformation;
 }
 
-bool FanShape::isInside(const Vector3f& point) const
+bool FanShape::isInside(const Vector3d& point) const
 {
     PLUGIN_THROW("isInside is not implemented for Fan shapes");
 }

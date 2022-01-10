@@ -37,43 +37,43 @@ using namespace brayns;
 class MeshShape : public Shape
 {
 public:
-    MeshShape(const Vector3f& scale, const Vector4fs& clippingPlanes,
+    MeshShape(const Vector3d& scale, const Vector4ds& clippingPlanes,
               const std::string& contents);
 
     /**
      * @brief getTransformation Provide a random position and rotation on a
      * sphere
      *
-     * @param occurence Occurence of the position amongst the maximum of
-     * occurences (see next parameters)
+     * @param occurrence occurrence of the position amongst the maximum of
+     * occurrences (see next parameters)
      * @return Transformation of the random position and rotation on the fan
      */
-    Transformation getTransformation(const uint64_t occurence,
-                                     const uint64_t nbOccurences,
+    Transformation getTransformation(const uint64_t occurrence,
+                                     const uint64_t nbOccurrences,
                                      const AnimationDetails& animationDetails,
-                                     const float offset) const final;
+                                     const double offset) const final;
 
-    bool isInside(const Vector3f& point) const final;
+    bool isInside(const Vector3d& point) const final;
 
 private:
-    float _getSurfaceArea(const Vector3f& a, const Vector3f& b,
-                          const Vector3f& c) const;
+    double _getSurfaceArea(const Vector3d& a, const Vector3d& b,
+                           const Vector3d& c) const;
 
-    Vector3f _toVector3f(const aiVector3D& v) const;
-    Vector3f _toVector3f(const aiVector3D& v, const Vector3f& center,
-                         const Vector3f& scale) const;
-    Vector3f _toVector3f(const aiVector3D& v, const Vector3f& center,
-                         const Vector3f& scale,
+    Vector3d _toVector3d(const aiVector3D& v) const;
+    Vector3d _toVector3d(const aiVector3D& v, const Vector3d& center,
+                         const Vector3d& scale) const;
+    Vector3d _toVector3d(const aiVector3D& v, const Vector3d& center,
+                         const Vector3d& scale,
                          const Quaterniond& rotation) const;
 
-    bool _rayBoxIntersection(const Vector3f& origin, const Vector3f& direction,
-                             const Boxf& box, const float t0,
-                             const float t1) const;
+    bool _rayBoxIntersection(const Vector3d& origin, const Vector3d& direction,
+                             const Boxf& box, const double t0,
+                             const double t1) const;
 
     std::vector<Vector3ui> _faces;
-    floats _faceSurfaces;
-    Vector3fs _vertices;
-    Vector3fs _normals;
+    doubles _faceSurfaces;
+    Vector3ds _vertices;
+    Vector3ds _normals;
 };
 
 } // namespace common

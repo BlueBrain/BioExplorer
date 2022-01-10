@@ -35,19 +35,19 @@ struct DefaultMaterial : public ospray::Material
 {
     /*! opacity: 0 (transparent), 1 (opaque) */
     ospray::Texture2D* map_d;
-    float d;
+    double d;
 
     /*! refraction index */
     ospray::Texture2D* map_Refraction;
-    float refraction;
+    double refraction;
 
     /*! reflection index */
     ospray::Texture2D* map_Reflection;
-    float reflection;
+    double reflection;
 
     /*! radiance: 0 (none), 1 (full) */
     ospray::Texture2D* map_a;
-    float a;
+    double a;
 
     /*! diffuse  reflectance: 0 (none), 1 (full) */
     ospray::Texture2D* map_Kd;
@@ -59,10 +59,10 @@ struct DefaultMaterial : public ospray::Material
 
     /*! specular exponent: 0 (diffuse), infinity (specular) */
     ospray::Texture2D* map_Ns;
-    float Ns;
+    double Ns;
 
     /*! Glossiness: 0 (none), 1 (full) */
-    float glossiness;
+    double glossiness;
 
     /*! bump map */
     ospray::Texture2D* map_Bump;

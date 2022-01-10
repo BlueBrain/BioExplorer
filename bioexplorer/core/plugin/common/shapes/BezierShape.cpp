@@ -30,38 +30,40 @@ namespace common
 using namespace brayns;
 using namespace details;
 
-BezierShape::BezierShape(const Vector4fs& clippingPlanes,
-                         const Vector3fs points)
+BezierShape::BezierShape(const Vector4ds& clippingPlanes,
+                         const Vector3ds points)
     : Shape(clippingPlanes)
-    , _points(points)
 {
     for (const auto& point : points)
+    {
+        _points.push_back(point);
         _bounds.merge(point);
+    }
 }
 
 Transformation BezierShape::getTransformation(
-    const uint64_t occurence, const uint64_t nbOccurences,
-    const AnimationDetails& animationDetails, const float offset) const
+    const uint64_t occurrence, const uint64_t nbOccurrences,
+    const AnimationDetails& animationDetails, const double offset) const
 {
-    Vector3fs bezierPoints = _points;
+    Vector3ds bezierPoints = _points;
     size_t i = bezierPoints.size() - 1;
     while (i > 0)
     {
         for (size_t k = 0; k < i; ++k)
             bezierPoints[k] =
-                bezierPoints[k] +
-                occurence * (bezierPoints[k + 1] - bezierPoints[k]);
+                bezierPoints[k] + static_cast<double>(occurrence) *
+                                      (bezierPoints[k + 1] - bezierPoints[k]);
         --i;
     }
-    const Vector3f normal =
-        cross({0.f, 0.f, 1.f}, normalize(bezierPoints[1] - bezierPoints[0]));
+    const Vector3d normal =
+        cross({0.0, 0.0, 1.0}, normalize(bezierPoints[1] - bezierPoints[0]));
 
-    Vector3f pos = bezierPoints[0];
+    Vector3d pos = bezierPoints[0];
 
     if (isClipped(pos, _clippingPlanes))
         throw std::runtime_error("Instance is clipped");
 
-    const Quaterniond rot = quatLookAt(normal, UP_VECTOR);
+    const Quaterniond rot = safeQuatlookAt(normal);
 
     pos += normal * offset;
 
@@ -71,7 +73,7 @@ Transformation BezierShape::getTransformation(
     return transformation;
 }
 
-bool BezierShape::isInside(const Vector3f& point) const
+bool BezierShape::isInside(const Vector3d& point) const
 {
     PLUGIN_THROW("isInside is not implemented for Bezier shapes");
 }

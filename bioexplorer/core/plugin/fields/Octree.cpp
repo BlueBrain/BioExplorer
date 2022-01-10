@@ -30,7 +30,7 @@ using namespace std;
 
 typedef std::map<uint64_t, OctreeNode> OctreeLevelMap;
 
-Octree::Octree(const floats &events, float voxelSize, const glm::vec3 &minAABB,
+Octree::Octree(const floats &events, double voxelSize, const glm::vec3 &minAABB,
                const glm::vec3 &maxAABB)
     : _volumeDim(glm::uvec3(0u, 0u, 0u))
     , _volumeSize(0u)
@@ -65,7 +65,7 @@ Octree::Octree(const floats &events, float voxelSize, const glm::vec3 &minAABB,
             std::floor((events[i + 1] - minAABB.y) / voxelSize);
         const uint64_t zpos =
             std::floor((events[i + 2] - minAABB.z) / voxelSize);
-        const float value = events[i + 4];
+        const double value = events[i + 4];
 
         const uint64_t indexX = xpos;
         const uint64_t indexY = ypos * (uint64_t)_octreeSize;
@@ -90,7 +90,7 @@ Octree::Octree(const floats &events, float voxelSize, const glm::vec3 &minAABB,
                     nBlock * std::floor(ypos / divisor) +
                     nBlock * nBlock * std::floor(zpos / divisor);
 
-                const float size = voxelSize * (level + 1u);
+                const double size = voxelSize * (level + 1u);
 
                 if (octree[level].find(index) == octree[level].end())
                 {

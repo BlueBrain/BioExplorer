@@ -79,9 +79,10 @@ bool PointCloudMesher::toConvexHull(Model& model, const PointCloud& pointCloud)
             {
                 Point_3 a = eit->vertex()->point();
                 Point_3 b = eit->opposite()->vertex()->point();
-                model.addCylinder(point.first, {{a.x(), a.y(), a.z()},
-                                                {b.x(), b.y(), b.z()},
-                                                point.second[0].w});
+                model.addCylinder(point.first,
+                                  {{a.x(), a.y(), a.z()},
+                                   {b.x(), b.y(), b.z()},
+                                   static_cast<float>(point.second[0].w)});
                 addModel = true;
             }
         }

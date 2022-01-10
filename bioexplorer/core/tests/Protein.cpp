@@ -82,7 +82,7 @@ BOOST_AUTO_TEST_CASE(protein)
     BOOST_CHECK(protein.getResidues().size() == 20);
     BOOST_CHECK(protein.getResidueSequences().size() == 4);
 
-    std::vector<Vector3f> positions;
+    std::vector<Vector3d> positions;
     std::vector<Quaterniond> rotations;
     const std::vector<size_t> siteIndices = {};
     protein.getGlycosilationSites(positions, rotations, siteIndices);

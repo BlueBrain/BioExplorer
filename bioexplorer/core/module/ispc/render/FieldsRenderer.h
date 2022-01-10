@@ -70,17 +70,17 @@ private:
     bool _useHardwareRandomizer{false};
     ospray::uint32 _randomNumber{0};
 
-    float _timestamp{0.f};
-    float _exposure{1.f};
+    double _timestamp{0.f};
+    double _exposure{1.f};
 
-    float _alphaCorrection{1.f};
+    double _alphaCorrection{1.f};
 
     // Octree
-    float _minRayStep;
+    double _minRayStep;
     ospray::uint32 _nbRaySteps;
     ospray::uint32 _nbRayRefinementSteps;
 
-    float _cutoff;
+    double _cutoff;
     ospray::Ref<ospray::Data> _userData;
     ospray::uint64 _userDataSize;
 };

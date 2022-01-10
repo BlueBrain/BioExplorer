@@ -32,45 +32,45 @@ using namespace brayns;
 class RNAShape : public Shape
 {
 public:
-    RNAShape(const Vector4fs& clippingPlanes, const RNAShapeType& shapeType,
+    RNAShape(const Vector4ds& clippingPlanes, const RNAShapeType& shapeType,
              const uint64_t nbElements, const Vector2f& shapeParams,
-             const Vector2f& valuesRange, const Vector3f& curveParams);
+             const Vector2f& valuesRange, const Vector3d& curveParams);
 
     /**
      * @brief getTransformation Provide a random position and rotation on a
      * sphere
      *
-     * @param occurence Occurence of the position amongst the maximum of
-     * occurences (see next parameters)
+     * @param occurrence occurrence of the position amongst the maximum of
+     * occurrences (see next parameters)
      * @return Transformation of the random position and rotation on the fan
      */
-    Transformation getTransformation(const uint64_t occurence,
-                                     const uint64_t nbOccurences,
+    Transformation getTransformation(const uint64_t occurrence,
+                                     const uint64_t nbOccurrences,
                                      const AnimationDetails& animationDetails,
-                                     const float offset) const final;
+                                     const double offset) const final;
 
-    bool isInside(const Vector3f& point) const final;
+    bool isInside(const Vector3d& point) const final;
 
 private:
-    void _getSegment(const float u, const float v, Vector3f& src,
-                     Vector3f& dst) const;
-    Vector3f _trefoilKnot(float t) const;
-    Vector3f _torus(float t) const;
-    Vector3f _star(float t) const;
-    Vector3f _spring(float t) const;
-    Vector3f _heart(float u) const;
-    Vector3f _thing(float t) const;
-    Vector3f _moebius(float u, float v) const;
+    void _getSegment(const double u, const double v, Vector3d& src,
+                     Vector3d& dst) const;
+    Vector3d _trefoilKnot(double t) const;
+    Vector3d _torus(double t) const;
+    Vector3d _star(double t) const;
+    Vector3d _spring(double t) const;
+    Vector3d _heart(double u) const;
+    Vector3d _thing(double t) const;
+    Vector3d _moebius(double u, double v) const;
 
     RNAShapeType _shapeType;
 
-    Vector3f _U;
-    Vector3f _V;
-    float _step;
+    Vector3d _U;
+    Vector3d _V;
+    double _step;
 
-    Vector2f _shapeParams;
-    Vector2f _valuesRange;
-    Vector3f _curveParams;
+    Vector2d _shapeParams;
+    Vector2d _valuesRange;
+    Vector3d _curveParams;
 };
 
 } // namespace common

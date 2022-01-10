@@ -44,7 +44,7 @@ public:
      * @param scene The 3D scene where the membrane are added
      */
     Membrane(const MembraneDetails &details, Scene &scene,
-             const Vector3f &assemblyPosition,
+             const Vector3d &assemblyPosition,
              const Quaterniond &assemblyRotation, const ShapePtr shape,
              const ProteinMap &transmembraneProteins);
 
@@ -67,9 +67,9 @@ private:
 
     Scene &_scene;
     MembraneDetails _details;
-    uint64_t _nbOccurences;
+    uint64_t _nbOccurrences;
     const ProteinMap &_transmembraneProteins;
-    const Vector3f _assemblyPosition;
+    const Vector3d _assemblyPosition;
     const Quaterniond _assemblyRotation;
     ProteinMap _lipids;
     ShapePtr _shape{nullptr};
