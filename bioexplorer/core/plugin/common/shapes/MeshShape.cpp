@@ -30,6 +30,11 @@ namespace common
 using namespace brayns;
 using namespace details;
 
+// Make those variables class members? :-)
+uint64_t _faceIndex = 0;
+double _surfaceCoveringProcess = 0.0;
+double _instanceCoveringProcess = 0.0;
+
 MeshShape::MeshShape(const Vector3d& scale, const Vector4ds& clippingPlanes,
                      const std::string& contents)
     : Shape(clippingPlanes)
@@ -130,19 +135,27 @@ Transformation MeshShape::getTransformation(
     const uint64_t occurrence, const uint64_t nbOccurrences,
     const AnimationDetails& animationDetails, const double offset) const
 {
-    const double instanceSurface = _surface / nbOccurrences;
-    const double expectedSurfaceCovering = instanceSurface * occurrence;
-    double surfaceCoveringProcess = 0.0;
-    uint64_t faceIndex = 0;
-    while (true)
+    if (occurrence == 0)
     {
-        surfaceCoveringProcess += _faceSurfaces[faceIndex];
-        if (surfaceCoveringProcess >= expectedSurfaceCovering)
-            break;
-        ++faceIndex;
+        _faceIndex = 0;
+        _instanceCoveringProcess = 0.0;
+        _surfaceCoveringProcess = _faceSurfaces[_faceIndex];
     }
 
-    const auto face = _faces[faceIndex];
+    const double instanceSurface = _surface / nbOccurrences;
+    const double expectedSurfaceCovering = instanceSurface * occurrence;
+
+    if (_instanceCoveringProcess > _surfaceCoveringProcess)
+    {
+        while (_surfaceCoveringProcess < expectedSurfaceCovering)
+        {
+            ++_faceIndex;
+            _surfaceCoveringProcess += _faceSurfaces[_faceIndex];
+        }
+    }
+    _instanceCoveringProcess += instanceSurface;
+
+    const auto face = _faces[_faceIndex];
 
     Vector2d coordinates{1.0, 1.0};
     while (coordinates.x + coordinates.y > 1.0)
@@ -205,52 +218,16 @@ bool MeshShape::isInside(const Vector3d& point) const
     const Vector3d direction = normalize(rayDirection);
     for (const auto& face : _faces)
     {
-        Boxf box;
+        Boxd box;
         box.merge(_vertices[face.x]);
         box.merge(_vertices[face.y]);
         box.merge(_vertices[face.z]);
-        if (_rayBoxIntersection(point, direction, box, rayLength / 10.0,
-                                rayLength))
+        double t;
+        if (rayBoxIntersection(point, direction, box, rayLength / 10.0,
+                               rayLength, t))
             return false;
     }
     return true;
-}
-
-bool MeshShape::_rayBoxIntersection(const Vector3d& origin,
-                                    const Vector3d& direction, const Boxf& box,
-                                    const double t0, const double t1) const
-{
-    const Vector3d bounds[2]{box.getMin(), box.getMax()};
-    const Vector3d invDir = 1.0 / direction;
-    const Vector3ui sign{invDir.x < 0.0, invDir.y < 0.0, invDir.z < 0.0};
-
-    double tmin, tmax, tymin, tymax, tzmin, tzmax;
-
-    tmin = (bounds[sign.x].x - origin.x) * invDir.x;
-    tmax = (bounds[1 - sign.x].x - origin.x) * invDir.x;
-    tymin = (bounds[sign.y].y - origin.y) * invDir.y;
-    tymax = (bounds[1 - sign.y].y - origin.y) * invDir.y;
-
-    if ((tmin > tymax) || (tymin > tmax))
-        return false;
-
-    if (tymin > tmin)
-        tmin = tymin;
-    if (tymax < tmax)
-        tmax = tymax;
-
-    tzmin = (bounds[sign.z].z - origin.z) * invDir.z;
-    tzmax = (bounds[1 - sign.z].z - origin.z) * invDir.z;
-
-    if ((tmin > tzmax) || (tzmin > tmax))
-        return false;
-
-    if (tzmin > tmin)
-        tmin = tzmin;
-    if (tzmax < tmax)
-        tmax = tzmax;
-
-    return (tmin < t1 && tmax > t0);
 }
 
 Vector3d MeshShape::_toVector3d(const aiVector3D& v) const

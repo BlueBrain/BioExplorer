@@ -66,10 +66,6 @@ private:
                          const Vector3d& scale,
                          const Quaterniond& rotation) const;
 
-    bool _rayBoxIntersection(const Vector3d& origin, const Vector3d& direction,
-                             const Boxf& box, const double t0,
-                             const double t1) const;
-
     std::vector<Vector3ui> _faces;
     doubles _faceSurfaces;
     Vector3ds _vertices;
