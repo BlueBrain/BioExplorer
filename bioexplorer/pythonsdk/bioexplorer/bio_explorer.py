@@ -2177,7 +2177,7 @@ class Surfactant:
 class Cell:
     """A Cell is a membrane with transmembrane proteins"""
 
-    def __init__(self, name, shape, shape_params, membrane, proteins, shape_mesh_source=''):
+    def __init__(self, name, shape, shape_params, membrane, proteins=list(), shape_mesh_source=''):
         """
         Cell descriptor
 
