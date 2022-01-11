@@ -453,6 +453,13 @@ void BioExplorerPlugin::init()
         actionInterface->registerRequest<Response>(
             endPoint, [&]() { return _getOOCAverageLoadingTime(); });
 
+        endPoint = PLUGIN_API_PREFIX + "inspect-protein";
+        PLUGIN_INFO("Registering '" + endPoint + "' endpoint");
+        actionInterface
+            ->registerRequest<InspectionDetails, ProteinInspectionDetails>(
+                endPoint, [&](const InspectionDetails &payload)
+                { return _inspectProtein(payload); });
+
 #ifdef USE_PQXX
         endPoint = PLUGIN_API_PREFIX + "export-to-database";
         PLUGIN_INFO("Registering '" + endPoint + "' endpoint");
@@ -1464,6 +1471,36 @@ Response BioExplorerPlugin::_getOOCAverageLoadingTime() const
     }
     CATCH_STD_EXCEPTION()
     return response;
+}
+
+ProteinInspectionDetails BioExplorerPlugin::_inspectProtein(
+    const InspectionDetails &details) const
+{
+    ProteinInspectionDetails result;
+
+    result.hit = false;
+    const auto origin = doublesToVector3d(details.origin);
+    const auto direction = doublesToVector3d(details.direction);
+    double dist = std::numeric_limits<double>::max();
+    for (const auto &assembly : _assemblies)
+    {
+        try
+        {
+            double t;
+            const auto r = assembly.second->inspect(origin, direction, t);
+            if (t < dist)
+            {
+                result = r;
+                dist = t;
+                result.hit = true;
+            }
+        }
+        catch (const std::runtime_error &e)
+        {
+            // No hit. Ignore assembly
+        }
+    }
+    return result;
 }
 
 #ifdef USE_PQXX

@@ -175,6 +175,26 @@ enum class RNAShapeType
 };
 
 /**
+ * @brief Object description in the 3D scene
+ *
+ */
+typedef struct
+{
+    bool hit;
+    std::string assemblyName;
+    std::string proteinName;
+    size_t modelId;
+    size_t instanceId;
+    std::vector<double> position;
+} ProteinInspectionDetails;
+
+typedef struct
+{
+    std::vector<double> origin;
+    std::vector<double> direction;
+} InspectionDetails;
+
+/**
  * @brief Assembly representation
  *
  */

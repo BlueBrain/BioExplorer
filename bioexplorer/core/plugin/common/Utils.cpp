@@ -349,5 +349,44 @@ void sphereFilling(const double radius, const uint64_t occurrence,
     rotation = safeQuatlookAt(normal);
 }
 
+bool rayBoxIntersection(const Vector3d& origin, const Vector3d& direction,
+                        const Boxd& box, const double t0, const double t1,
+                        double& t)
+{
+    const Vector3d bounds[2]{box.getMin(), box.getMax()};
+    const Vector3d invDir = 1.0 / direction;
+    const Vector3ui sign{invDir.x < 0.0, invDir.y < 0.0, invDir.z < 0.0};
+
+    double tmin, tmax, tymin, tymax, tzmin, tzmax;
+
+    tmin = (bounds[sign.x].x - origin.x) * invDir.x;
+    tmax = (bounds[1 - sign.x].x - origin.x) * invDir.x;
+    tymin = (bounds[sign.y].y - origin.y) * invDir.y;
+    tymax = (bounds[1 - sign.y].y - origin.y) * invDir.y;
+
+    if ((tmin > tymax) || (tymin > tmax))
+        return false;
+
+    if (tymin > tmin)
+        tmin = tymin;
+    if (tymax < tmax)
+        tmax = tymax;
+
+    tzmin = (bounds[sign.z].z - origin.z) * invDir.z;
+    tzmax = (bounds[1 - sign.z].z - origin.z) * invDir.z;
+
+    if ((tmin > tzmax) || (tzmin > tmax))
+        return false;
+
+    if (tzmin > tmin)
+        tmin = tzmin;
+    if (tzmax < tmax)
+        tmax = tzmax;
+
+    t = std::min(tmin, tmax);
+
+    return (tmin < t1 && tmax > t0);
+}
+
 } // namespace common
 } // namespace bioexplorer

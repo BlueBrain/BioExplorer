@@ -129,6 +129,10 @@ private:
     Response _getOOCAverageLoadingTime() const;
     OOCManagerPtr _oocManager{nullptr};
 
+    // Inspection
+    ProteinInspectionDetails _inspectProtein(
+        const InspectionDetails &details) const;
+
     // Attributes
     AssemblyMap _assemblies;
 

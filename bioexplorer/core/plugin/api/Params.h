@@ -88,4 +88,9 @@ bool from_json(BuildPointCloudDetails &param, const std::string &payload);
 bool from_json(ModelsVisibilityDetails &param, const std::string &payload);
 bool from_json(ProteinInstanceTransformationDetails &param,
                const std::string &payload);
+
+// Protein inspection
+bool from_json(InspectionDetails &param, const std::string &payload);
+std::string to_json(const ProteinInspectionDetails &param);
+
 #endif

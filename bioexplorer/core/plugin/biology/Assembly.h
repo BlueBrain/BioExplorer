@@ -161,6 +161,13 @@ public:
     void addGlycans(const SugarsDetails &details);
 
     /**
+     * @brief addSugars Add sugars to sugar binding sites of a given protein of
+     * the assembly
+     * @param details Details of the sugars
+     */
+    void addSugars(const SugarsDetails &details);
+
+    /**
      * @brief Check if a location is inside the assembly
      *
      * @param point Location to check
@@ -170,12 +177,16 @@ public:
     bool isInside(const Vector3d &location) const;
 
     /**
-     * @brief Returns information about the object at a given location in space
+     * @brief Returns information about the first protein hit by a ray defined
+     * by an origin and a direction
      *
-     * @param location Location in space
-     * @return ObjectDetails Details about the object
+     * @param origin Origin of the ray
+     * @param direction Direction of the ray
+     * @return ProteinInspectionDetails Details about the protein
      */
-    ObjectDetails inspect(const Vector3d &location) const;
+    ProteinInspectionDetails inspect(const Vector3d &origin,
+                                     const Vector3d &direction,
+                                     double &t) const;
 
 private:
     void _processInstances(ModelDescriptorPtr md, const std::string &name,

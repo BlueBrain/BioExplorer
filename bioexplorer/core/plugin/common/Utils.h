@@ -132,5 +132,9 @@ Transformation combineTransformations(const Transformations& transformations);
 
 Quaterniond safeQuatlookAt(const Vector3d& v);
 
+bool rayBoxIntersection(const Vector3d& origin, const Vector3d& direction,
+                        const Boxd& box, const double t0, const double t1,
+                        double& t);
+
 } // namespace common
 } // namespace bioexplorer

@@ -458,5 +458,95 @@ bool Assembly::isInside(const Vector3d &location) const
         result |= _shape->isInside(location);
     return result;
 }
+
+ProteinInspectionDetails Assembly::inspect(const Vector3d &origin,
+                                           const Vector3d &direction,
+                                           double &t) const
+{
+    ProteinInspectionDetails result;
+    result.hit = false;
+    result.assemblyName = _details.name;
+
+    t = std::numeric_limits<double>::max();
+
+    // Proteins
+    for (const auto protein : _proteins)
+    {
+        const auto md = protein.second->getModelDescriptor();
+        const auto &instances = md->getInstances();
+        const Vector3d instanceHalfSize =
+            protein.second->getBounds().getSize() / 2.0;
+
+        uint64_t count = 0;
+        for (const auto &instance : instances)
+        {
+            const auto instancePosition =
+                instance.getTransformation().getTranslation();
+
+            Boxd box;
+            box.merge(instancePosition - instanceHalfSize);
+            box.merge(instancePosition + instanceHalfSize);
+
+            double tHit;
+            if (rayBoxIntersection(origin, direction, box, 0.0, t, tHit))
+            {
+                result.hit = true;
+                if (tHit < t)
+                {
+                    result.proteinName = protein.second->getDescriptor().name;
+                    result.modelId = md->getModelID();
+                    result.instanceId = count;
+                    result.position = {instancePosition.x, instancePosition.y,
+                                       instancePosition.z};
+                    t = tHit;
+                }
+            }
+            ++count;
+        }
+    }
+
+    // Membrane
+    if (_membrane)
+    {
+        for (const auto protein : _membrane->getLipids())
+        {
+            const auto md = protein.second->getModelDescriptor();
+            const auto &instances = md->getInstances();
+            const Vector3d instanceHalfSize =
+                protein.second->getBounds().getSize() / 2.0;
+
+            uint64_t count = 0;
+            for (const auto &instance : instances)
+            {
+                const auto instancePosition =
+                    instance.getTransformation().getTranslation();
+
+                Boxd box;
+                box.merge(instancePosition - instanceHalfSize);
+                box.merge(instancePosition + instanceHalfSize);
+
+                double tHit;
+                if (rayBoxIntersection(origin, direction, box, 0.0, t, tHit))
+                {
+                    result.hit = true;
+                    if (tHit < t)
+                    {
+                        result.proteinName =
+                            protein.second->getDescriptor().name;
+                        result.modelId = md->getModelID();
+                        result.instanceId = count;
+                        result.position = {instancePosition.x,
+                                           instancePosition.y,
+                                           instancePosition.z};
+                        t = tHit;
+                    }
+                }
+                ++count;
+            }
+        }
+    }
+
+    return result;
+}
 } // namespace biology
 } // namespace bioexplorer

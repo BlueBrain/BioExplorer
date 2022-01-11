@@ -609,4 +609,39 @@ bool from_json(ProteinInstanceTransformationDetails &param,
     }
     return true;
 }
+
+bool from_json(InspectionDetails &param, const std::string &payload)
+{
+    try
+    {
+        auto js = nlohmann::json::parse(payload);
+        FROM_JSON(param, js, origin);
+        FROM_JSON(param, js, direction);
+    }
+    catch (...)
+    {
+        return false;
+    }
+    return true;
+}
+
+std::string to_json(const ProteinInspectionDetails &param)
+{
+    try
+    {
+        nlohmann::json js;
+        TO_JSON(param, js, hit);
+        TO_JSON(param, js, assemblyName);
+        TO_JSON(param, js, proteinName);
+        TO_JSON(param, js, modelId);
+        TO_JSON(param, js, instanceId);
+        TO_JSON(param, js, position);
+        return js.dump();
+    }
+    catch (...)
+    {
+        return "";
+    }
+    return "";
+}
 #endif
