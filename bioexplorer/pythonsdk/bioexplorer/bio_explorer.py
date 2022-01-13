@@ -417,7 +417,7 @@ class BioExplorer:
 
     def add_coronavirus(self, name, resource_folder,
                         shape_params=Vector3(45.0, 0.0, 0.0),
-                        animation_params=AnimationParams(0, 0, 0.0, 1, 0.03),
+                        animation_params=AnimationParams(0, 1, 0.25, 1, 0.25),
                         nb_protein_s=62, nb_protein_m=50, nb_protein_e=42,
                         open_protein_s_indices=[0], atom_radius_multiplier=1.0,
                         add_glycans=False, add_rna_sequence=False,
@@ -490,7 +490,7 @@ class BioExplorer:
             occurences=nb_protein_m,
             position=Vector3(2.5, 0.0, 0.0),
             rotation=Quaternion(0.135, 0.99, 0.0, 0.0),
-            transmembrane_params=Vector2(1.0, 2.0),
+            transmembrane_params=Vector2(0.5, 2.0),
             animation_params=ap
         ))
 
@@ -502,16 +502,21 @@ class BioExplorer:
             occurences=nb_protein_e,
             position=Vector3(2.5, 0.0, 0.0),
             rotation=Quaternion(0.0, 0.707, 0.707, 0.0),
-            transmembrane_params=Vector2(1.0, 2.0),
+            transmembrane_params=Vector2(0.5, 2.0),
             animation_params=ap
         ))
 
         # Virus membrane
         ap.seed = 4
-        lipid_sources = glob.glob(lipids_folder + '*.pdb')[:8]
+        # lipid_sources = glob.glob(lipids_folder + '*.pdb')
+        lipid_sources = [
+            membrane_folder + 'segA.pdb',
+            membrane_folder + 'segB.pdb',
+            membrane_folder + 'segC.pdb',
+            membrane_folder + 'segD.pdb']
+
         virus_membrane = Membrane(
             lipid_sources=lipid_sources,
-            lipid_rotation=Quaternion(0.707, 0.707, 0.0, 0.0),
             load_bonds=True, load_non_polymer_chemicals=True,
             animation_params=ap
         )
