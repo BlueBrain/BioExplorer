@@ -52,11 +52,6 @@ MeshShape::MeshShape(const Vector3d& scale, const Vector4ds& clippingPlanes,
     if (!aiScene->HasMeshes())
         PLUGIN_THROW("No mesh found");
 
-    const auto trfm = aiScene->mRootNode->mTransformation;
-    const Matrix4f mainTransformation{trfm.a1, trfm.b1, trfm.c1, trfm.d1,
-                                      trfm.a2, trfm.b2, trfm.c2, trfm.d2,
-                                      trfm.a3, trfm.b3, trfm.c3, trfm.d3,
-                                      trfm.a4, trfm.b4, trfm.c4, trfm.d4};
     // Add protein instances according to membrane topology
     for (size_t m = 0; m < aiScene->mNumMeshes; ++m)
     {
@@ -65,10 +60,7 @@ MeshShape::MeshShape(const Vector3d& scale, const Vector4ds& clippingPlanes,
         // Determine mesh center
         Vector3d meshCenter{0.0, 0.0, 0.0};
         for (uint64_t i = 0; i < mesh->mNumVertices; ++i)
-        {
-            const auto& v = mesh->mVertices[i];
-            meshCenter += _toVector3d(v);
-        }
+            meshCenter += _toVector3d(mesh->mVertices[i]);
         meshCenter /= mesh->mNumVertices;
 
         // Recenter mesh and store transformed vertices
@@ -240,7 +232,7 @@ Vector3d MeshShape::_toVector3d(const aiVector3D& v, const Vector3d& center,
 {
     const Vector3d p{v.x, v.y, v.z};
     const Vector3d a = p - center;
-    const Vector3d b = (p + a) * scale;
+    const Vector3d b = a * scale;
     return b;
 }
 
@@ -250,7 +242,7 @@ Vector3d MeshShape::_toVector3d(const aiVector3D& v, const Vector3d& center,
 {
     const Vector3d p{v.x, v.y, v.z};
     const Vector3d a = p - center;
-    const Vector3d b = Vector3d(rotation * Vector3d(p + a)) * scale;
+    const Vector3d b = rotation * a * scale;
     return b;
 }
 

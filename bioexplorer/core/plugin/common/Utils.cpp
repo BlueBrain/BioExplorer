@@ -73,10 +73,10 @@ bool isClipped(const Vector3d& position, const Vector4ds& clippingPlanes)
     bool visible = true;
     for (auto plane : clippingPlanes)
     {
-        const Vector3d normal = {plane.x, plane.y, plane.z};
+        const Vector3d normal = normalize(Vector3d(plane.x, plane.y, plane.z));
         const double d = plane.w;
-        const double distance = dot(normal, position) + d;
-        visible &= (distance > 0.0);
+        const double distance = dot(normal, position) - d;
+        visible &= (distance < 0.0);
     }
     return !visible;
 }
