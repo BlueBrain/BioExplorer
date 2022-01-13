@@ -1052,7 +1052,7 @@ Response BioExplorerPlugin::_addBoundingBox(
         bbox.merge(bottomLeft);
         bbox.merge(topRight);
 
-        const Vector3d s = bbox.getSize();
+        const Vector3d s = bbox.getSize() / 2.0;
         const Vector3d c = bbox.getCenter();
         const Vector3d positions[8] = {
             {c.x - s.x, c.y - s.y, c.z - s.z},
