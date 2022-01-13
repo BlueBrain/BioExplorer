@@ -120,10 +120,10 @@ Vector4ds doublesToVector4ds(const doubles& values);
  */
 AnimationDetails doublesToAnimationDetails(const doubles& values);
 
-void sphereFilling(const double radius, const uint64_t occurrence,
-                   const uint64_t occurrences, Vector3d& position,
-                   Quaterniond& rotation, const double radiusOffset,
-                   const double ratio = 1.0);
+Vector3d sphereFilling(const double radius, const uint64_t occurrence,
+                       const uint64_t occurrences, const uint64_t rnd,
+                       Vector3d& position, Quaterniond& rotation,
+                       const double radiusOffset, const double ratio = 1.0);
 
 std::vector<std::string> split(const std::string& s,
                                const std::string& delimiter);

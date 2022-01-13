@@ -77,7 +77,7 @@ Transformation SinusoidShape::getTransformation(
         pos;
 
     // Rotation
-    const Vector3d normal = cross(normalize(v1), normalize(v2));
+    const Vector3d normal = normalize(cross(normalize(v1), normalize(v2)));
     Quaterniond rot = safeQuatlookAt(normal);
     if (animationDetails.rotationSeed != 0)
         rot = weightedRandomRotation(rot, animationDetails.rotationSeed,

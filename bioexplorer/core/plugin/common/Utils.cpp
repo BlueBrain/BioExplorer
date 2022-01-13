@@ -329,24 +329,24 @@ Transformation combineTransformations(const Transformations& transformations)
     return transformation;
 }
 
-void sphereFilling(const double radius, const uint64_t occurrence,
-                   const uint64_t occurrences, Vector3d& position,
-                   Quaterniond& rotation, const double radiusOffset,
-                   const double ratio)
+Vector3d sphereFilling(const double radius, const uint64_t occurrence,
+                       const uint64_t occurrences, const uint64_t rnd,
+                       Vector3d& position, Quaterniond& rotation,
+                       const double radiusOffset, const double ratio)
 {
-    const double o = static_cast<double>(occurrence);
-    const double os = static_cast<double>(occurrences);
-    const double off = 2.0 / os;
+    const double off = 2.0 / occurrences;
     const double increment = ratio * M_PI * (3.0 - sqrt(5.0));
-    const double y = ((o * off) - 1.0) + off / 2.0;
+    const double y = ((occurrence * off) - 1.0) + off / 2.0;
     const double r = sqrt(1.0 - pow(y, 2.0));
-    const double phi = o * increment;
+    const double phi = rnd * increment;
     const double x = cos(phi) * r;
     const double z = sin(phi) * r;
 
     const Vector3d normal = Vector3d(x, y, z);
     position = normal * (radius + radiusOffset);
     rotation = safeQuatlookAt(normal);
+
+    return normal;
 }
 
 bool rayBoxIntersection(const Vector3d& origin, const Vector3d& direction,

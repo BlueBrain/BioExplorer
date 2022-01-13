@@ -87,6 +87,7 @@ bool from_json(GeneralSettingsDetails &param, const std::string &payload)
         FROM_JSON(param, js, modelVisibilityOnCreation);
         FROM_JSON(param, js, offFolder);
         FROM_JSON(param, js, loggingEnabled);
+        FROM_JSON(param, js, v1Compatibility);
     }
     catch (...)
     {

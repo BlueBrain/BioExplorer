@@ -21,9 +21,8 @@
 # You should have received a copy of the GNU General Public License along with
 # this program.  If not, see <https://www.gnu.org/licenses/>.
 
-from bioexplorer import BioExplorer, RNASequence, Protein, MeshBasedMembrane, \
-    AssemblyProtein, Virus, Surfactant, ParametricMembrane, Cell, Sugars, \
-    Volume, Vector2, Vector3, Quaternion, MovieMaker
+from bioexplorer import BioExplorer, Protein, Membrane, Surfactant, Cell, \
+    Sugars, AnimationParams, Volume, Vector3, Quaternion, MovieMaker
 import math
 from datetime import datetime, timedelta
 import time
@@ -127,6 +126,10 @@ class LowGlucoseScenario():
         self._image_output_folder = output_folder
         self._shaders = shaders
         self._prepare_movie(projection, image_k)
+        self._be.set_general_settings(
+            model_visibility_on_creation=False,
+            v1_compatibility=True
+        )
         self._log(1, '================================================================================')
         self._log(1, '- Version          : ' + self._be.version())
         self._log(1, '- URL              : ' + self._url)
@@ -267,54 +270,49 @@ class LowGlucoseScenario():
                                                               frame, virus_flights_out[virus_index])
                 self._log(3, '-   Virus %d is flying out... (%.01f pct)' % (virus_index, progress))
 
-            if False:
-                self._be.add_sphere(name=name, position=pos, radius=virus_radii[virus_index])
-            else:
-                self._be.add_coronavirus(
-                    name=name, resource_folder=resource_folder,
-                    representation=protein_representation, position=pos, rotation=rot,
-                    add_glycans=add_glycans,
-                    assembly_params=[virus_radii[virus_index], 0.0, 0.0,
-                                     5 * frame + 2 * virus_index, 0.25,
-                                     frame + 2 * virus_index + 1, 0.1, morphing_step]
-                )
+            self._be.add_coronavirus(
+                name=name, resource_folder=resource_folder,
+                representation=protein_representation, position=pos, rotation=rot,
+                add_glycans=add_glycans,
+                animation_params=AnimationParams(
+                    1, 5 * frame + 2 * virus_index, 0.25,
+                    frame + 2 * virus_index + 1, 0.1, morphing_step)
+            )
 
     def _add_cell(self, frame):
 
         name = 'Cell'
         nb_receptors = cell_nb_receptors
-        size = Vector2(scene_size.x * 2.0, scene_size.x * 2.0)
-        height = scene_size.y / 10.0
+        size = Vector3(scene_size.x * 2.0, scene_size.y / 10.0, scene_size.x * 2.0)
         position = Vector3(4.5, -186.0, 7.0)
         random_seed = 10
 
-        nb_lipids = cell_nb_lipids
         ace2_receptor = Protein(
-            sources=[pdb_folder + '6m18.pdb'], occurences=nb_receptors,
+            name=name + '_' + BioExplorer.NAME_RECEPTOR,
+            source=pdb_folder + '6m18.pdb', occurences=nb_receptors,
             position=Vector3(0.0, 6.0, 0.0))
 
-        membrane = ParametricMembrane(
-            sources=[
+        membrane = Membrane(
+            lipid_sources=[
                 membrane_folder + 'segA.pdb',
                 membrane_folder + 'segB.pdb',
                 membrane_folder + 'segC.pdb',
                 membrane_folder + 'segD.pdb'
             ],
-            occurences=cell_nb_lipids
+            animation_params=AnimationParams(
+                random_seed, frame + 1, 0.025, frame + 2, 0.2)
         )
 
         cell = Cell(
-            name=name, size=size, extra_parameters=[height],
-            shape=BioExplorer.ASSEMBLY_SHAPE_SINUSOIDAL,
+            name=name,
+            shape=BioExplorer.ASSEMBLY_SHAPE_SINUSOID,
+            shape_params=size,
             membrane=membrane, proteins=[ace2_receptor],
-            random_position_seed=frame + 1, random_position_strength=0.025,
-            random_rotation_seed=frame + 2, random_rotation_strength=0.2
         )
 
         self._be.add_cell(
             cell=cell, position=position,
-            representation=protein_representation,
-            random_seed=random_seed)
+            representation=protein_representation)
 
         '''Modify receptor position when attached virus enters the cell'''
         receptors_instances = [37]
@@ -363,14 +361,15 @@ class LowGlucoseScenario():
                 glycan_type=BioExplorer.NAME_GLYCAN_COMPLEX,
                 protein_name=BioExplorer.NAME_RECEPTOR, paths=complex_paths,
                 indices=[53, 90, 103, 322, 432, 690],
-                assembly_params=[0, 0, 0.0, frame + 3, 0.2]
+                animation_params=AnimationParams(0, 0, 0.0, frame + 3, 0.2)
             )
             self._be.add_multiple_glycans(
                 representation=glycan_representation, assembly_name=name,
                 glycan_type=BioExplorer.NAME_GLYCAN_HYBRID,
                 protein_name=BioExplorer.NAME_RECEPTOR, paths=hybrid_paths,
                 indices=[546],
-                assembly_params=[0, 0, 0.0, frame + 4, 0.2])
+                animation_params=AnimationParams(0, 0, 0.0, frame + 4, 0.2)
+            )
 
             indices = [[155, Quaternion(0.707, 0.0, 0.707, 0.0)],
                        [730, Quaternion(0.707, 0.0, 0.707, 0.0)]]
@@ -381,27 +380,28 @@ class LowGlucoseScenario():
                     assembly_name=name, name=o_glycan_name, source=o_glycan_paths[0],
                     protein_name=name + '_' + BioExplorer.NAME_RECEPTOR, representation=glycan_representation,
                     chain_ids=[2, 4], site_indices=[index[0]], rotation=index[1],
-                    assembly_params=[0, 0, 0.0, frame + count + 5, 0.2])
+                    animation_params=AnimationParams(0, 0, 0.0, frame + count + 5, 0.2)
+                )
                 self._be.add_sugars(o_glycan)
                 count += 1
 
-    def _add_surfactant_d(self, name, position, rotation, random_seed):
+    def _add_surfactant_d(self, name, position, rotation, animation_params):
         surfactant_d = Surfactant(
             name=name, surfactant_protein=BioExplorer.SURFACTANT_PROTEIN_D,
             head_source=surfactant_head_source,
             branch_source=surfactant_branch_source)
         self._be.add_surfactant(
             surfactant=surfactant_d, representation=protein_representation,
-            position=position, rotation=rotation, random_seed=random_seed)
+            position=position, rotation=rotation, animation_params=animation_params)
 
-    def _add_surfactant_a(self, name, position, rotation, random_seed):
+    def _add_surfactant_a(self, name, position, rotation, animation_params):
         surfactant_a = Surfactant(
             name=name, surfactant_protein=BioExplorer.SURFACTANT_PROTEIN_A,
             head_source=surfactant_head_source,
             branch_source=surfactant_branch_source)
         self._be.add_surfactant(
             surfactant=surfactant_a, representation=protein_representation,
-            position=position, rotation=rotation, random_seed=random_seed)
+            position=position, rotation=rotation, animation_params=animation_params)
 
     def _add_surfactants_d(self, frame):
         spd_sequences = [[0, 3750], [0, 2600], [0, 2600], [0, 3750]]
@@ -433,7 +433,8 @@ class LowGlucoseScenario():
             self._log(3, '-   ' + name + ' (%.01f pct)' % progress)
             self._add_surfactant_d(
                 name=name, position=pos, rotation=rot,
-                random_seed=spd_random_seeds[surfactant_index])
+                animation_params=AnimationParams(spd_random_seeds[surfactant_index])
+            )
 
     def _add_surfactants_a(self, frame):
         spa_sequences = [[0, 3750]]
@@ -453,49 +454,68 @@ class LowGlucoseScenario():
             self._log(3, '-   ' + name + ' (%.01f pct)' % progress)
             self._add_surfactant_a(
                 name=name, position=pos, rotation=rot,
-                random_seed=spa_random_seeds[surfactant_index])
+                animation_params=AnimationParams(spa_random_seeds[surfactant_index])
+            )
 
     def _add_glucose(self, frame):
         glucose = Protein(
-            sources=[glucose_path], load_non_polymer_chemicals=True,
-            occurences=nb_glucoses)
+            name=BioExplorer.NAME_GLUCOSE,
+            source=glucose_path, load_non_polymer_chemicals=True,
+            occurences=nb_glucoses,
+            animation_params=AnimationParams(
+                100, frame + 20, scene_size.y / 600.0, frame + 21, 0.3)
+        )
         volume = Volume(
-            name=BioExplorer.NAME_GLUCOSE, size=scene_size, protein=glucose,
-            random_position_seed=frame + 20, random_position_stength=scene_size.y / 600.0,
-            random_rotation_seed=frame + 21, random_rotation_stength=0.3
+            name=BioExplorer.NAME_GLUCOSE,
+            shape=BioExplorer.ASSEMBLY_SHAPE_CUBE,
+            shape_params=scene_size,
+            protein=glucose
         )
         status = self._be.add_volume(
             volume=volume, representation=protein_representation,
-            position=Vector3(0.0, scene_size.y / 2.0 - 200.0, 0.0),
-            random_seed=100)
+            position=Vector3(0.0, scene_size.y / 2.0 - 200.0, 0.0)
+        )
+        return status
 
     def _add_lactoferrins(self, frame):
         lactoferrin = Protein(
-            sources=[lactoferrin_path], load_non_polymer_chemicals=True,
-            occurences=nb_lactoferrins)
+            name=BioExplorer.NAME_LACTOFERRIN,
+            source=lactoferrin_path, load_non_polymer_chemicals=True,
+            occurences=nb_lactoferrins,
+            animation_params=AnimationParams(
+                101, frame + 30, scene_size.y / 400.0, frame + 31, 0.3)
+        )
         lactoferrins_volume = Volume(
-            name=BioExplorer.NAME_LACTOFERRIN, size=scene_size, protein=lactoferrin,
-            random_position_seed=frame + 30, random_position_stength=scene_size.y / 400.0,
-            random_rotation_seed=frame + 31, random_rotation_stength=0.3
+            name=BioExplorer.NAME_LACTOFERRIN,
+            shape=BioExplorer.ASSEMBLY_SHAPE_CUBE,
+            shape_params=scene_size,
+            protein=lactoferrin
         )
         status = self._be.add_volume(
             volume=lactoferrins_volume, representation=protein_representation,
-            position=Vector3(0.0, scene_size.y / 2.0 - 200.0, 0.0),
-            random_seed=101)
+            position=Vector3(0.0, scene_size.y / 2.0 - 200.0, 0.0)
+        )
+        return status
 
     def _add_defensins(self, frame):
         defensin = Protein(
-            sources=[defensin_path], load_non_polymer_chemicals=True,
-            occurences=nb_defensins)
+            name=BioExplorer.NAME_DEFENSIN,
+            source=defensin_path, load_non_polymer_chemicals=True,
+            occurences=nb_defensins,
+            animation_params=AnimationParams(
+                102, frame + 40, scene_size.y / 400.0, frame + 41, 0.3)
+        )
         defensins_volume = Volume(
-            name=BioExplorer.NAME_DEFENSIN, size=scene_size, protein=defensin,
-            random_position_seed=frame + 40, random_position_stength=scene_size.y / 400.0,
-            random_rotation_seed=frame + 41, random_rotation_stength=0.3
+            name=BioExplorer.NAME_DEFENSIN,
+            shape=BioExplorer.ASSEMBLY_SHAPE_CUBE,
+            shape_params=scene_size,
+            protein=defensin
         )
         status = self._be.add_volume(
             volume=defensins_volume, representation=protein_representation,
-            position=Vector3(0.0, scene_size.y / 2.0 - 200.0, 0.0),
-            random_seed=102)
+            position=Vector3(0.0, scene_size.y / 2.0 - 200.0, 0.0)
+        )
+        return status
 
     def _add_lymphocyte(self, frame):
         if frame < 1400:
@@ -518,18 +538,17 @@ class LowGlucoseScenario():
                              Vector3(-830.0, 100.0, 30.0), Quaternion(0.707, 0.707, 0.0, 0.0),
                              ROTATION_MODE_LINEAR]
 
-        lipid_sources = [
+        pdb_lipids = [
             membrane_folder + 'segA.pdb',
             membrane_folder + 'segB.pdb',
             membrane_folder + 'segC.pdb',
             membrane_folder + 'segD.pdb'
         ]
 
-        mesh_based_membrane = MeshBasedMembrane(
-            mesh_source=lymphocyte_path, lipid_sources=lipid_sources,
-            density=lymphocyte_density, surface_variable_offset=lymphocyte_surface_variable_offset,
-            assembly_params=params
-        )
+        membrane = Membrane(
+            lipid_sources=pdb_lipids,
+            load_non_polymer_chemicals=True, load_bonds=True,
+            animation_params=AnimationParams(0, 1, 0.025, 2, 0.5))
 
         pos, rot, progress = self._get_transformation(
             start_frame=lymphocyte_sequence[0], end_frame=lymphocyte_sequence[1],
@@ -537,17 +556,26 @@ class LowGlucoseScenario():
         self._log(3, '-   ' + name + ' (%.01f pct)' % progress)
 
         scale = Vector3(1.0, 1.0, 1.0)
-        status = self._be.add_mesh_based_membrane(
-            name, mesh_based_membrane, position=pos,
-            rotation=rot, scale=scale,
+        cell = Cell(
+            name=name,
+            shape=BioExplorer.ASSEMBLY_SHAPE_MESH,
+            shape_mesh_source=lymphocyte_path,
+            shape_params=scale,
+            membrane=membrane,
+            proteins=list())
+
+        status = self._be.add_cell(
+            cell=cell,
+            position=pos, rotation=rot,
             clipping_planes=clip_planes
         )
 
-        for i in range(len(lipid_sources)):
+        for i in range(len(pdb_lipids)):
             status = self._be.set_protein_color_scheme(
                 assembly_name=name, name=BioExplorer.NAME_MEMBRANE + '_' + str(i),
                 color_scheme=BioExplorer.COLOR_SCHEME_CHAINS,
                 palette_name='OrRd', palette_size=5)
+        return status
 
     def _set_materials(self):
         '''Default materials'''
@@ -589,12 +617,9 @@ class LowGlucoseScenario():
             size=self._image_size, path=self._image_output_folder + '/' + renderer,
             base_name='%05d' % frame, samples_per_pixel=samples_per_pixel)
 
-        '''Camera'''
-        status = self._core.set_camera(current='bio_explorer_perspective')
-
     def _build_frame(self, frame):
         self._log(2, '- Resetting scene...')
-        self._be.reset()
+        self._be.reset_scene()
 
         self._log(2, '- Building surfactants...')
         self._add_surfactants_d(frame)
@@ -640,7 +665,6 @@ class LowGlucoseScenario():
 
     def _prepare_movie(self, projection, image_k):
         if projection == 'perspective':
-            aperture_ratio = 1.0
             self._image_size = [image_k*960, image_k*540]
             self._core.set_camera(current='bio_explorer_perspective')
         elif projection == 'fisheye':
@@ -675,9 +699,6 @@ class LowGlucoseScenario():
             self._core.add_clip_plane(plane)
 
     def render_movie(self, start_frame=0, end_frame=0, frame_step=1, frame_list=list()):
-        '''Accelerate loading by not showing models as they are loaded'''
-        status = self._be.set_general_settings(model_visibility_on_creation=False)
-
         aperture_ratio = 0.0
         cameras_key_frames = [
             {  # Virus overview (on 5th virus)

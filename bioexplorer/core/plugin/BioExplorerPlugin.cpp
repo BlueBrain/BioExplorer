@@ -609,6 +609,8 @@ Response BioExplorerPlugin::_setGeneralSettings(
         GeneralSettings::getInstance()->setOffFolder(payload.offFolder);
         GeneralSettings::getInstance()->setLoggingEnabled(
             payload.loggingEnabled);
+        GeneralSettings::getInstance()->setV1Compatibility(
+            payload.v1Compatibility);
         PLUGIN_INFO("Setting general options for the plugin");
 
         response.contents = "OK";
@@ -1099,7 +1101,6 @@ IdsDetails BioExplorerPlugin::_getModelIds() const
     for (const auto &modelDescriptor : modelDescriptors)
     {
         const auto &modelId = modelDescriptor->getModelID();
-        PLUGIN_INFO("Adding model id: " + std::to_string(modelId));
         modelIds.ids.push_back(modelId);
     }
     return modelIds;

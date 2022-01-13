@@ -97,6 +97,21 @@ public:
      */
     void setLoggingEnabled(const bool value) { _loggingEnabled = value; }
 
+    /**
+     * @brief Get the V1 Compatibility state
+     *
+     * @return true V1 compatibility is enabled
+     * @return false V1 compatibility is disabled
+     */
+    bool getV1Compatibility() const { return _v1Compatibility; }
+
+    /**
+     * @brief Set the V1 compatibility state
+     *
+     * @param value Enabled is true, disabled otherwise
+     */
+    void setV1Compatibility(const bool value) { _v1Compatibility = value; }
+
     static std::mutex _mutex;
     static GeneralSettings* _instance;
 
@@ -106,6 +121,7 @@ private:
     bool _modelVisibilityOnCreation{true};
     std::string _offFolder{"/tmp"};
     bool _loggingEnabled{true};
+    bool _v1Compatibility{false};
 };
 } // namespace common
 } // namespace bioexplorer

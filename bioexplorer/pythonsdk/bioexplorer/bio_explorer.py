@@ -237,6 +237,7 @@ class BioExplorer:
         """Create a new BioExplorer instance"""
         self._url = url
         self._client = Client(url)
+        self._v1_compatibility = False
 
         backend_version = self.version()
         if __version__ != backend_version:
@@ -417,7 +418,7 @@ class BioExplorer:
 
     def add_coronavirus(self, name, resource_folder,
                         shape_params=Vector3(45.0, 0.0, 0.0),
-                        animation_params=AnimationParams(0, 1, 0.25, 1, 0.25),
+                        animation_params=AnimationParams(0, 1, 0.25, 1, 0.1),
                         nb_protein_s=62, nb_protein_m=50, nb_protein_e=42,
                         open_protein_s_indices=[0], atom_radius_multiplier=1.0,
                         add_glycans=False, add_rna_sequence=False,
@@ -483,7 +484,7 @@ class BioExplorer:
         ))
 
         # Protein M (QHD43419)
-        ap.seed = 2
+        ap.seed = 1
         membrane_proteins.append(Protein(
             name=name + '_' + self.NAME_PROTEIN_M,
             source=pdb_folder + "QHD43419a.pdb",
@@ -508,7 +509,6 @@ class BioExplorer:
 
         # Virus membrane
         ap.seed = 4
-        # lipid_sources = glob.glob(lipids_folder + '*.pdb')
         lipid_sources = [
             membrane_folder + 'segA.pdb',
             membrane_folder + 'segB.pdb',
@@ -517,6 +517,7 @@ class BioExplorer:
 
         virus_membrane = Membrane(
             lipid_sources=lipid_sources,
+            lipid_rotation=Quaternion(0.0, 1.0, 0.0, 0.0),
             load_bonds=True, load_non_polymer_chemicals=True,
             animation_params=ap
         )
@@ -819,6 +820,13 @@ class BioExplorer:
         head_name = surfactant.name + "_" + self.NAME_SURFACTANT_HEAD
         branch_name = surfactant.name + "_" + self.NAME_COLLAGEN + "_"
 
+        d = collagen_size * (nb_collagens + 1) - 9.0
+        p = Vector3(0.0, 0.0, d)
+        r = Quaternion(-0.343, 0.883, 0.115, 0.303)
+        if self._v1_compatibility:
+            p = Vector3(0.0, 0.0, -d)
+            r = Quaternion(0.115, -0.297, 0.344, 0.883)
+
         protein_sp_d = AssemblyProtein(
             assembly_name=surfactant.name,
             name=head_name,
@@ -827,18 +835,21 @@ class BioExplorer:
             atom_radius_multiplier=atom_radius_multiplier,
             animation_params=animation_params,
             representation=representation,
-            position=Vector3(0.0, 0.0, collagen_size * (nb_collagens + 1) - 9.0),
-            rotation=Quaternion(-0.343, 0.883, 0.115, 0.303)
+            position=p, rotation=r
         )
 
         collagens = list()
         for i in range(nb_collagens):
+            d = collagen_size * (i + 1) - 7.0
+            p = Vector3(0.0, 0.0, d)
+            if self._v1_compatibility:
+                p = Vector3(0.0, 0.0, -d)
+
             collagens.append(
                 AssemblyProtein(
                     assembly_name=surfactant.name,
                     name=branch_name + str(i),
-                    position=Vector3(0.0, 0.0, collagen_size * (i + 1) - 7.0),
-                    atom_radius_multiplier=atom_radius_multiplier,
+                    position=p, atom_radius_multiplier=atom_radius_multiplier,
                     source=surfactant.branch_source,
                     occurrences=nb_branches,
                     animation_params=animation_params,
@@ -1596,84 +1607,6 @@ class BioExplorer:
             material_ids = self.get_material_ids(model_id)["ids"]
             nb_materials = len(material_ids)
 
-            if membranes and self.NAME_MEMBRANE in model_name:
-                palette = sns.color_palette("gist_heat", nb_materials)
-                self.set_materials_from_palette(
-                    model_ids=[model_id],
-                    material_ids=material_ids,
-                    palette=palette,
-                    shading_mode=shading_mode,
-                    user_parameter=user_parameter,
-                    glossiness=glossiness,
-                    specular_exponent=specular_exponent,
-                )
-
-            if proteins and (self.NAME_RECEPTOR in model_name or
-                             self.NAME_TRANS_MEMBRANE in model_name or
-                             self.NAME_ION_CHANNEL in model_name or
-                             self.NAME_RNA_SEQUENCE in model_name):
-                palette = sns.color_palette("OrRd_r", nb_materials)
-                self.set_materials_from_palette(
-                    model_ids=[model_id],
-                    material_ids=material_ids,
-                    palette=palette,
-                    shading_mode=shading_mode,
-                    user_parameter=user_parameter,
-                    glossiness=glossiness,
-                    specular_exponent=specular_exponent,
-                )
-
-            if proteins and (self.NAME_PROTEIN_S_CLOSED in model_name
-                             or self.NAME_PROTEIN_S_OPEN in model_name
-                             or self.NAME_PROTEIN_E in model_name
-                             or self.NAME_PROTEIN_M in model_name):
-                palette = sns.color_palette("Greens", nb_materials)
-                self.set_materials_from_palette(
-                    model_ids=[model_id],
-                    material_ids=material_ids,
-                    palette=palette,
-                    shading_mode=shading_mode,
-                    user_parameter=user_parameter,
-                    glossiness=glossiness,
-                    specular_exponent=specular_exponent,
-                )
-
-            if proteins and self.NAME_GLUCOSE in model_name:
-                palette = sns.color_palette("Blues", nb_materials)
-                self.set_materials_from_palette(
-                    model_ids=[model_id],
-                    material_ids=material_ids,
-                    palette=palette,
-                    shading_mode=shading_mode,
-                    user_parameter=user_parameter,
-                    glossiness=glossiness,
-                    specular_exponent=specular_exponent,
-                )
-
-            if proteins and self.NAME_LACTOFERRIN in model_name:
-                palette = sns.color_palette("afmhot", nb_materials)
-                self.set_materials_from_palette(
-                    model_ids=[model_id],
-                    material_ids=material_ids,
-                    palette=palette,
-                    shading_mode=shading_mode,
-                    user_parameter=user_parameter,
-                    glossiness=glossiness,
-                    specular_exponent=specular_exponent,
-                )
-
-            if proteins and self.NAME_DEFENSIN in model_name:
-                palette = sns.color_palette("plasma_r", nb_materials)
-                self.set_materials_from_palette(
-                    model_ids=[model_id],
-                    material_ids=material_ids,
-                    palette=palette,
-                    shading_mode=shading_mode,
-                    user_parameter=user_parameter,
-                    glossiness=glossiness,
-                    specular_exponent=specular_exponent,
-                )
-
             if glycans and self.NAME_GLYCAN_HIGH_MANNOSE in model_name:
                 palette = list()
                 for _ in range(nb_materials):
@@ -1687,8 +1620,7 @@ class BioExplorer:
                     glossiness=glossiness,
                     specular_exponent=specular_exponent,
                 )
-
-            if glycans and self.NAME_GLYCAN_COMPLEX in model_name:
+            elif glycans and self.NAME_GLYCAN_COMPLEX in model_name:
                 palette = list()
                 for _ in range(nb_materials):
                     palette.append(glycans_colors[1])
@@ -1701,8 +1633,7 @@ class BioExplorer:
                     glossiness=glossiness,
                     specular_exponent=specular_exponent,
                 )
-
-            if glycans and self.NAME_GLYCAN_HYBRID in model_name:
+            elif glycans and self.NAME_GLYCAN_HYBRID in model_name:
                 palette = list()
                 for _ in range(nb_materials):
                     palette.append(glycans_colors[2])
@@ -1715,8 +1646,7 @@ class BioExplorer:
                     glossiness=glossiness,
                     specular_exponent=specular_exponent,
                 )
-
-            if glycans and self.NAME_GLYCAN_O_GLYCAN in model_name:
+            elif glycans and self.NAME_GLYCAN_O_GLYCAN in model_name:
                 palette = list()
                 for _ in range(nb_materials):
                     palette.append(glycans_colors[3])
@@ -1729,9 +1659,79 @@ class BioExplorer:
                     glossiness=glossiness,
                     specular_exponent=specular_exponent,
                 )
-
-            if proteins and (self.NAME_SURFACTANT_HEAD in model_name
-                             or self.NAME_COLLAGEN in model_name):
+            elif membranes and self.NAME_MEMBRANE in model_name:
+                palette = sns.color_palette("gist_heat", nb_materials)
+                self.set_materials_from_palette(
+                    model_ids=[model_id],
+                    material_ids=material_ids,
+                    palette=palette,
+                    shading_mode=shading_mode,
+                    user_parameter=user_parameter,
+                    glossiness=glossiness,
+                    specular_exponent=specular_exponent,
+                )
+            elif proteins and (self.NAME_RECEPTOR in model_name or
+                               self.NAME_TRANS_MEMBRANE in model_name or
+                               self.NAME_ION_CHANNEL in model_name or
+                               self.NAME_RNA_SEQUENCE in model_name):
+                palette = sns.color_palette("OrRd_r", nb_materials)
+                self.set_materials_from_palette(
+                    model_ids=[model_id],
+                    material_ids=material_ids,
+                    palette=palette,
+                    shading_mode=shading_mode,
+                    user_parameter=user_parameter,
+                    glossiness=glossiness,
+                    specular_exponent=specular_exponent,
+                )
+            elif proteins and (self.NAME_PROTEIN_S_CLOSED in model_name
+                               or self.NAME_PROTEIN_S_OPEN in model_name
+                               or self.NAME_PROTEIN_E in model_name
+                               or self.NAME_PROTEIN_M in model_name):
+                palette = sns.color_palette("Greens", nb_materials)
+                self.set_materials_from_palette(
+                    model_ids=[model_id],
+                    material_ids=material_ids,
+                    palette=palette,
+                    shading_mode=shading_mode,
+                    user_parameter=user_parameter,
+                    glossiness=glossiness,
+                    specular_exponent=specular_exponent,
+                )
+            elif proteins and self.NAME_GLUCOSE in model_name:
+                palette = sns.color_palette("Blues", nb_materials)
+                self.set_materials_from_palette(
+                    model_ids=[model_id],
+                    material_ids=material_ids,
+                    palette=palette,
+                    shading_mode=shading_mode,
+                    user_parameter=user_parameter,
+                    glossiness=glossiness,
+                    specular_exponent=specular_exponent,
+                )
+            elif proteins and self.NAME_LACTOFERRIN in model_name:
+                palette = sns.color_palette("afmhot", nb_materials)
+                self.set_materials_from_palette(
+                    model_ids=[model_id],
+                    material_ids=material_ids,
+                    palette=palette,
+                    shading_mode=shading_mode,
+                    user_parameter=user_parameter,
+                    glossiness=glossiness,
+                    specular_exponent=specular_exponent,
+                )
+            elif proteins and self.NAME_DEFENSIN in model_name:
+                palette = sns.color_palette("plasma_r", nb_materials)
+                self.set_materials_from_palette(
+                    model_ids=[model_id],
+                    material_ids=material_ids,
+                    palette=palette,
+                    shading_mode=shading_mode,
+                    user_parameter=user_parameter,
+                    glossiness=glossiness,
+                    specular_exponent=specular_exponent,
+                )
+            elif proteins and (self.NAME_SURFACTANT_HEAD in model_name):
                 palette = sns.color_palette("OrRd_r", nb_materials)
                 emission = 0
                 if self.NAME_COLLAGEN in model_name:
@@ -1746,8 +1746,7 @@ class BioExplorer:
                     glossiness=glossiness,
                     specular_exponent=specular_exponent,
                 )
-
-            if collagen and self.NAME_COLLAGEN in model_name:
+            elif collagen and self.NAME_COLLAGEN in model_name:
                 palette = list()
                 emissions = list()
                 for _ in range(nb_materials):
@@ -1929,7 +1928,7 @@ class BioExplorer:
         return self._invoke_and_check("add-sphere", params)
 
     def set_general_settings(self, model_visibility_on_creation=True, off_folder='/tmp',
-                             logging_enabled=False):
+                             logging_enabled=False, v1_compatibility=False):
         """
         Set general settings for the plugin
 
@@ -1938,10 +1937,12 @@ class BioExplorer:
         :logging_enabled: Enable/Disable back-end logging
         :return: Result of the request submission
         """
+        self._v1_compatibility = v1_compatibility
         params = dict()
         params["modelVisibilityOnCreation"] = model_visibility_on_creation
         params["offFolder"] = off_folder
         params["loggingEnabled"] = logging_enabled
+        params["v1Compatibility"] = v1_compatibility
         response = self._invoke_and_check("set-general-settings", params)
         return response
 

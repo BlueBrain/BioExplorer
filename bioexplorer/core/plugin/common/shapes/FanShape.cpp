@@ -44,29 +44,29 @@ Transformation FanShape::getTransformation(
     const uint64_t occurrence, const uint64_t nbOccurrences,
     const AnimationDetails& animationDetails, const double offset) const
 {
-    uint64_t occ = occurrence;
-    uint64_t occs = nbOccurrences;
-    if (occs != 0 && animationDetails.seed != 0)
-    {
-        occs = 36000;
-        occ = rand() % occs;
-    }
+    uint64_t rnd = occurrence;
+    if (nbOccurrences != 0 && animationDetails.seed != 0)
+        if (GeneralSettings::getInstance()->getV1Compatibility())
+            rnd = rand() % nbOccurrences;
+        else
+            rnd = rand() % std::numeric_limits<uint64_t>::max();
 
     const double radius =
         _radius + (animationDetails.positionSeed == 0
                        ? animationDetails.positionStrength
                        : animationDetails.positionStrength *
-                             rnd3(animationDetails.positionSeed + occ));
+                             rnd3(animationDetails.positionSeed + rnd));
 
     Vector3d pos;
     Quaterniond rot;
-    sphereFilling(radius, occ, occs, pos, rot, offset, 0.1);
+    sphereFilling(radius, occurrence, nbOccurrences, rnd, pos, rot, offset,
+                  0.1);
 
     if (isClipped(pos, _clippingPlanes))
         throw std::runtime_error("Instance is clipped");
 
     if (animationDetails.rotationSeed != 0)
-        rot = weightedRandomRotation(rot, animationDetails.rotationSeed, occ,
+        rot = weightedRandomRotation(rot, animationDetails.rotationSeed, rnd,
                                      animationDetails.rotationStrength);
 
     Transformation transformation;

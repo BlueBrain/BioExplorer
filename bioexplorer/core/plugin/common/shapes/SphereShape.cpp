@@ -56,29 +56,28 @@ Transformation SphereShape::_getTransformation(
     const uint64_t occurrence, const uint64_t nbOccurrences,
     const AnimationDetails& animationDetails, const double offset) const
 {
-    uint64_t occ = occurrence;
-    uint64_t occs = nbOccurrences;
-    if (occs != 0 && animationDetails.seed != 0)
-    {
-        occs = 36000;
-        occ = rand() % occs;
-    }
+    uint64_t rnd = occurrence;
+    if (nbOccurrences != 0 && animationDetails.seed != 0)
+        if (GeneralSettings::getInstance()->getV1Compatibility())
+            rnd = rand() % nbOccurrences;
+        else
+            rnd = rand() % std::numeric_limits<uint64_t>::max();
 
     const double radius =
         _radius + (animationDetails.positionSeed == 0
                        ? animationDetails.positionStrength
                        : animationDetails.positionStrength *
-                             rnd3(animationDetails.positionSeed + occ));
+                             rnd3(animationDetails.positionSeed + rnd));
 
     Vector3d pos;
     Quaterniond rot;
-    sphereFilling(radius, occ, occs, pos, rot, offset);
+    sphereFilling(radius, occurrence, nbOccurrences, rnd, pos, rot, offset);
 
     if (isClipped(pos, _clippingPlanes))
         throw std::runtime_error("Instance is clipped");
 
     if (animationDetails.rotationSeed != 0)
-        rot = weightedRandomRotation(rot, animationDetails.rotationSeed, occ,
+        rot = weightedRandomRotation(rot, animationDetails.rotationSeed, rnd,
                                      animationDetails.rotationStrength);
 
     Transformation transformation;
@@ -95,53 +94,45 @@ Transformation SphereShape::_getMorphedTransformation(
     if (nbOccurrences != 0 && animationDetails.seed != 0)
         rnd = rand() % nbOccurrences;
 
-    // Position randomizer
-    double R = _radius + (animationDetails.positionSeed == 0
-                              ? animationDetails.positionStrength
-                              : animationDetails.positionStrength *
-                                    rnd3(animationDetails.positionSeed + rnd));
+    const double radius =
+        _radius + (animationDetails.positionSeed == 0
+                       ? animationDetails.positionStrength
+                       : animationDetails.positionStrength *
+                             rnd3(animationDetails.positionSeed + rnd));
 
-    // Sphere filling
-    const double off = 2.0 / nbOccurrences;
-    const double increment = M_PI * (3.0 - sqrt(5.0));
-    const double y = ((rnd * off) - 1.0) + (off / 2.0);
-    const double r = sqrt(1.f - pow(y, 2.0));
-    const double phi = rnd * increment;
-    const double x = cos(phi) * r;
-    const double z = sin(phi) * r;
+    Vector3d startPos;
+    Quaterniond startRot;
+    const Vector3d startDir = sphereFilling(radius, occurrence, nbOccurrences,
+                                            rnd, startPos, startRot, offset);
 
-    const Vector3d startDir{x, y, z};
-    const Vector3d startPos = (R + offset) * startDir;
+    if (animationDetails.rotationSeed != 0)
+        startRot =
+            weightedRandomRotation(startRot, animationDetails.rotationSeed, rnd,
+                                   animationDetails.rotationStrength);
 
-    if (isClipped(startPos, _clippingPlanes))
-        throw std::runtime_error("Instance is clipped");
+    const double endRadius = radius * 2.0;
+    const double morphingStep = animationDetails.morphingStep;
 
     Vector3d endPos = startPos;
+    endPos.y = -radius;
+    endPos = endPos + (1.0 - (startPos.y + _radius) / endRadius) *
+                          Vector3d(endRadius, 0.0, endRadius) *
+                          normalize(Vector3d(startDir.x, 0.0, startDir.z));
 
-    Quaterniond startRotation = safeQuatlookAt(startDir);
+    Quaterniond endRot{0.0, 0.0, 0.707, 0.707};
     if (animationDetails.rotationSeed != 0)
-        startRotation =
-            weightedRandomRotation(startRotation, animationDetails.rotationSeed,
-                                   rnd, animationDetails.rotationStrength);
+        endRot = weightedRandomRotation(endRot, animationDetails.rotationSeed,
+                                        rnd, animationDetails.rotationStrength);
 
-    R = _radius;
-    const double endRadius = R * 2.f;
+    const Quaterniond finalRotation = slerp(startRot, endRot, morphingStep);
 
-    endPos.y = -R;
-    endPos = endPos + (1.f - (startPos.y + (R + offset)) / endRadius) *
-                          Vector3d(endRadius, 0.f, endRadius) *
-                          normalize(Vector3d(startDir.x, 0.f, startDir.z));
-
-    const Quaterniond endRotation{0.f, 0.f, 0.707f, 0.707f};
-    const Quaterniond finalRotation =
-        glm::lerp(startRotation, endRotation,
-                  double(animationDetails.morphingStep));
+    const auto finalTranslation =
+        endPos * morphingStep + startPos * (1.0 - morphingStep);
+    if (isClipped(finalTranslation, _clippingPlanes))
+        throw std::runtime_error("Instance is clipped");
 
     // Final transformation
     Transformation transformation;
-    const Vector3d finalTranslation =
-        endPos * animationDetails.morphingStep +
-        startPos * (1.f - animationDetails.morphingStep);
     transformation.setTranslation(finalTranslation);
     transformation.setRotation(finalRotation);
     return transformation;

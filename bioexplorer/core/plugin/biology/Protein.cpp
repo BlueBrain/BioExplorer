@@ -432,9 +432,8 @@ void Protein::_processInstances(ModelDescriptorPtr md,
             const Transformation combinedTransformation =
                 proteinTransformation * glycanTransformation;
 
-            // if (count == 0)
-            //     md->setTransformation(combinedTransformation);
-
+            if (count == 0)
+                md->setTransformation(combinedTransformation);
             const ModelInstance instance(true, false, combinedTransformation);
             md->addInstance(instance);
             ++count;

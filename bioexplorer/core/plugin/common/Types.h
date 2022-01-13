@@ -116,6 +116,7 @@ typedef struct
     bool modelVisibilityOnCreation;
     std::string offFolder;
     bool loggingEnabled;
+    bool v1Compatibility;
 } GeneralSettingsDetails;
 
 typedef struct
