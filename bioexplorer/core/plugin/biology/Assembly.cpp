@@ -419,8 +419,7 @@ void Assembly::setProteinInstanceTransformation(
     newTransformation.setRotation(rotation);
     if (details.instanceIndex == 0)
         modelDescriptor->setTransformation(newTransformation);
-    else
-        instance->setTransformation(Transformation());
+    instance->setTransformation(newTransformation);
 
     _scene.markModified();
 }
@@ -444,11 +443,17 @@ const Transformation Assembly::getProteinInstanceTransformation(
                      std::to_string(details.instanceIndex) + ") for protein " +
                      details.name + " in assembly " + details.assemblyName);
 
-    if (details.instanceIndex == 0)
-        return modelDescriptor->getTransformation();
-
     const auto instance = modelDescriptor->getInstance(details.instanceIndex);
-    return instance->getTransformation();
+    const auto transformation = instance->getTransformation();
+    const auto &position = transformation.getTranslation();
+    const auto &rotation = transformation.getRotation();
+
+    PLUGIN_INFO("Getting instance "
+                << details.instanceIndex << " of protein " << details.name
+                << " in assembly " << details.assemblyName << " with position="
+                << position << " and rotation=" << rotation);
+
+    return transformation;
 }
 
 bool Assembly::isInside(const Vector3d &location) const

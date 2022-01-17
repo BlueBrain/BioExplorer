@@ -71,7 +71,6 @@ nb_defensins_on_virus = 2
 
 # Cell
 cell_nb_receptors = 100
-cell_nb_lipids = 1200000
 
 # --------------------------------------------------------------------------------
 # Resources
@@ -181,13 +180,13 @@ class HighGlucoseScenario():
             [[-1, -1], [-1, -1], [-1, -1], [-1, 3152], [3153, 3252], [3253, 3750]],
             [[-1, -1], [-1, -1], [-1, -1], [-1, 3358], [3359, 3458], [3459, 3750]]
         ]
-        virus_radii = [45.0, 44.0, 45.0, 43.0, 44.0, 43.0, 45.0, 46.0, 44.0, 45.0, 44.0]
         virus_flights_in = [
             [Vector3(-250.0, 100.0, -70.0), Quaternion(0.519, 0.671, 0.528, -0.036),
              Vector3(-337.3, -92.3, -99.2), Quaternion(1.0, 0.0, 0.0, 0.0),
              ROTATION_MODE_LINEAR],
+            # Virus used for the ACE2 close-up
             [Vector3(-50.0, 300.0, 250.0), Quaternion(0.456, 0.129, -0.185, -0.860),
-             Vector3(-74.9, -99.0, 228.8), Quaternion(1.0, 0.0, 0.0, 0.0),
+             Vector3(-79.9, -99.0, 228.8), Quaternion(1.0, 0.0, 0.0, 0.0),
              ROTATION_MODE_LINEAR],
             [Vector3(150.0, 100.0, 50.0), Quaternion(0.087, 0.971, -0.147, -0.161),
              Vector3(187.5, -110.4, 51.2), Quaternion(1.0, 0.0, 0.0, 0.0),
@@ -309,15 +308,18 @@ class HighGlucoseScenario():
 
     def _add_cell(self, frame):
         name = 'Cell'
+        receptor_name = name + '_' + BioExplorer.NAME_RECEPTOR
         nb_receptors = cell_nb_receptors
         size = Vector3(scene_size.x * 2.0, scene_size.y / 10.0, scene_size.x * 2.0)
         position = Vector3(4.5, -186.0, 7.0)
         random_seed = 10
 
         ace2_receptor = Protein(
-            name=name + '_' + BioExplorer.NAME_RECEPTOR,
+            name=receptor_name,
             source=pdb_folder + '6m18.pdb', occurences=nb_receptors,
-            transmembrane_params=Vector2(-6.0, 5.0)
+            transmembrane_params=Vector2(-6.0, 5.0),
+            animation_params=AnimationParams(
+                random_seed, frame + 1, 0.025, frame + 2, 0.2)
         )
 
         membrane = Membrane(
@@ -343,8 +345,9 @@ class HighGlucoseScenario():
             representation=protein_representation)
 
         '''Modify receptor position when attached virus enters the cell'''
-        receptors_instances = [37]
-        receptors_sequences = [[3000, 3099]]
+        receptors_instances = [90, 23, 24, 98, 37, 44]
+        receptors_sequences = [[2500, 2599], [2200, 2299], [
+            2550, 2649], [2600, 2699], [2650, 2749], [-1, -1]]
 
         for i in range(len(receptors_instances)):
             instance_index = receptors_instances[i]
@@ -355,13 +358,13 @@ class HighGlucoseScenario():
                 if frame > end_frame:
                     '''Send receptor to outter space'''
                     status = self._be.set_protein_instance_transformation(
-                        assembly_name=name, name=name + '_' + BioExplorer.NAME_RECEPTOR,
+                        assembly_name=name, name=receptor_name,
                         instance_index=instance_index, position=Vector3(0.0, 1e6, 0.0)
                     )
                 else:
                     '''Current receptor transformation'''
                     transformation = self._be.get_protein_instance_transformation(
-                        assembly_name=name, name=name + '_' + BioExplorer.NAME_RECEPTOR,
+                        assembly_name=name, name=receptor_name,
                         instance_index=instance_index
                     )
                     p = transformation['position'].split(',')
@@ -371,14 +374,14 @@ class HighGlucoseScenario():
 
                     '''Bend receptor'''
                     progress = (frame - start_frame) * 1.0 / (end_frame - start_frame)
-                    q1 = Quaternion(axis=[0, 1, 0], angle=math.pi * progress)
+                    q1 = Quaternion(axis=[0, 1, 0], angle=-math.pi * progress)
                     rot = q2 * q1
 
                     pos.x += landing_distance * progress * 0.3
                     pos.y -= landing_distance * progress * 0.3
 
                     status = self._be.set_protein_instance_transformation(
-                        assembly_name=name, name=name + '_' + BioExplorer.NAME_RECEPTOR,
+                        assembly_name=name, name=receptor_name,
                         instance_index=instance_index, position=pos, rotation=rot
                     )
 
@@ -494,7 +497,8 @@ class HighGlucoseScenario():
     def _add_glucose(self, frame):
         glucose = Protein(
             name=BioExplorer.NAME_GLUCOSE,
-            source=glucose_path, load_non_polymer_chemicals=True,
+            source=glucose_path,
+            load_non_polymer_chemicals=True, load_bonds=True, load_hydrogen=True,
             occurences=nb_glucoses,
             animation_params=AnimationParams(
                 100, frame + 20, scene_size.y / 600.0, frame + 21, 0.3)
@@ -514,7 +518,8 @@ class HighGlucoseScenario():
     def _add_lactoferrins(self, frame):
         lactoferrin = Protein(
             name=BioExplorer.NAME_LACTOFERRIN,
-            source=lactoferrin_path, load_non_polymer_chemicals=True,
+            source=lactoferrin_path,
+            load_non_polymer_chemicals=True, load_bonds=True, load_hydrogen=True,
             occurences=nb_lactoferrins,
             animation_params=AnimationParams(
                 101, frame + 30, scene_size.y / 400.0, frame + 31, 0.3)
@@ -534,7 +539,8 @@ class HighGlucoseScenario():
     def _add_defensins(self, frame):
         defensin = Protein(
             name=BioExplorer.NAME_DEFENSIN,
-            source=defensin_path, load_non_polymer_chemicals=True,
+            source=defensin_path,
+            load_non_polymer_chemicals=True, load_bonds=True, load_hydrogen=True,
             occurences=nb_defensins,
             animation_params=AnimationParams(
                 102, frame + 40, scene_size.y / 400.0, frame + 41, 0.3)

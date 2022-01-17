@@ -22,7 +22,7 @@
 # this program.  If not, see <https://www.gnu.org/licenses/>.
 
 from bioexplorer import BioExplorer, Protein, Membrane, Surfactant, Cell, \
-    Sugars, AnimationParams, Volume, Vector3, Quaternion, MovieMaker
+    Sugars, AnimationParams, Volume, Vector2, Vector3, Quaternion, MovieMaker
 import math
 from datetime import datetime, timedelta
 import time
@@ -60,7 +60,7 @@ glycan_representation = BioExplorer.REPRESENTATION_ATOMS_AND_STICKS
 nb_protein_s = 62
 nb_protein_e = 42
 nb_protein_m = 50
-add_rna = False
+add_rna = True
 landing_distance = 50.0
 
 # Immune system
@@ -68,8 +68,9 @@ nb_glucoses = 120000
 nb_lactoferrins = 150
 nb_defensins = 300
 
-# Cell
+# Cells
 cell_nb_receptors = 100
+lipid_density = 1.0
 
 # --------------------------------------------------------------------------------
 # Resources
@@ -161,7 +162,6 @@ class LowGlucoseScenario():
         return [Vector3(pos[0], pos[1], pos[2]), rot, progress * 100.0]
 
     def _add_viruses(self, frame):
-        virus_radii = [45.0, 44.0, 45.0, 43.0, 44.0]
         virus_sequences = [
             [[0, 2599], [1e6, 1e6], [1e6, 1e6], [1e6, 1e6], [1e6, 1e6], [1e6, 1e6]],
             [[0, 2599], [1e6, 1e6], [1e6, 1e6], [1e6, 1e6], [1e6, 1e6], [1e6, 1e6]],
@@ -268,24 +268,27 @@ class LowGlucoseScenario():
             self._be.add_coronavirus(
                 name=name, resource_folder=resource_folder,
                 representation=protein_representation, position=pos, rotation=rot,
-                add_glycans=add_glycans,
+                add_glycans=add_glycans, add_rna_sequence=add_rna,
                 animation_params=AnimationParams(
                     1, 5 * frame + 2 * virus_index, 0.25,
                     frame + 2 * virus_index + 1, 0.1, morphing_step)
             )
 
     def _add_cell(self, frame):
-
         name = 'Cell'
+        receptor_name = name + '_' + BioExplorer.NAME_RECEPTOR
         nb_receptors = cell_nb_receptors
         size = Vector3(scene_size.x * 2.0, scene_size.y / 10.0, scene_size.x * 2.0)
         position = Vector3(4.5, -186.0, 7.0)
         random_seed = 10
 
         ace2_receptor = Protein(
-            name=name + '_' + BioExplorer.NAME_RECEPTOR,
+            name=receptor_name,
             source=pdb_folder + '6m18.pdb', occurences=nb_receptors,
-            position=Vector3(0.0, 6.0, 0.0))
+            transmembrane_params=Vector2(-6.0, 5.0),
+            animation_params=AnimationParams(
+                random_seed, frame + 1, 0.025, frame + 2, 0.2)
+        )
 
         membrane = Membrane(
             lipid_sources=[
@@ -294,7 +297,6 @@ class LowGlucoseScenario():
                 membrane_folder + 'segC.pdb',
                 membrane_folder + 'segD.pdb'
             ],
-            lipid_density=0.1,
             animation_params=AnimationParams(
                 random_seed, frame + 1, 0.025, frame + 2, 0.2)
         )
@@ -323,13 +325,13 @@ class LowGlucoseScenario():
                 if frame > end_frame:
                     '''Send receptor to outter space'''
                     status = self._be.set_protein_instance_transformation(
-                        assembly_name=name, name=name + '_' + BioExplorer.NAME_RECEPTOR,
+                        assembly_name=name, name=receptor_name,
                         instance_index=instance_index, position=Vector3(0.0, 1e6, 0.0)
                     )
                 else:
                     '''Current receptor transformation'''
                     transformation = self._be.get_protein_instance_transformation(
-                        assembly_name=name, name=name + '_' + BioExplorer.NAME_RECEPTOR,
+                        assembly_name=name, name=receptor_name,
                         instance_index=instance_index
                     )
                     p = transformation['position'].split(',')
@@ -339,14 +341,14 @@ class LowGlucoseScenario():
 
                     '''Bend receptor'''
                     progress = (frame - start_frame) * 1.0 / (end_frame - start_frame)
-                    q1 = Quaternion(axis=[0, 1, 0], angle=math.pi * progress)
+                    q1 = Quaternion(axis=[0, 1, 0], angle=-math.pi * progress)
                     rot = q2 * q1
 
                     pos.x += landing_distance * progress * 0.3
                     pos.y -= landing_distance * progress * 0.3
 
                     status = self._be.set_protein_instance_transformation(
-                        assembly_name=name, name=name + '_' + BioExplorer.NAME_RECEPTOR,
+                        assembly_name=name, name=receptor_name,
                         instance_index=instance_index, position=pos, rotation=rot
                     )
 
@@ -456,7 +458,8 @@ class LowGlucoseScenario():
     def _add_glucose(self, frame):
         glucose = Protein(
             name=BioExplorer.NAME_GLUCOSE,
-            source=glucose_path, load_non_polymer_chemicals=True,
+            source=glucose_path,
+            load_non_polymer_chemicals=True, load_bonds=True, load_hydrogen=True,
             occurences=nb_glucoses,
             animation_params=AnimationParams(
                 100, frame + 20, scene_size.y / 600.0, frame + 21, 0.3)
@@ -476,7 +479,8 @@ class LowGlucoseScenario():
     def _add_lactoferrins(self, frame):
         lactoferrin = Protein(
             name=BioExplorer.NAME_LACTOFERRIN,
-            source=lactoferrin_path, load_non_polymer_chemicals=True,
+            source=lactoferrin_path,
+            load_non_polymer_chemicals=True, load_bonds=True, load_hydrogen=True,
             occurences=nb_lactoferrins,
             animation_params=AnimationParams(
                 101, frame + 30, scene_size.y / 400.0, frame + 31, 0.3)
@@ -496,7 +500,8 @@ class LowGlucoseScenario():
     def _add_defensins(self, frame):
         defensin = Protein(
             name=BioExplorer.NAME_DEFENSIN,
-            source=defensin_path, load_non_polymer_chemicals=True,
+            source=defensin_path,
+            load_non_polymer_chemicals=True, load_bonds=True, load_hydrogen=True,
             occurences=nb_defensins,
             animation_params=AnimationParams(
                 102, frame + 40, scene_size.y / 400.0, frame + 41, 0.3)
@@ -514,25 +519,14 @@ class LowGlucoseScenario():
         return status
 
     def _add_lymphocyte(self, frame):
-        # if frame < 1400:
-        #     '''Lymphocyte is not in the field of view'''
-        #     return
+        if frame < 1400:
+            '''Lymphocyte is not in the field of view'''
+            return
         '''Protein animation params'''
         params = [0, 0, 0.0, frame + 2, 0.2]
 
-        # clip_planes = [
-        #     [1.0, 0.0, 0.0, scene_size.x * 1.5 + 5],
-        #     [-1.0, 0.0, 0.0, scene_size.x * 1.5 + 5],
-        #     [0.0, 0.0, 1.0, scene_size.z + 5],
-        #     [0.0, 0.0, -1.0, scene_size.z + 5]
-        # ]
-
         name = 'Emile'
         lymphocyte_sequence = [0, 3750]
-        # lymphocyte_frames = [Vector3(-2500.0, 100.0, 30.0), Quaternion(1.0, 0.0, 0.0, 0.0),
-        #                      Vector3(-830.0, 100.0, 30.0), Quaternion(0.707, 0.707, 0.0, 0.0),
-        #                      ROTATION_MODE_LINEAR]
-
         lymphocyte_frames = [Vector3(-700, 100.0, 0.0), Quaternion(1.0, 0.0, 0.0, 0.0),
                              Vector3(-200.0, 100.0, 0.0), Quaternion(1.0, 0.0, 0.0, 0.0),
                              ROTATION_MODE_LINEAR]
@@ -545,7 +539,7 @@ class LowGlucoseScenario():
         ]
 
         membrane = Membrane(
-            lipid_sources=pdb_lipids, lipid_density=0.1,
+            lipid_sources=pdb_lipids, lipid_density=lipid_density,
             load_non_polymer_chemicals=True, load_bonds=True,
             animation_params=AnimationParams(0, 1, 0.025, 2, 0.5))
 
@@ -627,32 +621,24 @@ class LowGlucoseScenario():
         self._log(2, '- Resetting scene...')
         self._be.reset_scene()
 
-        # self._log(2, '- Building surfactants...')
-        # self._add_surfactants_d(frame)
-        # self._add_surfactants_a(frame)
+        self._log(2, '- Building surfactants...')
+        self._add_surfactants_d(frame)
+        self._add_surfactants_a(frame)
 
-        # self._log(2, '- Building glucose...')
-        # self._add_glucose(frame)
+        self._log(2, '- Building glucose...')
+        self._add_glucose(frame)
 
-        # self._log(2, '- Building lactoferrins...')
-        # self._add_lactoferrins(frame)
+        self._log(2, '- Building lactoferrins...')
+        self._add_lactoferrins(frame)
 
-        # self._log(2, '- Building defensins...')
-        # self._add_defensins(frame)
+        self._log(2, '- Building defensins...')
+        self._add_defensins(frame)
 
         self._log(2, '- Building viruses...')
         self._add_viruses(frame)
 
         self._log(2, '- Building cell...')
         self._add_cell(frame)
-
-        self._be.add_bounding_box(
-            name='Scene AABB',
-            bottom_left_corner=Vector3(-scene_size.x / 2.0, -
-                                       scene_size.y / 2.0, -scene_size.z / 2.0),
-            top_right_corner=Vector3(scene_size.x / 2.0, scene_size.y / 2.0, scene_size.z / 2.0),
-            radius=1.0
-        )
 
         self._log(2, '- Building lymphocyte...')
         self._add_lymphocyte(frame)

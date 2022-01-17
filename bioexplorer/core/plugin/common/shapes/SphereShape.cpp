@@ -119,7 +119,7 @@ Transformation SphereShape::_getMorphedTransformation(
                           Vector3d(endRadius, 0.0, endRadius) *
                           normalize(Vector3d(startDir.x, 0.0, startDir.z));
 
-    Quaterniond endRot{0.0, 0.0, 0.707, 0.707};
+    Quaterniond endRot{0.0, 0.0, -0.707, 0.707};
     if (animationDetails.rotationSeed != 0)
         endRot = weightedRandomRotation(endRot, animationDetails.rotationSeed,
                                         rnd, animationDetails.rotationStrength);
