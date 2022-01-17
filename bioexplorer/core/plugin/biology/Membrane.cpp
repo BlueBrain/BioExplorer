@@ -132,7 +132,8 @@ void Membrane::_processInstances()
 
             const Transformation finalTransformation =
                 combineTransformations(transformations);
-            const Vector3d& translation = finalTransformation.getTranslation();
+            const auto& finalTranslation = finalTransformation.getTranslation();
+            const auto& finalRotation = finalTransformation.getRotation();
 
             // Collision with trans-membrane proteins
             bool collision = false;
@@ -140,6 +141,8 @@ void Membrane::_processInstances()
             {
                 const auto transMembraneRadius =
                     protein.second->getTransMembraneRadius();
+                const auto transMembraneOffset =
+                    protein.second->getTransMembraneOffset();
                 auto modelDescriptor = protein.second->getModelDescriptor();
                 const auto& instances = modelDescriptor->getInstances();
                 const auto& instanceSize =
@@ -147,8 +150,12 @@ void Membrane::_processInstances()
                 for (const auto& instance : instances)
                 {
                     const auto& tf = instance.getTransformation();
-                    const Vector3d& t = tf.getTranslation();
-                    if (length(translation - t) < transMembraneRadius)
+                    const Vector3d proteinBase =
+                        finalTranslation +
+                        transMembraneOffset *
+                            normalize(finalRotation * UP_VECTOR);
+                    if (length(finalTranslation - tf.getTranslation()) <
+                        transMembraneRadius)
                     {
                         collision = true;
                         break;

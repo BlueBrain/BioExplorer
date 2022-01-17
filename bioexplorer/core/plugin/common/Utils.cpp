@@ -342,7 +342,7 @@ Vector3d sphereFilling(const double radius, const uint64_t occurrence,
     const double x = cos(phi) * r;
     const double z = sin(phi) * r;
 
-    const Vector3d normal = Vector3d(x, y, z);
+    const Vector3d normal = normalize(Vector3d(x, y, z));
     position = normal * (radius + radiusOffset);
     rotation = safeQuatlookAt(normal);
 

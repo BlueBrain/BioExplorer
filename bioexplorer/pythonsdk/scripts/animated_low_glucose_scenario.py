@@ -70,11 +70,6 @@ nb_defensins = 300
 
 # Cell
 cell_nb_receptors = 100
-cell_nb_lipids = 1200000
-
-# Lymphocyte
-lymphocyte_density = 7.5
-lymphocyte_surface_variable_offset = 0.0
 
 # --------------------------------------------------------------------------------
 # Resources
@@ -299,6 +294,7 @@ class LowGlucoseScenario():
                 membrane_folder + 'segC.pdb',
                 membrane_folder + 'segD.pdb'
             ],
+            lipid_density=0.1,
             animation_params=AnimationParams(
                 random_seed, frame + 1, 0.025, frame + 2, 0.2)
         )
@@ -518,24 +514,27 @@ class LowGlucoseScenario():
         return status
 
     def _add_lymphocyte(self, frame):
-        if frame < 1400:
-            '''Lymphocyte is not in the field of view'''
-            return
-
+        # if frame < 1400:
+        #     '''Lymphocyte is not in the field of view'''
+        #     return
         '''Protein animation params'''
         params = [0, 0, 0.0, frame + 2, 0.2]
 
-        clip_planes = [
-            [1.0, 0.0, 0.0, scene_size.x * 1.5 + 5],
-            [-1.0, 0.0, 0.0, scene_size.x * 1.5 + 5],
-            [0.0, 0.0, 1.0, scene_size.z + 5],
-            [0.0, 0.0, -1.0, scene_size.z + 5]
-        ]
+        # clip_planes = [
+        #     [1.0, 0.0, 0.0, scene_size.x * 1.5 + 5],
+        #     [-1.0, 0.0, 0.0, scene_size.x * 1.5 + 5],
+        #     [0.0, 0.0, 1.0, scene_size.z + 5],
+        #     [0.0, 0.0, -1.0, scene_size.z + 5]
+        # ]
 
         name = 'Emile'
         lymphocyte_sequence = [0, 3750]
-        lymphocyte_frames = [Vector3(-2500.0, 100.0, 30.0), Quaternion(1.0, 0.0, 0.0, 0.0),
-                             Vector3(-830.0, 100.0, 30.0), Quaternion(0.707, 0.707, 0.0, 0.0),
+        # lymphocyte_frames = [Vector3(-2500.0, 100.0, 30.0), Quaternion(1.0, 0.0, 0.0, 0.0),
+        #                      Vector3(-830.0, 100.0, 30.0), Quaternion(0.707, 0.707, 0.0, 0.0),
+        #                      ROTATION_MODE_LINEAR]
+
+        lymphocyte_frames = [Vector3(-700, 100.0, 0.0), Quaternion(1.0, 0.0, 0.0, 0.0),
+                             Vector3(-200.0, 100.0, 0.0), Quaternion(1.0, 0.0, 0.0, 0.0),
                              ROTATION_MODE_LINEAR]
 
         pdb_lipids = [
@@ -546,7 +545,7 @@ class LowGlucoseScenario():
         ]
 
         membrane = Membrane(
-            lipid_sources=pdb_lipids,
+            lipid_sources=pdb_lipids, lipid_density=0.1,
             load_non_polymer_chemicals=True, load_bonds=True,
             animation_params=AnimationParams(0, 1, 0.025, 2, 0.5))
 
@@ -554,6 +553,13 @@ class LowGlucoseScenario():
             start_frame=lymphocyte_sequence[0], end_frame=lymphocyte_sequence[1],
             frame=frame, data=lymphocyte_frames)
         self._log(3, '-   ' + name + ' (%.01f pct)' % progress)
+
+        clip_planes = [
+            [-1.0, 0.0, 0.0, scene_size.x / 2.0 + pos.x],
+            [0.0, 1.0, 0.0, scene_size.y / 2.0 - pos.y],
+            [0.0, 0.0, 1.0, scene_size.z / 2.0],
+            [0.0, 0.0, -1.0, scene_size.z / 2.0],
+        ]
 
         scale = Vector3(1.0, 1.0, 1.0)
         cell = Cell(
@@ -621,24 +627,32 @@ class LowGlucoseScenario():
         self._log(2, '- Resetting scene...')
         self._be.reset_scene()
 
-        self._log(2, '- Building surfactants...')
-        self._add_surfactants_d(frame)
-        self._add_surfactants_a(frame)
+        # self._log(2, '- Building surfactants...')
+        # self._add_surfactants_d(frame)
+        # self._add_surfactants_a(frame)
 
-        self._log(2, '- Building glucose...')
-        self._add_glucose(frame)
+        # self._log(2, '- Building glucose...')
+        # self._add_glucose(frame)
 
-        self._log(2, '- Building lactoferrins...')
-        self._add_lactoferrins(frame)
+        # self._log(2, '- Building lactoferrins...')
+        # self._add_lactoferrins(frame)
 
-        self._log(2, '- Building defensins...')
-        self._add_defensins(frame)
+        # self._log(2, '- Building defensins...')
+        # self._add_defensins(frame)
 
         self._log(2, '- Building viruses...')
         self._add_viruses(frame)
 
         self._log(2, '- Building cell...')
         self._add_cell(frame)
+
+        self._be.add_bounding_box(
+            name='Scene AABB',
+            bottom_left_corner=Vector3(-scene_size.x / 2.0, -
+                                       scene_size.y / 2.0, -scene_size.z / 2.0),
+            top_right_corner=Vector3(scene_size.x / 2.0, scene_size.y / 2.0, scene_size.z / 2.0),
+            radius=1.0
+        )
 
         self._log(2, '- Building lymphocyte...')
         self._add_lymphocyte(frame)

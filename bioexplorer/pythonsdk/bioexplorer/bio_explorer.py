@@ -468,7 +468,7 @@ class BioExplorer:
             occurences=nb_protein_s,
             rotation=Quaternion(0.0, 1.0, 0.0, 0.0),
             allowed_occurrences=open_conformation_indices,
-            transmembrane_params=Vector2(8.5, 8.0),
+            transmembrane_params=Vector2(10.5, 10.5),
             animation_params=ap
         ))
 
@@ -479,7 +479,7 @@ class BioExplorer:
             occurences=nb_protein_s,
             rotation=Quaternion(0.0, 1.0, 0.0, 0.0),
             allowed_occurrences=closed_conformation_indices,
-            transmembrane_params=Vector2(8.5, 8.0),
+            transmembrane_params=Vector2(10.5, 10.5),
             animation_params=ap
         ))
 
