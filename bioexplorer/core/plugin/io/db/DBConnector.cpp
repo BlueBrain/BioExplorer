@@ -89,10 +89,9 @@ const OOCSceneConfigurationDetails DBConnector::getSceneConfiguration()
     return sceneConfiguration;
 }
 
-const void DBConnector::insertBrick(const int32_t brickId,
-                                    const uint32_t version,
-                                    const uint32_t nbModels,
-                                    const std::stringstream& buffer)
+void DBConnector::insertBrick(const int32_t brickId, const uint32_t version,
+                              const uint32_t nbModels,
+                              const std::stringstream& buffer)
 {
     pqxx::work transaction(_connection);
     try

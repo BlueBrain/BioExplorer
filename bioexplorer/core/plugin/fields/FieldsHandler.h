@@ -92,7 +92,7 @@ public:
      *
      * @param filename Full path of the file
      */
-    const void exportToFile(const std::string& filename) const;
+    void exportToFile(const std::string& filename) const;
 
     /**
      * @brief Import the octree information from a file

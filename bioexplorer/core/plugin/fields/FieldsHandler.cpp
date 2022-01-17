@@ -195,7 +195,7 @@ void* FieldsHandler::getFrameData(const uint32_t frame)
     return _frameData.data();
 }
 
-const void FieldsHandler::exportToFile(const std::string& filename) const
+void FieldsHandler::exportToFile(const std::string& filename) const
 {
     PLUGIN_INFO("Saving octree to file: " << filename);
     std::ofstream file(filename, std::ios::out | std::ios::binary);
