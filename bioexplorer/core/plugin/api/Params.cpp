@@ -270,6 +270,7 @@ bool from_json(MembraneDetails &param, const std::string &payload)
         FROM_JSON(param, js, name);
         FROM_JSON(param, js, lipidContents);
         FROM_JSON(param, js, lipidRotation);
+        FROM_JSON(param, js, lipidDensity);
         FROM_JSON(param, js, atomRadiusMultiplier);
         FROM_JSON(param, js, loadBonds);
         FROM_JSON(param, js, loadNonPolymerChemicals);

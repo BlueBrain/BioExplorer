@@ -1218,6 +1218,7 @@ class BioExplorer:
         params["name"] = name
         params["lipidContents"] = lipid_contents
         params["lipidRotation"] = list(membrane.lipid_rotation)
+        params["lipidDensity"] = membrane.lipid_density
         params["atomRadiusMultiplier"] = membrane.atom_radius_multiplier
         params["loadBonds"] = membrane.load_bonds
         params["loadNonPolymerChemicals"] = membrane.load_non_polymer_chemicals
@@ -2050,7 +2051,7 @@ class AssemblyProtein:
 class Membrane:
     """A membrane is a shaped assembly of phospholipids"""
 
-    def __init__(self, lipid_sources, lipid_rotation=Quaternion(),
+    def __init__(self, lipid_sources, lipid_rotation=Quaternion(), lipid_density=1.0,
                  atom_radius_multiplier=1.0, load_bonds=False,
                  representation=BioExplorer.REPRESENTATION_ATOMS_AND_STICKS,
                  load_non_polymer_chemicals=False, chain_ids=list(), recenter=True,
@@ -2072,9 +2073,12 @@ class Membrane:
         """
         assert isinstance(lipid_rotation, Quaternion)
         assert isinstance(animation_params, AnimationParams)
+        assert lipid_density > 0.0
+        assert lipid_density <= 1.0
 
         self.lipid_sources = lipid_sources
         self.lipid_rotation = lipid_rotation
+        self.lipid_density = lipid_density
         self.atom_radius_multiplier = atom_radius_multiplier
         self.load_bonds = load_bonds
         self.load_non_polymer_chemicals = load_non_polymer_chemicals

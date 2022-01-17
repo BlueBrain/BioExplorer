@@ -40,7 +40,7 @@ public:
     virtual Transformation getTransformation(
         const uint64_t occurrence, const uint64_t nbOccurrences,
         const AnimationDetails& animationDetails,
-        const double offset) const = 0;
+        const double offset = 0.0) const = 0;
 
     virtual bool isInside(const Vector3d& point) const = 0;
 

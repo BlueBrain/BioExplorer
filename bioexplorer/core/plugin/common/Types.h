@@ -267,6 +267,8 @@ typedef struct
     std::string lipidContents;
     /** Relative rotation of the lipid in the membrane */
     std::vector<double> lipidRotation;
+    /** Lipids density  */
+    double lipidDensity;
     /** Multiplier applied to the radius of the lipid atoms */
     double atomRadiusMultiplier;
     /** Enable the loading of lipid bonds */

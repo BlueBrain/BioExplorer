@@ -49,7 +49,7 @@ Membrane::Membrane(const MembraneDetails& details, Scene& scene,
     std::vector<std::string> lipidContents =
         split(_details.lipidContents, CONTENTS_DELIMITER);
 
-    double lipidAverageSize = 0.f;
+    double lipidAverageSize = 0.0;
     size_t i = 0;
     for (const auto& lipidContent : lipidContents)
     {
@@ -72,9 +72,10 @@ Membrane::Membrane(const MembraneDetails& details, Scene& scene,
         ++i;
     }
     lipidAverageSize /= lipidContents.size();
+    lipidAverageSize /= _details.lipidDensity;
 
     _nbOccurrences = _shape->getSurface() / lipidAverageSize *
-                     2.f; // WHY DO I HAVE TO DOUBLE IT!
+                     2.0; // WHY DO I HAVE TO DOUBLE IT!
 
     _processInstances();
 
@@ -122,7 +123,7 @@ void Membrane::_processInstances()
 
             const auto shapeTransformation =
                 _shape->getTransformation(occurrence, _nbOccurrences,
-                                          animationDetails, 0.f);
+                                          animationDetails);
             transformations.push_back(shapeTransformation);
 
             Transformation lipidTransformation;
