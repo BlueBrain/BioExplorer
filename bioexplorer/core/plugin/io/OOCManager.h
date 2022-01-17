@@ -122,27 +122,27 @@ public:
      *
      * @return true a grid should be shown, false otherwise
      */
-    const bool getShowGrid() const { return _showGrid; }
+    bool getShowGrid() const { return _showGrid; }
 
     /**
      * @return Get the number of visible bricks surrounding the camera position
      */
-    const int32_t getVisibleBricks() const { return _nbVisibleBricks; }
+    int32_t getVisibleBricks() const { return _nbVisibleBricks; }
 
     /**
      * @return Get the update frequency (in seconds) of the bricks in the scene
      */
-    const double getUpdateFrequency() const { return _updateFrequency; }
+    double getUpdateFrequency() const { return _updateFrequency; }
 
     /**
      * @return Get current loading progress
      */
-    const double getProgress() const { return _progress; }
+    double getProgress() const { return _progress; }
 
     /**
      * @return Get average loading time (in milliseconds)
      */
-    const double getAverageLoadingTime() const { return _averageLoadingTime; }
+    double getAverageLoadingTime() const { return _averageLoadingTime; }
 
 private:
     void _parseArguments(const CommandLineArguments& arguments);
