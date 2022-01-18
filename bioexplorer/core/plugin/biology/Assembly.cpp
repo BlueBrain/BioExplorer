@@ -74,7 +74,7 @@ Assembly::Assembly(Scene &scene, const AssemblyDetails &details)
     case AssemblyShape::plane:
     {
         _shape =
-            ShapePtr(new PlaneShape(_clippingPlanes, Vector2f(size.x, size.y)));
+            ShapePtr(new PlaneShape(_clippingPlanes, Vector2f(size.x, size.z)));
         break;
     }
     case AssemblyShape::mesh:
