@@ -13,17 +13,16 @@
 # documentation root, use os.path.abspath to make it absolute, like shown here.
 #
 
+from version import VERSION as __version__
 import sys
 import os
 sys.path.insert(0, os.path.abspath('../../bioexplorer'))
-
-from version import VERSION as __version__
 
 
 # -- Project information -----------------------------------------------------
 
 project = u'Blue Brain BioExplorer'
-copyright = u'2020-2021, BBP EPFL'
+copyright = u'2020-2022, BBP EPFL'
 author = u'Cyrille Favreau'
 
 # The short X.Y version

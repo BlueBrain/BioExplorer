@@ -4,7 +4,7 @@
 # The Blue Brain BioExplorer is a tool for scientists to extract and analyse
 # scientific data from visualization
 #
-# Copyright 2020-2021 Blue BrainProject / EPFL
+# Copyright 2020-2022 Blue BrainProject / EPFL
 #
 # This program is free software: you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free Software
@@ -26,6 +26,7 @@ import pkg_resources
 from setuptools import find_packages, setup
 
 BASEDIR = os.path.dirname(os.path.abspath(__file__))
+
 
 def parse_reqs(reqs_file):
     ''' parse the requirements '''
