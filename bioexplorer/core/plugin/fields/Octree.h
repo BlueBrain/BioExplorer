@@ -66,14 +66,14 @@ public:
      *
      * @return The size of the volume
      */
-    const uint64_t getVolumeSize() const;
+    uint64_t getVolumeSize() const;
 
     /**
      * @brief Get the size of the Octree
      *
      * @return The size of the Octree
      */
-    const uint32_t getOctreeSize() const;
+    uint32_t getOctreeSize() const;
 
     /**
      * @brief Get a flattened representation of the Octree indices

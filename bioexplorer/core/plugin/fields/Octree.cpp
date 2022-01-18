@@ -195,7 +195,7 @@ void Octree::_flattenChildren(const OctreeNode *node, uint32_t level)
         _flattenChildren(child, level - 1u);
 }
 
-const uint32_t Octree::getOctreeSize() const
+uint32_t Octree::getOctreeSize() const
 {
     return _octreeSize;
 }
@@ -215,7 +215,7 @@ const glm::uvec3 &Octree::getVolumeDim() const
     return _volumeDim;
 }
 
-const uint64_t Octree::getVolumeSize() const
+uint64_t Octree::getVolumeSize() const
 {
     return _volumeSize;
 }

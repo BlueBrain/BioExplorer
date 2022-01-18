@@ -47,7 +47,7 @@ const glm::vec3& OctreeNode::getCenter() const
     return _center;
 }
 
-const double OctreeNode::getValue() const
+double OctreeNode::getValue() const
 {
     return _value;
 }

@@ -75,7 +75,7 @@ public:
      *
      * @return The value of the node
      */
-    const double getValue() const;
+    double getValue() const;
 
 private:
     double _value;
