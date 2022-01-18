@@ -18,7 +18,7 @@
 # All rights reserved. Do not distribute without further notice.
 
 
-brayns==1.0.0
+# brayns==1.0.0
 stringcase~=1.2.0
 pyquaternion~=0.9.9
 webcolors~=1.8.1

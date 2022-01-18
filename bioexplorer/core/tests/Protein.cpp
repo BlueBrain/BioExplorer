@@ -55,9 +55,7 @@ ProteinDetails getProteinDescriptor()
     descriptor.name = "test";
     descriptor.contents = getFileContents(
         "./bioexplorer/pythonsdk/tests/test_files/pdb/6m1d.pdb");
-    descriptor.shape = AssemblyShape::spherical;
-    descriptor.assemblyParams = {0.f, 0.f};
-    descriptor.atomRadiusMultiplier = 1.f;
+    descriptor.atomRadiusMultiplier = 1.0;
     descriptor.loadBonds = true;
     descriptor.loadNonPolymerChemicals = true;
     descriptor.loadHydrogen = true;
@@ -66,10 +64,9 @@ ProteinDetails getProteinDescriptor()
     descriptor.recenter = true;
     descriptor.occurrences = 1;
     descriptor.allowedOccurrences = {};
-    descriptor.randomSeed = 0;
-    descriptor.positionRandomizationType = PositionRandomizationType::circular;
-    descriptor.position = {0.f, 0.f, 0.f};
-    descriptor.rotation = {0.f, 0.f, 0.f, 1.f};
+    descriptor.animationParams = {};
+    descriptor.position = {0.0, 0.0, 0.0};
+    descriptor.rotation = {0.0, 0.0, 0.0, 1.0};
     return descriptor;
 }
 
@@ -85,7 +82,7 @@ BOOST_AUTO_TEST_CASE(protein)
     BOOST_CHECK(protein.getResidues().size() == 20);
     BOOST_CHECK(protein.getResidueSequences().size() == 4);
 
-    std::vector<Vector3f> positions;
+    std::vector<Vector3d> positions;
     std::vector<Quaterniond> rotations;
     const std::vector<size_t> siteIndices = {};
     protein.getGlycosilationSites(positions, rotations, siteIndices);

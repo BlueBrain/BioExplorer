@@ -63,7 +63,7 @@ Glycans::Glycans(Scene& scene, const SugarsDetails& details)
         // Get current center
         for (const auto& atom : _atomMap)
             bounds.merge(atom.second.position);
-        const auto& center = bounds.getCenter();
+        const Vector3d center = bounds.getCenter();
 
         const auto firstAtomPosition = _atomMap.begin()->second.position;
         const auto translation = center - firstAtomPosition;

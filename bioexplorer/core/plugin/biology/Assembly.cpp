@@ -20,31 +20,77 @@
 
 #include "Assembly.h"
 
-#include <plugin/biology/MeshBasedMembrane.h>
-#include <plugin/biology/ParametricMembrane.h>
+#include <plugin/biology/Membrane.h>
 #include <plugin/biology/Protein.h>
 #include <plugin/biology/RNASequence.h>
 #include <plugin/common/GeneralSettings.h>
 #include <plugin/common/Logs.h>
-#include <plugin/common/Shapes.h>
 #include <plugin/common/Utils.h>
+#include <plugin/common/shapes/BezierShape.h>
+#include <plugin/common/shapes/CubeShape.h>
+#include <plugin/common/shapes/FanShape.h>
+#include <plugin/common/shapes/MeshShape.h>
+#include <plugin/common/shapes/PlaneShape.h>
+#include <plugin/common/shapes/PointShape.h>
+#include <plugin/common/shapes/Shape.h>
+#include <plugin/common/shapes/SinusoidShape.h>
+#include <plugin/common/shapes/SphereShape.h>
 
 namespace bioexplorer
 {
 namespace biology
 {
-using namespace common;
-
 Assembly::Assembly(Scene &scene, const AssemblyDetails &details)
     : _details(details)
     , _scene(scene)
 {
-    _position = floatsToVector3f(_details.position);
-    _rotation = floatsToQuaterniond(_details.rotation);
-    _clippingPlanes = floatsToVector4fs(details.clippingPlanes);
+    const auto size = doublesToVector3d(details.shapeParams);
+    _position = doublesToVector3d(_details.position);
+    _rotation = doublesToQuaterniond(_details.rotation);
+    _clippingPlanes = doublesToVector4ds(details.clippingPlanes);
 
-    PLUGIN_INFO("Adding assembly [" << details.name << "] at position "
-                                    << _position << ", rotation " << _rotation);
+    switch (details.shape)
+    {
+    case AssemblyShape::sphere:
+    {
+        _shape = ShapePtr(new SphereShape(_clippingPlanes, size.x));
+        break;
+    }
+    case AssemblyShape::sinusoid:
+    {
+        _shape = ShapePtr(new SinusoidShape(_clippingPlanes, size));
+        break;
+    }
+    case AssemblyShape::cube:
+    {
+        _shape = ShapePtr(new CubeShape(_clippingPlanes, size));
+        break;
+    }
+    case AssemblyShape::fan:
+    {
+        _shape = ShapePtr(new FanShape(_clippingPlanes, size.x));
+        break;
+    }
+    case AssemblyShape::plane:
+    {
+        _shape =
+            ShapePtr(new PlaneShape(_clippingPlanes, Vector2f(size.x, size.z)));
+        break;
+    }
+    case AssemblyShape::mesh:
+    {
+        _shape = ShapePtr(
+            new MeshShape(_clippingPlanes, size, _details.shapeMeshContents));
+        break;
+    }
+    default:
+        _shape = ShapePtr(new PointShape(_clippingPlanes));
+        break;
+    }
+
+    PLUGIN_INFO(3, "Adding assembly [" << details.name << "] at position "
+                                       << _position << ", rotation "
+                                       << _rotation);
 }
 
 Assembly::~Assembly()
@@ -52,18 +98,20 @@ Assembly::~Assembly()
     for (const auto &protein : _proteins)
     {
         const auto modelId = protein.second->getModelDescriptor()->getModelID();
-        PLUGIN_INFO("Removing protein [" << modelId << "] [" << protein.first
-                                         << "] from assembly [" << _details.name
-                                         << "]");
+        PLUGIN_INFO(3, "Removing protein [" << modelId << "] [" << protein.first
+                                            << "] from assembly ["
+                                            << _details.name << "]");
         _scene.removeModel(protein.second->getModelDescriptor()->getModelID());
     }
     if (_rnaSequence)
     {
         const auto modelId = _rnaSequence->getModelDescriptor()->getModelID();
-        PLUGIN_INFO("Removing RNA sequence [" << modelId << "] from assembly ["
-                                              << _details.name << "]");
+        PLUGIN_INFO(3, "Removing RNA sequence ["
+                           << modelId << "] from assembly [" << _details.name
+                           << "]");
         _scene.removeModel(modelId);
     }
+    _modelDescriptors.clear();
 }
 
 void Assembly::addProtein(const ProteinDetails &details,
@@ -71,40 +119,32 @@ void Assembly::addProtein(const ProteinDetails &details,
 {
     ProteinPtr protein(new Protein(_scene, details));
     auto modelDescriptor = protein->getModelDescriptor();
+    const auto animationParams =
+        doublesToAnimationDetails(details.animationParams);
+    const auto proteinPosition = doublesToVector3d(details.position);
+    const auto proteinRotation = doublesToQuaterniond(details.rotation);
+    const auto transmembraneParams =
+        doublesToVector2d(details.transmembraneParams);
 
-    const auto proteinPosition = floatsToVector3f(details.position);
-    const auto proteinRotation = floatsToQuaterniond(details.rotation);
-    _processInstances(modelDescriptor, details.name, details.shape,
-                      details.assemblyParams, details.occurrences,
+    _processInstances(modelDescriptor, details.name, details.occurrences,
                       proteinPosition, proteinRotation,
-                      details.allowedOccurrences, details.randomSeed,
-                      details.positionRandomizationType, constraints);
+                      details.allowedOccurrences, animationParams,
+                      transmembraneParams.x, constraints);
 
     _proteins[details.name] = std::move(protein);
+    _modelDescriptors.push_back(modelDescriptor);
     _scene.addModel(modelDescriptor);
-    PLUGIN_INFO(
-        "Number of instances: " << modelDescriptor->getInstances().size());
+    PLUGIN_INFO(3, "Number of instances: "
+                       << modelDescriptor->getInstances().size());
 }
 
-void Assembly::addParametricMembrane(const ParametricMembraneDetails &details)
+void Assembly::addMembrane(const MembraneDetails &details)
 {
     if (_membrane)
         PLUGIN_THROW("Assembly already has a membrane");
 
-    ParametricMembranePtr membrane(
-        new ParametricMembrane(_scene, _position, _rotation, _clippingPlanes,
-                               details));
-    _membrane = std::move(membrane);
-}
-
-void Assembly::addMeshBasedMembrane(const MeshBasedMembraneDetails &details)
-{
-    if (_membrane)
-        PLUGIN_THROW("Assembly already has a membrane");
-
-    MeshBasedMembranePtr membrane(
-        new MeshBasedMembrane(_scene, _position, _rotation, _clippingPlanes,
-                              details));
+    MembranePtr membrane(
+        new Membrane(details, _scene, _position, _rotation, _shape, _proteins));
     _membrane = std::move(membrane);
 }
 
@@ -122,7 +162,7 @@ void Assembly::addSugars(const SugarsDetails &details)
                      " not registered in assembly " + details.assemblyName +
                      ". Registered proteins are " + s);
     }
-    PLUGIN_INFO("Adding sugars to protein " << details.proteinName);
+    PLUGIN_INFO(3, "Adding sugars to protein " << details.proteinName);
     const auto targetProtein = (*it).second;
     targetProtein->addSugars(details);
 }
@@ -142,135 +182,79 @@ void Assembly::addGlycans(const SugarsDetails &details)
                      ". Registered proteins are " + s);
     }
 
-    PLUGIN_INFO("Adding glycans to protein " << details.proteinName);
+    PLUGIN_INFO(3, "Adding glycans to protein " << details.proteinName);
     const auto targetProtein = (*it).second;
     targetProtein->addGlycans(details);
 }
 
-void Assembly::_processInstances(
-    ModelDescriptorPtr md, const std::string &name, const AssemblyShape shape,
-    const floats &assemblyParams, const size_t occurrences,
-    const Vector3f &position, const Quaterniond &rotation,
-    const size_ts &allowedOccurrences, const size_t randomSeed,
-    const PositionRandomizationType &randomizationType,
-    const AssemblyConstraints &constraints)
+void Assembly::_processInstances(ModelDescriptorPtr md, const std::string &name,
+                                 const size_t occurrences,
+                                 const Vector3d &position,
+                                 const Quaterniond &rotation,
+                                 const uint64_ts &allowedOccurrences,
+                                 const AnimationDetails &animationDetails,
+                                 const double offset,
+                                 const AssemblyConstraints &constraints)
 {
-    const float offset = 2.f / occurrences;
-    const float increment = M_PI * (3.f - sqrt(5.f));
-
-    srand(randomSeed);
-
-    // Shape parameters
-    const auto &params = assemblyParams;
-    const auto size = (params.size() > 0 ? params[0] : 0.f);
-    const auto extraParameter = (params.size() > 5 ? params[5] : 0.f);
-    auto randInfo =
-        floatsToRandomizationDetails(params, randomSeed, randomizationType);
+    srand(animationDetails.seed);
 
     // Shape
     uint64_t count = 0;
-    for (uint64_t occurence = 0; occurence < occurrences; ++occurence)
+    for (uint64_t occurrence = 0; occurrence < occurrences; ++occurrence)
     {
-        if (!allowedOccurrences.empty() &&
-            std::find(allowedOccurrences.begin(), allowedOccurrences.end(),
-                      occurence) == allowedOccurrences.end())
-            continue;
-
-        randInfo.positionSeed =
-            (params.size() > 1 ? (params[1] == 0 ? 0 : params[1] + occurence)
-                               : 0);
-        randInfo.rotationSeed =
-            (params.size() > 3 ? (params[3] == 0 ? 0 : params[3] + occurence)
-                               : 0);
-
-        Transformation transformation;
-
-        switch (shape)
+        try
         {
-        case AssemblyShape::spherical:
-        {
-            transformation = getSphericalPosition(position, size, occurence,
-                                                  occurrences, randInfo);
-            break;
-        }
-        case AssemblyShape::sinusoidal:
-        {
-            transformation =
-                getSinosoidalPosition(position, size, extraParameter, occurence,
-                                      randInfo);
-            break;
-        }
-        case AssemblyShape::cubic:
-        {
-            transformation = getCubicPosition(position, size, randInfo);
-            break;
-        }
-        case AssemblyShape::fan:
-        {
-            transformation = getFanPosition(position, size, occurence,
-                                            occurrences, randInfo);
-            break;
-        }
-        case AssemblyShape::bezier:
-        {
-            if ((assemblyParams.size() - 5) % 3 != 0)
-                PLUGIN_THROW(
-                    "Invalid number of floats in assembly extra parameters");
-            Vector3fs points;
-            for (uint32_t i = 5; i < params.size(); i += 3)
-                points.push_back(
-                    Vector3f(params[i], params[i + 1], params[i + 2]));
-            transformation =
-                getBezierPosition(points, size,
-                                  float(occurence) / float(occurrences));
-            break;
-        }
-        case AssemblyShape::spherical_to_planar:
-        {
-            transformation =
-                getSphericalToPlanarPosition(position, size, occurence,
-                                             occurrences, randInfo,
-                                             extraParameter);
-            break;
-        }
-        default:
-            transformation = getPlanarPosition(position, size, randInfo);
-            break;
-        }
+            if (!allowedOccurrences.empty() &&
+                std::find(allowedOccurrences.begin(), allowedOccurrences.end(),
+                          occurrence) == allowedOccurrences.end())
+                continue;
 
-        // Clipping planes
-        if (isClipped(transformation.getTranslation(), _clippingPlanes))
-            continue;
+            Transformations transformations;
 
-        const Vector3f translation =
-            _position + Vector3f(_rotation * transformation.getTranslation());
+            Transformation assemblyTransformation;
+            assemblyTransformation.setTranslation(_position);
+            assemblyTransformation.setRotation(_rotation);
+            transformations.push_back(assemblyTransformation);
 
-        // Final transformation
-        Transformation finalTransformation;
-        finalTransformation.setTranslation(translation);
-        finalTransformation.setRotation(
-            _rotation * transformation.getRotation() * rotation);
+            Transformation shapeTransformation =
+                _shape->getTransformation(occurrence, occurrences,
+                                          animationDetails, offset);
 
-        // Assembly constaints
-        bool addInstance = true;
-        for (const auto &constraint : constraints)
-        {
-            if (constraint.first == AssemblyConstraintType::inside &&
-                !constraint.second->isInside(translation))
-                addInstance = false;
-            if (constraint.first == AssemblyConstraintType::outside &&
-                constraint.second->isInside(translation))
-                addInstance = false;
+            transformations.push_back(shapeTransformation);
+
+            Transformation proteinTransformation;
+            proteinTransformation.setTranslation(position);
+            proteinTransformation.setRotation(rotation);
+            transformations.push_back(proteinTransformation);
+
+            const Transformation finalTransformation =
+                combineTransformations(transformations);
+            const auto &translation = finalTransformation.getTranslation();
+
+            // Assembly constaints
+            bool addInstance = true;
+            for (const auto &constraint : constraints)
+            {
+                if (constraint.first == AssemblyConstraintType::inside &&
+                    !constraint.second->isInside(translation))
+                    addInstance = false;
+                if (constraint.first == AssemblyConstraintType::outside &&
+                    constraint.second->isInside(translation))
+                    addInstance = false;
+            }
+            if (!addInstance)
+                continue;
+
+            if (count == 0)
+                md->setTransformation(finalTransformation);
+            const ModelInstance instance(true, false, finalTransformation);
+            md->addInstance(instance);
+            ++count;
         }
-        if (!addInstance)
-            continue;
-
-        if (count == 0)
-            md->setTransformation(finalTransformation);
-        const ModelInstance instance(true, false, finalTransformation);
-        md->addInstance(instance);
-
-        ++count;
+        catch (const std::runtime_error &)
+        {
+            // Instance is clipped
+        }
     }
 }
 
@@ -285,10 +269,10 @@ void Assembly::setColorScheme(const ColorSchemeDetails &details)
         protein = (*itProtein).second;
     else if (_membrane)
     {
-        const auto membraneProteins = _membrane->getProteins();
+        const auto membraneLipids = _membrane->getLipids();
         const auto it =
-            membraneProteins.find(details.assemblyName + '_' + details.name);
-        if (it != membraneProteins.end())
+            membraneLipids.find(details.assemblyName + '_' + details.name);
+        if (it != membraneLipids.end())
             protein = (*it).second;
     }
 
@@ -299,8 +283,9 @@ void Assembly::setColorScheme(const ColorSchemeDetails &details)
             palette.push_back({details.palette[i], details.palette[i + 1],
                                details.palette[i + 2]});
 
-        PLUGIN_INFO("Applying color scheme to protein "
-                    << details.name << " on assembly " << details.assemblyName);
+        PLUGIN_INFO(3, "Applying color scheme to protein "
+                           << details.name << " on assembly "
+                           << details.assemblyName);
         protein->setColorScheme(details.colorScheme, palette, details.chainIds);
 
         _scene.markModified();
@@ -339,8 +324,8 @@ void Assembly::setAminoAcidSequenceAsRange(
 const std::string Assembly::getAminoAcidInformation(
     const AminoAcidInformationDetails &details) const
 {
-    PLUGIN_INFO("Returning Amino Acid information from protein "
-                << details.name);
+    PLUGIN_INFO(3, "Returning Amino Acid information from protein "
+                       << details.name);
 
     std::string response;
     const auto it = _proteins.find(details.name);
@@ -386,33 +371,14 @@ void Assembly::setAminoAcid(const AminoAcidDetails &details)
 void Assembly::addRNASequence(const RNASequenceDetails &details)
 {
     auto rd = details;
-    if (rd.range.size() != 2)
-        PLUGIN_THROW("Invalid range");
-    const Vector2f range{rd.range[0], rd.range[1]};
 
-    if (rd.params.size() != 3)
-        PLUGIN_THROW("Invalid params");
-
-    if (rd.position.size() != 3)
-        PLUGIN_THROW("Invalid position");
-
-    const auto params = floatsToVector3f(rd.params);
-
-    PLUGIN_INFO("Loading RNA sequence " << rd.name << " from " << rd.contents);
-    PLUGIN_INFO("Assembly radius: " << rd.assemblyParams[0]);
-    PLUGIN_INFO("RNA radius     : " << rd.assemblyParams[1]);
-    PLUGIN_INFO("Range          : " << rd.range[0] << ", " << rd.range[1]);
-    PLUGIN_INFO("Params         : " << rd.params[0] << ", " << rd.params[1]
-                                    << ", " << rd.params[2]);
-    PLUGIN_INFO("Position       : " << rd.position[0] << ", " << rd.position[1]
-                                    << ", " << rd.position[2]);
-
-    for (size_t i = 0; i < 3; ++i)
+    for (size_t i = 0; i < _details.position.size(); ++i)
         rd.position[i] += _details.position[i];
 
-    _rnaSequence =
-        RNASequencePtr(new RNASequence(_scene, rd, _position, _rotation));
+    _rnaSequence = RNASequencePtr(
+        new RNASequence(_scene, rd, _clippingPlanes, _position, _rotation));
     const auto modelDescriptor = _rnaSequence->getModelDescriptor();
+    _modelDescriptors.push_back(modelDescriptor);
     _scene.addModel(modelDescriptor);
     auto protein = _rnaSequence->getProtein();
     if (protein)
@@ -444,19 +410,20 @@ void Assembly::setProteinInstanceTransformation(
     const auto instance = modelDescriptor->getInstance(details.instanceIndex);
     const auto &transformation = instance->getTransformation();
 
-    const auto position = floatsToVector3f(details.position);
-    const auto rotation = floatsToQuaterniond(details.rotation);
+    const auto position = doublesToVector3d(details.position);
+    const auto rotation = doublesToQuaterniond(details.rotation);
 
-    PLUGIN_INFO("Modifying instance "
-                << details.instanceIndex << " of protein " << details.name
-                << " in assembly " << details.assemblyName << " with position="
-                << position << " and rotation=" << rotation);
+    PLUGIN_INFO(3, "Modifying instance "
+                       << details.instanceIndex << " of protein "
+                       << details.name << " in assembly "
+                       << details.assemblyName << " with position=" << position
+                       << " and rotation=" << rotation);
     Transformation newTransformation = transformation;
     newTransformation.setTranslation(position);
     newTransformation.setRotation(rotation);
-    instance->setTransformation(newTransformation);
     if (details.instanceIndex == 0)
         modelDescriptor->setTransformation(newTransformation);
+    instance->setTransformation(newTransformation);
 
     _scene.markModified();
 }
@@ -481,18 +448,114 @@ const Transformation Assembly::getProteinInstanceTransformation(
                      details.name + " in assembly " + details.assemblyName);
 
     const auto instance = modelDescriptor->getInstance(details.instanceIndex);
-    auto transformation = instance->getTransformation();
+    const auto transformation = instance->getTransformation();
+    const auto &position = transformation.getTranslation();
+    const auto &rotation = transformation.getRotation();
 
-    if (details.instanceIndex == 0)
-        transformation = modelDescriptor->getTransformation();
+    PLUGIN_INFO(3, "Getting instance "
+                       << details.instanceIndex << " of protein "
+                       << details.name << " in assembly "
+                       << details.assemblyName << " with position=" << position
+                       << " and rotation=" << rotation);
+
     return transformation;
 }
 
-bool Assembly::isInside(const Vector3f &point) const
+bool Assembly::isInside(const Vector3d &location) const
 {
     bool result = false;
+    if (_shape)
+        result |= _shape->isInside(location);
+    return result;
+}
+
+ProteinInspectionDetails Assembly::inspect(const Vector3d &origin,
+                                           const Vector3d &direction,
+                                           double &t) const
+{
+    ProteinInspectionDetails result;
+    result.hit = false;
+    result.assemblyName = _details.name;
+
+    t = std::numeric_limits<double>::max();
+
+    // Proteins
+    for (const auto protein : _proteins)
+    {
+        const auto md = protein.second->getModelDescriptor();
+        const auto &instances = md->getInstances();
+        const Vector3d instanceHalfSize =
+            protein.second->getBounds().getSize() / 2.0;
+
+        uint64_t count = 0;
+        for (const auto &instance : instances)
+        {
+            const auto instancePosition =
+                instance.getTransformation().getTranslation();
+
+            Boxd box;
+            box.merge(instancePosition - instanceHalfSize);
+            box.merge(instancePosition + instanceHalfSize);
+
+            double tHit;
+            if (rayBoxIntersection(origin, direction, box, 0.0, t, tHit))
+            {
+                result.hit = true;
+                if (tHit < t)
+                {
+                    result.proteinName = protein.second->getDescriptor().name;
+                    result.modelId = md->getModelID();
+                    result.instanceId = count;
+                    result.position = {instancePosition.x, instancePosition.y,
+                                       instancePosition.z};
+                    t = tHit;
+                }
+            }
+            ++count;
+        }
+    }
+
+    // Membrane
     if (_membrane)
-        result |= _membrane->isInside(point);
+    {
+        for (const auto protein : _membrane->getLipids())
+        {
+            const auto md = protein.second->getModelDescriptor();
+            const auto &instances = md->getInstances();
+            const Vector3d instanceHalfSize =
+                protein.second->getBounds().getSize() / 2.0;
+
+            uint64_t count = 0;
+            for (const auto &instance : instances)
+            {
+                const auto instancePosition =
+                    instance.getTransformation().getTranslation();
+
+                Boxd box;
+                box.merge(instancePosition - instanceHalfSize);
+                box.merge(instancePosition + instanceHalfSize);
+
+                double tHit;
+                if (rayBoxIntersection(origin, direction, box, 0.0, t, tHit))
+                {
+                    result.hit = true;
+                    if (tHit < t)
+                    {
+                        result.proteinName =
+                            protein.second->getDescriptor().name;
+                        result.modelId = md->getModelID();
+                        result.instanceId = count;
+                        result.position = {instancePosition.x,
+                                           instancePosition.y,
+                                           instancePosition.z};
+                        t = tHit;
+                    }
+                }
+                ++count;
+            }
+        }
+    }
+
     return result;
 }
 } // namespace biology

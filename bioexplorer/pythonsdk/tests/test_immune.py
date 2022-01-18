@@ -21,7 +21,7 @@
 # You should have received a copy of the GNU General Public License along with
 # this program.  If not, see <https://www.gnu.org/licenses/>.
 
-from bioexplorer import BioExplorer, Volume, Protein, Vector2, Vector3
+from bioexplorer import BioExplorer, Volume, Protein, AnimationParams, Vector3
 
 # pylint: disable=no-member
 # pylint: disable=missing-function-docstring
@@ -33,7 +33,8 @@ def test_immune():
     pdb_folder = resource_folder + 'pdb/immune/'
 
     bio_explorer = BioExplorer('localhost:5000')
-    bio_explorer.reset()
+    bio_explorer.reset_scene()
+    bio_explorer.set_general_settings(model_visibility_on_creation=False)
     print('BioExplorer version ' + bio_explorer.version())
 
     # Suspend image streaming
@@ -44,41 +45,47 @@ def test_immune():
     defensin_path = pdb_folder + '1ijv.pdb'
 
     # Scene parameters
-    scene_size = 800
+    scene_size = Vector3(800.0, 800.0, 800.0)
 
     # Lactoferrins
-    lactoferrins = Protein(
-        sources=[lactoferrin_path],
+    lactoferrin = Protein(
+        name=bio_explorer.NAME_LACTOFERRIN,
+        source=lactoferrin_path,
         load_non_polymer_chemicals=True,
         occurences=150
     )
 
     lactoferrins_volume = Volume(
-        name=bio_explorer.NAME_LACTOFERRIN, size=scene_size, protein=lactoferrins
+        name=bio_explorer.NAME_LACTOFERRIN,
+        shape=bio_explorer.ASSEMBLY_SHAPE_CUBE,
+        shape_params=scene_size,
+        protein=lactoferrin
     )
 
     bio_explorer.add_volume(
         volume=lactoferrins_volume,
-        representation=bio_explorer.REPRESENTATION_ATOMS,
-        position=Vector3(0.0, scene_size / 2.0 - 200.0, 0.0)
+        representation=bio_explorer.REPRESENTATION_ATOMS
     )
 
     # Defensins
-    defensins = Protein(
-        sources=[defensin_path],
+    defensin = Protein(
+        name=bio_explorer.NAME_DEFENSIN,
+        source=defensin_path,
         load_non_polymer_chemicals=True,
-        occurences=300
+        occurences=300,
+        animation_params=AnimationParams(3)
     )
 
     defensins_volume = Volume(
-        name=bio_explorer.NAME_DEFENSIN, size=scene_size, protein=defensins
+        name=bio_explorer.NAME_DEFENSIN,
+        shape=bio_explorer.ASSEMBLY_SHAPE_CUBE,
+        shape_params=scene_size,
+        protein=defensin
     )
 
     bio_explorer.add_volume(
         volume=defensins_volume,
-        representation=bio_explorer.REPRESENTATION_ATOMS,
-        position=Vector3(0.0, scene_size / 2.0 - 200.0, 0.0),
-        random_seed=3
+        representation=bio_explorer.REPRESENTATION_ATOMS
     )
 
     # Restore image streaming

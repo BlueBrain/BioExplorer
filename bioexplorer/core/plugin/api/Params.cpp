@@ -86,7 +86,8 @@ bool from_json(GeneralSettingsDetails &param, const std::string &payload)
         auto js = nlohmann::json::parse(payload);
         FROM_JSON(param, js, modelVisibilityOnCreation);
         FROM_JSON(param, js, offFolder);
-        FROM_JSON(param, js, loggingEnabled);
+        FROM_JSON(param, js, loggingLevel);
+        FROM_JSON(param, js, v1Compatibility);
     }
     catch (...)
     {
@@ -101,6 +102,9 @@ bool from_json(AssemblyDetails &param, const std::string &payload)
     {
         auto js = nlohmann::json::parse(payload);
         FROM_JSON(param, js, name);
+        FROM_JSON(param, js, shape);
+        FROM_JSON(param, js, shapeParams);
+        FROM_JSON(param, js, shapeMeshContents);
         FROM_JSON(param, js, position);
         FROM_JSON(param, js, rotation);
         FROM_JSON(param, js, clippingPlanes);
@@ -243,11 +247,12 @@ bool from_json(RNASequenceDetails &param, const std::string &payload)
         FROM_JSON(param, js, contents);
         FROM_JSON(param, js, proteinContents);
         FROM_JSON(param, js, shape);
-        FROM_JSON(param, js, assemblyParams);
-        FROM_JSON(param, js, range);
-        FROM_JSON(param, js, params);
+        FROM_JSON(param, js, shapeParams);
+        FROM_JSON(param, js, valuesRange);
+        FROM_JSON(param, js, curveParams);
         FROM_JSON(param, js, position);
         FROM_JSON(param, js, rotation);
+        FROM_JSON(param, js, animationParams);
     }
     catch (...)
     {
@@ -256,29 +261,23 @@ bool from_json(RNASequenceDetails &param, const std::string &payload)
     return true;
 }
 
-bool from_json(ParametricMembraneDetails &param, const std::string &payload)
+bool from_json(MembraneDetails &param, const std::string &payload)
 {
     try
     {
         auto js = nlohmann::json::parse(payload);
         FROM_JSON(param, js, assemblyName);
         FROM_JSON(param, js, name);
-        FROM_JSON(param, js, content1);
-        FROM_JSON(param, js, content2);
-        FROM_JSON(param, js, content3);
-        FROM_JSON(param, js, content4);
-        FROM_JSON(param, js, shape);
-        FROM_JSON(param, js, assemblyParams);
+        FROM_JSON(param, js, lipidContents);
+        FROM_JSON(param, js, lipidRotation);
+        FROM_JSON(param, js, lipidDensity);
         FROM_JSON(param, js, atomRadiusMultiplier);
         FROM_JSON(param, js, loadBonds);
         FROM_JSON(param, js, loadNonPolymerChemicals);
         FROM_JSON(param, js, representation);
         FROM_JSON(param, js, chainIds);
         FROM_JSON(param, js, recenter);
-        FROM_JSON(param, js, occurrences);
-        FROM_JSON(param, js, randomSeed);
-        FROM_JSON(param, js, positionRandomizationType);
-        FROM_JSON(param, js, rotation);
+        FROM_JSON(param, js, animationParams);
     }
     catch (...)
     {
@@ -295,8 +294,6 @@ bool from_json(ProteinDetails &param, const std::string &payload)
         FROM_JSON(param, js, assemblyName);
         FROM_JSON(param, js, name);
         FROM_JSON(param, js, contents);
-        FROM_JSON(param, js, shape);
-        FROM_JSON(param, js, assemblyParams);
         FROM_JSON(param, js, atomRadiusMultiplier);
         FROM_JSON(param, js, loadBonds);
         FROM_JSON(param, js, loadNonPolymerChemicals);
@@ -304,10 +301,10 @@ bool from_json(ProteinDetails &param, const std::string &payload)
         FROM_JSON(param, js, representation);
         FROM_JSON(param, js, chainIds);
         FROM_JSON(param, js, recenter);
+        FROM_JSON(param, js, transmembraneParams);
         FROM_JSON(param, js, occurrences);
         FROM_JSON(param, js, allowedOccurrences);
-        FROM_JSON(param, js, randomSeed);
-        FROM_JSON(param, js, positionRandomizationType);
+        FROM_JSON(param, js, animationParams);
         FROM_JSON(param, js, position);
         FROM_JSON(param, js, rotation);
         FROM_JSON(param, js, constraints);
@@ -328,8 +325,6 @@ std::string to_json(const ProteinDetails &payload)
         TO_JSON(payload, js, assemblyName);
         TO_JSON(payload, js, name);
         TO_JSON(payload, js, contents);
-        TO_JSON(payload, js, shape);
-        TO_JSON(payload, js, assemblyParams);
         TO_JSON(payload, js, atomRadiusMultiplier);
         TO_JSON(payload, js, loadBonds);
         TO_JSON(payload, js, loadNonPolymerChemicals);
@@ -339,8 +334,7 @@ std::string to_json(const ProteinDetails &payload)
         TO_JSON(payload, js, recenter);
         TO_JSON(payload, js, occurrences);
         TO_JSON(payload, js, allowedOccurrences);
-        TO_JSON(payload, js, randomSeed);
-        TO_JSON(payload, js, positionRandomizationType);
+        TO_JSON(payload, js, animationParams);
         TO_JSON(payload, js, position);
         TO_JSON(payload, js, rotation);
         return js.dump();
@@ -368,38 +362,7 @@ bool from_json(SugarsDetails &param, const std::string &payload)
         FROM_JSON(param, js, chainIds);
         FROM_JSON(param, js, siteIndices);
         FROM_JSON(param, js, rotation);
-        FROM_JSON(param, js, assemblyParams);
-    }
-    catch (...)
-    {
-        return false;
-    }
-    return true;
-}
-
-bool from_json(MeshBasedMembraneDetails &param, const std::string &payload)
-{
-    try
-    {
-        auto js = nlohmann::json::parse(payload);
-        FROM_JSON(param, js, assemblyName);
-        FROM_JSON(param, js, name);
-        FROM_JSON(param, js, meshContents);
-        FROM_JSON(param, js, proteinContents1);
-        FROM_JSON(param, js, proteinContents2);
-        FROM_JSON(param, js, proteinContents3);
-        FROM_JSON(param, js, proteinContents4);
-        FROM_JSON(param, js, recenter);
-        FROM_JSON(param, js, density);
-        FROM_JSON(param, js, surfaceFixedOffset);
-        FROM_JSON(param, js, surfaceVariableOffset);
-        FROM_JSON(param, js, assemblyParams);
-        FROM_JSON(param, js, atomRadiusMultiplier);
-        FROM_JSON(param, js, representation);
-        FROM_JSON(param, js, randomSeed);
-        FROM_JSON(param, js, position);
-        FROM_JSON(param, js, rotation);
-        FROM_JSON(param, js, scale);
+        FROM_JSON(param, js, animationParams);
     }
     catch (...)
     {
@@ -438,6 +401,24 @@ bool from_json(AddSphereDetails &param, const std::string &payload)
         auto js = nlohmann::json::parse(payload);
         FROM_JSON(param, js, name);
         FROM_JSON(param, js, position);
+        FROM_JSON(param, js, radius);
+        FROM_JSON(param, js, color);
+    }
+    catch (...)
+    {
+        return false;
+    }
+    return true;
+}
+
+bool from_json(AddBoundingBoxDetails &param, const std::string &payload)
+{
+    try
+    {
+        auto js = nlohmann::json::parse(payload);
+        FROM_JSON(param, js, name);
+        FROM_JSON(param, js, bottomLeft);
+        FROM_JSON(param, js, topRight);
         FROM_JSON(param, js, radius);
         FROM_JSON(param, js, color);
     }
@@ -629,5 +610,40 @@ bool from_json(ProteinInstanceTransformationDetails &param,
         return false;
     }
     return true;
+}
+
+bool from_json(InspectionDetails &param, const std::string &payload)
+{
+    try
+    {
+        auto js = nlohmann::json::parse(payload);
+        FROM_JSON(param, js, origin);
+        FROM_JSON(param, js, direction);
+    }
+    catch (...)
+    {
+        return false;
+    }
+    return true;
+}
+
+std::string to_json(const ProteinInspectionDetails &param)
+{
+    try
+    {
+        nlohmann::json js;
+        TO_JSON(param, js, hit);
+        TO_JSON(param, js, assemblyName);
+        TO_JSON(param, js, proteinName);
+        TO_JSON(param, js, modelId);
+        TO_JSON(param, js, instanceId);
+        TO_JSON(param, js, position);
+        return js.dump();
+    }
+    catch (...)
+    {
+        return "";
+    }
+    return "";
 }
 #endif

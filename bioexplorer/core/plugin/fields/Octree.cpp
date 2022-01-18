@@ -30,13 +30,13 @@ using namespace std;
 
 typedef std::map<uint64_t, OctreeNode> OctreeLevelMap;
 
-Octree::Octree(const floats &events, float voxelSize, const glm::vec3 &minAABB,
+Octree::Octree(const floats &events, double voxelSize, const glm::vec3 &minAABB,
                const glm::vec3 &maxAABB)
     : _volumeDim(glm::uvec3(0u, 0u, 0u))
     , _volumeSize(0u)
     , _offsetPerLevel(nullptr)
 {
-    PLUGIN_INFO("Nb of events : " << events.size() / 5);
+    PLUGIN_INFO(3, "Nb of events : " << events.size() / 5);
 
     // **************** Octree creations *******************
     // *****************************************************
@@ -48,12 +48,12 @@ Octree::Octree(const floats &events, float voxelSize, const glm::vec3 &minAABB,
     // This octree is always cubic
     _octreeSize = std::max(std::max(octreeSize.x, octreeSize.y), octreeSize.z);
 
-    PLUGIN_INFO("Octree size  : " << _octreeSize);
+    PLUGIN_INFO(3, "Octree size  : " << _octreeSize);
 
     uint32_t octreeDepth = std::log2(_octreeSize) + 1u;
     std::vector<OctreeLevelMap> octree(octreeDepth);
 
-    PLUGIN_INFO("Octree depth : " << octreeDepth << " " << octree.size());
+    PLUGIN_INFO(3, "Octree depth : " << octreeDepth << " " << octree.size());
 
     if (octreeDepth == 0)
         return;
@@ -65,7 +65,7 @@ Octree::Octree(const floats &events, float voxelSize, const glm::vec3 &minAABB,
             std::floor((events[i + 1] - minAABB.y) / voxelSize);
         const uint64_t zpos =
             std::floor((events[i + 2] - minAABB.z) / voxelSize);
-        const float value = events[i + 4];
+        const double value = events[i + 4];
 
         const uint64_t indexX = xpos;
         const uint64_t indexY = ypos * (uint64_t)_octreeSize;
@@ -90,7 +90,7 @@ Octree::Octree(const floats &events, float voxelSize, const glm::vec3 &minAABB,
                     nBlock * std::floor(ypos / divisor) +
                     nBlock * nBlock * std::floor(zpos / divisor);
 
-                const float size = voxelSize * (level + 1u);
+                const double size = voxelSize * (level + 1u);
 
                 if (octree[level].find(index) == octree[level].end())
                 {
@@ -195,7 +195,7 @@ void Octree::_flattenChildren(const OctreeNode *node, uint32_t level)
         _flattenChildren(child, level - 1u);
 }
 
-const uint32_t Octree::getOctreeSize() const
+uint32_t Octree::getOctreeSize() const
 {
     return _octreeSize;
 }
@@ -215,7 +215,7 @@ const glm::uvec3 &Octree::getVolumeDim() const
     return _volumeDim;
 }
 
-const uint64_t Octree::getVolumeSize() const
+uint64_t Octree::getVolumeSize() const
 {
     return _volumeSize;
 }

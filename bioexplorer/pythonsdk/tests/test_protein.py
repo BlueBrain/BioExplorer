@@ -32,7 +32,8 @@ def test_layout():
     pdb_folder = resource_folder + 'pdb/'
 
     bio_explorer = BioExplorer('localhost:5000')
-    bio_explorer.reset()
+    bio_explorer.reset_scene()
+    bio_explorer.set_general_settings(model_visibility_on_creation=False)
     print('BioExplorer version ' + bio_explorer.version())
 
     # Suspend image streaming
@@ -51,9 +52,13 @@ def test_layout():
     brayns.set_camera_params(params)
 
     # ACE2 Receptor
-    ace2_receptor = Protein(sources=[pdb_folder + '6m1d.pdb'])
-    bio_explorer.add_protein('ACE2 receptor', ace2_receptor,
-                             rotation=Quaternion(0.5, 0.5, 1.0, 0.0))
+    name = 'ACE2 receptor'
+    ace2_receptor = Protein(
+        name=name,
+        source=pdb_folder + '6m1d.pdb')
+    bio_explorer.add_protein(
+        ace2_receptor,
+        rotation=Quaternion(0.5, 0.5, 1.0, 0.0))
 
     # Restore image streaming
     bio_explorer.core_api().set_application_parameters(image_stream_fps=20)

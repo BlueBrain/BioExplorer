@@ -34,8 +34,10 @@ namespace common
     std::cerr << "E [" << PLUGIN_PREFIX << "] " << message << std::endl;
 #define PLUGIN_WARN(message) \
     std::cerr << "W [" << PLUGIN_PREFIX << "] " << message << std::endl;
-#define PLUGIN_INFO(message) \
-    std::cout << "I [" << PLUGIN_PREFIX << "] " << message << std::endl;
+#define PLUGIN_INFO(level, message)                                  \
+    if (level <= bioexplorer::common::GeneralSettings::getInstance() \
+                     ->getLoggingLevel())                            \
+        std::cout << "I [" << PLUGIN_PREFIX << "] " << message << std::endl;
 #ifdef NDEBUG
 #define PLUGIN_DEBUG(message) ;
 #else

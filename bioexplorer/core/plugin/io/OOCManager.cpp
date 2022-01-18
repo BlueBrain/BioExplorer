@@ -64,22 +64,22 @@ OOCManager::OOCManager(Scene& scene, const Camera& camera,
 {
     _parseArguments(arguments);
 
-    PLUGIN_INFO("=================================");
-    PLUGIN_INFO("Out-Of-Core engine is now enabled");
-    PLUGIN_INFO("---------------------------------");
+    PLUGIN_INFO(3, "=================================");
+    PLUGIN_INFO(3, "Out-Of-Core engine is now enabled");
+    PLUGIN_INFO(3, "---------------------------------");
 #ifdef USE_PQXX
-    PLUGIN_INFO("DB Connection string: " << _dbConnectionString);
-    PLUGIN_INFO("DB Schema           : " << _dbSchema);
+    PLUGIN_INFO(3, "DB Connection string: " << _dbConnectionString);
+    PLUGIN_INFO(3, "DB Schema           : " << _dbSchema);
 #endif
-    PLUGIN_INFO("Description         : " << _sceneConfiguration.description);
-    PLUGIN_INFO("Update frequency    : " << _updateFrequency);
-    PLUGIN_INFO("Scene size          : " << _sceneConfiguration.sceneSize);
-    PLUGIN_INFO("Brick size          : " << _sceneConfiguration.brickSize);
-    PLUGIN_INFO("Nb of bricks        : " << _sceneConfiguration.nbBricks);
-    PLUGIN_INFO("Visible bricks      : " << _nbVisibleBricks);
-    PLUGIN_INFO("Bricks per cycle    : " << _nbBricksPerCycle);
-    PLUGIN_INFO("Unload bricks       : " << (_unloadBricks ? "On" : "Off"));
-    PLUGIN_INFO("=================================");
+    PLUGIN_INFO(3, "Description         : " << _sceneConfiguration.description);
+    PLUGIN_INFO(3, "Update frequency    : " << _updateFrequency);
+    PLUGIN_INFO(3, "Scene size          : " << _sceneConfiguration.sceneSize);
+    PLUGIN_INFO(3, "Brick size          : " << _sceneConfiguration.brickSize);
+    PLUGIN_INFO(3, "Nb of bricks        : " << _sceneConfiguration.nbBricks);
+    PLUGIN_INFO(3, "Visible bricks      : " << _nbVisibleBricks);
+    PLUGIN_INFO(3, "Bricks per cycle    : " << _nbBricksPerCycle);
+    PLUGIN_INFO(3, "Unload bricks       : " << (_unloadBricks ? "On" : "Off"));
+    PLUGIN_INFO(3, "=================================");
 }
 
 void OOCManager::loadBricks()
@@ -103,13 +103,13 @@ void OOCManager::_loadBricks()
 #endif
 
     uint32_t nbLoads = 0;
-    float totalLoadingTime = 0.f;
+    double totalLoadingTime = 0.f;
 
     while (true)
     {
-        const Vector3f& cameraPosition = _camera.getPosition();
+        const Vector3d& cameraPosition = _camera.getPosition();
         const Vector3i brick =
-            (cameraPosition - _sceneConfiguration.brickSize / 2.f) /
+            (cameraPosition - _sceneConfiguration.brickSize / 2.0) /
             _sceneConfiguration.brickSize;
         const int32_t brickId = brick.z +
                                 brick.y * _sceneConfiguration.nbBricks +
@@ -149,10 +149,10 @@ void OOCManager::_loadBricks()
                 }
 
             if (!bricksToLoad.empty())
-                PLUGIN_INFO("Loading bricks   "
-                            << int32_set_to_string(bricksToLoad));
+                PLUGIN_INFO(3, "Loading bricks   "
+                                   << int32_set_to_string(bricksToLoad));
 
-            _progress = float(bricksToLoad.size()) / float(_nbBricksPerCycle);
+            _progress = double(bricksToLoad.size()) / double(_nbBricksPerCycle);
             // Loading bricks
             if (!bricksToLoad.empty())
             {

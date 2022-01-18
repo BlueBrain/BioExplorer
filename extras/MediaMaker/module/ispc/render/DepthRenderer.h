@@ -42,7 +42,7 @@ public:
     void commit() final;
 
 private:
-    float _infinity;
+    double _infinity;
 };
 } // namespace rendering
 } // namespace mediamaker

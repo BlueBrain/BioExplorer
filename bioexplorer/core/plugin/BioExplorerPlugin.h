@@ -61,7 +61,8 @@ private:
     Response _getVersion() const;
     SceneInformationDetails _getSceneInformation() const;
     Response _setGeneralSettings(const GeneralSettingsDetails &payload);
-    Response _reset();
+    Response _resetScene();
+    Response _resetCamera();
 
     // IO
     Response _exportToFile(const FileAccessDetails &payload);
@@ -75,10 +76,7 @@ private:
     // Biological elements
     Response _addAssembly(const AssemblyDetails &payload);
     Response _removeAssembly(const AssemblyDetails &payload);
-    Response _addParametricMembrane(
-        const ParametricMembraneDetails &payload) const;
-    Response _addMeshBasedMembrane(
-        const MeshBasedMembraneDetails &payload) const;
+    Response _addMembrane(const MembraneDetails &payload) const;
     Response _addRNASequence(const RNASequenceDetails &payload) const;
     Response _addProtein(const ProteinDetails &payload) const;
     Response _addGlycans(const SugarsDetails &payload) const;
@@ -87,6 +85,7 @@ private:
     // Other elements
     Response _addGrid(const AddGridDetails &payload);
     Response _addSphere(const AddSphereDetails &payload);
+    Response _addBoundingBox(const AddBoundingBoxDetails &payload);
 
     // Amino acids
     Response _setAminoAcidSequenceAsString(
@@ -129,6 +128,10 @@ private:
     Response _getOOCProgress() const;
     Response _getOOCAverageLoadingTime() const;
     OOCManagerPtr _oocManager{nullptr};
+
+    // Inspection
+    ProteinInspectionDetails _inspectProtein(
+        const InspectionDetails &details) const;
 
     // Attributes
     AssemblyMap _assemblies;

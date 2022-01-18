@@ -1,17 +1,16 @@
 var searchData=
 [
-  ['map_5fa_0',['map_a',['../d5/d4e/structbioexplorer_1_1rendering_1_1AdvancedMaterial.html#aaf201aedce75ba9009391e4275fea363',1,'bioexplorer::rendering::AdvancedMaterial']]],
-  ['map_5fbump_1',['map_Bump',['../d5/d4e/structbioexplorer_1_1rendering_1_1AdvancedMaterial.html#a8c9b70d27d10007bfe4a23a93cf12a4d',1,'bioexplorer::rendering::AdvancedMaterial']]],
-  ['map_5fd_2',['map_d',['../d5/d4e/structbioexplorer_1_1rendering_1_1AdvancedMaterial.html#ac6950871bfaa04c6c1cd743b05f2747c',1,'bioexplorer::rendering::AdvancedMaterial']]],
-  ['map_5fkd_3',['map_Kd',['../d5/d4e/structbioexplorer_1_1rendering_1_1AdvancedMaterial.html#ada92f9beafd2a1452e256210f9a43af1',1,'bioexplorer::rendering::AdvancedMaterial']]],
-  ['map_5fks_4',['map_Ks',['../d5/d4e/structbioexplorer_1_1rendering_1_1AdvancedMaterial.html#a2e8f204636463b2b40c9562266976cb1',1,'bioexplorer::rendering::AdvancedMaterial']]],
-  ['map_5fns_5',['map_Ns',['../d5/d4e/structbioexplorer_1_1rendering_1_1AdvancedMaterial.html#a8a1e1b3d276d3af3adaf1e4922d5246a',1,'bioexplorer::rendering::AdvancedMaterial']]],
-  ['map_5freflection_6',['map_Reflection',['../d5/d4e/structbioexplorer_1_1rendering_1_1AdvancedMaterial.html#a32a23811a63dfc0fee0de8b07a89b972',1,'bioexplorer::rendering::AdvancedMaterial']]],
-  ['map_5frefraction_7',['map_Refraction',['../d5/d4e/structbioexplorer_1_1rendering_1_1AdvancedMaterial.html#abb662254cf8548bf6747ba1ed743e373',1,'bioexplorer::rendering::AdvancedMaterial']]],
-  ['materialids_8',['materialIds',['../d7/d84/structbioexplorer_1_1details_1_1MaterialsDetails.html#a6f6ef2b481c114920d816557e5397c37',1,'bioexplorer::details::MaterialsDetails']]],
-  ['maxvalue_9',['maxValue',['../db/dd8/structbioexplorer_1_1details_1_1AddGridDetails.html#ae2da44906b8e3dd60ea787d2ea999c1a',1,'bioexplorer::details::AddGridDetails']]],
-  ['meshcontents_10',['meshContents',['../da/d3c/structbioexplorer_1_1details_1_1MeshBasedMembraneDetails.html#a815f4aaa04c9dc5d390a45c6226649fa',1,'bioexplorer::details::MeshBasedMembraneDetails']]],
-  ['minvalue_11',['minValue',['../db/dd8/structbioexplorer_1_1details_1_1AddGridDetails.html#a94c1cfb27d0a046683a99f763a911235',1,'bioexplorer::details::AddGridDetails']]],
-  ['modelid_12',['modelId',['../d6/dc9/structbioexplorer_1_1details_1_1ModelIdDetails.html#afce19d687701e9ff1e185b87b33aef21',1,'bioexplorer::details::ModelIdDetails']]],
-  ['modelids_13',['modelIds',['../d7/d84/structbioexplorer_1_1details_1_1MaterialsDetails.html#a1907d0558dea63b36e4ade285a06bfb5',1,'bioexplorer::details::MaterialsDetails']]]
+  ['map_5fa_518',['map_a',['../d5/d4e/structbioexplorer_1_1rendering_1_1AdvancedMaterial.html#aaf201aedce75ba9009391e4275fea363',1,'bioexplorer::rendering::AdvancedMaterial']]],
+  ['map_5fbump_519',['map_Bump',['../d5/d4e/structbioexplorer_1_1rendering_1_1AdvancedMaterial.html#a8c9b70d27d10007bfe4a23a93cf12a4d',1,'bioexplorer::rendering::AdvancedMaterial']]],
+  ['map_5fd_520',['map_d',['../d5/d4e/structbioexplorer_1_1rendering_1_1AdvancedMaterial.html#ac6950871bfaa04c6c1cd743b05f2747c',1,'bioexplorer::rendering::AdvancedMaterial']]],
+  ['map_5fkd_521',['map_Kd',['../d5/d4e/structbioexplorer_1_1rendering_1_1AdvancedMaterial.html#ada92f9beafd2a1452e256210f9a43af1',1,'bioexplorer::rendering::AdvancedMaterial']]],
+  ['map_5fks_522',['map_Ks',['../d5/d4e/structbioexplorer_1_1rendering_1_1AdvancedMaterial.html#a2e8f204636463b2b40c9562266976cb1',1,'bioexplorer::rendering::AdvancedMaterial']]],
+  ['map_5fns_523',['map_Ns',['../d5/d4e/structbioexplorer_1_1rendering_1_1AdvancedMaterial.html#a8a1e1b3d276d3af3adaf1e4922d5246a',1,'bioexplorer::rendering::AdvancedMaterial']]],
+  ['map_5freflection_524',['map_Reflection',['../d5/d4e/structbioexplorer_1_1rendering_1_1AdvancedMaterial.html#a32a23811a63dfc0fee0de8b07a89b972',1,'bioexplorer::rendering::AdvancedMaterial']]],
+  ['map_5frefraction_525',['map_Refraction',['../d5/d4e/structbioexplorer_1_1rendering_1_1AdvancedMaterial.html#abb662254cf8548bf6747ba1ed743e373',1,'bioexplorer::rendering::AdvancedMaterial']]],
+  ['materialids_526',['materialIds',['../d7/d84/structbioexplorer_1_1details_1_1MaterialsDetails.html#a6f6ef2b481c114920d816557e5397c37',1,'bioexplorer::details::MaterialsDetails']]],
+  ['maxvalue_527',['maxValue',['../db/dd8/structbioexplorer_1_1details_1_1AddGridDetails.html#a02aaba84f0a972e471b70f0dcc7ec1c4',1,'bioexplorer::details::AddGridDetails']]],
+  ['minvalue_528',['minValue',['../db/dd8/structbioexplorer_1_1details_1_1AddGridDetails.html#ab7bf234a15bb6e99592e40fba821a2da',1,'bioexplorer::details::AddGridDetails']]],
+  ['modelid_529',['modelId',['../d6/dc9/structbioexplorer_1_1details_1_1ModelIdDetails.html#afce19d687701e9ff1e185b87b33aef21',1,'bioexplorer::details::ModelIdDetails']]],
+  ['modelids_530',['modelIds',['../d7/d84/structbioexplorer_1_1details_1_1MaterialsDetails.html#a1907d0558dea63b36e4ade285a06bfb5',1,'bioexplorer::details::MaterialsDetails']]]
 ];

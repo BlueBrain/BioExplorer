@@ -63,7 +63,7 @@ std::string& trim(std::string& s);
  * @param clippingPlanes Clipping planes defining the volume
  * @return True if the position does not belong to the volume, false otherwise
  */
-bool isClipped(const Vector3f& position, const Vector4fs& clippingPlanes);
+bool isClipped(const Vector3d& position, const Vector4ds& clippingPlanes);
 
 /**
  * @brief Set the default transfer function (Unipolar) to a given model
@@ -76,49 +76,109 @@ void setDefaultTransferFunction(Model& model);
  * @brief Get the Clipping Planes from the scene
  *
  * @param scene 3D scene
- * @return Vector4fs List of clipping planes
+ * @return Vector4ds List of clipping planes
  */
-Vector4fs getClippingPlanes(const Scene& scene);
+Vector4ds getClippingPlanes(const Scene& scene);
 
 /**
- * @brief Converts a vector of floats into a 3D vector
+ * @brief Converts a vector of doubles into a 2D vector
  *
- * @param value Vector of floats
- * @return Vector3f A 3D vector
+ * @param value Vector of doubles
+ * @return Vector2d A 2D vector
  */
-Vector3f floatsToVector3f(const floats& value);
+Vector2d doublesToVector2d(const doubles& value);
 
 /**
- * @brief Converts a vector of floats into a Quaternion
+ * @brief Converts a vector of doubles into a 3D vector
  *
- * @param values Vector of floats
+ * @param value Vector of doubles
+ * @return Vector3d A 3D vector
+ */
+Vector3d doublesToVector3d(const doubles& value);
+
+/**
+ * @brief Converts a vector of doubles into a Quaternion
+ *
+ * @param values Vector of doubles
  * @return Quaternion A quaternion
  */
-Quaterniond floatsToQuaterniond(const floats& values);
+Quaterniond doublesToQuaterniond(const doubles& values);
 
 /**
- * @brief Converts a vector of floats into vector of 4D vectors
+ * @brief Converts a vector of doubles into vector of 4D vectors
  *
- * @param values Vector of floats
+ * @param values Vector of doubles
  * @return Quaternion A vector of 4D vectors
  */
-Vector4fs floatsToVector4fs(const floats& values);
+Vector4ds doublesToVector4ds(const doubles& values);
 
 /**
- * @brief Converts a vector of floats into randomization details
+ * @brief Converts a vector of doubles into animation details
  *
- * @param randomSeed Randomization seed
- * @param randomizationType Type of randomization
- * @param value Vector of floats
- * @return RandomizationDetails The randomization details
+ * @param value Vector of doubles
+ * @return AnimationDetails The animation details
  */
-RandomizationDetails floatsToRandomizationDetails(
-    const floats& values, const float randomSeed = 0,
-    const PositionRandomizationType randomizationType =
-        PositionRandomizationType::radial);
+AnimationDetails doublesToAnimationDetails(const doubles& values);
 
+/**
+ * @brief Returns a position and a rotation of a instance on a sphere using a
+ * sphere-filling algorythm
+ *
+ * @param radius Radius of the sphere
+ * @param occurrence Occurence of the instance
+ * @param occurrences Total number of instances
+ * @param rnd Randomized occurence of the instance (optional)
+ * @param position Resulting position of the instance on the sphere
+ * @param rotation Resulting orientation of the instance on the sphere
+ * @param ratio Ratio of coverage of the sphere
+ * @return Vector3d
+ */
+Vector3d sphereFilling(const double radius, const uint64_t occurrence,
+                       const uint64_t occurrences, const uint64_t rnd,
+                       Vector3d& position, Quaterniond& rotation,
+                       const double ratio = 1.0);
+
+/**
+ * @brief Splits a string according to the delimiter
+ *
+ * @param s String to split
+ * @param delimiter Delimiter
+ * @return std::vector<std::string> Vector of strings
+ */
 std::vector<std::string> split(const std::string& s,
                                const std::string& delimiter);
+
+/**
+ * @brief Combine a list of transformations
+ *
+ * @param transformations List of transformations
+ * @return Transformation Result of the combination
+ */
+Transformation combineTransformations(const Transformations& transformations);
+
+/**
+ * @brief Safely converts an orientation vector into a quaternion
+ *
+ * @param v Orientation vector
+ * @return Quaterniond Resulting quaternion
+ */
+Quaterniond safeQuatlookAt(const Vector3d& v);
+
+/**
+ * @brief Intersection between a ray and a box
+ *
+ * @param origin Origin of the ray
+ * @param direction Direcion of the ray
+ * @param box Box
+ * @param t0 Initial t of the ray
+ * @param t1 Final t of the ray
+ * @param t Intersection value of t if an intersection if found
+ * @return true The ray intersects with the box
+ * @return false The ray does not intersect with the box
+ */
+bool rayBoxIntersection(const Vector3d& origin, const Vector3d& direction,
+                        const Boxd& box, const double t0, const double t1,
+                        double& t);
 
 } // namespace common
 } // namespace bioexplorer

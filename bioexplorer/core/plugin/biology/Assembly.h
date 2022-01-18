@@ -27,6 +27,7 @@ namespace bioexplorer
 namespace biology
 {
 using namespace details;
+using namespace common;
 
 /**
  * @brief The Assembly class is a container for biological entities (proteins,
@@ -89,13 +90,13 @@ public:
     /**
      * @return Clipping planes applied to the assembly
      */
-    Vector4fs &getClippingPlanes() { return _clippingPlanes; }
+    Vector4ds &getClippingPlanes() { return _clippingPlanes; }
 
     /**
      * @brief setClippingPlanes Set clipping planes on the assembly
-     * @param clippingPlanes Clipping planes as a vector of 4 floats
+     * @param clippingPlanes Clipping planes as a vector of 4 doubles
      */
-    void setClippingPlanes(const Vector4fs &clippingPlanes)
+    void setClippingPlanes(const Vector4ds &clippingPlanes)
     {
         _clippingPlanes = clippingPlanes;
     }
@@ -125,22 +126,25 @@ public:
         const ProteinInstanceTransformationDetails &details) const;
 
     /**
-     * @brief addParametricMembrane Add a parametric membrane to the assembly
-     * @param details Parametric membrane details
+     * @brief addMembrane Add a membrane to the assembly
+     * @param details Membrane details
      */
-    void addParametricMembrane(const ParametricMembraneDetails &details);
+    void addMembrane(const MembraneDetails &details);
 
     /**
-     * @brief addMeshBasedMembrane Add a mesh based membrane to the assembly
-     * @param details Details of the mesh based membrane
+     * @brief Get the Membrane object
+     *
+     * @return const MembranePtr
      */
-    void addMeshBasedMembrane(const MeshBasedMembraneDetails &details);
+    const MembranePtr getMembrane() const { return _membrane; }
 
     /**
      * @brief addRNASequence Add an RNA sequence to the assembly
      * @param details Details of the RNA sequence
      */
     void addRNASequence(const RNASequenceDetails &details);
+
+    const RNASequencePtr getRNASequence() { return _rnaSequence; }
 
     /**
      * @brief addProtein Add a protein to the assembly
@@ -163,17 +167,34 @@ public:
      */
     void addSugars(const SugarsDetails &details);
 
-    bool isInside(const Vector3f &point) const;
+    /**
+     * @brief Check if a location is inside the assembly
+     *
+     * @param point Location to check
+     * @return true if the location is inside
+     * @return false if the location is outside
+     */
+    bool isInside(const Vector3d &location) const;
+
+    /**
+     * @brief Returns information about the first protein hit by a ray defined
+     * by an origin and a direction
+     *
+     * @param origin Origin of the ray
+     * @param direction Direction of the ray
+     * @return ProteinInspectionDetails Details about the protein
+     */
+    ProteinInspectionDetails inspect(const Vector3d &origin,
+                                     const Vector3d &direction,
+                                     double &t) const;
 
 private:
     void _processInstances(ModelDescriptorPtr md, const std::string &name,
-                           const AssemblyShape shape,
-                           const floats &assemblyParams,
-                           const size_t occurrences, const Vector3f &position,
-                           const Quaterniond &orientation,
-                           const size_ts &allowedOccurrences,
-                           const size_t randomSeed,
-                           const PositionRandomizationType &randomizationType,
+                           const size_t occurrences, const Vector3d &position,
+                           const Quaterniond &rotation,
+                           const uint64_ts &allowedOccurrences,
+                           const AnimationDetails &animationDetails,
+                           const double offset,
                            const AssemblyConstraints &constraints);
 
     AssemblyDetails _details;
@@ -181,9 +202,11 @@ private:
     ProteinMap _proteins;
     MembranePtr _membrane{nullptr};
     RNASequencePtr _rnaSequence{nullptr};
-    Vector3f _position;
+    Vector3d _position;
     Quaterniond _rotation;
-    Vector4fs _clippingPlanes;
+    Vector4ds _clippingPlanes;
+    ModelDescriptors _modelDescriptors;
+    ShapePtr _shape{nullptr};
 };
 } // namespace biology
 } // namespace bioexplorer

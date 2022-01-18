@@ -26,9 +26,9 @@ from bioexplorer import BioExplorer, MovieMaker
 
 def test_movie_maker():
     bio_explorer = BioExplorer('localhost:5000')
+    bio_explorer.reset_scene()
     core = bio_explorer.core_api()
     movie_maker = MovieMaker(bio_explorer)
-    movie_maker.version()
 
     core.set_camera(current='bio_explorer_perspective')
 
@@ -50,21 +50,23 @@ def test_movie_maker():
     ]
 
     movie_maker.build_camera_path(
-        control_points=control_points, nb_steps_between_control_points=50,
-        smoothing_size=50)
-    print(movie_maker.get_nb_frames())
+        control_points=control_points, nb_steps_between_control_points=10,
+        smoothing_size=10)
 
-    movie_maker.set_current_frame(10)
+    movie_maker.set_current_frame(1)
     movie_maker.create_movie(
-        path='/tmp', size=[512, 512], samples_per_pixel=16, start_frame=10, end_frame=20)
+        path='/tmp', size=[512, 512], samples_per_pixel=16, start_frame=1,
+        end_frame=2)
 
-    movie_maker.set_current_frame(20)
+    movie_maker.set_current_frame(2)
     movie_maker.create_snapshot(
-        path='/tmp', base_name='test_20', size=[512, 512], samples_per_pixel=16)
+        renderer='bio_explorer',
+        path='/tmp', base_name='test_2', size=[512, 512], samples_per_pixel=16)
 
-    movie_maker.set_current_frame(30)
+    movie_maker.set_current_frame(3)
     movie_maker.create_snapshot(
-        path='/tmp', base_name='test_30', size=[512, 512], samples_per_pixel=16)
+        renderer='bio_explorer',
+        path='/tmp', base_name='test_3', size=[512, 512], samples_per_pixel=16)
 
 
 if __name__ == '__main__':

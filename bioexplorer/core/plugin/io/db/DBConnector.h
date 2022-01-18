@@ -92,9 +92,8 @@ public:
      * @param nbModels The number of models contained in the brick
      * @param buffer The binary buffer with the contents of the brick
      */
-    const void insertBrick(const int32_t brickId, const uint32_t version,
-                           const uint32_t nbModels,
-                           const std::stringstream& buffer);
+    void insertBrick(const int32_t brickId, const uint32_t version,
+                     const uint32_t nbModels, const std::stringstream& buffer);
 
 private:
     pqxx::connection _connection;

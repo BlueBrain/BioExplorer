@@ -26,19 +26,22 @@
 #include <brayns/common/transferFunction/TransferFunction.h>
 #include <brayns/engineapi/Model.h>
 
+#include <glm/gtx/matrix_decompose.hpp>
+
 namespace bioexplorer
 {
 namespace common
 {
 using namespace brayns;
 
-Quaterniond quatLookAt(const Vector3f& dir)
+Quaterniond safeQuatlookAt(const Vector3d& v)
 {
-    const Vector3f d = normalize(dir);
-    Vector3f u = Vector3f(0.f, 0.f, 1.f);
-    if (abs(dot(d, u)) > 0.99f)
-        u = Vector3f(0.f, 1.f, 0.f);
-    return glm::quatLookAt(d, u);
+    const Vector3d vector = normalize(v);
+    auto upVector = UP_VECTOR;
+    if (abs(dot(vector, upVector)) > 0.999)
+        // Gimble lock
+        upVector = Vector3d(0.0, 0.0, 1.0);
+    return quatLookAtRH(vector, upVector);
 }
 
 std::string& ltrim(std::string& s)
@@ -62,7 +65,7 @@ std::string& trim(std::string& s)
     return ltrim(rtrim(s));
 }
 
-bool isClipped(const Vector3f& position, const Vector4fs& clippingPlanes)
+bool isClipped(const Vector3d& position, const Vector4ds& clippingPlanes)
 {
     if (clippingPlanes.empty())
         return false;
@@ -70,10 +73,10 @@ bool isClipped(const Vector3f& position, const Vector4fs& clippingPlanes)
     bool visible = true;
     for (auto plane : clippingPlanes)
     {
-        const Vector3f normal = {plane.x, plane.y, plane.z};
-        const float d = plane.w;
-        const float distance = dot(normal, position) + d;
-        visible &= (distance > 0.f);
+        const Vector3d normal = normalize(Vector3d(plane.x, plane.y, plane.z));
+        const double d = plane.w;
+        const double distance = dot(normal, position) - d;
+        visible &= (distance < 0.0);
     }
     return !visible;
 }
@@ -216,57 +219,70 @@ void setDefaultTransferFunction(Model& model)
     tf.setValuesRange({0.0, 1.0});
 }
 
-Vector4fs getClippingPlanes(const Scene& scene)
+Vector4ds getClippingPlanes(const Scene& scene)
 {
     const auto& clippingPlanes = scene.getClipPlanes();
-    Vector4fs clipPlanes;
+    Vector4ds clipPlanes;
     for (const auto cp : clippingPlanes)
     {
         const auto& p = cp->getPlane();
-        Vector4f plane{p[0], p[1], p[2], p[3]};
+        Vector4d plane{p[0], p[1], p[2], p[3]};
         clipPlanes.push_back(plane);
     }
     return clipPlanes;
 }
 
-Vector3f floatsToVector3f(const floats& value)
+Vector2d doublesToVector2d(const doubles& value)
 {
-    if (value.size() != 3)
-        PLUGIN_THROW("Invalid number of floats (3 expected)");
-    return Vector3f(value[0], value[1], value[2]);
+    if (value.empty())
+        return Vector2d();
+    if (value.size() != 2)
+        PLUGIN_THROW("Invalid number of doubles (2 expected)");
+    return Vector2d(value[0], value[1]);
 }
 
-Quaterniond floatsToQuaterniond(const floats& values)
+Vector3d doublesToVector3d(const doubles& value)
 {
+    if (value.empty())
+        return Vector3d();
+    if (value.size() != 3)
+        PLUGIN_THROW("Invalid number of doubles (3 expected)");
+    return Vector3d(value[0], value[1], value[2]);
+}
+
+Quaterniond doublesToQuaterniond(const doubles& values)
+{
+    if (values.empty())
+        return Quaterniond();
     if (values.size() != 4)
-        PLUGIN_THROW("Invalid number of floats (4 expected)");
+        PLUGIN_THROW("Invalid number of doubles (4 expected)");
     return Quaterniond(values[0], values[1], values[2], values[3]);
 }
 
-Vector4fs floatsToVector4fs(const floats& values)
+Vector4ds doublesToVector4ds(const doubles& values)
 {
+    if (values.empty())
+        return Vector4ds();
     if (values.size() % 4 != 0)
-        PLUGIN_THROW("Clipping planes must be defined by 4 float values");
+        PLUGIN_THROW("Clipping planes must be defined by 4 double values");
 
-    Vector4fs clippingPlanes;
+    Vector4ds clippingPlanes;
     for (size_t i = 0; i < values.size(); i += 4)
         clippingPlanes.push_back(
             {values[i], values[i + 1], values[i + 2], values[i + 3]});
     return clippingPlanes;
 }
 
-RandomizationDetails floatsToRandomizationDetails(
-    const floats& values, const float randomSeed,
-    const PositionRandomizationType randomizationType)
+AnimationDetails doublesToAnimationDetails(const doubles& values)
 {
-    RandomizationDetails randInfo;
-    randInfo.seed = randomSeed;
-    randInfo.randomizationType = randomizationType;
-    randInfo.positionSeed = (values.size() > 1 ? values[1] : 0.f);
-    randInfo.positionStrength = (values.size() > 2 ? values[2] : 0.f);
-    randInfo.rotationSeed = (values.size() > 3 ? values[3] : 0.f);
-    randInfo.rotationStrength = (values.size() > 4 ? values[4] : 0.f);
-    return randInfo;
+    AnimationDetails details;
+    details.seed = (values.size() > 0 ? values[0] : 0);
+    details.positionSeed = (values.size() > 1 ? values[1] : 0);
+    details.positionStrength = (values.size() > 2 ? values[2] : 0.0);
+    details.rotationSeed = (values.size() > 3 ? values[3] : 0);
+    details.rotationStrength = (values.size() > 4 ? values[4] : 0.0);
+    details.morphingStep = (values.size() > 5 ? values[5] : 0.0);
+    return details;
 }
 
 std::vector<std::string> split(const std::string& s,
@@ -287,6 +303,89 @@ std::vector<std::string> split(const std::string& s,
     }
     values.push_back(str);
     return values;
+}
+
+Transformation combineTransformations(const Transformations& transformations)
+{
+    glm::mat4 finalMatrix;
+    for (const auto& transformation : transformations)
+    {
+        const glm::mat4 matrix = transformation.toMatrix();
+        finalMatrix *= matrix;
+    }
+
+    glm::vec3 scale;
+    glm::quat rotation;
+    glm::vec3 translation;
+    glm::vec3 skew;
+    glm::vec4 perspective;
+    glm::decompose(finalMatrix, scale, rotation, translation, skew,
+                   perspective);
+
+    Transformation transformation;
+    transformation.setTranslation(translation);
+    transformation.setRotation(rotation);
+    transformation.setScale(scale);
+    return transformation;
+}
+
+Vector3d sphereFilling(const double radius, const uint64_t occurrence,
+                       const uint64_t occurrences, const uint64_t rnd,
+                       Vector3d& position, Quaterniond& rotation,
+                       const double ratio)
+{
+    const double off = 2.0 / occurrences;
+    const double increment = ratio * M_PI * (3.0 - sqrt(5.0));
+    const double y = ((occurrence * off) - 1.0) + off / 2.0;
+    const double r = sqrt(1.0 - pow(y, 2.0));
+    const double phi = rnd * increment;
+    const double x = cos(phi) * r;
+    const double z = sin(phi) * r;
+
+    const Vector3d normal = normalize(Vector3d(x, y, z));
+    position = normal * radius;
+    rotation = safeQuatlookAt(normal);
+
+    return normal;
+}
+
+bool rayBoxIntersection(const Vector3d& origin, const Vector3d& direction,
+                        const Boxd& box, const double t0, const double t1,
+                        double& t)
+{
+    const Vector3d bounds[2]{box.getMin(), box.getMax()};
+    const Vector3d invDir = 1.0 / direction;
+    const Vector3ui sign{invDir.x < 0.0, invDir.y < 0.0, invDir.z < 0.0};
+
+    double tmin, tmax, tymin, tymax, tzmin, tzmax;
+
+    tmin = (bounds[sign.x].x - origin.x) * invDir.x;
+    tmax = (bounds[1 - sign.x].x - origin.x) * invDir.x;
+    tymin = (bounds[sign.y].y - origin.y) * invDir.y;
+    tymax = (bounds[1 - sign.y].y - origin.y) * invDir.y;
+
+    if ((tmin > tymax) || (tymin > tmax))
+        return false;
+
+    if (tymin > tmin)
+        tmin = tymin;
+    if (tymax < tmax)
+        tmax = tymax;
+
+    tzmin = (bounds[sign.z].z - origin.z) * invDir.z;
+    tzmax = (bounds[1 - sign.z].z - origin.z) * invDir.z;
+
+    if ((tmin > tzmax) || (tzmin > tmax))
+        return false;
+
+    if (tzmin > tmin)
+        tmin = tzmin;
+    if (tzmax < tmax)
+        tmax = tzmax;
+
+    t = std::min(tmin, tmax);
+
+    return (tmin < t1 && tmax > t0);
 }
 
 } // namespace common

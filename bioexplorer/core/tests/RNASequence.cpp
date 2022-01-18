@@ -16,6 +16,7 @@
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
 
+#include <plugin/biology/Assembly.h>
 #include <plugin/biology/RNASequence.h>
 #include <plugin/common/Logs.h>
 
@@ -48,7 +49,15 @@ std::string getFileContents(const std::string& filename)
     return str;
 }
 
-RNASequenceDetails getDescriptor()
+AssemblyDetails getAssemblyDescriptor()
+{
+    AssemblyDetails descriptor;
+    descriptor.name = "assembly";
+    descriptor.shape = AssemblyShape::point;
+    return descriptor;
+}
+
+RNASequenceDetails getRNASequenceDescriptor()
 {
     RNASequenceDetails descriptor;
 
@@ -56,11 +65,12 @@ RNASequenceDetails getDescriptor()
     descriptor.name = "test";
     descriptor.contents = getFileContents(
         "./bioexplorer/pythonsdk/tests/test_files/rna/sars-cov-2.rna");
-    descriptor.shape = RNAShape::trefoilKnot;
-    descriptor.assemblyParams = {11.f, 0.5f};
-    descriptor.range = {0.f, 30.5f * static_cast<float>(M_PI)};
-    descriptor.params = {1.51f, 1.12f, 1.93f};
-    descriptor.position = {0.f, 0.f, 0.f};
+    descriptor.shape = RNAShapeType::trefoilKnot;
+    descriptor.shapeParams = {11.0, 0.5};
+    descriptor.valuesRange = {0.0, 30.5 * static_cast<double>(M_PI)};
+    descriptor.curveParams = {1.51, 1.12, 1.93};
+    descriptor.position = {0.0, 0.0, 0.0};
+    descriptor.rotation = {1.0, 0.0, 0.0, 0.0};
     return descriptor;
 }
 
@@ -70,8 +80,9 @@ BOOST_AUTO_TEST_CASE(rna_sequence)
                                   "--plugin", "BioExplorer"};
     brayns::Brayns brayns(argv.size(), argv.data());
     auto& scene = brayns.getEngine().getScene();
-    RNASequence rnaSequence(scene, getDescriptor());
+    Assembly assembly(scene, getAssemblyDescriptor());
+    assembly.addRNASequence(getRNASequenceDescriptor());
 
-    BOOST_CHECK(rnaSequence.getRNASequences().size() == 0);
+    BOOST_CHECK(assembly.getRNASequence()->getRNASequences().size() == 0);
 }
 } // namespace tests

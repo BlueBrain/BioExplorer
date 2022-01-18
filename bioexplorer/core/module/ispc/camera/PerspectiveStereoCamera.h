@@ -55,10 +55,10 @@ struct OSPRAY_SDK_INTERFACE PerspectiveStereoCamera : public Camera
     virtual void commit();
 
 public:
-    float fovy;
-    float aspect;
-    float apertureRadius;
-    float focusDistance;
+    double fovy;
+    double aspect;
+    double apertureRadius;
+    double focusDistance;
     bool architectural;
 
     // Clip planes
@@ -67,7 +67,7 @@ public:
 
     // Stereo
     CameraStereoMode stereoMode;
-    float interpupillaryDistance;
+    double interpupillaryDistance;
 };
 } // namespace rendering
 } // namespace bioexplorer

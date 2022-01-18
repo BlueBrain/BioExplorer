@@ -40,7 +40,7 @@
 
 namespace
 {
-bool inBounds(const Vector3f& point, const Boxd& bounds)
+bool inBounds(const Vector3d& point, const Boxd& bounds)
 {
     const auto mi = bounds.getMin();
     const auto ma = bounds.getMax();
@@ -158,23 +158,23 @@ ModelDescriptorPtr CacheLoader::_importModel(std::stringstream& buffer,
         auto name = _readString(buffer);
         auto material = model->createMaterial(materialId, name);
 
-        Vector3f value3f;
-        buffer.read((char*)&value3f, sizeof(Vector3f));
+        Vector3d value3f;
+        buffer.read((char*)&value3f, sizeof(Vector3d));
         material->setDiffuseColor(value3f);
-        buffer.read((char*)&value3f, sizeof(Vector3f));
+        buffer.read((char*)&value3f, sizeof(Vector3d));
         material->setSpecularColor(value3f);
-        float value;
-        buffer.read((char*)&value, sizeof(float));
+        double value;
+        buffer.read((char*)&value, sizeof(double));
         material->setSpecularExponent(value);
-        buffer.read((char*)&value, sizeof(float));
+        buffer.read((char*)&value, sizeof(double));
         material->setReflectionIndex(value);
-        buffer.read((char*)&value, sizeof(float));
+        buffer.read((char*)&value, sizeof(double));
         material->setOpacity(value);
-        buffer.read((char*)&value, sizeof(float));
+        buffer.read((char*)&value, sizeof(double));
         material->setRefractionIndex(value);
-        buffer.read((char*)&value, sizeof(float));
+        buffer.read((char*)&value, sizeof(double));
         material->setEmission(value);
-        buffer.read((char*)&value, sizeof(float));
+        buffer.read((char*)&value, sizeof(double));
         material->setGlossiness(value);
 
         brayns::PropertyMap props;
@@ -245,7 +245,7 @@ ModelDescriptorPtr CacheLoader::_importModel(std::stringstream& buffer,
         buffer.read((char*)&nbVertices, sizeof(size_t));
         if (nbVertices != 0)
         {
-            bufferSize = nbVertices * sizeof(Vector3f);
+            bufferSize = nbVertices * sizeof(Vector3d);
             meshes.vertices.resize(nbVertices);
             buffer.read((char*)meshes.vertices.data(), bufferSize);
         }
@@ -263,7 +263,7 @@ ModelDescriptorPtr CacheLoader::_importModel(std::stringstream& buffer,
         buffer.read((char*)&nbNormals, sizeof(size_t));
         if (nbNormals != 0)
         {
-            bufferSize = nbNormals * sizeof(Vector3f);
+            bufferSize = nbNormals * sizeof(Vector3d);
             meshes.normals.resize(nbNormals);
             buffer.read((char*)meshes.normals.data(), bufferSize);
         }
@@ -414,7 +414,7 @@ std::vector<ModelDescriptorPtr> CacheLoader::importModelsFromFile(
         if (modelDescriptor)
             modelDescriptors.push_back(modelDescriptor);
 
-        callback.updateProgress("Loading models", float(i) / float(nbModels));
+        callback.updateProgress("Loading models", double(i) / double(nbModels));
     }
 
     return modelDescriptors;
@@ -531,23 +531,23 @@ bool CacheLoader::_exportModel(const ModelDescriptorPtr modelDescriptor,
         buffer.write((char*)&size, sizeof(size_t));
         buffer.write((char*)name.c_str(), size);
 
-        brayns::Vector3f value3f;
+        brayns::Vector3d value3f;
         value3f = material.second->getDiffuseColor();
-        buffer.write((char*)&value3f, sizeof(brayns::Vector3f));
+        buffer.write((char*)&value3f, sizeof(brayns::Vector3d));
         value3f = material.second->getSpecularColor();
-        buffer.write((char*)&value3f, sizeof(brayns::Vector3f));
-        float value = material.second->getSpecularExponent();
-        buffer.write((char*)&value, sizeof(float));
+        buffer.write((char*)&value3f, sizeof(brayns::Vector3d));
+        double value = material.second->getSpecularExponent();
+        buffer.write((char*)&value, sizeof(double));
         value = material.second->getReflectionIndex();
-        buffer.write((char*)&value, sizeof(float));
+        buffer.write((char*)&value, sizeof(double));
         value = material.second->getOpacity();
-        buffer.write((char*)&value, sizeof(float));
+        buffer.write((char*)&value, sizeof(double));
         value = material.second->getRefractionIndex();
-        buffer.write((char*)&value, sizeof(float));
+        buffer.write((char*)&value, sizeof(double));
         value = material.second->getEmission();
-        buffer.write((char*)&value, sizeof(float));
+        buffer.write((char*)&value, sizeof(double));
         value = material.second->getGlossiness();
-        buffer.write((char*)&value, sizeof(float));
+        buffer.write((char*)&value, sizeof(double));
         double v = 1.0;
         try
         {
@@ -655,7 +655,7 @@ bool CacheLoader::_exportModel(const ModelDescriptorPtr modelDescriptor,
         // Vertices
         nbElements = data.vertices.size();
         buffer.write((char*)&nbElements, sizeof(size_t));
-        bufferSize = nbElements * sizeof(brayns::Vector3f);
+        bufferSize = nbElements * sizeof(brayns::Vector3d);
         buffer.write((char*)data.vertices.data(), bufferSize);
 
         // Indices
@@ -667,7 +667,7 @@ bool CacheLoader::_exportModel(const ModelDescriptorPtr modelDescriptor,
         // Normals
         nbElements = data.normals.size();
         buffer.write((char*)&nbElements, sizeof(size_t));
-        bufferSize = nbElements * sizeof(brayns::Vector3f);
+        bufferSize = nbElements * sizeof(brayns::Vector3d);
         buffer.write((char*)data.normals.data(), bufferSize);
 
         // Texture coordinates
@@ -809,8 +809,8 @@ void CacheLoader::exportBrickToDB(DBConnector& connector, const int32_t brickId,
 
     if (nbModels > 0)
     {
-        PLUGIN_INFO("Saving brick " << brickId << " ( " << nbModels
-                                    << " models) to database");
+        PLUGIN_INFO(3, "Saving brick " << brickId << " ( " << nbModels
+                                       << " models) to database");
 
         connector.insertBrick(brickId, CACHE_VERSION_1, nbModels, buffer);
     }
@@ -820,7 +820,7 @@ void CacheLoader::exportBrickToDB(DBConnector& connector, const int32_t brickId,
 void CacheLoader::exportToXYZ(const std::string& filename,
                               const XYZFileFormat fileFormat) const
 {
-    PLUGIN_INFO("Saving scene to XYZ file: " << filename);
+    PLUGIN_INFO(3, "Saving scene to XYZ file: " << filename);
     std::ios_base::openmode flags = std::ios::out;
     if (fileFormat == XYZFileFormat::xyz_binary ||
         fileFormat == XYZFileFormat::xyzr_binary)
@@ -850,7 +850,7 @@ void CacheLoader::exportToXYZ(const std::string& filename,
                         tf.getRotation() *
                             (Vector3d(sphere.center) - tf.getRotationCenter());
 
-                    const Vector3f c = center;
+                    const Vector3d c = center;
                     if (isClipped(c, clipPlanes))
                         continue;
 
@@ -858,16 +858,16 @@ void CacheLoader::exportToXYZ(const std::string& filename,
                     {
                     case XYZFileFormat::xyz_binary:
                     case XYZFileFormat::xyzr_binary:
-                        file.write((char*)&c.x, sizeof(float));
-                        file.write((char*)&c.y, sizeof(float));
-                        file.write((char*)&c.z, sizeof(float));
+                        file.write((char*)&c.x, sizeof(double));
+                        file.write((char*)&c.y, sizeof(double));
+                        file.write((char*)&c.z, sizeof(double));
                         if (fileFormat == XYZFileFormat::xyzr_binary ||
                             fileFormat == XYZFileFormat::xyzrv_binary)
                         {
-                            file.write((char*)&sphere.radius, sizeof(float));
+                            file.write((char*)&sphere.radius, sizeof(double));
                             if (fileFormat == XYZFileFormat::xyzrv_binary)
                                 file.write((char*)&sphere.radius,
-                                           sizeof(float));
+                                           sizeof(double));
                         }
                         break;
                     case XYZFileFormat::xyz_ascii:

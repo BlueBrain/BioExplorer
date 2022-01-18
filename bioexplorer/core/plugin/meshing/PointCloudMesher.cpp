@@ -71,17 +71,18 @@ bool PointCloudMesher::toConvexHull(Model& model, const PointCloud& pointCloud)
         CGAL::convex_hull_3(points.begin(), points.end(), obj);
         if (const Polyhedron_3* poly = CGAL::object_cast<Polyhedron_3>(&obj))
         {
-            PLUGIN_INFO("The convex hull contains " << poly->size_of_vertices()
-                                                    << " vertices");
+            PLUGIN_INFO(3, "The convex hull contains "
+                               << poly->size_of_vertices() << " vertices");
 
             for (auto eit = poly->edges_begin(); eit != poly->edges_end();
                  ++eit)
             {
                 Point_3 a = eit->vertex()->point();
                 Point_3 b = eit->opposite()->vertex()->point();
-                model.addCylinder(point.first, {{a.x(), a.y(), a.z()},
-                                                {b.x(), b.y(), b.z()},
-                                                point.second[0].w});
+                model.addCylinder(point.first,
+                                  {{a.x(), a.y(), a.z()},
+                                   {b.x(), b.y(), b.z()},
+                                   static_cast<float>(point.second[0].w)});
                 addModel = true;
             }
         }

@@ -22,8 +22,6 @@
 
 #include "Types.h"
 
-#include <plugin/common/Logs.h>
-
 namespace bioexplorer
 {
 namespace common
@@ -36,8 +34,17 @@ namespace common
 class GeneralSettings
 {
 public:
+    /**
+     * @brief Construct a new General Settings object
+     *
+     */
     GeneralSettings() {}
 
+    /**
+     * @brief Get the Instance object
+     *
+     * @return GeneralSettings* Pointer to the object
+     */
     static GeneralSettings* getInstance()
     {
         std::lock_guard<std::mutex> lock(_mutex);
@@ -83,19 +90,34 @@ public:
     void setOffFolder(const std::string& value) { _offFolder = value; }
 
     /**
-     * @brief Get the Logging state
+     * @brief Get the Logging level
      *
      * @return true Logging is enabled
      * @return false Logging is disabled
      */
-    bool getLoggingEnabled() const { return _loggingEnabled; }
+    size_t getLoggingLevel() const { return _loggingLevel; }
 
     /**
-     * @brief Set the Logging state
+     * @brief Set the Logging level
      *
      * @param value Enabled is true, disabled otherwise
      */
-    void setLoggingEnabled(const bool value) { _loggingEnabled = value; }
+    void setLoggingLevel(const size_t value) { _loggingLevel = value; }
+
+    /**
+     * @brief Get the V1 Compatibility state
+     *
+     * @return true V1 compatibility is enabled
+     * @return false V1 compatibility is disabled
+     */
+    bool getV1Compatibility() const { return _v1Compatibility; }
+
+    /**
+     * @brief Set the V1 compatibility state
+     *
+     * @param value Enabled is true, disabled otherwise
+     */
+    void setV1Compatibility(const bool value) { _v1Compatibility = value; }
 
     static std::mutex _mutex;
     static GeneralSettings* _instance;
@@ -105,7 +127,8 @@ private:
 
     bool _modelVisibilityOnCreation{true};
     std::string _offFolder{"/tmp"};
-    bool _loggingEnabled{true};
+    size_t _loggingLevel{1};
+    bool _v1Compatibility{false};
 };
 } // namespace common
 } // namespace bioexplorer

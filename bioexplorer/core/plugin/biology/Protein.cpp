@@ -22,8 +22,8 @@
 
 #include <plugin/biology/Glycans.h>
 #include <plugin/common/Logs.h>
-#include <plugin/common/Shapes.h>
 #include <plugin/common/Utils.h>
+#include <plugin/common/shapes/Shape.h>
 
 #include <brayns/engineapi/Material.h>
 #include <brayns/engineapi/Scene.h>
@@ -96,6 +96,12 @@ Protein::Protein(Scene& scene, const ProteinDetails& details)
 
     _buildAminoAcidBounds();
     _computeReqSetOffset();
+
+    // Trans-membrane information
+    const auto transmembraneParams =
+        doublesToVector2d(details.transmembraneParams);
+    _transMembraneOffset = transmembraneParams.x;
+    _transMembraneRadius = transmembraneParams.y;
 }
 
 Protein::~Protein()
@@ -103,9 +109,9 @@ Protein::~Protein()
     for (const auto& glycan : _glycans)
     {
         const auto modelId = glycan.second->getModelDescriptor()->getModelID();
-        PLUGIN_INFO("Removing glycan [" << modelId << "] [" << glycan.first
-                                        << "] from assembly [" << _details.name
-                                        << "]");
+        PLUGIN_INFO(3, "Removing glycan [" << modelId << "] [" << glycan.first
+                                           << "] from assembly ["
+                                           << _details.name << "]");
         _scene.removeModel(modelId);
     }
 }
@@ -160,9 +166,9 @@ void Protein::_setRegionColorScheme(const Palette& palette,
             _setMaterialDiffuseColor(atom.first, palette[atom.second.reqSeq]);
     }
 
-    PLUGIN_INFO("Applying Amino Acid Sequence color scheme ("
-                << (atomCount > 0 ? "2" : "1") << ")");
-} // namespace bioexplorer
+    PLUGIN_INFO(3, "Applying Amino Acid Sequence color scheme ("
+                       << (atomCount > 0 ? "2" : "1") << ")");
+}
 
 void Protein::_setGlycosylationSiteColorScheme(const Palette& palette)
 {
@@ -185,8 +191,8 @@ void Protein::_setGlycosylationSiteColorScheme(const Palette& palette)
                     atom.second.reqSeq == site)
                     _setMaterialDiffuseColor(atom.first, palette[1]);
 
-    PLUGIN_INFO("Applying Glycosylation Site color scheme ("
-                << (sites.size() > 0 ? "2" : "1") << ")");
+    PLUGIN_INFO(3, "Applying Glycosylation Site color scheme ("
+                       << (sites.size() > 0 ? "2" : "1") << ")");
 }
 
 const std::map<std::string, size_ts> Protein::getGlycosylationSites(
@@ -234,8 +240,8 @@ const std::map<std::string, size_ts> Protein::getGlycosylationSites(
             indices += std::to_string(index + 1); // Indices start at 1, not 0
         }
         indices += "]";
-        PLUGIN_INFO("Found " << site.second.size() << " glycosylation sites "
-                             << indices << " on sequence " << site.first);
+        PLUGIN_INFO(3, "Found " << site.second.size() << " glycosylation sites "
+                                << indices << " on sequence " << site.first);
     }
     return sites;
 }
@@ -255,7 +261,7 @@ void Protein::_buildAminoAcidBounds()
 }
 
 void Protein::_getSitesTransformations(
-    Vector3fs& positions, Quaternions& rotations,
+    Vector3ds& positions, Quaternions& rotations,
     const std::map<std::string, size_ts>& sitesPerChain) const
 {
     for (const auto& chain : sitesPerChain)
@@ -268,9 +274,9 @@ void Protein::_getSitesTransformations(
         for (const auto site : chain.second)
         {
             // Protein center
-            const auto& proteinCenter = _bounds.getCenter();
+            const Vector3d proteinCenter = _bounds.getCenter();
             Boxf siteBounds;
-            Vector3f siteCenter;
+            Vector3d siteCenter;
 
             const auto offsetSite = site;
 
@@ -285,57 +291,17 @@ void Protein::_getSitesTransformations(
                 // center of the protein
                 const auto bindrotation = normalize(siteCenter - proteinCenter);
                 positions.push_back(siteCenter);
-                rotations.push_back(glm::quatLookAt(bindrotation, UP_VECTOR));
+                rotations.push_back(safeQuatlookAt(bindrotation));
             }
             else
                 PLUGIN_WARN("Chain: "
                             << chain.first << ", Site " << site + 1
                             << " is not available in the protein source");
-
-#if 0
-            else
-            {
-                // Site is not registered in the protein. Extrapolating site
-                // position from previous and following sites
-                size_t before = 1;
-                auto itBefore = aminoAcidsPerChain.find(site - before);
-                while (itBefore == aminoAcidsPerChain.end() &&
-                       (site - before) >= _aminoAcidRange.x)
-                {
-                    ++before;
-                    --itBefore;
-                }
-
-                size_t after = 1;
-                auto itAfter = aminoAcidsPerChain.find(site + after);
-                while (itAfter == aminoAcidsPerChain.end() &&
-                       (site + after) < _aminoAcidRange.y)
-                {
-                    ++after;
-                    ++itAfter;
-                }
-
-                Boxf siteBounds;
-                siteBounds.merge((*itBefore).second);
-                siteBounds.merge((*itAfter).second);
-                siteCenter = siteBounds.getCenter();
-
-                PLUGIN_WARN("Chain: " << chain.first
-                            << ", Site: " << site + 1
-                            << ": no atoms available. Extrapolating from sites "
-                            << before << " and " << after);
-            }
-            // rotation is determined by the center of the site and the
-            // center of the protein
-            const auto bindrotation = normalize(siteCenter - proteinCenter);
-            positions.push_back(siteCenter);
-            rotations.push_back(glm::quatLookAt(bindrotation, UP_VECTOR));
-#endif
         }
     }
 }
 
-void Protein::getGlycosilationSites(Vector3fs& positions,
+void Protein::getGlycosilationSites(Vector3ds& positions,
                                     Quaternions& rotations,
                                     const size_ts& siteIndices) const
 {
@@ -347,7 +313,7 @@ void Protein::getGlycosilationSites(Vector3fs& positions,
     _getSitesTransformations(positions, rotations, sites);
 }
 
-void Protein::getSugarBindingSites(Vector3fs& positions, Quaternions& rotations,
+void Protein::getSugarBindingSites(Vector3ds& positions, Quaternions& rotations,
                                    const size_ts& siteIndices,
                                    const size_ts& chainIds) const
 {
@@ -397,10 +363,10 @@ void Protein::setAminoAcid(const AminoAcidDetails& details)
 }
 
 void Protein::_processInstances(ModelDescriptorPtr md,
-                                const Vector3fs& positions,
+                                const Vector3ds& positions,
                                 const Quaternions& rotations,
                                 const Quaterniond& moleculerotation,
-                                const RandomizationDetails& randInfo)
+                                const AnimationDetails& randInfo)
 {
     size_t count = 0;
     const auto& proteinInstances = _modelDescriptor->getInstances();
@@ -417,8 +383,9 @@ void Protein::_processInstances(ModelDescriptorPtr md,
 
             if (randInfo.rotationSeed != 0)
                 rotation =
-                    weightedRandomRotation(randInfo.rotationSeed, i, rotation,
-                                           randInfo.rotationStrength);
+                    Shape::weightedRandomRotation(rotation,
+                                                  randInfo.rotationSeed, i,
+                                                  randInfo.rotationStrength);
 
             glycanTransformation.setRotation(moleculerotation * rotation);
 
@@ -427,7 +394,6 @@ void Protein::_processInstances(ModelDescriptorPtr md,
 
             if (count == 0)
                 md->setTransformation(combinedTransformation);
-
             const ModelInstance instance(true, false, combinedTransformation);
             md->addInstance(instance);
             ++count;
@@ -442,7 +408,7 @@ void Protein::addGlycans(const SugarsDetails& details)
                      " already exists in protein " + _details.name +
                      " of assembly " + _details.assemblyName);
 
-    Vector3fs glycanPositions;
+    Vector3ds glycanPositions;
     Quaternions glycanrotations;
     getGlycosilationSites(glycanPositions, glycanrotations,
                           details.siteIndices);
@@ -455,11 +421,9 @@ void Protein::addGlycans(const SugarsDetails& details)
     // protein
     GlycansPtr glycans(new Glycans(_scene, details));
     auto modelDescriptor = glycans->getModelDescriptor();
-    const Quaterniond proteinrotation({details.rotation[0], details.rotation[1],
-                                       details.rotation[2],
-                                       details.rotation[3]});
+    const Quaterniond proteinrotation = doublesToQuaterniond(details.rotation);
 
-    const auto randInfo = floatsToRandomizationDetails(details.assemblyParams);
+    const auto randInfo = doublesToAnimationDetails(details.animationParams);
     _processInstances(modelDescriptor, glycanPositions, glycanrotations,
                       proteinrotation, randInfo);
 
@@ -474,7 +438,7 @@ void Protein::addSugars(const SugarsDetails& details)
                      " already exists in protein " + _details.name +
                      " of assembly " + _details.assemblyName);
 
-    Vector3fs positions;
+    Vector3ds positions;
     Quaternions rotations;
     getSugarBindingSites(positions, rotations, details.siteIndices,
                          details.chainIds);
@@ -482,14 +446,14 @@ void Protein::addSugars(const SugarsDetails& details)
     if (positions.empty())
         PLUGIN_THROW("No sugar binding site was found on " + details.name);
 
-    PLUGIN_INFO(positions.size()
-                << " sugar sites found on " << details.proteinName);
+    PLUGIN_INFO(3, positions.size()
+                       << " sugar sites found on " << details.proteinName);
 
     GlycansPtr glucoses(new Glycans(_scene, details));
     auto modelDescriptor = glucoses->getModelDescriptor();
-    const auto sugarRotation = floatsToQuaterniond(details.rotation);
+    const auto sugarRotation = doublesToQuaterniond(details.rotation);
 
-    const auto randInfo = floatsToRandomizationDetails(details.assemblyParams);
+    const auto randInfo = doublesToAnimationDetails(details.animationParams);
     _processInstances(modelDescriptor, positions, rotations, sugarRotation,
                       randInfo);
 

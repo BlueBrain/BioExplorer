@@ -44,8 +44,7 @@ bool from_json(AssemblyTransformationsDetails &param,
 
 bool from_json(RNASequenceDetails &param, const std::string &payload);
 
-bool from_json(ParametricMembraneDetails &param, const std::string &payload);
-bool from_json(MeshBasedMembraneDetails &param, const std::string &payload);
+bool from_json(MembraneDetails &param, const std::string &payload);
 
 bool from_json(ProteinDetails &param, const std::string &payload);
 std::string to_json(const ProteinDetails &payload);
@@ -55,6 +54,7 @@ bool from_json(SugarsDetails &param, const std::string &payload);
 // Other elements
 bool from_json(AddGridDetails &param, const std::string &payload);
 bool from_json(AddSphereDetails &param, const std::string &payload);
+bool from_json(AddBoundingBoxDetails &param, const std::string &payload);
 
 // Amino acids
 bool from_json(AminoAcidSequenceAsStringDetails &param,
@@ -88,4 +88,9 @@ bool from_json(BuildPointCloudDetails &param, const std::string &payload);
 bool from_json(ModelsVisibilityDetails &param, const std::string &payload);
 bool from_json(ProteinInstanceTransformationDetails &param,
                const std::string &payload);
+
+// Protein inspection
+bool from_json(InspectionDetails &param, const std::string &payload);
+std::string to_json(const ProteinInspectionDetails &param);
+
 #endif

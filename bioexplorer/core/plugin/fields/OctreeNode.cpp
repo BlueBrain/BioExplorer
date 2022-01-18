@@ -24,7 +24,7 @@ namespace bioexplorer
 {
 namespace fields
 {
-OctreeNode::OctreeNode(const glm::vec3 center, const float size)
+OctreeNode::OctreeNode(const glm::vec3 center, const double size)
     : _value(0)
     , _center(center)
     , _size(size)
@@ -36,7 +36,7 @@ void OctreeNode::setChild(OctreeNode* child)
     _children.push_back(child);
 }
 
-void OctreeNode::addValue(float value)
+void OctreeNode::addValue(double value)
 {
     if (value > _value)
         _value = value;
@@ -47,7 +47,7 @@ const glm::vec3& OctreeNode::getCenter() const
     return _center;
 }
 
-const float OctreeNode::getValue() const
+double OctreeNode::getValue() const
 {
     return _value;
 }

@@ -5,5 +5,5 @@ var classbioexplorer_1_1io_1_1db_1_1DBConnector =
     [ "clearBricks", "d9/d96/classbioexplorer_1_1io_1_1db_1_1DBConnector.html#ad02d54aff9bd925e722fba2a1a92a5d1", null ],
     [ "getBrick", "d9/d96/classbioexplorer_1_1io_1_1db_1_1DBConnector.html#a75462f861b2e29143cca4432da740624", null ],
     [ "getSceneConfiguration", "d9/d96/classbioexplorer_1_1io_1_1db_1_1DBConnector.html#ae91b451a6d92811c8c313645aecd1573", null ],
-    [ "insertBrick", "d9/d96/classbioexplorer_1_1io_1_1db_1_1DBConnector.html#aec6e6b1fdfa8da1a02d7d17a002e33b2", null ]
+    [ "insertBrick", "d9/d96/classbioexplorer_1_1io_1_1db_1_1DBConnector.html#a6aaea01883244f16522bc9cf799364c1", null ]
 ];

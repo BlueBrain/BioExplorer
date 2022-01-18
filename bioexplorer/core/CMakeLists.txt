@@ -61,7 +61,16 @@ set(${NAME}_SOURCES
     plugin/common/GeneralSettings.cpp
     plugin/common/Utils.cpp
     plugin/common/UniqueId.cpp
-    plugin/common/Shapes.cpp
+    plugin/common/shapes/Shape.cpp
+    plugin/common/shapes/MeshShape.cpp
+    plugin/common/shapes/SphereShape.cpp
+    plugin/common/shapes/PlaneShape.cpp
+    plugin/common/shapes/CubeShape.cpp
+    plugin/common/shapes/BezierShape.cpp
+    plugin/common/shapes/SinusoidShape.cpp
+    plugin/common/shapes/FanShape.cpp
+    plugin/common/shapes/RNAShape.cpp
+    plugin/common/shapes/PointShape.cpp
     plugin/fields/FieldsHandler.cpp
     plugin/fields/Octree.cpp
     plugin/fields/OctreeNode.cpp
@@ -72,8 +81,6 @@ set(${NAME}_SOURCES
     plugin/biology/Node.cpp
     plugin/biology/Membrane.cpp
     plugin/biology/Glycans.cpp
-    plugin/biology/ParametricMembrane.cpp
-    plugin/biology/MeshBasedMembrane.cpp
     plugin/biology/Protein.cpp
     plugin/biology/RNASequence.cpp
     plugin/api/Params.cpp
@@ -87,15 +94,22 @@ set(${NAME}_PUBLIC_HEADERS
     plugin/biology/Assembly.h
     plugin/biology/Node.h
     plugin/biology/Glycans.h
-    plugin/biology/ParametricMembrane.h
-    plugin/biology/MeshBasedMembrane.h
     plugin/biology/Membrane.h
     plugin/biology/Protein.h
     plugin/biology/RNASequence.h
     plugin/common/UniqueId.h
     plugin/common/GeneralSettings.h
     plugin/common/CommonTypes.h
-    plugin/common/Shapes.h
+    plugin/common/shapes/Shape.h
+    plugin/common/shapes/MeshShape.h
+    plugin/common/shapes/SphereShape.h
+    plugin/common/shapes/PlaneShape.h
+    plugin/common/shapes/CubeShape.h
+    plugin/common/shapes/BezierShape.h
+    plugin/common/shapes/SinusoidShape.h
+    plugin/common/shapes/FanShape.h
+    plugin/common/shapes/RNAShape.h
+    plugin/common/shapes/PointShape.h
     plugin/api/Params.h
     plugin/BioExplorerPlugin.h
 )
@@ -168,7 +182,6 @@ endif()
 if(${PQXX_FOUND})
     list(APPEND ${NAME}_LINK_LIBRARIES ${PQXX_LIBRARIES})
 endif()
-
 
 add_library(
     ${LIBRARY_NAME}

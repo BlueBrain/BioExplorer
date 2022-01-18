@@ -41,8 +41,8 @@ public:
     /**
      * @brief Default constructor
      */
-    FieldsHandler(const Scene& scene, const float voxelSize,
-                  const float density);
+    FieldsHandler(const Scene& scene, const double voxelSize,
+                  const double density);
 
     /**
      * @brief Construct a new FieldsHandler from a file
@@ -92,7 +92,7 @@ public:
      *
      * @param filename Full path of the file
      */
-    const void exportToFile(const std::string& filename) const;
+    void exportToFile(const std::string& filename) const;
 
     /**
      * @brief Import the octree information from a file
@@ -123,8 +123,8 @@ public:
     const glm::vec3& getOffset() const { return _offset; }
 
 private:
-    void _buildOctree(const Scene& scene, const float voxelSize,
-                      const float density);
+    void _buildOctree(const Scene& scene, const double voxelSize,
+                      const double density);
 
     glm::uvec3 _dimensions;
     glm::vec3 _spacing;

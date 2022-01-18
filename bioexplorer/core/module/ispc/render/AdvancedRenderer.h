@@ -66,22 +66,24 @@ private:
     bool _useHardwareRandomizer{false};
     bool _showBackground{false};
 
-    float _timestamp{0.f};
-    float _exposure{1.f};
+    double _timestamp{0.f};
+    double _exposure{1.f};
 
-    float _fogThickness{1e6f};
-    float _fogStart{0.f};
+    double _fogThickness{1e6f};
+    double _fogStart{0.f};
 
     ospray::uint32 _maxBounces{3};
     ospray::uint32 _randomNumber{0};
 
-    float _shadows{0.f};
-    float _softShadows{0.f};
+    double _shadows{0.f};
+    double _softShadows{0.f};
     ospray::uint32 _softShadowsSamples{0};
 
-    float _giStrength{0.f};
-    float _giDistance{1e6f};
+    double _giStrength{0.f};
+    double _giDistance{1e6f};
     ospray::uint32 _giSamples{0};
+
+    bool _matrixFilter{false};
 };
 } // namespace rendering
 } // namespace bioexplorer

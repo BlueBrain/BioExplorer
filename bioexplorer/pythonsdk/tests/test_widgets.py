@@ -25,7 +25,6 @@
 # All rights reserved. Do not distribute without further notice.
 
 
-import time
 from bioexplorer import BioExplorer, Widgets
 
 bio_explorer = BioExplorer('localhost:5000')

@@ -43,7 +43,7 @@ public:
 
 private:
     int _samplesPerFrame;
-    float _aoRayLength;
+    double _aoRayLength;
 };
 } // namespace rendering
 } // namespace mediamaker

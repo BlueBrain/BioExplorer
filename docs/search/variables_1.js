@@ -1,4 +1,5 @@
 var searchData=
 [
-  ['bricksize_0',['brickSize',['../d1/d25/structbioexplorer_1_1details_1_1OOCSceneConfigurationDetails.html#a4216aabd383f17207757843e98d4176b',1,'bioexplorer::details::OOCSceneConfigurationDetails']]]
+  ['bottomleft_488',['bottomLeft',['../dc/d45/structbioexplorer_1_1details_1_1AddBoundingBoxDetails.html#acf5d5118eca208b33287f2c1b2043dc3',1,'bioexplorer::details::AddBoundingBoxDetails']]],
+  ['bricksize_489',['brickSize',['../d1/d25/structbioexplorer_1_1details_1_1OOCSceneConfigurationDetails.html#a4bddbdba7d9f18b58ddb3dadc62ede72',1,'bioexplorer::details::OOCSceneConfigurationDetails']]]
 ];

@@ -112,10 +112,10 @@ protected:
     void _buildModel(const std::string& assemblyName, const std::string& name,
                      const std::string& title, const std::string& header,
                      const ProteinRepresentation& representation,
-                     const float atomRadiusMultiplier, const bool loadBonds);
+                     const double atomRadiusMultiplier, const bool loadBonds);
 
     void _buildAtomicStruture(const ProteinRepresentation representation,
-                              const float atomRadiusMultiplier,
+                              const double atomRadiusMultiplier,
                               const bool surface, const bool loadBonds,
                               Model& model);
     void _computeReqSetOffset();

@@ -24,8 +24,8 @@
 #include <plugin/common/CommonTypes.h>
 #include <plugin/common/GeneralSettings.h>
 #include <plugin/common/Logs.h>
-#include <plugin/common/Shapes.h>
 #include <plugin/common/Utils.h>
+#include <plugin/common/shapes/RNAShape.h>
 
 #include <brayns/engineapi/Material.h>
 #include <brayns/engineapi/Scene.h>
@@ -47,7 +47,7 @@ struct Nucleotid
     /** Long name */
     std::string name;
     /** Color */
-    Vector3f color;
+    Vector3d color;
 };
 typedef std::map<char, Nucleotid> NucleotidMap;
 
@@ -62,7 +62,8 @@ NucleotidMap nucleotidMap{{'A', {0, "Adenine", {0.f, 0.f, 1.f}}},
                           {'C', {4, "Cytosine", {1.f, 1.f, 0.f}}}};
 
 RNASequence::RNASequence(Scene& scene, const RNASequenceDetails& details,
-                         const Vector3f& assemblyPosition,
+                         const Vector4ds& clippingPlanes,
+                         const Vector3d& assemblyPosition,
                          const Quaterniond& assemblyRotation)
     : Node()
     , _scene(scene)
@@ -71,46 +72,43 @@ RNASequence::RNASequence(Scene& scene, const RNASequenceDetails& details,
     , _assemblyRotation(assemblyRotation)
 {
     const bool processAsProtein = !_details.proteinContents.empty();
-    const Quaterniond rotation = floatsToQuaterniond(_details.rotation);
+    const auto position = doublesToVector3d(_details.position);
+    const auto rotation = doublesToQuaterniond(_details.rotation);
     const std::string& sequence = _details.contents;
-    const size_t nbElements = sequence.length();
-    PLUGIN_INFO("DNA Sequence length: " << nbElements);
+    _nbElements = sequence.length();
 
-    const auto& params = _details.assemblyParams;
-    auto randInfo =
-        floatsToRandomizationDetails(params, 0,
-                                     PositionRandomizationType::radial);
+    const auto shapeParams = doublesToVector2d(_details.shapeParams);
+    const auto valuesRange = doublesToVector2d(_details.valuesRange);
+    const auto curveParams = doublesToVector3d(_details.curveParams);
+    const auto animationDetails =
+        doublesToAnimationDetails(_details.animationParams);
 
-    Vector3f U{details.range[0], details.range[1], nbElements};
-    Vector3f V{details.range[0], details.range[1], nbElements};
+    PLUGIN_INFO(3, "Loading RNA sequence " << details.name << " from "
+                                           << details.contents);
+    PLUGIN_INFO(3, "- Shape params        : " << shapeParams);
+    PLUGIN_INFO(3, "- Values range        : " << valuesRange);
+    PLUGIN_INFO(3, "- Curve parameters    : " << curveParams);
+    PLUGIN_INFO(3, "- Position            : " << position);
+    PLUGIN_INFO(3, "- RNA Sequence length : " << _nbElements);
 
-    switch (details.shape)
-    {
-    case RNAShape::moebius:
-        U = {2.f * M_PI, 4.f * M_PI, nbElements};
-        V = {-0.4f, 0.4f, 1.f};
-        break;
-    case RNAShape::heart:
-        U = {0.f, 2.f * M_PI, nbElements};
-        V = {0.f, 1.f, 1.f};
-        break;
-    default:
-        break;
-    }
-
-    const float uStep = (U.y - U.x) / U.z;
-    const float vStep = (V.y - V.x) / V.z;
+    _shape =
+        RNAShapePtr(new RNAShape(clippingPlanes, _details.shape, _nbElements,
+                                 shapeParams, valuesRange, curveParams));
 
     if (processAsProtein)
-        _buildRNAAsProteinInstances(U, V, rotation, randInfo);
+        _buildRNAAsProteinInstances(rotation);
     else
-        _buildRNAAsCurve(U, V, rotation, randInfo);
+        _buildRNAAsCurve(rotation);
 }
 
-void RNASequence::_buildRNAAsCurve(const Vector3f& U, const Vector3f& V,
-                                   const Quaterniond& rotation,
-                                   const RandomizationDetails& randInfo)
+void RNASequence::_buildRNAAsCurve(const Quaterniond& rotation)
 {
+    const auto& sequence = _details.contents;
+    const auto animationDetails =
+        doublesToAnimationDetails(_details.animationParams);
+    const auto shapeParams = doublesToVector2d(_details.shapeParams);
+    const auto radius = shapeParams.y;
+
     auto model = _scene.createModel();
 
     size_t materialId = 0;
@@ -130,50 +128,26 @@ void RNASequence::_buildRNAAsCurve(const Vector3f& U, const Vector3f& V,
         material->updateProperties(props);
         ++materialId;
     }
-    PLUGIN_INFO("Created " << materialId << " materials");
+    PLUGIN_INFO(3, "Created " << materialId << " materials");
 
-    const float uStep = (U.y - U.x) / U.z;
-    const float vStep = (V.y - V.x) / V.z;
-
-    const std::string& sequence = _details.contents;
-    const size_t nbElements = sequence.length();
-    const auto position = floatsToVector3f(_details.position);
-    const auto radius = _details.assemblyParams[5];
-
-    size_t elementId = 0;
-    for (float v(V.x); v < V.y; v += vStep)
+    const auto occurrences = _nbElements;
+    for (uint64_t occurrence = 0; occurrence < occurrences - 1; ++occurrence)
     {
-        for (float u(U.x); u < U.y; u += uStep)
+        const char letter = sequence[occurrence];
+        if (nucleotidMap.find(letter) != nucleotidMap.end())
         {
-            Vector3f src, dst;
-            _getSegment(u, v, uStep, src, dst);
+            const auto& codon = nucleotidMap[letter];
+            const auto materialId = codon.index;
 
-            const char letter = sequence[elementId];
-            if (nucleotidMap.find(letter) != nucleotidMap.end())
-            {
-                const auto& codon = nucleotidMap[letter];
-                const auto materialId = codon.index;
+            const auto src = _shape->getTransformation(occurrence, occurrences,
+                                                       animationDetails, 0.f);
+            const auto dst =
+                _shape->getTransformation(occurrence + 1, occurrences,
+                                          animationDetails, 0.f);
 
-                const Vector3f assemblyPosition =
-                    Vector3f(_assemblyRotation * Vector3d(_assemblyPosition));
-                const Vector3f translationSrc =
-                    assemblyPosition + position +
-                    Vector3f(_assemblyRotation * rotation * Vector3d(src));
-                const Vector3f translationDst =
-                    assemblyPosition + position +
-                    Vector3f(_assemblyRotation * rotation * Vector3d(dst));
-
-                model->addCylinder(materialId,
-                                   {translationSrc, translationDst, radius});
-                if (elementId == 0)
-                    model->addSphere(materialId, {translationSrc, radius});
-                if (elementId == nbElements - 1)
-                    model->addSphere(materialId, {translationDst, radius});
-            }
-
-            if (elementId >= nbElements)
-                break;
-            ++elementId;
+            model->addCylinder(materialId,
+                               {src.getTranslation(), dst.getTranslation(),
+                                static_cast<float>(radius)});
         }
     }
 
@@ -189,12 +163,13 @@ void RNASequence::_buildRNAAsCurve(const Vector3f& U, const Vector3f& V,
         _modelDescriptor->setVisible(false);
 }
 
-void RNASequence::_buildRNAAsProteinInstances(
-    const Vector3f& U, const Vector3f& V, const Quaterniond& rotation,
-    const RandomizationDetails& randInfo)
+void RNASequence::_buildRNAAsProteinInstances(const Quaterniond& rotation)
 {
     const auto& sequence = _details.contents;
+    const auto animationDetails =
+        doublesToAnimationDetails(_details.animationParams);
     const size_t nbElements = sequence.length();
+    Vector3d position = Vector3d(0.f);
 
     // Load protein
     ModelPtr model{nullptr};
@@ -208,177 +183,56 @@ void RNASequence::_buildRNAAsProteinInstances(
     _protein = ProteinPtr(new Protein(_scene, pd));
     _modelDescriptor = _protein->getModelDescriptor();
 
-    const float uStep = (U.y - U.x) / U.z;
-    const float vStep = (V.y - V.x) / V.z;
+    const auto proteinBounds = _protein->getBounds().getSize();
+    const double proteinSize =
+        std::min(proteinBounds.x, std::min(proteinBounds.y, proteinBounds.z));
+    double proteinSpacing = 0.f;
 
-    const auto position = floatsToVector3f(_details.position);
+    Vector3d previousTranslation;
 
-    size_t elementId = 0;
-    for (float v(V.x); v < V.y; v += vStep)
+    const auto occurrences = _nbElements;
+    uint64_t nbInstances = 0;
+    for (uint64_t occurrence = 0; occurrence < occurrences; ++occurrence)
     {
-        for (float u(U.x); u < U.y; u += uStep)
+        try
         {
-            Vector3f src, dst;
-            _getSegment(u, v, uStep, src, dst);
+            Transformations transformations;
 
-            const char letter = sequence[elementId];
-            if (nucleotidMap.find(letter) != nucleotidMap.end())
+            Transformation assemblyTransformation;
+            assemblyTransformation.setTranslation(_assemblyPosition);
+            assemblyTransformation.setRotation(_assemblyRotation);
+            transformations.push_back(assemblyTransformation);
+
+            const auto shapeTransformation =
+                _shape->getTransformation(occurrence, occurrences,
+                                          animationDetails, 0.f);
+            transformations.push_back(shapeTransformation);
+
+            const Transformation finalTransformation =
+                combineTransformations(transformations);
+
+            const Vector3d translation = finalTransformation.getTranslation();
+
+            if (nbInstances == 0)
+                _modelDescriptor->setTransformation(finalTransformation);
+            else
             {
-                const Vector3f direction = normalize(dst - src);
-                const Vector3f normal = cross(UP_VECTOR, direction);
-                if (elementId % 50 == 0)
-                {
-                    Transformation finalTransformation;
-
-                    float upOffset = 0.f;
-                    if (randInfo.positionSeed != 0 &&
-                        randInfo.randomizationType ==
-                            PositionRandomizationType::radial)
-                        upOffset =
-                            randInfo.positionStrength *
-                            rnd3((randInfo.positionSeed + elementId) * 10);
-
-                    const Vector3f translation =
-                        Vector3f(_assemblyRotation *
-                                 Vector3d(_assemblyPosition)) +
-                        position +
-                        Vector3f(_assemblyRotation * rotation *
-                                 Vector3d(src + normal * upOffset));
-                    finalTransformation.setTranslation(translation);
-
-                    Quaterniond instanceRotation =
-                        glm::quatLookAt(normal, UP_VECTOR);
-                    if (randInfo.rotationSeed != 0)
-                        instanceRotation =
-                            weightedRandomRotation(randInfo.rotationSeed,
-                                                   elementId, instanceRotation,
-                                                   randInfo.rotationStrength);
-                    finalTransformation.setRotation(rotation *
-                                                    instanceRotation);
-
-                    if (elementId == 0)
-                        _modelDescriptor->setTransformation(
-                            finalTransformation);
-                    const ModelInstance instance(true, false,
-                                                 finalTransformation);
-                    _modelDescriptor->addInstance(instance);
-                }
+                proteinSpacing += length(previousTranslation - translation);
+                if (proteinSpacing < proteinSize)
+                    continue;
             }
+            previousTranslation = translation;
+            ++nbInstances;
 
-            if (elementId >= nbElements)
-                break;
-            ++elementId;
+            const ModelInstance instance(true, false, finalTransformation);
+            _modelDescriptor->addInstance(instance);
+            proteinSpacing = 0.f;
+        }
+        catch (const std::runtime_error&)
+        {
+            // Instance is clipped
         }
     }
-}
-
-void RNASequence::_getSegment(const float u, const float v, const float uStep,
-                              Vector3f& src, Vector3f& dst)
-{
-    const auto radius = _details.assemblyParams[0];
-    const auto params = floatsToVector3f(_details.params);
-    switch (_details.shape)
-    {
-    case RNAShape::moebius:
-    {
-        src = _moebius(radius, u, v);
-        dst = _moebius(radius, u + uStep, v);
-        break;
-    }
-    case RNAShape::torus:
-    {
-        src = _torus(radius, u, params);
-        dst = _torus(radius, u + uStep, params);
-        break;
-    }
-    case RNAShape::star:
-    {
-        src = _star(radius, u);
-        dst = _star(radius, u + uStep);
-        break;
-    }
-    case RNAShape::spring:
-    {
-        src = _spring(radius, u, params);
-        dst = _spring(radius, u + uStep, params);
-        break;
-    }
-    case RNAShape::trefoilKnot:
-    {
-        src = _trefoilKnot(radius, u, params);
-        dst = _trefoilKnot(radius, u + uStep, params);
-        break;
-    }
-    case RNAShape::heart:
-    {
-        src = _heart(radius, u);
-        dst = _heart(radius, u + uStep);
-        break;
-    }
-    case RNAShape::thing:
-    {
-        src = _thing(radius, u, params);
-        dst = _thing(radius, u + uStep, params);
-        break;
-    }
-    default:
-        PLUGIN_THROW("Undefined shape");
-        break;
-    }
-}
-
-Vector3f RNASequence::_trefoilKnot(const float radius, const float t,
-                                   const Vector3f& params)
-{
-    return {radius * ((sin(t) + 2.f * sin(params.x * t))) / 3.f,
-            radius * ((cos(t) - 2.f * cos(params.y * t))) / 3.f,
-            radius * (-sin(params.z * t))};
-}
-
-Vector3f RNASequence::_torus(const float radius, const float t,
-                             const Vector3f& params)
-{
-    return {radius * (cos(t) + params.x * cos(params.y * t) * cos(t)),
-            radius * (sin(t) + params.x * cos(params.y * t) * sin(t)),
-            radius * params.x * sin(params.y * t)};
-}
-
-Vector3f RNASequence::_star(const float radius, const float t)
-{
-    return {radius * (2.f * sin(3.f * t) * cos(t)),
-            radius * (2.f * sin(3.f * t) * sin(t)), radius * sin(3.f * t)};
-}
-
-Vector3f RNASequence::_spring(const float radius, const float t,
-                              const Vector3f& params)
-{
-    return {radius * cos(t) + (radius + params.x * cos(params.y * t)) * cos(t),
-            radius * sin(t) + (radius + params.x * cos(params.y * t)) * sin(t),
-            radius * t + params.x * sin(params.y * t)};
-}
-
-Vector3f RNASequence::_heart(const float radius, const float u)
-{
-    return {radius * 4.f * pow(sin(u), 3.f),
-            radius * 0.25f *
-                (13.f * cos(u) - 5.f * cos(2.f * u) - 2.f * cos(3.f * u) -
-                 cos(4.f * u)),
-            0.f};
-}
-
-Vector3f RNASequence::_thing(const float radius, const float t,
-                             const Vector3f& params)
-{
-    return {radius * (sin(t) + params.x * sin(params.y * t)),
-            radius * (cos(t) - params.x * cos(params.y * t)),
-            radius * (-sin(params.z * t))};
-}
-
-Vector3f RNASequence::_moebius(const float radius, const float u, const float v)
-{
-    return {4.f * radius * (cos(u) + v * cos(u / 2.f) * cos(u)),
-            4.f * radius * (sin(u) + v * cos(u / 2.f) * sin(u)),
-            8.f * radius * (v * sin(u / 2.f))};
 }
 } // namespace biology
 } // namespace bioexplorer

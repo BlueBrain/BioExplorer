@@ -70,13 +70,15 @@ const OOCSceneConfigurationDetails DBConnector::getSceneConfiguration()
         for (auto c = res.begin(); c != res.end(); ++c)
         {
             sceneConfiguration.sceneSize =
-                Vector3f(c[0].as<float>(), c[1].as<float>(), c[2].as<float>());
+                Vector3d(c[0].as<double>(), c[1].as<double>(),
+                         c[2].as<double>());
             sceneConfiguration.nbBricks = c[3].as<uint32_t>();
             sceneConfiguration.description = c[4].as<std::string>();
             if (sceneConfiguration.nbBricks == 0)
                 PLUGIN_THROW("Invalid number of bricks)");
             sceneConfiguration.brickSize =
-                sceneConfiguration.sceneSize / sceneConfiguration.nbBricks;
+                sceneConfiguration.sceneSize /
+                static_cast<double>(sceneConfiguration.nbBricks);
         }
     }
     catch (pqxx::sql_error& e)
@@ -87,10 +89,9 @@ const OOCSceneConfigurationDetails DBConnector::getSceneConfiguration()
     return sceneConfiguration;
 }
 
-const void DBConnector::insertBrick(const int32_t brickId,
-                                    const uint32_t version,
-                                    const uint32_t nbModels,
-                                    const std::stringstream& buffer)
+void DBConnector::insertBrick(const int32_t brickId, const uint32_t version,
+                              const uint32_t nbModels,
+                              const std::stringstream& buffer)
 {
     pqxx::work transaction(_connection);
     try

@@ -93,8 +93,7 @@ const std::string PLUGIN_API_PREFIX = "be-";
     return response;
 #endif
 
-Boxd vector_to_bounds(const std::vector<float> &lowBounds,
-                      const std::vector<float> &highBounds)
+Boxd vector_to_bounds(const doubles &lowBounds, const doubles &highBounds)
 {
     if (!lowBounds.empty() && lowBounds.size() != 3)
         PLUGIN_THROW("Invalid low bounds. 3 floats expected");
@@ -111,7 +110,7 @@ Boxd vector_to_bounds(const std::vector<float> &lowBounds,
 
 void _addBioExplorerRenderer(Engine &engine)
 {
-    PLUGIN_INFO("Registering 'bio_explorer' renderer");
+    PLUGIN_INFO(2, "Registering 'bio_explorer' renderer");
     PropertyMap properties;
     properties.setProperty(
         {"giDistance", 10000., {"Global illumination distance"}});
@@ -132,12 +131,13 @@ void _addBioExplorerRenderer(Engine &engine)
                             false,
                             {"Use hardware accelerated randomizer"}});
     properties.setProperty({"showBackground", false, {"Show background"}});
+    properties.setProperty({"matrixFilter", false, {"Matrix filter"}});
     engine.addRendererType("bio_explorer", properties);
 }
 
 void _addBioExplorerFieldsRenderer(Engine &engine)
 {
-    PLUGIN_INFO("Registering 'bio_explorer_fields' renderer");
+    PLUGIN_INFO(2, "Registering 'bio_explorer_fields' renderer");
     PropertyMap properties;
     properties.setProperty({"exposure", 1., 1., 10., {"Exposure"}});
     properties.setProperty({"useHardwareRandomizer",
@@ -160,7 +160,7 @@ void _addBioExplorerFieldsRenderer(Engine &engine)
 
 void _addBioExplorerDensityRenderer(Engine &engine)
 {
-    PLUGIN_INFO("Registering 'bio_explorer_density' renderer");
+    PLUGIN_INFO(2, "Registering 'bio_explorer_density' renderer");
     PropertyMap properties;
     properties.setProperty({"exposure", 1.5, 1., 10., {"Exposure"}});
     properties.setProperty({"rayStep", 2.0, 1.0, 1024.0, {"Ray marchingstep"}});
@@ -176,7 +176,7 @@ void _addBioExplorerDensityRenderer(Engine &engine)
 
 void _addBioExplorerPathTracingRenderer(Engine &engine)
 {
-    PLUGIN_INFO("Registering 'bio_explorer_path_tracing' renderer");
+    PLUGIN_INFO(2, "Registering 'bio_explorer_path_tracing' renderer");
     PropertyMap properties;
     properties.setProperty({"exposure", 1., 0.1, 10., {"Exposure"}});
     properties.setProperty({"useHardwareRandomizer",
@@ -192,7 +192,7 @@ void _addBioExplorerPathTracingRenderer(Engine &engine)
 
 void _addBioExplorerPerspectiveCamera(Engine &engine)
 {
-    PLUGIN_INFO("Registering 'bio_explorer_perspective' camera");
+    PLUGIN_INFO(2, "Registering 'bio_explorer_perspective' camera");
 
     PropertyMap properties;
     properties.setProperty({"fovy", 45., .1, 360., {"Field of view"}});
@@ -226,47 +226,52 @@ void BioExplorerPlugin::init()
     if (actionInterface)
     {
         std::string endPoint = PLUGIN_API_PREFIX + "get-version";
-        PLUGIN_INFO("Registering '" + endPoint + "' endpoint");
+        PLUGIN_INFO(2, "Registering '" + endPoint + "' endpoint");
         actionInterface->registerRequest<Response>(endPoint, [&]()
                                                    { return _getVersion(); });
 
         endPoint = PLUGIN_API_PREFIX + "get-scene-information";
-        PLUGIN_INFO("Registering '" + endPoint + "' endpoint");
+        PLUGIN_INFO(2, "Registering '" + endPoint + "' endpoint");
         actionInterface->registerRequest<SceneInformationDetails>(
             endPoint, [&]() { return _getSceneInformation(); });
 
         endPoint = PLUGIN_API_PREFIX + "set-general-settings";
-        PLUGIN_INFO("Registering '" + endPoint + "' endpoint");
+        PLUGIN_INFO(2, "Registering '" + endPoint + "' endpoint");
         actionInterface->registerRequest<GeneralSettingsDetails, Response>(
             endPoint, [&](const GeneralSettingsDetails &payload)
             { return _setGeneralSettings(payload); });
 
-        endPoint = PLUGIN_API_PREFIX + "reset";
-        PLUGIN_INFO("Registering '" + endPoint + "' endpoint");
-        actionInterface->registerRequest<Response>(endPoint,
-                                                   [&]() { return _reset(); });
+        endPoint = PLUGIN_API_PREFIX + "reset-scene";
+        PLUGIN_INFO(2, "Registering '" + endPoint + "' endpoint");
+        actionInterface->registerRequest<Response>(endPoint, [&]()
+                                                   { return _resetScene(); });
+
+        endPoint = PLUGIN_API_PREFIX + "reset-camera";
+        PLUGIN_INFO(2, "Registering '" + endPoint + "' endpoint");
+        actionInterface->registerRequest<Response>(endPoint, [&]()
+                                                   { return _resetCamera(); });
 
         endPoint = PLUGIN_API_PREFIX + "remove-assembly";
-        PLUGIN_INFO("Registering '" + endPoint + "' endpoint");
+        PLUGIN_INFO(2, "Registering '" + endPoint + "' endpoint");
         actionInterface->registerRequest<AssemblyDetails, Response>(
             endPoint, [&](const AssemblyDetails &payload)
             { return _removeAssembly(payload); });
 
         endPoint = PLUGIN_API_PREFIX + "add-assembly";
-        PLUGIN_INFO("Registering '" + endPoint + "' endpoint");
+        PLUGIN_INFO(2, "Registering '" + endPoint + "' endpoint");
         actionInterface->registerRequest<AssemblyDetails, Response>(
             endPoint, [&](const AssemblyDetails &payload)
             { return _addAssembly(payload); });
 
         endPoint = PLUGIN_API_PREFIX + "set-protein-color-scheme";
-        PLUGIN_INFO("Registering '" + endPoint + "' endpoint");
+        PLUGIN_INFO(2, "Registering '" + endPoint + "' endpoint");
         actionInterface->registerRequest<ColorSchemeDetails, Response>(
             endPoint, [&](const ColorSchemeDetails &payload)
             { return _setColorScheme(payload); });
 
         endPoint =
             PLUGIN_API_PREFIX + "set-protein-amino-acid-sequence-as-string";
-        PLUGIN_INFO("Registering '" + endPoint + "' endpoint");
+        PLUGIN_INFO(2, "Registering '" + endPoint + "' endpoint");
         actionInterface
             ->registerRequest<AminoAcidSequenceAsStringDetails, Response>(
                 endPoint, [&](const AminoAcidSequenceAsStringDetails &payload)
@@ -274,26 +279,26 @@ void BioExplorerPlugin::init()
 
         endPoint =
             PLUGIN_API_PREFIX + "set-protein-amino-acid-sequence-as-ranges";
-        PLUGIN_INFO("Registering '" + endPoint + "' endpoint");
+        PLUGIN_INFO(2, "Registering '" + endPoint + "' endpoint");
         actionInterface
             ->registerRequest<AminoAcidSequenceAsRangesDetails, Response>(
                 endPoint, [&](const AminoAcidSequenceAsRangesDetails &payload)
                 { return _setAminoAcidSequenceAsRanges(payload); });
 
         endPoint = PLUGIN_API_PREFIX + "get-protein-amino-acid-information";
-        PLUGIN_INFO("Registering '" + endPoint + "' endpoint");
+        PLUGIN_INFO(2, "Registering '" + endPoint + "' endpoint");
         actionInterface->registerRequest<AminoAcidInformationDetails, Response>(
             endPoint, [&](const AminoAcidInformationDetails &payload)
             { return _getAminoAcidInformation(payload); });
 
         endPoint = PLUGIN_API_PREFIX + "set-protein-amino-acid";
-        PLUGIN_INFO("Registering '" + endPoint + "' endpoint");
+        PLUGIN_INFO(2, "Registering '" + endPoint + "' endpoint");
         actionInterface->registerRequest<AminoAcidDetails, Response>(
             endPoint, [&](const AminoAcidDetails &payload)
             { return _setAminoAcid(payload); });
 
         endPoint = PLUGIN_API_PREFIX + "set-protein-instance-transformation";
-        PLUGIN_INFO("Registering '" + endPoint + "' endpoint");
+        PLUGIN_INFO(2, "Registering '" + endPoint + "' endpoint");
         actionInterface
             ->registerRequest<ProteinInstanceTransformationDetails, Response>(
                 endPoint,
@@ -301,7 +306,7 @@ void BioExplorerPlugin::init()
                 { return _setProteinInstanceTransformation(payload); });
 
         endPoint = PLUGIN_API_PREFIX + "get-protein-instance-transformation";
-        PLUGIN_INFO("Registering '" + endPoint + "' endpoint");
+        PLUGIN_INFO(2, "Registering '" + endPoint + "' endpoint");
         actionInterface
             ->registerRequest<ProteinInstanceTransformationDetails, Response>(
                 endPoint,
@@ -309,148 +314,155 @@ void BioExplorerPlugin::init()
                 { return _getProteinInstanceTransformation(payload); });
 
         endPoint = PLUGIN_API_PREFIX + "add-rna-sequence";
-        PLUGIN_INFO("Registering '" + endPoint + "' endpoint");
+        PLUGIN_INFO(2, "Registering '" + endPoint + "' endpoint");
         actionInterface->registerRequest<RNASequenceDetails, Response>(
             endPoint, [&](const RNASequenceDetails &payload)
             { return _addRNASequence(payload); });
 
         endPoint = PLUGIN_API_PREFIX + "add-membrane";
-        PLUGIN_INFO("Registering '" + endPoint + "' endpoint");
-        actionInterface->registerRequest<ParametricMembraneDetails, Response>(
-            endPoint, [&](const ParametricMembraneDetails &payload)
-            { return _addParametricMembrane(payload); });
-
-        endPoint = PLUGIN_API_PREFIX + "add-mesh-based-membrane";
-        PLUGIN_INFO("Registering '" + endPoint + "' endpoint");
-        actionInterface->registerRequest<MeshBasedMembraneDetails, Response>(
-            endPoint, [&](const MeshBasedMembraneDetails &payload)
-            { return _addMeshBasedMembrane(payload); });
+        PLUGIN_INFO(2, "Registering '" + endPoint + "' endpoint");
+        actionInterface->registerRequest<MembraneDetails, Response>(
+            endPoint, [&](const MembraneDetails &payload)
+            { return _addMembrane(payload); });
 
         endPoint = PLUGIN_API_PREFIX + "add-protein";
-        PLUGIN_INFO("Registering '" + endPoint + "' endpoint");
+        PLUGIN_INFO(2, "Registering '" + endPoint + "' endpoint");
         actionInterface->registerRequest<ProteinDetails, Response>(
             endPoint, [&](const ProteinDetails &payload)
             { return _addProtein(payload); });
 
         endPoint = PLUGIN_API_PREFIX + "add-glycans";
-        PLUGIN_INFO("Registering '" + endPoint + "' endpoint");
+        PLUGIN_INFO(2, "Registering '" + endPoint + "' endpoint");
         actionInterface->registerRequest<SugarsDetails, Response>(
             endPoint,
             [&](const SugarsDetails &payload) { return _addGlycans(payload); });
 
         endPoint = PLUGIN_API_PREFIX + "add-sugars";
-        PLUGIN_INFO("Registering '" + endPoint + "' endpoint");
+        PLUGIN_INFO(2, "Registering '" + endPoint + "' endpoint");
         actionInterface->registerRequest<SugarsDetails, Response>(
             endPoint,
             [&](const SugarsDetails &payload) { return _addSugars(payload); });
 
         endPoint = PLUGIN_API_PREFIX + "export-to-file";
-        PLUGIN_INFO("Registering '" + endPoint + "' endpoint");
+        PLUGIN_INFO(2, "Registering '" + endPoint + "' endpoint");
         actionInterface->registerRequest<FileAccessDetails, Response>(
             endPoint, [&](const FileAccessDetails &payload)
             { return _exportToFile(payload); });
 
         endPoint = PLUGIN_API_PREFIX + "import-from-file";
-        PLUGIN_INFO("Registering '" + endPoint + "' endpoint");
+        PLUGIN_INFO(2, "Registering '" + endPoint + "' endpoint");
         actionInterface->registerRequest<FileAccessDetails, Response>(
             endPoint, [&](const FileAccessDetails &payload)
             { return _importFromFile(payload); });
 
         endPoint = PLUGIN_API_PREFIX + "export-to-xyz";
-        PLUGIN_INFO("Registering '" + endPoint + "' endpoint");
+        PLUGIN_INFO(2, "Registering '" + endPoint + "' endpoint");
         actionInterface->registerRequest<FileAccessDetails, Response>(
             endPoint, [&](const FileAccessDetails &payload)
             { return _exportToXYZ(payload); });
 
         endPoint = PLUGIN_API_PREFIX + "add-grid";
-        PLUGIN_INFO("Registering '" + endPoint + "' endpoint");
-        actionInterface->registerNotification<AddGridDetails>(
+        PLUGIN_INFO(2, "Registering '" + endPoint + "' endpoint");
+        actionInterface->registerRequest<AddGridDetails, Response>(
             endPoint,
-            [&](const AddGridDetails &payload) { _addGrid(payload); });
+            [&](const AddGridDetails &payload) { return _addGrid(payload); });
 
         endPoint = PLUGIN_API_PREFIX + "add-sphere";
-        PLUGIN_INFO("Registering '" + endPoint + "' endpoint");
-        actionInterface->registerNotification<AddSphereDetails>(
-            endPoint,
-            [&](const AddSphereDetails &payload) { _addSphere(payload); });
+        PLUGIN_INFO(2, "Registering '" + endPoint + "' endpoint");
+        actionInterface->registerRequest<AddSphereDetails, Response>(
+            endPoint, [&](const AddSphereDetails &payload)
+            { return _addSphere(payload); });
+
+        endPoint = PLUGIN_API_PREFIX + "add-bounding-box";
+        PLUGIN_INFO(2, "Registering '" + endPoint + "' endpoint");
+        actionInterface->registerRequest<AddBoundingBoxDetails, Response>(
+            endPoint, [&](const AddBoundingBoxDetails &payload)
+            { return _addBoundingBox(payload); });
 
         endPoint = PLUGIN_API_PREFIX + "get-model-ids";
-        PLUGIN_INFO("Registering '" + endPoint + "' endpoint");
+        PLUGIN_INFO(2, "Registering '" + endPoint + "' endpoint");
         actionInterface->registerRequest<IdsDetails>(endPoint,
                                                      [&]() -> IdsDetails {
                                                          return _getModelIds();
                                                      });
 
         endPoint = PLUGIN_API_PREFIX + "get-model-name";
-        PLUGIN_INFO("Registering '" + endPoint + "' endpoint");
+        PLUGIN_INFO(2, "Registering '" + endPoint + "' endpoint");
         actionInterface->registerRequest<ModelIdDetails, ModelNameDetails>(
             endPoint,
             [&](const ModelIdDetails &payload) -> ModelNameDetails
             { return _getModelName(payload); });
 
         endPoint = PLUGIN_API_PREFIX + "set-materials";
-        PLUGIN_INFO("Registering '" + endPoint + "' endpoint");
-        actionInterface->registerNotification<MaterialsDetails>(
-            endPoint,
-            [&](const MaterialsDetails &payload) { _setMaterials(payload); });
+        PLUGIN_INFO(2, "Registering '" + endPoint + "' endpoint");
+        actionInterface->registerRequest<MaterialsDetails, Response>(
+            endPoint, [&](const MaterialsDetails &payload)
+            { return _setMaterials(payload); });
 
         endPoint = PLUGIN_API_PREFIX + "get-material-ids";
-        PLUGIN_INFO("Registering '" + endPoint + "' endpoint");
+        PLUGIN_INFO(2, "Registering '" + endPoint + "' endpoint");
         actionInterface->registerRequest<ModelIdDetails, IdsDetails>(
             endPoint,
             [&](const ModelIdDetails &payload) -> IdsDetails
             { return _getMaterialIds(payload); });
 
         endPoint = PLUGIN_API_PREFIX + "build-fields";
-        PLUGIN_INFO("Registering '" + endPoint + "' endpoint");
+        PLUGIN_INFO(2, "Registering '" + endPoint + "' endpoint");
         actionInterface->registerRequest<BuildFieldsDetails, Response>(
             endPoint, [&](const BuildFieldsDetails &payload)
             { return _buildFields(payload); });
 
         endPoint = PLUGIN_API_PREFIX + "export-fields-to-file";
-        PLUGIN_INFO("Registering '" + endPoint + "' endpoint");
+        PLUGIN_INFO(2, "Registering '" + endPoint + "' endpoint");
         actionInterface->registerRequest<ModelIdFileAccessDetails, Response>(
             endPoint, [&](const ModelIdFileAccessDetails &payload)
             { return _exportFieldsToFile(payload); });
 
         endPoint = PLUGIN_API_PREFIX + "import-fields-from-file";
-        PLUGIN_INFO("Registering '" + endPoint + "' endpoint");
+        PLUGIN_INFO(2, "Registering '" + endPoint + "' endpoint");
         actionInterface->registerRequest<FileAccessDetails, Response>(
             endPoint, [&](const FileAccessDetails &payload)
             { return _importFieldsFromFile(payload); });
 
         endPoint = PLUGIN_API_PREFIX + "build-point-cloud";
-        PLUGIN_INFO("Registering '" + endPoint + "' endpoint");
+        PLUGIN_INFO(2, "Registering '" + endPoint + "' endpoint");
         actionInterface->registerRequest<BuildPointCloudDetails, Response>(
             endPoint, [&](const BuildPointCloudDetails &payload)
             { return _buildPointCloud(payload); });
 
         endPoint = PLUGIN_API_PREFIX + "set-models-visibility";
-        PLUGIN_INFO("Registering '" + endPoint + "' endpoint");
+        PLUGIN_INFO(2, "Registering '" + endPoint + "' endpoint");
         actionInterface->registerRequest<ModelsVisibilityDetails, Response>(
             endPoint, [&](const ModelsVisibilityDetails &payload)
             { return _setModelsVisibility(payload); });
 
         endPoint = PLUGIN_API_PREFIX + "get-out-of-core-configuration";
-        PLUGIN_INFO("Registering '" + endPoint + "' endpoint");
+        PLUGIN_INFO(2, "Registering '" + endPoint + "' endpoint");
         actionInterface->registerRequest<Response>(
             endPoint, [&]() { return _getOOCConfiguration(); });
 
         endPoint = PLUGIN_API_PREFIX + "get-out-of-core-progress";
-        PLUGIN_INFO("Registering '" + endPoint + "' endpoint");
+        PLUGIN_INFO(2, "Registering '" + endPoint + "' endpoint");
         actionInterface->registerRequest<Response>(endPoint,
                                                    [&]() {
                                                        return _getOOCProgress();
                                                    });
 
         endPoint = PLUGIN_API_PREFIX + "get-out-of-core-average-loading-time";
-        PLUGIN_INFO("Registering '" + endPoint + "' endpoint");
+        PLUGIN_INFO(2, "Registering '" + endPoint + "' endpoint");
         actionInterface->registerRequest<Response>(
             endPoint, [&]() { return _getOOCAverageLoadingTime(); });
 
+        endPoint = PLUGIN_API_PREFIX + "inspect-protein";
+        PLUGIN_INFO(2, "Registering '" + endPoint + "' endpoint");
+        actionInterface
+            ->registerRequest<InspectionDetails, ProteinInspectionDetails>(
+                endPoint, [&](const InspectionDetails &payload)
+                { return _inspectProtein(payload); });
+
 #ifdef USE_PQXX
         endPoint = PLUGIN_API_PREFIX + "export-to-database";
-        PLUGIN_INFO("Registering '" + endPoint + "' endpoint");
+        PLUGIN_INFO(2, "Registering '" + endPoint + "' endpoint");
         actionInterface->registerRequest<DatabaseAccessDetails, Response>(
             endPoint, [&](const DatabaseAccessDetails &payload)
             { return _exportToDatabase(payload); });
@@ -477,8 +489,8 @@ void BioExplorerPlugin::init()
                 _oocManager->getSceneConfiguration();
             const auto sceneSize = sceneConfiguration.sceneSize.x;
             const auto brickSize = sceneConfiguration.brickSize.x;
-            grid.position = {-brickSize / 2.f, -brickSize / 2.f,
-                             -brickSize / 2.f};
+            grid.position = {-brickSize / 2.0, -brickSize / 2.0,
+                             -brickSize / 2.0};
             grid.minValue = -sceneSize / 2.0;
             grid.maxValue = sceneSize / 2.0;
             grid.steps = brickSize;
@@ -515,7 +527,7 @@ void BioExplorerPlugin::preRender()
     if (_oocManager)
         if (!_oocManager->getFrameBuffer())
         {
-            PLUGIN_INFO("Starting Out-Of-Core manager");
+            PLUGIN_INFO(1, "Starting Out-Of-Core manager");
             auto &frameBuffer = _api->getEngine().getFrameBuffer();
             _oocManager->setFrameBuffer(&frameBuffer);
             _oocManager->loadBricks();
@@ -529,7 +541,7 @@ Response BioExplorerPlugin::_getVersion() const
     return response;
 }
 
-Response BioExplorerPlugin::_reset()
+Response BioExplorerPlugin::_resetScene()
 {
     Response response;
     auto &scene = _api->getScene();
@@ -541,6 +553,14 @@ Response BioExplorerPlugin::_reset()
     scene.markModified();
     response.contents =
         "Removed " + std::to_string(modelDescriptors.size()) + " models";
+    return response;
+}
+
+Response BioExplorerPlugin::_resetCamera()
+{
+    Response response;
+    auto &camera = _api->getCamera();
+    camera.reset();
     return response;
 }
 
@@ -587,9 +607,10 @@ Response BioExplorerPlugin::_setGeneralSettings(
         GeneralSettings::getInstance()->setModelVisibilityOnCreation(
             payload.modelVisibilityOnCreation);
         GeneralSettings::getInstance()->setOffFolder(payload.offFolder);
-        GeneralSettings::getInstance()->setLoggingEnabled(
-            payload.loggingEnabled);
-        PLUGIN_INFO("Setting general options for the plugin");
+        GeneralSettings::getInstance()->setLoggingLevel(payload.loggingLevel);
+        GeneralSettings::getInstance()->setV1Compatibility(
+            payload.v1Compatibility);
+        PLUGIN_INFO(3, "Setting general options for the plugin");
 
         response.contents = "OK";
     }
@@ -663,22 +684,15 @@ Response BioExplorerPlugin::_addRNASequence(
     ASSEMBLY_CALL_VOID(payload.assemblyName, addRNASequence(payload));
 }
 
-Response BioExplorerPlugin::_addParametricMembrane(
-    const ParametricMembraneDetails &payload) const
+Response BioExplorerPlugin::_addMembrane(const MembraneDetails &payload) const
 {
-    ASSEMBLY_CALL_VOID(payload.assemblyName, addParametricMembrane(payload));
-}
-
-Response BioExplorerPlugin::_addMeshBasedMembrane(
-    const MeshBasedMembraneDetails &payload) const
-{
-    ASSEMBLY_CALL_VOID(payload.assemblyName, addMeshBasedMembrane(payload));
+    ASSEMBLY_CALL_VOID(payload.assemblyName, addMembrane(payload));
 }
 
 Response BioExplorerPlugin::_addProtein(const ProteinDetails &payload) const
 {
     AssemblyConstraints constraints;
-    const auto values = split(payload.constraints, "|");
+    const auto values = split(payload.constraints, CONTENTS_DELIMITER);
     for (const auto &value : values)
     {
         const auto assemblyConstraintType =
@@ -807,15 +821,15 @@ Response BioExplorerPlugin::_addGrid(const AddGridDetails &payload)
     Response response;
     try
     {
-        PLUGIN_INFO("Building Grid scene");
+        PLUGIN_INFO(3, "Building Grid scene");
 
         auto &scene = _api->getScene();
         auto model = scene.createModel();
 
-        const Vector3f red = {1, 0, 0};
-        const Vector3f green = {0, 1, 0};
-        const Vector3f blue = {0, 0, 1};
-        const Vector3f grey = {0.5, 0.5, 0.5};
+        const Vector3d red = {1, 0, 0};
+        const Vector3d green = {0, 1, 0};
+        const Vector3d blue = {0, 0, 1};
+        const Vector3d grey = {0.5, 0.5, 0.5};
 
         PropertyMap props;
         props.setProperty({MATERIAL_PROPERTY_SHADING_MODE,
@@ -829,28 +843,28 @@ Response BioExplorerPlugin::_addGrid(const AddGridDetails &payload)
         auto material = model->createMaterial(0, "x");
         material->setDiffuseColor(grey);
         material->setProperties(props);
-        const auto position = floatsToVector3f(payload.position);
+        const auto position = doublesToVector3d(payload.position);
 
-        const float m = payload.minValue;
-        const float M = payload.maxValue;
-        const float s = payload.steps;
-        const float r = payload.radius;
+        const double m = payload.minValue;
+        const double M = payload.maxValue;
+        const double s = payload.steps;
+        const float r = static_cast<float>(payload.radius);
 
         /// Grid
-        for (float x = m; x <= M; x += s)
-            for (float y = m; y <= M; y += s)
+        for (double x = m; x <= M; x += s)
+            for (double y = m; y <= M; y += s)
             {
                 bool showFullGrid = true;
                 if (!payload.showFullGrid)
                     showFullGrid = (fabs(x) < 0.001f || fabs(y) < 0.001f);
                 if (showFullGrid)
                 {
-                    model->addCylinder(0, {position + Vector3f(x, y, m),
-                                           position + Vector3f(x, y, M), r});
-                    model->addCylinder(0, {position + Vector3f(m, x, y),
-                                           position + Vector3f(M, x, y), r});
-                    model->addCylinder(0, {position + Vector3f(x, m, y),
-                                           position + Vector3f(x, M, y), r});
+                    model->addCylinder(0, {position + Vector3d(x, y, m),
+                                           position + Vector3d(x, y, M), r});
+                    model->addCylinder(0, {position + Vector3d(m, x, y),
+                                           position + Vector3d(M, x, y), r});
+                    model->addCylinder(0, {position + Vector3d(x, m, y),
+                                           position + Vector3d(x, M, y), r});
                 }
             }
 
@@ -862,10 +876,10 @@ Response BioExplorerPlugin::_addGrid(const AddGridDetails &payload)
             material->setOpacity(payload.planeOpacity);
             material->setProperties(props);
             auto &tmx = model->getTriangleMeshes()[1];
-            tmx.vertices.push_back(position + Vector3f(m, 0, m));
-            tmx.vertices.push_back(position + Vector3f(M, 0, m));
-            tmx.vertices.push_back(position + Vector3f(M, 0, M));
-            tmx.vertices.push_back(position + Vector3f(m, 0, M));
+            tmx.vertices.push_back(position + Vector3d(m, 0, m));
+            tmx.vertices.push_back(position + Vector3d(M, 0, m));
+            tmx.vertices.push_back(position + Vector3d(M, 0, M));
+            tmx.vertices.push_back(position + Vector3d(m, 0, M));
             tmx.indices.push_back(Vector3ui(0, 1, 2));
             tmx.indices.push_back(Vector3ui(2, 3, 0));
 
@@ -874,10 +888,10 @@ Response BioExplorerPlugin::_addGrid(const AddGridDetails &payload)
             material->setOpacity(payload.planeOpacity);
             material->setProperties(props);
             auto &tmy = model->getTriangleMeshes()[2];
-            tmy.vertices.push_back(position + Vector3f(m, m, 0));
-            tmy.vertices.push_back(position + Vector3f(M, m, 0));
-            tmy.vertices.push_back(position + Vector3f(M, M, 0));
-            tmy.vertices.push_back(position + Vector3f(m, M, 0));
+            tmy.vertices.push_back(position + Vector3d(m, m, 0));
+            tmy.vertices.push_back(position + Vector3d(M, m, 0));
+            tmy.vertices.push_back(position + Vector3d(M, M, 0));
+            tmy.vertices.push_back(position + Vector3d(m, M, 0));
             tmy.indices.push_back(Vector3ui(0, 1, 2));
             tmy.indices.push_back(Vector3ui(2, 3, 0));
 
@@ -886,10 +900,10 @@ Response BioExplorerPlugin::_addGrid(const AddGridDetails &payload)
             material->setOpacity(payload.planeOpacity);
             material->setProperties(props);
             auto &tmz = model->getTriangleMeshes()[3];
-            tmz.vertices.push_back(position + Vector3f(0, m, m));
-            tmz.vertices.push_back(position + Vector3f(0, m, M));
-            tmz.vertices.push_back(position + Vector3f(0, M, M));
-            tmz.vertices.push_back(position + Vector3f(0, M, m));
+            tmz.vertices.push_back(position + Vector3d(0, m, m));
+            tmz.vertices.push_back(position + Vector3d(0, m, M));
+            tmz.vertices.push_back(position + Vector3d(0, M, M));
+            tmz.vertices.push_back(position + Vector3d(0, M, m));
             tmz.indices.push_back(Vector3ui(0, 1, 2));
             tmz.indices.push_back(Vector3ui(2, 3, 0));
         }
@@ -897,11 +911,11 @@ Response BioExplorerPlugin::_addGrid(const AddGridDetails &payload)
         // Axis
         if (payload.showAxis)
         {
-            const float l = M;
-            const float smallRadius = payload.radius * 25.0;
-            const float largeRadius = payload.radius * 50.0;
-            const float l1 = l * 0.89;
-            const float l2 = l * 0.90;
+            const double l = M;
+            const float smallRadius = r * 25.0;
+            const float largeRadius = r * 50.0;
+            const double l1 = l * 0.89;
+            const double l2 = l * 0.90;
 
             PropertyMap props;
             props.setProperty({MATERIAL_PROPERTY_USER_PARAMETER, 1.0});
@@ -917,39 +931,39 @@ Response BioExplorerPlugin::_addGrid(const AddGridDetails &payload)
             material->setDiffuseColor(red);
             material->setProperties(props);
 
-            model->addCylinder(4, {position, position + Vector3f(l1, 0, 0),
+            model->addCylinder(4, {position, position + Vector3d(l1, 0, 0),
                                    smallRadius});
-            model->addCone(4, {position + Vector3f(l1, 0, 0),
-                               position + Vector3f(l2, 0, 0), smallRadius,
+            model->addCone(4, {position + Vector3d(l1, 0, 0),
+                               position + Vector3d(l2, 0, 0), smallRadius,
                                largeRadius});
-            model->addCone(4, {position + Vector3f(l2, 0, 0),
-                               position + Vector3f(M, 0, 0), largeRadius, 0});
+            model->addCone(4, {position + Vector3d(l2, 0, 0),
+                               position + Vector3d(M, 0, 0), largeRadius, 0});
 
             // Y
             material = model->createMaterial(5, "y_axis");
             material->setDiffuseColor(green);
             material->setProperties(props);
 
-            model->addCylinder(5, {position, position + Vector3f(0, l1, 0),
+            model->addCylinder(5, {position, position + Vector3d(0, l1, 0),
                                    smallRadius});
-            model->addCone(5, {position + Vector3f(0, l1, 0),
-                               position + Vector3f(0, l2, 0), smallRadius,
+            model->addCone(5, {position + Vector3d(0, l1, 0),
+                               position + Vector3d(0, l2, 0), smallRadius,
                                largeRadius});
-            model->addCone(5, {position + Vector3f(0, l2, 0),
-                               position + Vector3f(0, M, 0), largeRadius, 0});
+            model->addCone(5, {position + Vector3d(0, l2, 0),
+                               position + Vector3d(0, M, 0), largeRadius, 0});
 
             // Z
             material = model->createMaterial(6, "z_axis");
             material->setDiffuseColor(blue);
             material->setProperties(props);
 
-            model->addCylinder(6, {position, position + Vector3f(0, 0, l1),
+            model->addCylinder(6, {position, position + Vector3d(0, 0, l1),
                                    smallRadius});
-            model->addCone(6, {position + Vector3f(0, 0, l1),
-                               position + Vector3f(0, 0, l2), smallRadius,
+            model->addCone(6, {position + Vector3d(0, 0, l1),
+                               position + Vector3d(0, 0, l2), smallRadius,
                                largeRadius});
-            model->addCone(6, {position + Vector3f(0, 0, l2),
-                               position + Vector3f(0, 0, M), largeRadius, 0});
+            model->addCone(6, {position + Vector3d(0, 0, l2),
+                               position + Vector3d(0, 0, M), largeRadius, 0});
 
             // Origin
             model->addSphere(0, {position, smallRadius});
@@ -968,9 +982,9 @@ Response BioExplorerPlugin::_addSphere(const AddSphereDetails &payload)
     try
     {
         if (payload.position.size() != 3)
-            PLUGIN_THROW("Invalid number of float for position");
+            PLUGIN_THROW("Invalid number of double for position");
         if (payload.color.size() != 3)
-            PLUGIN_THROW("Invalid number of float for color");
+            PLUGIN_THROW("Invalid number of double for color");
 
         auto &scene = _api->getScene();
         auto model = scene.createModel();
@@ -984,16 +998,93 @@ Response BioExplorerPlugin::_addSphere(const AddSphereDetails &payload)
              static_cast<int>(
                  MaterialChameleonMode::undefined_chameleon_mode)});
 
-        const auto color = floatsToVector3f(payload.color);
-        const auto position = floatsToVector3f(payload.position);
+        const auto color = doublesToVector3d(payload.color);
+        const auto position = doublesToVector3d(payload.position);
 
         auto material = model->createMaterial(0, "Sphere");
         material->setDiffuseColor(color);
         material->setProperties(props);
 
-        PLUGIN_INFO("Adding sphere " + payload.name + " to the scene");
+        PLUGIN_INFO(3, "Adding sphere " + payload.name + " to the scene");
 
-        model->addSphere(0, {position, payload.radius});
+        model->addSphere(0, {position, static_cast<float>(payload.radius)});
+        scene.addModel(
+            std::make_shared<ModelDescriptor>(std::move(model), payload.name));
+    }
+    CATCH_STD_EXCEPTION()
+    return response;
+}
+
+Response BioExplorerPlugin::_addBoundingBox(
+    const AddBoundingBoxDetails &payload)
+{
+    Response response;
+    try
+    {
+        if (payload.bottomLeft.size() != 3)
+            PLUGIN_THROW("Invalid number of double for bottom left corner");
+        if (payload.topRight.size() != 3)
+            PLUGIN_THROW("Invalid number of double for top right corner");
+        if (payload.color.size() != 3)
+            PLUGIN_THROW("Invalid number of double for color");
+
+        auto &scene = _api->getScene();
+        auto model = scene.createModel();
+
+        PropertyMap props;
+        props.setProperty({MATERIAL_PROPERTY_SHADING_MODE,
+                           static_cast<int>(MaterialShadingMode::diffuse)});
+        props.setProperty({MATERIAL_PROPERTY_USER_PARAMETER, 1.0});
+        props.setProperty(
+            {MATERIAL_PROPERTY_CHAMELEON_MODE,
+             static_cast<int>(
+                 MaterialChameleonMode::undefined_chameleon_mode)});
+
+        const auto color = doublesToVector3d(payload.color);
+        auto material = model->createMaterial(0, "BoundingBox");
+        material->setDiffuseColor(color);
+        material->setProperties(props);
+
+        PLUGIN_INFO(3, "Adding bounding box " + payload.name + " to the scene");
+
+        const auto bottomLeft = doublesToVector3d(payload.bottomLeft);
+        const auto topRight = doublesToVector3d(payload.topRight);
+        Boxf bbox;
+        bbox.merge(bottomLeft);
+        bbox.merge(topRight);
+
+        const Vector3d s = bbox.getSize() / 2.0;
+        const Vector3d c = bbox.getCenter();
+        const Vector3d positions[8] = {
+            {c.x - s.x, c.y - s.y, c.z - s.z},
+            {c.x + s.x, c.y - s.y, c.z - s.z}, //    6--------7
+            {c.x - s.x, c.y + s.y, c.z - s.z}, //   /|       /|
+            {c.x + s.x, c.y + s.y, c.z - s.z}, //  2--------3 |
+            {c.x - s.x, c.y - s.y, c.z + s.z}, //  | |      | |
+            {c.x + s.x, c.y - s.y, c.z + s.z}, //  | 4------|-5
+            {c.x - s.x, c.y + s.y, c.z + s.z}, //  |/       |/
+            {c.x + s.x, c.y + s.y, c.z + s.z}  //  0--------1
+        };
+
+        const float radius = static_cast<float>(payload.radius);
+        for (size_t i = 0; i < 8; ++i)
+            model->addSphere(0, {positions[i], radius});
+
+        model->addCylinder(0, {positions[0], positions[1], radius});
+        model->addCylinder(0, {positions[2], positions[3], radius});
+        model->addCylinder(0, {positions[4], positions[5], radius});
+        model->addCylinder(0, {positions[6], positions[7], radius});
+
+        model->addCylinder(0, {positions[0], positions[2], radius});
+        model->addCylinder(0, {positions[1], positions[3], radius});
+        model->addCylinder(0, {positions[4], positions[6], radius});
+        model->addCylinder(0, {positions[5], positions[7], radius});
+
+        model->addCylinder(0, {positions[0], positions[4], radius});
+        model->addCylinder(0, {positions[1], positions[5], radius});
+        model->addCylinder(0, {positions[2], positions[6], radius});
+        model->addCylinder(0, {positions[3], positions[7], radius});
+
         scene.addModel(
             std::make_shared<ModelDescriptor>(std::move(model), payload.name));
     }
@@ -1009,7 +1100,6 @@ IdsDetails BioExplorerPlugin::_getModelIds() const
     for (const auto &modelDescriptor : modelDescriptors)
     {
         const auto &modelId = modelDescriptor->getModelID();
-        PLUGIN_INFO("Adding model id: " + std::to_string(modelId));
         modelIds.ids.push_back(modelId);
     }
     return modelIds;
@@ -1038,7 +1128,7 @@ IdsDetails BioExplorerPlugin::_getMaterialIds(const ModelIdDetails &payload)
     if (modelDescriptor)
     {
         for (const auto &material : modelDescriptor->getModel().getMaterials())
-            if (material.first != BOUNDINGBOX_MATERIAL_ID &&
+            if (material.first != 0 &&
                 material.first != SECONDARY_MODEL_MATERIAL_ID)
                 materialIds.ids.push_back(material.first);
     }
@@ -1056,7 +1146,7 @@ Response BioExplorerPlugin::_setMaterials(const MaterialsDetails &payload)
         auto &scene = _api->getScene();
         for (const auto modelId : payload.modelIds)
         {
-            PLUGIN_INFO("Modifying materials on model " << modelId);
+            PLUGIN_INFO(3, "Modifying materials on model " << modelId);
             auto modelDescriptor = scene.getModel(modelId);
             if (modelDescriptor)
             {
@@ -1123,13 +1213,13 @@ Response BioExplorerPlugin::_setMaterials(const MaterialsDetails &payload)
                     }
                     catch (const std::runtime_error &e)
                     {
-                        PLUGIN_INFO(e.what());
+                        PLUGIN_INFO(1, e.what());
                     }
                     ++id;
                 }
             }
             else
-                PLUGIN_INFO("Model " << modelId << " is not registered");
+                PLUGIN_INFO(3, "Model " << modelId << " is not registered");
         }
         scene.markModified(false);
     }
@@ -1141,10 +1231,10 @@ size_t BioExplorerPlugin::_attachFieldsHandler(FieldsHandlerPtr handler)
 {
     auto &scene = _api->getScene();
     auto model = scene.createModel();
-    const auto &spacing = Vector3f(handler->getSpacing());
-    const auto &size = Vector3f(handler->getDimensions()) * spacing;
-    const auto &offset = Vector3f(handler->getOffset());
-    const Vector3f center{(offset + size / 2.f)};
+    const auto &spacing = Vector3d(handler->getSpacing());
+    const auto &size = Vector3d(handler->getDimensions()) * spacing;
+    const auto &offset = Vector3d(handler->getOffset());
+    const Vector3d center{(offset + size / 2.0)};
 
     const size_t materialId = 0;
     auto material = model->createMaterial(materialId, "default");
@@ -1169,7 +1259,7 @@ size_t BioExplorerPlugin::_attachFieldsHandler(FieldsHandlerPtr handler)
     scene.addModel(modelDescriptor);
 
     size_t modelId = modelDescriptor->getModelID();
-    PLUGIN_INFO("Fields model " << modelId << " was successfully created");
+    PLUGIN_INFO(3, "Fields model " << modelId << " was successfully created");
     return modelId;
 }
 
@@ -1178,7 +1268,7 @@ Response BioExplorerPlugin::_buildFields(const BuildFieldsDetails &payload)
     Response response;
     try
     {
-        PLUGIN_INFO("Building Fields from scene");
+        PLUGIN_INFO(3, "Building Fields from scene");
         auto &scene = _api->getScene();
         auto modelDescriptors = scene.getModelDescriptors();
         for (auto &modelDescriptor : modelDescriptors)
@@ -1202,7 +1292,7 @@ Response BioExplorerPlugin::_importFieldsFromFile(
     Response response;
     try
     {
-        PLUGIN_INFO("Importing Fields from " << payload.filename);
+        PLUGIN_INFO(3, "Importing Fields from " << payload.filename);
         FieldsHandlerPtr handler =
             std::make_shared<FieldsHandler>(payload.filename);
         _attachFieldsHandler(handler);
@@ -1217,7 +1307,7 @@ Response BioExplorerPlugin::_exportFieldsToFile(
     Response response;
     try
     {
-        PLUGIN_INFO("Exporting fields to " << payload.filename);
+        PLUGIN_INFO(3, "Exporting fields to " << payload.filename);
         const auto &scene = _api->getScene();
         auto modelDetails = scene.getModel(payload.modelId);
         if (modelDetails)
@@ -1268,7 +1358,7 @@ Response BioExplorerPlugin::_buildPointCloud(
                  MaterialChameleonMode::undefined_chameleon_mode)});
         props.setProperty({MATERIAL_PROPERTY_NODE_ID, static_cast<int>(0)});
 
-        material->setDiffuseColor({1.f, 1.f, 1.f});
+        material->setDiffuseColor({1.0, 1.0, 1.0});
         material->updateProperties(props);
 
         const auto &modelDescriptors = scene.getModelDescriptors();
@@ -1289,12 +1379,13 @@ Response BioExplorerPlugin::_buildPointCloud(
                             tf.getRotation() * (Vector3d(sphere.center) -
                                                 tf.getRotationCenter());
 
-                        const Vector3f c = center;
+                        const Vector3d c = center;
                         if (isClipped(c, clipPlanes))
                             continue;
 
-                        model->addSphere(materialId,
-                                         {c, payload.radius * sphere.radius});
+                        model->addSphere(materialId, {c, static_cast<float>(
+                                                             payload.radius) *
+                                                             sphere.radius});
                     }
                 }
             }
@@ -1314,8 +1405,8 @@ Response BioExplorerPlugin::_setModelsVisibility(
     Response response;
     try
     {
-        PLUGIN_INFO("Setting all models visibility to "
-                    << (payload.visible ? "On" : "Off"));
+        PLUGIN_INFO(3, "Setting all models visibility to "
+                           << (payload.visible ? "On" : "Off"));
         auto &scene = _api->getScene();
         auto &modelDescriptors = scene.getModelDescriptors();
         for (auto modelDescriptor : modelDescriptors)
@@ -1382,6 +1473,36 @@ Response BioExplorerPlugin::_getOOCAverageLoadingTime() const
     return response;
 }
 
+ProteinInspectionDetails BioExplorerPlugin::_inspectProtein(
+    const InspectionDetails &details) const
+{
+    ProteinInspectionDetails result;
+
+    result.hit = false;
+    const auto origin = doublesToVector3d(details.origin);
+    const auto direction = doublesToVector3d(details.direction);
+    double dist = std::numeric_limits<double>::max();
+    for (const auto &assembly : _assemblies)
+    {
+        try
+        {
+            double t;
+            const auto r = assembly.second->inspect(origin, direction, t);
+            if (t < dist)
+            {
+                result = r;
+                dist = t;
+                result.hit = true;
+            }
+        }
+        catch (const std::runtime_error &e)
+        {
+            // No hit. Ignore assembly
+        }
+    }
+    return result;
+}
+
 #ifdef USE_PQXX
 Response BioExplorerPlugin::_exportToDatabase(
     const DatabaseAccessDetails &payload)
@@ -1404,33 +1525,40 @@ Response BioExplorerPlugin::_exportToDatabase(
 extern "C" ExtensionPlugin *brayns_plugin_create(int argc, char **argv)
 {
     PLUGIN_INFO(
+        1,
         " _|_|_|    _|            _|_|_|_|                      _|             "
         "                           ");
     PLUGIN_INFO(
+        1,
         " _|    _|        _|_|    _|        _|    _|  _|_|_|    _|    _|_|    "
         "_|  _|_|    _|_|    _|  _|_|");
     PLUGIN_INFO(
+        1,
         " _|_|_|    _|  _|    _|  _|_|_|      _|_|    _|    _|  _|  _|    _|  "
         "_|_|      _|_|_|_|  _|_|    ");
     PLUGIN_INFO(
+        1,
         " _|    _|  _|  _|    _|  _|        _|    _|  _|    _|  _|  _|    _|  "
         "_|        _|        _|      ");
     PLUGIN_INFO(
+        1,
         " _|_|_|    _|    _|_|    _|_|_|_|  _|    _|  _|_|_|    _|    _|_|    "
         "_|          _|_|_|  _|      ");
     PLUGIN_INFO(
+        1,
         "                                             _|                       "
         "                           ");
     PLUGIN_INFO(
+        1,
         "                                             _|                       "
         "                           ");
-    PLUGIN_INFO("Initializing BioExplorer plug-in (version " << PACKAGE_VERSION
-                                                             << ")");
+    PLUGIN_INFO(1, "Initializing BioExplorer plug-in (version "
+                       << PACKAGE_VERSION << ")");
 #ifdef USE_CGAL
-    PLUGIN_INFO("- CGAL module loaded");
+    PLUGIN_INFO(1, "- CGAL module loaded");
 #endif
 #ifdef USE_PQXX
-    PLUGIN_INFO("- Postgresql module loaded");
+    PLUGIN_INFO(1, "- Postgresql module loaded");
 #endif
 
     return new BioExplorerPlugin(argc, argv);
