@@ -66,11 +66,11 @@ RNASequenceDetails getRNASequenceDescriptor()
     descriptor.contents = getFileContents(
         "./bioexplorer/pythonsdk/tests/test_files/rna/sars-cov-2.rna");
     descriptor.shape = RNAShapeType::trefoilKnot;
-    descriptor.shapeParams = {11.f, 0.5f};
-    descriptor.valuesRange = {0.f, 30.5f * static_cast<double>(M_PI)};
-    descriptor.curveParams = {1.51f, 1.12f, 1.93f};
-    descriptor.position = {0.f, 0.f, 0.f};
-    descriptor.rotation = {1.f, 0.f, 0.f, 0.f};
+    descriptor.shapeParams = {11.0, 0.5};
+    descriptor.valuesRange = {0.0, 30.5 * static_cast<double>(M_PI)};
+    descriptor.curveParams = {1.51, 1.12, 1.93};
+    descriptor.position = {0.0, 0.0, 0.0};
+    descriptor.rotation = {1.0, 0.0, 0.0, 0.0};
     return descriptor;
 }
 

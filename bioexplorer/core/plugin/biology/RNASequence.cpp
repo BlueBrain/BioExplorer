@@ -83,13 +83,13 @@ RNASequence::RNASequence(Scene& scene, const RNASequenceDetails& details,
     const auto animationDetails =
         doublesToAnimationDetails(_details.animationParams);
 
-    PLUGIN_INFO("Loading RNA sequence " << details.name << " from "
-                                        << details.contents);
-    PLUGIN_INFO("- Shape params        : " << shapeParams);
-    PLUGIN_INFO("- Values range        : " << valuesRange);
-    PLUGIN_INFO("- Curve parameters    : " << curveParams);
-    PLUGIN_INFO("- Position            : " << position);
-    PLUGIN_INFO("- RNA Sequence length : " << _nbElements);
+    PLUGIN_INFO(3, "Loading RNA sequence " << details.name << " from "
+                                           << details.contents);
+    PLUGIN_INFO(3, "- Shape params        : " << shapeParams);
+    PLUGIN_INFO(3, "- Values range        : " << valuesRange);
+    PLUGIN_INFO(3, "- Curve parameters    : " << curveParams);
+    PLUGIN_INFO(3, "- Position            : " << position);
+    PLUGIN_INFO(3, "- RNA Sequence length : " << _nbElements);
 
     _shape =
         RNAShapePtr(new RNAShape(clippingPlanes, _details.shape, _nbElements,
@@ -128,7 +128,7 @@ void RNASequence::_buildRNAAsCurve(const Quaterniond& rotation)
         material->updateProperties(props);
         ++materialId;
     }
-    PLUGIN_INFO("Created " << materialId << " materials");
+    PLUGIN_INFO(3, "Created " << materialId << " materials");
 
     const auto occurrences = _nbElements;
     for (uint64_t occurrence = 0; occurrence < occurrences - 1; ++occurrence)

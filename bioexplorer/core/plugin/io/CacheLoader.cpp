@@ -809,8 +809,8 @@ void CacheLoader::exportBrickToDB(DBConnector& connector, const int32_t brickId,
 
     if (nbModels > 0)
     {
-        PLUGIN_INFO("Saving brick " << brickId << " ( " << nbModels
-                                    << " models) to database");
+        PLUGIN_INFO(3, "Saving brick " << brickId << " ( " << nbModels
+                                       << " models) to database");
 
         connector.insertBrick(brickId, CACHE_VERSION_1, nbModels, buffer);
     }
@@ -820,7 +820,7 @@ void CacheLoader::exportBrickToDB(DBConnector& connector, const int32_t brickId,
 void CacheLoader::exportToXYZ(const std::string& filename,
                               const XYZFileFormat fileFormat) const
 {
-    PLUGIN_INFO("Saving scene to XYZ file: " << filename);
+    PLUGIN_INFO(3, "Saving scene to XYZ file: " << filename);
     std::ios_base::openmode flags = std::ios::out;
     if (fileFormat == XYZFileFormat::xyz_binary ||
         fileFormat == XYZFileFormat::xyzr_binary)

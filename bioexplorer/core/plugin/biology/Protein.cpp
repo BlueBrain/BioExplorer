@@ -109,9 +109,9 @@ Protein::~Protein()
     for (const auto& glycan : _glycans)
     {
         const auto modelId = glycan.second->getModelDescriptor()->getModelID();
-        PLUGIN_INFO("Removing glycan [" << modelId << "] [" << glycan.first
-                                        << "] from assembly [" << _details.name
-                                        << "]");
+        PLUGIN_INFO(3, "Removing glycan [" << modelId << "] [" << glycan.first
+                                           << "] from assembly ["
+                                           << _details.name << "]");
         _scene.removeModel(modelId);
     }
 }
@@ -166,8 +166,8 @@ void Protein::_setRegionColorScheme(const Palette& palette,
             _setMaterialDiffuseColor(atom.first, palette[atom.second.reqSeq]);
     }
 
-    PLUGIN_INFO("Applying Amino Acid Sequence color scheme ("
-                << (atomCount > 0 ? "2" : "1") << ")");
+    PLUGIN_INFO(3, "Applying Amino Acid Sequence color scheme ("
+                       << (atomCount > 0 ? "2" : "1") << ")");
 }
 
 void Protein::_setGlycosylationSiteColorScheme(const Palette& palette)
@@ -191,8 +191,8 @@ void Protein::_setGlycosylationSiteColorScheme(const Palette& palette)
                     atom.second.reqSeq == site)
                     _setMaterialDiffuseColor(atom.first, palette[1]);
 
-    PLUGIN_INFO("Applying Glycosylation Site color scheme ("
-                << (sites.size() > 0 ? "2" : "1") << ")");
+    PLUGIN_INFO(3, "Applying Glycosylation Site color scheme ("
+                       << (sites.size() > 0 ? "2" : "1") << ")");
 }
 
 const std::map<std::string, size_ts> Protein::getGlycosylationSites(
@@ -240,8 +240,8 @@ const std::map<std::string, size_ts> Protein::getGlycosylationSites(
             indices += std::to_string(index + 1); // Indices start at 1, not 0
         }
         indices += "]";
-        PLUGIN_INFO("Found " << site.second.size() << " glycosylation sites "
-                             << indices << " on sequence " << site.first);
+        PLUGIN_INFO(3, "Found " << site.second.size() << " glycosylation sites "
+                                << indices << " on sequence " << site.first);
     }
     return sites;
 }
@@ -446,8 +446,8 @@ void Protein::addSugars(const SugarsDetails& details)
     if (positions.empty())
         PLUGIN_THROW("No sugar binding site was found on " + details.name);
 
-    PLUGIN_INFO(positions.size()
-                << " sugar sites found on " << details.proteinName);
+    PLUGIN_INFO(3, positions.size()
+                       << " sugar sites found on " << details.proteinName);
 
     GlycansPtr glucoses(new Glycans(_scene, details));
     auto modelDescriptor = glucoses->getModelDescriptor();

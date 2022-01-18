@@ -36,7 +36,7 @@ Octree::Octree(const floats &events, double voxelSize, const glm::vec3 &minAABB,
     , _volumeSize(0u)
     , _offsetPerLevel(nullptr)
 {
-    PLUGIN_INFO("Nb of events : " << events.size() / 5);
+    PLUGIN_INFO(3, "Nb of events : " << events.size() / 5);
 
     // **************** Octree creations *******************
     // *****************************************************
@@ -48,12 +48,12 @@ Octree::Octree(const floats &events, double voxelSize, const glm::vec3 &minAABB,
     // This octree is always cubic
     _octreeSize = std::max(std::max(octreeSize.x, octreeSize.y), octreeSize.z);
 
-    PLUGIN_INFO("Octree size  : " << _octreeSize);
+    PLUGIN_INFO(3, "Octree size  : " << _octreeSize);
 
     uint32_t octreeDepth = std::log2(_octreeSize) + 1u;
     std::vector<OctreeLevelMap> octree(octreeDepth);
 
-    PLUGIN_INFO("Octree depth : " << octreeDepth << " " << octree.size());
+    PLUGIN_INFO(3, "Octree depth : " << octreeDepth << " " << octree.size());
 
     if (octreeDepth == 0)
         return;

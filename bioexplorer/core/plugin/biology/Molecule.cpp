@@ -217,10 +217,10 @@ void Molecule::_computeReqSetOffset()
         if (offset < 0)
             offset = 0;
         else
-            PLUGIN_INFO("Sequence [" << sequence.first
-                                     << "], offset: " << offset
-                                     << ", Theoretical: " << theoreticalReqSeq
-                                     << ", Physical: " << physicalReqSeq);
+            PLUGIN_INFO(3, "Sequence ["
+                               << sequence.first << "], offset: " << offset
+                               << ", Theoretical: " << theoreticalReqSeq
+                               << ", Physical: " << physicalReqSeq);
         sequence.second.offset = offset;
     }
 }
@@ -288,7 +288,7 @@ void Molecule::_buildAtomicStruture(const ProteinRepresentation representation,
     // Bonds
     if (loadBonds)
     {
-        PLUGIN_INFO("Building " << _bondsMap.size() << " bonds...");
+        PLUGIN_INFO(3, "Building " << _bondsMap.size() << " bonds...");
         for (const auto& bond : _bondsMap)
         {
             const auto& atomSrc = _atomMap.find(bond.first)->second;
@@ -314,7 +314,7 @@ void Molecule::_buildAtomicStruture(const ProteinRepresentation representation,
     // Sticks
     if (representation == ProteinRepresentation::atoms_and_sticks)
     {
-        PLUGIN_INFO("Building sticks (" << _atomMap.size() << " atoms)...");
+        PLUGIN_INFO(3, "Building sticks (" << _atomMap.size() << " atoms)...");
         auto it1 = _atomMap.begin();
         while (it1 != _atomMap.end())
         {
@@ -353,7 +353,7 @@ void Molecule::_buildModel(const std::string& assemblyName,
                            const double atomRadiusMultiplier,
                            const bool loadBonds)
 {
-    PLUGIN_INFO("Building protein " << name << "...");
+    PLUGIN_INFO(3, "Building protein " << name << "...");
 
     // Metadata
     ModelMetadata metadata;
@@ -488,14 +488,14 @@ void Molecule::_buildModel(const std::string& assemblyName,
     }
     }
 
-    PLUGIN_INFO("Molecule model successfully built");
+    PLUGIN_INFO(3, "Molecule model successfully built");
 
-    PLUGIN_INFO("---=== Molecule ===--- ");
-    PLUGIN_INFO("Assembly name         : " << assemblyName);
-    PLUGIN_INFO("Name                  : " << name);
-    PLUGIN_INFO("Atom Radius multiplier: " << atomRadiusMultiplier);
-    PLUGIN_INFO("Number of atoms       : " << _atomMap.size());
-    PLUGIN_INFO("Number of bonds       : " << _bondsMap.size());
+    PLUGIN_INFO(3, "---=== Molecule ===--- ");
+    PLUGIN_INFO(3, "Assembly name         : " << assemblyName);
+    PLUGIN_INFO(3, "Name                  : " << name);
+    PLUGIN_INFO(3, "Atom Radius multiplier: " << atomRadiusMultiplier);
+    PLUGIN_INFO(3, "Number of atoms       : " << _atomMap.size());
+    PLUGIN_INFO(3, "Number of bonds       : " << _bondsMap.size());
 
     if (_modelDescriptor &&
         !GeneralSettings::getInstance()->getModelVisibilityOnCreation())
@@ -750,7 +750,7 @@ void Molecule::_setAtomColorScheme()
 
         _setMaterialDiffuseColor(atom.first, atomColorMap[atom.second.element]);
     }
-    PLUGIN_INFO("Applying atom color scheme (" << materialId.size() << ")");
+    PLUGIN_INFO(3, "Applying atom color scheme (" << materialId.size() << ")");
 }
 
 void Molecule::_setAminoAcidSequenceColorScheme(const Palette& palette)
@@ -789,8 +789,9 @@ void Molecule::_setAminoAcidSequenceColorScheme(const Palette& palette)
                 shortSequence.find(_selectedAminoAcidSequence);
             if (sequencePosition != -1)
             {
-                PLUGIN_INFO(_selectedAminoAcidSequence
-                            << " was found at position " << sequencePosition);
+                PLUGIN_INFO(3, _selectedAminoAcidSequence
+                                   << " was found at position "
+                                   << sequencePosition);
                 size_t minSeq = 1e6;
                 size_t maxSeq = 0;
                 for (auto& atom : _atomMap)
@@ -816,8 +817,8 @@ void Molecule::_setAminoAcidSequenceColorScheme(const Palette& palette)
                                                        << shortSequence);
         }
     }
-    PLUGIN_INFO("Applying Amino Acid Sequence color scheme ("
-                << (atomCount > 0 ? "2" : "1") << ")");
+    PLUGIN_INFO(3, "Applying Amino Acid Sequence color scheme ("
+                       << (atomCount > 0 ? "2" : "1") << ")");
 }
 
 void Molecule::_setChainColorScheme(const Palette& palette)
@@ -829,7 +830,7 @@ void Molecule::_setChainColorScheme(const Palette& palette)
         materialId.insert(index);
         _setMaterialDiffuseColor(atom.first, palette[index]);
     }
-    PLUGIN_INFO("Applying Chain color scheme (" << materialId.size() << ")");
+    PLUGIN_INFO(3, "Applying Chain color scheme (" << materialId.size() << ")");
 }
 
 void Molecule::_setResiduesColorScheme(const Palette& palette)
@@ -843,7 +844,8 @@ void Molecule::_setResiduesColorScheme(const Palette& palette)
         materialId.insert(index);
         _setMaterialDiffuseColor(atom.first, palette[index]);
     }
-    PLUGIN_INFO("Applying Residues color scheme (" << materialId.size() << ")");
+    PLUGIN_INFO(3,
+                "Applying Residues color scheme (" << materialId.size() << ")");
 }
 
 void Molecule::_setMaterialDiffuseColor(const size_t atomIndex,

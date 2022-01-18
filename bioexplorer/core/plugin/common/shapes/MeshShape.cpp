@@ -115,11 +115,11 @@ MeshShape::MeshShape(const Vector3d& scale, const Vector4ds& clippingPlanes,
                 _normals[face.z] = normal;
             }
 
-        PLUGIN_INFO("----===  MeshBasedMembrane  ===----");
-        PLUGIN_INFO("Scale                : " << scale);
-        PLUGIN_INFO("Number of faces      : " << _faces.size());
-        PLUGIN_INFO("Mesh surface area    : " << _surface);
-        PLUGIN_INFO("Bounds               : " << _bounds);
+        PLUGIN_INFO(3, "----===  MeshBasedMembrane  ===----");
+        PLUGIN_INFO(3, "Scale                : " << scale);
+        PLUGIN_INFO(3, "Number of faces      : " << _faces.size());
+        PLUGIN_INFO(3, "Mesh surface area    : " << _surface);
+        PLUGIN_INFO(3, "Bounds               : " << _bounds);
     }
 }
 

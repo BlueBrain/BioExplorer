@@ -71,8 +71,8 @@ bool PointCloudMesher::toConvexHull(Model& model, const PointCloud& pointCloud)
         CGAL::convex_hull_3(points.begin(), points.end(), obj);
         if (const Polyhedron_3* poly = CGAL::object_cast<Polyhedron_3>(&obj))
         {
-            PLUGIN_INFO("The convex hull contains " << poly->size_of_vertices()
-                                                    << " vertices");
+            PLUGIN_INFO(3, "The convex hull contains "
+                               << poly->size_of_vertices() << " vertices");
 
             for (auto eit = poly->edges_begin(); eit != poly->edges_end();
                  ++eit)

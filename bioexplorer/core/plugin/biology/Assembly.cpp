@@ -88,8 +88,9 @@ Assembly::Assembly(Scene &scene, const AssemblyDetails &details)
         break;
     }
 
-    PLUGIN_INFO("Adding assembly [" << details.name << "] at position "
-                                    << _position << ", rotation " << _rotation);
+    PLUGIN_INFO(3, "Adding assembly [" << details.name << "] at position "
+                                       << _position << ", rotation "
+                                       << _rotation);
 }
 
 Assembly::~Assembly()
@@ -97,16 +98,17 @@ Assembly::~Assembly()
     for (const auto &protein : _proteins)
     {
         const auto modelId = protein.second->getModelDescriptor()->getModelID();
-        PLUGIN_INFO("Removing protein [" << modelId << "] [" << protein.first
-                                         << "] from assembly [" << _details.name
-                                         << "]");
+        PLUGIN_INFO(3, "Removing protein [" << modelId << "] [" << protein.first
+                                            << "] from assembly ["
+                                            << _details.name << "]");
         _scene.removeModel(protein.second->getModelDescriptor()->getModelID());
     }
     if (_rnaSequence)
     {
         const auto modelId = _rnaSequence->getModelDescriptor()->getModelID();
-        PLUGIN_INFO("Removing RNA sequence [" << modelId << "] from assembly ["
-                                              << _details.name << "]");
+        PLUGIN_INFO(3, "Removing RNA sequence ["
+                           << modelId << "] from assembly [" << _details.name
+                           << "]");
         _scene.removeModel(modelId);
     }
     _modelDescriptors.clear();
@@ -132,8 +134,8 @@ void Assembly::addProtein(const ProteinDetails &details,
     _proteins[details.name] = std::move(protein);
     _modelDescriptors.push_back(modelDescriptor);
     _scene.addModel(modelDescriptor);
-    PLUGIN_INFO(
-        "Number of instances: " << modelDescriptor->getInstances().size());
+    PLUGIN_INFO(3, "Number of instances: "
+                       << modelDescriptor->getInstances().size());
 }
 
 void Assembly::addMembrane(const MembraneDetails &details)
@@ -160,7 +162,7 @@ void Assembly::addSugars(const SugarsDetails &details)
                      " not registered in assembly " + details.assemblyName +
                      ". Registered proteins are " + s);
     }
-    PLUGIN_INFO("Adding sugars to protein " << details.proteinName);
+    PLUGIN_INFO(3, "Adding sugars to protein " << details.proteinName);
     const auto targetProtein = (*it).second;
     targetProtein->addSugars(details);
 }
@@ -180,7 +182,7 @@ void Assembly::addGlycans(const SugarsDetails &details)
                      ". Registered proteins are " + s);
     }
 
-    PLUGIN_INFO("Adding glycans to protein " << details.proteinName);
+    PLUGIN_INFO(3, "Adding glycans to protein " << details.proteinName);
     const auto targetProtein = (*it).second;
     targetProtein->addGlycans(details);
 }
@@ -281,8 +283,9 @@ void Assembly::setColorScheme(const ColorSchemeDetails &details)
             palette.push_back({details.palette[i], details.palette[i + 1],
                                details.palette[i + 2]});
 
-        PLUGIN_INFO("Applying color scheme to protein "
-                    << details.name << " on assembly " << details.assemblyName);
+        PLUGIN_INFO(3, "Applying color scheme to protein "
+                           << details.name << " on assembly "
+                           << details.assemblyName);
         protein->setColorScheme(details.colorScheme, palette, details.chainIds);
 
         _scene.markModified();
@@ -321,8 +324,8 @@ void Assembly::setAminoAcidSequenceAsRange(
 const std::string Assembly::getAminoAcidInformation(
     const AminoAcidInformationDetails &details) const
 {
-    PLUGIN_INFO("Returning Amino Acid information from protein "
-                << details.name);
+    PLUGIN_INFO(3, "Returning Amino Acid information from protein "
+                       << details.name);
 
     std::string response;
     const auto it = _proteins.find(details.name);
@@ -369,7 +372,7 @@ void Assembly::addRNASequence(const RNASequenceDetails &details)
 {
     auto rd = details;
 
-    for (size_t i = 0; i < 3; ++i)
+    for (size_t i = 0; i < _details.position.size(); ++i)
         rd.position[i] += _details.position[i];
 
     _rnaSequence = RNASequencePtr(
@@ -410,10 +413,11 @@ void Assembly::setProteinInstanceTransformation(
     const auto position = doublesToVector3d(details.position);
     const auto rotation = doublesToQuaterniond(details.rotation);
 
-    PLUGIN_INFO("Modifying instance "
-                << details.instanceIndex << " of protein " << details.name
-                << " in assembly " << details.assemblyName << " with position="
-                << position << " and rotation=" << rotation);
+    PLUGIN_INFO(3, "Modifying instance "
+                       << details.instanceIndex << " of protein "
+                       << details.name << " in assembly "
+                       << details.assemblyName << " with position=" << position
+                       << " and rotation=" << rotation);
     Transformation newTransformation = transformation;
     newTransformation.setTranslation(position);
     newTransformation.setRotation(rotation);
@@ -448,10 +452,11 @@ const Transformation Assembly::getProteinInstanceTransformation(
     const auto &position = transformation.getTranslation();
     const auto &rotation = transformation.getRotation();
 
-    PLUGIN_INFO("Getting instance "
-                << details.instanceIndex << " of protein " << details.name
-                << " in assembly " << details.assemblyName << " with position="
-                << position << " and rotation=" << rotation);
+    PLUGIN_INFO(3, "Getting instance "
+                       << details.instanceIndex << " of protein "
+                       << details.name << " in assembly "
+                       << details.assemblyName << " with position=" << position
+                       << " and rotation=" << rotation);
 
     return transformation;
 }
