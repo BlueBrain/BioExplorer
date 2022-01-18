@@ -80,7 +80,7 @@ Assembly::Assembly(Scene &scene, const AssemblyDetails &details)
     case AssemblyShape::mesh:
     {
         _shape = ShapePtr(
-            new MeshShape(size, _clippingPlanes, _details.shapeMeshContents));
+            new MeshShape(_clippingPlanes, size, _details.shapeMeshContents));
         break;
     }
     default:

@@ -21,11 +21,12 @@
 # You should have received a copy of the GNU General Public License along with
 # this program.  If not, see <https://www.gnu.org/licenses/>.
 
-from .bio_explorer import BioExplorer, Volume, Membrane, AssemblyProtein, Protein, Sugars, RNASequence, Cell, Surfactant, Virus, AnimationParams, Vector2, Vector3, Quaternion
-from .movie_maker import MovieMaker
-from .transfer_function import TransferFunction
-from .notebook_widgets import Widgets
 from .version import VERSION as __version__
+from .notebook_widgets import Widgets
+from .transfer_function import TransferFunction
+from .movie_maker import MovieMaker
+from .bio_explorer import BioExplorer, Volume, Membrane, AssemblyProtein, Protein, Sugars, \
+    RNASequence, Cell, Surfactant, Virus, AnimationParams, Vector2, Vector3, Quaternion
 
 __all__ = [
     'Widgets', 'BioExplorer', 'Membrane', 'Protein', 'AssemblyProtein', 'Sugars',

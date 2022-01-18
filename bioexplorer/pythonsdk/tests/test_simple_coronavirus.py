@@ -23,6 +23,16 @@
 
 from bioexplorer import BioExplorer
 
-be = BioExplorer('localhost:5000')
 
-be.add_coronavirus(name='Coronavirus', resource_folder='tests/test_files/', add_glycans=True)
+def test_coronavirus():
+    bio_explorer = BioExplorer('localhost:5000')
+    bio_explorer.reset_scene()
+    bio_explorer.set_general_settings(model_visibility_on_creation=False)
+    bio_explorer.add_coronavirus(
+        name='Coronavirus', resource_folder='tests/test_files/', add_glycans=True)
+
+
+if __name__ == '__main__':
+    import nose
+
+    nose.run(defaultTest=__name__)

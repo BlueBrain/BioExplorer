@@ -336,12 +336,11 @@ class MovieMaker:
         """
         Set renderer with default parameters
 
-        Args:
-            name (string): Name of the renderer
-            gi_length (float, optional): Max length of global illumination rays. Defaults to 5.0.
+        :name: (string): Name of the renderer
+        :gi_length: (float, optional): Max length of global illumination rays. Defaults to 5.0.
 
-        Returns:
-            int: Frame buffer mode (color or depth)
+        :return: Frame buffer mode (color or depth)
+        :rtype: int
         """
         frame_buffer_mode = MovieMaker.FRAME_BUFFER_MODE_COLOR
         self._client.set_renderer(current=name)

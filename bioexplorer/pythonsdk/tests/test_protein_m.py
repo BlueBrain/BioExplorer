@@ -32,7 +32,8 @@ def test_layout():
     pdb_folder = resource_folder + 'pdb/'
 
     bio_explorer = BioExplorer('localhost:5000')
-    bio_explorer.reset()
+    bio_explorer.reset_scene()
+    bio_explorer.set_general_settings(model_visibility_on_creation=False)
     print('BioExplorer version ' + bio_explorer.version())
 
     # Suspend image streaming
@@ -48,15 +49,16 @@ def test_layout():
     # M Protein
     source = pdb_folder + 'QHD43419a.pdb'
 
+    name = bio_explorer.NAME_PROTEIN_M
     m_protein = Protein(
-        sources=[source],
+        name=name,
+        source=source,
         load_hydrogen=False,
         load_non_polymer_chemicals=False
     )
 
-    name = bio_explorer.NAME_PROTEIN_M
     bio_explorer.add_protein(
-        name=name, protein=m_protein,
+        protein=m_protein,
         atom_radius_multiplier=protein_radius_multiplier,
         representation=protein_representation
     )

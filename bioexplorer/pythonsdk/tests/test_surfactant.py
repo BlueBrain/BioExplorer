@@ -21,7 +21,7 @@
 # You should have received a copy of the GNU General Public License along with
 # this program.  If not, see <https://www.gnu.org/licenses/>.
 
-from bioexplorer import BioExplorer, Surfactant, Vector3
+from bioexplorer import BioExplorer, Surfactant, AnimationParams, Vector3
 
 # pylint: disable=no-member
 # pylint: disable=missing-function-docstring
@@ -32,7 +32,8 @@ def test_surfactant():
     pdb_folder = resource_folder + 'pdb/surfactant/'
 
     bio_explorer = BioExplorer('localhost:5000')
-    bio_explorer.reset()
+    bio_explorer.reset_scene()
+    bio_explorer.set_general_settings(model_visibility_on_creation=False)
     print('BioExplorer version ' + bio_explorer.version())
 
     # Suspend image streaming
@@ -52,7 +53,8 @@ def test_surfactant():
         branch_source=branch_source)
     bio_explorer.add_surfactant(
         surfactant=surfactant_d, representation=protein_representation, position=Vector3(-50, 0, 0),
-        random_seed=10)
+        animation_params=AnimationParams(10)
+    )
 
     # SP-A
     surfactant_a = Surfactant(

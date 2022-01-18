@@ -34,8 +34,17 @@ namespace common
 class GeneralSettings
 {
 public:
+    /**
+     * @brief Construct a new General Settings object
+     *
+     */
     GeneralSettings() {}
 
+    /**
+     * @brief Get the Instance object
+     *
+     * @return GeneralSettings* Pointer to the object
+     */
     static GeneralSettings* getInstance()
     {
         std::lock_guard<std::mutex> lock(_mutex);

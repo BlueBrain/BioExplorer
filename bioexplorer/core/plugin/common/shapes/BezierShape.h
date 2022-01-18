@@ -32,21 +32,21 @@ using namespace brayns;
 class BezierShape : public Shape
 {
 public:
+    /**
+     * @brief Construct a new Bezier shape object
+     *
+     * @param clippingPlanes Clipping planes to apply to the shape
+     * @param points List of 3D points defining the bezier control points
+     */
     BezierShape(const Vector4ds& clippingPlanes, const Vector3ds points);
 
-    /**
-     * @brief getTransformation Provide a random position and rotation on a
-     * sphere
-     *
-     * @param occurrence occurrence of the position amongst the maximum of
-     * occurrences (see next parameters)
-     * @return Transformation of the random position and rotation on the fan
-     */
+    /** @copydoc Shape::getTransformation */
     Transformation getTransformation(const uint64_t occurrence,
                                      const uint64_t nbOccurrences,
                                      const AnimationDetails& animationDetails,
                                      const double offset) const final;
 
+    /** @copydoc Shape::isInside */
     bool isInside(const Vector3d& point) const final;
 
 private:

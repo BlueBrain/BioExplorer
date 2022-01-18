@@ -35,7 +35,7 @@ uint64_t _faceIndex = 0;
 double _surfaceCoveringProcess = 0.0;
 double _instanceCoveringProcess = 0.0;
 
-MeshShape::MeshShape(const Vector3d& scale, const Vector4ds& clippingPlanes,
+MeshShape::MeshShape(const Vector4ds& clippingPlanes, const Vector3d& scale,
                      const std::string& contents)
     : Shape(clippingPlanes)
 {

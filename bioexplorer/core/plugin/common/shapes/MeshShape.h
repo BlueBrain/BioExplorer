@@ -37,22 +37,24 @@ using namespace brayns;
 class MeshShape : public Shape
 {
 public:
-    MeshShape(const Vector3d& scale, const Vector4ds& clippingPlanes,
+    /**
+     * @brief Construct a new mesh-based shape object
+     *
+     * @param clippingPlanes Clipping planes to apply to the shape
+     * @param scale Scale of the origin mesh
+     * @param contents Contents defining the mesh in a format supported by
+     * ASSIMP
+     */
+    MeshShape(const Vector4ds& clippingPlanes, const Vector3d& scale,
               const std::string& contents);
 
-    /**
-     * @brief getTransformation Provide a random position and rotation on a
-     * sphere
-     *
-     * @param occurrence occurrence of the position amongst the maximum of
-     * occurrences (see next parameters)
-     * @return Transformation of the random position and rotation on the fan
-     */
+    /** @copydoc Shape::getTransformation */
     Transformation getTransformation(const uint64_t occurrence,
                                      const uint64_t nbOccurrences,
                                      const AnimationDetails& animationDetails,
                                      const double offset) const final;
 
+    /** @copydoc Shape::isInside */
     bool isInside(const Vector3d& point) const final;
 
 private:

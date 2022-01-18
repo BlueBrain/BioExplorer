@@ -22,8 +22,6 @@
 # this program.  If not, see <https://www.gnu.org/licenses/>.
 
 import math
-from os import rename
-import glob
 
 from pyquaternion import Quaternion
 
@@ -49,10 +47,27 @@ from .version import VERSION as __version__
 
 
 class AnimationParams:
-    """Parameters used to introduce some randomness in the position and orientation of the protein. This is mainly used to make assemblies more realistic, and for animation purpose too.
+    """
+    Parameters used to introduce some randomness in the position and orientation of the protein.
+
+    This is mainly used to make assemblies more realistic, and for animation purpose too.
     """
 
-    def __init__(self, seed=0, position_seed=0, position_strength=0.0, rotation_seed=0, rotation_strength=0.0, morphing_step=0.0):
+    def __init__(self, seed=0, position_seed=0, position_strength=0.0, rotation_seed=0,
+                 rotation_strength=0.0, morphing_step=0.0):
+        """
+        Animation parameters are used to define how molecules should be animated
+
+        :seed: (int, optional): Randomization seed. Defaults to 0.
+        :position_seed: (int, optional): Randomization seed for the position of the molecule.
+        Defaults to 0.
+        :position_strength: (float, optional): Strength of the position alteration. Defaults to 0.0.
+        :rotation_seed: (int, optional): Randomization seed for the rotation of the molecule.
+        Defaults to 0.
+        :rotation_strength: (float, optional): Strength of the rotation alteration. Defaults to 0.0.
+        :morphing_step: (float, optional): Morphing step between 0 and 1 for assemblies that
+        transition from one shape to another. Defaults to 0.0.
+        """
         self.seed = seed
         self.position_seed = position_seed
         self.position_strength = position_strength
@@ -67,10 +82,17 @@ class AnimationParams:
         :return: A list containing the values of class members
         :rtype: list
         """
-        return [self.seed, self.position_seed, self.position_strength, self.rotation_seed, self.rotation_strength, self.morphing_step]
+        return [self.seed, self.position_seed, self.position_strength, self.rotation_seed,
+                self.rotation_strength, self.morphing_step]
 
     def copy(self):
-        return AnimationParams(self.seed, self.position_seed, self.position_strength, self.rotation_seed, self.rotation_strength, self.morphing_step)
+        """
+        Copy the current object
+
+        :return: AnimationParams: A copy of the object
+        """
+        return AnimationParams(self.seed, self.position_seed, self.position_strength,
+                               self.rotation_seed, self.rotation_strength, self.morphing_step)
 
 
 class Vector3:
@@ -104,6 +126,11 @@ class Vector3:
         return [self.x, self.y, self.z]
 
     def copy(self):
+        """
+        Copy the current object
+
+        :return: Vector3: A copy of the object
+        """
         return Vector3(self.x, self.y, self.z)
 
 
@@ -131,6 +158,11 @@ class Vector2:
         return [self.x, self.y]
 
     def copy(self):
+        """
+        Copy the current object
+
+        :return: Vector2: A copy of the object
+        """
         return Vector2(self.x, self.y)
 
 
@@ -448,7 +480,6 @@ class BioExplorer:
         rna_folder = resource_folder + "rna/"
         glycan_folder = pdb_folder + "glycans/"
         membrane_folder = pdb_folder + "membrane/"
-        lipids_folder = membrane_folder + "lipids/"
 
         membrane_proteins = list()
 
@@ -743,8 +774,9 @@ class BioExplorer:
             membrane=cell.membrane
         )
 
-    def add_volume(self, volume, atom_radius_multiplier=1.0, representation=REPRESENTATION_ATOMS_AND_STICKS,
-                   position=Vector3(), constraints=list()):
+    def add_volume(self, volume, atom_radius_multiplier=1.0,
+                   representation=REPRESENTATION_ATOMS_AND_STICKS, position=Vector3(),
+                   constraints=list()):
         """
         Add a volume assembly to the scene
 
@@ -921,7 +953,8 @@ class BioExplorer:
         return 'You asked for the meaning of life and the answer is: ' + result
 
     def add_assembly(self, name, shape=ASSEMBLY_SHAPE_POINT, shape_params=Vector3(),
-                     shape_mesh_source='', clipping_planes=list(), position=Vector3(), rotation=Quaternion()):
+                     shape_mesh_source='', clipping_planes=list(), position=Vector3(),
+                     rotation=Quaternion()):
         """
         Add an assembly to the scene
 
@@ -1881,7 +1914,8 @@ class BioExplorer:
         params["position"] = position.to_list()
         return self._invoke_and_check("add-grid", params)
 
-    def add_bounding_box(self, name, bottom_left_corner, top_right_corner, radius=1.0, color=Vector3(1.0, 1.0, 1.0)):
+    def add_bounding_box(self, name, bottom_left_corner, top_right_corner, radius=1.0,
+                         color=Vector3(1.0, 1.0, 1.0)):
         """
         Add a bounding box to the scene
 
@@ -2231,7 +2265,8 @@ class Protein:
 
     def __init__(self, name, source, occurences=1, load_bonds=False,
                  load_hydrogen=False, load_non_polymer_chemicals=False, position=Vector3(),
-                 rotation=Quaternion(), allowed_occurrences=list(), chain_ids=list(), transmembrane_params=Vector2(), animation_params=AnimationParams()):
+                 rotation=Quaternion(), allowed_occurrences=list(), chain_ids=list(),
+                 transmembrane_params=Vector2(), animation_params=AnimationParams()):
         """
         Protein descriptor
 

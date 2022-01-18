@@ -71,7 +71,7 @@ Transformation SphereShape::_getTransformation(
 
     Vector3d pos;
     Quaterniond rot;
-    sphereFilling(radius, occurrence, nbOccurrences, rnd, pos, rot, offset);
+    sphereFilling(radius + offset, occurrence, nbOccurrences, rnd, pos, rot);
 
     if (isClipped(pos, _clippingPlanes))
         throw std::runtime_error("Instance is clipped");

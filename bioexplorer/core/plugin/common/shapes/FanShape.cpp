@@ -59,7 +59,7 @@ Transformation FanShape::getTransformation(
 
     Vector3d pos;
     Quaterniond rot;
-    sphereFilling(radius, occurrence, nbOccurrences, rnd, pos, rot, offset,
+    sphereFilling(radius + offset, occurrence, nbOccurrences, rnd, pos, rot,
                   0.1);
 
     if (isClipped(pos, _clippingPlanes))

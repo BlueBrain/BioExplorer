@@ -31,7 +31,7 @@ VENV_BIN:=$(VENV)/bin
 unexport DISPLAY
 
 # Test coverage pass threshold (percent)
-MIN_COV?=70
+MIN_COV?=60
 VENV_INSTALLED=.installed
 PIP_INSTALL_OPTIONS=--ignore-installed
 
@@ -44,6 +44,8 @@ $(VENV):
 $(VENV_INSTALLED): $(VENV)
 	# Brayns 1.0.0 limitation, use pip 9.0.2
 	$(VENV_BIN)/pip install pip==9.0.2
+	$(VENV_BIN)/pip install brayns==1.0.0
+	$(VENV_BIN)/pip install pip --upgrade pip
 	$(VENV_BIN)/pip install $(PIP_INSTALL_OPTIONS) -r requirements_dev.txt
 	$(VENV_BIN)/pip install -e .
 	touch $@

@@ -113,25 +113,69 @@ Quaterniond doublesToQuaterniond(const doubles& values);
 Vector4ds doublesToVector4ds(const doubles& values);
 
 /**
- * @brief Converts a vector of doubles into randomization details
+ * @brief Converts a vector of doubles into animation details
  *
  * @param value Vector of doubles
- * @return AnimationDetails The randomization details
+ * @return AnimationDetails The animation details
  */
 AnimationDetails doublesToAnimationDetails(const doubles& values);
 
+/**
+ * @brief Returns a position and a rotation of a instance on a sphere using a
+ * sphere-filling algorythm
+ *
+ * @param radius Radius of the sphere
+ * @param occurrence Occurence of the instance
+ * @param occurrences Total number of instances
+ * @param rnd Randomized occurence of the instance (optional)
+ * @param position Resulting position of the instance on the sphere
+ * @param rotation Resulting orientation of the instance on the sphere
+ * @param ratio Ratio of coverage of the sphere
+ * @return Vector3d
+ */
 Vector3d sphereFilling(const double radius, const uint64_t occurrence,
                        const uint64_t occurrences, const uint64_t rnd,
                        Vector3d& position, Quaterniond& rotation,
-                       const double radiusOffset, const double ratio = 1.0);
+                       const double ratio = 1.0);
 
+/**
+ * @brief Splits a string according to the delimiter
+ *
+ * @param s String to split
+ * @param delimiter Delimiter
+ * @return std::vector<std::string> Vector of strings
+ */
 std::vector<std::string> split(const std::string& s,
                                const std::string& delimiter);
 
+/**
+ * @brief Combine a list of transformations
+ *
+ * @param transformations List of transformations
+ * @return Transformation Result of the combination
+ */
 Transformation combineTransformations(const Transformations& transformations);
 
+/**
+ * @brief Safely converts an orientation vector into a quaternion
+ *
+ * @param v Orientation vector
+ * @return Quaterniond Resulting quaternion
+ */
 Quaterniond safeQuatlookAt(const Vector3d& v);
 
+/**
+ * @brief Intersection between a ray and a box
+ *
+ * @param origin Origin of the ray
+ * @param direction Direcion of the ray
+ * @param box Box
+ * @param t0 Initial t of the ray
+ * @param t1 Final t of the ray
+ * @param t Intersection value of t if an intersection if found
+ * @return true The ray intersects with the box
+ * @return false The ray does not intersect with the box
+ */
 bool rayBoxIntersection(const Vector3d& origin, const Vector3d& direction,
                         const Boxd& box, const double t0, const double t1,
                         double& t);

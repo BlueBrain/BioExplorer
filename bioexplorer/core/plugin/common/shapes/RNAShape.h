@@ -32,23 +32,28 @@ using namespace brayns;
 class RNAShape : public Shape
 {
 public:
+    /**
+     * @brief Construct a new RNAShape object
+     *
+     * @param clippingPlanes Clipping planes to apply to the shape
+     * @param shapeType Type of shape (Trefoil knot, star, spring, etc)
+     * @param nbElements Number of elements in the RNA sequence
+     * @param shapeParams Size of the shape
+     * @param valuesRange Range of values for t
+     * @param curveParams Curve parameters based on t, and depending on the
+     * shape type
+     */
     RNAShape(const Vector4ds& clippingPlanes, const RNAShapeType& shapeType,
              const uint64_t nbElements, const Vector2f& shapeParams,
              const Vector2f& valuesRange, const Vector3d& curveParams);
 
-    /**
-     * @brief getTransformation Provide a random position and rotation on a
-     * sphere
-     *
-     * @param occurrence occurrence of the position amongst the maximum of
-     * occurrences (see next parameters)
-     * @return Transformation of the random position and rotation on the fan
-     */
+    /** @copydoc Shape::getTransformation */
     Transformation getTransformation(const uint64_t occurrence,
                                      const uint64_t nbOccurrences,
                                      const AnimationDetails& animationDetails,
                                      const double offset) const final;
 
+    /** @copydoc Shape::isInside */
     bool isInside(const Vector3d& point) const final;
 
 private:

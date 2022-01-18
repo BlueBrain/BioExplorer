@@ -89,14 +89,15 @@ double Shape::rnd3(const uint64_t index)
 
 Quaterniond Shape::weightedRandomRotation(const Quaterniond& q,
                                           const uint64_t seed,
-                                          const uint64_t index, const double s)
+                                          const uint64_t index,
+                                          const double weight)
 {
     const Quaterniond qPitch =
-        angleAxis(s * rnd2(seed + index * 2), Vector3d(1.0, 0.0, 0.0));
+        angleAxis(weight * rnd2(seed + index * 2), Vector3d(1.0, 0.0, 0.0));
     const Quaterniond qYaw =
-        angleAxis(s * rnd2(seed + index * 3), Vector3d(0.0, 1.0, 0.0));
+        angleAxis(weight * rnd2(seed + index * 3), Vector3d(0.0, 1.0, 0.0));
     const Quaterniond qRoll =
-        angleAxis(s * rnd2(seed + index * 5), Vector3d(0.0, 0.0, 1.0));
+        angleAxis(weight * rnd2(seed + index * 5), Vector3d(0.0, 0.0, 1.0));
     return q * qPitch * qYaw * qRoll;
 }
 

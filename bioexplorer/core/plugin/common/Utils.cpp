@@ -332,7 +332,7 @@ Transformation combineTransformations(const Transformations& transformations)
 Vector3d sphereFilling(const double radius, const uint64_t occurrence,
                        const uint64_t occurrences, const uint64_t rnd,
                        Vector3d& position, Quaterniond& rotation,
-                       const double radiusOffset, const double ratio)
+                       const double ratio)
 {
     const double off = 2.0 / occurrences;
     const double increment = ratio * M_PI * (3.0 - sqrt(5.0));
@@ -343,7 +343,7 @@ Vector3d sphereFilling(const double radius, const uint64_t occurrence,
     const double z = sin(phi) * r;
 
     const Vector3d normal = normalize(Vector3d(x, y, z));
-    position = normal * (radius + radiusOffset);
+    position = normal * radius;
     rotation = safeQuatlookAt(normal);
 
     return normal;
