@@ -168,7 +168,7 @@ void Protein::_setRegionColorScheme(const Palette& palette,
 
     PLUGIN_INFO("Applying Amino Acid Sequence color scheme ("
                 << (atomCount > 0 ? "2" : "1") << ")");
-} // namespace bioexplorer
+}
 
 void Protein::_setGlycosylationSiteColorScheme(const Palette& palette)
 {
@@ -297,46 +297,6 @@ void Protein::_getSitesTransformations(
                 PLUGIN_WARN("Chain: "
                             << chain.first << ", Site " << site + 1
                             << " is not available in the protein source");
-
-#if 0
-            else
-            {
-                // Site is not registered in the protein. Extrapolating site
-                // position from previous and following sites
-                size_t before = 1;
-                auto itBefore = aminoAcidsPerChain.find(site - before);
-                while (itBefore == aminoAcidsPerChain.end() &&
-                       (site - before) >= _aminoAcidRange.x)
-                {
-                    ++before;
-                    --itBefore;
-                }
-
-                size_t after = 1;
-                auto itAfter = aminoAcidsPerChain.find(site + after);
-                while (itAfter == aminoAcidsPerChain.end() &&
-                       (site + after) < _aminoAcidRange.y)
-                {
-                    ++after;
-                    ++itAfter;
-                }
-
-                Boxf siteBounds;
-                siteBounds.merge((*itBefore).second);
-                siteBounds.merge((*itAfter).second);
-                siteCenter = siteBounds.getCenter();
-
-                PLUGIN_WARN("Chain: " << chain.first
-                            << ", Site: " << site + 1
-                            << ": no atoms available. Extrapolating from sites "
-                            << before << " and " << after);
-            }
-            // rotation is determined by the center of the site and the
-            // center of the protein
-            const auto bindrotation = normalize(siteCenter - proteinCenter);
-            positions.push_back(siteCenter);
-            rotations.push_back(glm::safeQuatlookAt(bindrotation, UP_VECTOR));
-#endif
         }
     }
 }

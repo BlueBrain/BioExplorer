@@ -213,14 +213,15 @@ void Molecule::_computeReqSetOffset()
         for (const auto& aa : sequence.second.resNames)
             theoreticalReqSeq += aminoAcidMap.find(aa)->second.shortName;
 
-        sequence.second.offset =
-            (theoreticalReqSeq.empty()
-                 ? 0
-                 : theoreticalReqSeq.find(physicalReqSeq) - firstReqSeq);
-        PLUGIN_INFO("Sequence [" << sequence.first
-                                 << "], offset: " << sequence.second.offset
-                                 << ", Theoretical: " << theoreticalReqSeq
-                                 << ", Physical: " << physicalReqSeq);
+        int64_t offset = theoreticalReqSeq.find(physicalReqSeq) - firstReqSeq;
+        if (offset < 0)
+            offset = 0;
+        else
+            PLUGIN_INFO("Sequence [" << sequence.first
+                                     << "], offset: " << offset
+                                     << ", Theoretical: " << theoreticalReqSeq
+                                     << ", Physical: " << physicalReqSeq);
+        sequence.second.offset = offset;
     }
 }
 
