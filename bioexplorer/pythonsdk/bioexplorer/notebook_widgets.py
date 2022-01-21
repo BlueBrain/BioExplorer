@@ -466,7 +466,7 @@ class Widgets:
 
         def update_instances(value):
             model_id = int(model_select.options[model_select.index][1])
-            ids = self._be.get_model_instances(model_id)['ids']
+            ids = self._be.get_model_instances(model_id, max_number_of_instances)['ids']
             instance_select.options = ids
 
         def focus_on_instance(event):

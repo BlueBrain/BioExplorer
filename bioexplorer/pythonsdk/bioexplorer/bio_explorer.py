@@ -1539,6 +1539,7 @@ class BioExplorer:
 
         params = dict()
         params["modelId"] = model_id
+        params["maxNbInstances"] = 0
         return self._invoke("get-material-ids", params)
 
     def set_materials(self, model_ids, material_ids, diffuse_colors, specular_colors,
