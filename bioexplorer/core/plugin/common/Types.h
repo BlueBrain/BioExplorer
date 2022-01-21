@@ -99,13 +99,30 @@ typedef std::map<std::string, RGBColorDetails> RGBColorDetailsMap;
  * @brief Structure defining the entry point response of the remote API
  *
  */
-struct Response
+typedef struct
 {
     /** Status of the response */
     bool status{true};
     /** Contents of the response (optional) */
     std::string contents;
-};
+} Response;
+
+/**
+ * @brief Structure defining on which instance of a model the camera should
+ * focus on
+ *
+ */
+typedef struct
+{
+    /** Model identifier */
+    size_t modelId;
+    /** Instance identifier */
+    size_t instanceId;
+    /** camera direction */
+    std::vector<double> direction;
+    /** Distance to the instance */
+    double distance;
+} FocusOnDetails;
 
 /**
  * @brief Structure defining the plugin general settings
@@ -593,6 +610,8 @@ typedef struct
 {
     /** Model identifier */
     size_t modelId;
+    /** Maximum number of instances that can be processed */
+    size_t maxNbInstances;
 } ModelIdDetails;
 
 /**

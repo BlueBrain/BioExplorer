@@ -251,6 +251,12 @@ void BioExplorerPlugin::init()
         actionInterface->registerRequest<Response>(endPoint, [&]()
                                                    { return _resetCamera(); });
 
+        endPoint = PLUGIN_API_PREFIX + "set-focus-on";
+        PLUGIN_INFO(2, "Registering '" + endPoint + "' endpoint");
+        actionInterface->registerRequest<FocusOnDetails, Response>(
+            endPoint, [&](const FocusOnDetails &payload)
+            { return _setFocusOn(payload); });
+
         endPoint = PLUGIN_API_PREFIX + "remove-assembly";
         PLUGIN_INFO(2, "Registering '" + endPoint + "' endpoint");
         actionInterface->registerRequest<AssemblyDetails, Response>(
@@ -385,6 +391,13 @@ void BioExplorerPlugin::init()
                                                      [&]() -> IdsDetails {
                                                          return _getModelIds();
                                                      });
+
+        endPoint = PLUGIN_API_PREFIX + "get-model-instances";
+        PLUGIN_INFO(2, "Registering '" + endPoint + "' endpoint");
+        actionInterface->registerRequest<ModelIdDetails, IdsDetails>(
+            endPoint,
+            [&](const ModelIdDetails &payload) -> IdsDetails
+            { return _getModelInstances(payload); });
 
         endPoint = PLUGIN_API_PREFIX + "get-model-name";
         PLUGIN_INFO(2, "Registering '" + endPoint + "' endpoint");
@@ -559,8 +572,59 @@ Response BioExplorerPlugin::_resetScene()
 Response BioExplorerPlugin::_resetCamera()
 {
     Response response;
+    const auto &scene = _api->getScene();
     auto &camera = _api->getCamera();
-    camera.reset();
+    Boxd aabb;
+    for (const auto modelDescriptor : scene.getModelDescriptors())
+        for (const auto &instance : modelDescriptor->getInstances())
+            aabb.merge(instance.getTransformation().getTranslation());
+
+    const auto size = aabb.getSize();
+    const double diag = 3.0 * std::max(std::max(size.x, size.y), size.z);
+    camera.setPosition(aabb.getCenter() - Vector3d(0.0, 0.0, -diag));
+    camera.setTarget(aabb.getCenter());
+    camera.setOrientation(safeQuatlookAt(Vector3d(0.0, 0.0, 1.0)));
+    return response;
+}
+
+Response BioExplorerPlugin::_setFocusOn(const FocusOnDetails &payload)
+{
+    Response response;
+    try
+    {
+        const auto &scene = _api->getScene();
+
+        auto &camera = _api->getCamera();
+        auto modelDescriptor = scene.getModel(payload.modelId);
+        if (!modelDescriptor)
+            PLUGIN_THROW("Invalid model Id");
+
+        const auto &instances = modelDescriptor->getInstances();
+        if (payload.instanceId >= instances.size())
+            PLUGIN_THROW("Invalid instance Id");
+
+        const auto &instance = instances[payload.instanceId];
+        const auto &transformation = instance.getTransformation();
+
+        double distance = payload.distance;
+        if (distance == 0.0)
+        {
+            const auto &aabb = modelDescriptor->getBounds();
+            const auto size = aabb.getSize();
+            distance = 3.0 * std::max(std::max(size.x, size.y), size.z);
+        }
+
+        const auto direction = normalize(doublesToVector3d(payload.direction));
+        const auto &translation = transformation.getTranslation();
+        camera.setPosition(translation - direction * distance);
+        camera.setTarget(translation);
+        camera.setOrientation(safeQuatlookAt(direction));
+    }
+    catch (const std::runtime_error &e)
+    {
+        response.status = false;
+        response.contents = e.what();
+    }
     return response;
 }
 
@@ -1105,19 +1169,31 @@ IdsDetails BioExplorerPlugin::_getModelIds() const
     return modelIds;
 }
 
-ModelNameDetails BioExplorerPlugin::_getModelName(
+IdsDetails BioExplorerPlugin::_getModelInstances(
     const ModelIdDetails &payload) const
 {
+    IdsDetails instanceIds;
     auto &scene = _api->getScene();
     auto modelDescriptor = scene.getModel(payload.modelId);
     if (modelDescriptor)
-    {
-        ModelNameDetails modelName;
+        for (size_t i = 0; i < std::min(payload.maxNbInstances,
+                                        modelDescriptor->getInstances().size());
+             ++i)
+            instanceIds.ids.push_back(i);
+    else
+        instanceIds.ids.push_back(0);
+    return instanceIds;
+}
+
+ModelNameDetails BioExplorerPlugin::_getModelName(
+    const ModelIdDetails &payload) const
+{
+    ModelNameDetails modelName;
+    auto &scene = _api->getScene();
+    auto modelDescriptor = scene.getModel(payload.modelId);
+    if (modelDescriptor)
         modelName.name = modelDescriptor->getName();
-        return modelName;
-    }
-    PLUGIN_THROW("Trying to get name from an invalid model ID: " +
-                 std::to_string(payload.modelId));
+    return modelName;
 }
 
 IdsDetails BioExplorerPlugin::_getMaterialIds(const ModelIdDetails &payload)
@@ -1132,9 +1208,6 @@ IdsDetails BioExplorerPlugin::_getMaterialIds(const ModelIdDetails &payload)
                 material.first != SECONDARY_MODEL_MATERIAL_ID)
                 materialIds.ids.push_back(material.first);
     }
-    else
-        PLUGIN_ERROR("Trying to get materials from an invalid model ID: " +
-                     std::to_string(payload.modelId));
     return materialIds;
 }
 
@@ -1202,12 +1275,12 @@ Response BioExplorerPlugin::_setMaterials(const MaterialsDetails &payload)
                                     MATERIAL_PROPERTY_CHAMELEON_MODE,
                                     payload.chameleonModes[id]);
 
-                            // This is needed to apply modifications. Changes to
-                            // the material will be committed after the
-                            // rendering of the current frame is completed. The
-                            // false parameter is to prevent the callback to be
-                            // invoked on every material, this will be done
-                            // later on at a scene level
+                            // This is needed to apply modifications.
+                            // Changes to the material will be committed
+                            // after the rendering of the current frame is
+                            // completed. The false parameter is to prevent
+                            // the callback to be invoked on every material,
+                            // this will be done later on at a scene level
                             material->markModified(false);
                         }
                     }
@@ -1524,34 +1597,34 @@ Response BioExplorerPlugin::_exportToDatabase(
 
 extern "C" ExtensionPlugin *brayns_plugin_create(int argc, char **argv)
 {
-    PLUGIN_INFO(
-        1,
-        " _|_|_|    _|            _|_|_|_|                      _|             "
-        "                           ");
-    PLUGIN_INFO(
-        1,
-        " _|    _|        _|_|    _|        _|    _|  _|_|_|    _|    _|_|    "
-        "_|  _|_|    _|_|    _|  _|_|");
-    PLUGIN_INFO(
-        1,
-        " _|_|_|    _|  _|    _|  _|_|_|      _|_|    _|    _|  _|  _|    _|  "
-        "_|_|      _|_|_|_|  _|_|    ");
-    PLUGIN_INFO(
-        1,
-        " _|    _|  _|  _|    _|  _|        _|    _|  _|    _|  _|  _|    _|  "
-        "_|        _|        _|      ");
-    PLUGIN_INFO(
-        1,
-        " _|_|_|    _|    _|_|    _|_|_|_|  _|    _|  _|_|_|    _|    _|_|    "
-        "_|          _|_|_|  _|      ");
-    PLUGIN_INFO(
-        1,
-        "                                             _|                       "
-        "                           ");
-    PLUGIN_INFO(
-        1,
-        "                                             _|                       "
-        "                           ");
+    PLUGIN_INFO(1,
+                " _|_|_|    _|            _|_|_|_|                      _| "
+                "            "
+                "                           ");
+    PLUGIN_INFO(1,
+                " _|    _|        _|_|    _|        _|    _|  _|_|_|    _| "
+                "   _|_|    "
+                "_|  _|_|    _|_|    _|  _|_|");
+    PLUGIN_INFO(1,
+                " _|_|_|    _|  _|    _|  _|_|_|      _|_|    _|    _|  _| "
+                " _|    _|  "
+                "_|_|      _|_|_|_|  _|_|    ");
+    PLUGIN_INFO(1,
+                " _|    _|  _|  _|    _|  _|        _|    _|  _|    _|  _| "
+                " _|    _|  "
+                "_|        _|        _|      ");
+    PLUGIN_INFO(1,
+                " _|_|_|    _|    _|_|    _|_|_|_|  _|    _|  _|_|_|    _| "
+                "   _|_|    "
+                "_|          _|_|_|  _|      ");
+    PLUGIN_INFO(1,
+                "                                             _|           "
+                "            "
+                "                           ");
+    PLUGIN_INFO(1,
+                "                                             _|           "
+                "            "
+                "                           ");
     PLUGIN_INFO(1, "Initializing BioExplorer plug-in (version "
                        << PACKAGE_VERSION << ")");
 #ifdef USE_CGAL
