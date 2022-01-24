@@ -116,24 +116,6 @@ else()
   common_find_package_disable(assimp)
 endif()
 
-# Brayns viewer application
-common_find_package(GLEW SYSTEM)
-common_find_package(OpenGL)
-
-if(GLEW_FOUND AND OPENGL_FOUND)
-  option(BRAYNS_VIEWER_ENABLED "Activate Brayns Viewer" ON)
-else()
-  option(BRAYNS_VIEWER_ENABLED "Activate Brayns Viewer" OFF)
-endif()
-
-if(BRAYNS_VIEWER_ENABLED)
-  common_find_package(GLEW SYSTEM REQUIRED)
-  common_find_package(OpenGL REQUIRED)
-else()
-  common_find_package_disable(GLEW)
-  common_find_package_disable(OpenGL)
-endif()
-
 common_find_package_post()
 
 list(APPEND BRAYNS_DEPENDENT_LIBRARIES Async++ glm)
@@ -153,11 +135,6 @@ endif()
 # ------------------------------------------------------------------------------
 # BRAYNS applications and libraries
 # ------------------------------------------------------------------------------
-
-if(BRAYNS_VIEWER_ENABLED)
-  add_subdirectory(apps/ui)
-  add_subdirectory(apps/BraynsViewer)
-endif()
 
 if(libuv_FOUND)
   option(BRAYNS_SERVICE_ENABLED "Brayns Service" ON)

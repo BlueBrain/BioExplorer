@@ -1,2 +1,0 @@
-find_dependency(Threads)
-include("${CMAKE_CURRENT_LIST_DIR}/Async++.cmake")
