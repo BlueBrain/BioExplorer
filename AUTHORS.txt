@@ -1,1 +1,8 @@
-Cyrille Favreau (cyrille.favreau@epfl.ch)
+Cyrille Favreau
+Ahmet Bilgili
+Daniel Nachbaur
+Jafet Villafranca
+Juan Hernando
+Stefan Eilemann
+Grigori Chevtchenko
+Raphael Dumusc
