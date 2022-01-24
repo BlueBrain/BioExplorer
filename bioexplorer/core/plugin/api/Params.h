@@ -35,6 +35,9 @@ bool from_json(GeneralSettingsDetails &param, const std::string &payload);
 // Scene information
 std::string to_json(const SceneInformationDetails &param);
 
+// Camera
+bool from_json(FocusOnDetails &param, const std::string &payload);
+
 // Biological elements
 bool from_json(AssemblyDetails &param, const std::string &payload);
 std::string to_json(const AssemblyDetails &payload);

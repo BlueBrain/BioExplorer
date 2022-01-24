@@ -63,6 +63,7 @@ private:
     Response _setGeneralSettings(const GeneralSettingsDetails &payload);
     Response _resetScene();
     Response _resetCamera();
+    Response _setFocusOn(const FocusOnDetails &details);
 
     // IO
     Response _exportToFile(const FileAccessDetails &payload);
@@ -105,6 +106,7 @@ private:
     // Models
     ModelNameDetails _getModelName(const ModelIdDetails &payload) const;
     IdsDetails _getModelIds() const;
+    IdsDetails _getModelInstances(const ModelIdDetails &payload) const;
 
     // Colors and materials
     Response _setColorScheme(const ColorSchemeDetails &payload) const;

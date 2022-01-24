@@ -35,6 +35,7 @@ import matplotlib
 import seaborn as sns
 from stringcase import pascalcase
 from PIL import ImageDraw
+from .bio_explorer import Vector3
 
 
 # pylint: disable=unused-argument
@@ -421,6 +422,69 @@ class Widgets:
 
         hbox = HBox([model_select, hbox_params], layout=DEFAULT_GRID_LAYOUT)
         display(hbox)
+
+    def display_model_focus(self, max_number_of_instances=1e6):
+        """Display visual controls for setting visibility of models"""
+        directions = dict()
+        directions['front'] = Vector3(0, 0, -1)
+        directions['back'] = Vector3(0, 0, 1)
+        directions['top'] = Vector3(0, -1, 0)
+        directions['bottom'] = Vector3(0, 1, 0)
+        directions['right'] = Vector3(-1, 0, 0)
+        directions['left'] = Vector3(1, 0, 0)
+
+        '''Model names and ids'''
+        model_names = list()
+        model_ids = self._be.get_model_ids()['ids']
+        for model_id in model_ids:
+            model_name = self._be.get_model_name(model_id)['name']
+            if self._be.NAME_MEMBRANE not in model_name:
+                model_names.append([model_name, model_id])
+        model_select = Select(
+            description='Model',
+            options=model_names)
+
+        '''Instance Ids'''
+        instance_select = Select(
+            description='Instance',
+            options=list())
+
+        '''Directions'''
+        direction_select = Select(
+            description='Direction',
+            options=directions)
+
+        '''Distance to instance'''
+        distance_slider = FloatSlider(
+            description='Distance', value=25.0, min=-1e3, max=1e3)
+
+        '''Focus button'''
+        focus_btn = Button(description='Focus')
+        hbox_1 = HBox([model_select, instance_select, direction_select])
+        hbox_2 = HBox([distance_slider, focus_btn])
+        vbox = VBox([hbox_1, hbox_2])
+
+        def update_instances(value):
+            model_id = int(model_select.options[model_select.index][1])
+            ids = self._be.get_model_instances(model_id, max_number_of_instances)['ids']
+            instance_select.options = ids
+
+        def focus_on_instance(event):
+            model_id = int(model_select.options[model_select.index][1])
+            instance_id = int(instance_select.options[instance_select.index])
+            self._be.set_focus_on(
+                model_id=model_id, instance_id=instance_id,
+                distance=distance_slider.value,
+                direction=direction_select.value,
+                max_number_of_instances=max_number_of_instances
+            )
+            self._client.set_renderer()
+
+        model_select.observe(update_instances, 'value')
+        focus_btn.on_click(focus_on_instance)
+        update_instances(0)
+
+        display(vbox)
 
     def __display_advanced_settings(self, object_type, threaded):
         """Display visual controls for camera or renderer advanced settings"""

@@ -356,12 +356,33 @@ class BioExplorer:
 
     def reset_camera(self):
         """
-        Remove all assemblies
+        Reset the camera for the current scene
 
         :return: Result of the call to the BioExplorer backend
         :rtype: Response
         """
         return self._invoke_and_check("reset-camera")
+
+    def set_focus_on(self, model_id, instance_id=0, distance=0.0,
+                     direction=Vector3(0.0, 0.0, 1.0), max_number_of_instances=1e6):
+        """
+        Set focus on a specific instance of a model
+
+        :return: Result of the call to the BioExplorer backend
+        :rtype: Response
+        """
+        assert isinstance(direction, Vector3)
+
+        params = dict()
+        params["modelId"] = model_id
+        params["instanceId"] = instance_id
+        params["distance"] = distance
+        params["direction"] = direction.to_list()
+        params["maxNbInstances"] = max_number_of_instances
+        result = self._invoke_and_check("set-focus-on", params)
+        if not result["status"]:
+            raise RuntimeError(result["contents"])
+        return result
 
     def export_to_file(self, filename, low_bounds=Vector3(-1e38, -1e38, -1e38),
                        high_bounds=Vector3(1e38, 1e38, 1e38)):
@@ -1475,8 +1496,11 @@ class BioExplorer:
 
         :return: List of model Ids
         """
+        assert isinstance(model_id, int)
+
         params = dict()
         params["modelId"] = model_id
+        params["maxNbInstances"] = 0
         return self._invoke("get-model-name", params)
 
     def get_model_ids(self):
@@ -1487,6 +1511,23 @@ class BioExplorer:
         """
         return self._invoke("get-model-ids")
 
+    def get_model_instances(self, model_id, max_number_of_instances=1e6):
+        """
+        Return the list of instances in the specified model
+
+        :model_id: Id of the model
+        :max_number_of_instances: Maximum number of instances (this can be huge and difficult to
+        handle by the python code)
+        :return: List of instance Ids
+        """
+        assert isinstance(model_id, int)
+        assert isinstance(max_number_of_instances, int)
+
+        params = dict()
+        params["modelId"] = model_id
+        params["maxNbInstances"] = max_number_of_instances
+        return self._invoke("get-model-instances", params)
+
     def get_material_ids(self, model_id):
         """
         Return the list of material Ids for a given model
@@ -1494,8 +1535,11 @@ class BioExplorer:
         :model_id: Id of the model
         :return: List of material Ids
         """
+        assert isinstance(model_id, int)
+
         params = dict()
         params["modelId"] = model_id
+        params["maxNbInstances"] = 0
         return self._invoke("get-material-ids", params)
 
     def set_materials(self, model_ids, material_ids, diffuse_colors, specular_colors,
@@ -2108,7 +2152,7 @@ class Membrane:
         assert isinstance(lipid_rotation, Quaternion)
         assert isinstance(animation_params, AnimationParams)
         assert lipid_density > 0.0
-        assert lipid_density <= 1.0
+        assert lipid_density <= 10.0
 
         self.lipid_sources = lipid_sources
         self.lipid_rotation = lipid_rotation

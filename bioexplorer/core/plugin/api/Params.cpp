@@ -96,6 +96,23 @@ bool from_json(GeneralSettingsDetails &param, const std::string &payload)
     return true;
 }
 
+bool from_json(FocusOnDetails &param, const std::string &payload)
+{
+    try
+    {
+        auto js = nlohmann::json::parse(payload);
+        FROM_JSON(param, js, modelId);
+        FROM_JSON(param, js, instanceId);
+        FROM_JSON(param, js, direction);
+        FROM_JSON(param, js, distance);
+    }
+    catch (...)
+    {
+        return false;
+    }
+    return true;
+}
+
 bool from_json(AssemblyDetails &param, const std::string &payload)
 {
     try
@@ -435,6 +452,7 @@ bool from_json(ModelIdDetails &param, const std::string &payload)
     {
         auto js = nlohmann::json::parse(payload);
         FROM_JSON(param, js, modelId);
+        FROM_JSON(param, js, maxNbInstances);
     }
     catch (...)
     {
