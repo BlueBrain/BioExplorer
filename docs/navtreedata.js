@@ -43,7 +43,7 @@ var NAVTREE =
         [ "Web User Interface", "index.html#autotoc_md16", null ]
       ] ],
       [ "Building from Source", "index.html#autotoc_md17", [
-        [ "Blue Brain Brayns 1.0.0", "index.html#autotoc_md18", null ],
+        [ "Blue Brain Brayns", "index.html#autotoc_md18", null ],
         [ "BioExplorer", "index.html#autotoc_md19", [
           [ "Compile", "index.html#autotoc_md20", null ],
           [ "Run", "index.html#autotoc_md21", null ]
@@ -90,7 +90,7 @@ var NAVTREEINDEX =
 [
 ".html",
 "d6/dc2/classbioexplorer_1_1biology_1_1Assembly.html#afd5a58cda3b6421ecc7fe393676a8694",
-"dc/d78/classbioexplorer_1_1common_1_1Shape.html#a664eb89f4c69df1ed27e470dcf16607c"
+"dc/d5b/structbioexplorer_1_1details_1_1BuildFieldsDetails.html#a0599983952d3097fbf88919ea4209047"
 ];
 
 var SYNCONMSG = 'click to disable panel synchronisation';

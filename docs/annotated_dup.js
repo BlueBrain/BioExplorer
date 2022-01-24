@@ -44,6 +44,7 @@ var annotated_dup =
         [ "ColorSchemeDetails", "d3/dd5/structbioexplorer_1_1details_1_1ColorSchemeDetails.html", "d3/dd5/structbioexplorer_1_1details_1_1ColorSchemeDetails" ],
         [ "DatabaseAccessDetails", "dc/dd9/structbioexplorer_1_1details_1_1DatabaseAccessDetails.html", "dc/dd9/structbioexplorer_1_1details_1_1DatabaseAccessDetails" ],
         [ "FileAccessDetails", "de/d38/structbioexplorer_1_1details_1_1FileAccessDetails.html", "de/d38/structbioexplorer_1_1details_1_1FileAccessDetails" ],
+        [ "FocusOnDetails", "d7/d6e/structbioexplorer_1_1details_1_1FocusOnDetails.html", "d7/d6e/structbioexplorer_1_1details_1_1FocusOnDetails" ],
         [ "GeneralSettingsDetails", "d0/d14/structbioexplorer_1_1details_1_1GeneralSettingsDetails.html", "d0/d14/structbioexplorer_1_1details_1_1GeneralSettingsDetails" ],
         [ "IdsDetails", "d1/d91/structbioexplorer_1_1details_1_1IdsDetails.html", "d1/d91/structbioexplorer_1_1details_1_1IdsDetails" ],
         [ "InspectionDetails", "dd/dc0/structbioexplorer_1_1details_1_1InspectionDetails.html", "dd/dc0/structbioexplorer_1_1details_1_1InspectionDetails" ],

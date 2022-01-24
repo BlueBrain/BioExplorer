@@ -28,6 +28,7 @@ var hierarchy =
       [ "bioexplorer::BioExplorerPlugin", "d7/d7b/classbioexplorer_1_1BioExplorerPlugin.html", null ]
     ] ],
     [ "bioexplorer::details::FileAccessDetails", "de/d38/structbioexplorer_1_1details_1_1FileAccessDetails.html", null ],
+    [ "bioexplorer::details::FocusOnDetails", "d7/d6e/structbioexplorer_1_1details_1_1FocusOnDetails.html", null ],
     [ "bioexplorer::common::GeneralSettings", "d2/da7/classbioexplorer_1_1common_1_1GeneralSettings.html", null ],
     [ "bioexplorer::details::GeneralSettingsDetails", "d0/d14/structbioexplorer_1_1details_1_1GeneralSettingsDetails.html", null ],
     [ "bioexplorer::details::IdsDetails", "d1/d91/structbioexplorer_1_1details_1_1IdsDetails.html", null ],

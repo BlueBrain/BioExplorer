@@ -56,7 +56,7 @@ Check out the movie by clicking on the following image, and see the coronavirus 
 </div>
 
 ## Architecture
-The _BBBE_ application is built on top of [Blue Brain Brayns](https://github.com/BlueBrain/Brayns), the Blue Brain rendering platform. The _BBBE_ uses the underlying technical capabilities of the rendering platform to create large scale and accurate 3D scenes from Jupyter notebooks.
+The _BBBE_ application is built on top of a fork of [Blue Brain Brayns](https://github.com/BlueBrain/BioExplorer/tree/Brayns) 1.0.0 , the Blue Brain rendering platform. The _BBBE_ uses the underlying technical capabilities of the rendering platform to create large scale and accurate 3D scenes from Jupyter notebooks.
 
 ![___](./bioexplorer/pythonsdk/doc/source/images/architecture.png)
 
@@ -138,13 +138,13 @@ docker run -ti --rm -p 5002:8080 bluebrain/bioexplorer-ui
 
 ## Building from Source
 
-### Blue Brain Brayns 1.0.0
-In order to run the BioExplorer, it is necessary to build Blue Brain Brayns first. Please refer to the [documentation](https://github.com/favreau/Brayns/blob/master/README.md) and following the steps in the "Building from source" paragraph. Note that the BioExplorer is currently only supported with [version 1.0.0 (e12fa84)](https://github.com/favreau/Brayns/releases/tag/1.0.1) of [Blue Brain Brayns](https://github.com/favreau/Brayns/).
+### Blue Brain Brayns
+In order to run the BioExplorer, it is necessary to build [Blue Brain Brayns](https://github.com/BlueBrain/BioExplorer/tree/Brayns) first.
 
 ### BioExplorer
 
 #### Compile
-With [Blue Brain Brayns](https://github.com/favreau/Brayns/) compiled and installed in the <brayns_installation_folder>, run the statements to build the BioExplorer.
+With [Blue Brain Brayns](https://github.com/BlueBrain/BioExplorer/tree/Brayns) compiled and installed in the <brayns_installation_folder>, run the statements to build the BioExplorer.
 
 ```bash
 git clone https://github.com/BlueBrain/BioExplorer.git
@@ -156,7 +156,7 @@ make install
 
 #### Run
 
-The BioExplorer being a plug-in for [Blue Brain Brayns](https://github.com/favreau/Brayns/), the following commands can be used to start the backend:
+The BioExplorer being a plug-in for [Blue Brain Brayns](https://github.com/BlueBrain/BioExplorer/tree/Brayns), the following commands can be used to start the backend:
 
 ```bash
 export LD_LIBRARY_PATH=<brayns_installation_folder>/lib:${LD_LIBRARY_PATH}
