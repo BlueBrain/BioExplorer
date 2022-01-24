@@ -103,7 +103,7 @@ Description</h2>
 <p>Check out the movie by clicking on the following image, and see the coronavirus as you have never seen it before!</p>
 <div align="center"> <a href="https://youtu.be/Czn-YGLGfiA"><img src="https://github.com/BlueBrain/BioExplorer/blob/master/bioexplorer/pythonsdk/doc/source/images/movie_preview.png" alt="" style="width:50%;" class="inline"/> </a> </div><h2><a class="anchor" id="autotoc_md2"></a>
 Architecture</h2>
-<p>The <em>BBBE</em> application is built on top of <a href="https://github.com/BlueBrain/Brayns">Blue Brain Brayns</a>, the Blue Brain rendering platform. The <em>BBBE</em> uses the underlying technical capabilities of the rendering platform to create large scale and accurate 3D scenes from Jupyter notebooks.</p>
+<p>The <em>BBBE</em> application is built on top of a fork of <a href="https://github.com/BlueBrain/BioExplorer/tree/Brayns">Blue Brain Brayns</a> 1.0.0 , the Blue Brain rendering platform. The <em>BBBE</em> uses the underlying technical capabilities of the rendering platform to create large scale and accurate 3D scenes from Jupyter notebooks.</p>
 <div class="image">
 <img src="architecture.png" alt=""/>
 <div class="caption">
@@ -176,13 +176,13 @@ ___</div></div>
    <h2><a class="anchor" id="autotoc_md17"></a>
 Building from Source</h2>
 <h3><a class="anchor" id="autotoc_md18"></a>
-Blue Brain Brayns 1.0.0</h3>
-<p>In order to run the BioExplorer, it is necessary to build Blue Brain Brayns first. Please refer to the <a href="https://github.com/favreau/Brayns/blob/master/README.md">documentation</a> and following the steps in the "Building from source" paragraph. Note that the BioExplorer is currently only supported with <a href="https://github.com/favreau/Brayns/releases/tag/1.0.1">version 1.0.0 (e12fa84)</a> of <a href="https://github.com/favreau/Brayns/">Blue Brain Brayns</a>.</p>
+Blue Brain Brayns</h3>
+<p>In order to run the BioExplorer, it is necessary to build <a href="https://github.com/BlueBrain/BioExplorer/tree/Brayns">Blue Brain Brayns</a> first.</p>
 <h3><a class="anchor" id="autotoc_md19"></a>
 BioExplorer</h3>
 <h4><a class="anchor" id="autotoc_md20"></a>
 Compile</h4>
-<p>With <a href="https://github.com/favreau/Brayns/">Blue Brain Brayns</a> compiled and installed in the &lt;brayns_installation_folder&gt;, run the statements to build the BioExplorer.</p>
+<p>With <a href="https://github.com/BlueBrain/BioExplorer/tree/Brayns">Blue Brain Brayns</a> compiled and installed in the &lt;brayns_installation_folder&gt;, run the statements to build the BioExplorer.</p>
 <div class="fragment"><div class="line">git clone https://github.com/BlueBrain/BioExplorer.git</div>
 <div class="line">mkdir build</div>
 <div class="line">cd build</div>
@@ -190,7 +190,7 @@ Compile</h4>
 <div class="line">make install</div>
 </div><!-- fragment --><h4><a class="anchor" id="autotoc_md21"></a>
 Run</h4>
-<p>The BioExplorer being a plug-in for <a href="https://github.com/favreau/Brayns/">Blue Brain Brayns</a>, the following commands can be used to start the backend:</p>
+<p>The BioExplorer being a plug-in for <a href="https://github.com/BlueBrain/BioExplorer/tree/Brayns">Blue Brain Brayns</a>, the following commands can be used to start the backend:</p>
 <div class="fragment"><div class="line">export LD_LIBRARY_PATH=&lt;brayns_installation_folder&gt;/lib:${LD_LIBRARY_PATH}</div>
 <div class="line">export PATH=&lt;brayns_installation_folder&gt;/bin:${PATH}</div>
 <div class="line">braynsService --http-server localhost:5000 --plugin BioExplorer</div>
