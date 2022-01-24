@@ -1,0 +1,24 @@
+[submodule "CMake/common"]
+	path = CMake/common
+	url = https://github.com/Eyescale/CMake
+[submodule "uvw"]
+	path = deps/uvw
+	url = https://github.com/skypjack/uvw.git
+[submodule "async++"]
+	path = deps/async++
+	url = https://github.com/Amanieu/asyncplusplus.git
+[submodule "perceptualdiff"]
+	path = deps/perceptualdiff
+	url = https://github.com/myint/perceptualdiff.git
+[submodule "plugins/Rockets/rapidjson"]
+	path = plugins/Rockets/rapidjson
+	url = https://github.com/Tencent/rapidjson.git
+[submodule "deps/glm"]
+	path = deps/glm
+	url = https://github.com/g-truc/glm.git
+[submodule "deps/glfw"]
+	path = deps/glfw
+	url = https://github.com/glfw/glfw.git
+[submodule "deps/imgui"]
+	path = deps/imgui
+	url = https://github.com/ocornut/imgui.git

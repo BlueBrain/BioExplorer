@@ -1,23 +1,16 @@
-version: "3.3"
+version: "3"
 services:
   ui:
-    image: bluebrain/bioexplorer-ui
-    labels:
-      description: Blue Brain BioExplorer User Interface
-      name: Web User Interface
+    image: brayns-ui
+    build: ./js/apps/viewer
+    restart: always
     ports:
-      - "5002:8080"
-  sdk:
-    image: bluebrain/bioexplorer-python-sdk
-    labels:
-      description: Blue Brain BioExplorer Jupyter Notebooks
-      name: Jupyter notebooks
-    ports:
-      - "5001:8888"
+      - "8000:8080"
+    links:
+      - api
   api:
-    image: bluebrain/bioexplorer
-    labels:
-      description: Blue Brain BioExplorer core API
-      name: Core API
+    image: brayns
+    build: .
+    restart: always
     ports:
-      - "5000:8200"
+      - "8200:8200"

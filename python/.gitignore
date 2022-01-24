@@ -1,0 +1,12 @@
+.coverage
+.idea/
+brayns.egg-info/
+.installed
+pycodestyle.txt
+pydocstyle.txt
+pylint.txt
+*.pyc
+dist/
+.tox/
+venv/
+doc/source/.ipynb_checkpoints/
