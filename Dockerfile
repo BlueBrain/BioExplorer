@@ -126,8 +126,7 @@ RUN mkdir -p ${BRAYNS_SRC} \
 WORKDIR /app
 
 # TODO: "|| exit 0"  hack to be removed as soon as MVDTool export issue is fixed.
-RUN cksum ${BRAYNS_SRC}/.gitsubprojects \
-   && cd ${BRAYNS_SRC} \
+RUN cd ${BRAYNS_SRC} \
    && git submodule update --init --recursive \
    && git checkout Brayns \
    && mkdir -p build \
