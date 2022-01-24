@@ -1,193 +1,197 @@
-<link href="./bioexplorer/core/doc/extra.css" rel="stylesheet"></link>
+# Brayns
 
-# Blue Brain BioExplorer
+[![C++ Build Status](https://bbpcode.epfl.ch/ci/buildStatus/icon?job=oss.Brayns)](https://bbpcode.epfl.ch/ci/job/oss.Brayns/)
+[![Docker Build Status](https://bbpcode.epfl.ch/ci/buildStatus/icon?job=oss.Brayns.docker)](https://bbpcode.epfl.ch/ci/job/oss.Brayns.docker/)
+[![Python Build Status](https://travis-ci.org/BlueBrain/Brayns.svg)](https://travis-ci.org/BlueBrain/Brayns)
+[![Read the Docs](https://readthedocs.org/projects/brayns/badge/?version=latest)](http://brayns.readthedocs.io/en/latest/?badge=latest)
+[![Docker Pulls](https://img.shields.io/docker/pulls/bluebrain/brayns.svg)](https://hub.docker.com/r/bluebrain/brayns/)
+[![GitHub release](https://img.shields.io/github/release/BlueBrain/Brayns.svg)](https://github.com/BlueBrain/Brayns/releases)
 
-<table border=0>
-<tr>
-  <td>
-    <a href="https://github.com/BlueBrain/BioExplorer/tags">
-    <img src="https://img.shields.io/github/v/tag/BlueBrain/BioExplorer?style=for-the-badge" alt="Latest release" />
-    </a>
-  </td>
-  <td>
-    <a href="https://github.com/BlueBrain/BioExplorer/blob/master/LICENSE.md">
-    <img src="https://img.shields.io/github/license/BlueBrain/BioExplorer?style=for-the-badge" alt="License" />
-    </a>
-  </td>
-	<td>
-		<a href="https://github.com/BlueBrain/BioExplorer/forks">
-		<img src="https://img.shields.io/endpoint.svg?url=https%3A%2F%2Factions-badge.atrox.dev%2Fbluebrain%2Fbioexplorer%2Fbadge%3Fref%3Dmaster&style=for-the-badge" alt="Actions">
-		</a>
-	</td>
-  <td>
-    <a href="https://github.com/BlueBrain/BioExplorer/stargazers">
-    <img src="https://img.shields.io/github/stars/BlueBrain/BioExplorer?style=for-the-badge" alt="Stars" />
-    </a>
-  </td>
-  <td>
-    <a href="https://github.com/BlueBrain/BioExplorer/network/members">
-    <img src="https://img.shields.io/github/forks/BlueBrain/BioExplorer?style=for-the-badge" alt="Forks" />
-    </a>
-  </td>
-	<td>
-		<a href="http://www.pydocstyle.org/">
-		<img src="https://img.shields.io/badge/docstrings-pydocstyle-informational?style=for-the-badge" alt="Pydocstyle">
-		</a>
-	</td>
-	<td>
-		<a href="https://pypi.org/project/pycodestyle/">
-		<img src="https://img.shields.io/badge/docstrings-pycodestyle-informational?style=for-the-badge" alt="Pycodestyle">
-		</a>
-	</td>
-</tr>
-</table>
+![Brayns](doc/images/Brayns.jpg)
 
-![___](./bioexplorer/pythonsdk/doc/source/images/BBBE_banner.png)
+One of the keys towards understanding how the brain works as a whole is
+visualisation of how the individual cells function. In particular, the more
+morphologically accurate the visualisation can be, the easier it is for experts
+in the biological field to validate cell structures; photo-realistic rendering
+is therefore important.
 
-## Description
-In the context of the "[A Machine-Generated View of the Role of Blood Glucose Levels in the Severity of COVID-19](https://www.frontiersin.org/articles/10.3389/fpubh.2021.695139/full?utm_source=fweb&utm_medium=nblog&utm_campaign=ba-sci-fpubh-covid-19-elevated-blood-glucose-blue-brain)" study, the Blue Brain BioExplorer (_BBBE_) started as an internal project with the aim to answer key scientific questions related to the Coronavirus as a use case. This project aimed to deliver a visualization tool, the BioExplorer, to reconstruct, visualize, explore and describe in detail the structure and function of the Coronavirus.
+The Blue Brain Project has made major efforts to create morphologically accurate
+neurons to simulate sub-cellular and electrical activities, e.g. molecular
+simulations of neuron biochemistry or multi-scale simulations of neuronal
+function. Ray-tracing can help to highlight areas of the circuits where cells
+touch each other and where synapses are being created. In combination with
+‘global illumination’, which uses light, shadow, and depth of field effects to
+simulate photo-realistic images, this technique makes it easier to visualise how
+the neurons function.
 
-Check out the movie by clicking on the following image, and see the coronavirus as you have never seen it before!
+Brayns is a minimalistic visualiser that can perform ray-traced rendering of
+neurons. It provides an abstraction of the underlying rendering engines, so that
+the best possible acceleration libraries can be used for the relevant hardware.
+(https://github.com/BlueBrain/Brayns.git).
 
-<div align="center">
-      <a href="https://youtu.be/Czn-YGLGfiA"/>
-         <img src="https://github.com/BlueBrain/BioExplorer/blob/master/bioexplorer/pythonsdk/doc/source/images/movie_preview.png" style="width:50%;">
-      </a>
-</div>
+To keep track of the changes between releases check the [changelog](Changelog.md).
+
+Contact: bbp-open-source@googlegroups.com
 
 ## Architecture
-The _BBBE_ application is built on top of [Blue Brain Brayns](https://github.com/BlueBrain/Brayns), the Blue Brain rendering platform. The _BBBE_ uses the underlying technical capabilities of the rendering platform to create large scale and accurate 3D scenes from Jupyter notebooks.
 
-![___](./bioexplorer/pythonsdk/doc/source/images/architecture.png)
+![Architecture](doc/images/Architecture.png)
 
-## General components
+## User guide
 
-### Assemblies
-Assemblies are groups of biological elements, such as proteins, membranes, glycans, etc. 
-As an example, a virion is made of a lipid membrane, spikes proteins, an RNA sequence, etc, and all those elements belong to the same object. That’s why they need to belong to the same container, the assembly.
-Assemblies can have different shapes: Sphere, Cube, etc, that are automatically generated according to the parameters of individual
-components.
+Command line arguments are documented in the [User Guide](doc/UserGuide.md).
 
-### Proteins
-Proteins are loaded from PDB files. Atoms, non-polymer chemicals and bonds can be loaded and displayed in various colour schemes: chain id, atom, residue, etc.
-Proteins also contain the amino acid sequences of the individual chains. Sequences that can be used to query glycosylation sites, or functional regions of the protein.
+## About
 
-![___](./bioexplorer/pythonsdk/doc/source/images/6vyb_regions.gif)
+The following platforms and build environments are tested:
 
-### Glycans
-Glycans are small proteins that are attached to an existing protein of the assembly. Individual glycan trees are loaded from PDB files and attached to the glycosylation sites of the specified protein. By default, glycans are attached to all available glycosylation sites, but a set of specific sites can be specified.
+* Linux: Ubuntu 16.04, Debian 9, RHEL 7 (Makefile, x64)
 
-Glycan trees models located in the python sdk test folder were generated with [Glycam Builder](http://glycam.org).
+## Using Docker images
 
-![___](./bioexplorer/pythonsdk/doc/source/images/receptor_all_glycans.gif)
+### Start Brayns as a service
 
-### RNA sequence (work in progress)
-An RNA sequence can be loaded from a text sequence of codons.
-Various shapes can be selected to represent the RNA sequence: Trefoil knot, torus, star, etc. This allows the sequence to be efficiently packed into a given volume. A different color is assigned per type of codon.
-
-### Mesh-based membranes
-Mesh-based membranes create membranes based on 3D meshes. This allows the construction of complex membranes where mesh faces are filled with proteins.
-
-### Virus
-A viral particle (= “virus”) is an assembly consisting of a membrane, an RNA sequence, and a given number of S, M and E proteins. The virus has a predefined spherical shape defined by its radius. The default parameters for the virus are a radius of 45 nanometers, 62 S proteins, 42 E proteins, and 50 M proteins. Dimensions and concentrations were retrieved from the literature.
-
-![___](./bioexplorer/pythonsdk/doc/source/images/coronavirus.gif)
-
-### Membrane
-
-A membrane is an assembly of phospholipids. Phospholipids structures are created following the process described in the [VMD](https://www.ks.uiuc.edu/Research/vmd) Membrane Proteins [tutorial](http://www.ks.uiuc.edu/Training/Tutorials). The assembly itself is generated by the BioExplorer, for a given shape, and a number of instances of phospholipids.
-
-![___](./bioexplorer/pythonsdk/doc/source/images/membrane.gif)
-
-## Python SDK
-A simple API if exposed via the _BBBE_ python library. The API allows scientists to easily create and modify assemblies, according the biological parameters. The _BBBE_ programming language is not necessarily reflecting the underlying implementation, but is meant to be as simple as close as possible to the language used by the scientists to describe biological assemblies.
-
-The _BBBE_ Python SDK is available on [pypi](https://pypi.org/project/bioexplorer/).
-
-A large number of examples (as python notebooks) are provided in the [notebooks](https://github.com/BlueBrain/BioExplorer/tree/master/bioexplorer/pythonsdk/notebooks) folder.
-
-## Documentation
-
-See [here](https://bluebrain.github.io/BioExplorer/) for detailed documentation of the source code.
-
-## Deployment
-
-_BBBE_ binaries are publicaly available as docker images. _BBBE_ is designed to run in distributed mode, and is composed of 3 modules: A [server](https://hub.docker.com/r/bluebrain/bioexplorer), a [python SDK](https://hub.docker.com/r/bluebrain/bioexplorer-python-sdk), and a [web user interface](https://hub.docker.com/r/bluebrain/bioexplorer-ui). This means that there are 3 docker images to be downloaded on run. Those images can of course run on different machines.
-
-In this example, we will expose the server on port 5000, the python SDK jupyter notebooks on port 5001, and the user inferface on port 5002. One is free to change those ports at will.
-
-### Server
-
-```bash
-docker run -ti --rm -p 5000:8200 bluebrain/bioexplorer
+```
+docker run -ti --rm -p 8200:8200 bluebrain/brayns
 ```
 
-### Python SDK
+More documentation is available on DockerHub: https://hub.docker.com/r/bluebrain/brayns/
 
-```bash
-docker run -ti --rm -p 5001:8888 bluebrain/bioexplorer-python-sdk
+### Start the Brayns web UI
+
+```
+docker run -ti --rm -p 8080:8080 bluebrain/brayns-ui
 ```
 
-### Web User Interface
-
-```bash
-docker run -ti --rm -p 5002:8080 bluebrain/bioexplorer-ui
-```
-
-![___](./bioexplorer/pythonsdk/doc/source/images/BBBE_screenshot.png)
+More documentation is available on DockerHub: https://hub.docker.com/r/bluebrain/brayns-ui/
 
 ## Building from Source
 
-### Blue Brain Brayns 1.0.0
-In order to run the BioExplorer, it is necessary to build Blue Brain Brayns first. Please refer to the [documentation](https://github.com/favreau/Brayns/blob/master/README.md) and following the steps in the "Building from source" paragraph. Note that the BioExplorer is currently only supported with [version 1.0.0 (e12fa84)](https://github.com/favreau/Brayns/releases/tag/1.0.1) of [Blue Brain Brayns](https://github.com/favreau/Brayns/).
+### Ubuntu 18.04
 
-### BioExplorer
+To install all dependencies needed by Brayns on Ubuntu 18.04 run:
 
-#### Compile
-With [Blue Brain Brayns](https://github.com/favreau/Brayns/) compiled and installed in the <brayns_installation_folder>, run the statements to build the BioExplorer.
-
-```bash
-git clone https://github.com/BlueBrain/BioExplorer.git
-mkdir build
-cd build
-CMAKE_PREFIX_PATH=<brayns_installation_folder> cmake .. -DCMAKE_INSTALL_PREFIX=<brayns_installation_folder>
-make install
+```
+sudo apt install git cmake g++ libtbb-dev libgl1-mesa-dev libxrandr-dev \
+libxinerama-dev libxcursor-dev libboost-all-dev libfreeimage-dev libglew-dev \
+libwebsockets-dev libturbojpeg libturbojpeg0-dev libassimp-dev libhdf5-dev
 ```
 
-#### Run
+### Prerequisites
 
-The BioExplorer being a plug-in for [Blue Brain Brayns](https://github.com/favreau/Brayns/), the following commands can be used to start the backend:
+In order to ease the application compilation process, we recommend using the
+following tree structure:
 
-```bash
-export LD_LIBRARY_PATH=<brayns_installation_folder>/lib:${LD_LIBRARY_PATH}
-export PATH=<brayns_installation_folder>/bin:${PATH}
-braynsService --http-server localhost:5000 --plugin BioExplorer
+```
+- src
+  +- ispc-v1.10.0-linux
+  +- OSPRay
+  +- Brayns
 ```
 
-## Simple example
-Considering that the _BBBE_ server is running on the local host, on port 5000, the simplest example to visualize a coronavirus is:
-```python
-from bioexplorer import BioExplorer
-be = BioExplorer('localhost:5000')
-resource_folder = '../../tests/test_files/'
-name='Coronavirus'
-be.add_coronavirus(name=name, resource_folder=resource_folder)
+#### Intel ISPC compiler
+
+Download and extract [ISPC compiler 1.10.0 archive](https://ispc.github.io/downloads.html).
+
+#### Embree
+
+Clone embree in the same folder level as ISPC compiler
+
+```
+  git clone https://github.com/embree/embree.git
+  mkdir embree/Build
+  cd embree/Build
+  git checkout v3.5.2
+  cmake .. -DCMAKE_INSTALL_PREFIX=<Brayns_installation_folder>
+  make install
 ```
 
-# License
-_BBBE_ is available to download and use under the GNU General Public License ([GPL](https://www.gnu.org/licenses/gpl.html), or “free software”). The code is open sourced with approval from the open sourcing committee and principal coordinators of the Blue Brain Project in February 2021.
+#### OSPRay
 
+Clone OSPRay in the same folder level as ISPC compiler
 
-# Contact
-For more information on _BBBE_, please contact:
+```
+  git clone https://github.com/ospray/OSPRay.git
+  mkdir OSPRay/Build
+  cd OSPRay/Build
+  git checkout v1.8.5
+  export CMAKE_PREFIX_PATH=<Brayns_installation_folder>
+  cmake .. -DCMAKE_INSTALL_PREFIX=<Brayns_installation_folder>
+  make install
+```
 
-__Cyrille Favreau__  
-Senior Scientific Visualization Engineer  
-Blue Brain Project  
-[cyrille.favreau@epfl.ch](cyrille.favreau@epfl.ch) 
+### Brayns
 
-# Funding & Acknowledgment
+```
+  git clone --recursive https://github.com/BlueBrain/Brayns.git
+  mkdir Brayns/Build
+  cd Brayns/Build
+  cmake .. -DCLONE_SUBPROJECTS=ON -DCMAKE_INSTALL_PREFIX=<Brayns_installation_folder>
+  make install
+```
 
-The development of this software was supported by funding to the Blue Brain Project, a research center of the École polytechnique fédérale de Lausanne (EPFL), from the Swiss government’s ETH Board of the Swiss Federal Institutes of Technology.
+A number of dependencies are optional, and are related to some specific Brayns
+features:
 
-COPYRIGHT 2020–2021 Blue Brain Project/EPFL
+#### Enable/Disable [OptiX](https://developer.nvidia.com/optix)
+```
+cmake .. -DOptiX_INSTALL_DIR=<OptiX_installation_folder> -DBRAYNS_OPTIX_ENABLED=On
+```
+
+#### Enable/Disable [assimp](https://github.com/assimp/assimp) supported mesh file loader (.obj, .ply, etc.)
+```
+cmake .. -DBRAYNS_ASSIMP_ENABLED=ON:OFF
+```
+
+#### Enable/Disable [Brion](https://github.com/BlueBrain/Brion) supported morphology file loader (.h5, .swc, BlueConfig, CircuitConfig)
+```
+cmake .. -DBRAYNS_CIRCUITVIEWER_ENABLED=ON:OFF
+```
+
+#### Enable/Disable [Deflect](https://github.com/BlueBrain/Deflect) for streaming to [Tide](https://github.com/BlueBrain/Tide), the Tiled Interactive DisplayWall environment.
+```
+cmake .. -DBRAYNS_DEFLECT_ENABLED=ON:OFF
+```
+
+#### Enable/Disable HTTP/REST/Websockets interface.
+ [LibJpegTurbo](http://libjpeg-turbo.virtualgl.org) and
+ [Rockets](https://github.com/BlueBrain/Rockets).
+ See documentation for REST API details.
+```
+cmake .. -DBRAYNS_NETWORKING_ENABLED=ON:OFF
+```
+
+#### Enable/Disable [VRPN](https://github.com/vrpn/vrpn) tracking plugin.
+```
+cmake .. -DBRAYNS_VRPN_ENABLED=ON:OFF
+```
+
+#### Enable/Disable optional OSPRay modules.
+```
+cmake .. -DBRAYNS_OPTIX_ENABLED=ON:OFF
+cmake .. -DBRAYNS_OPENDECK_ENABLED=ON:OFF
+```
+
+## Running Brayns viewer
+
+```
+export PATH=<Brayns_installation_folder>/bin:$PATH
+export LD_LIBRARY_PATH=<Brayns_installation_folder>/lib:$LD_LIBRARY_PATH
+braynsViewer
+```
+
+## Running Brayns off-screen service
+
+```
+export PATH=<Brayns_installation_folder>/bin:$PATH
+export LD_LIBRARY_PATH=<Brayns_installation_folder>/lib:$LD_LIBRARY_PATH
+braynsService
+```
+
+## Known Bugs
+
+Please file a [Bug Report](https://github.com/BlueBrain/Brayns/issues) if you
+find new issues which have not already been reported in
+[Bug Report](https://github.com/BlueBrain/Brayns/issues) page. If you find an
+already reported problem, please update the corresponding issue with your inputs
+and outputs.
