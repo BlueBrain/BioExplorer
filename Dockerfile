@@ -116,7 +116,7 @@ RUN mkdir -p ${LWS_SRC} \
 
 # --------------------------------------------------------------------------------
 # Install Brayns
-# https://github.com/favreau/Brayns
+# https://github.com/BlueBrain/BioExplorer
 # --------------------------------------------------------------------------------
 ARG BRAYNS_SRC=/app/brayns
 
@@ -129,19 +129,13 @@ WORKDIR /app
 RUN cksum ${BRAYNS_SRC}/.gitsubprojects \
    && cd ${BRAYNS_SRC} \
    && git submodule update --init --recursive \
+   && git checkout Brayns \
    && mkdir -p build \
    && cd build \
    && CMAKE_PREFIX_PATH=${DIST_PATH}:${DIST_PATH}/lib/cmake/libwebsockets \
    cmake .. -Wno-dev \
-   -DBRAYNS_BBIC_ENABLED=OFF \
    -DBRAYNS_BENCHMARK_ENABLED=OFF \
-   -DBRAYNS_CIRCUITEXPLORER_ENABLED=OFF \
-   -DBRAYNS_CIRCUITRENDERER_ENABLED=OFF \
-   -DBRAYNS_CIRCUITINFO_ENABLED=OFF \
-   -DBRAYNS_CIRCUITVIEWER_ENABLED=OFF \
    -DBRAYNS_DEFLECT_ENABLED=OFF \
-   -DBRAYNS_DTI_ENABLED=OFF \
-   -DBRAYNS_IBL_ENABLED=OFF \
    -DBRAYNS_MULTIVIEW_ENABLED=OFF \
    -DBRAYNS_OPENDECK_ENABLED=OFF \
    -DBRAYNS_OPTIX_ENABLED=OFF \
