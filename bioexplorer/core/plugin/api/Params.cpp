@@ -420,6 +420,7 @@ bool from_json(AddSphereDetails &param, const std::string &payload)
         FROM_JSON(param, js, position);
         FROM_JSON(param, js, radius);
         FROM_JSON(param, js, color);
+        FROM_JSON(param, js, opacity);
     }
     catch (...)
     {

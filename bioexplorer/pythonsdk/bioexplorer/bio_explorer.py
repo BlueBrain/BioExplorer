@@ -1984,7 +1984,7 @@ class BioExplorer:
         params["color"] = color.to_list()
         return self._invoke_and_check("add-bounding-box", params)
 
-    def add_sphere(self, name, position, radius, color=Vector3(1.0, 1.0, 1.0)):
+    def add_sphere(self, name, position, radius, color=Vector3(1.0, 1.0, 1.0), opacity=1.0):
         """
         Add a reference grid to the scene
 
@@ -1999,11 +1999,13 @@ class BioExplorer:
 
         assert isinstance(position, Vector3)
         assert isinstance(color, Vector3)
+
         params = dict()
         params["name"] = name
         params["position"] = position.to_list()
         params["radius"] = radius
         params["color"] = color.to_list()
+        params["opacity"] = opacity
         return self._invoke_and_check("add-sphere", params)
 
     def set_general_settings(self, model_visibility_on_creation=True, off_folder='/tmp',
