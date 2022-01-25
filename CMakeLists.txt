@@ -1,4 +1,4 @@
-# Copyright (c) 2020-2021, Cyrille Favreau
+# Copyright (c) 2020-2022, Cyrille Favreau
 # All rights reserved. Do not distribute without permission.
 # Responsible Author: Cyrille Favreau <cyrille.favreau@epfl.ch>
 #

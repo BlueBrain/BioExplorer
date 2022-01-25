@@ -1,4 +1,3 @@
-# Note: Cyrille's branch at https://github.com/favreau/Brayns is used instead of https://github.com/BlueBrain/Brayns.git
 # Docker container for running the BioExplorer as a plugin within Brayns as a service
 # Check https://docs.docker.com/engine/userguide/eng-image/dockerfile_best-practices/#user for best practices.
 # Based on the Dockerfile of Brayns created by the viz team (basically a copy)
@@ -116,37 +115,26 @@ RUN mkdir -p ${LWS_SRC} \
 
 # --------------------------------------------------------------------------------
 # Install Brayns
-# https://github.com/favreau/Brayns
+# https://github.com/BlueBrain/BioExplorer
 # --------------------------------------------------------------------------------
 ARG BRAYNS_SRC=/app/brayns
 
-RUN mkdir -p ${BRAYNS_SRC} \
-   && git clone https://github.com/favreau/Brayns ${BRAYNS_SRC}
-
-WORKDIR /app
-
 # TODO: "|| exit 0"  hack to be removed as soon as MVDTool export issue is fixed.
-RUN cksum ${BRAYNS_SRC}/.gitsubprojects \
+RUN mkdir -p ${BRAYNS_SRC} \
+   && git clone https://github.com/BlueBrain/BioExplorer.git ${BRAYNS_SRC} \
    && cd ${BRAYNS_SRC} \
+   && git checkout Brayns \
    && git submodule update --init --recursive \
    && mkdir -p build \
    && cd build \
    && CMAKE_PREFIX_PATH=${DIST_PATH}:${DIST_PATH}/lib/cmake/libwebsockets \
    cmake .. -Wno-dev \
-   -DBRAYNS_BBIC_ENABLED=OFF \
    -DBRAYNS_BENCHMARK_ENABLED=OFF \
-   -DBRAYNS_CIRCUITEXPLORER_ENABLED=OFF \
-   -DBRAYNS_CIRCUITRENDERER_ENABLED=OFF \
-   -DBRAYNS_CIRCUITINFO_ENABLED=OFF \
-   -DBRAYNS_CIRCUITVIEWER_ENABLED=OFF \
    -DBRAYNS_DEFLECT_ENABLED=OFF \
-   -DBRAYNS_DTI_ENABLED=OFF \
-   -DBRAYNS_IBL_ENABLED=OFF \
    -DBRAYNS_MULTIVIEW_ENABLED=OFF \
    -DBRAYNS_OPENDECK_ENABLED=OFF \
    -DBRAYNS_OPTIX_ENABLED=OFF \
    -DBRAYNS_UNIT_TESTING_ENABLED=OFF \
-   -DBRAYNS_VIEWER_ENABLED=OFF \
    -DBRAYNS_ASSIMP_ENABLED=ON \
    -DBRAYNS_OSPRAY_ENABLED=ON \
    -DBRAYNS_NETWORKING_ENABLED=ON \
@@ -159,11 +147,17 @@ RUN cd ${BRAYNS_SRC}/build && make -j install VERBOSE=1
 # --------------------------------------------------------------------------------
 # Add BioExplorer and additional plugins
 # --------------------------------------------------------------------------------
+
 ARG BIOEXPLORER_SRC=/app/bioexplorer
 ADD . ${BIOEXPLORER_SRC}
 
-RUN rm -rf ${BIOEXPLORER_SRC}/docker && mkdir -p ${BIOEXPLORER_SRC}/docker \
-   && cd ${BIOEXPLORER_SRC}/docker \
+WORKDIR /app
+
+RUN cd ${BIOEXPLORER_SRC} \
+   && git checkout master \
+   && rm -rf ${BIOEXPLORER_SRC}/bioexplorer_build \
+   && mkdir -p ${BIOEXPLORER_SRC}/bioexplorer_build \
+   && cd ${BIOEXPLORER_SRC}/bioexplorer_build \
    && PATH=${ISPC_PATH}/bin:${PATH} CMAKE_PREFIX_PATH=${DIST_PATH} LDFLAGS="-lCGAL" cmake .. \
    -DBIOEXPLORER_UNIT_TESTING_ENABLED=OFF -DCGAL_DO_NOT_WARN_ABOUT_CMAKE_BUILD_TYPE=TRUE \
    -DCMAKE_INSTALL_PREFIX=${DIST_PATH} -DCMAKE_BUILD_TYPE=Release \
