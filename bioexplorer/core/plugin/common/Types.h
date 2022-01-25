@@ -508,6 +508,8 @@ typedef struct
     double radius;
     /** RGB Color of the sphere */
     std::vector<double> color;
+    /** Opacity */
+    double opacity;
 } AddSphereDetails;
 
 /**
