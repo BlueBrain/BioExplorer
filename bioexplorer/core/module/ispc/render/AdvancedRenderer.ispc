@@ -87,8 +87,11 @@ struct ShadingAttributes
     float userParameter;
     MaterialChameleonMode chameleonMode;
     uint32 nodeId;
+    bool castSimulationData;
     vec3f indirectColor;
     float indirectIntensity;
+    vec3f simulationColor;
+    float simulationIntensity;
     vec3f shadingContribution;
     vec3f finalContribution;
 };
@@ -131,6 +134,8 @@ inline void initializeShadingAttributes(
     attributes.refraction = 1.f;
     attributes.opacity = 0.f;
     attributes.glossiness = 1.f;
+
+    attributes.castSimulationData = true;
 }
 
 inline void setGeometryShadingAttributes(
@@ -799,11 +804,84 @@ inline void processGoodsellShading(const uniform AdvancedRenderer* uniform self,
     attributes.specularColor = make_vec3f(0.f);
 }
 
+extern "C" unmasked uniform int AdvancedRenderer_getBytesPerPrimitive(
+    const void* uniform geometry);
+
+static inline int getBytesPerPrimitive(const void* geometry)
+{
+    int bytesPerPrimitive;
+    foreach_unique(g in geometry)
+    {
+        bytesPerPrimitive = AdvancedRenderer_getBytesPerPrimitive(g);
+    }
+    return bytesPerPrimitive;
+}
+
+static inline uint64 getOffset(const uniform Geometry* geometry,
+                               const varying int primID)
+{
+    if (!geometry)
+        return 0;
+
+    // The data pointer in all "derived" geometries is just after data members
+    // of the base Geometry struct. That's why array index starts at 1
+    const uniform uint8* data = *((const uniform uint8**)&geometry[1]);
+
+    const int bytesPerPrimitive = getBytesPerPrimitive(geometry->cppEquivalent);
+    const uint64 bytesPerPrimitive64 = (uint64)bytesPerPrimitive;
+    if (primID * bytesPerPrimitive64 > 0x7FFFFFFF)
+        data =
+            (const uniform uint8*)((uint64)data + bytesPerPrimitive64 * primID);
+    else
+        data += bytesPerPrimitive * primID;
+
+    return *((const uniform uint64*)data);
+}
+
+inline vec4f getSimulationValue(const uniform AdvancedRenderer* uniform self,
+                                varying DifferentialGeometry* dg,
+                                const varying int primID)
+{
+    if (self->simulationDataSize == 0)
+        return make_vec4f(1.f, 0.f, 0.f, 1.f);
+
+    const uint64 offset = getOffset(dg->geometry, primID);
+    if (offset < self->simulationDataSize)
+    {
+        const varying float value = self->simulationData[offset];
+        const uniform TransferFunction* uniform tf = self->transferFunction;
+        return make_vec4f(tf->getColorForValue(tf, value),
+                          tf->getOpacityForValue(tf, value));
+    }
+    return make_vec4f(1.f, 0.f, 0.f, 1.f);
+}
+
+inline void processSimulationContribution(varying ScreenSample& sample,
+                                          ShadingAttributes& attributes,
+                                          const uint32 materialID,
+                                          const varying uint32 primID)
+{
+    if (!attributes.castSimulationData)
+        return;
+
+    if (!attributes.self->simulationData)
+        return;
+
+    const vec4f simulationColor =
+        getSimulationValue(attributes.self, attributes.dg, primID);
+    attributes.simulationColor = make_vec3f(simulationColor);
+    attributes.simulationIntensity = simulationColor.w;
+    return;
+}
+
 inline void processFinalContribution(ShadingAttributes& attributes)
 {
     // Surface shading
     vec3f totalContributions =
-        attributes.shadingContribution + attributes.specularColor;
+        attributes.simulationColor * attributes.simulationIntensity +
+        attributes.shadingContribution *
+            (1.f - attributes.simulationIntensity) +
+        attributes.specularColor;
 
     // Shadow contribution
     totalContributions =
@@ -882,6 +960,10 @@ inline vec3f AdvancedRenderer_shadeRay(
                 ray.t0 = ray.t + dg.epsilon;
             else
             {
+                // Compute simulation contribution
+                processSimulationContribution(sample, attributes, dg.materialID,
+                                              ray.primID);
+
                 if (sample.sampleID.z > 0)
                     // Compute indirect lighting contribution
                     computeIndirectShading(dg, sample, attributes);
@@ -1011,7 +1093,8 @@ export void AdvancedRenderer_set(
     const uniform float exposure, const uniform float fogThickness,
     const uniform float fogStart, const uniform bool useHardwareRandomizer,
     const uniform uint32 maxBounces, const uniform bool showBackground,
-    const uniform bool matrixFilter)
+    const uniform bool matrixFilter, uniform float* uniform simulationData,
+    const uniform uint64 simulationDataSize)
 {
     uniform AdvancedRenderer* uniform self =
         (uniform AdvancedRenderer * uniform) _self;
@@ -1045,4 +1128,15 @@ export void AdvancedRenderer_set(
     self->maxBounces = maxBounces;
 
     self->matrixFilter = matrixFilter;
+
+    self->simulationData = (uniform float* uniform)simulationData;
+    self->simulationDataSize = simulationDataSize;
+}
+
+export void AdvancedRenderer_setTransferFunction(void* uniform _self,
+                                                 void* uniform value)
+{
+    uniform AdvancedRenderer* uniform self =
+        (uniform AdvancedRenderer * uniform) _self;
+    self->transferFunction = (TransferFunction * uniform) value;
 }

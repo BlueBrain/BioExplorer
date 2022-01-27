@@ -36,22 +36,22 @@ struct AdvancedMaterial : public ospray::Material
     /*! opacity: 0 (transparent), 1 (opaque) */
     ospray::Texture2D* map_d;
     ospray::affine2f xform_d;
-    double d;
+    double d{1.0};
 
     /*! refraction index */
     ospray::Texture2D* map_Refraction;
     ospray::affine2f xform_Refraction;
-    double refraction;
+    double refraction{1.0};
 
     /*! reflection index */
     ospray::Texture2D* map_Reflection;
     ospray::affine2f xform_Reflection;
-    double reflection;
+    double reflection{0.0};
 
     /*! radiance: 0 (none), 1 (full) */
     ospray::Texture2D* map_a;
     ospray::affine2f xform_a;
-    double a;
+    double a{0.0};
 
     /*! diffuse  reflectance: 0 (none), 1 (full) */
     ospray::Texture2D* map_Kd;
@@ -69,7 +69,7 @@ struct AdvancedMaterial : public ospray::Material
     double Ns;
 
     /*! Glossiness: 0 (none), 1 (full) */
-    double glossiness;
+    double glossiness{1.0};
 
     /*! bump map */
     ospray::Texture2D* map_Bump;
@@ -80,13 +80,16 @@ struct AdvancedMaterial : public ospray::Material
     MaterialShadingMode shadingMode;
 
     /*! User parameter */
-    double userParameter;
+    double userParameter{1.0};
 
     /*! Model ID */
     ospray::uint32 nodeId;
 
     /*! Takes the color from surrounding invisible geometry */
     MaterialChameleonMode chameleonMode;
+
+    /*! Determines if shading should include simulation data */
+    bool castSimulationData{true};
 
     std::string toString() const final { return "default_material"; }
     void commit() final;

@@ -180,6 +180,12 @@ class BioExplorer:
     COLOR_SCHEME_GLYCOSYLATION_SITE = 5
     COLOR_SCHEME_REGION = 6
 
+    VASCULATURE_COLOR_SCHEME_NONE = 0
+    VASCULATURE_COLOR_SCHEME_EDGE = 1
+    VASCULATURE_COLOR_SCHEME_SECTION = 2
+    VASCULATURE_COLOR_SCHEME_SUBGRAPH = 3
+    VASCULATURE_COLOR_SCHEME_PAIR = 4
+
     SHADING_MODE_NONE = 0
     SHADING_MODE_BASIC = 1
     SHADING_MODE_DIFFUSE = 2
@@ -2066,6 +2072,74 @@ class BioExplorer:
         :rtype: float
         """
         return self._invoke_and_check("get-out-of-core-average-loading-time")
+
+    def add_vasculature(self, name, path, use_sdf=False, section_gids=list(), load_capilarities=False):
+        """Add a vasculature to the 3D scene
+
+        Args:
+            name (string): Name of the model in the scene
+            path (string): File name to the H5 vasculature file
+            use_sdf (bool, optional): Use sign distance fields geometry to create the vasculature. Defaults to False.
+            section_gids (list, optional): List of segment GIDs to load. Defaults to list().
+            load_capilarities (bool, optional): Load capilarities (<= 7 micrometers) if set to True
+
+        Returns:
+            Response: Result of the request submission
+        """
+        assert isinstance(section_gids, list)
+
+        params = dict()
+        params["name"] = name
+        params["filename"] = path
+        params["useSdf"] = use_sdf
+        params["gids"] = section_gids
+        params["loadCapilarities"] = load_capilarities
+        return self._invoke_and_check('add-vasculature', params)
+
+    def get_vasculature_info(self):
+        """Return information about the vasculature
+
+        Returns:
+            dict: Number of edges, pairs, sections and sub-graphs
+        """
+        return self._invoke('get-vasculature-info')
+
+    def set_vasculature_color_scheme(self, color_scheme, palette_name):
+        palette_size = 1
+        vasculature_info = self.get_vasculature_info()
+        if color_scheme == self.VASCULATURE_COLOR_SCHEME_EDGE:
+            palette_size = vasculature_info['nbEdges']
+        elif color_scheme == self.VASCULATURE_COLOR_SCHEME_SECTION:
+            palette_size = vasculature_info['nbSections']
+        elif color_scheme == self.VASCULATURE_COLOR_SCHEME_SUBGRAPH:
+            palette_size = vasculature_info['nbSubGraphs']
+        elif color_scheme == self.VASCULATURE_COLOR_SCHEME_PAIR:
+            palette_size = vasculature_info['nbPairs']
+
+        palette = sns.color_palette(palette_name, palette_size)
+        colors = list()
+        for color in palette:
+            for i in range(3):
+                colors.append(color[i])
+
+        params = dict()
+        params["colorScheme"] = color_scheme
+        params["palette"] = colors
+        return self._invoke_and_check('set-vasculature-color-scheme', params)
+
+    def set_vasculature_report(self, path, debug=False):
+        params = dict()
+        params['path'] = path
+        params['debug'] = debug
+        return self._invoke_and_check('set-vasculature-report', params)
+
+    def set_vasculature_radius_report(self, path, frame, amplitude=1.0, debug=False):
+        params = dict()
+        params['path'] = path
+        params['frame'] = frame
+        params['amplitude'] = amplitude
+        params['debug'] = debug
+        return self._invoke_and_check('set-vasculature-radius-report', params)
 
 
 # Private classes

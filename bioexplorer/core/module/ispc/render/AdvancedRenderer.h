@@ -84,6 +84,9 @@ private:
     ospray::uint32 _giSamples{0};
 
     bool _matrixFilter{false};
+
+    ospray::Ref<ospray::Data> _simulationData;
+    ospray::uint64 _simulationDataSize;
 };
 } // namespace rendering
 } // namespace bioexplorer

@@ -22,6 +22,7 @@
 
 #include <plugin/api/Params.h>
 #include <plugin/fields/FieldsHandler.h>
+#include <plugin/vasculature/Vasculature.h>
 
 #include <brayns/pluginapi/ExtensionPlugin.h>
 
@@ -29,6 +30,7 @@ namespace bioexplorer
 {
 using namespace fields;
 using namespace molecularsystems;
+using namespace vasculature;
 using namespace details;
 using namespace io;
 
@@ -109,7 +111,8 @@ private:
     IdsDetails _getModelInstances(const ModelIdDetails &payload) const;
 
     // Colors and materials
-    Response _setColorScheme(const ColorSchemeDetails &payload) const;
+    Response _setProteinColorScheme(
+        const ProteinColorSchemeDetails &payload) const;
     Response _setMaterials(const MaterialsDetails &payload);
     IdsDetails _getMaterialIds(const ModelIdDetails &payload);
 
@@ -140,5 +143,18 @@ private:
 
     // Command line arguments
     std::map<std::string, std::string> _commandLineArguments;
+
+#ifdef USE_VASCULATURE
+    // Vasculature
+    Response _addVasculature(const VasculatureDetails &payload);
+    VasculatureInfoDetails _getVasculatureInfo() const;
+    Response _setVasculatureColorScheme(
+        const VasculatureColorSchemeDetails &payload);
+    Response _setVasculatureReport(const VasculatureReportDetails &payload);
+    Response _setVasculatureRadiusReport(
+        const VasculatureRadiusReportDetails &payload);
+
+    VasculaturePtr _vasculature{nullptr};
+#endif
 };
 } // namespace bioexplorer

@@ -21,13 +21,14 @@
 #pragma once
 
 #include <plugin/common/Types.h>
+#include <plugin/common/shapes/Shape.h>
 
 namespace bioexplorer
 {
 namespace molecularsystems
 {
-using namespace details;
 using namespace common;
+using namespace details;
 
 /**
  * @brief The Assembly class is a container for biological entities (proteins,
@@ -53,7 +54,7 @@ public:
      * @brief setColorScheme Set a color scheme to a protein of the assembly
      * @param details Color scheme details
      */
-    void setColorScheme(const ColorSchemeDetails &details);
+    void setProteinColorScheme(const ProteinColorSchemeDetails &details);
 
     /**
      * @brief setAminoAcidSequenceAsString Apply a color scheme to visualize a

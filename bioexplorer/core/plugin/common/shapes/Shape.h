@@ -143,5 +143,7 @@ protected:
     double _surface;
     Vector4ds _clippingPlanes;
 };
+typedef std::shared_ptr<Shape> ShapePtr;
+
 } // namespace common
 } // namespace bioexplorer

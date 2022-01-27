@@ -57,8 +57,8 @@ public:
      * @param chainIds Optional identifiers of chains to which the color scheme
      * is to be applied
      */
-    void setColorScheme(const ColorScheme& colorScheme, const Palette& palette,
-                        const size_ts& chainIds);
+    void setColorScheme(const ProteinColorScheme& colorScheme,
+                        const Palette& palette, const size_ts& chainIds);
 
     /**
      * @brief Set the Amino Acid Sequence As String object

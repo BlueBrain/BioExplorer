@@ -20,15 +20,15 @@
 
 #pragma once
 
-#include <plugin/molecularsystems/Node.h>
-
-#include <brayns/engineapi/Model.h>
+#include <plugin/common/Node.h>
+#include <plugin/common/shapes/Shape.h>
 
 namespace bioexplorer
 {
 namespace molecularsystems
 {
 using namespace common;
+using namespace details;
 
 /**
  * @brief A Membrane object implements a 3D structure of a given shape, but with

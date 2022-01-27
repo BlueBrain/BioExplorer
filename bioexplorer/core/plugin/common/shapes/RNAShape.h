@@ -77,6 +77,7 @@ private:
     Vector2d _valuesRange;
     Vector3d _curveParams;
 };
+typedef std::shared_ptr<RNAShape> RNAShapePtr;
 
 } // namespace common
 } // namespace bioexplorer

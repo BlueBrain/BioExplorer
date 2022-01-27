@@ -21,6 +21,7 @@
 #pragma once
 
 #include <Defines.h>
+#include <brayns/common/geometry/SDFGeometry.h>
 #include <brayns/engineapi/Scene.h>
 
 #include <map>
@@ -534,7 +535,7 @@ typedef struct
  * @brief Color schemes that can be applied to proteins
  *
  */
-enum class ColorScheme
+enum class ProteinColorScheme
 {
     /** All atoms use the same color */
     none = 0,
@@ -563,12 +564,12 @@ typedef struct
     /** Name of the protein in the assembly */
     std::string name;
     /** Color scheme **/
-    ColorScheme colorScheme;
+    ProteinColorScheme colorScheme;
     /** Palette of colors (RGB values) */
     std::vector<double> palette;
     /** Ids of protein chains to which the colors scheme is applied */
     std::vector<size_t> chainIds;
-} ColorSchemeDetails;
+} ProteinColorSchemeDetails;
 
 typedef struct
 {
@@ -778,14 +779,74 @@ typedef struct
     /** Number of triangle mesh colors */
     uint32_t nbColors{0};
 } SceneInformationDetails;
+
+#ifdef USE_VASCULATURE
+/**
+ * @brief Color schemes that can be applied to vasculatures
+ *
+ */
+enum class VasculatureColorScheme
+{
+    /** All edges use the same color */
+    none = 0,
+    /** Colored by edge */
+    edge = 1,
+    /** Colored by section */
+    section = 2,
+    /** Colored by sub-graph */
+    subgraph = 3,
+    /** Colored by pairs */
+    pair = 4,
+};
+
+typedef struct
+{
+    std::string name;
+    std::string filename;
+    bool useSdf;
+    std::vector<uint32_t> gids;
+    bool loadCapilarities;
+} VasculatureDetails;
+
+typedef struct
+{
+    uint64_t modelId;
+    uint64_t nbEdges;
+    uint64_t nbSubGraphs;
+    uint64_t nbPairs;
+    uint64_t nbSections;
+} VasculatureInfoDetails;
+
+/**
+ * @brief Defines the color scheme to apply to a vasculature
+ *
+ */
+typedef struct
+{
+    /** Color scheme **/
+    VasculatureColorScheme colorScheme;
+    /** Palette of colors (RGB values) */
+    std::vector<double> palette;
+} VasculatureColorSchemeDetails;
+
+typedef struct
+{
+    std::string path;
+    bool debug;
+} VasculatureReportDetails;
+
+typedef struct
+{
+    std::string path;
+    uint64_t frame;
+    double amplitude;
+    bool debug;
+} VasculatureRadiusReportDetails;
+#endif
 } // namespace details
 
 namespace molecularsystems
 {
-class Node;
-typedef std::shared_ptr<Node> NodePtr;
-typedef std::map<std::string, NodePtr> NodeMap;
-
 class Assembly;
 enum class AssemblyConstraintType
 {
@@ -978,19 +1039,25 @@ static details::RGBColorDetailsMap atomColorMap = {
     {"O1", {0xFF, 0x0D, 0x0D}}, {"selection", {0xFF, 0x00, 0x00}}};
 } // namespace molecularsystems
 
+namespace geometry
+{
+// SDF structures
+struct SDFMorphologyData
+{
+    std::vector<SDFGeometry> geometries;
+    std::vector<std::set<size_t>> neighbours;
+    std::vector<size_t> materials;
+    std::vector<size_t> localToGlobalIdx;
+    std::vector<size_t> bifurcationIndices;
+    std::unordered_map<size_t, int> geometrySection;
+    std::unordered_map<int, std::vector<size_t>> sectionGeometries;
+};
+} // namespace geometry
+
 namespace io
 {
 // Out of core brick manager
 class OOCManager;
 typedef std::shared_ptr<OOCManager> OOCManagerPtr;
 } // namespace io
-
-namespace common
-{
-class Shape;
-typedef std::shared_ptr<Shape> ShapePtr;
-class RNAShape;
-typedef std::shared_ptr<RNAShape> RNAShapePtr;
-} // namespace common
-
 } // namespace bioexplorer

@@ -20,7 +20,8 @@
 
 #pragma once
 
-#include <plugin/molecularsystems/Node.h>
+#include <plugin/common/Node.h>
+#include <plugin/common/shapes/RNAShape.h>
 
 namespace bioexplorer
 {

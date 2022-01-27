@@ -24,10 +24,12 @@
 #include <plugin/common/CommonTypes.h>
 #include <plugin/common/GeneralSettings.h>
 #include <plugin/common/Logs.h>
+#include <plugin/common/Node.h>
 #include <plugin/common/Utils.h>
 #include <plugin/common/shapes/Shape.h>
 
 #include <brayns/engineapi/Material.h>
+#include <brayns/engineapi/Model.h>
 
 namespace bioexplorer
 {

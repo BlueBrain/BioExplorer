@@ -20,15 +20,14 @@
 
 #pragma once
 
-#include <plugin/molecularsystems/Node.h>
-
-#include <brayns/engineapi/Model.h>
+#include <plugin/common/Node.h>
 
 namespace bioexplorer
 {
 namespace molecularsystems
 {
 using namespace brayns;
+using namespace common;
 using namespace details;
 
 const std::string KEY_UNDEFINED = "Undefined";

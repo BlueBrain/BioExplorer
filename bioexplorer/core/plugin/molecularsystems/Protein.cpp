@@ -116,31 +116,31 @@ Protein::~Protein()
     }
 }
 
-void Protein::setColorScheme(const ColorScheme& colorScheme,
+void Protein::setColorScheme(const ProteinColorScheme& colorScheme,
                              const Palette& palette, const size_ts& chainIds)
 {
     switch (colorScheme)
     {
-    case ColorScheme::none:
+    case ProteinColorScheme::none:
         for (auto& atom : _atomMap)
             _setMaterialDiffuseColor(atom.first, atomColorMap[0]);
         break;
-    case ColorScheme::atoms:
+    case ProteinColorScheme::atoms:
         _setAtomColorScheme();
         break;
-    case ColorScheme::chains:
+    case ProteinColorScheme::chains:
         _setChainColorScheme(palette);
         break;
-    case ColorScheme::residues:
+    case ProteinColorScheme::residues:
         _setResiduesColorScheme(palette);
         break;
-    case ColorScheme::amino_acid_sequence:
+    case ProteinColorScheme::amino_acid_sequence:
         _setAminoAcidSequenceColorScheme(palette);
         break;
-    case ColorScheme::glycosylation_site:
+    case ProteinColorScheme::glycosylation_site:
         _setGlycosylationSiteColorScheme(palette);
         break;
-    case ColorScheme::region:
+    case ProteinColorScheme::region:
         _setRegionColorScheme(palette, chainIds);
         break;
     default:

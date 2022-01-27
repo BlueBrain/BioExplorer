@@ -42,6 +42,13 @@ if(${${NAME}_USE_PQXX})
     find_package(PQXX REQUIRED)
 endif()
 
+option(${NAME}_USE_VASCULATURE "Use vasculature features" ON)
+set(USE_VASCULATURE 0)
+if(${NAME}_USE_VASCULATURE)
+  find_package(HighFive REQUIRED)
+  set(USE_VASCULATURE 1)
+endif()
+
 include(ispc)
 
 configure_file( plugin/common/Defines.h.in ${CMAKE_BINARY_DIR}/generated/bioexplorer/Defines.h )
@@ -61,6 +68,7 @@ set(${NAME}_SOURCES
     plugin/common/GeneralSettings.cpp
     plugin/common/Utils.cpp
     plugin/common/UniqueId.cpp
+    plugin/common/Node.cpp
     plugin/common/shapes/Shape.cpp
     plugin/common/shapes/MeshShape.cpp
     plugin/common/shapes/SphereShape.cpp
@@ -78,7 +86,6 @@ set(${NAME}_SOURCES
     plugin/io/OOCManager.cpp
     plugin/molecularsystems/Molecule.cpp
     plugin/molecularsystems/Assembly.cpp
-    plugin/molecularsystems/Node.cpp
     plugin/molecularsystems/Membrane.cpp
     plugin/molecularsystems/Glycans.cpp
     plugin/molecularsystems/Protein.cpp
@@ -90,9 +97,9 @@ set(${NAME}_SOURCES
 set(${NAME}_PUBLIC_HEADERS
     plugin/io/OOCManager.h
     plugin/io/CacheLoader.h
+    plugin/common/Node.h
     plugin/molecularsystems/Molecule.h
     plugin/molecularsystems/Assembly.h
-    plugin/molecularsystems/Node.h
     plugin/molecularsystems/Glycans.h
     plugin/molecularsystems/Membrane.h
     plugin/molecularsystems/Protein.h
@@ -113,6 +120,17 @@ set(${NAME}_PUBLIC_HEADERS
     plugin/api/Params.h
     plugin/BioExplorerPlugin.h
 )
+
+if(${NAME}_USE_VASCULATURE)
+    list(APPEND ${NAME}_SOURCES
+        plugin/vasculature/VasculatureHandler.cpp
+        plugin/vasculature/Vasculature.cpp
+    )
+    list(APPEND ${NAME}_PUBLIC_HEADERS
+        plugin/vasculature/VasculatureHandler.h
+        plugin/vasculature/Vasculature.h
+    )
+endif()
 
 if(${CGAL_FOUND})
     list(APPEND ${NAME}_SOURCES
@@ -174,6 +192,10 @@ set(${NAME}_LINK_LIBRARIES
     PRIVATE braynsParameters braynsPluginAPI braynsCommon braynsEngine braynsIO
             braynsOSPRayEngine ${FreeImage_LIBRARIES}
 )
+
+if(${NAME}_USE_VASCULATURE)
+    list(APPEND ${NAME}_LINK_LIBRARIES HighFive)
+endif()
 
 if(${CGAL_FOUND})
     list(APPEND ${NAME}_LINK_LIBRARIES ${CGAL_LIBRARIES})

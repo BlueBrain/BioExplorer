@@ -31,6 +31,7 @@
 #endif
 
 #include <brayns/engineapi/Material.h>
+#include <brayns/engineapi/Model.h>
 
 #include <omp.h>
 

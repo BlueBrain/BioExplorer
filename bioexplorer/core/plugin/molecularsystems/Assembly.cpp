@@ -22,6 +22,7 @@
 
 #include <plugin/common/GeneralSettings.h>
 #include <plugin/common/Logs.h>
+#include <plugin/common/Node.h>
 #include <plugin/common/Utils.h>
 #include <plugin/common/shapes/BezierShape.h>
 #include <plugin/common/shapes/CubeShape.h>
@@ -29,12 +30,13 @@
 #include <plugin/common/shapes/MeshShape.h>
 #include <plugin/common/shapes/PlaneShape.h>
 #include <plugin/common/shapes/PointShape.h>
-#include <plugin/common/shapes/Shape.h>
 #include <plugin/common/shapes/SinusoidShape.h>
 #include <plugin/common/shapes/SphereShape.h>
 #include <plugin/molecularsystems/Membrane.h>
 #include <plugin/molecularsystems/Protein.h>
 #include <plugin/molecularsystems/RNASequence.h>
+
+#include <brayns/engineapi/Model.h>
 
 namespace bioexplorer
 {
@@ -258,7 +260,7 @@ void Assembly::_processInstances(ModelDescriptorPtr md, const std::string &name,
     }
 }
 
-void Assembly::setColorScheme(const ColorSchemeDetails &details)
+void Assembly::setProteinColorScheme(const ProteinColorSchemeDetails &details)
 {
     if (details.palette.size() < 3 || details.palette.size() % 3 != 0)
         PLUGIN_THROW("Invalid palette size");

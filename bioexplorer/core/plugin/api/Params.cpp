@@ -169,7 +169,7 @@ bool from_json(AssemblyTransformationsDetails &param,
     return true;
 }
 
-bool from_json(ColorSchemeDetails &param, const std::string &payload)
+bool from_json(ProteinColorSchemeDetails &param, const std::string &payload)
 {
     try
     {
@@ -665,4 +665,92 @@ std::string to_json(const ProteinInspectionDetails &param)
     }
     return "";
 }
+
+#ifdef USE_VASCULATURE
+bool from_json(VasculatureDetails &param, const std::string &payload)
+{
+    try
+    {
+        auto js = nlohmann::json::parse(payload);
+        FROM_JSON(param, js, name);
+        FROM_JSON(param, js, filename);
+        FROM_JSON(param, js, useSdf);
+        FROM_JSON(param, js, gids);
+        FROM_JSON(param, js, loadCapilarities);
+    }
+    catch (...)
+    {
+        return false;
+    }
+    return true;
+}
+
+std::string to_json(const VasculatureInfoDetails &param)
+{
+    try
+    {
+        nlohmann::json js;
+        TO_JSON(param, js, modelId);
+        TO_JSON(param, js, nbEdges);
+        TO_JSON(param, js, nbSubGraphs);
+        TO_JSON(param, js, nbPairs);
+        TO_JSON(param, js, nbSections);
+        return js.dump();
+    }
+    catch (...)
+    {
+        return "";
+    }
+    return "";
+}
+
+bool from_json(VasculatureColorSchemeDetails &param, const std::string &payload)
+{
+    try
+    {
+        auto js = nlohmann::json::parse(payload);
+        FROM_JSON(param, js, colorScheme);
+        FROM_JSON(param, js, palette);
+    }
+    catch (...)
+    {
+        return false;
+    }
+    return true;
+}
+
+bool from_json(VasculatureReportDetails &param, const std::string &payload)
+{
+    try
+    {
+        auto js = nlohmann::json::parse(payload);
+        FROM_JSON(param, js, path);
+        FROM_JSON(param, js, debug);
+    }
+    catch (...)
+    {
+        return false;
+    }
+    return true;
+}
+
+bool from_json(VasculatureRadiusReportDetails &param,
+               const std::string &payload)
+{
+    try
+    {
+        auto js = nlohmann::json::parse(payload);
+        FROM_JSON(param, js, path);
+        FROM_JSON(param, js, frame);
+        FROM_JSON(param, js, amplitude);
+        FROM_JSON(param, js, debug);
+    }
+    catch (...)
+    {
+        return false;
+    }
+    return true;
+}
+#endif
+
 #endif

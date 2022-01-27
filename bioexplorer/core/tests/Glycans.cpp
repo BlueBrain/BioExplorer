@@ -17,6 +17,7 @@
  */
 
 #include <plugin/common/Logs.h>
+#include <plugin/common/Node.h>
 #include <plugin/molecularsystems/Glycans.h>
 
 #include <brayns/Brayns.h>

@@ -18,21 +18,43 @@
  * this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-#include "Node.h"
-#include <plugin/common/UniqueId.h>
+#pragma once
+
+#include <plugin/common/Types.h>
 
 namespace bioexplorer
 {
-namespace molecularsystems
+namespace common
 {
-using namespace common;
+using namespace brayns;
 
-Node::Node()
+/**
+ * @brief The Node class
+ */
+class Node
 {
-    // Unique ID
-    _uuid = UniqueId::get();
-}
+public:
+    /**
+     * @brief Construct a new Node object
+     *
+     */
+    Node();
 
-Node::~Node() {}
-} // namespace molecularsystems
+    /**
+     * @brief Get the Model Descriptor object
+     *
+     * @return ModelDescriptorPtr Pointer to the model descriptor
+     */
+    const ModelDescriptorPtr getModelDescriptor() const;
+
+protected:
+    ModelDescriptorPtr _modelDescriptor{nullptr};
+    Boxd _bounds;
+    uint32_t _uuid;
+};
+
+typedef std::shared_ptr<Node> NodePtr;
+typedef std::map<std::string, NodePtr> NodeMap;
+
+} // namespace common
 } // namespace bioexplorer
