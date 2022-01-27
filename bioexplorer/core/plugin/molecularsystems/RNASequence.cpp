@@ -32,7 +32,7 @@
 
 namespace bioexplorer
 {
-namespace biology
+namespace molecularsystems
 {
 using namespace common;
 
@@ -234,5 +234,5 @@ void RNASequence::_buildRNAAsProteinInstances(const Quaterniond& rotation)
         }
     }
 }
-} // namespace biology
+} // namespace molecularsystems
 } // namespace bioexplorer

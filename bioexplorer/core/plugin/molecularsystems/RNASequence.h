@@ -20,11 +20,11 @@
 
 #pragma once
 
-#include <plugin/biology/Node.h>
+#include <plugin/molecularsystems/Node.h>
 
 namespace bioexplorer
 {
-namespace biology
+namespace molecularsystems
 {
 using namespace details;
 using namespace common;
@@ -69,5 +69,5 @@ private:
     const Quaterniond& _assemblyRotation;
     RNAShapePtr _shape{nullptr};
 };
-} // namespace biology
+} // namespace molecularsystems
 } // namespace bioexplorer

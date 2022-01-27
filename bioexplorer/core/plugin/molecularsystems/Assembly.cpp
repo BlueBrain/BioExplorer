@@ -20,9 +20,6 @@
 
 #include "Assembly.h"
 
-#include <plugin/biology/Membrane.h>
-#include <plugin/biology/Protein.h>
-#include <plugin/biology/RNASequence.h>
 #include <plugin/common/GeneralSettings.h>
 #include <plugin/common/Logs.h>
 #include <plugin/common/Utils.h>
@@ -35,10 +32,13 @@
 #include <plugin/common/shapes/Shape.h>
 #include <plugin/common/shapes/SinusoidShape.h>
 #include <plugin/common/shapes/SphereShape.h>
+#include <plugin/molecularsystems/Membrane.h>
+#include <plugin/molecularsystems/Protein.h>
+#include <plugin/molecularsystems/RNASequence.h>
 
 namespace bioexplorer
 {
-namespace biology
+namespace molecularsystems
 {
 Assembly::Assembly(Scene &scene, const AssemblyDetails &details)
     : _details(details)
@@ -558,5 +558,5 @@ ProteinInspectionDetails Assembly::inspect(const Vector3d &origin,
 
     return result;
 }
-} // namespace biology
+} // namespace molecularsystems
 } // namespace bioexplorer

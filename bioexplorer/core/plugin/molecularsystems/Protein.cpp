@@ -20,17 +20,17 @@
 
 #include "Protein.h"
 
-#include <plugin/biology/Glycans.h>
 #include <plugin/common/Logs.h>
 #include <plugin/common/Utils.h>
 #include <plugin/common/shapes/Shape.h>
+#include <plugin/molecularsystems/Glycans.h>
 
 #include <brayns/engineapi/Material.h>
 #include <brayns/engineapi/Scene.h>
 
 namespace bioexplorer
 {
-namespace biology
+namespace molecularsystems
 {
 using namespace common;
 Protein::Protein(Scene& scene, const ProteinDetails& details)
@@ -460,5 +460,5 @@ void Protein::addSugars(const SugarsDetails& details)
     _glycans[details.name] = std::move(glucoses);
     _scene.addModel(modelDescriptor);
 }
-} // namespace biology
+} // namespace molecularsystems
 } // namespace bioexplorer

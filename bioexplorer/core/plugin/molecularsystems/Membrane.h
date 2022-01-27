@@ -20,13 +20,13 @@
 
 #pragma once
 
-#include <plugin/biology/Node.h>
+#include <plugin/molecularsystems/Node.h>
 
 #include <brayns/engineapi/Model.h>
 
 namespace bioexplorer
 {
-namespace biology
+namespace molecularsystems
 {
 using namespace common;
 
@@ -74,5 +74,5 @@ private:
     ProteinMap _lipids;
     ShapePtr _shape{nullptr};
 };
-} // namespace biology
+} // namespace molecularsystems
 } // namespace bioexplorer

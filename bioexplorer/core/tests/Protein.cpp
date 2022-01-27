@@ -16,8 +16,8 @@
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
 
-#include <plugin/biology/Protein.h>
 #include <plugin/common/Logs.h>
+#include <plugin/molecularsystems/Protein.h>
 
 #include <brayns/Brayns.h>
 #include <brayns/engineapi/Engine.h>
@@ -31,7 +31,7 @@
 namespace tests
 {
 using namespace bioexplorer;
-using namespace biology;
+using namespace molecularsystems;
 
 std::string getFileContents(const std::string& filename)
 {

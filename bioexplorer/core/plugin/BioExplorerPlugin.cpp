@@ -20,13 +20,13 @@
 
 #include "BioExplorerPlugin.h"
 
-#include <plugin/biology/Assembly.h>
 #include <plugin/common/CommonTypes.h>
 #include <plugin/common/GeneralSettings.h>
 #include <plugin/common/Logs.h>
 #include <plugin/common/Utils.h>
 #include <plugin/io/CacheLoader.h>
 #include <plugin/io/OOCManager.h>
+#include <plugin/molecularsystems/Assembly.h>
 
 #include <brayns/common/ActionInterface.h>
 #include <brayns/common/scene/ClipPlane.h>

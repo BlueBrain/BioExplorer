@@ -780,7 +780,7 @@ typedef struct
 } SceneInformationDetails;
 } // namespace details
 
-namespace biology
+namespace molecularsystems
 {
 class Node;
 typedef std::shared_ptr<Node> NodePtr;
@@ -976,7 +976,7 @@ static details::RGBColorDetailsMap atomColorMap = {
     {"Bh", {0xE0, 0x00, 0x38}}, {"Hs", {0xE6, 0x00, 0x2E}},
     {"Mt", {0xEB, 0x00, 0x26}}, {"none", {0xFF, 0xFF, 0xFF}},
     {"O1", {0xFF, 0x0D, 0x0D}}, {"selection", {0xFF, 0x00, 0x00}}};
-} // namespace biology
+} // namespace molecularsystems
 
 namespace io
 {

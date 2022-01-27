@@ -18,21 +18,32 @@
  * this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-#include "Node.h"
-#include <plugin/common/UniqueId.h>
+#pragma once
+
+#include <brayns/engineapi/Model.h>
+#include <plugin/api/Params.h>
+#include <plugin/molecularsystems/Molecule.h>
 
 namespace bioexplorer
 {
-namespace biology
+namespace molecularsystems
 {
-using namespace common;
-
-Node::Node()
+/**
+ * @brief The Glycans class
+ */
+class Glycans : public Molecule
 {
-    // Unique ID
-    _uuid = UniqueId::get();
-}
+public:
+    /**
+     * @brief Construct a new Glycans object
+     *
+     * @param scene The 3D scene where the glycans are added
+     * @param details The data structure describing the glycans
+     */
+    Glycans(Scene& scene, const SugarsDetails& details);
 
-Node::~Node() {}
-} // namespace biology
+private:
+    SugarsDetails _details;
+};
+} // namespace molecularsystems
 } // namespace bioexplorer

@@ -24,7 +24,7 @@
 
 namespace bioexplorer
 {
-namespace biology
+namespace molecularsystems
 {
 using namespace brayns;
 using namespace details;
@@ -62,5 +62,5 @@ protected:
     Boxd _bounds;
     uint32_t _uuid;
 };
-} // namespace biology
+} // namespace molecularsystems
 } // namespace bioexplorer

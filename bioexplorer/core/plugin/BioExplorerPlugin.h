@@ -28,7 +28,7 @@
 namespace bioexplorer
 {
 using namespace fields;
-using namespace biology;
+using namespace molecularsystems;
 using namespace details;
 using namespace io;
 

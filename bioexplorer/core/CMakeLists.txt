@@ -76,13 +76,13 @@ set(${NAME}_SOURCES
     plugin/fields/OctreeNode.cpp
     plugin/io/CacheLoader.cpp
     plugin/io/OOCManager.cpp
-    plugin/biology/Molecule.cpp
-    plugin/biology/Assembly.cpp
-    plugin/biology/Node.cpp
-    plugin/biology/Membrane.cpp
-    plugin/biology/Glycans.cpp
-    plugin/biology/Protein.cpp
-    plugin/biology/RNASequence.cpp
+    plugin/molecularsystems/Molecule.cpp
+    plugin/molecularsystems/Assembly.cpp
+    plugin/molecularsystems/Node.cpp
+    plugin/molecularsystems/Membrane.cpp
+    plugin/molecularsystems/Glycans.cpp
+    plugin/molecularsystems/Protein.cpp
+    plugin/molecularsystems/RNASequence.cpp
     plugin/api/Params.cpp
     plugin/BioExplorerPlugin.cpp
 )
@@ -90,13 +90,13 @@ set(${NAME}_SOURCES
 set(${NAME}_PUBLIC_HEADERS
     plugin/io/OOCManager.h
     plugin/io/CacheLoader.h
-    plugin/biology/Molecule.h
-    plugin/biology/Assembly.h
-    plugin/biology/Node.h
-    plugin/biology/Glycans.h
-    plugin/biology/Membrane.h
-    plugin/biology/Protein.h
-    plugin/biology/RNASequence.h
+    plugin/molecularsystems/Molecule.h
+    plugin/molecularsystems/Assembly.h
+    plugin/molecularsystems/Node.h
+    plugin/molecularsystems/Glycans.h
+    plugin/molecularsystems/Membrane.h
+    plugin/molecularsystems/Protein.h
+    plugin/molecularsystems/RNASequence.h
     plugin/common/UniqueId.h
     plugin/common/GeneralSettings.h
     plugin/common/CommonTypes.h

@@ -23,11 +23,11 @@
 #include "CacheLoader.h"
 
 #include <plugin/api/Params.h>
-#include <plugin/biology/Assembly.h>
-#include <plugin/biology/Protein.h>
 #include <plugin/common/CommonTypes.h>
 #include <plugin/common/GeneralSettings.h>
 #include <plugin/common/Utils.h>
+#include <plugin/molecularsystems/Assembly.h>
+#include <plugin/molecularsystems/Protein.h>
 
 #include <brayns/common/scene/ClipPlane.h>
 

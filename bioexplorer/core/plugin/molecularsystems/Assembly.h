@@ -24,7 +24,7 @@
 
 namespace bioexplorer
 {
-namespace biology
+namespace molecularsystems
 {
 using namespace details;
 using namespace common;
@@ -208,5 +208,5 @@ private:
     ModelDescriptors _modelDescriptors;
     ShapePtr _shape{nullptr};
 };
-} // namespace biology
+} // namespace molecularsystems
 } // namespace bioexplorer

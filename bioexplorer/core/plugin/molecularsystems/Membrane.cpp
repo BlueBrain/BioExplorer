@@ -31,7 +31,7 @@
 
 namespace bioexplorer
 {
-namespace biology
+namespace molecularsystems
 {
 Membrane::Membrane(const MembraneDetails& details, Scene& scene,
                    const Vector3d& assemblyPosition,
@@ -184,5 +184,5 @@ std::string Membrane::_getElementNameFromId(const size_t id) const
     return _details.assemblyName + "_Membrane_" + std::to_string(id);
 }
 
-} // namespace biology
+} // namespace molecularsystems
 } // namespace bioexplorer
