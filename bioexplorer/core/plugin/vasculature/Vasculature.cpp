@@ -18,7 +18,9 @@
 
 #include "Vasculature.h"
 
+#include <plugin/common/CommonTypes.h>
 #include <plugin/common/Logs.h>
+#include <plugin/common/Utils.h>
 
 #include <brayns/engineapi/Material.h>
 #include <brayns/engineapi/Model.h>
@@ -75,8 +77,8 @@ size_t Vasculature::_addSDFGeometry(SDFMorphologyData& sdfMorphologyData,
 }
 
 void Vasculature::_addStepConeGeometry(
-    const bool useSDF, const Vector3f& position, const double radius,
-    const Vector3f& target, const double previousRadius,
+    const bool useSDF, const Vector3d& position, const double radius,
+    const Vector3d& target, const double previousRadius,
     const size_t materialId, const uint64_t& userDataOffset, Model& model,
     SDFMorphologyData& sdfMorphologyData, const uint32_t sdfGroupId,
     const Vector3f& displacementParams)
@@ -144,105 +146,113 @@ void Vasculature::_finalizeSDFGeometries(Model& model,
     }
 }
 
-void Vasculature::_load(const std::string& graphFilename)
+void Vasculature::_importFromFile()
 {
-    // Edge file
-    std::unique_ptr<HighFive::File> edgeFile = std::unique_ptr<HighFive::File>(
-        new HighFive::File(_details.filename, HighFive::File::ReadOnly));
-
-    const auto& nodes = edgeFile->getGroup("nodes");
-    const auto& eVasculature = nodes.getGroup("vasculature");
-    const auto& zero = eVasculature.getGroup("0");
-
-    std::vector<double> sx, sy, sz, sd;
-    std::vector<uint32_t> ss;
-    const auto& start_x = zero.getDataSet("start_x");
-    start_x.read(sx);
-    const auto& start_y = zero.getDataSet("start_y");
-    start_y.read(sy);
-    const auto& start_z = zero.getDataSet("start_z");
-    start_z.read(sz);
-    const auto& start_d = zero.getDataSet("start_diameter");
-    start_d.read(sd);
-    const auto& start_s = zero.getDataSet("section_id");
-    start_s.read(ss);
-
-    std::vector<double> ex, ey, ez, ed;
-    const auto& end_x = zero.getDataSet("end_x");
-    end_x.read(ex);
-    const auto& end_y = zero.getDataSet("end_y");
-    end_y.read(ey);
-    const auto& end_z = zero.getDataSet("end_z");
-    end_z.read(ez);
-    const auto& end_d = zero.getDataSet("end_diameter");
-    end_d.read(ed);
-
-    // Graph file
-    std::unique_ptr<HighFive::File> graphFile = std::unique_ptr<HighFive::File>(
-        new HighFive::File(graphFilename, HighFive::File::ReadOnly));
-
-    const auto& report = graphFile->getGroup("report");
-    const auto& gVasculature = report.getGroup("vasculature");
-    const auto& edgeGraphIds = gVasculature.getDataSet("subgraph_id");
-    const auto& edgeTypes = gVasculature.getDataSet("type");
-    const auto& edgePairIds = gVasculature.getDataSet("pairs");
-
-    std::vector<uint64_t> graphIds;
-    edgeGraphIds.read(graphIds);
-    std::vector<uint64_t> types;
-    edgeTypes.read(types);
-    std::vector<uint64_t> pairIds;
-    edgePairIds.read(pairIds);
-    std::map<uint64_t, std::vector<uint64_t>> pairs;
-
-    const uint64_t nbEdges = sx.size();
-    PLUGIN_INFO(1, "Full vasculature is made of " << nbEdges << " edges");
-
-    const auto& gids = _details.gids;
-    for (uint64_t i = 0; i < nbEdges; ++i)
+    try
     {
-        if (!_details.loadCapilarities && types[i] == 1)
-            // Ignore capilarities
-            continue;
+        // Edge file
+        std::unique_ptr<HighFive::File> edgeFile =
+            std::unique_ptr<HighFive::File>(
+                new HighFive::File(_details.filename,
+                                   HighFive::File::ReadOnly));
 
-        const auto sectionId = ss[i];
-        if (!gids.empty() &&
-            // Load specified edges only
-            std::find(gids.begin(), gids.end(), sectionId) == gids.end())
-            continue;
+        const auto& nodes = edgeFile->getGroup("nodes");
+        const auto& vasculature = nodes.getGroup("vasculature");
 
-        Edge edge;
-        edge.startPosition = Vector3d(sx[i], sy[i], sz[i]);
-        edge.startRadius = sd[i] * 0.5;
-        edge.endPosition = Vector3d(ex[i], ey[i], ez[i]);
-        edge.endRadius = ed[i] * 0.5;
-        edge.sectionId = sectionId;
-        edge.type = types[i];
+        std::vector<double> sx, sy, sz, sd;
+        std::vector<uint32_t> ss;
+        const auto& start_x = vasculature.getDataSet("start_x");
+        start_x.read(sx);
+        const auto& start_y = vasculature.getDataSet("start_y");
+        start_y.read(sy);
+        const auto& start_z = vasculature.getDataSet("start_z");
+        start_z.read(sz);
+        const auto& start_d = vasculature.getDataSet("start_diameter");
+        start_d.read(sd);
+        const auto& start_s = vasculature.getDataSet("section_id");
+        start_s.read(ss);
 
-        const auto graphId = graphIds[i];
-        edge.graphId = graphId;
-        _graphs.insert(graphId);
+        std::vector<double> ex, ey, ez, ed;
+        const auto& end_x = vasculature.getDataSet("end_x");
+        end_x.read(ex);
+        const auto& end_y = vasculature.getDataSet("end_y");
+        end_y.read(ey);
+        const auto& end_z = vasculature.getDataSet("end_z");
+        end_z.read(ez);
+        const auto& end_d = vasculature.getDataSet("end_diameter");
+        end_d.read(ed);
 
-        if (pairIds[i] != 0)
+        std::vector<uint64_t> graphIds;
+        const auto& edgeGraphIds = vasculature.getDataSet("subgraph_id");
+        edgeGraphIds.read(graphIds);
+
+        std::vector<uint64_t> types;
+        const auto& edgeTypes = vasculature.getDataSet("type");
+        edgeTypes.read(types);
+
+        std::vector<uint64_t> pairIds;
+        const auto& edgePairIds = vasculature.getDataSet("pairs");
+        edgePairIds.read(pairIds);
+
+        std::map<uint64_t, std::vector<uint64_t>> pairs;
+
+        const uint64_t nbEdges = sx.size();
+        PLUGIN_INFO(1, "Full vasculature is made of " << nbEdges << " edges");
+
+        const auto& gids = _details.gids;
+        for (uint64_t edgeId = 0; edgeId < nbEdges; ++edgeId)
         {
-            const auto pairId = pairIds[i];
-            pairs[pairId].push_back(i);
+            if (!_details.loadCapilarities &&
+                types[edgeId] == static_cast<uint64_t>(EdgeType::capilarity))
+                // Ignore capilarities
+                continue;
+
+            const auto sectionId = ss[edgeId];
+            if (!gids.empty() &&
+                // Load specified edges only
+                std::find(gids.begin(), gids.end(), sectionId) == gids.end())
+                continue;
+
+            Edge edge;
+            edge.startPosition = Vector3d(sx[edgeId], sy[edgeId], sz[edgeId]);
+            edge.startRadius = sd[edgeId] * 0.5;
+            edge.endPosition = Vector3d(ex[edgeId], ey[edgeId], ez[edgeId]);
+            edge.endRadius = ed[edgeId] * 0.5;
+            edge.sectionId = sectionId;
+            edge.type = types[edgeId];
+
+            const auto graphId = graphIds[edgeId];
+            edge.graphId = graphId;
+            _graphs.insert(graphId);
+
+            if (pairIds[edgeId] != 0)
+            {
+                const auto pairId = pairIds[edgeId];
+                pairs[pairId].push_back(edgeId);
+            }
+
+            _sections[sectionId].push_back(edgeId);
+            _sectionIds.insert(sectionId);
+            _edges[edgeId] = edge;
         }
 
-        _sections.insert(sectionId);
-        _edges[i] = edge;
+        PLUGIN_INFO(3, pairs.size() << " pairs loaded");
+        for (const auto& pair : pairs)
+            if (pair.second.size() == 2)
+                _edges[pair.second[0]].pairId = pair.second[1];
+            else
+                PLUGIN_ERROR("Invalid number of Ids for pair " << pair.first);
+
+        _nbPairs = pairs.size();
+        PLUGIN_INFO(1, "Loaded vasculature is made of " << _edges.size()
+                                                        << " edges");
+
+        _buildModel();
     }
-
-    PLUGIN_INFO(3, pairs.size() << " pairs loaded");
-    for (const auto& pair : pairs)
-        if (pair.second.size() == 2)
-            _edges[pair.second[0]].pairId = pair.second[1];
-        else
-            PLUGIN_ERROR("Invalid number of Ids for pair " << pair.first);
-
-    _nbPairs = pairs.size();
-    PLUGIN_INFO(1,
-                "Loaded vasculature is made of " << _edges.size() << " edges");
+    catch (const HighFive::Exception& exc)
+    {
+        PLUGIN_THROW(exc.what());
+    }
 }
 
 void Vasculature::_buildModel(const VasculatureColorSchemeDetails& details)
@@ -251,66 +261,110 @@ void Vasculature::_buildModel(const VasculatureColorSchemeDetails& details)
     std::set<uint64_t> materialIds;
     SDFMorphologyData sdfMorphologyData;
     const auto useSdf = _details.useSdf;
-    uint64_t i = 0;
-    for (const auto& edge : _edges)
-    {
-        const auto& e = edge.second;
-        size_t materialId = 0;
 
-        switch (details.colorScheme)
+    uint64_t edgeCount = 0;
+    for (const auto& section : _sections)
+    {
+        bool firstControlPoint = true;
+        Vector3d dst;
+        double dstRadius = 0.0;
+
+        Vector4ds controlPoints;
+        const uint64_t nbControlPoints = section.second.size();
+        for (const auto& edgeId : section.second)
         {
-        case VasculatureColorScheme::edge:
-            materialId = i;
+            const auto& e = _edges[edgeId];
+            controlPoints.push_back({e.startPosition.x, e.startPosition.y,
+                                     e.startPosition.z, e.startRadius});
+        }
+
+        double tStep;
+        switch (_details.quality)
+        {
+        case VasculatureQuality::low:
+            tStep = 0.99;
             break;
-        case VasculatureColorScheme::section:
-            materialId = e.sectionId;
-            break;
-        case VasculatureColorScheme::subgraph:
-            materialId = e.graphId;
+        case VasculatureQuality::medium:
+            tStep = 5.0 / double(nbControlPoints);
             break;
         default:
+            tStep = 1.0 / double(nbControlPoints);
             break;
         }
-        materialIds.insert(materialId);
 
-        const float startRadius = static_cast<float>(e.startRadius);
-        const float endRadius = static_cast<float>(e.endRadius);
-        const Vector3f displacementParams = {std::min(startRadius, 0.2f), 0.75f,
-                                             1.0f};
+        for (double t = 0.0; t < 1.0; t += tStep)
+        {
+            const uint64_t edgeId = section.second[t * double(nbControlPoints)];
+            const Edge& e = _edges[edgeId];
+            size_t materialId = 0;
 
-        const uint64_t userData = edge.first;
-        if (useSdf)
-            _addSDFGeometry(sdfMorphologyData,
-                            createSDFSphere(e.startPosition, startRadius,
-                                            userData, displacementParams),
-                            {}, materialId, e.sectionId);
-        else
-            model->addSphere(materialId,
-                             {e.startPosition, startRadius, userData});
+            switch (details.colorScheme)
+            {
+            case VasculatureColorScheme::edge:
+                materialId = edgeCount;
+                break;
+            case VasculatureColorScheme::section:
+                materialId = e.sectionId;
+                break;
+            case VasculatureColorScheme::subgraph:
+                materialId = e.graphId;
+                break;
+            default:
+                break;
+            }
+            materialIds.insert(materialId);
 
-        _addStepConeGeometry(useSdf, e.startPosition, startRadius,
-                             e.endPosition, endRadius, materialId, userData,
-                             *model, sdfMorphologyData, e.sectionId,
-                             displacementParams);
+            const Vector4d src4d = getBezierPoint(controlPoints, t);
+            const Vector3d src{src4d.x, src4d.y, src4d.z};
+            const double srcRadius = src4d.w;
 
-        ++i;
+            if (!firstControlPoint)
+            {
+                const uint64_t userData = edgeId;
+                if (useSdf)
+                    _addSDFGeometry(sdfMorphologyData,
+                                    createSDFSphere(src, srcRadius, userData),
+                                    {}, materialId, e.sectionId);
+                else
+                    model->addSphere(materialId,
+                                     {src, static_cast<float>(srcRadius),
+                                      userData});
+
+                _addStepConeGeometry(useSdf, src, srcRadius, dst, dstRadius,
+                                     materialId, userData, *model,
+                                     sdfMorphologyData, e.sectionId);
+            }
+            dst = src;
+            dstRadius = srcRadius;
+            firstControlPoint = false;
+
+            ++edgeCount;
+        }
     }
 
-    i = 0;
+    uint64_t colorCount = 0;
     auto& palette = details.palette;
     for (const auto materialId : materialIds)
     {
         Vector3f color{1.f, 1.f, 1.f};
         if (!palette.empty())
         {
-            color = Vector3f(palette[i], palette[i + 1], palette[i + 2]);
-            i += 3;
+            color = Vector3f(palette[colorCount], palette[colorCount + 1],
+                             palette[colorCount + 2]);
+            colorCount += 3;
         }
         auto nodeMaterial =
             model->createMaterial(materialId, std::to_string(materialId));
         nodeMaterial->setDiffuseColor(color);
         nodeMaterial->setSpecularColor(color);
         nodeMaterial->setSpecularExponent(100.f);
+        PropertyMap props;
+        props.setProperty({MATERIAL_PROPERTY_SHADING_MODE, 0});
+        props.setProperty({MATERIAL_PROPERTY_USER_PARAMETER, 1.0});
+        props.setProperty({MATERIAL_PROPERTY_CHAMELEON_MODE, 0});
+        props.setProperty({MATERIAL_PROPERTY_CAST_SIMULATION_DATA, true});
+        props.setProperty({MATERIAL_PROPERTY_NODE_ID, 0});
+        nodeMaterial->updateProperties(props);
     }
 
     if (useSdf)
@@ -318,7 +372,7 @@ void Vasculature::_buildModel(const VasculatureColorSchemeDetails& details)
 
     ModelMetadata metadata = {
         {"Number of edges", std::to_string(_edges.size())},
-        {"Number of sections", std::to_string(_sections.size())},
+        {"Number of sections", std::to_string(_sectionIds.size())},
         {"Number of sub-graphs", std::to_string(_graphs.size())}};
 
     _modelDescriptor.reset(
@@ -328,20 +382,6 @@ void Vasculature::_buildModel(const VasculatureColorSchemeDetails& details)
     else
         PLUGIN_THROW("Vasculature model could not be created from " +
                      _details.filename);
-}
-
-void Vasculature::_importFromFile()
-{
-    try
-    {
-        _load("/home/favreau/Downloads/report_entry_nodes.h5"); // TODO!!!
-        _buildModel();
-    }
-    catch (const HighFive::FileException& exc)
-    {
-        PLUGIN_THROW("Could not open vasculature file " + _details.filename +
-                     ": " + exc.what());
-    }
 }
 
 void Vasculature::setColorScheme(const VasculatureColorSchemeDetails& details)

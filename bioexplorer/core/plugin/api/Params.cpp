@@ -677,6 +677,7 @@ bool from_json(VasculatureDetails &param, const std::string &payload)
         FROM_JSON(param, js, useSdf);
         FROM_JSON(param, js, gids);
         FROM_JSON(param, js, loadCapilarities);
+        FROM_JSON(param, js, quality);
     }
     catch (...)
     {

@@ -70,27 +70,23 @@ public:
     uint64_t getNbEdges() const { return _edges.size(); }
     uint64_t getNbSubGraphs() const { return _graphs.size(); }
     uint64_t getNbPairs() const { return _nbPairs; }
-    uint64_t getNbSections() const { return _sections.size(); }
+    uint64_t getNbSections() const { return _sectionIds.size(); }
 
 private:
     void _importFromFile();
     void _buildModel(const VasculatureColorSchemeDetails& details =
                          VasculatureColorSchemeDetails());
-    void _load(const std::string& graphFilename);
-
     size_t _addSDFGeometry(SDFMorphologyData& sdfMorphologyData,
                            const SDFGeometry& geometry,
                            const std::set<size_t>& neighbours,
                            const size_t materialId, const int section);
 
-    void _addStepConeGeometry(const bool useSDF, const Vector3f& position,
-                              const double radius, const Vector3f& target,
-                              const double previousRadius,
-                              const size_t materialId,
-                              const uint64_t& userDataOffset, Model& model,
-                              SDFMorphologyData& sdfMorphologyData,
-                              const uint32_t sdfGroupId,
-                              const Vector3f& displacementParams);
+    void _addStepConeGeometry(
+        const bool useSDF, const Vector3d& position, const double radius,
+        const Vector3d& target, const double previousRadius,
+        const size_t materialId, const uint64_t& userDataOffset, Model& model,
+        SDFMorphologyData& sdfMorphologyData, const uint32_t sdfGroupId,
+        const Vector3f& displacementParams = Vector3f(0.f));
 
     void _finalizeSDFGeometries(Model& model,
                                 SDFMorphologyData& sdfMorphologyData);
@@ -99,7 +95,8 @@ private:
     Scene& _scene;
     Edges _edges;
     std::set<uint64_t> _graphs;
-    std::set<uint64_t> _sections;
+    std::set<uint64_t> _sectionIds;
+    std::map<uint64_t, uint64_ts> _sections;
     uint64_t _nbPairs;
 };
 using VasculaturePtr = std::shared_ptr<Vasculature>;

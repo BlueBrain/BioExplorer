@@ -639,6 +639,10 @@ Response BioExplorerPlugin::_resetScene()
         scene.removeModel(modelDescriptor->getModelID());
 
     scene.markModified();
+
+    _assemblies.clear();
+    _vasculature.reset();
+
     response.contents =
         "Removed " + std::to_string(modelDescriptors.size()) + " models";
     return response;

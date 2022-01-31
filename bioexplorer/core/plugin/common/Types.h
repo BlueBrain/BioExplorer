@@ -799,6 +799,13 @@ enum class VasculatureColorScheme
     pair = 4,
 };
 
+enum class VasculatureQuality
+{
+    low = 0,
+    medium = 1,
+    high = 2
+};
+
 typedef struct
 {
     std::string name;
@@ -806,6 +813,7 @@ typedef struct
     bool useSdf;
     std::vector<uint32_t> gids;
     bool loadCapilarities;
+    VasculatureQuality quality;
 } VasculatureDetails;
 
 typedef struct

@@ -271,6 +271,10 @@ class BioExplorer:
     POSITION_CONSTRAINT_INSIDE = 0
     POSITION_CONSTRAINT_OUTSIDE = 1
 
+    VASCULATURE_QUALITY_LOW = 0
+    VASCULATURE_QUALITY_MEDIUM = 1
+    VASCULATURE_QUALITY_HIGH = 2
+
     def __init__(self, url='localhost:5000'):
         """Create a new BioExplorer instance"""
         self._url = url
@@ -2073,7 +2077,9 @@ class BioExplorer:
         """
         return self._invoke_and_check("get-out-of-core-average-loading-time")
 
-    def add_vasculature(self, name, path, use_sdf=False, section_gids=list(), load_capilarities=False):
+    def add_vasculature(
+            self, name, path, use_sdf=False, section_gids=list(),
+            load_capilarities=False, quality=VASCULATURE_QUALITY_HIGH):
         """Add a vasculature to the 3D scene
 
         Args:
@@ -2082,6 +2088,7 @@ class BioExplorer:
             use_sdf (bool, optional): Use sign distance fields geometry to create the vasculature. Defaults to False.
             section_gids (list, optional): List of segment GIDs to load. Defaults to list().
             load_capilarities (bool, optional): Load capilarities (<= 7 micrometers) if set to True
+            quality: Quality of the vasculature geometry (0 is the graph, 1 with low details, 2 with high details)
 
         Returns:
             Response: Result of the request submission
@@ -2094,6 +2101,7 @@ class BioExplorer:
         params["useSdf"] = use_sdf
         params["gids"] = section_gids
         params["loadCapilarities"] = load_capilarities
+        params["quality"] = quality
         return self._invoke_and_check('add-vasculature', params)
 
     def get_vasculature_info(self):
