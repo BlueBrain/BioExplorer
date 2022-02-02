@@ -20,105 +20,51 @@
 
 #include <plugin/common/Logs.h>
 
-#include <highfive/H5DataSet.hpp>
-#include <highfive/H5File.hpp>
-
-#include <limits>
-
 namespace bioexplorer
 {
 namespace vasculature
 {
-VasculatureHandler::VasculatureHandler(const VasculatureReportDetails& details)
+VasculatureHandler::VasculatureHandler(const VasculatureReportDetails& details,
+                                       const uint64_t populationSize)
     : brayns::AbstractSimulationHandler()
     , _details(details)
+    , _reader(ElementReportReader(details.path))
+    , _report(_reader.openPopulation(details.populationName))
+    , _selection({{0, populationSize - 1}})
 {
-    // Load simulation information from compartment reports
-    _dt = 1.f;
+    const auto times = _report.getTimes();
+    _startTime = std::get<0>(times);
+    const auto endTime = std::get<1>(times);
+    _dt = std::get<2>(times);
+    _unit = _report.getTimeUnits();
 
-    if (_details.debug)
-    {
-        _frameSize = 1349411;
-        _nbFrames = 720;
-        _unit = "ms (debug)";
-    }
-    else
-    {
-        _nbFrames = 1;
-        _frameSize = 0;
-        _unit = "ms";
-
-        try
-        {
-            std::unique_ptr<HighFive::File> file =
-                std::unique_ptr<HighFive::File>(
-                    new HighFive::File(_details.path,
-                                       HighFive::File::ReadOnly));
-            const auto& report = file->getGroup("report");
-            const auto& vasculature = report.getGroup("vasculature");
-            const auto& dataset = vasculature.getDataSet("data");
-            dataset.read(_simulationData);
-            _nbFrames = _simulationData.size();
-            if (_nbFrames == 0)
-                PLUGIN_THROW("Report file does not contain any data: " +
-                             _details.path);
-
-            _frameSize = _simulationData[0].size();
-            float minValue = std::numeric_limits<float>::max();
-            float maxValue = -std::numeric_limits<float>::max();
-            for (const auto& series : _simulationData)
-                for (const auto& value : series)
-                {
-                    const float v = static_cast<float>(value);
-                    minValue = std::min(minValue, v);
-                    maxValue = std::max(maxValue, v);
-                }
-            PLUGIN_INFO(1, "Report successfully attached. Frame size is "
-                               << _frameSize << ". Values are in range ["
-                               << minValue << "," << maxValue << "]");
-        }
-        catch (const HighFive::FileException& exc)
-        {
-            PLUGIN_THROW("Could not open vasculature report file " +
-                         _details.path + ": " + exc.what());
-        }
-    }
+    _nbFrames = (endTime - _startTime) / _dt;
+    _frameSize = populationSize;
+    _currentFrame = 0;
+    PLUGIN_INFO(1, "Report successfully attached");
+    PLUGIN_INFO(1, "- Frame size      : " << _frameSize);
+    PLUGIN_INFO(1, "- Number of frames: " << _nbFrames);
+    PLUGIN_INFO(1, "- Start time      : " << _startTime);
+    PLUGIN_INFO(1, "- End time        : " << endTime);
+    PLUGIN_INFO(1, "- Time interval   : " << _dt);
+    _frameData = _report.get(_selection, _startTime, _startTime + _dt).data;
 }
-
-VasculatureHandler::VasculatureHandler(const VasculatureHandler& rhs)
-    : brayns::AbstractSimulationHandler(rhs)
-{
-}
-
-VasculatureHandler::~VasculatureHandler() {}
 
 void* VasculatureHandler::getFrameData(const uint32_t frame)
 {
-    if (_currentFrame != frame)
+    try
     {
-        _frameData.clear();
-        _frameData.reserve(_frameSize);
-        if (_details.debug)
+        if (_currentFrame != frame && frame < _nbFrames)
         {
-            for (uint64_t i = 0; i < _frameSize; ++i)
-            {
-                const float value =
-                    0.5f +
-                    0.5f * (sin(float(frame + i) * M_PI / 360.f) +
-                            0.5f * cos(float(frame + i) * 3.f * M_PI / 360.f));
-                _frameData.push_back(static_cast<float>(value));
-            }
+            const auto startFrame = _startTime + _dt * frame;
+            _frameData = _report.get(_selection, startFrame).data;
         }
-        else
-        {
-            const auto& frameData = _simulationData[frame];
-            for (const auto value : frameData)
-                _frameData.push_back(static_cast<float>(value));
-        }
-        _currentFrame = frame;
-        PLUGIN_DEBUG("Frame " << frame << " loaded: " << _frameData.size()
-                              << " segments");
     }
+    catch (const SonataError& e)
+    {
+        PLUGIN_ERROR(e.what())
+    }
+    _currentFrame = frame;
     return _frameData.data();
 }
 

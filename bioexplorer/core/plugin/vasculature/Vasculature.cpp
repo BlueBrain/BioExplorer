@@ -27,8 +27,9 @@
 #include <brayns/engineapi/Scene.h>
 #include <brayns/parameters/ParametersManager.h>
 
-#include <highfive/H5DataSet.hpp>
-#include <highfive/H5File.hpp>
+#include <bbp/sonata/edges.h>
+#include <bbp/sonata/nodes.h>
+#include <bbp/sonata/report_reader.h>
 
 namespace bioexplorer
 {
@@ -36,6 +37,7 @@ namespace vasculature
 {
 using namespace common;
 using namespace geometry;
+using namespace bbp::sonata;
 
 const std::string LOADER_NAME = "Vasculature";
 const std::string SUPPORTED_EXTENTION_H5 = "h5";
@@ -148,111 +150,98 @@ void Vasculature::_finalizeSDFGeometries(Model& model,
 
 void Vasculature::_importFromFile()
 {
-    try
+    const NodePopulation population(_details.filename, "", "vasculature");
+    _populationSize = population.size();
+    const Selection allNodes = Selection({{0, population.size()}});
+    const auto sx = population.getAttribute<double>("start_x", allNodes);
+    const auto sy = population.getAttribute<double>("start_y", allNodes);
+    const auto sz = population.getAttribute<double>("start_z", allNodes);
+    const auto sd = population.getAttribute<double>("start_diameter", allNodes);
+
+    const auto ex = population.getAttribute<double>("end_x", allNodes);
+    const auto ey = population.getAttribute<double>("end_y", allNodes);
+    const auto ez = population.getAttribute<double>("end_z", allNodes);
+    const auto ed = population.getAttribute<double>("end_diameter", allNodes);
+
+    const auto sectionIds =
+        population.getAttribute<uint64_t>("section_id", allNodes);
+    const auto graphIds =
+        population.getAttribute<uint64_t>("subgraph_id", allNodes);
+    const auto types = population.getAttribute<uint64_t>("type", allNodes);
+    const auto pairIds = population.getAttribute<uint64_t>("pairs", allNodes);
+    const auto entryNodes =
+        population.getAttribute<uint64_t>("entry_edges", allNodes);
+
+    PLUGIN_INFO(1, "Full vasculature is made of " << population.size()
+                                                  << " nodes");
+
+    std::map<uint64_t, std::vector<uint64_t>> pairs;
+    const auto& gids = _details.gids;
+    for (uint64_t nodeId = 0; nodeId < population.size(); ++nodeId)
     {
-        // Edge file
-        std::unique_ptr<HighFive::File> edgeFile =
-            std::unique_ptr<HighFive::File>(
-                new HighFive::File(_details.filename,
-                                   HighFive::File::ReadOnly));
+        if (!_details.loadCapilarities &&
+            types[nodeId] == static_cast<uint64_t>(EdgeType::capilarity))
+            // Ignore capilarities
+            continue;
 
-        const auto& nodes = edgeFile->getGroup("nodes");
-        const auto& vasculature = nodes.getGroup("vasculature");
+        const auto sectionId = sectionIds[nodeId];
+        if (!gids.empty() &&
+            // Load specified edges only
+            std::find(gids.begin(), gids.end(), sectionId) == gids.end())
+            continue;
 
-        std::vector<double> sx, sy, sz, sd;
-        std::vector<uint32_t> ss;
-        const auto& start_x = vasculature.getDataSet("start_x");
-        start_x.read(sx);
-        const auto& start_y = vasculature.getDataSet("start_y");
-        start_y.read(sy);
-        const auto& start_z = vasculature.getDataSet("start_z");
-        start_z.read(sz);
-        const auto& start_d = vasculature.getDataSet("start_diameter");
-        start_d.read(sd);
-        const auto& start_s = vasculature.getDataSet("section_id");
-        start_s.read(ss);
+        // if (entryEdges[nodeId] == 0)
+        //     continue;
 
-        std::vector<double> ex, ey, ez, ed;
-        const auto& end_x = vasculature.getDataSet("end_x");
-        end_x.read(ex);
-        const auto& end_y = vasculature.getDataSet("end_y");
-        end_y.read(ey);
-        const auto& end_z = vasculature.getDataSet("end_z");
-        end_z.read(ez);
-        const auto& end_d = vasculature.getDataSet("end_diameter");
-        end_d.read(ed);
+        VasculatureNode node;
+        node.startPosition = Vector3d(sx[nodeId], sy[nodeId], sz[nodeId]);
+        node.startRadius = sd[nodeId] * 0.5;
+        node.endPosition = Vector3d(ex[nodeId], ey[nodeId], ez[nodeId]);
+        node.endRadius = ed[nodeId] * 0.5;
+        node.type = types[nodeId];
 
-        std::vector<uint64_t> graphIds;
-        const auto& edgeGraphIds = vasculature.getDataSet("subgraph_id");
-        edgeGraphIds.read(graphIds);
+        const auto graphId = graphIds[nodeId];
+        node.graphId = graphId;
+        _graphs.insert(graphId);
 
-        std::vector<uint64_t> types;
-        const auto& edgeTypes = vasculature.getDataSet("type");
-        edgeTypes.read(types);
-
-        std::vector<uint64_t> pairIds;
-        const auto& edgePairIds = vasculature.getDataSet("pairs");
-        edgePairIds.read(pairIds);
-
-        std::map<uint64_t, std::vector<uint64_t>> pairs;
-
-        const uint64_t nbEdges = sx.size();
-        PLUGIN_INFO(1, "Full vasculature is made of " << nbEdges << " edges");
-
-        const auto& gids = _details.gids;
-        for (uint64_t edgeId = 0; edgeId < nbEdges; ++edgeId)
+        node.pairId = 0;
+        if (pairIds[nodeId] != 0)
         {
-            if (!_details.loadCapilarities &&
-                types[edgeId] == static_cast<uint64_t>(EdgeType::capilarity))
-                // Ignore capilarities
-                continue;
-
-            const auto sectionId = ss[edgeId];
-            if (!gids.empty() &&
-                // Load specified edges only
-                std::find(gids.begin(), gids.end(), sectionId) == gids.end())
-                continue;
-
-            Edge edge;
-            edge.startPosition = Vector3d(sx[edgeId], sy[edgeId], sz[edgeId]);
-            edge.startRadius = sd[edgeId] * 0.5;
-            edge.endPosition = Vector3d(ex[edgeId], ey[edgeId], ez[edgeId]);
-            edge.endRadius = ed[edgeId] * 0.5;
-            edge.sectionId = sectionId;
-            edge.type = types[edgeId];
-
-            const auto graphId = graphIds[edgeId];
-            edge.graphId = graphId;
-            _graphs.insert(graphId);
-
-            if (pairIds[edgeId] != 0)
-            {
-                const auto pairId = pairIds[edgeId];
-                pairs[pairId].push_back(edgeId);
-            }
-
-            _sections[sectionId].push_back(edgeId);
-            _sectionIds.insert(sectionId);
-            _edges[edgeId] = edge;
+            const auto pairId = pairIds[nodeId];
+            pairs[pairId].push_back(nodeId);
+            node.pairId = pairId;
         }
 
-        PLUGIN_INFO(3, pairs.size() << " pairs loaded");
-        for (const auto& pair : pairs)
-            if (pair.second.size() == 2)
-                _edges[pair.second[0]].pairId = pair.second[1];
-            else
-                PLUGIN_ERROR("Invalid number of Ids for pair " << pair.first);
-
-        _nbPairs = pairs.size();
-        PLUGIN_INFO(1, "Loaded vasculature is made of " << _edges.size()
-                                                        << " edges");
-
-        _buildModel();
+        _sections[sectionId].push_back(nodeId);
+        _sectionIds.insert(sectionId);
+        node.sectionId = sectionId;
+        _nodes[nodeId] = node;
     }
-    catch (const HighFive::Exception& exc)
+
+    for (const auto& pair : pairs)
     {
-        PLUGIN_THROW(exc.what());
+        if (pair.second.size() == 2)
+        {
+            auto& edge1 = _nodes[pair.second[0]];
+            edge1.pairId = pair.second[1];
+            auto& edge2 = _nodes[pair.second[1]];
+            edge2.pairId = pair.second[1];
+            const auto graphId1 = edge1.graphId;
+            const auto graphId2 = edge2.graphId;
+            for (auto& node : _nodes)
+                if (node.second.graphId == graphId1 ||
+                    node.second.graphId == graphId2)
+                    node.second.pairId = pair.first;
+        }
+        else
+            PLUGIN_ERROR("Invalid number of Ids for pair " << pair.first);
     }
+
+    _nbPairs = pairs.size();
+    PLUGIN_INFO(1,
+                "Loaded vasculature is made of " << _nodes.size() << " nodes");
+
+    _buildModel();
 }
 
 void Vasculature::_buildModel(const VasculatureColorSchemeDetails& details)
@@ -271,9 +260,9 @@ void Vasculature::_buildModel(const VasculatureColorSchemeDetails& details)
 
         Vector4ds controlPoints;
         const uint64_t nbControlPoints = section.second.size();
-        for (const auto& edgeId : section.second)
+        for (const auto& nodeId : section.second)
         {
-            const auto& e = _edges[edgeId];
+            const auto& e = _nodes[nodeId];
             controlPoints.push_back({e.startPosition.x, e.startPosition.y,
                                      e.startPosition.z, e.startRadius});
         }
@@ -294,9 +283,9 @@ void Vasculature::_buildModel(const VasculatureColorSchemeDetails& details)
 
         for (double t = 0.0; t < 1.0; t += tStep)
         {
-            const uint64_t edgeId = section.second[t * double(nbControlPoints)];
-            const Edge& e = _edges[edgeId];
-            size_t materialId = 0;
+            const uint64_t nodeId = section.second[t * double(nbControlPoints)];
+            const auto& node = _nodes[nodeId];
+            uint64_t materialId = 0;
 
             switch (details.colorScheme)
             {
@@ -304,10 +293,16 @@ void Vasculature::_buildModel(const VasculatureColorSchemeDetails& details)
                 materialId = edgeCount;
                 break;
             case VasculatureColorScheme::section:
-                materialId = e.sectionId;
+                materialId = node.sectionId;
                 break;
             case VasculatureColorScheme::subgraph:
-                materialId = e.graphId;
+                materialId = node.graphId;
+                break;
+            case VasculatureColorScheme::pair:
+                materialId = node.pairId;
+                break;
+            case VasculatureColorScheme::entry_node:
+                materialId = node.entryNode;
                 break;
             default:
                 break;
@@ -320,11 +315,11 @@ void Vasculature::_buildModel(const VasculatureColorSchemeDetails& details)
 
             if (!firstControlPoint)
             {
-                const uint64_t userData = edgeId;
+                const uint64_t userData = nodeId;
                 if (useSdf)
                     _addSDFGeometry(sdfMorphologyData,
                                     createSDFSphere(src, srcRadius, userData),
-                                    {}, materialId, e.sectionId);
+                                    {}, materialId, node.sectionId);
                 else
                     model->addSphere(materialId,
                                      {src, static_cast<float>(srcRadius),
@@ -332,7 +327,7 @@ void Vasculature::_buildModel(const VasculatureColorSchemeDetails& details)
 
                 _addStepConeGeometry(useSdf, src, srcRadius, dst, dstRadius,
                                      materialId, userData, *model,
-                                     sdfMorphologyData, e.sectionId);
+                                     sdfMorphologyData, node.sectionId);
             }
             dst = src;
             dstRadius = srcRadius;
@@ -371,7 +366,7 @@ void Vasculature::_buildModel(const VasculatureColorSchemeDetails& details)
         _finalizeSDFGeometries(*model, sdfMorphologyData);
 
     ModelMetadata metadata = {
-        {"Number of edges", std::to_string(_edges.size())},
+        {"Number of edges", std::to_string(_nodes.size())},
         {"Number of sections", std::to_string(_sectionIds.size())},
         {"Number of sub-graphs", std::to_string(_graphs.size())}};
 
@@ -393,29 +388,31 @@ void Vasculature::setRadiusReport(const VasculatureRadiusReportDetails& details)
 {
     try
     {
-        std::unique_ptr<HighFive::File> file = std::unique_ptr<HighFive::File>(
-            new HighFive::File(details.path, HighFive::File::ReadOnly));
+        ElementReportReader reader(details.path);
 
-        std::vector<std::vector<double>> simulationData;
-        const auto& report = file->getGroup("report");
-        const auto& vasculature = report.getGroup("vasculature");
-        const auto& dataset = vasculature.getDataSet("data");
-        dataset.read(simulationData);
+        const auto reportPopulation = reader.openPopulation("vasculature");
+        const auto times = reportPopulation.getTimes();
+        const auto startTime = std::get<0>(times);
+        const auto endTime = std::get<1>(times);
+        const auto dt = std::get<2>(times);
+        const auto unit = reportPopulation.getTimeUnits();
 
-        const size_t nbFrames = simulationData.size();
+        const size_t nbFrames = (endTime - startTime) / dt;
         if (nbFrames == 0)
             PLUGIN_THROW("Report does not contain any simulation data: " +
                          details.path);
-        std::vector<double> series;
+
+        std::vector<float> series;
         if (details.debug)
         {
-            for (uint64_t i = 0; i < simulationData[0].size(); ++i)
+            series.resize(_nodes.size());
+            for (uint64_t i = 0; i < _populationSize; ++i)
             {
                 const double value =
                     details.amplitude *
-                    (0.5 + (sin(double(details.frame + i) * M_PI / 360.0) +
-                            0.5 * cos(double(details.frame + i) * 3.0 * M_PI /
-                                      360.0)));
+                    (0.5f + (sin(double(details.frame + i) * M_PI / 360.f) +
+                             0.5f * cos(double(details.frame + i) * 3.f * M_PI /
+                                        360.f)));
                 series.push_back(value);
             }
         }
@@ -424,7 +421,10 @@ void Vasculature::setRadiusReport(const VasculatureRadiusReportDetails& details)
             if (details.frame >= nbFrames)
                 PLUGIN_THROW("Invalid frame specified for report: " +
                              details.path);
-            series = simulationData[details.frame];
+            const Selection allNodes = Selection({{0, _populationSize}});
+            series =
+                reportPopulation.get(allNodes, startTime + details.frame * dt)
+                    .data;
         }
 
         auto& model = _modelDescriptor->getModel();

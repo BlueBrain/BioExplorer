@@ -795,8 +795,10 @@ enum class VasculatureColorScheme
     section = 2,
     /** Colored by sub-graph */
     subgraph = 3,
-    /** Colored by pairs */
+    /** Colored by pair */
     pair = 4,
+    /** Colored by entry node */
+    entry_node = 5
 };
 
 enum class VasculatureQuality
@@ -819,7 +821,7 @@ typedef struct
 typedef struct
 {
     uint64_t modelId;
-    uint64_t nbEdges;
+    uint64_t nbNodes;
     uint64_t nbSubGraphs;
     uint64_t nbPairs;
     uint64_t nbSections;
@@ -840,7 +842,7 @@ typedef struct
 typedef struct
 {
     std::string path;
-    bool debug;
+    std::string populationName;
 } VasculatureReportDetails;
 
 typedef struct

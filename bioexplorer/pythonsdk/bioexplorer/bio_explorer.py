@@ -185,6 +185,7 @@ class BioExplorer:
     VASCULATURE_COLOR_SCHEME_SECTION = 2
     VASCULATURE_COLOR_SCHEME_SUBGRAPH = 3
     VASCULATURE_COLOR_SCHEME_PAIR = 4
+    VASCULATURE_COLOR_SCHEME_ENTRYNODE = 5
 
     SHADING_MODE_NONE = 0
     SHADING_MODE_BASIC = 1
@@ -2135,10 +2136,10 @@ class BioExplorer:
         params["palette"] = colors
         return self._invoke_and_check('set-vasculature-color-scheme', params)
 
-    def set_vasculature_report(self, path, debug=False):
+    def set_vasculature_report(self, path, population_name='vasculature'):
         params = dict()
         params['path'] = path
-        params['debug'] = debug
+        params['populationName'] = population_name
         return self._invoke_and_check('set-vasculature-report', params)
 
     def set_vasculature_radius_report(self, path, frame, amplitude=1.0, debug=False):

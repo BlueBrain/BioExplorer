@@ -692,7 +692,7 @@ std::string to_json(const VasculatureInfoDetails &param)
     {
         nlohmann::json js;
         TO_JSON(param, js, modelId);
-        TO_JSON(param, js, nbEdges);
+        TO_JSON(param, js, nbNodes);
         TO_JSON(param, js, nbSubGraphs);
         TO_JSON(param, js, nbPairs);
         TO_JSON(param, js, nbSections);
@@ -726,7 +726,7 @@ bool from_json(VasculatureReportDetails &param, const std::string &payload)
     {
         auto js = nlohmann::json::parse(payload);
         FROM_JSON(param, js, path);
-        FROM_JSON(param, js, debug);
+        FROM_JSON(param, js, populationName);
     }
     catch (...)
     {

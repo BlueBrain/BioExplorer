@@ -50,10 +50,11 @@ typedef struct
     double endRadius;
     uint64_t sectionId;
     uint64_t graphId;
-    uint64_t type; // Change to EdgeType?
-    uint64_t pairId;
-} Edge;
-typedef std::map<uint64_t, Edge> Edges;
+    uint64_t type;
+    uint64_t pairId{0};
+    uint64_t entryNode;
+} VasculatureNode;
+typedef std::map<uint64_t, VasculatureNode> VasculatureNodes;
 
 /**
  * Load vasculature from H5 file
@@ -67,10 +68,11 @@ public:
 
     void setRadiusReport(const VasculatureRadiusReportDetails& details);
 
-    uint64_t getNbEdges() const { return _edges.size(); }
+    uint64_t getNbNodes() const { return _nodes.size(); }
     uint64_t getNbSubGraphs() const { return _graphs.size(); }
     uint64_t getNbPairs() const { return _nbPairs; }
     uint64_t getNbSections() const { return _sectionIds.size(); }
+    uint64_t getPopulationSize() const { return _populationSize; }
 
 private:
     void _importFromFile();
@@ -93,11 +95,12 @@ private:
 
     const VasculatureDetails _details;
     Scene& _scene;
-    Edges _edges;
+    VasculatureNodes _nodes;
+    uint64_t _populationSize{0};
     std::set<uint64_t> _graphs;
     std::set<uint64_t> _sectionIds;
     std::map<uint64_t, uint64_ts> _sections;
-    uint64_t _nbPairs;
+    uint64_t _nbPairs{0};
 };
 using VasculaturePtr = std::shared_ptr<Vasculature>;
 } // namespace vasculature

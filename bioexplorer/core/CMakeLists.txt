@@ -19,6 +19,12 @@ list(APPEND CMAKE_MODULE_PATH ${PROJECT_SOURCE_DIR}/CMake)
 set(${NAME}_MODULES_DIR ${PROJECT_SOURCE_DIR})
 set(CMAKE_CXX_STANDARD 14) # C++ 14
 
+option(${NAME}_USE_VASCULATURE "Use vasculature features" ON)
+option(${NAME}_USE_CGAL "Use CGAL meshing features" ON)
+option(${NAME}_USE_PQXX "Use PostgreSQL database" ON)
+
+add_subdirectory(deps)
+
 # Mandatory packages
 find_package(Brayns REQUIRED)
 find_package(ospray REQUIRED SYSTEM)
@@ -29,23 +35,20 @@ find_package(OpenMP)
 
 # Optional packages (managed by Defines.h.in)
 set(CGAL_FOUND 0)
-option(${NAME}_USE_CGAL "Use CGAL meshing features" ON)
 if(${${NAME}_USE_CGAL})
     find_package(CGAL REQUIRED)
 endif()
 
 set(PQXX_FOUND 0)
-option(${NAME}_USE_PQXX "Use PostgreSQL database" ON)
 if(${${NAME}_USE_PQXX})
     unset(PQXX_INCLUDE_DIRECTORIES CACHE)
     unset(PQXX_LIBRARIES CACHE)
     find_package(PQXX REQUIRED)
 endif()
 
-option(${NAME}_USE_VASCULATURE "Use vasculature features" ON)
 set(USE_VASCULATURE 0)
 if(${NAME}_USE_VASCULATURE)
-  find_package(HighFive REQUIRED)
+  find_package(HDF5 REQUIRED)
   set(USE_VASCULATURE 1)
 endif()
 
@@ -190,11 +193,14 @@ include_directories(
 set(${NAME}_LINK_LIBRARIES
     PUBLIC ${OSPRAY_LIBRARIES}
     PRIVATE braynsParameters braynsPluginAPI braynsCommon braynsEngine braynsIO
-            braynsOSPRayEngine ${FreeImage_LIBRARIES}
+    braynsOSPRayEngine ${FreeImage_LIBRARIES}
 )
 
 if(${NAME}_USE_VASCULATURE)
-    list(APPEND ${NAME}_LINK_LIBRARIES HighFive)
+    list(APPEND ${NAME}_LINK_LIBRARIES
+        sonata::sonata_shared
+        HighFive
+    )
 endif()
 
 if(${CGAL_FOUND})

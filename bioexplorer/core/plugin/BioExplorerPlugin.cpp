@@ -29,6 +29,7 @@
 #include <plugin/molecularsystems/Assembly.h>
 
 #ifdef USE_VASCULATURE
+#include <bbp/sonata/common.h>
 #include <brayns/engineapi/FrameBuffer.h>
 #include <plugin/vasculature/Vasculature.h>
 #include <plugin/vasculature/VasculatureHandler.h>
@@ -58,6 +59,22 @@ const std::string PLUGIN_API_PREFIX = "be-";
         response.status = false;        \
         response.contents = e.what();   \
         PLUGIN_ERROR(e.what());         \
+    }
+
+#define CATCH_SONATA_EXCEPTION()      \
+    catch (const SonataError &e)      \
+    {                                 \
+        response.status = false;      \
+        response.contents = e.what(); \
+        PLUGIN_ERROR(e.what());       \
+    }
+
+#define CATCH_HIGHFIVE_EXCEPTION()       \
+    catch (const HighFive::Exception &e) \
+    {                                    \
+        response.status = false;         \
+        response.contents = e.what();    \
+        PLUGIN_ERROR(e.what());          \
     }
 
 #define ASSEMBLY_CALL(__name__, __stmt__)               \
@@ -1284,8 +1301,7 @@ IdsDetails BioExplorerPlugin::_getMaterialIds(const ModelIdDetails &payload)
     if (modelDescriptor)
     {
         for (const auto &material : modelDescriptor->getModel().getMaterials())
-            if (material.first != 0 &&
-                material.first != SECONDARY_MODEL_MATERIAL_ID)
+            if (material.first != SECONDARY_MODEL_MATERIAL_ID)
                 materialIds.ids.push_back(material.first);
     }
     return materialIds;
@@ -1695,6 +1711,8 @@ Response BioExplorerPlugin::_addVasculature(const VasculatureDetails &details)
             std::move(new vasculature::Vasculature(scene, details)));
         scene.markModified(false);
     }
+    CATCH_SONATA_EXCEPTION()
+    CATCH_HIGHFIVE_EXCEPTION()
     CATCH_STD_EXCEPTION()
     return response;
 }
@@ -1710,7 +1728,7 @@ VasculatureInfoDetails BioExplorerPlugin::_getVasculatureInfo() const
     if (_vasculature)
     {
         response.modelId = modelDescriptor->getModelID();
-        response.nbEdges = _vasculature->getNbEdges();
+        response.nbNodes = _vasculature->getNbNodes();
         response.nbSubGraphs = _vasculature->getNbSubGraphs();
         response.nbSections = _vasculature->getNbSections();
         response.nbPairs = _vasculature->getNbPairs();
@@ -1738,6 +1756,8 @@ Response BioExplorerPlugin::_setVasculatureColorScheme(
         _vasculature->setColorScheme(details);
         scene.markModified(false);
     }
+    CATCH_SONATA_EXCEPTION()
+    CATCH_HIGHFIVE_EXCEPTION()
     CATCH_STD_EXCEPTION()
     return response;
 }
@@ -1754,11 +1774,13 @@ Response BioExplorerPlugin::_setVasculatureReport(
 
         auto modelDescriptor = _vasculature->getModelDescriptor();
         auto &scene = _api->getScene();
-        auto handler =
-            std::make_shared<vasculature::VasculatureHandler>(details);
+        auto handler = std::make_shared<vasculature::VasculatureHandler>(
+            details, _vasculature->getPopulationSize());
         auto &model = modelDescriptor->getModel();
         model.setSimulationHandler(handler);
     }
+    CATCH_SONATA_EXCEPTION()
+    CATCH_HIGHFIVE_EXCEPTION()
     CATCH_STD_EXCEPTION()
     return response;
 }
@@ -1775,6 +1797,8 @@ Response BioExplorerPlugin::_setVasculatureRadiusReport(
 
         _vasculature->setRadiusReport(details);
     }
+    CATCH_SONATA_EXCEPTION()
+    CATCH_HIGHFIVE_EXCEPTION()
     CATCH_STD_EXCEPTION()
     return response;
 }
