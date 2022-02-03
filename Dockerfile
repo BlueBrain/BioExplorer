@@ -145,30 +145,6 @@ RUN mkdir -p ${BRAYNS_SRC} \
 RUN cd ${BRAYNS_SRC}/build && make -j install
 
 # --------------------------------------------------------------------------------
-# Install HighFive 
-# Note: Brion does not install HighFive, that's why we need to compile 
-# and install it
-# https://github.com/BlueBrain/HighFive
-# --------------------------------------------------------------------------------
-ARG HIGHFIVE_VERSION=v2.3.1
-ARG HIGHFIVE_SRC=/app/highfive
-
-RUN mkdir -p ${HIGHFIVE_SRC} \
-   && git clone https://github.com/BlueBrain/HighFive ${HIGHFIVE_SRC}
-
-RUN cd ${HIGHFIVE_SRC} \
-   && git -c advice.detachedHead=false checkout ${HIGHFIVE_VERSION} \
-   && git submodule update --init --recursive \
-   && rm -rf build \
-   && mkdir -p build \
-   && cd build \
-   && cmake .. -Wno-return-type \
-   -DCMAKE_BUILD_TYPE=Release \
-   -DCMAKE_INSTALL_PREFIX=${DIST_PATH} || exit 0
-
-RUN cd ${HIGHFIVE_SRC}/build && make -j install
-
-# --------------------------------------------------------------------------------
 # Add BioExplorer and additional plugins
 # --------------------------------------------------------------------------------
 
