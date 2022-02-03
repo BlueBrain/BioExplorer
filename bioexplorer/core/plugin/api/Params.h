@@ -74,7 +74,7 @@ bool from_json(FileAccessDetails &param, const std::string &payload);
 bool from_json(DatabaseAccessDetails &param, const std::string &payload);
 
 // Models, Color schemes and materials
-bool from_json(ColorSchemeDetails &param, const std::string &payload);
+bool from_json(ProteinColorSchemeDetails &param, const std::string &payload);
 bool from_json(ModelIdDetails &modelId, const std::string &payload);
 bool from_json(MaterialsDetails &materialsDetails, const std::string &payload);
 std::string to_json(const IdsDetails &param);
@@ -95,5 +95,16 @@ bool from_json(ProteinInstanceTransformationDetails &param,
 // Protein inspection
 bool from_json(InspectionDetails &param, const std::string &payload);
 std::string to_json(const ProteinInspectionDetails &param);
+
+#ifdef USE_VASCULATURE
+// Vasculature
+bool from_json(VasculatureDetails &param, const std::string &payload);
+std::string to_json(const VasculatureInfoDetails &param);
+bool from_json(VasculatureColorSchemeDetails &param,
+               const std::string &payload);
+bool from_json(VasculatureReportDetails &param, const std::string &payload);
+bool from_json(VasculatureRadiusReportDetails &param,
+               const std::string &payload);
+#endif
 
 #endif

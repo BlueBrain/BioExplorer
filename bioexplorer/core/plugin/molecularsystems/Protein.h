@@ -20,11 +20,11 @@
 
 #pragma once
 
-#include <plugin/biology/Molecule.h>
+#include <plugin/molecularsystems/Molecule.h>
 
 namespace bioexplorer
 {
-namespace biology
+namespace molecularsystems
 {
 /**
  * @brief The Protein class
@@ -57,8 +57,8 @@ public:
      * @param chainIds Optional identifiers of chains to which the color scheme
      * is to be applied
      */
-    void setColorScheme(const ColorScheme& colorScheme, const Palette& palette,
-                        const size_ts& chainIds);
+    void setColorScheme(const ProteinColorScheme& colorScheme,
+                        const Palette& palette, const size_ts& chainIds);
 
     /**
      * @brief Set the Amino Acid Sequence As String object
@@ -174,5 +174,5 @@ private:
     double _transMembraneRadius;
     std::map<std::string, std::map<size_t, Boxf>> _aminoAcidBounds;
 };
-} // namespace biology
+} // namespace molecularsystems
 } // namespace bioexplorer

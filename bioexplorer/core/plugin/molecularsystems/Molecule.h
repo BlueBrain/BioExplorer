@@ -20,15 +20,14 @@
 
 #pragma once
 
-#include <plugin/biology/Node.h>
-
-#include <brayns/engineapi/Model.h>
+#include <plugin/common/Node.h>
 
 namespace bioexplorer
 {
-namespace biology
+namespace molecularsystems
 {
 using namespace brayns;
+using namespace common;
 using namespace details;
 
 const std::string KEY_UNDEFINED = "Undefined";
@@ -142,5 +141,5 @@ protected:
     Vector2uis _selectedAminoAcidRanges;
     Boxf _bounds;
 };
-} // namespace biology
+} // namespace molecularsystems
 } // namespace bioexplorer

@@ -31,12 +31,13 @@
 #endif
 
 #include <brayns/engineapi/Material.h>
+#include <brayns/engineapi/Model.h>
 
 #include <omp.h>
 
 namespace bioexplorer
 {
-namespace biology
+namespace molecularsystems
 {
 using namespace common;
 #ifdef USE_CGAL
@@ -797,5 +798,5 @@ void Molecule::_setMaterialDiffuseColor(const size_t atomIndex,
         PLUGIN_ERROR(e.what());
     }
 }
-} // namespace biology
+} // namespace molecularsystems
 } // namespace bioexplorer

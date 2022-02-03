@@ -63,4 +63,11 @@ struct AdvancedRenderer
 
     // Matrix filter (just for fun)
     bool matrixFilter;
+
+    // Transfer function attributes
+    const uniform TransferFunction* uniform transferFunction;
+
+    // Simulation data
+    uniform float* uniform simulationData;
+    uint64 simulationDataSize;
 };

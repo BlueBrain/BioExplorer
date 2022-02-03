@@ -16,10 +16,10 @@
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
 
-#include <plugin/biology/Assembly.h>
-#include <plugin/biology/Membrane.h>
-#include <plugin/biology/Protein.h>
 #include <plugin/common/Logs.h>
+#include <plugin/molecularsystems/Assembly.h>
+#include <plugin/molecularsystems/Membrane.h>
+#include <plugin/molecularsystems/Protein.h>
 
 #include <brayns/Brayns.h>
 #include <brayns/engineapi/Engine.h>
@@ -33,7 +33,7 @@
 namespace tests
 {
 using namespace bioexplorer;
-using namespace biology;
+using namespace molecularsystems;
 
 const std::string folder = "./bioexplorer/pythonsdk/tests/test_files/";
 

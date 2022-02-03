@@ -32,5 +32,10 @@
 #  define USE_PQXX
 #endif
 
+// Vasculature
+#if @USE_VASCULATURE@==1
+#  define USE_VASCULATURE
+#endif
+
 #define PACKAGE_VERSION "@PACKAGE_VERSION@"
 // clang-format-on

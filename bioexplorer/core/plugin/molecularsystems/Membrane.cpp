@@ -24,14 +24,16 @@
 #include <plugin/common/CommonTypes.h>
 #include <plugin/common/GeneralSettings.h>
 #include <plugin/common/Logs.h>
+#include <plugin/common/Node.h>
 #include <plugin/common/Utils.h>
 #include <plugin/common/shapes/Shape.h>
 
 #include <brayns/engineapi/Material.h>
+#include <brayns/engineapi/Model.h>
 
 namespace bioexplorer
 {
-namespace biology
+namespace molecularsystems
 {
 Membrane::Membrane(const MembraneDetails& details, Scene& scene,
                    const Vector3d& assemblyPosition,
@@ -184,5 +186,5 @@ std::string Membrane::_getElementNameFromId(const size_t id) const
     return _details.assemblyName + "_Membrane_" + std::to_string(id);
 }
 
-} // namespace biology
+} // namespace molecularsystems
 } // namespace bioexplorer

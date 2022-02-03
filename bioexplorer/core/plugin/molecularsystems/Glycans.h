@@ -22,11 +22,11 @@
 
 #include <brayns/engineapi/Model.h>
 #include <plugin/api/Params.h>
-#include <plugin/biology/Molecule.h>
+#include <plugin/molecularsystems/Molecule.h>
 
 namespace bioexplorer
 {
-namespace biology
+namespace molecularsystems
 {
 /**
  * @brief The Glycans class
@@ -45,5 +45,5 @@ public:
 private:
     SugarsDetails _details;
 };
-} // namespace biology
+} // namespace molecularsystems
 } // namespace bioexplorer

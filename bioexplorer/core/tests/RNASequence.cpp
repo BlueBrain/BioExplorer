@@ -16,9 +16,9 @@
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
 
-#include <plugin/biology/Assembly.h>
-#include <plugin/biology/RNASequence.h>
 #include <plugin/common/Logs.h>
+#include <plugin/molecularsystems/Assembly.h>
+#include <plugin/molecularsystems/RNASequence.h>
 
 #include <brayns/Brayns.h>
 #include <brayns/engineapi/Engine.h>
@@ -32,7 +32,7 @@
 namespace tests
 {
 using namespace bioexplorer;
-using namespace biology;
+using namespace molecularsystems;
 
 std::string getFileContents(const std::string& filename)
 {

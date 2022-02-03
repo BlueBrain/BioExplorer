@@ -142,7 +142,31 @@ RUN mkdir -p ${BRAYNS_SRC} \
    -DCMAKE_BUILD_TYPE=Release \
    -DCMAKE_INSTALL_PREFIX=${DIST_PATH} || exit 0
 
-RUN cd ${BRAYNS_SRC}/build && make -j install VERBOSE=1
+RUN cd ${BRAYNS_SRC}/build && make -j install
+
+# --------------------------------------------------------------------------------
+# Install HighFive 
+# Note: Brion does not install HighFive, that's why we need to compile 
+# and install it
+# https://github.com/BlueBrain/HighFive
+# --------------------------------------------------------------------------------
+ARG HIGHFIVE_VERSION=v2.3.1
+ARG HIGHFIVE_SRC=/app/highfive
+
+RUN mkdir -p ${HIGHFIVE_SRC} \
+   && git clone https://github.com/BlueBrain/HighFive ${HIGHFIVE_SRC}
+
+RUN cd ${HIGHFIVE_SRC} \
+   && git -c advice.detachedHead=false checkout ${HIGHFIVE_VERSION} \
+   && git submodule update --init --recursive \
+   && rm -rf build \
+   && mkdir -p build \
+   && cd build \
+   && cmake .. -Wno-return-type \
+   -DCMAKE_BUILD_TYPE=Release \
+   -DCMAKE_INSTALL_PREFIX=${DIST_PATH} || exit 0
+
+RUN cd ${HIGHFIVE_SRC}/build && make -j install
 
 # --------------------------------------------------------------------------------
 # Add BioExplorer and additional plugins
@@ -161,7 +185,7 @@ RUN cd ${BIOEXPLORER_SRC} \
    && PATH=${ISPC_PATH}/bin:${PATH} CMAKE_PREFIX_PATH=${DIST_PATH} LDFLAGS="-lCGAL" cmake .. \
    -DBIOEXPLORER_UNIT_TESTING_ENABLED=OFF -DCGAL_DO_NOT_WARN_ABOUT_CMAKE_BUILD_TYPE=TRUE \
    -DCMAKE_INSTALL_PREFIX=${DIST_PATH} -DCMAKE_BUILD_TYPE=Release \
-   && make -j install VERBOSE=1
+   && make -j install
 
 # Final image, containing only Brayns and BioExplorer and libraries required to run it
 FROM debian:buster-slim

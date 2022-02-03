@@ -25,14 +25,14 @@
 #include <plugin/common/GeneralSettings.h>
 #include <plugin/common/Logs.h>
 #include <plugin/common/Utils.h>
-#include <plugin/common/shapes/RNAShape.h>
 
 #include <brayns/engineapi/Material.h>
+#include <brayns/engineapi/Model.h>
 #include <brayns/engineapi/Scene.h>
 
 namespace bioexplorer
 {
-namespace biology
+namespace molecularsystems
 {
 using namespace common;
 
@@ -234,5 +234,5 @@ void RNASequence::_buildRNAAsProteinInstances(const Quaterniond& rotation)
         }
     }
 }
-} // namespace biology
+} // namespace molecularsystems
 } // namespace bioexplorer

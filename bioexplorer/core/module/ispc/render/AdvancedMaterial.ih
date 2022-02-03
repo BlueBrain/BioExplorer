@@ -55,4 +55,5 @@ struct AdvancedMaterial
     float userParameter;
     MaterialChameleonMode chameleonMode;
     uint32 nodeId;
+    bool castSimulationData;
 };

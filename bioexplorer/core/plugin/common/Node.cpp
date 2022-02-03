@@ -23,16 +23,18 @@
 
 namespace bioexplorer
 {
-namespace biology
+namespace common
 {
-using namespace common;
-
 Node::Node()
 {
     // Unique ID
     _uuid = UniqueId::get();
 }
 
-Node::~Node() {}
-} // namespace biology
+const ModelDescriptorPtr Node::getModelDescriptor() const
+{
+    return _modelDescriptor;
+}
+
+} // namespace common
 } // namespace bioexplorer

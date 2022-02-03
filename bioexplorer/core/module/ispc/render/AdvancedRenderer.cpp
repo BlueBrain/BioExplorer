@@ -24,11 +24,42 @@
 #include <ospray/SDK/common/Data.h>
 #include <ospray/SDK/common/Model.h>
 #include <ospray/SDK/lights/Light.h>
+#include <ospray/SDK/transferFunction/TransferFunction.h>
+
+#include <brayns/ispc/geometry/Cones.h>
+#include <brayns/ispc/geometry/SDFGeometries.h>
+
+#include <brayns/common/geometry/Cone.h>
+#include <brayns/common/geometry/Cylinder.h>
+#include <brayns/common/geometry/SDFGeometry.h>
+#include <brayns/common/geometry/Sphere.h>
+
+#include <ospray/SDK/geometry/Cylinders.h>
+#include <ospray/SDK/geometry/Geometry.h>
+#include <ospray/SDK/geometry/Spheres.h>
 
 // ispc exports
 #include "AdvancedRenderer_ispc.h"
 
 using namespace ospray;
+
+extern "C"
+{
+    int AdvancedRenderer_getBytesPerPrimitive(const void* geometry)
+    {
+        const ospray::Geometry* base =
+            static_cast<const ospray::Geometry*>(geometry);
+        if (dynamic_cast<const ospray::Spheres*>(base))
+            return sizeof(brayns::Sphere);
+        else if (dynamic_cast<const ospray::Cylinders*>(base))
+            return sizeof(brayns::Cylinder);
+        else if (dynamic_cast<const ospray::Cones*>(base))
+            return sizeof(brayns::Cone);
+        else if (dynamic_cast<const ospray::SDFGeometries*>(base))
+            return sizeof(brayns::SDFGeometry);
+        return 0;
+    }
+}
 
 namespace bioexplorer
 {
@@ -71,14 +102,24 @@ void AdvancedRenderer::commit()
 
     _matrixFilter = getParam("matrixFilter", 0);
 
-    ispc::AdvancedRenderer_set(getIE(),
-                               (_bgMaterial ? _bgMaterial->getIE() : nullptr),
-                               _shadows, _softShadows, _softShadowsSamples,
-                               _giStrength, _giDistance, _giSamples,
-                               _randomNumber, _timestamp, spp, _lightPtr,
-                               _lightArray.size(), _exposure, _fogThickness,
-                               _fogStart, _useHardwareRandomizer, _maxBounces,
-                               _showBackground, _matrixFilter);
+    _simulationData = getParamData("simulationData");
+    _simulationDataSize = _simulationData ? _simulationData->size() : 0;
+
+    // Transfer function
+    ospray::TransferFunction* transferFunction =
+        (ospray::TransferFunction*)getParamObject("transferFunction", nullptr);
+    if (transferFunction)
+        ispc::AdvancedRenderer_setTransferFunction(getIE(),
+                                                   transferFunction->getIE());
+
+    ispc::AdvancedRenderer_set(
+        getIE(), (_bgMaterial ? _bgMaterial->getIE() : nullptr), _shadows,
+        _softShadows, _softShadowsSamples, _giStrength, _giDistance, _giSamples,
+        _randomNumber, _timestamp, spp, _lightPtr, _lightArray.size(),
+        _exposure, _fogThickness, _fogStart, _useHardwareRandomizer,
+        _maxBounces, _showBackground, _matrixFilter,
+        _simulationData ? (float*)_simulationData->data : nullptr,
+        _simulationDataSize);
 }
 
 AdvancedRenderer::AdvancedRenderer()

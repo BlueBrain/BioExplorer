@@ -28,7 +28,7 @@
 
 namespace bioexplorer
 {
-namespace biology
+namespace molecularsystems
 {
 Glycans::Glycans(Scene& scene, const SugarsDetails& details)
     : Molecule(scene, {})
@@ -76,5 +76,5 @@ Glycans::Glycans(Scene& scene, const SugarsDetails& details)
                 _details.representation, _details.atomRadiusMultiplier,
                 _details.loadBonds);
 }
-} // namespace biology
+} // namespace molecularsystems
 } // namespace bioexplorer

@@ -19,6 +19,12 @@ list(APPEND CMAKE_MODULE_PATH ${PROJECT_SOURCE_DIR}/CMake)
 set(${NAME}_MODULES_DIR ${PROJECT_SOURCE_DIR})
 set(CMAKE_CXX_STANDARD 14) # C++ 14
 
+option(${NAME}_USE_VASCULATURE "Use vasculature features" ON)
+option(${NAME}_USE_CGAL "Use CGAL meshing features" ON)
+option(${NAME}_USE_PQXX "Use PostgreSQL database" ON)
+
+add_subdirectory(deps)
+
 # Mandatory packages
 find_package(Brayns REQUIRED)
 find_package(ospray REQUIRED SYSTEM)
@@ -29,17 +35,21 @@ find_package(OpenMP)
 
 # Optional packages (managed by Defines.h.in)
 set(CGAL_FOUND 0)
-option(${NAME}_USE_CGAL "Use CGAL meshing features" ON)
 if(${${NAME}_USE_CGAL})
     find_package(CGAL REQUIRED)
 endif()
 
 set(PQXX_FOUND 0)
-option(${NAME}_USE_PQXX "Use PostgreSQL database" ON)
 if(${${NAME}_USE_PQXX})
     unset(PQXX_INCLUDE_DIRECTORIES CACHE)
     unset(PQXX_LIBRARIES CACHE)
     find_package(PQXX REQUIRED)
+endif()
+
+set(USE_VASCULATURE 0)
+if(${NAME}_USE_VASCULATURE)
+  find_package(HDF5 REQUIRED)
+  set(USE_VASCULATURE 1)
 endif()
 
 include(ispc)
@@ -61,6 +71,7 @@ set(${NAME}_SOURCES
     plugin/common/GeneralSettings.cpp
     plugin/common/Utils.cpp
     plugin/common/UniqueId.cpp
+    plugin/common/Node.cpp
     plugin/common/shapes/Shape.cpp
     plugin/common/shapes/MeshShape.cpp
     plugin/common/shapes/SphereShape.cpp
@@ -76,13 +87,12 @@ set(${NAME}_SOURCES
     plugin/fields/OctreeNode.cpp
     plugin/io/CacheLoader.cpp
     plugin/io/OOCManager.cpp
-    plugin/biology/Molecule.cpp
-    plugin/biology/Assembly.cpp
-    plugin/biology/Node.cpp
-    plugin/biology/Membrane.cpp
-    plugin/biology/Glycans.cpp
-    plugin/biology/Protein.cpp
-    plugin/biology/RNASequence.cpp
+    plugin/molecularsystems/Molecule.cpp
+    plugin/molecularsystems/Assembly.cpp
+    plugin/molecularsystems/Membrane.cpp
+    plugin/molecularsystems/Glycans.cpp
+    plugin/molecularsystems/Protein.cpp
+    plugin/molecularsystems/RNASequence.cpp
     plugin/api/Params.cpp
     plugin/BioExplorerPlugin.cpp
 )
@@ -90,13 +100,13 @@ set(${NAME}_SOURCES
 set(${NAME}_PUBLIC_HEADERS
     plugin/io/OOCManager.h
     plugin/io/CacheLoader.h
-    plugin/biology/Molecule.h
-    plugin/biology/Assembly.h
-    plugin/biology/Node.h
-    plugin/biology/Glycans.h
-    plugin/biology/Membrane.h
-    plugin/biology/Protein.h
-    plugin/biology/RNASequence.h
+    plugin/common/Node.h
+    plugin/molecularsystems/Molecule.h
+    plugin/molecularsystems/Assembly.h
+    plugin/molecularsystems/Glycans.h
+    plugin/molecularsystems/Membrane.h
+    plugin/molecularsystems/Protein.h
+    plugin/molecularsystems/RNASequence.h
     plugin/common/UniqueId.h
     plugin/common/GeneralSettings.h
     plugin/common/CommonTypes.h
@@ -113,6 +123,17 @@ set(${NAME}_PUBLIC_HEADERS
     plugin/api/Params.h
     plugin/BioExplorerPlugin.h
 )
+
+if(${NAME}_USE_VASCULATURE)
+    list(APPEND ${NAME}_SOURCES
+        plugin/vasculature/VasculatureHandler.cpp
+        plugin/vasculature/Vasculature.cpp
+    )
+    list(APPEND ${NAME}_PUBLIC_HEADERS
+        plugin/vasculature/VasculatureHandler.h
+        plugin/vasculature/Vasculature.h
+    )
+endif()
 
 if(${CGAL_FOUND})
     list(APPEND ${NAME}_SOURCES
@@ -172,8 +193,15 @@ include_directories(
 set(${NAME}_LINK_LIBRARIES
     PUBLIC ${OSPRAY_LIBRARIES}
     PRIVATE braynsParameters braynsPluginAPI braynsCommon braynsEngine braynsIO
-            braynsOSPRayEngine ${FreeImage_LIBRARIES}
+    braynsOSPRayEngine ${FreeImage_LIBRARIES}
 )
+
+if(${NAME}_USE_VASCULATURE)
+    list(APPEND ${NAME}_LINK_LIBRARIES
+        sonata::sonata_shared
+        HighFive
+    )
+endif()
 
 if(${CGAL_FOUND})
     list(APPEND ${NAME}_LINK_LIBRARIES ${CGAL_LIBRARIES})

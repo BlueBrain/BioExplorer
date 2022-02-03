@@ -14,6 +14,8 @@ set(TESTS_SRC
     RNASequence.cpp
 )
 
+add_definitions(-DBOOST_TEST_DYN_LINK) 
+
 foreach(FILE ${TESTS_SRC})
     get_filename_component(NAME ${FILE} NAME_WE)
     add_executable(${NAME} ${FILE})

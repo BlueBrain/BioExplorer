@@ -24,10 +24,9 @@
 
 namespace bioexplorer
 {
-namespace biology
+namespace common
 {
 using namespace brayns;
-using namespace details;
 
 /**
  * @brief The Node class
@@ -42,25 +41,20 @@ public:
     Node();
 
     /**
-     * @brief Destroy the Node object
-     *
-     */
-    virtual ~Node();
-
-    /**
      * @brief Get the Model Descriptor object
      *
      * @return ModelDescriptorPtr Pointer to the model descriptor
      */
-    const ModelDescriptorPtr getModelDescriptor() const
-    {
-        return _modelDescriptor;
-    }
+    const ModelDescriptorPtr getModelDescriptor() const;
 
 protected:
     ModelDescriptorPtr _modelDescriptor{nullptr};
     Boxd _bounds;
     uint32_t _uuid;
 };
-} // namespace biology
+
+typedef std::shared_ptr<Node> NodePtr;
+typedef std::map<std::string, NodePtr> NodeMap;
+
+} // namespace common
 } // namespace bioexplorer

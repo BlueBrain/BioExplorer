@@ -180,6 +180,13 @@ class BioExplorer:
     COLOR_SCHEME_GLYCOSYLATION_SITE = 5
     COLOR_SCHEME_REGION = 6
 
+    VASCULATURE_COLOR_SCHEME_NONE = 0
+    VASCULATURE_COLOR_SCHEME_EDGE = 1
+    VASCULATURE_COLOR_SCHEME_SECTION = 2
+    VASCULATURE_COLOR_SCHEME_SUBGRAPH = 3
+    VASCULATURE_COLOR_SCHEME_PAIR = 4
+    VASCULATURE_COLOR_SCHEME_ENTRYNODE = 5
+
     SHADING_MODE_NONE = 0
     SHADING_MODE_BASIC = 1
     SHADING_MODE_DIFFUSE = 2
@@ -264,6 +271,10 @@ class BioExplorer:
 
     POSITION_CONSTRAINT_INSIDE = 0
     POSITION_CONSTRAINT_OUTSIDE = 1
+
+    VASCULATURE_QUALITY_LOW = 0
+    VASCULATURE_QUALITY_MEDIUM = 1
+    VASCULATURE_QUALITY_HIGH = 2
 
     def __init__(self, url='localhost:5000'):
         """Create a new BioExplorer instance"""
@@ -1984,7 +1995,7 @@ class BioExplorer:
         params["color"] = color.to_list()
         return self._invoke_and_check("add-bounding-box", params)
 
-    def add_sphere(self, name, position, radius, color=Vector3(1.0, 1.0, 1.0)):
+    def add_sphere(self, name, position, radius, color=Vector3(1.0, 1.0, 1.0), opacity=1.0):
         """
         Add a reference grid to the scene
 
@@ -1999,11 +2010,13 @@ class BioExplorer:
 
         assert isinstance(position, Vector3)
         assert isinstance(color, Vector3)
+
         params = dict()
         params["name"] = name
         params["position"] = position.to_list()
         params["radius"] = radius
         params["color"] = color.to_list()
+        params["opacity"] = opacity
         return self._invoke_and_check("add-sphere", params)
 
     def set_general_settings(self, model_visibility_on_creation=True, off_folder='/tmp',
@@ -2064,6 +2077,78 @@ class BioExplorer:
         :rtype: float
         """
         return self._invoke_and_check("get-out-of-core-average-loading-time")
+
+    def add_vasculature(
+            self, name, path, use_sdf=False, section_gids=list(),
+            load_capilarities=False, quality=VASCULATURE_QUALITY_HIGH):
+        """Add a vasculature to the 3D scene
+
+        Args:
+            name (string): Name of the model in the scene
+            path (string): File name to the H5 vasculature file
+            use_sdf (bool, optional): Use sign distance fields geometry to create the vasculature. Defaults to False.
+            section_gids (list, optional): List of segment GIDs to load. Defaults to list().
+            load_capilarities (bool, optional): Load capilarities (<= 7 micrometers) if set to True
+            quality: Quality of the vasculature geometry (0 is the graph, 1 with low details, 2 with high details)
+
+        Returns:
+            Response: Result of the request submission
+        """
+        assert isinstance(section_gids, list)
+
+        params = dict()
+        params["name"] = name
+        params["filename"] = path
+        params["useSdf"] = use_sdf
+        params["gids"] = section_gids
+        params["loadCapilarities"] = load_capilarities
+        params["quality"] = quality
+        return self._invoke_and_check('add-vasculature', params)
+
+    def get_vasculature_info(self):
+        """Return information about the vasculature
+
+        Returns:
+            dict: Number of edges, pairs, sections and sub-graphs
+        """
+        return self._invoke('get-vasculature-info')
+
+    def set_vasculature_color_scheme(self, color_scheme, palette_name):
+        palette_size = 1
+        vasculature_info = self.get_vasculature_info()
+        if color_scheme == self.VASCULATURE_COLOR_SCHEME_EDGE:
+            palette_size = vasculature_info['nbEdges']
+        elif color_scheme == self.VASCULATURE_COLOR_SCHEME_SECTION:
+            palette_size = vasculature_info['nbSections']
+        elif color_scheme == self.VASCULATURE_COLOR_SCHEME_SUBGRAPH:
+            palette_size = vasculature_info['nbSubGraphs']
+        elif color_scheme == self.VASCULATURE_COLOR_SCHEME_PAIR:
+            palette_size = vasculature_info['nbPairs']
+
+        palette = sns.color_palette(palette_name, palette_size)
+        colors = list()
+        for color in palette:
+            for i in range(3):
+                colors.append(color[i])
+
+        params = dict()
+        params["colorScheme"] = color_scheme
+        params["palette"] = colors
+        return self._invoke_and_check('set-vasculature-color-scheme', params)
+
+    def set_vasculature_report(self, path, population_name='vasculature'):
+        params = dict()
+        params['path'] = path
+        params['populationName'] = population_name
+        return self._invoke_and_check('set-vasculature-report', params)
+
+    def set_vasculature_radius_report(self, path, frame, amplitude=1.0, debug=False):
+        params = dict()
+        params['path'] = path
+        params['frame'] = frame
+        params['amplitude'] = amplitude
+        params['debug'] = debug
+        return self._invoke_and_check('set-vasculature-radius-report', params)
 
 
 # Private classes
