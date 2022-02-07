@@ -2080,7 +2080,8 @@ class BioExplorer:
 
     def add_vasculature(
             self, name, path, use_sdf=False, section_gids=list(),
-            load_capilarities=False, quality=VASCULATURE_QUALITY_HIGH):
+            load_capilarities=False, quality=VASCULATURE_QUALITY_HIGH,
+            radius_correction=0.0):
         """Add a vasculature to the 3D scene
 
         Args:
@@ -2089,6 +2090,7 @@ class BioExplorer:
             use_sdf (bool, optional): Use sign distance fields geometry to create the vasculature. Defaults to False.
             section_gids (list, optional): List of segment GIDs to load. Defaults to list().
             load_capilarities (bool, optional): Load capilarities (<= 7 micrometers) if set to True
+            radius_correction (double, optional): Replaces all vasculature radii if different from zero
             quality: Quality of the vasculature geometry (0 is the graph, 1 with low details, 2 with high details)
 
         Returns:
@@ -2103,6 +2105,7 @@ class BioExplorer:
         params["gids"] = section_gids
         params["loadCapilarities"] = load_capilarities
         params["quality"] = quality
+        params["radiusCorrection"] = radius_correction
         return self._invoke_and_check('add-vasculature', params)
 
     def get_vasculature_info(self):

@@ -311,7 +311,9 @@ void Vasculature::_buildModel(const VasculatureColorSchemeDetails& details)
 
             const Vector4d src4d = getBezierPoint(controlPoints, t);
             const Vector3d src{src4d.x, src4d.y, src4d.z};
-            const double srcRadius = src4d.w;
+            const double srcRadius =
+                (_details.radiusCorrection == 0.0 ? src4d.w
+                                                  : _details.radiusCorrection);
 
             if (!firstControlPoint)
             {

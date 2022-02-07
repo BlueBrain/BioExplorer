@@ -816,6 +816,7 @@ typedef struct
     std::vector<uint32_t> gids;
     bool loadCapilarities;
     VasculatureQuality quality;
+    double radiusCorrection;
 } VasculatureDetails;
 
 typedef struct
