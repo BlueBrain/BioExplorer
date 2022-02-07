@@ -10,9 +10,26 @@ set(NAME BIOEXPLORER)
 set(PACKAGE_VERSION 1.2.1)
 project(${NAME} VERSION ${PACKAGE_VERSION})
 
+list(APPEND CMAKE_MODULE_PATH ${PROJECT_SOURCE_DIR}/CMake)
+set(${NAME}_MODULES_DIR ${PROJECT_SOURCE_DIR})
+set(CMAKE_CXX_STANDARD 14)
+
+find_package(Brayns REQUIRED)
+find_package(ospray REQUIRED SYSTEM)
+find_package(Boost REQUIRED COMPONENTS program_options filesystem)
+find_package(glm REQUIRED SYSTEM)
+find_package(FreeImage REQUIRED)
+
 add_subdirectory(bioexplorer/core)
 
 option(BIOEXPLORER_MEDIA_MAKER_ENABLED "Enable media maker plugin" ON)
 if(BIOEXPLORER_MEDIA_MAKER_ENABLED)
-    add_subdirectory(extras/MediaMaker)
+message(STATUS "Building MediaMaker plugin")
+add_subdirectory(extras/MediaMaker)
+endif()
+
+option(BIOEXPLORER_METABOLISM_ENABLED "Enable metabolism plugin" ON)
+if(BIOEXPLORER_METABOLISM_ENABLED)
+    message(STATUS "Building Metabolism plugin")
+    add_subdirectory(extras/Metabolism)
 endif()

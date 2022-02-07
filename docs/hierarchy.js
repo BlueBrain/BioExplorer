@@ -2,6 +2,7 @@ var hierarchy =
 [
     [ "AbstractSimulationHandler", null, [
       [ "bioexplorer::fields::FieldsHandler", "d9/d6e/classbioexplorer_1_1fields_1_1FieldsHandler.html", null ],
+      [ "bioexplorer::metabolism::MetabolismHandler", "d4/dc4/classbioexplorer_1_1metabolism_1_1MetabolismHandler.html", null ],
       [ "bioexplorer::vasculature::VasculatureHandler", "d3/d3e/classbioexplorer_1_1vasculature_1_1VasculatureHandler.html", null ]
     ] ],
     [ "bioexplorer::details::AddBoundingBoxDetails", "dc/d45/structbioexplorer_1_1details_1_1AddBoundingBoxDetails.html", null ],
@@ -17,18 +18,25 @@ var hierarchy =
     [ "bioexplorer::details::AssemblyDetails", "d1/da5/structbioexplorer_1_1details_1_1AssemblyDetails.html", null ],
     [ "bioexplorer::details::AssemblyTransformationsDetails", "d6/dd0/structbioexplorer_1_1details_1_1AssemblyTransformationsDetails.html", null ],
     [ "bioexplorer::molecularsystems::Atom", "df/d73/structbioexplorer_1_1molecularsystems_1_1Atom.html", null ],
+    [ "bioexplorer::metabolism::AttachHandlerDetails", "dd/d21/structbioexplorer_1_1metabolism_1_1AttachHandlerDetails.html", null ],
     [ "bioexplorer::details::BuildFieldsDetails", "dc/d5b/structbioexplorer_1_1details_1_1BuildFieldsDetails.html", null ],
     [ "bioexplorer::details::BuildPointCloudDetails", "d5/dc6/structbioexplorer_1_1details_1_1BuildPointCloudDetails.html", null ],
     [ "Camera", null, [
       [ "bioexplorer::rendering::PerspectiveStereoCamera", "d8/d50/structbioexplorer_1_1rendering_1_1PerspectiveStereoCamera.html", null ]
     ] ],
+    [ "bioexplorer::mediamaker::CameraDefinition", "dd/d32/structbioexplorer_1_1mediamaker_1_1CameraDefinition.html", null ],
     [ "bioexplorer::details::DatabaseAccessDetails", "dc/dd9/structbioexplorer_1_1details_1_1DatabaseAccessDetails.html", null ],
     [ "bioexplorer::io::db::DBConnector", "d9/d96/classbioexplorer_1_1io_1_1db_1_1DBConnector.html", null ],
+    [ "bioexplorer::metabolism::DBConnector", "db/df8/classbioexplorer_1_1metabolism_1_1DBConnector.html", null ],
+    [ "bioexplorer::mediamaker::ExportFramesToDisk", "db/dbb/structbioexplorer_1_1mediamaker_1_1ExportFramesToDisk.html", null ],
     [ "ExtensionPlugin", null, [
-      [ "bioexplorer::BioExplorerPlugin", "d7/d7b/classbioexplorer_1_1BioExplorerPlugin.html", null ]
+      [ "bioexplorer::BioExplorerPlugin", "d7/d7b/classbioexplorer_1_1BioExplorerPlugin.html", null ],
+      [ "bioexplorer::mediamaker::MediaMakerPlugin", "d0/dc7/classbioexplorer_1_1mediamaker_1_1MediaMakerPlugin.html", null ],
+      [ "bioexplorer::metabolism::MetabolismPlugin", "d6/de6/classbioexplorer_1_1metabolism_1_1MetabolismPlugin.html", null ]
     ] ],
     [ "bioexplorer::details::FileAccessDetails", "de/d38/structbioexplorer_1_1details_1_1FileAccessDetails.html", null ],
     [ "bioexplorer::details::FocusOnDetails", "d7/d6e/structbioexplorer_1_1details_1_1FocusOnDetails.html", null ],
+    [ "bioexplorer::mediamaker::FrameExportProgress", "dd/d6e/structbioexplorer_1_1mediamaker_1_1FrameExportProgress.html", null ],
     [ "bioexplorer::common::GeneralSettings", "d2/da7/classbioexplorer_1_1common_1_1GeneralSettings.html", null ],
     [ "bioexplorer::details::GeneralSettingsDetails", "d0/d14/structbioexplorer_1_1details_1_1GeneralSettingsDetails.html", null ],
     [ "bioexplorer::details::IdsDetails", "d1/d91/structbioexplorer_1_1details_1_1IdsDetails.html", null ],
@@ -36,7 +44,9 @@ var hierarchy =
     [ "Loader", null, [
       [ "bioexplorer::io::CacheLoader", "d1/d5f/classbioexplorer_1_1io_1_1CacheLoader.html", null ]
     ] ],
+    [ "bioexplorer::metabolism::Location", "df/d9e/structbioexplorer_1_1metabolism_1_1Location.html", null ],
     [ "Material", null, [
+      [ "bioexplorer::mediamaker::rendering::DefaultMaterial", "d1/dbe/structbioexplorer_1_1mediamaker_1_1rendering_1_1DefaultMaterial.html", null ],
       [ "bioexplorer::rendering::AdvancedMaterial", "d5/d4e/structbioexplorer_1_1rendering_1_1AdvancedMaterial.html", null ]
     ] ],
     [ "bioexplorer::details::MaterialsDetails", "d7/d84/structbioexplorer_1_1details_1_1MaterialsDetails.html", null ],
@@ -65,12 +75,18 @@ var hierarchy =
     [ "bioexplorer::details::ProteinInspectionDetails", "d7/d80/structbioexplorer_1_1details_1_1ProteinInspectionDetails.html", null ],
     [ "bioexplorer::details::ProteinInstanceTransformationDetails", "d7/dab/structbioexplorer_1_1details_1_1ProteinInstanceTransformationDetails.html", null ],
     [ "Renderer", null, [
+      [ "bioexplorer::mediamaker::rendering::AlbedoRenderer", "d6/d4f/classbioexplorer_1_1mediamaker_1_1rendering_1_1AlbedoRenderer.html", null ],
+      [ "bioexplorer::mediamaker::rendering::AmbientOcclusionRenderer", "da/d0a/classbioexplorer_1_1mediamaker_1_1rendering_1_1AmbientOcclusionRenderer.html", null ],
+      [ "bioexplorer::mediamaker::rendering::DepthRenderer", "dd/d40/classbioexplorer_1_1mediamaker_1_1rendering_1_1DepthRenderer.html", null ],
+      [ "bioexplorer::mediamaker::rendering::ShadowRenderer", "d3/d1a/classbioexplorer_1_1mediamaker_1_1rendering_1_1ShadowRenderer.html", null ],
       [ "bioexplorer::rendering::AdvancedRenderer", "d9/d98/classbioexplorer_1_1rendering_1_1AdvancedRenderer.html", null ],
       [ "bioexplorer::rendering::DensityRenderer", "de/d24/classbioexplorer_1_1rendering_1_1DensityRenderer.html", null ],
       [ "bioexplorer::rendering::FieldsRenderer", "de/d6a/classbioexplorer_1_1rendering_1_1FieldsRenderer.html", null ],
-      [ "bioexplorer::rendering::PathTracingRenderer", "de/da9/classbioexplorer_1_1rendering_1_1PathTracingRenderer.html", null ]
+      [ "bioexplorer::rendering::PathTracingRenderer", "de/da9/classbioexplorer_1_1rendering_1_1PathTracingRenderer.html", null ],
+      [ "metabolism::rendering::MetabolismRenderer", "d3/d27/classmetabolism_1_1rendering_1_1MetabolismRenderer.html", null ]
     ] ],
     [ "bioexplorer::molecularsystems::ResidueSequence", "d0/df4/structbioexplorer_1_1molecularsystems_1_1ResidueSequence.html", null ],
+    [ "bioexplorer::mediamaker::Response", "db/df4/structbioexplorer_1_1mediamaker_1_1Response.html", null ],
     [ "bioexplorer::details::Response", "d6/d45/structbioexplorer_1_1details_1_1Response.html", null ],
     [ "bioexplorer::details::RGBColorDetails", "df/dc7/structbioexplorer_1_1details_1_1RGBColorDetails.html", null ],
     [ "bioexplorer::details::RNASequenceDetails", "d1/d00/structbioexplorer_1_1details_1_1RNASequenceDetails.html", null ],

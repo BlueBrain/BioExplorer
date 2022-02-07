@@ -20,7 +20,7 @@
 
 #pragma once
 
-#include <plugin/common/CommonTypes.h>
+#include <bioexplorer/core/plugin/common/CommonTypes.h>
 
 #include <ospray/SDK/common/Material.ih>
 #include <ospray/SDK/math/vec.ih>

@@ -1,10 +1,13 @@
 var searchData=
 [
-  ['sceneinformationdetails_355',['SceneInformationDetails',['../d2/d03/structbioexplorer_1_1details_1_1SceneInformationDetails.html',1,'bioexplorer::details']]],
-  ['sdfmorphologydata_356',['SDFMorphologyData',['../d1/d25/structbioexplorer_1_1geometry_1_1SDFMorphologyData.html',1,'bioexplorer::geometry']]],
-  ['shape_357',['Shape',['../dc/d78/classbioexplorer_1_1common_1_1Shape.html',1,'bioexplorer::common']]],
-  ['sinusoidshape_358',['SinusoidShape',['../d4/d37/classbioexplorer_1_1common_1_1SinusoidShape.html',1,'bioexplorer::common']]],
-  ['sphereshape_359',['SphereShape',['../d5/d1a/classbioexplorer_1_1common_1_1SphereShape.html',1,'bioexplorer::common']]],
-  ['sugarsdetails_360',['SugarsDetails',['../dd/d92/structbioexplorer_1_1details_1_1SugarsDetails.html',1,'bioexplorer::details']]],
-  ['surfacemesher_361',['SurfaceMesher',['../d8/df9/classbioexplorer_1_1meshing_1_1SurfaceMesher.html',1,'bioexplorer::meshing']]]
+  ['pathtracingrenderer_366',['PathTracingRenderer',['../de/da9/classbioexplorer_1_1rendering_1_1PathTracingRenderer.html',1,'bioexplorer::rendering']]],
+  ['perspectivestereocamera_367',['PerspectiveStereoCamera',['../d8/d50/structbioexplorer_1_1rendering_1_1PerspectiveStereoCamera.html',1,'bioexplorer::rendering']]],
+  ['planeshape_368',['PlaneShape',['../d8/d3b/classbioexplorer_1_1common_1_1PlaneShape.html',1,'bioexplorer::common']]],
+  ['pointcloudmesher_369',['PointCloudMesher',['../d2/d99/classbioexplorer_1_1meshing_1_1PointCloudMesher.html',1,'bioexplorer::meshing']]],
+  ['pointshape_370',['PointShape',['../d7/d5c/classbioexplorer_1_1common_1_1PointShape.html',1,'bioexplorer::common']]],
+  ['protein_371',['Protein',['../dd/da4/classbioexplorer_1_1molecularsystems_1_1Protein.html',1,'bioexplorer::molecularsystems']]],
+  ['proteincolorschemedetails_372',['ProteinColorSchemeDetails',['../d4/d19/structbioexplorer_1_1details_1_1ProteinColorSchemeDetails.html',1,'bioexplorer::details']]],
+  ['proteindetails_373',['ProteinDetails',['../de/d0e/structbioexplorer_1_1details_1_1ProteinDetails.html',1,'bioexplorer::details']]],
+  ['proteininspectiondetails_374',['ProteinInspectionDetails',['../d7/d80/structbioexplorer_1_1details_1_1ProteinInspectionDetails.html',1,'bioexplorer::details']]],
+  ['proteininstancetransformationdetails_375',['ProteinInstanceTransformationDetails',['../d7/dab/structbioexplorer_1_1details_1_1ProteinInstanceTransformationDetails.html',1,'bioexplorer::details']]]
 ];

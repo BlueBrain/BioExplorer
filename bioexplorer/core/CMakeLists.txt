@@ -15,10 +15,6 @@ set(${NAME}_VERSION_ABI 1)
 # ==============================================================================
 # Packages and settings
 # ==============================================================================
-list(APPEND CMAKE_MODULE_PATH ${PROJECT_SOURCE_DIR}/CMake)
-set(${NAME}_MODULES_DIR ${PROJECT_SOURCE_DIR})
-set(CMAKE_CXX_STANDARD 14) # C++ 14
-
 option(${NAME}_USE_VASCULATURE "Use vasculature features" ON)
 option(${NAME}_USE_CGAL "Use CGAL meshing features" ON)
 option(${NAME}_USE_PQXX "Use PostgreSQL database" ON)
@@ -26,11 +22,6 @@ option(${NAME}_USE_PQXX "Use PostgreSQL database" ON)
 add_subdirectory(deps)
 
 # Mandatory packages
-find_package(Brayns REQUIRED)
-find_package(ospray REQUIRED SYSTEM)
-find_package(Boost REQUIRED COMPONENTS program_options filesystem)
-find_package(glm REQUIRED SYSTEM)
-find_package(FreeImage REQUIRED)
 find_package(OpenMP)
 
 # Optional packages (managed by Defines.h.in)

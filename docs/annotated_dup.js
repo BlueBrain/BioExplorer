@@ -68,9 +68,30 @@ var annotated_dup =
         [ "CacheLoader", "d1/d5f/classbioexplorer_1_1io_1_1CacheLoader.html", "d1/d5f/classbioexplorer_1_1io_1_1CacheLoader" ],
         [ "OOCManager", "da/d6e/classbioexplorer_1_1io_1_1OOCManager.html", "da/d6e/classbioexplorer_1_1io_1_1OOCManager" ]
       ] ],
+      [ "mediamaker", null, [
+        [ "rendering", null, [
+          [ "AlbedoRenderer", "d6/d4f/classbioexplorer_1_1mediamaker_1_1rendering_1_1AlbedoRenderer.html", "d6/d4f/classbioexplorer_1_1mediamaker_1_1rendering_1_1AlbedoRenderer" ],
+          [ "AmbientOcclusionRenderer", "da/d0a/classbioexplorer_1_1mediamaker_1_1rendering_1_1AmbientOcclusionRenderer.html", "da/d0a/classbioexplorer_1_1mediamaker_1_1rendering_1_1AmbientOcclusionRenderer" ],
+          [ "DefaultMaterial", "d1/dbe/structbioexplorer_1_1mediamaker_1_1rendering_1_1DefaultMaterial.html", "d1/dbe/structbioexplorer_1_1mediamaker_1_1rendering_1_1DefaultMaterial" ],
+          [ "DepthRenderer", "dd/d40/classbioexplorer_1_1mediamaker_1_1rendering_1_1DepthRenderer.html", "dd/d40/classbioexplorer_1_1mediamaker_1_1rendering_1_1DepthRenderer" ],
+          [ "ShadowRenderer", "d3/d1a/classbioexplorer_1_1mediamaker_1_1rendering_1_1ShadowRenderer.html", "d3/d1a/classbioexplorer_1_1mediamaker_1_1rendering_1_1ShadowRenderer" ]
+        ] ],
+        [ "CameraDefinition", "dd/d32/structbioexplorer_1_1mediamaker_1_1CameraDefinition.html", "dd/d32/structbioexplorer_1_1mediamaker_1_1CameraDefinition" ],
+        [ "ExportFramesToDisk", "db/dbb/structbioexplorer_1_1mediamaker_1_1ExportFramesToDisk.html", "db/dbb/structbioexplorer_1_1mediamaker_1_1ExportFramesToDisk" ],
+        [ "FrameExportProgress", "dd/d6e/structbioexplorer_1_1mediamaker_1_1FrameExportProgress.html", "dd/d6e/structbioexplorer_1_1mediamaker_1_1FrameExportProgress" ],
+        [ "MediaMakerPlugin", "d0/dc7/classbioexplorer_1_1mediamaker_1_1MediaMakerPlugin.html", "d0/dc7/classbioexplorer_1_1mediamaker_1_1MediaMakerPlugin" ],
+        [ "Response", "db/df4/structbioexplorer_1_1mediamaker_1_1Response.html", "db/df4/structbioexplorer_1_1mediamaker_1_1Response" ]
+      ] ],
       [ "meshing", null, [
         [ "PointCloudMesher", "d2/d99/classbioexplorer_1_1meshing_1_1PointCloudMesher.html", "d2/d99/classbioexplorer_1_1meshing_1_1PointCloudMesher" ],
         [ "SurfaceMesher", "d8/df9/classbioexplorer_1_1meshing_1_1SurfaceMesher.html", "d8/df9/classbioexplorer_1_1meshing_1_1SurfaceMesher" ]
+      ] ],
+      [ "metabolism", null, [
+        [ "AttachHandlerDetails", "dd/d21/structbioexplorer_1_1metabolism_1_1AttachHandlerDetails.html", "dd/d21/structbioexplorer_1_1metabolism_1_1AttachHandlerDetails" ],
+        [ "DBConnector", "db/df8/classbioexplorer_1_1metabolism_1_1DBConnector.html", "db/df8/classbioexplorer_1_1metabolism_1_1DBConnector" ],
+        [ "Location", "df/d9e/structbioexplorer_1_1metabolism_1_1Location.html", "df/d9e/structbioexplorer_1_1metabolism_1_1Location" ],
+        [ "MetabolismHandler", "d4/dc4/classbioexplorer_1_1metabolism_1_1MetabolismHandler.html", "d4/dc4/classbioexplorer_1_1metabolism_1_1MetabolismHandler" ],
+        [ "MetabolismPlugin", "d6/de6/classbioexplorer_1_1metabolism_1_1MetabolismPlugin.html", "d6/de6/classbioexplorer_1_1metabolism_1_1MetabolismPlugin" ]
       ] ],
       [ "molecularsystems", null, [
         [ "AminoAcid", "d4/d03/structbioexplorer_1_1molecularsystems_1_1AminoAcid.html", "d4/d03/structbioexplorer_1_1molecularsystems_1_1AminoAcid" ],
@@ -97,5 +118,10 @@ var annotated_dup =
         [ "VasculatureNode", "d6/d03/structbioexplorer_1_1vasculature_1_1VasculatureNode.html", "d6/d03/structbioexplorer_1_1vasculature_1_1VasculatureNode" ]
       ] ],
       [ "BioExplorerPlugin", "d7/d7b/classbioexplorer_1_1BioExplorerPlugin.html", "d7/d7b/classbioexplorer_1_1BioExplorerPlugin" ]
+    ] ],
+    [ "metabolism", null, [
+      [ "rendering", null, [
+        [ "MetabolismRenderer", "d3/d27/classmetabolism_1_1rendering_1_1MetabolismRenderer.html", "d3/d27/classmetabolism_1_1rendering_1_1MetabolismRenderer" ]
+      ] ]
     ] ]
 ];

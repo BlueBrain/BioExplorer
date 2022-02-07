@@ -1,8 +1,4 @@
 var searchData=
 [
-  ['fanshape_314',['FanShape',['../dc/d3d/classbioexplorer_1_1common_1_1FanShape.html',1,'bioexplorer::common']]],
-  ['fieldshandler_315',['FieldsHandler',['../d9/d6e/classbioexplorer_1_1fields_1_1FieldsHandler.html',1,'bioexplorer::fields']]],
-  ['fieldsrenderer_316',['FieldsRenderer',['../de/d6a/classbioexplorer_1_1rendering_1_1FieldsRenderer.html',1,'bioexplorer::rendering']]],
-  ['fileaccessdetails_317',['FileAccessDetails',['../de/d38/structbioexplorer_1_1details_1_1FileAccessDetails.html',1,'bioexplorer::details']]],
-  ['focusondetails_318',['FocusOnDetails',['../d7/d6e/structbioexplorer_1_1details_1_1FocusOnDetails.html',1,'bioexplorer::details']]]
+  ['exportframestodisk_334',['ExportFramesToDisk',['../db/dbb/structbioexplorer_1_1mediamaker_1_1ExportFramesToDisk.html',1,'bioexplorer::mediamaker']]]
 ];
