@@ -20,20 +20,13 @@
 
 #include "BioExplorerPlugin.h"
 
+#include <plugin/common/Assembly.h>
 #include <plugin/common/CommonTypes.h>
 #include <plugin/common/GeneralSettings.h>
 #include <plugin/common/Logs.h>
 #include <plugin/common/Utils.h>
 #include <plugin/io/CacheLoader.h>
 #include <plugin/io/OOCManager.h>
-#include <plugin/molecularsystems/Assembly.h>
-
-#ifdef USE_VASCULATURE
-#include <bbp/sonata/common.h>
-#include <brayns/engineapi/FrameBuffer.h>
-#include <plugin/vasculature/Vasculature.h>
-#include <plugin/vasculature/VasculatureHandler.h>
-#endif
 
 #include <brayns/common/ActionInterface.h>
 #include <brayns/common/scene/ClipPlane.h>
@@ -43,6 +36,12 @@
 #include <brayns/engineapi/Model.h>
 #include <brayns/parameters/ParametersManager.h>
 #include <brayns/pluginapi/Plugin.h>
+
+#ifdef USE_VASCULATURE
+#include <bbp/sonata/common.h>
+#include <highfive/H5File.hpp>
+using namespace bbp::sonata;
+#endif
 
 namespace bioexplorer
 {
@@ -93,6 +92,8 @@ const std::string PLUGIN_API_PREFIX = "be-";
             response.contents = msg.str();              \
         }                                               \
     }                                                   \
+    CATCH_SONATA_EXCEPTION()                            \
+    CATCH_HIGHFIVE_EXCEPTION()                          \
     CATCH_STD_EXCEPTION()                               \
     return response;
 
@@ -112,6 +113,8 @@ const std::string PLUGIN_API_PREFIX = "be-";
             response.contents = msg.str();             \
         }                                              \
     }                                                  \
+    CATCH_SONATA_EXCEPTION()                           \
+    CATCH_HIGHFIVE_EXCEPTION()                         \
     CATCH_STD_EXCEPTION()                              \
     return response;
 #endif
@@ -446,8 +449,8 @@ void BioExplorerPlugin::init()
 
         endPoint = PLUGIN_API_PREFIX + "get-model-name";
         PLUGIN_INFO(1, "Registering '" + endPoint + "' endpoint");
-        actionInterface->registerRequest<ModelIdDetails, ModelNameDetails>(
-            endPoint, [&](const ModelIdDetails &payload) -> ModelNameDetails {
+        actionInterface->registerRequest<ModelIdDetails, NameDetails>(
+            endPoint, [&](const ModelIdDetails &payload) -> NameDetails {
                 return _getModelName(payload);
             });
 
@@ -546,8 +549,10 @@ void BioExplorerPlugin::init()
 
         endPoint = PLUGIN_API_PREFIX + "get-vasculature-info";
         PLUGIN_INFO(1, "Registering '" + endPoint + "' endpoint");
-        actionInterface->registerRequest<VasculatureInfoDetails>(
-            endPoint, [&]() { return _getVasculatureInfo(); });
+        actionInterface->registerRequest<NameDetails, Response>(
+            endPoint, [&](const NameDetails &payload) -> Response {
+                return _getVasculatureInfo(payload);
+            });
 
         endPoint = PLUGIN_API_PREFIX + "set-vasculature-color-scheme";
         PLUGIN_INFO(1, "Registering '" + endPoint + "' endpoint");
@@ -658,7 +663,6 @@ Response BioExplorerPlugin::_resetScene()
     scene.markModified();
 
     _assemblies.clear();
-    _vasculature.reset();
 
     response.contents =
         "Removed " + std::to_string(modelDescriptors.size()) + " models";
@@ -1282,10 +1286,10 @@ IdsDetails BioExplorerPlugin::_getModelInstances(
     return instanceIds;
 }
 
-ModelNameDetails BioExplorerPlugin::_getModelName(
+NameDetails BioExplorerPlugin::_getModelName(
     const ModelIdDetails &payload) const
 {
-    ModelNameDetails modelName;
+    NameDetails modelName;
     auto &scene = _api->getScene();
     auto modelDescriptor = scene.getModel(payload.modelId);
     if (modelDescriptor)
@@ -1692,115 +1696,35 @@ Response BioExplorerPlugin::_exportToDatabase(
 #endif
 
 #ifdef USE_VASCULATURE
-Response BioExplorerPlugin::_addVasculature(const VasculatureDetails &details)
+Response BioExplorerPlugin::_addVasculature(const VasculatureDetails &payload)
 {
-    Response response;
-    try
-    {
-        auto &scene = _api->getScene();
-        if (_vasculature)
-        {
-            auto modelDescriptor = _vasculature->getModelDescriptor();
-            if (modelDescriptor)
-            {
-                const auto modelId = modelDescriptor->getModelID();
-                scene.removeModel(modelId);
-            }
-        }
-        _vasculature.reset(
-            std::move(new vasculature::Vasculature(scene, details)));
-        scene.markModified(false);
-    }
-    CATCH_SONATA_EXCEPTION()
-    CATCH_HIGHFIVE_EXCEPTION()
-    CATCH_STD_EXCEPTION()
-    return response;
+    ASSEMBLY_CALL_VOID(payload.assemblyName, addVasculature(payload));
 }
 
-VasculatureInfoDetails BioExplorerPlugin::_getVasculatureInfo() const
+Response BioExplorerPlugin::_getVasculatureInfo(
+    const NameDetails &payload) const
 {
-    if (!_vasculature)
-        PLUGIN_THROW("No vasculature currently exists");
-
-    auto modelDescriptor = _vasculature->getModelDescriptor();
-
-    VasculatureInfoDetails response;
-    if (_vasculature)
-    {
-        response.modelId = modelDescriptor->getModelID();
-        response.nbNodes = _vasculature->getNbNodes();
-        response.nbSubGraphs = _vasculature->getNbSubGraphs();
-        response.nbSections = _vasculature->getNbSections();
-        response.nbPairs = _vasculature->getNbPairs();
-    }
-    return response;
+    ASSEMBLY_CALL(payload.name, getVasculatureInfo());
 }
 
 Response BioExplorerPlugin::_setVasculatureColorScheme(
-    const VasculatureColorSchemeDetails &details)
+    const VasculatureColorSchemeDetails &payload)
 {
-    Response response;
-    try
-    {
-        if (!_vasculature)
-            PLUGIN_THROW("No vasculature currently exists");
-
-        auto modelDescriptor = _vasculature->getModelDescriptor();
-        auto &scene = _api->getScene();
-        if (modelDescriptor)
-        {
-            const auto modelId = modelDescriptor->getModelID();
-            scene.removeModel(modelId);
-        }
-
-        _vasculature->setColorScheme(details);
-        scene.markModified(false);
-    }
-    CATCH_SONATA_EXCEPTION()
-    CATCH_HIGHFIVE_EXCEPTION()
-    CATCH_STD_EXCEPTION()
-    return response;
+    ASSEMBLY_CALL_VOID(payload.assemblyName,
+                       setVasculatureColorScheme(payload));
 }
 
 Response BioExplorerPlugin::_setVasculatureReport(
-    const VasculatureReportDetails &details)
+    const VasculatureReportDetails &payload)
 {
-    Response response;
-    try
-    {
-        PLUGIN_INFO(3, "Setting report to vasculature");
-        if (!_vasculature)
-            PLUGIN_THROW("No vasculature is currently loaded");
-
-        auto modelDescriptor = _vasculature->getModelDescriptor();
-        auto &scene = _api->getScene();
-        auto handler = std::make_shared<vasculature::VasculatureHandler>(
-            details, _vasculature->getPopulationSize());
-        auto &model = modelDescriptor->getModel();
-        model.setSimulationHandler(handler);
-    }
-    CATCH_SONATA_EXCEPTION()
-    CATCH_HIGHFIVE_EXCEPTION()
-    CATCH_STD_EXCEPTION()
-    return response;
+    ASSEMBLY_CALL_VOID(payload.assemblyName, setVasculatureReport(payload));
 }
 
 Response BioExplorerPlugin::_setVasculatureRadiusReport(
-    const VasculatureRadiusReportDetails &details)
+    const VasculatureRadiusReportDetails &payload)
 {
-    Response response;
-    try
-    {
-        PLUGIN_INFO(3, "Setting radius report to vasculature");
-        if (!_vasculature)
-            PLUGIN_THROW("No vasculature is currently loaded");
-
-        _vasculature->setRadiusReport(details);
-    }
-    CATCH_SONATA_EXCEPTION()
-    CATCH_HIGHFIVE_EXCEPTION()
-    CATCH_STD_EXCEPTION()
-    return response;
+    ASSEMBLY_CALL_VOID(payload.assemblyName,
+                       setVasculatureRadiusReport(payload));
 }
 #endif
 

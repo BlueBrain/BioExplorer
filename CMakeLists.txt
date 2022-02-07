@@ -7,7 +7,7 @@
 cmake_minimum_required(VERSION 3.1 FATAL_ERROR)
 
 set(NAME BIOEXPLORER)
-set(PACKAGE_VERSION 1.2.0)
+set(PACKAGE_VERSION 1.2.1)
 project(${NAME} VERSION ${PACKAGE_VERSION})
 
 add_subdirectory(bioexplorer/core)

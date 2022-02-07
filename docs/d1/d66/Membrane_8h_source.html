@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.17"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>Blue Brain BioExplorer: /home/favreau/git/BioExplorer/bioexplorer/core/plugin/biology/Membrane.h Source File</title>
+<title>Blue Brain BioExplorer: /home/favreau/git/BioExplorer/bioexplorer/core/plugin/molecularsystems/Membrane.h Source File</title>
 <link href="../../tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="../../jquery.js"></script>
 <script type="text/javascript" src="../../dynsections.js"></script>
@@ -108,27 +108,27 @@ $(document).ready(function(){initNavTree('d1/d66/Membrane_8h_source.html','../..
 <div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160; </div>
 <div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;<span class="preprocessor">#pragma once</span></div>
 <div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160; </div>
-<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;<span class="preprocessor">#include &lt;plugin/biology/Node.h&gt;</span></div>
-<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160; </div>
-<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;<span class="preprocessor">#include &lt;brayns/engineapi/Model.h&gt;</span></div>
-<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160; </div>
-<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;<span class="keyword">namespace </span>bioexplorer</div>
-<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;{</div>
-<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;<span class="keyword">namespace </span>biology</div>
-<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;{</div>
-<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;<span class="keyword">using namespace </span>common;</div>
+<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;<span class="preprocessor">#include &lt;plugin/common/Node.h&gt;</span></div>
+<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;<span class="preprocessor">#include &lt;plugin/common/shapes/Shape.h&gt;</span></div>
+<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160; </div>
+<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;<span class="keyword">namespace </span>bioexplorer</div>
+<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;{</div>
+<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;<span class="keyword">namespace </span>molecularsystems</div>
+<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;{</div>
+<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;<span class="keyword">using namespace </span>common;</div>
+<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;<span class="keyword">using namespace </span>details;</div>
 <div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160; </div>
-<div class="line"><a name="l00038"></a><span class="lineno"><a class="line" href="../../de/dd4/classbioexplorer_1_1biology_1_1Membrane.html">   38</a></span>&#160;<span class="keyword">class </span><a class="code" href="../../de/dd4/classbioexplorer_1_1biology_1_1Membrane.html">Membrane</a> : <span class="keyword">public</span> <a class="code" href="../../de/dc0/classbioexplorer_1_1biology_1_1Node.html">Node</a></div>
+<div class="line"><a name="l00038"></a><span class="lineno"><a class="line" href="../../d4/d3d/classbioexplorer_1_1molecularsystems_1_1Membrane.html">   38</a></span>&#160;<span class="keyword">class </span><a class="code" href="../../d4/d3d/classbioexplorer_1_1molecularsystems_1_1Membrane.html">Membrane</a> : <span class="keyword">public</span> <a class="code" href="../../d7/d93/classbioexplorer_1_1common_1_1Node.html">Node</a></div>
 <div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;{</div>
 <div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;<span class="keyword">public</span>:</div>
-<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;    <a class="code" href="../../de/dd4/classbioexplorer_1_1biology_1_1Membrane.html">Membrane</a>(<span class="keyword">const</span> <a class="code" href="../../d0/ddb/structbioexplorer_1_1details_1_1MembraneDetails.html">MembraneDetails</a> &amp;details, Scene &amp;scene,</div>
+<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;    <a class="code" href="../../d4/d3d/classbioexplorer_1_1molecularsystems_1_1Membrane.html">Membrane</a>(<span class="keyword">const</span> <a class="code" href="../../d0/ddb/structbioexplorer_1_1details_1_1MembraneDetails.html">MembraneDetails</a> &amp;details, Scene &amp;scene,</div>
 <div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;             <span class="keyword">const</span> Vector3d &amp;assemblyPosition,</div>
 <div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;             <span class="keyword">const</span> Quaterniond &amp;assemblyRotation, <span class="keyword">const</span> ShapePtr shape,</div>
 <div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;             <span class="keyword">const</span> ProteinMap &amp;transmembraneProteins);</div>
 <div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160; </div>
-<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;    <span class="keyword">virtual</span> ~<a class="code" href="../../de/dd4/classbioexplorer_1_1biology_1_1Membrane.html">Membrane</a>();</div>
+<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;    <span class="keyword">virtual</span> ~<a class="code" href="../../d4/d3d/classbioexplorer_1_1molecularsystems_1_1Membrane.html">Membrane</a>();</div>
 <div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160; </div>
-<div class="line"><a name="l00062"></a><span class="lineno"><a class="line" href="../../de/dd4/classbioexplorer_1_1biology_1_1Membrane.html#a082730837c9a6c062782641aecf156af">   62</a></span>&#160;    <span class="keyword">const</span> ProteinMap &amp;<a class="code" href="../../de/dd4/classbioexplorer_1_1biology_1_1Membrane.html#a082730837c9a6c062782641aecf156af">getLipids</a>()<span class="keyword"> const </span>{ <span class="keywordflow">return</span> _lipids; }</div>
+<div class="line"><a name="l00062"></a><span class="lineno"><a class="line" href="../../d4/d3d/classbioexplorer_1_1molecularsystems_1_1Membrane.html#a89f2ef365e2ff681cb452d0808a898c0">   62</a></span>&#160;    <span class="keyword">const</span> ProteinMap &amp;<a class="code" href="../../d4/d3d/classbioexplorer_1_1molecularsystems_1_1Membrane.html#a89f2ef365e2ff681cb452d0808a898c0">getLipids</a>()<span class="keyword"> const </span>{ <span class="keywordflow">return</span> _lipids; }</div>
 <div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160; </div>
 <div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;<span class="keyword">private</span>:</div>
 <div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;    <span class="keywordtype">void</span> _processInstances();</div>
@@ -143,18 +143,18 @@ $(document).ready(function(){initNavTree('d1/d66/Membrane_8h_source.html','../..
 <div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;    ProteinMap _lipids;</div>
 <div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;    ShapePtr _shape{<span class="keyword">nullptr</span>};</div>
 <div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;};</div>
-<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;} <span class="comment">// namespace biology</span></div>
+<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;} <span class="comment">// namespace molecularsystems</span></div>
 <div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;} <span class="comment">// namespace bioexplorer</span></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
-<div class="ttc" id="aclassbioexplorer_1_1biology_1_1Node_html"><div class="ttname"><a href="../../de/dc0/classbioexplorer_1_1biology_1_1Node.html">bioexplorer::biology::Node</a></div><div class="ttdoc">The Node class.</div><div class="ttdef"><b>Definition:</b> <a href="../../db/d92/Node_8h_source.html#l00035">Node.h:35</a></div></div>
-<div class="ttc" id="aclassbioexplorer_1_1biology_1_1Membrane_html"><div class="ttname"><a href="../../de/dd4/classbioexplorer_1_1biology_1_1Membrane.html">bioexplorer::biology::Membrane</a></div><div class="ttdoc">A Membrane object implements a 3D structure of a given shape, but with a surface composed of instance...</div><div class="ttdef"><b>Definition:</b> <a href="../../d1/d66/Membrane_8h_source.html#l00038">Membrane.h:38</a></div></div>
-<div class="ttc" id="astructbioexplorer_1_1details_1_1MembraneDetails_html"><div class="ttname"><a href="../../d0/ddb/structbioexplorer_1_1details_1_1MembraneDetails.html">bioexplorer::details::MembraneDetails</a></div><div class="ttdoc">A membrane is a shaped assembly of phospholipids.</div><div class="ttdef"><b>Definition:</b> <a href="../../d7/df8/Types_8h_source.html#l00276">Types.h:276</a></div></div>
-<div class="ttc" id="aclassbioexplorer_1_1biology_1_1Membrane_html_a082730837c9a6c062782641aecf156af"><div class="ttname"><a href="../../de/dd4/classbioexplorer_1_1biology_1_1Membrane.html#a082730837c9a6c062782641aecf156af">bioexplorer::biology::Membrane::getLipids</a></div><div class="ttdeci">const ProteinMap &amp; getLipids() const</div><div class="ttdoc">Get the list of proteins defining the membrane.</div><div class="ttdef"><b>Definition:</b> <a href="../../d1/d66/Membrane_8h_source.html#l00062">Membrane.h:62</a></div></div>
+<div class="ttc" id="aclassbioexplorer_1_1molecularsystems_1_1Membrane_html_a89f2ef365e2ff681cb452d0808a898c0"><div class="ttname"><a href="../../d4/d3d/classbioexplorer_1_1molecularsystems_1_1Membrane.html#a89f2ef365e2ff681cb452d0808a898c0">bioexplorer::molecularsystems::Membrane::getLipids</a></div><div class="ttdeci">const ProteinMap &amp; getLipids() const</div><div class="ttdoc">Get the list of proteins defining the membrane.</div><div class="ttdef"><b>Definition:</b> <a href="../../d1/d66/Membrane_8h_source.html#l00062">Membrane.h:62</a></div></div>
+<div class="ttc" id="aclassbioexplorer_1_1molecularsystems_1_1Membrane_html"><div class="ttname"><a href="../../d4/d3d/classbioexplorer_1_1molecularsystems_1_1Membrane.html">bioexplorer::molecularsystems::Membrane</a></div><div class="ttdoc">A Membrane object implements a 3D structure of a given shape, but with a surface composed of instance...</div><div class="ttdef"><b>Definition:</b> <a href="../../d1/d66/Membrane_8h_source.html#l00038">Membrane.h:38</a></div></div>
+<div class="ttc" id="astructbioexplorer_1_1details_1_1MembraneDetails_html"><div class="ttname"><a href="../../d0/ddb/structbioexplorer_1_1details_1_1MembraneDetails.html">bioexplorer::details::MembraneDetails</a></div><div class="ttdoc">A membrane is a shaped assembly of phospholipids.</div><div class="ttdef"><b>Definition:</b> <a href="../../d7/df8/Types_8h_source.html#l00277">Types.h:277</a></div></div>
+<div class="ttc" id="aclassbioexplorer_1_1common_1_1Node_html"><div class="ttname"><a href="../../d7/d93/classbioexplorer_1_1common_1_1Node.html">bioexplorer::common::Node</a></div><div class="ttdoc">The Node class.</div><div class="ttdef"><b>Definition:</b> <a href="../../db/d92/Node_8h_source.html#l00034">Node.h:34</a></div></div>
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="../../dir_32c53a81047e6b1f79109ecf563d9b76.html">plugin</a></li><li class="navelem"><a class="el" href="../../dir_9a9dde4b851279721bb1b60982956579.html">biology</a></li><li class="navelem"><b>Membrane.h</b></li>
+    <li class="navelem"><a class="el" href="../../dir_32c53a81047e6b1f79109ecf563d9b76.html">plugin</a></li><li class="navelem"><a class="el" href="../../dir_cf710e9eac980d2fca315cc5cf09704b.html">molecularsystems</a></li><li class="navelem"><b>Membrane.h</b></li>
     <li class="footer">Generated by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="../../doxygen.png" alt="doxygen"/></a> 1.8.17 </li>

@@ -82,13 +82,13 @@ set(${NAME}_SOURCES
     plugin/common/shapes/FanShape.cpp
     plugin/common/shapes/RNAShape.cpp
     plugin/common/shapes/PointShape.cpp
+    plugin/common/Assembly.cpp
     plugin/fields/FieldsHandler.cpp
     plugin/fields/Octree.cpp
     plugin/fields/OctreeNode.cpp
     plugin/io/CacheLoader.cpp
     plugin/io/OOCManager.cpp
     plugin/molecularsystems/Molecule.cpp
-    plugin/molecularsystems/Assembly.cpp
     plugin/molecularsystems/Membrane.cpp
     plugin/molecularsystems/Glycans.cpp
     plugin/molecularsystems/Protein.cpp
@@ -100,9 +100,9 @@ set(${NAME}_SOURCES
 set(${NAME}_PUBLIC_HEADERS
     plugin/io/OOCManager.h
     plugin/io/CacheLoader.h
+    plugin/common/Assembly.h
     plugin/common/Node.h
     plugin/molecularsystems/Molecule.h
-    plugin/molecularsystems/Assembly.h
     plugin/molecularsystems/Glycans.h
     plugin/molecularsystems/Membrane.h
     plugin/molecularsystems/Protein.h

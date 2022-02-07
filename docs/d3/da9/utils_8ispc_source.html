@@ -90,7 +90,7 @@ $(document).ready(function(){initNavTree('d3/da9/utils_8ispc_source.html','../..
 <div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160; * The Blue Brain BioExplorer is a tool for scientists to extract and analyse</div>
 <div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160; * scientific data from visualization</div>
 <div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160; *</div>
-<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160; * Copyright 2020-2021 Blue BrainProject / EPFL</div>
+<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160; * Copyright 2020-2022 Blue BrainProject / EPFL</div>
 <div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160; *</div>
 <div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160; * This program is free software: you can redistribute it and/or modify it under</div>
 <div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160; * the terms of the GNU General Public License as published by the Free Software</div>
@@ -106,42 +106,41 @@ $(document).ready(function(){initNavTree('d3/da9/utils_8ispc_source.html','../..
 <div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160; * this program.  If not, see &lt;https://www.gnu.org/licenses/&gt;.</div>
 <div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160; */</div>
 <div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160; </div>
-<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160; </div>
-<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;#include &quot;utils.ih&quot;</div>
-<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160; </div>
-<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;void clipRay(const uniform vec4f* clipPlanes, const unsigned int numClipPlanes,</div>
-<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;             const varying vec3f&amp; position, const varying vec3f&amp; direction,</div>
-<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;             varying float&amp; near, varying float&amp; far)</div>
-<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;{</div>
-<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;    for (int i = 0; i &lt; numClipPlanes; ++i)</div>
-<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;    {</div>
-<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;        const vec3f normal = {clipPlanes[i].x, clipPlanes[i].y,</div>
-<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;                              clipPlanes[i].z};</div>
-<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;        const float d = clipPlanes[i].w;</div>
-<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160; </div>
-<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;        const float distance = dot(normal, position) + d;</div>
-<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;        const float cosAngle = dot(direction, normal);</div>
-<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160; </div>
-<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;        if (cosAngle == 0.f)</div>
-<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;        {</div>
-<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;            // This ray is parallel to the plane, checking if position is</div>
-<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;            // on the visible side</div>
-<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;            if (distance &lt; 0)</div>
-<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;            {</div>
-<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;                near = far = 0.f;</div>
-<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;                return;</div>
-<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;            }</div>
-<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;        }</div>
-<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;        else</div>
-<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;        {</div>
-<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;            const float t = -distance / cosAngle;</div>
-<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;            if (cosAngle &gt; 0.f) // same direction plane</div>
-<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;                near = max(0.f, max(near, t));</div>
-<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;            else</div>
-<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;                far = max(0.f, min(far, t));</div>
-<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;        }</div>
-<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;    }</div>
-<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;}</div>
+<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;#include &quot;utils.ih&quot;</div>
+<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160; </div>
+<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;void clipRay(const uniform vec4f* clipPlanes, const unsigned int numClipPlanes,</div>
+<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;             const varying vec3f&amp; position, const varying vec3f&amp; direction,</div>
+<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;             varying float&amp; near, varying float&amp; far)</div>
+<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;{</div>
+<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;    for (int i = 0; i &lt; numClipPlanes; ++i)</div>
+<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;    {</div>
+<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;        const vec3f normal = {clipPlanes[i].x, clipPlanes[i].y,</div>
+<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;                              clipPlanes[i].z};</div>
+<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;        const float d = clipPlanes[i].w;</div>
+<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160; </div>
+<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;        const float distance = dot(normal, position) + d;</div>
+<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;        const float cosAngle = dot(direction, normal);</div>
+<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160; </div>
+<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;        if (cosAngle == 0.f)</div>
+<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;        {</div>
+<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;            // This ray is parallel to the plane, checking if position is</div>
+<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;            // on the visible side</div>
+<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;            if (distance &lt; 0)</div>
+<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;            {</div>
+<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;                near = far = 0.f;</div>
+<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;                return;</div>
+<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;            }</div>
+<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;        }</div>
+<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;        else</div>
+<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;        {</div>
+<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;            const float t = -distance / cosAngle;</div>
+<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;            if (cosAngle &gt; 0.f) // same direction plane</div>
+<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;                near = max(0.f, max(near, t));</div>
+<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;            else</div>
+<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;                far = max(0.f, min(far, t));</div>
+<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;        }</div>
+<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;    }</div>
+<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;}</div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->

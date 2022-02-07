@@ -24,11 +24,12 @@
 from .version import VERSION as __version__
 from .notebook_widgets import Widgets
 from .transfer_function import TransferFunction
-from .movie_maker import MovieMaker
 from .bio_explorer import BioExplorer, Volume, Membrane, AssemblyProtein, Protein, Sugars, \
     RNASequence, Cell, Surfactant, Virus, AnimationParams, Vector2, Vector3, Quaternion
+from .movie_maker import MovieMaker
+from .movie_scenario import MovieScenario
 
 __all__ = [
     'Widgets', 'BioExplorer', 'Membrane', 'Protein', 'AssemblyProtein', 'Sugars',
     'RNASequence', 'Volume', 'Surfactant', 'Cell', 'Vector2', 'Vector3', 'AnimationParams',
-    'Quaternion', 'Virus', 'MovieMaker', 'TransferFunction', '__version__']
+    'Quaternion', 'Virus', 'MovieMaker', 'TransferFunction', 'MovieScenario', '__version__']

@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['weightedrandomrotation_478',['weightedRandomRotation',['../dc/d78/classbioexplorer_1_1common_1_1Shape.html#a595f0d1afddd8a628c2543a6bbab97c0',1,'bioexplorer::common::Shape']]]
+  ['vasculaturehandler_489',['VasculatureHandler',['../d3/d3e/classbioexplorer_1_1vasculature_1_1VasculatureHandler.html#abf08f4ae967039068df77b84557dd361',1,'bioexplorer::vasculature::VasculatureHandler']]]
 ];

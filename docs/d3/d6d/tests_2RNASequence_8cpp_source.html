@@ -104,9 +104,9 @@ $(document).ready(function(){initNavTree('d3/d6d/tests_2RNASequence_8cpp_source.
 <div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;<span class="comment"> * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.</span></div>
 <div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;<span class="comment"> */</span></div>
 <div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160; </div>
-<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;<span class="preprocessor">#include &lt;plugin/biology/Assembly.h&gt;</span></div>
-<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;<span class="preprocessor">#include &lt;plugin/biology/RNASequence.h&gt;</span></div>
-<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;<span class="preprocessor">#include &lt;plugin/common/Logs.h&gt;</span></div>
+<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;<span class="preprocessor">#include &lt;plugin/common/Assembly.h&gt;</span></div>
+<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;<span class="preprocessor">#include &lt;plugin/common/Logs.h&gt;</span></div>
+<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;<span class="preprocessor">#include &lt;plugin/molecularsystems/RNASequence.h&gt;</span></div>
 <div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160; </div>
 <div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;<span class="preprocessor">#include &lt;brayns/Brayns.h&gt;</span></div>
 <div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;<span class="preprocessor">#include &lt;brayns/engineapi/Engine.h&gt;</span></div>
@@ -120,7 +120,7 @@ $(document).ready(function(){initNavTree('d3/d6d/tests_2RNASequence_8cpp_source.
 <div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;<span class="keyword">namespace </span>tests</div>
 <div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;{</div>
 <div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;<span class="keyword">using namespace </span>bioexplorer;</div>
-<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;<span class="keyword">using namespace </span>biology;</div>
+<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;<span class="keyword">using namespace </span>molecularsystems;</div>
 <div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160; </div>
 <div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;std::string getFileContents(<span class="keyword">const</span> std::string&amp; filename)</div>
 <div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;{</div>
@@ -176,8 +176,8 @@ $(document).ready(function(){initNavTree('d3/d6d/tests_2RNASequence_8cpp_source.
 <div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;} <span class="comment">// namespace tests</span></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
-<div class="ttc" id="astructbioexplorer_1_1details_1_1AssemblyDetails_html_a8c92de193c5ae17d6e198a314c276263"><div class="ttname"><a href="../../d1/da5/structbioexplorer_1_1details_1_1AssemblyDetails.html#a8c92de193c5ae17d6e198a314c276263">bioexplorer::details::AssemblyDetails::name</a></div><div class="ttdeci">std::string name</div><div class="ttdef"><b>Definition:</b> <a href="../../d7/df8/Types_8h_source.html#l00222">Types.h:222</a></div></div>
-<div class="ttc" id="astructbioexplorer_1_1details_1_1RNASequenceDetails_html_ae72e9a82fa1b08c17e14e38e5c3d3240"><div class="ttname"><a href="../../d1/d00/structbioexplorer_1_1details_1_1RNASequenceDetails.html#ae72e9a82fa1b08c17e14e38e5c3d3240">bioexplorer::details::RNASequenceDetails::assemblyName</a></div><div class="ttdeci">std::string assemblyName</div><div class="ttdef"><b>Definition:</b> <a href="../../d7/df8/Types_8h_source.html#l00391">Types.h:391</a></div></div>
+<div class="ttc" id="astructbioexplorer_1_1details_1_1AssemblyDetails_html_a8c92de193c5ae17d6e198a314c276263"><div class="ttname"><a href="../../d1/da5/structbioexplorer_1_1details_1_1AssemblyDetails.html#a8c92de193c5ae17d6e198a314c276263">bioexplorer::details::AssemblyDetails::name</a></div><div class="ttdeci">std::string name</div><div class="ttdef"><b>Definition:</b> <a href="../../d7/df8/Types_8h_source.html#l00223">Types.h:223</a></div></div>
+<div class="ttc" id="astructbioexplorer_1_1details_1_1RNASequenceDetails_html_ae72e9a82fa1b08c17e14e38e5c3d3240"><div class="ttname"><a href="../../d1/d00/structbioexplorer_1_1details_1_1RNASequenceDetails.html#ae72e9a82fa1b08c17e14e38e5c3d3240">bioexplorer::details::RNASequenceDetails::assemblyName</a></div><div class="ttdeci">std::string assemblyName</div><div class="ttdef"><b>Definition:</b> <a href="../../d7/df8/Types_8h_source.html#l00392">Types.h:392</a></div></div>
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>

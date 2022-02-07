@@ -102,6 +102,5 @@ private:
     std::map<uint64_t, uint64_ts> _sections;
     uint64_t _nbPairs{0};
 };
-using VasculaturePtr = std::shared_ptr<Vasculature>;
 } // namespace vasculature
 } // namespace bioexplorer

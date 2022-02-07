@@ -1,11 +1,11 @@
 var searchData=
 [
-  ['addglycans_356',['addGlycans',['../d6/dc2/classbioexplorer_1_1biology_1_1Assembly.html#af4caca0e2856c99a91bb169822957d9c',1,'bioexplorer::biology::Assembly::addGlycans()'],['../db/dba/classbioexplorer_1_1biology_1_1Protein.html#a073173783a0bb415c8ccc86110cdaa47',1,'bioexplorer::biology::Protein::addGlycans()']]],
-  ['addmembrane_357',['addMembrane',['../d6/dc2/classbioexplorer_1_1biology_1_1Assembly.html#a0f74dc2942ec591230b9f00cebb66f72',1,'bioexplorer::biology::Assembly']]],
-  ['addprotein_358',['addProtein',['../d6/dc2/classbioexplorer_1_1biology_1_1Assembly.html#a9380dbb7565b6ea70cdbd940ab598374',1,'bioexplorer::biology::Assembly']]],
-  ['addrnasequence_359',['addRNASequence',['../d6/dc2/classbioexplorer_1_1biology_1_1Assembly.html#a7f28e8ee7fa2a89ad4db57a12299125b',1,'bioexplorer::biology::Assembly']]],
-  ['addsugars_360',['addSugars',['../d6/dc2/classbioexplorer_1_1biology_1_1Assembly.html#a5eaa52cd94f4472154b09c4a2e965d5b',1,'bioexplorer::biology::Assembly::addSugars()'],['../db/dba/classbioexplorer_1_1biology_1_1Protein.html#a4eab6f87a0aa115663997432566f28d1',1,'bioexplorer::biology::Protein::addSugars()']]],
-  ['addvalue_361',['addValue',['../d1/d60/classbioexplorer_1_1fields_1_1OctreeNode.html#a022813e077dba77bbf2fc13689883b62',1,'bioexplorer::fields::OctreeNode']]],
-  ['advancedrenderer_362',['AdvancedRenderer',['../d9/d98/classbioexplorer_1_1rendering_1_1AdvancedRenderer.html#ace9aeb88b90c18429a3f12698cdf1986',1,'bioexplorer::rendering::AdvancedRenderer']]],
-  ['assembly_363',['Assembly',['../d6/dc2/classbioexplorer_1_1biology_1_1Assembly.html#a9faa63b86cbe4fd44015e149550a2f9b',1,'bioexplorer::biology::Assembly']]]
+  ['addglycans_366',['addGlycans',['../d2/d82/classbioexplorer_1_1common_1_1Assembly.html#a3c9dfdbff78069cad3ff77095c06edb4',1,'bioexplorer::common::Assembly::addGlycans()'],['../dd/da4/classbioexplorer_1_1molecularsystems_1_1Protein.html#a4fd2b6f91bd3ce370de779e4e0b5e114',1,'bioexplorer::molecularsystems::Protein::addGlycans()']]],
+  ['addmembrane_367',['addMembrane',['../d2/d82/classbioexplorer_1_1common_1_1Assembly.html#a578209f45d038ef7a8606f31715cced4',1,'bioexplorer::common::Assembly']]],
+  ['addprotein_368',['addProtein',['../d2/d82/classbioexplorer_1_1common_1_1Assembly.html#ad2836269334c4cbb02dcf2ab5209210c',1,'bioexplorer::common::Assembly']]],
+  ['addrnasequence_369',['addRNASequence',['../d2/d82/classbioexplorer_1_1common_1_1Assembly.html#ac2f07e445f49986f8d4cd756f1066885',1,'bioexplorer::common::Assembly']]],
+  ['addsugars_370',['addSugars',['../d2/d82/classbioexplorer_1_1common_1_1Assembly.html#af1c2af29d858f9b98e23d4976e4425c4',1,'bioexplorer::common::Assembly::addSugars()'],['../dd/da4/classbioexplorer_1_1molecularsystems_1_1Protein.html#aa1a4771b6015bc820839ab5441d17bea',1,'bioexplorer::molecularsystems::Protein::addSugars()']]],
+  ['addvalue_371',['addValue',['../d1/d60/classbioexplorer_1_1fields_1_1OctreeNode.html#a022813e077dba77bbf2fc13689883b62',1,'bioexplorer::fields::OctreeNode']]],
+  ['advancedrenderer_372',['AdvancedRenderer',['../d9/d98/classbioexplorer_1_1rendering_1_1AdvancedRenderer.html#ace9aeb88b90c18429a3f12698cdf1986',1,'bioexplorer::rendering::AdvancedRenderer']]],
+  ['assembly_373',['Assembly',['../d2/d82/classbioexplorer_1_1common_1_1Assembly.html#a3ea39f5da1c45f0890833d8d6d885232',1,'bioexplorer::common::Assembly']]]
 ];

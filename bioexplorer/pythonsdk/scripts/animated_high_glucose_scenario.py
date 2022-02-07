@@ -22,12 +22,9 @@
 # this program.  If not, see <https://www.gnu.org/licenses/>.
 
 from bioexplorer import BioExplorer, Protein, Surfactant, Membrane, Cell, Sugars, \
-    Volume, AnimationParams, Vector2, Vector3, Quaternion, MovieMaker
+    Volume, AnimationParams, Vector2, Vector3, Quaternion, MovieMaker, MovieScenario
 import math
-from datetime import datetime, timedelta
-import time
 import sys
-import argparse
 
 resource_folder = './tests/test_files/'
 
@@ -106,40 +103,14 @@ ROTATION_MODE_LINEAR = 0
 ROTATION_MODE_SINUSOIDAL = 1
 
 
-class HighGlucoseScenario():
+class HighGlucoseScenario(MovieScenario):
 
     def __init__(self, hostname, port, projection, output_folder, image_k=4,
                  image_samples_per_pixel=64, log_level=1, shaders=list(['bio_explorer']),
                  magnetic=False):
-        self._log_level = log_level
-        self._hostname = hostname
-        self._url = hostname + ':' + str(port)
-        self._be = BioExplorer(self._url)
-        self._core = self._be.core_api()
-        self._image_size = [1920, 1080]
-        self._image_samples_per_pixel = image_samples_per_pixel
-        self._image_projection = projection
-        self._image_output_folder = output_folder
-        self._shaders = shaders
         self._magnetic = magnetic
-        self._prepare_movie(projection, image_k)
-        '''Accelerate loading by not showing models as they are loaded'''
-        self._be.set_general_settings(
-            model_visibility_on_creation=False,
-            v1_compatibility=True
-        )
-        self._log(1, '================================================================================')
-        self._log(1, '- Version          : ' + self._be.version())
-        self._log(1, '- URL              : ' + self._url)
-        self._log(1, '- Projection       : ' + projection)
-        self._log(1, '- Frame size       : ' + str(self._image_size))
-        self._log(1, '- Export folder    : ' + self._image_output_folder)
-        self._log(1, '- Samples per pixel: ' + str(self._image_samples_per_pixel))
-        self._log(1, '================================================================================')
-
-    def _log(self, level, message):
-        if level <= self._log_level:
-            print('[' + str(datetime.now()) + '] ' + message)
+        super().__init__(hostname, port, projection, output_folder,
+                         image_k, image_samples_per_pixel, log_level, False, shaders)
 
     def _get_transformation(self, start_frame, end_frame, frame, data):
         '''Progress'''
@@ -340,9 +311,9 @@ class HighGlucoseScenario():
             membrane=membrane, proteins=[ace2_receptor],
         )
 
-        self._be.add_cell(
+        self._check(self._be.add_cell(
             cell=cell, position=position,
-            representation=protein_representation)
+            representation=protein_representation))
 
         '''Modify receptor position when attached virus enters the cell'''
         receptors_instances = [90, 23, 24, 98, 37, 44]
@@ -357,10 +328,10 @@ class HighGlucoseScenario():
             if frame >= start_frame:
                 if frame > end_frame:
                     '''Send receptor to outter space'''
-                    status = self._be.set_protein_instance_transformation(
+                    self._check(self._be.set_protein_instance_transformation(
                         assembly_name=name, name=receptor_name,
                         instance_index=instance_index, position=Vector3(0.0, 1e6, 0.0)
-                    )
+                    ))
                 else:
                     '''Current receptor transformation'''
                     transformation = self._be.get_protein_instance_transformation(
@@ -380,10 +351,10 @@ class HighGlucoseScenario():
                     pos.x += landing_distance * progress * 0.3
                     pos.y -= landing_distance * progress * 0.3
 
-                    status = self._be.set_protein_instance_transformation(
+                    self._check(self._be.set_protein_instance_transformation(
                         assembly_name=name, name=receptor_name,
                         instance_index=instance_index, position=pos, rotation=rot
-                    )
+                    ))
 
         '''Glycans'''
         if nb_receptors != 0 and add_glycans:
@@ -421,18 +392,18 @@ class HighGlucoseScenario():
             name=name, surfactant_protein=BioExplorer.SURFACTANT_PROTEIN_D,
             head_source=surfactant_head_source,
             branch_source=surfactant_branch_source)
-        self._be.add_surfactant(
+        self._check(self._be.add_surfactant(
             surfactant=surfactant_d, representation=protein_representation,
-            position=position, rotation=rotation, animation_params=animation_params)
+            position=position, rotation=rotation, animation_params=animation_params))
 
     def _add_surfactant_a(self, name, position, rotation, animation_params):
         surfactant_a = Surfactant(
             name=name, surfactant_protein=BioExplorer.SURFACTANT_PROTEIN_A,
             head_source=surfactant_head_source,
             branch_source=surfactant_branch_source)
-        self._be.add_surfactant(
+        self._check(self._be.add_surfactant(
             surfactant=surfactant_a, representation=protein_representation,
-            position=position, rotation=rotation, animation_params=animation_params)
+            position=position, rotation=rotation, animation_params=animation_params))
 
     def _add_glucose_to_surfactant_head(self, name):
         for index in [321, 323]:
@@ -509,11 +480,10 @@ class HighGlucoseScenario():
             shape_params=scene_size,
             protein=glucose
         )
-        status = self._be.add_volume(
+        self._check(self._be.add_volume(
             volume=volume, representation=protein_representation,
             position=Vector3(0.0, scene_size.y / 2.0 - 200.0, 0.0)
-        )
-        return status
+        ))
 
     def _add_lactoferrins(self, frame):
         lactoferrin = Protein(
@@ -530,11 +500,10 @@ class HighGlucoseScenario():
             shape_params=scene_size,
             protein=lactoferrin
         )
-        status = self._be.add_volume(
+        self._check(self._be.add_volume(
             volume=lactoferrins_volume, representation=protein_representation,
             position=Vector3(0.0, scene_size.y / 2.0 - 200.0, 0.0)
-        )
-        return status
+        ))
 
     def _add_defensins(self, frame):
         defensin = Protein(
@@ -551,23 +520,46 @@ class HighGlucoseScenario():
             shape_params=scene_size,
             protein=defensin
         )
-        status = self._be.add_volume(
+        self._check(self._be.add_volume(
             volume=defensins_volume, representation=protein_representation,
             position=Vector3(0.0, scene_size.y / 2.0 - 200.0, 0.0)
-        )
-        return status
+        ))
 
     def _set_materials(self):
         '''Default materials'''
         self._be.apply_default_color_scheme(
             shading_mode=BioExplorer.SHADING_MODE_DIFFUSE, specular_exponent=50.0)
 
-    def _create_snapshot(self, renderer, frame, movie_maker):
-        samples_per_pixel = self._image_samples_per_pixel
+    def _set_clipping_planes(self):
+        '''Clipping planes'''
+        clip_planes = list()
+        if self._magnetic:
+            pos = Vector3(-74.9, -99.0, 228.8)
+            size = Vector3(70.0, 100.0, 70.0)
+            clip_planes.append([1.0, 0.0, 0.0, -pos.x + size.x])
+            clip_planes.append([-1.0, 0.0, 0.0, pos.x + size.x])
+            clip_planes.append([0.0, 1.0, 0.0, -pos.y + size.y])
+            clip_planes.append([0.0, -1.0, 0.0, pos.y + size.y])
+            clip_planes.append([0.0, 0.0, 1.0,  -pos.z + size.z])
+            clip_planes.append([0.0, 0.0, -1.0, pos.z + size.z])
+        else:
+            clip_planes.append([1.0, 0.0, 0.0, scene_size.x * 1.5 + 5])
+            clip_planes.append([-1.0, 0.0, 0.0, scene_size.x * 1.5 + 5])
+            clip_planes.append([0.0, 0.0, 1.0, scene_size.z + 5])
+            clip_planes.append([0.0, 0.0, -1.0, scene_size.z + 5])
 
-        '''Renderer'''
+        cps = self._core.get_clip_planes()
+        ids = list()
+        if cps:
+            for cp in cps:
+                ids.append(cp['id'])
+        self._core.remove_clip_planes(ids)
+        for plane in clip_planes:
+            self._core.add_clip_plane(plane)
+
+    def set_rendering_settings(self, renderer):
         if renderer == 'bio_explorer':
-            status = self._core.set_renderer(
+            self._core.set_renderer(
                 background_color=[96 / 255, 125 / 255, 139 / 255],
                 current=renderer, head_light=False,
                 samples_per_pixel=1, subsampling=1, max_accum_frames=1)
@@ -582,22 +574,15 @@ class HighGlucoseScenario():
             params.fog_thickness = 300
             params.max_bounces = 1
             params.use_hardware_randomizer = True
-            status = self._core.set_renderer_params(params)
-            samples_per_pixel = self._image_samples_per_pixel
+            self._core.set_renderer_params(params)
 
             '''Lights'''
-            status = self._core.clear_lights()
-            status = self._core.add_light_directional(
+            self._core.clear_lights()
+            self._core.add_light_directional(
                 angularDiameter=0.5, color=[1, 1, 1], direction=[-0.7, -0.4, -1],
-                intensity=1.0, is_visible=False
-            )
+                intensity=1.0, is_visible=False)
 
-        movie_maker.create_snapshot(
-            renderer=renderer,
-            size=self._image_size, path=self._image_output_folder + '/' + renderer,
-            base_name='%05d' % frame, samples_per_pixel=samples_per_pixel)
-
-    def _build_frame(self, frame):
+    def build_frame(self, frame):
         self._log(2, '- Resetting scene...')
         self._be.reset_scene()
 
@@ -630,68 +615,8 @@ class HighGlucoseScenario():
             self._set_materials()
 
             self._log(2, '- Showing models...')
-            status = self._be.set_models_visibility(True)
-            status = self._core.set_renderer()
-            return status
-
-    def _make_export_folder(self, folder):
-        import os
-        path = self._image_output_folder + '/' + folder
-        command_line = 'mkdir -p ' + path
-        os.system(command_line)
-        command_line = 'ls ' + path
-        if os.system(command_line) != 0:
-            self._log(3, 'ERROR: Failed to create folder ' + path)
-
-    def _make_export_folders(self):
-        for folder in self._shaders:
-            self._make_export_folder(folder)
-
-    def _prepare_movie(self, projection, image_k):
-        if projection == 'perspective':
-            aperture_ratio = 1.0
-            self._image_size = [image_k*960, image_k*540]
-            self._core.set_camera(current='bio_explorer_perspective')
-        elif projection == 'fisheye':
-            self._image_size = [int(image_k*1024), int(image_k*1024)]
-            self._core.set_camera(current='fisheye')
-        elif projection == 'panoramic':
-            self._image_size = [int(image_k*1024), int(image_k*1024)]
-            self._core.set_camera(current='panoramic')
-        elif projection == 'opendeck':
-            self._image_size = [7*2160, 3840]
-            self._core.set_camera(current='cylindric')
-
-        self._image_output_folder = self._image_output_folder + '/' + \
-            projection + '/' + str(self._image_size[0]) + 'x' + str(self._image_size[1])
-        self._make_export_folders()
-
-    def _set_clipping_planes(self):
-        '''Clipping planes'''
-        clip_planes = list()
-        if self._magnetic:
-            pos = Vector3(-74.9, -99.0, 228.8)
-            size = Vector3(70.0, 100.0, 70.0)
-            clip_planes.append([1.0, 0.0, 0.0, -pos.x + size.x])
-            clip_planes.append([-1.0, 0.0, 0.0, pos.x + size.x])
-            clip_planes.append([0.0, 1.0, 0.0, -pos.y + size.y])
-            clip_planes.append([0.0, -1.0, 0.0, pos.y + size.y])
-            clip_planes.append([0.0, 0.0, 1.0,  -pos.z + size.z])
-            clip_planes.append([0.0, 0.0, -1.0, pos.z + size.z])
-        else:
-            clip_planes.append([1.0, 0.0, 0.0, scene_size.x * 1.5 + 5])
-            clip_planes.append([-1.0, 0.0, 0.0, scene_size.x * 1.5 + 5])
-            clip_planes.append([0.0, 0.0, 1.0, scene_size.z + 5])
-            clip_planes.append([0.0, 0.0, -1.0, scene_size.z + 5])
-
-        cps = self._core.get_clip_planes()
-        ids = list()
-        if cps:
-            for cp in cps:
-                ids.append(cp['id'])
-        self._core.remove_clip_planes(ids)
-        for plane in clip_planes:
-            self._core.add_clip_plane(plane)
+            self._check(self._be.set_models_visibility(True))
+            self._core.set_renderer()
 
     def render_movie(self, start_frame=0, end_frame=0, frame_step=1, frame_list=list()):
         aperture_ratio = 0.0
@@ -760,109 +685,14 @@ class HighGlucoseScenario():
             key_frames.append(cameras_key_frame)
             key_frames.append(cameras_key_frame)
 
-        mm = MovieMaker(self._be)
-        mm.build_camera_path(key_frames, 250, 150)
-        self._log(1, '- Total number of frames: %d' % mm.get_nb_frames())
-
-        self._core.set_application_parameters(viewport=self._image_size)
-        self._core.set_application_parameters(image_stream_fps=0)
-
-        frames_to_render = list()
-        if len(frame_list) != 0:
-            frames_to_render = frame_list
-        else:
-            if end_frame == 0:
-                end_frame = mm.get_nb_frames()
-            for i in range(start_frame, end_frame + 1, frame_step):
-                frames_to_render.append(i)
-
-        cumulated_rendering_time = 0
-        nb_frames = len(frames_to_render)
-        frame_count = 1
-
         '''Clipping planes'''
         self._set_clipping_planes()
 
-        '''Frames'''
-        for frame in frames_to_render:
-            try:
-                start = time.time()
-                self._log(1, '- Rendering frame %i (%i/%i)' % (frame, frame_count, nb_frames))
-                self._log(1, '------------------------------')
-
-                '''Stop rendering during the loading of the scene'''
-                status = self._core.set_renderer(
-                    samples_per_pixel=1, subsampling=1, max_accum_frames=1)
-
-                '''Frame setup'''
-                self._build_frame(frame)
-                mm.set_current_frame(
-                    frame=frame, camera_params=self._core.BioExplorerPerspectiveCameraParams())
-
-                self._log(1, '- Frame buffers')
-                for shader in self._shaders:
-                    '''Rendering settings'''
-                    self._log(2, '-   ' + shader)
-                    self._create_snapshot(shader, frame, mm)
-
-                end = time.time()
-
-                rendering_time = end - start
-                cumulated_rendering_time += rendering_time
-                average_rendering_time = cumulated_rendering_time / frame_count
-                remaining_rendering_time = (nb_frames - frame_count) * average_rendering_time
-                self._log(1, '------------------------------')
-                self._log(1, 'Frame %i successfully rendered in %i seconds' %
-                          (frame, rendering_time))
-
-                hours = math.floor(remaining_rendering_time / 3600)
-                minutes = math.floor((remaining_rendering_time - hours * 3600) / 60)
-                seconds = math.floor(remaining_rendering_time - hours * 3600 - minutes * 60)
-
-                expected_end_time = datetime.now() + timedelta(seconds=remaining_rendering_time)
-                self._log(1, 'Estimated remaining time: %i hours, %i minutes, %i seconds' %
-                          (hours, minutes, seconds))
-                self._log(1, 'Expected end time       : %s' % expected_end_time)
-                self._log(
-                    1, '--------------------------------------------------------------------------------')
-                frame_count += 1
-            except Exception as e:
-                self._log(1, 'ERROR: Failed to render frame %i' % frame)
-                self._log(1, str(e))
-                time.sleep(10)
-                self._be = BioExplorer(self._url)
-                self._core = self._be.core_api()
-                mm = MovieMaker(self._be)
-
-        self._core.set_application_parameters(image_stream_fps=20)
-        self._log(1, 'Movie rendered, live long and prosper \V/')
+        super().render_movie(key_frames, 250, 150, start_frame, end_frame, frame_step, frame_list)
 
 
 def main(argv):
-    parser = argparse.ArgumentParser(description='Missing frames')
-    parser.add_argument('-e', '--export_folder', help='Export folder', type=str, default='/tmp')
-    parser.add_argument('-n', '--hostname',
-                        help='BioExplorer server hostname', type=str, default='localhost')
-    parser.add_argument('-p', '--port',
-                        help='BioExplorer server port', type=int, default=5000)
-    parser.add_argument('-j', '--projection', help='Camera projection',
-                        type=str, default='perspective',
-                        choices=['perspective', 'fisheye', 'panoramic', 'opendeck'])
-    parser.add_argument('-r', '--shaders', help='Shaders',
-                        type=str, nargs='*', default=list(),
-                        choices=['albedo', 'ambient_occlusion', 'depth', 'raycast_Ns', 'bio_explorer'])
-    parser.add_argument('-k', '--image_resolution_k',
-                        help='Image resolution in K', type=int, default=4)
-    parser.add_argument('-s', '--image_samples_per_pixel',
-                        help='Image samples per pixel', type=int, default=64)
-    parser.add_argument('-f', '--from_frame', type=int, help='Start frame', default=0)
-    parser.add_argument('-t', '--to_frame', type=int, help='End frame', default=0)
-    parser.add_argument('-m', '--frame_step', type=int, help='Frame step', default=1)
-    parser.add_argument('-g', '--log-level', type=int, help='Frame step', default=1)
-    parser.add_argument('-l', '--frame-list', type=int, nargs='*',
-                        help='List of frames to render', default=list())
-    parser.add_argument('-z', '--magnetic', help='Magnetic fields', action='store_true')
-    args = parser.parse_args(argv)
+    args = MovieScenario.parse_arguments(argv)
 
     scenario = HighGlucoseScenario(
         hostname=args.hostname,
@@ -876,6 +706,7 @@ def main(argv):
         magnetic=args.magnetic
     )
 
+    scenario.set_rendering_settings('bio_explorer')
     scenario.render_movie(
         start_frame=args.from_frame,
         end_frame=args.to_frame,
