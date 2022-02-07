@@ -20,13 +20,13 @@
 
 #include "BioExplorerPlugin.h"
 
+#include <plugin/common/Assembly.h>
 #include <plugin/common/CommonTypes.h>
 #include <plugin/common/GeneralSettings.h>
 #include <plugin/common/Logs.h>
 #include <plugin/common/Utils.h>
 #include <plugin/io/CacheLoader.h>
 #include <plugin/io/OOCManager.h>
-#include <plugin/molecularsystems/Assembly.h>
 
 #ifdef USE_VASCULATURE
 #include <bbp/sonata/common.h>

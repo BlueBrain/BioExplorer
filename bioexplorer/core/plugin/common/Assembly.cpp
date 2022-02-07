@@ -40,7 +40,7 @@
 
 namespace bioexplorer
 {
-namespace molecularsystems
+namespace common
 {
 Assembly::Assembly(Scene &scene, const AssemblyDetails &details)
     : _details(details)
@@ -560,5 +560,5 @@ ProteinInspectionDetails Assembly::inspect(const Vector3d &origin,
 
     return result;
 }
-} // namespace molecularsystems
+} // namespace common
 } // namespace bioexplorer

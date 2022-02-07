@@ -25,10 +25,11 @@
 
 namespace bioexplorer
 {
-namespace molecularsystems
+namespace common
 {
 using namespace common;
 using namespace details;
+using namespace molecularsystems;
 
 /**
  * @brief The Assembly class is a container for biological entities (proteins,
@@ -209,5 +210,5 @@ private:
     ModelDescriptors _modelDescriptors;
     ShapePtr _shape{nullptr};
 };
-} // namespace molecularsystems
+} // namespace common
 } // namespace bioexplorer

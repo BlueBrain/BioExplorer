@@ -856,18 +856,23 @@ typedef struct
 #endif
 } // namespace details
 
-namespace molecularsystems
+namespace common
 {
 class Assembly;
+typedef std::shared_ptr<Assembly> AssemblyPtr;
+typedef std::map<std::string, AssemblyPtr> AssemblyMap;
+
 enum class AssemblyConstraintType
 {
     inside = 0,
     outside = 1
 };
-typedef std::shared_ptr<Assembly> AssemblyPtr;
-typedef std::map<std::string, AssemblyPtr> AssemblyMap;
 typedef std::pair<AssemblyConstraintType, AssemblyPtr> AssemblyConstraint;
 typedef std::vector<AssemblyConstraint> AssemblyConstraints;
+} // namespace common
+
+namespace molecularsystems
+{
 typedef std::vector<ModelDescriptorPtr> ModelDescriptors;
 
 class Membrane;

@@ -16,8 +16,8 @@
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
 
+#include <plugin/common/Assembly.h>
 #include <plugin/common/Logs.h>
-#include <plugin/molecularsystems/Assembly.h>
 #include <plugin/molecularsystems/Membrane.h>
 #include <plugin/molecularsystems/Protein.h>
 
