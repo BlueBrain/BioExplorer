@@ -170,7 +170,7 @@ class BioExplorer:
     """Blue Brain BioExplorer"""
 
     PLUGIN_API_PREFIX = 'be-'
-    PDB_CONTENTS_DELIMITER = '||||'
+    CONTENTS_DELIMITER = '||||'
 
     COLOR_SCHEME_NONE = 0
     COLOR_SCHEME_ATOMS = 1
@@ -1275,7 +1275,7 @@ class BioExplorer:
         lipid_contents = ''
         for lipid_source in membrane.lipid_sources:
             if lipid_contents != '':
-                lipid_contents += BioExplorer.PDB_CONTENTS_DELIMITER
+                lipid_contents += BioExplorer.CONTENTS_DELIMITER
             lipid_contents += ''.join(open(lipid_source).readlines())
 
         params = dict()
@@ -1341,7 +1341,7 @@ class BioExplorer:
         constraints = ''
         for constraint in protein.constraints:
             if constraints != '':
-                constraints += self.PDB_CONTENTS_DELIMITER
+                constraints += self.CONTENTS_DELIMITER
             if constraint[0] == BioExplorer.POSITION_CONSTRAINT_INSIDE:
                 constraints += '+' + constraint[1]
             elif constraint[0] == BioExplorer.POSITION_CONSTRAINT_OUTSIDE:
@@ -2079,27 +2079,28 @@ class BioExplorer:
         return self._invoke_and_check("get-out-of-core-average-loading-time")
 
     def add_vasculature(
-            self, name, path, use_sdf=False, section_gids=list(),
+            self, assembly_name, name, path, use_sdf=False, section_gids=list(),
             load_capilarities=False, quality=VASCULATURE_QUALITY_HIGH,
             radius_correction=0.0):
-        """Add a vasculature to the 3D scene
+        """
+        Add a vasculature to the 3D scene
 
-        Args:
-            name (string): Name of the model in the scene
-            path (string): File name to the H5 vasculature file
-            use_sdf (bool, optional): Use sign distance fields geometry to create the vasculature. Defaults to False.
-            section_gids (list, optional): List of segment GIDs to load. Defaults to list().
-            load_capilarities (bool, optional): Load capilarities (<= 7 micrometers) if set to True
-            radius_correction (double, optional): Replaces all vasculature radii if different from zero
-            quality: Quality of the vasculature geometry (0 is the graph, 1 with low details, 2 with high details)
+        :assembly_name: Name of the assembly to which the vasculature should be added
+        :name Name of the model in the scene
+        :path: File name to the H5 vasculature file
+        :use_sdf: Use sign distance fields geometry to create the vasculature. Defaults to False
+        :node_gids: List of segment GIDs to load. Defaults to list()
+        :load_capilarities: Load capilarities (<= 7 micrometers) if set to True
+        :radius_correction: Replaces all vasculature radii if different from zero
+        :quality: Quality of the vasculature geometry (0 is the graph, 1 with low details, 2
+                    with high details)
 
-        Returns:
-            Response: Result of the request submission
+        :return: Result of the request submission
         """
         assert isinstance(section_gids, list)
 
         params = dict()
-        params["name"] = name
+        params["assemblyName"] = assembly_name
         params["filename"] = path
         params["useSdf"] = use_sdf
         params["gids"] = section_gids
@@ -2108,17 +2109,34 @@ class BioExplorer:
         params["radiusCorrection"] = radius_correction
         return self._invoke_and_check('add-vasculature', params)
 
-    def get_vasculature_info(self):
-        """Return information about the vasculature
-
-        Returns:
-            dict: Number of edges, pairs, sections and sub-graphs
+    def get_vasculature_info(self, assembly_name):
         """
-        return self._invoke('get-vasculature-info')
+        Return information about the vasculature
 
-    def set_vasculature_color_scheme(self, color_scheme, palette_name):
+        :return: A dictionary of attributes (Model Id, Number of edges, pairs, sections and
+                 sub-graphs)
+        """
+        params = dict()
+        params["name"] = assembly_name
+        response = self._invoke_and_check('get-vasculature-info', params)
+        vasculature_info = dict()
+        for param in response["contents"].split(self.CONTENTS_DELIMITER):
+            s = param.split('=')
+            vasculature_info[s[0]] = int(s[1])
+        return vasculature_info
+
+    def set_vasculature_color_scheme(self, assembly_name, color_scheme, palette_name):
+        """
+        Set a color scheme to the vasculature
+
+        :assembly_name: Name of the assembly containing the vasculature
+        :color_scheme: Vasculature color scheme
+        :palette_name: MatplotLib palette name
+
+        :return: Result of the request submission
+        """
         palette_size = 1
-        vasculature_info = self.get_vasculature_info()
+        vasculature_info = self.get_vasculature_info(assembly_name)
         if color_scheme == self.VASCULATURE_COLOR_SCHEME_EDGE:
             palette_size = vasculature_info['nbEdges']
         elif color_scheme == self.VASCULATURE_COLOR_SCHEME_SECTION:
@@ -2135,22 +2153,43 @@ class BioExplorer:
                 colors.append(color[i])
 
         params = dict()
+        params["assemblyName"] = assembly_name
         params["colorScheme"] = color_scheme
         params["palette"] = colors
         return self._invoke_and_check('set-vasculature-color-scheme', params)
 
-    def set_vasculature_report(self, path, population_name='vasculature'):
+    def set_vasculature_report(self, assembly_name, path, population_name='vasculature'):
+        """
+        Attach a simulation report to the vasculature
+
+        :assembly_name: Name of the assembly containing the vasculature
+        :path: Full path to the simulation report
+        :population_name: Name of the node population in the report. Defaults to 'vasculature'
+
+        :return: Result of the request submission
+        """
         params = dict()
+        params["assemblyName"] = assembly_name
         params['path'] = path
         params['populationName'] = population_name
         return self._invoke_and_check('set-vasculature-report', params)
 
-    def set_vasculature_radius_report(self, path, frame, amplitude=1.0, debug=False):
+    def set_vasculature_radius_report(self, assembly_name, path, frame, amplitude=1.0):
+        """
+        Attach a radius report to the vasculature
+
+        :assembly_name: Name of the assembly containing the vasculature
+        :path: Full path to the simulation report
+        :frame: Index of the frame in the simulation report
+        :amplitude: Amplitude of the radius modification. Defaults to 1.0
+
+        :return: Result of the request submission
+        """
         params = dict()
+        params["assemblyName"] = assembly_name
         params['path'] = path
         params['frame'] = frame
         params['amplitude'] = amplitude
-        params['debug'] = debug
         return self._invoke_and_check('set-vasculature-radius-report', params)
 
 

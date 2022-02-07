@@ -106,7 +106,7 @@ private:
         const ProteinInstanceTransformationDetails &payload) const;
 
     // Models
-    ModelNameDetails _getModelName(const ModelIdDetails &payload) const;
+    NameDetails _getModelName(const ModelIdDetails &payload) const;
     IdsDetails _getModelIds() const;
     IdsDetails _getModelInstances(const ModelIdDetails &payload) const;
 
@@ -147,14 +147,12 @@ private:
 #ifdef USE_VASCULATURE
     // Vasculature
     Response _addVasculature(const VasculatureDetails &payload);
-    VasculatureInfoDetails _getVasculatureInfo() const;
+    Response _getVasculatureInfo(const NameDetails &payload) const;
     Response _setVasculatureColorScheme(
         const VasculatureColorSchemeDetails &payload);
     Response _setVasculatureReport(const VasculatureReportDetails &payload);
     Response _setVasculatureRadiusReport(
         const VasculatureRadiusReportDetails &payload);
-
-    VasculaturePtr _vasculature{nullptr};
 #endif
 };
 } // namespace bioexplorer

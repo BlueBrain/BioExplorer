@@ -30,10 +30,24 @@ import os
 
 
 class MovieScenario:
+    """Super class for creating movies"""
 
     def __init__(self, hostname, port, projection, output_folder, image_k=4,
                  image_samples_per_pixel=64, log_level=1, v1_compatibility=False,
                  shaders=list(['bio_explorer'])):
+        """
+        Initialize movie scenario
+
+        :hostname: Host name where BioExplorer is running
+        :port: Port of the BioExplorer WebSocket
+        :projection: Camera projection (Perspective, Orthographic, etc)
+        :output_folder: Folder where frame are savec
+        :image_k: Number of 'k' defining the frame resolution. Defaults to 4.
+        :image_samples_per_pixel: Number of samples per pixel. Defaults to 64.
+        :log_level: Logging level. Defaults to 1
+        :v1_compatibility: Used to regenerated movies from BioExplorer version 1. Defaults to False.
+        :shaders: List of shaders to render. Defaults to list(['bio_explorer']).
+        """
         self._log_level = log_level
         self._hostname = hostname
         self._url = hostname + ':' + str(port)
@@ -49,20 +63,37 @@ class MovieScenario:
             model_visibility_on_creation=False,
             v1_compatibility=v1_compatibility
         )
-        self._log(1, '================================================================================')
+        self._log(1, '============================================================================')
         self._log(1, '- Version          : ' + self._be.version())
         self._log(1, '- URL              : ' + self._url)
         self._log(1, '- Projection       : ' + projection)
         self._log(1, '- Frame size       : ' + str(self._image_size))
         self._log(1, '- Export folder    : ' + self._image_output_folder)
         self._log(1, '- Samples per pixel: ' + str(self._image_samples_per_pixel))
-        self._log(1, '================================================================================')
+        self._log(1, '============================================================================')
 
     def build_frame(self, frame):
+        """
+        Build the specified frame
+
+        :frame: Index of the frame to build
+        """
         raise NotImplementedError('You need to define a build_frame method!')
 
-    def render_movie(self, cameras_key_frames, nb_frames_between_keys, nb_smoothing_frames, start_frame=0, end_frame=0, frame_step=1, frame_list=list()):
+    def render_movie(
+            self, cameras_key_frames, nb_frames_between_keys, nb_smoothing_frames, start_frame=0,
+            end_frame=0, frame_step=1, frame_list=list()):
+        """
+        Render the speficied frames
 
+        :cameras_key_frames: List of camera key-frames
+        :nb_frames_between_keys: Number of frames between each key frame
+        :nb_smoothing_frames: Number of frames used to average the camera position and orientation
+        :start_frame: Index of the first frame to render. Defaults to 0
+        :end_frame: Index of the last frame to render. Defaults to 0
+        :frame_step: Number of frames to skip. Defaults to 1
+        :frame_list: Explicit list of frames to render. Defaults to list().
+        """
         mm = MovieMaker(self._be)
         mm.build_camera_path(cameras_key_frames, nb_frames_between_keys, nb_smoothing_frames)
         self._log(1, '- Total number of frames: %d' % mm.get_nb_frames())
@@ -125,11 +156,11 @@ class MovieScenario:
                       (hours, minutes, seconds))
             self._log(1, 'Expected end time       : %s' % expected_end_time)
             self._log(
-                1, '--------------------------------------------------------------------------------')
+                1, '----------------------------------------------------------------------------')
             frame_count += 1
 
         self._core.set_application_parameters(image_stream_fps=20)
-        self._log(1, 'Movie rendered, live long and prosper \V/')
+        self._log(1, 'Movie rendered, live long and prosper \\V/')
 
     def _log(self, level, message):
         if level <= self._log_level:
@@ -173,6 +204,11 @@ class MovieScenario:
 
     @staticmethod
     def parse_arguments(argv):
+        """
+        Parse command line arguments
+
+        :argv: List of command line arguments
+        """
         parser = argparse.ArgumentParser(description='Missing frames')
         parser.add_argument('-e', '--export-folder', help='Export folder', type=str, default='/tmp')
         parser.add_argument('-n', '--hostname',
@@ -184,7 +220,9 @@ class MovieScenario:
                             choices=['perspective', 'fisheye', 'panoramic', 'opendeck'])
         parser.add_argument('-r', '--shaders', help='Camera projection',
                             type=str, nargs='*', default=['bio_explorer'],
-                            choices=['albedo', 'ambient_occlusion', 'depth', 'raycast_Ns', 'bio_explorer'])
+                            choices=[
+                                'albedo', 'ambient_occlusion', 'depth', 'raycast_Ns',
+                                'bio_explorer'])
         parser.add_argument('-k', '--image-resolution-k',
                             help='Image resolution in K', type=int, default=1)
         parser.add_argument('-s', '--image-samples-per-pixel',

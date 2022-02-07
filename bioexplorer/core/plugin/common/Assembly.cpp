@@ -35,6 +35,10 @@
 #include <plugin/molecularsystems/Membrane.h>
 #include <plugin/molecularsystems/Protein.h>
 #include <plugin/molecularsystems/RNASequence.h>
+#ifdef USE_VASCULATURE
+#include <plugin/vasculature/Vasculature.h>
+#include <plugin/vasculature/VasculatureHandler.h>
+#endif
 
 #include <brayns/engineapi/Model.h>
 
@@ -560,5 +564,79 @@ ProteinInspectionDetails Assembly::inspect(const Vector3d &origin,
 
     return result;
 }
+
+#ifdef USE_VASCULATURE
+void Assembly::addVasculature(const VasculatureDetails &details)
+{
+    if (_vasculature)
+    {
+        auto modelDescriptor = _vasculature->getModelDescriptor();
+        if (modelDescriptor)
+        {
+            const auto modelId = modelDescriptor->getModelID();
+            _scene.removeModel(modelId);
+        }
+    }
+    _vasculature.reset(std::move(new Vasculature(_scene, details)));
+    _scene.markModified(false);
+}
+
+std::string Assembly::getVasculatureInfo() const
+{
+    auto modelDescriptor = _vasculature->getModelDescriptor();
+    Response response;
+    if (!_vasculature)
+        PLUGIN_THROW("No vasculature is currently defined in assembly " +
+                     _details.name);
+    std::stringstream s;
+    s << "modelId=" << modelDescriptor->getModelID() << CONTENTS_DELIMITER
+      << "nbNodes=" << _vasculature->getNbNodes() << CONTENTS_DELIMITER
+      << "nbSubGraphs=" << _vasculature->getNbSubGraphs() << CONTENTS_DELIMITER
+      << "nbSections=" << _vasculature->getNbSections() << CONTENTS_DELIMITER
+      << "nbPairs=" << _vasculature->getNbPairs();
+    return s.str().c_str();
+}
+
+void Assembly::setVasculatureColorScheme(
+    const VasculatureColorSchemeDetails &details)
+{
+    if (!_vasculature)
+        PLUGIN_THROW("No vasculature currently exists");
+
+    auto modelDescriptor = _vasculature->getModelDescriptor();
+    if (modelDescriptor)
+    {
+        const auto modelId = modelDescriptor->getModelID();
+        _scene.removeModel(modelId);
+    }
+
+    _vasculature->setColorScheme(details);
+    _scene.markModified(false);
+}
+
+void Assembly::setVasculatureReport(const VasculatureReportDetails &details)
+{
+    PLUGIN_INFO(3, "Setting report to vasculature");
+    if (!_vasculature)
+        PLUGIN_THROW("No vasculature is currently loaded");
+
+    auto modelDescriptor = _vasculature->getModelDescriptor();
+    auto handler =
+        std::make_shared<VasculatureHandler>(details,
+                                             _vasculature->getPopulationSize());
+    auto &model = modelDescriptor->getModel();
+    model.setSimulationHandler(handler);
+}
+
+void Assembly::setVasculatureRadiusReport(
+    const VasculatureRadiusReportDetails &details)
+{
+    if (!_vasculature)
+        PLUGIN_THROW("No vasculature is currently loaded");
+
+    _vasculature->setRadiusReport(details);
+}
+#endif
+
 } // namespace common
 } // namespace bioexplorer

@@ -39,10 +39,6 @@ using namespace common;
 using namespace geometry;
 using namespace bbp::sonata;
 
-const std::string LOADER_NAME = "Vasculature";
-const std::string SUPPORTED_EXTENTION_H5 = "h5";
-const size_t DEFAULT_MATERIAL = 0;
-
 Vasculature::Vasculature(Scene& scene, const VasculatureDetails& details)
     : _details(details)
     , _scene(scene)
@@ -372,8 +368,9 @@ void Vasculature::_buildModel(const VasculatureColorSchemeDetails& details)
         {"Number of sections", std::to_string(_sectionIds.size())},
         {"Number of sub-graphs", std::to_string(_graphs.size())}};
 
-    _modelDescriptor.reset(
-        new brayns::ModelDescriptor(std::move(model), _details.name, metadata));
+    _modelDescriptor.reset(new brayns::ModelDescriptor(std::move(model),
+                                                       _details.assemblyName,
+                                                       metadata));
     if (_modelDescriptor)
         _scene.addModel(_modelDescriptor);
     else
@@ -405,29 +402,11 @@ void Vasculature::setRadiusReport(const VasculatureRadiusReportDetails& details)
                          details.path);
 
         std::vector<float> series;
-        if (details.debug)
-        {
-            series.resize(_nodes.size());
-            for (uint64_t i = 0; i < _populationSize; ++i)
-            {
-                const double value =
-                    details.amplitude *
-                    (0.5f + (sin(double(details.frame + i) * M_PI / 360.f) +
-                             0.5f * cos(double(details.frame + i) * 3.f * M_PI /
-                                        360.f)));
-                series.push_back(value);
-            }
-        }
-        else
-        {
-            if (details.frame >= nbFrames)
-                PLUGIN_THROW("Invalid frame specified for report: " +
-                             details.path);
-            const Selection allNodes = Selection({{0, _populationSize}});
-            series =
-                reportPopulation.get(allNodes, startTime + details.frame * dt)
-                    .data;
-        }
+        if (details.frame >= nbFrames)
+            PLUGIN_THROW("Invalid frame specified for report: " + details.path);
+        const Selection allNodes = Selection({{0, _populationSize}});
+        series =
+            reportPopulation.get(allNodes, startTime + details.frame * dt).data;
 
         auto& model = _modelDescriptor->getModel();
         auto& spheresMap = model.getSpheres();

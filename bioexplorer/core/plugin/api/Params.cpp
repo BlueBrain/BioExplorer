@@ -503,7 +503,21 @@ std::string to_json(const IdsDetails &param)
     return "";
 }
 
-std::string to_json(const ModelNameDetails &param)
+bool from_json(NameDetails &param, const std::string &payload)
+{
+    try
+    {
+        auto js = nlohmann::json::parse(payload);
+        FROM_JSON(param, js, name);
+    }
+    catch (...)
+    {
+        return false;
+    }
+    return true;
+}
+
+std::string to_json(const NameDetails &param)
 {
     try
     {
@@ -672,7 +686,7 @@ bool from_json(VasculatureDetails &param, const std::string &payload)
     try
     {
         auto js = nlohmann::json::parse(payload);
-        FROM_JSON(param, js, name);
+        FROM_JSON(param, js, assemblyName);
         FROM_JSON(param, js, filename);
         FROM_JSON(param, js, useSdf);
         FROM_JSON(param, js, gids);
@@ -687,30 +701,12 @@ bool from_json(VasculatureDetails &param, const std::string &payload)
     return true;
 }
 
-std::string to_json(const VasculatureInfoDetails &param)
-{
-    try
-    {
-        nlohmann::json js;
-        TO_JSON(param, js, modelId);
-        TO_JSON(param, js, nbNodes);
-        TO_JSON(param, js, nbSubGraphs);
-        TO_JSON(param, js, nbPairs);
-        TO_JSON(param, js, nbSections);
-        return js.dump();
-    }
-    catch (...)
-    {
-        return "";
-    }
-    return "";
-}
-
 bool from_json(VasculatureColorSchemeDetails &param, const std::string &payload)
 {
     try
     {
         auto js = nlohmann::json::parse(payload);
+        FROM_JSON(param, js, assemblyName);
         FROM_JSON(param, js, colorScheme);
         FROM_JSON(param, js, palette);
     }
@@ -726,6 +722,7 @@ bool from_json(VasculatureReportDetails &param, const std::string &payload)
     try
     {
         auto js = nlohmann::json::parse(payload);
+        FROM_JSON(param, js, assemblyName);
         FROM_JSON(param, js, path);
         FROM_JSON(param, js, populationName);
     }
@@ -742,10 +739,10 @@ bool from_json(VasculatureRadiusReportDetails &param,
     try
     {
         auto js = nlohmann::json::parse(payload);
+        FROM_JSON(param, js, assemblyName);
         FROM_JSON(param, js, path);
         FROM_JSON(param, js, frame);
         FROM_JSON(param, js, amplitude);
-        FROM_JSON(param, js, debug);
     }
     catch (...)
     {

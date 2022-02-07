@@ -78,7 +78,8 @@ bool from_json(ProteinColorSchemeDetails &param, const std::string &payload);
 bool from_json(ModelIdDetails &modelId, const std::string &payload);
 bool from_json(MaterialsDetails &materialsDetails, const std::string &payload);
 std::string to_json(const IdsDetails &param);
-std::string to_json(const ModelNameDetails &param);
+bool from_json(NameDetails &param, const std::string &payload);
+std::string to_json(const NameDetails &param);
 
 // Fields
 bool from_json(BuildFieldsDetails &param, const std::string &payload);
@@ -99,7 +100,6 @@ std::string to_json(const ProteinInspectionDetails &param);
 #ifdef USE_VASCULATURE
 // Vasculature
 bool from_json(VasculatureDetails &param, const std::string &payload);
-std::string to_json(const VasculatureInfoDetails &param);
 bool from_json(VasculatureColorSchemeDetails &param,
                const std::string &payload);
 bool from_json(VasculatureReportDetails &param, const std::string &payload);

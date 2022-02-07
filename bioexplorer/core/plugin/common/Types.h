@@ -72,17 +72,17 @@ const std::string ENV_ROCKETS_DISABLE_SCENE_BROADCASTING =
     "ROCKETS_DISABLE_SCENE_BROADCASTING";
 
 // Typedefs
-typedef std::map<std::string, std::string> StringMap;
-typedef Vector3d Color;
-typedef std::vector<Color> Palette;
-typedef std::vector<Quaterniond> Quaternions;
-typedef std::vector<double> doubles;
-typedef std::vector<Vector3d> Vector3ds;
-typedef std::vector<Vector4d> Vector4ds;
-typedef std::vector<Vector2ui> Vector2uis;
-typedef std::vector<uint32_t> uint32_ts;
-typedef std::map<std::string, std::string> CommandLineArguments;
-typedef std::vector<Transformation> Transformations;
+using StringMap = std::map<std::string, std::string>;
+using Color = Vector3d;
+using Palette = std::vector<Color>;
+using Quaternions = std::vector<Quaterniond>;
+using doubles = std::vector<double>;
+using Vector3ds = std::vector<Vector3d>;
+using Vector4ds = std::vector<Vector4d>;
+using Vector2uis = std::vector<Vector2ui>;
+using uint32_ts = std::vector<uint32_t>;
+using CommandLineArguments = std::map<std::string, std::string>;
+using Transformations = std::vector<Transformation>;
 
 namespace details
 {
@@ -94,7 +94,7 @@ typedef struct
 {
     short r, g, b;
 } RGBColorDetails;
-typedef std::map<std::string, RGBColorDetails> RGBColorDetailsMap;
+using RGBColorDetailsMap = std::map<std::string, RGBColorDetails>;
 
 /**
  * @brief Structure defining the entry point response of the remote API
@@ -601,9 +601,9 @@ typedef struct
  */
 typedef struct
 {
-    /** Model name */
+    /** Element name */
     std::string name;
-} ModelNameDetails;
+} NameDetails;
 
 /**
  * @brief Model identifier
@@ -810,23 +810,21 @@ enum class VasculatureQuality
 
 typedef struct
 {
-    std::string name;
+    /** Name of the assembly containing the vasculature */
+    std::string assemblyName;
+    /** Full filename of the vasculature data */
     std::string filename;
+    /** Use Signed Distance Fields as geometry */
     bool useSdf;
+    /** Node gids to load. All if empty */
     std::vector<uint32_t> gids;
+    /** Load capilarities */
     bool loadCapilarities;
+    /** Geometry quality */
     VasculatureQuality quality;
+    /** Radius correction, only applied if different from 0.0 */
     double radiusCorrection;
 } VasculatureDetails;
-
-typedef struct
-{
-    uint64_t modelId;
-    uint64_t nbNodes;
-    uint64_t nbSubGraphs;
-    uint64_t nbPairs;
-    uint64_t nbSections;
-} VasculatureInfoDetails;
 
 /**
  * @brief Defines the color scheme to apply to a vasculature
@@ -834,6 +832,8 @@ typedef struct
  */
 typedef struct
 {
+    /** Name of the assembly containing the vasculature */
+    std::string assemblyName;
     /** Color scheme **/
     VasculatureColorScheme colorScheme;
     /** Palette of colors (RGB values) */
@@ -842,16 +842,21 @@ typedef struct
 
 typedef struct
 {
+    /** Name of the assembly containing the vasculature */
+    std::string assemblyName;
+    /** Full filename of the vasculature data */
     std::string path;
+    /** Name of the population on which the report applies */
     std::string populationName;
 } VasculatureReportDetails;
 
 typedef struct
 {
+    /** Name of the assembly containing the vasculature */
+    std::string assemblyName;
     std::string path;
     uint64_t frame;
     double amplitude;
-    bool debug;
 } VasculatureRadiusReportDetails;
 #endif
 } // namespace details
@@ -859,36 +864,36 @@ typedef struct
 namespace common
 {
 class Assembly;
-typedef std::shared_ptr<Assembly> AssemblyPtr;
-typedef std::map<std::string, AssemblyPtr> AssemblyMap;
+using AssemblyPtr = std::shared_ptr<Assembly>;
+using AssemblyMap = std::map<std::string, AssemblyPtr>;
 
 enum class AssemblyConstraintType
 {
     inside = 0,
     outside = 1
 };
-typedef std::pair<AssemblyConstraintType, AssemblyPtr> AssemblyConstraint;
-typedef std::vector<AssemblyConstraint> AssemblyConstraints;
+using AssemblyConstraint = std::pair<AssemblyConstraintType, AssemblyPtr>;
+using AssemblyConstraints = std::vector<AssemblyConstraint>;
 } // namespace common
 
 namespace molecularsystems
 {
-typedef std::vector<ModelDescriptorPtr> ModelDescriptors;
+using ModelDescriptors = std::vector<ModelDescriptorPtr>;
 
 class Membrane;
-typedef std::shared_ptr<Membrane> MembranePtr;
+using MembranePtr = std::shared_ptr<Membrane>;
 
 class Protein;
-typedef std::shared_ptr<Protein> ProteinPtr;
-typedef std::map<std::string, ProteinPtr> ProteinMap;
+using ProteinPtr = std::shared_ptr<Protein>;
+using ProteinMap = std::map<std::string, ProteinPtr>;
 
 class Glycans;
-typedef std::shared_ptr<Glycans> GlycansPtr;
-typedef std::map<std::string, GlycansPtr> GlycansMap;
+using GlycansPtr = std::shared_ptr<Glycans>;
+using GlycansMap = std::map<std::string, GlycansPtr>;
 
 class RNASequence;
-typedef std::shared_ptr<RNASequence> RNASequencePtr;
-typedef std::map<std::string, std::string> RNASequenceMap;
+using RNASequencePtr = std::shared_ptr<RNASequence>;
+using RNASequenceMap = std::map<std::string, std::string>;
 
 /**
  * @brief Structure containing information about an atom, as stored in a PDB
@@ -922,7 +927,7 @@ typedef struct
     /** Radius */
     double radius;
 } Atom;
-typedef std::multimap<size_t, Atom, std::less<size_t>> AtomMap;
+using AtomMap = std::multimap<size_t, Atom, std::less<size_t>>;
 
 /**
  * @brief Sequence of residues
@@ -937,13 +942,13 @@ typedef struct
     /** Atom Offset */
     size_t offset;
 } ResidueSequence;
-typedef std::map<std::string, ResidueSequence> ResidueSequenceMap;
+using ResidueSequenceMap = std::map<std::string, ResidueSequence>;
 
 /**
  * @brief Bonds map
  *
  */
-typedef std::map<size_t, std::vector<size_t>> BondsMap;
+using BondsMap = std::map<size_t, std::vector<size_t>>;
 
 /**
  * @brief Structure containing amino acids long and shot names
@@ -956,19 +961,19 @@ typedef struct
     /** Short name of the amino acid*/
     std::string shortName;
 } AminoAcid;
-typedef std::map<std::string, AminoAcid> AminoAcidMap;
+using AminoAcidMap = std::map<std::string, AminoAcid>;
 
 /**
  * @brief Set of residue names
  *
  */
-typedef std::set<std::string> Residues;
+using Residues = std::set<std::string>;
 
 /**
  * @brief Atom radii in microns
  *
  */
-typedef std::map<std::string, double> AtomicRadii;
+using AtomicRadii = std::map<std::string, double>;
 
 // Amino acids
 static AminoAcidMap aminoAcidMap = {{".", {".", "."}},
@@ -1055,6 +1060,14 @@ static details::RGBColorDetailsMap atomColorMap = {
     {"O1", {0xFF, 0x0D, 0x0D}}, {"selection", {0xFF, 0x00, 0x00}}};
 } // namespace molecularsystems
 
+#ifdef USE_VASCULATURE
+namespace vasculature
+{
+class Vasculature;
+using VasculaturePtr = std::shared_ptr<Vasculature>;
+} // namespace vasculature
+#endif
+
 namespace geometry
 {
 // SDF structures
@@ -1074,6 +1087,6 @@ namespace io
 {
 // Out of core brick manager
 class OOCManager;
-typedef std::shared_ptr<OOCManager> OOCManagerPtr;
+using OOCManagerPtr = std::shared_ptr<OOCManager>;
 } // namespace io
 } // namespace bioexplorer

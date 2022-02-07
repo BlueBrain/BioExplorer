@@ -30,6 +30,9 @@ namespace common
 using namespace common;
 using namespace details;
 using namespace molecularsystems;
+#ifdef USE_VASCULATURE
+using namespace vasculature;
+#endif
 
 /**
  * @brief The Assembly class is a container for biological entities (proteins,
@@ -190,6 +193,16 @@ public:
                                      const Vector3d &direction,
                                      double &t) const;
 
+#ifdef USE_VASCULATURE
+    void addVasculature(const VasculatureDetails &details);
+    std::string getVasculatureInfo() const;
+    void setVasculatureColorScheme(
+        const VasculatureColorSchemeDetails &payload);
+    void setVasculatureReport(const VasculatureReportDetails &payload);
+    void setVasculatureRadiusReport(
+        const VasculatureRadiusReportDetails &details);
+#endif
+
 private:
     void _processInstances(ModelDescriptorPtr md, const std::string &name,
                            const size_t occurrences, const Vector3d &position,
@@ -209,6 +222,9 @@ private:
     Vector4ds _clippingPlanes;
     ModelDescriptors _modelDescriptors;
     ShapePtr _shape{nullptr};
+#ifdef USE_VASCULATURE
+    VasculaturePtr _vasculature{nullptr};
+#endif
 };
 } // namespace common
 } // namespace bioexplorer
