@@ -12,7 +12,7 @@ var searchData=
   ['materialsdetails_156',['MaterialsDetails',['../d7/d84/structbioexplorer_1_1details_1_1MaterialsDetails.html',1,'bioexplorer::details']]],
   ['maxnbinstances_157',['maxNbInstances',['../d6/dc9/structbioexplorer_1_1details_1_1ModelIdDetails.html#a27704343af1e295a8b51048970531842',1,'bioexplorer::details::ModelIdDetails']]],
   ['maxvalue_158',['maxValue',['../db/dd8/structbioexplorer_1_1details_1_1AddGridDetails.html#a02aaba84f0a972e471b70f0dcc7ec1c4',1,'bioexplorer::details::AddGridDetails']]],
-  ['membrane_159',['Membrane',['../de/dd4/classbioexplorer_1_1biology_1_1Membrane.html',1,'bioexplorer::biology::Membrane'],['../de/dd4/classbioexplorer_1_1biology_1_1Membrane.html#a28d5c016c8acf44fcf077c74a0be2342',1,'bioexplorer::biology::Membrane::Membrane()']]],
+  ['membrane_159',['Membrane',['../d4/d3d/classbioexplorer_1_1molecularsystems_1_1Membrane.html',1,'bioexplorer::molecularsystems::Membrane'],['../d4/d3d/classbioexplorer_1_1molecularsystems_1_1Membrane.html#aefb9dddeab45a8ce8de3a9b1638b09a9',1,'bioexplorer::molecularsystems::Membrane::Membrane()']]],
   ['membranedetails_160',['MembraneDetails',['../d0/ddb/structbioexplorer_1_1details_1_1MembraneDetails.html',1,'bioexplorer::details']]],
   ['meshshape_161',['MeshShape',['../df/d25/classbioexplorer_1_1common_1_1MeshShape.html',1,'bioexplorer::common::MeshShape'],['../df/d25/classbioexplorer_1_1common_1_1MeshShape.html#a63897ad73101812b12f70c3b5425774b',1,'bioexplorer::common::MeshShape::MeshShape()']]],
   ['minvalue_162',['minValue',['../db/dd8/structbioexplorer_1_1details_1_1AddGridDetails.html#ab7bf234a15bb6e99592e40fba821a2da',1,'bioexplorer::details::AddGridDetails']]],
@@ -20,7 +20,6 @@ var searchData=
   ['modeliddetails_164',['ModelIdDetails',['../d6/dc9/structbioexplorer_1_1details_1_1ModelIdDetails.html',1,'bioexplorer::details']]],
   ['modelidfileaccessdetails_165',['ModelIdFileAccessDetails',['../d8/d1b/structbioexplorer_1_1details_1_1ModelIdFileAccessDetails.html',1,'bioexplorer::details']]],
   ['modelids_166',['modelIds',['../d7/d84/structbioexplorer_1_1details_1_1MaterialsDetails.html#a1907d0558dea63b36e4ade285a06bfb5',1,'bioexplorer::details::MaterialsDetails']]],
-  ['modelnamedetails_167',['ModelNameDetails',['../dd/d11/structbioexplorer_1_1details_1_1ModelNameDetails.html',1,'bioexplorer::details']]],
-  ['modelsvisibilitydetails_168',['ModelsVisibilityDetails',['../d7/dbc/structbioexplorer_1_1details_1_1ModelsVisibilityDetails.html',1,'bioexplorer::details']]],
-  ['molecule_169',['Molecule',['../d7/dff/classbioexplorer_1_1biology_1_1Molecule.html',1,'bioexplorer::biology::Molecule'],['../d7/dff/classbioexplorer_1_1biology_1_1Molecule.html#a6e92ebcb753bdf4f5cd8e711b1ae38bd',1,'bioexplorer::biology::Molecule::Molecule()']]]
+  ['modelsvisibilitydetails_167',['ModelsVisibilityDetails',['../d7/dbc/structbioexplorer_1_1details_1_1ModelsVisibilityDetails.html',1,'bioexplorer::details']]],
+  ['molecule_168',['Molecule',['../da/dff/classbioexplorer_1_1molecularsystems_1_1Molecule.html',1,'bioexplorer::molecularsystems::Molecule'],['../da/dff/classbioexplorer_1_1molecularsystems_1_1Molecule.html#a95966fcc21dea310654bc2c4aedf02f1',1,'bioexplorer::molecularsystems::Molecule::Molecule()']]]
 ];

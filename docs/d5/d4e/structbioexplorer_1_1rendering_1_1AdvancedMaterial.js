@@ -3,6 +3,7 @@ var structbioexplorer_1_1rendering_1_1AdvancedMaterial =
     [ "commit", "d5/d4e/structbioexplorer_1_1rendering_1_1AdvancedMaterial.html#a183fa5745072608cafb0f4f05d0a751d", null ],
     [ "toString", "d5/d4e/structbioexplorer_1_1rendering_1_1AdvancedMaterial.html#a563c10fba82b4cbefbc8a158dd017ee2", null ],
     [ "a", "d5/d4e/structbioexplorer_1_1rendering_1_1AdvancedMaterial.html#aad1a555bd7954d453d2e34f50b0d28db", null ],
+    [ "castSimulationData", "d5/d4e/structbioexplorer_1_1rendering_1_1AdvancedMaterial.html#a47664ae892915cd2ad0641a57d0a1dcf", null ],
     [ "chameleonMode", "d5/d4e/structbioexplorer_1_1rendering_1_1AdvancedMaterial.html#a64565093b51b8f9abcc766416a236578", null ],
     [ "d", "d5/d4e/structbioexplorer_1_1rendering_1_1AdvancedMaterial.html#aa4e4437ffa4b9e9a870f5dbc945c3104", null ],
     [ "glossiness", "d5/d4e/structbioexplorer_1_1rendering_1_1AdvancedMaterial.html#a934c90350391af53a74e99aec054e9b8", null ],

@@ -30,45 +30,46 @@ var NAVTREE =
         [ "Assemblies", "index.html#autotoc_md4", null ],
         [ "Proteins", "index.html#autotoc_md5", null ],
         [ "Glycans", "index.html#autotoc_md6", null ],
-        [ "RNA sequence (work in progress)", "index.html#autotoc_md7", null ],
+        [ "RNA sequence", "index.html#autotoc_md7", null ],
         [ "Mesh-based membranes", "index.html#autotoc_md8", null ],
         [ "Virus", "index.html#autotoc_md9", null ],
-        [ "Membrane", "index.html#autotoc_md10", null ]
+        [ "Membrane", "index.html#autotoc_md10", null ],
+        [ "Vasculature", "index.html#autotoc_md11", null ]
       ] ],
-      [ "Python SDK", "index.html#autotoc_md11", null ],
-      [ "Documentation", "index.html#autotoc_md12", null ],
-      [ "Deployment", "index.html#autotoc_md13", [
-        [ "Server", "index.html#autotoc_md14", null ],
-        [ "Python SDK", "index.html#autotoc_md15", null ],
-        [ "Web User Interface", "index.html#autotoc_md16", null ]
+      [ "Python SDK", "index.html#autotoc_md12", null ],
+      [ "Documentation", "index.html#autotoc_md13", null ],
+      [ "Deployment", "index.html#autotoc_md14", [
+        [ "Server", "index.html#autotoc_md15", null ],
+        [ "Python SDK", "index.html#autotoc_md16", null ],
+        [ "Web User Interface", "index.html#autotoc_md17", null ]
       ] ],
-      [ "Building from Source", "index.html#autotoc_md17", [
-        [ "Blue Brain Brayns", "index.html#autotoc_md18", null ],
-        [ "BioExplorer", "index.html#autotoc_md19", [
-          [ "Compile", "index.html#autotoc_md20", null ],
-          [ "Run", "index.html#autotoc_md21", null ]
+      [ "Building from Source", "index.html#autotoc_md18", [
+        [ "Blue Brain Brayns", "index.html#autotoc_md19", null ],
+        [ "BioExplorer", "index.html#autotoc_md20", [
+          [ "Compile", "index.html#autotoc_md21", null ],
+          [ "Run", "index.html#autotoc_md22", null ]
         ] ]
       ] ],
-      [ "Simple example", "index.html#autotoc_md22", null ]
+      [ "Simple example", "index.html#autotoc_md23", null ]
     ] ],
-    [ "License", "index.html#autotoc_md23", null ],
-    [ "Contact", "index.html#autotoc_md24", null ],
-    [ "Funding & Acknowledgment", "index.html#autotoc_md25", null ],
+    [ "License", "index.html#autotoc_md24", null ],
+    [ "Contact", "index.html#autotoc_md25", null ],
+    [ "Funding & Acknowledgment", "index.html#autotoc_md26", null ],
     [ "Docker", "d9/d23/md__home_favreau_git_BioExplorer_DOCKER.html", [
-      [ "Prerequisites", "d9/d23/md__home_favreau_git_BioExplorer_DOCKER.html#autotoc_md27", null ],
-      [ "Setup", "d9/d23/md__home_favreau_git_BioExplorer_DOCKER.html#autotoc_md28", null ],
-      [ "Usage", "d9/d23/md__home_favreau_git_BioExplorer_DOCKER.html#autotoc_md29", null ]
+      [ "Prerequisites", "d9/d23/md__home_favreau_git_BioExplorer_DOCKER.html#autotoc_md28", null ],
+      [ "Setup", "d9/d23/md__home_favreau_git_BioExplorer_DOCKER.html#autotoc_md29", null ],
+      [ "Usage", "d9/d23/md__home_favreau_git_BioExplorer_DOCKER.html#autotoc_md30", null ]
     ] ],
     [ "User guide", "d0/de8/md__home_favreau_git_BioExplorer_bioexplorer_pythonsdk_doc_source_USERGUIDE.html", [
-      [ "Protein", "d0/de8/md__home_favreau_git_BioExplorer_bioexplorer_pythonsdk_doc_source_USERGUIDE.html#autotoc_md31", null ],
-      [ "Glycan", "d0/de8/md__home_favreau_git_BioExplorer_bioexplorer_pythonsdk_doc_source_USERGUIDE.html#autotoc_md32", null ],
-      [ "RNA sequence", "d0/de8/md__home_favreau_git_BioExplorer_bioexplorer_pythonsdk_doc_source_USERGUIDE.html#autotoc_md33", null ],
-      [ "Membrane", "d0/de8/md__home_favreau_git_BioExplorer_bioexplorer_pythonsdk_doc_source_USERGUIDE.html#autotoc_md34", null ],
-      [ "Surfactants", "d0/de8/md__home_favreau_git_BioExplorer_bioexplorer_pythonsdk_doc_source_USERGUIDE.html#autotoc_md35", null ],
-      [ "Virus", "d0/de8/md__home_favreau_git_BioExplorer_bioexplorer_pythonsdk_doc_source_USERGUIDE.html#autotoc_md36", null ],
-      [ "Host cell", "d0/de8/md__home_favreau_git_BioExplorer_bioexplorer_pythonsdk_doc_source_USERGUIDE.html#autotoc_md37", null ],
-      [ "Glycans Models", "d0/de8/md__home_favreau_git_BioExplorer_bioexplorer_pythonsdk_doc_source_USERGUIDE.html#autotoc_md38", null ],
-      [ "Visualization", "d0/de8/md__home_favreau_git_BioExplorer_bioexplorer_pythonsdk_doc_source_USERGUIDE.html#autotoc_md39", null ]
+      [ "Protein", "d0/de8/md__home_favreau_git_BioExplorer_bioexplorer_pythonsdk_doc_source_USERGUIDE.html#autotoc_md32", null ],
+      [ "Glycan", "d0/de8/md__home_favreau_git_BioExplorer_bioexplorer_pythonsdk_doc_source_USERGUIDE.html#autotoc_md33", null ],
+      [ "RNA sequence", "d0/de8/md__home_favreau_git_BioExplorer_bioexplorer_pythonsdk_doc_source_USERGUIDE.html#autotoc_md34", null ],
+      [ "Membrane", "d0/de8/md__home_favreau_git_BioExplorer_bioexplorer_pythonsdk_doc_source_USERGUIDE.html#autotoc_md35", null ],
+      [ "Surfactants", "d0/de8/md__home_favreau_git_BioExplorer_bioexplorer_pythonsdk_doc_source_USERGUIDE.html#autotoc_md36", null ],
+      [ "Virus", "d0/de8/md__home_favreau_git_BioExplorer_bioexplorer_pythonsdk_doc_source_USERGUIDE.html#autotoc_md37", null ],
+      [ "Host cell", "d0/de8/md__home_favreau_git_BioExplorer_bioexplorer_pythonsdk_doc_source_USERGUIDE.html#autotoc_md38", null ],
+      [ "Glycans Models", "d0/de8/md__home_favreau_git_BioExplorer_bioexplorer_pythonsdk_doc_source_USERGUIDE.html#autotoc_md39", null ],
+      [ "Visualization", "d0/de8/md__home_favreau_git_BioExplorer_bioexplorer_pythonsdk_doc_source_USERGUIDE.html#autotoc_md40", null ]
     ] ],
     [ "Classes", "annotated.html", [
       [ "Class List", "annotated.html", "annotated_dup" ],
@@ -89,8 +90,8 @@ var NAVTREE =
 var NAVTREEINDEX =
 [
 ".html",
-"d6/dc2/classbioexplorer_1_1biology_1_1Assembly.html#afd5a58cda3b6421ecc7fe393676a8694",
-"dc/d5b/structbioexplorer_1_1details_1_1BuildFieldsDetails.html#a0599983952d3097fbf88919ea4209047"
+"d5/d4e/structbioexplorer_1_1rendering_1_1AdvancedMaterial.html#ac6950871bfaa04c6c1cd743b05f2747c",
+"db/d48/structbioexplorer_1_1details_1_1AddSphereDetails.html#a4fcf11e225ede768c2470d92118456e5"
 ];
 
 var SYNCONMSG = 'click to disable panel synchronisation';
