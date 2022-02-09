@@ -27,3 +27,8 @@ option(BRAYNS_VRPN_ENABLED "Activate vrpn plugin" OFF)
 if(BRAYNS_VRPN_ENABLED)
   add_subdirectory(VRPN)
 endif()
+
+option(BRAYNS_EEG_ENABLED "Activate ElectroEncephaloGram plugin" OFF)
+if(BRAYNS_EEG_ENABLED)
+  add_subdirectory(EEG)
+endif()
