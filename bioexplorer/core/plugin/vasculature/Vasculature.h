@@ -42,20 +42,6 @@ enum class EdgeType
     vein = 2
 };
 
-typedef struct
-{
-    Vector3d startPosition;
-    double startRadius;
-    Vector3d endPosition;
-    double endRadius;
-    uint64_t sectionId;
-    uint64_t graphId;
-    uint64_t type;
-    uint64_t pairId{0};
-    uint64_t entryNode;
-} VasculatureNode;
-typedef std::map<uint64_t, VasculatureNode> VasculatureNodes;
-
 /**
  * Load vasculature from H5 file
  */
@@ -71,11 +57,11 @@ public:
     uint64_t getNbNodes() const { return _nodes.size(); }
     uint64_t getNbSubGraphs() const { return _graphs.size(); }
     uint64_t getNbPairs() const { return _nbPairs; }
+    uint64_t getNbEntryNodes() const { return _nbEntryNodes; }
     uint64_t getNbSections() const { return _sectionIds.size(); }
     uint64_t getPopulationSize() const { return _populationSize; }
 
-private:
-    void _importFromFile();
+    void _importFromDB();
     void _buildModel(const VasculatureColorSchemeDetails& details =
                          VasculatureColorSchemeDetails());
     size_t _addSDFGeometry(SDFMorphologyData& sdfMorphologyData,
@@ -95,12 +81,13 @@ private:
 
     const VasculatureDetails _details;
     Scene& _scene;
-    VasculatureNodes _nodes;
+    GeometryNodes _nodes;
     uint64_t _populationSize{0};
     std::set<uint64_t> _graphs;
     std::set<uint64_t> _sectionIds;
     std::map<uint64_t, uint64_ts> _sections;
     uint64_t _nbPairs{0};
+    uint64_t _nbEntryNodes{0};
 };
 } // namespace vasculature
 } // namespace bioexplorer

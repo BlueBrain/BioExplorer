@@ -162,12 +162,8 @@ private:
     double _averageLoadingTime{0.f};
 
     // IO
-#ifdef USE_PQXX
     std::string _dbConnectionString;
     std::string _dbSchema;
-#else
-    std::string _bricksFolder;
-#endif
 };
 } // namespace io
 } // namespace bioexplorer

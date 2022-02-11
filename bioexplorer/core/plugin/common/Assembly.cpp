@@ -593,7 +593,8 @@ std::string Assembly::getVasculatureInfo() const
       << "nbNodes=" << _vasculature->getNbNodes() << CONTENTS_DELIMITER
       << "nbSubGraphs=" << _vasculature->getNbSubGraphs() << CONTENTS_DELIMITER
       << "nbSections=" << _vasculature->getNbSections() << CONTENTS_DELIMITER
-      << "nbPairs=" << _vasculature->getNbPairs();
+      << "nbPairs=" << _vasculature->getNbPairs() << CONTENTS_DELIMITER
+      << "nbEntryNodes=" << _vasculature->getNbEntryNodes();
     return s.str().c_str();
 }
 
@@ -621,9 +622,7 @@ void Assembly::setVasculatureReport(const VasculatureReportDetails &details)
         PLUGIN_THROW("No vasculature is currently loaded");
 
     auto modelDescriptor = _vasculature->getModelDescriptor();
-    auto handler =
-        std::make_shared<VasculatureHandler>(details,
-                                             _vasculature->getPopulationSize());
+    auto handler = std::make_shared<VasculatureHandler>(details);
     auto &model = modelDescriptor->getModel();
     model.setSimulationHandler(handler);
 }

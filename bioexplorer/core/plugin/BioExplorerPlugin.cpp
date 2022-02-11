@@ -37,16 +37,11 @@
 #include <brayns/parameters/ParametersManager.h>
 #include <brayns/pluginapi/Plugin.h>
 
-#ifdef USE_VASCULATURE
-#include <bbp/sonata/common.h>
-#include <highfive/H5File.hpp>
-using namespace bbp::sonata;
-#endif
-
 namespace bioexplorer
 {
 using namespace common;
 using namespace io;
+using namespace db;
 
 const std::string PLUGIN_API_PREFIX = "be-";
 
@@ -58,22 +53,6 @@ const std::string PLUGIN_API_PREFIX = "be-";
         response.status = false;        \
         response.contents = e.what();   \
         PLUGIN_ERROR(e.what());         \
-    }
-
-#define CATCH_SONATA_EXCEPTION()      \
-    catch (const SonataError &e)      \
-    {                                 \
-        response.status = false;      \
-        response.contents = e.what(); \
-        PLUGIN_ERROR(e.what());       \
-    }
-
-#define CATCH_HIGHFIVE_EXCEPTION()       \
-    catch (const HighFive::Exception &e) \
-    {                                    \
-        response.status = false;         \
-        response.contents = e.what();    \
-        PLUGIN_ERROR(e.what());          \
     }
 
 #define ASSEMBLY_CALL(__name__, __stmt__)               \
@@ -92,8 +71,6 @@ const std::string PLUGIN_API_PREFIX = "be-";
             response.contents = msg.str();              \
         }                                               \
     }                                                   \
-    CATCH_SONATA_EXCEPTION()                            \
-    CATCH_HIGHFIVE_EXCEPTION()                          \
     CATCH_STD_EXCEPTION()                               \
     return response;
 
@@ -113,8 +90,6 @@ const std::string PLUGIN_API_PREFIX = "be-";
             response.contents = msg.str();             \
         }                                              \
     }                                                  \
-    CATCH_SONATA_EXCEPTION()                           \
-    CATCH_HIGHFIVE_EXCEPTION()                         \
     CATCH_STD_EXCEPTION()                              \
     return response;
 #endif
@@ -529,14 +504,12 @@ void BioExplorerPlugin::init()
                     return _inspectProtein(payload);
                 });
 
-#ifdef USE_PQXX
         endPoint = PLUGIN_API_PREFIX + "export-to-database";
         PLUGIN_INFO(1, "Registering '" + endPoint + "' endpoint");
         actionInterface->registerRequest<DatabaseAccessDetails, Response>(
             endPoint, [&](const DatabaseAccessDetails &payload) {
-                return _exportToDatabase(payload);
+                return _exportBrickToDatabase(payload);
             });
-#endif
 
 #ifdef USE_VASCULATURE
         endPoint = PLUGIN_API_PREFIX + "add-vasculature";
@@ -585,6 +558,10 @@ void BioExplorerPlugin::init()
     _addBioExplorerFieldsRenderer(engine);
     _addBioExplorerDensityRenderer(engine);
     _addBioExplorerPathTracingRenderer(engine);
+
+    // Database
+    auto &dbConnector = DBConnector::getInstance();
+    dbConnector.init(_commandLineArguments);
 
     // Out-of-core
     if (_commandLineArguments.find(ARG_OOC_ENABLED) !=
@@ -1676,8 +1653,7 @@ ProteinInspectionDetails BioExplorerPlugin::_inspectProtein(
     return result;
 }
 
-#ifdef USE_PQXX
-Response BioExplorerPlugin::_exportToDatabase(
+Response BioExplorerPlugin::_exportBrickToDatabase(
     const DatabaseAccessDetails &payload)
 {
     Response response;
@@ -1687,13 +1663,11 @@ Response BioExplorerPlugin::_exportToDatabase(
             vector_to_bounds(payload.lowBounds, payload.highBounds);
         auto &scene = _api->getScene();
         CacheLoader loader(scene);
-        DBConnector connector(payload.connectionString, payload.schema);
-        loader.exportBrickToDB(connector, payload.brickId, bounds);
+        loader.exportBrickToDB(payload.brickId, bounds);
     }
     CATCH_STD_EXCEPTION()
     return response;
 }
-#endif
 
 #ifdef USE_VASCULATURE
 Response BioExplorerPlugin::_addVasculature(const VasculatureDetails &payload)
@@ -1763,9 +1737,7 @@ extern "C" ExtensionPlugin *brayns_plugin_create(int argc, char **argv)
 #ifdef USE_CGAL
     PLUGIN_INFO(1, "- CGAL module loaded");
 #endif
-#ifdef USE_PQXX
     PLUGIN_INFO(1, "- Postgresql module loaded");
-#endif
 
     return new BioExplorerPlugin(argc, argv);
 }

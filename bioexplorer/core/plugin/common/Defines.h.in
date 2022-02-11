@@ -27,11 +27,6 @@
 #  define USE_CGAL
 #endif
 
-// PQXX
-#if @PQXX_FOUND@==1
-#  define USE_PQXX
-#endif
-
 // Vasculature
 #if @USE_VASCULATURE@==1
 #  define USE_VASCULATURE

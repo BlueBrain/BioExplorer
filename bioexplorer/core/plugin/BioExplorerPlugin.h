@@ -71,10 +71,9 @@ private:
     Response _exportToFile(const FileAccessDetails &payload);
     Response _importFromFile(const FileAccessDetails &payload);
     Response _exportToXYZ(const FileAccessDetails &payload);
-#ifdef USE_PQXX
+
     // DB
-    Response _exportToDatabase(const DatabaseAccessDetails &payload);
-#endif
+    Response _exportBrickToDatabase(const DatabaseAccessDetails &payload);
 
     // Biological elements
     Response _addAssembly(const AssemblyDetails &payload);

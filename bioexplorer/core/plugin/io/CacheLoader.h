@@ -134,26 +134,20 @@ public:
      */
     void exportToFile(const std::string& filename, const Boxd& bounds) const;
 
-#ifdef USE_PQXX
     /**
      * @brief
      *
-     * @param connectionString
-     * @param schema
      * @param brickId
      * @return std::vector<ModelDescriptorPtr>
      */
     std::vector<ModelDescriptorPtr> importBrickFromDB(
-        DBConnector& connector, const int32_t brickId) const;
+        const int32_t brickId) const;
 
     /**
      * @brief Exports an optimized binary representation the 3D scene to a DB
      *
-     * @param connectionString Connection string to the DB
      */
-    void exportBrickToDB(DBConnector& connector, const int32_t brickId,
-                         const Boxd& bounds) const;
-#endif
+    void exportBrickToDB(const int32_t brickId, const Boxd& bounds) const;
 
     /**
      * @brief Exports atom information from the 3D scene to a file

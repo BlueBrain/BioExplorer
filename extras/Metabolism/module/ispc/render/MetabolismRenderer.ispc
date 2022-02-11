@@ -136,7 +136,7 @@ inline vec3f MetabolismRenderer_shadeRay(
                         stackLocations[stackIndex] = location;
 
                         ++intersectionIndex;
-                        if (intersectionIndex > NB_MAX_INTERSECTIONS)
+                        if (intersectionIndex >= NB_MAX_INTERSECTIONS)
                             return make_vec3f(0, 0, 1);
 
                         intersectionDistances[intersectionIndex] = distance;
@@ -180,6 +180,9 @@ inline vec3f MetabolismRenderer_shadeRay(
         }
         else
             break;
+
+        if (intersectionIndex >= NB_MAX_INTERSECTIONS)
+            break;
     }
 
     // How many intersections on that ray?
@@ -198,7 +201,8 @@ inline vec3f MetabolismRenderer_shadeRay(
     float finalAlpha = 0.f;
     uint32 currentIntersection = 0;
     uint32 lastVisibleIntersection = 0;
-    while (finalAlpha < 1.f && t < self->farPlane)
+    while (finalAlpha < 1.f && t < self->farPlane &&
+           currentIntersection < NB_MAX_INTERSECTIONS)
     {
         if (t > intersectionDistances[currentIntersection])
             ++currentIntersection;

@@ -17,7 +17,6 @@ set(${NAME}_VERSION_ABI 1)
 # ==============================================================================
 option(${NAME}_USE_VASCULATURE "Use vasculature features" ON)
 option(${NAME}_USE_CGAL "Use CGAL meshing features" ON)
-option(${NAME}_USE_PQXX "Use PostgreSQL database" ON)
 
 add_subdirectory(deps)
 
@@ -30,18 +29,13 @@ if(${${NAME}_USE_CGAL})
     find_package(CGAL REQUIRED)
 endif()
 
-set(PQXX_FOUND 0)
-if(${${NAME}_USE_PQXX})
-    unset(PQXX_INCLUDE_DIRECTORIES CACHE)
-    unset(PQXX_LIBRARIES CACHE)
-    find_package(PQXX REQUIRED)
-endif()
-
 set(USE_VASCULATURE 0)
 if(${NAME}_USE_VASCULATURE)
   find_package(HDF5 REQUIRED)
   set(USE_VASCULATURE 1)
 endif()
+
+find_package(PQXX REQUIRED)
 
 include(ispc)
 
@@ -186,13 +180,6 @@ set(${NAME}_LINK_LIBRARIES
     PRIVATE braynsParameters braynsPluginAPI braynsCommon braynsEngine braynsIO
     braynsOSPRayEngine ${FreeImage_LIBRARIES}
 )
-
-if(${NAME}_USE_VASCULATURE)
-    list(APPEND ${NAME}_LINK_LIBRARIES
-        sonata::sonata_shared
-        HighFive
-    )
-endif()
 
 if(${CGAL_FOUND})
     list(APPEND ${NAME}_LINK_LIBRARIES ${CGAL_LIBRARIES})
