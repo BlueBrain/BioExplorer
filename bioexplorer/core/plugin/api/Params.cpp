@@ -267,6 +267,8 @@ bool from_json(RNASequenceDetails &param, const std::string &payload)
         FROM_JSON(param, js, shapeParams);
         FROM_JSON(param, js, valuesRange);
         FROM_JSON(param, js, curveParams);
+        FROM_JSON(param, js, atomRadiusMultiplier);
+        FROM_JSON(param, js, representation);
         FROM_JSON(param, js, position);
         FROM_JSON(param, js, rotation);
         FROM_JSON(param, js, animationParams);

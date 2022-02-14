@@ -608,6 +608,7 @@ class BioExplorer:
                 shape_params=params,
                 values_range=Vector2(-8.0 * math.pi, 8.0 * math.pi),
                 curve_params=Vector3(1.51, 1.12, 1.93),
+                atom_radius_multiplier=atom_radius_multiplier, representation=representation,
                 animation_params=ap
             )
             self.add_rna_sequence(
@@ -1251,6 +1252,8 @@ class BioExplorer:
         params["shapeParams"] = rna_sequence.shape_params.to_list()
         params["valuesRange"] = values_range.to_list()
         params["curveParams"] = curve_params.to_list()
+        params["atomRadiusMultiplier"] = rna_sequence.atom_radius_multiplier
+        params["representation"] = rna_sequence.representation
         params["animationParams"] = rna_sequence.animation_params.to_list()
         params["position"] = rna_sequence.position.to_list()
         params["rotation"] = list(rna_sequence.rotation)
@@ -2344,6 +2347,7 @@ class RNASequence:
 
     def __init__(self, source, shape, shape_params, protein_source='', values_range=Vector2(),
                  curve_params=Vector3(), position=Vector3(), rotation=Quaternion(),
+                 atom_radius_multiplier=1.0, representation=BioExplorer.REPRESENTATION_ATOMS,
                  animation_params=AnimationParams()):
         """
         RNA sequence descriptor
@@ -2370,6 +2374,8 @@ class RNASequence:
         self.shape_params = shape_params.copy()
         self.values_range = values_range.copy()
         self.curve_params = curve_params.copy()
+        self.atom_radius_multiplier = atom_radius_multiplier
+        self.representation = representation
         self.animation_params = animation_params.copy()
         self.position = position.copy()
         self.rotation = rotation

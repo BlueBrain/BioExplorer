@@ -400,6 +400,11 @@ typedef struct
     std::vector<double> valuesRange;
     /** Parameters used to compute the shape */
     std::vector<double> curveParams;
+    /** Multiplier applied to the radius of the molecule atoms */
+    double atomRadiusMultiplier;
+    /** Defines the representation of the molecule (Atoms, atoms and sticks,
+     * surface, etc) */
+    ProteinRepresentation representation;
     /** Animation params */
     std::vector<double> animationParams;
     /** Relative position of the RNA sequence in the assembly */
