@@ -657,8 +657,8 @@ Response BioExplorerPlugin::_resetCamera()
             aabb.merge(instance.getTransformation().getTranslation());
 
     const auto size = aabb.getSize();
-    const double diag = 3.0 * std::max(std::max(size.x, size.y), size.z);
-    camera.setPosition(aabb.getCenter() - Vector3d(0.0, 0.0, -diag));
+    const double diag = 1.6 * std::max(std::max(size.x, size.y), size.z);
+    camera.setPosition(aabb.getCenter() - Vector3d(0.0, 0.0, diag));
     camera.setTarget(aabb.getCenter());
     camera.setOrientation(safeQuatlookAt(Vector3d(0.0, 0.0, 1.0)));
     return response;
