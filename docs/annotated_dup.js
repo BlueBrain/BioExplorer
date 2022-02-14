@@ -7,6 +7,7 @@ var annotated_dup =
         [ "CubeShape", "d5/dd3/classbioexplorer_1_1common_1_1CubeShape.html", "d5/dd3/classbioexplorer_1_1common_1_1CubeShape" ],
         [ "FanShape", "dc/d3d/classbioexplorer_1_1common_1_1FanShape.html", "dc/d3d/classbioexplorer_1_1common_1_1FanShape" ],
         [ "GeneralSettings", "d2/da7/classbioexplorer_1_1common_1_1GeneralSettings.html", "d2/da7/classbioexplorer_1_1common_1_1GeneralSettings" ],
+        [ "GeometryNode", "d7/d1e/structbioexplorer_1_1common_1_1GeometryNode.html", "d7/d1e/structbioexplorer_1_1common_1_1GeometryNode" ],
         [ "MeshShape", "df/d25/classbioexplorer_1_1common_1_1MeshShape.html", "df/d25/classbioexplorer_1_1common_1_1MeshShape" ],
         [ "Node", "d7/d93/classbioexplorer_1_1common_1_1Node.html", "d7/d93/classbioexplorer_1_1common_1_1Node" ],
         [ "PlaneShape", "d8/d3b/classbioexplorer_1_1common_1_1PlaneShape.html", "d8/d3b/classbioexplorer_1_1common_1_1PlaneShape" ],
@@ -63,7 +64,8 @@ var annotated_dup =
       ] ],
       [ "io", null, [
         [ "db", null, [
-          [ "DBConnector", "d9/d96/classbioexplorer_1_1io_1_1db_1_1DBConnector.html", "d9/d96/classbioexplorer_1_1io_1_1db_1_1DBConnector" ]
+          [ "DBConnector", "d9/d96/classbioexplorer_1_1io_1_1db_1_1DBConnector.html", "d9/d96/classbioexplorer_1_1io_1_1db_1_1DBConnector" ],
+          [ "SimulationReport", "da/dc8/structbioexplorer_1_1io_1_1db_1_1SimulationReport.html", "da/dc8/structbioexplorer_1_1io_1_1db_1_1SimulationReport" ]
         ] ],
         [ "CacheLoader", "d1/d5f/classbioexplorer_1_1io_1_1CacheLoader.html", "d1/d5f/classbioexplorer_1_1io_1_1CacheLoader" ],
         [ "OOCManager", "da/d6e/classbioexplorer_1_1io_1_1OOCManager.html", "da/d6e/classbioexplorer_1_1io_1_1OOCManager" ]
@@ -114,8 +116,7 @@ var annotated_dup =
       ] ],
       [ "vasculature", null, [
         [ "Vasculature", "d8/d29/classbioexplorer_1_1vasculature_1_1Vasculature.html", "d8/d29/classbioexplorer_1_1vasculature_1_1Vasculature" ],
-        [ "VasculatureHandler", "d3/d3e/classbioexplorer_1_1vasculature_1_1VasculatureHandler.html", "d3/d3e/classbioexplorer_1_1vasculature_1_1VasculatureHandler" ],
-        [ "VasculatureNode", "d6/d03/structbioexplorer_1_1vasculature_1_1VasculatureNode.html", "d6/d03/structbioexplorer_1_1vasculature_1_1VasculatureNode" ]
+        [ "VasculatureHandler", "d3/d3e/classbioexplorer_1_1vasculature_1_1VasculatureHandler.html", "d3/d3e/classbioexplorer_1_1vasculature_1_1VasculatureHandler" ]
       ] ],
       [ "BioExplorerPlugin", "d7/d7b/classbioexplorer_1_1BioExplorerPlugin.html", "d7/d7b/classbioexplorer_1_1BioExplorerPlugin" ]
     ] ],

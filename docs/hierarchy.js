@@ -39,6 +39,7 @@ var hierarchy =
     [ "bioexplorer::mediamaker::FrameExportProgress", "dd/d6e/structbioexplorer_1_1mediamaker_1_1FrameExportProgress.html", null ],
     [ "bioexplorer::common::GeneralSettings", "d2/da7/classbioexplorer_1_1common_1_1GeneralSettings.html", null ],
     [ "bioexplorer::details::GeneralSettingsDetails", "d0/d14/structbioexplorer_1_1details_1_1GeneralSettingsDetails.html", null ],
+    [ "bioexplorer::common::GeometryNode", "d7/d1e/structbioexplorer_1_1common_1_1GeometryNode.html", null ],
     [ "bioexplorer::details::IdsDetails", "d1/d91/structbioexplorer_1_1details_1_1IdsDetails.html", null ],
     [ "bioexplorer::details::InspectionDetails", "dd/dc0/structbioexplorer_1_1details_1_1InspectionDetails.html", null ],
     [ "Loader", null, [
@@ -103,8 +104,8 @@ var hierarchy =
       [ "bioexplorer::common::SinusoidShape", "d4/d37/classbioexplorer_1_1common_1_1SinusoidShape.html", null ],
       [ "bioexplorer::common::SphereShape", "d5/d1a/classbioexplorer_1_1common_1_1SphereShape.html", null ]
     ] ],
+    [ "bioexplorer::io::db::SimulationReport", "da/dc8/structbioexplorer_1_1io_1_1db_1_1SimulationReport.html", null ],
     [ "bioexplorer::details::SugarsDetails", "dd/d92/structbioexplorer_1_1details_1_1SugarsDetails.html", null ],
     [ "bioexplorer::meshing::SurfaceMesher", "d8/df9/classbioexplorer_1_1meshing_1_1SurfaceMesher.html", null ],
-    [ "bioexplorer::common::UniqueId", "d0/dbd/classbioexplorer_1_1common_1_1UniqueId.html", null ],
-    [ "bioexplorer::vasculature::VasculatureNode", "d6/d03/structbioexplorer_1_1vasculature_1_1VasculatureNode.html", null ]
+    [ "bioexplorer::common::UniqueId", "d0/dbd/classbioexplorer_1_1common_1_1UniqueId.html", null ]
 ];

@@ -1,11 +1,26 @@
 var classbioexplorer_1_1vasculature_1_1Vasculature =
 [
     [ "Vasculature", "d8/d29/classbioexplorer_1_1vasculature_1_1Vasculature.html#ad5a82ba530ffb18a43acb7ff33a980c6", null ],
+    [ "_addSDFGeometry", "d8/d29/classbioexplorer_1_1vasculature_1_1Vasculature.html#a10ebd7a3e3843836da79f0e6da4ca903", null ],
+    [ "_addStepConeGeometry", "d8/d29/classbioexplorer_1_1vasculature_1_1Vasculature.html#a39dba3ceb45dae67dbafe70b2eb21f74", null ],
+    [ "_buildModel", "d8/d29/classbioexplorer_1_1vasculature_1_1Vasculature.html#af94aca2f4b8db53e317a639b338b467d", null ],
+    [ "_finalizeSDFGeometries", "d8/d29/classbioexplorer_1_1vasculature_1_1Vasculature.html#ab6e28cef3cd540448b7d664dad348d06", null ],
+    [ "_importFromDB", "d8/d29/classbioexplorer_1_1vasculature_1_1Vasculature.html#aa178a624f69946ad0cb5f39938e19556", null ],
+    [ "getNbEntryNodes", "d8/d29/classbioexplorer_1_1vasculature_1_1Vasculature.html#a915c84b41df81f063af8d8503d76a461", null ],
     [ "getNbNodes", "d8/d29/classbioexplorer_1_1vasculature_1_1Vasculature.html#aecc215e0ea09794749d30486d4555729", null ],
     [ "getNbPairs", "d8/d29/classbioexplorer_1_1vasculature_1_1Vasculature.html#ad93672c4e2e1cf8f68c41ef9936a9efc", null ],
     [ "getNbSections", "d8/d29/classbioexplorer_1_1vasculature_1_1Vasculature.html#aba07577ed9877a6cda0104ac2f48255e", null ],
     [ "getNbSubGraphs", "d8/d29/classbioexplorer_1_1vasculature_1_1Vasculature.html#ac5994ebd41f558e147d324036d99fd97", null ],
     [ "getPopulationSize", "d8/d29/classbioexplorer_1_1vasculature_1_1Vasculature.html#a6550777f984d6af58d28fac1862c9369", null ],
     [ "setColorScheme", "d8/d29/classbioexplorer_1_1vasculature_1_1Vasculature.html#a7cbb96257242ff4b8907c65b1149cbe1", null ],
-    [ "setRadiusReport", "d8/d29/classbioexplorer_1_1vasculature_1_1Vasculature.html#a224c6ad729f280402c6ad6619ce9d0df", null ]
+    [ "setRadiusReport", "d8/d29/classbioexplorer_1_1vasculature_1_1Vasculature.html#a224c6ad729f280402c6ad6619ce9d0df", null ],
+    [ "_details", "d8/d29/classbioexplorer_1_1vasculature_1_1Vasculature.html#a382fdcc7b5a38d546c9272fe7dd0cd01", null ],
+    [ "_graphs", "d8/d29/classbioexplorer_1_1vasculature_1_1Vasculature.html#a0c715551fe06a9dd416423b712e09c8f", null ],
+    [ "_nbEntryNodes", "d8/d29/classbioexplorer_1_1vasculature_1_1Vasculature.html#a5ea385e777640ea7808177f664a30e57", null ],
+    [ "_nbPairs", "d8/d29/classbioexplorer_1_1vasculature_1_1Vasculature.html#aa54d7101a7186e8fa27aa0036b00bb55", null ],
+    [ "_nodes", "d8/d29/classbioexplorer_1_1vasculature_1_1Vasculature.html#a510b413b1a53023e34799343959fe8ec", null ],
+    [ "_populationSize", "d8/d29/classbioexplorer_1_1vasculature_1_1Vasculature.html#a0e07889cbe7a793a1abeae3247cfe0ed", null ],
+    [ "_scene", "d8/d29/classbioexplorer_1_1vasculature_1_1Vasculature.html#af5620235c5593169ee922dfe8a820f56", null ],
+    [ "_sectionIds", "d8/d29/classbioexplorer_1_1vasculature_1_1Vasculature.html#a8eedd72e0abf44f982be02e6aaabfa87", null ],
+    [ "_sections", "d8/d29/classbioexplorer_1_1vasculature_1_1Vasculature.html#aafb9cb889395450ff2eda50e47f3018d", null ]
 ];

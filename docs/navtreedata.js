@@ -90,9 +90,9 @@ var NAVTREE =
 var NAVTREEINDEX =
 [
 ".html",
-"d4/d19/structbioexplorer_1_1details_1_1ProteinColorSchemeDetails.html#a443c03a43812ef6f549f29a76e1ac38b",
-"d9/d6e/classbioexplorer_1_1fields_1_1FieldsHandler.html#a0ea7ffc0282b783469586eff6dfceeaf",
-"de/d0e/structbioexplorer_1_1details_1_1ProteinDetails.html#a97a2ebc943f4174b9674767cb0a59ef5"
+"d4/d03/structbioexplorer_1_1molecularsystems_1_1AminoAcid.html#a4fb789ca6e0dbf63937e75a937e4e4c0",
+"d8/df6/PathTracingRenderer_8cpp_source.html",
+"dd/da4/classbioexplorer_1_1molecularsystems_1_1Protein.html#aaa7e1d6976b7ccfbf413f56b6a70b048"
 ];
 
 var SYNCONMSG = 'click to disable panel synchronisation';

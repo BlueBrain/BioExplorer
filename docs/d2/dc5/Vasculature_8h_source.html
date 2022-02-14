@@ -130,70 +130,56 @@ $(document).ready(function(){initNavTree('d2/dc5/Vasculature_8h_source.html','..
 <div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;    vein = 2</div>
 <div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;};</div>
 <div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160; </div>
-<div class="line"><a name="l00045"></a><span class="lineno"><a class="line" href="../../d6/d03/structbioexplorer_1_1vasculature_1_1VasculatureNode.html">   45</a></span>&#160;<span class="keyword">typedef</span> <span class="keyword">struct</span></div>
-<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;{</div>
-<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;    Vector3d startPosition;</div>
-<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;    <span class="keywordtype">double</span> startRadius;</div>
-<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;    Vector3d endPosition;</div>
-<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;    <span class="keywordtype">double</span> endRadius;</div>
-<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;    uint64_t sectionId;</div>
-<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;    uint64_t graphId;</div>
-<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;    uint64_t type;</div>
-<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;    uint64_t pairId{0};</div>
-<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;    uint64_t entryNode;</div>
-<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;} <a class="code" href="../../d6/d03/structbioexplorer_1_1vasculature_1_1VasculatureNode.html">VasculatureNode</a>;</div>
-<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;<span class="keyword">typedef</span> std::map&lt;uint64_t, VasculatureNode&gt; VasculatureNodes;</div>
-<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160; </div>
-<div class="line"><a name="l00062"></a><span class="lineno"><a class="line" href="../../d8/d29/classbioexplorer_1_1vasculature_1_1Vasculature.html">   62</a></span>&#160;<span class="keyword">class </span><a class="code" href="../../d8/d29/classbioexplorer_1_1vasculature_1_1Vasculature.html">Vasculature</a> : <span class="keyword">public</span> <a class="code" href="../../d7/d93/classbioexplorer_1_1common_1_1Node.html">common::Node</a></div>
-<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;{</div>
-<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;<span class="keyword">public</span>:</div>
-<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;    <a class="code" href="../../d8/d29/classbioexplorer_1_1vasculature_1_1Vasculature.html">Vasculature</a>(Scene&amp; scene, <span class="keyword">const</span> VasculatureDetails&amp; details);</div>
-<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160; </div>
-<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;    <span class="keywordtype">void</span> setColorScheme(<span class="keyword">const</span> VasculatureColorSchemeDetails&amp; details);</div>
-<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160; </div>
-<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;    <span class="keywordtype">void</span> setRadiusReport(<span class="keyword">const</span> VasculatureRadiusReportDetails&amp; details);</div>
-<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160; </div>
-<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;    uint64_t getNbNodes()<span class="keyword"> const </span>{ <span class="keywordflow">return</span> _nodes.size(); }</div>
-<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;    uint64_t getNbSubGraphs()<span class="keyword"> const </span>{ <span class="keywordflow">return</span> _graphs.size(); }</div>
-<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;    uint64_t getNbPairs()<span class="keyword"> const </span>{ <span class="keywordflow">return</span> _nbPairs; }</div>
-<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;    uint64_t getNbSections()<span class="keyword"> const </span>{ <span class="keywordflow">return</span> _sectionIds.size(); }</div>
-<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;    uint64_t getPopulationSize()<span class="keyword"> const </span>{ <span class="keywordflow">return</span> _populationSize; }</div>
-<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160; </div>
-<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;<span class="keyword">private</span>:</div>
-<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;    <span class="keywordtype">void</span> _importFromFile();</div>
-<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;    <span class="keywordtype">void</span> _buildModel(<span class="keyword">const</span> VasculatureColorSchemeDetails&amp; details =</div>
-<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;                         VasculatureColorSchemeDetails());</div>
-<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;    <span class="keywordtype">size_t</span> _addSDFGeometry(<a class="code" href="../../d1/d25/structbioexplorer_1_1geometry_1_1SDFMorphologyData.html">SDFMorphologyData</a>&amp; sdfMorphologyData,</div>
-<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;                           <span class="keyword">const</span> SDFGeometry&amp; geometry,</div>
-<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;                           <span class="keyword">const</span> std::set&lt;size_t&gt;&amp; neighbours,</div>
-<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;                           <span class="keyword">const</span> <span class="keywordtype">size_t</span> materialId, <span class="keyword">const</span> <span class="keywordtype">int</span> section);</div>
-<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160; </div>
-<div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;    <span class="keywordtype">void</span> _addStepConeGeometry(</div>
-<div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;        <span class="keyword">const</span> <span class="keywordtype">bool</span> useSDF, <span class="keyword">const</span> Vector3d&amp; position, <span class="keyword">const</span> <span class="keywordtype">double</span> radius,</div>
-<div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;        <span class="keyword">const</span> Vector3d&amp; target, <span class="keyword">const</span> <span class="keywordtype">double</span> previousRadius,</div>
-<div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160;        <span class="keyword">const</span> <span class="keywordtype">size_t</span> materialId, <span class="keyword">const</span> uint64_t&amp; userDataOffset, Model&amp; model,</div>
-<div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160;        <a class="code" href="../../d1/d25/structbioexplorer_1_1geometry_1_1SDFMorphologyData.html">SDFMorphologyData</a>&amp; sdfMorphologyData, <span class="keyword">const</span> uint32_t sdfGroupId,</div>
-<div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160;        <span class="keyword">const</span> Vector3f&amp; displacementParams = Vector3f(0.f));</div>
-<div class="line"><a name="l00092"></a><span class="lineno">   92</span>&#160; </div>
-<div class="line"><a name="l00093"></a><span class="lineno">   93</span>&#160;    <span class="keywordtype">void</span> _finalizeSDFGeometries(Model&amp; model,</div>
-<div class="line"><a name="l00094"></a><span class="lineno">   94</span>&#160;                                <a class="code" href="../../d1/d25/structbioexplorer_1_1geometry_1_1SDFMorphologyData.html">SDFMorphologyData</a>&amp; sdfMorphologyData);</div>
-<div class="line"><a name="l00095"></a><span class="lineno">   95</span>&#160; </div>
-<div class="line"><a name="l00096"></a><span class="lineno">   96</span>&#160;    <span class="keyword">const</span> VasculatureDetails _details;</div>
-<div class="line"><a name="l00097"></a><span class="lineno">   97</span>&#160;    Scene&amp; _scene;</div>
-<div class="line"><a name="l00098"></a><span class="lineno">   98</span>&#160;    VasculatureNodes _nodes;</div>
-<div class="line"><a name="l00099"></a><span class="lineno">   99</span>&#160;    uint64_t _populationSize{0};</div>
-<div class="line"><a name="l00100"></a><span class="lineno">  100</span>&#160;    std::set&lt;uint64_t&gt; _graphs;</div>
-<div class="line"><a name="l00101"></a><span class="lineno">  101</span>&#160;    std::set&lt;uint64_t&gt; _sectionIds;</div>
-<div class="line"><a name="l00102"></a><span class="lineno">  102</span>&#160;    std::map&lt;uint64_t, uint64_ts&gt; _sections;</div>
-<div class="line"><a name="l00103"></a><span class="lineno">  103</span>&#160;    uint64_t _nbPairs{0};</div>
-<div class="line"><a name="l00104"></a><span class="lineno">  104</span>&#160;};</div>
-<div class="line"><a name="l00105"></a><span class="lineno">  105</span>&#160;} <span class="comment">// namespace vasculature</span></div>
-<div class="line"><a name="l00106"></a><span class="lineno">  106</span>&#160;} <span class="comment">// namespace bioexplorer</span></div>
+<div class="line"><a name="l00048"></a><span class="lineno"><a class="line" href="../../d8/d29/classbioexplorer_1_1vasculature_1_1Vasculature.html">   48</a></span>&#160;<span class="keyword">class </span><a class="code" href="../../d8/d29/classbioexplorer_1_1vasculature_1_1Vasculature.html">Vasculature</a> : <span class="keyword">public</span> <a class="code" href="../../d7/d93/classbioexplorer_1_1common_1_1Node.html">common::Node</a></div>
+<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;{</div>
+<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;<span class="keyword">public</span>:</div>
+<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;    <a class="code" href="../../d8/d29/classbioexplorer_1_1vasculature_1_1Vasculature.html">Vasculature</a>(Scene&amp; scene, <span class="keyword">const</span> VasculatureDetails&amp; details);</div>
+<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160; </div>
+<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;    <span class="keywordtype">void</span> setColorScheme(<span class="keyword">const</span> VasculatureColorSchemeDetails&amp; details);</div>
+<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160; </div>
+<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;    <span class="keywordtype">void</span> setRadiusReport(<span class="keyword">const</span> VasculatureRadiusReportDetails&amp; details);</div>
+<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160; </div>
+<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;    uint64_t getNbNodes()<span class="keyword"> const </span>{ <span class="keywordflow">return</span> _nodes.size(); }</div>
+<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;    uint64_t getNbSubGraphs()<span class="keyword"> const </span>{ <span class="keywordflow">return</span> _graphs.size(); }</div>
+<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;    uint64_t getNbPairs()<span class="keyword"> const </span>{ <span class="keywordflow">return</span> _nbPairs; }</div>
+<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;    uint64_t getNbEntryNodes()<span class="keyword"> const </span>{ <span class="keywordflow">return</span> _nbEntryNodes; }</div>
+<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;    uint64_t getNbSections()<span class="keyword"> const </span>{ <span class="keywordflow">return</span> _sectionIds.size(); }</div>
+<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;    uint64_t getPopulationSize()<span class="keyword"> const </span>{ <span class="keywordflow">return</span> _populationSize; }</div>
+<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160; </div>
+<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;    <span class="keywordtype">void</span> _importFromDB();</div>
+<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;    <span class="keywordtype">void</span> _buildModel(<span class="keyword">const</span> VasculatureColorSchemeDetails&amp; details =</div>
+<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;                         VasculatureColorSchemeDetails());</div>
+<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;    <span class="keywordtype">size_t</span> _addSDFGeometry(<a class="code" href="../../d1/d25/structbioexplorer_1_1geometry_1_1SDFMorphologyData.html">SDFMorphologyData</a>&amp; sdfMorphologyData,</div>
+<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;                           <span class="keyword">const</span> SDFGeometry&amp; geometry,</div>
+<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;                           <span class="keyword">const</span> std::set&lt;size_t&gt;&amp; neighbours,</div>
+<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;                           <span class="keyword">const</span> <span class="keywordtype">size_t</span> materialId, <span class="keyword">const</span> <span class="keywordtype">int</span> section);</div>
+<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160; </div>
+<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;    <span class="keywordtype">void</span> _addStepConeGeometry(</div>
+<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;        <span class="keyword">const</span> <span class="keywordtype">bool</span> useSDF, <span class="keyword">const</span> Vector3d&amp; position, <span class="keyword">const</span> <span class="keywordtype">double</span> radius,</div>
+<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;        <span class="keyword">const</span> Vector3d&amp; target, <span class="keyword">const</span> <span class="keywordtype">double</span> previousRadius,</div>
+<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;        <span class="keyword">const</span> <span class="keywordtype">size_t</span> materialId, <span class="keyword">const</span> uint64_t&amp; userDataOffset, Model&amp; model,</div>
+<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;        <a class="code" href="../../d1/d25/structbioexplorer_1_1geometry_1_1SDFMorphologyData.html">SDFMorphologyData</a>&amp; sdfMorphologyData, <span class="keyword">const</span> uint32_t sdfGroupId,</div>
+<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;        <span class="keyword">const</span> Vector3f&amp; displacementParams = Vector3f(0.f));</div>
+<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160; </div>
+<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;    <span class="keywordtype">void</span> _finalizeSDFGeometries(Model&amp; model,</div>
+<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;                                <a class="code" href="../../d1/d25/structbioexplorer_1_1geometry_1_1SDFMorphologyData.html">SDFMorphologyData</a>&amp; sdfMorphologyData);</div>
+<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160; </div>
+<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;    <span class="keyword">const</span> VasculatureDetails _details;</div>
+<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;    Scene&amp; _scene;</div>
+<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;    GeometryNodes _nodes;</div>
+<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;    uint64_t _populationSize{0};</div>
+<div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;    std::set&lt;uint64_t&gt; _graphs;</div>
+<div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;    std::set&lt;uint64_t&gt; _sectionIds;</div>
+<div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;    std::map&lt;uint64_t, uint64_ts&gt; _sections;</div>
+<div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160;    uint64_t _nbPairs{0};</div>
+<div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160;    uint64_t _nbEntryNodes{0};</div>
+<div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160;};</div>
+<div class="line"><a name="l00092"></a><span class="lineno">   92</span>&#160;} <span class="comment">// namespace vasculature</span></div>
+<div class="line"><a name="l00093"></a><span class="lineno">   93</span>&#160;} <span class="comment">// namespace bioexplorer</span></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
-<div class="ttc" id="astructbioexplorer_1_1vasculature_1_1VasculatureNode_html"><div class="ttname"><a href="../../d6/d03/structbioexplorer_1_1vasculature_1_1VasculatureNode.html">bioexplorer::vasculature::VasculatureNode</a></div><div class="ttdef"><b>Definition:</b> <a href="../../d2/dc5/Vasculature_8h_source.html#l00045">Vasculature.h:45</a></div></div>
-<div class="ttc" id="astructbioexplorer_1_1geometry_1_1SDFMorphologyData_html"><div class="ttname"><a href="../../d1/d25/structbioexplorer_1_1geometry_1_1SDFMorphologyData.html">bioexplorer::geometry::SDFMorphologyData</a></div><div class="ttdef"><b>Definition:</b> <a href="../../d0/dde/bioexplorer_2core_2plugin_2common_2Types_8h_source.html#l01074">Types.h:1074</a></div></div>
-<div class="ttc" id="aclassbioexplorer_1_1vasculature_1_1Vasculature_html"><div class="ttname"><a href="../../d8/d29/classbioexplorer_1_1vasculature_1_1Vasculature.html">bioexplorer::vasculature::Vasculature</a></div><div class="ttdef"><b>Definition:</b> <a href="../../d2/dc5/Vasculature_8h_source.html#l00062">Vasculature.h:62</a></div></div>
+<div class="ttc" id="astructbioexplorer_1_1geometry_1_1SDFMorphologyData_html"><div class="ttname"><a href="../../d1/d25/structbioexplorer_1_1geometry_1_1SDFMorphologyData.html">bioexplorer::geometry::SDFMorphologyData</a></div><div class="ttdef"><b>Definition:</b> <a href="../../d0/dde/bioexplorer_2core_2plugin_2common_2Types_8h_source.html#l01087">Types.h:1087</a></div></div>
+<div class="ttc" id="aclassbioexplorer_1_1vasculature_1_1Vasculature_html"><div class="ttname"><a href="../../d8/d29/classbioexplorer_1_1vasculature_1_1Vasculature.html">bioexplorer::vasculature::Vasculature</a></div><div class="ttdef"><b>Definition:</b> <a href="../../d2/dc5/Vasculature_8h_source.html#l00048">Vasculature.h:48</a></div></div>
 <div class="ttc" id="aclassbioexplorer_1_1common_1_1Node_html"><div class="ttname"><a href="../../d7/d93/classbioexplorer_1_1common_1_1Node.html">bioexplorer::common::Node</a></div><div class="ttdoc">The Node class.</div><div class="ttdef"><b>Definition:</b> <a href="../../db/d92/Node_8h_source.html#l00034">Node.h:34</a></div></div>
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
