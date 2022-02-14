@@ -1,0 +1,65 @@
+/*
+ * The Blue Brain BioExplorer is a tool for scientists to extract and analyse
+ * scientific data from visualization
+ *
+ * Copyright 2020-2022 Blue Brain Project / EPFL
+ *
+ * This program is free software: you can redistribute it and/or modify it under
+ * the terms of the GNU General Public License as published by the Free Software
+ * Foundation, either version 3 of the License, or (at your option) any later
+ * version.
+ *
+ * This program is distributed in the hope that it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+ * FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more
+ * details.
+ *
+ * You should have received a copy of the GNU General Public License along with
+ * this program.  If not, see <https://www.gnu.org/licenses/>.
+ */
+
+#pragma once
+
+#include <ospray/SDK/math/vec.ih>
+
+/**
+ * @brief Linearly interpolate between two values
+ * @param x Specifies the start of the range in which to interpolate
+ * @param y Specifies the end of the range in which to interpolate
+ * @param a Specifies the value to use to interpolate between x and y
+ * @return A linear interpolation between x and y using a to weight between
+ * them. The return value is computed as x×(1−a)+y×a
+ */
+float mix(const float x, const float y, const float a);
+
+/**
+ * @brief Compute value of one parameter modulo another. This is computed as x -
+ * y * floor(x/y)
+ * @param x Specifies the value to evaluate
+ * @param y Specifies the value for the modulo
+ * @return The value of x modulo y
+ */
+vec3f mod(const vec3f& x, const int y);
+vec3f mod(const vec3f& x, const vec3f& y);
+
+/**
+ * @brief Perform Hermite interpolation between two values
+ * @param edge0 Specifies the value of the lower edge of the Hermite function
+ * @param edge1 Specifies the value of the upper edge of the Hermite function
+ * @param x Specifies the source value for interpolation
+ * @return The smooth Hermite interpolation between 0 and 1 when edge0 < x <
+ * edge1. This is useful in cases where a threshold function with a smooth
+ * transition is desired. Results are undefined if edge0 ≥ edge1
+ */
+float smoothstep(const float edge0, const float edge1, float x);
+
+/**
+ * @brief Extracts the sign of the parameter
+ * @param Specifies the value from which to extract the sign
+ * @return -1.0 if x is less than 0.0, 0.0 if x is equal to 0.0, and +1.0 if x
+ * is greater than 0.0
+ */
+float sign(const float v);
+vec3f sign(const vec3f& v);
+
+float hash(float n);

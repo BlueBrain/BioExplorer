@@ -50,17 +50,13 @@ const std::string METADATA_SIZE = "Size";
 const std::string METADATA_BRICK_ID = "BrickId";
 
 // Command line arguments
+const std::string ARG_DB_HOST = "--db-host";
+const std::string ARG_DB_PORT = "--db-port";
+const std::string ARG_DB_NAME = "--db-name";
+const std::string ARG_DB_USER = "--db-user";
+const std::string ARG_DB_PASSWORD = "--db-password";
+
 const std::string ARG_OOC_ENABLED = "--ooc-enabled";
-#ifdef USE_PQXX
-const std::string ARG_OOC_DB_HOST = "--ooc-db-host";
-const std::string ARG_OOC_DB_PORT = "--ooc-db-port";
-const std::string ARG_OOC_DB_NAME = "--ooc-db-dbname";
-const std::string ARG_OOC_DB_USER = "--ooc-db-user";
-const std::string ARG_OOC_DB_PASSWORD = "--ooc-db-password";
-const std::string ARG_OOC_DB_SCHEMA = "--ooc-db-schema";
-#else
-const std::string ARG_OOC_BRICKS_FOLDER = "--ooc-bricks-folder";
-#endif
 const std::string ARG_OOC_VISIBLE_BRICKS = "--ooc-visible-bricks";
 const std::string ARG_OOC_UPDATE_FREQUENCY = "--ooc-update-frequency";
 const std::string ARG_OOC_UNLOAD_BRICKS = "--ooc-unload-bricks";
@@ -717,8 +713,6 @@ typedef struct
  */
 typedef struct
 {
-    std::string connectionString;
-    std::string schema;
     int32_t brickId;
     std::vector<double> lowBounds;
     std::vector<double> highBounds;
@@ -812,8 +806,8 @@ typedef struct
 {
     /** Name of the assembly containing the vasculature */
     std::string assemblyName;
-    /** Full filename of the vasculature data */
-    std::string filename;
+    /** Population name */
+    std::string populationName;
     /** Use Signed Distance Fields as geometry */
     bool useSdf;
     /** Node gids to load. All if empty */
@@ -844,18 +838,23 @@ typedef struct
 {
     /** Name of the assembly containing the vasculature */
     std::string assemblyName;
-    /** Full filename of the vasculature data */
-    std::string path;
     /** Name of the population on which the report applies */
     std::string populationName;
+    /** Simulation report ID */
+    uint64_t simulationReportId;
 } VasculatureReportDetails;
 
 typedef struct
 {
     /** Name of the assembly containing the vasculature */
     std::string assemblyName;
-    std::string path;
+    /** Name of the population on which the report applies */
+    std::string populationName;
+    /** Simulation report ID */
+    uint64_t simulationReportId;
+    /** Simulation frame number */
     uint64_t frame;
+    /** Amplitude applied to the radius */
     double amplitude;
 } VasculatureRadiusReportDetails;
 #endif
@@ -874,6 +873,20 @@ enum class AssemblyConstraintType
 };
 using AssemblyConstraint = std::pair<AssemblyConstraintType, AssemblyPtr>;
 using AssemblyConstraints = std::vector<AssemblyConstraint>;
+
+typedef struct
+{
+    Vector3d position;
+    double radius;
+    uint64_t sectionId{0};
+    uint64_t graphId{0};
+    uint64_t type{0};
+    uint64_t pairId{0};
+    uint64_t entryNodeId{0};
+} GeometryNode;
+using GeometryNodes = std::map<uint64_t, GeometryNode>;
+using GeometryEdges = std::map<uint64_t, uint64_t>;
+
 } // namespace common
 
 namespace molecularsystems
@@ -1088,5 +1101,22 @@ namespace io
 // Out of core brick manager
 class OOCManager;
 using OOCManagerPtr = std::shared_ptr<OOCManager>;
+
+namespace db
+{
+class DBConnector;
+using DBConnectorPtr = std::shared_ptr<DBConnector>;
+
+typedef struct
+{
+    std::string description;
+    double startTime;
+    double endTime;
+    double timeStep;
+    std::string timeUnits;
+    std::string dataUnits;
+} SimulationReport;
+
+} // namespace db
 } // namespace io
 } // namespace bioexplorer

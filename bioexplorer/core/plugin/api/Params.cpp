@@ -570,8 +570,6 @@ bool from_json(DatabaseAccessDetails &param, const std::string &payload)
     try
     {
         auto js = nlohmann::json::parse(payload);
-        FROM_JSON(param, js, connectionString);
-        FROM_JSON(param, js, schema);
         FROM_JSON(param, js, brickId);
         FROM_JSON(param, js, lowBounds);
         FROM_JSON(param, js, highBounds);
@@ -687,7 +685,7 @@ bool from_json(VasculatureDetails &param, const std::string &payload)
     {
         auto js = nlohmann::json::parse(payload);
         FROM_JSON(param, js, assemblyName);
-        FROM_JSON(param, js, filename);
+        FROM_JSON(param, js, populationName);
         FROM_JSON(param, js, useSdf);
         FROM_JSON(param, js, gids);
         FROM_JSON(param, js, loadCapilarities);
@@ -723,8 +721,8 @@ bool from_json(VasculatureReportDetails &param, const std::string &payload)
     {
         auto js = nlohmann::json::parse(payload);
         FROM_JSON(param, js, assemblyName);
-        FROM_JSON(param, js, path);
         FROM_JSON(param, js, populationName);
+        FROM_JSON(param, js, simulationReportId);
     }
     catch (...)
     {
@@ -740,7 +738,8 @@ bool from_json(VasculatureRadiusReportDetails &param,
     {
         auto js = nlohmann::json::parse(payload);
         FROM_JSON(param, js, assemblyName);
-        FROM_JSON(param, js, path);
+        FROM_JSON(param, js, populationName);
+        FROM_JSON(param, js, simulationReportId);
         FROM_JSON(param, js, frame);
         FROM_JSON(param, js, amplitude);
     }

@@ -56,6 +56,7 @@ namespace bioexplorer
 namespace io
 {
 using namespace common;
+using namespace db;
 
 OOCManager::OOCManager(Scene& scene, const Camera& camera,
                        const CommandLineArguments& arguments)
@@ -67,10 +68,8 @@ OOCManager::OOCManager(Scene& scene, const Camera& camera,
     PLUGIN_INFO(3, "=================================");
     PLUGIN_INFO(3, "Out-Of-Core engine is now enabled");
     PLUGIN_INFO(3, "---------------------------------");
-#ifdef USE_PQXX
     PLUGIN_INFO(3, "DB Connection string: " << _dbConnectionString);
     PLUGIN_INFO(3, "DB Schema           : " << _dbSchema);
-#endif
     PLUGIN_INFO(3, "Description         : " << _sceneConfiguration.description);
     PLUGIN_INFO(3, "Update frequency    : " << _updateFrequency);
     PLUGIN_INFO(3, "Scene size          : " << _sceneConfiguration.sceneSize);
@@ -98,9 +97,6 @@ void OOCManager::_loadBricks()
     std::vector<ModelDescriptorPtr> modelsToShow;
     int32_t previousBrickId{std::numeric_limits<int32_t>::max()};
     CacheLoader loader(_scene);
-#ifdef USE_PQXX
-    DBConnector connector(_dbConnectionString, _dbSchema);
-#endif
 
     uint32_t nbLoads = 0;
     double totalLoadingTime = 0.f;
@@ -161,17 +157,7 @@ void OOCManager::_loadBricks()
                 const auto start = std::chrono::steady_clock::now();
                 try
                 {
-#ifdef USE_PQXX
-                    modelsToAddToScene =
-                        loader.importBrickFromDB(connector, brickToLoad);
-#else
-                    char idStr[7];
-                    sprintf(idStr, "%06d", brickToLoad);
-                    const std::string filename =
-                        _bricksFolder + "/brick" + idStr + ".bioexplorer";
-                    modelsToAddToScene =
-                        loader.importModelsFromFile(filename, brickToLoad);
-#endif
+                    modelsToAddToScene = loader.importBrickFromDB(brickToLoad);
                 }
                 catch (std::runtime_error& e)
                 {
@@ -283,23 +269,6 @@ void OOCManager::_parseArguments(const CommandLineArguments& arguments)
     std::string dbHost, dbPort, dbUser, dbPassword, dbName;
     for (const auto& argument : arguments)
     {
-#ifdef USE_PQXX
-        if (argument.first == ARG_OOC_DB_HOST)
-            dbHost = argument.second;
-        if (argument.first == ARG_OOC_DB_PORT)
-            dbPort = argument.second;
-        if (argument.first == ARG_OOC_DB_USER)
-            dbUser = argument.second;
-        if (argument.first == ARG_OOC_DB_PASSWORD)
-            dbPassword = argument.second;
-        if (argument.first == ARG_OOC_DB_NAME)
-            dbName = argument.second;
-        if (argument.first == ARG_OOC_DB_SCHEMA)
-            _dbSchema = argument.second;
-#else
-        if (argument.first == ARG_OOC_BRICKS_FOLDER)
-            _bricksFolder = argument.second;
-#endif
         if (argument.first == ARG_OOC_UPDATE_FREQUENCY)
             _updateFrequency = atof(argument.second.c_str());
         if (argument.first == ARG_OOC_VISIBLE_BRICKS)
@@ -312,16 +281,9 @@ void OOCManager::_parseArguments(const CommandLineArguments& arguments)
             _nbBricksPerCycle = atoi(argument.second.c_str());
     }
 
-#ifdef USE_PQXX
-    // Sanity checks
-    _dbConnectionString = "host=" + dbHost + " port=" + dbPort +
-                          " dbname=" + dbName + " user=" + dbUser +
-                          " password=" + dbPassword;
-
     // Configuration
-    DBConnector connector(_dbConnectionString, _dbSchema);
+    auto& connector = DBConnector::getInstance();
     _sceneConfiguration = connector.getSceneConfiguration();
-#endif
 
     const bool disableBroadcasting =
         std::getenv(ENV_ROCKETS_DISABLE_SCENE_BROADCASTING.c_str()) != nullptr;

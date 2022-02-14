@@ -22,14 +22,12 @@
 #include <plugin/common/Logs.h>
 #include <plugin/common/Utils.h>
 
+#include <plugin/io/db/DBConnector.h>
+
 #include <brayns/engineapi/Material.h>
 #include <brayns/engineapi/Model.h>
 #include <brayns/engineapi/Scene.h>
 #include <brayns/parameters/ParametersManager.h>
-
-#include <bbp/sonata/edges.h>
-#include <bbp/sonata/nodes.h>
-#include <bbp/sonata/report_reader.h>
 
 namespace bioexplorer
 {
@@ -37,13 +35,14 @@ namespace vasculature
 {
 using namespace common;
 using namespace geometry;
-using namespace bbp::sonata;
+using namespace io;
+using namespace db;
 
 Vasculature::Vasculature(Scene& scene, const VasculatureDetails& details)
     : _details(details)
     , _scene(scene)
 {
-    _importFromFile();
+    _importFromDB();
 }
 
 // From http://en.cppreference.com/w/cpp/types/numeric_limits/epsilon
@@ -144,74 +143,39 @@ void Vasculature::_finalizeSDFGeometries(Model& model,
     }
 }
 
-void Vasculature::_importFromFile()
+void Vasculature::_importFromDB()
 {
-    const NodePopulation population(_details.filename, "", "vasculature");
-    _populationSize = population.size();
-    const Selection allNodes = Selection({{0, population.size()}});
-    const auto sx = population.getAttribute<double>("start_x", allNodes);
-    const auto sy = population.getAttribute<double>("start_y", allNodes);
-    const auto sz = population.getAttribute<double>("start_z", allNodes);
-    const auto sd = population.getAttribute<double>("start_diameter", allNodes);
+    auto& connector = DBConnector::getInstance();
 
-    const auto ex = population.getAttribute<double>("end_x", allNodes);
-    const auto ey = population.getAttribute<double>("end_y", allNodes);
-    const auto ez = population.getAttribute<double>("end_z", allNodes);
-    const auto ed = population.getAttribute<double>("end_diameter", allNodes);
+    std::string filter = "";
+    if (!_details.loadCapilarities)
+        filter = "v.type_guid != 1";
 
-    const auto sectionIds =
-        population.getAttribute<uint64_t>("section_id", allNodes);
-    const auto graphIds =
-        population.getAttribute<uint64_t>("subgraph_id", allNodes);
-    const auto types = population.getAttribute<uint64_t>("type", allNodes);
-    const auto pairIds = population.getAttribute<uint64_t>("pairs", allNodes);
-    const auto entryNodes =
-        population.getAttribute<uint64_t>("entry_edges", allNodes);
+    _nodes = connector.getVasculatureNodes(_details.populationName, filter);
 
-    PLUGIN_INFO(1, "Full vasculature is made of " << population.size()
-                                                  << " nodes");
+    PLUGIN_INFO(1, "Full vasculature is made of " << _nodes.size() << " nodes");
 
     std::map<uint64_t, std::vector<uint64_t>> pairs;
+    std::set<uint64_t> entryNodes;
     const auto& gids = _details.gids;
-    for (uint64_t nodeId = 0; nodeId < population.size(); ++nodeId)
+    for (const auto& node : _nodes)
     {
         if (!_details.loadCapilarities &&
-            types[nodeId] == static_cast<uint64_t>(EdgeType::capilarity))
+            node.second.type == static_cast<uint64_t>(EdgeType::capilarity))
             // Ignore capilarities
             continue;
 
-        const auto sectionId = sectionIds[nodeId];
+        const auto sectionId = node.second.sectionId;
         if (!gids.empty() &&
             // Load specified edges only
             std::find(gids.begin(), gids.end(), sectionId) == gids.end())
             continue;
 
-        // if (entryEdges[nodeId] == 0)
-        //     continue;
-
-        VasculatureNode node;
-        node.startPosition = Vector3d(sx[nodeId], sy[nodeId], sz[nodeId]);
-        node.startRadius = sd[nodeId] * 0.5;
-        node.endPosition = Vector3d(ex[nodeId], ey[nodeId], ez[nodeId]);
-        node.endRadius = ed[nodeId] * 0.5;
-        node.type = types[nodeId];
-
-        const auto graphId = graphIds[nodeId];
-        node.graphId = graphId;
-        _graphs.insert(graphId);
-
-        node.pairId = 0;
-        if (pairIds[nodeId] != 0)
-        {
-            const auto pairId = pairIds[nodeId];
-            pairs[pairId].push_back(nodeId);
-            node.pairId = pairId;
-        }
-
-        _sections[sectionId].push_back(nodeId);
-        _sectionIds.insert(sectionId);
-        node.sectionId = sectionId;
-        _nodes[nodeId] = node;
+        _graphs.insert(node.second.graphId);
+        pairs[node.second.pairId].push_back(node.first);
+        _sectionIds.insert(node.second.sectionId);
+        _sections[sectionId].push_back(node.first);
+        entryNodes.insert(node.second.entryNodeId);
     }
 
     for (const auto& pair : pairs)
@@ -234,6 +198,7 @@ void Vasculature::_importFromFile()
     }
 
     _nbPairs = pairs.size();
+    _nbEntryNodes = entryNodes.size();
     PLUGIN_INFO(1,
                 "Loaded vasculature is made of " << _nodes.size() << " nodes");
 
@@ -258,9 +223,9 @@ void Vasculature::_buildModel(const VasculatureColorSchemeDetails& details)
         const uint64_t nbControlPoints = section.second.size();
         for (const auto& nodeId : section.second)
         {
-            const auto& e = _nodes[nodeId];
-            controlPoints.push_back({e.startPosition.x, e.startPosition.y,
-                                     e.startPosition.z, e.startRadius});
+            const auto& node = _nodes[nodeId];
+            controlPoints.push_back({node.position.x, node.position.y,
+                                     node.position.z, node.radius});
         }
 
         double tStep;
@@ -298,7 +263,7 @@ void Vasculature::_buildModel(const VasculatureColorSchemeDetails& details)
                 materialId = node.pairId;
                 break;
             case VasculatureColorScheme::entry_node:
-                materialId = node.entryNode;
+                materialId = node.entryNodeId;
                 break;
             default:
                 break;
@@ -374,8 +339,8 @@ void Vasculature::_buildModel(const VasculatureColorSchemeDetails& details)
     if (_modelDescriptor)
         _scene.addModel(_modelDescriptor);
     else
-        PLUGIN_THROW("Vasculature model could not be created from " +
-                     _details.filename);
+        PLUGIN_THROW("Vasculature model could not be created for population " +
+                     _details.populationName);
 }
 
 void Vasculature::setColorScheme(const VasculatureColorSchemeDetails& details)
@@ -385,59 +350,49 @@ void Vasculature::setColorScheme(const VasculatureColorSchemeDetails& details)
 
 void Vasculature::setRadiusReport(const VasculatureRadiusReportDetails& details)
 {
-    try
-    {
-        ElementReportReader reader(details.path);
+    auto& connector = DBConnector::getInstance();
+    const auto simulationReport =
+        connector.getVasculatureSimulationReport(details.populationName,
+                                                 details.simulationReportId);
 
-        const auto reportPopulation = reader.openPopulation("vasculature");
-        const auto times = reportPopulation.getTimes();
-        const auto startTime = std::get<0>(times);
-        const auto endTime = std::get<1>(times);
-        const auto dt = std::get<2>(times);
-        const auto unit = reportPopulation.getTimeUnits();
+    const size_t nbFrames =
+        (simulationReport.endTime - simulationReport.startTime) /
+        simulationReport.timeStep;
+    if (nbFrames == 0)
+        PLUGIN_THROW("Report does not contain any simulation data: " +
+                     simulationReport.description);
 
-        const size_t nbFrames = (endTime - startTime) / dt;
-        if (nbFrames == 0)
-            PLUGIN_THROW("Report does not contain any simulation data: " +
-                         details.path);
+    if (details.frame >= nbFrames)
+        PLUGIN_THROW("Invalid frame specified for report: " +
+                     simulationReport.description);
+    const floats series =
+        connector.getVasculatureSimulationTimeSeries(details.simulationReportId,
+                                                     details.frame);
 
-        std::vector<float> series;
-        if (details.frame >= nbFrames)
-            PLUGIN_THROW("Invalid frame specified for report: " + details.path);
-        const Selection allNodes = Selection({{0, _populationSize}});
-        series =
-            reportPopulation.get(allNodes, startTime + details.frame * dt).data;
+    auto& model = _modelDescriptor->getModel();
+    auto& spheresMap = model.getSpheres();
+    for (auto& spheres : spheresMap)
+        for (auto& sphere : spheres.second)
+            sphere.radius = details.amplitude * series[sphere.userData];
 
-        auto& model = _modelDescriptor->getModel();
-        auto& spheresMap = model.getSpheres();
-        for (auto& spheres : spheresMap)
-            for (auto& sphere : spheres.second)
-                sphere.radius = details.amplitude * series[sphere.userData];
+    auto& conesMap = model.getCones();
+    for (auto& cones : conesMap)
+        for (auto& cone : cones.second)
+        {
+            cone.centerRadius = details.amplitude * series[cone.userData];
+            cone.upRadius = details.amplitude * series[cone.userData + 1];
+        }
 
-        auto& conesMap = model.getCones();
-        for (auto& cones : conesMap)
-            for (auto& cone : cones.second)
-            {
-                cone.centerRadius = details.amplitude * series[cone.userData];
-                cone.upRadius = details.amplitude * series[cone.userData + 1];
-            }
+    auto& cylindersMap = model.getCylinders();
+    for (auto& cylinders : cylindersMap)
+        for (auto& cylinder : cylinders.second)
+            cylinder.radius = details.amplitude * series[cylinder.userData];
 
-        auto& cylindersMap = model.getCylinders();
-        for (auto& cylinders : cylindersMap)
-            for (auto& cylinder : cylinders.second)
-                cylinder.radius = details.amplitude * series[cylinder.userData];
-
-        model.commitGeometry();
-        model.updateBounds();
-        PLUGIN_DEBUG("Vasculature geometry successfully modified using report "
-                     << details.path);
-        _scene.markModified(false);
-    }
-    catch (const HighFive::FileException& exc)
-    {
-        PLUGIN_THROW("Could not open vasculature report file " + details.path +
-                     ": " + exc.what());
-    }
+    model.commitGeometry();
+    model.updateBounds();
+    PLUGIN_DEBUG("Vasculature geometry successfully modified using report "
+                 << details.path);
+    _scene.markModified(false);
 }
 
 } // namespace vasculature

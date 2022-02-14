@@ -123,6 +123,11 @@ OSP_REGISTER_MATERIAL(bio_explorer, AdvancedMaterial, default);
 OSP_REGISTER_MATERIAL(bio_explorer_fields, AdvancedMaterial, default);
 OSP_REGISTER_MATERIAL(bio_explorer_density, AdvancedMaterial, default);
 OSP_REGISTER_MATERIAL(bio_explorer_path_tracing, AdvancedMaterial, default);
+OSP_REGISTER_MATERIAL(depth, AdvancedMaterial, default);
+OSP_REGISTER_MATERIAL(albedo, AdvancedMaterial, default);
+OSP_REGISTER_MATERIAL(ambient_occlusion, AdvancedMaterial, default);
+OSP_REGISTER_MATERIAL(shadow, AdvancedMaterial, default);
+OSP_REGISTER_MATERIAL(metabolism, AdvancedMaterial, default);
 #endif
 } // namespace rendering
 } // namespace bioexplorer

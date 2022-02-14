@@ -18,36 +18,40 @@
 
 #include "VasculatureHandler.h"
 
+#include <plugin/io/db/DBConnector.h>
+
 #include <plugin/common/Logs.h>
 
 namespace bioexplorer
 {
 namespace vasculature
 {
-VasculatureHandler::VasculatureHandler(const VasculatureReportDetails& details,
-                                       const uint64_t populationSize)
+using namespace io;
+using namespace db;
+
+VasculatureHandler::VasculatureHandler(const VasculatureReportDetails& details)
     : brayns::AbstractSimulationHandler()
     , _details(details)
-    , _reader(ElementReportReader(details.path))
-    , _report(_reader.openPopulation(details.populationName))
-    , _selection({{0, populationSize - 1}})
 {
-    const auto times = _report.getTimes();
-    _startTime = std::get<0>(times);
-    const auto endTime = std::get<1>(times);
-    _dt = std::get<2>(times);
-    _unit = _report.getTimeUnits();
-
-    _nbFrames = (endTime - _startTime) / _dt;
-    _frameSize = populationSize;
-    _currentFrame = 0;
+    auto& connector = DBConnector::getInstance();
+    _simulationReport =
+        connector.getVasculatureSimulationReport(_details.populationName,
+                                                 _details.simulationReportId);
+    const auto endTime = _simulationReport.endTime;
+    _dt = _simulationReport.timeStep;
+    _unit = _simulationReport.timeUnits;
+    _nbFrames = (_simulationReport.endTime - _simulationReport.startTime) /
+                _simulationReport.timeStep;
+    _frameData = connector.getVasculatureSimulationTimeSeries(
+        _details.simulationReportId, 0);
+    _frameSize = _frameData.size();
     PLUGIN_INFO(1, "Report successfully attached");
     PLUGIN_INFO(1, "- Frame size      : " << _frameSize);
     PLUGIN_INFO(1, "- Number of frames: " << _nbFrames);
-    PLUGIN_INFO(1, "- Start time      : " << _startTime);
-    PLUGIN_INFO(1, "- End time        : " << endTime);
-    PLUGIN_INFO(1, "- Time interval   : " << _dt);
-    _frameData = _report.get(_selection, _startTime, _startTime + _dt).data;
+    PLUGIN_INFO(1, "- Start time      : " << _simulationReport.startTime);
+    PLUGIN_INFO(1, "- End time        : " << _simulationReport.endTime);
+    PLUGIN_INFO(1, "- Time interval   : " << _simulationReport.timeStep);
+    PLUGIN_INFO(1, "- Time units      : " << _simulationReport.timeUnits);
 }
 
 void* VasculatureHandler::getFrameData(const uint32_t frame)
@@ -56,11 +60,12 @@ void* VasculatureHandler::getFrameData(const uint32_t frame)
     {
         if (_currentFrame != frame && frame < _nbFrames)
         {
-            const auto startFrame = _startTime + _dt * frame;
-            _frameData = _report.get(_selection, startFrame).data;
+            _frameData =
+                DBConnector::getInstance().getVasculatureSimulationTimeSeries(
+                    _details.simulationReportId, frame);
         }
     }
-    catch (const SonataError& e)
+    catch (const std::runtime_error& e)
     {
         PLUGIN_ERROR(e.what())
     }

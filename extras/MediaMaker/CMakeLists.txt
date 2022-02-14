@@ -1,8 +1,8 @@
-# Copyright (c) 2020, Cyrille Favreau
+# Copyright (c) 2020-2022, Cyrille Favreau
 # All rights reserved. Do not distribute without permission.
 # Responsible Author: Cyrille Favreau <cyrille.favreau@epfl.ch>
 #
-# This file is part of https://github.com/favreau/Brayns-UC-MediaMaker
+# This file is part of https://github.com/BlueBrain/BioExplorer
 
 cmake_minimum_required(VERSION 3.1 FATAL_ERROR)
 
@@ -17,18 +17,19 @@ set(${NAME}_VERSION_ABI 1)
 # ==============================================================================
 # Packages and settings
 # ==============================================================================
-list(APPEND CMAKE_MODULE_PATH ${PROJECT_SOURCE_DIR}/../../CMake)
+set(BIOEXPLORER_SOURCE_DIR ${PROJECT_SOURCE_DIR}/../..)
+list(APPEND CMAKE_MODULE_PATH ${BIOEXPLORER_SOURCE_DIR}/CMake)
 set(${NAME}_MODULES_DIR ${PROJECT_SOURCE_DIR})
-set(CMAKE_CXX_STANDARD 14)
 
-find_package(Brayns REQUIRED SYSTEM)
-find_package(ospray REQUIRED SYSTEM)
 find_package(TIFF REQUIRED SYSTEM)
 
 include(ispc)
 
-configure_file( plugin/Defines.h.in ${CMAKE_BINARY_DIR}/generated/mediamaker/Defines.h )
-include_directories( ${CMAKE_BINARY_DIR}/generated/mediamaker ) # Make sure it can be included...
+configure_file(plugin/Defines.h.in ${CMAKE_BINARY_DIR}/generated/${NAME}/Defines.h)
+include_directories(
+    ${CMAKE_BINARY_DIR}/generated/${NAME}
+    ${BIOEXPLORER_SOURCE_DIR}
+)
 
 # ==============================================================================
 # Sources

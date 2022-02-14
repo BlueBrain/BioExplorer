@@ -54,6 +54,7 @@ namespace bioexplorer
 namespace io
 {
 using namespace common;
+using namespace db;
 
 const std::string LOADER_NAME = "BioExplorer cache loader";
 const std::string SUPPORTED_EXTENTION_BIOEXPLORER = "bioexplorer";
@@ -779,13 +780,13 @@ void CacheLoader::exportToFile(const std::string& filename,
     file.close();
 }
 
-#ifdef USE_PQXX
 std::vector<ModelDescriptorPtr> CacheLoader::importBrickFromDB(
-    DBConnector& connector, const int32_t brickId) const
+    const int32_t brickId) const
 {
     std::vector<ModelDescriptorPtr> modelDescriptors;
     uint32_t nbModels = 0;
 
+    auto& connector = DBConnector::getInstance();
     auto buffer = connector.getBrick(brickId, CACHE_VERSION_1, nbModels);
 
     for (size_t i = 0; i < nbModels; ++i)
@@ -798,7 +799,7 @@ std::vector<ModelDescriptorPtr> CacheLoader::importBrickFromDB(
     return modelDescriptors;
 }
 
-void CacheLoader::exportBrickToDB(DBConnector& connector, const int32_t brickId,
+void CacheLoader::exportBrickToDB(const int32_t brickId,
                                   const Boxd& bounds) const
 {
     std::stringstream buffer;
@@ -811,11 +812,10 @@ void CacheLoader::exportBrickToDB(DBConnector& connector, const int32_t brickId,
     {
         PLUGIN_INFO(3, "Saving brick " << brickId << " ( " << nbModels
                                        << " models) to database");
-
+        auto& connector = DBConnector::getInstance();
         connector.insertBrick(brickId, CACHE_VERSION_1, nbModels, buffer);
     }
 }
-#endif
 
 void CacheLoader::exportToXYZ(const std::string& filename,
                               const XYZFileFormat fileFormat) const

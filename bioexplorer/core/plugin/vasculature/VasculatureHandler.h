@@ -24,14 +24,10 @@
 #include <brayns/common/simulation/AbstractSimulationHandler.h>
 #include <brayns/common/types.h>
 
-#include <bbp/sonata/report_reader.h>
-
 namespace bioexplorer
 {
 namespace vasculature
 {
-using namespace bbp::sonata;
-
 /**
  * @brief The VasculatureHandler class handles the mapping of the vasculature
  * simulation to the geometry
@@ -42,8 +38,7 @@ public:
     /**
      * @brief Default constructor
      */
-    VasculatureHandler(const VasculatureReportDetails& details,
-                       const uint64_t populationSize);
+    VasculatureHandler(const VasculatureReportDetails& details);
 
     /**
      * @copydoc brayns::AbstractSimulationHandler::getFrameData
@@ -63,10 +58,8 @@ public:
 private:
     VasculatureReportDetails _details;
     std::vector<std::vector<double>> _simulationData;
-    const ElementReportReader& _reader;
-    const ElementReportReader::Population& _report;
-    const Selection _selection;
-    double _startTime{0.0};
+
+    io::db::SimulationReport _simulationReport;
 };
 using VasculatureHandlerPtr = std::shared_ptr<VasculatureHandler>;
 } // namespace vasculature

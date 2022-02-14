@@ -33,6 +33,9 @@ namespace io
 namespace db
 {
 using namespace details;
+using namespace common;
+
+using ConnectionPtr = std::shared_ptr<pqxx::connection>;
 
 /**
  * @brief The DBConnector class allows the BioExplorer to communicate with a
@@ -44,18 +47,18 @@ class DBConnector
 {
 public:
     /**
-     * @brief Construct a new DBConnector object
+     * @brief Get the Instance object
      *
-     * @param connectionString
-     * @param schema
+     * @return GeneralSettings* Pointer to the object
      */
-    DBConnector(const std::string& connectionString, const std::string& schema);
+    static DBConnector& getInstance();
 
     /**
-     * @brief Destroy the DBConnector object
+     * @brief Connects to the database using the provided command line arguments
      *
+     * @param arguments Command line arguments
      */
-    ~DBConnector();
+    void init(const CommandLineArguments& arguments);
 
     /**
      * @brief Remove all bricks from the PostgreSQL database
@@ -95,12 +98,64 @@ public:
     void insertBrick(const int32_t brickId, const uint32_t version,
                      const uint32_t nbModels, const std::stringstream& buffer);
 
+    /**
+     * @brief Get the population ID from a given name
+     *
+     * @param populationName Name of the population
+     * @return Id of the population
+     */
+    uint64_t getVasculaturePopulationId(
+        const std::string& populationName) const;
+
+    /**
+     * @brief Get the Nodes for a given population
+     *
+     * @param populationId Id of the population
+     * @return GeometryNodes
+     */
+    GeometryNodes getVasculatureNodes(const std::string& populationName,
+                                      const std::string& filter = "") const;
+
+    /**
+     * @brief Get the Edges for a given population
+     *
+     * @param populationId Id of the population
+     * @return EdgeNodes
+     */
+    GeometryEdges getVasculatureEdges(const std::string& populationName,
+                                      const std::string& filter = "") const;
+
+    /**
+     * @brief Get information about the simulation Report
+     *
+     * @param simulationReportId Simulation report identifier
+     * @return SimulationReport Information about the simulation Report
+     */
+
+    SimulationReport getVasculatureSimulationReport(
+        const std::string& populationName,
+        const int32_t simulationReportId) const;
+
+    /**
+     * @brief Get time series from simulation report
+     *
+     * @param simulationReportId Simulation report identifier
+     * @param frame Frame number
+     * @return floats Values of the simulation frame
+     */
+    floats getVasculatureSimulationTimeSeries(const int32_t simulationReportId,
+                                              const int32_t frame) const;
+
+    static std::mutex _mutex;
+    static DBConnector* _instance;
+
 private:
-    pqxx::connection _connection;
-    std::string _schema;
+    DBConnector();
+    ~DBConnector();
+
+    ConnectionPtr _connection{nullptr};
 };
 
-typedef std::shared_ptr<DBConnector> DBConnectorPtr;
 } // namespace db
 } // namespace io
 } // namespace bioexplorer
