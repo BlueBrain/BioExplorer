@@ -391,7 +391,7 @@ void Vasculature::setRadiusReport(const VasculatureRadiusReportDetails& details)
     model.commitGeometry();
     model.updateBounds();
     PLUGIN_DEBUG("Vasculature geometry successfully modified using report "
-                 << details.path);
+                 << simulationReport.description);
     _scene.markModified(false);
 }
 
