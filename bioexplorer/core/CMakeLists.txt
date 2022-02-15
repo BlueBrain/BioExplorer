@@ -73,6 +73,7 @@ set(${NAME}_SOURCES
     plugin/fields/OctreeNode.cpp
     plugin/io/CacheLoader.cpp
     plugin/io/OOCManager.cpp
+    plugin/molecularsystems/EnzymeReaction.cpp
     plugin/molecularsystems/Molecule.cpp
     plugin/molecularsystems/Membrane.cpp
     plugin/molecularsystems/Glycans.cpp
@@ -87,6 +88,7 @@ set(${NAME}_PUBLIC_HEADERS
     plugin/io/CacheLoader.h
     plugin/common/Assembly.h
     plugin/common/Node.h
+    plugin/molecularsystems/EnzymeReaction.h
     plugin/molecularsystems/Molecule.h
     plugin/molecularsystems/Glycans.h
     plugin/molecularsystems/Membrane.h

@@ -390,6 +390,41 @@ bool from_json(SugarsDetails &param, const std::string &payload)
     return true;
 }
 
+bool from_json(EnzymeReactionDetails &param, const std::string &payload)
+{
+    try
+    {
+        auto js = nlohmann::json::parse(payload);
+        FROM_JSON(param, js, assemblyName);
+        FROM_JSON(param, js, name);
+        FROM_JSON(param, js, enzymeName);
+        FROM_JSON(param, js, substrateName);
+        FROM_JSON(param, js, productName);
+    }
+    catch (...)
+    {
+        return false;
+    }
+    return true;
+}
+
+bool from_json(EnzymeReactionProgressDetails &param, const std::string &payload)
+{
+    try
+    {
+        auto js = nlohmann::json::parse(payload);
+        FROM_JSON(param, js, assemblyName);
+        FROM_JSON(param, js, name);
+        FROM_JSON(param, js, instanceId);
+        FROM_JSON(param, js, progress);
+    }
+    catch (...)
+    {
+        return false;
+    }
+    return true;
+}
+
 bool from_json(AddGridDetails &param, const std::string &payload)
 {
     try

@@ -367,6 +367,21 @@ void BioExplorerPlugin::init()
             endPoint,
             [&](const SugarsDetails &payload) { return _addSugars(payload); });
 
+        endPoint = PLUGIN_API_PREFIX + "add-enzyme-reaction";
+        PLUGIN_INFO(1, "Registering '" + endPoint + "' endpoint");
+        actionInterface->registerRequest<EnzymeReactionDetails, Response>(
+            endPoint, [&](const EnzymeReactionDetails &payload) {
+                return _addEnzymeReaction(payload);
+            });
+
+        endPoint = PLUGIN_API_PREFIX + "set-enzyme-reaction-progress";
+        PLUGIN_INFO(1, "Registering '" + endPoint + "' endpoint");
+        actionInterface
+            ->registerRequest<EnzymeReactionProgressDetails, Response>(
+                endPoint, [&](const EnzymeReactionProgressDetails &payload) {
+                    return _setEnzymeReactionProgress(payload);
+                });
+
         endPoint = PLUGIN_API_PREFIX + "export-to-file";
         PLUGIN_INFO(1, "Registering '" + endPoint + "' endpoint");
         actionInterface->registerRequest<FileAccessDetails, Response>(
@@ -872,6 +887,56 @@ Response BioExplorerPlugin::_addGlycans(const SugarsDetails &payload) const
 Response BioExplorerPlugin::_addSugars(const SugarsDetails &payload) const
 {
     ASSEMBLY_CALL_VOID(payload.assemblyName, addSugars(payload));
+}
+
+Response BioExplorerPlugin::_addEnzymeReaction(
+    const EnzymeReactionDetails &payload) const
+{
+    Response response;
+    try
+    {
+        ProteinPtr enzyme{nullptr};
+        ProteinPtr substrate{nullptr};
+        ProteinPtr product{nullptr};
+        for (auto &assembly : _assemblies)
+        {
+            if (!enzyme)
+                enzyme = assembly.second->getProtein(payload.enzymeName);
+            if (!substrate)
+                substrate = assembly.second->getProtein(payload.substrateName);
+            if (!product)
+                product = assembly.second->getProtein(payload.productName);
+        }
+        if (!enzyme)
+            PLUGIN_THROW("Enzyme " + payload.enzymeName +
+                         " could not be found in scene");
+        if (!substrate)
+            PLUGIN_THROW("Substrate " + payload.substrateName +
+                         " could not be found in scene");
+        if (!product)
+            PLUGIN_THROW("Product " + payload.productName +
+                         " could not be found in scene");
+
+        auto it = _assemblies.find(payload.assemblyName);
+        if (it != _assemblies.end())
+            (*it).second->addEnzymeReaction(payload, enzyme, substrate,
+                                            product);
+        else
+            PLUGIN_THROW("Assembly " + payload.assemblyName + " not found");
+    }
+    catch (const std::runtime_error &e)
+    {
+        response.status = false;
+        response.contents = e.what();
+    }
+    return response;
+}
+
+Response BioExplorerPlugin::_setEnzymeReactionProgress(
+    const EnzymeReactionProgressDetails &payload) const
+{
+    ASSEMBLY_CALL_VOID(payload.assemblyName,
+                       setEnzymeReactionProgress(payload));
 }
 
 Response BioExplorerPlugin::_setAminoAcid(const AminoAcidDetails &payload) const

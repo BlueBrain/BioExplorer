@@ -469,6 +469,40 @@ typedef struct
 } AminoAcidDetails;
 
 /**
+ * @brief An enzyme reaction
+ *
+ */
+typedef struct
+{
+    /** Name of the assembly that owns the enzyme reaction */
+    std::string assemblyName;
+    /** Name of the enzyme reaction in the assembly */
+    std::string name;
+    /** String containing a list of PDB description for the enzyme protein */
+    std::string enzymeName;
+    /** String containing a list of PDB description for the substrate */
+    std::string substrateName;
+    /** String containing a list of PDB description for the product */
+    std::string productName;
+} EnzymeReactionDetails;
+
+/**
+ * @brief Progress of an enzyme reaction for a given instance
+ *
+ */
+typedef struct
+{
+    /** Name of the assembly that owns the enzyme reaction */
+    std::string assemblyName;
+    /** Name of the enzyme reaction in the assembly */
+    std::string name;
+    /** Instance of the substrate molecule */
+    size_t instanceId;
+    /** Double containing the progress of the reaction (0..1) */
+    double progress;
+} EnzymeReactionProgressDetails;
+
+/**
  * @brief Defines the parameters needed when adding 3D grid in the scene
  *
  */
@@ -911,7 +945,11 @@ using GlycansMap = std::map<std::string, GlycansPtr>;
 
 class RNASequence;
 using RNASequencePtr = std::shared_ptr<RNASequence>;
-using RNASequenceMap = std::map<std::string, std::string>;
+using RNASequenceMap = std::map<std::string, RNASequencePtr>;
+
+class EnzymeReaction;
+using EnzymeReactionPtr = std::shared_ptr<EnzymeReaction>;
+using EnzymeReactionMap = std::map<std::string, EnzymeReactionPtr>;
 
 /**
  * @brief Structure containing information about an atom, as stored in a PDB

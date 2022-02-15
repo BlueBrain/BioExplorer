@@ -758,7 +758,7 @@ class BioExplorer:
         :representation: Multiplies atom radius by the specified value
         :clipping_planes: List of clipping planes to apply to the virus assembly
         :position: Position of the cell in the scene
-        :rotation: rotation of the cell in the scene
+        :rotation: Rotation of the cell in the scene
         :animation_params: Seed used to randomise position the elements in the membrane
         """
         assert isinstance(cell, Cell)
@@ -826,7 +826,7 @@ class BioExplorer:
 
         _protein = AssemblyProtein(
             assembly_name=volume.name,
-            name=volume.name,
+            name=volume.protein.name,
             source=volume.protein.source,
             load_non_polymer_chemicals=volume.protein.
             load_non_polymer_chemicals,
@@ -938,6 +938,39 @@ class BioExplorer:
         if not result["status"]:
             raise RuntimeError(result["contents"])
         return result
+
+    def add_enzyme_reaction(self, enzyme_reaction, progress=0.0):
+        """
+        Add an enzyme reaction to the scene
+
+        :enzyme_reaction: Description of the enzyme reaction
+        :progress: Progress of the reaction (0..1)
+        """
+        assert isinstance(enzyme_reaction, EnzymeReaction)
+        assert isinstance(progress, float)
+
+        self.remove_assembly(enzyme_reaction.assembly_name)
+        result = self.add_assembly(name=enzyme_reaction.assembly_name,
+                                   shape=BioExplorer.ASSEMBLY_SHAPE_POINT,
+                                   shape_params=Vector3())
+        if not result["status"]:
+            raise RuntimeError(result["contents"])
+
+        params = dict()
+        params["assemblyName"] = enzyme_reaction.assembly_name
+        params["name"] = enzyme_reaction.name
+        params["enzymeName"] = enzyme_reaction.enzyme.name
+        params["substrateName"] = enzyme_reaction.substrate.name
+        params["productName"] = enzyme_reaction.product.name
+        return self._invoke_and_check("add-enzyme-reaction", params)
+
+    def set_enzyme_reaction_progress(self, enzyme_reaction, instance_id=0, progress=0.0):
+        params = dict()
+        params["assemblyName"] = enzyme_reaction.assembly_name
+        params["name"] = enzyme_reaction.name
+        params["instanceId"] = enzyme_reaction.substrate_instance
+        params["progress"] = progress
+        return self._invoke_and_check("set-enzyme-reaction-progress", params)
 
     @ staticmethod
     def get_mol():
@@ -2515,3 +2548,36 @@ class Virus:
         self.membrane = membrane
         self.rna_sequence = rna_sequence
         self.shape_params = shape_params
+
+
+class EnzymeReaction:
+    """
+    Enzymes are catalysts and increase the speed of a chemical reaction without themselves
+    undergoing any permanent chemical change. They are neither used up in the reaction nor do
+    they appear as reaction products.
+    The basic enzymatic reaction can be represented as follows:
+    - E represents the enzyme catalyzing the reaction,
+    - S the substrate, the substance being changed
+    - P the product of the reaction
+
+    S + E -> P + E
+    """
+
+    def __init__(self, assembly_name, name, enzyme, substrate, product, substrate_instance=0):
+        """
+        Enzyme reaction descriptor
+
+        :name: Name of the reaction in the scene
+        :enzyme: The enzyme catalyzing the reaction
+        :substrate: The substance being changed
+        :product: The product of the reaction
+        """
+        assert isinstance(enzyme, Protein)
+        assert isinstance(substrate, Protein)
+        assert isinstance(product, Protein)
+        self.assembly_name = assembly_name
+        self.name = name
+        self.enzyme = enzyme
+        self.substrate = substrate
+        self.substrate_instance = substrate_instance
+        self.product = product
