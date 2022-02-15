@@ -651,6 +651,15 @@ Response BioExplorerPlugin::_resetCamera()
     Response response;
     const auto &scene = _api->getScene();
     auto &camera = _api->getCamera();
+
+    const auto &modelDescriptors = scene.getModelDescriptors();
+    if (modelDescriptors.empty())
+    {
+        response.status = false;
+        response.contents = "Cannot reset camera on an empty scene";
+        return response;
+    }
+
     Boxd aabb;
     for (const auto modelDescriptor : scene.getModelDescriptors())
         for (const auto &instance : modelDescriptor->getInstances())
