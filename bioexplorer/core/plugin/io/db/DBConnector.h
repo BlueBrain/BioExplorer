@@ -51,7 +51,13 @@ public:
      *
      * @return GeneralSettings* Pointer to the object
      */
-    static DBConnector& getInstance();
+    static DBConnector& getInstance()
+    {
+        std::lock_guard<std::mutex> lock(_mutex);
+        if (!_instance)
+            _instance = new DBConnector();
+        return *_instance;
+    }
 
     /**
      * @brief Connects to the database using the provided command line arguments

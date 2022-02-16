@@ -44,8 +44,10 @@ using namespace common;
 using namespace meshing;
 #endif
 
-const std::string METADATA_AA_RANGE = "Amino acids range";
+const std::string METADATA_AA_RANGE = "Amino Acids range";
 const std::string METADATA_AA_SEQUENCE = "Amino Acid Sequence";
+const double DEFAULT_BOND_RADIUS = 0.025;
+const double DEFAULT_STICK_DISTANCE = 0.185;
 
 // Atomic radii in picometers (10e-12 meters)
 const double DEFAULT_ATOM_RADIUS = 25.0;
@@ -214,12 +216,12 @@ void Molecule::_buildAtomicStruture(const ProteinRepresentation representation,
                 model.addCylinder(bond.first,
                                   {atomSrc.position, center,
                                    static_cast<float>(atomRadiusMultiplier *
-                                                      BOND_RADIUS)});
+                                                      DEFAULT_BOND_RADIUS)});
 
                 model.addCylinder(bondedAtom,
                                   {atomDst.position, center,
                                    static_cast<float>(atomRadiusMultiplier *
-                                                      BOND_RADIUS)});
+                                                      DEFAULT_BOND_RADIUS)});
             }
         }
     }
@@ -242,14 +244,15 @@ void Molecule::_buildAtomicStruture(const ProteinRepresentation representation,
                 {
                     const auto center =
                         ((*it2).second.position + atom1.second.position) / 2.0;
-                    model.addCylinder(atom1.first,
-                                      {atom1.second.position, center,
-                                       static_cast<float>(atomRadiusMultiplier *
-                                                          BOND_RADIUS)});
+                    model.addCylinder(
+                        atom1.first, {atom1.second.position, center,
+                                      static_cast<float>(atomRadiusMultiplier *
+                                                         DEFAULT_BOND_RADIUS)});
                     model.addCylinder((*it2).first,
                                       {(*it2).second.position, center,
-                                       static_cast<float>(atomRadiusMultiplier *
-                                                          BOND_RADIUS)});
+                                       static_cast<float>(
+                                           atomRadiusMultiplier *
+                                           DEFAULT_BOND_RADIUS)});
                 }
                 ++it2;
                 ++it1;

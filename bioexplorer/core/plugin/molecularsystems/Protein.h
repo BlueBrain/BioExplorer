@@ -150,6 +150,20 @@ public:
      */
     void addSugars(const SugarsDetails& details);
 
+    /**
+     * @brief Get the protein transformation
+     *
+     * @return Transformation Protein transformation
+     */
+    Transformation getTransformation() const;
+
+    /**
+     * @brief Get the protein animation details
+     *
+     * @return AnimationDetails Protein animation details
+     */
+    AnimationDetails getAnimationDetails() const;
+
 private:
     // Analysis
     void _getSitesTransformations(

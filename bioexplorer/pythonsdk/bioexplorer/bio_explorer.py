@@ -939,15 +939,13 @@ class BioExplorer:
             raise RuntimeError(result["contents"])
         return result
 
-    def add_enzyme_reaction(self, enzyme_reaction, progress=0.0):
+    def add_enzyme_reaction(self, enzyme_reaction):
         """
         Add an enzyme reaction to the scene
 
         :enzyme_reaction: Description of the enzyme reaction
-        :progress: Progress of the reaction (0..1)
         """
         assert isinstance(enzyme_reaction, EnzymeReaction)
-        assert isinstance(progress, float)
 
         self.remove_assembly(enzyme_reaction.assembly_name)
         result = self.add_assembly(name=enzyme_reaction.assembly_name,
@@ -956,19 +954,33 @@ class BioExplorer:
         if not result["status"]:
             raise RuntimeError(result["contents"])
 
+        substrate_names = ''
+        for substrate in enzyme_reaction.substrates:
+            assert isinstance(substrate, Protein)
+            if substrate_names != '':
+                substrate_names += BioExplorer.CONTENTS_DELIMITER
+            substrate_names += substrate.name
+
+        product_names = ''
+        for product in enzyme_reaction.products:
+            assert isinstance(product, Protein)
+            if product_names != '':
+                product_names += BioExplorer.CONTENTS_DELIMITER
+            product_names += product.name
+
         params = dict()
         params["assemblyName"] = enzyme_reaction.assembly_name
         params["name"] = enzyme_reaction.name
         params["enzymeName"] = enzyme_reaction.enzyme.name
-        params["substrateName"] = enzyme_reaction.substrate.name
-        params["productName"] = enzyme_reaction.product.name
+        params["substrateNames"] = substrate_names
+        params["productNames"] = product_names
         return self._invoke_and_check("add-enzyme-reaction", params)
 
     def set_enzyme_reaction_progress(self, enzyme_reaction, instance_id=0, progress=0.0):
         params = dict()
         params["assemblyName"] = enzyme_reaction.assembly_name
         params["name"] = enzyme_reaction.name
-        params["instanceId"] = enzyme_reaction.substrate_instance
+        params["instanceId"] = instance_id
         params["progress"] = progress
         return self._invoke_and_check("set-enzyme-reaction-progress", params)
 
@@ -2563,21 +2575,20 @@ class EnzymeReaction:
     S + E -> P + E
     """
 
-    def __init__(self, assembly_name, name, enzyme, substrate, product, substrate_instance=0):
+    def __init__(self, assembly_name, name, enzyme, substrates, products):
         """
         Enzyme reaction descriptor
 
         :name: Name of the reaction in the scene
         :enzyme: The enzyme catalyzing the reaction
-        :substrate: The substance being changed
-        :product: The product of the reaction
+        :substrates: List of substrates by name
+        :products: List of products by name
         """
         assert isinstance(enzyme, Protein)
-        assert isinstance(substrate, Protein)
-        assert isinstance(product, Protein)
+        assert isinstance(substrates, list)
+        assert isinstance(products, list)
         self.assembly_name = assembly_name
         self.name = name
         self.enzyme = enzyme
-        self.substrate = substrate
-        self.substrate_instance = substrate_instance
-        self.product = product
+        self.substrates = substrates
+        self.products = products

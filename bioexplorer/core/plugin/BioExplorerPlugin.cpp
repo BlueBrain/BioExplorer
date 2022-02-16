@@ -685,9 +685,9 @@ Response BioExplorerPlugin::_resetCamera()
 
     const auto size = aabb.getSize();
     const double diag = 1.6 * std::max(std::max(size.x, size.y), size.z);
-    camera.setPosition(aabb.getCenter() - Vector3d(0.0, 0.0, diag));
+    camera.setPosition(aabb.getCenter() + Vector3d(0.0, 0.0, diag));
     camera.setTarget(aabb.getCenter());
-    camera.setOrientation(safeQuatlookAt(Vector3d(0.0, 0.0, 1.0)));
+    camera.setOrientation(safeQuatlookAt(Vector3d(0.0, 0.0, -1.0)));
     return response;
 }
 
@@ -718,7 +718,7 @@ Response BioExplorerPlugin::_setFocusOn(const FocusOnDetails &payload)
             distance = 3.0 * std::max(std::max(size.x, size.y), size.z);
         }
 
-        const auto direction = normalize(doublesToVector3d(payload.direction));
+        const auto direction = -normalize(doublesToVector3d(payload.direction));
         const auto &translation = transformation.getTranslation();
         camera.setPosition(translation - direction * distance);
         camera.setTarget(translation);
@@ -898,32 +898,66 @@ Response BioExplorerPlugin::_addEnzymeReaction(
     Response response;
     try
     {
+        AssemblyPtr enzymeAssembly{nullptr};
         ProteinPtr enzyme{nullptr};
-        ProteinPtr substrate{nullptr};
-        ProteinPtr product{nullptr};
+
+        const auto substrateNames = split(payload.substrateNames);
+        const auto productNames = split(payload.productNames);
+        Proteins substrates(substrateNames.size());
+        Proteins products(productNames.size());
+
+        uint64_t index = 0;
+        for (const auto &substrateName : substrateNames)
+        {
+            for (auto &assembly : _assemblies)
+            {
+                auto substrate = assembly.second->getProtein(substrateName);
+                if (substrate)
+                {
+                    substrates[index] = substrate;
+                    break;
+                }
+            }
+            ++index;
+        }
+
+        index = 0;
+        for (const auto &productName : productNames)
+        {
+            for (auto &assembly : _assemblies)
+            {
+                auto product = assembly.second->getProtein(productName);
+                if (product)
+                {
+                    products[index] = product;
+                    break;
+                }
+            }
+            ++index;
+        }
+
         for (auto &assembly : _assemblies)
         {
-            if (!enzyme)
-                enzyme = assembly.second->getProtein(payload.enzymeName);
-            if (!substrate)
-                substrate = assembly.second->getProtein(payload.substrateName);
-            if (!product)
-                product = assembly.second->getProtein(payload.productName);
+            enzyme = assembly.second->getProtein(payload.enzymeName);
+            if (enzyme)
+            {
+                enzymeAssembly = assembly.second;
+                break;
+            }
         }
+
         if (!enzyme)
             PLUGIN_THROW("Enzyme " + payload.enzymeName +
                          " could not be found in scene");
-        if (!substrate)
-            PLUGIN_THROW("Substrate " + payload.substrateName +
-                         " could not be found in scene");
-        if (!product)
-            PLUGIN_THROW("Product " + payload.productName +
-                         " could not be found in scene");
+        if (substrates.size() != substrateNames.size())
+            PLUGIN_THROW("Some substrates could not be found in scene");
+        if (products.size() != productNames.size())
+            PLUGIN_THROW("Some products could not be found in scene");
 
         auto it = _assemblies.find(payload.assemblyName);
         if (it != _assemblies.end())
-            (*it).second->addEnzymeReaction(payload, enzyme, substrate,
-                                            product);
+            (*it).second->addEnzymeReaction(payload, enzymeAssembly, enzyme,
+                                            substrates, products);
         else
             PLUGIN_THROW("Assembly " + payload.assemblyName + " not found");
     }

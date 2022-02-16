@@ -647,12 +647,21 @@ ProteinPtr Assembly::getProtein(const std::string &name)
     return protein;
 }
 
-void Assembly::addEnzymeReaction(const EnzymeReactionDetails &details,
-                                 ProteinPtr enzyme, ProteinPtr substrate,
-                                 ProteinPtr product)
+Transformation Assembly::getTransformation() const
 {
-    auto enzymeReaction = EnzymeReactionPtr(
-        new EnzymeReaction(_scene, details, enzyme, substrate, product));
+    Transformation transformation;
+    transformation.setTranslation(doublesToVector3d(_details.position));
+    transformation.setRotation(doublesToQuaterniond(_details.rotation));
+    return transformation;
+}
+
+void Assembly::addEnzymeReaction(const EnzymeReactionDetails &details,
+                                 AssemblyPtr enzymeAssembly, ProteinPtr enzyme,
+                                 Proteins &substrates, Proteins &products)
+{
+    auto enzymeReaction =
+        EnzymeReactionPtr(new EnzymeReaction(_scene, details, enzymeAssembly,
+                                             enzyme, substrates, products));
     _enzymeReactions[details.name] = enzymeReaction;
 }
 

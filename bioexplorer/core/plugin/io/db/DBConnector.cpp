@@ -41,14 +41,6 @@ DBConnector::~DBConnector()
         _connection->disconnect();
 }
 
-DBConnector& DBConnector::getInstance()
-{
-    std::lock_guard<std::mutex> lock(_mutex);
-    if (!_instance)
-        _instance = new DBConnector();
-    return *_instance;
-}
-
 void DBConnector::init(const CommandLineArguments& arguments)
 {
     try

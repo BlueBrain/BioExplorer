@@ -398,8 +398,8 @@ bool from_json(EnzymeReactionDetails &param, const std::string &payload)
         FROM_JSON(param, js, assemblyName);
         FROM_JSON(param, js, name);
         FROM_JSON(param, js, enzymeName);
-        FROM_JSON(param, js, substrateName);
-        FROM_JSON(param, js, productName);
+        FROM_JSON(param, js, substrateNames);
+        FROM_JSON(param, js, productNames);
     }
     catch (...)
     {

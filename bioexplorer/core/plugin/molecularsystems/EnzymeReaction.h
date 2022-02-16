@@ -30,36 +30,51 @@ using namespace brayns;
 using namespace common;
 using namespace details;
 
+using ModelInstanceId = std::pair<uint64_t, uint64_t>;
+
 /**
- * @brief
+ * @brief An Enzyme reaction is a object that combines an existing enyzme, a
+ * list of substrates and a list of products. It implements the way those
+ * molecules interact with each other to describe the chemical reaction.
+ *
  */
 class EnzymeReaction : public Node
 {
 public:
     /**
-     * @brief Construct a new Enzyme Reaction object
+     * @brief Construct a new EnzymeReaction object
      *
-     * @param scene
-     * @param details
-     * @param enzyme
-     * @param substrate
-     * @param product
+     * @param scene The 3D scene where the membrane are added
+     * @param details Details about the enzyme reaction
+     * @param enzymeAssembly Pointer to the assembly containing the enzyme
+     * @param enzyme Pointer to the enzyme
+     * @param substrates List of pointers to the substrates
+     * @param products List of pointers to the products
      */
     EnzymeReaction(Scene& scene, const EnzymeReactionDetails& details,
-                   ProteinPtr enzyme, ProteinPtr substrate, ProteinPtr product);
+                   AssemblyPtr enzymeAssembly, ProteinPtr enzyme,
+                   Proteins& substrates, Proteins& products);
 
     /**
-     * @brief Set the Progress object
+     * @brief Set the progress of the reaction process
      *
-     * @param progress
+     * @param instanceId Instance identifier of the enzyme protein
+     * @param progress Progress of the reaction betweem 0 and 1
      */
     void setProgress(const uint64_t instanceId, const double progress);
 
 protected:
+    Quaterniond _getMoleculeRotation(const double progress,
+                                     const double rotationSpeed = 5.0) const;
+
     Scene& _scene;
+    AssemblyPtr _enzymeAssembly;
     ProteinPtr _enzyme{nullptr};
-    ProteinPtr _substrate{nullptr};
-    ProteinPtr _product{nullptr};
+    Proteins _substrates;
+    Proteins _products;
+    std::map<ModelInstanceId, Transformation> _enzymeInitialTransformations;
+    std::map<ModelInstanceId, Transformation> _substrateInitialTransformations;
+    std::map<ModelInstanceId, Transformation> _productInitialTransformations;
     const EnzymeReactionDetails& _details;
 };
 } // namespace molecularsystems

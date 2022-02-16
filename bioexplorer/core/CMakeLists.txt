@@ -76,6 +76,7 @@ set(${NAME}_SOURCES
     plugin/fields/OctreeNode.cpp
     plugin/io/CacheLoader.cpp
     plugin/io/OOCManager.cpp
+    plugin/io/db/DBConnector.cpp
     plugin/molecularsystems/EnzymeReaction.cpp
     plugin/molecularsystems/Molecule.cpp
     plugin/molecularsystems/Membrane.cpp
@@ -89,6 +90,7 @@ set(${NAME}_SOURCES
 set(${NAME}_PUBLIC_HEADERS
     plugin/io/OOCManager.h
     plugin/io/CacheLoader.h
+    plugin/io/db/DBConnector.h
     plugin/common/Assembly.h
     plugin/common/Node.h
     plugin/molecularsystems/EnzymeReaction.h
@@ -137,11 +139,6 @@ if(${CGAL_FOUND})
     )
 endif()
 
-if(${PQXX_FOUND})
-    list(APPEND ${NAME}_SOURCES plugin/io/db/DBConnector.cpp)
-    list(APPEND ${NAME}_PUBLIC_HEADERS plugin/io/db/DBConnector.h)
-endif()
-
 if(${CGAL_FOUND})
     add_compile_options(-frounding-math)
 endif()
@@ -183,15 +180,11 @@ include_directories(
 set(${NAME}_LINK_LIBRARIES
     PUBLIC ${OSPRAY_LIBRARIES}
     PRIVATE braynsParameters braynsPluginAPI braynsCommon braynsEngine braynsIO
-    braynsOSPRayEngine ${FreeImage_LIBRARIES}
+    braynsOSPRayEngine ${FreeImage_LIBRARIES} ${PQXX_LIBRARIES}
 )
 
 if(${CGAL_FOUND})
     list(APPEND ${NAME}_LINK_LIBRARIES ${CGAL_LIBRARIES})
-endif()
-
-if(${PQXX_FOUND})
-    list(APPEND ${NAME}_LINK_LIBRARIES ${PQXX_LIBRARIES})
 endif()
 
 add_library(

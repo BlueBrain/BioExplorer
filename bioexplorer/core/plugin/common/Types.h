@@ -35,8 +35,6 @@ namespace bioexplorer
 using namespace brayns;
 
 // Consts
-const double BOND_RADIUS = 0.025;
-const double DEFAULT_STICK_DISTANCE = 0.175;
 const Vector3d UP_VECTOR = {0.0, 1.0, 0.0};
 
 const std::string CONTENTS_DELIMITER = "||||";
@@ -481,10 +479,10 @@ typedef struct
     std::string name;
     /** String containing a list of PDB description for the enzyme protein */
     std::string enzymeName;
-    /** String containing a list of PDB description for the substrate */
-    std::string substrateName;
-    /** String containing a list of PDB description for the product */
-    std::string productName;
+    /** String containing a list substrate names */
+    std::string substrateNames;
+    /** String containing a list of product names */
+    std::string productNames;
 } EnzymeReactionDetails;
 
 /**
@@ -939,6 +937,7 @@ using MembranePtr = std::shared_ptr<Membrane>;
 class Protein;
 using ProteinPtr = std::shared_ptr<Protein>;
 using ProteinMap = std::map<std::string, ProteinPtr>;
+using Proteins = std::vector<ProteinPtr>;
 
 class Glycans;
 using GlycansPtr = std::shared_ptr<Glycans>;

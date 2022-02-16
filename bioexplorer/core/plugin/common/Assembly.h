@@ -181,10 +181,14 @@ public:
      * @brief addEnzymeReaction Add enzyme reaction to the scene
      *
      * @param details Details about the enzyme reaction
+     * @param enzymeAssembly Pointer to the assembly containing the enzyme
+     * @param enzyme Pointer to the enzyme
+     * @param substrates List of pointers to the substrates
+     * @param products List of pointers to the products
      */
     void addEnzymeReaction(const EnzymeReactionDetails &details,
-                           ProteinPtr enzyme, ProteinPtr substrate,
-                           ProteinPtr product);
+                           AssemblyPtr enzymeAssembly, ProteinPtr enzyme,
+                           Proteins &substrates, Proteins &products);
 
     /**
      * @brief setEnzymeReactionProgress Set enzyme reaction progress
@@ -214,6 +218,20 @@ public:
     ProteinInspectionDetails inspect(const Vector3d &origin,
                                      const Vector3d &direction,
                                      double &t) const;
+
+    /**
+     * @brief Get the assembly transformation
+     *
+     * @return Transformation Assembly transformation
+     */
+    Transformation getTransformation() const;
+
+    /**
+     * @brief Get the assembly shape
+     *
+     * @return Shape Assembly shape
+     */
+    ShapePtr getShape() const { return _shape; }
 
 #ifdef USE_VASCULATURE
     void addVasculature(const VasculatureDetails &details);
