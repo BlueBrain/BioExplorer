@@ -20,6 +20,8 @@
 
 #pragma once
 
+#include <Defines.h>
+
 namespace bioexplorer
 {
 namespace mediamaker

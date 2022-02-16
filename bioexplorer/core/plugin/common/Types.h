@@ -21,6 +21,7 @@
 #pragma once
 
 #include <Defines.h>
+
 #include <brayns/common/geometry/SDFGeometry.h>
 #include <brayns/engineapi/Scene.h>
 

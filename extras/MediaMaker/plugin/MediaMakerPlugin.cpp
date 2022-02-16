@@ -21,7 +21,6 @@
 #include "MediaMakerPlugin.h"
 #include <plugin/common/Logs.h>
 
-#include <Defines.h>
 #include <brayns/common/ActionInterface.h>
 #include <brayns/engineapi/Camera.h>
 #include <brayns/engineapi/Engine.h>

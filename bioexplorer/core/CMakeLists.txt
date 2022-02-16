@@ -20,8 +20,9 @@ option(${NAME}_USE_CGAL "Use CGAL meshing features" ON)
 
 add_subdirectory(deps)
 
-# Mandatory packages
+# Packages
 find_package(OpenMP)
+find_package(PQXX REQUIRED)
 
 # Optional packages (managed by Defines.h.in)
 set(CGAL_FOUND 0)
@@ -31,17 +32,19 @@ endif()
 
 set(USE_VASCULATURE 0)
 if(${NAME}_USE_VASCULATURE)
-  find_package(HDF5 REQUIRED)
   set(USE_VASCULATURE 1)
 endif()
 
-find_package(PQXX REQUIRED)
-
 include(ispc)
 
-configure_file( plugin/common/Defines.h.in ${CMAKE_BINARY_DIR}/generated/bioexplorer/Defines.h )
-include_directories( ${PROJECT_SOURCE_DIR}/bioexplorer/core ${CMAKE_BINARY_DIR}/generated/bioexplorer )
-
+configure_file(
+    plugin/common/Defines.h.in
+    ${CMAKE_BINARY_DIR}/generated/bioexplorer/Defines.h
+)
+include_directories(
+    ${PROJECT_SOURCE_DIR}/bioexplorer/core
+    ${CMAKE_BINARY_DIR}/generated/bioexplorer
+)
 
 # ==============================================================================
 # Sources

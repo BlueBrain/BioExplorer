@@ -42,6 +42,9 @@ namespace bioexplorer
 using namespace common;
 using namespace io;
 using namespace db;
+#ifdef USE_VASCULATURE
+using namespace vasculature;
+#endif
 
 const std::string PLUGIN_API_PREFIX = "be-";
 
