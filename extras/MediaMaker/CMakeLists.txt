@@ -25,10 +25,9 @@ find_package(TIFF REQUIRED SYSTEM)
 
 include(ispc)
 
-configure_file(plugin/Defines.h.in ${CMAKE_BINARY_DIR}/generated/${NAME}/Defines.h)
 include_directories(
-    ${CMAKE_BINARY_DIR}/generated/${NAME}
     ${BIOEXPLORER_SOURCE_DIR}
+    ${CMAKE_BINARY_DIR}/generated/bioexplorer
 )
 
 # ==============================================================================

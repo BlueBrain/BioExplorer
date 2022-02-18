@@ -460,5 +460,18 @@ void Protein::addSugars(const SugarsDetails& details)
     _glycans[details.name] = std::move(glucoses);
     _scene.addModel(modelDescriptor);
 }
+
+Transformation Protein::getTransformation() const
+{
+    Transformation transformation;
+    transformation.setTranslation(doublesToVector3d(_details.position));
+    transformation.setRotation(doublesToQuaterniond(_details.rotation));
+    return transformation;
+}
+
+AnimationDetails Protein::getAnimationDetails() const
+{
+    return doublesToAnimationDetails(_details.animationParams);
+}
 } // namespace molecularsystems
 } // namespace bioexplorer

@@ -21,7 +21,6 @@
 #include "MediaMakerPlugin.h"
 #include <plugin/common/Logs.h>
 
-#include <Defines.h>
 #include <brayns/common/ActionInterface.h>
 #include <brayns/engineapi/Camera.h>
 #include <brayns/engineapi/Engine.h>
@@ -103,8 +102,9 @@ void MediaMakerPlugin::init()
     {
         std::string entryPoint = PLUGIN_API_PREFIX + "version";
         PLUGIN_INFO("Registering '" + entryPoint + "' endpoint");
-        actionInterface->registerRequest<Response>(entryPoint, [&]()
-                                                   { return _version(); });
+        actionInterface->registerRequest<Response>(entryPoint, [&]() {
+            return _version();
+        });
 
         entryPoint = PLUGIN_API_PREFIX + "set-odu-camera";
         PLUGIN_INFO("Registering '" + entryPoint + "' endpoint");
@@ -125,9 +125,9 @@ void MediaMakerPlugin::init()
         entryPoint = PLUGIN_API_PREFIX + "get-export-frames-progress";
         PLUGIN_INFO("Registering '" + entryPoint + "' endpoint");
         actionInterface->registerRequest<FrameExportProgress>(
-            entryPoint,
-            [&](void) -> FrameExportProgress
-            { return _getFrameExportProgress(); });
+            entryPoint, [&](void) -> FrameExportProgress {
+                return _getFrameExportProgress();
+            });
     }
 
     _addDepthRenderer(engine);
@@ -316,11 +316,11 @@ void MediaMakerPlugin::_exportDepthBuffer() const
     TIFFSetField(image, TIFFTAG_SAMPLEFORMAT, SAMPLEFORMAT_IEEEFP);
     TIFFSetField(image, TIFFTAG_COMPRESSION, COMPRESSION_NONE);
 
-    double *scan_line = (double *)malloc(size.x * (sizeof(double)));
+    float *scan_line = (float *)malloc(1 + size.x * (sizeof(float)));
 
     for (uint32_t i = 0; i < size.y; ++i)
     {
-        memcpy(scan_line, &depthBuffer[i * size.x], size.x * sizeof(double));
+        memcpy(scan_line, &depthBuffer[i * size.x], size.x * sizeof(float));
         TIFFWriteScanline(image, scan_line, size.y - 1 - i, 0);
     }
 

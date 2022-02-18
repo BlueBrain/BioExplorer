@@ -23,7 +23,8 @@
 
 from .version import VERSION as __version__
 from .bio_explorer import BioExplorer, Volume, Membrane, AssemblyProtein, Protein, Sugars, \
-    RNASequence, Cell, Surfactant, Virus, AnimationParams, Vector2, Vector3, Quaternion
+    RNASequence, Cell, Surfactant, Virus, EnzymeReaction, AnimationParams, Vector2, \
+    Vector3, Quaternion
 from .movie_maker import MovieMaker
 from .movie_scenario import MovieScenario
 from .metabolism import Metabolism
@@ -34,4 +35,4 @@ __all__ = [
     'Widgets', 'BioExplorer', 'Membrane', 'Protein', 'AssemblyProtein', 'Sugars',
     'RNASequence', 'Volume', 'Surfactant', 'Cell', 'Vector2', 'Vector3', 'AnimationParams',
     'Quaternion', 'Virus', 'MovieMaker', 'TransferFunction', 'MovieScenario', 'Metabolism',
-    '__version__']
+    'EnzymeReaction', '__version__']

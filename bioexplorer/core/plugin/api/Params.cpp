@@ -267,6 +267,8 @@ bool from_json(RNASequenceDetails &param, const std::string &payload)
         FROM_JSON(param, js, shapeParams);
         FROM_JSON(param, js, valuesRange);
         FROM_JSON(param, js, curveParams);
+        FROM_JSON(param, js, atomRadiusMultiplier);
+        FROM_JSON(param, js, representation);
         FROM_JSON(param, js, position);
         FROM_JSON(param, js, rotation);
         FROM_JSON(param, js, animationParams);
@@ -380,6 +382,41 @@ bool from_json(SugarsDetails &param, const std::string &payload)
         FROM_JSON(param, js, siteIndices);
         FROM_JSON(param, js, rotation);
         FROM_JSON(param, js, animationParams);
+    }
+    catch (...)
+    {
+        return false;
+    }
+    return true;
+}
+
+bool from_json(EnzymeReactionDetails &param, const std::string &payload)
+{
+    try
+    {
+        auto js = nlohmann::json::parse(payload);
+        FROM_JSON(param, js, assemblyName);
+        FROM_JSON(param, js, name);
+        FROM_JSON(param, js, enzymeName);
+        FROM_JSON(param, js, substrateNames);
+        FROM_JSON(param, js, productNames);
+    }
+    catch (...)
+    {
+        return false;
+    }
+    return true;
+}
+
+bool from_json(EnzymeReactionProgressDetails &param, const std::string &payload)
+{
+    try
+    {
+        auto js = nlohmann::json::parse(payload);
+        FROM_JSON(param, js, assemblyName);
+        FROM_JSON(param, js, name);
+        FROM_JSON(param, js, instanceId);
+        FROM_JSON(param, js, progress);
     }
     catch (...)
     {

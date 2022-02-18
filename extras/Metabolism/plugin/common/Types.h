@@ -20,6 +20,8 @@
 
 #pragma once
 
+#include <Defines.h>
+
 #include <bioexplorer/core/plugin/common/Types.h>
 
 using namespace brayns;

@@ -83,6 +83,9 @@ private:
     Response _addProtein(const ProteinDetails &payload) const;
     Response _addGlycans(const SugarsDetails &payload) const;
     Response _addSugars(const SugarsDetails &payload) const;
+    Response _addEnzymeReaction(const EnzymeReactionDetails &payload) const;
+    Response _setEnzymeReactionProgress(
+        const EnzymeReactionProgressDetails &payload) const;
 
     // Other elements
     Response _addGrid(const AddGridDetails &payload);

@@ -139,6 +139,11 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:aa2d208b60fb8ee68480c00c8f9ad280a"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d1/d5f/classbioexplorer_1_1io_1_1CacheLoader.html#aa2d208b60fb8ee68480c00c8f9ad280a">exportToFile</a> (const std::string &amp;filename, const Boxd &amp;bounds) const</td></tr>
 <tr class="memdesc:aa2d208b60fb8ee68480c00c8f9ad280a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Exports an optimized binary representation the 3D scene to a file.  <a href="../../d1/d5f/classbioexplorer_1_1io_1_1CacheLoader.html#aa2d208b60fb8ee68480c00c8f9ad280a">More...</a><br /></td></tr>
 <tr class="separator:aa2d208b60fb8ee68480c00c8f9ad280a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2d33e96be393ad7833a80cd3fc8646de"><td class="memItemLeft" align="right" valign="top">std::vector&lt; ModelDescriptorPtr &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d1/d5f/classbioexplorer_1_1io_1_1CacheLoader.html#a2d33e96be393ad7833a80cd3fc8646de">importBrickFromDB</a> (const int32_t brickId) const</td></tr>
+<tr class="separator:a2d33e96be393ad7833a80cd3fc8646de"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab25701bbc360499ef7a202c2499fc1eb"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d1/d5f/classbioexplorer_1_1io_1_1CacheLoader.html#ab25701bbc360499ef7a202c2499fc1eb">exportBrickToDB</a> (const int32_t brickId, const Boxd &amp;bounds) const</td></tr>
+<tr class="memdesc:ab25701bbc360499ef7a202c2499fc1eb"><td class="mdescLeft">&#160;</td><td class="mdescRight">Exports an optimized binary representation the 3D scene to a DB.  <a href="../../d1/d5f/classbioexplorer_1_1io_1_1CacheLoader.html#ab25701bbc360499ef7a202c2499fc1eb">More...</a><br /></td></tr>
+<tr class="separator:ab25701bbc360499ef7a202c2499fc1eb"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a3f8d953e368f1ae9bc776845b500a457"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d1/d5f/classbioexplorer_1_1io_1_1CacheLoader.html#a3f8d953e368f1ae9bc776845b500a457">exportToXYZ</a> (const std::string &amp;filename, const XYZFileFormat format) const</td></tr>
 <tr class="memdesc:a3f8d953e368f1ae9bc776845b500a457"><td class="mdescLeft">&#160;</td><td class="mdescRight">Exports atom information from the 3D scene to a file.  <a href="../../d1/d5f/classbioexplorer_1_1io_1_1CacheLoader.html#a3f8d953e368f1ae9bc776845b500a457">More...</a><br /></td></tr>
 <tr class="separator:a3f8d953e368f1ae9bc776845b500a457"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -189,11 +194,43 @@ Static Public Member Functions</h2></td></tr>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="../../d5/dec/CacheLoader_8cpp_source.html#l00063">63</a> of file <a class="el" href="../../d5/dec/CacheLoader_8cpp_source.html">CacheLoader.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d5/dec/CacheLoader_8cpp_source.html#l00064">64</a> of file <a class="el" href="../../d5/dec/CacheLoader_8cpp_source.html">CacheLoader.cpp</a>.</p>
 
 </div>
 </div>
 <h2 class="groupheader">Member Function Documentation</h2>
+<a id="ab25701bbc360499ef7a202c2499fc1eb"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab25701bbc360499ef7a202c2499fc1eb">&#9670;&nbsp;</a></span>exportBrickToDB()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void bioexplorer::io::CacheLoader::exportBrickToDB </td>
+          <td>(</td>
+          <td class="paramtype">const int32_t&#160;</td>
+          <td class="paramname"><em>brickId</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const Boxd &amp;&#160;</td>
+          <td class="paramname"><em>bounds</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Exports an optimized binary representation the 3D scene to a DB. </p>
+
+<p class="definition">Definition at line <a class="el" href="../../d5/dec/CacheLoader_8cpp_source.html#l00802">802</a> of file <a class="el" href="../../d5/dec/CacheLoader_8cpp_source.html">CacheLoader.cpp</a>.</p>
+
+</div>
+</div>
 <a id="aa2d208b60fb8ee68480c00c8f9ad280a"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#aa2d208b60fb8ee68480c00c8f9ad280a">&#9670;&nbsp;</a></span>exportToFile()</h2>
 
@@ -228,7 +265,7 @@ Static Public Member Functions</h2></td></tr>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="../../d5/dec/CacheLoader_8cpp_source.html#l00754">754</a> of file <a class="el" href="../../d5/dec/CacheLoader_8cpp_source.html">CacheLoader.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d5/dec/CacheLoader_8cpp_source.html#l00755">755</a> of file <a class="el" href="../../d5/dec/CacheLoader_8cpp_source.html">CacheLoader.cpp</a>.</p>
 
 </div>
 </div>
@@ -327,7 +364,7 @@ Static Public Member Functions</h2></td></tr>
 <p>Get the name of the loader. </p>
 <dl class="section return"><dt>Returns</dt><dd>A string containing the name of the loader </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="../../d5/dec/CacheLoader_8cpp_source.html#l00069">69</a> of file <a class="el" href="../../d5/dec/CacheLoader_8cpp_source.html">CacheLoader.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d5/dec/CacheLoader_8cpp_source.html#l00070">70</a> of file <a class="el" href="../../d5/dec/CacheLoader_8cpp_source.html">CacheLoader.cpp</a>.</p>
 
 </div>
 </div>
@@ -387,7 +424,34 @@ Static Public Member Functions</h2></td></tr>
 <p>Get the list of extensions supported by loaded. </p>
 <dl class="section return"><dt>Returns</dt><dd>The list of extensions supported by loaded </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="../../d5/dec/CacheLoader_8cpp_source.html#l00074">74</a> of file <a class="el" href="../../d5/dec/CacheLoader_8cpp_source.html">CacheLoader.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d5/dec/CacheLoader_8cpp_source.html#l00075">75</a> of file <a class="el" href="../../d5/dec/CacheLoader_8cpp_source.html">CacheLoader.cpp</a>.</p>
+
+</div>
+</div>
+<a id="a2d33e96be393ad7833a80cd3fc8646de"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a2d33e96be393ad7833a80cd3fc8646de">&#9670;&nbsp;</a></span>importBrickFromDB()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::vector&lt; ModelDescriptorPtr &gt; bioexplorer::io::CacheLoader::importBrickFromDB </td>
+          <td>(</td>
+          <td class="paramtype">const int32_t&#160;</td>
+          <td class="paramname"><em>brickId</em></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">brickId</td><td></td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>std::vector&lt;ModelDescriptorPtr&gt; </dd></dl>
+
+<p class="definition">Definition at line <a class="el" href="../../d5/dec/CacheLoader_8cpp_source.html#l00783">783</a> of file <a class="el" href="../../d5/dec/CacheLoader_8cpp_source.html">CacheLoader.cpp</a>.</p>
 
 </div>
 </div>
@@ -442,7 +506,7 @@ Static Public Member Functions</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>A brayns model if loading is successfull </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="../../d5/dec/CacheLoader_8cpp_source.html#l00086">86</a> of file <a class="el" href="../../d5/dec/CacheLoader_8cpp_source.html">CacheLoader.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d5/dec/CacheLoader_8cpp_source.html#l00087">87</a> of file <a class="el" href="../../d5/dec/CacheLoader_8cpp_source.html">CacheLoader.cpp</a>.</p>
 
 </div>
 </div>
@@ -497,7 +561,7 @@ Static Public Member Functions</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>A brayns model if loading is successfull </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="../../d5/dec/CacheLoader_8cpp_source.html#l00423">423</a> of file <a class="el" href="../../d5/dec/CacheLoader_8cpp_source.html">CacheLoader.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d5/dec/CacheLoader_8cpp_source.html#l00424">424</a> of file <a class="el" href="../../d5/dec/CacheLoader_8cpp_source.html">CacheLoader.cpp</a>.</p>
 
 </div>
 </div>
@@ -548,7 +612,7 @@ Static Public Member Functions</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>std::vector&lt;ModelDescriptorPtr&gt; </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="../../d5/dec/CacheLoader_8cpp_source.html#l00384">384</a> of file <a class="el" href="../../d5/dec/CacheLoader_8cpp_source.html">CacheLoader.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d5/dec/CacheLoader_8cpp_source.html#l00385">385</a> of file <a class="el" href="../../d5/dec/CacheLoader_8cpp_source.html">CacheLoader.cpp</a>.</p>
 
 </div>
 </div>
@@ -596,7 +660,7 @@ Static Public Member Functions</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>true if the file extension is supported by the loader, false otherwise </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="../../d5/dec/CacheLoader_8cpp_source.html#l00079">79</a> of file <a class="el" href="../../d5/dec/CacheLoader_8cpp_source.html">CacheLoader.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d5/dec/CacheLoader_8cpp_source.html#l00080">80</a> of file <a class="el" href="../../d5/dec/CacheLoader_8cpp_source.html">CacheLoader.cpp</a>.</p>
 
 </div>
 </div>

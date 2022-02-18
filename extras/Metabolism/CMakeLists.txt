@@ -25,10 +25,10 @@ find_package(PQXX REQUIRED)
 
 include(ispc)
 
-configure_file(plugin/common/Defines.h.in ${CMAKE_BINARY_DIR}/generated/${NAME}/Defines.h)
 include_directories(
-    ${CMAKE_BINARY_DIR}/generated/${NAME}
-    ${BIOEXPLORER_SOURCE_DIR})
+    ${BIOEXPLORER_SOURCE_DIR}
+    ${CMAKE_BINARY_DIR}/generated/bioexplorer
+)
 
 # ==============================================================================
 # Sources

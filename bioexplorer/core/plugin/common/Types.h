@@ -21,6 +21,7 @@
 #pragma once
 
 #include <Defines.h>
+
 #include <brayns/common/geometry/SDFGeometry.h>
 #include <brayns/engineapi/Scene.h>
 
@@ -34,8 +35,6 @@ namespace bioexplorer
 using namespace brayns;
 
 // Consts
-const double BOND_RADIUS = 0.025;
-const double DEFAULT_STICK_DISTANCE = 0.175;
 const Vector3d UP_VECTOR = {0.0, 1.0, 0.0};
 
 const std::string CONTENTS_DELIMITER = "||||";
@@ -400,6 +399,11 @@ typedef struct
     std::vector<double> valuesRange;
     /** Parameters used to compute the shape */
     std::vector<double> curveParams;
+    /** Multiplier applied to the radius of the molecule atoms */
+    double atomRadiusMultiplier;
+    /** Defines the representation of the molecule (Atoms, atoms and sticks,
+     * surface, etc) */
+    ProteinRepresentation representation;
     /** Animation params */
     std::vector<double> animationParams;
     /** Relative position of the RNA sequence in the assembly */
@@ -462,6 +466,40 @@ typedef struct
     /** List of chains in which the amino acid is set */
     std::vector<size_t> chainIds;
 } AminoAcidDetails;
+
+/**
+ * @brief An enzyme reaction
+ *
+ */
+typedef struct
+{
+    /** Name of the assembly that owns the enzyme reaction */
+    std::string assemblyName;
+    /** Name of the enzyme reaction in the assembly */
+    std::string name;
+    /** String containing a list of PDB description for the enzyme protein */
+    std::string enzymeName;
+    /** String containing a list substrate names */
+    std::string substrateNames;
+    /** String containing a list of product names */
+    std::string productNames;
+} EnzymeReactionDetails;
+
+/**
+ * @brief Progress of an enzyme reaction for a given instance
+ *
+ */
+typedef struct
+{
+    /** Name of the assembly that owns the enzyme reaction */
+    std::string assemblyName;
+    /** Name of the enzyme reaction in the assembly */
+    std::string name;
+    /** Instance of the substrate molecule */
+    size_t instanceId;
+    /** Double containing the progress of the reaction (0..1) */
+    double progress;
+} EnzymeReactionProgressDetails;
 
 /**
  * @brief Defines the parameters needed when adding 3D grid in the scene
@@ -899,6 +937,7 @@ using MembranePtr = std::shared_ptr<Membrane>;
 class Protein;
 using ProteinPtr = std::shared_ptr<Protein>;
 using ProteinMap = std::map<std::string, ProteinPtr>;
+using Proteins = std::vector<ProteinPtr>;
 
 class Glycans;
 using GlycansPtr = std::shared_ptr<Glycans>;
@@ -906,7 +945,11 @@ using GlycansMap = std::map<std::string, GlycansPtr>;
 
 class RNASequence;
 using RNASequencePtr = std::shared_ptr<RNASequence>;
-using RNASequenceMap = std::map<std::string, std::string>;
+using RNASequenceMap = std::map<std::string, RNASequencePtr>;
+
+class EnzymeReaction;
+using EnzymeReactionPtr = std::shared_ptr<EnzymeReaction>;
+using EnzymeReactionMap = std::map<std::string, EnzymeReactionPtr>;
 
 /**
  * @brief Structure containing information about an atom, as stored in a PDB

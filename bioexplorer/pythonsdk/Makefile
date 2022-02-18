@@ -31,7 +31,7 @@ VENV_BIN:=$(VENV)/bin
 unexport DISPLAY
 
 # Test coverage pass threshold (percent)
-MIN_COV?=60
+MIN_COV?=50
 VENV_INSTALLED=.installed
 PIP_INSTALL_OPTIONS=--ignore-installed
 

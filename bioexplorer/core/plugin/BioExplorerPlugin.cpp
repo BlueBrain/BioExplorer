@@ -42,6 +42,9 @@ namespace bioexplorer
 using namespace common;
 using namespace io;
 using namespace db;
+#ifdef USE_VASCULATURE
+using namespace vasculature;
+#endif
 
 const std::string PLUGIN_API_PREFIX = "be-";
 
@@ -367,6 +370,21 @@ void BioExplorerPlugin::init()
             endPoint,
             [&](const SugarsDetails &payload) { return _addSugars(payload); });
 
+        endPoint = PLUGIN_API_PREFIX + "add-enzyme-reaction";
+        PLUGIN_INFO(1, "Registering '" + endPoint + "' endpoint");
+        actionInterface->registerRequest<EnzymeReactionDetails, Response>(
+            endPoint, [&](const EnzymeReactionDetails &payload) {
+                return _addEnzymeReaction(payload);
+            });
+
+        endPoint = PLUGIN_API_PREFIX + "set-enzyme-reaction-progress";
+        PLUGIN_INFO(1, "Registering '" + endPoint + "' endpoint");
+        actionInterface
+            ->registerRequest<EnzymeReactionProgressDetails, Response>(
+                endPoint, [&](const EnzymeReactionProgressDetails &payload) {
+                    return _setEnzymeReactionProgress(payload);
+                });
+
         endPoint = PLUGIN_API_PREFIX + "export-to-file";
         PLUGIN_INFO(1, "Registering '" + endPoint + "' endpoint");
         actionInterface->registerRequest<FileAccessDetails, Response>(
@@ -651,16 +669,25 @@ Response BioExplorerPlugin::_resetCamera()
     Response response;
     const auto &scene = _api->getScene();
     auto &camera = _api->getCamera();
+
+    const auto &modelDescriptors = scene.getModelDescriptors();
+    if (modelDescriptors.empty())
+    {
+        response.status = false;
+        response.contents = "Cannot reset camera on an empty scene";
+        return response;
+    }
+
     Boxd aabb;
     for (const auto modelDescriptor : scene.getModelDescriptors())
         for (const auto &instance : modelDescriptor->getInstances())
             aabb.merge(instance.getTransformation().getTranslation());
 
     const auto size = aabb.getSize();
-    const double diag = 3.0 * std::max(std::max(size.x, size.y), size.z);
-    camera.setPosition(aabb.getCenter() - Vector3d(0.0, 0.0, -diag));
+    const double diag = 1.6 * std::max(std::max(size.x, size.y), size.z);
+    camera.setPosition(aabb.getCenter() + Vector3d(0.0, 0.0, diag));
     camera.setTarget(aabb.getCenter());
-    camera.setOrientation(safeQuatlookAt(Vector3d(0.0, 0.0, 1.0)));
+    camera.setOrientation(safeQuatlookAt(Vector3d(0.0, 0.0, -1.0)));
     return response;
 }
 
@@ -691,7 +718,7 @@ Response BioExplorerPlugin::_setFocusOn(const FocusOnDetails &payload)
             distance = 3.0 * std::max(std::max(size.x, size.y), size.z);
         }
 
-        const auto direction = normalize(doublesToVector3d(payload.direction));
+        const auto direction = -normalize(doublesToVector3d(payload.direction));
         const auto &translation = transformation.getTranslation();
         camera.setPosition(translation - direction * distance);
         camera.setTarget(translation);
@@ -863,6 +890,90 @@ Response BioExplorerPlugin::_addGlycans(const SugarsDetails &payload) const
 Response BioExplorerPlugin::_addSugars(const SugarsDetails &payload) const
 {
     ASSEMBLY_CALL_VOID(payload.assemblyName, addSugars(payload));
+}
+
+Response BioExplorerPlugin::_addEnzymeReaction(
+    const EnzymeReactionDetails &payload) const
+{
+    Response response;
+    try
+    {
+        AssemblyPtr enzymeAssembly{nullptr};
+        ProteinPtr enzyme{nullptr};
+
+        const auto substrateNames = split(payload.substrateNames);
+        const auto productNames = split(payload.productNames);
+        Proteins substrates(substrateNames.size());
+        Proteins products(productNames.size());
+
+        uint64_t index = 0;
+        for (const auto &substrateName : substrateNames)
+        {
+            for (auto &assembly : _assemblies)
+            {
+                auto substrate = assembly.second->getProtein(substrateName);
+                if (substrate)
+                {
+                    substrates[index] = substrate;
+                    break;
+                }
+            }
+            ++index;
+        }
+
+        index = 0;
+        for (const auto &productName : productNames)
+        {
+            for (auto &assembly : _assemblies)
+            {
+                auto product = assembly.second->getProtein(productName);
+                if (product)
+                {
+                    products[index] = product;
+                    break;
+                }
+            }
+            ++index;
+        }
+
+        for (auto &assembly : _assemblies)
+        {
+            enzyme = assembly.second->getProtein(payload.enzymeName);
+            if (enzyme)
+            {
+                enzymeAssembly = assembly.second;
+                break;
+            }
+        }
+
+        if (!enzyme)
+            PLUGIN_THROW("Enzyme " + payload.enzymeName +
+                         " could not be found in scene");
+        if (substrates.size() != substrateNames.size())
+            PLUGIN_THROW("Some substrates could not be found in scene");
+        if (products.size() != productNames.size())
+            PLUGIN_THROW("Some products could not be found in scene");
+
+        auto it = _assemblies.find(payload.assemblyName);
+        if (it != _assemblies.end())
+            (*it).second->addEnzymeReaction(payload, enzymeAssembly, enzyme,
+                                            substrates, products);
+        else
+            PLUGIN_THROW("Assembly " + payload.assemblyName + " not found");
+    }
+    catch (const std::runtime_error &e)
+    {
+        response.status = false;
+        response.contents = e.what();
+    }
+    return response;
+}
+
+Response BioExplorerPlugin::_setEnzymeReactionProgress(
+    const EnzymeReactionProgressDetails &payload) const
+{
+    ASSEMBLY_CALL_VOID(payload.assemblyName,
+                       setEnzymeReactionProgress(payload));
 }
 
 Response BioExplorerPlugin::_setAminoAcid(const AminoAcidDetails &payload) const

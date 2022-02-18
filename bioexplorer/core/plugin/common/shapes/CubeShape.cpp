@@ -64,7 +64,18 @@ Transformation CubeShape::getTransformation(
     }
 
     if (animationDetails.rotationSeed != 0)
-        dir = randomQuaternion(occurrence + animationDetails.rotationSeed);
+    {
+        const double roll =
+            M_PI / 2.0 +
+            0.091 * M_PI * cos(animationDetails.rotationSeed * M_PI / 45.0);
+        const double yaw =
+            0.125 * M_PI * cos(animationDetails.rotationSeed * M_PI / 180.0);
+        const double pitch = 0.0;
+
+        dir = Quaterniond({yaw, pitch, roll});
+
+        // dir = randomQuaternion(occurrence + animationDetails.rotationSeed);
+    }
 
     Transformation transformation;
     transformation.setTranslation(pos);

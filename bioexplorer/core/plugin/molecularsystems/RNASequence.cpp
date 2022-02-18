@@ -179,6 +179,8 @@ void RNASequence::_buildRNAAsProteinInstances(const Quaterniond& rotation)
     pd.name = proteinName;
     pd.contents = _details.proteinContents;
     pd.recenter = true;
+    pd.atomRadiusMultiplier = _details.atomRadiusMultiplier;
+    pd.representation = _details.representation;
 
     _protein = ProteinPtr(new Protein(_scene, pd));
     _modelDescriptor = _protein->getModelDescriptor();

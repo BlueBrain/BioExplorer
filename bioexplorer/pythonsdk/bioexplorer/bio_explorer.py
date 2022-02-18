@@ -608,6 +608,7 @@ class BioExplorer:
                 shape_params=params,
                 values_range=Vector2(-8.0 * math.pi, 8.0 * math.pi),
                 curve_params=Vector3(1.51, 1.12, 1.93),
+                atom_radius_multiplier=atom_radius_multiplier, representation=representation,
                 animation_params=ap
             )
             self.add_rna_sequence(
@@ -757,7 +758,7 @@ class BioExplorer:
         :representation: Multiplies atom radius by the specified value
         :clipping_planes: List of clipping planes to apply to the virus assembly
         :position: Position of the cell in the scene
-        :rotation: rotation of the cell in the scene
+        :rotation: Rotation of the cell in the scene
         :animation_params: Seed used to randomise position the elements in the membrane
         """
         assert isinstance(cell, Cell)
@@ -825,7 +826,7 @@ class BioExplorer:
 
         _protein = AssemblyProtein(
             assembly_name=volume.name,
-            name=volume.name,
+            name=volume.protein.name,
             source=volume.protein.source,
             load_non_polymer_chemicals=volume.protein.
             load_non_polymer_chemicals,
@@ -937,6 +938,60 @@ class BioExplorer:
         if not result["status"]:
             raise RuntimeError(result["contents"])
         return result
+
+    def add_enzyme_reaction(self, enzyme_reaction):
+        """
+        Add an enzyme reaction to the scene
+
+        :enzyme_reaction: Description of the enzyme reaction
+        :return: Result of the call to the BioExplorer backend
+        """
+        assert isinstance(enzyme_reaction, EnzymeReaction)
+
+        self.remove_assembly(enzyme_reaction.assembly_name)
+        result = self.add_assembly(name=enzyme_reaction.assembly_name,
+                                   shape=BioExplorer.ASSEMBLY_SHAPE_POINT,
+                                   shape_params=Vector3())
+        if not result["status"]:
+            raise RuntimeError(result["contents"])
+
+        substrate_names = ''
+        for substrate in enzyme_reaction.substrates:
+            assert isinstance(substrate, Protein)
+            if substrate_names != '':
+                substrate_names += BioExplorer.CONTENTS_DELIMITER
+            substrate_names += substrate.name
+
+        product_names = ''
+        for product in enzyme_reaction.products:
+            assert isinstance(product, Protein)
+            if product_names != '':
+                product_names += BioExplorer.CONTENTS_DELIMITER
+            product_names += product.name
+
+        params = dict()
+        params["assemblyName"] = enzyme_reaction.assembly_name
+        params["name"] = enzyme_reaction.name
+        params["enzymeName"] = enzyme_reaction.enzyme.name
+        params["substrateNames"] = substrate_names
+        params["productNames"] = product_names
+        return self._invoke_and_check("add-enzyme-reaction", params)
+
+    def set_enzyme_reaction_progress(self, enzyme_reaction, instance_id=0, progress=0.0):
+        """
+        Set the progress of a given enzyme reaction
+
+        :enzyme_reaction: EnzymeReaction object
+        :instance_id: Enzyme protein instance. Defaults to 0.
+        :progress: Progress of the enzyme reaction (between 0 and 1). Defaults to 0.
+        :return: Result of the call to the BioExplorer backend
+        """
+        params = dict()
+        params["assemblyName"] = enzyme_reaction.assembly_name
+        params["name"] = enzyme_reaction.name
+        params["instanceId"] = instance_id
+        params["progress"] = progress
+        return self._invoke_and_check("set-enzyme-reaction-progress", params)
 
     @ staticmethod
     def get_mol():
@@ -1251,6 +1306,8 @@ class BioExplorer:
         params["shapeParams"] = rna_sequence.shape_params.to_list()
         params["valuesRange"] = values_range.to_list()
         params["curveParams"] = curve_params.to_list()
+        params["atomRadiusMultiplier"] = rna_sequence.atom_radius_multiplier
+        params["representation"] = rna_sequence.representation
         params["animationParams"] = rna_sequence.animation_params.to_list()
         params["position"] = rna_sequence.position.to_list()
         params["rotation"] = list(rna_sequence.rotation)
@@ -2176,7 +2233,9 @@ class BioExplorer:
         params["simulationReportId"] = report_simulation_id
         return self._invoke_and_check('set-vasculature-report', params)
 
-    def set_vasculature_radius_report(self, assembly_name, population_name, report_simulation_id, frame, amplitude=1.0):
+    def set_vasculature_radius_report(
+            self, assembly_name, population_name, report_simulation_id,
+            frame, amplitude=1.0):
         """
         Attach a radius report to the vasculature
 
@@ -2344,6 +2403,7 @@ class RNASequence:
 
     def __init__(self, source, shape, shape_params, protein_source='', values_range=Vector2(),
                  curve_params=Vector3(), position=Vector3(), rotation=Quaternion(),
+                 atom_radius_multiplier=1.0, representation=BioExplorer.REPRESENTATION_ATOMS,
                  animation_params=AnimationParams()):
         """
         RNA sequence descriptor
@@ -2370,6 +2430,8 @@ class RNASequence:
         self.shape_params = shape_params.copy()
         self.values_range = values_range.copy()
         self.curve_params = curve_params.copy()
+        self.atom_radius_multiplier = atom_radius_multiplier
+        self.representation = representation
         self.animation_params = animation_params.copy()
         self.position = position.copy()
         self.rotation = rotation
@@ -2509,3 +2571,38 @@ class Virus:
         self.membrane = membrane
         self.rna_sequence = rna_sequence
         self.shape_params = shape_params
+
+
+class EnzymeReaction:
+    """
+    Enzyme reaction descriptor
+
+    Enzymes are catalysts and increase the speed of a chemical reaction without themselves
+    undergoing any permanent chemical change. They are neither used up in the reaction nor do
+    they appear as reaction products.
+
+    The basic enzymatic reaction can be represented as follows:
+    - E represents the enzyme catalyzing the reaction,
+    - S the substrate, the substance being changed
+    - P the product of the reaction
+
+    S + E -> P + E
+    """
+
+    def __init__(self, assembly_name, name, enzyme, substrates, products):
+        """
+        Enzyme reaction descriptor
+
+        :name: Name of the reaction in the scene
+        :enzyme: The enzyme catalyzing the reaction
+        :substrates: List of substrates by name
+        :products: List of products by name
+        """
+        assert isinstance(enzyme, Protein)
+        assert isinstance(substrates, list)
+        assert isinstance(products, list)
+        self.assembly_name = assembly_name
+        self.name = name
+        self.enzyme = enzyme
+        self.substrates = substrates
+        self.products = products

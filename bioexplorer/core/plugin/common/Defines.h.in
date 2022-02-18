@@ -24,12 +24,12 @@
 
 // CGAL
 #if @CGAL_FOUND@==1
-#  define USE_CGAL
+#define USE_CGAL
 #endif
 
 // Vasculature
 #if @USE_VASCULATURE@==1
-#  define USE_VASCULATURE
+#define USE_VASCULATURE
 #endif
 
 #define PACKAGE_VERSION "@PACKAGE_VERSION@"

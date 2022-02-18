@@ -32,6 +32,7 @@
 #include <plugin/common/shapes/PointShape.h>
 #include <plugin/common/shapes/SinusoidShape.h>
 #include <plugin/common/shapes/SphereShape.h>
+#include <plugin/molecularsystems/EnzymeReaction.h>
 #include <plugin/molecularsystems/Membrane.h>
 #include <plugin/molecularsystems/Protein.h>
 #include <plugin/molecularsystems/RNASequence.h>
@@ -636,6 +637,43 @@ void Assembly::setVasculatureRadiusReport(
     _vasculature->setRadiusReport(details);
 }
 #endif
+
+ProteinPtr Assembly::getProtein(const std::string &name)
+{
+    ProteinPtr protein{nullptr};
+    const auto it = _proteins.find(name);
+    if (it != _proteins.end())
+        protein = (*it).second;
+    return protein;
+}
+
+Transformation Assembly::getTransformation() const
+{
+    Transformation transformation;
+    transformation.setTranslation(doublesToVector3d(_details.position));
+    transformation.setRotation(doublesToQuaterniond(_details.rotation));
+    return transformation;
+}
+
+void Assembly::addEnzymeReaction(const EnzymeReactionDetails &details,
+                                 AssemblyPtr enzymeAssembly, ProteinPtr enzyme,
+                                 Proteins &substrates, Proteins &products)
+{
+    auto enzymeReaction =
+        EnzymeReactionPtr(new EnzymeReaction(_scene, details, enzymeAssembly,
+                                             enzyme, substrates, products));
+    _enzymeReactions[details.name] = enzymeReaction;
+}
+
+void Assembly::setEnzymeReactionProgress(
+    const EnzymeReactionProgressDetails &details)
+{
+    if (_enzymeReactions.find(details.name) == _enzymeReactions.end())
+        PLUGIN_THROW("Enzyme reaction does not exist in assembly " +
+                     _details.name);
+    _enzymeReactions[details.name]->setProgress(details.instanceId,
+                                                details.progress);
+}
 
 } // namespace common
 } // namespace bioexplorer

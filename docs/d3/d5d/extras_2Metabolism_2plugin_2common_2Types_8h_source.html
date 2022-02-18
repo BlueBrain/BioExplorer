@@ -108,53 +108,55 @@ $(document).ready(function(){initNavTree('d3/d5d/extras_2Metabolism_2plugin_2com
 <div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160; </div>
 <div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;<span class="preprocessor">#pragma once</span></div>
 <div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160; </div>
-<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;<span class="preprocessor">#include &lt;bioexplorer/core/plugin/common/Types.h&gt;</span></div>
+<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;<span class="preprocessor">#include &lt;Defines.h&gt;</span></div>
 <div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160; </div>
-<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;<span class="keyword">using namespace </span>brayns;</div>
+<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;<span class="preprocessor">#include &lt;bioexplorer/core/plugin/common/Types.h&gt;</span></div>
 <div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160; </div>
-<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;<span class="keyword">namespace </span>bioexplorer</div>
-<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;{</div>
-<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;<span class="keyword">namespace </span>metabolism</div>
+<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;<span class="keyword">using namespace </span>brayns;</div>
+<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160; </div>
+<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;<span class="keyword">namespace </span>bioexplorer</div>
 <div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;{</div>
-<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;<span class="comment">// Classes and typedefs</span></div>
-<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;<span class="keyword">class </span>DBConnector;</div>
-<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;<span class="keyword">typedef</span> std::shared_ptr&lt;DBConnector&gt; DBConnectorPtr;</div>
-<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160; </div>
-<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;<span class="keyword">class </span>MetabolismHandler;</div>
-<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;<span class="keyword">typedef</span> std::shared_ptr&lt;MetabolismHandler&gt; MetabolismHandlerPtr;</div>
-<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160; </div>
-<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;<span class="keyword">typedef</span> std::map&lt;std::string, std::string&gt; CommandLineArguments;</div>
+<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;<span class="keyword">namespace </span>metabolism</div>
+<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;{</div>
+<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;<span class="comment">// Classes and typedefs</span></div>
+<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;<span class="keyword">class </span>DBConnector;</div>
+<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;<span class="keyword">typedef</span> std::shared_ptr&lt;DBConnector&gt; DBConnectorPtr;</div>
+<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160; </div>
+<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;<span class="keyword">class </span>MetabolismHandler;</div>
+<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;<span class="keyword">typedef</span> std::shared_ptr&lt;MetabolismHandler&gt; MetabolismHandlerPtr;</div>
 <div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160; </div>
-<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;<span class="comment">// Command line arguments</span></div>
-<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;<span class="keyword">const</span> std::string ARG_DB_HOST = <span class="stringliteral">&quot;--db-host&quot;</span>;</div>
-<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;<span class="keyword">const</span> std::string ARG_DB_PORT = <span class="stringliteral">&quot;--db-port&quot;</span>;</div>
-<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;<span class="keyword">const</span> std::string ARG_DB_NAME = <span class="stringliteral">&quot;--db-dbname&quot;</span>;</div>
-<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;<span class="keyword">const</span> std::string ARG_DB_USER = <span class="stringliteral">&quot;--db-user&quot;</span>;</div>
-<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;<span class="keyword">const</span> std::string ARG_DB_PASSWORD = <span class="stringliteral">&quot;--db-password&quot;</span>;</div>
-<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;<span class="keyword">const</span> std::string ARG_DB_SCHEMA = <span class="stringliteral">&quot;--db-schema&quot;</span>;</div>
-<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160; </div>
-<div class="line"><a name="l00048"></a><span class="lineno"><a class="line" href="../../dd/d21/structbioexplorer_1_1metabolism_1_1AttachHandlerDetails.html">   48</a></span>&#160;<span class="keyword">struct </span><a class="code" href="../../dd/d21/structbioexplorer_1_1metabolism_1_1AttachHandlerDetails.html">AttachHandlerDetails</a></div>
-<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;{</div>
-<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;    std::string connectionString;</div>
-<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;    std::string schema;</div>
-<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;    <span class="keywordtype">size_t</span> simulationId;</div>
-<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;    size_ts metaboliteIds;</div>
-<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;};</div>
-<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160; </div>
-<div class="line"><a name="l00056"></a><span class="lineno"><a class="line" href="../../df/d9e/structbioexplorer_1_1metabolism_1_1Location.html">   56</a></span>&#160;<span class="keyword">struct </span><a class="code" href="../../df/d9e/structbioexplorer_1_1metabolism_1_1Location.html">Location</a></div>
-<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;{</div>
-<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;    uint32_t guid;</div>
-<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;    std::string code;</div>
-<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;    Vector3f color;</div>
-<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;};</div>
-<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;<span class="keyword">typedef</span> std::vector&lt;Location&gt; Locations;</div>
-<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160; </div>
-<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;} <span class="comment">// namespace metabolism</span></div>
-<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;} <span class="comment">// namespace bioexplorer</span></div>
+<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;<span class="keyword">typedef</span> std::map&lt;std::string, std::string&gt; CommandLineArguments;</div>
+<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160; </div>
+<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;<span class="comment">// Command line arguments</span></div>
+<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;<span class="keyword">const</span> std::string ARG_DB_HOST = <span class="stringliteral">&quot;--db-host&quot;</span>;</div>
+<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;<span class="keyword">const</span> std::string ARG_DB_PORT = <span class="stringliteral">&quot;--db-port&quot;</span>;</div>
+<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;<span class="keyword">const</span> std::string ARG_DB_NAME = <span class="stringliteral">&quot;--db-dbname&quot;</span>;</div>
+<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;<span class="keyword">const</span> std::string ARG_DB_USER = <span class="stringliteral">&quot;--db-user&quot;</span>;</div>
+<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;<span class="keyword">const</span> std::string ARG_DB_PASSWORD = <span class="stringliteral">&quot;--db-password&quot;</span>;</div>
+<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;<span class="keyword">const</span> std::string ARG_DB_SCHEMA = <span class="stringliteral">&quot;--db-schema&quot;</span>;</div>
+<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160; </div>
+<div class="line"><a name="l00050"></a><span class="lineno"><a class="line" href="../../dd/d21/structbioexplorer_1_1metabolism_1_1AttachHandlerDetails.html">   50</a></span>&#160;<span class="keyword">struct </span><a class="code" href="../../dd/d21/structbioexplorer_1_1metabolism_1_1AttachHandlerDetails.html">AttachHandlerDetails</a></div>
+<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;{</div>
+<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;    std::string connectionString;</div>
+<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;    std::string schema;</div>
+<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;    <span class="keywordtype">size_t</span> simulationId;</div>
+<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;    size_ts metaboliteIds;</div>
+<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;};</div>
+<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160; </div>
+<div class="line"><a name="l00058"></a><span class="lineno"><a class="line" href="../../df/d9e/structbioexplorer_1_1metabolism_1_1Location.html">   58</a></span>&#160;<span class="keyword">struct </span><a class="code" href="../../df/d9e/structbioexplorer_1_1metabolism_1_1Location.html">Location</a></div>
+<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;{</div>
+<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;    uint32_t guid;</div>
+<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;    std::string code;</div>
+<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;    Vector3f color;</div>
+<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;};</div>
+<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;<span class="keyword">typedef</span> std::vector&lt;Location&gt; Locations;</div>
+<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160; </div>
+<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;} <span class="comment">// namespace metabolism</span></div>
+<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;} <span class="comment">// namespace bioexplorer</span></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
-<div class="ttc" id="astructbioexplorer_1_1metabolism_1_1Location_html"><div class="ttname"><a href="../../df/d9e/structbioexplorer_1_1metabolism_1_1Location.html">bioexplorer::metabolism::Location</a></div><div class="ttdef"><b>Definition:</b> <a href="../../d3/d5d/extras_2Metabolism_2plugin_2common_2Types_8h_source.html#l00056">Types.h:56</a></div></div>
-<div class="ttc" id="astructbioexplorer_1_1metabolism_1_1AttachHandlerDetails_html"><div class="ttname"><a href="../../dd/d21/structbioexplorer_1_1metabolism_1_1AttachHandlerDetails.html">bioexplorer::metabolism::AttachHandlerDetails</a></div><div class="ttdef"><b>Definition:</b> <a href="../../d3/d5d/extras_2Metabolism_2plugin_2common_2Types_8h_source.html#l00048">Types.h:48</a></div></div>
+<div class="ttc" id="astructbioexplorer_1_1metabolism_1_1Location_html"><div class="ttname"><a href="../../df/d9e/structbioexplorer_1_1metabolism_1_1Location.html">bioexplorer::metabolism::Location</a></div><div class="ttdef"><b>Definition:</b> <a href="../../d3/d5d/extras_2Metabolism_2plugin_2common_2Types_8h_source.html#l00058">Types.h:58</a></div></div>
+<div class="ttc" id="astructbioexplorer_1_1metabolism_1_1AttachHandlerDetails_html"><div class="ttname"><a href="../../dd/d21/structbioexplorer_1_1metabolism_1_1AttachHandlerDetails.html">bioexplorer::metabolism::AttachHandlerDetails</a></div><div class="ttdef"><b>Definition:</b> <a href="../../d3/d5d/extras_2Metabolism_2plugin_2common_2Types_8h_source.html#l00050">Types.h:50</a></div></div>
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>

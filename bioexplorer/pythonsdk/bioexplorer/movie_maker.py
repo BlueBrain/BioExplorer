@@ -358,8 +358,9 @@ class MovieMaker:
             self._client.set_renderer_params(params)
         return frame_buffer_mode
 
-    def create_snapshot(self, renderer, size, path, base_name, samples_per_pixel,
-                        export_intermediate_frames=False, gi_length=1e6):
+    def create_snapshot(
+            self, renderer, size, path, base_name, samples_per_pixel,
+            export_intermediate_frames=False, gi_length=1000000.0):
         """
         Create a snapshot of the current frame
 
@@ -372,6 +373,12 @@ class MovieMaker:
         only the final accumulation is exported
         gi_length (float, optional): Max length of global illumination rays. Defaults to 5.0.
         """
+        assert isinstance(size, list)
+        assert isinstance(samples_per_pixel, int)
+        assert len(size) == 2
+        assert isinstance(export_intermediate_frames, bool)
+        assert isinstance(gi_length, float)
+
         frame_buffer_mode = self._set_renderer(renderer, gi_length)
 
         application_params = self._client.get_application_parameters()

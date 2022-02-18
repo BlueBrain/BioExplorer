@@ -145,8 +145,8 @@ Vector3d sphereFilling(const double radius, const uint64_t occurrence,
  * @param delimiter Delimiter
  * @return std::vector<std::string> Vector of strings
  */
-std::vector<std::string> split(const std::string& s,
-                               const std::string& delimiter);
+std::vector<std::string> split(
+    const std::string& s, const std::string& delimiter = CONTENTS_DELIMITER);
 
 /**
  * @brief Combine a list of transformations

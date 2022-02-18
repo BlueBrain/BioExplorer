@@ -84,6 +84,7 @@ $(document).ready(function(){initNavTree('d8/d29/classbioexplorer_1_1vasculature
 <div class="header">
   <div class="summary">
 <a href="#pub-methods">Public Member Functions</a> &#124;
+<a href="#pub-attribs">Public Attributes</a> &#124;
 <a href="../../dd/d00/classbioexplorer_1_1vasculature_1_1Vasculature-members.html">List of all members</a>  </div>
   <div class="headertitle">
 <div class="title">bioexplorer::vasculature::Vasculature Class Reference</div>  </div>
@@ -130,12 +131,30 @@ uint64_t&#160;</td><td class="memItemRight" valign="bottom"><b>getNbSubGraphs</b
 <tr class="memitem:ad93672c4e2e1cf8f68c41ef9936a9efc"><td class="memItemLeft" align="right" valign="top"><a id="ad93672c4e2e1cf8f68c41ef9936a9efc"></a>
 uint64_t&#160;</td><td class="memItemRight" valign="bottom"><b>getNbPairs</b> () const</td></tr>
 <tr class="separator:ad93672c4e2e1cf8f68c41ef9936a9efc"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a915c84b41df81f063af8d8503d76a461"><td class="memItemLeft" align="right" valign="top"><a id="a915c84b41df81f063af8d8503d76a461"></a>
+uint64_t&#160;</td><td class="memItemRight" valign="bottom"><b>getNbEntryNodes</b> () const</td></tr>
+<tr class="separator:a915c84b41df81f063af8d8503d76a461"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aba07577ed9877a6cda0104ac2f48255e"><td class="memItemLeft" align="right" valign="top"><a id="aba07577ed9877a6cda0104ac2f48255e"></a>
 uint64_t&#160;</td><td class="memItemRight" valign="bottom"><b>getNbSections</b> () const</td></tr>
 <tr class="separator:aba07577ed9877a6cda0104ac2f48255e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a6550777f984d6af58d28fac1862c9369"><td class="memItemLeft" align="right" valign="top"><a id="a6550777f984d6af58d28fac1862c9369"></a>
 uint64_t&#160;</td><td class="memItemRight" valign="bottom"><b>getPopulationSize</b> () const</td></tr>
 <tr class="separator:a6550777f984d6af58d28fac1862c9369"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa178a624f69946ad0cb5f39938e19556"><td class="memItemLeft" align="right" valign="top"><a id="aa178a624f69946ad0cb5f39938e19556"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><b>_importFromDB</b> ()</td></tr>
+<tr class="separator:aa178a624f69946ad0cb5f39938e19556"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af94aca2f4b8db53e317a639b338b467d"><td class="memItemLeft" align="right" valign="top"><a id="af94aca2f4b8db53e317a639b338b467d"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><b>_buildModel</b> (const VasculatureColorSchemeDetails &amp;details=VasculatureColorSchemeDetails())</td></tr>
+<tr class="separator:af94aca2f4b8db53e317a639b338b467d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a10ebd7a3e3843836da79f0e6da4ca903"><td class="memItemLeft" align="right" valign="top"><a id="a10ebd7a3e3843836da79f0e6da4ca903"></a>
+size_t&#160;</td><td class="memItemRight" valign="bottom"><b>_addSDFGeometry</b> (<a class="el" href="../../d1/d25/structbioexplorer_1_1geometry_1_1SDFMorphologyData.html">SDFMorphologyData</a> &amp;sdfMorphologyData, const SDFGeometry &amp;geometry, const std::set&lt; size_t &gt; &amp;neighbours, const size_t materialId, const int section)</td></tr>
+<tr class="separator:a10ebd7a3e3843836da79f0e6da4ca903"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a39dba3ceb45dae67dbafe70b2eb21f74"><td class="memItemLeft" align="right" valign="top"><a id="a39dba3ceb45dae67dbafe70b2eb21f74"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><b>_addStepConeGeometry</b> (const bool useSDF, const Vector3d &amp;position, const double radius, const Vector3d &amp;target, const double previousRadius, const size_t materialId, const uint64_t &amp;userDataOffset, Model &amp;model, <a class="el" href="../../d1/d25/structbioexplorer_1_1geometry_1_1SDFMorphologyData.html">SDFMorphologyData</a> &amp;sdfMorphologyData, const uint32_t sdfGroupId, const Vector3f &amp;displacementParams=Vector3f(0.f))</td></tr>
+<tr class="separator:a39dba3ceb45dae67dbafe70b2eb21f74"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab6e28cef3cd540448b7d664dad348d06"><td class="memItemLeft" align="right" valign="top"><a id="ab6e28cef3cd540448b7d664dad348d06"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><b>_finalizeSDFGeometries</b> (Model &amp;model, <a class="el" href="../../d1/d25/structbioexplorer_1_1geometry_1_1SDFMorphologyData.html">SDFMorphologyData</a> &amp;sdfMorphologyData)</td></tr>
+<tr class="separator:ab6e28cef3cd540448b7d664dad348d06"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="inherit_header pub_methods_classbioexplorer_1_1common_1_1Node"><td colspan="2" onclick="javascript:toggleInherit('pub_methods_classbioexplorer_1_1common_1_1Node')"><img src="../../closed.png" alt="-"/>&#160;Public Member Functions inherited from <a class="el" href="../../d7/d93/classbioexplorer_1_1common_1_1Node.html">bioexplorer::common::Node</a></td></tr>
 <tr class="memitem:a1067c1e1cfe6e133f7d0110e3101f7a3 inherit pub_methods_classbioexplorer_1_1common_1_1Node"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d7/d93/classbioexplorer_1_1common_1_1Node.html#a1067c1e1cfe6e133f7d0110e3101f7a3">Node</a> ()</td></tr>
 <tr class="memdesc:a1067c1e1cfe6e133f7d0110e3101f7a3 inherit pub_methods_classbioexplorer_1_1common_1_1Node"><td class="mdescLeft">&#160;</td><td class="mdescRight">Construct a new <a class="el" href="../../d7/d93/classbioexplorer_1_1common_1_1Node.html" title="The Node class.">Node</a> object.  <a href="../../d7/d93/classbioexplorer_1_1common_1_1Node.html#a1067c1e1cfe6e133f7d0110e3101f7a3">More...</a><br /></td></tr>
@@ -143,6 +162,36 @@ uint64_t&#160;</td><td class="memItemRight" valign="bottom"><b>getPopulationSize
 <tr class="memitem:acc055348b8fa8f69ad9f249fadd4fefe inherit pub_methods_classbioexplorer_1_1common_1_1Node"><td class="memItemLeft" align="right" valign="top">const ModelDescriptorPtr&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d7/d93/classbioexplorer_1_1common_1_1Node.html#acc055348b8fa8f69ad9f249fadd4fefe">getModelDescriptor</a> () const</td></tr>
 <tr class="memdesc:acc055348b8fa8f69ad9f249fadd4fefe inherit pub_methods_classbioexplorer_1_1common_1_1Node"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the Model Descriptor object.  <a href="../../d7/d93/classbioexplorer_1_1common_1_1Node.html#acc055348b8fa8f69ad9f249fadd4fefe">More...</a><br /></td></tr>
 <tr class="separator:acc055348b8fa8f69ad9f249fadd4fefe inherit pub_methods_classbioexplorer_1_1common_1_1Node"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-attribs"></a>
+Public Attributes</h2></td></tr>
+<tr class="memitem:a382fdcc7b5a38d546c9272fe7dd0cd01"><td class="memItemLeft" align="right" valign="top"><a id="a382fdcc7b5a38d546c9272fe7dd0cd01"></a>
+const VasculatureDetails&#160;</td><td class="memItemRight" valign="bottom"><b>_details</b></td></tr>
+<tr class="separator:a382fdcc7b5a38d546c9272fe7dd0cd01"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af5620235c5593169ee922dfe8a820f56"><td class="memItemLeft" align="right" valign="top"><a id="af5620235c5593169ee922dfe8a820f56"></a>
+Scene &amp;&#160;</td><td class="memItemRight" valign="bottom"><b>_scene</b></td></tr>
+<tr class="separator:af5620235c5593169ee922dfe8a820f56"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a510b413b1a53023e34799343959fe8ec"><td class="memItemLeft" align="right" valign="top"><a id="a510b413b1a53023e34799343959fe8ec"></a>
+GeometryNodes&#160;</td><td class="memItemRight" valign="bottom"><b>_nodes</b></td></tr>
+<tr class="separator:a510b413b1a53023e34799343959fe8ec"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0e07889cbe7a793a1abeae3247cfe0ed"><td class="memItemLeft" align="right" valign="top"><a id="a0e07889cbe7a793a1abeae3247cfe0ed"></a>
+uint64_t&#160;</td><td class="memItemRight" valign="bottom"><b>_populationSize</b> {0}</td></tr>
+<tr class="separator:a0e07889cbe7a793a1abeae3247cfe0ed"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0c715551fe06a9dd416423b712e09c8f"><td class="memItemLeft" align="right" valign="top"><a id="a0c715551fe06a9dd416423b712e09c8f"></a>
+std::set&lt; uint64_t &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>_graphs</b></td></tr>
+<tr class="separator:a0c715551fe06a9dd416423b712e09c8f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8eedd72e0abf44f982be02e6aaabfa87"><td class="memItemLeft" align="right" valign="top"><a id="a8eedd72e0abf44f982be02e6aaabfa87"></a>
+std::set&lt; uint64_t &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>_sectionIds</b></td></tr>
+<tr class="separator:a8eedd72e0abf44f982be02e6aaabfa87"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aafb9cb889395450ff2eda50e47f3018d"><td class="memItemLeft" align="right" valign="top"><a id="aafb9cb889395450ff2eda50e47f3018d"></a>
+std::map&lt; uint64_t, uint64_ts &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>_sections</b></td></tr>
+<tr class="separator:aafb9cb889395450ff2eda50e47f3018d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa54d7101a7186e8fa27aa0036b00bb55"><td class="memItemLeft" align="right" valign="top"><a id="aa54d7101a7186e8fa27aa0036b00bb55"></a>
+uint64_t&#160;</td><td class="memItemRight" valign="bottom"><b>_nbPairs</b> {0}</td></tr>
+<tr class="separator:aa54d7101a7186e8fa27aa0036b00bb55"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5ea385e777640ea7808177f664a30e57"><td class="memItemLeft" align="right" valign="top"><a id="a5ea385e777640ea7808177f664a30e57"></a>
+uint64_t&#160;</td><td class="memItemRight" valign="bottom"><b>_nbEntryNodes</b> {0}</td></tr>
+<tr class="separator:a5ea385e777640ea7808177f664a30e57"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="inherited"></a>
 Additional Inherited Members</h2></td></tr>
@@ -160,7 +209,7 @@ uint32_t&#160;</td><td class="memItemRight" valign="bottom"><b>_uuid</b></td></t
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Load vasculature from H5 file </p>
 
-<p class="definition">Definition at line <a class="el" href="../../d2/dc5/Vasculature_8h_source.html#l00062">62</a> of file <a class="el" href="../../d2/dc5/Vasculature_8h_source.html">Vasculature.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d2/dc5/Vasculature_8h_source.html#l00048">48</a> of file <a class="el" href="../../d2/dc5/Vasculature_8h_source.html">Vasculature.h</a>.</p>
 </div><hr/>The documentation for this class was generated from the following files:<ul>
 <li>/home/favreau/git/BioExplorer/bioexplorer/core/plugin/vasculature/<a class="el" href="../../d2/dc5/Vasculature_8h_source.html">Vasculature.h</a></li>
 <li>/home/favreau/git/BioExplorer/bioexplorer/core/plugin/vasculature/<a class="el" href="../../d2/df8/Vasculature_8cpp_source.html">Vasculature.cpp</a></li>

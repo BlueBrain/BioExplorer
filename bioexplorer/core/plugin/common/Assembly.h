@@ -117,6 +117,11 @@ public:
     const ProteinMap &getProteins() const { return _proteins; }
 
     /**
+     * @return A pointer to a protein in the assembly
+     */
+    ProteinPtr getProtein(const std::string &name);
+
+    /**
      * @brief Set the transformation for a specific instance of a protein
      * @param details Details about the instance
      */
@@ -173,6 +178,27 @@ public:
     void addSugars(const SugarsDetails &details);
 
     /**
+     * @brief addEnzymeReaction Add enzyme reaction to the scene
+     *
+     * @param details Details about the enzyme reaction
+     * @param enzymeAssembly Pointer to the assembly containing the enzyme
+     * @param enzyme Pointer to the enzyme
+     * @param substrates List of pointers to the substrates
+     * @param products List of pointers to the products
+     */
+    void addEnzymeReaction(const EnzymeReactionDetails &details,
+                           AssemblyPtr enzymeAssembly, ProteinPtr enzyme,
+                           Proteins &substrates, Proteins &products);
+
+    /**
+     * @brief setEnzymeReactionProgress Set enzyme reaction progress
+     *
+     * @param details Details about the enzyme reaction
+     */
+    void setEnzymeReactionProgress(
+        const EnzymeReactionProgressDetails &details);
+
+    /**
      * @brief Check if a location is inside the assembly
      *
      * @param point Location to check
@@ -192,6 +218,20 @@ public:
     ProteinInspectionDetails inspect(const Vector3d &origin,
                                      const Vector3d &direction,
                                      double &t) const;
+
+    /**
+     * @brief Get the assembly transformation
+     *
+     * @return Transformation Assembly transformation
+     */
+    Transformation getTransformation() const;
+
+    /**
+     * @brief Get the assembly shape
+     *
+     * @return Shape Assembly shape
+     */
+    ShapePtr getShape() const { return _shape; }
 
 #ifdef USE_VASCULATURE
     void addVasculature(const VasculatureDetails &details);
@@ -217,6 +257,7 @@ private:
     ProteinMap _proteins;
     MembranePtr _membrane{nullptr};
     RNASequencePtr _rnaSequence{nullptr};
+    EnzymeReactionMap _enzymeReactions;
     Vector3d _position;
     Quaterniond _rotation;
     Vector4ds _clippingPlanes;
