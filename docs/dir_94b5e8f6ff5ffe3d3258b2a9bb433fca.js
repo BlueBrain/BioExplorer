@@ -1,5 +1,7 @@
 var dir_94b5e8f6ff5ffe3d3258b2a9bb433fca =
 [
+    [ "EnzymeReaction.cpp", "db/dd8/EnzymeReaction_8cpp_source.html", null ],
+    [ "EnzymeReaction.h", "dd/d24/EnzymeReaction_8h_source.html", null ],
     [ "Glycans.cpp", "db/d30/plugin_2molecularsystems_2Glycans_8cpp_source.html", null ],
     [ "Glycans.h", "df/de2/Glycans_8h_source.html", null ],
     [ "Membrane.cpp", "d9/d00/Membrane_8cpp_source.html", null ],

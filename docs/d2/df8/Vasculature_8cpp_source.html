@@ -233,7 +233,7 @@ $(document).ready(function(){initNavTree('d2/df8/Vasculature_8cpp_source.html','
 <div class="line"><a name="l00145"></a><span class="lineno">  145</span>&#160; </div>
 <div class="line"><a name="l00146"></a><span class="lineno">  146</span>&#160;<span class="keywordtype">void</span> Vasculature::_importFromDB()</div>
 <div class="line"><a name="l00147"></a><span class="lineno">  147</span>&#160;{</div>
-<div class="line"><a name="l00148"></a><span class="lineno">  148</span>&#160;    <span class="keyword">auto</span>&amp; connector = <a class="code" href="../../d9/d96/classbioexplorer_1_1io_1_1db_1_1DBConnector.html#ab62731911711b408b3f908df87761676">DBConnector::getInstance</a>();</div>
+<div class="line"><a name="l00148"></a><span class="lineno">  148</span>&#160;    <span class="keyword">auto</span>&amp; connector = <a class="code" href="../../d9/d96/classbioexplorer_1_1io_1_1db_1_1DBConnector.html#a54ae453b0795aabee7ee7e93ae976eab">DBConnector::getInstance</a>();</div>
 <div class="line"><a name="l00149"></a><span class="lineno">  149</span>&#160; </div>
 <div class="line"><a name="l00150"></a><span class="lineno">  150</span>&#160;    std::string filter = <span class="stringliteral">&quot;&quot;</span>;</div>
 <div class="line"><a name="l00151"></a><span class="lineno">  151</span>&#160;    <span class="keywordflow">if</span> (!_details.loadCapilarities)</div>
@@ -438,7 +438,7 @@ $(document).ready(function(){initNavTree('d2/df8/Vasculature_8cpp_source.html','
 <div class="line"><a name="l00350"></a><span class="lineno">  350</span>&#160; </div>
 <div class="line"><a name="l00351"></a><span class="lineno">  351</span>&#160;<span class="keywordtype">void</span> Vasculature::setRadiusReport(<span class="keyword">const</span> VasculatureRadiusReportDetails&amp; details)</div>
 <div class="line"><a name="l00352"></a><span class="lineno">  352</span>&#160;{</div>
-<div class="line"><a name="l00353"></a><span class="lineno">  353</span>&#160;    <span class="keyword">auto</span>&amp; connector = <a class="code" href="../../d9/d96/classbioexplorer_1_1io_1_1db_1_1DBConnector.html#ab62731911711b408b3f908df87761676">DBConnector::getInstance</a>();</div>
+<div class="line"><a name="l00353"></a><span class="lineno">  353</span>&#160;    <span class="keyword">auto</span>&amp; connector = <a class="code" href="../../d9/d96/classbioexplorer_1_1io_1_1db_1_1DBConnector.html#a54ae453b0795aabee7ee7e93ae976eab">DBConnector::getInstance</a>();</div>
 <div class="line"><a name="l00354"></a><span class="lineno">  354</span>&#160;    <span class="keyword">const</span> <span class="keyword">auto</span> simulationReport =</div>
 <div class="line"><a name="l00355"></a><span class="lineno">  355</span>&#160;        connector.getVasculatureSimulationReport(details.populationName,</div>
 <div class="line"><a name="l00356"></a><span class="lineno">  356</span>&#160;                                                 details.simulationReportId);</div>
@@ -479,7 +479,7 @@ $(document).ready(function(){initNavTree('d2/df8/Vasculature_8cpp_source.html','
 <div class="line"><a name="l00391"></a><span class="lineno">  391</span>&#160;    model.commitGeometry();</div>
 <div class="line"><a name="l00392"></a><span class="lineno">  392</span>&#160;    model.updateBounds();</div>
 <div class="line"><a name="l00393"></a><span class="lineno">  393</span>&#160;    PLUGIN_DEBUG(<span class="stringliteral">&quot;Vasculature geometry successfully modified using report &quot;</span></div>
-<div class="line"><a name="l00394"></a><span class="lineno">  394</span>&#160;                 &lt;&lt; details.path);</div>
+<div class="line"><a name="l00394"></a><span class="lineno">  394</span>&#160;                 &lt;&lt; simulationReport.description);</div>
 <div class="line"><a name="l00395"></a><span class="lineno">  395</span>&#160;    _scene.markModified(<span class="keyword">false</span>);</div>
 <div class="line"><a name="l00396"></a><span class="lineno">  396</span>&#160;}</div>
 <div class="line"><a name="l00397"></a><span class="lineno">  397</span>&#160; </div>
@@ -487,7 +487,7 @@ $(document).ready(function(){initNavTree('d2/df8/Vasculature_8cpp_source.html','
 <div class="line"><a name="l00399"></a><span class="lineno">  399</span>&#160;} <span class="comment">// namespace bioexplorer</span></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
-<div class="ttc" id="aclassbioexplorer_1_1io_1_1db_1_1DBConnector_html_ab62731911711b408b3f908df87761676"><div class="ttname"><a href="../../d9/d96/classbioexplorer_1_1io_1_1db_1_1DBConnector.html#ab62731911711b408b3f908df87761676">bioexplorer::io::db::DBConnector::getInstance</a></div><div class="ttdeci">static DBConnector &amp; getInstance()</div><div class="ttdoc">Get the Instance object.</div><div class="ttdef"><b>Definition:</b> <a href="../../d5/d22/bioexplorer_2core_2plugin_2io_2db_2DBConnector_8cpp_source.html#l00044">DBConnector.cpp:44</a></div></div>
+<div class="ttc" id="aclassbioexplorer_1_1io_1_1db_1_1DBConnector_html_a54ae453b0795aabee7ee7e93ae976eab"><div class="ttname"><a href="../../d9/d96/classbioexplorer_1_1io_1_1db_1_1DBConnector.html#a54ae453b0795aabee7ee7e93ae976eab">bioexplorer::io::db::DBConnector::getInstance</a></div><div class="ttdeci">static DBConnector &amp; getInstance()</div><div class="ttdoc">Get the Instance object.</div><div class="ttdef"><b>Definition:</b> <a href="../../d3/dec/bioexplorer_2core_2plugin_2io_2db_2DBConnector_8h_source.html#l00054">DBConnector.h:54</a></div></div>
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>

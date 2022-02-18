@@ -109,90 +109,90 @@ $(document).ready(function(){initNavTree('dd/d9e/MediaMakerPlugin_8cpp_source.ht
 <div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;<span class="preprocessor">#include &quot;MediaMakerPlugin.h&quot;</span></div>
 <div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;<span class="preprocessor">#include &lt;plugin/common/Logs.h&gt;</span></div>
 <div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160; </div>
-<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;<span class="preprocessor">#include &lt;Defines.h&gt;</span></div>
-<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;<span class="preprocessor">#include &lt;brayns/common/ActionInterface.h&gt;</span></div>
-<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;<span class="preprocessor">#include &lt;brayns/engineapi/Camera.h&gt;</span></div>
-<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;<span class="preprocessor">#include &lt;brayns/engineapi/Engine.h&gt;</span></div>
-<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;<span class="preprocessor">#include &lt;brayns/engineapi/FrameBuffer.h&gt;</span></div>
-<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;<span class="preprocessor">#include &lt;brayns/engineapi/Scene.h&gt;</span></div>
-<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;<span class="preprocessor">#include &lt;brayns/parameters/ParametersManager.h&gt;</span></div>
-<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;<span class="preprocessor">#include &lt;brayns/pluginapi/Plugin.h&gt;</span></div>
-<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160; </div>
-<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;<span class="preprocessor">#include &lt;fstream&gt;</span></div>
-<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160; </div>
-<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;<span class="preprocessor">#include &lt;tiffio.h&gt;</span></div>
-<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160; </div>
-<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;<span class="keyword">namespace </span>bioexplorer</div>
-<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;{</div>
-<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;<span class="keyword">namespace </span>mediamaker</div>
-<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;{</div>
-<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;<span class="keyword">using namespace </span>brayns;</div>
-<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160; </div>
-<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;<span class="keyword">const</span> std::string PLUGIN_API_PREFIX = <span class="stringliteral">&quot;mm-&quot;</span>;</div>
-<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160; </div>
-<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;<span class="comment">// Number of floats used to define the camera</span></div>
-<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;<span class="keyword">const</span> <span class="keywordtype">size_t</span> CAMERA_DEFINITION_SIZE = 12;</div>
-<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160; </div>
-<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;<span class="preprocessor">#define CATCH_STD_EXCEPTION()           \</span></div>
-<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;<span class="preprocessor">    catch (const std::runtime_error &amp;e) \</span></div>
-<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;<span class="preprocessor">    {                                   \</span></div>
-<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;<span class="preprocessor">        response.status = false;        \</span></div>
-<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;<span class="preprocessor">        response.contents = e.what();   \</span></div>
-<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;<span class="preprocessor">        PLUGIN_ERROR &lt;&lt; e.what() );     \</span></div>
-<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;<span class="preprocessor">    }</span></div>
-<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160; </div>
-<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;<span class="keywordtype">void</span> _addDepthRenderer(brayns::Engine &amp;engine)</div>
-<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;{</div>
-<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;    PLUGIN_INFO(<span class="stringliteral">&quot;Registering &#39;depth&#39; renderer&quot;</span>);</div>
-<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;    brayns::PropertyMap properties;</div>
-<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;    properties.setProperty({<span class="stringliteral">&quot;infinity&quot;</span>, 1e6, 0., 1e6, {<span class="stringliteral">&quot;Infinity&quot;</span>}});</div>
-<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;    engine.addRendererType(<span class="stringliteral">&quot;depth&quot;</span>, properties);</div>
-<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;}</div>
-<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160; </div>
-<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;<span class="keywordtype">void</span> _addAlbedoRenderer(brayns::Engine &amp;engine)</div>
-<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;{</div>
-<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;    PLUGIN_INFO(<span class="stringliteral">&quot;Registering &#39;albedo&#39; renderer&quot;</span>);</div>
-<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;    brayns::PropertyMap properties;</div>
-<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;    engine.addRendererType(<span class="stringliteral">&quot;albedo&quot;</span>, properties);</div>
-<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;}</div>
-<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160; </div>
-<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;<span class="keywordtype">void</span> _addAmbientOcclusionRenderer(brayns::Engine &amp;engine)</div>
-<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;{</div>
-<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;    PLUGIN_INFO(<span class="stringliteral">&quot;Registering &#39;ambient occlusion&#39; renderer&quot;</span>);</div>
-<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;    brayns::PropertyMap properties;</div>
-<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;    properties.setProperty(</div>
-<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;        {<span class="stringliteral">&quot;samplesPerFrame&quot;</span>, 16, 1, 256, {<span class="stringliteral">&quot;Samples per frame&quot;</span>}});</div>
-<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;    properties.setProperty({<span class="stringliteral">&quot;rayLength&quot;</span>, 1e6, 1e-3, 1e6, {<span class="stringliteral">&quot;Ray length&quot;</span>}});</div>
-<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;    engine.addRendererType(<span class="stringliteral">&quot;ambient_occlusion&quot;</span>, properties);</div>
-<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;}</div>
-<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160; </div>
-<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;<span class="keywordtype">void</span> _addShadowRenderer(brayns::Engine &amp;engine)</div>
-<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;{</div>
-<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;    PLUGIN_INFO(<span class="stringliteral">&quot;Registering &#39;shadow&#39; renderer&quot;</span>);</div>
-<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;    brayns::PropertyMap properties;</div>
-<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;    properties.setProperty(</div>
-<div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;        {<span class="stringliteral">&quot;samplesPerFrame&quot;</span>, 16, 1, 256, {<span class="stringliteral">&quot;Samples per frame&quot;</span>}});</div>
-<div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;    properties.setProperty({<span class="stringliteral">&quot;rayLength&quot;</span>, 1e6, 1e-3, 1e6, {<span class="stringliteral">&quot;Ray length&quot;</span>}});</div>
-<div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;    properties.setProperty({<span class="stringliteral">&quot;softness&quot;</span>, 0.0, 0.0, 1.0, {<span class="stringliteral">&quot;Shadow softness&quot;</span>}});</div>
-<div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160;    engine.addRendererType(<span class="stringliteral">&quot;shadow&quot;</span>, properties);</div>
-<div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160;}</div>
-<div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160; </div>
-<div class="line"><a name="l00092"></a><span class="lineno">   92</span>&#160;MediaMakerPlugin::MediaMakerPlugin()</div>
-<div class="line"><a name="l00093"></a><span class="lineno">   93</span>&#160;    : ExtensionPlugin()</div>
-<div class="line"><a name="l00094"></a><span class="lineno">   94</span>&#160;{</div>
-<div class="line"><a name="l00095"></a><span class="lineno">   95</span>&#160;}</div>
-<div class="line"><a name="l00096"></a><span class="lineno">   96</span>&#160; </div>
-<div class="line"><a name="l00097"></a><span class="lineno">   97</span>&#160;<span class="keywordtype">void</span> MediaMakerPlugin::init()</div>
-<div class="line"><a name="l00098"></a><span class="lineno">   98</span>&#160;{</div>
-<div class="line"><a name="l00099"></a><span class="lineno">   99</span>&#160;    <span class="keyword">auto</span> actionInterface = _api-&gt;getActionInterface();</div>
-<div class="line"><a name="l00100"></a><span class="lineno">  100</span>&#160;    <span class="keyword">auto</span> &amp;engine = _api-&gt;getEngine();</div>
-<div class="line"><a name="l00101"></a><span class="lineno">  101</span>&#160; </div>
-<div class="line"><a name="l00102"></a><span class="lineno">  102</span>&#160;    <span class="keywordflow">if</span> (actionInterface)</div>
-<div class="line"><a name="l00103"></a><span class="lineno">  103</span>&#160;    {</div>
-<div class="line"><a name="l00104"></a><span class="lineno">  104</span>&#160;        std::string entryPoint = PLUGIN_API_PREFIX + <span class="stringliteral">&quot;version&quot;</span>;</div>
-<div class="line"><a name="l00105"></a><span class="lineno">  105</span>&#160;        PLUGIN_INFO(<span class="stringliteral">&quot;Registering &#39;&quot;</span> + entryPoint + <span class="stringliteral">&quot;&#39; endpoint&quot;</span>);</div>
-<div class="line"><a name="l00106"></a><span class="lineno">  106</span>&#160;        actionInterface-&gt;registerRequest&lt;Response&gt;(entryPoint, [&amp;]()</div>
-<div class="line"><a name="l00107"></a><span class="lineno">  107</span>&#160;                                                   { <span class="keywordflow">return</span> _version(); });</div>
+<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;<span class="preprocessor">#include &lt;brayns/common/ActionInterface.h&gt;</span></div>
+<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;<span class="preprocessor">#include &lt;brayns/engineapi/Camera.h&gt;</span></div>
+<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;<span class="preprocessor">#include &lt;brayns/engineapi/Engine.h&gt;</span></div>
+<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;<span class="preprocessor">#include &lt;brayns/engineapi/FrameBuffer.h&gt;</span></div>
+<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;<span class="preprocessor">#include &lt;brayns/engineapi/Scene.h&gt;</span></div>
+<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;<span class="preprocessor">#include &lt;brayns/parameters/ParametersManager.h&gt;</span></div>
+<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;<span class="preprocessor">#include &lt;brayns/pluginapi/Plugin.h&gt;</span></div>
+<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160; </div>
+<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;<span class="preprocessor">#include &lt;fstream&gt;</span></div>
+<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160; </div>
+<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;<span class="preprocessor">#include &lt;tiffio.h&gt;</span></div>
+<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160; </div>
+<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;<span class="keyword">namespace </span>bioexplorer</div>
+<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;{</div>
+<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;<span class="keyword">namespace </span>mediamaker</div>
+<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;{</div>
+<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;<span class="keyword">using namespace </span>brayns;</div>
+<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160; </div>
+<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;<span class="keyword">const</span> std::string PLUGIN_API_PREFIX = <span class="stringliteral">&quot;mm-&quot;</span>;</div>
+<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160; </div>
+<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;<span class="comment">// Number of floats used to define the camera</span></div>
+<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;<span class="keyword">const</span> <span class="keywordtype">size_t</span> CAMERA_DEFINITION_SIZE = 12;</div>
+<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160; </div>
+<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;<span class="preprocessor">#define CATCH_STD_EXCEPTION()           \</span></div>
+<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;<span class="preprocessor">    catch (const std::runtime_error &amp;e) \</span></div>
+<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;<span class="preprocessor">    {                                   \</span></div>
+<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;<span class="preprocessor">        response.status = false;        \</span></div>
+<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;<span class="preprocessor">        response.contents = e.what();   \</span></div>
+<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;<span class="preprocessor">        PLUGIN_ERROR &lt;&lt; e.what() );     \</span></div>
+<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;<span class="preprocessor">    }</span></div>
+<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160; </div>
+<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;<span class="keywordtype">void</span> _addDepthRenderer(brayns::Engine &amp;engine)</div>
+<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;{</div>
+<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;    PLUGIN_INFO(<span class="stringliteral">&quot;Registering &#39;depth&#39; renderer&quot;</span>);</div>
+<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;    brayns::PropertyMap properties;</div>
+<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;    properties.setProperty({<span class="stringliteral">&quot;infinity&quot;</span>, 1e6, 0., 1e6, {<span class="stringliteral">&quot;Infinity&quot;</span>}});</div>
+<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;    engine.addRendererType(<span class="stringliteral">&quot;depth&quot;</span>, properties);</div>
+<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;}</div>
+<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160; </div>
+<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;<span class="keywordtype">void</span> _addAlbedoRenderer(brayns::Engine &amp;engine)</div>
+<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;{</div>
+<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;    PLUGIN_INFO(<span class="stringliteral">&quot;Registering &#39;albedo&#39; renderer&quot;</span>);</div>
+<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;    brayns::PropertyMap properties;</div>
+<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;    engine.addRendererType(<span class="stringliteral">&quot;albedo&quot;</span>, properties);</div>
+<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;}</div>
+<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160; </div>
+<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;<span class="keywordtype">void</span> _addAmbientOcclusionRenderer(brayns::Engine &amp;engine)</div>
+<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;{</div>
+<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;    PLUGIN_INFO(<span class="stringliteral">&quot;Registering &#39;ambient occlusion&#39; renderer&quot;</span>);</div>
+<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;    brayns::PropertyMap properties;</div>
+<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;    properties.setProperty(</div>
+<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;        {<span class="stringliteral">&quot;samplesPerFrame&quot;</span>, 16, 1, 256, {<span class="stringliteral">&quot;Samples per frame&quot;</span>}});</div>
+<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;    properties.setProperty({<span class="stringliteral">&quot;rayLength&quot;</span>, 1e6, 1e-3, 1e6, {<span class="stringliteral">&quot;Ray length&quot;</span>}});</div>
+<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;    engine.addRendererType(<span class="stringliteral">&quot;ambient_occlusion&quot;</span>, properties);</div>
+<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;}</div>
+<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160; </div>
+<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;<span class="keywordtype">void</span> _addShadowRenderer(brayns::Engine &amp;engine)</div>
+<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;{</div>
+<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;    PLUGIN_INFO(<span class="stringliteral">&quot;Registering &#39;shadow&#39; renderer&quot;</span>);</div>
+<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;    brayns::PropertyMap properties;</div>
+<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;    properties.setProperty(</div>
+<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;        {<span class="stringliteral">&quot;samplesPerFrame&quot;</span>, 16, 1, 256, {<span class="stringliteral">&quot;Samples per frame&quot;</span>}});</div>
+<div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;    properties.setProperty({<span class="stringliteral">&quot;rayLength&quot;</span>, 1e6, 1e-3, 1e6, {<span class="stringliteral">&quot;Ray length&quot;</span>}});</div>
+<div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;    properties.setProperty({<span class="stringliteral">&quot;softness&quot;</span>, 0.0, 0.0, 1.0, {<span class="stringliteral">&quot;Shadow softness&quot;</span>}});</div>
+<div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;    engine.addRendererType(<span class="stringliteral">&quot;shadow&quot;</span>, properties);</div>
+<div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160;}</div>
+<div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160; </div>
+<div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160;MediaMakerPlugin::MediaMakerPlugin()</div>
+<div class="line"><a name="l00092"></a><span class="lineno">   92</span>&#160;    : ExtensionPlugin()</div>
+<div class="line"><a name="l00093"></a><span class="lineno">   93</span>&#160;{</div>
+<div class="line"><a name="l00094"></a><span class="lineno">   94</span>&#160;}</div>
+<div class="line"><a name="l00095"></a><span class="lineno">   95</span>&#160; </div>
+<div class="line"><a name="l00096"></a><span class="lineno">   96</span>&#160;<span class="keywordtype">void</span> MediaMakerPlugin::init()</div>
+<div class="line"><a name="l00097"></a><span class="lineno">   97</span>&#160;{</div>
+<div class="line"><a name="l00098"></a><span class="lineno">   98</span>&#160;    <span class="keyword">auto</span> actionInterface = _api-&gt;getActionInterface();</div>
+<div class="line"><a name="l00099"></a><span class="lineno">   99</span>&#160;    <span class="keyword">auto</span> &amp;engine = _api-&gt;getEngine();</div>
+<div class="line"><a name="l00100"></a><span class="lineno">  100</span>&#160; </div>
+<div class="line"><a name="l00101"></a><span class="lineno">  101</span>&#160;    <span class="keywordflow">if</span> (actionInterface)</div>
+<div class="line"><a name="l00102"></a><span class="lineno">  102</span>&#160;    {</div>
+<div class="line"><a name="l00103"></a><span class="lineno">  103</span>&#160;        std::string entryPoint = PLUGIN_API_PREFIX + <span class="stringliteral">&quot;version&quot;</span>;</div>
+<div class="line"><a name="l00104"></a><span class="lineno">  104</span>&#160;        PLUGIN_INFO(<span class="stringliteral">&quot;Registering &#39;&quot;</span> + entryPoint + <span class="stringliteral">&quot;&#39; endpoint&quot;</span>);</div>
+<div class="line"><a name="l00105"></a><span class="lineno">  105</span>&#160;        actionInterface-&gt;registerRequest&lt;Response&gt;(entryPoint, [&amp;]() {</div>
+<div class="line"><a name="l00106"></a><span class="lineno">  106</span>&#160;            <span class="keywordflow">return</span> _version();</div>
+<div class="line"><a name="l00107"></a><span class="lineno">  107</span>&#160;        });</div>
 <div class="line"><a name="l00108"></a><span class="lineno">  108</span>&#160; </div>
 <div class="line"><a name="l00109"></a><span class="lineno">  109</span>&#160;        entryPoint = PLUGIN_API_PREFIX + <span class="stringliteral">&quot;set-odu-camera&quot;</span>;</div>
 <div class="line"><a name="l00110"></a><span class="lineno">  110</span>&#160;        PLUGIN_INFO(<span class="stringliteral">&quot;Registering &#39;&quot;</span> + entryPoint + <span class="stringliteral">&quot;&#39; endpoint&quot;</span>);</div>
@@ -213,9 +213,9 @@ $(document).ready(function(){initNavTree('dd/d9e/MediaMakerPlugin_8cpp_source.ht
 <div class="line"><a name="l00125"></a><span class="lineno">  125</span>&#160;        entryPoint = PLUGIN_API_PREFIX + <span class="stringliteral">&quot;get-export-frames-progress&quot;</span>;</div>
 <div class="line"><a name="l00126"></a><span class="lineno">  126</span>&#160;        PLUGIN_INFO(<span class="stringliteral">&quot;Registering &#39;&quot;</span> + entryPoint + <span class="stringliteral">&quot;&#39; endpoint&quot;</span>);</div>
 <div class="line"><a name="l00127"></a><span class="lineno">  127</span>&#160;        actionInterface-&gt;registerRequest&lt;FrameExportProgress&gt;(</div>
-<div class="line"><a name="l00128"></a><span class="lineno">  128</span>&#160;            entryPoint,</div>
-<div class="line"><a name="l00129"></a><span class="lineno">  129</span>&#160;            [&amp;](void) -&gt; FrameExportProgress</div>
-<div class="line"><a name="l00130"></a><span class="lineno">  130</span>&#160;            { <span class="keywordflow">return</span> _getFrameExportProgress(); });</div>
+<div class="line"><a name="l00128"></a><span class="lineno">  128</span>&#160;            entryPoint, [&amp;](void) -&gt; FrameExportProgress {</div>
+<div class="line"><a name="l00129"></a><span class="lineno">  129</span>&#160;                <span class="keywordflow">return</span> _getFrameExportProgress();</div>
+<div class="line"><a name="l00130"></a><span class="lineno">  130</span>&#160;            });</div>
 <div class="line"><a name="l00131"></a><span class="lineno">  131</span>&#160;    }</div>
 <div class="line"><a name="l00132"></a><span class="lineno">  132</span>&#160; </div>
 <div class="line"><a name="l00133"></a><span class="lineno">  133</span>&#160;    _addDepthRenderer(engine);</div>
@@ -404,11 +404,11 @@ $(document).ready(function(){initNavTree('dd/d9e/MediaMakerPlugin_8cpp_source.ht
 <div class="line"><a name="l00316"></a><span class="lineno">  316</span>&#160;    TIFFSetField(image, TIFFTAG_SAMPLEFORMAT, SAMPLEFORMAT_IEEEFP);</div>
 <div class="line"><a name="l00317"></a><span class="lineno">  317</span>&#160;    TIFFSetField(image, TIFFTAG_COMPRESSION, COMPRESSION_NONE);</div>
 <div class="line"><a name="l00318"></a><span class="lineno">  318</span>&#160; </div>
-<div class="line"><a name="l00319"></a><span class="lineno">  319</span>&#160;    <span class="keywordtype">double</span> *scan_line = (<span class="keywordtype">double</span> *)malloc(size.x * (<span class="keyword">sizeof</span>(<span class="keywordtype">double</span>)));</div>
+<div class="line"><a name="l00319"></a><span class="lineno">  319</span>&#160;    <span class="keywordtype">float</span> *scan_line = (<span class="keywordtype">float</span> *)malloc(1 + size.x * (<span class="keyword">sizeof</span>(<span class="keywordtype">float</span>)));</div>
 <div class="line"><a name="l00320"></a><span class="lineno">  320</span>&#160; </div>
 <div class="line"><a name="l00321"></a><span class="lineno">  321</span>&#160;    <span class="keywordflow">for</span> (uint32_t i = 0; i &lt; size.y; ++i)</div>
 <div class="line"><a name="l00322"></a><span class="lineno">  322</span>&#160;    {</div>
-<div class="line"><a name="l00323"></a><span class="lineno">  323</span>&#160;        memcpy(scan_line, &amp;depthBuffer[i * size.x], size.x * <span class="keyword">sizeof</span>(<span class="keywordtype">double</span>));</div>
+<div class="line"><a name="l00323"></a><span class="lineno">  323</span>&#160;        memcpy(scan_line, &amp;depthBuffer[i * size.x], size.x * <span class="keyword">sizeof</span>(<span class="keywordtype">float</span>));</div>
 <div class="line"><a name="l00324"></a><span class="lineno">  324</span>&#160;        TIFFWriteScanline(image, scan_line, size.y - 1 - i, 0);</div>
 <div class="line"><a name="l00325"></a><span class="lineno">  325</span>&#160;    }</div>
 <div class="line"><a name="l00326"></a><span class="lineno">  326</span>&#160; </div>

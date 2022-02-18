@@ -32,6 +32,8 @@ var annotated_dup =
         [ "BuildFieldsDetails", "dc/d5b/structbioexplorer_1_1details_1_1BuildFieldsDetails.html", "dc/d5b/structbioexplorer_1_1details_1_1BuildFieldsDetails" ],
         [ "BuildPointCloudDetails", "d5/dc6/structbioexplorer_1_1details_1_1BuildPointCloudDetails.html", "d5/dc6/structbioexplorer_1_1details_1_1BuildPointCloudDetails" ],
         [ "DatabaseAccessDetails", "dc/dd9/structbioexplorer_1_1details_1_1DatabaseAccessDetails.html", "dc/dd9/structbioexplorer_1_1details_1_1DatabaseAccessDetails" ],
+        [ "EnzymeReactionDetails", "df/dc6/structbioexplorer_1_1details_1_1EnzymeReactionDetails.html", "df/dc6/structbioexplorer_1_1details_1_1EnzymeReactionDetails" ],
+        [ "EnzymeReactionProgressDetails", "dd/d17/structbioexplorer_1_1details_1_1EnzymeReactionProgressDetails.html", "dd/d17/structbioexplorer_1_1details_1_1EnzymeReactionProgressDetails" ],
         [ "FileAccessDetails", "de/d38/structbioexplorer_1_1details_1_1FileAccessDetails.html", "de/d38/structbioexplorer_1_1details_1_1FileAccessDetails" ],
         [ "FocusOnDetails", "d7/d6e/structbioexplorer_1_1details_1_1FocusOnDetails.html", "d7/d6e/structbioexplorer_1_1details_1_1FocusOnDetails" ],
         [ "GeneralSettingsDetails", "d0/d14/structbioexplorer_1_1details_1_1GeneralSettingsDetails.html", "d0/d14/structbioexplorer_1_1details_1_1GeneralSettingsDetails" ],
@@ -98,6 +100,7 @@ var annotated_dup =
       [ "molecularsystems", null, [
         [ "AminoAcid", "d4/d03/structbioexplorer_1_1molecularsystems_1_1AminoAcid.html", "d4/d03/structbioexplorer_1_1molecularsystems_1_1AminoAcid" ],
         [ "Atom", "df/d73/structbioexplorer_1_1molecularsystems_1_1Atom.html", "df/d73/structbioexplorer_1_1molecularsystems_1_1Atom" ],
+        [ "EnzymeReaction", "d4/d07/classbioexplorer_1_1molecularsystems_1_1EnzymeReaction.html", "d4/d07/classbioexplorer_1_1molecularsystems_1_1EnzymeReaction" ],
         [ "Glycans", "da/de6/classbioexplorer_1_1molecularsystems_1_1Glycans.html", "da/de6/classbioexplorer_1_1molecularsystems_1_1Glycans" ],
         [ "Membrane", "d4/d3d/classbioexplorer_1_1molecularsystems_1_1Membrane.html", "d4/d3d/classbioexplorer_1_1molecularsystems_1_1Membrane" ],
         [ "Molecule", "da/dff/classbioexplorer_1_1molecularsystems_1_1Molecule.html", "da/dff/classbioexplorer_1_1molecularsystems_1_1Molecule" ],
