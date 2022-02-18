@@ -944,6 +944,7 @@ class BioExplorer:
         Add an enzyme reaction to the scene
 
         :enzyme_reaction: Description of the enzyme reaction
+        :return: Result of the call to the BioExplorer backend
         """
         assert isinstance(enzyme_reaction, EnzymeReaction)
 
@@ -977,6 +978,14 @@ class BioExplorer:
         return self._invoke_and_check("add-enzyme-reaction", params)
 
     def set_enzyme_reaction_progress(self, enzyme_reaction, instance_id=0, progress=0.0):
+        """
+        Set the progress of a given enzyme reaction
+
+        :enzyme_reaction: EnzymeReaction object
+        :instance_id: Enzyme protein instance. Defaults to 0.
+        :progress: Progress of the enzyme reaction (between 0 and 1). Defaults to 0.
+        :return: Result of the call to the BioExplorer backend
+        """
         params = dict()
         params["assemblyName"] = enzyme_reaction.assembly_name
         params["name"] = enzyme_reaction.name
@@ -2224,7 +2233,9 @@ class BioExplorer:
         params["simulationReportId"] = report_simulation_id
         return self._invoke_and_check('set-vasculature-report', params)
 
-    def set_vasculature_radius_report(self, assembly_name, population_name, report_simulation_id, frame, amplitude=1.0):
+    def set_vasculature_radius_report(
+            self, assembly_name, population_name, report_simulation_id,
+            frame, amplitude=1.0):
         """
         Attach a radius report to the vasculature
 
@@ -2564,9 +2575,12 @@ class Virus:
 
 class EnzymeReaction:
     """
+    Enzyme reaction descriptor
+
     Enzymes are catalysts and increase the speed of a chemical reaction without themselves
     undergoing any permanent chemical change. They are neither used up in the reaction nor do
     they appear as reaction products.
+
     The basic enzymatic reaction can be represented as follows:
     - E represents the enzyme catalyzing the reaction,
     - S the substrate, the substance being changed

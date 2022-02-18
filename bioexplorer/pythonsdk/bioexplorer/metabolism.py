@@ -29,12 +29,29 @@ from ipywidgets import Layout, GridspecLayout, Select, ColorPicker, FloatSlider
 
 
 class Metabolism:
+    """
+    The Metabolism class defines an API to access and render metabolism information.
+
+    Metabolism data is stored in a PostgreSQL database.
+    """
 
     PLUGIN_API_PREFIX = 'mb-'
 
     def __init__(
             self, bioexplorer, model_id, db_host, db_name, db_user, db_password,
             db_schema, simulation_timestamp):
+        """
+        Metabolism class initialization
+
+        :bioexplorer: Reference to a instance of the BioExplorer
+        :model_id: Id of the model
+        :db_host: Host name of the PostgreSQL server
+        :db_host: Database name
+        :db_host: Database user name
+        :db_host: Database password
+        :db_schema: Database scheme
+        :simulation_timestamp: Simulation timestamp
+        """
         self._be = bioexplorer
         self._core = self._be.core_api()
         self._db_host = db_host
@@ -61,13 +78,33 @@ class Metabolism:
         except Exception as e:
             print(e)
 
-    def set_renderer(self, accumulation=None, head_light=None, max_accum_frames=None,
-                     samples_per_pixel=None, subsampling=None, alpha_correction=0.1,
-                     exposure=1.0, near_plane=10.0, far_plane=200.0, ray_step=3.0,
-                     search_length=15.0, noise_frequency=1.0, noise_amplitude=1.0,
-                     use_random_search=False):
+    def set_renderer(
+            self, max_accum_frames=None, subsampling=None, alpha_correction=0.1,
+            exposure=1.0, near_plane=10.0, far_plane=200.0, ray_step=3.0,
+            search_length=15.0, noise_frequency=1.0, noise_amplitude=1.0,
+            use_random_search=False):
+        """
+        Set the metabolism renderer.
+
+        The renderer travels through the scene using
+        the ray-marching technique. For every voxel, the region is identified and
+        the metabolite concentration is used to define the opacity of the voxel.
+
+        :max_accum_frames: Maximum number of accumulated framed
+        :subsampling: Sub-sampling
+        :alpha_correction: Alpha correction applied to voxels
+        :exposure: Exposure applied on the final rendering
+        :near_plane: Volume near plane
+        :far_plane: Volume far plane
+        :ray_step: Step for the ray marching process
+        :search_length: Length of the ray used to search the closest surface
+        :noise_frequency: Noise frequency for the cloud rendering effect
+        :noise_amplitude: Noise amplitude for the cloud rendering effect
+        :use_random_search: Uses random directions for the search ray if enabled
+        """
         self._core.set_renderer(
-            current='metabolism', subsampling=subsampling, max_accum_frames=max_accum_frames)
+            current='metabolism', subsampling=subsampling,
+            max_accum_frames=max_accum_frames)
         params = self._core.MetabolismRendererParams()
         params.alpha_correction = alpha_correction
         params.exposure = exposure
@@ -99,14 +136,26 @@ class Metabolism:
         return result
 
     def callback(self, location, metabolite_id):
+        """
+        Call back function used by the Metabolism widget to update the rendering
+
+        :location: Location (Neuron cytosol, Astrocyte mitochondrion, etc)
+        :metabolite_id: Metabolite id
+        """
         self._metabolite_ids[location] = metabolite_id
         self._put_metabolite_ids()
         self._core.set_renderer()
 
     def display(self):
+        """
+        Displays a widget in the notebook.
 
+        The widget allows selection of metabolites and regions that should be rendered
+        """
         class Updated:
-            def __init__(self, client, model_id, db_connection, db_schema, simulation_guid, callback):
+            def __init__(
+                    self, client, model_id, db_connection, db_schema, simulation_guid,
+                    callback):
                 self._core = client
                 self._model_id = model_id
                 self._db_connection = db_connection
@@ -160,7 +209,8 @@ class Metabolism:
                 return self._locations
 
             def get_location_colors(self):
-                sql = "SELECT guid, red, green, blue FROM %s.location ORDER BY guid" % self._db_schema
+                sql = "SELECT guid, red, green, blue FROM %s.location ORDER BY guid" \
+                    % self._db_schema
                 data = pd.read_sql(sql, self._db_connection)
                 for i in range(len(data)):
                     guid = int(data['guid'][i])
@@ -172,7 +222,8 @@ class Metabolism:
             def get_metabolites(self):
                 self._metabolites = dict()
                 sql = "SELECT v.guid, v.description FROM %s.variable AS v, %s.concentration AS c " \
-                    "WHERE v.location_guid=%d AND v.unit_guid=0 AND v.guid=c.variable_guid AND c.simulation_guid=%d " \
+                    "WHERE v.location_guid=%d AND v.unit_guid=0 AND v.guid=c.variable_guid AND " \
+                    "c.simulation_guid=%d " \
                     "ORDER BY description" % (self._db_schema, self._db_schema,
                                               self._location, self._simulation_guid)
                 data = pd.read_sql(sql, self._db_connection)
@@ -255,11 +306,14 @@ class Metabolism:
         ax.grid(True)
         grid = GridspecLayout(n_rows=3, n_columns=2, height='170px')
         location_selector = Select(
-            options=update_class.get_locations(), description='Location', layout=Layout(height="100px", width="350px"))
+            options=update_class.get_locations(), description='Location',
+            layout=Layout(height="100px", width="350px"))
         metabolite_selector = Select(
-            options=update_class.get_metabolites(), description='Metabolite', layout=Layout(height="100px", width="350px"))
+            options=update_class.get_metabolites(), description='Metabolite',
+            layout=Layout(height="100px", width="350px"))
         location_color_opacity_slider = FloatSlider(
-            value=1.0, min=0.0, max=1.0, step=0.1, description='Opacity', layout=Layout(width="350px"))
+            value=1.0, min=0.0, max=1.0, step=0.1, description='Opacity',
+            layout=Layout(width="350px"))
         location_color_picker = ColorPicker(
             description='Color', layout=Layout(width="350px"))
 
