@@ -63,6 +63,16 @@ void* VasculatureHandler::getFrameData(const uint32_t frame)
             _frameData =
                 DBConnector::getInstance().getVasculatureSimulationTimeSeries(
                     _details.simulationReportId, frame);
+
+            float minValue = std::numeric_limits<float>::max();
+            float maxValue = -std::numeric_limits<float>::max();
+            for (const auto value : _frameData)
+            {
+                minValue = std::min(minValue, value);
+                maxValue = std::max(maxValue, value);
+            }
+            PLUGIN_ERROR("Range: " << _frameData[0] << " [" << minValue << ", "
+                                   << maxValue << "]");
         }
     }
     catch (const std::runtime_error& e)

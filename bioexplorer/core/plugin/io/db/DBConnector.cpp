@@ -214,7 +214,7 @@ GeometryNodes DBConnector::getVasculatureNodes(
     try
     {
         std::string sql =
-            "SELECT n.node_guid, n.x, n.y, n.z, n.radius, "
+            "SELECT n.guid, n.x, n.y, n.z, n.radius, "
             "v.section_guid, v.type_guid, v.subgraph_guid, v.pair_guid, "
             "v.entry_node_guid FROM " +
             DB_SCHEMA_VASCULATURE + ".node as n, " + DB_SCHEMA_VASCULATURE +
