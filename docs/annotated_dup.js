@@ -54,7 +54,7 @@ var annotated_dup =
         [ "RGBColorDetails", "df/dc7/structbioexplorer_1_1details_1_1RGBColorDetails.html", "df/dc7/structbioexplorer_1_1details_1_1RGBColorDetails" ],
         [ "RNASequenceDetails", "d1/d00/structbioexplorer_1_1details_1_1RNASequenceDetails.html", "d1/d00/structbioexplorer_1_1details_1_1RNASequenceDetails" ],
         [ "SceneInformationDetails", "d2/d03/structbioexplorer_1_1details_1_1SceneInformationDetails.html", "d2/d03/structbioexplorer_1_1details_1_1SceneInformationDetails" ],
-        [ "SugarsDetails", "dd/d92/structbioexplorer_1_1details_1_1SugarsDetails.html", "dd/d92/structbioexplorer_1_1details_1_1SugarsDetails" ]
+        [ "SugarDetails", "d6/d93/structbioexplorer_1_1details_1_1SugarDetails.html", "d6/d93/structbioexplorer_1_1details_1_1SugarDetails" ]
       ] ],
       [ "fields", null, [
         [ "FieldsHandler", "d9/d6e/classbioexplorer_1_1fields_1_1FieldsHandler.html", "d9/d6e/classbioexplorer_1_1fields_1_1FieldsHandler" ],

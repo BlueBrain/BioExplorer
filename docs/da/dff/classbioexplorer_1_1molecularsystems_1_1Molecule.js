@@ -11,6 +11,7 @@ var classbioexplorer_1_1molecularsystems_1_1Molecule =
     [ "_readRemark", "da/dff/classbioexplorer_1_1molecularsystems_1_1Molecule.html#af1344a015e38f19b68bbc5b096a88592", null ],
     [ "_readSequence", "da/dff/classbioexplorer_1_1molecularsystems_1_1Molecule.html#a103a132b78fffd8ff9616d098584a7c6", null ],
     [ "_readTitle", "da/dff/classbioexplorer_1_1molecularsystems_1_1Molecule.html#a6921085820765675c4460c540a43eab2", null ],
+    [ "_rescaleMesh", "da/dff/classbioexplorer_1_1molecularsystems_1_1Molecule.html#a7d316b351affbc1428ad01084de3ccb4", null ],
     [ "_setAminoAcidSequenceColorScheme", "da/dff/classbioexplorer_1_1molecularsystems_1_1Molecule.html#aede6767675d892a3f0610d107e6b8822", null ],
     [ "_setAtomColorScheme", "da/dff/classbioexplorer_1_1molecularsystems_1_1Molecule.html#aec507fabc8acba5d0554275365df961b", null ],
     [ "_setChainColorScheme", "da/dff/classbioexplorer_1_1molecularsystems_1_1Molecule.html#ab2e846b46148d7b4457d8874e5c0b0f3", null ],

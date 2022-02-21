@@ -127,6 +127,7 @@ protected:
     void _readRemark(const std::string& line);
     void _readConnect(const std::string& line);
     bool _loadChain(const size_t chainId);
+    void _rescaleMesh(Model& model, const Vector3f& scale = {1.f, 1.f, 1.f});
 
     Scene& _scene;
     AtomMap _atomMap;

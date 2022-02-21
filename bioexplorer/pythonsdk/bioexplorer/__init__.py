@@ -22,7 +22,7 @@
 # this program.  If not, see <https://www.gnu.org/licenses/>.
 
 from .version import VERSION as __version__
-from .bio_explorer import BioExplorer, Volume, Membrane, AssemblyProtein, Protein, Sugars, \
+from .bio_explorer import BioExplorer, Volume, Membrane, AssemblyProtein, Protein, Sugar, \
     RNASequence, Cell, Surfactant, Virus, EnzymeReaction, AnimationParams, Vector2, \
     Vector3, Quaternion
 from .movie_maker import MovieMaker
@@ -32,7 +32,7 @@ from .notebook_widgets import Widgets
 from .transfer_function import TransferFunction
 
 __all__ = [
-    'Widgets', 'BioExplorer', 'Membrane', 'Protein', 'AssemblyProtein', 'Sugars',
+    'Widgets', 'BioExplorer', 'Membrane', 'Protein', 'AssemblyProtein', 'Sugar',
     'RNASequence', 'Volume', 'Surfactant', 'Cell', 'Vector2', 'Vector3', 'AnimationParams',
     'Quaternion', 'Virus', 'MovieMaker', 'TransferFunction', 'MovieScenario', 'Metabolism',
     'EnzymeReaction', '__version__']

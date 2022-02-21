@@ -41,7 +41,7 @@ Protein::Protein(Scene& scene, const ProteinDetails& details)
 
     std::stringstream lines{_details.contents};
     std::string line;
-    std::string title{_details.name};
+    std::string title;
     std::string header{_details.name};
 
     while (getline(lines, line, '\n'))
@@ -90,7 +90,7 @@ Protein::Protein(Scene& scene, const ProteinDetails& details)
         _bounds = newBounds;
     }
 
-    _buildModel(_details.assemblyName, _details.name, title, header,
+    _buildModel(_details.assemblyName, _details.name, _details.pdbId, header,
                 _details.representation, _details.atomRadiusMultiplier,
                 _details.loadBonds);
 
@@ -401,7 +401,7 @@ void Protein::_processInstances(ModelDescriptorPtr md,
     }
 }
 
-void Protein::addGlycans(const SugarsDetails& details)
+void Protein::addGlycan(const SugarDetails& details)
 {
     if (_glycans.find(details.name) != _glycans.end())
         PLUGIN_THROW("A glycan named " + details.name +
@@ -409,8 +409,8 @@ void Protein::addGlycans(const SugarsDetails& details)
                      " of assembly " + _details.assemblyName);
 
     Vector3ds glycanPositions;
-    Quaternions glycanrotations;
-    getGlycosilationSites(glycanPositions, glycanrotations,
+    Quaternions glycanRotations;
+    getGlycosilationSites(glycanPositions, glycanRotations,
                           details.siteIndices);
 
     if (glycanPositions.empty())
@@ -424,14 +424,14 @@ void Protein::addGlycans(const SugarsDetails& details)
     const Quaterniond proteinrotation = doublesToQuaterniond(details.rotation);
 
     const auto randInfo = doublesToAnimationDetails(details.animationParams);
-    _processInstances(modelDescriptor, glycanPositions, glycanrotations,
+    _processInstances(modelDescriptor, glycanPositions, glycanRotations,
                       proteinrotation, randInfo);
 
     _glycans[details.name] = std::move(glycans);
     _scene.addModel(modelDescriptor);
 }
 
-void Protein::addSugars(const SugarsDetails& details)
+void Protein::addSugar(const SugarDetails& details)
 {
     if (_glycans.find(details.name) != _glycans.end())
         PLUGIN_THROW("A sugar named " + details.name +

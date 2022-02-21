@@ -52,7 +52,7 @@ bool from_json(MembraneDetails &param, const std::string &payload);
 bool from_json(ProteinDetails &param, const std::string &payload);
 std::string to_json(const ProteinDetails &payload);
 
-bool from_json(SugarsDetails &param, const std::string &payload);
+bool from_json(SugarDetails &param, const std::string &payload);
 
 // Enzyme reactions
 bool from_json(EnzymeReactionDetails &param, const std::string &payload);

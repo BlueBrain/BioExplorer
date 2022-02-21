@@ -22,6 +22,7 @@
 # this program.  If not, see <https://www.gnu.org/licenses/>.
 
 import math
+import os
 
 from pyquaternion import Quaternion
 
@@ -224,6 +225,7 @@ class BioExplorer:
     REPRESENTATION_SURFACE = 3
     REPRESENTATION_UNION_OF_BALLS = 4
     REPRESENTATION_DEBUG = 5
+    REPRESENTATION_MESH = 6
 
     ASSEMBLY_SHAPE_POINT = 0
     ASSEMBLY_SHAPE_SPHERE = 1
@@ -617,6 +619,10 @@ class BioExplorer:
                 rna_sequence=rna_sequence)
 
         if add_glycans:
+            glycan_representation = representation
+            if representation == BioExplorer.REPRESENTATION_MESH:
+                glycan_representation = BioExplorer.REPRESENTATION_ATOMS_AND_STICKS
+
             complex_paths = [
                 glycan_folder + "complex/5.pdb",
                 glycan_folder + "complex/15.pdb",
@@ -642,7 +648,7 @@ class BioExplorer:
                 protein_name=self.NAME_PROTEIN_S_CLOSED,
                 paths=high_mannose_paths,
                 indices=indices_closed,
-                representation=representation,
+                representation=glycan_representation,
                 atom_radius_multiplier=atom_radius_multiplier,
                 animation_params=AnimationParams(0, 0, 0.0,
                                                  animation_params.rotation_seed + 7,
@@ -654,7 +660,7 @@ class BioExplorer:
                 protein_name=self.NAME_PROTEIN_S_OPEN,
                 paths=high_mannose_paths,
                 indices=indices_open,
-                representation=representation,
+                representation=glycan_representation,
                 atom_radius_multiplier=atom_radius_multiplier,
                 animation_params=AnimationParams(0, 0, 0.0,
                                                  animation_params.rotation_seed + 7,
@@ -671,7 +677,7 @@ class BioExplorer:
                 protein_name=self.NAME_PROTEIN_S_CLOSED,
                 paths=complex_paths,
                 indices=indices_closed,
-                representation=representation,
+                representation=glycan_representation,
                 atom_radius_multiplier=atom_radius_multiplier,
                 animation_params=AnimationParams(0, 0, 0.0,
                                                  animation_params.rotation_seed + 8,
@@ -684,7 +690,7 @@ class BioExplorer:
                 protein_name=self.NAME_PROTEIN_S_OPEN,
                 paths=complex_paths,
                 indices=indices_open,
-                representation=representation,
+                representation=glycan_representation,
                 atom_radius_multiplier=atom_radius_multiplier,
                 animation_params=AnimationParams(0, 0, 0.0,
                                                  animation_params.rotation_seed + 8,
@@ -695,53 +701,53 @@ class BioExplorer:
             for index in [323, 325]:
                 o_glycan_name = (name + "_" + self.NAME_GLYCAN_O_GLYCAN + "_" +
                                  str(index))
-                o_glycan = Sugars(
+                o_glycan = Sugar(
                     assembly_name=name,
                     name=o_glycan_name,
                     source=o_glycan_paths[0],
                     protein_name=name + "_" + self.NAME_PROTEIN_S_CLOSED,
                     site_indices=[index],
-                    representation=representation,
+                    representation=glycan_representation,
                     atom_radius_multiplier=atom_radius_multiplier,
                     animation_params=AnimationParams(0, 0, 0.0,
                                                      animation_params.rotation_seed + 9,
                                                      2.0 * animation_params.rotation_strength)
                 )
-                self.add_sugars(o_glycan)
+                self.add_sugar(o_glycan)
 
             # High-mannose glycans on Protein M
             indices = [5]
             protein_name = name + "_" + self.NAME_PROTEIN_M
-            high_mannose_glycans = Sugars(
+            high_mannose_glycans = Sugar(
                 rotation=Quaternion(0.707, 0.0, 0.0, 0.707),
                 assembly_name=name,
                 name=protein_name + "_" + self.NAME_GLYCAN_HIGH_MANNOSE,
                 protein_name=protein_name,
                 source=high_mannose_paths[0],
                 site_indices=indices,
-                representation=representation,
+                representation=glycan_representation,
                 animation_params=AnimationParams(0, 0, 0.0,
                                                  animation_params.rotation_seed + 10,
                                                  2.0 * animation_params.rotation_strength)
             )
-            self.add_glycans(high_mannose_glycans)
+            self.add_glycan(high_mannose_glycans)
 
             # Complex glycans on Protein E
             indices = [48, 66]
             protein_name = name + "_" + self.NAME_PROTEIN_E
-            complex_glycans = Sugars(
+            complex_glycans = Sugar(
                 rotation=Quaternion(0.707, 0.0, 0.0, 0.707),
                 assembly_name=name,
                 name=protein_name + "_" + self.NAME_GLYCAN_COMPLEX,
                 protein_name=protein_name,
                 source=complex_paths[0],
                 site_indices=indices,
-                representation=representation,
+                representation=glycan_representation,
                 animation_params=AnimationParams(0, 0, 0.0,
                                                  animation_params.rotation_seed + 11,
                                                  2.0 * animation_params.rotation_strength)
             )
-            self.add_glycans(complex_glycans)
+            self.add_glycan(complex_glycans)
 
         if apply_colors:
             # Apply default materials
@@ -1300,6 +1306,7 @@ class BioExplorer:
         params = dict()
         params["assemblyName"] = assembly_name
         params["name"] = name
+        params["pdbId"] = os.path.splitext(os.path.basename(rna_sequence.protein_source))[0].lower()
         params["contents"] = "".join(open(rna_sequence.source).readlines())
         params["proteinContents"] = protein_contents
         params["shape"] = rna_sequence.shape
@@ -1329,15 +1336,20 @@ class BioExplorer:
         assert isinstance(membrane, Membrane)
         assert isinstance(animation_params, AnimationParams)
 
+        lipid_pdb_ids = ''
         lipid_contents = ''
         for lipid_source in membrane.lipid_sources:
             if lipid_contents != '':
                 lipid_contents += BioExplorer.CONTENTS_DELIMITER
+            if lipid_pdb_ids != '':
+                lipid_pdb_ids += BioExplorer.CONTENTS_DELIMITER
             lipid_contents += ''.join(open(lipid_source).readlines())
+            lipid_pdb_ids += os.path.splitext(os.path.basename(lipid_source))[0].lower()
 
         params = dict()
         params["assemblyName"] = assembly_name
         params["name"] = name
+        params["lipidPDBIds"] = lipid_pdb_ids
         params["lipidContents"] = lipid_contents
         params["lipidRotation"] = list(membrane.lipid_rotation)
         params["lipidDensity"] = membrane.lipid_density
@@ -1409,6 +1421,7 @@ class BioExplorer:
         params = dict()
         params["assemblyName"] = protein.assembly_name
         params["name"] = protein.name
+        params["pdbId"] = protein.pdb_id
         params["contents"] = "".join(open(protein.source).readlines())
         params["atomRadiusMultiplier"] = protein.atom_radius_multiplier
         params["loadBonds"] = protein.load_bonds
@@ -1426,30 +1439,30 @@ class BioExplorer:
         params["constraints"] = constraints
         return self._invoke_and_check("add-protein", params)
 
-    def add_glycans(self, glycans):
+    def add_glycan(self, glycan):
         """
-        Add glycans to an protein in an assembly
+        Add glycan to an protein in an assembly
 
-        :glycans: Description of the glycans
+        :glycan: Description of the glycan
         :return: Result of the call to the BioExplorer backend
         """
-        assert isinstance(glycans, Sugars)
+        assert isinstance(glycan, Sugar)
 
         params = dict()
-        params["assemblyName"] = glycans.assembly_name
-        params["name"] = glycans.name
-        params["contents"] = glycans.contents
-        params["proteinName"] = glycans.protein_name
-        params["atomRadiusMultiplier"] = glycans.atom_radius_multiplier
-        params["loadBonds"] = glycans.load_bonds
-        params["representation"] = glycans.representation
-        params["recenter"] = glycans.recenter
-        params["chainIds"] = glycans.chain_ids
-        params["siteIndices"] = glycans.site_indices
-        params["rotation"] = list(glycans.rotation)
-        params["animationParams"] = glycans.animation_params.to_list()
-
-        return self._invoke_and_check("add-glycans", params)
+        params["assemblyName"] = glycan.assembly_name
+        params["name"] = glycan.name
+        params["pdbId"] = glycan.pdb_id
+        params["contents"] = glycan.contents
+        params["proteinName"] = glycan.protein_name
+        params["atomRadiusMultiplier"] = glycan.atom_radius_multiplier
+        params["loadBonds"] = glycan.load_bonds
+        params["representation"] = glycan.representation
+        params["recenter"] = glycan.recenter
+        params["chainIds"] = glycan.chain_ids
+        params["siteIndices"] = glycan.site_indices
+        params["rotation"] = list(glycan.rotation)
+        params["animationParams"] = glycan.animation_params.to_list()
+        return self._invoke_and_check("add-glycan", params)
 
     def add_multiple_glycans(
             self, assembly_name, glycan_type, protein_name, paths, representation, chain_ids=list(),
@@ -1476,7 +1489,7 @@ class BioExplorer:
         assert isinstance(animation_params, AnimationParams)
 
         path_index = 0
-        for path in paths:
+        for source in paths:
             site_indices = list()
             if indices is not None:
                 for index in indices:
@@ -1484,11 +1497,11 @@ class BioExplorer:
                         site_indices.append(index)
 
             if site_indices:
-                _glycans = Sugars(
+                _glycan = Sugar(
                     assembly_name=assembly_name,
                     name=assembly_name + "_" + protein_name + "_" +
                     glycan_type + "_" + str(path_index),
-                    source=path,
+                    source=source,
                     protein_name=assembly_name + "_" + protein_name,
                     chain_ids=chain_ids,
                     atom_radius_multiplier=atom_radius_multiplier,
@@ -1499,32 +1512,33 @@ class BioExplorer:
                     rotation=rotation,
                     animation_params=animation_params
                 )
-                self.add_glycans(_glycans)
+                self.add_glycan(_glycan)
             path_index += 1
 
-    def add_sugars(self, sugars):
+    def add_sugar(self, sugar):
         """
-        Add sugars to a protein in an assembly
+        Add sugar to a protein in an assembly
 
-        :sugars: Description of the sugars
+        :sugar: Description of the sugars
         :return: Result of the call to the BioExplorer backend
         """
-        assert isinstance(sugars, Sugars)
+        assert isinstance(sugar, Sugar)
 
         params = dict()
-        params["assemblyName"] = sugars.assembly_name
-        params["name"] = sugars.name
-        params["contents"] = sugars.contents
-        params["proteinName"] = sugars.protein_name
-        params["atomRadiusMultiplier"] = sugars.atom_radius_multiplier
-        params["loadBonds"] = sugars.load_bonds
-        params["representation"] = sugars.representation
-        params["recenter"] = sugars.recenter
-        params["chainIds"] = sugars.chain_ids
-        params["siteIndices"] = sugars.site_indices
-        params["rotation"] = list(sugars.rotation)
-        params["animationParams"] = sugars.animation_params.to_list()
-        return self._invoke_and_check("add-sugars", params)
+        params["assemblyName"] = sugar.assembly_name
+        params["name"] = sugar.name
+        params["pdbId"] = sugar.pdb_id
+        params["contents"] = sugar.contents
+        params["proteinName"] = sugar.protein_name
+        params["atomRadiusMultiplier"] = sugar.atom_radius_multiplier
+        params["loadBonds"] = sugar.load_bonds
+        params["representation"] = sugar.representation
+        params["recenter"] = sugar.recenter
+        params["chainIds"] = sugar.chain_ids
+        params["siteIndices"] = sugar.site_indices
+        params["rotation"] = list(sugar.rotation)
+        params["animationParams"] = sugar.animation_params.to_list()
+        return self._invoke_and_check("add-sugar", params)
 
     def set_rendering_quality(self, image_quality):
         """
@@ -2076,7 +2090,7 @@ class BioExplorer:
         params["opacity"] = opacity
         return self._invoke_and_check("add-sphere", params)
 
-    def set_general_settings(self, model_visibility_on_creation=True, off_folder='/tmp',
+    def set_general_settings(self, model_visibility_on_creation=True, mesh_folder='/tmp',
                              logging_level=0, v1_compatibility=False):
         """
         Set general settings for the plugin
@@ -2089,7 +2103,7 @@ class BioExplorer:
         self._v1_compatibility = v1_compatibility
         params = dict()
         params["modelVisibilityOnCreation"] = model_visibility_on_creation
-        params["offFolder"] = off_folder
+        params["meshFolder"] = mesh_folder
         params["loggingLevel"] = logging_level
         params["v1Compatibility"] = v1_compatibility
         response = self._invoke_and_check("set-general-settings", params)
@@ -2296,6 +2310,7 @@ class AssemblyProtein:
 
         self.assembly_name = assembly_name
         self.name = name
+        self.pdb_id = os.path.splitext(os.path.basename(source))[0].lower()
         self.source = source
         self.atom_radius_multiplier = atom_radius_multiplier
         self.load_bonds = load_bonds
@@ -2356,7 +2371,7 @@ class Membrane:
         self.animation_params = animation_params.copy()
 
 
-class Sugars:
+class Sugar:
     """Sugars are glycan trees that can be added to the glycosylation sites of a given protein"""
 
     def __init__(self, assembly_name, name, source, protein_name, atom_radius_multiplier=1.0,
@@ -2386,6 +2401,7 @@ class Sugars:
 
         self.assembly_name = assembly_name
         self.name = name
+        self.pdb_id = os.path.splitext(os.path.basename(source))[0].lower()
         self.contents = "".join(open(source).readlines())
         self.protein_name = protein_name
         self.atom_radius_multiplier = atom_radius_multiplier
@@ -2523,6 +2539,7 @@ class Protein:
         assert isinstance(animation_params, AnimationParams)
 
         self.name = name
+        self.pdb_id = os.path.splitext(os.path.basename(source))[0].lower()
         self.source = source
         self.occurences = occurences
         self.load_bonds = load_bonds

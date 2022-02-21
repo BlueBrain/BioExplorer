@@ -41,7 +41,7 @@ const std::string CONTENTS_DELIMITER = "||||";
 
 // Metadata
 const std::string METADATA_ASSEMBLY = "Assembly";
-const std::string METADATA_TITLE = "Title";
+const std::string METADATA_PDB_ID = "PDBId";
 const std::string METADATA_HEADER = "Header";
 const std::string METADATA_ATOMS = "Atoms";
 const std::string METADATA_BONDS = "Bonds";
@@ -72,6 +72,7 @@ using Color = Vector3d;
 using Palette = std::vector<Color>;
 using Quaternions = std::vector<Quaterniond>;
 using doubles = std::vector<double>;
+using strings = std::vector<std::string>;
 using Vector3ds = std::vector<Vector3d>;
 using Vector4ds = std::vector<Vector4d>;
 using Vector2uis = std::vector<Vector2ui>;
@@ -127,7 +128,7 @@ typedef struct
 typedef struct
 {
     bool modelVisibilityOnCreation;
-    std::string offFolder;
+    std::string meshFolder;
     uint32_t loggingLevel;
     bool v1Compatibility;
 } GeneralSettingsDetails;
@@ -262,7 +263,9 @@ enum class ProteinRepresentation
     /** Protein surface computed using union of balls */
     union_of_balls = 4,
     /** Debug mode, usually showing size and rotation of the protein */
-    debug = 5
+    debug = 5,
+    /** Precomputed OBJ meshes */
+    mesh = 6
 };
 
 /**
@@ -275,6 +278,9 @@ typedef struct
     std::string assemblyName;
     /** Name of the lipid in the assembly */
     std::string name;
+    /** String containing a list of PDB ids for the lipids, delimited by
+     * PDB_CONTENTS_DELIMITER */
+    std::string lipidPDBIds;
     /** String containing a list of PDB description for the lipids, delimited by
      * PDB_CONTENTS_DELIMITER */
     std::string lipidContents;
@@ -306,6 +312,8 @@ typedef struct
     std::string assemblyName;
     /** Name of the protein in the assembly */
     std::string name;
+    /** PDB if of the protein */
+    std::string pdbId;
     /** String containing a PDB representation of the protein */
     std::string contents;
     /** Multiplier applied to the radius of the protein atoms */
@@ -345,18 +353,20 @@ typedef struct
 } ProteinDetails;
 
 /**
- * @brief Data structure describing the glycans
+ * @brief Data structure describing the sugar
  *
  */
 typedef struct
 {
     /** Name of the assembly */
     std::string assemblyName;
-    /** Name of the glycans in the assembly */
+    /** Name of the sugar in the assembly */
     std::string name;
-    /** String containing a PDB representation of the glycans */
+    /** String containing the PDB Id of the sugar */
+    std::string pdbId;
+    /** String containing a PDB representation of the sugar */
     std::string contents;
-    /** Name of the protein on which glycans are added */
+    /** Name of the protein on which sugar are added */
     std::string proteinName;
     /** Multiplier applied to the radius of the molecule atoms */
     double atomRadiusMultiplier;
@@ -369,13 +379,13 @@ typedef struct
     bool recenter;
     /** Identifiers of chains to be loaded */
     std::vector<size_t> chainIds;
-    /** List of sites on which glycans can be added */
+    /** List of sites on which sugar can be added */
     std::vector<size_t> siteIndices;
-    /** Relative rotation of the glycans on the molecule */
+    /** Relative rotation of the sugar on the molecule */
     std::vector<double> rotation;
     /** Extra optional parameters for positioning on the molecule */
     std::vector<double> animationParams;
-} SugarsDetails;
+} SugarDetails;
 
 /**
  * @brief RNA sequence descriptor
@@ -387,6 +397,8 @@ typedef struct
     std::string assemblyName;
     /** Name of the RNA sequence in the assembly */
     std::string name;
+    /** String containing the PDB id of the N protein */
+    std::string pdbId;
     /** A string containing the list of codons */
     std::string contents;
     /** A string containing an PDB representation of the N protein */

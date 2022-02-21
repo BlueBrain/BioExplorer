@@ -48,8 +48,8 @@ Membrane::Membrane(const MembraneDetails& details, Scene& scene,
     , _shape(shape)
 {
     // Lipid models
-    std::vector<std::string> lipidContents =
-        split(_details.lipidContents, CONTENTS_DELIMITER);
+    strings lipidPDBIds = split(_details.lipidPDBIds, CONTENTS_DELIMITER);
+    strings lipidContents = split(_details.lipidContents, CONTENTS_DELIMITER);
 
     double lipidAverageSize = 0.0;
     size_t i = 0;
@@ -58,6 +58,7 @@ Membrane::Membrane(const MembraneDetails& details, Scene& scene,
         ProteinDetails pd;
         pd.assemblyName = _details.assemblyName;
         pd.name = _getElementNameFromId(i);
+        pd.pdbId = lipidPDBIds[i];
         pd.contents = lipidContent;
         pd.recenter = true;
         pd.atomRadiusMultiplier = _details.atomRadiusMultiplier;

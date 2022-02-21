@@ -32,6 +32,7 @@
 
 #include <brayns/engineapi/Material.h>
 #include <brayns/engineapi/Model.h>
+#include <brayns/io/MeshLoader.h>
 
 #include <omp.h>
 
@@ -39,6 +40,7 @@ namespace bioexplorer
 {
 namespace molecularsystems
 {
+using namespace brayns;
 using namespace common;
 #ifdef USE_CGAL
 using namespace meshing;
@@ -262,19 +264,32 @@ void Molecule::_buildAtomicStruture(const ProteinRepresentation representation,
     }
 }
 
+void Molecule::_rescaleMesh(Model& model, const Vector3f& scale)
+{
+    auto& triangleMeshes = model.getTriangleMeshes();
+    const auto& bounds = model.getBounds();
+    const Vector3f center = bounds.getCenter();
+    for (auto& triangleMesh : triangleMeshes)
+    {
+        auto& vertices = triangleMesh.second.vertices;
+        for (auto& vertex : vertices)
+            vertex = center + (vertex - center) * scale;
+    }
+}
+
 void Molecule::_buildModel(const std::string& assemblyName,
-                           const std::string& name, const std::string& title,
+                           const std::string& name, const std::string& pdbId,
                            const std::string& header,
                            const ProteinRepresentation& representation,
                            const double atomRadiusMultiplier,
                            const bool loadBonds)
 {
-    PLUGIN_INFO(3, "Building protein " << name << "...");
+    PLUGIN_INFO(3, "Building protein " << name << " [PDB " << pdbId << "]...");
 
     // Metadata
     ModelMetadata metadata;
     metadata[METADATA_ASSEMBLY] = assemblyName;
-    metadata[METADATA_TITLE] = title;
+    metadata[METADATA_PDB_ID] = pdbId;
     metadata[METADATA_HEADER] = header;
     metadata[METADATA_ATOMS] = std::to_string(_atomMap.size());
     metadata[METADATA_BONDS] = std::to_string(_bondsMap.size());
@@ -304,6 +319,17 @@ void Molecule::_buildModel(const std::string& assemblyName,
                                               metadata);
         break;
     }
+    case ProteinRepresentation::mesh:
+    {
+        const std::string filename =
+            GeneralSettings::getInstance()->getMeshFolder() + pdbId + ".obj";
+        MeshLoader meshLoader(_scene);
+        _modelDescriptor =
+            meshLoader.importFromFile(filename, LoaderProgress(), {});
+        _setMaterialExtraAttributes();
+        _rescaleMesh(_modelDescriptor->getModel(), Vector3d(0.1, 0.1, 0.1));
+        break;
+    }
 #ifdef USE_CGAL
     case ProteinRepresentation::surface:
     case ProteinRepresentation::union_of_balls:
@@ -324,9 +350,10 @@ void Molecule::_buildModel(const std::string& assemblyName,
         SurfaceMesher sm(_uuid);
         if (representation == ProteinRepresentation::union_of_balls)
             _modelDescriptor =
-                sm.generateUnionOfBalls(_scene, name, pointCloud);
+                sm.generateUnionOfBalls(_scene, pdbId, pointCloud);
         else
-            _modelDescriptor = sm.generateSurface(_scene, name, pointCloud);
+            _modelDescriptor = sm.generateSurface(_scene, pdbId, pointCloud);
+        _setMaterialExtraAttributes();
         _modelDescriptor->setMetadata(metadata);
 
         Model& model = _modelDescriptor->getModel();
@@ -349,6 +376,7 @@ void Molecule::_buildModel(const std::string& assemblyName,
         _modelDescriptor =
             std::make_shared<ModelDescriptor>(std::move(model), name, header,
                                               metadata);
+        _setMaterialExtraAttributes();
         break;
     }
 #else

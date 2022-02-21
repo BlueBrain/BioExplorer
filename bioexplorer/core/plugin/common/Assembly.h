@@ -168,14 +168,14 @@ public:
      * in the assembly
      * @param details Details of the glycans
      */
-    void addGlycans(const SugarsDetails &details);
+    void addGlycan(const SugarDetails &details);
 
     /**
      * @brief addSugars Add sugars to sugar binding sites of a given protein of
      * the assembly
      * @param details Details of the sugars
      */
-    void addSugars(const SugarsDetails &details);
+    void addSugar(const SugarDetails &details);
 
     /**
      * @brief addEnzymeReaction Add enzyme reaction to the scene
