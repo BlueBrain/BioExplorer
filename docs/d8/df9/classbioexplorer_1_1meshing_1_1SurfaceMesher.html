@@ -95,17 +95,17 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a8b99241376e73f1cac6f35653177babd"><td class="memItemLeft" align="right" valign="top"><a id="a8b99241376e73f1cac6f35653177babd"></a>
 &#160;</td><td class="memItemRight" valign="bottom"><b>SurfaceMesher</b> (const uint32_t uuid)</td></tr>
 <tr class="separator:a8b99241376e73f1cac6f35653177babd"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aedeb4001cd124c39f190cf3fa14f27dc"><td class="memItemLeft" align="right" valign="top">ModelDescriptorPtr&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d8/df9/classbioexplorer_1_1meshing_1_1SurfaceMesher.html#aedeb4001cd124c39f190cf3fa14f27dc">generateSurface</a> (brayns::Scene &amp;scene, const std::string &amp;title, const Vector4ds &amp;atoms, const double shrinkfactor=0.5)</td></tr>
-<tr class="separator:aedeb4001cd124c39f190cf3fa14f27dc"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a65a0faaf99b8513a98e8021fb30e1745"><td class="memItemLeft" align="right" valign="top">ModelDescriptorPtr&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d8/df9/classbioexplorer_1_1meshing_1_1SurfaceMesher.html#a65a0faaf99b8513a98e8021fb30e1745">generateUnionOfBalls</a> (brayns::Scene &amp;scene, const std::string &amp;title, const Vector4ds &amp;atoms)</td></tr>
-<tr class="separator:a65a0faaf99b8513a98e8021fb30e1745"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aeb41b4507cdb32ae33421fc395b7e6d0"><td class="memItemLeft" align="right" valign="top">ModelDescriptorPtr&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d8/df9/classbioexplorer_1_1meshing_1_1SurfaceMesher.html#aeb41b4507cdb32ae33421fc395b7e6d0">generateSurface</a> (brayns::Scene &amp;scene, const std::string &amp;pdbId, const Vector4ds &amp;atoms, const double shrinkfactor=0.5)</td></tr>
+<tr class="separator:aeb41b4507cdb32ae33421fc395b7e6d0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a504311b3a39ff91ed2e165bdaf4e2eb3"><td class="memItemLeft" align="right" valign="top">ModelDescriptorPtr&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d8/df9/classbioexplorer_1_1meshing_1_1SurfaceMesher.html#a504311b3a39ff91ed2e165bdaf4e2eb3">generateUnionOfBalls</a> (brayns::Scene &amp;scene, const std::string &amp;pdbId, const Vector4ds &amp;atoms)</td></tr>
+<tr class="separator:a504311b3a39ff91ed2e165bdaf4e2eb3"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock">
 <p class="definition">Definition at line <a class="el" href="../../d2/dd7/SurfaceMesher_8h_source.html#l00031">31</a> of file <a class="el" href="../../d2/dd7/SurfaceMesher_8h_source.html">SurfaceMesher.h</a>.</p>
 </div><h2 class="groupheader">Member Function Documentation</h2>
-<a id="aedeb4001cd124c39f190cf3fa14f27dc"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aedeb4001cd124c39f190cf3fa14f27dc">&#9670;&nbsp;</a></span>generateSurface()</h2>
+<a id="aeb41b4507cdb32ae33421fc395b7e6d0"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aeb41b4507cdb32ae33421fc395b7e6d0">&#9670;&nbsp;</a></span>generateSurface()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -120,7 +120,7 @@ Public Member Functions</h2></td></tr>
           <td class="paramkey"></td>
           <td></td>
           <td class="paramtype">const std::string &amp;&#160;</td>
-          <td class="paramname"><em>title</em>, </td>
+          <td class="paramname"><em>pdbId</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
@@ -154,8 +154,8 @@ Public Member Functions</h2></td></tr>
 
 </div>
 </div>
-<a id="a65a0faaf99b8513a98e8021fb30e1745"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a65a0faaf99b8513a98e8021fb30e1745">&#9670;&nbsp;</a></span>generateUnionOfBalls()</h2>
+<a id="a504311b3a39ff91ed2e165bdaf4e2eb3"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a504311b3a39ff91ed2e165bdaf4e2eb3">&#9670;&nbsp;</a></span>generateUnionOfBalls()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -170,7 +170,7 @@ Public Member Functions</h2></td></tr>
           <td class="paramkey"></td>
           <td></td>
           <td class="paramtype">const std::string &amp;&#160;</td>
-          <td class="paramname"><em>title</em>, </td>
+          <td class="paramname"><em>pdbId</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
@@ -194,7 +194,7 @@ Public Member Functions</h2></td></tr>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="../../d8/de3/SurfaceMesher_8cpp_source.html#l00112">112</a> of file <a class="el" href="../../d8/de3/SurfaceMesher_8cpp_source.html">SurfaceMesher.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d8/de3/SurfaceMesher_8cpp_source.html#l00108">108</a> of file <a class="el" href="../../d8/de3/SurfaceMesher_8cpp_source.html">SurfaceMesher.cpp</a>.</p>
 
 </div>
 </div>

@@ -2,8 +2,8 @@ var searchData=
 [
   ['generalsettings_82',['GeneralSettings',['../d2/da7/classbioexplorer_1_1common_1_1GeneralSettings.html',1,'bioexplorer::common::GeneralSettings'],['../d2/da7/classbioexplorer_1_1common_1_1GeneralSettings.html#a53be3f73259e58f109b22152794b4694',1,'bioexplorer::common::GeneralSettings::GeneralSettings()']]],
   ['generalsettingsdetails_83',['GeneralSettingsDetails',['../d0/d14/structbioexplorer_1_1details_1_1GeneralSettingsDetails.html',1,'bioexplorer::details']]],
-  ['generatesurface_84',['generateSurface',['../d8/df9/classbioexplorer_1_1meshing_1_1SurfaceMesher.html#aedeb4001cd124c39f190cf3fa14f27dc',1,'bioexplorer::meshing::SurfaceMesher']]],
-  ['generateunionofballs_85',['generateUnionOfBalls',['../d8/df9/classbioexplorer_1_1meshing_1_1SurfaceMesher.html#a65a0faaf99b8513a98e8021fb30e1745',1,'bioexplorer::meshing::SurfaceMesher']]],
+  ['generatesurface_84',['generateSurface',['../d8/df9/classbioexplorer_1_1meshing_1_1SurfaceMesher.html#aeb41b4507cdb32ae33421fc395b7e6d0',1,'bioexplorer::meshing::SurfaceMesher']]],
+  ['generateunionofballs_85',['generateUnionOfBalls',['../d8/df9/classbioexplorer_1_1meshing_1_1SurfaceMesher.html#a504311b3a39ff91ed2e165bdaf4e2eb3',1,'bioexplorer::meshing::SurfaceMesher']]],
   ['geometrynode_86',['GeometryNode',['../d7/d1e/structbioexplorer_1_1common_1_1GeometryNode.html',1,'bioexplorer::common']]],
   ['get_87',['get',['../d0/dbd/classbioexplorer_1_1common_1_1UniqueId.html#acea06a610c8d56ec1a964eca3c5b4e2a',1,'bioexplorer::common::UniqueId']]],
   ['getaminoacidinformation_88',['getAminoAcidInformation',['../d2/d82/classbioexplorer_1_1common_1_1Assembly.html#acd4b710e2d373454718450d543bffa70',1,'bioexplorer::common::Assembly']]],
@@ -28,11 +28,11 @@ var searchData=
   ['getlipids_107',['getLipids',['../d4/d3d/classbioexplorer_1_1molecularsystems_1_1Membrane.html#a89f2ef365e2ff681cb452d0808a898c0',1,'bioexplorer::molecularsystems::Membrane']]],
   ['getlogginglevel_108',['getLoggingLevel',['../d2/da7/classbioexplorer_1_1common_1_1GeneralSettings.html#ab2143bff5baf81d077d2fdee1f18a683',1,'bioexplorer::common::GeneralSettings']]],
   ['getmembrane_109',['getMembrane',['../d2/d82/classbioexplorer_1_1common_1_1Assembly.html#a179a9496b3f7f2a320b093fd15366e1a',1,'bioexplorer::common::Assembly']]],
-  ['getmodeldescriptor_110',['getModelDescriptor',['../d7/d93/classbioexplorer_1_1common_1_1Node.html#acc055348b8fa8f69ad9f249fadd4fefe',1,'bioexplorer::common::Node']]],
-  ['getmodelvisibilityoncreation_111',['getModelVisibilityOnCreation',['../d2/da7/classbioexplorer_1_1common_1_1GeneralSettings.html#aa8ea62637029fef1262f4f99cd08af28',1,'bioexplorer::common::GeneralSettings']]],
-  ['getname_112',['getName',['../d1/d5f/classbioexplorer_1_1io_1_1CacheLoader.html#a99849599a8a4e5fd4190fb572ac2f49d',1,'bioexplorer::io::CacheLoader']]],
-  ['getoctreesize_113',['getOctreeSize',['../dc/d5a/classbioexplorer_1_1fields_1_1Octree.html#a8e02f58f917d88233949254a5594867e',1,'bioexplorer::fields::Octree']]],
-  ['getofffolder_114',['getOffFolder',['../d2/da7/classbioexplorer_1_1common_1_1GeneralSettings.html#a911b732dc5737664cc2c5a6b5a22cc31',1,'bioexplorer::common::GeneralSettings']]],
+  ['getmeshfolder_110',['getMeshFolder',['../d2/da7/classbioexplorer_1_1common_1_1GeneralSettings.html#aadc622c916686fd3a39b417deae277b9',1,'bioexplorer::common::GeneralSettings']]],
+  ['getmodeldescriptor_111',['getModelDescriptor',['../d7/d93/classbioexplorer_1_1common_1_1Node.html#acc055348b8fa8f69ad9f249fadd4fefe',1,'bioexplorer::common::Node']]],
+  ['getmodelvisibilityoncreation_112',['getModelVisibilityOnCreation',['../d2/da7/classbioexplorer_1_1common_1_1GeneralSettings.html#aa8ea62637029fef1262f4f99cd08af28',1,'bioexplorer::common::GeneralSettings']]],
+  ['getname_113',['getName',['../d1/d5f/classbioexplorer_1_1io_1_1CacheLoader.html#a99849599a8a4e5fd4190fb572ac2f49d',1,'bioexplorer::io::CacheLoader']]],
+  ['getoctreesize_114',['getOctreeSize',['../dc/d5a/classbioexplorer_1_1fields_1_1Octree.html#a8e02f58f917d88233949254a5594867e',1,'bioexplorer::fields::Octree']]],
   ['getoffset_115',['getOffset',['../d9/d6e/classbioexplorer_1_1fields_1_1FieldsHandler.html#a85b549358ff5df6d0f217b53143c4f23',1,'bioexplorer::fields::FieldsHandler']]],
   ['getprogress_116',['getProgress',['../da/d6e/classbioexplorer_1_1io_1_1OOCManager.html#af419911b23345e83ecb24a35ae571776',1,'bioexplorer::io::OOCManager']]],
   ['getproperties_117',['getProperties',['../d1/d5f/classbioexplorer_1_1io_1_1CacheLoader.html#ae1adf25b81ba2700e14ee1cf7cd20288',1,'bioexplorer::io::CacheLoader']]],
@@ -64,5 +64,5 @@ var searchData=
   ['getvolumesize_143',['getVolumeSize',['../dc/d5a/classbioexplorer_1_1fields_1_1Octree.html#a4fceed482aa4cc31b281608a6fcd2aed',1,'bioexplorer::fields::Octree']]],
   ['glossiness_144',['glossiness',['../d5/d4e/structbioexplorer_1_1rendering_1_1AdvancedMaterial.html#a934c90350391af53a74e99aec054e9b8',1,'bioexplorer::rendering::AdvancedMaterial::glossiness()'],['../d1/dbe/structbioexplorer_1_1mediamaker_1_1rendering_1_1DefaultMaterial.html#a582517be4c410cc2a22fb8a49057313f',1,'bioexplorer::mediamaker::rendering::DefaultMaterial::glossiness()']]],
   ['glossinesses_145',['glossinesses',['../d7/d84/structbioexplorer_1_1details_1_1MaterialsDetails.html#a3c0a358190b5febb13b68060d8c081d7',1,'bioexplorer::details::MaterialsDetails']]],
-  ['glycans_146',['Glycans',['../da/de6/classbioexplorer_1_1molecularsystems_1_1Glycans.html',1,'bioexplorer::molecularsystems::Glycans'],['../da/de6/classbioexplorer_1_1molecularsystems_1_1Glycans.html#a235f6d05d59dd91e5c544fec942d70f6',1,'bioexplorer::molecularsystems::Glycans::Glycans()']]]
+  ['glycans_146',['Glycans',['../da/de6/classbioexplorer_1_1molecularsystems_1_1Glycans.html',1,'bioexplorer::molecularsystems::Glycans'],['../da/de6/classbioexplorer_1_1molecularsystems_1_1Glycans.html#a940aca596a4fe5564be824d1ffedf95e',1,'bioexplorer::molecularsystems::Glycans::Glycans()']]]
 ];

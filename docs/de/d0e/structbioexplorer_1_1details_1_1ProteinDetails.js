@@ -12,6 +12,7 @@ var structbioexplorer_1_1details_1_1ProteinDetails =
     [ "loadNonPolymerChemicals", "de/d0e/structbioexplorer_1_1details_1_1ProteinDetails.html#ac16628b11fffae63ceabaf84ae753cae", null ],
     [ "name", "de/d0e/structbioexplorer_1_1details_1_1ProteinDetails.html#a5917cfa981741c54649569f1eb733de4", null ],
     [ "occurrences", "de/d0e/structbioexplorer_1_1details_1_1ProteinDetails.html#a21028bb0639c0b790235dc4e125f9580", null ],
+    [ "pdbId", "de/d0e/structbioexplorer_1_1details_1_1ProteinDetails.html#a0dd39aff9cdcbb92f0fd178d0e6036d0", null ],
     [ "position", "de/d0e/structbioexplorer_1_1details_1_1ProteinDetails.html#a08d6c99bfddccb508cc748efc3d3a269", null ],
     [ "recenter", "de/d0e/structbioexplorer_1_1details_1_1ProteinDetails.html#ae10023b565d13d83c2ee88f84b674892", null ],
     [ "representation", "de/d0e/structbioexplorer_1_1details_1_1ProteinDetails.html#ac71bf6c5ca866c38ef92d2322ed08632", null ],
