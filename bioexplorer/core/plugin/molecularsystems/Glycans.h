@@ -40,10 +40,10 @@ public:
      * @param scene The 3D scene where the glycans are added
      * @param details The data structure describing the glycans
      */
-    Glycans(Scene& scene, const SugarsDetails& details);
+    Glycans(Scene& scene, const SugarDetails& details);
 
 private:
-    SugarsDetails _details;
+    SugarDetails _details;
 };
 } // namespace molecularsystems
 } // namespace bioexplorer

@@ -48,6 +48,8 @@ public:
     const ModelDescriptorPtr getModelDescriptor() const;
 
 protected:
+    void _setMaterialExtraAttributes();
+
     ModelDescriptorPtr _modelDescriptor{nullptr};
     Boxd _bounds;
     uint32_t _uuid;

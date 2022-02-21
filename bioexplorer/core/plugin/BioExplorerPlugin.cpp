@@ -358,17 +358,17 @@ void BioExplorerPlugin::init()
                 return _addProtein(payload);
             });
 
-        endPoint = PLUGIN_API_PREFIX + "add-glycans";
+        endPoint = PLUGIN_API_PREFIX + "add-glycan";
         PLUGIN_INFO(1, "Registering '" + endPoint + "' endpoint");
-        actionInterface->registerRequest<SugarsDetails, Response>(
+        actionInterface->registerRequest<SugarDetails, Response>(
             endPoint,
-            [&](const SugarsDetails &payload) { return _addGlycans(payload); });
+            [&](const SugarDetails &payload) { return _addGlycan(payload); });
 
-        endPoint = PLUGIN_API_PREFIX + "add-sugars";
+        endPoint = PLUGIN_API_PREFIX + "add-sugar";
         PLUGIN_INFO(1, "Registering '" + endPoint + "' endpoint");
-        actionInterface->registerRequest<SugarsDetails, Response>(
+        actionInterface->registerRequest<SugarDetails, Response>(
             endPoint,
-            [&](const SugarsDetails &payload) { return _addSugars(payload); });
+            [&](const SugarDetails &payload) { return _addSugar(payload); });
 
         endPoint = PLUGIN_API_PREFIX + "add-enzyme-reaction";
         PLUGIN_INFO(1, "Registering '" + endPoint + "' endpoint");
@@ -774,7 +774,7 @@ Response BioExplorerPlugin::_setGeneralSettings(
     {
         GeneralSettings::getInstance()->setModelVisibilityOnCreation(
             payload.modelVisibilityOnCreation);
-        GeneralSettings::getInstance()->setOffFolder(payload.offFolder);
+        GeneralSettings::getInstance()->setMeshFolder(payload.meshFolder);
         GeneralSettings::getInstance()->setLoggingLevel(payload.loggingLevel);
         GeneralSettings::getInstance()->setV1Compatibility(
             payload.v1Compatibility);
@@ -882,14 +882,14 @@ Response BioExplorerPlugin::_addProtein(const ProteinDetails &payload) const
     ASSEMBLY_CALL_VOID(payload.assemblyName, addProtein(payload, constraints));
 }
 
-Response BioExplorerPlugin::_addGlycans(const SugarsDetails &payload) const
+Response BioExplorerPlugin::_addGlycan(const SugarDetails &payload) const
 {
-    ASSEMBLY_CALL_VOID(payload.assemblyName, addGlycans(payload));
+    ASSEMBLY_CALL_VOID(payload.assemblyName, addGlycan(payload));
 }
 
-Response BioExplorerPlugin::_addSugars(const SugarsDetails &payload) const
+Response BioExplorerPlugin::_addSugar(const SugarDetails &payload) const
 {
-    ASSEMBLY_CALL_VOID(payload.assemblyName, addSugars(payload));
+    ASSEMBLY_CALL_VOID(payload.assemblyName, addSugar(payload));
 }
 
 Response BioExplorerPlugin::_addEnzymeReaction(

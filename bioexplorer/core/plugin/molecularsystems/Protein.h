@@ -137,18 +137,18 @@ public:
     void setAminoAcid(const AminoAcidDetails& details);
 
     /**
-     * @brief addGlycans Add glycans to glycosilation sites of a given protein
+     * @brief addGlycan Add glycans to glycosilation sites of a given protein
      * in the assembly
      * @param details Details of the glycans
      */
-    void addGlycans(const SugarsDetails& details);
+    void addGlycan(const SugarDetails& details);
 
     /**
-     * @brief addSugars Add sugars to sugar binding sites of a given protein of
+     * @brief addSugar Add sugars to sugar binding sites of a given protein of
      * the assembly
      * @param details Details of the sugars
      */
-    void addSugars(const SugarsDetails& details);
+    void addSugar(const SugarDetails& details);
 
     /**
      * @brief Get the protein transformation

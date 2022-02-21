@@ -177,6 +177,7 @@ void RNASequence::_buildRNAAsProteinInstances(const Quaterniond& rotation)
     ProteinDetails pd;
     pd.assemblyName = _details.assemblyName;
     pd.name = proteinName;
+    pd.pdbId = _details.pdbId;
     pd.contents = _details.proteinContents;
     pd.recenter = true;
     pd.atomRadiusMultiplier = _details.atomRadiusMultiplier;

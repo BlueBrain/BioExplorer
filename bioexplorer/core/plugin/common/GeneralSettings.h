@@ -80,14 +80,14 @@ public:
      *
      * @return The path to the folder
      */
-    std::string getOffFolder() { return _offFolder + "/"; }
+    std::string getMeshFolder() { return _meshFolder + "/"; }
 
     /**
      * @brief Set the Off folder location
      *
      * @param value Path to the folder
      */
-    void setOffFolder(const std::string& value) { _offFolder = value; }
+    void setMeshFolder(const std::string& value) { _meshFolder = value; }
 
     /**
      * @brief Get the Logging level
@@ -126,7 +126,7 @@ private:
     ~GeneralSettings() {}
 
     bool _modelVisibilityOnCreation{true};
-    std::string _offFolder{"/tmp"};
+    std::string _meshFolder{"/tmp"};
     size_t _loggingLevel{1};
     bool _v1Compatibility{false};
 };

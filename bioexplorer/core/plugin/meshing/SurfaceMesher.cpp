@@ -64,21 +64,19 @@ SurfaceMesher::SurfaceMesher(const uint32_t uuid)
 }
 
 ModelDescriptorPtr SurfaceMesher::generateSurface(brayns::Scene& scene,
-                                                  const std::string& title,
+                                                  const std::string& pdbId,
                                                   const Vector4ds& atoms,
                                                   const double shrinkfactor)
 {
     ModelDescriptorPtr modelDescriptor{nullptr};
     MeshLoader meshLoader(scene);
     const std::string filename =
-        GeneralSettings::getInstance()->getOffFolder() +
-        title.substr(title.find("_") + 1) + ".off";
+        GeneralSettings::getInstance()->getMeshFolder() + pdbId + ".off";
     try
     {
         PLUGIN_INFO(3, "Trying to load surface from cache " << filename);
         modelDescriptor =
             meshLoader.importFromFile(filename, LoaderProgress(), {});
-        _setMaterialExtraAttributes(modelDescriptor);
         PLUGIN_INFO(3, "Surface loaded from cache " << filename);
         return modelDescriptor;
     }
@@ -104,13 +102,11 @@ ModelDescriptorPtr SurfaceMesher::generateSurface(brayns::Scene& scene,
     PLUGIN_INFO(3, "Adding mesh to model");
     std::ofstream out(filename);
     out << polyhedron;
-    modelDescriptor = meshLoader.importFromFile(filename, LoaderProgress(), {});
-    _setMaterialExtraAttributes(modelDescriptor);
-    return modelDescriptor;
+    return meshLoader.importFromFile(filename, LoaderProgress(), {});
 }
 
 ModelDescriptorPtr SurfaceMesher::generateUnionOfBalls(brayns::Scene& scene,
-                                                       const std::string& title,
+                                                       const std::string& pdbId,
                                                        const Vector4ds& atoms)
 {
     std::list<Weighted_point> l;
@@ -120,14 +116,12 @@ ModelDescriptorPtr SurfaceMesher::generateUnionOfBalls(brayns::Scene& scene,
     ModelDescriptorPtr modelDescriptor{nullptr};
     MeshLoader meshLoader(scene);
     const std::string filename =
-        GeneralSettings::getInstance()->getOffFolder() +
-        title.substr(title.find("_") + 1) + ".off";
+        GeneralSettings::getInstance()->getMeshFolder() + pdbId + ".off";
     try
     {
         PLUGIN_INFO(3, "Trying to load union of balls from cache " << filename);
         modelDescriptor =
             meshLoader.importFromFile(filename, LoaderProgress(), {});
-        _setMaterialExtraAttributes(modelDescriptor);
         PLUGIN_INFO(3, "Surface loaded from cache " << filename);
         return modelDescriptor;
     }
@@ -146,26 +140,7 @@ ModelDescriptorPtr SurfaceMesher::generateUnionOfBalls(brayns::Scene& scene,
     PLUGIN_INFO(3, "Adding mesh to model");
     std::ofstream out(filename);
     out << polyhedron;
-    modelDescriptor = meshLoader.importFromFile(filename, LoaderProgress(), {});
-    _setMaterialExtraAttributes(modelDescriptor);
-    return modelDescriptor;
-}
-
-void SurfaceMesher::_setMaterialExtraAttributes(
-    ModelDescriptorPtr modelDescriptor)
-{
-    auto materials = modelDescriptor->getModel().getMaterials();
-    for (auto& material : materials)
-    {
-        brayns::PropertyMap props;
-        props.setProperty({MATERIAL_PROPERTY_SHADING_MODE,
-                           static_cast<int>(MaterialShadingMode::basic)});
-        props.setProperty({MATERIAL_PROPERTY_USER_PARAMETER, 1.0});
-        props.setProperty({MATERIAL_PROPERTY_CHAMELEON_MODE,
-                           static_cast<int>(MaterialChameleonMode::receiver)});
-        props.setProperty({MATERIAL_PROPERTY_NODE_ID, static_cast<int>(_uuid)});
-        material.second->updateProperties(props);
-    }
+    return meshLoader.importFromFile(filename, LoaderProgress(), {});
 }
 } // namespace meshing
 } // namespace bioexplorer

@@ -30,7 +30,7 @@ namespace bioexplorer
 {
 namespace molecularsystems
 {
-Glycans::Glycans(Scene& scene, const SugarsDetails& details)
+Glycans::Glycans(Scene& scene, const SugarDetails& details)
     : Molecule(scene, {})
     , _details(details)
 {
@@ -38,7 +38,7 @@ Glycans::Glycans(Scene& scene, const SugarsDetails& details)
 
     std::stringstream lines{_details.contents};
     std::string line;
-    std::string title{details.name};
+    std::string title;
     std::string header{details.name};
 
     while (getline(lines, line, '\n'))
@@ -72,7 +72,7 @@ Glycans::Glycans(Scene& scene, const SugarsDetails& details)
             atom.second.position -= translation;
     }
 
-    _buildModel(_details.assemblyName, _details.name, title, header,
+    _buildModel(_details.assemblyName, _details.name, _details.pdbId, header,
                 _details.representation, _details.atomRadiusMultiplier,
                 _details.loadBonds);
 }

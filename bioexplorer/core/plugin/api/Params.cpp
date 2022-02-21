@@ -85,7 +85,7 @@ bool from_json(GeneralSettingsDetails &param, const std::string &payload)
     {
         auto js = nlohmann::json::parse(payload);
         FROM_JSON(param, js, modelVisibilityOnCreation);
-        FROM_JSON(param, js, offFolder);
+        FROM_JSON(param, js, meshFolder);
         FROM_JSON(param, js, loggingLevel);
         FROM_JSON(param, js, v1Compatibility);
     }
@@ -261,6 +261,7 @@ bool from_json(RNASequenceDetails &param, const std::string &payload)
         auto js = nlohmann::json::parse(payload);
         FROM_JSON(param, js, assemblyName);
         FROM_JSON(param, js, name);
+        FROM_JSON(param, js, pdbId);
         FROM_JSON(param, js, contents);
         FROM_JSON(param, js, proteinContents);
         FROM_JSON(param, js, shape);
@@ -287,6 +288,7 @@ bool from_json(MembraneDetails &param, const std::string &payload)
         auto js = nlohmann::json::parse(payload);
         FROM_JSON(param, js, assemblyName);
         FROM_JSON(param, js, name);
+        FROM_JSON(param, js, lipidPDBIds);
         FROM_JSON(param, js, lipidContents);
         FROM_JSON(param, js, lipidRotation);
         FROM_JSON(param, js, lipidDensity);
@@ -312,6 +314,7 @@ bool from_json(ProteinDetails &param, const std::string &payload)
         auto js = nlohmann::json::parse(payload);
         FROM_JSON(param, js, assemblyName);
         FROM_JSON(param, js, name);
+        FROM_JSON(param, js, pdbId);
         FROM_JSON(param, js, contents);
         FROM_JSON(param, js, atomRadiusMultiplier);
         FROM_JSON(param, js, loadBonds);
@@ -365,13 +368,14 @@ std::string to_json(const ProteinDetails &payload)
     return "";
 }
 
-bool from_json(SugarsDetails &param, const std::string &payload)
+bool from_json(SugarDetails &param, const std::string &payload)
 {
     try
     {
         auto js = nlohmann::json::parse(payload);
         FROM_JSON(param, js, assemblyName);
         FROM_JSON(param, js, name);
+        FROM_JSON(param, js, pdbId);
         FROM_JSON(param, js, contents);
         FROM_JSON(param, js, proteinName);
         FROM_JSON(param, js, atomRadiusMultiplier);

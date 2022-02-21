@@ -155,7 +155,7 @@ void Assembly::addMembrane(const MembraneDetails &details)
     _membrane = std::move(membrane);
 }
 
-void Assembly::addSugars(const SugarsDetails &details)
+void Assembly::addSugar(const SugarDetails &details)
 {
     // Get information from target protein (attributes, number of instances,
     // glycosylation sites, etc)
@@ -171,10 +171,10 @@ void Assembly::addSugars(const SugarsDetails &details)
     }
     PLUGIN_INFO(3, "Adding sugars to protein " << details.proteinName);
     const auto targetProtein = (*it).second;
-    targetProtein->addSugars(details);
+    targetProtein->addSugar(details);
 }
 
-void Assembly::addGlycans(const SugarsDetails &details)
+void Assembly::addGlycan(const SugarDetails &details)
 {
     // Get information from target protein (attributes, number of instances,
     // glycosylation sites, etc)
@@ -191,7 +191,7 @@ void Assembly::addGlycans(const SugarsDetails &details)
 
     PLUGIN_INFO(3, "Adding glycans to protein " << details.proteinName);
     const auto targetProtein = (*it).second;
-    targetProtein->addGlycans(details);
+    targetProtein->addGlycan(details);
 }
 
 void Assembly::_processInstances(ModelDescriptorPtr md, const std::string &name,

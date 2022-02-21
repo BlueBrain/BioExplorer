@@ -81,8 +81,8 @@ private:
     Response _addMembrane(const MembraneDetails &payload) const;
     Response _addRNASequence(const RNASequenceDetails &payload) const;
     Response _addProtein(const ProteinDetails &payload) const;
-    Response _addGlycans(const SugarsDetails &payload) const;
-    Response _addSugars(const SugarsDetails &payload) const;
+    Response _addGlycan(const SugarDetails &payload) const;
+    Response _addSugar(const SugarDetails &payload) const;
     Response _addEnzymeReaction(const EnzymeReactionDetails &payload) const;
     Response _setEnzymeReactionProgress(
         const EnzymeReactionProgressDetails &payload) const;

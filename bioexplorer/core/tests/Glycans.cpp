@@ -49,11 +49,12 @@ std::string getFileContents(const std::string& filename)
     return str;
 }
 
-SugarsDetails getDescriptor()
+SugarDetails getDescriptor()
 {
-    SugarsDetails descriptor;
+    SugarDetails descriptor;
     descriptor.assemblyName = "test";
     descriptor.name = "test";
+    descriptor.pdbId = "1";
     descriptor.contents = getFileContents(
         "./bioexplorer/pythonsdk/tests/test_files/pdb/glycans/complex/1.pdb");
     descriptor.proteinName;
