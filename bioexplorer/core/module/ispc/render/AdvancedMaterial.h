@@ -88,8 +88,8 @@ struct AdvancedMaterial : public ospray::Material
     /*! Takes the color from surrounding invisible geometry */
     MaterialChameleonMode chameleonMode;
 
-    /*! Determines if shading should include simulation data */
-    bool castSimulationData{true};
+    /*! Determines if shading should include user data */
+    bool castUserData{false};
 
     std::string toString() const final { return "default_material"; }
     void commit() final;

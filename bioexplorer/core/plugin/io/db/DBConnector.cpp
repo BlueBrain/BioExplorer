@@ -22,13 +22,17 @@
 
 namespace bioexplorer
 {
+#ifdef USE_MORPHOLOGIES
+using namespace morphology;
+#endif
 namespace io
 {
 namespace db
 {
+const std::string DB_SCHEMA_OUT_OF_CORE = "outofcore";
 const std::string DB_SCHEMA_VASCULATURE = "vasculature";
 const std::string DB_SCHEMA_METABOLISM = "metabolism";
-const std::string DB_SCHEMA_OUT_OF_CORE = "outofcore";
+const std::string DB_SCHEMA_ASTROCYTES = "astrocytes";
 
 DBConnector* DBConnector::_instance = nullptr;
 std::mutex DBConnector::_mutex;
@@ -181,6 +185,7 @@ std::stringstream DBConnector::getBrick(const int32_t brickId,
     return s;
 }
 
+#ifdef USE_VASCULATURE
 uint64_t DBConnector::getVasculaturePopulationId(
     const std::string& populationName) const
 {
@@ -337,7 +342,7 @@ floats DBConnector::getVasculatureSimulationTimeSeries(
         for (auto c = res.begin(); c != res.end(); ++c)
         {
             const pqxx::binarystring bytea(c[0]);
-            values.resize(bytea.size());
+            values.resize(bytea.size() / sizeof(float));
             memcpy(&values.data()[0], bytea.data(), bytea.size());
         }
     }
@@ -349,6 +354,147 @@ floats DBConnector::getVasculatureSimulationTimeSeries(
 
     return values;
 }
+#endif
+
+#ifdef USE_MORPHOLOGIES
+SomaMap DBConnector::getNodes(const uint64_ts astrocyteIds,
+                              const std::string& sqlCondition) const
+{
+    SomaMap somas;
+
+    pqxx::read_transaction transaction(*_connection);
+    try
+    {
+        std::string sql = "SELECT guid, x, y, z, radius FROM " +
+                          DB_SCHEMA_ASTROCYTES + ".node";
+        strings conditions;
+        if (!astrocyteIds.empty())
+        {
+            std::string condition = "guid IN (";
+            for (size_t i = 0; i < astrocyteIds.size(); ++i)
+            {
+                if (i != 0)
+                    condition += ",";
+                condition += std::to_string(astrocyteIds[i]);
+            }
+            condition += ") ";
+            conditions.push_back(condition);
+        }
+
+        if (!sqlCondition.empty())
+            conditions.push_back(sqlCondition);
+
+        for (size_t i = 0; i < conditions.size(); ++i)
+        {
+            if (i == 0)
+                sql += " WHERE ";
+            else
+                sql += " AND ";
+            sql += conditions[i];
+        }
+
+        sql += " ORDER BY guid";
+
+        PLUGIN_DEBUG(sql);
+        auto res = transaction.exec(sql);
+        for (auto c = res.begin(); c != res.end(); ++c)
+        {
+            Soma soma;
+            soma.center =
+                Vector3d(c[1].as<float>(), c[2].as<float>(), c[3].as<float>());
+            soma.radius = c[4].as<float>() * 0.5;
+            somas[c[0].as<uint64_t>()] = soma;
+        }
+    }
+    catch (const pqxx::sql_error& e)
+    {
+        transaction.abort();
+        PLUGIN_THROW(e.what());
+    }
+    transaction.abort();
+
+    return somas;
+}
+
+SectionMap DBConnector::getAstrocyteSections(const int64_t astrocyteId) const
+{
+    SectionMap sections;
+
+    pqxx::read_transaction transaction(*_connection);
+    try
+    {
+        std::string sql =
+            "SELECT section_guid, section_type_guid, section_parent_guid, "
+            "points FROM " +
+            DB_SCHEMA_ASTROCYTES +
+            ".section WHERE morphology_guid=" + std::to_string(astrocyteId);
+        PLUGIN_DEBUG(sql);
+        auto res = transaction.exec(sql);
+        for (auto c = res.begin(); c != res.end(); ++c)
+        {
+            Section section;
+            const auto sectionId = c[0].as<uint64_t>();
+            section.type = c[1].as<uint64_t>();
+            section.parentId = c[2].as<int64_t>();
+            const pqxx::binarystring bytea(c[3]);
+            section.points.resize(bytea.size() / sizeof(Vector4f));
+            memcpy(&section.points.data()[0], bytea.data(), bytea.size());
+            sections[sectionId] = section;
+        }
+    }
+    catch (const pqxx::sql_error& e)
+    {
+        transaction.abort();
+        PLUGIN_THROW(e.what());
+    }
+    transaction.abort();
+
+    return sections;
+}
+
+EndFootMap DBConnector::getAstrocyteEndFeetAreas(
+    const uint64_t astrocyteId) const
+{
+    EndFootMap endFeet;
+
+    pqxx::read_transaction transaction(*_connection);
+    try
+    {
+        std::string sql =
+            "SELECT astrocyte_section_guid, vertices, indices FROM " +
+            DB_SCHEMA_ASTROCYTES +
+            ".end_foot WHERE astrocyte_guid=" + std::to_string(astrocyteId);
+        PLUGIN_DEBUG(sql);
+        auto res = transaction.exec(sql);
+        for (auto c = res.begin(); c != res.end(); ++c)
+        {
+            EndFoot endFoot;
+            const auto astrocyteSectionId = c[0].as<uint64_t>();
+
+            const pqxx::binarystring verticesBytes(c[1]);
+            endFoot.vertices.resize(verticesBytes.size() / sizeof(Vector3f));
+            memcpy(&endFoot.vertices.data()[0], verticesBytes.data(),
+                   verticesBytes.size());
+
+            const pqxx::binarystring indicesBytes(c[2]);
+            endFoot.indices.resize(indicesBytes.size() / sizeof(uint64_t));
+            memcpy(&endFoot.indices.data()[0], indicesBytes.data(),
+                   indicesBytes.size());
+
+            endFeet[astrocyteSectionId] = endFoot;
+        }
+    }
+    catch (const pqxx::sql_error& e)
+    {
+        transaction.abort();
+        PLUGIN_THROW(e.what());
+    }
+    transaction.abort();
+
+    return endFeet;
+}
+#endif
+
 } // namespace db
 } // namespace io
 } // namespace bioexplorer

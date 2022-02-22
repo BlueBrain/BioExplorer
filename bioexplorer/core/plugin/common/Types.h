@@ -76,6 +76,7 @@ using strings = std::vector<std::string>;
 using Vector3ds = std::vector<Vector3d>;
 using Vector4ds = std::vector<Vector4d>;
 using Vector2uis = std::vector<Vector2ui>;
+using Vector3uis = std::vector<Vector3ui>;
 using uint32_ts = std::vector<uint32_t>;
 using CommandLineArguments = std::map<std::string, std::string>;
 using Transformations = std::vector<Transformation>;
@@ -689,6 +690,8 @@ typedef struct
     std::vector<double> emissions;
     /** List of values for glossiness */
     std::vector<double> glossinesses;
+    /** List of values for casting user data */
+    std::vector<bool> castUserData;
     /** List of values for shading modes */
     std::vector<int32_t> shadingModes;
     /** List of values for user defined parameters */
@@ -866,8 +869,10 @@ typedef struct
     bool loadCapilarities;
     /** Geometry quality */
     VasculatureQuality quality;
-    /** Radius correction, only applied if different from 0.0 */
-    double radiusCorrection;
+    /** Multiplies the vasculature section radii by the specified value */
+    double radiusMultiplier;
+    /** SQL filter (WHERE condition) */
+    std::string sqlFilter;
 } VasculatureDetails;
 
 /**
@@ -908,6 +913,61 @@ typedef struct
     double amplitude;
 } VasculatureRadiusReportDetails;
 #endif
+
+#ifdef USE_MORPHOLOGIES
+
+enum class PopulationColorScheme
+{
+    /** All nodes use the same color */
+    none = 0,
+    /** Colored by id */
+    id = 1
+};
+
+enum class MorphologyColorScheme
+{
+    /** All sections use the same color */
+    none = 0,
+    /** Colored by section */
+    section = 1
+};
+
+enum class GeometryQuality
+{
+    low = 0,
+    medium = 1,
+    high = 2
+};
+
+typedef struct
+{
+    /** Name of the assembly containing the astrocytes */
+    std::string assemblyName;
+    /** Name of the population of astrocytes */
+    std::string populationName;
+    /** Astrocyte Ids */
+    uint64_ts astrocyteIds;
+    /** Load somas if set to true */
+    bool loadSomas;
+    /** Load dendrites if set to true */
+    bool loadDendrites;
+    /** Load end-feet if set to true */
+    bool loadEndFeet;
+    /** Use Signed Distance Fields as geometry */
+    bool useSdf;
+    /** Geometry quality */
+    GeometryQuality geometryQuality;
+    /** Geometry color scheme */
+    MorphologyColorScheme morphologyColorScheme;
+    /** Population color scheme */
+    PopulationColorScheme populationColorScheme;
+    /** Multiplies the astrocyte section radii by the specified value */
+    double radiusMultiplier;
+    /** SQL filter (WHERE condition) */
+    std::string sqlFilter;
+} AstrocytesDetails;
+#endif
+
 } // namespace details
 
 namespace common
@@ -1136,6 +1196,37 @@ using VasculaturePtr = std::shared_ptr<Vasculature>;
 } // namespace vasculature
 #endif
 
+#ifdef USE_MORPHOLOGIES
+namespace morphology
+{
+class Astrocytes;
+using AstrocytesPtr = std::shared_ptr<Astrocytes>;
+
+typedef struct
+{
+    Vector3d center;
+    double radius;
+    uint64_ts children;
+} Soma;
+using SomaMap = std::map<uint64_t, Soma>;
+
+typedef struct
+{
+    Vector4fs points;
+    size_t type;
+    int64_t parentId;
+} Section;
+using SectionMap = std::map<uint64_t, Section>;
+
+typedef struct
+{
+    Vector3fs vertices;
+    Vector3uis indices;
+} EndFoot;
+using EndFootMap = std::map<uint64_t, EndFoot>;
+} // namespace morphology
+#endif
+
 namespace geometry
 {
 // SDF structures
@@ -1171,6 +1262,12 @@ typedef struct
     std::string timeUnits;
     std::string dataUnits;
 } SimulationReport;
+
+namespace fields
+{
+class FieldsHandler;
+typedef std::shared_ptr<FieldsHandler> FieldsHandlerPtr;
+} // namespace fields
 
 } // namespace db
 } // namespace io

@@ -5,6 +5,3 @@
 # This file is part of https://github.com/BlueBrain/BioExplorer
 
 include(FetchContent)
-
-if(${NAME}_USE_VASCULATURE)
-endif()

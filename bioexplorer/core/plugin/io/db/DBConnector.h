@@ -34,6 +34,9 @@ namespace db
 {
 using namespace details;
 using namespace common;
+#ifdef USE_MORPHOLOGIES
+using namespace morphology;
+#endif
 
 using ConnectionPtr = std::shared_ptr<pqxx::connection>;
 
@@ -104,6 +107,7 @@ public:
     void insertBrick(const int32_t brickId, const uint32_t version,
                      const uint32_t nbModels, const std::stringstream& buffer);
 
+#ifdef USE_VASCULATURE
     /**
      * @brief Get the population ID from a given name
      *
@@ -151,6 +155,36 @@ public:
      */
     floats getVasculatureSimulationTimeSeries(const int32_t simulationReportId,
                                               const int32_t frame) const;
+#endif
+
+#ifdef USE_MORPHOLOGIES
+    /**
+     * @brief Get the Nodes from the astrocytes circuit
+     *
+     * @param astrocyteIds List of astrocyte identifiers
+     * @param sqlCondition String containing an WHERE condition for the SQL
+     * statement
+     * @return SomaMap A map of somas (position, radius, etc)
+     */
+    SomaMap getNodes(const uint64_ts astrocyteIds = {},
+                     const std::string& sqlCondition = "") const;
+
+    /**
+     * @brief Get the sections of a given astrocyte
+     *
+     * @param astrocyteId Identifier of the astrocyte
+     * @return SectionMap A map of sections
+     */
+    SectionMap getAstrocyteSections(const int64_t astrocyteId) const;
+
+    /**
+     * @brief Get the end-feet areas of a given astrocyte
+     *
+     * @param astrocyteId Identifier of the astrocyte
+     * @return SectionMap A map of end-feet
+     */
+    EndFootMap getAstrocyteEndFeetAreas(const uint64_t astrocyteId) const;
+#endif
 
     static std::mutex _mutex;
     static DBConnector* _instance;

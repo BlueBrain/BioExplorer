@@ -87,7 +87,7 @@ struct ShadingAttributes
     float userParameter;
     MaterialChameleonMode chameleonMode;
     uint32 nodeId;
-    bool castSimulationData;
+    bool castUserData;
     vec3f indirectColor;
     float indirectIntensity;
     vec3f simulationColor;
@@ -135,7 +135,10 @@ inline void initializeShadingAttributes(
     attributes.opacity = 0.f;
     attributes.glossiness = 1.f;
 
-    attributes.castSimulationData = true;
+    // Simulation contribution
+    attributes.castUserData = false;
+    attributes.simulationColor = make_vec3f(0.f);
+    attributes.simulationIntensity = 0.f;
 }
 
 inline void setGeometryShadingAttributes(
@@ -256,6 +259,9 @@ inline void setGeometryShadingAttributes(
 
         // Chameleon mode
         attributes.chameleonMode = mat->chameleonMode;
+
+        // Cast user data
+        attributes.castUserData = mat->castUserData;
 
         // Model Id
         attributes.nodeId = mat->nodeId;
@@ -826,7 +832,6 @@ static inline uint64 getOffset(const uniform Geometry* geometry,
     // The data pointer in all "derived" geometries is just after data members
     // of the base Geometry struct. That's why array index starts at 1
     const uniform uint8* data = *((const uniform uint8**)&geometry[1]);
-
     const int bytesPerPrimitive = getBytesPerPrimitive(geometry->cppEquivalent);
     const uint64 bytesPerPrimitive64 = (uint64)bytesPerPrimitive;
     if (primID * bytesPerPrimitive64 > 0x7FFFFFFF)
@@ -853,7 +858,7 @@ inline vec4f getSimulationValue(const uniform AdvancedRenderer* uniform self,
         return make_vec4f(tf->getColorForValue(tf, value),
                           tf->getOpacityForValue(tf, value));
     }
-    return make_vec4f(1.f, 0.f, 0.f, 1.f);
+    return make_vec4f(0.f, 0.f, 1.f, 1.f);
 }
 
 inline void processSimulationContribution(varying ScreenSample& sample,
@@ -861,7 +866,7 @@ inline void processSimulationContribution(varying ScreenSample& sample,
                                           const uint32 materialID,
                                           const varying uint32 primID)
 {
-    if (!attributes.castSimulationData)
+    if (!attributes.castUserData)
         return;
 
     if (!attributes.self->simulationData)

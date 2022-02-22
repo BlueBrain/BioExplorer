@@ -147,11 +147,15 @@ void Vasculature::_importFromDB()
 {
     auto& connector = DBConnector::getInstance();
 
-    std::string filter = "";
+    std::string sqlFilter = _details.sqlFilter;
     if (!_details.loadCapilarities)
-        filter = "v.type_guid != 1";
+    {
+        if (!sqlFilter.empty())
+            sqlFilter += " AND ";
+        sqlFilter += "v.type_guid != 1";
+    }
 
-    _nodes = connector.getVasculatureNodes(_details.populationName, filter);
+    _nodes = connector.getVasculatureNodes(_details.populationName, sqlFilter);
 
     PLUGIN_INFO(1, "Full vasculature is made of " << _nodes.size() << " nodes");
 
@@ -272,9 +276,9 @@ void Vasculature::_buildModel(const VasculatureColorSchemeDetails& details)
 
             const Vector4d src4d = getBezierPoint(controlPoints, t);
             const Vector3d src{src4d.x, src4d.y, src4d.z};
-            const double srcRadius =
-                (_details.radiusCorrection == 0.0 ? src4d.w
-                                                  : _details.radiusCorrection);
+            const double srcRadius = src4d.w * _details.radiusMultiplier;
+
+            _bounds.merge(src);
 
             if (!firstControlPoint)
             {
@@ -320,7 +324,7 @@ void Vasculature::_buildModel(const VasculatureColorSchemeDetails& details)
         props.setProperty({MATERIAL_PROPERTY_SHADING_MODE, 0});
         props.setProperty({MATERIAL_PROPERTY_USER_PARAMETER, 1.0});
         props.setProperty({MATERIAL_PROPERTY_CHAMELEON_MODE, 0});
-        props.setProperty({MATERIAL_PROPERTY_CAST_SIMULATION_DATA, true});
+        props.setProperty({MATERIAL_PROPERTY_CAST_USER_DATA, false});
         props.setProperty({MATERIAL_PROPERTY_NODE_ID, 0});
         nodeMaterial->updateProperties(props);
     }

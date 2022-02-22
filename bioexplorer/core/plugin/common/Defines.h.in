@@ -32,5 +32,10 @@
 #define USE_VASCULATURE
 #endif
 
+// Morphologies
+#if @USE_MORPHOLOGIES@==1
+#define USE_MORPHOLOGIES
+#endif
+
 #define PACKAGE_VERSION "@PACKAGE_VERSION@"
 // clang-format-on

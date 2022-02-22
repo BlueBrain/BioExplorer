@@ -16,6 +16,7 @@ set(${NAME}_VERSION_ABI 1)
 # Packages and settings
 # ==============================================================================
 option(${NAME}_USE_VASCULATURE "Use vasculature features" ON)
+option(${NAME}_USE_MORPHOLOGIES "Use morphologies features" ON)
 option(${NAME}_USE_CGAL "Use CGAL meshing features" ON)
 
 add_subdirectory(deps)
@@ -33,6 +34,11 @@ endif()
 set(USE_VASCULATURE 0)
 if(${NAME}_USE_VASCULATURE)
   set(USE_VASCULATURE 1)
+endif()
+
+set(USE_MORPHOLOGIES 0)
+if(${NAME}_USE_MORPHOLOGIES)
+  set(USE_MORPHOLOGIES 1)
 endif()
 
 include(ispc)
@@ -127,6 +133,15 @@ if(${NAME}_USE_VASCULATURE)
     )
 endif()
 
+if(${NAME}_USE_MORPHOLOGIES)
+    list(APPEND ${NAME}_SOURCES
+        plugin/morphologies/Astrocytes.cpp
+    )
+    list(APPEND ${NAME}_PUBLIC_HEADERS
+        plugin/morphologies/Astrocytes.h
+)
+endif()
+
 if(${CGAL_FOUND})
     list(APPEND ${NAME}_SOURCES
         plugin/meshing/PointCloudMesher.cpp
@@ -173,6 +188,7 @@ include_directories(
     ${PROJECT_SOURCE_DIR}
     ${OSPRAY_INCLUDE_DIRS}
     ${BRAYNS_INCLUDE_DIRS}
+    ${morphio_INCLUDE_DIRS}
     ${GLM_INCLUDE_DIRS}
     ${${NAME}_MODULES_DIR}
 )

@@ -181,13 +181,6 @@ class BioExplorer:
     COLOR_SCHEME_GLYCOSYLATION_SITE = 5
     COLOR_SCHEME_REGION = 6
 
-    VASCULATURE_COLOR_SCHEME_NONE = 0
-    VASCULATURE_COLOR_SCHEME_EDGE = 1
-    VASCULATURE_COLOR_SCHEME_SECTION = 2
-    VASCULATURE_COLOR_SCHEME_SUBGRAPH = 3
-    VASCULATURE_COLOR_SCHEME_PAIR = 4
-    VASCULATURE_COLOR_SCHEME_ENTRYNODE = 5
-
     SHADING_MODE_NONE = 0
     SHADING_MODE_BASIC = 1
     SHADING_MODE_DIFFUSE = 2
@@ -277,6 +270,23 @@ class BioExplorer:
     VASCULATURE_QUALITY_LOW = 0
     VASCULATURE_QUALITY_MEDIUM = 1
     VASCULATURE_QUALITY_HIGH = 2
+
+    VASCULATURE_COLOR_SCHEME_NONE = 0
+    VASCULATURE_COLOR_SCHEME_EDGE = 1
+    VASCULATURE_COLOR_SCHEME_SECTION = 2
+    VASCULATURE_COLOR_SCHEME_SUBGRAPH = 3
+    VASCULATURE_COLOR_SCHEME_PAIR = 4
+    VASCULATURE_COLOR_SCHEME_ENTRYNODE = 5
+
+    MORPHOLOGY_COLOR_SCHEME_NONE = 0
+    MORPHOLOGY_COLOR_SCHEME_SECTION = 1
+
+    POPULATION_COLOR_SCHEME_NONE = 0
+    POPULATION_COLOR_SCHEME_ID = 1
+
+    GEOMETRY_QUALITY_LOW = 0
+    GEOMETRY_QUALITY_MEDIUM = 1
+    GEOMETRY_QUALITY_HIGH = 2
 
     def __init__(self, url='localhost:5000'):
         """Create a new BioExplorer instance"""
@@ -1627,7 +1637,8 @@ class BioExplorer:
     def set_materials(self, model_ids, material_ids, diffuse_colors, specular_colors,
                       specular_exponents=list(), opacities=list(), reflection_indices=list(),
                       refraction_indices=list(), glossinesses=list(), shading_modes=list(),
-                      emissions=list(), user_parameters=list(), chameleon_modes=list()):
+                      emissions=list(), cast_user_datas=list(), user_parameters=list(),
+                      chameleon_modes=list()):
         """
         Set a list of material on a specified list of models
 
@@ -1640,6 +1651,7 @@ class BioExplorer:
         :reflection_indices: List of reflection indices (value between 0 and 1)
         :refraction_indices: List of refraction indices
         :glossinesses: List of glossinesses (value between 0 and 1)
+        :cast_user_datas: List of user data casts
         :shading_modes: List of shading modes (SHADING_MODE_NONE, SHADING_MODE_BASIC,
                               SHADING_MODE_DIFFUSE, SHADING_MODE_ELECTRON, SHADING_MODE_CARTOON,
                               SHADING_MODE_ELECTRON_TRANSPARENCY, SHADING_MODE_PERLIN or
@@ -1653,37 +1665,38 @@ class BioExplorer:
         if self._client is None:
             return
 
-        params = dict()
-        params["modelIds"] = model_ids
-        params["materialIds"] = material_ids
-
         d_colors = list()
         for diffuse in diffuse_colors:
             for k in range(3):
                 d_colors.append(diffuse[k])
-        params["diffuseColors"] = d_colors
 
         s_colors = list()
         for specular in specular_colors:
             for k in range(3):
                 s_colors.append(specular[k])
-        params["specularColors"] = s_colors
 
+        params = dict()
+        params["modelIds"] = model_ids
+        params["materialIds"] = material_ids
+        params["diffuseColors"] = d_colors
+        params["specularColors"] = s_colors
         params["specularExponents"] = specular_exponents
         params["reflectionIndices"] = reflection_indices
         params["opacities"] = opacities
         params["refractionIndices"] = refraction_indices
         params["emissions"] = emissions
         params["glossinesses"] = glossinesses
+        params["castUserData"] = cast_user_datas
         params["shadingModes"] = shading_modes
         params["userParameters"] = user_parameters
         params["chameleonModes"] = chameleon_modes
         return self._invoke_and_check("set-materials", params)
 
     def set_materials_from_palette(self, model_ids, material_ids, palette, shading_mode,
-                                   specular_exponent, user_parameter=None, glossiness=None,
-                                   emission=None, opacity=None, reflection_index=None,
-                                   refraction_index=None, chameleon_mode=None):
+                                   specular_exponent, user_parameter=1.0, glossiness=1.0,
+                                   emission=0.0, opacity=1.0, reflection_index=0.0,
+                                   refraction_index=1.0, cast_user_data=False,
+                                   chameleon_mode=SHADING_CHAMELEON_MODE_NONE):
         """
         Applies a palette of colors and attributes to specified materials
 
@@ -1701,6 +1714,16 @@ class BioExplorer:
         :chameleon_mode: Chameleon mode attributes. If receiver, material take the color of
         surrounding emitter geometry
         """
+        assert isinstance(specular_exponent, float)
+        assert isinstance(user_parameter, float)
+        assert isinstance(glossiness, float)
+        assert isinstance(emission, float)
+        assert isinstance(opacity, float)
+        assert isinstance(reflection_index, float)
+        assert isinstance(refraction_index, float)
+        assert isinstance(opacity, float)
+        assert isinstance(cast_user_data, bool)
+
         colors = list()
         shading_modes = list()
         user_parameters = list()
@@ -1711,26 +1734,19 @@ class BioExplorer:
         reflection_indices = list()
         refraction_indices = list()
         chameleon_modes = list()
+        cast_user_datas = list()
         for color in palette:
             colors.append(color)
-            if shading_mode:
-                shading_modes.append(shading_mode)
-            if user_parameter:
-                user_parameters.append(user_parameter)
-            if specular_exponent:
-                specular_exponents.append(specular_exponent)
-            if glossiness:
-                glossinesses.append(glossiness)
-            if emission:
-                emissions.append(emission)
-            if opacity:
-                opacities.append(opacity)
-            if reflection_index:
-                reflection_indices.append(reflection_index)
-            if refraction_index:
-                refraction_indices.append(refraction_index)
-            if chameleon_mode:
-                chameleon_modes.append(chameleon_mode)
+            shading_modes.append(shading_mode)
+            user_parameters.append(user_parameter)
+            specular_exponents.append(specular_exponent)
+            glossinesses.append(glossiness)
+            emissions.append(emission)
+            opacities.append(opacity)
+            reflection_indices.append(reflection_index)
+            refraction_indices.append(refraction_index)
+            chameleon_modes.append(chameleon_mode)
+            cast_user_datas.append(cast_user_data)
         self.set_materials(
             model_ids=model_ids,
             material_ids=material_ids,
@@ -1744,7 +1760,8 @@ class BioExplorer:
             opacities=opacities,
             reflection_indices=reflection_indices,
             refraction_indices=refraction_indices,
-            chameleon_modes=chameleon_modes
+            chameleon_modes=chameleon_modes,
+            cast_user_datas=cast_user_datas
         )
 
     def apply_default_color_scheme(
@@ -2152,7 +2169,7 @@ class BioExplorer:
     def add_vasculature(
             self, assembly_name, population_name, use_sdf=False, section_gids=list(),
             load_capilarities=False, quality=VASCULATURE_QUALITY_HIGH,
-            radius_correction=0.0):
+            radius_multiplier=1.0, sql_filter=''):
         """
         Add a vasculature to the 3D scene
 
@@ -2177,7 +2194,8 @@ class BioExplorer:
         params["gids"] = section_gids
         params["loadCapilarities"] = load_capilarities
         params["quality"] = quality
-        params["radiusCorrection"] = radius_correction
+        params["radiusMultiplier"] = radius_multiplier
+        params["sqlFilter"] = sql_filter
         return self._invoke_and_check('add-vasculature', params)
 
     def get_vasculature_info(self, assembly_name):
@@ -2269,6 +2287,47 @@ class BioExplorer:
         params['amplitude'] = amplitude
         return self._invoke_and_check('set-vasculature-radius-report', params)
 
+    def add_astrocytes(
+            self, assembly_name, population_name,
+            astrocyte_ids=list(), use_sdf=False,
+            load_somas=True,
+            load_dendrites=True, load_end_feet=True,
+            geometry_quality=GEOMETRY_QUALITY_HIGH,
+            morphology_color_scheme=MORPHOLOGY_COLOR_SCHEME_NONE,
+            population_color_scheme=POPULATION_COLOR_SCHEME_NONE,
+            radius_multiplier=0.0, sql_filter=''):
+        """
+        Add a population of astrocytes to the 3D scene
+
+        :assembly_name: Name of the assembly to which the astrocytes should be added
+        :population_name: Name of the population of astrocytes
+        :astrocyte_ids Ids of the astrocytes
+        :use_sdf: Use sign distance fields geometry to create the astrocytes. Defaults to False
+        :load_somas: Load somas if set to true
+        :load_dendrites: Load dendrites if set to true
+        :load_end_feet: Load end feet if set to true
+        :geometry_quality: Quality of the geometry
+        :morphology_color_scheme: Color scheme of the sections of the astrocytes
+        :populationColorScheme: Color scheme of the population of astrocytes
+        :radius_muliplier: Applies the multiplier to all radii of the astrocyte sections
+        :sql_filter: Condition added to the SQL statement loading the astrocytes
+
+        :return: Result of the request submission
+        """
+        params = dict()
+        params["assemblyName"] = assembly_name
+        params["populationName"] = population_name
+        params["astrocyteIds"] = astrocyte_ids
+        params["useSdf"] = use_sdf
+        params["loadSomas"] = load_somas
+        params["loadDendrites"] = load_dendrites
+        params["loadEndFeet"] = load_end_feet
+        params["geometryQuality"] = geometry_quality
+        params["morphologyColorScheme"] = morphology_color_scheme
+        params["populationColorScheme"] = population_color_scheme
+        params["radiusMultiplier"] = radius_multiplier
+        params["sqlFilter"] = sql_filter
+        return self._invoke_and_check('add-astrocytes', params)
 
 # Private classes
 

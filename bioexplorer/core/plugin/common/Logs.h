@@ -53,5 +53,26 @@ namespace common
         PLUGIN_ERROR(message);             \
         throw std::runtime_error(message); \
     }
+
+#define PLUGIN_PROGRESS(__msg, __progress, __maxValue)                  \
+    {                                                                   \
+        std::cout << "I [" << PLUGIN_PREFIX << "] [";                   \
+        const float __mv = float(__maxValue);                           \
+        const float __step = 100.f / __mv;                              \
+        const uint32_t __pos = __progress / __mv * 50.f;                \
+        for (uint32_t __i = 0; __i < 50; ++__i)                         \
+        {                                                               \
+            if (__i < __pos)                                            \
+                std::cout << "=";                                       \
+            else if (__i == __pos)                                      \
+                std::cout << ">";                                       \
+            else                                                        \
+                std::cout << " ";                                       \
+        }                                                               \
+        std::cout << "] " << std::min(__pos * 2, uint32_t(100)) << "% " \
+                  << __msg << "\r";                                     \
+        std::cout.flush();                                              \
+    }
+
 } // namespace common
 } // namespace bioexplorer
