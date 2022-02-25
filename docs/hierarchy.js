@@ -66,6 +66,7 @@ var hierarchy =
         [ "bioexplorer::molecularsystems::Protein", "dd/da4/classbioexplorer_1_1molecularsystems_1_1Protein.html", null ]
       ] ],
       [ "bioexplorer::molecularsystems::RNASequence", "d0/d53/classbioexplorer_1_1molecularsystems_1_1RNASequence.html", null ],
+      [ "bioexplorer::morphology::Astrocytes", "d2/d3a/classbioexplorer_1_1morphology_1_1Astrocytes.html", null ],
       [ "bioexplorer::vasculature::Vasculature", "d8/d29/classbioexplorer_1_1vasculature_1_1Vasculature.html", null ]
     ] ],
     [ "bioexplorer::molecularsystems::Nucleotid", "d6/d5b/structbioexplorer_1_1molecularsystems_1_1Nucleotid.html", null ],
@@ -90,8 +91,8 @@ var hierarchy =
       [ "metabolism::rendering::MetabolismRenderer", "d3/d27/classmetabolism_1_1rendering_1_1MetabolismRenderer.html", null ]
     ] ],
     [ "bioexplorer::molecularsystems::ResidueSequence", "d0/df4/structbioexplorer_1_1molecularsystems_1_1ResidueSequence.html", null ],
-    [ "bioexplorer::details::Response", "d6/d45/structbioexplorer_1_1details_1_1Response.html", null ],
     [ "bioexplorer::mediamaker::Response", "db/df4/structbioexplorer_1_1mediamaker_1_1Response.html", null ],
+    [ "bioexplorer::details::Response", "d6/d45/structbioexplorer_1_1details_1_1Response.html", null ],
     [ "bioexplorer::details::RGBColorDetails", "df/dc7/structbioexplorer_1_1details_1_1RGBColorDetails.html", null ],
     [ "bioexplorer::details::RNASequenceDetails", "d1/d00/structbioexplorer_1_1details_1_1RNASequenceDetails.html", null ],
     [ "bioexplorer::details::SceneInformationDetails", "d2/d03/structbioexplorer_1_1details_1_1SceneInformationDetails.html", null ],

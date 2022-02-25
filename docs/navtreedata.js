@@ -90,8 +90,8 @@ var NAVTREE =
 var NAVTREEINDEX =
 [
 ".html",
-"d3/dd3/structbioexplorer_1_1details_1_1AminoAcidDetails.html#a3e96c4e2b19ed736c6d62abd76d7a1f8",
-"d8/d29/classbioexplorer_1_1vasculature_1_1Vasculature.html#ac5994ebd41f558e147d324036d99fd97",
+"d3/dc9/DepthRenderer_8cpp_source.html",
+"d8/d29/classbioexplorer_1_1vasculature_1_1Vasculature.html#aa54d7101a7186e8fa27aa0036b00bb55",
 "dd/d20/DefaultMaterial_8ih_source.html"
 ];
 
