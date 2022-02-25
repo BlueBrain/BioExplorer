@@ -1,10 +1,11 @@
 <map id="Graphical Class Hierarchy" name="Graphical Class Hierarchy">
-<area shape="rect" id="node1" href="$d7/d93/classbioexplorer_1_1common_1_1Node.html" title="The Node class." alt="" coords="5,136,148,177"/>
+<area shape="rect" id="node1" href="$d7/d93/classbioexplorer_1_1common_1_1Node.html" title="The Node class." alt="" coords="5,169,148,211"/>
 <area shape="rect" id="node2" href="$d4/d07/classbioexplorer_1_1molecularsystems_1_1EnzymeReaction.html" title="An Enzyme reaction is a object that combines an existing enyzme, a list of substrates and a list of p..." alt="" coords="196,5,395,47"/>
 <area shape="rect" id="node3" href="$d4/d3d/classbioexplorer_1_1molecularsystems_1_1Membrane.html" title="A Membrane object implements a 3D structure of a given shape, but with a surface composed of instance..." alt="" coords="196,71,395,112"/>
 <area shape="rect" id="node4" href="$da/dff/classbioexplorer_1_1molecularsystems_1_1Molecule.html" title="The Molecule class implements the 3D representation of a molecule. The object also contains metadata ..." alt="" coords="196,136,395,177"/>
 <area shape="rect" id="node7" href="$d0/d53/classbioexplorer_1_1molecularsystems_1_1RNASequence.html" title="The RNASequence class." alt="" coords="196,201,395,243"/>
-<area shape="rect" id="node8" href="$d8/d29/classbioexplorer_1_1vasculature_1_1Vasculature.html" title=" " alt="" coords="215,267,375,308"/>
+<area shape="rect" id="node8" href="$d2/d3a/classbioexplorer_1_1morphology_1_1Astrocytes.html" title=" " alt="" coords="215,267,375,308"/>
+<area shape="rect" id="node9" href="$d8/d29/classbioexplorer_1_1vasculature_1_1Vasculature.html" title=" " alt="" coords="215,332,375,373"/>
 <area shape="rect" id="node5" href="$da/de6/classbioexplorer_1_1molecularsystems_1_1Glycans.html" title="The Glycans class." alt="" coords="443,104,641,145"/>
 <area shape="rect" id="node6" href="$dd/da4/classbioexplorer_1_1molecularsystems_1_1Protein.html" title="The Protein class." alt="" coords="443,169,641,211"/>
 </map>

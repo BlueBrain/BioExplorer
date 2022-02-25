@@ -191,5 +191,13 @@ bool rayBoxIntersection(const Vector3d& origin, const Vector3d& direction,
  */
 Vector4d getBezierPoint(const Vector4ds& controlPoints, const double t);
 
+// Volumes
+double sphereVolume(const double radius);
+double cylinderVolume(const double height, const double radius);
+double coneVolume(const double height, const double r1, const double r2);
+double capsuleVolume(const double height, const double radius);
+
+Vector3f transformVector3f(const Vector3f& v, const Matrix4f& transformation);
+Vector3ds getPointsInSphere(const size_t nbPoints, const double innerRadius);
 } // namespace common
 } // namespace bioexplorer

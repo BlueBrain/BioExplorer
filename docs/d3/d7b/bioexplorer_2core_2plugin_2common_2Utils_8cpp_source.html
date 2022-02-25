@@ -496,8 +496,58 @@ $(document).ready(function(){initNavTree('d3/d7b/bioexplorer_2core_2plugin_2comm
 <div class="line"><a name="l00408"></a><span class="lineno">  408</span>&#160;    <span class="keywordflow">return</span> Vector4d(points[0].x, points[0].y, points[0].z, radius);</div>
 <div class="line"><a name="l00409"></a><span class="lineno">  409</span>&#160;}</div>
 <div class="line"><a name="l00410"></a><span class="lineno">  410</span>&#160; </div>
-<div class="line"><a name="l00411"></a><span class="lineno">  411</span>&#160;} <span class="comment">// namespace common</span></div>
-<div class="line"><a name="l00412"></a><span class="lineno">  412</span>&#160;} <span class="comment">// namespace bioexplorer</span></div>
+<div class="line"><a name="l00411"></a><span class="lineno">  411</span>&#160;<span class="keywordtype">double</span> sphereVolume(<span class="keyword">const</span> <span class="keywordtype">double</span> radius)</div>
+<div class="line"><a name="l00412"></a><span class="lineno">  412</span>&#160;{</div>
+<div class="line"><a name="l00413"></a><span class="lineno">  413</span>&#160;    <span class="keywordflow">return</span> 4.0 * M_PI * pow(radius, 3) / 3.0;</div>
+<div class="line"><a name="l00414"></a><span class="lineno">  414</span>&#160;}</div>
+<div class="line"><a name="l00415"></a><span class="lineno">  415</span>&#160; </div>
+<div class="line"><a name="l00416"></a><span class="lineno">  416</span>&#160;<span class="keywordtype">double</span> cylinderVolume(<span class="keyword">const</span> <span class="keywordtype">double</span> height, <span class="keyword">const</span> <span class="keywordtype">double</span> radius)</div>
+<div class="line"><a name="l00417"></a><span class="lineno">  417</span>&#160;{</div>
+<div class="line"><a name="l00418"></a><span class="lineno">  418</span>&#160;    <span class="keywordflow">return</span> height * M_PI * radius * radius;</div>
+<div class="line"><a name="l00419"></a><span class="lineno">  419</span>&#160;}</div>
+<div class="line"><a name="l00420"></a><span class="lineno">  420</span>&#160; </div>
+<div class="line"><a name="l00421"></a><span class="lineno">  421</span>&#160;<span class="keywordtype">double</span> coneVolume(<span class="keyword">const</span> <span class="keywordtype">double</span> height, <span class="keyword">const</span> <span class="keywordtype">double</span> r1, <span class="keyword">const</span> <span class="keywordtype">double</span> r2)</div>
+<div class="line"><a name="l00422"></a><span class="lineno">  422</span>&#160;{</div>
+<div class="line"><a name="l00423"></a><span class="lineno">  423</span>&#160;    <span class="keywordflow">return</span> M_PI * (r1 * r1 + r1 * r2 + r2 * r2) * height / 3.0;</div>
+<div class="line"><a name="l00424"></a><span class="lineno">  424</span>&#160;}</div>
+<div class="line"><a name="l00425"></a><span class="lineno">  425</span>&#160; </div>
+<div class="line"><a name="l00426"></a><span class="lineno">  426</span>&#160;<span class="keywordtype">double</span> capsuleVolume(<span class="keyword">const</span> <span class="keywordtype">double</span> height, <span class="keyword">const</span> <span class="keywordtype">double</span> radius)</div>
+<div class="line"><a name="l00427"></a><span class="lineno">  427</span>&#160;{</div>
+<div class="line"><a name="l00428"></a><span class="lineno">  428</span>&#160;    <span class="keywordflow">return</span> sphereVolume(radius) + cylinderVolume(height, radius);</div>
+<div class="line"><a name="l00429"></a><span class="lineno">  429</span>&#160;}</div>
+<div class="line"><a name="l00430"></a><span class="lineno">  430</span>&#160; </div>
+<div class="line"><a name="l00431"></a><span class="lineno">  431</span>&#160;Vector3f transformVector3f(<span class="keyword">const</span> Vector3f&amp; v, <span class="keyword">const</span> Matrix4f&amp; transformation)</div>
+<div class="line"><a name="l00432"></a><span class="lineno">  432</span>&#160;{</div>
+<div class="line"><a name="l00433"></a><span class="lineno">  433</span>&#160;    glm::vec3 scale;</div>
+<div class="line"><a name="l00434"></a><span class="lineno">  434</span>&#160;    glm::quat rotation;</div>
+<div class="line"><a name="l00435"></a><span class="lineno">  435</span>&#160;    glm::vec3 translation;</div>
+<div class="line"><a name="l00436"></a><span class="lineno">  436</span>&#160;    glm::vec3 skew;</div>
+<div class="line"><a name="l00437"></a><span class="lineno">  437</span>&#160;    glm::vec4 perspective;</div>
+<div class="line"><a name="l00438"></a><span class="lineno">  438</span>&#160;    glm::decompose(transformation, scale, rotation, translation, skew,</div>
+<div class="line"><a name="l00439"></a><span class="lineno">  439</span>&#160;                   perspective);</div>
+<div class="line"><a name="l00440"></a><span class="lineno">  440</span>&#160;    <span class="keywordflow">return</span> translation + rotation * v;</div>
+<div class="line"><a name="l00441"></a><span class="lineno">  441</span>&#160;}</div>
+<div class="line"><a name="l00442"></a><span class="lineno">  442</span>&#160; </div>
+<div class="line"><a name="l00443"></a><span class="lineno">  443</span>&#160;Vector3ds getPointsInSphere(<span class="keyword">const</span> <span class="keywordtype">size_t</span> nbPoints, <span class="keyword">const</span> <span class="keywordtype">double</span> innerRadius)</div>
+<div class="line"><a name="l00444"></a><span class="lineno">  444</span>&#160;{</div>
+<div class="line"><a name="l00445"></a><span class="lineno">  445</span>&#160;    <span class="keyword">const</span> <span class="keywordtype">double</span> radius =</div>
+<div class="line"><a name="l00446"></a><span class="lineno">  446</span>&#160;        innerRadius + (rand() % 1000 / 1000.0) * (1.0 - innerRadius);</div>
+<div class="line"><a name="l00447"></a><span class="lineno">  447</span>&#160;    <span class="keywordtype">double</span> phi = M_PI * ((rand() % 2000 - 1000) / 1000.0);</div>
+<div class="line"><a name="l00448"></a><span class="lineno">  448</span>&#160;    <span class="keywordtype">double</span> theta = M_PI * ((rand() % 2000 - 1000) / 1000.0);</div>
+<div class="line"><a name="l00449"></a><span class="lineno">  449</span>&#160;    Vector3ds points;</div>
+<div class="line"><a name="l00450"></a><span class="lineno">  450</span>&#160;    <span class="keywordflow">for</span> (<span class="keywordtype">size_t</span> i = 0; i &lt; nbPoints; ++i)</div>
+<div class="line"><a name="l00451"></a><span class="lineno">  451</span>&#160;    {</div>
+<div class="line"><a name="l00452"></a><span class="lineno">  452</span>&#160;        Vector3d point = {radius * sin(phi) * cos(theta),</div>
+<div class="line"><a name="l00453"></a><span class="lineno">  453</span>&#160;                          radius * sin(phi) * sin(theta), radius * cos(phi)};</div>
+<div class="line"><a name="l00454"></a><span class="lineno">  454</span>&#160;        points.push_back(point);</div>
+<div class="line"><a name="l00455"></a><span class="lineno">  455</span>&#160;        phi += ((rand() % 1000) / 5000.0);</div>
+<div class="line"><a name="l00456"></a><span class="lineno">  456</span>&#160;        theta += ((rand() % 1000) / 5000.0);</div>
+<div class="line"><a name="l00457"></a><span class="lineno">  457</span>&#160;    }</div>
+<div class="line"><a name="l00458"></a><span class="lineno">  458</span>&#160;    <span class="keywordflow">return</span> points;</div>
+<div class="line"><a name="l00459"></a><span class="lineno">  459</span>&#160;}</div>
+<div class="line"><a name="l00460"></a><span class="lineno">  460</span>&#160; </div>
+<div class="line"><a name="l00461"></a><span class="lineno">  461</span>&#160;} <span class="comment">// namespace common</span></div>
+<div class="line"><a name="l00462"></a><span class="lineno">  462</span>&#160;} <span class="comment">// namespace bioexplorer</span></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->

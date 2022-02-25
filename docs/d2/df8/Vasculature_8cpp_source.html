@@ -235,259 +235,263 @@ $(document).ready(function(){initNavTree('d2/df8/Vasculature_8cpp_source.html','
 <div class="line"><a name="l00147"></a><span class="lineno">  147</span>&#160;{</div>
 <div class="line"><a name="l00148"></a><span class="lineno">  148</span>&#160;    <span class="keyword">auto</span>&amp; connector = <a class="code" href="../../d9/d96/classbioexplorer_1_1io_1_1db_1_1DBConnector.html#a54ae453b0795aabee7ee7e93ae976eab">DBConnector::getInstance</a>();</div>
 <div class="line"><a name="l00149"></a><span class="lineno">  149</span>&#160; </div>
-<div class="line"><a name="l00150"></a><span class="lineno">  150</span>&#160;    std::string filter = <span class="stringliteral">&quot;&quot;</span>;</div>
+<div class="line"><a name="l00150"></a><span class="lineno">  150</span>&#160;    std::string sqlFilter = _details.sqlFilter;</div>
 <div class="line"><a name="l00151"></a><span class="lineno">  151</span>&#160;    <span class="keywordflow">if</span> (!_details.loadCapilarities)</div>
-<div class="line"><a name="l00152"></a><span class="lineno">  152</span>&#160;        filter = <span class="stringliteral">&quot;v.type_guid != 1&quot;</span>;</div>
-<div class="line"><a name="l00153"></a><span class="lineno">  153</span>&#160; </div>
-<div class="line"><a name="l00154"></a><span class="lineno">  154</span>&#160;    _nodes = connector.getVasculatureNodes(_details.populationName, filter);</div>
-<div class="line"><a name="l00155"></a><span class="lineno">  155</span>&#160; </div>
-<div class="line"><a name="l00156"></a><span class="lineno">  156</span>&#160;    PLUGIN_INFO(1, <span class="stringliteral">&quot;Full vasculature is made of &quot;</span> &lt;&lt; _nodes.size() &lt;&lt; <span class="stringliteral">&quot; nodes&quot;</span>);</div>
+<div class="line"><a name="l00152"></a><span class="lineno">  152</span>&#160;    {</div>
+<div class="line"><a name="l00153"></a><span class="lineno">  153</span>&#160;        <span class="keywordflow">if</span> (!sqlFilter.empty())</div>
+<div class="line"><a name="l00154"></a><span class="lineno">  154</span>&#160;            sqlFilter += <span class="stringliteral">&quot; AND &quot;</span>;</div>
+<div class="line"><a name="l00155"></a><span class="lineno">  155</span>&#160;        sqlFilter += <span class="stringliteral">&quot;v.type_guid != 1&quot;</span>;</div>
+<div class="line"><a name="l00156"></a><span class="lineno">  156</span>&#160;    }</div>
 <div class="line"><a name="l00157"></a><span class="lineno">  157</span>&#160; </div>
-<div class="line"><a name="l00158"></a><span class="lineno">  158</span>&#160;    std::map&lt;uint64_t, std::vector&lt;uint64_t&gt;&gt; pairs;</div>
-<div class="line"><a name="l00159"></a><span class="lineno">  159</span>&#160;    std::set&lt;uint64_t&gt; entryNodes;</div>
-<div class="line"><a name="l00160"></a><span class="lineno">  160</span>&#160;    <span class="keyword">const</span> <span class="keyword">auto</span>&amp; gids = _details.gids;</div>
-<div class="line"><a name="l00161"></a><span class="lineno">  161</span>&#160;    <span class="keywordflow">for</span> (<span class="keyword">const</span> <span class="keyword">auto</span>&amp; node : _nodes)</div>
-<div class="line"><a name="l00162"></a><span class="lineno">  162</span>&#160;    {</div>
-<div class="line"><a name="l00163"></a><span class="lineno">  163</span>&#160;        <span class="keywordflow">if</span> (!_details.loadCapilarities &amp;&amp;</div>
-<div class="line"><a name="l00164"></a><span class="lineno">  164</span>&#160;            node.second.type == <span class="keyword">static_cast&lt;</span>uint64_t<span class="keyword">&gt;</span>(EdgeType::capilarity))</div>
-<div class="line"><a name="l00165"></a><span class="lineno">  165</span>&#160;            <span class="comment">// Ignore capilarities</span></div>
-<div class="line"><a name="l00166"></a><span class="lineno">  166</span>&#160;            <span class="keywordflow">continue</span>;</div>
-<div class="line"><a name="l00167"></a><span class="lineno">  167</span>&#160; </div>
-<div class="line"><a name="l00168"></a><span class="lineno">  168</span>&#160;        <span class="keyword">const</span> <span class="keyword">auto</span> sectionId = node.second.sectionId;</div>
-<div class="line"><a name="l00169"></a><span class="lineno">  169</span>&#160;        <span class="keywordflow">if</span> (!gids.empty() &amp;&amp;</div>
-<div class="line"><a name="l00170"></a><span class="lineno">  170</span>&#160;            <span class="comment">// Load specified edges only</span></div>
-<div class="line"><a name="l00171"></a><span class="lineno">  171</span>&#160;            std::find(gids.begin(), gids.end(), sectionId) == gids.end())</div>
-<div class="line"><a name="l00172"></a><span class="lineno">  172</span>&#160;            <span class="keywordflow">continue</span>;</div>
-<div class="line"><a name="l00173"></a><span class="lineno">  173</span>&#160; </div>
-<div class="line"><a name="l00174"></a><span class="lineno">  174</span>&#160;        _graphs.insert(node.second.graphId);</div>
-<div class="line"><a name="l00175"></a><span class="lineno">  175</span>&#160;        pairs[node.second.pairId].push_back(node.first);</div>
-<div class="line"><a name="l00176"></a><span class="lineno">  176</span>&#160;        _sectionIds.insert(node.second.sectionId);</div>
-<div class="line"><a name="l00177"></a><span class="lineno">  177</span>&#160;        _sections[sectionId].push_back(node.first);</div>
-<div class="line"><a name="l00178"></a><span class="lineno">  178</span>&#160;        entryNodes.insert(node.second.entryNodeId);</div>
-<div class="line"><a name="l00179"></a><span class="lineno">  179</span>&#160;    }</div>
-<div class="line"><a name="l00180"></a><span class="lineno">  180</span>&#160; </div>
-<div class="line"><a name="l00181"></a><span class="lineno">  181</span>&#160;    <span class="keywordflow">for</span> (<span class="keyword">const</span> <span class="keyword">auto</span>&amp; pair : pairs)</div>
-<div class="line"><a name="l00182"></a><span class="lineno">  182</span>&#160;    {</div>
-<div class="line"><a name="l00183"></a><span class="lineno">  183</span>&#160;        <span class="keywordflow">if</span> (pair.second.size() == 2)</div>
-<div class="line"><a name="l00184"></a><span class="lineno">  184</span>&#160;        {</div>
-<div class="line"><a name="l00185"></a><span class="lineno">  185</span>&#160;            <span class="keyword">auto</span>&amp; edge1 = _nodes[pair.second[0]];</div>
-<div class="line"><a name="l00186"></a><span class="lineno">  186</span>&#160;            edge1.pairId = pair.second[1];</div>
-<div class="line"><a name="l00187"></a><span class="lineno">  187</span>&#160;            <span class="keyword">auto</span>&amp; edge2 = _nodes[pair.second[1]];</div>
-<div class="line"><a name="l00188"></a><span class="lineno">  188</span>&#160;            edge2.pairId = pair.second[1];</div>
-<div class="line"><a name="l00189"></a><span class="lineno">  189</span>&#160;            <span class="keyword">const</span> <span class="keyword">auto</span> graphId1 = edge1.graphId;</div>
-<div class="line"><a name="l00190"></a><span class="lineno">  190</span>&#160;            <span class="keyword">const</span> <span class="keyword">auto</span> graphId2 = edge2.graphId;</div>
-<div class="line"><a name="l00191"></a><span class="lineno">  191</span>&#160;            <span class="keywordflow">for</span> (<span class="keyword">auto</span>&amp; node : _nodes)</div>
-<div class="line"><a name="l00192"></a><span class="lineno">  192</span>&#160;                <span class="keywordflow">if</span> (node.second.graphId == graphId1 ||</div>
-<div class="line"><a name="l00193"></a><span class="lineno">  193</span>&#160;                    node.second.graphId == graphId2)</div>
-<div class="line"><a name="l00194"></a><span class="lineno">  194</span>&#160;                    node.second.pairId = pair.first;</div>
-<div class="line"><a name="l00195"></a><span class="lineno">  195</span>&#160;        }</div>
-<div class="line"><a name="l00196"></a><span class="lineno">  196</span>&#160;        <span class="keywordflow">else</span></div>
-<div class="line"><a name="l00197"></a><span class="lineno">  197</span>&#160;            PLUGIN_ERROR(<span class="stringliteral">&quot;Invalid number of Ids for pair &quot;</span> &lt;&lt; pair.first);</div>
-<div class="line"><a name="l00198"></a><span class="lineno">  198</span>&#160;    }</div>
-<div class="line"><a name="l00199"></a><span class="lineno">  199</span>&#160; </div>
-<div class="line"><a name="l00200"></a><span class="lineno">  200</span>&#160;    _nbPairs = pairs.size();</div>
-<div class="line"><a name="l00201"></a><span class="lineno">  201</span>&#160;    _nbEntryNodes = entryNodes.size();</div>
-<div class="line"><a name="l00202"></a><span class="lineno">  202</span>&#160;    PLUGIN_INFO(1,</div>
-<div class="line"><a name="l00203"></a><span class="lineno">  203</span>&#160;                <span class="stringliteral">&quot;Loaded vasculature is made of &quot;</span> &lt;&lt; _nodes.size() &lt;&lt; <span class="stringliteral">&quot; nodes&quot;</span>);</div>
-<div class="line"><a name="l00204"></a><span class="lineno">  204</span>&#160; </div>
-<div class="line"><a name="l00205"></a><span class="lineno">  205</span>&#160;    _buildModel();</div>
-<div class="line"><a name="l00206"></a><span class="lineno">  206</span>&#160;}</div>
-<div class="line"><a name="l00207"></a><span class="lineno">  207</span>&#160; </div>
-<div class="line"><a name="l00208"></a><span class="lineno">  208</span>&#160;<span class="keywordtype">void</span> Vasculature::_buildModel(<span class="keyword">const</span> VasculatureColorSchemeDetails&amp; details)</div>
-<div class="line"><a name="l00209"></a><span class="lineno">  209</span>&#160;{</div>
-<div class="line"><a name="l00210"></a><span class="lineno">  210</span>&#160;    <span class="keyword">auto</span> model = _scene.createModel();</div>
-<div class="line"><a name="l00211"></a><span class="lineno">  211</span>&#160;    std::set&lt;uint64_t&gt; materialIds;</div>
-<div class="line"><a name="l00212"></a><span class="lineno">  212</span>&#160;    SDFMorphologyData sdfMorphologyData;</div>
-<div class="line"><a name="l00213"></a><span class="lineno">  213</span>&#160;    <span class="keyword">const</span> <span class="keyword">auto</span> useSdf = _details.useSdf;</div>
-<div class="line"><a name="l00214"></a><span class="lineno">  214</span>&#160; </div>
-<div class="line"><a name="l00215"></a><span class="lineno">  215</span>&#160;    uint64_t edgeCount = 0;</div>
-<div class="line"><a name="l00216"></a><span class="lineno">  216</span>&#160;    <span class="keywordflow">for</span> (<span class="keyword">const</span> <span class="keyword">auto</span>&amp; section : _sections)</div>
-<div class="line"><a name="l00217"></a><span class="lineno">  217</span>&#160;    {</div>
-<div class="line"><a name="l00218"></a><span class="lineno">  218</span>&#160;        <span class="keywordtype">bool</span> firstControlPoint = <span class="keyword">true</span>;</div>
-<div class="line"><a name="l00219"></a><span class="lineno">  219</span>&#160;        Vector3d dst;</div>
-<div class="line"><a name="l00220"></a><span class="lineno">  220</span>&#160;        <span class="keywordtype">double</span> dstRadius = 0.0;</div>
-<div class="line"><a name="l00221"></a><span class="lineno">  221</span>&#160; </div>
-<div class="line"><a name="l00222"></a><span class="lineno">  222</span>&#160;        Vector4ds controlPoints;</div>
-<div class="line"><a name="l00223"></a><span class="lineno">  223</span>&#160;        <span class="keyword">const</span> uint64_t nbControlPoints = section.second.size();</div>
-<div class="line"><a name="l00224"></a><span class="lineno">  224</span>&#160;        <span class="keywordflow">for</span> (<span class="keyword">const</span> <span class="keyword">auto</span>&amp; nodeId : section.second)</div>
-<div class="line"><a name="l00225"></a><span class="lineno">  225</span>&#160;        {</div>
-<div class="line"><a name="l00226"></a><span class="lineno">  226</span>&#160;            <span class="keyword">const</span> <span class="keyword">auto</span>&amp; node = _nodes[nodeId];</div>
-<div class="line"><a name="l00227"></a><span class="lineno">  227</span>&#160;            controlPoints.push_back({node.position.x, node.position.y,</div>
-<div class="line"><a name="l00228"></a><span class="lineno">  228</span>&#160;                                     node.position.z, node.radius});</div>
-<div class="line"><a name="l00229"></a><span class="lineno">  229</span>&#160;        }</div>
-<div class="line"><a name="l00230"></a><span class="lineno">  230</span>&#160; </div>
-<div class="line"><a name="l00231"></a><span class="lineno">  231</span>&#160;        <span class="keywordtype">double</span> tStep;</div>
-<div class="line"><a name="l00232"></a><span class="lineno">  232</span>&#160;        <span class="keywordflow">switch</span> (_details.quality)</div>
-<div class="line"><a name="l00233"></a><span class="lineno">  233</span>&#160;        {</div>
-<div class="line"><a name="l00234"></a><span class="lineno">  234</span>&#160;        <span class="keywordflow">case</span> VasculatureQuality::low:</div>
-<div class="line"><a name="l00235"></a><span class="lineno">  235</span>&#160;            tStep = 0.99;</div>
-<div class="line"><a name="l00236"></a><span class="lineno">  236</span>&#160;            <span class="keywordflow">break</span>;</div>
-<div class="line"><a name="l00237"></a><span class="lineno">  237</span>&#160;        <span class="keywordflow">case</span> VasculatureQuality::medium:</div>
-<div class="line"><a name="l00238"></a><span class="lineno">  238</span>&#160;            tStep = 5.0 / double(nbControlPoints);</div>
-<div class="line"><a name="l00239"></a><span class="lineno">  239</span>&#160;            <span class="keywordflow">break</span>;</div>
-<div class="line"><a name="l00240"></a><span class="lineno">  240</span>&#160;        <span class="keywordflow">default</span>:</div>
-<div class="line"><a name="l00241"></a><span class="lineno">  241</span>&#160;            tStep = 1.0 / double(nbControlPoints);</div>
-<div class="line"><a name="l00242"></a><span class="lineno">  242</span>&#160;            <span class="keywordflow">break</span>;</div>
-<div class="line"><a name="l00243"></a><span class="lineno">  243</span>&#160;        }</div>
-<div class="line"><a name="l00244"></a><span class="lineno">  244</span>&#160; </div>
-<div class="line"><a name="l00245"></a><span class="lineno">  245</span>&#160;        <span class="keywordflow">for</span> (<span class="keywordtype">double</span> t = 0.0; t &lt; 1.0; t += tStep)</div>
-<div class="line"><a name="l00246"></a><span class="lineno">  246</span>&#160;        {</div>
-<div class="line"><a name="l00247"></a><span class="lineno">  247</span>&#160;            <span class="keyword">const</span> uint64_t nodeId = section.second[t * double(nbControlPoints)];</div>
-<div class="line"><a name="l00248"></a><span class="lineno">  248</span>&#160;            <span class="keyword">const</span> <span class="keyword">auto</span>&amp; node = _nodes[nodeId];</div>
-<div class="line"><a name="l00249"></a><span class="lineno">  249</span>&#160;            uint64_t materialId = 0;</div>
-<div class="line"><a name="l00250"></a><span class="lineno">  250</span>&#160; </div>
-<div class="line"><a name="l00251"></a><span class="lineno">  251</span>&#160;            <span class="keywordflow">switch</span> (details.colorScheme)</div>
-<div class="line"><a name="l00252"></a><span class="lineno">  252</span>&#160;            {</div>
-<div class="line"><a name="l00253"></a><span class="lineno">  253</span>&#160;            <span class="keywordflow">case</span> VasculatureColorScheme::edge:</div>
-<div class="line"><a name="l00254"></a><span class="lineno">  254</span>&#160;                materialId = edgeCount;</div>
-<div class="line"><a name="l00255"></a><span class="lineno">  255</span>&#160;                <span class="keywordflow">break</span>;</div>
-<div class="line"><a name="l00256"></a><span class="lineno">  256</span>&#160;            <span class="keywordflow">case</span> VasculatureColorScheme::section:</div>
-<div class="line"><a name="l00257"></a><span class="lineno">  257</span>&#160;                materialId = node.sectionId;</div>
-<div class="line"><a name="l00258"></a><span class="lineno">  258</span>&#160;                <span class="keywordflow">break</span>;</div>
-<div class="line"><a name="l00259"></a><span class="lineno">  259</span>&#160;            <span class="keywordflow">case</span> VasculatureColorScheme::subgraph:</div>
-<div class="line"><a name="l00260"></a><span class="lineno">  260</span>&#160;                materialId = node.graphId;</div>
-<div class="line"><a name="l00261"></a><span class="lineno">  261</span>&#160;                <span class="keywordflow">break</span>;</div>
-<div class="line"><a name="l00262"></a><span class="lineno">  262</span>&#160;            <span class="keywordflow">case</span> VasculatureColorScheme::pair:</div>
-<div class="line"><a name="l00263"></a><span class="lineno">  263</span>&#160;                materialId = node.pairId;</div>
-<div class="line"><a name="l00264"></a><span class="lineno">  264</span>&#160;                <span class="keywordflow">break</span>;</div>
-<div class="line"><a name="l00265"></a><span class="lineno">  265</span>&#160;            <span class="keywordflow">case</span> VasculatureColorScheme::entry_node:</div>
-<div class="line"><a name="l00266"></a><span class="lineno">  266</span>&#160;                materialId = node.entryNodeId;</div>
-<div class="line"><a name="l00267"></a><span class="lineno">  267</span>&#160;                <span class="keywordflow">break</span>;</div>
-<div class="line"><a name="l00268"></a><span class="lineno">  268</span>&#160;            <span class="keywordflow">default</span>:</div>
-<div class="line"><a name="l00269"></a><span class="lineno">  269</span>&#160;                <span class="keywordflow">break</span>;</div>
-<div class="line"><a name="l00270"></a><span class="lineno">  270</span>&#160;            }</div>
-<div class="line"><a name="l00271"></a><span class="lineno">  271</span>&#160;            materialIds.insert(materialId);</div>
-<div class="line"><a name="l00272"></a><span class="lineno">  272</span>&#160; </div>
-<div class="line"><a name="l00273"></a><span class="lineno">  273</span>&#160;            <span class="keyword">const</span> Vector4d src4d = getBezierPoint(controlPoints, t);</div>
-<div class="line"><a name="l00274"></a><span class="lineno">  274</span>&#160;            <span class="keyword">const</span> Vector3d src{src4d.x, src4d.y, src4d.z};</div>
-<div class="line"><a name="l00275"></a><span class="lineno">  275</span>&#160;            <span class="keyword">const</span> <span class="keywordtype">double</span> srcRadius =</div>
-<div class="line"><a name="l00276"></a><span class="lineno">  276</span>&#160;                (_details.radiusCorrection == 0.0 ? src4d.w</div>
-<div class="line"><a name="l00277"></a><span class="lineno">  277</span>&#160;                                                  : _details.radiusCorrection);</div>
-<div class="line"><a name="l00278"></a><span class="lineno">  278</span>&#160; </div>
-<div class="line"><a name="l00279"></a><span class="lineno">  279</span>&#160;            <span class="keywordflow">if</span> (!firstControlPoint)</div>
-<div class="line"><a name="l00280"></a><span class="lineno">  280</span>&#160;            {</div>
-<div class="line"><a name="l00281"></a><span class="lineno">  281</span>&#160;                <span class="keyword">const</span> uint64_t userData = nodeId;</div>
-<div class="line"><a name="l00282"></a><span class="lineno">  282</span>&#160;                <span class="keywordflow">if</span> (useSdf)</div>
-<div class="line"><a name="l00283"></a><span class="lineno">  283</span>&#160;                    _addSDFGeometry(sdfMorphologyData,</div>
-<div class="line"><a name="l00284"></a><span class="lineno">  284</span>&#160;                                    createSDFSphere(src, srcRadius, userData),</div>
-<div class="line"><a name="l00285"></a><span class="lineno">  285</span>&#160;                                    {}, materialId, node.sectionId);</div>
-<div class="line"><a name="l00286"></a><span class="lineno">  286</span>&#160;                <span class="keywordflow">else</span></div>
-<div class="line"><a name="l00287"></a><span class="lineno">  287</span>&#160;                    model-&gt;addSphere(materialId,</div>
-<div class="line"><a name="l00288"></a><span class="lineno">  288</span>&#160;                                     {src, <span class="keyword">static_cast&lt;</span><span class="keywordtype">float</span><span class="keyword">&gt;</span>(srcRadius),</div>
-<div class="line"><a name="l00289"></a><span class="lineno">  289</span>&#160;                                      userData});</div>
-<div class="line"><a name="l00290"></a><span class="lineno">  290</span>&#160; </div>
-<div class="line"><a name="l00291"></a><span class="lineno">  291</span>&#160;                _addStepConeGeometry(useSdf, src, srcRadius, dst, dstRadius,</div>
-<div class="line"><a name="l00292"></a><span class="lineno">  292</span>&#160;                                     materialId, userData, *model,</div>
-<div class="line"><a name="l00293"></a><span class="lineno">  293</span>&#160;                                     sdfMorphologyData, node.sectionId);</div>
-<div class="line"><a name="l00294"></a><span class="lineno">  294</span>&#160;            }</div>
-<div class="line"><a name="l00295"></a><span class="lineno">  295</span>&#160;            dst = src;</div>
-<div class="line"><a name="l00296"></a><span class="lineno">  296</span>&#160;            dstRadius = srcRadius;</div>
-<div class="line"><a name="l00297"></a><span class="lineno">  297</span>&#160;            firstControlPoint = <span class="keyword">false</span>;</div>
-<div class="line"><a name="l00298"></a><span class="lineno">  298</span>&#160; </div>
-<div class="line"><a name="l00299"></a><span class="lineno">  299</span>&#160;            ++edgeCount;</div>
-<div class="line"><a name="l00300"></a><span class="lineno">  300</span>&#160;        }</div>
-<div class="line"><a name="l00301"></a><span class="lineno">  301</span>&#160;    }</div>
+<div class="line"><a name="l00158"></a><span class="lineno">  158</span>&#160;    _nodes = connector.getVasculatureNodes(_details.populationName, sqlFilter);</div>
+<div class="line"><a name="l00159"></a><span class="lineno">  159</span>&#160; </div>
+<div class="line"><a name="l00160"></a><span class="lineno">  160</span>&#160;    PLUGIN_INFO(1, <span class="stringliteral">&quot;Full vasculature is made of &quot;</span> &lt;&lt; _nodes.size() &lt;&lt; <span class="stringliteral">&quot; nodes&quot;</span>);</div>
+<div class="line"><a name="l00161"></a><span class="lineno">  161</span>&#160; </div>
+<div class="line"><a name="l00162"></a><span class="lineno">  162</span>&#160;    std::map&lt;uint64_t, std::vector&lt;uint64_t&gt;&gt; pairs;</div>
+<div class="line"><a name="l00163"></a><span class="lineno">  163</span>&#160;    std::set&lt;uint64_t&gt; entryNodes;</div>
+<div class="line"><a name="l00164"></a><span class="lineno">  164</span>&#160;    <span class="keyword">const</span> <span class="keyword">auto</span>&amp; gids = _details.gids;</div>
+<div class="line"><a name="l00165"></a><span class="lineno">  165</span>&#160;    <span class="keywordflow">for</span> (<span class="keyword">const</span> <span class="keyword">auto</span>&amp; node : _nodes)</div>
+<div class="line"><a name="l00166"></a><span class="lineno">  166</span>&#160;    {</div>
+<div class="line"><a name="l00167"></a><span class="lineno">  167</span>&#160;        <span class="keywordflow">if</span> (!_details.loadCapilarities &amp;&amp;</div>
+<div class="line"><a name="l00168"></a><span class="lineno">  168</span>&#160;            node.second.type == <span class="keyword">static_cast&lt;</span>uint64_t<span class="keyword">&gt;</span>(EdgeType::capilarity))</div>
+<div class="line"><a name="l00169"></a><span class="lineno">  169</span>&#160;            <span class="comment">// Ignore capilarities</span></div>
+<div class="line"><a name="l00170"></a><span class="lineno">  170</span>&#160;            <span class="keywordflow">continue</span>;</div>
+<div class="line"><a name="l00171"></a><span class="lineno">  171</span>&#160; </div>
+<div class="line"><a name="l00172"></a><span class="lineno">  172</span>&#160;        <span class="keyword">const</span> <span class="keyword">auto</span> sectionId = node.second.sectionId;</div>
+<div class="line"><a name="l00173"></a><span class="lineno">  173</span>&#160;        <span class="keywordflow">if</span> (!gids.empty() &amp;&amp;</div>
+<div class="line"><a name="l00174"></a><span class="lineno">  174</span>&#160;            <span class="comment">// Load specified edges only</span></div>
+<div class="line"><a name="l00175"></a><span class="lineno">  175</span>&#160;            std::find(gids.begin(), gids.end(), sectionId) == gids.end())</div>
+<div class="line"><a name="l00176"></a><span class="lineno">  176</span>&#160;            <span class="keywordflow">continue</span>;</div>
+<div class="line"><a name="l00177"></a><span class="lineno">  177</span>&#160; </div>
+<div class="line"><a name="l00178"></a><span class="lineno">  178</span>&#160;        _graphs.insert(node.second.graphId);</div>
+<div class="line"><a name="l00179"></a><span class="lineno">  179</span>&#160;        pairs[node.second.pairId].push_back(node.first);</div>
+<div class="line"><a name="l00180"></a><span class="lineno">  180</span>&#160;        _sectionIds.insert(node.second.sectionId);</div>
+<div class="line"><a name="l00181"></a><span class="lineno">  181</span>&#160;        _sections[sectionId].push_back(node.first);</div>
+<div class="line"><a name="l00182"></a><span class="lineno">  182</span>&#160;        entryNodes.insert(node.second.entryNodeId);</div>
+<div class="line"><a name="l00183"></a><span class="lineno">  183</span>&#160;    }</div>
+<div class="line"><a name="l00184"></a><span class="lineno">  184</span>&#160; </div>
+<div class="line"><a name="l00185"></a><span class="lineno">  185</span>&#160;    <span class="keywordflow">for</span> (<span class="keyword">const</span> <span class="keyword">auto</span>&amp; pair : pairs)</div>
+<div class="line"><a name="l00186"></a><span class="lineno">  186</span>&#160;    {</div>
+<div class="line"><a name="l00187"></a><span class="lineno">  187</span>&#160;        <span class="keywordflow">if</span> (pair.second.size() == 2)</div>
+<div class="line"><a name="l00188"></a><span class="lineno">  188</span>&#160;        {</div>
+<div class="line"><a name="l00189"></a><span class="lineno">  189</span>&#160;            <span class="keyword">auto</span>&amp; edge1 = _nodes[pair.second[0]];</div>
+<div class="line"><a name="l00190"></a><span class="lineno">  190</span>&#160;            edge1.pairId = pair.second[1];</div>
+<div class="line"><a name="l00191"></a><span class="lineno">  191</span>&#160;            <span class="keyword">auto</span>&amp; edge2 = _nodes[pair.second[1]];</div>
+<div class="line"><a name="l00192"></a><span class="lineno">  192</span>&#160;            edge2.pairId = pair.second[1];</div>
+<div class="line"><a name="l00193"></a><span class="lineno">  193</span>&#160;            <span class="keyword">const</span> <span class="keyword">auto</span> graphId1 = edge1.graphId;</div>
+<div class="line"><a name="l00194"></a><span class="lineno">  194</span>&#160;            <span class="keyword">const</span> <span class="keyword">auto</span> graphId2 = edge2.graphId;</div>
+<div class="line"><a name="l00195"></a><span class="lineno">  195</span>&#160;            <span class="keywordflow">for</span> (<span class="keyword">auto</span>&amp; node : _nodes)</div>
+<div class="line"><a name="l00196"></a><span class="lineno">  196</span>&#160;                <span class="keywordflow">if</span> (node.second.graphId == graphId1 ||</div>
+<div class="line"><a name="l00197"></a><span class="lineno">  197</span>&#160;                    node.second.graphId == graphId2)</div>
+<div class="line"><a name="l00198"></a><span class="lineno">  198</span>&#160;                    node.second.pairId = pair.first;</div>
+<div class="line"><a name="l00199"></a><span class="lineno">  199</span>&#160;        }</div>
+<div class="line"><a name="l00200"></a><span class="lineno">  200</span>&#160;        <span class="keywordflow">else</span></div>
+<div class="line"><a name="l00201"></a><span class="lineno">  201</span>&#160;            PLUGIN_ERROR(<span class="stringliteral">&quot;Invalid number of Ids for pair &quot;</span> &lt;&lt; pair.first);</div>
+<div class="line"><a name="l00202"></a><span class="lineno">  202</span>&#160;    }</div>
+<div class="line"><a name="l00203"></a><span class="lineno">  203</span>&#160; </div>
+<div class="line"><a name="l00204"></a><span class="lineno">  204</span>&#160;    _nbPairs = pairs.size();</div>
+<div class="line"><a name="l00205"></a><span class="lineno">  205</span>&#160;    _nbEntryNodes = entryNodes.size();</div>
+<div class="line"><a name="l00206"></a><span class="lineno">  206</span>&#160;    PLUGIN_INFO(1,</div>
+<div class="line"><a name="l00207"></a><span class="lineno">  207</span>&#160;                <span class="stringliteral">&quot;Loaded vasculature is made of &quot;</span> &lt;&lt; _nodes.size() &lt;&lt; <span class="stringliteral">&quot; nodes&quot;</span>);</div>
+<div class="line"><a name="l00208"></a><span class="lineno">  208</span>&#160; </div>
+<div class="line"><a name="l00209"></a><span class="lineno">  209</span>&#160;    _buildModel();</div>
+<div class="line"><a name="l00210"></a><span class="lineno">  210</span>&#160;}</div>
+<div class="line"><a name="l00211"></a><span class="lineno">  211</span>&#160; </div>
+<div class="line"><a name="l00212"></a><span class="lineno">  212</span>&#160;<span class="keywordtype">void</span> Vasculature::_buildModel(<span class="keyword">const</span> VasculatureColorSchemeDetails&amp; details)</div>
+<div class="line"><a name="l00213"></a><span class="lineno">  213</span>&#160;{</div>
+<div class="line"><a name="l00214"></a><span class="lineno">  214</span>&#160;    <span class="keyword">auto</span> model = _scene.createModel();</div>
+<div class="line"><a name="l00215"></a><span class="lineno">  215</span>&#160;    std::set&lt;uint64_t&gt; materialIds;</div>
+<div class="line"><a name="l00216"></a><span class="lineno">  216</span>&#160;    SDFMorphologyData sdfMorphologyData;</div>
+<div class="line"><a name="l00217"></a><span class="lineno">  217</span>&#160;    <span class="keyword">const</span> <span class="keyword">auto</span> useSdf = _details.useSdf;</div>
+<div class="line"><a name="l00218"></a><span class="lineno">  218</span>&#160; </div>
+<div class="line"><a name="l00219"></a><span class="lineno">  219</span>&#160;    uint64_t edgeCount = 0;</div>
+<div class="line"><a name="l00220"></a><span class="lineno">  220</span>&#160;    <span class="keywordflow">for</span> (<span class="keyword">const</span> <span class="keyword">auto</span>&amp; section : _sections)</div>
+<div class="line"><a name="l00221"></a><span class="lineno">  221</span>&#160;    {</div>
+<div class="line"><a name="l00222"></a><span class="lineno">  222</span>&#160;        <span class="keywordtype">bool</span> firstControlPoint = <span class="keyword">true</span>;</div>
+<div class="line"><a name="l00223"></a><span class="lineno">  223</span>&#160;        Vector3d dst;</div>
+<div class="line"><a name="l00224"></a><span class="lineno">  224</span>&#160;        <span class="keywordtype">double</span> dstRadius = 0.0;</div>
+<div class="line"><a name="l00225"></a><span class="lineno">  225</span>&#160; </div>
+<div class="line"><a name="l00226"></a><span class="lineno">  226</span>&#160;        Vector4ds controlPoints;</div>
+<div class="line"><a name="l00227"></a><span class="lineno">  227</span>&#160;        <span class="keyword">const</span> uint64_t nbControlPoints = section.second.size();</div>
+<div class="line"><a name="l00228"></a><span class="lineno">  228</span>&#160;        <span class="keywordflow">for</span> (<span class="keyword">const</span> <span class="keyword">auto</span>&amp; nodeId : section.second)</div>
+<div class="line"><a name="l00229"></a><span class="lineno">  229</span>&#160;        {</div>
+<div class="line"><a name="l00230"></a><span class="lineno">  230</span>&#160;            <span class="keyword">const</span> <span class="keyword">auto</span>&amp; node = _nodes[nodeId];</div>
+<div class="line"><a name="l00231"></a><span class="lineno">  231</span>&#160;            controlPoints.push_back({node.position.x, node.position.y,</div>
+<div class="line"><a name="l00232"></a><span class="lineno">  232</span>&#160;                                     node.position.z, node.radius});</div>
+<div class="line"><a name="l00233"></a><span class="lineno">  233</span>&#160;        }</div>
+<div class="line"><a name="l00234"></a><span class="lineno">  234</span>&#160; </div>
+<div class="line"><a name="l00235"></a><span class="lineno">  235</span>&#160;        <span class="keywordtype">double</span> tStep;</div>
+<div class="line"><a name="l00236"></a><span class="lineno">  236</span>&#160;        <span class="keywordflow">switch</span> (_details.quality)</div>
+<div class="line"><a name="l00237"></a><span class="lineno">  237</span>&#160;        {</div>
+<div class="line"><a name="l00238"></a><span class="lineno">  238</span>&#160;        <span class="keywordflow">case</span> VasculatureQuality::low:</div>
+<div class="line"><a name="l00239"></a><span class="lineno">  239</span>&#160;            tStep = 0.99;</div>
+<div class="line"><a name="l00240"></a><span class="lineno">  240</span>&#160;            <span class="keywordflow">break</span>;</div>
+<div class="line"><a name="l00241"></a><span class="lineno">  241</span>&#160;        <span class="keywordflow">case</span> VasculatureQuality::medium:</div>
+<div class="line"><a name="l00242"></a><span class="lineno">  242</span>&#160;            tStep = 5.0 / double(nbControlPoints);</div>
+<div class="line"><a name="l00243"></a><span class="lineno">  243</span>&#160;            <span class="keywordflow">break</span>;</div>
+<div class="line"><a name="l00244"></a><span class="lineno">  244</span>&#160;        <span class="keywordflow">default</span>:</div>
+<div class="line"><a name="l00245"></a><span class="lineno">  245</span>&#160;            tStep = 1.0 / double(nbControlPoints);</div>
+<div class="line"><a name="l00246"></a><span class="lineno">  246</span>&#160;            <span class="keywordflow">break</span>;</div>
+<div class="line"><a name="l00247"></a><span class="lineno">  247</span>&#160;        }</div>
+<div class="line"><a name="l00248"></a><span class="lineno">  248</span>&#160; </div>
+<div class="line"><a name="l00249"></a><span class="lineno">  249</span>&#160;        <span class="keywordflow">for</span> (<span class="keywordtype">double</span> t = 0.0; t &lt; 1.0; t += tStep)</div>
+<div class="line"><a name="l00250"></a><span class="lineno">  250</span>&#160;        {</div>
+<div class="line"><a name="l00251"></a><span class="lineno">  251</span>&#160;            <span class="keyword">const</span> uint64_t nodeId = section.second[t * double(nbControlPoints)];</div>
+<div class="line"><a name="l00252"></a><span class="lineno">  252</span>&#160;            <span class="keyword">const</span> <span class="keyword">auto</span>&amp; node = _nodes[nodeId];</div>
+<div class="line"><a name="l00253"></a><span class="lineno">  253</span>&#160;            uint64_t materialId = 0;</div>
+<div class="line"><a name="l00254"></a><span class="lineno">  254</span>&#160; </div>
+<div class="line"><a name="l00255"></a><span class="lineno">  255</span>&#160;            <span class="keywordflow">switch</span> (details.colorScheme)</div>
+<div class="line"><a name="l00256"></a><span class="lineno">  256</span>&#160;            {</div>
+<div class="line"><a name="l00257"></a><span class="lineno">  257</span>&#160;            <span class="keywordflow">case</span> VasculatureColorScheme::edge:</div>
+<div class="line"><a name="l00258"></a><span class="lineno">  258</span>&#160;                materialId = edgeCount;</div>
+<div class="line"><a name="l00259"></a><span class="lineno">  259</span>&#160;                <span class="keywordflow">break</span>;</div>
+<div class="line"><a name="l00260"></a><span class="lineno">  260</span>&#160;            <span class="keywordflow">case</span> VasculatureColorScheme::section:</div>
+<div class="line"><a name="l00261"></a><span class="lineno">  261</span>&#160;                materialId = node.sectionId;</div>
+<div class="line"><a name="l00262"></a><span class="lineno">  262</span>&#160;                <span class="keywordflow">break</span>;</div>
+<div class="line"><a name="l00263"></a><span class="lineno">  263</span>&#160;            <span class="keywordflow">case</span> VasculatureColorScheme::subgraph:</div>
+<div class="line"><a name="l00264"></a><span class="lineno">  264</span>&#160;                materialId = node.graphId;</div>
+<div class="line"><a name="l00265"></a><span class="lineno">  265</span>&#160;                <span class="keywordflow">break</span>;</div>
+<div class="line"><a name="l00266"></a><span class="lineno">  266</span>&#160;            <span class="keywordflow">case</span> VasculatureColorScheme::pair:</div>
+<div class="line"><a name="l00267"></a><span class="lineno">  267</span>&#160;                materialId = node.pairId;</div>
+<div class="line"><a name="l00268"></a><span class="lineno">  268</span>&#160;                <span class="keywordflow">break</span>;</div>
+<div class="line"><a name="l00269"></a><span class="lineno">  269</span>&#160;            <span class="keywordflow">case</span> VasculatureColorScheme::entry_node:</div>
+<div class="line"><a name="l00270"></a><span class="lineno">  270</span>&#160;                materialId = node.entryNodeId;</div>
+<div class="line"><a name="l00271"></a><span class="lineno">  271</span>&#160;                <span class="keywordflow">break</span>;</div>
+<div class="line"><a name="l00272"></a><span class="lineno">  272</span>&#160;            <span class="keywordflow">default</span>:</div>
+<div class="line"><a name="l00273"></a><span class="lineno">  273</span>&#160;                <span class="keywordflow">break</span>;</div>
+<div class="line"><a name="l00274"></a><span class="lineno">  274</span>&#160;            }</div>
+<div class="line"><a name="l00275"></a><span class="lineno">  275</span>&#160;            materialIds.insert(materialId);</div>
+<div class="line"><a name="l00276"></a><span class="lineno">  276</span>&#160; </div>
+<div class="line"><a name="l00277"></a><span class="lineno">  277</span>&#160;            <span class="keyword">const</span> Vector4d src4d = getBezierPoint(controlPoints, t);</div>
+<div class="line"><a name="l00278"></a><span class="lineno">  278</span>&#160;            <span class="keyword">const</span> Vector3d src{src4d.x, src4d.y, src4d.z};</div>
+<div class="line"><a name="l00279"></a><span class="lineno">  279</span>&#160;            <span class="keyword">const</span> <span class="keywordtype">double</span> srcRadius = src4d.w * _details.radiusMultiplier;</div>
+<div class="line"><a name="l00280"></a><span class="lineno">  280</span>&#160; </div>
+<div class="line"><a name="l00281"></a><span class="lineno">  281</span>&#160;            _bounds.merge(src);</div>
+<div class="line"><a name="l00282"></a><span class="lineno">  282</span>&#160; </div>
+<div class="line"><a name="l00283"></a><span class="lineno">  283</span>&#160;            <span class="keywordflow">if</span> (!firstControlPoint)</div>
+<div class="line"><a name="l00284"></a><span class="lineno">  284</span>&#160;            {</div>
+<div class="line"><a name="l00285"></a><span class="lineno">  285</span>&#160;                <span class="keyword">const</span> uint64_t userData = nodeId;</div>
+<div class="line"><a name="l00286"></a><span class="lineno">  286</span>&#160;                <span class="keywordflow">if</span> (useSdf)</div>
+<div class="line"><a name="l00287"></a><span class="lineno">  287</span>&#160;                    _addSDFGeometry(sdfMorphologyData,</div>
+<div class="line"><a name="l00288"></a><span class="lineno">  288</span>&#160;                                    createSDFSphere(src, srcRadius, userData),</div>
+<div class="line"><a name="l00289"></a><span class="lineno">  289</span>&#160;                                    {}, materialId, node.sectionId);</div>
+<div class="line"><a name="l00290"></a><span class="lineno">  290</span>&#160;                <span class="keywordflow">else</span></div>
+<div class="line"><a name="l00291"></a><span class="lineno">  291</span>&#160;                    model-&gt;addSphere(materialId,</div>
+<div class="line"><a name="l00292"></a><span class="lineno">  292</span>&#160;                                     {src, <span class="keyword">static_cast&lt;</span><span class="keywordtype">float</span><span class="keyword">&gt;</span>(srcRadius),</div>
+<div class="line"><a name="l00293"></a><span class="lineno">  293</span>&#160;                                      userData});</div>
+<div class="line"><a name="l00294"></a><span class="lineno">  294</span>&#160; </div>
+<div class="line"><a name="l00295"></a><span class="lineno">  295</span>&#160;                _addStepConeGeometry(useSdf, src, srcRadius, dst, dstRadius,</div>
+<div class="line"><a name="l00296"></a><span class="lineno">  296</span>&#160;                                     materialId, userData, *model,</div>
+<div class="line"><a name="l00297"></a><span class="lineno">  297</span>&#160;                                     sdfMorphologyData, node.sectionId);</div>
+<div class="line"><a name="l00298"></a><span class="lineno">  298</span>&#160;            }</div>
+<div class="line"><a name="l00299"></a><span class="lineno">  299</span>&#160;            dst = src;</div>
+<div class="line"><a name="l00300"></a><span class="lineno">  300</span>&#160;            dstRadius = srcRadius;</div>
+<div class="line"><a name="l00301"></a><span class="lineno">  301</span>&#160;            firstControlPoint = <span class="keyword">false</span>;</div>
 <div class="line"><a name="l00302"></a><span class="lineno">  302</span>&#160; </div>
-<div class="line"><a name="l00303"></a><span class="lineno">  303</span>&#160;    uint64_t colorCount = 0;</div>
-<div class="line"><a name="l00304"></a><span class="lineno">  304</span>&#160;    <span class="keyword">auto</span>&amp; palette = details.palette;</div>
-<div class="line"><a name="l00305"></a><span class="lineno">  305</span>&#160;    <span class="keywordflow">for</span> (<span class="keyword">const</span> <span class="keyword">auto</span> materialId : materialIds)</div>
-<div class="line"><a name="l00306"></a><span class="lineno">  306</span>&#160;    {</div>
-<div class="line"><a name="l00307"></a><span class="lineno">  307</span>&#160;        Vector3f color{1.f, 1.f, 1.f};</div>
-<div class="line"><a name="l00308"></a><span class="lineno">  308</span>&#160;        <span class="keywordflow">if</span> (!palette.empty())</div>
-<div class="line"><a name="l00309"></a><span class="lineno">  309</span>&#160;        {</div>
-<div class="line"><a name="l00310"></a><span class="lineno">  310</span>&#160;            color = Vector3f(palette[colorCount], palette[colorCount + 1],</div>
-<div class="line"><a name="l00311"></a><span class="lineno">  311</span>&#160;                             palette[colorCount + 2]);</div>
-<div class="line"><a name="l00312"></a><span class="lineno">  312</span>&#160;            colorCount += 3;</div>
-<div class="line"><a name="l00313"></a><span class="lineno">  313</span>&#160;        }</div>
-<div class="line"><a name="l00314"></a><span class="lineno">  314</span>&#160;        <span class="keyword">auto</span> nodeMaterial =</div>
-<div class="line"><a name="l00315"></a><span class="lineno">  315</span>&#160;            model-&gt;createMaterial(materialId, std::to_string(materialId));</div>
-<div class="line"><a name="l00316"></a><span class="lineno">  316</span>&#160;        nodeMaterial-&gt;setDiffuseColor(color);</div>
-<div class="line"><a name="l00317"></a><span class="lineno">  317</span>&#160;        nodeMaterial-&gt;setSpecularColor(color);</div>
-<div class="line"><a name="l00318"></a><span class="lineno">  318</span>&#160;        nodeMaterial-&gt;setSpecularExponent(100.f);</div>
-<div class="line"><a name="l00319"></a><span class="lineno">  319</span>&#160;        PropertyMap props;</div>
-<div class="line"><a name="l00320"></a><span class="lineno">  320</span>&#160;        props.setProperty({MATERIAL_PROPERTY_SHADING_MODE, 0});</div>
-<div class="line"><a name="l00321"></a><span class="lineno">  321</span>&#160;        props.setProperty({MATERIAL_PROPERTY_USER_PARAMETER, 1.0});</div>
-<div class="line"><a name="l00322"></a><span class="lineno">  322</span>&#160;        props.setProperty({MATERIAL_PROPERTY_CHAMELEON_MODE, 0});</div>
-<div class="line"><a name="l00323"></a><span class="lineno">  323</span>&#160;        props.setProperty({MATERIAL_PROPERTY_CAST_SIMULATION_DATA, <span class="keyword">true</span>});</div>
-<div class="line"><a name="l00324"></a><span class="lineno">  324</span>&#160;        props.setProperty({MATERIAL_PROPERTY_NODE_ID, 0});</div>
-<div class="line"><a name="l00325"></a><span class="lineno">  325</span>&#160;        nodeMaterial-&gt;updateProperties(props);</div>
-<div class="line"><a name="l00326"></a><span class="lineno">  326</span>&#160;    }</div>
-<div class="line"><a name="l00327"></a><span class="lineno">  327</span>&#160; </div>
-<div class="line"><a name="l00328"></a><span class="lineno">  328</span>&#160;    <span class="keywordflow">if</span> (useSdf)</div>
-<div class="line"><a name="l00329"></a><span class="lineno">  329</span>&#160;        _finalizeSDFGeometries(*model, sdfMorphologyData);</div>
-<div class="line"><a name="l00330"></a><span class="lineno">  330</span>&#160; </div>
-<div class="line"><a name="l00331"></a><span class="lineno">  331</span>&#160;    ModelMetadata metadata = {</div>
-<div class="line"><a name="l00332"></a><span class="lineno">  332</span>&#160;        {<span class="stringliteral">&quot;Number of edges&quot;</span>, std::to_string(_nodes.size())},</div>
-<div class="line"><a name="l00333"></a><span class="lineno">  333</span>&#160;        {<span class="stringliteral">&quot;Number of sections&quot;</span>, std::to_string(_sectionIds.size())},</div>
-<div class="line"><a name="l00334"></a><span class="lineno">  334</span>&#160;        {<span class="stringliteral">&quot;Number of sub-graphs&quot;</span>, std::to_string(_graphs.size())}};</div>
-<div class="line"><a name="l00335"></a><span class="lineno">  335</span>&#160; </div>
-<div class="line"><a name="l00336"></a><span class="lineno">  336</span>&#160;    _modelDescriptor.reset(<span class="keyword">new</span> brayns::ModelDescriptor(std::move(model),</div>
-<div class="line"><a name="l00337"></a><span class="lineno">  337</span>&#160;                                                       _details.assemblyName,</div>
-<div class="line"><a name="l00338"></a><span class="lineno">  338</span>&#160;                                                       metadata));</div>
-<div class="line"><a name="l00339"></a><span class="lineno">  339</span>&#160;    <span class="keywordflow">if</span> (_modelDescriptor)</div>
-<div class="line"><a name="l00340"></a><span class="lineno">  340</span>&#160;        _scene.addModel(_modelDescriptor);</div>
-<div class="line"><a name="l00341"></a><span class="lineno">  341</span>&#160;    <span class="keywordflow">else</span></div>
-<div class="line"><a name="l00342"></a><span class="lineno">  342</span>&#160;        PLUGIN_THROW(<span class="stringliteral">&quot;Vasculature model could not be created for population &quot;</span> +</div>
-<div class="line"><a name="l00343"></a><span class="lineno">  343</span>&#160;                     _details.populationName);</div>
-<div class="line"><a name="l00344"></a><span class="lineno">  344</span>&#160;}</div>
-<div class="line"><a name="l00345"></a><span class="lineno">  345</span>&#160; </div>
-<div class="line"><a name="l00346"></a><span class="lineno">  346</span>&#160;<span class="keywordtype">void</span> Vasculature::setColorScheme(<span class="keyword">const</span> VasculatureColorSchemeDetails&amp; details)</div>
-<div class="line"><a name="l00347"></a><span class="lineno">  347</span>&#160;{</div>
-<div class="line"><a name="l00348"></a><span class="lineno">  348</span>&#160;    _buildModel(details);</div>
-<div class="line"><a name="l00349"></a><span class="lineno">  349</span>&#160;}</div>
-<div class="line"><a name="l00350"></a><span class="lineno">  350</span>&#160; </div>
-<div class="line"><a name="l00351"></a><span class="lineno">  351</span>&#160;<span class="keywordtype">void</span> Vasculature::setRadiusReport(<span class="keyword">const</span> VasculatureRadiusReportDetails&amp; details)</div>
-<div class="line"><a name="l00352"></a><span class="lineno">  352</span>&#160;{</div>
-<div class="line"><a name="l00353"></a><span class="lineno">  353</span>&#160;    <span class="keyword">auto</span>&amp; connector = <a class="code" href="../../d9/d96/classbioexplorer_1_1io_1_1db_1_1DBConnector.html#a54ae453b0795aabee7ee7e93ae976eab">DBConnector::getInstance</a>();</div>
-<div class="line"><a name="l00354"></a><span class="lineno">  354</span>&#160;    <span class="keyword">const</span> <span class="keyword">auto</span> simulationReport =</div>
-<div class="line"><a name="l00355"></a><span class="lineno">  355</span>&#160;        connector.getVasculatureSimulationReport(details.populationName,</div>
-<div class="line"><a name="l00356"></a><span class="lineno">  356</span>&#160;                                                 details.simulationReportId);</div>
-<div class="line"><a name="l00357"></a><span class="lineno">  357</span>&#160; </div>
-<div class="line"><a name="l00358"></a><span class="lineno">  358</span>&#160;    <span class="keyword">const</span> <span class="keywordtype">size_t</span> nbFrames =</div>
-<div class="line"><a name="l00359"></a><span class="lineno">  359</span>&#160;        (simulationReport.endTime - simulationReport.startTime) /</div>
-<div class="line"><a name="l00360"></a><span class="lineno">  360</span>&#160;        simulationReport.timeStep;</div>
-<div class="line"><a name="l00361"></a><span class="lineno">  361</span>&#160;    if (nbFrames == 0)</div>
-<div class="line"><a name="l00362"></a><span class="lineno">  362</span>&#160;        PLUGIN_THROW(<span class="stringliteral">&quot;Report does not contain any simulation data: &quot;</span> +</div>
-<div class="line"><a name="l00363"></a><span class="lineno">  363</span>&#160;                     simulationReport.description);</div>
-<div class="line"><a name="l00364"></a><span class="lineno">  364</span>&#160; </div>
-<div class="line"><a name="l00365"></a><span class="lineno">  365</span>&#160;    <span class="keywordflow">if</span> (details.frame &gt;= nbFrames)</div>
-<div class="line"><a name="l00366"></a><span class="lineno">  366</span>&#160;        PLUGIN_THROW(<span class="stringliteral">&quot;Invalid frame specified for report: &quot;</span> +</div>
+<div class="line"><a name="l00303"></a><span class="lineno">  303</span>&#160;            ++edgeCount;</div>
+<div class="line"><a name="l00304"></a><span class="lineno">  304</span>&#160;        }</div>
+<div class="line"><a name="l00305"></a><span class="lineno">  305</span>&#160;    }</div>
+<div class="line"><a name="l00306"></a><span class="lineno">  306</span>&#160; </div>
+<div class="line"><a name="l00307"></a><span class="lineno">  307</span>&#160;    uint64_t colorCount = 0;</div>
+<div class="line"><a name="l00308"></a><span class="lineno">  308</span>&#160;    <span class="keyword">auto</span>&amp; palette = details.palette;</div>
+<div class="line"><a name="l00309"></a><span class="lineno">  309</span>&#160;    <span class="keywordflow">for</span> (<span class="keyword">const</span> <span class="keyword">auto</span> materialId : materialIds)</div>
+<div class="line"><a name="l00310"></a><span class="lineno">  310</span>&#160;    {</div>
+<div class="line"><a name="l00311"></a><span class="lineno">  311</span>&#160;        Vector3f color{1.f, 1.f, 1.f};</div>
+<div class="line"><a name="l00312"></a><span class="lineno">  312</span>&#160;        <span class="keywordflow">if</span> (!palette.empty())</div>
+<div class="line"><a name="l00313"></a><span class="lineno">  313</span>&#160;        {</div>
+<div class="line"><a name="l00314"></a><span class="lineno">  314</span>&#160;            color = Vector3f(palette[colorCount], palette[colorCount + 1],</div>
+<div class="line"><a name="l00315"></a><span class="lineno">  315</span>&#160;                             palette[colorCount + 2]);</div>
+<div class="line"><a name="l00316"></a><span class="lineno">  316</span>&#160;            colorCount += 3;</div>
+<div class="line"><a name="l00317"></a><span class="lineno">  317</span>&#160;        }</div>
+<div class="line"><a name="l00318"></a><span class="lineno">  318</span>&#160;        <span class="keyword">auto</span> nodeMaterial =</div>
+<div class="line"><a name="l00319"></a><span class="lineno">  319</span>&#160;            model-&gt;createMaterial(materialId, std::to_string(materialId));</div>
+<div class="line"><a name="l00320"></a><span class="lineno">  320</span>&#160;        nodeMaterial-&gt;setDiffuseColor(color);</div>
+<div class="line"><a name="l00321"></a><span class="lineno">  321</span>&#160;        nodeMaterial-&gt;setSpecularColor(color);</div>
+<div class="line"><a name="l00322"></a><span class="lineno">  322</span>&#160;        nodeMaterial-&gt;setSpecularExponent(100.f);</div>
+<div class="line"><a name="l00323"></a><span class="lineno">  323</span>&#160;        PropertyMap props;</div>
+<div class="line"><a name="l00324"></a><span class="lineno">  324</span>&#160;        props.setProperty({MATERIAL_PROPERTY_SHADING_MODE, 0});</div>
+<div class="line"><a name="l00325"></a><span class="lineno">  325</span>&#160;        props.setProperty({MATERIAL_PROPERTY_USER_PARAMETER, 1.0});</div>
+<div class="line"><a name="l00326"></a><span class="lineno">  326</span>&#160;        props.setProperty({MATERIAL_PROPERTY_CHAMELEON_MODE, 0});</div>
+<div class="line"><a name="l00327"></a><span class="lineno">  327</span>&#160;        props.setProperty({MATERIAL_PROPERTY_CAST_USER_DATA, <span class="keyword">false</span>});</div>
+<div class="line"><a name="l00328"></a><span class="lineno">  328</span>&#160;        props.setProperty({MATERIAL_PROPERTY_NODE_ID, 0});</div>
+<div class="line"><a name="l00329"></a><span class="lineno">  329</span>&#160;        nodeMaterial-&gt;updateProperties(props);</div>
+<div class="line"><a name="l00330"></a><span class="lineno">  330</span>&#160;    }</div>
+<div class="line"><a name="l00331"></a><span class="lineno">  331</span>&#160; </div>
+<div class="line"><a name="l00332"></a><span class="lineno">  332</span>&#160;    <span class="keywordflow">if</span> (useSdf)</div>
+<div class="line"><a name="l00333"></a><span class="lineno">  333</span>&#160;        _finalizeSDFGeometries(*model, sdfMorphologyData);</div>
+<div class="line"><a name="l00334"></a><span class="lineno">  334</span>&#160; </div>
+<div class="line"><a name="l00335"></a><span class="lineno">  335</span>&#160;    ModelMetadata metadata = {</div>
+<div class="line"><a name="l00336"></a><span class="lineno">  336</span>&#160;        {<span class="stringliteral">&quot;Number of edges&quot;</span>, std::to_string(_nodes.size())},</div>
+<div class="line"><a name="l00337"></a><span class="lineno">  337</span>&#160;        {<span class="stringliteral">&quot;Number of sections&quot;</span>, std::to_string(_sectionIds.size())},</div>
+<div class="line"><a name="l00338"></a><span class="lineno">  338</span>&#160;        {<span class="stringliteral">&quot;Number of sub-graphs&quot;</span>, std::to_string(_graphs.size())}};</div>
+<div class="line"><a name="l00339"></a><span class="lineno">  339</span>&#160; </div>
+<div class="line"><a name="l00340"></a><span class="lineno">  340</span>&#160;    _modelDescriptor.reset(<span class="keyword">new</span> brayns::ModelDescriptor(std::move(model),</div>
+<div class="line"><a name="l00341"></a><span class="lineno">  341</span>&#160;                                                       _details.assemblyName,</div>
+<div class="line"><a name="l00342"></a><span class="lineno">  342</span>&#160;                                                       metadata));</div>
+<div class="line"><a name="l00343"></a><span class="lineno">  343</span>&#160;    <span class="keywordflow">if</span> (_modelDescriptor)</div>
+<div class="line"><a name="l00344"></a><span class="lineno">  344</span>&#160;        _scene.addModel(_modelDescriptor);</div>
+<div class="line"><a name="l00345"></a><span class="lineno">  345</span>&#160;    <span class="keywordflow">else</span></div>
+<div class="line"><a name="l00346"></a><span class="lineno">  346</span>&#160;        PLUGIN_THROW(<span class="stringliteral">&quot;Vasculature model could not be created for population &quot;</span> +</div>
+<div class="line"><a name="l00347"></a><span class="lineno">  347</span>&#160;                     _details.populationName);</div>
+<div class="line"><a name="l00348"></a><span class="lineno">  348</span>&#160;}</div>
+<div class="line"><a name="l00349"></a><span class="lineno">  349</span>&#160; </div>
+<div class="line"><a name="l00350"></a><span class="lineno">  350</span>&#160;<span class="keywordtype">void</span> Vasculature::setColorScheme(<span class="keyword">const</span> VasculatureColorSchemeDetails&amp; details)</div>
+<div class="line"><a name="l00351"></a><span class="lineno">  351</span>&#160;{</div>
+<div class="line"><a name="l00352"></a><span class="lineno">  352</span>&#160;    _buildModel(details);</div>
+<div class="line"><a name="l00353"></a><span class="lineno">  353</span>&#160;}</div>
+<div class="line"><a name="l00354"></a><span class="lineno">  354</span>&#160; </div>
+<div class="line"><a name="l00355"></a><span class="lineno">  355</span>&#160;<span class="keywordtype">void</span> Vasculature::setRadiusReport(<span class="keyword">const</span> VasculatureRadiusReportDetails&amp; details)</div>
+<div class="line"><a name="l00356"></a><span class="lineno">  356</span>&#160;{</div>
+<div class="line"><a name="l00357"></a><span class="lineno">  357</span>&#160;    <span class="keyword">auto</span>&amp; connector = <a class="code" href="../../d9/d96/classbioexplorer_1_1io_1_1db_1_1DBConnector.html#a54ae453b0795aabee7ee7e93ae976eab">DBConnector::getInstance</a>();</div>
+<div class="line"><a name="l00358"></a><span class="lineno">  358</span>&#160;    <span class="keyword">const</span> <span class="keyword">auto</span> simulationReport =</div>
+<div class="line"><a name="l00359"></a><span class="lineno">  359</span>&#160;        connector.getVasculatureSimulationReport(details.populationName,</div>
+<div class="line"><a name="l00360"></a><span class="lineno">  360</span>&#160;                                                 details.simulationReportId);</div>
+<div class="line"><a name="l00361"></a><span class="lineno">  361</span>&#160; </div>
+<div class="line"><a name="l00362"></a><span class="lineno">  362</span>&#160;    <span class="keyword">const</span> <span class="keywordtype">size_t</span> nbFrames =</div>
+<div class="line"><a name="l00363"></a><span class="lineno">  363</span>&#160;        (simulationReport.endTime - simulationReport.startTime) /</div>
+<div class="line"><a name="l00364"></a><span class="lineno">  364</span>&#160;        simulationReport.timeStep;</div>
+<div class="line"><a name="l00365"></a><span class="lineno">  365</span>&#160;    if (nbFrames == 0)</div>
+<div class="line"><a name="l00366"></a><span class="lineno">  366</span>&#160;        PLUGIN_THROW(<span class="stringliteral">&quot;Report does not contain any simulation data: &quot;</span> +</div>
 <div class="line"><a name="l00367"></a><span class="lineno">  367</span>&#160;                     simulationReport.description);</div>
-<div class="line"><a name="l00368"></a><span class="lineno">  368</span>&#160;    <span class="keyword">const</span> floats series =</div>
-<div class="line"><a name="l00369"></a><span class="lineno">  369</span>&#160;        connector.getVasculatureSimulationTimeSeries(details.simulationReportId,</div>
-<div class="line"><a name="l00370"></a><span class="lineno">  370</span>&#160;                                                     details.frame);</div>
-<div class="line"><a name="l00371"></a><span class="lineno">  371</span>&#160; </div>
-<div class="line"><a name="l00372"></a><span class="lineno">  372</span>&#160;    <span class="keyword">auto</span>&amp; model = _modelDescriptor-&gt;getModel();</div>
-<div class="line"><a name="l00373"></a><span class="lineno">  373</span>&#160;    <span class="keyword">auto</span>&amp; spheresMap = model.getSpheres();</div>
-<div class="line"><a name="l00374"></a><span class="lineno">  374</span>&#160;    <span class="keywordflow">for</span> (<span class="keyword">auto</span>&amp; spheres : spheresMap)</div>
-<div class="line"><a name="l00375"></a><span class="lineno">  375</span>&#160;        <span class="keywordflow">for</span> (<span class="keyword">auto</span>&amp; sphere : spheres.second)</div>
-<div class="line"><a name="l00376"></a><span class="lineno">  376</span>&#160;            sphere.radius = details.amplitude * series[sphere.userData];</div>
-<div class="line"><a name="l00377"></a><span class="lineno">  377</span>&#160; </div>
-<div class="line"><a name="l00378"></a><span class="lineno">  378</span>&#160;    <span class="keyword">auto</span>&amp; conesMap = model.getCones();</div>
-<div class="line"><a name="l00379"></a><span class="lineno">  379</span>&#160;    <span class="keywordflow">for</span> (<span class="keyword">auto</span>&amp; cones : conesMap)</div>
-<div class="line"><a name="l00380"></a><span class="lineno">  380</span>&#160;        <span class="keywordflow">for</span> (<span class="keyword">auto</span>&amp; cone : cones.second)</div>
-<div class="line"><a name="l00381"></a><span class="lineno">  381</span>&#160;        {</div>
-<div class="line"><a name="l00382"></a><span class="lineno">  382</span>&#160;            cone.centerRadius = details.amplitude * series[cone.userData];</div>
-<div class="line"><a name="l00383"></a><span class="lineno">  383</span>&#160;            cone.upRadius = details.amplitude * series[cone.userData + 1];</div>
-<div class="line"><a name="l00384"></a><span class="lineno">  384</span>&#160;        }</div>
-<div class="line"><a name="l00385"></a><span class="lineno">  385</span>&#160; </div>
-<div class="line"><a name="l00386"></a><span class="lineno">  386</span>&#160;    <span class="keyword">auto</span>&amp; cylindersMap = model.getCylinders();</div>
-<div class="line"><a name="l00387"></a><span class="lineno">  387</span>&#160;    <span class="keywordflow">for</span> (<span class="keyword">auto</span>&amp; cylinders : cylindersMap)</div>
-<div class="line"><a name="l00388"></a><span class="lineno">  388</span>&#160;        <span class="keywordflow">for</span> (<span class="keyword">auto</span>&amp; cylinder : cylinders.second)</div>
-<div class="line"><a name="l00389"></a><span class="lineno">  389</span>&#160;            cylinder.radius = details.amplitude * series[cylinder.userData];</div>
-<div class="line"><a name="l00390"></a><span class="lineno">  390</span>&#160; </div>
-<div class="line"><a name="l00391"></a><span class="lineno">  391</span>&#160;    model.commitGeometry();</div>
-<div class="line"><a name="l00392"></a><span class="lineno">  392</span>&#160;    model.updateBounds();</div>
-<div class="line"><a name="l00393"></a><span class="lineno">  393</span>&#160;    PLUGIN_DEBUG(<span class="stringliteral">&quot;Vasculature geometry successfully modified using report &quot;</span></div>
-<div class="line"><a name="l00394"></a><span class="lineno">  394</span>&#160;                 &lt;&lt; simulationReport.description);</div>
-<div class="line"><a name="l00395"></a><span class="lineno">  395</span>&#160;    _scene.markModified(<span class="keyword">false</span>);</div>
-<div class="line"><a name="l00396"></a><span class="lineno">  396</span>&#160;}</div>
-<div class="line"><a name="l00397"></a><span class="lineno">  397</span>&#160; </div>
-<div class="line"><a name="l00398"></a><span class="lineno">  398</span>&#160;} <span class="comment">// namespace vasculature</span></div>
-<div class="line"><a name="l00399"></a><span class="lineno">  399</span>&#160;} <span class="comment">// namespace bioexplorer</span></div>
+<div class="line"><a name="l00368"></a><span class="lineno">  368</span>&#160; </div>
+<div class="line"><a name="l00369"></a><span class="lineno">  369</span>&#160;    <span class="keywordflow">if</span> (details.frame &gt;= nbFrames)</div>
+<div class="line"><a name="l00370"></a><span class="lineno">  370</span>&#160;        PLUGIN_THROW(<span class="stringliteral">&quot;Invalid frame specified for report: &quot;</span> +</div>
+<div class="line"><a name="l00371"></a><span class="lineno">  371</span>&#160;                     simulationReport.description);</div>
+<div class="line"><a name="l00372"></a><span class="lineno">  372</span>&#160;    <span class="keyword">const</span> floats series =</div>
+<div class="line"><a name="l00373"></a><span class="lineno">  373</span>&#160;        connector.getVasculatureSimulationTimeSeries(details.simulationReportId,</div>
+<div class="line"><a name="l00374"></a><span class="lineno">  374</span>&#160;                                                     details.frame);</div>
+<div class="line"><a name="l00375"></a><span class="lineno">  375</span>&#160; </div>
+<div class="line"><a name="l00376"></a><span class="lineno">  376</span>&#160;    <span class="keyword">auto</span>&amp; model = _modelDescriptor-&gt;getModel();</div>
+<div class="line"><a name="l00377"></a><span class="lineno">  377</span>&#160;    <span class="keyword">auto</span>&amp; spheresMap = model.getSpheres();</div>
+<div class="line"><a name="l00378"></a><span class="lineno">  378</span>&#160;    <span class="keywordflow">for</span> (<span class="keyword">auto</span>&amp; spheres : spheresMap)</div>
+<div class="line"><a name="l00379"></a><span class="lineno">  379</span>&#160;        <span class="keywordflow">for</span> (<span class="keyword">auto</span>&amp; sphere : spheres.second)</div>
+<div class="line"><a name="l00380"></a><span class="lineno">  380</span>&#160;            sphere.radius = details.amplitude * series[sphere.userData];</div>
+<div class="line"><a name="l00381"></a><span class="lineno">  381</span>&#160; </div>
+<div class="line"><a name="l00382"></a><span class="lineno">  382</span>&#160;    <span class="keyword">auto</span>&amp; conesMap = model.getCones();</div>
+<div class="line"><a name="l00383"></a><span class="lineno">  383</span>&#160;    <span class="keywordflow">for</span> (<span class="keyword">auto</span>&amp; cones : conesMap)</div>
+<div class="line"><a name="l00384"></a><span class="lineno">  384</span>&#160;        <span class="keywordflow">for</span> (<span class="keyword">auto</span>&amp; cone : cones.second)</div>
+<div class="line"><a name="l00385"></a><span class="lineno">  385</span>&#160;        {</div>
+<div class="line"><a name="l00386"></a><span class="lineno">  386</span>&#160;            cone.centerRadius = details.amplitude * series[cone.userData];</div>
+<div class="line"><a name="l00387"></a><span class="lineno">  387</span>&#160;            cone.upRadius = details.amplitude * series[cone.userData + 1];</div>
+<div class="line"><a name="l00388"></a><span class="lineno">  388</span>&#160;        }</div>
+<div class="line"><a name="l00389"></a><span class="lineno">  389</span>&#160; </div>
+<div class="line"><a name="l00390"></a><span class="lineno">  390</span>&#160;    <span class="keyword">auto</span>&amp; cylindersMap = model.getCylinders();</div>
+<div class="line"><a name="l00391"></a><span class="lineno">  391</span>&#160;    <span class="keywordflow">for</span> (<span class="keyword">auto</span>&amp; cylinders : cylindersMap)</div>
+<div class="line"><a name="l00392"></a><span class="lineno">  392</span>&#160;        <span class="keywordflow">for</span> (<span class="keyword">auto</span>&amp; cylinder : cylinders.second)</div>
+<div class="line"><a name="l00393"></a><span class="lineno">  393</span>&#160;            cylinder.radius = details.amplitude * series[cylinder.userData];</div>
+<div class="line"><a name="l00394"></a><span class="lineno">  394</span>&#160; </div>
+<div class="line"><a name="l00395"></a><span class="lineno">  395</span>&#160;    model.commitGeometry();</div>
+<div class="line"><a name="l00396"></a><span class="lineno">  396</span>&#160;    model.updateBounds();</div>
+<div class="line"><a name="l00397"></a><span class="lineno">  397</span>&#160;    PLUGIN_DEBUG(<span class="stringliteral">&quot;Vasculature geometry successfully modified using report &quot;</span></div>
+<div class="line"><a name="l00398"></a><span class="lineno">  398</span>&#160;                 &lt;&lt; simulationReport.description);</div>
+<div class="line"><a name="l00399"></a><span class="lineno">  399</span>&#160;    _scene.markModified(<span class="keyword">false</span>);</div>
+<div class="line"><a name="l00400"></a><span class="lineno">  400</span>&#160;}</div>
+<div class="line"><a name="l00401"></a><span class="lineno">  401</span>&#160; </div>
+<div class="line"><a name="l00402"></a><span class="lineno">  402</span>&#160;} <span class="comment">// namespace vasculature</span></div>
+<div class="line"><a name="l00403"></a><span class="lineno">  403</span>&#160;} <span class="comment">// namespace bioexplorer</span></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
-<div class="ttc" id="aclassbioexplorer_1_1io_1_1db_1_1DBConnector_html_a54ae453b0795aabee7ee7e93ae976eab"><div class="ttname"><a href="../../d9/d96/classbioexplorer_1_1io_1_1db_1_1DBConnector.html#a54ae453b0795aabee7ee7e93ae976eab">bioexplorer::io::db::DBConnector::getInstance</a></div><div class="ttdeci">static DBConnector &amp; getInstance()</div><div class="ttdoc">Get the Instance object.</div><div class="ttdef"><b>Definition:</b> <a href="../../d3/dec/bioexplorer_2core_2plugin_2io_2db_2DBConnector_8h_source.html#l00054">DBConnector.h:54</a></div></div>
+<div class="ttc" id="aclassbioexplorer_1_1io_1_1db_1_1DBConnector_html_a54ae453b0795aabee7ee7e93ae976eab"><div class="ttname"><a href="../../d9/d96/classbioexplorer_1_1io_1_1db_1_1DBConnector.html#a54ae453b0795aabee7ee7e93ae976eab">bioexplorer::io::db::DBConnector::getInstance</a></div><div class="ttdeci">static DBConnector &amp; getInstance()</div><div class="ttdoc">Get the Instance object.</div><div class="ttdef"><b>Definition:</b> <a href="../../d3/dec/bioexplorer_2core_2plugin_2io_2db_2DBConnector_8h_source.html#l00057">DBConnector.h:57</a></div></div>
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>

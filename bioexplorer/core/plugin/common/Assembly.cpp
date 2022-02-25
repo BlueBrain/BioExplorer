@@ -36,9 +36,14 @@
 #include <plugin/molecularsystems/Membrane.h>
 #include <plugin/molecularsystems/Protein.h>
 #include <plugin/molecularsystems/RNASequence.h>
+
 #ifdef USE_VASCULATURE
 #include <plugin/vasculature/Vasculature.h>
 #include <plugin/vasculature/VasculatureHandler.h>
+#endif
+
+#ifdef USE_MORPHOLOGIES
+#include <plugin/morphologies/Astrocytes.h>
 #endif
 
 #include <brayns/engineapi/Model.h>
@@ -635,6 +640,18 @@ void Assembly::setVasculatureRadiusReport(
         PLUGIN_THROW("No vasculature is currently loaded");
 
     _vasculature->setRadiusReport(details);
+}
+#endif
+
+#ifdef USE_MORPHOLOGIES
+void Assembly::addAstrocytes(const AstrocytesDetails &details)
+{
+    if (_astrocytes)
+        PLUGIN_THROW("Astrocytes already exists in assembly " +
+                     details.assemblyName);
+
+    _astrocytes = AstrocytesPtr(new Astrocytes(_scene, details));
+    _scene.markModified(false);
 }
 #endif
 

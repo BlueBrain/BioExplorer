@@ -77,6 +77,9 @@ void AdvancedMaterial::commit()
     // Glossiness
     glossiness = getParam1f("glossiness", 1.f);
 
+    // Cast user data
+    castUserData = getParam(MATERIAL_PROPERTY_CAST_USER_DATA, 1);
+
     // Shading mode
     shadingMode = static_cast<MaterialShadingMode>(getParam1i(
         MATERIAL_PROPERTY_SHADING_MODE,
@@ -92,9 +95,6 @@ void AdvancedMaterial::commit()
 
     // Model Id
     nodeId = getParam1i(MATERIAL_PROPERTY_NODE_ID, 0);
-
-    // Cast simulation data
-    castSimulationData = getParam(MATERIAL_PROPERTY_CAST_SIMULATION_DATA, 1);
 
     ispc::AdvancedMaterial_set(
         getIE(), map_d ? map_d->getIE() : nullptr,
@@ -115,7 +115,7 @@ void AdvancedMaterial::commit()
         (const ispc::LinearSpace2f&)rot_Bump,
         (const ispc::MaterialShadingMode&)shadingMode, userParameter,
         (const ispc::MaterialChameleonMode&)chameleonMode, nodeId,
-        castSimulationData);
+        castUserData);
 }
 
 #if !defined(DOXYGEN_SHOULD_SKIP_THIS)

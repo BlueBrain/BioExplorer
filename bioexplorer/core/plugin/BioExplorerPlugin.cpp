@@ -568,6 +568,15 @@ void BioExplorerPlugin::init()
                     return _setVasculatureRadiusReport(details);
                 });
 #endif
+#ifdef USE_MORPHOLOGIES
+        endPoint = PLUGIN_API_PREFIX + "add-astrocytes";
+        PLUGIN_INFO(1, "Registering '" + endPoint + "' endpoint");
+        _api->getActionInterface()
+            ->registerRequest<AstrocytesDetails, Response>(
+                endPoint, [&](const AstrocytesDetails &payload) {
+                    return _addAstrocytes(payload);
+                });
+#endif
     }
 
     // Module components
@@ -680,8 +689,25 @@ Response BioExplorerPlugin::_resetCamera()
 
     Boxd aabb;
     for (const auto modelDescriptor : scene.getModelDescriptors())
+    {
+        const auto &modelBounds = modelDescriptor->getModel().getBounds();
+        Transformation modelTransformation;
+        modelTransformation.setTranslation(modelBounds.getCenter());
+
+        const auto modelHalfSize = modelBounds.getSize() / 2.0;
+
+        Transformation finalTransformation =
+            modelTransformation * modelDescriptor->getTransformation();
+        aabb.merge(finalTransformation.getTranslation() - modelHalfSize);
+        aabb.merge(finalTransformation.getTranslation() + modelHalfSize);
         for (const auto &instance : modelDescriptor->getInstances())
-            aabb.merge(instance.getTransformation().getTranslation());
+        {
+            finalTransformation =
+                modelTransformation * instance.getTransformation();
+            aabb.merge(finalTransformation.getTranslation() - modelHalfSize);
+            aabb.merge(finalTransformation.getTranslation() + modelHalfSize);
+        }
+    }
 
     const auto size = aabb.getSize();
     const double diag = 1.6 * std::max(std::max(size.x, size.y), size.z);
@@ -1449,6 +1475,10 @@ Response BioExplorerPlugin::_setMaterials(const MaterialsDetails &payload)
                             if (!payload.glossinesses.empty())
                                 material->setGlossiness(
                                     payload.glossinesses[id]);
+                            if (!payload.castUserData.empty())
+                                material->updateProperty(
+                                    MATERIAL_PROPERTY_CAST_USER_DATA,
+                                    payload.castUserData[id]);
                             if (!payload.shadingModes.empty())
                                 material->updateProperty(
                                     MATERIAL_PROPERTY_SHADING_MODE,
@@ -1810,6 +1840,13 @@ Response BioExplorerPlugin::_setVasculatureRadiusReport(
 {
     ASSEMBLY_CALL_VOID(payload.assemblyName,
                        setVasculatureRadiusReport(payload));
+}
+#endif
+
+#ifdef USE_MORPHOLOGIES
+Response BioExplorerPlugin::_addAstrocytes(const AstrocytesDetails &payload)
+{
+    ASSEMBLY_CALL_VOID(payload.assemblyName, addAstrocytes(payload));
 }
 #endif
 

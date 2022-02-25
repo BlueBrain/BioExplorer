@@ -21,7 +21,7 @@
 # You should have received a copy of the GNU General Public License along with
 # this program.  If not, see <https://www.gnu.org/licenses/>.
 
-from bioexplorer import BioExplorer, Protein, Sugars, Quaternion
+from bioexplorer import BioExplorer, Protein, Sugar, Quaternion
 
 # pylint: disable=no-member
 # pylint: disable=missing-function-docstring
@@ -70,7 +70,7 @@ def test_layout():
 
     # High-mannose glycans on Protein M
     indices = [48, 66]
-    complex_glycans = Sugars(
+    complex_glycans = Sugar(
         rotation=Quaternion(0.707, 0.0, 0.0, 0.707),
         assembly_name=name, name=bio_explorer.NAME_GLYCAN_COMPLEX,
         protein_name=name, source=complex_paths[0],
@@ -78,7 +78,7 @@ def test_layout():
         representation=glycan_representation,
         atom_radius_multiplier=glycan_radius_multiplier
     )
-    bio_explorer.add_glycans(complex_glycans)
+    bio_explorer.add_glycan(complex_glycans)
 
     # Materials
     bio_explorer.apply_default_color_scheme(shading_mode=bio_explorer.SHADING_MODE_BASIC)

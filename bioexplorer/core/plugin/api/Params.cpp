@@ -518,6 +518,7 @@ bool from_json(MaterialsDetails &param, const std::string &payload)
         FROM_JSON(param, js, refractionIndices);
         FROM_JSON(param, js, emissions);
         FROM_JSON(param, js, glossinesses);
+        FROM_JSON(param, js, castUserData);
         FROM_JSON(param, js, shadingModes);
         FROM_JSON(param, js, userParameters);
         FROM_JSON(param, js, chameleonModes);
@@ -731,7 +732,8 @@ bool from_json(VasculatureDetails &param, const std::string &payload)
         FROM_JSON(param, js, gids);
         FROM_JSON(param, js, loadCapilarities);
         FROM_JSON(param, js, quality);
-        FROM_JSON(param, js, radiusCorrection);
+        FROM_JSON(param, js, radiusMultiplier);
+        FROM_JSON(param, js, sqlFilter);
     }
     catch (...)
     {
@@ -783,6 +785,33 @@ bool from_json(VasculatureRadiusReportDetails &param,
         FROM_JSON(param, js, simulationReportId);
         FROM_JSON(param, js, frame);
         FROM_JSON(param, js, amplitude);
+    }
+    catch (...)
+    {
+        return false;
+    }
+    return true;
+}
+#endif
+
+#ifdef USE_MORPHOLOGIES
+bool from_json(AstrocytesDetails &param, const std::string &payload)
+{
+    try
+    {
+        auto js = nlohmann::json::parse(payload);
+        FROM_JSON(param, js, assemblyName);
+        FROM_JSON(param, js, populationName);
+        FROM_JSON(param, js, astrocyteIds);
+        FROM_JSON(param, js, useSdf);
+        FROM_JSON(param, js, loadSomas);
+        FROM_JSON(param, js, loadDendrites);
+        FROM_JSON(param, js, loadEndFeet);
+        FROM_JSON(param, js, geometryQuality);
+        FROM_JSON(param, js, morphologyColorScheme);
+        FROM_JSON(param, js, populationColorScheme);
+        FROM_JSON(param, js, radiusMultiplier);
+        FROM_JSON(param, js, sqlFilter);
     }
     catch (...)
     {

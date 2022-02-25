@@ -156,5 +156,10 @@ private:
     Response _setVasculatureRadiusReport(
         const VasculatureRadiusReportDetails &payload);
 #endif
+
+#ifdef USE_MORPHOLOGIES
+    // Astrocyte
+    Response _addAstrocytes(const AstrocytesDetails &payload);
+#endif
 };
 } // namespace bioexplorer

@@ -408,5 +408,55 @@ Vector4d getBezierPoint(const Vector4ds& controlPoints, const double t)
     return Vector4d(points[0].x, points[0].y, points[0].z, radius);
 }
 
+double sphereVolume(const double radius)
+{
+    return 4.0 * M_PI * pow(radius, 3) / 3.0;
+}
+
+double cylinderVolume(const double height, const double radius)
+{
+    return height * M_PI * radius * radius;
+}
+
+double coneVolume(const double height, const double r1, const double r2)
+{
+    return M_PI * (r1 * r1 + r1 * r2 + r2 * r2) * height / 3.0;
+}
+
+double capsuleVolume(const double height, const double radius)
+{
+    return sphereVolume(radius) + cylinderVolume(height, radius);
+}
+
+Vector3f transformVector3f(const Vector3f& v, const Matrix4f& transformation)
+{
+    glm::vec3 scale;
+    glm::quat rotation;
+    glm::vec3 translation;
+    glm::vec3 skew;
+    glm::vec4 perspective;
+    glm::decompose(transformation, scale, rotation, translation, skew,
+                   perspective);
+    return translation + rotation * v;
+}
+
+Vector3ds getPointsInSphere(const size_t nbPoints, const double innerRadius)
+{
+    const double radius =
+        innerRadius + (rand() % 1000 / 1000.0) * (1.0 - innerRadius);
+    double phi = M_PI * ((rand() % 2000 - 1000) / 1000.0);
+    double theta = M_PI * ((rand() % 2000 - 1000) / 1000.0);
+    Vector3ds points;
+    for (size_t i = 0; i < nbPoints; ++i)
+    {
+        Vector3d point = {radius * sin(phi) * cos(theta),
+                          radius * sin(phi) * sin(theta), radius * cos(phi)};
+        points.push_back(point);
+        phi += ((rand() % 1000) / 5000.0);
+        theta += ((rand() % 1000) / 5000.0);
+    }
+    return points;
+}
+
 } // namespace common
 } // namespace bioexplorer

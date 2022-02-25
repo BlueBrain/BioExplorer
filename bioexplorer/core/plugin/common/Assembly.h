@@ -33,6 +33,9 @@ using namespace molecularsystems;
 #ifdef USE_VASCULATURE
 using namespace vasculature;
 #endif
+#ifdef USE_MORPHOLOGIES
+using namespace morphology;
+#endif
 
 /**
  * @brief The Assembly class is a container for biological entities (proteins,
@@ -243,6 +246,10 @@ public:
         const VasculatureRadiusReportDetails &details);
 #endif
 
+#ifdef USE_MORPHOLOGIES
+    void addAstrocytes(const AstrocytesDetails &details);
+#endif
+
 private:
     void _processInstances(ModelDescriptorPtr md, const std::string &name,
                            const size_t occurrences, const Vector3d &position,
@@ -265,6 +272,9 @@ private:
     ShapePtr _shape{nullptr};
 #ifdef USE_VASCULATURE
     VasculaturePtr _vasculature{nullptr};
+#endif
+#ifdef USE_MORPHOLOGIES
+    AstrocytesPtr _astrocytes{nullptr};
 #endif
 };
 } // namespace common

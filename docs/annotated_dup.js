@@ -109,6 +109,9 @@ var annotated_dup =
         [ "ResidueSequence", "d0/df4/structbioexplorer_1_1molecularsystems_1_1ResidueSequence.html", "d0/df4/structbioexplorer_1_1molecularsystems_1_1ResidueSequence" ],
         [ "RNASequence", "d0/d53/classbioexplorer_1_1molecularsystems_1_1RNASequence.html", "d0/d53/classbioexplorer_1_1molecularsystems_1_1RNASequence" ]
       ] ],
+      [ "morphology", null, [
+        [ "Astrocytes", "d2/d3a/classbioexplorer_1_1morphology_1_1Astrocytes.html", "d2/d3a/classbioexplorer_1_1morphology_1_1Astrocytes" ]
+      ] ],
       [ "rendering", null, [
         [ "AdvancedMaterial", "d5/d4e/structbioexplorer_1_1rendering_1_1AdvancedMaterial.html", "d5/d4e/structbioexplorer_1_1rendering_1_1AdvancedMaterial" ],
         [ "AdvancedRenderer", "d9/d98/classbioexplorer_1_1rendering_1_1AdvancedRenderer.html", "d9/d98/classbioexplorer_1_1rendering_1_1AdvancedRenderer" ],

@@ -112,4 +112,8 @@ bool from_json(VasculatureRadiusReportDetails &param,
                const std::string &payload);
 #endif
 
+#ifdef USE_MORPHOLOGIES
+bool from_json(AstrocytesDetails &param, const std::string &payload);
+#endif
+
 #endif

@@ -134,7 +134,7 @@ $(document).ready(function(){initNavTree('d8/d31/AdvancedMaterial_8ispc_source.h
 <div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;    const uniform MaterialShadingMode&amp; shadingMode,</div>
 <div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;    const uniform float&amp; userParameter,</div>
 <div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;    const uniform MaterialChameleonMode&amp; chameleonMode,</div>
-<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;    const uniform uint32&amp; nodeId, const uniform bool castSimulationData)</div>
+<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;    const uniform uint32&amp; nodeId, const uniform bool castUserData)</div>
 <div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;{</div>
 <div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;    uniform AdvancedMaterial* uniform self =</div>
 <div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;        (uniform AdvancedMaterial * uniform) _mat;</div>
@@ -162,7 +162,7 @@ $(document).ready(function(){initNavTree('d8/d31/AdvancedMaterial_8ispc_source.h
 <div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;    self-&gt;userParameter = userParameter;</div>
 <div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;    self-&gt;chameleonMode = chameleonMode;</div>
 <div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;    self-&gt;nodeId = nodeId;</div>
-<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;    self-&gt;castSimulationData = castSimulationData;</div>
+<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;    self-&gt;castUserData = castUserData;</div>
 <div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;}</div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->

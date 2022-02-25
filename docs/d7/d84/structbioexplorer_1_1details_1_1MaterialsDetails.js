@@ -1,5 +1,6 @@
 var structbioexplorer_1_1details_1_1MaterialsDetails =
 [
+    [ "castUserData", "d7/d84/structbioexplorer_1_1details_1_1MaterialsDetails.html#a70a367470459cedd4dfd9ed1a1c89868", null ],
     [ "chameleonModes", "d7/d84/structbioexplorer_1_1details_1_1MaterialsDetails.html#a954692e07755f928b8af8061e9705644", null ],
     [ "diffuseColors", "d7/d84/structbioexplorer_1_1details_1_1MaterialsDetails.html#affc80c67c1a263a29dbaf172f2874609", null ],
     [ "emissions", "d7/d84/structbioexplorer_1_1details_1_1MaterialsDetails.html#a4e12a0cac53dc651137fa643bc79c61c", null ],

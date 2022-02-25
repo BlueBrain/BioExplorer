@@ -1,8 +1,8 @@
 var searchData=
 [
-  ['occupancy_636',['occupancy',['../df/d73/structbioexplorer_1_1molecularsystems_1_1Atom.html#a10abab8540d2a46a608390d3ae45cd5a',1,'bioexplorer::molecularsystems::Atom']]],
-  ['occurrences_637',['occurrences',['../de/d0e/structbioexplorer_1_1details_1_1ProteinDetails.html#a21028bb0639c0b790235dc4e125f9580',1,'bioexplorer::details::ProteinDetails']]],
-  ['offset_638',['offset',['../d0/df4/structbioexplorer_1_1molecularsystems_1_1ResidueSequence.html#a41398b0139f99c1bbaa6ef951bb460fd',1,'bioexplorer::molecularsystems::ResidueSequence']]],
-  ['opacities_639',['opacities',['../d7/d84/structbioexplorer_1_1details_1_1MaterialsDetails.html#a95eff00525ddcb9a3d67e069701c38de',1,'bioexplorer::details::MaterialsDetails']]],
-  ['opacity_640',['opacity',['../db/d48/structbioexplorer_1_1details_1_1AddSphereDetails.html#a0b0a6f2d7a3c2dc48fb3fb6620c1360b',1,'bioexplorer::details::AddSphereDetails']]]
+  ['occupancy_628',['occupancy',['../df/d73/structbioexplorer_1_1molecularsystems_1_1Atom.html#a10abab8540d2a46a608390d3ae45cd5a',1,'bioexplorer::molecularsystems::Atom']]],
+  ['occurrences_629',['occurrences',['../de/d0e/structbioexplorer_1_1details_1_1ProteinDetails.html#a21028bb0639c0b790235dc4e125f9580',1,'bioexplorer::details::ProteinDetails']]],
+  ['offset_630',['offset',['../d0/df4/structbioexplorer_1_1molecularsystems_1_1ResidueSequence.html#a41398b0139f99c1bbaa6ef951bb460fd',1,'bioexplorer::molecularsystems::ResidueSequence']]],
+  ['opacities_631',['opacities',['../d7/d84/structbioexplorer_1_1details_1_1MaterialsDetails.html#a95eff00525ddcb9a3d67e069701c38de',1,'bioexplorer::details::MaterialsDetails']]],
+  ['opacity_632',['opacity',['../db/d48/structbioexplorer_1_1details_1_1AddSphereDetails.html#a0b0a6f2d7a3c2dc48fb3fb6620c1360b',1,'bioexplorer::details::AddSphereDetails']]]
 ];
