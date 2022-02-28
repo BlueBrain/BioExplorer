@@ -129,11 +129,20 @@ public:
     /**
      * @brief Get the Edges for a given population
      *
-     * @param populationId Id of the population
+     * @param populationName Name of the population
      * @return EdgeNodes
      */
     GeometryEdges getVasculatureEdges(const std::string& populationName,
                                       const std::string& filter = "") const;
+
+    /**
+     * @brief Get the bifurcations for a given population
+     *
+     * @param populationName Name of the population
+     * @return Bifurcations
+     */
+    Bifurcations getVasculatureBifurcations(
+        const std::string& populationName) const;
 
     /**
      * @brief Get information about the simulation Report

@@ -23,6 +23,7 @@
 
 #include <plugin/io/db/DBConnector.h>
 
+#include <brayns/common/Timer.h>
 #include <brayns/engineapi/Material.h>
 #include <brayns/engineapi/Model.h>
 #include <brayns/engineapi/Scene.h>
@@ -42,7 +43,9 @@ Astrocytes::Astrocytes(Scene& scene, const AstrocytesDetails& details)
     : _details(details)
     , _scene(scene)
 {
+    Timer chrono;
     _buildModel();
+    PLUGIN_TIMER(chrono.elapsed(), "Astrocytes loaded");
 }
 
 size_t Astrocytes::_addSDFGeometry(SDFMorphologyData& sdfMorphologyData,
@@ -67,7 +70,8 @@ void Astrocytes::_addStepConeGeometry(
 {
     if (useSDF)
     {
-        const Vector3f displacementParams(std::min(radius, 0.05), 1.2, 2.0);
+        const Vector3f displacementParams(std::min(radius, 0.5), radius / 2.0,
+                                          2.0);
         const auto geom =
             (abs(radius - previousRadius) < 1e-6)
                 ? createSDFPill(position, target, radius, userDataOffset,

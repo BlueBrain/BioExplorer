@@ -67,7 +67,7 @@ void DBConnector::init(const CommandLineArguments& arguments)
         const std::string connectionString =
             "host=" + dbHost + " port=" + dbPort + " dbname=" + dbName +
             " user=" + dbUser + " password=" + dbPassword;
-        PLUGIN_ERROR(connectionString);
+        PLUGIN_DEBUG(connectionString);
         _connection = ConnectionPtr(new pqxx::connection(connectionString));
     }
     catch (const pqxx::pqxx_exception& e)
@@ -125,7 +125,6 @@ const OOCSceneConfigurationDetails DBConnector::getSceneConfiguration()
     {
         PLUGIN_THROW(e.what());
     }
-    transaction.abort();
     return sceneConfiguration;
 }
 
@@ -180,7 +179,6 @@ std::stringstream DBConnector::getBrick(const int32_t brickId,
     {
         PLUGIN_THROW(e.what());
     }
-    transaction.abort();
 
     return s;
 }
@@ -202,10 +200,8 @@ uint64_t DBConnector::getVasculaturePopulationId(
     }
     catch (pqxx::sql_error& e)
     {
-        transaction.abort();
         PLUGIN_THROW(e.what());
     }
-    transaction.abort();
     return populationId;
 }
 
@@ -219,38 +215,33 @@ GeometryNodes DBConnector::getVasculatureNodes(
     try
     {
         std::string sql =
-            "SELECT n.guid, n.x, n.y, n.z, n.radius, "
-            "v.section_guid, v.type_guid, v.subgraph_guid, v.pair_guid, "
-            "v.entry_node_guid FROM " +
-            DB_SCHEMA_VASCULATURE + ".node as n, " + DB_SCHEMA_VASCULATURE +
-            ".vasculature as v WHERE n.node_guid=v.node_guid AND "
-            "n.population_guid=v.population_guid AND "
-            "n.population_guid=" +
-            std::to_string(populationId);
+            "SELECT guid, x, y, z, radius, section_guid, sub_graph_guid, "
+            "pair_guid, entry_node_guid FROM " +
+            DB_SCHEMA_VASCULATURE +
+            ".node WHERE population_guid=" + std::to_string(populationId);
         if (!filter.empty())
             sql += "AND " + filter;
+        sql += " ORDER BY guid";
         PLUGIN_DEBUG(sql);
         auto res = transaction.exec(sql);
         for (auto c = res.begin(); c != res.end(); ++c)
         {
             GeometryNode node;
+            const uint64_t guid = c[0].as<uint64_t>();
             node.position = Vector3d(c[1].as<double>(), c[2].as<double>(),
                                      c[3].as<double>());
             node.radius = c[4].as<double>();
             node.sectionId = c[5].as<uint64_t>();
-            node.type = c[6].as<uint64_t>();
-            node.graphId = c[7].as<uint64_t>();
-            node.pairId = c[8].as<uint64_t>();
-            node.entryNodeId = c[9].as<uint64_t>();
-            nodes[c[0].as<uint64_t>()] = node;
+            node.graphId = c[6].as<uint64_t>();
+            node.pairId = c[7].as<uint64_t>();
+            node.entryNodeId = c[8].as<uint64_t>();
+            nodes[guid] = node;
         }
     }
     catch (const pqxx::sql_error& e)
     {
-        transaction.abort();
         PLUGIN_THROW(e.what());
     }
-    transaction.abort();
 
     return nodes;
 }
@@ -281,9 +272,42 @@ GeometryEdges DBConnector::getVasculatureEdges(
     {
         PLUGIN_THROW(e.what());
     }
-    transaction.abort();
 
     return edges;
+}
+
+Bifurcations DBConnector::getVasculatureBifurcations(
+    const std::string& populationName) const
+{
+    const auto populationId = getVasculaturePopulationId(populationName);
+
+    Bifurcations bifurcations;
+    pqxx::read_transaction transaction(*_connection);
+    try
+    {
+        std::string sql =
+            "SELECT e.source_node_guid, e.target_node_guid FROM "
+            "vasculature.vasculature AS v, vasculature.edge AS e WHERE "
+            "v.bifurcation_guid !=0 AND e.source_node_guid=v.node_guid AND "
+            "v.population_guid=" +
+            std::to_string(populationId);
+
+        PLUGIN_DEBUG(sql);
+        auto res = transaction.exec(sql);
+        for (auto c = res.begin(); c != res.end(); ++c)
+        {
+            const auto sourceNodeId = c[0].as<uint64_t>();
+            const auto targetNodeId = c[0].as<uint64_t>();
+
+            bifurcations[sourceNodeId].push_back(targetNodeId);
+        }
+    }
+    catch (pqxx::sql_error& e)
+    {
+        PLUGIN_THROW(e.what());
+    }
+
+    return bifurcations;
 }
 
 SimulationReport DBConnector::getVasculatureSimulationReport(
@@ -319,7 +343,6 @@ SimulationReport DBConnector::getVasculatureSimulationReport(
     {
         PLUGIN_THROW(e.what());
     }
-    transaction.abort();
 
     return simulationReport;
 }
@@ -350,7 +373,6 @@ floats DBConnector::getVasculatureSimulationTimeSeries(
     {
         PLUGIN_THROW(e.what());
     }
-    transaction.abort();
 
     return values;
 }
@@ -408,10 +430,8 @@ SomaMap DBConnector::getNodes(const uint64_ts astrocyteIds,
     }
     catch (const pqxx::sql_error& e)
     {
-        transaction.abort();
         PLUGIN_THROW(e.what());
     }
-    transaction.abort();
 
     return somas;
 }
@@ -444,10 +464,8 @@ SectionMap DBConnector::getAstrocyteSections(const int64_t astrocyteId) const
     }
     catch (const pqxx::sql_error& e)
     {
-        transaction.abort();
         PLUGIN_THROW(e.what());
     }
-    transaction.abort();
 
     return sections;
 }
@@ -486,10 +504,8 @@ EndFootMap DBConnector::getAstrocyteEndFeetAreas(
     }
     catch (const pqxx::sql_error& e)
     {
-        transaction.abort();
         PLUGIN_THROW(e.what());
     }
-    transaction.abort();
 
     return endFeet;
 }

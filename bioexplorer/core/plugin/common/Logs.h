@@ -58,8 +58,7 @@ namespace common
     {                                                                   \
         std::cout << "I [" << PLUGIN_PREFIX << "] [";                   \
         const float __mv = float(__maxValue);                           \
-        const float __step = 100.f / __mv;                              \
-        const uint32_t __pos = __progress / __mv * 50.f;                \
+        const uint32_t __pos = 1 + __progress / __mv * 50.f;            \
         for (uint32_t __i = 0; __i < 50; ++__i)                         \
         {                                                               \
             if (__i < __pos)                                            \
