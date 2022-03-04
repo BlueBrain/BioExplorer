@@ -272,11 +272,12 @@ class BioExplorer:
     VASCULATURE_QUALITY_HIGH = 2
 
     VASCULATURE_COLOR_SCHEME_NONE = 0
-    VASCULATURE_COLOR_SCHEME_EDGE = 1
+    VASCULATURE_COLOR_SCHEME_NODE = 1
     VASCULATURE_COLOR_SCHEME_SECTION = 2
     VASCULATURE_COLOR_SCHEME_SUBGRAPH = 3
     VASCULATURE_COLOR_SCHEME_PAIR = 4
     VASCULATURE_COLOR_SCHEME_ENTRYNODE = 5
+    VASCULATURE_COLOR_SCHEME_SECTION_GRADIENT = 6
 
     MORPHOLOGY_COLOR_SCHEME_NONE = 0
     MORPHOLOGY_COLOR_SCHEME_SECTION = 1
@@ -2226,8 +2227,8 @@ class BioExplorer:
         """
         palette_size = 1
         vasculature_info = self.get_vasculature_info(assembly_name)
-        if color_scheme == self.VASCULATURE_COLOR_SCHEME_EDGE:
-            palette_size = vasculature_info['nbEdges']
+        if color_scheme == self.VASCULATURE_COLOR_SCHEME_NODE:
+            palette_size = vasculature_info['nbNodes']
         elif color_scheme == self.VASCULATURE_COLOR_SCHEME_SECTION:
             palette_size = vasculature_info['nbSections']
         elif color_scheme == self.VASCULATURE_COLOR_SCHEME_SUBGRAPH:
@@ -2236,6 +2237,8 @@ class BioExplorer:
             palette_size = vasculature_info['nbPairs']
         elif color_scheme == self.VASCULATURE_COLOR_SCHEME_ENTRYNODE:
             palette_size = vasculature_info['nbEntryNodes']
+        elif color_scheme == self.VASCULATURE_COLOR_SCHEME_SECTION_GRADIENT:
+            palette_size = vasculature_info['nbMaxPointsPerSection']
 
         palette = sns.color_palette(palette_name, palette_size)
         colors = list()

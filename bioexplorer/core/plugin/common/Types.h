@@ -836,8 +836,8 @@ enum class VasculatureColorScheme
 {
     /** All edges use the same color */
     none = 0,
-    /** Colored by edge */
-    edge = 1,
+    /** Colored by node */
+    node = 1,
     /** Colored by section */
     section = 2,
     /** Colored by sub-graph */
@@ -845,7 +845,9 @@ enum class VasculatureColorScheme
     /** Colored by pair */
     pair = 4,
     /** Colored by entry node */
-    entry_node = 5
+    entry_node = 5,
+    /** Gradient colored sections */
+    section_gradient = 6
 };
 
 enum class VasculatureQuality
@@ -865,8 +867,6 @@ typedef struct
     bool useSdf;
     /** Node gids to load. All if empty */
     std::vector<uint32_t> gids;
-    /** Load capilarities */
-    bool loadCapilarities;
     /** Geometry quality */
     VasculatureQuality quality;
     /** Multiplies the vasculature section radii by the specified value */
@@ -996,7 +996,19 @@ typedef struct
 } GeometryNode;
 using GeometryNodes = std::map<uint64_t, GeometryNode>;
 using GeometryEdges = std::map<uint64_t, uint64_t>;
+using Bifurcations = std::map<uint64_t, uint64_ts>;
 
+// SDF structures
+struct SDFMorphologyData
+{
+    std::vector<SDFGeometry> geometries;
+    std::vector<std::set<size_t>> neighbours;
+    std::vector<size_t> materials;
+    std::vector<size_t> localToGlobalIdx;
+    std::vector<size_t> bifurcationIndices;
+    std::unordered_map<size_t, int> geometrySection;
+    std::unordered_map<int, std::vector<size_t>> sectionGeometries;
+};
 } // namespace common
 
 namespace molecularsystems
@@ -1226,21 +1238,6 @@ typedef struct
 using EndFootMap = std::map<uint64_t, EndFoot>;
 } // namespace morphology
 #endif
-
-namespace geometry
-{
-// SDF structures
-struct SDFMorphologyData
-{
-    std::vector<SDFGeometry> geometries;
-    std::vector<std::set<size_t>> neighbours;
-    std::vector<size_t> materials;
-    std::vector<size_t> localToGlobalIdx;
-    std::vector<size_t> bifurcationIndices;
-    std::unordered_map<size_t, int> geometrySection;
-    std::unordered_map<int, std::vector<size_t>> sectionGeometries;
-};
-} // namespace geometry
 
 namespace io
 {

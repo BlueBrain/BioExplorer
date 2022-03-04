@@ -33,17 +33,9 @@ namespace vasculature
 {
 using namespace brayns;
 using namespace common;
-using namespace geometry;
-
-enum class EdgeType
-{
-    artery = 0,
-    capilarity = 1,
-    vein = 2
-};
 
 /**
- * Load vasculature from H5 file
+ * Load vasculature from database
  */
 class Vasculature : public common::Node
 {
@@ -60,25 +52,19 @@ public:
     uint64_t getNbEntryNodes() const { return _nbEntryNodes; }
     uint64_t getNbSections() const { return _sectionIds.size(); }
     uint64_t getPopulationSize() const { return _populationSize; }
+    uint64_t getNbMaxPointsPerSection() const { return _nbMaxPointsPerSection; }
+
+private:
+    std::set<uint64_t> _buildGraphModel(
+        Model& model, const VasculatureColorSchemeDetails& details);
+    std::set<uint64_t> _buildSimpleModel(
+        Model& model, const VasculatureColorSchemeDetails& details);
+    std::set<uint64_t> _buildAdvancedModel(
+        Model& model, const VasculatureColorSchemeDetails& details);
 
     void _importFromDB();
     void _buildModel(const VasculatureColorSchemeDetails& details =
                          VasculatureColorSchemeDetails());
-    size_t _addSDFGeometry(SDFMorphologyData& sdfMorphologyData,
-                           const SDFGeometry& geometry,
-                           const std::set<size_t>& neighbours,
-                           const size_t materialId, const int section);
-
-    void _addStepConeGeometry(
-        const bool useSDF, const Vector3d& position, const double radius,
-        const Vector3d& target, const double previousRadius,
-        const size_t materialId, const uint64_t& userDataOffset, Model& model,
-        SDFMorphologyData& sdfMorphologyData, const uint32_t sdfGroupId,
-        const Vector3f& displacementParams = Vector3f(0.f));
-
-    void _finalizeSDFGeometries(Model& model,
-                                SDFMorphologyData& sdfMorphologyData);
-
     const VasculatureDetails _details;
     Scene& _scene;
     GeometryNodes _nodes;
@@ -86,6 +72,7 @@ public:
     std::set<uint64_t> _graphs;
     std::set<uint64_t> _sectionIds;
     std::map<uint64_t, uint64_ts> _sections;
+    uint64_t _nbMaxPointsPerSection{0};
     uint64_t _nbPairs{0};
     uint64_t _nbEntryNodes{0};
 };

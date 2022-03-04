@@ -23,6 +23,7 @@
 
 #include <plugin/io/db/DBConnector.h>
 
+#include <brayns/common/Timer.h>
 #include <brayns/engineapi/Material.h>
 #include <brayns/engineapi/Model.h>
 #include <brayns/engineapi/Scene.h>
@@ -32,7 +33,6 @@ namespace bioexplorer
 namespace morphology
 {
 using namespace common;
-using namespace geometry;
 using namespace io;
 using namespace db;
 
@@ -42,91 +42,9 @@ Astrocytes::Astrocytes(Scene& scene, const AstrocytesDetails& details)
     : _details(details)
     , _scene(scene)
 {
+    Timer chrono;
     _buildModel();
-}
-
-size_t Astrocytes::_addSDFGeometry(SDFMorphologyData& sdfMorphologyData,
-                                   const SDFGeometry& geometry,
-                                   const std::set<size_t>& neighbours,
-                                   const size_t materialId, const int section)
-{
-    const size_t idx = sdfMorphologyData.geometries.size();
-    sdfMorphologyData.geometries.push_back(geometry);
-    sdfMorphologyData.neighbours.push_back(neighbours);
-    sdfMorphologyData.materials.push_back(materialId);
-    sdfMorphologyData.geometrySection[idx] = section;
-    sdfMorphologyData.sectionGeometries[section].push_back(idx);
-    return idx;
-}
-
-void Astrocytes::_addStepConeGeometry(
-    const bool useSDF, const Vector3d& position, const double radius,
-    const Vector3d& target, const double previousRadius,
-    const size_t materialId, const uint64_t& userDataOffset, Model& model,
-    SDFMorphologyData& sdfMorphologyData, const uint32_t sdfGroupId)
-{
-    if (useSDF)
-    {
-        const Vector3f displacementParams(std::min(radius, 0.05), 1.2, 2.0);
-        const auto geom =
-            (abs(radius - previousRadius) < 1e-6)
-                ? createSDFPill(position, target, radius, userDataOffset,
-                                displacementParams)
-                : createSDFConePill(position, target, radius, previousRadius,
-                                    userDataOffset, displacementParams);
-        _addSDFGeometry(sdfMorphologyData, geom, {}, materialId, sdfGroupId);
-    }
-    else if (abs(radius - previousRadius) < 1e-6)
-        model.addCylinder(materialId,
-                          {position, target, static_cast<float>(radius),
-                           userDataOffset});
-    else
-        model.addCone(materialId,
-                      {position, target, static_cast<float>(radius),
-                       static_cast<float>(previousRadius), userDataOffset});
-}
-
-void Astrocytes::_finalizeSDFGeometries(Model& model,
-                                        SDFMorphologyData& sdfMorphologyData)
-{
-    const size_t numGeoms = sdfMorphologyData.geometries.size();
-    sdfMorphologyData.localToGlobalIdx.resize(numGeoms, 0);
-
-    // Extend neighbours to make sure smoothing is applied on all
-    // closely connected geometries
-    for (size_t rep = 0; rep < 4; rep++)
-    {
-        const size_t numNeighs = sdfMorphologyData.neighbours.size();
-        auto neighsCopy = sdfMorphologyData.neighbours;
-        for (size_t i = 0; i < numNeighs; i++)
-        {
-            for (size_t j : sdfMorphologyData.neighbours[i])
-            {
-                for (size_t newNei : sdfMorphologyData.neighbours[j])
-                {
-                    neighsCopy[i].insert(newNei);
-                    neighsCopy[newNei].insert(i);
-                }
-            }
-        }
-        sdfMorphologyData.neighbours = neighsCopy;
-    }
-
-    for (size_t i = 0; i < numGeoms; i++)
-    {
-        // Convert neighbours from set to vector and erase itself from its
-        // neighbours
-        std::vector<size_t> neighbours;
-        const auto& neighSet = sdfMorphologyData.neighbours[i];
-        std::copy(neighSet.begin(), neighSet.end(),
-                  std::back_inserter(neighbours));
-        neighbours.erase(std::remove_if(neighbours.begin(), neighbours.end(),
-                                        [i](size_t elem) { return elem == i; }),
-                         neighbours.end());
-
-        model.addSDFGeometry(sdfMorphologyData.materials[i],
-                             sdfMorphologyData.geometries[i], neighbours);
-    }
+    PLUGIN_TIMER(chrono.elapsed(), "Astrocytes loaded");
 }
 
 void Astrocytes::_buildModel()
