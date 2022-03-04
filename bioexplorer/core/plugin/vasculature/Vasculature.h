@@ -33,10 +33,9 @@ namespace vasculature
 {
 using namespace brayns;
 using namespace common;
-using namespace geometry;
 
 /**
- * Load vasculature from H5 file
+ * Load vasculature from database
  */
 class Vasculature : public common::Node
 {
@@ -55,6 +54,7 @@ public:
     uint64_t getPopulationSize() const { return _populationSize; }
     uint64_t getNbMaxPointsPerSection() const { return _nbMaxPointsPerSection; }
 
+private:
     std::set<uint64_t> _buildGraphModel(
         Model& model, const VasculatureColorSchemeDetails& details);
     std::set<uint64_t> _buildSimpleModel(
@@ -65,29 +65,6 @@ public:
     void _importFromDB();
     void _buildModel(const VasculatureColorSchemeDetails& details =
                          VasculatureColorSchemeDetails());
-    size_t _addSDFGeometry(SDFMorphologyData& sdfMorphologyData,
-                           const SDFGeometry& geometry,
-                           const std::set<size_t>& neighbours,
-                           const size_t materialId, const int section);
-
-    void _addStepSphereGeometry(
-        const bool useSDF, const Vector3d& position, const double radius,
-        const size_t materialId, const uint64_t userDataOffset, Model& model,
-        SDFMorphologyData& sdfMorphologyData, const uint32_t sdfGroupId,
-        const Vector3f& displacementParams = Vector3f());
-
-    void _addStepConeGeometry(const bool useSDF, const Vector3d& position,
-                              const double radius, const Vector3d& target,
-                              const double previousRadius,
-                              const size_t materialId,
-                              const uint64_t userDataOffset, Model& model,
-                              SDFMorphologyData& sdfMorphologyData,
-                              const uint32_t sdfGroupId,
-                              const Vector3f& displacementParams = Vector3f());
-
-    void _finalizeSDFGeometries(Model& model,
-                                SDFMorphologyData& sdfMorphologyData);
-
     const VasculatureDetails _details;
     Scene& _scene;
     GeometryNodes _nodes;

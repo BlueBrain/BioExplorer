@@ -998,6 +998,17 @@ using GeometryNodes = std::map<uint64_t, GeometryNode>;
 using GeometryEdges = std::map<uint64_t, uint64_t>;
 using Bifurcations = std::map<uint64_t, uint64_ts>;
 
+// SDF structures
+struct SDFMorphologyData
+{
+    std::vector<SDFGeometry> geometries;
+    std::vector<std::set<size_t>> neighbours;
+    std::vector<size_t> materials;
+    std::vector<size_t> localToGlobalIdx;
+    std::vector<size_t> bifurcationIndices;
+    std::unordered_map<size_t, int> geometrySection;
+    std::unordered_map<int, std::vector<size_t>> sectionGeometries;
+};
 } // namespace common
 
 namespace molecularsystems
@@ -1227,21 +1238,6 @@ typedef struct
 using EndFootMap = std::map<uint64_t, EndFoot>;
 } // namespace morphology
 #endif
-
-namespace geometry
-{
-// SDF structures
-struct SDFMorphologyData
-{
-    std::vector<SDFGeometry> geometries;
-    std::vector<std::set<size_t>> neighbours;
-    std::vector<size_t> materials;
-    std::vector<size_t> localToGlobalIdx;
-    std::vector<size_t> bifurcationIndices;
-    std::unordered_map<size_t, int> geometrySection;
-    std::unordered_map<int, std::vector<size_t>> sectionGeometries;
-};
-} // namespace geometry
 
 namespace io
 {

@@ -28,7 +28,6 @@ namespace morphology
 {
 using namespace brayns;
 using namespace common;
-using namespace geometry;
 
 /**
  * Load astrocytes from database
@@ -40,22 +39,6 @@ public:
 
 private:
     void _buildModel();
-    size_t _addSDFGeometry(SDFMorphologyData& sdfMorphologyData,
-                           const SDFGeometry& geometry,
-                           const std::set<size_t>& neighbours,
-                           const size_t materialId, const int section);
-
-    void _addStepConeGeometry(const bool useSDF, const Vector3d& position,
-                              const double radius, const Vector3d& target,
-                              const double previousRadius,
-                              const size_t materialId,
-                              const uint64_t& userDataOffset, Model& model,
-                              SDFMorphologyData& sdfMorphologyData,
-                              const uint32_t sdfGroupId);
-
-    void _finalizeSDFGeometries(Model& model,
-                                SDFMorphologyData& sdfMorphologyData);
-
     const AstrocytesDetails _details;
     Scene& _scene;
 };

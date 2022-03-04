@@ -35,7 +35,6 @@ namespace bioexplorer
 namespace vasculature
 {
 using namespace common;
-using namespace geometry;
 using namespace io;
 using namespace db;
 
@@ -47,119 +46,6 @@ Vasculature::Vasculature(Scene& scene, const VasculatureDetails& details)
     _importFromDB();
     _buildModel();
     PLUGIN_TIMER(chrono.elapsed(), "Vasculature loaded");
-}
-
-// From http://en.cppreference.com/w/cpp/types/numeric_limits/epsilon
-template <class T>
-typename std::enable_if<!std::numeric_limits<T>::is_integer, bool>::type
-    almost_equal(T x, T y, int ulp)
-{
-    // the machine epsilon has to be scaled to the magnitude of the values used
-    // and multiplied by the desired precision in ULPs (units in the last place)
-    return std::abs(x - y) <=
-               std::numeric_limits<T>::epsilon() * std::abs(x + y) * ulp
-           // unless the result is subnormal
-           || std::abs(x - y) < std::numeric_limits<T>::min();
-}
-
-// TODO: Generalise SDF for any type of asset
-size_t Vasculature::_addSDFGeometry(SDFMorphologyData& sdfMorphologyData,
-                                    const SDFGeometry& geometry,
-                                    const std::set<size_t>& neighbours,
-                                    const size_t materialId, const int section)
-{
-    const size_t idx = sdfMorphologyData.geometries.size();
-    sdfMorphologyData.geometries.push_back(geometry);
-    sdfMorphologyData.neighbours.push_back(neighbours);
-    sdfMorphologyData.materials.push_back(materialId);
-    sdfMorphologyData.geometrySection[idx] = section;
-    sdfMorphologyData.sectionGeometries[section].push_back(idx);
-    return idx;
-}
-
-void Vasculature::_addStepSphereGeometry(
-    const bool useSDF, const Vector3d& position, const double radius,
-    const size_t materialId, const uint64_t userData, Model& model,
-    SDFMorphologyData& sdfMorphologyData, const uint32_t sdfGroupId,
-    const Vector3f& displacementParams)
-{
-    if (useSDF)
-        _addSDFGeometry(sdfMorphologyData,
-                        createSDFSphere(position, radius, userData,
-                                        displacementParams),
-                        {}, materialId, sdfGroupId);
-    else
-        model.addSphere(materialId,
-                        {position, static_cast<float>(radius), userData});
-}
-
-void Vasculature::_addStepConeGeometry(
-    const bool useSDF, const Vector3d& position, const double radius,
-    const Vector3d& target, const double previousRadius,
-    const size_t materialId, const uint64_t userData, Model& model,
-    SDFMorphologyData& sdfMorphologyData, const uint32_t sdfGroupId,
-    const Vector3f& displacementParams)
-{
-    if (useSDF)
-    {
-        const auto geom =
-            (almost_equal(radius, previousRadius, 100000))
-                ? createSDFPill(position, target, radius, userData,
-                                displacementParams)
-                : createSDFConePill(position, target, radius, previousRadius,
-                                    userData, displacementParams);
-        _addSDFGeometry(sdfMorphologyData, geom, {}, materialId, sdfGroupId);
-    }
-    else if (almost_equal(radius, previousRadius, 100000))
-        model.addCylinder(materialId, {position, target,
-                                       static_cast<float>(radius), userData});
-    else
-        model.addCone(materialId,
-                      {position, target, static_cast<float>(radius),
-                       static_cast<float>(previousRadius), userData});
-}
-
-void Vasculature::_finalizeSDFGeometries(Model& model,
-                                         SDFMorphologyData& sdfMorphologyData)
-{
-    const size_t numGeoms = sdfMorphologyData.geometries.size();
-    sdfMorphologyData.localToGlobalIdx.resize(numGeoms, 0);
-
-    // Extend neighbours to make sure smoothing is applied on all
-    // closely connected geometries
-    for (size_t rep = 0; rep < 4; rep++)
-    {
-        const size_t numNeighs = sdfMorphologyData.neighbours.size();
-        auto neighsCopy = sdfMorphologyData.neighbours;
-        for (size_t i = 0; i < numNeighs; i++)
-        {
-            for (size_t j : sdfMorphologyData.neighbours[i])
-            {
-                for (size_t newNei : sdfMorphologyData.neighbours[j])
-                {
-                    neighsCopy[i].insert(newNei);
-                    neighsCopy[newNei].insert(i);
-                }
-            }
-        }
-        sdfMorphologyData.neighbours = neighsCopy;
-    }
-
-    for (size_t i = 0; i < numGeoms; i++)
-    {
-        // Convert neighbours from set to vector and erase itself from its
-        // neighbours
-        std::vector<size_t> neighbours;
-        const auto& neighSet = sdfMorphologyData.neighbours[i];
-        std::copy(neighSet.begin(), neighSet.end(),
-                  std::back_inserter(neighbours));
-        neighbours.erase(std::remove_if(neighbours.begin(), neighbours.end(),
-                                        [i](size_t elem) { return elem == i; }),
-                         neighbours.end());
-
-        model.addSDFGeometry(sdfMorphologyData.materials[i],
-                             sdfMorphologyData.geometries[i], neighbours);
-    }
 }
 
 void Vasculature::_importFromDB()
