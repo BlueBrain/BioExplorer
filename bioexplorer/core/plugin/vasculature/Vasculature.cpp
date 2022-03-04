@@ -223,7 +223,7 @@ std::set<uint64_t> Vasculature::_buildAdvancedModel(
     size_t materialId = 0;
     for (const auto& section : _sections)
     {
-        Vector4ds controlPoints;
+        Vector4fs controlPoints;
         for (const auto& nodeId : section.second)
         {
             const auto& node = _nodes[nodeId];

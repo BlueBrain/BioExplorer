@@ -44,6 +44,7 @@
 
 #ifdef USE_MORPHOLOGIES
 #include <plugin/morphologies/Astrocytes.h>
+#include <plugin/morphologies/Neurons.h>
 #endif
 
 #include <brayns/engineapi/Model.h>
@@ -653,6 +654,16 @@ void Assembly::addAstrocytes(const AstrocytesDetails &details)
                      details.assemblyName);
 
     _astrocytes = AstrocytesPtr(new Astrocytes(_scene, details));
+    _scene.markModified(false);
+}
+
+void Assembly::addNeurons(const NeuronsDetails &details)
+{
+    if (_neurons)
+        PLUGIN_THROW("Neurons already exists in assembly " +
+                     details.assemblyName);
+
+    _neurons = NeuronsPtr(new Neurons(_scene, details));
     _scene.markModified(false);
 }
 #endif

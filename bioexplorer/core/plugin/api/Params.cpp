@@ -801,7 +801,6 @@ bool from_json(AstrocytesDetails &param, const std::string &payload)
         auto js = nlohmann::json::parse(payload);
         FROM_JSON(param, js, assemblyName);
         FROM_JSON(param, js, populationName);
-        FROM_JSON(param, js, astrocyteIds);
         FROM_JSON(param, js, useSdf);
         FROM_JSON(param, js, loadSomas);
         FROM_JSON(param, js, loadDendrites);
@@ -811,6 +810,34 @@ bool from_json(AstrocytesDetails &param, const std::string &payload)
         FROM_JSON(param, js, populationColorScheme);
         FROM_JSON(param, js, radiusMultiplier);
         FROM_JSON(param, js, sqlFilter);
+    }
+    catch (...)
+    {
+        return false;
+    }
+    return true;
+}
+
+bool from_json(NeuronsDetails &param, const std::string &payload)
+{
+    try
+    {
+        auto js = nlohmann::json::parse(payload);
+        FROM_JSON(param, js, assemblyName);
+        FROM_JSON(param, js, populationName);
+        FROM_JSON(param, js, loadSomas);
+        FROM_JSON(param, js, loadAxons);
+        FROM_JSON(param, js, loadBasalDendrites);
+        FROM_JSON(param, js, loadApicalDendrites);
+        FROM_JSON(param, js, generateInternals);
+        FROM_JSON(param, js, generateExternals);
+        FROM_JSON(param, js, useSdf);
+        FROM_JSON(param, js, geometryQuality);
+        FROM_JSON(param, js, morphologyColorScheme);
+        FROM_JSON(param, js, populationColorScheme);
+        FROM_JSON(param, js, radiusMultiplier);
+        FROM_JSON(param, js, sqlNodeFilter);
+        FROM_JSON(param, js, sqlSectionFilter);
     }
     catch (...)
     {

@@ -945,8 +945,6 @@ typedef struct
     std::string assemblyName;
     /** Name of the population of astrocytes */
     std::string populationName;
-    /** Astrocyte Ids */
-    uint64_ts astrocyteIds;
     /** Load somas if set to true */
     bool loadSomas;
     /** Load dendrites if set to true */
@@ -966,6 +964,48 @@ typedef struct
     /** SQL filter (WHERE condition) */
     std::string sqlFilter;
 } AstrocytesDetails;
+
+enum class NeuronSectionType
+{
+    soma = 0,
+    axon = 1,
+    basal_dendrite = 2,
+    apical_dendrite = 3
+};
+
+typedef struct
+{
+    /** Name of the assembly containing the astrocytes */
+    std::string assemblyName;
+    /** Name of the population of astrocytes */
+    std::string populationName;
+    /** Load somas if set to true */
+    bool loadSomas;
+    /** Load axons if set to true */
+    bool loadAxons;
+    /** Load bascal dendrites if set to true */
+    bool loadBasalDendrites;
+    /** Load apical dendrites if set to true */
+    bool loadApicalDendrites;
+    /** Generate internal components (nucleus and mitochondria) */
+    bool generateInternals;
+    /** Generate external components (myelin steath) */
+    bool generateExternals;
+    /** Use Signed Distance Fields as geometry */
+    bool useSdf;
+    /** Geometry quality */
+    GeometryQuality geometryQuality;
+    /** Geometry color scheme */
+    MorphologyColorScheme morphologyColorScheme;
+    /** Population color scheme */
+    PopulationColorScheme populationColorScheme;
+    /** Multiplies the astrocyte section radii by the specified value */
+    double radiusMultiplier;
+    /** SQL filter for nodes (WHERE condition) */
+    std::string sqlNodeFilter;
+    /** SQL filter dor sections (WHERE condition) */
+    std::string sqlSectionFilter;
+} NeuronsDetails;
 #endif
 
 } // namespace details
@@ -1213,14 +1253,26 @@ namespace morphology
 {
 class Astrocytes;
 using AstrocytesPtr = std::shared_ptr<Astrocytes>;
+class Neurons;
+using NeuronsPtr = std::shared_ptr<Neurons>;
 
 typedef struct
 {
     Vector3d center;
     double radius;
     uint64_ts children;
-} Soma;
-using SomaMap = std::map<uint64_t, Soma>;
+} AstrocyteSoma;
+using AstrocyteSomaMap = std::map<uint64_t, AstrocyteSoma>;
+
+typedef struct
+{
+    Vector3d center;
+    uint64_t eType;
+    uint64_t mType;
+    uint64_t layer;
+    uint64_t morphologyId;
+} NeuronSoma;
+using NeuronSomaMap = std::map<uint64_t, NeuronSoma>;
 
 typedef struct
 {

@@ -82,6 +82,7 @@ void AdvancedRenderer::commit()
     _timestamp = getParam1f("timestamp", 0.f);
     _bgMaterial = (AdvancedMaterial*)getParamObject("bgMaterial", nullptr);
     _exposure = getParam1f("exposure", 1.f);
+    _epsilonFactor = getParam1f("epsilonFactor", 1.f);
 
     _useHardwareRandomizer = getParam("useHardwareRandomizer", 0);
     _showBackground = getParam("showBackground", 0);
@@ -116,8 +117,8 @@ void AdvancedRenderer::commit()
         getIE(), (_bgMaterial ? _bgMaterial->getIE() : nullptr), _shadows,
         _softShadows, _softShadowsSamples, _giStrength, _giDistance, _giSamples,
         _randomNumber, _timestamp, spp, _lightPtr, _lightArray.size(),
-        _exposure, _fogThickness, _fogStart, _useHardwareRandomizer,
-        _maxBounces, _showBackground, _matrixFilter,
+        _exposure, _epsilonFactor, _fogThickness, _fogStart,
+        _useHardwareRandomizer, _maxBounces, _showBackground, _matrixFilter,
         _simulationData ? (float*)_simulationData->data : nullptr,
         _simulationDataSize);
 }

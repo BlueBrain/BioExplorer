@@ -136,9 +136,11 @@ endif()
 if(${NAME}_USE_MORPHOLOGIES)
     list(APPEND ${NAME}_SOURCES
         plugin/morphologies/Astrocytes.cpp
+        plugin/morphologies/Neurons.cpp
     )
     list(APPEND ${NAME}_PUBLIC_HEADERS
         plugin/morphologies/Astrocytes.h
+        plugin/morphologies/Neurons.h
 )
 endif()
 

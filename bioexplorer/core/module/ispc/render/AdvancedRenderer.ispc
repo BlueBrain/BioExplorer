@@ -352,7 +352,7 @@ inline bool launchRandomRay(
         else
             moreRebounds = false;
 
-        randomRay.t0 = randomRay.t + dg.epsilon;
+        randomRay.t0 = randomRay.t + self->epsilonFactor * dg.epsilon;
         randomRay.t = inf;
         randomRay.primID = -1;
         randomRay.geomID = -1;
@@ -438,7 +438,7 @@ inline float shadedLightIntensity(varying ScreenSample& sample,
         Ray shadowRay;
         shadowRay.org = dg.P;
         shadowRay.dir = ld;
-        shadowRay.t0 = max(0.f, dg.epsilon);
+        shadowRay.t0 = max(0.f, attributes.self->epsilonFactor * dg.epsilon);
         shadowRay.t = attributes.self->giDistance;
         shadowRay.time = inf;
         shadowRay.geomID = -1;
@@ -564,9 +564,10 @@ inline vec3f getChameleonColor(const uniform AdvancedRenderer* uniform self,
                             sample, neg(attributes.normal),
                             i + self->randomNumber);
         Ray ray;
-        ray.org = attributes.origin + randomDirection * dg.epsilon;
+        ray.org = attributes.origin +
+                  randomDirection * (self->epsilonFactor + dg.epsilon);
         ray.dir = randomDirection;
-        ray.t0 = max(0.f, dg.epsilon);
+        ray.t0 = max(0.f, self->epsilonFactor * dg.epsilon);
         ray.t = self->giDistance;
         ray.time = inf;
         ray.primID = -1;
@@ -962,7 +963,7 @@ inline vec3f AdvancedRenderer_shadeRay(
             setGeometryShadingAttributes(self, dg, sample, ray, attributes);
 
             if (attributes.chameleonMode == emitter)
-                ray.t0 = ray.t + dg.epsilon;
+                ray.t0 = ray.t + self->epsilonFactor * dg.epsilon;
             else
             {
                 // Compute simulation contribution
@@ -1035,8 +1036,8 @@ inline vec3f AdvancedRenderer_shadeRay(
                           color, 1.0f);
 
                 // Prepare next ray
-                ray.org = dg.P + ray.dir * dg.epsilon;
-                ray.t0 = max(0.f, dg.epsilon);
+                ray.org = dg.P + ray.dir * (self->epsilonFactor * dg.epsilon);
+                ray.t0 = max(0.f, self->epsilonFactor * dg.epsilon);
                 ++depth;
             }
 
@@ -1095,10 +1096,11 @@ export void AdvancedRenderer_set(
     const uniform uint32 giSamples, const uniform uint32 randomNumber,
     const uniform float timestamp, const uniform uint32 spp,
     void** uniform lights, const uniform uint32 numLights,
-    const uniform float exposure, const uniform float fogThickness,
-    const uniform float fogStart, const uniform bool useHardwareRandomizer,
-    const uniform uint32 maxBounces, const uniform bool showBackground,
-    const uniform bool matrixFilter, uniform float* uniform simulationData,
+    const uniform float exposure, const uniform float epsilonFactor,
+    const uniform float fogThickness, const uniform float fogStart,
+    const uniform bool useHardwareRandomizer, const uniform uint32 maxBounces,
+    const uniform bool showBackground, const uniform bool matrixFilter,
+    uniform float* uniform simulationData,
     const uniform uint64 simulationDataSize)
 {
     uniform AdvancedRenderer* uniform self =
@@ -1115,6 +1117,7 @@ export void AdvancedRenderer_set(
 
     self->timestamp = timestamp;
     self->exposure = exposure;
+    self->epsilonFactor = epsilonFactor;
     self->useHardwareRandomizer = useHardwareRandomizer;
     self->showBackground = showBackground;
 

@@ -289,6 +289,24 @@ class BioExplorer:
     GEOMETRY_QUALITY_MEDIUM = 1
     GEOMETRY_QUALITY_HIGH = 2
 
+    # Material offsets in astrocytes
+    NB_MATERIALS_PER_ASTROCYTE = 2
+    ASTROCYTE_MATERIAL_SOMA = 0
+    ASTROCYTE_MATERIAL_DENDRITE = 1
+
+    # Material offsets in neurons
+    NB_MATERIALS_PER_NEURON = 10
+    NEURON_MATERIAL_SOMA = 0
+    NEURON_MATERIAL_AXON = 1
+    NEURON_MATERIAL_BASAL_DENDRITE = 2
+    NEURON_MATERIAL_APICAL_DENDRITE = 3
+    NEURON_MATERIAL_AFFERENT_SYNPASE = 4
+    NEURON_MATERIAL_EFFERENT_SYNPASE = 5
+    NEURON_MATERIAL_MITOCHONDRION = 6
+    NEURON_MATERIAL_NUCLEUS = 7
+    NEURON_MATERIAL_MYELIN_STEATH = 8
+
+
     def __init__(self, url='localhost:5000'):
         """Create a new BioExplorer instance"""
         self._url = url
@@ -2292,8 +2310,7 @@ class BioExplorer:
 
     def add_astrocytes(
             self, assembly_name, population_name,
-            astrocyte_ids=list(), use_sdf=False,
-            load_somas=True,
+            use_sdf=False, load_somas=True,
             load_dendrites=True, load_end_feet=True,
             geometry_quality=GEOMETRY_QUALITY_HIGH,
             morphology_color_scheme=MORPHOLOGY_COLOR_SCHEME_NONE,
@@ -2304,7 +2321,6 @@ class BioExplorer:
 
         :assembly_name: Name of the assembly to which the astrocytes should be added
         :population_name: Name of the population of astrocytes
-        :astrocyte_ids Ids of the astrocytes
         :use_sdf: Use sign distance fields geometry to create the astrocytes. Defaults to False
         :load_somas: Load somas if set to true
         :load_dendrites: Load dendrites if set to true
@@ -2320,7 +2336,6 @@ class BioExplorer:
         params = dict()
         params["assemblyName"] = assembly_name
         params["populationName"] = population_name
-        params["astrocyteIds"] = astrocyte_ids
         params["useSdf"] = use_sdf
         params["loadSomas"] = load_somas
         params["loadDendrites"] = load_dendrites
@@ -2331,6 +2346,55 @@ class BioExplorer:
         params["radiusMultiplier"] = radius_multiplier
         params["sqlFilter"] = sql_filter
         return self._invoke_and_check('add-astrocytes', params)
+
+    def add_neurons(
+            self, assembly_name, population_name,
+            use_sdf=False,
+            load_somas=True, load_axons=True,
+            load_basal_dendrites=True, load_apical_dendrites=True,
+            generate_internals=False, generate_externals=False,
+            geometry_quality=GEOMETRY_QUALITY_HIGH,
+            morphology_color_scheme=MORPHOLOGY_COLOR_SCHEME_NONE,
+            population_color_scheme=POPULATION_COLOR_SCHEME_NONE,
+            radius_multiplier=0.0, sql_node_filter='', sql_section_filter=''):
+        """
+        Add a population of astrocytes to the 3D scene
+
+        :assembly_name: Name of the assembly to which the astrocytes should be added
+        :population_name: Name of the population of astrocytes
+        :use_sdf: Use sign distance fields geometry to create the astrocytes. Defaults to False
+        :load_somas: Load somas if set to true
+        :load_axons: Load axons if set to true
+        :load_basal_dendrites: Load basal dendrites if set to true
+        :load_apical_dendrites: Load apical dendrites if set to true
+        :generate_internals: Generate internals (Nucleus and mitochondria)
+        :generate_externals: Generate externals (Myelin steath)
+        :geometry_quality: Quality of the geometry
+        :morphology_color_scheme: Color scheme of the sections of the astrocytes
+        :populationColorScheme: Color scheme of the population of astrocytes
+        :radius_muliplier: Applies the multiplier to all radii of the astrocyte sections
+        :sql_node_filter: Condition added to the SQL statement loading the nodes
+        :sql_section_filter: Condition added to the SQL statement loading the sections
+
+        :return: Result of the request submission
+        """
+        params = dict()
+        params["assemblyName"] = assembly_name
+        params["populationName"] = population_name
+        params["loadSomas"] = load_somas
+        params["loadAxons"] = load_axons
+        params["loadBasalDendrites"] = load_basal_dendrites
+        params["loadApicalDendrites"] = load_apical_dendrites
+        params["generateInternals"] = generate_internals
+        params["generateExternals"] = generate_externals
+        params["useSdf"] = use_sdf
+        params["geometryQuality"] = geometry_quality
+        params["morphologyColorScheme"] = morphology_color_scheme
+        params["populationColorScheme"] = population_color_scheme
+        params["radiusMultiplier"] = radius_multiplier
+        params["sqlNodeFilter"] = sql_node_filter
+        params["sqlSectionFilter"] = sql_section_filter
+        return self._invoke_and_check('add-neurons', params)
 
 # Private classes
 
