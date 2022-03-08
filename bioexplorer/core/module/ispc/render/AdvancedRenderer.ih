@@ -45,6 +45,7 @@ struct AdvancedRenderer
     bool useHardwareRandomizer;
     bool showBackground;
     uint32 maxBounces;
+    float epsilonFactor;
 
     float timestamp;
     uint32 randomNumber;

@@ -36,7 +36,9 @@ using namespace common;
 using namespace io;
 using namespace db;
 
-const size_t NB_MATERIALS_PER_ASTROCYTE = 4;
+const size_t NB_MATERIALS_PER_ASTROCYTE = 2;
+const size_t MATERIAL_OFFSET_SOMA = 0;
+const size_t MATERIAL_OFFSET_DENDRITE = 1;
 
 Astrocytes::Astrocytes(Scene& scene, const AstrocytesDetails& details)
     : _details(details)
@@ -55,8 +57,7 @@ void Astrocytes::_buildModel()
     std::set<uint64_t> materialIds;
     SDFMorphologyData sdfMorphologyData;
     const auto useSdf = _details.useSdf;
-    const auto somas =
-        connector.getNodes(_details.astrocyteIds, _details.sqlFilter);
+    const auto somas = connector.getAstrocytes(_details.sqlFilter);
 
     // Astrocytes
     size_t previousMaterialId = std::numeric_limits<size_t>::max();
@@ -212,7 +213,7 @@ void Astrocytes::_buildModel()
         _finalizeSDFGeometries(*model, sdfMorphologyData);
 
     ModelMetadata metadata = {
-        {"Number of astrocytes", std::to_string(_details.astrocyteIds.size())}};
+        {"Number of astrocytes", std::to_string(somas.size())}};
 
     _modelDescriptor.reset(new brayns::ModelDescriptor(std::move(model),
                                                        _details.assemblyName,

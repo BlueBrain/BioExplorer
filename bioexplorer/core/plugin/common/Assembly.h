@@ -248,6 +248,7 @@ public:
 
 #ifdef USE_MORPHOLOGIES
     void addAstrocytes(const AstrocytesDetails &details);
+    void addNeurons(const NeuronsDetails &details);
 #endif
 
 private:
@@ -275,6 +276,7 @@ private:
 #endif
 #ifdef USE_MORPHOLOGIES
     AstrocytesPtr _astrocytes{nullptr};
+    NeuronsPtr _neurons{nullptr};
 #endif
 };
 } // namespace common

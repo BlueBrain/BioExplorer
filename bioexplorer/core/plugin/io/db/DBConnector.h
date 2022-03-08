@@ -168,15 +168,13 @@ public:
 
 #ifdef USE_MORPHOLOGIES
     /**
-     * @brief Get the Nodes from the astrocytes circuit
+     * @brief Get the astrocytes locations
      *
-     * @param astrocyteIds List of astrocyte identifiers
      * @param sqlCondition String containing an WHERE condition for the SQL
      * statement
      * @return SomaMap A map of somas (position, radius, etc)
      */
-    SomaMap getNodes(const uint64_ts astrocyteIds = {},
-                     const std::string& sqlCondition = "") const;
+    AstrocyteSomaMap getAstrocytes(const std::string& sqlCondition = "") const;
 
     /**
      * @brief Get the sections of a given astrocyte
@@ -193,6 +191,27 @@ public:
      * @return SectionMap A map of end-feet
      */
     EndFootMap getAstrocyteEndFeetAreas(const uint64_t astrocyteId) const;
+
+    /**
+     * @brief Get the neurons locations
+     *
+     * @param sqlCondition String containing an WHERE condition for the SQL
+     * statement
+     * @return NeuronSomaMap A map of neurons (position, type, etc)
+     */
+    NeuronSomaMap getNeurons(const std::string& sqlCondition = "") const;
+
+    /**
+     * @brief Get the sections of a given neuron
+     *
+     * @param neuronId Identifier of the neuron
+     * @param sqlCondition String containing an WHERE condition for the SQL
+     * statement
+     * @return SectionMap A map of sections
+     */
+    SectionMap getNeuronSections(const int64_t neuronId,
+                                 const std::string& sqlCondition = "") const;
+
 #endif
 
     static std::mutex _mutex;

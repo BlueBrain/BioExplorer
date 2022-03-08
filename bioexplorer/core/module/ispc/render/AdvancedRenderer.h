@@ -66,21 +66,22 @@ private:
     bool _useHardwareRandomizer{false};
     bool _showBackground{false};
 
-    double _timestamp{0.f};
-    double _exposure{1.f};
+    double _timestamp{0};
+    double _exposure{1};
+    double _epsilonFactor{1};
 
-    double _fogThickness{1e6f};
-    double _fogStart{0.f};
+    double _fogThickness{1e6};
+    double _fogStart{0};
 
     ospray::uint32 _maxBounces{3};
     ospray::uint32 _randomNumber{0};
 
-    double _shadows{0.f};
-    double _softShadows{0.f};
+    double _shadows{0};
+    double _softShadows{0};
     ospray::uint32 _softShadowsSamples{0};
 
-    double _giStrength{0.f};
-    double _giDistance{1e6f};
+    double _giStrength{0};
+    double _giDistance{1e6};
     ospray::uint32 _giSamples{0};
 
     bool _matrixFilter{false};

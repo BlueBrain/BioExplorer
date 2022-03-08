@@ -117,17 +117,19 @@ void _addBioExplorerRenderer(Engine &engine)
     PLUGIN_INFO(2, "Registering 'bio_explorer' renderer");
     PropertyMap properties;
     properties.setProperty(
-        {"giDistance", 10000., {"Global illumination distance"}});
+        {"giDistance", 10000.0, {"Global illumination distance"}});
     properties.setProperty(
-        {"giWeight", 0., 1., 1., {"Global illumination weight"}});
+        {"giWeight", 0.0, 1.0, 1.0, {"Global illumination weight"}});
     properties.setProperty(
         {"giSamples", 0, 0, 64, {"Global illumination samples"}});
-    properties.setProperty({"shadows", 0., 0., 1., {"Shadow intensity"}});
-    properties.setProperty({"softShadows", 0., 0., 1., {"Shadow softness"}});
+    properties.setProperty({"shadows", 0.0, 0.0, 1.0, {"Shadow intensity"}});
+    properties.setProperty({"softShadows", 0.0, 0.0, 1.0, {"Shadow softness"}});
     properties.setProperty(
         {"softShadowsSamples", 1, 1, 64, {"Soft shadow samples"}});
-    properties.setProperty({"exposure", 1., 0.01, 10., {"Exposure"}});
-    properties.setProperty({"fogStart", 0., 0., 1e6, {"Fog start"}});
+    properties.setProperty({"exposure", 1.0, 0.01, 10.0, {"Exposure"}});
+    properties.setProperty(
+        {"epsilonFactor", 1.0, 1.0, 1000.0, {"Epsilon factor"}});
+    properties.setProperty({"fogStart", 0.0, 0.0, 1e6, {"Fog start"}});
     properties.setProperty({"fogThickness", 1e6, 1e6, 1e6, {"Fog thickness"}});
     properties.setProperty(
         {"maxBounces", 3, 1, 100, {"Maximum number of ray bounces"}});
@@ -576,6 +578,13 @@ void BioExplorerPlugin::init()
                 endPoint, [&](const AstrocytesDetails &payload) {
                     return _addAstrocytes(payload);
                 });
+
+        endPoint = PLUGIN_API_PREFIX + "add-neurons";
+        PLUGIN_INFO(1, "Registering '" + endPoint + "' endpoint");
+        _api->getActionInterface()->registerRequest<NeuronsDetails, Response>(
+            endPoint, [&](const NeuronsDetails &payload) {
+                return _addNeurons(payload);
+            });
 #endif
     }
 
@@ -1847,6 +1856,11 @@ Response BioExplorerPlugin::_setVasculatureRadiusReport(
 Response BioExplorerPlugin::_addAstrocytes(const AstrocytesDetails &payload)
 {
     ASSEMBLY_CALL_VOID(payload.assemblyName, addAstrocytes(payload));
+}
+
+Response BioExplorerPlugin::_addNeurons(const NeuronsDetails &payload)
+{
+    ASSEMBLY_CALL_VOID(payload.assemblyName, addNeurons(payload));
 }
 #endif
 

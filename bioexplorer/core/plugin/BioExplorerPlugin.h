@@ -160,6 +160,7 @@ private:
 #ifdef USE_MORPHOLOGIES
     // Astrocyte
     Response _addAstrocytes(const AstrocytesDetails &payload);
+    Response _addNeurons(const NeuronsDetails &payload);
 #endif
 };
 } // namespace bioexplorer

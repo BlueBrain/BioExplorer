@@ -33,6 +33,7 @@ const std::string DB_SCHEMA_OUT_OF_CORE = "outofcore";
 const std::string DB_SCHEMA_VASCULATURE = "vasculature";
 const std::string DB_SCHEMA_METABOLISM = "metabolism";
 const std::string DB_SCHEMA_ASTROCYTES = "astrocytes";
+const std::string DB_SCHEMA_NEURONS = "neurons";
 
 DBConnector* DBConnector::_instance = nullptr;
 std::mutex DBConnector::_mutex;
@@ -379,41 +380,19 @@ floats DBConnector::getVasculatureSimulationTimeSeries(
 #endif
 
 #ifdef USE_MORPHOLOGIES
-SomaMap DBConnector::getNodes(const uint64_ts astrocyteIds,
-                              const std::string& sqlCondition) const
+AstrocyteSomaMap DBConnector::getAstrocytes(
+    const std::string& sqlCondition) const
 {
-    SomaMap somas;
+    AstrocyteSomaMap somas;
 
     pqxx::read_transaction transaction(*_connection);
     try
     {
         std::string sql = "SELECT guid, x, y, z, radius FROM " +
                           DB_SCHEMA_ASTROCYTES + ".node";
-        strings conditions;
-        if (!astrocyteIds.empty())
-        {
-            std::string condition = "guid IN (";
-            for (size_t i = 0; i < astrocyteIds.size(); ++i)
-            {
-                if (i != 0)
-                    condition += ",";
-                condition += std::to_string(astrocyteIds[i]);
-            }
-            condition += ") ";
-            conditions.push_back(condition);
-        }
 
         if (!sqlCondition.empty())
-            conditions.push_back(sqlCondition);
-
-        for (size_t i = 0; i < conditions.size(); ++i)
-        {
-            if (i == 0)
-                sql += " WHERE ";
-            else
-                sql += " AND ";
-            sql += conditions[i];
-        }
+            sql += " WHERE " + sqlCondition;
 
         sql += " ORDER BY guid";
 
@@ -421,7 +400,7 @@ SomaMap DBConnector::getNodes(const uint64_ts astrocyteIds,
         auto res = transaction.exec(sql);
         for (auto c = res.begin(); c != res.end(); ++c)
         {
-            Soma soma;
+            AstrocyteSoma soma;
             soma.center =
                 Vector3d(c[1].as<float>(), c[2].as<float>(), c[3].as<float>());
             soma.radius = c[4].as<float>() * 0.5;
@@ -508,6 +487,81 @@ EndFootMap DBConnector::getAstrocyteEndFeetAreas(
     }
 
     return endFeet;
+}
+
+NeuronSomaMap DBConnector::getNeurons(const std::string& sqlCondition) const
+{
+    NeuronSomaMap somas;
+
+    pqxx::read_transaction transaction(*_connection);
+    try
+    {
+        std::string sql =
+            "SELECT guid, x, y, z FROM " + DB_SCHEMA_NEURONS + ".node";
+        strings conditions;
+
+        if (!sqlCondition.empty())
+            sql += " WHERE " + sqlCondition;
+
+        sql += " ORDER BY guid";
+
+        PLUGIN_INFO(1, sql);
+        auto res = transaction.exec(sql);
+        for (auto c = res.begin(); c != res.end(); ++c)
+        {
+            NeuronSoma soma;
+            soma.center =
+                Vector3d(c[1].as<float>(), c[2].as<float>(), c[3].as<float>());
+            somas[c[0].as<uint64_t>()] = soma;
+        }
+    }
+    catch (const pqxx::sql_error& e)
+    {
+        PLUGIN_THROW(e.what());
+    }
+
+    return somas;
+}
+
+SectionMap DBConnector::getNeuronSections(const int64_t neuronId,
+                                          const std::string& sqlCondition) const
+{
+    SectionMap sections;
+
+    pqxx::read_transaction transaction(*_connection);
+    try
+    {
+        std::string sql =
+            "SELECT s.section_guid, s.section_type_guid, "
+            "s.section_parent_guid, s.points FROM " +
+            DB_SCHEMA_NEURONS + ".node as n, " + DB_SCHEMA_NEURONS +
+            ".section as s WHERE n.morphology_guid=s.morphology_guid "
+            "AND n.guid=" +
+            std::to_string(neuronId);
+        if (!sqlCondition.empty())
+            sql += " AND " + sqlCondition;
+        sql += " ORDER BY s.section_guid";
+
+        PLUGIN_INFO(1, sql);
+        auto res = transaction.exec(sql);
+        for (auto c = res.begin(); c != res.end(); ++c)
+        {
+            Section section;
+            const auto sectionId = c[0].as<uint64_t>();
+            section.type = c[1].as<uint64_t>();
+            section.parentId = c[2].as<int64_t>();
+            const pqxx::binarystring bytea(c[3]);
+            section.points.resize(bytea.size() / sizeof(Vector4f));
+            memcpy(&section.points.data()[0], bytea.data(), bytea.size());
+            sections[sectionId] = section;
+        }
+    }
+    catch (const pqxx::sql_error& e)
+    {
+        PLUGIN_THROW(e.what());
+    }
+
+    return sections;
 }
 #endif
 

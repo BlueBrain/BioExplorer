@@ -54,11 +54,12 @@ protected:
                            const std::set<size_t>& neighbours,
                            const size_t materialId, const int section);
 
-    void _addStepSphereGeometry(
-        const bool useSDF, const Vector3d& position, const double radius,
-        const size_t materialId, const uint64_t userDataOffset, Model& model,
-        SDFMorphologyData& sdfMorphologyData, const uint32_t sdfGroupId,
-        const Vector3f& displacementParams = Vector3f());
+    void _addStepSphereGeometry(const bool useSDF, const Vector3d& position,
+                                const double radius, const size_t materialId,
+                                const uint64_t userDataOffset, Model& model,
+                                SDFMorphologyData& sdfMorphologyData,
+                                const uint32_t sdfGroupId,
+                                const double displacementRatio = 1.0);
 
     void _addStepConeGeometry(const bool useSDF, const Vector3d& position,
                               const double radius, const Vector3d& target,
@@ -67,7 +68,7 @@ protected:
                               const uint64_t userDataOffset, Model& model,
                               SDFMorphologyData& sdfMorphologyData,
                               const uint32_t sdfGroupId,
-                              const Vector3f& displacementParams = Vector3f());
+                              const double displacementRatio = 1.0);
 
     void _finalizeSDFGeometries(Model& model,
                                 SDFMorphologyData& sdfMorphologyData);

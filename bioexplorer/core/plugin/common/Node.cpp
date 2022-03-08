@@ -30,19 +30,6 @@ namespace bioexplorer
 {
 namespace common
 {
-// From http://en.cppreference.com/w/cpp/types/numeric_limits/epsilon
-template <class T>
-typename std::enable_if<!std::numeric_limits<T>::is_integer, bool>::type
-    almost_equal(T x, T y, int ulp)
-{
-    // the machine epsilon has to be scaled to the magnitude of the values used
-    // and multiplied by the desired precision in ULPs (units in the last place)
-    return std::abs(x - y) <=
-               std::numeric_limits<T>::epsilon() * std::abs(x + y) * ulp
-           // unless the result is subnormal
-           || std::abs(x - y) < std::numeric_limits<T>::min();
-}
-
 Node::Node()
 {
     // Unique ID
@@ -90,13 +77,17 @@ void Node::_addStepSphereGeometry(const bool useSDF, const Vector3d& position,
                                   const uint64_t userData, Model& model,
                                   SDFMorphologyData& sdfMorphologyData,
                                   const uint32_t sdfGroupId,
-                                  const Vector3f& displacementParams)
+                                  const double displacementRatio)
 {
     if (useSDF)
+    {
+        const Vector3f displacementParams = {std::min(radius, 0.05),
+                                             displacementRatio * 1.2, 2.0};
         _addSDFGeometry(sdfMorphologyData,
                         createSDFSphere(position, radius, userData,
                                         displacementParams),
                         {}, materialId, sdfGroupId);
+    }
     else
         model.addSphere(materialId,
                         {position, static_cast<float>(radius), userData});
@@ -109,19 +100,18 @@ void Node::_addStepConeGeometry(const bool useSDF, const Vector3d& position,
                                 const uint64_t userData, Model& model,
                                 SDFMorphologyData& sdfMorphologyData,
                                 const uint32_t sdfGroupId,
-                                const Vector3f& displacementParams)
+                                const double displacementRatio)
 {
     if (useSDF)
     {
+        const Vector3f displacementParams = {std::min(radius, 0.05),
+                                             displacementRatio * 1.2, 2.0};
         const auto geom =
-            (almost_equal(radius, previousRadius, 100000))
-                ? createSDFPill(position, target, radius, userData,
-                                displacementParams)
-                : createSDFConePill(position, target, radius, previousRadius,
-                                    userData, displacementParams);
+            createSDFConePill(position, target, radius, previousRadius,
+                              userData, displacementParams);
         _addSDFGeometry(sdfMorphologyData, geom, {}, materialId, sdfGroupId);
     }
-    else if (almost_equal(radius, previousRadius, 100000))
+    else if (radius == previousRadius)
         model.addCylinder(materialId, {position, target,
                                        static_cast<float>(radius), userData});
     else

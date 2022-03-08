@@ -189,7 +189,7 @@ bool rayBoxIntersection(const Vector3d& origin, const Vector3d& direction,
  * how far B(t) is from first to last control point.
  * @return Vector3f
  */
-Vector4d getBezierPoint(const Vector4ds& controlPoints, const double t);
+Vector4f getBezierPoint(const Vector4fs& controlPoints, const double t);
 
 // Volumes
 double sphereVolume(const double radius);
