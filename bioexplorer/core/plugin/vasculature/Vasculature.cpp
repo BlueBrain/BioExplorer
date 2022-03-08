@@ -38,6 +38,8 @@ using namespace common;
 using namespace io;
 using namespace db;
 
+const double VASCULATURE_DISPLACEMENT_RATIO = 2.0;
+
 Vasculature::Vasculature(Scene& scene, const VasculatureDetails& details)
     : _details(details)
     , _scene(scene)
@@ -54,8 +56,6 @@ void Vasculature::_importFromDB()
 
     _nodes = connector.getVasculatureNodes(_details.populationName,
                                            _details.sqlFilter);
-
-    PLUGIN_INFO(1, "Full vasculature is made of " << _nodes.size() << " nodes");
 
     std::map<uint64_t, std::vector<uint64_t>> pairs;
     std::set<uint64_t> entryNodes;
@@ -99,15 +99,13 @@ void Vasculature::_importFromDB()
 
     _nbPairs = pairs.size();
     _nbEntryNodes = entryNodes.size();
-    PLUGIN_INFO(1,
-                "Loaded vasculature is made of " << _nodes.size() << " nodes");
 }
 
 std::set<uint64_t> Vasculature::_buildGraphModel(
     Model& model, const VasculatureColorSchemeDetails& details)
 {
     std::set<uint64_t> materialIds;
-    const float radiusMultiplier = _details.radiusMultiplier;
+    const double radiusMultiplier = _details.radiusMultiplier;
     size_t materialId = 0;
     for (const auto& section : _sections)
     {
@@ -155,13 +153,17 @@ std::set<uint64_t> Vasculature::_buildSimpleModel(
 {
     std::set<uint64_t> materialIds;
     SDFMorphologyData sdfMorphologyData;
-    const float radiusMultiplier = _details.radiusMultiplier;
+    const double radiusMultiplier = _details.radiusMultiplier;
     const auto useSdf = _details.useSdf;
     size_t materialId = 0;
     size_t previousMaterialId = 0;
+
+    uint64_t geometryIndex = 0;
+    uint64_t count = 0;
     for (const auto& section : _sections)
     {
-        for (uint64_t i = 0; i < section.second.size(); ++i)
+        PLUGIN_PROGRESS("Loading vasculature", ++count, _sections.size());
+        for (uint64_t i = 0; i < section.second.size() - 1; ++i)
         {
             const auto& srcNode = _nodes[section.second[i]];
             switch (details.colorScheme)
@@ -187,26 +189,49 @@ std::set<uint64_t> Vasculature::_buildSimpleModel(
                 break;
             }
 
-            const auto& src = srcNode.position;
+            const auto& srcPoint = srcNode.position;
             const auto srcRadius = srcNode.radius * radiusMultiplier;
             const auto userData = section.second[i];
             const auto sectionId = srcNode.sectionId;
-            _addStepSphereGeometry(useSdf, src, srcRadius, materialId, userData,
-                                   model, sdfMorphologyData, sectionId);
-            if (i > 0)
+
+            Neighbours neighbours;
+            if (i == 0)
             {
-                const auto& dstNode = _nodes[section.second[i - 1]];
-                const auto& dst = dstNode.position;
-                const auto dstRadius = dstNode.radius * radiusMultiplier;
-                _addStepConeGeometry(useSdf, dst, dstRadius, src, srcRadius,
-                                     previousMaterialId, userData, model,
-                                     sdfMorphologyData, sectionId);
+                if (!useSdf)
+                    _addSphere(useSdf, srcPoint, srcRadius, materialId,
+                               userData, model, sdfMorphologyData, neighbours,
+                               VASCULATURE_DISPLACEMENT_RATIO);
             }
+            else
+                neighbours = {geometryIndex};
+
+            // Ignore points that are too close the previous one
+            // (according to respective radii)
+            Vector3d dstPoint;
+            double dstRadius;
+            do
+            {
+                const auto& dstNode = _nodes[section.second[i + 1]];
+                dstPoint = dstNode.position;
+                dstRadius = dstNode.radius * radiusMultiplier;
+                ++i;
+            } while (length(dstPoint - srcPoint) < (srcRadius + dstRadius) &&
+                     i < section.second.size() - 1);
+            --i;
+
+            if (!useSdf)
+                _addSphere(useSdf, dstPoint, dstRadius, materialId, userData,
+                           model, sdfMorphologyData, neighbours,
+                           VASCULATURE_DISPLACEMENT_RATIO);
+            geometryIndex =
+                _addCone(useSdf, dstPoint, dstRadius, srcPoint, srcRadius,
+                         previousMaterialId, userData, model, sdfMorphologyData,
+                         {geometryIndex}, VASCULATURE_DISPLACEMENT_RATIO);
             previousMaterialId = materialId;
             materialIds.insert(materialId);
         }
     }
-    if (_details.useSdf)
+    if (useSdf)
         _finalizeSDFGeometries(model, sdfMorphologyData);
 
     return materialIds;
@@ -218,11 +243,15 @@ std::set<uint64_t> Vasculature::_buildAdvancedModel(
 {
     std::set<uint64_t> materialIds;
     SDFMorphologyData sdfMorphologyData;
-    const float radiusMultiplier = _details.radiusMultiplier;
+    const double radiusMultiplier = _details.radiusMultiplier;
     const auto useSdf = _details.useSdf;
     size_t materialId = 0;
+
+    uint64_t geometryIndex = 0;
+    uint64_t count = 0;
     for (const auto& section : _sections)
     {
+        PLUGIN_PROGRESS("Loading vasculature", ++count, _sections.size());
         Vector4fs controlPoints;
         for (const auto& nodeId : section.second)
         {
@@ -263,16 +292,23 @@ std::set<uint64_t> Vasculature::_buildAdvancedModel(
             const auto userData = section.second[i];
             const Vector4f src = getBezierPoint(controlPoints, t);
             const auto sectionId = srcNode.sectionId;
-            _addStepSphereGeometry(useSdf, Vector3f(src), src.w, materialId,
-                                   userData, model, sdfMorphologyData,
-                                   sectionId);
+
+            Neighbours neighbours;
+            if (i != 0)
+                neighbours = {geometryIndex};
+
+            if (!useSdf)
+                geometryIndex =
+                    _addSphere(useSdf, Vector3f(src), src.w, materialId,
+                               userData, model, sdfMorphologyData, neighbours);
             if (i > 0)
             {
                 const auto& dstNode = _nodes[section.second[i + 1]];
                 const Vector4f dst = getBezierPoint(controlPoints, t + step);
-                _addStepConeGeometry(useSdf, Vector3f(dst), dst.w,
-                                     Vector3f(src), src.w, materialId, userData,
-                                     model, sdfMorphologyData, sectionId);
+                geometryIndex =
+                    _addCone(useSdf, Vector3f(dst), dst.w, Vector3f(src), src.w,
+                             materialId, userData, model, sdfMorphologyData,
+                             {geometryIndex});
             }
             materialIds.insert(materialId);
             i += precision;
@@ -302,54 +338,7 @@ void Vasculature::_buildModel(const VasculatureColorSchemeDetails& details)
         break;
     }
 
-#if 0
-    const auto& connector = DBConnector::getInstance();
-    const auto bifurcations =
-        connector.getVasculatureBifurcations(_details.populationName);
-
-    const size_t materialId = 0;
-    for (const auto& bifurcation : bifurcations)
-    {
-        const auto& srcNode = _nodes[bifurcation.first];
-        const Vector3f src = srcNode.position;
-        const float srcRadius = srcNode.radius;
-        for (const auto& nodeId : bifurcation.second)
-        {
-            const auto& dstNode = _nodes[nodeId];
-            const Vector3f dst = dstNode.position;
-            const float dstRadius = dstNode.radius;
-            const auto userData = nodeId;
-            model->addSphere(materialId, {dst, dstRadius, userData});
-            model->addCone(materialId,
-                           {src, dst, srcRadius, dstRadius, userData});
-        }
-    }
-#endif
-
-    uint64_t colorCount = 0;
-    auto& palette = details.palette;
-    for (const auto materialId : materialIds)
-    {
-        Vector3f color{1.f, 1.f, 1.f};
-        if (!palette.empty())
-        {
-            color = Vector3f(palette[colorCount], palette[colorCount + 1],
-                             palette[colorCount + 2]);
-            colorCount += 3;
-        }
-        auto nodeMaterial =
-            model->createMaterial(materialId, std::to_string(materialId));
-        nodeMaterial->setDiffuseColor(color);
-        nodeMaterial->setSpecularColor(color);
-        nodeMaterial->setSpecularExponent(100.f);
-        PropertyMap props;
-        props.setProperty({MATERIAL_PROPERTY_SHADING_MODE, 0});
-        props.setProperty({MATERIAL_PROPERTY_USER_PARAMETER, 1.0});
-        props.setProperty({MATERIAL_PROPERTY_CHAMELEON_MODE, 0});
-        props.setProperty({MATERIAL_PROPERTY_CAST_USER_DATA, false});
-        props.setProperty({MATERIAL_PROPERTY_NODE_ID, 0});
-        nodeMaterial->updateProperties(props);
-    }
+    _createMaterials(materialIds, *model);
 
     ModelMetadata metadata = {
         {"Number of edges", std::to_string(_nodes.size())},

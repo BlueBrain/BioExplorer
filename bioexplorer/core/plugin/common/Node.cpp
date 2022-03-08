@@ -60,93 +60,73 @@ void Node::_setMaterialExtraAttributes()
 // TODO: Generalise SDF for any type of asset
 size_t Node::_addSDFGeometry(SDFMorphologyData& sdfMorphologyData,
                              const SDFGeometry& geometry,
-                             const std::set<size_t>& neighbours,
-                             const size_t materialId, const int section)
+                             const Neighbours& neighbours,
+                             const size_t materialId)
 {
     const size_t idx = sdfMorphologyData.geometries.size();
     sdfMorphologyData.geometries.push_back(geometry);
     sdfMorphologyData.neighbours.push_back(neighbours);
     sdfMorphologyData.materials.push_back(materialId);
-    sdfMorphologyData.geometrySection[idx] = section;
-    sdfMorphologyData.sectionGeometries[section].push_back(idx);
     return idx;
 }
 
-void Node::_addStepSphereGeometry(const bool useSDF, const Vector3d& position,
-                                  const double radius, const size_t materialId,
-                                  const uint64_t userData, Model& model,
-                                  SDFMorphologyData& sdfMorphologyData,
-                                  const uint32_t sdfGroupId,
-                                  const double displacementRatio)
+size_t Node::_addSphere(const bool useSDF, const Vector3f& position,
+                        const float radius, const size_t materialId,
+                        const uint64_t userData, Model& model,
+                        SDFMorphologyData& sdfMorphologyData,
+                        const Neighbours& neighbours,
+                        const float displacementRatio)
 {
     if (useSDF)
     {
-        const Vector3f displacementParams = {std::min(radius, 0.05),
-                                             displacementRatio * 1.2, 2.0};
-        _addSDFGeometry(sdfMorphologyData,
-                        createSDFSphere(position, radius, userData,
-                                        displacementParams),
-                        {}, materialId, sdfGroupId);
+        const Vector3f displacementParams = {std::min(radius, 0.05f),
+                                             displacementRatio, 2.0f};
+        return _addSDFGeometry(sdfMorphologyData,
+                               createSDFSphere(position, radius, userData,
+                                               displacementParams),
+                               neighbours, materialId);
     }
-    else
-        model.addSphere(materialId,
-                        {position, static_cast<float>(radius), userData});
+    return model.addSphere(materialId, {position, radius, userData});
 }
 
-void Node::_addStepConeGeometry(const bool useSDF, const Vector3d& position,
-                                const double radius, const Vector3d& target,
-                                const double previousRadius,
-                                const size_t materialId,
-                                const uint64_t userData, Model& model,
-                                SDFMorphologyData& sdfMorphologyData,
-                                const uint32_t sdfGroupId,
-                                const double displacementRatio)
+size_t Node::_addCone(const bool useSDF, const Vector3f& position,
+                      const float radius, const Vector3f& target,
+                      const float previousRadius, const size_t materialId,
+                      const uint64_t userData, Model& model,
+                      SDFMorphologyData& sdfMorphologyData,
+                      const Neighbours& neighbours,
+                      const float displacementRatio)
 {
     if (useSDF)
     {
-        const Vector3f displacementParams = {std::min(radius, 0.05),
-                                             displacementRatio * 1.2, 2.0};
+        const Vector3f displacementParams = {std::min(radius, 0.05f),
+                                             displacementRatio, 2.f};
         const auto geom =
             createSDFConePill(position, target, radius, previousRadius,
                               userData, displacementParams);
-        _addSDFGeometry(sdfMorphologyData, geom, {}, materialId, sdfGroupId);
+        return _addSDFGeometry(sdfMorphologyData, geom, neighbours, materialId);
     }
-    else if (radius == previousRadius)
-        model.addCylinder(materialId, {position, target,
-                                       static_cast<float>(radius), userData});
-    else
-        model.addCone(materialId,
-                      {position, target, static_cast<float>(radius),
-                       static_cast<float>(previousRadius), userData});
+    if (radius == previousRadius)
+        return model.addCylinder(materialId,
+                                 {position, target, radius, userData});
+    return model.addCone(materialId,
+                         {position, target, radius, previousRadius, userData});
 }
 
 void Node::_finalizeSDFGeometries(Model& model,
                                   SDFMorphologyData& sdfMorphologyData)
 {
     const size_t numGeoms = sdfMorphologyData.geometries.size();
-    sdfMorphologyData.localToGlobalIdx.resize(numGeoms, 0);
 
-    // Extend neighbours to make sure smoothing is applied on all
-    // closely connected geometries
-    for (size_t rep = 0; rep < 4; rep++)
+    for (size_t i = 0; i < numGeoms; ++i)
     {
-        const size_t numNeighs = sdfMorphologyData.neighbours.size();
-        auto neighsCopy = sdfMorphologyData.neighbours;
-        for (size_t i = 0; i < numNeighs; i++)
-        {
-            for (size_t j : sdfMorphologyData.neighbours[i])
-            {
-                for (size_t newNei : sdfMorphologyData.neighbours[j])
-                {
-                    neighsCopy[i].insert(newNei);
-                    neighsCopy[newNei].insert(i);
-                }
-            }
-        }
-        sdfMorphologyData.neighbours = neighsCopy;
+        const auto& neighbours = sdfMorphologyData.neighbours[i];
+        for (const auto neighbour : neighbours)
+            if (neighbour != i)
+                sdfMorphologyData.neighbours[neighbour].insert(i);
     }
 
-    for (size_t i = 0; i < numGeoms; i++)
+    for (size_t i = 0; i < numGeoms; ++i)
     {
         // Convert neighbours from set to vector and erase itself from its
         // neighbours
@@ -161,6 +141,66 @@ void Node::_finalizeSDFGeometries(Model& model,
         model.addSDFGeometry(sdfMorphologyData.materials[i],
                              sdfMorphologyData.geometries[i], neighbours);
     }
+}
+
+void Node::_createMaterials(const MaterialSet& materialIds, Model& model)
+{
+    for (const auto materialId : materialIds)
+    {
+        Vector3f color{1.f, 1.f, 1.f};
+        auto nodeMaterial =
+            model.createMaterial(materialId, std::to_string(materialId));
+        nodeMaterial->setDiffuseColor(color);
+        nodeMaterial->setSpecularColor(color);
+        nodeMaterial->setSpecularExponent(100.f);
+        PropertyMap props;
+        props.setProperty({MATERIAL_PROPERTY_SHADING_MODE, 0});
+        props.setProperty({MATERIAL_PROPERTY_USER_PARAMETER, 1.0});
+        props.setProperty({MATERIAL_PROPERTY_CHAMELEON_MODE, 0});
+        props.setProperty({MATERIAL_PROPERTY_CAST_USER_DATA, false});
+        props.setProperty({MATERIAL_PROPERTY_NODE_ID, 0});
+        nodeMaterial->updateProperties(props);
+    }
+}
+
+void Node::addSDFDemo(Model& model)
+{
+    MaterialSet materialIds;
+    size_t materialId = 0;
+    const bool useSdf = true;
+    const double displacement = 10.0;
+    SDFMorphologyData sdfMorphologyData;
+
+    auto idx1 =
+        _addCone(useSdf, Vector3d(-1, 0, 0), 0.25, Vector3d(0, 0, 0), 0.1,
+                 materialId, -1, model, sdfMorphologyData, {}, displacement);
+    materialIds.insert(materialId);
+    ++materialId;
+
+    auto idx2 = _addCone(useSdf, Vector3d(0, 0, 0), 0.1, Vector3d(1, 0, 0),
+                         0.25, materialId, -1, model, sdfMorphologyData, {idx1},
+                         displacement);
+    materialIds.insert(materialId);
+    ++materialId;
+
+    auto idx3 = _addSphere(useSdf, Vector3d(-1, 0, 0), 0.25, materialId, -1,
+                           model, sdfMorphologyData, {idx1}, displacement);
+    materialIds.insert(materialId);
+    ++materialId;
+
+    auto idx4 = _addSphere(useSdf, Vector3d(1, 0, 0), 0.25, materialId, -1,
+                           model, sdfMorphologyData, {idx2}, displacement);
+    materialIds.insert(materialId);
+    ++materialId;
+
+    auto idx5 = _addCone(useSdf, Vector3d(0, 0.25, 0), 0.5, Vector3d(0, 1, 0),
+                         0.0, materialId, -1, model, sdfMorphologyData,
+                         {idx1, idx2}, displacement);
+    materialIds.insert(materialId);
+
+    _createMaterials(materialIds, model);
+
+    _finalizeSDFGeometries(model, sdfMorphologyData);
 }
 
 } // namespace common

@@ -29,8 +29,6 @@ namespace morphology
 using namespace brayns;
 using namespace common;
 
-using MaterialSet = std::set<uint64_t>;
-
 /**
  * Load Neurons from database
  */
@@ -45,11 +43,11 @@ private:
     size_t _getNbMitochondrionSegments() const;
 
     void _addSection(Model& model, const uint64_t sectionId,
-                     const Section& section, const Vector3d& somaPosition,
-                     const double somaRadius, const uint64_t sdfSomaGroupId,
+                     const Section& section, const size_t somaIdx,
+                     const Vector3d& somaPosition, const double somaRadius,
                      const size_t baseMaterialId,
                      const double mitochondriaDensity,
-                     SDFMorphologyData& sdfMorphologyData, uint64_t& sdfGroupId,
+                     SDFMorphologyData& sdfMorphologyData,
                      MaterialSet& materialIds);
 
     void _addSomaInternals(const uint64_t index, Model& model,
@@ -57,16 +55,13 @@ private:
                            const Vector3d& somaPosition,
                            const double somaRadius,
                            const double mitochondriaDensity,
-                           SDFMorphologyData& sdfMorphologyData,
-                           uint64_t& sdfGroupId);
+                           SDFMorphologyData& sdfMorphologyData);
 
-    void _addSectionInternals(const double sectionLength,
-                              const double sectionVolume,
-                              const Vector4fs& points,
-                              const double mitochondriaDensity,
-                              const size_t materialId,
-                              SDFMorphologyData& sdfMorphologyData,
-                              uint64_t& sdfGroupId, Model& model);
+    void _addSectionInternals(
+        const Vector3d& somaPosition, const double sectionLength,
+        const double sectionVolume, const Vector4fs& points,
+        const double mitochondriaDensity, const size_t baseMaterialId,
+        SDFMorphologyData& sdfMorphologyData, Model& model);
 
     void _addAxonMyelinSheath(const Vector3d& somaPosition,
                               const double sectionLength,
@@ -74,7 +69,7 @@ private:
                               const double mitochondriaDensity,
                               const size_t materialId,
                               SDFMorphologyData& sdfMorphologyData,
-                              uint64_t& sdfGroupId, Model& model);
+                              Model& model);
 
     const NeuronsDetails _details;
     Scene& _scene;

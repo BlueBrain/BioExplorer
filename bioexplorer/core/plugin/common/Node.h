@@ -27,6 +27,10 @@ namespace bioexplorer
 namespace common
 {
 using namespace brayns;
+using MaterialSet = std::set<uint64_t>;
+using Neighbours = std::set<size_t>;
+
+const int64_t NO_USER_DATA = -1;
 
 /**
  * @brief The Node class
@@ -47,28 +51,30 @@ public:
      */
     const ModelDescriptorPtr getModelDescriptor() const;
 
+    void addSDFDemo(Model& model);
+
 protected:
+    void _createMaterials(const MaterialSet& materialIds, Model& model);
     void _setMaterialExtraAttributes();
     size_t _addSDFGeometry(SDFMorphologyData& sdfMorphologyData,
                            const SDFGeometry& geometry,
-                           const std::set<size_t>& neighbours,
-                           const size_t materialId, const int section);
+                           const Neighbours& neighbours,
+                           const size_t materialId);
 
-    void _addStepSphereGeometry(const bool useSDF, const Vector3d& position,
-                                const double radius, const size_t materialId,
-                                const uint64_t userDataOffset, Model& model,
-                                SDFMorphologyData& sdfMorphologyData,
-                                const uint32_t sdfGroupId,
-                                const double displacementRatio = 1.0);
+    size_t _addSphere(const bool useSDF, const Vector3f& position,
+                      const float radius, const size_t materialId,
+                      const uint64_t userDataOffset, Model& model,
+                      SDFMorphologyData& sdfMorphologyData,
+                      const Neighbours& neighbours,
+                      const float displacementRatio = 1.f);
 
-    void _addStepConeGeometry(const bool useSDF, const Vector3d& position,
-                              const double radius, const Vector3d& target,
-                              const double previousRadius,
-                              const size_t materialId,
-                              const uint64_t userDataOffset, Model& model,
-                              SDFMorphologyData& sdfMorphologyData,
-                              const uint32_t sdfGroupId,
-                              const double displacementRatio = 1.0);
+    size_t _addCone(const bool useSDF, const Vector3f& position,
+                    const float radius, const Vector3f& target,
+                    const float previousRadius, const size_t materialId,
+                    const uint64_t userDataOffset, Model& model,
+                    SDFMorphologyData& sdfMorphologyData,
+                    const Neighbours& neighbours,
+                    const float displacementRatio = 1.f);
 
     void _finalizeSDFGeometries(Model& model,
                                 SDFMorphologyData& sdfMorphologyData);

@@ -2126,6 +2126,17 @@ class BioExplorer:
         params["opacity"] = opacity
         return self._invoke_and_check("add-sphere", params)
 
+    def add_sdf_demo(self):
+        """
+        Add an SDF demo model
+
+        :return: Result of the request submission
+        """
+        if self._client is None:
+            return
+
+        return self._invoke_and_check("add-sdf-demo")
+
     def set_general_settings(self, model_visibility_on_creation=True, mesh_folder='/tmp',
                              logging_level=0, v1_compatibility=False):
         """

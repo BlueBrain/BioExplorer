@@ -1266,11 +1266,11 @@ using AstrocyteSomaMap = std::map<uint64_t, AstrocyteSoma>;
 
 typedef struct
 {
-    Vector3d center;
-    uint64_t eType;
-    uint64_t mType;
-    uint64_t layer;
-    uint64_t morphologyId;
+    Vector3d position;
+    uint64_t eType{0};
+    uint64_t mType{0};
+    uint64_t layer{0};
+    uint64_t morphologyId{0};
 } NeuronSoma;
 using NeuronSomaMap = std::map<uint64_t, NeuronSoma>;
 

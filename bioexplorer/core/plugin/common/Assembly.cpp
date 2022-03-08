@@ -124,6 +124,21 @@ Assembly::~Assembly()
                            << "]");
         _scene.removeModel(modelId);
     }
+    if (_vasculature)
+    {
+        const auto modelId = _vasculature->getModelDescriptor()->getModelID();
+        PLUGIN_INFO(3, "Removing Vasculature ["
+                           << modelId << "] from assembly [" << _details.name
+                           << "]");
+        _scene.removeModel(modelId);
+    }
+    if (_neurons)
+    {
+        const auto modelId = _neurons->getModelDescriptor()->getModelID();
+        PLUGIN_INFO(3, "Removing Neurons [" << modelId << "] from assembly ["
+                                            << _details.name << "]");
+        _scene.removeModel(modelId);
+    }
     _modelDescriptors.clear();
 }
 

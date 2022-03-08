@@ -497,7 +497,8 @@ NeuronSomaMap DBConnector::getNeurons(const std::string& sqlCondition) const
     try
     {
         std::string sql =
-            "SELECT guid, x, y, z FROM " + DB_SCHEMA_NEURONS + ".node";
+            "SELECT guid, x, y, z, e_type_guid, e_type_guid FROM " +
+            DB_SCHEMA_NEURONS + ".node";
         strings conditions;
 
         if (!sqlCondition.empty())
@@ -505,13 +506,16 @@ NeuronSomaMap DBConnector::getNeurons(const std::string& sqlCondition) const
 
         sql += " ORDER BY guid";
 
-        PLUGIN_INFO(1, sql);
+        PLUGIN_DEBUG(sql);
         auto res = transaction.exec(sql);
         for (auto c = res.begin(); c != res.end(); ++c)
         {
             NeuronSoma soma;
-            soma.center =
+            soma.position =
                 Vector3d(c[1].as<float>(), c[2].as<float>(), c[3].as<float>());
+            soma.eType = c[4].as<uint64_t>();
+            soma.mType = c[5].as<uint64_t>();
+            soma.layer = 0; // TODO
             somas[c[0].as<uint64_t>()] = soma;
         }
     }
@@ -542,7 +546,7 @@ SectionMap DBConnector::getNeuronSections(const int64_t neuronId,
             sql += " AND " + sqlCondition;
         sql += " ORDER BY s.section_guid";
 
-        PLUGIN_INFO(1, sql);
+        PLUGIN_DEBUG(sql);
         auto res = transaction.exec(sql);
         for (auto c = res.begin(); c != res.end(); ++c)
         {
