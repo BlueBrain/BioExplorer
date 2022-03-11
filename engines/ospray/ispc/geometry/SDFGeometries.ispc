@@ -39,10 +39,21 @@
 #define SDF_TYPE_CONE_PILL 2
 #define SDF_TYPE_CONE_PILL_SIGMOID 3
 
-#define SDF_BLEND_FACTOR 0.1
+#define SDF_BLEND_FACTOR 0.2
 #define SDF_BLEND_LERP_FACTOR 0.2
 
 /////////////////////////////////////////////////////////////////////////////
+
+inline vec3f mod(const vec3f& v, const int m)
+{
+    return make_vec3f(v.x - m * floor(v.x / m), v.y - m * floor(v.y / m),
+                      v.z - m * floor(v.z / m));
+}
+
+inline vec3f mod(const vec3f& v, const vec3f& u)
+{
+    return v - u * floor(v / u);
+}
 
 // https://en.wikipedia.org/wiki/Smoothstep
 inline float smoothstep(const float x)
@@ -80,6 +91,32 @@ inline float sminPoly(const float a, const float b, const float k)
     return lerp(h, b, a) - k * h * (1.f - h);
 }
 
+inline float smin(const float a, const float b, const float k)
+{
+    float res = exp(-k * a) + exp(-k * b);
+    return -log(res) / k;
+}
+
+inline float opBlend(const float a, const float b)
+{
+    return smin(a, b, 5);
+}
+
+inline float opS(const float d1, const float d2)
+{
+    return max(-d2, d1);
+}
+
+inline float opU(const float a, const float b)
+{
+    return (a < b) ? a : b;
+}
+
+inline vec3f opRep(const vec3f& p, const vec3f& c)
+{
+    return mod(p, c) - 0.5f * c;
+}
+
 inline float sdConePill(const vec3f& p, const vec3f p0, const vec3f p1,
                         const float r0, const float r1, const bool useSigmoid)
 {
@@ -88,7 +125,7 @@ inline float sdConePill(const vec3f& p, const vec3f p0, const vec3f p1,
 
     // distance to p0 along cone axis
     const float c1 = dot(w, v);
-    if (c1 <= 0) // p0 Sphere
+    if (c1 <= 0.f) // p0 Sphere
         return length(p - p0) - r0;
 
     // cone length
@@ -104,6 +141,31 @@ inline float sdConePill(const vec3f& p, const vec3f p0, const vec3f p1,
         useSigmoid ? lerp(smootherstep(b), r0, r1) : thicknessAt;
 
     return length(p - Pb) - thickness;
+}
+
+inline float sdCone(const vec3f& p, const vec3f a, const vec3f b, float ra,
+                    float rb)
+{
+    float rba = rb - ra;
+    float baba = dot(b - a, b - a);
+    float papa = dot(p - a, p - a);
+    float paba = dot(p - a, b - a) / baba;
+
+    float x = sqrt(papa - paba * paba * baba);
+
+    float cax = max(0.0, x - ((paba < 0.5) ? ra : rb));
+    float cay = abs(paba - 0.5) - 0.5;
+
+    float k = rba * rba + baba;
+    float f = clamp((rba * (x - ra) + paba * baba) / k, 0.0, 1.0);
+
+    float cbx = x - ra - f * rba;
+    float cby = paba - f;
+
+    float s = (cbx < 0.0 && cay < 0.0) ? -1.0 : 1.0;
+
+    return s * sqrt(min(cax * cax + cay * cay * baba,
+                        cbx * cbx + cby * cby * baba));
 }
 
 //////////////////////////////////////////////////////////////////////
@@ -200,6 +262,8 @@ inline float calcDistance(const uniform SDFGeometry& primitive, const vec3f& p)
                sdConePill(p, primitive.p0, primitive.p1, primitive.r0,
                           primitive.r1,
                           primitive.type == SDF_TYPE_CONE_PILL_SIGMOID);
+        //    sdCone(p, primitive.p0, primitive.p1, primitive.r0,
+        //               primitive.r1);
     }
 
     return -1.0;
@@ -237,7 +301,9 @@ float sdfDistance(const vec3f& p, uDataPtr_t geo_, uDataPtr_t prim_,
 
     // TODO don't blend soma if far enough from eye
 
-    const float r0 = prim->r0;
+    const float l1 = length(prim->p0 - p);
+    const float l2 = length(prim->p1 - p);
+    const float r0 = (l1 < l2 ? prim->r0 : prim->r1);
 
     for (uniform int i = 0; i < prim->numNeighbours; i++)
     {
@@ -247,11 +313,14 @@ float sdfDistance(const vec3f& p, uDataPtr_t geo_, uDataPtr_t prim_,
         const uniform SDFGeometry& neighbour = *getPrimitive(*geo, index);
 
         const float dOther = calcDistance(neighbour, p);
-        const float r1 = neighbour.r0;
+        const float l1 = length(neighbour.p0 - p);
+        const float l2 = length(neighbour.p1 - p);
+        const float r1 = (l1 < l2 ? neighbour.r0 : neighbour.r1);
         const float blendFactor =
             lerp(SDF_BLEND_LERP_FACTOR, min(r0, r1), max(r0, r1));
 
         d = sminPoly(dOther, d, blendFactor * SDF_BLEND_FACTOR);
+        // d = opBlend(dOther, d);
     }
 
     return d;

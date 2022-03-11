@@ -62,6 +62,7 @@ inline vec3f computeNormal(const vec3f& pos,
 {
     // tetrahedron technique (4 evaluations)
     const uniform float t = 2.f;
+
     const uniform vec3f k0 = make_vec3f( t, -t, -t), k1 = make_vec3f(-t, -t, t),
                         k2 = make_vec3f(-t, t, -t), k3 = make_vec3f(t, t, t);
 
@@ -73,7 +74,7 @@ inline vec3f computeNormal(const vec3f& pos,
 
 /////////////////////////////////////////////////////////////////////////////
 
-#define MAX_MARCH_ITERATION 32
+#define MAX_MARCH_ITERATION 64
 
 inline float raymarching(const Ray& ray,
                          const uniform distanceFunction_t sdfDistance,
