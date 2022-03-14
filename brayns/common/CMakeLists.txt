@@ -40,6 +40,7 @@ set(BRAYNSCOMMON_PUBLIC_HEADERS
   geometry/Sphere.h
   geometry/Streamline.h
   geometry/TriangleMesh.h
+  geometry/Curve.h
   input/KeyboardHandler.h
   light/Light.h
   loader/Loader.h

@@ -75,6 +75,8 @@ private:
     void _commitMeshes(const size_t materialId);
     void _commitStreamlines(const size_t materialId);
     void _commitSDFGeometries();
+    void _commitCurves(const size_t materialId);
+
     void _addGeometryToModel(const OSPGeometry geometry,
                              const size_t materialId);
     void _setBVHFlags();
@@ -100,6 +102,7 @@ private:
     std::map<size_t, OSPGeometry> _ospMeshes;
     std::map<size_t, OSPGeometry> _ospStreamlines;
     std::map<size_t, OSPGeometry> _ospSDFGeometries;
+    std::map<size_t, OSPGeometry> _ospCurves;
 
     size_t _memoryManagementFlags{OSP_DATA_SHARED_BUFFER};
 

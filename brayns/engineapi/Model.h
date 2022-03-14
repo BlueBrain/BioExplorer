@@ -25,6 +25,7 @@
 #include <brayns/common/PropertyMap.h>
 #include <brayns/common/Transformation.h>
 #include <brayns/common/geometry/Cone.h>
+#include <brayns/common/geometry/Curve.h>
 #include <brayns/common/geometry/Cylinder.h>
 #include <brayns/common/geometry/SDFBezier.h>
 #include <brayns/common/geometry/SDFGeometry.h>
@@ -370,6 +371,24 @@ public:
         _streamlinesDirty = true;
         return _geometries->_streamlines;
     }
+
+    /**
+      Adds a curve to the model
+      @param materialId Id of the material for the curve
+      @param curve Curve to add
+      */
+    BRAYNS_API void addCurve(const size_t materialId, const Curve& curve);
+
+    /**
+        Returns curves handled by the model
+    */
+    const CurvesMap& getCurves() const { return _geometries->_curves; }
+    CurvesMap& getCurves()
+    {
+        _curvesDirty = true;
+        return _geometries->_curves;
+    }
+
     /**
       Adds a SDFGeometry to the scene
       @param materialId Material of the geometry
@@ -517,6 +536,7 @@ protected:
         StreamlinesDataMap _streamlines;
         SDFGeometryData _sdf;
         Volumes _volumes;
+        CurvesMap _curves;
 
         Boxd _sphereBounds;
         Boxd _cylindersBounds;
@@ -526,13 +546,14 @@ protected:
         Boxd _streamlinesBounds;
         Boxd _sdfGeometriesBounds;
         Boxd _volumesBounds;
+        Boxd _curvesBounds;
 
         bool isEmpty() const
         {
             return _spheres.empty() && _cylinders.empty() && _cones.empty() &&
                    _sdfBeziers.empty() && _triangleMeshes.empty() &&
                    _sdf.geometries.empty() && _streamlines.empty() &&
-                   _volumes.empty();
+                   _volumes.empty() && _curves.empty();
         }
     };
 
@@ -549,11 +570,13 @@ protected:
     bool _streamlinesDirty{false};
     bool _sdfGeometriesDirty{false};
     bool _volumesDirty{false};
+    bool _curvesDirty{false};
 
     bool _areGeometriesDirty() const
     {
         return _spheresDirty || _cylindersDirty || _conesDirty ||
-               _sdfBeziersDirty || _triangleMeshesDirty || _sdfGeometriesDirty;
+               _sdfBeziersDirty || _triangleMeshesDirty ||
+               _sdfGeometriesDirty || _curvesDirty;
     }
 
     Boxd _bounds;

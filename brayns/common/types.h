@@ -123,6 +123,10 @@ using TriangleMeshMap = std::map<size_t, TriangleMesh>;
 struct StreamlinesData;
 using StreamlinesDataMap = std::map<size_t, StreamlinesData>;
 
+struct Curve;
+using Curves = std::vector<Curve>;
+using CurvesMap = std::map<size_t, Curves>;
+
 class Volume;
 class BrickedVolume;
 class SharedDataVolume;

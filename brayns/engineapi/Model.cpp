@@ -264,6 +264,29 @@ void Model::addStreamline(const size_t materialId, const Streamline& streamline)
     _streamlinesDirty = true;
 }
 
+void Model::addCurve(const size_t materialId, const Curve& curve)
+{
+    if (curve.vertices.size() < 2)
+        throw std::runtime_error(
+            "Number of vertices is less than two which is minimum needed for a "
+            "curve");
+
+    if (curve.vertices.size() != curve.indices.size())
+        throw std::runtime_error(
+            "Number of vertices and indices do not match.");
+
+    if (curve.vertices.size() != curve.normals.size())
+        throw std::runtime_error(
+            "Number of vertices and normals do not match.");
+
+    if (curve.vertices.size() != curve.tangents.size())
+        throw std::runtime_error(
+            "Number of vertices and tangents do not match.");
+
+    _geometries->_curves[materialId].push_back(curve);
+    _curvesDirty = true;
+}
+
 uint64_t Model::addSDFGeometry(const size_t materialId, const SDFGeometry& geom,
                                const uint64_ts& neighbourIndices)
 {
@@ -494,6 +517,7 @@ void Model::copyFrom(const Model& rhs)
     _streamlinesDirty = !_geometries->_streamlines.empty();
     _sdfGeometriesDirty = !_geometries->_sdf.geometries.empty();
     _volumesDirty = !_geometries->_volumes.empty();
+    _curvesDirty = !_geometries->_curves.empty();
 }
 
 void Model::updateBounds()
@@ -584,6 +608,15 @@ void Model::updateBounds()
             _geometries->_volumesBounds.merge(volume->getBounds());
     }
 
+    if (_curvesDirty)
+    {
+        _geometries->_curvesBounds.reset();
+        for (const auto& curves : _geometries->_curves)
+            for (const auto& curve : curves.second)
+                for (const auto& vertex : curve.vertices)
+                    _geometries->_curvesBounds.merge(vertex);
+    }
+
     _bounds.reset();
     _bounds.merge(_geometries->_sphereBounds);
     _bounds.merge(_geometries->_cylindersBounds);
@@ -593,6 +626,7 @@ void Model::updateBounds()
     _bounds.merge(_geometries->_streamlinesBounds);
     _bounds.merge(_geometries->_sdfGeometriesBounds);
     _bounds.merge(_geometries->_volumesBounds);
+    _bounds.merge(_geometries->_curvesBounds);
 }
 
 void Model::_markGeometriesClean()
@@ -605,6 +639,7 @@ void Model::_markGeometriesClean()
     _streamlinesDirty = false;
     _sdfGeometriesDirty = false;
     _volumesDirty = false;
+    _curvesDirty = false;
 }
 
 MaterialPtr Model::createMaterial(const size_t materialId,

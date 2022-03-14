@@ -377,6 +377,49 @@ void OSPRayModel::_commitSDFGeometries()
     ospRelease(neighbourData);
 }
 
+void OSPRayModel::_commitCurves(const size_t materialId)
+{
+    const auto& curves = _geometries->_curves[materialId];
+    for (const auto& curve : curves)
+    {
+        auto& geometry = _createGeometry(_ospCurves, materialId, "curves");
+
+        {
+            auto vertices = allocateVectorData(curve.vertices, OSP_FLOAT4,
+                                               _memoryManagementFlags);
+            ospSetObject(geometry, "vertex", vertices);
+            ospRelease(vertices);
+        }
+        {
+            auto indices = allocateVectorData(curve.indices, OSP_INT,
+                                              _memoryManagementFlags);
+            ospSetObject(geometry, "index", indices);
+            ospRelease(indices);
+        }
+        {
+            auto normals = allocateVectorData(curve.normals, OSP_FLOAT3,
+                                              _memoryManagementFlags);
+            ospSetObject(geometry, "vertex.normal", normals);
+            ospRelease(normals);
+        }
+        {
+            auto tangents = allocateVectorData(curve.tangents, OSP_FLOAT3,
+                                               _memoryManagementFlags);
+            ospSetObject(geometry, "vertex.tangent", tangents);
+            ospRelease(tangents);
+        }
+
+        osphelper::set(geometry, "curveBasis",
+                       baseTypeAsString(curve.baseType));
+        osphelper::set(geometry, "curveType",
+                       curveTypeAsString(curve.curveType));
+
+        ospCommit(geometry);
+
+        ospAddGeometry(_primaryModel, geometry);
+    }
+}
+
 void OSPRayModel::_setBVHFlags()
 {
     osphelper::set(_primaryModel, "dynamicScene",
@@ -407,43 +450,35 @@ void OSPRayModel::commitGeometry()
 
     // Group geometry
     if (_spheresDirty)
-    {
         for (const auto& spheres : _geometries->_spheres)
             _commitSpheres(spheres.first);
-    }
 
     if (_cylindersDirty)
-    {
         for (const auto& cylinders : _geometries->_cylinders)
             _commitCylinders(cylinders.first);
-    }
 
     if (_conesDirty)
-    {
         for (const auto& cones : _geometries->_cones)
             _commitCones(cones.first);
-    }
 
     if (_sdfBeziersDirty)
-    {
         for (const auto& sdfBeziers : _geometries->_sdfBeziers)
             _commitSDFBeziers(sdfBeziers.first);
-    }
 
     if (_triangleMeshesDirty)
-    {
         for (const auto& meshes : _geometries->_triangleMeshes)
             _commitMeshes(meshes.first);
-    }
 
     if (_streamlinesDirty)
-    {
         for (const auto& streamlines : _geometries->_streamlines)
             _commitStreamlines(streamlines.first);
-    }
 
     if (_sdfGeometriesDirty)
         _commitSDFGeometries();
+
+    if (_curvesDirty)
+        for (const auto& curve : _geometries->_curves)
+            _commitCurves(curve.first);
 
     updateBounds();
     _markGeometriesClean();
