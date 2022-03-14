@@ -228,6 +228,7 @@ class BioExplorer:
     ASSEMBLY_SHAPE_FAN = 5
     ASSEMBLY_SHAPE_BEZIER = 6
     ASSEMBLY_SHAPE_MESH = 7
+    ASSEMBLY_SHAPE_HELIX = 8
 
     NAME_PROTEIN_S_OPEN = "Protein S (open)"
     NAME_PROTEIN_S_CLOSED = "Protein S (closed)"
@@ -2136,6 +2137,17 @@ class BioExplorer:
             return
 
         return self._invoke_and_check("add-sdf-demo")
+
+    def add_curves_demo(self):
+        """
+        Add an curves demo model
+
+        :return: Result of the request submission
+        """
+        if self._client is None:
+            return
+
+        return self._invoke_and_check("add-curves-demo")
 
     def set_general_settings(self, model_visibility_on_creation=True, mesh_folder='/tmp',
                              logging_level=0, v1_compatibility=False):

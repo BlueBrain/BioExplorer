@@ -53,6 +53,8 @@ public:
 
     void addSDFDemo(Model& model);
 
+    void addCurvesDemo(Model& model);
+
 protected:
     void _createMaterials(const MaterialSet& materialIds, Model& model);
     void _setMaterialExtraAttributes();

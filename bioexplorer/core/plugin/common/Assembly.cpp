@@ -27,6 +27,7 @@
 #include <plugin/common/shapes/BezierShape.h>
 #include <plugin/common/shapes/CubeShape.h>
 #include <plugin/common/shapes/FanShape.h>
+#include <plugin/common/shapes/HelixShape.h>
 #include <plugin/common/shapes/MeshShape.h>
 #include <plugin/common/shapes/PlaneShape.h>
 #include <plugin/common/shapes/PointShape.h>
@@ -94,6 +95,11 @@ Assembly::Assembly(Scene &scene, const AssemblyDetails &details)
     {
         _shape = ShapePtr(
             new MeshShape(_clippingPlanes, size, _details.shapeMeshContents));
+        break;
+    }
+    case AssemblyShape::helix:
+    {
+        _shape = ShapePtr(new HelixShape(_clippingPlanes, size.x, size.y));
         break;
     }
     default:

@@ -165,7 +165,9 @@ enum class AssemblyShape
     /** Bezier (experimental) */
     bezier = 6,
     /** mesh-based */
-    mesh = 7
+    mesh = 7,
+    /** Helix */
+    helix = 8
 };
 
 /**
