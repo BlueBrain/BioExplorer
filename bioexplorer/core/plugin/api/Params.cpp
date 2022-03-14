@@ -733,6 +733,7 @@ bool from_json(VasculatureDetails &param, const std::string &payload)
         FROM_JSON(param, js, quality);
         FROM_JSON(param, js, radiusMultiplier);
         FROM_JSON(param, js, sqlFilter);
+        FROM_JSON(param, js, scale);
     }
     catch (...)
     {
@@ -810,6 +811,7 @@ bool from_json(AstrocytesDetails &param, const std::string &payload)
         FROM_JSON(param, js, populationColorScheme);
         FROM_JSON(param, js, radiusMultiplier);
         FROM_JSON(param, js, sqlFilter);
+        FROM_JSON(param, js, scale);
     }
     catch (...)
     {
@@ -838,6 +840,7 @@ bool from_json(NeuronsDetails &param, const std::string &payload)
         FROM_JSON(param, js, radiusMultiplier);
         FROM_JSON(param, js, sqlNodeFilter);
         FROM_JSON(param, js, sqlSectionFilter);
+        FROM_JSON(param, js, scale);
     }
     catch (...)
     {

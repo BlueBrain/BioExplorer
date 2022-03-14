@@ -55,7 +55,7 @@ void Vasculature::_importFromDB()
     auto& connector = DBConnector::getInstance();
 
     _nodes = connector.getVasculatureNodes(_details.populationName,
-                                           _details.sqlFilter);
+                                           _details.sqlFilter, _details.scale);
 
     std::map<uint64_t, std::vector<uint64_t>> pairs;
     std::set<uint64_t> entryNodes;
@@ -200,7 +200,7 @@ std::set<uint64_t> Vasculature::_buildSimpleModel(
                 if (!useSdf)
                     _addSphere(useSdf, srcPoint, srcRadius, materialId,
                                userData, model, sdfMorphologyData, neighbours,
-                               VASCULATURE_DISPLACEMENT_RATIO);
+                               VASCULATURE_DISPLACEMENT_RATIO / _details.scale);
             }
             else
                 neighbours = {geometryIndex};
@@ -222,11 +222,12 @@ std::set<uint64_t> Vasculature::_buildSimpleModel(
             if (!useSdf)
                 _addSphere(useSdf, dstPoint, dstRadius, materialId, userData,
                            model, sdfMorphologyData, neighbours,
-                           VASCULATURE_DISPLACEMENT_RATIO);
+                           VASCULATURE_DISPLACEMENT_RATIO / _details.scale);
             geometryIndex =
                 _addCone(useSdf, dstPoint, dstRadius, srcPoint, srcRadius,
                          previousMaterialId, userData, model, sdfMorphologyData,
-                         {geometryIndex}, VASCULATURE_DISPLACEMENT_RATIO);
+                         {geometryIndex},
+                         VASCULATURE_DISPLACEMENT_RATIO / _details.scale);
             previousMaterialId = materialId;
             materialIds.insert(materialId);
         }
@@ -308,7 +309,8 @@ std::set<uint64_t> Vasculature::_buildAdvancedModel(
                 geometryIndex =
                     _addCone(useSdf, Vector3f(dst), dst.w, Vector3f(src), src.w,
                              materialId, userData, model, sdfMorphologyData,
-                             {geometryIndex});
+                             {geometryIndex},
+                             VASCULATURE_DISPLACEMENT_RATIO / _details.scale);
             }
             materialIds.insert(materialId);
             i += precision;

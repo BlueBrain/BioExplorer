@@ -202,25 +202,5 @@ void Node::addSDFDemo(Model& model)
 
     _finalizeSDFGeometries(model, sdfMorphologyData);
 }
-
-void Node::addCurvesDemo(Model& model)
-{
-    MaterialSet materialIds;
-    size_t materialId = 0;
-
-    Vector4fs vertices = {{0, 0, 0, 0.2},
-                          {1, 0, 0, 0.3},
-                          {1, 1, 0, 0.1},
-                          {0, 1, 0, 0.2}};
-    uint64_ts indices = {0, 1, 2, 3};
-    Vector3fs normals = {{0, -1, 0}, {-1, 0, -1}, {1, 1, 1}, {1, 0, 1}};
-    Vector3fs tangents = {{0, -1, 0}, {-1, 0, -1}, {1, 1, 1}, {1, 0, 1}};
-    Curve curve(CurveType::round, BaseType::bezier, vertices, indices, normals,
-                tangents);
-    model.addCurve(materialId, curve);
-    materialIds.insert(materialId);
-    _createMaterials(materialIds, model);
-}
-
 } // namespace common
 } // namespace bioexplorer

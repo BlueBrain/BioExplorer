@@ -43,7 +43,7 @@ const size_t MATERIAL_OFFSET_SOMA = 0;
 const size_t MATERIAL_OFFSET_DENDRITE = 1;
 
 const double DEFAULT_SOMA_DISPLACEMENT = 2.0;
-const double DEFAULT_SECTION_DISPLACEMENT = 10.0;
+const double DEFAULT_SECTION_DISPLACEMENT = 5.0;
 
 Astrocytes::Astrocytes(Scene& scene, const AstrocytesDetails& details)
     : _details(details)
@@ -73,8 +73,8 @@ void Astrocytes::_buildModel()
     for (const auto& soma : somas)
     {
         const auto somaId = soma.first;
-        const auto& somaPosition = soma.second.center;
-        const auto somaRadius = soma.second.radius;
+        const auto& somaPosition = _details.scale * soma.second.center;
+        const auto somaRadius = _details.scale * soma.second.radius;
 
         PLUGIN_PROGRESS("Loading astrocytes", soma.first, somas.size());
         switch (_details.populationColorScheme)
@@ -92,7 +92,7 @@ void Astrocytes::_buildModel()
             somaGeometryIndex =
                 _addSphere(useSdf, somaPosition, somaRadius, baseMaterialId,
                            NO_USER_DATA, *model, sdfMorphologyData, {},
-                           DEFAULT_SOMA_DISPLACEMENT);
+                           DEFAULT_SOMA_DISPLACEMENT / _details.scale);
 
         const auto sections = connector.getAstrocyteSections(somaId);
         // End feet
@@ -108,13 +108,13 @@ void Astrocytes::_buildModel()
             if (section.second.parentId == SOMA_AS_PARENT)
             {
                 // Section connected to the soma
-                const auto& point = points[0];
+                const auto& point = _details.scale * points[0];
                 geometryIndex =
                     _addCone(useSdf, somaPosition, somaRadius,
                              somaPosition + Vector3d(point), point.w * 0.5,
                              baseMaterialId, NO_USER_DATA, *model,
                              sdfMorphologyData, {somaGeometryIndex},
-                             DEFAULT_SOMA_DISPLACEMENT);
+                             DEFAULT_SOMA_DISPLACEMENT / _details.scale);
             }
 
             size_t sectionMaterialId = baseMaterialId;
@@ -145,18 +145,18 @@ void Astrocytes::_buildModel()
                 if (section.second.parentId == SOMA_AS_PARENT)
                 {
                     // Section connected to the soma
-                    const auto& point = points[0];
+                    const auto& point = _details.scale * points[0];
                     geometryIndex =
                         _addCone(useSdf, somaPosition, somaRadius * 0.5,
                                  somaPosition + Vector3d(point), point.w * 0.5,
                                  sectionMaterialId, userData, *model,
                                  sdfMorphologyData, {somaGeometryIndex},
-                                 DEFAULT_SOMA_DISPLACEMENT);
+                                 DEFAULT_SOMA_DISPLACEMENT / _details.scale);
                 }
 
                 for (uint64_t i = 0; i < points.size() - 1; i += step)
                 {
-                    const auto& srcPoint = points[i];
+                    const auto srcPoint = _details.scale * points[i];
                     const auto src = somaPosition + Vector3d(srcPoint);
                     const float srcRadius = srcPoint.w * 0.5;
 
@@ -166,7 +166,7 @@ void Astrocytes::_buildModel()
                     float dstRadius;
                     do
                     {
-                        dstPoint = points[i + step];
+                        dstPoint = _details.scale * points[i + step];
                         dstRadius = dstPoint.w * 0.5;
                         ++i;
                     } while (length(Vector3f(dstPoint) - Vector3f(srcPoint)) <
@@ -184,7 +184,8 @@ void Astrocytes::_buildModel()
                     geometryIndex =
                         _addCone(useSdf, src, srcRadius, dst, dstRadius,
                                  sectionMaterialId, userData, *model,
-                                 sdfMorphologyData, {geometryIndex});
+                                 sdfMorphologyData, {geometryIndex},
+                                 DEFAULT_SECTION_DISPLACEMENT / _details.scale);
 
                     _bounds.merge(srcPoint);
                 }
@@ -200,7 +201,7 @@ void Astrocytes::_buildModel()
                     for (const auto& vertex : endFoot.vertices)
                     {
                         _bounds.merge(vertex);
-                        tm.vertices.push_back(vertex);
+                        tm.vertices.push_back(_details.scale * vertex);
                     }
                     for (const auto& index : endFoot.indices)
                         tm.indices.push_back(index + indexOffset);

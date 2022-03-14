@@ -845,7 +845,7 @@ class BioExplorer:
 
     def add_volume(self, volume, atom_radius_multiplier=1.0,
                    representation=REPRESENTATION_ATOMS_AND_STICKS, position=Vector3(),
-                   constraints=list()):
+                   rotation=Quaternion(), constraints=list()):
         """
         Add a volume assembly to the scene
 
@@ -853,6 +853,7 @@ class BioExplorer:
         :atom_radius_multiplier: Representation of the protein (Atoms, atoms and sticks, etc)
         :representation: Multiplies atom radius by the specified value
         :position: Position of the volume in the scene
+        :rotation: Rotation of the volume in the scene
         :animation_params: Random seed used to define the positions of the proteins in the volume
         :constraints: List of assemblies that constraint the placememnt of the proteins
         """
@@ -881,7 +882,7 @@ class BioExplorer:
         result = self.add_assembly(
             name=volume.name,
             shape=volume.shape, shape_params=volume.shape_params,
-            position=position)
+            position=position, rotation=rotation)
         if not result["status"]:
             raise RuntimeError(result["contents"])
         result = self.add_assembly_protein(_protein)
@@ -2211,7 +2212,7 @@ class BioExplorer:
     def add_vasculature(
             self, assembly_name, population_name, use_sdf=False, section_gids=list(),
             load_capilarities=False, quality=VASCULATURE_QUALITY_HIGH,
-            radius_multiplier=1.0, sql_filter=''):
+            radius_multiplier=1.0, sql_filter='', scale=1.0):
         """
         Add a vasculature to the 3D scene
 
@@ -2220,10 +2221,11 @@ class BioExplorer:
         :path: File name to the H5 vasculature file
         :use_sdf: Use sign distance fields geometry to create the vasculature. Defaults to False
         :node_gids: List of segment GIDs to load. Defaults to list()
-        :load_capilarities: Load capilarities (<= 7 micrometers) if set to True
-        :radius_correction: Replaces all vasculature radii if different from zero
         :quality: Quality of the vasculature geometry (0 is the graph, 1 with low details, 2
                     with high details)
+        :radius_muliplier: Applies the multiplier to all radii of the astrocyte sections
+        :sql_filter: Condition added to the SQL statement loading the astrocytes
+        :scale: Scale in the 3D scene
 
         :return: Result of the request submission
         """
@@ -2238,6 +2240,7 @@ class BioExplorer:
         params["quality"] = quality
         params["radiusMultiplier"] = radius_multiplier
         params["sqlFilter"] = sql_filter
+        params["scale"] = scale
         return self._invoke_and_check('add-vasculature', params)
 
     def get_vasculature_info(self, assembly_name):
@@ -2338,7 +2341,7 @@ class BioExplorer:
             geometry_quality=GEOMETRY_QUALITY_HIGH,
             morphology_color_scheme=MORPHOLOGY_COLOR_SCHEME_NONE,
             population_color_scheme=POPULATION_COLOR_SCHEME_NONE,
-            radius_multiplier=0.0, sql_filter=''):
+            radius_multiplier=0.0, sql_filter='', scale=1.0):
         """
         Add a population of astrocytes to the 3D scene
 
@@ -2353,6 +2356,7 @@ class BioExplorer:
         :populationColorScheme: Color scheme of the population of astrocytes
         :radius_muliplier: Applies the multiplier to all radii of the astrocyte sections
         :sql_filter: Condition added to the SQL statement loading the astrocytes
+        :scale: Scale in the 3D scene
 
         :return: Result of the request submission
         """
@@ -2368,6 +2372,7 @@ class BioExplorer:
         params["populationColorScheme"] = population_color_scheme
         params["radiusMultiplier"] = radius_multiplier
         params["sqlFilter"] = sql_filter
+        params["scale"] = scale
         return self._invoke_and_check('add-astrocytes', params)
 
     def add_neurons(
@@ -2379,7 +2384,8 @@ class BioExplorer:
             geometry_quality=GEOMETRY_QUALITY_HIGH,
             morphology_color_scheme=MORPHOLOGY_COLOR_SCHEME_NONE,
             population_color_scheme=POPULATION_COLOR_SCHEME_NONE,
-            radius_multiplier=0.0, sql_node_filter='', sql_section_filter=''):
+            radius_multiplier=0.0, sql_node_filter='', sql_section_filter='',
+            scale=1.0):
         """
         Add a population of astrocytes to the 3D scene
 
@@ -2398,6 +2404,7 @@ class BioExplorer:
         :radius_muliplier: Applies the multiplier to all radii of the astrocyte sections
         :sql_node_filter: Condition added to the SQL statement loading the nodes
         :sql_section_filter: Condition added to the SQL statement loading the sections
+        :scale: Scale in the 3D scene
 
         :return: Result of the request submission
         """
@@ -2417,6 +2424,7 @@ class BioExplorer:
         params["radiusMultiplier"] = radius_multiplier
         params["sqlNodeFilter"] = sql_node_filter
         params["sqlSectionFilter"] = sql_section_filter
+        params["scale"] = scale
         return self._invoke_and_check('add-neurons', params)
 
 # Private classes

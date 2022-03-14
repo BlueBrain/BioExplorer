@@ -434,12 +434,6 @@ void BioExplorerPlugin::init()
             return _addSdfDemo();
         });
 
-        endPoint = PLUGIN_API_PREFIX + "add-curves-demo";
-        PLUGIN_INFO(1, "Registering '" + endPoint + "' endpoint");
-        actionInterface->registerRequest<Response>(endPoint, [&]() {
-            return _addCurvesDemo();
-        });
-
         endPoint = PLUGIN_API_PREFIX + "get-model-ids";
         PLUGIN_INFO(1, "Registering '" + endPoint + "' endpoint");
         actionInterface->registerRequest<IdsDetails>(endPoint,
@@ -1404,23 +1398,6 @@ Response BioExplorerPlugin::_addSdfDemo()
         node.addSDFDemo(*model);
         scene.addModel(
             std::make_shared<ModelDescriptor>(std::move(model), "SDF demo"));
-    }
-    CATCH_STD_EXCEPTION()
-    return response;
-}
-
-Response BioExplorerPlugin::_addCurvesDemo()
-{
-    Response response;
-    try
-    {
-        auto &scene = _api->getScene();
-        auto model = scene.createModel();
-
-        Node node;
-        node.addCurvesDemo(*model);
-        scene.addModel(
-            std::make_shared<ModelDescriptor>(std::move(model), "Curves demo"));
     }
     CATCH_STD_EXCEPTION()
     return response;

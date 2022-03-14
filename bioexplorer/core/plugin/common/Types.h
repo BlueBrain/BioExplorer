@@ -117,7 +117,7 @@ typedef struct
     /** Instance identifier */
     size_t instanceId;
     /** camera direction */
-    std::vector<double> direction;
+    doubles direction;
     /** Distance to the instance */
     double distance;
 } FocusOnDetails;
@@ -203,13 +203,13 @@ typedef struct
     std::string proteinName;
     size_t modelId;
     size_t instanceId;
-    std::vector<double> position;
+    doubles position;
 } ProteinInspectionDetails;
 
 typedef struct
 {
-    std::vector<double> origin;
-    std::vector<double> direction;
+    doubles origin;
+    doubles direction;
 } InspectionDetails;
 
 /**
@@ -223,15 +223,15 @@ typedef struct
     /** Shape of the assembly containing the parametric membrane */
     AssemblyShape shape;
     /** Shape parameters */
-    std::vector<double> shapeParams;
+    doubles shapeParams;
     /** Contents of the mesh for mesh-based shapes */
     std::string shapeMeshContents;
     /** Position of the assembly in the scene */
-    std::vector<double> position;
+    doubles position;
     /** rotation of the assembly in the scene */
-    std::vector<double> rotation;
+    doubles rotation;
     /** Clipping planes applied to the loading of elements of the assembly */
-    std::vector<double> clippingPlanes;
+    doubles clippingPlanes;
 } AssemblyDetails;
 
 /**
@@ -246,7 +246,7 @@ typedef struct
      * applied */
     std::string name;
     /** List of transformations */
-    std::vector<double> transformations;
+    doubles transformations;
 } AssemblyTransformationsDetails;
 
 /**
@@ -288,7 +288,7 @@ typedef struct
      * PDB_CONTENTS_DELIMITER */
     std::string lipidContents;
     /** Relative rotation of the lipid in the membrane */
-    std::vector<double> lipidRotation;
+    doubles lipidRotation;
     /** Lipids density  */
     double lipidDensity;
     /** Multiplier applied to the radius of the lipid atoms */
@@ -305,7 +305,7 @@ typedef struct
     /** Recenters the lipid  */
     bool recenter;
     /** Extra optional parameters for positioning on the molecule */
-    std::vector<double> animationParams;
+    doubles animationParams;
 } MembraneDetails;
 
 // Protein
@@ -341,13 +341,13 @@ typedef struct
      * added */
     std::vector<size_t> allowedOccurrences;
     /** Trans-membrane parameters */
-    std::vector<double> transmembraneParams;
+    doubles transmembraneParams;
     /** Extra optional parameters for positioning on the molecule */
-    std::vector<double> animationParams;
+    doubles animationParams;
     /** Relative position of the protein in the assembly */
-    std::vector<double> position;
+    doubles position;
     /** Relative rotation of the protein in the assembly */
-    std::vector<double> rotation;
+    doubles rotation;
     /** List of assembly names used to constrain the placement of the protein.
      * If the assembly name is prefixed by a +, proteins are not allowed inside
      * the spedified assembly. If the name is prefixed by a -, proteins are not
@@ -385,9 +385,9 @@ typedef struct
     /** List of sites on which sugar can be added */
     std::vector<size_t> siteIndices;
     /** Relative rotation of the sugar on the molecule */
-    std::vector<double> rotation;
+    doubles rotation;
     /** Extra optional parameters for positioning on the molecule */
-    std::vector<double> animationParams;
+    doubles animationParams;
 } SugarDetails;
 
 /**
@@ -409,22 +409,22 @@ typedef struct
     /** A given shape */
     RNAShapeType shape;
     /** Shape radius */
-    std::vector<double> shapeParams;
+    doubles shapeParams;
     /** Range of values used to compute the shape */
-    std::vector<double> valuesRange;
+    doubles valuesRange;
     /** Parameters used to compute the shape */
-    std::vector<double> curveParams;
+    doubles curveParams;
     /** Multiplier applied to the radius of the molecule atoms */
     double atomRadiusMultiplier;
     /** Defines the representation of the molecule (Atoms, atoms and sticks,
      * surface, etc) */
     ProteinRepresentation representation;
     /** Animation params */
-    std::vector<double> animationParams;
+    doubles animationParams;
     /** Relative position of the RNA sequence in the assembly */
-    std::vector<double> position;
+    doubles position;
     /** Relative rotation of the RNA sequence in the assembly */
-    std::vector<double> rotation;
+    doubles rotation;
 } RNASequenceDetails;
 
 /**
@@ -541,7 +541,7 @@ typedef struct
     /** Defines if the RGB color scheme shoudl be applied to axis */
     bool useColors;
     /** Position of the grid in the scene */
-    std::vector<double> position;
+    doubles position;
 } AddGridDetails;
 
 /**
@@ -553,11 +553,11 @@ typedef struct
     /** Name of the sphere */
     std::string name;
     /** Position of the sphere in the scene */
-    std::vector<double> position;
+    doubles position;
     /** Radius of the sphere */
     double radius;
     /** RGB Color of the sphere */
-    std::vector<double> color;
+    doubles color;
     /** Opacity */
     double opacity;
 } AddSphereDetails;
@@ -571,13 +571,13 @@ typedef struct
     /** Name of the bounding box */
     std::string name;
     /** Position of the bottom left corner in the scene */
-    std::vector<double> bottomLeft;
+    doubles bottomLeft;
     /** Position of the top right corner in the scene */
-    std::vector<double> topRight;
+    doubles topRight;
     /** Radius of the borders */
     double radius;
     /** RGB Color of the sphere */
-    std::vector<double> color;
+    doubles color;
 } AddBoundingBoxDetails;
 
 /**
@@ -615,7 +615,7 @@ typedef struct
     /** Color scheme **/
     ProteinColorScheme colorScheme;
     /** Palette of colors (RGB values) */
-    std::vector<double> palette;
+    doubles palette;
     /** Ids of protein chains to which the colors scheme is applied */
     std::vector<size_t> chainIds;
 } ProteinColorSchemeDetails;
@@ -629,9 +629,9 @@ typedef struct
     /** Index of the protein instance */
     size_t instanceIndex;
     /** Position of the protein instance */
-    std::vector<double> position;
+    doubles position;
     /** rotation of the protein instance */
-    std::vector<double> rotation;
+    doubles rotation;
 } ProteinInstanceTransformationDetails;
 
 /**
@@ -677,27 +677,27 @@ typedef struct
     /** List of material identifiers */
     std::vector<int32_t> materialIds;
     /** List of RGB values for diffuse colors */
-    std::vector<double> diffuseColors;
+    doubles diffuseColors;
     /** List of RGB values for specular colors */
-    std::vector<double> specularColors;
+    doubles specularColors;
     /** List of values for specular exponents */
-    std::vector<double> specularExponents;
+    doubles specularExponents;
     /** List of values for reflection indices */
-    std::vector<double> reflectionIndices;
+    doubles reflectionIndices;
     /** List of values for opacities */
-    std::vector<double> opacities;
+    doubles opacities;
     /** List of values for refraction indices */
-    std::vector<double> refractionIndices;
+    doubles refractionIndices;
     /** List of values for light emission */
-    std::vector<double> emissions;
+    doubles emissions;
     /** List of values for glossiness */
-    std::vector<double> glossinesses;
+    doubles glossinesses;
     /** List of values for casting user data */
     std::vector<bool> castUserData;
     /** List of values for shading modes */
     std::vector<int32_t> shadingModes;
     /** List of values for user defined parameters */
-    std::vector<double> userParameters;
+    doubles userParameters;
     /** List of values for chameleon mode parameters */
     std::vector<int32_t> chameleonModes;
 } MaterialsDetails;
@@ -757,8 +757,8 @@ enum class XYZFileFormat
 typedef struct
 {
     std::string filename;
-    std::vector<double> lowBounds;
-    std::vector<double> highBounds;
+    doubles lowBounds;
+    doubles highBounds;
     XYZFileFormat fileFormat;
 } FileAccessDetails;
 
@@ -769,8 +769,8 @@ typedef struct
 typedef struct
 {
     int32_t brickId;
-    std::vector<double> lowBounds;
-    std::vector<double> highBounds;
+    doubles lowBounds;
+    doubles highBounds;
 } DatabaseAccessDetails;
 
 /**
@@ -875,6 +875,8 @@ typedef struct
     double radiusMultiplier;
     /** SQL filter (WHERE condition) */
     std::string sqlFilter;
+    /** Scale of the vasculature in the scene */
+    double scale{1.0};
 } VasculatureDetails;
 
 /**
@@ -888,7 +890,7 @@ typedef struct
     /** Color scheme **/
     VasculatureColorScheme colorScheme;
     /** Palette of colors (RGB values) */
-    std::vector<double> palette;
+    doubles palette;
 } VasculatureColorSchemeDetails;
 
 typedef struct
@@ -948,13 +950,13 @@ typedef struct
     /** Name of the population of astrocytes */
     std::string populationName;
     /** Load somas if set to true */
-    bool loadSomas;
+    bool loadSomas{true};
     /** Load dendrites if set to true */
-    bool loadDendrites;
+    bool loadDendrites{true};
     /** Load end-feet if set to true */
-    bool loadEndFeet;
+    bool loadEndFeet{false};
     /** Use Signed Distance Fields as geometry */
-    bool useSdf;
+    bool useSdf{false};
     /** Geometry quality */
     GeometryQuality geometryQuality;
     /** Geometry color scheme */
@@ -965,6 +967,8 @@ typedef struct
     double radiusMultiplier;
     /** SQL filter (WHERE condition) */
     std::string sqlFilter;
+    /** Scale of the astrocyte in the scene */
+    double scale{1.0};
 } AstrocytesDetails;
 
 enum class NeuronSectionType
@@ -982,19 +986,19 @@ typedef struct
     /** Name of the population of astrocytes */
     std::string populationName;
     /** Load somas if set to true */
-    bool loadSomas;
+    bool loadSomas{true};
     /** Load axons if set to true */
-    bool loadAxons;
+    bool loadAxons{true};
     /** Load bascal dendrites if set to true */
-    bool loadBasalDendrites;
+    bool loadBasalDendrites{true};
     /** Load apical dendrites if set to true */
-    bool loadApicalDendrites;
+    bool loadApicalDendrites{true};
     /** Generate internal components (nucleus and mitochondria) */
-    bool generateInternals;
+    bool generateInternals{false};
     /** Generate external components (myelin steath) */
-    bool generateExternals;
+    bool generateExternals{false};
     /** Use Signed Distance Fields as geometry */
-    bool useSdf;
+    bool useSdf{false};
     /** Geometry quality */
     GeometryQuality geometryQuality;
     /** Geometry color scheme */
@@ -1007,6 +1011,8 @@ typedef struct
     std::string sqlNodeFilter;
     /** SQL filter dor sections (WHERE condition) */
     std::string sqlSectionFilter;
+    /** Scale of the neuron in the scene */
+    double scale{1.0};
 } NeuronsDetails;
 #endif
 
