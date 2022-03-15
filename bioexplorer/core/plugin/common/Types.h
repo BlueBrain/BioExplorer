@@ -973,10 +973,11 @@ typedef struct
 
 enum class NeuronSectionType
 {
-    soma = 0,
-    axon = 1,
-    basal_dendrite = 2,
-    apical_dendrite = 3
+    undefined = 0,
+    soma = 1,
+    axon = 2,
+    basal_dendrite = 3,
+    apical_dendrite = 4
 };
 
 typedef struct
@@ -988,11 +989,13 @@ typedef struct
     /** Load somas if set to true */
     bool loadSomas{true};
     /** Load axons if set to true */
-    bool loadAxons{true};
+    bool loadAxon{true};
     /** Load bascal dendrites if set to true */
     bool loadBasalDendrites{true};
     /** Load apical dendrites if set to true */
     bool loadApicalDendrites{true};
+    /** Load synapses if set to true */
+    bool loadSynapses{false};
     /** Generate internal components (nucleus and mitochondria) */
     bool generateInternals{false};
     /** Generate external components (myelin steath) */
@@ -1275,12 +1278,22 @@ using AstrocyteSomaMap = std::map<uint64_t, AstrocyteSoma>;
 typedef struct
 {
     Vector3d position;
+    Quaterniond rotation;
     uint64_t eType{0};
     uint64_t mType{0};
     uint64_t layer{0};
     uint64_t morphologyId{0};
 } NeuronSoma;
 using NeuronSomaMap = std::map<uint64_t, NeuronSoma>;
+
+typedef struct
+{
+    uint64_t preSynapticNeuron;
+    uint64_t postSynapticNeuron;
+    Vector3d surfacePosition;
+    Vector3d centerPosition;
+} Synapse;
+using SynapseMap = std::map<uint64_t, Synapse>;
 
 typedef struct
 {

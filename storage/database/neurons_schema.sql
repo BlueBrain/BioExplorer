@@ -194,13 +194,16 @@ create index node_population_guid_index
 
 create table section
 (
-    morphology_guid     integer not null,
-    section_guid        integer not null,
-    section_parent_guid integer not null,
-    section_type_guid   integer not null
+    morphology_guid     integer                    not null,
+    section_guid        integer                    not null,
+    section_parent_guid integer                    not null,
+    section_type_guid   integer                    not null
         constraint section_section_type_guid_fk
             references section_type,
-    points              bytea   not null,
+    points              bytea                      not null,
+    x                   double precision default 0 not null,
+    y                   double precision default 0 not null,
+    z                   double precision default 0 not null,
     constraint section_pk
         primary key (morphology_guid, section_guid, section_parent_guid)
 );
@@ -213,4 +216,40 @@ create unique index section_morphology_guid_section_guid_uindex
 
 create index section_morphology_guid_index
     on section (morphology_guid);
+
+create table synapse_connectivity
+(
+    guid              integer not null,
+    presynaptic_guid  integer not null,
+    postsynaptic_guid integer not null
+        constraint synapse_connectivity_pk
+            primary key
+);
+
+alter table synapse_connectivity
+    owner to bioexplorer;
+
+create unique index synapse_connectivity_guid_uindex
+    on synapse_connectivity (guid);
+
+create table synapse
+(
+    guid                     integer          not null
+        constraint synapse_pk
+            primary key,
+    presynaptic_neuron_guid  integer          not null,
+    postsynaptic_neuron_guid integer          not null,
+    surface_x_position       double precision not null,
+    surface_y_position       double precision not null,
+    surface_z_position       double precision not null,
+    center_x_position        double precision not null,
+    center_y_position        double precision not null,
+    center_z_position        double precision not null
+);
+
+alter table synapse
+    owner to bioexplorer;
+
+create unique index synapse_guid_uindex
+    on synapse (guid);
 

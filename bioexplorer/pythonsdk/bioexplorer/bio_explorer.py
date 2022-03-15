@@ -2378,8 +2378,9 @@ class BioExplorer:
     def add_neurons(
             self, assembly_name, population_name,
             use_sdf=False,
-            load_somas=True, load_axons=True,
+            load_somas=True, load_axon=True,
             load_basal_dendrites=True, load_apical_dendrites=True,
+            load_synapses=False,
             generate_internals=False, generate_externals=False,
             geometry_quality=GEOMETRY_QUALITY_HIGH,
             morphology_color_scheme=MORPHOLOGY_COLOR_SCHEME_NONE,
@@ -2393,9 +2394,10 @@ class BioExplorer:
         :population_name: Name of the population of astrocytes
         :use_sdf: Use sign distance fields geometry to create the astrocytes. Defaults to False
         :load_somas: Load somas if set to true
-        :load_axons: Load axons if set to true
+        :load_axon: Load axon if set to true
         :load_basal_dendrites: Load basal dendrites if set to true
         :load_apical_dendrites: Load apical dendrites if set to true
+        :load_synapses: Load synapses if set to true
         :generate_internals: Generate internals (Nucleus and mitochondria)
         :generate_externals: Generate externals (Myelin steath)
         :geometry_quality: Quality of the geometry
@@ -2412,9 +2414,10 @@ class BioExplorer:
         params["assemblyName"] = assembly_name
         params["populationName"] = population_name
         params["loadSomas"] = load_somas
-        params["loadAxons"] = load_axons
+        params["loadAxon"] = load_axon
         params["loadBasalDendrites"] = load_basal_dendrites
         params["loadApicalDendrites"] = load_apical_dendrites
+        params["loadSynapses"] = load_synapses
         params["generateInternals"] = generate_internals
         params["generateExternals"] = generate_externals
         params["useSdf"] = use_sdf

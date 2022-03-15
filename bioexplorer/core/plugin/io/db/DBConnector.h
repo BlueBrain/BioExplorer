@@ -200,7 +200,8 @@ public:
      * statement
      * @return NeuronSomaMap A map of neurons (position, type, etc)
      */
-    NeuronSomaMap getNeurons(const std::string& sqlCondition = "") const;
+    NeuronSomaMap getNeurons(const std::string& populationName,
+                             const std::string& sqlCondition = "") const;
 
     /**
      * @brief Get the sections of a given neuron
@@ -210,7 +211,20 @@ public:
      * statement
      * @return SectionMap A map of sections
      */
-    SectionMap getNeuronSections(const int64_t neuronId,
+    SectionMap getNeuronSections(const std::string& populationName,
+                                 const int64_t neuronId,
+                                 const std::string& sqlCondition = "") const;
+
+    /**
+     * @brief Get the synapses attached to a given neuron
+     *
+     * @param neuronId Identifier of the neuron
+     * @param sqlCondition String containing an WHERE condition for the SQL
+     * statement
+     * @return SynapseMap A map of synapses
+     */
+    SynapseMap getNeuronSynapses(const std::string& populationName,
+                                 const int64_t neuronId,
                                  const std::string& sqlCondition = "") const;
 
 #endif

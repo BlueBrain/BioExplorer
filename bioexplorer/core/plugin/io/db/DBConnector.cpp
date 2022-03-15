@@ -33,7 +33,6 @@ const std::string DB_SCHEMA_OUT_OF_CORE = "outofcore";
 const std::string DB_SCHEMA_VASCULATURE = "vasculature";
 const std::string DB_SCHEMA_METABOLISM = "metabolism";
 const std::string DB_SCHEMA_ASTROCYTES = "astrocytes";
-const std::string DB_SCHEMA_NEURONS = "neurons";
 
 DBConnector* DBConnector::_instance = nullptr;
 std::mutex DBConnector::_mutex;
@@ -491,7 +490,8 @@ EndFootMap DBConnector::getAstrocyteEndFeetAreas(
     return endFeet;
 }
 
-NeuronSomaMap DBConnector::getNeurons(const std::string& sqlCondition) const
+NeuronSomaMap DBConnector::getNeurons(const std::string& populationName,
+                                      const std::string& sqlCondition) const
 {
     NeuronSomaMap somas;
 
@@ -499,9 +499,9 @@ NeuronSomaMap DBConnector::getNeurons(const std::string& sqlCondition) const
     try
     {
         std::string sql =
-            "SELECT guid, x, y, z, e_type_guid, e_type_guid FROM " +
-            DB_SCHEMA_NEURONS + ".node";
-        strings conditions;
+            "SELECT guid, x, y, z, rotation_x, rotation_y, rotation_z, "
+            "rotation_w, electrical_type_guid, morphological_type_guid FROM " +
+            populationName + ".node";
 
         if (!sqlCondition.empty())
             sql += " WHERE " + sqlCondition;
@@ -515,8 +515,10 @@ NeuronSomaMap DBConnector::getNeurons(const std::string& sqlCondition) const
             NeuronSoma soma;
             soma.position =
                 Vector3d(c[1].as<float>(), c[2].as<float>(), c[3].as<float>());
-            soma.eType = c[4].as<uint64_t>();
-            soma.mType = c[5].as<uint64_t>();
+            soma.rotation = Quaterniond(c[7].as<float>(), c[4].as<float>(),
+                                        c[5].as<float>(), c[6].as<float>());
+            soma.eType = c[8].as<uint64_t>();
+            soma.mType = c[9].as<uint64_t>();
             soma.layer = 0; // TODO
             somas[c[0].as<uint64_t>()] = soma;
         }
@@ -529,7 +531,8 @@ NeuronSomaMap DBConnector::getNeurons(const std::string& sqlCondition) const
     return somas;
 }
 
-SectionMap DBConnector::getNeuronSections(const int64_t neuronId,
+SectionMap DBConnector::getNeuronSections(const std::string& populationName,
+                                          const int64_t neuronId,
                                           const std::string& sqlCondition) const
 {
     SectionMap sections;
@@ -540,7 +543,7 @@ SectionMap DBConnector::getNeuronSections(const int64_t neuronId,
         std::string sql =
             "SELECT s.section_guid, s.section_type_guid, "
             "s.section_parent_guid, s.points FROM " +
-            DB_SCHEMA_NEURONS + ".node as n, " + DB_SCHEMA_NEURONS +
+            populationName + ".node as n, " + populationName +
             ".section as s WHERE n.morphology_guid=s.morphology_guid "
             "AND n.guid=" +
             std::to_string(neuronId);
@@ -568,6 +571,51 @@ SectionMap DBConnector::getNeuronSections(const int64_t neuronId,
     }
 
     return sections;
+}
+
+SynapseMap DBConnector::getNeuronSynapses(const std::string& populationName,
+                                          const int64_t neuronId,
+                                          const std::string& sqlCondition) const
+{
+    SynapseMap synapses;
+
+    pqxx::read_transaction transaction(*_connection);
+    try
+    {
+        std::string sql =
+            "SELECT guid, postsynaptic_neuron_guid, surface_x_position, "
+            "surface_y_position, surface_z_position, center_x_position, "
+            "center_y_position, center_z_position FROM " +
+            populationName + ".synapse WHERE presynaptic_neuron_guid=" +
+            std::to_string(neuronId);
+
+        if (!sqlCondition.empty())
+            sql += " AND " + sqlCondition;
+        sql += " ORDER BY presynaptic_neuron_guid";
+
+        PLUGIN_DEBUG(sql);
+        auto res = transaction.exec(sql);
+        for (auto c = res.begin(); c != res.end(); ++c)
+        {
+            Synapse synapse;
+            const auto synapseId = c[0].as<uint64_t>();
+            synapse.preSynapticNeuron = neuronId;
+            synapse.preSynapticNeuron = c[1].as<uint64_t>();
+            synapse.surfacePosition =
+                Vector3d(c[2].as<double>(), c[3].as<double>(),
+                         c[4].as<double>());
+            synapse.centerPosition =
+                Vector3d(c[5].as<double>(), c[6].as<double>(),
+                         c[7].as<double>());
+            synapses[synapseId] = synapse;
+        }
+    }
+    catch (const pqxx::sql_error& e)
+    {
+        PLUGIN_THROW(e.what());
+    }
+
+    return synapses;
 }
 #endif
 
