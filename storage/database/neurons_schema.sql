@@ -76,6 +76,9 @@ alter table morphology_type
 create unique index morphology_type_guid_uindex
     on morphology_type (guid);
 
+create unique index morphology_type_code_uindex
+    on morphology_type (code);
+
 create table configuration
 (
     guid  varchar not null
@@ -160,38 +163,6 @@ create unique index morphology_basename_uindex
 create unique index morphology_guid_uindex
     on morphology (guid);
 
-create table node
-(
-    guid             integer                    not null
-        constraint node_pk
-            primary key,
-    population_guid  integer          default 0 not null,
-    x                double precision           not null,
-    y                double precision           not null,
-    z                double precision           not null,
-    rotation_angle_x double precision default 0 not null,
-    rotation_angle_y double precision default 0 not null,
-    rotation_angle_z double precision default 0 not null,
-    morphology_guid  integer          default 0 not null
-        constraint node_morphology_guid_fk
-            references morphology
-            on update cascade on delete cascade
-        constraint node_morphology_guid_fk_2
-            references morphology
-            on update cascade on delete cascade,
-    e_type_guid      integer          default 0 not null
-        constraint node_electrical_type_guid_fk
-            references electrical_type
-            on update cascade on delete cascade,
-    m_type_guid      integer          default 0 not null
-);
-
-alter table node
-    owner to bioexplorer;
-
-create index node_population_guid_index
-    on node (population_guid);
-
 create table section
 (
     morphology_guid     integer                    not null,
@@ -252,4 +223,130 @@ alter table synapse
 
 create unique index synapse_guid_uindex
     on synapse (guid);
+
+create table layer
+(
+    guid        integer not null
+        constraint layer_pk
+            primary key,
+    code        varchar not null,
+    description varchar
+);
+
+alter table layer
+    owner to bioexplorer;
+
+create unique index layer_guid_uindex
+    on layer (guid);
+
+create unique index layer_code_uindex
+    on layer (code);
+
+create table morphology_class
+(
+    guid        integer not null
+        constraint morphology_class_pk
+            primary key,
+    code        varchar not null,
+    description varchar
+);
+
+alter table morphology_class
+    owner to bioexplorer;
+
+create unique index morphology_class_guid_uindex
+    on morphology_class (guid);
+
+create table synapse_class
+(
+    guid        integer not null
+        constraint synapse_class_pk
+            primary key,
+    code        varchar not null,
+    description varchar
+);
+
+alter table synapse_class
+    owner to bioexplorer;
+
+create unique index synapse_class_guid_uindex
+    on synapse_class (guid);
+
+create table region
+(
+    guid        integer not null
+        constraint region_pk
+            primary key,
+    code        varchar not null,
+    description varchar
+);
+
+alter table region
+    owner to bioexplorer;
+
+create unique index region_code_uindex
+    on region (code);
+
+create unique index region_guid_uindex
+    on region (guid);
+
+create table target
+(
+    guid        integer not null
+        constraint target_pk
+            primary key,
+    code        varchar not null,
+    description varchar
+);
+
+alter table target
+    owner to bioexplorer;
+
+create unique index target_code_uindex
+    on target (code);
+
+create unique index target_guid_uindex
+    on target (guid);
+
+create table node
+(
+    guid                    integer                    not null
+        constraint node_pk
+            primary key,
+    x                       double precision           not null,
+    y                       double precision           not null,
+    z                       double precision           not null,
+    rotation_x              double precision default 0 not null,
+    rotation_y              double precision default 0 not null,
+    rotation_z              double precision default 0 not null,
+    rotation_w              double precision default 1 not null,
+    morphology_guid         integer                    not null,
+    morphology_class_guid   integer                    not null,
+    electrical_type_guid    integer                    not null,
+    morphological_type_guid integer                    not null,
+    region_guid             integer                    not null,
+    layer_guid              integer                    not null,
+    synapse_class_guid      integer                    not null
+);
+
+alter table node
+    owner to bioexplorer;
+
+create unique index node_guid_uindex
+    on node (guid);
+
+create table target_node
+(
+    target_guid integer not null,
+    node_guid   integer not null
+);
+
+alter table target_node
+    owner to bioexplorer;
+
+create index target_node_node_guid_index
+    on target_node (node_guid);
+
+create index target_node_target_guid_index
+    on target_node (target_guid);
 
