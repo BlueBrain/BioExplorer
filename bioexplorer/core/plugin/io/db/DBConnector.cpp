@@ -206,8 +206,7 @@ uint64_t DBConnector::getVasculaturePopulationId(
 }
 
 GeometryNodes DBConnector::getVasculatureNodes(
-    const std::string& populationName, const std::string& filter,
-    const double scale) const
+    const std::string& populationName, const std::string& filter) const
 {
     const auto populationId = getVasculaturePopulationId(populationName);
 
@@ -229,10 +228,9 @@ GeometryNodes DBConnector::getVasculatureNodes(
         {
             GeometryNode node;
             const uint64_t guid = c[0].as<uint64_t>();
-            node.position =
-                Vector3d(scale * c[1].as<double>(), scale * c[2].as<double>(),
-                         scale * c[3].as<double>());
-            node.radius = scale * c[4].as<double>();
+            node.position = Vector3d(c[1].as<double>(), c[2].as<double>(),
+                                     c[3].as<double>());
+            node.radius = c[4].as<double>();
             node.sectionId = c[5].as<uint64_t>();
             node.graphId = c[6].as<uint64_t>();
             node.pairId = c[7].as<uint64_t>();

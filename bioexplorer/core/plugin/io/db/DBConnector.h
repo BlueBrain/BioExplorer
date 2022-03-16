@@ -124,8 +124,7 @@ public:
      * @return GeometryNodes
      */
     GeometryNodes getVasculatureNodes(const std::string& populationName,
-                                      const std::string& filter = "",
-                                      const double scale = 1.0) const;
+                                      const std::string& filter = "") const;
 
     /**
      * @brief Get the Edges for a given population

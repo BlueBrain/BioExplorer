@@ -41,7 +41,8 @@ using namespace db;
 const double VASCULATURE_DISPLACEMENT_RATIO = 2.0;
 
 Vasculature::Vasculature(Scene& scene, const VasculatureDetails& details)
-    : _details(details)
+    : Node(details.scale)
+    , _details(details)
     , _scene(scene)
 {
     Timer chrono;
@@ -55,7 +56,7 @@ void Vasculature::_importFromDB()
     auto& connector = DBConnector::getInstance();
 
     _nodes = connector.getVasculatureNodes(_details.populationName,
-                                           _details.sqlFilter, _details.scale);
+                                           _details.sqlFilter);
 
     std::map<uint64_t, std::vector<uint64_t>> pairs;
     std::set<uint64_t> entryNodes;
@@ -200,7 +201,7 @@ std::set<uint64_t> Vasculature::_buildSimpleModel(
                 if (!useSdf)
                     _addSphere(useSdf, srcPoint, srcRadius, materialId,
                                userData, model, sdfMorphologyData, neighbours,
-                               VASCULATURE_DISPLACEMENT_RATIO / _details.scale);
+                               VASCULATURE_DISPLACEMENT_RATIO);
             }
             else
                 neighbours = {geometryIndex};
@@ -222,12 +223,11 @@ std::set<uint64_t> Vasculature::_buildSimpleModel(
             if (!useSdf)
                 _addSphere(useSdf, dstPoint, dstRadius, materialId, userData,
                            model, sdfMorphologyData, neighbours,
-                           VASCULATURE_DISPLACEMENT_RATIO / _details.scale);
+                           VASCULATURE_DISPLACEMENT_RATIO);
             geometryIndex =
                 _addCone(useSdf, dstPoint, dstRadius, srcPoint, srcRadius,
                          previousMaterialId, userData, model, sdfMorphologyData,
-                         {geometryIndex},
-                         VASCULATURE_DISPLACEMENT_RATIO / _details.scale);
+                         {geometryIndex}, VASCULATURE_DISPLACEMENT_RATIO);
             previousMaterialId = materialId;
             materialIds.insert(materialId);
         }
@@ -309,8 +309,7 @@ std::set<uint64_t> Vasculature::_buildAdvancedModel(
                 geometryIndex =
                     _addCone(useSdf, Vector3f(dst), dst.w, Vector3f(src), src.w,
                              materialId, userData, model, sdfMorphologyData,
-                             {geometryIndex},
-                             VASCULATURE_DISPLACEMENT_RATIO / _details.scale);
+                             {geometryIndex}, VASCULATURE_DISPLACEMENT_RATIO);
             }
             materialIds.insert(materialId);
             i += precision;

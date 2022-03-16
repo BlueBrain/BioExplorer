@@ -30,7 +30,8 @@ namespace bioexplorer
 {
 namespace common
 {
-Node::Node()
+Node::Node(const double scale)
+    : _scale(scale)
 {
     // Unique ID
     _uuid = UniqueId::get();
@@ -82,11 +83,13 @@ size_t Node::_addSphere(const bool useSDF, const Vector3f& position,
         const Vector3f displacementParams = {std::min(radius, 0.05f),
                                              displacementRatio, 2.0f};
         return _addSDFGeometry(sdfMorphologyData,
-                               createSDFSphere(position, radius, userData,
-                                               displacementParams),
+                               createSDFSphere(position * _scale,
+                                               radius * _scale, userData,
+                                               displacementParams / _scale),
                                neighbours, materialId);
     }
-    return model.addSphere(materialId, {position, radius, userData});
+    return model.addSphere(materialId,
+                           {position * _scale, radius * _scale, userData});
 }
 
 size_t Node::_addCone(const bool useSDF, const Vector3f& position,
@@ -102,15 +105,18 @@ size_t Node::_addCone(const bool useSDF, const Vector3f& position,
         const Vector3f displacementParams = {std::min(radius, 0.05f),
                                              displacementRatio, 2.f};
         const auto geom =
-            createSDFConePill(position, target, radius, previousRadius,
-                              userData, displacementParams);
+            createSDFConePill(position * _scale, target * _scale,
+                              radius * _scale, previousRadius * _scale,
+                              userData, displacementParams / _scale);
         return _addSDFGeometry(sdfMorphologyData, geom, neighbours, materialId);
     }
     if (radius == previousRadius)
         return model.addCylinder(materialId,
-                                 {position, target, radius, userData});
+                                 {position * _scale, target * _scale,
+                                  radius * _scale, userData});
     return model.addCone(materialId,
-                         {position, target, radius, previousRadius, userData});
+                         {position * _scale, target * _scale, radius * _scale,
+                          previousRadius * _scale, userData});
 }
 
 void Node::_finalizeSDFGeometries(Model& model,
