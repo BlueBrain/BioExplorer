@@ -38,7 +38,7 @@ using namespace common;
 using namespace io;
 using namespace db;
 
-const double VASCULATURE_DISPLACEMENT_RATIO = 2.0;
+const double VASCULATURE_DISPLACEMENT_RATIO = 0.5;
 
 Vasculature::Vasculature(Scene& scene, const VasculatureDetails& details)
     : Node(details.scale)

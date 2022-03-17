@@ -80,16 +80,19 @@ size_t Node::_addSphere(const bool useSDF, const Vector3f& position,
 {
     if (useSDF)
     {
-        const Vector3f displacementParams = {std::min(radius, 0.05f),
-                                             displacementRatio, 2.0f};
+        const Vector3f displacementParams = {std::min(radius * _scale, 0.05f),
+                                             displacementRatio / _scale,
+                                             _scale * 2.f};
         return _addSDFGeometry(sdfMorphologyData,
                                createSDFSphere(position * _scale,
-                                               radius * _scale, userData,
-                                               displacementParams / _scale),
+                                               static_cast<float>(radius *
+                                                                  _scale),
+                                               userData, displacementParams),
                                neighbours, materialId);
     }
     return model.addSphere(materialId,
-                           {position * _scale, radius * _scale, userData});
+                           {position * _scale,
+                            static_cast<float>(radius * _scale), userData});
 }
 
 size_t Node::_addCone(const bool useSDF, const Vector3f& position,
@@ -102,21 +105,26 @@ size_t Node::_addCone(const bool useSDF, const Vector3f& position,
 {
     if (useSDF)
     {
-        const Vector3f displacementParams = {std::min(radius, 0.05f),
-                                             displacementRatio, 2.f};
+        const Vector3f displacementParams = {std::min(radius * _scale, 0.05f),
+                                             displacementRatio / _scale,
+                                             _scale * 2.f};
         const auto geom =
             createSDFConePill(position * _scale, target * _scale,
-                              radius * _scale, previousRadius * _scale,
-                              userData, displacementParams / _scale);
+                              static_cast<float>(radius * _scale),
+                              static_cast<float>(previousRadius * _scale),
+                              userData, displacementParams);
         return _addSDFGeometry(sdfMorphologyData, geom, neighbours, materialId);
     }
     if (radius == previousRadius)
         return model.addCylinder(materialId,
                                  {position * _scale, target * _scale,
-                                  radius * _scale, userData});
+                                  static_cast<float>(radius * _scale),
+                                  userData});
     return model.addCone(materialId,
-                         {position * _scale, target * _scale, radius * _scale,
-                          previousRadius * _scale, userData});
+                         {position * _scale, target * _scale,
+                          static_cast<float>(radius * _scale),
+                          static_cast<float>(previousRadius * _scale),
+                          userData});
 }
 
 void Node::_finalizeSDFGeometries(Model& model,

@@ -143,6 +143,8 @@ void Neurons::_buildNeuron()
                 {
                     const Vector4d somaPoint{somaPosition.x, somaPosition.y,
                                              somaPosition.z, somaRadius};
+                    const auto& point = section.second.points[1];
+#if 0
                     Vector4d averagePoint;
                     for (uint64_t i = 0; i < 1; ++i)
                     {
@@ -156,7 +158,6 @@ void Neurons::_buildNeuron()
 
                     // Sphere at half way between soma and 2nd point in the
                     // section
-                    const auto& point = section.second.points[1];
                     const Vector3d position = (somaPosition + somaPosition +
                                                somaRotation * Vector3d(point)) /
                                               2.0;
@@ -166,6 +167,9 @@ void Neurons::_buildNeuron()
                                    NO_USER_DATA, *model, sdfMorphologyData,
                                    neighbours, DEFAULT_SOMA_DISPLACEMENT);
                     neighbours.insert(geometryIndex);
+#else
+                    Vector4d averagePoint = somaPoint;
+#endif
 
                     // Section connected to the soma
                     geometryIndex = _addCone(
@@ -185,8 +189,11 @@ void Neurons::_buildNeuron()
         }
 
         if (_details.loadSynapses)
+        {
             _addSynapses(*model, somaId, baseMaterialId, sdfMorphologyData);
-        materialIds.insert(baseMaterialId + MATERIAL_OFFSET_AFFERENT_SYNPASE);
+            materialIds.insert(baseMaterialId +
+                               MATERIAL_OFFSET_AFFERENT_SYNPASE);
+        }
     }
 
     _createMaterials(materialIds, *model);
@@ -473,7 +480,7 @@ void Neurons::_addSectionInternals(
 void Neurons::_addAxonMyelinSheath(
     const Vector3d& somaPosition, const Quaterniond& somaRotation,
     const double sectionLength, const Vector4fs& points,
-    const double mitochondriaDensity, const size_t materialId,
+    const double mitochondriaDensity, const size_t baseMaterialId,
     SDFMorphologyData& sdfMorphologyData, Model& model)
 {
     if (sectionLength == 0 || points.empty())
@@ -485,7 +492,7 @@ void Neurons::_addAxonMyelinSheath(
     const double myelinSteathRadius = 0.5;
     const double myelinSteathDisplacementRatio = 0.25;
     const size_t myelinSteathMaterialId =
-        materialId + MATERIAL_OFFSET_MYELIN_SHEATH;
+        baseMaterialId + MATERIAL_OFFSET_MYELIN_SHEATH;
 
     if (sectionLength < 2 * myelinSteathLength)
         return;
