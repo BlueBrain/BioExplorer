@@ -82,7 +82,7 @@ protected:
     ModelDescriptorPtr _modelDescriptor{nullptr};
     Boxd _bounds;
     uint32_t _uuid;
-    float _scale{1.f};
+    double _scale{1.0};
 };
 
 typedef std::shared_ptr<Node> NodePtr;

@@ -849,6 +849,38 @@ bool from_json(NeuronsDetails &param, const std::string &payload)
     }
     return true;
 }
+
+bool from_json(NeuronSectionDetails &param, const std::string &payload)
+{
+    try
+    {
+        auto js = nlohmann::json::parse(payload);
+        FROM_JSON(param, js, assemblyName);
+        FROM_JSON(param, js, neuronId);
+        FROM_JSON(param, js, sectionId);
+    }
+    catch (...)
+    {
+        return false;
+    }
+    return true;
+}
+
+std::string to_json(const NeuronSectionPointsDetails &param)
+{
+    try
+    {
+        nlohmann::json js;
+        TO_JSON(param, js, status);
+        TO_JSON(param, js, points);
+        return js.dump();
+    }
+    catch (...)
+    {
+        return "";
+    }
+    return "";
+}
 #endif
 
 #endif

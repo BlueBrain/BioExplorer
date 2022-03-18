@@ -37,6 +37,9 @@ class Neurons : public common::Node
 public:
     Neurons(Scene& scene, const NeuronsDetails& details);
 
+    Vector4ds getNeuronSectionPoints(const uint64_t neuronId,
+                                     const uint64_t sectionId);
+
 private:
     void _buildNeuron();
 

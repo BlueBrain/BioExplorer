@@ -599,5 +599,34 @@ void Neurons::_addSynapse(Model& model, const Synapse& synapse,
                  sdfMorphologyData, {idx1, idx2}, spineDisplacementRatio);
 }
 
+Vector4ds Neurons::getNeuronSectionPoints(const uint64_t neuronId,
+                                          const uint64_t sectionId)
+{
+    const auto& connector = DBConnector::getInstance();
+    const auto neurons =
+        connector.getNeurons(_details.populationName,
+                             "guid=" + std::to_string(neuronId));
+
+    if (neurons.empty())
+        PLUGIN_THROW("Neuron " + std::to_string(neuronId) + " does not exist");
+    const auto& neuron = neurons.begin()->second;
+    const auto sections =
+        connector.getNeuronSections(_details.populationName, neuronId);
+
+    if (sections.empty())
+        PLUGIN_THROW("Section " + std::to_string(sectionId) +
+                     " does not exist for neuron " + std::to_string(neuronId));
+    const auto section = sections.begin()->second;
+    Vector4ds points;
+    for (const auto& point : section.points)
+    {
+        const Vector3d position =
+            _scale * (neuron.position + neuron.rotation * Vector3d(point));
+        const double radius = point.w;
+        points.push_back({position.x, position.y, position.z, radius});
+    }
+    return points;
+}
+
 } // namespace morphology
 } // namespace bioexplorer

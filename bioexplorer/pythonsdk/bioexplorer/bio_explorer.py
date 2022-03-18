@@ -2430,6 +2430,24 @@ class BioExplorer:
         params["scale"] = scale
         return self._invoke_and_check('add-neurons', params)
 
+    def get_neuron_section_points(self, assembly_name, neuron_guid, section_guid):
+        params = dict()
+        params["assemblyName"] = assembly_name
+        params["neuronId"] = neuron_guid
+        params["sectionId"] = section_guid
+        response = self._invoke('get-neuron-section-points', params)
+        if not response['status']:
+            raise "Failed to get neuron section points"
+        points = response['points']
+        ps = list()
+        for i in range(0, len(points), 4):
+            p = list()
+            for j in range(4):
+                p.append(points[i+j])
+            ps.append(p)
+        return ps
+
+
 # Private classes
 
 

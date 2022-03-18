@@ -687,6 +687,15 @@ void Assembly::addNeurons(const NeuronsDetails &details)
     _neurons = NeuronsPtr(new Neurons(_scene, details));
     _scene.markModified(false);
 }
+
+Vector4ds Assembly::getNeuronSectionPoints(const NeuronSectionDetails &details)
+{
+    if (!_neurons)
+        PLUGIN_THROW("No neurons are currently defined in assembly " +
+                     details.assemblyName);
+    return _neurons->getNeuronSectionPoints(details.neuronId,
+                                            details.sectionId);
+}
 #endif
 
 ProteinPtr Assembly::getProtein(const std::string &name)

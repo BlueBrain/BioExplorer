@@ -36,9 +36,9 @@ HelixShape::HelixShape(const Vector4ds& clippingPlanes, const double radius,
     , _height(height)
     , _radius(radius)
 {
-    _bounds.merge(Vector3d(0.0, height, 0.0) +
+    _bounds.merge(Vector3d(0.0, 0.0, height) +
                   Vector3d(radius, radius, radius));
-    _bounds.merge(Vector3d(radius, radius, radius));
+    _bounds.merge(Vector3d(-radius, -radius, -radius));
     _surface =
         2.0 * M_PI * _radius * _radius + _height * (2.0 * M_PI * _radius);
 }
@@ -47,29 +47,24 @@ Transformation HelixShape::getTransformation(
     const uint64_t occurrence, const uint64_t nbOccurrences,
     const AnimationDetails& animationDetails, const double offset) const
 {
-    uint64_t rnd = occurrence;
-    if (nbOccurrences != 0 && animationDetails.seed != 0)
-        if (GeneralSettings::getInstance()->getV1Compatibility())
-            rnd = rand() % nbOccurrences;
-        else
-            rnd = rand() % std::numeric_limits<uint64_t>::max();
-
     const double radius =
         _radius + (animationDetails.positionSeed == 0
                        ? animationDetails.positionStrength
                        : animationDetails.positionStrength *
-                             rnd3(animationDetails.positionSeed + rnd));
+                             rnd3(animationDetails.positionSeed + occurrence));
 
-    Vector3d pos = Vector3d(radius * cos(rnd), _height * rnd / nbOccurrences,
-                            radius * sin(rnd));
-    const Vector3d normal = normalize(Vector3d(pos.x, 0.0, pos.z));
+    const Vector3d pos =
+        Vector3d(radius * cos(occurrence), radius * sin(occurrence),
+                 -_height * occurrence / nbOccurrences);
+    const Vector3d normal = normalize(Vector3d(pos.x, pos.y, 0.0));
     Quaterniond rot = safeQuatlookAt(normal);
 
     if (isClipped(pos, _clippingPlanes))
         throw std::runtime_error("Instance is clipped");
 
     if (animationDetails.rotationSeed != 0)
-        rot = weightedRandomRotation(rot, animationDetails.rotationSeed, rnd,
+        rot = weightedRandomRotation(rot, animationDetails.rotationSeed,
+                                     occurrence,
                                      animationDetails.rotationStrength);
 
     Transformation transformation;

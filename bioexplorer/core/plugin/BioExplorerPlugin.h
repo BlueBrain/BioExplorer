@@ -162,6 +162,8 @@ private:
     // Astrocyte
     Response _addAstrocytes(const AstrocytesDetails &payload);
     Response _addNeurons(const NeuronsDetails &payload);
+    NeuronSectionPointsDetails _getNeuronSectionPoints(
+        const NeuronSectionDetails &payload);
 #endif
 };
 } // namespace bioexplorer

@@ -249,6 +249,7 @@ public:
 #ifdef USE_MORPHOLOGIES
     void addAstrocytes(const AstrocytesDetails &details);
     void addNeurons(const NeuronsDetails &details);
+    Vector4ds getNeuronSectionPoints(const NeuronSectionDetails &payload);
 #endif
 
 private:

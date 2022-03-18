@@ -80,9 +80,9 @@ size_t Node::_addSphere(const bool useSDF, const Vector3f& position,
 {
     if (useSDF)
     {
-        const Vector3f displacementParams = {std::min(radius * _scale, 0.05f),
+        const Vector3f displacementParams = {std::min(radius * _scale, 0.05),
                                              displacementRatio / _scale,
-                                             _scale * 2.f};
+                                             _scale * 2.0};
         return _addSDFGeometry(sdfMorphologyData,
                                createSDFSphere(position * _scale,
                                                static_cast<float>(radius *
@@ -105,9 +105,9 @@ size_t Node::_addCone(const bool useSDF, const Vector3f& position,
 {
     if (useSDF)
     {
-        const Vector3f displacementParams = {std::min(radius * _scale, 0.05f),
+        const Vector3f displacementParams = {std::min(radius * _scale, 0.05),
                                              displacementRatio / _scale,
-                                             _scale * 2.f};
+                                             _scale * 2.0};
         const auto geom =
             createSDFConePill(position * _scale, target * _scale,
                               static_cast<float>(radius * _scale),

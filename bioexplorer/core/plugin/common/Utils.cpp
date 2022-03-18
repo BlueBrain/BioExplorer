@@ -325,7 +325,7 @@ Transformation combineTransformations(const Transformations& transformations)
     Transformation transformation;
     transformation.setTranslation(translation);
     transformation.setRotation(rotation);
-    transformation.setScale(scale);
+    // transformation.setScale(scale);
     return transformation;
 }
 

@@ -1017,6 +1017,22 @@ typedef struct
     /** Scale of the neuron in the scene */
     double scale{1.0};
 } NeuronsDetails;
+
+typedef struct
+{
+    /** Name of the assembly containing the astrocytes */
+    std::string assemblyName;
+    /** Neuron identifier */
+    uint64_t neuronId;
+    /** Section identifier */
+    uint64_t sectionId;
+} NeuronSectionDetails;
+
+typedef struct
+{
+    bool status{true};
+    doubles points;
+} NeuronSectionPointsDetails;
 #endif
 
 } // namespace details
