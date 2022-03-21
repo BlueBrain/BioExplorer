@@ -55,8 +55,7 @@ void MetabolismRenderer::commit()
     _rayStep = getParam1f("rayStep", 1.f);
     _alphaCorrection = getParam1f("alphaCorrection", 1.f);
     _refinementSteps = getParam1i("refinementSteps", 64);
-    _searchLength = getParam1f("searchLength", 1.f);
-    _useRandomSearch = getParam("useRandomSearch", 0);
+    _colorMapPerRegion = getParam("colorMapPerRegion", 0);
     _noiseFrequency = getParam1f("noiseFrequency", 1.f);
     _noiseAmplitude = getParam1f("noiseAmplitude", 1.f);
 
@@ -75,8 +74,8 @@ void MetabolismRenderer::commit()
         getIE(), (_bgMaterial ? _bgMaterial->getIE() : nullptr), spp, _lightPtr,
         _lightArray.size(), (_userData ? (float*)_userData->data : nullptr),
         _userDataSize, _nearPlane, _farPlane, _rayStep, _refinementSteps,
-        _exposure, _alphaCorrection, _searchLength, _useRandomSearch,
-        _noiseFrequency, _noiseAmplitude);
+        _exposure, _alphaCorrection, _colorMapPerRegion, _noiseFrequency,
+        _noiseAmplitude);
 }
 
 MetabolismRenderer::MetabolismRenderer()

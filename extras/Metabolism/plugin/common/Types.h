@@ -52,7 +52,9 @@ struct AttachHandlerDetails
     std::string connectionString;
     std::string schema;
     size_t simulationId;
-    size_ts metaboliteIds;
+    int32_ts metaboliteIds;
+    bool relativeConcentration{false};
+    double scale{1.0};
 };
 
 struct Location

@@ -63,12 +63,11 @@ void _addMetabolismRenderer(Engine &engine)
     properties.setProperty(
         {"alphaCorrection", 1., 0.001, 1., {"Alpha correction"}});
     properties.setProperty(
-        {"searchLength", 1., 0.001, 100., {"Search length"}});
-    properties.setProperty(
         {"noiseFrequency", 1., 0., 100., {"Noise frequency"}});
     properties.setProperty(
         {"noiseAmplitude", 1., 0.00001, 10., {"Noise amplitude"}});
-    properties.setProperty({"useRandomSearch", false, {"Use random search"}});
+    properties.setProperty(
+        {"colorMapPerRegion", true, {"Color map per region"}});
     engine.addRendererType("metabolism", properties);
 }
 
@@ -88,9 +87,8 @@ void MetabolismPlugin::init()
         std::string endPoint = PLUGIN_API_PREFIX + "attach-handler";
         PLUGIN_INFO("Registering '" + endPoint + "' endpoint");
         actionInterface->registerRequest<AttachHandlerDetails, Response>(
-            endPoint, [&](const AttachHandlerDetails &payload) {
-                return _attachHandler(payload);
-            });
+            endPoint, [&](const AttachHandlerDetails &payload)
+            { return _attachHandler(payload); });
     }
 
     _addMetabolismRenderer(engine);

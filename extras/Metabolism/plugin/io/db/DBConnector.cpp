@@ -101,20 +101,24 @@ uint32_t DBConnector::getNbFrames()
     return nbFrames;
 }
 
-std::map<uint32_t, float> DBConnector::getConcentrations(const uint32_t frame,
-                                                         const size_ts& ids)
+std::map<uint32_t, float> DBConnector::getConcentrations(
+    const uint32_t frame, const int32_ts& ids, const bool relativeConcentration,
+    const double scale)
 {
     std::map<uint32_t, float> values;
     pqxx::read_transaction transaction(*_connection);
     try
     {
         std::string sql =
-            "SELECT v.location_guid, c.concentration / v.base_value FROM " +
-            _dbSchema + ".variable as v, " + _dbSchema +
-            ".concentration AS c WHERE v.guid=c.variable_guid AND "
-            "c.timestamp=" +
-            std::to_string(frame) +
-            " AND c.simulation_guid=" + std::to_string(_simulationId);
+            "SELECT v.location_guid, c.value, (SELECT value FROM " + _dbSchema +
+            ".concentration WHERE variable_guid=c.variable_guid AND "
+            "simulation_guid=c.simulation_guid AND frame=0) AS base_value "
+            "FROM " +
+            _dbSchema + ".concentration AS c, " + _dbSchema +
+            ".variable AS v WHERE c.variable_guid=v.guid "
+            "AND c.simulation_guid=" +
+            std::to_string(_simulationId) +
+            " AND c.frame=" + std::to_string(frame);
 
         if (!ids.empty())
         {
@@ -132,7 +136,15 @@ std::map<uint32_t, float> DBConnector::getConcentrations(const uint32_t frame,
         PLUGIN_DEBUG(sql);
         auto res = transaction.exec(sql);
         for (auto c = res.begin(); c != res.end(); ++c)
-            values[c[0].as<uint32_t>()] = (c[1].as<float>());
+        {
+            const uint32_t locationId = c[0].as<uint32_t>();
+            const float value = c[1].as<float>();
+            const float baseValue = c[2].as<float>();
+            values[locationId] =
+                scale * (relativeConcentration
+                             ? 100.f * (value - baseValue) / baseValue
+                             : value);
+        }
     }
     catch (pqxx::sql_error& e)
     {

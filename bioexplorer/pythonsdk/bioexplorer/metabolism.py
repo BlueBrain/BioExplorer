@@ -39,7 +39,7 @@ class Metabolism:
 
     def __init__(
             self, bioexplorer, model_id, db_host, db_name, db_user, db_password,
-            db_schema, simulation_timestamp):
+            db_schema, simulation_timestamp, relative_concentration=False):
         """
         Metabolism class initialization
 
@@ -51,6 +51,7 @@ class Metabolism:
         :db_host: Database password
         :db_schema: Database scheme
         :simulation_timestamp: Simulation timestamp
+        :relative_concentration: Get concentration as relative to initial simulation value (frame 0)
         """
         self._be = bioexplorer
         self._core = self._be.core_api()
@@ -59,6 +60,7 @@ class Metabolism:
         self._db_user = db_user
         self._db_password = db_password
         self._db_schema = db_schema
+        self._relative_concentration = relative_concentration
 
         db_connection_string = 'postgresql+psycopg2://%s:%s@%s:5432/%s' % (
             db_user, db_password, db_host, db_name)
@@ -119,10 +121,12 @@ class Metabolism:
         self._core.set_renderer_params(params)
 
     def _put_metabolite_ids(self):
-        ids = list()
+        metabolite_ids = list()
         for metabolite_id in self._metabolite_ids:
-            ids.append(int(self._metabolite_ids[metabolite_id]))
+            metabolite_ids.append(int(self._metabolite_ids[metabolite_id]))
+        return self.set_metabolites(metabolite_ids)
 
+    def set_metabolites(self, metabolite_ids, scale=1.0):
         db_connection_string = 'host=%s port=5432 dbname=%s user=%s password=%s' % (
             self._db_host, self._db_name, self._db_user, self._db_password)
 
@@ -130,7 +134,9 @@ class Metabolism:
         params['connectionString'] = db_connection_string
         params['schema'] = self._db_schema
         params['simulationId'] = self._simulation_guid
-        params['metaboliteIds'] = ids
+        params['metaboliteIds'] = metabolite_ids
+        params['relativeConcentration'] = self._relative_concentration
+        params['scale'] = scale
         result = self._core.rockets_client.request(
             method=self.PLUGIN_API_PREFIX + 'attach-handler', params=params)
         return result
@@ -155,12 +161,13 @@ class Metabolism:
         class Updated:
             def __init__(
                     self, client, model_id, db_connection, db_schema, simulation_guid,
-                    callback):
+                    relative_concentration, callback):
                 self._core = client
                 self._model_id = model_id
                 self._db_connection = db_connection
                 self._db_schema = db_schema
                 self._simulation_guid = simulation_guid
+                self._relative_concentration = relative_concentration
                 self._location = None
                 self._grid = None
                 self._metabolite_slider = None
@@ -187,15 +194,22 @@ class Metabolism:
                 return tuple(int(value[i:i + lv // 3], 16) for i in range(0, lv, lv // 3))
 
             def _get_data(self, guid):
-                sql = "SELECT 100 * c.concentration / v.base_value as concentration " \
-                    "FROM %s.variable as v, %s.concentration as c " \
-                    "WHERE v.guid=c.variable_guid AND " \
-                    "v.guid=%d AND c.simulation_guid=%d" % (
-                        self._db_schema, self._db_schema, guid, self._simulation_guid)
+
+                sql = "SELECT c.value as value, (SELECT value FROM %s.concentration " \
+                "WHERE variable_guid=c.variable_guid AND simulation_guid=c.simulation_guid AND " \
+                "frame=0) AS base_value FROM %s.concentration AS c, %s.variable AS v "\
+                "WHERE c.variable_guid=v.guid AND v.guid=%d AND c.simulation_guid=%d" % (
+                        self._db_schema, self._db_schema, self._db_schema, \
+                             guid, self._simulation_guid)
                 data = pd.read_sql(sql, self._db_connection)
                 values = list()
                 for i in range(len(data)):
-                    values.append(float(data['concentration'][i]))
+                    value = float(data['value'][i])
+                    if self._relative_concentration:
+                        base_value = float(data['base_value'][i])
+                        values.append(100 * (value - base_value) / value)
+                    else:
+                        values.append(value)
                 return np.array(values, np.float32)
 
             def get_locations(self):
@@ -227,6 +241,7 @@ class Metabolism:
                     "ORDER BY description" % (self._db_schema, self._db_schema,
                                               self._location, self._simulation_guid)
                 data = pd.read_sql(sql, self._db_connection)
+                self._metabolites['<none>'] = -1
                 for i in range(len(data)):
                     self._metabolites[data['description'][i]] = data['guid'][i]
                 return self._metabolites
@@ -296,8 +311,14 @@ class Metabolism:
         def update_metabolite(value):
             update_class.update_metabolite(value)
 
-        update_class = Updated(self._core, self._model_id, self._db_connection,
-                               self._db_schema, self._simulation_guid, self.callback)
+        update_class = Updated(self._core, self._model_id, self._db_connection, self._db_schema,
+                               self._simulation_guid, self._relative_concentration,
+                               self.callback)
+
+        # Initialize metabolite Ids
+        locations = update_class.get_locations()
+        for location in update_class.get_locations():
+            self._metabolite_ids[locations[location]] = -1
 
         y = np.linspace(0, 1, 1)
         x = np.linspace(0, 1, 1)

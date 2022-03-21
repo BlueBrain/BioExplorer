@@ -54,13 +54,14 @@ private:
                      SDFMorphologyData& sdfMorphologyData,
                      MaterialSet& materialIds);
 
-    void _addSynapse(Model& model, const Synapse& synapse,
-                     const size_t baseMaterialId,
-                     SDFMorphologyData& sdfMorphologyData);
+    void _addSpine(Model& model, const Synapse& synapse,
+                   const size_t baseMaterialId,
+                   SDFMorphologyData& sdfMorphologyData);
 
-    void _addSynapses(Model& model, const uint64_t somaIndex,
-                      const size_t baseMaterialId,
-                      SDFMorphologyData& sdfMorphologyData);
+    void _addSpines(Model& model, const uint64_t somaIndex,
+                    const Vector3d somaPosition, const double somaRadius,
+                    const size_t baseMaterialId,
+                    SDFMorphologyData& sdfMorphologyData);
 
     void _addSomaInternals(const uint64_t index, Model& model,
                            const size_t materialId,
