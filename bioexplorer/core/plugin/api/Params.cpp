@@ -802,10 +802,11 @@ bool from_json(AstrocytesDetails &param, const std::string &payload)
         auto js = nlohmann::json::parse(payload);
         FROM_JSON(param, js, assemblyName);
         FROM_JSON(param, js, populationName);
-        FROM_JSON(param, js, useSdf);
         FROM_JSON(param, js, loadSomas);
         FROM_JSON(param, js, loadDendrites);
         FROM_JSON(param, js, loadEndFeet);
+        FROM_JSON(param, js, generateInternals);
+        FROM_JSON(param, js, useSdf);
         FROM_JSON(param, js, geometryQuality);
         FROM_JSON(param, js, morphologyColorScheme);
         FROM_JSON(param, js, populationColorScheme);

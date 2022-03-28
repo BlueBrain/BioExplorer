@@ -37,18 +37,6 @@ using namespace common;
 using namespace io;
 using namespace db;
 
-const size_t NB_MATERIALS_PER_NEURON = 10;
-const size_t MATERIAL_OFFSET_SOMA = 1;
-const size_t MATERIAL_OFFSET_AXON = 2;
-const size_t MATERIAL_OFFSET_DENDRITE = 3;
-const size_t MATERIAL_OFFSET_APICAL_DENDRITE = 4;
-const size_t MATERIAL_OFFSET_AFFERENT_SYNPASE = 5;
-const size_t MATERIAL_OFFSET_EFFERENT_SYNPASE = 6;
-const size_t MATERIAL_OFFSET_MITOCHONDRION = 7;
-const size_t MATERIAL_OFFSET_NUCLEUS = 8;
-const size_t MATERIAL_OFFSET_MYELIN_SHEATH = 9;
-
-const int64_t SOMA_AS_PARENT = -1;
 const uint64_t NB_MYELIN_FREE_SEGMENTS = 4;
 
 const double DEFAULT_SOMA_DISPLACEMENT = 2.0;
@@ -56,13 +44,17 @@ const double DEFAULT_SECTION_DISPLACEMENT = 2.0;
 const double DEFAULT_SPINE_RADIUS = 0.25;
 
 // Mitochondria density per layer
-doubles MITOCHONDRIA_DENSITY = {0.0459, 0.0522, 0.064, 0.0774, 0.0575, 0.0403};
+const doubles MITOCHONDRIA_DENSITY = {0.0459, 0.0522, 0.064,
+                                      0.0774, 0.0575, 0.0403};
 
 Neurons::Neurons(Scene& scene, const NeuronsDetails& details)
-    : Node(details.scale)
+    : Morphologies(details.useSdf, details.radiusMultiplier, details.scale)
     , _details(details)
     , _scene(scene)
 {
+    _radiusMultiplier =
+        _details.radiusMultiplier > 0.0 ? _details.radiusMultiplier : 1.0;
+
     Timer chrono;
     _buildNeuron();
     PLUGIN_TIMER(chrono.elapsed(), "Neurons loaded");
@@ -105,22 +97,24 @@ void Neurons::_buildNeuron()
         for (const auto& section : sections)
             if (section.second.parentId == SOMA_AS_PARENT)
             {
-                const auto& point = section.second.points[1];
+                const auto& point = section.second.points[0];
                 somaRadius += 0.5 * length(Vector3d(point));
                 ++count;
             }
-        somaRadius = somaRadius / count;
-        if (_details.radiusMultiplier > 0.0)
-            somaRadius *= _details.radiusMultiplier;
+        somaRadius = _radiusMultiplier * somaRadius / count;
 
         switch (_details.populationColorScheme)
         {
         case PopulationColorScheme::id:
-            baseMaterialId = somaId * NB_MATERIALS_PER_NEURON;
+            baseMaterialId = somaId * NB_MATERIALS_PER_MORPHOLOGY;
             break;
         }
         materialIds.insert(baseMaterialId);
-        const auto somaMaterialId = baseMaterialId + MATERIAL_OFFSET_SOMA;
+        const auto somaMaterialId =
+            baseMaterialId +
+            (_details.morphologyColorScheme == MorphologyColorScheme::section
+                 ? MATERIAL_OFFSET_SOMA
+                 : 0);
         materialIds.insert(somaMaterialId);
 
         // Soma
@@ -133,7 +127,7 @@ void Neurons::_buildNeuron()
                            DEFAULT_SOMA_DISPLACEMENT);
             if (_details.generateInternals)
             {
-                _addSomaInternals(somaId, *model, somaMaterialId, somaPosition,
+                _addSomaInternals(somaId, *model, baseMaterialId, somaPosition,
                                   somaRadius, mitochondriaDensity,
                                   sdfMorphologyData);
                 materialIds.insert(baseMaterialId + MATERIAL_OFFSET_NUCLEUS);
@@ -152,19 +146,19 @@ void Neurons::_buildNeuron()
 
             for (const auto& section : sections)
             {
-                if (section.second.parentId == SOMA_AS_PARENT)
+                if (_details.loadSomas &&
+                    section.second.parentId == SOMA_AS_PARENT)
                 {
                     const Vector4d somaPoint{somaPosition.x, somaPosition.y,
                                              somaPosition.z, somaRadius};
-                    const auto& point = section.second.points[1];
-                    Vector4d averagePoint = somaPoint;
+                    const auto& point = section.second.points[0];
 
                     // Section connected to the soma
                     geometryIndex = _addCone(
-                        useSdf, Vector3d(averagePoint), averagePoint.w * 0.75f,
+                        useSdf, Vector3d(somaPoint), somaPoint.w * 0.75f,
                         (somaPosition + somaRotation * Vector3d(point)),
-                        point.w * 0.5, somaMaterialId, NO_USER_DATA, *model,
-                        sdfMorphologyData, neighbours,
+                        point.w * 0.5 * _radiusMultiplier, somaMaterialId,
+                        NO_USER_DATA, *model, sdfMorphologyData, neighbours,
                         DEFAULT_SOMA_DISPLACEMENT);
                     neighbours.insert(geometryIndex);
                 }
@@ -239,16 +233,15 @@ void Neurons::_addSection(
     double sectionLength = 0.0;
     double sectionVolume = 0.0;
     uint64_t geometryIndex = 0;
-    uint64_t startingPoint = (section.parentId == SOMA_AS_PARENT ? 1 : 0);
-    for (uint64_t i = startingPoint; i < points.size() - 1; ++i)
+    for (uint64_t i = 0; i < points.size() - 1; ++i)
     {
         const auto& srcPoint = points[i];
         const Vector3d src = somaPosition + somaRotation * Vector3d(srcPoint);
-        const double srcRadius = srcPoint.w * 0.5;
+        const double srcRadius = srcPoint.w * 0.5 * _radiusMultiplier;
 
         const auto& dstPoint = points[i + 1];
         const Vector3d dst = somaPosition + somaRotation * Vector3d(dstPoint);
-        const double dstRadius = dstPoint.w * 0.5;
+        const double dstRadius = dstPoint.w * 0.5 * _radiusMultiplier;
         const double sampleLength = length(dstPoint - srcPoint);
         sectionLength += sampleLength;
 
@@ -281,91 +274,6 @@ void Neurons::_addSection(
                                  points, mitochondriaDensity, baseMaterialId,
                                  sdfMorphologyData, model);
             materialIds.insert(baseMaterialId + MATERIAL_OFFSET_MYELIN_SHEATH);
-        }
-    }
-}
-
-size_t Neurons::_getNbMitochondrionSegments() const
-{
-    return 2 + rand() % 18;
-}
-
-void Neurons::_addSomaInternals(const uint64_t index, Model& model,
-                                const size_t materialId,
-                                const Vector3d& somaPosition,
-                                const double somaRadius,
-                                const double mitochondriaDensity,
-                                SDFMorphologyData& sdfMorphologyData)
-{
-    const auto useSdf = _details.useSdf;
-
-    // Constants
-    const double nucleusDisplacementRatio = 2.0;
-    const double mitochondrionRadiusRatio = 0.025;
-    const double mitochondrionDisplacementRatio = 20.0;
-    const double mitochondrionRadius =
-        somaRadius * mitochondrionRadiusRatio; // 5% of the volume of the soma
-
-    // Nucleus
-    const double nucleusRadius =
-        somaRadius * 0.7; // 70% of the volume of the soma;
-
-    const double somaInnerRadius = nucleusRadius + mitochondrionRadius;
-    const double somaOutterRadius = somaRadius * 0.9;
-    const double availableVolumeForMitochondria =
-        sphereVolume(somaRadius) * mitochondriaDensity;
-
-    const size_t nucleusMaterialId = materialId + MATERIAL_OFFSET_NUCLEUS;
-    _addSphere(useSdf, somaPosition, nucleusRadius, nucleusMaterialId,
-               NO_USER_DATA, model, sdfMorphologyData, {},
-               nucleusDisplacementRatio);
-
-    // Mitochondria
-    if (mitochondriaDensity == 0.0)
-        return;
-
-    const size_t mitochondrionMaterialId =
-        materialId + MATERIAL_OFFSET_MITOCHONDRION;
-    double mitochondriaVolume = 0.0;
-
-    uint64_t geometryIndex = 0;
-    while (mitochondriaVolume < availableVolumeForMitochondria)
-    {
-        const size_t nbSegments = _getNbMitochondrionSegments();
-        const auto pointsInSphere =
-            getPointsInSphere(nbSegments, somaInnerRadius / somaRadius);
-        double previousRadius = mitochondrionRadius;
-        for (size_t i = 0; i < nbSegments; ++i)
-        {
-            // Mitochondrion geometry
-            const double radius =
-                (1.0 + (rand() % 500 / 1000.0)) * mitochondrionRadius;
-            const auto p2 = somaPosition + somaOutterRadius * pointsInSphere[i];
-
-            Neighbours neighbours;
-            if (i != 0)
-                neighbours = {geometryIndex};
-            geometryIndex =
-                _addSphere(useSdf, p2, radius, mitochondrionMaterialId,
-                           NO_USER_DATA, model, sdfMorphologyData, neighbours,
-                           mitochondrionDisplacementRatio);
-
-            mitochondriaVolume += sphereVolume(radius);
-
-            if (i > 0)
-            {
-                const auto p1 =
-                    somaPosition + somaOutterRadius * pointsInSphere[i - 1];
-                geometryIndex =
-                    _addCone(useSdf, p1, previousRadius, p2, radius,
-                             mitochondrionMaterialId, NO_USER_DATA, model,
-                             sdfMorphologyData, {geometryIndex},
-                             mitochondrionDisplacementRatio);
-
-                mitochondriaVolume +=
-                    coneVolume(length(p2 - p1), previousRadius, radius);
-            }
-            previousRadius = radius;
         }
     }
 }
@@ -413,12 +321,12 @@ void Neurons::_addSectionInternals(
             {
                 const auto& srcSample = points[srcIndex];
                 const auto& dstSample = points[dstIndex];
-                const double srcRadius = srcSample.w * 0.5;
+                const double srcRadius = srcSample.w * 0.5 * _radiusMultiplier;
                 const Vector3d srcPosition{
                     srcSample.x + srcRadius * (rand() % 100 - 50) / 500.0,
                     srcSample.y + srcRadius * (rand() % 100 - 50) / 500.0,
                     srcSample.z + srcRadius * (rand() % 100 - 50) / 500.0};
-                const double dstRadius = dstSample.w * 0.5;
+                const double dstRadius = dstSample.w * 0.5 * _radiusMultiplier;
                 const Vector3d dstPosition{
                     dstSample.x + dstRadius * (rand() % 100 - 50) / 500.0,
                     dstSample.y + dstRadius * (rand() % 100 - 50) / 500.0,

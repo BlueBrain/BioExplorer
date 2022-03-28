@@ -21,7 +21,7 @@
 #pragma once
 
 #include <plugin/api/Params.h>
-#include <plugin/common/Node.h>
+#include <plugin/common/SDFGeometries.h>
 #include <plugin/common/Types.h>
 
 #include <brayns/common/loader/Loader.h>
@@ -37,7 +37,7 @@ using namespace common;
 /**
  * Load vasculature from database
  */
-class Vasculature : public common::Node
+class Vasculature : public SDFGeometries
 {
 public:
     Vasculature(Scene& scene, const VasculatureDetails& details);

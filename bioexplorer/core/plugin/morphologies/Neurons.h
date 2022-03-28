@@ -18,8 +18,9 @@
 
 #pragma once
 
+#include "Morphologies.h"
+
 #include <plugin/api/Params.h>
-#include <plugin/common/Node.h>
 #include <plugin/common/Types.h>
 
 namespace bioexplorer
@@ -32,7 +33,7 @@ using namespace common;
 /**
  * Load Neurons from database
  */
-class Neurons : public common::Node
+class Neurons : public Morphologies
 {
 public:
     Neurons(Scene& scene, const NeuronsDetails& details);
@@ -42,8 +43,6 @@ public:
 
 private:
     void _buildNeuron();
-
-    size_t _getNbMitochondrionSegments() const;
 
     void _addSection(Model& model, const uint64_t sectionId,
                      const Section& section, const size_t somaIdx,
@@ -62,13 +61,6 @@ private:
                     const Vector3d somaPosition, const double somaRadius,
                     const size_t baseMaterialId,
                     SDFMorphologyData& sdfMorphologyData);
-
-    void _addSomaInternals(const uint64_t index, Model& model,
-                           const size_t materialId,
-                           const Vector3d& somaPosition,
-                           const double somaRadius,
-                           const double mitochondriaDensity,
-                           SDFMorphologyData& sdfMorphologyData);
 
     void _addSectionInternals(
         const Vector3d& somaPosition, const Quaterniond& somaRotation,

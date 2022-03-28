@@ -27,10 +27,6 @@ namespace bioexplorer
 namespace common
 {
 using namespace brayns;
-using MaterialSet = std::set<uint64_t>;
-using Neighbours = std::set<size_t>;
-
-const int64_t NO_USER_DATA = -1;
 
 /**
  * @brief The Node class
@@ -51,38 +47,13 @@ public:
      */
     const ModelDescriptorPtr getModelDescriptor() const;
 
-    void addSDFDemo(Model& model);
-
 protected:
-    void _createMaterials(const MaterialSet& materialIds, Model& model);
     void _setMaterialExtraAttributes();
-    size_t _addSDFGeometry(SDFMorphologyData& sdfMorphologyData,
-                           const SDFGeometry& geometry,
-                           const Neighbours& neighbours,
-                           const size_t materialId);
-
-    size_t _addSphere(const bool useSDF, const Vector3f& position,
-                      const float radius, const size_t materialId,
-                      const uint64_t userDataOffset, Model& model,
-                      SDFMorphologyData& sdfMorphologyData,
-                      const Neighbours& neighbours,
-                      const float displacementRatio = 1.f);
-
-    size_t _addCone(const bool useSDF, const Vector3f& position,
-                    const float radius, const Vector3f& target,
-                    const float previousRadius, const size_t materialId,
-                    const uint64_t userDataOffset, Model& model,
-                    SDFMorphologyData& sdfMorphologyData,
-                    const Neighbours& neighbours,
-                    const float displacementRatio = 1.f);
-
-    void _finalizeSDFGeometries(Model& model,
-                                SDFMorphologyData& sdfMorphologyData);
 
     ModelDescriptorPtr _modelDescriptor{nullptr};
     Boxd _bounds;
     uint32_t _uuid;
-    double _scale{1.0};
+    double _scale;
 };
 
 typedef std::shared_ptr<Node> NodePtr;

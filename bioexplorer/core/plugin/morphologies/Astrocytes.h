@@ -18,8 +18,9 @@
 
 #pragma once
 
+#include "Morphologies.h"
+
 #include <plugin/api/Params.h>
-#include <plugin/common/Node.h>
 #include <plugin/common/Types.h>
 
 namespace bioexplorer
@@ -32,13 +33,16 @@ using namespace common;
 /**
  * Load astrocytes from database
  */
-class Astrocytes : public common::Node
+class Astrocytes : public Morphologies
 {
 public:
     Astrocytes(Scene& scene, const AstrocytesDetails& details);
 
 private:
     void _buildModel();
+    void _addEndFoot(const EndFootMap& endFeet, const uint64_t sectionId,
+                     const size_t materialId, Model& model);
+
     const AstrocytesDetails _details;
     Scene& _scene;
 };

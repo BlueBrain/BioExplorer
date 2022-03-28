@@ -36,17 +36,12 @@ using namespace common;
 using namespace io;
 using namespace db;
 
-const int64_t SOMA_AS_PARENT = -1;
-const size_t NB_MATERIALS_PER_ASTROCYTE = 2;
-
-const size_t MATERIAL_OFFSET_SOMA = 0;
-const size_t MATERIAL_OFFSET_DENDRITE = 1;
-
 const double DEFAULT_SOMA_DISPLACEMENT = 2.0;
-const double DEFAULT_SECTION_DISPLACEMENT = 5.0;
+const double DEFAULT_SECTION_DISPLACEMENT = 2.0;
+const double DEFAULT_MITOCHONDRIA_DENSITY = 0.0459;
 
 Astrocytes::Astrocytes(Scene& scene, const AstrocytesDetails& details)
-    : Node(details.scale)
+    : Morphologies(details.useSdf, details.radiusMultiplier, details.scale)
     , _details(details)
     , _scene(scene)
 {
@@ -69,54 +64,73 @@ void Astrocytes::_buildModel()
     size_t previousMaterialId = std::numeric_limits<size_t>::max();
     size_t baseMaterialId = 0;
     const uint64_t userData = 0;
-    Vector3ui indexOffset;
 
     for (const auto& soma : somas)
     {
+        PLUGIN_PROGRESS("Loading astrocytes", soma.first, somas.size());
         const auto somaId = soma.first;
         const auto& somaPosition = soma.second.center;
-        const auto somaRadius = soma.second.radius;
 
-        PLUGIN_PROGRESS("Loading astrocytes", soma.first, somas.size());
+        // Soma radius
+        double somaRadius = 0.0;
+        const auto sections = connector.getAstrocyteSections(somaId);
+
+        uint64_t count = 1;
+        for (const auto& section : sections)
+            if (section.second.parentId == SOMA_AS_PARENT)
+            {
+                const auto& point = section.second.points[0];
+                somaRadius += 0.75 * length(Vector3d(point));
+                ++count;
+            }
+        somaRadius = _radiusMultiplier * somaRadius / count;
+
+        // Color scheme
         switch (_details.populationColorScheme)
         {
         case PopulationColorScheme::id:
-            baseMaterialId = somaId * NB_MATERIALS_PER_ASTROCYTE;
+            baseMaterialId = somaId * NB_MATERIALS_PER_MORPHOLOGY;
             break;
         default:
             baseMaterialId = 0;
         }
         materialIds.insert(baseMaterialId);
+        const auto somaMaterialId =
+            baseMaterialId +
+            (_details.morphologyColorScheme == MorphologyColorScheme::section
+                 ? MATERIAL_OFFSET_SOMA
+                 : 0);
+        materialIds.insert(somaMaterialId);
 
         uint64_t somaGeometryIndex = 0;
         if (_details.loadSomas)
+        {
             somaGeometryIndex =
-                _addSphere(useSdf, somaPosition, somaRadius, baseMaterialId,
+                _addSphere(useSdf, somaPosition, somaRadius, somaMaterialId,
                            NO_USER_DATA, *model, sdfMorphologyData, {},
                            DEFAULT_SOMA_DISPLACEMENT);
+            if (_details.generateInternals)
+            {
+                _addSomaInternals(somaId, *model, baseMaterialId, somaPosition,
+                                  somaRadius, DEFAULT_MITOCHONDRIA_DENSITY,
+                                  sdfMorphologyData);
+                materialIds.insert(baseMaterialId + MATERIAL_OFFSET_NUCLEUS);
+                materialIds.insert(baseMaterialId +
+                                   MATERIAL_OFFSET_MITOCHONDRION);
+            }
+        }
 
-        const auto sections = connector.getAstrocyteSections(somaId);
         // End feet
         const auto endFeet =
             (_details.loadEndFeet ? connector.getAstrocyteEndFeetAreas(somaId)
                                   : EndFootMap());
 
+        Neighbours neighbours;
+        neighbours.insert(somaGeometryIndex);
         for (const auto& section : sections)
         {
             uint64_t geometryIndex = 0;
             const auto& points = section.second.points;
-
-            if (section.second.parentId == SOMA_AS_PARENT)
-            {
-                // Section connected to the soma
-                const auto& point = points[0];
-                geometryIndex =
-                    _addCone(useSdf, somaPosition, somaRadius,
-                             somaPosition + Vector3d(point), point.w * 0.5,
-                             baseMaterialId, NO_USER_DATA, *model,
-                             sdfMorphologyData, {somaGeometryIndex},
-                             DEFAULT_SOMA_DISPLACEMENT);
-            }
 
             size_t sectionMaterialId = baseMaterialId;
             const auto sectionId = section.first;
@@ -148,18 +162,22 @@ void Astrocytes::_buildModel()
                     // Section connected to the soma
                     const auto& point = points[0];
                     geometryIndex =
-                        _addCone(useSdf, somaPosition, somaRadius * 0.5,
-                                 somaPosition + Vector3d(point), point.w * 0.5,
-                                 sectionMaterialId, userData, *model,
-                                 sdfMorphologyData, {somaGeometryIndex},
+                        _addCone(useSdf, somaPosition,
+                                 somaRadius * 0.75 * _radiusMultiplier,
+                                 somaPosition + Vector3d(point),
+                                 point.w * 0.5 * _radiusMultiplier,
+                                 somaMaterialId, userData, *model,
+                                 sdfMorphologyData, neighbours,
                                  DEFAULT_SOMA_DISPLACEMENT);
+                    neighbours.insert(geometryIndex);
                 }
 
                 for (uint64_t i = 0; i < points.size() - 1; i += step)
                 {
                     const auto srcPoint = points[i];
                     const auto src = somaPosition + Vector3d(srcPoint);
-                    const float srcRadius = srcPoint.w * 0.5;
+                    const float srcRadius =
+                        srcPoint.w * 0.5 * _radiusMultiplier;
 
                     // Ignore points that are too close the previous one
                     // (according to respective radii)
@@ -168,7 +186,7 @@ void Astrocytes::_buildModel()
                     do
                     {
                         dstPoint = points[i + step];
-                        dstRadius = dstPoint.w * 0.5;
+                        dstRadius = dstPoint.w * 0.5 * _radiusMultiplier;
                         ++i;
                     } while (length(Vector3f(dstPoint) - Vector3f(srcPoint)) <
                                  (srcRadius + dstRadius) &&
@@ -193,27 +211,8 @@ void Astrocytes::_buildModel()
             }
 
             if (_details.loadEndFeet)
-            {
-                const auto it = endFeet.find(sectionId);
-                if (it != endFeet.end())
-                {
-                    const auto endFoot = (*it).second;
-                    auto& tm = model->getTriangleMeshes()[sectionMaterialId];
-                    for (const auto& vertex : endFoot.vertices)
-                    {
-                        _bounds.merge(vertex);
-                        tm.vertices.push_back(vertex);
-                    }
-                    for (const auto& index : endFoot.indices)
-                        tm.indices.push_back(index + indexOffset);
+                _addEndFoot(endFeet, sectionId, sectionMaterialId, *model);
 
-                    const auto nbVertices = endFoot.vertices.size();
-                    indexOffset +=
-                        Vector3ui(nbVertices, nbVertices, nbVertices);
-                }
-            }
-            if (sectionMaterialId != previousMaterialId)
-                indexOffset = Vector3ui();
             previousMaterialId = sectionMaterialId;
         }
     }
@@ -233,6 +232,27 @@ void Astrocytes::_buildModel()
         _scene.addModel(_modelDescriptor);
     else
         PLUGIN_THROW("Astrocytes model could not be created");
+}
+
+void Astrocytes::_addEndFoot(const EndFootMap& endFeet,
+                             const uint64_t sectionId, const size_t materialId,
+                             Model& model)
+{
+    const auto it = endFeet.find(sectionId);
+    if (it != endFeet.end())
+    {
+        const auto endFoot = (*it).second;
+        auto& tm = model.getTriangleMeshes()[materialId];
+        const uint64_t offset = tm.vertices.size();
+
+        for (const auto& vertex : endFoot.vertices)
+        {
+            _bounds.merge(vertex);
+            tm.vertices.push_back(vertex);
+        }
+        for (const auto& index : endFoot.indices)
+            tm.indices.push_back(index + Vector3ui(offset, offset, offset));
+    }
 }
 } // namespace morphology
 } // namespace bioexplorer

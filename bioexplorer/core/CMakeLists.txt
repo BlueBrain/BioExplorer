@@ -66,6 +66,7 @@ set(${NAME}_SOURCES
     plugin/common/Utils.cpp
     plugin/common/UniqueId.cpp
     plugin/common/Node.cpp
+    plugin/common/SDFGeometries.cpp
     plugin/common/shapes/Shape.cpp
     plugin/common/shapes/MeshShape.cpp
     plugin/common/shapes/SphereShape.cpp
@@ -100,6 +101,7 @@ set(${NAME}_PUBLIC_HEADERS
     plugin/io/db/DBConnector.h
     plugin/common/Assembly.h
     plugin/common/Node.h
+    plugin/common/SDFGeometries.h
     plugin/molecularsystems/EnzymeReaction.h
     plugin/molecularsystems/Molecule.h
     plugin/molecularsystems/Glycans.h
@@ -137,10 +139,12 @@ endif()
 
 if(${NAME}_USE_MORPHOLOGIES)
     list(APPEND ${NAME}_SOURCES
+        plugin/morphologies/Morphologies.cpp
         plugin/morphologies/Astrocytes.cpp
         plugin/morphologies/Neurons.cpp
     )
     list(APPEND ${NAME}_PUBLIC_HEADERS
+        plugin/morphologies/Morphologies.h
         plugin/morphologies/Astrocytes.h
         plugin/morphologies/Neurons.h
 )

@@ -37,11 +37,16 @@
 #include <brayns/parameters/ParametersManager.h>
 #include <brayns/pluginapi/Plugin.h>
 
+#ifdef USE_MORPHOLOGIES
+#include <plugin/common/SDFGeometries.h>
+#endif
+
 namespace bioexplorer
 {
 using namespace common;
 using namespace io;
 using namespace db;
+
 #ifdef USE_VASCULATURE
 using namespace vasculature;
 #endif
@@ -1361,8 +1366,8 @@ Response BioExplorerPlugin::_addSdfDemo()
         auto &scene = _api->getScene();
         auto model = scene.createModel();
 
-        Node node;
-        node.addSDFDemo(*model);
+        common::SDFGeometries geometries(true);
+        geometries.addSDFDemo(*model);
         scene.addModel(
             std::make_shared<ModelDescriptor>(std::move(model), "SDF demo"));
     }

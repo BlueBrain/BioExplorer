@@ -290,13 +290,8 @@ class BioExplorer:
     GEOMETRY_QUALITY_MEDIUM = 1
     GEOMETRY_QUALITY_HIGH = 2
 
-    # Material offsets in astrocytes
-    NB_MATERIALS_PER_ASTROCYTE = 2
-    ASTROCYTE_MATERIAL_SOMA = 0
-    ASTROCYTE_MATERIAL_DENDRITE = 1
-
     # Material offsets in neurons
-    NB_MATERIALS_PER_NEURON = 10
+    NB_MATERIALS_PER_MORPHOLOGY = 10
     NEURON_MATERIAL_SOMA = 1
     NEURON_MATERIAL_AXON = 2
     NEURON_MATERIAL_BASAL_DENDRITE = 3
@@ -2223,8 +2218,8 @@ class BioExplorer:
         :node_gids: List of segment GIDs to load. Defaults to list()
         :quality: Quality of the vasculature geometry (0 is the graph, 1 with low details, 2
                     with high details)
-        :radius_muliplier: Applies the multiplier to all radii of the astrocyte sections
-        :sql_filter: Condition added to the SQL statement loading the astrocytes
+        :radius_muliplier: Applies the multiplier to all radii of the vasculature sections
+        :sql_filter: Condition added to the SQL statement loading the vasculature
         :scale: Scale in the 3D scene
 
         :return: Result of the request submission
@@ -2337,7 +2332,7 @@ class BioExplorer:
     def add_astrocytes(
             self, assembly_name, population_name,
             use_sdf=False, load_somas=True,
-            load_dendrites=True, load_end_feet=True,
+            load_dendrites=True, load_end_feet=True, generate_internals=False,
             geometry_quality=GEOMETRY_QUALITY_HIGH,
             morphology_color_scheme=MORPHOLOGY_COLOR_SCHEME_NONE,
             population_color_scheme=POPULATION_COLOR_SCHEME_NONE,
@@ -2347,10 +2342,11 @@ class BioExplorer:
 
         :assembly_name: Name of the assembly to which the astrocytes should be added
         :population_name: Name of the population of astrocytes
-        :use_sdf: Use sign distance fields geometry to create the astrocytes. Defaults to False
         :load_somas: Load somas if set to true
         :load_dendrites: Load dendrites if set to true
         :load_end_feet: Load end feet if set to true
+        :generate_internals: Generate internals (Nucleus and mitochondria)
+        :use_sdf: Use sign distance fields geometry to create the astrocytes. Defaults to False
         :geometry_quality: Quality of the geometry
         :morphology_color_scheme: Color scheme of the sections of the astrocytes
         :populationColorScheme: Color scheme of the population of astrocytes
@@ -2363,10 +2359,11 @@ class BioExplorer:
         params = dict()
         params["assemblyName"] = assembly_name
         params["populationName"] = population_name
-        params["useSdf"] = use_sdf
         params["loadSomas"] = load_somas
         params["loadDendrites"] = load_dendrites
         params["loadEndFeet"] = load_end_feet
+        params["generateInternals"] = generate_internals
+        params["useSdf"] = use_sdf
         params["geometryQuality"] = geometry_quality
         params["morphologyColorScheme"] = morphology_color_scheme
         params["populationColorScheme"] = population_color_scheme

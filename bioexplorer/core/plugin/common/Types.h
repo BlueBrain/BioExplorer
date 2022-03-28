@@ -955,6 +955,8 @@ typedef struct
     bool loadDendrites{true};
     /** Load end-feet if set to true */
     bool loadEndFeet{false};
+    /** Generate internal components (nucleus and mitochondria) */
+    bool generateInternals{false};
     /** Use Signed Distance Fields as geometry */
     bool useSdf{false};
     /** Geometry quality */
@@ -1066,6 +1068,9 @@ using GeometryEdges = std::map<uint64_t, uint64_t>;
 using Bifurcations = std::map<uint64_t, uint64_ts>;
 
 // SDF structures
+class SDFGeometries;
+using SDFGeometriesPtr = std::shared_ptr<SDFGeometries>;
+
 struct SDFMorphologyData
 {
     std::vector<SDFGeometry> geometries;
@@ -1278,6 +1283,8 @@ using VasculaturePtr = std::shared_ptr<Vasculature>;
 #ifdef USE_MORPHOLOGIES
 namespace morphology
 {
+class Morphologies;
+using MorphologiesPtr = std::shared_ptr<Morphologies>;
 class Astrocytes;
 using AstrocytesPtr = std::shared_ptr<Astrocytes>;
 class Neurons;

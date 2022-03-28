@@ -41,7 +41,7 @@ using namespace db;
 const double VASCULATURE_DISPLACEMENT_RATIO = 0.5;
 
 Vasculature::Vasculature(Scene& scene, const VasculatureDetails& details)
-    : Node(details.scale)
+    : SDFGeometries(details.scale)
     , _details(details)
     , _scene(scene)
 {
