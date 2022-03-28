@@ -402,7 +402,7 @@ AstrocyteSomaMap DBConnector::getAstrocytes(
             AstrocyteSoma soma;
             soma.center =
                 Vector3d(c[1].as<float>(), c[2].as<float>(), c[3].as<float>());
-            soma.radius = c[4].as<float>() * 0.5;
+            soma.radius = c[4].as<float>() * 0.25;
             somas[c[0].as<uint64_t>()] = soma;
         }
     }
