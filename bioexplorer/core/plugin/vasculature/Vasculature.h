@@ -58,13 +58,16 @@ private:
     std::set<uint64_t> _buildGraphModel(
         Model& model, const VasculatureColorSchemeDetails& details);
     std::set<uint64_t> _buildSimpleModel(
-        Model& model, const VasculatureColorSchemeDetails& details);
+        Model& model, const VasculatureColorSchemeDetails& details,
+        const doubles& radii = doubles());
     std::set<uint64_t> _buildAdvancedModel(
-        Model& model, const VasculatureColorSchemeDetails& details);
+        Model& model, const VasculatureColorSchemeDetails& details,
+        const doubles& radii = doubles());
 
     void _importFromDB();
     void _buildModel(const VasculatureColorSchemeDetails& details =
-                         VasculatureColorSchemeDetails());
+                         VasculatureColorSchemeDetails(),
+                     const doubles& radii = doubles());
     const VasculatureDetails _details;
     Scene& _scene;
     GeometryNodes _nodes;

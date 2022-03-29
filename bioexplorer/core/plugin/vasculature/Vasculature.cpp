@@ -150,7 +150,8 @@ std::set<uint64_t> Vasculature::_buildGraphModel(
 }
 
 std::set<uint64_t> Vasculature::_buildSimpleModel(
-    Model& model, const VasculatureColorSchemeDetails& details)
+    Model& model, const VasculatureColorSchemeDetails& details,
+    const doubles& radii)
 {
     std::set<uint64_t> materialIds;
     SDFMorphologyData sdfMorphologyData;
@@ -190,9 +191,12 @@ std::set<uint64_t> Vasculature::_buildSimpleModel(
                 break;
             }
 
-            const auto& srcPoint = srcNode.position;
-            const auto srcRadius = srcNode.radius * radiusMultiplier;
             const auto userData = section.second[i];
+
+            const auto& srcPoint = srcNode.position;
+            const auto srcRadius =
+                (userData < radii.size() ? radii[userData] : srcNode.radius) *
+                radiusMultiplier;
             const auto sectionId = srcNode.sectionId;
 
             Neighbours neighbours;
@@ -214,8 +218,12 @@ std::set<uint64_t> Vasculature::_buildSimpleModel(
             {
                 const auto& dstNode = _nodes[section.second[i + 1]];
                 dstPoint = dstNode.position;
-                dstRadius = dstNode.radius * radiusMultiplier;
+                const auto dstUserData = section.second[i + 1];
+                dstRadius = (dstUserData < radii.size() ? radii[dstUserData]
+                                                        : dstNode.radius) *
+                            radiusMultiplier;
                 ++i;
+
             } while (length(dstPoint - srcPoint) < (srcRadius + dstRadius) &&
                      i < section.second.size() - 1);
             --i;
@@ -239,8 +247,8 @@ std::set<uint64_t> Vasculature::_buildSimpleModel(
 }
 
 std::set<uint64_t> Vasculature::_buildAdvancedModel(
-    Model& model, const VasculatureColorSchemeDetails& details)
-
+    Model& model, const VasculatureColorSchemeDetails& details,
+    const doubles& radii)
 {
     std::set<uint64_t> materialIds;
     SDFMorphologyData sdfMorphologyData;
@@ -290,7 +298,7 @@ std::set<uint64_t> Vasculature::_buildAdvancedModel(
                 break;
             }
 
-            const auto userData = section.second[i];
+            const auto srcUserData = section.second[i];
             const Vector4f src = getBezierPoint(controlPoints, t);
             const auto sectionId = srcNode.sectionId;
 
@@ -298,18 +306,25 @@ std::set<uint64_t> Vasculature::_buildAdvancedModel(
             if (i != 0)
                 neighbours = {geometryIndex};
 
+            const auto srcRadius =
+                (srcUserData < radii.size() ? radii[srcUserData] : src.w);
+
             if (!useSdf)
-                geometryIndex =
-                    _addSphere(useSdf, Vector3f(src), src.w, materialId,
-                               userData, model, sdfMorphologyData, neighbours);
+                geometryIndex = _addSphere(useSdf, Vector3f(src), srcRadius,
+                                           materialId, srcUserData, model,
+                                           sdfMorphologyData, neighbours);
             if (i > 0)
             {
+                const auto dstUserData = section.second[i + 1];
                 const auto& dstNode = _nodes[section.second[i + 1]];
                 const Vector4f dst = getBezierPoint(controlPoints, t + step);
+                const auto dstRadius =
+                    (dstUserData < radii.size() ? radii[dstUserData] : dst.w);
                 geometryIndex =
-                    _addCone(useSdf, Vector3f(dst), dst.w, Vector3f(src), src.w,
-                             materialId, userData, model, sdfMorphologyData,
-                             {geometryIndex}, VASCULATURE_DISPLACEMENT_RATIO);
+                    _addCone(useSdf, Vector3f(dst), dstRadius, Vector3f(src),
+                             srcRadius, materialId, srcUserData, model,
+                             sdfMorphologyData, {geometryIndex},
+                             VASCULATURE_DISPLACEMENT_RATIO);
             }
             materialIds.insert(materialId);
             i += precision;
@@ -321,8 +336,12 @@ std::set<uint64_t> Vasculature::_buildAdvancedModel(
     return materialIds;
 }
 
-void Vasculature::_buildModel(const VasculatureColorSchemeDetails& details)
+void Vasculature::_buildModel(const VasculatureColorSchemeDetails& details,
+                              const doubles& radii)
 {
+    if (_modelDescriptor)
+        _scene.removeModel(_modelDescriptor->getModelID());
+
     auto model = _scene.createModel();
     std::set<uint64_t> materialIds;
 
@@ -332,10 +351,10 @@ void Vasculature::_buildModel(const VasculatureColorSchemeDetails& details)
         materialIds = _buildGraphModel(*model, details);
         break;
     case VasculatureQuality::medium:
-        materialIds = _buildSimpleModel(*model, details);
+        materialIds = _buildSimpleModel(*model, details, radii);
         break;
     default:
-        materialIds = _buildAdvancedModel(*model, details);
+        materialIds = _buildAdvancedModel(*model, details, radii);
         break;
     }
 
@@ -378,34 +397,13 @@ void Vasculature::setRadiusReport(const VasculatureRadiusReportDetails& details)
     if (details.frame >= nbFrames)
         PLUGIN_THROW("Invalid frame specified for report: " +
                      simulationReport.description);
-    const floats series =
+    const floats radii =
         connector.getVasculatureSimulationTimeSeries(details.simulationReportId,
                                                      details.frame);
-
-    auto& model = _modelDescriptor->getModel();
-    auto& spheresMap = model.getSpheres();
-    for (auto& spheres : spheresMap)
-        for (auto& sphere : spheres.second)
-            sphere.radius = details.amplitude * series[sphere.userData];
-
-    auto& conesMap = model.getCones();
-    for (auto& cones : conesMap)
-        for (auto& cone : cones.second)
-        {
-            cone.centerRadius = details.amplitude * series[cone.userData];
-            cone.upRadius = details.amplitude * series[cone.userData + 1];
-        }
-
-    auto& cylindersMap = model.getCylinders();
-    for (auto& cylinders : cylindersMap)
-        for (auto& cylinder : cylinders.second)
-            cylinder.radius = details.amplitude * series[cylinder.userData];
-
-    model.commitGeometry();
-    model.updateBounds();
-    PLUGIN_DEBUG("Vasculature geometry successfully modified using report "
-                 << simulationReport.description);
-    _scene.markModified(false);
+    doubles series;
+    for (const double radius : radii)
+        series.push_back(details.amplitude * radius);
+    _buildModel(VasculatureColorSchemeDetails(), series);
 }
 
 } // namespace vasculature

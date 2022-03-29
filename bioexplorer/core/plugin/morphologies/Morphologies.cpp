@@ -36,7 +36,7 @@ using namespace common;
 Morphologies::Morphologies(const bool useSDF, const double radiusMultiplier,
                            const double scale)
     : SDFGeometries(useSDF, scale)
-    , _radiusMultiplier(radiusMultiplier)
+    , _radiusMultiplier(radiusMultiplier == 0.0 ? 1.0 : radiusMultiplier)
 {
 }
 

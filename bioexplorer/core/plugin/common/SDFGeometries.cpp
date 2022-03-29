@@ -74,33 +74,33 @@ size_t SDFGeometries::_addSphere(const bool useSDF, const Vector3f& position,
 }
 
 size_t SDFGeometries::_addCone(
-    const bool useSDF, const Vector3f& position, const float radius,
-    const Vector3f& target, const float previousRadius, const size_t materialId,
-    const uint64_t userData, Model& model, SDFMorphologyData& sdfMorphologyData,
-    const Neighbours& neighbours, const float displacementRatio)
+    const bool useSDF, const Vector3f& sourcePosition, const float sourceRadius,
+    const Vector3f& targetPosition, const float targetRadius,
+    const size_t materialId, const uint64_t userData, Model& model,
+    SDFMorphologyData& sdfMorphologyData, const Neighbours& neighbours,
+    const float displacementRatio)
 {
     if (useSDF)
     {
-        const Vector3f displacementParams = {std::min(radius * _scale, 0.05),
+        const Vector3f displacementParams = {std::min(sourceRadius * _scale,
+                                                      0.05),
                                              displacementRatio / _scale,
                                              _scale * 2.0};
         const auto geom =
-            createSDFConePill(position * _scale, target * _scale,
-                              static_cast<float>(radius * _scale),
-                              static_cast<float>(previousRadius * _scale),
+            createSDFConePill(sourcePosition * _scale, targetPosition * _scale,
+                              static_cast<float>(sourceRadius * _scale),
+                              static_cast<float>(targetRadius * _scale),
                               userData, displacementParams);
         return _addSDFGeometry(sdfMorphologyData, geom, neighbours, materialId);
     }
-    if (radius == previousRadius)
-        return model.addCylinder(materialId,
-                                 {position * _scale, target * _scale,
-                                  static_cast<float>(radius * _scale),
-                                  userData});
+    if (sourceRadius == targetRadius)
+        return model.addCylinder(
+            materialId, {sourcePosition * _scale, targetPosition * _scale,
+                         static_cast<float>(sourceRadius * _scale), userData});
     return model.addCone(materialId,
-                         {position * _scale, target * _scale,
-                          static_cast<float>(radius * _scale),
-                          static_cast<float>(previousRadius * _scale),
-                          userData});
+                         {sourcePosition * _scale, targetPosition * _scale,
+                          static_cast<float>(sourceRadius * _scale),
+                          static_cast<float>(targetRadius * _scale), userData});
 }
 
 void SDFGeometries::_finalizeSDFGeometries(Model& model,
