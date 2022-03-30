@@ -196,6 +196,9 @@ uint64_t DBConnector::getVasculaturePopulationId(
                           ".population WHERE name='" + populationName + "'";
         PLUGIN_DEBUG(sql);
         auto res = transaction.exec(sql);
+        if (res.empty())
+            PLUGIN_THROW("Population " + populationName +
+                         " could not be found");
         for (auto c = res.begin(); c != res.end(); ++c)
             populationId = c[0].as<uint64_t>();
     }
@@ -221,7 +224,7 @@ GeometryNodes DBConnector::getVasculatureNodes(
             DB_SCHEMA_VASCULATURE +
             ".node WHERE population_guid=" + std::to_string(populationId);
         if (!filter.empty())
-            sql += "AND " + filter;
+            sql += " AND " + filter;
         sql += " ORDER BY guid";
         PLUGIN_DEBUG(sql);
         auto res = transaction.exec(sql);
@@ -498,10 +501,10 @@ EndFootNodesMap DBConnector::getAstrocyteEndFeetAreasAsNodes(
     try
     {
         std::string sql =
-            "SELECT c.astrocyte_section_guid, n.x, "
-            "n.y, n.z, n.radius, c.vasculature_section_guid, "
-            "c.vasculature_segment_guid, c.endfoot_compartment_length, "
-            "c.endfoot_compartment_diameter * 0.5 FROM " +
+            "SELECT c.guid, n.x, n.y, n.z, n.radius, "
+            "c.vasculature_section_guid, c.vasculature_segment_guid, "
+            "c.endfoot_compartment_length, c.endfoot_compartment_diameter * "
+            "0.5 FROM " +
             DB_SCHEMA_CONNECTOME + ".glio_vascular as c, " +
             DB_SCHEMA_VASCULATURE +
             ".node as n WHERE c.vasculature_node_guid=n.guid AND "
@@ -513,7 +516,7 @@ EndFootNodesMap DBConnector::getAstrocyteEndFeetAreasAsNodes(
         for (auto c = res.begin(); c != res.end(); ++c)
         {
             EndFootNodes endFoot;
-            const auto astrocyteSectionId = c[0].as<uint64_t>();
+            const auto endFootId = c[0].as<uint64_t>();
             endFoot.nodes.push_back(Vector4f(c[1].as<float>(), c[2].as<float>(),
                                              c[3].as<float>(),
                                              c[4].as<float>()));
@@ -521,7 +524,7 @@ EndFootNodesMap DBConnector::getAstrocyteEndFeetAreasAsNodes(
             endFoot.vasculatureSegmentId = c[6].as<uint64_t>();
             endFoot.length = c[7].as<double>();
             endFoot.radius = c[8].as<double>();
-            endFeet[astrocyteSectionId] = endFoot;
+            endFeet[endFootId] = endFoot;
         }
     }
     catch (const pqxx::sql_error& e)

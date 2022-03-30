@@ -660,10 +660,13 @@ void Assembly::setVasculatureReport(const VasculatureReportDetails &details)
 void Assembly::setVasculatureRadiusReport(
     const VasculatureRadiusReportDetails &details)
 {
-    if (!_vasculature)
-        PLUGIN_THROW("No vasculature is currently loaded");
+    if (!_vasculature && !_astrocytes)
+        PLUGIN_THROW("No vasculature nor astrocytes are currently loaded");
 
-    _vasculature->setRadiusReport(details);
+    if (_vasculature)
+        _vasculature->setRadiusReport(details);
+    if (_astrocytes)
+        _astrocytes->setVasculatureRadiusReport(details);
 }
 #endif
 

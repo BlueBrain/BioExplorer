@@ -12,14 +12,16 @@ alter table population
 
 create table glio_vascular
 (
-    guid                        integer not null,
-    astrocyte_population_guid   integer not null,
-    vasculature_population_guid integer not null,
-    astrocyte_guid              integer not null,
-    astrocyte_section_guid      integer not null,
-    vasculature_node_guid       integer not null,
-    vasculature_section_guid    integer not null,
-    vasculature_segment_guid    integer not null,
+    guid                         integer          not null,
+    astrocyte_population_guid    integer          not null,
+    vasculature_population_guid  integer          not null,
+    astrocyte_guid               integer          not null,
+    astrocyte_section_guid       integer          not null,
+    vasculature_node_guid        integer          not null,
+    vasculature_section_guid     integer          not null,
+    vasculature_segment_guid     integer          not null,
+    endfoot_compartment_length   double precision not null,
+    endfoot_compartment_diameter double precision not null,
     constraint glio_vascular_pk
         primary key (guid, astrocyte_population_guid, vasculature_population_guid)
 );

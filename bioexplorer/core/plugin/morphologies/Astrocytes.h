@@ -38,16 +38,17 @@ class Astrocytes : public Morphologies
 public:
     Astrocytes(Scene& scene, const AstrocytesDetails& details);
 
+    void setVasculatureRadiusReport(
+        const VasculatureRadiusReportDetails& details);
+
 private:
-    void _buildModel();
+    void _buildModel(const doubles& radii = doubles());
     void _addEndFootAsMesh(const EndFootMeshMap& endFeet,
                            const uint64_t sectionId, const size_t materialId,
                            Model& model);
     void _addEndFootAsNodes(const EndFootNodesMap& endFeet,
-                            const uint64_t sectionId, const Vector4fs& points,
-                            const size_t materialId,
+                            const doubles& radii, const size_t materialId,
                             SDFMorphologyData& sdfMorphologyData, Model& model);
-
     const AstrocytesDetails _details;
     Scene& _scene;
 };
