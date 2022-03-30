@@ -120,11 +120,6 @@ void Astrocytes::_buildModel()
             }
         }
 
-        // End feet
-        const auto endFeet =
-            (_details.loadEndFeet ? connector.getAstrocyteEndFeetAreas(somaId)
-                                  : EndFootMap());
-
         Neighbours neighbours;
         neighbours.insert(somaGeometryIndex);
         for (const auto& section : sections)
@@ -211,8 +206,19 @@ void Astrocytes::_buildModel()
             }
 
             if (_details.loadEndFeet)
-                _addEndFoot(endFeet, sectionId, sectionMaterialId, *model);
-
+            {
+#if 0
+                const auto endFeet =
+                    connector.getAstrocyteEndFeetAreasAsMesh(somaId);
+                _addEndFootAsMesh(endFeet, sectionId, sectionMaterialId,
+                                  *model);
+#else
+                const auto endFeet =
+                    connector.getAstrocyteEndFeetAreasAsNodes(somaId);
+                _addEndFootAsNodes(endFeet, sectionId, sectionMaterialId,
+                                   sdfMorphologyData, *model);
+#endif
+            }
             previousMaterialId = sectionMaterialId;
         }
     }
@@ -234,14 +240,14 @@ void Astrocytes::_buildModel()
         PLUGIN_THROW("Astrocytes model could not be created");
 }
 
-void Astrocytes::_addEndFoot(const EndFootMap& endFeet,
-                             const uint64_t sectionId, const size_t materialId,
-                             Model& model)
+void Astrocytes::_addEndFootAsMesh(const EndFootMeshMap& endFeet,
+                                   const uint64_t sectionId,
+                                   const size_t materialId, Model& model)
 {
     const auto it = endFeet.find(sectionId);
     if (it != endFeet.end())
     {
-        const auto endFoot = (*it).second;
+        const auto& endFoot = (*it).second;
         auto& tm = model.getTriangleMeshes()[materialId];
         const uint64_t offset = tm.vertices.size();
 
@@ -253,6 +259,22 @@ void Astrocytes::_addEndFoot(const EndFootMap& endFeet,
         for (const auto& index : endFoot.indices)
             tm.indices.push_back(index + Vector3ui(offset, offset, offset));
     }
+}
+
+void Astrocytes::_addEndFootAsNodes(const EndFootNodesMap& endFeet,
+                                    const uint64_t sectionId,
+                                    const size_t materialId,
+                                    SDFMorphologyData& sdfMorphologyData,
+                                    Model& model)
+{
+    const auto it = endFeet.find(sectionId);
+    if (it == endFeet.end())
+        return;
+    const auto& endFoot = (*it).second;
+    for (const auto& node : endFoot.nodes)
+        _addSphere(_details.useSdf, Vector3d(node), node.w * 1.2, materialId,
+                   NO_USER_DATA, model, sdfMorphologyData, {},
+                   DEFAULT_SECTION_DISPLACEMENT);
 }
 } // namespace morphology
 } // namespace bioexplorer

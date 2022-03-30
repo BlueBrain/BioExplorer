@@ -1330,8 +1330,14 @@ typedef struct
 {
     Vector3fs vertices;
     Vector3uis indices;
-} EndFoot;
-using EndFootMap = std::map<uint64_t, EndFoot>;
+} EndFootMesh;
+using EndFootMeshMap = std::map<uint64_t, EndFootMesh>;
+
+typedef struct
+{
+    Vector4fs nodes;
+} EndFootNodes;
+using EndFootNodesMap = std::map<uint64_t, EndFootNodes>;
 } // namespace morphology
 #endif
 

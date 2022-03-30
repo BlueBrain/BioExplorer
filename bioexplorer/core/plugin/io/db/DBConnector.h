@@ -185,12 +185,22 @@ public:
     SectionMap getAstrocyteSections(const int64_t astrocyteId) const;
 
     /**
-     * @brief Get the end-feet areas of a given astrocyte
+     * @brief Get the end-feet areas as mesh for a given astrocyte
      *
      * @param astrocyteId Identifier of the astrocyte
-     * @return SectionMap A map of end-feet
+     * @return EndFootMeshMap A map of end-feet
      */
-    EndFootMap getAstrocyteEndFeetAreas(const uint64_t astrocyteId) const;
+    EndFootMeshMap getAstrocyteEndFeetAreasAsMesh(
+        const uint64_t astrocyteId) const;
+
+    /**
+     * @brief Get the end-feet areas as nodes for a given astrocyte
+     *
+     * @param astrocyteId Identifier of the astrocyte
+     * @return EndFootNodesMap A map of end-feet
+     */
+    EndFootNodesMap getAstrocyteEndFeetAreasAsNodes(
+        const uint64_t astrocyteId) const;
 
     /**
      * @brief Get the neurons locations

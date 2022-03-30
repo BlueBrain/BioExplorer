@@ -40,8 +40,12 @@ public:
 
 private:
     void _buildModel();
-    void _addEndFoot(const EndFootMap& endFeet, const uint64_t sectionId,
-                     const size_t materialId, Model& model);
+    void _addEndFootAsMesh(const EndFootMeshMap& endFeet,
+                           const uint64_t sectionId, const size_t materialId,
+                           Model& model);
+    void _addEndFootAsNodes(const EndFootNodesMap& endFeet,
+                            const uint64_t sectionId, const size_t materialId,
+                            SDFMorphologyData& sdfMorphologyData, Model& model);
 
     const AstrocytesDetails _details;
     Scene& _scene;
