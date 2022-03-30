@@ -44,7 +44,8 @@ private:
                            const uint64_t sectionId, const size_t materialId,
                            Model& model);
     void _addEndFootAsNodes(const EndFootNodesMap& endFeet,
-                            const uint64_t sectionId, const size_t materialId,
+                            const uint64_t sectionId, const Vector4fs& points,
+                            const size_t materialId,
                             SDFMorphologyData& sdfMorphologyData, Model& model);
 
     const AstrocytesDetails _details;

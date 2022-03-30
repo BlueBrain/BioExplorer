@@ -949,6 +949,8 @@ typedef struct
     std::string assemblyName;
     /** Name of the population of astrocytes */
     std::string populationName;
+    /** Name of the vasculature population (for endfeet) */
+    std::string vasculaturePopulationName;
     /** Load somas if set to true */
     bool loadSomas{true};
     /** Load dendrites if set to true */
@@ -1335,6 +1337,10 @@ using EndFootMeshMap = std::map<uint64_t, EndFootMesh>;
 
 typedef struct
 {
+    uint64_t vasculatureSectionId;
+    uint64_t vasculatureSegmentId;
+    double length;
+    double radius;
     Vector4fs nodes;
 } EndFootNodes;
 using EndFootNodesMap = std::map<uint64_t, EndFootNodes>;

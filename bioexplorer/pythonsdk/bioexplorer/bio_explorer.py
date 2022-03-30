@@ -2330,7 +2330,7 @@ class BioExplorer:
         return self._invoke_and_check('set-vasculature-radius-report', params)
 
     def add_astrocytes(
-            self, assembly_name, population_name,
+            self, assembly_name, population_name, vasculature_population_name='',
             use_sdf=False, load_somas=True,
             load_dendrites=True, load_end_feet=True, generate_internals=False,
             geometry_quality=GEOMETRY_QUALITY_HIGH,
@@ -2342,6 +2342,7 @@ class BioExplorer:
 
         :assembly_name: Name of the assembly to which the astrocytes should be added
         :population_name: Name of the population of astrocytes
+        :vasculature_population_name: Name of the vasculature population (for endfeet)
         :load_somas: Load somas if set to true
         :load_dendrites: Load dendrites if set to true
         :load_end_feet: Load end feet if set to true
@@ -2359,6 +2360,7 @@ class BioExplorer:
         params = dict()
         params["assemblyName"] = assembly_name
         params["populationName"] = population_name
+        params["vasculaturePopulationName"] = vasculature_population_name
         params["loadSomas"] = load_somas
         params["loadDendrites"] = load_dendrites
         params["loadEndFeet"] = load_end_feet

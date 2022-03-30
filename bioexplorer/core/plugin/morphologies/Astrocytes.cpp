@@ -120,6 +120,7 @@ void Astrocytes::_buildModel()
             }
         }
 
+        const auto endFeet = connector.getAstrocyteEndFeetAreasAsNodes(somaId);
         Neighbours neighbours;
         neighbours.insert(somaGeometryIndex);
         for (const auto& section : sections)
@@ -206,19 +207,10 @@ void Astrocytes::_buildModel()
             }
 
             if (_details.loadEndFeet)
-            {
-#if 0
-                const auto endFeet =
-                    connector.getAstrocyteEndFeetAreasAsMesh(somaId);
-                _addEndFootAsMesh(endFeet, sectionId, sectionMaterialId,
-                                  *model);
-#else
-                const auto endFeet =
-                    connector.getAstrocyteEndFeetAreasAsNodes(somaId);
-                _addEndFootAsNodes(endFeet, sectionId, sectionMaterialId,
-                                   sdfMorphologyData, *model);
-#endif
-            }
+                _addEndFootAsNodes(endFeet, sectionId, points,
+                                   sectionMaterialId, sdfMorphologyData,
+                                   *model);
+
             previousMaterialId = sectionMaterialId;
         }
     }
@@ -263,18 +255,85 @@ void Astrocytes::_addEndFootAsMesh(const EndFootMeshMap& endFeet,
 
 void Astrocytes::_addEndFootAsNodes(const EndFootNodesMap& endFeet,
                                     const uint64_t sectionId,
+                                    const Vector4fs& points,
                                     const size_t materialId,
                                     SDFMorphologyData& sdfMorphologyData,
                                     Model& model)
 {
+    const double DEFAULT_ENDFOOT_RADIUS_RATIO = 1.2;
     const auto it = endFeet.find(sectionId);
     if (it == endFeet.end())
         return;
+
+    const auto radiusMultiplier = _details.radiusMultiplier;
+    const auto useSdf = _details.useSdf;
     const auto& endFoot = (*it).second;
     for (const auto& node : endFoot.nodes)
-        _addSphere(_details.useSdf, Vector3d(node), node.w * 1.2, materialId,
-                   NO_USER_DATA, model, sdfMorphologyData, {},
-                   DEFAULT_SECTION_DISPLACEMENT);
+    {
+        const auto& connector = DBConnector::getInstance();
+        const auto vasculatureNodes = connector.getVasculatureNodes(
+            _details.vasculaturePopulationName,
+            "section_guid=" + std::to_string(endFoot.vasculatureSectionId));
+
+        uint64_t startIndex = 0;
+        uint64_t endIndex = 0;
+        const auto halfLength = endFoot.length / 2.0;
+        auto it = vasculatureNodes.begin();
+        std::advance(it, endFoot.vasculatureSegmentId);
+        const auto centerPosition = it->second.position;
+
+        double length = 0.0;
+        int64_t i = -1;
+        // Find start segment making the assumption that the segment Id is in
+        // the middle of the end-foot
+        while (length < halfLength && endFoot.vasculatureSegmentId + i >= 0)
+        {
+            const auto segmentId = endFoot.vasculatureSegmentId + i;
+            auto it = vasculatureNodes.begin();
+            std::advance(it, segmentId);
+            length = glm::length(centerPosition - it->second.position);
+            startIndex = segmentId;
+            --i;
+        }
+
+        length = 0.0;
+        i = 1;
+        // Now find the end segment
+        while (length < halfLength &&
+               endFoot.vasculatureSegmentId + i < vasculatureNodes.size())
+        {
+            const auto segmentId = endFoot.vasculatureSegmentId + i;
+            auto it = vasculatureNodes.begin();
+            std::advance(it, segmentId);
+            length = glm::length(centerPosition - it->second.position);
+            endIndex = segmentId;
+            ++i;
+        }
+
+        // Build the segment using spheres
+        for (int i = startIndex; i < endIndex - 1; ++i)
+        {
+            auto it = vasculatureNodes.begin();
+            std::advance(it, i);
+            const auto& startNode = it->second;
+            std::advance(it, 1);
+            const auto& endNode = it->second;
+            if (!_details.useSdf)
+                _addSphere(useSdf, startNode.position,
+                           startNode.radius * DEFAULT_ENDFOOT_RADIUS_RATIO *
+                               radiusMultiplier,
+                           materialId, NO_USER_DATA, model, sdfMorphologyData,
+                           {}, DEFAULT_SECTION_DISPLACEMENT);
+            _addCone(useSdf, startNode.position,
+                     startNode.radius * DEFAULT_ENDFOOT_RADIUS_RATIO *
+                         radiusMultiplier,
+                     endNode.position,
+                     endNode.radius * DEFAULT_ENDFOOT_RADIUS_RATIO *
+                         radiusMultiplier,
+                     materialId, NO_USER_DATA, model, sdfMorphologyData, {},
+                     DEFAULT_SECTION_DISPLACEMENT);
+        }
+    }
 }
 } // namespace morphology
 } // namespace bioexplorer
