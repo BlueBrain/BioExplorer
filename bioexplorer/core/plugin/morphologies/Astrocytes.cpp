@@ -53,8 +53,6 @@ Astrocytes::Astrocytes(Scene& scene, const AstrocytesDetails& details)
 
 void Astrocytes::_buildModel(const doubles& radii)
 {
-    PLUGIN_ERROR("Building astrocytes");
-
     if (_modelDescriptor)
         _scene.removeModel(_modelDescriptor->getModelID());
 
@@ -66,20 +64,25 @@ void Astrocytes::_buildModel(const doubles& radii)
     const auto useSdf = _details.useSdf;
     const auto somas = connector.getAstrocytes(_details.sqlFilter);
 
+    PLUGIN_INFO(1, "Building " << somas.size() << " astrocytes");
+
     // Astrocytes
     size_t baseMaterialId = 0;
     const uint64_t userData = 0;
 
     std::vector<ParallelModelContainer> containers;
-    uint64_t morphologyId;
-#pragma omp parallel for private(morphologyId)
-    for (morphologyId = 0; morphologyId < somas.size(); ++morphologyId)
+    uint64_t index;
+#pragma omp parallel for private(index)
+    for (index = 0; index < somas.size(); ++index)
     {
+        if (omp_get_thread_num() == 0)
+            PLUGIN_PROGRESS("Loading astrocytes", index,
+                            somas.size() / omp_get_max_threads());
+
         auto it = somas.begin();
-        std::advance(it, morphologyId);
+        std::advance(it, index);
         const auto& soma = it->second;
         const auto somaId = it->first;
-        PLUGIN_PROGRESS("Loading astrocytes", morphologyId, somas.size());
 
         ParallelModelContainer modelContainer;
         const auto& somaPosition = soma.center;
@@ -114,12 +117,15 @@ void Astrocytes::_buildModel(const doubles& radii)
         default:
             baseMaterialId = 0;
         }
+#pragma omp critical
         materialIds.insert(baseMaterialId);
+
         const auto somaMaterialId =
             baseMaterialId +
             (_details.morphologyColorScheme == MorphologyColorScheme::section
                  ? MATERIAL_OFFSET_SOMA
                  : 0);
+#pragma omp critical
         materialIds.insert(somaMaterialId);
 
         uint64_t somaGeometryIndex = 0;
@@ -158,6 +164,7 @@ void Astrocytes::_buildModel(const doubles& radii)
             default:
                 break;
             }
+#pragma omp critical
             materialIds.insert(sectionMaterialId);
 
             size_t step = 1;

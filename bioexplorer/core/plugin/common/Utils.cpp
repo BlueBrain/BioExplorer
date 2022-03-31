@@ -457,6 +457,5 @@ Vector3ds getPointsInSphere(const size_t nbPoints, const double innerRadius)
     }
     return points;
 }
-
 } // namespace common
 } // namespace bioexplorer

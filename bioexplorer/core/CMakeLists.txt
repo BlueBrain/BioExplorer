@@ -25,6 +25,9 @@ add_subdirectory(deps)
 find_package(OpenMP)
 find_package(PQXX REQUIRED)
 
+# Compiler flags
+add_compile_options("-fopenmp")
+
 # Optional packages (managed by Defines.h.in)
 set(CGAL_FOUND 0)
 if(${${NAME}_USE_CGAL})

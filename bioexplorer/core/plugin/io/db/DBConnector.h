@@ -211,7 +211,7 @@ public:
      * @return SectionMap A map of sections
      */
     SectionMap getNeuronSections(const std::string& populationName,
-                                 const int64_t neuronId,
+                                 const uint64_t neuronId,
                                  const std::string& sqlCondition = "") const;
 
     /**
@@ -223,7 +223,7 @@ public:
      * @return SynapseMap A map of synapses
      */
     SynapseMap getNeuronSynapses(const std::string& populationName,
-                                 const int64_t neuronId,
+                                 const uint64_t neuronId,
                                  const std::string& sqlCondition = "") const;
 
 #endif
@@ -235,7 +235,9 @@ private:
     DBConnector();
     ~DBConnector();
 
-    ConnectionPtr _connection{nullptr};
+    std::string _connectionString;
+
+    std::vector<ConnectionPtr> _connections;
 };
 
 } // namespace db

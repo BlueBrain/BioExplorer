@@ -55,17 +55,14 @@ public:
     uint64_t getNbMaxPointsPerSection() const { return _nbMaxPointsPerSection; }
 
 private:
-    std::set<uint64_t> _buildGraphModel(
-        ParallelModelContainer& model,
-        const VasculatureColorSchemeDetails& details);
-    std::set<uint64_t> _buildSimpleModel(
-        ParallelModelContainer& model, SDFMorphologyData& sdfMorphologyData,
-        const VasculatureColorSchemeDetails& details,
-        const doubles& radii = doubles());
-    std::set<uint64_t> _buildAdvancedModel(
-        ParallelModelContainer& model, SDFMorphologyData& sdfMorphologyData,
-        const VasculatureColorSchemeDetails& details,
-        const doubles& radii = doubles());
+    void _buildGraphModel(Model& model,
+                          const VasculatureColorSchemeDetails& details);
+    void _buildSimpleModel(Model& model,
+                           const VasculatureColorSchemeDetails& details,
+                           const doubles& radii = doubles());
+    void _buildAdvancedModel(Model& model,
+                             const VasculatureColorSchemeDetails& details,
+                             const doubles& radii = doubles());
 
     void _importFromDB();
     void _buildModel(const VasculatureColorSchemeDetails& details =

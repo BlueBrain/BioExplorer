@@ -71,21 +71,32 @@ void Neurons::_buildNeuron()
     const auto somas =
         connector.getNeurons(_details.populationName, _details.sqlNodeFilter);
 
+    PLUGIN_INFO(1, "Building " << somas.size() << " neurons");
+
     // Neurons
     size_t previousMaterialId = std::numeric_limits<size_t>::max();
     size_t baseMaterialId = 0;
     Vector3ui indexOffset;
 
-    ParallelModelContainer modelContainer;
-
-    for (const auto& soma : somas)
+    std::vector<ParallelModelContainer> containers;
+    uint64_t index;
+#pragma omp parallel for private(index)
+    for (index = 0; index < somas.size(); ++index)
     {
-        PLUGIN_PROGRESS("Loading Neurons", soma.first, somas.size());
+        if (omp_get_thread_num() == 0)
+            PLUGIN_PROGRESS("Loading Neurons", index,
+                            somas.size() / omp_get_max_threads());
 
-        const auto somaId = soma.first;
-        const auto& somaPosition = soma.second.position;
-        const auto& somaRotation = soma.second.rotation;
-        const auto layer = soma.second.layer;
+        auto it = somas.begin();
+        std::advance(it, index);
+        const auto& soma = it->second;
+        const auto somaId = it->first;
+
+        ParallelModelContainer modelContainer;
+
+        const auto& somaPosition = soma.position;
+        const auto& somaRotation = soma.rotation;
+        const auto layer = soma.layer;
         const double mitochondriaDensity =
             (layer < MITOCHONDRIA_DENSITY.size() ? MITOCHONDRIA_DENSITY[layer]
                                                  : 0.0);
@@ -176,12 +187,22 @@ void Neurons::_buildNeuron()
         {
             _addSpines(modelContainer, somaId, somaPosition, somaRadius,
                        baseMaterialId, sdfMorphologyData);
+#pragma omp critical
             materialIds.insert(baseMaterialId +
                                MATERIAL_OFFSET_AFFERENT_SYNPASE);
         }
+#pragma omp critical
+        containers.push_back(modelContainer);
     }
 
-    modelContainer.moveGeometryToModel(*model);
+    for (size_t i = 0; i < containers.size(); ++i)
+    {
+        const float progress = 1.f + i;
+        PLUGIN_PROGRESS("- Compiling 3D geometry...", progress,
+                        containers.size());
+        auto& container = containers[i];
+        container.moveGeometryToModel(*model);
+    }
 
     PLUGIN_INFO(1, "Creating materials...");
     _createMaterials(materialIds, *model);
