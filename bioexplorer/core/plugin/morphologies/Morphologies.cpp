@@ -45,7 +45,8 @@ size_t Morphologies::_getNbMitochondrionSegments() const
     return 2 + rand() % 18;
 }
 
-void Morphologies::_addSomaInternals(const uint64_t index, Model& model,
+void Morphologies::_addSomaInternals(const uint64_t index,
+                                     ParallelModelContainer& model,
                                      const size_t baseMaterialId,
                                      const Vector3d& somaPosition,
                                      const double somaRadius,
@@ -68,9 +69,10 @@ void Morphologies::_addSomaInternals(const uint64_t index, Model& model,
     const double availableVolumeForMitochondria =
         sphereVolume(somaRadius) * mitochondriaDensity;
 
+    ParallelModelContainer modelContainer;
     const size_t nucleusMaterialId = baseMaterialId + MATERIAL_OFFSET_NUCLEUS;
     _addSphere(_useSDF, somaPosition, nucleusRadius, nucleusMaterialId,
-               NO_USER_DATA, model, sdfMorphologyData, {},
+               NO_USER_DATA, modelContainer, sdfMorphologyData, {},
                nucleusDisplacementRatio);
 
     // Mitochondria
@@ -100,8 +102,8 @@ void Morphologies::_addSomaInternals(const uint64_t index, Model& model,
                 neighbours = {geometryIndex};
             geometryIndex =
                 _addSphere(_useSDF, p2, radius, mitochondrionMaterialId,
-                           NO_USER_DATA, model, sdfMorphologyData, neighbours,
-                           mitochondrionDisplacementRatio);
+                           NO_USER_DATA, modelContainer, sdfMorphologyData,
+                           neighbours, mitochondrionDisplacementRatio);
 
             mitochondriaVolume += sphereVolume(radius);
 
@@ -111,8 +113,8 @@ void Morphologies::_addSomaInternals(const uint64_t index, Model& model,
                     somaPosition + somaOutterRadius * pointsInSphere[i - 1];
                 geometryIndex =
                     _addCone(_useSDF, p1, previousRadius, p2, radius,
-                             mitochondrionMaterialId, NO_USER_DATA, model,
-                             sdfMorphologyData, {geometryIndex},
+                             mitochondrionMaterialId, NO_USER_DATA,
+                             modelContainer, sdfMorphologyData, {geometryIndex},
                              mitochondrionDisplacementRatio);
 
                 mitochondriaVolume +=

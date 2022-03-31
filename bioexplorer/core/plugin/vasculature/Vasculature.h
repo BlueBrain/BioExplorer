@@ -56,12 +56,15 @@ public:
 
 private:
     std::set<uint64_t> _buildGraphModel(
-        Model& model, const VasculatureColorSchemeDetails& details);
+        ParallelModelContainer& model,
+        const VasculatureColorSchemeDetails& details);
     std::set<uint64_t> _buildSimpleModel(
-        Model& model, const VasculatureColorSchemeDetails& details,
+        ParallelModelContainer& model, SDFMorphologyData& sdfMorphologyData,
+        const VasculatureColorSchemeDetails& details,
         const doubles& radii = doubles());
     std::set<uint64_t> _buildAdvancedModel(
-        Model& model, const VasculatureColorSchemeDetails& details,
+        ParallelModelContainer& model, SDFMorphologyData& sdfMorphologyData,
+        const VasculatureColorSchemeDetails& details,
         const doubles& radii = doubles());
 
     void _importFromDB();

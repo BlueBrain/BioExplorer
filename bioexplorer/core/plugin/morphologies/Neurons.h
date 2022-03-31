@@ -44,7 +44,7 @@ public:
 private:
     void _buildNeuron();
 
-    void _addSection(Model& model, const uint64_t sectionId,
+    void _addSection(ParallelModelContainer& model, const uint64_t sectionId,
                      const Section& section, const size_t somaIdx,
                      const Vector3d& somaPosition,
                      const Quaterniond& somaRotation, const double somaRadius,
@@ -53,11 +53,11 @@ private:
                      SDFMorphologyData& sdfMorphologyData,
                      MaterialSet& materialIds);
 
-    void _addSpine(Model& model, const Synapse& synapse,
+    void _addSpine(ParallelModelContainer& model, const Synapse& synapse,
                    const size_t baseMaterialId,
                    SDFMorphologyData& sdfMorphologyData);
 
-    void _addSpines(Model& model, const uint64_t somaIndex,
+    void _addSpines(ParallelModelContainer& model, const uint64_t somaIndex,
                     const Vector3d somaPosition, const double somaRadius,
                     const size_t baseMaterialId,
                     SDFMorphologyData& sdfMorphologyData);
@@ -67,13 +67,13 @@ private:
         const double sectionLength, const double sectionVolume,
         const Vector4fs& points, const double mitochondriaDensity,
         const size_t baseMaterialId, SDFMorphologyData& sdfMorphologyData,
-        Model& model);
+        ParallelModelContainer& model);
 
     void _addAxonMyelinSheath(
         const Vector3d& somaPosition, const Quaterniond& somaRotation,
         const double sectionLength, const Vector4fs& points,
         const double mitochondriaDensity, const size_t materialId,
-        SDFMorphologyData& sdfMorphologyData, Model& model);
+        SDFMorphologyData& sdfMorphologyData, ParallelModelContainer& model);
 
     const NeuronsDetails _details;
     Scene& _scene;

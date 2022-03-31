@@ -51,7 +51,8 @@ size_t SDFGeometries::_addSDFGeometry(SDFMorphologyData& sdfMorphologyData,
 
 size_t SDFGeometries::_addSphere(const bool useSDF, const Vector3f& position,
                                  const float radius, const size_t materialId,
-                                 const uint64_t userData, Model& model,
+                                 const uint64_t userData,
+                                 ParallelModelContainer& model,
                                  SDFMorphologyData& sdfMorphologyData,
                                  const Neighbours& neighbours,
                                  const float displacementRatio)
@@ -76,9 +77,9 @@ size_t SDFGeometries::_addSphere(const bool useSDF, const Vector3f& position,
 size_t SDFGeometries::_addCone(
     const bool useSDF, const Vector3f& sourcePosition, const float sourceRadius,
     const Vector3f& targetPosition, const float targetRadius,
-    const size_t materialId, const uint64_t userData, Model& model,
-    SDFMorphologyData& sdfMorphologyData, const Neighbours& neighbours,
-    const float displacementRatio)
+    const size_t materialId, const uint64_t userData,
+    ParallelModelContainer& model, SDFMorphologyData& sdfMorphologyData,
+    const Neighbours& neighbours, const float displacementRatio)
 {
     if (useSDF)
     {
@@ -161,33 +162,38 @@ void SDFGeometries::addSDFDemo(Model& model)
     const bool useSdf = true;
     const double displacement = 10.0;
     SDFMorphologyData sdfMorphologyData;
+    ParallelModelContainer modelContainer;
 
-    auto idx1 =
-        _addCone(useSdf, Vector3d(-1, 0, 0), 0.25, Vector3d(0, 0, 0), 0.1,
-                 materialId, -1, model, sdfMorphologyData, {}, displacement);
+    auto idx1 = _addCone(useSdf, Vector3d(-1, 0, 0), 0.25, Vector3d(0, 0, 0),
+                         0.1, materialId, -1, modelContainer, sdfMorphologyData,
+                         {}, displacement);
     materialIds.insert(materialId);
     ++materialId;
 
     auto idx2 = _addCone(useSdf, Vector3d(0, 0, 0), 0.1, Vector3d(1, 0, 0),
-                         0.25, materialId, -1, model, sdfMorphologyData, {idx1},
-                         displacement);
+                         0.25, materialId, -1, modelContainer,
+                         sdfMorphologyData, {idx1}, displacement);
     materialIds.insert(materialId);
     ++materialId;
 
-    auto idx3 = _addSphere(useSdf, Vector3d(-1, 0, 0), 0.25, materialId, -1,
-                           model, sdfMorphologyData, {idx1}, displacement);
+    auto idx3 =
+        _addSphere(useSdf, Vector3d(-1, 0, 0), 0.25, materialId, -1,
+                   modelContainer, sdfMorphologyData, {idx1}, displacement);
     materialIds.insert(materialId);
     ++materialId;
 
-    auto idx4 = _addSphere(useSdf, Vector3d(1, 0, 0), 0.25, materialId, -1,
-                           model, sdfMorphologyData, {idx2}, displacement);
+    auto idx4 =
+        _addSphere(useSdf, Vector3d(1, 0, 0), 0.25, materialId, -1,
+                   modelContainer, sdfMorphologyData, {idx2}, displacement);
     materialIds.insert(materialId);
     ++materialId;
 
     auto idx5 = _addCone(useSdf, Vector3d(0, 0.25, 0), 0.5, Vector3d(0, 1, 0),
-                         0.0, materialId, -1, model, sdfMorphologyData,
+                         0.0, materialId, -1, modelContainer, sdfMorphologyData,
                          {idx1, idx2}, displacement);
     materialIds.insert(materialId);
+
+    modelContainer.moveGeometryToModel(model);
 
     _createMaterials(materialIds, model);
 

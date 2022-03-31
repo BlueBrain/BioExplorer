@@ -1330,20 +1330,13 @@ using SectionMap = std::map<uint64_t, Section>;
 
 typedef struct
 {
-    Vector3fs vertices;
-    Vector3uis indices;
-} EndFootMesh;
-using EndFootMeshMap = std::map<uint64_t, EndFootMesh>;
-
-typedef struct
-{
     uint64_t vasculatureSectionId;
     uint64_t vasculatureSegmentId;
     double length;
     double radius;
     Vector4fs nodes;
-} EndFootNodes;
-using EndFootNodesMap = std::map<uint64_t, EndFootNodes>;
+} EndFoot;
+using EndFootMap = std::map<uint64_t, EndFoot>;
 } // namespace morphology
 #endif
 

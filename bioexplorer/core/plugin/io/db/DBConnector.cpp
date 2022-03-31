@@ -452,50 +452,9 @@ SectionMap DBConnector::getAstrocyteSections(const int64_t astrocyteId) const
     return sections;
 }
 
-EndFootMeshMap DBConnector::getAstrocyteEndFeetAreasAsMesh(
-    const uint64_t astrocyteId) const
+EndFootMap DBConnector::getAstrocyteEndFeet(const uint64_t astrocyteId) const
 {
-    EndFootMeshMap endFeet;
-
-    pqxx::read_transaction transaction(*_connection);
-    try
-    {
-        std::string sql =
-            "SELECT astrocyte_section_guid, vertices, indices FROM " +
-            DB_SCHEMA_ASTROCYTES +
-            ".end_foot WHERE astrocyte_guid=" + std::to_string(astrocyteId);
-        PLUGIN_DEBUG(sql);
-        auto res = transaction.exec(sql);
-        for (auto c = res.begin(); c != res.end(); ++c)
-        {
-            EndFootMesh endFoot;
-            const auto astrocyteSectionId = c[0].as<uint64_t>();
-
-            const pqxx::binarystring verticesBytes(c[1]);
-            endFoot.vertices.resize(verticesBytes.size() / sizeof(Vector3f));
-            memcpy(&endFoot.vertices.data()[0], verticesBytes.data(),
-                   verticesBytes.size());
-
-            const pqxx::binarystring indicesBytes(c[2]);
-            endFoot.indices.resize(indicesBytes.size() / sizeof(uint64_t));
-            memcpy(&endFoot.indices.data()[0], indicesBytes.data(),
-                   indicesBytes.size());
-
-            endFeet[astrocyteSectionId] = endFoot;
-        }
-    }
-    catch (const pqxx::sql_error& e)
-    {
-        PLUGIN_THROW(e.what());
-    }
-
-    return endFeet;
-}
-
-EndFootNodesMap DBConnector::getAstrocyteEndFeetAreasAsNodes(
-    const uint64_t astrocyteId) const
-{
-    EndFootNodesMap endFeet;
+    EndFootMap endFeet;
 
     pqxx::read_transaction transaction(*_connection);
     try
@@ -515,7 +474,7 @@ EndFootNodesMap DBConnector::getAstrocyteEndFeetAreasAsNodes(
         auto res = transaction.exec(sql);
         for (auto c = res.begin(); c != res.end(); ++c)
         {
-            EndFootNodes endFoot;
+            EndFoot endFoot;
             const auto endFootId = c[0].as<uint64_t>();
             endFoot.nodes.push_back(Vector4f(c[1].as<float>(), c[2].as<float>(),
                                              c[3].as<float>(),

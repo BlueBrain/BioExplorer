@@ -20,8 +20,9 @@
 
 #pragma once
 
-#include <plugin/common/Node.h>
-#include <plugin/common/Types.h>
+#include "Node.h"
+#include "ParallelModelContainer.h"
+#include "Types.h"
 
 namespace bioexplorer
 {
@@ -51,6 +52,9 @@ public:
 
 protected:
     void _createMaterials(const MaterialSet& materialIds, Model& model);
+    void _finalizeSDFGeometries(Model& model,
+                                SDFMorphologyData& sdfMorphologyData);
+
     size_t _addSDFGeometry(SDFMorphologyData& sdfMorphologyData,
                            const SDFGeometry& geometry,
                            const Neighbours& neighbours,
@@ -58,7 +62,8 @@ protected:
 
     size_t _addSphere(const bool useSDF, const Vector3f& position,
                       const float radius, const size_t materialId,
-                      const uint64_t userDataOffset, Model& model,
+                      const uint64_t userDataOffset,
+                      ParallelModelContainer& model,
                       SDFMorphologyData& sdfMorphologyData,
                       const Neighbours& neighbours,
                       const float displacementRatio = 1.f);
@@ -66,13 +71,11 @@ protected:
     size_t _addCone(const bool useSDF, const Vector3f& position,
                     const float radius, const Vector3f& target,
                     const float previousRadius, const size_t materialId,
-                    const uint64_t userDataOffset, Model& model,
+                    const uint64_t userDataOffset,
+                    ParallelModelContainer& model,
                     SDFMorphologyData& sdfMorphologyData,
                     const Neighbours& neighbours,
                     const float displacementRatio = 1.f);
-
-    void _finalizeSDFGeometries(Model& model,
-                                SDFMorphologyData& sdfMorphologyData);
 
     bool _useSDF{false};
 };

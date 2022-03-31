@@ -103,7 +103,7 @@ void Vasculature::_importFromDB()
 }
 
 std::set<uint64_t> Vasculature::_buildGraphModel(
-    Model& model, const VasculatureColorSchemeDetails& details)
+    ParallelModelContainer& model, const VasculatureColorSchemeDetails& details)
 {
     std::set<uint64_t> materialIds;
     const double radiusMultiplier = _details.radiusMultiplier;
@@ -150,11 +150,10 @@ std::set<uint64_t> Vasculature::_buildGraphModel(
 }
 
 std::set<uint64_t> Vasculature::_buildSimpleModel(
-    Model& model, const VasculatureColorSchemeDetails& details,
-    const doubles& radii)
+    ParallelModelContainer& model, SDFMorphologyData& sdfMorphologyData,
+    const VasculatureColorSchemeDetails& details, const doubles& radii)
 {
     std::set<uint64_t> materialIds;
-    SDFMorphologyData sdfMorphologyData;
     const double radiusMultiplier = _details.radiusMultiplier;
     const auto useSdf = _details.useSdf;
     size_t materialId = 0;
@@ -240,18 +239,14 @@ std::set<uint64_t> Vasculature::_buildSimpleModel(
             materialIds.insert(materialId);
         }
     }
-    if (useSdf)
-        _finalizeSDFGeometries(model, sdfMorphologyData);
-
     return materialIds;
 }
 
 std::set<uint64_t> Vasculature::_buildAdvancedModel(
-    Model& model, const VasculatureColorSchemeDetails& details,
-    const doubles& radii)
+    ParallelModelContainer& model, SDFMorphologyData& sdfMorphologyData,
+    const VasculatureColorSchemeDetails& details, const doubles& radii)
 {
     std::set<uint64_t> materialIds;
-    SDFMorphologyData sdfMorphologyData;
     const double radiusMultiplier = _details.radiusMultiplier;
     const auto useSdf = _details.useSdf;
     size_t materialId = 0;
@@ -330,9 +325,6 @@ std::set<uint64_t> Vasculature::_buildAdvancedModel(
             i += precision;
         }
     }
-    if (_details.useSdf)
-        _finalizeSDFGeometries(model, sdfMorphologyData);
-
     return materialIds;
 }
 
@@ -344,19 +336,28 @@ void Vasculature::_buildModel(const VasculatureColorSchemeDetails& details,
 
     auto model = _scene.createModel();
     std::set<uint64_t> materialIds;
+    ParallelModelContainer modelContainer;
+    SDFMorphologyData sdfMorphologyData;
 
     switch (_details.quality)
     {
     case VasculatureQuality::low:
-        materialIds = _buildGraphModel(*model, details);
+        materialIds = _buildGraphModel(modelContainer, details);
         break;
     case VasculatureQuality::medium:
-        materialIds = _buildSimpleModel(*model, details, radii);
+        materialIds = _buildSimpleModel(modelContainer, sdfMorphologyData,
+                                        details, radii);
         break;
     default:
-        materialIds = _buildAdvancedModel(*model, details, radii);
+        materialIds = _buildAdvancedModel(modelContainer, sdfMorphologyData,
+                                          details, radii);
         break;
     }
+
+    modelContainer.moveGeometryToModel(*model);
+
+    if (_details.useSdf)
+        _finalizeSDFGeometries(*model, sdfMorphologyData);
 
     _createMaterials(materialIds, *model);
 

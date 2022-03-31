@@ -79,6 +79,7 @@ set(${NAME}_SOURCES
     plugin/common/shapes/RNAShape.cpp
     plugin/common/shapes/PointShape.cpp
     plugin/common/Assembly.cpp
+    plugin/common/ParallelModelContainer.cpp
     plugin/fields/FieldsHandler.cpp
     plugin/fields/Octree.cpp
     plugin/fields/OctreeNode.cpp
@@ -111,6 +112,7 @@ set(${NAME}_PUBLIC_HEADERS
     plugin/common/UniqueId.h
     plugin/common/GeneralSettings.h
     plugin/common/CommonTypes.h
+    plugin/common/ParallelModelContainer.h
     plugin/common/shapes/Shape.h
     plugin/common/shapes/MeshShape.h
     plugin/common/shapes/SphereShape.h
