@@ -21,6 +21,7 @@
 # You should have received a copy of the GNU General Public License along with
 # this program.  If not, see <https://www.gnu.org/licenses/>.
 
+from builtins import isinstance
 import pandas as pd
 import matplotlib.pyplot as plt
 import numpy as np
@@ -126,9 +127,12 @@ class Metabolism:
             metabolite_ids.append(int(self._metabolite_ids[metabolite_id]))
         return self.set_metabolites(metabolite_ids)
 
-    def set_metabolites(self, metabolite_ids, scale=1.0):
+    def set_metabolites(self, metabolite_ids, opacity_range):
         db_connection_string = 'host=%s port=5432 dbname=%s user=%s password=%s' % (
             self._db_host, self._db_name, self._db_user, self._db_password)
+
+        assert isinstance(opacity_range, list)
+        assert len(opacity_range)==2
 
         params = dict()
         params['connectionString'] = db_connection_string
@@ -136,7 +140,7 @@ class Metabolism:
         params['simulationId'] = self._simulation_guid
         params['metaboliteIds'] = metabolite_ids
         params['relativeConcentration'] = self._relative_concentration
-        params['scale'] = scale
+        params['opacityRange'] = opacity_range
         result = self._core.rockets_client.request(
             method=self.PLUGIN_API_PREFIX + 'attach-handler', params=params)
         return result

@@ -39,7 +39,7 @@ public:
     Locations getLocations();
     std::map<uint32_t, float> getConcentrations(
         const uint32_t frame, const int32_ts& ids,
-        const bool relativeConcentration, const double scale);
+        const bool relativeConcentration, const Vector2d& opacityRange);
 
 private:
     void _parseArguments(const CommandLineArguments& arguments);

@@ -56,7 +56,7 @@ MetabolismHandler::MetabolismHandler(const AttachHandlerDetails& payload)
     _unit = "ms";
     _metaboliteIds = payload.metaboliteIds;
     _relativeConcentration = payload.relativeConcentration;
-    _scale = payload.scale;
+    _opacityRange = {payload.opacityRange[0], payload.opacityRange[1]};
     std::string metabolitesIds;
     for (const auto metaboliteId : _metaboliteIds)
     {
@@ -82,7 +82,7 @@ void* MetabolismHandler::getFrameData(const uint32_t frame)
 
     const auto values =
         _connector->getConcentrations(frame, _metaboliteIds,
-                                      _relativeConcentration, _scale);
+                                      _relativeConcentration, _opacityRange);
 
     _frameData.clear();
     _frameData.push_back(frame);

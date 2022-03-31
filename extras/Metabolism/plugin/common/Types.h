@@ -54,7 +54,7 @@ struct AttachHandlerDetails
     size_t simulationId;
     int32_ts metaboliteIds;
     bool relativeConcentration{false};
-    double scale{1.0};
+    doubles opacityRange;
 };
 
 struct Location

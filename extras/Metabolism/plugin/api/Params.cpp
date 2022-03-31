@@ -53,7 +53,7 @@ bool from_json(AttachHandlerDetails &param, const std::string &payload)
         FROM_JSON(param, js, simulationId);
         FROM_JSON(param, js, metaboliteIds);
         FROM_JSON(param, js, relativeConcentration);
-        FROM_JSON(param, js, scale);
+        FROM_JSON(param, js, opacityRange);
     }
     catch (...)
     {

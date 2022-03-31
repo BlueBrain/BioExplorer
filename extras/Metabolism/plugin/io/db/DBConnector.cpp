@@ -103,10 +103,12 @@ uint32_t DBConnector::getNbFrames()
 
 std::map<uint32_t, float> DBConnector::getConcentrations(
     const uint32_t frame, const int32_ts& ids, const bool relativeConcentration,
-    const double scale)
+    const Vector2d& opacityRange)
 {
     std::map<uint32_t, float> values;
     pqxx::read_transaction transaction(*_connection);
+    const auto range = opacityRange.y - opacityRange.x;
+
     try
     {
         std::string sql =
@@ -140,10 +142,9 @@ std::map<uint32_t, float> DBConnector::getConcentrations(
             const uint32_t locationId = c[0].as<uint32_t>();
             const float value = c[1].as<float>();
             const float baseValue = c[2].as<float>();
-            values[locationId] =
-                scale * (relativeConcentration
-                             ? 100.f * (value - baseValue) / baseValue
-                             : value);
+            values[locationId] = relativeConcentration
+                                     ? (value - opacityRange.x) / range
+                                     : value;
         }
     }
     catch (pqxx::sql_error& e)
