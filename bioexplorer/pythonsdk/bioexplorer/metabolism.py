@@ -84,10 +84,9 @@ class Metabolism:
     def set_renderer(
             self, max_accum_frames=None, subsampling=None, alpha_correction=0.1,
             exposure=1.0, near_plane=10.0, far_plane=200.0, ray_step=3.0,
-            search_length=15.0, noise_frequency=1.0, noise_amplitude=1.0,
-            use_random_search=False):
+            noise_frequency=1.0, noise_amplitude=1.0):
         """
-        Set the metabolism renderer.
+        Set the metabolism renderer
 
         The renderer travels through the scene using
         the ray-marching technique. For every voxel, the region is identified and
@@ -100,10 +99,8 @@ class Metabolism:
         :near_plane: Volume near plane
         :far_plane: Volume far plane
         :ray_step: Step for the ray marching process
-        :search_length: Length of the ray used to search the closest surface
         :noise_frequency: Noise frequency for the cloud rendering effect
         :noise_amplitude: Noise amplitude for the cloud rendering effect
-        :use_random_search: Uses random directions for the search ray if enabled
         """
         self._core.set_renderer(
             current='metabolism', subsampling=subsampling,
@@ -115,17 +112,24 @@ class Metabolism:
         params.far_plane = far_plane
         params.ray_step = ray_step
         params.refinement_steps = max_accum_frames
-        params.search_length = search_length
         params.noise_frequency = noise_frequency
         params.noise_amplitude = noise_amplitude
-        params.use_random_search = use_random_search
         self._core.set_renderer_params(params)
 
     def _put_metabolite_ids(self):
+        sql = "SELECT min(value) AS min, max(value) AS max FROM %s.concentration WHERE simulation_guid=%d AND variable_guid IN (" % (self._db_schema, self._simulation_guid)
+
         metabolite_ids = list()
         for metabolite_id in self._metabolite_ids:
-            metabolite_ids.append(int(self._metabolite_ids[metabolite_id]))
-        return self.set_metabolites(metabolite_ids)
+            variable_id = int(self._metabolite_ids[metabolite_id])
+            sql += '%d,' % variable_id
+            metabolite_ids.append(variable_id)
+        sql = sql[:-1] + ')'
+        data = pd.read_sql(sql, self._db_connection)
+        opacity_range = [0, 1]
+        if len(data) != 0:
+            opacity_range = [data['min'][0], data['max'][0]]
+        return self.set_metabolites(metabolite_ids, opacity_range)
 
     def set_metabolites(self, metabolite_ids, opacity_range):
         db_connection_string = 'host=%s port=5432 dbname=%s user=%s password=%s' % (
@@ -164,25 +168,26 @@ class Metabolism:
         """
         class Updated:
             def __init__(
-                    self, client, model_id, db_connection, db_schema, simulation_guid,
-                    relative_concentration, callback):
-                self._core = client
-                self._model_id = model_id
-                self._db_connection = db_connection
-                self._db_schema = db_schema
-                self._simulation_guid = simulation_guid
-                self._relative_concentration = relative_concentration
+                    self, metabolism):
+                self._core = metabolism._core
+                self._model_id = metabolism._model_id
+                self._db_connection = metabolism._db_connection
+                self._db_schema = metabolism._db_schema
+                self._simulation_guid = metabolism._simulation_guid
+                self._relative_concentration = metabolism._relative_concentration
                 self._location = None
                 self._grid = None
                 self._metabolite_slider = None
                 self._metabolite_selector = None
-                self._callback = callback
+                self._callback = metabolism.callback
                 self._metabolites = dict()
                 self._locations = dict()
                 self._selections = dict()
                 self._location_colors = dict()
                 self._location_colors_opacity = dict()
                 self.get_location_colors()
+                self.get_locations()
+                self._update_palette()
 
             def _html_color(self, rgb_color):
                 color_as_string = '#' + \
@@ -198,7 +203,6 @@ class Metabolism:
                 return tuple(int(value[i:i + lv // 3], 16) for i in range(0, lv, lv // 3))
 
             def _get_data(self, guid):
-
                 sql = "SELECT c.value as value, (SELECT value FROM %s.concentration " \
                 "WHERE variable_guid=c.variable_guid AND simulation_guid=c.simulation_guid AND " \
                 "frame=0) AS base_value FROM %s.concentration AS c, %s.variable AS v "\
@@ -235,7 +239,7 @@ class Metabolism:
                     color = self._html_color(
                         [data['red'][i], data['green'][i], data['blue'][i]])
                     self._location_colors[guid] = color
-                    self._location_colors_opacity[guid] = 0.5
+                    self._location_colors_opacity[guid] = 1.0
 
             def get_metabolites(self):
                 self._metabolites = dict()
@@ -250,7 +254,7 @@ class Metabolism:
                     self._metabolites[data['description'][i]] = data['guid'][i]
                 return self._metabolites
 
-            def update_metabolite(self, change):
+            def update_metabolite_plot(self, change):
                 if change.new:
                     y = self._get_data(change.new)
                     x = np.linspace(0, len(y), len(y))
@@ -312,12 +316,10 @@ class Metabolism:
         def update_location_color_opacity(value):
             update_class.update_location_color_opacity(value)
 
-        def update_metabolite(value):
-            update_class.update_metabolite(value)
+        def update_metabolite_plot(value):
+            update_class.update_metabolite_plot(value)
 
-        update_class = Updated(self._core, self._model_id, self._db_connection, self._db_schema,
-                               self._simulation_guid, self._relative_concentration,
-                               self.callback)
+        update_class = Updated(self)
 
         # Initialize metabolite Ids
         locations = update_class.get_locations()
@@ -347,7 +349,7 @@ class Metabolism:
         grid[2, 0] = location_color_opacity_slider
         grid[0, 1] = metabolite_selector
         location_selector.observe(update_location, 'value')
-        metabolite_selector.observe(update_metabolite, 'value')
+        metabolite_selector.observe(update_metabolite_plot, 'value')
         location_color_picker.observe(update_location_color, 'value')
         location_color_opacity_slider.observe(
             update_location_color_opacity, 'value')

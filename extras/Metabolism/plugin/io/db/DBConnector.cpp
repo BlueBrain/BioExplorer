@@ -101,11 +101,12 @@ uint32_t DBConnector::getNbFrames()
     return nbFrames;
 }
 
-std::map<uint32_t, float> DBConnector::getConcentrations(
-    const uint32_t frame, const int32_ts& ids, const bool relativeConcentration,
-    const Vector2d& opacityRange)
+Concentrations DBConnector::getConcentrations(const uint32_t frame,
+                                              const int32_ts& metaboliteIds,
+                                              const bool relativeConcentration,
+                                              const Vector2d& opacityRange)
 {
-    std::map<uint32_t, float> values;
+    Concentrations concentrations;
     pqxx::read_transaction transaction(*_connection);
     const auto range = opacityRange.y - opacityRange.x;
 
@@ -122,14 +123,14 @@ std::map<uint32_t, float> DBConnector::getConcentrations(
             std::to_string(_simulationId) +
             " AND c.frame=" + std::to_string(frame);
 
-        if (!ids.empty())
+        if (!metaboliteIds.empty())
         {
             std::string idsAsString = "";
-            for (const auto id : ids)
+            for (const auto metaboliteId : metaboliteIds)
             {
                 if (!idsAsString.empty())
                     idsAsString += ",";
-                idsAsString += std::to_string(id);
+                idsAsString += std::to_string(metaboliteId);
             }
             sql += " AND v.guid in (" + idsAsString + ")";
         }
@@ -142,9 +143,9 @@ std::map<uint32_t, float> DBConnector::getConcentrations(
             const uint32_t locationId = c[0].as<uint32_t>();
             const float value = c[1].as<float>();
             const float baseValue = c[2].as<float>();
-            values[locationId] = relativeConcentration
-                                     ? (value - opacityRange.x) / range
-                                     : value;
+            concentrations[locationId] = relativeConcentration
+                                             ? (value - opacityRange.x) / range
+                                             : value;
         }
     }
     catch (pqxx::sql_error& e)
@@ -152,8 +153,8 @@ std::map<uint32_t, float> DBConnector::getConcentrations(
         PLUGIN_ERROR(e.what());
     }
     transaction.abort();
-    PLUGIN_DEBUG(values.size() << " values");
-    return values;
+    PLUGIN_DEBUG(concentrations.size() << " values");
+    return concentrations;
 }
 
 void DBConnector::_parseArguments(const CommandLineArguments& arguments)
