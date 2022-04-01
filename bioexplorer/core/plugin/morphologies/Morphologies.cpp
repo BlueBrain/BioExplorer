@@ -33,9 +33,8 @@ namespace morphology
 {
 using namespace common;
 
-Morphologies::Morphologies(const bool useSDF, const double radiusMultiplier,
-                           const double scale)
-    : SDFGeometries(useSDF, scale)
+Morphologies::Morphologies(const double radiusMultiplier, const double scale)
+    : SDFGeometries(scale)
     , _radiusMultiplier(radiusMultiplier == 0.0 ? 1.0 : radiusMultiplier)
 {
 }
@@ -50,8 +49,7 @@ void Morphologies::_addSomaInternals(const uint64_t index,
                                      const size_t baseMaterialId,
                                      const Vector3d& somaPosition,
                                      const double somaRadius,
-                                     const double mitochondriaDensity,
-                                     SDFMorphologyData& sdfMorphologyData)
+                                     const double mitochondriaDensity)
 {
     // Constants
     const double nucleusDisplacementRatio = 2.0;
@@ -69,11 +67,9 @@ void Morphologies::_addSomaInternals(const uint64_t index,
     const double availableVolumeForMitochondria =
         sphereVolume(somaRadius) * mitochondriaDensity;
 
-    ParallelModelContainer modelContainer;
     const size_t nucleusMaterialId = baseMaterialId + MATERIAL_OFFSET_NUCLEUS;
-    _addSphere(_useSDF, somaPosition, nucleusRadius, nucleusMaterialId,
-               NO_USER_DATA, modelContainer, sdfMorphologyData, {},
-               nucleusDisplacementRatio);
+    model.addSphere(somaPosition, nucleusRadius, nucleusMaterialId,
+                    NO_USER_DATA, {}, nucleusDisplacementRatio);
 
     // Mitochondria
     if (mitochondriaDensity == 0.0)
@@ -100,10 +96,9 @@ void Morphologies::_addSomaInternals(const uint64_t index,
             Neighbours neighbours;
             if (i != 0)
                 neighbours = {geometryIndex};
-            geometryIndex =
-                _addSphere(_useSDF, p2, radius, mitochondrionMaterialId,
-                           NO_USER_DATA, modelContainer, sdfMorphologyData,
-                           neighbours, mitochondrionDisplacementRatio);
+            geometryIndex = model.addSphere(p2, radius, mitochondrionMaterialId,
+                                            NO_USER_DATA, neighbours,
+                                            mitochondrionDisplacementRatio);
 
             mitochondriaVolume += sphereVolume(radius);
 
@@ -111,11 +106,10 @@ void Morphologies::_addSomaInternals(const uint64_t index,
             {
                 const auto p1 =
                     somaPosition + somaOutterRadius * pointsInSphere[i - 1];
-                geometryIndex =
-                    _addCone(_useSDF, p1, previousRadius, p2, radius,
-                             mitochondrionMaterialId, NO_USER_DATA,
-                             modelContainer, sdfMorphologyData, {geometryIndex},
-                             mitochondrionDisplacementRatio);
+                geometryIndex = model.addCone(p1, previousRadius, p2, radius,
+                                              mitochondrionMaterialId,
+                                              NO_USER_DATA, {geometryIndex},
+                                              mitochondrionDisplacementRatio);
 
                 mitochondriaVolume +=
                     coneVolume(length(p2 - p1), previousRadius, radius);

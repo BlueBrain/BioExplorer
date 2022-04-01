@@ -44,36 +44,34 @@ public:
 private:
     void _buildNeuron();
 
-    void _addSection(ParallelModelContainer& model, const uint64_t sectionId,
-                     const Section& section, const size_t somaIdx,
-                     const Vector3d& somaPosition,
+    void _addSection(ParallelModelContainer& modelContainer,
+                     const uint64_t sectionId, const Section& section,
+                     const size_t somaIdx, const Vector3d& somaPosition,
                      const Quaterniond& somaRotation, const double somaRadius,
                      const size_t baseMaterialId,
                      const double mitochondriaDensity,
-                     SDFMorphologyData& sdfMorphologyData,
                      MaterialSet& materialIds);
 
-    void _addSpine(ParallelModelContainer& model, const Synapse& synapse,
-                   const size_t baseMaterialId,
-                   SDFMorphologyData& sdfMorphologyData);
+    void _addSpine(ParallelModelContainer& modelContainer,
+                   const Synapse& synapse, const size_t baseMaterialId);
 
-    void _addSpines(ParallelModelContainer& model, const uint64_t somaIndex,
-                    const Vector3d somaPosition, const double somaRadius,
-                    const size_t baseMaterialId,
-                    SDFMorphologyData& sdfMorphologyData);
+    void _addSpines(ParallelModelContainer& modelContainer,
+                    const uint64_t somaIndex, const Vector3d somaPosition,
+                    const double somaRadius, const size_t baseMaterialId);
 
     void _addSectionInternals(
-        const Vector3d& somaPosition, const Quaterniond& somaRotation,
-        const double sectionLength, const double sectionVolume,
-        const Vector4fs& points, const double mitochondriaDensity,
-        const size_t baseMaterialId, SDFMorphologyData& sdfMorphologyData,
-        ParallelModelContainer& model);
+        ParallelModelContainer& modelContainer, const Vector3d& somaPosition,
+        const Quaterniond& somaRotation, const double sectionLength,
+        const double sectionVolume, const Vector4fs& points,
+        const double mitochondriaDensity, const size_t baseMaterialId);
 
-    void _addAxonMyelinSheath(
-        const Vector3d& somaPosition, const Quaterniond& somaRotation,
-        const double sectionLength, const Vector4fs& points,
-        const double mitochondriaDensity, const size_t materialId,
-        SDFMorphologyData& sdfMorphologyData, ParallelModelContainer& model);
+    void _addAxonMyelinSheath(ParallelModelContainer& modelContainer,
+                              const Vector3d& somaPosition,
+                              const Quaterniond& somaRotation,
+                              const double sectionLength,
+                              const Vector4fs& points,
+                              const double mitochondriaDensity,
+                              const size_t materialId);
 
     const NeuronsDetails _details;
     Scene& _scene;

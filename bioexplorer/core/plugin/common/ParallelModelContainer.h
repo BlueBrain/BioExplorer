@@ -33,36 +33,59 @@ struct MorphologyInfo
     double maxDistanceToSoma;
 };
 
+using MaterialSet = std::set<uint64_t>;
+using Neighbours = std::set<size_t>;
+
+const int64_t NO_USER_DATA = -1;
+
 class ParallelModelContainer
 {
 public:
-    ParallelModelContainer() {}
+    ParallelModelContainer(Model& model, const bool useSdf,
+                           const double scale = 1.0);
     ~ParallelModelContainer() {}
 
-    size_t addSphere(const size_t materialId, const Sphere& sphere);
-    size_t addCylinder(const size_t materialId, const Cylinder& cylinder);
-    size_t addCone(const size_t materialId, const Cone& cone);
-    void addSDFGeometry(const size_t materialId, const SDFGeometry& geom,
-                        const std::vector<size_t> neighbours);
-    void moveGeometryToModel(Model& model);
+    uint64_t addSphere(const Vector3f& position, const float radius,
+                       const size_t materialId, const uint64_t userDataOffset,
+                       const Neighbours& neighbours = {},
+                       const float displacementRatio = 1.f);
+
+    uint64_t addCone(const Vector3f& sourcePosition, const float sourceRadius,
+                     const Vector3f& targetPosition, const float targetRadius,
+                     const size_t materialId, const uint64_t userDataOffset,
+                     const Neighbours& neighbours = {},
+                     const float displacementRatio = 1.f);
+
+    void commitToModel();
     void applyTransformation(const Matrix4f& transformation);
 
     MorphologyInfo& getMorphologyInfo() { return _morphologyInfo; }
 
 private:
-    void _moveSpheresToModel(Model& model);
-    void _moveCylindersToModel(Model& model);
-    void _moveConesToModel(Model& model);
-    void _moveSDFGeometriesToModel(Model& model);
+    uint64_t _addSphere(const size_t materialId, const Sphere& sphere);
+    uint64_t _addCylinder(const size_t materialId, const Cylinder& cylinder);
+    uint64_t _addCone(const size_t materialId, const Cone& cone);
+    uint64_t _addSDFGeometry(const size_t materialId, const SDFGeometry& geom,
+                             const std::set<size_t>& neighbours);
+
+    void _moveSpheresToModel();
+    void _moveCylindersToModel();
+    void _moveConesToModel();
+    void _moveSDFGeometriesToModel();
+    void _createMaterials();
+    void _finalizeSDFGeometries();
 
     SpheresMap _spheres;
     CylindersMap _cylinders;
     ConesMap _cones;
     TriangleMeshMap _trianglesMeshes;
     MorphologyInfo _morphologyInfo;
-    std::vector<SDFGeometry> _sdfGeometries;
-    std::vector<std::vector<size_t>> _sdfNeighbours;
-    std::vector<size_t> _sdfMaterials;
+    SDFMorphologyData _sdfMorphologyData;
+    MaterialSet _materialIds;
+
+    Model& _model;
+    double _scale{1.0};
+    bool _useSdf{false};
 };
 } // namespace common
 } // namespace bioexplorer

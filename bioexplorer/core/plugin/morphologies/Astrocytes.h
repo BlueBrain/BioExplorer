@@ -43,10 +43,9 @@ public:
 
 private:
     void _buildModel(const doubles& radii = doubles());
-    void _addEndFoot(const EndFootMap& endFeet, const doubles& radii,
-                     const size_t materialId,
-                     SDFMorphologyData& sdfMorphologyData,
-                     ParallelModelContainer& model);
+    void _addEndFoot(ParallelModelContainer& modelContainer,
+                     const EndFootMap& endFeet, const doubles& radii,
+                     const size_t materialId);
     const AstrocytesDetails _details;
     Scene& _scene;
 };

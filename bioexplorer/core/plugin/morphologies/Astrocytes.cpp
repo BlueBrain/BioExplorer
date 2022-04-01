@@ -42,7 +42,7 @@ const double DEFAULT_SECTION_DISPLACEMENT = 2.0;
 const double DEFAULT_MITOCHONDRIA_DENSITY = 0.0459;
 
 Astrocytes::Astrocytes(Scene& scene, const AstrocytesDetails& details)
-    : Morphologies(details.useSdf, details.radiusMultiplier, details.scale)
+    : Morphologies(details.radiusMultiplier, details.scale)
     , _details(details)
     , _scene(scene)
 {
@@ -60,7 +60,6 @@ void Astrocytes::_buildModel(const doubles& radii)
 
     auto model = _scene.createModel();
     std::set<uint64_t> materialIds;
-    SDFMorphologyData sdfMorphologyData;
     const auto useSdf = _details.useSdf;
     const auto somas = connector.getAstrocytes(_details.sqlFilter);
 
@@ -84,7 +83,8 @@ void Astrocytes::_buildModel(const doubles& radii)
         const auto& soma = it->second;
         const auto somaId = it->first;
 
-        ParallelModelContainer modelContainer;
+        ParallelModelContainer modelContainer(*model, useSdf, _scale);
+
         const auto& somaPosition = soma.center;
 
         // Load data from DB
@@ -132,15 +132,14 @@ void Astrocytes::_buildModel(const doubles& radii)
         if (_details.loadSomas)
         {
             somaGeometryIndex =
-                _addSphere(useSdf, somaPosition, somaRadius, somaMaterialId,
-                           NO_USER_DATA, modelContainer, sdfMorphologyData, {},
-                           DEFAULT_SOMA_DISPLACEMENT);
+                modelContainer.addSphere(somaPosition, somaRadius,
+                                         somaMaterialId, NO_USER_DATA, {},
+                                         DEFAULT_SOMA_DISPLACEMENT);
             if (_details.generateInternals)
             {
                 _addSomaInternals(somaId, modelContainer, baseMaterialId,
                                   somaPosition, somaRadius,
-                                  DEFAULT_MITOCHONDRIA_DENSITY,
-                                  sdfMorphologyData);
+                                  DEFAULT_MITOCHONDRIA_DENSITY);
                 materialIds.insert(baseMaterialId + MATERIAL_OFFSET_NUCLEUS);
                 materialIds.insert(baseMaterialId +
                                    MATERIAL_OFFSET_MITOCHONDRION);
@@ -184,14 +183,11 @@ void Astrocytes::_buildModel(const doubles& radii)
                 {
                     // Section connected to the soma
                     const auto& point = points[0];
-                    geometryIndex =
-                        _addCone(useSdf, somaPosition,
-                                 somaRadius * 0.75 * _radiusMultiplier,
-                                 somaPosition + Vector3d(point),
-                                 point.w * 0.5 * _radiusMultiplier,
-                                 somaMaterialId, userData, modelContainer,
-                                 sdfMorphologyData, neighbours,
-                                 DEFAULT_SOMA_DISPLACEMENT);
+                    geometryIndex = modelContainer.addCone(
+                        somaPosition, somaRadius * 0.75 * _radiusMultiplier,
+                        somaPosition + Vector3d(point),
+                        point.w * 0.5 * _radiusMultiplier, somaMaterialId,
+                        userData, neighbours, DEFAULT_SOMA_DISPLACEMENT);
                     neighbours.insert(geometryIndex);
                 }
 
@@ -219,15 +215,15 @@ void Astrocytes::_buildModel(const doubles& radii)
                     const auto dst = somaPosition + Vector3d(dstPoint);
                     if (!useSdf)
                         geometryIndex =
-                            _addSphere(useSdf, dst, dstRadius,
-                                       sectionMaterialId, NO_USER_DATA,
-                                       modelContainer, sdfMorphologyData, {});
+                            modelContainer.addSphere(dst, dstRadius,
+                                                     sectionMaterialId,
+                                                     NO_USER_DATA, {});
 
                     geometryIndex =
-                        _addCone(useSdf, src, srcRadius, dst, dstRadius,
-                                 sectionMaterialId, userData, modelContainer,
-                                 sdfMorphologyData, {geometryIndex},
-                                 DEFAULT_SECTION_DISPLACEMENT);
+                        modelContainer.addCone(src, srcRadius, dst, dstRadius,
+                                               sectionMaterialId, userData,
+                                               {geometryIndex},
+                                               DEFAULT_SECTION_DISPLACEMENT);
 
                     _bounds.merge(srcPoint);
                 }
@@ -235,8 +231,7 @@ void Astrocytes::_buildModel(const doubles& radii)
         }
 
         if (_details.loadEndFeet && !_details.vasculaturePopulationName.empty())
-            _addEndFoot(endFeet, radii, somaMaterialId, sdfMorphologyData,
-                        modelContainer);
+            _addEndFoot(modelContainer, endFeet, radii, somaMaterialId);
 #pragma omp critical
         containers.push_back(modelContainer);
     }
@@ -247,13 +242,8 @@ void Astrocytes::_buildModel(const doubles& radii)
         PLUGIN_PROGRESS("- Compiling 3D geometry...", progress,
                         containers.size());
         auto& container = containers[i];
-        container.moveGeometryToModel(*model);
+        container.commitToModel();
     }
-
-    _createMaterials(materialIds, *model);
-
-    if (useSdf)
-        _finalizeSDFGeometries(*model, sdfMorphologyData);
 
     ModelMetadata metadata = {
         {"Number of astrocytes", std::to_string(somas.size())}};
@@ -267,14 +257,12 @@ void Astrocytes::_buildModel(const doubles& radii)
         PLUGIN_THROW("Astrocytes model could not be created");
 }
 
-void Astrocytes::_addEndFoot(const EndFootMap& endFeet, const doubles& radii,
-                             const size_t materialId,
-                             SDFMorphologyData& sdfMorphologyData,
-                             ParallelModelContainer& model)
+void Astrocytes::_addEndFoot(ParallelModelContainer& modelContainer,
+                             const EndFootMap& endFeet, const doubles& radii,
+                             const size_t materialId)
 {
     const double DEFAULT_ENDFOOT_RADIUS_RATIO = 1.2;
     const auto radiusMultiplier = _details.radiusMultiplier;
-    const auto useSdf = _details.useSdf;
     for (const auto& endFoot : endFeet)
     {
         for (const auto& node : endFoot.second.nodes)
@@ -345,14 +333,13 @@ void Astrocytes::_addEndFoot(const EndFootMap& endFeet, const doubles& radii,
                     DEFAULT_ENDFOOT_RADIUS_RATIO * radiusMultiplier;
 
                 if (!_details.useSdf)
-                    _addSphere(useSdf, startNode.position, startRadius,
-                               materialId, NO_USER_DATA, model,
-                               sdfMorphologyData, {},
-                               DEFAULT_SECTION_DISPLACEMENT);
-                _addCone(useSdf, startNode.position, startRadius,
-                         endNode.position, endRadius, materialId, NO_USER_DATA,
-                         model, sdfMorphologyData, {},
-                         DEFAULT_SECTION_DISPLACEMENT);
+                    modelContainer.addSphere(startNode.position, startRadius,
+                                             materialId, NO_USER_DATA, {},
+                                             DEFAULT_SECTION_DISPLACEMENT);
+                modelContainer.addCone(startNode.position, startRadius,
+                                       endNode.position, endRadius, materialId,
+                                       NO_USER_DATA, {},
+                                       DEFAULT_SECTION_DISPLACEMENT);
             }
         }
     }

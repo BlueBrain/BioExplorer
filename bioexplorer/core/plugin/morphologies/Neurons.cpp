@@ -48,7 +48,7 @@ const doubles MITOCHONDRIA_DENSITY = {0.0459, 0.0522, 0.064,
                                       0.0774, 0.0575, 0.0403};
 
 Neurons::Neurons(Scene& scene, const NeuronsDetails& details)
-    : Morphologies(details.useSdf, details.radiusMultiplier, details.scale)
+    : Morphologies(details.radiusMultiplier)
     , _details(details)
     , _scene(scene)
 {
@@ -66,7 +66,6 @@ void Neurons::_buildNeuron()
 
     auto model = _scene.createModel();
     MaterialSet materialIds;
-    SDFMorphologyData sdfMorphologyData;
     const auto useSdf = _details.useSdf;
     const auto somas =
         connector.getNeurons(_details.populationName, _details.sqlNodeFilter);
@@ -92,7 +91,7 @@ void Neurons::_buildNeuron()
         const auto& soma = it->second;
         const auto somaId = it->first;
 
-        ParallelModelContainer modelContainer;
+        ParallelModelContainer modelContainer(*model, useSdf, _scale);
 
         const auto& somaPosition = soma.position;
         const auto& somaRotation = soma.rotation;
@@ -135,14 +134,14 @@ void Neurons::_buildNeuron()
         if (_details.loadSomas)
         {
             somaGeometryIndex =
-                _addSphere(useSdf, somaPosition, somaRadius, somaMaterialId,
-                           NO_USER_DATA, modelContainer, sdfMorphologyData, {},
-                           DEFAULT_SOMA_DISPLACEMENT);
+                modelContainer.addSphere(somaPosition, somaRadius,
+                                         somaMaterialId, NO_USER_DATA, {},
+                                         DEFAULT_SOMA_DISPLACEMENT);
             if (_details.generateInternals)
             {
                 _addSomaInternals(somaId, modelContainer, baseMaterialId,
-                                  somaPosition, somaRadius, mitochondriaDensity,
-                                  sdfMorphologyData);
+                                  somaPosition, somaRadius,
+                                  mitochondriaDensity);
                 materialIds.insert(baseMaterialId + MATERIAL_OFFSET_NUCLEUS);
                 materialIds.insert(baseMaterialId +
                                    MATERIAL_OFFSET_MITOCHONDRION);
@@ -167,30 +166,30 @@ void Neurons::_buildNeuron()
                     const auto& point = section.second.points[0];
 
                     // Section connected to the soma
-                    geometryIndex = _addCone(
-                        useSdf, Vector3d(somaPoint), somaPoint.w * 0.75f,
+                    geometryIndex = modelContainer.addCone(
+                        Vector3d(somaPoint), somaPoint.w * 0.75f,
                         (somaPosition + somaRotation * Vector3d(point)),
                         point.w * 0.5 * _radiusMultiplier, somaMaterialId,
-                        NO_USER_DATA, modelContainer, sdfMorphologyData,
-                        neighbours, DEFAULT_SOMA_DISPLACEMENT);
+                        NO_USER_DATA, neighbours, DEFAULT_SOMA_DISPLACEMENT);
                     neighbours.insert(geometryIndex);
                 }
 
                 _addSection(modelContainer, section.first, section.second,
                             geometryIndex, somaPosition, somaRotation,
                             somaRadius, baseMaterialId, mitochondriaDensity,
-                            sdfMorphologyData, materialIds);
+                            materialIds);
             }
         }
 
         if (_details.loadSynapses)
         {
             _addSpines(modelContainer, somaId, somaPosition, somaRadius,
-                       baseMaterialId, sdfMorphologyData);
+                       baseMaterialId);
 #pragma omp critical
             materialIds.insert(baseMaterialId +
                                MATERIAL_OFFSET_AFFERENT_SYNPASE);
         }
+
 #pragma omp critical
         containers.push_back(modelContainer);
     }
@@ -201,17 +200,10 @@ void Neurons::_buildNeuron()
         PLUGIN_PROGRESS("- Compiling 3D geometry...", progress,
                         containers.size());
         auto& container = containers[i];
-        container.moveGeometryToModel(*model);
+        container.commitToModel();
     }
 
     PLUGIN_INFO(1, "Creating materials...");
-    _createMaterials(materialIds, *model);
-
-    if (useSdf)
-    {
-        PLUGIN_INFO(1, "Finalizing SDF geometries...");
-        _finalizeSDFGeometries(*model, sdfMorphologyData);
-    }
 
     ModelMetadata metadata = {
         {"Number of Neurons", std::to_string(somas.size())}};
@@ -228,14 +220,13 @@ void Neurons::_buildNeuron()
         PLUGIN_THROW("Neurons model could not be created");
 }
 
-void Neurons::_addSection(ParallelModelContainer& model,
+void Neurons::_addSection(ParallelModelContainer& modelContainer,
                           const uint64_t sectionId, const Section& section,
                           const size_t somaGeometryIndex,
                           const Vector3d& somaPosition,
                           const Quaterniond& somaRotation,
                           const double somaRadius, const size_t baseMaterialId,
                           const double mitochondriaDensity,
-                          SDFMorphologyData& sdfMorphologyData,
                           MaterialSet& materialIds)
 {
     const auto sectionType = static_cast<NeuronSectionType>(section.type);
@@ -274,16 +265,16 @@ void Neurons::_addSection(ParallelModelContainer& model,
         sectionLength += sampleLength;
 
         if (!useSdf)
-            _addSphere(useSdf, dst, dstRadius, sectionMaterialId, NO_USER_DATA,
-                       model, sdfMorphologyData, {});
+            modelContainer.addSphere(dst, dstRadius, sectionMaterialId,
+                                     NO_USER_DATA, {});
 
         Neighbours neighbours{somaGeometryIndex};
         if (i > 0)
             neighbours = {geometryIndex};
         geometryIndex =
-            _addCone(useSdf, src, srcRadius, dst, dstRadius, sectionMaterialId,
-                     NO_USER_DATA, model, sdfMorphologyData, neighbours,
-                     DEFAULT_SECTION_DISPLACEMENT);
+            modelContainer.addCone(src, srcRadius, dst, dstRadius,
+                                   sectionMaterialId, NO_USER_DATA, neighbours,
+                                   DEFAULT_SECTION_DISPLACEMENT);
         sectionVolume += coneVolume(sampleLength, srcRadius, dstRadius);
 
         _bounds.merge(srcPoint);
@@ -292,26 +283,25 @@ void Neurons::_addSection(ParallelModelContainer& model,
     if (sectionType == NeuronSectionType::axon)
     {
         if (_details.generateInternals)
-            _addSectionInternals(somaPosition, somaRotation, sectionLength,
-                                 sectionVolume, points, mitochondriaDensity,
-                                 baseMaterialId, sdfMorphologyData, model);
+            _addSectionInternals(modelContainer, somaPosition, somaRotation,
+                                 sectionLength, sectionVolume, points,
+                                 mitochondriaDensity, baseMaterialId);
 
         if (_details.generateExternals)
         {
-            _addAxonMyelinSheath(somaPosition, somaRotation, sectionLength,
-                                 points, mitochondriaDensity, baseMaterialId,
-                                 sdfMorphologyData, model);
+            _addAxonMyelinSheath(modelContainer, somaPosition, somaRotation,
+                                 sectionLength, points, mitochondriaDensity,
+                                 baseMaterialId);
             materialIds.insert(baseMaterialId + MATERIAL_OFFSET_MYELIN_SHEATH);
         }
     }
 }
 
 void Neurons::_addSectionInternals(
-    const Vector3d& somaPosition, const Quaterniond& somaRotation,
-    const double sectionLength, const double sectionVolume,
-    const Vector4fs& points, const double mitochondriaDensity,
-    const size_t baseMaterialId, SDFMorphologyData& sdfMorphologyData,
-    ParallelModelContainer& model)
+    ParallelModelContainer& modelContainer, const Vector3d& somaPosition,
+    const Quaterniond& somaRotation, const double sectionLength,
+    const double sectionVolume, const Vector4fs& points,
+    const double mitochondriaDensity, const size_t baseMaterialId)
 {
     if (mitochondriaDensity == 0.0)
         return;
@@ -373,21 +363,21 @@ void Neurons::_addSectionInternals(
                     neighbours = {geometryIndex};
 
                 if (!useSdf)
-                    _addSphere(useSdf, somaPosition + somaRotation * position,
-                               radius, mitochondrionMaterialId, -1, model,
-                               sdfMorphologyData, {});
+                    modelContainer.addSphere(somaPosition +
+                                                 somaRotation * position,
+                                             radius, mitochondrionMaterialId,
+                                             -1, {});
 
                 if (mitochondrionSegment > 0)
                 {
                     Neighbours neighbours = {};
                     if (mitochondrionSegment > 1)
                         neighbours = {geometryIndex};
-                    geometryIndex =
-                        _addCone(useSdf, somaPosition + somaRotation * position,
-                                 radius,
-                                 somaPosition + somaRotation * previousPosition,
-                                 previousRadius, mitochondrionMaterialId, -1,
-                                 model, sdfMorphologyData, neighbours);
+                    geometryIndex = modelContainer.addCone(
+                        somaPosition + somaRotation * position, radius,
+                        somaPosition + somaRotation * previousPosition,
+                        previousRadius, mitochondrionMaterialId, -1,
+                        neighbours);
 
                     mitochondriaVolume +=
                         coneVolume(length(position - previousPosition), radius,
@@ -409,11 +399,13 @@ void Neurons::_addSectionInternals(
     }
 }
 
-void Neurons::_addAxonMyelinSheath(
-    const Vector3d& somaPosition, const Quaterniond& somaRotation,
-    const double sectionLength, const Vector4fs& points,
-    const double mitochondriaDensity, const size_t baseMaterialId,
-    SDFMorphologyData& sdfMorphologyData, ParallelModelContainer& model)
+void Neurons::_addAxonMyelinSheath(ParallelModelContainer& modelContainer,
+                                   const Vector3d& somaPosition,
+                                   const Quaterniond& somaRotation,
+                                   const double sectionLength,
+                                   const Vector4fs& points,
+                                   const double mitochondriaDensity,
+                                   const size_t baseMaterialId)
 {
     if (sectionLength == 0 || points.empty())
         return;
@@ -441,9 +433,8 @@ void Neurons::_addAxonMyelinSheath(
         const Vector3d srcPosition =
             somaPosition + somaRotation * Vector3d(srcPoint);
         if (!useSdf)
-            _addSphere(useSdf, srcPosition, myelinSteathRadius,
-                       myelinSteathMaterialId, NO_USER_DATA, model,
-                       sdfMorphologyData, {});
+            modelContainer.addSphere(srcPosition, myelinSteathRadius,
+                                     myelinSteathMaterialId, NO_USER_DATA, {});
 
         double currentLength = 0;
         Vector3d previousPosition = srcPosition;
@@ -456,13 +447,13 @@ void Neurons::_addAxonMyelinSheath(
                 somaPosition + somaRotation * Vector3d(dstPoint);
             currentLength += length(dstPosition - previousPosition);
             if (!useSdf)
-                _addSphere(useSdf, dstPosition, myelinSteathRadius,
-                           myelinSteathMaterialId, NO_USER_DATA, model,
-                           sdfMorphologyData, {});
-            _addCone(useSdf, dstPosition, myelinSteathRadius, previousPosition,
-                     myelinSteathRadius, myelinSteathMaterialId, NO_USER_DATA,
-                     model, sdfMorphologyData, {},
-                     myelinSteathDisplacementRatio);
+                modelContainer.addSphere(dstPosition, myelinSteathRadius,
+                                         myelinSteathMaterialId, NO_USER_DATA,
+                                         {});
+            modelContainer.addCone(dstPosition, myelinSteathRadius,
+                                   previousPosition, myelinSteathRadius,
+                                   myelinSteathMaterialId, NO_USER_DATA, {},
+                                   myelinSteathDisplacementRatio);
             previousPosition = dstPosition;
         }
         i += NB_MYELIN_FREE_SEGMENTS; // Leave free segments between myelin
@@ -470,10 +461,9 @@ void Neurons::_addAxonMyelinSheath(
     }
 }
 
-void Neurons::_addSpines(ParallelModelContainer& model,
+void Neurons::_addSpines(ParallelModelContainer& modelContainer,
                          const uint64_t somaIndex, const Vector3d somaPosition,
-                         const double somaRadius, const size_t baseMaterialId,
-                         SDFMorphologyData& sdfMorphologyData)
+                         const double somaRadius, const size_t baseMaterialId)
 {
     auto& connector = DBConnector::getInstance();
     const auto synapses =
@@ -488,19 +478,15 @@ void Neurons::_addSpines(ParallelModelContainer& model,
                 somaRadius * 3.0 &&
             length(synapse.second.centerPosition - somaPosition) >
                 somaRadius * 3.0)
-            _addSpine(model, synapse.second, SpineMaterialId,
-                      sdfMorphologyData);
+            _addSpine(modelContainer, synapse.second, SpineMaterialId);
 }
 
-void Neurons::_addSpine(ParallelModelContainer& model, const Synapse& synapse,
-                        const size_t SpineMaterialId,
-                        SDFMorphologyData& sdfMorphologyData)
+void Neurons::_addSpine(ParallelModelContainer& modelContainer,
+                        const Synapse& synapse, const size_t SpineMaterialId)
 {
     const double radius = DEFAULT_SPINE_RADIUS;
 
     // Spine geometry
-    const auto useSdf = _details.useSdf;
-
     const double spineRadiusRatio = 1.5;
     const double spineSmallRadius = radius * 0.3;
     const double spineBaseRadius = radius * 0.5;
@@ -521,21 +507,20 @@ void Neurons::_addSpine(ParallelModelContainer& model, const Synapse& synapse,
                  d * (rand() % 1000 / 1000.0));
     const float spineMiddleRadius =
         spineSmallRadius + d * 0.1 * (rand() % 1000 / 1000.0);
-    const auto idx1 = _addSphere(useSdf, surfaceOrigin, spineLargeRadius,
-                                 SpineMaterialId, NO_USER_DATA, model,
-                                 sdfMorphologyData, {}, spineDisplacementRatio);
+    const auto idx1 = modelContainer.addSphere(surfaceOrigin, spineLargeRadius,
+                                               SpineMaterialId, NO_USER_DATA,
+                                               {}, spineDisplacementRatio);
     const auto idx2 =
-        _addSphere(useSdf, middle, spineMiddleRadius, SpineMaterialId,
-                   NO_USER_DATA, model, sdfMorphologyData, {idx1},
-                   spineDisplacementRatio);
+        modelContainer.addSphere(middle, spineMiddleRadius, SpineMaterialId,
+                                 NO_USER_DATA, {idx1}, spineDisplacementRatio);
     if (surfaceOrigin != middle)
-        _addCone(useSdf, surfaceOrigin, spineLargeRadius, middle,
-                 spineMiddleRadius, SpineMaterialId, NO_USER_DATA, model,
-                 sdfMorphologyData, {idx1, idx2}, spineDisplacementRatio);
+        modelContainer.addCone(surfaceOrigin, spineLargeRadius, middle,
+                               spineMiddleRadius, SpineMaterialId, NO_USER_DATA,
+                               {idx1, idx2}, spineDisplacementRatio);
     if (middle != surfaceTarget)
-        _addCone(useSdf, middle, spineMiddleRadius, surfaceTarget,
-                 spineSmallRadius, SpineMaterialId, NO_USER_DATA, model,
-                 sdfMorphologyData, {idx1, idx2}, spineDisplacementRatio);
+        modelContainer.addCone(middle, spineMiddleRadius, surfaceTarget,
+                               spineSmallRadius, SpineMaterialId, NO_USER_DATA,
+                               {idx1, idx2}, spineDisplacementRatio);
 }
 
 Vector4ds Neurons::getNeuronSectionPoints(const uint64_t neuronId,
