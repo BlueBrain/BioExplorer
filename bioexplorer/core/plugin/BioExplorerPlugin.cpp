@@ -24,6 +24,7 @@
 #include <plugin/common/CommonTypes.h>
 #include <plugin/common/GeneralSettings.h>
 #include <plugin/common/Logs.h>
+#include <plugin/common/SDFGeometries.h>
 #include <plugin/common/Utils.h>
 #include <plugin/io/CacheLoader.h>
 #include <plugin/io/OOCManager.h>
@@ -36,10 +37,6 @@
 #include <brayns/engineapi/Model.h>
 #include <brayns/parameters/ParametersManager.h>
 #include <brayns/pluginapi/Plugin.h>
-
-#ifdef USE_MORPHOLOGIES
-#include <plugin/common/SDFGeometries.h>
-#endif
 
 namespace bioexplorer
 {
@@ -508,7 +505,6 @@ void BioExplorerPlugin::init()
             endPoint, [&](const DatabaseAccessDetails &payload)
             { return _exportBrickToDatabase(payload); });
 
-#ifdef USE_VASCULATURE
         endPoint = PLUGIN_API_PREFIX + "add-vasculature";
         PLUGIN_INFO(1, "Registering '" + endPoint + "' endpoint");
         _api->getActionInterface()
@@ -542,8 +538,6 @@ void BioExplorerPlugin::init()
             ->registerRequest<VasculatureRadiusReportDetails, Response>(
                 endPoint, [&](const VasculatureRadiusReportDetails &details)
                 { return _setVasculatureRadiusReport(details); });
-#endif
-#ifdef USE_MORPHOLOGIES
         endPoint = PLUGIN_API_PREFIX + "add-astrocytes";
         PLUGIN_INFO(1, "Registering '" + endPoint + "' endpoint");
         _api->getActionInterface()
@@ -563,7 +557,6 @@ void BioExplorerPlugin::init()
             ->registerRequest<NeuronSectionDetails, NeuronSectionPointsDetails>(
                 endPoint, [&](const NeuronSectionDetails &payload)
                 { return _getNeuronSectionPoints(payload); });
-#endif
     }
 
     // Module components
@@ -1814,7 +1807,6 @@ Response BioExplorerPlugin::_exportBrickToDatabase(
     return response;
 }
 
-#ifdef USE_VASCULATURE
 Response BioExplorerPlugin::_addVasculature(const VasculatureDetails &payload)
 {
     ASSEMBLY_CALL_VOID(payload.assemblyName, addVasculature(payload));
@@ -1845,9 +1837,7 @@ Response BioExplorerPlugin::_setVasculatureRadiusReport(
     ASSEMBLY_CALL_VOID(payload.assemblyName,
                        setVasculatureRadiusReport(payload));
 }
-#endif
 
-#ifdef USE_MORPHOLOGIES
 Response BioExplorerPlugin::_addAstrocytes(const AstrocytesDetails &payload)
 {
     ASSEMBLY_CALL_VOID(payload.assemblyName, addAstrocytes(payload));
@@ -1892,8 +1882,6 @@ NeuronSectionPointsDetails BioExplorerPlugin::_getNeuronSectionPoints(
     }
     return response;
 }
-
-#endif
 
 extern "C" ExtensionPlugin *brayns_plugin_create(int argc, char **argv)
 {

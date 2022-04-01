@@ -37,16 +37,10 @@
 #include <plugin/molecularsystems/Membrane.h>
 #include <plugin/molecularsystems/Protein.h>
 #include <plugin/molecularsystems/RNASequence.h>
-
-#ifdef USE_VASCULATURE
-#include <plugin/vasculature/Vasculature.h>
-#include <plugin/vasculature/VasculatureHandler.h>
-#endif
-
-#ifdef USE_MORPHOLOGIES
 #include <plugin/morphologies/Astrocytes.h>
 #include <plugin/morphologies/Neurons.h>
-#endif
+#include <plugin/vasculature/Vasculature.h>
+#include <plugin/vasculature/VasculatureHandler.h>
 
 #include <brayns/engineapi/Model.h>
 
@@ -593,7 +587,6 @@ ProteinInspectionDetails Assembly::inspect(const Vector3d &origin,
     return result;
 }
 
-#ifdef USE_VASCULATURE
 void Assembly::addVasculature(const VasculatureDetails &details)
 {
     if (_vasculature)
@@ -668,9 +661,7 @@ void Assembly::setVasculatureRadiusReport(
     if (_astrocytes)
         _astrocytes->setVasculatureRadiusReport(details);
 }
-#endif
 
-#ifdef USE_MORPHOLOGIES
 void Assembly::addAstrocytes(const AstrocytesDetails &details)
 {
     if (_astrocytes)
@@ -699,7 +690,6 @@ Vector4ds Assembly::getNeuronSectionPoints(const NeuronSectionDetails &details)
     return _neurons->getNeuronSectionPoints(details.neuronId,
                                             details.sectionId);
 }
-#endif
 
 ProteinPtr Assembly::getProtein(const std::string &name)
 {

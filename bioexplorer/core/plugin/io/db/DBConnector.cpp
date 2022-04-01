@@ -23,9 +23,7 @@
 
 namespace bioexplorer
 {
-#ifdef USE_MORPHOLOGIES
 using namespace morphology;
-#endif
 namespace io
 {
 namespace db
@@ -196,7 +194,6 @@ std::stringstream DBConnector::getBrick(const int32_t brickId,
     return s;
 }
 
-#ifdef USE_VASCULATURE
 uint64_t DBConnector::getVasculaturePopulationId(
     const std::string& populationName) const
 {
@@ -393,9 +390,7 @@ floats DBConnector::getVasculatureSimulationTimeSeries(
 
     return values;
 }
-#endif
 
-#ifdef USE_MORPHOLOGIES
 AstrocyteSomaMap DBConnector::getAstrocytes(
     const std::string& sqlCondition) const
 {
@@ -636,8 +631,6 @@ SynapseMap DBConnector::getNeuronSynapses(const std::string& populationName,
 
     return synapses;
 }
-#endif
-
 } // namespace db
 } // namespace io
 } // namespace bioexplorer

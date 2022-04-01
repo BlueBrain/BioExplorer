@@ -102,7 +102,6 @@ bool from_json(ProteinInstanceTransformationDetails &param,
 bool from_json(InspectionDetails &param, const std::string &payload);
 std::string to_json(const ProteinInspectionDetails &param);
 
-#ifdef USE_VASCULATURE
 // Vasculature
 bool from_json(VasculatureDetails &param, const std::string &payload);
 bool from_json(VasculatureColorSchemeDetails &param,
@@ -110,13 +109,9 @@ bool from_json(VasculatureColorSchemeDetails &param,
 bool from_json(VasculatureReportDetails &param, const std::string &payload);
 bool from_json(VasculatureRadiusReportDetails &param,
                const std::string &payload);
-#endif
 
-#ifdef USE_MORPHOLOGIES
 bool from_json(AstrocytesDetails &param, const std::string &payload);
 bool from_json(NeuronsDetails &param, const std::string &payload);
 bool from_json(NeuronSectionDetails &param, const std::string &payload);
 std::string to_json(const NeuronSectionPointsDetails &param);
-#endif
-
 #endif

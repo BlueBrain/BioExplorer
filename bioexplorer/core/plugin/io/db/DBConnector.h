@@ -34,9 +34,7 @@ namespace db
 {
 using namespace details;
 using namespace common;
-#ifdef USE_MORPHOLOGIES
 using namespace morphology;
-#endif
 
 using ConnectionPtr = std::shared_ptr<pqxx::connection>;
 
@@ -107,7 +105,6 @@ public:
     void insertBrick(const int32_t brickId, const uint32_t version,
                      const uint32_t nbModels, const std::stringstream& buffer);
 
-#ifdef USE_VASCULATURE
     /**
      * @brief Get the population ID from a given name
      *
@@ -164,9 +161,7 @@ public:
      */
     floats getVasculatureSimulationTimeSeries(const int32_t simulationReportId,
                                               const int32_t frame) const;
-#endif
 
-#ifdef USE_MORPHOLOGIES
     /**
      * @brief Get the astrocytes locations
      *
@@ -225,8 +220,6 @@ public:
     SynapseMap getNeuronSynapses(const std::string& populationName,
                                  const uint64_t neuronId,
                                  const std::string& sqlCondition = "") const;
-
-#endif
 
     static std::mutex _mutex;
     static DBConnector* _instance;

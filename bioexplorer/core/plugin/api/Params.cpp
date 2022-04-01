@@ -720,7 +720,6 @@ std::string to_json(const ProteinInspectionDetails &param)
     return "";
 }
 
-#ifdef USE_VASCULATURE
 bool from_json(VasculatureDetails &param, const std::string &payload)
 {
     try
@@ -792,9 +791,7 @@ bool from_json(VasculatureRadiusReportDetails &param,
     }
     return true;
 }
-#endif
 
-#ifdef USE_MORPHOLOGIES
 bool from_json(AstrocytesDetails &param, const std::string &payload)
 {
     try
@@ -883,6 +880,4 @@ std::string to_json(const NeuronSectionPointsDetails &param)
     }
     return "";
 }
-#endif
-
 #endif

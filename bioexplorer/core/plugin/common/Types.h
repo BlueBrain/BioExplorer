@@ -829,7 +829,6 @@ typedef struct
     uint32_t nbColors{0};
 } SceneInformationDetails;
 
-#ifdef USE_VASCULATURE
 /**
  * @brief Color schemes that can be applied to vasculatures
  *
@@ -916,9 +915,6 @@ typedef struct
     /** Amplitude applied to the radius */
     double amplitude;
 } VasculatureRadiusReportDetails;
-#endif
-
-#ifdef USE_MORPHOLOGIES
 
 enum class PopulationColorScheme
 {
@@ -1037,8 +1033,6 @@ typedef struct
     bool status{true};
     doubles points;
 } NeuronSectionPointsDetails;
-#endif
-
 } // namespace details
 
 namespace common
@@ -1274,7 +1268,6 @@ static details::RGBColorDetailsMap atomColorMap = {
     {"O1", {0xFF, 0x0D, 0x0D}}, {"selection", {0xFF, 0x00, 0x00}}};
 } // namespace molecularsystems
 
-#ifdef USE_VASCULATURE
 namespace vasculature
 {
 const double DEFAULT_VASCULATURE_DISPLACEMENT = 0.5;
@@ -1282,9 +1275,7 @@ const double DEFAULT_VASCULATURE_DISPLACEMENT = 0.5;
 class Vasculature;
 using VasculaturePtr = std::shared_ptr<Vasculature>;
 } // namespace vasculature
-#endif
 
-#ifdef USE_MORPHOLOGIES
 namespace morphology
 {
 const double DEFAULT_SOMA_DISPLACEMENT = 2.0;
@@ -1343,7 +1334,6 @@ typedef struct
 } EndFoot;
 using EndFootMap = std::map<uint64_t, EndFoot>;
 } // namespace morphology
-#endif
 
 namespace io
 {

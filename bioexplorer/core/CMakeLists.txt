@@ -15,8 +15,6 @@ set(${NAME}_VERSION_ABI 1)
 # ==============================================================================
 # Packages and settings
 # ==============================================================================
-option(${NAME}_USE_VASCULATURE "Use vasculature features" ON)
-option(${NAME}_USE_MORPHOLOGIES "Use morphologies features" ON)
 option(${NAME}_USE_CGAL "Use CGAL meshing features" ON)
 
 add_subdirectory(deps)
@@ -32,16 +30,6 @@ add_compile_options("-fopenmp")
 set(CGAL_FOUND 0)
 if(${${NAME}_USE_CGAL})
     find_package(CGAL REQUIRED)
-endif()
-
-set(USE_VASCULATURE 0)
-if(${NAME}_USE_VASCULATURE)
-  set(USE_VASCULATURE 1)
-endif()
-
-set(USE_MORPHOLOGIES 0)
-if(${NAME}_USE_MORPHOLOGIES)
-  set(USE_MORPHOLOGIES 1)
 endif()
 
 include(ispc)
@@ -95,6 +83,11 @@ set(${NAME}_SOURCES
     plugin/molecularsystems/Glycans.cpp
     plugin/molecularsystems/Protein.cpp
     plugin/molecularsystems/RNASequence.cpp
+    plugin/morphologies/Morphologies.cpp
+    plugin/morphologies/Astrocytes.cpp
+    plugin/morphologies/Neurons.cpp
+    plugin/vasculature/VasculatureHandler.cpp
+    plugin/vasculature/Vasculature.cpp
     plugin/api/Params.cpp
     plugin/BioExplorerPlugin.cpp
 )
@@ -112,6 +105,11 @@ set(${NAME}_PUBLIC_HEADERS
     plugin/molecularsystems/Membrane.h
     plugin/molecularsystems/Protein.h
     plugin/molecularsystems/RNASequence.h
+    plugin/morphologies/Morphologies.h
+    plugin/morphologies/Astrocytes.h
+    plugin/morphologies/Neurons.h
+    plugin/vasculature/VasculatureHandler.h
+    plugin/vasculature/Vasculature.h
     plugin/common/UniqueId.h
     plugin/common/GeneralSettings.h
     plugin/common/CommonTypes.h
@@ -130,30 +128,6 @@ set(${NAME}_PUBLIC_HEADERS
     plugin/api/Params.h
     plugin/BioExplorerPlugin.h
 )
-
-if(${NAME}_USE_VASCULATURE)
-    list(APPEND ${NAME}_SOURCES
-        plugin/vasculature/VasculatureHandler.cpp
-        plugin/vasculature/Vasculature.cpp
-    )
-    list(APPEND ${NAME}_PUBLIC_HEADERS
-        plugin/vasculature/VasculatureHandler.h
-        plugin/vasculature/Vasculature.h
-    )
-endif()
-
-if(${NAME}_USE_MORPHOLOGIES)
-    list(APPEND ${NAME}_SOURCES
-        plugin/morphologies/Morphologies.cpp
-        plugin/morphologies/Astrocytes.cpp
-        plugin/morphologies/Neurons.cpp
-    )
-    list(APPEND ${NAME}_PUBLIC_HEADERS
-        plugin/morphologies/Morphologies.h
-        plugin/morphologies/Astrocytes.h
-        plugin/morphologies/Neurons.h
-)
-endif()
 
 if(${CGAL_FOUND})
     list(APPEND ${NAME}_SOURCES
