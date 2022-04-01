@@ -37,8 +37,6 @@ using namespace common;
 using namespace io;
 using namespace db;
 
-const double DEFAULT_SOMA_DISPLACEMENT = 2.0;
-const double DEFAULT_SECTION_DISPLACEMENT = 2.0;
 const double DEFAULT_MITOCHONDRIA_DENSITY = 0.0459;
 
 Astrocytes::Astrocytes(Scene& scene, const AstrocytesDetails& details)
@@ -333,13 +331,14 @@ void Astrocytes::_addEndFoot(ParallelModelContainer& modelContainer,
                     DEFAULT_ENDFOOT_RADIUS_RATIO * radiusMultiplier;
 
                 if (!_details.useSdf)
-                    modelContainer.addSphere(startNode.position, startRadius,
-                                             materialId, NO_USER_DATA, {},
-                                             DEFAULT_SECTION_DISPLACEMENT);
-                modelContainer.addCone(startNode.position, startRadius,
-                                       endNode.position, endRadius, materialId,
-                                       NO_USER_DATA, {},
-                                       DEFAULT_SECTION_DISPLACEMENT);
+                    modelContainer.addSphere(
+                        startNode.position, startRadius, materialId,
+                        NO_USER_DATA, {},
+                        vasculature::DEFAULT_VASCULATURE_DISPLACEMENT);
+                modelContainer.addCone(
+                    startNode.position, startRadius, endNode.position,
+                    endRadius, materialId, NO_USER_DATA, {},
+                    vasculature::DEFAULT_VASCULATURE_DISPLACEMENT);
             }
         }
     }

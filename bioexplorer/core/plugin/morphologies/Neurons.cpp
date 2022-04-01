@@ -38,9 +38,6 @@ using namespace io;
 using namespace db;
 
 const uint64_t NB_MYELIN_FREE_SEGMENTS = 4;
-
-const double DEFAULT_SOMA_DISPLACEMENT = 2.0;
-const double DEFAULT_SECTION_DISPLACEMENT = 2.0;
 const double DEFAULT_SPINE_RADIUS = 0.25;
 
 // Mitochondria density per layer

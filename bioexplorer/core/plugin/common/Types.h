@@ -1277,6 +1277,8 @@ static details::RGBColorDetailsMap atomColorMap = {
 #ifdef USE_VASCULATURE
 namespace vasculature
 {
+const double DEFAULT_VASCULATURE_DISPLACEMENT = 0.5;
+
 class Vasculature;
 using VasculaturePtr = std::shared_ptr<Vasculature>;
 } // namespace vasculature
@@ -1285,6 +1287,9 @@ using VasculaturePtr = std::shared_ptr<Vasculature>;
 #ifdef USE_MORPHOLOGIES
 namespace morphology
 {
+const double DEFAULT_SOMA_DISPLACEMENT = 2.0;
+const double DEFAULT_SECTION_DISPLACEMENT = 2.0;
+
 class Morphologies;
 using MorphologiesPtr = std::shared_ptr<Morphologies>;
 class Astrocytes;

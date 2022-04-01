@@ -38,8 +38,6 @@ using namespace common;
 using namespace io;
 using namespace db;
 
-const double VASCULATURE_DISPLACEMENT_RATIO = 0.5;
-
 Vasculature::Vasculature(Scene& scene, const VasculatureDetails& details)
     : SDFGeometries(details.scale)
     , _details(details)
@@ -244,7 +242,7 @@ void Vasculature::_buildSimpleModel(
                 if (!useSdf)
                     modelContainer.addSphere(srcPoint, srcRadius, materialId,
                                              userData, neighbours,
-                                             VASCULATURE_DISPLACEMENT_RATIO);
+                                             DEFAULT_VASCULATURE_DISPLACEMENT);
                 previousMaterialId = materialId;
             }
             else
@@ -271,11 +269,11 @@ void Vasculature::_buildSimpleModel(
             if (!useSdf)
                 modelContainer.addSphere(dstPoint, dstRadius, materialId,
                                          userData, neighbours,
-                                         VASCULATURE_DISPLACEMENT_RATIO);
+                                         DEFAULT_VASCULATURE_DISPLACEMENT);
             geometryIndex =
                 modelContainer.addCone(dstPoint, dstRadius, srcPoint, srcRadius,
                                        previousMaterialId, userData, neighbours,
-                                       VASCULATURE_DISPLACEMENT_RATIO);
+                                       DEFAULT_VASCULATURE_DISPLACEMENT);
             previousMaterialId = materialId;
 #pragma omp critical
             materialIds.insert(materialId);
@@ -384,7 +382,7 @@ void Vasculature::_buildAdvancedModel(
                     modelContainer.addCone(Vector3f(dst), dstRadius,
                                            Vector3f(src), srcRadius, materialId,
                                            srcUserData, {geometryIndex},
-                                           VASCULATURE_DISPLACEMENT_RATIO);
+                                           DEFAULT_VASCULATURE_DISPLACEMENT);
             }
             i += precision;
 #pragma omp critical
