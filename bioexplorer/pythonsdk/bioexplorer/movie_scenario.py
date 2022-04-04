@@ -21,12 +21,18 @@
 # You should have received a copy of the GNU General Public License along with
 # this program.  If not, see <https://www.gnu.org/licenses/>.
 
-from bioexplorer import BioExplorer, MovieMaker
 from datetime import datetime, timedelta
 import time
 import math
 import argparse
 import os
+from .bio_explorer import BioExplorer
+from .movie_maker import MovieMaker
+
+# pylint: disable=no-member
+# pylint: disable=dangerous-default-value
+# pylint: disable=too-many-arguments
+# pylint: disable=too-many-locals
 
 
 class MovieScenario:
@@ -114,26 +120,26 @@ class MovieScenario:
         nb_frames = len(frames_to_render)
         frame_count = 1
 
-        '''Frames'''
+        # Frames
         for frame in frames_to_render:
             start = time.time()
             self._log(1, '- Rendering frame %i (%i/%i)' % (frame, frame_count, nb_frames))
             self._log(1, '------------------------------')
 
-            '''Stop rendering during the loading of the scene'''
+            # Stop rendering during the loading of the scene
             self._core.set_renderer(
                 samples_per_pixel=1, subsampling=1, max_accum_frames=1)
 
-            ''' Set camera '''
+            # Set camera
             mm.set_current_frame(
                 frame=frame, camera_params=self._core.BioExplorerPerspectiveCameraParams())
 
-            '''Frame setup'''
+            # Frame setup
             self.build_frame(frame)
 
             self._log(1, '- Frame buffers')
             for shader in self._shaders:
-                '''Rendering settings'''
+                # Rendering settings
                 self._log(2, '-   ' + shader)
                 self._render_frame(shader, frame, mm)
 
@@ -166,7 +172,8 @@ class MovieScenario:
         if level <= self._log_level:
             print('[' + str(datetime.now()) + '] ' + message)
 
-    def _check(self, method):
+    @staticmethod
+    def _check(method):
         response = method
         if not response['status']:
             raise Exception(response['contents'])

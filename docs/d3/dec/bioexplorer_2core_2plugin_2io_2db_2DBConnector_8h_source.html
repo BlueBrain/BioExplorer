@@ -122,83 +122,90 @@ $(document).ready(function(){initNavTree('d3/dec/bioexplorer_2core_2plugin_2io_2
 <div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;{</div>
 <div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;<span class="keyword">using namespace </span>details;</div>
 <div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;<span class="keyword">using namespace </span>common;</div>
-<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;<span class="preprocessor">#ifdef USE_MORPHOLOGIES</span></div>
-<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;<span class="keyword">using namespace </span>morphology;</div>
-<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;<span class="preprocessor">#endif</span></div>
+<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;<span class="keyword">using namespace </span>morphology;</div>
+<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160; </div>
+<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;<span class="keyword">using</span> ConnectionPtr = std::shared_ptr&lt;pqxx::connection&gt;;</div>
 <div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160; </div>
-<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;<span class="keyword">using</span> ConnectionPtr = std::shared_ptr&lt;pqxx::connection&gt;;</div>
-<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160; </div>
-<div class="line"><a name="l00049"></a><span class="lineno"><a class="line" href="../../d9/d96/classbioexplorer_1_1io_1_1db_1_1DBConnector.html">   49</a></span>&#160;<span class="keyword">class </span><a class="code" href="../../d9/d96/classbioexplorer_1_1io_1_1db_1_1DBConnector.html">DBConnector</a></div>
-<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;{</div>
-<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;<span class="keyword">public</span>:</div>
-<div class="line"><a name="l00057"></a><span class="lineno"><a class="line" href="../../d9/d96/classbioexplorer_1_1io_1_1db_1_1DBConnector.html#a54ae453b0795aabee7ee7e93ae976eab">   57</a></span>&#160;    <span class="keyword">static</span> <a class="code" href="../../d9/d96/classbioexplorer_1_1io_1_1db_1_1DBConnector.html">DBConnector</a>&amp; <a class="code" href="../../d9/d96/classbioexplorer_1_1io_1_1db_1_1DBConnector.html#a54ae453b0795aabee7ee7e93ae976eab">getInstance</a>()</div>
-<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;    {</div>
-<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;        std::lock_guard&lt;std::mutex&gt; lock(_mutex);</div>
-<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;        <span class="keywordflow">if</span> (!_instance)</div>
-<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;            _instance = <span class="keyword">new</span> <a class="code" href="../../d9/d96/classbioexplorer_1_1io_1_1db_1_1DBConnector.html">DBConnector</a>();</div>
-<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;        <span class="keywordflow">return</span> *_instance;</div>
-<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;    }</div>
-<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160; </div>
-<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;    <span class="keywordtype">void</span> init(<span class="keyword">const</span> CommandLineArguments&amp; arguments);</div>
-<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160; </div>
-<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;    <span class="keywordtype">void</span> clearBricks();</div>
-<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160; </div>
-<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;    <span class="keyword">const</span> <a class="code" href="../../d1/d25/structbioexplorer_1_1details_1_1OOCSceneConfigurationDetails.html">OOCSceneConfigurationDetails</a> getSceneConfiguration();</div>
-<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160; </div>
-<div class="line"><a name="l00095"></a><span class="lineno">   95</span>&#160;    std::stringstream getBrick(<span class="keyword">const</span> int32_t brickId, <span class="keyword">const</span> uint32_t&amp; version,</div>
-<div class="line"><a name="l00096"></a><span class="lineno">   96</span>&#160;                               uint32_t&amp; nbModels);</div>
-<div class="line"><a name="l00097"></a><span class="lineno">   97</span>&#160; </div>
-<div class="line"><a name="l00107"></a><span class="lineno">  107</span>&#160;    <span class="keywordtype">void</span> insertBrick(<span class="keyword">const</span> int32_t brickId, <span class="keyword">const</span> uint32_t version,</div>
-<div class="line"><a name="l00108"></a><span class="lineno">  108</span>&#160;                     <span class="keyword">const</span> uint32_t nbModels, <span class="keyword">const</span> std::stringstream&amp; buffer);</div>
-<div class="line"><a name="l00109"></a><span class="lineno">  109</span>&#160; </div>
-<div class="line"><a name="l00110"></a><span class="lineno">  110</span>&#160;<span class="preprocessor">#ifdef USE_VASCULATURE</span></div>
-<div class="line"><a name="l00111"></a><span class="lineno">  111</span>&#160; </div>
-<div class="line"><a name="l00117"></a><span class="lineno">  117</span>&#160;    uint64_t getVasculaturePopulationId(</div>
-<div class="line"><a name="l00118"></a><span class="lineno">  118</span>&#160;        <span class="keyword">const</span> std::string&amp; populationName) <span class="keyword">const</span>;</div>
-<div class="line"><a name="l00119"></a><span class="lineno">  119</span>&#160; </div>
-<div class="line"><a name="l00126"></a><span class="lineno">  126</span>&#160;    GeometryNodes getVasculatureNodes(<span class="keyword">const</span> std::string&amp; populationName,</div>
-<div class="line"><a name="l00127"></a><span class="lineno">  127</span>&#160;                                      <span class="keyword">const</span> std::string&amp; filter = <span class="stringliteral">&quot;&quot;</span>) <span class="keyword">const</span>;</div>
-<div class="line"><a name="l00128"></a><span class="lineno">  128</span>&#160; </div>
-<div class="line"><a name="l00135"></a><span class="lineno">  135</span>&#160;    GeometryEdges getVasculatureEdges(<span class="keyword">const</span> std::string&amp; populationName,</div>
-<div class="line"><a name="l00136"></a><span class="lineno">  136</span>&#160;                                      <span class="keyword">const</span> std::string&amp; filter = <span class="stringliteral">&quot;&quot;</span>) <span class="keyword">const</span>;</div>
-<div class="line"><a name="l00137"></a><span class="lineno">  137</span>&#160; </div>
-<div class="line"><a name="l00145"></a><span class="lineno">  145</span>&#160;    <a class="code" href="../../da/dc8/structbioexplorer_1_1io_1_1db_1_1SimulationReport.html">SimulationReport</a> getVasculatureSimulationReport(</div>
-<div class="line"><a name="l00146"></a><span class="lineno">  146</span>&#160;        <span class="keyword">const</span> std::string&amp; populationName,</div>
-<div class="line"><a name="l00147"></a><span class="lineno">  147</span>&#160;        <span class="keyword">const</span> int32_t simulationReportId) <span class="keyword">const</span>;</div>
-<div class="line"><a name="l00148"></a><span class="lineno">  148</span>&#160; </div>
-<div class="line"><a name="l00156"></a><span class="lineno">  156</span>&#160;    floats getVasculatureSimulationTimeSeries(<span class="keyword">const</span> int32_t simulationReportId,</div>
-<div class="line"><a name="l00157"></a><span class="lineno">  157</span>&#160;                                              <span class="keyword">const</span> int32_t frame) <span class="keyword">const</span>;</div>
-<div class="line"><a name="l00158"></a><span class="lineno">  158</span>&#160;<span class="preprocessor">#endif</span></div>
-<div class="line"><a name="l00159"></a><span class="lineno">  159</span>&#160; </div>
-<div class="line"><a name="l00160"></a><span class="lineno">  160</span>&#160;<span class="preprocessor">#ifdef USE_MORPHOLOGIES</span></div>
-<div class="line"><a name="l00161"></a><span class="lineno">  161</span>&#160; </div>
-<div class="line"><a name="l00169"></a><span class="lineno">  169</span>&#160;    SomaMap getNodes(<span class="keyword">const</span> uint64_ts astrocyteIds = {},</div>
-<div class="line"><a name="l00170"></a><span class="lineno">  170</span>&#160;                     <span class="keyword">const</span> std::string&amp; sqlCondition = <span class="stringliteral">&quot;&quot;</span>) <span class="keyword">const</span>;</div>
-<div class="line"><a name="l00171"></a><span class="lineno">  171</span>&#160; </div>
-<div class="line"><a name="l00178"></a><span class="lineno">  178</span>&#160;    SectionMap getAstrocyteSections(<span class="keyword">const</span> int64_t astrocyteId) <span class="keyword">const</span>;</div>
-<div class="line"><a name="l00179"></a><span class="lineno">  179</span>&#160; </div>
-<div class="line"><a name="l00186"></a><span class="lineno">  186</span>&#160;    EndFootMap getAstrocyteEndFeetAreas(<span class="keyword">const</span> uint64_t astrocyteId) <span class="keyword">const</span>;</div>
-<div class="line"><a name="l00187"></a><span class="lineno">  187</span>&#160;<span class="preprocessor">#endif</span></div>
-<div class="line"><a name="l00188"></a><span class="lineno">  188</span>&#160; </div>
-<div class="line"><a name="l00189"></a><span class="lineno">  189</span>&#160;    <span class="keyword">static</span> std::mutex _mutex;</div>
-<div class="line"><a name="l00190"></a><span class="lineno">  190</span>&#160;    <span class="keyword">static</span> <a class="code" href="../../d9/d96/classbioexplorer_1_1io_1_1db_1_1DBConnector.html">DBConnector</a>* _instance;</div>
-<div class="line"><a name="l00191"></a><span class="lineno">  191</span>&#160; </div>
-<div class="line"><a name="l00192"></a><span class="lineno">  192</span>&#160;<span class="keyword">private</span>:</div>
-<div class="line"><a name="l00193"></a><span class="lineno">  193</span>&#160;    <a class="code" href="../../d9/d96/classbioexplorer_1_1io_1_1db_1_1DBConnector.html">DBConnector</a>();</div>
-<div class="line"><a name="l00194"></a><span class="lineno">  194</span>&#160;    ~<a class="code" href="../../d9/d96/classbioexplorer_1_1io_1_1db_1_1DBConnector.html">DBConnector</a>();</div>
-<div class="line"><a name="l00195"></a><span class="lineno">  195</span>&#160; </div>
-<div class="line"><a name="l00196"></a><span class="lineno">  196</span>&#160;    ConnectionPtr _connection{<span class="keyword">nullptr</span>};</div>
-<div class="line"><a name="l00197"></a><span class="lineno">  197</span>&#160;};</div>
-<div class="line"><a name="l00198"></a><span class="lineno">  198</span>&#160; </div>
-<div class="line"><a name="l00199"></a><span class="lineno">  199</span>&#160;} <span class="comment">// namespace db</span></div>
-<div class="line"><a name="l00200"></a><span class="lineno">  200</span>&#160;} <span class="comment">// namespace io</span></div>
-<div class="line"><a name="l00201"></a><span class="lineno">  201</span>&#160;} <span class="comment">// namespace bioexplorer</span></div>
+<div class="line"><a name="l00047"></a><span class="lineno"><a class="line" href="../../d9/d96/classbioexplorer_1_1io_1_1db_1_1DBConnector.html">   47</a></span>&#160;<span class="keyword">class </span><a class="code" href="../../d9/d96/classbioexplorer_1_1io_1_1db_1_1DBConnector.html">DBConnector</a></div>
+<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;{</div>
+<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;<span class="keyword">public</span>:</div>
+<div class="line"><a name="l00055"></a><span class="lineno"><a class="line" href="../../d9/d96/classbioexplorer_1_1io_1_1db_1_1DBConnector.html#a54ae453b0795aabee7ee7e93ae976eab">   55</a></span>&#160;    <span class="keyword">static</span> <a class="code" href="../../d9/d96/classbioexplorer_1_1io_1_1db_1_1DBConnector.html">DBConnector</a>&amp; <a class="code" href="../../d9/d96/classbioexplorer_1_1io_1_1db_1_1DBConnector.html#a54ae453b0795aabee7ee7e93ae976eab">getInstance</a>()</div>
+<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;    {</div>
+<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;        std::lock_guard&lt;std::mutex&gt; lock(_mutex);</div>
+<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;        <span class="keywordflow">if</span> (!_instance)</div>
+<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;            _instance = <span class="keyword">new</span> <a class="code" href="../../d9/d96/classbioexplorer_1_1io_1_1db_1_1DBConnector.html">DBConnector</a>();</div>
+<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;        <span class="keywordflow">return</span> *_instance;</div>
+<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;    }</div>
+<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160; </div>
+<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;    <span class="keywordtype">void</span> init(<span class="keyword">const</span> CommandLineArguments&amp; arguments);</div>
+<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160; </div>
+<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;    <span class="keywordtype">void</span> clearBricks();</div>
+<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160; </div>
+<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;    <span class="keyword">const</span> <a class="code" href="../../d1/d25/structbioexplorer_1_1details_1_1OOCSceneConfigurationDetails.html">OOCSceneConfigurationDetails</a> getSceneConfiguration();</div>
+<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160; </div>
+<div class="line"><a name="l00093"></a><span class="lineno">   93</span>&#160;    std::stringstream getBrick(<span class="keyword">const</span> int32_t brickId, <span class="keyword">const</span> uint32_t&amp; version,</div>
+<div class="line"><a name="l00094"></a><span class="lineno">   94</span>&#160;                               uint32_t&amp; nbModels);</div>
+<div class="line"><a name="l00095"></a><span class="lineno">   95</span>&#160; </div>
+<div class="line"><a name="l00105"></a><span class="lineno">  105</span>&#160;    <span class="keywordtype">void</span> insertBrick(<span class="keyword">const</span> int32_t brickId, <span class="keyword">const</span> uint32_t version,</div>
+<div class="line"><a name="l00106"></a><span class="lineno">  106</span>&#160;                     <span class="keyword">const</span> uint32_t nbModels, <span class="keyword">const</span> std::stringstream&amp; buffer);</div>
+<div class="line"><a name="l00107"></a><span class="lineno">  107</span>&#160; </div>
+<div class="line"><a name="l00114"></a><span class="lineno">  114</span>&#160;    uint64_t getVasculaturePopulationId(</div>
+<div class="line"><a name="l00115"></a><span class="lineno">  115</span>&#160;        <span class="keyword">const</span> std::string&amp; populationName) <span class="keyword">const</span>;</div>
+<div class="line"><a name="l00116"></a><span class="lineno">  116</span>&#160; </div>
+<div class="line"><a name="l00123"></a><span class="lineno">  123</span>&#160;    GeometryNodes getVasculatureNodes(<span class="keyword">const</span> std::string&amp; populationName,</div>
+<div class="line"><a name="l00124"></a><span class="lineno">  124</span>&#160;                                      <span class="keyword">const</span> std::string&amp; filter = <span class="stringliteral">&quot;&quot;</span>) <span class="keyword">const</span>;</div>
+<div class="line"><a name="l00125"></a><span class="lineno">  125</span>&#160; </div>
+<div class="line"><a name="l00132"></a><span class="lineno">  132</span>&#160;    GeometryEdges getVasculatureEdges(<span class="keyword">const</span> std::string&amp; populationName,</div>
+<div class="line"><a name="l00133"></a><span class="lineno">  133</span>&#160;                                      <span class="keyword">const</span> std::string&amp; filter = <span class="stringliteral">&quot;&quot;</span>) <span class="keyword">const</span>;</div>
+<div class="line"><a name="l00134"></a><span class="lineno">  134</span>&#160; </div>
+<div class="line"><a name="l00141"></a><span class="lineno">  141</span>&#160;    Bifurcations getVasculatureBifurcations(</div>
+<div class="line"><a name="l00142"></a><span class="lineno">  142</span>&#160;        <span class="keyword">const</span> std::string&amp; populationName) <span class="keyword">const</span>;</div>
+<div class="line"><a name="l00143"></a><span class="lineno">  143</span>&#160; </div>
+<div class="line"><a name="l00151"></a><span class="lineno">  151</span>&#160;    <a class="code" href="../../da/dc8/structbioexplorer_1_1io_1_1db_1_1SimulationReport.html">SimulationReport</a> getVasculatureSimulationReport(</div>
+<div class="line"><a name="l00152"></a><span class="lineno">  152</span>&#160;        <span class="keyword">const</span> std::string&amp; populationName,</div>
+<div class="line"><a name="l00153"></a><span class="lineno">  153</span>&#160;        <span class="keyword">const</span> int32_t simulationReportId) <span class="keyword">const</span>;</div>
+<div class="line"><a name="l00154"></a><span class="lineno">  154</span>&#160; </div>
+<div class="line"><a name="l00162"></a><span class="lineno">  162</span>&#160;    floats getVasculatureSimulationTimeSeries(<span class="keyword">const</span> int32_t simulationReportId,</div>
+<div class="line"><a name="l00163"></a><span class="lineno">  163</span>&#160;                                              <span class="keyword">const</span> int32_t frame) <span class="keyword">const</span>;</div>
+<div class="line"><a name="l00164"></a><span class="lineno">  164</span>&#160; </div>
+<div class="line"><a name="l00172"></a><span class="lineno">  172</span>&#160;    AstrocyteSomaMap getAstrocytes(<span class="keyword">const</span> std::string&amp; sqlCondition = <span class="stringliteral">&quot;&quot;</span>) <span class="keyword">const</span>;</div>
+<div class="line"><a name="l00173"></a><span class="lineno">  173</span>&#160; </div>
+<div class="line"><a name="l00180"></a><span class="lineno">  180</span>&#160;    SectionMap getAstrocyteSections(<span class="keyword">const</span> int64_t astrocyteId) <span class="keyword">const</span>;</div>
+<div class="line"><a name="l00181"></a><span class="lineno">  181</span>&#160; </div>
+<div class="line"><a name="l00188"></a><span class="lineno">  188</span>&#160;    EndFootMap getAstrocyteEndFeet(<span class="keyword">const</span> uint64_t astrocyteId) <span class="keyword">const</span>;</div>
+<div class="line"><a name="l00189"></a><span class="lineno">  189</span>&#160; </div>
+<div class="line"><a name="l00197"></a><span class="lineno">  197</span>&#160;    NeuronSomaMap getNeurons(<span class="keyword">const</span> std::string&amp; populationName,</div>
+<div class="line"><a name="l00198"></a><span class="lineno">  198</span>&#160;                             <span class="keyword">const</span> std::string&amp; sqlCondition = <span class="stringliteral">&quot;&quot;</span>) <span class="keyword">const</span>;</div>
+<div class="line"><a name="l00199"></a><span class="lineno">  199</span>&#160; </div>
+<div class="line"><a name="l00208"></a><span class="lineno">  208</span>&#160;    SectionMap getNeuronSections(<span class="keyword">const</span> std::string&amp; populationName,</div>
+<div class="line"><a name="l00209"></a><span class="lineno">  209</span>&#160;                                 <span class="keyword">const</span> uint64_t neuronId,</div>
+<div class="line"><a name="l00210"></a><span class="lineno">  210</span>&#160;                                 <span class="keyword">const</span> std::string&amp; sqlCondition = <span class="stringliteral">&quot;&quot;</span>) <span class="keyword">const</span>;</div>
+<div class="line"><a name="l00211"></a><span class="lineno">  211</span>&#160; </div>
+<div class="line"><a name="l00220"></a><span class="lineno">  220</span>&#160;    SynapseMap getNeuronSynapses(<span class="keyword">const</span> std::string&amp; populationName,</div>
+<div class="line"><a name="l00221"></a><span class="lineno">  221</span>&#160;                                 <span class="keyword">const</span> uint64_t neuronId,</div>
+<div class="line"><a name="l00222"></a><span class="lineno">  222</span>&#160;                                 <span class="keyword">const</span> std::string&amp; sqlCondition = <span class="stringliteral">&quot;&quot;</span>) <span class="keyword">const</span>;</div>
+<div class="line"><a name="l00223"></a><span class="lineno">  223</span>&#160; </div>
+<div class="line"><a name="l00224"></a><span class="lineno">  224</span>&#160;    <span class="keyword">static</span> std::mutex _mutex;</div>
+<div class="line"><a name="l00225"></a><span class="lineno">  225</span>&#160;    <span class="keyword">static</span> <a class="code" href="../../d9/d96/classbioexplorer_1_1io_1_1db_1_1DBConnector.html">DBConnector</a>* _instance;</div>
+<div class="line"><a name="l00226"></a><span class="lineno">  226</span>&#160; </div>
+<div class="line"><a name="l00227"></a><span class="lineno">  227</span>&#160;<span class="keyword">private</span>:</div>
+<div class="line"><a name="l00228"></a><span class="lineno">  228</span>&#160;    <a class="code" href="../../d9/d96/classbioexplorer_1_1io_1_1db_1_1DBConnector.html">DBConnector</a>();</div>
+<div class="line"><a name="l00229"></a><span class="lineno">  229</span>&#160;    ~<a class="code" href="../../d9/d96/classbioexplorer_1_1io_1_1db_1_1DBConnector.html">DBConnector</a>();</div>
+<div class="line"><a name="l00230"></a><span class="lineno">  230</span>&#160; </div>
+<div class="line"><a name="l00231"></a><span class="lineno">  231</span>&#160;    std::string _connectionString;</div>
+<div class="line"><a name="l00232"></a><span class="lineno">  232</span>&#160; </div>
+<div class="line"><a name="l00233"></a><span class="lineno">  233</span>&#160;    std::vector&lt;ConnectionPtr&gt; _connections;</div>
+<div class="line"><a name="l00234"></a><span class="lineno">  234</span>&#160;};</div>
+<div class="line"><a name="l00235"></a><span class="lineno">  235</span>&#160; </div>
+<div class="line"><a name="l00236"></a><span class="lineno">  236</span>&#160;} <span class="comment">// namespace db</span></div>
+<div class="line"><a name="l00237"></a><span class="lineno">  237</span>&#160;} <span class="comment">// namespace io</span></div>
+<div class="line"><a name="l00238"></a><span class="lineno">  238</span>&#160;} <span class="comment">// namespace bioexplorer</span></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
-<div class="ttc" id="astructbioexplorer_1_1io_1_1db_1_1SimulationReport_html"><div class="ttname"><a href="../../da/dc8/structbioexplorer_1_1io_1_1db_1_1SimulationReport.html">bioexplorer::io::db::SimulationReport</a></div><div class="ttdef"><b>Definition:</b> <a href="../../d0/dde/bioexplorer_2core_2plugin_2common_2Types_8h_source.html#l01256">Types.h:1256</a></div></div>
-<div class="ttc" id="astructbioexplorer_1_1details_1_1OOCSceneConfigurationDetails_html"><div class="ttname"><a href="../../d1/d25/structbioexplorer_1_1details_1_1OOCSceneConfigurationDetails.html">bioexplorer::details::OOCSceneConfigurationDetails</a></div><div class="ttdef"><b>Definition:</b> <a href="../../d0/dde/bioexplorer_2core_2plugin_2common_2Types_8h_source.html#l00792">Types.h:792</a></div></div>
-<div class="ttc" id="aclassbioexplorer_1_1io_1_1db_1_1DBConnector_html_a54ae453b0795aabee7ee7e93ae976eab"><div class="ttname"><a href="../../d9/d96/classbioexplorer_1_1io_1_1db_1_1DBConnector.html#a54ae453b0795aabee7ee7e93ae976eab">bioexplorer::io::db::DBConnector::getInstance</a></div><div class="ttdeci">static DBConnector &amp; getInstance()</div><div class="ttdoc">Get the Instance object.</div><div class="ttdef"><b>Definition:</b> <a href="../../d3/dec/bioexplorer_2core_2plugin_2io_2db_2DBConnector_8h_source.html#l00057">DBConnector.h:57</a></div></div>
-<div class="ttc" id="aclassbioexplorer_1_1io_1_1db_1_1DBConnector_html"><div class="ttname"><a href="../../d9/d96/classbioexplorer_1_1io_1_1db_1_1DBConnector.html">bioexplorer::io::db::DBConnector</a></div><div class="ttdoc">The DBConnector class allows the BioExplorer to communicate with a PostgreSQL database....</div><div class="ttdef"><b>Definition:</b> <a href="../../d3/dec/bioexplorer_2core_2plugin_2io_2db_2DBConnector_8h_source.html#l00049">DBConnector.h:49</a></div></div>
+<div class="ttc" id="astructbioexplorer_1_1io_1_1db_1_1SimulationReport_html"><div class="ttname"><a href="../../da/dc8/structbioexplorer_1_1io_1_1db_1_1SimulationReport.html">bioexplorer::io::db::SimulationReport</a></div><div class="ttdef"><b>Definition:</b> <a href="../../d0/dde/bioexplorer_2core_2plugin_2common_2Types_8h_source.html#l01355">Types.h:1355</a></div></div>
+<div class="ttc" id="astructbioexplorer_1_1details_1_1OOCSceneConfigurationDetails_html"><div class="ttname"><a href="../../d1/d25/structbioexplorer_1_1details_1_1OOCSceneConfigurationDetails.html">bioexplorer::details::OOCSceneConfigurationDetails</a></div><div class="ttdef"><b>Definition:</b> <a href="../../d0/dde/bioexplorer_2core_2plugin_2common_2Types_8h_source.html#l00796">Types.h:796</a></div></div>
+<div class="ttc" id="aclassbioexplorer_1_1io_1_1db_1_1DBConnector_html_a54ae453b0795aabee7ee7e93ae976eab"><div class="ttname"><a href="../../d9/d96/classbioexplorer_1_1io_1_1db_1_1DBConnector.html#a54ae453b0795aabee7ee7e93ae976eab">bioexplorer::io::db::DBConnector::getInstance</a></div><div class="ttdeci">static DBConnector &amp; getInstance()</div><div class="ttdoc">Get the Instance object.</div><div class="ttdef"><b>Definition:</b> <a href="../../d3/dec/bioexplorer_2core_2plugin_2io_2db_2DBConnector_8h_source.html#l00055">DBConnector.h:55</a></div></div>
+<div class="ttc" id="aclassbioexplorer_1_1io_1_1db_1_1DBConnector_html"><div class="ttname"><a href="../../d9/d96/classbioexplorer_1_1io_1_1db_1_1DBConnector.html">bioexplorer::io::db::DBConnector</a></div><div class="ttdoc">The DBConnector class allows the BioExplorer to communicate with a PostgreSQL database....</div><div class="ttdef"><b>Definition:</b> <a href="../../d3/dec/bioexplorer_2core_2plugin_2io_2db_2DBConnector_8h_source.html#l00047">DBConnector.h:47</a></div></div>
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>

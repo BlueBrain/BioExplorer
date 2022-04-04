@@ -86,7 +86,7 @@ $(document).ready(function(){initNavTree('df/d88/Astrocytes_8h_source.html','../
 <div class="title">Astrocytes.h</div>  </div>
 </div><!--header-->
 <div class="contents">
-<div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="comment">/* Copyright (c) 2018-2021, EPFL/Blue Brain Project</span></div>
+<div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="comment">/* Copyright (c) 2020-2022, EPFL/Blue Brain Project</span></div>
 <div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;<span class="comment"> * All rights reserved. Do not distribute without permission.</span></div>
 <div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="comment"> * Responsible Author: Cyrille Favreau &lt;cyrille.favreau@epfl.ch&gt;</span></div>
 <div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="comment"> *</span></div>
@@ -106,51 +106,42 @@ $(document).ready(function(){initNavTree('df/d88/Astrocytes_8h_source.html','../
 <div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160; </div>
 <div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;<span class="preprocessor">#pragma once</span></div>
 <div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160; </div>
-<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;<span class="preprocessor">#include &lt;plugin/api/Params.h&gt;</span></div>
-<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;<span class="preprocessor">#include &lt;plugin/common/Node.h&gt;</span></div>
-<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;<span class="preprocessor">#include &lt;plugin/common/Types.h&gt;</span></div>
-<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160; </div>
-<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;<span class="keyword">namespace </span>bioexplorer</div>
-<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;{</div>
-<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;<span class="keyword">namespace </span>morphology</div>
-<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;{</div>
-<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;<span class="keyword">using namespace </span>brayns;</div>
-<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;<span class="keyword">using namespace </span>common;</div>
-<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;<span class="keyword">using namespace </span>geometry;</div>
+<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;<span class="preprocessor">#include &quot;Morphologies.h&quot;</span></div>
+<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160; </div>
+<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;<span class="preprocessor">#include &lt;plugin/api/Params.h&gt;</span></div>
+<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;<span class="preprocessor">#include &lt;plugin/common/Types.h&gt;</span></div>
+<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160; </div>
+<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;<span class="keyword">namespace </span>bioexplorer</div>
+<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;{</div>
+<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;<span class="keyword">namespace </span>morphology</div>
+<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;{</div>
+<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;<span class="keyword">using namespace </span>brayns;</div>
+<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;<span class="keyword">using namespace </span>common;</div>
 <div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160; </div>
-<div class="line"><a name="l00036"></a><span class="lineno"><a class="line" href="../../d2/d3a/classbioexplorer_1_1morphology_1_1Astrocytes.html">   36</a></span>&#160;<span class="keyword">class </span><a class="code" href="../../d2/d3a/classbioexplorer_1_1morphology_1_1Astrocytes.html">Astrocytes</a> : <span class="keyword">public</span> <a class="code" href="../../d7/d93/classbioexplorer_1_1common_1_1Node.html">common::Node</a></div>
-<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;{</div>
-<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;<span class="keyword">public</span>:</div>
-<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;    <a class="code" href="../../d2/d3a/classbioexplorer_1_1morphology_1_1Astrocytes.html">Astrocytes</a>(Scene&amp; scene, <span class="keyword">const</span> AstrocytesDetails&amp; details);</div>
-<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160; </div>
-<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;<span class="keyword">private</span>:</div>
-<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;    <span class="keywordtype">void</span> _buildModel();</div>
-<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;    <span class="keywordtype">size_t</span> _addSDFGeometry(<a class="code" href="../../d1/d25/structbioexplorer_1_1geometry_1_1SDFMorphologyData.html">SDFMorphologyData</a>&amp; sdfMorphologyData,</div>
-<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;                           <span class="keyword">const</span> SDFGeometry&amp; geometry,</div>
-<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;                           <span class="keyword">const</span> std::set&lt;size_t&gt;&amp; neighbours,</div>
-<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;                           <span class="keyword">const</span> <span class="keywordtype">size_t</span> materialId, <span class="keyword">const</span> <span class="keywordtype">int</span> section);</div>
+<div class="line"><a name="l00037"></a><span class="lineno"><a class="line" href="../../d2/d3a/classbioexplorer_1_1morphology_1_1Astrocytes.html">   37</a></span>&#160;<span class="keyword">class </span><a class="code" href="../../d2/d3a/classbioexplorer_1_1morphology_1_1Astrocytes.html">Astrocytes</a> : <span class="keyword">public</span> <a class="code" href="../../dc/dbc/classbioexplorer_1_1morphology_1_1Morphologies.html">Morphologies</a></div>
+<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;{</div>
+<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;<span class="keyword">public</span>:</div>
+<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;    <a class="code" href="../../d2/d3a/classbioexplorer_1_1morphology_1_1Astrocytes.html">Astrocytes</a>(Scene&amp; scene, <span class="keyword">const</span> <a class="code" href="../../df/d08/structbioexplorer_1_1details_1_1AstrocytesDetails.html">AstrocytesDetails</a>&amp; details);</div>
 <div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160; </div>
-<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;    <span class="keywordtype">void</span> _addStepConeGeometry(<span class="keyword">const</span> <span class="keywordtype">bool</span> useSDF, <span class="keyword">const</span> Vector3d&amp; position,</div>
-<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;                              <span class="keyword">const</span> <span class="keywordtype">double</span> radius, <span class="keyword">const</span> Vector3d&amp; target,</div>
-<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;                              <span class="keyword">const</span> <span class="keywordtype">double</span> previousRadius,</div>
-<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;                              <span class="keyword">const</span> <span class="keywordtype">size_t</span> materialId,</div>
-<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;                              <span class="keyword">const</span> uint64_t&amp; userDataOffset, Model&amp; model,</div>
-<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;                              <a class="code" href="../../d1/d25/structbioexplorer_1_1geometry_1_1SDFMorphologyData.html">SDFMorphologyData</a>&amp; sdfMorphologyData,</div>
-<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;                              <span class="keyword">const</span> uint32_t sdfGroupId);</div>
-<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160; </div>
-<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;    <span class="keywordtype">void</span> _finalizeSDFGeometries(Model&amp; model,</div>
-<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;                                <a class="code" href="../../d1/d25/structbioexplorer_1_1geometry_1_1SDFMorphologyData.html">SDFMorphologyData</a>&amp; sdfMorphologyData);</div>
-<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160; </div>
-<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;    <span class="keyword">const</span> AstrocytesDetails _details;</div>
-<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;    Scene&amp; _scene;</div>
-<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;};</div>
-<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;} <span class="comment">// namespace morphology</span></div>
-<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;} <span class="comment">// namespace bioexplorer</span></div>
+<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;    <span class="keywordtype">void</span> setVasculatureRadiusReport(</div>
+<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;        <span class="keyword">const</span> <a class="code" href="../../de/da6/structbioexplorer_1_1details_1_1VasculatureRadiusReportDetails.html">VasculatureRadiusReportDetails</a>&amp; details);</div>
+<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160; </div>
+<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;<span class="keyword">private</span>:</div>
+<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;    <span class="keywordtype">void</span> _buildModel(<span class="keyword">const</span> doubles&amp; radii = doubles());</div>
+<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;    <span class="keywordtype">void</span> _addEndFoot(<a class="code" href="../../d2/d4a/classbioexplorer_1_1common_1_1ThreadSafeContainer.html">ThreadSafeContainer</a>&amp; container, <span class="keyword">const</span> EndFootMap&amp; endFeet,</div>
+<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;                     <span class="keyword">const</span> doubles&amp; radii, <span class="keyword">const</span> <span class="keywordtype">size_t</span> materialId);</div>
+<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;    <span class="keyword">const</span> <a class="code" href="../../df/d08/structbioexplorer_1_1details_1_1AstrocytesDetails.html">AstrocytesDetails</a> _details;</div>
+<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;    Scene&amp; _scene;</div>
+<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;};</div>
+<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;} <span class="comment">// namespace morphology</span></div>
+<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;} <span class="comment">// namespace bioexplorer</span></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
-<div class="ttc" id="astructbioexplorer_1_1geometry_1_1SDFMorphologyData_html"><div class="ttname"><a href="../../d1/d25/structbioexplorer_1_1geometry_1_1SDFMorphologyData.html">bioexplorer::geometry::SDFMorphologyData</a></div><div class="ttdef"><b>Definition:</b> <a href="../../d0/dde/bioexplorer_2core_2plugin_2common_2Types_8h_source.html#l01233">Types.h:1233</a></div></div>
-<div class="ttc" id="aclassbioexplorer_1_1morphology_1_1Astrocytes_html"><div class="ttname"><a href="../../d2/d3a/classbioexplorer_1_1morphology_1_1Astrocytes.html">bioexplorer::morphology::Astrocytes</a></div><div class="ttdef"><b>Definition:</b> <a href="../../df/d88/Astrocytes_8h_source.html#l00036">Astrocytes.h:36</a></div></div>
-<div class="ttc" id="aclassbioexplorer_1_1common_1_1Node_html"><div class="ttname"><a href="../../d7/d93/classbioexplorer_1_1common_1_1Node.html">bioexplorer::common::Node</a></div><div class="ttdoc">The Node class.</div><div class="ttdef"><b>Definition:</b> <a href="../../db/d92/Node_8h_source.html#l00034">Node.h:34</a></div></div>
+<div class="ttc" id="astructbioexplorer_1_1details_1_1AstrocytesDetails_html"><div class="ttname"><a href="../../df/d08/structbioexplorer_1_1details_1_1AstrocytesDetails.html">bioexplorer::details::AstrocytesDetails</a></div><div class="ttdef"><b>Definition:</b> <a href="../../d0/dde/bioexplorer_2core_2plugin_2common_2Types_8h_source.html#l00944">Types.h:944</a></div></div>
+<div class="ttc" id="aclassbioexplorer_1_1common_1_1ThreadSafeContainer_html"><div class="ttname"><a href="../../d2/d4a/classbioexplorer_1_1common_1_1ThreadSafeContainer.html">bioexplorer::common::ThreadSafeContainer</a></div><div class="ttdoc">The ThreadSafeContainer class is used to load large datasets in parallel. Every individual element is...</div><div class="ttdef"><b>Definition:</b> <a href="../../dd/d8f/ThreadSafeContainer_8h_source.html#l00040">ThreadSafeContainer.h:40</a></div></div>
+<div class="ttc" id="astructbioexplorer_1_1details_1_1VasculatureRadiusReportDetails_html"><div class="ttname"><a href="../../de/da6/structbioexplorer_1_1details_1_1VasculatureRadiusReportDetails.html">bioexplorer::details::VasculatureRadiusReportDetails</a></div><div class="ttdef"><b>Definition:</b> <a href="../../d0/dde/bioexplorer_2core_2plugin_2common_2Types_8h_source.html#l00907">Types.h:907</a></div></div>
+<div class="ttc" id="aclassbioexplorer_1_1morphology_1_1Astrocytes_html"><div class="ttname"><a href="../../d2/d3a/classbioexplorer_1_1morphology_1_1Astrocytes.html">bioexplorer::morphology::Astrocytes</a></div><div class="ttdef"><b>Definition:</b> <a href="../../df/d88/Astrocytes_8h_source.html#l00037">Astrocytes.h:37</a></div></div>
+<div class="ttc" id="aclassbioexplorer_1_1morphology_1_1Morphologies_html"><div class="ttname"><a href="../../dc/dbc/classbioexplorer_1_1morphology_1_1Morphologies.html">bioexplorer::morphology::Morphologies</a></div><div class="ttdoc">The Morphologies class.</div><div class="ttdef"><b>Definition:</b> <a href="../../d6/dab/Morphologies_8h_source.html#l00048">Morphologies.h:48</a></div></div>
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>

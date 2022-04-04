@@ -9,7 +9,7 @@ maintainers: Cyrille Favreau
 name: BioExplorer
 license: LGPLv3
 issuesurl: https://github.com/BlueBrain/BioExplorer/issues
-version: 1.0.0
+version: 1.3.0
 contributors: Cyrille Favreau
 minor: 1
 ---

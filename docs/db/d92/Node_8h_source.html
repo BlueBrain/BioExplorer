@@ -119,7 +119,7 @@ $(document).ready(function(){initNavTree('db/d92/Node_8h_source.html','../../');
 <div class="line"><a name="l00034"></a><span class="lineno"><a class="line" href="../../d7/d93/classbioexplorer_1_1common_1_1Node.html">   34</a></span>&#160;<span class="keyword">class </span><a class="code" href="../../d7/d93/classbioexplorer_1_1common_1_1Node.html">Node</a></div>
 <div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;{</div>
 <div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;<span class="keyword">public</span>:</div>
-<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;    <a class="code" href="../../d7/d93/classbioexplorer_1_1common_1_1Node.html">Node</a>();</div>
+<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;    <a class="code" href="../../d7/d93/classbioexplorer_1_1common_1_1Node.html">Node</a>(<span class="keyword">const</span> Vector3d&amp; scale = Vector3d(1.0, 1.0, 1.0));</div>
 <div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160; </div>
 <div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;    <span class="keyword">const</span> ModelDescriptorPtr getModelDescriptor() <span class="keyword">const</span>;</div>
 <div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160; </div>
@@ -129,13 +129,14 @@ $(document).ready(function(){initNavTree('db/d92/Node_8h_source.html','../../');
 <div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;    ModelDescriptorPtr _modelDescriptor{<span class="keyword">nullptr</span>};</div>
 <div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;    Boxd _bounds;</div>
 <div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;    uint32_t _uuid;</div>
-<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;};</div>
-<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160; </div>
-<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;<span class="keyword">typedef</span> std::shared_ptr&lt;Node&gt; NodePtr;</div>
-<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;<span class="keyword">typedef</span> std::map&lt;std::string, NodePtr&gt; NodeMap;</div>
-<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160; </div>
-<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;} <span class="comment">// namespace common</span></div>
-<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;} <span class="comment">// namespace bioexplorer</span></div>
+<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;    Vector3d _scale;</div>
+<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;};</div>
+<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160; </div>
+<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;<span class="keyword">typedef</span> std::shared_ptr&lt;Node&gt; NodePtr;</div>
+<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;<span class="keyword">typedef</span> std::map&lt;std::string, NodePtr&gt; NodeMap;</div>
+<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160; </div>
+<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;} <span class="comment">// namespace common</span></div>
+<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;} <span class="comment">// namespace bioexplorer</span></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
 <div class="ttc" id="aclassbioexplorer_1_1common_1_1Node_html"><div class="ttname"><a href="../../d7/d93/classbioexplorer_1_1common_1_1Node.html">bioexplorer::common::Node</a></div><div class="ttdoc">The Node class.</div><div class="ttdef"><b>Definition:</b> <a href="../../db/d92/Node_8h_source.html#l00034">Node.h:34</a></div></div>

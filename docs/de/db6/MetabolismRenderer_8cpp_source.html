@@ -143,41 +143,40 @@ $(document).ready(function(){initNavTree('de/db6/MetabolismRenderer_8cpp_source.
 <div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;    _rayStep = getParam1f(<span class="stringliteral">&quot;rayStep&quot;</span>, 1.f);</div>
 <div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;    _alphaCorrection = getParam1f(<span class="stringliteral">&quot;alphaCorrection&quot;</span>, 1.f);</div>
 <div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;    _refinementSteps = getParam1i(<span class="stringliteral">&quot;refinementSteps&quot;</span>, 64);</div>
-<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;    _searchLength = getParam1f(<span class="stringliteral">&quot;searchLength&quot;</span>, 1.f);</div>
-<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;    _useRandomSearch = getParam(<span class="stringliteral">&quot;useRandomSearch&quot;</span>, 0);</div>
-<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;    _noiseFrequency = getParam1f(<span class="stringliteral">&quot;noiseFrequency&quot;</span>, 1.f);</div>
-<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;    _noiseAmplitude = getParam1f(<span class="stringliteral">&quot;noiseAmplitude&quot;</span>, 1.f);</div>
-<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160; </div>
-<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;    _userData = getParamData(<span class="stringliteral">&quot;simulationData&quot;</span>);</div>
-<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;    _userDataSize = _userData ? _userData-&gt;size() : 0;</div>
-<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160; </div>
-<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;    <span class="comment">// Transfer function</span></div>
-<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;    ospray::TransferFunction* transferFunction =</div>
-<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;        (ospray::TransferFunction*)getParamObject(<span class="stringliteral">&quot;transferFunction&quot;</span>, <span class="keyword">nullptr</span>);</div>
-<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;    <span class="keywordflow">if</span> (transferFunction)</div>
-<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;        ispc::MetabolismRenderer_setTransferFunction(getIE(),</div>
-<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;                                                     transferFunction-&gt;getIE());</div>
-<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160; </div>
-<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;    <span class="comment">// Renderer</span></div>
-<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;    ispc::MetabolismRenderer_set(</div>
-<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;        getIE(), (_bgMaterial ? _bgMaterial-&gt;getIE() : <span class="keyword">nullptr</span>), spp, _lightPtr,</div>
-<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;        _lightArray.size(), (_userData ? (<span class="keywordtype">float</span>*)_userData-&gt;data : <span class="keyword">nullptr</span>),</div>
-<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;        _userDataSize, _nearPlane, _farPlane, _rayStep, _refinementSteps,</div>
-<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;        _exposure, _alphaCorrection, _searchLength, _useRandomSearch,</div>
-<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;        _noiseFrequency, _noiseAmplitude);</div>
-<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;}</div>
-<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160; </div>
-<div class="line"><a name="l00082"></a><span class="lineno"><a class="line" href="../../d3/d27/classmetabolism_1_1rendering_1_1MetabolismRenderer.html#a10d4a9bb451bfc3eaabb1933a920d9d4">   82</a></span>&#160;<a class="code" href="../../d3/d27/classmetabolism_1_1rendering_1_1MetabolismRenderer.html#a10d4a9bb451bfc3eaabb1933a920d9d4">MetabolismRenderer::MetabolismRenderer</a>()</div>
-<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;{</div>
-<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;    ispcEquivalent = ispc::MetabolismRenderer_create(<span class="keyword">this</span>);</div>
-<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;}</div>
-<div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160; </div>
-<div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;OSP_REGISTER_RENDERER(<a class="code" href="../../d3/d27/classmetabolism_1_1rendering_1_1MetabolismRenderer.html">MetabolismRenderer</a>, metabolism);</div>
-<div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;} <span class="comment">// namespace rendering</span></div>
-<div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160;} <span class="comment">// namespace metabolism</span></div>
+<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;    _colorMapPerRegion = getParam(<span class="stringliteral">&quot;colorMapPerRegion&quot;</span>, 0);</div>
+<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;    _noiseFrequency = getParam1f(<span class="stringliteral">&quot;noiseFrequency&quot;</span>, 1.f);</div>
+<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;    _noiseAmplitude = getParam1f(<span class="stringliteral">&quot;noiseAmplitude&quot;</span>, 1.f);</div>
+<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160; </div>
+<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;    _userData = getParamData(<span class="stringliteral">&quot;simulationData&quot;</span>);</div>
+<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;    _userDataSize = _userData ? _userData-&gt;size() : 0;</div>
+<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160; </div>
+<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;    <span class="comment">// Transfer function</span></div>
+<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;    ospray::TransferFunction* transferFunction =</div>
+<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;        (ospray::TransferFunction*)getParamObject(<span class="stringliteral">&quot;transferFunction&quot;</span>, <span class="keyword">nullptr</span>);</div>
+<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;    <span class="keywordflow">if</span> (transferFunction)</div>
+<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;        ispc::MetabolismRenderer_setTransferFunction(getIE(),</div>
+<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;                                                     transferFunction-&gt;getIE());</div>
+<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160; </div>
+<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;    <span class="comment">// Renderer</span></div>
+<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;    ispc::MetabolismRenderer_set(</div>
+<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;        getIE(), (_bgMaterial ? _bgMaterial-&gt;getIE() : <span class="keyword">nullptr</span>), spp, _lightPtr,</div>
+<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;        _lightArray.size(), (_userData ? (<span class="keywordtype">float</span>*)_userData-&gt;data : <span class="keyword">nullptr</span>),</div>
+<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;        _userDataSize, _nearPlane, _farPlane, _rayStep, _refinementSteps,</div>
+<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;        _exposure, _alphaCorrection, _colorMapPerRegion, _noiseFrequency,</div>
+<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;        _noiseAmplitude);</div>
+<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;}</div>
+<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160; </div>
+<div class="line"><a name="l00081"></a><span class="lineno"><a class="line" href="../../d3/d27/classmetabolism_1_1rendering_1_1MetabolismRenderer.html#a10d4a9bb451bfc3eaabb1933a920d9d4">   81</a></span>&#160;<a class="code" href="../../d3/d27/classmetabolism_1_1rendering_1_1MetabolismRenderer.html#a10d4a9bb451bfc3eaabb1933a920d9d4">MetabolismRenderer::MetabolismRenderer</a>()</div>
+<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;{</div>
+<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;    ispcEquivalent = ispc::MetabolismRenderer_create(<span class="keyword">this</span>);</div>
+<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;}</div>
+<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160; </div>
+<div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;OSP_REGISTER_RENDERER(<a class="code" href="../../d3/d27/classmetabolism_1_1rendering_1_1MetabolismRenderer.html">MetabolismRenderer</a>, metabolism);</div>
+<div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;} <span class="comment">// namespace rendering</span></div>
+<div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;} <span class="comment">// namespace metabolism</span></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
-<div class="ttc" id="aclassmetabolism_1_1rendering_1_1MetabolismRenderer_html_a10d4a9bb451bfc3eaabb1933a920d9d4"><div class="ttname"><a href="../../d3/d27/classmetabolism_1_1rendering_1_1MetabolismRenderer.html#a10d4a9bb451bfc3eaabb1933a920d9d4">metabolism::rendering::MetabolismRenderer::MetabolismRenderer</a></div><div class="ttdeci">MetabolismRenderer()</div><div class="ttdoc">Construct a new Bio Explorer Metabolism Renderer object.</div><div class="ttdef"><b>Definition:</b> <a href="../../de/db6/MetabolismRenderer_8cpp_source.html#l00082">MetabolismRenderer.cpp:82</a></div></div>
+<div class="ttc" id="aclassmetabolism_1_1rendering_1_1MetabolismRenderer_html_a10d4a9bb451bfc3eaabb1933a920d9d4"><div class="ttname"><a href="../../d3/d27/classmetabolism_1_1rendering_1_1MetabolismRenderer.html#a10d4a9bb451bfc3eaabb1933a920d9d4">metabolism::rendering::MetabolismRenderer::MetabolismRenderer</a></div><div class="ttdeci">MetabolismRenderer()</div><div class="ttdoc">Construct a new Bio Explorer Metabolism Renderer object.</div><div class="ttdef"><b>Definition:</b> <a href="../../de/db6/MetabolismRenderer_8cpp_source.html#l00081">MetabolismRenderer.cpp:81</a></div></div>
 <div class="ttc" id="aclassmetabolism_1_1rendering_1_1MetabolismRenderer_html"><div class="ttname"><a href="../../d3/d27/classmetabolism_1_1rendering_1_1MetabolismRenderer.html">metabolism::rendering::MetabolismRenderer</a></div><div class="ttdoc">The MetabolismRenderer class allows visualization of atom Metabolism in the 3D scene.</div><div class="ttdef"><b>Definition:</b> <a href="../../d7/d57/MetabolismRenderer_8h_source.html#l00035">MetabolismRenderer.h:35</a></div></div>
 <div class="ttc" id="aclassmetabolism_1_1rendering_1_1MetabolismRenderer_html_ac6ff55d8c36ee901a32f38429b41aba2"><div class="ttname"><a href="../../d3/d27/classmetabolism_1_1rendering_1_1MetabolismRenderer.html#ac6ff55d8c36ee901a32f38429b41aba2">metabolism::rendering::MetabolismRenderer::commit</a></div><div class="ttdeci">void commit() final</div><div class="ttdoc">Commit the changes to the OSPRay engine.</div><div class="ttdef"><b>Definition:</b> <a href="../../de/db6/MetabolismRenderer_8cpp_source.html#l00035">MetabolismRenderer.cpp:35</a></div></div>
 <!-- start footer part -->

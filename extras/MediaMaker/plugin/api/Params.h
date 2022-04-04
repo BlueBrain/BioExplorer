@@ -22,6 +22,8 @@
 
 #include <plugin/common/Types.h>
 
+#include <bioexplorer/core/plugin/common/Types.h>
+
 #include <limits>
 #include <string>
 #include <vector>
@@ -61,8 +63,8 @@ struct ExportFramesToDisk
     uint16_t startFrame{0};
     uint16_t endFrame{std::numeric_limits<uint16_t>::max()};
     bool exportIntermediateFrames{false};
-    std::vector<uint64_t> animationInformation;
-    std::vector<double> cameraInformation;
+    uint64_ts animationInformation;
+    doubles cameraInformation;
     FrameBufferMode frameBufferMode{FrameBufferMode::color};
 };
 bool from_json(ExportFramesToDisk &param, const std::string &payload);

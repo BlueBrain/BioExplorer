@@ -32,7 +32,8 @@ using namespace common;
 using namespace brayns;
 
 /**
- * @brief The SDFGeometries abstract class
+ * @brief The SDFGeometries abstract class is used as a parent to any assembly
+ * that potentially requires the signed-distance field technique
  */
 class SDFGeometries : public common::Node
 {
@@ -44,6 +45,11 @@ public:
     SDFGeometries(const double radiusMultiplier,
                   const Vector3d& scale = Vector3d(1.0, 1.0, 1.0));
 
+    /**
+     * @brief Add a simple demo of SDF geometries, mainly for testing purpose
+     *
+     * @param model Brayns model to which the SDF geometries are added
+     */
     void addSDFDemo(Model& model);
 
 protected:

@@ -24,6 +24,8 @@
 #include <brayns/engineapi/Material.h>
 #include <brayns/engineapi/Model.h>
 
+#include <iostream>
+
 namespace bioexplorer
 {
 namespace common
@@ -45,7 +47,6 @@ uint64_t ThreadSafeContainer::addSphere(const Vector3f& position,
                                         const Neighbours& neighbours,
                                         const float displacementRatio)
 {
-    _materialIds.insert(materialId);
     const Vector3f scale = _scale;
     if (_useSdf)
     {
@@ -68,7 +69,6 @@ uint64_t ThreadSafeContainer::addCone(
     const size_t materialId, const uint64_t userDataOffset,
     const Neighbours& neighbours, const float displacementRatio)
 {
-    _materialIds.insert(materialId);
     const Vector3f scale = _scale;
     if (_useSdf)
     {
@@ -94,22 +94,22 @@ uint64_t ThreadSafeContainer::addCone(
 uint64_t ThreadSafeContainer::_addSphere(const size_t materialId,
                                          const Sphere& sphere)
 {
-    _spheres[materialId].push_back(sphere);
-    return _spheres[materialId].size() - 1;
+    _spheresMap[materialId].push_back(sphere);
+    return 0; // Only used by SDF geometry
 }
 
 uint64_t ThreadSafeContainer::_addCylinder(const size_t materialId,
                                            const Cylinder& cylinder)
 {
-    _cylinders[materialId].push_back(cylinder);
-    return _cylinders[materialId].size() - 1;
+    _cylindersMap[materialId].push_back(cylinder);
+    return 0; // Only used by SDF geometry
 }
 
 uint64_t ThreadSafeContainer::_addCone(const size_t materialId,
                                        const Cone& cone)
 {
-    _cones[materialId].push_back(cone);
-    return _cones[materialId].size() - 1;
+    _conesMap[materialId].push_back(cone);
+    return 0; // Only used by SDF geometry
 }
 
 uint64_t ThreadSafeContainer::_addSDFGeometry(
@@ -125,11 +125,12 @@ uint64_t ThreadSafeContainer::_addSDFGeometry(
 
 void ThreadSafeContainer::commitToModel()
 {
+    _materialIds.clear();
     _commitSpheresToModel();
     _commitCylindersToModel();
     _commitConesToModel();
     _commitSDFGeometriesToModel();
-    _createMaterials();
+    _commitMaterials();
 }
 
 void ThreadSafeContainer::_finalizeSDFGeometries()
@@ -165,62 +166,64 @@ void ThreadSafeContainer::_finalizeSDFGeometries()
     }
 }
 
-void ThreadSafeContainer::_createMaterials()
+void ThreadSafeContainer::_commitMaterials()
 {
-    const auto& existingMaterials = _model.getMaterials();
     for (const auto materialId : _materialIds)
     {
-        if (existingMaterials.find(materialId) != existingMaterials.end())
-            continue;
         Vector3f color{1.f, 1.f, 1.f};
-        auto nodeMaterial =
+        auto material =
             _model.createMaterial(materialId, std::to_string(materialId));
-        nodeMaterial->setDiffuseColor(color);
-        nodeMaterial->setSpecularColor(color);
-        nodeMaterial->setSpecularExponent(100.f);
+
+        material->setDiffuseColor(color);
+        material->setSpecularColor(color);
+        material->setSpecularExponent(100.f);
         PropertyMap props;
         props.setProperty({MATERIAL_PROPERTY_SHADING_MODE, 0});
         props.setProperty({MATERIAL_PROPERTY_USER_PARAMETER, 1.0});
         props.setProperty({MATERIAL_PROPERTY_CHAMELEON_MODE, 0});
         props.setProperty({MATERIAL_PROPERTY_CAST_USER_DATA, false});
         props.setProperty({MATERIAL_PROPERTY_NODE_ID, 0});
-        nodeMaterial->updateProperties(props);
+        material->updateProperties(props);
     }
 }
 
 void ThreadSafeContainer::_commitSpheresToModel()
 {
-    for (const auto& sphere : _spheres)
+    for (const auto& spheres : _spheresMap)
     {
-        const auto index = sphere.first;
-        _model.getSpheres()[index].insert(_model.getSpheres()[index].end(),
-                                          sphere.second.begin(),
-                                          sphere.second.end());
+        const auto materialId = spheres.first;
+        _materialIds.insert(materialId);
+        _model.getSpheres()[materialId].insert(
+            _model.getSpheres()[materialId].end(), spheres.second.begin(),
+            spheres.second.end());
     }
-    _spheres.clear();
+    _spheresMap.clear();
 }
 
 void ThreadSafeContainer::_commitCylindersToModel()
 {
-    for (const auto& cylinder : _cylinders)
+    for (const auto& cylinders : _cylindersMap)
     {
-        const auto index = cylinder.first;
-        _model.getCylinders()[index].insert(_model.getCylinders()[index].end(),
-                                            cylinder.second.begin(),
-                                            cylinder.second.end());
+        const auto materialId = cylinders.first;
+        _materialIds.insert(materialId);
+        _model.getCylinders()[materialId].insert(
+            _model.getCylinders()[materialId].end(), cylinders.second.begin(),
+            cylinders.second.end());
     }
-    _cylinders.clear();
+    _cylindersMap.clear();
 }
 
 void ThreadSafeContainer::_commitConesToModel()
 {
-    for (const auto& cone : _cones)
+    for (const auto& cones : _conesMap)
     {
-        const auto index = cone.first;
-        _model.getCones()[index].insert(_model.getCones()[index].end(),
-                                        cone.second.begin(), cone.second.end());
+        const auto materialId = cones.first;
+        _materialIds.insert(materialId);
+        _model.getCones()[materialId].insert(
+            _model.getCones()[materialId].end(), cones.second.begin(),
+            cones.second.end());
     }
-    _cones.clear();
+    _conesMap.clear();
 }
 
 void ThreadSafeContainer::_commitSDFGeometriesToModel()
@@ -230,8 +233,8 @@ void ThreadSafeContainer::_commitSDFGeometriesToModel()
     const uint64_t numGeoms = _sdfMorphologyData.geometries.size();
     size_ts localToGlobalIndex(numGeoms, 0);
 
-    // Add geometries to _model. We do not know the indices of the neighbours
-    // yet so we leave them empty.
+    // Add geometries to _model. We do not know the indices of the
+    // neighbours yet so we leave them empty.
     for (uint64_t i = 0; i < numGeoms; ++i)
         localToGlobalIndex[i] =
             _model.addSDFGeometry(_sdfMorphologyData.materials[i],
@@ -249,6 +252,9 @@ void ThreadSafeContainer::_commitSDFGeometriesToModel()
 
         _model.updateSDFGeometryNeighbours(globalIndex, neighboursTmp);
     }
+
+    for (const auto materialId : _sdfMorphologyData.materials)
+        _materialIds.insert(materialId);
     _sdfMorphologyData.geometries.clear();
     _sdfMorphologyData.neighbours.clear();
     _sdfMorphologyData.materials.clear();

@@ -50,7 +50,6 @@ namespace common
 
 #define PLUGIN_THROW(message)              \
     {                                      \
-        PLUGIN_ERROR(message);             \
         throw std::runtime_error(message); \
     }
 

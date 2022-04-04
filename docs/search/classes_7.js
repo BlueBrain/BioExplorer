@@ -1,5 +1,4 @@
 var searchData=
 [
-  ['idsdetails_367',['IdsDetails',['../d1/d91/structbioexplorer_1_1details_1_1IdsDetails.html',1,'bioexplorer::details']]],
-  ['inspectiondetails_368',['InspectionDetails',['../dd/dc0/structbioexplorer_1_1details_1_1InspectionDetails.html',1,'bioexplorer::details']]]
+  ['helixshape_442',['HelixShape',['../de/d5f/classbioexplorer_1_1common_1_1HelixShape.html',1,'bioexplorer::common']]]
 ];

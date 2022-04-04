@@ -1,10 +1,12 @@
 var searchData=
 [
-  ['_7eassembly_315',['~Assembly',['../d2/d82/classbioexplorer_1_1common_1_1Assembly.html#ae0d5ba2a9af636abd351ddc322f53704',1,'bioexplorer::common::Assembly']]],
-  ['_7efieldshandler_316',['~FieldsHandler',['../d9/d6e/classbioexplorer_1_1fields_1_1FieldsHandler.html#a128d90979aa7c28c963b2e222388d498',1,'bioexplorer::fields::FieldsHandler']]],
-  ['_7emembrane_317',['~Membrane',['../d4/d3d/classbioexplorer_1_1molecularsystems_1_1Membrane.html#adf608c1568a2792371fd71826aa48788',1,'bioexplorer::molecularsystems::Membrane']]],
-  ['_7eoctree_318',['~Octree',['../dc/d5a/classbioexplorer_1_1fields_1_1Octree.html#aa112587bf8fe2d11bcfd58c4c93a4969',1,'bioexplorer::fields::Octree']]],
-  ['_7eoocmanager_319',['~OOCManager',['../da/d6e/classbioexplorer_1_1io_1_1OOCManager.html#a145bda1edb34a4aa59e2df05eb5fc2e6',1,'bioexplorer::io::OOCManager']]],
-  ['_7eprotein_320',['~Protein',['../dd/da4/classbioexplorer_1_1molecularsystems_1_1Protein.html#aaa7e1d6976b7ccfbf413f56b6a70b048',1,'bioexplorer::molecularsystems::Protein']]],
-  ['_7eshape_321',['~Shape',['../dc/d78/classbioexplorer_1_1common_1_1Shape.html#ae5e5e98afca118286e5cca53704d993c',1,'bioexplorer::common::Shape']]]
+  ['valuesrange_376',['valuesRange',['../d1/d00/structbioexplorer_1_1details_1_1RNASequenceDetails.html#ab35279739e3408e750f6488097a97af6',1,'bioexplorer::details::RNASequenceDetails']]],
+  ['vasculature_377',['Vasculature',['../d8/d29/classbioexplorer_1_1vasculature_1_1Vasculature.html',1,'bioexplorer::vasculature::Vasculature'],['../d8/d29/classbioexplorer_1_1vasculature_1_1Vasculature.html#ad5a82ba530ffb18a43acb7ff33a980c6',1,'bioexplorer::vasculature::Vasculature::Vasculature()']]],
+  ['vasculaturecolorschemedetails_378',['VasculatureColorSchemeDetails',['../dd/d99/structbioexplorer_1_1details_1_1VasculatureColorSchemeDetails.html',1,'bioexplorer::details']]],
+  ['vasculaturedetails_379',['VasculatureDetails',['../dd/d98/structbioexplorer_1_1details_1_1VasculatureDetails.html',1,'bioexplorer::details']]],
+  ['vasculaturehandler_380',['VasculatureHandler',['../d3/d3e/classbioexplorer_1_1vasculature_1_1VasculatureHandler.html',1,'bioexplorer::vasculature::VasculatureHandler'],['../d3/d3e/classbioexplorer_1_1vasculature_1_1VasculatureHandler.html#ae23fc6847fc0c6203fc8534c96b34604',1,'bioexplorer::vasculature::VasculatureHandler::VasculatureHandler()']]],
+  ['vasculaturepopulationname_381',['vasculaturePopulationName',['../df/d08/structbioexplorer_1_1details_1_1AstrocytesDetails.html#a6bc5e1f50dd4fe35164cb4b2fa809309',1,'bioexplorer::details::AstrocytesDetails']]],
+  ['vasculatureradiusreportdetails_382',['VasculatureRadiusReportDetails',['../de/da6/structbioexplorer_1_1details_1_1VasculatureRadiusReportDetails.html',1,'bioexplorer::details']]],
+  ['vasculaturereportdetails_383',['VasculatureReportDetails',['../d1/d4e/structbioexplorer_1_1details_1_1VasculatureReportDetails.html',1,'bioexplorer::details']]],
+  ['voxelsize_384',['voxelSize',['../dc/d5b/structbioexplorer_1_1details_1_1BuildFieldsDetails.html#a0599983952d3097fbf88919ea4209047',1,'bioexplorer::details::BuildFieldsDetails']]]
 ];

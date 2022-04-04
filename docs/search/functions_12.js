@@ -1,4 +1,5 @@
 var searchData=
 [
-  ['weightedrandomrotation_551',['weightedRandomRotation',['../dc/d78/classbioexplorer_1_1common_1_1Shape.html#a595f0d1afddd8a628c2543a6bbab97c0',1,'bioexplorer::common::Shape']]]
+  ['vasculature_672',['Vasculature',['../d8/d29/classbioexplorer_1_1vasculature_1_1Vasculature.html#ad5a82ba530ffb18a43acb7ff33a980c6',1,'bioexplorer::vasculature::Vasculature']]],
+  ['vasculaturehandler_673',['VasculatureHandler',['../d3/d3e/classbioexplorer_1_1vasculature_1_1VasculatureHandler.html#ae23fc6847fc0c6203fc8534c96b34604',1,'bioexplorer::vasculature::VasculatureHandler']]]
 ];
