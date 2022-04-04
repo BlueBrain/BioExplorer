@@ -31,7 +31,7 @@ namespace common
 using namespace brayns;
 
 ParallelModelContainer::ParallelModelContainer(Model& model, const bool useSdf,
-                                               const double scale)
+                                               const Vector3d& scale)
     : _model(model)
     , _useSdf(useSdf)
     , _scale(scale)
@@ -46,21 +46,20 @@ uint64_t ParallelModelContainer::addSphere(const Vector3f& position,
                                            const float displacementRatio)
 {
     _materialIds.insert(materialId);
+    const Vector3f scale = _scale;
     if (_useSdf)
     {
-        const Vector3f displacementParams = {std::min(radius * _scale, 0.05),
-                                             displacementRatio / _scale,
-                                             _scale * 2.0};
+        const Vector3f displacementParams = {std::min(radius * scale.x, 0.05f),
+                                             displacementRatio / scale.x,
+                                             scale.x * 2.0};
         return _addSDFGeometry(materialId,
-                               createSDFSphere(position * _scale,
-                                               static_cast<float>(radius *
-                                                                  _scale),
-                                               userData, displacementParams),
+                               createSDFSphere(position * scale,
+                                               radius * scale.x, userData,
+                                               displacementParams),
                                neighbours);
     }
     return _addSphere(materialId,
-                      {position * _scale, static_cast<float>(radius * _scale),
-                       userData});
+                      {position * scale, radius * scale.x, userData});
 }
 
 uint64_t ParallelModelContainer::addCone(
@@ -70,29 +69,26 @@ uint64_t ParallelModelContainer::addCone(
     const Neighbours& neighbours, const float displacementRatio)
 {
     _materialIds.insert(materialId);
+    const Vector3f scale = _scale;
     if (_useSdf)
     {
-        const Vector3f displacementParams = {std::min(sourceRadius * _scale,
-                                                      0.05),
-                                             displacementRatio / _scale,
-                                             _scale * 2.0};
+        const Vector3f displacementParams = {std::min(sourceRadius * scale.x,
+                                                      0.05f),
+                                             displacementRatio / scale.x,
+                                             scale.x * 2.f};
         const auto geom =
-            createSDFConePill(sourcePosition * _scale, targetPosition * _scale,
-                              static_cast<float>(sourceRadius * _scale),
-                              static_cast<float>(targetRadius * _scale),
+            createSDFConePill(sourcePosition * scale, targetPosition * scale,
+                              sourceRadius * scale.x, targetRadius * scale.x,
                               userDataOffset, displacementParams);
         return _addSDFGeometry(materialId, geom, neighbours);
     }
     if (sourceRadius == targetRadius)
         return _addCylinder(materialId,
-                            {sourcePosition * _scale, targetPosition * _scale,
-                             static_cast<float>(sourceRadius * _scale),
-                             userDataOffset});
-    return _addCone(materialId,
-                    {sourcePosition * _scale, targetPosition * _scale,
-                     static_cast<float>(sourceRadius * _scale),
-                     static_cast<float>(targetRadius * _scale),
-                     userDataOffset});
+                            {sourcePosition * scale, targetPosition * scale,
+                             sourceRadius * scale.x, userDataOffset});
+    return _addCone(materialId, {sourcePosition * scale, targetPosition * scale,
+                                 sourceRadius * scale.x, targetRadius * scale.x,
+                                 userDataOffset});
 }
 
 uint64_t ParallelModelContainer::_addSphere(const size_t materialId,
@@ -156,8 +152,9 @@ void ParallelModelContainer::_finalizeSDFGeometries()
         std::copy(neighSet.begin(), neighSet.end(),
                   std::back_inserter(neighbours));
         neighbours.erase(std::remove_if(neighbours.begin(), neighbours.end(),
-                                        [i](uint64_t element)
-                                        { return element == i; }),
+                                        [i](uint64_t element) {
+                                            return element == i;
+                                        }),
                          neighbours.end());
 
         std::set<uint64_t> neighboursSet;

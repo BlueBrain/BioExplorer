@@ -42,7 +42,7 @@ class ParallelModelContainer
 {
 public:
     ParallelModelContainer(Model& model, const bool useSdf,
-                           const double scale = 1.0);
+                           const Vector3d& scale = Vector3d(1.0, 1.0, 1.0));
     ~ParallelModelContainer() {}
 
     uint64_t addSphere(const Vector3f& position, const float radius,
@@ -84,7 +84,7 @@ private:
     MaterialSet _materialIds;
 
     Model& _model;
-    double _scale{1.0};
+    Vector3d _scale{1.0, 1.0, 1.0};
     bool _useSdf{false};
 };
 } // namespace common

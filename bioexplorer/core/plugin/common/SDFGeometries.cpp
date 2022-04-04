@@ -30,7 +30,8 @@ namespace bioexplorer
 {
 namespace common
 {
-SDFGeometries::SDFGeometries(const double radiusMultiplier, const double scale)
+SDFGeometries::SDFGeometries(const double radiusMultiplier,
+                             const Vector3d& scale)
     : Node(scale)
     , _radiusMultiplier(radiusMultiplier)
 {

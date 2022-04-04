@@ -2207,7 +2207,7 @@ class BioExplorer:
     def add_vasculature(
             self, assembly_name, population_name, use_sdf=False, section_gids=list(),
             load_capilarities=False, quality=VASCULATURE_QUALITY_HIGH,
-            radius_multiplier=1.0, sql_filter='', scale=1.0):
+            radius_multiplier=1.0, sql_filter='', scale=Vector3(1.0, 1.0, 1.0)):
         """
         Add a vasculature to the 3D scene
 
@@ -2225,6 +2225,7 @@ class BioExplorer:
         :return: Result of the request submission
         """
         assert isinstance(section_gids, list)
+        assert isinstance(scale, Vector3)
 
         params = dict()
         params["assemblyName"] = assembly_name
@@ -2235,7 +2236,7 @@ class BioExplorer:
         params["quality"] = quality
         params["radiusMultiplier"] = radius_multiplier
         params["sqlFilter"] = sql_filter
-        params["scale"] = scale
+        params["scale"] = scale.to_list()
         return self._invoke_and_check('add-vasculature', params)
 
     def get_vasculature_info(self, assembly_name):
@@ -2336,7 +2337,7 @@ class BioExplorer:
             geometry_quality=GEOMETRY_QUALITY_HIGH,
             morphology_color_scheme=MORPHOLOGY_COLOR_SCHEME_NONE,
             population_color_scheme=POPULATION_COLOR_SCHEME_NONE,
-            radius_multiplier=0.0, sql_filter='', scale=1.0):
+            radius_multiplier=0.0, sql_filter='', scale=Vector3(1.0, 1.0, 1.0)):
         """
         Add a population of astrocytes to the 3D scene
 
@@ -2357,6 +2358,8 @@ class BioExplorer:
 
         :return: Result of the request submission
         """
+        assert isinstance(scale, Vector3)
+
         params = dict()
         params["assemblyName"] = assembly_name
         params["populationName"] = population_name
@@ -2371,7 +2374,7 @@ class BioExplorer:
         params["populationColorScheme"] = population_color_scheme
         params["radiusMultiplier"] = radius_multiplier
         params["sqlFilter"] = sql_filter
-        params["scale"] = scale
+        params["scale"] = scale.to_list()
         return self._invoke_and_check('add-astrocytes', params)
 
     def add_neurons(
@@ -2385,7 +2388,7 @@ class BioExplorer:
             morphology_color_scheme=MORPHOLOGY_COLOR_SCHEME_NONE,
             population_color_scheme=POPULATION_COLOR_SCHEME_NONE,
             radius_multiplier=0.0, sql_node_filter='', sql_section_filter='',
-            scale=1.0):
+            scale=Vector3(1.0, 1.0, 1.0)):
         """
         Add a population of astrocytes to the 3D scene
 
@@ -2409,6 +2412,8 @@ class BioExplorer:
 
         :return: Result of the request submission
         """
+        assert isinstance(scale, Vector3)
+
         params = dict()
         params["assemblyName"] = assembly_name
         params["populationName"] = population_name
@@ -2426,7 +2431,7 @@ class BioExplorer:
         params["radiusMultiplier"] = radius_multiplier
         params["sqlNodeFilter"] = sql_node_filter
         params["sqlSectionFilter"] = sql_section_filter
-        params["scale"] = scale
+        params["scale"] = scale.to_list()
         return self._invoke_and_check('add-neurons', params)
 
     def get_neuron_section_points(self, assembly_name, neuron_guid, section_guid):

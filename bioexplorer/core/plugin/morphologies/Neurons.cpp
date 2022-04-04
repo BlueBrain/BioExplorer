@@ -45,7 +45,7 @@ const doubles MITOCHONDRIA_DENSITY = {0.0459, 0.0522, 0.064,
                                       0.0774, 0.0575, 0.0403};
 
 Neurons::Neurons(Scene& scene, const NeuronsDetails& details)
-    : Morphologies(details.radiusMultiplier)
+    : Morphologies(details.radiusMultiplier, doublesToVector3d(details.scale))
     , _details(details)
     , _scene(scene)
 {

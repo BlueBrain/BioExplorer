@@ -39,7 +39,9 @@ using namespace io;
 using namespace db;
 
 Vasculature::Vasculature(Scene& scene, const VasculatureDetails& details)
-    : SDFGeometries(details.scale)
+    : SDFGeometries(details.radiusMultiplier == 0 ? 1.0
+                                                  : details.radiusMultiplier,
+                    doublesToVector3d(details.scale))
     , _details(details)
     , _scene(scene)
 {
@@ -120,7 +122,8 @@ void Vasculature::_buildGraphModel(Model& model,
         const auto sectionId = it->first;
 
         ParallelModelContainer modelContainer(model, _details.useSdf,
-                                              _details.scale);
+                                              doublesToVector3d(
+                                                  _details.scale));
 
         const auto& srcNode = _nodes[section[0]];
         const auto& dstNode = _nodes[section[section.size() - 1]];
@@ -198,7 +201,8 @@ void Vasculature::_buildSimpleModel(
         const auto sectionId = it->first;
 
         ParallelModelContainer modelContainer(model, _details.useSdf,
-                                              _details.scale);
+                                              doublesToVector3d(
+                                                  _details.scale));
 
         uint64_t geometryIndex = 0;
         size_t previousMaterialId = 0;
@@ -316,7 +320,8 @@ void Vasculature::_buildAdvancedModel(
         const auto sectionId = it->first;
 
         ParallelModelContainer modelContainer(model, _details.useSdf,
-                                              _details.scale);
+                                              doublesToVector3d(
+                                                  _details.scale));
 
         Vector4fs controlPoints;
         for (const auto& nodeId : section)

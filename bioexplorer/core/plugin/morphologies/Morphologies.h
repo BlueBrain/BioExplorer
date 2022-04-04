@@ -52,7 +52,8 @@ public:
      * @brief Construct a new Morphologies object
      *
      */
-    Morphologies(const double radiusMultiplier = 1.0, const double scale = 1.0);
+    Morphologies(const double radiusMultiplier = 1.0,
+                 const Vector3f& scale = Vector3d(1.0, 1.0, 1.0));
 
 protected:
     size_t _getNbMitochondrionSegments() const;
@@ -62,8 +63,6 @@ protected:
                            const Vector3d& somaPosition,
                            const double somaRadius,
                            const double mitochondriaDensity);
-
-    double _radiusMultiplier{1.0};
 };
 } // namespace morphology
 } // namespace bioexplorer

@@ -38,7 +38,7 @@ public:
      * @brief Construct a new Node object
      *
      */
-    Node(const double scale = 1.0);
+    Node(const Vector3d& scale = Vector3d(1.0, 1.0, 1.0));
 
     /**
      * @brief Get the Model Descriptor object
@@ -53,7 +53,7 @@ protected:
     ModelDescriptorPtr _modelDescriptor{nullptr};
     Boxd _bounds;
     uint32_t _uuid;
-    double _scale;
+    Vector3d _scale;
 };
 
 typedef std::shared_ptr<Node> NodePtr;

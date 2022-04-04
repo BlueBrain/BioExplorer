@@ -41,7 +41,8 @@ public:
      * @brief Construct a new SDFGeometries object
      *
      */
-    SDFGeometries(const double radiusMultiplier, const double scale = 1.0);
+    SDFGeometries(const double radiusMultiplier,
+                  const Vector3d& scale = Vector3d(1.0, 1.0, 1.0));
 
     void addSDFDemo(Model& model);
 

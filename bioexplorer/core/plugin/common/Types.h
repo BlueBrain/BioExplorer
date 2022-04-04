@@ -875,7 +875,7 @@ typedef struct
     /** SQL filter (WHERE condition) */
     std::string sqlFilter;
     /** Scale of the vasculature in the scene */
-    double scale{1.0};
+    doubles scale;
 } VasculatureDetails;
 
 /**
@@ -968,7 +968,7 @@ typedef struct
     /** SQL filter (WHERE condition) */
     std::string sqlFilter;
     /** Scale of the astrocyte in the scene */
-    double scale{1.0};
+    doubles scale;
 } AstrocytesDetails;
 
 enum class NeuronSectionType
@@ -1015,7 +1015,7 @@ typedef struct
     /** SQL filter dor sections (WHERE condition) */
     std::string sqlSectionFilter;
     /** Scale of the neuron in the scene */
-    double scale{1.0};
+    doubles scale;
 } NeuronsDetails;
 
 typedef struct

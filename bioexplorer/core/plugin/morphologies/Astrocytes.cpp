@@ -21,6 +21,7 @@
 #include <plugin/common/CommonTypes.h>
 #include <plugin/common/Logs.h>
 #include <plugin/common/ParallelModelContainer.h>
+#include <plugin/common/Utils.h>
 
 #include <plugin/io/db/DBConnector.h>
 
@@ -40,7 +41,7 @@ using namespace db;
 const double DEFAULT_MITOCHONDRIA_DENSITY = 0.0459;
 
 Astrocytes::Astrocytes(Scene& scene, const AstrocytesDetails& details)
-    : Morphologies(details.radiusMultiplier, details.scale)
+    : Morphologies(details.radiusMultiplier, doublesToVector3d(details.scale))
     , _details(details)
     , _scene(scene)
 {

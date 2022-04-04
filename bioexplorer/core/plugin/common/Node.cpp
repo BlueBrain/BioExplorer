@@ -30,7 +30,7 @@ namespace bioexplorer
 {
 namespace common
 {
-Node::Node(const double scale)
+Node::Node(const Vector3d& scale)
     : _scale(scale)
 {
     // Unique ID
