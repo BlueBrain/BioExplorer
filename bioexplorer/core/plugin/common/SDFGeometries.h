@@ -21,7 +21,7 @@
 #pragma once
 
 #include "Node.h"
-#include "ParallelModelContainer.h"
+#include "ThreadSafeContainer.h"
 #include "Types.h"
 
 namespace bioexplorer

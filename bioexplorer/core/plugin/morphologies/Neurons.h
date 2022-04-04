@@ -44,28 +44,28 @@ public:
 private:
     void _buildNeuron();
 
-    void _addSection(ParallelModelContainer& modelContainer,
-                     const uint64_t sectionId, const Section& section,
-                     const size_t somaIdx, const Vector3d& somaPosition,
+    void _addSection(ThreadSafeContainer& container, const uint64_t sectionId,
+                     const Section& section, const size_t somaIdx,
+                     const Vector3d& somaPosition,
                      const Quaterniond& somaRotation, const double somaRadius,
                      const size_t baseMaterialId,
                      const double mitochondriaDensity,
                      MaterialSet& materialIds);
 
-    void _addSpine(ParallelModelContainer& modelContainer,
-                   const Synapse& synapse, const size_t baseMaterialId);
+    void _addSpine(ThreadSafeContainer& container, const Synapse& synapse,
+                   const size_t baseMaterialId);
 
-    void _addSpines(ParallelModelContainer& modelContainer,
-                    const uint64_t somaIndex, const Vector3d somaPosition,
-                    const double somaRadius, const size_t baseMaterialId);
+    void _addSpines(ThreadSafeContainer& container, const uint64_t somaIndex,
+                    const Vector3d somaPosition, const double somaRadius,
+                    const size_t baseMaterialId);
 
     void _addSectionInternals(
-        ParallelModelContainer& modelContainer, const Vector3d& somaPosition,
+        ThreadSafeContainer& container, const Vector3d& somaPosition,
         const Quaterniond& somaRotation, const double sectionLength,
         const double sectionVolume, const Vector4fs& points,
         const double mitochondriaDensity, const size_t baseMaterialId);
 
-    void _addAxonMyelinSheath(ParallelModelContainer& modelContainer,
+    void _addAxonMyelinSheath(ThreadSafeContainer& container,
                               const Vector3d& somaPosition,
                               const Quaterniond& somaRotation,
                               const double sectionLength,

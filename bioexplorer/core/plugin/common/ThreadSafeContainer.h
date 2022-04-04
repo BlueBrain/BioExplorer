@@ -26,40 +26,83 @@ namespace common
 {
 using namespace brayns;
 
-struct MorphologyInfo
-{
-    brayns::Vector3d somaPosition;
-    brayns::Boxd bounds;
-    double maxDistanceToSoma;
-};
-
 using MaterialSet = std::set<uint64_t>;
 using Neighbours = std::set<size_t>;
 
 const int64_t NO_USER_DATA = -1;
 
-class ParallelModelContainer
+/**
+ * @brief The ThreadSafeContainer class is used to load large datasets in
+ * parallel. Every individual element is loaded in a separate thread and
+ * eventualy merged into a single Brayns model
+ *
+ */
+class ThreadSafeContainer
 {
 public:
-    ParallelModelContainer(Model& model, const bool useSdf,
-                           const Vector3d& scale = Vector3d(1.0, 1.0, 1.0));
-    ~ParallelModelContainer() {}
+    /**
+     * @brief Construct a new Thread Safe Model object
+     *
+     * @param model Brayns model
+     * @param useSdf Defines if signed-distance field technique should be used
+     * for the geometry
+     * @param scale Scale applied to individual elements
+     */
+    ThreadSafeContainer(Model& model, const bool useSdf,
+                        const Vector3d& scale = Vector3d(1.0, 1.0, 1.0));
 
+    /**
+     * @brief Destroy the Thread Safe Model object
+     *
+     */
+    ~ThreadSafeContainer() {}
+
+    /**
+     * @brief Add a sphere to the thread safe model
+     *
+     * @param position Position of the sphere
+     * @param radius Radius of the sphere
+     * @param materialId Material identifier
+     * @param userData User data to attach to the sphere
+     * @param neighbours Neigbours identifiers (For signed-distance field
+     * geometry)
+     * @param displacementRatio Displacement ratio (For signed-distance field
+     * geometry)
+     * @return uint64_t Index of the geometry in the model
+     */
     uint64_t addSphere(const Vector3f& position, const float radius,
                        const size_t materialId, const uint64_t userDataOffset,
                        const Neighbours& neighbours = {},
                        const float displacementRatio = 1.f);
 
+    /**
+     * @brief Add a cone to the thread safe model. If both radii are identical
+     * and signed-distance field technique is not used, a cylinder is add
+     * instead of a cone
+     *
+     * @param sourcePosition Base position of the cone
+     * @param sourceRadius Base radius of the cone
+     * @param targetPosition Top position of the cone
+     * @param targetRadius Top radius of the cone
+     * @param materialId Material identifier
+     * @param userData User data to attach to the sphere
+     * @param neighbours Neigbours identifiers (For signed-distance field
+     * geometry)
+     * @param displacementRatio Displacement ratio (For signed-distance field
+     * geometry)
+     * @return uint64_t Index of the geometry in the model
+     */
     uint64_t addCone(const Vector3f& sourcePosition, const float sourceRadius,
                      const Vector3f& targetPosition, const float targetRadius,
                      const size_t materialId, const uint64_t userDataOffset,
                      const Neighbours& neighbours = {},
                      const float displacementRatio = 1.f);
 
+    /**
+     * @brief Commit geometries and materials to the Brayns model
+     *
+     */
     void commitToModel();
-    void applyTransformation(const Matrix4f& transformation);
-
-    MorphologyInfo& getMorphologyInfo() { return _morphologyInfo; }
 
 private:
     uint64_t _addSphere(const size_t materialId, const Sphere& sphere);
@@ -68,10 +111,10 @@ private:
     uint64_t _addSDFGeometry(const size_t materialId, const SDFGeometry& geom,
                              const std::set<size_t>& neighbours);
 
-    void _moveSpheresToModel();
-    void _moveCylindersToModel();
-    void _moveConesToModel();
-    void _moveSDFGeometriesToModel();
+    void _commitSpheresToModel();
+    void _commitCylindersToModel();
+    void _commitConesToModel();
+    void _commitSDFGeometriesToModel();
     void _createMaterials();
     void _finalizeSDFGeometries();
 
@@ -79,7 +122,6 @@ private:
     CylindersMap _cylinders;
     ConesMap _cones;
     TriangleMeshMap _trianglesMeshes;
-    MorphologyInfo _morphologyInfo;
     SDFMorphologyData _sdfMorphologyData;
     MaterialSet _materialIds;
 

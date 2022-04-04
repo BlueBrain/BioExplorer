@@ -16,7 +16,7 @@
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
 
-#include "ParallelModelContainer.h"
+#include "ThreadSafeContainer.h"
 
 #include "CommonTypes.h"
 #include "Utils.h"
@@ -30,20 +30,20 @@ namespace common
 {
 using namespace brayns;
 
-ParallelModelContainer::ParallelModelContainer(Model& model, const bool useSdf,
-                                               const Vector3d& scale)
+ThreadSafeContainer::ThreadSafeContainer(Model& model, const bool useSdf,
+                                         const Vector3d& scale)
     : _model(model)
     , _useSdf(useSdf)
     , _scale(scale)
 {
 }
 
-uint64_t ParallelModelContainer::addSphere(const Vector3f& position,
-                                           const float radius,
-                                           const size_t materialId,
-                                           const uint64_t userData,
-                                           const Neighbours& neighbours,
-                                           const float displacementRatio)
+uint64_t ThreadSafeContainer::addSphere(const Vector3f& position,
+                                        const float radius,
+                                        const size_t materialId,
+                                        const uint64_t userData,
+                                        const Neighbours& neighbours,
+                                        const float displacementRatio)
 {
     _materialIds.insert(materialId);
     const Vector3f scale = _scale;
@@ -62,7 +62,7 @@ uint64_t ParallelModelContainer::addSphere(const Vector3f& position,
                       {position * scale, radius * scale.x, userData});
 }
 
-uint64_t ParallelModelContainer::addCone(
+uint64_t ThreadSafeContainer::addCone(
     const Vector3f& sourcePosition, const float sourceRadius,
     const Vector3f& targetPosition, const float targetRadius,
     const size_t materialId, const uint64_t userDataOffset,
@@ -91,28 +91,28 @@ uint64_t ParallelModelContainer::addCone(
                                  userDataOffset});
 }
 
-uint64_t ParallelModelContainer::_addSphere(const size_t materialId,
-                                            const Sphere& sphere)
+uint64_t ThreadSafeContainer::_addSphere(const size_t materialId,
+                                         const Sphere& sphere)
 {
     _spheres[materialId].push_back(sphere);
     return _spheres[materialId].size() - 1;
 }
 
-uint64_t ParallelModelContainer::_addCylinder(const size_t materialId,
-                                              const Cylinder& cylinder)
+uint64_t ThreadSafeContainer::_addCylinder(const size_t materialId,
+                                           const Cylinder& cylinder)
 {
     _cylinders[materialId].push_back(cylinder);
     return _cylinders[materialId].size() - 1;
 }
 
-uint64_t ParallelModelContainer::_addCone(const size_t materialId,
-                                          const Cone& cone)
+uint64_t ThreadSafeContainer::_addCone(const size_t materialId,
+                                       const Cone& cone)
 {
     _cones[materialId].push_back(cone);
     return _cones[materialId].size() - 1;
 }
 
-uint64_t ParallelModelContainer::_addSDFGeometry(
+uint64_t ThreadSafeContainer::_addSDFGeometry(
     const size_t materialId, const SDFGeometry& geom,
     const std::set<size_t>& neighbours)
 {
@@ -123,16 +123,16 @@ uint64_t ParallelModelContainer::_addSDFGeometry(
     return geometryIndex;
 }
 
-void ParallelModelContainer::commitToModel()
+void ThreadSafeContainer::commitToModel()
 {
-    _moveSpheresToModel();
-    _moveCylindersToModel();
-    _moveConesToModel();
-    _moveSDFGeometriesToModel();
+    _commitSpheresToModel();
+    _commitCylindersToModel();
+    _commitConesToModel();
+    _commitSDFGeometriesToModel();
     _createMaterials();
 }
 
-void ParallelModelContainer::_finalizeSDFGeometries()
+void ThreadSafeContainer::_finalizeSDFGeometries()
 {
     const uint64_t numGeoms = _sdfMorphologyData.geometries.size();
     for (uint64_t i = 0; i < numGeoms; ++i)
@@ -165,7 +165,7 @@ void ParallelModelContainer::_finalizeSDFGeometries()
     }
 }
 
-void ParallelModelContainer::_createMaterials()
+void ThreadSafeContainer::_createMaterials()
 {
     const auto& existingMaterials = _model.getMaterials();
     for (const auto materialId : _materialIds)
@@ -188,7 +188,7 @@ void ParallelModelContainer::_createMaterials()
     }
 }
 
-void ParallelModelContainer::_moveSpheresToModel()
+void ThreadSafeContainer::_commitSpheresToModel()
 {
     for (const auto& sphere : _spheres)
     {
@@ -200,7 +200,7 @@ void ParallelModelContainer::_moveSpheresToModel()
     _spheres.clear();
 }
 
-void ParallelModelContainer::_moveCylindersToModel()
+void ThreadSafeContainer::_commitCylindersToModel()
 {
     for (const auto& cylinder : _cylinders)
     {
@@ -212,7 +212,7 @@ void ParallelModelContainer::_moveCylindersToModel()
     _cylinders.clear();
 }
 
-void ParallelModelContainer::_moveConesToModel()
+void ThreadSafeContainer::_commitConesToModel()
 {
     for (const auto& cone : _cones)
     {
@@ -223,7 +223,7 @@ void ParallelModelContainer::_moveConesToModel()
     _cones.clear();
 }
 
-void ParallelModelContainer::_moveSDFGeometriesToModel()
+void ThreadSafeContainer::_commitSDFGeometriesToModel()
 {
     _finalizeSDFGeometries();
 
@@ -254,29 +254,5 @@ void ParallelModelContainer::_moveSDFGeometriesToModel()
     _sdfMorphologyData.materials.clear();
 }
 
-void ParallelModelContainer::applyTransformation(const Matrix4f& transformation)
-{
-    for (auto& s : _spheres)
-        for (auto& sphere : s.second)
-            sphere.center = transformVector3f(sphere.center, transformation);
-    for (auto& c : _cylinders)
-        for (auto& cylinder : c.second)
-        {
-            cylinder.center =
-                transformVector3f(cylinder.center, transformation);
-            cylinder.up = transformVector3f(cylinder.up, transformation);
-        }
-    for (auto& c : _cones)
-        for (auto& cone : c.second)
-        {
-            cone.center = transformVector3f(cone.center, transformation);
-            cone.up = transformVector3f(cone.up, transformation);
-        }
-    for (auto& s : _sdfMorphologyData.geometries)
-    {
-        s.p0 = transformVector3f(s.p0, transformation);
-        s.p1 = transformVector3f(s.p1, transformation);
-    }
-}
 } // namespace common
 } // namespace bioexplorer

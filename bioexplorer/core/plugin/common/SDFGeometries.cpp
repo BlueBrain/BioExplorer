@@ -44,7 +44,7 @@ void SDFGeometries::addSDFDemo(Model& model)
     const bool useSdf = true;
     const double displacement = 10.0;
 
-    ParallelModelContainer modelContainer(model, useSdf);
+    ThreadSafeContainer modelContainer(model, useSdf);
 
     auto idx1 =
         modelContainer.addCone(Vector3d(-1, 0, 0), 0.25, Vector3d(0, 0, 0), 0.1,

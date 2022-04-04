@@ -44,7 +44,7 @@ size_t Morphologies::_getNbMitochondrionSegments() const
 }
 
 void Morphologies::_addSomaInternals(const uint64_t index,
-                                     ParallelModelContainer& model,
+                                     ThreadSafeContainer& container,
                                      const size_t baseMaterialId,
                                      const Vector3d& somaPosition,
                                      const double somaRadius,
@@ -67,8 +67,8 @@ void Morphologies::_addSomaInternals(const uint64_t index,
         sphereVolume(somaRadius) * mitochondriaDensity;
 
     const size_t nucleusMaterialId = baseMaterialId + MATERIAL_OFFSET_NUCLEUS;
-    model.addSphere(somaPosition, nucleusRadius, nucleusMaterialId,
-                    NO_USER_DATA, {}, nucleusDisplacementRatio);
+    container.addSphere(somaPosition, nucleusRadius, nucleusMaterialId,
+                        NO_USER_DATA, {}, nucleusDisplacementRatio);
 
     // Mitochondria
     if (mitochondriaDensity == 0.0)
@@ -95,9 +95,10 @@ void Morphologies::_addSomaInternals(const uint64_t index,
             Neighbours neighbours;
             if (i != 0)
                 neighbours = {geometryIndex};
-            geometryIndex = model.addSphere(p2, radius, mitochondrionMaterialId,
-                                            NO_USER_DATA, neighbours,
-                                            mitochondrionDisplacementRatio);
+            geometryIndex =
+                container.addSphere(p2, radius, mitochondrionMaterialId,
+                                    NO_USER_DATA, neighbours,
+                                    mitochondrionDisplacementRatio);
 
             mitochondriaVolume += sphereVolume(radius);
 
@@ -105,10 +106,11 @@ void Morphologies::_addSomaInternals(const uint64_t index,
             {
                 const auto p1 =
                     somaPosition + somaOutterRadius * pointsInSphere[i - 1];
-                geometryIndex = model.addCone(p1, previousRadius, p2, radius,
-                                              mitochondrionMaterialId,
-                                              NO_USER_DATA, {geometryIndex},
-                                              mitochondrionDisplacementRatio);
+                geometryIndex =
+                    container.addCone(p1, previousRadius, p2, radius,
+                                      mitochondrionMaterialId, NO_USER_DATA,
+                                      {geometryIndex},
+                                      mitochondrionDisplacementRatio);
 
                 mitochondriaVolume +=
                     coneVolume(length(p2 - p1), previousRadius, radius);

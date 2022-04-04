@@ -108,7 +108,7 @@ void Vasculature::_buildGraphModel(Model& model,
     std::set<uint64_t> materialIds;
     const double radiusMultiplier = _details.radiusMultiplier;
     size_t materialId = 0;
-    std::vector<ParallelModelContainer> containers;
+    ThreadSafeContainers containers;
     uint64_t index;
 #pragma omp parallel for private(index)
     for (index = 0; index < _sections.size(); ++index)
@@ -121,9 +121,8 @@ void Vasculature::_buildGraphModel(Model& model,
         const auto& section = it->second;
         const auto sectionId = it->first;
 
-        ParallelModelContainer modelContainer(model, _details.useSdf,
-                                              doublesToVector3d(
-                                                  _details.scale));
+        ThreadSafeContainer container(model, _details.useSdf,
+                                      doublesToVector3d(_details.scale));
 
         const auto& srcNode = _nodes[section[0]];
         const auto& dstNode = _nodes[section[section.size() - 1]];
@@ -151,19 +150,18 @@ void Vasculature::_buildGraphModel(Model& model,
         const auto maxRadius = std::max(srcNode.radius, dstNode.radius);
         const float radius =
             std::min(length(direction) / 5.0, maxRadius * radiusMultiplier);
-        modelContainer.addSphere(src, radius * 0.2, materialId, userData);
-        modelContainer.addCone(src, radius * 0.2,
-                               Vector3f(src + direction * 0.79), radius * 0.2,
-                               materialId, userData);
-        modelContainer.addCone(dst, 0.0, Vector3f(src + direction * 0.8),
-                               radius, materialId, userData);
-        modelContainer.addCone(Vector3f(src + direction * 0.8), radius,
-                               Vector3f(src + direction * 0.79), radius * 0.2,
-                               materialId, userData);
+        container.addSphere(src, radius * 0.2, materialId, userData);
+        container.addCone(src, radius * 0.2, Vector3f(src + direction * 0.79),
+                          radius * 0.2, materialId, userData);
+        container.addCone(dst, 0.0, Vector3f(src + direction * 0.8), radius,
+                          materialId, userData);
+        container.addCone(Vector3f(src + direction * 0.8), radius,
+                          Vector3f(src + direction * 0.79), radius * 0.2,
+                          materialId, userData);
 #pragma omp critical
         materialIds.insert(materialId);
 #pragma omp critical
-        containers.push_back(modelContainer);
+        containers.push_back(container);
     }
 
     for (size_t i = 0; i < containers.size(); ++i)
@@ -186,7 +184,7 @@ void Vasculature::_buildSimpleModel(
 
     size_t materialId = 0;
 
-    std::vector<ParallelModelContainer> containers;
+    ThreadSafeContainers containers;
     uint64_t index;
 #pragma omp parallel for private(index)
     for (index = 0; index < _sections.size(); ++index)
@@ -200,9 +198,8 @@ void Vasculature::_buildSimpleModel(
         const auto& section = it->second;
         const auto sectionId = it->first;
 
-        ParallelModelContainer modelContainer(model, _details.useSdf,
-                                              doublesToVector3d(
-                                                  _details.scale));
+        ThreadSafeContainer container(model, _details.useSdf,
+                                      doublesToVector3d(_details.scale));
 
         uint64_t geometryIndex = 0;
         size_t previousMaterialId = 0;
@@ -244,9 +241,9 @@ void Vasculature::_buildSimpleModel(
             if (i == 0)
             {
                 if (!useSdf)
-                    modelContainer.addSphere(srcPoint, srcRadius, materialId,
-                                             userData, neighbours,
-                                             DEFAULT_VASCULATURE_DISPLACEMENT);
+                    container.addSphere(srcPoint, srcRadius, materialId,
+                                        userData, neighbours,
+                                        DEFAULT_VASCULATURE_DISPLACEMENT);
                 previousMaterialId = materialId;
             }
             else
@@ -271,19 +268,19 @@ void Vasculature::_buildSimpleModel(
             --i;
 
             if (!useSdf)
-                modelContainer.addSphere(dstPoint, dstRadius, materialId,
-                                         userData, neighbours,
-                                         DEFAULT_VASCULATURE_DISPLACEMENT);
+                container.addSphere(dstPoint, dstRadius, materialId, userData,
+                                    neighbours,
+                                    DEFAULT_VASCULATURE_DISPLACEMENT);
             geometryIndex =
-                modelContainer.addCone(dstPoint, dstRadius, srcPoint, srcRadius,
-                                       previousMaterialId, userData, neighbours,
-                                       DEFAULT_VASCULATURE_DISPLACEMENT);
+                container.addCone(dstPoint, dstRadius, srcPoint, srcRadius,
+                                  previousMaterialId, userData, neighbours,
+                                  DEFAULT_VASCULATURE_DISPLACEMENT);
             previousMaterialId = materialId;
 #pragma omp critical
             materialIds.insert(materialId);
         }
 #pragma omp critical
-        containers.push_back(modelContainer);
+        containers.push_back(container);
     }
 
     for (size_t i = 0; i < containers.size(); ++i)
@@ -306,7 +303,7 @@ void Vasculature::_buildAdvancedModel(
     size_t materialId = 0;
 
     uint64_t geometryIndex = 0;
-    std::vector<ParallelModelContainer> containers;
+    std::vector<ThreadSafeContainer> containers;
     uint64_t index;
 #pragma omp parallel for private(index)
     for (index = 0; index < _sections.size(); ++index)
@@ -319,9 +316,8 @@ void Vasculature::_buildAdvancedModel(
         const auto& section = it->second;
         const auto sectionId = it->first;
 
-        ParallelModelContainer modelContainer(model, _details.useSdf,
-                                              doublesToVector3d(
-                                                  _details.scale));
+        ThreadSafeContainer container(model, _details.useSdf,
+                                      doublesToVector3d(_details.scale));
 
         Vector4fs controlPoints;
         for (const auto& nodeId : section)
@@ -373,9 +369,8 @@ void Vasculature::_buildAdvancedModel(
 
             if (!useSdf)
                 geometryIndex =
-                    modelContainer.addSphere(Vector3f(src), srcRadius,
-                                             materialId, srcUserData,
-                                             neighbours);
+                    container.addSphere(Vector3f(src), srcRadius, materialId,
+                                        srcUserData, neighbours);
             if (i > 0)
             {
                 const auto dstUserData = section[i + 1];
@@ -384,17 +379,17 @@ void Vasculature::_buildAdvancedModel(
                 const auto dstRadius =
                     (dstUserData < radii.size() ? radii[dstUserData] : dst.w);
                 geometryIndex =
-                    modelContainer.addCone(Vector3f(dst), dstRadius,
-                                           Vector3f(src), srcRadius, materialId,
-                                           srcUserData, {geometryIndex},
-                                           DEFAULT_VASCULATURE_DISPLACEMENT);
+                    container.addCone(Vector3f(dst), dstRadius, Vector3f(src),
+                                      srcRadius, materialId, srcUserData,
+                                      {geometryIndex},
+                                      DEFAULT_VASCULATURE_DISPLACEMENT);
             }
             i += precision;
 #pragma omp critical
             materialIds.insert(materialId);
         }
 #pragma omp critical
-        containers.push_back(modelContainer);
+        containers.push_back(container);
     }
 
     for (size_t i = 0; i < containers.size(); ++i)

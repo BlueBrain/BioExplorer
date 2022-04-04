@@ -1063,6 +1063,10 @@ using GeometryNodes = std::map<uint64_t, GeometryNode>;
 using GeometryEdges = std::map<uint64_t, uint64_t>;
 using Bifurcations = std::map<uint64_t, uint64_ts>;
 
+// Thread safe container
+class ThreadSafeContainer;
+using ThreadSafeContainers = std::vector<ThreadSafeContainer>;
+
 // SDF structures
 class SDFGeometries;
 using SDFGeometriesPtr = std::shared_ptr<SDFGeometries>;

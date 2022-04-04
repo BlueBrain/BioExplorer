@@ -20,7 +20,7 @@
 
 #include <plugin/common/CommonTypes.h>
 #include <plugin/common/Logs.h>
-#include <plugin/common/ParallelModelContainer.h>
+#include <plugin/common/ThreadSafeContainer.h>
 #include <plugin/common/Utils.h>
 
 #include <plugin/io/db/DBConnector.h>
@@ -68,7 +68,7 @@ void Astrocytes::_buildModel(const doubles& radii)
     size_t baseMaterialId = 0;
     const uint64_t userData = 0;
 
-    std::vector<ParallelModelContainer> containers;
+    ThreadSafeContainers containers;
     uint64_t index;
 #pragma omp parallel for private(index)
     for (index = 0; index < somas.size(); ++index)
@@ -82,7 +82,7 @@ void Astrocytes::_buildModel(const doubles& radii)
         const auto& soma = it->second;
         const auto somaId = it->first;
 
-        ParallelModelContainer modelContainer(*model, useSdf, _scale);
+        ThreadSafeContainer container(*model, useSdf, _scale);
 
         const auto& somaPosition = soma.center;
 
@@ -131,12 +131,12 @@ void Astrocytes::_buildModel(const doubles& radii)
         if (_details.loadSomas)
         {
             somaGeometryIndex =
-                modelContainer.addSphere(somaPosition, somaRadius,
-                                         somaMaterialId, NO_USER_DATA, {},
-                                         DEFAULT_SOMA_DISPLACEMENT);
+                container.addSphere(somaPosition, somaRadius, somaMaterialId,
+                                    NO_USER_DATA, {},
+                                    DEFAULT_SOMA_DISPLACEMENT);
             if (_details.generateInternals)
             {
-                _addSomaInternals(somaId, modelContainer, baseMaterialId,
+                _addSomaInternals(somaId, container, baseMaterialId,
                                   somaPosition, somaRadius,
                                   DEFAULT_MITOCHONDRIA_DENSITY);
                 materialIds.insert(baseMaterialId + MATERIAL_OFFSET_NUCLEUS);
@@ -182,11 +182,13 @@ void Astrocytes::_buildModel(const doubles& radii)
                 {
                     // Section connected to the soma
                     const auto& point = points[0];
-                    geometryIndex = modelContainer.addCone(
-                        somaPosition, somaRadius * 0.75 * _radiusMultiplier,
-                        somaPosition + Vector3d(point),
-                        point.w * 0.5 * _radiusMultiplier, somaMaterialId,
-                        userData, neighbours, DEFAULT_SOMA_DISPLACEMENT);
+                    geometryIndex =
+                        container.addCone(somaPosition,
+                                          somaRadius * 0.75 * _radiusMultiplier,
+                                          somaPosition + Vector3d(point),
+                                          point.w * 0.5 * _radiusMultiplier,
+                                          somaMaterialId, userData, neighbours,
+                                          DEFAULT_SOMA_DISPLACEMENT);
                     neighbours.insert(geometryIndex);
                 }
 
@@ -213,16 +215,15 @@ void Astrocytes::_buildModel(const doubles& radii)
 
                     const auto dst = somaPosition + Vector3d(dstPoint);
                     if (!useSdf)
-                        geometryIndex =
-                            modelContainer.addSphere(dst, dstRadius,
-                                                     sectionMaterialId,
-                                                     NO_USER_DATA, {});
+                        geometryIndex = container.addSphere(dst, dstRadius,
+                                                            sectionMaterialId,
+                                                            NO_USER_DATA, {});
 
                     geometryIndex =
-                        modelContainer.addCone(src, srcRadius, dst, dstRadius,
-                                               sectionMaterialId, userData,
-                                               {geometryIndex},
-                                               DEFAULT_SECTION_DISPLACEMENT);
+                        container.addCone(src, srcRadius, dst, dstRadius,
+                                          sectionMaterialId, userData,
+                                          {geometryIndex},
+                                          DEFAULT_SECTION_DISPLACEMENT);
 
                     _bounds.merge(srcPoint);
                 }
@@ -230,9 +231,9 @@ void Astrocytes::_buildModel(const doubles& radii)
         }
 
         if (_details.loadEndFeet && !_details.vasculaturePopulationName.empty())
-            _addEndFoot(modelContainer, endFeet, radii, somaMaterialId);
+            _addEndFoot(container, endFeet, radii, somaMaterialId);
 #pragma omp critical
-        containers.push_back(modelContainer);
+        containers.push_back(container);
     }
 
     for (size_t i = 0; i < containers.size(); ++i)
@@ -256,7 +257,7 @@ void Astrocytes::_buildModel(const doubles& radii)
         PLUGIN_THROW("Astrocytes model could not be created");
 }
 
-void Astrocytes::_addEndFoot(ParallelModelContainer& modelContainer,
+void Astrocytes::_addEndFoot(ThreadSafeContainer& container,
                              const EndFootMap& endFeet, const doubles& radii,
                              const size_t materialId)
 {
@@ -332,11 +333,11 @@ void Astrocytes::_addEndFoot(ParallelModelContainer& modelContainer,
                     DEFAULT_ENDFOOT_RADIUS_RATIO * radiusMultiplier;
 
                 if (!_details.useSdf)
-                    modelContainer.addSphere(
+                    container.addSphere(
                         startNode.position, startRadius, materialId,
                         NO_USER_DATA, {},
                         vasculature::DEFAULT_VASCULATURE_DISPLACEMENT);
-                modelContainer.addCone(
+                container.addCone(
                     startNode.position, startRadius, endNode.position,
                     endRadius, materialId, NO_USER_DATA, {},
                     vasculature::DEFAULT_VASCULATURE_DISPLACEMENT);
