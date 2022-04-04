@@ -71,6 +71,7 @@ using StringMap = std::map<std::string, std::string>;
 using Color = Vector3d;
 using Palette = std::vector<Color>;
 using Quaternions = std::vector<Quaterniond>;
+using bools = std::vector<bool>;
 using doubles = std::vector<double>;
 using strings = std::vector<std::string>;
 using Vector3ds = std::vector<Vector3d>;
@@ -78,6 +79,7 @@ using Vector4ds = std::vector<Vector4d>;
 using Vector2uis = std::vector<Vector2ui>;
 using Vector3uis = std::vector<Vector3ui>;
 using uint32_ts = std::vector<uint32_t>;
+using uint64_ts = std::vector<uint64_t>;
 using CommandLineArguments = std::map<std::string, std::string>;
 using Transformations = std::vector<Transformation>;
 
@@ -301,7 +303,7 @@ typedef struct
      * surface, etc) */
     ProteinRepresentation representation;
     /** Identifiers of chains to be loaded */
-    std::vector<size_t> chainIds;
+    size_ts chainIds;
     /** Recenters the lipid  */
     bool recenter;
     /** Extra optional parameters for positioning on the molecule */
@@ -332,14 +334,14 @@ typedef struct
     ProteinRepresentation representation{
         ProteinRepresentation::atoms_and_sticks};
     /** Identifiers of chains to be loaded */
-    std::vector<size_t> chainIds;
+    size_ts chainIds;
     /** Recenters the protein  */
     bool recenter{false};
     /** Number of protein occurrences to be added to the assembly */
     size_t occurrences{1};
     /** Indices of protein occurrences in the assembly for which proteins are
      * added */
-    std::vector<size_t> allowedOccurrences;
+    size_ts allowedOccurrences;
     /** Trans-membrane parameters */
     doubles transmembraneParams;
     /** Extra optional parameters for positioning on the molecule */
@@ -381,9 +383,9 @@ typedef struct
     /** Recenters the protein  */
     bool recenter;
     /** Identifiers of chains to be loaded */
-    std::vector<size_t> chainIds;
+    size_ts chainIds;
     /** List of sites on which sugar can be added */
-    std::vector<size_t> siteIndices;
+    size_ts siteIndices;
     /** Relative rotation of the sugar on the molecule */
     doubles rotation;
     /** Extra optional parameters for positioning on the molecule */
@@ -455,7 +457,7 @@ typedef struct
     std::string name;
     /** List of tuples of 2 integers defining indices in the sequence of
      * amino acid */
-    std::vector<size_t> ranges;
+    size_ts ranges;
 } AminoAcidSequenceAsRangesDetails;
 
 typedef struct
@@ -479,7 +481,7 @@ typedef struct
     /** Amino acid short name */
     std::string aminoAcidShortName;
     /** List of chains in which the amino acid is set */
-    std::vector<size_t> chainIds;
+    size_ts chainIds;
 } AminoAcidDetails;
 
 /**
@@ -617,7 +619,7 @@ typedef struct
     /** Palette of colors (RGB values) */
     doubles palette;
     /** Ids of protein chains to which the colors scheme is applied */
-    std::vector<size_t> chainIds;
+    size_ts chainIds;
 } ProteinColorSchemeDetails;
 
 typedef struct
@@ -641,7 +643,7 @@ typedef struct
 typedef struct
 {
     /** List of identifiers */
-    std::vector<size_t> ids;
+    size_ts ids;
 } IdsDetails;
 
 /**
@@ -673,9 +675,9 @@ typedef struct
 typedef struct
 {
     /** List of model identifiers */
-    std::vector<int32_t> modelIds;
+    int32_ts modelIds;
     /** List of material identifiers */
-    std::vector<int32_t> materialIds;
+    int32_ts materialIds;
     /** List of RGB values for diffuse colors */
     doubles diffuseColors;
     /** List of RGB values for specular colors */
@@ -693,13 +695,13 @@ typedef struct
     /** List of values for glossiness */
     doubles glossinesses;
     /** List of values for casting user data */
-    std::vector<bool> castUserData;
+    bools castUserData;
     /** List of values for shading modes */
-    std::vector<int32_t> shadingModes;
+    int32_ts shadingModes;
     /** List of values for user defined parameters */
     doubles userParameters;
     /** List of values for chameleon mode parameters */
-    std::vector<int32_t> chameleonModes;
+    int32_ts chameleonModes;
 } MaterialsDetails;
 
 /**
@@ -867,7 +869,7 @@ typedef struct
     /** Use Signed Distance Fields as geometry */
     bool useSdf;
     /** Node gids to load. All if empty */
-    std::vector<uint32_t> gids;
+    uint32_ts gids;
     /** Geometry quality */
     VasculatureQuality quality;
     /** Multiplies the vasculature section radii by the specified value */
@@ -1075,11 +1077,11 @@ struct SDFMorphologyData
 {
     std::vector<SDFGeometry> geometries;
     std::vector<std::set<size_t>> neighbours;
-    std::vector<size_t> materials;
-    std::vector<size_t> localToGlobalIdx;
-    std::vector<size_t> bifurcationIndices;
+    size_ts materials;
+    size_ts localToGlobalIdx;
+    size_ts bifurcationIndices;
     std::unordered_map<size_t, int> geometrySection;
-    std::unordered_map<int, std::vector<size_t>> sectionGeometries;
+    std::unordered_map<int, size_ts> sectionGeometries;
 };
 } // namespace common
 
@@ -1150,7 +1152,7 @@ typedef struct
     /** Number of residues in the chain */
     size_t numRes;
     /** Residue name */
-    std::vector<std::string> resNames;
+    strings resNames;
     /** Atom Offset */
     size_t offset;
 } ResidueSequence;
@@ -1160,7 +1162,7 @@ using ResidueSequenceMap = std::map<std::string, ResidueSequence>;
  * @brief Bonds map
  *
  */
-using BondsMap = std::map<size_t, std::vector<size_t>>;
+using BondsMap = std::map<size_t, size_ts>;
 
 /**
  * @brief Structure containing amino acids long and shot names

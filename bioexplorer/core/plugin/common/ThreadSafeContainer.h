@@ -26,7 +26,7 @@ namespace common
 {
 using namespace brayns;
 
-using MaterialSet = std::set<uint64_t>;
+using MaterialSet = std::set<size_t>;
 using Neighbours = std::set<size_t>;
 
 const int64_t NO_USER_DATA = -1;
@@ -115,13 +115,13 @@ private:
     void _commitCylindersToModel();
     void _commitConesToModel();
     void _commitSDFGeometriesToModel();
-    void _createMaterials();
+    void _commitMaterials();
     void _finalizeSDFGeometries();
 
-    SpheresMap _spheres;
-    CylindersMap _cylinders;
-    ConesMap _cones;
-    TriangleMeshMap _trianglesMeshes;
+    SpheresMap _spheresMap;
+    CylindersMap _cylindersMap;
+    ConesMap _conesMap;
+    TriangleMeshMap _trianglesMeshesMap;
     SDFMorphologyData _sdfMorphologyData;
     MaterialSet _materialIds;
 

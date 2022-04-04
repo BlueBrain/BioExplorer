@@ -125,22 +125,24 @@ $(document).ready(function(){initNavTree('d0/d00/extras_2Metabolism_2plugin_2io_
 <div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160; </div>
 <div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;    uint32_t getNbFrames();</div>
 <div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;    Locations getLocations();</div>
-<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;    std::map&lt;uint32_t, float&gt; getConcentrations(<span class="keyword">const</span> uint32_t frame,</div>
-<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;                                                <span class="keyword">const</span> size_ts&amp; ids);</div>
-<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160; </div>
-<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;<span class="keyword">private</span>:</div>
-<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;    <span class="keywordtype">void</span> _parseArguments(<span class="keyword">const</span> CommandLineArguments&amp; arguments);</div>
-<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160; </div>
-<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;    std::unique_ptr&lt;pqxx::connection&gt; _connection;</div>
-<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;    std::string _dbSchema;</div>
-<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;    <span class="keywordtype">size_t</span> _simulationId;</div>
-<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;};</div>
-<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;} <span class="comment">// namespace metabolism</span></div>
-<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;} <span class="comment">// namespace bioexplorer</span></div>
+<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;    Concentrations getConcentrations(<span class="keyword">const</span> uint32_t frame,</div>
+<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;                                     <span class="keyword">const</span> int32_ts&amp; metaboliteIds,</div>
+<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;                                     <span class="keyword">const</span> <span class="keywordtype">bool</span> relativeConcentration,</div>
+<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;                                     <span class="keyword">const</span> Vector2d&amp; opacityRange);</div>
+<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160; </div>
+<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;<span class="keyword">private</span>:</div>
+<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;    <span class="keywordtype">void</span> _parseArguments(<span class="keyword">const</span> CommandLineArguments&amp; arguments);</div>
+<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160; </div>
+<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;    std::unique_ptr&lt;pqxx::connection&gt; _connection;</div>
+<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;    std::string _dbSchema;</div>
+<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;    <span class="keywordtype">size_t</span> _simulationId;</div>
+<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;};</div>
+<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;} <span class="comment">// namespace metabolism</span></div>
+<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;} <span class="comment">// namespace bioexplorer</span></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
 <div class="ttc" id="astructbioexplorer_1_1metabolism_1_1AttachHandlerDetails_html"><div class="ttname"><a href="../../dd/d21/structbioexplorer_1_1metabolism_1_1AttachHandlerDetails.html">bioexplorer::metabolism::AttachHandlerDetails</a></div><div class="ttdef"><b>Definition:</b> <a href="../../d3/d5d/extras_2Metabolism_2plugin_2common_2Types_8h_source.html#l00050">Types.h:50</a></div></div>
-<div class="ttc" id="aclassbioexplorer_1_1io_1_1db_1_1DBConnector_html"><div class="ttname"><a href="../../d9/d96/classbioexplorer_1_1io_1_1db_1_1DBConnector.html">bioexplorer::io::db::DBConnector</a></div><div class="ttdoc">The DBConnector class allows the BioExplorer to communicate with a PostgreSQL database....</div><div class="ttdef"><b>Definition:</b> <a href="../../d3/dec/bioexplorer_2core_2plugin_2io_2db_2DBConnector_8h_source.html#l00049">DBConnector.h:49</a></div></div>
+<div class="ttc" id="aclassbioexplorer_1_1io_1_1db_1_1DBConnector_html"><div class="ttname"><a href="../../d9/d96/classbioexplorer_1_1io_1_1db_1_1DBConnector.html">bioexplorer::io::db::DBConnector</a></div><div class="ttdoc">The DBConnector class allows the BioExplorer to communicate with a PostgreSQL database....</div><div class="ttdef"><b>Definition:</b> <a href="../../d3/dec/bioexplorer_2core_2plugin_2io_2db_2DBConnector_8h_source.html#l00047">DBConnector.h:47</a></div></div>
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>

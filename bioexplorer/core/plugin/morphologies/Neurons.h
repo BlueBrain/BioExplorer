@@ -1,4 +1,4 @@
-/* Copyright (c) 2018-2021, EPFL/Blue Brain Project
+/* Copyright (c) 2020-2022, EPFL/Blue Brain Project
  * All rights reserved. Do not distribute without permission.
  * Responsible Author: Cyrille Favreau <cyrille.favreau@epfl.ch>
  *
@@ -31,13 +31,27 @@ using namespace brayns;
 using namespace common;
 
 /**
- * Load Neurons from database
+ * Load a population of neurons from the database according to specified
+ * parameters
  */
 class Neurons : public Morphologies
 {
 public:
+    /**
+     * @brief Construct a new Neurons object
+     *
+     * @param scene 3D scene into which neurons should be loaded
+     * @param details Set of attributes defining how neurons should be loaded
+     */
     Neurons(Scene& scene, const NeuronsDetails& details);
 
+    /**
+     * @brief Get the Neuron section 3D points for a given section Id
+     *
+     * @param neuronId Neuron identifier
+     * @param sectionId Neuron section identifier
+     * @return Vector4ds 3D points, including radius, for the specified section
+     */
     Vector4ds getNeuronSectionPoints(const uint64_t neuronId,
                                      const uint64_t sectionId);
 

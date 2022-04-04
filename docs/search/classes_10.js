@@ -1,5 +1,4 @@
 var searchData=
 [
-  ['vasculature_415',['Vasculature',['../d8/d29/classbioexplorer_1_1vasculature_1_1Vasculature.html',1,'bioexplorer::vasculature']]],
-  ['vasculaturehandler_416',['VasculatureHandler',['../d3/d3e/classbioexplorer_1_1vasculature_1_1VasculatureHandler.html',1,'bioexplorer::vasculature']]]
+  ['threadsafecontainer_499',['ThreadSafeContainer',['../d2/d4a/classbioexplorer_1_1common_1_1ThreadSafeContainer.html',1,'bioexplorer::common']]]
 ];

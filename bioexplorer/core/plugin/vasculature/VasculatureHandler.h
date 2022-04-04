@@ -1,4 +1,4 @@
-/* Copyright (c) 2018-2021, EPFL/Blue Brain Project
+/* Copyright (c) 2020-2022, EPFL/Blue Brain Project
  * All rights reserved. Do not distribute without permission.
  * Responsible Author: Cyrille Favreau <cyrille.favreau@epfl.ch>
  *
@@ -57,7 +57,7 @@ public:
 
 private:
     VasculatureReportDetails _details;
-    std::vector<std::vector<double>> _simulationData;
+    std::vector<doubles> _simulationData;
 
     io::db::SimulationReport _simulationReport;
 };

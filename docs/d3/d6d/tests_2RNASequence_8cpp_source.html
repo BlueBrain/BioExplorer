@@ -164,20 +164,22 @@ $(document).ready(function(){initNavTree('d3/d6d/tests_2RNASequence_8cpp_source.
 <div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160; </div>
 <div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;BOOST_AUTO_TEST_CASE(rna_sequence)</div>
 <div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;{</div>
-<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;    std::vector&lt;const char*&gt; argv{<span class="stringliteral">&quot;brayns&quot;</span>, <span class="stringliteral">&quot;--http-server&quot;</span>, <span class="stringliteral">&quot;localhost:0&quot;</span>,</div>
-<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;                                  <span class="stringliteral">&quot;--plugin&quot;</span>, <span class="stringliteral">&quot;BioExplorer&quot;</span>};</div>
-<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;    brayns::Brayns brayns(argv.size(), argv.data());</div>
-<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;    <span class="keyword">auto</span>&amp; scene = brayns.getEngine().getScene();</div>
-<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;    Assembly assembly(scene, getAssemblyDescriptor());</div>
-<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;    assembly.addRNASequence(getRNASequenceDescriptor());</div>
-<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160; </div>
-<div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;    BOOST_CHECK(assembly.getRNASequence()-&gt;getRNASequences().size() == 0);</div>
-<div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;}</div>
-<div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;} <span class="comment">// namespace tests</span></div>
+<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;    std::vector&lt;const char*&gt; argv{</div>
+<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;        <span class="stringliteral">&quot;brayns&quot;</span>, <span class="stringliteral">&quot;--http-server&quot;</span>, <span class="stringliteral">&quot;localhost:0&quot;</span>, <span class="stringliteral">&quot;--plugin&quot;</span>,</div>
+<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;        <span class="stringliteral">&quot;BioExplorer --db-name=bioexplorer --db-user=brayns &quot;</span></div>
+<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;        <span class="stringliteral">&quot;--db-password=brayns --db-host=localhost --db-port=5432&quot;</span>};</div>
+<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;    brayns::Brayns brayns(argv.size(), argv.data());</div>
+<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;    <span class="keyword">auto</span>&amp; scene = brayns.getEngine().getScene();</div>
+<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;    Assembly assembly(scene, getAssemblyDescriptor());</div>
+<div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;    assembly.addRNASequence(getRNASequenceDescriptor());</div>
+<div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160; </div>
+<div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;    BOOST_CHECK(assembly.getRNASequence()-&gt;getRNASequences().size() == 0);</div>
+<div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160;}</div>
+<div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160;} <span class="comment">// namespace tests</span></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
-<div class="ttc" id="astructbioexplorer_1_1details_1_1AssemblyDetails_html_a8c92de193c5ae17d6e198a314c276263"><div class="ttname"><a href="../../d1/da5/structbioexplorer_1_1details_1_1AssemblyDetails.html#a8c92de193c5ae17d6e198a314c276263">bioexplorer::details::AssemblyDetails::name</a></div><div class="ttdeci">std::string name</div><div class="ttdef"><b>Definition:</b> <a href="../../d0/dde/bioexplorer_2core_2plugin_2common_2Types_8h_source.html#l00220">Types.h:220</a></div></div>
-<div class="ttc" id="astructbioexplorer_1_1details_1_1RNASequenceDetails_html_ae72e9a82fa1b08c17e14e38e5c3d3240"><div class="ttname"><a href="../../d1/d00/structbioexplorer_1_1details_1_1RNASequenceDetails.html#ae72e9a82fa1b08c17e14e38e5c3d3240">bioexplorer::details::RNASequenceDetails::assemblyName</a></div><div class="ttdeci">std::string assemblyName</div><div class="ttdef"><b>Definition:</b> <a href="../../d0/dde/bioexplorer_2core_2plugin_2common_2Types_8h_source.html#l00398">Types.h:398</a></div></div>
+<div class="ttc" id="astructbioexplorer_1_1details_1_1AssemblyDetails_html_a8c92de193c5ae17d6e198a314c276263"><div class="ttname"><a href="../../d1/da5/structbioexplorer_1_1details_1_1AssemblyDetails.html#a8c92de193c5ae17d6e198a314c276263">bioexplorer::details::AssemblyDetails::name</a></div><div class="ttdeci">std::string name</div><div class="ttdef"><b>Definition:</b> <a href="../../d0/dde/bioexplorer_2core_2plugin_2common_2Types_8h_source.html#l00224">Types.h:224</a></div></div>
+<div class="ttc" id="astructbioexplorer_1_1details_1_1RNASequenceDetails_html_ae72e9a82fa1b08c17e14e38e5c3d3240"><div class="ttname"><a href="../../d1/d00/structbioexplorer_1_1details_1_1RNASequenceDetails.html#ae72e9a82fa1b08c17e14e38e5c3d3240">bioexplorer::details::RNASequenceDetails::assemblyName</a></div><div class="ttdeci">std::string assemblyName</div><div class="ttdef"><b>Definition:</b> <a href="../../d0/dde/bioexplorer_2core_2plugin_2common_2Types_8h_source.html#l00402">Types.h:402</a></div></div>
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>

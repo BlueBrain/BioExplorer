@@ -120,12 +120,12 @@ $(document).ready(function(){initNavTree('d3/d5d/extras_2Metabolism_2plugin_2com
 <div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;{</div>
 <div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;<span class="comment">// Classes and typedefs</span></div>
 <div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;<span class="keyword">class </span>DBConnector;</div>
-<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;<span class="keyword">typedef</span> std::shared_ptr&lt;DBConnector&gt; DBConnectorPtr;</div>
+<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;<span class="keyword">using</span> DBConnectorPtr = std::shared_ptr&lt;DBConnector&gt;;</div>
 <div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160; </div>
 <div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;<span class="keyword">class </span>MetabolismHandler;</div>
-<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;<span class="keyword">typedef</span> std::shared_ptr&lt;MetabolismHandler&gt; MetabolismHandlerPtr;</div>
-<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160; </div>
-<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;<span class="keyword">typedef</span> std::map&lt;std::string, std::string&gt; CommandLineArguments;</div>
+<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;<span class="keyword">using</span> MetabolismHandlerPtr = std::shared_ptr&lt;MetabolismHandler&gt;;</div>
+<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;<span class="keyword">using</span> CommandLineArguments = std::map&lt;std::string, std::string&gt;;</div>
+<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;<span class="keyword">using</span> Concentrations = std::map&lt;uint32_t, float&gt;;</div>
 <div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160; </div>
 <div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;<span class="comment">// Command line arguments</span></div>
 <div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;<span class="keyword">const</span> std::string ARG_DB_HOST = <span class="stringliteral">&quot;--db-host&quot;</span>;</div>
@@ -135,27 +135,29 @@ $(document).ready(function(){initNavTree('d3/d5d/extras_2Metabolism_2plugin_2com
 <div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;<span class="keyword">const</span> std::string ARG_DB_PASSWORD = <span class="stringliteral">&quot;--db-password&quot;</span>;</div>
 <div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;<span class="keyword">const</span> std::string ARG_DB_SCHEMA = <span class="stringliteral">&quot;--db-schema&quot;</span>;</div>
 <div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160; </div>
-<div class="line"><a name="l00050"></a><span class="lineno"><a class="line" href="../../dd/d21/structbioexplorer_1_1metabolism_1_1AttachHandlerDetails.html">   50</a></span>&#160;<span class="keyword">struct </span><a class="code" href="../../dd/d21/structbioexplorer_1_1metabolism_1_1AttachHandlerDetails.html">AttachHandlerDetails</a></div>
+<div class="line"><a name="l00050"></a><span class="lineno"><a class="line" href="../../dd/d21/structbioexplorer_1_1metabolism_1_1AttachHandlerDetails.html">   50</a></span>&#160;<span class="keyword">typedef</span> <span class="keyword">struct</span></div>
 <div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;{</div>
 <div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;    std::string connectionString;</div>
 <div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;    std::string schema;</div>
 <div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;    <span class="keywordtype">size_t</span> simulationId;</div>
-<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;    size_ts metaboliteIds;</div>
-<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;};</div>
-<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160; </div>
-<div class="line"><a name="l00058"></a><span class="lineno"><a class="line" href="../../df/d9e/structbioexplorer_1_1metabolism_1_1Location.html">   58</a></span>&#160;<span class="keyword">struct </span><a class="code" href="../../df/d9e/structbioexplorer_1_1metabolism_1_1Location.html">Location</a></div>
-<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;{</div>
-<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;    uint32_t guid;</div>
-<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;    std::string code;</div>
-<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;    Vector3f color;</div>
-<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;};</div>
-<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;<span class="keyword">typedef</span> std::vector&lt;Location&gt; Locations;</div>
-<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160; </div>
-<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;} <span class="comment">// namespace metabolism</span></div>
-<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;} <span class="comment">// namespace bioexplorer</span></div>
+<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;    int32_ts metaboliteIds;</div>
+<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;    <span class="keywordtype">bool</span> relativeConcentration{<span class="keyword">false</span>};</div>
+<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;    doubles opacityRange;</div>
+<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;} <a class="code" href="../../dd/d21/structbioexplorer_1_1metabolism_1_1AttachHandlerDetails.html">AttachHandlerDetails</a>;</div>
+<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160; </div>
+<div class="line"><a name="l00060"></a><span class="lineno"><a class="line" href="../../df/d9e/structbioexplorer_1_1metabolism_1_1Location.html">   60</a></span>&#160;<span class="keyword">typedef</span> <span class="keyword">struct</span></div>
+<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;{</div>
+<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;    uint32_t guid;</div>
+<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;    std::string code;</div>
+<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;    Vector3f color;</div>
+<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;} <a class="code" href="../../df/d9e/structbioexplorer_1_1metabolism_1_1Location.html">Location</a>;</div>
+<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;<span class="keyword">using</span> Locations = std::vector&lt;Location&gt;;</div>
+<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160; </div>
+<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;} <span class="comment">// namespace metabolism</span></div>
+<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;} <span class="comment">// namespace bioexplorer</span></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
-<div class="ttc" id="astructbioexplorer_1_1metabolism_1_1Location_html"><div class="ttname"><a href="../../df/d9e/structbioexplorer_1_1metabolism_1_1Location.html">bioexplorer::metabolism::Location</a></div><div class="ttdef"><b>Definition:</b> <a href="../../d3/d5d/extras_2Metabolism_2plugin_2common_2Types_8h_source.html#l00058">Types.h:58</a></div></div>
+<div class="ttc" id="astructbioexplorer_1_1metabolism_1_1Location_html"><div class="ttname"><a href="../../df/d9e/structbioexplorer_1_1metabolism_1_1Location.html">bioexplorer::metabolism::Location</a></div><div class="ttdef"><b>Definition:</b> <a href="../../d3/d5d/extras_2Metabolism_2plugin_2common_2Types_8h_source.html#l00060">Types.h:60</a></div></div>
 <div class="ttc" id="astructbioexplorer_1_1metabolism_1_1AttachHandlerDetails_html"><div class="ttname"><a href="../../dd/d21/structbioexplorer_1_1metabolism_1_1AttachHandlerDetails.html">bioexplorer::metabolism::AttachHandlerDetails</a></div><div class="ttdef"><b>Definition:</b> <a href="../../d3/d5d/extras_2Metabolism_2plugin_2common_2Types_8h_source.html#l00050">Types.h:50</a></div></div>
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->

@@ -1,8 +1,6 @@
 var searchData=
 [
-  ['perspectivestereocamera_517',['PerspectiveStereoCamera',['../d8/d50/structbioexplorer_1_1rendering_1_1PerspectiveStereoCamera.html#a4d78780c9e9c64a8203ed33625d53194',1,'bioexplorer::rendering::PerspectiveStereoCamera']]],
-  ['planeshape_518',['PlaneShape',['../d8/d3b/classbioexplorer_1_1common_1_1PlaneShape.html#a034d9697d622a2827efd41cdc1bfe4ff',1,'bioexplorer::common::PlaneShape']]],
-  ['pointcloudmesher_519',['PointCloudMesher',['../d2/d99/classbioexplorer_1_1meshing_1_1PointCloudMesher.html#a8c76232076650a45b041cf2b66635f18',1,'bioexplorer::meshing::PointCloudMesher']]],
-  ['pointshape_520',['PointShape',['../d7/d5c/classbioexplorer_1_1common_1_1PointShape.html#aedf5472056875428d698d31c1242f74b',1,'bioexplorer::common::PointShape']]],
-  ['protein_521',['Protein',['../dd/da4/classbioexplorer_1_1molecularsystems_1_1Protein.html#a160beca13ad17357e5ca5d70bf10693f',1,'bioexplorer::molecularsystems::Protein']]]
+  ['octree_632',['Octree',['../dc/d5a/classbioexplorer_1_1fields_1_1Octree.html#a69d235ce47251ed617cb992b2a3a3c2c',1,'bioexplorer::fields::Octree']]],
+  ['octreenode_633',['OctreeNode',['../d1/d60/classbioexplorer_1_1fields_1_1OctreeNode.html#ade9caa72315a664f76b3f32292fb48fe',1,'bioexplorer::fields::OctreeNode']]],
+  ['oocmanager_634',['OOCManager',['../da/d6e/classbioexplorer_1_1io_1_1OOCManager.html#a1d53ee9e3121dcf75fe8841d6b5e6a7e',1,'bioexplorer::io::OOCManager']]]
 ];

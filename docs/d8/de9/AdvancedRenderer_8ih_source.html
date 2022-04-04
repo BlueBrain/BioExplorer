@@ -133,32 +133,33 @@ $(document).ready(function(){initNavTree('d8/de9/AdvancedRenderer_8ih_source.htm
 <div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;    bool useHardwareRandomizer;</div>
 <div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;    bool showBackground;</div>
 <div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;    uint32 maxBounces;</div>
-<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160; </div>
-<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;    float timestamp;</div>
-<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;    uint32 randomNumber;</div>
-<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160; </div>
-<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;    float shadows;</div>
-<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;    float softShadows;</div>
-<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;    uint32 softShadowsSamples;</div>
-<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160; </div>
-<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;    float giStrength;</div>
-<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;    float giDistance;</div>
-<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;    uint32 giSamples;</div>
-<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160; </div>
-<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;    // Fog</div>
-<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;    float fogThickness;</div>
-<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;    float fogStart;</div>
-<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160; </div>
-<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;    // Matrix filter (just for fun)</div>
-<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;    bool matrixFilter;</div>
-<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160; </div>
-<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;    // Transfer function attributes</div>
-<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;    const uniform TransferFunction* uniform transferFunction;</div>
-<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160; </div>
-<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;    // Simulation data</div>
-<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;    uniform float* uniform simulationData;</div>
-<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;    uint64 simulationDataSize;</div>
-<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;};</div>
+<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;    float epsilonFactor;</div>
+<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160; </div>
+<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;    float timestamp;</div>
+<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;    uint32 randomNumber;</div>
+<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160; </div>
+<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;    float shadows;</div>
+<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;    float softShadows;</div>
+<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;    uint32 softShadowsSamples;</div>
+<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160; </div>
+<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;    float giStrength;</div>
+<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;    float giDistance;</div>
+<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;    uint32 giSamples;</div>
+<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160; </div>
+<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;    // Fog</div>
+<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;    float fogThickness;</div>
+<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;    float fogStart;</div>
+<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160; </div>
+<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;    // Matrix filter (just for fun)</div>
+<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;    bool matrixFilter;</div>
+<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160; </div>
+<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;    // Transfer function attributes</div>
+<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;    const uniform TransferFunction* uniform transferFunction;</div>
+<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160; </div>
+<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;    // Simulation data</div>
+<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;    uniform float* uniform simulationData;</div>
+<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;    uint64 simulationDataSize;</div>
+<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;};</div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->

@@ -1,6 +1,5 @@
 var searchData=
 [
-  ['octree_514',['Octree',['../dc/d5a/classbioexplorer_1_1fields_1_1Octree.html#a69d235ce47251ed617cb992b2a3a3c2c',1,'bioexplorer::fields::Octree']]],
-  ['octreenode_515',['OctreeNode',['../d1/d60/classbioexplorer_1_1fields_1_1OctreeNode.html#ade9caa72315a664f76b3f32292fb48fe',1,'bioexplorer::fields::OctreeNode']]],
-  ['oocmanager_516',['OOCManager',['../da/d6e/classbioexplorer_1_1io_1_1OOCManager.html#a1d53ee9e3121dcf75fe8841d6b5e6a7e',1,'bioexplorer::io::OOCManager']]]
+  ['neurons_630',['Neurons',['../d1/d39/classbioexplorer_1_1morphology_1_1Neurons.html#ac1078eaebfad79aa3310a6f96264dac5',1,'bioexplorer::morphology::Neurons']]],
+  ['node_631',['Node',['../d7/d93/classbioexplorer_1_1common_1_1Node.html#a3c552fd05b8c1f2fb38cd2d8a63e57f4',1,'bioexplorer::common::Node']]]
 ];

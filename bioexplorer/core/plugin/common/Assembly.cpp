@@ -616,8 +616,8 @@ std::string Assembly::getVasculatureInfo() const
       << "nbSections=" << _vasculature->getNbSections() << CONTENTS_DELIMITER
       << "nbPairs=" << _vasculature->getNbPairs() << CONTENTS_DELIMITER
       << "nbEntryNodes=" << _vasculature->getNbEntryNodes()
-      << CONTENTS_DELIMITER
-      << "nbMaxPointsPerSection=" << _vasculature->getNbMaxPointsPerSection();
+      << CONTENTS_DELIMITER << "nbMaxSegmentsPerSection="
+      << _vasculature->getNbMaxSegmentsPerSection();
     return s.str().c_str();
 }
 

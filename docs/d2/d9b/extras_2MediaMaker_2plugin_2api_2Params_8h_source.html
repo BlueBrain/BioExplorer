@@ -110,66 +110,68 @@ $(document).ready(function(){initNavTree('d2/d9b/extras_2MediaMaker_2plugin_2api
 <div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160; </div>
 <div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;<span class="preprocessor">#include &lt;plugin/common/Types.h&gt;</span></div>
 <div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160; </div>
-<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;<span class="preprocessor">#include &lt;limits&gt;</span></div>
-<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;<span class="preprocessor">#include &lt;string&gt;</span></div>
-<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;<span class="preprocessor">#include &lt;vector&gt;</span></div>
-<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160; </div>
-<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;<span class="keyword">namespace </span>bioexplorer</div>
-<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;{</div>
-<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;<span class="keyword">namespace </span>mediamaker</div>
+<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;<span class="preprocessor">#include &lt;bioexplorer/core/plugin/common/Types.h&gt;</span></div>
+<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160; </div>
+<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;<span class="preprocessor">#include &lt;limits&gt;</span></div>
+<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;<span class="preprocessor">#include &lt;string&gt;</span></div>
+<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;<span class="preprocessor">#include &lt;vector&gt;</span></div>
+<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160; </div>
+<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;<span class="keyword">namespace </span>bioexplorer</div>
 <div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;{</div>
-<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;<span class="comment">// Response</span></div>
-<div class="line"><a name="l00034"></a><span class="lineno"><a class="line" href="../../db/df4/structbioexplorer_1_1mediamaker_1_1Response.html">   34</a></span>&#160;<span class="keyword">struct </span><a class="code" href="../../db/df4/structbioexplorer_1_1mediamaker_1_1Response.html">Response</a></div>
-<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;{</div>
-<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;    <span class="keywordtype">bool</span> status{<span class="keyword">true</span>};</div>
-<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;    std::string contents;</div>
-<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;};</div>
-<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;std::string to_json(<span class="keyword">const</span> <a class="code" href="../../db/df4/structbioexplorer_1_1mediamaker_1_1Response.html">Response</a> &amp;param);</div>
-<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160; </div>
-<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;<span class="comment">// Movies and frames</span></div>
-<div class="line"><a name="l00042"></a><span class="lineno"><a class="line" href="../../dd/d32/structbioexplorer_1_1mediamaker_1_1CameraDefinition.html">   42</a></span>&#160;<span class="keyword">struct </span><a class="code" href="../../dd/d32/structbioexplorer_1_1mediamaker_1_1CameraDefinition.html">CameraDefinition</a></div>
-<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;{</div>
-<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;    std::vector&lt;double&gt; origin;</div>
-<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;    std::vector&lt;double&gt; direction;</div>
-<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;    std::vector&lt;double&gt; up;</div>
-<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;    <span class="keywordtype">double</span> apertureRadius{0.0};</div>
-<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;    <span class="keywordtype">double</span> focusDistance{1e6};</div>
-<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;    <span class="keywordtype">double</span> interpupillaryDistance{0.0};</div>
-<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;};</div>
-<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;<span class="keywordtype">bool</span> from_json(<a class="code" href="../../dd/d32/structbioexplorer_1_1mediamaker_1_1CameraDefinition.html">CameraDefinition</a> &amp;param, <span class="keyword">const</span> std::string &amp;payload);</div>
-<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;std::string to_json(<span class="keyword">const</span> <a class="code" href="../../dd/d32/structbioexplorer_1_1mediamaker_1_1CameraDefinition.html">CameraDefinition</a> &amp;param);</div>
-<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160; </div>
-<div class="line"><a name="l00054"></a><span class="lineno"><a class="line" href="../../db/dbb/structbioexplorer_1_1mediamaker_1_1ExportFramesToDisk.html">   54</a></span>&#160;<span class="keyword">struct </span><a class="code" href="../../db/dbb/structbioexplorer_1_1mediamaker_1_1ExportFramesToDisk.html">ExportFramesToDisk</a></div>
-<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;{</div>
-<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;    std::string path;</div>
-<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;    std::string baseName;</div>
-<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;    std::string format;</div>
-<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;    uint16_t quality{100};</div>
-<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;    uint16_t spp{0};</div>
-<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;    uint16_t startFrame{0};</div>
-<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;    uint16_t endFrame{std::numeric_limits&lt;uint16_t&gt;::max()};</div>
-<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;    <span class="keywordtype">bool</span> exportIntermediateFrames{<span class="keyword">false</span>};</div>
-<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;    std::vector&lt;uint64_t&gt; animationInformation;</div>
-<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;    std::vector&lt;double&gt; cameraInformation;</div>
-<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;    FrameBufferMode frameBufferMode{FrameBufferMode::color};</div>
-<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;};</div>
-<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;<span class="keywordtype">bool</span> from_json(<a class="code" href="../../db/dbb/structbioexplorer_1_1mediamaker_1_1ExportFramesToDisk.html">ExportFramesToDisk</a> &amp;param, <span class="keyword">const</span> std::string &amp;payload);</div>
-<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160; </div>
-<div class="line"><a name="l00070"></a><span class="lineno"><a class="line" href="../../dd/d6e/structbioexplorer_1_1mediamaker_1_1FrameExportProgress.html">   70</a></span>&#160;<span class="keyword">struct </span><a class="code" href="../../dd/d6e/structbioexplorer_1_1mediamaker_1_1FrameExportProgress.html">FrameExportProgress</a></div>
-<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;{</div>
-<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;    <span class="keywordtype">double</span> progress;</div>
-<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;    <span class="keywordtype">bool</span> done;</div>
-<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;};</div>
-<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;std::string to_json(<span class="keyword">const</span> <a class="code" href="../../dd/d6e/structbioexplorer_1_1mediamaker_1_1FrameExportProgress.html">FrameExportProgress</a> &amp;exportProgress);</div>
-<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160; </div>
-<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;} <span class="comment">// namespace mediamaker</span></div>
-<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;} <span class="comment">// namespace bioexplorer</span></div>
+<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;<span class="keyword">namespace </span>mediamaker</div>
+<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;{</div>
+<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;<span class="comment">// Response</span></div>
+<div class="line"><a name="l00036"></a><span class="lineno"><a class="line" href="../../db/df4/structbioexplorer_1_1mediamaker_1_1Response.html">   36</a></span>&#160;<span class="keyword">struct </span><a class="code" href="../../db/df4/structbioexplorer_1_1mediamaker_1_1Response.html">Response</a></div>
+<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;{</div>
+<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;    <span class="keywordtype">bool</span> status{<span class="keyword">true</span>};</div>
+<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;    std::string contents;</div>
+<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;};</div>
+<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;std::string to_json(<span class="keyword">const</span> <a class="code" href="../../db/df4/structbioexplorer_1_1mediamaker_1_1Response.html">Response</a> &amp;param);</div>
+<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160; </div>
+<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;<span class="comment">// Movies and frames</span></div>
+<div class="line"><a name="l00044"></a><span class="lineno"><a class="line" href="../../dd/d32/structbioexplorer_1_1mediamaker_1_1CameraDefinition.html">   44</a></span>&#160;<span class="keyword">struct </span><a class="code" href="../../dd/d32/structbioexplorer_1_1mediamaker_1_1CameraDefinition.html">CameraDefinition</a></div>
+<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;{</div>
+<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;    std::vector&lt;double&gt; origin;</div>
+<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;    std::vector&lt;double&gt; direction;</div>
+<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;    std::vector&lt;double&gt; up;</div>
+<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;    <span class="keywordtype">double</span> apertureRadius{0.0};</div>
+<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;    <span class="keywordtype">double</span> focusDistance{1e6};</div>
+<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;    <span class="keywordtype">double</span> interpupillaryDistance{0.0};</div>
+<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;};</div>
+<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;<span class="keywordtype">bool</span> from_json(<a class="code" href="../../dd/d32/structbioexplorer_1_1mediamaker_1_1CameraDefinition.html">CameraDefinition</a> &amp;param, <span class="keyword">const</span> std::string &amp;payload);</div>
+<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;std::string to_json(<span class="keyword">const</span> <a class="code" href="../../dd/d32/structbioexplorer_1_1mediamaker_1_1CameraDefinition.html">CameraDefinition</a> &amp;param);</div>
+<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160; </div>
+<div class="line"><a name="l00056"></a><span class="lineno"><a class="line" href="../../db/dbb/structbioexplorer_1_1mediamaker_1_1ExportFramesToDisk.html">   56</a></span>&#160;<span class="keyword">struct </span><a class="code" href="../../db/dbb/structbioexplorer_1_1mediamaker_1_1ExportFramesToDisk.html">ExportFramesToDisk</a></div>
+<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;{</div>
+<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;    std::string path;</div>
+<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;    std::string baseName;</div>
+<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;    std::string format;</div>
+<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;    uint16_t quality{100};</div>
+<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;    uint16_t spp{0};</div>
+<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;    uint16_t startFrame{0};</div>
+<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;    uint16_t endFrame{std::numeric_limits&lt;uint16_t&gt;::max()};</div>
+<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;    <span class="keywordtype">bool</span> exportIntermediateFrames{<span class="keyword">false</span>};</div>
+<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;    uint64_ts animationInformation;</div>
+<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;    doubles cameraInformation;</div>
+<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;    FrameBufferMode frameBufferMode{FrameBufferMode::color};</div>
+<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;};</div>
+<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;<span class="keywordtype">bool</span> from_json(<a class="code" href="../../db/dbb/structbioexplorer_1_1mediamaker_1_1ExportFramesToDisk.html">ExportFramesToDisk</a> &amp;param, <span class="keyword">const</span> std::string &amp;payload);</div>
+<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160; </div>
+<div class="line"><a name="l00072"></a><span class="lineno"><a class="line" href="../../dd/d6e/structbioexplorer_1_1mediamaker_1_1FrameExportProgress.html">   72</a></span>&#160;<span class="keyword">struct </span><a class="code" href="../../dd/d6e/structbioexplorer_1_1mediamaker_1_1FrameExportProgress.html">FrameExportProgress</a></div>
+<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;{</div>
+<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;    <span class="keywordtype">double</span> progress;</div>
+<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;    <span class="keywordtype">bool</span> done;</div>
+<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;};</div>
+<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;std::string to_json(<span class="keyword">const</span> <a class="code" href="../../dd/d6e/structbioexplorer_1_1mediamaker_1_1FrameExportProgress.html">FrameExportProgress</a> &amp;exportProgress);</div>
+<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160; </div>
+<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;} <span class="comment">// namespace mediamaker</span></div>
+<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;} <span class="comment">// namespace bioexplorer</span></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
-<div class="ttc" id="astructbioexplorer_1_1mediamaker_1_1CameraDefinition_html"><div class="ttname"><a href="../../dd/d32/structbioexplorer_1_1mediamaker_1_1CameraDefinition.html">bioexplorer::mediamaker::CameraDefinition</a></div><div class="ttdef"><b>Definition:</b> <a href="../../d2/d9b/extras_2MediaMaker_2plugin_2api_2Params_8h_source.html#l00042">Params.h:42</a></div></div>
-<div class="ttc" id="astructbioexplorer_1_1mediamaker_1_1FrameExportProgress_html"><div class="ttname"><a href="../../dd/d6e/structbioexplorer_1_1mediamaker_1_1FrameExportProgress.html">bioexplorer::mediamaker::FrameExportProgress</a></div><div class="ttdef"><b>Definition:</b> <a href="../../d2/d9b/extras_2MediaMaker_2plugin_2api_2Params_8h_source.html#l00070">Params.h:70</a></div></div>
-<div class="ttc" id="astructbioexplorer_1_1mediamaker_1_1ExportFramesToDisk_html"><div class="ttname"><a href="../../db/dbb/structbioexplorer_1_1mediamaker_1_1ExportFramesToDisk.html">bioexplorer::mediamaker::ExportFramesToDisk</a></div><div class="ttdef"><b>Definition:</b> <a href="../../d2/d9b/extras_2MediaMaker_2plugin_2api_2Params_8h_source.html#l00054">Params.h:54</a></div></div>
-<div class="ttc" id="astructbioexplorer_1_1mediamaker_1_1Response_html"><div class="ttname"><a href="../../db/df4/structbioexplorer_1_1mediamaker_1_1Response.html">bioexplorer::mediamaker::Response</a></div><div class="ttdef"><b>Definition:</b> <a href="../../d2/d9b/extras_2MediaMaker_2plugin_2api_2Params_8h_source.html#l00034">Params.h:34</a></div></div>
+<div class="ttc" id="astructbioexplorer_1_1mediamaker_1_1CameraDefinition_html"><div class="ttname"><a href="../../dd/d32/structbioexplorer_1_1mediamaker_1_1CameraDefinition.html">bioexplorer::mediamaker::CameraDefinition</a></div><div class="ttdef"><b>Definition:</b> <a href="../../d2/d9b/extras_2MediaMaker_2plugin_2api_2Params_8h_source.html#l00044">Params.h:44</a></div></div>
+<div class="ttc" id="astructbioexplorer_1_1mediamaker_1_1FrameExportProgress_html"><div class="ttname"><a href="../../dd/d6e/structbioexplorer_1_1mediamaker_1_1FrameExportProgress.html">bioexplorer::mediamaker::FrameExportProgress</a></div><div class="ttdef"><b>Definition:</b> <a href="../../d2/d9b/extras_2MediaMaker_2plugin_2api_2Params_8h_source.html#l00072">Params.h:72</a></div></div>
+<div class="ttc" id="astructbioexplorer_1_1mediamaker_1_1ExportFramesToDisk_html"><div class="ttname"><a href="../../db/dbb/structbioexplorer_1_1mediamaker_1_1ExportFramesToDisk.html">bioexplorer::mediamaker::ExportFramesToDisk</a></div><div class="ttdef"><b>Definition:</b> <a href="../../d2/d9b/extras_2MediaMaker_2plugin_2api_2Params_8h_source.html#l00056">Params.h:56</a></div></div>
+<div class="ttc" id="astructbioexplorer_1_1mediamaker_1_1Response_html"><div class="ttname"><a href="../../db/df4/structbioexplorer_1_1mediamaker_1_1Response.html">bioexplorer::mediamaker::Response</a></div><div class="ttdef"><b>Definition:</b> <a href="../../d2/d9b/extras_2MediaMaker_2plugin_2api_2Params_8h_source.html#l00036">Params.h:36</a></div></div>
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>

@@ -8,14 +8,18 @@ var annotated_dup =
         [ "FanShape", "dc/d3d/classbioexplorer_1_1common_1_1FanShape.html", "dc/d3d/classbioexplorer_1_1common_1_1FanShape" ],
         [ "GeneralSettings", "d2/da7/classbioexplorer_1_1common_1_1GeneralSettings.html", "d2/da7/classbioexplorer_1_1common_1_1GeneralSettings" ],
         [ "GeometryNode", "d7/d1e/structbioexplorer_1_1common_1_1GeometryNode.html", "d7/d1e/structbioexplorer_1_1common_1_1GeometryNode" ],
+        [ "HelixShape", "de/d5f/classbioexplorer_1_1common_1_1HelixShape.html", "de/d5f/classbioexplorer_1_1common_1_1HelixShape" ],
         [ "MeshShape", "df/d25/classbioexplorer_1_1common_1_1MeshShape.html", "df/d25/classbioexplorer_1_1common_1_1MeshShape" ],
         [ "Node", "d7/d93/classbioexplorer_1_1common_1_1Node.html", "d7/d93/classbioexplorer_1_1common_1_1Node" ],
         [ "PlaneShape", "d8/d3b/classbioexplorer_1_1common_1_1PlaneShape.html", "d8/d3b/classbioexplorer_1_1common_1_1PlaneShape" ],
         [ "PointShape", "d7/d5c/classbioexplorer_1_1common_1_1PointShape.html", "d7/d5c/classbioexplorer_1_1common_1_1PointShape" ],
         [ "RNAShape", "d4/dc3/classbioexplorer_1_1common_1_1RNAShape.html", "d4/dc3/classbioexplorer_1_1common_1_1RNAShape" ],
+        [ "SDFGeometries", "d1/d1c/classbioexplorer_1_1common_1_1SDFGeometries.html", "d1/d1c/classbioexplorer_1_1common_1_1SDFGeometries" ],
+        [ "SDFMorphologyData", "d6/d8d/structbioexplorer_1_1common_1_1SDFMorphologyData.html", "d6/d8d/structbioexplorer_1_1common_1_1SDFMorphologyData" ],
         [ "Shape", "dc/d78/classbioexplorer_1_1common_1_1Shape.html", "dc/d78/classbioexplorer_1_1common_1_1Shape" ],
         [ "SinusoidShape", "d4/d37/classbioexplorer_1_1common_1_1SinusoidShape.html", "d4/d37/classbioexplorer_1_1common_1_1SinusoidShape" ],
         [ "SphereShape", "d5/d1a/classbioexplorer_1_1common_1_1SphereShape.html", "d5/d1a/classbioexplorer_1_1common_1_1SphereShape" ],
+        [ "ThreadSafeContainer", "d2/d4a/classbioexplorer_1_1common_1_1ThreadSafeContainer.html", "d2/d4a/classbioexplorer_1_1common_1_1ThreadSafeContainer" ],
         [ "UniqueId", "d0/dbd/classbioexplorer_1_1common_1_1UniqueId.html", "d0/dbd/classbioexplorer_1_1common_1_1UniqueId" ]
       ] ],
       [ "details", null, [
@@ -29,6 +33,7 @@ var annotated_dup =
         [ "AnimationDetails", "d8/d60/structbioexplorer_1_1details_1_1AnimationDetails.html", "d8/d60/structbioexplorer_1_1details_1_1AnimationDetails" ],
         [ "AssemblyDetails", "d1/da5/structbioexplorer_1_1details_1_1AssemblyDetails.html", "d1/da5/structbioexplorer_1_1details_1_1AssemblyDetails" ],
         [ "AssemblyTransformationsDetails", "d6/dd0/structbioexplorer_1_1details_1_1AssemblyTransformationsDetails.html", "d6/dd0/structbioexplorer_1_1details_1_1AssemblyTransformationsDetails" ],
+        [ "AstrocytesDetails", "df/d08/structbioexplorer_1_1details_1_1AstrocytesDetails.html", "df/d08/structbioexplorer_1_1details_1_1AstrocytesDetails" ],
         [ "BuildFieldsDetails", "dc/d5b/structbioexplorer_1_1details_1_1BuildFieldsDetails.html", "dc/d5b/structbioexplorer_1_1details_1_1BuildFieldsDetails" ],
         [ "BuildPointCloudDetails", "d5/dc6/structbioexplorer_1_1details_1_1BuildPointCloudDetails.html", "d5/dc6/structbioexplorer_1_1details_1_1BuildPointCloudDetails" ],
         [ "DatabaseAccessDetails", "dc/dd9/structbioexplorer_1_1details_1_1DatabaseAccessDetails.html", "dc/dd9/structbioexplorer_1_1details_1_1DatabaseAccessDetails" ],
@@ -45,6 +50,9 @@ var annotated_dup =
         [ "ModelIdFileAccessDetails", "d8/d1b/structbioexplorer_1_1details_1_1ModelIdFileAccessDetails.html", "d8/d1b/structbioexplorer_1_1details_1_1ModelIdFileAccessDetails" ],
         [ "ModelsVisibilityDetails", "d7/dbc/structbioexplorer_1_1details_1_1ModelsVisibilityDetails.html", "d7/dbc/structbioexplorer_1_1details_1_1ModelsVisibilityDetails" ],
         [ "NameDetails", "d8/d70/structbioexplorer_1_1details_1_1NameDetails.html", "d8/d70/structbioexplorer_1_1details_1_1NameDetails" ],
+        [ "NeuronsDetails", "dc/d93/structbioexplorer_1_1details_1_1NeuronsDetails.html", "dc/d93/structbioexplorer_1_1details_1_1NeuronsDetails" ],
+        [ "NeuronSectionDetails", "d2/ddd/structbioexplorer_1_1details_1_1NeuronSectionDetails.html", "d2/ddd/structbioexplorer_1_1details_1_1NeuronSectionDetails" ],
+        [ "NeuronSectionPointsDetails", "d1/ddd/structbioexplorer_1_1details_1_1NeuronSectionPointsDetails.html", "d1/ddd/structbioexplorer_1_1details_1_1NeuronSectionPointsDetails" ],
         [ "OOCSceneConfigurationDetails", "d1/d25/structbioexplorer_1_1details_1_1OOCSceneConfigurationDetails.html", "d1/d25/structbioexplorer_1_1details_1_1OOCSceneConfigurationDetails" ],
         [ "ProteinColorSchemeDetails", "d4/d19/structbioexplorer_1_1details_1_1ProteinColorSchemeDetails.html", "d4/d19/structbioexplorer_1_1details_1_1ProteinColorSchemeDetails" ],
         [ "ProteinDetails", "de/d0e/structbioexplorer_1_1details_1_1ProteinDetails.html", "de/d0e/structbioexplorer_1_1details_1_1ProteinDetails" ],
@@ -54,15 +62,16 @@ var annotated_dup =
         [ "RGBColorDetails", "df/dc7/structbioexplorer_1_1details_1_1RGBColorDetails.html", "df/dc7/structbioexplorer_1_1details_1_1RGBColorDetails" ],
         [ "RNASequenceDetails", "d1/d00/structbioexplorer_1_1details_1_1RNASequenceDetails.html", "d1/d00/structbioexplorer_1_1details_1_1RNASequenceDetails" ],
         [ "SceneInformationDetails", "d2/d03/structbioexplorer_1_1details_1_1SceneInformationDetails.html", "d2/d03/structbioexplorer_1_1details_1_1SceneInformationDetails" ],
-        [ "SugarDetails", "d6/d93/structbioexplorer_1_1details_1_1SugarDetails.html", "d6/d93/structbioexplorer_1_1details_1_1SugarDetails" ]
+        [ "SugarDetails", "d6/d93/structbioexplorer_1_1details_1_1SugarDetails.html", "d6/d93/structbioexplorer_1_1details_1_1SugarDetails" ],
+        [ "VasculatureColorSchemeDetails", "dd/d99/structbioexplorer_1_1details_1_1VasculatureColorSchemeDetails.html", "dd/d99/structbioexplorer_1_1details_1_1VasculatureColorSchemeDetails" ],
+        [ "VasculatureDetails", "dd/d98/structbioexplorer_1_1details_1_1VasculatureDetails.html", "dd/d98/structbioexplorer_1_1details_1_1VasculatureDetails" ],
+        [ "VasculatureRadiusReportDetails", "de/da6/structbioexplorer_1_1details_1_1VasculatureRadiusReportDetails.html", "de/da6/structbioexplorer_1_1details_1_1VasculatureRadiusReportDetails" ],
+        [ "VasculatureReportDetails", "d1/d4e/structbioexplorer_1_1details_1_1VasculatureReportDetails.html", "d1/d4e/structbioexplorer_1_1details_1_1VasculatureReportDetails" ]
       ] ],
       [ "fields", null, [
         [ "FieldsHandler", "d9/d6e/classbioexplorer_1_1fields_1_1FieldsHandler.html", "d9/d6e/classbioexplorer_1_1fields_1_1FieldsHandler" ],
         [ "Octree", "dc/d5a/classbioexplorer_1_1fields_1_1Octree.html", "dc/d5a/classbioexplorer_1_1fields_1_1Octree" ],
         [ "OctreeNode", "d1/d60/classbioexplorer_1_1fields_1_1OctreeNode.html", "d1/d60/classbioexplorer_1_1fields_1_1OctreeNode" ]
-      ] ],
-      [ "geometry", null, [
-        [ "SDFMorphologyData", "d1/d25/structbioexplorer_1_1geometry_1_1SDFMorphologyData.html", "d1/d25/structbioexplorer_1_1geometry_1_1SDFMorphologyData" ]
       ] ],
       [ "io", null, [
         [ "db", null, [
@@ -110,7 +119,14 @@ var annotated_dup =
         [ "RNASequence", "d0/d53/classbioexplorer_1_1molecularsystems_1_1RNASequence.html", "d0/d53/classbioexplorer_1_1molecularsystems_1_1RNASequence" ]
       ] ],
       [ "morphology", null, [
-        [ "Astrocytes", "d2/d3a/classbioexplorer_1_1morphology_1_1Astrocytes.html", "d2/d3a/classbioexplorer_1_1morphology_1_1Astrocytes" ]
+        [ "Astrocytes", "d2/d3a/classbioexplorer_1_1morphology_1_1Astrocytes.html", "d2/d3a/classbioexplorer_1_1morphology_1_1Astrocytes" ],
+        [ "AstrocyteSoma", "d6/d17/structbioexplorer_1_1morphology_1_1AstrocyteSoma.html", "d6/d17/structbioexplorer_1_1morphology_1_1AstrocyteSoma" ],
+        [ "EndFoot", "d6/d46/structbioexplorer_1_1morphology_1_1EndFoot.html", "d6/d46/structbioexplorer_1_1morphology_1_1EndFoot" ],
+        [ "Morphologies", "dc/dbc/classbioexplorer_1_1morphology_1_1Morphologies.html", "dc/dbc/classbioexplorer_1_1morphology_1_1Morphologies" ],
+        [ "Neurons", "d1/d39/classbioexplorer_1_1morphology_1_1Neurons.html", "d1/d39/classbioexplorer_1_1morphology_1_1Neurons" ],
+        [ "NeuronSoma", "d9/d24/structbioexplorer_1_1morphology_1_1NeuronSoma.html", "d9/d24/structbioexplorer_1_1morphology_1_1NeuronSoma" ],
+        [ "Section", "d4/d08/structbioexplorer_1_1morphology_1_1Section.html", "d4/d08/structbioexplorer_1_1morphology_1_1Section" ],
+        [ "Synapse", "d0/dd7/structbioexplorer_1_1morphology_1_1Synapse.html", "d0/dd7/structbioexplorer_1_1morphology_1_1Synapse" ]
       ] ],
       [ "rendering", null, [
         [ "AdvancedMaterial", "d5/d4e/structbioexplorer_1_1rendering_1_1AdvancedMaterial.html", "d5/d4e/structbioexplorer_1_1rendering_1_1AdvancedMaterial" ],

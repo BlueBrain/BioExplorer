@@ -136,33 +136,34 @@ $(document).ready(function(){initNavTree('de/d80/AdvancedRenderer_8h_source.html
 <div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;    <span class="keywordtype">bool</span> _useHardwareRandomizer{<span class="keyword">false</span>};</div>
 <div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;    <span class="keywordtype">bool</span> _showBackground{<span class="keyword">false</span>};</div>
 <div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160; </div>
-<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;    <span class="keywordtype">double</span> _timestamp{0.f};</div>
-<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;    <span class="keywordtype">double</span> _exposure{1.f};</div>
-<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160; </div>
-<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;    <span class="keywordtype">double</span> _fogThickness{1e6f};</div>
-<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;    <span class="keywordtype">double</span> _fogStart{0.f};</div>
-<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160; </div>
-<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;    ospray::uint32 _maxBounces{3};</div>
-<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;    ospray::uint32 _randomNumber{0};</div>
-<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160; </div>
-<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;    <span class="keywordtype">double</span> _shadows{0.f};</div>
-<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;    <span class="keywordtype">double</span> _softShadows{0.f};</div>
-<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;    ospray::uint32 _softShadowsSamples{0};</div>
-<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160; </div>
-<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;    <span class="keywordtype">double</span> _giStrength{0.f};</div>
-<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;    <span class="keywordtype">double</span> _giDistance{1e6f};</div>
-<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;    ospray::uint32 _giSamples{0};</div>
-<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160; </div>
-<div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;    <span class="keywordtype">bool</span> _matrixFilter{<span class="keyword">false</span>};</div>
-<div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160; </div>
-<div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;    ospray::Ref&lt;ospray::Data&gt; _simulationData;</div>
-<div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160;    ospray::uint64 _simulationDataSize;</div>
-<div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160;};</div>
-<div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160;} <span class="comment">// namespace rendering</span></div>
-<div class="line"><a name="l00092"></a><span class="lineno">   92</span>&#160;} <span class="comment">// namespace bioexplorer</span></div>
+<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;    <span class="keywordtype">double</span> _timestamp{0};</div>
+<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;    <span class="keywordtype">double</span> _exposure{1};</div>
+<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;    <span class="keywordtype">double</span> _epsilonFactor{1};</div>
+<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160; </div>
+<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;    <span class="keywordtype">double</span> _fogThickness{1e6};</div>
+<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;    <span class="keywordtype">double</span> _fogStart{0};</div>
+<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160; </div>
+<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;    ospray::uint32 _maxBounces{3};</div>
+<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;    ospray::uint32 _randomNumber{0};</div>
+<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160; </div>
+<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;    <span class="keywordtype">double</span> _shadows{0};</div>
+<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;    <span class="keywordtype">double</span> _softShadows{0};</div>
+<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;    ospray::uint32 _softShadowsSamples{0};</div>
+<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160; </div>
+<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;    <span class="keywordtype">double</span> _giStrength{0};</div>
+<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;    <span class="keywordtype">double</span> _giDistance{1e6};</div>
+<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;    ospray::uint32 _giSamples{0};</div>
+<div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160; </div>
+<div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;    <span class="keywordtype">bool</span> _matrixFilter{<span class="keyword">false</span>};</div>
+<div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160; </div>
+<div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160;    ospray::Ref&lt;ospray::Data&gt; _simulationData;</div>
+<div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160;    ospray::uint64 _simulationDataSize;</div>
+<div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160;};</div>
+<div class="line"><a name="l00092"></a><span class="lineno">   92</span>&#160;} <span class="comment">// namespace rendering</span></div>
+<div class="line"><a name="l00093"></a><span class="lineno">   93</span>&#160;} <span class="comment">// namespace bioexplorer</span></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
-<div class="ttc" id="aclassbioexplorer_1_1rendering_1_1AdvancedRenderer_html_ace9aeb88b90c18429a3f12698cdf1986"><div class="ttname"><a href="../../d9/d98/classbioexplorer_1_1rendering_1_1AdvancedRenderer.html#ace9aeb88b90c18429a3f12698cdf1986">bioexplorer::rendering::AdvancedRenderer::AdvancedRenderer</a></div><div class="ttdeci">AdvancedRenderer()</div><div class="ttdoc">Construct a new Bio Explorer Renderer object.</div><div class="ttdef"><b>Definition:</b> <a href="../../d4/d7c/AdvancedRenderer_8cpp_source.html#l00125">AdvancedRenderer.cpp:125</a></div></div>
+<div class="ttc" id="aclassbioexplorer_1_1rendering_1_1AdvancedRenderer_html_ace9aeb88b90c18429a3f12698cdf1986"><div class="ttname"><a href="../../d9/d98/classbioexplorer_1_1rendering_1_1AdvancedRenderer.html#ace9aeb88b90c18429a3f12698cdf1986">bioexplorer::rendering::AdvancedRenderer::AdvancedRenderer</a></div><div class="ttdeci">AdvancedRenderer()</div><div class="ttdoc">Construct a new Bio Explorer Renderer object.</div><div class="ttdef"><b>Definition:</b> <a href="../../d4/d7c/AdvancedRenderer_8cpp_source.html#l00126">AdvancedRenderer.cpp:126</a></div></div>
 <div class="ttc" id="aclassbioexplorer_1_1rendering_1_1AdvancedRenderer_html"><div class="ttname"><a href="../../d9/d98/classbioexplorer_1_1rendering_1_1AdvancedRenderer.html">bioexplorer::rendering::AdvancedRenderer</a></div><div class="ttdoc">The AdvancedRenderer class is a renderer that can perform global illumination (light shading,...</div><div class="ttdef"><b>Definition:</b> <a href="../../de/d80/AdvancedRenderer_8h_source.html#l00036">AdvancedRenderer.h:36</a></div></div>
 <div class="ttc" id="aclassbioexplorer_1_1rendering_1_1AdvancedRenderer_html_ab0f9d4ea8ca21a459510a9a28c169387"><div class="ttname"><a href="../../d9/d98/classbioexplorer_1_1rendering_1_1AdvancedRenderer.html#ab0f9d4ea8ca21a459510a9a28c169387">bioexplorer::rendering::AdvancedRenderer::toString</a></div><div class="ttdeci">std::string toString() const final</div><div class="ttdoc">Returns the class name as a string.</div><div class="ttdef"><b>Definition:</b> <a href="../../de/d80/AdvancedRenderer_8h_source.html#l00050">AdvancedRenderer.h:50</a></div></div>
 <div class="ttc" id="aclassbioexplorer_1_1rendering_1_1AdvancedRenderer_html_a5db00b10477aa3d6ba8133f0a76fd96d"><div class="ttname"><a href="../../d9/d98/classbioexplorer_1_1rendering_1_1AdvancedRenderer.html#a5db00b10477aa3d6ba8133f0a76fd96d">bioexplorer::rendering::AdvancedRenderer::commit</a></div><div class="ttdeci">void commit() final</div><div class="ttdoc">Commit the changes to the OSPRay engine.</div><div class="ttdef"><b>Definition:</b> <a href="../../d4/d7c/AdvancedRenderer_8cpp_source.html#l00068">AdvancedRenderer.cpp:68</a></div></div>

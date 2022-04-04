@@ -38,6 +38,7 @@ from .version import VERSION as __version__
 # pylint: disable=too-many-lines
 # pylint: disable=too-many-locals
 # pylint: disable=too-many-arguments
+# pylint: disable=too-many-public-methods
 # pylint: disable=inconsistent-return-statements
 # pylint: disable=wrong-import-order
 # pylint: disable=too-many-branches
@@ -301,7 +302,6 @@ class BioExplorer:
     NEURON_MATERIAL_MITOCHONDRION = 7
     NEURON_MATERIAL_NUCLEUS = 8
     NEURON_MATERIAL_MYELIN_STEATH = 9
-
 
     def __init__(self, url='localhost:5000'):
         """Create a new BioExplorer instance"""
@@ -2278,7 +2278,7 @@ class BioExplorer:
         elif color_scheme == self.VASCULATURE_COLOR_SCHEME_ENTRYNODE:
             palette_size = vasculature_info['nbEntryNodes']
         elif color_scheme == self.VASCULATURE_COLOR_SCHEME_SECTION_GRADIENT:
-            palette_size = vasculature_info['nbMaxPointsPerSection']
+            palette_size = vasculature_info['nbMaxSegmentsPerSection']
 
         palette = sns.color_palette(palette_name, palette_size)
         colors = list()
@@ -2435,6 +2435,15 @@ class BioExplorer:
         return self._invoke_and_check('add-neurons', params)
 
     def get_neuron_section_points(self, assembly_name, neuron_guid, section_guid):
+        """
+        Return the list of 3D points for a given section of a given neuron
+
+        :assembly_name: Name of the assembly
+        :neuron_guid: Neuron identifier
+        :section_guid: Section identifier
+
+        :return: A list of 3D points
+        """
         params = dict()
         params["assemblyName"] = assembly_name
         params["neuronId"] = neuron_guid

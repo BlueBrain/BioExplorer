@@ -6,6 +6,8 @@ var dir_4d0e1c1da79c3b61cfae91382abbaeb1 =
     [ "CubeShape.h", "de/dee/CubeShape_8h_source.html", null ],
     [ "FanShape.cpp", "d5/dac/FanShape_8cpp_source.html", null ],
     [ "FanShape.h", "dd/da5/FanShape_8h_source.html", null ],
+    [ "HelixShape.cpp", "d5/d5d/HelixShape_8cpp_source.html", null ],
+    [ "HelixShape.h", "d9/d2c/HelixShape_8h_source.html", null ],
     [ "MeshShape.cpp", "d4/d6a/MeshShape_8cpp_source.html", null ],
     [ "MeshShape.h", "d0/d7e/MeshShape_8h_source.html", null ],
     [ "PlaneShape.cpp", "d6/d48/PlaneShape_8cpp_source.html", null ],
