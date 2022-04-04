@@ -154,7 +154,6 @@ ADD . ${BIOEXPLORER_SRC}
 WORKDIR /app
 
 RUN cd ${BIOEXPLORER_SRC} \
-   && git checkout master \
    && rm -rf ${BIOEXPLORER_SRC}/bioexplorer_build \
    && mkdir -p ${BIOEXPLORER_SRC}/bioexplorer_build \
    && cd ${BIOEXPLORER_SRC}/bioexplorer_build \
