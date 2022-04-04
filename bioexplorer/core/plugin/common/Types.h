@@ -71,6 +71,7 @@ using StringMap = std::map<std::string, std::string>;
 using Color = Vector3d;
 using Palette = std::vector<Color>;
 using Quaternions = std::vector<Quaterniond>;
+using bools = std::vector<bool>;
 using doubles = std::vector<double>;
 using strings = std::vector<std::string>;
 using Vector3ds = std::vector<Vector3d>;
@@ -78,6 +79,7 @@ using Vector4ds = std::vector<Vector4d>;
 using Vector2uis = std::vector<Vector2ui>;
 using Vector3uis = std::vector<Vector3ui>;
 using uint32_ts = std::vector<uint32_t>;
+using uint64_ts = std::vector<uint64_t>;
 using CommandLineArguments = std::map<std::string, std::string>;
 using Transformations = std::vector<Transformation>;
 
@@ -117,7 +119,7 @@ typedef struct
     /** Instance identifier */
     size_t instanceId;
     /** camera direction */
-    std::vector<double> direction;
+    doubles direction;
     /** Distance to the instance */
     double distance;
 } FocusOnDetails;
@@ -165,7 +167,9 @@ enum class AssemblyShape
     /** Bezier (experimental) */
     bezier = 6,
     /** mesh-based */
-    mesh = 7
+    mesh = 7,
+    /** Helix */
+    helix = 8
 };
 
 /**
@@ -201,13 +205,13 @@ typedef struct
     std::string proteinName;
     size_t modelId;
     size_t instanceId;
-    std::vector<double> position;
+    doubles position;
 } ProteinInspectionDetails;
 
 typedef struct
 {
-    std::vector<double> origin;
-    std::vector<double> direction;
+    doubles origin;
+    doubles direction;
 } InspectionDetails;
 
 /**
@@ -221,15 +225,15 @@ typedef struct
     /** Shape of the assembly containing the parametric membrane */
     AssemblyShape shape;
     /** Shape parameters */
-    std::vector<double> shapeParams;
+    doubles shapeParams;
     /** Contents of the mesh for mesh-based shapes */
     std::string shapeMeshContents;
     /** Position of the assembly in the scene */
-    std::vector<double> position;
+    doubles position;
     /** rotation of the assembly in the scene */
-    std::vector<double> rotation;
+    doubles rotation;
     /** Clipping planes applied to the loading of elements of the assembly */
-    std::vector<double> clippingPlanes;
+    doubles clippingPlanes;
 } AssemblyDetails;
 
 /**
@@ -244,7 +248,7 @@ typedef struct
      * applied */
     std::string name;
     /** List of transformations */
-    std::vector<double> transformations;
+    doubles transformations;
 } AssemblyTransformationsDetails;
 
 /**
@@ -286,7 +290,7 @@ typedef struct
      * PDB_CONTENTS_DELIMITER */
     std::string lipidContents;
     /** Relative rotation of the lipid in the membrane */
-    std::vector<double> lipidRotation;
+    doubles lipidRotation;
     /** Lipids density  */
     double lipidDensity;
     /** Multiplier applied to the radius of the lipid atoms */
@@ -299,11 +303,11 @@ typedef struct
      * surface, etc) */
     ProteinRepresentation representation;
     /** Identifiers of chains to be loaded */
-    std::vector<size_t> chainIds;
+    size_ts chainIds;
     /** Recenters the lipid  */
     bool recenter;
     /** Extra optional parameters for positioning on the molecule */
-    std::vector<double> animationParams;
+    doubles animationParams;
 } MembraneDetails;
 
 // Protein
@@ -330,22 +334,22 @@ typedef struct
     ProteinRepresentation representation{
         ProteinRepresentation::atoms_and_sticks};
     /** Identifiers of chains to be loaded */
-    std::vector<size_t> chainIds;
+    size_ts chainIds;
     /** Recenters the protein  */
     bool recenter{false};
     /** Number of protein occurrences to be added to the assembly */
     size_t occurrences{1};
     /** Indices of protein occurrences in the assembly for which proteins are
      * added */
-    std::vector<size_t> allowedOccurrences;
+    size_ts allowedOccurrences;
     /** Trans-membrane parameters */
-    std::vector<double> transmembraneParams;
+    doubles transmembraneParams;
     /** Extra optional parameters for positioning on the molecule */
-    std::vector<double> animationParams;
+    doubles animationParams;
     /** Relative position of the protein in the assembly */
-    std::vector<double> position;
+    doubles position;
     /** Relative rotation of the protein in the assembly */
-    std::vector<double> rotation;
+    doubles rotation;
     /** List of assembly names used to constrain the placement of the protein.
      * If the assembly name is prefixed by a +, proteins are not allowed inside
      * the spedified assembly. If the name is prefixed by a -, proteins are not
@@ -379,13 +383,13 @@ typedef struct
     /** Recenters the protein  */
     bool recenter;
     /** Identifiers of chains to be loaded */
-    std::vector<size_t> chainIds;
+    size_ts chainIds;
     /** List of sites on which sugar can be added */
-    std::vector<size_t> siteIndices;
+    size_ts siteIndices;
     /** Relative rotation of the sugar on the molecule */
-    std::vector<double> rotation;
+    doubles rotation;
     /** Extra optional parameters for positioning on the molecule */
-    std::vector<double> animationParams;
+    doubles animationParams;
 } SugarDetails;
 
 /**
@@ -407,22 +411,22 @@ typedef struct
     /** A given shape */
     RNAShapeType shape;
     /** Shape radius */
-    std::vector<double> shapeParams;
+    doubles shapeParams;
     /** Range of values used to compute the shape */
-    std::vector<double> valuesRange;
+    doubles valuesRange;
     /** Parameters used to compute the shape */
-    std::vector<double> curveParams;
+    doubles curveParams;
     /** Multiplier applied to the radius of the molecule atoms */
     double atomRadiusMultiplier;
     /** Defines the representation of the molecule (Atoms, atoms and sticks,
      * surface, etc) */
     ProteinRepresentation representation;
     /** Animation params */
-    std::vector<double> animationParams;
+    doubles animationParams;
     /** Relative position of the RNA sequence in the assembly */
-    std::vector<double> position;
+    doubles position;
     /** Relative rotation of the RNA sequence in the assembly */
-    std::vector<double> rotation;
+    doubles rotation;
 } RNASequenceDetails;
 
 /**
@@ -453,7 +457,7 @@ typedef struct
     std::string name;
     /** List of tuples of 2 integers defining indices in the sequence of
      * amino acid */
-    std::vector<size_t> ranges;
+    size_ts ranges;
 } AminoAcidSequenceAsRangesDetails;
 
 typedef struct
@@ -477,7 +481,7 @@ typedef struct
     /** Amino acid short name */
     std::string aminoAcidShortName;
     /** List of chains in which the amino acid is set */
-    std::vector<size_t> chainIds;
+    size_ts chainIds;
 } AminoAcidDetails;
 
 /**
@@ -539,7 +543,7 @@ typedef struct
     /** Defines if the RGB color scheme shoudl be applied to axis */
     bool useColors;
     /** Position of the grid in the scene */
-    std::vector<double> position;
+    doubles position;
 } AddGridDetails;
 
 /**
@@ -551,11 +555,11 @@ typedef struct
     /** Name of the sphere */
     std::string name;
     /** Position of the sphere in the scene */
-    std::vector<double> position;
+    doubles position;
     /** Radius of the sphere */
     double radius;
     /** RGB Color of the sphere */
-    std::vector<double> color;
+    doubles color;
     /** Opacity */
     double opacity;
 } AddSphereDetails;
@@ -569,13 +573,13 @@ typedef struct
     /** Name of the bounding box */
     std::string name;
     /** Position of the bottom left corner in the scene */
-    std::vector<double> bottomLeft;
+    doubles bottomLeft;
     /** Position of the top right corner in the scene */
-    std::vector<double> topRight;
+    doubles topRight;
     /** Radius of the borders */
     double radius;
     /** RGB Color of the sphere */
-    std::vector<double> color;
+    doubles color;
 } AddBoundingBoxDetails;
 
 /**
@@ -613,9 +617,9 @@ typedef struct
     /** Color scheme **/
     ProteinColorScheme colorScheme;
     /** Palette of colors (RGB values) */
-    std::vector<double> palette;
+    doubles palette;
     /** Ids of protein chains to which the colors scheme is applied */
-    std::vector<size_t> chainIds;
+    size_ts chainIds;
 } ProteinColorSchemeDetails;
 
 typedef struct
@@ -627,9 +631,9 @@ typedef struct
     /** Index of the protein instance */
     size_t instanceIndex;
     /** Position of the protein instance */
-    std::vector<double> position;
+    doubles position;
     /** rotation of the protein instance */
-    std::vector<double> rotation;
+    doubles rotation;
 } ProteinInstanceTransformationDetails;
 
 /**
@@ -639,7 +643,7 @@ typedef struct
 typedef struct
 {
     /** List of identifiers */
-    std::vector<size_t> ids;
+    size_ts ids;
 } IdsDetails;
 
 /**
@@ -671,33 +675,33 @@ typedef struct
 typedef struct
 {
     /** List of model identifiers */
-    std::vector<int32_t> modelIds;
+    int32_ts modelIds;
     /** List of material identifiers */
-    std::vector<int32_t> materialIds;
+    int32_ts materialIds;
     /** List of RGB values for diffuse colors */
-    std::vector<double> diffuseColors;
+    doubles diffuseColors;
     /** List of RGB values for specular colors */
-    std::vector<double> specularColors;
+    doubles specularColors;
     /** List of values for specular exponents */
-    std::vector<double> specularExponents;
+    doubles specularExponents;
     /** List of values for reflection indices */
-    std::vector<double> reflectionIndices;
+    doubles reflectionIndices;
     /** List of values for opacities */
-    std::vector<double> opacities;
+    doubles opacities;
     /** List of values for refraction indices */
-    std::vector<double> refractionIndices;
+    doubles refractionIndices;
     /** List of values for light emission */
-    std::vector<double> emissions;
+    doubles emissions;
     /** List of values for glossiness */
-    std::vector<double> glossinesses;
+    doubles glossinesses;
     /** List of values for casting user data */
-    std::vector<bool> castUserData;
+    bools castUserData;
     /** List of values for shading modes */
-    std::vector<int32_t> shadingModes;
+    int32_ts shadingModes;
     /** List of values for user defined parameters */
-    std::vector<double> userParameters;
+    doubles userParameters;
     /** List of values for chameleon mode parameters */
-    std::vector<int32_t> chameleonModes;
+    int32_ts chameleonModes;
 } MaterialsDetails;
 
 /**
@@ -755,8 +759,8 @@ enum class XYZFileFormat
 typedef struct
 {
     std::string filename;
-    std::vector<double> lowBounds;
-    std::vector<double> highBounds;
+    doubles lowBounds;
+    doubles highBounds;
     XYZFileFormat fileFormat;
 } FileAccessDetails;
 
@@ -767,8 +771,8 @@ typedef struct
 typedef struct
 {
     int32_t brickId;
-    std::vector<double> lowBounds;
-    std::vector<double> highBounds;
+    doubles lowBounds;
+    doubles highBounds;
 } DatabaseAccessDetails;
 
 /**
@@ -827,7 +831,6 @@ typedef struct
     uint32_t nbColors{0};
 } SceneInformationDetails;
 
-#ifdef USE_VASCULATURE
 /**
  * @brief Color schemes that can be applied to vasculatures
  *
@@ -866,13 +869,15 @@ typedef struct
     /** Use Signed Distance Fields as geometry */
     bool useSdf;
     /** Node gids to load. All if empty */
-    std::vector<uint32_t> gids;
+    uint32_ts gids;
     /** Geometry quality */
     VasculatureQuality quality;
     /** Multiplies the vasculature section radii by the specified value */
     double radiusMultiplier;
     /** SQL filter (WHERE condition) */
     std::string sqlFilter;
+    /** Scale of the vasculature in the scene */
+    doubles scale;
 } VasculatureDetails;
 
 /**
@@ -886,7 +891,7 @@ typedef struct
     /** Color scheme **/
     VasculatureColorScheme colorScheme;
     /** Palette of colors (RGB values) */
-    std::vector<double> palette;
+    doubles palette;
 } VasculatureColorSchemeDetails;
 
 typedef struct
@@ -912,9 +917,6 @@ typedef struct
     /** Amplitude applied to the radius */
     double amplitude;
 } VasculatureRadiusReportDetails;
-#endif
-
-#ifdef USE_MORPHOLOGIES
 
 enum class PopulationColorScheme
 {
@@ -945,14 +947,18 @@ typedef struct
     std::string assemblyName;
     /** Name of the population of astrocytes */
     std::string populationName;
+    /** Name of the vasculature population (for endfeet) */
+    std::string vasculaturePopulationName;
     /** Load somas if set to true */
-    bool loadSomas;
+    bool loadSomas{true};
     /** Load dendrites if set to true */
-    bool loadDendrites;
+    bool loadDendrites{true};
     /** Load end-feet if set to true */
-    bool loadEndFeet;
+    bool loadEndFeet{false};
+    /** Generate internal components (nucleus and mitochondria) */
+    bool generateInternals{false};
     /** Use Signed Distance Fields as geometry */
-    bool useSdf;
+    bool useSdf{false};
     /** Geometry quality */
     GeometryQuality geometryQuality;
     /** Geometry color scheme */
@@ -963,14 +969,17 @@ typedef struct
     double radiusMultiplier;
     /** SQL filter (WHERE condition) */
     std::string sqlFilter;
+    /** Scale of the astrocyte in the scene */
+    doubles scale;
 } AstrocytesDetails;
 
 enum class NeuronSectionType
 {
-    soma = 0,
-    axon = 1,
-    basal_dendrite = 2,
-    apical_dendrite = 3
+    undefined = 0,
+    soma = 1,
+    axon = 2,
+    basal_dendrite = 3,
+    apical_dendrite = 4
 };
 
 typedef struct
@@ -980,19 +989,21 @@ typedef struct
     /** Name of the population of astrocytes */
     std::string populationName;
     /** Load somas if set to true */
-    bool loadSomas;
+    bool loadSomas{true};
     /** Load axons if set to true */
-    bool loadAxons;
+    bool loadAxon{true};
     /** Load bascal dendrites if set to true */
-    bool loadBasalDendrites;
+    bool loadBasalDendrites{true};
     /** Load apical dendrites if set to true */
-    bool loadApicalDendrites;
+    bool loadApicalDendrites{true};
+    /** Load synapses if set to true */
+    bool loadSynapses{false};
     /** Generate internal components (nucleus and mitochondria) */
-    bool generateInternals;
+    bool generateInternals{false};
     /** Generate external components (myelin steath) */
-    bool generateExternals;
+    bool generateExternals{false};
     /** Use Signed Distance Fields as geometry */
-    bool useSdf;
+    bool useSdf{false};
     /** Geometry quality */
     GeometryQuality geometryQuality;
     /** Geometry color scheme */
@@ -1005,9 +1016,25 @@ typedef struct
     std::string sqlNodeFilter;
     /** SQL filter dor sections (WHERE condition) */
     std::string sqlSectionFilter;
+    /** Scale of the neuron in the scene */
+    doubles scale;
 } NeuronsDetails;
-#endif
 
+typedef struct
+{
+    /** Name of the assembly containing the astrocytes */
+    std::string assemblyName;
+    /** Neuron identifier */
+    uint64_t neuronId;
+    /** Section identifier */
+    uint64_t sectionId;
+} NeuronSectionDetails;
+
+typedef struct
+{
+    bool status{true};
+    doubles points;
+} NeuronSectionPointsDetails;
 } // namespace details
 
 namespace common
@@ -1038,16 +1065,23 @@ using GeometryNodes = std::map<uint64_t, GeometryNode>;
 using GeometryEdges = std::map<uint64_t, uint64_t>;
 using Bifurcations = std::map<uint64_t, uint64_ts>;
 
+// Thread safe container
+class ThreadSafeContainer;
+using ThreadSafeContainers = std::vector<ThreadSafeContainer>;
+
 // SDF structures
+class SDFGeometries;
+using SDFGeometriesPtr = std::shared_ptr<SDFGeometries>;
+
 struct SDFMorphologyData
 {
     std::vector<SDFGeometry> geometries;
     std::vector<std::set<size_t>> neighbours;
-    std::vector<size_t> materials;
-    std::vector<size_t> localToGlobalIdx;
-    std::vector<size_t> bifurcationIndices;
+    size_ts materials;
+    size_ts localToGlobalIdx;
+    size_ts bifurcationIndices;
     std::unordered_map<size_t, int> geometrySection;
-    std::unordered_map<int, std::vector<size_t>> sectionGeometries;
+    std::unordered_map<int, size_ts> sectionGeometries;
 };
 } // namespace common
 
@@ -1118,7 +1152,7 @@ typedef struct
     /** Number of residues in the chain */
     size_t numRes;
     /** Residue name */
-    std::vector<std::string> resNames;
+    strings resNames;
     /** Atom Offset */
     size_t offset;
 } ResidueSequence;
@@ -1128,7 +1162,7 @@ using ResidueSequenceMap = std::map<std::string, ResidueSequence>;
  * @brief Bonds map
  *
  */
-using BondsMap = std::map<size_t, std::vector<size_t>>;
+using BondsMap = std::map<size_t, size_ts>;
 
 /**
  * @brief Structure containing amino acids long and shot names
@@ -1240,17 +1274,21 @@ static details::RGBColorDetailsMap atomColorMap = {
     {"O1", {0xFF, 0x0D, 0x0D}}, {"selection", {0xFF, 0x00, 0x00}}};
 } // namespace molecularsystems
 
-#ifdef USE_VASCULATURE
 namespace vasculature
 {
+const double DEFAULT_VASCULATURE_DISPLACEMENT = 0.5;
+
 class Vasculature;
 using VasculaturePtr = std::shared_ptr<Vasculature>;
 } // namespace vasculature
-#endif
 
-#ifdef USE_MORPHOLOGIES
 namespace morphology
 {
+const double DEFAULT_SOMA_DISPLACEMENT = 2.0;
+const double DEFAULT_SECTION_DISPLACEMENT = 2.0;
+
+class Morphologies;
+using MorphologiesPtr = std::shared_ptr<Morphologies>;
 class Astrocytes;
 using AstrocytesPtr = std::shared_ptr<Astrocytes>;
 class Neurons;
@@ -1266,13 +1304,23 @@ using AstrocyteSomaMap = std::map<uint64_t, AstrocyteSoma>;
 
 typedef struct
 {
-    Vector3d center;
-    uint64_t eType;
-    uint64_t mType;
-    uint64_t layer;
-    uint64_t morphologyId;
+    Vector3d position;
+    Quaterniond rotation;
+    uint64_t eType{0};
+    uint64_t mType{0};
+    uint64_t layer{0};
+    uint64_t morphologyId{0};
 } NeuronSoma;
 using NeuronSomaMap = std::map<uint64_t, NeuronSoma>;
+
+typedef struct
+{
+    uint64_t preSynapticNeuron;
+    uint64_t postSynapticNeuron;
+    Vector3d surfacePosition;
+    Vector3d centerPosition;
+} Synapse;
+using SynapseMap = std::map<uint64_t, Synapse>;
 
 typedef struct
 {
@@ -1284,12 +1332,14 @@ using SectionMap = std::map<uint64_t, Section>;
 
 typedef struct
 {
-    Vector3fs vertices;
-    Vector3uis indices;
+    uint64_t vasculatureSectionId;
+    uint64_t vasculatureSegmentId;
+    double length;
+    double radius;
+    Vector4fs nodes;
 } EndFoot;
 using EndFootMap = std::map<uint64_t, EndFoot>;
 } // namespace morphology
-#endif
 
 namespace io
 {

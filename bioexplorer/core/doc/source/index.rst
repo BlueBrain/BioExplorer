@@ -126,7 +126,7 @@ Considering that the *BBBE* server is running on the local host, on port 5000, t
 
 License
 #######
-*BBBE* is available to download and use under the GNU General Public License (`GPL <https://www.gnu.org/licenses/gpl.html>`_, or “free software”). The code is open sourced with approval from the open sourcing committee and principal coordinators of the Blue Brain Project in February 2021.
+*BBBE* is available to download and use under the GNU General Public License (`GPL <https://www.gnu.org/licenses/gpl.html>`_, or “free software”). The code is open sourced with approval from the open sourcing committee and principal coordinators of the Blue Brain Project in February 2022.
 
 Contact
 #######
@@ -141,4 +141,4 @@ Funding & Acknowledgment
 ########################
 The development of this software was supported by funding to the Blue Brain Project, a research center of the École polytechnique fédérale de Lausanne (EPFL), from the Swiss government’s ETH Board of the Swiss Federal Institutes of Technology.
 
-COPYRIGHT 2020–2021 Blue Brain Project/EPFL
+COPYRIGHT 2020–2022 Blue Brain Project/EPFL

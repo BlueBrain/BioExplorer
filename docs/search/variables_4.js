@@ -1,6 +1,6 @@
 var searchData=
 [
-  ['element_584',['element',['../df/d73/structbioexplorer_1_1molecularsystems_1_1Atom.html#ae4ae6a4a5ef14ade449ad1c06555d126',1,'bioexplorer::molecularsystems::Atom']]],
-  ['emissions_585',['emissions',['../d7/d84/structbioexplorer_1_1details_1_1MaterialsDetails.html#a4e12a0cac53dc651137fa643bc79c61c',1,'bioexplorer::details::MaterialsDetails']]],
-  ['enzymename_586',['enzymeName',['../df/dc6/structbioexplorer_1_1details_1_1EnzymeReactionDetails.html#aebb2daeb469913056aa2e55160ffcc21',1,'bioexplorer::details::EnzymeReactionDetails']]]
+  ['element_709',['element',['../df/d73/structbioexplorer_1_1molecularsystems_1_1Atom.html#ae4ae6a4a5ef14ade449ad1c06555d126',1,'bioexplorer::molecularsystems::Atom']]],
+  ['emissions_710',['emissions',['../d7/d84/structbioexplorer_1_1details_1_1MaterialsDetails.html#acd1fd0706367e326a6016289dc12723f',1,'bioexplorer::details::MaterialsDetails']]],
+  ['enzymename_711',['enzymeName',['../df/dc6/structbioexplorer_1_1details_1_1EnzymeReactionDetails.html#aebb2daeb469913056aa2e55160ffcc21',1,'bioexplorer::details::EnzymeReactionDetails']]]
 ];

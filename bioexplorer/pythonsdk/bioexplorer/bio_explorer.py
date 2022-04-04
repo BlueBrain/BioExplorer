@@ -38,6 +38,7 @@ from .version import VERSION as __version__
 # pylint: disable=too-many-lines
 # pylint: disable=too-many-locals
 # pylint: disable=too-many-arguments
+# pylint: disable=too-many-public-methods
 # pylint: disable=inconsistent-return-statements
 # pylint: disable=wrong-import-order
 # pylint: disable=too-many-branches
@@ -228,6 +229,7 @@ class BioExplorer:
     ASSEMBLY_SHAPE_FAN = 5
     ASSEMBLY_SHAPE_BEZIER = 6
     ASSEMBLY_SHAPE_MESH = 7
+    ASSEMBLY_SHAPE_HELIX = 8
 
     NAME_PROTEIN_S_OPEN = "Protein S (open)"
     NAME_PROTEIN_S_CLOSED = "Protein S (closed)"
@@ -289,23 +291,17 @@ class BioExplorer:
     GEOMETRY_QUALITY_MEDIUM = 1
     GEOMETRY_QUALITY_HIGH = 2
 
-    # Material offsets in astrocytes
-    NB_MATERIALS_PER_ASTROCYTE = 2
-    ASTROCYTE_MATERIAL_SOMA = 0
-    ASTROCYTE_MATERIAL_DENDRITE = 1
-
     # Material offsets in neurons
-    NB_MATERIALS_PER_NEURON = 10
-    NEURON_MATERIAL_SOMA = 0
-    NEURON_MATERIAL_AXON = 1
-    NEURON_MATERIAL_BASAL_DENDRITE = 2
-    NEURON_MATERIAL_APICAL_DENDRITE = 3
-    NEURON_MATERIAL_AFFERENT_SYNPASE = 4
-    NEURON_MATERIAL_EFFERENT_SYNPASE = 5
-    NEURON_MATERIAL_MITOCHONDRION = 6
-    NEURON_MATERIAL_NUCLEUS = 7
-    NEURON_MATERIAL_MYELIN_STEATH = 8
-
+    NB_MATERIALS_PER_MORPHOLOGY = 10
+    NEURON_MATERIAL_SOMA = 1
+    NEURON_MATERIAL_AXON = 2
+    NEURON_MATERIAL_BASAL_DENDRITE = 3
+    NEURON_MATERIAL_APICAL_DENDRITE = 4
+    NEURON_MATERIAL_AFFERENT_SYNPASE = 5
+    NEURON_MATERIAL_EFFERENT_SYNPASE = 6
+    NEURON_MATERIAL_MITOCHONDRION = 7
+    NEURON_MATERIAL_NUCLEUS = 8
+    NEURON_MATERIAL_MYELIN_STEATH = 9
 
     def __init__(self, url='localhost:5000'):
         """Create a new BioExplorer instance"""
@@ -844,7 +840,7 @@ class BioExplorer:
 
     def add_volume(self, volume, atom_radius_multiplier=1.0,
                    representation=REPRESENTATION_ATOMS_AND_STICKS, position=Vector3(),
-                   constraints=list()):
+                   rotation=Quaternion(), constraints=list()):
         """
         Add a volume assembly to the scene
 
@@ -852,6 +848,7 @@ class BioExplorer:
         :atom_radius_multiplier: Representation of the protein (Atoms, atoms and sticks, etc)
         :representation: Multiplies atom radius by the specified value
         :position: Position of the volume in the scene
+        :rotation: Rotation of the volume in the scene
         :animation_params: Random seed used to define the positions of the proteins in the volume
         :constraints: List of assemblies that constraint the placememnt of the proteins
         """
@@ -880,7 +877,7 @@ class BioExplorer:
         result = self.add_assembly(
             name=volume.name,
             shape=volume.shape, shape_params=volume.shape_params,
-            position=position)
+            position=position, rotation=rotation)
         if not result["status"]:
             raise RuntimeError(result["contents"])
         result = self.add_assembly_protein(_protein)
@@ -2126,6 +2123,28 @@ class BioExplorer:
         params["opacity"] = opacity
         return self._invoke_and_check("add-sphere", params)
 
+    def add_sdf_demo(self):
+        """
+        Add an SDF demo model
+
+        :return: Result of the request submission
+        """
+        if self._client is None:
+            return
+
+        return self._invoke_and_check("add-sdf-demo")
+
+    def add_curves_demo(self):
+        """
+        Add an curves demo model
+
+        :return: Result of the request submission
+        """
+        if self._client is None:
+            return
+
+        return self._invoke_and_check("add-curves-demo")
+
     def set_general_settings(self, model_visibility_on_creation=True, mesh_folder='/tmp',
                              logging_level=0, v1_compatibility=False):
         """
@@ -2188,7 +2207,7 @@ class BioExplorer:
     def add_vasculature(
             self, assembly_name, population_name, use_sdf=False, section_gids=list(),
             load_capilarities=False, quality=VASCULATURE_QUALITY_HIGH,
-            radius_multiplier=1.0, sql_filter=''):
+            radius_multiplier=1.0, sql_filter='', scale=Vector3(1.0, 1.0, 1.0)):
         """
         Add a vasculature to the 3D scene
 
@@ -2197,14 +2216,16 @@ class BioExplorer:
         :path: File name to the H5 vasculature file
         :use_sdf: Use sign distance fields geometry to create the vasculature. Defaults to False
         :node_gids: List of segment GIDs to load. Defaults to list()
-        :load_capilarities: Load capilarities (<= 7 micrometers) if set to True
-        :radius_correction: Replaces all vasculature radii if different from zero
         :quality: Quality of the vasculature geometry (0 is the graph, 1 with low details, 2
                     with high details)
+        :radius_muliplier: Applies the multiplier to all radii of the vasculature sections
+        :sql_filter: Condition added to the SQL statement loading the vasculature
+        :scale: Scale in the 3D scene
 
         :return: Result of the request submission
         """
         assert isinstance(section_gids, list)
+        assert isinstance(scale, Vector3)
 
         params = dict()
         params["assemblyName"] = assembly_name
@@ -2215,6 +2236,7 @@ class BioExplorer:
         params["quality"] = quality
         params["radiusMultiplier"] = radius_multiplier
         params["sqlFilter"] = sql_filter
+        params["scale"] = scale.to_list()
         return self._invoke_and_check('add-vasculature', params)
 
     def get_vasculature_info(self, assembly_name):
@@ -2256,7 +2278,7 @@ class BioExplorer:
         elif color_scheme == self.VASCULATURE_COLOR_SCHEME_ENTRYNODE:
             palette_size = vasculature_info['nbEntryNodes']
         elif color_scheme == self.VASCULATURE_COLOR_SCHEME_SECTION_GRADIENT:
-            palette_size = vasculature_info['nbMaxPointsPerSection']
+            palette_size = vasculature_info['nbMaxSegmentsPerSection']
 
         palette = sns.color_palette(palette_name, palette_size)
         colors = list()
@@ -2309,54 +2331,64 @@ class BioExplorer:
         return self._invoke_and_check('set-vasculature-radius-report', params)
 
     def add_astrocytes(
-            self, assembly_name, population_name,
+            self, assembly_name, population_name, vasculature_population_name='',
             use_sdf=False, load_somas=True,
-            load_dendrites=True, load_end_feet=True,
+            load_dendrites=True, load_end_feet=True, generate_internals=False,
             geometry_quality=GEOMETRY_QUALITY_HIGH,
             morphology_color_scheme=MORPHOLOGY_COLOR_SCHEME_NONE,
             population_color_scheme=POPULATION_COLOR_SCHEME_NONE,
-            radius_multiplier=0.0, sql_filter=''):
+            radius_multiplier=0.0, sql_filter='', scale=Vector3(1.0, 1.0, 1.0)):
         """
         Add a population of astrocytes to the 3D scene
 
         :assembly_name: Name of the assembly to which the astrocytes should be added
         :population_name: Name of the population of astrocytes
-        :use_sdf: Use sign distance fields geometry to create the astrocytes. Defaults to False
+        :vasculature_population_name: Name of the vasculature population (for endfeet)
         :load_somas: Load somas if set to true
         :load_dendrites: Load dendrites if set to true
         :load_end_feet: Load end feet if set to true
+        :generate_internals: Generate internals (Nucleus and mitochondria)
+        :use_sdf: Use sign distance fields geometry to create the astrocytes. Defaults to False
         :geometry_quality: Quality of the geometry
         :morphology_color_scheme: Color scheme of the sections of the astrocytes
         :populationColorScheme: Color scheme of the population of astrocytes
         :radius_muliplier: Applies the multiplier to all radii of the astrocyte sections
         :sql_filter: Condition added to the SQL statement loading the astrocytes
+        :scale: Scale in the 3D scene
 
         :return: Result of the request submission
         """
+        assert isinstance(scale, Vector3)
+
         params = dict()
         params["assemblyName"] = assembly_name
         params["populationName"] = population_name
-        params["useSdf"] = use_sdf
+        params["vasculaturePopulationName"] = vasculature_population_name
         params["loadSomas"] = load_somas
         params["loadDendrites"] = load_dendrites
         params["loadEndFeet"] = load_end_feet
+        params["generateInternals"] = generate_internals
+        params["useSdf"] = use_sdf
         params["geometryQuality"] = geometry_quality
         params["morphologyColorScheme"] = morphology_color_scheme
         params["populationColorScheme"] = population_color_scheme
         params["radiusMultiplier"] = radius_multiplier
         params["sqlFilter"] = sql_filter
+        params["scale"] = scale.to_list()
         return self._invoke_and_check('add-astrocytes', params)
 
     def add_neurons(
             self, assembly_name, population_name,
             use_sdf=False,
-            load_somas=True, load_axons=True,
+            load_somas=True, load_axon=True,
             load_basal_dendrites=True, load_apical_dendrites=True,
+            load_synapses=False,
             generate_internals=False, generate_externals=False,
             geometry_quality=GEOMETRY_QUALITY_HIGH,
             morphology_color_scheme=MORPHOLOGY_COLOR_SCHEME_NONE,
             population_color_scheme=POPULATION_COLOR_SCHEME_NONE,
-            radius_multiplier=0.0, sql_node_filter='', sql_section_filter=''):
+            radius_multiplier=0.0, sql_node_filter='', sql_section_filter='',
+            scale=Vector3(1.0, 1.0, 1.0)):
         """
         Add a population of astrocytes to the 3D scene
 
@@ -2364,9 +2396,10 @@ class BioExplorer:
         :population_name: Name of the population of astrocytes
         :use_sdf: Use sign distance fields geometry to create the astrocytes. Defaults to False
         :load_somas: Load somas if set to true
-        :load_axons: Load axons if set to true
+        :load_axon: Load axon if set to true
         :load_basal_dendrites: Load basal dendrites if set to true
         :load_apical_dendrites: Load apical dendrites if set to true
+        :load_synapses: Load synapses if set to true
         :generate_internals: Generate internals (Nucleus and mitochondria)
         :generate_externals: Generate externals (Myelin steath)
         :geometry_quality: Quality of the geometry
@@ -2375,16 +2408,20 @@ class BioExplorer:
         :radius_muliplier: Applies the multiplier to all radii of the astrocyte sections
         :sql_node_filter: Condition added to the SQL statement loading the nodes
         :sql_section_filter: Condition added to the SQL statement loading the sections
+        :scale: Scale in the 3D scene
 
         :return: Result of the request submission
         """
+        assert isinstance(scale, Vector3)
+
         params = dict()
         params["assemblyName"] = assembly_name
         params["populationName"] = population_name
         params["loadSomas"] = load_somas
-        params["loadAxons"] = load_axons
+        params["loadAxon"] = load_axon
         params["loadBasalDendrites"] = load_basal_dendrites
         params["loadApicalDendrites"] = load_apical_dendrites
+        params["loadSynapses"] = load_synapses
         params["generateInternals"] = generate_internals
         params["generateExternals"] = generate_externals
         params["useSdf"] = use_sdf
@@ -2394,7 +2431,35 @@ class BioExplorer:
         params["radiusMultiplier"] = radius_multiplier
         params["sqlNodeFilter"] = sql_node_filter
         params["sqlSectionFilter"] = sql_section_filter
+        params["scale"] = scale.to_list()
         return self._invoke_and_check('add-neurons', params)
+
+    def get_neuron_section_points(self, assembly_name, neuron_guid, section_guid):
+        """
+        Return the list of 3D points for a given section of a given neuron
+
+        :assembly_name: Name of the assembly
+        :neuron_guid: Neuron identifier
+        :section_guid: Section identifier
+
+        :return: A list of 3D points
+        """
+        params = dict()
+        params["assemblyName"] = assembly_name
+        params["neuronId"] = neuron_guid
+        params["sectionId"] = section_guid
+        response = self._invoke('get-neuron-section-points', params)
+        if not response['status']:
+            raise "Failed to get neuron section points"
+        points = response['points']
+        ps = list()
+        for i in range(0, len(points), 4):
+            p = list()
+            for j in range(4):
+                p.append(points[i+j])
+            ps.append(p)
+        return ps
+
 
 # Private classes
 

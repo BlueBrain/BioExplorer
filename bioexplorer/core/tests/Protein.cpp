@@ -72,8 +72,10 @@ ProteinDetails getProteinDescriptor()
 
 BOOST_AUTO_TEST_CASE(protein)
 {
-    std::vector<const char*> argv{"brayns", "--http-server", "localhost:0",
-                                  "--plugin", "BioExplorer"};
+    std::vector<const char*> argv{
+        "brayns", "--http-server", "localhost:0", "--plugin",
+        "BioExplorer --db-name=bioexplorer --db-user=brayns "
+        "--db-password=brayns --db-host=localhost --db-port=5432"};
     brayns::Brayns brayns(argv.size(), argv.data());
     auto& scene = brayns.getEngine().getScene();
     Protein protein(scene, getProteinDescriptor());

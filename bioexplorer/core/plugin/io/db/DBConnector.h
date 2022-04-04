@@ -34,9 +34,7 @@ namespace db
 {
 using namespace details;
 using namespace common;
-#ifdef USE_MORPHOLOGIES
 using namespace morphology;
-#endif
 
 using ConnectionPtr = std::shared_ptr<pqxx::connection>;
 
@@ -107,7 +105,6 @@ public:
     void insertBrick(const int32_t brickId, const uint32_t version,
                      const uint32_t nbModels, const std::stringstream& buffer);
 
-#ifdef USE_VASCULATURE
     /**
      * @brief Get the population ID from a given name
      *
@@ -164,9 +161,7 @@ public:
      */
     floats getVasculatureSimulationTimeSeries(const int32_t simulationReportId,
                                               const int32_t frame) const;
-#endif
 
-#ifdef USE_MORPHOLOGIES
     /**
      * @brief Get the astrocytes locations
      *
@@ -185,12 +180,12 @@ public:
     SectionMap getAstrocyteSections(const int64_t astrocyteId) const;
 
     /**
-     * @brief Get the end-feet areas of a given astrocyte
+     * @brief Get the end-feet as nodes for a given astrocyte
      *
      * @param astrocyteId Identifier of the astrocyte
-     * @return SectionMap A map of end-feet
+     * @return EndFootNodesMap A map of end-feet
      */
-    EndFootMap getAstrocyteEndFeetAreas(const uint64_t astrocyteId) const;
+    EndFootMap getAstrocyteEndFeet(const uint64_t astrocyteId) const;
 
     /**
      * @brief Get the neurons locations
@@ -199,7 +194,8 @@ public:
      * statement
      * @return NeuronSomaMap A map of neurons (position, type, etc)
      */
-    NeuronSomaMap getNeurons(const std::string& sqlCondition = "") const;
+    NeuronSomaMap getNeurons(const std::string& populationName,
+                             const std::string& sqlCondition = "") const;
 
     /**
      * @brief Get the sections of a given neuron
@@ -209,10 +205,21 @@ public:
      * statement
      * @return SectionMap A map of sections
      */
-    SectionMap getNeuronSections(const int64_t neuronId,
+    SectionMap getNeuronSections(const std::string& populationName,
+                                 const uint64_t neuronId,
                                  const std::string& sqlCondition = "") const;
 
-#endif
+    /**
+     * @brief Get the synapses attached to a given neuron
+     *
+     * @param neuronId Identifier of the neuron
+     * @param sqlCondition String containing an WHERE condition for the SQL
+     * statement
+     * @return SynapseMap A map of synapses
+     */
+    SynapseMap getNeuronSynapses(const std::string& populationName,
+                                 const uint64_t neuronId,
+                                 const std::string& sqlCondition = "") const;
 
     static std::mutex _mutex;
     static DBConnector* _instance;
@@ -221,7 +228,9 @@ private:
     DBConnector();
     ~DBConnector();
 
-    ConnectionPtr _connection{nullptr};
+    std::string _connectionString;
+
+    std::vector<ConnectionPtr> _connections;
 };
 
 } // namespace db

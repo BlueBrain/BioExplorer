@@ -32,12 +32,12 @@ namespace metabolism
 {
 // Classes and typedefs
 class DBConnector;
-typedef std::shared_ptr<DBConnector> DBConnectorPtr;
+using DBConnectorPtr = std::shared_ptr<DBConnector>;
 
 class MetabolismHandler;
-typedef std::shared_ptr<MetabolismHandler> MetabolismHandlerPtr;
-
-typedef std::map<std::string, std::string> CommandLineArguments;
+using MetabolismHandlerPtr = std::shared_ptr<MetabolismHandler>;
+using CommandLineArguments = std::map<std::string, std::string>;
+using Concentrations = std::map<uint32_t, float>;
 
 // Command line arguments
 const std::string ARG_DB_HOST = "--db-host";
@@ -47,21 +47,23 @@ const std::string ARG_DB_USER = "--db-user";
 const std::string ARG_DB_PASSWORD = "--db-password";
 const std::string ARG_DB_SCHEMA = "--db-schema";
 
-struct AttachHandlerDetails
+typedef struct
 {
     std::string connectionString;
     std::string schema;
     size_t simulationId;
-    size_ts metaboliteIds;
-};
+    int32_ts metaboliteIds;
+    bool relativeConcentration{false};
+    doubles opacityRange;
+} AttachHandlerDetails;
 
-struct Location
+typedef struct
 {
     uint32_t guid;
     std::string code;
     Vector3f color;
-};
-typedef std::vector<Location> Locations;
+} Location;
+using Locations = std::vector<Location>;
 
 } // namespace metabolism
 } // namespace bioexplorer

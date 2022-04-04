@@ -91,6 +91,7 @@ private:
     Response _addGrid(const AddGridDetails &payload);
     Response _addSphere(const AddSphereDetails &payload);
     Response _addBoundingBox(const AddBoundingBoxDetails &payload);
+    Response _addSdfDemo();
 
     // Amino acids
     Response _setAminoAcidSequenceAsString(
@@ -146,7 +147,6 @@ private:
     // Command line arguments
     std::map<std::string, std::string> _commandLineArguments;
 
-#ifdef USE_VASCULATURE
     // Vasculature
     Response _addVasculature(const VasculatureDetails &payload);
     Response _getVasculatureInfo(const NameDetails &payload) const;
@@ -155,12 +155,13 @@ private:
     Response _setVasculatureReport(const VasculatureReportDetails &payload);
     Response _setVasculatureRadiusReport(
         const VasculatureRadiusReportDetails &payload);
-#endif
 
-#ifdef USE_MORPHOLOGIES
-    // Astrocyte
+    // Astrocytes
     Response _addAstrocytes(const AstrocytesDetails &payload);
+
+    // Neurons
     Response _addNeurons(const NeuronsDetails &payload);
-#endif
+    NeuronSectionPointsDetails _getNeuronSectionPoints(
+        const NeuronSectionDetails &payload);
 };
 } // namespace bioexplorer

@@ -8,5 +8,5 @@ var classbioexplorer_1_1metabolism_1_1MetabolismHandler =
     [ "clone", "d4/dc4/classbioexplorer_1_1metabolism_1_1MetabolismHandler.html#aa9755f0481dd72ebc9529175a34a4195", null ],
     [ "getFrameData", "d4/dc4/classbioexplorer_1_1metabolism_1_1MetabolismHandler.html#a90bd086a5557aa4e0e574392f7a7381c", null ],
     [ "isReady", "d4/dc4/classbioexplorer_1_1metabolism_1_1MetabolismHandler.html#a074faa1c77fa54baede935d10335f55c", null ],
-    [ "setIds", "d4/dc4/classbioexplorer_1_1metabolism_1_1MetabolismHandler.html#a7b131109163530a5278b98ae9459e31d", null ]
+    [ "setMetaboliteIds", "d4/dc4/classbioexplorer_1_1metabolism_1_1MetabolismHandler.html#a1f1da7edd5a4a08dc9eb8176095b5b9e", null ]
 ];

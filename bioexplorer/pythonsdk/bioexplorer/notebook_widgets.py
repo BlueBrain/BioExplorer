@@ -433,7 +433,7 @@ class Widgets:
         directions['right'] = Vector3(-1, 0, 0)
         directions['left'] = Vector3(1, 0, 0)
 
-        '''Model names and ids'''
+        # Model names and ids
         model_names = list()
         model_ids = self._be.get_model_ids()['ids']
         for model_id in model_ids:
@@ -444,21 +444,21 @@ class Widgets:
             description='Model',
             options=model_names)
 
-        '''Instance Ids'''
+        # Instance Ids
         instance_select = Select(
             description='Instance',
             options=list())
 
-        '''Directions'''
+        # Directions
         direction_select = Select(
             description='Direction',
             options=directions)
 
-        '''Distance to instance'''
+        # Distance to instance
         distance_slider = FloatSlider(
             description='Distance', value=25.0, min=-1e3, max=1e3)
 
-        '''Focus button'''
+        # Focus button
         focus_btn = Button(description='Focus')
         hbox_1 = HBox([model_select, instance_select, direction_select])
         hbox_2 = HBox([distance_slider, focus_btn])

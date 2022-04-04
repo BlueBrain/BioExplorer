@@ -720,7 +720,6 @@ std::string to_json(const ProteinInspectionDetails &param)
     return "";
 }
 
-#ifdef USE_VASCULATURE
 bool from_json(VasculatureDetails &param, const std::string &payload)
 {
     try
@@ -733,6 +732,7 @@ bool from_json(VasculatureDetails &param, const std::string &payload)
         FROM_JSON(param, js, quality);
         FROM_JSON(param, js, radiusMultiplier);
         FROM_JSON(param, js, sqlFilter);
+        FROM_JSON(param, js, scale);
     }
     catch (...)
     {
@@ -791,9 +791,7 @@ bool from_json(VasculatureRadiusReportDetails &param,
     }
     return true;
 }
-#endif
 
-#ifdef USE_MORPHOLOGIES
 bool from_json(AstrocytesDetails &param, const std::string &payload)
 {
     try
@@ -801,15 +799,18 @@ bool from_json(AstrocytesDetails &param, const std::string &payload)
         auto js = nlohmann::json::parse(payload);
         FROM_JSON(param, js, assemblyName);
         FROM_JSON(param, js, populationName);
-        FROM_JSON(param, js, useSdf);
+        FROM_JSON(param, js, vasculaturePopulationName);
         FROM_JSON(param, js, loadSomas);
         FROM_JSON(param, js, loadDendrites);
         FROM_JSON(param, js, loadEndFeet);
+        FROM_JSON(param, js, generateInternals);
+        FROM_JSON(param, js, useSdf);
         FROM_JSON(param, js, geometryQuality);
         FROM_JSON(param, js, morphologyColorScheme);
         FROM_JSON(param, js, populationColorScheme);
         FROM_JSON(param, js, radiusMultiplier);
         FROM_JSON(param, js, sqlFilter);
+        FROM_JSON(param, js, scale);
     }
     catch (...)
     {
@@ -826,9 +827,10 @@ bool from_json(NeuronsDetails &param, const std::string &payload)
         FROM_JSON(param, js, assemblyName);
         FROM_JSON(param, js, populationName);
         FROM_JSON(param, js, loadSomas);
-        FROM_JSON(param, js, loadAxons);
+        FROM_JSON(param, js, loadAxon);
         FROM_JSON(param, js, loadBasalDendrites);
         FROM_JSON(param, js, loadApicalDendrites);
+        FROM_JSON(param, js, loadSynapses);
         FROM_JSON(param, js, generateInternals);
         FROM_JSON(param, js, generateExternals);
         FROM_JSON(param, js, useSdf);
@@ -838,6 +840,7 @@ bool from_json(NeuronsDetails &param, const std::string &payload)
         FROM_JSON(param, js, radiusMultiplier);
         FROM_JSON(param, js, sqlNodeFilter);
         FROM_JSON(param, js, sqlSectionFilter);
+        FROM_JSON(param, js, scale);
     }
     catch (...)
     {
@@ -845,6 +848,36 @@ bool from_json(NeuronsDetails &param, const std::string &payload)
     }
     return true;
 }
-#endif
 
+bool from_json(NeuronSectionDetails &param, const std::string &payload)
+{
+    try
+    {
+        auto js = nlohmann::json::parse(payload);
+        FROM_JSON(param, js, assemblyName);
+        FROM_JSON(param, js, neuronId);
+        FROM_JSON(param, js, sectionId);
+    }
+    catch (...)
+    {
+        return false;
+    }
+    return true;
+}
+
+std::string to_json(const NeuronSectionPointsDetails &param)
+{
+    try
+    {
+        nlohmann::json js;
+        TO_JSON(param, js, status);
+        TO_JSON(param, js, points);
+        return js.dump();
+    }
+    catch (...)
+    {
+        return "";
+    }
+    return "";
+}
 #endif

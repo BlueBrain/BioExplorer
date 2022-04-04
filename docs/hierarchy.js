@@ -17,6 +17,8 @@ var hierarchy =
     [ "bioexplorer::common::Assembly", "d2/d82/classbioexplorer_1_1common_1_1Assembly.html", null ],
     [ "bioexplorer::details::AssemblyDetails", "d1/da5/structbioexplorer_1_1details_1_1AssemblyDetails.html", null ],
     [ "bioexplorer::details::AssemblyTransformationsDetails", "d6/dd0/structbioexplorer_1_1details_1_1AssemblyTransformationsDetails.html", null ],
+    [ "bioexplorer::details::AstrocytesDetails", "df/d08/structbioexplorer_1_1details_1_1AstrocytesDetails.html", null ],
+    [ "bioexplorer::morphology::AstrocyteSoma", "d6/d17/structbioexplorer_1_1morphology_1_1AstrocyteSoma.html", null ],
     [ "bioexplorer::molecularsystems::Atom", "df/d73/structbioexplorer_1_1molecularsystems_1_1Atom.html", null ],
     [ "bioexplorer::metabolism::AttachHandlerDetails", "dd/d21/structbioexplorer_1_1metabolism_1_1AttachHandlerDetails.html", null ],
     [ "bioexplorer::details::BuildFieldsDetails", "dc/d5b/structbioexplorer_1_1details_1_1BuildFieldsDetails.html", null ],
@@ -28,6 +30,7 @@ var hierarchy =
     [ "bioexplorer::details::DatabaseAccessDetails", "dc/dd9/structbioexplorer_1_1details_1_1DatabaseAccessDetails.html", null ],
     [ "bioexplorer::io::db::DBConnector", "d9/d96/classbioexplorer_1_1io_1_1db_1_1DBConnector.html", null ],
     [ "bioexplorer::metabolism::DBConnector", "db/df8/classbioexplorer_1_1metabolism_1_1DBConnector.html", null ],
+    [ "bioexplorer::morphology::EndFoot", "d6/d46/structbioexplorer_1_1morphology_1_1EndFoot.html", null ],
     [ "bioexplorer::details::EnzymeReactionDetails", "df/dc6/structbioexplorer_1_1details_1_1EnzymeReactionDetails.html", null ],
     [ "bioexplorer::details::EnzymeReactionProgressDetails", "dd/d17/structbioexplorer_1_1details_1_1EnzymeReactionProgressDetails.html", null ],
     [ "bioexplorer::mediamaker::ExportFramesToDisk", "db/dbb/structbioexplorer_1_1mediamaker_1_1ExportFramesToDisk.html", null ],
@@ -58,16 +61,25 @@ var hierarchy =
     [ "bioexplorer::details::ModelIdFileAccessDetails", "d8/d1b/structbioexplorer_1_1details_1_1ModelIdFileAccessDetails.html", null ],
     [ "bioexplorer::details::ModelsVisibilityDetails", "d7/dbc/structbioexplorer_1_1details_1_1ModelsVisibilityDetails.html", null ],
     [ "bioexplorer::details::NameDetails", "d8/d70/structbioexplorer_1_1details_1_1NameDetails.html", null ],
+    [ "bioexplorer::details::NeuronsDetails", "dc/d93/structbioexplorer_1_1details_1_1NeuronsDetails.html", null ],
+    [ "bioexplorer::details::NeuronSectionDetails", "d2/ddd/structbioexplorer_1_1details_1_1NeuronSectionDetails.html", null ],
+    [ "bioexplorer::details::NeuronSectionPointsDetails", "d1/ddd/structbioexplorer_1_1details_1_1NeuronSectionPointsDetails.html", null ],
+    [ "bioexplorer::morphology::NeuronSoma", "d9/d24/structbioexplorer_1_1morphology_1_1NeuronSoma.html", null ],
     [ "bioexplorer::common::Node", "d7/d93/classbioexplorer_1_1common_1_1Node.html", [
+      [ "bioexplorer::common::SDFGeometries", "d1/d1c/classbioexplorer_1_1common_1_1SDFGeometries.html", [
+        [ "bioexplorer::morphology::Morphologies", "dc/dbc/classbioexplorer_1_1morphology_1_1Morphologies.html", [
+          [ "bioexplorer::morphology::Astrocytes", "d2/d3a/classbioexplorer_1_1morphology_1_1Astrocytes.html", null ],
+          [ "bioexplorer::morphology::Neurons", "d1/d39/classbioexplorer_1_1morphology_1_1Neurons.html", null ]
+        ] ],
+        [ "bioexplorer::vasculature::Vasculature", "d8/d29/classbioexplorer_1_1vasculature_1_1Vasculature.html", null ]
+      ] ],
       [ "bioexplorer::molecularsystems::EnzymeReaction", "d4/d07/classbioexplorer_1_1molecularsystems_1_1EnzymeReaction.html", null ],
       [ "bioexplorer::molecularsystems::Membrane", "d4/d3d/classbioexplorer_1_1molecularsystems_1_1Membrane.html", null ],
       [ "bioexplorer::molecularsystems::Molecule", "da/dff/classbioexplorer_1_1molecularsystems_1_1Molecule.html", [
         [ "bioexplorer::molecularsystems::Glycans", "da/de6/classbioexplorer_1_1molecularsystems_1_1Glycans.html", null ],
         [ "bioexplorer::molecularsystems::Protein", "dd/da4/classbioexplorer_1_1molecularsystems_1_1Protein.html", null ]
       ] ],
-      [ "bioexplorer::molecularsystems::RNASequence", "d0/d53/classbioexplorer_1_1molecularsystems_1_1RNASequence.html", null ],
-      [ "bioexplorer::morphology::Astrocytes", "d2/d3a/classbioexplorer_1_1morphology_1_1Astrocytes.html", null ],
-      [ "bioexplorer::vasculature::Vasculature", "d8/d29/classbioexplorer_1_1vasculature_1_1Vasculature.html", null ]
+      [ "bioexplorer::molecularsystems::RNASequence", "d0/d53/classbioexplorer_1_1molecularsystems_1_1RNASequence.html", null ]
     ] ],
     [ "bioexplorer::molecularsystems::Nucleotid", "d6/d5b/structbioexplorer_1_1molecularsystems_1_1Nucleotid.html", null ],
     [ "bioexplorer::fields::Octree", "dc/d5a/classbioexplorer_1_1fields_1_1Octree.html", null ],
@@ -96,11 +108,13 @@ var hierarchy =
     [ "bioexplorer::details::RGBColorDetails", "df/dc7/structbioexplorer_1_1details_1_1RGBColorDetails.html", null ],
     [ "bioexplorer::details::RNASequenceDetails", "d1/d00/structbioexplorer_1_1details_1_1RNASequenceDetails.html", null ],
     [ "bioexplorer::details::SceneInformationDetails", "d2/d03/structbioexplorer_1_1details_1_1SceneInformationDetails.html", null ],
-    [ "bioexplorer::geometry::SDFMorphologyData", "d1/d25/structbioexplorer_1_1geometry_1_1SDFMorphologyData.html", null ],
+    [ "bioexplorer::common::SDFMorphologyData", "d6/d8d/structbioexplorer_1_1common_1_1SDFMorphologyData.html", null ],
+    [ "bioexplorer::morphology::Section", "d4/d08/structbioexplorer_1_1morphology_1_1Section.html", null ],
     [ "bioexplorer::common::Shape", "dc/d78/classbioexplorer_1_1common_1_1Shape.html", [
       [ "bioexplorer::common::BezierShape", "d2/d30/classbioexplorer_1_1common_1_1BezierShape.html", null ],
       [ "bioexplorer::common::CubeShape", "d5/dd3/classbioexplorer_1_1common_1_1CubeShape.html", null ],
       [ "bioexplorer::common::FanShape", "dc/d3d/classbioexplorer_1_1common_1_1FanShape.html", null ],
+      [ "bioexplorer::common::HelixShape", "de/d5f/classbioexplorer_1_1common_1_1HelixShape.html", null ],
       [ "bioexplorer::common::MeshShape", "df/d25/classbioexplorer_1_1common_1_1MeshShape.html", null ],
       [ "bioexplorer::common::PlaneShape", "d8/d3b/classbioexplorer_1_1common_1_1PlaneShape.html", null ],
       [ "bioexplorer::common::PointShape", "d7/d5c/classbioexplorer_1_1common_1_1PointShape.html", null ],
@@ -111,5 +125,11 @@ var hierarchy =
     [ "bioexplorer::io::db::SimulationReport", "da/dc8/structbioexplorer_1_1io_1_1db_1_1SimulationReport.html", null ],
     [ "bioexplorer::details::SugarDetails", "d6/d93/structbioexplorer_1_1details_1_1SugarDetails.html", null ],
     [ "bioexplorer::meshing::SurfaceMesher", "d8/df9/classbioexplorer_1_1meshing_1_1SurfaceMesher.html", null ],
-    [ "bioexplorer::common::UniqueId", "d0/dbd/classbioexplorer_1_1common_1_1UniqueId.html", null ]
+    [ "bioexplorer::morphology::Synapse", "d0/dd7/structbioexplorer_1_1morphology_1_1Synapse.html", null ],
+    [ "bioexplorer::common::ThreadSafeContainer", "d2/d4a/classbioexplorer_1_1common_1_1ThreadSafeContainer.html", null ],
+    [ "bioexplorer::common::UniqueId", "d0/dbd/classbioexplorer_1_1common_1_1UniqueId.html", null ],
+    [ "bioexplorer::details::VasculatureColorSchemeDetails", "dd/d99/structbioexplorer_1_1details_1_1VasculatureColorSchemeDetails.html", null ],
+    [ "bioexplorer::details::VasculatureDetails", "dd/d98/structbioexplorer_1_1details_1_1VasculatureDetails.html", null ],
+    [ "bioexplorer::details::VasculatureRadiusReportDetails", "de/da6/structbioexplorer_1_1details_1_1VasculatureRadiusReportDetails.html", null ],
+    [ "bioexplorer::details::VasculatureReportDetails", "d1/d4e/structbioexplorer_1_1details_1_1VasculatureReportDetails.html", null ]
 ];

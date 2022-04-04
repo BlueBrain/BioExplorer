@@ -5,16 +5,19 @@ create table population
             primary key,
     name        varchar not null,
     description varchar
-);
+)
+    tablespace bioexplorer_ts;
 
 alter table population
     owner to bioexplorer;
 
 create unique index population_guid_uindex
-    on population (guid);
+    on population (guid)
+    tablespace bioexplorer_ts;
 
 create unique index population_name_uindex
-    on population (name);
+    on population (name)
+    tablespace bioexplorer_ts;
 
 create table simulation_report
 (
@@ -31,7 +34,8 @@ create table simulation_report
     data_units             varchar                    not null,
     constraint simulation_report_pk
         primary key (population_guid, simulation_report_guid)
-);
+)
+    tablespace bioexplorer_ts;
 
 alter table simulation_report
     owner to bioexplorer;
@@ -47,7 +51,8 @@ create table simulation_time_series
     constraint simulation_time_series_simulation_report_simulation_report_guid
         foreign key (simulation_report_guid, population_guid) references simulation_report (simulation_report_guid, population_guid)
             on update cascade on delete cascade
-);
+)
+    tablespace bioexplorer_ts;
 
 alter table simulation_time_series
     owner to bioexplorer;
@@ -68,11 +73,17 @@ create table node
     sub_graph_guid  integer default 0 not null,
     pair_guid       integer default 0 not null,
     entry_node_guid integer default 0 not null
-);
+)
+    tablespace bioexplorer_ts;
 
 alter table node
     owner to bioexplorer;
 
 create index node_population_guid_index
-    on node (population_guid);
+    on node (population_guid)
+    tablespace bioexplorer_ts;
+
+create index node_section_guid_index
+    on node (section_guid)
+    tablespace bioexplorer_ts;
 

@@ -15,8 +15,6 @@ set(${NAME}_VERSION_ABI 1)
 # ==============================================================================
 # Packages and settings
 # ==============================================================================
-option(${NAME}_USE_VASCULATURE "Use vasculature features" ON)
-option(${NAME}_USE_MORPHOLOGIES "Use morphologies features" ON)
 option(${NAME}_USE_CGAL "Use CGAL meshing features" ON)
 
 add_subdirectory(deps)
@@ -25,20 +23,13 @@ add_subdirectory(deps)
 find_package(OpenMP)
 find_package(PQXX REQUIRED)
 
+# Compiler flags
+add_compile_options("-fopenmp")
+
 # Optional packages (managed by Defines.h.in)
 set(CGAL_FOUND 0)
 if(${${NAME}_USE_CGAL})
     find_package(CGAL REQUIRED)
-endif()
-
-set(USE_VASCULATURE 0)
-if(${NAME}_USE_VASCULATURE)
-  set(USE_VASCULATURE 1)
-endif()
-
-set(USE_MORPHOLOGIES 0)
-if(${NAME}_USE_MORPHOLOGIES)
-  set(USE_MORPHOLOGIES 1)
 endif()
 
 include(ispc)
@@ -66,9 +57,11 @@ set(${NAME}_SOURCES
     plugin/common/Utils.cpp
     plugin/common/UniqueId.cpp
     plugin/common/Node.cpp
+    plugin/common/SDFGeometries.cpp
     plugin/common/shapes/Shape.cpp
     plugin/common/shapes/MeshShape.cpp
     plugin/common/shapes/SphereShape.cpp
+    plugin/common/shapes/HelixShape.cpp
     plugin/common/shapes/PlaneShape.cpp
     plugin/common/shapes/CubeShape.cpp
     plugin/common/shapes/BezierShape.cpp
@@ -77,6 +70,7 @@ set(${NAME}_SOURCES
     plugin/common/shapes/RNAShape.cpp
     plugin/common/shapes/PointShape.cpp
     plugin/common/Assembly.cpp
+    plugin/common/ThreadSafeContainer.cpp
     plugin/fields/FieldsHandler.cpp
     plugin/fields/Octree.cpp
     plugin/fields/OctreeNode.cpp
@@ -89,6 +83,11 @@ set(${NAME}_SOURCES
     plugin/molecularsystems/Glycans.cpp
     plugin/molecularsystems/Protein.cpp
     plugin/molecularsystems/RNASequence.cpp
+    plugin/morphologies/Morphologies.cpp
+    plugin/morphologies/Astrocytes.cpp
+    plugin/morphologies/Neurons.cpp
+    plugin/vasculature/VasculatureHandler.cpp
+    plugin/vasculature/Vasculature.cpp
     plugin/api/Params.cpp
     plugin/BioExplorerPlugin.cpp
 )
@@ -99,18 +98,26 @@ set(${NAME}_PUBLIC_HEADERS
     plugin/io/db/DBConnector.h
     plugin/common/Assembly.h
     plugin/common/Node.h
+    plugin/common/SDFGeometries.h
     plugin/molecularsystems/EnzymeReaction.h
     plugin/molecularsystems/Molecule.h
     plugin/molecularsystems/Glycans.h
     plugin/molecularsystems/Membrane.h
     plugin/molecularsystems/Protein.h
     plugin/molecularsystems/RNASequence.h
+    plugin/morphologies/Morphologies.h
+    plugin/morphologies/Astrocytes.h
+    plugin/morphologies/Neurons.h
+    plugin/vasculature/VasculatureHandler.h
+    plugin/vasculature/Vasculature.h
     plugin/common/UniqueId.h
     plugin/common/GeneralSettings.h
     plugin/common/CommonTypes.h
+    plugin/common/ThreadSafeContainer.h
     plugin/common/shapes/Shape.h
     plugin/common/shapes/MeshShape.h
     plugin/common/shapes/SphereShape.h
+    plugin/common/shapes/HelixShape.h
     plugin/common/shapes/PlaneShape.h
     plugin/common/shapes/CubeShape.h
     plugin/common/shapes/BezierShape.h
@@ -121,28 +128,6 @@ set(${NAME}_PUBLIC_HEADERS
     plugin/api/Params.h
     plugin/BioExplorerPlugin.h
 )
-
-if(${NAME}_USE_VASCULATURE)
-    list(APPEND ${NAME}_SOURCES
-        plugin/vasculature/VasculatureHandler.cpp
-        plugin/vasculature/Vasculature.cpp
-    )
-    list(APPEND ${NAME}_PUBLIC_HEADERS
-        plugin/vasculature/VasculatureHandler.h
-        plugin/vasculature/Vasculature.h
-    )
-endif()
-
-if(${NAME}_USE_MORPHOLOGIES)
-    list(APPEND ${NAME}_SOURCES
-        plugin/morphologies/Astrocytes.cpp
-        plugin/morphologies/Neurons.cpp
-    )
-    list(APPEND ${NAME}_PUBLIC_HEADERS
-        plugin/morphologies/Astrocytes.h
-        plugin/morphologies/Neurons.h
-)
-endif()
 
 if(${CGAL_FOUND})
     list(APPEND ${NAME}_SOURCES

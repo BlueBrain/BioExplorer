@@ -118,39 +118,40 @@ $(document).ready(function(){initNavTree('dc/d73/Node_8cpp_source.html','../../'
 <div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;{</div>
 <div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;<span class="keyword">namespace </span>common</div>
 <div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;{</div>
-<div class="line"><a name="l00033"></a><span class="lineno"><a class="line" href="../../d7/d93/classbioexplorer_1_1common_1_1Node.html#a1067c1e1cfe6e133f7d0110e3101f7a3">   33</a></span>&#160;<a class="code" href="../../d7/d93/classbioexplorer_1_1common_1_1Node.html#a1067c1e1cfe6e133f7d0110e3101f7a3">Node::Node</a>()</div>
-<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;{</div>
-<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;    <span class="comment">// Unique ID</span></div>
-<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;    _uuid = <a class="code" href="../../d0/dbd/classbioexplorer_1_1common_1_1UniqueId.html#acea06a610c8d56ec1a964eca3c5b4e2a">UniqueId::get</a>();</div>
-<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;}</div>
-<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160; </div>
-<div class="line"><a name="l00039"></a><span class="lineno"><a class="line" href="../../d7/d93/classbioexplorer_1_1common_1_1Node.html#acc055348b8fa8f69ad9f249fadd4fefe">   39</a></span>&#160;<span class="keyword">const</span> ModelDescriptorPtr <a class="code" href="../../d7/d93/classbioexplorer_1_1common_1_1Node.html#acc055348b8fa8f69ad9f249fadd4fefe">Node::getModelDescriptor</a>()<span class="keyword"> const</span></div>
-<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;<span class="keyword"></span>{</div>
-<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;    <span class="keywordflow">return</span> _modelDescriptor;</div>
-<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;}</div>
-<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160; </div>
-<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;<span class="keywordtype">void</span> Node::_setMaterialExtraAttributes()</div>
-<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;{</div>
-<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;    <span class="keyword">auto</span> materials = _modelDescriptor-&gt;getModel().getMaterials();</div>
-<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;    <span class="keywordflow">for</span> (<span class="keyword">auto</span>&amp; material : materials)</div>
-<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;    {</div>
-<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;        brayns::PropertyMap props;</div>
-<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;        props.setProperty({MATERIAL_PROPERTY_SHADING_MODE,</div>
-<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;                           <span class="keyword">static_cast&lt;</span><span class="keywordtype">int</span><span class="keyword">&gt;</span>(MaterialShadingMode::basic)});</div>
-<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;        props.setProperty({MATERIAL_PROPERTY_USER_PARAMETER, 1.0});</div>
-<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;        props.setProperty({MATERIAL_PROPERTY_CHAMELEON_MODE,</div>
-<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;                           <span class="keyword">static_cast&lt;</span><span class="keywordtype">int</span><span class="keyword">&gt;</span>(MaterialChameleonMode::receiver)});</div>
-<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;        props.setProperty({MATERIAL_PROPERTY_NODE_ID, <span class="keyword">static_cast&lt;</span><span class="keywordtype">int</span><span class="keyword">&gt;</span>(_uuid)});</div>
-<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;        material.second-&gt;updateProperties(props);</div>
-<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;    }</div>
-<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;}</div>
-<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160; </div>
-<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;} <span class="comment">// namespace common</span></div>
-<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;} <span class="comment">// namespace bioexplorer</span></div>
+<div class="line"><a name="l00033"></a><span class="lineno"><a class="line" href="../../d7/d93/classbioexplorer_1_1common_1_1Node.html#a3c552fd05b8c1f2fb38cd2d8a63e57f4">   33</a></span>&#160;<a class="code" href="../../d7/d93/classbioexplorer_1_1common_1_1Node.html#a3c552fd05b8c1f2fb38cd2d8a63e57f4">Node::Node</a>(<span class="keyword">const</span> Vector3d&amp; scale)</div>
+<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;    : _scale(scale)</div>
+<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;{</div>
+<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;    <span class="comment">// Unique ID</span></div>
+<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;    _uuid = <a class="code" href="../../d0/dbd/classbioexplorer_1_1common_1_1UniqueId.html#acea06a610c8d56ec1a964eca3c5b4e2a">UniqueId::get</a>();</div>
+<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;}</div>
+<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160; </div>
+<div class="line"><a name="l00040"></a><span class="lineno"><a class="line" href="../../d7/d93/classbioexplorer_1_1common_1_1Node.html#acc055348b8fa8f69ad9f249fadd4fefe">   40</a></span>&#160;<span class="keyword">const</span> ModelDescriptorPtr <a class="code" href="../../d7/d93/classbioexplorer_1_1common_1_1Node.html#acc055348b8fa8f69ad9f249fadd4fefe">Node::getModelDescriptor</a>()<span class="keyword"> const</span></div>
+<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;<span class="keyword"></span>{</div>
+<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;    <span class="keywordflow">return</span> _modelDescriptor;</div>
+<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;}</div>
+<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160; </div>
+<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;<span class="keywordtype">void</span> Node::_setMaterialExtraAttributes()</div>
+<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;{</div>
+<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;    <span class="keyword">auto</span> materials = _modelDescriptor-&gt;getModel().getMaterials();</div>
+<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;    <span class="keywordflow">for</span> (<span class="keyword">auto</span>&amp; material : materials)</div>
+<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;    {</div>
+<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;        brayns::PropertyMap props;</div>
+<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;        props.setProperty({MATERIAL_PROPERTY_SHADING_MODE,</div>
+<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;                           <span class="keyword">static_cast&lt;</span><span class="keywordtype">int</span><span class="keyword">&gt;</span>(MaterialShadingMode::basic)});</div>
+<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;        props.setProperty({MATERIAL_PROPERTY_USER_PARAMETER, 1.0});</div>
+<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;        props.setProperty({MATERIAL_PROPERTY_CHAMELEON_MODE,</div>
+<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;                           <span class="keyword">static_cast&lt;</span><span class="keywordtype">int</span><span class="keyword">&gt;</span>(MaterialChameleonMode::receiver)});</div>
+<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;        props.setProperty({MATERIAL_PROPERTY_NODE_ID, <span class="keyword">static_cast&lt;</span><span class="keywordtype">int</span><span class="keyword">&gt;</span>(_uuid)});</div>
+<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;        material.second-&gt;updateProperties(props);</div>
+<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;    }</div>
+<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;}</div>
+<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160; </div>
+<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;} <span class="comment">// namespace common</span></div>
+<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;} <span class="comment">// namespace bioexplorer</span></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
-<div class="ttc" id="aclassbioexplorer_1_1common_1_1Node_html_a1067c1e1cfe6e133f7d0110e3101f7a3"><div class="ttname"><a href="../../d7/d93/classbioexplorer_1_1common_1_1Node.html#a1067c1e1cfe6e133f7d0110e3101f7a3">bioexplorer::common::Node::Node</a></div><div class="ttdeci">Node()</div><div class="ttdoc">Construct a new Node object.</div><div class="ttdef"><b>Definition:</b> <a href="../../dc/d73/Node_8cpp_source.html#l00033">Node.cpp:33</a></div></div>
-<div class="ttc" id="aclassbioexplorer_1_1common_1_1Node_html_acc055348b8fa8f69ad9f249fadd4fefe"><div class="ttname"><a href="../../d7/d93/classbioexplorer_1_1common_1_1Node.html#acc055348b8fa8f69ad9f249fadd4fefe">bioexplorer::common::Node::getModelDescriptor</a></div><div class="ttdeci">const ModelDescriptorPtr getModelDescriptor() const</div><div class="ttdoc">Get the Model Descriptor object.</div><div class="ttdef"><b>Definition:</b> <a href="../../dc/d73/Node_8cpp_source.html#l00039">Node.cpp:39</a></div></div>
+<div class="ttc" id="aclassbioexplorer_1_1common_1_1Node_html_a3c552fd05b8c1f2fb38cd2d8a63e57f4"><div class="ttname"><a href="../../d7/d93/classbioexplorer_1_1common_1_1Node.html#a3c552fd05b8c1f2fb38cd2d8a63e57f4">bioexplorer::common::Node::Node</a></div><div class="ttdeci">Node(const Vector3d &amp;scale=Vector3d(1.0, 1.0, 1.0))</div><div class="ttdoc">Construct a new Node object.</div><div class="ttdef"><b>Definition:</b> <a href="../../dc/d73/Node_8cpp_source.html#l00033">Node.cpp:33</a></div></div>
+<div class="ttc" id="aclassbioexplorer_1_1common_1_1Node_html_acc055348b8fa8f69ad9f249fadd4fefe"><div class="ttname"><a href="../../d7/d93/classbioexplorer_1_1common_1_1Node.html#acc055348b8fa8f69ad9f249fadd4fefe">bioexplorer::common::Node::getModelDescriptor</a></div><div class="ttdeci">const ModelDescriptorPtr getModelDescriptor() const</div><div class="ttdoc">Get the Model Descriptor object.</div><div class="ttdef"><b>Definition:</b> <a href="../../dc/d73/Node_8cpp_source.html#l00040">Node.cpp:40</a></div></div>
 <div class="ttc" id="aclassbioexplorer_1_1common_1_1UniqueId_html_acea06a610c8d56ec1a964eca3c5b4e2a"><div class="ttname"><a href="../../d0/dbd/classbioexplorer_1_1common_1_1UniqueId.html#acea06a610c8d56ec1a964eca3c5b4e2a">bioexplorer::common::UniqueId::get</a></div><div class="ttdeci">static uint32_t get()</div><div class="ttdoc">Get a unique identifier.</div><div class="ttdef"><b>Definition:</b> <a href="../../d7/d1b/UniqueId_8cpp_source.html#l00033">UniqueId.cpp:33</a></div></div>
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->

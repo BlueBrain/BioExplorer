@@ -55,13 +55,18 @@ public:
 
     AbstractSimulationHandlerPtr clone() const final;
 
-    void setIds(const size_ts& ids) { _ids = ids; }
+    void setMetaboliteIds(const int32_ts& metaboliteIds)
+    {
+        _metaboliteIds = metaboliteIds;
+    }
 
 private:
     DBConnectorPtr _connector{nullptr};
 
-    size_ts _ids;
+    int32_ts _metaboliteIds;
     Locations _locations;
+    bool _relativeConcentration{false};
+    Vector2d _opacityRange;
 };
 } // namespace metabolism
 } // namespace bioexplorer

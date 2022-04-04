@@ -19,12 +19,11 @@
 #include "DBConnector.h"
 
 #include <plugin/common/Logs.h>
+#include <plugin/common/Utils.h>
 
 namespace bioexplorer
 {
-#ifdef USE_MORPHOLOGIES
 using namespace morphology;
-#endif
 namespace io
 {
 namespace db
@@ -33,7 +32,7 @@ const std::string DB_SCHEMA_OUT_OF_CORE = "outofcore";
 const std::string DB_SCHEMA_VASCULATURE = "vasculature";
 const std::string DB_SCHEMA_METABOLISM = "metabolism";
 const std::string DB_SCHEMA_ASTROCYTES = "astrocytes";
-const std::string DB_SCHEMA_NEURONS = "neurons";
+const std::string DB_SCHEMA_CONNECTOME = "connectome";
 
 DBConnector* DBConnector::_instance = nullptr;
 std::mutex DBConnector::_mutex;
@@ -42,46 +41,57 @@ DBConnector::DBConnector() {}
 
 DBConnector::~DBConnector()
 {
-    if (_connection)
-        _connection->disconnect();
+    for (auto connection : _connections)
+        if (connection)
+            connection->disconnect();
 }
 
 void DBConnector::init(const CommandLineArguments& arguments)
 {
-    try
+    std::string dbHost, dbPort, dbUser, dbPassword, dbName;
+    for (const auto& argument : arguments)
     {
-        std::string dbHost, dbPort, dbUser, dbPassword, dbName;
-        for (const auto& argument : arguments)
-        {
-            if (argument.first == ARG_DB_HOST)
-                dbHost = argument.second;
-            if (argument.first == ARG_DB_PORT)
-                dbPort = argument.second;
-            if (argument.first == ARG_DB_USER)
-                dbUser = argument.second;
-            if (argument.first == ARG_DB_PASSWORD)
-                dbPassword = argument.second;
-            if (argument.first == ARG_DB_NAME)
-                dbName = argument.second;
-        }
+        if (argument.first == ARG_DB_HOST)
+            dbHost = argument.second;
+        if (argument.first == ARG_DB_PORT)
+            dbPort = argument.second;
+        if (argument.first == ARG_DB_USER)
+            dbUser = argument.second;
+        if (argument.first == ARG_DB_PASSWORD)
+            dbPassword = argument.second;
+        if (argument.first == ARG_DB_NAME)
+            dbName = argument.second;
+    }
 
-        const std::string connectionString =
-            "host=" + dbHost + " port=" + dbPort + " dbname=" + dbName +
-            " user=" + dbUser + " password=" + dbPassword;
-        PLUGIN_DEBUG(connectionString);
-        _connection = ConnectionPtr(new pqxx::connection(connectionString));
-    }
-    catch (const pqxx::pqxx_exception& e)
+    _connectionString = "host=" + dbHost + " port=" + dbPort +
+                        " dbname=" + dbName + " user=" + dbUser +
+                        " password=" + dbPassword;
+
+    PLUGIN_DEBUG(_connectionString);
+
+    const auto nbConnections = omp_get_max_threads();
+    for (size_t i = 0; i < nbConnections; ++i)
     {
-        PLUGIN_THROW(
-            "Failed to connect to database, check command line parameters. " +
-            std::string(e.base().what()));
+        try
+        {
+            _connections.push_back(
+                ConnectionPtr(new pqxx::connection(_connectionString)));
+        }
+        catch (const pqxx::pqxx_exception& e)
+        {
+            PLUGIN_THROW(
+                "Failed to connect to database, check command line "
+                "parameters. " +
+                std::string(e.base().what()));
+        }
     }
+    PLUGIN_INFO(1,
+                "Initialized " << nbConnections << " connections to database");
 }
 
 void DBConnector::clearBricks()
 {
-    pqxx::work transaction(*_connection);
+    pqxx::work transaction(*_connections[omp_get_thread_num()]);
     try
     {
         const auto sql = "DELETE FROM " + DB_SCHEMA_OUT_OF_CORE + ".brick";
@@ -99,7 +109,7 @@ void DBConnector::clearBricks()
 const OOCSceneConfigurationDetails DBConnector::getSceneConfiguration()
 {
     OOCSceneConfigurationDetails sceneConfiguration;
-    pqxx::read_transaction transaction(*_connection);
+    pqxx::read_transaction transaction(*_connections[omp_get_thread_num()]);
     try
     {
         const auto sql =
@@ -133,7 +143,7 @@ void DBConnector::insertBrick(const int32_t brickId, const uint32_t version,
                               const uint32_t nbModels,
                               const std::stringstream& buffer)
 {
-    pqxx::work transaction(*_connection);
+    pqxx::work transaction(*_connections[omp_get_thread_num()]);
     try
     {
         const pqxx::binarystring tmp((void*)buffer.str().c_str(),
@@ -156,7 +166,7 @@ std::stringstream DBConnector::getBrick(const int32_t brickId,
                                         uint32_t& nbModels)
 {
     std::stringstream s;
-    pqxx::read_transaction transaction(*_connection);
+    pqxx::read_transaction transaction(*_connections[omp_get_thread_num()]);
     try
     {
         const auto sql = "SELECT nb_models, buffer FROM " +
@@ -184,18 +194,20 @@ std::stringstream DBConnector::getBrick(const int32_t brickId,
     return s;
 }
 
-#ifdef USE_VASCULATURE
 uint64_t DBConnector::getVasculaturePopulationId(
     const std::string& populationName) const
 {
     uint64_t populationId;
-    pqxx::read_transaction transaction(*_connection);
+    pqxx::read_transaction transaction(*_connections[omp_get_thread_num()]);
     try
     {
         std::string sql = "SELECT guid FROM " + DB_SCHEMA_VASCULATURE +
                           ".population WHERE name='" + populationName + "'";
         PLUGIN_DEBUG(sql);
         auto res = transaction.exec(sql);
+        if (res.empty())
+            PLUGIN_THROW("Population " + populationName +
+                         " could not be found");
         for (auto c = res.begin(); c != res.end(); ++c)
             populationId = c[0].as<uint64_t>();
     }
@@ -212,7 +224,7 @@ GeometryNodes DBConnector::getVasculatureNodes(
     const auto populationId = getVasculaturePopulationId(populationName);
 
     GeometryNodes nodes;
-    pqxx::read_transaction transaction(*_connection);
+    pqxx::read_transaction transaction(*_connections[omp_get_thread_num()]);
     try
     {
         std::string sql =
@@ -221,7 +233,7 @@ GeometryNodes DBConnector::getVasculatureNodes(
             DB_SCHEMA_VASCULATURE +
             ".node WHERE population_guid=" + std::to_string(populationId);
         if (!filter.empty())
-            sql += "AND " + filter;
+            sql += " AND " + filter;
         sql += " ORDER BY guid";
         PLUGIN_DEBUG(sql);
         auto res = transaction.exec(sql);
@@ -253,7 +265,7 @@ GeometryEdges DBConnector::getVasculatureEdges(
     const auto populationId = getVasculaturePopulationId(populationName);
 
     GeometryEdges edges;
-    pqxx::read_transaction transaction(*_connection);
+    pqxx::read_transaction transaction(*_connections[omp_get_thread_num()]);
     try
     {
         std::string sql =
@@ -283,7 +295,7 @@ Bifurcations DBConnector::getVasculatureBifurcations(
     const auto populationId = getVasculaturePopulationId(populationName);
 
     Bifurcations bifurcations;
-    pqxx::read_transaction transaction(*_connection);
+    pqxx::read_transaction transaction(*_connections[omp_get_thread_num()]);
     try
     {
         std::string sql =
@@ -317,11 +329,12 @@ SimulationReport DBConnector::getVasculatureSimulationReport(
     const auto populationId = getVasculaturePopulationId(populationName);
 
     SimulationReport simulationReport;
-    pqxx::read_transaction transaction(*_connection);
+    pqxx::read_transaction transaction(*_connections[omp_get_thread_num()]);
     try
     {
         std::string sql =
-            "SELECT description, start_time, end_time, time_step, time_units, "
+            "SELECT description, start_time, end_time, time_step, "
+            "time_units, "
             "data_units FROM " +
             DB_SCHEMA_VASCULATURE +
             ".simulation_report WHERE simulation_report_guid=" +
@@ -352,7 +365,7 @@ floats DBConnector::getVasculatureSimulationTimeSeries(
     const int32_t simulationReportId, const int32_t frame) const
 {
     floats values;
-    pqxx::read_transaction transaction(*_connection);
+    pqxx::read_transaction transaction(*_connections[omp_get_thread_num()]);
     try
     {
         std::string sql =
@@ -377,15 +390,13 @@ floats DBConnector::getVasculatureSimulationTimeSeries(
 
     return values;
 }
-#endif
 
-#ifdef USE_MORPHOLOGIES
 AstrocyteSomaMap DBConnector::getAstrocytes(
     const std::string& sqlCondition) const
 {
     AstrocyteSomaMap somas;
 
-    pqxx::read_transaction transaction(*_connection);
+    pqxx::read_transaction transaction(*_connections[omp_get_thread_num()]);
     try
     {
         std::string sql = "SELECT guid, x, y, z, radius FROM " +
@@ -403,7 +414,7 @@ AstrocyteSomaMap DBConnector::getAstrocytes(
             AstrocyteSoma soma;
             soma.center =
                 Vector3d(c[1].as<float>(), c[2].as<float>(), c[3].as<float>());
-            soma.radius = c[4].as<float>() * 0.5;
+            soma.radius = c[4].as<float>() * 0.25;
             somas[c[0].as<uint64_t>()] = soma;
         }
     }
@@ -419,7 +430,7 @@ SectionMap DBConnector::getAstrocyteSections(const int64_t astrocyteId) const
 {
     SectionMap sections;
 
-    pqxx::read_transaction transaction(*_connection);
+    pqxx::read_transaction transaction(*_connections[omp_get_thread_num()]);
     try
     {
         std::string sql =
@@ -449,36 +460,39 @@ SectionMap DBConnector::getAstrocyteSections(const int64_t astrocyteId) const
     return sections;
 }
 
-EndFootMap DBConnector::getAstrocyteEndFeetAreas(
-    const uint64_t astrocyteId) const
+EndFootMap DBConnector::getAstrocyteEndFeet(const uint64_t astrocyteId) const
 {
     EndFootMap endFeet;
 
-    pqxx::read_transaction transaction(*_connection);
+    pqxx::read_transaction transaction(*_connections[omp_get_thread_num()]);
     try
     {
         std::string sql =
-            "SELECT astrocyte_section_guid, vertices, indices FROM " +
-            DB_SCHEMA_ASTROCYTES +
-            ".end_foot WHERE astrocyte_guid=" + std::to_string(astrocyteId);
+            "SELECT c.guid, n.x, n.y, n.z, n.radius, "
+            "c.vasculature_section_guid, c.vasculature_segment_guid, "
+            "c.endfoot_compartment_length, c.endfoot_compartment_diameter "
+            "* "
+            "0.5 FROM " +
+            DB_SCHEMA_CONNECTOME + ".glio_vascular as c, " +
+            DB_SCHEMA_VASCULATURE +
+            ".node as n WHERE c.vasculature_node_guid=n.guid AND "
+            "c.astrocyte_guid=" +
+            std::to_string(astrocyteId);
+
         PLUGIN_DEBUG(sql);
         auto res = transaction.exec(sql);
         for (auto c = res.begin(); c != res.end(); ++c)
         {
             EndFoot endFoot;
-            const auto astrocyteSectionId = c[0].as<uint64_t>();
-
-            const pqxx::binarystring verticesBytes(c[1]);
-            endFoot.vertices.resize(verticesBytes.size() / sizeof(Vector3f));
-            memcpy(&endFoot.vertices.data()[0], verticesBytes.data(),
-                   verticesBytes.size());
-
-            const pqxx::binarystring indicesBytes(c[2]);
-            endFoot.indices.resize(indicesBytes.size() / sizeof(uint64_t));
-            memcpy(&endFoot.indices.data()[0], indicesBytes.data(),
-                   indicesBytes.size());
-
-            endFeet[astrocyteSectionId] = endFoot;
+            const auto endFootId = c[0].as<uint64_t>();
+            endFoot.nodes.push_back(Vector4f(c[1].as<float>(), c[2].as<float>(),
+                                             c[3].as<float>(),
+                                             c[4].as<float>()));
+            endFoot.vasculatureSectionId = c[5].as<uint64_t>();
+            endFoot.vasculatureSegmentId = c[6].as<uint64_t>();
+            endFoot.length = c[7].as<double>();
+            endFoot.radius = c[8].as<double>();
+            endFeet[endFootId] = endFoot;
         }
     }
     catch (const pqxx::sql_error& e)
@@ -489,29 +503,37 @@ EndFootMap DBConnector::getAstrocyteEndFeetAreas(
     return endFeet;
 }
 
-NeuronSomaMap DBConnector::getNeurons(const std::string& sqlCondition) const
+NeuronSomaMap DBConnector::getNeurons(const std::string& populationName,
+                                      const std::string& sqlCondition) const
 {
     NeuronSomaMap somas;
 
-    pqxx::read_transaction transaction(*_connection);
+    pqxx::read_transaction transaction(*_connections[omp_get_thread_num()]);
     try
     {
         std::string sql =
-            "SELECT guid, x, y, z FROM " + DB_SCHEMA_NEURONS + ".node";
-        strings conditions;
+            "SELECT guid, x, y, z, rotation_x, rotation_y, rotation_z, "
+            "rotation_w, electrical_type_guid, morphological_type_guid "
+            "FROM " +
+            populationName + ".node";
 
         if (!sqlCondition.empty())
             sql += " WHERE " + sqlCondition;
 
         sql += " ORDER BY guid";
 
-        PLUGIN_INFO(1, sql);
+        PLUGIN_DEBUG(sql);
         auto res = transaction.exec(sql);
         for (auto c = res.begin(); c != res.end(); ++c)
         {
             NeuronSoma soma;
-            soma.center =
+            soma.position =
                 Vector3d(c[1].as<float>(), c[2].as<float>(), c[3].as<float>());
+            soma.rotation = Quaterniond(c[7].as<float>(), c[4].as<float>(),
+                                        c[5].as<float>(), c[6].as<float>());
+            soma.eType = c[8].as<uint64_t>();
+            soma.mType = c[9].as<uint64_t>();
+            soma.layer = 0; // TODO
             somas[c[0].as<uint64_t>()] = soma;
         }
     }
@@ -523,18 +545,19 @@ NeuronSomaMap DBConnector::getNeurons(const std::string& sqlCondition) const
     return somas;
 }
 
-SectionMap DBConnector::getNeuronSections(const int64_t neuronId,
+SectionMap DBConnector::getNeuronSections(const std::string& populationName,
+                                          const uint64_t neuronId,
                                           const std::string& sqlCondition) const
 {
     SectionMap sections;
 
-    pqxx::read_transaction transaction(*_connection);
+    pqxx::read_transaction transaction(*_connections[omp_get_thread_num()]);
     try
     {
         std::string sql =
             "SELECT s.section_guid, s.section_type_guid, "
             "s.section_parent_guid, s.points FROM " +
-            DB_SCHEMA_NEURONS + ".node as n, " + DB_SCHEMA_NEURONS +
+            populationName + ".node as n, " + populationName +
             ".section as s WHERE n.morphology_guid=s.morphology_guid "
             "AND n.guid=" +
             std::to_string(neuronId);
@@ -542,7 +565,7 @@ SectionMap DBConnector::getNeuronSections(const int64_t neuronId,
             sql += " AND " + sqlCondition;
         sql += " ORDER BY s.section_guid";
 
-        PLUGIN_INFO(1, sql);
+        PLUGIN_DEBUG(sql);
         auto res = transaction.exec(sql);
         for (auto c = res.begin(); c != res.end(); ++c)
         {
@@ -563,8 +586,51 @@ SectionMap DBConnector::getNeuronSections(const int64_t neuronId,
 
     return sections;
 }
-#endif
 
+SynapseMap DBConnector::getNeuronSynapses(const std::string& populationName,
+                                          const uint64_t neuronId,
+                                          const std::string& sqlCondition) const
+{
+    SynapseMap synapses;
+
+    pqxx::read_transaction transaction(*_connections[omp_get_thread_num()]);
+    try
+    {
+        std::string sql =
+            "SELECT guid, postsynaptic_neuron_guid, surface_x_position, "
+            "surface_y_position, surface_z_position, center_x_position, "
+            "center_y_position, center_z_position FROM " +
+            populationName + ".synapse WHERE presynaptic_neuron_guid=" +
+            std::to_string(neuronId);
+
+        if (!sqlCondition.empty())
+            sql += " AND " + sqlCondition;
+        sql += " ORDER BY presynaptic_neuron_guid";
+
+        PLUGIN_DEBUG(sql);
+        auto res = transaction.exec(sql);
+        for (auto c = res.begin(); c != res.end(); ++c)
+        {
+            Synapse synapse;
+            const auto synapseId = c[0].as<uint64_t>();
+            synapse.preSynapticNeuron = neuronId;
+            synapse.preSynapticNeuron = c[1].as<uint64_t>();
+            synapse.surfacePosition =
+                Vector3d(c[2].as<double>(), c[3].as<double>(),
+                         c[4].as<double>());
+            synapse.centerPosition =
+                Vector3d(c[5].as<double>(), c[6].as<double>(),
+                         c[7].as<double>());
+            synapses[synapseId] = synapse;
+        }
+    }
+    catch (const pqxx::sql_error& e)
+    {
+        PLUGIN_THROW(e.what());
+    }
+
+    return synapses;
+}
 } // namespace db
 } // namespace io
 } // namespace bioexplorer

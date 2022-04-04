@@ -54,13 +54,15 @@ MetabolismHandler::MetabolismHandler(const AttachHandlerDetails& payload)
     _nbFrames = _connector->getNbFrames();
     _locations = _connector->getLocations();
     _unit = "ms";
-    _ids = payload.metaboliteIds;
+    _metaboliteIds = payload.metaboliteIds;
+    _relativeConcentration = payload.relativeConcentration;
+    _opacityRange = {payload.opacityRange[0], payload.opacityRange[1]};
     std::string metabolitesIds;
-    for (const auto id : _ids)
+    for (const auto metaboliteId : _metaboliteIds)
     {
         if (!metabolitesIds.empty())
             metabolitesIds += ",";
-        metabolitesIds += std::to_string(id);
+        metabolitesIds += std::to_string(metaboliteId);
     }
     PLUGIN_INFO("Setting metabolites: " << metabolitesIds);
 }
@@ -78,7 +80,9 @@ void* MetabolismHandler::getFrameData(const uint32_t frame)
         return _frameData.data();
     _currentFrame = frame;
 
-    const auto values = _connector->getConcentrations(frame, _ids);
+    const auto values =
+        _connector->getConcentrations(frame, _metaboliteIds,
+                                      _relativeConcentration, _opacityRange);
 
     _frameData.clear();
     _frameData.push_back(frame);

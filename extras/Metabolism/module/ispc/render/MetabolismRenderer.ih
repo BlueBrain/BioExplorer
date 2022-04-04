@@ -51,10 +51,9 @@ struct MetabolismRenderer
     float alphaCorrection;
     uint32 refinementSteps;
 
-    float searchLength;
-    bool useRandomSearch;
     float noiseFrequency;
     float noiseAmplitude;
+    bool colorMapPerRegion;
 
     uniform float* uniform userData;
     uint64 userDataSize;

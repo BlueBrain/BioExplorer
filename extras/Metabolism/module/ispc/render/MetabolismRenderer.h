@@ -68,11 +68,10 @@ private:
     float _farPlane{1.f};
     float _rayStep{0.1f};
     ospray::uint32 _refinementSteps;
-    float _searchLength{1.f};
     float _alphaCorrection{1.f};
-    bool _useRandomSearch{false};
     float _noiseFrequency{1.f};
     float _noiseAmplitude{1.f};
+    bool _colorMapPerRegion{false};
 
     ospray::Ref<ospray::Data> _userData;
     ospray::uint64 _userDataSize;

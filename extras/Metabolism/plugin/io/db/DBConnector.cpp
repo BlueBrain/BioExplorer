@@ -101,29 +101,36 @@ uint32_t DBConnector::getNbFrames()
     return nbFrames;
 }
 
-std::map<uint32_t, float> DBConnector::getConcentrations(const uint32_t frame,
-                                                         const size_ts& ids)
+Concentrations DBConnector::getConcentrations(const uint32_t frame,
+                                              const int32_ts& metaboliteIds,
+                                              const bool relativeConcentration,
+                                              const Vector2d& opacityRange)
 {
-    std::map<uint32_t, float> values;
+    Concentrations concentrations;
     pqxx::read_transaction transaction(*_connection);
+    const auto range = opacityRange.y - opacityRange.x;
+
     try
     {
         std::string sql =
-            "SELECT v.location_guid, c.concentration / v.base_value FROM " +
-            _dbSchema + ".variable as v, " + _dbSchema +
-            ".concentration AS c WHERE v.guid=c.variable_guid AND "
-            "c.timestamp=" +
-            std::to_string(frame) +
-            " AND c.simulation_guid=" + std::to_string(_simulationId);
+            "SELECT v.location_guid, c.value, (SELECT value FROM " + _dbSchema +
+            ".concentration WHERE variable_guid=c.variable_guid AND "
+            "simulation_guid=c.simulation_guid AND frame=0) AS base_value "
+            "FROM " +
+            _dbSchema + ".concentration AS c, " + _dbSchema +
+            ".variable AS v WHERE c.variable_guid=v.guid "
+            "AND c.simulation_guid=" +
+            std::to_string(_simulationId) +
+            " AND c.frame=" + std::to_string(frame);
 
-        if (!ids.empty())
+        if (!metaboliteIds.empty())
         {
             std::string idsAsString = "";
-            for (const auto id : ids)
+            for (const auto metaboliteId : metaboliteIds)
             {
                 if (!idsAsString.empty())
                     idsAsString += ",";
-                idsAsString += std::to_string(id);
+                idsAsString += std::to_string(metaboliteId);
             }
             sql += " AND v.guid in (" + idsAsString + ")";
         }
@@ -132,15 +139,22 @@ std::map<uint32_t, float> DBConnector::getConcentrations(const uint32_t frame,
         PLUGIN_DEBUG(sql);
         auto res = transaction.exec(sql);
         for (auto c = res.begin(); c != res.end(); ++c)
-            values[c[0].as<uint32_t>()] = (c[1].as<float>());
+        {
+            const uint32_t locationId = c[0].as<uint32_t>();
+            const float value = c[1].as<float>();
+            const float baseValue = c[2].as<float>();
+            concentrations[locationId] = relativeConcentration
+                                             ? (value - opacityRange.x) / range
+                                             : value;
+        }
     }
     catch (pqxx::sql_error& e)
     {
         PLUGIN_ERROR(e.what());
     }
     transaction.abort();
-    PLUGIN_DEBUG(values.size() << " values");
-    return values;
+    PLUGIN_DEBUG(concentrations.size() << " values");
+    return concentrations;
 }
 
 void DBConnector::_parseArguments(const CommandLineArguments& arguments)

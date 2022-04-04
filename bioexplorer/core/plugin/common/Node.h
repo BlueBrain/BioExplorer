@@ -38,7 +38,7 @@ public:
      * @brief Construct a new Node object
      *
      */
-    Node();
+    Node(const Vector3d& scale = Vector3d(1.0, 1.0, 1.0));
 
     /**
      * @brief Get the Model Descriptor object
@@ -49,33 +49,11 @@ public:
 
 protected:
     void _setMaterialExtraAttributes();
-    size_t _addSDFGeometry(SDFMorphologyData& sdfMorphologyData,
-                           const SDFGeometry& geometry,
-                           const std::set<size_t>& neighbours,
-                           const size_t materialId, const int section);
-
-    void _addStepSphereGeometry(const bool useSDF, const Vector3d& position,
-                                const double radius, const size_t materialId,
-                                const uint64_t userDataOffset, Model& model,
-                                SDFMorphologyData& sdfMorphologyData,
-                                const uint32_t sdfGroupId,
-                                const double displacementRatio = 1.0);
-
-    void _addStepConeGeometry(const bool useSDF, const Vector3d& position,
-                              const double radius, const Vector3d& target,
-                              const double previousRadius,
-                              const size_t materialId,
-                              const uint64_t userDataOffset, Model& model,
-                              SDFMorphologyData& sdfMorphologyData,
-                              const uint32_t sdfGroupId,
-                              const double displacementRatio = 1.0);
-
-    void _finalizeSDFGeometries(Model& model,
-                                SDFMorphologyData& sdfMorphologyData);
 
     ModelDescriptorPtr _modelDescriptor{nullptr};
     Boxd _bounds;
     uint32_t _uuid;
+    Vector3d _scale;
 };
 
 typedef std::shared_ptr<Node> NodePtr;

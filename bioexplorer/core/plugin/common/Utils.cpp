@@ -325,7 +325,7 @@ Transformation combineTransformations(const Transformations& transformations)
     Transformation transformation;
     transformation.setTranslation(translation);
     transformation.setRotation(rotation);
-    transformation.setScale(scale);
+    // transformation.setScale(scale);
     return transformation;
 }
 
@@ -457,6 +457,5 @@ Vector3ds getPointsInSphere(const size_t nbPoints, const double innerRadius)
     }
     return points;
 }
-
 } // namespace common
 } // namespace bioexplorer

@@ -27,6 +27,7 @@
 #include <plugin/common/shapes/BezierShape.h>
 #include <plugin/common/shapes/CubeShape.h>
 #include <plugin/common/shapes/FanShape.h>
+#include <plugin/common/shapes/HelixShape.h>
 #include <plugin/common/shapes/MeshShape.h>
 #include <plugin/common/shapes/PlaneShape.h>
 #include <plugin/common/shapes/PointShape.h>
@@ -36,16 +37,10 @@
 #include <plugin/molecularsystems/Membrane.h>
 #include <plugin/molecularsystems/Protein.h>
 #include <plugin/molecularsystems/RNASequence.h>
-
-#ifdef USE_VASCULATURE
-#include <plugin/vasculature/Vasculature.h>
-#include <plugin/vasculature/VasculatureHandler.h>
-#endif
-
-#ifdef USE_MORPHOLOGIES
 #include <plugin/morphologies/Astrocytes.h>
 #include <plugin/morphologies/Neurons.h>
-#endif
+#include <plugin/vasculature/Vasculature.h>
+#include <plugin/vasculature/VasculatureHandler.h>
 
 #include <brayns/engineapi/Model.h>
 
@@ -96,6 +91,11 @@ Assembly::Assembly(Scene &scene, const AssemblyDetails &details)
             new MeshShape(_clippingPlanes, size, _details.shapeMeshContents));
         break;
     }
+    case AssemblyShape::helix:
+    {
+        _shape = ShapePtr(new HelixShape(_clippingPlanes, size.x, size.y));
+        break;
+    }
     default:
         _shape = ShapePtr(new PointShape(_clippingPlanes));
         break;
@@ -122,6 +122,21 @@ Assembly::~Assembly()
         PLUGIN_INFO(3, "Removing RNA sequence ["
                            << modelId << "] from assembly [" << _details.name
                            << "]");
+        _scene.removeModel(modelId);
+    }
+    if (_vasculature)
+    {
+        const auto modelId = _vasculature->getModelDescriptor()->getModelID();
+        PLUGIN_INFO(3, "Removing Vasculature ["
+                           << modelId << "] from assembly [" << _details.name
+                           << "]");
+        _scene.removeModel(modelId);
+    }
+    if (_neurons)
+    {
+        const auto modelId = _neurons->getModelDescriptor()->getModelID();
+        PLUGIN_INFO(3, "Removing Neurons [" << modelId << "] from assembly ["
+                                            << _details.name << "]");
         _scene.removeModel(modelId);
     }
     _modelDescriptors.clear();
@@ -572,7 +587,6 @@ ProteinInspectionDetails Assembly::inspect(const Vector3d &origin,
     return result;
 }
 
-#ifdef USE_VASCULATURE
 void Assembly::addVasculature(const VasculatureDetails &details)
 {
     if (_vasculature)
@@ -602,8 +616,8 @@ std::string Assembly::getVasculatureInfo() const
       << "nbSections=" << _vasculature->getNbSections() << CONTENTS_DELIMITER
       << "nbPairs=" << _vasculature->getNbPairs() << CONTENTS_DELIMITER
       << "nbEntryNodes=" << _vasculature->getNbEntryNodes()
-      << CONTENTS_DELIMITER
-      << "nbMaxPointsPerSection=" << _vasculature->getNbMaxPointsPerSection();
+      << CONTENTS_DELIMITER << "nbMaxSegmentsPerSection="
+      << _vasculature->getNbMaxSegmentsPerSection();
     return s.str().c_str();
 }
 
@@ -639,14 +653,15 @@ void Assembly::setVasculatureReport(const VasculatureReportDetails &details)
 void Assembly::setVasculatureRadiusReport(
     const VasculatureRadiusReportDetails &details)
 {
-    if (!_vasculature)
-        PLUGIN_THROW("No vasculature is currently loaded");
+    if (!_vasculature && !_astrocytes)
+        PLUGIN_THROW("No vasculature nor astrocytes are currently loaded");
 
-    _vasculature->setRadiusReport(details);
+    if (_vasculature)
+        _vasculature->setRadiusReport(details);
+    if (_astrocytes)
+        _astrocytes->setVasculatureRadiusReport(details);
 }
-#endif
 
-#ifdef USE_MORPHOLOGIES
 void Assembly::addAstrocytes(const AstrocytesDetails &details)
 {
     if (_astrocytes)
@@ -666,7 +681,15 @@ void Assembly::addNeurons(const NeuronsDetails &details)
     _neurons = NeuronsPtr(new Neurons(_scene, details));
     _scene.markModified(false);
 }
-#endif
+
+Vector4ds Assembly::getNeuronSectionPoints(const NeuronSectionDetails &details)
+{
+    if (!_neurons)
+        PLUGIN_THROW("No neurons are currently defined in assembly " +
+                     details.assemblyName);
+    return _neurons->getNeuronSectionPoints(details.neuronId,
+                                            details.sectionId);
+}
 
 ProteinPtr Assembly::getProtein(const std::string &name)
 {

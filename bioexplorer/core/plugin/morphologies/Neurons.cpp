@@ -1,4 +1,4 @@
-/* Copyright (c) 2018-2021, EPFL/Blue Brain Project
+/* Copyright (c) 2020-2022, EPFL/Blue Brain Project
  * All rights reserved. Do not distribute without permission.
  * Responsible Author: Cyrille Favreau <cyrille.favreau@epfl.ch>
  *
@@ -37,28 +37,21 @@ using namespace common;
 using namespace io;
 using namespace db;
 
-const size_t NB_MATERIALS_PER_NEURON = 10;
-const size_t MATERIAL_OFFSET_SOMA = 0;
-const size_t MATERIAL_OFFSET_AXON = 1;
-const size_t MATERIAL_OFFSET_DENDRITE = 2;
-const size_t MATERIAL_OFFSET_APICAL_DENDRITE = 3;
-const size_t MATERIAL_OFFSET_AFFERENT_SYNPASE = 4;
-const size_t MATERIAL_OFFSET_EFFERENT_SYNPASE = 5;
-const size_t MATERIAL_OFFSET_MITOCHONDRION = 6;
-const size_t MATERIAL_OFFSET_NUCLEUS = 7;
-const size_t MATERIAL_OFFSET_MYELIN_SHEATH = 8;
-
-const int64_t NO_USER_DATA = -1;
-const int64_t SOMA_AS_PARENT = -1;
 const uint64_t NB_MYELIN_FREE_SEGMENTS = 4;
+const double DEFAULT_SPINE_RADIUS = 0.25;
 
 // Mitochondria density per layer
-doubles MITOCHONDRIA_DENSITY = {0.0459, 0.0522, 0.064, 0.0774, 0.0575, 0.0403};
+const doubles MITOCHONDRIA_DENSITY = {0.0459, 0.0522, 0.064,
+                                      0.0774, 0.0575, 0.0403};
 
 Neurons::Neurons(Scene& scene, const NeuronsDetails& details)
-    : _details(details)
+    : Morphologies(details.radiusMultiplier, doublesToVector3d(details.scale))
+    , _details(details)
     , _scene(scene)
 {
+    _radiusMultiplier =
+        _details.radiusMultiplier > 0.0 ? _details.radiusMultiplier : 1.0;
+
     Timer chrono;
     _buildNeuron();
     PLUGIN_TIMER(chrono.elapsed(), "Neurons loaded");
@@ -70,86 +63,144 @@ void Neurons::_buildNeuron()
 
     auto model = _scene.createModel();
     MaterialSet materialIds;
-    SDFMorphologyData sdfMorphologyData;
     const auto useSdf = _details.useSdf;
-    const auto somas = connector.getNeurons(_details.sqlNodeFilter);
+    const auto somas =
+        connector.getNeurons(_details.populationName, _details.sqlNodeFilter);
+
+    PLUGIN_INFO(1, "Building " << somas.size() << " neurons");
 
     // Neurons
     size_t previousMaterialId = std::numeric_limits<size_t>::max();
     size_t baseMaterialId = 0;
     Vector3ui indexOffset;
 
-    uint64_t sdfGroupId = 0;
-    for (const auto& soma : somas)
+    ThreadSafeContainers containers;
+    uint64_t index;
+#pragma omp parallel for private(index)
+    for (index = 0; index < somas.size(); ++index)
     {
-        const auto somaId = soma.first;
-        const auto& somaPosition = soma.second.center;
-        const auto somaRadius = _details.radiusMultiplier;
-        const auto layer = soma.second.layer;
+        if (omp_get_thread_num() == 0)
+            PLUGIN_PROGRESS("Loading Neurons", index,
+                            somas.size() / omp_get_max_threads());
+
+        auto it = somas.begin();
+        std::advance(it, index);
+        const auto& soma = it->second;
+        const auto somaId = it->first;
+
+        ThreadSafeContainer container(*model, useSdf, _scale);
+
+        const auto& somaPosition = soma.position;
+        const auto& somaRotation = soma.rotation;
+        const auto layer = soma.layer;
         const double mitochondriaDensity =
             (layer < MITOCHONDRIA_DENSITY.size() ? MITOCHONDRIA_DENSITY[layer]
                                                  : 0.0);
 
-        PLUGIN_PROGRESS("Loading Neurons", soma.first, somas.size());
+        // Soma radius
+        double somaRadius = 0.0;
+        const auto sections =
+            connector.getNeuronSections(_details.populationName, somaId,
+                                        _details.sqlSectionFilter);
+        uint64_t count = 1;
+        for (const auto& section : sections)
+            if (section.second.parentId == SOMA_AS_PARENT)
+            {
+                const auto& point = section.second.points[0];
+                somaRadius += 0.5 * length(Vector3d(point));
+                ++count;
+            }
+        somaRadius = _radiusMultiplier * somaRadius / count;
+
         switch (_details.populationColorScheme)
         {
         case PopulationColorScheme::id:
-            baseMaterialId = somaId * NB_MATERIALS_PER_NEURON;
+            baseMaterialId = somaId * NB_MATERIALS_PER_MORPHOLOGY;
             break;
-        default:
-            baseMaterialId = static_cast<size_t>(NeuronSectionType::soma);
         }
         materialIds.insert(baseMaterialId);
+        const auto somaMaterialId =
+            baseMaterialId +
+            (_details.morphologyColorScheme == MorphologyColorScheme::section
+                 ? MATERIAL_OFFSET_SOMA
+                 : 0);
+        materialIds.insert(somaMaterialId);
 
-        const uint64_t sdfSomaGroupId = sdfGroupId;
+        // Soma
+        uint64_t somaGeometryIndex = 0;
         if (_details.loadSomas)
         {
-            _addStepSphereGeometry(useSdf, somaPosition, somaRadius,
-                                   baseMaterialId, NO_USER_DATA, *model,
-                                   sdfMorphologyData, sdfSomaGroupId);
+            somaGeometryIndex =
+                container.addSphere(somaPosition, somaRadius, somaMaterialId,
+                                    NO_USER_DATA, {},
+                                    DEFAULT_SOMA_DISPLACEMENT);
             if (_details.generateInternals)
             {
-                _addSomaInternals(somaId, *model, baseMaterialId, somaPosition,
-                                  somaRadius, mitochondriaDensity,
-                                  sdfMorphologyData, sdfGroupId);
+                _addSomaInternals(somaId, container, baseMaterialId,
+                                  somaPosition, somaRadius,
+                                  mitochondriaDensity);
                 materialIds.insert(baseMaterialId + MATERIAL_OFFSET_NUCLEUS);
                 materialIds.insert(baseMaterialId +
                                    MATERIAL_OFFSET_MITOCHONDRION);
             }
         }
 
+        // Sections (dendrites and axon)
         if (_details.loadBasalDendrites || _details.loadApicalDendrites ||
-            _details.loadAxons)
+            _details.loadAxon)
         {
-            const auto sections =
-                connector.getNeuronSections(somaId, _details.sqlSectionFilter);
+            uint64_t geometryIndex = 0;
+            Neighbours neighbours;
+            neighbours.insert(somaGeometryIndex);
+
             for (const auto& section : sections)
-                _addSection(*model, section.first, section.second, somaPosition,
-                            somaRadius, sdfSomaGroupId, baseMaterialId,
-                            mitochondriaDensity, sdfMorphologyData, sdfGroupId,
+            {
+                if (_details.loadSomas &&
+                    section.second.parentId == SOMA_AS_PARENT)
+                {
+                    const Vector4d somaPoint{somaPosition.x, somaPosition.y,
+                                             somaPosition.z, somaRadius};
+                    const auto& point = section.second.points[0];
+
+                    // Section connected to the soma
+                    geometryIndex = container.addCone(
+                        Vector3d(somaPoint), somaPoint.w * 0.75f,
+                        (somaPosition + somaRotation * Vector3d(point)),
+                        point.w * 0.5 * _radiusMultiplier, somaMaterialId,
+                        NO_USER_DATA, neighbours, DEFAULT_SOMA_DISPLACEMENT);
+                    neighbours.insert(geometryIndex);
+                }
+
+                _addSection(container, section.first, section.second,
+                            geometryIndex, somaPosition, somaRotation,
+                            somaRadius, baseMaterialId, mitochondriaDensity,
                             materialIds);
+            }
         }
+
+        if (_details.loadSynapses)
+        {
+            _addSpines(container, somaId, somaPosition, somaRadius,
+                       baseMaterialId);
+#pragma omp critical
+            materialIds.insert(baseMaterialId +
+                               MATERIAL_OFFSET_AFFERENT_SYNPASE);
+        }
+
+#pragma omp critical
+        containers.push_back(container);
     }
 
-    for (const auto materialId : materialIds)
+    for (size_t i = 0; i < containers.size(); ++i)
     {
-        Vector3f color{1.f, 1.f, 1.f};
-        auto nodeMaterial =
-            model->createMaterial(materialId, std::to_string(materialId));
-        nodeMaterial->setDiffuseColor(color);
-        nodeMaterial->setSpecularColor(color);
-        nodeMaterial->setSpecularExponent(100.f);
-        PropertyMap props;
-        props.setProperty({MATERIAL_PROPERTY_SHADING_MODE, 0});
-        props.setProperty({MATERIAL_PROPERTY_USER_PARAMETER, 1.0});
-        props.setProperty({MATERIAL_PROPERTY_CHAMELEON_MODE, 0});
-        props.setProperty({MATERIAL_PROPERTY_CAST_USER_DATA, false});
-        props.setProperty({MATERIAL_PROPERTY_NODE_ID, 0});
-        nodeMaterial->updateProperties(props);
+        const float progress = 1.f + i;
+        PLUGIN_PROGRESS("- Compiling 3D geometry...", progress,
+                        containers.size());
+        auto& container = containers[i];
+        container.commitToModel();
     }
 
-    if (useSdf)
-        _finalizeSDFGeometries(*model, sdfMorphologyData);
+    PLUGIN_INFO(1, "Creating materials...");
 
     ModelMetadata metadata = {
         {"Number of Neurons", std::to_string(somas.size())}};
@@ -158,32 +209,25 @@ void Neurons::_buildNeuron()
                                                        _details.assemblyName,
                                                        metadata));
     if (_modelDescriptor)
+    {
         _scene.addModel(_modelDescriptor);
+        PLUGIN_INFO(1, "Successfully loaded " << somas.size() << " neurons");
+    }
     else
         PLUGIN_THROW("Neurons model could not be created");
 }
 
-void Neurons::_addSection(Model& model, const uint64_t sectionId,
-                          const Section& section, const Vector3d& somaPosition,
-                          const double somaRadius,
-                          const uint64_t sdfSomaGroupId,
-                          const size_t baseMaterialId,
+void Neurons::_addSection(ThreadSafeContainer& container,
+                          const uint64_t sectionId, const Section& section,
+                          const size_t somaGeometryIndex,
+                          const Vector3d& somaPosition,
+                          const Quaterniond& somaRotation,
+                          const double somaRadius, const size_t baseMaterialId,
                           const double mitochondriaDensity,
-                          SDFMorphologyData& sdfMorphologyData,
-                          uint64_t& sdfGroupId, MaterialSet& materialIds)
+                          MaterialSet& materialIds)
 {
-    ++sdfGroupId;
-    const auto useSdf = _details.useSdf;
     const auto sectionType = static_cast<NeuronSectionType>(section.type);
-
-    if (sectionType == NeuronSectionType::axon && !_details.loadAxons)
-        return;
-    if (sectionType == NeuronSectionType::basal_dendrite &&
-        !_details.loadBasalDendrites)
-        return;
-    if (sectionType == NeuronSectionType::apical_dendrite &&
-        !_details.loadApicalDendrites)
-        return;
+    auto useSdf = _details.useSdf;
 
     const size_t sectionMaterialId =
         baseMaterialId +
@@ -193,146 +237,72 @@ void Neurons::_addSection(Model& model, const uint64_t sectionId,
     materialIds.insert(sectionMaterialId);
 
     const auto& points = section.points;
-    if (section.parentId == SOMA_AS_PARENT)
-    {
-        // Section connection to the soma
-        const auto& point = points[0];
-        _addStepConeGeometry(useSdf, somaPosition, somaRadius,
-                             somaPosition + Vector3d(point), point.w * 0.5,
-                             baseMaterialId, NO_USER_DATA, model,
-                             sdfMorphologyData, sdfSomaGroupId);
-    }
+    if (sectionType == NeuronSectionType::axon && !_details.loadAxon)
+        return;
+    if (sectionType == NeuronSectionType::basal_dendrite &&
+        !_details.loadBasalDendrites)
+        return;
+    if (sectionType == NeuronSectionType::apical_dendrite &&
+        !_details.loadApicalDendrites)
+        return;
 
-    double sectionLength = 0;
-    double sectionVolume = 0;
+    double sectionLength = 0.0;
+    double sectionVolume = 0.0;
+    uint64_t geometryIndex = 0;
     for (uint64_t i = 0; i < points.size() - 1; ++i)
     {
         const auto& srcPoint = points[i];
-        const auto src = somaPosition + Vector3d(srcPoint);
-        const double srcRadius = srcPoint.w * 0.5;
-
-        const Vector3d sectionDisplacementParams = {std::min(srcRadius, 0.05),
-                                                    1.2, 2.0};
-
-        _bounds.merge(srcPoint);
+        const Vector3d src = somaPosition + somaRotation * Vector3d(srcPoint);
+        const double srcRadius = srcPoint.w * 0.5 * _radiusMultiplier;
 
         const auto& dstPoint = points[i + 1];
-        const auto dst = somaPosition + Vector3d(dstPoint);
-        const double dstRadius = dstPoint.w * 0.5;
+        const Vector3d dst = somaPosition + somaRotation * Vector3d(dstPoint);
+        const double dstRadius = dstPoint.w * 0.5 * _radiusMultiplier;
         const double sampleLength = length(dstPoint - srcPoint);
         sectionLength += sampleLength;
 
-        _addStepSphereGeometry(useSdf, dst, dstRadius, sectionMaterialId,
-                               NO_USER_DATA, model, sdfMorphologyData,
-                               sdfGroupId);
-        _addStepConeGeometry(useSdf, src, srcRadius, dst, dstRadius,
-                             sectionMaterialId, NO_USER_DATA, model,
-                             sdfMorphologyData, sdfGroupId);
+        if (!useSdf)
+            container.addSphere(dst, dstRadius, sectionMaterialId, NO_USER_DATA,
+                                {});
+
+        Neighbours neighbours{somaGeometryIndex};
+        if (i > 0)
+            neighbours = {geometryIndex};
+        geometryIndex =
+            container.addCone(src, srcRadius, dst, dstRadius, sectionMaterialId,
+                              NO_USER_DATA, neighbours,
+                              DEFAULT_SECTION_DISPLACEMENT);
         sectionVolume += coneVolume(sampleLength, srcRadius, dstRadius);
+
+        _bounds.merge(srcPoint);
     }
 
     if (sectionType == NeuronSectionType::axon)
     {
-        uint64_t groupId = sectionId + sdfGroupId;
         if (_details.generateInternals)
-            _addSectionInternals(sectionLength, sectionVolume, points,
-                                 mitochondriaDensity, baseMaterialId,
-                                 sdfMorphologyData, groupId, model);
+            _addSectionInternals(container, somaPosition, somaRotation,
+                                 sectionLength, sectionVolume, points,
+                                 mitochondriaDensity, baseMaterialId);
 
         if (_details.generateExternals)
         {
-            _addAxonMyelinSheath(somaPosition, sectionLength, points,
-                                 mitochondriaDensity, baseMaterialId,
-                                 sdfMorphologyData, groupId, model);
+            _addAxonMyelinSheath(container, somaPosition, somaRotation,
+                                 sectionLength, points, mitochondriaDensity,
+                                 baseMaterialId);
             materialIds.insert(baseMaterialId + MATERIAL_OFFSET_MYELIN_SHEATH);
         }
-        sdfGroupId = groupId;
     }
 }
 
-size_t Neurons::_getNbMitochondrionSegments() const
+void Neurons::_addSectionInternals(
+    ThreadSafeContainer& container, const Vector3d& somaPosition,
+    const Quaterniond& somaRotation, const double sectionLength,
+    const double sectionVolume, const Vector4fs& points,
+    const double mitochondriaDensity, const size_t baseMaterialId)
 {
-    return 2 + rand() % 18;
-}
+    if (mitochondriaDensity == 0.0)
+        return;
 
-void Neurons::_addSomaInternals(const uint64_t index, Model& model,
-                                const size_t materialId,
-                                const Vector3d& somaPosition,
-                                const double somaRadius,
-                                const double mitochondriaDensity,
-                                SDFMorphologyData& sdfMorphologyData,
-                                uint64_t& sdfGroupId)
-{
-    const auto useSdf = _details.useSdf;
-    const double mitochondrionRadiusRatio = 0.025;
-    const double mitochondrionDisplacementRatio = 20.0;
-    const double nucleusDisplacementRatio = 2.0;
-    const double nucleusRadius =
-        somaRadius * 0.7; // 70% of the volume of the soma;
-    const double mitochondrionRadius =
-        somaRadius * mitochondrionRadiusRatio; // 5% of the volume of the soma
-
-    const double somaInnerRadius = nucleusRadius + mitochondrionRadius;
-    const double somaOutterRadius = somaRadius * 0.9;
-    const double availableVolumeForMitochondria =
-        sphereVolume(somaRadius) * mitochondriaDensity;
-
-    // Soma nucleus
-    const size_t nucleusMaterialId = materialId + MATERIAL_OFFSET_NUCLEUS;
-    _addStepSphereGeometry(useSdf, somaPosition, nucleusRadius,
-                           nucleusMaterialId, NO_USER_DATA, model,
-                           sdfMorphologyData, sdfGroupId,
-                           nucleusDisplacementRatio);
-
-    // Mitochondria
-    const size_t mitochondrionMaterialId =
-        materialId + MATERIAL_OFFSET_MITOCHONDRION;
-    double mitochondriaVolume = 0.0;
-    while (mitochondriaVolume < availableVolumeForMitochondria)
-    {
-        const size_t nbSegments = _getNbMitochondrionSegments();
-        const auto pointsInSphere =
-            getPointsInSphere(nbSegments, somaInnerRadius / somaRadius);
-        double previousRadius = mitochondrionRadius;
-        for (size_t i = 0; i < nbSegments; ++i)
-        {
-            // Mitochondrion geometry
-            const double radius =
-                (1.0 + (rand() % 500 / 1000.0)) * mitochondrionRadius;
-            const auto p2 = somaPosition + somaOutterRadius * pointsInSphere[i];
-            _addStepSphereGeometry(useSdf, p2, radius, mitochondrionMaterialId,
-                                   NO_USER_DATA, model, sdfMorphologyData,
-                                   sdfGroupId, mitochondrionDisplacementRatio);
-
-            mitochondriaVolume += sphereVolume(radius);
-
-            if (i > 0)
-            {
-                const auto p1 =
-                    somaPosition + somaOutterRadius * pointsInSphere[i - 1];
-                _addStepConeGeometry(useSdf, p1, previousRadius, p2, radius,
-                                     mitochondrionMaterialId, NO_USER_DATA,
-                                     model, sdfMorphologyData, sdfGroupId,
-                                     mitochondrionDisplacementRatio);
-
-                mitochondriaVolume +=
-                    coneVolume(length(p2 - p1), previousRadius, radius);
-            }
-            previousRadius = radius;
-        }
-        if (useSdf)
-            ++sdfGroupId;
-    }
-}
-
-void Neurons::_addSectionInternals(const double sectionLength,
-                                   const double sectionVolume,
-                                   const Vector4fs& points,
-                                   const double mitochondriaDensity,
-                                   const size_t materialId,
-                                   SDFMorphologyData& sdfMorphologyData,
-                                   uint64_t& sdfGroupId, Model& model)
-{
     const auto useSdf = _details.useSdf;
 
     // Add mitochondria (density is per section, not for the full axon)
@@ -345,33 +315,33 @@ void Neurons::_addSectionInternals(const double sectionLength,
         double(points.size()) / double(nbMaxMitochondrionSegments);
 
     double mitochondriaVolume = 0.0;
+    const size_t mitochondrionMaterialId =
+        baseMaterialId + MATERIAL_OFFSET_MITOCHONDRION;
 
-    size_t nbSegments = _getNbMitochondrionSegments();
-    int mitochondrionSegment =
+    uint64_t nbSegments = _getNbMitochondrionSegments();
+    int64_t mitochondrionSegment =
         -(rand() % (1 + nbMaxMitochondrionSegments / 10));
     double previousRadius;
     Vector3d previousPosition;
 
-    ++sdfGroupId;
+    uint64_t geometryIndex = 0;
     for (size_t step = 0; step < nbMaxMitochondrionSegments; ++step)
     {
         if (mitochondriaVolume < sectionVolume * mitochondriaDensity &&
             mitochondrionSegment >= 0 && mitochondrionSegment < nbSegments)
         {
-            const size_t srcIndex = size_t(step * indexRatio);
-            const size_t dstIndex = size_t(step * indexRatio) + 1;
+            const uint64_t srcIndex = uint64_t(step * indexRatio);
+            const uint64_t dstIndex = uint64_t(step * indexRatio) + 1;
             if (dstIndex < points.size())
             {
                 const auto& srcSample = points[srcIndex];
                 const auto& dstSample = points[dstIndex];
-                const double srcRadius =
-                    srcSample.w * _details.radiusMultiplier;
+                const double srcRadius = srcSample.w * 0.5 * _radiusMultiplier;
                 const Vector3d srcPosition{
                     srcSample.x + srcRadius * (rand() % 100 - 50) / 500.0,
                     srcSample.y + srcRadius * (rand() % 100 - 50) / 500.0,
                     srcSample.z + srcRadius * (rand() % 100 - 50) / 500.0};
-                const double dstRadius =
-                    dstSample.w * _details.radiusMultiplier;
+                const double dstRadius = dstSample.w * 0.5 * _radiusMultiplier;
                 const Vector3d dstPosition{
                     dstSample.x + dstRadius * (rand() % 100 - 50) / 500.0,
                     dstSample.y + dstRadius * (rand() % 100 - 50) / 500.0,
@@ -383,23 +353,28 @@ void Neurons::_addSectionInternals(const double sectionLength,
                 const double mitocondrionRadius =
                     srcRadius * mitochondrionRadiusRatio;
                 const double radius =
-                    (1.0 + ((rand() % 500) / 1000.0)) * mitocondrionRadius;
+                    (1.0 + (rand() % 1000 - 500) / 1000.0) * mitocondrionRadius;
 
-                const size_t mitochondrionMaterialId =
-                    materialId + MATERIAL_OFFSET_MITOCHONDRION;
-                _addStepSphereGeometry(useSdf, position, radius,
-                                       mitochondrionMaterialId, -1, model,
-                                       sdfMorphologyData, sdfGroupId,
-                                       mitochondrionRadiusRatio);
-                mitochondriaVolume += sphereVolume(radius);
+                Neighbours neighbours;
+                if (mitochondrionSegment != 0)
+                    neighbours = {geometryIndex};
+
+                if (!useSdf)
+                    container.addSphere(somaPosition + somaRotation * position,
+                                        radius, mitochondrionMaterialId, -1,
+                                        {});
 
                 if (mitochondrionSegment > 0)
                 {
-                    _addStepConeGeometry(useSdf, position, radius,
-                                         previousPosition, previousRadius,
-                                         mitochondrionMaterialId, -1, model,
-                                         sdfMorphologyData, sdfGroupId,
-                                         mitochondrionRadiusRatio);
+                    Neighbours neighbours = {};
+                    if (mitochondrionSegment > 1)
+                        neighbours = {geometryIndex};
+                    geometryIndex = container.addCone(
+                        somaPosition + somaRotation * position, radius,
+                        somaPosition + somaRotation * previousPosition,
+                        previousRadius, mitochondrionMaterialId, -1,
+                        neighbours);
+
                     mitochondriaVolume +=
                         coneVolume(length(position - previousPosition), radius,
                                    previousRadius);
@@ -416,18 +391,17 @@ void Neurons::_addSectionInternals(const double sectionLength,
             mitochondrionSegment =
                 -(rand() % (1 + nbMaxMitochondrionSegments / 10));
             nbSegments = _getNbMitochondrionSegments();
-            ++sdfGroupId;
         }
     }
 }
 
-void Neurons::_addAxonMyelinSheath(const Vector3d& somaPosition,
+void Neurons::_addAxonMyelinSheath(ThreadSafeContainer& container,
+                                   const Vector3d& somaPosition,
+                                   const Quaterniond& somaRotation,
                                    const double sectionLength,
                                    const Vector4fs& points,
                                    const double mitochondriaDensity,
-                                   const size_t materialId,
-                                   SDFMorphologyData& sdfMorphologyData,
-                                   uint64_t& sdfGroupId, Model& model)
+                                   const size_t baseMaterialId)
 {
     if (sectionLength == 0 || points.empty())
         return;
@@ -438,24 +412,25 @@ void Neurons::_addAxonMyelinSheath(const Vector3d& somaPosition,
     const double myelinSteathRadius = 0.5;
     const double myelinSteathDisplacementRatio = 0.25;
     const size_t myelinSteathMaterialId =
-        materialId + MATERIAL_OFFSET_MYELIN_SHEATH;
+        baseMaterialId + MATERIAL_OFFSET_MYELIN_SHEATH;
 
     if (sectionLength < 2 * myelinSteathLength)
         return;
 
     const uint64_t nbPoints = points.size();
+    if (nbPoints < NB_MYELIN_FREE_SEGMENTS)
+        return;
 
     uint64_t i = NB_MYELIN_FREE_SEGMENTS; // Ignore first 3 segments
     while (i < nbPoints - NB_MYELIN_FREE_SEGMENTS)
     {
         // Start surrounding segments with myelin steaths
-        ++sdfGroupId;
         const auto& srcPoint = points[i];
-        const Vector3d srcPosition = somaPosition + Vector3d(srcPoint);
+        const Vector3d srcPosition =
+            somaPosition + somaRotation * Vector3d(srcPoint);
         if (!useSdf)
-            _addStepSphereGeometry(useSdf, srcPosition, myelinSteathRadius,
-                                   myelinSteathMaterialId, NO_USER_DATA, model,
-                                   sdfMorphologyData, sdfGroupId);
+            container.addSphere(srcPosition, myelinSteathRadius,
+                                myelinSteathMaterialId, NO_USER_DATA, {});
 
         double currentLength = 0;
         Vector3d previousPosition = srcPosition;
@@ -464,22 +439,111 @@ void Neurons::_addAxonMyelinSheath(const Vector3d& somaPosition,
         {
             ++i;
             const auto& dstPoint = points[i];
-            const Vector3d dstPosition = somaPosition + Vector3d(dstPoint);
+            const Vector3d dstPosition =
+                somaPosition + somaRotation * Vector3d(dstPoint);
             currentLength += length(dstPosition - previousPosition);
             if (!useSdf)
-                _addStepSphereGeometry(useSdf, dstPosition, myelinSteathRadius,
-                                       myelinSteathMaterialId, NO_USER_DATA,
-                                       model, sdfMorphologyData, sdfGroupId);
-            _addStepConeGeometry(useSdf, dstPosition, myelinSteathRadius,
-                                 previousPosition, myelinSteathRadius,
-                                 myelinSteathMaterialId, NO_USER_DATA, model,
-                                 sdfMorphologyData, sdfGroupId,
-                                 myelinSteathDisplacementRatio);
+                container.addSphere(dstPosition, myelinSteathRadius,
+                                    myelinSteathMaterialId, NO_USER_DATA, {});
+            container.addCone(dstPosition, myelinSteathRadius, previousPosition,
+                              myelinSteathRadius, myelinSteathMaterialId,
+                              NO_USER_DATA, {}, myelinSteathDisplacementRatio);
             previousPosition = dstPosition;
         }
         i += NB_MYELIN_FREE_SEGMENTS; // Leave free segments between myelin
                                       // steaths
     }
+}
+
+void Neurons::_addSpines(ThreadSafeContainer& container,
+                         const uint64_t somaIndex, const Vector3d somaPosition,
+                         const double somaRadius, const size_t baseMaterialId)
+{
+    auto& connector = DBConnector::getInstance();
+    const auto synapses =
+        connector.getNeuronSynapses(_details.populationName, somaIndex);
+    const size_t SpineMaterialId =
+        baseMaterialId + MATERIAL_OFFSET_AFFERENT_SYNPASE;
+
+    for (const auto& synapse : synapses)
+        // TODO: Do not create spines on the soma, the data is not yet
+        // acceptable
+        if (length(synapse.second.surfacePosition - somaPosition) >
+                somaRadius * 3.0 &&
+            length(synapse.second.centerPosition - somaPosition) >
+                somaRadius * 3.0)
+            _addSpine(container, synapse.second, SpineMaterialId);
+}
+
+void Neurons::_addSpine(ThreadSafeContainer& container, const Synapse& synapse,
+                        const size_t SpineMaterialId)
+{
+    const double radius = DEFAULT_SPINE_RADIUS;
+
+    // Spine geometry
+    const double spineRadiusRatio = 1.5;
+    const double spineSmallRadius = radius * 0.3;
+    const double spineBaseRadius = radius * 0.5;
+    const double spineDisplacementRatio = 2.0;
+
+    const auto direction = (synapse.centerPosition - synapse.surfacePosition);
+
+    const auto surfaceOrigin = synapse.surfacePosition;
+    const auto surfaceTarget = surfaceOrigin + direction;
+
+    const auto spineLargeRadius = radius * spineRadiusRatio;
+
+    // Create random shape between origin and target
+    auto middle = (surfaceTarget + surfaceOrigin) / 2.0;
+    const double d = length(surfaceTarget - surfaceOrigin) / 5.0;
+    middle +=
+        Vector3f(d * (rand() % 1000 / 1000.0), d * (rand() % 1000 / 1000.0),
+                 d * (rand() % 1000 / 1000.0));
+    const float spineMiddleRadius =
+        spineSmallRadius + d * 0.1 * (rand() % 1000 / 1000.0);
+    const auto idx1 =
+        container.addSphere(surfaceOrigin, spineLargeRadius, SpineMaterialId,
+                            NO_USER_DATA, {}, spineDisplacementRatio);
+    const auto idx2 =
+        container.addSphere(middle, spineMiddleRadius, SpineMaterialId,
+                            NO_USER_DATA, {idx1}, spineDisplacementRatio);
+    if (surfaceOrigin != middle)
+        container.addCone(surfaceOrigin, spineLargeRadius, middle,
+                          spineMiddleRadius, SpineMaterialId, NO_USER_DATA,
+                          {idx1, idx2}, spineDisplacementRatio);
+    if (middle != surfaceTarget)
+        container.addCone(middle, spineMiddleRadius, surfaceTarget,
+                          spineSmallRadius, SpineMaterialId, NO_USER_DATA,
+                          {idx1, idx2}, spineDisplacementRatio);
+}
+
+Vector4ds Neurons::getNeuronSectionPoints(const uint64_t neuronId,
+                                          const uint64_t sectionId)
+{
+    const auto& connector = DBConnector::getInstance();
+    const auto neurons =
+        connector.getNeurons(_details.populationName,
+                             "guid=" + std::to_string(neuronId));
+
+    if (neurons.empty())
+        PLUGIN_THROW("Neuron " + std::to_string(neuronId) + " does not exist");
+    const auto& neuron = neurons.begin()->second;
+    const auto sections =
+        connector.getNeuronSections(_details.populationName, neuronId);
+
+    if (sections.empty())
+        PLUGIN_THROW("Section " + std::to_string(sectionId) +
+                     " does not exist for neuron " + std::to_string(neuronId));
+    const auto section = sections.begin()->second;
+    Vector4ds points;
+    for (const auto& point : section.points)
+    {
+        const Vector3d position =
+            _scale * (neuron.position + neuron.rotation * Vector3d(point));
+        const double radius = point.w;
+        points.push_back({position.x, position.y, position.z, radius});
+    }
+    return points;
 }
 
 } // namespace morphology
