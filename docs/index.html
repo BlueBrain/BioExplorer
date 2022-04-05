@@ -142,43 +142,47 @@ Vasculature</h3>
 <p><img src="./bioexplorer/pythonsdk/notebooks/bioexplorer_vasculature_banner.png" alt="___" class="inline"/></p>
 <h3><a class="anchor" id="autotoc_md12"></a>
 Neurons and astrocytes</h3>
-<p>Circuits of neurons are loaded from the database (see the database <a href="./storage/database/neurons_schema.sql">schema</a> and the example <a href="./bioexplorer/pythonsdk/notebooks/neurons/BioExplorer_import_sonata_to_db.ipynb.ipynb">notebook</a> for loading data from <a href="https://github.com/AllenInstitute/sonata">Sonata</a> files) using their position and orientation. Each cell is composed of sections that form the axons and dendrites, as well as spines. Cell internals such as the nucleus and the mitochondria can be automatically generated, according to the data provided by the scientific litterature.</p>
-<p>Circuits of astrocytes are loaded from the database (see the database <a href="./storage/database/astrocytes_schema.sql">schema</a> and the example <a href="./bioexplorer/pythonsdk/notebooks/astrocytes/BioExplorer_import_sonata_to_db.ipynb.ipynb">notebook</a> for loading data from <a href="https://github.com/AllenInstitute/sonata">Sonata</a> files) using their position and orientation. Astrocytes end-feet are connected to the vasculature using data stored in a dedicated connectome database <a href="./storage/database/connectome_schema.sql">schema</a>. The <em>BBBE</em> allows end-feet to automtically adapt to the vasculature vessel size.</p>
+<p>Circuits of neurons are loaded from the database (see the database <a href="./storage/database/neurons_schema.sql">schema</a> and the example <a href="./bioexplorer/pythonsdk/notebooks/neurons/BioExplorer_import_sonata_to_db.ipynb">notebook</a> for loading data from <a href="https://github.com/AllenInstitute/sonata">Sonata</a> files) using their position and orientation. Each cell is composed of sections that form the axons and dendrites, as well as spines. Cell internals such as the nucleus and the mitochondria can be automatically generated, according to the data provided by the scientific litterature.</p>
+<p>Circuits of astrocytes are loaded from the database (see the database <a href="./storage/database/astrocytes_schema.sql">schema</a> and the example <a href="./bioexplorer/pythonsdk/notebooks/astrocytes/BioExplorer_import_sonata_to_db.ipynb">notebook</a> for loading data from <a href="https://github.com/AllenInstitute/sonata">Sonata</a> files) using their position and orientation. Astrocytes end-feet are connected to the vasculature using data stored in a dedicated connectome database <a href="./storage/database/connectome_schema.sql">schema</a>. The <em>BBBE</em> allows end-feet to automtically adapt to the vasculature vessel size.</p>
 <p>The <em>BBBE</em> allows interaction with large and highly details circuits of neurons.</p>
 <p><img src="./bioexplorer/pythonsdk/notebooks/bioexplorer_neurons_banner.png" alt="___" class="inline"/></p>
-<h2><a class="anchor" id="autotoc_md13"></a>
+<h3><a class="anchor" id="autotoc_md13"></a>
+Enzyme reactions</h3>
+<p>An enzyme attracts substrates to its active site, catalyzes the chemical reaction by which products are formed, and then allows the products to dissociate (separate from the enzyme surface). The combination formed by an enzyme and its substrates is called the enzyme–substrate complex. The <em>BBBE</em> allows easy visualization of enzyme reactions by providing a substrace, a product, and a type of reaction (for example: <a href="./bioexplorer/pythonsdk/notebooks/assemblies/BioExplorer_enzyme_reaction.ipynb">Hexokinase</a>).</p>
+<p><img src="./bioexplorer/pythonsdk/notebooks/bioexplorer_enzyme_reactions_banner.png" alt="___" class="inline"/></p>
+<h2><a class="anchor" id="autotoc_md14"></a>
 Python SDK</h2>
 <p>A simple API if exposed via the <em>BBBE</em> python library. The API allows scientists to easily create and modify assemblies, according the biological parameters. The <em>BBBE</em> programming language is not necessarily reflecting the underlying implementation, but is meant to be as simple as close as possible to the language used by the scientists to describe biological assemblies.</p>
 <p>The <em>BBBE</em> Python SDK is available on <a href="https://pypi.org/project/bioexplorer/">pypi</a>.</p>
 <p>A large number of examples (as python notebooks) are provided in the <a href="https://github.com/BlueBrain/BioExplorer/tree/master/bioexplorer/pythonsdk/notebooks">notebooks</a> folder.</p>
-<h2><a class="anchor" id="autotoc_md14"></a>
+<h2><a class="anchor" id="autotoc_md15"></a>
 Documentation</h2>
 <p>See <a href="https://bluebrain.github.io/BioExplorer/">here</a> for detailed documentation of the source code.</p>
-<h2><a class="anchor" id="autotoc_md15"></a>
+<h2><a class="anchor" id="autotoc_md16"></a>
 Deployment</h2>
 <p><em>BBBE</em> binaries are publicaly available as docker images. <em>BBBE</em> is designed to run in distributed mode, and is composed of 3 modules: A <a href="https://hub.docker.com/r/bluebrain/bioexplorer">server</a>, a <a href="https://hub.docker.com/r/bluebrain/bioexplorer-python-sdk">python SDK</a>, and a <a href="https://hub.docker.com/r/bluebrain/bioexplorer-ui">web user interface</a>. This means that there are 3 docker images to be downloaded on run. Those images can of course run on different machines.</p>
 <p>In this example, we will expose the server on port 5000, the python SDK jupyter notebooks on port 5001, and the user inferface on port 5002. One is free to change those ports at will.</p>
-<h3><a class="anchor" id="autotoc_md16"></a>
+<h3><a class="anchor" id="autotoc_md17"></a>
 Server</h3>
 <div class="fragment"><div class="line">docker run -ti --rm -p 5000:8200 bluebrain/bioexplorer</div>
-</div><!-- fragment --><h3><a class="anchor" id="autotoc_md17"></a>
+</div><!-- fragment --><h3><a class="anchor" id="autotoc_md18"></a>
 Python SDK</h3>
 <div class="fragment"><div class="line">docker run -ti --rm -p 5001:8888 bluebrain/bioexplorer-python-sdk</div>
-</div><!-- fragment --><h3><a class="anchor" id="autotoc_md18"></a>
+</div><!-- fragment --><h3><a class="anchor" id="autotoc_md19"></a>
 Web User Interface</h3>
 <div class="fragment"><div class="line">docker run -ti --rm -p 5002:8080 bluebrain/bioexplorer-ui</div>
 </div><!-- fragment --><div class="image">
 <img src="BBBE_screenshot.png" alt=""/>
 <div class="caption">
 ___</div></div>
-   <h2><a class="anchor" id="autotoc_md19"></a>
+   <h2><a class="anchor" id="autotoc_md20"></a>
 Building from Source</h2>
-<h3><a class="anchor" id="autotoc_md20"></a>
+<h3><a class="anchor" id="autotoc_md21"></a>
 Blue Brain Brayns</h3>
 <p>In order to run the BioExplorer, it is necessary to build <a href="https://github.com/BlueBrain/BioExplorer/tree/Brayns">Blue Brain Brayns</a> first.</p>
-<h3><a class="anchor" id="autotoc_md21"></a>
+<h3><a class="anchor" id="autotoc_md22"></a>
 BioExplorer</h3>
-<h4><a class="anchor" id="autotoc_md22"></a>
+<h4><a class="anchor" id="autotoc_md23"></a>
 Compile</h4>
 <p>With <a href="https://github.com/BlueBrain/BioExplorer/tree/Brayns">Blue Brain Brayns</a> compiled and installed in the &lt;brayns_installation_folder&gt;, run the statements to build the BioExplorer.</p>
 <div class="fragment"><div class="line">git clone https://github.com/BlueBrain/BioExplorer.git</div>
@@ -186,30 +190,30 @@ Compile</h4>
 <div class="line">cd build</div>
 <div class="line">CMAKE_PREFIX_PATH=&lt;brayns_installation_folder&gt; cmake .. -DCMAKE_INSTALL_PREFIX=&lt;brayns_installation_folder&gt;</div>
 <div class="line">make install</div>
-</div><!-- fragment --><h4><a class="anchor" id="autotoc_md23"></a>
+</div><!-- fragment --><h4><a class="anchor" id="autotoc_md24"></a>
 Run</h4>
 <p>The BioExplorer being a plug-in for <a href="https://github.com/BlueBrain/BioExplorer/tree/Brayns">Blue Brain Brayns</a>, the following commands can be used to start the backend:</p>
 <div class="fragment"><div class="line">export LD_LIBRARY_PATH=&lt;brayns_installation_folder&gt;/lib:${LD_LIBRARY_PATH}</div>
 <div class="line">export PATH=&lt;brayns_installation_folder&gt;/bin:${PATH}</div>
 <div class="line">braynsService --http-server localhost:5000 --plugin BioExplorer</div>
-</div><!-- fragment --><h2><a class="anchor" id="autotoc_md24"></a>
+</div><!-- fragment --><h2><a class="anchor" id="autotoc_md25"></a>
 Simple example</h2>
 <p>Considering that the <em>BBBE</em> server is running on the local host, on port 5000, the simplest example to visualize a coronavirus is: </p><div class="fragment"><div class="line">from bioexplorer import BioExplorer</div>
 <div class="line">be = BioExplorer(&#39;localhost:5000&#39;)</div>
 <div class="line">resource_folder = &#39;../../tests/test_files/&#39;</div>
 <div class="line">name=&#39;Coronavirus&#39;</div>
 <div class="line">be.add_coronavirus(name=name, resource_folder=resource_folder)</div>
-</div><!-- fragment --><h1><a class="anchor" id="autotoc_md25"></a>
+</div><!-- fragment --><h1><a class="anchor" id="autotoc_md26"></a>
 License</h1>
 <p><em>BBBE</em> is available to download and use under the GNU General Public License (<a href="https://www.gnu.org/licenses/gpl.html">GPL</a>, or “free software”). The code is open sourced with approval from the open sourcing committee and principal coordinators of the Blue Brain Project in February 2022.</p>
-<h1><a class="anchor" id="autotoc_md26"></a>
+<h1><a class="anchor" id="autotoc_md27"></a>
 Contact</h1>
 <p>For more information on <em>BBBE</em>, please contact:</p>
 <p><b>Cyrille Favreau</b> <br  />
  Senior Scientific Visualization Engineer <br  />
  Blue Brain Project <br  />
  <a href="cyrille.favreau@epfl.ch">cyrille.favreau@epfl.ch</a></p>
-<h1><a class="anchor" id="autotoc_md27"></a>
+<h1><a class="anchor" id="autotoc_md28"></a>
 Funding &amp; Acknowledgment</h1>
 <p>The development of this software was supported by funding to the Blue Brain Project, a research center of the École polytechnique fédérale de Lausanne (EPFL), from the Swiss government’s ETH Board of the Swiss Federal Institutes of Technology.</p>
 <p>COPYRIGHT 2020–2022 Blue Brain Project/EPFL </p>
