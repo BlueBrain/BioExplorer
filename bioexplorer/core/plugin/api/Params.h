@@ -114,4 +114,8 @@ bool from_json(AstrocytesDetails &param, const std::string &payload);
 bool from_json(NeuronsDetails &param, const std::string &payload);
 bool from_json(NeuronSectionDetails &param, const std::string &payload);
 std::string to_json(const NeuronSectionPointsDetails &param);
+
+// Utilities
+bool from_json(LookAtDetails &param, const std::string &payload);
+std::string to_json(const LookAtResponseDetails &param);
 #endif

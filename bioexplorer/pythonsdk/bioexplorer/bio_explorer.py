@@ -2458,6 +2458,25 @@ class BioExplorer:
             ps.append(p)
         return ps
 
+    def look_at(self, source, target):
+        """
+        Computes a quaternion to make a object rotate in the direction of a vector
+        defined by two 3D points, a source and a target
+
+        :source: Source 3d point
+        :target: Target 3d point
+
+        :return: The resulting rotation
+        """
+        assert isinstance(source, Vector3)
+        assert isinstance(target, Vector3)
+
+        params = dict()
+        params["source"] = source.to_list()
+        params["target"] = target.to_list()
+        response = self._invoke('look-at', params)
+        q = response['rotation']
+        return Quaternion(q[3], q[0], q[1], q[2])
 
 # Private classes
 

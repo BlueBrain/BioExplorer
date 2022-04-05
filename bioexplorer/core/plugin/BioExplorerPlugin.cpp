@@ -557,6 +557,13 @@ void BioExplorerPlugin::init()
             ->registerRequest<NeuronSectionDetails, NeuronSectionPointsDetails>(
                 endPoint, [&](const NeuronSectionDetails &payload)
                 { return _getNeuronSectionPoints(payload); });
+
+        endPoint = PLUGIN_API_PREFIX + "look-at";
+        PLUGIN_INFO(1, "Registering '" + endPoint + "' endpoint");
+        _api->getActionInterface()
+            ->registerRequest<LookAtDetails, LookAtResponseDetails>(
+                endPoint,
+                [&](const LookAtDetails &payload) { return _lookAt(payload); });
     }
 
     // Module components
@@ -1848,6 +1855,16 @@ Response BioExplorerPlugin::_addNeurons(const NeuronsDetails &payload)
     ASSEMBLY_CALL_VOID(payload.assemblyName, addNeurons(payload));
 }
 
+LookAtResponseDetails BioExplorerPlugin::_lookAt(const LookAtDetails &payload)
+{
+    LookAtResponseDetails response;
+    const auto source = doublesToVector3d(payload.source);
+    const auto target = doublesToVector3d(payload.target);
+    const auto q = safeQuatlookAt(normalize(target - source));
+    response.rotation = {q.x, q.y, q.z, q.w};
+    return response;
+}
+
 NeuronSectionPointsDetails BioExplorerPlugin::_getNeuronSectionPoints(
     const NeuronSectionDetails &payload)
 {
@@ -1919,6 +1936,10 @@ extern "C" ExtensionPlugin *brayns_plugin_create(int argc, char **argv)
     PLUGIN_INFO(1, "- CGAL module loaded");
 #endif
     PLUGIN_INFO(1, "- Postgresql module loaded");
+
+    Vector3d p0{55052.03290101237, 174717.19875335693, 23580.06581913353};
+    Vector3d p1{55008.644719837604, 174924.2787361145, 23620.688069461314};
+    PLUGIN_ERROR(safeQuatlookAt(normalize(p1 - p0)));
 
     return new BioExplorerPlugin(argc, argv);
 }

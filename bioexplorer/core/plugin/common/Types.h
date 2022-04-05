@@ -1034,6 +1034,17 @@ typedef struct
     bool status{true};
     doubles points;
 } NeuronSectionPointsDetails;
+
+typedef struct
+{
+    doubles source;
+    doubles target;
+} LookAtDetails;
+
+typedef struct
+{
+    doubles rotation;
+} LookAtResponseDetails;
 } // namespace details
 
 namespace common

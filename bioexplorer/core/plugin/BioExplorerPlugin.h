@@ -163,5 +163,8 @@ private:
     Response _addNeurons(const NeuronsDetails &payload);
     NeuronSectionPointsDetails _getNeuronSectionPoints(
         const NeuronSectionDetails &payload);
+
+    // Utilities
+    LookAtResponseDetails _lookAt(const LookAtDetails &payload);
 };
 } // namespace bioexplorer

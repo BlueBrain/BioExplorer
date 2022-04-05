@@ -249,6 +249,7 @@ void Neurons::_addSection(ThreadSafeContainer& container,
     double sectionLength = 0.0;
     double sectionVolume = 0.0;
     uint64_t geometryIndex = 0;
+    Neighbours neighbours{somaGeometryIndex};
     for (uint64_t i = 0; i < points.size() - 1; ++i)
     {
         const auto& srcPoint = points[i];
@@ -265,13 +266,17 @@ void Neurons::_addSection(ThreadSafeContainer& container,
             container.addSphere(dst, dstRadius, sectionMaterialId, NO_USER_DATA,
                                 {});
 
+#if 0
         Neighbours neighbours{somaGeometryIndex};
         if (i > 0)
             neighbours = {geometryIndex};
+#endif
         geometryIndex =
             container.addCone(src, srcRadius, dst, dstRadius, sectionMaterialId,
                               NO_USER_DATA, neighbours,
                               DEFAULT_SECTION_DISPLACEMENT);
+
+        neighbours.insert(geometryIndex);
         sectionVolume += coneVolume(sampleLength, srcRadius, dstRadius);
 
         _bounds.merge(srcPoint);

@@ -879,4 +879,35 @@ std::string to_json(const NeuronSectionPointsDetails &param)
     }
     return "";
 }
+
+bool from_json(LookAtDetails &param, const std::string &payload)
+{
+    try
+    {
+        auto js = nlohmann::json::parse(payload);
+        FROM_JSON(param, js, source);
+        FROM_JSON(param, js, target);
+    }
+    catch (...)
+    {
+        return false;
+    }
+    return true;
+}
+
+std::string to_json(const LookAtResponseDetails &param)
+{
+    try
+    {
+        nlohmann::json js;
+        TO_JSON(param, js, rotation);
+        return js.dump();
+    }
+    catch (...)
+    {
+        return "";
+    }
+    return "";
+}
+
 #endif
