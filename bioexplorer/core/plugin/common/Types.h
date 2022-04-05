@@ -947,14 +947,13 @@ typedef struct
     std::string assemblyName;
     /** Name of the population of astrocytes */
     std::string populationName;
-    /** Name of the vasculature population (for endfeet) */
+    /** Name of the vasculature population. If not empty, endfeet are
+     * automatically loaded */
     std::string vasculaturePopulationName;
     /** Load somas if set to true */
     bool loadSomas{true};
     /** Load dendrites if set to true */
     bool loadDendrites{true};
-    /** Load end-feet if set to true */
-    bool loadEndFeet{false};
     /** Generate internal components (nucleus and mitochondria) */
     bool generateInternals{false};
     /** Use Signed Distance Fields as geometry */

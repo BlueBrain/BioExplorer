@@ -61,6 +61,7 @@ void Astrocytes::_buildModel(const doubles& radii)
     std::set<uint64_t> materialIds;
     const auto useSdf = _details.useSdf;
     const auto somas = connector.getAstrocytes(_details.sqlFilter);
+    const auto loadEndFeet = !_details.vasculaturePopulationName.empty();
 
     PLUGIN_INFO(1, "Building " << somas.size() << " astrocytes");
 
@@ -93,7 +94,7 @@ void Astrocytes::_buildModel(const doubles& radii)
             sections = connector.getAstrocyteSections(somaId);
 
         EndFootMap endFeet;
-        if (_details.loadEndFeet)
+        if (loadEndFeet)
             endFeet = connector.getAstrocyteEndFeet(somaId);
 
         // Soma radius
@@ -230,7 +231,7 @@ void Astrocytes::_buildModel(const doubles& radii)
             }
         }
 
-        if (_details.loadEndFeet && !_details.vasculaturePopulationName.empty())
+        if (loadEndFeet)
             _addEndFoot(container, endFeet, radii, somaMaterialId);
 #pragma omp critical
         containers.push_back(container);

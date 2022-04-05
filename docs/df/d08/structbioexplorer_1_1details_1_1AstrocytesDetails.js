@@ -4,7 +4,6 @@ var structbioexplorer_1_1details_1_1AstrocytesDetails =
     [ "generateInternals", "df/d08/structbioexplorer_1_1details_1_1AstrocytesDetails.html#a53303fd2074027a20f49543c35c57e4b", null ],
     [ "geometryQuality", "df/d08/structbioexplorer_1_1details_1_1AstrocytesDetails.html#ab9f499945f765bb6cb6ae74df415afe0", null ],
     [ "loadDendrites", "df/d08/structbioexplorer_1_1details_1_1AstrocytesDetails.html#a1973f60e5d8b2ab65709d5dbc9128b5b", null ],
-    [ "loadEndFeet", "df/d08/structbioexplorer_1_1details_1_1AstrocytesDetails.html#a1c210db08b2d5ad07bb12ec48b69ecf9", null ],
     [ "loadSomas", "df/d08/structbioexplorer_1_1details_1_1AstrocytesDetails.html#a927e5fa492bc8ab91f83b5c4510c02a8", null ],
     [ "morphologyColorScheme", "df/d08/structbioexplorer_1_1details_1_1AstrocytesDetails.html#ad13e9d261da68396181e703e7e2f6692", null ],
     [ "populationColorScheme", "df/d08/structbioexplorer_1_1details_1_1AstrocytesDetails.html#a93408b551255945d74d6933cf1791e9c", null ],

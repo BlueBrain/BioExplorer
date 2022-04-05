@@ -35,42 +35,43 @@ var NAVTREE =
         [ "Virus", "index.html#autotoc_md9", null ],
         [ "Membrane", "index.html#autotoc_md10", null ],
         [ "Vasculature", "index.html#autotoc_md11", null ],
-        [ "Neurons and astrocytes", "index.html#autotoc_md12", null ]
+        [ "Neurons and astrocytes", "index.html#autotoc_md12", null ],
+        [ "Enzyme reactions", "index.html#autotoc_md13", null ]
       ] ],
-      [ "Python SDK", "index.html#autotoc_md13", null ],
-      [ "Documentation", "index.html#autotoc_md14", null ],
-      [ "Deployment", "index.html#autotoc_md15", [
-        [ "Server", "index.html#autotoc_md16", null ],
-        [ "Python SDK", "index.html#autotoc_md17", null ],
-        [ "Web User Interface", "index.html#autotoc_md18", null ]
+      [ "Python SDK", "index.html#autotoc_md14", null ],
+      [ "Documentation", "index.html#autotoc_md15", null ],
+      [ "Deployment", "index.html#autotoc_md16", [
+        [ "Server", "index.html#autotoc_md17", null ],
+        [ "Python SDK", "index.html#autotoc_md18", null ],
+        [ "Web User Interface", "index.html#autotoc_md19", null ]
       ] ],
-      [ "Building from Source", "index.html#autotoc_md19", [
-        [ "Blue Brain Brayns", "index.html#autotoc_md20", null ],
-        [ "BioExplorer", "index.html#autotoc_md21", [
-          [ "Compile", "index.html#autotoc_md22", null ],
-          [ "Run", "index.html#autotoc_md23", null ]
+      [ "Building from Source", "index.html#autotoc_md20", [
+        [ "Blue Brain Brayns", "index.html#autotoc_md21", null ],
+        [ "BioExplorer", "index.html#autotoc_md22", [
+          [ "Compile", "index.html#autotoc_md23", null ],
+          [ "Run", "index.html#autotoc_md24", null ]
         ] ]
       ] ],
-      [ "Simple example", "index.html#autotoc_md24", null ]
+      [ "Simple example", "index.html#autotoc_md25", null ]
     ] ],
-    [ "License", "index.html#autotoc_md25", null ],
-    [ "Contact", "index.html#autotoc_md26", null ],
-    [ "Funding & Acknowledgment", "index.html#autotoc_md27", null ],
+    [ "License", "index.html#autotoc_md26", null ],
+    [ "Contact", "index.html#autotoc_md27", null ],
+    [ "Funding & Acknowledgment", "index.html#autotoc_md28", null ],
     [ "Docker", "d9/d23/md__home_favreau_git_BioExplorer_DOCKER.html", [
-      [ "Prerequisites", "d9/d23/md__home_favreau_git_BioExplorer_DOCKER.html#autotoc_md29", null ],
-      [ "Setup", "d9/d23/md__home_favreau_git_BioExplorer_DOCKER.html#autotoc_md30", null ],
-      [ "Usage", "d9/d23/md__home_favreau_git_BioExplorer_DOCKER.html#autotoc_md31", null ]
+      [ "Prerequisites", "d9/d23/md__home_favreau_git_BioExplorer_DOCKER.html#autotoc_md30", null ],
+      [ "Setup", "d9/d23/md__home_favreau_git_BioExplorer_DOCKER.html#autotoc_md31", null ],
+      [ "Usage", "d9/d23/md__home_favreau_git_BioExplorer_DOCKER.html#autotoc_md32", null ]
     ] ],
     [ "User guide", "d0/de8/md__home_favreau_git_BioExplorer_bioexplorer_pythonsdk_doc_source_USERGUIDE.html", [
-      [ "Protein", "d0/de8/md__home_favreau_git_BioExplorer_bioexplorer_pythonsdk_doc_source_USERGUIDE.html#autotoc_md33", null ],
-      [ "Glycan", "d0/de8/md__home_favreau_git_BioExplorer_bioexplorer_pythonsdk_doc_source_USERGUIDE.html#autotoc_md34", null ],
-      [ "RNA sequence", "d0/de8/md__home_favreau_git_BioExplorer_bioexplorer_pythonsdk_doc_source_USERGUIDE.html#autotoc_md35", null ],
-      [ "Membrane", "d0/de8/md__home_favreau_git_BioExplorer_bioexplorer_pythonsdk_doc_source_USERGUIDE.html#autotoc_md36", null ],
-      [ "Surfactants", "d0/de8/md__home_favreau_git_BioExplorer_bioexplorer_pythonsdk_doc_source_USERGUIDE.html#autotoc_md37", null ],
-      [ "Virus", "d0/de8/md__home_favreau_git_BioExplorer_bioexplorer_pythonsdk_doc_source_USERGUIDE.html#autotoc_md38", null ],
-      [ "Host cell", "d0/de8/md__home_favreau_git_BioExplorer_bioexplorer_pythonsdk_doc_source_USERGUIDE.html#autotoc_md39", null ],
-      [ "Glycans Models", "d0/de8/md__home_favreau_git_BioExplorer_bioexplorer_pythonsdk_doc_source_USERGUIDE.html#autotoc_md40", null ],
-      [ "Visualization", "d0/de8/md__home_favreau_git_BioExplorer_bioexplorer_pythonsdk_doc_source_USERGUIDE.html#autotoc_md41", null ]
+      [ "Protein", "d0/de8/md__home_favreau_git_BioExplorer_bioexplorer_pythonsdk_doc_source_USERGUIDE.html#autotoc_md34", null ],
+      [ "Glycan", "d0/de8/md__home_favreau_git_BioExplorer_bioexplorer_pythonsdk_doc_source_USERGUIDE.html#autotoc_md35", null ],
+      [ "RNA sequence", "d0/de8/md__home_favreau_git_BioExplorer_bioexplorer_pythonsdk_doc_source_USERGUIDE.html#autotoc_md36", null ],
+      [ "Membrane", "d0/de8/md__home_favreau_git_BioExplorer_bioexplorer_pythonsdk_doc_source_USERGUIDE.html#autotoc_md37", null ],
+      [ "Surfactants", "d0/de8/md__home_favreau_git_BioExplorer_bioexplorer_pythonsdk_doc_source_USERGUIDE.html#autotoc_md38", null ],
+      [ "Virus", "d0/de8/md__home_favreau_git_BioExplorer_bioexplorer_pythonsdk_doc_source_USERGUIDE.html#autotoc_md39", null ],
+      [ "Host cell", "d0/de8/md__home_favreau_git_BioExplorer_bioexplorer_pythonsdk_doc_source_USERGUIDE.html#autotoc_md40", null ],
+      [ "Glycans Models", "d0/de8/md__home_favreau_git_BioExplorer_bioexplorer_pythonsdk_doc_source_USERGUIDE.html#autotoc_md41", null ],
+      [ "Visualization", "d0/de8/md__home_favreau_git_BioExplorer_bioexplorer_pythonsdk_doc_source_USERGUIDE.html#autotoc_md42", null ]
     ] ],
     [ "Classes", "annotated.html", [
       [ "Class List", "annotated.html", "annotated_dup" ],
@@ -94,7 +95,7 @@ var NAVTREEINDEX =
 "d2/ddd/structbioexplorer_1_1details_1_1NeuronSectionDetails.html#a9b306bf1f153c9c2ba6e7286031e4df8",
 "d7/d84/structbioexplorer_1_1details_1_1MaterialsDetails.html#a19005df5e8ac32a9a1c5395d267e7780",
 "db/de5/structbioexplorer_1_1details_1_1AminoAcidSequenceAsRangesDetails.html#a2e133a2fcae1a42c9b2435b09768bfb5",
-"df/d94/MetabolismHandler_8h_source.html"
+"df/d9e/structbioexplorer_1_1metabolism_1_1Location.html"
 ];
 
 var SYNCONMSG = 'click to disable panel synchronisation';
