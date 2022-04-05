@@ -890,85 +890,84 @@ $(document).ready(function(){initNavTree('d1/d4f/bioexplorer_2core_2plugin_2api_
 <div class="line"><a name="l00802"></a><span class="lineno">  802</span>&#160;        FROM_JSON(param, js, vasculaturePopulationName);</div>
 <div class="line"><a name="l00803"></a><span class="lineno">  803</span>&#160;        FROM_JSON(param, js, loadSomas);</div>
 <div class="line"><a name="l00804"></a><span class="lineno">  804</span>&#160;        FROM_JSON(param, js, loadDendrites);</div>
-<div class="line"><a name="l00805"></a><span class="lineno">  805</span>&#160;        FROM_JSON(param, js, loadEndFeet);</div>
-<div class="line"><a name="l00806"></a><span class="lineno">  806</span>&#160;        FROM_JSON(param, js, generateInternals);</div>
-<div class="line"><a name="l00807"></a><span class="lineno">  807</span>&#160;        FROM_JSON(param, js, useSdf);</div>
-<div class="line"><a name="l00808"></a><span class="lineno">  808</span>&#160;        FROM_JSON(param, js, geometryQuality);</div>
-<div class="line"><a name="l00809"></a><span class="lineno">  809</span>&#160;        FROM_JSON(param, js, morphologyColorScheme);</div>
-<div class="line"><a name="l00810"></a><span class="lineno">  810</span>&#160;        FROM_JSON(param, js, populationColorScheme);</div>
-<div class="line"><a name="l00811"></a><span class="lineno">  811</span>&#160;        FROM_JSON(param, js, radiusMultiplier);</div>
-<div class="line"><a name="l00812"></a><span class="lineno">  812</span>&#160;        FROM_JSON(param, js, sqlFilter);</div>
-<div class="line"><a name="l00813"></a><span class="lineno">  813</span>&#160;        FROM_JSON(param, js, scale);</div>
-<div class="line"><a name="l00814"></a><span class="lineno">  814</span>&#160;    }</div>
-<div class="line"><a name="l00815"></a><span class="lineno">  815</span>&#160;    <span class="keywordflow">catch</span> (...)</div>
-<div class="line"><a name="l00816"></a><span class="lineno">  816</span>&#160;    {</div>
-<div class="line"><a name="l00817"></a><span class="lineno">  817</span>&#160;        <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
-<div class="line"><a name="l00818"></a><span class="lineno">  818</span>&#160;    }</div>
-<div class="line"><a name="l00819"></a><span class="lineno">  819</span>&#160;    <span class="keywordflow">return</span> <span class="keyword">true</span>;</div>
-<div class="line"><a name="l00820"></a><span class="lineno">  820</span>&#160;}</div>
-<div class="line"><a name="l00821"></a><span class="lineno">  821</span>&#160; </div>
-<div class="line"><a name="l00822"></a><span class="lineno">  822</span>&#160;<span class="keywordtype">bool</span> from_json(<a class="code" href="../../dc/d93/structbioexplorer_1_1details_1_1NeuronsDetails.html">NeuronsDetails</a> &amp;param, <span class="keyword">const</span> std::string &amp;payload)</div>
-<div class="line"><a name="l00823"></a><span class="lineno">  823</span>&#160;{</div>
-<div class="line"><a name="l00824"></a><span class="lineno">  824</span>&#160;    <span class="keywordflow">try</span></div>
-<div class="line"><a name="l00825"></a><span class="lineno">  825</span>&#160;    {</div>
-<div class="line"><a name="l00826"></a><span class="lineno">  826</span>&#160;        <span class="keyword">auto</span> js = nlohmann::json::parse(payload);</div>
-<div class="line"><a name="l00827"></a><span class="lineno">  827</span>&#160;        FROM_JSON(param, js, assemblyName);</div>
-<div class="line"><a name="l00828"></a><span class="lineno">  828</span>&#160;        FROM_JSON(param, js, populationName);</div>
-<div class="line"><a name="l00829"></a><span class="lineno">  829</span>&#160;        FROM_JSON(param, js, loadSomas);</div>
-<div class="line"><a name="l00830"></a><span class="lineno">  830</span>&#160;        FROM_JSON(param, js, loadAxon);</div>
-<div class="line"><a name="l00831"></a><span class="lineno">  831</span>&#160;        FROM_JSON(param, js, loadBasalDendrites);</div>
-<div class="line"><a name="l00832"></a><span class="lineno">  832</span>&#160;        FROM_JSON(param, js, loadApicalDendrites);</div>
-<div class="line"><a name="l00833"></a><span class="lineno">  833</span>&#160;        FROM_JSON(param, js, loadSynapses);</div>
-<div class="line"><a name="l00834"></a><span class="lineno">  834</span>&#160;        FROM_JSON(param, js, generateInternals);</div>
-<div class="line"><a name="l00835"></a><span class="lineno">  835</span>&#160;        FROM_JSON(param, js, generateExternals);</div>
-<div class="line"><a name="l00836"></a><span class="lineno">  836</span>&#160;        FROM_JSON(param, js, useSdf);</div>
-<div class="line"><a name="l00837"></a><span class="lineno">  837</span>&#160;        FROM_JSON(param, js, geometryQuality);</div>
-<div class="line"><a name="l00838"></a><span class="lineno">  838</span>&#160;        FROM_JSON(param, js, morphologyColorScheme);</div>
-<div class="line"><a name="l00839"></a><span class="lineno">  839</span>&#160;        FROM_JSON(param, js, populationColorScheme);</div>
-<div class="line"><a name="l00840"></a><span class="lineno">  840</span>&#160;        FROM_JSON(param, js, radiusMultiplier);</div>
-<div class="line"><a name="l00841"></a><span class="lineno">  841</span>&#160;        FROM_JSON(param, js, sqlNodeFilter);</div>
-<div class="line"><a name="l00842"></a><span class="lineno">  842</span>&#160;        FROM_JSON(param, js, sqlSectionFilter);</div>
-<div class="line"><a name="l00843"></a><span class="lineno">  843</span>&#160;        FROM_JSON(param, js, scale);</div>
-<div class="line"><a name="l00844"></a><span class="lineno">  844</span>&#160;    }</div>
-<div class="line"><a name="l00845"></a><span class="lineno">  845</span>&#160;    <span class="keywordflow">catch</span> (...)</div>
-<div class="line"><a name="l00846"></a><span class="lineno">  846</span>&#160;    {</div>
-<div class="line"><a name="l00847"></a><span class="lineno">  847</span>&#160;        <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
-<div class="line"><a name="l00848"></a><span class="lineno">  848</span>&#160;    }</div>
-<div class="line"><a name="l00849"></a><span class="lineno">  849</span>&#160;    <span class="keywordflow">return</span> <span class="keyword">true</span>;</div>
-<div class="line"><a name="l00850"></a><span class="lineno">  850</span>&#160;}</div>
-<div class="line"><a name="l00851"></a><span class="lineno">  851</span>&#160; </div>
-<div class="line"><a name="l00852"></a><span class="lineno">  852</span>&#160;<span class="keywordtype">bool</span> from_json(<a class="code" href="../../d2/ddd/structbioexplorer_1_1details_1_1NeuronSectionDetails.html">NeuronSectionDetails</a> &amp;param, <span class="keyword">const</span> std::string &amp;payload)</div>
-<div class="line"><a name="l00853"></a><span class="lineno">  853</span>&#160;{</div>
-<div class="line"><a name="l00854"></a><span class="lineno">  854</span>&#160;    <span class="keywordflow">try</span></div>
-<div class="line"><a name="l00855"></a><span class="lineno">  855</span>&#160;    {</div>
-<div class="line"><a name="l00856"></a><span class="lineno">  856</span>&#160;        <span class="keyword">auto</span> js = nlohmann::json::parse(payload);</div>
-<div class="line"><a name="l00857"></a><span class="lineno">  857</span>&#160;        FROM_JSON(param, js, assemblyName);</div>
-<div class="line"><a name="l00858"></a><span class="lineno">  858</span>&#160;        FROM_JSON(param, js, neuronId);</div>
-<div class="line"><a name="l00859"></a><span class="lineno">  859</span>&#160;        FROM_JSON(param, js, sectionId);</div>
-<div class="line"><a name="l00860"></a><span class="lineno">  860</span>&#160;    }</div>
-<div class="line"><a name="l00861"></a><span class="lineno">  861</span>&#160;    <span class="keywordflow">catch</span> (...)</div>
-<div class="line"><a name="l00862"></a><span class="lineno">  862</span>&#160;    {</div>
-<div class="line"><a name="l00863"></a><span class="lineno">  863</span>&#160;        <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
-<div class="line"><a name="l00864"></a><span class="lineno">  864</span>&#160;    }</div>
-<div class="line"><a name="l00865"></a><span class="lineno">  865</span>&#160;    <span class="keywordflow">return</span> <span class="keyword">true</span>;</div>
-<div class="line"><a name="l00866"></a><span class="lineno">  866</span>&#160;}</div>
-<div class="line"><a name="l00867"></a><span class="lineno">  867</span>&#160; </div>
-<div class="line"><a name="l00868"></a><span class="lineno">  868</span>&#160;std::string to_json(<span class="keyword">const</span> <a class="code" href="../../d1/ddd/structbioexplorer_1_1details_1_1NeuronSectionPointsDetails.html">NeuronSectionPointsDetails</a> &amp;param)</div>
-<div class="line"><a name="l00869"></a><span class="lineno">  869</span>&#160;{</div>
-<div class="line"><a name="l00870"></a><span class="lineno">  870</span>&#160;    <span class="keywordflow">try</span></div>
-<div class="line"><a name="l00871"></a><span class="lineno">  871</span>&#160;    {</div>
-<div class="line"><a name="l00872"></a><span class="lineno">  872</span>&#160;        nlohmann::json js;</div>
-<div class="line"><a name="l00873"></a><span class="lineno">  873</span>&#160;        TO_JSON(param, js, status);</div>
-<div class="line"><a name="l00874"></a><span class="lineno">  874</span>&#160;        TO_JSON(param, js, points);</div>
-<div class="line"><a name="l00875"></a><span class="lineno">  875</span>&#160;        <span class="keywordflow">return</span> js.dump();</div>
-<div class="line"><a name="l00876"></a><span class="lineno">  876</span>&#160;    }</div>
-<div class="line"><a name="l00877"></a><span class="lineno">  877</span>&#160;    <span class="keywordflow">catch</span> (...)</div>
-<div class="line"><a name="l00878"></a><span class="lineno">  878</span>&#160;    {</div>
-<div class="line"><a name="l00879"></a><span class="lineno">  879</span>&#160;        <span class="keywordflow">return</span> <span class="stringliteral">&quot;&quot;</span>;</div>
-<div class="line"><a name="l00880"></a><span class="lineno">  880</span>&#160;    }</div>
-<div class="line"><a name="l00881"></a><span class="lineno">  881</span>&#160;    <span class="keywordflow">return</span> <span class="stringliteral">&quot;&quot;</span>;</div>
-<div class="line"><a name="l00882"></a><span class="lineno">  882</span>&#160;}</div>
-<div class="line"><a name="l00883"></a><span class="lineno">  883</span>&#160;<span class="preprocessor">#endif</span></div>
+<div class="line"><a name="l00805"></a><span class="lineno">  805</span>&#160;        FROM_JSON(param, js, generateInternals);</div>
+<div class="line"><a name="l00806"></a><span class="lineno">  806</span>&#160;        FROM_JSON(param, js, useSdf);</div>
+<div class="line"><a name="l00807"></a><span class="lineno">  807</span>&#160;        FROM_JSON(param, js, geometryQuality);</div>
+<div class="line"><a name="l00808"></a><span class="lineno">  808</span>&#160;        FROM_JSON(param, js, morphologyColorScheme);</div>
+<div class="line"><a name="l00809"></a><span class="lineno">  809</span>&#160;        FROM_JSON(param, js, populationColorScheme);</div>
+<div class="line"><a name="l00810"></a><span class="lineno">  810</span>&#160;        FROM_JSON(param, js, radiusMultiplier);</div>
+<div class="line"><a name="l00811"></a><span class="lineno">  811</span>&#160;        FROM_JSON(param, js, sqlFilter);</div>
+<div class="line"><a name="l00812"></a><span class="lineno">  812</span>&#160;        FROM_JSON(param, js, scale);</div>
+<div class="line"><a name="l00813"></a><span class="lineno">  813</span>&#160;    }</div>
+<div class="line"><a name="l00814"></a><span class="lineno">  814</span>&#160;    <span class="keywordflow">catch</span> (...)</div>
+<div class="line"><a name="l00815"></a><span class="lineno">  815</span>&#160;    {</div>
+<div class="line"><a name="l00816"></a><span class="lineno">  816</span>&#160;        <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
+<div class="line"><a name="l00817"></a><span class="lineno">  817</span>&#160;    }</div>
+<div class="line"><a name="l00818"></a><span class="lineno">  818</span>&#160;    <span class="keywordflow">return</span> <span class="keyword">true</span>;</div>
+<div class="line"><a name="l00819"></a><span class="lineno">  819</span>&#160;}</div>
+<div class="line"><a name="l00820"></a><span class="lineno">  820</span>&#160; </div>
+<div class="line"><a name="l00821"></a><span class="lineno">  821</span>&#160;<span class="keywordtype">bool</span> from_json(<a class="code" href="../../dc/d93/structbioexplorer_1_1details_1_1NeuronsDetails.html">NeuronsDetails</a> &amp;param, <span class="keyword">const</span> std::string &amp;payload)</div>
+<div class="line"><a name="l00822"></a><span class="lineno">  822</span>&#160;{</div>
+<div class="line"><a name="l00823"></a><span class="lineno">  823</span>&#160;    <span class="keywordflow">try</span></div>
+<div class="line"><a name="l00824"></a><span class="lineno">  824</span>&#160;    {</div>
+<div class="line"><a name="l00825"></a><span class="lineno">  825</span>&#160;        <span class="keyword">auto</span> js = nlohmann::json::parse(payload);</div>
+<div class="line"><a name="l00826"></a><span class="lineno">  826</span>&#160;        FROM_JSON(param, js, assemblyName);</div>
+<div class="line"><a name="l00827"></a><span class="lineno">  827</span>&#160;        FROM_JSON(param, js, populationName);</div>
+<div class="line"><a name="l00828"></a><span class="lineno">  828</span>&#160;        FROM_JSON(param, js, loadSomas);</div>
+<div class="line"><a name="l00829"></a><span class="lineno">  829</span>&#160;        FROM_JSON(param, js, loadAxon);</div>
+<div class="line"><a name="l00830"></a><span class="lineno">  830</span>&#160;        FROM_JSON(param, js, loadBasalDendrites);</div>
+<div class="line"><a name="l00831"></a><span class="lineno">  831</span>&#160;        FROM_JSON(param, js, loadApicalDendrites);</div>
+<div class="line"><a name="l00832"></a><span class="lineno">  832</span>&#160;        FROM_JSON(param, js, loadSynapses);</div>
+<div class="line"><a name="l00833"></a><span class="lineno">  833</span>&#160;        FROM_JSON(param, js, generateInternals);</div>
+<div class="line"><a name="l00834"></a><span class="lineno">  834</span>&#160;        FROM_JSON(param, js, generateExternals);</div>
+<div class="line"><a name="l00835"></a><span class="lineno">  835</span>&#160;        FROM_JSON(param, js, useSdf);</div>
+<div class="line"><a name="l00836"></a><span class="lineno">  836</span>&#160;        FROM_JSON(param, js, geometryQuality);</div>
+<div class="line"><a name="l00837"></a><span class="lineno">  837</span>&#160;        FROM_JSON(param, js, morphologyColorScheme);</div>
+<div class="line"><a name="l00838"></a><span class="lineno">  838</span>&#160;        FROM_JSON(param, js, populationColorScheme);</div>
+<div class="line"><a name="l00839"></a><span class="lineno">  839</span>&#160;        FROM_JSON(param, js, radiusMultiplier);</div>
+<div class="line"><a name="l00840"></a><span class="lineno">  840</span>&#160;        FROM_JSON(param, js, sqlNodeFilter);</div>
+<div class="line"><a name="l00841"></a><span class="lineno">  841</span>&#160;        FROM_JSON(param, js, sqlSectionFilter);</div>
+<div class="line"><a name="l00842"></a><span class="lineno">  842</span>&#160;        FROM_JSON(param, js, scale);</div>
+<div class="line"><a name="l00843"></a><span class="lineno">  843</span>&#160;    }</div>
+<div class="line"><a name="l00844"></a><span class="lineno">  844</span>&#160;    <span class="keywordflow">catch</span> (...)</div>
+<div class="line"><a name="l00845"></a><span class="lineno">  845</span>&#160;    {</div>
+<div class="line"><a name="l00846"></a><span class="lineno">  846</span>&#160;        <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
+<div class="line"><a name="l00847"></a><span class="lineno">  847</span>&#160;    }</div>
+<div class="line"><a name="l00848"></a><span class="lineno">  848</span>&#160;    <span class="keywordflow">return</span> <span class="keyword">true</span>;</div>
+<div class="line"><a name="l00849"></a><span class="lineno">  849</span>&#160;}</div>
+<div class="line"><a name="l00850"></a><span class="lineno">  850</span>&#160; </div>
+<div class="line"><a name="l00851"></a><span class="lineno">  851</span>&#160;<span class="keywordtype">bool</span> from_json(<a class="code" href="../../d2/ddd/structbioexplorer_1_1details_1_1NeuronSectionDetails.html">NeuronSectionDetails</a> &amp;param, <span class="keyword">const</span> std::string &amp;payload)</div>
+<div class="line"><a name="l00852"></a><span class="lineno">  852</span>&#160;{</div>
+<div class="line"><a name="l00853"></a><span class="lineno">  853</span>&#160;    <span class="keywordflow">try</span></div>
+<div class="line"><a name="l00854"></a><span class="lineno">  854</span>&#160;    {</div>
+<div class="line"><a name="l00855"></a><span class="lineno">  855</span>&#160;        <span class="keyword">auto</span> js = nlohmann::json::parse(payload);</div>
+<div class="line"><a name="l00856"></a><span class="lineno">  856</span>&#160;        FROM_JSON(param, js, assemblyName);</div>
+<div class="line"><a name="l00857"></a><span class="lineno">  857</span>&#160;        FROM_JSON(param, js, neuronId);</div>
+<div class="line"><a name="l00858"></a><span class="lineno">  858</span>&#160;        FROM_JSON(param, js, sectionId);</div>
+<div class="line"><a name="l00859"></a><span class="lineno">  859</span>&#160;    }</div>
+<div class="line"><a name="l00860"></a><span class="lineno">  860</span>&#160;    <span class="keywordflow">catch</span> (...)</div>
+<div class="line"><a name="l00861"></a><span class="lineno">  861</span>&#160;    {</div>
+<div class="line"><a name="l00862"></a><span class="lineno">  862</span>&#160;        <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
+<div class="line"><a name="l00863"></a><span class="lineno">  863</span>&#160;    }</div>
+<div class="line"><a name="l00864"></a><span class="lineno">  864</span>&#160;    <span class="keywordflow">return</span> <span class="keyword">true</span>;</div>
+<div class="line"><a name="l00865"></a><span class="lineno">  865</span>&#160;}</div>
+<div class="line"><a name="l00866"></a><span class="lineno">  866</span>&#160; </div>
+<div class="line"><a name="l00867"></a><span class="lineno">  867</span>&#160;std::string to_json(<span class="keyword">const</span> <a class="code" href="../../d1/ddd/structbioexplorer_1_1details_1_1NeuronSectionPointsDetails.html">NeuronSectionPointsDetails</a> &amp;param)</div>
+<div class="line"><a name="l00868"></a><span class="lineno">  868</span>&#160;{</div>
+<div class="line"><a name="l00869"></a><span class="lineno">  869</span>&#160;    <span class="keywordflow">try</span></div>
+<div class="line"><a name="l00870"></a><span class="lineno">  870</span>&#160;    {</div>
+<div class="line"><a name="l00871"></a><span class="lineno">  871</span>&#160;        nlohmann::json js;</div>
+<div class="line"><a name="l00872"></a><span class="lineno">  872</span>&#160;        TO_JSON(param, js, status);</div>
+<div class="line"><a name="l00873"></a><span class="lineno">  873</span>&#160;        TO_JSON(param, js, points);</div>
+<div class="line"><a name="l00874"></a><span class="lineno">  874</span>&#160;        <span class="keywordflow">return</span> js.dump();</div>
+<div class="line"><a name="l00875"></a><span class="lineno">  875</span>&#160;    }</div>
+<div class="line"><a name="l00876"></a><span class="lineno">  876</span>&#160;    <span class="keywordflow">catch</span> (...)</div>
+<div class="line"><a name="l00877"></a><span class="lineno">  877</span>&#160;    {</div>
+<div class="line"><a name="l00878"></a><span class="lineno">  878</span>&#160;        <span class="keywordflow">return</span> <span class="stringliteral">&quot;&quot;</span>;</div>
+<div class="line"><a name="l00879"></a><span class="lineno">  879</span>&#160;    }</div>
+<div class="line"><a name="l00880"></a><span class="lineno">  880</span>&#160;    <span class="keywordflow">return</span> <span class="stringliteral">&quot;&quot;</span>;</div>
+<div class="line"><a name="l00881"></a><span class="lineno">  881</span>&#160;}</div>
+<div class="line"><a name="l00882"></a><span class="lineno">  882</span>&#160;<span class="preprocessor">#endif</span></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
 <div class="ttc" id="astructbioexplorer_1_1details_1_1GeneralSettingsDetails_html"><div class="ttname"><a href="../../d0/d14/structbioexplorer_1_1details_1_1GeneralSettingsDetails.html">bioexplorer::details::GeneralSettingsDetails</a></div><div class="ttdoc">Structure defining the plugin general settings.</div><div class="ttdef"><b>Definition:</b> <a href="../../d0/dde/bioexplorer_2core_2plugin_2common_2Types_8h_source.html#l00131">Types.h:131</a></div></div>
@@ -998,15 +997,15 @@ $(document).ready(function(){initNavTree('d1/d4f/bioexplorer_2core_2plugin_2api_
 <div class="ttc" id="astructbioexplorer_1_1details_1_1ProteinInspectionDetails_html"><div class="ttname"><a href="../../d7/d80/structbioexplorer_1_1details_1_1ProteinInspectionDetails.html">bioexplorer::details::ProteinInspectionDetails</a></div><div class="ttdoc">Object description in the 3D scene.</div><div class="ttdef"><b>Definition:</b> <a href="../../d0/dde/bioexplorer_2core_2plugin_2common_2Types_8h_source.html#l00201">Types.h:201</a></div></div>
 <div class="ttc" id="astructbioexplorer_1_1details_1_1ProteinDetails_html"><div class="ttname"><a href="../../de/d0e/structbioexplorer_1_1details_1_1ProteinDetails.html">bioexplorer::details::ProteinDetails</a></div><div class="ttdef"><b>Definition:</b> <a href="../../d0/dde/bioexplorer_2core_2plugin_2common_2Types_8h_source.html#l00314">Types.h:314</a></div></div>
 <div class="ttc" id="astructbioexplorer_1_1details_1_1MembraneDetails_html"><div class="ttname"><a href="../../d0/ddb/structbioexplorer_1_1details_1_1MembraneDetails.html">bioexplorer::details::MembraneDetails</a></div><div class="ttdoc">A membrane is a shaped assembly of phospholipids.</div><div class="ttdef"><b>Definition:</b> <a href="../../d0/dde/bioexplorer_2core_2plugin_2common_2Types_8h_source.html#l00280">Types.h:280</a></div></div>
-<div class="ttc" id="astructbioexplorer_1_1details_1_1NeuronSectionDetails_html"><div class="ttname"><a href="../../d2/ddd/structbioexplorer_1_1details_1_1NeuronSectionDetails.html">bioexplorer::details::NeuronSectionDetails</a></div><div class="ttdef"><b>Definition:</b> <a href="../../d0/dde/bioexplorer_2core_2plugin_2common_2Types_8h_source.html#l01023">Types.h:1023</a></div></div>
+<div class="ttc" id="astructbioexplorer_1_1details_1_1NeuronSectionDetails_html"><div class="ttname"><a href="../../d2/ddd/structbioexplorer_1_1details_1_1NeuronSectionDetails.html">bioexplorer::details::NeuronSectionDetails</a></div><div class="ttdef"><b>Definition:</b> <a href="../../d0/dde/bioexplorer_2core_2plugin_2common_2Types_8h_source.html#l01022">Types.h:1022</a></div></div>
 <div class="ttc" id="astructbioexplorer_1_1details_1_1Response_html"><div class="ttname"><a href="../../d6/d45/structbioexplorer_1_1details_1_1Response.html">bioexplorer::details::Response</a></div><div class="ttdoc">Structure defining the entry point response of the remote API.</div><div class="ttdef"><b>Definition:</b> <a href="../../d0/dde/bioexplorer_2core_2plugin_2common_2Types_8h_source.html#l00102">Types.h:102</a></div></div>
 <div class="ttc" id="astructbioexplorer_1_1details_1_1ModelIdFileAccessDetails_html"><div class="ttname"><a href="../../d8/d1b/structbioexplorer_1_1details_1_1ModelIdFileAccessDetails.html">bioexplorer::details::ModelIdFileAccessDetails</a></div><div class="ttdef"><b>Definition:</b> <a href="../../d0/dde/bioexplorer_2core_2plugin_2common_2Types_8h_source.html#l00721">Types.h:721</a></div></div>
 <div class="ttc" id="astructbioexplorer_1_1details_1_1BuildFieldsDetails_html"><div class="ttname"><a href="../../dc/d5b/structbioexplorer_1_1details_1_1BuildFieldsDetails.html">bioexplorer::details::BuildFieldsDetails</a></div><div class="ttdoc">Structure containing information about how to build magnetic fields from atom positions and charge.</div><div class="ttdef"><b>Definition:</b> <a href="../../d0/dde/bioexplorer_2core_2plugin_2common_2Types_8h_source.html#l00712">Types.h:712</a></div></div>
-<div class="ttc" id="astructbioexplorer_1_1details_1_1NeuronsDetails_html"><div class="ttname"><a href="../../dc/d93/structbioexplorer_1_1details_1_1NeuronsDetails.html">bioexplorer::details::NeuronsDetails</a></div><div class="ttdef"><b>Definition:</b> <a href="../../d0/dde/bioexplorer_2core_2plugin_2common_2Types_8h_source.html#l00985">Types.h:985</a></div></div>
+<div class="ttc" id="astructbioexplorer_1_1details_1_1NeuronsDetails_html"><div class="ttname"><a href="../../dc/d93/structbioexplorer_1_1details_1_1NeuronsDetails.html">bioexplorer::details::NeuronsDetails</a></div><div class="ttdef"><b>Definition:</b> <a href="../../d0/dde/bioexplorer_2core_2plugin_2common_2Types_8h_source.html#l00984">Types.h:984</a></div></div>
 <div class="ttc" id="astructbioexplorer_1_1details_1_1InspectionDetails_html"><div class="ttname"><a href="../../dd/dc0/structbioexplorer_1_1details_1_1InspectionDetails.html">bioexplorer::details::InspectionDetails</a></div><div class="ttdef"><b>Definition:</b> <a href="../../d0/dde/bioexplorer_2core_2plugin_2common_2Types_8h_source.html#l00211">Types.h:211</a></div></div>
 <div class="ttc" id="astructbioexplorer_1_1details_1_1ModelsVisibilityDetails_html"><div class="ttname"><a href="../../d7/dbc/structbioexplorer_1_1details_1_1ModelsVisibilityDetails.html">bioexplorer::details::ModelsVisibilityDetails</a></div><div class="ttdoc">Structure defining how visible models are in the scene.</div><div class="ttdef"><b>Definition:</b> <a href="../../d0/dde/bioexplorer_2core_2plugin_2common_2Types_8h_source.html#l00791">Types.h:791</a></div></div>
 <div class="ttc" id="astructbioexplorer_1_1details_1_1VasculatureColorSchemeDetails_html"><div class="ttname"><a href="../../dd/d99/structbioexplorer_1_1details_1_1VasculatureColorSchemeDetails.html">bioexplorer::details::VasculatureColorSchemeDetails</a></div><div class="ttdoc">Defines the color scheme to apply to a vasculature.</div><div class="ttdef"><b>Definition:</b> <a href="../../d0/dde/bioexplorer_2core_2plugin_2common_2Types_8h_source.html#l00887">Types.h:887</a></div></div>
-<div class="ttc" id="astructbioexplorer_1_1details_1_1NeuronSectionPointsDetails_html"><div class="ttname"><a href="../../d1/ddd/structbioexplorer_1_1details_1_1NeuronSectionPointsDetails.html">bioexplorer::details::NeuronSectionPointsDetails</a></div><div class="ttdef"><b>Definition:</b> <a href="../../d0/dde/bioexplorer_2core_2plugin_2common_2Types_8h_source.html#l01033">Types.h:1033</a></div></div>
+<div class="ttc" id="astructbioexplorer_1_1details_1_1NeuronSectionPointsDetails_html"><div class="ttname"><a href="../../d1/ddd/structbioexplorer_1_1details_1_1NeuronSectionPointsDetails.html">bioexplorer::details::NeuronSectionPointsDetails</a></div><div class="ttdef"><b>Definition:</b> <a href="../../d0/dde/bioexplorer_2core_2plugin_2common_2Types_8h_source.html#l01032">Types.h:1032</a></div></div>
 <div class="ttc" id="astructbioexplorer_1_1details_1_1AssemblyDetails_html"><div class="ttname"><a href="../../d1/da5/structbioexplorer_1_1details_1_1AssemblyDetails.html">bioexplorer::details::AssemblyDetails</a></div><div class="ttdoc">Assembly representation.</div><div class="ttdef"><b>Definition:</b> <a href="../../d0/dde/bioexplorer_2core_2plugin_2common_2Types_8h_source.html#l00221">Types.h:221</a></div></div>
 <div class="ttc" id="astructbioexplorer_1_1details_1_1AddBoundingBoxDetails_html"><div class="ttname"><a href="../../dc/d45/structbioexplorer_1_1details_1_1AddBoundingBoxDetails.html">bioexplorer::details::AddBoundingBoxDetails</a></div><div class="ttdoc">Defines the parameters needed when adding 3D sphere to the scene.</div><div class="ttdef"><b>Definition:</b> <a href="../../d0/dde/bioexplorer_2core_2plugin_2common_2Types_8h_source.html#l00571">Types.h:571</a></div></div>
 <div class="ttc" id="astructbioexplorer_1_1details_1_1ModelIdDetails_html"><div class="ttname"><a href="../../d6/dc9/structbioexplorer_1_1details_1_1ModelIdDetails.html">bioexplorer::details::ModelIdDetails</a></div><div class="ttdoc">Model identifier.</div><div class="ttdef"><b>Definition:</b> <a href="../../d0/dde/bioexplorer_2core_2plugin_2common_2Types_8h_source.html#l00663">Types.h:663</a></div></div>

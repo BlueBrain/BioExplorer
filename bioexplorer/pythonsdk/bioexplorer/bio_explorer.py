@@ -2343,10 +2343,9 @@ class BioExplorer:
 
         :assembly_name: Name of the assembly to which the astrocytes should be added
         :population_name: Name of the population of astrocytes
-        :vasculature_population_name: Name of the vasculature population (for endfeet)
+        :vasculature_population_name: Name of the vasculature population. Automatically load end-feet if not empty
         :load_somas: Load somas if set to true
         :load_dendrites: Load dendrites if set to true
-        :load_end_feet: Load end feet if set to true
         :generate_internals: Generate internals (Nucleus and mitochondria)
         :use_sdf: Use sign distance fields geometry to create the astrocytes. Defaults to False
         :geometry_quality: Quality of the geometry
@@ -2366,7 +2365,6 @@ class BioExplorer:
         params["vasculaturePopulationName"] = vasculature_population_name
         params["loadSomas"] = load_somas
         params["loadDendrites"] = load_dendrites
-        params["loadEndFeet"] = load_end_feet
         params["generateInternals"] = generate_internals
         params["useSdf"] = use_sdf
         params["geometryQuality"] = geometry_quality
