@@ -1001,6 +1001,9 @@ typedef struct
     bool generateInternals{false};
     /** Generate external components (myelin steath) */
     bool generateExternals{false};
+    /** Show membrane (Typically used to isolate internal and external
+     * components*/
+    bool showMembrane{true};
     /** Use Signed Distance Fields as geometry */
     bool useSdf{false};
     /** Geometry quality */

@@ -1708,6 +1708,21 @@ class BioExplorer:
         params["chameleonModes"] = chameleon_modes
         return self._invoke_and_check("set-materials", params)
 
+    def set_material_extra_attributes(self, model_id):
+        """
+        Set extra BioExplorer specific attributes to materials
+
+        :model_id: ID of the model
+        :return: Result of the request submission
+        """
+        if self._client is None:
+            return
+
+        params = dict()
+        params["modelId"] = model_id
+        params["maxNbInstances"] = 1
+        return self._invoke_and_check("set-material-extra-attributes", params)
+
     def set_materials_from_palette(self, model_ids, material_ids, palette, shading_mode,
                                    specular_exponent, user_parameter=1.0, glossiness=1.0,
                                    emission=0.0, opacity=1.0, reflection_index=0.0,
@@ -2382,6 +2397,7 @@ class BioExplorer:
             load_basal_dendrites=True, load_apical_dendrites=True,
             load_synapses=False,
             generate_internals=False, generate_externals=False,
+            show_membrane=True,
             geometry_quality=GEOMETRY_QUALITY_HIGH,
             morphology_color_scheme=MORPHOLOGY_COLOR_SCHEME_NONE,
             population_color_scheme=POPULATION_COLOR_SCHEME_NONE,
@@ -2400,6 +2416,7 @@ class BioExplorer:
         :load_synapses: Load synapses if set to true
         :generate_internals: Generate internals (Nucleus and mitochondria)
         :generate_externals: Generate externals (Myelin steath)
+        :show_membrane: Show membrane (Typically used to isolate internal and external components
         :geometry_quality: Quality of the geometry
         :morphology_color_scheme: Color scheme of the sections of the astrocytes
         :populationColorScheme: Color scheme of the population of astrocytes
@@ -2422,6 +2439,7 @@ class BioExplorer:
         params["loadSynapses"] = load_synapses
         params["generateInternals"] = generate_internals
         params["generateExternals"] = generate_externals
+        params["showMembrane"] = show_membrane
         params["useSdf"] = use_sdf
         params["geometryQuality"] = geometry_quality
         params["morphologyColorScheme"] = morphology_color_scheme

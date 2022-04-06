@@ -955,8 +955,7 @@ inline vec3f AdvancedRenderer_shadeRay(
             DifferentialGeometry dg;
             postIntersect(self->super.model, dg, ray,
                           DG_NG | DG_NS | DG_NORMALIZE | DG_TANGENTS |
-                              DG_FACEFORWARD | DG_MATERIALID | DG_COLOR |
-                              DG_TEXCOORD);
+                              DG_MATERIALID | DG_COLOR | DG_TEXCOORD);
 
             // Get intersection information
             // Initialize geometry shading attributes

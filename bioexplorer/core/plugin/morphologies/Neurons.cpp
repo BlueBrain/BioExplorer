@@ -130,10 +130,11 @@ void Neurons::_buildNeuron()
         uint64_t somaGeometryIndex = 0;
         if (_details.loadSomas)
         {
-            somaGeometryIndex =
-                container.addSphere(somaPosition, somaRadius, somaMaterialId,
-                                    NO_USER_DATA, {},
-                                    DEFAULT_SOMA_DISPLACEMENT);
+            if (_details.showMembrane)
+                somaGeometryIndex =
+                    container.addSphere(somaPosition, somaRadius,
+                                        somaMaterialId, NO_USER_DATA, {},
+                                        DEFAULT_SOMA_DISPLACEMENT);
             if (_details.generateInternals)
             {
                 _addSomaInternals(somaId, container, baseMaterialId,
@@ -155,7 +156,7 @@ void Neurons::_buildNeuron()
 
             for (const auto& section : sections)
             {
-                if (_details.loadSomas &&
+                if (_details.showMembrane && _details.loadSomas &&
                     section.second.parentId == SOMA_AS_PARENT)
                 {
                     const Vector4d somaPoint{somaPosition.x, somaPosition.y,
@@ -178,6 +179,7 @@ void Neurons::_buildNeuron()
             }
         }
 
+        // Synapses
         if (_details.loadSynapses)
         {
             _addSpines(container, somaId, somaPosition, somaRadius,
@@ -246,6 +248,7 @@ void Neurons::_addSection(ThreadSafeContainer& container,
         !_details.loadApicalDendrites)
         return;
 
+    // Section surface
     double sectionLength = 0.0;
     double sectionVolume = 0.0;
     uint64_t geometryIndex = 0;
@@ -262,21 +265,23 @@ void Neurons::_addSection(ThreadSafeContainer& container,
         const double sampleLength = length(dstPoint - srcPoint);
         sectionLength += sampleLength;
 
-        if (!useSdf)
-            container.addSphere(dst, dstRadius, sectionMaterialId, NO_USER_DATA,
-                                {});
+        if (_details.showMembrane)
+        {
+            if (!useSdf)
+                container.addSphere(dst, dstRadius, sectionMaterialId,
+                                    NO_USER_DATA, {});
 
-#if 0
-        Neighbours neighbours{somaGeometryIndex};
-        if (i > 0)
-            neighbours = {geometryIndex};
-#endif
-        geometryIndex =
-            container.addCone(src, srcRadius, dst, dstRadius, sectionMaterialId,
-                              NO_USER_DATA, neighbours,
-                              DEFAULT_SECTION_DISPLACEMENT);
+            Neighbours neighbours{somaGeometryIndex};
+            if (i > 0 && _details.geometryQuality != GeometryQuality::high)
+                neighbours = {geometryIndex};
 
-        neighbours.insert(geometryIndex);
+            geometryIndex =
+                container.addCone(src, srcRadius, dst, dstRadius,
+                                  sectionMaterialId, NO_USER_DATA, neighbours,
+                                  DEFAULT_SECTION_DISPLACEMENT);
+
+            neighbours.insert(geometryIndex);
+        }
         sectionVolume += coneVolume(sampleLength, srcRadius, dstRadius);
 
         _bounds.merge(srcPoint);
@@ -312,7 +317,7 @@ void Neurons::_addSectionInternals(
 
     // Add mitochondria (density is per section, not for the full axon)
     const double mitochondrionSegmentSize = 0.25;
-    const double mitochondrionRadiusRatio = 0.25;
+    const double mitochondrionRadiusRatio = 0.15;
 
     const size_t nbMaxMitochondrionSegments =
         sectionLength / mitochondrionSegmentSize;
@@ -330,6 +335,9 @@ void Neurons::_addSectionInternals(
     Vector3d previousPosition;
 
     uint64_t geometryIndex = 0;
+    Vector3d randomPosition{points[0].w * (rand() % 100 - 50) / 200.0,
+                            points[0].w * (rand() % 100 - 50) / 200.0,
+                            points[0].w * (rand() % 100 - 50) / 200.0};
     for (size_t step = 0; step < nbMaxMitochondrionSegments; ++step)
     {
         if (mitochondriaVolume < sectionVolume * mitochondriaDensity &&
@@ -354,7 +362,8 @@ void Neurons::_addSectionInternals(
 
                 const Vector3d direction = dstPosition - srcPosition;
                 const Vector3d position =
-                    srcPosition + direction * (step * indexRatio - srcIndex);
+                    srcPosition + randomPosition +
+                    direction * (step * indexRatio - srcIndex);
                 const double mitocondrionRadius =
                     srcRadius * mitochondrionRadiusRatio;
                 const double radius =
@@ -396,6 +405,11 @@ void Neurons::_addSectionInternals(
             mitochondrionSegment =
                 -(rand() % (1 + nbMaxMitochondrionSegments / 10));
             nbSegments = _getNbMitochondrionSegments();
+            const auto index = uint64_t(step * indexRatio);
+            randomPosition =
+                Vector3d(points[index].w * (rand() % 100 - 50) / 200.0,
+                         points[index].w * (rand() % 100 - 50) / 200.0,
+                         points[index].w * (rand() % 100 - 50) / 200.0);
         }
     }
 }

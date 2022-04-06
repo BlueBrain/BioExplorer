@@ -832,6 +832,7 @@ bool from_json(NeuronsDetails &param, const std::string &payload)
         FROM_JSON(param, js, loadSynapses);
         FROM_JSON(param, js, generateInternals);
         FROM_JSON(param, js, generateExternals);
+        FROM_JSON(param, js, showMembrane);
         FROM_JSON(param, js, useSdf);
         FROM_JSON(param, js, geometryQuality);
         FROM_JSON(param, js, morphologyColorScheme);

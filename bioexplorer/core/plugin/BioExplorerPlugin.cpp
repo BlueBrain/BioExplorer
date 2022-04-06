@@ -438,6 +438,12 @@ void BioExplorerPlugin::init()
             endPoint, [&](const MaterialsDetails &payload)
             { return _setMaterials(payload); });
 
+        endPoint = PLUGIN_API_PREFIX + "set-material-extra-attributes";
+        PLUGIN_INFO(1, "Registering '" + endPoint + "' endpoint");
+        actionInterface->registerRequest<ModelIdDetails, Response>(
+            endPoint, [&](const ModelIdDetails &payload)
+            { return _setMaterialExtraAttributes(payload); });
+
         endPoint = PLUGIN_API_PREFIX + "get-material-ids";
         PLUGIN_INFO(1, "Registering '" + endPoint + "' endpoint");
         actionInterface->registerRequest<ModelIdDetails, IdsDetails>(
@@ -1517,6 +1523,41 @@ Response BioExplorerPlugin::_setMaterials(const MaterialsDetails &payload)
                 PLUGIN_INFO(3, "Model " << modelId << " is not registered");
         }
         scene.markModified(false);
+    }
+    CATCH_STD_EXCEPTION()
+    return response;
+}
+
+Response BioExplorerPlugin::_setMaterialExtraAttributes(
+    const ModelIdDetails &details)
+{
+    Response response;
+    try
+    {
+        auto &scene = _api->getScene();
+        auto modelDescriptor = scene.getModel(details.modelId);
+        if (modelDescriptor)
+        {
+            auto materials = modelDescriptor->getModel().getMaterials();
+            for (auto &material : materials)
+            {
+                PropertyMap props;
+                props.setProperty({MATERIAL_PROPERTY_CAST_USER_DATA, false});
+                props.setProperty(
+                    {MATERIAL_PROPERTY_SHADING_MODE,
+                     static_cast<int>(MaterialShadingMode::diffuse)});
+                props.setProperty(
+                    {MATERIAL_PROPERTY_CHAMELEON_MODE,
+                     static_cast<int>(
+                         MaterialChameleonMode::undefined_chameleon_mode)});
+                props.setProperty({MATERIAL_PROPERTY_USER_PARAMETER, 1.0});
+                material.second->updateProperties(props);
+            }
+            scene.markModified(false);
+        }
+        else
+            PLUGIN_THROW("Model " + std::to_string(details.modelId) +
+                         " is not registered");
     }
     CATCH_STD_EXCEPTION()
     return response;

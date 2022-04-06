@@ -117,6 +117,8 @@ private:
     Response _setProteinColorScheme(
         const ProteinColorSchemeDetails &payload) const;
     Response _setMaterials(const MaterialsDetails &payload);
+    Response _setMaterialExtraAttributes(const ModelIdDetails &details);
+
     IdsDetails _getMaterialIds(const ModelIdDetails &payload);
 
     // Point clouds
