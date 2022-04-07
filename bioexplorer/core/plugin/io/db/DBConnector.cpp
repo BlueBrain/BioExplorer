@@ -238,9 +238,8 @@ GeometryEdges DBConnector::getVasculatureEdges(
     pqxx::read_transaction transaction(*_connections[omp_get_thread_num()]);
     try
     {
-        std::string sql = "SELECT source_node_guid, target_node_guid FROM " +
+        std::string sql = "SELECT start_node_guid-1, end_node_guid-1 FROM " +
                           populationName + ".edge";
-
         if (!filter.empty())
             sql += " WHERE " + filter;
 

@@ -127,6 +127,8 @@ private:
                              const VasculatureColorSchemeDetails& details,
                              const doubles& radii = doubles());
 
+    void _buildEdges(Model& model);
+
     void _importFromDB();
     void _buildModel(const VasculatureColorSchemeDetails& details =
                          VasculatureColorSchemeDetails(),

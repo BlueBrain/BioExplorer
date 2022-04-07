@@ -428,6 +428,42 @@ void Vasculature::_buildAdvancedModel(
     _applyPaletteToModel(model, details.palette);
 }
 
+void Vasculature::_buildEdges(Model& model)
+{
+    const auto& connector = DBConnector::getInstance();
+    const auto edges = connector.getVasculatureEdges(_details.populationName,
+                                                     _details.sqlFilter);
+
+    const auto radiusMultiplier = _details.radiusMultiplier;
+
+    ThreadSafeContainer container(model, _details.useSdf);
+    uint64_t index = 0;
+    for (const auto edge : edges)
+    {
+        PLUGIN_PROGRESS("Loading vasculature edges", index++, edges.size());
+        size_t materialId = 0;
+        if (_nodes.find(edge.first) == _nodes.end() ||
+            _nodes.find(edge.second) == _nodes.end())
+            continue;
+        const auto& srcNode = _nodes[edge.first];
+        const auto& srcPoint = srcNode.position;
+        const auto srcRadius = srcNode.radius * radiusMultiplier;
+        const auto& dstNode = _nodes[edge.second];
+        const auto& dstPoint = dstNode.position;
+        const auto dstRadius = dstNode.radius * radiusMultiplier;
+
+        container.addCone(srcPoint, srcRadius, dstPoint, dstRadius, materialId,
+                          0, {}, DEFAULT_VASCULATURE_DISPLACEMENT);
+    }
+    PLUGIN_INFO(1, "");
+
+    container.commitToModel();
+    PLUGIN_INFO(1, "");
+
+    PLUGIN_ERROR("Created " + std::to_string(model.getMaterials().size()) +
+                 " materials");
+}
+
 void Vasculature::_buildModel(const VasculatureColorSchemeDetails& details,
                               const doubles& radii)
 {
