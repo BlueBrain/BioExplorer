@@ -154,9 +154,10 @@ Transformation SphereShape::_getFilledSphereTransformation(
     const AnimationDetails& animationDetails, const double offset) const
 {
     Vector3d pos;
+    const double diameter = _radius * 2.0;
     do
     {
-        pos = Vector3d(rnd1() * _radius, rnd1() * _radius, rnd1() * _radius);
+        pos = Vector3d(rnd1() * diameter, rnd1() * diameter, rnd1() * diameter);
     } while (length(pos) > _radius);
 
     if (animationDetails.positionSeed != 0)
