@@ -95,7 +95,8 @@ void Astrocytes::_buildModel(const doubles& radii)
 
         EndFootMap endFeet;
         if (loadEndFeet)
-            endFeet = connector.getAstrocyteEndFeet(somaId);
+            endFeet = connector.getAstrocyteEndFeet(
+                _details.vasculaturePopulationName, somaId);
 
         // Soma radius
         uint64_t count = 1;
@@ -366,7 +367,8 @@ void Astrocytes::setVasculatureRadiusReport(
         PLUGIN_THROW("Invalid frame specified for report: " +
                      simulationReport.description);
     const floats radii =
-        connector.getVasculatureSimulationTimeSeries(details.simulationReportId,
+        connector.getVasculatureSimulationTimeSeries(details.populationName,
+                                                     details.simulationReportId,
                                                      details.frame);
     doubles series;
     for (const double radius : radii)

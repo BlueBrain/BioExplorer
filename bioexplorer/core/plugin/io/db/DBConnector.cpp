@@ -29,7 +29,6 @@ namespace io
 namespace db
 {
 const std::string DB_SCHEMA_OUT_OF_CORE = "outofcore";
-const std::string DB_SCHEMA_VASCULATURE = "vasculature";
 const std::string DB_SCHEMA_METABOLISM = "metabolism";
 const std::string DB_SCHEMA_ASTROCYTES = "astrocytes";
 const std::string DB_SCHEMA_CONNECTOME = "connectome";
@@ -194,35 +193,9 @@ std::stringstream DBConnector::getBrick(const int32_t brickId,
     return s;
 }
 
-uint64_t DBConnector::getVasculaturePopulationId(
-    const std::string& populationName) const
-{
-    uint64_t populationId;
-    pqxx::read_transaction transaction(*_connections[omp_get_thread_num()]);
-    try
-    {
-        std::string sql = "SELECT guid FROM " + DB_SCHEMA_VASCULATURE +
-                          ".population WHERE name='" + populationName + "'";
-        PLUGIN_DEBUG(sql);
-        auto res = transaction.exec(sql);
-        if (res.empty())
-            PLUGIN_THROW("Population " + populationName +
-                         " could not be found");
-        for (auto c = res.begin(); c != res.end(); ++c)
-            populationId = c[0].as<uint64_t>();
-    }
-    catch (pqxx::sql_error& e)
-    {
-        PLUGIN_THROW(e.what());
-    }
-    return populationId;
-}
-
 GeometryNodes DBConnector::getVasculatureNodes(
     const std::string& populationName, const std::string& filter) const
 {
-    const auto populationId = getVasculaturePopulationId(populationName);
-
     GeometryNodes nodes;
     pqxx::read_transaction transaction(*_connections[omp_get_thread_num()]);
     try
@@ -230,10 +203,9 @@ GeometryNodes DBConnector::getVasculatureNodes(
         std::string sql =
             "SELECT guid, x, y, z, radius, section_guid, sub_graph_guid, "
             "pair_guid, entry_node_guid FROM " +
-            DB_SCHEMA_VASCULATURE +
-            ".node WHERE population_guid=" + std::to_string(populationId);
+            populationName + ".node";
         if (!filter.empty())
-            sql += " AND " + filter;
+            sql += " WHERE " + filter;
         sql += " ORDER BY guid";
         PLUGIN_DEBUG(sql);
         auto res = transaction.exec(sql);
@@ -262,19 +234,15 @@ GeometryNodes DBConnector::getVasculatureNodes(
 GeometryEdges DBConnector::getVasculatureEdges(
     const std::string& populationName, const std::string& filter) const
 {
-    const auto populationId = getVasculaturePopulationId(populationName);
-
     GeometryEdges edges;
     pqxx::read_transaction transaction(*_connections[omp_get_thread_num()]);
     try
     {
-        std::string sql =
-            "SELECT source_node_guid, target_node_guid FROM " +
-            DB_SCHEMA_VASCULATURE +
-            ".edge WHERE population_guid=" + std::to_string(populationId);
+        std::string sql = "SELECT source_node_guid, target_node_guid FROM " +
+                          populationName + ".edge";
 
         if (!filter.empty())
-            sql += "AND " + filter;
+            sql += " WHERE " + filter;
 
         PLUGIN_DEBUG(sql);
         auto res = transaction.exec(sql);
@@ -292,18 +260,15 @@ GeometryEdges DBConnector::getVasculatureEdges(
 Bifurcations DBConnector::getVasculatureBifurcations(
     const std::string& populationName) const
 {
-    const auto populationId = getVasculaturePopulationId(populationName);
-
     Bifurcations bifurcations;
     pqxx::read_transaction transaction(*_connections[omp_get_thread_num()]);
     try
     {
         std::string sql =
-            "SELECT e.source_node_guid, e.target_node_guid FROM "
-            "vasculature.vasculature AS v, vasculature.edge AS e WHERE "
-            "v.bifurcation_guid !=0 AND e.source_node_guid=v.node_guid AND "
-            "v.population_guid=" +
-            std::to_string(populationId);
+            "SELECT e.source_node_guid, e.target_node_guid FROM " +
+            populationName + ".vasculature AS v, " + populationName +
+            ".edge AS e WHERE "
+            "v.bifurcation_guid !=0 AND e.source_node_guid=v.node_guid";
 
         PLUGIN_DEBUG(sql);
         auto res = transaction.exec(sql);
@@ -326,8 +291,6 @@ Bifurcations DBConnector::getVasculatureBifurcations(
 SimulationReport DBConnector::getVasculatureSimulationReport(
     const std::string& populationName, const int32_t simulationReportId) const
 {
-    const auto populationId = getVasculaturePopulationId(populationName);
-
     SimulationReport simulationReport;
     pqxx::read_transaction transaction(*_connections[omp_get_thread_num()]);
     try
@@ -336,10 +299,9 @@ SimulationReport DBConnector::getVasculatureSimulationReport(
             "SELECT description, start_time, end_time, time_step, "
             "time_units, "
             "data_units FROM " +
-            DB_SCHEMA_VASCULATURE +
+            populationName +
             ".simulation_report WHERE simulation_report_guid=" +
-            std::to_string(simulationReportId) +
-            " AND population_guid=" + std::to_string(populationId);
+            std::to_string(simulationReportId);
 
         PLUGIN_DEBUG(sql);
         auto res = transaction.exec(sql);
@@ -362,14 +324,15 @@ SimulationReport DBConnector::getVasculatureSimulationReport(
 }
 
 floats DBConnector::getVasculatureSimulationTimeSeries(
-    const int32_t simulationReportId, const int32_t frame) const
+    const std::string& populationName, const int32_t simulationReportId,
+    const int32_t frame) const
 {
     floats values;
     pqxx::read_transaction transaction(*_connections[omp_get_thread_num()]);
     try
     {
         std::string sql =
-            "SELECT values FROM " + DB_SCHEMA_VASCULATURE +
+            "SELECT values FROM " + populationName +
             ".simulation_time_series WHERE simulation_report_guid=" +
             std::to_string(simulationReportId) +
             " AND frame_guid=" + std::to_string(frame);
@@ -460,7 +423,9 @@ SectionMap DBConnector::getAstrocyteSections(const int64_t astrocyteId) const
     return sections;
 }
 
-EndFootMap DBConnector::getAstrocyteEndFeet(const uint64_t astrocyteId) const
+EndFootMap DBConnector::getAstrocyteEndFeet(
+    const std::string& vasculaturePopulationName,
+    const uint64_t astrocyteId) const
 {
     EndFootMap endFeet;
 
@@ -474,7 +439,7 @@ EndFootMap DBConnector::getAstrocyteEndFeet(const uint64_t astrocyteId) const
             "* "
             "0.5 FROM " +
             DB_SCHEMA_CONNECTOME + ".glio_vascular as c, " +
-            DB_SCHEMA_VASCULATURE +
+            vasculaturePopulationName +
             ".node as n WHERE c.vasculature_node_guid=n.guid AND "
             "c.astrocyte_guid=" +
             std::to_string(astrocyteId);

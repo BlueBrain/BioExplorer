@@ -486,7 +486,8 @@ void Vasculature::setRadiusReport(const VasculatureRadiusReportDetails& details)
         PLUGIN_THROW("Invalid frame specified for report: " +
                      simulationReport.description);
     const floats radii =
-        connector.getVasculatureSimulationTimeSeries(details.simulationReportId,
+        connector.getVasculatureSimulationTimeSeries(details.populationName,
+                                                     details.simulationReportId,
                                                      details.frame);
     doubles series;
     for (const double radius : radii)
