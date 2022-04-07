@@ -51,6 +51,8 @@ var hierarchy =
       [ "bioexplorer::io::CacheLoader", "d1/d5f/classbioexplorer_1_1io_1_1CacheLoader.html", null ]
     ] ],
     [ "bioexplorer::metabolism::Location", "df/d9e/structbioexplorer_1_1metabolism_1_1Location.html", null ],
+    [ "bioexplorer::details::LookAtDetails", "dd/d4c/structbioexplorer_1_1details_1_1LookAtDetails.html", null ],
+    [ "bioexplorer::details::LookAtResponseDetails", "d6/d4b/structbioexplorer_1_1details_1_1LookAtResponseDetails.html", null ],
     [ "Material", null, [
       [ "bioexplorer::mediamaker::rendering::DefaultMaterial", "d1/dbe/structbioexplorer_1_1mediamaker_1_1rendering_1_1DefaultMaterial.html", null ],
       [ "bioexplorer::rendering::AdvancedMaterial", "d5/d4e/structbioexplorer_1_1rendering_1_1AdvancedMaterial.html", null ]
@@ -103,8 +105,8 @@ var hierarchy =
       [ "metabolism::rendering::MetabolismRenderer", "d3/d27/classmetabolism_1_1rendering_1_1MetabolismRenderer.html", null ]
     ] ],
     [ "bioexplorer::molecularsystems::ResidueSequence", "d0/df4/structbioexplorer_1_1molecularsystems_1_1ResidueSequence.html", null ],
-    [ "bioexplorer::mediamaker::Response", "db/df4/structbioexplorer_1_1mediamaker_1_1Response.html", null ],
     [ "bioexplorer::details::Response", "d6/d45/structbioexplorer_1_1details_1_1Response.html", null ],
+    [ "bioexplorer::mediamaker::Response", "db/df4/structbioexplorer_1_1mediamaker_1_1Response.html", null ],
     [ "bioexplorer::details::RGBColorDetails", "df/dc7/structbioexplorer_1_1details_1_1RGBColorDetails.html", null ],
     [ "bioexplorer::details::RNASequenceDetails", "d1/d00/structbioexplorer_1_1details_1_1RNASequenceDetails.html", null ],
     [ "bioexplorer::details::SceneInformationDetails", "d2/d03/structbioexplorer_1_1details_1_1SceneInformationDetails.html", null ],

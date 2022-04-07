@@ -44,6 +44,8 @@ var annotated_dup =
         [ "GeneralSettingsDetails", "d0/d14/structbioexplorer_1_1details_1_1GeneralSettingsDetails.html", "d0/d14/structbioexplorer_1_1details_1_1GeneralSettingsDetails" ],
         [ "IdsDetails", "d1/d91/structbioexplorer_1_1details_1_1IdsDetails.html", "d1/d91/structbioexplorer_1_1details_1_1IdsDetails" ],
         [ "InspectionDetails", "dd/dc0/structbioexplorer_1_1details_1_1InspectionDetails.html", "dd/dc0/structbioexplorer_1_1details_1_1InspectionDetails" ],
+        [ "LookAtDetails", "dd/d4c/structbioexplorer_1_1details_1_1LookAtDetails.html", "dd/d4c/structbioexplorer_1_1details_1_1LookAtDetails" ],
+        [ "LookAtResponseDetails", "d6/d4b/structbioexplorer_1_1details_1_1LookAtResponseDetails.html", "d6/d4b/structbioexplorer_1_1details_1_1LookAtResponseDetails" ],
         [ "MaterialsDetails", "d7/d84/structbioexplorer_1_1details_1_1MaterialsDetails.html", "d7/d84/structbioexplorer_1_1details_1_1MaterialsDetails" ],
         [ "MembraneDetails", "d0/ddb/structbioexplorer_1_1details_1_1MembraneDetails.html", "d0/ddb/structbioexplorer_1_1details_1_1MembraneDetails" ],
         [ "ModelIdDetails", "d6/dc9/structbioexplorer_1_1details_1_1ModelIdDetails.html", "d6/dc9/structbioexplorer_1_1details_1_1ModelIdDetails" ],

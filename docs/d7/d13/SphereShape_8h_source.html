@@ -120,30 +120,35 @@ $(document).ready(function(){initNavTree('d7/d13/SphereShape_8h_source.html','..
 <div class="line"><a name="l00032"></a><span class="lineno"><a class="line" href="../../d5/d1a/classbioexplorer_1_1common_1_1SphereShape.html">   32</a></span>&#160;<span class="keyword">class </span><a class="code" href="../../d5/d1a/classbioexplorer_1_1common_1_1SphereShape.html">SphereShape</a> : <span class="keyword">public</span> <a class="code" href="../../dc/d78/classbioexplorer_1_1common_1_1Shape.html">Shape</a></div>
 <div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;{</div>
 <div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;<span class="keyword">public</span>:</div>
-<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;    <a class="code" href="../../d5/d1a/classbioexplorer_1_1common_1_1SphereShape.html">SphereShape</a>(<span class="keyword">const</span> Vector4ds&amp; clippingPlanes, <span class="keyword">const</span> <span class="keywordtype">double</span> radius);</div>
-<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160; </div>
-<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;    Transformation getTransformation(<span class="keyword">const</span> uint64_t occurrence,</div>
-<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;                                     <span class="keyword">const</span> uint64_t nbOccurrences,</div>
-<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;                                     <span class="keyword">const</span> <a class="code" href="../../d8/d60/structbioexplorer_1_1details_1_1AnimationDetails.html">AnimationDetails</a>&amp; animationDetails,</div>
-<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;                                     <span class="keyword">const</span> <span class="keywordtype">double</span> offset) <span class="keyword">const</span> <span class="keyword">final</span>;</div>
-<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160; </div>
-<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;    <span class="keywordtype">bool</span> isInside(<span class="keyword">const</span> Vector3d&amp; point) <span class="keyword">const</span> <span class="keyword">final</span>;</div>
-<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160; </div>
-<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;<span class="keyword">private</span>:</div>
-<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;    Transformation _getTransformation(<span class="keyword">const</span> uint64_t occurrence,</div>
-<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;                                      <span class="keyword">const</span> uint64_t nbOccurrences,</div>
-<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;                                      <span class="keyword">const</span> <a class="code" href="../../d8/d60/structbioexplorer_1_1details_1_1AnimationDetails.html">AnimationDetails</a>&amp; animationDetails,</div>
-<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;                                      <span class="keyword">const</span> <span class="keywordtype">double</span> offset) <span class="keyword">const</span>;</div>
-<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160; </div>
-<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;    Transformation _getMorphedTransformation(</div>
-<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;        <span class="keyword">const</span> uint64_t occurrence, <span class="keyword">const</span> uint64_t nbOccurrences,</div>
-<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;        <span class="keyword">const</span> <a class="code" href="../../d8/d60/structbioexplorer_1_1details_1_1AnimationDetails.html">AnimationDetails</a>&amp; animationDetails, <span class="keyword">const</span> <span class="keywordtype">double</span> offset) <span class="keyword">const</span>;</div>
-<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160; </div>
-<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;    <span class="keywordtype">double</span> _radius;</div>
-<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;};</div>
-<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160; </div>
-<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;} <span class="comment">// namespace common</span></div>
-<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;} <span class="comment">// namespace bioexplorer</span></div>
+<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;    <a class="code" href="../../d5/d1a/classbioexplorer_1_1common_1_1SphereShape.html">SphereShape</a>(<span class="keyword">const</span> <span class="keywordtype">bool</span> emptySphere, <span class="keyword">const</span> Vector4ds&amp; clippingPlanes,</div>
+<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;                <span class="keyword">const</span> <span class="keywordtype">double</span> radius);</div>
+<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160; </div>
+<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;    Transformation getTransformation(<span class="keyword">const</span> uint64_t occurrence,</div>
+<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;                                     <span class="keyword">const</span> uint64_t nbOccurrences,</div>
+<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;                                     <span class="keyword">const</span> <a class="code" href="../../d8/d60/structbioexplorer_1_1details_1_1AnimationDetails.html">AnimationDetails</a>&amp; animationDetails,</div>
+<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;                                     <span class="keyword">const</span> <span class="keywordtype">double</span> offset) <span class="keyword">const</span> <span class="keyword">final</span>;</div>
+<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160; </div>
+<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;    <span class="keywordtype">bool</span> isInside(<span class="keyword">const</span> Vector3d&amp; point) <span class="keyword">const</span> <span class="keyword">final</span>;</div>
+<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160; </div>
+<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;<span class="keyword">private</span>:</div>
+<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;    Transformation _getEmptySphereTransformation(</div>
+<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;        <span class="keyword">const</span> uint64_t occurrence, <span class="keyword">const</span> uint64_t nbOccurrences,</div>
+<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;        <span class="keyword">const</span> <a class="code" href="../../d8/d60/structbioexplorer_1_1details_1_1AnimationDetails.html">AnimationDetails</a>&amp; animationDetails, <span class="keyword">const</span> <span class="keywordtype">double</span> offset) <span class="keyword">const</span>;</div>
+<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160; </div>
+<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;    Transformation _getEmptySphereMorphedTransformation(</div>
+<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;        <span class="keyword">const</span> uint64_t occurrence, <span class="keyword">const</span> uint64_t nbOccurrences,</div>
+<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;        <span class="keyword">const</span> <a class="code" href="../../d8/d60/structbioexplorer_1_1details_1_1AnimationDetails.html">AnimationDetails</a>&amp; animationDetails, <span class="keyword">const</span> <span class="keywordtype">double</span> offset) <span class="keyword">const</span>;</div>
+<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160; </div>
+<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;    Transformation _getFilledSphereTransformation(</div>
+<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;        <span class="keyword">const</span> uint64_t occurrence, <span class="keyword">const</span> uint64_t nbOccurrences,</div>
+<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;        <span class="keyword">const</span> <a class="code" href="../../d8/d60/structbioexplorer_1_1details_1_1AnimationDetails.html">AnimationDetails</a>&amp; animationDetails, <span class="keyword">const</span> <span class="keywordtype">double</span> offset) <span class="keyword">const</span>;</div>
+<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160; </div>
+<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;    <span class="keywordtype">bool</span> _filled;</div>
+<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;    <span class="keywordtype">double</span> _radius;</div>
+<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;};</div>
+<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160; </div>
+<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;} <span class="comment">// namespace common</span></div>
+<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;} <span class="comment">// namespace bioexplorer</span></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
 <div class="ttc" id="aclassbioexplorer_1_1common_1_1Shape_html"><div class="ttname"><a href="../../dc/d78/classbioexplorer_1_1common_1_1Shape.html">bioexplorer::common::Shape</a></div><div class="ttdoc">The shape class allows the creation of 3D shapes generated by a number of element instances....</div><div class="ttdef"><b>Definition:</b> <a href="../../de/d8f/Shape_8h_source.html#l00039">Shape.h:39</a></div></div>

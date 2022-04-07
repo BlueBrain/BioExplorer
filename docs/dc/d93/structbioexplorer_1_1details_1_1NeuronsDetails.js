@@ -14,6 +14,7 @@ var structbioexplorer_1_1details_1_1NeuronsDetails =
     [ "populationName", "dc/d93/structbioexplorer_1_1details_1_1NeuronsDetails.html#a325c02f92bba314ff2534c2941829a1d", null ],
     [ "radiusMultiplier", "dc/d93/structbioexplorer_1_1details_1_1NeuronsDetails.html#a10e9bd89468a7fe9e810c20e7327eb1b", null ],
     [ "scale", "dc/d93/structbioexplorer_1_1details_1_1NeuronsDetails.html#a9cf4924dd60b7da38cba95fec7e17c57", null ],
+    [ "showMembrane", "dc/d93/structbioexplorer_1_1details_1_1NeuronsDetails.html#af487e1e284f3b638df22ceca063caf27", null ],
     [ "sqlNodeFilter", "dc/d93/structbioexplorer_1_1details_1_1NeuronsDetails.html#a9c3be80d039cdcb970af79b2a0b7b5ef", null ],
     [ "sqlSectionFilter", "dc/d93/structbioexplorer_1_1details_1_1NeuronsDetails.html#ab9ce2ee034c092bcba9734d55fb1ef12", null ],
     [ "useSdf", "dc/d93/structbioexplorer_1_1details_1_1NeuronsDetails.html#ad525eb7d63bf540e68f937a842e523a7", null ]

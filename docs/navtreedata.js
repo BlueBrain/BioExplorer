@@ -93,9 +93,9 @@ var NAVTREEINDEX =
 [
 ".html",
 "d2/ddd/structbioexplorer_1_1details_1_1NeuronSectionDetails.html#a9b306bf1f153c9c2ba6e7286031e4df8",
-"d7/d84/structbioexplorer_1_1details_1_1MaterialsDetails.html#a19005df5e8ac32a9a1c5395d267e7780",
-"db/de5/structbioexplorer_1_1details_1_1AminoAcidSequenceAsRangesDetails.html#a2e133a2fcae1a42c9b2435b09768bfb5",
-"df/d9e/structbioexplorer_1_1metabolism_1_1Location.html"
+"d7/d80/structbioexplorer_1_1details_1_1ProteinInspectionDetails.html#ac5b9a8a7d178b0e53decedb6530a1922",
+"db/de5/structbioexplorer_1_1details_1_1AminoAcidSequenceAsRangesDetails.html",
+"df/d73/structbioexplorer_1_1molecularsystems_1_1Atom.html#aaa938ecc46358653be0742b9edbd8d65"
 ];
 
 var SYNCONMSG = 'click to disable panel synchronisation';
