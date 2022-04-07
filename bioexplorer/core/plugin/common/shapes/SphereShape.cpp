@@ -30,8 +30,10 @@ namespace common
 using namespace brayns;
 using namespace details;
 
-SphereShape::SphereShape(const Vector4ds& clippingPlanes, const double radius)
+SphereShape::SphereShape(const bool filled, const Vector4ds& clippingPlanes,
+                         const double radius)
     : Shape(clippingPlanes)
+    , _filled(filled)
     , _radius(radius)
 {
     const auto r = radius / 2.0;
@@ -44,15 +46,19 @@ Transformation SphereShape::getTransformation(
     const uint64_t occurrence, const uint64_t nbOccurrences,
     const AnimationDetails& animationDetails, const double offset) const
 {
+    if (_filled)
+        return _getFilledSphereTransformation(occurrence, nbOccurrences,
+                                              animationDetails, offset);
+
     if (animationDetails.morphingStep == 0.f)
-        return _getTransformation(occurrence, nbOccurrences, animationDetails,
-                                  offset);
+        return _getEmptySphereTransformation(occurrence, nbOccurrences,
+                                             animationDetails, offset);
     else
-        return _getMorphedTransformation(occurrence, nbOccurrences,
-                                         animationDetails, offset);
+        return _getEmptySphereMorphedTransformation(occurrence, nbOccurrences,
+                                                    animationDetails, offset);
 }
 
-Transformation SphereShape::_getTransformation(
+Transformation SphereShape::_getEmptySphereTransformation(
     const uint64_t occurrence, const uint64_t nbOccurrences,
     const AnimationDetails& animationDetails, const double offset) const
 {
@@ -86,7 +92,7 @@ Transformation SphereShape::_getTransformation(
     return transformation;
 }
 
-Transformation SphereShape::_getMorphedTransformation(
+Transformation SphereShape::_getEmptySphereMorphedTransformation(
     const uint64_t occurrence, const uint64_t nbOccurrences,
     const AnimationDetails& animationDetails, const double offset) const
 {
@@ -141,6 +147,41 @@ Transformation SphereShape::_getMorphedTransformation(
 bool SphereShape::isInside(const Vector3d& point) const
 {
     return length(point) <= _radius;
+}
+
+Transformation SphereShape::_getFilledSphereTransformation(
+    const uint64_t occurrence, const uint64_t nbOccurrences,
+    const AnimationDetails& animationDetails, const double offset) const
+{
+    Vector3d pos;
+    do
+    {
+        pos = Vector3d(rnd1() * _radius, rnd1() * _radius, rnd1() * _radius);
+    } while (length(pos) > _radius);
+
+    if (animationDetails.positionSeed != 0)
+    {
+        const Vector3d posOffset =
+            animationDetails.positionStrength *
+            Vector3d(rnd2(occurrence + animationDetails.positionSeed),
+                     rnd2(occurrence + animationDetails.positionSeed + 1),
+                     rnd2(occurrence + animationDetails.positionSeed + 2));
+
+        pos += posOffset;
+    }
+    if (isClipped(pos, _clippingPlanes))
+        throw std::runtime_error("Instance is clipped");
+
+    Quaterniond rot = safeQuatlookAt(normalize(pos));
+    if (animationDetails.rotationSeed != 0)
+        rot = weightedRandomRotation(rot, animationDetails.rotationSeed,
+                                     occurrence,
+                                     animationDetails.rotationStrength);
+
+    Transformation transformation;
+    transformation.setTranslation(pos);
+    transformation.setRotation(rot);
+    return transformation;
 }
 
 } // namespace common

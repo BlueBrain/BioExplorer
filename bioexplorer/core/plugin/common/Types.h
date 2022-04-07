@@ -154,8 +154,8 @@ enum class AssemblyShape
 {
     /** Point */
     point = 0,
-    /** Spherical */
-    sphere = 1,
+    /** Empty sphere */
+    empty_sphere = 1,
     /** Planar */
     plane = 2,
     /** Sinusoidal */
@@ -169,7 +169,9 @@ enum class AssemblyShape
     /** mesh-based */
     mesh = 7,
     /** Helix */
-    helix = 8
+    helix = 8,
+    /** Filled sphere */
+    filled_sphere = 9
 };
 
 /**

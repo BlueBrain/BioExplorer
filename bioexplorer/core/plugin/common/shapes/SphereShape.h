@@ -35,10 +35,12 @@ public:
     /**
      * @brief Construct a new Sphere Shape object
      *
+     * @param filled Filled sphere is true, empty sphere if false
      * @param clippingPlanes Clipping planes to apply to the shape
      * @param radius Radius of the sphere
      */
-    SphereShape(const Vector4ds& clippingPlanes, const double radius);
+    SphereShape(const bool emptySphere, const Vector4ds& clippingPlanes,
+                const double radius);
 
     /** @copydoc Shape::getTransformation */
     Transformation getTransformation(const uint64_t occurrence,
@@ -50,15 +52,19 @@ public:
     bool isInside(const Vector3d& point) const final;
 
 private:
-    Transformation _getTransformation(const uint64_t occurrence,
-                                      const uint64_t nbOccurrences,
-                                      const AnimationDetails& animationDetails,
-                                      const double offset) const;
-
-    Transformation _getMorphedTransformation(
+    Transformation _getEmptySphereTransformation(
         const uint64_t occurrence, const uint64_t nbOccurrences,
         const AnimationDetails& animationDetails, const double offset) const;
 
+    Transformation _getEmptySphereMorphedTransformation(
+        const uint64_t occurrence, const uint64_t nbOccurrences,
+        const AnimationDetails& animationDetails, const double offset) const;
+
+    Transformation _getFilledSphereTransformation(
+        const uint64_t occurrence, const uint64_t nbOccurrences,
+        const AnimationDetails& animationDetails, const double offset) const;
+
+    bool _filled;
     double _radius;
 };
 

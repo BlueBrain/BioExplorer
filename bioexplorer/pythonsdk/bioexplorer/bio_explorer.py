@@ -222,7 +222,7 @@ class BioExplorer:
     REPRESENTATION_MESH = 6
 
     ASSEMBLY_SHAPE_POINT = 0
-    ASSEMBLY_SHAPE_SPHERE = 1
+    ASSEMBLY_SHAPE_EMPTY_SPHERE = 1
     ASSEMBLY_SHAPE_PLANE = 2
     ASSEMBLY_SHAPE_SINUSOID = 3
     ASSEMBLY_SHAPE_CUBE = 4
@@ -230,6 +230,7 @@ class BioExplorer:
     ASSEMBLY_SHAPE_BEZIER = 6
     ASSEMBLY_SHAPE_MESH = 7
     ASSEMBLY_SHAPE_HELIX = 8
+    ASSEMBLY_SHAPE_FILLED_SPHERE = 9
 
     NAME_PROTEIN_S_OPEN = "Protein S (open)"
     NAME_PROTEIN_S_CLOSED = "Protein S (closed)"
@@ -615,7 +616,7 @@ class BioExplorer:
         # Cell
         virus_cell = Cell(
             name=name,
-            shape=self.ASSEMBLY_SHAPE_SPHERE,
+            shape=self.ASSEMBLY_SHAPE_EMPTY_SPHERE,
             shape_params=shape_params, membrane=virus_membrane,
             proteins=membrane_proteins)
 
@@ -903,7 +904,7 @@ class BioExplorer:
         assert isinstance(rotation, Quaternion)
         assert isinstance(animation_params, AnimationParams)
 
-        shape = self.ASSEMBLY_SHAPE_SPHERE
+        shape = self.ASSEMBLY_SHAPE_EMPTY_SPHERE
         nb_branches = 1
         if surfactant.surfactant_protein == self.SURFACTANT_PROTEIN_A:
             shape = self.ASSEMBLY_SHAPE_FAN

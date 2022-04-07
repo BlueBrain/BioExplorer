@@ -59,9 +59,12 @@ Assembly::Assembly(Scene &scene, const AssemblyDetails &details)
 
     switch (details.shape)
     {
-    case AssemblyShape::sphere:
+    case AssemblyShape::empty_sphere:
+    case AssemblyShape::filled_sphere:
     {
-        _shape = ShapePtr(new SphereShape(_clippingPlanes, size.x));
+        _shape = ShapePtr(
+            new SphereShape(details.shape == AssemblyShape::filled_sphere,
+                            _clippingPlanes, size.x));
         break;
     }
     case AssemblyShape::sinusoid:
