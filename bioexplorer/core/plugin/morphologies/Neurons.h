@@ -56,15 +56,14 @@ public:
                                      const uint64_t sectionId);
 
 private:
-    void _buildNeuron();
+    void _buildNeurons();
 
     void _addSection(ThreadSafeContainer& container, const uint64_t sectionId,
                      const Section& section, const size_t somaIdx,
                      const Vector3d& somaPosition,
                      const Quaterniond& somaRotation, const double somaRadius,
                      const size_t baseMaterialId,
-                     const double mitochondriaDensity,
-                     MaterialSet& materialIds);
+                     const double mitochondriaDensity);
 
     void _addSpine(ThreadSafeContainer& container, const Synapse& synapse,
                    const size_t baseMaterialId);

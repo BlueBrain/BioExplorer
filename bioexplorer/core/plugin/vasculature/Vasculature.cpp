@@ -265,8 +265,7 @@ void Vasculature::_buildSimpleModel(
             {
                 if (!useSdf)
                     container.addSphere(srcPoint, srcRadius, materialId,
-                                        userData, neighbours,
-                                        DEFAULT_VASCULATURE_DISPLACEMENT);
+                                        userData);
                 previousMaterialId = materialId;
             }
             else
@@ -292,13 +291,13 @@ void Vasculature::_buildSimpleModel(
             --i;
 
             if (!useSdf)
-                container.addSphere(dstPoint, dstRadius, materialId, userData,
-                                    neighbours,
-                                    DEFAULT_VASCULATURE_DISPLACEMENT);
+                container.addSphere(dstPoint, dstRadius, materialId, userData);
+
             geometryIndex =
                 container.addCone(dstPoint, dstRadius, srcPoint, srcRadius,
                                   previousMaterialId, userData, neighbours,
-                                  DEFAULT_VASCULATURE_DISPLACEMENT);
+                                  Vector3f(segmentDisplacementStrength,
+                                           segmentDisplacementFrequency, 0.f));
             previousMaterialId = materialId;
         }
 #pragma omp critical
@@ -394,9 +393,8 @@ void Vasculature::_buildAdvancedModel(
                 (srcUserData < radii.size() ? radii[srcUserData] : src.w);
 
             if (!useSdf)
-                geometryIndex =
-                    container.addSphere(Vector3f(src), srcRadius, materialId,
-                                        srcUserData, neighbours);
+                geometryIndex = container.addSphere(Vector3f(src), srcRadius,
+                                                    materialId, srcUserData);
             if (i > 0)
             {
                 const auto dstUserData = section[i + 1];
@@ -408,7 +406,9 @@ void Vasculature::_buildAdvancedModel(
                     container.addCone(Vector3f(dst), dstRadius, Vector3f(src),
                                       srcRadius, materialId, srcUserData,
                                       {geometryIndex},
-                                      DEFAULT_VASCULATURE_DISPLACEMENT);
+                                      Vector3f(segmentDisplacementStrength,
+                                               segmentDisplacementFrequency,
+                                               0.f));
             }
             ++i;
         }
@@ -453,7 +453,10 @@ void Vasculature::_buildEdges(Model& model)
         const auto dstRadius = dstNode.radius * radiusMultiplier;
 
         container.addCone(srcPoint, srcRadius, dstPoint, dstRadius, materialId,
-                          0, {}, DEFAULT_VASCULATURE_DISPLACEMENT);
+                          0, {},
+                          Vector3f(dstRadius * segmentDisplacementStrength,
+                                   dstRadius * segmentDisplacementFrequency,
+                                   0.f));
     }
     PLUGIN_INFO(1, "");
 

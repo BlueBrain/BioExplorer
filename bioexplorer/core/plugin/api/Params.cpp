@@ -810,6 +810,7 @@ bool from_json(AstrocytesDetails &param, const std::string &payload)
         FROM_JSON(param, js, radiusMultiplier);
         FROM_JSON(param, js, sqlFilter);
         FROM_JSON(param, js, scale);
+        FROM_JSON(param, js, animationParams);
     }
     catch (...)
     {
@@ -841,6 +842,7 @@ bool from_json(NeuronsDetails &param, const std::string &payload)
         FROM_JSON(param, js, sqlNodeFilter);
         FROM_JSON(param, js, sqlSectionFilter);
         FROM_JSON(param, js, scale);
+        FROM_JSON(param, js, animationParams);
     }
     catch (...)
     {

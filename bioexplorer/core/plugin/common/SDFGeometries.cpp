@@ -42,7 +42,7 @@ void SDFGeometries::addSDFDemo(Model& model)
     MaterialSet materialIds;
     size_t materialId = 0;
     const bool useSdf = true;
-    const double displacement = 10.0;
+    const Vector3f displacement{10.f, 10.f, 0.f};
 
     ThreadSafeContainer modelContainer(model, useSdf);
 

@@ -73,7 +73,7 @@ public:
     uint64_t addSphere(const Vector3f& position, const float radius,
                        const size_t materialId, const uint64_t userDataOffset,
                        const Neighbours& neighbours = {},
-                       const float displacementRatio = 1.f);
+                       const Vector3f displacementRatio = Vector3f());
 
     /**
      * @brief Add a cone to the thread safe model. If both radii are identical
@@ -96,7 +96,7 @@ public:
                      const Vector3f& targetPosition, const float targetRadius,
                      const size_t materialId, const uint64_t userDataOffset,
                      const Neighbours& neighbours = {},
-                     const float displacementRatio = 1.f);
+                     const Vector3f displacementRatio = Vector3f());
 
     /**
      * @brief Commit geometries and materials to the Brayns model

@@ -972,6 +972,8 @@ typedef struct
     std::string sqlFilter;
     /** Scale of the astrocyte in the scene */
     doubles scale;
+    /** Extra optional parameters for astrocytes animation */
+    doubles animationParams;
 } AstrocytesDetails;
 
 enum class NeuronSectionType
@@ -1022,6 +1024,8 @@ typedef struct
     std::string sqlSectionFilter;
     /** Scale of the neuron in the scene */
     doubles scale;
+    /** Extra optional parameters for neuron animation */
+    doubles animationParams;
 } NeuronsDetails;
 
 typedef struct
@@ -1291,17 +1295,12 @@ static details::RGBColorDetailsMap atomColorMap = {
 
 namespace vasculature
 {
-const double DEFAULT_VASCULATURE_DISPLACEMENT = 0.5;
-
 class Vasculature;
 using VasculaturePtr = std::shared_ptr<Vasculature>;
 } // namespace vasculature
 
 namespace morphology
 {
-const double DEFAULT_SOMA_DISPLACEMENT = 2.0;
-const double DEFAULT_SECTION_DISPLACEMENT = 2.0;
-
 class Morphologies;
 using MorphologiesPtr = std::shared_ptr<Morphologies>;
 class Astrocytes;

@@ -2353,7 +2353,8 @@ class BioExplorer:
             geometry_quality=GEOMETRY_QUALITY_HIGH,
             morphology_color_scheme=MORPHOLOGY_COLOR_SCHEME_NONE,
             population_color_scheme=POPULATION_COLOR_SCHEME_NONE,
-            radius_multiplier=0.0, sql_filter='', scale=Vector3(1.0, 1.0, 1.0)):
+            radius_multiplier=0.0, sql_filter='', scale=Vector3(1.0, 1.0, 1.0),
+            animation_params=AnimationParams()):
         """
         Add a population of astrocytes to the 3D scene
 
@@ -2370,10 +2371,12 @@ class BioExplorer:
         :radius_muliplier: Applies the multiplier to all radii of the astrocyte sections
         :sql_filter: Condition added to the SQL statement loading the astrocytes
         :scale: Scale in the 3D scene
+        :animation_params: Extra optional parameters for animation purposes
 
         :return: Result of the request submission
         """
         assert isinstance(scale, Vector3)
+        assert isinstance(animation_params, AnimationParams)
 
         params = dict()
         params["assemblyName"] = assembly_name
@@ -2389,6 +2392,7 @@ class BioExplorer:
         params["radiusMultiplier"] = radius_multiplier
         params["sqlFilter"] = sql_filter
         params["scale"] = scale.to_list()
+        params["animationParams"] = animation_params.to_list()
         return self._invoke_and_check('add-astrocytes', params)
 
     def add_neurons(
@@ -2403,7 +2407,7 @@ class BioExplorer:
             morphology_color_scheme=MORPHOLOGY_COLOR_SCHEME_NONE,
             population_color_scheme=POPULATION_COLOR_SCHEME_NONE,
             radius_multiplier=0.0, sql_node_filter='', sql_section_filter='',
-            scale=Vector3(1.0, 1.0, 1.0)):
+            scale=Vector3(1.0, 1.0, 1.0), animation_params=AnimationParams()):
         """
         Add a population of astrocytes to the 3D scene
 
@@ -2425,10 +2429,12 @@ class BioExplorer:
         :sql_node_filter: Condition added to the SQL statement loading the nodes
         :sql_section_filter: Condition added to the SQL statement loading the sections
         :scale: Scale in the 3D scene
+        :animation_params: Extra optional parameters for animation purposes
 
         :return: Result of the request submission
         """
         assert isinstance(scale, Vector3)
+        assert isinstance(animation_params, AnimationParams)
 
         params = dict()
         params["assemblyName"] = assembly_name
@@ -2449,6 +2455,7 @@ class BioExplorer:
         params["sqlNodeFilter"] = sql_node_filter
         params["sqlSectionFilter"] = sql_section_filter
         params["scale"] = scale.to_list()
+        params["animationParams"] = animation_params.to_list()
         return self._invoke_and_check('add-neurons', params)
 
     def get_neuron_section_points(self, assembly_name, neuron_guid, section_guid):
