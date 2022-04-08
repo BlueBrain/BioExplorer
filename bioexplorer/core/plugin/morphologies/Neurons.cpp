@@ -240,18 +240,46 @@ void Neurons::_addSection(ThreadSafeContainer& container,
         !_details.loadApicalDendrites)
         return;
 
+    // Generate artificial buttons
+    auto localPoints = points;
+    const auto nbPoints = localPoints.size();
+    if (_details.generateButtons && sectionType == NeuronSectionType::axon &&
+        nbPoints > nbMinSegmentsForButton)
+    {
+        const uint64_t middlePointIndex = nbPoints / 2;
+        const auto& startPoint = localPoints[middlePointIndex];
+        const auto& endPoint = localPoints[middlePointIndex + 1];
+        const double radius = std::min(startPoint.w, endPoint.w);
+
+        const auto sp = Vector3d(startPoint);
+        const auto ep = Vector3d(endPoint);
+
+        const Vector3d dir = ep - sp;
+        const Vector3d p0 = sp + dir * 0.2;
+        const Vector3d p1 = sp + dir * 0.5 +
+                            radius * Vector3d((rand() % 100 - 50) / 100.0,
+                                              (rand() % 100 - 50) / 100.0,
+                                              (rand() % 100 - 50) / 100.0);
+        const Vector3d p2 = sp + dir * 0.8;
+
+        auto idx = localPoints.begin() + middlePointIndex + 1;
+        idx = localPoints.insert(idx, {p2.x, p2.y, p2.z, radius});
+        idx = localPoints.insert(idx, {p1.x, p1.y, p1.z, radius * 3.0});
+        localPoints.insert(idx, {p0.x, p0.y, p0.z, radius});
+    }
+
     // Section surface
     double sectionLength = 0.0;
     double sectionVolume = 0.0;
     uint64_t geometryIndex = 0;
     Neighbours neighbours{somaGeometryIndex};
-    for (uint64_t i = 0; i < points.size() - 1; ++i)
+    for (uint64_t i = 0; i < localPoints.size() - 1; ++i)
     {
-        const auto& srcPoint = points[i];
+        const auto& srcPoint = localPoints[i];
         const Vector3d src = somaPosition + somaRotation * Vector3d(srcPoint);
         const double srcRadius = srcPoint.w * 0.5 * _radiusMultiplier;
 
-        const auto& dstPoint = points[i + 1];
+        const auto& dstPoint = localPoints[i + 1];
         const Vector3d dst = somaPosition + somaRotation * Vector3d(dstPoint);
         const double dstRadius = dstPoint.w * 0.5 * _radiusMultiplier;
         const double sampleLength = length(dstPoint - srcPoint);
@@ -261,16 +289,15 @@ void Neurons::_addSection(ThreadSafeContainer& container,
         {
             if (!useSdf)
                 container.addSphere(dst, dstRadius, sectionMaterialId,
-                                    NO_USER_DATA, {});
+                                    NO_USER_DATA);
 
-            Neighbours neighbours{somaGeometryIndex};
             if (i > 0 && _details.geometryQuality != GeometryQuality::high)
                 neighbours = {geometryIndex};
 
             geometryIndex =
                 container.addCone(src, srcRadius, dst, dstRadius,
                                   sectionMaterialId, NO_USER_DATA, neighbours,
-                                  Vector3f(srcRadius *
+                                  Vector3f(std::min(srcRadius, dstRadius) *
                                                sectionDisplacementStrength,
                                            sectionDisplacementFrequency, 0.f));
 

@@ -45,8 +45,8 @@ const int64_t SOMA_AS_PARENT = -1;
 const double somaDisplacementStrength = 0.01;
 const double somaDisplacementFrequency = 0.7;
 
-const double sectionDisplacementStrength = 0.1;
-const double sectionDisplacementFrequency = 0.7;
+const double sectionDisplacementStrength = 0.3;
+const double sectionDisplacementFrequency = 1.7;
 
 const double nucleusDisplacementStrength = 0.01;
 const double nucleusDisplacementFrequency = 2.0;
@@ -64,6 +64,8 @@ const double myelinSteathLength = 10.0;
 const double myelinSteathRadiusRatio = 1.75;
 const double myelinSteathDisplacementStrength = 0.1;
 const double myelinSteathDisplacementFrequency = 5.0;
+
+const uint64_t nbMinSegmentsForButton = 5;
 
 /**
  * @brief The Morphologies class
