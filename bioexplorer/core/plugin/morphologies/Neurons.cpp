@@ -132,10 +132,12 @@ void Neurons::_buildNeurons()
         if (_details.loadSomas)
         {
             if (_details.showMembrane)
-                somaGeometryIndex = container.addSphere(
-                    somaPosition, somaRadius, somaMaterialId, NO_USER_DATA, {},
-                    Vector3f(somaRadius * somaDisplacementStrength,
-                             somaRadius * somaDisplacementFrequency, 0.f));
+                somaGeometryIndex =
+                    container.addSphere(somaPosition, somaRadius,
+                                        somaMaterialId, NO_USER_DATA, {},
+                                        Vector3f(somaDisplacementStrength,
+                                                 somaDisplacementFrequency,
+                                                 0.f));
             if (_details.generateInternals)
                 _addSomaInternals(somaId, container, baseMaterialId,
                                   somaPosition, somaRadius,
@@ -167,8 +169,8 @@ void Neurons::_buildNeurons()
                         Vector3d(somaPoint), srcRadius,
                         somaPosition + somaRotation * Vector3d(point),
                         dstRadius, somaMaterialId, NO_USER_DATA, neighbours,
-                        Vector3f(srcRadius * somaDisplacementStrength,
-                                 srcRadius * somaDisplacementFrequency, 0.f));
+                        Vector3f(somaDisplacementStrength,
+                                 somaDisplacementFrequency, 0.f));
                     neighbours.insert(geometryIndex);
                 }
 
@@ -508,7 +510,7 @@ void Neurons::_addSpines(ThreadSafeContainer& container,
                          const uint64_t somaIndex, const Vector3d somaPosition,
                          const double somaRadius, const size_t baseMaterialId)
 {
-    auto& connector = DBConnector::getInstance();
+    const auto& connector = DBConnector::getInstance();
     const auto synapses =
         connector.getNeuronSynapses(_details.populationName, somaIndex);
     const size_t SpineMaterialId =

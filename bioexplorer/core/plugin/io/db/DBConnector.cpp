@@ -238,7 +238,7 @@ GeometryEdges DBConnector::getVasculatureEdges(
     pqxx::read_transaction transaction(*_connections[omp_get_thread_num()]);
     try
     {
-        std::string sql = "SELECT start_node_guid-1, end_node_guid-1 FROM " +
+        std::string sql = "SELECT start_node_guid, end_node_guid FROM " +
                           populationName + ".edge";
         if (!filter.empty())
             sql += " WHERE " + filter;
@@ -564,7 +564,9 @@ SynapseMap DBConnector::getNeuronSynapses(const std::string& populationName,
             "SELECT guid, postsynaptic_neuron_guid, surface_x_position, "
             "surface_y_position, surface_z_position, center_x_position, "
             "center_y_position, center_z_position FROM " +
-            populationName + ".synapse WHERE presynaptic_neuron_guid=" +
+            populationName +
+            ".synapse WHERE postsynaptic_neuron_guid >= 0 AND "
+            "presynaptic_neuron_guid=" +
             std::to_string(neuronId);
 
         if (!sqlCondition.empty())
@@ -578,7 +580,7 @@ SynapseMap DBConnector::getNeuronSynapses(const std::string& populationName,
             Synapse synapse;
             const auto synapseId = c[0].as<uint64_t>();
             synapse.preSynapticNeuron = neuronId;
-            synapse.preSynapticNeuron = c[1].as<uint64_t>();
+            synapse.postSynapticNeuron = c[1].as<uint64_t>();
             synapse.surfacePosition =
                 Vector3d(c[2].as<double>(), c[3].as<double>(),
                          c[4].as<double>());
