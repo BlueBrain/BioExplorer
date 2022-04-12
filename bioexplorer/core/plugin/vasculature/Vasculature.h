@@ -34,6 +34,9 @@ namespace vasculature
 using namespace brayns;
 using namespace common;
 
+const double segmentDisplacementStrength = 0.25;
+const double segmentDisplacementFrequency = 1.0;
+
 /**
  * Load vasculature from database
  */

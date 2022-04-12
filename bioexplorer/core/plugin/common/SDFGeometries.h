@@ -31,9 +31,6 @@ namespace common
 using namespace common;
 using namespace brayns;
 
-const double segmentDisplacementStrength = 0.05;
-const double segmentDisplacementFrequency = 0.2;
-
 /**
  * @brief The SDFGeometries abstract class is used as a parent to any assembly
  * that potentially requires the signed-distance field technique

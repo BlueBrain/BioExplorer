@@ -333,8 +333,8 @@ void Astrocytes::_addEndFoot(ThreadSafeContainer& container,
                 container.addCone(startNode.position, startRadius,
                                   endNode.position, endRadius, materialId,
                                   NO_USER_DATA, {},
-                                  Vector3f(segmentDisplacementStrength,
-                                           segmentDisplacementFrequency, 0.f));
+                                  Vector3f(sectionDisplacementStrength,
+                                           sectionDisplacementFrequency, 0.f));
             }
         }
     }

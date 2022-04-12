@@ -225,6 +225,7 @@ void Vasculature::_buildSimpleModel(
         uint64_t geometryIndex = 0;
         size_t materialId = 0;
         size_t previousMaterialId = 0;
+        Neighbours neighbours{};
         for (uint64_t i = 0; i < section.size() - 1; ++i)
         {
             const auto srcNodeId = section[i];
@@ -260,7 +261,6 @@ void Vasculature::_buildSimpleModel(
                 radiusMultiplier;
             const auto sectionId = srcNode.sectionId;
 
-            Neighbours neighbours;
             if (i == 0)
             {
                 if (!useSdf)
@@ -268,8 +268,6 @@ void Vasculature::_buildSimpleModel(
                                         userData);
                 previousMaterialId = materialId;
             }
-            else
-                neighbours = {geometryIndex};
 
             // Ignore points that are too close the previous one
             // (according to respective radii)
@@ -299,6 +297,8 @@ void Vasculature::_buildSimpleModel(
                                   Vector3f(segmentDisplacementStrength,
                                            segmentDisplacementFrequency, 0.f));
             previousMaterialId = materialId;
+
+            neighbours = {geometryIndex};
         }
 #pragma omp critical
         containers.push_back(container);
@@ -327,7 +327,6 @@ void Vasculature::_buildAdvancedModel(
     const auto useSdf = _details.useSdf;
     size_t materialId = 0;
 
-    uint64_t geometryIndex = 0;
     std::vector<ThreadSafeContainer> containers;
     uint64_t index;
 #pragma omp parallel for private(index)
@@ -353,7 +352,9 @@ void Vasculature::_buildAdvancedModel(
                                      node.radius * radiusMultiplier});
         }
 
-        const double step = 1.0 / double(section.size());
+        const double step = 2.0 / double(section.size());
+        uint64_t geometryIndex = 0;
+        Neighbours neighbours;
         uint64_t i = 0;
         for (double t = 0.0; t < 1.0 - step * 2.0; t += step)
         {
@@ -385,10 +386,6 @@ void Vasculature::_buildAdvancedModel(
             const Vector4f src = getBezierPoint(controlPoints, t);
             const auto sectionId = srcNode.sectionId;
 
-            Neighbours neighbours;
-            if (i != 0)
-                neighbours = {geometryIndex};
-
             const auto srcRadius =
                 (srcUserData < radii.size() ? radii[srcUserData] : src.w);
 
@@ -405,10 +402,11 @@ void Vasculature::_buildAdvancedModel(
                 geometryIndex =
                     container.addCone(Vector3f(dst), dstRadius, Vector3f(src),
                                       srcRadius, materialId, srcUserData,
-                                      {geometryIndex},
+                                      neighbours,
                                       Vector3f(segmentDisplacementStrength,
                                                segmentDisplacementFrequency,
                                                0.f));
+                neighbours.insert(geometryIndex);
             }
             ++i;
         }
