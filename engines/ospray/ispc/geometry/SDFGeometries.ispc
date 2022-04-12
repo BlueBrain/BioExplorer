@@ -248,8 +248,8 @@ inline float calcDistance(const uniform SDFGeometry& primitive, const vec3f& p)
 {
     float displacement = 0.f;
     if (primitive.userParams.x > 0.f)
-        displacement = opDisplacement(p, primitive.r0 * primitive.userParams.x,
-                                      primitive.userParams.y);
+        displacement =
+            opDisplacement(p, primitive.userParams.x, primitive.userParams.y);
     if (primitive.type == SDF_TYPE_SPHERE)
         return displacement + sdSphere(p, primitive.p0, primitive.r0);
     if (primitive.type == SDF_TYPE_PILL)
