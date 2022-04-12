@@ -86,6 +86,8 @@ private:
                               const double mitochondriaDensity,
                               const size_t materialId);
 
+    void _addVaricosity(Vector4fs& points);
+
     const NeuronsDetails _details;
     Scene& _scene;
 };

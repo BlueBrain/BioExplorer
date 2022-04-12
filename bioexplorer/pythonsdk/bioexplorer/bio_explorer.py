@@ -2402,7 +2402,7 @@ class BioExplorer:
             load_basal_dendrites=True, load_apical_dendrites=True,
             load_synapses=False,
             generate_internals=False, generate_externals=False,
-            generate_buttons=False, show_membrane=True,
+            generate_varicosities=False, show_membrane=True,
             geometry_quality=GEOMETRY_QUALITY_HIGH,
             morphology_color_scheme=MORPHOLOGY_COLOR_SCHEME_NONE,
             population_color_scheme=POPULATION_COLOR_SCHEME_NONE,
@@ -2422,7 +2422,7 @@ class BioExplorer:
         :generate_internals: Generate internals (Nucleus and mitochondria)
         :generate_externals: Generate externals (Myelin steath)
         :show_membrane: Show membrane (Typically used to isolate internal and external components
-        :generate_buttons: Generate random buttons on the axon
+        :generate_varicosities: Generate random varicosities along the axon
         :geometry_quality: Quality of the geometry
         :morphology_color_scheme: Color scheme of the sections of the astrocytes
         :populationColorScheme: Color scheme of the population of astrocytes
@@ -2448,7 +2448,7 @@ class BioExplorer:
         params["generateInternals"] = generate_internals
         params["generateExternals"] = generate_externals
         params["showMembrane"] = show_membrane
-        params["generateButtons"] = generate_buttons
+        params["generateVaricosities"] = generate_varicosities
         params["useSdf"] = use_sdf
         params["geometryQuality"] = geometry_quality
         params["morphologyColorScheme"] = morphology_color_scheme

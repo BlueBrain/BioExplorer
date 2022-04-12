@@ -48,8 +48,8 @@ uint64_t ThreadSafeContainer::addSphere(const Vector3f& position,
                                         const Vector3f displacement)
 {
     const Vector3f scale = _scale;
-    const Vector3f scaledDisplacement{displacement.x, displacement.y / scale.x,
-                                      displacement.z};
+    const Vector3f scaledDisplacement{displacement.x * scale.x,
+                                      displacement.y / scale.x, displacement.z};
     if (_useSdf)
         return _addSDFGeometry(materialId,
                                createSDFSphere(position * scale,
@@ -67,8 +67,8 @@ uint64_t ThreadSafeContainer::addCone(
     const Neighbours& neighbours, const Vector3f displacement)
 {
     const Vector3f scale = _scale;
-    const Vector3f scaledDisplacement{displacement.x, displacement.y / scale.x,
-                                      displacement.z};
+    const Vector3f scaledDisplacement{displacement.x * scale.x,
+                                      displacement.y / scale.x, displacement.z};
     if (_useSdf)
     {
         const auto geom =
@@ -148,8 +148,9 @@ void ThreadSafeContainer::_finalizeSDFGeometries()
         std::copy(neighSet.begin(), neighSet.end(),
                   std::back_inserter(neighbours));
         neighbours.erase(std::remove_if(neighbours.begin(), neighbours.end(),
-                                        [i](uint64_t element)
-                                        { return element == i; }),
+                                        [i](uint64_t element) {
+                                            return element == i;
+                                        }),
                          neighbours.end());
 
         std::set<uint64_t> neighboursSet;

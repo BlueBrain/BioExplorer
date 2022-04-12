@@ -1008,8 +1008,8 @@ typedef struct
     /** Show membrane (Typically used to isolate internal and external
      * components*/
     bool showMembrane{true};
-    /** Generates random buttons on the axon */
-    bool generateButtons{false};
+    /** Generates random varicosities along the axon */
+    bool generateVaricosities{false};
     /** Use Signed Distance Fields as geometry */
     bool useSdf{false};
     /** Geometry quality */

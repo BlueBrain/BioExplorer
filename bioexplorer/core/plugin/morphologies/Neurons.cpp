@@ -215,6 +215,30 @@ void Neurons::_buildNeurons()
         PLUGIN_THROW("Neurons model could not be created");
 }
 
+void Neurons::_addVaricosity(Vector4fs& points)
+{
+    const uint64_t middlePointIndex = points.size() / 2;
+    const auto& startPoint = points[middlePointIndex];
+    const auto& endPoint = points[middlePointIndex + 1];
+    const double radius = std::min(startPoint.w, endPoint.w);
+
+    const auto sp = Vector3d(startPoint);
+    const auto ep = Vector3d(endPoint);
+
+    const Vector3d dir = ep - sp;
+    const Vector3d p0 = sp + dir * 0.2;
+    const Vector3d p1 = sp + dir * 0.5 +
+                        radius * Vector3d((rand() % 100 - 50) / 100.0,
+                                          (rand() % 100 - 50) / 100.0,
+                                          (rand() % 100 - 50) / 100.0);
+    const Vector3d p2 = sp + dir * 0.8;
+
+    auto idx = points.begin() + middlePointIndex + 1;
+    idx = points.insert(idx, {p2.x, p2.y, p2.z, radius});
+    idx = points.insert(idx, {p1.x, p1.y, p1.z, radius * 3.0});
+    points.insert(idx, {p0.x, p0.y, p0.z, radius});
+}
+
 void Neurons::_addSection(ThreadSafeContainer& container,
                           const uint64_t sectionId, const Section& section,
                           const size_t somaGeometryIndex,
@@ -242,33 +266,12 @@ void Neurons::_addSection(ThreadSafeContainer& container,
         !_details.loadApicalDendrites)
         return;
 
-    // Generate artificial buttons
+    // Generate varicosities
     auto localPoints = points;
-    const auto nbPoints = localPoints.size();
-    if (_details.generateButtons && sectionType == NeuronSectionType::axon &&
-        nbPoints > nbMinSegmentsForButton)
-    {
-        const uint64_t middlePointIndex = nbPoints / 2;
-        const auto& startPoint = localPoints[middlePointIndex];
-        const auto& endPoint = localPoints[middlePointIndex + 1];
-        const double radius = std::min(startPoint.w, endPoint.w);
-
-        const auto sp = Vector3d(startPoint);
-        const auto ep = Vector3d(endPoint);
-
-        const Vector3d dir = ep - sp;
-        const Vector3d p0 = sp + dir * 0.2;
-        const Vector3d p1 = sp + dir * 0.5 +
-                            radius * Vector3d((rand() % 100 - 50) / 100.0,
-                                              (rand() % 100 - 50) / 100.0,
-                                              (rand() % 100 - 50) / 100.0);
-        const Vector3d p2 = sp + dir * 0.8;
-
-        auto idx = localPoints.begin() + middlePointIndex + 1;
-        idx = localPoints.insert(idx, {p2.x, p2.y, p2.z, radius});
-        idx = localPoints.insert(idx, {p1.x, p1.y, p1.z, radius * 3.0});
-        localPoints.insert(idx, {p0.x, p0.y, p0.z, radius});
-    }
+    if (_details.generateVaricosities &&
+        sectionType == NeuronSectionType::axon &&
+        localPoints.size() > nbMinSegmentsForVaricosity)
+        _addVaricosity(localPoints);
 
     // Section surface
     double sectionLength = 0.0;
@@ -299,8 +302,7 @@ void Neurons::_addSection(ThreadSafeContainer& container,
             geometryIndex =
                 container.addCone(src, srcRadius, dst, dstRadius,
                                   sectionMaterialId, NO_USER_DATA, neighbours,
-                                  Vector3f(std::min(srcRadius, dstRadius) *
-                                               sectionDisplacementStrength,
+                                  Vector3f(sectionDisplacementStrength,
                                            sectionDisplacementFrequency, 0.f));
 
             neighbours.insert(geometryIndex);
