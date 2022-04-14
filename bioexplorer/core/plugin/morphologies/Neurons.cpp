@@ -235,7 +235,7 @@ void Neurons::_addVaricosity(Vector4fs& points)
 
     auto idx = points.begin() + middlePointIndex + 1;
     idx = points.insert(idx, {p2.x, p2.y, p2.z, radius});
-    idx = points.insert(idx, {p1.x, p1.y, p1.z, radius * 3.0});
+    idx = points.insert(idx, {p1.x, p1.y, p1.z, radius * 2.0});
     points.insert(idx, {p0.x, p0.y, p0.z, radius});
 }
 
@@ -268,9 +268,12 @@ void Neurons::_addSection(ThreadSafeContainer& container,
 
     // Generate varicosities
     auto localPoints = points;
-    if (_details.generateVaricosities &&
-        sectionType == NeuronSectionType::axon &&
-        localPoints.size() > nbMinSegmentsForVaricosity)
+    const auto middlePointIndex = localPoints.size() / 2;
+    const bool addVaricosity = _details.generateVaricosities &&
+                               sectionType == NeuronSectionType::axon &&
+                               localPoints.size() > nbMinSegmentsForVaricosity;
+
+    if (addVaricosity)
         _addVaricosity(localPoints);
 
     // Section surface
@@ -292,18 +295,31 @@ void Neurons::_addSection(ThreadSafeContainer& container,
 
         if (_details.showMembrane)
         {
-            if (!useSdf)
-                container.addSphere(dst, dstRadius, sectionMaterialId,
-                                    NO_USER_DATA);
-
             if (i > 0 && _details.geometryQuality != GeometryQuality::high)
                 neighbours = {geometryIndex};
 
+            Vector3f displacement{sectionDisplacementStrength,
+                                  sectionDisplacementFrequency, 0.f};
+            size_t materialId = sectionMaterialId;
+            if (addVaricosity && _details.morphologyColorScheme ==
+                                     MorphologyColorScheme::section)
+            {
+                if (i > middlePointIndex && i < middlePointIndex + 3)
+                {
+                    materialId = baseMaterialId + MATERIAL_OFFSET_VARICOSITY;
+                    displacement = Vector3f(2 * sectionDisplacementStrength,
+                                            sectionDisplacementFrequency, 0.f);
+                }
+                if (i == middlePointIndex + 1 || i == middlePointIndex + 3)
+                    neighbours = {};
+            }
+
+            if (!useSdf)
+                container.addSphere(dst, dstRadius, materialId, NO_USER_DATA);
+
             geometryIndex =
-                container.addCone(src, srcRadius, dst, dstRadius,
-                                  sectionMaterialId, NO_USER_DATA, neighbours,
-                                  Vector3f(sectionDisplacementStrength,
-                                           sectionDisplacementFrequency, 0.f));
+                container.addCone(src, srcRadius, dst, dstRadius, materialId,
+                                  NO_USER_DATA, neighbours, displacement);
 
             neighbours.insert(geometryIndex);
         }
