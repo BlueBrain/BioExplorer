@@ -228,7 +228,7 @@ class MovieScenario:
         parser.add_argument('-r', '--shaders', help='Camera projection',
                             type=str, nargs='*', default=['bio_explorer'],
                             choices=[
-                                'albedo', 'ambient_occlusion', 'depth', 'raycast_Ns',
+                                'albedo', 'ambient_occlusion', 'basic', 'depth', 'raycast_Ns',
                                 'bio_explorer'])
         parser.add_argument('-k', '--image-resolution-k',
                             help='Image resolution in K', type=int, default=1)
