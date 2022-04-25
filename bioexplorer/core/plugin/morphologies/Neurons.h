@@ -75,8 +75,8 @@ private:
                      const size_t baseMaterialId,
                      const double mitochondriaDensity);
 
-    void _addSpine(ThreadSafeContainer& container, const Synapse& synapse,
-                   const size_t baseMaterialId);
+    void _addSpine(ThreadSafeContainer& container, const uint64_t guid,
+                   const Synapse& synapse, const size_t baseMaterialId);
 
     void _addSpines(ThreadSafeContainer& container, const uint64_t somaIndex,
                     const Vector3d somaPosition, const double somaRadius,

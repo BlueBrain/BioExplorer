@@ -21,6 +21,7 @@
 #include <plugin/common/CommonTypes.h>
 #include <plugin/common/Logs.h>
 #include <plugin/common/Utils.h>
+#include <plugin/common/shapes/Shape.h>
 
 #include <plugin/io/db/DBConnector.h>
 
@@ -544,11 +545,12 @@ void Neurons::_addSpines(ThreadSafeContainer& container,
                 somaRadius * 3.0 &&
             length(synapse.second.centerPosition - somaPosition) >
                 somaRadius * 3.0)
-            _addSpine(container, synapse.second, SpineMaterialId);
+            _addSpine(container, synapse.first, synapse.second,
+                      SpineMaterialId);
 }
 
-void Neurons::_addSpine(ThreadSafeContainer& container, const Synapse& synapse,
-                        const size_t SpineMaterialId)
+void Neurons::_addSpine(ThreadSafeContainer& container, const uint64_t guid,
+                        const Synapse& synapse, const size_t SpineMaterialId)
 {
     const double radius = DEFAULT_SPINE_RADIUS;
 
@@ -565,12 +567,12 @@ void Neurons::_addSpine(ThreadSafeContainer& container, const Synapse& synapse,
 
     // Create random shape between origin and target
     auto middle = (surfaceTarget + surfaceOrigin) / 2.0;
-    const double d = length(surfaceTarget - surfaceOrigin) / 5.0;
-    middle +=
-        Vector3f(d * (rand() % 1000 / 1000.0), d * (rand() % 1000 / 1000.0),
-                 d * (rand() % 1000 / 1000.0));
+    const double d = length(surfaceTarget - surfaceOrigin) / 2.5;
+    const auto i = guid * 4;
+    middle += Vector3f(d * Shape::rnd2(i), d * Shape::rnd2(i + 1),
+                       d * Shape::rnd2(i + 2));
     const float spineMiddleRadius =
-        spineSmallRadius + d * 0.1 * (rand() % 1000 / 1000.0);
+        spineSmallRadius + d * 0.1 * Shape::rnd2(i + 3);
 
     const auto displacement =
         Vector3f(spineSmallRadius * spineDisplacementStrength,
