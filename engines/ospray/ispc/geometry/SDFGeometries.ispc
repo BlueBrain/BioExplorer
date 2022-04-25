@@ -274,10 +274,11 @@ inline float calcDistance(const uniform SDFGeometry& primitive, const vec3f& p)
 uniform box3fa sdfBounds(uDataPtr_t geo_, uDataPtr_t prim_)
 {
     const Prim_ptr prim = (const Prim_ptr)prim_;
+    const uniform float radius = max(prim->r0, prim->r1) + prim->userParams.x;
 
     if (prim->type == SDF_TYPE_SPHERE)
     {
-        return make_box3fa(prim->p0 - prim->r0, prim->p0 + prim->r0);
+        return make_box3fa(prim->p0 - radius, prim->p0 + radius);
     }
     // else prim->type == SDF_TYPE_CONE_PILL ||
     //      prim->type == SDF_TYPE_PILL ||
@@ -285,7 +286,7 @@ uniform box3fa sdfBounds(uDataPtr_t geo_, uDataPtr_t prim_)
     const uniform vec3f minV = min(prim->p0, prim->p1);
     const uniform vec3f maxV = max(prim->p0, prim->p1);
 
-    return make_box3fa(minV - prim->r0, maxV + prim->r0);
+    return make_box3fa(minV - radius, maxV + radius);
 }
 
 //////////////////////////////////////////////////////////////////////
