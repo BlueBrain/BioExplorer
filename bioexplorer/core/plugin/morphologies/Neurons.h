@@ -30,6 +30,8 @@ namespace morphology
 using namespace brayns;
 using namespace common;
 
+using Varicosities = std::map<uint64_t, Vector3ds>;
+
 /**
  * Load a population of neurons from the database according to specified
  * parameters
@@ -46,7 +48,7 @@ public:
     Neurons(Scene& scene, const NeuronsDetails& details);
 
     /**
-     * @brief Get the Neuron section 3D points for a given section Id
+     * @brief Get the neuron section 3D points for a given section Id
      *
      * @param neuronId Neuron identifier
      * @param sectionId Neuron section identifier
@@ -55,12 +57,20 @@ public:
     Vector4ds getNeuronSectionPoints(const uint64_t neuronId,
                                      const uint64_t sectionId);
 
+    /**
+     * @brief Get the neuron varicosities location in space
+     *
+     * @param neuronId Neuron identifier
+     * @return Vector3ds Varicosity locations
+     */
+    Vector3ds getNeuronVaricosities(const uint64_t neuronId);
+
 private:
     void _buildNeurons();
 
-    void _addSection(ThreadSafeContainer& container, const uint64_t sectionId,
-                     const Section& section, const size_t somaIdx,
-                     const Vector3d& somaPosition,
+    void _addSection(ThreadSafeContainer& container, const uint64_t neuronId,
+                     const uint64_t sectionId, const Section& section,
+                     const size_t somaIdx, const Vector3d& somaPosition,
                      const Quaterniond& somaRotation, const double somaRadius,
                      const size_t baseMaterialId,
                      const double mitochondriaDensity);
@@ -90,6 +100,7 @@ private:
 
     const NeuronsDetails _details;
     Scene& _scene;
+    Varicosities _varicosities;
 };
 } // namespace morphology
 } // namespace bioexplorer

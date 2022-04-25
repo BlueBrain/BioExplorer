@@ -685,13 +685,22 @@ void Assembly::addNeurons(const NeuronsDetails &details)
     _scene.markModified(false);
 }
 
-Vector4ds Assembly::getNeuronSectionPoints(const NeuronSectionDetails &details)
+Vector4ds Assembly::getNeuronSectionPoints(
+    const NeuronIdSectionIdDetails &details)
 {
     if (!_neurons)
         PLUGIN_THROW("No neurons are currently defined in assembly " +
                      details.assemblyName);
     return _neurons->getNeuronSectionPoints(details.neuronId,
                                             details.sectionId);
+}
+
+Vector3ds Assembly::getNeuronVaricosities(const NeuronIdDetails &details)
+{
+    if (!_neurons)
+        PLUGIN_THROW("No neurons are currently defined in assembly " +
+                     details.assemblyName);
+    return _neurons->getNeuronVaricosities(details.neuronId);
 }
 
 ProteinPtr Assembly::getProtein(const std::string &name)

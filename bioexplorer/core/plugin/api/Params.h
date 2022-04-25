@@ -112,8 +112,9 @@ bool from_json(VasculatureRadiusReportDetails &param,
 
 bool from_json(AstrocytesDetails &param, const std::string &payload);
 bool from_json(NeuronsDetails &param, const std::string &payload);
-bool from_json(NeuronSectionDetails &param, const std::string &payload);
-std::string to_json(const NeuronSectionPointsDetails &param);
+bool from_json(NeuronIdSectionIdDetails &param, const std::string &payload);
+bool from_json(NeuronIdDetails &param, const std::string &payload);
+std::string to_json(const NeuronPointsDetails &param);
 
 // Utilities
 bool from_json(LookAtDetails &param, const std::string &payload);

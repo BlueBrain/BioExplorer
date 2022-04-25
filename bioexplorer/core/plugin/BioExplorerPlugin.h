@@ -163,8 +163,9 @@ private:
 
     // Neurons
     Response _addNeurons(const NeuronsDetails &payload);
-    NeuronSectionPointsDetails _getNeuronSectionPoints(
-        const NeuronSectionDetails &payload);
+    NeuronPointsDetails _getNeuronSectionPoints(
+        const NeuronIdSectionIdDetails &payload);
+    NeuronPointsDetails _getNeuronVaricosities(const NeuronIdDetails &payload);
 
     // Utilities
     LookAtResponseDetails _lookAt(const LookAtDetails &payload);

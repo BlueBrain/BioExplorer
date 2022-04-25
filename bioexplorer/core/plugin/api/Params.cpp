@@ -852,7 +852,7 @@ bool from_json(NeuronsDetails &param, const std::string &payload)
     return true;
 }
 
-bool from_json(NeuronSectionDetails &param, const std::string &payload)
+bool from_json(NeuronIdSectionIdDetails &param, const std::string &payload)
 {
     try
     {
@@ -868,7 +868,22 @@ bool from_json(NeuronSectionDetails &param, const std::string &payload)
     return true;
 }
 
-std::string to_json(const NeuronSectionPointsDetails &param)
+bool from_json(NeuronIdDetails &param, const std::string &payload)
+{
+    try
+    {
+        auto js = nlohmann::json::parse(payload);
+        FROM_JSON(param, js, assemblyName);
+        FROM_JSON(param, js, neuronId);
+    }
+    catch (...)
+    {
+        return false;
+    }
+    return true;
+}
+
+std::string to_json(const NeuronPointsDetails &param)
 {
     try
     {

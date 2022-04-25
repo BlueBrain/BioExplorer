@@ -1032,19 +1032,27 @@ typedef struct
 
 typedef struct
 {
-    /** Name of the assembly containing the astrocytes */
+    /** Name of the assembly containing the neurons */
     std::string assemblyName;
     /** Neuron identifier */
     uint64_t neuronId;
     /** Section identifier */
     uint64_t sectionId;
-} NeuronSectionDetails;
+} NeuronIdSectionIdDetails;
+
+typedef struct
+{
+    /** Name of the assembly containing the neurons */
+    std::string assemblyName;
+    /** Neuron identifier */
+    uint64_t neuronId;
+} NeuronIdDetails;
 
 typedef struct
 {
     bool status{true};
     doubles points;
-} NeuronSectionPointsDetails;
+} NeuronPointsDetails;
 
 typedef struct
 {

@@ -89,7 +89,7 @@ void Neurons::_buildNeurons()
         auto it = somas.begin();
         std::advance(it, index);
         const auto& soma = it->second;
-        const auto somaId = it->first;
+        const auto neuronId = it->first;
 
         ThreadSafeContainer container(*model, useSdf, _scale);
 
@@ -103,7 +103,7 @@ void Neurons::_buildNeurons()
         // Soma radius
         double somaRadius = 0.0;
         const auto sections =
-            connector.getNeuronSections(_details.populationName, somaId,
+            connector.getNeuronSections(_details.populationName, neuronId,
                                         _details.sqlSectionFilter);
         uint64_t count = 1;
         for (const auto& section : sections)
@@ -118,7 +118,7 @@ void Neurons::_buildNeurons()
         switch (_details.populationColorScheme)
         {
         case PopulationColorScheme::id:
-            baseMaterialId = somaId * NB_MATERIALS_PER_MORPHOLOGY;
+            baseMaterialId = neuronId * NB_MATERIALS_PER_MORPHOLOGY;
             break;
         }
         const auto somaMaterialId =
@@ -139,7 +139,7 @@ void Neurons::_buildNeurons()
                                                  somaDisplacementFrequency,
                                                  0.f));
             if (_details.generateInternals)
-                _addSomaInternals(somaId, container, baseMaterialId,
+                _addSomaInternals(neuronId, container, baseMaterialId,
                                   somaPosition, somaRadius,
                                   mitochondriaDensity);
         }
@@ -174,7 +174,7 @@ void Neurons::_buildNeurons()
                     neighbours.insert(geometryIndex);
                 }
 
-                _addSection(container, section.first, section.second,
+                _addSection(container, neuronId, section.first, section.second,
                             geometryIndex, somaPosition, somaRotation,
                             somaRadius, baseMaterialId, mitochondriaDensity);
             }
@@ -182,7 +182,7 @@ void Neurons::_buildNeurons()
 
         // Synapses
         if (_details.loadSynapses)
-            _addSpines(container, somaId, somaPosition, somaRadius,
+            _addSpines(container, neuronId, somaPosition, somaRadius,
                        baseMaterialId);
 
 #pragma omp critical
@@ -240,7 +240,8 @@ void Neurons::_addVaricosity(Vector4fs& points)
 }
 
 void Neurons::_addSection(ThreadSafeContainer& container,
-                          const uint64_t sectionId, const Section& section,
+                          const uint64_t neuronId, const uint64_t sectionId,
+                          const Section& section,
                           const size_t somaGeometryIndex,
                           const Vector3d& somaPosition,
                           const Quaterniond& somaRotation,
@@ -312,6 +313,8 @@ void Neurons::_addSection(ThreadSafeContainer& container,
                 }
                 if (i == middlePointIndex + 1 || i == middlePointIndex + 3)
                     neighbours = {};
+                if (i == middlePointIndex + 1)
+                    _varicosities[neuronId].push_back(dst);
             }
 
             if (!useSdf)
@@ -615,6 +618,13 @@ Vector4ds Neurons::getNeuronSectionPoints(const uint64_t neuronId,
         points.push_back({position.x, position.y, position.z, radius});
     }
     return points;
+}
+
+Vector3ds Neurons::getNeuronVaricosities(const uint64_t neuronId)
+{
+    if (_varicosities.find(neuronId) == _varicosities.end())
+        PLUGIN_THROW("Neuron " + std::to_string(neuronId) + " does not exist");
+    return _varicosities[neuronId];
 }
 
 } // namespace morphology

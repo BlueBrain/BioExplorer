@@ -2487,6 +2487,30 @@ class BioExplorer:
             ps.append(p)
         return ps
 
+    def get_neuron_varicosities(self, assembly_name, neuron_guid):
+        """
+        Return the list of 3D locations for the varicosities of a given neuron
+
+        :assembly_name: Name of the assembly
+        :neuron_guid: Neuron identifier
+
+        :return: A list of 3D points
+        """
+        params = dict()
+        params["assemblyName"] = assembly_name
+        params["neuronId"] = neuron_guid
+        response = self._invoke('get-neuron-varicosities', params)
+        if not response['status']:
+            raise "Failed to get neuron varicosities"
+        points = response['points']
+        ps = list()
+        for i in range(0, len(points), 3):
+            p = list()
+            for j in range(3):
+                p.append(points[i+j])
+            ps.append(p)
+        return ps
+
     def look_at(self, source, target):
         """
         Computes a quaternion to make a object rotate in the direction of a vector
