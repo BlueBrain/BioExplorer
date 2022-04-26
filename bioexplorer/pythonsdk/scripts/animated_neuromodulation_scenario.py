@@ -44,9 +44,9 @@ class NeuromodulationScenario(MovieScenario):
 
     def __init__(self, hostname, port, projection, output_folder, image_k=4,
                  image_samples_per_pixel=64, log_level=1, shaders=list(['bio_explorer']),
-                 nb_frames_between_keys=200):
+                 nb_frames_between_keys=200, draft=False):
         super().__init__(hostname, port, projection, output_folder,
-                         image_k, image_samples_per_pixel, log_level, False, shaders)
+                         image_k, image_samples_per_pixel, log_level, False, shaders, draft)
 
         db_host = os.environ['DB_HOST']
         db_name = os.environ['DB_NAME']
@@ -321,10 +321,14 @@ class NeuromodulationScenario(MovieScenario):
                 continue
             if i==3:
                 user_param = 0.05 / scale.x
-            self._set_morphology_materials(
-                model_id, palettes[i], self._be.NB_MATERIALS_PER_MORPHOLOGY,
-                self._be.SHADING_MODE_PERLIN, 0.1, emission, user_param)
-                # be.SHADING_MODE_CARTOON, 1.0, emission, 3.0)
+            if self._draft:
+                self._set_morphology_materials(
+                    model_id, palettes[i], self._be.NB_MATERIALS_PER_MORPHOLOGY,
+                    self._be.SHADING_MODE_CARTOON, 1.0, emission, 3.0)
+            else:
+                self._set_morphology_materials(
+                    model_id, palettes[i], self._be.NB_MATERIALS_PER_MORPHOLOGY,
+                    self._be.SHADING_MODE_PERLIN, 0.1, emission, user_param)
             i += 1
 
     def set_rendering_settings(self, renderer):
@@ -339,6 +343,8 @@ class NeuromodulationScenario(MovieScenario):
             params.gi_weight = 0.2
             params.gi_distance = 5.0 * scale.x
             params.shadows = 1.0
+            if self._draft:
+                params.shadows = 0.0
             params.soft_shadows = 1.0
             params.epsilon_factor = 10.0
             params.max_bounces = 3
@@ -485,7 +491,8 @@ def main(argv):
         image_k=args.image_resolution_k,
         image_samples_per_pixel=args.image_samples_per_pixel,
         log_level=args.log_level,
-        shaders=args.shaders)
+        shaders=args.shaders,
+        draft=args.draft)
 
     scenario.setup_scene()
     scenario.set_rendering_settings('bio_explorer')
