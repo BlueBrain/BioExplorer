@@ -70,7 +70,8 @@ private:
 
     void _addSection(ThreadSafeContainer& container, const uint64_t neuronId,
                      const uint64_t sectionId, const Section& section,
-                     const size_t somaIdx, const Vector3d& somaPosition,
+                     const uint64_t somaGeometryIndex,
+                     const Vector3d& somaPosition,
                      const Quaterniond& somaRotation, const double somaRadius,
                      const size_t baseMaterialId,
                      const double mitochondriaDensity);

@@ -150,8 +150,7 @@ void Neurons::_buildNeurons()
             _details.loadAxon)
         {
             uint64_t geometryIndex = 0;
-            Neighbours neighbours;
-            neighbours.insert(somaGeometryIndex);
+            Neighbours neighbours{somaGeometryIndex};
 
             for (const auto& section : sections)
             {
@@ -164,7 +163,7 @@ void Neurons::_buildNeurons()
 
                     // Section connected to the soma
                     const auto srcRadius =
-                        somaPoint.w * 0.75f * _radiusMultiplier;
+                        somaPoint.w * 0.75 * _radiusMultiplier;
                     const auto dstRadius = point.w * 0.5 * _radiusMultiplier;
 
                     const auto sectionType =
@@ -256,7 +255,7 @@ void Neurons::_addVaricosity(Vector4fs& points)
 void Neurons::_addSection(ThreadSafeContainer& container,
                           const uint64_t neuronId, const uint64_t sectionId,
                           const Section& section,
-                          const size_t somaGeometryIndex,
+                          const uint64_t somaGeometryIndex,
                           const Vector3d& somaPosition,
                           const Quaterniond& somaRotation,
                           const double somaRadius, const size_t baseMaterialId,
@@ -295,7 +294,9 @@ void Neurons::_addSection(ThreadSafeContainer& container,
     double sectionLength = 0.0;
     double sectionVolume = 0.0;
     uint64_t geometryIndex = 0;
-    Neighbours neighbours{somaGeometryIndex};
+    Neighbours neighbours;
+    if (_details.morphologyColorScheme == MorphologyColorScheme::none)
+        neighbours.insert(somaGeometryIndex);
     for (uint64_t i = 0; i < localPoints.size() - 1; ++i)
     {
         const auto& srcPoint = localPoints[i];
@@ -548,7 +549,7 @@ void Neurons::_addSpines(ThreadSafeContainer& container,
     const auto& connector = DBConnector::getInstance();
     const auto synapses =
         connector.getNeuronSynapses(_details.populationName, somaIndex);
-    const size_t SpineMaterialId =
+    const size_t spineMaterialId =
         baseMaterialId + MATERIAL_OFFSET_AFFERENT_SYNPASE;
 
     for (const auto& synapse : synapses)
@@ -559,7 +560,7 @@ void Neurons::_addSpines(ThreadSafeContainer& container,
             length(synapse.second.centerPosition - somaPosition) >
                 somaRadius * 3.0)
             _addSpine(container, synapse.first, synapse.second,
-                      SpineMaterialId);
+                      spineMaterialId);
 }
 
 void Neurons::_addSpine(ThreadSafeContainer& container, const uint64_t guid,
@@ -587,23 +588,27 @@ void Neurons::_addSpine(ThreadSafeContainer& container, const uint64_t guid,
     const float spineMiddleRadius =
         spineSmallRadius + d * 0.1 * Shape::rnd2(i + 3);
 
-    const auto displacement =
+    const auto smallDisplacement =
+        Vector3f(spineSmallRadius * spineDisplacementStrength * 0.5,
+                 spineSmallRadius * spineDisplacementFrequency, 0.f);
+    const auto largeDisplacement =
         Vector3f(spineSmallRadius * spineDisplacementStrength,
                  spineSmallRadius * spineDisplacementFrequency, 0.f);
-    const auto idx1 =
-        container.addSphere(surfaceOrigin, spineLargeRadius, SpineMaterialId,
-                            NO_USER_DATA, {}, displacement);
-    const auto idx2 =
-        container.addSphere(middle, spineMiddleRadius, SpineMaterialId,
-                            NO_USER_DATA, {idx1}, displacement);
+    Neighbours neighbours;
+    neighbours.insert(container.addSphere(surfaceOrigin, spineLargeRadius,
+                                          SpineMaterialId, NO_USER_DATA,
+                                          neighbours, largeDisplacement));
+    neighbours.insert(container.addSphere(middle, spineMiddleRadius,
+                                          SpineMaterialId, NO_USER_DATA,
+                                          neighbours, largeDisplacement));
     if (surfaceOrigin != middle)
         container.addCone(surfaceOrigin, spineLargeRadius, middle,
                           spineMiddleRadius, SpineMaterialId, NO_USER_DATA,
-                          {idx1, idx2}, displacement);
+                          neighbours, smallDisplacement);
     if (middle != surfaceTarget)
         container.addCone(middle, spineMiddleRadius, surfaceTarget,
                           spineSmallRadius, SpineMaterialId, NO_USER_DATA,
-                          {idx1, idx2}, displacement);
+                          neighbours, smallDisplacement);
 }
 
 Vector4ds Neurons::getNeuronSectionPoints(const uint64_t neuronId,

@@ -139,6 +139,7 @@ void ThreadSafeContainer::_finalizeSDFGeometries()
                 _sdfMorphologyData.neighbours[neighbour].insert(i);
     }
 
+#if 0
     for (uint64_t i = 0; i < numGeoms; ++i)
     {
         // Convert neighbours from set to vector and erase itself from its
@@ -159,6 +160,7 @@ void ThreadSafeContainer::_finalizeSDFGeometries()
         _addSDFGeometry(_sdfMorphologyData.materials[i],
                         _sdfMorphologyData.geometries[i], neighboursSet);
     }
+#endif
 }
 
 void ThreadSafeContainer::_commitMaterials()

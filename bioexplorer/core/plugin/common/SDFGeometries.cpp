@@ -41,33 +41,25 @@ void SDFGeometries::addSDFDemo(Model& model)
 {
     size_t materialId = 0;
     const bool useSdf = true;
-    const Vector3f displacement{0.f, 10.f, 0.f};
+    const Vector3f displacement{0.1f, 10.f, 0.f};
 
     ThreadSafeContainer modelContainer(model, useSdf);
-
-    const auto idx1 =
-        modelContainer.addCone(Vector3d(-1, 0, 0), 0.25, Vector3d(0, 0, 0), 0.1,
-                               materialId, -1, {}, displacement);
-    ++materialId;
-
-    const auto idx2 =
+    Neighbours neighbours;
+    neighbours.insert(modelContainer.addCone(Vector3d(-1, 0, 0), 0.25,
+                                             Vector3d(0, 0, 0), 0.1, materialId,
+                                             -1, neighbours, displacement));
+    neighbours.insert(
         modelContainer.addCone(Vector3d(0, 0, 0), 0.1, Vector3d(1, 0, 0), 0.25,
-                               materialId, -1, {idx1}, displacement);
-    ++materialId;
-
-    const auto idx3 =
-        modelContainer.addSphere(Vector3d(-1, 0, 0), 0.25, materialId, -1,
-                                 {idx1}, displacement);
-    ++materialId;
-
-    const auto idx4 =
-        modelContainer.addSphere(Vector3d(1, 0, 0), 0.25, materialId, -1,
-                                 {idx2}, displacement);
-    ++materialId;
-
-    const auto idx5 =
-        modelContainer.addCone(Vector3d(0, 0.25, 0), 0.5, Vector3d(0, 1, 0),
-                               0.0, materialId, -1, {idx1, idx2}, displacement);
+                               materialId, -1, neighbours, displacement));
+    neighbours.insert(modelContainer.addSphere(Vector3d(-0.5, 0, 0), 0.25,
+                                               materialId, -1, neighbours,
+                                               displacement));
+    neighbours.insert(modelContainer.addSphere(Vector3d(0.5, 0, 0), 0.25,
+                                               materialId, -1, neighbours,
+                                               displacement));
+    neighbours.insert(modelContainer.addCone(Vector3d(0, 0.25, 0), 0.5,
+                                             Vector3d(0, 1, 0), 0.0, materialId,
+                                             -1, neighbours, displacement));
 
     modelContainer.commitToModel();
 }
