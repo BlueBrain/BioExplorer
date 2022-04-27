@@ -166,6 +166,19 @@ void Neurons::_buildNeurons()
                     const auto srcRadius =
                         somaPoint.w * 0.75f * _radiusMultiplier;
                     const auto dstRadius = point.w * 0.5 * _radiusMultiplier;
+
+                    const auto sectionType =
+                        static_cast<NeuronSectionType>(section.second.type);
+                    const bool loadSection =
+                        (sectionType == NeuronSectionType::axon &&
+                         _details.loadAxon) ||
+                        (sectionType == NeuronSectionType::basal_dendrite &&
+                         _details.loadBasalDendrites) ||
+                        (sectionType == NeuronSectionType::apical_dendrite &&
+                         _details.loadApicalDendrites);
+
+                    if (!loadSection)
+                        continue;
                     geometryIndex = container.addCone(
                         Vector3d(somaPoint), srcRadius,
                         somaPosition + somaRotation * Vector3d(point),
