@@ -103,7 +103,7 @@ class NeuromodulationScenario(MovieScenario):
             varicosities[0][2]
         )
         self._synapse = Vector3(
-            varicosities[4][0],
+            varicosities[4][0] + 0.25,
             varicosities[4][1],
             varicosities[4][2]
         )        
@@ -337,19 +337,17 @@ class NeuromodulationScenario(MovieScenario):
                 background_color=[0.18, 0.43, 0.41],
                 current=renderer,subsampling=4, max_accum_frames=64)
             params = self._core.BioExplorerRendererParams()
-            params.fog_start = 1.0 * scale.x
+            params.fog_start = scale.x
             params.fog_thickness = 300.0 * scale.x
             params.gi_samples = 0
             params.gi_weight = 0.2
-            params.gi_distance = 5.0 * scale.x
-            params.shadows = 1.0
-            if self._draft:
-                params.shadows = 0.0
+            params.gi_distance = 0.25 * scale.x
+            params.shadows = 0.0
             params.soft_shadows = 1.0
             params.epsilon_factor = 10.0
             params.max_bounces = 3
             params.show_background = False
-            params.use_hardware_randomizer=True
+            params.use_hardware_randomizer=False
             self._core.set_renderer_params(params)
 
     def setup_scene(self):
@@ -392,7 +390,7 @@ class NeuromodulationScenario(MovieScenario):
             self._add_acetylcholin(self._synapse, 0.0, 0, 0)
         elif frame >= self._diffusion_2_start_frame and \
             frame < self._diffusion_2_start_frame + self._diffusion_2_nb_frames:
-            radius = 0.2 + 1.0 * float(frame - self._diffusion_2_start_frame) / float(self._diffusion_2_nb_frames)
+            radius = 0.1 + 1.0 * float(frame - self._diffusion_2_start_frame) / float(self._diffusion_2_nb_frames)
             self._log(1, 'Diffusion 2 : %f' % radius)
             self._add_acetylcholin(
                 self._synapse, radius,
