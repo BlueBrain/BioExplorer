@@ -39,7 +39,7 @@
 #define SDF_TYPE_CONE_PILL 2
 #define SDF_TYPE_CONE_PILL_SIGMOID 3
 
-#define SDF_BLEND_FACTOR 0.2
+#define SDF_BLEND_FACTOR 0.1
 #define SDF_BLEND_LERP_FACTOR 0.2
 
 /////////////////////////////////////////////////////////////////////////////
@@ -69,7 +69,7 @@ inline float smootherstep(const float x)
 
 inline float opDisplacement(const vec3f& p, const float a, const float b)
 {
-    return a * sin(b * p.x) * sin(b * p.y) * sin(b * p.z);
+    return a * sin(b * p.x) * sin(b * p.y * 0.91) * sin(b * p.z * 0.75);
 }
 
 inline float sdSphere(const vec3f& p, const vec3f c, float r)
@@ -246,10 +246,10 @@ const uniform SDFGeometry* varying getPrimitiveVarying(
 
 inline float calcDistance(const uniform SDFGeometry& primitive, const vec3f& p)
 {
-    float displacement = 0.f;
-    if (primitive.userParams.x > 0.f)
-        displacement =
-            opDisplacement(p, primitive.userParams.x, primitive.userParams.y);
+    const float displacement =
+        primitive.userParams.x > 0.f
+            ? opDisplacement(p, primitive.userParams.x, primitive.userParams.y)
+            : 0.f;
     if (primitive.type == SDF_TYPE_SPHERE)
         return displacement + sdSphere(p, primitive.p0, primitive.r0);
     if (primitive.type == SDF_TYPE_PILL)
@@ -257,14 +257,10 @@ inline float calcDistance(const uniform SDFGeometry& primitive, const vec3f& p)
                sdCapsule(p, primitive.p0, primitive.p1, primitive.r0);
     if (primitive.type == SDF_TYPE_CONE_PILL ||
         primitive.type == SDF_TYPE_CONE_PILL_SIGMOID)
-    {
         return displacement +
                sdConePill(p, primitive.p0, primitive.p1, primitive.r0,
                           primitive.r1,
                           primitive.type == SDF_TYPE_CONE_PILL_SIGMOID);
-        //    sdCone(p, primitive.p0, primitive.p1, primitive.r0,
-        //               primitive.r1);
-    }
 
     return -1.0;
 }
@@ -280,9 +276,6 @@ uniform box3fa sdfBounds(uDataPtr_t geo_, uDataPtr_t prim_)
     {
         return make_box3fa(prim->p0 - radius, prim->p0 + radius);
     }
-    // else prim->type == SDF_TYPE_CONE_PILL ||
-    //      prim->type == SDF_TYPE_PILL ||
-    //      prim->type == SDF_TYPE_CONE_PILL_SIGMOID
     const uniform vec3f minV = min(prim->p0, prim->p1);
     const uniform vec3f maxV = max(prim->p0, prim->p1);
 
@@ -304,7 +297,7 @@ float sdfDistance(const vec3f& p, uDataPtr_t geo_, uDataPtr_t prim_,
 
     const float l1 = length(prim->p0 - p);
     const float l2 = length(prim->p1 - p);
-    const float r0 = (l1 < l2 ? prim->r0 : prim->r1);
+    const float r0 = max(prim->r0, prim->r1);
 
     for (uniform int i = 0; i < prim->numNeighbours; i++)
     {
@@ -314,14 +307,15 @@ float sdfDistance(const vec3f& p, uDataPtr_t geo_, uDataPtr_t prim_,
         const uniform SDFGeometry& neighbour = *getPrimitive(*geo, index);
 
         const float dOther = calcDistance(neighbour, p);
+        if (dOther < 0.f)
+            continue;
         const float l1 = length(neighbour.p0 - p);
         const float l2 = length(neighbour.p1 - p);
-        const float r1 = (l1 < l2 ? neighbour.r0 : neighbour.r1);
+        const float r1 = max(neighbour.r0, neighbour.r1);
         const float blendFactor =
             lerp(SDF_BLEND_LERP_FACTOR, min(r0, r1), max(r0, r1));
 
         d = sminPoly(dOther, d, blendFactor * SDF_BLEND_FACTOR);
-        // d = opBlend(dOther, d);
     }
 
     return d;
@@ -367,7 +361,6 @@ unmasked void SDFGeometries_intersect(
         ray->t = t_in;
 
         // TODO epsilon based on pixel radius
-
         ray->Ng = computeNormal(pos, sdfDistance, calcEpsilon(ray->org, t_in),
                                 (uDataPtr_t)geo, (uDataPtr_t)prim, sdfParams);
     }

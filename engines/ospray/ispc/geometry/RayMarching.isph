@@ -28,7 +28,7 @@
 
 /////////////////////////////////////////////////////////////////////////////
 
-#define SDF_EPSILON 0.0001
+#define SDF_EPSILON 0.0005
 
 //////////////////////////////////////////////////////////////////////
 
@@ -61,7 +61,7 @@ inline vec3f computeNormal(const vec3f& pos,
                            const SDFParams& params)
 {
     // tetrahedron technique (4 evaluations)
-    const uniform float t = 10.f;
+    const uniform float t = 0.1f;
 
     const uniform vec3f k0 = make_vec3f( t, -t, -t), k1 = make_vec3f(-t, -t, t),
                         k2 = make_vec3f(-t, t, -t), k3 = make_vec3f(t, t, t);
@@ -93,8 +93,7 @@ inline float raymarching(const Ray& ray,
     // TODO compute pixel radius
     const uniform float pixel_radius = SDF_EPSILON;
 
-    // float omega = 1.2f;
-    float omega = 0.5f;
+    float omega = 0.6f;
     float t = t0;
     float candidate_error = inf;
     float candidate_t = t0;
