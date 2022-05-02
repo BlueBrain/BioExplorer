@@ -79,8 +79,10 @@ inline vec3f ShadowRenderer_shadeRay(const uniform ShadowRenderer* uniform self,
             const linear3f localToWorld = frame(lightDirection);
 
             Ray shadow_ray;
-            setRay(shadow_ray, dg.P, lightDirection, 0.0f, self->rayLength);
-            if (isOccluded(self->super.model, shadow_ray))
+            setRay(shadow_ray, dg.P, lightDirection, dg.epsilon,
+                   self->rayLength);
+            traceRay(self->super.model, shadow_ray);
+            if (shadow_ray.geomID >= 0)
                 hits++;
         }
     }

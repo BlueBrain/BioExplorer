@@ -332,7 +332,7 @@ class MovieMaker:
         frame.observe(update_frame, 'value')
         display(frame)
 
-    def _set_renderer(self, name, gi_length=5.0):
+    def _set_renderer_params(self, name, samples_per_pixel, gi_length=5.0):
         """
         Set renderer with default parameters
 
@@ -342,25 +342,30 @@ class MovieMaker:
         :return: Frame buffer mode (color or depth)
         :rtype: int
         """
+        spp = samples_per_pixel
         frame_buffer_mode = MovieMaker.FRAME_BUFFER_MODE_COLOR
-        self._client.set_renderer(current=name)
         if name == 'ambient_occlusion':
             params = self._client.AmbientOcclusionRendererParams()
-            params.samplesPerFrame = 1
-            params.rayLength = gi_length
+            params.samples_per_frame = 16
+            params.ray_length = gi_length
             self._client.set_renderer_params(params)
+            spp = 4
         elif name == 'depth':
             frame_buffer_mode = MovieMaker.FRAME_BUFFER_MODE_DEPTH
+            spp = 1
+        elif name in ['albedo', 'raycast_Ns']:
+            spp = 4
         elif name == 'shadow':
             params = self._client.ShadowRendererParams()
-            params.rayLength = gi_length
-            params.samplesPerFrame = 1
+            params.samples_per_frame = 16
+            params.ray_length = gi_length
             self._client.set_renderer_params(params)
-        return frame_buffer_mode
+            spp = 4
+        return frame_buffer_mode, spp
 
     def create_snapshot(
             self, renderer, size, path, base_name, samples_per_pixel,
-            export_intermediate_frames=False, gi_length=1000000.0):
+            export_intermediate_frames=False, gi_length=1e6):
         """
         Create a snapshot of the current frame
 
@@ -379,8 +384,6 @@ class MovieMaker:
         assert isinstance(export_intermediate_frames, bool)
         assert isinstance(gi_length, float)
 
-        frame_buffer_mode = self._set_renderer(renderer, gi_length)
-
         application_params = self._client.get_application_parameters()
         renderer_params = self._client.get_renderer()
         old_image_stream_fps = application_params['image_stream_fps']
@@ -389,9 +392,12 @@ class MovieMaker:
         old_max_accum_frames = renderer_params['max_accum_frames']
         old_smoothed_key_frames = copy.deepcopy(self._smoothed_key_frames)
 
-        self._client.set_renderer(samples_per_pixel=1, max_accum_frames=samples_per_pixel)
+        self._client.set_renderer(current=renderer, samples_per_pixel=1, max_accum_frames=1)
         self._client.set_application_parameters(viewport=size)
         self._client.set_application_parameters(image_stream_fps=0)
+
+        frame_buffer_mode, spp = self._set_renderer_params(renderer, samples_per_pixel, gi_length)
+        self._client.set_renderer(max_accum_frames=spp)
 
         control_points = [self.get_camera()]
         current_animation_frame = int(self._client.get_animation_parameters()['current'])
@@ -405,7 +411,7 @@ class MovieMaker:
 
         self.export_frames(
             path=path, base_name=base_name, animation_frames=animation_frames, size=size,
-            samples_per_pixel=samples_per_pixel,
+            samples_per_pixel=spp,
             export_intermediate_frames=export_intermediate_frames,
             frame_buffer_mode=frame_buffer_mode)
 

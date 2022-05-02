@@ -44,9 +44,10 @@ class NeuromodulationScenario(MovieScenario):
 
     def __init__(self, hostname, port, projection, output_folder, image_k=4,
                  image_samples_per_pixel=64, log_level=1, shaders=list(['bio_explorer']),
-                 nb_frames_between_keys=200, draft=False):
+                 nb_frames_between_keys=200, draft=False, gi_length=1e6):
         super().__init__(hostname, port, projection, output_folder,
-                         image_k, image_samples_per_pixel, log_level, False, shaders, draft)
+                         image_k, image_samples_per_pixel, log_level, False, shaders,
+                         draft, gi_length)
 
         db_host = os.environ['DB_HOST']
         db_name = os.environ['DB_NAME']
@@ -490,7 +491,8 @@ def main(argv):
         image_samples_per_pixel=args.image_samples_per_pixel,
         log_level=args.log_level,
         shaders=args.shaders,
-        draft=args.draft)
+        draft=args.draft,
+        gi_length=10.0 * scale.x)
 
     scenario.setup_scene()
     scenario.set_rendering_settings('bio_explorer')
