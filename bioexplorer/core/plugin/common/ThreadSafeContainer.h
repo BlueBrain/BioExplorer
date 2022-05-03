@@ -71,7 +71,8 @@ public:
      * @return uint64_t Index of the geometry in the model
      */
     uint64_t addSphere(const Vector3f& position, const float radius,
-                       const size_t materialId, const uint64_t userDataOffset,
+                       const size_t materialId,
+                       const uint64_t userDataOffset = 0,
                        const Neighbours& neighbours = {},
                        const Vector3f displacementRatio = Vector3f());
 

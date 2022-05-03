@@ -149,6 +149,9 @@ private:
     // Command line arguments
     std::map<std::string, std::string> _commandLineArguments;
 
+    // Atlas
+    Response _addAtlas(const AtlasDetails &payload);
+
     // Vasculature
     Response _addVasculature(const VasculatureDetails &payload);
     Response _getVasculatureInfo(const NameDetails &payload) const;

@@ -110,6 +110,7 @@ bool from_json(VasculatureReportDetails &param, const std::string &payload);
 bool from_json(VasculatureRadiusReportDetails &param,
                const std::string &payload);
 
+bool from_json(AtlasDetails &param, const std::string &payload);
 bool from_json(AstrocytesDetails &param, const std::string &payload);
 bool from_json(NeuronsDetails &param, const std::string &payload);
 bool from_json(NeuronIdSectionIdDetails &param, const std::string &payload);

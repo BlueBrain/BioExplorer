@@ -211,8 +211,6 @@ void Neurons::_buildNeurons()
         container.commitToModel();
     }
 
-    PLUGIN_INFO(1, "Creating materials...");
-
     ModelMetadata metadata = {
         {"Number of Neurons", std::to_string(somas.size())}};
 

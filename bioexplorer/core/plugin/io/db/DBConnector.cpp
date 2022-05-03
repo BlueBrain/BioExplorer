@@ -29,6 +29,7 @@ namespace io
 namespace db
 {
 const std::string DB_SCHEMA_OUT_OF_CORE = "outofcore";
+const std::string DB_SCHEMA_ATLAS = "atlas";
 const std::string DB_SCHEMA_METABOLISM = "metabolism";
 const std::string DB_SCHEMA_ASTROCYTES = "astrocytes";
 const std::string DB_SCHEMA_CONNECTOME = "connectome";
@@ -597,6 +598,76 @@ SynapseMap DBConnector::getNeuronSynapses(const std::string& populationName,
 
     return synapses;
 }
+
+uint64_ts DBConnector::getAtlasRegions(const std::string& sqlCondition) const
+{
+    uint64_ts regions;
+
+    pqxx::read_transaction transaction(*_connections[omp_get_thread_num()]);
+    try
+    {
+        std::string sql = "SELECT guid, code, description FROM " +
+                          DB_SCHEMA_ATLAS + ".region";
+
+        if (!sqlCondition.empty())
+            sql += " WHERE " + sqlCondition;
+
+        sql += " ORDER BY guid";
+
+        PLUGIN_DEBUG(sql);
+        auto res = transaction.exec(sql);
+        for (auto c = res.begin(); c != res.end(); ++c)
+            regions.push_back(c[0].as<uint64_t>());
+    }
+    catch (const pqxx::sql_error& e)
+    {
+        PLUGIN_THROW(e.what());
+    }
+
+    return regions;
+}
+
+CellMap DBConnector::getAtlasCells(const uint64_t regionId,
+                                   const std::string& sqlCondition) const
+{
+    CellMap cells;
+
+    pqxx::read_transaction transaction(*_connections[omp_get_thread_num()]);
+    try
+    {
+        std::string sql =
+            "SELECT guid, x, y, z, rotation_x, rotation_y, rotation_z, "
+            "rotation_w, cell_type_guid, electrical_type_guid, region_guid "
+            "FROM " +
+            DB_SCHEMA_ATLAS +
+            ".cell WHERE region_guid=" + std::to_string(regionId);
+
+        if (!sqlCondition.empty())
+            sql += " AND " + sqlCondition;
+
+        PLUGIN_DEBUG(sql);
+        auto res = transaction.exec(sql);
+        for (auto c = res.begin(); c != res.end(); ++c)
+        {
+            Cell cell;
+            cell.position =
+                Vector3d(c[1].as<float>(), c[2].as<float>(), c[3].as<float>());
+            cell.rotation = Quaterniond(c[7].as<float>(), c[4].as<float>(),
+                                        c[5].as<float>(), c[6].as<float>());
+            cell.type = c[8].as<uint64_t>();
+            cell.eType = c[9].as<int64_t>();
+            cell.region = c[10].as<uint64_t>();
+            cells[c[0].as<uint64_t>()] = cell;
+        }
+    }
+    catch (const pqxx::sql_error& e)
+    {
+        PLUGIN_THROW(e.what());
+    }
+
+    return cells;
+}
+
 } // namespace db
 } // namespace io
 } // namespace bioexplorer

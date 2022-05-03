@@ -720,6 +720,26 @@ std::string to_json(const ProteinInspectionDetails &param)
     return "";
 }
 
+bool from_json(AtlasDetails &param, const std::string &payload)
+{
+    try
+    {
+        auto js = nlohmann::json::parse(payload);
+        FROM_JSON(param, js, assemblyName);
+        FROM_JSON(param, js, loadCells);
+        FROM_JSON(param, js, cellRadius);
+        FROM_JSON(param, js, loadMeshes);
+        FROM_JSON(param, js, cellSqlFilter);
+        FROM_JSON(param, js, regionSqlFilter);
+        FROM_JSON(param, js, scale);
+    }
+    catch (...)
+    {
+        return false;
+    }
+    return true;
+}
+
 bool from_json(VasculatureDetails &param, const std::string &payload)
 {
     try

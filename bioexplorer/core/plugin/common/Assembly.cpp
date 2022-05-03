@@ -20,6 +20,7 @@
 
 #include "Assembly.h"
 
+#include <plugin/atlas/Atlas.h>
 #include <plugin/common/GeneralSettings.h>
 #include <plugin/common/Logs.h>
 #include <plugin/common/Node.h>
@@ -672,6 +673,16 @@ void Assembly::addAstrocytes(const AstrocytesDetails &details)
                      details.assemblyName);
 
     _astrocytes = AstrocytesPtr(new Astrocytes(_scene, details));
+    _scene.markModified(false);
+}
+
+void Assembly::addAtlas(const AtlasDetails &details)
+{
+    if (_atlas)
+        PLUGIN_THROW("Atlas already exists in assembly " +
+                     details.assemblyName);
+
+    _atlas = AtlasPtr(new Atlas(_scene, details));
     _scene.markModified(false);
 }
 
