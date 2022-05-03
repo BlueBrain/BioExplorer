@@ -99,7 +99,7 @@ rna_sequence = RNASequence(
 
 virus_cell = Cell(
     name='coronavirus',
-    shape=be.ASSEMBLY_SHAPE_SPHERE,
+    shape=be.ASSEMBLY_SHAPE_EMPTY_SPHERE,
     shape_params=shape_params, membrane=virus_membrane,
     proteins=[virus_protein_s, virus_protein_e, virus_protein_m])
 

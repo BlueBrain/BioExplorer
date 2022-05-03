@@ -45,20 +45,17 @@ uint64_t ThreadSafeContainer::addSphere(const Vector3f& position,
                                         const size_t materialId,
                                         const uint64_t userData,
                                         const Neighbours& neighbours,
-                                        const float displacementRatio)
+                                        const Vector3f displacement)
 {
     const Vector3f scale = _scale;
+    const Vector3f scaledDisplacement{displacement.x * scale.x,
+                                      displacement.y / scale.x, displacement.z};
     if (_useSdf)
-    {
-        const Vector3f displacementParams = {std::min(radius * scale.x, 0.05f),
-                                             displacementRatio / scale.x,
-                                             scale.x * 2.0};
         return _addSDFGeometry(materialId,
                                createSDFSphere(position * scale,
                                                radius * scale.x, userData,
-                                               displacementParams),
+                                               scaledDisplacement),
                                neighbours);
-    }
     return _addSphere(materialId,
                       {position * scale, radius * scale.x, userData});
 }
@@ -67,19 +64,17 @@ uint64_t ThreadSafeContainer::addCone(
     const Vector3f& sourcePosition, const float sourceRadius,
     const Vector3f& targetPosition, const float targetRadius,
     const size_t materialId, const uint64_t userDataOffset,
-    const Neighbours& neighbours, const float displacementRatio)
+    const Neighbours& neighbours, const Vector3f displacement)
 {
     const Vector3f scale = _scale;
+    const Vector3f scaledDisplacement{displacement.x * scale.x,
+                                      displacement.y / scale.x, displacement.z};
     if (_useSdf)
     {
-        const Vector3f displacementParams = {std::min(sourceRadius * scale.x,
-                                                      0.05f),
-                                             displacementRatio / scale.x,
-                                             scale.x * 2.f};
         const auto geom =
             createSDFConePill(sourcePosition * scale, targetPosition * scale,
                               sourceRadius * scale.x, targetRadius * scale.x,
-                              userDataOffset, displacementParams);
+                              userDataOffset, scaledDisplacement);
         return _addSDFGeometry(materialId, geom, neighbours);
     }
     if (sourceRadius == targetRadius)
@@ -144,6 +139,7 @@ void ThreadSafeContainer::_finalizeSDFGeometries()
                 _sdfMorphologyData.neighbours[neighbour].insert(i);
     }
 
+#if 0
     for (uint64_t i = 0; i < numGeoms; ++i)
     {
         // Convert neighbours from set to vector and erase itself from its
@@ -164,6 +160,7 @@ void ThreadSafeContainer::_finalizeSDFGeometries()
         _addSDFGeometry(_sdfMorphologyData.materials[i],
                         _sdfMorphologyData.geometries[i], neighboursSet);
     }
+#endif
 }
 
 void ThreadSafeContainer::_commitMaterials()

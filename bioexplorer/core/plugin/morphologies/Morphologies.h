@@ -30,6 +30,7 @@ using namespace brayns;
 using namespace common;
 
 const size_t NB_MATERIALS_PER_MORPHOLOGY = 10;
+const size_t MATERIAL_OFFSET_VARICOSITY = 0;
 const size_t MATERIAL_OFFSET_SOMA = 1;
 const size_t MATERIAL_OFFSET_AXON = 2;
 const size_t MATERIAL_OFFSET_DENDRITE = 3;
@@ -41,6 +42,31 @@ const size_t MATERIAL_OFFSET_NUCLEUS = 8;
 const size_t MATERIAL_OFFSET_MYELIN_SHEATH = 9;
 
 const int64_t SOMA_AS_PARENT = -1;
+
+const double somaDisplacementStrength = 0.1;
+const double somaDisplacementFrequency = 3.0;
+
+const double sectionDisplacementStrength = 0.05;
+const double sectionDisplacementFrequency = 3.0;
+
+const double nucleusDisplacementStrength = 0.01;
+const double nucleusDisplacementFrequency = 2.0;
+
+const double mitochondrionSegmentSize = 0.25;
+const double mitochondrionRadius = 0.1;
+const double mitochondrionDisplacementStrength = 0.2;
+const double mitochondrionDisplacementFrequency = 100.0;
+
+const double spineRadiusRatio = 1.5;
+const double spineDisplacementStrength = 1.0;
+const double spineDisplacementFrequency = 100.0;
+
+const double myelinSteathLength = 10.0;
+const double myelinSteathRadiusRatio = 1.75;
+const double myelinSteathDisplacementStrength = 0.1;
+const double myelinSteathDisplacementFrequency = 5.0;
+
+const uint64_t nbMinSegmentsForVaricosity = 10;
 
 /**
  * @brief The Morphologies class

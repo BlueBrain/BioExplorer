@@ -1,5 +1,0 @@
-<map id="bioexplorer::molecularsystems::EnzymeReaction" name="bioexplorer::molecularsystems::EnzymeReaction">
-<area shape="rect" id="node1" title="An Enzyme reaction is a object that combines an existing enyzme, a list of substrates and a list of p..." alt="" coords="68,109,267,151"/>
-<area shape="rect" id="node2" href="$d7/d93/classbioexplorer_1_1common_1_1Node.html" title="The Node class." alt="" coords="5,5,148,47"/>
-<area shape="rect" id="node3" href="$df/dc6/structbioexplorer_1_1details_1_1EnzymeReactionDetails.html" title="An enzyme reaction." alt="" coords="173,5,343,47"/>
-</map>

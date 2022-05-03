@@ -34,6 +34,9 @@ namespace vasculature
 using namespace brayns;
 using namespace common;
 
+const double segmentDisplacementStrength = 0.25;
+const double segmentDisplacementFrequency = 1.0;
+
 /**
  * Load vasculature from database
  */
@@ -126,6 +129,8 @@ private:
     void _buildAdvancedModel(Model& model,
                              const VasculatureColorSchemeDetails& details,
                              const doubles& radii = doubles());
+
+    void _buildEdges(Model& model);
 
     void _importFromDB();
     void _buildModel(const VasculatureColorSchemeDetails& details =

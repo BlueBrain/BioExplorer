@@ -51,6 +51,8 @@ var hierarchy =
       [ "bioexplorer::io::CacheLoader", "d1/d5f/classbioexplorer_1_1io_1_1CacheLoader.html", null ]
     ] ],
     [ "bioexplorer::metabolism::Location", "df/d9e/structbioexplorer_1_1metabolism_1_1Location.html", null ],
+    [ "bioexplorer::details::LookAtDetails", "dd/d4c/structbioexplorer_1_1details_1_1LookAtDetails.html", null ],
+    [ "bioexplorer::details::LookAtResponseDetails", "d6/d4b/structbioexplorer_1_1details_1_1LookAtResponseDetails.html", null ],
     [ "Material", null, [
       [ "bioexplorer::mediamaker::rendering::DefaultMaterial", "d1/dbe/structbioexplorer_1_1mediamaker_1_1rendering_1_1DefaultMaterial.html", null ],
       [ "bioexplorer::rendering::AdvancedMaterial", "d5/d4e/structbioexplorer_1_1rendering_1_1AdvancedMaterial.html", null ]
@@ -61,9 +63,10 @@ var hierarchy =
     [ "bioexplorer::details::ModelIdFileAccessDetails", "d8/d1b/structbioexplorer_1_1details_1_1ModelIdFileAccessDetails.html", null ],
     [ "bioexplorer::details::ModelsVisibilityDetails", "d7/dbc/structbioexplorer_1_1details_1_1ModelsVisibilityDetails.html", null ],
     [ "bioexplorer::details::NameDetails", "d8/d70/structbioexplorer_1_1details_1_1NameDetails.html", null ],
+    [ "bioexplorer::details::NeuronIdDetails", "da/dc3/structbioexplorer_1_1details_1_1NeuronIdDetails.html", null ],
+    [ "bioexplorer::details::NeuronIdSectionIdDetails", "d9/d86/structbioexplorer_1_1details_1_1NeuronIdSectionIdDetails.html", null ],
+    [ "bioexplorer::details::NeuronPointsDetails", "d0/d6e/structbioexplorer_1_1details_1_1NeuronPointsDetails.html", null ],
     [ "bioexplorer::details::NeuronsDetails", "dc/d93/structbioexplorer_1_1details_1_1NeuronsDetails.html", null ],
-    [ "bioexplorer::details::NeuronSectionDetails", "d2/ddd/structbioexplorer_1_1details_1_1NeuronSectionDetails.html", null ],
-    [ "bioexplorer::details::NeuronSectionPointsDetails", "d1/ddd/structbioexplorer_1_1details_1_1NeuronSectionPointsDetails.html", null ],
     [ "bioexplorer::morphology::NeuronSoma", "d9/d24/structbioexplorer_1_1morphology_1_1NeuronSoma.html", null ],
     [ "bioexplorer::common::Node", "d7/d93/classbioexplorer_1_1common_1_1Node.html", [
       [ "bioexplorer::common::SDFGeometries", "d1/d1c/classbioexplorer_1_1common_1_1SDFGeometries.html", [

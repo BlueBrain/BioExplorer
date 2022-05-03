@@ -59,9 +59,12 @@ Assembly::Assembly(Scene &scene, const AssemblyDetails &details)
 
     switch (details.shape)
     {
-    case AssemblyShape::sphere:
+    case AssemblyShape::empty_sphere:
+    case AssemblyShape::filled_sphere:
     {
-        _shape = ShapePtr(new SphereShape(_clippingPlanes, size.x));
+        _shape = ShapePtr(
+            new SphereShape(details.shape == AssemblyShape::filled_sphere,
+                            _clippingPlanes, size.x));
         break;
     }
     case AssemblyShape::sinusoid:
@@ -682,13 +685,22 @@ void Assembly::addNeurons(const NeuronsDetails &details)
     _scene.markModified(false);
 }
 
-Vector4ds Assembly::getNeuronSectionPoints(const NeuronSectionDetails &details)
+Vector4ds Assembly::getNeuronSectionPoints(
+    const NeuronIdSectionIdDetails &details)
 {
     if (!_neurons)
         PLUGIN_THROW("No neurons are currently defined in assembly " +
                      details.assemblyName);
     return _neurons->getNeuronSectionPoints(details.neuronId,
                                             details.sectionId);
+}
+
+Vector3ds Assembly::getNeuronVaricosities(const NeuronIdDetails &details)
+{
+    if (!_neurons)
+        PLUGIN_THROW("No neurons are currently defined in assembly " +
+                     details.assemblyName);
+    return _neurons->getNeuronVaricosities(details.neuronId);
 }
 
 ProteinPtr Assembly::getProtein(const std::string &name)

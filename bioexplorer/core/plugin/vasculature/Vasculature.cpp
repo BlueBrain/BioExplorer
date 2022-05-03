@@ -225,6 +225,7 @@ void Vasculature::_buildSimpleModel(
         uint64_t geometryIndex = 0;
         size_t materialId = 0;
         size_t previousMaterialId = 0;
+        Neighbours neighbours{};
         for (uint64_t i = 0; i < section.size() - 1; ++i)
         {
             const auto srcNodeId = section[i];
@@ -260,17 +261,13 @@ void Vasculature::_buildSimpleModel(
                 radiusMultiplier;
             const auto sectionId = srcNode.sectionId;
 
-            Neighbours neighbours;
             if (i == 0)
             {
                 if (!useSdf)
                     container.addSphere(srcPoint, srcRadius, materialId,
-                                        userData, neighbours,
-                                        DEFAULT_VASCULATURE_DISPLACEMENT);
+                                        userData);
                 previousMaterialId = materialId;
             }
-            else
-                neighbours = {geometryIndex};
 
             // Ignore points that are too close the previous one
             // (according to respective radii)
@@ -292,14 +289,16 @@ void Vasculature::_buildSimpleModel(
             --i;
 
             if (!useSdf)
-                container.addSphere(dstPoint, dstRadius, materialId, userData,
-                                    neighbours,
-                                    DEFAULT_VASCULATURE_DISPLACEMENT);
+                container.addSphere(dstPoint, dstRadius, materialId, userData);
+
             geometryIndex =
                 container.addCone(dstPoint, dstRadius, srcPoint, srcRadius,
                                   previousMaterialId, userData, neighbours,
-                                  DEFAULT_VASCULATURE_DISPLACEMENT);
+                                  Vector3f(segmentDisplacementStrength,
+                                           segmentDisplacementFrequency, 0.f));
             previousMaterialId = materialId;
+
+            neighbours = {geometryIndex};
         }
 #pragma omp critical
         containers.push_back(container);
@@ -328,7 +327,6 @@ void Vasculature::_buildAdvancedModel(
     const auto useSdf = _details.useSdf;
     size_t materialId = 0;
 
-    uint64_t geometryIndex = 0;
     std::vector<ThreadSafeContainer> containers;
     uint64_t index;
 #pragma omp parallel for private(index)
@@ -354,7 +352,9 @@ void Vasculature::_buildAdvancedModel(
                                      node.radius * radiusMultiplier});
         }
 
-        const double step = 1.0 / double(section.size());
+        const double step = 2.0 / double(section.size());
+        uint64_t geometryIndex = 0;
+        Neighbours neighbours;
         uint64_t i = 0;
         for (double t = 0.0; t < 1.0 - step * 2.0; t += step)
         {
@@ -386,17 +386,12 @@ void Vasculature::_buildAdvancedModel(
             const Vector4f src = getBezierPoint(controlPoints, t);
             const auto sectionId = srcNode.sectionId;
 
-            Neighbours neighbours;
-            if (i != 0)
-                neighbours = {geometryIndex};
-
             const auto srcRadius =
                 (srcUserData < radii.size() ? radii[srcUserData] : src.w);
 
             if (!useSdf)
-                geometryIndex =
-                    container.addSphere(Vector3f(src), srcRadius, materialId,
-                                        srcUserData, neighbours);
+                geometryIndex = container.addSphere(Vector3f(src), srcRadius,
+                                                    materialId, srcUserData);
             if (i > 0)
             {
                 const auto dstUserData = section[i + 1];
@@ -407,8 +402,11 @@ void Vasculature::_buildAdvancedModel(
                 geometryIndex =
                     container.addCone(Vector3f(dst), dstRadius, Vector3f(src),
                                       srcRadius, materialId, srcUserData,
-                                      {geometryIndex},
-                                      DEFAULT_VASCULATURE_DISPLACEMENT);
+                                      neighbours,
+                                      Vector3f(segmentDisplacementStrength,
+                                               segmentDisplacementFrequency,
+                                               0.f));
+                neighbours.insert(geometryIndex);
             }
             ++i;
         }
@@ -426,6 +424,45 @@ void Vasculature::_buildAdvancedModel(
     }
 
     _applyPaletteToModel(model, details.palette);
+}
+
+void Vasculature::_buildEdges(Model& model)
+{
+    const auto& connector = DBConnector::getInstance();
+    const auto edges = connector.getVasculatureEdges(_details.populationName,
+                                                     _details.sqlFilter);
+
+    const auto radiusMultiplier = _details.radiusMultiplier;
+
+    ThreadSafeContainer container(model, _details.useSdf);
+    uint64_t index = 0;
+    for (const auto edge : edges)
+    {
+        PLUGIN_PROGRESS("Loading vasculature edges", index++, edges.size());
+        size_t materialId = 0;
+        if (_nodes.find(edge.first) == _nodes.end() ||
+            _nodes.find(edge.second) == _nodes.end())
+            continue;
+        const auto& srcNode = _nodes[edge.first];
+        const auto& srcPoint = srcNode.position;
+        const auto srcRadius = srcNode.radius * radiusMultiplier;
+        const auto& dstNode = _nodes[edge.second];
+        const auto& dstPoint = dstNode.position;
+        const auto dstRadius = dstNode.radius * radiusMultiplier;
+
+        container.addCone(srcPoint, srcRadius, dstPoint, dstRadius, materialId,
+                          0, {},
+                          Vector3f(dstRadius * segmentDisplacementStrength,
+                                   dstRadius * segmentDisplacementFrequency,
+                                   0.f));
+    }
+    PLUGIN_INFO(1, "");
+
+    container.commitToModel();
+    PLUGIN_INFO(1, "");
+
+    PLUGIN_ERROR("Created " + std::to_string(model.getMaterials().size()) +
+                 " materials");
 }
 
 void Vasculature::_buildModel(const VasculatureColorSchemeDetails& details,
@@ -486,7 +523,8 @@ void Vasculature::setRadiusReport(const VasculatureRadiusReportDetails& details)
         PLUGIN_THROW("Invalid frame specified for report: " +
                      simulationReport.description);
     const floats radii =
-        connector.getVasculatureSimulationTimeSeries(details.simulationReportId,
+        connector.getVasculatureSimulationTimeSeries(details.populationName,
+                                                     details.simulationReportId,
                                                      details.frame);
     doubles series;
     for (const double radius : radii)

@@ -810,6 +810,7 @@ bool from_json(AstrocytesDetails &param, const std::string &payload)
         FROM_JSON(param, js, radiusMultiplier);
         FROM_JSON(param, js, sqlFilter);
         FROM_JSON(param, js, scale);
+        FROM_JSON(param, js, animationParams);
     }
     catch (...)
     {
@@ -832,6 +833,8 @@ bool from_json(NeuronsDetails &param, const std::string &payload)
         FROM_JSON(param, js, loadSynapses);
         FROM_JSON(param, js, generateInternals);
         FROM_JSON(param, js, generateExternals);
+        FROM_JSON(param, js, showMembrane);
+        FROM_JSON(param, js, generateVaricosities);
         FROM_JSON(param, js, useSdf);
         FROM_JSON(param, js, geometryQuality);
         FROM_JSON(param, js, morphologyColorScheme);
@@ -840,6 +843,7 @@ bool from_json(NeuronsDetails &param, const std::string &payload)
         FROM_JSON(param, js, sqlNodeFilter);
         FROM_JSON(param, js, sqlSectionFilter);
         FROM_JSON(param, js, scale);
+        FROM_JSON(param, js, animationParams);
     }
     catch (...)
     {
@@ -848,7 +852,7 @@ bool from_json(NeuronsDetails &param, const std::string &payload)
     return true;
 }
 
-bool from_json(NeuronSectionDetails &param, const std::string &payload)
+bool from_json(NeuronIdSectionIdDetails &param, const std::string &payload)
 {
     try
     {
@@ -864,7 +868,22 @@ bool from_json(NeuronSectionDetails &param, const std::string &payload)
     return true;
 }
 
-std::string to_json(const NeuronSectionPointsDetails &param)
+bool from_json(NeuronIdDetails &param, const std::string &payload)
+{
+    try
+    {
+        auto js = nlohmann::json::parse(payload);
+        FROM_JSON(param, js, assemblyName);
+        FROM_JSON(param, js, neuronId);
+    }
+    catch (...)
+    {
+        return false;
+    }
+    return true;
+}
+
+std::string to_json(const NeuronPointsDetails &param)
 {
     try
     {
@@ -879,4 +898,35 @@ std::string to_json(const NeuronSectionPointsDetails &param)
     }
     return "";
 }
+
+bool from_json(LookAtDetails &param, const std::string &payload)
+{
+    try
+    {
+        auto js = nlohmann::json::parse(payload);
+        FROM_JSON(param, js, source);
+        FROM_JSON(param, js, target);
+    }
+    catch (...)
+    {
+        return false;
+    }
+    return true;
+}
+
+std::string to_json(const LookAtResponseDetails &param)
+{
+    try
+    {
+        nlohmann::json js;
+        TO_JSON(param, js, rotation);
+        return js.dump();
+    }
+    catch (...)
+    {
+        return "";
+    }
+    return "";
+}
+
 #endif

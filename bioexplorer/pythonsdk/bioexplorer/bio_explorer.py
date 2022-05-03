@@ -222,7 +222,7 @@ class BioExplorer:
     REPRESENTATION_MESH = 6
 
     ASSEMBLY_SHAPE_POINT = 0
-    ASSEMBLY_SHAPE_SPHERE = 1
+    ASSEMBLY_SHAPE_EMPTY_SPHERE = 1
     ASSEMBLY_SHAPE_PLANE = 2
     ASSEMBLY_SHAPE_SINUSOID = 3
     ASSEMBLY_SHAPE_CUBE = 4
@@ -230,6 +230,7 @@ class BioExplorer:
     ASSEMBLY_SHAPE_BEZIER = 6
     ASSEMBLY_SHAPE_MESH = 7
     ASSEMBLY_SHAPE_HELIX = 8
+    ASSEMBLY_SHAPE_FILLED_SPHERE = 9
 
     NAME_PROTEIN_S_OPEN = "Protein S (open)"
     NAME_PROTEIN_S_CLOSED = "Protein S (closed)"
@@ -293,6 +294,7 @@ class BioExplorer:
 
     # Material offsets in neurons
     NB_MATERIALS_PER_MORPHOLOGY = 10
+    NEURON_MATERIAL_VARICOSITY = 0
     NEURON_MATERIAL_SOMA = 1
     NEURON_MATERIAL_AXON = 2
     NEURON_MATERIAL_BASAL_DENDRITE = 3
@@ -615,7 +617,7 @@ class BioExplorer:
         # Cell
         virus_cell = Cell(
             name=name,
-            shape=self.ASSEMBLY_SHAPE_SPHERE,
+            shape=self.ASSEMBLY_SHAPE_EMPTY_SPHERE,
             shape_params=shape_params, membrane=virus_membrane,
             proteins=membrane_proteins)
 
@@ -903,7 +905,7 @@ class BioExplorer:
         assert isinstance(rotation, Quaternion)
         assert isinstance(animation_params, AnimationParams)
 
-        shape = self.ASSEMBLY_SHAPE_SPHERE
+        shape = self.ASSEMBLY_SHAPE_EMPTY_SPHERE
         nb_branches = 1
         if surfactant.surfactant_protein == self.SURFACTANT_PROTEIN_A:
             shape = self.ASSEMBLY_SHAPE_FAN
@@ -1708,6 +1710,21 @@ class BioExplorer:
         params["chameleonModes"] = chameleon_modes
         return self._invoke_and_check("set-materials", params)
 
+    def set_material_extra_attributes(self, model_id):
+        """
+        Set extra BioExplorer specific attributes to materials
+
+        :model_id: ID of the model
+        :return: Result of the request submission
+        """
+        if self._client is None:
+            return
+
+        params = dict()
+        params["modelId"] = model_id
+        params["maxNbInstances"] = 1
+        return self._invoke_and_check("set-material-extra-attributes", params)
+
     def set_materials_from_palette(self, model_ids, material_ids, palette, shading_mode,
                                    specular_exponent, user_parameter=1.0, glossiness=1.0,
                                    emission=0.0, opacity=1.0, reflection_index=0.0,
@@ -2337,7 +2354,8 @@ class BioExplorer:
             geometry_quality=GEOMETRY_QUALITY_HIGH,
             morphology_color_scheme=MORPHOLOGY_COLOR_SCHEME_NONE,
             population_color_scheme=POPULATION_COLOR_SCHEME_NONE,
-            radius_multiplier=0.0, sql_filter='', scale=Vector3(1.0, 1.0, 1.0)):
+            radius_multiplier=0.0, sql_filter='', scale=Vector3(1.0, 1.0, 1.0),
+            animation_params=AnimationParams()):
         """
         Add a population of astrocytes to the 3D scene
 
@@ -2354,10 +2372,12 @@ class BioExplorer:
         :radius_muliplier: Applies the multiplier to all radii of the astrocyte sections
         :sql_filter: Condition added to the SQL statement loading the astrocytes
         :scale: Scale in the 3D scene
+        :animation_params: Extra optional parameters for animation purposes
 
         :return: Result of the request submission
         """
         assert isinstance(scale, Vector3)
+        assert isinstance(animation_params, AnimationParams)
 
         params = dict()
         params["assemblyName"] = assembly_name
@@ -2373,6 +2393,7 @@ class BioExplorer:
         params["radiusMultiplier"] = radius_multiplier
         params["sqlFilter"] = sql_filter
         params["scale"] = scale.to_list()
+        params["animationParams"] = animation_params.to_list()
         return self._invoke_and_check('add-astrocytes', params)
 
     def add_neurons(
@@ -2382,11 +2403,12 @@ class BioExplorer:
             load_basal_dendrites=True, load_apical_dendrites=True,
             load_synapses=False,
             generate_internals=False, generate_externals=False,
+            generate_varicosities=False, show_membrane=True,
             geometry_quality=GEOMETRY_QUALITY_HIGH,
             morphology_color_scheme=MORPHOLOGY_COLOR_SCHEME_NONE,
             population_color_scheme=POPULATION_COLOR_SCHEME_NONE,
             radius_multiplier=0.0, sql_node_filter='', sql_section_filter='',
-            scale=Vector3(1.0, 1.0, 1.0)):
+            scale=Vector3(1.0, 1.0, 1.0), animation_params=AnimationParams()):
         """
         Add a population of astrocytes to the 3D scene
 
@@ -2400,6 +2422,8 @@ class BioExplorer:
         :load_synapses: Load synapses if set to true
         :generate_internals: Generate internals (Nucleus and mitochondria)
         :generate_externals: Generate externals (Myelin steath)
+        :show_membrane: Show membrane (Typically used to isolate internal and external components
+        :generate_varicosities: Generate random varicosities along the axon
         :geometry_quality: Quality of the geometry
         :morphology_color_scheme: Color scheme of the sections of the astrocytes
         :populationColorScheme: Color scheme of the population of astrocytes
@@ -2407,10 +2431,12 @@ class BioExplorer:
         :sql_node_filter: Condition added to the SQL statement loading the nodes
         :sql_section_filter: Condition added to the SQL statement loading the sections
         :scale: Scale in the 3D scene
+        :animation_params: Extra optional parameters for animation purposes
 
         :return: Result of the request submission
         """
         assert isinstance(scale, Vector3)
+        assert isinstance(animation_params, AnimationParams)
 
         params = dict()
         params["assemblyName"] = assembly_name
@@ -2422,6 +2448,8 @@ class BioExplorer:
         params["loadSynapses"] = load_synapses
         params["generateInternals"] = generate_internals
         params["generateExternals"] = generate_externals
+        params["showMembrane"] = show_membrane
+        params["generateVaricosities"] = generate_varicosities
         params["useSdf"] = use_sdf
         params["geometryQuality"] = geometry_quality
         params["morphologyColorScheme"] = morphology_color_scheme
@@ -2430,6 +2458,7 @@ class BioExplorer:
         params["sqlNodeFilter"] = sql_node_filter
         params["sqlSectionFilter"] = sql_section_filter
         params["scale"] = scale.to_list()
+        params["animationParams"] = animation_params.to_list()
         return self._invoke_and_check('add-neurons', params)
 
     def get_neuron_section_points(self, assembly_name, neuron_guid, section_guid):
@@ -2458,6 +2487,49 @@ class BioExplorer:
             ps.append(p)
         return ps
 
+    def get_neuron_varicosities(self, assembly_name, neuron_guid):
+        """
+        Return the list of 3D locations for the varicosities of a given neuron
+
+        :assembly_name: Name of the assembly
+        :neuron_guid: Neuron identifier
+
+        :return: A list of 3D points
+        """
+        params = dict()
+        params["assemblyName"] = assembly_name
+        params["neuronId"] = neuron_guid
+        response = self._invoke('get-neuron-varicosities', params)
+        if not response['status']:
+            raise "Failed to get neuron varicosities"
+        points = response['points']
+        ps = list()
+        for i in range(0, len(points), 3):
+            p = list()
+            for j in range(3):
+                p.append(points[i+j])
+            ps.append(p)
+        return ps
+
+    def look_at(self, source, target):
+        """
+        Computes a quaternion to make a object rotate in the direction of a vector
+        defined by two 3D points, a source and a target
+
+        :source: Source 3d point
+        :target: Target 3d point
+
+        :return: The resulting rotation
+        """
+        assert isinstance(source, Vector3)
+        assert isinstance(target, Vector3)
+
+        params = dict()
+        params["source"] = source.to_list()
+        params["target"] = target.to_list()
+        response = self._invoke('look-at', params)
+        q = response['rotation']
+        return Quaternion(q[3], q[0], q[1], q[2])
 
 # Private classes
 

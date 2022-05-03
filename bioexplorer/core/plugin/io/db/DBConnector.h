@@ -106,15 +106,6 @@ public:
                      const uint32_t nbModels, const std::stringstream& buffer);
 
     /**
-     * @brief Get the population ID from a given name
-     *
-     * @param populationName Name of the population
-     * @return Id of the population
-     */
-    uint64_t getVasculaturePopulationId(
-        const std::string& populationName) const;
-
-    /**
      * @brief Get the Nodes for a given population
      *
      * @param populationId Id of the population
@@ -144,6 +135,7 @@ public:
     /**
      * @brief Get information about the simulation Report
      *
+     * @param populationName Name of the population
      * @param simulationReportId Simulation report identifier
      * @return SimulationReport Information about the simulation Report
      */
@@ -155,11 +147,13 @@ public:
     /**
      * @brief Get time series from simulation report
      *
+     * @param populationName Name of the population
      * @param simulationReportId Simulation report identifier
      * @param frame Frame number
      * @return floats Values of the simulation frame
      */
-    floats getVasculatureSimulationTimeSeries(const int32_t simulationReportId,
+    floats getVasculatureSimulationTimeSeries(const std::string& populationName,
+                                              const int32_t simulationReportId,
                                               const int32_t frame) const;
 
     /**
@@ -185,7 +179,8 @@ public:
      * @param astrocyteId Identifier of the astrocyte
      * @return EndFootNodesMap A map of end-feet
      */
-    EndFootMap getAstrocyteEndFeet(const uint64_t astrocyteId) const;
+    EndFootMap getAstrocyteEndFeet(const std::string& vasculaturePopulationName,
+                                   const uint64_t astrocyteId) const;
 
     /**
      * @brief Get the neurons locations

@@ -1,8 +1,8 @@
 var searchData=
 [
-  ['density_703',['density',['../dc/d5b/structbioexplorer_1_1details_1_1BuildFieldsDetails.html#a7d74366f04e71a00f017bd97a557dd04',1,'bioexplorer::details::BuildFieldsDetails']]],
-  ['description_704',['description',['../d1/d25/structbioexplorer_1_1details_1_1OOCSceneConfigurationDetails.html#a14e9f653aeab2a6e89e94e454d0153b4',1,'bioexplorer::details::OOCSceneConfigurationDetails']]],
-  ['diffusecolors_705',['diffuseColors',['../d7/d84/structbioexplorer_1_1details_1_1MaterialsDetails.html#a75ecbbe754809266fa5b2b90c5c8795f',1,'bioexplorer::details::MaterialsDetails']]],
-  ['direction_706',['direction',['../d7/d6e/structbioexplorer_1_1details_1_1FocusOnDetails.html#ad5158ce1ff2e84233a02aa39027f4026',1,'bioexplorer::details::FocusOnDetails']]],
-  ['distance_707',['distance',['../d7/d6e/structbioexplorer_1_1details_1_1FocusOnDetails.html#abd4bb04ea8f2da44dd923db299f91dce',1,'bioexplorer::details::FocusOnDetails']]]
+  ['density_711',['density',['../dc/d5b/structbioexplorer_1_1details_1_1BuildFieldsDetails.html#a7d74366f04e71a00f017bd97a557dd04',1,'bioexplorer::details::BuildFieldsDetails']]],
+  ['description_712',['description',['../d1/d25/structbioexplorer_1_1details_1_1OOCSceneConfigurationDetails.html#a14e9f653aeab2a6e89e94e454d0153b4',1,'bioexplorer::details::OOCSceneConfigurationDetails']]],
+  ['diffusecolors_713',['diffuseColors',['../d7/d84/structbioexplorer_1_1details_1_1MaterialsDetails.html#a75ecbbe754809266fa5b2b90c5c8795f',1,'bioexplorer::details::MaterialsDetails']]],
+  ['direction_714',['direction',['../d7/d6e/structbioexplorer_1_1details_1_1FocusOnDetails.html#ad5158ce1ff2e84233a02aa39027f4026',1,'bioexplorer::details::FocusOnDetails']]],
+  ['distance_715',['distance',['../d7/d6e/structbioexplorer_1_1details_1_1FocusOnDetails.html#abd4bb04ea8f2da44dd923db299f91dce',1,'bioexplorer::details::FocusOnDetails']]]
 ];

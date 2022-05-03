@@ -242,7 +242,8 @@ public:
 
     void addAstrocytes(const AstrocytesDetails &details);
     void addNeurons(const NeuronsDetails &details);
-    Vector4ds getNeuronSectionPoints(const NeuronSectionDetails &payload);
+    Vector4ds getNeuronSectionPoints(const NeuronIdSectionIdDetails &details);
+    Vector3ds getNeuronVaricosities(const NeuronIdDetails &details);
 
 private:
     void _processInstances(ModelDescriptorPtr md, const std::string &name,

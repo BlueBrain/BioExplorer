@@ -40,7 +40,7 @@ Morphologies::Morphologies(const double radiusMultiplier, const Vector3f& scale)
 
 size_t Morphologies::_getNbMitochondrionSegments() const
 {
-    return 2 + rand() % 18;
+    return 2 + rand() % 5;
 }
 
 void Morphologies::_addSomaInternals(const uint64_t index,
@@ -50,13 +50,6 @@ void Morphologies::_addSomaInternals(const uint64_t index,
                                      const double somaRadius,
                                      const double mitochondriaDensity)
 {
-    // Constants
-    const double nucleusDisplacementRatio = 2.0;
-    const double mitochondrionRadiusRatio = 0.025;
-    const double mitochondrionDisplacementRatio = 20.0;
-    const double mitochondrionRadius =
-        somaRadius * mitochondrionRadiusRatio; // 5% of the volume of the soma
-
     // Nucleus
     const double nucleusRadius =
         somaRadius * 0.7; // 70% of the volume of the soma;
@@ -68,7 +61,10 @@ void Morphologies::_addSomaInternals(const uint64_t index,
 
     const size_t nucleusMaterialId = baseMaterialId + MATERIAL_OFFSET_NUCLEUS;
     container.addSphere(somaPosition, nucleusRadius, nucleusMaterialId,
-                        NO_USER_DATA, {}, nucleusDisplacementRatio);
+                        NO_USER_DATA, {},
+                        Vector3f(nucleusRadius * nucleusDisplacementStrength,
+                                 nucleusRadius * nucleusDisplacementFrequency,
+                                 0.f));
 
     // Mitochondria
     if (mitochondriaDensity == 0.0)
@@ -85,20 +81,25 @@ void Morphologies::_addSomaInternals(const uint64_t index,
         const auto pointsInSphere =
             getPointsInSphere(nbSegments, somaInnerRadius / somaRadius);
         double previousRadius = mitochondrionRadius;
+        double displacementFrequency = 1.0;
         for (size_t i = 0; i < nbSegments; ++i)
         {
             // Mitochondrion geometry
-            const double radius = (1.0 + (rand() % 500 / 1000.0)) *
+            const double radius = (1.2 + (rand() % 500 / 2000.0)) *
                                   mitochondrionRadius * _radiusMultiplier;
             const auto p2 = somaPosition + somaOutterRadius * pointsInSphere[i];
 
             Neighbours neighbours;
             if (i != 0)
                 neighbours = {geometryIndex};
-            geometryIndex =
-                container.addSphere(p2, radius, mitochondrionMaterialId,
-                                    NO_USER_DATA, neighbours,
-                                    mitochondrionDisplacementRatio);
+            else
+                displacementFrequency =
+                    radius * mitochondrionDisplacementFrequency;
+
+            geometryIndex = container.addSphere(
+                p2, radius, mitochondrionMaterialId, NO_USER_DATA, neighbours,
+                Vector3f(radius * mitochondrionDisplacementStrength,
+                         displacementFrequency, 0.f));
 
             mitochondriaVolume += sphereVolume(radius);
 
@@ -106,11 +107,11 @@ void Morphologies::_addSomaInternals(const uint64_t index,
             {
                 const auto p1 =
                     somaPosition + somaOutterRadius * pointsInSphere[i - 1];
-                geometryIndex =
-                    container.addCone(p1, previousRadius, p2, radius,
-                                      mitochondrionMaterialId, NO_USER_DATA,
-                                      {geometryIndex},
-                                      mitochondrionDisplacementRatio);
+                geometryIndex = container.addCone(
+                    p1, previousRadius, p2, radius, mitochondrionMaterialId,
+                    NO_USER_DATA, {geometryIndex},
+                    Vector3f(radius * mitochondrionDisplacementStrength,
+                             displacementFrequency, 0.f));
 
                 mitochondriaVolume +=
                     coneVolume(length(p2 - p1), previousRadius, radius);

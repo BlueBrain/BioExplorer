@@ -43,6 +43,9 @@ inline vec3f AmbientOcclusionRenderer_shadeRay(
         // No intersection, use environment map or background color
         return make_vec3f(0.f);
 
+    sample.z = ray.t;
+    sample.alpha = 1.f;
+
     DifferentialGeometry dg;
     postIntersect(self->super.model, dg, ray,
                   DG_NS | DG_NG | DG_NORMALIZE | DG_FACEFORWARD);
@@ -60,25 +63,23 @@ inline vec3f AmbientOcclusionRenderer_shadeRay(
     const vec3f N = dg.Ns;
     const linear3f localToWorld = frame(N);
 
-    vec3f superColor = make_vec3f(1.f);
-
     for (uniform int i = 0; i < sampleCnt; i++)
     {
         const vec2f halton = HaltonSequence_get2D(sampleCnt * accumID + i);
         const vec2f r = CranleyPattersonRotation(halton, rot);
         const vec3f local_ao_dir = cosineSampleHemisphere(r);
-        const vec3f ao_dir = localToWorld * local_ao_dir;
+        vec3f ao_dir = normalize(localToWorld * local_ao_dir);
+        if (dot(ao_dir, N) < 0.f)
+            ao_dir = neg(ao_dir);
 
         Ray ao_ray;
-        setRay(ao_ray, dg.P, ao_dir, 0.0f, self->aoRayLength);
-        if (dot(ao_dir, N) < 0.05f || isOccluded(self->super.model, ao_ray))
+        setRay(ao_ray, dg.P, ao_dir, dg.epsilon, self->aoRayLength);
+        traceRay(self->super.model, ao_ray);
+        if (ao_ray.geomID >= 0)
             hits++;
     }
 
-    const vec3f color = superColor * make_vec3f(1.0f - hits / (float)sampleCnt);
-    sample.alpha = 1.f;
-
-    return color;
+    return make_vec3f(1.0f - hits / (float)sampleCnt);
 }
 
 void AmbientOcclusionRenderer_renderSample(uniform Renderer* uniform _self,

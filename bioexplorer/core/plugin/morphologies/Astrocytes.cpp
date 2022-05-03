@@ -39,6 +39,7 @@ using namespace io;
 using namespace db;
 
 const double DEFAULT_MITOCHONDRIA_DENSITY = 0.0459;
+const double DEFAULT_VASCULATURE_DISPLACEMENT = 0.5;
 
 Astrocytes::Astrocytes(Scene& scene, const AstrocytesDetails& details)
     : Morphologies(details.radiusMultiplier, doublesToVector3d(details.scale))
@@ -52,13 +53,16 @@ Astrocytes::Astrocytes(Scene& scene, const AstrocytesDetails& details)
 
 void Astrocytes::_buildModel(const doubles& radii)
 {
+    const auto animationParams =
+        doublesToAnimationDetails(_details.animationParams);
+    srand(animationParams.seed);
+
     if (_modelDescriptor)
         _scene.removeModel(_modelDescriptor->getModelID());
 
     auto& connector = DBConnector::getInstance();
 
     auto model = _scene.createModel();
-    std::set<uint64_t> materialIds;
     const auto useSdf = _details.useSdf;
     const auto somas = connector.getAstrocytes(_details.sqlFilter);
     const auto loadEndFeet = !_details.vasculaturePopulationName.empty();
@@ -95,7 +99,8 @@ void Astrocytes::_buildModel(const doubles& radii)
 
         EndFootMap endFeet;
         if (loadEndFeet)
-            endFeet = connector.getAstrocyteEndFeet(somaId);
+            endFeet = connector.getAstrocyteEndFeet(
+                _details.vasculaturePopulationName, somaId);
 
         // Soma radius
         uint64_t count = 1;
@@ -117,33 +122,24 @@ void Astrocytes::_buildModel(const doubles& radii)
         default:
             baseMaterialId = 0;
         }
-#pragma omp critical
-        materialIds.insert(baseMaterialId);
 
         const auto somaMaterialId =
             baseMaterialId +
             (_details.morphologyColorScheme == MorphologyColorScheme::section
                  ? MATERIAL_OFFSET_SOMA
                  : 0);
-#pragma omp critical
-        materialIds.insert(somaMaterialId);
 
         uint64_t somaGeometryIndex = 0;
         if (_details.loadSomas)
         {
-            somaGeometryIndex =
-                container.addSphere(somaPosition, somaRadius, somaMaterialId,
-                                    NO_USER_DATA, {},
-                                    DEFAULT_SOMA_DISPLACEMENT);
+            somaGeometryIndex = container.addSphere(
+                somaPosition, somaRadius, somaMaterialId, NO_USER_DATA, {},
+                Vector3f(somaRadius * somaDisplacementStrength,
+                         somaRadius * somaDisplacementFrequency, 0.f));
             if (_details.generateInternals)
-            {
                 _addSomaInternals(somaId, container, baseMaterialId,
                                   somaPosition, somaRadius,
                                   DEFAULT_MITOCHONDRIA_DENSITY);
-                materialIds.insert(baseMaterialId + MATERIAL_OFFSET_NUCLEUS);
-                materialIds.insert(baseMaterialId +
-                                   MATERIAL_OFFSET_MITOCHONDRION);
-            }
         }
 
         Neighbours neighbours;
@@ -163,9 +159,6 @@ void Astrocytes::_buildModel(const doubles& radii)
             default:
                 break;
             }
-#pragma omp critical
-            materialIds.insert(sectionMaterialId);
-
             size_t step = 1;
             switch (_details.geometryQuality)
             {
@@ -183,13 +176,14 @@ void Astrocytes::_buildModel(const doubles& radii)
                 {
                     // Section connected to the soma
                     const auto& point = points[0];
-                    geometryIndex =
-                        container.addCone(somaPosition,
-                                          somaRadius * 0.75 * _radiusMultiplier,
-                                          somaPosition + Vector3d(point),
-                                          point.w * 0.5 * _radiusMultiplier,
-                                          somaMaterialId, userData, neighbours,
-                                          DEFAULT_SOMA_DISPLACEMENT);
+                    const auto srcRadius =
+                        somaRadius * 0.75 * _radiusMultiplier;
+                    const auto dstRadius = point.w * 0.5 * _radiusMultiplier;
+                    geometryIndex = container.addCone(
+                        somaPosition, srcRadius, somaPosition + Vector3d(point),
+                        dstRadius, somaMaterialId, userData, neighbours,
+                        Vector3f(srcRadius * somaDisplacementStrength,
+                                 srcRadius * somaDisplacementFrequency, 0.f));
                     neighbours.insert(geometryIndex);
                 }
 
@@ -218,13 +212,13 @@ void Astrocytes::_buildModel(const doubles& radii)
                     if (!useSdf)
                         geometryIndex = container.addSphere(dst, dstRadius,
                                                             sectionMaterialId,
-                                                            NO_USER_DATA, {});
+                                                            NO_USER_DATA);
 
-                    geometryIndex =
-                        container.addCone(src, srcRadius, dst, dstRadius,
-                                          sectionMaterialId, userData,
-                                          {geometryIndex},
-                                          DEFAULT_SECTION_DISPLACEMENT);
+                    geometryIndex = container.addCone(
+                        src, srcRadius, dst, dstRadius, sectionMaterialId,
+                        userData, {geometryIndex},
+                        Vector3f(srcRadius * sectionDisplacementStrength,
+                                 sectionDisplacementFrequency, 0.f));
 
                     _bounds.merge(srcPoint);
                 }
@@ -334,14 +328,13 @@ void Astrocytes::_addEndFoot(ThreadSafeContainer& container,
                     DEFAULT_ENDFOOT_RADIUS_RATIO * radiusMultiplier;
 
                 if (!_details.useSdf)
-                    container.addSphere(
-                        startNode.position, startRadius, materialId,
-                        NO_USER_DATA, {},
-                        vasculature::DEFAULT_VASCULATURE_DISPLACEMENT);
-                container.addCone(
-                    startNode.position, startRadius, endNode.position,
-                    endRadius, materialId, NO_USER_DATA, {},
-                    vasculature::DEFAULT_VASCULATURE_DISPLACEMENT);
+                    container.addSphere(startNode.position, startRadius,
+                                        materialId, NO_USER_DATA);
+                container.addCone(startNode.position, startRadius,
+                                  endNode.position, endRadius, materialId,
+                                  NO_USER_DATA, {},
+                                  Vector3f(sectionDisplacementStrength,
+                                           sectionDisplacementFrequency, 0.f));
             }
         }
     }
@@ -366,7 +359,8 @@ void Astrocytes::setVasculatureRadiusReport(
         PLUGIN_THROW("Invalid frame specified for report: " +
                      simulationReport.description);
     const floats radii =
-        connector.getVasculatureSimulationTimeSeries(details.simulationReportId,
+        connector.getVasculatureSimulationTimeSeries(details.populationName,
+                                                     details.simulationReportId,
                                                      details.frame);
     doubles series;
     for (const double radius : radii)

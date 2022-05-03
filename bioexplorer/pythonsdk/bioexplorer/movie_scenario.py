@@ -40,7 +40,7 @@ class MovieScenario:
 
     def __init__(self, hostname, port, projection, output_folder, image_k=4,
                  image_samples_per_pixel=64, log_level=1, v1_compatibility=False,
-                 shaders=list(['bio_explorer'])):
+                 shaders=list(['bio_explorer']), draft=False, gi_length=1e6):
         """
         Initialize movie scenario
 
@@ -64,6 +64,8 @@ class MovieScenario:
         self._image_projection = projection
         self._image_output_folder = output_folder
         self._shaders = shaders
+        self._gi_length = gi_length
+        self._draft = draft
         self._prepare_movie(projection, image_k)
         self._be.set_general_settings(
             model_visibility_on_creation=False,
@@ -207,7 +209,8 @@ class MovieScenario:
         movie_maker.create_snapshot(
             renderer=renderer,
             size=self._image_size, path=self._image_output_folder + '/' + renderer,
-            base_name='%05d' % frame, samples_per_pixel=self._image_samples_per_pixel)
+            base_name='%05d' % frame, samples_per_pixel=self._image_samples_per_pixel,
+            gi_length=self._gi_length)
 
     @staticmethod
     def parse_arguments(argv):
@@ -228,7 +231,7 @@ class MovieScenario:
         parser.add_argument('-r', '--shaders', help='Camera projection',
                             type=str, nargs='*', default=['bio_explorer'],
                             choices=[
-                                'albedo', 'ambient_occlusion', 'depth', 'raycast_Ns',
+                                'albedo', 'ambient_occlusion', 'basic', 'depth', 'raycast_Ns',
                                 'bio_explorer'])
         parser.add_argument('-k', '--image-resolution-k',
                             help='Image resolution in K', type=int, default=1)
@@ -241,4 +244,5 @@ class MovieScenario:
         parser.add_argument('-l', '--frame-list', type=int, nargs='*',
                             help='List of frames to render', default=list())
         parser.add_argument('-z', '--magnetic', help='Magnetic fields', action='store_true')
+        parser.add_argument('-d', '--draft', help='Draft mode', action='store_true')
         return parser.parse_args(argv)

@@ -30,6 +30,8 @@ namespace morphology
 using namespace brayns;
 using namespace common;
 
+using Varicosities = std::map<uint64_t, Vector3ds>;
+
 /**
  * Load a population of neurons from the database according to specified
  * parameters
@@ -46,7 +48,7 @@ public:
     Neurons(Scene& scene, const NeuronsDetails& details);
 
     /**
-     * @brief Get the Neuron section 3D points for a given section Id
+     * @brief Get the neuron section 3D points for a given section Id
      *
      * @param neuronId Neuron identifier
      * @param sectionId Neuron section identifier
@@ -55,19 +57,27 @@ public:
     Vector4ds getNeuronSectionPoints(const uint64_t neuronId,
                                      const uint64_t sectionId);
 
-private:
-    void _buildNeuron();
+    /**
+     * @brief Get the neuron varicosities location in space
+     *
+     * @param neuronId Neuron identifier
+     * @return Vector3ds Varicosity locations
+     */
+    Vector3ds getNeuronVaricosities(const uint64_t neuronId);
 
-    void _addSection(ThreadSafeContainer& container, const uint64_t sectionId,
-                     const Section& section, const size_t somaIdx,
+private:
+    void _buildNeurons();
+
+    void _addSection(ThreadSafeContainer& container, const uint64_t neuronId,
+                     const uint64_t sectionId, const Section& section,
+                     const uint64_t somaGeometryIndex,
                      const Vector3d& somaPosition,
                      const Quaterniond& somaRotation, const double somaRadius,
                      const size_t baseMaterialId,
-                     const double mitochondriaDensity,
-                     MaterialSet& materialIds);
+                     const double mitochondriaDensity);
 
-    void _addSpine(ThreadSafeContainer& container, const Synapse& synapse,
-                   const size_t baseMaterialId);
+    void _addSpine(ThreadSafeContainer& container, const uint64_t guid,
+                   const Synapse& synapse, const size_t baseMaterialId);
 
     void _addSpines(ThreadSafeContainer& container, const uint64_t somaIndex,
                     const Vector3d somaPosition, const double somaRadius,
@@ -87,8 +97,11 @@ private:
                               const double mitochondriaDensity,
                               const size_t materialId);
 
+    void _addVaricosity(Vector4fs& points);
+
     const NeuronsDetails _details;
     Scene& _scene;
+    Varicosities _varicosities;
 };
 } // namespace morphology
 } // namespace bioexplorer

@@ -39,39 +39,27 @@ SDFGeometries::SDFGeometries(const double radiusMultiplier,
 
 void SDFGeometries::addSDFDemo(Model& model)
 {
-    MaterialSet materialIds;
     size_t materialId = 0;
     const bool useSdf = true;
-    const double displacement = 10.0;
+    const Vector3f displacement{0.1f, 10.f, 0.f};
 
     ThreadSafeContainer modelContainer(model, useSdf);
-
-    auto idx1 =
-        modelContainer.addCone(Vector3d(-1, 0, 0), 0.25, Vector3d(0, 0, 0), 0.1,
-                               materialId, -1, {}, displacement);
-    materialIds.insert(materialId);
-    ++materialId;
-
-    auto idx2 =
+    Neighbours neighbours;
+    neighbours.insert(modelContainer.addCone(Vector3d(-1, 0, 0), 0.25,
+                                             Vector3d(0, 0, 0), 0.1, materialId,
+                                             -1, neighbours, displacement));
+    neighbours.insert(
         modelContainer.addCone(Vector3d(0, 0, 0), 0.1, Vector3d(1, 0, 0), 0.25,
-                               materialId, -1, {idx1}, displacement);
-    materialIds.insert(materialId);
-    ++materialId;
-
-    auto idx3 = modelContainer.addSphere(Vector3d(-1, 0, 0), 0.25, materialId,
-                                         -1, {idx1}, displacement);
-    materialIds.insert(materialId);
-    ++materialId;
-
-    auto idx4 = modelContainer.addSphere(Vector3d(1, 0, 0), 0.25, materialId,
-                                         -1, {idx2}, displacement);
-    materialIds.insert(materialId);
-    ++materialId;
-
-    auto idx5 =
-        modelContainer.addCone(Vector3d(0, 0.25, 0), 0.5, Vector3d(0, 1, 0),
-                               0.0, materialId, -1, {idx1, idx2}, displacement);
-    materialIds.insert(materialId);
+                               materialId, -1, neighbours, displacement));
+    neighbours.insert(modelContainer.addSphere(Vector3d(-0.5, 0, 0), 0.25,
+                                               materialId, -1, neighbours,
+                                               displacement));
+    neighbours.insert(modelContainer.addSphere(Vector3d(0.5, 0, 0), 0.25,
+                                               materialId, -1, neighbours,
+                                               displacement));
+    neighbours.insert(modelContainer.addCone(Vector3d(0, 0.25, 0), 0.5,
+                                             Vector3d(0, 1, 0), 0.0, materialId,
+                                             -1, neighbours, displacement));
 
     modelContainer.commitToModel();
 }

@@ -117,6 +117,8 @@ private:
     Response _setProteinColorScheme(
         const ProteinColorSchemeDetails &payload) const;
     Response _setMaterials(const MaterialsDetails &payload);
+    Response _setMaterialExtraAttributes(const ModelIdDetails &details);
+
     IdsDetails _getMaterialIds(const ModelIdDetails &payload);
 
     // Point clouds
@@ -161,7 +163,11 @@ private:
 
     // Neurons
     Response _addNeurons(const NeuronsDetails &payload);
-    NeuronSectionPointsDetails _getNeuronSectionPoints(
-        const NeuronSectionDetails &payload);
+    NeuronPointsDetails _getNeuronSectionPoints(
+        const NeuronIdSectionIdDetails &payload);
+    NeuronPointsDetails _getNeuronVaricosities(const NeuronIdDetails &payload);
+
+    // Utilities
+    LookAtResponseDetails _lookAt(const LookAtDetails &payload);
 };
 } // namespace bioexplorer

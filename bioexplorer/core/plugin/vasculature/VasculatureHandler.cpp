@@ -43,7 +43,7 @@ VasculatureHandler::VasculatureHandler(const VasculatureReportDetails& details)
     _nbFrames = (_simulationReport.endTime - _simulationReport.startTime) /
                 _simulationReport.timeStep;
     _frameData = connector.getVasculatureSimulationTimeSeries(
-        _details.simulationReportId, 0);
+        _details.populationName, _details.simulationReportId, 0);
     _frameSize = _frameData.size();
     PLUGIN_INFO(1, "Report successfully attached");
     PLUGIN_INFO(1, "- Frame size      : " << _frameSize);
@@ -59,23 +59,10 @@ void* VasculatureHandler::getFrameData(const uint32_t frame)
     try
     {
         if (_currentFrame != frame && frame < _nbFrames)
-        {
             _frameData =
                 DBConnector::getInstance().getVasculatureSimulationTimeSeries(
-                    _details.simulationReportId, frame);
-
-#if 0
-            float minValue = std::numeric_limits<float>::max();
-            float maxValue = -std::numeric_limits<float>::max();
-            for (const auto value : _frameData)
-            {
-                minValue = std::min(minValue, value);
-                maxValue = std::max(maxValue, value);
-            }
-            PLUGIN_ERROR("Range: " << _frameData[0] << " [" << minValue << ", "
-                                   << maxValue << "]");
-#endif
-        }
+                    _details.populationName, _details.simulationReportId,
+                    frame);
     }
     catch (const std::runtime_error& e)
     {
