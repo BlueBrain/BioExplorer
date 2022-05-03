@@ -1,8 +1,10 @@
 var structbioexplorer_1_1details_1_1NeuronsDetails =
 [
+    [ "animationParams", "dc/d93/structbioexplorer_1_1details_1_1NeuronsDetails.html#a0635219679ebd5ad88cafdfc6a94b778", null ],
     [ "assemblyName", "dc/d93/structbioexplorer_1_1details_1_1NeuronsDetails.html#a8269067307828763a0055a888a3a4a23", null ],
     [ "generateExternals", "dc/d93/structbioexplorer_1_1details_1_1NeuronsDetails.html#ab2e4683878e223c074bb8cd8aebc80d4", null ],
     [ "generateInternals", "dc/d93/structbioexplorer_1_1details_1_1NeuronsDetails.html#ac0b1ec1f7cc20d94d281b56e8fec579a", null ],
+    [ "generateVaricosities", "dc/d93/structbioexplorer_1_1details_1_1NeuronsDetails.html#ab014f34cd2779ba1bb259e95efeca41a", null ],
     [ "geometryQuality", "dc/d93/structbioexplorer_1_1details_1_1NeuronsDetails.html#a9b176c69ff7999b957add19e1f373ad3", null ],
     [ "loadApicalDendrites", "dc/d93/structbioexplorer_1_1details_1_1NeuronsDetails.html#ae35ad72c8299d443be763a00ba3c3c71", null ],
     [ "loadAxon", "dc/d93/structbioexplorer_1_1details_1_1NeuronsDetails.html#a1737da726f523b2c835fac1f5dd10057", null ],

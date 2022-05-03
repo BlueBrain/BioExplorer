@@ -57,21 +57,21 @@ var NAVTREE =
     [ "License", "index.html#autotoc_md26", null ],
     [ "Contact", "index.html#autotoc_md27", null ],
     [ "Funding & Acknowledgment", "index.html#autotoc_md28", null ],
-    [ "Docker", "d9/d23/md__home_favreau_git_BioExplorer_DOCKER.html", [
-      [ "Prerequisites", "d9/d23/md__home_favreau_git_BioExplorer_DOCKER.html#autotoc_md30", null ],
-      [ "Setup", "d9/d23/md__home_favreau_git_BioExplorer_DOCKER.html#autotoc_md31", null ],
-      [ "Usage", "d9/d23/md__home_favreau_git_BioExplorer_DOCKER.html#autotoc_md32", null ]
+    [ "Docker", "d0/ddf/md__home_favreau_bluebrain_BioExplorer_DOCKER.html", [
+      [ "Prerequisites", "d0/ddf/md__home_favreau_bluebrain_BioExplorer_DOCKER.html#autotoc_md30", null ],
+      [ "Setup", "d0/ddf/md__home_favreau_bluebrain_BioExplorer_DOCKER.html#autotoc_md31", null ],
+      [ "Usage", "d0/ddf/md__home_favreau_bluebrain_BioExplorer_DOCKER.html#autotoc_md32", null ]
     ] ],
-    [ "User guide", "d0/de8/md__home_favreau_git_BioExplorer_bioexplorer_pythonsdk_doc_source_USERGUIDE.html", [
-      [ "Protein", "d0/de8/md__home_favreau_git_BioExplorer_bioexplorer_pythonsdk_doc_source_USERGUIDE.html#autotoc_md34", null ],
-      [ "Glycan", "d0/de8/md__home_favreau_git_BioExplorer_bioexplorer_pythonsdk_doc_source_USERGUIDE.html#autotoc_md35", null ],
-      [ "RNA sequence", "d0/de8/md__home_favreau_git_BioExplorer_bioexplorer_pythonsdk_doc_source_USERGUIDE.html#autotoc_md36", null ],
-      [ "Membrane", "d0/de8/md__home_favreau_git_BioExplorer_bioexplorer_pythonsdk_doc_source_USERGUIDE.html#autotoc_md37", null ],
-      [ "Surfactants", "d0/de8/md__home_favreau_git_BioExplorer_bioexplorer_pythonsdk_doc_source_USERGUIDE.html#autotoc_md38", null ],
-      [ "Virus", "d0/de8/md__home_favreau_git_BioExplorer_bioexplorer_pythonsdk_doc_source_USERGUIDE.html#autotoc_md39", null ],
-      [ "Host cell", "d0/de8/md__home_favreau_git_BioExplorer_bioexplorer_pythonsdk_doc_source_USERGUIDE.html#autotoc_md40", null ],
-      [ "Glycans Models", "d0/de8/md__home_favreau_git_BioExplorer_bioexplorer_pythonsdk_doc_source_USERGUIDE.html#autotoc_md41", null ],
-      [ "Visualization", "d0/de8/md__home_favreau_git_BioExplorer_bioexplorer_pythonsdk_doc_source_USERGUIDE.html#autotoc_md42", null ]
+    [ "User guide", "dd/d67/md__home_favreau_bluebrain_BioExplorer_bioexplorer_pythonsdk_doc_source_USERGUIDE.html", [
+      [ "Protein", "dd/d67/md__home_favreau_bluebrain_BioExplorer_bioexplorer_pythonsdk_doc_source_USERGUIDE.html#autotoc_md34", null ],
+      [ "Glycan", "dd/d67/md__home_favreau_bluebrain_BioExplorer_bioexplorer_pythonsdk_doc_source_USERGUIDE.html#autotoc_md35", null ],
+      [ "RNA sequence", "dd/d67/md__home_favreau_bluebrain_BioExplorer_bioexplorer_pythonsdk_doc_source_USERGUIDE.html#autotoc_md36", null ],
+      [ "Membrane", "dd/d67/md__home_favreau_bluebrain_BioExplorer_bioexplorer_pythonsdk_doc_source_USERGUIDE.html#autotoc_md37", null ],
+      [ "Surfactants", "dd/d67/md__home_favreau_bluebrain_BioExplorer_bioexplorer_pythonsdk_doc_source_USERGUIDE.html#autotoc_md38", null ],
+      [ "Virus", "dd/d67/md__home_favreau_bluebrain_BioExplorer_bioexplorer_pythonsdk_doc_source_USERGUIDE.html#autotoc_md39", null ],
+      [ "Host cell", "dd/d67/md__home_favreau_bluebrain_BioExplorer_bioexplorer_pythonsdk_doc_source_USERGUIDE.html#autotoc_md40", null ],
+      [ "Glycans Models", "dd/d67/md__home_favreau_bluebrain_BioExplorer_bioexplorer_pythonsdk_doc_source_USERGUIDE.html#autotoc_md41", null ],
+      [ "Visualization", "dd/d67/md__home_favreau_bluebrain_BioExplorer_bioexplorer_pythonsdk_doc_source_USERGUIDE.html#autotoc_md42", null ]
     ] ],
     [ "Classes", "annotated.html", [
       [ "Class List", "annotated.html", "annotated_dup" ],
@@ -92,10 +92,10 @@ var NAVTREE =
 var NAVTREEINDEX =
 [
 ".html",
-"d2/ddd/structbioexplorer_1_1details_1_1NeuronSectionDetails.html#a9b306bf1f153c9c2ba6e7286031e4df8",
-"d7/d80/structbioexplorer_1_1details_1_1ProteinInspectionDetails.html#ac5b9a8a7d178b0e53decedb6530a1922",
-"db/de5/structbioexplorer_1_1details_1_1AminoAcidSequenceAsRangesDetails.html",
-"df/d73/structbioexplorer_1_1molecularsystems_1_1Atom.html#aaa938ecc46358653be0742b9edbd8d65"
+"d3/d1a/classbioexplorer_1_1mediamaker_1_1rendering_1_1ShadowRenderer.html#a5c259fe2f3ccd04641184a88a59e0b0c",
+"d7/d84/structbioexplorer_1_1details_1_1MaterialsDetails.html#a6b482fa039e37810e1a60a4c63d2a194",
+"db/df4/structbioexplorer_1_1mediamaker_1_1Response.html#abb8d74065f5e02cde226f944e6932575",
+"df/d73/structbioexplorer_1_1molecularsystems_1_1Atom.html#a11b30ec5031a33660fd4f378ce2f16e8"
 ];
 
 var SYNCONMSG = 'click to disable panel synchronisation';

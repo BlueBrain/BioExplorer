@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.17"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>Blue Brain BioExplorer: /home/favreau/git/BioExplorer/extras/MediaMaker/module/ispc/render/AmbientOcclusionRenderer.ispc Source File</title>
+<title>Blue Brain BioExplorer: /home/favreau/bluebrain/BioExplorer/extras/MediaMaker/module/ispc/render/AmbientOcclusionRenderer.ispc Source File</title>
 <link href="../../tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="../../jquery.js"></script>
 <script type="text/javascript" src="../../dynsections.js"></script>
@@ -131,76 +131,77 @@ $(document).ready(function(){initNavTree('da/d2f/AmbientOcclusionRenderer_8ispc_
 <div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;        // No intersection, use environment map or background color</div>
 <div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;        return make_vec3f(0.f);</div>
 <div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160; </div>
-<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;    DifferentialGeometry dg;</div>
-<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;    postIntersect(self-&gt;super.model, dg, ray,</div>
-<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;                  DG_NS | DG_NG | DG_NORMALIZE | DG_FACEFORWARD);</div>
-<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160; </div>
-<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;    // init TEA RNG //</div>
-<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;    uniform FrameBuffer* uniform fb = self-&gt;super.fb;</div>
-<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;    RandomTEA rng_state;</div>
-<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;    varying RandomTEA* const uniform rng = &amp;rng_state;</div>
-<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;    RandomTEA__Constructor(rng, 0x290374,</div>
-<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;                           (fb-&gt;size.x * sample.sampleID.y) +</div>
-<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;                               sample.sampleID.x);</div>
-<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;    const vec2f rot = RandomTEA__getFloats(rng);</div>
-<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160; </div>
-<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;    int hits = 0;</div>
-<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;    const vec3f N = dg.Ns;</div>
-<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;    const linear3f localToWorld = frame(N);</div>
-<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160; </div>
-<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;    vec3f superColor = make_vec3f(1.f);</div>
-<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160; </div>
-<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;    for (uniform int i = 0; i &lt; sampleCnt; i++)</div>
-<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;    {</div>
-<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;        const vec2f halton = HaltonSequence_get2D(sampleCnt * accumID + i);</div>
-<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;        const vec2f r = CranleyPattersonRotation(halton, rot);</div>
-<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;        const vec3f local_ao_dir = cosineSampleHemisphere(r);</div>
-<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;        const vec3f ao_dir = localToWorld * local_ao_dir;</div>
-<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160; </div>
-<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;        Ray ao_ray;</div>
-<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;        setRay(ao_ray, dg.P, ao_dir, 0.0f, self-&gt;aoRayLength);</div>
-<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;        if (dot(ao_dir, N) &lt; 0.05f || isOccluded(self-&gt;super.model, ao_ray))</div>
-<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;            hits++;</div>
-<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;    }</div>
-<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160; </div>
-<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;    const vec3f color = superColor * make_vec3f(1.0f - hits / (float)sampleCnt);</div>
-<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;    sample.alpha = 1.f;</div>
-<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160; </div>
-<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;    return color;</div>
-<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;}</div>
-<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160; </div>
-<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;void AmbientOcclusionRenderer_renderSample(uniform Renderer* uniform _self,</div>
-<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;                                           void* uniform perFrameData,</div>
-<div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;                                           varying ScreenSample&amp; sample)</div>
-<div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;{</div>
-<div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;    uniform AmbientOcclusionRenderer* uniform self =</div>
-<div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160;        (uniform AmbientOcclusionRenderer * uniform) _self;</div>
-<div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160;    sample.ray.time = inf;</div>
-<div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160;    sample.rgb = AmbientOcclusionRenderer_shadeRay(self, sample);</div>
-<div class="line"><a name="l00092"></a><span class="lineno">   92</span>&#160;}</div>
-<div class="line"><a name="l00093"></a><span class="lineno">   93</span>&#160; </div>
-<div class="line"><a name="l00094"></a><span class="lineno">   94</span>&#160;// Exports (called from C++)</div>
-<div class="line"><a name="l00095"></a><span class="lineno">   95</span>&#160;export void* uniform AmbientOcclusionRenderer_create(void* uniform cppE)</div>
-<div class="line"><a name="l00096"></a><span class="lineno">   96</span>&#160;{</div>
-<div class="line"><a name="l00097"></a><span class="lineno">   97</span>&#160;    uniform AmbientOcclusionRenderer* uniform self =</div>
-<div class="line"><a name="l00098"></a><span class="lineno">   98</span>&#160;        uniform new uniform AmbientOcclusionRenderer;</div>
-<div class="line"><a name="l00099"></a><span class="lineno">   99</span>&#160;    Renderer_Constructor(&amp;self-&gt;super, cppE);</div>
-<div class="line"><a name="l00100"></a><span class="lineno">  100</span>&#160;    self-&gt;super.renderSample = AmbientOcclusionRenderer_renderSample;</div>
-<div class="line"><a name="l00101"></a><span class="lineno">  101</span>&#160;    return self;</div>
-<div class="line"><a name="l00102"></a><span class="lineno">  102</span>&#160;}</div>
-<div class="line"><a name="l00103"></a><span class="lineno">  103</span>&#160; </div>
-<div class="line"><a name="l00104"></a><span class="lineno">  104</span>&#160;export void AmbientOcclusionRenderer_set(void* uniform _self,</div>
-<div class="line"><a name="l00105"></a><span class="lineno">  105</span>&#160;                                         const uniform int spp,</div>
-<div class="line"><a name="l00106"></a><span class="lineno">  106</span>&#160;                                         const uniform int samplesPerFrame,</div>
-<div class="line"><a name="l00107"></a><span class="lineno">  107</span>&#160;                                         const uniform float aoRayLength)</div>
-<div class="line"><a name="l00108"></a><span class="lineno">  108</span>&#160;{</div>
-<div class="line"><a name="l00109"></a><span class="lineno">  109</span>&#160;    uniform AmbientOcclusionRenderer* uniform self =</div>
-<div class="line"><a name="l00110"></a><span class="lineno">  110</span>&#160;        (uniform AmbientOcclusionRenderer * uniform) _self;</div>
-<div class="line"><a name="l00111"></a><span class="lineno">  111</span>&#160; </div>
-<div class="line"><a name="l00112"></a><span class="lineno">  112</span>&#160;    self-&gt;super.spp = spp;</div>
-<div class="line"><a name="l00113"></a><span class="lineno">  113</span>&#160;    self-&gt;samplesPerFrame = samplesPerFrame;</div>
-<div class="line"><a name="l00114"></a><span class="lineno">  114</span>&#160;    self-&gt;aoRayLength = aoRayLength;</div>
-<div class="line"><a name="l00115"></a><span class="lineno">  115</span>&#160;}</div>
+<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;    sample.z = ray.t;</div>
+<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;    sample.alpha = 1.f;</div>
+<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160; </div>
+<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;    DifferentialGeometry dg;</div>
+<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;    postIntersect(self-&gt;super.model, dg, ray,</div>
+<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;                  DG_NS | DG_NG | DG_NORMALIZE | DG_FACEFORWARD);</div>
+<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160; </div>
+<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;    // init TEA RNG //</div>
+<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;    uniform FrameBuffer* uniform fb = self-&gt;super.fb;</div>
+<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;    RandomTEA rng_state;</div>
+<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;    varying RandomTEA* const uniform rng = &amp;rng_state;</div>
+<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;    RandomTEA__Constructor(rng, 0x290374,</div>
+<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;                           (fb-&gt;size.x * sample.sampleID.y) +</div>
+<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;                               sample.sampleID.x);</div>
+<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;    const vec2f rot = RandomTEA__getFloats(rng);</div>
+<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160; </div>
+<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;    int hits = 0;</div>
+<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;    const vec3f N = dg.Ns;</div>
+<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;    const linear3f localToWorld = frame(N);</div>
+<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160; </div>
+<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;    for (uniform int i = 0; i &lt; sampleCnt; i++)</div>
+<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;    {</div>
+<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;        const vec2f halton = HaltonSequence_get2D(sampleCnt * accumID + i);</div>
+<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;        const vec2f r = CranleyPattersonRotation(halton, rot);</div>
+<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;        const vec3f local_ao_dir = cosineSampleHemisphere(r);</div>
+<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;        vec3f ao_dir = normalize(localToWorld * local_ao_dir);</div>
+<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;        if (dot(ao_dir, N) &lt; 0.f)</div>
+<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;            ao_dir = neg(ao_dir);</div>
+<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160; </div>
+<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;        Ray ao_ray;</div>
+<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;        setRay(ao_ray, dg.P, ao_dir, dg.epsilon, self-&gt;aoRayLength);</div>
+<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;        traceRay(self-&gt;super.model, ao_ray);</div>
+<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;        if (ao_ray.geomID &gt;= 0)</div>
+<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;            hits++;</div>
+<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;    }</div>
+<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160; </div>
+<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;    return make_vec3f(1.0f - hits / (float)sampleCnt);</div>
+<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;}</div>
+<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160; </div>
+<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;void AmbientOcclusionRenderer_renderSample(uniform Renderer* uniform _self,</div>
+<div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;                                           void* uniform perFrameData,</div>
+<div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;                                           varying ScreenSample&amp; sample)</div>
+<div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;{</div>
+<div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160;    uniform AmbientOcclusionRenderer* uniform self =</div>
+<div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160;        (uniform AmbientOcclusionRenderer * uniform) _self;</div>
+<div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160;    sample.ray.time = inf;</div>
+<div class="line"><a name="l00092"></a><span class="lineno">   92</span>&#160;    sample.rgb = AmbientOcclusionRenderer_shadeRay(self, sample);</div>
+<div class="line"><a name="l00093"></a><span class="lineno">   93</span>&#160;}</div>
+<div class="line"><a name="l00094"></a><span class="lineno">   94</span>&#160; </div>
+<div class="line"><a name="l00095"></a><span class="lineno">   95</span>&#160;// Exports (called from C++)</div>
+<div class="line"><a name="l00096"></a><span class="lineno">   96</span>&#160;export void* uniform AmbientOcclusionRenderer_create(void* uniform cppE)</div>
+<div class="line"><a name="l00097"></a><span class="lineno">   97</span>&#160;{</div>
+<div class="line"><a name="l00098"></a><span class="lineno">   98</span>&#160;    uniform AmbientOcclusionRenderer* uniform self =</div>
+<div class="line"><a name="l00099"></a><span class="lineno">   99</span>&#160;        uniform new uniform AmbientOcclusionRenderer;</div>
+<div class="line"><a name="l00100"></a><span class="lineno">  100</span>&#160;    Renderer_Constructor(&amp;self-&gt;super, cppE);</div>
+<div class="line"><a name="l00101"></a><span class="lineno">  101</span>&#160;    self-&gt;super.renderSample = AmbientOcclusionRenderer_renderSample;</div>
+<div class="line"><a name="l00102"></a><span class="lineno">  102</span>&#160;    return self;</div>
+<div class="line"><a name="l00103"></a><span class="lineno">  103</span>&#160;}</div>
+<div class="line"><a name="l00104"></a><span class="lineno">  104</span>&#160; </div>
+<div class="line"><a name="l00105"></a><span class="lineno">  105</span>&#160;export void AmbientOcclusionRenderer_set(void* uniform _self,</div>
+<div class="line"><a name="l00106"></a><span class="lineno">  106</span>&#160;                                         const uniform int spp,</div>
+<div class="line"><a name="l00107"></a><span class="lineno">  107</span>&#160;                                         const uniform int samplesPerFrame,</div>
+<div class="line"><a name="l00108"></a><span class="lineno">  108</span>&#160;                                         const uniform float aoRayLength)</div>
+<div class="line"><a name="l00109"></a><span class="lineno">  109</span>&#160;{</div>
+<div class="line"><a name="l00110"></a><span class="lineno">  110</span>&#160;    uniform AmbientOcclusionRenderer* uniform self =</div>
+<div class="line"><a name="l00111"></a><span class="lineno">  111</span>&#160;        (uniform AmbientOcclusionRenderer * uniform) _self;</div>
+<div class="line"><a name="l00112"></a><span class="lineno">  112</span>&#160; </div>
+<div class="line"><a name="l00113"></a><span class="lineno">  113</span>&#160;    self-&gt;super.spp = spp;</div>
+<div class="line"><a name="l00114"></a><span class="lineno">  114</span>&#160;    self-&gt;samplesPerFrame = samplesPerFrame;</div>
+<div class="line"><a name="l00115"></a><span class="lineno">  115</span>&#160;    self-&gt;aoRayLength = aoRayLength;</div>
+<div class="line"><a name="l00116"></a><span class="lineno">  116</span>&#160;}</div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->

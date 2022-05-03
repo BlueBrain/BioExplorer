@@ -63,9 +63,10 @@ var hierarchy =
     [ "bioexplorer::details::ModelIdFileAccessDetails", "d8/d1b/structbioexplorer_1_1details_1_1ModelIdFileAccessDetails.html", null ],
     [ "bioexplorer::details::ModelsVisibilityDetails", "d7/dbc/structbioexplorer_1_1details_1_1ModelsVisibilityDetails.html", null ],
     [ "bioexplorer::details::NameDetails", "d8/d70/structbioexplorer_1_1details_1_1NameDetails.html", null ],
+    [ "bioexplorer::details::NeuronIdDetails", "da/dc3/structbioexplorer_1_1details_1_1NeuronIdDetails.html", null ],
+    [ "bioexplorer::details::NeuronIdSectionIdDetails", "d9/d86/structbioexplorer_1_1details_1_1NeuronIdSectionIdDetails.html", null ],
+    [ "bioexplorer::details::NeuronPointsDetails", "d0/d6e/structbioexplorer_1_1details_1_1NeuronPointsDetails.html", null ],
     [ "bioexplorer::details::NeuronsDetails", "dc/d93/structbioexplorer_1_1details_1_1NeuronsDetails.html", null ],
-    [ "bioexplorer::details::NeuronSectionDetails", "d2/ddd/structbioexplorer_1_1details_1_1NeuronSectionDetails.html", null ],
-    [ "bioexplorer::details::NeuronSectionPointsDetails", "d1/ddd/structbioexplorer_1_1details_1_1NeuronSectionPointsDetails.html", null ],
     [ "bioexplorer::morphology::NeuronSoma", "d9/d24/structbioexplorer_1_1morphology_1_1NeuronSoma.html", null ],
     [ "bioexplorer::common::Node", "d7/d93/classbioexplorer_1_1common_1_1Node.html", [
       [ "bioexplorer::common::SDFGeometries", "d1/d1c/classbioexplorer_1_1common_1_1SDFGeometries.html", [
@@ -105,8 +106,8 @@ var hierarchy =
       [ "metabolism::rendering::MetabolismRenderer", "d3/d27/classmetabolism_1_1rendering_1_1MetabolismRenderer.html", null ]
     ] ],
     [ "bioexplorer::molecularsystems::ResidueSequence", "d0/df4/structbioexplorer_1_1molecularsystems_1_1ResidueSequence.html", null ],
-    [ "bioexplorer::details::Response", "d6/d45/structbioexplorer_1_1details_1_1Response.html", null ],
     [ "bioexplorer::mediamaker::Response", "db/df4/structbioexplorer_1_1mediamaker_1_1Response.html", null ],
+    [ "bioexplorer::details::Response", "d6/d45/structbioexplorer_1_1details_1_1Response.html", null ],
     [ "bioexplorer::details::RGBColorDetails", "df/dc7/structbioexplorer_1_1details_1_1RGBColorDetails.html", null ],
     [ "bioexplorer::details::RNASequenceDetails", "d1/d00/structbioexplorer_1_1details_1_1RNASequenceDetails.html", null ],
     [ "bioexplorer::details::SceneInformationDetails", "d2/d03/structbioexplorer_1_1details_1_1SceneInformationDetails.html", null ],

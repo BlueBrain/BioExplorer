@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.17"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>Blue Brain BioExplorer: /home/favreau/git/BioExplorer/bioexplorer/core/plugin/common/ThreadSafeContainer.h Source File</title>
+<title>Blue Brain BioExplorer: /home/favreau/bluebrain/BioExplorer/bioexplorer/core/plugin/common/ThreadSafeContainer.h Source File</title>
 <link href="../../tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="../../jquery.js"></script>
 <script type="text/javascript" src="../../dynsections.js"></script>
@@ -130,13 +130,13 @@ $(document).ready(function(){initNavTree('dd/d8f/ThreadSafeContainer_8h_source.h
 <div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;    uint64_t addSphere(<span class="keyword">const</span> Vector3f&amp; position, <span class="keyword">const</span> <span class="keywordtype">float</span> radius,</div>
 <div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;                       <span class="keyword">const</span> <span class="keywordtype">size_t</span> materialId, <span class="keyword">const</span> uint64_t userDataOffset,</div>
 <div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;                       <span class="keyword">const</span> Neighbours&amp; neighbours = {},</div>
-<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;                       <span class="keyword">const</span> <span class="keywordtype">float</span> displacementRatio = 1.f);</div>
+<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;                       <span class="keyword">const</span> Vector3f displacementRatio = Vector3f());</div>
 <div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160; </div>
 <div class="line"><a name="l00095"></a><span class="lineno">   95</span>&#160;    uint64_t addCone(<span class="keyword">const</span> Vector3f&amp; sourcePosition, <span class="keyword">const</span> <span class="keywordtype">float</span> sourceRadius,</div>
 <div class="line"><a name="l00096"></a><span class="lineno">   96</span>&#160;                     <span class="keyword">const</span> Vector3f&amp; targetPosition, <span class="keyword">const</span> <span class="keywordtype">float</span> targetRadius,</div>
 <div class="line"><a name="l00097"></a><span class="lineno">   97</span>&#160;                     <span class="keyword">const</span> <span class="keywordtype">size_t</span> materialId, <span class="keyword">const</span> uint64_t userDataOffset,</div>
 <div class="line"><a name="l00098"></a><span class="lineno">   98</span>&#160;                     <span class="keyword">const</span> Neighbours&amp; neighbours = {},</div>
-<div class="line"><a name="l00099"></a><span class="lineno">   99</span>&#160;                     <span class="keyword">const</span> <span class="keywordtype">float</span> displacementRatio = 1.f);</div>
+<div class="line"><a name="l00099"></a><span class="lineno">   99</span>&#160;                     <span class="keyword">const</span> Vector3f displacementRatio = Vector3f());</div>
 <div class="line"><a name="l00100"></a><span class="lineno">  100</span>&#160; </div>
 <div class="line"><a name="l00105"></a><span class="lineno">  105</span>&#160;    <span class="keywordtype">void</span> commitToModel();</div>
 <div class="line"><a name="l00106"></a><span class="lineno">  106</span>&#160; </div>
