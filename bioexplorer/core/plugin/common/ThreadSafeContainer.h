@@ -100,6 +100,13 @@ public:
                      const Vector3f displacementRatio = Vector3f());
 
     /**
+     * @brief Add a mesh to the thread safe model
+     *
+     * @param mesh Mesh
+     */
+    void addMesh(const size_t materialId, const TriangleMesh& mesh);
+
+    /**
      * @brief Commit geometries and materials to the Brayns model
      *
      */
@@ -116,13 +123,14 @@ private:
     void _commitCylindersToModel();
     void _commitConesToModel();
     void _commitSDFGeometriesToModel();
+    void _commitMeshesToModel();
     void _commitMaterials();
     void _finalizeSDFGeometries();
 
     SpheresMap _spheresMap;
     CylindersMap _cylindersMap;
     ConesMap _conesMap;
-    TriangleMeshMap _trianglesMeshesMap;
+    TriangleMeshMap _meshesMap;
     SDFMorphologyData _sdfMorphologyData;
     MaterialSet _materialIds;
 

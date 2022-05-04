@@ -143,6 +143,13 @@ Assembly::~Assembly()
                                             << _details.name << "]");
         _scene.removeModel(modelId);
     }
+    if (_atlas)
+    {
+        const auto modelId = _atlas->getModelDescriptor()->getModelID();
+        PLUGIN_INFO(3, "Removing Atlas [" << modelId << "] from assembly ["
+                                          << _details.name << "]");
+        _scene.removeModel(modelId);
+    }
     _modelDescriptors.clear();
 }
 

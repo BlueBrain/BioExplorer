@@ -853,6 +853,10 @@ typedef struct
     std::string regionSqlFilter;
     /** Scale of the atlas in the scene */
     doubles scale;
+    /** Mesh transformation */
+    doubles meshPosition;
+    doubles meshRotation;
+    doubles meshScale;
 } AtlasDetails;
 
 /**

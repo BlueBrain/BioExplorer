@@ -732,6 +732,9 @@ bool from_json(AtlasDetails &param, const std::string &payload)
         FROM_JSON(param, js, cellSqlFilter);
         FROM_JSON(param, js, regionSqlFilter);
         FROM_JSON(param, js, scale);
+        FROM_JSON(param, js, meshPosition);
+        FROM_JSON(param, js, meshRotation);
+        FROM_JSON(param, js, meshScale);
     }
     catch (...)
     {

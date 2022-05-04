@@ -2224,7 +2224,8 @@ class BioExplorer:
     def add_atlas(
             self, assembly_name,
             load_cells=True, cell_radius=1.0, load_meshes=False,
-            region_sql_filter='', cell_sql_filter='', scale=Vector3(1.0, 1.0, 1.0)):
+            region_sql_filter='', cell_sql_filter='', scale=Vector3(1.0, 1.0, 1.0),
+            mesh_position=Vector3(), mesh_rotation=Quaternion(), mesh_scale=Vector3()):
         """
         Add a brain atlas the 3D scene
 
@@ -2239,6 +2240,9 @@ class BioExplorer:
         :return: Result of the request submission
         """
         assert isinstance(scale, Vector3)
+        assert isinstance(mesh_position, Vector3)
+        assert isinstance(mesh_rotation, Quaternion)
+        assert isinstance(mesh_scale, Vector3)
         
         params = dict()
         params["assemblyName"] = assembly_name
@@ -2248,6 +2252,9 @@ class BioExplorer:
         params["cellSqlFilter"] = cell_sql_filter
         params["regionSqlFilter"] = region_sql_filter
         params["scale"] = scale.to_list()
+        params["meshPosition"] = mesh_position.to_list()
+        params["meshRotation"] = list(mesh_rotation)
+        params["meshScale"] = mesh_scale.to_list()
         return self._invoke_and_check('add-atlas', params)
 
     def add_vasculature(

@@ -21,6 +21,8 @@
 #include <plugin/common/Logs.h>
 #include <plugin/common/Utils.h>
 
+#include <brayns/common/geometry/TriangleMesh.h>
+
 namespace bioexplorer
 {
 using namespace morphology;
@@ -668,6 +670,45 @@ CellMap DBConnector::getAtlasCells(const uint64_t regionId,
     return cells;
 }
 
+TriangleMesh DBConnector::getAtlasMesh(const uint64_t regionId) const
+{
+    TriangleMesh mesh;
+
+    pqxx::read_transaction transaction(*_connections[omp_get_thread_num()]);
+    try
+    {
+        const std::string sql =
+            "SELECT vertices, indices, normals, colors FROM " +
+            DB_SCHEMA_ATLAS + ".mesh WHERE guid=" + std::to_string(regionId);
+
+        PLUGIN_DEBUG(sql);
+        auto res = transaction.exec(sql);
+        for (auto c = res.begin(); c != res.end(); ++c)
+        {
+            const pqxx::binarystring vertices(c[0]);
+            mesh.vertices.resize(vertices.size() / sizeof(Vector3f));
+            memcpy(&mesh.vertices.data()[0], vertices.data(), vertices.size());
+
+            const pqxx::binarystring indices(c[1]);
+            mesh.indices.resize(indices.size() / sizeof(Vector3ui));
+            memcpy(&mesh.indices.data()[0], indices.data(), indices.size());
+
+            const pqxx::binarystring normals(c[2]);
+            mesh.normals.resize(normals.size() / sizeof(Vector3f));
+            memcpy(&mesh.normals.data()[0], normals.data(), normals.size());
+
+            const pqxx::binarystring colors(c[3]);
+            mesh.colors.resize(colors.size() / sizeof(Vector3f));
+            memcpy(&mesh.colors.data()[0], colors.data(), colors.size());
+        }
+    }
+    catch (const pqxx::sql_error& e)
+    {
+        PLUGIN_THROW(e.what());
+    }
+
+    return mesh;
+}
 } // namespace db
 } // namespace io
 } // namespace bioexplorer

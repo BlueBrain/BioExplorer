@@ -43,14 +43,11 @@ Atlas::Atlas(Scene& scene, const AtlasDetails& details)
     , _scene(scene)
 {
     Timer chrono;
-    if (_details.loadCells)
-        _loadCells();
-    if (_details.loadMeshes)
-        _loadMeshes();
+    _load();
     PLUGIN_TIMER(chrono.elapsed(), "Atlas loaded");
 }
 
-void Atlas::_loadCells()
+void Atlas::_load()
 {
     if (_modelDescriptor)
         _scene.removeModel(_modelDescriptor->getModelID());
@@ -70,13 +67,32 @@ void Atlas::_loadCells()
         ThreadSafeContainer container(*model, false);
 
         const auto region = regions[index];
-        const auto cells =
-            connector.getAtlasCells(region, _details.cellSqlFilter);
-        for (const auto& cell : cells)
-            container.addSphere(cell.second.position, _details.cellRadius,
-                                cell.second.region);
+        if (_details.loadCells)
+        {
+            const auto cells =
+                connector.getAtlasCells(region, _details.cellSqlFilter);
+            for (const auto& cell : cells)
+                container.addSphere(cell.second.position, _details.cellRadius,
+                                    cell.second.region);
 #pragma omp critical
-        nbCells += cells.size();
+            nbCells += cells.size();
+        }
+
+        if (_details.loadMeshes)
+        {
+            const Vector3d position = doublesToVector3d(_details.meshPosition);
+            const Quaterniond rotation =
+                doublesToQuaterniond(_details.meshRotation);
+            const Vector3d scale = doublesToVector3d(_details.meshScale);
+            auto mesh = connector.getAtlasMesh(region);
+            for (auto& vertex : mesh.vertices)
+            {
+                const Vector3d p = Vector3d(vertex) + position;
+                const Vector3d r = rotation * p;
+                vertex = scale * r;
+            }
+            container.addMesh(region, mesh);
+        }
 
 #pragma omp critical
         containers.push_back(container);
@@ -97,7 +113,6 @@ void Atlas::_loadCells()
         auto& container = containers[i];
         container.commitToModel();
     }
-
     ModelMetadata metadata = {{"Number of regions",
                                std::to_string(regions.size())},
                               {"Number of cells", std::to_string(nbCells)}};
@@ -111,6 +126,5 @@ void Atlas::_loadCells()
         PLUGIN_THROW("Atlas model could not be created");
 }
 
-void Atlas::_loadMeshes() {}
 } // namespace atlas
 } // namespace bioexplorer

@@ -50,8 +50,7 @@ public:
     Atlas(Scene& scene, const AtlasDetails& details);
 
 private:
-    void _loadCells();
-    void _loadMeshes();
+    void _load();
 
     const AtlasDetails _details;
     Scene& _scene;

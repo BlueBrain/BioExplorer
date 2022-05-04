@@ -32,6 +32,7 @@ namespace io
 {
 namespace db
 {
+using namespace brayns;
 using namespace details;
 using namespace common;
 using namespace morphology;
@@ -235,6 +236,15 @@ public:
      */
     CellMap getAtlasCells(const uint64_t regionId,
                           const std::string& sqlCondition = "") const;
+
+    /**
+     * @brief Get the mesh of a given region from the brain atlas
+     *
+     * @param regionId Region identifier
+     * statement
+     * @return TrianglesMesh A triangles mesh
+     */
+    TriangleMesh getAtlasMesh(const uint64_t regionId) const;
 
     static std::mutex _mutex;
     static DBConnector* _instance;
