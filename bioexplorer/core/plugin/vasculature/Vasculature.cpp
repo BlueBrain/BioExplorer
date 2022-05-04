@@ -55,6 +55,7 @@ void Vasculature::_importFromDB()
 {
     auto& connector = DBConnector::getInstance();
 
+    PLUGIN_INFO(1, "Loading nodes...");
     _nodes = connector.getVasculatureNodes(_details.populationName,
                                            _details.sqlFilter);
 
@@ -135,13 +136,11 @@ void Vasculature::_buildGraphModel(Model& model,
     const double radiusMultiplier = _details.radiusMultiplier;
     size_t materialId = 0;
     ThreadSafeContainers containers;
+    uint64_t counter = 0;
     uint64_t index;
-#pragma omp parallel for private(index)
+#pragma omp parallel for
     for (index = 0; index < _sections.size(); ++index)
     {
-        if (omp_get_thread_num() == 0)
-            PLUGIN_PROGRESS("Loading vasculature", index, _sections.size());
-
         auto it = _sections.begin();
         std::advance(it, index);
         const auto& section = it->second;
@@ -186,6 +185,13 @@ void Vasculature::_buildGraphModel(Model& model,
                           materialId, userData);
 #pragma omp critical
         containers.push_back(container);
+
+#pragma omp critical
+        ++counter;
+
+#pragma omp critical
+        PLUGIN_PROGRESS("Loading " << _sections.size() << " sections", counter,
+                        _sections.size());
     }
 
     for (size_t i = 0; i < containers.size(); ++i)
@@ -206,14 +212,11 @@ void Vasculature::_buildSimpleModel(
     const auto useSdf = _details.useSdf;
 
     ThreadSafeContainers containers;
+    uint64_t counter = 0;
     uint64_t index;
-#pragma omp parallel for private(index)
+#pragma omp parallel
     for (index = 0; index < _sections.size(); ++index)
     {
-        if (omp_get_thread_num() == 0)
-            PLUGIN_PROGRESS("Loading vasculature", index,
-                            _sections.size() / omp_get_max_threads());
-
         auto it = _sections.begin();
         std::advance(it, index);
         const auto& section = it->second;
@@ -302,6 +305,13 @@ void Vasculature::_buildSimpleModel(
         }
 #pragma omp critical
         containers.push_back(container);
+
+#pragma omp critical
+        ++counter;
+
+#pragma omp critical
+        PLUGIN_PROGRESS("Loading " << _sections.size() << " sections", counter,
+                        _sections.size());
     }
     PLUGIN_INFO(1, "");
 
