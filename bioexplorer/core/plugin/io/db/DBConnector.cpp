@@ -209,7 +209,7 @@ GeometryNodes DBConnector::getVasculatureNodes(
             populationName + ".node";
         if (!filter.empty())
             sql += " WHERE " + filter;
-        sql += " ORDER BY guid";
+
         PLUGIN_DEBUG(sql);
         auto res = transaction.exec(sql);
         for (auto c = res.begin(); c != res.end(); ++c)
@@ -232,6 +232,30 @@ GeometryNodes DBConnector::getVasculatureNodes(
     }
 
     return nodes;
+}
+
+uint64_ts DBConnector::getVasculatureSections(const std::string& populationName,
+                                              const std::string& filter) const
+{
+    uint64_ts sectionIds;
+    pqxx::read_transaction transaction(*_connections[omp_get_thread_num()]);
+    try
+    {
+        std::string sql =
+            "SELECT distinct(section_guid) FROM " + populationName + ".node";
+        if (!filter.empty())
+            sql += " WHERE " + filter;
+        PLUGIN_DEBUG(sql);
+        auto res = transaction.exec(sql);
+        for (auto c = res.begin(); c != res.end(); ++c)
+            sectionIds.push_back(c[0].as<uint64_t>());
+    }
+    catch (const pqxx::sql_error& e)
+    {
+        PLUGIN_THROW(e.what());
+    }
+
+    return sectionIds;
 }
 
 GeometryEdges DBConnector::getVasculatureEdges(

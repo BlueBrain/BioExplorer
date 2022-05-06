@@ -116,6 +116,15 @@ public:
                                       const std::string& filter = "") const;
 
     /**
+     * @brief Get the sections for a given population
+     *
+     * @param populationId Id of the population
+     * @return Section ids
+     */
+    uint64_ts getVasculatureSections(const std::string& populationName,
+                                     const std::string& filter = "") const;
+
+    /**
      * @brief Get the Edges for a given population
      *
      * @param populationName Name of the population
