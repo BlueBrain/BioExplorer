@@ -929,7 +929,7 @@ inline vec3f AdvancedRenderer_shadeRay(
     ray.t = maxt;
     bool moreRebounds = true;
 
-    while (moreRebounds && depth < self->maxBounces && color.w < 0.95f)
+    while (moreRebounds && depth < self->maxBounces && color.w < 1.f)
     {
         float totalOpacity = 0.f;
 
@@ -954,8 +954,9 @@ inline vec3f AdvancedRenderer_shadeRay(
         {
             DifferentialGeometry dg;
             postIntersect(self->super.model, dg, ray,
-                          DG_NG | DG_NS | DG_NORMALIZE | DG_TANGENTS |
-                              DG_MATERIALID | DG_COLOR | DG_TEXCOORD);
+                          DG_NG | DG_NS | DG_NORMALIZE | DG_FACEFORWARD |
+                              DG_TANGENTS | DG_MATERIALID | DG_COLOR |
+                              DG_TEXCOORD);
 
             // Get intersection information
             // Initialize geometry shading attributes
@@ -1030,9 +1031,16 @@ inline vec3f AdvancedRenderer_shadeRay(
                 // Combine all contributions
                 processFinalContribution(attributes);
 
+#if 0
                 composite(make_vec4f(attributes.finalContribution,
                                      totalOpacity),
                           color, 1.0f);
+#else
+                color = make_vec4f(make_vec3f(color) +
+                                       attributes.finalContribution *
+                                           attributes.opacity,
+                                   color.w + attributes.opacity);
+#endif
 
                 // Prepare next ray
                 ray.org = dg.P + ray.dir * (self->epsilonFactor * dg.epsilon);
@@ -1047,6 +1055,8 @@ inline vec3f AdvancedRenderer_shadeRay(
             ray.instID = -1;
         }
     }
+
+    color.w = clamp(color.w, 0.f, 1.f);
 
     // Fog attenuation
     const float fogAttenuation =
