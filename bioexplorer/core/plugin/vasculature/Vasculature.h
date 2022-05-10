@@ -79,21 +79,21 @@ public:
      *
      * @return uint64_t Number of sub-graphs in the vasculature
      */
-    uint64_t getNbSubGraphs() const { return _nbGraphs; }
+    uint64_t getNbSubGraphs() const { return _subGraphs.size(); }
 
     /**
      * @brief Get the number of pairs in the vasculature
      *
      * @return uint64_t Number of pairs in the vasculature
      */
-    uint64_t getNbPairs() const { return _nbPairs; }
+    uint64_t getNbPairs() const { return _pairs.size(); }
 
     /**
      * @brief Get the number of entry nodes in the vasculature
      *
      * @return uint64_t Number of entry nodes in the vasculature
      */
-    uint64_t getNbEntryNodes() const { return _nbEntryNodes; }
+    uint64_t getNbEntryNodes() const { return _entryNodes.size(); }
 
     /**
      * @brief Get the number of sections in the vasculature
@@ -122,9 +122,9 @@ private:
     Scene& _scene;
     uint64_t _nbNodes{0};
     uint64_t _nbSections{0};
-    uint64_t _nbGraphs{0};
-    uint64_t _nbPairs{0};
-    uint64_t _nbEntryNodes{0};
+    std::set<uint64_t> _subGraphs;
+    std::set<uint64_t> _pairs;
+    std::set<uint64_t> _entryNodes;
 };
 } // namespace vasculature
 } // namespace bioexplorer
