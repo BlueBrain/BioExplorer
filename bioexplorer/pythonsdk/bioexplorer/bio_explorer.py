@@ -280,7 +280,7 @@ class BioExplorer:
     VASCULATURE_COLOR_SCHEME_SUBGRAPH = 3
     VASCULATURE_COLOR_SCHEME_PAIR = 4
     VASCULATURE_COLOR_SCHEME_ENTRYNODE = 5
-    VASCULATURE_COLOR_SCHEME_SECTION_GRADIENT = 6
+    VASCULATURE_COLOR_SCHEME_RADIUS = 6
 
     MORPHOLOGY_COLOR_SCHEME_NONE = 0
     MORPHOLOGY_COLOR_SCHEME_SECTION = 1
@@ -2258,7 +2258,8 @@ class BioExplorer:
         return self._invoke_and_check('add-atlas', params)
 
     def add_vasculature(
-            self, assembly_name, population_name, use_sdf=False, section_gids=list(),
+            self, assembly_name, population_name, color_scheme=VASCULATURE_COLOR_SCHEME_NONE,
+            use_sdf=False, section_gids=list(),
             load_capilarities=False, quality=VASCULATURE_QUALITY_HIGH,
             radius_multiplier=1.0, sql_filter='', scale=Vector3(1.0, 1.0, 1.0)):
         """
@@ -2266,7 +2267,7 @@ class BioExplorer:
 
         :assembly_name: Name of the assembly to which the vasculature should be added
         :population_name Name of the node population
-        :path: File name to the H5 vasculature file
+        :color_scheme: Color scheme applied to the vasculature (node, graph, section, etc)
         :use_sdf: Use sign distance fields geometry to create the vasculature. Defaults to False
         :node_gids: List of segment GIDs to load. Defaults to list()
         :quality: Quality of the vasculature geometry (0 is the graph, 1 with low details, 2
@@ -2283,6 +2284,7 @@ class BioExplorer:
         params = dict()
         params["assemblyName"] = assembly_name
         params["populationName"] = population_name
+        params["colorScheme"] = color_scheme
         params["useSdf"] = use_sdf
         params["gids"] = section_gids
         params["loadCapilarities"] = load_capilarities
@@ -2307,43 +2309,6 @@ class BioExplorer:
             s = param.split('=')
             vasculature_info[s[0]] = int(s[1])
         return vasculature_info
-
-    def set_vasculature_color_scheme(self, assembly_name, color_scheme, palette_name):
-        """
-        Set a color scheme to the vasculature
-
-        :assembly_name: Name of the assembly containing the vasculature
-        :color_scheme: Vasculature color scheme
-        :palette_name: MatplotLib palette name
-
-        :return: Result of the request submission
-        """
-        palette_size = 1
-        vasculature_info = self.get_vasculature_info(assembly_name)
-        if color_scheme == self.VASCULATURE_COLOR_SCHEME_NODE:
-            palette_size = vasculature_info['nbNodes']
-        elif color_scheme == self.VASCULATURE_COLOR_SCHEME_SECTION:
-            palette_size = vasculature_info['nbSections']
-        elif color_scheme == self.VASCULATURE_COLOR_SCHEME_SUBGRAPH:
-            palette_size = vasculature_info['nbSubGraphs']
-        elif color_scheme == self.VASCULATURE_COLOR_SCHEME_PAIR:
-            palette_size = vasculature_info['nbPairs']
-        elif color_scheme == self.VASCULATURE_COLOR_SCHEME_ENTRYNODE:
-            palette_size = vasculature_info['nbEntryNodes']
-        elif color_scheme == self.VASCULATURE_COLOR_SCHEME_SECTION_GRADIENT:
-            palette_size = vasculature_info['nbMaxSegmentsPerSection']
-
-        palette = sns.color_palette(palette_name, palette_size)
-        colors = list()
-        for color in palette:
-            for i in range(3):
-                colors.append(color[i])
-
-        params = dict()
-        params["assemblyName"] = assembly_name
-        params["colorScheme"] = color_scheme
-        params["palette"] = colors
-        return self._invoke_and_check('set-vasculature-color-scheme', params)
 
     def set_vasculature_report(self, assembly_name, population_name, report_simulation_id):
         """

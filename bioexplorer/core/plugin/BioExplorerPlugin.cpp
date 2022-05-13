@@ -531,13 +531,6 @@ void BioExplorerPlugin::init()
             [&](const NameDetails &payload) -> Response
             { return _getVasculatureInfo(payload); });
 
-        endPoint = PLUGIN_API_PREFIX + "set-vasculature-color-scheme";
-        PLUGIN_INFO(1, "Registering '" + endPoint + "' endpoint");
-        actionInterface
-            ->registerRequest<VasculatureColorSchemeDetails, Response>(
-                endPoint, [&](const VasculatureColorSchemeDetails &payload)
-                { return _setVasculatureColorScheme(payload); });
-
         endPoint = PLUGIN_API_PREFIX + "set-vasculature-report";
         PLUGIN_INFO(1, "Registering '" + endPoint + "' endpoint");
         actionInterface->registerRequest<VasculatureReportDetails, Response>(
@@ -1877,13 +1870,6 @@ Response BioExplorerPlugin::_getVasculatureInfo(
     const NameDetails &payload) const
 {
     ASSEMBLY_CALL(payload.name, getVasculatureInfo());
-}
-
-Response BioExplorerPlugin::_setVasculatureColorScheme(
-    const VasculatureColorSchemeDetails &payload)
-{
-    ASSEMBLY_CALL_VOID(payload.assemblyName,
-                       setVasculatureColorScheme(payload));
 }
 
 Response BioExplorerPlugin::_setVasculatureReport(

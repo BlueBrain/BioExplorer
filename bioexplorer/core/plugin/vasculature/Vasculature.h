@@ -53,13 +53,6 @@ public:
     Vasculature(Scene& scene, const VasculatureDetails& details);
 
     /**
-     * @brief Apply a specified color scheme to the vasculature
-     *
-     * @param details Details of the color scheme to apply
-     */
-    void setColorScheme(const VasculatureColorSchemeDetails& details);
-
-    /**
      * @brief Apply a radius report to the astrocyte. This modifies vasculature
      * structure according to radii defined in the report
      *
@@ -75,27 +68,6 @@ public:
     uint64_t getNbNodes() const { return _nbNodes; }
 
     /**
-     * @brief Get the number of sub-graphs in the vasculature
-     *
-     * @return uint64_t Number of sub-graphs in the vasculature
-     */
-    uint64_t getNbSubGraphs() const { return _subGraphs.size(); }
-
-    /**
-     * @brief Get the number of pairs in the vasculature
-     *
-     * @return uint64_t Number of pairs in the vasculature
-     */
-    uint64_t getNbPairs() const { return _pairs.size(); }
-
-    /**
-     * @brief Get the number of entry nodes in the vasculature
-     *
-     * @return uint64_t Number of entry nodes in the vasculature
-     */
-    uint64_t getNbEntryNodes() const { return _entryNodes.size(); }
-
-    /**
      * @brief Get the number of sections in the vasculature
      *
      * @return uint64_t Number of sections in the vasculature
@@ -103,28 +75,21 @@ public:
     uint64_t getNbSections() const { return _nbSections; }
 
 private:
-    void _buildGraphModel(Model& model,
-                          const VasculatureColorSchemeDetails& details);
-    void _buildSimpleModel(Model& model,
-                           const VasculatureColorSchemeDetails& details,
+    void _buildGraphModel(Model& model, ThreadSafeContainers& containers,
+                          const uint64_ts& sectionIds);
+    void _buildSimpleModel(Model& model, ThreadSafeContainers& containers,
+                           const uint64_ts& sectionIds,
                            const doubles& radii = doubles());
-    void _buildAdvancedModel(Model& model,
-                             const VasculatureColorSchemeDetails& details,
+    void _buildAdvancedModel(Model& model, ThreadSafeContainers& containers,
+                             const uint64_ts& sectionIds,
                              const doubles& radii = doubles());
 
-    void _buildModel(const VasculatureColorSchemeDetails& details =
-                         VasculatureColorSchemeDetails(),
-                     const doubles& radii = doubles());
-
-    void _applyPaletteToModel(Model& model, const doubles& palette);
+    void _buildModel(const doubles& radii = doubles());
 
     const VasculatureDetails _details;
     Scene& _scene;
     uint64_t _nbNodes{0};
     uint64_t _nbSections{0};
-    std::set<uint64_t> _subGraphs;
-    std::set<uint64_t> _pairs;
-    std::set<uint64_t> _entryNodes;
 };
 } // namespace vasculature
 } // namespace bioexplorer

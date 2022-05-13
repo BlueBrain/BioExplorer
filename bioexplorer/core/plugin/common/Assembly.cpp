@@ -623,28 +623,8 @@ std::string Assembly::getVasculatureInfo() const
     std::stringstream s;
     s << "modelId=" << modelDescriptor->getModelID() << CONTENTS_DELIMITER
       << "nbNodes=" << _vasculature->getNbNodes() << CONTENTS_DELIMITER
-      << "nbSubGraphs=" << _vasculature->getNbSubGraphs() << CONTENTS_DELIMITER
-      << "nbSections=" << _vasculature->getNbSections() << CONTENTS_DELIMITER
-      << "nbPairs=" << _vasculature->getNbPairs() << CONTENTS_DELIMITER
-      << "nbEntryNodes=" << _vasculature->getNbEntryNodes();
+      << "nbSections=" << _vasculature->getNbSections();
     return s.str().c_str();
-}
-
-void Assembly::setVasculatureColorScheme(
-    const VasculatureColorSchemeDetails &details)
-{
-    if (!_vasculature)
-        PLUGIN_THROW("No vasculature currently exists");
-
-    auto modelDescriptor = _vasculature->getModelDescriptor();
-    if (modelDescriptor)
-    {
-        const auto modelId = modelDescriptor->getModelID();
-        _scene.removeModel(modelId);
-    }
-
-    _vasculature->setColorScheme(details);
-    _scene.markModified(false);
 }
 
 void Assembly::setVasculatureReport(const VasculatureReportDetails &details)

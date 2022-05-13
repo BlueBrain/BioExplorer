@@ -877,8 +877,8 @@ enum class VasculatureColorScheme
     pair = 4,
     /** Colored by entry node */
     entry_node = 5,
-    /** Gradient colored sections */
-    section_gradient = 6
+    /** Colored by radius */
+    radius = 6
 };
 
 enum class VasculatureQuality
@@ -894,6 +894,8 @@ typedef struct
     std::string assemblyName;
     /** Population name */
     std::string populationName;
+    /** Color scheme **/
+    VasculatureColorScheme colorScheme;
     /** Use Signed Distance Fields as geometry */
     bool useSdf;
     /** Node gids to load. All if empty */
@@ -907,20 +909,6 @@ typedef struct
     /** Scale of the vasculature in the scene */
     doubles scale;
 } VasculatureDetails;
-
-/**
- * @brief Defines the color scheme to apply to a vasculature
- *
- */
-typedef struct
-{
-    /** Name of the assembly containing the vasculature */
-    std::string assemblyName;
-    /** Color scheme **/
-    VasculatureColorScheme colorScheme;
-    /** Palette of colors (RGB values) */
-    doubles palette;
-} VasculatureColorSchemeDetails;
 
 typedef struct
 {

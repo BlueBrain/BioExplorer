@@ -109,8 +109,9 @@ public:
     /**
      * @brief Get the Nodes for a given population
      *
-     * @param populationId Id of the population
-     * @return GeometryNodes
+     * @param populationName Name of the population
+     * @param filter SQL condition
+     * @return GeometryNodes Vasculature nodes
      */
     GeometryNodes getVasculatureNodes(const std::string& populationName,
                                       const std::string& filter = "") const;
@@ -118,11 +119,22 @@ public:
     /**
      * @brief Get the sections for a given population
      *
-     * @param populationId Id of the population
+     * @param populationName Name of the population
+     * @param filter SQL condition
      * @return Section ids
      */
     uint64_ts getVasculatureSections(const std::string& populationName,
                                      const std::string& filter = "") const;
+
+    /**
+     * @brief Get the Vasculature radius range
+     *
+     * @param populationName Name of the population
+     * @param filter SQL condition
+     * @return Vector2d Min and max radius for the node selection
+     */
+    Vector2d getVasculatureRadiusRange(const std::string& populationName,
+                                       const std::string& filter) const;
 
     /**
      * @brief Get the Edges for a given population

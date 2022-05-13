@@ -104,8 +104,6 @@ std::string to_json(const ProteinInspectionDetails &param);
 
 // Vasculature
 bool from_json(VasculatureDetails &param, const std::string &payload);
-bool from_json(VasculatureColorSchemeDetails &param,
-               const std::string &payload);
 bool from_json(VasculatureReportDetails &param, const std::string &payload);
 bool from_json(VasculatureRadiusReportDetails &param,
                const std::string &payload);
