@@ -1,6 +1,9 @@
 var annotated_dup =
 [
     [ "bioexplorer", null, [
+      [ "atlas", null, [
+        [ "Atlas", "d3/d86/classbioexplorer_1_1atlas_1_1Atlas.html", "d3/d86/classbioexplorer_1_1atlas_1_1Atlas" ]
+      ] ],
       [ "common", null, [
         [ "Assembly", "d2/d82/classbioexplorer_1_1common_1_1Assembly.html", "d2/d82/classbioexplorer_1_1common_1_1Assembly" ],
         [ "BezierShape", "d2/d30/classbioexplorer_1_1common_1_1BezierShape.html", "d2/d30/classbioexplorer_1_1common_1_1BezierShape" ],
@@ -34,6 +37,7 @@ var annotated_dup =
         [ "AssemblyDetails", "d1/da5/structbioexplorer_1_1details_1_1AssemblyDetails.html", "d1/da5/structbioexplorer_1_1details_1_1AssemblyDetails" ],
         [ "AssemblyTransformationsDetails", "d6/dd0/structbioexplorer_1_1details_1_1AssemblyTransformationsDetails.html", "d6/dd0/structbioexplorer_1_1details_1_1AssemblyTransformationsDetails" ],
         [ "AstrocytesDetails", "df/d08/structbioexplorer_1_1details_1_1AstrocytesDetails.html", "df/d08/structbioexplorer_1_1details_1_1AstrocytesDetails" ],
+        [ "AtlasDetails", "d1/da9/structbioexplorer_1_1details_1_1AtlasDetails.html", "d1/da9/structbioexplorer_1_1details_1_1AtlasDetails" ],
         [ "BuildFieldsDetails", "dc/d5b/structbioexplorer_1_1details_1_1BuildFieldsDetails.html", "dc/d5b/structbioexplorer_1_1details_1_1BuildFieldsDetails" ],
         [ "BuildPointCloudDetails", "d5/dc6/structbioexplorer_1_1details_1_1BuildPointCloudDetails.html", "d5/dc6/structbioexplorer_1_1details_1_1BuildPointCloudDetails" ],
         [ "DatabaseAccessDetails", "dc/dd9/structbioexplorer_1_1details_1_1DatabaseAccessDetails.html", "dc/dd9/structbioexplorer_1_1details_1_1DatabaseAccessDetails" ],
@@ -124,6 +128,7 @@ var annotated_dup =
       [ "morphology", null, [
         [ "Astrocytes", "d2/d3a/classbioexplorer_1_1morphology_1_1Astrocytes.html", "d2/d3a/classbioexplorer_1_1morphology_1_1Astrocytes" ],
         [ "AstrocyteSoma", "d6/d17/structbioexplorer_1_1morphology_1_1AstrocyteSoma.html", "d6/d17/structbioexplorer_1_1morphology_1_1AstrocyteSoma" ],
+        [ "Cell", "d0/d2e/structbioexplorer_1_1morphology_1_1Cell.html", "d0/d2e/structbioexplorer_1_1morphology_1_1Cell" ],
         [ "EndFoot", "d6/d46/structbioexplorer_1_1morphology_1_1EndFoot.html", "d6/d46/structbioexplorer_1_1morphology_1_1EndFoot" ],
         [ "Morphologies", "dc/dbc/classbioexplorer_1_1morphology_1_1Morphologies.html", "dc/dbc/classbioexplorer_1_1morphology_1_1Morphologies" ],
         [ "Neurons", "d1/d39/classbioexplorer_1_1morphology_1_1Neurons.html", "d1/d39/classbioexplorer_1_1morphology_1_1Neurons" ],

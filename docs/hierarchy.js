@@ -19,6 +19,7 @@ var hierarchy =
     [ "bioexplorer::details::AssemblyTransformationsDetails", "d6/dd0/structbioexplorer_1_1details_1_1AssemblyTransformationsDetails.html", null ],
     [ "bioexplorer::details::AstrocytesDetails", "df/d08/structbioexplorer_1_1details_1_1AstrocytesDetails.html", null ],
     [ "bioexplorer::morphology::AstrocyteSoma", "d6/d17/structbioexplorer_1_1morphology_1_1AstrocyteSoma.html", null ],
+    [ "bioexplorer::details::AtlasDetails", "d1/da9/structbioexplorer_1_1details_1_1AtlasDetails.html", null ],
     [ "bioexplorer::molecularsystems::Atom", "df/d73/structbioexplorer_1_1molecularsystems_1_1Atom.html", null ],
     [ "bioexplorer::metabolism::AttachHandlerDetails", "dd/d21/structbioexplorer_1_1metabolism_1_1AttachHandlerDetails.html", null ],
     [ "bioexplorer::details::BuildFieldsDetails", "dc/d5b/structbioexplorer_1_1details_1_1BuildFieldsDetails.html", null ],
@@ -27,6 +28,7 @@ var hierarchy =
       [ "bioexplorer::rendering::PerspectiveStereoCamera", "d8/d50/structbioexplorer_1_1rendering_1_1PerspectiveStereoCamera.html", null ]
     ] ],
     [ "bioexplorer::mediamaker::CameraDefinition", "dd/d32/structbioexplorer_1_1mediamaker_1_1CameraDefinition.html", null ],
+    [ "bioexplorer::morphology::Cell", "d0/d2e/structbioexplorer_1_1morphology_1_1Cell.html", null ],
     [ "bioexplorer::details::DatabaseAccessDetails", "dc/dd9/structbioexplorer_1_1details_1_1DatabaseAccessDetails.html", null ],
     [ "bioexplorer::io::db::DBConnector", "d9/d96/classbioexplorer_1_1io_1_1db_1_1DBConnector.html", null ],
     [ "bioexplorer::metabolism::DBConnector", "db/df8/classbioexplorer_1_1metabolism_1_1DBConnector.html", null ],
@@ -69,6 +71,7 @@ var hierarchy =
     [ "bioexplorer::details::NeuronsDetails", "dc/d93/structbioexplorer_1_1details_1_1NeuronsDetails.html", null ],
     [ "bioexplorer::morphology::NeuronSoma", "d9/d24/structbioexplorer_1_1morphology_1_1NeuronSoma.html", null ],
     [ "bioexplorer::common::Node", "d7/d93/classbioexplorer_1_1common_1_1Node.html", [
+      [ "bioexplorer::atlas::Atlas", "d3/d86/classbioexplorer_1_1atlas_1_1Atlas.html", null ],
       [ "bioexplorer::common::SDFGeometries", "d1/d1c/classbioexplorer_1_1common_1_1SDFGeometries.html", [
         [ "bioexplorer::morphology::Morphologies", "dc/dbc/classbioexplorer_1_1morphology_1_1Morphologies.html", [
           [ "bioexplorer::morphology::Astrocytes", "d2/d3a/classbioexplorer_1_1morphology_1_1Astrocytes.html", null ],

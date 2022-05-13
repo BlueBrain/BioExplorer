@@ -4,5 +4,5 @@ digraph "Graphical Class Hierarchy"
   edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
   node [fontname="Helvetica",fontsize="10",shape=record];
   rankdir="LR";
-  Node0 [label="bioexplorer::details\l::MembraneDetails",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$d0/ddb/structbioexplorer_1_1details_1_1MembraneDetails.html",tooltip="A membrane is a shaped assembly of phospholipids."];
+  Node0 [label="bioexplorer::details\l::MaterialsDetails",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$d7/d84/structbioexplorer_1_1details_1_1MaterialsDetails.html",tooltip="Structure containing attributes of materials attached to one or several Brayns models."];
 }
