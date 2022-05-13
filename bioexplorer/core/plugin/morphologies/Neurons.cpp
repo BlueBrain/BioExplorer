@@ -231,7 +231,7 @@ void Neurons::_addVaricosity(Vector4fs& points)
     const uint64_t middlePointIndex = points.size() / 2;
     const auto& startPoint = points[middlePointIndex];
     const auto& endPoint = points[middlePointIndex + 1];
-    const double radius = std::min(startPoint.w, endPoint.w);
+    const double radius = std::min(startPoint.w, startPoint.w);
 
     const auto sp = Vector3d(startPoint);
     const auto ep = Vector3d(endPoint);
@@ -245,9 +245,9 @@ void Neurons::_addVaricosity(Vector4fs& points)
     const Vector3d p2 = sp + dir * 0.8;
 
     auto idx = points.begin() + middlePointIndex + 1;
-    idx = points.insert(idx, {p2.x, p2.y, p2.z, radius});
+    idx = points.insert(idx, {p2.x, p2.y, p2.z, startPoint.w});
     idx = points.insert(idx, {p1.x, p1.y, p1.z, radius * 2.0});
-    points.insert(idx, {p0.x, p0.y, p0.z, radius});
+    points.insert(idx, {p0.x, p0.y, p0.z, endPoint.w});
 }
 
 void Neurons::_addSection(ThreadSafeContainer& container,

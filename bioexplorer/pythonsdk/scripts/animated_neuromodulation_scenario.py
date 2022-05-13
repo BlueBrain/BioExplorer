@@ -395,7 +395,7 @@ class NeuromodulationScenario(MovieScenario):
         # self._check(self._be.set_models_visibility(True))
         if frame >= self._diffusion_1_start_frame and \
             frame<self._diffusion_1_start_frame + self._diffusion_1_nb_frames:
-            radius = 0.3 + 1.5 * float(frame - self._diffusion_1_start_frame) / float(self._diffusion_1_nb_frames)
+            radius = 0.1 + 3.0 * float(frame - self._diffusion_1_start_frame) / float(self._diffusion_1_nb_frames)
             self._log(1, 'Diffusion 1 : %f' % radius)
             self._add_acetylcholin(
                 self._varicosity, radius,
