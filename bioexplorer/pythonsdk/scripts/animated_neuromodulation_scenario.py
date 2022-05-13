@@ -36,6 +36,7 @@ acetylcholin_path = os.path.join(pdb_folder, 'neuromodulation', 'acetylcholin.pd
 ''' Protein representation '''
 representation = BioExplorer.REPRESENTATION_ATOMS
 atom_radius_multiplier = 2.0
+generate_internals = False
 
 '''Scene information'''
 scale = Vector3(1000, 1000, 1000)
@@ -54,13 +55,16 @@ class NeuromodulationScenario(MovieScenario):
         db_user = os.environ['DB_USER']
         db_password = os.environ['DB_PASSWORD']
         self._neuron_population_name = 'o1'
+        self._vasculature_assembly_name = 'Vasculature'
         self._vasculature_population_name = 'vasculature'
+        self._astrocytes_assembly_name = 'Astrocytes'
         self._astrocytes_population_name = 'astrocytes'
+        self._report_simulation_id = 2
         self._varicosity = Vector3()
         self._synapse = Vector3()
 
         self._nb_frames_between_keys = nb_frames_between_keys
-        self._diffusion_1_nb_molecules = 1500000
+        self._diffusion_1_nb_molecules = 3000000
         self._diffusion_1_start_frame = self._nb_frames_between_keys * 2
         self._diffusion_1_nb_frames = int(self._nb_frames_between_keys * 2.2)
 
@@ -89,7 +93,7 @@ class NeuromodulationScenario(MovieScenario):
             use_sdf=True, load_synapses=True, generate_varicosities=True,
             load_somas=True, load_axon=True, show_membrane=True,
             load_basal_dendrites=True, load_apical_dendrites=True,
-            generate_internals=False, generate_externals=False,
+            generate_internals=generate_internals, generate_externals=False,
             sql_node_filter='guid=%d' % presynaptic_neuron_id,
             scale=scale
         ))
@@ -101,7 +105,7 @@ class NeuromodulationScenario(MovieScenario):
         self._varicosity = Vector3(
             varicosities[0][0],
             varicosities[0][1],
-            varicosities[0][2]
+            varicosities[0][2] - 0.3
         )
         self._synapse = Vector3(
             varicosities[4][0] + 0.25,
@@ -128,7 +132,7 @@ class NeuromodulationScenario(MovieScenario):
             use_sdf=True, load_synapses=True, generate_varicosities=False,
             load_somas=True, load_axon=False, show_membrane=True,
             load_basal_dendrites=True, load_apical_dendrites=True,
-            generate_internals=False, generate_externals=False,
+            generate_internals=generate_internals, generate_externals=False,
             sql_node_filter='guid=%d' % postsynaptic_1_neuron_id,
             scale=scale
         ))
@@ -160,7 +164,7 @@ class NeuromodulationScenario(MovieScenario):
             use_sdf=True, load_synapses=True, generate_varicosities=True,
             load_somas=True, load_axon=False, show_membrane=True,
             load_basal_dendrites=True, load_apical_dendrites=True,
-            generate_internals=False, generate_externals=False,
+            generate_internals=generate_internals, generate_externals=False,
             sql_node_filter='guid=%d' % postsynaptic_2_neuron_id,
             scale=scale
         ))
@@ -176,13 +180,11 @@ class NeuromodulationScenario(MovieScenario):
         self._core.update_model(id=model_id, transformation=tf)
 
     def _add_vasculature(self):
-        vasculature_assembly_name = 'Vasculature'
-        self._check(self._be.remove_assembly(vasculature_assembly_name))
-        self._check(self._be.add_assembly(vasculature_assembly_name))
+        self._check(self._be.remove_assembly(self._vasculature_assembly_name))
+        self._check(self._be.add_assembly(self._vasculature_assembly_name))
         self._check(self._be.add_vasculature(
-            assembly_name=vasculature_assembly_name,
+            assembly_name=self._vasculature_assembly_name,
             population_name=self._vasculature_population_name,
-            quality=self._be.VASCULATURE_QUALITY_MEDIUM,
             use_sdf=True,
             sql_filter='sqrt(pow(x - %f, 2) + pow(y - %f, 2) + pow(z - %f, 2)) < 200' % (
                 self._varicosity.x, self._varicosity.y, self._varicosity.z),
@@ -190,13 +192,11 @@ class NeuromodulationScenario(MovieScenario):
         ))
 
     def _add_astrocytes(self):
-        astrocytes_assembly_name = 'Astrocytes'
-        self._check(self._be.remove_assembly(astrocytes_assembly_name))
-        self._check(self._be.add_assembly(astrocytes_assembly_name))
+        self._check(self._be.remove_assembly(self._astrocytes_assembly_name))
+        self._check(self._be.add_assembly(self._astrocytes_assembly_name))
         self._check(self._be.add_astrocytes(
-            assembly_name=astrocytes_assembly_name,
+            assembly_name=self._astrocytes_assembly_name,
             population_name=self._astrocytes_population_name,
-            vasculature_population_name=self._vasculature_population_name,
             radius_multiplier=0.5,
             use_sdf=True, generate_internals=True,
             load_somas=True, load_dendrites=True,
@@ -237,6 +237,15 @@ class NeuromodulationScenario(MovieScenario):
         self._set_morphology_materials(
             model_id, 'Greys', len(material_ids),
             self._be.SHADING_MODE_NONE, 1.0, 1.0)
+
+    def _apply_vasculature_report(self, frame):
+        self._log(2, 'Apply radii changes on vasculature')
+        self._check(self._be.set_vasculature_radius_report(
+            assembly_name=self._vasculature_assembly_name,
+            population_name=self._vasculature_population_name,
+            report_simulation_id=self._report_simulation_id,
+            frame=frame % 100
+        ))
 
     def _set_morphology_materials(self, model_id, palette_name, palette_size, shading_mode, glossiness=1.0, emission=0.0, user_param=1.0):
         colors = list()
@@ -316,12 +325,13 @@ class NeuromodulationScenario(MovieScenario):
         model_ids = self._be.get_model_ids()['ids']
         i = 0
         user_param = 0.1 / scale.x
-        for model_id in model_ids:
+        for i in range(len(model_ids)):
+            model_id = model_ids[i]
             emission = 0.0
-            if i==5:
-                continue
             if i==3:
                 user_param = 0.05 / scale.x
+            if i==5:
+                emission=0.3
             if self._draft:
                 self._set_morphology_materials(
                     model_id, palettes[i], self._be.NB_MATERIALS_PER_MORPHOLOGY,
@@ -377,9 +387,15 @@ class NeuromodulationScenario(MovieScenario):
         self._log(1, 'Done')
 
     def build_frame(self, frame):
+        # self._log(1, 'Apply radii report...')
+        # self._apply_vasculature_report(frame)
+        # self._log(1, 'Applying materials...')
+        # self._set_materials()
+        # self._log(1, 'Building geometry...')
+        # self._check(self._be.set_models_visibility(True))
         if frame >= self._diffusion_1_start_frame and \
             frame<self._diffusion_1_start_frame + self._diffusion_1_nb_frames:
-            radius = 0.55 + 1.5 * float(frame - self._diffusion_1_start_frame) / float(self._diffusion_1_nb_frames)
+            radius = 0.1 + 3.0 * float(frame - self._diffusion_1_start_frame) / float(self._diffusion_1_nb_frames)
             self._log(1, 'Diffusion 1 : %f' % radius)
             self._add_acetylcholin(
                 self._varicosity, radius,

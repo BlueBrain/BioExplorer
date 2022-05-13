@@ -2221,6 +2221,42 @@ class BioExplorer:
         """
         return self._invoke_and_check("get-out-of-core-average-loading-time")
 
+    def add_atlas(
+            self, assembly_name,
+            load_cells=True, cell_radius=1.0, load_meshes=False,
+            region_sql_filter='', cell_sql_filter='', scale=Vector3(1.0, 1.0, 1.0),
+            mesh_position=Vector3(), mesh_rotation=Quaternion(), mesh_scale=Vector3()):
+        """
+        Add a brain atlas the 3D scene
+
+        :assembly_name: Name of the assembly to which the astrocytes should be added
+        :load_cells: Load cells if set to true
+        :cell_radius: Cell radius
+        :load_meshes: Load meshes if set to true
+        :region_sql_filter: Condition added to the SQL statement loading the regions
+        :cell_sql_filter: Condition added to the SQL statement loading the cells
+        :scale: Scale in the 3D scene
+
+        :return: Result of the request submission
+        """
+        assert isinstance(scale, Vector3)
+        assert isinstance(mesh_position, Vector3)
+        assert isinstance(mesh_rotation, Quaternion)
+        assert isinstance(mesh_scale, Vector3)
+        
+        params = dict()
+        params["assemblyName"] = assembly_name
+        params["loadCells"] = load_cells
+        params["cellRadius"] = cell_radius
+        params["loadMeshes"] = load_meshes
+        params["cellSqlFilter"] = cell_sql_filter
+        params["regionSqlFilter"] = region_sql_filter
+        params["scale"] = scale.to_list()
+        params["meshPosition"] = mesh_position.to_list()
+        params["meshRotation"] = list(mesh_rotation)
+        params["meshScale"] = mesh_scale.to_list()
+        return self._invoke_and_check('add-atlas', params)
+
     def add_vasculature(
             self, assembly_name, population_name, use_sdf=False, section_gids=list(),
             load_capilarities=False, quality=VASCULATURE_QUALITY_HIGH,

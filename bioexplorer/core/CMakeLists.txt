@@ -84,6 +84,7 @@ set(${NAME}_SOURCES
     plugin/molecularsystems/Protein.cpp
     plugin/molecularsystems/RNASequence.cpp
     plugin/morphologies/Morphologies.cpp
+    plugin/atlas/Atlas.cpp
     plugin/morphologies/Astrocytes.cpp
     plugin/morphologies/Neurons.cpp
     plugin/vasculature/VasculatureHandler.cpp
@@ -105,6 +106,7 @@ set(${NAME}_PUBLIC_HEADERS
     plugin/molecularsystems/Membrane.h
     plugin/molecularsystems/Protein.h
     plugin/molecularsystems/RNASequence.h
+    plugin/atlas/Atlas.h
     plugin/morphologies/Morphologies.h
     plugin/morphologies/Astrocytes.h
     plugin/morphologies/Neurons.h

@@ -72,53 +72,35 @@ public:
      *
      * @return uint64_t Number of nodes in the vasculature
      */
-    uint64_t getNbNodes() const { return _nodes.size(); }
+    uint64_t getNbNodes() const { return _nbNodes; }
 
     /**
      * @brief Get the number of sub-graphs in the vasculature
      *
      * @return uint64_t Number of sub-graphs in the vasculature
      */
-    uint64_t getNbSubGraphs() const { return _graphs.size(); }
+    uint64_t getNbSubGraphs() const { return _subGraphs.size(); }
 
     /**
      * @brief Get the number of pairs in the vasculature
      *
      * @return uint64_t Number of pairs in the vasculature
      */
-    uint64_t getNbPairs() const { return _nbPairs; }
+    uint64_t getNbPairs() const { return _pairs.size(); }
 
     /**
      * @brief Get the number of entry nodes in the vasculature
      *
      * @return uint64_t Number of entry nodes in the vasculature
      */
-    uint64_t getNbEntryNodes() const { return _nbEntryNodes; }
+    uint64_t getNbEntryNodes() const { return _entryNodes.size(); }
 
     /**
      * @brief Get the number of sections in the vasculature
      *
      * @return uint64_t Number of sections in the vasculature
      */
-    uint64_t getNbSections() const { return _sectionIds.size(); }
-
-    /**
-     * @brief Get the size of the node population in the vasculature
-     *
-     * @return uint64_t Size of the node population in the vasculature
-     */
-    uint64_t getPopulationSize() const { return _populationSize; }
-
-    /**
-     * @brief Get the maximum number of segments per section in the vasculature
-     *
-     * @return uint64_t Maximum number of segments per section in the
-     * vasculature
-     */
-    uint64_t getNbMaxSegmentsPerSection() const
-    {
-        return _nbMaxSegmentsPerSection;
-    }
+    uint64_t getNbSections() const { return _nbSections; }
 
 private:
     void _buildGraphModel(Model& model,
@@ -130,9 +112,6 @@ private:
                              const VasculatureColorSchemeDetails& details,
                              const doubles& radii = doubles());
 
-    void _buildEdges(Model& model);
-
-    void _importFromDB();
     void _buildModel(const VasculatureColorSchemeDetails& details =
                          VasculatureColorSchemeDetails(),
                      const doubles& radii = doubles());
@@ -141,14 +120,11 @@ private:
 
     const VasculatureDetails _details;
     Scene& _scene;
-    GeometryNodes _nodes;
-    uint64_t _populationSize{0};
-    std::set<uint64_t> _graphs;
-    std::set<uint64_t> _sectionIds;
-    std::map<uint64_t, uint64_ts> _sections;
-    uint64_t _nbMaxSegmentsPerSection{0};
-    uint64_t _nbPairs{0};
-    uint64_t _nbEntryNodes{0};
+    uint64_t _nbNodes{0};
+    uint64_t _nbSections{0};
+    std::set<uint64_t> _subGraphs;
+    std::set<uint64_t> _pairs;
+    std::set<uint64_t> _entryNodes;
 };
 } // namespace vasculature
 } // namespace bioexplorer

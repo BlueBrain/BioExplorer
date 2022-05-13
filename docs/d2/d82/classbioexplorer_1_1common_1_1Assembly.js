@@ -3,6 +3,7 @@ var classbioexplorer_1_1common_1_1Assembly =
     [ "Assembly", "d2/d82/classbioexplorer_1_1common_1_1Assembly.html#a3ea39f5da1c45f0890833d8d6d885232", null ],
     [ "~Assembly", "d2/d82/classbioexplorer_1_1common_1_1Assembly.html#ae0d5ba2a9af636abd351ddc322f53704", null ],
     [ "addAstrocytes", "d2/d82/classbioexplorer_1_1common_1_1Assembly.html#a16bd6ca3c5e4d946809199921c721549", null ],
+    [ "addAtlas", "d2/d82/classbioexplorer_1_1common_1_1Assembly.html#aae66a505d51b5f0099fd69373e2e091c", null ],
     [ "addEnzymeReaction", "d2/d82/classbioexplorer_1_1common_1_1Assembly.html#a09664a87ea7af2395842019ebd057022", null ],
     [ "addGlycan", "d2/d82/classbioexplorer_1_1common_1_1Assembly.html#af9fc1cb5ea5431123cefb00a87d3f5a1", null ],
     [ "addMembrane", "d2/d82/classbioexplorer_1_1common_1_1Assembly.html#a578209f45d038ef7a8606f31715cced4", null ],

@@ -21,6 +21,8 @@
 #include <plugin/common/Logs.h>
 #include <plugin/common/Utils.h>
 
+#include <brayns/common/geometry/TriangleMesh.h>
+
 namespace bioexplorer
 {
 using namespace morphology;
@@ -29,6 +31,7 @@ namespace io
 namespace db
 {
 const std::string DB_SCHEMA_OUT_OF_CORE = "outofcore";
+const std::string DB_SCHEMA_ATLAS = "atlas";
 const std::string DB_SCHEMA_METABOLISM = "metabolism";
 const std::string DB_SCHEMA_ASTROCYTES = "astrocytes";
 const std::string DB_SCHEMA_CONNECTOME = "connectome";
@@ -206,7 +209,7 @@ GeometryNodes DBConnector::getVasculatureNodes(
             populationName + ".node";
         if (!filter.empty())
             sql += " WHERE " + filter;
-        sql += " ORDER BY guid";
+
         PLUGIN_DEBUG(sql);
         auto res = transaction.exec(sql);
         for (auto c = res.begin(); c != res.end(); ++c)
@@ -229,6 +232,30 @@ GeometryNodes DBConnector::getVasculatureNodes(
     }
 
     return nodes;
+}
+
+uint64_ts DBConnector::getVasculatureSections(const std::string& populationName,
+                                              const std::string& filter) const
+{
+    uint64_ts sectionIds;
+    pqxx::read_transaction transaction(*_connections[omp_get_thread_num()]);
+    try
+    {
+        std::string sql =
+            "SELECT distinct(section_guid) FROM " + populationName + ".node";
+        if (!filter.empty())
+            sql += " WHERE " + filter;
+        PLUGIN_DEBUG(sql);
+        auto res = transaction.exec(sql);
+        for (auto c = res.begin(); c != res.end(); ++c)
+            sectionIds.push_back(c[0].as<uint64_t>());
+    }
+    catch (const pqxx::sql_error& e)
+    {
+        PLUGIN_THROW(e.what());
+    }
+
+    return sectionIds;
 }
 
 GeometryEdges DBConnector::getVasculatureEdges(
@@ -596,6 +623,115 @@ SynapseMap DBConnector::getNeuronSynapses(const std::string& populationName,
     }
 
     return synapses;
+}
+
+uint64_ts DBConnector::getAtlasRegions(const std::string& sqlCondition) const
+{
+    uint64_ts regions;
+
+    pqxx::read_transaction transaction(*_connections[omp_get_thread_num()]);
+    try
+    {
+        std::string sql = "SELECT guid, code, description FROM " +
+                          DB_SCHEMA_ATLAS + ".region";
+
+        if (!sqlCondition.empty())
+            sql += " WHERE " + sqlCondition;
+
+        sql += " ORDER BY guid";
+
+        PLUGIN_DEBUG(sql);
+        auto res = transaction.exec(sql);
+        for (auto c = res.begin(); c != res.end(); ++c)
+            regions.push_back(c[0].as<uint64_t>());
+    }
+    catch (const pqxx::sql_error& e)
+    {
+        PLUGIN_THROW(e.what());
+    }
+
+    return regions;
+}
+
+CellMap DBConnector::getAtlasCells(const uint64_t regionId,
+                                   const std::string& sqlCondition) const
+{
+    CellMap cells;
+
+    pqxx::read_transaction transaction(*_connections[omp_get_thread_num()]);
+    try
+    {
+        std::string sql =
+            "SELECT guid, x, y, z, rotation_x, rotation_y, rotation_z, "
+            "rotation_w, cell_type_guid, electrical_type_guid, region_guid "
+            "FROM " +
+            DB_SCHEMA_ATLAS +
+            ".cell WHERE region_guid=" + std::to_string(regionId);
+
+        if (!sqlCondition.empty())
+            sql += " AND " + sqlCondition;
+
+        PLUGIN_DEBUG(sql);
+        auto res = transaction.exec(sql);
+        for (auto c = res.begin(); c != res.end(); ++c)
+        {
+            Cell cell;
+            cell.position =
+                Vector3d(c[1].as<float>(), c[2].as<float>(), c[3].as<float>());
+            cell.rotation = Quaterniond(c[7].as<float>(), c[4].as<float>(),
+                                        c[5].as<float>(), c[6].as<float>());
+            cell.type = c[8].as<uint64_t>();
+            cell.eType = c[9].as<int64_t>();
+            cell.region = c[10].as<uint64_t>();
+            cells[c[0].as<uint64_t>()] = cell;
+        }
+    }
+    catch (const pqxx::sql_error& e)
+    {
+        PLUGIN_THROW(e.what());
+    }
+
+    return cells;
+}
+
+TriangleMesh DBConnector::getAtlasMesh(const uint64_t regionId) const
+{
+    TriangleMesh mesh;
+
+    pqxx::read_transaction transaction(*_connections[omp_get_thread_num()]);
+    try
+    {
+        const std::string sql =
+            "SELECT vertices, indices, normals, colors FROM " +
+            DB_SCHEMA_ATLAS + ".mesh WHERE guid=" + std::to_string(regionId);
+
+        PLUGIN_DEBUG(sql);
+        auto res = transaction.exec(sql);
+        for (auto c = res.begin(); c != res.end(); ++c)
+        {
+            const pqxx::binarystring vertices(c[0]);
+            mesh.vertices.resize(vertices.size() / sizeof(Vector3f));
+            memcpy(&mesh.vertices.data()[0], vertices.data(), vertices.size());
+
+            const pqxx::binarystring indices(c[1]);
+            mesh.indices.resize(indices.size() / sizeof(Vector3ui));
+            memcpy(&mesh.indices.data()[0], indices.data(), indices.size());
+
+            const pqxx::binarystring normals(c[2]);
+            mesh.normals.resize(normals.size() / sizeof(Vector3f));
+            memcpy(&mesh.normals.data()[0], normals.data(), normals.size());
+
+            const pqxx::binarystring colors(c[3]);
+            mesh.colors.resize(colors.size() / sizeof(Vector3f));
+            memcpy(&mesh.colors.data()[0], colors.data(), colors.size());
+        }
+    }
+    catch (const pqxx::sql_error& e)
+    {
+        PLUGIN_THROW(e.what());
+    }
+
+    return mesh;
 }
 } // namespace db
 } // namespace io

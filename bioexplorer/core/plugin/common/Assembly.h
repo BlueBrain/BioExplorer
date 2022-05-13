@@ -29,6 +29,7 @@ namespace common
 {
 using namespace common;
 using namespace details;
+using namespace atlas;
 using namespace molecularsystems;
 using namespace vasculature;
 using namespace morphology;
@@ -245,6 +246,8 @@ public:
     Vector4ds getNeuronSectionPoints(const NeuronIdSectionIdDetails &details);
     Vector3ds getNeuronVaricosities(const NeuronIdDetails &details);
 
+    void addAtlas(const AtlasDetails &details);
+
 private:
     void _processInstances(ModelDescriptorPtr md, const std::string &name,
                            const size_t occurrences, const Vector3d &position,
@@ -265,6 +268,7 @@ private:
     Vector4ds _clippingPlanes;
     ModelDescriptors _modelDescriptors;
     ShapePtr _shape{nullptr};
+    AtlasPtr _atlas{nullptr};
     VasculaturePtr _vasculature{nullptr};
     AstrocytesPtr _astrocytes{nullptr};
     NeuronsPtr _neurons{nullptr};

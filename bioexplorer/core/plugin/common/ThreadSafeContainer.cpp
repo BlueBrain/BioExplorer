@@ -86,6 +86,12 @@ uint64_t ThreadSafeContainer::addCone(
                                  userDataOffset});
 }
 
+void ThreadSafeContainer::addMesh(const size_t materialId,
+                                  const TriangleMesh& mesh)
+{
+    _meshesMap[materialId] = mesh;
+}
+
 uint64_t ThreadSafeContainer::_addSphere(const size_t materialId,
                                          const Sphere& sphere)
 {
@@ -125,6 +131,7 @@ void ThreadSafeContainer::commitToModel()
     _commitCylindersToModel();
     _commitConesToModel();
     _commitSDFGeometriesToModel();
+    _commitMeshesToModel();
     _commitMaterials();
 }
 
@@ -138,29 +145,6 @@ void ThreadSafeContainer::_finalizeSDFGeometries()
             if (neighbour != i)
                 _sdfMorphologyData.neighbours[neighbour].insert(i);
     }
-
-#if 0
-    for (uint64_t i = 0; i < numGeoms; ++i)
-    {
-        // Convert neighbours from set to vector and erase itself from its
-        // neighbours
-        size_ts neighbours;
-        const auto& neighSet = _sdfMorphologyData.neighbours[i];
-        std::copy(neighSet.begin(), neighSet.end(),
-                  std::back_inserter(neighbours));
-        neighbours.erase(std::remove_if(neighbours.begin(), neighbours.end(),
-                                        [i](uint64_t element) {
-                                            return element == i;
-                                        }),
-                         neighbours.end());
-
-        std::set<uint64_t> neighboursSet;
-        for (const auto neighbour : neighbours)
-            neighboursSet.insert(neighbour);
-        _addSDFGeometry(_sdfMorphologyData.materials[i],
-                        _sdfMorphologyData.geometries[i], neighboursSet);
-    }
-#endif
 }
 
 void ThreadSafeContainer::_commitMaterials()
@@ -255,6 +239,27 @@ void ThreadSafeContainer::_commitSDFGeometriesToModel()
     _sdfMorphologyData.geometries.clear();
     _sdfMorphologyData.neighbours.clear();
     _sdfMorphologyData.materials.clear();
+}
+
+void ThreadSafeContainer::_commitMeshesToModel()
+{
+    for (const auto& meshes : _meshesMap)
+    {
+        const auto materialId = meshes.first;
+        _materialIds.insert(materialId);
+        const auto& srcMesh = meshes.second;
+        auto& dstMesh = _model.getTriangleMeshes()[materialId];
+        dstMesh.vertices.insert(dstMesh.vertices.end(),
+                                srcMesh.vertices.begin(),
+                                srcMesh.vertices.end());
+        dstMesh.indices.insert(dstMesh.indices.end(), srcMesh.indices.begin(),
+                               srcMesh.indices.end());
+        dstMesh.normals.insert(dstMesh.normals.end(), srcMesh.normals.begin(),
+                               srcMesh.normals.end());
+        dstMesh.colors.insert(dstMesh.colors.end(), srcMesh.colors.begin(),
+                              srcMesh.colors.end());
+    }
+    _meshesMap.clear();
 }
 
 } // namespace common

@@ -834,6 +834,32 @@ typedef struct
 } SceneInformationDetails;
 
 /**
+ * @brief Brain atlas
+ *
+ */
+typedef struct
+{
+    /** Name of the assembly containing the atlas */
+    std::string assemblyName;
+    /** Load cells if set to true */
+    bool loadCells{true};
+    /** Cell radius **/
+    double cellRadius{1.f};
+    /** Load region meshes if set to true */
+    bool loadMeshes{true};
+    /** SQL filter for cells (WHERE condition) */
+    std::string cellSqlFilter;
+    /** SQL filter for regions (WHERE condition) */
+    std::string regionSqlFilter;
+    /** Scale of the atlas in the scene */
+    doubles scale;
+    /** Mesh transformation */
+    doubles meshPosition;
+    doubles meshRotation;
+    doubles meshScale;
+} AtlasDetails;
+
+/**
  * @brief Color schemes that can be applied to vasculatures
  *
  */
@@ -1303,6 +1329,12 @@ static details::RGBColorDetailsMap atomColorMap = {
     {"O1", {0xFF, 0x0D, 0x0D}}, {"selection", {0xFF, 0x00, 0x00}}};
 } // namespace molecularsystems
 
+namespace atlas
+{
+class Atlas;
+using AtlasPtr = std::shared_ptr<Atlas>;
+} // namespace atlas
+
 namespace vasculature
 {
 class Vasculature;
@@ -1363,6 +1395,17 @@ typedef struct
     Vector4fs nodes;
 } EndFoot;
 using EndFootMap = std::map<uint64_t, EndFoot>;
+
+typedef struct
+{
+    Vector3d position;
+    Quaterniond rotation;
+    uint64_t type{0};
+    int64_t eType{0};
+    uint64_t region{0};
+} Cell;
+using CellMap = std::map<uint64_t, Cell>;
+
 } // namespace morphology
 
 namespace io

@@ -46,63 +46,8 @@ Vasculature::Vasculature(Scene& scene, const VasculatureDetails& details)
     , _scene(scene)
 {
     Timer chrono;
-    _importFromDB();
     _buildModel();
     PLUGIN_TIMER(chrono.elapsed(), "Vasculature loaded");
-}
-
-void Vasculature::_importFromDB()
-{
-    auto& connector = DBConnector::getInstance();
-
-    _nodes = connector.getVasculatureNodes(_details.populationName,
-                                           _details.sqlFilter);
-
-    std::map<uint64_t, uint64_ts> pairs;
-    std::set<uint64_t> entryNodes;
-    const auto& gids = _details.gids;
-    for (const auto& node : _nodes)
-    {
-        const auto sectionId = node.second.sectionId;
-        if (!gids.empty() &&
-            // Load specified edges only
-            std::find(gids.begin(), gids.end(), sectionId) == gids.end())
-            continue;
-
-        _graphs.insert(node.second.graphId);
-        _sectionIds.insert(node.second.sectionId);
-        _sections[sectionId].push_back(node.first);
-
-        pairs[node.second.pairId].push_back(node.first);
-        entryNodes.insert(node.second.entryNodeId);
-    }
-
-    for (const auto& pair : pairs)
-    {
-        if (pair.second.size() != 2)
-            PLUGIN_WARN("Invalid number of Ids for pair "
-                        << pair.first << ". Expected 2, found "
-                        << pair.second.size());
-
-        const auto nbIds = pair.second.size();
-        auto& edge1 = _nodes[pair.second[0]];
-        edge1.pairId = pair.second[nbIds - 1];
-        auto& edge2 = _nodes[pair.second[nbIds - 1]];
-        edge2.pairId = pair.second[nbIds - 1];
-        const auto graphId1 = edge1.graphId;
-        const auto graphId2 = edge2.graphId;
-        for (auto& node : _nodes)
-            if (node.second.graphId == graphId1 ||
-                node.second.graphId == graphId2)
-                node.second.pairId = pair.first;
-    }
-
-    for (const auto& section : _sections)
-        _nbMaxSegmentsPerSection =
-            std::max(_nbMaxSegmentsPerSection, section.second.size());
-
-    _nbPairs = pairs.size();
-    _nbEntryNodes = entryNodes.size();
 }
 
 void Vasculature::_applyPaletteToModel(Model& model, const doubles& palette)
@@ -134,24 +79,35 @@ void Vasculature::_buildGraphModel(Model& model,
 {
     const double radiusMultiplier = _details.radiusMultiplier;
     size_t materialId = 0;
-    ThreadSafeContainers containers;
-    uint64_t index;
-#pragma omp parallel for private(index)
-    for (index = 0; index < _sections.size(); ++index)
-    {
-        if (omp_get_thread_num() == 0)
-            PLUGIN_PROGRESS("Loading vasculature", index, _sections.size());
 
-        auto it = _sections.begin();
-        std::advance(it, index);
-        const auto& section = it->second;
-        const auto sectionId = it->first;
+    auto& connector = DBConnector::getInstance();
+
+    PLUGIN_INFO(1, "Loading sections...");
+    const auto sections =
+        connector.getVasculatureSections(_details.populationName,
+                                         _details.sqlFilter);
+    _nbSections = sections.size();
+
+    ThreadSafeContainers containers;
+    uint64_t counter = 0;
+    uint64_t index;
+#pragma omp parallel for
+    for (index = 0; index < _nbSections; ++index)
+    {
+        const auto sectionId = sections[index];
+
+        const auto filter = "section_guid=" + std::to_string(sectionId);
+        const auto nodes =
+            connector.getVasculatureNodes(_details.populationName, filter);
+
+        if (nodes.size() < 2)
+            continue;
 
         ThreadSafeContainer container(model, _details.useSdf,
                                       doublesToVector3d(_details.scale));
 
-        const auto& srcNode = _nodes[section[0]];
-        const auto& dstNode = _nodes[section[section.size() - 1]];
+        const auto& srcNode = nodes.begin()->second;
+        const auto& dstNode = (--nodes.end())->second;
 
         switch (details.colorScheme)
         {
@@ -171,7 +127,7 @@ void Vasculature::_buildGraphModel(Model& model,
 
         const auto& src = srcNode.position;
         const auto& dst = dstNode.position;
-        const auto userData = section[0];
+        const auto userData = nodes.begin()->first;
         const auto direction = dst - src;
         const auto maxRadius = std::max(srcNode.radius, dstNode.radius);
         const float radius =
@@ -186,6 +142,16 @@ void Vasculature::_buildGraphModel(Model& model,
                           materialId, userData);
 #pragma omp critical
         containers.push_back(container);
+
+#pragma omp critical
+        ++counter;
+
+#pragma omp critical
+        _nbNodes += nodes.size();
+
+#pragma omp critical
+        PLUGIN_PROGRESS("Loading " << _nbSections << " sections", counter,
+                        _nbSections);
     }
 
     for (size_t i = 0; i < containers.size(); ++i)
@@ -205,103 +171,91 @@ void Vasculature::_buildSimpleModel(
     const auto radiusMultiplier = _details.radiusMultiplier;
     const auto useSdf = _details.useSdf;
 
-    ThreadSafeContainers containers;
-    uint64_t index;
-#pragma omp parallel for private(index)
-    for (index = 0; index < _sections.size(); ++index)
-    {
-        if (omp_get_thread_num() == 0)
-            PLUGIN_PROGRESS("Loading vasculature", index,
-                            _sections.size() / omp_get_max_threads());
+    auto& connector = DBConnector::getInstance();
 
-        auto it = _sections.begin();
-        std::advance(it, index);
-        const auto& section = it->second;
-        const auto sectionId = it->first;
+    PLUGIN_INFO(1, "Loading sections...");
+    const auto sections =
+        connector.getVasculatureSections(_details.populationName,
+                                         _details.sqlFilter);
+    _nbSections = sections.size();
+
+    ThreadSafeContainers containers;
+    uint64_t counter = 0;
+    uint64_t index;
+#pragma omp parallel
+    for (index = 0; index < _nbSections; ++index)
+    {
+        const auto sectionId = sections[index];
+
+        const auto filter = "section_guid=" + std::to_string(sectionId);
+        const auto nodes =
+            connector.getVasculatureNodes(_details.populationName, filter);
+
+        if (nodes.size() < 2)
+            continue;
 
         ThreadSafeContainer container(model, _details.useSdf,
                                       doublesToVector3d(_details.scale));
 
         uint64_t geometryIndex = 0;
         size_t materialId = 0;
-        size_t previousMaterialId = 0;
-        Neighbours neighbours{};
-        for (uint64_t i = 0; i < section.size() - 1; ++i)
+        const auto srcNode = nodes.begin();
+        const auto userData = srcNode->first;
+
+        switch (details.colorScheme)
         {
-            const auto srcNodeId = section[i];
-            const auto& srcNode = _nodes[srcNodeId];
-            const auto userData = srcNodeId;
-
-            switch (details.colorScheme)
-            {
-            case VasculatureColorScheme::section:
-                materialId = srcNode.sectionId;
-                break;
-            case VasculatureColorScheme::subgraph:
-                materialId = srcNode.graphId;
-                break;
-            case VasculatureColorScheme::node:
-                materialId = srcNodeId;
-                break;
-            case VasculatureColorScheme::pair:
-                materialId = srcNode.pairId;
-                break;
-            case VasculatureColorScheme::entry_node:
-                materialId = srcNode.entryNodeId;
-                break;
-            case VasculatureColorScheme::section_gradient:
-                materialId = i * double(_nbMaxSegmentsPerSection) /
-                             double(section.size());
-                break;
-            }
-
-            const auto& srcPoint = srcNode.position;
-            const auto srcRadius =
-                (userData < radii.size() ? radii[userData] : srcNode.radius) *
-                radiusMultiplier;
-            const auto sectionId = srcNode.sectionId;
-
-            if (i == 0)
-            {
-                if (!useSdf)
-                    container.addSphere(srcPoint, srcRadius, materialId,
-                                        userData);
-                previousMaterialId = materialId;
-            }
-
-            // Ignore points that are too close the previous one
-            // (according to respective radii)
-            Vector3d dstPoint;
-            double dstRadius;
-            do
-            {
-                const auto dstNodeId = section[i + 1];
-                const auto& dstNode = _nodes[dstNodeId];
-                dstPoint = dstNode.position;
-                const auto dstUserData = dstNodeId;
-                dstRadius = (dstUserData < radii.size() ? radii[dstUserData]
-                                                        : dstNode.radius) *
-                            radiusMultiplier;
-                ++i;
-
-            } while (length(dstPoint - srcPoint) < (srcRadius + dstRadius) &&
-                     i < section.size() - 1);
-            --i;
-
-            if (!useSdf)
-                container.addSphere(dstPoint, dstRadius, materialId, userData);
-
-            geometryIndex =
-                container.addCone(dstPoint, dstRadius, srcPoint, srcRadius,
-                                  previousMaterialId, userData, neighbours,
-                                  Vector3f(segmentDisplacementStrength,
-                                           segmentDisplacementFrequency, 0.f));
-            previousMaterialId = materialId;
-
-            neighbours = {geometryIndex};
+        case VasculatureColorScheme::section:
+            materialId = srcNode->second.sectionId;
+            break;
+        case VasculatureColorScheme::subgraph:
+            materialId = srcNode->second.graphId;
+            break;
+        case VasculatureColorScheme::pair:
+            materialId = srcNode->second.pairId;
+            break;
+        case VasculatureColorScheme::entry_node:
+            materialId = srcNode->second.entryNodeId;
+            break;
         }
+
+#pragma omp critical
+        _subGraphs.insert(srcNode->second.graphId);
+#pragma omp critical
+        _pairs.insert(srcNode->second.pairId);
+#pragma omp critical
+        _entryNodes.insert(srcNode->second.entryNodeId);
+
+        const auto& srcPoint = srcNode->second.position;
+        const auto srcRadius =
+            (userData < radii.size() ? radii[userData]
+                                     : srcNode->second.radius) *
+            radiusMultiplier;
+
+        const auto& dstNode = (--nodes.end())->second;
+        const auto& dstPoint = dstNode.position;
+        const auto dstRadius =
+            (userData < radii.size() ? radii[userData] : dstNode.radius) *
+            radiusMultiplier;
+
+        if (!useSdf)
+            container.addSphere(dstPoint, dstRadius, materialId, userData);
+
+        container.addCone(dstPoint, dstRadius, srcPoint, srcRadius, materialId,
+                          userData, {},
+                          Vector3f(segmentDisplacementStrength,
+                                   segmentDisplacementFrequency, 0.f));
 #pragma omp critical
         containers.push_back(container);
+
+#pragma omp critical
+        ++counter;
+
+#pragma omp critical
+        _nbNodes += nodes.size();
+
+#pragma omp critical
+        PLUGIN_PROGRESS("Loading " << _nbSections << " sections", counter,
+                        _nbSections);
     }
     PLUGIN_INFO(1, "");
 
@@ -325,40 +279,52 @@ void Vasculature::_buildAdvancedModel(
 {
     const auto radiusMultiplier = _details.radiusMultiplier;
     const auto useSdf = _details.useSdf;
-    size_t materialId = 0;
 
-    std::vector<ThreadSafeContainer> containers;
+    auto& connector = DBConnector::getInstance();
+
+    PLUGIN_INFO(1, "Loading sections...");
+    const auto sections =
+        connector.getVasculatureSections(_details.populationName,
+                                         _details.sqlFilter);
+    _nbSections = sections.size();
+
+    ThreadSafeContainers containers;
+    uint64_t counter = 0;
     uint64_t index;
-#pragma omp parallel for private(index)
-    for (index = 0; index < _sections.size(); ++index)
+#pragma omp parallel
+    for (index = 0; index < _nbSections; ++index)
     {
-        if (omp_get_thread_num() == 0)
-            PLUGIN_PROGRESS("Loading vasculature", index, _sections.size());
+        const auto sectionId = sections[index];
 
-        auto it = _sections.begin();
-        std::advance(it, index);
-        const auto& section = it->second;
-        const auto sectionId = it->first;
+        const auto filter = "section_guid=" + std::to_string(sectionId);
+        const auto nodes =
+            connector.getVasculatureNodes(_details.populationName, filter);
+
+        if (nodes.size() < 2)
+            continue;
 
         ThreadSafeContainer container(model, _details.useSdf,
                                       doublesToVector3d(_details.scale));
 
-        Vector4fs controlPoints;
-        for (const auto& nodeId : section)
-        {
-            const auto& node = _nodes[nodeId];
-            controlPoints.push_back({node.position.x, node.position.y,
-                                     node.position.z,
-                                     node.radius * radiusMultiplier});
-        }
-
-        const double step = 2.0 / double(section.size());
         uint64_t geometryIndex = 0;
-        Neighbours neighbours;
+        size_t materialId = 0;
+        Neighbours neighbours{};
+
         uint64_t i = 0;
-        for (double t = 0.0; t < 1.0 - step * 2.0; t += step)
+        GeometryNode dstNode;
+
+        for (const auto& node : nodes)
         {
-            const auto& srcNode = _nodes[section[i]];
+            const auto& srcNode = node.second;
+            const auto userData = node.first;
+
+#pragma omp critical
+            _subGraphs.insert(srcNode.graphId);
+#pragma omp critical
+            _pairs.insert(srcNode.pairId);
+#pragma omp critical
+            _entryNodes.insert(srcNode.entryNodeId);
+
             switch (details.colorScheme)
             {
             case VasculatureColorScheme::section:
@@ -368,7 +334,7 @@ void Vasculature::_buildAdvancedModel(
                 materialId = srcNode.graphId;
                 break;
             case VasculatureColorScheme::node:
-                materialId = section[i];
+                materialId = userData;
                 break;
             case VasculatureColorScheme::pair:
                 materialId = srcNode.pairId;
@@ -377,89 +343,67 @@ void Vasculature::_buildAdvancedModel(
                 materialId = srcNode.entryNodeId;
                 break;
             case VasculatureColorScheme::section_gradient:
-                materialId = i * double(_nbMaxSegmentsPerSection) /
-                             double(section.size());
+                materialId = nodes.size() * (double(i) / double(nodes.size()));
                 break;
             }
 
-            const auto srcUserData = section[i];
-            const Vector4f src = getBezierPoint(controlPoints, t);
+            const auto& srcPoint = srcNode.position;
+            const auto srcRadius =
+                (userData < radii.size() ? radii[userData] : srcNode.radius) *
+                radiusMultiplier;
             const auto sectionId = srcNode.sectionId;
 
-            const auto srcRadius =
-                (srcUserData < radii.size() ? radii[srcUserData] : src.w);
+            if (i == 0 && !useSdf)
+                container.addSphere(srcPoint, srcRadius, materialId, userData);
 
-            if (!useSdf)
-                geometryIndex = container.addSphere(Vector3f(src), srcRadius,
-                                                    materialId, srcUserData);
             if (i > 0)
             {
-                const auto dstUserData = section[i + 1];
-                const auto& dstNode = _nodes[section[i + 1]];
-                const Vector4f dst = getBezierPoint(controlPoints, t + step);
-                const auto dstRadius =
-                    (dstUserData < radii.size() ? radii[dstUserData] : dst.w);
+                const auto dstPoint = dstNode.position;
+                const double dstRadius =
+                    (userData < radii.size() ? radii[userData]
+                                             : dstNode.radius) *
+                    radiusMultiplier;
+
+                if (!useSdf)
+                    container.addSphere(dstPoint, dstRadius, materialId,
+                                        userData);
+
                 geometryIndex =
-                    container.addCone(Vector3f(dst), dstRadius, Vector3f(src),
-                                      srcRadius, materialId, srcUserData,
-                                      neighbours,
+                    container.addCone(dstPoint, dstRadius, srcPoint, srcRadius,
+                                      materialId, userData, neighbours,
                                       Vector3f(segmentDisplacementStrength,
                                                segmentDisplacementFrequency,
                                                0.f));
-                neighbours.insert(geometryIndex);
+                neighbours = {geometryIndex};
             }
+
+            dstNode = srcNode;
             ++i;
         }
 #pragma omp critical
         containers.push_back(container);
+
+#pragma omp critical
+        ++counter;
+
+#pragma omp critical
+        _nbNodes += nodes.size();
+
+#pragma omp critical
+        PLUGIN_PROGRESS("Loading " << _nbSections << " sections", counter,
+                        _nbSections);
     }
+    PLUGIN_INFO(1, "");
 
     for (size_t i = 0; i < containers.size(); ++i)
     {
-        const float progress = 1.f + i;
-        PLUGIN_PROGRESS("- Compiling 3D geometry...", progress,
-                        containers.size());
+        PLUGIN_PROGRESS("- Compiling 3D geometry...", 1 + i, containers.size());
         auto& container = containers[i];
         container.commitToModel();
     }
+    PLUGIN_INFO(1, "");
 
     _applyPaletteToModel(model, details.palette);
-}
-
-void Vasculature::_buildEdges(Model& model)
-{
-    const auto& connector = DBConnector::getInstance();
-    const auto edges = connector.getVasculatureEdges(_details.populationName,
-                                                     _details.sqlFilter);
-
-    const auto radiusMultiplier = _details.radiusMultiplier;
-
-    ThreadSafeContainer container(model, _details.useSdf);
-    uint64_t index = 0;
-    for (const auto edge : edges)
-    {
-        PLUGIN_PROGRESS("Loading vasculature edges", index++, edges.size());
-        size_t materialId = 0;
-        if (_nodes.find(edge.first) == _nodes.end() ||
-            _nodes.find(edge.second) == _nodes.end())
-            continue;
-        const auto& srcNode = _nodes[edge.first];
-        const auto& srcPoint = srcNode.position;
-        const auto srcRadius = srcNode.radius * radiusMultiplier;
-        const auto& dstNode = _nodes[edge.second];
-        const auto& dstPoint = dstNode.position;
-        const auto dstRadius = dstNode.radius * radiusMultiplier;
-
-        container.addCone(srcPoint, srcRadius, dstPoint, dstRadius, materialId,
-                          0, {},
-                          Vector3f(dstRadius * segmentDisplacementStrength,
-                                   dstRadius * segmentDisplacementFrequency,
-                                   0.f));
-    }
-    PLUGIN_INFO(1, "");
-
-    container.commitToModel();
-    PLUGIN_INFO(1, "");
 
     PLUGIN_ERROR("Created " + std::to_string(model.getMaterials().size()) +
                  " materials");
@@ -485,10 +429,11 @@ void Vasculature::_buildModel(const VasculatureColorSchemeDetails& details,
         break;
     }
 
-    ModelMetadata metadata = {
-        {"Number of edges", std::to_string(_nodes.size())},
-        {"Number of sections", std::to_string(_sectionIds.size())},
-        {"Number of sub-graphs", std::to_string(_graphs.size())}};
+    ModelMetadata metadata = {{"Number of nodes", std::to_string(_nbNodes)},
+                              {"Number of sections",
+                               std::to_string(_nbSections)},
+                              {"Number of sub-graphs",
+                               std::to_string(_subGraphs.size())}};
 
     _modelDescriptor.reset(new brayns::ModelDescriptor(std::move(model),
                                                        _details.assemblyName,

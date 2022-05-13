@@ -32,6 +32,7 @@ namespace io
 {
 namespace db
 {
+using namespace brayns;
 using namespace details;
 using namespace common;
 using namespace morphology;
@@ -113,6 +114,15 @@ public:
      */
     GeometryNodes getVasculatureNodes(const std::string& populationName,
                                       const std::string& filter = "") const;
+
+    /**
+     * @brief Get the sections for a given population
+     *
+     * @param populationId Id of the population
+     * @return Section ids
+     */
+    uint64_ts getVasculatureSections(const std::string& populationName,
+                                     const std::string& filter = "") const;
 
     /**
      * @brief Get the Edges for a given population
@@ -215,6 +225,35 @@ public:
     SynapseMap getNeuronSynapses(const std::string& populationName,
                                  const uint64_t neuronId,
                                  const std::string& sqlCondition = "") const;
+
+    /**
+     * @brief Get the regions from the brain atlas
+     *
+     * @param sqlCondition String containing an WHERE condition for the SQL
+     * statement
+     * @return A vector of regions Ids
+     */
+    uint64_ts getAtlasRegions(const std::string& sqlCondition = "") const;
+
+    /**
+     * @brief Get the cells from the brain atlas
+     *
+     * @param regionId Region identifier
+     * @param sqlCondition String containing an WHERE condition for the SQL
+     * statement
+     * @return CellMap A map of cells (position, orientation, type, etc)
+     */
+    CellMap getAtlasCells(const uint64_t regionId,
+                          const std::string& sqlCondition = "") const;
+
+    /**
+     * @brief Get the mesh of a given region from the brain atlas
+     *
+     * @param regionId Region identifier
+     * statement
+     * @return TrianglesMesh A triangles mesh
+     */
+    TriangleMesh getAtlasMesh(const uint64_t regionId) const;
 
     static std::mutex _mutex;
     static DBConnector* _instance;
