@@ -114,7 +114,8 @@ public:
      * @return GeometryNodes Vasculature nodes
      */
     GeometryNodes getVasculatureNodes(const std::string& populationName,
-                                      const std::string& filter = "") const;
+                                      const std::string& filter = "",
+                                      const std::string& limits = "") const;
 
     /**
      * @brief Get the sections for a given population
@@ -125,6 +126,16 @@ public:
      */
     uint64_ts getVasculatureSections(const std::string& populationName,
                                      const std::string& filter = "") const;
+
+    /**
+     * @brief Get the number of sections for a given population
+     *
+     * @param populationName Name of the population
+     * @param filter SQL condition
+     * @return Number of sections
+     */
+    uint64_t getVasculatureNbSections(const std::string& populationName,
+                                      const std::string& filter = "") const;
 
     /**
      * @brief Get the Vasculature radius range

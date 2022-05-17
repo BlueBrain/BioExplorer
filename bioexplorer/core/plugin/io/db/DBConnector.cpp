@@ -201,7 +201,8 @@ std::stringstream DBConnector::getBrick(const int32_t brickId,
 }
 
 GeometryNodes DBConnector::getVasculatureNodes(
-    const std::string& populationName, const std::string& filter) const
+    const std::string& populationName, const std::string& filter,
+    const std::string& limits) const
 {
     GeometryNodes nodes;
     const auto connection = _connections[omp_get_thread_num()];
@@ -211,10 +212,16 @@ GeometryNodes DBConnector::getVasculatureNodes(
         std::string sql =
             "SELECT guid, x, y, z, radius, section_guid, sub_graph_guid, "
             "pair_guid, entry_node_guid FROM " +
+            populationName +
+            ".node WHERE section_guid IN (SELECT distinct(section_guid) FROM " +
             populationName + ".node";
         if (!filter.empty())
             sql += " WHERE " + filter;
-        sql += " ORDER BY guid";
+        sql += " ORDER BY section_guid";
+        if (!limits.empty())
+            sql += " " + limits;
+        sql += ")";
+        sql += " ORDER BY guid ";
 
         PLUGIN_DEBUG(sql);
         auto res = transaction.exec(sql);
@@ -262,6 +269,30 @@ uint64_ts DBConnector::getVasculatureSections(const std::string& populationName,
     }
 
     return sectionIds;
+}
+
+uint64_t DBConnector::getVasculatureNbSections(
+    const std::string& populationName, const std::string& filter) const
+{
+    uint64_t nbSections = 0;
+    pqxx::read_transaction transaction(*_connections[omp_get_thread_num()]);
+    try
+    {
+        std::string sql = "SELECT count(distinct(section_guid)) FROM " +
+                          populationName + ".node";
+        if (!filter.empty())
+            sql += " WHERE " + filter;
+        PLUGIN_DEBUG(sql);
+        auto res = transaction.exec(sql);
+        for (auto c = res.begin(); c != res.end(); ++c)
+            nbSections = c[0].as<uint64_t>();
+    }
+    catch (const pqxx::sql_error& e)
+    {
+        PLUGIN_THROW(e.what());
+    }
+
+    return nbSections;
 }
 
 Vector2d DBConnector::getVasculatureRadiusRange(
