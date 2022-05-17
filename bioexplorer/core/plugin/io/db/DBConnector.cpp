@@ -23,6 +23,10 @@
 
 #include <brayns/common/geometry/TriangleMesh.h>
 
+#include <pqxx/pqxx>
+#include <pqxx/stream_from>
+#include <pqxx/types>
+
 namespace bioexplorer
 {
 using namespace morphology;
@@ -210,11 +214,10 @@ GeometryNodes DBConnector::getVasculatureNodes(
             populationName + ".node";
         if (!filter.empty())
             sql += " WHERE " + filter;
+        sql += " ORDER BY guid";
 
         PLUGIN_DEBUG(sql);
-        const auto name = "getVasculatureNodes" + filter;
-        connection->prepare(name, sql);
-        auto res = transaction.exec_prepared(name);
+        auto res = transaction.exec(sql);
         for (auto c = res.begin(); c != res.end(); ++c)
         {
             GeometryNode node;

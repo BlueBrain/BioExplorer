@@ -878,7 +878,9 @@ enum class VasculatureColorScheme
     /** Colored by entry node */
     entry_node = 5,
     /** Colored by radius */
-    radius = 6
+    radius = 6,
+    /** Colored by point order within a section */
+    section_points = 7
 };
 
 enum class VasculatureQuality

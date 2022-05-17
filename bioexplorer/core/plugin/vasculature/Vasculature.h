@@ -75,15 +75,17 @@ public:
     uint64_t getNbSections() const { return _nbSections; }
 
 private:
-    void _buildGraphModel(Model& model, ThreadSafeContainers& containers,
-                          const uint64_ts& sectionIds);
-    void _buildSimpleModel(Model& model, ThreadSafeContainers& containers,
-                           const uint64_ts& sectionIds,
-                           const doubles& radii = doubles());
-    void _buildAdvancedModel(Model& model, ThreadSafeContainers& containers,
-                             const uint64_ts& sectionIds,
-                             const doubles& radii = doubles());
-
+    void _addGraphSection(ThreadSafeContainer& container,
+                          const GeometryNode& srcNode,
+                          const GeometryNode& dstNode, const size_t materialId);
+    void _addSimpleSection(ThreadSafeContainer& container,
+                           const GeometryNode& srcNode,
+                           const GeometryNode& dstNode,
+                           const size_t materialId);
+    void _addDetailedSection(ThreadSafeContainer& container,
+                             const GeometryNodes& nodes,
+                             const size_t baseMaterialId, const doubles& radii,
+                             const Vector2d& radiusRange);
     void _buildModel(const doubles& radii = doubles());
 
     const VasculatureDetails _details;
