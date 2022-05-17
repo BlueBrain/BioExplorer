@@ -86,6 +86,8 @@ private:
                              const GeometryNodes& nodes,
                              const size_t baseMaterialId, const doubles& radii,
                              const Vector2d& radiusRange);
+    void _addOrientation(ThreadSafeContainer& container,
+                         const GeometryNodes& nodes, const uint64_t sectionId);
     void _buildModel(const doubles& radii = doubles());
 
     const VasculatureDetails _details;

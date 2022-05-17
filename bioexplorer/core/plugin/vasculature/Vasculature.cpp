@@ -157,6 +157,36 @@ void Vasculature::_addDetailedSection(ThreadSafeContainer& container,
     }
 }
 
+void Vasculature::_addOrientation(ThreadSafeContainer& container,
+                                  const GeometryNodes& nodes,
+                                  const uint64_t sectionId)
+{
+    const auto nbNodes = nodes.size();
+    if (nbNodes <= 3)
+        return;
+
+    StreamlinesData streamline;
+
+    GeometryNode previousNode;
+    const float alpha = 1.f;
+    uint64_t i = 0;
+    for (const auto& node : nodes)
+    {
+        streamline.vertex.push_back(
+            Vector4f(node.second.position,
+                     node.second.radius * _details.radiusMultiplier));
+        streamline.vertexColor.push_back(
+            (i == 0 ? Vector4f(0.f, 0.f, 0.f, alpha)
+                    : Vector4f(0.5 + 0.5 * normalize(node.second.position -
+                                                     previousNode.position),
+                               alpha)));
+        previousNode = node.second;
+        ++i;
+    }
+
+    container.addStreamline(sectionId, streamline);
+}
+
 void Vasculature::_buildModel(const doubles& radii)
 {
     const auto useSdf =
@@ -177,7 +207,8 @@ void Vasculature::_buildModel(const doubles& radii)
         radiusRange = DBConnector::getInstance().getVasculatureRadiusRange(
             _details.populationName, _details.sqlFilter);
 
-    const auto nbThreads = omp_get_max_threads();
+    const auto nbThreads =
+        std::min(_nbSections, uint64_t(omp_get_max_threads()));
     const auto limit = _nbSections / nbThreads;
 
     uint64_t progress = 0;
@@ -200,7 +231,8 @@ void Vasculature::_buildModel(const doubles& radii)
         do
         {
             GeometryNodes localNodes;
-            auto previousSectionId = iter->second.sectionId;
+            const auto sectionId = iter->second.sectionId;
+            auto previousSectionId = sectionId;
             while (iter->second.sectionId == previousSectionId)
             {
                 localNodes[iter->first] = iter->second;
@@ -216,7 +248,7 @@ void Vasculature::_buildModel(const doubles& radii)
             switch (_details.colorScheme)
             {
             case VasculatureColorScheme::section:
-                materialId = dstNode.sectionId;
+                materialId = sectionId;
                 break;
             case VasculatureColorScheme::subgraph:
                 materialId = dstNode.graphId;
@@ -242,8 +274,12 @@ void Vasculature::_buildModel(const doubles& radii)
                 _addSimpleSection(container, srcNode, dstNode, materialId);
                 break;
             default:
-                _addDetailedSection(container, localNodes, materialId, radii,
-                                    radiusRange);
+                if (_details.colorScheme ==
+                    VasculatureColorScheme::section_orientation)
+                    _addOrientation(container, localNodes, sectionId);
+                else
+                    _addDetailedSection(container, localNodes, materialId,
+                                        radii, radiusRange);
                 break;
             }
         } while (iter != nodes.end());
