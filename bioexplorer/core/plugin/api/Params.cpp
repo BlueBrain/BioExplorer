@@ -937,4 +937,21 @@ std::string to_json(const LookAtResponseDetails &param)
     return "";
 }
 
+bool from_json(WhiteMatterDetails &param, const std::string &payload)
+{
+    try
+    {
+        auto js = nlohmann::json::parse(payload);
+        FROM_JSON(param, js, assemblyName);
+        FROM_JSON(param, js, populationName);
+        FROM_JSON(param, js, radius);
+        FROM_JSON(param, js, sqlFilter);
+        FROM_JSON(param, js, scale);
+    }
+    catch (...)
+    {
+        return false;
+    }
+    return true;
+}
 #endif

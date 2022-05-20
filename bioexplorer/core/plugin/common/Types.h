@@ -1082,6 +1082,20 @@ typedef struct
 {
     doubles rotation;
 } LookAtResponseDetails;
+
+typedef struct
+{
+    /** Name of the assembly containing the white matter */
+    std::string assemblyName;
+    /** Name of the white matter population  */
+    std::string populationName;
+    /** Streamline radius */
+    double radius{1.0};
+    /** SQL filter for streamlines (WHERE condition) */
+    std::string sqlFilter;
+    /** Scale of the streamlines in the scene */
+    doubles scale;
+} WhiteMatterDetails;
 } // namespace details
 
 namespace common
@@ -1399,6 +1413,13 @@ typedef struct
 using CellMap = std::map<uint64_t, Cell>;
 
 } // namespace morphology
+
+namespace connectomics
+{
+class WhiteMatter;
+using WhiteMatterPtr = std::shared_ptr<WhiteMatter>;
+using WhiteMatterStreamlines = std::vector<Vector3fs>;
+} // namespace connectomics
 
 namespace io
 {

@@ -24,12 +24,9 @@
 #include <brayns/common/geometry/TriangleMesh.h>
 
 #include <pqxx/pqxx>
-#include <pqxx/stream_from>
-#include <pqxx/types>
 
 namespace bioexplorer
 {
-using namespace morphology;
 namespace io
 {
 namespace db
@@ -836,6 +833,38 @@ TriangleMesh DBConnector::getAtlasMesh(const uint64_t regionId) const
 
     return mesh;
 }
+
+WhiteMatterStreamlines DBConnector::getWhiteMatterStreamlines(
+    const std::string& populationName, const std::string& filter) const
+{
+    WhiteMatterStreamlines streamlines;
+    pqxx::read_transaction transaction(*_connections[omp_get_thread_num()]);
+    try
+    {
+        std::string sql =
+            "SELECT points FROM " + populationName + ".streamline";
+        if (!filter.empty())
+            sql += " WHERE " + filter;
+
+        PLUGIN_DEBUG(sql);
+        auto res = transaction.exec(sql);
+        for (auto c = res.begin(); c != res.end(); ++c)
+        {
+            Vector3fs points;
+            const pqxx::binarystring buffer(c[0]);
+            points.resize(buffer.size() / sizeof(Vector3f));
+            memcpy(&points.data()[0], buffer.data(), buffer.size());
+            streamlines.push_back(points);
+        }
+    }
+    catch (pqxx::sql_error& e)
+    {
+        PLUGIN_THROW(e.what());
+    }
+
+    return streamlines;
+}
+
 } // namespace db
 } // namespace io
 } // namespace bioexplorer

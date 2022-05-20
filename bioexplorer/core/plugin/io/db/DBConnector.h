@@ -36,6 +36,7 @@ using namespace brayns;
 using namespace details;
 using namespace common;
 using namespace morphology;
+using namespace connectomics;
 
 using ConnectionPtr = std::shared_ptr<pqxx::connection>;
 
@@ -277,6 +278,17 @@ public:
      * @return TrianglesMesh A triangles mesh
      */
     TriangleMesh getAtlasMesh(const uint64_t regionId) const;
+
+    /**
+     * @brief Get the White Matter streamlines for a given population
+     *
+     * @param populationName Name of the population
+     * @param filter SQL condition
+     * @return WhiteMatterStreamlines White matter streamlines
+     */
+    WhiteMatterStreamlines getWhiteMatterStreamlines(
+        const std::string& populationName,
+        const std::string& filter = "") const;
 
     static std::mutex _mutex;
     static DBConnector* _instance;

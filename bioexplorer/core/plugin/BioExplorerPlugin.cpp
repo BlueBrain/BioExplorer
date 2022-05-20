@@ -570,6 +570,13 @@ void BioExplorerPlugin::init()
                 endPoint, [&](const NeuronIdDetails &payload)
                 { return _getNeuronVaricosities(payload); });
 
+        endPoint = PLUGIN_API_PREFIX + "add-white-matter";
+        PLUGIN_INFO(1, "Registering '" + endPoint + "' endpoint");
+        _api->getActionInterface()
+            ->registerRequest<WhiteMatterDetails, Response>(
+                endPoint, [&](const WhiteMatterDetails &payload)
+                { return _addWhiteMatter(payload); });
+
         endPoint = PLUGIN_API_PREFIX + "look-at";
         PLUGIN_INFO(1, "Registering '" + endPoint + "' endpoint");
         _api->getActionInterface()
@@ -1898,6 +1905,11 @@ Response BioExplorerPlugin::_addNeurons(const NeuronsDetails &payload)
 Response BioExplorerPlugin::_addAtlas(const AtlasDetails &payload)
 {
     ASSEMBLY_CALL_VOID(payload.assemblyName, addAtlas(payload));
+}
+
+Response BioExplorerPlugin::_addWhiteMatter(const WhiteMatterDetails &payload)
+{
+    ASSEMBLY_CALL_VOID(payload.assemblyName, addWhiteMatter(payload));
 }
 
 LookAtResponseDetails BioExplorerPlugin::_lookAt(const LookAtDetails &payload)
