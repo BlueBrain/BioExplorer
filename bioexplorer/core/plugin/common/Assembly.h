@@ -235,8 +235,6 @@ public:
 
     void addVasculature(const VasculatureDetails &details);
     std::string getVasculatureInfo() const;
-    void setVasculatureColorScheme(
-        const VasculatureColorSchemeDetails &payload);
     void setVasculatureReport(const VasculatureReportDetails &payload);
     void setVasculatureRadiusReport(
         const VasculatureRadiusReportDetails &details);

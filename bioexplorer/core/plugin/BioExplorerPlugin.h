@@ -155,8 +155,6 @@ private:
     // Vasculature
     Response _addVasculature(const VasculatureDetails &payload);
     Response _getVasculatureInfo(const NameDetails &payload) const;
-    Response _setVasculatureColorScheme(
-        const VasculatureColorSchemeDetails &payload);
     Response _setVasculatureReport(const VasculatureReportDetails &payload);
     Response _setVasculatureRadiusReport(
         const VasculatureRadiusReportDetails &payload);

@@ -107,6 +107,14 @@ public:
     void addMesh(const size_t materialId, const TriangleMesh& mesh);
 
     /**
+     * @brief Add a streamline to the thread safe model
+     *
+     * @param streamline Streamline
+     */
+    void addStreamline(const size_t materialId,
+                       const StreamlinesData& streamline);
+
+    /**
      * @brief Commit geometries and materials to the Brayns model
      *
      */
@@ -124,6 +132,7 @@ private:
     void _commitConesToModel();
     void _commitSDFGeometriesToModel();
     void _commitMeshesToModel();
+    void _commitStreamlinesToModel();
     void _commitMaterials();
     void _finalizeSDFGeometries();
 
@@ -132,6 +141,7 @@ private:
     ConesMap _conesMap;
     TriangleMeshMap _meshesMap;
     SDFMorphologyData _sdfMorphologyData;
+    StreamlinesDataMap _streamlinesMap;
     MaterialSet _materialIds;
 
     Model& _model;

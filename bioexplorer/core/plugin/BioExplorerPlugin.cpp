@@ -531,13 +531,6 @@ void BioExplorerPlugin::init()
             [&](const NameDetails &payload) -> Response
             { return _getVasculatureInfo(payload); });
 
-        endPoint = PLUGIN_API_PREFIX + "set-vasculature-color-scheme";
-        PLUGIN_INFO(1, "Registering '" + endPoint + "' endpoint");
-        actionInterface
-            ->registerRequest<VasculatureColorSchemeDetails, Response>(
-                endPoint, [&](const VasculatureColorSchemeDetails &payload)
-                { return _setVasculatureColorScheme(payload); });
-
         endPoint = PLUGIN_API_PREFIX + "set-vasculature-report";
         PLUGIN_INFO(1, "Registering '" + endPoint + "' endpoint");
         actionInterface->registerRequest<VasculatureReportDetails, Response>(
@@ -1879,13 +1872,6 @@ Response BioExplorerPlugin::_getVasculatureInfo(
     ASSEMBLY_CALL(payload.name, getVasculatureInfo());
 }
 
-Response BioExplorerPlugin::_setVasculatureColorScheme(
-    const VasculatureColorSchemeDetails &payload)
-{
-    ASSEMBLY_CALL_VOID(payload.assemblyName,
-                       setVasculatureColorScheme(payload));
-}
-
 Response BioExplorerPlugin::_setVasculatureReport(
     const VasculatureReportDetails &payload)
 {
@@ -2029,10 +2015,6 @@ extern "C" ExtensionPlugin *brayns_plugin_create(int argc, char **argv)
     PLUGIN_INFO(1, "- CGAL module loaded");
 #endif
     PLUGIN_INFO(1, "- Postgresql module loaded");
-
-    Vector3d p0{55052.03290101237, 174717.19875335693, 23580.06581913353};
-    Vector3d p1{55008.644719837604, 174924.2787361145, 23620.688069461314};
-    PLUGIN_ERROR(safeQuatlookAt(normalize(p1 - p0)));
 
     return new BioExplorerPlugin(argc, argv);
 }

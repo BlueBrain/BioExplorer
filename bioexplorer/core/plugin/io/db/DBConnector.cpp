@@ -23,6 +23,10 @@
 
 #include <brayns/common/geometry/TriangleMesh.h>
 
+#include <pqxx/pqxx>
+#include <pqxx/stream_from>
+#include <pqxx/types>
+
 namespace bioexplorer
 {
 using namespace morphology;
@@ -197,10 +201,12 @@ std::stringstream DBConnector::getBrick(const int32_t brickId,
 }
 
 GeometryNodes DBConnector::getVasculatureNodes(
-    const std::string& populationName, const std::string& filter) const
+    const std::string& populationName, const std::string& filter,
+    const std::string& limits) const
 {
     GeometryNodes nodes;
-    pqxx::read_transaction transaction(*_connections[omp_get_thread_num()]);
+    const auto connection = _connections[omp_get_thread_num()];
+    pqxx::read_transaction transaction(*connection);
     try
     {
         std::string sql =
@@ -209,6 +215,15 @@ GeometryNodes DBConnector::getVasculatureNodes(
             populationName + ".node";
         if (!filter.empty())
             sql += " WHERE " + filter;
+        if (!limits.empty())
+        {
+            if (filter.empty())
+                sql += " WHERE ";
+            else
+                sql += " AND ";
+            sql += limits;
+        }
+        sql += " ORDER BY guid ";
 
         PLUGIN_DEBUG(sql);
         auto res = transaction.exec(sql);
@@ -235,18 +250,31 @@ GeometryNodes DBConnector::getVasculatureNodes(
 }
 
 uint64_ts DBConnector::getVasculatureSections(const std::string& populationName,
-                                              const std::string& filter) const
+                                              const std::string& filter)
 {
     uint64_ts sectionIds;
-    pqxx::read_transaction transaction(*_connections[omp_get_thread_num()]);
+    auto connection = _connections[omp_get_thread_num()];
+    pqxx::read_transaction transaction(*connection);
     try
     {
+        pqxx::result res;
         std::string sql =
             "SELECT distinct(section_guid) FROM " + populationName + ".node";
+
         if (!filter.empty())
             sql += " WHERE " + filter;
-        PLUGIN_DEBUG(sql);
-        auto res = transaction.exec(sql);
+
+        const std::string name = "allVasculatureSections" + filter;
+        auto preparedStatements = _preparedStatements[populationName];
+        if (std::find(preparedStatements.begin(), preparedStatements.end(),
+                      name) == preparedStatements.end())
+        {
+            PLUGIN_DEBUG("Preparing statement " << name);
+            connection->prepare(name, sql);
+            preparedStatements.push_back(name);
+        }
+        PLUGIN_DEBUG("Executing preparted statement: " << sql);
+        res = transaction.exec_prepared(name);
         for (auto c = res.begin(); c != res.end(); ++c)
             sectionIds.push_back(c[0].as<uint64_t>());
     }
@@ -256,6 +284,81 @@ uint64_ts DBConnector::getVasculatureSections(const std::string& populationName,
     }
 
     return sectionIds;
+}
+
+Vector2ui DBConnector::getVasculatureNbSections(
+    const std::string& populationName, const std::string& filter)
+{
+    Vector2ui nbSections;
+    auto connection = _connections[omp_get_thread_num()];
+    pqxx::read_transaction transaction(*connection);
+    try
+    {
+        const std::string sql = "SELECT value FROM " + populationName +
+                                ".metadata WHERE name='nb_sections'";
+        pqxx::result res;
+        res = transaction.exec(sql);
+        for (auto c = res.begin(); c != res.end(); ++c)
+        {
+            nbSections.x = c[0].as<uint64_t>();
+            nbSections.y = c[0].as<uint64_t>();
+        }
+
+        if (!filter.empty())
+        {
+            const std::string sql =
+                "SELECT count(distinct(section_guid)), min(section_guid), "
+                "max(section_guid) FROM " +
+                populationName + ".node WHERE " + filter;
+            const std::string name = "vasculatureNbSections" + filter;
+            auto preparedStatements = _preparedStatements[populationName];
+            if (std::find(preparedStatements.begin(), preparedStatements.end(),
+                          name) == preparedStatements.end())
+            {
+                PLUGIN_DEBUG("Preparing statement " << name);
+                connection->prepare(name, sql);
+                preparedStatements.push_back(name);
+            }
+            PLUGIN_DEBUG("Executing preparted statement: " << sql);
+            res = transaction.exec_prepared(name);
+            for (auto c = res.begin(); c != res.end(); ++c)
+                nbSections.x = c[0].as<uint64_t>();
+        }
+    }
+    catch (const pqxx::sql_error& e)
+    {
+        PLUGIN_THROW(e.what());
+    }
+
+    return nbSections;
+}
+
+Vector2d DBConnector::getVasculatureRadiusRange(
+    const std::string& populationName, const std::string& filter) const
+{
+    Vector2d range;
+    pqxx::read_transaction transaction(*_connections[omp_get_thread_num()]);
+    try
+    {
+        std::string sql =
+            "SELECT min(radius), max(radius) FROM " + populationName + ".node";
+        if (!filter.empty())
+            sql += " WHERE " + filter;
+
+        PLUGIN_DEBUG(sql);
+        auto res = transaction.exec(sql);
+        for (auto c = res.begin(); c != res.end(); ++c)
+        {
+            range.x = c[0].as<double>();
+            range.y = c[1].as<double>();
+        }
+    }
+    catch (const pqxx::sql_error& e)
+    {
+        PLUGIN_THROW(e.what());
+    }
+
+    return range;
 }
 
 GeometryEdges DBConnector::getVasculatureEdges(

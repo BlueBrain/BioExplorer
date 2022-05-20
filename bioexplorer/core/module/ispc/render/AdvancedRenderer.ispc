@@ -152,7 +152,7 @@ inline void setGeometryShadingAttributes(
     attributes.origin = dg.P;
 
     // Shading normal
-    attributes.normal = dg.Ns;
+    attributes.normal = dg.Ng;
 
     // Shading mode
     attributes.shadingMode = undefined_shading_mode;
@@ -954,8 +954,8 @@ inline vec3f AdvancedRenderer_shadeRay(
         {
             DifferentialGeometry dg;
             postIntersect(self->super.model, dg, ray,
-                          DG_NG | DG_NS | DG_NORMALIZE | DG_FACEFORWARD |
-                              DG_TANGENTS | DG_MATERIALID | DG_COLOR |
+                          DG_NG | DG_NS | DG_NORMALIZE | DG_TANGENTS |
+                              DG_MATERIALID | DG_COLOR | DG_FACEFORWARD |
                               DG_TEXCOORD);
 
             // Get intersection information
@@ -1028,20 +1028,6 @@ inline vec3f AdvancedRenderer_shadeRay(
                     // Reflection
                     ray.dir = attributes.reflectedNormal;
 
-                // Combine all contributions
-                processFinalContribution(attributes);
-
-#if 0
-                composite(make_vec4f(attributes.finalContribution,
-                                     totalOpacity),
-                          color, 1.0f);
-#else
-                color = make_vec4f(make_vec3f(color) +
-                                       attributes.finalContribution *
-                                           attributes.opacity,
-                                   color.w + attributes.opacity);
-#endif
-
                 // Prepare next ray
                 ray.org = dg.P + ray.dir * (self->epsilonFactor * dg.epsilon);
                 ray.t0 = max(0.f, self->epsilonFactor * dg.epsilon);
@@ -1054,6 +1040,12 @@ inline vec3f AdvancedRenderer_shadeRay(
             ray.geomID = -1;
             ray.instID = -1;
         }
+
+        // Combine all contributions
+        processFinalContribution(attributes);
+
+        composite(make_vec4f(attributes.finalContribution, totalOpacity), color,
+                  1.f);
     }
 
     color.w = clamp(color.w, 0.f, 1.f);

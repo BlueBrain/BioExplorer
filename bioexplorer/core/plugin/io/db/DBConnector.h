@@ -109,20 +109,43 @@ public:
     /**
      * @brief Get the Nodes for a given population
      *
-     * @param populationId Id of the population
-     * @return GeometryNodes
+     * @param populationName Name of the population
+     * @param filter SQL condition
+     * @return GeometryNodes Vasculature nodes
      */
     GeometryNodes getVasculatureNodes(const std::string& populationName,
-                                      const std::string& filter = "") const;
+                                      const std::string& filter = "",
+                                      const std::string& limits = "") const;
 
     /**
      * @brief Get the sections for a given population
      *
-     * @param populationId Id of the population
+     * @param populationName Name of the population
+     * @param filter SQL condition
      * @return Section ids
      */
     uint64_ts getVasculatureSections(const std::string& populationName,
-                                     const std::string& filter = "") const;
+                                     const std::string& filter = "");
+
+    /**
+     * @brief Get the number of sections for a given population
+     *
+     * @param populationName Name of the population
+     * @param filter SQL condition
+     * @return Number of sections, total number of sections
+     */
+    Vector2ui getVasculatureNbSections(const std::string& populationName,
+                                       const std::string& filter = "");
+
+    /**
+     * @brief Get the Vasculature radius range
+     *
+     * @param populationName Name of the population
+     * @param filter SQL condition
+     * @return Vector2d Min and max radius for the node selection
+     */
+    Vector2d getVasculatureRadiusRange(const std::string& populationName,
+                                       const std::string& filter) const;
 
     /**
      * @brief Get the Edges for a given population
@@ -263,6 +286,7 @@ private:
     ~DBConnector();
 
     std::string _connectionString;
+    std::map<std::string, std::vector<std::string>> _preparedStatements;
 
     std::vector<ConnectionPtr> _connections;
 };

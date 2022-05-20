@@ -92,6 +92,12 @@ void ThreadSafeContainer::addMesh(const size_t materialId,
     _meshesMap[materialId] = mesh;
 }
 
+void ThreadSafeContainer::addStreamline(const size_t materialId,
+                                        const StreamlinesData& streamline)
+{
+    _streamlinesMap[materialId] = streamline;
+}
+
 uint64_t ThreadSafeContainer::_addSphere(const size_t materialId,
                                          const Sphere& sphere)
 {
@@ -132,6 +138,7 @@ void ThreadSafeContainer::commitToModel()
     _commitConesToModel();
     _commitSDFGeometriesToModel();
     _commitMeshesToModel();
+    _commitStreamlinesToModel();
     _commitMaterials();
 }
 
@@ -260,6 +267,30 @@ void ThreadSafeContainer::_commitMeshesToModel()
                               srcMesh.colors.end());
     }
     _meshesMap.clear();
+}
+
+void ThreadSafeContainer::_commitStreamlinesToModel()
+{
+    const auto materialId = 0;
+    _materialIds.insert(materialId);
+    auto& modelStreamline = _model.getStreamlines()[materialId];
+    auto modelOffset = modelStreamline.vertex.size();
+
+    for (const auto& streamline : _streamlinesMap)
+    {
+        modelStreamline.vertex.insert(modelStreamline.vertex.end(),
+                                      streamline.second.vertex.begin(),
+                                      streamline.second.vertex.end());
+        modelStreamline.vertexColor.insert(
+            modelStreamline.vertexColor.end(),
+            streamline.second.vertexColor.begin(),
+            streamline.second.vertexColor.end());
+
+        for (size_t i = 0; i < streamline.second.vertex.size() - 1; ++i)
+            modelStreamline.indices.push_back(modelOffset + i);
+        modelOffset += streamline.second.vertex.size();
+    }
+    _streamlinesMap.clear();
 }
 
 } // namespace common
