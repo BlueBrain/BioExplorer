@@ -2514,6 +2514,30 @@ class BioExplorer:
             ps.append(p)
         return ps
 
+    def add_white_matter(
+            self, assembly_name, population_name, radius=1.0,
+            sql_filter='', scale=Vector3(1.0, 1.0, 1.0)):
+        """
+        Add white matter to the 3D scene
+
+        :assembly_name: Name of the assembly to which the vasculature should be added
+        :population_name Name of the node population
+        :radius: Applies the radius to the white matter streamlines
+        :sql_filter: Condition added to the SQL statement loading the white matter streamlines
+        :scale: Scale in the 3D scene
+
+        :return: Result of the request submission
+        """
+        assert isinstance(scale, Vector3)
+
+        params = dict()
+        params["assemblyName"] = assembly_name
+        params["populationName"] = population_name
+        params["radius"] = radius
+        params["sqlFilter"] = sql_filter
+        params["scale"] = scale.to_list()
+        return self._invoke_and_check('add-white-matter', params)
+
     def look_at(self, source, target):
         """
         Computes a quaternion to make a object rotate in the direction of a vector

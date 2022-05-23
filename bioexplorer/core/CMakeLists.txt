@@ -89,6 +89,7 @@ set(${NAME}_SOURCES
     plugin/morphologies/Neurons.cpp
     plugin/vasculature/VasculatureHandler.cpp
     plugin/vasculature/Vasculature.cpp
+    plugin/connectomics/WhiteMatter.cpp
     plugin/api/Params.cpp
     plugin/BioExplorerPlugin.cpp
 )
@@ -112,6 +113,7 @@ set(${NAME}_PUBLIC_HEADERS
     plugin/morphologies/Neurons.h
     plugin/vasculature/VasculatureHandler.h
     plugin/vasculature/Vasculature.h
+    plugin/connectomics/WhiteMatter.h
     plugin/common/UniqueId.h
     plugin/common/GeneralSettings.h
     plugin/common/CommonTypes.h

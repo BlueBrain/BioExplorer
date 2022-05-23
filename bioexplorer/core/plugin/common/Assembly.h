@@ -33,6 +33,7 @@ using namespace atlas;
 using namespace molecularsystems;
 using namespace vasculature;
 using namespace morphology;
+using namespace connectomics;
 
 /**
  * @brief The Assembly class is a container for biological entities (proteins,
@@ -246,6 +247,13 @@ public:
 
     void addAtlas(const AtlasDetails &details);
 
+    /**
+     * @brief Add white matter to the scene
+     *
+     * @param details Details of the white matter
+     */
+    void addWhiteMatter(const WhiteMatterDetails &details);
+
 private:
     void _processInstances(ModelDescriptorPtr md, const std::string &name,
                            const size_t occurrences, const Vector3d &position,
@@ -270,6 +278,7 @@ private:
     VasculaturePtr _vasculature{nullptr};
     AstrocytesPtr _astrocytes{nullptr};
     NeuronsPtr _neurons{nullptr};
+    WhiteMatterPtr _whiteMatter{nullptr};
 };
 } // namespace common
 } // namespace bioexplorer

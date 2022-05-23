@@ -168,6 +168,9 @@ private:
         const NeuronIdSectionIdDetails &payload);
     NeuronPointsDetails _getNeuronVaricosities(const NeuronIdDetails &payload);
 
+    // White matter
+    Response _addWhiteMatter(const WhiteMatterDetails &payload);
+
     // Utilities
     LookAtResponseDetails _lookAt(const LookAtDetails &payload);
 };

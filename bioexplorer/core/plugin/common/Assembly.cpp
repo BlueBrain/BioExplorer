@@ -34,6 +34,7 @@
 #include <plugin/common/shapes/PointShape.h>
 #include <plugin/common/shapes/SinusoidShape.h>
 #include <plugin/common/shapes/SphereShape.h>
+#include <plugin/connectomics/WhiteMatter.h>
 #include <plugin/molecularsystems/EnzymeReaction.h>
 #include <plugin/molecularsystems/Membrane.h>
 #include <plugin/molecularsystems/Protein.h>
@@ -734,6 +735,21 @@ void Assembly::setEnzymeReactionProgress(
                      _details.name);
     _enzymeReactions[details.name]->setProgress(details.instanceId,
                                                 details.progress);
+}
+
+void Assembly::addWhiteMatter(const WhiteMatterDetails &details)
+{
+    if (_whiteMatter)
+    {
+        auto modelDescriptor = _whiteMatter->getModelDescriptor();
+        if (modelDescriptor)
+        {
+            const auto modelId = modelDescriptor->getModelID();
+            _scene.removeModel(modelId);
+        }
+    }
+    _whiteMatter.reset(std::move(new WhiteMatter(_scene, details)));
+    _scene.markModified(false);
 }
 
 } // namespace common
