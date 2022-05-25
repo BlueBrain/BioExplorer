@@ -1,6 +1,7 @@
 var structbioexplorer_1_1details_1_1VasculatureDetails =
 [
     [ "assemblyName", "dd/d98/structbioexplorer_1_1details_1_1VasculatureDetails.html#abf4b6e1f7454277f6c620ac3e61ad655", null ],
+    [ "colorScheme", "dd/d98/structbioexplorer_1_1details_1_1VasculatureDetails.html#a4e85c0aa741815d5786dbd0a76412996", null ],
     [ "gids", "dd/d98/structbioexplorer_1_1details_1_1VasculatureDetails.html#a1d81290bc0ca948425747e81cdeec49b", null ],
     [ "populationName", "dd/d98/structbioexplorer_1_1details_1_1VasculatureDetails.html#a5f0823da6124d100df264e71c7a58743", null ],
     [ "quality", "dd/d98/structbioexplorer_1_1details_1_1VasculatureDetails.html#a833bc841c342241f36fe1978d9d8fb4d", null ],
