@@ -21,11 +21,11 @@
 # You should have received a copy of the GNU General Public License along with
 # this program.  If not, see <https://www.gnu.org/licenses/>.
 
-from bioexplorer import BioExplorer, Protein, Membrane, Surfactant, Cell, \
-    Sugars, AnimationParams, Volume, Vector2, Vector3, Quaternion, \
+from bioexplorer import BioExplorer, Protein, Membrane, Cell, \
+    AnimationParams, Volume, Vector2, Vector3, Quaternion, \
     MovieScenario
-import psycopg2
-import pandas as pd
+from sqlalchemy import create_engine
+from sqlalchemy.orm import Session
 import os
 import sys
 import math
@@ -40,10 +40,10 @@ metabolites_folder = pdb_folder + 'metabolites/'
 transporters_folder = pdb_folder + 'transporters/'
 
 ''' Simulation identifier '''
-simulation_guid = 3
+simulation_guid = 4
 
 ''' Ratio to apply to concentrations for visualization purpose '''
-concentration_visualization_ratio = 2.0
+concentration_visualization_ratio = 1.0
 
 ''' Protein representation '''
 representation = BioExplorer.REPRESENTATION_ATOMS_AND_STICKS
@@ -143,53 +143,57 @@ class GlucoseMetabolismScenario(MovieScenario):
         db_password = os.environ['DB_PASSWORD']
         self._db_schema = os.environ['DB_SCHEMA']
 
-        db_connection_string = 'host=' + db_host + ' port=5432 dbname=' + db_name + \
-            ' user=' + db_user + ' password=' + db_password
-
-        self._db_connection = psycopg2.connect(db_connection_string)
+        db_connection_string = 'postgresql+psycopg2://%s:%s@%s:5432/%s' % (db_user, db_password, db_host, db_name)
+        self._engine = create_engine(db_connection_string)
+        self._db_connection = self._engine.connect()
 
     def _get_simulations(self):
         simulations = dict()
-        sql_command = "SELECT guid, description FROM %s.simulations ORDER BY guid" % self._db_schema
-        data = pd.read_sql(sql_command, self._db_connection)
-        for i in range(len(data)):
-            simulations[data['guid'][i]] = data['description'][i]
+        with Session(self._engine) as session:
+            sql = "SELECT guid, description FROM %s.simulations ORDER BY guid" % self._db_schema
+            data = session.execute(sql)
+            for d in data.all():
+                simulations[d[0]] = d[1]
         return simulations
 
     def _get_variables(self):
         variables = dict()
-        sql_command = "SELECT guid, pdb, description FROM %s.variable WHERE pdb IS NOT NULL ORDER BY guid" % self._db_schema
-        data = pd.read_sql(sql_command, self._db_connection)
-        for i in range(len(data)):
-            pdb_guid = data['pdb'][i]
-            if pdb_guid:
-                variables[data['guid'][i]] = [pdb_guid, data['description'][i]]
+        with Session(self._engine) as session:
+            sql = "SELECT guid, pdb, description FROM %s.variable WHERE pdb IS NOT NULL ORDER BY guid" % self._db_schema
+            data = session.execute(sql)
+            for d in data.all():
+                pdb_guid = d[1]
+                if pdb_guid:
+                    variables[d[0]] = [pdb_guid, d[2]]
         return variables
 
     def _get_metabolites(self):
         metabolites = dict()
-        sql_command = "SELECT guid, pdb, description FROM %s.variable WHERE type=0 AND pdb IS NOT NULL ORDER BY guid" % self._db_schema
-        data = pd.read_sql(sql_command, self._db_connection)
-        for i in range(len(data)):
-            pdb_guid = data['pdb'][i]
-            if pdb_guid:
-                metabolites[data['guid'][i]] = [pdb_guid, data['description'][i]]
+        with Session(self._engine) as session:
+            sql = "SELECT guid, pdb, description FROM %s.variable WHERE type=1 AND pdb IS NOT NULL ORDER BY guid" % self._db_schema
+            data = session.execute(sql)
+            for d in data.all():
+                pdb_guid = d[1]
+                if pdb_guid:
+                    metabolites[d[0]] = [pdb_guid, d[2]]
         return metabolites
 
     def _get_locations(self):
         locations = dict()
-        sql_command = "SELECT guid, description FROM %s.location ORDER BY guid" % self._db_schema
-        data = pd.read_sql(sql_command, self._db_connection)
-        for i in range(len(data)):
-            locations[data['guid'][i]] = data['description'][i]
+        with Session(self._engine) as session:
+            sql = "SELECT guid, description FROM %s.location ORDER BY guid" % self._db_schema
+            data = session.execute(sql)
+            for d in data.all():
+                locations[d[0]] = d[1]
         return locations
 
     def _get_concentration(self, variable_guid, simulation_guid, frame, location_guid):
-        sql_command = 'SELECT v.guid AS guid, c.concentration AS concentration FROM %s.variable as v, %s.concentration AS c WHERE c.variable_guid=%d AND v.guid=c.variable_guid AND c.timestamp=%d AND c.simulation_guid=%d AND v.location_guid=%d ORDER BY v.guid' % (
-            self._db_schema, self._db_schema, variable_guid, frame, simulation_guid, location_guid)
-        data = pd.read_sql(sql_command, self._db_connection)
-        if(len(data) > 0):
-            return(float(data['concentration']))
+        with Session(self._engine) as session:
+            sql = 'SELECT v.guid AS guid, c.value AS concentration FROM %s.variable as v, %s.concentration AS c WHERE c.variable_guid=%d AND v.guid=c.variable_guid AND c.frame=%d AND c.simulation_guid=%d AND v.location_guid=%d ORDER BY v.guid' % (
+                self._db_schema, self._db_schema, variable_guid, frame, simulation_guid, location_guid)
+            data = session.execute(sql)
+            for d in data.all():
+                return(float(d[0]))
         return 0.0
 
     def _get_nb_molecules(self, concentration, location_guid):
@@ -218,39 +222,39 @@ class GlucoseMetabolismScenario(MovieScenario):
                 file_name = metabolites_folder + pdb_guid + '.pdb'
                 concentration = self._get_concentration(
                     variable_guid, simulation_guid, frame, location_guid)
-                nb_molecules = self._get_nb_molecules(concentration, location_guid)
-                if nb_molecules > 0:
-                    location_name = locations[location_guid]
-                    self._log(1, '- [%s] [%d] %s: %s.pdb: %d' % (location_name,
-                                                                 variable_guid, variable_description, pdb_guid, nb_molecules))
-                    location_area = location_areas[location_guid][1]
-                    area_size = Vector3(
-                        scene_size.x,
-                        0.95 * (location_area.y - location_area.x),
-                        scene_size.z)
-                    area_position = Vector3(0.0, (location_area.y + location_area.x) / 2.0, 0.0)
+                nb_molecules = max(1, self._get_nb_molecules(concentration, location_guid))
+                self._log(2, 'Loading %d molecules for variable %s' % (nb_molecules, variable_description))
+                location_name = locations[location_guid]
+                self._log(1, '- [%s] [%d] %s: %s.pdb: %d' % (location_name,
+                                                                variable_guid, variable_description, pdb_guid, nb_molecules))
+                location_area = location_areas[location_guid][1]
+                area_size = Vector3(
+                    scene_size.x,
+                    0.95 * (location_area.y - location_area.x),
+                    scene_size.z)
+                area_position = Vector3(0.0, (location_area.y + location_area.x) / 2.0, 0.0)
 
-                    name = location_name + '_' + variable_description
+                name = location_name + '_' + variable_description
 
-                    metabolite = Protein(
-                        name=name, source=file_name,
-                        load_bonds=True, load_hydrogen=True,
-                        load_non_polymer_chemicals=True,
-                        occurences=nb_molecules,
-                        animation_params=AnimationParams(
-                            random_seed,
-                            random_seed + frame + 1, 0.2,
-                            random_seed + frame + 2, 1.0))
+                metabolite = Protein(
+                    name=name, source=file_name,
+                    load_bonds=True, load_hydrogen=True,
+                    load_non_polymer_chemicals=True,
+                    occurences=nb_molecules,
+                    animation_params=AnimationParams(
+                        random_seed,
+                        random_seed + frame + 1, 0.2,
+                        random_seed + frame + 2, 1.0))
 
-                    volume = Volume(
-                        name=name,
-                        shape=self._be.ASSEMBLY_SHAPE_CUBE,
-                        shape_params=area_size,
-                        protein=metabolite
-                    )
-                    self._check(self._be.add_volume(
-                        volume=volume, representation=representation, position=area_position))
-                    random_seed += 3
+                volume = Volume(
+                    name=name,
+                    shape=self._be.ASSEMBLY_SHAPE_CUBE,
+                    shape_params=area_size,
+                    protein=metabolite
+                )
+                self._check(self._be.add_volume(
+                    volume=volume, representation=representation, position=area_position))
+                random_seed += 3
 
     def _add_neuron(self, frame):
         name = 'Neuron'
@@ -516,7 +520,7 @@ class GlucoseMetabolismScenario(MovieScenario):
 
         import seaborn as sns
         model_ids = self._be.get_model_ids()
-        global_palette = sns.color_palette('rainbow', len(model_ids["ids"]))
+        global_palette = sns.color_palette('Set3', len(model_ids["ids"]))
 
         index = 0
         for model_id in model_ids["ids"]:
@@ -557,6 +561,8 @@ class GlucoseMetabolismScenario(MovieScenario):
                     glossiness=glossiness,
                     specular_exponent=specular_exponent,
                 )
+            elif model_name.find('AABB') != -1:
+                continue
             else:
                 colors = list()
                 shading_modes = list()
@@ -581,7 +587,7 @@ class GlucoseMetabolismScenario(MovieScenario):
                     glossinesses=glossinesses,
                     specular_exponents=specular_exponents
                 )
-            index += 1
+                index += 1
 
     def _add_aabb(self):
         return self._be.add_bounding_box(
@@ -639,7 +645,7 @@ class GlucoseMetabolismScenario(MovieScenario):
             params.use_hardware_randomizer = True
             params.fog_start = 1000.0
             params.fog_thickness = 500.0
-            params.gi_distance = 5.0
+            params.gi_distance = 50.0
             params.gi_weight = 0.2
             params.gi_samples = 1
             params = self._core.set_renderer_params(params)
