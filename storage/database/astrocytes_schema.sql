@@ -1,47 +1,30 @@
-create table population
+create table configuration
 (
-    guid        integer not null
-        constraint population_pk
+    guid  varchar not null
+        constraint configuration_pk
             primary key,
-    name        varchar not null,
-    description varchar
+    value varchar not null
 )
     tablespace bioexplorer_ts;
 
-alter table population
+alter table configuration
     owner to bioexplorer;
 
-create unique index population_guid_uindex
-    on population (guid)
+create unique index configuration_guid_uindex
+    on configuration (guid)
     tablespace bioexplorer_ts;
 
-create unique index population_name_uindex
-    on population (name)
-    tablespace bioexplorer_ts;
-
-create table node
+create table end_foot
 (
-    guid                 integer          not null
-        constraint node_pk
-            primary key,
-    population_guid      integer          not null,
-    x                    double precision not null,
-    y                    double precision not null,
-    z                    double precision not null,
-    radius               double precision not null,
-    model_template_guid  varchar          not null,
-    model_type_guid      varchar          not null,
-    morphology           varchar          not null,
-    morphology_type_guid varchar          not null
-)
-    tablespace bioexplorer_ts;
+    guid                   integer not null,
+    astrocyte_guid         integer not null,
+    astrocyte_section_guid integer not null,
+    vertices               bytea   not null,
+    indices                bytea   not null
+);
 
-alter table node
+alter table end_foot
     owner to bioexplorer;
-
-create index node_population_guid_index
-    on node (population_guid)
-    tablespace bioexplorer_ts;
 
 create table model_template
 (
@@ -58,23 +41,6 @@ alter table model_template
 
 create unique index model_template_guid_uindex
     on model_template (guid)
-    tablespace bioexplorer_ts;
-
-create table node_type
-(
-    guid        integer not null
-        constraint node_type_pk
-            primary key,
-    code        varchar not null,
-    description varchar
-)
-    tablespace bioexplorer_ts;
-
-alter table node_type
-    owner to bioexplorer;
-
-create unique index node_type_guid_uindex
-    on node_type (guid)
     tablespace bioexplorer_ts;
 
 create table model_type
@@ -111,40 +77,66 @@ create unique index morphology_type_guid_uindex
     on morphology_type (guid)
     tablespace bioexplorer_ts;
 
-create table configuration
+create table node
 (
-    guid  varchar not null
-        constraint configuration_pk
+    guid                 integer          not null
+        constraint node_pk
             primary key,
-    value varchar not null
+    population_guid      integer          not null,
+    x                    double precision not null,
+    y                    double precision not null,
+    z                    double precision not null,
+    radius               double precision not null,
+    model_template_guid  varchar          not null,
+    model_type_guid      varchar          not null,
+    morphology           varchar          not null,
+    morphology_type_guid varchar          not null
 )
     tablespace bioexplorer_ts;
 
-alter table configuration
+alter table node
     owner to bioexplorer;
 
-create unique index configuration_guid_uindex
-    on configuration (guid)
+create index node_population_guid_index
+    on node (population_guid)
     tablespace bioexplorer_ts;
 
-create table section_type
+create table node_type
 (
     guid        integer not null
-        constraint section_type_pk
+        constraint node_type_pk
             primary key,
-    description varchar not null
+    code        varchar not null,
+    description varchar
 )
     tablespace bioexplorer_ts;
 
-alter table section_type
+alter table node_type
     owner to bioexplorer;
 
-create unique index section_type_guid_uindex
-    on section_type (guid)
+create unique index node_type_guid_uindex
+    on node_type (guid)
     tablespace bioexplorer_ts;
 
-create unique index section_type_description_uindex
-    on section_type (description)
+create table population
+(
+    guid        integer not null
+        constraint population_pk
+            primary key,
+    name        varchar not null,
+    description varchar
+)
+    tablespace bioexplorer_ts;
+
+alter table population
+    owner to bioexplorer;
+
+create unique index population_guid_uindex
+    on population (guid)
+    tablespace bioexplorer_ts;
+
+create unique index population_name_uindex
+    on population (name)
     tablespace bioexplorer_ts;
 
 create table section
@@ -166,15 +158,23 @@ create index section_morphology_guid_index
     on section (morphology_guid)
     tablespace bioexplorer_ts;
 
-create table end_foot
+create table section_type
 (
-    guid                   integer not null,
-    astrocyte_guid         integer not null,
-    astrocyte_section_guid integer not null,
-    vertices               bytea   not null,
-    indices                bytea   not null
-);
+    guid        integer not null
+        constraint section_type_pk
+            primary key,
+    description varchar not null
+)
+    tablespace bioexplorer_ts;
 
-alter table end_foot
+alter table section_type
     owner to bioexplorer;
+
+create unique index section_type_description_uindex
+    on section_type (description)
+    tablespace bioexplorer_ts;
+
+create unique index section_type_guid_uindex
+    on section_type (guid)
+    tablespace bioexplorer_ts;
 
