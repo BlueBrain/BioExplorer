@@ -199,5 +199,14 @@ double capsuleVolume(const double height, const double radius);
 
 Vector3f transformVector3f(const Vector3f& v, const Matrix4f& transformation);
 Vector3ds getPointsInSphere(const size_t nbPoints, const double innerRadius);
+
+double frac(const double x);
+Vector3d frac(const Vector3d x);
+double mix(const double x, const double y, const double a);
+double hash(const double n);
+double noise(const Vector3d& x);
+Vector3d mod(const Vector3d& v, const int m);
+double cells(const Vector3d& p, const double cellCount);
+double worleyNoise(const Vector3d& p, const double cellCount);
 } // namespace common
 } // namespace bioexplorer

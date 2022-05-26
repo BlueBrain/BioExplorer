@@ -171,7 +171,9 @@ enum class AssemblyShape
     /** Helix */
     helix = 8,
     /** Filled sphere */
-    filled_sphere = 9
+    filled_sphere = 9,
+    /** Spherical cell diffusion */
+    spherical_cell_diffusion = 10
 };
 
 /**

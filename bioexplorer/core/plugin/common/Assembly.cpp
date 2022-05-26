@@ -34,6 +34,7 @@
 #include <plugin/common/shapes/PointShape.h>
 #include <plugin/common/shapes/SinusoidShape.h>
 #include <plugin/common/shapes/SphereShape.h>
+#include <plugin/common/shapes/SphericalCellDiffusionShape.h>
 #include <plugin/connectomics/WhiteMatter.h>
 #include <plugin/molecularsystems/EnzymeReaction.h>
 #include <plugin/molecularsystems/Membrane.h>
@@ -99,6 +100,13 @@ Assembly::Assembly(Scene &scene, const AssemblyDetails &details)
     case AssemblyShape::helix:
     {
         _shape = ShapePtr(new HelixShape(_clippingPlanes, size.x, size.y));
+        break;
+    }
+    case AssemblyShape::spherical_cell_diffusion:
+    {
+        _shape =
+            ShapePtr(new SphericalCellDiffusionShape(_clippingPlanes, size.x,
+                                                     size.y, size.z));
         break;
     }
     default:
