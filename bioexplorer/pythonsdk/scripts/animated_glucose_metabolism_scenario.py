@@ -59,6 +59,7 @@ avogadro = 6.02e23
 fullSceneVolumeInLiters = scene_size.x * scene_size.y * scene_size.z * nanometersCubicToLiters
 scene_ratio = fullSceneVolumeInLiters / fullNGVUnitVolumeInLiters
 
+glucose_model_name = 'Extracellular space_Glucose'
 
 ''' Neuron trans-membrane proteins '''
 pdb_glut3 = transporters_folder + '4zwc.pdb'
@@ -222,9 +223,19 @@ class GlucoseMetabolismScenario(MovieScenario):
                 file_name = metabolites_folder + pdb_guid + '.pdb'
                 concentration = self._get_concentration(
                     variable_guid, simulation_guid, frame, location_guid)
-                nb_molecules = max(1, self._get_nb_molecules(concentration, location_guid))
-                self._log(2, 'Loading %d molecules for variable %s' % (nb_molecules, variable_description))
+                nb_molecules = self._get_nb_molecules(concentration, location_guid)
+
                 location_name = locations[location_guid]
+                name = location_name + '_' + variable_description
+
+                if nb_molecules == 0:
+                    if name == glucose_model_name:
+                        # We need at least one molecule of glucose since it's the star or the movie
+                        nb_molecules = 1
+                    else:
+                        continue
+
+                self._log(2, 'Loading %d molecules for variable %s' % (nb_molecules, variable_description))
                 self._log(1, '- [%s] [%d] %s: %s.pdb: %d' % (location_name,
                                                                 variable_guid, variable_description, pdb_guid, nb_molecules))
                 location_area = location_areas[location_guid][1]
@@ -233,8 +244,6 @@ class GlucoseMetabolismScenario(MovieScenario):
                     0.95 * (location_area.y - location_area.x),
                     scene_size.z)
                 area_position = Vector3(0.0, (location_area.y + location_area.x) / 2.0, 0.0)
-
-                name = location_name + '_' + variable_description
 
                 metabolite = Protein(
                     name=name, source=file_name,
@@ -608,7 +617,6 @@ class GlucoseMetabolismScenario(MovieScenario):
             pos[i] = p[i] + (t[i] - p[i]) * 3.0
 
         target = Vector3(pos[0], pos[1], pos[2])
-        glucose_model_name = 'Extracellular space_Glucose'
 
         roll = math.pi / 2.0 + 0.091 * math.pi * math.cos(frame * math.pi / 45.0)
         yaw = 0.125 * math.pi * math.cos(frame * math.pi / 180.0)
@@ -645,7 +653,7 @@ class GlucoseMetabolismScenario(MovieScenario):
             params.use_hardware_randomizer = True
             params.fog_start = 1000.0
             params.fog_thickness = 500.0
-            params.gi_distance = 50.0
+            params.gi_distance = 5.0
             params.gi_weight = 0.2
             params.gi_samples = 1
             params = self._core.set_renderer_params(params)
@@ -657,7 +665,9 @@ class GlucoseMetabolismScenario(MovieScenario):
         self._log(1, 'Scene bounding box...')
         self._add_aabb()
         self._log(1, 'Loading metabolites...')
-        self._add_metabolites(frame % 450)  # 450 should be the number of simulation frame!!!
+        self._add_metabolites(int(frame/2))  # Should use the number of simulation frame!!!
+        self._log(1, 'Setting glucose molecule transformation')
+        self._set_glucose_molecule_transformation(frame)
         self._log(1, 'Loading astrocyte mitochondrion membrane...')
         self._add_astrocyte_mitochondrion(frame)
         self._log(1, 'Loading astrocyte membrane...')
@@ -666,8 +676,6 @@ class GlucoseMetabolismScenario(MovieScenario):
         self._add_neuron(frame)
         self._log(1, 'Loading neuron mitochondrion membrane...')
         self._add_neuron_mitochondrion(frame)
-        self._log(1, 'Setting glucose molecule transformation')
-        self._set_glucose_molecule_transformation(frame)
         self._log(1, 'Applying materials...')
         self._set_color_scheme(shading_mode=self._be.SHADING_MODE_PERLIN,
                                user_parameter=0.001, specular_exponent=50.0)
@@ -730,7 +738,7 @@ class GlucoseMetabolismScenario(MovieScenario):
                 'up': [0.0, 1.0, 6.505232384196665e-19]
             }
         ]
-        super().render_movie(cameras_key_frames, 120, 120, start_frame, end_frame, frame_step, frame_list)
+        super().render_movie(cameras_key_frames, 150, 150, start_frame, end_frame, frame_step, frame_list)
 
 
 def main(argv):

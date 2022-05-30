@@ -106,6 +106,7 @@ class MovieScenario:
         mm.build_camera_path(cameras_key_frames, nb_frames_between_keys, nb_smoothing_frames)
         self._log(1, '- Total number of frames: %d' % mm.get_nb_frames())
 
+        self._core.set_application_parameters(viewport=self._image_size)
         self._core.set_application_parameters(image_stream_fps=0)
 
         frames_to_render = list()
