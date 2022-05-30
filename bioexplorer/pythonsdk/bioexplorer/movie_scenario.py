@@ -106,7 +106,6 @@ class MovieScenario:
         mm.build_camera_path(cameras_key_frames, nb_frames_between_keys, nb_smoothing_frames)
         self._log(1, '- Total number of frames: %d' % mm.get_nb_frames())
 
-        self._core.set_application_parameters(viewport=self._image_size)
         self._core.set_application_parameters(image_stream_fps=0)
 
         frames_to_render = list()
@@ -198,14 +197,18 @@ class MovieScenario:
             self._image_size = [int(image_k*1024), int(image_k*1024)]
             self._core.set_camera(current='panoramic')
         elif projection == 'opendeck':
-            self._image_size = [7*2160, 3840]
+            self._log(1, 'Warning: OpenDeck resolution is set server side (--resolution-scaling plug-in parameter)')
+            self._image_size = [11940, 3424]
             self._core.set_camera(current='cylindric')
 
         self._image_output_folder = self._image_output_folder + '/' + \
             projection + '/' + str(self._image_size[0]) + 'x' + str(self._image_size[1])
         self._make_export_folders()
+        self._log(2, '- Forcing viewport size to ' + str(self._image_size))
+        self._core.set_application_parameters(viewport=self._image_size)
 
     def _render_frame(self, renderer, frame, movie_maker):
+        self._log(2, '- Creating snapshot ' + str(self._image_size))
         movie_maker.create_snapshot(
             renderer=renderer,
             size=self._image_size, path=self._image_output_folder + '/' + renderer,
