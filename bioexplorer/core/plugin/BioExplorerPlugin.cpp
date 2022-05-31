@@ -400,6 +400,12 @@ void BioExplorerPlugin::init()
             endPoint, [&](const AddSphereDetails &payload)
             { return _addSphere(payload); });
 
+        endPoint = PLUGIN_API_PREFIX + "add-cone";
+        PLUGIN_INFO(1, "Registering '" + endPoint + "' endpoint");
+        actionInterface->registerRequest<AddConeDetails, Response>(
+            endPoint,
+            [&](const AddConeDetails &payload) { return _addCone(payload); });
+
         endPoint = PLUGIN_API_PREFIX + "add-bounding-box";
         PLUGIN_INFO(1, "Registering '" + endPoint + "' endpoint");
         actionInterface->registerRequest<AddBoundingBoxDetails, Response>(
@@ -1293,6 +1299,55 @@ Response BioExplorerPlugin::_addSphere(const AddSphereDetails &payload)
         PLUGIN_INFO(3, "Adding sphere " + payload.name + " to the scene");
 
         model->addSphere(0, {position, static_cast<float>(payload.radius)});
+        scene.addModel(
+            std::make_shared<ModelDescriptor>(std::move(model), payload.name));
+    }
+    CATCH_STD_EXCEPTION()
+    return response;
+}
+
+Response BioExplorerPlugin::_addCone(const AddConeDetails &payload)
+{
+    Response response;
+    try
+    {
+        if (payload.origin.size() != 3)
+            PLUGIN_THROW("Invalid number of double for origin");
+        if (payload.target.size() != 3)
+            PLUGIN_THROW("Invalid number of double for target");
+        if (payload.color.size() != 3)
+            PLUGIN_THROW("Invalid number of double for color");
+
+        auto &scene = _api->getScene();
+        auto model = scene.createModel();
+
+        PropertyMap props;
+        props.setProperty({MATERIAL_PROPERTY_SHADING_MODE,
+                           static_cast<int>(MaterialShadingMode::electron)});
+        props.setProperty({MATERIAL_PROPERTY_USER_PARAMETER, 1.0});
+        props.setProperty(
+            {MATERIAL_PROPERTY_CHAMELEON_MODE,
+             static_cast<int>(
+                 MaterialChameleonMode::undefined_chameleon_mode)});
+
+        const auto color = doublesToVector3d(payload.color);
+        const auto origin = doublesToVector3d(payload.origin);
+        const auto target = doublesToVector3d(payload.target);
+
+        auto material = model->createMaterial(0, "Cone");
+        material->setDiffuseColor(color);
+        material->setOpacity(payload.opacity);
+        material->setProperties(props);
+
+        PLUGIN_INFO(3, "Adding cone " + payload.name + " to the scene");
+
+        if (payload.originRadius == payload.targetRadius)
+            model->addCylinder(0, {origin, target,
+                                   static_cast<float>(payload.originRadius)});
+        else
+            model->addCone(0, {origin, target,
+                               static_cast<float>(payload.originRadius),
+                               static_cast<float>(payload.targetRadius)});
         scene.addModel(
             std::make_shared<ModelDescriptor>(std::move(model), payload.name));
     }

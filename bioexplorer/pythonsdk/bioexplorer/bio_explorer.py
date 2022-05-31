@@ -2143,6 +2143,37 @@ class BioExplorer:
         params["opacity"] = opacity
         return self._invoke_and_check("add-sphere", params)
 
+    def add_cone(
+            self, name, origin, target, origin_radius, target_radius,
+            color=Vector3(1.0, 1.0, 1.0), opacity=1.0):
+        """
+        Add a cone to the scene
+
+        :name: Name of the cone
+        :origin: Origin of the cone
+        :target: Target of the cone
+        :origin_radius: Origin radius of the cone
+        :target_radius: target radius of the cone
+        :color: RGB Color of the cone (0..1)
+        :return: Result of the request submission
+        """
+        if self._client is None:
+            return
+
+        assert isinstance(origin, Vector3)
+        assert isinstance(target, Vector3)
+        assert isinstance(color, Vector3)
+
+        params = dict()
+        params["name"] = name
+        params["origin"] = origin.to_list()
+        params["target"] = target.to_list()
+        params["originRadius"] = origin_radius
+        params["targetRadius"] = target_radius
+        params["color"] = color.to_list()
+        params["opacity"] = opacity
+        return self._invoke_and_check("add-cone", params)
+
     def add_sdf_demo(self):
         """
         Add an SDF demo model
