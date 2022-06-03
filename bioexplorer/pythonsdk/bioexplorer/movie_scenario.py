@@ -59,6 +59,8 @@ class MovieScenario:
         self._url = hostname + ':' + str(port)
         self._be = BioExplorer(self._url)
         self._core = self._be.core_api()
+        self._mm = MovieMaker(self._be)
+
         self._image_size = [image_k * 960, image_k * 540]
         self._image_samples_per_pixel = image_samples_per_pixel
         self._image_projection = projection
@@ -102,9 +104,8 @@ class MovieScenario:
         :frame_step: Number of frames to skip. Defaults to 1
         :frame_list: Explicit list of frames to render. Defaults to list().
         """
-        mm = MovieMaker(self._be)
-        mm.build_camera_path(cameras_key_frames, nb_frames_between_keys, nb_smoothing_frames)
-        self._log(1, '- Total number of frames: %d' % mm.get_nb_frames())
+        self._mm.build_camera_path(cameras_key_frames, nb_frames_between_keys, nb_smoothing_frames)
+        self._log(1, '- Total number of frames: %d' % self._mm.get_nb_frames())
 
         self._core.set_application_parameters(viewport=self._image_size)
         self._core.set_application_parameters(image_stream_fps=0)
@@ -114,7 +115,7 @@ class MovieScenario:
             frames_to_render = frame_list
         else:
             if end_frame == 0:
-                end_frame = mm.get_nb_frames()
+                end_frame = self._mm.get_nb_frames()
             for i in range(start_frame, end_frame, frame_step):
                 frames_to_render.append(i)
 
@@ -133,7 +134,7 @@ class MovieScenario:
                 samples_per_pixel=1, subsampling=1, max_accum_frames=1)
 
             # Set camera
-            mm.set_current_frame(
+            self._mm.set_current_frame(
                 frame=frame, camera_params=self._core.BioExplorerPerspectiveCameraParams())
 
             # Frame setup
@@ -143,7 +144,7 @@ class MovieScenario:
             for shader in self._shaders:
                 # Rendering settings
                 self._log(2, '-   ' + shader)
-                self._render_frame(shader, frame, mm)
+                self._render_frame(shader, frame)
 
             end = time.time()
 
@@ -208,9 +209,9 @@ class MovieScenario:
         self._log(2, '- Forcing viewport size to ' + str(self._image_size))
         self._core.set_application_parameters(viewport=self._image_size)
 
-    def _render_frame(self, renderer, frame, movie_maker):
+    def _render_frame(self, renderer, frame):
         self._log(2, '- Creating snapshot ' + str(self._image_size))
-        movie_maker.create_snapshot(
+        self._mm.create_snapshot(
             renderer=renderer,
             size=self._image_size, path=self._image_output_folder + '/' + renderer,
             base_name='%05d' % frame, samples_per_pixel=self._image_samples_per_pixel,
@@ -236,7 +237,7 @@ class MovieScenario:
                             type=str, nargs='*', default=['bio_explorer'],
                             choices=[
                                 'albedo', 'ambient_occlusion', 'basic', 'depth', 'raycast_Ns',
-                                'bio_explorer'])
+                                'bio_explorer', 'circuit_explorer_advanced'])
         parser.add_argument('-k', '--image-resolution-k',
                             help='Image resolution in K', type=int, default=1)
         parser.add_argument('-s', '--image-samples-per-pixel',
