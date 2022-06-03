@@ -26,6 +26,7 @@ from bioexplorer import BioExplorer, Protein, Membrane, Cell, \
     MovieScenario
 from sqlalchemy import create_engine
 from sqlalchemy.orm import Session
+import seaborn as sns
 import os
 import sys
 import math
@@ -59,7 +60,7 @@ avogadro = 6.02e23
 fullSceneVolumeInLiters = scene_size.x * scene_size.y * scene_size.z * nanometersCubicToLiters
 scene_ratio = fullSceneVolumeInLiters / fullNGVUnitVolumeInLiters
 
-glucose_model_name = 'Extracellular space_Glucose'
+glucose_model_name = 'Extracellular space|44|Glucose'
 
 ''' Neuron trans-membrane proteins '''
 pdb_glut3 = transporters_folder + '4zwc.pdb'
@@ -148,6 +149,8 @@ class GlucoseMetabolismScenario(MovieScenario):
         self._engine = create_engine(db_connection_string)
         self._db_connection = self._engine.connect()
 
+        self._nb_variables = self._get_nb_variables()
+
     def _get_simulations(self):
         simulations = dict()
         with Session(self._engine) as session:
@@ -156,6 +159,15 @@ class GlucoseMetabolismScenario(MovieScenario):
             for d in data.all():
                 simulations[d[0]] = d[1]
         return simulations
+
+    def _get_nb_variables(self):
+        with Session(self._engine) as session:
+            sql = "SELECT count(*) FROM %s.variable" % self._db_schema
+            data = session.execute(sql)
+            for d in data.all():
+                nb_distinct_variables = d[0]
+                self._log(1, 'Found %d distinct variables' % nb_distinct_variables)
+                return nb_distinct_variables
 
     def _get_variables(self):
         variables = dict()
@@ -226,7 +238,7 @@ class GlucoseMetabolismScenario(MovieScenario):
                 nb_molecules = self._get_nb_molecules(concentration, location_guid)
 
                 location_name = locations[location_guid]
-                name = location_name + '_' + variable_description
+                name = location_name + '|' + str(variable_guid) + '|' + variable_description
 
                 if nb_molecules == 0:
                     if name == glucose_model_name:
@@ -463,17 +475,17 @@ class GlucoseMetabolismScenario(MovieScenario):
         self._check(self._be.set_protein_color_scheme(
             assembly_name=name, name=name+'_GLUT3',
             color_scheme=self._be.COLOR_SCHEME_AMINO_ACID_SEQUENCE,
-            palette_name='Reds_r', palette_size=2))
+            palette_name='Reds', palette_size=2))
 
         self._check(self._be.set_protein_color_scheme(
             assembly_name=name, name=name+'_MCT2',
             color_scheme=self._be.COLOR_SCHEME_AMINO_ACID_SEQUENCE,
-            palette_name='Greens_r', palette_size=2))
+            palette_name='Purples', palette_size=2))
 
         self._check(self._be.set_protein_color_scheme(
             assembly_name=name, name=name+'_NKA',
             color_scheme=self._be.COLOR_SCHEME_AMINO_ACID_SEQUENCE,
-            palette_name='OrRd_r', palette_size=2))
+            palette_name='Oranges', palette_size=2))
 
         name = 'Astrocyte'
         self._check(self._be.set_protein_color_scheme(
@@ -484,7 +496,7 @@ class GlucoseMetabolismScenario(MovieScenario):
         self._check(self._be.set_protein_color_scheme(
             assembly_name=name, name=name+'_MCT1',
             color_scheme=self._be.COLOR_SCHEME_AMINO_ACID_SEQUENCE,
-            palette_name='Greens_r', palette_size=2))
+            palette_name='Purples_r', palette_size=2))
 
     def _add_shapes(self):
         radius = 50000.0
@@ -527,17 +539,27 @@ class GlucoseMetabolismScenario(MovieScenario):
         :glossiness: Glossiness
         """
 
-        import seaborn as sns
         model_ids = self._be.get_model_ids()
-        global_palette = sns.color_palette('Set3', len(model_ids["ids"]))
+        global_palette = sns.color_palette('Greens', self._nb_variables)
+        astrocyte_palette = sns.color_palette('Wistia', self._nb_variables)
+        neuron_palette = sns.color_palette('Blues', self._nb_variables)
+        extra_cellular_palette = sns.color_palette('Reds', self._nb_variables)
+        glucose_palette = sns.color_palette('Blues', 10)
 
         index = 0
         for model_id in model_ids["ids"]:
             model_name = self._be.get_model_name(model_id)['name']
+            model_name_components = model_name.split('|')
+            model_location = model_name_components[0]
+            model_variable_guid = -1
+            if len(model_name_components) > 1:
+                model_variable_guid = int(model_name_components[1]) % self._nb_variables
+                self._log(3, '- %s: %d' % (model_location, model_variable_guid))
+
             material_ids = self._be.get_material_ids(model_id)["ids"]
             nb_materials = len(material_ids)
 
-            if model_name.find('Neuron') != -1 and model_name.find('Mitochondrion') == -1:
+            if model_location.find('Neuron') != -1 and model_location.find('Mitochondrion') == -1:
                 palette = sns.color_palette("Blues", nb_materials)
                 self._be.set_materials_from_palette(
                     model_ids=[model_id],
@@ -548,7 +570,7 @@ class GlucoseMetabolismScenario(MovieScenario):
                     glossiness=glossiness,
                     specular_exponent=specular_exponent,
                 )
-            elif model_name.find('Astrocyte') != -1 and model_name.find('Mitochondrion') == -1:
+            elif model_location.find('Astrocyte') != -1 and model_location.find('Mitochondrion') == -1:
                 palette = sns.color_palette("Wistia", nb_materials)
                 self._be.set_materials_from_palette(
                     model_ids=[model_id],
@@ -559,7 +581,7 @@ class GlucoseMetabolismScenario(MovieScenario):
                     glossiness=glossiness,
                     specular_exponent=specular_exponent,
                 )
-            elif model_name.find('Mitochondrion') != -1:
+            elif model_location.find('Mitochondrion') != -1:
                 palette = sns.color_palette("Purples", nb_materials)
                 self._be.set_materials_from_palette(
                     model_ids=[model_id],
@@ -570,17 +592,27 @@ class GlucoseMetabolismScenario(MovieScenario):
                     glossiness=glossiness,
                     specular_exponent=specular_exponent,
                 )
-            elif model_name.find('AABB') != -1:
+            elif model_location.find('AABB') != -1:
                 continue
             else:
+                ''' Molecules '''
                 colors = list()
                 shading_modes = list()
                 user_parameters = list()
                 glossinesses = list()
                 specular_exponents = list()
 
+                c = global_palette[model_variable_guid]
+                if model_name == glucose_model_name:
+                    c = glucose_palette[0]
+                elif model_location.find('astrocyte') != -1:
+                    c = astrocyte_palette[model_variable_guid]
+                elif model_location.find('neuron') != -1:
+                    c = neuron_palette[model_variable_guid]
+                elif model_location.find('Extracellular') != -1:
+                    c = extra_cellular_palette[model_variable_guid]
                 for _ in material_ids:
-                    colors.append(global_palette[index])
+                    colors.append(c)
                     shading_modes.append(shading_mode)
                     user_parameters.append(user_parameter)
                     glossinesses.append(glossiness)
