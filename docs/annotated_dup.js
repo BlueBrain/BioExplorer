@@ -25,6 +25,9 @@ var annotated_dup =
         [ "ThreadSafeContainer", "d2/d4a/classbioexplorer_1_1common_1_1ThreadSafeContainer.html", "d2/d4a/classbioexplorer_1_1common_1_1ThreadSafeContainer" ],
         [ "UniqueId", "d0/dbd/classbioexplorer_1_1common_1_1UniqueId.html", "d0/dbd/classbioexplorer_1_1common_1_1UniqueId" ]
       ] ],
+      [ "connectomics", null, [
+        [ "WhiteMatter", "d6/dcd/classbioexplorer_1_1connectomics_1_1WhiteMatter.html", "d6/dcd/classbioexplorer_1_1connectomics_1_1WhiteMatter" ]
+      ] ],
       [ "details", null, [
         [ "AddBoundingBoxDetails", "dc/d45/structbioexplorer_1_1details_1_1AddBoundingBoxDetails.html", "dc/d45/structbioexplorer_1_1details_1_1AddBoundingBoxDetails" ],
         [ "AddGridDetails", "db/dd8/structbioexplorer_1_1details_1_1AddGridDetails.html", "db/dd8/structbioexplorer_1_1details_1_1AddGridDetails" ],
@@ -70,10 +73,10 @@ var annotated_dup =
         [ "RNASequenceDetails", "d1/d00/structbioexplorer_1_1details_1_1RNASequenceDetails.html", "d1/d00/structbioexplorer_1_1details_1_1RNASequenceDetails" ],
         [ "SceneInformationDetails", "d2/d03/structbioexplorer_1_1details_1_1SceneInformationDetails.html", "d2/d03/structbioexplorer_1_1details_1_1SceneInformationDetails" ],
         [ "SugarDetails", "d6/d93/structbioexplorer_1_1details_1_1SugarDetails.html", "d6/d93/structbioexplorer_1_1details_1_1SugarDetails" ],
-        [ "VasculatureColorSchemeDetails", "dd/d99/structbioexplorer_1_1details_1_1VasculatureColorSchemeDetails.html", "dd/d99/structbioexplorer_1_1details_1_1VasculatureColorSchemeDetails" ],
         [ "VasculatureDetails", "dd/d98/structbioexplorer_1_1details_1_1VasculatureDetails.html", "dd/d98/structbioexplorer_1_1details_1_1VasculatureDetails" ],
         [ "VasculatureRadiusReportDetails", "de/da6/structbioexplorer_1_1details_1_1VasculatureRadiusReportDetails.html", "de/da6/structbioexplorer_1_1details_1_1VasculatureRadiusReportDetails" ],
-        [ "VasculatureReportDetails", "d1/d4e/structbioexplorer_1_1details_1_1VasculatureReportDetails.html", "d1/d4e/structbioexplorer_1_1details_1_1VasculatureReportDetails" ]
+        [ "VasculatureReportDetails", "d1/d4e/structbioexplorer_1_1details_1_1VasculatureReportDetails.html", "d1/d4e/structbioexplorer_1_1details_1_1VasculatureReportDetails" ],
+        [ "WhiteMatterDetails", "da/d1a/structbioexplorer_1_1details_1_1WhiteMatterDetails.html", "da/d1a/structbioexplorer_1_1details_1_1WhiteMatterDetails" ]
       ] ],
       [ "fields", null, [
         [ "FieldsHandler", "d9/d6e/classbioexplorer_1_1fields_1_1FieldsHandler.html", "d9/d6e/classbioexplorer_1_1fields_1_1FieldsHandler" ],

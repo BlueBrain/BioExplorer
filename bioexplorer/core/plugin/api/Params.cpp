@@ -470,6 +470,26 @@ bool from_json(AddSphereDetails &param, const std::string &payload)
     return true;
 }
 
+bool from_json(AddConeDetails &param, const std::string &payload)
+{
+    try
+    {
+        auto js = nlohmann::json::parse(payload);
+        FROM_JSON(param, js, name);
+        FROM_JSON(param, js, origin);
+        FROM_JSON(param, js, target);
+        FROM_JSON(param, js, originRadius);
+        FROM_JSON(param, js, targetRadius);
+        FROM_JSON(param, js, color);
+        FROM_JSON(param, js, opacity);
+    }
+    catch (...)
+    {
+        return false;
+    }
+    return true;
+}
+
 bool from_json(AddBoundingBoxDetails &param, const std::string &payload)
 {
     try

@@ -62,6 +62,7 @@ bool from_json(EnzymeReactionProgressDetails &param,
 // Other elements
 bool from_json(AddGridDetails &param, const std::string &payload);
 bool from_json(AddSphereDetails &param, const std::string &payload);
+bool from_json(AddConeDetails &param, const std::string &payload);
 bool from_json(AddBoundingBoxDetails &param, const std::string &payload);
 
 // Amino acids

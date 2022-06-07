@@ -92,10 +92,10 @@ var NAVTREE =
 var NAVTREEINDEX =
 [
 ".html",
-"d2/da7/classbioexplorer_1_1common_1_1GeneralSettings.html",
-"d7/d6e/structbioexplorer_1_1details_1_1FocusOnDetails.html",
-"db/dbb/structbioexplorer_1_1mediamaker_1_1ExportFramesToDisk.html#a3853345fb09079af144d7c66ceefe6c6",
-"df/d08/structbioexplorer_1_1details_1_1AstrocytesDetails.html#a53303fd2074027a20f49543c35c57e4b"
+"d2/d99/classbioexplorer_1_1meshing_1_1PointCloudMesher.html#a8c76232076650a45b041cf2b66635f18",
+"d7/d57/MetabolismRenderer_8h_source.html",
+"db/d48/structbioexplorer_1_1details_1_1AddSphereDetails.html#a4fcf11e225ede768c2470d92118456e5",
+"de/db8/VasculatureHandler_8h_source.html"
 ];
 
 var SYNCONMSG = 'click to disable panel synchronisation';

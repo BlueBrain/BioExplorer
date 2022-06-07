@@ -171,7 +171,9 @@ enum class AssemblyShape
     /** Helix */
     helix = 8,
     /** Filled sphere */
-    filled_sphere = 9
+    filled_sphere = 9,
+    /** Spherical cell diffusion */
+    spherical_cell_diffusion = 10
 };
 
 /**
@@ -549,7 +551,7 @@ typedef struct
 } AddGridDetails;
 
 /**
- * @brief Defines the parameters needed when adding 3D sphere to the scene
+ * @brief Defines the parameters needed when adding sphere to the scene
  *
  */
 typedef struct
@@ -565,6 +567,28 @@ typedef struct
     /** Opacity */
     double opacity;
 } AddSphereDetails;
+
+/**
+ * @brief Defines the parameters needed when adding cone to the scene
+ *
+ */
+typedef struct
+{
+    /** Name of the cone */
+    std::string name;
+    /** Origin of the cone in the scene */
+    doubles origin;
+    /** Target of the cone in the scene */
+    doubles target;
+    /** Origin radius of the cone */
+    double originRadius;
+    /** Target radius of the cone */
+    double targetRadius;
+    /** RGB Color of the cone */
+    doubles color;
+    /** Opacity */
+    double opacity;
+} AddConeDetails;
 
 /**
  * @brief Defines the parameters needed when adding 3D sphere to the scene

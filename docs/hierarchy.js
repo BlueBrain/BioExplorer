@@ -79,6 +79,7 @@ var hierarchy =
         ] ],
         [ "bioexplorer::vasculature::Vasculature", "d8/d29/classbioexplorer_1_1vasculature_1_1Vasculature.html", null ]
       ] ],
+      [ "bioexplorer::connectomics::WhiteMatter", "d6/dcd/classbioexplorer_1_1connectomics_1_1WhiteMatter.html", null ],
       [ "bioexplorer::molecularsystems::EnzymeReaction", "d4/d07/classbioexplorer_1_1molecularsystems_1_1EnzymeReaction.html", null ],
       [ "bioexplorer::molecularsystems::Membrane", "d4/d3d/classbioexplorer_1_1molecularsystems_1_1Membrane.html", null ],
       [ "bioexplorer::molecularsystems::Molecule", "da/dff/classbioexplorer_1_1molecularsystems_1_1Molecule.html", [
@@ -109,8 +110,8 @@ var hierarchy =
       [ "metabolism::rendering::MetabolismRenderer", "d3/d27/classmetabolism_1_1rendering_1_1MetabolismRenderer.html", null ]
     ] ],
     [ "bioexplorer::molecularsystems::ResidueSequence", "d0/df4/structbioexplorer_1_1molecularsystems_1_1ResidueSequence.html", null ],
-    [ "bioexplorer::mediamaker::Response", "db/df4/structbioexplorer_1_1mediamaker_1_1Response.html", null ],
     [ "bioexplorer::details::Response", "d6/d45/structbioexplorer_1_1details_1_1Response.html", null ],
+    [ "bioexplorer::mediamaker::Response", "db/df4/structbioexplorer_1_1mediamaker_1_1Response.html", null ],
     [ "bioexplorer::details::RGBColorDetails", "df/dc7/structbioexplorer_1_1details_1_1RGBColorDetails.html", null ],
     [ "bioexplorer::details::RNASequenceDetails", "d1/d00/structbioexplorer_1_1details_1_1RNASequenceDetails.html", null ],
     [ "bioexplorer::details::SceneInformationDetails", "d2/d03/structbioexplorer_1_1details_1_1SceneInformationDetails.html", null ],
@@ -134,8 +135,8 @@ var hierarchy =
     [ "bioexplorer::morphology::Synapse", "d0/dd7/structbioexplorer_1_1morphology_1_1Synapse.html", null ],
     [ "bioexplorer::common::ThreadSafeContainer", "d2/d4a/classbioexplorer_1_1common_1_1ThreadSafeContainer.html", null ],
     [ "bioexplorer::common::UniqueId", "d0/dbd/classbioexplorer_1_1common_1_1UniqueId.html", null ],
-    [ "bioexplorer::details::VasculatureColorSchemeDetails", "dd/d99/structbioexplorer_1_1details_1_1VasculatureColorSchemeDetails.html", null ],
     [ "bioexplorer::details::VasculatureDetails", "dd/d98/structbioexplorer_1_1details_1_1VasculatureDetails.html", null ],
     [ "bioexplorer::details::VasculatureRadiusReportDetails", "de/da6/structbioexplorer_1_1details_1_1VasculatureRadiusReportDetails.html", null ],
-    [ "bioexplorer::details::VasculatureReportDetails", "d1/d4e/structbioexplorer_1_1details_1_1VasculatureReportDetails.html", null ]
+    [ "bioexplorer::details::VasculatureReportDetails", "d1/d4e/structbioexplorer_1_1details_1_1VasculatureReportDetails.html", null ],
+    [ "bioexplorer::details::WhiteMatterDetails", "da/d1a/structbioexplorer_1_1details_1_1WhiteMatterDetails.html", null ]
 ];

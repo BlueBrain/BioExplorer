@@ -12,6 +12,7 @@ var classbioexplorer_1_1common_1_1Assembly =
     [ "addRNASequence", "d2/d82/classbioexplorer_1_1common_1_1Assembly.html#ac2f07e445f49986f8d4cd756f1066885", null ],
     [ "addSugar", "d2/d82/classbioexplorer_1_1common_1_1Assembly.html#ae721951362d1fd60a21a909808b86423", null ],
     [ "addVasculature", "d2/d82/classbioexplorer_1_1common_1_1Assembly.html#ae8a54362b6699470800754f82ed9c82b", null ],
+    [ "addWhiteMatter", "d2/d82/classbioexplorer_1_1common_1_1Assembly.html#a0145b9bce70d7d79b7f541b4c68473a3", null ],
     [ "getAminoAcidInformation", "d2/d82/classbioexplorer_1_1common_1_1Assembly.html#acd4b710e2d373454718450d543bffa70", null ],
     [ "getClippingPlanes", "d2/d82/classbioexplorer_1_1common_1_1Assembly.html#a8ed05910fa76827eff51bfc24f49f675", null ],
     [ "getDescriptor", "d2/d82/classbioexplorer_1_1common_1_1Assembly.html#a6975dd880af6b1e2216e5e2773a79d1e", null ],
@@ -34,7 +35,6 @@ var classbioexplorer_1_1common_1_1Assembly =
     [ "setEnzymeReactionProgress", "d2/d82/classbioexplorer_1_1common_1_1Assembly.html#a4ef4f8adbc572ab460b1bea67be02156", null ],
     [ "setProteinColorScheme", "d2/d82/classbioexplorer_1_1common_1_1Assembly.html#a0ab3f055c7da771e018b2e504ee0aecc", null ],
     [ "setProteinInstanceTransformation", "d2/d82/classbioexplorer_1_1common_1_1Assembly.html#adc1cd284496f327b4c1607e766217c8c", null ],
-    [ "setVasculatureColorScheme", "d2/d82/classbioexplorer_1_1common_1_1Assembly.html#a7c8a2bd939b75b43239845e1b4765ace", null ],
     [ "setVasculatureRadiusReport", "d2/d82/classbioexplorer_1_1common_1_1Assembly.html#a2e6b45eac68e1e78205b26463a1b4066", null ],
     [ "setVasculatureReport", "d2/d82/classbioexplorer_1_1common_1_1Assembly.html#a160614bf48071a57932da3cbfd77c32a", null ]
 ];

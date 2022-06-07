@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['user_20guide_862',['User guide',['../dd/d67/md__home_favreau_bluebrain_BioExplorer_bioexplorer_pythonsdk_doc_source_USERGUIDE.html',1,'']]]
+  ['user_20guide_869',['User guide',['../dd/d67/md__home_favreau_bluebrain_BioExplorer_bioexplorer_pythonsdk_doc_source_USERGUIDE.html',1,'']]]
 ];

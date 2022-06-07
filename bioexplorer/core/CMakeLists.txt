@@ -61,6 +61,7 @@ set(${NAME}_SOURCES
     plugin/common/shapes/Shape.cpp
     plugin/common/shapes/MeshShape.cpp
     plugin/common/shapes/SphereShape.cpp
+    plugin/common/shapes/SphericalCellDiffusionShape.cpp
     plugin/common/shapes/HelixShape.cpp
     plugin/common/shapes/PlaneShape.cpp
     plugin/common/shapes/CubeShape.cpp
@@ -121,6 +122,7 @@ set(${NAME}_PUBLIC_HEADERS
     plugin/common/shapes/Shape.h
     plugin/common/shapes/MeshShape.h
     plugin/common/shapes/SphereShape.h
+    plugin/common/shapes/SphericalCellDiffusionShape.h
     plugin/common/shapes/HelixShape.h
     plugin/common/shapes/PlaneShape.h
     plugin/common/shapes/CubeShape.h

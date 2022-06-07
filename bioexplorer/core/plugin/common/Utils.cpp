@@ -457,5 +457,72 @@ Vector3ds getPointsInSphere(const size_t nbPoints, const double innerRadius)
     }
     return points;
 }
+
+double mix(const double x, const double y, const double a)
+{
+    return x * (1 - a) + y * a;
+}
+
+double frac(const double x)
+{
+    return x - floor(x);
+}
+
+Vector3d frac(const Vector3d v)
+{
+    return Vector3d(v.x - floor(v.x), v.y - floor(v.y), v.z - floor(v.z));
+}
+
+double hash(double n)
+{
+    return frac(sin(n + 1.951) * 43758.5453);
+}
+
+double noise(const Vector3d& x)
+{
+    // hash based 3d value noise
+    Vector3d p = floor(x);
+    Vector3d f = frac(x);
+
+    f = f * f * (Vector3d(3.0, 3.0, 3.0) - Vector3d(2.0, 2.0, 2.0) * f);
+    double n = p.x + p.y * 57 + 113 * p.z;
+    return mix(mix(mix(hash(n + 0), hash(n + 1), f.x),
+                   mix(hash(n + 57), hash(n + 58), f.x), f.y),
+               mix(mix(hash(n + 113), hash(n + 114), f.x),
+                   mix(hash(n + 170), hash(n + 171), f.x), f.y),
+               f.z);
+}
+
+Vector3d mod(const Vector3d& v, const int m)
+{
+    return Vector3d(v.x - m * floor(v.x / m), v.y - m * floor(v.y / m),
+                    v.z - m * floor(v.z / m));
+}
+
+double cells(const Vector3d& p, const double cellCount)
+{
+    const Vector3d pCell = p * cellCount;
+    double d = 1.0e10;
+    for (int64_t xo = -1; xo <= 1; xo++)
+    {
+        for (int64_t yo = -1; yo <= 1; yo++)
+        {
+            for (int64_t zo = -1; zo <= 1; zo++)
+            {
+                Vector3d tp = floor(pCell) + Vector3d(xo, yo, zo);
+                tp = pCell - tp - noise(mod(tp, cellCount / 1));
+                d = std::min(d, dot(tp, tp));
+            }
+        }
+    }
+    d = std::min(d, 1.0);
+    d = std::max(d, 0.0);
+    return d;
+}
+
+double worleyNoise(const Vector3d& p, double cellCount)
+{
+    return cells(p, cellCount);
+}
 } // namespace common
 } // namespace bioexplorer

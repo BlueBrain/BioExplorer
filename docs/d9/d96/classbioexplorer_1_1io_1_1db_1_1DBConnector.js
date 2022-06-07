@@ -14,10 +14,13 @@ var classbioexplorer_1_1io_1_1db_1_1DBConnector =
     [ "getSceneConfiguration", "d9/d96/classbioexplorer_1_1io_1_1db_1_1DBConnector.html#ae91b451a6d92811c8c313645aecd1573", null ],
     [ "getVasculatureBifurcations", "d9/d96/classbioexplorer_1_1io_1_1db_1_1DBConnector.html#a17e6e76dce912c358f070fb2b2c84c6c", null ],
     [ "getVasculatureEdges", "d9/d96/classbioexplorer_1_1io_1_1db_1_1DBConnector.html#a71d7588d245345ff1611fe12a65748e5", null ],
-    [ "getVasculatureNodes", "d9/d96/classbioexplorer_1_1io_1_1db_1_1DBConnector.html#a9038090978cbbe1bd102512a6ac9751e", null ],
-    [ "getVasculatureSections", "d9/d96/classbioexplorer_1_1io_1_1db_1_1DBConnector.html#a0c03be2a93dda64fbffc12632cecf8bd", null ],
+    [ "getVasculatureNbSections", "d9/d96/classbioexplorer_1_1io_1_1db_1_1DBConnector.html#a5af42cb97b20e7c516b16f59c4bb461b", null ],
+    [ "getVasculatureNodes", "d9/d96/classbioexplorer_1_1io_1_1db_1_1DBConnector.html#a07ca4089e1f087bf50220f68e83d5d78", null ],
+    [ "getVasculatureRadiusRange", "d9/d96/classbioexplorer_1_1io_1_1db_1_1DBConnector.html#acfd1af63c23e5bdc7c08eca127845004", null ],
+    [ "getVasculatureSections", "d9/d96/classbioexplorer_1_1io_1_1db_1_1DBConnector.html#a274cfb8b36a9b9c6b41046fff0cade2d", null ],
     [ "getVasculatureSimulationReport", "d9/d96/classbioexplorer_1_1io_1_1db_1_1DBConnector.html#ab684d0b433decc70d52f4b7a120f0c8f", null ],
     [ "getVasculatureSimulationTimeSeries", "d9/d96/classbioexplorer_1_1io_1_1db_1_1DBConnector.html#a75e179d6154074d799debbb9ed6a3899", null ],
+    [ "getWhiteMatterStreamlines", "d9/d96/classbioexplorer_1_1io_1_1db_1_1DBConnector.html#a669349598e0f3bd6ecfd4a85a958a603", null ],
     [ "init", "d9/d96/classbioexplorer_1_1io_1_1db_1_1DBConnector.html#a8e8746a8dbc8eaf271b3ab5e1a4c909e", null ],
     [ "insertBrick", "d9/d96/classbioexplorer_1_1io_1_1db_1_1DBConnector.html#a6aaea01883244f16522bc9cf799364c1", null ]
 ];
