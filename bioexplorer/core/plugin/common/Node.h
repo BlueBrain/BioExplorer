@@ -41,6 +41,12 @@ public:
     Node(const Vector3d& scale = Vector3d(1.0, 1.0, 1.0));
 
     /**
+     * @brief Destroy the Node object
+     *
+     */
+    virtual ~Node() = default;
+
+    /**
      * @brief Get the Model Descriptor object
      *
      * @return ModelDescriptorPtr Pointer to the model descriptor

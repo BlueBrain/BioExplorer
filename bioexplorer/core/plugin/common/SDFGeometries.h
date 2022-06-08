@@ -35,7 +35,7 @@ using namespace brayns;
  * @brief The SDFGeometries abstract class is used as a parent to any assembly
  * that potentially requires the signed-distance field technique
  */
-class SDFGeometries : public common::Node
+class SDFGeometries : public Node
 {
 public:
     /**

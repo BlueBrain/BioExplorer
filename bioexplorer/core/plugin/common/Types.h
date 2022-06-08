@@ -1124,6 +1124,10 @@ typedef struct
 
 namespace common
 {
+class Node;
+using NodePtr = std::shared_ptr<Node>;
+using NodeMap = std::map<std::string, NodePtr>;
+
 class Assembly;
 using AssemblyPtr = std::shared_ptr<Assembly>;
 using AssemblyMap = std::map<std::string, AssemblyPtr>;

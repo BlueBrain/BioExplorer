@@ -71,7 +71,7 @@ const uint64_t nbMinSegmentsForVaricosity = 10;
 /**
  * @brief The Morphologies class
  */
-class Morphologies : public common::SDFGeometries
+class Morphologies : public SDFGeometries
 {
 public:
     /**
