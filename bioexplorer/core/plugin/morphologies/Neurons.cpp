@@ -78,77 +78,122 @@ void Neurons::_buildNeurons()
     size_t baseMaterialId = 0;
     Vector3ui indexOffset;
 
+    const bool somasOnly = _details.loadSomas && !_details.loadAxon &&
+                           !_details.loadApicalDendrites &&
+                           !_details.loadBasalDendrites;
+
     ThreadSafeContainers containers;
-    uint64_t index;
-#pragma omp parallel for private(index)
-    for (index = 0; index < somas.size(); ++index)
+    if (somasOnly)
     {
-        if (omp_get_thread_num() == 0)
-            PLUGIN_PROGRESS("Loading Neurons", index,
-                            somas.size() / omp_get_max_threads());
-
-        auto it = somas.begin();
-        std::advance(it, index);
-        const auto& soma = it->second;
-        const auto neuronId = it->first;
-
         ThreadSafeContainer container(*model, useSdf, _scale);
-
-        const auto& somaPosition = soma.position;
-        const auto& somaRotation = soma.rotation;
-        const auto layer = soma.layer;
-        const double mitochondriaDensity =
-            (layer < MITOCHONDRIA_DENSITY.size() ? MITOCHONDRIA_DENSITY[layer]
-                                                 : 0.0);
-
-        // Soma radius
-        double somaRadius = 0.0;
-        const auto sections =
-            connector.getNeuronSections(_details.populationName, neuronId,
-                                        _details.sqlSectionFilter);
-        uint64_t count = 1;
-        for (const auto& section : sections)
-            if (section.second.parentId == SOMA_AS_PARENT)
-            {
-                const auto& point = section.second.points[0];
-                somaRadius += 0.5 * length(Vector3d(point));
-                ++count;
-            }
-        somaRadius = _radiusMultiplier * somaRadius / count;
-
-        switch (_details.populationColorScheme)
+        uint64_t progress = 0;
+        for (const auto soma : somas)
         {
-        case PopulationColorScheme::id:
-            baseMaterialId = neuronId * NB_MATERIALS_PER_MORPHOLOGY;
-            break;
-        }
-        const auto somaMaterialId =
-            baseMaterialId +
-            (_details.morphologyColorScheme == MorphologyColorScheme::section
-                 ? MATERIAL_OFFSET_SOMA
-                 : 0);
-
-        // Soma
-        uint64_t somaGeometryIndex = 0;
-        if (_details.loadSomas)
-        {
+            PLUGIN_PROGRESS("Loading somas", progress, somas.size());
+            const auto somaMaterialId =
+                baseMaterialId + (_details.morphologyColorScheme ==
+                                          MorphologyColorScheme::section
+                                      ? MATERIAL_OFFSET_SOMA
+                                      : 0);
             if (_details.showMembrane)
-                somaGeometryIndex =
-                    container.addSphere(somaPosition, somaRadius,
-                                        somaMaterialId, NO_USER_DATA, {},
-                                        Vector3f(somaDisplacementStrength,
-                                                 somaDisplacementFrequency,
-                                                 0.f));
+                container.addSphere(soma.second.position,
+                                    _details.radiusMultiplier, somaMaterialId,
+                                    NO_USER_DATA, {},
+                                    Vector3f(somaDisplacementStrength,
+                                             somaDisplacementFrequency, 0.f));
             if (_details.generateInternals)
-                _addSomaInternals(neuronId, container, baseMaterialId,
-                                  somaPosition, somaRadius,
-                                  mitochondriaDensity);
-        }
+            {
+                const double mitochondriaDensity =
+                    (soma.second.layer < MITOCHONDRIA_DENSITY.size()
+                         ? MITOCHONDRIA_DENSITY[soma.second.layer]
+                         : 0.0);
 
-        // Sections (dendrites and axon)
-        if (_details.loadBasalDendrites || _details.loadApicalDendrites ||
-            _details.loadAxon)
+                _addSomaInternals(soma.first, container, baseMaterialId,
+                                  soma.second.position,
+                                  _details.radiusMultiplier,
+                                  mitochondriaDensity);
+            }
+            ++progress;
+        }
+        containers.push_back(container);
+    }
+    else
+    {
+        uint64_t index;
+#pragma omp parallel for
+        for (index = 0; index < somas.size(); ++index)
         {
+            if (omp_get_thread_num() == 0)
+                PLUGIN_PROGRESS("Loading neurons", index,
+                                somas.size() / omp_get_max_threads());
+
+            auto it = somas.begin();
+            std::advance(it, index);
+            const auto& soma = it->second;
+            const auto neuronId = it->first;
+
+            ThreadSafeContainer container(*model, useSdf, _scale);
+
+            const auto& somaPosition = soma.position;
+            const auto& somaRotation = soma.rotation;
+            const auto layer = soma.layer;
+            const double mitochondriaDensity =
+                (layer < MITOCHONDRIA_DENSITY.size()
+                     ? MITOCHONDRIA_DENSITY[layer]
+                     : 0.0);
+
+            SectionMap sections;
+            // Soma radius
+            double somaRadius = _radiusMultiplier;
+            if (_details.loadAxon || _details.loadApicalDendrites ||
+                _details.loadBasalDendrites)
+            {
+                sections =
+                    connector.getNeuronSections(_details.populationName,
+                                                neuronId,
+                                                _details.sqlSectionFilter);
+                uint64_t count = 0;
+                for (const auto& section : sections)
+                    if (section.second.parentId == SOMA_AS_PARENT)
+                    {
+                        const auto& point = section.second.points[0];
+                        somaRadius += 0.5 * length(Vector3d(point));
+                        ++count;
+                    }
+                if (count > 0)
+                    somaRadius = _radiusMultiplier * somaRadius / count;
+            }
+
+            switch (_details.populationColorScheme)
+            {
+            case PopulationColorScheme::id:
+                baseMaterialId = neuronId * NB_MATERIALS_PER_MORPHOLOGY;
+                break;
+            }
+            const auto somaMaterialId =
+                baseMaterialId + (_details.morphologyColorScheme ==
+                                          MorphologyColorScheme::section
+                                      ? MATERIAL_OFFSET_SOMA
+                                      : 0);
+
+            // Soma
+            uint64_t somaGeometryIndex = 0;
+            if (_details.loadSomas)
+            {
+                if (_details.showMembrane)
+                    somaGeometryIndex =
+                        container.addSphere(somaPosition, somaRadius,
+                                            somaMaterialId, NO_USER_DATA, {},
+                                            Vector3f(somaDisplacementStrength,
+                                                     somaDisplacementFrequency,
+                                                     0.f));
+                if (_details.generateInternals)
+                    _addSomaInternals(neuronId, container, baseMaterialId,
+                                      somaPosition, somaRadius,
+                                      mitochondriaDensity);
+            }
+
+            // Sections (dendrites and axon)
             uint64_t geometryIndex = 0;
             Neighbours neighbours{somaGeometryIndex};
 
@@ -191,15 +236,15 @@ void Neurons::_buildNeurons()
                             geometryIndex, somaPosition, somaRotation,
                             somaRadius, baseMaterialId, mitochondriaDensity);
             }
-        }
 
-        // Synapses
-        if (_details.loadSynapses)
-            _addSpines(container, neuronId, somaPosition, somaRadius,
-                       baseMaterialId);
+            // Synapses
+            if (_details.loadSynapses)
+                _addSpines(container, neuronId, somaPosition, somaRadius,
+                           baseMaterialId);
 
 #pragma omp critical
-        containers.push_back(container);
+            containers.push_back(container);
+        }
     }
 
     for (size_t i = 0; i < containers.size(); ++i)
