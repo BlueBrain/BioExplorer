@@ -119,13 +119,16 @@ void Neurons::_buildNeurons()
     }
     else
     {
+        const auto nbDBConnections =
+            DBConnector::getInstance().getNbConnections();
+
         uint64_t index;
-#pragma omp parallel for
+#pragma omp parallel for num_threads(nbDBConnections)
         for (index = 0; index < somas.size(); ++index)
         {
             if (omp_get_thread_num() == 0)
                 PLUGIN_PROGRESS("Loading neurons", index,
-                                somas.size() / omp_get_max_threads());
+                                somas.size() / nbDBConnections);
 
             auto it = somas.begin();
             std::advance(it, index);

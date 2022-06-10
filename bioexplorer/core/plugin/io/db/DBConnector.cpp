@@ -64,6 +64,8 @@ void DBConnector::init(const CommandLineArguments& arguments)
             dbPassword = argument.second;
         if (argument.first == ARG_DB_NAME)
             dbName = argument.second;
+        if (argument.first == ARG_DB_NB_CONNECTIONS)
+            _dbNbConnections = std::stoi(argument.second.c_str());
     }
 
     _connectionString = "host=" + dbHost + " port=" + dbPort +
@@ -72,8 +74,7 @@ void DBConnector::init(const CommandLineArguments& arguments)
 
     PLUGIN_DEBUG(_connectionString);
 
-    const auto nbConnections = omp_get_max_threads();
-    for (size_t i = 0; i < nbConnections; ++i)
+    for (size_t i = 0; i < _dbNbConnections; ++i)
     {
         try
         {
@@ -88,13 +89,14 @@ void DBConnector::init(const CommandLineArguments& arguments)
                 std::string(e.base().what()));
         }
     }
-    PLUGIN_INFO(1,
-                "Initialized " << nbConnections << " connections to database");
+    PLUGIN_INFO(1, "Initialized " << _dbNbConnections
+                                  << " connections to database");
 }
 
 void DBConnector::clearBricks()
 {
-    pqxx::work transaction(*_connections[omp_get_thread_num()]);
+    pqxx::work transaction(
+        *_connections[omp_get_thread_num() % _dbNbConnections]);
     try
     {
         const auto sql = "DELETE FROM " + DB_SCHEMA_OUT_OF_CORE + ".brick";
@@ -112,7 +114,8 @@ void DBConnector::clearBricks()
 const OOCSceneConfigurationDetails DBConnector::getSceneConfiguration()
 {
     OOCSceneConfigurationDetails sceneConfiguration;
-    pqxx::read_transaction transaction(*_connections[omp_get_thread_num()]);
+    pqxx::nontransaction transaction(
+        *_connections[omp_get_thread_num() % _dbNbConnections]);
     try
     {
         const auto sql =
@@ -146,7 +149,8 @@ void DBConnector::insertBrick(const int32_t brickId, const uint32_t version,
                               const uint32_t nbModels,
                               const std::stringstream& buffer)
 {
-    pqxx::work transaction(*_connections[omp_get_thread_num()]);
+    pqxx::work transaction(
+        *_connections[omp_get_thread_num() % _dbNbConnections]);
     try
     {
         const pqxx::binarystring tmp((void*)buffer.str().c_str(),
@@ -169,7 +173,8 @@ std::stringstream DBConnector::getBrick(const int32_t brickId,
                                         uint32_t& nbModels)
 {
     std::stringstream s;
-    pqxx::read_transaction transaction(*_connections[omp_get_thread_num()]);
+    pqxx::nontransaction transaction(
+        *_connections[omp_get_thread_num() % _dbNbConnections]);
     try
     {
         const auto sql = "SELECT nb_models, buffer FROM " +
@@ -202,8 +207,9 @@ GeometryNodes DBConnector::getVasculatureNodes(
     const std::string& limits) const
 {
     GeometryNodes nodes;
-    const auto connection = _connections[omp_get_thread_num()];
-    pqxx::read_transaction transaction(*connection);
+    const auto connection =
+        _connections[omp_get_thread_num() % _dbNbConnections];
+    pqxx::nontransaction transaction(*connection);
     try
     {
         std::string sql =
@@ -250,8 +256,8 @@ uint64_ts DBConnector::getVasculatureSections(const std::string& populationName,
                                               const std::string& filter)
 {
     uint64_ts sectionIds;
-    auto connection = _connections[omp_get_thread_num()];
-    pqxx::read_transaction transaction(*connection);
+    auto connection = _connections[omp_get_thread_num() % _dbNbConnections];
+    pqxx::nontransaction transaction(*connection);
     try
     {
         pqxx::result res;
@@ -287,8 +293,8 @@ Vector2ui DBConnector::getVasculatureNbSections(
     const std::string& populationName, const std::string& filter)
 {
     Vector2ui nbSections;
-    auto connection = _connections[omp_get_thread_num()];
-    pqxx::read_transaction transaction(*connection);
+    auto connection = _connections[omp_get_thread_num() % _dbNbConnections];
+    pqxx::nontransaction transaction(*connection);
     try
     {
         const std::string sql = "SELECT value FROM " + populationName +
@@ -334,7 +340,8 @@ Vector2d DBConnector::getVasculatureRadiusRange(
     const std::string& populationName, const std::string& filter) const
 {
     Vector2d range;
-    pqxx::read_transaction transaction(*_connections[omp_get_thread_num()]);
+    pqxx::nontransaction transaction(
+        *_connections[omp_get_thread_num() % _dbNbConnections]);
     try
     {
         std::string sql =
@@ -362,7 +369,8 @@ GeometryEdges DBConnector::getVasculatureEdges(
     const std::string& populationName, const std::string& filter) const
 {
     GeometryEdges edges;
-    pqxx::read_transaction transaction(*_connections[omp_get_thread_num()]);
+    pqxx::nontransaction transaction(
+        *_connections[omp_get_thread_num() % _dbNbConnections]);
     try
     {
         std::string sql = "SELECT start_node_guid, end_node_guid FROM " +
@@ -387,7 +395,8 @@ Bifurcations DBConnector::getVasculatureBifurcations(
     const std::string& populationName) const
 {
     Bifurcations bifurcations;
-    pqxx::read_transaction transaction(*_connections[omp_get_thread_num()]);
+    pqxx::nontransaction transaction(
+        *_connections[omp_get_thread_num() % _dbNbConnections]);
     try
     {
         std::string sql =
@@ -418,7 +427,8 @@ SimulationReport DBConnector::getVasculatureSimulationReport(
     const std::string& populationName, const int32_t simulationReportId) const
 {
     SimulationReport simulationReport;
-    pqxx::read_transaction transaction(*_connections[omp_get_thread_num()]);
+    pqxx::nontransaction transaction(
+        *_connections[omp_get_thread_num() % _dbNbConnections]);
     try
     {
         std::string sql =
@@ -454,7 +464,8 @@ floats DBConnector::getVasculatureSimulationTimeSeries(
     const int32_t frame) const
 {
     floats values;
-    pqxx::read_transaction transaction(*_connections[omp_get_thread_num()]);
+    pqxx::nontransaction transaction(
+        *_connections[omp_get_thread_num() % _dbNbConnections]);
     try
     {
         std::string sql =
@@ -485,7 +496,8 @@ AstrocyteSomaMap DBConnector::getAstrocytes(
 {
     AstrocyteSomaMap somas;
 
-    pqxx::read_transaction transaction(*_connections[omp_get_thread_num()]);
+    pqxx::nontransaction transaction(
+        *_connections[omp_get_thread_num() % _dbNbConnections]);
     try
     {
         std::string sql = "SELECT guid, x, y, z, radius FROM " +
@@ -519,7 +531,8 @@ SectionMap DBConnector::getAstrocyteSections(const int64_t astrocyteId) const
 {
     SectionMap sections;
 
-    pqxx::read_transaction transaction(*_connections[omp_get_thread_num()]);
+    pqxx::nontransaction transaction(
+        *_connections[omp_get_thread_num() % _dbNbConnections]);
     try
     {
         std::string sql =
@@ -555,7 +568,8 @@ EndFootMap DBConnector::getAstrocyteEndFeet(
 {
     EndFootMap endFeet;
 
-    pqxx::read_transaction transaction(*_connections[omp_get_thread_num()]);
+    pqxx::nontransaction transaction(
+        *_connections[omp_get_thread_num() % _dbNbConnections]);
     try
     {
         std::string sql =
@@ -599,7 +613,8 @@ NeuronSomaMap DBConnector::getNeurons(const std::string& populationName,
 {
     NeuronSomaMap somas;
 
-    pqxx::read_transaction transaction(*_connections[omp_get_thread_num()]);
+    pqxx::nontransaction transaction(
+        *_connections[omp_get_thread_num() % _dbNbConnections]);
     try
     {
         std::string sql =
@@ -642,7 +657,8 @@ SectionMap DBConnector::getNeuronSections(const std::string& populationName,
 {
     SectionMap sections;
 
-    pqxx::read_transaction transaction(*_connections[omp_get_thread_num()]);
+    pqxx::nontransaction transaction(
+        *_connections[omp_get_thread_num() % _dbNbConnections]);
     try
     {
         std::string sql =
@@ -684,7 +700,8 @@ SynapseMap DBConnector::getNeuronSynapses(const std::string& populationName,
 {
     SynapseMap synapses;
 
-    pqxx::read_transaction transaction(*_connections[omp_get_thread_num()]);
+    pqxx::nontransaction transaction(
+        *_connections[omp_get_thread_num() % _dbNbConnections]);
     try
     {
         std::string sql =
@@ -729,7 +746,8 @@ uint64_ts DBConnector::getAtlasRegions(const std::string& sqlCondition) const
 {
     uint64_ts regions;
 
-    pqxx::read_transaction transaction(*_connections[omp_get_thread_num()]);
+    pqxx::nontransaction transaction(
+        *_connections[omp_get_thread_num() % _dbNbConnections]);
     try
     {
         std::string sql = "SELECT guid, code, description FROM " +
@@ -758,7 +776,8 @@ CellMap DBConnector::getAtlasCells(const uint64_t regionId,
 {
     CellMap cells;
 
-    pqxx::read_transaction transaction(*_connections[omp_get_thread_num()]);
+    pqxx::nontransaction transaction(
+        *_connections[omp_get_thread_num() % _dbNbConnections]);
     try
     {
         std::string sql =
@@ -798,7 +817,8 @@ TriangleMesh DBConnector::getAtlasMesh(const uint64_t regionId) const
 {
     TriangleMesh mesh;
 
-    pqxx::read_transaction transaction(*_connections[omp_get_thread_num()]);
+    pqxx::nontransaction transaction(
+        *_connections[omp_get_thread_num() % _dbNbConnections]);
     try
     {
         const std::string sql =
@@ -838,7 +858,8 @@ WhiteMatterStreamlines DBConnector::getWhiteMatterStreamlines(
     const std::string& populationName, const std::string& filter) const
 {
     WhiteMatterStreamlines streamlines;
-    pqxx::read_transaction transaction(*_connections[omp_get_thread_num()]);
+    pqxx::nontransaction transaction(
+        *_connections[omp_get_thread_num() % _dbNbConnections]);
     try
     {
         std::string sql =
