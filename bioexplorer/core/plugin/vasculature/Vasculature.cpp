@@ -202,7 +202,7 @@ void Vasculature::_buildModel(const doubles& radii)
     ThreadSafeContainers containers;
 
     PLUGIN_INFO(1, "Identifying sections...");
-    const auto ompThreads = omp_get_max_threads();
+    const auto nbDBConnections = DBConnector::getInstance().getNbConnections();
 
     const auto nbSections = DBConnector::getInstance().getVasculatureNbSections(
         _details.populationName, _details.sqlFilter);
@@ -210,10 +210,10 @@ void Vasculature::_buildModel(const doubles& radii)
     const uint64_t nbMaxSections = nbSections.y;
 
     const auto nbQueries = nbMaxSections / MAX_BATCH_SIZE + 1;
-    PLUGIN_INFO(1, "Number of sections=" << _nbSections
-                                         << ", threads=" << ompThreads
-                                         << ", queries=" << nbQueries
-                                         << ", batch size=" << MAX_BATCH_SIZE);
+    PLUGIN_INFO(1, "Number of sections="
+                       << _nbSections << ", DB connections=" << nbDBConnections
+                       << ", DB queries=" << nbQueries
+                       << ", DB batch size=" << MAX_BATCH_SIZE);
 
     Vector2d radiusRange;
     if (_details.colorScheme == VasculatureColorScheme::radius)
@@ -222,7 +222,7 @@ void Vasculature::_buildModel(const doubles& radii)
 
     uint64_t progress = 0;
     uint64_t index;
-#pragma omp parallel for num_threads(ompThreads)
+#pragma omp parallel for num_threads(nbDBConnections)
     for (index = 0; index < nbQueries; ++index)
     {
         const auto offset = index * MAX_BATCH_SIZE;
@@ -300,13 +300,13 @@ void Vasculature::_buildModel(const doubles& radii)
             ++nbLoadedSections;
         } while (iter != nodes.end());
 
-#pragma omp critical
-        progress += nbLoadedSections;
+        if (omp_get_thread_num() == 0)
+            PLUGIN_PROGRESS("Loading " << progress << "/" << _nbSections
+                                       << " sections",
+                            progress, _nbSections);
 
 #pragma omp critical
-        PLUGIN_PROGRESS("Loading " << progress << "/" << _nbSections
-                                   << " sections",
-                        progress, _nbSections);
+        progress += nbLoadedSections;
 
 #pragma omp critical
         containers.push_back(container);

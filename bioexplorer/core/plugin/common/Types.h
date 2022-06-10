@@ -49,12 +49,16 @@ const std::string METADATA_SIZE = "Size";
 const std::string METADATA_BRICK_ID = "BrickId";
 
 // Command line arguments
+// - Database
 const std::string ARG_DB_HOST = "--db-host";
 const std::string ARG_DB_PORT = "--db-port";
 const std::string ARG_DB_NAME = "--db-name";
 const std::string ARG_DB_USER = "--db-user";
 const std::string ARG_DB_PASSWORD = "--db-password";
+const std::string ARG_DB_NB_CONNECTIONS = "--db-nb-connections";
+const size_t DEFAULT_DB_NB_CONNECTIONS = 8;
 
+// - Out-of-core
 const std::string ARG_OOC_ENABLED = "--ooc-enabled";
 const std::string ARG_OOC_VISIBLE_BRICKS = "--ooc-visible-bricks";
 const std::string ARG_OOC_UPDATE_FREQUENCY = "--ooc-update-frequency";

@@ -70,6 +70,13 @@ public:
     void init(const CommandLineArguments& arguments);
 
     /**
+     * @brief Get the number of connections to the database
+     *
+     * @return size_t Number of connections to the database
+     */
+    size_t getNbConnections() const { return _dbNbConnections; }
+
+    /**
      * @brief Remove all bricks from the PostgreSQL database
      *
      */
@@ -296,6 +303,8 @@ public:
 private:
     DBConnector();
     ~DBConnector();
+
+    size_t _dbNbConnections{DEFAULT_DB_NB_CONNECTIONS};
 
     std::string _connectionString;
     std::map<std::string, std::vector<std::string>> _preparedStatements;
