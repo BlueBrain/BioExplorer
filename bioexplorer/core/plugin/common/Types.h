@@ -915,9 +915,9 @@ enum class VasculatureColorScheme
 
 enum class VasculatureQuality
 {
-    low = 0,
-    medium = 1,
-    high = 2
+    graph = 0,
+    section = 1,
+    segment = 2
 };
 
 typedef struct
@@ -982,11 +982,11 @@ enum class MorphologyColorScheme
     section = 1
 };
 
-enum class GeometryQuality
+enum class MorphologyRepresentation
 {
-    low = 0,
-    medium = 1,
-    high = 2
+    graph = 0,
+    section = 1,
+    segment = 2
 };
 
 typedef struct
@@ -1006,8 +1006,8 @@ typedef struct
     bool generateInternals{false};
     /** Use Signed Distance Fields as geometry */
     bool useSdf{false};
-    /** Geometry quality */
-    GeometryQuality geometryQuality;
+    /** Morphology representation */
+    MorphologyRepresentation morphologyRepresentation;
     /** Geometry color scheme */
     MorphologyColorScheme morphologyColorScheme;
     /** Population color scheme */
@@ -1058,8 +1058,8 @@ typedef struct
     bool generateVaricosities{false};
     /** Use Signed Distance Fields as geometry */
     bool useSdf{false};
-    /** Geometry quality */
-    GeometryQuality geometryQuality;
+    /** Morphology representation */
+    MorphologyRepresentation morphologyRepresentation;
     /** Geometry color scheme */
     MorphologyColorScheme morphologyColorScheme;
     /** Population color scheme */

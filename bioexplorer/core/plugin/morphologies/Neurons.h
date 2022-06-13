@@ -68,6 +68,13 @@ public:
 private:
     void _buildNeurons();
 
+    void _addGraphSection(ThreadSafeContainer& container,
+                          const Vector3d& somaPosition,
+                          const Quaterniond& somaRotation,
+                          const Vector4d& srcNode, const Vector4d& dstNode,
+                          const NeuronSectionType sectionType,
+                          const size_t baseMaterialId);
+
     void _addSection(ThreadSafeContainer& container, const uint64_t neuronId,
                      const uint64_t sectionId, const Section& section,
                      const uint64_t somaGeometryIndex,
