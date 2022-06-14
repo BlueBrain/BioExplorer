@@ -64,7 +64,7 @@ void Neurons::_buildNeurons()
         doublesToAnimationDetails(_details.animationParams);
     srand(animationParams.seed);
 
-    auto& connector = DBConnector::getInstance();
+    const auto& connector = DBConnector::getInstance();
 
     auto model = _scene.createModel();
     const auto useSdf =
@@ -89,35 +89,7 @@ void Neurons::_buildNeurons()
     if (somasOnly)
     {
         ThreadSafeContainer container(*model, useSdf, _scale);
-        uint64_t progress = 0;
-        for (const auto soma : somas)
-        {
-            PLUGIN_PROGRESS("Loading somas", progress, somas.size());
-            const auto somaMaterialId =
-                baseMaterialId + (_details.morphologyColorScheme ==
-                                          MorphologyColorScheme::section
-                                      ? MATERIAL_OFFSET_SOMA
-                                      : 0);
-            if (_details.showMembrane)
-                container.addSphere(soma.second.position,
-                                    _details.radiusMultiplier, somaMaterialId,
-                                    NO_USER_DATA, {},
-                                    Vector3f(somaDisplacementStrength,
-                                             somaDisplacementFrequency, 0.f));
-            if (_details.generateInternals)
-            {
-                const double mitochondriaDensity =
-                    (soma.second.layer < MITOCHONDRIA_DENSITY.size()
-                         ? MITOCHONDRIA_DENSITY[soma.second.layer]
-                         : 0.0);
-
-                _addSomaInternals(soma.first, container, baseMaterialId,
-                                  soma.second.position,
-                                  _details.radiusMultiplier,
-                                  mitochondriaDensity);
-            }
-            ++progress;
-        }
+        _buildSomasOnly(container, somas, baseMaterialId);
         containers.push_back(container);
     }
     else
@@ -139,138 +111,7 @@ void Neurons::_buildNeurons()
             const auto neuronId = it->first;
 
             ThreadSafeContainer container(*model, useSdf, _scale);
-
-            const auto& somaPosition = soma.position;
-            const auto& somaRotation = soma.rotation;
-            const auto layer = soma.layer;
-            const double mitochondriaDensity =
-                (layer < MITOCHONDRIA_DENSITY.size()
-                     ? MITOCHONDRIA_DENSITY[layer]
-                     : 0.0);
-
-            SectionMap sections;
-            // Soma radius
-            double somaRadius = _radiusMultiplier;
-            if (_details.loadAxon || _details.loadApicalDendrites ||
-                _details.loadBasalDendrites)
-            {
-                sections =
-                    connector.getNeuronSections(_details.populationName,
-                                                neuronId,
-                                                _details.sqlSectionFilter);
-                uint64_t count = 0;
-                for (const auto& section : sections)
-                    if (section.second.parentId == SOMA_AS_PARENT)
-                    {
-                        const auto& point = section.second.points[0];
-                        somaRadius += 0.5 * length(Vector3d(point));
-                        ++count;
-                    }
-                if (count > 0)
-                    somaRadius = _radiusMultiplier * somaRadius / count;
-            }
-
-            switch (_details.populationColorScheme)
-            {
-            case PopulationColorScheme::id:
-                baseMaterialId = neuronId * NB_MATERIALS_PER_MORPHOLOGY;
-                break;
-            }
-            const auto somaMaterialId =
-                baseMaterialId + (_details.morphologyColorScheme ==
-                                          MorphologyColorScheme::section
-                                      ? MATERIAL_OFFSET_SOMA
-                                      : 0);
-
-            // Soma
-            uint64_t somaGeometryIndex = 0;
-            if (_details.loadSomas)
-            {
-                if (_details.showMembrane)
-                    somaGeometryIndex =
-                        container.addSphere(somaPosition, somaRadius,
-                                            somaMaterialId, NO_USER_DATA, {},
-                                            Vector3f(somaDisplacementStrength,
-                                                     somaDisplacementFrequency,
-                                                     0.f));
-                if (_details.generateInternals)
-                    _addSomaInternals(neuronId, container, baseMaterialId,
-                                      somaPosition, somaRadius,
-                                      mitochondriaDensity);
-            }
-
-            // Sections (dendrites and axon)
-            uint64_t geometryIndex = 0;
-            Neighbours neighbours{somaGeometryIndex};
-
-            for (const auto& section : sections)
-            {
-                const auto sectionType =
-                    static_cast<NeuronSectionType>(section.second.type);
-                const auto& points = section.second.points;
-                if (sectionType == NeuronSectionType::axon &&
-                    !_details.loadAxon)
-                    continue;
-                if (sectionType == NeuronSectionType::basal_dendrite &&
-                    !_details.loadBasalDendrites)
-                    continue;
-                if (sectionType == NeuronSectionType::apical_dendrite &&
-                    !_details.loadApicalDendrites)
-                    continue;
-
-                if (_details.morphologyRepresentation ==
-                    MorphologyRepresentation::graph)
-                {
-                    _addGraphSection(
-                        container, somaPosition, somaRotation,
-                        section.second.points[0],
-                        section.second.points[section.second.points.size() - 1],
-                        sectionType, baseMaterialId);
-                    continue;
-                }
-
-                if (_details.showMembrane && _details.loadSomas &&
-                    section.second.parentId == SOMA_AS_PARENT)
-                {
-                    const Vector4d somaPoint{somaPosition.x, somaPosition.y,
-                                             somaPosition.z, somaRadius};
-                    const auto& point = section.second.points[0];
-
-                    // Section connected to the soma
-                    const auto srcRadius =
-                        somaPoint.w * 0.75 * _radiusMultiplier;
-                    const auto dstRadius = point.w * 0.5 * _radiusMultiplier;
-
-                    const auto sectionType =
-                        static_cast<NeuronSectionType>(section.second.type);
-                    const bool loadSection =
-                        (sectionType == NeuronSectionType::axon &&
-                         _details.loadAxon) ||
-                        (sectionType == NeuronSectionType::basal_dendrite &&
-                         _details.loadBasalDendrites) ||
-                        (sectionType == NeuronSectionType::apical_dendrite &&
-                         _details.loadApicalDendrites);
-
-                    if (!loadSection)
-                        continue;
-                    geometryIndex = container.addCone(
-                        Vector3d(somaPoint), srcRadius,
-                        somaPosition + somaRotation * Vector3d(point),
-                        dstRadius, somaMaterialId, NO_USER_DATA, neighbours,
-                        Vector3f(somaDisplacementStrength,
-                                 somaDisplacementFrequency, 0.f));
-                    neighbours.insert(geometryIndex);
-                }
-
-                _addSection(container, neuronId, section.first, section.second,
-                            geometryIndex, somaPosition, somaRotation,
-                            somaRadius, baseMaterialId, mitochondriaDensity);
-            }
-
-            // Synapses
-            if (_details.loadSynapses)
-                _addSpines(container, neuronId, somaPosition, somaRadius,
-                           baseMaterialId);
+            _buildMorphology(container, soma, neuronId);
 
 #pragma omp critical
             containers.push_back(container);
@@ -299,6 +140,171 @@ void Neurons::_buildNeurons()
     }
     else
         PLUGIN_THROW("Neurons model could not be created");
+}
+
+void Neurons::_buildSomasOnly(ThreadSafeContainer& container,
+                              const NeuronSomaMap& somas,
+                              const size_t baseMaterialId)
+{
+    uint64_t progress = 0;
+    for (const auto soma : somas)
+    {
+        PLUGIN_PROGRESS("Loading somas", progress, somas.size());
+        const auto somaMaterialId =
+            baseMaterialId +
+            (_details.morphologyColorScheme == MorphologyColorScheme::section
+                 ? MATERIAL_OFFSET_SOMA
+                 : 0);
+        if (_details.showMembrane)
+            container.addSphere(soma.second.position, _details.radiusMultiplier,
+                                somaMaterialId, NO_USER_DATA, {},
+                                Vector3f(somaDisplacementStrength,
+                                         somaDisplacementFrequency, 0.f));
+        if (_details.generateInternals)
+        {
+            const double mitochondriaDensity =
+                (soma.second.layer < MITOCHONDRIA_DENSITY.size()
+                     ? MITOCHONDRIA_DENSITY[soma.second.layer]
+                     : 0.0);
+
+            _addSomaInternals(soma.first, container, baseMaterialId,
+                              soma.second.position, _details.radiusMultiplier,
+                              mitochondriaDensity);
+        }
+        ++progress;
+    }
+}
+
+void Neurons::_buildMorphology(ThreadSafeContainer& container,
+                               const NeuronSoma& soma, const uint64_t neuronId)
+{
+    const auto& connector = DBConnector::getInstance();
+
+    const auto& somaPosition = soma.position;
+    const auto& somaRotation = soma.rotation;
+    const auto layer = soma.layer;
+    const double mitochondriaDensity =
+        (layer < MITOCHONDRIA_DENSITY.size() ? MITOCHONDRIA_DENSITY[layer]
+                                             : 0.0);
+
+    SectionMap sections;
+    // Soma radius
+    double somaRadius = _radiusMultiplier;
+    if (_details.loadAxon || _details.loadApicalDendrites ||
+        _details.loadBasalDendrites)
+    {
+        sections =
+            connector.getNeuronSections(_details.populationName, neuronId,
+                                        _details.sqlSectionFilter);
+        uint64_t count = 0;
+        for (const auto& section : sections)
+            if (section.second.parentId == SOMA_AS_PARENT)
+            {
+                const auto& point = section.second.points[0];
+                somaRadius += 0.5 * length(Vector3d(point));
+                ++count;
+            }
+        if (count > 0)
+            somaRadius = _radiusMultiplier * somaRadius / count;
+    }
+
+    size_t baseMaterialId = 0;
+    switch (_details.populationColorScheme)
+    {
+    case PopulationColorScheme::id:
+        baseMaterialId = neuronId * NB_MATERIALS_PER_MORPHOLOGY;
+        break;
+    }
+    const auto somaMaterialId =
+        baseMaterialId +
+        (_details.morphologyColorScheme == MorphologyColorScheme::section
+             ? MATERIAL_OFFSET_SOMA
+             : 0);
+
+    // Soma
+    uint64_t somaGeometryIndex = 0;
+    if (_details.loadSomas)
+    {
+        if (_details.showMembrane)
+            somaGeometryIndex =
+                container.addSphere(somaPosition, somaRadius, somaMaterialId,
+                                    NO_USER_DATA, {},
+                                    Vector3f(somaDisplacementStrength,
+                                             somaDisplacementFrequency, 0.f));
+        if (_details.generateInternals)
+            _addSomaInternals(neuronId, container, baseMaterialId, somaPosition,
+                              somaRadius, mitochondriaDensity);
+    }
+
+    // Sections (dendrites and axon)
+    uint64_t geometryIndex = 0;
+    Neighbours neighbours{somaGeometryIndex};
+
+    for (const auto& section : sections)
+    {
+        const auto sectionType =
+            static_cast<NeuronSectionType>(section.second.type);
+        const auto& points = section.second.points;
+        if (sectionType == NeuronSectionType::axon && !_details.loadAxon)
+            continue;
+        if (sectionType == NeuronSectionType::basal_dendrite &&
+            !_details.loadBasalDendrites)
+            continue;
+        if (sectionType == NeuronSectionType::apical_dendrite &&
+            !_details.loadApicalDendrites)
+            continue;
+
+        if (_details.morphologyRepresentation ==
+            MorphologyRepresentation::graph)
+        {
+            _addGraphSection(
+                container, somaPosition, somaRotation, section.second.points[0],
+                section.second.points[section.second.points.size() - 1],
+                sectionType, baseMaterialId);
+            continue;
+        }
+
+        if (_details.showMembrane && _details.loadSomas &&
+            section.second.parentId == SOMA_AS_PARENT)
+        {
+            const Vector4d somaPoint{somaPosition.x, somaPosition.y,
+                                     somaPosition.z, somaRadius};
+            const auto& point = section.second.points[0];
+
+            // Section connected to the soma
+            const auto srcRadius = somaPoint.w * 0.75 * _radiusMultiplier;
+            const auto dstRadius = point.w * 0.5 * _radiusMultiplier;
+
+            const auto sectionType =
+                static_cast<NeuronSectionType>(section.second.type);
+            const bool loadSection =
+                (sectionType == NeuronSectionType::axon && _details.loadAxon) ||
+                (sectionType == NeuronSectionType::basal_dendrite &&
+                 _details.loadBasalDendrites) ||
+                (sectionType == NeuronSectionType::apical_dendrite &&
+                 _details.loadApicalDendrites);
+
+            if (!loadSection)
+                continue;
+            geometryIndex =
+                container.addCone(Vector3d(somaPoint), srcRadius,
+                                  somaPosition + somaRotation * Vector3d(point),
+                                  dstRadius, somaMaterialId, NO_USER_DATA,
+                                  neighbours,
+                                  Vector3f(somaDisplacementStrength,
+                                           somaDisplacementFrequency, 0.f));
+            neighbours.insert(geometryIndex);
+        }
+
+        _addSection(container, neuronId, section.first, section.second,
+                    geometryIndex, somaPosition, somaRotation, somaRadius,
+                    baseMaterialId, mitochondriaDensity);
+    }
+
+    // Synapses
+    if (_details.loadSynapses)
+        _addSpines(container, neuronId, somaPosition, somaRadius,
+                   baseMaterialId);
 }
 
 void Neurons::_addVaricosity(Vector4fs& points)
