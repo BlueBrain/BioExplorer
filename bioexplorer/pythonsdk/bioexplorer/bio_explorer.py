@@ -271,9 +271,9 @@ class BioExplorer:
     POSITION_CONSTRAINT_INSIDE = 0
     POSITION_CONSTRAINT_OUTSIDE = 1
 
-    VASCULATURE_QUALITY_LOW = 0
-    VASCULATURE_QUALITY_MEDIUM = 1
-    VASCULATURE_QUALITY_HIGH = 2
+    VASCULATURE_REPRESENTATION_GRAPH = 0
+    VASCULATURE_REPRESENTATION_SECTION = 1
+    VASCULATURE_REPRESENTATION_SEGMENT = 2
 
     VASCULATURE_COLOR_SCHEME_NONE = 0
     VASCULATURE_COLOR_SCHEME_NODE = 1
@@ -291,9 +291,9 @@ class BioExplorer:
     POPULATION_COLOR_SCHEME_NONE = 0
     POPULATION_COLOR_SCHEME_ID = 1
 
-    GEOMETRY_QUALITY_LOW = 0
-    GEOMETRY_QUALITY_MEDIUM = 1
-    GEOMETRY_QUALITY_HIGH = 2
+    MORPHOLOGY_REPRESENTATION_GRAPH = 0
+    MORPHOLOGY_REPRESENTATION_SECTION = 1
+    MORPHOLOGY_REPRESENTATION_SEGMENT = 2
 
     # Material offsets in neurons
     NB_MATERIALS_PER_MORPHOLOGY = 10
@@ -2294,7 +2294,7 @@ class BioExplorer:
     def add_vasculature(
             self, assembly_name, population_name, color_scheme=VASCULATURE_COLOR_SCHEME_NONE,
             use_sdf=False, section_gids=list(),
-            load_capilarities=False, quality=VASCULATURE_QUALITY_HIGH,
+            load_capilarities=False, representation=VASCULATURE_REPRESENTATION_SEGMENT,
             radius_multiplier=1.0, sql_filter='', scale=Vector3(1.0, 1.0, 1.0)):
         """
         Add a vasculature to the 3D scene
@@ -2304,8 +2304,7 @@ class BioExplorer:
         :color_scheme: Color scheme applied to the vasculature (node, graph, section, etc)
         :use_sdf: Use sign distance fields geometry to create the vasculature. Defaults to False
         :node_gids: List of segment GIDs to load. Defaults to list()
-        :quality: Quality of the vasculature geometry (0 is the graph, 1 with low details, 2
-                    with high details)
+        :representation: Representation of the vasculature geometry (Graph, sections or segments)
         :radius_muliplier: Applies the multiplier to all radii of the vasculature sections
         :sql_filter: Condition added to the SQL statement loading the vasculature
         :scale: Scale in the 3D scene
@@ -2322,7 +2321,7 @@ class BioExplorer:
         params["useSdf"] = use_sdf
         params["gids"] = section_gids
         params["loadCapilarities"] = load_capilarities
-        params["quality"] = quality
+        params["representation"] = representation
         params["radiusMultiplier"] = radius_multiplier
         params["sqlFilter"] = sql_filter
         params["scale"] = scale.to_list()
@@ -2386,7 +2385,7 @@ class BioExplorer:
             self, assembly_name, population_name, vasculature_population_name='',
             use_sdf=False, load_somas=True,
             load_dendrites=True, load_end_feet=True, generate_internals=False,
-            geometry_quality=GEOMETRY_QUALITY_HIGH,
+            morphology_representation=MORPHOLOGY_REPRESENTATION_SEGMENT,
             morphology_color_scheme=MORPHOLOGY_COLOR_SCHEME_NONE,
             population_color_scheme=POPULATION_COLOR_SCHEME_NONE,
             radius_multiplier=0.0, sql_filter='', scale=Vector3(1.0, 1.0, 1.0),
@@ -2401,7 +2400,7 @@ class BioExplorer:
         :load_dendrites: Load dendrites if set to true
         :generate_internals: Generate internals (Nucleus and mitochondria)
         :use_sdf: Use sign distance fields geometry to create the astrocytes. Defaults to False
-        :geometry_quality: Quality of the geometry
+        :morphology_representation: Geometry representation (graph, section or segment)
         :morphology_color_scheme: Color scheme of the sections of the astrocytes
         :populationColorScheme: Color scheme of the population of astrocytes
         :radius_muliplier: Applies the multiplier to all radii of the astrocyte sections
@@ -2422,7 +2421,7 @@ class BioExplorer:
         params["loadDendrites"] = load_dendrites
         params["generateInternals"] = generate_internals
         params["useSdf"] = use_sdf
-        params["geometryQuality"] = geometry_quality
+        params["morphologyRepresentation"] = morphology_representation
         params["morphologyColorScheme"] = morphology_color_scheme
         params["populationColorScheme"] = population_color_scheme
         params["radiusMultiplier"] = radius_multiplier
@@ -2439,7 +2438,7 @@ class BioExplorer:
             load_synapses=False,
             generate_internals=False, generate_externals=False,
             generate_varicosities=False, show_membrane=True,
-            geometry_quality=GEOMETRY_QUALITY_HIGH,
+            morphology_representation=MORPHOLOGY_REPRESENTATION_SEGMENT,
             morphology_color_scheme=MORPHOLOGY_COLOR_SCHEME_NONE,
             population_color_scheme=POPULATION_COLOR_SCHEME_NONE,
             radius_multiplier=0.0, sql_node_filter='', sql_section_filter='',
@@ -2459,7 +2458,7 @@ class BioExplorer:
         :generate_externals: Generate externals (Myelin steath)
         :show_membrane: Show membrane (Typically used to isolate internal and external components
         :generate_varicosities: Generate random varicosities along the axon
-        :geometry_quality: Quality of the geometry
+        :morphology_representation: Geometry representation (graph, section or segment)
         :morphology_color_scheme: Color scheme of the sections of the astrocytes
         :populationColorScheme: Color scheme of the population of astrocytes
         :radius_muliplier: Applies the multiplier to all radii of the astrocyte sections
@@ -2486,7 +2485,7 @@ class BioExplorer:
         params["showMembrane"] = show_membrane
         params["generateVaricosities"] = generate_varicosities
         params["useSdf"] = use_sdf
-        params["geometryQuality"] = geometry_quality
+        params["morphologyRepresentation"] = morphology_representation
         params["morphologyColorScheme"] = morphology_color_scheme
         params["populationColorScheme"] = population_color_scheme
         params["radiusMultiplier"] = radius_multiplier

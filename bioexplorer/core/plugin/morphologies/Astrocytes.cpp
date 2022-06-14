@@ -161,9 +161,9 @@ void Astrocytes::_buildModel(const doubles& radii)
                 break;
             }
             size_t step = 1;
-            switch (_details.geometryQuality)
+            switch (_details.morphologyRepresentation)
             {
-            case GeometryQuality::low:
+            case MorphologyRepresentation::section:
                 step = points.size() - 2;
                 break;
             default:

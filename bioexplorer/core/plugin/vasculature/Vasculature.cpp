@@ -193,7 +193,7 @@ void Vasculature::_addOrientation(ThreadSafeContainer& container,
 void Vasculature::_buildModel(const doubles& radii)
 {
     const auto useSdf =
-        _details.quality == VasculatureQuality::low ? false : _details.useSdf;
+        _details.quality == VasculatureQuality::graph ? false : _details.useSdf;
 
     if (_modelDescriptor)
         _scene.removeModel(_modelDescriptor->getModelID());
@@ -282,10 +282,10 @@ void Vasculature::_buildModel(const doubles& radii)
 
             switch (_details.quality)
             {
-            case VasculatureQuality::low:
+            case VasculatureQuality::graph:
                 _addGraphSection(container, srcNode, dstNode, materialId);
                 break;
-            case VasculatureQuality::medium:
+            case VasculatureQuality::section:
                 _addSimpleSection(container, srcNode, dstNode, materialId);
                 break;
             default:

@@ -67,7 +67,10 @@ void Neurons::_buildNeurons()
     auto& connector = DBConnector::getInstance();
 
     auto model = _scene.createModel();
-    const auto useSdf = _details.useSdf;
+    const auto useSdf =
+        (_details.morphologyRepresentation == MorphologyRepresentation::graph
+             ? false
+             : _details.useSdf);
     const auto somas =
         connector.getNeurons(_details.populationName, _details.sqlNodeFilter);
 
@@ -202,6 +205,30 @@ void Neurons::_buildNeurons()
 
             for (const auto& section : sections)
             {
+                const auto sectionType =
+                    static_cast<NeuronSectionType>(section.second.type);
+                const auto& points = section.second.points;
+                if (sectionType == NeuronSectionType::axon &&
+                    !_details.loadAxon)
+                    continue;
+                if (sectionType == NeuronSectionType::basal_dendrite &&
+                    !_details.loadBasalDendrites)
+                    continue;
+                if (sectionType == NeuronSectionType::apical_dendrite &&
+                    !_details.loadApicalDendrites)
+                    continue;
+
+                if (_details.morphologyRepresentation ==
+                    MorphologyRepresentation::graph)
+                {
+                    _addGraphSection(
+                        container, somaPosition, somaRotation,
+                        section.second.points[0],
+                        section.second.points[section.second.points.size() - 1],
+                        sectionType, baseMaterialId);
+                    continue;
+                }
+
                 if (_details.showMembrane && _details.loadSomas &&
                     section.second.parentId == SOMA_AS_PARENT)
                 {
@@ -298,6 +325,37 @@ void Neurons::_addVaricosity(Vector4fs& points)
     points.insert(idx, {p0.x, p0.y, p0.z, endPoint.w});
 }
 
+void Neurons::_addGraphSection(ThreadSafeContainer& container,
+                               const Vector3d& somaPosition,
+                               const Quaterniond& somaRotation,
+                               const Vector4d& srcNode, const Vector4d& dstNode,
+                               const NeuronSectionType sectionType,
+                               const size_t baseMaterialId)
+{
+    const size_t sectionMaterialId =
+        baseMaterialId +
+        (_details.morphologyColorScheme == MorphologyColorScheme::section
+             ? static_cast<size_t>(sectionType)
+             : 0);
+
+    const auto src = somaPosition + somaRotation * Vector3d(srcNode);
+    const auto dst = somaPosition + somaRotation * Vector3d(dstNode);
+    const auto userData = 0;
+    const auto direction = dst - src;
+    const auto maxRadius = std::max(srcNode.w, dstNode.w);
+    const float radius = std::min(length(direction) / 5.0,
+                                  maxRadius * _details.radiusMultiplier);
+    container.addSphere(src, radius * 0.2, sectionMaterialId, userData);
+    container.addCone(src, radius * 0.2, Vector3f(src + direction * 0.79),
+                      radius * 0.2, sectionMaterialId, userData);
+    container.addCone(dst, 0.0, Vector3f(src + direction * 0.8), radius,
+                      sectionMaterialId, userData);
+    container.addCone(Vector3f(src + direction * 0.8), radius,
+                      Vector3f(src + direction * 0.79), radius * 0.2,
+                      sectionMaterialId, userData);
+    _bounds.merge(src);
+    _bounds.merge(dst);
+}
 void Neurons::_addSection(ThreadSafeContainer& container,
                           const uint64_t neuronId, const uint64_t sectionId,
                           const Section& section,
@@ -316,17 +374,8 @@ void Neurons::_addSection(ThreadSafeContainer& container,
              ? section.type
              : 0);
 
-    const auto& points = section.points;
-    if (sectionType == NeuronSectionType::axon && !_details.loadAxon)
-        return;
-    if (sectionType == NeuronSectionType::basal_dendrite &&
-        !_details.loadBasalDendrites)
-        return;
-    if (sectionType == NeuronSectionType::apical_dendrite &&
-        !_details.loadApicalDendrites)
-        return;
-
     // Generate varicosities
+    const auto& points = section.points;
     auto localPoints = points;
     const auto middlePointIndex = localPoints.size() / 2;
     const bool addVaricosity = _details.generateVaricosities &&
@@ -357,7 +406,8 @@ void Neurons::_addSection(ThreadSafeContainer& container,
 
         if (_details.showMembrane)
         {
-            if (i > 0 && _details.geometryQuality != GeometryQuality::high)
+            if (i > 0 && _details.morphologyRepresentation !=
+                             MorphologyRepresentation::segment)
                 neighbours = {geometryIndex};
 
             Vector3f displacement{sectionDisplacementStrength,
