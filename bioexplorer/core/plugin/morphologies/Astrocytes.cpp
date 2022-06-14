@@ -39,7 +39,6 @@ using namespace io;
 using namespace db;
 
 const double DEFAULT_MITOCHONDRIA_DENSITY = 0.0459;
-const double DEFAULT_VASCULATURE_DISPLACEMENT = 0.5;
 
 Astrocytes::Astrocytes(Scene& scene, const AstrocytesDetails& details)
     : Morphologies(details.radiusMultiplier, doublesToVector3d(details.scale))
