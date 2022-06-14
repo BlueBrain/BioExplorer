@@ -21,5 +21,7 @@ var dir_4d0e1c1da79c3b61cfae91382abbaeb1 =
     [ "SinusoidShape.cpp", "da/db8/SinusoidShape_8cpp_source.html", null ],
     [ "SinusoidShape.h", "d3/d9f/SinusoidShape_8h_source.html", null ],
     [ "SphereShape.cpp", "de/d9a/SphereShape_8cpp_source.html", null ],
-    [ "SphereShape.h", "d7/d13/SphereShape_8h_source.html", null ]
+    [ "SphereShape.h", "d7/d13/SphereShape_8h_source.html", null ],
+    [ "SphericalCellDiffusionShape.cpp", "d9/dca/SphericalCellDiffusionShape_8cpp_source.html", null ],
+    [ "SphericalCellDiffusionShape.h", "d0/d11/SphericalCellDiffusionShape_8h_source.html", null ]
 ];

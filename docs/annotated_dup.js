@@ -22,6 +22,7 @@ var annotated_dup =
         [ "Shape", "dc/d78/classbioexplorer_1_1common_1_1Shape.html", "dc/d78/classbioexplorer_1_1common_1_1Shape" ],
         [ "SinusoidShape", "d4/d37/classbioexplorer_1_1common_1_1SinusoidShape.html", "d4/d37/classbioexplorer_1_1common_1_1SinusoidShape" ],
         [ "SphereShape", "d5/d1a/classbioexplorer_1_1common_1_1SphereShape.html", "d5/d1a/classbioexplorer_1_1common_1_1SphereShape" ],
+        [ "SphericalCellDiffusionShape", "d6/d08/classbioexplorer_1_1common_1_1SphericalCellDiffusionShape.html", "d6/d08/classbioexplorer_1_1common_1_1SphericalCellDiffusionShape" ],
         [ "ThreadSafeContainer", "d2/d4a/classbioexplorer_1_1common_1_1ThreadSafeContainer.html", "d2/d4a/classbioexplorer_1_1common_1_1ThreadSafeContainer" ],
         [ "UniqueId", "d0/dbd/classbioexplorer_1_1common_1_1UniqueId.html", "d0/dbd/classbioexplorer_1_1common_1_1UniqueId" ]
       ] ],
@@ -30,6 +31,7 @@ var annotated_dup =
       ] ],
       [ "details", null, [
         [ "AddBoundingBoxDetails", "dc/d45/structbioexplorer_1_1details_1_1AddBoundingBoxDetails.html", "dc/d45/structbioexplorer_1_1details_1_1AddBoundingBoxDetails" ],
+        [ "AddConeDetails", "db/db6/structbioexplorer_1_1details_1_1AddConeDetails.html", "db/db6/structbioexplorer_1_1details_1_1AddConeDetails" ],
         [ "AddGridDetails", "db/dd8/structbioexplorer_1_1details_1_1AddGridDetails.html", "db/dd8/structbioexplorer_1_1details_1_1AddGridDetails" ],
         [ "AddSphereDetails", "db/d48/structbioexplorer_1_1details_1_1AddSphereDetails.html", "db/d48/structbioexplorer_1_1details_1_1AddSphereDetails" ],
         [ "AminoAcidDetails", "d3/dd3/structbioexplorer_1_1details_1_1AminoAcidDetails.html", "d3/dd3/structbioexplorer_1_1details_1_1AminoAcidDetails" ],

@@ -1,7 +1,7 @@
 var searchData=
 [
-  ['beziershape_436',['BezierShape',['../d2/d30/classbioexplorer_1_1common_1_1BezierShape.html',1,'bioexplorer::common']]],
-  ['bioexplorerplugin_437',['BioExplorerPlugin',['../d7/d7b/classbioexplorer_1_1BioExplorerPlugin.html',1,'bioexplorer']]],
-  ['buildfieldsdetails_438',['BuildFieldsDetails',['../dc/d5b/structbioexplorer_1_1details_1_1BuildFieldsDetails.html',1,'bioexplorer::details']]],
-  ['buildpointclouddetails_439',['BuildPointCloudDetails',['../d5/dc6/structbioexplorer_1_1details_1_1BuildPointCloudDetails.html',1,'bioexplorer::details']]]
+  ['beziershape_451',['BezierShape',['../d2/d30/classbioexplorer_1_1common_1_1BezierShape.html',1,'bioexplorer::common']]],
+  ['bioexplorerplugin_452',['BioExplorerPlugin',['../d7/d7b/classbioexplorer_1_1BioExplorerPlugin.html',1,'bioexplorer']]],
+  ['buildfieldsdetails_453',['BuildFieldsDetails',['../dc/d5b/structbioexplorer_1_1details_1_1BuildFieldsDetails.html',1,'bioexplorer::details']]],
+  ['buildpointclouddetails_454',['BuildPointCloudDetails',['../d5/dc6/structbioexplorer_1_1details_1_1BuildPointCloudDetails.html',1,'bioexplorer::details']]]
 ];

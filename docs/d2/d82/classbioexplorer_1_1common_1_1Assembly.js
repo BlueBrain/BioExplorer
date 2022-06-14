@@ -36,5 +36,5 @@ var classbioexplorer_1_1common_1_1Assembly =
     [ "setProteinColorScheme", "d2/d82/classbioexplorer_1_1common_1_1Assembly.html#a0ab3f055c7da771e018b2e504ee0aecc", null ],
     [ "setProteinInstanceTransformation", "d2/d82/classbioexplorer_1_1common_1_1Assembly.html#adc1cd284496f327b4c1607e766217c8c", null ],
     [ "setVasculatureRadiusReport", "d2/d82/classbioexplorer_1_1common_1_1Assembly.html#a2e6b45eac68e1e78205b26463a1b4066", null ],
-    [ "setVasculatureReport", "d2/d82/classbioexplorer_1_1common_1_1Assembly.html#a160614bf48071a57932da3cbfd77c32a", null ]
+    [ "setVasculatureReport", "d2/d82/classbioexplorer_1_1common_1_1Assembly.html#a5d74a52b6a8e90cbfb8edb6922c2c7a1", null ]
 ];
