@@ -1,5 +1,5 @@
 var searchData=
 [
-  ['neurons_662',['Neurons',['../d1/d39/classbioexplorer_1_1morphology_1_1Neurons.html#ac1078eaebfad79aa3310a6f96264dac5',1,'bioexplorer::morphology::Neurons']]],
-  ['node_663',['Node',['../d7/d93/classbioexplorer_1_1common_1_1Node.html#a3c552fd05b8c1f2fb38cd2d8a63e57f4',1,'bioexplorer::common::Node']]]
+  ['neurons_684',['Neurons',['../d1/d39/classbioexplorer_1_1morphology_1_1Neurons.html#ac1078eaebfad79aa3310a6f96264dac5',1,'bioexplorer::morphology::Neurons']]],
+  ['node_685',['Node',['../d7/d93/classbioexplorer_1_1common_1_1Node.html#a3c552fd05b8c1f2fb38cd2d8a63e57f4',1,'bioexplorer::common::Node']]]
 ];

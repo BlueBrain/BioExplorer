@@ -8,6 +8,7 @@ var classbioexplorer_1_1io_1_1db_1_1DBConnector =
     [ "getAtlasMesh", "d9/d96/classbioexplorer_1_1io_1_1db_1_1DBConnector.html#aaa0b12a102e86da57fafa2188bcdc784", null ],
     [ "getAtlasRegions", "d9/d96/classbioexplorer_1_1io_1_1db_1_1DBConnector.html#a91f01aaba572a78116721e7be5f39bc7", null ],
     [ "getBrick", "d9/d96/classbioexplorer_1_1io_1_1db_1_1DBConnector.html#a75462f861b2e29143cca4432da740624", null ],
+    [ "getNbConnections", "d9/d96/classbioexplorer_1_1io_1_1db_1_1DBConnector.html#acaf4e328efa1318682be17b37cdcc84e", null ],
     [ "getNeurons", "d9/d96/classbioexplorer_1_1io_1_1db_1_1DBConnector.html#a6c03a2fbc94fc22910c1b143b92053b6", null ],
     [ "getNeuronSections", "d9/d96/classbioexplorer_1_1io_1_1db_1_1DBConnector.html#af7de7fec03d25cbd0b95a5df2573281c", null ],
     [ "getNeuronSynapses", "d9/d96/classbioexplorer_1_1io_1_1db_1_1DBConnector.html#ae5ee653afc363b3f33413824beb846ca", null ],

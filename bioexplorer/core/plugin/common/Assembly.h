@@ -234,17 +234,72 @@ public:
      */
     ShapePtr getShape() const { return _shape; }
 
+    /**
+     * @brief Add a vasculature model to the assembly
+     *
+     * @param details Details of the vasculature
+     */
     void addVasculature(const VasculatureDetails &details);
+
+    /**
+     * @brief Get the Vasculature Info object
+     *
+     * @return std::string A content delimited string containing information
+     * about the vasculature (Number of nodes, number of sections, etc)
+     */
     std::string getVasculatureInfo() const;
-    void setVasculatureReport(const VasculatureReportDetails &payload);
+
+    /**
+     * @brief Attach a simulation report to the vasculature
+     *
+     * @param details Details of the simulation report
+     */
+    void setVasculatureReport(const VasculatureReportDetails &details);
+
+    /**
+     * @brief Attach a radius report to the vasculature
+     *
+     * @param details Details of the radius report
+     */
     void setVasculatureRadiusReport(
         const VasculatureRadiusReportDetails &details);
 
+    /**
+     * @brief Add astrocytes to the assembly
+     *
+     * @param details Details of the astrocytes
+     */
     void addAstrocytes(const AstrocytesDetails &details);
+
+    /**
+     * @brief Add neurons to the assembly
+     *
+     * @param details Details of the neurons
+     */
     void addNeurons(const NeuronsDetails &details);
+
+    /**
+     * @brief Get the neuron section points
+     *
+     * @param details Details of the section (Neuron ID, and section ID)
+     * @return Vector4ds List of ordered 3D points corresponding to the segments
+     * of the section
+     */
     Vector4ds getNeuronSectionPoints(const NeuronIdSectionIdDetails &details);
+
+    /**
+     * @brief Get the neuron varicosities locations
+     *
+     * @param details Details of the neuron (Neuron ID)
+     * @return Vector3ds List of 3D locations for the neuron varicosities
+     */
     Vector3ds getNeuronVaricosities(const NeuronIdDetails &details);
 
+    /**
+     * @brief Add a brain atlas to the assembly (Cells and/or regions)
+     *
+     * @param details Details of the brain atlas
+     */
     void addAtlas(const AtlasDetails &details);
 
     /**

@@ -167,8 +167,17 @@ $(document).ready(function(){initNavTree('de/db0/bioexplorer_2core_2plugin_2comm
 <div class="line"><a name="l00199"></a><span class="lineno">  199</span>&#160; </div>
 <div class="line"><a name="l00200"></a><span class="lineno">  200</span>&#160;Vector3f transformVector3f(<span class="keyword">const</span> Vector3f&amp; v, <span class="keyword">const</span> Matrix4f&amp; transformation);</div>
 <div class="line"><a name="l00201"></a><span class="lineno">  201</span>&#160;Vector3ds getPointsInSphere(<span class="keyword">const</span> <span class="keywordtype">size_t</span> nbPoints, <span class="keyword">const</span> <span class="keywordtype">double</span> innerRadius);</div>
-<div class="line"><a name="l00202"></a><span class="lineno">  202</span>&#160;} <span class="comment">// namespace common</span></div>
-<div class="line"><a name="l00203"></a><span class="lineno">  203</span>&#160;} <span class="comment">// namespace bioexplorer</span></div>
+<div class="line"><a name="l00202"></a><span class="lineno">  202</span>&#160; </div>
+<div class="line"><a name="l00203"></a><span class="lineno">  203</span>&#160;<span class="keywordtype">double</span> frac(<span class="keyword">const</span> <span class="keywordtype">double</span> x);</div>
+<div class="line"><a name="l00204"></a><span class="lineno">  204</span>&#160;Vector3d frac(<span class="keyword">const</span> Vector3d x);</div>
+<div class="line"><a name="l00205"></a><span class="lineno">  205</span>&#160;<span class="keywordtype">double</span> mix(<span class="keyword">const</span> <span class="keywordtype">double</span> x, <span class="keyword">const</span> <span class="keywordtype">double</span> y, <span class="keyword">const</span> <span class="keywordtype">double</span> a);</div>
+<div class="line"><a name="l00206"></a><span class="lineno">  206</span>&#160;<span class="keywordtype">double</span> hash(<span class="keyword">const</span> <span class="keywordtype">double</span> n);</div>
+<div class="line"><a name="l00207"></a><span class="lineno">  207</span>&#160;<span class="keywordtype">double</span> noise(<span class="keyword">const</span> Vector3d&amp; x);</div>
+<div class="line"><a name="l00208"></a><span class="lineno">  208</span>&#160;Vector3d mod(<span class="keyword">const</span> Vector3d&amp; v, <span class="keyword">const</span> <span class="keywordtype">int</span> m);</div>
+<div class="line"><a name="l00209"></a><span class="lineno">  209</span>&#160;<span class="keywordtype">double</span> cells(<span class="keyword">const</span> Vector3d&amp; p, <span class="keyword">const</span> <span class="keywordtype">double</span> cellCount);</div>
+<div class="line"><a name="l00210"></a><span class="lineno">  210</span>&#160;<span class="keywordtype">double</span> worleyNoise(<span class="keyword">const</span> Vector3d&amp; p, <span class="keyword">const</span> <span class="keywordtype">double</span> cellCount);</div>
+<div class="line"><a name="l00211"></a><span class="lineno">  211</span>&#160;} <span class="comment">// namespace common</span></div>
+<div class="line"><a name="l00212"></a><span class="lineno">  212</span>&#160;} <span class="comment">// namespace bioexplorer</span></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->

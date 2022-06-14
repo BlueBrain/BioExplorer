@@ -4,5 +4,5 @@ digraph "Graphical Class Hierarchy"
   edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
   node [fontname="Helvetica",fontsize="10",shape=record];
   rankdir="LR";
-  Node0 [label="bioexplorer::mediamaker\l::ExportFramesToDisk",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$db/dbb/structbioexplorer_1_1mediamaker_1_1ExportFramesToDisk.html",tooltip=" "];
+  Node0 [label="bioexplorer::mediamaker\l::CameraDefinition",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$dd/d32/structbioexplorer_1_1mediamaker_1_1CameraDefinition.html",tooltip=" "];
 }

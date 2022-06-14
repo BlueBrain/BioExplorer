@@ -4,5 +4,5 @@ digraph "Graphical Class Hierarchy"
   edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
   node [fontname="Helvetica",fontsize="10",shape=record];
   rankdir="LR";
-  Node0 [label="bioexplorer::details\l::GeneralSettingsDetails",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$d0/d14/structbioexplorer_1_1details_1_1GeneralSettingsDetails.html",tooltip="Structure defining the plugin general settings."];
+  Node0 [label="bioexplorer::details\l::FocusOnDetails",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$d7/d6e/structbioexplorer_1_1details_1_1FocusOnDetails.html",tooltip="Structure defining on which instance of a model the camera should focus on."];
 }

@@ -4,5 +4,5 @@ digraph "Graphical Class Hierarchy"
   edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
   node [fontname="Helvetica",fontsize="10",shape=record];
   rankdir="LR";
-  Node0 [label="bioexplorer::molecularsystems\l::Atom",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$df/d73/structbioexplorer_1_1molecularsystems_1_1Atom.html",tooltip="Structure containing information about an atom, as stored in a PDB file."];
+  Node0 [label="bioexplorer::molecularsystems\l::AminoAcid",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$d4/d03/structbioexplorer_1_1molecularsystems_1_1AminoAcid.html",tooltip="Structure containing amino acids long and shot names."];
 }

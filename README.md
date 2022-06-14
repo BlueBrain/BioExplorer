@@ -148,6 +148,12 @@ docker run -ti --rm -p 5000:8200 bluebrain/bioexplorer
 docker run -ti --rm -p 5001:8888 bluebrain/bioexplorer-python-sdk
 ```
 
+Note that a local folder can be specified to access personal notebooks:
+
+```bash
+docker run -ti --rm -p 5001:8888 -v <my_notebooks_folder>:/app/BioExplorer/notebooks bluebrain/bioexplorer-python-sdk
+```
+
 ### Web User Interface
 
 ```bash

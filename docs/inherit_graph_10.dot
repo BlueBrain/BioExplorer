@@ -4,5 +4,5 @@ digraph "Graphical Class Hierarchy"
   edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
   node [fontname="Helvetica",fontsize="10",shape=record];
   rankdir="LR";
-  Node0 [label="bioexplorer::details\l::AddGridDetails",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$db/dd8/structbioexplorer_1_1details_1_1AddGridDetails.html",tooltip="Defines the parameters needed when adding 3D grid in the scene."];
+  Node0 [label="bioexplorer::details\l::AddConeDetails",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$db/db6/structbioexplorer_1_1details_1_1AddConeDetails.html",tooltip="Defines the parameters needed when adding cone to the scene."];
 }

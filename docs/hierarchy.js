@@ -6,6 +6,7 @@ var hierarchy =
       [ "bioexplorer::vasculature::VasculatureHandler", "d3/d3e/classbioexplorer_1_1vasculature_1_1VasculatureHandler.html", null ]
     ] ],
     [ "bioexplorer::details::AddBoundingBoxDetails", "dc/d45/structbioexplorer_1_1details_1_1AddBoundingBoxDetails.html", null ],
+    [ "bioexplorer::details::AddConeDetails", "db/db6/structbioexplorer_1_1details_1_1AddConeDetails.html", null ],
     [ "bioexplorer::details::AddGridDetails", "db/dd8/structbioexplorer_1_1details_1_1AddGridDetails.html", null ],
     [ "bioexplorer::details::AddSphereDetails", "db/d48/structbioexplorer_1_1details_1_1AddSphereDetails.html", null ],
     [ "bioexplorer::molecularsystems::AminoAcid", "d4/d03/structbioexplorer_1_1molecularsystems_1_1AminoAcid.html", null ],
@@ -110,8 +111,8 @@ var hierarchy =
       [ "metabolism::rendering::MetabolismRenderer", "d3/d27/classmetabolism_1_1rendering_1_1MetabolismRenderer.html", null ]
     ] ],
     [ "bioexplorer::molecularsystems::ResidueSequence", "d0/df4/structbioexplorer_1_1molecularsystems_1_1ResidueSequence.html", null ],
-    [ "bioexplorer::details::Response", "d6/d45/structbioexplorer_1_1details_1_1Response.html", null ],
     [ "bioexplorer::mediamaker::Response", "db/df4/structbioexplorer_1_1mediamaker_1_1Response.html", null ],
+    [ "bioexplorer::details::Response", "d6/d45/structbioexplorer_1_1details_1_1Response.html", null ],
     [ "bioexplorer::details::RGBColorDetails", "df/dc7/structbioexplorer_1_1details_1_1RGBColorDetails.html", null ],
     [ "bioexplorer::details::RNASequenceDetails", "d1/d00/structbioexplorer_1_1details_1_1RNASequenceDetails.html", null ],
     [ "bioexplorer::details::SceneInformationDetails", "d2/d03/structbioexplorer_1_1details_1_1SceneInformationDetails.html", null ],
@@ -127,7 +128,8 @@ var hierarchy =
       [ "bioexplorer::common::PointShape", "d7/d5c/classbioexplorer_1_1common_1_1PointShape.html", null ],
       [ "bioexplorer::common::RNAShape", "d4/dc3/classbioexplorer_1_1common_1_1RNAShape.html", null ],
       [ "bioexplorer::common::SinusoidShape", "d4/d37/classbioexplorer_1_1common_1_1SinusoidShape.html", null ],
-      [ "bioexplorer::common::SphereShape", "d5/d1a/classbioexplorer_1_1common_1_1SphereShape.html", null ]
+      [ "bioexplorer::common::SphereShape", "d5/d1a/classbioexplorer_1_1common_1_1SphereShape.html", null ],
+      [ "bioexplorer::common::SphericalCellDiffusionShape", "d6/d08/classbioexplorer_1_1common_1_1SphericalCellDiffusionShape.html", null ]
     ] ],
     [ "bioexplorer::io::db::SimulationReport", "da/dc8/structbioexplorer_1_1io_1_1db_1_1SimulationReport.html", null ],
     [ "bioexplorer::details::SugarDetails", "d6/d93/structbioexplorer_1_1details_1_1SugarDetails.html", null ],
