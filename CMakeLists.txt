@@ -7,7 +7,7 @@
 cmake_minimum_required(VERSION 3.1 FATAL_ERROR)
 
 set(NAME BIOEXPLORER)
-set(PACKAGE_VERSION 1.3.1)
+set(PACKAGE_VERSION 1.3.2)
 project(${NAME} VERSION ${PACKAGE_VERSION})
 
 list(APPEND CMAKE_MODULE_PATH ${PROJECT_SOURCE_DIR}/CMake)
@@ -23,12 +23,14 @@ find_package(FreeImage REQUIRED)
 add_subdirectory(bioexplorer/core)
 
 option(BIOEXPLORER_MEDIA_MAKER_ENABLED "Enable media maker plugin" ON)
+
 if(BIOEXPLORER_MEDIA_MAKER_ENABLED)
-message(STATUS "Building MediaMaker plugin")
-add_subdirectory(extras/MediaMaker)
+    message(STATUS "Building MediaMaker plugin")
+    add_subdirectory(extras/MediaMaker)
 endif()
 
 option(BIOEXPLORER_METABOLISM_ENABLED "Enable metabolism plugin" ON)
+
 if(BIOEXPLORER_METABOLISM_ENABLED)
     message(STATUS "Building Metabolism plugin")
     add_subdirectory(extras/Metabolism)
