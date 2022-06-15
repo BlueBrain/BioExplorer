@@ -2388,7 +2388,7 @@ class BioExplorer:
             morphology_representation=MORPHOLOGY_REPRESENTATION_SEGMENT,
             morphology_color_scheme=MORPHOLOGY_COLOR_SCHEME_NONE,
             population_color_scheme=POPULATION_COLOR_SCHEME_NONE,
-            radius_multiplier=0.0, sql_filter='', scale=Vector3(1.0, 1.0, 1.0),
+            radius_multiplier=1.0, sql_filter='', scale=Vector3(1.0, 1.0, 1.0),
             animation_params=AnimationParams()):
         """
         Add a population of astrocytes to the 3D scene
