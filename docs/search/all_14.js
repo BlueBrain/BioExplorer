@@ -1,6 +1,12 @@
 var searchData=
 [
-  ['weightedrandomrotation_415',['weightedRandomRotation',['../dc/d78/classbioexplorer_1_1common_1_1Shape.html#a595f0d1afddd8a628c2543a6bbab97c0',1,'bioexplorer::common::Shape']]],
-  ['whitematter_416',['WhiteMatter',['../d6/dcd/classbioexplorer_1_1connectomics_1_1WhiteMatter.html',1,'bioexplorer::connectomics::WhiteMatter'],['../d6/dcd/classbioexplorer_1_1connectomics_1_1WhiteMatter.html#a9798f6be45bf02533c126dcbf9bfd57c',1,'bioexplorer::connectomics::WhiteMatter::WhiteMatter()']]],
-  ['whitematterdetails_417',['WhiteMatterDetails',['../da/d1a/structbioexplorer_1_1details_1_1WhiteMatterDetails.html',1,'bioexplorer::details']]]
+  ['_7eassembly_417',['~Assembly',['../d2/d82/classbioexplorer_1_1common_1_1Assembly.html#ae0d5ba2a9af636abd351ddc322f53704',1,'bioexplorer::common::Assembly']]],
+  ['_7efieldshandler_418',['~FieldsHandler',['../d9/d6e/classbioexplorer_1_1fields_1_1FieldsHandler.html#a128d90979aa7c28c963b2e222388d498',1,'bioexplorer::fields::FieldsHandler']]],
+  ['_7emembrane_419',['~Membrane',['../d4/d3d/classbioexplorer_1_1molecularsystems_1_1Membrane.html#adf608c1568a2792371fd71826aa48788',1,'bioexplorer::molecularsystems::Membrane']]],
+  ['_7enode_420',['~Node',['../d7/d93/classbioexplorer_1_1common_1_1Node.html#a140196faa0a1d0d97efa5d85f3b31d58',1,'bioexplorer::common::Node']]],
+  ['_7eoctree_421',['~Octree',['../dc/d5a/classbioexplorer_1_1fields_1_1Octree.html#aa112587bf8fe2d11bcfd58c4c93a4969',1,'bioexplorer::fields::Octree']]],
+  ['_7eoocmanager_422',['~OOCManager',['../da/d6e/classbioexplorer_1_1io_1_1OOCManager.html#a145bda1edb34a4aa59e2df05eb5fc2e6',1,'bioexplorer::io::OOCManager']]],
+  ['_7eprotein_423',['~Protein',['../dd/da4/classbioexplorer_1_1molecularsystems_1_1Protein.html#aaa7e1d6976b7ccfbf413f56b6a70b048',1,'bioexplorer::molecularsystems::Protein']]],
+  ['_7eshape_424',['~Shape',['../dc/d78/classbioexplorer_1_1common_1_1Shape.html#ae5e5e98afca118286e5cca53704d993c',1,'bioexplorer::common::Shape']]],
+  ['_7ethreadsafecontainer_425',['~ThreadSafeContainer',['../d2/d4a/classbioexplorer_1_1common_1_1ThreadSafeContainer.html#a330d0a43373cfed99ac8335534aa066d',1,'bioexplorer::common::ThreadSafeContainer']]]
 ];

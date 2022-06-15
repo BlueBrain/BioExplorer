@@ -773,7 +773,7 @@ bool from_json(VasculatureDetails &param, const std::string &payload)
         FROM_JSON(param, js, colorScheme);
         FROM_JSON(param, js, useSdf);
         FROM_JSON(param, js, gids);
-        FROM_JSON(param, js, quality);
+        FROM_JSON(param, js, representation);
         FROM_JSON(param, js, radiusMultiplier);
         FROM_JSON(param, js, sqlFilter);
         FROM_JSON(param, js, scale);

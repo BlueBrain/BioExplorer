@@ -913,7 +913,7 @@ enum class VasculatureColorScheme
     section_orientation = 8
 };
 
-enum class VasculatureQuality
+enum class VasculatureRepresentation
 {
     graph = 0,
     section = 1,
@@ -933,7 +933,7 @@ typedef struct
     /** Node gids to load. All if empty */
     uint32_ts gids;
     /** Geometry quality */
-    VasculatureQuality quality;
+    VasculatureRepresentation representation;
     /** Multiplies the vasculature section radii by the specified value */
     double radiusMultiplier;
     /** SQL filter (WHERE condition) */
