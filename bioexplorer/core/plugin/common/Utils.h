@@ -208,5 +208,7 @@ double noise(const Vector3d& x);
 Vector3d mod(const Vector3d& v, const int m);
 double cells(const Vector3d& p, const double cellCount);
 double worleyNoise(const Vector3d& p, const double cellCount);
+
+size_t getMaterialIdFromOrientation(const Vector3d& orientation);
 } // namespace common
 } // namespace bioexplorer

@@ -979,7 +979,9 @@ enum class MorphologyColorScheme
     /** All sections use the same color */
     none = 0,
     /** Colored by section */
-    section = 1
+    section_type = 1,
+    /** section orientation */
+    section_orientation = 2
 };
 
 enum class MorphologyRepresentation

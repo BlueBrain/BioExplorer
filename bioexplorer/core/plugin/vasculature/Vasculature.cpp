@@ -267,6 +267,10 @@ void Vasculature::_buildModel(const doubles& radii)
             case VasculatureColorScheme::section:
                 materialId = sectionId;
                 break;
+            case VasculatureColorScheme::section_orientation:
+                materialId = getMaterialIdFromOrientation(dstNode.position -
+                                                          srcNode.position);
+                break;
             case VasculatureColorScheme::subgraph:
                 materialId = dstNode.graphId;
                 break;
@@ -291,12 +295,8 @@ void Vasculature::_buildModel(const doubles& radii)
                 _addSimpleSection(container, srcNode, dstNode, materialId);
                 break;
             default:
-                if (_details.colorScheme ==
-                    VasculatureColorScheme::section_orientation)
-                    _addOrientation(container, localNodes, sectionId);
-                else
-                    _addDetailedSection(container, localNodes, materialId,
-                                        radii, radiusRange);
+                _addDetailedSection(container, localNodes, materialId, radii,
+                                    radiusRange);
                 break;
             }
             ++nbLoadedSections;

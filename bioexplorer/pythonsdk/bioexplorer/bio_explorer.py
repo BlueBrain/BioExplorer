@@ -286,7 +286,8 @@ class BioExplorer:
     VASCULATURE_COLOR_SCHEME_SECTION_ORIENTATION = 8
 
     MORPHOLOGY_COLOR_SCHEME_NONE = 0
-    MORPHOLOGY_COLOR_SCHEME_SECTION = 1
+    MORPHOLOGY_COLOR_SCHEME_SECTION_TYPE = 1
+    MORPHOLOGY_COLOR_SCHEME_SECTION_ORIENTATION = 2
 
     POPULATION_COLOR_SCHEME_NONE = 0
     POPULATION_COLOR_SCHEME_ID = 1
@@ -1970,6 +1971,20 @@ class BioExplorer:
                     diffuse_colors=palette, specular_colors=palette,
                     emissions=emissions
                 )
+
+    def set_material_colors_from_id(self, model_id):
+        material_ids = self.get_material_ids(model_id)['ids']
+        palette = list()
+        for material_id in material_ids:
+            r =   (material_id >> 16) & 255
+            g = (material_id >> 8) & 255
+            b =  material_id & 255
+            palette.append([r / 256.0, g / 256.0, b / 256.0])
+        return self.set_materials(
+            [model_id], material_ids,
+            diffuse_colors=palette,
+            specular_colors=palette)
+                    
 
     def go_magnetic(
             self, colormap_filename=None, colormap_range=[0, 0.008], voxel_size=0.01,

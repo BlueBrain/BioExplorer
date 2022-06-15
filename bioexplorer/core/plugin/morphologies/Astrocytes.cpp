@@ -124,10 +124,10 @@ void Astrocytes::_buildModel(const doubles& radii)
         }
 
         const auto somaMaterialId =
-            baseMaterialId +
-            (_details.morphologyColorScheme == MorphologyColorScheme::section
-                 ? MATERIAL_OFFSET_SOMA
-                 : 0);
+            baseMaterialId + (_details.morphologyColorScheme ==
+                                      MorphologyColorScheme::section_type
+                                  ? MATERIAL_OFFSET_SOMA
+                                  : 0);
 
         uint64_t somaGeometryIndex = 0;
         if (_details.loadSomas)
@@ -153,9 +153,15 @@ void Astrocytes::_buildModel(const doubles& radii)
             const auto sectionId = section.first;
             switch (_details.morphologyColorScheme)
             {
-            case MorphologyColorScheme::section:
+            case MorphologyColorScheme::section_type:
                 sectionMaterialId = baseMaterialId + section.second.type;
                 break;
+            case MorphologyColorScheme::section_orientation:
+            {
+                sectionMaterialId = getMaterialIdFromOrientation(
+                    Vector3d(points[points.size() - 1]) - Vector3d(points[0]));
+                break;
+            }
             default:
                 break;
             }
