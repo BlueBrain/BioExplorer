@@ -43,9 +43,6 @@ const size_t MATERIAL_OFFSET_MYELIN_SHEATH = 9;
 
 const int64_t SOMA_AS_PARENT = -1;
 
-const double somaDisplacementStrength = 0.1;
-const double somaDisplacementFrequency = 3.0;
-
 const double sectionDisplacementStrength = 0.05;
 const double sectionDisplacementFrequency = 3.0;
 

@@ -158,8 +158,8 @@ void Neurons::_buildSomasOnly(ThreadSafeContainer& container,
         if (_details.showMembrane)
             container.addSphere(soma.second.position, _details.radiusMultiplier,
                                 somaMaterialId, NO_USER_DATA, {},
-                                Vector3f(somaDisplacementStrength,
-                                         somaDisplacementFrequency, 0.f));
+                                Vector3f(neuronSomaDisplacementStrength,
+                                         neuronSomaDisplacementFrequency, 0.f));
         if (_details.generateInternals)
         {
             const double mitochondriaDensity =
@@ -229,8 +229,9 @@ void Neurons::_buildMorphology(ThreadSafeContainer& container,
             somaGeometryIndex =
                 container.addSphere(somaPosition, somaRadius, somaMaterialId,
                                     NO_USER_DATA, {},
-                                    Vector3f(somaDisplacementStrength,
-                                             somaDisplacementFrequency, 0.f));
+                                    Vector3f(neuronSomaDisplacementStrength,
+                                             neuronSomaDisplacementFrequency,
+                                             0.f));
         if (_details.generateInternals)
             _addSomaInternals(neuronId, container, baseMaterialId, somaPosition,
                               somaRadius, mitochondriaDensity);
@@ -291,8 +292,9 @@ void Neurons::_buildMorphology(ThreadSafeContainer& container,
                                   somaPosition + somaRotation * Vector3d(point),
                                   dstRadius, somaMaterialId, NO_USER_DATA,
                                   neighbours,
-                                  Vector3f(somaDisplacementStrength,
-                                           somaDisplacementFrequency, 0.f));
+                                  Vector3f(neuronSomaDisplacementStrength,
+                                           neuronSomaDisplacementFrequency,
+                                           0.f));
             neighbours.insert(geometryIndex);
         }
 
