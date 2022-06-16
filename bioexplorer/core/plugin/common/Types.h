@@ -119,13 +119,13 @@ typedef struct
 typedef struct
 {
     /** Model identifier */
-    size_t modelId;
+    size_t modelId{0};
     /** Instance identifier */
-    size_t instanceId;
+    size_t instanceId{0};
     /** camera direction */
     doubles direction;
     /** Distance to the instance */
-    double distance;
+    double distance{0.0};
 } FocusOnDetails;
 
 /**
@@ -302,18 +302,18 @@ typedef struct
     /** Lipids density  */
     double lipidDensity;
     /** Multiplier applied to the radius of the lipid atoms */
-    double atomRadiusMultiplier;
+    double atomRadiusMultiplier{1.0};
     /** Enable the loading of lipid bonds */
-    bool loadBonds;
+    bool loadBonds{false};
     /** Enable the loading of non polymer chemicals */
-    bool loadNonPolymerChemicals;
+    bool loadNonPolymerChemicals{false};
     /** Defines the representation of the lipid (Atoms, atoms and sticks,
      * surface, etc) */
-    ProteinRepresentation representation;
+    ProteinRepresentation representation{ProteinRepresentation::atoms};
     /** Identifiers of chains to be loaded */
     size_ts chainIds;
     /** Recenters the lipid  */
-    bool recenter;
+    bool recenter{false};
     /** Extra optional parameters for positioning on the molecule */
     doubles animationParams;
 } MembraneDetails;
@@ -339,8 +339,7 @@ typedef struct
     bool loadHydrogen{false};
     /** Defines the representation of the protein (Atoms, atoms and sticks,
      * surface, etc) */
-    ProteinRepresentation representation{
-        ProteinRepresentation::atoms_and_sticks};
+    ProteinRepresentation representation{ProteinRepresentation::atoms};
     /** Identifiers of chains to be loaded */
     size_ts chainIds;
     /** Recenters the protein  */
@@ -382,14 +381,14 @@ typedef struct
     /** Name of the protein on which sugar are added */
     std::string proteinName;
     /** Multiplier applied to the radius of the molecule atoms */
-    double atomRadiusMultiplier;
+    double atomRadiusMultiplier{1.0};
     /** Enable the loading of molecule bonds */
-    bool loadBonds;
+    bool loadBonds{false};
     /** Defines the representation of the molecule (Atoms, atoms and sticks,
      * surface, etc) */
-    ProteinRepresentation representation;
+    ProteinRepresentation representation{ProteinRepresentation::atoms};
     /** Recenters the protein  */
-    bool recenter;
+    bool recenter{true};
     /** Identifiers of chains to be loaded */
     size_ts chainIds;
     /** List of sites on which sugar can be added */
@@ -425,10 +424,10 @@ typedef struct
     /** Parameters used to compute the shape */
     doubles curveParams;
     /** Multiplier applied to the radius of the molecule atoms */
-    double atomRadiusMultiplier;
+    double atomRadiusMultiplier{1.0};
     /** Defines the representation of the molecule (Atoms, atoms and sticks,
      * surface, etc) */
-    ProteinRepresentation representation;
+    ProteinRepresentation representation{ProteinRepresentation::atoms};
     /** Animation params */
     doubles animationParams;
     /** Relative position of the RNA sequence in the assembly */
@@ -521,9 +520,9 @@ typedef struct
     /** Name of the enzyme reaction in the assembly */
     std::string name;
     /** Instance of the substrate molecule */
-    size_t instanceId;
+    size_t instanceId{0};
     /** Double containing the progress of the reaction (0..1) */
-    double progress;
+    double progress{0.0};
 } EnzymeReactionProgressDetails;
 
 /**
@@ -533,23 +532,23 @@ typedef struct
 typedef struct
 {
     /** Minimum value on the axis */
-    double minValue;
+    double minValue{0.0};
     /** Maximum value on the axis */
-    double maxValue;
+    double maxValue{100.0};
     /** Interval between lines of the grid */
-    double steps;
+    double steps{10.0};
     /** Radius of the lines */
-    double radius;
+    double radius{1.0};
     /** Opacity of the grid */
-    double planeOpacity;
+    double planeOpacity{1.0};
     /** Defines if axes should be shown */
-    bool showAxis;
+    bool showAxis{true};
     /** Defines if planes should be shown */
-    bool showPlanes;
+    bool showPlanes{true};
     /** Defines if full grid should be shown */
-    bool showFullGrid;
+    bool showFullGrid{false};
     /** Defines if the RGB color scheme shoudl be applied to axis */
-    bool useColors;
+    bool useColors{true};
     /** Position of the grid in the scene */
     doubles position;
 } AddGridDetails;
@@ -565,11 +564,11 @@ typedef struct
     /** Position of the sphere in the scene */
     doubles position;
     /** Radius of the sphere */
-    double radius;
+    double radius{1.0};
     /** RGB Color of the sphere */
-    doubles color;
+    doubles color{1.0, 1.0, 1.0};
     /** Opacity */
-    double opacity;
+    double opacity{1.0};
 } AddSphereDetails;
 
 /**
@@ -585,11 +584,11 @@ typedef struct
     /** Target of the cone in the scene */
     doubles target;
     /** Origin radius of the cone */
-    double originRadius;
+    double originRadius{1.0};
     /** Target radius of the cone */
-    double targetRadius;
+    double targetRadius{1.0};
     /** RGB Color of the cone */
-    doubles color;
+    doubles color{1.0, 1.0, 1.0};
     /** Opacity */
     double opacity;
 } AddConeDetails;
@@ -607,9 +606,9 @@ typedef struct
     /** Position of the top right corner in the scene */
     doubles topRight;
     /** Radius of the borders */
-    double radius;
+    double radius{1.0};
     /** RGB Color of the sphere */
-    doubles color;
+    doubles color{1.0, 1.0, 1.0};
 } AddBoundingBoxDetails;
 
 /**
@@ -913,7 +912,7 @@ enum class VasculatureColorScheme
     section_orientation = 8
 };
 
-enum class VasculatureQuality
+enum class VasculatureRepresentation
 {
     graph = 0,
     section = 1,
@@ -927,19 +926,20 @@ typedef struct
     /** Population name */
     std::string populationName;
     /** Color scheme **/
-    VasculatureColorScheme colorScheme;
+    VasculatureColorScheme colorScheme{VasculatureColorScheme::none};
     /** Use Signed Distance Fields as geometry */
-    bool useSdf;
+    bool useSdf{false};
     /** Node gids to load. All if empty */
     uint32_ts gids;
     /** Geometry quality */
-    VasculatureQuality quality;
+    VasculatureRepresentation representation{
+        VasculatureRepresentation::segment};
     /** Multiplies the vasculature section radii by the specified value */
-    double radiusMultiplier;
+    double radiusMultiplier{1.0};
     /** SQL filter (WHERE condition) */
     std::string sqlFilter;
     /** Scale of the vasculature in the scene */
-    doubles scale;
+    doubles scale{1.0, 1.0, 1.0};
 } VasculatureDetails;
 
 typedef struct
@@ -959,11 +959,11 @@ typedef struct
     /** Name of the population on which the report applies */
     std::string populationName;
     /** Simulation report ID */
-    uint64_t simulationReportId;
+    uint64_t simulationReportId{0};
     /** Simulation frame number */
-    uint64_t frame;
+    uint64_t frame{0};
     /** Amplitude applied to the radius */
-    double amplitude;
+    double amplitude{1.0};
 } VasculatureRadiusReportDetails;
 
 enum class PopulationColorScheme
@@ -979,7 +979,9 @@ enum class MorphologyColorScheme
     /** All sections use the same color */
     none = 0,
     /** Colored by section */
-    section = 1
+    section_type = 1,
+    /** section orientation */
+    section_orientation = 2
 };
 
 enum class MorphologyRepresentation
@@ -1007,17 +1009,18 @@ typedef struct
     /** Use Signed Distance Fields as geometry */
     bool useSdf{false};
     /** Morphology representation */
-    MorphologyRepresentation morphologyRepresentation;
+    MorphologyRepresentation morphologyRepresentation{
+        MorphologyRepresentation::segment};
     /** Geometry color scheme */
-    MorphologyColorScheme morphologyColorScheme;
+    MorphologyColorScheme morphologyColorScheme{MorphologyColorScheme::none};
     /** Population color scheme */
-    PopulationColorScheme populationColorScheme;
+    PopulationColorScheme populationColorScheme{PopulationColorScheme::none};
     /** Multiplies the astrocyte section radii by the specified value */
-    double radiusMultiplier;
+    double radiusMultiplier{1.0};
     /** SQL filter (WHERE condition) */
     std::string sqlFilter;
     /** Scale of the astrocyte in the scene */
-    doubles scale;
+    doubles scale{1.0, 1.0, 1.0};
     /** Extra optional parameters for astrocytes animation */
     doubles animationParams;
 } AstrocytesDetails;
@@ -1059,19 +1062,20 @@ typedef struct
     /** Use Signed Distance Fields as geometry */
     bool useSdf{false};
     /** Morphology representation */
-    MorphologyRepresentation morphologyRepresentation;
+    MorphologyRepresentation morphologyRepresentation{
+        MorphologyRepresentation::segment};
     /** Geometry color scheme */
-    MorphologyColorScheme morphologyColorScheme;
+    MorphologyColorScheme morphologyColorScheme{MorphologyColorScheme::none};
     /** Population color scheme */
-    PopulationColorScheme populationColorScheme;
+    PopulationColorScheme populationColorScheme{PopulationColorScheme::none};
     /** Multiplies the astrocyte section radii by the specified value */
-    double radiusMultiplier;
+    double radiusMultiplier{1.0};
     /** SQL filter for nodes (WHERE condition) */
     std::string sqlNodeFilter;
     /** SQL filter dor sections (WHERE condition) */
     std::string sqlSectionFilter;
     /** Scale of the neuron in the scene */
-    doubles scale;
+    doubles scale{1.0, 1.0, 1.0};
     /** Extra optional parameters for neuron animation */
     doubles animationParams;
 } NeuronsDetails;
@@ -1081,9 +1085,9 @@ typedef struct
     /** Name of the assembly containing the neurons */
     std::string assemblyName;
     /** Neuron identifier */
-    uint64_t neuronId;
+    uint64_t neuronId{0};
     /** Section identifier */
-    uint64_t sectionId;
+    uint64_t sectionId{0};
 } NeuronIdSectionIdDetails;
 
 typedef struct
@@ -1091,7 +1095,7 @@ typedef struct
     /** Name of the assembly containing the neurons */
     std::string assemblyName;
     /** Neuron identifier */
-    uint64_t neuronId;
+    uint64_t neuronId{0};
 } NeuronIdDetails;
 
 typedef struct
@@ -1122,7 +1126,7 @@ typedef struct
     /** SQL filter for streamlines (WHERE condition) */
     std::string sqlFilter;
     /** Scale of the streamlines in the scene */
-    doubles scale;
+    doubles scale{1.0, 1.0, 1.0};
 } WhiteMatterDetails;
 } // namespace details
 

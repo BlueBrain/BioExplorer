@@ -1,9 +1,7 @@
 var searchData=
 [
-  ['target_884',['target',['../db/db6/structbioexplorer_1_1details_1_1AddConeDetails.html#a40a59fa39f3ccb631b227fb944f87484',1,'bioexplorer::details::AddConeDetails']]],
-  ['targetradius_885',['targetRadius',['../db/db6/structbioexplorer_1_1details_1_1AddConeDetails.html#afdc65532a4a1edc54cd092284c8d498c',1,'bioexplorer::details::AddConeDetails']]],
-  ['tempfactor_886',['tempFactor',['../df/d73/structbioexplorer_1_1molecularsystems_1_1Atom.html#adbf0f8c3c28fd5702ebddb7b9a5e3413',1,'bioexplorer::molecularsystems::Atom']]],
-  ['topright_887',['topRight',['../dc/d45/structbioexplorer_1_1details_1_1AddBoundingBoxDetails.html#ab18cc742f2df22c878e92cde7d13de4c',1,'bioexplorer::details::AddBoundingBoxDetails']]],
-  ['transformations_888',['transformations',['../d6/dd0/structbioexplorer_1_1details_1_1AssemblyTransformationsDetails.html#a4fcb12247882b73185236e20f9496da2',1,'bioexplorer::details::AssemblyTransformationsDetails']]],
-  ['transmembraneparams_889',['transmembraneParams',['../de/d0e/structbioexplorer_1_1details_1_1ProteinDetails.html#a2f90e724c24cdc0d22baeb30e4f695aa',1,'bioexplorer::details::ProteinDetails']]]
+  ['usecolors_888',['useColors',['../db/dd8/structbioexplorer_1_1details_1_1AddGridDetails.html#a03242b839ef5a10701f3ab0744d38074',1,'bioexplorer::details::AddGridDetails']]],
+  ['userparameter_889',['userParameter',['../d5/d4e/structbioexplorer_1_1rendering_1_1AdvancedMaterial.html#a115b9246d16d40067012334dcb2569d0',1,'bioexplorer::rendering::AdvancedMaterial']]],
+  ['userparameters_890',['userParameters',['../d7/d84/structbioexplorer_1_1details_1_1MaterialsDetails.html#ad92749cf84de832407b16bdb8985167f',1,'bioexplorer::details::MaterialsDetails']]],
+  ['usesdf_891',['useSdf',['../dd/d98/structbioexplorer_1_1details_1_1VasculatureDetails.html#ae61afb15ec1a2f34d2ecbc4ca5942fd0',1,'bioexplorer::details::VasculatureDetails::useSdf()'],['../df/d08/structbioexplorer_1_1details_1_1AstrocytesDetails.html#a82391c0db18e0d61ead9df95ea11351e',1,'bioexplorer::details::AstrocytesDetails::useSdf()'],['../dc/d93/structbioexplorer_1_1details_1_1NeuronsDetails.html#ad525eb7d63bf540e68f937a842e523a7',1,'bioexplorer::details::NeuronsDetails::useSdf()']]]
 ];

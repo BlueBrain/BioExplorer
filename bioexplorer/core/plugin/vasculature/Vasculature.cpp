@@ -193,7 +193,9 @@ void Vasculature::_addOrientation(ThreadSafeContainer& container,
 void Vasculature::_buildModel(const doubles& radii)
 {
     const auto useSdf =
-        _details.quality == VasculatureQuality::graph ? false : _details.useSdf;
+        _details.representation == VasculatureRepresentation::graph
+            ? false
+            : _details.useSdf;
 
     if (_modelDescriptor)
         _scene.removeModel(_modelDescriptor->getModelID());
@@ -265,6 +267,10 @@ void Vasculature::_buildModel(const doubles& radii)
             case VasculatureColorScheme::section:
                 materialId = sectionId;
                 break;
+            case VasculatureColorScheme::section_orientation:
+                materialId = getMaterialIdFromOrientation(dstNode.position -
+                                                          srcNode.position);
+                break;
             case VasculatureColorScheme::subgraph:
                 materialId = dstNode.graphId;
                 break;
@@ -280,21 +286,17 @@ void Vasculature::_buildModel(const doubles& radii)
                 break;
             }
 
-            switch (_details.quality)
+            switch (_details.representation)
             {
-            case VasculatureQuality::graph:
+            case VasculatureRepresentation::graph:
                 _addGraphSection(container, srcNode, dstNode, materialId);
                 break;
-            case VasculatureQuality::section:
+            case VasculatureRepresentation::section:
                 _addSimpleSection(container, srcNode, dstNode, materialId);
                 break;
             default:
-                if (_details.colorScheme ==
-                    VasculatureColorScheme::section_orientation)
-                    _addOrientation(container, localNodes, sectionId);
-                else
-                    _addDetailedSection(container, localNodes, materialId,
-                                        radii, radiusRange);
+                _addDetailedSection(container, localNodes, materialId, radii,
+                                    radiusRange);
                 break;
             }
             ++nbLoadedSections;

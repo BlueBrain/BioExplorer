@@ -1,9 +1,11 @@
 var searchData=
 [
-  ['user_20guide_401',['User guide',['../dd/d67/md__home_favreau_bluebrain_BioExplorer_bioexplorer_pythonsdk_doc_source_USERGUIDE.html',1,'']]],
-  ['uniqueid_402',['UniqueId',['../d0/dbd/classbioexplorer_1_1common_1_1UniqueId.html',1,'bioexplorer::common::UniqueId'],['../d0/dbd/classbioexplorer_1_1common_1_1UniqueId.html#ae59dd2b6ed232c1865a5811e558fe33a',1,'bioexplorer::common::UniqueId::UniqueId()']]],
-  ['usecolors_403',['useColors',['../db/dd8/structbioexplorer_1_1details_1_1AddGridDetails.html#a03242b839ef5a10701f3ab0744d38074',1,'bioexplorer::details::AddGridDetails']]],
-  ['userparameter_404',['userParameter',['../d5/d4e/structbioexplorer_1_1rendering_1_1AdvancedMaterial.html#a115b9246d16d40067012334dcb2569d0',1,'bioexplorer::rendering::AdvancedMaterial']]],
-  ['userparameters_405',['userParameters',['../d7/d84/structbioexplorer_1_1details_1_1MaterialsDetails.html#ad92749cf84de832407b16bdb8985167f',1,'bioexplorer::details::MaterialsDetails']]],
-  ['usesdf_406',['useSdf',['../dd/d98/structbioexplorer_1_1details_1_1VasculatureDetails.html#ae61afb15ec1a2f34d2ecbc4ca5942fd0',1,'bioexplorer::details::VasculatureDetails::useSdf()'],['../df/d08/structbioexplorer_1_1details_1_1AstrocytesDetails.html#a82391c0db18e0d61ead9df95ea11351e',1,'bioexplorer::details::AstrocytesDetails::useSdf()'],['../dc/d93/structbioexplorer_1_1details_1_1NeuronsDetails.html#ad525eb7d63bf540e68f937a842e523a7',1,'bioexplorer::details::NeuronsDetails::useSdf()']]]
+  ['valuesrange_406',['valuesRange',['../d1/d00/structbioexplorer_1_1details_1_1RNASequenceDetails.html#ab35279739e3408e750f6488097a97af6',1,'bioexplorer::details::RNASequenceDetails']]],
+  ['vasculature_407',['Vasculature',['../d8/d29/classbioexplorer_1_1vasculature_1_1Vasculature.html',1,'bioexplorer::vasculature::Vasculature'],['../d8/d29/classbioexplorer_1_1vasculature_1_1Vasculature.html#ad5a82ba530ffb18a43acb7ff33a980c6',1,'bioexplorer::vasculature::Vasculature::Vasculature()']]],
+  ['vasculaturedetails_408',['VasculatureDetails',['../dd/d98/structbioexplorer_1_1details_1_1VasculatureDetails.html',1,'bioexplorer::details']]],
+  ['vasculaturehandler_409',['VasculatureHandler',['../d3/d3e/classbioexplorer_1_1vasculature_1_1VasculatureHandler.html',1,'bioexplorer::vasculature::VasculatureHandler'],['../d3/d3e/classbioexplorer_1_1vasculature_1_1VasculatureHandler.html#ae23fc6847fc0c6203fc8534c96b34604',1,'bioexplorer::vasculature::VasculatureHandler::VasculatureHandler()']]],
+  ['vasculaturepopulationname_410',['vasculaturePopulationName',['../df/d08/structbioexplorer_1_1details_1_1AstrocytesDetails.html#a6bc5e1f50dd4fe35164cb4b2fa809309',1,'bioexplorer::details::AstrocytesDetails']]],
+  ['vasculatureradiusreportdetails_411',['VasculatureRadiusReportDetails',['../de/da6/structbioexplorer_1_1details_1_1VasculatureRadiusReportDetails.html',1,'bioexplorer::details']]],
+  ['vasculaturereportdetails_412',['VasculatureReportDetails',['../d1/d4e/structbioexplorer_1_1details_1_1VasculatureReportDetails.html',1,'bioexplorer::details']]],
+  ['voxelsize_413',['voxelSize',['../dc/d5b/structbioexplorer_1_1details_1_1BuildFieldsDetails.html#a0599983952d3097fbf88919ea4209047',1,'bioexplorer::details::BuildFieldsDetails']]]
 ];

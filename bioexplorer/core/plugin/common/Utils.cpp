@@ -524,5 +524,11 @@ double worleyNoise(const Vector3d& p, double cellCount)
 {
     return cells(p, cellCount);
 }
+
+size_t getMaterialIdFromOrientation(const Vector3d& orientation)
+{
+    const Vector3ui o = 256.0 * (0.5 + 0.5 * normalize(orientation));
+    return 65536 * o.x + 256 * o.y + o.z;
+}
 } // namespace common
 } // namespace bioexplorer

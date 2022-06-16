@@ -39,7 +39,6 @@ using namespace io;
 using namespace db;
 
 const double DEFAULT_MITOCHONDRIA_DENSITY = 0.0459;
-const double DEFAULT_VASCULATURE_DISPLACEMENT = 0.5;
 
 Astrocytes::Astrocytes(Scene& scene, const AstrocytesDetails& details)
     : Morphologies(details.radiusMultiplier, doublesToVector3d(details.scale))
@@ -125,18 +124,18 @@ void Astrocytes::_buildModel(const doubles& radii)
         }
 
         const auto somaMaterialId =
-            baseMaterialId +
-            (_details.morphologyColorScheme == MorphologyColorScheme::section
-                 ? MATERIAL_OFFSET_SOMA
-                 : 0);
+            baseMaterialId + (_details.morphologyColorScheme ==
+                                      MorphologyColorScheme::section_type
+                                  ? MATERIAL_OFFSET_SOMA
+                                  : 0);
 
         uint64_t somaGeometryIndex = 0;
         if (_details.loadSomas)
         {
             somaGeometryIndex = container.addSphere(
                 somaPosition, somaRadius, somaMaterialId, NO_USER_DATA, {},
-                Vector3f(somaRadius * somaDisplacementStrength,
-                         somaRadius * somaDisplacementFrequency, 0.f));
+                Vector3f(somaRadius * astrocyteSomaDisplacementStrength,
+                         somaRadius * astrocyteSomaDisplacementFrequency, 0.f));
             if (_details.generateInternals)
                 _addSomaInternals(somaId, container, baseMaterialId,
                                   somaPosition, somaRadius,
@@ -154,9 +153,15 @@ void Astrocytes::_buildModel(const doubles& radii)
             const auto sectionId = section.first;
             switch (_details.morphologyColorScheme)
             {
-            case MorphologyColorScheme::section:
+            case MorphologyColorScheme::section_type:
                 sectionMaterialId = baseMaterialId + section.second.type;
                 break;
+            case MorphologyColorScheme::section_orientation:
+            {
+                sectionMaterialId = getMaterialIdFromOrientation(
+                    Vector3d(points[points.size() - 1]) - Vector3d(points[0]));
+                break;
+            }
             default:
                 break;
             }
@@ -183,8 +188,9 @@ void Astrocytes::_buildModel(const doubles& radii)
                     geometryIndex = container.addCone(
                         somaPosition, srcRadius, somaPosition + Vector3d(point),
                         dstRadius, somaMaterialId, userData, neighbours,
-                        Vector3f(srcRadius * somaDisplacementStrength,
-                                 srcRadius * somaDisplacementFrequency, 0.f));
+                        Vector3f(srcRadius * astrocyteSomaDisplacementStrength,
+                                 srcRadius * astrocyteSomaDisplacementFrequency,
+                                 0.f));
                     neighbours.insert(geometryIndex);
                 }
 

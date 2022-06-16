@@ -37,3 +37,5 @@ pyquaternion~=0.9.9
 webcolors~=1.8.1
 seaborn~=0.11.1
 ipywidgets~=7.6.3
+tqdm~=4.62.0
+psycopg2-binary~=2.9.2

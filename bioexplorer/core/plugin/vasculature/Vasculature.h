@@ -35,7 +35,7 @@ using namespace brayns;
 using namespace common;
 
 const double segmentDisplacementStrength = 0.25;
-const double segmentDisplacementFrequency = 1.0;
+const double segmentDisplacementFrequency = 0.4;
 
 /**
  * Load vasculature from database

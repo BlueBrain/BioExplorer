@@ -151,15 +151,15 @@ void Neurons::_buildSomasOnly(ThreadSafeContainer& container,
     {
         PLUGIN_PROGRESS("Loading somas", progress, somas.size());
         const auto somaMaterialId =
-            baseMaterialId +
-            (_details.morphologyColorScheme == MorphologyColorScheme::section
-                 ? MATERIAL_OFFSET_SOMA
-                 : 0);
+            baseMaterialId + (_details.morphologyColorScheme ==
+                                      MorphologyColorScheme::section_type
+                                  ? MATERIAL_OFFSET_SOMA
+                                  : 0);
         if (_details.showMembrane)
             container.addSphere(soma.second.position, _details.radiusMultiplier,
                                 somaMaterialId, NO_USER_DATA, {},
-                                Vector3f(somaDisplacementStrength,
-                                         somaDisplacementFrequency, 0.f));
+                                Vector3f(neuronSomaDisplacementStrength,
+                                         neuronSomaDisplacementFrequency, 0.f));
         if (_details.generateInternals)
         {
             const double mitochondriaDensity =
@@ -215,11 +215,16 @@ void Neurons::_buildMorphology(ThreadSafeContainer& container,
         baseMaterialId = neuronId * NB_MATERIALS_PER_MORPHOLOGY;
         break;
     }
-    const auto somaMaterialId =
-        baseMaterialId +
-        (_details.morphologyColorScheme == MorphologyColorScheme::section
-             ? MATERIAL_OFFSET_SOMA
-             : 0);
+    size_t somaMaterialId = baseMaterialId;
+    switch (_details.morphologyColorScheme)
+    {
+    case MorphologyColorScheme::section_type:
+        somaMaterialId = baseMaterialId + MATERIAL_OFFSET_SOMA;
+        break;
+    case MorphologyColorScheme::section_orientation:
+        somaMaterialId = getMaterialIdFromOrientation({1.0, 1.0, 1.0});
+        break;
+    }
 
     // Soma
     uint64_t somaGeometryIndex = 0;
@@ -229,8 +234,9 @@ void Neurons::_buildMorphology(ThreadSafeContainer& container,
             somaGeometryIndex =
                 container.addSphere(somaPosition, somaRadius, somaMaterialId,
                                     NO_USER_DATA, {},
-                                    Vector3f(somaDisplacementStrength,
-                                             somaDisplacementFrequency, 0.f));
+                                    Vector3f(neuronSomaDisplacementStrength,
+                                             neuronSomaDisplacementFrequency,
+                                             0.f));
         if (_details.generateInternals)
             _addSomaInternals(neuronId, container, baseMaterialId, somaPosition,
                               somaRadius, mitochondriaDensity);
@@ -291,8 +297,9 @@ void Neurons::_buildMorphology(ThreadSafeContainer& container,
                                   somaPosition + somaRotation * Vector3d(point),
                                   dstRadius, somaMaterialId, NO_USER_DATA,
                                   neighbours,
-                                  Vector3f(somaDisplacementStrength,
-                                           somaDisplacementFrequency, 0.f));
+                                  Vector3f(neuronSomaDisplacementStrength,
+                                           neuronSomaDisplacementFrequency,
+                                           0.f));
             neighbours.insert(geometryIndex);
         }
 
@@ -338,11 +345,17 @@ void Neurons::_addGraphSection(ThreadSafeContainer& container,
                                const NeuronSectionType sectionType,
                                const size_t baseMaterialId)
 {
-    const size_t sectionMaterialId =
-        baseMaterialId +
-        (_details.morphologyColorScheme == MorphologyColorScheme::section
-             ? static_cast<size_t>(sectionType)
-             : 0);
+    size_t sectionMaterialId = baseMaterialId;
+    switch (_details.morphologyColorScheme)
+    {
+    case MorphologyColorScheme::section_type:
+        sectionMaterialId = baseMaterialId + static_cast<size_t>(sectionType);
+        break;
+    case MorphologyColorScheme::section_orientation:
+        sectionMaterialId =
+            getMaterialIdFromOrientation(Vector3d(dstNode) - Vector3d(srcNode));
+        break;
+    }
 
     const auto src = somaPosition + somaRotation * Vector3d(srcNode);
     const auto dst = somaPosition + somaRotation * Vector3d(dstNode);
@@ -374,14 +387,20 @@ void Neurons::_addSection(ThreadSafeContainer& container,
     const auto sectionType = static_cast<NeuronSectionType>(section.type);
     auto useSdf = _details.useSdf;
 
-    const size_t sectionMaterialId =
-        baseMaterialId +
-        (_details.morphologyColorScheme == MorphologyColorScheme::section
-             ? section.type
-             : 0);
+    const auto& points = section.points;
+    size_t sectionMaterialId = baseMaterialId;
+    switch (_details.morphologyColorScheme)
+    {
+    case MorphologyColorScheme::section_type:
+        sectionMaterialId = baseMaterialId + section.type;
+        break;
+    case MorphologyColorScheme::section_orientation:
+        sectionMaterialId =
+            getMaterialIdFromOrientation(points[points.size() - 1] - points[0]);
+        break;
+    }
 
     // Generate varicosities
-    const auto& points = section.points;
     auto localPoints = points;
     const auto middlePointIndex = localPoints.size() / 2;
     const bool addVaricosity = _details.generateVaricosities &&
@@ -420,7 +439,7 @@ void Neurons::_addSection(ThreadSafeContainer& container,
                                   sectionDisplacementFrequency, 0.f};
             size_t materialId = sectionMaterialId;
             if (addVaricosity && _details.morphologyColorScheme ==
-                                     MorphologyColorScheme::section)
+                                     MorphologyColorScheme::section_type)
             {
                 if (i > middlePointIndex && i < middlePointIndex + 3)
                 {

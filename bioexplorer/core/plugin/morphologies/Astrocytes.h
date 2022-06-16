@@ -30,6 +30,9 @@ namespace morphology
 using namespace brayns;
 using namespace common;
 
+const double astrocyteSomaDisplacementStrength = 0.05;
+const double astrocyteSomaDisplacementFrequency = 1.0;
+
 /**
  * Load a population of astrocytes from the database according to specified
  * parameters
