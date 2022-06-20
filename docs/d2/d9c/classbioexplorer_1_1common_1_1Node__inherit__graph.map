@@ -1,0 +1,16 @@
+<map id="bioexplorer::common::Node" name="bioexplorer::common::Node">
+<area shape="rect" id="node1" title="The Node class." alt="" coords="5,201,148,243"/>
+<area shape="rect" id="node2" href="$d3/d86/classbioexplorer_1_1atlas_1_1Atlas.html" title=" " alt="" coords="235,5,356,47"/>
+<area shape="rect" id="node3" href="$d1/d1c/classbioexplorer_1_1common_1_1SDFGeometries.html" title="The SDFGeometries abstract class is used as a parent to any assembly that potentially requires the si..." alt="" coords="224,71,367,112"/>
+<area shape="rect" id="node8" href="$d6/dcd/classbioexplorer_1_1connectomics_1_1WhiteMatter.html" title=" " alt="" coords="208,136,383,177"/>
+<area shape="rect" id="node9" href="$d4/d07/classbioexplorer_1_1molecularsystems_1_1EnzymeReaction.html" title="An Enzyme reaction is a object that combines an existing enyzme, a list of substrates and a list of p..." alt="" coords="196,201,395,243"/>
+<area shape="rect" id="node10" href="$d4/d3d/classbioexplorer_1_1molecularsystems_1_1Membrane.html" title="A Membrane object implements a 3D structure of a given shape, but with a surface composed of instance..." alt="" coords="196,267,395,308"/>
+<area shape="rect" id="node11" href="$da/dff/classbioexplorer_1_1molecularsystems_1_1Molecule.html" title="The Molecule class implements the 3D representation of a molecule. The object also contains metadata ..." alt="" coords="196,332,395,373"/>
+<area shape="rect" id="node14" href="$d0/d53/classbioexplorer_1_1molecularsystems_1_1RNASequence.html" title="The RNASequence class." alt="" coords="196,397,395,439"/>
+<area shape="rect" id="node4" href="$dc/dbc/classbioexplorer_1_1morphology_1_1Morphologies.html" title="The Morphologies class." alt="" coords="462,39,622,80"/>
+<area shape="rect" id="node7" href="$d8/d29/classbioexplorer_1_1vasculature_1_1Vasculature.html" title=" " alt="" coords="462,104,622,145"/>
+<area shape="rect" id="node5" href="$d2/d3a/classbioexplorer_1_1morphology_1_1Astrocytes.html" title=" " alt="" coords="689,7,849,48"/>
+<area shape="rect" id="node6" href="$d1/d39/classbioexplorer_1_1morphology_1_1Neurons.html" title=" " alt="" coords="689,72,849,113"/>
+<area shape="rect" id="node12" href="$da/de6/classbioexplorer_1_1molecularsystems_1_1Glycans.html" title="The Glycans class." alt="" coords="443,299,641,340"/>
+<area shape="rect" id="node13" href="$dd/da4/classbioexplorer_1_1molecularsystems_1_1Protein.html" title="The Protein class." alt="" coords="443,364,641,405"/>
+</map>
