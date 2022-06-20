@@ -309,6 +309,7 @@ private:
     std::string _connectionString;
 
     std::vector<ConnectionPtr> _connections;
+    bool _initialized{false};
 };
 
 } // namespace db
