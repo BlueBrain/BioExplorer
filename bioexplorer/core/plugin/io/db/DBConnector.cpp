@@ -260,24 +260,14 @@ uint64_ts DBConnector::getVasculatureSections(const std::string& populationName,
     pqxx::nontransaction transaction(*connection);
     try
     {
-        pqxx::result res;
         std::string sql =
             "SELECT distinct(section_guid) FROM " + populationName + ".node";
 
         if (!filter.empty())
             sql += " WHERE " + filter;
 
-        const std::string name = "allVasculatureSections" + filter;
-        auto preparedStatements = _preparedStatements[populationName];
-        if (std::find(preparedStatements.begin(), preparedStatements.end(),
-                      name) == preparedStatements.end())
-        {
-            PLUGIN_DEBUG("Preparing statement " << name);
-            connection->prepare(name, sql);
-            preparedStatements.push_back(name);
-        }
-        PLUGIN_DEBUG("Executing preparted statement: " << sql);
-        res = transaction.exec_prepared(name);
+        PLUGIN_DEBUG("Executing statement: " << sql);
+        const pqxx::result res = transaction.exec(sql);
         for (auto c = res.begin(); c != res.end(); ++c)
             sectionIds.push_back(c[0].as<uint64_t>());
     }
@@ -299,8 +289,7 @@ Vector2ui DBConnector::getVasculatureNbSections(
     {
         const std::string sql = "SELECT value FROM " + populationName +
                                 ".metadata WHERE name='nb_sections'";
-        pqxx::result res;
-        res = transaction.exec(sql);
+        const pqxx::result res = transaction.exec(sql);
         for (auto c = res.begin(); c != res.end(); ++c)
         {
             nbSections.x = c[0].as<uint64_t>();
@@ -313,17 +302,8 @@ Vector2ui DBConnector::getVasculatureNbSections(
                 "SELECT count(distinct(section_guid)), min(section_guid), "
                 "max(section_guid) FROM " +
                 populationName + ".node WHERE " + filter;
-            const std::string name = "vasculatureNbSections" + filter;
-            auto preparedStatements = _preparedStatements[populationName];
-            if (std::find(preparedStatements.begin(), preparedStatements.end(),
-                          name) == preparedStatements.end())
-            {
-                PLUGIN_DEBUG("Preparing statement " << name);
-                connection->prepare(name, sql);
-                preparedStatements.push_back(name);
-            }
-            PLUGIN_DEBUG("Executing preparted statement: " << sql);
-            res = transaction.exec_prepared(name);
+            PLUGIN_DEBUG("Executing statement: " << sql);
+            const pqxx::result res = transaction.exec(sql);
             for (auto c = res.begin(); c != res.end(); ++c)
                 nbSections.x = c[0].as<uint64_t>();
         }

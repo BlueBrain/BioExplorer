@@ -1,5 +1,11 @@
 var NAVTREEINDEX1 =
 {
+"d2/d82/classbioexplorer_1_1common_1_1Assembly.html#ae5c83fb287c55ad3e38e1e48d1846e47":[6,0,0,1,0,22],
+"d2/d82/classbioexplorer_1_1common_1_1Assembly.html#ae721951362d1fd60a21a909808b86423":[6,0,0,1,0,10],
+"d2/d82/classbioexplorer_1_1common_1_1Assembly.html#ae8a54362b6699470800754f82ed9c82b":[6,0,0,1,0,11],
+"d2/d82/classbioexplorer_1_1common_1_1Assembly.html#aeed7c7ebd56a5de624ed286edf34cad2":[6,0,0,1,0,20],
+"d2/d82/classbioexplorer_1_1common_1_1Assembly.html#af9fc1cb5ea5431123cefb00a87d3f5a1":[6,0,0,1,0,5],
+"d2/d85/DepthRenderer_8h_source.html":[7,0,0,0,0,0,0,13],
 "d2/d99/classbioexplorer_1_1meshing_1_1PointCloudMesher.html":[6,0,0,7,0],
 "d2/d99/classbioexplorer_1_1meshing_1_1PointCloudMesher.html#a8c76232076650a45b041cf2b66635f18":[6,0,0,7,0,0],
 "d2/d99/classbioexplorer_1_1meshing_1_1PointCloudMesher.html#ae66b68e3ed119dbb8cef7e92e4285a3b":[6,0,0,7,0,1],
@@ -243,11 +249,5 @@ var NAVTREEINDEX1 =
 "d6/de6/classbioexplorer_1_1metabolism_1_1MetabolismPlugin.html":[6,0,0,8,4],
 "d6/de6/classbioexplorer_1_1metabolism_1_1MetabolismPlugin.html#a47b3a2e881bdb3c3b611cd395c143896":[6,0,0,8,4,1],
 "d6/de6/classbioexplorer_1_1metabolism_1_1MetabolismPlugin.html#af55f7052a4ba8cfed97bf882927ffa6c":[6,0,0,8,4,0],
-"d7/d13/SphereShape_8h_source.html":[7,0,2,2,0,21],
-"d7/d1b/UniqueId_8cpp_source.html":[7,0,2,2,14],
-"d7/d1e/structbioexplorer_1_1common_1_1GeometryNode.html":[6,0,0,1,5],
-"d7/d1e/structbioexplorer_1_1common_1_1GeometryNode.html#a121b2252db322458ad70e4315803ab95":[6,0,0,1,5,5],
-"d7/d1e/structbioexplorer_1_1common_1_1GeometryNode.html#a18bc0dbef8f604c169ae2093e65c5c70":[6,0,0,1,5,1],
-"d7/d1e/structbioexplorer_1_1common_1_1GeometryNode.html#a5c985d2d30060ef4a603448abb700c33":[6,0,0,1,5,3],
-"d7/d1e/structbioexplorer_1_1common_1_1GeometryNode.html#a8b8cafbaa1fba0fb2edae42301c398a7":[6,0,0,1,5,0]
+"d7/d13/SphereShape_8h_source.html":[7,0,2,2,0,21]
 };
