@@ -40,6 +40,10 @@ const std::string DB_SCHEMA_CONNECTOME = "connectome";
 DBConnector* DBConnector::_instance = nullptr;
 std::mutex DBConnector::_mutex;
 
+#define CHECK_DB_INITIALIZATION \
+    if (!_initialized)          \
+    PLUGIN_THROW("Database connection has not been initialized")
+
 DBConnector::DBConnector() {}
 
 DBConnector::~DBConnector()
@@ -89,6 +93,7 @@ void DBConnector::init(const CommandLineArguments& arguments)
                 std::string(e.base().what()));
         }
     }
+    _initialized = true;
     PLUGIN_INFO(1, "Initialized " << _dbNbConnections
                                   << " connections to database");
 }
@@ -113,6 +118,7 @@ void DBConnector::clearBricks()
 
 const OOCSceneConfigurationDetails DBConnector::getSceneConfiguration()
 {
+    CHECK_DB_INITIALIZATION
     OOCSceneConfigurationDetails sceneConfiguration;
     pqxx::nontransaction transaction(
         *_connections[omp_get_thread_num() % _dbNbConnections]);
@@ -149,6 +155,7 @@ void DBConnector::insertBrick(const int32_t brickId, const uint32_t version,
                               const uint32_t nbModels,
                               const std::stringstream& buffer)
 {
+    CHECK_DB_INITIALIZATION
     pqxx::work transaction(
         *_connections[omp_get_thread_num() % _dbNbConnections]);
     try
@@ -172,6 +179,7 @@ std::stringstream DBConnector::getBrick(const int32_t brickId,
                                         const uint32_t& version,
                                         uint32_t& nbModels)
 {
+    CHECK_DB_INITIALIZATION
     std::stringstream s;
     pqxx::nontransaction transaction(
         *_connections[omp_get_thread_num() % _dbNbConnections]);
@@ -206,6 +214,7 @@ GeometryNodes DBConnector::getVasculatureNodes(
     const std::string& populationName, const std::string& filter,
     const std::string& limits) const
 {
+    CHECK_DB_INITIALIZATION
     GeometryNodes nodes;
     const auto connection =
         _connections[omp_get_thread_num() % _dbNbConnections];
@@ -255,6 +264,7 @@ GeometryNodes DBConnector::getVasculatureNodes(
 uint64_ts DBConnector::getVasculatureSections(const std::string& populationName,
                                               const std::string& filter)
 {
+    CHECK_DB_INITIALIZATION
     uint64_ts sectionIds;
     auto connection = _connections[omp_get_thread_num() % _dbNbConnections];
     pqxx::nontransaction transaction(*connection);
@@ -282,6 +292,7 @@ uint64_ts DBConnector::getVasculatureSections(const std::string& populationName,
 Vector2ui DBConnector::getVasculatureNbSections(
     const std::string& populationName, const std::string& filter)
 {
+    CHECK_DB_INITIALIZATION
     Vector2ui nbSections;
     auto connection = _connections[omp_get_thread_num() % _dbNbConnections];
     pqxx::nontransaction transaction(*connection);
@@ -319,6 +330,7 @@ Vector2ui DBConnector::getVasculatureNbSections(
 Vector2d DBConnector::getVasculatureRadiusRange(
     const std::string& populationName, const std::string& filter) const
 {
+    CHECK_DB_INITIALIZATION
     Vector2d range;
     pqxx::nontransaction transaction(
         *_connections[omp_get_thread_num() % _dbNbConnections]);
@@ -348,6 +360,7 @@ Vector2d DBConnector::getVasculatureRadiusRange(
 GeometryEdges DBConnector::getVasculatureEdges(
     const std::string& populationName, const std::string& filter) const
 {
+    CHECK_DB_INITIALIZATION
     GeometryEdges edges;
     pqxx::nontransaction transaction(
         *_connections[omp_get_thread_num() % _dbNbConnections]);
@@ -374,6 +387,7 @@ GeometryEdges DBConnector::getVasculatureEdges(
 Bifurcations DBConnector::getVasculatureBifurcations(
     const std::string& populationName) const
 {
+    CHECK_DB_INITIALIZATION
     Bifurcations bifurcations;
     pqxx::nontransaction transaction(
         *_connections[omp_get_thread_num() % _dbNbConnections]);
@@ -406,6 +420,7 @@ Bifurcations DBConnector::getVasculatureBifurcations(
 SimulationReport DBConnector::getVasculatureSimulationReport(
     const std::string& populationName, const int32_t simulationReportId) const
 {
+    CHECK_DB_INITIALIZATION
     SimulationReport simulationReport;
     pqxx::nontransaction transaction(
         *_connections[omp_get_thread_num() % _dbNbConnections]);
@@ -443,6 +458,7 @@ floats DBConnector::getVasculatureSimulationTimeSeries(
     const std::string& populationName, const int32_t simulationReportId,
     const int32_t frame) const
 {
+    CHECK_DB_INITIALIZATION
     floats values;
     pqxx::nontransaction transaction(
         *_connections[omp_get_thread_num() % _dbNbConnections]);
@@ -474,6 +490,7 @@ floats DBConnector::getVasculatureSimulationTimeSeries(
 AstrocyteSomaMap DBConnector::getAstrocytes(
     const std::string& sqlCondition) const
 {
+    CHECK_DB_INITIALIZATION
     AstrocyteSomaMap somas;
 
     pqxx::nontransaction transaction(
@@ -509,6 +526,7 @@ AstrocyteSomaMap DBConnector::getAstrocytes(
 
 SectionMap DBConnector::getAstrocyteSections(const int64_t astrocyteId) const
 {
+    CHECK_DB_INITIALIZATION
     SectionMap sections;
 
     pqxx::nontransaction transaction(
@@ -546,6 +564,7 @@ EndFootMap DBConnector::getAstrocyteEndFeet(
     const std::string& vasculaturePopulationName,
     const uint64_t astrocyteId) const
 {
+    CHECK_DB_INITIALIZATION
     EndFootMap endFeet;
 
     pqxx::nontransaction transaction(
@@ -591,6 +610,7 @@ EndFootMap DBConnector::getAstrocyteEndFeet(
 NeuronSomaMap DBConnector::getNeurons(const std::string& populationName,
                                       const std::string& sqlCondition) const
 {
+    CHECK_DB_INITIALIZATION
     NeuronSomaMap somas;
 
     pqxx::nontransaction transaction(
@@ -635,6 +655,7 @@ SectionMap DBConnector::getNeuronSections(const std::string& populationName,
                                           const uint64_t neuronId,
                                           const std::string& sqlCondition) const
 {
+    CHECK_DB_INITIALIZATION
     SectionMap sections;
 
     pqxx::nontransaction transaction(
@@ -678,6 +699,7 @@ SynapseMap DBConnector::getNeuronSynapses(const std::string& populationName,
                                           const uint64_t neuronId,
                                           const std::string& sqlCondition) const
 {
+    CHECK_DB_INITIALIZATION
     SynapseMap synapses;
 
     pqxx::nontransaction transaction(
@@ -724,6 +746,7 @@ SynapseMap DBConnector::getNeuronSynapses(const std::string& populationName,
 
 uint64_ts DBConnector::getAtlasRegions(const std::string& sqlCondition) const
 {
+    CHECK_DB_INITIALIZATION
     uint64_ts regions;
 
     pqxx::nontransaction transaction(
@@ -754,6 +777,7 @@ uint64_ts DBConnector::getAtlasRegions(const std::string& sqlCondition) const
 CellMap DBConnector::getAtlasCells(const uint64_t regionId,
                                    const std::string& sqlCondition) const
 {
+    CHECK_DB_INITIALIZATION
     CellMap cells;
 
     pqxx::nontransaction transaction(
@@ -795,6 +819,7 @@ CellMap DBConnector::getAtlasCells(const uint64_t regionId,
 
 TriangleMesh DBConnector::getAtlasMesh(const uint64_t regionId) const
 {
+    CHECK_DB_INITIALIZATION
     TriangleMesh mesh;
 
     pqxx::nontransaction transaction(
@@ -837,6 +862,7 @@ TriangleMesh DBConnector::getAtlasMesh(const uint64_t regionId) const
 WhiteMatterStreamlines DBConnector::getWhiteMatterStreamlines(
     const std::string& populationName, const std::string& filter) const
 {
+    CHECK_DB_INITIALIZATION
     WhiteMatterStreamlines streamlines;
     pqxx::nontransaction transaction(
         *_connections[omp_get_thread_num() % _dbNbConnections]);
