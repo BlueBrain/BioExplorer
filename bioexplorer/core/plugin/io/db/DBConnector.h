@@ -307,7 +307,6 @@ private:
     size_t _dbNbConnections{DEFAULT_DB_NB_CONNECTIONS};
 
     std::string _connectionString;
-    std::map<std::string, std::vector<std::string>> _preparedStatements;
 
     std::vector<ConnectionPtr> _connections;
 };
