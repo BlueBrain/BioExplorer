@@ -80,8 +80,8 @@ private:
                           const GeometryNode& dstNode, const size_t materialId);
     void _addSimpleSection(ThreadSafeContainer& container,
                            const GeometryNode& srcNode,
-                           const GeometryNode& dstNode,
-                           const size_t materialId);
+                           const GeometryNode& dstNode, const size_t materialId,
+                           const uint64_t userData);
     void _addDetailedSection(ThreadSafeContainer& container,
                              const GeometryNodes& nodes,
                              const size_t baseMaterialId, const doubles& radii,
