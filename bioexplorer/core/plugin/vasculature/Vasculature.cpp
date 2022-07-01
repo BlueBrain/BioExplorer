@@ -78,14 +78,14 @@ void Vasculature::_addGraphSection(ThreadSafeContainer& container,
 void Vasculature::_addSimpleSection(ThreadSafeContainer& container,
                                     const GeometryNode& srcNode,
                                     const GeometryNode& dstNode,
-                                    const size_t materialId)
+                                    const size_t materialId,
+                                    const uint64_t userData)
 {
     const auto& srcPoint = srcNode.position;
     const auto srcRadius = srcNode.radius * _details.radiusMultiplier;
 
     const auto& dstPoint = dstNode.position;
     const auto dstRadius = dstNode.radius * _details.radiusMultiplier;
-    const auto userData = 0;
 
     if (!_details.useSdf)
     {
@@ -246,18 +246,19 @@ void Vasculature::_buildModel(const doubles& radii)
         auto iter = nodes.begin();
         do
         {
-            GeometryNodes localNodes;
+            GeometryNodes sectionNodes;
+            const auto userData = iter->first;
             const auto sectionId = iter->second.sectionId;
             auto previousSectionId = sectionId;
             while (iter != nodes.end() &&
                    iter->second.sectionId == previousSectionId)
             {
-                localNodes[iter->first] = iter->second;
+                sectionNodes[iter->first] = iter->second;
                 ++iter;
             }
 
-            const auto& srcNode = localNodes.begin()->second;
-            auto it = localNodes.end();
+            const auto& srcNode = sectionNodes.begin()->second;
+            auto it = sectionNodes.end();
             --it;
             const auto& dstNode = it->second;
 
@@ -292,10 +293,11 @@ void Vasculature::_buildModel(const doubles& radii)
                 _addGraphSection(container, srcNode, dstNode, materialId);
                 break;
             case VasculatureRepresentation::section:
-                _addSimpleSection(container, srcNode, dstNode, materialId);
+                _addSimpleSection(container, srcNode, dstNode, materialId,
+                                  userData);
                 break;
             default:
-                _addDetailedSection(container, localNodes, materialId, radii,
+                _addDetailedSection(container, sectionNodes, materialId, radii,
                                     radiusRange);
                 break;
             }
