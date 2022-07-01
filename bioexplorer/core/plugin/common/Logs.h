@@ -29,6 +29,7 @@ namespace bioexplorer
 namespace common
 {
 #define PLUGIN_PREFIX "BE"
+#define PROGRESS_BAR_SIZE 50
 
 #define PLUGIN_ERROR(message) \
     std::cerr << "E [" << PLUGIN_PREFIX << "] " << message << std::endl;
@@ -53,23 +54,26 @@ namespace common
         throw std::runtime_error(message); \
     }
 
-#define PLUGIN_PROGRESS(__msg, __progress, __maxValue)                  \
-    {                                                                   \
-        std::cout << "I [" << PLUGIN_PREFIX << "] [";                   \
-        const float __mv = float(__maxValue);                           \
-        const uint32_t __pos = 1 + __progress / __mv * 50.f;            \
-        for (uint32_t __i = 0; __i < 50; ++__i)                         \
-        {                                                               \
-            if (__i < __pos)                                            \
-                std::cout << "=";                                       \
-            else if (__i == __pos)                                      \
-                std::cout << ">";                                       \
-            else                                                        \
-                std::cout << " ";                                       \
-        }                                                               \
-        std::cout << "] " << std::min(__pos * 2, uint32_t(100)) << "% " \
-                  << __msg << "\r";                                     \
-        std::cout.flush();                                              \
+#define PLUGIN_PROGRESS(__msg, __progress, __maxValue)                        \
+    {                                                                         \
+        std::cout << "I [" << PLUGIN_PREFIX << "] [";                         \
+        const float __mv = float(__maxValue);                                 \
+        const float __p = float(__progress + 1);                              \
+        const uint32_t __pos =                                                \
+            std::min(PROGRESS_BAR_SIZE, int(__p / __mv * PROGRESS_BAR_SIZE)); \
+        for (uint32_t __i = 0; __i < PROGRESS_BAR_SIZE; ++__i)                \
+        {                                                                     \
+            if (__i < __pos)                                                  \
+                std::cout << "=";                                             \
+            else if (__i == __pos)                                            \
+                std::cout << ">";                                             \
+            else                                                              \
+                std::cout << " ";                                             \
+        }                                                                     \
+        std::cout << "] "                                                     \
+                  << std::min(__pos * 2, uint32_t(PROGRESS_BAR_SIZE * 2))     \
+                  << "% " << __msg << "\r";                                   \
+        std::cout.flush();                                                    \
     }
 
 } // namespace common

@@ -988,7 +988,8 @@ enum class MorphologyRepresentation
 {
     graph = 0,
     section = 1,
-    segment = 2
+    segment = 2,
+    orientation = 3
 };
 
 typedef struct

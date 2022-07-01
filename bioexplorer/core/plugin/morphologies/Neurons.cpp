@@ -40,6 +40,7 @@ using namespace db;
 
 const uint64_t NB_MYELIN_FREE_SEGMENTS = 4;
 const double DEFAULT_SPINE_RADIUS = 0.25;
+const double DEFAULT_ARROW_RADIUS_RATIO = 10.0;
 
 // Mitochondria density per layer
 const doubles MITOCHONDRIA_DENSITY = {0.0459, 0.0522, 0.064,
@@ -67,10 +68,12 @@ void Neurons::_buildNeurons()
     const auto& connector = DBConnector::getInstance();
 
     auto model = _scene.createModel();
-    const auto useSdf =
-        (_details.morphologyRepresentation == MorphologyRepresentation::graph
-             ? false
-             : _details.useSdf);
+    const auto useSdf = ((_details.morphologyRepresentation ==
+                              MorphologyRepresentation::graph ||
+                          _details.morphologyRepresentation ==
+                              MorphologyRepresentation::orientation)
+                             ? false
+                             : _details.useSdf);
     const auto somas =
         connector.getNeurons(_details.populationName, _details.sqlNodeFilter);
 
@@ -86,10 +89,15 @@ void Neurons::_buildNeurons()
                            !_details.loadBasalDendrites;
 
     ThreadSafeContainers containers;
-    if (somasOnly)
+    if (somasOnly || _details.morphologyRepresentation ==
+                         MorphologyRepresentation::orientation)
     {
         ThreadSafeContainer container(*model, useSdf, _scale);
-        _buildSomasOnly(container, somas, baseMaterialId);
+        if (_details.morphologyRepresentation ==
+            MorphologyRepresentation::orientation)
+            _buildOrientations(container, somas, baseMaterialId);
+        else
+            _buildSomasOnly(container, somas, baseMaterialId);
         containers.push_back(container);
     }
     else
@@ -118,11 +126,9 @@ void Neurons::_buildNeurons()
         }
     }
 
-    for (size_t i = 0; i < containers.size(); ++i)
+    for (uint64_t i = 0; i < containers.size(); ++i)
     {
-        const float progress = 1.f + i;
-        PLUGIN_PROGRESS("- Compiling 3D geometry...", progress,
-                        containers.size());
+        PLUGIN_PROGRESS("- Compiling 3D geometry...", i, containers.size());
         auto& container = containers[i];
         container.commitToModel();
     }
@@ -171,6 +177,26 @@ void Neurons::_buildSomasOnly(ThreadSafeContainer& container,
                               soma.second.position, _details.radiusMultiplier,
                               mitochondriaDensity);
         }
+        ++progress;
+    }
+}
+
+void Neurons::_buildOrientations(ThreadSafeContainer& container,
+                                 const NeuronSomaMap& somas,
+                                 const size_t baseMaterialId)
+{
+    const auto radius = _details.radiusMultiplier;
+    const auto src = Vector4d(0, 0, 0, radius);
+    uint64_t progress = 0;
+    for (const auto soma : somas)
+    {
+        PLUGIN_PROGRESS("Loading soma orientations", progress, somas.size());
+        const auto rotation = soma.second.rotation;
+        const auto dst = Vector4d(rotation * (UP_VECTOR * radius *
+                                              DEFAULT_ARROW_RADIUS_RATIO),
+                                  radius);
+        _addArrow(container, soma.second.position, rotation, src, dst,
+                  NeuronSectionType::soma, 0);
         ++progress;
     }
 }
@@ -263,10 +289,10 @@ void Neurons::_buildMorphology(ThreadSafeContainer& container,
         if (_details.morphologyRepresentation ==
             MorphologyRepresentation::graph)
         {
-            _addGraphSection(
-                container, somaPosition, somaRotation, section.second.points[0],
-                section.second.points[section.second.points.size() - 1],
-                sectionType, baseMaterialId);
+            _addArrow(container, somaPosition, somaRotation,
+                      section.second.points[0],
+                      section.second.points[section.second.points.size() - 1],
+                      sectionType, baseMaterialId);
             continue;
         }
 
@@ -338,12 +364,12 @@ void Neurons::_addVaricosity(Vector4fs& points)
     points.insert(idx, {p0.x, p0.y, p0.z, endPoint.w});
 }
 
-void Neurons::_addGraphSection(ThreadSafeContainer& container,
-                               const Vector3d& somaPosition,
-                               const Quaterniond& somaRotation,
-                               const Vector4d& srcNode, const Vector4d& dstNode,
-                               const NeuronSectionType sectionType,
-                               const size_t baseMaterialId)
+void Neurons::_addArrow(ThreadSafeContainer& container,
+                        const Vector3d& somaPosition,
+                        const Quaterniond& somaRotation,
+                        const Vector4d& srcNode, const Vector4d& dstNode,
+                        const NeuronSectionType sectionType,
+                        const size_t baseMaterialId)
 {
     size_t sectionMaterialId = baseMaterialId;
     switch (_details.morphologyColorScheme)
@@ -367,10 +393,10 @@ void Neurons::_addGraphSection(ThreadSafeContainer& container,
     container.addSphere(src, radius * 0.2, sectionMaterialId, userData);
     container.addCone(src, radius * 0.2, Vector3f(src + direction * 0.79),
                       radius * 0.2, sectionMaterialId, userData);
-    container.addCone(dst, 0.0, Vector3f(src + direction * 0.8), radius,
+    container.addCone(Vector3f(src + direction * 0.79), radius * 0.2,
+                      Vector3f(src + direction * 0.8), radius,
                       sectionMaterialId, userData);
-    container.addCone(Vector3f(src + direction * 0.8), radius,
-                      Vector3f(src + direction * 0.79), radius * 0.2,
+    container.addCone(Vector3f(src + direction * 0.8), radius, dst, 0.0,
                       sectionMaterialId, userData);
     _bounds.merge(src);
     _bounds.merge(dst);

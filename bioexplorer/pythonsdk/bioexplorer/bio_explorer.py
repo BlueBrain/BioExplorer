@@ -295,6 +295,7 @@ class BioExplorer:
     MORPHOLOGY_REPRESENTATION_GRAPH = 0
     MORPHOLOGY_REPRESENTATION_SECTION = 1
     MORPHOLOGY_REPRESENTATION_SEGMENT = 2
+    MORPHOLOGY_REPRESENTATION_ORIENTATION = 3
 
     # Material offsets in neurons
     NB_MATERIALS_PER_MORPHOLOGY = 10
@@ -1976,10 +1977,10 @@ class BioExplorer:
         material_ids = self.get_material_ids(model_id)['ids']
         palette = list()
         for material_id in material_ids:
-            r =   (material_id >> 16) & 255
+            r = (material_id >> 16) & 255
             g = (material_id >> 8) & 255
             b =  material_id & 255
-            palette.append([r / 256.0, g / 256.0, b / 256.0])
+            palette.append([r / 255.0, g / 255.0, b / 255.0])
         return self.set_materials(
             [model_id], material_ids,
             diffuse_colors=palette,
@@ -2456,7 +2457,7 @@ class BioExplorer:
             morphology_representation=MORPHOLOGY_REPRESENTATION_SEGMENT,
             morphology_color_scheme=MORPHOLOGY_COLOR_SCHEME_NONE,
             population_color_scheme=POPULATION_COLOR_SCHEME_NONE,
-            radius_multiplier=0.0, sql_node_filter='', sql_section_filter='',
+            radius_multiplier=1.0, sql_node_filter='', sql_section_filter='',
             scale=Vector3(1.0, 1.0, 1.0), animation_params=AnimationParams()):
         """
         Add a population of astrocytes to the 3D scene
