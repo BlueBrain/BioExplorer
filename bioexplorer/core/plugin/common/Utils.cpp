@@ -527,8 +527,9 @@ double worleyNoise(const Vector3d& p, double cellCount)
 
 size_t getMaterialIdFromOrientation(const Vector3d& orientation)
 {
-    const Vector3ui o = 256.0 * (0.5 + 0.5 * normalize(orientation));
-    return 65536 * o.x + 256 * o.y + o.z;
+    const Vector3d n = normalize(orientation);
+    const Vector3ui rgb = 255.0 * (0.5 + 0.5 * n);
+    return ((rgb.x & 0x0ff) << 16) | ((rgb.y & 0x0ff) << 8) | (rgb.z & 0x0ff);
 }
 } // namespace common
 } // namespace bioexplorer

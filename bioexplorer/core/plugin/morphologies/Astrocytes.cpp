@@ -238,11 +238,9 @@ void Astrocytes::_buildModel(const doubles& radii)
         containers.push_back(container);
     }
 
-    for (size_t i = 0; i < containers.size(); ++i)
+    for (uint64_t i = 0; i < containers.size(); ++i)
     {
-        const float progress = 1.f + i;
-        PLUGIN_PROGRESS("- Compiling 3D geometry...", progress,
-                        containers.size());
+        PLUGIN_PROGRESS("- Compiling 3D geometry...", i, containers.size());
         auto& container = containers[i];
         container.commitToModel();
     }
