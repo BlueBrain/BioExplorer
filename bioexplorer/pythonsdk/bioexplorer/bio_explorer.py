@@ -2201,16 +2201,29 @@ class BioExplorer:
 
         return self._invoke_and_check("add-sdf-demo")
 
-    def add_curves_demo(self):
+    def add_streamlines(self, name, indices, vertices, colors):
         """
-        Add an curves demo model
+        Add streamlines to the scene
 
+        :name: Name of the streamlines
+        :indices: Start indices of each streamline in the array of vertices
+        :vertices: Vertices
+        :colors: RGBA Color of each vertex
         :return: Result of the request submission
         """
         if self._client is None:
             return
 
-        return self._invoke_and_check("add-curves-demo")
+        assert isinstance(indices, list)
+        assert isinstance(vertices, list)
+        assert isinstance(colors, list)
+
+        params = dict()
+        params["name"] = name
+        params["indices"] = indices
+        params["vertices"] = vertices
+        params["colors"] = colors
+        return self._invoke_and_check("add-streamlines", params)
 
     def set_general_settings(self, model_visibility_on_creation=True, mesh_folder='/tmp',
                              logging_level=0, v1_compatibility=False):
