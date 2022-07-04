@@ -508,6 +508,23 @@ bool from_json(AddBoundingBoxDetails &param, const std::string &payload)
     return true;
 }
 
+bool from_json(AddStreamlinesDetails &param, const std::string &payload)
+{
+    try
+    {
+        auto js = nlohmann::json::parse(payload);
+        FROM_JSON(param, js, name);
+        FROM_JSON(param, js, indices);
+        FROM_JSON(param, js, vertices);
+        FROM_JSON(param, js, colors);
+    }
+    catch (...)
+    {
+        return false;
+    }
+    return true;
+}
+
 bool from_json(ModelIdDetails &param, const std::string &payload)
 {
     try

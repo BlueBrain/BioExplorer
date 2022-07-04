@@ -612,6 +612,22 @@ typedef struct
 } AddBoundingBoxDetails;
 
 /**
+ * @brief The Streamlines struct handles a set of streamlines. Indices are used
+ * to specify the first point of each streamline
+ */
+typedef struct
+{
+    /** Name of the streamlines */
+    std::string name;
+    /** Indices */
+    uint64_ts indices;
+    /** Vertices */
+    doubles vertices;
+    /** Vertices */
+    doubles colors;
+} AddStreamlinesDetails;
+
+/**
  * @brief Color schemes that can be applied to proteins
  *
  */
