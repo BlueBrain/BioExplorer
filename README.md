@@ -60,6 +60,8 @@ The _BBBE_ application is built on top of a fork of [Blue Brain Brayns](https://
 
 ![___](./bioexplorer/pythonsdk/doc/source/images/architecture.png)
 
+More information can be found in the [architecture documentation](./ARCHITECTURE.md).
+
 ## General components
 
 ### Assemblies
