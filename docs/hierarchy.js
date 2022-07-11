@@ -9,6 +9,7 @@ var hierarchy =
     [ "bioexplorer::details::AddConeDetails", "db/db6/structbioexplorer_1_1details_1_1AddConeDetails.html", null ],
     [ "bioexplorer::details::AddGridDetails", "db/dd8/structbioexplorer_1_1details_1_1AddGridDetails.html", null ],
     [ "bioexplorer::details::AddSphereDetails", "db/d48/structbioexplorer_1_1details_1_1AddSphereDetails.html", null ],
+    [ "bioexplorer::details::AddStreamlinesDetails", "dd/d91/structbioexplorer_1_1details_1_1AddStreamlinesDetails.html", null ],
     [ "bioexplorer::molecularsystems::AminoAcid", "d4/d03/structbioexplorer_1_1molecularsystems_1_1AminoAcid.html", null ],
     [ "bioexplorer::details::AminoAcidDetails", "d3/dd3/structbioexplorer_1_1details_1_1AminoAcidDetails.html", null ],
     [ "bioexplorer::details::AminoAcidInformationDetails", "d6/dda/structbioexplorer_1_1details_1_1AminoAcidInformationDetails.html", null ],
