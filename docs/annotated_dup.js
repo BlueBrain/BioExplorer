@@ -34,6 +34,7 @@ var annotated_dup =
         [ "AddConeDetails", "db/db6/structbioexplorer_1_1details_1_1AddConeDetails.html", "db/db6/structbioexplorer_1_1details_1_1AddConeDetails" ],
         [ "AddGridDetails", "db/dd8/structbioexplorer_1_1details_1_1AddGridDetails.html", "db/dd8/structbioexplorer_1_1details_1_1AddGridDetails" ],
         [ "AddSphereDetails", "db/d48/structbioexplorer_1_1details_1_1AddSphereDetails.html", "db/d48/structbioexplorer_1_1details_1_1AddSphereDetails" ],
+        [ "AddStreamlinesDetails", "dd/d91/structbioexplorer_1_1details_1_1AddStreamlinesDetails.html", "dd/d91/structbioexplorer_1_1details_1_1AddStreamlinesDetails" ],
         [ "AminoAcidDetails", "d3/dd3/structbioexplorer_1_1details_1_1AminoAcidDetails.html", "d3/dd3/structbioexplorer_1_1details_1_1AminoAcidDetails" ],
         [ "AminoAcidInformationDetails", "d6/dda/structbioexplorer_1_1details_1_1AminoAcidInformationDetails.html", "d6/dda/structbioexplorer_1_1details_1_1AminoAcidInformationDetails" ],
         [ "AminoAcidSequenceAsRangesDetails", "db/de5/structbioexplorer_1_1details_1_1AminoAcidSequenceAsRangesDetails.html", "db/de5/structbioexplorer_1_1details_1_1AminoAcidSequenceAsRangesDetails" ],
