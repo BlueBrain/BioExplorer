@@ -1,4 +1,4 @@
-<link href="./bioexplorer/core/doc/extra.css" rel="stylesheet"></link>
+<!-- <link href="./bioexplorer/core/doc/extra.css" rel="stylesheet"></link> -->
 
 # Blue Brain BioExplorer
 
@@ -45,6 +45,7 @@
 ![___](./bioexplorer/pythonsdk/doc/source/images/BBBE_banner.png)
 
 ## Description
+
 In the context of the '[A Machine-Generated View of the Role of Blood Glucose Levels in the Severity of COVID-19](https://www.frontiersin.org/articles/10.3389/fpubh.2021.695139/full?utm_source=fweb&utm_medium=nblog&utm_campaign=ba-sci-fpubh-covid-19-elevated-blood-glucose-blue-brain)' study, the Blue Brain BioExplorer (_BBBE_) started as an internal project with the aim to answer key scientific questions related to the Coronavirus as a use case. This project aimed to deliver a visualization tool, the BioExplorer, to reconstruct, visualize, explore and describe in detail the structure and function of highly-detailed biological structures such as molecular systems, neurons, astrocytes, blood vessels, and more.
 
 Check out the movie by clicking on the following image, and see the coronavirus as you have never seen it before!
@@ -56,6 +57,7 @@ Check out the movie by clicking on the following image, and see the coronavirus 
 </div>
 
 ## Architecture
+
 The _BBBE_ application is built on top of a fork of [Blue Brain Brayns](https://github.com/BlueBrain/BioExplorer/tree/Brayns) 1.0.0 , the Blue Brain rendering platform. The _BBBE_ uses the underlying technical capabilities of the rendering platform to create large scale and accurate 3D scenes from Jupyter notebooks.
 
 ![___](./bioexplorer/pythonsdk/doc/source/images/architecture.png)
@@ -65,18 +67,21 @@ More information can be found in the [architecture](./ARCHITECTURE.md) documenta
 ## General components
 
 ### Assemblies
+
 Assemblies are groups of biological elements, such as proteins, membranes, glycans, etc. 
 As an example, a virion is made of a lipid membrane, spikes proteins, an RNA sequence, etc, and all those elements belong to the same object. That’s why they need to belong to the same container, the assembly.
 Assemblies can have different shapes: Sphere, Cube, etc, that are automatically generated according to the parameters of individual
 components.
 
 ### Proteins
+
 Proteins are loaded from PDB files. Atoms, non-polymer chemicals and bonds can be loaded and displayed in various colour schemes: chain id, atom, residue, etc.
 Proteins also contain the amino acid sequences of the individual chains. Sequences that can be used to query glycosylation sites, or functional regions of the protein.
 
 ![___](./bioexplorer/pythonsdk/notebooks/bioexplorer_proteins_banner.png)
 
 ### Glycans
+
 Glycans are small proteins that are attached to an existing protein of the assembly. Individual glycan trees are loaded from PDB files and attached to the glycosylation sites of the specified protein. By default, glycans are attached to all available glycosylation sites, but a set of specific sites can be specified.
 
 Glycan trees models located in the python sdk test folder were generated with [Glycam Builder](http://glycam.org).
@@ -84,13 +89,16 @@ Glycan trees models located in the python sdk test folder were generated with [G
 ![___](./bioexplorer/pythonsdk/notebooks/bioexplorer_glycans_banner.png)
 
 ### RNA sequence
+
 An RNA sequence can be loaded from a text sequence of codons.
 Various shapes can be selected to represent the RNA sequence: Trefoil knot, torus, star, etc. This allows the sequence to be efficiently packed into a given volume. A different color is assigned per type of codon.
 
 ### Mesh-based membranes
+
 Mesh-based membranes create membranes based on 3D meshes. This allows the construction of complex membranes where mesh faces are filled with proteins.
 
 ### Virus
+
 A viral particle (= “virus”) is an assembly consisting of a membrane, an RNA sequence, and a given number of S, M and E proteins. The virus has a predefined spherical shape defined by its radius. The default parameters for the virus are a radius of 45 nanometers, 62 S proteins, 42 E proteins, and 50 M proteins. Dimensions and concentrations were retrieved from the literature.
 
 ![___](./bioexplorer/pythonsdk/notebooks/bioexplorer_coronavirus_banner.png)
@@ -102,11 +110,17 @@ A membrane is an assembly of phospholipids. Phospholipids structures are created
 ![___](./bioexplorer/pythonsdk/notebooks/bioexplorer_membrane_banner.png)
 
 ### Vasculature
+
 Vasculatures are loaded from the database (see the database [schema](./storage/database/vasculature_schema.sql) and the example [notebook](./bioexplorer/pythonsdk/notebooks/vasculature/BioExplorer_import_sonata_to_db.ipynb) for loading data from [Sonata](https://github.com/AllenInstitute/sonata) files). A vasculature is defined by the blood vessels or arrangement of blood vessels in an organ or part.
 
 ![___](./bioexplorer/pythonsdk/notebooks/bioexplorer_vasculature_banner.png)
 
+References:
+* [Brain microvasculature has a common topology with local differences in geometry that match metabolic load](https://www.cell.com/neuron/fulltext/S0896-6273(21)00080-5?_returnURL=https%3A%2F%2Flinkinghub.elsevier.com%2Fretrieve%2Fpii%2FS0896627321000805%3Fshowall%3Dtrue)
+* [Blue Brain Neuro-Glia-Vasculature Portal. Vasculature. Reconstruction Data](https://bbp.epfl.ch/ngv-portal/#explore)
+
 ### Neurons and astrocytes
+
 Circuits of neurons are loaded from the database (see the database [schema](./storage/database/neurons_schema.sql) and the example [notebook](./bioexplorer/pythonsdk/notebooks/neurons/BioExplorer_import_sonata_to_db.ipynb) for loading data from [Sonata](https://github.com/AllenInstitute/sonata) files) using their position and orientation. Each cell is composed of sections that form the axons and dendrites, as well as spines. Cell internals such as the nucleus and the mitochondria can be automatically generated, according to the data provided by the scientific litterature.
 
 Circuits of astrocytes are loaded from the database (see the database [schema](./storage/database/astrocytes_schema.sql) and the example [notebook](./bioexplorer/pythonsdk/notebooks/astrocytes/BioExplorer_import_sonata_to_db.ipynb) for loading data from [Sonata](https://github.com/AllenInstitute/sonata) files) using their position and orientation. Astrocytes end-feet are connected to the vasculature using data stored in a dedicated connectome database [schema](./storage/database/connectome_schema.sql). The _BBBE_ allows end-feet to automtically adapt to the vasculature vessel size.
@@ -115,13 +129,24 @@ The _BBBE_ allows interaction with large and highly details circuits of neurons.
 
 ![___](./bioexplorer/pythonsdk/notebooks/bioexplorer_neurons_banner.png)
 
+References:
+* [Thalamic control of sensory enhancement and sleep spindle properties in a biophysical model of thalamoreticular microcircuitry](http://biorxiv.org/lookup/doi/10.1101/2022.02.28.482273)
+* [Computational synthesis of cortical dendritic morphologies](https://doi.org/10.1016/j.celrep.2022.110586)
+* [Digital reconstruction of the neuro-glia-vascular architecture](https://doi.org/10.1093/cercor/bhab254)
+* [Blue Brain Neuro-Glia-Vasculature Portal. Anatomy. Reconstruction Data](https://bbp.epfl.ch/ngv-portal/anatomy/reconstruction-data/)
+
 ### Enzyme reactions
+
 An enzyme attracts substrates to its active site, catalyzes the chemical reaction by which products are formed, and then allows the products to dissociate (separate from the enzyme surface). The combination formed by an enzyme and its substrates is called the enzyme–substrate complex. The _BBBE_ allows easy visualization of enzyme reactions by providing a substrace, a product, and a type of reaction (for example: [Hexokinase](./bioexplorer/pythonsdk/notebooks/assemblies/BioExplorer_enzyme_reaction.ipynb)).
 
 ![___](./bioexplorer/pythonsdk/notebooks/bioexplorer_enzyme_reactions_banner.png)
 
+References:
+* [Blue Brain Neuro-Glia-Vasculature Portal. Metabolism. Reconstruction Data](https://bbp.epfl.ch/ngv-portal/#explore)
+
 
 ## Python SDK
+
 A simple API if exposed via the _BBBE_ python library. The API allows scientists to easily create and modify assemblies, according the biological parameters. The _BBBE_ programming language is not necessarily reflecting the underlying implementation, but is meant to be as simple as close as possible to the language used by the scientists to describe biological assemblies.
 
 The _BBBE_ Python SDK is available on [pypi](https://pypi.org/project/bioexplorer/).
@@ -169,11 +194,13 @@ docker run -ti --rm -p 5002:8080 bluebrain/bioexplorer-ui
 ## Building from Source
 
 ### Blue Brain Brayns
+
 In order to run the BioExplorer, it is necessary to build [Blue Brain Brayns](https://github.com/BlueBrain/BioExplorer/tree/Brayns) first.
 
 ### BioExplorer
 
 #### Compile
+
 With [Blue Brain Brayns](https://github.com/BlueBrain/BioExplorer/tree/Brayns) compiled and installed in the <brayns_installation_folder>, run the statements to build the BioExplorer.
 
 ```bash
@@ -195,6 +222,7 @@ braynsService --http-server localhost:5000 --plugin BioExplorer
 ```
 
 ## Simple example
+
 Considering that the _BBBE_ server is running on the local host, on port 5000, the simplest example to visualize a coronavirus is:
 ```python
 from bioexplorer import BioExplorer
@@ -205,10 +233,12 @@ be.add_coronavirus(name=name, resource_folder=resource_folder)
 ```
 
 # License
+
 _BBBE_ is available to download and use under the GNU General Public License ([GPL](https://www.gnu.org/licenses/gpl.html), or “free software”). The code is open sourced with approval from the open sourcing committee and principal coordinators of the Blue Brain Project in February 2022.
 
 
 # Contact
+
 For more information on _BBBE_, please contact:
 
 __Cyrille Favreau__  

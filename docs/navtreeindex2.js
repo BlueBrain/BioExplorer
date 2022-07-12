@@ -1,11 +1,5 @@
 var NAVTREEINDEX2 =
 {
-"d6/d5b/structbioexplorer_1_1molecularsystems_1_1Nucleotid.html#a5ea7efacfb6e2bf7753ba6f7e1223274":[7,0,0,9,6,1],
-"d6/d5b/structbioexplorer_1_1molecularsystems_1_1Nucleotid.html#a63096f1c37dc9ad9d0f8852765edf384":[7,0,0,9,6,2],
-"d6/d5b/structbioexplorer_1_1molecularsystems_1_1Nucleotid.html#a7749cde6d9f57a0c7e51a39efb06e8ee":[7,0,0,9,6,0],
-"d6/d6b/BezierShape_8cpp_source.html":[8,0,2,2,0,0],
-"d6/d8d/structbioexplorer_1_1common_1_1SDFMorphologyData.html":[7,0,0,1,13],
-"d6/d8d/structbioexplorer_1_1common_1_1SDFMorphologyData.html#a32841520a45b58c8452027de959b60c0":[7,0,0,1,13,6],
 "d6/d8d/structbioexplorer_1_1common_1_1SDFMorphologyData.html#a8b03168ce34ab66ffbd64c1a606ddd54":[7,0,0,1,13,5],
 "d6/d8d/structbioexplorer_1_1common_1_1SDFMorphologyData.html#a8c97dd5a4e16f1c63af309c79914a691":[7,0,0,1,13,3],
 "d6/d8d/structbioexplorer_1_1common_1_1SDFMorphologyData.html#a910b38a7fc0eea71a70e40d038510e81":[7,0,0,1,13,4],
@@ -166,10 +160,6 @@ var NAVTREEINDEX2 =
 "d8/df9/classbioexplorer_1_1meshing_1_1SurfaceMesher.html#a8b99241376e73f1cac6f35653177babd":[7,0,0,7,1,0],
 "d8/df9/classbioexplorer_1_1meshing_1_1SurfaceMesher.html#aeb41b4507cdb32ae33421fc395b7e6d0":[7,0,0,7,1,1],
 "d9/d00/Membrane_8cpp_source.html":[8,0,2,7,4],
-"d9/d23/md__home_favreau_git_BioExplorer_DOCKER.html":[4],
-"d9/d23/md__home_favreau_git_BioExplorer_DOCKER.html#autotoc_md30":[4,0],
-"d9/d23/md__home_favreau_git_BioExplorer_DOCKER.html#autotoc_md31":[4,1],
-"d9/d23/md__home_favreau_git_BioExplorer_DOCKER.html#autotoc_md32":[4,2],
 "d9/d24/structbioexplorer_1_1morphology_1_1NeuronSoma.html":[7,0,0,10,6],
 "d9/d24/structbioexplorer_1_1morphology_1_1NeuronSoma.html#a0b682efedc4bd913443152df8c3378f7":[7,0,0,10,6,5],
 "d9/d24/structbioexplorer_1_1morphology_1_1NeuronSoma.html#a17a0e7bb0e246241e195afc42fc0292d":[7,0,0,10,6,2],
@@ -249,5 +239,15 @@ var NAVTREEINDEX2 =
 "da/d6e/classbioexplorer_1_1io_1_1OOCManager.html":[7,0,0,5,2],
 "da/d6e/classbioexplorer_1_1io_1_1OOCManager.html#a145bda1edb34a4aa59e2df05eb5fc2e6":[7,0,0,5,2,1],
 "da/d6e/classbioexplorer_1_1io_1_1OOCManager.html#a1d53ee9e3121dcf75fe8841d6b5e6a7e":[7,0,0,5,2,0],
-"da/d6e/classbioexplorer_1_1io_1_1OOCManager.html#a3efa8762f2f5f6e4ef0664e273d052d9":[7,0,0,5,2,10]
+"da/d6e/classbioexplorer_1_1io_1_1OOCManager.html#a3efa8762f2f5f6e4ef0664e273d052d9":[7,0,0,5,2,10],
+"da/d6e/classbioexplorer_1_1io_1_1OOCManager.html#a99b8cc7b99d6ca3decf6ff87c7a672fb":[7,0,0,5,2,8],
+"da/d6e/classbioexplorer_1_1io_1_1OOCManager.html#aa16c8142c73fa6ce0e61d845749478cc":[7,0,0,5,2,9],
+"da/d6e/classbioexplorer_1_1io_1_1OOCManager.html#aac1071f6542a251d45f844de2644dd49":[7,0,0,5,2,7],
+"da/d6e/classbioexplorer_1_1io_1_1OOCManager.html#ab538fab4651ce13fc496d723e965c55a":[7,0,0,5,2,5],
+"da/d6e/classbioexplorer_1_1io_1_1OOCManager.html#ab9d17f6903bc3c8d99ebc8c99752f7c0":[7,0,0,5,2,3],
+"da/d6e/classbioexplorer_1_1io_1_1OOCManager.html#abe0894d235d38ed6b7cb2790c14d1e32":[7,0,0,5,2,2],
+"da/d6e/classbioexplorer_1_1io_1_1OOCManager.html#aede557e0137e5d934ffcae9611267322":[7,0,0,5,2,6],
+"da/d6e/classbioexplorer_1_1io_1_1OOCManager.html#af419911b23345e83ecb24a35ae571776":[7,0,0,5,2,4],
+"da/db7/Astrocytes_8cpp_source.html":[8,0,2,8,0],
+"da/db8/SinusoidShape_8cpp_source.html":[8,0,2,2,0,18]
 };

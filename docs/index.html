@@ -86,8 +86,7 @@ $(document).ready(function(){initNavTree('index.html',''); initResizable(); });
 <div class="title">Blue Brain BioExplorer Documentation</div>  </div>
 </div><!--header-->
 <div class="contents">
-<div class="textblock"><p>&lt;link href="./bioexplorer/core/doc/extra.css" rel="stylesheet"&gt;&lt;/link&gt;</p>
-<h1><a class="anchor" id="autotoc_md0"></a>
+<div class="textblock"><h1><a class="anchor" id="autotoc_md0"></a>
 Blue Brain BioExplorer</h1>
 <table border="0">
 <tr>
@@ -156,7 +155,11 @@ Vasculature</h3>
 <img src="bioexplorer_vasculature_banner.png" alt=""/>
 <div class="caption">
 ___</div></div>
-   <h3><a class="anchor" id="autotoc_md12"></a>
+   <p>References:</p><ul>
+<li><a href="https://www.cell.com/neuron/fulltext/S0896-6273(21)00080-5?_returnURL=https%3A%2F%2Flinkinghub.elsevier.com%2Fretrieve%2Fpii%2FS0896627321000805%3Fshowall%3Dtrue">Brain microvasculature has a common topology with local differences in geometry that match metabolic load</a></li>
+<li><a href="https://bbp.epfl.ch/ngv-portal/#explore">Blue Brain Neuro-Glia-Vasculature Portal. Vasculature. Reconstruction Data</a></li>
+</ul>
+<h3><a class="anchor" id="autotoc_md12"></a>
 Neurons and astrocytes</h3>
 <p>Circuits of neurons are loaded from the database (see the database <a href="./storage/database/neurons_schema.sql">schema</a> and the example <a href="./bioexplorer/pythonsdk/notebooks/neurons/BioExplorer_import_sonata_to_db.ipynb">notebook</a> for loading data from <a href="https://github.com/AllenInstitute/sonata">Sonata</a> files) using their position and orientation. Each cell is composed of sections that form the axons and dendrites, as well as spines. Cell internals such as the nucleus and the mitochondria can be automatically generated, according to the data provided by the scientific litterature.</p>
 <p>Circuits of astrocytes are loaded from the database (see the database <a href="./storage/database/astrocytes_schema.sql">schema</a> and the example <a href="./bioexplorer/pythonsdk/notebooks/astrocytes/BioExplorer_import_sonata_to_db.ipynb">notebook</a> for loading data from <a href="https://github.com/AllenInstitute/sonata">Sonata</a> files) using their position and orientation. Astrocytes end-feet are connected to the vasculature using data stored in a dedicated connectome database <a href="./storage/database/connectome_schema.sql">schema</a>. The <em>BBBE</em> allows end-feet to automtically adapt to the vasculature vessel size.</p>
@@ -165,14 +168,23 @@ Neurons and astrocytes</h3>
 <img src="bioexplorer_neurons_banner.png" alt=""/>
 <div class="caption">
 ___</div></div>
-   <h3><a class="anchor" id="autotoc_md13"></a>
+   <p>References:</p><ul>
+<li><a href="http://biorxiv.org/lookup/doi/10.1101/2022.02.28.482273">Thalamic control of sensory enhancement and sleep spindle properties in a biophysical model of thalamoreticular microcircuitry</a></li>
+<li><a href="https://doi.org/10.1016/j.celrep.2022.110586">Computational synthesis of cortical dendritic morphologies</a></li>
+<li><a href="https://doi.org/10.1093/cercor/bhab254">Digital reconstruction of the neuro-glia-vascular architecture</a></li>
+<li><a href="https://bbp.epfl.ch/ngv-portal/anatomy/reconstruction-data/">Blue Brain Neuro-Glia-Vasculature Portal. Anatomy. Reconstruction Data</a></li>
+</ul>
+<h3><a class="anchor" id="autotoc_md13"></a>
 Enzyme reactions</h3>
 <p>An enzyme attracts substrates to its active site, catalyzes the chemical reaction by which products are formed, and then allows the products to dissociate (separate from the enzyme surface). The combination formed by an enzyme and its substrates is called the enzyme–substrate complex. The <em>BBBE</em> allows easy visualization of enzyme reactions by providing a substrace, a product, and a type of reaction (for example: <a href="./bioexplorer/pythonsdk/notebooks/assemblies/BioExplorer_enzyme_reaction.ipynb">Hexokinase</a>).</p>
 <div class="image">
 <img src="bioexplorer_enzyme_reactions_banner.png" alt=""/>
 <div class="caption">
 ___</div></div>
-   <h2><a class="anchor" id="autotoc_md14"></a>
+   <p>References:</p><ul>
+<li><a href="https://bbp.epfl.ch/ngv-portal/#explore">Blue Brain Neuro-Glia-Vasculature Portal. Metabolism. Reconstruction Data</a></li>
+</ul>
+<h2><a class="anchor" id="autotoc_md14"></a>
 Python SDK</h2>
 <p>A simple API if exposed via the <em>BBBE</em> python library. The API allows scientists to easily create and modify assemblies, according the biological parameters. The <em>BBBE</em> programming language is not necessarily reflecting the underlying implementation, but is meant to be as simple as close as possible to the language used by the scientists to describe biological assemblies.</p>
 <p>The <em>BBBE</em> Python SDK is available on <a href="https://pypi.org/project/bioexplorer/">pypi</a>.</p>
