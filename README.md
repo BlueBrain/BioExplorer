@@ -120,6 +120,8 @@ vasculature_model = bio_explorer.add_vasculature(
 
 ![___](./bioexplorer/pythonsdk/notebooks/bioexplorer_vasculature_banner.png)
 
+An example dataset can be downloaded from the [Blue Brain Neuro-Glia-Vasculature Portal](https://bbp.epfl.ch/ngv-portal/anatomy/experimental-data/)
+
 References:
 * [Brain microvasculature has a common topology with local differences in geometry that match metabolic load](https://www.cell.com/neuron/fulltext/S0896-6273(21)00080-5?_returnURL=https%3A%2F%2Flinkinghub.elsevier.com%2Fretrieve%2Fpii%2FS0896627321000805%3Fshowall%3Dtrue)
 * [Blue Brain Neuro-Glia-Vasculature Portal. Vasculature. Reconstruction Data](https://bbp.epfl.ch/ngv-portal/#explore)
@@ -155,6 +157,8 @@ Multi-scale models of the rat and mouse brain integrate models of ion channels, 
 In the nervous system, a synapse is a structure that permits a neuron (or nerve cell) to pass an electrical or chemical signal to another neuron. Synapses can be classified by the type of cellular structures serving as the pre- and post-synaptic components. The vast majority of synapses in the mammalian nervous system are classical axo-dendritic synapses (an axon connecting to a dendrite).
 
 ![___](./bioexplorer/pythonsdk/doc/source/images/synapses.png)
+
+An example dataset is available on the [Blue Brain Neuro-Glia-Vasculature Portal](https://bbp.epfl.ch/ngv-portal/anatomy/experimental-data/)
 
 References:
 * [Thalamic control of sensory enhancement and sleep spindle properties in a biophysical model of thalamoreticular microcircuitry](http://biorxiv.org/lookup/doi/10.1101/2022.02.28.482273)
@@ -209,6 +213,16 @@ An enzyme attracts substrates to its active site, catalyzes the chemical reactio
 
 References:
 * [Blue Brain Neuro-Glia-Vasculature Portal. Metabolism. Reconstruction Data](https://bbp.epfl.ch/ngv-portal/#explore)
+
+### Neuromodulation
+
+Neuromodulation of neocortical microcircuits is one of the most fascinating and mysterious aspects of brain physiology. Despite over a century of research, the neuroscientific community has yet to uncover the fundamental biological organizing principles underlying neuromodulatory release. Phylogenetically, Acetylcholine (ACh) is perhaps the oldest neuromodulator, and one of the most well-studied. ACh regulates the physiology of neurons and synapses, and modulates neural microcircuits to bring about a reconfiguration of global network states. ACh is known to support cognitive processes such as learning and memory, and is involved in the regulation of arousal, attention and sensory processing. While the effects of ACh in the neocortex have been characterized extensively, integrated knowledge of its mechanisms of action is lacking. Furthermore, the ways in which ACh is released from en-passant axons originating in subcortical nuclei are still debatable. Simulation-based paradigms play an important role in testing scientific hypotheses, and provide a useful framework to integrate what is already known and systematically explore previously uncharted territory. Importantly, data-driven computational approaches highlight gaps in current knowledge and guide experimental research. To this end, I developed a multi-scale model of cholinergic innervation of rodent somatosensory cortex comprising two distinct sets of ascending projections implementing either synaptic (ST) or volumetric transmission (VT). The model enables the projection types to be combined in arbitrary proportions, thus permitting investigations of the relative contributions of these two transmission modalities. Using our ACh model, we find that the two modes of cholinergic release act in concert and have powerful desynchronizing effects on microcircuit activity. Furthermore we show that this modeling framework can be extended to other neuromodulators, such as dopamine and serotonin, with minimal constraining data. In summary, our results suggest a more nuanced view of neuromodulation in which multiple modes of transmitter release - ST vs VT - are required to produce synergistic functional effects.
+
+![___](./bioexplorer/pythonsdk/notebooks/bioexplorer_neuromodulation_banner.png)
+
+References:
+* [Neuromodulation of neocortical microcircuitry: a multi-scale framework to model the effects of cholinergic release](https://infoscience.epfl.ch/record/294819)
+
 
 ## Python SDK
 

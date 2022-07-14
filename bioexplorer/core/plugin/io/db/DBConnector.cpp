@@ -276,7 +276,7 @@ uint64_ts DBConnector::getVasculatureSections(const std::string& populationName,
         if (!filter.empty())
             sql += " WHERE " + filter;
 
-        PLUGIN_DEBUG("Executing statement: " << sql);
+        PLUGIN_DEBUG(sql);
         const pqxx::result res = transaction.exec(sql);
         for (auto c = res.begin(); c != res.end(); ++c)
             sectionIds.push_back(c[0].as<uint64_t>());

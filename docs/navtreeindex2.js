@@ -1,12 +1,5 @@
 var NAVTREEINDEX2 =
 {
-"d6/d8d/structbioexplorer_1_1common_1_1SDFMorphologyData.html#a8b03168ce34ab66ffbd64c1a606ddd54":[7,0,0,1,13,5],
-"d6/d8d/structbioexplorer_1_1common_1_1SDFMorphologyData.html#a8c97dd5a4e16f1c63af309c79914a691":[7,0,0,1,13,3],
-"d6/d8d/structbioexplorer_1_1common_1_1SDFMorphologyData.html#a910b38a7fc0eea71a70e40d038510e81":[7,0,0,1,13,4],
-"d6/d8d/structbioexplorer_1_1common_1_1SDFMorphologyData.html#abe71fa157bc5f71926e10ea6d7f8a3b3":[7,0,0,1,13,0],
-"d6/d8d/structbioexplorer_1_1common_1_1SDFMorphologyData.html#ad7b1ac869a8547b05b87592fbc5b1e9a":[7,0,0,1,13,1],
-"d6/d8d/structbioexplorer_1_1common_1_1SDFMorphologyData.html#af59e89a33e98b5180389037cf74ffa2a":[7,0,0,1,13,2],
-"d6/d93/structbioexplorer_1_1details_1_1SugarDetails.html":[7,0,0,3,45],
 "d6/d93/structbioexplorer_1_1details_1_1SugarDetails.html#a0301faf94d74950d5c5136d47e9e2d80":[7,0,0,3,45,8],
 "d6/d93/structbioexplorer_1_1details_1_1SugarDetails.html#a1b58d87110ee58997a2fbaf4e1809ce1":[7,0,0,3,45,9],
 "d6/d93/structbioexplorer_1_1details_1_1SugarDetails.html#a2d1ed04ce57ff5df2d00e6bdfa9746c2":[7,0,0,3,45,6],
@@ -249,5 +242,12 @@ var NAVTREEINDEX2 =
 "da/d6e/classbioexplorer_1_1io_1_1OOCManager.html#aede557e0137e5d934ffcae9611267322":[7,0,0,5,2,6],
 "da/d6e/classbioexplorer_1_1io_1_1OOCManager.html#af419911b23345e83ecb24a35ae571776":[7,0,0,5,2,4],
 "da/db7/Astrocytes_8cpp_source.html":[8,0,2,8,0],
-"da/db8/SinusoidShape_8cpp_source.html":[8,0,2,2,0,18]
+"da/db8/SinusoidShape_8cpp_source.html":[8,0,2,2,0,18],
+"da/dc3/DepthRenderer_8ih_source.html":[8,0,0,0,0,0,0,14],
+"da/dc3/structbioexplorer_1_1details_1_1NeuronIdDetails.html":[7,0,0,3,32],
+"da/dc3/structbioexplorer_1_1details_1_1NeuronIdDetails.html#a221521fe487a3a204d8362c5aec53fcc":[7,0,0,3,32,1],
+"da/dc3/structbioexplorer_1_1details_1_1NeuronIdDetails.html#aa2f60e57adc2f766ee7e0b43d2486a9b":[7,0,0,3,32,0],
+"da/dc7/AlbedoRenderer_8cpp_source.html":[8,0,0,0,0,0,0,0],
+"da/dc8/structbioexplorer_1_1io_1_1db_1_1SimulationReport.html":[7,0,0,5,0,1],
+"da/dc8/structbioexplorer_1_1io_1_1db_1_1SimulationReport.html#a053be8bb7c334078d6027585cda35933":[7,0,0,5,0,1,4]
 };

@@ -364,7 +364,7 @@ $(document).ready(function(){initNavTree('d5/d22/bioexplorer_2core_2plugin_2io_2
 <div class="line"><a name="l00276"></a><span class="lineno">  276</span>&#160;        <span class="keywordflow">if</span> (!filter.empty())</div>
 <div class="line"><a name="l00277"></a><span class="lineno">  277</span>&#160;            sql += <span class="stringliteral">&quot; WHERE &quot;</span> + filter;</div>
 <div class="line"><a name="l00278"></a><span class="lineno">  278</span>&#160; </div>
-<div class="line"><a name="l00279"></a><span class="lineno">  279</span>&#160;        PLUGIN_DEBUG(<span class="stringliteral">&quot;Executing statement: &quot;</span> &lt;&lt; sql);</div>
+<div class="line"><a name="l00279"></a><span class="lineno">  279</span>&#160;        PLUGIN_DEBUG(sql);</div>
 <div class="line"><a name="l00280"></a><span class="lineno">  280</span>&#160;        <span class="keyword">const</span> pqxx::result res = transaction.exec(sql);</div>
 <div class="line"><a name="l00281"></a><span class="lineno">  281</span>&#160;        <span class="keywordflow">for</span> (<span class="keyword">auto</span> c = res.begin(); c != res.end(); ++c)</div>
 <div class="line"><a name="l00282"></a><span class="lineno">  282</span>&#160;            sectionIds.push_back(c[0].as&lt;uint64_t&gt;());</div>
