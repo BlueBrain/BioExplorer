@@ -185,12 +185,20 @@ When a ray hits a geometry, a random secondary ray is sent in a direction belong
 
 ### White matter
 
+White matter is composed of bundles, which connect various grey matter areas (the locations of nerve cell bodies) of the brain to each other, and carry nerve impulses between neurons. Myelin acts as an insulator, which allows electrical signals to jump, rather than coursing through the axon, increasing the speed of transmission of all nerve signals.
+
+A [Python notebook example](./bioexplorer/pythonsdk/notebooks/connectomics/BioExplorer_import_white_matter_allen_brain.ipynb) demonstrates how to download and import white matter streamlines from the Allen Brain Institute website into the _BBBE_ database. Another [Python notebook](./bioexplorer/pythonsdk/notebooks/connectomics/BioExplorer_white_matter.ipynb) demonstrates how to visualize the streamlines with the _BBBE_.
+
 ```python
 white_matter_model = be.add_white_matter(
     assembly_name='White matter',  population_name='connectome', radius=2.5)
 ```
 
-![___](./bioexplorer/pythonsdk/doc/source/images/dti.png)
+![___](./bioexplorer/pythonsdk/doc/source/images/white_matter.png)
+
+References:
+* [Allen Brain Institute: mouse connectivity projections](http://connectivity.brain-map.org/)
+* [Allen Brain Institute: mouse connectivity atlas](https://alleninstitute.github.io/AllenSDK/connectivity.html)
 
 
 ### Enzyme reactions
