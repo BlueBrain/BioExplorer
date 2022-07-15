@@ -17,7 +17,7 @@ Clone the repository and install it:
 ```
 (venv)$ git clone https://github.com/BlueBrain/BioExplorer.git
 (venv)$ cd BioExplorer/bioexplorer/pythonsdk
-(venv)$ python setup.py install
+(venv)$ pip install .
 ```
 
 ## API
@@ -25,8 +25,8 @@ Clone the repository and install it:
 ### Connect to running Blue Brain BioExplorer instance
 
 ```python
->>> from bioexplorer import BioExplorer
->>> bio_explorer = BioExplorer('localhost:8200')
+from bioexplorer import BioExplorer
+bio_explorer = BioExplorer('localhost:5000')
 ```
 
 ### Snapshot

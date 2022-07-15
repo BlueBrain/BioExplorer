@@ -86,8 +86,7 @@ $(document).ready(function(){initNavTree('index.html',''); initResizable(); });
 <div class="title">Blue Brain BioExplorer Documentation</div>  </div>
 </div><!--header-->
 <div class="contents">
-<div class="textblock"><p>&lt;link href="./bioexplorer/core/doc/extra.css" rel="stylesheet"&gt;&lt;/link&gt;</p>
-<h1><a class="anchor" id="autotoc_md0"></a>
+<div class="textblock"><h1><a class="anchor" id="autotoc_md0"></a>
 Blue Brain BioExplorer</h1>
 <table border="0">
 <tr>
@@ -137,7 +136,7 @@ Mesh-based membranes</h3>
 <p>Mesh-based membranes create membranes based on 3D meshes. This allows the construction of complex membranes where mesh faces are filled with proteins.</p>
 <h3><a class="anchor" id="autotoc_md9"></a>
 Virus</h3>
-<p>A viral particle (= “virus”) is an assembly consisting of a membrane, an RNA sequence, and a given number of S, M and E proteins. The virus has a predefined spherical shape defined by its radius. The default parameters for the virus are a radius of 45 nanometers, 62 S proteins, 42 E proteins, and 50 M proteins. Dimensions and concentrations were retrieved from the literature.</p>
+<p>A viral particle is an assembly consisting of a membrane, an RNA sequence, and a given number of S, M and E proteins. The virus has a predefined spherical shape defined by its radius. The default parameters for the virus are a radius of 45 nanometers, 62 S proteins, 42 E proteins, and 50 M proteins. Dimensions and concentrations were retrieved from the literature.</p>
 <div class="image">
 <img src="bioexplorer_coronavirus_banner.png" alt=""/>
 <div class="caption">
@@ -152,62 +151,141 @@ ___</div></div>
    <h3><a class="anchor" id="autotoc_md11"></a>
 Vasculature</h3>
 <p>Vasculatures are loaded from the database (see the database <a href="./storage/database/vasculature_schema.sql">schema</a> and the example <a href="./bioexplorer/pythonsdk/notebooks/vasculature/BioExplorer_import_sonata_to_db.ipynb">notebook</a> for loading data from <a href="https://github.com/AllenInstitute/sonata">Sonata</a> files). A vasculature is defined by the blood vessels or arrangement of blood vessels in an organ or part.</p>
-<div class="image">
+<div class="fragment"><div class="line">vasculature_model = bio_explorer.add_vasculature(</div>
+<div class="line">    assembly_name=&#39;Vasculature&#39;, population_name=&#39;vasculature&#39;, use_sdf=True)</div>
+</div><!-- fragment --><div class="image">
 <img src="bioexplorer_vasculature_banner.png" alt=""/>
 <div class="caption">
 ___</div></div>
-   <h3><a class="anchor" id="autotoc_md12"></a>
+   <p>An example dataset can be downloaded from the <a href="https://bbp.epfl.ch/ngv-portal/anatomy/experimental-data/">Blue Brain Neuro-Glia-Vasculature Portal</a></p>
+<p>References:</p><ul>
+<li><a href="https://www.cell.com/neuron/fulltext/S0896-6273(21)00080-5?_returnURL=https%3A%2F%2Flinkinghub.elsevier.com%2Fretrieve%2Fpii%2FS0896627321000805%3Fshowall%3Dtrue">Brain microvasculature has a common topology with local differences in geometry that match metabolic load</a></li>
+<li><a href="https://bbp.epfl.ch/ngv-portal/#explore">Blue Brain Neuro-Glia-Vasculature Portal. Vasculature. Reconstruction Data</a></li>
+</ul>
+<h3><a class="anchor" id="autotoc_md12"></a>
 Neurons and astrocytes</h3>
-<p>Circuits of neurons are loaded from the database (see the database <a href="./storage/database/neurons_schema.sql">schema</a> and the example <a href="./bioexplorer/pythonsdk/notebooks/neurons/BioExplorer_import_sonata_to_db.ipynb">notebook</a> for loading data from <a href="https://github.com/AllenInstitute/sonata">Sonata</a> files) using their position and orientation. Each cell is composed of sections that form the axons and dendrites, as well as spines. Cell internals such as the nucleus and the mitochondria can be automatically generated, according to the data provided by the scientific litterature.</p>
-<p>Circuits of astrocytes are loaded from the database (see the database <a href="./storage/database/astrocytes_schema.sql">schema</a> and the example <a href="./bioexplorer/pythonsdk/notebooks/astrocytes/BioExplorer_import_sonata_to_db.ipynb">notebook</a> for loading data from <a href="https://github.com/AllenInstitute/sonata">Sonata</a> files) using their position and orientation. Astrocytes end-feet are connected to the vasculature using data stored in a dedicated connectome database <a href="./storage/database/connectome_schema.sql">schema</a>. The <em>BBBE</em> allows end-feet to automtically adapt to the vasculature vessel size.</p>
-<p>The <em>BBBE</em> allows interaction with large and highly details circuits of neurons.</p>
-<div class="image">
+<p>Circuits of neurons are loaded from the database (see the database <a href="./storage/database/neurons_schema.sql">schema</a> and the example <a href="./bioexplorer/pythonsdk/notebooks/neurons/BioExplorer_import_sonata_to_db.ipynb">notebook</a> for loading data from <a href="https://github.com/AllenInstitute/sonata">Sonata</a> files) using their position and orientation. Each cell is composed of sections that form the axons and dendrites, as well as spines. Cell internals such as the nucleus and the mitochondria can be automatically generated, according to the data provided by the scientific litterature. The <em>BBBE</em> also implements procedural generation of varicosities along the axon, as well as myelin sheath.</p>
+<div class="fragment"><div class="line">neurons_model = bio_explorer.add_neurons(</div>
+<div class="line">    assembly_name=&#39;Neurons&#39;,</div>
+<div class="line">    population_name=&#39;neurons&#39;,</div>
+<div class="line">    use_sdf=True, load_synapses=True, generate_varicosities=True,</div>
+<div class="line">    generate_internals=True, generate_externals=False</div>
+<div class="line">)</div>
+</div><!-- fragment --><p>Circuits of astrocytes are loaded from the database (see the database <a href="./storage/database/astrocytes_schema.sql">schema</a> and the example <a href="./bioexplorer/pythonsdk/notebooks/astrocytes/BioExplorer_import_sonata_to_db.ipynb">notebook</a> for loading data from <a href="https://github.com/AllenInstitute/sonata">Sonata</a> files) using their position and orientation. Astrocytes end-feet are connected to the vasculature using data stored in a dedicated connectome database <a href="./storage/database/connectome_schema.sql">schema</a>. The <em>BBBE</em> allows end-feet to automtically adapt to the vasculature vessel size.</p>
+<div class="fragment"><div class="line">vasculature_model = be.add_astrocytes(</div>
+<div class="line">    assembly_name=&#39;Astrocytes&#39;, population_name=&#39;astrocytes&#39;, use_sdf=True)</div>
+</div><!-- fragment --><div class="image">
 <img src="bioexplorer_neurons_banner.png" alt=""/>
 <div class="caption">
 ___</div></div>
-   <h3><a class="anchor" id="autotoc_md13"></a>
+   <p>The neurons assembly allows visualization of brain microcircuits. Morphologies imported from ASC, SWC or H5 files into the <em>BBBE</em> database can be loaded an transformed in different ways: simple spheres or somas only, simple rendering of full morphologies using spheres, cones and cylinders, or advanced rendering of full morphologies using the <a href="https://iquilezles.org/articles/distfunctions/">signed distance field</a> technique.</p>
+<p>Multi-scale models of the rat and mouse brain integrate models of ion channels, single cells, microcircuits, brain regions, and brain systems at different levels of granularity (molecular models, morphologically detailed cellular models, and abstracted point neuron models). A neuronal microcircuit is the smallest functional ecosystem in any brain region that encompasses a diverse morphological and electrical assortment of neurons, and their synaptic interactions. Blue Brain has pioneered data-driven digital reconstructions and simulations of microcircuits to investigate how local neuronal structure gives rise to global network dynamics. These methods could be extended to digitally reconstruct microcircuits in any brain region.</p>
+<div class="image">
+<img src="microcircuit.png" alt=""/>
+<div class="caption">
+___</div></div>
+   <p>In the nervous system, a synapse is a structure that permits a neuron (or nerve cell) to pass an electrical or chemical signal to another neuron. Synapses can be classified by the type of cellular structures serving as the pre- and post-synaptic components. The vast majority of synapses in the mammalian nervous system are classical axo-dendritic synapses (an axon connecting to a dendrite).</p>
+<div class="image">
+<img src="synapses.png" alt=""/>
+<div class="caption">
+___</div></div>
+   <p>An example dataset is available on the <a href="https://bbp.epfl.ch/ngv-portal/anatomy/experimental-data/">Blue Brain Neuro-Glia-Vasculature Portal</a></p>
+<p>References:</p><ul>
+<li><a href="http://biorxiv.org/lookup/doi/10.1101/2022.02.28.482273">Thalamic control of sensory enhancement and sleep spindle properties in a biophysical model of thalamoreticular microcircuitry</a></li>
+<li><a href="https://doi.org/10.1016/j.celrep.2022.110586">Computational synthesis of cortical dendritic morphologies</a></li>
+<li><a href="https://doi.org/10.1093/cercor/bhab254">Digital reconstruction of the neuro-glia-vascular architecture</a></li>
+<li><a href="https://bbp.epfl.ch/ngv-portal/anatomy/reconstruction-data/">Blue Brain Neuro-Glia-Vasculature Portal. Anatomy. Reconstruction Data</a></li>
+<li><a href="https://journals.plos.org/ploscompbiol/article?id=10.1371/journal.pcbi.1007696">The SONATA data format for efficient description of large-scale network models</a></li>
+</ul>
+<h3><a class="anchor" id="autotoc_md13"></a>
+Simulation of neuronal activity</h3>
+<p>Using the NEURON simulation package, the circuit information is loaded from disk, instantiating the various cell models (morphologies with ion channel distribution) and synaptic connections. The experimenter selects a stimulus protocol which will inject electrical current into the network and increase the membrane voltages of cells. As cells approach a threshold current, they release an action potential (AP) which will then propagate additional current changes to other cells via the synapses' release mechanisms. <a href="https://github.com/BlueBrain/BioExplorer/tree/Brayns">Blue Brain Brayns</a> loads the simulation reports generated by NEURON and maps the voltages to the corresponding segments of the morphologies. A transfer function defines the mapping between a color and a voltage value.</p>
+<h3><a class="anchor" id="autotoc_md14"></a>
+Morphology synthesis</h3>
+<p>The goal of <a href="https://www.sciencedirect.com/science/article/pii/S2211124722003308">computational synthesis of cortical dendritic morphologies</a> is to be able to generate an arbitrary number of neurons (and also other cells, such as glia) that can be subsequently used in various types of simulation. Part of this goal is to recreate in the synthesized cells as many morphological features as possible.</p>
+<div class="image">
+<img src="synthesis.png" alt=""/>
+<div class="caption">
+___</div></div>
+   <p>The synthesis scheme is based on the assumption that it is necessary to know the environment within which the cells are growing in order to recreate them accurately. Neuronal morphologies are influenced both by the embedding space and the presence of other cells. Their axons may target certain regions or the dendrites may mass in one region to collect input, such as the apical tuft of pyramidal cells. It is important therefore to synthesize the cells within biologically accurate volumes.</p>
+<h3><a class="anchor" id="autotoc_md15"></a>
+Proximity detection</h3>
+<p>In the context of brain simulation, detecting touches between neurons is a essential part of the process. The Blue Brain BioExplorer provides a renderer that computes the distance between the geometries in the 3D scene.</p>
+<div class="image">
+<img src="touchdetection.png" alt=""/>
+<div class="caption">
+___</div></div>
+   <p>When a ray hits a geometry, a random secondary ray is sent in a direction belonging to an hemisphere defined by the normal to the surface. If that secondary ray hits another geometry, the distance between the initial hit and the new intersection is computed, and the corresponding color is assigned to the pixel. By default, red is for short distances (including touches), and green for longer ones. The notion of short and long is defined in the settings of the renderer.</p>
+<h3><a class="anchor" id="autotoc_md16"></a>
+White matter</h3>
+<p>White matter is composed of bundles, which connect various grey matter areas (the locations of nerve cell bodies) of the brain to each other, and carry nerve impulses between neurons. Myelin acts as an insulator, which allows electrical signals to jump, rather than coursing through the axon, increasing the speed of transmission of all nerve signals.</p>
+<p>A <a href="./bioexplorer/pythonsdk/notebooks/connectomics/BioExplorer_import_white_matter_allen_brain.ipynb">Python notebook example</a> demonstrates how to download and import white matter streamlines from the Allen Brain Institute website into the <em>BBBE</em> database. Another <a href="./bioexplorer/pythonsdk/notebooks/connectomics/BioExplorer_white_matter.ipynb">Python notebook</a> demonstrates how to visualize the streamlines with the <em>BBBE</em>.</p>
+<div class="fragment"><div class="line">white_matter_model = be.add_white_matter(</div>
+<div class="line">    assembly_name=&#39;White matter&#39;,  population_name=&#39;connectome&#39;, radius=2.5)</div>
+</div><!-- fragment --><div class="image">
+<img src="white_matter.png" alt=""/>
+<div class="caption">
+___</div></div>
+   <p>References:</p><ul>
+<li><a href="http://connectivity.brain-map.org/">Allen Brain Institute: mouse connectivity projections</a></li>
+<li><a href="https://alleninstitute.github.io/AllenSDK/connectivity.html">Allen Brain Institute: mouse connectivity atlas</a></li>
+</ul>
+<h3><a class="anchor" id="autotoc_md17"></a>
 Enzyme reactions</h3>
 <p>An enzyme attracts substrates to its active site, catalyzes the chemical reaction by which products are formed, and then allows the products to dissociate (separate from the enzyme surface). The combination formed by an enzyme and its substrates is called the enzyme–substrate complex. The <em>BBBE</em> allows easy visualization of enzyme reactions by providing a substrace, a product, and a type of reaction (for example: <a href="./bioexplorer/pythonsdk/notebooks/assemblies/BioExplorer_enzyme_reaction.ipynb">Hexokinase</a>).</p>
 <div class="image">
 <img src="bioexplorer_enzyme_reactions_banner.png" alt=""/>
 <div class="caption">
 ___</div></div>
-   <h2><a class="anchor" id="autotoc_md14"></a>
+   <p>References:</p><ul>
+<li><a href="https://bbp.epfl.ch/ngv-portal/#explore">Blue Brain Neuro-Glia-Vasculature Portal. Metabolism. Reconstruction Data</a></li>
+</ul>
+<h3><a class="anchor" id="autotoc_md18"></a>
+Neuromodulation</h3>
+<p>Neuromodulation of neocortical microcircuits is one of the most fascinating and mysterious aspects of brain physiology. Despite over a century of research, the neuroscientific community has yet to uncover the fundamental biological organizing principles underlying neuromodulatory release. Phylogenetically, Acetylcholine (ACh) is perhaps the oldest neuromodulator, and one of the most well-studied. ACh regulates the physiology of neurons and synapses, and modulates neural microcircuits to bring about a reconfiguration of global network states. ACh is known to support cognitive processes such as learning and memory, and is involved in the regulation of arousal, attention and sensory processing. While the effects of ACh in the neocortex have been characterized extensively, integrated knowledge of its mechanisms of action is lacking. Furthermore, the ways in which ACh is released from en-passant axons originating in subcortical nuclei are still debatable. Simulation-based paradigms play an important role in testing scientific hypotheses, and provide a useful framework to integrate what is already known and systematically explore previously uncharted territory. Importantly, data-driven computational approaches highlight gaps in current knowledge and guide experimental research. To this end, I developed a multi-scale model of cholinergic innervation of rodent somatosensory cortex comprising two distinct sets of ascending projections implementing either synaptic (ST) or volumetric transmission (VT). The model enables the projection types to be combined in arbitrary proportions, thus permitting investigations of the relative contributions of these two transmission modalities. Using our ACh model, we find that the two modes of cholinergic release act in concert and have powerful desynchronizing effects on microcircuit activity. Furthermore we show that this modeling framework can be extended to other neuromodulators, such as dopamine and serotonin, with minimal constraining data. In summary, our results suggest a more nuanced view of neuromodulation in which multiple modes of transmitter release - ST vs VT - are required to produce synergistic functional effects.</p>
+<div class="image">
+<img src="bioexplorer_neuromodulation_banner.png" alt=""/>
+<div class="caption">
+___</div></div>
+   <p>References:</p><ul>
+<li><a href="https://infoscience.epfl.ch/record/294819">Neuromodulation of neocortical microcircuitry: a multi-scale framework to model the effects of cholinergic release</a></li>
+</ul>
+<h2><a class="anchor" id="autotoc_md19"></a>
 Python SDK</h2>
 <p>A simple API if exposed via the <em>BBBE</em> python library. The API allows scientists to easily create and modify assemblies, according the biological parameters. The <em>BBBE</em> programming language is not necessarily reflecting the underlying implementation, but is meant to be as simple as close as possible to the language used by the scientists to describe biological assemblies.</p>
 <p>The <em>BBBE</em> Python SDK is available on <a href="https://pypi.org/project/bioexplorer/">pypi</a>.</p>
 <p>A large number of examples (as python notebooks) are provided in the <a href="https://github.com/BlueBrain/BioExplorer/tree/master/bioexplorer/pythonsdk/notebooks">notebooks</a> folder.</p>
-<h2><a class="anchor" id="autotoc_md15"></a>
+<h2><a class="anchor" id="autotoc_md20"></a>
 Documentation</h2>
 <p>See <a href="https://bluebrain.github.io/BioExplorer/">here</a> for detailed documentation of the source code.</p>
-<h2><a class="anchor" id="autotoc_md16"></a>
+<h2><a class="anchor" id="autotoc_md21"></a>
 Deployment</h2>
 <p><em>BBBE</em> binaries are publicaly available as docker images. <em>BBBE</em> is designed to run in distributed mode, and is composed of 3 modules: A <a href="https://hub.docker.com/r/bluebrain/bioexplorer">server</a>, a <a href="https://hub.docker.com/r/bluebrain/bioexplorer-python-sdk">python SDK</a>, and a <a href="https://hub.docker.com/r/bluebrain/bioexplorer-ui">web user interface</a>. This means that there are 3 docker images to be downloaded on run. Those images can of course run on different machines.</p>
 <p><b>Note:</b> The <em>BBBE</em> is NOT a web application. It uses web techonlogies for the user interface but the <em>BBBE</em> is a single session system that requires one back-end instance per user. There is no limitation in the number of user interface instances that can connect to the back-end, but they will all be sharing the same session.</p>
 <p>In this example, we will expose the server on port 5000, the python SDK jupyter notebooks on port 5001, and the user inferface on port 5002. One is free to change those ports at will.</p>
-<h3><a class="anchor" id="autotoc_md17"></a>
+<h3><a class="anchor" id="autotoc_md22"></a>
 Server</h3>
 <div class="fragment"><div class="line">docker run -ti --rm -p 5000:8200 bluebrain/bioexplorer</div>
-</div><!-- fragment --><h3><a class="anchor" id="autotoc_md18"></a>
+</div><!-- fragment --><h3><a class="anchor" id="autotoc_md23"></a>
 Python SDK</h3>
 <div class="fragment"><div class="line">docker run -ti --rm -p 5001:8888 bluebrain/bioexplorer-python-sdk</div>
 </div><!-- fragment --><p>Note that a local folder can be specified to access personal notebooks:</p>
 <div class="fragment"><div class="line">docker run -ti --rm -p 5001:8888 -v &lt;my_notebooks_folder&gt;:/app/BioExplorer/notebooks bluebrain/bioexplorer-python-sdk</div>
-</div><!-- fragment --><h3><a class="anchor" id="autotoc_md19"></a>
+</div><!-- fragment --><h3><a class="anchor" id="autotoc_md24"></a>
 Web User Interface</h3>
 <div class="fragment"><div class="line">docker run -ti --rm -p 5002:8080 bluebrain/bioexplorer-ui</div>
 </div><!-- fragment --><div class="image">
 <img src="BBBE_screenshot.png" alt=""/>
 <div class="caption">
 ___</div></div>
-   <h2><a class="anchor" id="autotoc_md20"></a>
+   <h2><a class="anchor" id="autotoc_md25"></a>
 Building from Source</h2>
-<h3><a class="anchor" id="autotoc_md21"></a>
+<h3><a class="anchor" id="autotoc_md26"></a>
 Blue Brain Brayns</h3>
 <p>In order to run the BioExplorer, it is necessary to build <a href="https://github.com/BlueBrain/BioExplorer/tree/Brayns">Blue Brain Brayns</a> first.</p>
-<h3><a class="anchor" id="autotoc_md22"></a>
+<h3><a class="anchor" id="autotoc_md27"></a>
 BioExplorer</h3>
-<h4><a class="anchor" id="autotoc_md23"></a>
+<h4><a class="anchor" id="autotoc_md28"></a>
 Compile</h4>
 <p>With <a href="https://github.com/BlueBrain/BioExplorer/tree/Brayns">Blue Brain Brayns</a> compiled and installed in the &lt;brayns_installation_folder&gt;, run the statements to build the BioExplorer.</p>
 <div class="fragment"><div class="line">git clone https://github.com/BlueBrain/BioExplorer.git</div>
@@ -215,30 +293,30 @@ Compile</h4>
 <div class="line">cd build</div>
 <div class="line">CMAKE_PREFIX_PATH=&lt;brayns_installation_folder&gt; cmake .. -DCMAKE_INSTALL_PREFIX=&lt;brayns_installation_folder&gt;</div>
 <div class="line">make install</div>
-</div><!-- fragment --><h4><a class="anchor" id="autotoc_md24"></a>
+</div><!-- fragment --><h4><a class="anchor" id="autotoc_md29"></a>
 Run</h4>
 <p>The BioExplorer being a plug-in for <a href="https://github.com/BlueBrain/BioExplorer/tree/Brayns">Blue Brain Brayns</a>, the following commands can be used to start the backend:</p>
 <div class="fragment"><div class="line">export LD_LIBRARY_PATH=&lt;brayns_installation_folder&gt;/lib:${LD_LIBRARY_PATH}</div>
 <div class="line">export PATH=&lt;brayns_installation_folder&gt;/bin:${PATH}</div>
 <div class="line">braynsService --http-server localhost:5000 --plugin BioExplorer</div>
-</div><!-- fragment --><h2><a class="anchor" id="autotoc_md25"></a>
+</div><!-- fragment --><h2><a class="anchor" id="autotoc_md30"></a>
 Simple example</h2>
 <p>Considering that the <em>BBBE</em> server is running on the local host, on port 5000, the simplest example to visualize a coronavirus is: </p><div class="fragment"><div class="line">from bioexplorer import BioExplorer</div>
 <div class="line">be = BioExplorer(&#39;localhost:5000&#39;)</div>
 <div class="line">resource_folder = &#39;../../tests/test_files/&#39;</div>
 <div class="line">name=&#39;Coronavirus&#39;</div>
 <div class="line">be.add_coronavirus(name=name, resource_folder=resource_folder)</div>
-</div><!-- fragment --><h1><a class="anchor" id="autotoc_md26"></a>
+</div><!-- fragment --><h1><a class="anchor" id="autotoc_md31"></a>
 License</h1>
 <p><em>BBBE</em> is available to download and use under the GNU General Public License (<a href="https://www.gnu.org/licenses/gpl.html">GPL</a>, or “free software”). The code is open sourced with approval from the open sourcing committee and principal coordinators of the Blue Brain Project in February 2022.</p>
-<h1><a class="anchor" id="autotoc_md27"></a>
+<h1><a class="anchor" id="autotoc_md32"></a>
 Contact</h1>
 <p>For more information on <em>BBBE</em>, please contact:</p>
 <p><b>Cyrille Favreau</b> <br  />
  Senior Scientific Visualization Engineer <br  />
  Blue Brain Project <br  />
  <a href="cyrille.favreau@epfl.ch">cyrille.favreau@epfl.ch</a></p>
-<h1><a class="anchor" id="autotoc_md28"></a>
+<h1><a class="anchor" id="autotoc_md33"></a>
 Funding &amp; Acknowledgment</h1>
 <p>The development of this software was supported by funding to the Blue Brain Project, a research center of the École polytechnique fédérale de Lausanne (EPFL), from the Swiss government’s ETH Board of the Swiss Federal Institutes of Technology.</p>
 <p>COPYRIGHT 2020–2022 Blue Brain Project/EPFL </p>

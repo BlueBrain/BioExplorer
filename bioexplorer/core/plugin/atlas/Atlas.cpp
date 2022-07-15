@@ -60,8 +60,10 @@ void Atlas::_load()
     ThreadSafeContainers containers;
     uint64_t counter = 0;
     uint64_t nbCells = 0;
+
+    const auto nbDBConnections = DBConnector::getInstance().getNbConnections();
     uint64_t index;
-#pragma omp parallel for
+#pragma omp parallel for num_threads(nbDBConnections)
     for (index = 0; index < regions.size(); ++index)
     {
         ThreadSafeContainer container(*model, false);

@@ -63,7 +63,7 @@ $(function() {
 </div>
 <script type="text/javascript">
 /* @license magnet:?xt=urn:btih:cf05388f2679ee054f2beb29a391d25f4e673ac3&amp;dn=gpl-2.0.txt GPL-v2 */
-$(document).ready(function(){initNavTree('d9/d23/md__home_favreau_git_BioExplorer_DOCKER.html','../../'); initResizable(); });
+$(document).ready(function(){initNavTree('d0/ddf/md__home_favreau_bluebrain_BioExplorer_DOCKER.html','../../'); initResizable(); });
 /* @license-end */
 </script>
 <div id="doc-content">
@@ -89,13 +89,13 @@ $(document).ready(function(){initNavTree('d9/d23/md__home_favreau_git_BioExplore
 <div class="textblock"><blockquote class="doxtable">
 <p>Use <a href="https://docs.docker.com">Docker</a> to run Blue Brain BioExplorer as a service and avoid painful tooling setup. </p>
 </blockquote>
-<h1><a class="anchor" id="autotoc_md30"></a>
+<h1><a class="anchor" id="autotoc_md35"></a>
 Prerequisites</h1>
 <p>Head over to <a href="https://docs.docker.com/engine/installation/#supported-platforms">Docker</a> and install Docker for your own platform.</p>
-<h1><a class="anchor" id="autotoc_md31"></a>
+<h1><a class="anchor" id="autotoc_md36"></a>
 Setup</h1>
 <p>First build the image (<em>it's necessary to do this step if you want to run Brayns</em>): </p><div class="fragment"><div class="line">docker build . -t bioexplorer</div>
-</div><!-- fragment --><h1><a class="anchor" id="autotoc_md32"></a>
+</div><!-- fragment --><h1><a class="anchor" id="autotoc_md37"></a>
 Usage</h1>
 <p>By default, the entrypoint when running the image is <code>braynsService</code>, but if you want to ssh into the container use: </p><div class="fragment"><div class="line"># `-p 5000:5000` is used only to provide some port bindings (host:container) if you want to run and access Brayns from your host while in the container</div>
 <div class="line">docker run -ti --rm --entrypoint bash -p 5000:5000 bioexplorer</div>

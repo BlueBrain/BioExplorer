@@ -1,4 +1,4 @@
-<link href="./bioexplorer/core/doc/extra.css" rel="stylesheet"></link>
+<!-- <link href="./bioexplorer/core/doc/extra.css" rel="stylesheet"></link> -->
 
 # Blue Brain BioExplorer
 
@@ -45,6 +45,7 @@
 ![___](./bioexplorer/pythonsdk/doc/source/images/BBBE_banner.png)
 
 ## Description
+
 In the context of the '[A Machine-Generated View of the Role of Blood Glucose Levels in the Severity of COVID-19](https://www.frontiersin.org/articles/10.3389/fpubh.2021.695139/full?utm_source=fweb&utm_medium=nblog&utm_campaign=ba-sci-fpubh-covid-19-elevated-blood-glucose-blue-brain)' study, the Blue Brain BioExplorer (_BBBE_) started as an internal project with the aim to answer key scientific questions related to the Coronavirus as a use case. This project aimed to deliver a visualization tool, the BioExplorer, to reconstruct, visualize, explore and describe in detail the structure and function of highly-detailed biological structures such as molecular systems, neurons, astrocytes, blood vessels, and more.
 
 Check out the movie by clicking on the following image, and see the coronavirus as you have never seen it before!
@@ -56,6 +57,7 @@ Check out the movie by clicking on the following image, and see the coronavirus 
 </div>
 
 ## Architecture
+
 The _BBBE_ application is built on top of a fork of [Blue Brain Brayns](https://github.com/BlueBrain/BioExplorer/tree/Brayns) 1.0.0 , the Blue Brain rendering platform. The _BBBE_ uses the underlying technical capabilities of the rendering platform to create large scale and accurate 3D scenes from Jupyter notebooks.
 
 ![___](./bioexplorer/pythonsdk/doc/source/images/architecture.png)
@@ -65,18 +67,21 @@ More information can be found in the [architecture](./ARCHITECTURE.md) documenta
 ## General components
 
 ### Assemblies
+
 Assemblies are groups of biological elements, such as proteins, membranes, glycans, etc. 
 As an example, a virion is made of a lipid membrane, spikes proteins, an RNA sequence, etc, and all those elements belong to the same object. That’s why they need to belong to the same container, the assembly.
 Assemblies can have different shapes: Sphere, Cube, etc, that are automatically generated according to the parameters of individual
 components.
 
 ### Proteins
+
 Proteins are loaded from PDB files. Atoms, non-polymer chemicals and bonds can be loaded and displayed in various colour schemes: chain id, atom, residue, etc.
 Proteins also contain the amino acid sequences of the individual chains. Sequences that can be used to query glycosylation sites, or functional regions of the protein.
 
 ![___](./bioexplorer/pythonsdk/notebooks/bioexplorer_proteins_banner.png)
 
 ### Glycans
+
 Glycans are small proteins that are attached to an existing protein of the assembly. Individual glycan trees are loaded from PDB files and attached to the glycosylation sites of the specified protein. By default, glycans are attached to all available glycosylation sites, but a set of specific sites can be specified.
 
 Glycan trees models located in the python sdk test folder were generated with [Glycam Builder](http://glycam.org).
@@ -84,14 +89,17 @@ Glycan trees models located in the python sdk test folder were generated with [G
 ![___](./bioexplorer/pythonsdk/notebooks/bioexplorer_glycans_banner.png)
 
 ### RNA sequence
+
 An RNA sequence can be loaded from a text sequence of codons.
 Various shapes can be selected to represent the RNA sequence: Trefoil knot, torus, star, etc. This allows the sequence to be efficiently packed into a given volume. A different color is assigned per type of codon.
 
 ### Mesh-based membranes
+
 Mesh-based membranes create membranes based on 3D meshes. This allows the construction of complex membranes where mesh faces are filled with proteins.
 
 ### Virus
-A viral particle (= “virus”) is an assembly consisting of a membrane, an RNA sequence, and a given number of S, M and E proteins. The virus has a predefined spherical shape defined by its radius. The default parameters for the virus are a radius of 45 nanometers, 62 S proteins, 42 E proteins, and 50 M proteins. Dimensions and concentrations were retrieved from the literature.
+
+A viral particle is an assembly consisting of a membrane, an RNA sequence, and a given number of S, M and E proteins. The virus has a predefined spherical shape defined by its radius. The default parameters for the virus are a radius of 45 nanometers, 62 S proteins, 42 E proteins, and 50 M proteins. Dimensions and concentrations were retrieved from the literature.
 
 ![___](./bioexplorer/pythonsdk/notebooks/bioexplorer_coronavirus_banner.png)
 
@@ -102,26 +110,122 @@ A membrane is an assembly of phospholipids. Phospholipids structures are created
 ![___](./bioexplorer/pythonsdk/notebooks/bioexplorer_membrane_banner.png)
 
 ### Vasculature
+
 Vasculatures are loaded from the database (see the database [schema](./storage/database/vasculature_schema.sql) and the example [notebook](./bioexplorer/pythonsdk/notebooks/vasculature/BioExplorer_import_sonata_to_db.ipynb) for loading data from [Sonata](https://github.com/AllenInstitute/sonata) files). A vasculature is defined by the blood vessels or arrangement of blood vessels in an organ or part.
+
+```python
+vasculature_model = bio_explorer.add_vasculature(
+    assembly_name='Vasculature', population_name='vasculature', use_sdf=True)
+```
 
 ![___](./bioexplorer/pythonsdk/notebooks/bioexplorer_vasculature_banner.png)
 
+An example dataset can be downloaded from the [Blue Brain Neuro-Glia-Vasculature Portal](https://bbp.epfl.ch/ngv-portal/anatomy/experimental-data/)
+
+References:
+* [Brain microvasculature has a common topology with local differences in geometry that match metabolic load](https://www.cell.com/neuron/fulltext/S0896-6273(21)00080-5?_returnURL=https%3A%2F%2Flinkinghub.elsevier.com%2Fretrieve%2Fpii%2FS0896627321000805%3Fshowall%3Dtrue)
+* [Blue Brain Neuro-Glia-Vasculature Portal. Vasculature. Reconstruction Data](https://bbp.epfl.ch/ngv-portal/#explore)
+
 ### Neurons and astrocytes
-Circuits of neurons are loaded from the database (see the database [schema](./storage/database/neurons_schema.sql) and the example [notebook](./bioexplorer/pythonsdk/notebooks/neurons/BioExplorer_import_sonata_to_db.ipynb) for loading data from [Sonata](https://github.com/AllenInstitute/sonata) files) using their position and orientation. Each cell is composed of sections that form the axons and dendrites, as well as spines. Cell internals such as the nucleus and the mitochondria can be automatically generated, according to the data provided by the scientific litterature.
+
+Circuits of neurons are loaded from the database (see the database [schema](./storage/database/neurons_schema.sql) and the example [notebook](./bioexplorer/pythonsdk/notebooks/neurons/BioExplorer_import_sonata_to_db.ipynb) for loading data from [Sonata](https://github.com/AllenInstitute/sonata) files) using their position and orientation. Each cell is composed of sections that form the axons and dendrites, as well as spines. Cell internals such as the nucleus and the mitochondria can be automatically generated, according to the data provided by the scientific litterature. The _BBBE_ also implements procedural generation of varicosities along the axon, as well as myelin sheath.
+
+```python
+neurons_model = bio_explorer.add_neurons(
+    assembly_name='Neurons',
+    population_name='neurons',
+    use_sdf=True, load_synapses=True, generate_varicosities=True,
+    generate_internals=True, generate_externals=False
+)
+```
 
 Circuits of astrocytes are loaded from the database (see the database [schema](./storage/database/astrocytes_schema.sql) and the example [notebook](./bioexplorer/pythonsdk/notebooks/astrocytes/BioExplorer_import_sonata_to_db.ipynb) for loading data from [Sonata](https://github.com/AllenInstitute/sonata) files) using their position and orientation. Astrocytes end-feet are connected to the vasculature using data stored in a dedicated connectome database [schema](./storage/database/connectome_schema.sql). The _BBBE_ allows end-feet to automtically adapt to the vasculature vessel size.
 
-The _BBBE_ allows interaction with large and highly details circuits of neurons.
+```python
+vasculature_model = be.add_astrocytes(
+    assembly_name='Astrocytes', population_name='astrocytes', use_sdf=True)
+```
 
 ![___](./bioexplorer/pythonsdk/notebooks/bioexplorer_neurons_banner.png)
 
+The neurons assembly allows visualization of brain microcircuits. Morphologies imported from ASC, SWC or H5 files into the _BBBE_ database can be loaded an transformed in different ways: simple spheres or somas only, simple rendering of full morphologies using spheres, cones and cylinders, or advanced rendering of full morphologies using the [signed distance field](https://iquilezles.org/articles/distfunctions/) technique.
+
+Multi-scale models of the rat and mouse brain integrate models of ion channels, single cells, microcircuits, brain regions, and brain systems at different levels of granularity (molecular models, morphologically detailed cellular models, and abstracted point neuron models). A neuronal microcircuit is the smallest functional ecosystem in any brain region that encompasses a diverse morphological and electrical assortment of neurons, and their synaptic interactions. Blue Brain has pioneered data-driven digital reconstructions and simulations of microcircuits to investigate how local neuronal structure gives rise to global network dynamics. These methods could be extended to digitally reconstruct microcircuits in any brain region.
+
+![___](./bioexplorer/pythonsdk/doc/source/images/microcircuit.png)
+
+In the nervous system, a synapse is a structure that permits a neuron (or nerve cell) to pass an electrical or chemical signal to another neuron. Synapses can be classified by the type of cellular structures serving as the pre- and post-synaptic components. The vast majority of synapses in the mammalian nervous system are classical axo-dendritic synapses (an axon connecting to a dendrite).
+
+![___](./bioexplorer/pythonsdk/doc/source/images/synapses.png)
+
+An example dataset is available on the [Blue Brain Neuro-Glia-Vasculature Portal](https://bbp.epfl.ch/ngv-portal/anatomy/experimental-data/)
+
+References:
+* [Thalamic control of sensory enhancement and sleep spindle properties in a biophysical model of thalamoreticular microcircuitry](http://biorxiv.org/lookup/doi/10.1101/2022.02.28.482273)
+* [Computational synthesis of cortical dendritic morphologies](https://doi.org/10.1016/j.celrep.2022.110586)
+* [Digital reconstruction of the neuro-glia-vascular architecture](https://doi.org/10.1093/cercor/bhab254)
+* [Blue Brain Neuro-Glia-Vasculature Portal. Anatomy. Reconstruction Data](https://bbp.epfl.ch/ngv-portal/anatomy/reconstruction-data/)
+* [The SONATA data format for efficient description of large-scale network models](https://journals.plos.org/ploscompbiol/article?id=10.1371/journal.pcbi.1007696)
+
+### Simulation of neuronal activity
+
+Using the NEURON simulation package, the circuit information is loaded from disk, instantiating the various cell models (morphologies with ion channel distribution) and synaptic connections. The experimenter selects a stimulus protocol which will inject electrical current into the network and increase the membrane voltages of cells. As cells approach a threshold current, they release an action potential (AP) which will then propagate additional current changes to other cells via the synapses' release mechanisms. [Blue Brain Brayns](https://github.com/BlueBrain/BioExplorer/tree/Brayns) loads the simulation reports generated by NEURON and maps the voltages to the corresponding segments of the morphologies. A transfer function defines the mapping between a color and a voltage value.
+
+### Morphology synthesis
+
+The goal of [computational synthesis of cortical dendritic morphologies](https://www.sciencedirect.com/science/article/pii/S2211124722003308) is to be able to generate an arbitrary number of neurons (and also other cells, such as glia) that can be subsequently used in various types of simulation. Part of this goal is to recreate in the synthesized cells as many morphological features as possible.
+
+![___](./bioexplorer/pythonsdk/doc/source/images/synthesis.png)
+
+The synthesis scheme is based on the assumption that it is necessary to know the environment within which the cells are growing in order to recreate them accurately. Neuronal morphologies are influenced both by the embedding space and the presence of other cells. Their axons may target certain regions or the dendrites may mass in one region to collect input, such as the apical tuft of pyramidal cells. It is important therefore to synthesize the cells within biologically accurate volumes.
+
+### Proximity detection
+
+In the context of brain simulation, detecting touches between neurons is a essential part of the process. The Blue Brain BioExplorer provides a renderer that computes the distance between the geometries in the 3D scene.
+
+![___](./bioexplorer/pythonsdk/doc/source/images/touchdetection.png)
+
+When a ray hits a geometry, a random secondary ray is sent in a direction belonging to an hemisphere defined by the normal to the surface. If that secondary ray hits another geometry, the distance between the initial hit and the new intersection is computed, and the corresponding color is assigned to the pixel. By default, red is for short distances (including touches), and green for longer ones. The notion of short and long is defined in the settings of the renderer.
+
+### White matter
+
+White matter is composed of bundles, which connect various grey matter areas (the locations of nerve cell bodies) of the brain to each other, and carry nerve impulses between neurons. Myelin acts as an insulator, which allows electrical signals to jump, rather than coursing through the axon, increasing the speed of transmission of all nerve signals.
+
+A [Python notebook example](./bioexplorer/pythonsdk/notebooks/connectomics/BioExplorer_import_white_matter_allen_brain.ipynb) demonstrates how to download and import white matter streamlines from the Allen Brain Institute website into the _BBBE_ database. Another [Python notebook](./bioexplorer/pythonsdk/notebooks/connectomics/BioExplorer_white_matter.ipynb) demonstrates how to visualize the streamlines with the _BBBE_.
+
+```python
+white_matter_model = be.add_white_matter(
+    assembly_name='White matter',  population_name='connectome', radius=2.5)
+```
+
+![___](./bioexplorer/pythonsdk/doc/source/images/white_matter.png)
+
+References:
+* [Allen Brain Institute: mouse connectivity projections](http://connectivity.brain-map.org/)
+* [Allen Brain Institute: mouse connectivity atlas](https://alleninstitute.github.io/AllenSDK/connectivity.html)
+
+
 ### Enzyme reactions
+
 An enzyme attracts substrates to its active site, catalyzes the chemical reaction by which products are formed, and then allows the products to dissociate (separate from the enzyme surface). The combination formed by an enzyme and its substrates is called the enzyme–substrate complex. The _BBBE_ allows easy visualization of enzyme reactions by providing a substrace, a product, and a type of reaction (for example: [Hexokinase](./bioexplorer/pythonsdk/notebooks/assemblies/BioExplorer_enzyme_reaction.ipynb)).
 
 ![___](./bioexplorer/pythonsdk/notebooks/bioexplorer_enzyme_reactions_banner.png)
 
+References:
+* [Blue Brain Neuro-Glia-Vasculature Portal. Metabolism. Reconstruction Data](https://bbp.epfl.ch/ngv-portal/#explore)
+
+### Neuromodulation
+
+Neuromodulation of neocortical microcircuits is one of the most fascinating and mysterious aspects of brain physiology. Despite over a century of research, the neuroscientific community has yet to uncover the fundamental biological organizing principles underlying neuromodulatory release. Phylogenetically, Acetylcholine (ACh) is perhaps the oldest neuromodulator, and one of the most well-studied. ACh regulates the physiology of neurons and synapses, and modulates neural microcircuits to bring about a reconfiguration of global network states. ACh is known to support cognitive processes such as learning and memory, and is involved in the regulation of arousal, attention and sensory processing. While the effects of ACh in the neocortex have been characterized extensively, integrated knowledge of its mechanisms of action is lacking. Furthermore, the ways in which ACh is released from en-passant axons originating in subcortical nuclei are still debatable. Simulation-based paradigms play an important role in testing scientific hypotheses, and provide a useful framework to integrate what is already known and systematically explore previously uncharted territory. Importantly, data-driven computational approaches highlight gaps in current knowledge and guide experimental research. To this end, I developed a multi-scale model of cholinergic innervation of rodent somatosensory cortex comprising two distinct sets of ascending projections implementing either synaptic (ST) or volumetric transmission (VT). The model enables the projection types to be combined in arbitrary proportions, thus permitting investigations of the relative contributions of these two transmission modalities. Using our ACh model, we find that the two modes of cholinergic release act in concert and have powerful desynchronizing effects on microcircuit activity. Furthermore we show that this modeling framework can be extended to other neuromodulators, such as dopamine and serotonin, with minimal constraining data. In summary, our results suggest a more nuanced view of neuromodulation in which multiple modes of transmitter release - ST vs VT - are required to produce synergistic functional effects.
+
+![___](./bioexplorer/pythonsdk/notebooks/bioexplorer_neuromodulation_banner.png)
+
+References:
+* [Neuromodulation of neocortical microcircuitry: a multi-scale framework to model the effects of cholinergic release](https://infoscience.epfl.ch/record/294819)
+
 
 ## Python SDK
+
 A simple API if exposed via the _BBBE_ python library. The API allows scientists to easily create and modify assemblies, according the biological parameters. The _BBBE_ programming language is not necessarily reflecting the underlying implementation, but is meant to be as simple as close as possible to the language used by the scientists to describe biological assemblies.
 
 The _BBBE_ Python SDK is available on [pypi](https://pypi.org/project/bioexplorer/).
@@ -169,11 +273,13 @@ docker run -ti --rm -p 5002:8080 bluebrain/bioexplorer-ui
 ## Building from Source
 
 ### Blue Brain Brayns
+
 In order to run the BioExplorer, it is necessary to build [Blue Brain Brayns](https://github.com/BlueBrain/BioExplorer/tree/Brayns) first.
 
 ### BioExplorer
 
 #### Compile
+
 With [Blue Brain Brayns](https://github.com/BlueBrain/BioExplorer/tree/Brayns) compiled and installed in the <brayns_installation_folder>, run the statements to build the BioExplorer.
 
 ```bash
@@ -195,6 +301,7 @@ braynsService --http-server localhost:5000 --plugin BioExplorer
 ```
 
 ## Simple example
+
 Considering that the _BBBE_ server is running on the local host, on port 5000, the simplest example to visualize a coronavirus is:
 ```python
 from bioexplorer import BioExplorer
@@ -205,10 +312,12 @@ be.add_coronavirus(name=name, resource_folder=resource_folder)
 ```
 
 # License
+
 _BBBE_ is available to download and use under the GNU General Public License ([GPL](https://www.gnu.org/licenses/gpl.html), or “free software”). The code is open sourced with approval from the open sourcing committee and principal coordinators of the Blue Brain Project in February 2022.
 
 
 # Contact
+
 For more information on _BBBE_, please contact:
 
 __Cyrille Favreau__  
