@@ -249,12 +249,14 @@ public:
      * @brief Get the synapses attached to a given neuron
      *
      * @param neuronId Identifier of the neuron
+     * @param SynapseType Type of synapses (afferent or efferent)
      * @param sqlCondition String containing an WHERE condition for the SQL
      * statement
      * @return SynapseMap A map of synapses
      */
     SynapseMap getNeuronSynapses(const std::string& populationName,
                                  const uint64_t neuronId,
+                                 const SynapseType synapseType,
                                  const std::string& sqlCondition = "") const;
 
     /**
