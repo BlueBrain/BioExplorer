@@ -2,7 +2,7 @@
 Blue Brain BioExplorer
 **********************
 
-.. image:: ../../../pythonsdk/doc/source/images/BBBE_banner.png
+.. image:: ../../../pythonsdk/notebooks/bioexplorer_banner.png
 
 Description
 ###########

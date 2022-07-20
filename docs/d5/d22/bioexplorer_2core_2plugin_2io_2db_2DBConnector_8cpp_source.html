@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.17"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>Blue Brain BioExplorer: /home/favreau/bluebrain/BioExplorer/bioexplorer/core/plugin/io/db/DBConnector.cpp Source File</title>
+<title>Blue Brain BioExplorer: /home/favreau/git/BioExplorer/bioexplorer/core/plugin/io/db/DBConnector.cpp Source File</title>
 <link href="../../tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="../../jquery.js"></script>
 <script type="text/javascript" src="../../dynsections.js"></script>
@@ -783,238 +783,244 @@ $(document).ready(function(){initNavTree('d5/d22/bioexplorer_2core_2plugin_2io_2
 <div class="line"><a name="l00695"></a><span class="lineno">  695</span>&#160;    <span class="keywordflow">return</span> sections;</div>
 <div class="line"><a name="l00696"></a><span class="lineno">  696</span>&#160;}</div>
 <div class="line"><a name="l00697"></a><span class="lineno">  697</span>&#160; </div>
-<div class="line"><a name="l00698"></a><span class="lineno"><a class="line" href="../../d9/d96/classbioexplorer_1_1io_1_1db_1_1DBConnector.html#ae5ee653afc363b3f33413824beb846ca">  698</a></span>&#160;SynapseMap <a class="code" href="../../d9/d96/classbioexplorer_1_1io_1_1db_1_1DBConnector.html#ae5ee653afc363b3f33413824beb846ca">DBConnector::getNeuronSynapses</a>(<span class="keyword">const</span> std::string&amp; populationName,</div>
+<div class="line"><a name="l00698"></a><span class="lineno"><a class="line" href="../../d9/d96/classbioexplorer_1_1io_1_1db_1_1DBConnector.html#a1d81ab4ce08852ca05136d3a79863866">  698</a></span>&#160;SynapseMap <a class="code" href="../../d9/d96/classbioexplorer_1_1io_1_1db_1_1DBConnector.html#a1d81ab4ce08852ca05136d3a79863866">DBConnector::getNeuronSynapses</a>(<span class="keyword">const</span> std::string&amp; populationName,</div>
 <div class="line"><a name="l00699"></a><span class="lineno">  699</span>&#160;                                          <span class="keyword">const</span> uint64_t neuronId,</div>
-<div class="line"><a name="l00700"></a><span class="lineno">  700</span>&#160;                                          <span class="keyword">const</span> std::string&amp; sqlCondition)<span class="keyword"> const</span></div>
-<div class="line"><a name="l00701"></a><span class="lineno">  701</span>&#160;<span class="keyword"></span>{</div>
-<div class="line"><a name="l00702"></a><span class="lineno">  702</span>&#160;    CHECK_DB_INITIALIZATION</div>
-<div class="line"><a name="l00703"></a><span class="lineno">  703</span>&#160;    SynapseMap synapses;</div>
-<div class="line"><a name="l00704"></a><span class="lineno">  704</span>&#160; </div>
-<div class="line"><a name="l00705"></a><span class="lineno">  705</span>&#160;    pqxx::nontransaction transaction(</div>
-<div class="line"><a name="l00706"></a><span class="lineno">  706</span>&#160;        *_connections[omp_get_thread_num() % _dbNbConnections]);</div>
-<div class="line"><a name="l00707"></a><span class="lineno">  707</span>&#160;    <span class="keywordflow">try</span></div>
-<div class="line"><a name="l00708"></a><span class="lineno">  708</span>&#160;    {</div>
-<div class="line"><a name="l00709"></a><span class="lineno">  709</span>&#160;        std::string sql =</div>
-<div class="line"><a name="l00710"></a><span class="lineno">  710</span>&#160;            <span class="stringliteral">&quot;SELECT guid, postsynaptic_neuron_guid, surface_x_position, &quot;</span></div>
-<div class="line"><a name="l00711"></a><span class="lineno">  711</span>&#160;            <span class="stringliteral">&quot;surface_y_position, surface_z_position, center_x_position, &quot;</span></div>
-<div class="line"><a name="l00712"></a><span class="lineno">  712</span>&#160;            <span class="stringliteral">&quot;center_y_position, center_z_position FROM &quot;</span> +</div>
-<div class="line"><a name="l00713"></a><span class="lineno">  713</span>&#160;            populationName +</div>
-<div class="line"><a name="l00714"></a><span class="lineno">  714</span>&#160;            <span class="stringliteral">&quot;.synapse WHERE postsynaptic_neuron_guid &gt;= 0 AND &quot;</span></div>
-<div class="line"><a name="l00715"></a><span class="lineno">  715</span>&#160;            <span class="stringliteral">&quot;presynaptic_neuron_guid=&quot;</span> +</div>
-<div class="line"><a name="l00716"></a><span class="lineno">  716</span>&#160;            std::to_string(neuronId);</div>
-<div class="line"><a name="l00717"></a><span class="lineno">  717</span>&#160; </div>
-<div class="line"><a name="l00718"></a><span class="lineno">  718</span>&#160;        <span class="keywordflow">if</span> (!sqlCondition.empty())</div>
-<div class="line"><a name="l00719"></a><span class="lineno">  719</span>&#160;            sql += <span class="stringliteral">&quot; AND &quot;</span> + sqlCondition;</div>
-<div class="line"><a name="l00720"></a><span class="lineno">  720</span>&#160;        sql += <span class="stringliteral">&quot; ORDER BY presynaptic_neuron_guid&quot;</span>;</div>
-<div class="line"><a name="l00721"></a><span class="lineno">  721</span>&#160; </div>
-<div class="line"><a name="l00722"></a><span class="lineno">  722</span>&#160;        PLUGIN_DEBUG(sql);</div>
-<div class="line"><a name="l00723"></a><span class="lineno">  723</span>&#160;        <span class="keyword">auto</span> res = transaction.exec(sql);</div>
-<div class="line"><a name="l00724"></a><span class="lineno">  724</span>&#160;        <span class="keywordflow">for</span> (<span class="keyword">auto</span> c = res.begin(); c != res.end(); ++c)</div>
-<div class="line"><a name="l00725"></a><span class="lineno">  725</span>&#160;        {</div>
-<div class="line"><a name="l00726"></a><span class="lineno">  726</span>&#160;            <a class="code" href="../../d0/dd7/structbioexplorer_1_1morphology_1_1Synapse.html">Synapse</a> synapse;</div>
-<div class="line"><a name="l00727"></a><span class="lineno">  727</span>&#160;            <span class="keyword">const</span> <span class="keyword">auto</span> synapseId = c[0].as&lt;uint64_t&gt;();</div>
-<div class="line"><a name="l00728"></a><span class="lineno">  728</span>&#160;            synapse.preSynapticNeuron = neuronId;</div>
-<div class="line"><a name="l00729"></a><span class="lineno">  729</span>&#160;            synapse.postSynapticNeuron = c[1].as&lt;uint64_t&gt;();</div>
-<div class="line"><a name="l00730"></a><span class="lineno">  730</span>&#160;            synapse.surfacePosition =</div>
-<div class="line"><a name="l00731"></a><span class="lineno">  731</span>&#160;                Vector3d(c[2].as&lt;double&gt;(), c[3].as&lt;double&gt;(),</div>
-<div class="line"><a name="l00732"></a><span class="lineno">  732</span>&#160;                         c[4].as&lt;double&gt;());</div>
-<div class="line"><a name="l00733"></a><span class="lineno">  733</span>&#160;            synapse.centerPosition =</div>
-<div class="line"><a name="l00734"></a><span class="lineno">  734</span>&#160;                Vector3d(c[5].as&lt;double&gt;(), c[6].as&lt;double&gt;(),</div>
-<div class="line"><a name="l00735"></a><span class="lineno">  735</span>&#160;                         c[7].as&lt;double&gt;());</div>
-<div class="line"><a name="l00736"></a><span class="lineno">  736</span>&#160;            synapses[synapseId] = synapse;</div>
-<div class="line"><a name="l00737"></a><span class="lineno">  737</span>&#160;        }</div>
-<div class="line"><a name="l00738"></a><span class="lineno">  738</span>&#160;    }</div>
-<div class="line"><a name="l00739"></a><span class="lineno">  739</span>&#160;    <span class="keywordflow">catch</span> (<span class="keyword">const</span> pqxx::sql_error&amp; e)</div>
-<div class="line"><a name="l00740"></a><span class="lineno">  740</span>&#160;    {</div>
-<div class="line"><a name="l00741"></a><span class="lineno">  741</span>&#160;        PLUGIN_THROW(e.what());</div>
-<div class="line"><a name="l00742"></a><span class="lineno">  742</span>&#160;    }</div>
-<div class="line"><a name="l00743"></a><span class="lineno">  743</span>&#160; </div>
-<div class="line"><a name="l00744"></a><span class="lineno">  744</span>&#160;    <span class="keywordflow">return</span> synapses;</div>
-<div class="line"><a name="l00745"></a><span class="lineno">  745</span>&#160;}</div>
-<div class="line"><a name="l00746"></a><span class="lineno">  746</span>&#160; </div>
-<div class="line"><a name="l00747"></a><span class="lineno"><a class="line" href="../../d9/d96/classbioexplorer_1_1io_1_1db_1_1DBConnector.html#a91f01aaba572a78116721e7be5f39bc7">  747</a></span>&#160;uint64_ts <a class="code" href="../../d9/d96/classbioexplorer_1_1io_1_1db_1_1DBConnector.html#a91f01aaba572a78116721e7be5f39bc7">DBConnector::getAtlasRegions</a>(<span class="keyword">const</span> std::string&amp; sqlCondition)<span class="keyword"> const</span></div>
-<div class="line"><a name="l00748"></a><span class="lineno">  748</span>&#160;<span class="keyword"></span>{</div>
-<div class="line"><a name="l00749"></a><span class="lineno">  749</span>&#160;    CHECK_DB_INITIALIZATION</div>
-<div class="line"><a name="l00750"></a><span class="lineno">  750</span>&#160;    uint64_ts regions;</div>
-<div class="line"><a name="l00751"></a><span class="lineno">  751</span>&#160; </div>
-<div class="line"><a name="l00752"></a><span class="lineno">  752</span>&#160;    pqxx::nontransaction transaction(</div>
-<div class="line"><a name="l00753"></a><span class="lineno">  753</span>&#160;        *_connections[omp_get_thread_num() % _dbNbConnections]);</div>
-<div class="line"><a name="l00754"></a><span class="lineno">  754</span>&#160;    <span class="keywordflow">try</span></div>
-<div class="line"><a name="l00755"></a><span class="lineno">  755</span>&#160;    {</div>
-<div class="line"><a name="l00756"></a><span class="lineno">  756</span>&#160;        std::string sql = <span class="stringliteral">&quot;SELECT guid, code, description FROM &quot;</span> +</div>
-<div class="line"><a name="l00757"></a><span class="lineno">  757</span>&#160;                          DB_SCHEMA_ATLAS + <span class="stringliteral">&quot;.region&quot;</span>;</div>
-<div class="line"><a name="l00758"></a><span class="lineno">  758</span>&#160; </div>
-<div class="line"><a name="l00759"></a><span class="lineno">  759</span>&#160;        <span class="keywordflow">if</span> (!sqlCondition.empty())</div>
-<div class="line"><a name="l00760"></a><span class="lineno">  760</span>&#160;            sql += <span class="stringliteral">&quot; WHERE &quot;</span> + sqlCondition;</div>
-<div class="line"><a name="l00761"></a><span class="lineno">  761</span>&#160; </div>
-<div class="line"><a name="l00762"></a><span class="lineno">  762</span>&#160;        sql += <span class="stringliteral">&quot; ORDER BY guid&quot;</span>;</div>
-<div class="line"><a name="l00763"></a><span class="lineno">  763</span>&#160; </div>
-<div class="line"><a name="l00764"></a><span class="lineno">  764</span>&#160;        PLUGIN_DEBUG(sql);</div>
-<div class="line"><a name="l00765"></a><span class="lineno">  765</span>&#160;        <span class="keyword">auto</span> res = transaction.exec(sql);</div>
-<div class="line"><a name="l00766"></a><span class="lineno">  766</span>&#160;        <span class="keywordflow">for</span> (<span class="keyword">auto</span> c = res.begin(); c != res.end(); ++c)</div>
-<div class="line"><a name="l00767"></a><span class="lineno">  767</span>&#160;            regions.push_back(c[0].as&lt;uint64_t&gt;());</div>
-<div class="line"><a name="l00768"></a><span class="lineno">  768</span>&#160;    }</div>
-<div class="line"><a name="l00769"></a><span class="lineno">  769</span>&#160;    <span class="keywordflow">catch</span> (<span class="keyword">const</span> pqxx::sql_error&amp; e)</div>
-<div class="line"><a name="l00770"></a><span class="lineno">  770</span>&#160;    {</div>
-<div class="line"><a name="l00771"></a><span class="lineno">  771</span>&#160;        PLUGIN_THROW(e.what());</div>
-<div class="line"><a name="l00772"></a><span class="lineno">  772</span>&#160;    }</div>
-<div class="line"><a name="l00773"></a><span class="lineno">  773</span>&#160; </div>
-<div class="line"><a name="l00774"></a><span class="lineno">  774</span>&#160;    <span class="keywordflow">return</span> regions;</div>
-<div class="line"><a name="l00775"></a><span class="lineno">  775</span>&#160;}</div>
-<div class="line"><a name="l00776"></a><span class="lineno">  776</span>&#160; </div>
-<div class="line"><a name="l00777"></a><span class="lineno"><a class="line" href="../../d9/d96/classbioexplorer_1_1io_1_1db_1_1DBConnector.html#ad96faa5db5b99d641bd775b995fcfa5f">  777</a></span>&#160;CellMap <a class="code" href="../../d9/d96/classbioexplorer_1_1io_1_1db_1_1DBConnector.html#ad96faa5db5b99d641bd775b995fcfa5f">DBConnector::getAtlasCells</a>(<span class="keyword">const</span> uint64_t regionId,</div>
-<div class="line"><a name="l00778"></a><span class="lineno">  778</span>&#160;                                   <span class="keyword">const</span> std::string&amp; sqlCondition)<span class="keyword"> const</span></div>
-<div class="line"><a name="l00779"></a><span class="lineno">  779</span>&#160;<span class="keyword"></span>{</div>
-<div class="line"><a name="l00780"></a><span class="lineno">  780</span>&#160;    CHECK_DB_INITIALIZATION</div>
-<div class="line"><a name="l00781"></a><span class="lineno">  781</span>&#160;    CellMap cells;</div>
+<div class="line"><a name="l00700"></a><span class="lineno">  700</span>&#160;                                          <span class="keyword">const</span> SynapseType synapseType,</div>
+<div class="line"><a name="l00701"></a><span class="lineno">  701</span>&#160;                                          <span class="keyword">const</span> std::string&amp; sqlCondition)<span class="keyword"> const</span></div>
+<div class="line"><a name="l00702"></a><span class="lineno">  702</span>&#160;<span class="keyword"></span>{</div>
+<div class="line"><a name="l00703"></a><span class="lineno">  703</span>&#160;    CHECK_DB_INITIALIZATION</div>
+<div class="line"><a name="l00704"></a><span class="lineno">  704</span>&#160;    SynapseMap synapses;</div>
+<div class="line"><a name="l00705"></a><span class="lineno">  705</span>&#160; </div>
+<div class="line"><a name="l00706"></a><span class="lineno">  706</span>&#160;    pqxx::nontransaction transaction(</div>
+<div class="line"><a name="l00707"></a><span class="lineno">  707</span>&#160;        *_connections[omp_get_thread_num() % _dbNbConnections]);</div>
+<div class="line"><a name="l00708"></a><span class="lineno">  708</span>&#160;    <span class="keywordflow">try</span></div>
+<div class="line"><a name="l00709"></a><span class="lineno">  709</span>&#160;    {</div>
+<div class="line"><a name="l00710"></a><span class="lineno">  710</span>&#160;        std::string sql =</div>
+<div class="line"><a name="l00711"></a><span class="lineno">  711</span>&#160;            <span class="stringliteral">&quot;SELECT guid, postsynaptic_neuron_guid, surface_x_position, &quot;</span></div>
+<div class="line"><a name="l00712"></a><span class="lineno">  712</span>&#160;            <span class="stringliteral">&quot;surface_y_position, surface_z_position, center_x_position, &quot;</span></div>
+<div class="line"><a name="l00713"></a><span class="lineno">  713</span>&#160;            <span class="stringliteral">&quot;center_y_position, center_z_position FROM &quot;</span> +</div>
+<div class="line"><a name="l00714"></a><span class="lineno">  714</span>&#160;            populationName + <span class="stringliteral">&quot;.synapse WHERE &quot;</span>;</div>
+<div class="line"><a name="l00715"></a><span class="lineno">  715</span>&#160;        <span class="keywordflow">switch</span> (synapseType)</div>
+<div class="line"><a name="l00716"></a><span class="lineno">  716</span>&#160;        {</div>
+<div class="line"><a name="l00717"></a><span class="lineno">  717</span>&#160;        <span class="keywordflow">case</span> SynapseType::afferent:</div>
+<div class="line"><a name="l00718"></a><span class="lineno">  718</span>&#160;            sql += <span class="stringliteral">&quot;presynaptic_neuron_guid=&quot;</span> + std::to_string(neuronId);</div>
+<div class="line"><a name="l00719"></a><span class="lineno">  719</span>&#160;            <span class="keywordflow">break</span>;</div>
+<div class="line"><a name="l00720"></a><span class="lineno">  720</span>&#160;        <span class="keywordflow">case</span> SynapseType::efferent:</div>
+<div class="line"><a name="l00721"></a><span class="lineno">  721</span>&#160;            sql += <span class="stringliteral">&quot;postsynaptic_neuron_guid=&quot;</span> + std::to_string(neuronId);</div>
+<div class="line"><a name="l00722"></a><span class="lineno">  722</span>&#160;            <span class="keywordflow">break</span>;</div>
+<div class="line"><a name="l00723"></a><span class="lineno">  723</span>&#160;        }</div>
+<div class="line"><a name="l00724"></a><span class="lineno">  724</span>&#160; </div>
+<div class="line"><a name="l00725"></a><span class="lineno">  725</span>&#160;        <span class="keywordflow">if</span> (!sqlCondition.empty())</div>
+<div class="line"><a name="l00726"></a><span class="lineno">  726</span>&#160;            sql += <span class="stringliteral">&quot; AND &quot;</span> + sqlCondition;</div>
+<div class="line"><a name="l00727"></a><span class="lineno">  727</span>&#160; </div>
+<div class="line"><a name="l00728"></a><span class="lineno">  728</span>&#160;        PLUGIN_DEBUG(sql);</div>
+<div class="line"><a name="l00729"></a><span class="lineno">  729</span>&#160;        <span class="keyword">auto</span> res = transaction.exec(sql);</div>
+<div class="line"><a name="l00730"></a><span class="lineno">  730</span>&#160;        <span class="keywordflow">for</span> (<span class="keyword">auto</span> c = res.begin(); c != res.end(); ++c)</div>
+<div class="line"><a name="l00731"></a><span class="lineno">  731</span>&#160;        {</div>
+<div class="line"><a name="l00732"></a><span class="lineno">  732</span>&#160;            <a class="code" href="../../d0/dd7/structbioexplorer_1_1morphology_1_1Synapse.html">Synapse</a> synapse;</div>
+<div class="line"><a name="l00733"></a><span class="lineno">  733</span>&#160;            <span class="keyword">const</span> <span class="keyword">auto</span> synapseId = c[0].as&lt;uint64_t&gt;();</div>
+<div class="line"><a name="l00734"></a><span class="lineno">  734</span>&#160;            synapse.preSynapticNeuron = neuronId;</div>
+<div class="line"><a name="l00735"></a><span class="lineno">  735</span>&#160;            synapse.postSynapticNeuron = c[1].as&lt;uint64_t&gt;();</div>
+<div class="line"><a name="l00736"></a><span class="lineno">  736</span>&#160;            synapse.surfacePosition =</div>
+<div class="line"><a name="l00737"></a><span class="lineno">  737</span>&#160;                Vector3d(c[2].as&lt;double&gt;(), c[3].as&lt;double&gt;(),</div>
+<div class="line"><a name="l00738"></a><span class="lineno">  738</span>&#160;                         c[4].as&lt;double&gt;());</div>
+<div class="line"><a name="l00739"></a><span class="lineno">  739</span>&#160;            synapse.centerPosition =</div>
+<div class="line"><a name="l00740"></a><span class="lineno">  740</span>&#160;                Vector3d(c[5].as&lt;double&gt;(), c[6].as&lt;double&gt;(),</div>
+<div class="line"><a name="l00741"></a><span class="lineno">  741</span>&#160;                         c[7].as&lt;double&gt;());</div>
+<div class="line"><a name="l00742"></a><span class="lineno">  742</span>&#160;            synapses[synapseId] = synapse;</div>
+<div class="line"><a name="l00743"></a><span class="lineno">  743</span>&#160;        }</div>
+<div class="line"><a name="l00744"></a><span class="lineno">  744</span>&#160;    }</div>
+<div class="line"><a name="l00745"></a><span class="lineno">  745</span>&#160;    <span class="keywordflow">catch</span> (<span class="keyword">const</span> pqxx::sql_error&amp; e)</div>
+<div class="line"><a name="l00746"></a><span class="lineno">  746</span>&#160;    {</div>
+<div class="line"><a name="l00747"></a><span class="lineno">  747</span>&#160;        PLUGIN_THROW(e.what());</div>
+<div class="line"><a name="l00748"></a><span class="lineno">  748</span>&#160;    }</div>
+<div class="line"><a name="l00749"></a><span class="lineno">  749</span>&#160; </div>
+<div class="line"><a name="l00750"></a><span class="lineno">  750</span>&#160;    <span class="keywordflow">return</span> synapses;</div>
+<div class="line"><a name="l00751"></a><span class="lineno">  751</span>&#160;}</div>
+<div class="line"><a name="l00752"></a><span class="lineno">  752</span>&#160; </div>
+<div class="line"><a name="l00753"></a><span class="lineno"><a class="line" href="../../d9/d96/classbioexplorer_1_1io_1_1db_1_1DBConnector.html#a91f01aaba572a78116721e7be5f39bc7">  753</a></span>&#160;uint64_ts <a class="code" href="../../d9/d96/classbioexplorer_1_1io_1_1db_1_1DBConnector.html#a91f01aaba572a78116721e7be5f39bc7">DBConnector::getAtlasRegions</a>(<span class="keyword">const</span> std::string&amp; sqlCondition)<span class="keyword"> const</span></div>
+<div class="line"><a name="l00754"></a><span class="lineno">  754</span>&#160;<span class="keyword"></span>{</div>
+<div class="line"><a name="l00755"></a><span class="lineno">  755</span>&#160;    CHECK_DB_INITIALIZATION</div>
+<div class="line"><a name="l00756"></a><span class="lineno">  756</span>&#160;    uint64_ts regions;</div>
+<div class="line"><a name="l00757"></a><span class="lineno">  757</span>&#160; </div>
+<div class="line"><a name="l00758"></a><span class="lineno">  758</span>&#160;    pqxx::nontransaction transaction(</div>
+<div class="line"><a name="l00759"></a><span class="lineno">  759</span>&#160;        *_connections[omp_get_thread_num() % _dbNbConnections]);</div>
+<div class="line"><a name="l00760"></a><span class="lineno">  760</span>&#160;    <span class="keywordflow">try</span></div>
+<div class="line"><a name="l00761"></a><span class="lineno">  761</span>&#160;    {</div>
+<div class="line"><a name="l00762"></a><span class="lineno">  762</span>&#160;        std::string sql = <span class="stringliteral">&quot;SELECT guid, code, description FROM &quot;</span> +</div>
+<div class="line"><a name="l00763"></a><span class="lineno">  763</span>&#160;                          DB_SCHEMA_ATLAS + <span class="stringliteral">&quot;.region&quot;</span>;</div>
+<div class="line"><a name="l00764"></a><span class="lineno">  764</span>&#160; </div>
+<div class="line"><a name="l00765"></a><span class="lineno">  765</span>&#160;        <span class="keywordflow">if</span> (!sqlCondition.empty())</div>
+<div class="line"><a name="l00766"></a><span class="lineno">  766</span>&#160;            sql += <span class="stringliteral">&quot; WHERE &quot;</span> + sqlCondition;</div>
+<div class="line"><a name="l00767"></a><span class="lineno">  767</span>&#160; </div>
+<div class="line"><a name="l00768"></a><span class="lineno">  768</span>&#160;        sql += <span class="stringliteral">&quot; ORDER BY guid&quot;</span>;</div>
+<div class="line"><a name="l00769"></a><span class="lineno">  769</span>&#160; </div>
+<div class="line"><a name="l00770"></a><span class="lineno">  770</span>&#160;        PLUGIN_DEBUG(sql);</div>
+<div class="line"><a name="l00771"></a><span class="lineno">  771</span>&#160;        <span class="keyword">auto</span> res = transaction.exec(sql);</div>
+<div class="line"><a name="l00772"></a><span class="lineno">  772</span>&#160;        <span class="keywordflow">for</span> (<span class="keyword">auto</span> c = res.begin(); c != res.end(); ++c)</div>
+<div class="line"><a name="l00773"></a><span class="lineno">  773</span>&#160;            regions.push_back(c[0].as&lt;uint64_t&gt;());</div>
+<div class="line"><a name="l00774"></a><span class="lineno">  774</span>&#160;    }</div>
+<div class="line"><a name="l00775"></a><span class="lineno">  775</span>&#160;    <span class="keywordflow">catch</span> (<span class="keyword">const</span> pqxx::sql_error&amp; e)</div>
+<div class="line"><a name="l00776"></a><span class="lineno">  776</span>&#160;    {</div>
+<div class="line"><a name="l00777"></a><span class="lineno">  777</span>&#160;        PLUGIN_THROW(e.what());</div>
+<div class="line"><a name="l00778"></a><span class="lineno">  778</span>&#160;    }</div>
+<div class="line"><a name="l00779"></a><span class="lineno">  779</span>&#160; </div>
+<div class="line"><a name="l00780"></a><span class="lineno">  780</span>&#160;    <span class="keywordflow">return</span> regions;</div>
+<div class="line"><a name="l00781"></a><span class="lineno">  781</span>&#160;}</div>
 <div class="line"><a name="l00782"></a><span class="lineno">  782</span>&#160; </div>
-<div class="line"><a name="l00783"></a><span class="lineno">  783</span>&#160;    pqxx::nontransaction transaction(</div>
-<div class="line"><a name="l00784"></a><span class="lineno">  784</span>&#160;        *_connections[omp_get_thread_num() % _dbNbConnections]);</div>
-<div class="line"><a name="l00785"></a><span class="lineno">  785</span>&#160;    <span class="keywordflow">try</span></div>
-<div class="line"><a name="l00786"></a><span class="lineno">  786</span>&#160;    {</div>
-<div class="line"><a name="l00787"></a><span class="lineno">  787</span>&#160;        std::string sql =</div>
-<div class="line"><a name="l00788"></a><span class="lineno">  788</span>&#160;            <span class="stringliteral">&quot;SELECT guid, x, y, z, rotation_x, rotation_y, rotation_z, &quot;</span></div>
-<div class="line"><a name="l00789"></a><span class="lineno">  789</span>&#160;            <span class="stringliteral">&quot;rotation_w, cell_type_guid, electrical_type_guid, region_guid &quot;</span></div>
-<div class="line"><a name="l00790"></a><span class="lineno">  790</span>&#160;            <span class="stringliteral">&quot;FROM &quot;</span> +</div>
-<div class="line"><a name="l00791"></a><span class="lineno">  791</span>&#160;            DB_SCHEMA_ATLAS +</div>
-<div class="line"><a name="l00792"></a><span class="lineno">  792</span>&#160;            <span class="stringliteral">&quot;.cell WHERE region_guid=&quot;</span> + std::to_string(regionId);</div>
-<div class="line"><a name="l00793"></a><span class="lineno">  793</span>&#160; </div>
-<div class="line"><a name="l00794"></a><span class="lineno">  794</span>&#160;        <span class="keywordflow">if</span> (!sqlCondition.empty())</div>
-<div class="line"><a name="l00795"></a><span class="lineno">  795</span>&#160;            sql += <span class="stringliteral">&quot; AND &quot;</span> + sqlCondition;</div>
-<div class="line"><a name="l00796"></a><span class="lineno">  796</span>&#160; </div>
-<div class="line"><a name="l00797"></a><span class="lineno">  797</span>&#160;        PLUGIN_DEBUG(sql);</div>
-<div class="line"><a name="l00798"></a><span class="lineno">  798</span>&#160;        <span class="keyword">auto</span> res = transaction.exec(sql);</div>
-<div class="line"><a name="l00799"></a><span class="lineno">  799</span>&#160;        <span class="keywordflow">for</span> (<span class="keyword">auto</span> c = res.begin(); c != res.end(); ++c)</div>
-<div class="line"><a name="l00800"></a><span class="lineno">  800</span>&#160;        {</div>
-<div class="line"><a name="l00801"></a><span class="lineno">  801</span>&#160;            <a class="code" href="../../d0/d2e/structbioexplorer_1_1morphology_1_1Cell.html">Cell</a> cell;</div>
-<div class="line"><a name="l00802"></a><span class="lineno">  802</span>&#160;            cell.position =</div>
-<div class="line"><a name="l00803"></a><span class="lineno">  803</span>&#160;                Vector3d(c[1].as&lt;float&gt;(), c[2].as&lt;float&gt;(), c[3].as&lt;float&gt;());</div>
-<div class="line"><a name="l00804"></a><span class="lineno">  804</span>&#160;            cell.rotation = Quaterniond(c[7].as&lt;float&gt;(), c[4].as&lt;float&gt;(),</div>
-<div class="line"><a name="l00805"></a><span class="lineno">  805</span>&#160;                                        c[5].as&lt;float&gt;(), c[6].as&lt;float&gt;());</div>
-<div class="line"><a name="l00806"></a><span class="lineno">  806</span>&#160;            cell.type = c[8].as&lt;uint64_t&gt;();</div>
-<div class="line"><a name="l00807"></a><span class="lineno">  807</span>&#160;            cell.eType = c[9].as&lt;int64_t&gt;();</div>
-<div class="line"><a name="l00808"></a><span class="lineno">  808</span>&#160;            cell.region = c[10].as&lt;uint64_t&gt;();</div>
-<div class="line"><a name="l00809"></a><span class="lineno">  809</span>&#160;            cells[c[0].as&lt;uint64_t&gt;()] = cell;</div>
-<div class="line"><a name="l00810"></a><span class="lineno">  810</span>&#160;        }</div>
-<div class="line"><a name="l00811"></a><span class="lineno">  811</span>&#160;    }</div>
-<div class="line"><a name="l00812"></a><span class="lineno">  812</span>&#160;    <span class="keywordflow">catch</span> (<span class="keyword">const</span> pqxx::sql_error&amp; e)</div>
-<div class="line"><a name="l00813"></a><span class="lineno">  813</span>&#160;    {</div>
-<div class="line"><a name="l00814"></a><span class="lineno">  814</span>&#160;        PLUGIN_THROW(e.what());</div>
-<div class="line"><a name="l00815"></a><span class="lineno">  815</span>&#160;    }</div>
-<div class="line"><a name="l00816"></a><span class="lineno">  816</span>&#160; </div>
-<div class="line"><a name="l00817"></a><span class="lineno">  817</span>&#160;    <span class="keywordflow">return</span> cells;</div>
-<div class="line"><a name="l00818"></a><span class="lineno">  818</span>&#160;}</div>
-<div class="line"><a name="l00819"></a><span class="lineno">  819</span>&#160; </div>
-<div class="line"><a name="l00820"></a><span class="lineno"><a class="line" href="../../d9/d96/classbioexplorer_1_1io_1_1db_1_1DBConnector.html#aaa0b12a102e86da57fafa2188bcdc784">  820</a></span>&#160;TriangleMesh <a class="code" href="../../d9/d96/classbioexplorer_1_1io_1_1db_1_1DBConnector.html#aaa0b12a102e86da57fafa2188bcdc784">DBConnector::getAtlasMesh</a>(<span class="keyword">const</span> uint64_t regionId)<span class="keyword"> const</span></div>
-<div class="line"><a name="l00821"></a><span class="lineno">  821</span>&#160;<span class="keyword"></span>{</div>
-<div class="line"><a name="l00822"></a><span class="lineno">  822</span>&#160;    CHECK_DB_INITIALIZATION</div>
-<div class="line"><a name="l00823"></a><span class="lineno">  823</span>&#160;    TriangleMesh mesh;</div>
-<div class="line"><a name="l00824"></a><span class="lineno">  824</span>&#160; </div>
-<div class="line"><a name="l00825"></a><span class="lineno">  825</span>&#160;    pqxx::nontransaction transaction(</div>
-<div class="line"><a name="l00826"></a><span class="lineno">  826</span>&#160;        *_connections[omp_get_thread_num() % _dbNbConnections]);</div>
-<div class="line"><a name="l00827"></a><span class="lineno">  827</span>&#160;    <span class="keywordflow">try</span></div>
-<div class="line"><a name="l00828"></a><span class="lineno">  828</span>&#160;    {</div>
-<div class="line"><a name="l00829"></a><span class="lineno">  829</span>&#160;        <span class="keyword">const</span> std::string sql =</div>
-<div class="line"><a name="l00830"></a><span class="lineno">  830</span>&#160;            <span class="stringliteral">&quot;SELECT vertices, indices, normals, colors FROM &quot;</span> +</div>
-<div class="line"><a name="l00831"></a><span class="lineno">  831</span>&#160;            DB_SCHEMA_ATLAS + <span class="stringliteral">&quot;.mesh WHERE guid=&quot;</span> + std::to_string(regionId);</div>
-<div class="line"><a name="l00832"></a><span class="lineno">  832</span>&#160; </div>
-<div class="line"><a name="l00833"></a><span class="lineno">  833</span>&#160;        PLUGIN_DEBUG(sql);</div>
-<div class="line"><a name="l00834"></a><span class="lineno">  834</span>&#160;        <span class="keyword">auto</span> res = transaction.exec(sql);</div>
-<div class="line"><a name="l00835"></a><span class="lineno">  835</span>&#160;        <span class="keywordflow">for</span> (<span class="keyword">auto</span> c = res.begin(); c != res.end(); ++c)</div>
-<div class="line"><a name="l00836"></a><span class="lineno">  836</span>&#160;        {</div>
-<div class="line"><a name="l00837"></a><span class="lineno">  837</span>&#160;            <span class="keyword">const</span> pqxx::binarystring vertices(c[0]);</div>
-<div class="line"><a name="l00838"></a><span class="lineno">  838</span>&#160;            mesh.vertices.resize(vertices.size() / <span class="keyword">sizeof</span>(Vector3f));</div>
-<div class="line"><a name="l00839"></a><span class="lineno">  839</span>&#160;            memcpy(&amp;mesh.vertices.data()[0], vertices.data(), vertices.size());</div>
-<div class="line"><a name="l00840"></a><span class="lineno">  840</span>&#160; </div>
-<div class="line"><a name="l00841"></a><span class="lineno">  841</span>&#160;            <span class="keyword">const</span> pqxx::binarystring indices(c[1]);</div>
-<div class="line"><a name="l00842"></a><span class="lineno">  842</span>&#160;            mesh.indices.resize(indices.size() / <span class="keyword">sizeof</span>(Vector3ui));</div>
-<div class="line"><a name="l00843"></a><span class="lineno">  843</span>&#160;            memcpy(&amp;mesh.indices.data()[0], indices.data(), indices.size());</div>
-<div class="line"><a name="l00844"></a><span class="lineno">  844</span>&#160; </div>
-<div class="line"><a name="l00845"></a><span class="lineno">  845</span>&#160;            <span class="keyword">const</span> pqxx::binarystring normals(c[2]);</div>
-<div class="line"><a name="l00846"></a><span class="lineno">  846</span>&#160;            mesh.normals.resize(normals.size() / <span class="keyword">sizeof</span>(Vector3f));</div>
-<div class="line"><a name="l00847"></a><span class="lineno">  847</span>&#160;            memcpy(&amp;mesh.normals.data()[0], normals.data(), normals.size());</div>
-<div class="line"><a name="l00848"></a><span class="lineno">  848</span>&#160; </div>
-<div class="line"><a name="l00849"></a><span class="lineno">  849</span>&#160;            <span class="keyword">const</span> pqxx::binarystring colors(c[3]);</div>
-<div class="line"><a name="l00850"></a><span class="lineno">  850</span>&#160;            mesh.colors.resize(colors.size() / <span class="keyword">sizeof</span>(Vector3f));</div>
-<div class="line"><a name="l00851"></a><span class="lineno">  851</span>&#160;            memcpy(&amp;mesh.colors.data()[0], colors.data(), colors.size());</div>
-<div class="line"><a name="l00852"></a><span class="lineno">  852</span>&#160;        }</div>
-<div class="line"><a name="l00853"></a><span class="lineno">  853</span>&#160;    }</div>
-<div class="line"><a name="l00854"></a><span class="lineno">  854</span>&#160;    <span class="keywordflow">catch</span> (<span class="keyword">const</span> pqxx::sql_error&amp; e)</div>
-<div class="line"><a name="l00855"></a><span class="lineno">  855</span>&#160;    {</div>
-<div class="line"><a name="l00856"></a><span class="lineno">  856</span>&#160;        PLUGIN_THROW(e.what());</div>
-<div class="line"><a name="l00857"></a><span class="lineno">  857</span>&#160;    }</div>
-<div class="line"><a name="l00858"></a><span class="lineno">  858</span>&#160; </div>
-<div class="line"><a name="l00859"></a><span class="lineno">  859</span>&#160;    <span class="keywordflow">return</span> mesh;</div>
-<div class="line"><a name="l00860"></a><span class="lineno">  860</span>&#160;}</div>
-<div class="line"><a name="l00861"></a><span class="lineno">  861</span>&#160; </div>
-<div class="line"><a name="l00862"></a><span class="lineno"><a class="line" href="../../d9/d96/classbioexplorer_1_1io_1_1db_1_1DBConnector.html#a669349598e0f3bd6ecfd4a85a958a603">  862</a></span>&#160;WhiteMatterStreamlines <a class="code" href="../../d9/d96/classbioexplorer_1_1io_1_1db_1_1DBConnector.html#a669349598e0f3bd6ecfd4a85a958a603">DBConnector::getWhiteMatterStreamlines</a>(</div>
-<div class="line"><a name="l00863"></a><span class="lineno">  863</span>&#160;    <span class="keyword">const</span> std::string&amp; populationName, <span class="keyword">const</span> std::string&amp; filter)<span class="keyword"> const</span></div>
-<div class="line"><a name="l00864"></a><span class="lineno">  864</span>&#160;<span class="keyword"></span>{</div>
-<div class="line"><a name="l00865"></a><span class="lineno">  865</span>&#160;    CHECK_DB_INITIALIZATION</div>
-<div class="line"><a name="l00866"></a><span class="lineno">  866</span>&#160;    WhiteMatterStreamlines streamlines;</div>
-<div class="line"><a name="l00867"></a><span class="lineno">  867</span>&#160;    pqxx::nontransaction transaction(</div>
-<div class="line"><a name="l00868"></a><span class="lineno">  868</span>&#160;        *_connections[omp_get_thread_num() % _dbNbConnections]);</div>
-<div class="line"><a name="l00869"></a><span class="lineno">  869</span>&#160;    <span class="keywordflow">try</span></div>
-<div class="line"><a name="l00870"></a><span class="lineno">  870</span>&#160;    {</div>
-<div class="line"><a name="l00871"></a><span class="lineno">  871</span>&#160;        std::string sql =</div>
-<div class="line"><a name="l00872"></a><span class="lineno">  872</span>&#160;            <span class="stringliteral">&quot;SELECT points FROM &quot;</span> + populationName + <span class="stringliteral">&quot;.streamline&quot;</span>;</div>
-<div class="line"><a name="l00873"></a><span class="lineno">  873</span>&#160;        <span class="keywordflow">if</span> (!filter.empty())</div>
-<div class="line"><a name="l00874"></a><span class="lineno">  874</span>&#160;            sql += <span class="stringliteral">&quot; WHERE &quot;</span> + filter;</div>
-<div class="line"><a name="l00875"></a><span class="lineno">  875</span>&#160; </div>
-<div class="line"><a name="l00876"></a><span class="lineno">  876</span>&#160;        PLUGIN_DEBUG(sql);</div>
-<div class="line"><a name="l00877"></a><span class="lineno">  877</span>&#160;        <span class="keyword">auto</span> res = transaction.exec(sql);</div>
-<div class="line"><a name="l00878"></a><span class="lineno">  878</span>&#160;        <span class="keywordflow">for</span> (<span class="keyword">auto</span> c = res.begin(); c != res.end(); ++c)</div>
-<div class="line"><a name="l00879"></a><span class="lineno">  879</span>&#160;        {</div>
-<div class="line"><a name="l00880"></a><span class="lineno">  880</span>&#160;            Vector3fs points;</div>
-<div class="line"><a name="l00881"></a><span class="lineno">  881</span>&#160;            <span class="keyword">const</span> pqxx::binarystring buffer(c[0]);</div>
-<div class="line"><a name="l00882"></a><span class="lineno">  882</span>&#160;            points.resize(buffer.size() / <span class="keyword">sizeof</span>(Vector3f));</div>
-<div class="line"><a name="l00883"></a><span class="lineno">  883</span>&#160;            memcpy(&amp;points.data()[0], buffer.data(), buffer.size());</div>
-<div class="line"><a name="l00884"></a><span class="lineno">  884</span>&#160;            streamlines.push_back(points);</div>
-<div class="line"><a name="l00885"></a><span class="lineno">  885</span>&#160;        }</div>
-<div class="line"><a name="l00886"></a><span class="lineno">  886</span>&#160;    }</div>
-<div class="line"><a name="l00887"></a><span class="lineno">  887</span>&#160;    <span class="keywordflow">catch</span> (pqxx::sql_error&amp; e)</div>
-<div class="line"><a name="l00888"></a><span class="lineno">  888</span>&#160;    {</div>
-<div class="line"><a name="l00889"></a><span class="lineno">  889</span>&#160;        PLUGIN_THROW(e.what());</div>
-<div class="line"><a name="l00890"></a><span class="lineno">  890</span>&#160;    }</div>
-<div class="line"><a name="l00891"></a><span class="lineno">  891</span>&#160; </div>
-<div class="line"><a name="l00892"></a><span class="lineno">  892</span>&#160;    <span class="keywordflow">return</span> streamlines;</div>
-<div class="line"><a name="l00893"></a><span class="lineno">  893</span>&#160;}</div>
-<div class="line"><a name="l00894"></a><span class="lineno">  894</span>&#160; </div>
-<div class="line"><a name="l00895"></a><span class="lineno">  895</span>&#160;} <span class="comment">// namespace db</span></div>
-<div class="line"><a name="l00896"></a><span class="lineno">  896</span>&#160;} <span class="comment">// namespace io</span></div>
-<div class="line"><a name="l00897"></a><span class="lineno">  897</span>&#160;} <span class="comment">// namespace bioexplorer</span></div>
+<div class="line"><a name="l00783"></a><span class="lineno"><a class="line" href="../../d9/d96/classbioexplorer_1_1io_1_1db_1_1DBConnector.html#ad96faa5db5b99d641bd775b995fcfa5f">  783</a></span>&#160;CellMap <a class="code" href="../../d9/d96/classbioexplorer_1_1io_1_1db_1_1DBConnector.html#ad96faa5db5b99d641bd775b995fcfa5f">DBConnector::getAtlasCells</a>(<span class="keyword">const</span> uint64_t regionId,</div>
+<div class="line"><a name="l00784"></a><span class="lineno">  784</span>&#160;                                   <span class="keyword">const</span> std::string&amp; sqlCondition)<span class="keyword"> const</span></div>
+<div class="line"><a name="l00785"></a><span class="lineno">  785</span>&#160;<span class="keyword"></span>{</div>
+<div class="line"><a name="l00786"></a><span class="lineno">  786</span>&#160;    CHECK_DB_INITIALIZATION</div>
+<div class="line"><a name="l00787"></a><span class="lineno">  787</span>&#160;    CellMap cells;</div>
+<div class="line"><a name="l00788"></a><span class="lineno">  788</span>&#160; </div>
+<div class="line"><a name="l00789"></a><span class="lineno">  789</span>&#160;    pqxx::nontransaction transaction(</div>
+<div class="line"><a name="l00790"></a><span class="lineno">  790</span>&#160;        *_connections[omp_get_thread_num() % _dbNbConnections]);</div>
+<div class="line"><a name="l00791"></a><span class="lineno">  791</span>&#160;    <span class="keywordflow">try</span></div>
+<div class="line"><a name="l00792"></a><span class="lineno">  792</span>&#160;    {</div>
+<div class="line"><a name="l00793"></a><span class="lineno">  793</span>&#160;        std::string sql =</div>
+<div class="line"><a name="l00794"></a><span class="lineno">  794</span>&#160;            <span class="stringliteral">&quot;SELECT guid, x, y, z, rotation_x, rotation_y, rotation_z, &quot;</span></div>
+<div class="line"><a name="l00795"></a><span class="lineno">  795</span>&#160;            <span class="stringliteral">&quot;rotation_w, cell_type_guid, electrical_type_guid, region_guid &quot;</span></div>
+<div class="line"><a name="l00796"></a><span class="lineno">  796</span>&#160;            <span class="stringliteral">&quot;FROM &quot;</span> +</div>
+<div class="line"><a name="l00797"></a><span class="lineno">  797</span>&#160;            DB_SCHEMA_ATLAS +</div>
+<div class="line"><a name="l00798"></a><span class="lineno">  798</span>&#160;            <span class="stringliteral">&quot;.cell WHERE region_guid=&quot;</span> + std::to_string(regionId);</div>
+<div class="line"><a name="l00799"></a><span class="lineno">  799</span>&#160; </div>
+<div class="line"><a name="l00800"></a><span class="lineno">  800</span>&#160;        <span class="keywordflow">if</span> (!sqlCondition.empty())</div>
+<div class="line"><a name="l00801"></a><span class="lineno">  801</span>&#160;            sql += <span class="stringliteral">&quot; AND &quot;</span> + sqlCondition;</div>
+<div class="line"><a name="l00802"></a><span class="lineno">  802</span>&#160; </div>
+<div class="line"><a name="l00803"></a><span class="lineno">  803</span>&#160;        PLUGIN_DEBUG(sql);</div>
+<div class="line"><a name="l00804"></a><span class="lineno">  804</span>&#160;        <span class="keyword">auto</span> res = transaction.exec(sql);</div>
+<div class="line"><a name="l00805"></a><span class="lineno">  805</span>&#160;        <span class="keywordflow">for</span> (<span class="keyword">auto</span> c = res.begin(); c != res.end(); ++c)</div>
+<div class="line"><a name="l00806"></a><span class="lineno">  806</span>&#160;        {</div>
+<div class="line"><a name="l00807"></a><span class="lineno">  807</span>&#160;            <a class="code" href="../../d0/d2e/structbioexplorer_1_1morphology_1_1Cell.html">Cell</a> cell;</div>
+<div class="line"><a name="l00808"></a><span class="lineno">  808</span>&#160;            cell.position =</div>
+<div class="line"><a name="l00809"></a><span class="lineno">  809</span>&#160;                Vector3d(c[1].as&lt;float&gt;(), c[2].as&lt;float&gt;(), c[3].as&lt;float&gt;());</div>
+<div class="line"><a name="l00810"></a><span class="lineno">  810</span>&#160;            cell.rotation = Quaterniond(c[7].as&lt;float&gt;(), c[4].as&lt;float&gt;(),</div>
+<div class="line"><a name="l00811"></a><span class="lineno">  811</span>&#160;                                        c[5].as&lt;float&gt;(), c[6].as&lt;float&gt;());</div>
+<div class="line"><a name="l00812"></a><span class="lineno">  812</span>&#160;            cell.type = c[8].as&lt;uint64_t&gt;();</div>
+<div class="line"><a name="l00813"></a><span class="lineno">  813</span>&#160;            cell.eType = c[9].as&lt;int64_t&gt;();</div>
+<div class="line"><a name="l00814"></a><span class="lineno">  814</span>&#160;            cell.region = c[10].as&lt;uint64_t&gt;();</div>
+<div class="line"><a name="l00815"></a><span class="lineno">  815</span>&#160;            cells[c[0].as&lt;uint64_t&gt;()] = cell;</div>
+<div class="line"><a name="l00816"></a><span class="lineno">  816</span>&#160;        }</div>
+<div class="line"><a name="l00817"></a><span class="lineno">  817</span>&#160;    }</div>
+<div class="line"><a name="l00818"></a><span class="lineno">  818</span>&#160;    <span class="keywordflow">catch</span> (<span class="keyword">const</span> pqxx::sql_error&amp; e)</div>
+<div class="line"><a name="l00819"></a><span class="lineno">  819</span>&#160;    {</div>
+<div class="line"><a name="l00820"></a><span class="lineno">  820</span>&#160;        PLUGIN_THROW(e.what());</div>
+<div class="line"><a name="l00821"></a><span class="lineno">  821</span>&#160;    }</div>
+<div class="line"><a name="l00822"></a><span class="lineno">  822</span>&#160; </div>
+<div class="line"><a name="l00823"></a><span class="lineno">  823</span>&#160;    <span class="keywordflow">return</span> cells;</div>
+<div class="line"><a name="l00824"></a><span class="lineno">  824</span>&#160;}</div>
+<div class="line"><a name="l00825"></a><span class="lineno">  825</span>&#160; </div>
+<div class="line"><a name="l00826"></a><span class="lineno"><a class="line" href="../../d9/d96/classbioexplorer_1_1io_1_1db_1_1DBConnector.html#aaa0b12a102e86da57fafa2188bcdc784">  826</a></span>&#160;TriangleMesh <a class="code" href="../../d9/d96/classbioexplorer_1_1io_1_1db_1_1DBConnector.html#aaa0b12a102e86da57fafa2188bcdc784">DBConnector::getAtlasMesh</a>(<span class="keyword">const</span> uint64_t regionId)<span class="keyword"> const</span></div>
+<div class="line"><a name="l00827"></a><span class="lineno">  827</span>&#160;<span class="keyword"></span>{</div>
+<div class="line"><a name="l00828"></a><span class="lineno">  828</span>&#160;    CHECK_DB_INITIALIZATION</div>
+<div class="line"><a name="l00829"></a><span class="lineno">  829</span>&#160;    TriangleMesh mesh;</div>
+<div class="line"><a name="l00830"></a><span class="lineno">  830</span>&#160; </div>
+<div class="line"><a name="l00831"></a><span class="lineno">  831</span>&#160;    pqxx::nontransaction transaction(</div>
+<div class="line"><a name="l00832"></a><span class="lineno">  832</span>&#160;        *_connections[omp_get_thread_num() % _dbNbConnections]);</div>
+<div class="line"><a name="l00833"></a><span class="lineno">  833</span>&#160;    <span class="keywordflow">try</span></div>
+<div class="line"><a name="l00834"></a><span class="lineno">  834</span>&#160;    {</div>
+<div class="line"><a name="l00835"></a><span class="lineno">  835</span>&#160;        <span class="keyword">const</span> std::string sql =</div>
+<div class="line"><a name="l00836"></a><span class="lineno">  836</span>&#160;            <span class="stringliteral">&quot;SELECT vertices, indices, normals, colors FROM &quot;</span> +</div>
+<div class="line"><a name="l00837"></a><span class="lineno">  837</span>&#160;            DB_SCHEMA_ATLAS + <span class="stringliteral">&quot;.mesh WHERE guid=&quot;</span> + std::to_string(regionId);</div>
+<div class="line"><a name="l00838"></a><span class="lineno">  838</span>&#160; </div>
+<div class="line"><a name="l00839"></a><span class="lineno">  839</span>&#160;        PLUGIN_DEBUG(sql);</div>
+<div class="line"><a name="l00840"></a><span class="lineno">  840</span>&#160;        <span class="keyword">auto</span> res = transaction.exec(sql);</div>
+<div class="line"><a name="l00841"></a><span class="lineno">  841</span>&#160;        <span class="keywordflow">for</span> (<span class="keyword">auto</span> c = res.begin(); c != res.end(); ++c)</div>
+<div class="line"><a name="l00842"></a><span class="lineno">  842</span>&#160;        {</div>
+<div class="line"><a name="l00843"></a><span class="lineno">  843</span>&#160;            <span class="keyword">const</span> pqxx::binarystring vertices(c[0]);</div>
+<div class="line"><a name="l00844"></a><span class="lineno">  844</span>&#160;            mesh.vertices.resize(vertices.size() / <span class="keyword">sizeof</span>(Vector3f));</div>
+<div class="line"><a name="l00845"></a><span class="lineno">  845</span>&#160;            memcpy(&amp;mesh.vertices.data()[0], vertices.data(), vertices.size());</div>
+<div class="line"><a name="l00846"></a><span class="lineno">  846</span>&#160; </div>
+<div class="line"><a name="l00847"></a><span class="lineno">  847</span>&#160;            <span class="keyword">const</span> pqxx::binarystring indices(c[1]);</div>
+<div class="line"><a name="l00848"></a><span class="lineno">  848</span>&#160;            mesh.indices.resize(indices.size() / <span class="keyword">sizeof</span>(Vector3ui));</div>
+<div class="line"><a name="l00849"></a><span class="lineno">  849</span>&#160;            memcpy(&amp;mesh.indices.data()[0], indices.data(), indices.size());</div>
+<div class="line"><a name="l00850"></a><span class="lineno">  850</span>&#160; </div>
+<div class="line"><a name="l00851"></a><span class="lineno">  851</span>&#160;            <span class="keyword">const</span> pqxx::binarystring normals(c[2]);</div>
+<div class="line"><a name="l00852"></a><span class="lineno">  852</span>&#160;            mesh.normals.resize(normals.size() / <span class="keyword">sizeof</span>(Vector3f));</div>
+<div class="line"><a name="l00853"></a><span class="lineno">  853</span>&#160;            memcpy(&amp;mesh.normals.data()[0], normals.data(), normals.size());</div>
+<div class="line"><a name="l00854"></a><span class="lineno">  854</span>&#160; </div>
+<div class="line"><a name="l00855"></a><span class="lineno">  855</span>&#160;            <span class="keyword">const</span> pqxx::binarystring colors(c[3]);</div>
+<div class="line"><a name="l00856"></a><span class="lineno">  856</span>&#160;            mesh.colors.resize(colors.size() / <span class="keyword">sizeof</span>(Vector3f));</div>
+<div class="line"><a name="l00857"></a><span class="lineno">  857</span>&#160;            memcpy(&amp;mesh.colors.data()[0], colors.data(), colors.size());</div>
+<div class="line"><a name="l00858"></a><span class="lineno">  858</span>&#160;        }</div>
+<div class="line"><a name="l00859"></a><span class="lineno">  859</span>&#160;    }</div>
+<div class="line"><a name="l00860"></a><span class="lineno">  860</span>&#160;    <span class="keywordflow">catch</span> (<span class="keyword">const</span> pqxx::sql_error&amp; e)</div>
+<div class="line"><a name="l00861"></a><span class="lineno">  861</span>&#160;    {</div>
+<div class="line"><a name="l00862"></a><span class="lineno">  862</span>&#160;        PLUGIN_THROW(e.what());</div>
+<div class="line"><a name="l00863"></a><span class="lineno">  863</span>&#160;    }</div>
+<div class="line"><a name="l00864"></a><span class="lineno">  864</span>&#160; </div>
+<div class="line"><a name="l00865"></a><span class="lineno">  865</span>&#160;    <span class="keywordflow">return</span> mesh;</div>
+<div class="line"><a name="l00866"></a><span class="lineno">  866</span>&#160;}</div>
+<div class="line"><a name="l00867"></a><span class="lineno">  867</span>&#160; </div>
+<div class="line"><a name="l00868"></a><span class="lineno"><a class="line" href="../../d9/d96/classbioexplorer_1_1io_1_1db_1_1DBConnector.html#a669349598e0f3bd6ecfd4a85a958a603">  868</a></span>&#160;WhiteMatterStreamlines <a class="code" href="../../d9/d96/classbioexplorer_1_1io_1_1db_1_1DBConnector.html#a669349598e0f3bd6ecfd4a85a958a603">DBConnector::getWhiteMatterStreamlines</a>(</div>
+<div class="line"><a name="l00869"></a><span class="lineno">  869</span>&#160;    <span class="keyword">const</span> std::string&amp; populationName, <span class="keyword">const</span> std::string&amp; filter)<span class="keyword"> const</span></div>
+<div class="line"><a name="l00870"></a><span class="lineno">  870</span>&#160;<span class="keyword"></span>{</div>
+<div class="line"><a name="l00871"></a><span class="lineno">  871</span>&#160;    CHECK_DB_INITIALIZATION</div>
+<div class="line"><a name="l00872"></a><span class="lineno">  872</span>&#160;    WhiteMatterStreamlines streamlines;</div>
+<div class="line"><a name="l00873"></a><span class="lineno">  873</span>&#160;    pqxx::nontransaction transaction(</div>
+<div class="line"><a name="l00874"></a><span class="lineno">  874</span>&#160;        *_connections[omp_get_thread_num() % _dbNbConnections]);</div>
+<div class="line"><a name="l00875"></a><span class="lineno">  875</span>&#160;    <span class="keywordflow">try</span></div>
+<div class="line"><a name="l00876"></a><span class="lineno">  876</span>&#160;    {</div>
+<div class="line"><a name="l00877"></a><span class="lineno">  877</span>&#160;        std::string sql =</div>
+<div class="line"><a name="l00878"></a><span class="lineno">  878</span>&#160;            <span class="stringliteral">&quot;SELECT points FROM &quot;</span> + populationName + <span class="stringliteral">&quot;.streamline&quot;</span>;</div>
+<div class="line"><a name="l00879"></a><span class="lineno">  879</span>&#160;        <span class="keywordflow">if</span> (!filter.empty())</div>
+<div class="line"><a name="l00880"></a><span class="lineno">  880</span>&#160;            sql += <span class="stringliteral">&quot; WHERE &quot;</span> + filter;</div>
+<div class="line"><a name="l00881"></a><span class="lineno">  881</span>&#160; </div>
+<div class="line"><a name="l00882"></a><span class="lineno">  882</span>&#160;        PLUGIN_DEBUG(sql);</div>
+<div class="line"><a name="l00883"></a><span class="lineno">  883</span>&#160;        <span class="keyword">auto</span> res = transaction.exec(sql);</div>
+<div class="line"><a name="l00884"></a><span class="lineno">  884</span>&#160;        <span class="keywordflow">for</span> (<span class="keyword">auto</span> c = res.begin(); c != res.end(); ++c)</div>
+<div class="line"><a name="l00885"></a><span class="lineno">  885</span>&#160;        {</div>
+<div class="line"><a name="l00886"></a><span class="lineno">  886</span>&#160;            Vector3fs points;</div>
+<div class="line"><a name="l00887"></a><span class="lineno">  887</span>&#160;            <span class="keyword">const</span> pqxx::binarystring buffer(c[0]);</div>
+<div class="line"><a name="l00888"></a><span class="lineno">  888</span>&#160;            points.resize(buffer.size() / <span class="keyword">sizeof</span>(Vector3f));</div>
+<div class="line"><a name="l00889"></a><span class="lineno">  889</span>&#160;            memcpy(&amp;points.data()[0], buffer.data(), buffer.size());</div>
+<div class="line"><a name="l00890"></a><span class="lineno">  890</span>&#160;            streamlines.push_back(points);</div>
+<div class="line"><a name="l00891"></a><span class="lineno">  891</span>&#160;        }</div>
+<div class="line"><a name="l00892"></a><span class="lineno">  892</span>&#160;    }</div>
+<div class="line"><a name="l00893"></a><span class="lineno">  893</span>&#160;    <span class="keywordflow">catch</span> (pqxx::sql_error&amp; e)</div>
+<div class="line"><a name="l00894"></a><span class="lineno">  894</span>&#160;    {</div>
+<div class="line"><a name="l00895"></a><span class="lineno">  895</span>&#160;        PLUGIN_THROW(e.what());</div>
+<div class="line"><a name="l00896"></a><span class="lineno">  896</span>&#160;    }</div>
+<div class="line"><a name="l00897"></a><span class="lineno">  897</span>&#160; </div>
+<div class="line"><a name="l00898"></a><span class="lineno">  898</span>&#160;    <span class="keywordflow">return</span> streamlines;</div>
+<div class="line"><a name="l00899"></a><span class="lineno">  899</span>&#160;}</div>
+<div class="line"><a name="l00900"></a><span class="lineno">  900</span>&#160; </div>
+<div class="line"><a name="l00901"></a><span class="lineno">  901</span>&#160;} <span class="comment">// namespace db</span></div>
+<div class="line"><a name="l00902"></a><span class="lineno">  902</span>&#160;} <span class="comment">// namespace io</span></div>
+<div class="line"><a name="l00903"></a><span class="lineno">  903</span>&#160;} <span class="comment">// namespace bioexplorer</span></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
 <div class="ttc" id="aclassbioexplorer_1_1io_1_1db_1_1DBConnector_html_ae80066dd03ca1e7dadd1382e831eae29"><div class="ttname"><a href="../../d9/d96/classbioexplorer_1_1io_1_1db_1_1DBConnector.html#ae80066dd03ca1e7dadd1382e831eae29">bioexplorer::io::db::DBConnector::getAstrocyteSections</a></div><div class="ttdeci">SectionMap getAstrocyteSections(const int64_t astrocyteId) const</div><div class="ttdoc">Get the sections of a given astrocyte.</div><div class="ttdef"><b>Definition:</b> <a href="../../d5/d22/bioexplorer_2core_2plugin_2io_2db_2DBConnector_8cpp_source.html#l00527">DBConnector.cpp:527</a></div></div>
 <div class="ttc" id="aclassbioexplorer_1_1io_1_1db_1_1DBConnector_html_ab684d0b433decc70d52f4b7a120f0c8f"><div class="ttname"><a href="../../d9/d96/classbioexplorer_1_1io_1_1db_1_1DBConnector.html#ab684d0b433decc70d52f4b7a120f0c8f">bioexplorer::io::db::DBConnector::getVasculatureSimulationReport</a></div><div class="ttdeci">SimulationReport getVasculatureSimulationReport(const std::string &amp;populationName, const int32_t simulationReportId) const</div><div class="ttdoc">Get information about the simulation Report.</div><div class="ttdef"><b>Definition:</b> <a href="../../d5/d22/bioexplorer_2core_2plugin_2io_2db_2DBConnector_8cpp_source.html#l00420">DBConnector.cpp:420</a></div></div>
-<div class="ttc" id="astructbioexplorer_1_1io_1_1db_1_1SimulationReport_html"><div class="ttname"><a href="../../da/dc8/structbioexplorer_1_1io_1_1db_1_1SimulationReport.html">bioexplorer::io::db::SimulationReport</a></div><div class="ttdef"><b>Definition:</b> <a href="../../d0/dde/bioexplorer_2core_2plugin_2common_2Types_8h_source.html#l01488">Types.h:1488</a></div></div>
+<div class="ttc" id="astructbioexplorer_1_1io_1_1db_1_1SimulationReport_html"><div class="ttname"><a href="../../da/dc8/structbioexplorer_1_1io_1_1db_1_1SimulationReport.html">bioexplorer::io::db::SimulationReport</a></div><div class="ttdef"><b>Definition:</b> <a href="../../d0/dde/bioexplorer_2core_2plugin_2common_2Types_8h_source.html#l01494">Types.h:1494</a></div></div>
 <div class="ttc" id="aclassbioexplorer_1_1io_1_1db_1_1DBConnector_html_a71d7588d245345ff1611fe12a65748e5"><div class="ttname"><a href="../../d9/d96/classbioexplorer_1_1io_1_1db_1_1DBConnector.html#a71d7588d245345ff1611fe12a65748e5">bioexplorer::io::db::DBConnector::getVasculatureEdges</a></div><div class="ttdeci">GeometryEdges getVasculatureEdges(const std::string &amp;populationName, const std::string &amp;filter=&quot;&quot;) const</div><div class="ttdoc">Get the Edges for a given population.</div><div class="ttdef"><b>Definition:</b> <a href="../../d5/d22/bioexplorer_2core_2plugin_2io_2db_2DBConnector_8cpp_source.html#l00360">DBConnector.cpp:360</a></div></div>
 <div class="ttc" id="aclassbioexplorer_1_1io_1_1db_1_1DBConnector_html_a6c03a2fbc94fc22910c1b143b92053b6"><div class="ttname"><a href="../../d9/d96/classbioexplorer_1_1io_1_1db_1_1DBConnector.html#a6c03a2fbc94fc22910c1b143b92053b6">bioexplorer::io::db::DBConnector::getNeurons</a></div><div class="ttdeci">NeuronSomaMap getNeurons(const std::string &amp;populationName, const std::string &amp;sqlCondition=&quot;&quot;) const</div><div class="ttdoc">Get the neurons locations.</div><div class="ttdef"><b>Definition:</b> <a href="../../d5/d22/bioexplorer_2core_2plugin_2io_2db_2DBConnector_8cpp_source.html#l00610">DBConnector.cpp:610</a></div></div>
-<div class="ttc" id="astructbioexplorer_1_1morphology_1_1EndFoot_html"><div class="ttname"><a href="../../d6/d46/structbioexplorer_1_1morphology_1_1EndFoot.html">bioexplorer::morphology::EndFoot</a></div><div class="ttdef"><b>Definition:</b> <a href="../../d0/dde/bioexplorer_2core_2plugin_2common_2Types_8h_source.html#l01448">Types.h:1448</a></div></div>
+<div class="ttc" id="astructbioexplorer_1_1morphology_1_1EndFoot_html"><div class="ttname"><a href="../../d6/d46/structbioexplorer_1_1morphology_1_1EndFoot.html">bioexplorer::morphology::EndFoot</a></div><div class="ttdef"><b>Definition:</b> <a href="../../d0/dde/bioexplorer_2core_2plugin_2common_2Types_8h_source.html#l01454">Types.h:1454</a></div></div>
 <div class="ttc" id="aclassbioexplorer_1_1io_1_1db_1_1DBConnector_html_acfd1af63c23e5bdc7c08eca127845004"><div class="ttname"><a href="../../d9/d96/classbioexplorer_1_1io_1_1db_1_1DBConnector.html#acfd1af63c23e5bdc7c08eca127845004">bioexplorer::io::db::DBConnector::getVasculatureRadiusRange</a></div><div class="ttdeci">Vector2d getVasculatureRadiusRange(const std::string &amp;populationName, const std::string &amp;filter) const</div><div class="ttdoc">Get the Vasculature radius range.</div><div class="ttdef"><b>Definition:</b> <a href="../../d5/d22/bioexplorer_2core_2plugin_2io_2db_2DBConnector_8cpp_source.html#l00330">DBConnector.cpp:330</a></div></div>
+<div class="ttc" id="aclassbioexplorer_1_1io_1_1db_1_1DBConnector_html_a1d81ab4ce08852ca05136d3a79863866"><div class="ttname"><a href="../../d9/d96/classbioexplorer_1_1io_1_1db_1_1DBConnector.html#a1d81ab4ce08852ca05136d3a79863866">bioexplorer::io::db::DBConnector::getNeuronSynapses</a></div><div class="ttdeci">SynapseMap getNeuronSynapses(const std::string &amp;populationName, const uint64_t neuronId, const SynapseType synapseType, const std::string &amp;sqlCondition=&quot;&quot;) const</div><div class="ttdoc">Get the synapses attached to a given neuron.</div><div class="ttdef"><b>Definition:</b> <a href="../../d5/d22/bioexplorer_2core_2plugin_2io_2db_2DBConnector_8cpp_source.html#l00698">DBConnector.cpp:698</a></div></div>
 <div class="ttc" id="aclassbioexplorer_1_1io_1_1db_1_1DBConnector_html_a75e179d6154074d799debbb9ed6a3899"><div class="ttname"><a href="../../d9/d96/classbioexplorer_1_1io_1_1db_1_1DBConnector.html#a75e179d6154074d799debbb9ed6a3899">bioexplorer::io::db::DBConnector::getVasculatureSimulationTimeSeries</a></div><div class="ttdeci">floats getVasculatureSimulationTimeSeries(const std::string &amp;populationName, const int32_t simulationReportId, const int32_t frame) const</div><div class="ttdoc">Get time series from simulation report.</div><div class="ttdef"><b>Definition:</b> <a href="../../d5/d22/bioexplorer_2core_2plugin_2io_2db_2DBConnector_8cpp_source.html#l00457">DBConnector.cpp:457</a></div></div>
 <div class="ttc" id="aclassbioexplorer_1_1io_1_1db_1_1DBConnector_html_af7de7fec03d25cbd0b95a5df2573281c"><div class="ttname"><a href="../../d9/d96/classbioexplorer_1_1io_1_1db_1_1DBConnector.html#af7de7fec03d25cbd0b95a5df2573281c">bioexplorer::io::db::DBConnector::getNeuronSections</a></div><div class="ttdeci">SectionMap getNeuronSections(const std::string &amp;populationName, const uint64_t neuronId, const std::string &amp;sqlCondition=&quot;&quot;) const</div><div class="ttdoc">Get the sections of a given neuron.</div><div class="ttdef"><b>Definition:</b> <a href="../../d5/d22/bioexplorer_2core_2plugin_2io_2db_2DBConnector_8cpp_source.html#l00654">DBConnector.cpp:654</a></div></div>
 <div class="ttc" id="astructbioexplorer_1_1common_1_1GeometryNode_html"><div class="ttname"><a href="../../d7/d1e/structbioexplorer_1_1common_1_1GeometryNode.html">bioexplorer::common::GeometryNode</a></div><div class="ttdef"><b>Definition:</b> <a href="../../d0/dde/bioexplorer_2core_2plugin_2common_2Types_8h_source.html#l01168">Types.h:1168</a></div></div>
-<div class="ttc" id="aclassbioexplorer_1_1io_1_1db_1_1DBConnector_html_ad96faa5db5b99d641bd775b995fcfa5f"><div class="ttname"><a href="../../d9/d96/classbioexplorer_1_1io_1_1db_1_1DBConnector.html#ad96faa5db5b99d641bd775b995fcfa5f">bioexplorer::io::db::DBConnector::getAtlasCells</a></div><div class="ttdeci">CellMap getAtlasCells(const uint64_t regionId, const std::string &amp;sqlCondition=&quot;&quot;) const</div><div class="ttdoc">Get the cells from the brain atlas.</div><div class="ttdef"><b>Definition:</b> <a href="../../d5/d22/bioexplorer_2core_2plugin_2io_2db_2DBConnector_8cpp_source.html#l00777">DBConnector.cpp:777</a></div></div>
+<div class="ttc" id="aclassbioexplorer_1_1io_1_1db_1_1DBConnector_html_ad96faa5db5b99d641bd775b995fcfa5f"><div class="ttname"><a href="../../d9/d96/classbioexplorer_1_1io_1_1db_1_1DBConnector.html#ad96faa5db5b99d641bd775b995fcfa5f">bioexplorer::io::db::DBConnector::getAtlasCells</a></div><div class="ttdeci">CellMap getAtlasCells(const uint64_t regionId, const std::string &amp;sqlCondition=&quot;&quot;) const</div><div class="ttdoc">Get the cells from the brain atlas.</div><div class="ttdef"><b>Definition:</b> <a href="../../d5/d22/bioexplorer_2core_2plugin_2io_2db_2DBConnector_8cpp_source.html#l00783">DBConnector.cpp:783</a></div></div>
 <div class="ttc" id="aclassbioexplorer_1_1io_1_1db_1_1DBConnector_html_a07ca4089e1f087bf50220f68e83d5d78"><div class="ttname"><a href="../../d9/d96/classbioexplorer_1_1io_1_1db_1_1DBConnector.html#a07ca4089e1f087bf50220f68e83d5d78">bioexplorer::io::db::DBConnector::getVasculatureNodes</a></div><div class="ttdeci">GeometryNodes getVasculatureNodes(const std::string &amp;populationName, const std::string &amp;filter=&quot;&quot;, const std::string &amp;limits=&quot;&quot;) const</div><div class="ttdoc">Get the Nodes for a given population.</div><div class="ttdef"><b>Definition:</b> <a href="../../d5/d22/bioexplorer_2core_2plugin_2io_2db_2DBConnector_8cpp_source.html#l00213">DBConnector.cpp:213</a></div></div>
 <div class="ttc" id="aclassbioexplorer_1_1io_1_1db_1_1DBConnector_html_a274cfb8b36a9b9c6b41046fff0cade2d"><div class="ttname"><a href="../../d9/d96/classbioexplorer_1_1io_1_1db_1_1DBConnector.html#a274cfb8b36a9b9c6b41046fff0cade2d">bioexplorer::io::db::DBConnector::getVasculatureSections</a></div><div class="ttdeci">uint64_ts getVasculatureSections(const std::string &amp;populationName, const std::string &amp;filter=&quot;&quot;)</div><div class="ttdoc">Get the sections for a given population.</div><div class="ttdef"><b>Definition:</b> <a href="../../d5/d22/bioexplorer_2core_2plugin_2io_2db_2DBConnector_8cpp_source.html#l00264">DBConnector.cpp:264</a></div></div>
 <div class="ttc" id="astructbioexplorer_1_1details_1_1OOCSceneConfigurationDetails_html"><div class="ttname"><a href="../../d1/d25/structbioexplorer_1_1details_1_1OOCSceneConfigurationDetails.html">bioexplorer::details::OOCSceneConfigurationDetails</a></div><div class="ttdef"><b>Definition:</b> <a href="../../d0/dde/bioexplorer_2core_2plugin_2common_2Types_8h_source.html#l00841">Types.h:841</a></div></div>
 <div class="ttc" id="aclassbioexplorer_1_1io_1_1db_1_1DBConnector_html_ad6ca434ef6493ef5841c49c3de65df8c"><div class="ttname"><a href="../../d9/d96/classbioexplorer_1_1io_1_1db_1_1DBConnector.html#ad6ca434ef6493ef5841c49c3de65df8c">bioexplorer::io::db::DBConnector::getAstrocyteEndFeet</a></div><div class="ttdeci">EndFootMap getAstrocyteEndFeet(const std::string &amp;vasculaturePopulationName, const uint64_t astrocyteId) const</div><div class="ttdoc">Get the end-feet as nodes for a given astrocyte.</div><div class="ttdef"><b>Definition:</b> <a href="../../d5/d22/bioexplorer_2core_2plugin_2io_2db_2DBConnector_8cpp_source.html#l00563">DBConnector.cpp:563</a></div></div>
-<div class="ttc" id="aclassbioexplorer_1_1io_1_1db_1_1DBConnector_html_ae5ee653afc363b3f33413824beb846ca"><div class="ttname"><a href="../../d9/d96/classbioexplorer_1_1io_1_1db_1_1DBConnector.html#ae5ee653afc363b3f33413824beb846ca">bioexplorer::io::db::DBConnector::getNeuronSynapses</a></div><div class="ttdeci">SynapseMap getNeuronSynapses(const std::string &amp;populationName, const uint64_t neuronId, const std::string &amp;sqlCondition=&quot;&quot;) const</div><div class="ttdoc">Get the synapses attached to a given neuron.</div><div class="ttdef"><b>Definition:</b> <a href="../../d5/d22/bioexplorer_2core_2plugin_2io_2db_2DBConnector_8cpp_source.html#l00698">DBConnector.cpp:698</a></div></div>
 <div class="ttc" id="aclassbioexplorer_1_1io_1_1db_1_1DBConnector_html_a5af42cb97b20e7c516b16f59c4bb461b"><div class="ttname"><a href="../../d9/d96/classbioexplorer_1_1io_1_1db_1_1DBConnector.html#a5af42cb97b20e7c516b16f59c4bb461b">bioexplorer::io::db::DBConnector::getVasculatureNbSections</a></div><div class="ttdeci">Vector2ui getVasculatureNbSections(const std::string &amp;populationName, const std::string &amp;filter=&quot;&quot;)</div><div class="ttdoc">Get the number of sections for a given population.</div><div class="ttdef"><b>Definition:</b> <a href="../../d5/d22/bioexplorer_2core_2plugin_2io_2db_2DBConnector_8cpp_source.html#l00292">DBConnector.cpp:292</a></div></div>
 <div class="ttc" id="aclassbioexplorer_1_1io_1_1db_1_1DBConnector_html_a746e41bebb0755a87f43c5972d0b7fee"><div class="ttname"><a href="../../d9/d96/classbioexplorer_1_1io_1_1db_1_1DBConnector.html#a746e41bebb0755a87f43c5972d0b7fee">bioexplorer::io::db::DBConnector::getAstrocytes</a></div><div class="ttdeci">AstrocyteSomaMap getAstrocytes(const std::string &amp;sqlCondition=&quot;&quot;) const</div><div class="ttdoc">Get the astrocytes locations.</div><div class="ttdef"><b>Definition:</b> <a href="../../d5/d22/bioexplorer_2core_2plugin_2io_2db_2DBConnector_8cpp_source.html#l00490">DBConnector.cpp:490</a></div></div>
-<div class="ttc" id="aclassbioexplorer_1_1io_1_1db_1_1DBConnector_html_a91f01aaba572a78116721e7be5f39bc7"><div class="ttname"><a href="../../d9/d96/classbioexplorer_1_1io_1_1db_1_1DBConnector.html#a91f01aaba572a78116721e7be5f39bc7">bioexplorer::io::db::DBConnector::getAtlasRegions</a></div><div class="ttdeci">uint64_ts getAtlasRegions(const std::string &amp;sqlCondition=&quot;&quot;) const</div><div class="ttdoc">Get the regions from the brain atlas.</div><div class="ttdef"><b>Definition:</b> <a href="../../d5/d22/bioexplorer_2core_2plugin_2io_2db_2DBConnector_8cpp_source.html#l00747">DBConnector.cpp:747</a></div></div>
+<div class="ttc" id="aclassbioexplorer_1_1io_1_1db_1_1DBConnector_html_a91f01aaba572a78116721e7be5f39bc7"><div class="ttname"><a href="../../d9/d96/classbioexplorer_1_1io_1_1db_1_1DBConnector.html#a91f01aaba572a78116721e7be5f39bc7">bioexplorer::io::db::DBConnector::getAtlasRegions</a></div><div class="ttdeci">uint64_ts getAtlasRegions(const std::string &amp;sqlCondition=&quot;&quot;) const</div><div class="ttdoc">Get the regions from the brain atlas.</div><div class="ttdef"><b>Definition:</b> <a href="../../d5/d22/bioexplorer_2core_2plugin_2io_2db_2DBConnector_8cpp_source.html#l00753">DBConnector.cpp:753</a></div></div>
 <div class="ttc" id="aclassbioexplorer_1_1io_1_1db_1_1DBConnector_html_ad02d54aff9bd925e722fba2a1a92a5d1"><div class="ttname"><a href="../../d9/d96/classbioexplorer_1_1io_1_1db_1_1DBConnector.html#ad02d54aff9bd925e722fba2a1a92a5d1">bioexplorer::io::db::DBConnector::clearBricks</a></div><div class="ttdeci">void clearBricks()</div><div class="ttdoc">Remove all bricks from the PostgreSQL database.</div><div class="ttdef"><b>Definition:</b> <a href="../../d5/d22/bioexplorer_2core_2plugin_2io_2db_2DBConnector_8cpp_source.html#l00101">DBConnector.cpp:101</a></div></div>
-<div class="ttc" id="astructbioexplorer_1_1morphology_1_1Section_html"><div class="ttname"><a href="../../d4/d08/structbioexplorer_1_1morphology_1_1Section.html">bioexplorer::morphology::Section</a></div><div class="ttdef"><b>Definition:</b> <a href="../../d0/dde/bioexplorer_2core_2plugin_2common_2Types_8h_source.html#l01440">Types.h:1440</a></div></div>
+<div class="ttc" id="astructbioexplorer_1_1morphology_1_1Section_html"><div class="ttname"><a href="../../d4/d08/structbioexplorer_1_1morphology_1_1Section.html">bioexplorer::morphology::Section</a></div><div class="ttdef"><b>Definition:</b> <a href="../../d0/dde/bioexplorer_2core_2plugin_2common_2Types_8h_source.html#l01446">Types.h:1446</a></div></div>
 <div class="ttc" id="aclassbioexplorer_1_1io_1_1db_1_1DBConnector_html_ae91b451a6d92811c8c313645aecd1573"><div class="ttname"><a href="../../d9/d96/classbioexplorer_1_1io_1_1db_1_1DBConnector.html#ae91b451a6d92811c8c313645aecd1573">bioexplorer::io::db::DBConnector::getSceneConfiguration</a></div><div class="ttdeci">const OOCSceneConfigurationDetails getSceneConfiguration()</div><div class="ttdoc">Get the Scene configuration.</div><div class="ttdef"><b>Definition:</b> <a href="../../d5/d22/bioexplorer_2core_2plugin_2io_2db_2DBConnector_8cpp_source.html#l00119">DBConnector.cpp:119</a></div></div>
-<div class="ttc" id="astructbioexplorer_1_1morphology_1_1Cell_html"><div class="ttname"><a href="../../d0/d2e/structbioexplorer_1_1morphology_1_1Cell.html">bioexplorer::morphology::Cell</a></div><div class="ttdef"><b>Definition:</b> <a href="../../d0/dde/bioexplorer_2core_2plugin_2common_2Types_8h_source.html#l01458">Types.h:1458</a></div></div>
+<div class="ttc" id="astructbioexplorer_1_1morphology_1_1Cell_html"><div class="ttname"><a href="../../d0/d2e/structbioexplorer_1_1morphology_1_1Cell.html">bioexplorer::morphology::Cell</a></div><div class="ttdef"><b>Definition:</b> <a href="../../d0/dde/bioexplorer_2core_2plugin_2common_2Types_8h_source.html#l01464">Types.h:1464</a></div></div>
 <div class="ttc" id="astructbioexplorer_1_1morphology_1_1AstrocyteSoma_html"><div class="ttname"><a href="../../d6/d17/structbioexplorer_1_1morphology_1_1AstrocyteSoma.html">bioexplorer::morphology::AstrocyteSoma</a></div><div class="ttdef"><b>Definition:</b> <a href="../../d0/dde/bioexplorer_2core_2plugin_2common_2Types_8h_source.html#l01412">Types.h:1412</a></div></div>
 <div class="ttc" id="astructbioexplorer_1_1morphology_1_1NeuronSoma_html"><div class="ttname"><a href="../../d9/d24/structbioexplorer_1_1morphology_1_1NeuronSoma.html">bioexplorer::morphology::NeuronSoma</a></div><div class="ttdef"><b>Definition:</b> <a href="../../d0/dde/bioexplorer_2core_2plugin_2common_2Types_8h_source.html#l01420">Types.h:1420</a></div></div>
 <div class="ttc" id="aclassbioexplorer_1_1io_1_1db_1_1DBConnector_html_a6aaea01883244f16522bc9cf799364c1"><div class="ttname"><a href="../../d9/d96/classbioexplorer_1_1io_1_1db_1_1DBConnector.html#a6aaea01883244f16522bc9cf799364c1">bioexplorer::io::db::DBConnector::insertBrick</a></div><div class="ttdeci">void insertBrick(const int32_t brickId, const uint32_t version, const uint32_t nbModels, const std::stringstream &amp;buffer)</div><div class="ttdoc">Inserts a brick into the PostgreSQL database.</div><div class="ttdef"><b>Definition:</b> <a href="../../d5/d22/bioexplorer_2core_2plugin_2io_2db_2DBConnector_8cpp_source.html#l00154">DBConnector.cpp:154</a></div></div>
 <div class="ttc" id="astructbioexplorer_1_1morphology_1_1Synapse_html"><div class="ttname"><a href="../../d0/dd7/structbioexplorer_1_1morphology_1_1Synapse.html">bioexplorer::morphology::Synapse</a></div><div class="ttdef"><b>Definition:</b> <a href="../../d0/dde/bioexplorer_2core_2plugin_2common_2Types_8h_source.html#l01431">Types.h:1431</a></div></div>
-<div class="ttc" id="aclassbioexplorer_1_1io_1_1db_1_1DBConnector_html_a669349598e0f3bd6ecfd4a85a958a603"><div class="ttname"><a href="../../d9/d96/classbioexplorer_1_1io_1_1db_1_1DBConnector.html#a669349598e0f3bd6ecfd4a85a958a603">bioexplorer::io::db::DBConnector::getWhiteMatterStreamlines</a></div><div class="ttdeci">WhiteMatterStreamlines getWhiteMatterStreamlines(const std::string &amp;populationName, const std::string &amp;filter=&quot;&quot;) const</div><div class="ttdoc">Get the White Matter streamlines for a given population.</div><div class="ttdef"><b>Definition:</b> <a href="../../d5/d22/bioexplorer_2core_2plugin_2io_2db_2DBConnector_8cpp_source.html#l00862">DBConnector.cpp:862</a></div></div>
+<div class="ttc" id="aclassbioexplorer_1_1io_1_1db_1_1DBConnector_html_a669349598e0f3bd6ecfd4a85a958a603"><div class="ttname"><a href="../../d9/d96/classbioexplorer_1_1io_1_1db_1_1DBConnector.html#a669349598e0f3bd6ecfd4a85a958a603">bioexplorer::io::db::DBConnector::getWhiteMatterStreamlines</a></div><div class="ttdeci">WhiteMatterStreamlines getWhiteMatterStreamlines(const std::string &amp;populationName, const std::string &amp;filter=&quot;&quot;) const</div><div class="ttdoc">Get the White Matter streamlines for a given population.</div><div class="ttdef"><b>Definition:</b> <a href="../../d5/d22/bioexplorer_2core_2plugin_2io_2db_2DBConnector_8cpp_source.html#l00868">DBConnector.cpp:868</a></div></div>
 <div class="ttc" id="aclassbioexplorer_1_1io_1_1db_1_1DBConnector_html_a17e6e76dce912c358f070fb2b2c84c6c"><div class="ttname"><a href="../../d9/d96/classbioexplorer_1_1io_1_1db_1_1DBConnector.html#a17e6e76dce912c358f070fb2b2c84c6c">bioexplorer::io::db::DBConnector::getVasculatureBifurcations</a></div><div class="ttdeci">Bifurcations getVasculatureBifurcations(const std::string &amp;populationName) const</div><div class="ttdoc">Get the bifurcations for a given population.</div><div class="ttdef"><b>Definition:</b> <a href="../../d5/d22/bioexplorer_2core_2plugin_2io_2db_2DBConnector_8cpp_source.html#l00387">DBConnector.cpp:387</a></div></div>
-<div class="ttc" id="aclassbioexplorer_1_1io_1_1db_1_1DBConnector_html_aaa0b12a102e86da57fafa2188bcdc784"><div class="ttname"><a href="../../d9/d96/classbioexplorer_1_1io_1_1db_1_1DBConnector.html#aaa0b12a102e86da57fafa2188bcdc784">bioexplorer::io::db::DBConnector::getAtlasMesh</a></div><div class="ttdeci">TriangleMesh getAtlasMesh(const uint64_t regionId) const</div><div class="ttdoc">Get the mesh of a given region from the brain atlas.</div><div class="ttdef"><b>Definition:</b> <a href="../../d5/d22/bioexplorer_2core_2plugin_2io_2db_2DBConnector_8cpp_source.html#l00820">DBConnector.cpp:820</a></div></div>
+<div class="ttc" id="aclassbioexplorer_1_1io_1_1db_1_1DBConnector_html_aaa0b12a102e86da57fafa2188bcdc784"><div class="ttname"><a href="../../d9/d96/classbioexplorer_1_1io_1_1db_1_1DBConnector.html#aaa0b12a102e86da57fafa2188bcdc784">bioexplorer::io::db::DBConnector::getAtlasMesh</a></div><div class="ttdeci">TriangleMesh getAtlasMesh(const uint64_t regionId) const</div><div class="ttdoc">Get the mesh of a given region from the brain atlas.</div><div class="ttdef"><b>Definition:</b> <a href="../../d5/d22/bioexplorer_2core_2plugin_2io_2db_2DBConnector_8cpp_source.html#l00826">DBConnector.cpp:826</a></div></div>
 <div class="ttc" id="aclassbioexplorer_1_1io_1_1db_1_1DBConnector_html_a75462f861b2e29143cca4432da740624"><div class="ttname"><a href="../../d9/d96/classbioexplorer_1_1io_1_1db_1_1DBConnector.html#a75462f861b2e29143cca4432da740624">bioexplorer::io::db::DBConnector::getBrick</a></div><div class="ttdeci">std::stringstream getBrick(const int32_t brickId, const uint32_t &amp;version, uint32_t &amp;nbModels)</div><div class="ttdoc">Get the Brick object.</div><div class="ttdef"><b>Definition:</b> <a href="../../d5/d22/bioexplorer_2core_2plugin_2io_2db_2DBConnector_8cpp_source.html#l00178">DBConnector.cpp:178</a></div></div>
 <div class="ttc" id="aclassbioexplorer_1_1io_1_1db_1_1DBConnector_html_a8e8746a8dbc8eaf271b3ab5e1a4c909e"><div class="ttname"><a href="../../d9/d96/classbioexplorer_1_1io_1_1db_1_1DBConnector.html#a8e8746a8dbc8eaf271b3ab5e1a4c909e">bioexplorer::io::db::DBConnector::init</a></div><div class="ttdeci">void init(const CommandLineArguments &amp;arguments)</div><div class="ttdoc">Connects to the database using the provided command line arguments.</div><div class="ttdef"><b>Definition:</b> <a href="../../d5/d22/bioexplorer_2core_2plugin_2io_2db_2DBConnector_8cpp_source.html#l00056">DBConnector.cpp:56</a></div></div>
 <!-- start footer part -->

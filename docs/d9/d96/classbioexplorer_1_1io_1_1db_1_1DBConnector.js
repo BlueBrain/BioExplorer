@@ -11,7 +11,7 @@ var classbioexplorer_1_1io_1_1db_1_1DBConnector =
     [ "getNbConnections", "d9/d96/classbioexplorer_1_1io_1_1db_1_1DBConnector.html#acaf4e328efa1318682be17b37cdcc84e", null ],
     [ "getNeurons", "d9/d96/classbioexplorer_1_1io_1_1db_1_1DBConnector.html#a6c03a2fbc94fc22910c1b143b92053b6", null ],
     [ "getNeuronSections", "d9/d96/classbioexplorer_1_1io_1_1db_1_1DBConnector.html#af7de7fec03d25cbd0b95a5df2573281c", null ],
-    [ "getNeuronSynapses", "d9/d96/classbioexplorer_1_1io_1_1db_1_1DBConnector.html#ae5ee653afc363b3f33413824beb846ca", null ],
+    [ "getNeuronSynapses", "d9/d96/classbioexplorer_1_1io_1_1db_1_1DBConnector.html#a1d81ab4ce08852ca05136d3a79863866", null ],
     [ "getSceneConfiguration", "d9/d96/classbioexplorer_1_1io_1_1db_1_1DBConnector.html#ae91b451a6d92811c8c313645aecd1573", null ],
     [ "getVasculatureBifurcations", "d9/d96/classbioexplorer_1_1io_1_1db_1_1DBConnector.html#a17e6e76dce912c358f070fb2b2c84c6c", null ],
     [ "getVasculatureEdges", "d9/d96/classbioexplorer_1_1io_1_1db_1_1DBConnector.html#a71d7588d245345ff1611fe12a65748e5", null ],
