@@ -1437,6 +1437,12 @@ typedef struct
 } Synapse;
 using SynapseMap = std::map<uint64_t, Synapse>;
 
+enum class SynapseType
+{
+    afferent = 0,
+    efferent = 1
+};
+
 typedef struct
 {
     Vector4fs points;

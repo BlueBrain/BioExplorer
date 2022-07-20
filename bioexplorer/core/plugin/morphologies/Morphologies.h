@@ -54,9 +54,9 @@ const double mitochondrionRadius = 0.1;
 const double mitochondrionDisplacementStrength = 0.2;
 const double mitochondrionDisplacementFrequency = 100.0;
 
-const double spineRadiusRatio = 1.5;
-const double spineDisplacementStrength = 1.0;
-const double spineDisplacementFrequency = 100.0;
+const double spineRadiusRatio = 0.75;
+const double spineDisplacementStrength = 0.2;
+const double spineDisplacementFrequency = 3.0;
 
 const double myelinSteathLength = 10.0;
 const double myelinSteathRadiusRatio = 1.75;
