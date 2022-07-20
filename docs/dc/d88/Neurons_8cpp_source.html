@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.17"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>Blue Brain BioExplorer: /home/favreau/bluebrain/BioExplorer/bioexplorer/core/plugin/morphologies/Neurons.cpp Source File</title>
+<title>Blue Brain BioExplorer: /home/favreau/git/BioExplorer/bioexplorer/core/plugin/morphologies/Neurons.cpp Source File</title>
 <link href="../../tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="../../jquery.js"></script>
 <script type="text/javascript" src="../../dynsections.js"></script>
@@ -782,108 +782,123 @@ $(document).ready(function(){initNavTree('dc/d88/Neurons_8cpp_source.html','../.
 <div class="line"><a name="l00694"></a><span class="lineno">  694</span>&#160;                         <span class="keyword">const</span> <span class="keywordtype">double</span> somaRadius, <span class="keyword">const</span> <span class="keywordtype">size_t</span> baseMaterialId)</div>
 <div class="line"><a name="l00695"></a><span class="lineno">  695</span>&#160;{</div>
 <div class="line"><a name="l00696"></a><span class="lineno">  696</span>&#160;    <span class="keyword">const</span> <span class="keyword">auto</span>&amp; connector = <a class="code" href="../../d9/d96/classbioexplorer_1_1io_1_1db_1_1DBConnector.html#a54ae453b0795aabee7ee7e93ae976eab">DBConnector::getInstance</a>();</div>
-<div class="line"><a name="l00697"></a><span class="lineno">  697</span>&#160;    <span class="keyword">const</span> <span class="keyword">auto</span> synapses =</div>
-<div class="line"><a name="l00698"></a><span class="lineno">  698</span>&#160;        connector.getNeuronSynapses(_details.<a class="code" href="../../dc/d93/structbioexplorer_1_1details_1_1NeuronsDetails.html#a325c02f92bba314ff2534c2941829a1d">populationName</a>, somaIndex);</div>
-<div class="line"><a name="l00699"></a><span class="lineno">  699</span>&#160;    <span class="keyword">const</span> <span class="keywordtype">size_t</span> spineMaterialId =</div>
-<div class="line"><a name="l00700"></a><span class="lineno">  700</span>&#160;        baseMaterialId + MATERIAL_OFFSET_AFFERENT_SYNPASE;</div>
+<div class="line"><a name="l00697"></a><span class="lineno">  697</span>&#160;    <span class="keyword">const</span> <span class="keyword">auto</span> afferentSynapses =</div>
+<div class="line"><a name="l00698"></a><span class="lineno">  698</span>&#160;        connector.getNeuronSynapses(_details.<a class="code" href="../../dc/d93/structbioexplorer_1_1details_1_1NeuronsDetails.html#a325c02f92bba314ff2534c2941829a1d">populationName</a>, somaIndex,</div>
+<div class="line"><a name="l00699"></a><span class="lineno">  699</span>&#160;                                    SynapseType::afferent);</div>
+<div class="line"><a name="l00700"></a><span class="lineno">  700</span>&#160;    <span class="keyword">const</span> <span class="keywordtype">size_t</span> materialId = baseMaterialId + MATERIAL_OFFSET_AFFERENT_SYNPASE;</div>
 <div class="line"><a name="l00701"></a><span class="lineno">  701</span>&#160; </div>
-<div class="line"><a name="l00702"></a><span class="lineno">  702</span>&#160;    <span class="keywordflow">for</span> (<span class="keyword">const</span> <span class="keyword">auto</span>&amp; synapse : synapses)</div>
+<div class="line"><a name="l00702"></a><span class="lineno">  702</span>&#160;    <span class="keywordflow">for</span> (<span class="keyword">const</span> <span class="keyword">auto</span>&amp; synapse : afferentSynapses)</div>
 <div class="line"><a name="l00703"></a><span class="lineno">  703</span>&#160;        <span class="comment">// TODO: Do not create spines on the soma, the data is not yet</span></div>
 <div class="line"><a name="l00704"></a><span class="lineno">  704</span>&#160;        <span class="comment">// acceptable</span></div>
 <div class="line"><a name="l00705"></a><span class="lineno">  705</span>&#160;        <span class="keywordflow">if</span> (length(synapse.second.surfacePosition - somaPosition) &gt;</div>
 <div class="line"><a name="l00706"></a><span class="lineno">  706</span>&#160;                somaRadius * 3.0 &amp;&amp;</div>
 <div class="line"><a name="l00707"></a><span class="lineno">  707</span>&#160;            length(synapse.second.centerPosition - somaPosition) &gt;</div>
 <div class="line"><a name="l00708"></a><span class="lineno">  708</span>&#160;                somaRadius * 3.0)</div>
-<div class="line"><a name="l00709"></a><span class="lineno">  709</span>&#160;            _addSpine(container, synapse.first, synapse.second,</div>
-<div class="line"><a name="l00710"></a><span class="lineno">  710</span>&#160;                      spineMaterialId);</div>
-<div class="line"><a name="l00711"></a><span class="lineno">  711</span>&#160;}</div>
-<div class="line"><a name="l00712"></a><span class="lineno">  712</span>&#160; </div>
-<div class="line"><a name="l00713"></a><span class="lineno">  713</span>&#160;<span class="keywordtype">void</span> Neurons::_addSpine(ThreadSafeContainer&amp; container, <span class="keyword">const</span> uint64_t guid,</div>
-<div class="line"><a name="l00714"></a><span class="lineno">  714</span>&#160;                        <span class="keyword">const</span> Synapse&amp; synapse, <span class="keyword">const</span> <span class="keywordtype">size_t</span> SpineMaterialId)</div>
-<div class="line"><a name="l00715"></a><span class="lineno">  715</span>&#160;{</div>
-<div class="line"><a name="l00716"></a><span class="lineno">  716</span>&#160;    <span class="keyword">const</span> <span class="keywordtype">double</span> radius = DEFAULT_SPINE_RADIUS;</div>
+<div class="line"><a name="l00709"></a><span class="lineno">  709</span>&#160;            _addSpine(container, synapse.first, synapse.second, materialId,</div>
+<div class="line"><a name="l00710"></a><span class="lineno">  710</span>&#160;                      SynapseType::afferent);</div>
+<div class="line"><a name="l00711"></a><span class="lineno">  711</span>&#160; </div>
+<div class="line"><a name="l00712"></a><span class="lineno">  712</span>&#160;    <span class="keyword">const</span> <span class="keyword">auto</span> efferentSynapses =</div>
+<div class="line"><a name="l00713"></a><span class="lineno">  713</span>&#160;        connector.getNeuronSynapses(_details.<a class="code" href="../../dc/d93/structbioexplorer_1_1details_1_1NeuronsDetails.html#a325c02f92bba314ff2534c2941829a1d">populationName</a>, somaIndex,</div>
+<div class="line"><a name="l00714"></a><span class="lineno">  714</span>&#160;                                    SynapseType::efferent);</div>
+<div class="line"><a name="l00715"></a><span class="lineno">  715</span>&#160;    <span class="keyword">const</span> <span class="keywordtype">size_t</span> spineMaterialId =</div>
+<div class="line"><a name="l00716"></a><span class="lineno">  716</span>&#160;        baseMaterialId + MATERIAL_OFFSET_EFFERENT_SYNPASE;</div>
 <div class="line"><a name="l00717"></a><span class="lineno">  717</span>&#160; </div>
-<div class="line"><a name="l00718"></a><span class="lineno">  718</span>&#160;    <span class="comment">// Spine geometry</span></div>
-<div class="line"><a name="l00719"></a><span class="lineno">  719</span>&#160;    <span class="keyword">const</span> <span class="keywordtype">double</span> spineSmallRadius = radius * 0.3;</div>
-<div class="line"><a name="l00720"></a><span class="lineno">  720</span>&#160;    <span class="keyword">const</span> <span class="keywordtype">double</span> spineBaseRadius = radius * 0.5;</div>
-<div class="line"><a name="l00721"></a><span class="lineno">  721</span>&#160; </div>
-<div class="line"><a name="l00722"></a><span class="lineno">  722</span>&#160;    <span class="keyword">const</span> <span class="keyword">auto</span> direction = (synapse.centerPosition - synapse.surfacePosition);</div>
-<div class="line"><a name="l00723"></a><span class="lineno">  723</span>&#160; </div>
-<div class="line"><a name="l00724"></a><span class="lineno">  724</span>&#160;    <span class="keyword">const</span> <span class="keyword">auto</span> surfaceOrigin = synapse.surfacePosition;</div>
-<div class="line"><a name="l00725"></a><span class="lineno">  725</span>&#160;    <span class="keyword">const</span> <span class="keyword">auto</span> surfaceTarget = surfaceOrigin + direction;</div>
-<div class="line"><a name="l00726"></a><span class="lineno">  726</span>&#160; </div>
-<div class="line"><a name="l00727"></a><span class="lineno">  727</span>&#160;    <span class="keyword">const</span> <span class="keyword">auto</span> spineLargeRadius = radius * spineRadiusRatio;</div>
+<div class="line"><a name="l00718"></a><span class="lineno">  718</span>&#160;    <span class="keywordflow">for</span> (<span class="keyword">const</span> <span class="keyword">auto</span>&amp; synapse : efferentSynapses)</div>
+<div class="line"><a name="l00719"></a><span class="lineno">  719</span>&#160;        <span class="comment">// TODO: Do not create spines on the soma, the data is not yet</span></div>
+<div class="line"><a name="l00720"></a><span class="lineno">  720</span>&#160;        <span class="comment">// acceptable</span></div>
+<div class="line"><a name="l00721"></a><span class="lineno">  721</span>&#160;        <span class="keywordflow">if</span> (length(synapse.second.surfacePosition - somaPosition) &gt;</div>
+<div class="line"><a name="l00722"></a><span class="lineno">  722</span>&#160;                somaRadius * 3.0 &amp;&amp;</div>
+<div class="line"><a name="l00723"></a><span class="lineno">  723</span>&#160;            length(synapse.second.centerPosition - somaPosition) &gt;</div>
+<div class="line"><a name="l00724"></a><span class="lineno">  724</span>&#160;                somaRadius * 3.0)</div>
+<div class="line"><a name="l00725"></a><span class="lineno">  725</span>&#160;            _addSpine(container, synapse.first, synapse.second, materialId,</div>
+<div class="line"><a name="l00726"></a><span class="lineno">  726</span>&#160;                      SynapseType::efferent);</div>
+<div class="line"><a name="l00727"></a><span class="lineno">  727</span>&#160;}</div>
 <div class="line"><a name="l00728"></a><span class="lineno">  728</span>&#160; </div>
-<div class="line"><a name="l00729"></a><span class="lineno">  729</span>&#160;    <span class="comment">// Create random shape between origin and target</span></div>
-<div class="line"><a name="l00730"></a><span class="lineno">  730</span>&#160;    <span class="keyword">auto</span> middle = (surfaceTarget + surfaceOrigin) / 2.0;</div>
-<div class="line"><a name="l00731"></a><span class="lineno">  731</span>&#160;    <span class="keyword">const</span> <span class="keywordtype">double</span> d = length(surfaceTarget - surfaceOrigin) / 2.5;</div>
-<div class="line"><a name="l00732"></a><span class="lineno">  732</span>&#160;    <span class="keyword">const</span> <span class="keyword">auto</span> i = guid * 4;</div>
-<div class="line"><a name="l00733"></a><span class="lineno">  733</span>&#160;    middle += Vector3f(d * <a class="code" href="../../dc/d78/classbioexplorer_1_1common_1_1Shape.html#ad87787c4abaa37a250a4c2d88f31b4cf">Shape::rnd2</a>(i), d * <a class="code" href="../../dc/d78/classbioexplorer_1_1common_1_1Shape.html#ad87787c4abaa37a250a4c2d88f31b4cf">Shape::rnd2</a>(i + 1),</div>
-<div class="line"><a name="l00734"></a><span class="lineno">  734</span>&#160;                       d * <a class="code" href="../../dc/d78/classbioexplorer_1_1common_1_1Shape.html#ad87787c4abaa37a250a4c2d88f31b4cf">Shape::rnd2</a>(i + 2));</div>
-<div class="line"><a name="l00735"></a><span class="lineno">  735</span>&#160;    <span class="keyword">const</span> <span class="keywordtype">float</span> spineMiddleRadius =</div>
-<div class="line"><a name="l00736"></a><span class="lineno">  736</span>&#160;        spineSmallRadius + d * 0.1 * <a class="code" href="../../dc/d78/classbioexplorer_1_1common_1_1Shape.html#ad87787c4abaa37a250a4c2d88f31b4cf">Shape::rnd2</a>(i + 3);</div>
-<div class="line"><a name="l00737"></a><span class="lineno">  737</span>&#160; </div>
-<div class="line"><a name="l00738"></a><span class="lineno">  738</span>&#160;    <span class="keyword">const</span> <span class="keyword">auto</span> smallDisplacement =</div>
-<div class="line"><a name="l00739"></a><span class="lineno">  739</span>&#160;        Vector3f(spineSmallRadius * spineDisplacementStrength * 0.5,</div>
-<div class="line"><a name="l00740"></a><span class="lineno">  740</span>&#160;                 spineSmallRadius * spineDisplacementFrequency, 0.f);</div>
-<div class="line"><a name="l00741"></a><span class="lineno">  741</span>&#160;    <span class="keyword">const</span> <span class="keyword">auto</span> largeDisplacement =</div>
-<div class="line"><a name="l00742"></a><span class="lineno">  742</span>&#160;        Vector3f(spineSmallRadius * spineDisplacementStrength,</div>
-<div class="line"><a name="l00743"></a><span class="lineno">  743</span>&#160;                 spineSmallRadius * spineDisplacementFrequency, 0.f);</div>
-<div class="line"><a name="l00744"></a><span class="lineno">  744</span>&#160;    Neighbours neighbours;</div>
-<div class="line"><a name="l00745"></a><span class="lineno">  745</span>&#160;    neighbours.insert(container.addSphere(surfaceOrigin, spineLargeRadius,</div>
-<div class="line"><a name="l00746"></a><span class="lineno">  746</span>&#160;                                          SpineMaterialId, NO_USER_DATA,</div>
-<div class="line"><a name="l00747"></a><span class="lineno">  747</span>&#160;                                          neighbours, largeDisplacement));</div>
-<div class="line"><a name="l00748"></a><span class="lineno">  748</span>&#160;    neighbours.insert(container.addSphere(middle, spineMiddleRadius,</div>
-<div class="line"><a name="l00749"></a><span class="lineno">  749</span>&#160;                                          SpineMaterialId, NO_USER_DATA,</div>
-<div class="line"><a name="l00750"></a><span class="lineno">  750</span>&#160;                                          neighbours, largeDisplacement));</div>
-<div class="line"><a name="l00751"></a><span class="lineno">  751</span>&#160;    <span class="keywordflow">if</span> (surfaceOrigin != middle)</div>
-<div class="line"><a name="l00752"></a><span class="lineno">  752</span>&#160;        container.addCone(surfaceOrigin, spineLargeRadius, middle,</div>
-<div class="line"><a name="l00753"></a><span class="lineno">  753</span>&#160;                          spineMiddleRadius, SpineMaterialId, NO_USER_DATA,</div>
-<div class="line"><a name="l00754"></a><span class="lineno">  754</span>&#160;                          neighbours, smallDisplacement);</div>
-<div class="line"><a name="l00755"></a><span class="lineno">  755</span>&#160;    <span class="keywordflow">if</span> (middle != surfaceTarget)</div>
-<div class="line"><a name="l00756"></a><span class="lineno">  756</span>&#160;        container.addCone(middle, spineMiddleRadius, surfaceTarget,</div>
-<div class="line"><a name="l00757"></a><span class="lineno">  757</span>&#160;                          spineSmallRadius, SpineMaterialId, NO_USER_DATA,</div>
-<div class="line"><a name="l00758"></a><span class="lineno">  758</span>&#160;                          neighbours, smallDisplacement);</div>
-<div class="line"><a name="l00759"></a><span class="lineno">  759</span>&#160;}</div>
-<div class="line"><a name="l00760"></a><span class="lineno">  760</span>&#160; </div>
-<div class="line"><a name="l00761"></a><span class="lineno"><a class="line" href="../../d1/d39/classbioexplorer_1_1morphology_1_1Neurons.html#a98f7e68aa6523c8fb77c4c7ee8731c46">  761</a></span>&#160;Vector4ds <a class="code" href="../../d1/d39/classbioexplorer_1_1morphology_1_1Neurons.html#a98f7e68aa6523c8fb77c4c7ee8731c46">Neurons::getNeuronSectionPoints</a>(<span class="keyword">const</span> uint64_t neuronId,</div>
-<div class="line"><a name="l00762"></a><span class="lineno">  762</span>&#160;                                          <span class="keyword">const</span> uint64_t sectionId)</div>
-<div class="line"><a name="l00763"></a><span class="lineno">  763</span>&#160;{</div>
-<div class="line"><a name="l00764"></a><span class="lineno">  764</span>&#160;    <span class="keyword">const</span> <span class="keyword">auto</span>&amp; connector = <a class="code" href="../../d9/d96/classbioexplorer_1_1io_1_1db_1_1DBConnector.html#a54ae453b0795aabee7ee7e93ae976eab">DBConnector::getInstance</a>();</div>
-<div class="line"><a name="l00765"></a><span class="lineno">  765</span>&#160;    <span class="keyword">const</span> <span class="keyword">auto</span> neurons =</div>
-<div class="line"><a name="l00766"></a><span class="lineno">  766</span>&#160;        connector.getNeurons(_details.<a class="code" href="../../dc/d93/structbioexplorer_1_1details_1_1NeuronsDetails.html#a325c02f92bba314ff2534c2941829a1d">populationName</a>,</div>
-<div class="line"><a name="l00767"></a><span class="lineno">  767</span>&#160;                             <span class="stringliteral">&quot;guid=&quot;</span> + std::to_string(neuronId));</div>
-<div class="line"><a name="l00768"></a><span class="lineno">  768</span>&#160; </div>
-<div class="line"><a name="l00769"></a><span class="lineno">  769</span>&#160;    <span class="keywordflow">if</span> (neurons.empty())</div>
-<div class="line"><a name="l00770"></a><span class="lineno">  770</span>&#160;        PLUGIN_THROW(<span class="stringliteral">&quot;Neuron &quot;</span> + std::to_string(neuronId) + <span class="stringliteral">&quot; does not exist&quot;</span>);</div>
-<div class="line"><a name="l00771"></a><span class="lineno">  771</span>&#160;    <span class="keyword">const</span> <span class="keyword">auto</span>&amp; neuron = neurons.begin()-&gt;second;</div>
-<div class="line"><a name="l00772"></a><span class="lineno">  772</span>&#160;    <span class="keyword">const</span> <span class="keyword">auto</span> sections =</div>
-<div class="line"><a name="l00773"></a><span class="lineno">  773</span>&#160;        connector.getNeuronSections(_details.<a class="code" href="../../dc/d93/structbioexplorer_1_1details_1_1NeuronsDetails.html#a325c02f92bba314ff2534c2941829a1d">populationName</a>, neuronId);</div>
-<div class="line"><a name="l00774"></a><span class="lineno">  774</span>&#160; </div>
-<div class="line"><a name="l00775"></a><span class="lineno">  775</span>&#160;    <span class="keywordflow">if</span> (sections.empty())</div>
-<div class="line"><a name="l00776"></a><span class="lineno">  776</span>&#160;        PLUGIN_THROW(<span class="stringliteral">&quot;Section &quot;</span> + std::to_string(sectionId) +</div>
-<div class="line"><a name="l00777"></a><span class="lineno">  777</span>&#160;                     <span class="stringliteral">&quot; does not exist for neuron &quot;</span> + std::to_string(neuronId));</div>
-<div class="line"><a name="l00778"></a><span class="lineno">  778</span>&#160;    <span class="keyword">const</span> <span class="keyword">auto</span> section = sections.begin()-&gt;second;</div>
-<div class="line"><a name="l00779"></a><span class="lineno">  779</span>&#160;    Vector4ds points;</div>
-<div class="line"><a name="l00780"></a><span class="lineno">  780</span>&#160;    <span class="keywordflow">for</span> (<span class="keyword">const</span> <span class="keyword">auto</span>&amp; point : section.points)</div>
-<div class="line"><a name="l00781"></a><span class="lineno">  781</span>&#160;    {</div>
-<div class="line"><a name="l00782"></a><span class="lineno">  782</span>&#160;        <span class="keyword">const</span> Vector3d position =</div>
-<div class="line"><a name="l00783"></a><span class="lineno">  783</span>&#160;            _scale * (neuron.position + neuron.rotation * Vector3d(point));</div>
-<div class="line"><a name="l00784"></a><span class="lineno">  784</span>&#160;        <span class="keyword">const</span> <span class="keywordtype">double</span> radius = point.w;</div>
-<div class="line"><a name="l00785"></a><span class="lineno">  785</span>&#160;        points.push_back({position.x, position.y, position.z, radius});</div>
-<div class="line"><a name="l00786"></a><span class="lineno">  786</span>&#160;    }</div>
-<div class="line"><a name="l00787"></a><span class="lineno">  787</span>&#160;    <span class="keywordflow">return</span> points;</div>
-<div class="line"><a name="l00788"></a><span class="lineno">  788</span>&#160;}</div>
+<div class="line"><a name="l00729"></a><span class="lineno">  729</span>&#160;<span class="keywordtype">void</span> Neurons::_addSpine(ThreadSafeContainer&amp; container, <span class="keyword">const</span> uint64_t guid,</div>
+<div class="line"><a name="l00730"></a><span class="lineno">  730</span>&#160;                        <span class="keyword">const</span> Synapse&amp; synapse, <span class="keyword">const</span> <span class="keywordtype">size_t</span> SpineMaterialId,</div>
+<div class="line"><a name="l00731"></a><span class="lineno">  731</span>&#160;                        <span class="keyword">const</span> SynapseType&amp; synapseType)</div>
+<div class="line"><a name="l00732"></a><span class="lineno">  732</span>&#160;{</div>
+<div class="line"><a name="l00733"></a><span class="lineno">  733</span>&#160;    <span class="keyword">const</span> <span class="keywordtype">double</span> radius = DEFAULT_SPINE_RADIUS;</div>
+<div class="line"><a name="l00734"></a><span class="lineno">  734</span>&#160; </div>
+<div class="line"><a name="l00735"></a><span class="lineno">  735</span>&#160;    <span class="comment">// Spine geometry</span></div>
+<div class="line"><a name="l00736"></a><span class="lineno">  736</span>&#160;    <span class="keyword">const</span> <span class="keywordtype">double</span> spineSmallRadius = radius * 0.15;</div>
+<div class="line"><a name="l00737"></a><span class="lineno">  737</span>&#160;    <span class="keyword">const</span> <span class="keywordtype">double</span> spineBaseRadius = radius * 0.25;</div>
+<div class="line"><a name="l00738"></a><span class="lineno">  738</span>&#160; </div>
+<div class="line"><a name="l00739"></a><span class="lineno">  739</span>&#160;    <span class="keyword">const</span> <span class="keyword">auto</span> direction = (synapse.centerPosition - synapse.surfacePosition) *</div>
+<div class="line"><a name="l00740"></a><span class="lineno">  740</span>&#160;                           0.4 *</div>
+<div class="line"><a name="l00741"></a><span class="lineno">  741</span>&#160;                           (synapseType == SynapseType::afferent ? -1.0 : 1.0);</div>
+<div class="line"><a name="l00742"></a><span class="lineno">  742</span>&#160; </div>
+<div class="line"><a name="l00743"></a><span class="lineno">  743</span>&#160;    <span class="keyword">const</span> <span class="keyword">auto</span>&amp; origin =</div>
+<div class="line"><a name="l00744"></a><span class="lineno">  744</span>&#160;        (synapseType == SynapseType::afferent ? synapse.centerPosition</div>
+<div class="line"><a name="l00745"></a><span class="lineno">  745</span>&#160;                                              : synapse.surfacePosition);</div>
+<div class="line"><a name="l00746"></a><span class="lineno">  746</span>&#160;    <span class="keyword">const</span> <span class="keyword">auto</span>&amp; target = origin + direction;</div>
+<div class="line"><a name="l00747"></a><span class="lineno">  747</span>&#160; </div>
+<div class="line"><a name="l00748"></a><span class="lineno">  748</span>&#160;    <span class="keyword">const</span> <span class="keyword">auto</span> spineLargeRadius = radius * spineRadiusRatio;</div>
+<div class="line"><a name="l00749"></a><span class="lineno">  749</span>&#160; </div>
+<div class="line"><a name="l00750"></a><span class="lineno">  750</span>&#160;    <span class="comment">// Create random shape between origin and target</span></div>
+<div class="line"><a name="l00751"></a><span class="lineno">  751</span>&#160;    <span class="keyword">auto</span> middle = (target + origin) / 2.0;</div>
+<div class="line"><a name="l00752"></a><span class="lineno">  752</span>&#160;    <span class="keyword">const</span> <span class="keywordtype">double</span> d = length(target - origin) / 1.5;</div>
+<div class="line"><a name="l00753"></a><span class="lineno">  753</span>&#160;    <span class="keyword">const</span> <span class="keyword">auto</span> i = guid * 4;</div>
+<div class="line"><a name="l00754"></a><span class="lineno">  754</span>&#160;    middle += Vector3f(d * <a class="code" href="../../dc/d78/classbioexplorer_1_1common_1_1Shape.html#ad87787c4abaa37a250a4c2d88f31b4cf">Shape::rnd2</a>(i), d * <a class="code" href="../../dc/d78/classbioexplorer_1_1common_1_1Shape.html#ad87787c4abaa37a250a4c2d88f31b4cf">Shape::rnd2</a>(i + 1),</div>
+<div class="line"><a name="l00755"></a><span class="lineno">  755</span>&#160;                       d * <a class="code" href="../../dc/d78/classbioexplorer_1_1common_1_1Shape.html#ad87787c4abaa37a250a4c2d88f31b4cf">Shape::rnd2</a>(i + 2));</div>
+<div class="line"><a name="l00756"></a><span class="lineno">  756</span>&#160;    <span class="keyword">const</span> <span class="keywordtype">float</span> spineMiddleRadius =</div>
+<div class="line"><a name="l00757"></a><span class="lineno">  757</span>&#160;        spineSmallRadius + d * 0.1 * <a class="code" href="../../dc/d78/classbioexplorer_1_1common_1_1Shape.html#ad87787c4abaa37a250a4c2d88f31b4cf">Shape::rnd2</a>(i + 3);</div>
+<div class="line"><a name="l00758"></a><span class="lineno">  758</span>&#160; </div>
+<div class="line"><a name="l00759"></a><span class="lineno">  759</span>&#160;    <span class="keyword">const</span> <span class="keyword">auto</span> displacement =</div>
+<div class="line"><a name="l00760"></a><span class="lineno">  760</span>&#160;        Vector3f(radius * spineDisplacementStrength,</div>
+<div class="line"><a name="l00761"></a><span class="lineno">  761</span>&#160;                 radius * spineDisplacementFrequency, 0.f);</div>
+<div class="line"><a name="l00762"></a><span class="lineno">  762</span>&#160;    Neighbours neighbours;</div>
+<div class="line"><a name="l00763"></a><span class="lineno">  763</span>&#160;    neighbours.insert(container.addSphere(middle, spineMiddleRadius,</div>
+<div class="line"><a name="l00764"></a><span class="lineno">  764</span>&#160;                                          SpineMaterialId, NO_USER_DATA,</div>
+<div class="line"><a name="l00765"></a><span class="lineno">  765</span>&#160;                                          neighbours, displacement));</div>
+<div class="line"><a name="l00766"></a><span class="lineno">  766</span>&#160;    <span class="keywordflow">if</span> (middle != origin)</div>
+<div class="line"><a name="l00767"></a><span class="lineno">  767</span>&#160;        container.addCone(origin, spineSmallRadius, middle, spineMiddleRadius,</div>
+<div class="line"><a name="l00768"></a><span class="lineno">  768</span>&#160;                          SpineMaterialId, NO_USER_DATA, neighbours,</div>
+<div class="line"><a name="l00769"></a><span class="lineno">  769</span>&#160;                          displacement);</div>
+<div class="line"><a name="l00770"></a><span class="lineno">  770</span>&#160;    <span class="keywordflow">if</span> (middle != target)</div>
+<div class="line"><a name="l00771"></a><span class="lineno">  771</span>&#160;        container.addCone(middle, spineMiddleRadius, target, spineLargeRadius,</div>
+<div class="line"><a name="l00772"></a><span class="lineno">  772</span>&#160;                          SpineMaterialId, NO_USER_DATA, neighbours,</div>
+<div class="line"><a name="l00773"></a><span class="lineno">  773</span>&#160;                          displacement);</div>
+<div class="line"><a name="l00774"></a><span class="lineno">  774</span>&#160;}</div>
+<div class="line"><a name="l00775"></a><span class="lineno">  775</span>&#160; </div>
+<div class="line"><a name="l00776"></a><span class="lineno"><a class="line" href="../../d1/d39/classbioexplorer_1_1morphology_1_1Neurons.html#a98f7e68aa6523c8fb77c4c7ee8731c46">  776</a></span>&#160;Vector4ds <a class="code" href="../../d1/d39/classbioexplorer_1_1morphology_1_1Neurons.html#a98f7e68aa6523c8fb77c4c7ee8731c46">Neurons::getNeuronSectionPoints</a>(<span class="keyword">const</span> uint64_t neuronId,</div>
+<div class="line"><a name="l00777"></a><span class="lineno">  777</span>&#160;                                          <span class="keyword">const</span> uint64_t sectionId)</div>
+<div class="line"><a name="l00778"></a><span class="lineno">  778</span>&#160;{</div>
+<div class="line"><a name="l00779"></a><span class="lineno">  779</span>&#160;    <span class="keyword">const</span> <span class="keyword">auto</span>&amp; connector = <a class="code" href="../../d9/d96/classbioexplorer_1_1io_1_1db_1_1DBConnector.html#a54ae453b0795aabee7ee7e93ae976eab">DBConnector::getInstance</a>();</div>
+<div class="line"><a name="l00780"></a><span class="lineno">  780</span>&#160;    <span class="keyword">const</span> <span class="keyword">auto</span> neurons =</div>
+<div class="line"><a name="l00781"></a><span class="lineno">  781</span>&#160;        connector.getNeurons(_details.<a class="code" href="../../dc/d93/structbioexplorer_1_1details_1_1NeuronsDetails.html#a325c02f92bba314ff2534c2941829a1d">populationName</a>,</div>
+<div class="line"><a name="l00782"></a><span class="lineno">  782</span>&#160;                             <span class="stringliteral">&quot;guid=&quot;</span> + std::to_string(neuronId));</div>
+<div class="line"><a name="l00783"></a><span class="lineno">  783</span>&#160; </div>
+<div class="line"><a name="l00784"></a><span class="lineno">  784</span>&#160;    <span class="keywordflow">if</span> (neurons.empty())</div>
+<div class="line"><a name="l00785"></a><span class="lineno">  785</span>&#160;        PLUGIN_THROW(<span class="stringliteral">&quot;Neuron &quot;</span> + std::to_string(neuronId) + <span class="stringliteral">&quot; does not exist&quot;</span>);</div>
+<div class="line"><a name="l00786"></a><span class="lineno">  786</span>&#160;    <span class="keyword">const</span> <span class="keyword">auto</span>&amp; neuron = neurons.begin()-&gt;second;</div>
+<div class="line"><a name="l00787"></a><span class="lineno">  787</span>&#160;    <span class="keyword">const</span> <span class="keyword">auto</span> sections =</div>
+<div class="line"><a name="l00788"></a><span class="lineno">  788</span>&#160;        connector.getNeuronSections(_details.<a class="code" href="../../dc/d93/structbioexplorer_1_1details_1_1NeuronsDetails.html#a325c02f92bba314ff2534c2941829a1d">populationName</a>, neuronId);</div>
 <div class="line"><a name="l00789"></a><span class="lineno">  789</span>&#160; </div>
-<div class="line"><a name="l00790"></a><span class="lineno"><a class="line" href="../../d1/d39/classbioexplorer_1_1morphology_1_1Neurons.html#a03f116b7a3de0efc1b242bd0daf4f1ee">  790</a></span>&#160;Vector3ds <a class="code" href="../../d1/d39/classbioexplorer_1_1morphology_1_1Neurons.html#a03f116b7a3de0efc1b242bd0daf4f1ee">Neurons::getNeuronVaricosities</a>(<span class="keyword">const</span> uint64_t neuronId)</div>
-<div class="line"><a name="l00791"></a><span class="lineno">  791</span>&#160;{</div>
-<div class="line"><a name="l00792"></a><span class="lineno">  792</span>&#160;    <span class="keywordflow">if</span> (_varicosities.find(neuronId) == _varicosities.end())</div>
-<div class="line"><a name="l00793"></a><span class="lineno">  793</span>&#160;        PLUGIN_THROW(<span class="stringliteral">&quot;Neuron &quot;</span> + std::to_string(neuronId) + <span class="stringliteral">&quot; does not exist&quot;</span>);</div>
-<div class="line"><a name="l00794"></a><span class="lineno">  794</span>&#160;    <span class="keywordflow">return</span> _varicosities[neuronId];</div>
-<div class="line"><a name="l00795"></a><span class="lineno">  795</span>&#160;}</div>
-<div class="line"><a name="l00796"></a><span class="lineno">  796</span>&#160; </div>
-<div class="line"><a name="l00797"></a><span class="lineno">  797</span>&#160;} <span class="comment">// namespace morphology</span></div>
-<div class="line"><a name="l00798"></a><span class="lineno">  798</span>&#160;} <span class="comment">// namespace bioexplorer</span></div>
+<div class="line"><a name="l00790"></a><span class="lineno">  790</span>&#160;    <span class="keywordflow">if</span> (sections.empty())</div>
+<div class="line"><a name="l00791"></a><span class="lineno">  791</span>&#160;        PLUGIN_THROW(<span class="stringliteral">&quot;Section &quot;</span> + std::to_string(sectionId) +</div>
+<div class="line"><a name="l00792"></a><span class="lineno">  792</span>&#160;                     <span class="stringliteral">&quot; does not exist for neuron &quot;</span> + std::to_string(neuronId));</div>
+<div class="line"><a name="l00793"></a><span class="lineno">  793</span>&#160;    <span class="keyword">const</span> <span class="keyword">auto</span> section = sections.begin()-&gt;second;</div>
+<div class="line"><a name="l00794"></a><span class="lineno">  794</span>&#160;    Vector4ds points;</div>
+<div class="line"><a name="l00795"></a><span class="lineno">  795</span>&#160;    <span class="keywordflow">for</span> (<span class="keyword">const</span> <span class="keyword">auto</span>&amp; point : section.points)</div>
+<div class="line"><a name="l00796"></a><span class="lineno">  796</span>&#160;    {</div>
+<div class="line"><a name="l00797"></a><span class="lineno">  797</span>&#160;        <span class="keyword">const</span> Vector3d position =</div>
+<div class="line"><a name="l00798"></a><span class="lineno">  798</span>&#160;            _scale * (neuron.position + neuron.rotation * Vector3d(point));</div>
+<div class="line"><a name="l00799"></a><span class="lineno">  799</span>&#160;        <span class="keyword">const</span> <span class="keywordtype">double</span> radius = point.w;</div>
+<div class="line"><a name="l00800"></a><span class="lineno">  800</span>&#160;        points.push_back({position.x, position.y, position.z, radius});</div>
+<div class="line"><a name="l00801"></a><span class="lineno">  801</span>&#160;    }</div>
+<div class="line"><a name="l00802"></a><span class="lineno">  802</span>&#160;    <span class="keywordflow">return</span> points;</div>
+<div class="line"><a name="l00803"></a><span class="lineno">  803</span>&#160;}</div>
+<div class="line"><a name="l00804"></a><span class="lineno">  804</span>&#160; </div>
+<div class="line"><a name="l00805"></a><span class="lineno"><a class="line" href="../../d1/d39/classbioexplorer_1_1morphology_1_1Neurons.html#a03f116b7a3de0efc1b242bd0daf4f1ee">  805</a></span>&#160;Vector3ds <a class="code" href="../../d1/d39/classbioexplorer_1_1morphology_1_1Neurons.html#a03f116b7a3de0efc1b242bd0daf4f1ee">Neurons::getNeuronVaricosities</a>(<span class="keyword">const</span> uint64_t neuronId)</div>
+<div class="line"><a name="l00806"></a><span class="lineno">  806</span>&#160;{</div>
+<div class="line"><a name="l00807"></a><span class="lineno">  807</span>&#160;    <span class="keywordflow">if</span> (_varicosities.find(neuronId) == _varicosities.end())</div>
+<div class="line"><a name="l00808"></a><span class="lineno">  808</span>&#160;        PLUGIN_THROW(<span class="stringliteral">&quot;Neuron &quot;</span> + std::to_string(neuronId) + <span class="stringliteral">&quot; does not exist&quot;</span>);</div>
+<div class="line"><a name="l00809"></a><span class="lineno">  809</span>&#160;    <span class="keywordflow">return</span> _varicosities[neuronId];</div>
+<div class="line"><a name="l00810"></a><span class="lineno">  810</span>&#160;}</div>
+<div class="line"><a name="l00811"></a><span class="lineno">  811</span>&#160; </div>
+<div class="line"><a name="l00812"></a><span class="lineno">  812</span>&#160;} <span class="comment">// namespace morphology</span></div>
+<div class="line"><a name="l00813"></a><span class="lineno">  813</span>&#160;} <span class="comment">// namespace bioexplorer</span></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
 <div class="ttc" id="aclassbioexplorer_1_1morphology_1_1Neurons_html_ac1078eaebfad79aa3310a6f96264dac5"><div class="ttname"><a href="../../d1/d39/classbioexplorer_1_1morphology_1_1Neurons.html#ac1078eaebfad79aa3310a6f96264dac5">bioexplorer::morphology::Neurons::Neurons</a></div><div class="ttdeci">Neurons(Scene &amp;scene, const NeuronsDetails &amp;details)</div><div class="ttdoc">Construct a new Neurons object.</div><div class="ttdef"><b>Definition:</b> <a href="../../dc/d88/Neurons_8cpp_source.html#l00049">Neurons.cpp:49</a></div></div>
@@ -894,8 +909,8 @@ $(document).ready(function(){initNavTree('dc/d88/Neurons_8cpp_source.html','../.
 <div class="ttc" id="astructbioexplorer_1_1details_1_1NeuronsDetails_html_a884d2f88c110065d0b857bda00ac6d92"><div class="ttname"><a href="../../dc/d93/structbioexplorer_1_1details_1_1NeuronsDetails.html#a884d2f88c110065d0b857bda00ac6d92">bioexplorer::details::NeuronsDetails::morphologyRepresentation</a></div><div class="ttdeci">MorphologyRepresentation morphologyRepresentation</div><div class="ttdef"><b>Definition:</b> <a href="../../d0/dde/bioexplorer_2core_2plugin_2common_2Types_8h_source.html#l01082">Types.h:1082</a></div></div>
 <div class="ttc" id="astructbioexplorer_1_1details_1_1NeuronsDetails_html_a8269067307828763a0055a888a3a4a23"><div class="ttname"><a href="../../dc/d93/structbioexplorer_1_1details_1_1NeuronsDetails.html#a8269067307828763a0055a888a3a4a23">bioexplorer::details::NeuronsDetails::assemblyName</a></div><div class="ttdeci">std::string assemblyName</div><div class="ttdef"><b>Definition:</b> <a href="../../d0/dde/bioexplorer_2core_2plugin_2common_2Types_8h_source.html#l01057">Types.h:1057</a></div></div>
 <div class="ttc" id="astructbioexplorer_1_1details_1_1NeuronsDetails_html_a632811d450c9cb5a19625a6830dddf05"><div class="ttname"><a href="../../dc/d93/structbioexplorer_1_1details_1_1NeuronsDetails.html#a632811d450c9cb5a19625a6830dddf05">bioexplorer::details::NeuronsDetails::morphologyColorScheme</a></div><div class="ttdeci">MorphologyColorScheme morphologyColorScheme</div><div class="ttdef"><b>Definition:</b> <a href="../../d0/dde/bioexplorer_2core_2plugin_2common_2Types_8h_source.html#l01085">Types.h:1085</a></div></div>
-<div class="ttc" id="aclassbioexplorer_1_1morphology_1_1Neurons_html_a03f116b7a3de0efc1b242bd0daf4f1ee"><div class="ttname"><a href="../../d1/d39/classbioexplorer_1_1morphology_1_1Neurons.html#a03f116b7a3de0efc1b242bd0daf4f1ee">bioexplorer::morphology::Neurons::getNeuronVaricosities</a></div><div class="ttdeci">Vector3ds getNeuronVaricosities(const uint64_t neuronId)</div><div class="ttdoc">Get the neuron varicosities location in space.</div><div class="ttdef"><b>Definition:</b> <a href="../../dc/d88/Neurons_8cpp_source.html#l00790">Neurons.cpp:790</a></div></div>
-<div class="ttc" id="aclassbioexplorer_1_1morphology_1_1Neurons_html_a98f7e68aa6523c8fb77c4c7ee8731c46"><div class="ttname"><a href="../../d1/d39/classbioexplorer_1_1morphology_1_1Neurons.html#a98f7e68aa6523c8fb77c4c7ee8731c46">bioexplorer::morphology::Neurons::getNeuronSectionPoints</a></div><div class="ttdeci">Vector4ds getNeuronSectionPoints(const uint64_t neuronId, const uint64_t sectionId)</div><div class="ttdoc">Get the neuron section 3D points for a given section Id.</div><div class="ttdef"><b>Definition:</b> <a href="../../dc/d88/Neurons_8cpp_source.html#l00761">Neurons.cpp:761</a></div></div>
+<div class="ttc" id="aclassbioexplorer_1_1morphology_1_1Neurons_html_a03f116b7a3de0efc1b242bd0daf4f1ee"><div class="ttname"><a href="../../d1/d39/classbioexplorer_1_1morphology_1_1Neurons.html#a03f116b7a3de0efc1b242bd0daf4f1ee">bioexplorer::morphology::Neurons::getNeuronVaricosities</a></div><div class="ttdeci">Vector3ds getNeuronVaricosities(const uint64_t neuronId)</div><div class="ttdoc">Get the neuron varicosities location in space.</div><div class="ttdef"><b>Definition:</b> <a href="../../dc/d88/Neurons_8cpp_source.html#l00805">Neurons.cpp:805</a></div></div>
+<div class="ttc" id="aclassbioexplorer_1_1morphology_1_1Neurons_html_a98f7e68aa6523c8fb77c4c7ee8731c46"><div class="ttname"><a href="../../d1/d39/classbioexplorer_1_1morphology_1_1Neurons.html#a98f7e68aa6523c8fb77c4c7ee8731c46">bioexplorer::morphology::Neurons::getNeuronSectionPoints</a></div><div class="ttdeci">Vector4ds getNeuronSectionPoints(const uint64_t neuronId, const uint64_t sectionId)</div><div class="ttdoc">Get the neuron section 3D points for a given section Id.</div><div class="ttdef"><b>Definition:</b> <a href="../../dc/d88/Neurons_8cpp_source.html#l00776">Neurons.cpp:776</a></div></div>
 <div class="ttc" id="astructbioexplorer_1_1details_1_1NeuronsDetails_html_a0635219679ebd5ad88cafdfc6a94b778"><div class="ttname"><a href="../../dc/d93/structbioexplorer_1_1details_1_1NeuronsDetails.html#a0635219679ebd5ad88cafdfc6a94b778">bioexplorer::details::NeuronsDetails::animationParams</a></div><div class="ttdeci">doubles animationParams</div><div class="ttdef"><b>Definition:</b> <a href="../../d0/dde/bioexplorer_2core_2plugin_2common_2Types_8h_source.html#l01097">Types.h:1097</a></div></div>
 <div class="ttc" id="aclassbioexplorer_1_1common_1_1ThreadSafeContainer_html"><div class="ttname"><a href="../../d2/d4a/classbioexplorer_1_1common_1_1ThreadSafeContainer.html">bioexplorer::common::ThreadSafeContainer</a></div><div class="ttdoc">The ThreadSafeContainer class is used to load large datasets in parallel. Every individual element is...</div><div class="ttdef"><b>Definition:</b> <a href="../../dd/d8f/ThreadSafeContainer_8h_source.html#l00040">ThreadSafeContainer.h:40</a></div></div>
 <div class="ttc" id="aclassbioexplorer_1_1common_1_1Shape_html_ad87787c4abaa37a250a4c2d88f31b4cf"><div class="ttname"><a href="../../dc/d78/classbioexplorer_1_1common_1_1Shape.html#ad87787c4abaa37a250a4c2d88f31b4cf">bioexplorer::common::Shape::rnd2</a></div><div class="ttdeci">static double rnd2(const uint64_t index)</div><div class="ttdoc">Return a predefined random double between -0.5 and 0.5.</div><div class="ttdef"><b>Definition:</b> <a href="../../d6/dbd/Shape_8cpp_source.html#l00079">Shape.cpp:79</a></div></div>

@@ -1,6 +1,6 @@
 # Architecture
 
-![___](./bioexplorer/pythonsdk/doc/source/images/BBBE_banner.png)
+![___](./bioexplorer/pythonsdk/notebooks/bioexplorer_banner.png)
 
 ## Motivation
 

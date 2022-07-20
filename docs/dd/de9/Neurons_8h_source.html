@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.17"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>Blue Brain BioExplorer: /home/favreau/bluebrain/BioExplorer/bioexplorer/core/plugin/morphologies/Neurons.h Source File</title>
+<title>Blue Brain BioExplorer: /home/favreau/git/BioExplorer/bioexplorer/core/plugin/morphologies/Neurons.h Source File</title>
 <link href="../../tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="../../jquery.js"></script>
 <script type="text/javascript" src="../../dynsections.js"></script>
@@ -161,39 +161,40 @@ $(document).ready(function(){initNavTree('dd/de9/Neurons_8h_source.html','../../
 <div class="line"><a name="l00096"></a><span class="lineno">   96</span>&#160;                     <span class="keyword">const</span> <span class="keywordtype">double</span> mitochondriaDensity);</div>
 <div class="line"><a name="l00097"></a><span class="lineno">   97</span>&#160; </div>
 <div class="line"><a name="l00098"></a><span class="lineno">   98</span>&#160;    <span class="keywordtype">void</span> _addSpine(<a class="code" href="../../d2/d4a/classbioexplorer_1_1common_1_1ThreadSafeContainer.html">ThreadSafeContainer</a>&amp; container, <span class="keyword">const</span> uint64_t guid,</div>
-<div class="line"><a name="l00099"></a><span class="lineno">   99</span>&#160;                   <span class="keyword">const</span> <a class="code" href="../../d0/dd7/structbioexplorer_1_1morphology_1_1Synapse.html">Synapse</a>&amp; synapse, <span class="keyword">const</span> <span class="keywordtype">size_t</span> baseMaterialId);</div>
-<div class="line"><a name="l00100"></a><span class="lineno">  100</span>&#160; </div>
-<div class="line"><a name="l00101"></a><span class="lineno">  101</span>&#160;    <span class="keywordtype">void</span> _addSpines(<a class="code" href="../../d2/d4a/classbioexplorer_1_1common_1_1ThreadSafeContainer.html">ThreadSafeContainer</a>&amp; container, <span class="keyword">const</span> uint64_t somaIndex,</div>
-<div class="line"><a name="l00102"></a><span class="lineno">  102</span>&#160;                    <span class="keyword">const</span> Vector3d somaPosition, <span class="keyword">const</span> <span class="keywordtype">double</span> somaRadius,</div>
-<div class="line"><a name="l00103"></a><span class="lineno">  103</span>&#160;                    <span class="keyword">const</span> <span class="keywordtype">size_t</span> baseMaterialId);</div>
-<div class="line"><a name="l00104"></a><span class="lineno">  104</span>&#160; </div>
-<div class="line"><a name="l00105"></a><span class="lineno">  105</span>&#160;    <span class="keywordtype">void</span> _addSectionInternals(</div>
-<div class="line"><a name="l00106"></a><span class="lineno">  106</span>&#160;        <a class="code" href="../../d2/d4a/classbioexplorer_1_1common_1_1ThreadSafeContainer.html">ThreadSafeContainer</a>&amp; container, <span class="keyword">const</span> Vector3d&amp; somaPosition,</div>
-<div class="line"><a name="l00107"></a><span class="lineno">  107</span>&#160;        <span class="keyword">const</span> Quaterniond&amp; somaRotation, <span class="keyword">const</span> <span class="keywordtype">double</span> sectionLength,</div>
-<div class="line"><a name="l00108"></a><span class="lineno">  108</span>&#160;        <span class="keyword">const</span> <span class="keywordtype">double</span> sectionVolume, <span class="keyword">const</span> Vector4fs&amp; points,</div>
-<div class="line"><a name="l00109"></a><span class="lineno">  109</span>&#160;        <span class="keyword">const</span> <span class="keywordtype">double</span> mitochondriaDensity, <span class="keyword">const</span> <span class="keywordtype">size_t</span> baseMaterialId);</div>
-<div class="line"><a name="l00110"></a><span class="lineno">  110</span>&#160; </div>
-<div class="line"><a name="l00111"></a><span class="lineno">  111</span>&#160;    <span class="keywordtype">void</span> _addAxonMyelinSheath(<a class="code" href="../../d2/d4a/classbioexplorer_1_1common_1_1ThreadSafeContainer.html">ThreadSafeContainer</a>&amp; container,</div>
-<div class="line"><a name="l00112"></a><span class="lineno">  112</span>&#160;                              <span class="keyword">const</span> Vector3d&amp; somaPosition,</div>
-<div class="line"><a name="l00113"></a><span class="lineno">  113</span>&#160;                              <span class="keyword">const</span> Quaterniond&amp; somaRotation,</div>
-<div class="line"><a name="l00114"></a><span class="lineno">  114</span>&#160;                              <span class="keyword">const</span> <span class="keywordtype">double</span> sectionLength,</div>
-<div class="line"><a name="l00115"></a><span class="lineno">  115</span>&#160;                              <span class="keyword">const</span> Vector4fs&amp; points,</div>
-<div class="line"><a name="l00116"></a><span class="lineno">  116</span>&#160;                              <span class="keyword">const</span> <span class="keywordtype">double</span> mitochondriaDensity,</div>
-<div class="line"><a name="l00117"></a><span class="lineno">  117</span>&#160;                              <span class="keyword">const</span> <span class="keywordtype">size_t</span> materialId);</div>
-<div class="line"><a name="l00118"></a><span class="lineno">  118</span>&#160; </div>
-<div class="line"><a name="l00119"></a><span class="lineno">  119</span>&#160;    <span class="keywordtype">void</span> _addVaricosity(Vector4fs&amp; points);</div>
-<div class="line"><a name="l00120"></a><span class="lineno">  120</span>&#160; </div>
-<div class="line"><a name="l00121"></a><span class="lineno">  121</span>&#160;    <span class="keyword">const</span> <a class="code" href="../../dc/d93/structbioexplorer_1_1details_1_1NeuronsDetails.html">NeuronsDetails</a> _details;</div>
-<div class="line"><a name="l00122"></a><span class="lineno">  122</span>&#160;    Scene&amp; _scene;</div>
-<div class="line"><a name="l00123"></a><span class="lineno">  123</span>&#160;    Varicosities _varicosities;</div>
-<div class="line"><a name="l00124"></a><span class="lineno">  124</span>&#160;};</div>
-<div class="line"><a name="l00125"></a><span class="lineno">  125</span>&#160;} <span class="comment">// namespace morphology</span></div>
-<div class="line"><a name="l00126"></a><span class="lineno">  126</span>&#160;} <span class="comment">// namespace bioexplorer</span></div>
+<div class="line"><a name="l00099"></a><span class="lineno">   99</span>&#160;                   <span class="keyword">const</span> <a class="code" href="../../d0/dd7/structbioexplorer_1_1morphology_1_1Synapse.html">Synapse</a>&amp; synapse, <span class="keyword">const</span> <span class="keywordtype">size_t</span> baseMaterialId,</div>
+<div class="line"><a name="l00100"></a><span class="lineno">  100</span>&#160;                   <span class="keyword">const</span> SynapseType&amp; synapseType);</div>
+<div class="line"><a name="l00101"></a><span class="lineno">  101</span>&#160; </div>
+<div class="line"><a name="l00102"></a><span class="lineno">  102</span>&#160;    <span class="keywordtype">void</span> _addSpines(<a class="code" href="../../d2/d4a/classbioexplorer_1_1common_1_1ThreadSafeContainer.html">ThreadSafeContainer</a>&amp; container, <span class="keyword">const</span> uint64_t somaIndex,</div>
+<div class="line"><a name="l00103"></a><span class="lineno">  103</span>&#160;                    <span class="keyword">const</span> Vector3d somaPosition, <span class="keyword">const</span> <span class="keywordtype">double</span> somaRadius,</div>
+<div class="line"><a name="l00104"></a><span class="lineno">  104</span>&#160;                    <span class="keyword">const</span> <span class="keywordtype">size_t</span> baseMaterialId);</div>
+<div class="line"><a name="l00105"></a><span class="lineno">  105</span>&#160; </div>
+<div class="line"><a name="l00106"></a><span class="lineno">  106</span>&#160;    <span class="keywordtype">void</span> _addSectionInternals(</div>
+<div class="line"><a name="l00107"></a><span class="lineno">  107</span>&#160;        <a class="code" href="../../d2/d4a/classbioexplorer_1_1common_1_1ThreadSafeContainer.html">ThreadSafeContainer</a>&amp; container, <span class="keyword">const</span> Vector3d&amp; somaPosition,</div>
+<div class="line"><a name="l00108"></a><span class="lineno">  108</span>&#160;        <span class="keyword">const</span> Quaterniond&amp; somaRotation, <span class="keyword">const</span> <span class="keywordtype">double</span> sectionLength,</div>
+<div class="line"><a name="l00109"></a><span class="lineno">  109</span>&#160;        <span class="keyword">const</span> <span class="keywordtype">double</span> sectionVolume, <span class="keyword">const</span> Vector4fs&amp; points,</div>
+<div class="line"><a name="l00110"></a><span class="lineno">  110</span>&#160;        <span class="keyword">const</span> <span class="keywordtype">double</span> mitochondriaDensity, <span class="keyword">const</span> <span class="keywordtype">size_t</span> baseMaterialId);</div>
+<div class="line"><a name="l00111"></a><span class="lineno">  111</span>&#160; </div>
+<div class="line"><a name="l00112"></a><span class="lineno">  112</span>&#160;    <span class="keywordtype">void</span> _addAxonMyelinSheath(<a class="code" href="../../d2/d4a/classbioexplorer_1_1common_1_1ThreadSafeContainer.html">ThreadSafeContainer</a>&amp; container,</div>
+<div class="line"><a name="l00113"></a><span class="lineno">  113</span>&#160;                              <span class="keyword">const</span> Vector3d&amp; somaPosition,</div>
+<div class="line"><a name="l00114"></a><span class="lineno">  114</span>&#160;                              <span class="keyword">const</span> Quaterniond&amp; somaRotation,</div>
+<div class="line"><a name="l00115"></a><span class="lineno">  115</span>&#160;                              <span class="keyword">const</span> <span class="keywordtype">double</span> sectionLength,</div>
+<div class="line"><a name="l00116"></a><span class="lineno">  116</span>&#160;                              <span class="keyword">const</span> Vector4fs&amp; points,</div>
+<div class="line"><a name="l00117"></a><span class="lineno">  117</span>&#160;                              <span class="keyword">const</span> <span class="keywordtype">double</span> mitochondriaDensity,</div>
+<div class="line"><a name="l00118"></a><span class="lineno">  118</span>&#160;                              <span class="keyword">const</span> <span class="keywordtype">size_t</span> materialId);</div>
+<div class="line"><a name="l00119"></a><span class="lineno">  119</span>&#160; </div>
+<div class="line"><a name="l00120"></a><span class="lineno">  120</span>&#160;    <span class="keywordtype">void</span> _addVaricosity(Vector4fs&amp; points);</div>
+<div class="line"><a name="l00121"></a><span class="lineno">  121</span>&#160; </div>
+<div class="line"><a name="l00122"></a><span class="lineno">  122</span>&#160;    <span class="keyword">const</span> <a class="code" href="../../dc/d93/structbioexplorer_1_1details_1_1NeuronsDetails.html">NeuronsDetails</a> _details;</div>
+<div class="line"><a name="l00123"></a><span class="lineno">  123</span>&#160;    Scene&amp; _scene;</div>
+<div class="line"><a name="l00124"></a><span class="lineno">  124</span>&#160;    Varicosities _varicosities;</div>
+<div class="line"><a name="l00125"></a><span class="lineno">  125</span>&#160;};</div>
+<div class="line"><a name="l00126"></a><span class="lineno">  126</span>&#160;} <span class="comment">// namespace morphology</span></div>
+<div class="line"><a name="l00127"></a><span class="lineno">  127</span>&#160;} <span class="comment">// namespace bioexplorer</span></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
 <div class="ttc" id="aclassbioexplorer_1_1morphology_1_1Neurons_html"><div class="ttname"><a href="../../d1/d39/classbioexplorer_1_1morphology_1_1Neurons.html">bioexplorer::morphology::Neurons</a></div><div class="ttdef"><b>Definition:</b> <a href="../../dd/de9/Neurons_8h_source.html#l00042">Neurons.h:42</a></div></div>
 <div class="ttc" id="aclassbioexplorer_1_1common_1_1ThreadSafeContainer_html"><div class="ttname"><a href="../../d2/d4a/classbioexplorer_1_1common_1_1ThreadSafeContainer.html">bioexplorer::common::ThreadSafeContainer</a></div><div class="ttdoc">The ThreadSafeContainer class is used to load large datasets in parallel. Every individual element is...</div><div class="ttdef"><b>Definition:</b> <a href="../../dd/d8f/ThreadSafeContainer_8h_source.html#l00040">ThreadSafeContainer.h:40</a></div></div>
-<div class="ttc" id="astructbioexplorer_1_1morphology_1_1Section_html"><div class="ttname"><a href="../../d4/d08/structbioexplorer_1_1morphology_1_1Section.html">bioexplorer::morphology::Section</a></div><div class="ttdef"><b>Definition:</b> <a href="../../d0/dde/bioexplorer_2core_2plugin_2common_2Types_8h_source.html#l01440">Types.h:1440</a></div></div>
+<div class="ttc" id="astructbioexplorer_1_1morphology_1_1Section_html"><div class="ttname"><a href="../../d4/d08/structbioexplorer_1_1morphology_1_1Section.html">bioexplorer::morphology::Section</a></div><div class="ttdef"><b>Definition:</b> <a href="../../d0/dde/bioexplorer_2core_2plugin_2common_2Types_8h_source.html#l01446">Types.h:1446</a></div></div>
 <div class="ttc" id="astructbioexplorer_1_1morphology_1_1NeuronSoma_html"><div class="ttname"><a href="../../d9/d24/structbioexplorer_1_1morphology_1_1NeuronSoma.html">bioexplorer::morphology::NeuronSoma</a></div><div class="ttdef"><b>Definition:</b> <a href="../../d0/dde/bioexplorer_2core_2plugin_2common_2Types_8h_source.html#l01420">Types.h:1420</a></div></div>
 <div class="ttc" id="astructbioexplorer_1_1morphology_1_1Synapse_html"><div class="ttname"><a href="../../d0/dd7/structbioexplorer_1_1morphology_1_1Synapse.html">bioexplorer::morphology::Synapse</a></div><div class="ttdef"><b>Definition:</b> <a href="../../d0/dde/bioexplorer_2core_2plugin_2common_2Types_8h_source.html#l01431">Types.h:1431</a></div></div>
 <div class="ttc" id="astructbioexplorer_1_1details_1_1NeuronsDetails_html"><div class="ttname"><a href="../../dc/d93/structbioexplorer_1_1details_1_1NeuronsDetails.html">bioexplorer::details::NeuronsDetails</a></div><div class="ttdef"><b>Definition:</b> <a href="../../d0/dde/bioexplorer_2core_2plugin_2common_2Types_8h_source.html#l01054">Types.h:1054</a></div></div>

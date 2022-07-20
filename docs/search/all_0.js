@@ -49,5 +49,5 @@ var searchData=
   ['atom_46',['Atom',['../df/d73/structbioexplorer_1_1molecularsystems_1_1Atom.html',1,'bioexplorer::molecularsystems']]],
   ['atomradiusmultiplier_47',['atomRadiusMultiplier',['../d0/ddb/structbioexplorer_1_1details_1_1MembraneDetails.html#a4c35d602c3f4ecf0ea03478821fe2b4c',1,'bioexplorer::details::MembraneDetails::atomRadiusMultiplier()'],['../de/d0e/structbioexplorer_1_1details_1_1ProteinDetails.html#af4a80155408b9b5ebc84ef6b5065923b',1,'bioexplorer::details::ProteinDetails::atomRadiusMultiplier()'],['../d6/d93/structbioexplorer_1_1details_1_1SugarDetails.html#a2e5278a706bedc0151193090d92d39ea',1,'bioexplorer::details::SugarDetails::atomRadiusMultiplier()'],['../d1/d00/structbioexplorer_1_1details_1_1RNASequenceDetails.html#abdbdc74aad1b55d689400afe377a6a8b',1,'bioexplorer::details::RNASequenceDetails::atomRadiusMultiplier()']]],
   ['attachhandlerdetails_48',['AttachHandlerDetails',['../dd/d21/structbioexplorer_1_1metabolism_1_1AttachHandlerDetails.html',1,'bioexplorer::metabolism']]],
-  ['architecture_49',['Architecture',['../d3/d90/md__home_favreau_bluebrain_BioExplorer_ARCHITECTURE.html',1,'']]]
+  ['architecture_49',['Architecture',['../d6/d22/md__home_favreau_git_BioExplorer_ARCHITECTURE.html',1,'']]]
 ];

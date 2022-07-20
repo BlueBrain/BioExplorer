@@ -10,5 +10,5 @@ var searchData=
   ['diffusecolors_86',['diffuseColors',['../d7/d84/structbioexplorer_1_1details_1_1MaterialsDetails.html#a75ecbbe754809266fa5b2b90c5c8795f',1,'bioexplorer::details::MaterialsDetails']]],
   ['direction_87',['direction',['../d7/d6e/structbioexplorer_1_1details_1_1FocusOnDetails.html#ad5158ce1ff2e84233a02aa39027f4026',1,'bioexplorer::details::FocusOnDetails']]],
   ['distance_88',['distance',['../d7/d6e/structbioexplorer_1_1details_1_1FocusOnDetails.html#abd4bb04ea8f2da44dd923db299f91dce',1,'bioexplorer::details::FocusOnDetails']]],
-  ['docker_89',['Docker',['../d0/ddf/md__home_favreau_bluebrain_BioExplorer_DOCKER.html',1,'']]]
+  ['docker_89',['Docker',['../d9/d23/md__home_favreau_git_BioExplorer_DOCKER.html',1,'']]]
 ];

@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.17"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>Blue Brain BioExplorer: /home/favreau/bluebrain/BioExplorer/bioexplorer/core/plugin/common/Types.h Source File</title>
+<title>Blue Brain BioExplorer: /home/favreau/git/BioExplorer/bioexplorer/core/plugin/common/Types.h Source File</title>
 <link href="../../tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="../../jquery.js"></script>
 <script type="text/javascript" src="../../dynsections.js"></script>
@@ -1017,73 +1017,79 @@ $(document).ready(function(){initNavTree('d0/dde/bioexplorer_2core_2plugin_2comm
 <div class="line"><a name="l01437"></a><span class="lineno"> 1437</span>&#160;} <a class="code" href="../../d0/dd7/structbioexplorer_1_1morphology_1_1Synapse.html">Synapse</a>;</div>
 <div class="line"><a name="l01438"></a><span class="lineno"> 1438</span>&#160;<span class="keyword">using</span> SynapseMap = std::map&lt;uint64_t, Synapse&gt;;</div>
 <div class="line"><a name="l01439"></a><span class="lineno"> 1439</span>&#160; </div>
-<div class="line"><a name="l01440"></a><span class="lineno"><a class="line" href="../../d4/d08/structbioexplorer_1_1morphology_1_1Section.html"> 1440</a></span>&#160;<span class="keyword">typedef</span> <span class="keyword">struct</span></div>
+<div class="line"><a name="l01440"></a><span class="lineno"> 1440</span>&#160;<span class="keyword">enum class</span> SynapseType</div>
 <div class="line"><a name="l01441"></a><span class="lineno"> 1441</span>&#160;{</div>
-<div class="line"><a name="l01442"></a><span class="lineno"> 1442</span>&#160;    Vector4fs points;</div>
-<div class="line"><a name="l01443"></a><span class="lineno"> 1443</span>&#160;    <span class="keywordtype">size_t</span> type;</div>
-<div class="line"><a name="l01444"></a><span class="lineno"> 1444</span>&#160;    int64_t parentId;</div>
-<div class="line"><a name="l01445"></a><span class="lineno"> 1445</span>&#160;} <a class="code" href="../../d4/d08/structbioexplorer_1_1morphology_1_1Section.html">Section</a>;</div>
-<div class="line"><a name="l01446"></a><span class="lineno"> 1446</span>&#160;<span class="keyword">using</span> SectionMap = std::map&lt;uint64_t, Section&gt;;</div>
-<div class="line"><a name="l01447"></a><span class="lineno"> 1447</span>&#160; </div>
-<div class="line"><a name="l01448"></a><span class="lineno"><a class="line" href="../../d6/d46/structbioexplorer_1_1morphology_1_1EndFoot.html"> 1448</a></span>&#160;<span class="keyword">typedef</span> <span class="keyword">struct</span></div>
-<div class="line"><a name="l01449"></a><span class="lineno"> 1449</span>&#160;{</div>
-<div class="line"><a name="l01450"></a><span class="lineno"> 1450</span>&#160;    uint64_t vasculatureSectionId;</div>
-<div class="line"><a name="l01451"></a><span class="lineno"> 1451</span>&#160;    uint64_t vasculatureSegmentId;</div>
-<div class="line"><a name="l01452"></a><span class="lineno"> 1452</span>&#160;    <span class="keywordtype">double</span> length;</div>
-<div class="line"><a name="l01453"></a><span class="lineno"> 1453</span>&#160;    <span class="keywordtype">double</span> radius;</div>
-<div class="line"><a name="l01454"></a><span class="lineno"> 1454</span>&#160;    Vector4fs nodes;</div>
-<div class="line"><a name="l01455"></a><span class="lineno"> 1455</span>&#160;} <a class="code" href="../../d6/d46/structbioexplorer_1_1morphology_1_1EndFoot.html">EndFoot</a>;</div>
-<div class="line"><a name="l01456"></a><span class="lineno"> 1456</span>&#160;<span class="keyword">using</span> EndFootMap = std::map&lt;uint64_t, EndFoot&gt;;</div>
-<div class="line"><a name="l01457"></a><span class="lineno"> 1457</span>&#160; </div>
-<div class="line"><a name="l01458"></a><span class="lineno"><a class="line" href="../../d0/d2e/structbioexplorer_1_1morphology_1_1Cell.html"> 1458</a></span>&#160;<span class="keyword">typedef</span> <span class="keyword">struct</span></div>
-<div class="line"><a name="l01459"></a><span class="lineno"> 1459</span>&#160;{</div>
-<div class="line"><a name="l01460"></a><span class="lineno"> 1460</span>&#160;    Vector3d position;</div>
-<div class="line"><a name="l01461"></a><span class="lineno"> 1461</span>&#160;    Quaterniond rotation;</div>
-<div class="line"><a name="l01462"></a><span class="lineno"> 1462</span>&#160;    uint64_t type{0};</div>
-<div class="line"><a name="l01463"></a><span class="lineno"> 1463</span>&#160;    int64_t eType{0};</div>
-<div class="line"><a name="l01464"></a><span class="lineno"> 1464</span>&#160;    uint64_t region{0};</div>
-<div class="line"><a name="l01465"></a><span class="lineno"> 1465</span>&#160;} <a class="code" href="../../d0/d2e/structbioexplorer_1_1morphology_1_1Cell.html">Cell</a>;</div>
-<div class="line"><a name="l01466"></a><span class="lineno"> 1466</span>&#160;<span class="keyword">using</span> CellMap = std::map&lt;uint64_t, Cell&gt;;</div>
-<div class="line"><a name="l01467"></a><span class="lineno"> 1467</span>&#160; </div>
-<div class="line"><a name="l01468"></a><span class="lineno"> 1468</span>&#160;} <span class="comment">// namespace morphology</span></div>
-<div class="line"><a name="l01469"></a><span class="lineno"> 1469</span>&#160; </div>
-<div class="line"><a name="l01470"></a><span class="lineno"> 1470</span>&#160;<span class="keyword">namespace </span>connectomics</div>
-<div class="line"><a name="l01471"></a><span class="lineno"> 1471</span>&#160;{</div>
-<div class="line"><a name="l01472"></a><span class="lineno"> 1472</span>&#160;<span class="keyword">class </span><a class="code" href="../../d6/dcd/classbioexplorer_1_1connectomics_1_1WhiteMatter.html">WhiteMatter</a>;</div>
-<div class="line"><a name="l01473"></a><span class="lineno"> 1473</span>&#160;<span class="keyword">using</span> WhiteMatterPtr = std::shared_ptr&lt;WhiteMatter&gt;;</div>
-<div class="line"><a name="l01474"></a><span class="lineno"> 1474</span>&#160;<span class="keyword">using</span> WhiteMatterStreamlines = std::vector&lt;Vector3fs&gt;;</div>
-<div class="line"><a name="l01475"></a><span class="lineno"> 1475</span>&#160;} <span class="comment">// namespace connectomics</span></div>
-<div class="line"><a name="l01476"></a><span class="lineno"> 1476</span>&#160; </div>
-<div class="line"><a name="l01477"></a><span class="lineno"> 1477</span>&#160;<span class="keyword">namespace </span>io</div>
-<div class="line"><a name="l01478"></a><span class="lineno"> 1478</span>&#160;{</div>
-<div class="line"><a name="l01479"></a><span class="lineno"> 1479</span>&#160;<span class="comment">// Out of core brick manager</span></div>
-<div class="line"><a name="l01480"></a><span class="lineno"> 1480</span>&#160;<span class="keyword">class </span>OOCManager;</div>
-<div class="line"><a name="l01481"></a><span class="lineno"> 1481</span>&#160;<span class="keyword">using</span> OOCManagerPtr = std::shared_ptr&lt;OOCManager&gt;;</div>
+<div class="line"><a name="l01442"></a><span class="lineno"> 1442</span>&#160;    afferent = 0,</div>
+<div class="line"><a name="l01443"></a><span class="lineno"> 1443</span>&#160;    efferent = 1</div>
+<div class="line"><a name="l01444"></a><span class="lineno"> 1444</span>&#160;};</div>
+<div class="line"><a name="l01445"></a><span class="lineno"> 1445</span>&#160; </div>
+<div class="line"><a name="l01446"></a><span class="lineno"><a class="line" href="../../d4/d08/structbioexplorer_1_1morphology_1_1Section.html"> 1446</a></span>&#160;<span class="keyword">typedef</span> <span class="keyword">struct</span></div>
+<div class="line"><a name="l01447"></a><span class="lineno"> 1447</span>&#160;{</div>
+<div class="line"><a name="l01448"></a><span class="lineno"> 1448</span>&#160;    Vector4fs points;</div>
+<div class="line"><a name="l01449"></a><span class="lineno"> 1449</span>&#160;    <span class="keywordtype">size_t</span> type;</div>
+<div class="line"><a name="l01450"></a><span class="lineno"> 1450</span>&#160;    int64_t parentId;</div>
+<div class="line"><a name="l01451"></a><span class="lineno"> 1451</span>&#160;} <a class="code" href="../../d4/d08/structbioexplorer_1_1morphology_1_1Section.html">Section</a>;</div>
+<div class="line"><a name="l01452"></a><span class="lineno"> 1452</span>&#160;<span class="keyword">using</span> SectionMap = std::map&lt;uint64_t, Section&gt;;</div>
+<div class="line"><a name="l01453"></a><span class="lineno"> 1453</span>&#160; </div>
+<div class="line"><a name="l01454"></a><span class="lineno"><a class="line" href="../../d6/d46/structbioexplorer_1_1morphology_1_1EndFoot.html"> 1454</a></span>&#160;<span class="keyword">typedef</span> <span class="keyword">struct</span></div>
+<div class="line"><a name="l01455"></a><span class="lineno"> 1455</span>&#160;{</div>
+<div class="line"><a name="l01456"></a><span class="lineno"> 1456</span>&#160;    uint64_t vasculatureSectionId;</div>
+<div class="line"><a name="l01457"></a><span class="lineno"> 1457</span>&#160;    uint64_t vasculatureSegmentId;</div>
+<div class="line"><a name="l01458"></a><span class="lineno"> 1458</span>&#160;    <span class="keywordtype">double</span> length;</div>
+<div class="line"><a name="l01459"></a><span class="lineno"> 1459</span>&#160;    <span class="keywordtype">double</span> radius;</div>
+<div class="line"><a name="l01460"></a><span class="lineno"> 1460</span>&#160;    Vector4fs nodes;</div>
+<div class="line"><a name="l01461"></a><span class="lineno"> 1461</span>&#160;} <a class="code" href="../../d6/d46/structbioexplorer_1_1morphology_1_1EndFoot.html">EndFoot</a>;</div>
+<div class="line"><a name="l01462"></a><span class="lineno"> 1462</span>&#160;<span class="keyword">using</span> EndFootMap = std::map&lt;uint64_t, EndFoot&gt;;</div>
+<div class="line"><a name="l01463"></a><span class="lineno"> 1463</span>&#160; </div>
+<div class="line"><a name="l01464"></a><span class="lineno"><a class="line" href="../../d0/d2e/structbioexplorer_1_1morphology_1_1Cell.html"> 1464</a></span>&#160;<span class="keyword">typedef</span> <span class="keyword">struct</span></div>
+<div class="line"><a name="l01465"></a><span class="lineno"> 1465</span>&#160;{</div>
+<div class="line"><a name="l01466"></a><span class="lineno"> 1466</span>&#160;    Vector3d position;</div>
+<div class="line"><a name="l01467"></a><span class="lineno"> 1467</span>&#160;    Quaterniond rotation;</div>
+<div class="line"><a name="l01468"></a><span class="lineno"> 1468</span>&#160;    uint64_t type{0};</div>
+<div class="line"><a name="l01469"></a><span class="lineno"> 1469</span>&#160;    int64_t eType{0};</div>
+<div class="line"><a name="l01470"></a><span class="lineno"> 1470</span>&#160;    uint64_t region{0};</div>
+<div class="line"><a name="l01471"></a><span class="lineno"> 1471</span>&#160;} <a class="code" href="../../d0/d2e/structbioexplorer_1_1morphology_1_1Cell.html">Cell</a>;</div>
+<div class="line"><a name="l01472"></a><span class="lineno"> 1472</span>&#160;<span class="keyword">using</span> CellMap = std::map&lt;uint64_t, Cell&gt;;</div>
+<div class="line"><a name="l01473"></a><span class="lineno"> 1473</span>&#160; </div>
+<div class="line"><a name="l01474"></a><span class="lineno"> 1474</span>&#160;} <span class="comment">// namespace morphology</span></div>
+<div class="line"><a name="l01475"></a><span class="lineno"> 1475</span>&#160; </div>
+<div class="line"><a name="l01476"></a><span class="lineno"> 1476</span>&#160;<span class="keyword">namespace </span>connectomics</div>
+<div class="line"><a name="l01477"></a><span class="lineno"> 1477</span>&#160;{</div>
+<div class="line"><a name="l01478"></a><span class="lineno"> 1478</span>&#160;<span class="keyword">class </span><a class="code" href="../../d6/dcd/classbioexplorer_1_1connectomics_1_1WhiteMatter.html">WhiteMatter</a>;</div>
+<div class="line"><a name="l01479"></a><span class="lineno"> 1479</span>&#160;<span class="keyword">using</span> WhiteMatterPtr = std::shared_ptr&lt;WhiteMatter&gt;;</div>
+<div class="line"><a name="l01480"></a><span class="lineno"> 1480</span>&#160;<span class="keyword">using</span> WhiteMatterStreamlines = std::vector&lt;Vector3fs&gt;;</div>
+<div class="line"><a name="l01481"></a><span class="lineno"> 1481</span>&#160;} <span class="comment">// namespace connectomics</span></div>
 <div class="line"><a name="l01482"></a><span class="lineno"> 1482</span>&#160; </div>
-<div class="line"><a name="l01483"></a><span class="lineno"> 1483</span>&#160;<span class="keyword">namespace </span>db</div>
+<div class="line"><a name="l01483"></a><span class="lineno"> 1483</span>&#160;<span class="keyword">namespace </span>io</div>
 <div class="line"><a name="l01484"></a><span class="lineno"> 1484</span>&#160;{</div>
-<div class="line"><a name="l01485"></a><span class="lineno"> 1485</span>&#160;<span class="keyword">class </span>DBConnector;</div>
-<div class="line"><a name="l01486"></a><span class="lineno"> 1486</span>&#160;<span class="keyword">using</span> DBConnectorPtr = std::shared_ptr&lt;DBConnector&gt;;</div>
-<div class="line"><a name="l01487"></a><span class="lineno"> 1487</span>&#160; </div>
-<div class="line"><a name="l01488"></a><span class="lineno"><a class="line" href="../../da/dc8/structbioexplorer_1_1io_1_1db_1_1SimulationReport.html"> 1488</a></span>&#160;<span class="keyword">typedef</span> <span class="keyword">struct</span></div>
-<div class="line"><a name="l01489"></a><span class="lineno"> 1489</span>&#160;{</div>
-<div class="line"><a name="l01490"></a><span class="lineno"> 1490</span>&#160;    std::string description;</div>
-<div class="line"><a name="l01491"></a><span class="lineno"> 1491</span>&#160;    <span class="keywordtype">double</span> startTime;</div>
-<div class="line"><a name="l01492"></a><span class="lineno"> 1492</span>&#160;    <span class="keywordtype">double</span> endTime;</div>
-<div class="line"><a name="l01493"></a><span class="lineno"> 1493</span>&#160;    <span class="keywordtype">double</span> timeStep;</div>
-<div class="line"><a name="l01494"></a><span class="lineno"> 1494</span>&#160;    std::string timeUnits;</div>
-<div class="line"><a name="l01495"></a><span class="lineno"> 1495</span>&#160;    std::string dataUnits;</div>
-<div class="line"><a name="l01496"></a><span class="lineno"> 1496</span>&#160;} <a class="code" href="../../da/dc8/structbioexplorer_1_1io_1_1db_1_1SimulationReport.html">SimulationReport</a>;</div>
-<div class="line"><a name="l01497"></a><span class="lineno"> 1497</span>&#160; </div>
-<div class="line"><a name="l01498"></a><span class="lineno"> 1498</span>&#160;<span class="keyword">namespace </span>fields</div>
-<div class="line"><a name="l01499"></a><span class="lineno"> 1499</span>&#160;{</div>
-<div class="line"><a name="l01500"></a><span class="lineno"> 1500</span>&#160;<span class="keyword">class </span><a class="code" href="../../d9/d6e/classbioexplorer_1_1fields_1_1FieldsHandler.html">FieldsHandler</a>;</div>
-<div class="line"><a name="l01501"></a><span class="lineno"> 1501</span>&#160;<span class="keyword">typedef</span> std::shared_ptr&lt;FieldsHandler&gt; FieldsHandlerPtr;</div>
-<div class="line"><a name="l01502"></a><span class="lineno"> 1502</span>&#160;} <span class="comment">// namespace fields</span></div>
+<div class="line"><a name="l01485"></a><span class="lineno"> 1485</span>&#160;<span class="comment">// Out of core brick manager</span></div>
+<div class="line"><a name="l01486"></a><span class="lineno"> 1486</span>&#160;<span class="keyword">class </span>OOCManager;</div>
+<div class="line"><a name="l01487"></a><span class="lineno"> 1487</span>&#160;<span class="keyword">using</span> OOCManagerPtr = std::shared_ptr&lt;OOCManager&gt;;</div>
+<div class="line"><a name="l01488"></a><span class="lineno"> 1488</span>&#160; </div>
+<div class="line"><a name="l01489"></a><span class="lineno"> 1489</span>&#160;<span class="keyword">namespace </span>db</div>
+<div class="line"><a name="l01490"></a><span class="lineno"> 1490</span>&#160;{</div>
+<div class="line"><a name="l01491"></a><span class="lineno"> 1491</span>&#160;<span class="keyword">class </span>DBConnector;</div>
+<div class="line"><a name="l01492"></a><span class="lineno"> 1492</span>&#160;<span class="keyword">using</span> DBConnectorPtr = std::shared_ptr&lt;DBConnector&gt;;</div>
+<div class="line"><a name="l01493"></a><span class="lineno"> 1493</span>&#160; </div>
+<div class="line"><a name="l01494"></a><span class="lineno"><a class="line" href="../../da/dc8/structbioexplorer_1_1io_1_1db_1_1SimulationReport.html"> 1494</a></span>&#160;<span class="keyword">typedef</span> <span class="keyword">struct</span></div>
+<div class="line"><a name="l01495"></a><span class="lineno"> 1495</span>&#160;{</div>
+<div class="line"><a name="l01496"></a><span class="lineno"> 1496</span>&#160;    std::string description;</div>
+<div class="line"><a name="l01497"></a><span class="lineno"> 1497</span>&#160;    <span class="keywordtype">double</span> startTime;</div>
+<div class="line"><a name="l01498"></a><span class="lineno"> 1498</span>&#160;    <span class="keywordtype">double</span> endTime;</div>
+<div class="line"><a name="l01499"></a><span class="lineno"> 1499</span>&#160;    <span class="keywordtype">double</span> timeStep;</div>
+<div class="line"><a name="l01500"></a><span class="lineno"> 1500</span>&#160;    std::string timeUnits;</div>
+<div class="line"><a name="l01501"></a><span class="lineno"> 1501</span>&#160;    std::string dataUnits;</div>
+<div class="line"><a name="l01502"></a><span class="lineno"> 1502</span>&#160;} <a class="code" href="../../da/dc8/structbioexplorer_1_1io_1_1db_1_1SimulationReport.html">SimulationReport</a>;</div>
 <div class="line"><a name="l01503"></a><span class="lineno"> 1503</span>&#160; </div>
-<div class="line"><a name="l01504"></a><span class="lineno"> 1504</span>&#160;} <span class="comment">// namespace db</span></div>
-<div class="line"><a name="l01505"></a><span class="lineno"> 1505</span>&#160;} <span class="comment">// namespace io</span></div>
-<div class="line"><a name="l01506"></a><span class="lineno"> 1506</span>&#160;} <span class="comment">// namespace bioexplorer</span></div>
+<div class="line"><a name="l01504"></a><span class="lineno"> 1504</span>&#160;<span class="keyword">namespace </span>fields</div>
+<div class="line"><a name="l01505"></a><span class="lineno"> 1505</span>&#160;{</div>
+<div class="line"><a name="l01506"></a><span class="lineno"> 1506</span>&#160;<span class="keyword">class </span><a class="code" href="../../d9/d6e/classbioexplorer_1_1fields_1_1FieldsHandler.html">FieldsHandler</a>;</div>
+<div class="line"><a name="l01507"></a><span class="lineno"> 1507</span>&#160;<span class="keyword">typedef</span> std::shared_ptr&lt;FieldsHandler&gt; FieldsHandlerPtr;</div>
+<div class="line"><a name="l01508"></a><span class="lineno"> 1508</span>&#160;} <span class="comment">// namespace fields</span></div>
+<div class="line"><a name="l01509"></a><span class="lineno"> 1509</span>&#160; </div>
+<div class="line"><a name="l01510"></a><span class="lineno"> 1510</span>&#160;} <span class="comment">// namespace db</span></div>
+<div class="line"><a name="l01511"></a><span class="lineno"> 1511</span>&#160;} <span class="comment">// namespace io</span></div>
+<div class="line"><a name="l01512"></a><span class="lineno"> 1512</span>&#160;} <span class="comment">// namespace bioexplorer</span></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
 <div class="ttc" id="astructbioexplorer_1_1details_1_1NeuronIdSectionIdDetails_html_a9551ce30ae699b18f512ff7c736e1344"><div class="ttname"><a href="../../d9/d86/structbioexplorer_1_1details_1_1NeuronIdSectionIdDetails.html#a9551ce30ae699b18f512ff7c736e1344">bioexplorer::details::NeuronIdSectionIdDetails::assemblyName</a></div><div class="ttdeci">std::string assemblyName</div><div class="ttdef"><b>Definition:</b> <a href="../../d0/dde/bioexplorer_2core_2plugin_2common_2Types_8h_source.html#l01103">Types.h:1103</a></div></div>
@@ -1123,7 +1129,7 @@ $(document).ready(function(){initNavTree('d0/dde/bioexplorer_2core_2plugin_2comm
 <div class="ttc" id="astructbioexplorer_1_1details_1_1EnzymeReactionProgressDetails_html"><div class="ttname"><a href="../../dd/d17/structbioexplorer_1_1details_1_1EnzymeReactionProgressDetails.html">bioexplorer::details::EnzymeReactionProgressDetails</a></div><div class="ttdoc">Progress of an enzyme reaction for a given instance.</div><div class="ttdef"><b>Definition:</b> <a href="../../d0/dde/bioexplorer_2core_2plugin_2common_2Types_8h_source.html#l00516">Types.h:516</a></div></div>
 <div class="ttc" id="astructbioexplorer_1_1details_1_1BuildFieldsDetails_html_a0599983952d3097fbf88919ea4209047"><div class="ttname"><a href="../../dc/d5b/structbioexplorer_1_1details_1_1BuildFieldsDetails.html#a0599983952d3097fbf88919ea4209047">bioexplorer::details::BuildFieldsDetails::voxelSize</a></div><div class="ttdeci">double voxelSize</div><div class="ttdef"><b>Definition:</b> <a href="../../d0/dde/bioexplorer_2core_2plugin_2common_2Types_8h_source.html#l00760">Types.h:760</a></div></div>
 <div class="ttc" id="astructbioexplorer_1_1details_1_1EnzymeReactionDetails_html_a1c4baf81d266a604a653e4da9b62a5bd"><div class="ttname"><a href="../../df/dc6/structbioexplorer_1_1details_1_1EnzymeReactionDetails.html#a1c4baf81d266a604a653e4da9b62a5bd">bioexplorer::details::EnzymeReactionDetails::name</a></div><div class="ttdeci">std::string name</div><div class="ttdef"><b>Definition:</b> <a href="../../d0/dde/bioexplorer_2core_2plugin_2common_2Types_8h_source.html#l00503">Types.h:503</a></div></div>
-<div class="ttc" id="astructbioexplorer_1_1io_1_1db_1_1SimulationReport_html"><div class="ttname"><a href="../../da/dc8/structbioexplorer_1_1io_1_1db_1_1SimulationReport.html">bioexplorer::io::db::SimulationReport</a></div><div class="ttdef"><b>Definition:</b> <a href="../../d0/dde/bioexplorer_2core_2plugin_2common_2Types_8h_source.html#l01488">Types.h:1488</a></div></div>
+<div class="ttc" id="astructbioexplorer_1_1io_1_1db_1_1SimulationReport_html"><div class="ttname"><a href="../../da/dc8/structbioexplorer_1_1io_1_1db_1_1SimulationReport.html">bioexplorer::io::db::SimulationReport</a></div><div class="ttdef"><b>Definition:</b> <a href="../../d0/dde/bioexplorer_2core_2plugin_2common_2Types_8h_source.html#l01494">Types.h:1494</a></div></div>
 <div class="ttc" id="astructbioexplorer_1_1details_1_1ProteinDetails_html_ad3a1ebe725bc5369c5df63ec7c322e38"><div class="ttname"><a href="../../de/d0e/structbioexplorer_1_1details_1_1ProteinDetails.html#ad3a1ebe725bc5369c5df63ec7c322e38">bioexplorer::details::ProteinDetails::chainIds</a></div><div class="ttdeci">size_ts chainIds</div><div class="ttdef"><b>Definition:</b> <a href="../../d0/dde/bioexplorer_2core_2plugin_2common_2Types_8h_source.html#l00344">Types.h:344</a></div></div>
 <div class="ttc" id="astructbioexplorer_1_1details_1_1RNASequenceDetails_html_ac5feadb2285f6a8881e54f49db4236fb"><div class="ttname"><a href="../../d1/d00/structbioexplorer_1_1details_1_1RNASequenceDetails.html#ac5feadb2285f6a8881e54f49db4236fb">bioexplorer::details::RNASequenceDetails::animationParams</a></div><div class="ttdeci">doubles animationParams</div><div class="ttdef"><b>Definition:</b> <a href="../../d0/dde/bioexplorer_2core_2plugin_2common_2Types_8h_source.html#l00432">Types.h:432</a></div></div>
 <div class="ttc" id="astructbioexplorer_1_1details_1_1MembraneDetails_html_aa2320ed0ab847456ace865c75f114cc7"><div class="ttname"><a href="../../d0/ddb/structbioexplorer_1_1details_1_1MembraneDetails.html#aa2320ed0ab847456ace865c75f114cc7">bioexplorer::details::MembraneDetails::lipidContents</a></div><div class="ttdeci">std::string lipidContents</div><div class="ttdef"><b>Definition:</b> <a href="../../d0/dde/bioexplorer_2core_2plugin_2common_2Types_8h_source.html#l00299">Types.h:299</a></div></div>
@@ -1133,7 +1139,7 @@ $(document).ready(function(){initNavTree('d0/dde/bioexplorer_2core_2plugin_2comm
 <div class="ttc" id="astructbioexplorer_1_1details_1_1AminoAcidSequenceAsRangesDetails_html_a2e133a2fcae1a42c9b2435b09768bfb5"><div class="ttname"><a href="../../db/de5/structbioexplorer_1_1details_1_1AminoAcidSequenceAsRangesDetails.html#a2e133a2fcae1a42c9b2435b09768bfb5">bioexplorer::details::AminoAcidSequenceAsRangesDetails::name</a></div><div class="ttdeci">std::string name</div><div class="ttdef"><b>Definition:</b> <a href="../../d0/dde/bioexplorer_2core_2plugin_2common_2Types_8h_source.html#l00464">Types.h:464</a></div></div>
 <div class="ttc" id="astructbioexplorer_1_1details_1_1FocusOnDetails_html"><div class="ttname"><a href="../../d7/d6e/structbioexplorer_1_1details_1_1FocusOnDetails.html">bioexplorer::details::FocusOnDetails</a></div><div class="ttdoc">Structure defining on which instance of a model the camera should focus on.</div><div class="ttdef"><b>Definition:</b> <a href="../../d0/dde/bioexplorer_2core_2plugin_2common_2Types_8h_source.html#l00119">Types.h:119</a></div></div>
 <div class="ttc" id="astructbioexplorer_1_1molecularsystems_1_1Atom_html_a11b30ec5031a33660fd4f378ce2f16e8"><div class="ttname"><a href="../../df/d73/structbioexplorer_1_1molecularsystems_1_1Atom.html#a11b30ec5031a33660fd4f378ce2f16e8">bioexplorer::molecularsystems::Atom::position</a></div><div class="ttdeci">Vector3d position</div><div class="ttdef"><b>Definition:</b> <a href="../../d0/dde/bioexplorer_2core_2plugin_2common_2Types_8h_source.html#l01246">Types.h:1246</a></div></div>
-<div class="ttc" id="astructbioexplorer_1_1morphology_1_1EndFoot_html"><div class="ttname"><a href="../../d6/d46/structbioexplorer_1_1morphology_1_1EndFoot.html">bioexplorer::morphology::EndFoot</a></div><div class="ttdef"><b>Definition:</b> <a href="../../d0/dde/bioexplorer_2core_2plugin_2common_2Types_8h_source.html#l01448">Types.h:1448</a></div></div>
+<div class="ttc" id="astructbioexplorer_1_1morphology_1_1EndFoot_html"><div class="ttname"><a href="../../d6/d46/structbioexplorer_1_1morphology_1_1EndFoot.html">bioexplorer::morphology::EndFoot</a></div><div class="ttdef"><b>Definition:</b> <a href="../../d0/dde/bioexplorer_2core_2plugin_2common_2Types_8h_source.html#l01454">Types.h:1454</a></div></div>
 <div class="ttc" id="astructbioexplorer_1_1details_1_1AtlasDetails_html_a7ec6b82813df1e77a94c1bbca7cc9620"><div class="ttname"><a href="../../d1/da9/structbioexplorer_1_1details_1_1AtlasDetails.html#a7ec6b82813df1e77a94c1bbca7cc9620">bioexplorer::details::AtlasDetails::assemblyName</a></div><div class="ttdeci">std::string assemblyName</div><div class="ttdef"><b>Definition:</b> <a href="../../d0/dde/bioexplorer_2core_2plugin_2common_2Types_8h_source.html#l00886">Types.h:886</a></div></div>
 <div class="ttc" id="astructbioexplorer_1_1details_1_1ProteinDetails_html_a5917cfa981741c54649569f1eb733de4"><div class="ttname"><a href="../../de/d0e/structbioexplorer_1_1details_1_1ProteinDetails.html#a5917cfa981741c54649569f1eb733de4">bioexplorer::details::ProteinDetails::name</a></div><div class="ttdeci">std::string name</div><div class="ttdef"><b>Definition:</b> <a href="../../d0/dde/bioexplorer_2core_2plugin_2common_2Types_8h_source.html#l00327">Types.h:327</a></div></div>
 <div class="ttc" id="astructbioexplorer_1_1details_1_1EnzymeReactionProgressDetails_html_a4609e3f8767c60ee3c58f597d4fc58e9"><div class="ttname"><a href="../../dd/d17/structbioexplorer_1_1details_1_1EnzymeReactionProgressDetails.html#a4609e3f8767c60ee3c58f597d4fc58e9">bioexplorer::details::EnzymeReactionProgressDetails::name</a></div><div class="ttdeci">std::string name</div><div class="ttdef"><b>Definition:</b> <a href="../../d0/dde/bioexplorer_2core_2plugin_2common_2Types_8h_source.html#l00521">Types.h:521</a></div></div>
@@ -1211,13 +1217,13 @@ $(document).ready(function(){initNavTree('d0/dde/bioexplorer_2core_2plugin_2comm
 <div class="ttc" id="astructbioexplorer_1_1molecularsystems_1_1Atom_html_a6f4296882c84fd861f01ccf0ad908a48"><div class="ttname"><a href="../../df/d73/structbioexplorer_1_1molecularsystems_1_1Atom.html#a6f4296882c84fd861f01ccf0ad908a48">bioexplorer::molecularsystems::Atom::radius</a></div><div class="ttdeci">double radius</div><div class="ttdef"><b>Definition:</b> <a href="../../d0/dde/bioexplorer_2core_2plugin_2common_2Types_8h_source.html#l01256">Types.h:1256</a></div></div>
 <div class="ttc" id="astructbioexplorer_1_1details_1_1BuildPointCloudDetails_html"><div class="ttname"><a href="../../d5/dc6/structbioexplorer_1_1details_1_1BuildPointCloudDetails.html">bioexplorer::details::BuildPointCloudDetails</a></div><div class="ttdoc">Structure defining how to build a point cloud from the scene.</div><div class="ttdef"><b>Definition:</b> <a href="../../d0/dde/bioexplorer_2core_2plugin_2common_2Types_8h_source.html#l00827">Types.h:827</a></div></div>
 <div class="ttc" id="astructbioexplorer_1_1details_1_1AtlasDetails_html_aed639c840b140c406adadf019aea9edd"><div class="ttname"><a href="../../d1/da9/structbioexplorer_1_1details_1_1AtlasDetails.html#aed639c840b140c406adadf019aea9edd">bioexplorer::details::AtlasDetails::meshPosition</a></div><div class="ttdeci">doubles meshPosition</div><div class="ttdef"><b>Definition:</b> <a href="../../d0/dde/bioexplorer_2core_2plugin_2common_2Types_8h_source.html#l00900">Types.h:900</a></div></div>
-<div class="ttc" id="astructbioexplorer_1_1morphology_1_1Section_html"><div class="ttname"><a href="../../d4/d08/structbioexplorer_1_1morphology_1_1Section.html">bioexplorer::morphology::Section</a></div><div class="ttdef"><b>Definition:</b> <a href="../../d0/dde/bioexplorer_2core_2plugin_2common_2Types_8h_source.html#l01440">Types.h:1440</a></div></div>
+<div class="ttc" id="astructbioexplorer_1_1morphology_1_1Section_html"><div class="ttname"><a href="../../d4/d08/structbioexplorer_1_1morphology_1_1Section.html">bioexplorer::morphology::Section</a></div><div class="ttdef"><b>Definition:</b> <a href="../../d0/dde/bioexplorer_2core_2plugin_2common_2Types_8h_source.html#l01446">Types.h:1446</a></div></div>
 <div class="ttc" id="astructbioexplorer_1_1details_1_1NeuronsDetails_html_a325c02f92bba314ff2534c2941829a1d"><div class="ttname"><a href="../../dc/d93/structbioexplorer_1_1details_1_1NeuronsDetails.html#a325c02f92bba314ff2534c2941829a1d">bioexplorer::details::NeuronsDetails::populationName</a></div><div class="ttdeci">std::string populationName</div><div class="ttdef"><b>Definition:</b> <a href="../../d0/dde/bioexplorer_2core_2plugin_2common_2Types_8h_source.html#l01059">Types.h:1059</a></div></div>
 <div class="ttc" id="astructbioexplorer_1_1details_1_1AddGridDetails_html"><div class="ttname"><a href="../../db/dd8/structbioexplorer_1_1details_1_1AddGridDetails.html">bioexplorer::details::AddGridDetails</a></div><div class="ttdoc">Defines the parameters needed when adding 3D grid in the scene.</div><div class="ttdef"><b>Definition:</b> <a href="../../d0/dde/bioexplorer_2core_2plugin_2common_2Types_8h_source.html#l00532">Types.h:532</a></div></div>
 <div class="ttc" id="astructbioexplorer_1_1details_1_1MembraneDetails_html_a50f1cdac9274a450d9b3f3e13df659c5"><div class="ttname"><a href="../../d0/ddb/structbioexplorer_1_1details_1_1MembraneDetails.html#a50f1cdac9274a450d9b3f3e13df659c5">bioexplorer::details::MembraneDetails::animationParams</a></div><div class="ttdeci">doubles animationParams</div><div class="ttdef"><b>Definition:</b> <a href="../../d0/dde/bioexplorer_2core_2plugin_2common_2Types_8h_source.html#l00318">Types.h:318</a></div></div>
 <div class="ttc" id="astructbioexplorer_1_1details_1_1AddStreamlinesDetails_html_ac9c6ec83919267fb097127e2429332b8"><div class="ttname"><a href="../../dd/d91/structbioexplorer_1_1details_1_1AddStreamlinesDetails.html#ac9c6ec83919267fb097127e2429332b8">bioexplorer::details::AddStreamlinesDetails::vertices</a></div><div class="ttdeci">doubles vertices</div><div class="ttdef"><b>Definition:</b> <a href="../../d0/dde/bioexplorer_2core_2plugin_2common_2Types_8h_source.html#l00625">Types.h:625</a></div></div>
 <div class="ttc" id="astructbioexplorer_1_1details_1_1AminoAcidSequenceAsRangesDetails_html"><div class="ttname"><a href="../../db/de5/structbioexplorer_1_1details_1_1AminoAcidSequenceAsRangesDetails.html">bioexplorer::details::AminoAcidSequenceAsRangesDetails</a></div><div class="ttdoc">Structure defining a selection of amino acids on a protein of an assembly. The selection is defined a...</div><div class="ttdef"><b>Definition:</b> <a href="../../d0/dde/bioexplorer_2core_2plugin_2common_2Types_8h_source.html#l00459">Types.h:459</a></div></div>
-<div class="ttc" id="astructbioexplorer_1_1morphology_1_1Cell_html"><div class="ttname"><a href="../../d0/d2e/structbioexplorer_1_1morphology_1_1Cell.html">bioexplorer::morphology::Cell</a></div><div class="ttdef"><b>Definition:</b> <a href="../../d0/dde/bioexplorer_2core_2plugin_2common_2Types_8h_source.html#l01458">Types.h:1458</a></div></div>
+<div class="ttc" id="astructbioexplorer_1_1morphology_1_1Cell_html"><div class="ttname"><a href="../../d0/d2e/structbioexplorer_1_1morphology_1_1Cell.html">bioexplorer::morphology::Cell</a></div><div class="ttdef"><b>Definition:</b> <a href="../../d0/dde/bioexplorer_2core_2plugin_2common_2Types_8h_source.html#l01464">Types.h:1464</a></div></div>
 <div class="ttc" id="astructbioexplorer_1_1details_1_1OOCSceneConfigurationDetails_html_a4bddbdba7d9f18b58ddb3dadc62ede72"><div class="ttname"><a href="../../d1/d25/structbioexplorer_1_1details_1_1OOCSceneConfigurationDetails.html#a4bddbdba7d9f18b58ddb3dadc62ede72">bioexplorer::details::OOCSceneConfigurationDetails::brickSize</a></div><div class="ttdeci">Vector3d brickSize</div><div class="ttdef"><b>Definition:</b> <a href="../../d0/dde/bioexplorer_2core_2plugin_2common_2Types_8h_source.html#l00850">Types.h:850</a></div></div>
 <div class="ttc" id="astructbioexplorer_1_1details_1_1RNASequenceDetails_html_ae72e9a82fa1b08c17e14e38e5c3d3240"><div class="ttname"><a href="../../d1/d00/structbioexplorer_1_1details_1_1RNASequenceDetails.html#ae72e9a82fa1b08c17e14e38e5c3d3240">bioexplorer::details::RNASequenceDetails::assemblyName</a></div><div class="ttdeci">std::string assemblyName</div><div class="ttdef"><b>Definition:</b> <a href="../../d0/dde/bioexplorer_2core_2plugin_2common_2Types_8h_source.html#l00409">Types.h:409</a></div></div>
 <div class="ttc" id="astructbioexplorer_1_1morphology_1_1AstrocyteSoma_html"><div class="ttname"><a href="../../d6/d17/structbioexplorer_1_1morphology_1_1AstrocyteSoma.html">bioexplorer::morphology::AstrocyteSoma</a></div><div class="ttdef"><b>Definition:</b> <a href="../../d0/dde/bioexplorer_2core_2plugin_2common_2Types_8h_source.html#l01412">Types.h:1412</a></div></div>

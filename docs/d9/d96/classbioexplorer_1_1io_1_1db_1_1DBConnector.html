@@ -101,7 +101,7 @@ Collaboration diagram for bioexplorer::io::db::DBConnector:</div>
 <div class="dyncontent">
 <div class="center"><img src="../../df/d27/classbioexplorer_1_1io_1_1db_1_1DBConnector__coll__graph.png" border="0" usemap="#bioexplorer_1_1io_1_1db_1_1DBConnector_coll__map" alt="Collaboration graph"/></div>
 <map name="bioexplorer_1_1io_1_1db_1_1DBConnector_coll__map" id="bioexplorer_1_1io_1_1db_1_1DBConnector_coll__map">
-<area shape="rect" title="The DBConnector class allows the BioExplorer to communicate with a PostgreSQL database...." alt="" coords="5,5,145,47"/>
+<area shape="rect" title="The DBConnector class allows the BioExplorer to communicate with a PostgreSQL database...." alt="" coords="5,5,131,47"/>
 </map>
 <center><span class="legend">[<a target="top" href="../../graph_legend.html">legend</a>]</span></center></div>
 <table class="memberdecls">
@@ -164,9 +164,9 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:af7de7fec03d25cbd0b95a5df2573281c"><td class="memItemLeft" align="right" valign="top">SectionMap&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d9/d96/classbioexplorer_1_1io_1_1db_1_1DBConnector.html#af7de7fec03d25cbd0b95a5df2573281c">getNeuronSections</a> (const std::string &amp;populationName, const uint64_t neuronId, const std::string &amp;sqlCondition=&quot;&quot;) const</td></tr>
 <tr class="memdesc:af7de7fec03d25cbd0b95a5df2573281c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the sections of a given neuron.  <a href="../../d9/d96/classbioexplorer_1_1io_1_1db_1_1DBConnector.html#af7de7fec03d25cbd0b95a5df2573281c">More...</a><br /></td></tr>
 <tr class="separator:af7de7fec03d25cbd0b95a5df2573281c"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ae5ee653afc363b3f33413824beb846ca"><td class="memItemLeft" align="right" valign="top">SynapseMap&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d9/d96/classbioexplorer_1_1io_1_1db_1_1DBConnector.html#ae5ee653afc363b3f33413824beb846ca">getNeuronSynapses</a> (const std::string &amp;populationName, const uint64_t neuronId, const std::string &amp;sqlCondition=&quot;&quot;) const</td></tr>
-<tr class="memdesc:ae5ee653afc363b3f33413824beb846ca"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the synapses attached to a given neuron.  <a href="../../d9/d96/classbioexplorer_1_1io_1_1db_1_1DBConnector.html#ae5ee653afc363b3f33413824beb846ca">More...</a><br /></td></tr>
-<tr class="separator:ae5ee653afc363b3f33413824beb846ca"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1d81ab4ce08852ca05136d3a79863866"><td class="memItemLeft" align="right" valign="top">SynapseMap&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d9/d96/classbioexplorer_1_1io_1_1db_1_1DBConnector.html#a1d81ab4ce08852ca05136d3a79863866">getNeuronSynapses</a> (const std::string &amp;populationName, const uint64_t neuronId, const SynapseType synapseType, const std::string &amp;sqlCondition=&quot;&quot;) const</td></tr>
+<tr class="memdesc:a1d81ab4ce08852ca05136d3a79863866"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the synapses attached to a given neuron.  <a href="../../d9/d96/classbioexplorer_1_1io_1_1db_1_1DBConnector.html#a1d81ab4ce08852ca05136d3a79863866">More...</a><br /></td></tr>
+<tr class="separator:a1d81ab4ce08852ca05136d3a79863866"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a91f01aaba572a78116721e7be5f39bc7"><td class="memItemLeft" align="right" valign="top">uint64_ts&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d9/d96/classbioexplorer_1_1io_1_1db_1_1DBConnector.html#a91f01aaba572a78116721e7be5f39bc7">getAtlasRegions</a> (const std::string &amp;sqlCondition=&quot;&quot;) const</td></tr>
 <tr class="memdesc:a91f01aaba572a78116721e7be5f39bc7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the regions from the brain atlas.  <a href="../../d9/d96/classbioexplorer_1_1io_1_1db_1_1DBConnector.html#a91f01aaba572a78116721e7be5f39bc7">More...</a><br /></td></tr>
 <tr class="separator:a91f01aaba572a78116721e7be5f39bc7"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -354,7 +354,7 @@ static <a class="el" href="../../d9/d96/classbioexplorer_1_1io_1_1db_1_1DBConnec
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>CellMap A map of cells (position, orientation, type, etc) </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="../../d5/d22/bioexplorer_2core_2plugin_2io_2db_2DBConnector_8cpp_source.html#l00777">777</a> of file <a class="el" href="../../d5/d22/bioexplorer_2core_2plugin_2io_2db_2DBConnector_8cpp_source.html">DBConnector.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d5/d22/bioexplorer_2core_2plugin_2io_2db_2DBConnector_8cpp_source.html#l00783">783</a> of file <a class="el" href="../../d5/d22/bioexplorer_2core_2plugin_2io_2db_2DBConnector_8cpp_source.html">DBConnector.cpp</a>.</p>
 
 </div>
 </div>
@@ -383,7 +383,7 @@ static <a class="el" href="../../d9/d96/classbioexplorer_1_1io_1_1db_1_1DBConnec
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>TrianglesMesh A triangles mesh </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="../../d5/d22/bioexplorer_2core_2plugin_2io_2db_2DBConnector_8cpp_source.html#l00820">820</a> of file <a class="el" href="../../d5/d22/bioexplorer_2core_2plugin_2io_2db_2DBConnector_8cpp_source.html">DBConnector.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d5/d22/bioexplorer_2core_2plugin_2io_2db_2DBConnector_8cpp_source.html#l00826">826</a> of file <a class="el" href="../../d5/d22/bioexplorer_2core_2plugin_2io_2db_2DBConnector_8cpp_source.html">DBConnector.cpp</a>.</p>
 
 </div>
 </div>
@@ -412,7 +412,7 @@ static <a class="el" href="../../d9/d96/classbioexplorer_1_1io_1_1db_1_1DBConnec
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>A vector of regions Ids </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="../../d5/d22/bioexplorer_2core_2plugin_2io_2db_2DBConnector_8cpp_source.html#l00747">747</a> of file <a class="el" href="../../d5/d22/bioexplorer_2core_2plugin_2io_2db_2DBConnector_8cpp_source.html">DBConnector.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d5/d22/bioexplorer_2core_2plugin_2io_2db_2DBConnector_8cpp_source.html#l00753">753</a> of file <a class="el" href="../../d5/d22/bioexplorer_2core_2plugin_2io_2db_2DBConnector_8cpp_source.html">DBConnector.cpp</a>.</p>
 
 </div>
 </div>
@@ -608,8 +608,8 @@ static <a class="el" href="../../d9/d96/classbioexplorer_1_1io_1_1db_1_1DBConnec
 
 </div>
 </div>
-<a id="ae5ee653afc363b3f33413824beb846ca"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ae5ee653afc363b3f33413824beb846ca">&#9670;&nbsp;</a></span>getNeuronSynapses()</h2>
+<a id="a1d81ab4ce08852ca05136d3a79863866"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a1d81ab4ce08852ca05136d3a79863866">&#9670;&nbsp;</a></span>getNeuronSynapses()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -629,6 +629,12 @@ static <a class="el" href="../../d9/d96/classbioexplorer_1_1io_1_1db_1_1DBConnec
         <tr>
           <td class="paramkey"></td>
           <td></td>
+          <td class="paramtype">const SynapseType&#160;</td>
+          <td class="paramname"><em>synapseType</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
           <td class="paramtype">const std::string &amp;&#160;</td>
           <td class="paramname"><em>sqlCondition</em> = <code>&quot;&quot;</code>&#160;</td>
         </tr>
@@ -644,6 +650,7 @@ static <a class="el" href="../../d9/d96/classbioexplorer_1_1io_1_1db_1_1DBConnec
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">neuronId</td><td>Identifier of the neuron </td></tr>
+    <tr><td class="paramname">SynapseType</td><td>Type of synapses (afferent or efferent) </td></tr>
     <tr><td class="paramname">sqlCondition</td><td>String containing an WHERE condition for the SQL statement </td></tr>
   </table>
   </dd>
@@ -1033,7 +1040,7 @@ static <a class="el" href="../../d9/d96/classbioexplorer_1_1io_1_1db_1_1DBConnec
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>WhiteMatterStreamlines White matter streamlines </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="../../d5/d22/bioexplorer_2core_2plugin_2io_2db_2DBConnector_8cpp_source.html#l00862">862</a> of file <a class="el" href="../../d5/d22/bioexplorer_2core_2plugin_2io_2db_2DBConnector_8cpp_source.html">DBConnector.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d5/d22/bioexplorer_2core_2plugin_2io_2db_2DBConnector_8cpp_source.html#l00868">868</a> of file <a class="el" href="../../d5/d22/bioexplorer_2core_2plugin_2io_2db_2DBConnector_8cpp_source.html">DBConnector.cpp</a>.</p>
 
 </div>
 </div>
@@ -1119,8 +1126,8 @@ static <a class="el" href="../../d9/d96/classbioexplorer_1_1io_1_1db_1_1DBConnec
 </div>
 </div>
 <hr/>The documentation for this class was generated from the following files:<ul>
-<li>/home/favreau/bluebrain/BioExplorer/bioexplorer/core/plugin/io/db/<a class="el" href="../../d3/dec/bioexplorer_2core_2plugin_2io_2db_2DBConnector_8h_source.html">DBConnector.h</a></li>
-<li>/home/favreau/bluebrain/BioExplorer/bioexplorer/core/plugin/io/db/<a class="el" href="../../d5/d22/bioexplorer_2core_2plugin_2io_2db_2DBConnector_8cpp_source.html">DBConnector.cpp</a></li>
+<li>/home/favreau/git/BioExplorer/bioexplorer/core/plugin/io/db/<a class="el" href="../../d3/dec/bioexplorer_2core_2plugin_2io_2db_2DBConnector_8h_source.html">DBConnector.h</a></li>
+<li>/home/favreau/git/BioExplorer/bioexplorer/core/plugin/io/db/<a class="el" href="../../d5/d22/bioexplorer_2core_2plugin_2io_2db_2DBConnector_8cpp_source.html">DBConnector.cpp</a></li>
 </ul>
 </div><!-- contents -->
 </div><!-- doc-content -->
