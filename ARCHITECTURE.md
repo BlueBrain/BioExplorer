@@ -5,7 +5,8 @@
 ## Motivation
 
 One of the keys towards seeing how the brain functions is representation of how the individual cells work. Specifically, the more morphologically precise the representation can be, the simpler it is for specialists in the organic field to approve cell structures; photograph reasonable rendering is accordingly significant.
-The Blue Brain BioExplorer is built as a plug-in of the [Blue Brain Brayns](https://github.com/BlueBrain/BioExplorer/tree/Brayns) platform, that can intelligently perform high-quality and high-fidelity rendering of large neuroscience datasets. Thanks to its client/server architecture, [Blue Brain Brayns](https://github.com/BlueBrain/BioExplorer/tree/Brayns) can be run in the cloud as well as on a supercomputer, and stream the rendering to any browser, either in a web UI or a Jupyter notebook. The challenges of neuroscience are numerous, but in the context of visualization at the Blue Brain Project, four objectives have to be reached: Large data sets, large displays, rendering performance and image quality.
+
+The _BBBE_ is built as a plug-in of the [Blue Brain Brayns](https://github.com/BlueBrain/BioExplorer/tree/Brayns) platform, that can intelligently perform high-quality and high-fidelity rendering of large neuroscience datasets. Thanks to its client/server architecture, [Blue Brain Brayns](https://github.com/BlueBrain/BioExplorer/tree/Brayns) can be run in the cloud as well as on a supercomputer, and stream the rendering to any browser, either in a web UI or a Jupyter notebook. The challenges of neuroscience are numerous, but in the context of visualization at the Blue Brain Project, four objectives have to be reached: Large data sets, large displays, rendering performance and image quality.
 
 ![___](./bioexplorer/pythonsdk/doc/source/images/bioexplorer_axis.png)
 
@@ -13,7 +14,12 @@ As an academic institution, we also want to provide free software that can be ru
 
 ## Design goals
 
-[Blue Brain Brayns](https://github.com/BlueBrain/BioExplorer/tree/Brayns) is designed to address the challenges of visualizing large scale neuroscientific data (hundreds of thousands up to few millions of highly detailed neurons and Terabytes of simulation data). It has a research-oriented modular architecture that uses plug-ins, which makes it easy to experiment with novel rendering techniques, for instance trying to visualize neural electrical activity with signed distance fields. This architecture is well-suited to address new use cases that are requested by scientists on a regular basis. [Blue Brain Brayns](https://github.com/BlueBrain/BioExplorer/tree/Brayns) has a client-server architecture allowing to run on a desktop PC, in the cloud or on a supercomputer. The core of [Blue Brain Brayns](https://github.com/BlueBrain/BioExplorer/tree/Brayns) currently provides two rendering engines, a CPU implementation built on top of Intel [OSPRay](https://github.com/ospray/ospray), and a GPU one based on [OptiX](https://developer.nvidia.com/rtx/ray-tracing/optix). [Blue Brain Brayns](https://github.com/BlueBrain/BioExplorer/tree/Brayns) provides an engine API that facilitates the integration of additional rendering engines. [Blue Brain Brayns](https://github.com/BlueBrain/BioExplorer/tree/Brayns) has custom virtual cameras to support any type of display, for example cylindrical, omni-stereo panoramic and virtual reality setups. The rendered images can be streamed either to web browsers or large curved display walls. [Blue Brain Brayns](https://github.com/BlueBrain/BioExplorer/tree/Brayns) aims to be a platform for scientific visualization that makes it easy to add new scientific use-cases without having to worry about the complexity of the large scale rendering challenges. In the context of the Blue Brain Project:
+[Blue Brain Brayns](https://github.com/BlueBrain/BioExplorer/tree/Brayns) is designed to address the challenges of visualizing large scale neuroscientific data (hundreds of thousands up to few millions of highly detailed neurons and Terabytes of simulation data). It has a research-oriented modular architecture that uses plug-ins, which makes it easy to experiment with novel rendering techniques, for instance trying to visualize neural electrical activity with signed distance fields.
+
+This architecture is well-suited to address new use cases that are requested by scientists on a regular basis. [Blue Brain Brayns](https://github.com/BlueBrain/BioExplorer/tree/Brayns) has a client-server architecture allowing to run on a desktop PC, in the cloud or on a supercomputer. The core of [Blue Brain Brayns](https://github.com/BlueBrain/BioExplorer/tree/Brayns) currently provides two rendering engines, a CPU implementation built on top of Intel [OSPRay](https://github.com/ospray/ospray), and a GPU one based on [OptiX](https://developer.nvidia.com/rtx/ray-tracing/optix). [Blue Brain Brayns](https://github.com/BlueBrain/BioExplorer/tree/Brayns) provides an engine API that facilitates the integration of additional rendering engines.
+
+[Blue Brain Brayns](https://github.com/BlueBrain/BioExplorer/tree/Brayns) has custom virtual cameras to support any type of display, for example cylindrical, omni-stereo panoramic and virtual reality setups. The rendered images can be streamed either to web browsers or large curved display walls. [Blue Brain Brayns](https://github.com/BlueBrain/BioExplorer/tree/Brayns) aims to be a platform for scientific visualization that makes it easy to add new scientific use-cases without having to worry about the complexity of the large scale rendering challenges. In the context of the Blue Brain Project:
+
 -   Unified engine/platform as separate tools/applications increase the maintenance complexity
 -   Unify common features like the loading of the data, and the building of the 3D scene
 -   Focus on the the science, not on the engineering
@@ -24,7 +30,9 @@ As a general rule, engines do not need to have a similar set of functionalities,
 
 ### Modular design
 
-Modular design is a methodology that subdivides a framework into littler parts called modules, which can be freely made, changed, supplanted or traded between various frameworks. In the case of [Blue Brain Brayns](https://github.com/BlueBrain/BioExplorer/tree/Brayns), the philosophy is "Write code that is easy to replace, not easy to extend". In that context, modularity is at the component level. [Blue Brain Brayns](https://github.com/BlueBrain/BioExplorer/tree/Brayns) makes extensive use of the class factory pattern to create objects for the selected implementations. The design was initially inspired by the [Sol-R](https://github.com/favreau/Sol-R) rendering engine that allows multiple engines ([CUDA](https://developer.nvidia.com/cuda-toolkit) and [OpenCL](https://www.khronos.org/opencl/)) to deliver interactive visualization of scientific data using the ray-tracing technique.
+Modular design is a methodology that subdivides a framework into littler parts called modules, which can be freely made, changed, supplanted or traded between various frameworks. In the case of [Blue Brain Brayns](https://github.com/BlueBrain/BioExplorer/tree/Brayns), the philosophy is "Write code that is easy to replace, not easy to extend". In that context, modularity is at the component level. [Blue Brain Brayns](https://github.com/BlueBrain/BioExplorer/tree/Brayns) makes extensive use of the class factory pattern to create objects for the selected implementations.
+
+The design was initially inspired by the [Sol-R](https://github.com/favreau/Sol-R) rendering engine that allows multiple engines ([CUDA](https://developer.nvidia.com/cuda-toolkit) and [OpenCL](https://www.khronos.org/opencl/)) to deliver interactive visualization of scientific data using the ray-tracing technique.
 
 ### Distributed architecture
 
@@ -32,11 +40,11 @@ In the context of large scale rendering, computation is usually distributed on m
 
 ### Abstraction
 
-The abstraction layer defines the interface to every element that can be used by the various engines in the system. The abstraction was put at the lowest possible level where the compromise between execution speed and code duplication was found acceptable. Regarding the geometry, and for the sake of memory consumption, [Blue Brain Brayns](https://github.com/BlueBrain/BioExplorer/tree/Brayns) currently uses abstract data structures that are identical to the ones used by the underlying rendering engines ([OSPRay](https://github.com/ospray/ospray) and [OptiX](https://developer.nvidia.com/rtx/ray-tracing/optix)). This could vary in the future as new engines are added, but in this particular case of the geometry, and since it can be massive in the context of the Blue Brain project, the design decision was to force the engines to adapt to the definition of the abstract objects used by Blue Brain Brayns.
+The abstraction layer defines the interface to every element that can be used by the various engines in the system. The abstraction was put at the lowest possible level where the compromise between execution speed and code duplication was found acceptable. Regarding the geometry, and for the sake of memory consumption, [Blue Brain Brayns](https://github.com/BlueBrain/BioExplorer/tree/Brayns) currently uses abstract data structures that are identical to the ones used by the underlying rendering engines ([OSPRay](https://github.com/ospray/ospray) and [OptiX](https://developer.nvidia.com/rtx/ray-tracing/optix)). This could vary in the future as new engines are added, but in this particular case of the geometry, and since it can be massive in the context of the Blue Brain project, the design decision was to force the engines to adapt to the definition of the abstract objects used by [Blue Brain Brayns](https://github.com/BlueBrain/BioExplorer/tree/Brayns).
 
 ### Properties
 
-Blue Brain Brayns objects holding a list of properties that are mapped by name to a supported C++ type. This mechanism is used at every level of the software in order to facilitate the exposure of internal objects to the external API.
+[Blue Brain Brayns](https://github.com/BlueBrain/BioExplorer/tree/Brayns) objects holding a list of properties that are mapped by name to a supported C++ type. This mechanism is used at every level of the software in order to facilitate the exposure of internal objects to the external API.
 
 ### Core components
 
@@ -62,7 +70,7 @@ A plug-in is a set a functionalities that are not provided by the core of the ap
 
 #### Data loaders
 
-Blue Brain Brayns provides a default loader for meshes , proteins, volumes and point clouds.
+[Blue Brain Brayns](https://github.com/BlueBrain/BioExplorer/tree/Brayns) provides a default loader for meshes, proteins, volumes and point clouds.
 
 #### Engine
 
@@ -90,17 +98,21 @@ The Action Interface allows developer to extend the API exposed via the network 
 
 #### plug-in
 
-The plug-in interface defines the methods that need to be implemented by any new plug-in added to the list of components that [Blue Brain Brayns](https://github.com/BlueBrain/BioExplorer/tree/Brayns) can dynamically load. using the `--plug-in` command line argument, the name of the plug-in can be specified and [Blue Brain Brayns](https://github.com/BlueBrain/BioExplorer/tree/Brayns) will load the corresponding library at startup. A plug-in can access the engine, the action interface, the keyboard handler, and the camera manipulator provided by [Blue Brain Brayns](https://github.com/BlueBrain/BioExplorer/tree/Brayns). Plug-ins can expose new external API, implement new data loaders, as well as shaders, cameras, geometries, materials, etc. plug-ins are also the place where use-case specific implementations are required. [Blue Brain Brayns](https://github.com/BlueBrain/BioExplorer/tree/Brayns) aims to remain agnostic to what it renders, plug-ins are responsible for giving a meaning to what is rendered.
+The plug-in interface defines the methods that need to be implemented by any new plug-in added to the list of components that [Blue Brain Brayns](https://github.com/BlueBrain/BioExplorer/tree/Brayns) can dynamically load. using the `--plug-in` command line argument, the name of the plug-in can be specified and [Blue Brain Brayns](https://github.com/BlueBrain/BioExplorer/tree/Brayns) will load the corresponding library at startup. A plug-in can access the engine, the action interface, the keyboard handler, and the camera manipulator provided by [Blue Brain Brayns](https://github.com/BlueBrain/BioExplorer/tree/Brayns).
+
+Plug-ins can expose new external API, implement new data loaders, as well as shaders, cameras, geometries, materials, etc. plug-ins are also the place where use-case specific implementations are required. [Blue Brain Brayns](https://github.com/BlueBrain/BioExplorer/tree/Brayns) aims to remain agnostic to what it renders, plug-ins are responsible for giving a meaning to what is rendered.
 
 #### Loader
 
-In a research environment, new datasets appear on a daily basis, and being able to visualize them in a fast and easy way is crucial. [Blue Brain Brayns](https://github.com/BlueBrain/BioExplorer/tree/Brayns) offers an interface to data loaders so that custom implementations can easily be added to the system. Loaders are in charge of reading the data from external sources (IO, Databases, etc) and build the corresponding 3D scene via the creation of models. Loaders are asynchronous and run in a dedicated thread. Loaders can define custom attributes via the property registration mechanism. `importFromBlob` and `importFromFile` are the two methods that need to be implemented in order for [Blue Brain Brayns](https://github.com/BlueBrain/BioExplorer/tree/Brayns) to accept the new loader. At runtime, the choice of the loaded is automatically determined by the extensions that it supports. If two loaders register the same extension, the priority matches to the loading order.
+In a research environment, new datasets appear on a daily basis, and being able to visualize them in a fast and easy way is crucial. [Blue Brain Brayns](https://github.com/BlueBrain/BioExplorer/tree/Brayns) offers an interface to data loaders so that custom implementations can easily be added to the system. Loaders are in charge of reading the data from external sources (IO, Databases, etc) and build the corresponding 3D scene via the creation of models. Loaders are asynchronous and run in a dedicated thread.
+
+Loaders can define custom attributes via the property registration mechanism. `importFromBlob` and `importFromFile` are the two methods that need to be implemented in order for [Blue Brain Brayns](https://github.com/BlueBrain/BioExplorer/tree/Brayns) to accept the new loader. At runtime, the choice of the loaded is automatically determined by the extensions that it supports. If two loaders register the same extension, the priority matches to the loading order.
 
 ## Client software development kits
 
 ### Introduction
 
-Blue Brain Brayns client SDKs are build on a dynamic approach, meaning that they are constructed according to the API exposed by the server, at runtime. Whenever a new end point is added to Blue Brain Brayns, the client SDK does not need to be adapted. Methods and data structures are automatically interpreted by the SDK and appear to the client application as Python or Javascript native objects. Client SDKs use the registry and schema end-points to list and define native and language-specific methods and data structures. As an example, the camera object appears in the registry (`/registry`) as follows:
+[Blue Brain Brayns](https://github.com/BlueBrain/BioExplorer/tree/Brayns) client SDKs are build on a dynamic approach, meaning that they are constructed according to the API exposed by the server, at runtime. Whenever a new end point is added to Blue Brain Brayns, the client SDK does not need to be adapted. Methods and data structures are automatically interpreted by the SDK and appear to the client application as Python or Javascript native objects. Client SDKs use the registry and schema end-points to list and define native and language-specific methods and data structures. As an example, the camera object appears in the registry (`/registry`) as follows:
 
 ```json
 {"camera": ["PUT", "GET"]}
@@ -121,7 +133,9 @@ The Python SDK offers a simple and easy way to connect to [Blue Brain Brayns](ht
     brayns = Client('host:port')
 ```
 
-When this command is executed, and the SDK connected to a running instance of [Blue Brain Brayns](https://github.com/BlueBrain/BioExplorer/tree/Brayns), the end-point registry is parsed, and Python classes are built using an object wrapper for [JSON schema](https://python-jsonschema.readthedocs.io/en/stable/) definitions library. Methods of generated classes are JSON-RPC based. The Python call is no more than an invocation of a piece of code executed server-side. This architecture allows the Python scripts to be run on light weight clients (mobile devices, laptop computers, etc) regardless of the size of the 3D scene which is handled by the server part of [Blue Brain Brayns](https://github.com/BlueBrain/BioExplorer/tree/Brayns). This also allows the server to be run in distributed mode. The generated Client class has a getter/setter method for every end points exposed by the [Blue Brain Brayns](https://github.com/BlueBrain/BioExplorer/tree/Brayns) server hat respectively has a GET/PUT method defined in the schema. For instance, the following code snippet illustrates how to manipulate a camera:
+When this command is executed, and the SDK connected to a running instance of [Blue Brain Brayns](https://github.com/BlueBrain/BioExplorer/tree/Brayns), the end-point registry is parsed, and Python classes are built using an object wrapper for [JSON schema](https://python-jsonschema.readthedocs.io/en/stable/) definitions library. Methods of generated classes are JSON-RPC based. The Python call is no more than an invocation of a piece of code executed server-side.
+
+This architecture allows the Python scripts to be run on light weight clients (mobile devices, laptop computers, etc) regardless of the size of the 3D scene which is handled by the server part of [Blue Brain Brayns](https://github.com/BlueBrain/BioExplorer/tree/Brayns). This also allows the server to be run in distributed mode. The generated Client class has a getter/setter method for every end points exposed by the [Blue Brain Brayns](https://github.com/BlueBrain/BioExplorer/tree/Brayns) server hat respectively has a GET/PUT method defined in the schema. For instance, the following code snippet illustrates how to manipulate a camera:
 
 ```python
   camera = brayns.get_camera()
@@ -138,11 +152,13 @@ Based on the data-parallel rendering feature provided by the [OSPRay](https://gi
 
 ### Rockets
 
-[Rockets](https://github.com/BlueBrain/Rockets) is a library for easy HTTP and websockets messaging in C++ applications. It provides HTTP server with integrated websockets support, HTTP client for making simple asynchronous requests, websocket client for sending, broadcasting and receiving text and binary messages, support for JSON-RPC as a communication protocol over HTTP and websockets. Rockets extends the 2.0 specification by providing support for cancellation and progress notifications of pending requests. The Rockets plug-in allows [Blue Brain Brayns](https://github.com/BlueBrain/BioExplorer/tree/Brayns) to expose core and use-case specific API via HTTP or websocket protocols. The loading of the plug-in is initiated at startup time with the `http-server` command line argument where an optional host (default is localhost) and a mandatory port are specified. End-points are registered in the c++ code using the `registerNotification` or `registerRequest` method of the `ActionInterface` component. The list of registered end-points can be accessed via the `registry` end-point.
+[Rockets](https://github.com/BlueBrain/Rockets) is a library for easy HTTP and websockets messaging in C++ applications. It provides HTTP server with integrated websockets support, HTTP client for making simple asynchronous requests, websocket client for sending, broadcasting and receiving text and binary messages, support for JSON-RPC as a communication protocol over HTTP and websockets. Rockets extends the 2.0 specification by providing support for cancellation and progress notifications of pending requests.
+
+The Rockets plug-in allows [Blue Brain Brayns](https://github.com/BlueBrain/BioExplorer/tree/Brayns) to expose core and use-case specific API via HTTP or websocket protocols. The loading of the plug-in is initiated at startup time with the `http-server` command line argument where an optional host (default is localhost) and a mandatory port are specified. End-points are registered in the c++ code using the `registerNotification` or `registerRequest` method of the `ActionInterface` component. The list of registered end-points can be accessed via the `registry` end-point.
 
 ### VRPN
 
-The VRPN plug-in receives events from input devices and transform them into [Blue Brain Brayns](https://github.com/BlueBrain/BioExplorer/tree/Brayns) usable information: Camera position and orientation, and flystick interactions (position, orientation, joystick and buttons). This plug-in is mainly use for immersive setups.
+The VRPN plug-in receives events from input devices and transform them into [Blue Brain Brayns](https://github.com/BlueBrain/BioExplorer/tree/Brayns) usable information: Camera position and orientation, and fly stick interactions (position, orientation, joystick and buttons). This plug-in is mainly use for immersive setups.
 
 ## Applications
 
@@ -158,11 +174,11 @@ The viewer is an OpenGL based application that is used to run [Blue Brain Brayns
 
 ### Visualization of Blue Brain / Sonata datasets
 
-The visualization of Blue Brain datasets requires a specific plug-in called the Blue Brain BioExplorer. This components allows the loading of the neuron , glial cells, or vasculatures, with a placement and orientation defined in the microcircuit description.
+The visualization of Blue Brain datasets requires a specific plug-in called the _BBBE_. This components allows the loading of the neuron , glial cells, or vasculatures, with a placement and orientation defined in the microcircuit description.
 
 ![___](./bioexplorer/pythonsdk/doc/source/images/targets_blue_brain_sonata_circuits.png)
 
-Cell morphologies can be represented in a simplified way using only a sphere for the somas, or meshed on the fly to offer a high quality rendering of dendrites and axons. The Blue Brain BioExplorer also provides visualization of simulations by mapping the voltage values to the morphology geometry.
+Cell morphologies can be represented in a simplified way using only a sphere for the somas, or meshed on the fly to offer a high quality rendering of dendrites and axons. The _BBBE_ also provides visualization of simulations by mapping the voltage values to the morphology geometry.
 
 ![___](./bioexplorer/pythonsdk/doc/source/images/blue_brain_sonata_circuits.png)
 
@@ -199,7 +215,7 @@ That immersive setup requires images to be delivered at a high frame rate (60 fr
 
 #### Remote rendering
 
-Blue Brain Brayns uses the CPU engine, and runs in distributed mode to visualize Blue Brain large datasets. Three plug-ins are used on the server side:
+[Blue Brain Brayns](https://github.com/BlueBrain/BioExplorer/tree/Brayns) uses the CPU engine, and runs in distributed mode to visualize Blue Brain large datasets. Three plug-ins are used on the server side:
 * VRPN for position tracking and flight stick management
 * OpenDeck for stereoscopic cylindrical projection
 * BioExplorer the loading and visualization of Blue Brain datasets.
@@ -212,10 +228,10 @@ The CPU engine uses the MPI distributed mode to render tiles on multiple nodes. 
 
 ![___](./bioexplorer/pythonsdk/doc/source/images/opendeck_remote_rendering.png)
 
-## Discussion and Conclusion
+## What next?
 
-[Blue Brain Brayns](https://github.com/BlueBrain/BioExplorer/tree/Brayns) is currently the main platform used by the Blue Brain Project to visualize different types of data including morphologies, surface meshes and volumes. Currently, [Blue Brain Brayns](https://github.com/BlueBrain/BioExplorer/tree/Brayns) has plug-ins for visualizing simulated electrophysiological activity of point neuron and full compartmental models of large scale circuits up to the size of a mouse isocortex, diffusion tensor imaging data, large volumes.
+[Blue Brain Brayns](https://github.com/BlueBrain/BioExplorer/tree/Brayns) is currently the main platform used by the Blue Brain Project to visualize different types of data including morphologies, surface meshes and volumes. Currently, [Blue Brain Brayns](https://github.com/BlueBrain/BioExplorer/tree/Brayns) has plug-ins for visualizing simulated electro-physiological activity of point neuron and full compartmental models of large scale circuits up to the size of a mouse isocortex, diffusion tensor imaging data, large volumes.
 
-The Blue Brain BioExplorer application is built on top of a fork of [Blue Brain Brayns](https://github.com/BlueBrain/BioExplorer/tree/Brayns) 1.0.0 , the Blue Brain rendering platform. The Blue Brain BioExplorer uses the underlying technical capabilities of the rendering platform to create large scale and accurate 3D scenes from Jupyter notebooks.
+The _BBBE_ application is built on top of a fork of [Blue Brain Brayns](https://github.com/BlueBrain/BioExplorer/tree/Brayns) 1.0.0 , the Blue Brain rendering platform. The _BBBE_ uses the underlying technical capabilities of the rendering platform to create large scale and accurate 3D scenes from Jupyter notebooks.
 
 New developments will now focus on additional scientific use-cases, and new rendering engines ([Filament](https://github.com/google/filament) and [OptiX](https://developer.nvidia.com/rtx/ray-tracing/optix) 7.0).

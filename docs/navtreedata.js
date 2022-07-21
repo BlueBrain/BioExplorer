@@ -124,7 +124,7 @@ var NAVTREE =
           [ "Remote rendering", "d6/d22/md__home_favreau_git_BioExplorer_ARCHITECTURE.html#autotoc_md86", null ]
         ] ]
       ] ],
-      [ "Discussion and Conclusion", "d6/d22/md__home_favreau_git_BioExplorer_ARCHITECTURE.html#autotoc_md87", null ]
+      [ "What next?", "d6/d22/md__home_favreau_git_BioExplorer_ARCHITECTURE.html#autotoc_md87", null ]
     ] ],
     [ "Classes", "annotated.html", [
       [ "Class List", "annotated.html", "annotated_dup" ],

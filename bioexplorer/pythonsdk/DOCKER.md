@@ -2,11 +2,9 @@
 
 > Use [Docker](https://docs.docker.com) to run Blue Brain BioExplorer Python SDK as a service and avoid painful tooling setup.
 
-
 ### Prerequisites
 -----------------
 Head over to [Docker](https://docs.docker.com/engine/installation/#supported-platforms) and install Docker for your own platform.
-
 
 ### Setup
 ---------
@@ -15,12 +13,11 @@ First build the image (*it's necessary to do this step if you want to run BioExp
 docker build . -t bluebrain/bioexplorer-python-sdk
 ```
 
-
 ### Usage
 ---------
 If you want to run Blue Brain BioExplorer Python SDK use:
 ```bash
-# Runs Blue Brain BioExplorer Python SDK as a service with the HTTP interface binded on port 5000
+# Runs Blue Brain BioExplorer Python SDK as a service with the HTTP interface bound to port 5000
 docker run -ti --rm -p 8888:8888 bluebrain/bioexplorer-python-sdk
 ```
 

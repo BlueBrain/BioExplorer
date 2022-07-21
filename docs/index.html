@@ -115,7 +115,7 @@ Assemblies</h3>
 <p>Assemblies are groups of biological elements, such as proteins, membranes, glycans, etc. As an example, a virion is made of a lipid membrane, spikes proteins, an RNA sequence, etc, and all those elements belong to the same object. That’s why they need to belong to the same container, the assembly. Assemblies can have different shapes: Sphere, Cube, etc, that are automatically generated according to the parameters of individual components.</p>
 <h3><a class="anchor" id="autotoc_md5"></a>
 Proteins</h3>
-<p>Proteins are loaded from PDB files. Atoms, non-polymer chemicals and bonds can be loaded and displayed in various colour schemes: chain id, atom, residue, etc. Proteins also contain the amino acid sequences of the individual chains. Sequences that can be used to query glycosylation sites, or functional regions of the protein.</p>
+<p>Proteins are loaded from PDB files. Atoms, non-polymer chemicals and bonds can be loaded and displayed in various color schemes: chain id, atom, residue, etc. Proteins also contain the amino acid sequences of the individual chains. Sequences that can be used to query glycosylation sites, or functional regions of the protein.</p>
 <div class="image">
 <img src="bioexplorer_proteins_banner.png" alt=""/>
 <div class="caption">
@@ -164,14 +164,14 @@ ___</div></div>
 </ul>
 <h3><a class="anchor" id="autotoc_md12"></a>
 Neurons and astrocytes</h3>
-<p>Circuits of neurons are loaded from the database (see the database <a href="./storage/database/neurons_schema.sql">schema</a> and the example <a href="./bioexplorer/pythonsdk/notebooks/neurons/BioExplorer_import_sonata_to_db.ipynb">notebook</a> for loading data from <a href="https://github.com/AllenInstitute/sonata">Sonata</a> files) using their position and orientation. Each cell is composed of sections that form the axons and dendrites, as well as spines. Cell internals such as the nucleus and the mitochondria can be automatically generated, according to the data provided by the scientific litterature. The <em>BBBE</em> also implements procedural generation of varicosities along the axon, as well as myelin sheath.</p>
+<p>Circuits of neurons are loaded from the database (see the database <a href="./storage/database/neurons_schema.sql">schema</a> and the example <a href="./bioexplorer/pythonsdk/notebooks/neurons/BioExplorer_import_sonata_to_db.ipynb">notebook</a> for loading data from <a href="https://github.com/AllenInstitute/sonata">Sonata</a> files) using their position and orientation. Each cell is composed of sections that form the axons and dendrites, as well as spines. Cell internals such as the nucleus and the mitochondria can be automatically generated, according to the data provided by the scientific literature. The <em>BBBE</em> also implements procedural generation of varicosities along the axon, as well as myelin sheaths.</p>
 <div class="fragment"><div class="line">neurons_model = bio_explorer.add_neurons(</div>
 <div class="line">    assembly_name=&#39;Neurons&#39;,</div>
 <div class="line">    population_name=&#39;neurons&#39;,</div>
 <div class="line">    use_sdf=True, load_synapses=True, generate_varicosities=True,</div>
 <div class="line">    generate_internals=True, generate_externals=False</div>
 <div class="line">)</div>
-</div><!-- fragment --><p>Circuits of astrocytes are loaded from the database (see the database <a href="./storage/database/astrocytes_schema.sql">schema</a> and the example <a href="./bioexplorer/pythonsdk/notebooks/astrocytes/BioExplorer_import_sonata_to_db.ipynb">notebook</a> for loading data from <a href="https://github.com/AllenInstitute/sonata">Sonata</a> files) using their position and orientation. Astrocytes end-feet are connected to the vasculature using data stored in a dedicated connectome database <a href="./storage/database/connectome_schema.sql">schema</a>. The <em>BBBE</em> allows end-feet to automtically adapt to the vasculature vessel size.</p>
+</div><!-- fragment --><p>Circuits of astrocytes are loaded from the database (see the database <a href="./storage/database/astrocytes_schema.sql">schema</a> and the example <a href="./bioexplorer/pythonsdk/notebooks/astrocytes/BioExplorer_import_sonata_to_db.ipynb">notebook</a> for loading data from <a href="https://github.com/AllenInstitute/sonata">Sonata</a> files) using their position and orientation. Astrocytes end-feet are connected to the vasculature using data stored in a dedicated connectome database <a href="./storage/database/connectome_schema.sql">schema</a>. The <em>BBBE</em> allows end-feet to automatically adapt to the vasculature vessel size.</p>
 <div class="fragment"><div class="line">vasculature_model = be.add_astrocytes(</div>
 <div class="line">    assembly_name=&#39;Astrocytes&#39;, population_name=&#39;astrocytes&#39;, use_sdf=True)</div>
 </div><!-- fragment --><div class="image">
@@ -210,7 +210,7 @@ ___</div></div>
    <p>The synthesis scheme is based on the assumption that it is necessary to know the environment within which the cells are growing in order to recreate them accurately. Neuronal morphologies are influenced both by the embedding space and the presence of other cells. Their axons may target certain regions or the dendrites may mass in one region to collect input, such as the apical tuft of pyramidal cells. It is important therefore to synthesize the cells within biologically accurate volumes.</p>
 <h3><a class="anchor" id="autotoc_md15"></a>
 Proximity detection</h3>
-<p>In the context of brain simulation, detecting touches between neurons is a essential part of the process. The Blue Brain BioExplorer provides a renderer that computes the distance between the geometries in the 3D scene.</p>
+<p>In the context of brain simulation, detecting touches between neurons is a essential part of the process. The <em>BBBE</em> provides a renderer that computes the distance between the geometries in the 3D scene.</p>
 <div class="image">
 <img src="touchdetection.png" alt=""/>
 <div class="caption">
@@ -232,7 +232,7 @@ ___</div></div>
 </ul>
 <h3><a class="anchor" id="autotoc_md17"></a>
 Enzyme reactions</h3>
-<p>An enzyme attracts substrates to its active site, catalyzes the chemical reaction by which products are formed, and then allows the products to dissociate (separate from the enzyme surface). The combination formed by an enzyme and its substrates is called the enzyme–substrate complex. The <em>BBBE</em> allows easy visualization of enzyme reactions by providing a substrace, a product, and a type of reaction (for example: <a href="./bioexplorer/pythonsdk/notebooks/assemblies/BioExplorer_enzyme_reaction.ipynb">Hexokinase</a>).</p>
+<p>An enzyme attracts substrates to its active site, catalyzes the chemical reaction by which products are formed, and then allows the products to dissociate (separate from the enzyme surface). The combination formed by an enzyme and its substrates is called the enzyme–substrate complex. The <em>BBBE</em> allows easy visualization of enzyme reactions by providing a substrate, a product, and a type of reaction (for example: <a href="./bioexplorer/pythonsdk/notebooks/assemblies/BioExplorer_enzyme_reaction.ipynb">Hexokinase</a>).</p>
 <div class="image">
 <img src="bioexplorer_enzyme_reactions_banner.png" alt=""/>
 <div class="caption">
@@ -260,9 +260,9 @@ Documentation</h2>
 <p>See <a href="https://bluebrain.github.io/BioExplorer/">here</a> for detailed documentation of the source code.</p>
 <h2><a class="anchor" id="autotoc_md21"></a>
 Deployment</h2>
-<p><em>BBBE</em> binaries are publicaly available as docker images. <em>BBBE</em> is designed to run in distributed mode, and is composed of 3 modules: A <a href="https://hub.docker.com/r/bluebrain/bioexplorer">server</a>, a <a href="https://hub.docker.com/r/bluebrain/bioexplorer-python-sdk">python SDK</a>, and a <a href="https://hub.docker.com/r/bluebrain/bioexplorer-ui">web user interface</a>. This means that there are 3 docker images to be downloaded on run. Those images can of course run on different machines.</p>
-<p><b>Note:</b> The <em>BBBE</em> is NOT a web application. It uses web techonlogies for the user interface but the <em>BBBE</em> is a single session system that requires one back-end instance per user. There is no limitation in the number of user interface instances that can connect to the back-end, but they will all be sharing the same session.</p>
-<p>In this example, we will expose the server on port 5000, the python SDK jupyter notebooks on port 5001, and the user inferface on port 5002. One is free to change those ports at will.</p>
+<p><em>BBBE</em> binaries are publicly available as docker images. <em>BBBE</em> is designed to run in distributed mode, and is composed of 3 modules: A <a href="https://hub.docker.com/r/bluebrain/bioexplorer">server</a>, a <a href="https://hub.docker.com/r/bluebrain/bioexplorer-python-sdk">python SDK</a>, and a <a href="https://hub.docker.com/r/bluebrain/bioexplorer-ui">web user interface</a>. This means that there are 3 docker images to be downloaded on run. Those images can of course run on different machines.</p>
+<p><b>Note:</b> The <em>BBBE</em> is NOT a web application. It uses web technologies for the user interface but the <em>BBBE</em> is a single session system that requires one back-end instance per user. There is no limitation in the number of user interface instances that can connect to the back-end, but they will all be sharing the same session.</p>
+<p>In this example, we will expose the server on port 5000, the python SDK jupyter notebooks on port 5001, and the user interface on port 5002. One is free to change those ports at will.</p>
 <h3><a class="anchor" id="autotoc_md22"></a>
 Server</h3>
 <div class="fragment"><div class="line">docker run -ti --rm -p 5000:8200 bluebrain/bioexplorer</div>
