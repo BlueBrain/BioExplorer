@@ -87,7 +87,7 @@ $(document).ready(function(){initNavTree('d9/d23/md__home_favreau_git_BioExplore
 </div><!--header-->
 <div class="contents">
 <div class="textblock"><blockquote class="doxtable">
-<p>Use <a href="https://docs.docker.com">Docker</a> to run Blue Brain BioExplorer as a service and avoid painful tooling setup. </p>
+<p>Use <a href="https://docs.docker.com">Docker</a> to run <em>BBBE</em> as a service and avoid painful tooling setup. </p>
 </blockquote>
 <h1><a class="anchor" id="autotoc_md35"></a>
 Prerequisites</h1>
@@ -99,13 +99,13 @@ Setup</h1>
 Usage</h1>
 <p>By default, the entrypoint when running the image is <code>braynsService</code>, but if you want to ssh into the container use: </p><div class="fragment"><div class="line"># `-p 5000:5000` is used only to provide some port bindings (host:container) if you want to run and access Brayns from your host while in the container</div>
 <div class="line">docker run -ti --rm --entrypoint bash -p 5000:5000 bioexplorer</div>
-</div><!-- fragment --><p>If you want to run Blue Brain BioExplorer use: </p><div class="fragment"><div class="line"># Runs Blue Brain BioExplorer as a service with the HTTP interface binded on port 5000</div>
+</div><!-- fragment --><p>If you want to run <em>BBBE</em> use: </p><div class="fragment"><div class="line"># Runs _BBBE_ as a service with the HTTP interface bound to port 5000</div>
 <div class="line">docker run -ti --rm -p 5000:5000 bioexplorer</div>
 </div><!-- fragment --><p><b>NOTE</b> If you are having trouble exiting the process after you run the container (with the above command), use <code>docker stop &lt;container-id&gt;</code> to stop the container. <code>docker ps</code> will give you the current running process.</p>
 <p>If you'd like to also run the UI, use <a href="https://docs.docker.com/get-started/part5">docker stack</a>: </p><div class="fragment"><div class="line"># UI on port 8000 and Python SDK on port 8888</div>
 <div class="line">docker stack deploy -c docker-compose.yml bioexplorer</div>
 </div><!-- fragment --><p><b>NOTE</b> You have to build both the UI and API images (using <code>docker-compose build</code>) before you can run them using stacks.</p>
-<p>Run Blue Brain BioExplorer with the HTTP interface binded to a different port: </p><div class="fragment"><div class="line">docker run -ti --rm -p 5000:5000 bioexplorer --http-server :5000</div>
+<p>Run <em>BBBE</em> with the HTTP interface bound to a different port: </p><div class="fragment"><div class="line">docker run -ti --rm -p 5000:5000 bioexplorer --http-server :5000</div>
 </div><!-- fragment --><p>Provide other flags (or env vars) to <code>braynsService</code>: </p><div class="fragment"><div class="line">docker run -ti --rm -p 5000:5000 bioexplorer \</div>
 <div class="line">    --http-server :5000 \</div>
 <div class="line">    --plugin BioExplorer</div>

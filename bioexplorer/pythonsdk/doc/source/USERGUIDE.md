@@ -1,7 +1,7 @@
 # User guide
 
 ## Protein
-Proteins are loaded from PDB files. Atoms, non-polymer chemicals and bonds can be loaded and displayed in various colour schemes: chain id, atom, residue, etc.... Proteins also contain the amino acid sequences of the individual chains; these sequences can be used to query targeted sites (such as glycosylation sites), or functional regions of the protein.
+Proteins are loaded from PDB files. Atoms, non-polymer chemicals and bonds can be loaded and displayed in various color schemes: chain id, atom, residue, etc.... Proteins also contain the amino acid sequences of the individual chains; these sequences can be used to query targeted sites (such as glycosylation sites), or functional regions of the protein.
 
 ```python
 virus_protein_s = Protein(

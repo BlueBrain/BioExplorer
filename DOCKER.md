@@ -1,6 +1,6 @@
 # Docker
 
-> Use [Docker](https://docs.docker.com) to run Blue Brain BioExplorer as a service and avoid painful tooling setup.
+> Use [Docker](https://docs.docker.com) to run _BBBE_ as a service and avoid painful tooling setup.
 
 ## Prerequisites
 Head over to [Docker](https://docs.docker.com/engine/installation/#supported-platforms) and install Docker for your own platform.
@@ -18,9 +18,9 @@ By default, the entrypoint when running the image is `braynsService`, but if you
 docker run -ti --rm --entrypoint bash -p 5000:5000 bioexplorer
 ```
 
-If you want to run Blue Brain BioExplorer use:
+If you want to run _BBBE_ use:
 ```bash
-# Runs Blue Brain BioExplorer as a service with the HTTP interface binded on port 5000
+# Runs _BBBE_ as a service with the HTTP interface bound to port 5000
 docker run -ti --rm -p 5000:5000 bioexplorer
 ```
 
@@ -35,7 +35,7 @@ docker stack deploy -c docker-compose.yml bioexplorer
 
 **NOTE** You have to build both the UI and API images (using `docker-compose build`) before you can run them using stacks.
 
-Run Blue Brain BioExplorer with the HTTP interface binded to a different port:
+Run _BBBE_ with the HTTP interface bound to a different port:
 ```bash
 docker run -ti --rm -p 5000:5000 bioexplorer --http-server :5000
 ```

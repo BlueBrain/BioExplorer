@@ -68,14 +68,11 @@ More information can be found in the [architecture](./ARCHITECTURE.md) documenta
 
 ### Assemblies
 
-Assemblies are groups of biological elements, such as proteins, membranes, glycans, etc. 
-As an example, a virion is made of a lipid membrane, spikes proteins, an RNA sequence, etc, and all those elements belong to the same object. That’s why they need to belong to the same container, the assembly.
-Assemblies can have different shapes: Sphere, Cube, etc, that are automatically generated according to the parameters of individual
-components.
+Assemblies are groups of biological elements, such as proteins, membranes, glycans, etc. As an example, a virion is made of a lipid membrane, spikes proteins, an RNA sequence, etc, and all those elements belong to the same object. That’s why they need to belong to the same container, the assembly. Assemblies can have different shapes: Sphere, Cube, etc, that are automatically generated according to the parameters of individual components.
 
 ### Proteins
 
-Proteins are loaded from PDB files. Atoms, non-polymer chemicals and bonds can be loaded and displayed in various colour schemes: chain id, atom, residue, etc.
+Proteins are loaded from PDB files. Atoms, non-polymer chemicals and bonds can be loaded and displayed in various color schemes: chain id, atom, residue, etc.
 Proteins also contain the amino acid sequences of the individual chains. Sequences that can be used to query glycosylation sites, or functional regions of the protein.
 
 ![___](./bioexplorer/pythonsdk/notebooks/bioexplorer_proteins_banner.png)
@@ -90,8 +87,7 @@ Glycan trees models located in the python sdk test folder were generated with [G
 
 ### RNA sequence
 
-An RNA sequence can be loaded from a text sequence of codons.
-Various shapes can be selected to represent the RNA sequence: Trefoil knot, torus, star, etc. This allows the sequence to be efficiently packed into a given volume. A different color is assigned per type of codon.
+An RNA sequence can be loaded from a text sequence of codons. Various shapes can be selected to represent the RNA sequence: Trefoil knot, torus, star, etc. This allows the sequence to be efficiently packed into a given volume. A different color is assigned per type of codon.
 
 ### Mesh-based membranes
 
@@ -128,7 +124,7 @@ References:
 
 ### Neurons and astrocytes
 
-Circuits of neurons are loaded from the database (see the database [schema](./storage/database/neurons_schema.sql) and the example [notebook](./bioexplorer/pythonsdk/notebooks/neurons/BioExplorer_import_sonata_to_db.ipynb) for loading data from [Sonata](https://github.com/AllenInstitute/sonata) files) using their position and orientation. Each cell is composed of sections that form the axons and dendrites, as well as spines. Cell internals such as the nucleus and the mitochondria can be automatically generated, according to the data provided by the scientific litterature. The _BBBE_ also implements procedural generation of varicosities along the axon, as well as myelin sheath.
+Circuits of neurons are loaded from the database (see the database [schema](./storage/database/neurons_schema.sql) and the example [notebook](./bioexplorer/pythonsdk/notebooks/neurons/BioExplorer_import_sonata_to_db.ipynb) for loading data from [Sonata](https://github.com/AllenInstitute/sonata) files) using their position and orientation. Each cell is composed of sections that form the axons and dendrites, as well as spines. Cell internals such as the nucleus and the mitochondria can be automatically generated, according to the data provided by the scientific literature. The _BBBE_ also implements procedural generation of varicosities along the axon, as well as myelin sheaths.
 
 ```python
 neurons_model = bio_explorer.add_neurons(
@@ -139,7 +135,7 @@ neurons_model = bio_explorer.add_neurons(
 )
 ```
 
-Circuits of astrocytes are loaded from the database (see the database [schema](./storage/database/astrocytes_schema.sql) and the example [notebook](./bioexplorer/pythonsdk/notebooks/astrocytes/BioExplorer_import_sonata_to_db.ipynb) for loading data from [Sonata](https://github.com/AllenInstitute/sonata) files) using their position and orientation. Astrocytes end-feet are connected to the vasculature using data stored in a dedicated connectome database [schema](./storage/database/connectome_schema.sql). The _BBBE_ allows end-feet to automtically adapt to the vasculature vessel size.
+Circuits of astrocytes are loaded from the database (see the database [schema](./storage/database/astrocytes_schema.sql) and the example [notebook](./bioexplorer/pythonsdk/notebooks/astrocytes/BioExplorer_import_sonata_to_db.ipynb) for loading data from [Sonata](https://github.com/AllenInstitute/sonata) files) using their position and orientation. Astrocytes end-feet are connected to the vasculature using data stored in a dedicated connectome database [schema](./storage/database/connectome_schema.sql). The _BBBE_ allows end-feet to automatically adapt to the vasculature vessel size.
 
 ```python
 vasculature_model = be.add_astrocytes(
@@ -181,7 +177,7 @@ The synthesis scheme is based on the assumption that it is necessary to know the
 
 ### Proximity detection
 
-In the context of brain simulation, detecting touches between neurons is a essential part of the process. The Blue Brain BioExplorer provides a renderer that computes the distance between the geometries in the 3D scene.
+In the context of brain simulation, detecting touches between neurons is a essential part of the process. The _BBBE_ provides a renderer that computes the distance between the geometries in the 3D scene.
 
 ![___](./bioexplorer/pythonsdk/doc/source/images/touchdetection.png)
 
@@ -207,7 +203,7 @@ References:
 
 ### Enzyme reactions
 
-An enzyme attracts substrates to its active site, catalyzes the chemical reaction by which products are formed, and then allows the products to dissociate (separate from the enzyme surface). The combination formed by an enzyme and its substrates is called the enzyme–substrate complex. The _BBBE_ allows easy visualization of enzyme reactions by providing a substrace, a product, and a type of reaction (for example: [Hexokinase](./bioexplorer/pythonsdk/notebooks/assemblies/BioExplorer_enzyme_reaction.ipynb)).
+An enzyme attracts substrates to its active site, catalyzes the chemical reaction by which products are formed, and then allows the products to dissociate (separate from the enzyme surface). The combination formed by an enzyme and its substrates is called the enzyme–substrate complex. The _BBBE_ allows easy visualization of enzyme reactions by providing a substrate, a product, and a type of reaction (for example: [Hexokinase](./bioexplorer/pythonsdk/notebooks/assemblies/BioExplorer_enzyme_reaction.ipynb)).
 
 ![___](./bioexplorer/pythonsdk/notebooks/bioexplorer_enzyme_reactions_banner.png)
 
@@ -238,11 +234,11 @@ See [here](https://bluebrain.github.io/BioExplorer/) for detailed documentation 
 
 ## Deployment
 
-_BBBE_ binaries are publicaly available as docker images. _BBBE_ is designed to run in distributed mode, and is composed of 3 modules: A [server](https://hub.docker.com/r/bluebrain/bioexplorer), a [python SDK](https://hub.docker.com/r/bluebrain/bioexplorer-python-sdk), and a [web user interface](https://hub.docker.com/r/bluebrain/bioexplorer-ui). This means that there are 3 docker images to be downloaded on run. Those images can of course run on different machines.
+_BBBE_ binaries are publicly available as docker images. _BBBE_ is designed to run in distributed mode, and is composed of 3 modules: A [server](https://hub.docker.com/r/bluebrain/bioexplorer), a [python SDK](https://hub.docker.com/r/bluebrain/bioexplorer-python-sdk), and a [web user interface](https://hub.docker.com/r/bluebrain/bioexplorer-ui). This means that there are 3 docker images to be downloaded on run. Those images can of course run on different machines.
 
-**Note:** The _BBBE_ is NOT a web application. It uses web techonlogies for the user interface but the _BBBE_ is a single session system that requires one back-end instance per user. There is no limitation in the number of user interface instances that can connect to the back-end, but they will all be sharing the same session.
+**Note:** The _BBBE_ is NOT a web application. It uses web technologies for the user interface but the _BBBE_ is a single session system that requires one back-end instance per user. There is no limitation in the number of user interface instances that can connect to the back-end, but they will all be sharing the same session.
 
-In this example, we will expose the server on port 5000, the python SDK jupyter notebooks on port 5001, and the user inferface on port 5002. One is free to change those ports at will.
+In this example, we will expose the server on port 5000, the python SDK jupyter notebooks on port 5001, and the user interface on port 5002. One is free to change those ports at will.
 
 ### Server
 
