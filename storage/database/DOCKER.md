@@ -23,7 +23,7 @@ docker run -d -p 5432:5432 bioexplorer-db
 
 ### Populating the database
 
-A [vasculature dataset](https://bbp.epfl.ch/ngv-portal/data/anatomy/experimental-data/vasculature-data/raw-vasculature-data.vtk) is available from the Blue Brain NGV portal. An example [Python Notebook]() is available to import the dataset into the database. The [vasculature Python Notebook](../../bioexplorer/pythonsdk/notebooks/vasculature/BioExplorer_vasculature.ipynb) can then be used to visualize the vasculature.
+A [vasculature dataset](https://bbp.epfl.ch/ngv-portal/data/anatomy/experimental-data/vasculature-data/raw-vasculature-data.vtk) is available from the Blue Brain NGV portal. An example [Python Notebook](../../bioexplorer/pythonsdk/notebooks/vasculature/BioExplorer_import_vtk_to_db.ipynb) is available to import the VTK dataset into the database. The [vasculature Python Notebook](../../bioexplorer/pythonsdk/notebooks/vasculature/BioExplorer_vasculature.ipynb) can then be used to visualize the vasculature.
 
 **NOTE** If you are having trouble exiting the process after you run the container (with the above command), use `docker stop <container-id>` to stop the container.
 `docker ps` will give you the current running process.
