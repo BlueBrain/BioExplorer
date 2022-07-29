@@ -264,6 +264,14 @@ docker run -ti --rm -p 5001:8888 -v <my_notebooks_folder>:/app/BioExplorer/noteb
 docker run -ti --rm -p 5002:8080 bluebrain/bioexplorer-ui
 ```
 
+### PostgreSQL Database
+
+```bash
+docker run -d -p 5432:5432 bluebrain/bioexplorer-db
+```
+
+More information can be found in the [dedicated Docker documentation](./storage/database/DOCKER.md).
+
 ![___](./bioexplorer/pythonsdk/doc/source/images/BBBE_screenshot.png)
 
 ## Building from Source

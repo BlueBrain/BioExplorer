@@ -1,16 +1,30 @@
-create table etype
+-- The Blue Brain BioExplorer is a tool for scientists to extract and analyse
+-- scientific data from visualization
+--
+-- Copyright 2020-2022 Blue BrainProject / EPFL
+--
+-- This program is free software: you can redistribute it and/or modify it under
+-- the terms of the GNU General Public License as published by the Free Software
+-- Foundation, either version 3 of the License, or (at your option) any later
+-- version.
+--
+-- This program is distributed in the hope that it will be useful, but WITHOUT
+-- ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+-- FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more
+-- details.
+--
+-- You should have received a copy of the GNU General Public License along with
+-- this program.  If not, see <https://www.gnu.org/licenses/>.
+
+create table if not exists atlas.etype
 (
     guid        integer not null
         constraint etypes_pk
             primary key,
     description varchar
-)
-    tablespace bioexplorer_ts;
+);
 
-alter table etype
-    owner to bioexplorer;
-
-create table mesh
+create table if not exists atlas.mesh
 (
     guid     integer not null
         constraint mesh_pk
@@ -19,17 +33,12 @@ create table mesh
     indices  bytea   not null,
     normals  bytea,
     colors   bytea
-)
-    tablespace bioexplorer_ts;
+);
 
-alter table mesh
-    owner to bioexplorer;
+create unique index if not exists mesh_guid_uindex
+    on atlas.mesh (guid);
 
-create unique index mesh_guid_uindex
-    on mesh (guid)
-    tablespace bioexplorer_ts;
-
-create table region
+create table if not exists atlas.region
 (
     guid              integer                                     not null
         constraint region_pk
@@ -43,13 +52,9 @@ create table region
     color_hex_triplet varchar default 'FFFFFF'::character varying not null,
     graph_order       integer default 0                           not null,
     hemisphere_guid   integer default 0                           not null
-)
-    tablespace bioexplorer_ts;
+);
 
-alter table region
-    owner to bioexplorer;
-
-create table cell
+create table if not exists atlas.cell
 (
     guid                 integer                    not null
         constraint cells_pk
@@ -57,11 +62,11 @@ create table cell
     cell_type_guid       integer          default 0 not null,
     region_guid          integer                    not null
         constraint cell_region_guid_fk
-            references region
+            references atlas.region
             on update cascade on delete cascade,
     electrical_type_guid integer          default 0 not null
         constraint cell_etype_guid_fk
-            references etype
+            references atlas.etype
             on update cascade on delete cascade,
     x                    double precision           not null,
     y                    double precision           not null,
@@ -70,13 +75,8 @@ create table cell
     rotation_y           double precision default 0 not null,
     rotation_z           double precision default 0 not null,
     rotation_w           double precision default 1 not null
-)
-    tablespace bioexplorer_ts;
+);
 
-alter table cell
-    owner to bioexplorer;
-
-create index cell_region_guid_index
-    on cell (region_guid)
-    tablespace bioexplorer_ts;
+create index if not exists cell_region_guid_index
+    on atlas.cell (region_guid);
 
