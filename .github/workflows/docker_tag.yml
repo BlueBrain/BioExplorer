@@ -20,12 +20,6 @@ jobs:
       with:
         username: ${{ secrets.DOCKERHUB_USERNAME }}
         password: ${{ secrets.DOCKERHUB_TOKEN }}
-    - name: Build and push Docker Database
-      uses: docker/build-push-action@v2
-      with:
-        context: ./storage/database
-        push: true
-        tags: ${{ secrets.DOCKERHUB_ORGANIZATION }}/bioexplorer-database:${{steps.tag.outputs.tag}}
     - name: Build and push Docker Back-end image
       uses: docker/build-push-action@v2
       with:
