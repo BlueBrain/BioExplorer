@@ -1,6 +1,6 @@
-# Blue Brain BioExplorer Postgres Database with Docker
+# Blue Brain BioExplorer PostgreSQL Database with Docker
 
-> Use [Docker](https://docs.docker.com) to run Blue Brain BioExplorer Postgres Database as a service and avoid painful tooling setup.
+> Use [Docker](https://docs.docker.com) to run Blue Brain BioExplorer PostgreSQL Database as a service and avoid painful tooling setup.
 
 ### Prerequisites
 -----------------
@@ -15,7 +15,7 @@ docker build -t bioexplorer-db .
 
 ### Usage
 ---------
-If you want to run Blue Brain BioExplorer Postgres Database use:
+If you want to run Blue Brain BioExplorer PostgreSQL Database use:
 ```bash
 # Runs Blue Brain BioExplorer Database on port 5432
 docker run -d -p 5432:5432 bioexplorer-db
