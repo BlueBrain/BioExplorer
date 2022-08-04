@@ -137,9 +137,8 @@ void Astrocytes::_buildModel(const doubles& radii)
                 Vector3f(somaRadius * astrocyteSomaDisplacementStrength,
                          somaRadius * astrocyteSomaDisplacementFrequency, 0.f));
             if (_details.generateInternals)
-                _addSomaInternals(somaId, container, baseMaterialId,
-                                  somaPosition, somaRadius,
-                                  DEFAULT_MITOCHONDRIA_DENSITY);
+                _addSomaInternals(container, baseMaterialId, somaPosition,
+                                  somaRadius, DEFAULT_MITOCHONDRIA_DENSITY);
         }
 
         Neighbours neighbours;
@@ -350,8 +349,8 @@ void Astrocytes::setVasculatureRadiusReport(
 {
     auto& connector = DBConnector::getInstance();
     const auto simulationReport =
-        connector.getVasculatureSimulationReport(details.populationName,
-                                                 details.simulationReportId);
+        connector.getSimulationReport(details.populationName,
+                                      details.simulationReportId);
 
     const size_t nbFrames =
         (simulationReport.endTime - simulationReport.startTime) /

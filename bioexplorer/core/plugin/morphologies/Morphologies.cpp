@@ -43,8 +43,7 @@ size_t Morphologies::_getNbMitochondrionSegments() const
     return 2 + rand() % 5;
 }
 
-void Morphologies::_addSomaInternals(const uint64_t index,
-                                     ThreadSafeContainer& container,
+void Morphologies::_addSomaInternals(ThreadSafeContainer& container,
                                      const size_t baseMaterialId,
                                      const Vector3d& somaPosition,
                                      const double somaRadius,

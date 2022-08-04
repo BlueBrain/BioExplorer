@@ -81,7 +81,7 @@ public:
 protected:
     size_t _getNbMitochondrionSegments() const;
 
-    void _addSomaInternals(const uint64_t index, ThreadSafeContainer& container,
+    void _addSomaInternals(ThreadSafeContainer& container,
                            const size_t materialId,
                            const Vector3d& somaPosition,
                            const double somaRadius,

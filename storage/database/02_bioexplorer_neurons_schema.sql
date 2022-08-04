@@ -314,3 +314,66 @@ create index if not exists target_node_node_guid_index
 create index if not exists target_node_target_guid_index
     on neurons.target_node (target_guid);
 
+create table if not exists neurons.report_type
+(
+    guid        integer not null
+        constraint report_type_pk
+            primary key,
+    description varchar not null
+);
+
+create unique index if not exists report_type_guid_uindex
+    on neurons.report_type (guid);
+
+create table if not exists neurons.report
+(
+    guid        integer                    not null
+        constraint report_pk
+            primary key,
+    type_guid   integer                    not null
+        constraint report_report_type_guid_fk
+            references neurons.report_type
+            on update cascade on delete cascade,
+    description varchar                    not null,
+    start_time  double precision default 0 not null,
+    end_time    double precision default 0 not null,
+    time_step   double precision default 0 not null,
+    data_units  varchar,
+    time_units  varchar,
+    notes       varchar
+);
+
+create unique index if not exists report_guid_uindex
+    on neurons.report (guid);
+
+create table if not exists neurons.soma_report
+(
+    guid        integer not null
+        constraint soma_report_pk
+            primary key,
+    report_guid integer not null,
+    node_guid   integer not null
+        constraint soma_report_node_guid_fk
+            references neurons.node
+            on update cascade on delete cascade,
+    values      bytea   not null
+);
+
+create unique index if not exists soma_report_guid_uindex
+    on neurons.soma_report (guid);
+
+create table if not exists neurons.spike_report
+(
+    guid        integer          not null
+        constraint spike_report_pk
+            primary key,
+    report_guid integer          not null,
+    node_guid   integer          not null
+        constraint spike_report_node_guid_fk
+            references neurons.node
+            on update cascade on delete cascade,
+    timestamp   double precision not null
+);
+
+create unique index if not exists spike_report_guid_uindex
+    on neurons.spike_report (guid);

@@ -81,7 +81,7 @@ bool isClipped(const Vector3d& position, const Vector4ds& clippingPlanes)
     return !visible;
 }
 
-void setDefaultTransferFunction(Model& model)
+void setDefaultTransferFunction(Model& model, const Vector2d range)
 {
     TransferFunction& tf = model.getTransferFunction();
     tf.setControlPoints({{0.0, 0.0}, {0.1, 1.0}, {1.0, 1.0}});
@@ -216,7 +216,7 @@ void setDefaultTransferFunction(Model& model)
           {0.996078431372549, 1.0, 0.9686274509803922},
           {0.996078431372549, 1.0, 0.9803921568627451},
           {1.0, 1.0, 1.0}}});
-    tf.setValuesRange({0.0, 1.0});
+    tf.setValuesRange(range);
 }
 
 Vector4ds getClippingPlanes(const Scene& scene)

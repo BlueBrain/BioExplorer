@@ -17,6 +17,9 @@
  */
 
 #include "Neurons.h"
+#include "CompartmentSimulationHandler.h"
+#include "SomaSimulationHandler.h"
+#include "SpikeSimulationHandler.h"
 
 #include <plugin/common/CommonTypes.h>
 #include <plugin/common/Logs.h>
@@ -41,6 +44,7 @@ using namespace db;
 const uint64_t NB_MYELIN_FREE_SEGMENTS = 4;
 const double DEFAULT_SPINE_RADIUS = 0.25;
 const double DEFAULT_ARROW_RADIUS_RATIO = 10.0;
+const Vector2d DEFAULT_SIMULATION_VALUE_RANGE = {-90.0, 10.0};
 
 // Mitochondria density per layer
 const doubles MITOCHONDRIA_DENSITY = {0.0459, 0.0522, 0.064,
@@ -74,12 +78,16 @@ void Neurons::_buildNeurons()
                               MorphologyRepresentation::orientation)
                              ? false
                              : _details.useSdf);
+
+    // Simulation report
+    const auto sqlNodeFilter = _attachSimulationReport(*model);
+
+    // Neurons
     const auto somas =
-        connector.getNeurons(_details.populationName, _details.sqlNodeFilter);
+        connector.getNeurons(_details.populationName, sqlNodeFilter);
 
     PLUGIN_INFO(1, "Building " << somas.size() << " neurons");
 
-    // Neurons
     size_t previousMaterialId = std::numeric_limits<size_t>::max();
     size_t baseMaterialId = 0;
     Vector3ui indexOffset;
@@ -105,21 +113,19 @@ void Neurons::_buildNeurons()
         const auto nbDBConnections =
             DBConnector::getInstance().getNbConnections();
 
-        uint64_t index;
+        uint64_t neuronIndex;
 #pragma omp parallel for num_threads(nbDBConnections)
-        for (index = 0; index < somas.size(); ++index)
+        for (neuronIndex = 0; neuronIndex < somas.size(); ++neuronIndex)
         {
             if (omp_get_thread_num() == 0)
-                PLUGIN_PROGRESS("Loading neurons", index,
+                PLUGIN_PROGRESS("Loading neurons", neuronIndex,
                                 somas.size() / nbDBConnections);
 
             auto it = somas.begin();
-            std::advance(it, index);
+            std::advance(it, neuronIndex);
             const auto& soma = it->second;
-            const auto neuronId = it->first;
-
             ThreadSafeContainer container(*model, useSdf, _scale);
-            _buildMorphology(container, soma, neuronId);
+            _buildMorphology(container, soma, neuronIndex);
 
 #pragma omp critical
             containers.push_back(container);
@@ -153,6 +159,7 @@ void Neurons::_buildSomasOnly(ThreadSafeContainer& container,
                               const size_t baseMaterialId)
 {
     uint64_t progress = 0;
+    uint64_t neuronIndex = 0;
     for (const auto soma : somas)
     {
         PLUGIN_PROGRESS("Loading somas", progress, somas.size());
@@ -163,7 +170,7 @@ void Neurons::_buildSomasOnly(ThreadSafeContainer& container,
                                   : 0);
         if (_details.showMembrane)
             container.addSphere(soma.second.position, _details.radiusMultiplier,
-                                somaMaterialId, NO_USER_DATA, {},
+                                somaMaterialId, neuronIndex, {},
                                 Vector3f(neuronSomaDisplacementStrength,
                                          neuronSomaDisplacementFrequency, 0.f));
         if (_details.generateInternals)
@@ -173,11 +180,11 @@ void Neurons::_buildSomasOnly(ThreadSafeContainer& container,
                      ? MITOCHONDRIA_DENSITY[soma.second.layer]
                      : 0.0);
 
-            _addSomaInternals(soma.first, container, baseMaterialId,
-                              soma.second.position, _details.radiusMultiplier,
-                              mitochondriaDensity);
+            _addSomaInternals(container, baseMaterialId, soma.second.position,
+                              _details.radiusMultiplier, mitochondriaDensity);
         }
         ++progress;
+        ++neuronIndex;
     }
 }
 
@@ -195,14 +202,15 @@ void Neurons::_buildOrientations(ThreadSafeContainer& container,
         const auto dst = Vector4d(rotation * (UP_VECTOR * radius *
                                               DEFAULT_ARROW_RADIUS_RATIO),
                                   radius);
-        _addArrow(container, soma.second.position, rotation, src, dst,
-                  NeuronSectionType::soma, 0);
+        _addArrow(container, soma.first, soma.second.position, rotation, src,
+                  dst, NeuronSectionType::soma, 0);
         ++progress;
     }
 }
 
 void Neurons::_buildMorphology(ThreadSafeContainer& container,
-                               const NeuronSoma& soma, const uint64_t neuronId)
+                               const NeuronSoma& soma,
+                               const uint64_t neuronIndex)
 {
     const auto& connector = DBConnector::getInstance();
 
@@ -220,7 +228,7 @@ void Neurons::_buildMorphology(ThreadSafeContainer& container,
         _details.loadBasalDendrites)
     {
         sections =
-            connector.getNeuronSections(_details.populationName, neuronId,
+            connector.getNeuronSections(_details.populationName, neuronIndex,
                                         _details.sqlSectionFilter);
         uint64_t count = 0;
         for (const auto& section : sections)
@@ -238,7 +246,7 @@ void Neurons::_buildMorphology(ThreadSafeContainer& container,
     switch (_details.populationColorScheme)
     {
     case PopulationColorScheme::id:
-        baseMaterialId = neuronId * NB_MATERIALS_PER_MORPHOLOGY;
+        baseMaterialId = neuronIndex * NB_MATERIALS_PER_MORPHOLOGY;
         break;
     }
     size_t somaMaterialId = baseMaterialId;
@@ -259,12 +267,12 @@ void Neurons::_buildMorphology(ThreadSafeContainer& container,
         if (_details.showMembrane)
             somaGeometryIndex =
                 container.addSphere(somaPosition, somaRadius, somaMaterialId,
-                                    NO_USER_DATA, {},
+                                    neuronIndex, {},
                                     Vector3f(neuronSomaDisplacementStrength,
                                              neuronSomaDisplacementFrequency,
                                              0.f));
         if (_details.generateInternals)
-            _addSomaInternals(neuronId, container, baseMaterialId, somaPosition,
+            _addSomaInternals(container, baseMaterialId, somaPosition,
                               somaRadius, mitochondriaDensity);
     }
 
@@ -289,7 +297,7 @@ void Neurons::_buildMorphology(ThreadSafeContainer& container,
         if (_details.morphologyRepresentation ==
             MorphologyRepresentation::graph)
         {
-            _addArrow(container, somaPosition, somaRotation,
+            _addArrow(container, neuronIndex, somaPosition, somaRotation,
                       section.second.points[0],
                       section.second.points[section.second.points.size() - 1],
                       sectionType, baseMaterialId);
@@ -321,7 +329,7 @@ void Neurons::_buildMorphology(ThreadSafeContainer& container,
             geometryIndex =
                 container.addCone(Vector3d(somaPoint), srcRadius,
                                   somaPosition + somaRotation * Vector3d(point),
-                                  dstRadius, somaMaterialId, NO_USER_DATA,
+                                  dstRadius, somaMaterialId, neuronIndex,
                                   neighbours,
                                   Vector3f(neuronSomaDisplacementStrength,
                                            neuronSomaDisplacementFrequency,
@@ -329,14 +337,14 @@ void Neurons::_buildMorphology(ThreadSafeContainer& container,
             neighbours.insert(geometryIndex);
         }
 
-        _addSection(container, neuronId, section.first, section.second,
+        _addSection(container, neuronIndex, section.first, section.second,
                     geometryIndex, somaPosition, somaRotation, somaRadius,
                     baseMaterialId, mitochondriaDensity);
     }
 
     // Synapses
     if (_details.loadSynapses)
-        _addSpines(container, neuronId, somaPosition, somaRadius,
+        _addSpines(container, neuronIndex, somaPosition, somaRadius,
                    baseMaterialId);
 }
 
@@ -364,7 +372,7 @@ void Neurons::_addVaricosity(Vector4fs& points)
     points.insert(idx, {p0.x, p0.y, p0.z, endPoint.w});
 }
 
-void Neurons::_addArrow(ThreadSafeContainer& container,
+void Neurons::_addArrow(ThreadSafeContainer& container, const uint64_t neuronId,
                         const Vector3d& somaPosition,
                         const Quaterniond& somaRotation,
                         const Vector4d& srcNode, const Vector4d& dstNode,
@@ -385,7 +393,7 @@ void Neurons::_addArrow(ThreadSafeContainer& container,
 
     const auto src = somaPosition + somaRotation * Vector3d(srcNode);
     const auto dst = somaPosition + somaRotation * Vector3d(dstNode);
-    const auto userData = 0;
+    const auto userData = neuronId;
     const auto direction = dst - src;
     const auto maxRadius = std::max(srcNode.w, dstNode.w);
     const float radius = std::min(length(direction) / 5.0,
@@ -412,6 +420,7 @@ void Neurons::_addSection(ThreadSafeContainer& container,
 {
     const auto sectionType = static_cast<NeuronSectionType>(section.type);
     auto useSdf = _details.useSdf;
+    const auto userData = neuronId;
 
     const auto& points = section.points;
     size_t sectionMaterialId = baseMaterialId;
@@ -480,11 +489,11 @@ void Neurons::_addSection(ThreadSafeContainer& container,
             }
 
             if (!useSdf)
-                container.addSphere(dst, dstRadius, materialId, NO_USER_DATA);
+                container.addSphere(dst, dstRadius, materialId, userData);
 
             geometryIndex =
                 container.addCone(src, srcRadius, dst, dstRadius, materialId,
-                                  NO_USER_DATA, neighbours, displacement);
+                                  userData, neighbours, displacement);
 
             neighbours.insert(geometryIndex);
         }
@@ -575,7 +584,8 @@ void Neurons::_addSectionInternals(
 
                 if (!useSdf)
                     container.addSphere(somaPosition + somaRotation * position,
-                                        radius, mitochondrionMaterialId, -1);
+                                        radius, mitochondrionMaterialId,
+                                        NO_USER_DATA);
 
                 if (mitochondrionSegment > 0)
                 {
@@ -585,7 +595,8 @@ void Neurons::_addSectionInternals(
                     geometryIndex = container.addCone(
                         somaPosition + somaRotation * position, radius,
                         somaPosition + somaRotation * previousPosition,
-                        previousRadius, mitochondrionMaterialId, -1, neighbours,
+                        previousRadius, mitochondrionMaterialId, NO_USER_DATA,
+                        neighbours,
                         Vector3f(radius * mitochondrionDisplacementStrength *
                                      2.0,
                                  radius * mitochondrionDisplacementFrequency,
@@ -690,12 +701,12 @@ void Neurons::_addAxonMyelinSheath(ThreadSafeContainer& container,
 }
 
 void Neurons::_addSpines(ThreadSafeContainer& container,
-                         const uint64_t somaIndex, const Vector3d somaPosition,
+                         const uint64_t neuronId, const Vector3d somaPosition,
                          const double somaRadius, const size_t baseMaterialId)
 {
     const auto& connector = DBConnector::getInstance();
     const auto afferentSynapses =
-        connector.getNeuronSynapses(_details.populationName, somaIndex,
+        connector.getNeuronSynapses(_details.populationName, neuronId,
                                     SynapseType::afferent);
     const size_t materialId = baseMaterialId + MATERIAL_OFFSET_AFFERENT_SYNPASE;
 
@@ -706,11 +717,11 @@ void Neurons::_addSpines(ThreadSafeContainer& container,
                 somaRadius * 3.0 &&
             length(synapse.second.centerPosition - somaPosition) >
                 somaRadius * 3.0)
-            _addSpine(container, synapse.first, synapse.second, materialId,
-                      SynapseType::afferent);
+            _addSpine(container, neuronId, synapse.first, synapse.second,
+                      materialId, SynapseType::afferent);
 
     const auto efferentSynapses =
-        connector.getNeuronSynapses(_details.populationName, somaIndex,
+        connector.getNeuronSynapses(_details.populationName, neuronId,
                                     SynapseType::efferent);
     const size_t spineMaterialId =
         baseMaterialId + MATERIAL_OFFSET_EFFERENT_SYNPASE;
@@ -722,12 +733,13 @@ void Neurons::_addSpines(ThreadSafeContainer& container,
                 somaRadius * 3.0 &&
             length(synapse.second.centerPosition - somaPosition) >
                 somaRadius * 3.0)
-            _addSpine(container, synapse.first, synapse.second, materialId,
-                      SynapseType::efferent);
+            _addSpine(container, neuronId, synapse.first, synapse.second,
+                      materialId, SynapseType::efferent);
 }
 
-void Neurons::_addSpine(ThreadSafeContainer& container, const uint64_t guid,
-                        const Synapse& synapse, const size_t SpineMaterialId,
+void Neurons::_addSpine(ThreadSafeContainer& container, const uint64_t neuronId,
+                        const uint64_t guid, const Synapse& synapse,
+                        const size_t SpineMaterialId,
                         const SynapseType& synapseType)
 {
     const double radius = DEFAULT_SPINE_RADIUS;
@@ -761,16 +773,14 @@ void Neurons::_addSpine(ThreadSafeContainer& container, const uint64_t guid,
                  radius * spineDisplacementFrequency, 0.f);
     Neighbours neighbours;
     neighbours.insert(container.addSphere(middle, spineMiddleRadius,
-                                          SpineMaterialId, NO_USER_DATA,
-                                          neighbours, displacement));
+                                          SpineMaterialId, neuronId, neighbours,
+                                          displacement));
     if (middle != origin)
         container.addCone(origin, spineSmallRadius, middle, spineMiddleRadius,
-                          SpineMaterialId, NO_USER_DATA, neighbours,
-                          displacement);
+                          SpineMaterialId, neuronId, neighbours, displacement);
     if (middle != target)
         container.addCone(middle, spineMiddleRadius, target, spineLargeRadius,
-                          SpineMaterialId, NO_USER_DATA, neighbours,
-                          displacement);
+                          SpineMaterialId, neuronId, neighbours, displacement);
 }
 
 Vector4ds Neurons::getNeuronSectionPoints(const uint64_t neuronId,
@@ -807,6 +817,75 @@ Vector3ds Neurons::getNeuronVaricosities(const uint64_t neuronId)
     if (_varicosities.find(neuronId) == _varicosities.end())
         PLUGIN_THROW("Neuron " + std::to_string(neuronId) + " does not exist");
     return _varicosities[neuronId];
+}
+
+std::string Neurons::_attachSimulationReport(Model& model)
+{
+    // Simulation report
+    std::string sqlNodeFilter = _details.sqlNodeFilter;
+    if (_details.simulationReportId != -1)
+    {
+        const auto& connector = DBConnector::getInstance();
+        const auto reportType =
+            connector.getNeuronReportType(_details.populationName,
+                                          _details.simulationReportId);
+        switch (reportType)
+        {
+        case ReportType::spike:
+        {
+            PLUGIN_INFO(1,
+                        "Initialize spike simulation handler and restrain "
+                        "guids to the simulated ones");
+            auto handler = std::make_shared<SpikeSimulationHandler>(
+                _details.populationName, _details.simulationReportId);
+            model.setSimulationHandler(handler);
+            setDefaultTransferFunction(model, DEFAULT_SIMULATION_VALUE_RANGE);
+            if (!sqlNodeFilter.empty())
+                sqlNodeFilter += "AND ";
+            sqlNodeFilter += "guid IN (SELECT DISTINCT(node_guid) FROM " +
+                             _details.populationName +
+                             ".spike_report WHERE report_guid=" +
+                             std::to_string(_details.simulationReportId) + ")";
+            break;
+        }
+        case ReportType::soma:
+        {
+            PLUGIN_INFO(1,
+                        "Initialize soma simulation handler and restrain guids "
+                        "to the simulated ones");
+            auto handler = std::make_shared<SomaSimulationHandler>(
+                _details.populationName, _details.simulationReportId);
+            model.setSimulationHandler(handler);
+            setDefaultTransferFunction(model, DEFAULT_SIMULATION_VALUE_RANGE);
+            if (!sqlNodeFilter.empty())
+                sqlNodeFilter += "AND ";
+            sqlNodeFilter += "guid IN (SELECT DISTINCT(node_guid) FROM " +
+                             _details.populationName +
+                             ".soma_report WHERE report_guid=" +
+                             std::to_string(_details.simulationReportId) + ")";
+            break;
+        }
+        case ReportType::compartment:
+        {
+            PLUGIN_INFO(
+                1,
+                "Initialize compartment simulation handler and restrain "
+                "guids to the simulated ones");
+            auto handler = std::make_shared<CompartmentSimulationHandler>(
+                _details.populationName, _details.simulationReportId);
+            model.setSimulationHandler(handler);
+            setDefaultTransferFunction(model, DEFAULT_SIMULATION_VALUE_RANGE);
+            if (!sqlNodeFilter.empty())
+                sqlNodeFilter += "AND ";
+            sqlNodeFilter += "guid IN (SELECT DISTINCT(node_guid) FROM " +
+                             _details.populationName +
+                             ".compartment_report WHERE report_guid=" +
+                             std::to_string(_details.simulationReportId) + ")";
+            break;
+        }
+        }
+    }
+    return sqlNodeFilter;
 }
 
 } // namespace morphology

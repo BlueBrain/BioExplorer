@@ -82,7 +82,8 @@ private:
     void _buildMorphology(ThreadSafeContainer& container,
                           const NeuronSoma& soma, const uint64_t neuronId);
 
-    void _addArrow(ThreadSafeContainer& container, const Vector3d& somaPosition,
+    void _addArrow(ThreadSafeContainer& container, const uint64_t neuronId,
+                   const Vector3d& somaPosition,
                    const Quaterniond& somaRotation, const Vector4d& srcNode,
                    const Vector4d& dstNode, const NeuronSectionType sectionType,
                    const size_t baseMaterialId);
@@ -95,9 +96,9 @@ private:
                      const size_t baseMaterialId,
                      const double mitochondriaDensity);
 
-    void _addSpine(ThreadSafeContainer& container, const uint64_t guid,
-                   const Synapse& synapse, const size_t baseMaterialId,
-                   const SynapseType& synapseType);
+    void _addSpine(ThreadSafeContainer& container, const uint64_t neuronId,
+                   const uint64_t guid, const Synapse& synapse,
+                   const size_t baseMaterialId, const SynapseType& synapseType);
 
     void _addSpines(ThreadSafeContainer& container, const uint64_t somaIndex,
                     const Vector3d somaPosition, const double somaRadius,
@@ -118,6 +119,8 @@ private:
                               const size_t materialId);
 
     void _addVaricosity(Vector4fs& points);
+
+    std::string _attachSimulationReport(Model& model);
 
     const NeuronsDetails _details;
     Scene& _scene;

@@ -28,6 +28,7 @@ add_compile_options("-fopenmp")
 
 # Optional packages (managed by Defines.h.in)
 set(CGAL_FOUND 0)
+
 if(${${NAME}_USE_CGAL})
     find_package(CGAL REQUIRED)
 endif()
@@ -88,6 +89,9 @@ set(${NAME}_SOURCES
     plugin/atlas/Atlas.cpp
     plugin/morphologies/Astrocytes.cpp
     plugin/morphologies/Neurons.cpp
+    plugin/morphologies/SpikeSimulationHandler.cpp
+    plugin/morphologies/SomaSimulationHandler.cpp
+    plugin/morphologies/CompartmentSimulationHandler.cpp
     plugin/vasculature/VasculatureHandler.cpp
     plugin/vasculature/Vasculature.cpp
     plugin/connectomics/WhiteMatter.cpp
@@ -112,6 +116,9 @@ set(${NAME}_PUBLIC_HEADERS
     plugin/morphologies/Morphologies.h
     plugin/morphologies/Astrocytes.h
     plugin/morphologies/Neurons.h
+    plugin/morphologies/SpikeSimulationHandler.h
+    plugin/morphologies/SomaSimulationHandler.h
+    plugin/morphologies/CompartmentSimulationHandler.h
     plugin/vasculature/VasculatureHandler.h
     plugin/vasculature/Vasculature.h
     plugin/connectomics/WhiteMatter.h
@@ -141,7 +148,7 @@ if(${CGAL_FOUND})
         plugin/meshing/SurfaceMesher.cpp
     )
 
-    list(APPEND ${NAME}_PUBLIC_HEADERS 
+    list(APPEND ${NAME}_PUBLIC_HEADERS
         plugin/meshing/PointCloudMesher.h
         plugin/meshing/SurfaceMesher.h
     )
@@ -176,7 +183,6 @@ list(APPEND ${NAME}_SOURCES ${ISPC_OBJECTS})
 # ==============================================================================
 # Compile c++ code
 # ==============================================================================
-
 include_directories(
     ${PROJECT_SOURCE_DIR}
     ${OSPRAY_INCLUDE_DIRS}
@@ -204,11 +210,11 @@ target_link_libraries(
     ${LIBRARY_NAME}
     ${${NAME}_LINK_LIBRARIES})
 
-
 # ==============================================================================
 # Unit testing
 # ==============================================================================
 option(${NAME}_UNIT_TESTING_ENABLED "Enable unit testing" ON)
+
 if(${NAME}_UNIT_TESTING_ENABLED)
     add_subdirectory(tests)
 endif()

@@ -1087,6 +1087,8 @@ typedef struct
     PopulationColorScheme populationColorScheme{PopulationColorScheme::none};
     /** Multiplies the astrocyte section radii by the specified value */
     double radiusMultiplier{1.0};
+    /** Simulation report identifier */
+    int64_t simulationReportId{-1};
     /** SQL filter for nodes (WHERE condition) */
     std::string sqlNodeFilter;
     /** SQL filter dor sections (WHERE condition) */
@@ -1441,6 +1443,14 @@ enum class SynapseType
 {
     afferent = 0,
     efferent = 1
+};
+
+enum class ReportType
+{
+    undefined = 0,
+    spike = 1,
+    soma = 2,
+    compartment = 3
 };
 
 typedef struct

@@ -2470,7 +2470,8 @@ class BioExplorer:
             morphology_representation=MORPHOLOGY_REPRESENTATION_SEGMENT,
             morphology_color_scheme=MORPHOLOGY_COLOR_SCHEME_NONE,
             population_color_scheme=POPULATION_COLOR_SCHEME_NONE,
-            radius_multiplier=1.0, sql_node_filter='', sql_section_filter='',
+            radius_multiplier=1.0, simulation_report_id=-1,
+            sql_node_filter='', sql_section_filter='',
             scale=Vector3(1.0, 1.0, 1.0), animation_params=AnimationParams()):
         """
         Add a population of astrocytes to the 3D scene
@@ -2491,6 +2492,7 @@ class BioExplorer:
         :morphology_color_scheme: Color scheme of the sections of the astrocytes
         :populationColorScheme: Color scheme of the population of astrocytes
         :radius_muliplier: Applies the multiplier to all radii of the astrocyte sections
+        :simulation_report_id: Identifier of the simulation report (Optional)
         :sql_node_filter: Condition added to the SQL statement loading the nodes
         :sql_section_filter: Condition added to the SQL statement loading the sections
         :scale: Scale in the 3D scene
@@ -2518,6 +2520,7 @@ class BioExplorer:
         params["morphologyColorScheme"] = morphology_color_scheme
         params["populationColorScheme"] = population_color_scheme
         params["radiusMultiplier"] = radius_multiplier
+        params["simulationReportId"] = simulation_report_id
         params["sqlNodeFilter"] = sql_node_filter
         params["sqlSectionFilter"] = sql_section_filter
         params["scale"] = scale.to_list()

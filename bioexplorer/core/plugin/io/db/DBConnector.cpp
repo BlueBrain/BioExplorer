@@ -417,7 +417,7 @@ Bifurcations DBConnector::getVasculatureBifurcations(
     return bifurcations;
 }
 
-SimulationReport DBConnector::getVasculatureSimulationReport(
+SimulationReport DBConnector::getSimulationReport(
     const std::string& populationName, const int32_t simulationReportId) const
 {
     CHECK_DB_INITIALIZATION
@@ -431,8 +431,7 @@ SimulationReport DBConnector::getVasculatureSimulationReport(
             "time_units, "
             "data_units FROM " +
             populationName +
-            ".simulation_report WHERE simulation_report_guid=" +
-            std::to_string(simulationReportId);
+            ".report WHERE guid=" + std::to_string(simulationReportId);
 
         PLUGIN_DEBUG(sql);
         auto res = transaction.exec(sql);
@@ -464,11 +463,10 @@ floats DBConnector::getVasculatureSimulationTimeSeries(
         *_connections[omp_get_thread_num() % _dbNbConnections]);
     try
     {
-        std::string sql =
-            "SELECT values FROM " + populationName +
-            ".simulation_time_series WHERE simulation_report_guid=" +
-            std::to_string(simulationReportId) +
-            " AND frame_guid=" + std::to_string(frame);
+        std::string sql = "SELECT values FROM " + populationName +
+                          ".simulation_time_series WHERE report_guid=" +
+                          std::to_string(simulationReportId) +
+                          " AND frame_guid=" + std::to_string(frame);
 
         PLUGIN_DEBUG(sql);
         auto res = transaction.exec(sql);
@@ -748,6 +746,95 @@ SynapseMap DBConnector::getNeuronSynapses(const std::string& populationName,
     }
 
     return synapses;
+}
+
+ReportType DBConnector::getNeuronReportType(const std::string& populationName,
+                                            const uint64_t reportId) const
+{
+    CHECK_DB_INITIALIZATION
+    ReportType reportType = ReportType::undefined;
+    pqxx::nontransaction transaction(
+        *_connections[omp_get_thread_num() % _dbNbConnections]);
+    try
+    {
+        std::string sql = "SELECT type_guid FROM " + populationName +
+                          ".report WHERE guid=" + std::to_string(reportId);
+        PLUGIN_DEBUG(sql);
+        auto res = transaction.exec(sql);
+        for (auto c = res.begin(); c != res.end(); ++c)
+            reportType = static_cast<ReportType>(c[0].as<uint64_t>());
+    }
+    catch (pqxx::sql_error& e)
+    {
+        PLUGIN_THROW(e.what());
+    }
+
+    return reportType;
+}
+
+uint64_ts DBConnector::getNeuronSpikeReportValues(
+    const std::string& populationName, const uint64_t reportId,
+    const double startTime, const double endTime) const
+{
+    CHECK_DB_INITIALIZATION
+    uint64_ts spikes;
+    pqxx::nontransaction transaction(
+        *_connections[omp_get_thread_num() % _dbNbConnections]);
+    try
+    {
+        std::string sql =
+            "SELECT DISTINCT(node_guid) FROM " + populationName +
+            ".spike_report WHERE report_guid=" + std::to_string(reportId) +
+            " AND timestamp>=" + std::to_string(startTime) + "AND timestamp<" +
+            std::to_string(endTime) + " ORDER BY node_guid";
+        PLUGIN_DEBUG(sql);
+        auto res = transaction.exec(sql);
+        for (auto c = res.begin(); c != res.end(); ++c)
+            spikes.push_back(c[0].as<uint64_t>());
+    }
+    catch (pqxx::sql_error& e)
+    {
+        PLUGIN_THROW(e.what());
+    }
+
+    return spikes;
+}
+
+floats DBConnector::getNeuronSomaReportValues(const std::string& populationName,
+                                              const uint64_t reportId,
+                                              const uint64_t frame) const
+{
+    CHECK_DB_INITIALIZATION
+    floats values;
+    pqxx::nontransaction transaction(
+        *_connections[omp_get_thread_num() % _dbNbConnections]);
+    try
+    {
+        const size_t elementSize = sizeof(float);
+        const size_t offset = 1; // First byte of bytea must be ignored
+        std::string sql =
+            "SELECT SUBSTRING(values::bytea from " +
+            std::to_string(offset + frame * elementSize) + " for " +
+            std::to_string(elementSize) + ") FROM " + populationName +
+            ".soma_report WHERE report_guid=" + std::to_string(reportId) +
+            " ORDER BY node_guid";
+        PLUGIN_DEBUG(sql);
+        const auto res = transaction.exec(sql);
+        values.resize(res.size());
+        uint64_t index = 0;
+        for (auto c = res.begin(); c != res.end(); ++c)
+        {
+            const pqxx::binarystring buffer(c[0]);
+            memcpy(&values[index], buffer.data(), buffer.size());
+            ++index;
+        }
+    }
+    catch (pqxx::sql_error& e)
+    {
+        PLUGIN_THROW(e.what());
+    }
+
+    return values;
 }
 
 uint64_ts DBConnector::getAtlasRegions(const std::string& sqlCondition) const

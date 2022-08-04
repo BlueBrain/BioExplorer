@@ -35,8 +35,8 @@ VasculatureHandler::VasculatureHandler(const VasculatureReportDetails& details)
 {
     auto& connector = DBConnector::getInstance();
     _simulationReport =
-        connector.getVasculatureSimulationReport(_details.populationName,
-                                                 _details.simulationReportId);
+        connector.getSimulationReport(_details.populationName,
+                                      _details.simulationReportId);
     const auto endTime = _simulationReport.endTime;
     _dt = _simulationReport.timeStep;
     _unit = _simulationReport.timeUnits;

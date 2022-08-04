@@ -353,8 +353,8 @@ void Vasculature::setRadiusReport(const VasculatureRadiusReportDetails& details)
 {
     auto& connector = DBConnector::getInstance();
     const auto simulationReport =
-        connector.getVasculatureSimulationReport(details.populationName,
-                                                 details.simulationReportId);
+        connector.getSimulationReport(details.populationName,
+                                      details.simulationReportId);
 
     const size_t nbFrames =
         (simulationReport.endTime - simulationReport.startTime) /
