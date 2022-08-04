@@ -266,7 +266,7 @@ docker run -ti --rm -p 5002:8080 bluebrain/bioexplorer-ui
 
 ### PostgreSQL Database
 
-A PostgreSQL Database can be created as a Docker image and used by the _BBBE_ as a storage component. More information on how to create and populate the database with sample datasets can be found in the dedicated [Docker Database documentation](./storage/database/DOCKER.md).
+A PostgreSQL Database can be created as a Docker image and used by the _BBBE_ as a storage componentfiles.maxMemoryForLargeFilesMB. More information on how to create and populate the database with sample datasets can be found in the dedicated [Docker Database documentation](./storage/database/DOCKER.md).
 
 ![___](./bioexplorer/pythonsdk/doc/source/images/BBBE_screenshot.png)
 
