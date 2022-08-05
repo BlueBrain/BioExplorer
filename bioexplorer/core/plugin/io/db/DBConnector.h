@@ -181,7 +181,7 @@ public:
      * @return SimulationReport Information about the simulation Report
      */
 
-    SimulationReport getVasculatureSimulationReport(
+    SimulationReport getSimulationReport(
         const std::string& populationName,
         const int32_t simulationReportId) const;
 
@@ -226,6 +226,7 @@ public:
     /**
      * @brief Get the neurons locations
      *
+     * @param populationName Name of the population
      * @param sqlCondition String containing an WHERE condition for the SQL
      * statement
      * @return NeuronSomaMap A map of neurons (position, type, etc)
@@ -236,6 +237,7 @@ public:
     /**
      * @brief Get the sections of a given neuron
      *
+     * @param populationName Name of the population
      * @param neuronId Identifier of the neuron
      * @param sqlCondition String containing an WHERE condition for the SQL
      * statement
@@ -248,6 +250,7 @@ public:
     /**
      * @brief Get the synapses attached to a given neuron
      *
+     * @param populationName Name of the population
      * @param neuronId Identifier of the neuron
      * @param SynapseType Type of synapses (afferent or efferent)
      * @param sqlCondition String containing an WHERE condition for the SQL
@@ -258,6 +261,42 @@ public:
                                  const uint64_t neuronId,
                                  const SynapseType synapseType,
                                  const std::string& sqlCondition = "") const;
+
+    /**
+     * @brief Get the neuron report type
+     *
+     * @param populationName Name of the population
+     * @param reportId Report identifier
+     * @return ReportType Type of report
+     */
+    ReportType getNeuronReportType(const std::string& populationName,
+                                   const uint64_t reportId) const;
+
+    /**
+     * @brief Get a selection of spikes from a neuron spike report
+     *
+     * @param populationName Name of the population
+     * @param reportId Simulation report identifier
+     * @param startTime Start time of the selection
+     * @param endTime End time of the selection
+     * @return uint64_ts Spiking neuron ids for the specified time selection
+     */
+    uint64_ts getNeuronSpikeReportValues(const std::string& populationName,
+                                         const uint64_t reportId,
+                                         const double startTime,
+                                         const double endTime) const;
+
+    /**
+     * @brief Get the Neuron soma simulation values
+     *
+     * @param populationName Name of the population
+     * @param reportId Simulation report identifier
+     * @param frame Simulation frame
+     * @return floats The Neuron soma simulation values
+     */
+    floats getNeuronSomaReportValues(const std::string& populationName,
+                                     const uint64_t reportId,
+                                     const uint64_t frame) const;
 
     /**
      * @brief Get the regions from the brain atlas
