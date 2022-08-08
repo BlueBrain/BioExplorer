@@ -56,6 +56,15 @@ Check out the movie by clicking on the following image, and see the coronavirus 
       </a>
 </div>
 
+## At the museum
+
+July 2022: The EPFL Blue Brain Project is featuring in the exciting [Brain(s) exhibition](https://www.cccb.org/en/exhibitions/file/brains/237851) at the Barcelona Centre of Contemporary Culture at the Fundación Telefónica Madrid.
+
+![___](https://actu.epfl.ch/image/121700/1108x622.jpg)
+
+The Blue Brain images on show were created with the _BBBE_. Checkout the [news article](https://actu.epfl.ch/news/blue-brain-images-on-show-at-the-brains-exhibition/) for more information.
+
+
 ## Architecture
 
 The _BBBE_ application is built on top of a fork of [Blue Brain Brayns](https://github.com/BlueBrain/BioExplorer/tree/Brayns) 1.0.0 , the Blue Brain rendering platform. The _BBBE_ uses the underlying technical capabilities of the rendering platform to create large scale and accurate 3D scenes from Jupyter notebooks.
