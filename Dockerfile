@@ -1,9 +1,20 @@
-# Docker container for running the BioExplorer as a plugin within Brayns as a service
-# Check https://docs.docker.com/engine/userguide/eng-image/dockerfile_best-practices/#user for best practices.
-# Based on the Dockerfile of Brayns created by the viz team (basically a copy)
-
-# This Dockerfile leverages multi-stage builds, available since Docker 17.05
-# See: https://docs.docker.com/engine/userguide/eng-image/multistage-build/#use-multi-stage-builds
+# The Blue Brain BioExplorer is a tool for scientists to extract and analyse
+# scientific data from visualization
+#
+# Copyright 2020-2022 Blue BrainProject / EPFL
+#
+# This program is free software: you can redistribute it and/or modify it under
+# the terms of the GNU General Public License as published by the Free Software
+# Foundation, either version 3 of the License, or (at your option) any later
+# version.
+#
+# This program is distributed in the hope that it will be useful, but WITHOUT
+# ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+# FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more
+# details.
+#
+# You should have received a copy of the GNU General Public License along with
+# this program.  If not, see <https://www.gnu.org/licenses/>.
 
 # Image where Brayns+BioExplorer plugin is built
 FROM debian:buster-slim as builder
@@ -85,7 +96,8 @@ RUN mkdir -p ${OSPRAY_SRC} \
    -DOSPRAY_ENABLE_TUTORIALS=OFF \
    -DOSPRAY_ENABLE_APPS=OFF \
    -DCMAKE_INSTALL_PREFIX=${DIST_PATH} \
-   && ninja install
+   && ninja install \
+   && ninja clean
 
 # --------------------------------------------------------------------------------
 # Install libwebsockets (2.0 from Debian is not reliable)
@@ -111,7 +123,8 @@ RUN mkdir -p ${LWS_SRC} \
    -DLWS_WITHOUT_TESTAPPS=ON \
    -DLWS_WITH_LIBUV=ON \
    -DCMAKE_INSTALL_PREFIX=${DIST_PATH} \
-   && ninja install
+   && ninja install \
+   && ninja clean
 
 # --------------------------------------------------------------------------------
 # Install Brayns
@@ -128,7 +141,7 @@ RUN mkdir -p ${BRAYNS_SRC} \
    && mkdir -p build \
    && cd build \
    && CMAKE_PREFIX_PATH=${DIST_PATH}:${DIST_PATH}/lib/cmake/libwebsockets \
-   cmake .. -Wno-dev \
+   cmake .. -GNinja -Wno-dev \
    -DBRAYNS_BENCHMARK_ENABLED=OFF \
    -DBRAYNS_DEFLECT_ENABLED=OFF \
    -DBRAYNS_MULTIVIEW_ENABLED=OFF \
@@ -140,9 +153,9 @@ RUN mkdir -p ${BRAYNS_SRC} \
    -DBRAYNS_NETWORKING_ENABLED=ON \
    -DCLONE_SUBPROJECTS=ON \
    -DCMAKE_BUILD_TYPE=Release \
-   -DCMAKE_INSTALL_PREFIX=${DIST_PATH} || exit 0
-
-RUN cd ${BRAYNS_SRC}/build && make -j install
+   -DCMAKE_INSTALL_PREFIX=${DIST_PATH} \
+   && ninja install \
+   && ninja clean
 
 # --------------------------------------------------------------------------------
 # Add BioExplorer and additional plugins
@@ -157,10 +170,16 @@ RUN cd ${BIOEXPLORER_SRC} \
    && rm -rf ${BIOEXPLORER_SRC}/bioexplorer_build \
    && mkdir -p ${BIOEXPLORER_SRC}/bioexplorer_build \
    && cd ${BIOEXPLORER_SRC}/bioexplorer_build \
-   && PATH=${ISPC_PATH}/bin:${PATH} CMAKE_PREFIX_PATH=${DIST_PATH} LDFLAGS="-lCGAL" cmake .. \
-   -DBIOEXPLORER_UNIT_TESTING_ENABLED=OFF -DCGAL_DO_NOT_WARN_ABOUT_CMAKE_BUILD_TYPE=TRUE \
-   -DCMAKE_INSTALL_PREFIX=${DIST_PATH} -DCMAKE_BUILD_TYPE=Release \
-   && make -j install
+   && PATH=${ISPC_PATH}/bin:${PATH} CMAKE_PREFIX_PATH=${DIST_PATH} \
+   LDFLAGS="-lCGAL" \
+   cmake .. -GNinja \
+   -DBIOEXPLORER_UNIT_TESTING_ENABLED=OFF \
+   -DBIOEXPLORER_USE_CGAL=ON \
+   -DCGAL_DO_NOT_WARN_ABOUT_CMAKE_BUILD_TYPE=TRUE \
+   -DCMAKE_INSTALL_PREFIX=${DIST_PATH} \
+   -DCMAKE_BUILD_TYPE=Release \
+   && ninja install \
+   && ninja clean
 
 # Final image, containing only Brayns and BioExplorer and libraries required to run it
 FROM debian:buster-slim
