@@ -46,7 +46,33 @@ CompartmentSimulationHandler::CompartmentSimulationHandler(
     , _populationName(populationName)
     , _simulationReportId(simulationReportId)
 {
-    PLUGIN_THROW("Not implemented");
+    const auto& connector = DBConnector::getInstance();
+    _simulationReport =
+        connector.getSimulationReport(_populationName, _simulationReportId);
+    _nbFrames = (_simulationReport.endTime - _simulationReport.startTime) /
+                _simulationReport.timeStep;
+    _dt = _simulationReport.timeStep;
+
+    const auto values =
+        connector.getNeuronCompartmentReportValues(_populationName,
+                                                   _simulationReportId, 0);
+
+    _frameSize = values.size();
+    _frameData.resize(_frameSize);
+    mempcpy(&_frameData.data()[0], values.data(),
+            sizeof(float) * values.size());
+
+    PLUGIN_INFO(1, "---------------------------------------------------------");
+    PLUGIN_INFO(1, "Compartment simulation information");
+    PLUGIN_INFO(1, "----------------------------------");
+    PLUGIN_INFO(1, "Population name          : " << _populationName);
+    PLUGIN_INFO(1, "Number of simulated nodes: " << _frameSize);
+    PLUGIN_INFO(1,
+                "Start time               : " << _simulationReport.startTime);
+    PLUGIN_INFO(1, "End time                 : " << _simulationReport.endTime);
+    PLUGIN_INFO(1, "Time interval            : " << _dt);
+    PLUGIN_INFO(1, "Number of frames         : " << _nbFrames);
+    PLUGIN_INFO(1, "---------------------------------------------------------");
 }
 
 CompartmentSimulationHandler::CompartmentSimulationHandler(
@@ -59,7 +85,19 @@ CompartmentSimulationHandler::CompartmentSimulationHandler(
 
 void* CompartmentSimulationHandler::getFrameData(const uint32_t frame)
 {
-    PLUGIN_THROW("Not implemented");
+    const auto& connector = DBConnector::getInstance();
+    const auto boundedFrame = _getBoundedFrame(frame);
+    if (_currentFrame != boundedFrame)
+    {
+        const auto values =
+            connector.getNeuronCompartmentReportValues(_populationName,
+                                                       _simulationReportId,
+                                                       frame);
+        mempcpy(&_frameData.data()[0], values.data(),
+                sizeof(float) * values.size());
+        _currentFrame = boundedFrame;
+    }
+
     return _frameData.data();
 }
 

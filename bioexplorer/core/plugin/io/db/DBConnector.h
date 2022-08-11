@@ -299,6 +299,32 @@ public:
                                      const uint64_t frame) const;
 
     /**
+     * @brief Get the neuron section compartments for a given simulation report
+     *
+     * @param populationName Name of the population
+     * @param reportId Simulation report identifier
+     * @param neuronId Neuron identifier
+     * @param neuronId Section identifier
+     * @return uint64_ts Compartments identifiers
+     */
+    uint64_ts getNeuronSectionCompartments(const std::string& populationName,
+                                           const uint64_t reportId,
+                                           const uint64_t nodeId,
+                                           const uint64_t sectionId) const;
+
+    /**
+     * @brief Get the Neuron compartment simulation values
+     *
+     * @param populationName Name of the population
+     * @param reportId Simulation report identifier
+     * @param frame Simulation frame
+     * @return floats The Neuron compartment simulation values
+     */
+    floats getNeuronCompartmentReportValues(const std::string& populationName,
+                                            const uint64_t reportId,
+                                            const uint64_t frame) const;
+
+    /**
      * @brief Get the regions from the brain atlas
      *
      * @param sqlCondition String containing an WHERE condition for the SQL

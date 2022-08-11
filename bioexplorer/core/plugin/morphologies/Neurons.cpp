@@ -46,7 +46,7 @@ using namespace db;
 const uint64_t NB_MYELIN_FREE_SEGMENTS = 4;
 const double DEFAULT_SPINE_RADIUS = 0.25;
 const double DEFAULT_ARROW_RADIUS_RATIO = 10.0;
-const Vector2d DEFAULT_SIMULATION_VALUE_RANGE = {-90.0, 10.0};
+const Vector2d DEFAULT_SIMULATION_VALUE_RANGE = {-80.0, -10.0};
 
 // Mitochondria density per layer
 const doubles MITOCHONDRIA_DENSITY = {0.0459, 0.0522, 0.064,
@@ -127,7 +127,7 @@ void Neurons::_buildNeurons()
             std::advance(it, neuronIndex);
             const auto& soma = it->second;
             ThreadSafeContainer container(*model, useSdf, _scale);
-            _buildMorphology(container, soma, neuronIndex);
+            _buildMorphology(container, it->first, soma, neuronIndex);
 
 #pragma omp critical
             containers.push_back(container);
@@ -211,7 +211,7 @@ void Neurons::_buildOrientations(ThreadSafeContainer& container,
 }
 
 void Neurons::_buildMorphology(ThreadSafeContainer& container,
-                               const NeuronSoma& soma,
+                               const uint64_t neuronId, const NeuronSoma& soma,
                                const uint64_t neuronIndex)
 {
     const auto& connector = DBConnector::getInstance();
@@ -230,7 +230,7 @@ void Neurons::_buildMorphology(ThreadSafeContainer& container,
         _details.loadBasalDendrites)
     {
         sections =
-            connector.getNeuronSections(_details.populationName, neuronIndex,
+            connector.getNeuronSections(_details.populationName, neuronId,
                                         _details.sqlSectionFilter);
         uint64_t count = 0;
         for (const auto& section : sections)
@@ -263,13 +263,24 @@ void Neurons::_buildMorphology(ThreadSafeContainer& container,
     }
 
     // Soma
+    uint64_t somaUserData = NO_USER_DATA;
+    if (_reportType == ReportType::compartment)
+    {
+        const auto compartments =
+            connector.getNeuronSectionCompartments(_details.populationName,
+                                                   _details.simulationReportId,
+                                                   neuronId, 0);
+        if (!compartments.empty())
+            somaUserData = compartments[0];
+    }
+
     uint64_t somaGeometryIndex = 0;
     if (_details.loadSomas)
     {
         if (_details.showMembrane)
             somaGeometryIndex =
                 container.addSphere(somaPosition, somaRadius, somaMaterialId,
-                                    neuronIndex, {},
+                                    somaUserData, {},
                                     Vector3f(neuronSomaDisplacementStrength,
                                              neuronSomaDisplacementFrequency,
                                              0.f));
@@ -331,7 +342,7 @@ void Neurons::_buildMorphology(ThreadSafeContainer& container,
             geometryIndex =
                 container.addCone(Vector3d(somaPoint), srcRadius,
                                   somaPosition + somaRotation * Vector3d(point),
-                                  dstRadius, somaMaterialId, neuronIndex,
+                                  dstRadius, somaMaterialId, somaUserData,
                                   neighbours,
                                   Vector3f(neuronSomaDisplacementStrength,
                                            neuronSomaDisplacementFrequency,
@@ -339,9 +350,9 @@ void Neurons::_buildMorphology(ThreadSafeContainer& container,
             neighbours.insert(geometryIndex);
         }
 
-        _addSection(container, neuronIndex, section.first, section.second,
+        _addSection(container, neuronId, section.first, section.second,
                     geometryIndex, somaPosition, somaRotation, somaRadius,
-                    baseMaterialId, mitochondriaDensity);
+                    baseMaterialId, mitochondriaDensity, somaUserData);
     }
 
     // Synapses
@@ -411,6 +422,7 @@ void Neurons::_addArrow(ThreadSafeContainer& container, const uint64_t neuronId,
     _bounds.merge(src);
     _bounds.merge(dst);
 }
+
 void Neurons::_addSection(ThreadSafeContainer& container,
                           const uint64_t neuronId, const uint64_t sectionId,
                           const Section& section,
@@ -418,11 +430,12 @@ void Neurons::_addSection(ThreadSafeContainer& container,
                           const Vector3d& somaPosition,
                           const Quaterniond& somaRotation,
                           const double somaRadius, const size_t baseMaterialId,
-                          const double mitochondriaDensity)
+                          const double mitochondriaDensity,
+                          const uint64_t somaUserData)
 {
     const auto sectionType = static_cast<NeuronSectionType>(section.type);
     auto useSdf = _details.useSdf;
-    const auto userData = neuronId;
+    auto userData = NO_USER_DATA;
 
     const auto& points = section.points;
     size_t sectionMaterialId = baseMaterialId;
@@ -454,8 +467,37 @@ void Neurons::_addSection(ThreadSafeContainer& container,
     Neighbours neighbours;
     if (_details.morphologyColorScheme == MorphologyColorScheme::none)
         neighbours.insert(somaGeometryIndex);
+
+    uint64_ts compartments;
+    switch (_reportType)
+    {
+    case ReportType::spike:
+    case ReportType::soma:
+    {
+        userData = neuronId;
+        break;
+    }
+    case ReportType::compartment:
+    {
+        userData = somaUserData;
+        const auto& connector = DBConnector::getInstance();
+        compartments =
+            connector.getNeuronSectionCompartments(_details.populationName,
+                                                   _details.simulationReportId,
+                                                   neuronId, sectionId);
+        break;
+    }
+    }
+
     for (uint64_t i = 0; i < localPoints.size() - 1; ++i)
     {
+        if (!compartments.empty())
+        {
+            const uint64_t compartmentIndex =
+                i * compartments.size() / localPoints.size();
+            userData = compartments[compartmentIndex];
+        }
+
         const auto& srcPoint = localPoints[i];
         const Vector3d src = somaPosition + somaRotation * Vector3d(srcPoint);
         const double srcRadius = srcPoint.w * 0.5 * _radiusMultiplier;
@@ -828,10 +870,10 @@ std::string Neurons::_attachSimulationReport(Model& model)
     if (_details.simulationReportId != -1)
     {
         const auto& connector = DBConnector::getInstance();
-        const auto reportType =
+        _reportType =
             connector.getNeuronReportType(_details.populationName,
                                           _details.simulationReportId);
-        switch (reportType)
+        switch (_reportType)
         {
         case ReportType::spike:
         {

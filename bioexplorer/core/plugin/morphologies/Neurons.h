@@ -82,7 +82,8 @@ private:
                             const size_t baseMaterialId);
 
     void _buildMorphology(ThreadSafeContainer& container,
-                          const NeuronSoma& soma, const uint64_t neuronId);
+                          const uint64_t neuronId, const NeuronSoma& soma,
+                          const uint64_t neuronIndex);
 
     void _addArrow(ThreadSafeContainer& container, const uint64_t neuronId,
                    const Vector3d& somaPosition,
@@ -96,7 +97,8 @@ private:
                      const Vector3d& somaPosition,
                      const Quaterniond& somaRotation, const double somaRadius,
                      const size_t baseMaterialId,
-                     const double mitochondriaDensity);
+                     const double mitochondriaDensity,
+                     const uint64_t somaUserData);
 
     void _addSpine(ThreadSafeContainer& container, const uint64_t neuronId,
                    const uint64_t guid, const Synapse& synapse,
@@ -127,6 +129,7 @@ private:
     const NeuronsDetails _details;
     Scene& _scene;
     Varicosities _varicosities;
+    ReportType _reportType{ReportType::undefined};
 };
 } // namespace morphology
 } // namespace bioexplorer
