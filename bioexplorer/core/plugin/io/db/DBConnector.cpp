@@ -635,8 +635,8 @@ NeuronSomaMap DBConnector::getNeurons(const std::string& populationName,
             NeuronSoma soma;
             soma.position =
                 Vector3d(c[1].as<float>(), c[2].as<float>(), c[3].as<float>());
-            soma.rotation = Quaterniond(c[7].as<float>(), c[4].as<float>(),
-                                        c[5].as<float>(), c[6].as<float>());
+            soma.rotation = Quaterniond(c[7].as<float>(), c[6].as<float>(),
+                                        c[5].as<float>(), c[4].as<float>());
             soma.eType = c[8].as<uint64_t>();
             soma.mType = c[9].as<uint64_t>();
             soma.layer = 0; // TODO
@@ -665,8 +665,8 @@ SectionMap DBConnector::getNeuronSections(const std::string& populationName,
         std::string sql =
             "SELECT s.section_guid, s.section_type_guid, "
             "s.section_parent_guid, s.points FROM " +
-            populationName + ".node as n, " + populationName +
-            ".section as s WHERE n.morphology_guid=s.morphology_guid "
+            populationName + ".node AS n, " + populationName +
+            ".section AS s WHERE n.morphology_guid=s.morphology_guid "
             "AND n.guid=" +
             std::to_string(neuronId);
         if (!sqlCondition.empty())
@@ -839,6 +839,72 @@ floats DBConnector::getNeuronSomaReportValues(const std::string& populationName,
     return values;
 }
 
+uint64_ts DBConnector::getNeuronSectionCompartments(
+    const std::string& populationName, const uint64_t reportId,
+    const uint64_t nodeId, const uint64_t sectionId) const
+{
+    CHECK_DB_INITIALIZATION
+    uint64_ts compartments;
+    pqxx::nontransaction transaction(
+        *_connections[omp_get_thread_num() % _dbNbConnections]);
+    try
+    {
+        std::string sql = "SELECT compartment_guid FROM " + populationName +
+                          ".compartment_report WHERE report_guid=" +
+                          std::to_string(reportId) +
+                          " AND node_guid=" + std::to_string(nodeId) +
+                          " AND section_guid=" + std::to_string(sectionId) +
+                          " ORDER BY compartment_guid";
+        PLUGIN_DEBUG(sql);
+        const auto res = transaction.exec(sql);
+        for (auto c = res.begin(); c != res.end(); ++c)
+            compartments.push_back(c[0].as<uint64_t>());
+    }
+    catch (pqxx::sql_error& e)
+    {
+        PLUGIN_THROW(e.what());
+    }
+
+    return compartments;
+}
+
+floats DBConnector::getNeuronCompartmentReportValues(
+    const std::string& populationName, const uint64_t reportId,
+    const uint64_t frame) const
+{
+    CHECK_DB_INITIALIZATION
+    floats values;
+    pqxx::nontransaction transaction(
+        *_connections[omp_get_thread_num() % _dbNbConnections]);
+    try
+    {
+        const size_t elementSize = sizeof(float);
+        const size_t offset = 1; // First byte of bytea must be ignored
+        std::string sql =
+            "SELECT SUBSTRING(values::bytea from " +
+            std::to_string(offset + frame * elementSize) + " for " +
+            std::to_string(elementSize) + ") FROM " + populationName +
+            ".compartment_report WHERE report_guid=" +
+            std::to_string(reportId) + " ORDER BY compartment_guid";
+        PLUGIN_DEBUG(sql);
+        const auto res = transaction.exec(sql);
+        values.resize(res.size());
+        uint64_t index = 0;
+        for (auto c = res.begin(); c != res.end(); ++c)
+        {
+            const pqxx::binarystring buffer(c[0]);
+            memcpy(&values[index], buffer.data(), buffer.size());
+            ++index;
+        }
+    }
+    catch (pqxx::sql_error& e)
+    {
+        PLUGIN_THROW(e.what());
+    }
+
+    return values;
+}
+
 uint64_ts DBConnector::getAtlasRegions(const std::string& sqlCondition) const
 {
     CHECK_DB_INITIALIZATION
@@ -896,8 +962,8 @@ CellMap DBConnector::getAtlasCells(const uint64_t regionId,
             Cell cell;
             cell.position =
                 Vector3d(c[1].as<float>(), c[2].as<float>(), c[3].as<float>());
-            cell.rotation = Quaterniond(c[7].as<float>(), c[4].as<float>(),
-                                        c[5].as<float>(), c[6].as<float>());
+            cell.rotation = Quaterniond(c[7].as<float>(), c[6].as<float>(),
+                                        c[5].as<float>(), c[4].as<float>());
             cell.type = c[8].as<uint64_t>();
             cell.eType = c[9].as<int64_t>();
             cell.region = c[10].as<uint64_t>();

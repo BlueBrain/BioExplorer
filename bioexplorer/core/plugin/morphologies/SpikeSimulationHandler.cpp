@@ -27,10 +27,10 @@
 
 namespace
 {
-const float DEFAULT_REST_VALUE = 0.f;
-const float DEFAULT_SPIKING_VALUE = 1.f;
+const float DEFAULT_REST_VALUE = -65.f;
+const float DEFAULT_SPIKING_VALUE = -10.f;
+const float DEFAULT_DECAY_SPEED = 5.0f;
 const float DEFAULT_TIME_INTERVAL = 0.01f;
-const float DEFAULT_DECAY_SPEED = 0.01f;
 } // namespace
 
 namespace bioexplorer

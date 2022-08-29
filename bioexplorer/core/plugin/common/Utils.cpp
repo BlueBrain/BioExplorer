@@ -84,7 +84,7 @@ bool isClipped(const Vector3d& position, const Vector4ds& clippingPlanes)
 void setDefaultTransferFunction(Model& model, const Vector2d range)
 {
     TransferFunction& tf = model.getTransferFunction();
-    tf.setControlPoints({{0.0, 0.0}, {0.1, 1.0}, {1.0, 1.0}});
+    tf.setControlPoints({{0.0, 0.5}, {1.0, 0.5}});
     // curl https://api.colormaps.io/colormap/unipolar
     tf.setColorMap(
         {"unipolar",

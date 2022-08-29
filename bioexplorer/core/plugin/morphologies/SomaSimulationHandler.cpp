@@ -82,7 +82,8 @@ void* SomaSimulationHandler::getFrameData(const uint32_t frame)
         const auto values =
             connector.getNeuronSomaReportValues(_populationName,
                                                 _simulationReportId, frame);
-        mempcpy(&_frameData.data()[0], values.data(), values.size());
+        mempcpy(&_frameData.data()[0], values.data(),
+                sizeof(float) * values.size());
         _currentFrame = boundedFrame;
     }
 

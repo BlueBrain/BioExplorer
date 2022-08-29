@@ -101,11 +101,11 @@ create table if not exists neurons.morphology
     guid     integer not null
         constraint morphology_pk
             primary key,
-    basename varchar not null
+    code varchar not null
 );
 
-create unique index if not exists morphology_basename_uindex
-    on neurons.morphology (basename);
+create unique index if not exists morphology_code_uindex
+    on neurons.morphology (code);
 
 create unique index if not exists morphology_guid_uindex
     on neurons.morphology (guid);
@@ -377,3 +377,29 @@ create table if not exists neurons.spike_report
 
 create unique index if not exists spike_report_guid_uindex
     on neurons.spike_report (guid);
+
+create table neurons.compartment_report
+(
+    report_guid      integer not null,
+    node_guid        integer not null
+        constraint compartment_report_node_guid_fk
+            references neurons.node
+            on update cascade on delete cascade,
+    section_guid     integer not null,
+    compartment_guid integer not null,
+    values           bytea   not null,
+    constraint compartment_report_pk
+        primary key (report_guid, node_guid, section_guid, compartment_guid)
+);
+
+create index compartment_report_node_guid_index
+    on neurons.compartment_report (node_guid);
+
+create index compartment_report_report_guid_index
+    on neurons.compartment_report (report_guid);
+
+create index compartment_report_section_guid_index
+    on neurons.compartment_report (section_guid);
+
+create index compartment_report_compartment_guid_index
+    on neurons.compartment_report (compartment_guid);

@@ -634,7 +634,7 @@ class BioExplorer:
 
         # RNA Sequence
         if add_rna_sequence:
-            params = Vector2(shape_params.x * 0.6, 0.5)
+            params = Vector2(shape_params.x * 0.55, 0.5)
             rna_sequence = RNASequence(
                 source=rna_folder + 'sars-cov-2.rna',
                 protein_source=pdb_folder + '7bv1.pdb',
@@ -1821,6 +1821,9 @@ class BioExplorer:
             model_name = self.get_model_name(model_id)['name']
             material_ids = self.get_material_ids(model_id)["ids"]
             nb_materials = len(material_ids)
+            user_data_casts = list()
+            for _ in range(nb_materials):
+                user_data_casts.append(False)
 
             if glycans and self.NAME_GLYCAN_HIGH_MANNOSE in model_name:
                 palette = list()
@@ -1834,6 +1837,7 @@ class BioExplorer:
                     user_parameter=user_parameter,
                     glossiness=glossiness,
                     specular_exponent=specular_exponent,
+                    user_data_casts=user_data_casts
                 )
             elif glycans and self.NAME_GLYCAN_COMPLEX in model_name:
                 palette = list()
@@ -1847,6 +1851,7 @@ class BioExplorer:
                     user_parameter=user_parameter,
                     glossiness=glossiness,
                     specular_exponent=specular_exponent,
+                    user_data_casts=user_data_casts
                 )
             elif glycans and self.NAME_GLYCAN_HYBRID in model_name:
                 palette = list()
@@ -1860,6 +1865,7 @@ class BioExplorer:
                     user_parameter=user_parameter,
                     glossiness=glossiness,
                     specular_exponent=specular_exponent,
+                    user_data_casts=user_data_casts
                 )
             elif glycans and self.NAME_GLYCAN_O_GLYCAN in model_name:
                 palette = list()
@@ -1873,6 +1879,7 @@ class BioExplorer:
                     user_parameter=user_parameter,
                     glossiness=glossiness,
                     specular_exponent=specular_exponent,
+                    user_data_casts=user_data_casts
                 )
             elif membranes and self.NAME_MEMBRANE in model_name:
                 palette = sns.color_palette("gist_heat", nb_materials)
@@ -1884,6 +1891,7 @@ class BioExplorer:
                     user_parameter=user_parameter,
                     glossiness=glossiness,
                     specular_exponent=specular_exponent,
+                    user_data_casts=user_data_casts
                 )
             elif proteins and (self.NAME_RECEPTOR in model_name or
                                self.NAME_TRANS_MEMBRANE in model_name or
@@ -1898,6 +1906,7 @@ class BioExplorer:
                     user_parameter=user_parameter,
                     glossiness=glossiness,
                     specular_exponent=specular_exponent,
+                    user_data_casts=user_data_casts
                 )
             elif proteins and (self.NAME_PROTEIN_S_CLOSED in model_name
                                or self.NAME_PROTEIN_S_OPEN in model_name
@@ -1912,6 +1921,7 @@ class BioExplorer:
                     user_parameter=user_parameter,
                     glossiness=glossiness,
                     specular_exponent=specular_exponent,
+                    user_data_casts=user_data_casts
                 )
             elif proteins and self.NAME_GLUCOSE in model_name:
                 palette = sns.color_palette("Blues", nb_materials)
@@ -1923,6 +1933,7 @@ class BioExplorer:
                     user_parameter=user_parameter,
                     glossiness=glossiness,
                     specular_exponent=specular_exponent,
+                    user_data_casts=user_data_casts
                 )
             elif proteins and self.NAME_LACTOFERRIN in model_name:
                 palette = sns.color_palette("afmhot", nb_materials)
@@ -1934,6 +1945,7 @@ class BioExplorer:
                     user_parameter=user_parameter,
                     glossiness=glossiness,
                     specular_exponent=specular_exponent,
+                    user_data_casts=user_data_casts
                 )
             elif proteins and self.NAME_DEFENSIN in model_name:
                 palette = sns.color_palette("plasma_r", nb_materials)
@@ -1945,6 +1957,7 @@ class BioExplorer:
                     user_parameter=user_parameter,
                     glossiness=glossiness,
                     specular_exponent=specular_exponent,
+                    user_data_casts=user_data_casts
                 )
             elif proteins and (self.NAME_SURFACTANT_HEAD in model_name):
                 palette = sns.color_palette("OrRd_r", nb_materials)
@@ -1960,6 +1973,7 @@ class BioExplorer:
                     user_parameter=user_parameter,
                     glossiness=glossiness,
                     specular_exponent=specular_exponent,
+                    user_data_casts=user_data_casts
                 )
             elif collagen and self.NAME_COLLAGEN in model_name:
                 palette = list()
@@ -1970,6 +1984,7 @@ class BioExplorer:
                 self.set_materials(
                     model_ids=[model_id], material_ids=material_ids,
                     diffuse_colors=palette, specular_colors=palette,
+                    user_data_casts=user_data_casts,
                     emissions=emissions
                 )
 
@@ -1999,10 +2014,6 @@ class BioExplorer:
         :voxel_size: Density of atoms to consider (between 0 and 1)
         :samples_per_pixel: Samples per pixel
         """
-        # Build fields acceleration structures
-        result = self.build_fields(voxel_size=voxel_size, density=density)
-        fields_model_id = int(result['contents'])
-
         # Rendering settings
         self._client.set_renderer(
             current='bio_explorer_fields',
@@ -2016,6 +2027,10 @@ class BioExplorer:
         params.nb_ray_refinement_steps = samples_per_pixel
         params.use_hardware_randomizer = True
         self._client.set_renderer_params(params)
+
+        # Build fields acceleration structures
+        result = self.build_fields(voxel_size=voxel_size, density=density)
+        fields_model_id = int(result['contents'])
 
         if colormap_filename:
             tf = TransferFunction(
