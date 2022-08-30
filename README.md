@@ -218,7 +218,7 @@ References:
 
 ### Enzyme reactions
 
-An enzyme attracts substrates to its active site, catalyzes the chemical reaction by which products are formed, and then allows the products to dissociate (separate from the enzyme surface). The combination formed by an enzyme and its substrates is called the enzyme–substrate complex. The _BBBE_ allows easy visualization of enzyme reactions by providing a substrate, a product, and a type of reaction (for example: [Hexokinase](./bioexplorer/pythonsdk/notebooks/assemblies/BioExplorer_enzyme_reaction.ipynb)).
+An enzyme attracts substrates to its active site, catalyzes the chemical reaction by which products are formed, and then allows the products to dissociate (separate from the enzyme surface). The combination formed by an enzyme and its substrates is called the enzyme–substrate complex. The _BBBE_ allows easy visualization of enzyme reactions by providing a substrate, a product, and a type of reaction (for example: [Hexokinase](./bioexplorer/pythonsdk/notebooks/molecular_systems/BioExplorer_enzyme_reaction.ipynb)).
 
 ![___](./bioexplorer/pythonsdk/notebooks/bioexplorer_enzyme_reactions_banner.png)
 
@@ -317,13 +317,13 @@ braynsService --http-server localhost:5000 --plugin BioExplorer
 
 ## Simple example
 
-Considering that the _BBBE_ server is running on the local host, on port 5000, the simplest example to visualize a coronavirus is:
+Considering that the _BBBE_ server is running on the local host, on port 5000, the simplest example to visualize a SARS-COV-2 coronavirus is:
 ```python
 from bioexplorer import BioExplorer
 be = BioExplorer('localhost:5000')
 resource_folder = '../../tests/test_files/'
 name='Coronavirus'
-be.add_coronavirus(name=name, resource_folder=resource_folder)
+be.add_sars_cov_2(name=name, resource_folder=resource_folder)
 ```
 
 # License
