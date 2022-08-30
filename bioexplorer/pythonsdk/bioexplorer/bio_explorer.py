@@ -1821,9 +1821,6 @@ class BioExplorer:
             model_name = self.get_model_name(model_id)['name']
             material_ids = self.get_material_ids(model_id)["ids"]
             nb_materials = len(material_ids)
-            user_data_casts = list()
-            for _ in range(nb_materials):
-                user_data_casts.append(False)
 
             if glycans and self.NAME_GLYCAN_HIGH_MANNOSE in model_name:
                 palette = list()
@@ -1836,8 +1833,7 @@ class BioExplorer:
                     shading_mode=shading_mode,
                     user_parameter=user_parameter,
                     glossiness=glossiness,
-                    specular_exponent=specular_exponent,
-                    user_data_casts=user_data_casts
+                    specular_exponent=specular_exponent
                 )
             elif glycans and self.NAME_GLYCAN_COMPLEX in model_name:
                 palette = list()
@@ -1850,8 +1846,7 @@ class BioExplorer:
                     shading_mode=shading_mode,
                     user_parameter=user_parameter,
                     glossiness=glossiness,
-                    specular_exponent=specular_exponent,
-                    user_data_casts=user_data_casts
+                    specular_exponent=specular_exponent
                 )
             elif glycans and self.NAME_GLYCAN_HYBRID in model_name:
                 palette = list()
@@ -1864,8 +1859,7 @@ class BioExplorer:
                     shading_mode=shading_mode,
                     user_parameter=user_parameter,
                     glossiness=glossiness,
-                    specular_exponent=specular_exponent,
-                    user_data_casts=user_data_casts
+                    specular_exponent=specular_exponent
                 )
             elif glycans and self.NAME_GLYCAN_O_GLYCAN in model_name:
                 palette = list()
@@ -1878,8 +1872,7 @@ class BioExplorer:
                     shading_mode=shading_mode,
                     user_parameter=user_parameter,
                     glossiness=glossiness,
-                    specular_exponent=specular_exponent,
-                    user_data_casts=user_data_casts
+                    specular_exponent=specular_exponent
                 )
             elif membranes and self.NAME_MEMBRANE in model_name:
                 palette = sns.color_palette("gist_heat", nb_materials)
@@ -1890,8 +1883,7 @@ class BioExplorer:
                     shading_mode=shading_mode,
                     user_parameter=user_parameter,
                     glossiness=glossiness,
-                    specular_exponent=specular_exponent,
-                    user_data_casts=user_data_casts
+                    specular_exponent=specular_exponent
                 )
             elif proteins and (self.NAME_RECEPTOR in model_name or
                                self.NAME_TRANS_MEMBRANE in model_name or
@@ -1905,8 +1897,7 @@ class BioExplorer:
                     shading_mode=shading_mode,
                     user_parameter=user_parameter,
                     glossiness=glossiness,
-                    specular_exponent=specular_exponent,
-                    user_data_casts=user_data_casts
+                    specular_exponent=specular_exponent
                 )
             elif proteins and (self.NAME_PROTEIN_S_CLOSED in model_name
                                or self.NAME_PROTEIN_S_OPEN in model_name
@@ -1920,8 +1911,7 @@ class BioExplorer:
                     shading_mode=shading_mode,
                     user_parameter=user_parameter,
                     glossiness=glossiness,
-                    specular_exponent=specular_exponent,
-                    user_data_casts=user_data_casts
+                    specular_exponent=specular_exponent
                 )
             elif proteins and self.NAME_GLUCOSE in model_name:
                 palette = sns.color_palette("Blues", nb_materials)
@@ -1932,8 +1922,7 @@ class BioExplorer:
                     shading_mode=shading_mode,
                     user_parameter=user_parameter,
                     glossiness=glossiness,
-                    specular_exponent=specular_exponent,
-                    user_data_casts=user_data_casts
+                    specular_exponent=specular_exponent
                 )
             elif proteins and self.NAME_LACTOFERRIN in model_name:
                 palette = sns.color_palette("afmhot", nb_materials)
@@ -1944,8 +1933,7 @@ class BioExplorer:
                     shading_mode=shading_mode,
                     user_parameter=user_parameter,
                     glossiness=glossiness,
-                    specular_exponent=specular_exponent,
-                    user_data_casts=user_data_casts
+                    specular_exponent=specular_exponent
                 )
             elif proteins and self.NAME_DEFENSIN in model_name:
                 palette = sns.color_palette("plasma_r", nb_materials)
@@ -1956,12 +1944,11 @@ class BioExplorer:
                     shading_mode=shading_mode,
                     user_parameter=user_parameter,
                     glossiness=glossiness,
-                    specular_exponent=specular_exponent,
-                    user_data_casts=user_data_casts
+                    specular_exponent=specular_exponent
                 )
             elif proteins and (self.NAME_SURFACTANT_HEAD in model_name):
                 palette = sns.color_palette("OrRd_r", nb_materials)
-                emission = 0
+                emission = 0.0
                 if self.NAME_COLLAGEN in model_name:
                     emission = 0.1
                 self.set_materials_from_palette(
@@ -1972,8 +1959,7 @@ class BioExplorer:
                     emission=emission,
                     user_parameter=user_parameter,
                     glossiness=glossiness,
-                    specular_exponent=specular_exponent,
-                    user_data_casts=user_data_casts
+                    specular_exponent=specular_exponent
                 )
             elif collagen and self.NAME_COLLAGEN in model_name:
                 palette = list()
@@ -1984,7 +1970,6 @@ class BioExplorer:
                 self.set_materials(
                     model_ids=[model_id], material_ids=material_ids,
                     diffuse_colors=palette, specular_colors=palette,
-                    user_data_casts=user_data_casts,
                     emissions=emissions
                 )
 
