@@ -20,7 +20,7 @@
 
 #pragma once
 
-#include <plugin/common/Node.h>
+#include <plugin/common/SDFGeometries.h>
 
 namespace bioexplorer
 {
@@ -46,7 +46,7 @@ const std::string KEY_REMARK = "REMARK";
  * implementation only supports PDB as an input format for the molecule data and
  * metadata
  */
-class Molecule : public Node
+class Molecule : public SDFGeometries
 {
 public:
     /**
@@ -116,7 +116,7 @@ protected:
     void _buildAtomicStruture(const ProteinRepresentation representation,
                               const double atomRadiusMultiplier,
                               const bool surface, const bool loadBonds,
-                              Model& model);
+                              ThreadSafeContainer& container);
     void _computeReqSetOffset();
 
     // IO

@@ -51,6 +51,11 @@ const std::string METADATA_AA_SEQUENCE = "Amino Acid Sequence";
 const double DEFAULT_BOND_RADIUS = 0.025;
 const double DEFAULT_STICK_DISTANCE = 0.185;
 
+// Attempt to use signed distance field technique for molecules resulted in poor
+// results. Disabled by default,but the code is still there and can be improved.
+const bool DEFAULT_USE_SDF = false;
+const Vector3f DEFAULT_SDF_DISPLACEMENT = {0.f, 0.f, 0.f};
+
 // Atomic radii in picometers (10e-12 meters)
 const double DEFAULT_ATOM_RADIUS = 25.0;
 static AtomicRadii atomicRadii = {
@@ -86,7 +91,8 @@ static AtomicRadii atomicRadii = {
     {{"TS"}, {25.0}},  {{"OG"}, {25.0}}};
 
 Molecule::Molecule(Scene& scene, const size_ts& chainIds)
-    : _aminoAcidRange(std::numeric_limits<size_t>::max(),
+    : SDFGeometries(1.0)
+    , _aminoAcidRange(std::numeric_limits<size_t>::max(),
                       std::numeric_limits<size_t>::min())
     , _scene(scene)
     , _chainIds(chainIds)
@@ -162,44 +168,23 @@ const StringMap Molecule::getSequencesAsString() const
 void Molecule::_buildAtomicStruture(const ProteinRepresentation representation,
                                     const double atomRadiusMultiplier,
                                     const bool surface, const bool loadBonds,
-                                    Model& model)
+                                    ThreadSafeContainer& container)
 {
+    const uint64_t userData = NO_USER_DATA;
     // Atoms
+    std::map<uint64_t, Neighbours> neighbours;
+    size_t currentReqSeq = 0;
     for (const auto& atom : _atomMap)
     {
-        // Material
-        auto material =
-            model.createMaterial(atom.first, std::to_string(atom.first));
-
-        RGBColorDetails rgb{255, 255, 255};
-        const auto it = atomColorMap.find(atom.second.element);
-        if (it != atomColorMap.end())
-            rgb = (*it).second;
-
-        brayns::PropertyMap props;
-        props.setProperty({MATERIAL_PROPERTY_SHADING_MODE,
-                           static_cast<int>(MaterialShadingMode::basic)});
-        props.setProperty({MATERIAL_PROPERTY_USER_PARAMETER, 1.0});
-        if (surface)
-            props.setProperty(
-                {MATERIAL_PROPERTY_CHAMELEON_MODE,
-                 static_cast<int>(MaterialChameleonMode::emitter)});
-        else
-            props.setProperty(
-                {MATERIAL_PROPERTY_CHAMELEON_MODE,
-                 static_cast<int>(
-                     MaterialChameleonMode::undefined_chameleon_mode)});
-
-        props.setProperty({MATERIAL_PROPERTY_NODE_ID, static_cast<int>(_uuid)});
-
-        material->setDiffuseColor(
-            {rgb.r / 255.0, rgb.g / 255.0, rgb.b / 255.0});
-        material->updateProperties(props);
-
         // Geometry
-        model.addSphere(atom.first, {atom.second.position,
-                                     static_cast<float>(atom.second.radius *
-                                                        atomRadiusMultiplier)});
+        const float radius =
+            static_cast<float>(atom.second.radius * atomRadiusMultiplier);
+        neighbours[currentReqSeq].insert(
+            container.addSphere(atom.second.position, radius, atom.first,
+                                userData, neighbours[currentReqSeq],
+                                DEFAULT_SDF_DISPLACEMENT));
+        if (currentReqSeq != atom.second.reqSeq)
+            currentReqSeq = atom.second.reqSeq;
     }
 
     // Bonds
@@ -212,18 +197,21 @@ void Molecule::_buildAtomicStruture(const ProteinRepresentation representation,
             for (const auto bondedAtom : bond.second)
             {
                 const auto& atomDst = _atomMap.find(bondedAtom)->second;
+                const float radius = static_cast<float>(atomRadiusMultiplier *
+                                                        DEFAULT_BOND_RADIUS);
 
                 const auto center = (atomSrc.position + atomDst.position) / 2.0;
 
-                model.addCylinder(bond.first,
-                                  {atomSrc.position, center,
-                                   static_cast<float>(atomRadiusMultiplier *
-                                                      DEFAULT_BOND_RADIUS)});
+                const auto reqSeq = atomSrc.reqSeq;
+                neighbours[reqSeq].insert(
+                    container.addCone(atomSrc.position, radius, center, radius,
+                                      bond.first, userData, neighbours[reqSeq],
+                                      DEFAULT_SDF_DISPLACEMENT));
 
-                model.addCylinder(bondedAtom,
-                                  {atomDst.position, center,
-                                   static_cast<float>(atomRadiusMultiplier *
-                                                      DEFAULT_BOND_RADIUS)});
+                neighbours[reqSeq].insert(
+                    container.addCone(atomDst.position, radius, center, radius,
+                                      bondedAtom, userData, neighbours[reqSeq],
+                                      DEFAULT_SDF_DISPLACEMENT));
             }
         }
     }
@@ -238,7 +226,8 @@ void Molecule::_buildAtomicStruture(const ProteinRepresentation representation,
             const auto atom1 = (*it1);
             auto it2 = it1;
             ++it2;
-            while ((*it2).second.reqSeq == atom1.second.reqSeq)
+            const auto reqSeq = atom1.second.reqSeq;
+            while ((*it2).second.reqSeq == reqSeq)
             {
                 const auto stick =
                     (*it2).second.position - atom1.second.position;
@@ -246,15 +235,18 @@ void Molecule::_buildAtomicStruture(const ProteinRepresentation representation,
                 {
                     const auto center =
                         ((*it2).second.position + atom1.second.position) / 2.0;
-                    model.addCylinder(
-                        atom1.first, {atom1.second.position, center,
-                                      static_cast<float>(atomRadiusMultiplier *
-                                                         DEFAULT_BOND_RADIUS)});
-                    model.addCylinder((*it2).first,
-                                      {(*it2).second.position, center,
-                                       static_cast<float>(
-                                           atomRadiusMultiplier *
-                                           DEFAULT_BOND_RADIUS)});
+                    const float radius = static_cast<float>(
+                        atomRadiusMultiplier * DEFAULT_BOND_RADIUS);
+                    neighbours[reqSeq].insert(
+                        container.addCone(atom1.second.position, radius, center,
+                                          radius, atom1.first, userData,
+                                          neighbours[reqSeq],
+                                          DEFAULT_SDF_DISPLACEMENT));
+                    neighbours[reqSeq].insert(
+                        container.addCone((*it2).second.position, radius,
+                                          center, radius, (*it2).first,
+                                          userData, neighbours[reqSeq],
+                                          DEFAULT_SDF_DISPLACEMENT));
                 }
                 ++it2;
                 ++it1;
@@ -312,11 +304,41 @@ void Molecule::_buildModel(const std::string& assemblyName,
     case ProteinRepresentation::atoms_and_sticks:
     {
         auto model = _scene.createModel();
+        ThreadSafeContainer container(*model, DEFAULT_USE_SDF);
+
         _buildAtomicStruture(representation, atomRadiusMultiplier, false,
-                             loadBonds, *model);
+                             loadBonds, container);
+        container.commitToModel();
+
+        // Materials
+        for (const auto atom : _atomMap)
+        {
+            const auto materialId = atom.first;
+            auto material = model->getMaterial(materialId);
+            RGBColorDetails rgb{255, 255, 255};
+            const auto it = atomColorMap.find(atom.second.element);
+            if (it != atomColorMap.end())
+                rgb = (*it).second;
+
+            brayns::PropertyMap props;
+            props.setProperty({MATERIAL_PROPERTY_SHADING_MODE,
+                               static_cast<int>(MaterialShadingMode::basic)});
+            props.setProperty({MATERIAL_PROPERTY_USER_PARAMETER, 1.0});
+            props.setProperty(
+                {MATERIAL_PROPERTY_CHAMELEON_MODE,
+                 static_cast<int>(
+                     MaterialChameleonMode::undefined_chameleon_mode)});
+            props.setProperty(
+                {MATERIAL_PROPERTY_NODE_ID, static_cast<int>(_uuid)});
+            material->setDiffuseColor(
+                {rgb.r / 255.0, rgb.g / 255.0, rgb.b / 255.0});
+            material->updateProperties(props);
+        }
+
         _modelDescriptor =
             std::make_shared<ModelDescriptor>(std::move(model), name, header,
                                               metadata);
+
         break;
     }
     case ProteinRepresentation::mesh:
@@ -357,8 +379,34 @@ void Molecule::_buildModel(const std::string& assemblyName,
         _modelDescriptor->setMetadata(metadata);
 
         Model& model = _modelDescriptor->getModel();
+        const bool useSdf = false;
+        ThreadSafeContainer container(model, useSdf);
         _buildAtomicStruture(representation, atomRadiusMultiplier * 2.0, true,
-                             loadBonds, model);
+                             loadBonds, container);
+        container.commitToModel();
+        // Materials
+        for (const auto atom : _atomMap)
+        {
+            const auto materialId = atom.first;
+            auto material = model.getMaterial(materialId);
+            RGBColorDetails rgb{255, 255, 255};
+            const auto it = atomColorMap.find(atom.second.element);
+            if (it != atomColorMap.end())
+                rgb = (*it).second;
+
+            brayns::PropertyMap props;
+            props.setProperty({MATERIAL_PROPERTY_SHADING_MODE,
+                               static_cast<int>(MaterialShadingMode::basic)});
+            props.setProperty({MATERIAL_PROPERTY_USER_PARAMETER, 1.0});
+            props.setProperty(
+                {MATERIAL_PROPERTY_CHAMELEON_MODE,
+                 static_cast<int>(MaterialChameleonMode::emitter)});
+            props.setProperty(
+                {MATERIAL_PROPERTY_NODE_ID, static_cast<int>(_uuid)});
+            material->setDiffuseColor(
+                {rgb.r / 255.0, rgb.g / 255.0, rgb.b / 255.0});
+            material->updateProperties(props);
+        }
         break;
     }
     case ProteinRepresentation::contour:
@@ -390,18 +438,6 @@ void Molecule::_buildModel(const std::string& assemblyName,
     {
         auto model = _scene.createModel();
         const size_t materialId = 0;
-        auto material = model->createMaterial(materialId, "Debug");
-        brayns::PropertyMap props;
-        props.setProperty({MATERIAL_PROPERTY_SHADING_MODE,
-                           static_cast<int>(MaterialShadingMode::basic)});
-        props.setProperty({MATERIAL_PROPERTY_USER_PARAMETER, 1.0});
-        props.setProperty(
-            {MATERIAL_PROPERTY_CHAMELEON_MODE,
-             static_cast<int>(
-                 MaterialChameleonMode::undefined_chameleon_mode)});
-        material->setDiffuseColor({1.0, 1.0, 1.0});
-        material->updateProperties(props);
-
         brayns::Boxf box;
         for (const auto& atom : _atomMap)
             box.merge({atom.second.position.x, atom.second.position.y,

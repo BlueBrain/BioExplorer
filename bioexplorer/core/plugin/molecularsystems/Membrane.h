@@ -20,7 +20,7 @@
 
 #pragma once
 
-#include <plugin/common/Node.h>
+#include <plugin/common/SDFGeometries.h>
 #include <plugin/common/shapes/Shape.h>
 
 namespace bioexplorer
@@ -35,7 +35,7 @@ using namespace details;
  * a surface composed of instances of one or several proteins
  *
  */
-class Membrane : public Node
+class Membrane : public SDFGeometries
 {
 public:
     /**
