@@ -97,7 +97,7 @@ public:
      */
     uint64_t addCone(const Vector3f& sourcePosition, const float sourceRadius,
                      const Vector3f& targetPosition, const float targetRadius,
-                     const size_t materialId, const uint64_t userDataOffset,
+                     const size_t materialId, const uint64_t userDataOffset = 0,
                      const Neighbours& neighbours = {},
                      const Vector3f displacementRatio = Vector3f());
 
@@ -121,6 +121,8 @@ public:
      *
      */
     void commitToModel();
+
+    MaterialSet& getMaterialIds() { return _materialIds; }
 
 private:
     uint64_t _addSphere(const size_t materialId, const Sphere& sphere);

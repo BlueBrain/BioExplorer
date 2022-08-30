@@ -24,11 +24,16 @@
 #include "ThreadSafeContainer.h"
 #include "Types.h"
 
+#include <brayns/common/geometry/Cone.h>
+#include <brayns/common/geometry/Cylinder.h>
+#include <brayns/common/geometry/Sphere.h>
+#include <brayns/common/geometry/Streamline.h>
+#include <brayns/common/geometry/TriangleMesh.h>
+
 namespace bioexplorer
 {
 namespace common
 {
-using namespace common;
 using namespace brayns;
 
 /**
