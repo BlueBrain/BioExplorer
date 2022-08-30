@@ -1,5 +1,5 @@
 #!/usr/bin/env python
-"""Test coronavirus"""
+"""Test SARS-COV-2"""
 
 # -*- coding: utf-8 -*-
 
@@ -24,12 +24,12 @@
 from bioexplorer import BioExplorer
 
 
-def test_coronavirus():
+def test_sars_cov_2():
     bio_explorer = BioExplorer('localhost:5000')
     bio_explorer.reset_scene()
     bio_explorer.set_general_settings(model_visibility_on_creation=False)
-    bio_explorer.add_coronavirus(
-        name='Coronavirus', resource_folder='tests/test_files/', add_glycans=True)
+    bio_explorer.add_sars_cov_2(
+        name='sars-cov-2', resource_folder='tests/test_files/', add_glycans=True)
 
 
 if __name__ == '__main__':

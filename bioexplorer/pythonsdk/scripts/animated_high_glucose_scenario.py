@@ -217,7 +217,7 @@ class HighGlucoseScenario(MovieScenario):
             indices = [1]
 
         for virus_index in indices:
-            name = 'Coronavirus ' + str(virus_index)
+            name = 'sars-cov-2 ' + str(virus_index)
             current_sequence = 0
             sequences = virus_sequences[virus_index]
             for i in range(len(sequences)):
@@ -268,7 +268,7 @@ class HighGlucoseScenario(MovieScenario):
                                                               frame, virus_flights_out[virus_index])
                 self._log(3, '-   Virus %d is flying out... (%.01f pct)' % (virus_index, progress))
 
-            self._be.add_coronavirus(
+            self._be.add_sars_cov_2(
                 name=name, resource_folder=resource_folder,
                 representation=protein_representation, position=pos, rotation=rot,
                 add_glycans=add_glycans,

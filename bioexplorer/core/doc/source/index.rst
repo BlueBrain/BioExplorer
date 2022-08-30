@@ -121,8 +121,8 @@ Considering that the *BBBE* server is running on the local host, on port 5000, t
    from bioexplorer import BioExplorer
    be = BioExplorer('localhost:5000')
    resource_folder = '../../tests/test_files/'
-   name='Coronavirus'
-   be.add_coronavirus(name=name, resource_folder=resource_folder)
+   name='sars-cov-2'
+   be.add_sars_cov_2(name=name, resource_folder=resource_folder)
 
 License
 #######

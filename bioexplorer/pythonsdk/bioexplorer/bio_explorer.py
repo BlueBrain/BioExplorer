@@ -514,7 +514,7 @@ class BioExplorer:
             raise RuntimeError(result["contents"])
         return result
 
-    def add_coronavirus(self, name, resource_folder,
+    def add_sars_cov_2(self, name, resource_folder,
                         shape_params=Vector3(45.0, 0.0, 0.0),
                         animation_params=AnimationParams(0, 1, 0.25, 1, 0.1),
                         nb_protein_s=62, nb_protein_m=50, nb_protein_e=42,
@@ -523,9 +523,9 @@ class BioExplorer:
                         representation=REPRESENTATION_ATOMS_AND_STICKS, clipping_planes=list(),
                         position=Vector3(), rotation=Quaternion(), apply_colors=False):
         """
-        Add a virus with the default coronavirus parameters
+        Add a virus with the default SARS-COV-2 coronavirus parameters
 
-        :name: Name of the coronavirus
+        :name: Name of the SARS-COV-2 coronavirus
         :resource_folder: Folder containing the resources of the virus components (PDB and
                                  RNA files)
         :radius: Radius of the virus in nanometers
@@ -539,7 +539,7 @@ class BioExplorer:
         :representation: Representation of the protein (Atoms, atoms and sticks, etc)
         :clipping_planes: List of clipping planes to apply to the virus assembly
         :position: Position of the virus in the scene
-        :rotation: rotation of the coronavirus in the scene
+        :rotation: rotation of the SARS-COV-2 coronavirus in the scene
         :apply_colors: Applies default colors to the virus
         """
         pdb_folder = resource_folder + "pdb/"

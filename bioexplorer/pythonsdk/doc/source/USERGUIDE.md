@@ -98,7 +98,7 @@ rna_sequence = RNASequence(
 )
 
 virus_cell = Cell(
-    name='coronavirus',
+    name='Cell',
     shape=be.ASSEMBLY_SHAPE_EMPTY_SPHERE,
     shape_params=shape_params, membrane=virus_membrane,
     proteins=[virus_protein_s, virus_protein_e, virus_protein_m])
@@ -107,11 +107,11 @@ bio_explorer.add_cell(cell=virus_cell)
 
 ```
 
-In order to ease the process of creating 3D detailed representations of viruses, an advanced API function with the default coronavirus parameters is provided by the BioExplorer:
+In order to ease the process of creating 3D detailed representations of viruses, an advanced API function with the default SARS-COV-2 coronavirus parameters is provided by the BioExplorer:
 
 ```python
-be.add_coronavirus(
-    name='Coronavirus', resource_folder=resource_folder,
+be.add_sars_cov_2(
+    name='sars-cov-2', resource_folder=resource_folder,
     representation=be.REPRESENTATION_ATOMS,
     add_glycans=True)
 ```

@@ -317,13 +317,13 @@ braynsService --http-server localhost:5000 --plugin BioExplorer
 
 ## Simple example
 
-Considering that the _BBBE_ server is running on the local host, on port 5000, the simplest example to visualize a coronavirus is:
+Considering that the _BBBE_ server is running on the local host, on port 5000, the simplest example to visualize a SARS-COV-2 coronavirus is:
 ```python
 from bioexplorer import BioExplorer
 be = BioExplorer('localhost:5000')
 resource_folder = '../../tests/test_files/'
 name='Coronavirus'
-be.add_coronavirus(name=name, resource_folder=resource_folder)
+be.add_sars_cov_2(name=name, resource_folder=resource_folder)
 ```
 
 # License
