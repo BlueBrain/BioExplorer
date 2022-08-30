@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.17"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>Blue Brain BioExplorer: /home/favreau/bluebrain/BioExplorer/bioexplorer/core/plugin/vasculature/Vasculature.h Source File</title>
+<title>Blue Brain BioExplorer: /home/favreau/git/BioExplorer/bioexplorer/core/plugin/vasculature/Vasculature.h Source File</title>
 <link href="../../tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="../../jquery.js"></script>
 <script type="text/javascript" src="../../dynsections.js"></script>
@@ -86,89 +86,91 @@ $(document).ready(function(){initNavTree('d2/dc5/Vasculature_8h_source.html','..
 <div class="title">Vasculature.h</div>  </div>
 </div><!--header-->
 <div class="contents">
-<div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="comment">/* Copyright (c) 2020-2022, EPFL/Blue Brain Project</span></div>
-<div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;<span class="comment"> * All rights reserved. Do not distribute without permission.</span></div>
-<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="comment"> * Responsible Author: Cyrille Favreau &lt;cyrille.favreau@epfl.ch&gt;</span></div>
+<div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="comment">/*</span></div>
+<div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;<span class="comment"> * The Blue Brain BioExplorer is a tool for scientists to extract and analyse</span></div>
+<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="comment"> * scientific data from visualization</span></div>
 <div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="comment"> *</span></div>
-<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;<span class="comment"> * This library is free software; you can redistribute it and/or modify it under</span></div>
-<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;<span class="comment"> * the terms of the GNU Lesser General Public License version 3.0 as published</span></div>
-<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;<span class="comment"> * by the Free Software Foundation.</span></div>
-<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;<span class="comment"> *</span></div>
-<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;<span class="comment"> * This library is distributed in the hope that it will be useful, but WITHOUT</span></div>
-<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;<span class="comment"> * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS</span></div>
-<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;<span class="comment"> * FOR A PARTICULAR PURPOSE.  See the GNU Lesser General Public License for more</span></div>
-<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;<span class="comment"> * details.</span></div>
-<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;<span class="comment"> *</span></div>
-<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;<span class="comment"> * You should have received a copy of the GNU Lesser General Public License</span></div>
-<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;<span class="comment"> * along with this library; if not, write to the Free Software Foundation, Inc.,</span></div>
-<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;<span class="comment"> * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.</span></div>
-<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;<span class="comment"> */</span></div>
-<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160; </div>
-<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;<span class="preprocessor">#pragma once</span></div>
+<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;<span class="comment"> * Copyright 2020-2022 Blue BrainProject / EPFL</span></div>
+<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;<span class="comment"> *</span></div>
+<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;<span class="comment"> * This program is free software: you can redistribute it and/or modify it under</span></div>
+<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;<span class="comment"> * the terms of the GNU General Public License as published by the Free Software</span></div>
+<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;<span class="comment"> * Foundation, either version 3 of the License, or (at your option) any later</span></div>
+<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;<span class="comment"> * version.</span></div>
+<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;<span class="comment"> *</span></div>
+<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;<span class="comment"> * This program is distributed in the hope that it will be useful, but WITHOUT</span></div>
+<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;<span class="comment"> * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS</span></div>
+<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;<span class="comment"> * FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more</span></div>
+<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;<span class="comment"> * details.</span></div>
+<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;<span class="comment"> *</span></div>
+<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;<span class="comment"> * You should have received a copy of the GNU General Public License along with</span></div>
+<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;<span class="comment"> * this program.  If not, see &lt;https://www.gnu.org/licenses/&gt;.</span></div>
+<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;<span class="comment"> */</span></div>
 <div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160; </div>
 <div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;<span class="preprocessor">#pragma once</span></div>
 <div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160; </div>
-<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;<span class="preprocessor">#include &lt;plugin/api/Params.h&gt;</span></div>
-<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;<span class="preprocessor">#include &lt;plugin/common/SDFGeometries.h&gt;</span></div>
-<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;<span class="preprocessor">#include &lt;plugin/common/Types.h&gt;</span></div>
-<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160; </div>
-<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;<span class="preprocessor">#include &lt;brayns/common/loader/Loader.h&gt;</span></div>
-<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;<span class="preprocessor">#include &lt;brayns/parameters/GeometryParameters.h&gt;</span></div>
-<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160; </div>
-<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;<span class="keyword">namespace </span>bioexplorer</div>
-<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;{</div>
-<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;<span class="keyword">namespace </span>vasculature</div>
+<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;<span class="preprocessor">#pragma once</span></div>
+<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160; </div>
+<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;<span class="preprocessor">#include &lt;plugin/api/Params.h&gt;</span></div>
+<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;<span class="preprocessor">#include &lt;plugin/common/SDFGeometries.h&gt;</span></div>
+<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;<span class="preprocessor">#include &lt;plugin/common/Types.h&gt;</span></div>
+<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160; </div>
+<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;<span class="preprocessor">#include &lt;brayns/common/loader/Loader.h&gt;</span></div>
+<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;<span class="preprocessor">#include &lt;brayns/parameters/GeometryParameters.h&gt;</span></div>
+<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160; </div>
+<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;<span class="keyword">namespace </span>bioexplorer</div>
 <div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;{</div>
-<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;<span class="keyword">using namespace </span>brayns;</div>
-<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;<span class="keyword">using namespace </span>common;</div>
-<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160; </div>
-<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;<span class="keyword">const</span> <span class="keywordtype">double</span> segmentDisplacementStrength = 0.25;</div>
-<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;<span class="keyword">const</span> <span class="keywordtype">double</span> segmentDisplacementFrequency = 0.4;</div>
-<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160; </div>
-<div class="line"><a name="l00043"></a><span class="lineno"><a class="line" href="../../d8/d29/classbioexplorer_1_1vasculature_1_1Vasculature.html">   43</a></span>&#160;<span class="keyword">class </span><a class="code" href="../../d8/d29/classbioexplorer_1_1vasculature_1_1Vasculature.html">Vasculature</a> : <span class="keyword">public</span> <a class="code" href="../../d1/d1c/classbioexplorer_1_1common_1_1SDFGeometries.html">SDFGeometries</a></div>
-<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;{</div>
-<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;<span class="keyword">public</span>:</div>
-<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;    <a class="code" href="../../d8/d29/classbioexplorer_1_1vasculature_1_1Vasculature.html">Vasculature</a>(Scene&amp; scene, <span class="keyword">const</span> <a class="code" href="../../dd/d98/structbioexplorer_1_1details_1_1VasculatureDetails.html">VasculatureDetails</a>&amp; details);</div>
-<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160; </div>
-<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;    <span class="keywordtype">void</span> setRadiusReport(<span class="keyword">const</span> <a class="code" href="../../de/da6/structbioexplorer_1_1details_1_1VasculatureRadiusReportDetails.html">VasculatureRadiusReportDetails</a>&amp; details);</div>
-<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160; </div>
-<div class="line"><a name="l00068"></a><span class="lineno"><a class="line" href="../../d8/d29/classbioexplorer_1_1vasculature_1_1Vasculature.html#aecc215e0ea09794749d30486d4555729">   68</a></span>&#160;    uint64_t <a class="code" href="../../d8/d29/classbioexplorer_1_1vasculature_1_1Vasculature.html#aecc215e0ea09794749d30486d4555729">getNbNodes</a>()<span class="keyword"> const </span>{ <span class="keywordflow">return</span> _nbNodes; }</div>
-<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160; </div>
-<div class="line"><a name="l00075"></a><span class="lineno"><a class="line" href="../../d8/d29/classbioexplorer_1_1vasculature_1_1Vasculature.html#aba07577ed9877a6cda0104ac2f48255e">   75</a></span>&#160;    uint64_t <a class="code" href="../../d8/d29/classbioexplorer_1_1vasculature_1_1Vasculature.html#aba07577ed9877a6cda0104ac2f48255e">getNbSections</a>()<span class="keyword"> const </span>{ <span class="keywordflow">return</span> _nbSections; }</div>
-<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160; </div>
-<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;<span class="keyword">private</span>:</div>
-<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;    <span class="keywordtype">void</span> _addGraphSection(<a class="code" href="../../d2/d4a/classbioexplorer_1_1common_1_1ThreadSafeContainer.html">ThreadSafeContainer</a>&amp; container,</div>
-<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;                          <span class="keyword">const</span> <a class="code" href="../../d7/d1e/structbioexplorer_1_1common_1_1GeometryNode.html">GeometryNode</a>&amp; srcNode,</div>
-<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;                          <span class="keyword">const</span> <a class="code" href="../../d7/d1e/structbioexplorer_1_1common_1_1GeometryNode.html">GeometryNode</a>&amp; dstNode, <span class="keyword">const</span> <span class="keywordtype">size_t</span> materialId);</div>
-<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;    <span class="keywordtype">void</span> _addSimpleSection(<a class="code" href="../../d2/d4a/classbioexplorer_1_1common_1_1ThreadSafeContainer.html">ThreadSafeContainer</a>&amp; container,</div>
-<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;                           <span class="keyword">const</span> <a class="code" href="../../d7/d1e/structbioexplorer_1_1common_1_1GeometryNode.html">GeometryNode</a>&amp; srcNode,</div>
-<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;                           <span class="keyword">const</span> <a class="code" href="../../d7/d1e/structbioexplorer_1_1common_1_1GeometryNode.html">GeometryNode</a>&amp; dstNode, <span class="keyword">const</span> <span class="keywordtype">size_t</span> materialId,</div>
-<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;                           <span class="keyword">const</span> uint64_t userData);</div>
-<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;    <span class="keywordtype">void</span> _addDetailedSection(<a class="code" href="../../d2/d4a/classbioexplorer_1_1common_1_1ThreadSafeContainer.html">ThreadSafeContainer</a>&amp; container,</div>
-<div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;                             <span class="keyword">const</span> GeometryNodes&amp; nodes,</div>
-<div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;                             <span class="keyword">const</span> <span class="keywordtype">size_t</span> baseMaterialId, <span class="keyword">const</span> doubles&amp; radii,</div>
-<div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;                             <span class="keyword">const</span> Vector2d&amp; radiusRange);</div>
-<div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160;    <span class="keywordtype">void</span> _addOrientation(<a class="code" href="../../d2/d4a/classbioexplorer_1_1common_1_1ThreadSafeContainer.html">ThreadSafeContainer</a>&amp; container,</div>
-<div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160;                         <span class="keyword">const</span> GeometryNodes&amp; nodes, <span class="keyword">const</span> uint64_t sectionId);</div>
-<div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160;    <span class="keywordtype">void</span> _buildModel(<span class="keyword">const</span> doubles&amp; radii = doubles());</div>
-<div class="line"><a name="l00092"></a><span class="lineno">   92</span>&#160; </div>
-<div class="line"><a name="l00093"></a><span class="lineno">   93</span>&#160;    <span class="keyword">const</span> <a class="code" href="../../dd/d98/structbioexplorer_1_1details_1_1VasculatureDetails.html">VasculatureDetails</a> _details;</div>
-<div class="line"><a name="l00094"></a><span class="lineno">   94</span>&#160;    Scene&amp; _scene;</div>
-<div class="line"><a name="l00095"></a><span class="lineno">   95</span>&#160;    uint64_t _nbNodes{0};</div>
-<div class="line"><a name="l00096"></a><span class="lineno">   96</span>&#160;    uint64_t _nbSections{0};</div>
-<div class="line"><a name="l00097"></a><span class="lineno">   97</span>&#160;};</div>
-<div class="line"><a name="l00098"></a><span class="lineno">   98</span>&#160;} <span class="comment">// namespace vasculature</span></div>
-<div class="line"><a name="l00099"></a><span class="lineno">   99</span>&#160;} <span class="comment">// namespace bioexplorer</span></div>
+<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;<span class="keyword">namespace </span>vasculature</div>
+<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;{</div>
+<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;<span class="keyword">using namespace </span>brayns;</div>
+<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;<span class="keyword">using namespace </span>common;</div>
+<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160; </div>
+<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;<span class="keyword">const</span> <span class="keywordtype">double</span> segmentDisplacementStrength = 0.25;</div>
+<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;<span class="keyword">const</span> <span class="keywordtype">double</span> segmentDisplacementFrequency = 0.4;</div>
+<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160; </div>
+<div class="line"><a name="l00045"></a><span class="lineno"><a class="line" href="../../d8/d29/classbioexplorer_1_1vasculature_1_1Vasculature.html">   45</a></span>&#160;<span class="keyword">class </span><a class="code" href="../../d8/d29/classbioexplorer_1_1vasculature_1_1Vasculature.html">Vasculature</a> : <span class="keyword">public</span> <a class="code" href="../../d1/d1c/classbioexplorer_1_1common_1_1SDFGeometries.html">SDFGeometries</a></div>
+<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;{</div>
+<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;<span class="keyword">public</span>:</div>
+<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;    <a class="code" href="../../d8/d29/classbioexplorer_1_1vasculature_1_1Vasculature.html">Vasculature</a>(Scene&amp; scene, <span class="keyword">const</span> <a class="code" href="../../dd/d98/structbioexplorer_1_1details_1_1VasculatureDetails.html">VasculatureDetails</a>&amp; details);</div>
+<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160; </div>
+<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;    <span class="keywordtype">void</span> setRadiusReport(<span class="keyword">const</span> <a class="code" href="../../de/da6/structbioexplorer_1_1details_1_1VasculatureRadiusReportDetails.html">VasculatureRadiusReportDetails</a>&amp; details);</div>
+<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160; </div>
+<div class="line"><a name="l00070"></a><span class="lineno"><a class="line" href="../../d8/d29/classbioexplorer_1_1vasculature_1_1Vasculature.html#aecc215e0ea09794749d30486d4555729">   70</a></span>&#160;    uint64_t <a class="code" href="../../d8/d29/classbioexplorer_1_1vasculature_1_1Vasculature.html#aecc215e0ea09794749d30486d4555729">getNbNodes</a>()<span class="keyword"> const </span>{ <span class="keywordflow">return</span> _nbNodes; }</div>
+<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160; </div>
+<div class="line"><a name="l00077"></a><span class="lineno"><a class="line" href="../../d8/d29/classbioexplorer_1_1vasculature_1_1Vasculature.html#aba07577ed9877a6cda0104ac2f48255e">   77</a></span>&#160;    uint64_t <a class="code" href="../../d8/d29/classbioexplorer_1_1vasculature_1_1Vasculature.html#aba07577ed9877a6cda0104ac2f48255e">getNbSections</a>()<span class="keyword"> const </span>{ <span class="keywordflow">return</span> _nbSections; }</div>
+<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160; </div>
+<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;<span class="keyword">private</span>:</div>
+<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;    <span class="keywordtype">void</span> _addGraphSection(<a class="code" href="../../d2/d4a/classbioexplorer_1_1common_1_1ThreadSafeContainer.html">ThreadSafeContainer</a>&amp; container,</div>
+<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;                          <span class="keyword">const</span> <a class="code" href="../../d7/d1e/structbioexplorer_1_1common_1_1GeometryNode.html">GeometryNode</a>&amp; srcNode,</div>
+<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;                          <span class="keyword">const</span> <a class="code" href="../../d7/d1e/structbioexplorer_1_1common_1_1GeometryNode.html">GeometryNode</a>&amp; dstNode, <span class="keyword">const</span> <span class="keywordtype">size_t</span> materialId);</div>
+<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;    <span class="keywordtype">void</span> _addSimpleSection(<a class="code" href="../../d2/d4a/classbioexplorer_1_1common_1_1ThreadSafeContainer.html">ThreadSafeContainer</a>&amp; container,</div>
+<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;                           <span class="keyword">const</span> <a class="code" href="../../d7/d1e/structbioexplorer_1_1common_1_1GeometryNode.html">GeometryNode</a>&amp; srcNode,</div>
+<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;                           <span class="keyword">const</span> <a class="code" href="../../d7/d1e/structbioexplorer_1_1common_1_1GeometryNode.html">GeometryNode</a>&amp; dstNode, <span class="keyword">const</span> <span class="keywordtype">size_t</span> materialId,</div>
+<div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;                           <span class="keyword">const</span> uint64_t userData);</div>
+<div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;    <span class="keywordtype">void</span> _addDetailedSection(<a class="code" href="../../d2/d4a/classbioexplorer_1_1common_1_1ThreadSafeContainer.html">ThreadSafeContainer</a>&amp; container,</div>
+<div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;                             <span class="keyword">const</span> GeometryNodes&amp; nodes,</div>
+<div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160;                             <span class="keyword">const</span> <span class="keywordtype">size_t</span> baseMaterialId, <span class="keyword">const</span> doubles&amp; radii,</div>
+<div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160;                             <span class="keyword">const</span> Vector2d&amp; radiusRange);</div>
+<div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160;    <span class="keywordtype">void</span> _addOrientation(<a class="code" href="../../d2/d4a/classbioexplorer_1_1common_1_1ThreadSafeContainer.html">ThreadSafeContainer</a>&amp; container,</div>
+<div class="line"><a name="l00092"></a><span class="lineno">   92</span>&#160;                         <span class="keyword">const</span> GeometryNodes&amp; nodes, <span class="keyword">const</span> uint64_t sectionId);</div>
+<div class="line"><a name="l00093"></a><span class="lineno">   93</span>&#160;    <span class="keywordtype">void</span> _buildModel(<span class="keyword">const</span> doubles&amp; radii = doubles());</div>
+<div class="line"><a name="l00094"></a><span class="lineno">   94</span>&#160; </div>
+<div class="line"><a name="l00095"></a><span class="lineno">   95</span>&#160;    <span class="keyword">const</span> <a class="code" href="../../dd/d98/structbioexplorer_1_1details_1_1VasculatureDetails.html">VasculatureDetails</a> _details;</div>
+<div class="line"><a name="l00096"></a><span class="lineno">   96</span>&#160;    Scene&amp; _scene;</div>
+<div class="line"><a name="l00097"></a><span class="lineno">   97</span>&#160;    uint64_t _nbNodes{0};</div>
+<div class="line"><a name="l00098"></a><span class="lineno">   98</span>&#160;    uint64_t _nbSections{0};</div>
+<div class="line"><a name="l00099"></a><span class="lineno">   99</span>&#160;};</div>
+<div class="line"><a name="l00100"></a><span class="lineno">  100</span>&#160;} <span class="comment">// namespace vasculature</span></div>
+<div class="line"><a name="l00101"></a><span class="lineno">  101</span>&#160;} <span class="comment">// namespace bioexplorer</span></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
 <div class="ttc" id="astructbioexplorer_1_1details_1_1VasculatureDetails_html"><div class="ttname"><a href="../../dd/d98/structbioexplorer_1_1details_1_1VasculatureDetails.html">bioexplorer::details::VasculatureDetails</a></div><div class="ttdef"><b>Definition:</b> <a href="../../d0/dde/bioexplorer_2core_2plugin_2common_2Types_8h_source.html#l00938">Types.h:938</a></div></div>
-<div class="ttc" id="aclassbioexplorer_1_1vasculature_1_1Vasculature_html_aba07577ed9877a6cda0104ac2f48255e"><div class="ttname"><a href="../../d8/d29/classbioexplorer_1_1vasculature_1_1Vasculature.html#aba07577ed9877a6cda0104ac2f48255e">bioexplorer::vasculature::Vasculature::getNbSections</a></div><div class="ttdeci">uint64_t getNbSections() const</div><div class="ttdoc">Get the number of sections in the vasculature.</div><div class="ttdef"><b>Definition:</b> <a href="../../d2/dc5/Vasculature_8h_source.html#l00075">Vasculature.h:75</a></div></div>
-<div class="ttc" id="astructbioexplorer_1_1common_1_1GeometryNode_html"><div class="ttname"><a href="../../d7/d1e/structbioexplorer_1_1common_1_1GeometryNode.html">bioexplorer::common::GeometryNode</a></div><div class="ttdef"><b>Definition:</b> <a href="../../d0/dde/bioexplorer_2core_2plugin_2common_2Types_8h_source.html#l01168">Types.h:1168</a></div></div>
-<div class="ttc" id="aclassbioexplorer_1_1common_1_1ThreadSafeContainer_html"><div class="ttname"><a href="../../d2/d4a/classbioexplorer_1_1common_1_1ThreadSafeContainer.html">bioexplorer::common::ThreadSafeContainer</a></div><div class="ttdoc">The ThreadSafeContainer class is used to load large datasets in parallel. Every individual element is...</div><div class="ttdef"><b>Definition:</b> <a href="../../dd/d8f/ThreadSafeContainer_8h_source.html#l00040">ThreadSafeContainer.h:40</a></div></div>
+<div class="ttc" id="aclassbioexplorer_1_1vasculature_1_1Vasculature_html_aba07577ed9877a6cda0104ac2f48255e"><div class="ttname"><a href="../../d8/d29/classbioexplorer_1_1vasculature_1_1Vasculature.html#aba07577ed9877a6cda0104ac2f48255e">bioexplorer::vasculature::Vasculature::getNbSections</a></div><div class="ttdeci">uint64_t getNbSections() const</div><div class="ttdoc">Get the number of sections in the vasculature.</div><div class="ttdef"><b>Definition:</b> <a href="../../d2/dc5/Vasculature_8h_source.html#l00077">Vasculature.h:77</a></div></div>
+<div class="ttc" id="astructbioexplorer_1_1common_1_1GeometryNode_html"><div class="ttname"><a href="../../d7/d1e/structbioexplorer_1_1common_1_1GeometryNode.html">bioexplorer::common::GeometryNode</a></div><div class="ttdef"><b>Definition:</b> <a href="../../d0/dde/bioexplorer_2core_2plugin_2common_2Types_8h_source.html#l01170">Types.h:1170</a></div></div>
+<div class="ttc" id="aclassbioexplorer_1_1common_1_1ThreadSafeContainer_html"><div class="ttname"><a href="../../d2/d4a/classbioexplorer_1_1common_1_1ThreadSafeContainer.html">bioexplorer::common::ThreadSafeContainer</a></div><div class="ttdoc">The ThreadSafeContainer class is used to load large datasets in parallel. Every individual element is...</div><div class="ttdef"><b>Definition:</b> <a href="../../dd/d8f/ThreadSafeContainer_8h_source.html#l00042">ThreadSafeContainer.h:42</a></div></div>
 <div class="ttc" id="astructbioexplorer_1_1details_1_1VasculatureRadiusReportDetails_html"><div class="ttname"><a href="../../de/da6/structbioexplorer_1_1details_1_1VasculatureRadiusReportDetails.html">bioexplorer::details::VasculatureRadiusReportDetails</a></div><div class="ttdef"><b>Definition:</b> <a href="../../d0/dde/bioexplorer_2core_2plugin_2common_2Types_8h_source.html#l00971">Types.h:971</a></div></div>
-<div class="ttc" id="aclassbioexplorer_1_1vasculature_1_1Vasculature_html_aecc215e0ea09794749d30486d4555729"><div class="ttname"><a href="../../d8/d29/classbioexplorer_1_1vasculature_1_1Vasculature.html#aecc215e0ea09794749d30486d4555729">bioexplorer::vasculature::Vasculature::getNbNodes</a></div><div class="ttdeci">uint64_t getNbNodes() const</div><div class="ttdoc">Get the number of nodes in the vasculature.</div><div class="ttdef"><b>Definition:</b> <a href="../../d2/dc5/Vasculature_8h_source.html#l00068">Vasculature.h:68</a></div></div>
-<div class="ttc" id="aclassbioexplorer_1_1vasculature_1_1Vasculature_html"><div class="ttname"><a href="../../d8/d29/classbioexplorer_1_1vasculature_1_1Vasculature.html">bioexplorer::vasculature::Vasculature</a></div><div class="ttdef"><b>Definition:</b> <a href="../../d2/dc5/Vasculature_8h_source.html#l00043">Vasculature.h:43</a></div></div>
-<div class="ttc" id="aclassbioexplorer_1_1common_1_1SDFGeometries_html"><div class="ttname"><a href="../../d1/d1c/classbioexplorer_1_1common_1_1SDFGeometries.html">bioexplorer::common::SDFGeometries</a></div><div class="ttdoc">The SDFGeometries abstract class is used as a parent to any assembly that potentially requires the si...</div><div class="ttdef"><b>Definition:</b> <a href="../../d5/d75/SDFGeometries_8h_source.html#l00038">SDFGeometries.h:38</a></div></div>
+<div class="ttc" id="aclassbioexplorer_1_1vasculature_1_1Vasculature_html_aecc215e0ea09794749d30486d4555729"><div class="ttname"><a href="../../d8/d29/classbioexplorer_1_1vasculature_1_1Vasculature.html#aecc215e0ea09794749d30486d4555729">bioexplorer::vasculature::Vasculature::getNbNodes</a></div><div class="ttdeci">uint64_t getNbNodes() const</div><div class="ttdoc">Get the number of nodes in the vasculature.</div><div class="ttdef"><b>Definition:</b> <a href="../../d2/dc5/Vasculature_8h_source.html#l00070">Vasculature.h:70</a></div></div>
+<div class="ttc" id="aclassbioexplorer_1_1vasculature_1_1Vasculature_html"><div class="ttname"><a href="../../d8/d29/classbioexplorer_1_1vasculature_1_1Vasculature.html">bioexplorer::vasculature::Vasculature</a></div><div class="ttdef"><b>Definition:</b> <a href="../../d2/dc5/Vasculature_8h_source.html#l00045">Vasculature.h:45</a></div></div>
+<div class="ttc" id="aclassbioexplorer_1_1common_1_1SDFGeometries_html"><div class="ttname"><a href="../../d1/d1c/classbioexplorer_1_1common_1_1SDFGeometries.html">bioexplorer::common::SDFGeometries</a></div><div class="ttdoc">The SDFGeometries abstract class is used as a parent to any assembly that potentially requires the si...</div><div class="ttdef"><b>Definition:</b> <a href="../../d5/d75/SDFGeometries_8h_source.html#l00043">SDFGeometries.h:43</a></div></div>
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>

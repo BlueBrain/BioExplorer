@@ -1,4 +1,4 @@
 <map id="bioexplorer::common::SDFGeometries" name="bioexplorer::common::SDFGeometries">
-<area shape="rect" id="node1" title="The SDFGeometries abstract class is used as a parent to any assembly that potentially requires the si..." alt="" coords="5,95,167,136"/>
-<area shape="rect" id="node2" href="$d7/d93/classbioexplorer_1_1common_1_1Node.html" title="The Node class." alt="" coords="5,5,167,47"/>
+<area shape="rect" id="node1" title="The SDFGeometries abstract class is used as a parent to any assembly that potentially requires the si..." alt="" coords="5,95,148,136"/>
+<area shape="rect" id="node2" href="$d7/d93/classbioexplorer_1_1common_1_1Node.html" title="The Node class." alt="" coords="5,5,148,47"/>
 </map>

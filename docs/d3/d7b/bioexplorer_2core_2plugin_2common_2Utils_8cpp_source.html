@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.17"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>Blue Brain BioExplorer: /home/favreau/bluebrain/BioExplorer/bioexplorer/core/plugin/common/Utils.cpp Source File</title>
+<title>Blue Brain BioExplorer: /home/favreau/git/BioExplorer/bioexplorer/core/plugin/common/Utils.cpp Source File</title>
 <link href="../../tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="../../jquery.js"></script>
 <script type="text/javascript" src="../../dynsections.js"></script>
@@ -169,10 +169,10 @@ $(document).ready(function(){initNavTree('d3/d7b/bioexplorer_2core_2plugin_2comm
 <div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;    <span class="keywordflow">return</span> !visible;</div>
 <div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;}</div>
 <div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160; </div>
-<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;<span class="keywordtype">void</span> setDefaultTransferFunction(Model&amp; model)</div>
+<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;<span class="keywordtype">void</span> setDefaultTransferFunction(Model&amp; model, <span class="keyword">const</span> Vector2d range)</div>
 <div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;{</div>
 <div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;    TransferFunction&amp; tf = model.getTransferFunction();</div>
-<div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;    tf.setControlPoints({{0.0, 0.0}, {0.1, 1.0}, {1.0, 1.0}});</div>
+<div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;    tf.setControlPoints({{0.0, 0.5}, {1.0, 0.5}});</div>
 <div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;    <span class="comment">// curl https://api.colormaps.io/colormap/unipolar</span></div>
 <div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160;    tf.setColorMap(</div>
 <div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160;        {<span class="stringliteral">&quot;unipolar&quot;</span>,</div>
@@ -304,7 +304,7 @@ $(document).ready(function(){initNavTree('d3/d7b/bioexplorer_2core_2plugin_2comm
 <div class="line"><a name="l00216"></a><span class="lineno">  216</span>&#160;          {0.996078431372549, 1.0, 0.9686274509803922},</div>
 <div class="line"><a name="l00217"></a><span class="lineno">  217</span>&#160;          {0.996078431372549, 1.0, 0.9803921568627451},</div>
 <div class="line"><a name="l00218"></a><span class="lineno">  218</span>&#160;          {1.0, 1.0, 1.0}}});</div>
-<div class="line"><a name="l00219"></a><span class="lineno">  219</span>&#160;    tf.setValuesRange({0.0, 1.0});</div>
+<div class="line"><a name="l00219"></a><span class="lineno">  219</span>&#160;    tf.setValuesRange(range);</div>
 <div class="line"><a name="l00220"></a><span class="lineno">  220</span>&#160;}</div>
 <div class="line"><a name="l00221"></a><span class="lineno">  221</span>&#160; </div>
 <div class="line"><a name="l00222"></a><span class="lineno">  222</span>&#160;Vector4ds getClippingPlanes(<span class="keyword">const</span> Scene&amp; scene)</div>

@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.17"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>Blue Brain BioExplorer: /home/favreau/bluebrain/BioExplorer/bioexplorer/core/plugin/common/SDFGeometries.h Source File</title>
+<title>Blue Brain BioExplorer: /home/favreau/git/BioExplorer/bioexplorer/core/plugin/common/SDFGeometries.h Source File</title>
 <link href="../../tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="../../jquery.js"></script>
 <script type="text/javascript" src="../../dynsections.js"></script>
@@ -112,31 +112,36 @@ $(document).ready(function(){initNavTree('d5/d75/SDFGeometries_8h_source.html','
 <div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;<span class="preprocessor">#include &quot;ThreadSafeContainer.h&quot;</span></div>
 <div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;<span class="preprocessor">#include &quot;Types.h&quot;</span></div>
 <div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160; </div>
-<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;<span class="keyword">namespace </span>bioexplorer</div>
-<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;{</div>
-<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;<span class="keyword">namespace </span>common</div>
-<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;{</div>
-<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;<span class="keyword">using namespace </span>common;</div>
-<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;<span class="keyword">using namespace </span>brayns;</div>
-<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160; </div>
-<div class="line"><a name="l00038"></a><span class="lineno"><a class="line" href="../../d1/d1c/classbioexplorer_1_1common_1_1SDFGeometries.html">   38</a></span>&#160;<span class="keyword">class </span><a class="code" href="../../d1/d1c/classbioexplorer_1_1common_1_1SDFGeometries.html">SDFGeometries</a> : <span class="keyword">public</span> <a class="code" href="../../d7/d93/classbioexplorer_1_1common_1_1Node.html">Node</a></div>
-<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;{</div>
-<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;<span class="keyword">public</span>:</div>
-<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;    <a class="code" href="../../d1/d1c/classbioexplorer_1_1common_1_1SDFGeometries.html">SDFGeometries</a>(<span class="keyword">const</span> <span class="keywordtype">double</span> radiusMultiplier,</div>
-<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;                  <span class="keyword">const</span> Vector3d&amp; scale = Vector3d(1.0, 1.0, 1.0));</div>
-<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160; </div>
-<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;    <span class="keywordtype">void</span> addSDFDemo(Model&amp; model);</div>
-<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160; </div>
-<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;<span class="keyword">protected</span>:</div>
-<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;    <span class="keywordtype">double</span> _radiusMultiplier{1.0};</div>
-<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;};</div>
-<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160; </div>
-<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;} <span class="comment">// namespace common</span></div>
-<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;} <span class="comment">// namespace bioexplorer</span></div>
+<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;<span class="preprocessor">#include &lt;brayns/common/geometry/Cone.h&gt;</span></div>
+<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;<span class="preprocessor">#include &lt;brayns/common/geometry/Cylinder.h&gt;</span></div>
+<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;<span class="preprocessor">#include &lt;brayns/common/geometry/Sphere.h&gt;</span></div>
+<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;<span class="preprocessor">#include &lt;brayns/common/geometry/Streamline.h&gt;</span></div>
+<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;<span class="preprocessor">#include &lt;brayns/common/geometry/TriangleMesh.h&gt;</span></div>
+<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160; </div>
+<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;<span class="keyword">namespace </span>bioexplorer</div>
+<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;{</div>
+<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;<span class="keyword">namespace </span>common</div>
+<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;{</div>
+<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;<span class="keyword">using namespace </span>brayns;</div>
+<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160; </div>
+<div class="line"><a name="l00043"></a><span class="lineno"><a class="line" href="../../d1/d1c/classbioexplorer_1_1common_1_1SDFGeometries.html">   43</a></span>&#160;<span class="keyword">class </span><a class="code" href="../../d1/d1c/classbioexplorer_1_1common_1_1SDFGeometries.html">SDFGeometries</a> : <span class="keyword">public</span> <a class="code" href="../../d7/d93/classbioexplorer_1_1common_1_1Node.html">Node</a></div>
+<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;{</div>
+<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;<span class="keyword">public</span>:</div>
+<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;    <a class="code" href="../../d1/d1c/classbioexplorer_1_1common_1_1SDFGeometries.html">SDFGeometries</a>(<span class="keyword">const</span> <span class="keywordtype">double</span> radiusMultiplier,</div>
+<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;                  <span class="keyword">const</span> Vector3d&amp; scale = Vector3d(1.0, 1.0, 1.0));</div>
+<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160; </div>
+<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;    <span class="keywordtype">void</span> addSDFDemo(Model&amp; model);</div>
+<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160; </div>
+<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;<span class="keyword">protected</span>:</div>
+<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;    <span class="keywordtype">double</span> _radiusMultiplier{1.0};</div>
+<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;};</div>
+<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160; </div>
+<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;} <span class="comment">// namespace common</span></div>
+<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;} <span class="comment">// namespace bioexplorer</span></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
 <div class="ttc" id="aclassbioexplorer_1_1common_1_1Node_html"><div class="ttname"><a href="../../d7/d93/classbioexplorer_1_1common_1_1Node.html">bioexplorer::common::Node</a></div><div class="ttdoc">The Node class.</div><div class="ttdef"><b>Definition:</b> <a href="../../db/d92/Node_8h_source.html#l00034">Node.h:34</a></div></div>
-<div class="ttc" id="aclassbioexplorer_1_1common_1_1SDFGeometries_html"><div class="ttname"><a href="../../d1/d1c/classbioexplorer_1_1common_1_1SDFGeometries.html">bioexplorer::common::SDFGeometries</a></div><div class="ttdoc">The SDFGeometries abstract class is used as a parent to any assembly that potentially requires the si...</div><div class="ttdef"><b>Definition:</b> <a href="../../d5/d75/SDFGeometries_8h_source.html#l00038">SDFGeometries.h:38</a></div></div>
+<div class="ttc" id="aclassbioexplorer_1_1common_1_1SDFGeometries_html"><div class="ttname"><a href="../../d1/d1c/classbioexplorer_1_1common_1_1SDFGeometries.html">bioexplorer::common::SDFGeometries</a></div><div class="ttdoc">The SDFGeometries abstract class is used as a parent to any assembly that potentially requires the si...</div><div class="ttdef"><b>Definition:</b> <a href="../../d5/d75/SDFGeometries_8h_source.html#l00043">SDFGeometries.h:43</a></div></div>
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
