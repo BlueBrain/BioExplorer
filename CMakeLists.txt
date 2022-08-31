@@ -1,13 +1,25 @@
-# Copyright (c) 2020-2022, Cyrille Favreau
-# All rights reserved. Do not distribute without permission.
-# Responsible Author: Cyrille Favreau <cyrille.favreau@epfl.ch>
+# The Blue Brain BioExplorer is a tool for scientists to extract and analyse
+# scientific data from visualization
 #
-# This file is part of https://github.com/BlueBrain/BioExplorer
+# Copyright 2020-2022 Blue BrainProject / EPFL
+# 
+# This program is free software: you can redistribute it and/or modify it under
+# the terms of the GNU General Public License as published by the Free Software
+# Foundation, either version 3 of the License, or (at your option) any later
+# version.
+#
+# This program is distributed in the hope that it will be useful, but WITHOUT
+# ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+# FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more
+# details.
+#
+# You should have received a copy of the GNU General Public License along with
+# this program.  If not, see <https://www.gnu.org/licenses/>.
 
 cmake_minimum_required(VERSION 3.1 FATAL_ERROR)
 
 set(NAME BIOEXPLORER)
-set(PACKAGE_VERSION 1.3.2)
+set(PACKAGE_VERSION 1.4.0)
 project(${NAME} VERSION ${PACKAGE_VERSION})
 
 list(APPEND CMAKE_MODULE_PATH ${PROJECT_SOURCE_DIR}/CMake)

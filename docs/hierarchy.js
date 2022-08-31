@@ -2,6 +2,11 @@ var hierarchy =
 [
     [ "AbstractSimulationHandler", null, [
       [ "bioexplorer::fields::FieldsHandler", "d9/d6e/classbioexplorer_1_1fields_1_1FieldsHandler.html", null ],
+      [ "bioexplorer::morphology::CompartmentSimulationHandler", "da/d62/classbioexplorer_1_1morphology_1_1CompartmentSimulationHandler.html", null ],
+      [ "bioexplorer::morphology::SomaSimulationHandler", "df/d48/classbioexplorer_1_1morphology_1_1SomaSimulationHandler.html", null ],
+      [ "bioexplorer::morphology::SpikeSimulationHandler", "d0/daf/classbioexplorer_1_1morphology_1_1SpikeSimulationHandler.html", null ]
+    ] ],
+    [ "AbstractSimulationHandler", null, [
       [ "bioexplorer::metabolism::MetabolismHandler", "d4/dc4/classbioexplorer_1_1metabolism_1_1MetabolismHandler.html", null ],
       [ "bioexplorer::vasculature::VasculatureHandler", "d3/d3e/classbioexplorer_1_1vasculature_1_1VasculatureHandler.html", null ]
     ] ],
@@ -75,6 +80,11 @@ var hierarchy =
     [ "bioexplorer::common::Node", "d7/d93/classbioexplorer_1_1common_1_1Node.html", [
       [ "bioexplorer::atlas::Atlas", "d3/d86/classbioexplorer_1_1atlas_1_1Atlas.html", null ],
       [ "bioexplorer::common::SDFGeometries", "d1/d1c/classbioexplorer_1_1common_1_1SDFGeometries.html", [
+        [ "bioexplorer::molecularsystems::Membrane", "d4/d3d/classbioexplorer_1_1molecularsystems_1_1Membrane.html", null ],
+        [ "bioexplorer::molecularsystems::Molecule", "da/dff/classbioexplorer_1_1molecularsystems_1_1Molecule.html", [
+          [ "bioexplorer::molecularsystems::Glycans", "da/de6/classbioexplorer_1_1molecularsystems_1_1Glycans.html", null ],
+          [ "bioexplorer::molecularsystems::Protein", "dd/da4/classbioexplorer_1_1molecularsystems_1_1Protein.html", null ]
+        ] ],
         [ "bioexplorer::morphology::Morphologies", "dc/dbc/classbioexplorer_1_1morphology_1_1Morphologies.html", [
           [ "bioexplorer::morphology::Astrocytes", "d2/d3a/classbioexplorer_1_1morphology_1_1Astrocytes.html", null ],
           [ "bioexplorer::morphology::Neurons", "d1/d39/classbioexplorer_1_1morphology_1_1Neurons.html", null ]
@@ -83,11 +93,6 @@ var hierarchy =
       ] ],
       [ "bioexplorer::connectomics::WhiteMatter", "d6/dcd/classbioexplorer_1_1connectomics_1_1WhiteMatter.html", null ],
       [ "bioexplorer::molecularsystems::EnzymeReaction", "d4/d07/classbioexplorer_1_1molecularsystems_1_1EnzymeReaction.html", null ],
-      [ "bioexplorer::molecularsystems::Membrane", "d4/d3d/classbioexplorer_1_1molecularsystems_1_1Membrane.html", null ],
-      [ "bioexplorer::molecularsystems::Molecule", "da/dff/classbioexplorer_1_1molecularsystems_1_1Molecule.html", [
-        [ "bioexplorer::molecularsystems::Glycans", "da/de6/classbioexplorer_1_1molecularsystems_1_1Glycans.html", null ],
-        [ "bioexplorer::molecularsystems::Protein", "dd/da4/classbioexplorer_1_1molecularsystems_1_1Protein.html", null ]
-      ] ],
       [ "bioexplorer::molecularsystems::RNASequence", "d0/d53/classbioexplorer_1_1molecularsystems_1_1RNASequence.html", null ]
     ] ],
     [ "bioexplorer::molecularsystems::Nucleotid", "d6/d5b/structbioexplorer_1_1molecularsystems_1_1Nucleotid.html", null ],

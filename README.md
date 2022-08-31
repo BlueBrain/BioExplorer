@@ -52,7 +52,7 @@ Check out the movie by clicking on the following image, and see the coronavirus 
 
 <div align="center">
       <a href="https://youtu.be/Czn-YGLGfiA"/>
-         <img src="https://github.com/BlueBrain/BioExplorer/blob/master/bioexplorer/pythonsdk/doc/source/images/movie_preview.png" style="width:50%;">
+         <img src="https://github.com/BlueBrain/BioExplorer/blob/master/bioexplorer/pythonsdk/doc/source/images/covid19_movie_preview.png" style="width:50%;">
       </a>
 </div>
 
@@ -202,7 +202,7 @@ When a ray hits a geometry, a random secondary ray is sent in a direction belong
 
 White matter is composed of bundles, which connect various grey matter areas (the locations of nerve cell bodies) of the brain to each other, and carry nerve impulses between neurons. Myelin acts as an insulator, which allows electrical signals to jump, rather than coursing through the axon, increasing the speed of transmission of all nerve signals.
 
-A [Python notebook example](./bioexplorer/pythonsdk/notebooks/connectomics/BioExplorer_import_white_matter_allen_brain.ipynb) demonstrates how to download and import white matter streamlines from the Allen Brain Institute website into the _BBBE_ database. Another [Python notebook](./bioexplorer/pythonsdk/notebooks/connectomics/BioExplorer_white_matter.ipynb) demonstrates how to visualize the streamlines with the _BBBE_.
+A [Python notebook example](./bioexplorer/pythonsdk/notebooks/connectomics/BioExplorer_import_white_matter_allen_brain.ipynb) demonstrates how to download and import white matter streamlines from the [Allen Brain Institute website](https://alleninstitute.org) into the _BBBE_ database. Another [Python notebook](./bioexplorer/pythonsdk/notebooks/connectomics/BioExplorer_white_matter.ipynb) demonstrates how to visualize the streamlines with the _BBBE_.
 
 ```python
 white_matter_model = be.add_white_matter(
@@ -214,6 +214,14 @@ white_matter_model = be.add_white_matter(
 References:
 * [Allen Brain Institute: mouse connectivity projections](http://connectivity.brain-map.org/)
 * [Allen Brain Institute: mouse connectivity atlas](https://alleninstitute.github.io/AllenSDK/connectivity.html)
+
+The white matter feature contributed to generating images for the [null model of the mouse whole-neocortex micro-connectome](https://www.nature.com/articles/s41467-019-11630-x) publication and produce the corresponding movie.
+
+<div align="center">
+      <a href="https://www.youtube.com/watch?v=6cBNdAn04Qw"/>
+         <img src="https://github.com/BlueBrain/BioExplorer/blob/master/bioexplorer/pythonsdk/doc/source/images/connectomics_movie_preview.png" style="width:50%;">
+      </a>
+</div>
 
 
 ### Enzyme reactions

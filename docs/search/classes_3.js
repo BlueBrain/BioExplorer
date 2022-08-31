@@ -1,8 +1,8 @@
 var searchData=
 [
-  ['databaseaccessdetails_464',['DatabaseAccessDetails',['../dc/dd9/structbioexplorer_1_1details_1_1DatabaseAccessDetails.html',1,'bioexplorer::details']]],
-  ['dbconnector_465',['DBConnector',['../d9/d96/classbioexplorer_1_1io_1_1db_1_1DBConnector.html',1,'bioexplorer::io::db::DBConnector'],['../db/df8/classbioexplorer_1_1metabolism_1_1DBConnector.html',1,'bioexplorer::metabolism::DBConnector']]],
-  ['defaultmaterial_466',['DefaultMaterial',['../d1/dbe/structbioexplorer_1_1mediamaker_1_1rendering_1_1DefaultMaterial.html',1,'bioexplorer::mediamaker::rendering']]],
-  ['densityrenderer_467',['DensityRenderer',['../de/d24/classbioexplorer_1_1rendering_1_1DensityRenderer.html',1,'bioexplorer::rendering']]],
-  ['depthrenderer_468',['DepthRenderer',['../dd/d40/classbioexplorer_1_1mediamaker_1_1rendering_1_1DepthRenderer.html',1,'bioexplorer::mediamaker::rendering']]]
+  ['databaseaccessdetails_473',['DatabaseAccessDetails',['../dc/dd9/structbioexplorer_1_1details_1_1DatabaseAccessDetails.html',1,'bioexplorer::details']]],
+  ['dbconnector_474',['DBConnector',['../d9/d96/classbioexplorer_1_1io_1_1db_1_1DBConnector.html',1,'bioexplorer::io::db::DBConnector'],['../db/df8/classbioexplorer_1_1metabolism_1_1DBConnector.html',1,'bioexplorer::metabolism::DBConnector']]],
+  ['defaultmaterial_475',['DefaultMaterial',['../d1/dbe/structbioexplorer_1_1mediamaker_1_1rendering_1_1DefaultMaterial.html',1,'bioexplorer::mediamaker::rendering']]],
+  ['densityrenderer_476',['DensityRenderer',['../de/d24/classbioexplorer_1_1rendering_1_1DensityRenderer.html',1,'bioexplorer::rendering']]],
+  ['depthrenderer_477',['DepthRenderer',['../dd/d40/classbioexplorer_1_1mediamaker_1_1rendering_1_1DepthRenderer.html',1,'bioexplorer::mediamaker::rendering']]]
 ];
