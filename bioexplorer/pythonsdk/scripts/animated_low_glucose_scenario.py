@@ -257,7 +257,7 @@ class LowGlucoseScenario(MovieScenario):
 
         ace2_receptor = Protein(
             name=receptor_name,
-            source=pdb_folder + '6m18.pdb', occurences=nb_receptors,
+            source=pdb_folder + '6m18.pdb', occurrences=nb_receptors,
             transmembrane_params=Vector2(-6.0, 5.0),
             animation_params=AnimationParams(
                 random_seed, frame + 1, 0.025, frame + 2, 0.2)
@@ -433,7 +433,7 @@ class LowGlucoseScenario(MovieScenario):
             name=BioExplorer.NAME_GLUCOSE,
             source=glucose_path,
             load_non_polymer_chemicals=True, load_bonds=True, load_hydrogen=True,
-            occurences=nb_glucoses,
+            occurrences=nb_glucoses,
             animation_params=AnimationParams(
                 100, frame + 20, scene_size.y / 600.0, frame + 21, 0.3)
         )
@@ -453,7 +453,7 @@ class LowGlucoseScenario(MovieScenario):
             name=BioExplorer.NAME_LACTOFERRIN,
             source=lactoferrin_path,
             load_non_polymer_chemicals=True, load_bonds=True, load_hydrogen=True,
-            occurences=nb_lactoferrins,
+            occurrences=nb_lactoferrins,
             animation_params=AnimationParams(
                 101, frame + 30, scene_size.y / 400.0, frame + 31, 0.3)
         )
@@ -473,7 +473,7 @@ class LowGlucoseScenario(MovieScenario):
             name=BioExplorer.NAME_DEFENSIN,
             source=defensin_path,
             load_non_polymer_chemicals=True, load_bonds=True, load_hydrogen=True,
-            occurences=nb_defensins,
+            occurrences=nb_defensins,
             animation_params=AnimationParams(
                 102, frame + 40, scene_size.y / 400.0, frame + 41, 0.3)
         )

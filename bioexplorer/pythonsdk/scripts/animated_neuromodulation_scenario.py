@@ -217,7 +217,7 @@ class NeuromodulationScenario(MovieScenario):
             name=acetylcholin_name, 
             source=acetylcholin_path,
             load_non_polymer_chemicals=True, load_bonds=True, load_hydrogen=True,
-            occurences=nb_molecules,
+            occurrences=nb_molecules,
             animation_params=AnimationParams(3, (frame + 1) * 2, 0.5, (frame + 2) * 2, 1.0)
         )
         volume = Volume(

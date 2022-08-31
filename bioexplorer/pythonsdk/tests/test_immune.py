@@ -52,7 +52,7 @@ def test_immune():
         name=bio_explorer.NAME_LACTOFERRIN,
         source=lactoferrin_path,
         load_non_polymer_chemicals=True,
-        occurences=150
+        occurrences=150
     )
 
     lactoferrins_volume = Volume(
@@ -72,7 +72,7 @@ def test_immune():
         name=bio_explorer.NAME_DEFENSIN,
         source=defensin_path,
         load_non_polymer_chemicals=True,
-        occurences=300,
+        occurrences=300,
         animation_params=AnimationParams(3)
     )
 

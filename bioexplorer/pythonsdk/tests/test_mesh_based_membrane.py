@@ -52,7 +52,7 @@ def test_mesh():
         source=pdb_folder + '6m18.pdb',
         transmembrane_params=Vector2(1.0, 2.0),
         rotation=Quaternion(0.0, 1.0, 0.0, 0.0),
-        animation_params=AnimationParams(1), occurences=20)
+        animation_params=AnimationParams(1), occurrences=20)
 
     # GLUT3 definition
     transporter = Protein(
@@ -60,7 +60,7 @@ def test_mesh():
         source=transporters_folder + '4zwc.pdb',
         transmembrane_params=Vector2(1.0, 2.0),
         rotation=Quaternion(0.707, 0.707, 0.0, 0.0),
-        animation_params=AnimationParams(2), chain_ids=[1], occurences=30)
+        animation_params=AnimationParams(2), chain_ids=[1], occurrences=30)
 
     # Membrane definition
     pdb_lipids = glob.glob(lipids_folder + '*.pdb')[:8]

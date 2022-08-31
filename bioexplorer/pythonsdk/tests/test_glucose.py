@@ -51,7 +51,7 @@ def test_glucose():
         name=bio_explorer.NAME_GLUCOSE,
         source=glucose_path,
         load_non_polymer_chemicals=True,
-        occurences=120000
+        occurrences=120000
     )
 
     volume = Volume(

@@ -51,7 +51,7 @@ def test_cell():
     ace2_receptor = Protein(
         name=name + '_' + bio_explorer.NAME_RECEPTOR,
         source=pdb_folder + '6m1d.pdb',
-        occurences=membrane_nb_receptors,
+        occurrences=membrane_nb_receptors,
         transmembrane_params=Vector2(-6.0, 5.0))
 
     membrane = Membrane(lipid_sources=[pdb_folder + 'membrane/popc.pdb'])
