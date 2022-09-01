@@ -22,6 +22,7 @@
 # this program.  If not, see <https://www.gnu.org/licenses/>.
 
 from bioexplorer import BioExplorer
+import os
 
 
 def test_sars_cov_2():
@@ -29,7 +30,9 @@ def test_sars_cov_2():
     bio_explorer.reset_scene()
     bio_explorer.set_general_settings(model_visibility_on_creation=False)
     bio_explorer.add_sars_cov_2(
-        name='sars-cov-2', resource_folder='tests/test_files/', add_glycans=True)
+        name='sars-cov-2',
+        resource_folder=os.path.abspath('./tests/test_files'),
+        add_glycans=True)
 
 
 if __name__ == '__main__':

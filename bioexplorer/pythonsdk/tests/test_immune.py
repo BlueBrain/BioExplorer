@@ -22,6 +22,7 @@
 # this program.  If not, see <https://www.gnu.org/licenses/>.
 
 from bioexplorer import BioExplorer, Volume, Protein, AnimationParams, Vector3
+import os
 
 # pylint: disable=no-member
 # pylint: disable=missing-function-docstring
@@ -29,8 +30,9 @@ from bioexplorer import BioExplorer, Volume, Protein, AnimationParams, Vector3
 
 
 def test_immune():
-    resource_folder = 'tests/test_files/'
-    pdb_folder = resource_folder + 'pdb/immune/'
+    resource_folder = os.path.abspath('./tests/test_files')
+    pdb_folder = os.path.join(resource_folder, 'pdb')
+    immune_folder = os.path.join(pdb_folder, 'immune')
 
     bio_explorer = BioExplorer('localhost:5000')
     bio_explorer.reset_scene()
@@ -41,8 +43,8 @@ def test_immune():
     bio_explorer.core_api().set_application_parameters(image_stream_fps=0)
 
     # Proteins
-    lactoferrin_path = pdb_folder + '1b0l.pdb'
-    defensin_path = pdb_folder + '1ijv.pdb'
+    lactoferrin_path = os.path.join(immune_folder, '1b0l.pdb')
+    defensin_path = os.path.join(immune_folder, '1ijv.pdb')
 
     # Scene parameters
     scene_size = Vector3(800.0, 800.0, 800.0)
@@ -52,7 +54,7 @@ def test_immune():
         name=bio_explorer.NAME_LACTOFERRIN,
         source=lactoferrin_path,
         load_non_polymer_chemicals=True,
-        occurences=150
+        occurrences=150
     )
 
     lactoferrins_volume = Volume(
@@ -72,7 +74,7 @@ def test_immune():
         name=bio_explorer.NAME_DEFENSIN,
         source=defensin_path,
         load_non_polymer_chemicals=True,
-        occurences=300,
+        occurrences=300,
         animation_params=AnimationParams(3)
     )
 

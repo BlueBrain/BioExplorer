@@ -199,7 +199,8 @@ class MovieScenario:
             self._image_size = [int(image_k*1024), int(image_k*1024)]
             self._core.set_camera(current='panoramic')
         elif projection == 'opendeck':
-            self._log(1, 'Warning: OpenDeck resolution is set server side (--resolution-scaling plug-in parameter)')
+            self._log(1, 'Warning: OpenDeck resolution is set server side '
+                         '(--resolution-scaling plug-in parameter)')
             self._image_size = [11940, 3424]
             self._core.set_camera(current='cylindric')
 

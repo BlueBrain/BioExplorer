@@ -9,11 +9,8 @@ import glob
 import os
 from pymol import cmd
 
-# resource_folder = '../../../tests/test_files/'
-# output_folder = '../../../tests/test_files/obj/'
-resource_folder = '/home/favreau/git/BioExplorer/bioexplorer/pythonsdk/tests/test_files'
+resource_folder = os.path.abspath('../../../tests/test_files')
 output_folder = os.path.join(resource_folder, 'obj')
-# pdb_folder = os.path.join(resource_folder, 'pdb', 'transporters')
 pdb_folder = os.path.join(resource_folder, 'pdb', 'glycans', 'high-mannose')
 pdb_files = glob.glob(os.path.join(pdb_folder, '*.pdb'))
 

@@ -46,9 +46,8 @@
 
 ## Description
 
-In the context of the '[A Machine-Generated View of the Role of Blood Glucose Levels in the Severity of COVID-19](https://www.frontiersin.org/articles/10.3389/fpubh.2021.695139/full?utm_source=fweb&utm_medium=nblog&utm_campaign=ba-sci-fpubh-covid-19-elevated-blood-glucose-blue-brain)' study, the Blue Brain BioExplorer (_BBBE_) started as an internal project with the aim to answer key scientific questions related to the Coronavirus as a use case. This project aimed to deliver a visualization tool, the BioExplorer, to reconstruct, visualize, explore and describe in detail the structure and function of highly-detailed biological structures such as molecular systems, neurons, astrocytes, blood vessels, and more.
-
-Check out the movie by clicking on the following image, and see the coronavirus as you have never seen it before!
+Exploration relies on building software that combines data integration, analysis and interactive visualization to build, modify and navigate through large scientific datasets. For this, Blue Brain built and open-sourced the Blue Brain BioExplorer. The Blue Brain BioExplorer (BBBE), which started as an internal project, is now open source. It
+was originally developed to answer key scientific questions related to the Coronavirus as a use case and to deliver a visualization tool. Today, the BioExplorer allows to reconstruct, visualize, explore and describe in detail the structure and function of highly-detailed biological structures such as molecular systems, neurons, astrocytes, blood vessels, and more. You can see the first application of the BioExplorer in '[A Machine-Generated View of the Role of Blood Glucose Levels in the Severity of COVID-19](https://www.frontiersin.org/articles/10.3389/fpubh.2021.695139/full?utm_source=fweb&utm_medium=nblog&utm_campaign=ba-sci-fpubh-covid-19-elevated-blood-glucose-blue-brain)' study, and see the SARS-COV-2 coronavirus as you have never seen it before by clicking on the following image!
 
 <div align="center">
       <a href="https://youtu.be/Czn-YGLGfiA"/>

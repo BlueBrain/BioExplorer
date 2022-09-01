@@ -22,14 +22,15 @@
 # this program.  If not, see <https://www.gnu.org/licenses/>.
 
 from bioexplorer import BioExplorer, Protein, Quaternion
+import os
 
 # pylint: disable=no-member
 # pylint: disable=missing-function-docstring
 
 
 def test_layout():
-    resource_folder = 'tests/test_files/'
-    pdb_folder = resource_folder + 'pdb/'
+    resource_folder = os.path.abspath('./tests/test_files')
+    pdb_folder = os.path.join(resource_folder, 'pdb')
 
     bio_explorer = BioExplorer('localhost:5000')
     bio_explorer.reset_scene()
@@ -55,7 +56,7 @@ def test_layout():
     name = 'ACE2 receptor'
     ace2_receptor = Protein(
         name=name,
-        source=pdb_folder + '6m1d.pdb')
+        source=os.path.join(pdb_folder, '6m1d.pdb'))
     bio_explorer.add_protein(
         ace2_receptor,
         rotation=Quaternion(0.5, 0.5, 1.0, 0.0))

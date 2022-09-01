@@ -22,6 +22,7 @@
 # this program.  If not, see <https://www.gnu.org/licenses/>.
 
 from bioexplorer import BioExplorer, Volume, Protein, Vector3
+import os
 
 # pylint: disable=no-member
 # pylint: disable=missing-function-docstring
@@ -29,8 +30,8 @@ from bioexplorer import BioExplorer, Volume, Protein, Vector3
 
 
 def test_glucose():
-    resource_folder = 'tests/test_files/'
-    pdb_folder = resource_folder + 'pdb/'
+    resource_folder = os.path.abspath('./tests/test_files')
+    pdb_folder = os.path.join(resource_folder, 'pdb')
 
     bio_explorer = BioExplorer('localhost:5000')
     bio_explorer.reset_scene()
@@ -41,7 +42,7 @@ def test_glucose():
     bio_explorer.core_api().set_application_parameters(image_stream_fps=0)
 
     # Proteins
-    glucose_path = pdb_folder + 'glucose.pdb'
+    glucose_path = os.path.join(pdb_folder, 'glucose.pdb')
 
     # Scene parameters
     scene_size = Vector3(800.0, 800.0, 800.0)
@@ -51,7 +52,7 @@ def test_glucose():
         name=bio_explorer.NAME_GLUCOSE,
         source=glucose_path,
         load_non_polymer_chemicals=True,
-        occurences=120000
+        occurrences=120000
     )
 
     volume = Volume(

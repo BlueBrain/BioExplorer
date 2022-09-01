@@ -22,19 +22,11 @@
 # this program.  If not, see <https://www.gnu.org/licenses/>.
 
 from bioexplorer import BioExplorer, Protein, Surfactant, Membrane, Cell, Sugars, \
-    Volume, AnimationParams, Vector2, Vector3, Quaternion, MovieMaker, MovieScenario
+                        Volume, AnimationParams, Vector2, Vector3, Quaternion, \
+                        MovieScenario
 import math
 import sys
-
-resource_folder = './tests/test_files/'
-
-# --------------------------------------------------------------------------------
-# Movie settings
-# --------------------------------------------------------------------------------
-image_k = 4
-image_samples_per_pixel = 64
-image_projection = 'perspective'
-image_output_folder = '/tmp'
+import os
 
 # --------------------------------------------------------------------------------
 # Scenario
@@ -72,29 +64,43 @@ cell_nb_receptors = 100
 # --------------------------------------------------------------------------------
 # Resources
 # --------------------------------------------------------------------------------
-image_folder = resource_folder + 'images/'
-pdb_folder = resource_folder + 'pdb/'
-rna_folder = resource_folder + 'rna/'
-obj_folder = resource_folder + 'obj/'
-glycan_folder = pdb_folder + 'glycans/'
-membrane_folder = pdb_folder + 'membrane/'
-colormap_folder = resource_folder + 'colormap/'
+resource_folder = os.path.abspath('./tests/test_files/')
 
-complex_paths = [glycan_folder + 'complex/33.pdb', glycan_folder + 'complex/34.pdb',
-                 glycan_folder + 'complex/35.pdb', glycan_folder + 'complex/36.pdb']
-high_mannose_paths = [glycan_folder + 'high-mannose/1.pdb',
-                      glycan_folder + 'high-mannose/2.pdb',
-                      glycan_folder + 'high-mannose/3.pdb',
-                      glycan_folder + 'high-mannose/4.pdb']
-hybrid_paths = [glycan_folder + 'hybrid/24.pdb']
-o_glycan_paths = [glycan_folder + 'o-glycan/12.pdb']
+pdb_folder = os.path.join(resource_folder, 'pdb')
+rna_folder = os.path.join(resource_folder, 'rna')
+obj_folder = os.path.join(resource_folder, 'obj')
+membrane_folder = os.path.join(pdb_folder, 'membrane')
 
-glucose_path = pdb_folder + 'glucose.pdb'
-lactoferrin_path = pdb_folder + 'immune/1b0l.pdb'
-defensin_path = pdb_folder + 'immune/1ijv.pdb'
+glycan_folder = os.path.join(pdb_folder, 'glycans')
+complex_folder = os.path.join(glycan_folder, 'complex')
+high_mannose_folder = os.path.join(glycan_folder, 'high-mannose')
+hybrid_folder = os.path.join(glycan_folder, 'hybrid')
+o_glycan_folder = os.path.join(glycan_folder, 'o-glycan')
 
-surfactant_head_source = pdb_folder + 'surfactant/1pw9.pdb'
-surfactant_branch_source = pdb_folder + 'surfactant/1k6f.pdb'
+complex_paths = [
+    os.path.join(complex_folder, '33.pdb'),
+    os.path.join(complex_folder, '34.pdb'),
+    os.path.join(complex_folder, '35.pdb'),
+    os.path.join(complex_folder, '36.pdb')
+]
+high_mannose_paths = [
+    os.path.join(high_mannose_folder, '1.pdb'),
+    os.path.join(high_mannose_folder, '2.pdb'),
+    os.path.join(high_mannose_folder, '3.pdb'),
+    os.path.join(high_mannose_folder, '4.pdb')
+]
+hybrid_paths = [os.path.join(hybrid_folder, '24.pdb')]
+o_glycan_paths = [os.path.join(o_glycan_folder, '12.pdb')]
+
+glucose_path = os.path.join(pdb_folder, 'glucose.pdb')
+
+immune_folder = os.path.join(pdb_folder, 'immune')
+lactoferrin_path = os.path.join(immune_folder, '1b0l.pdb')
+defensin_path = os.path.join(immune_folder, '1ijv.pdb')
+
+surfactant_folder = os.path.join(pdb_folder, 'surfactant')
+surfactant_head_source = os.path.join(surfactant_folder, '1pw9.pdb')
+surfactant_branch_source = os.path.join(surfactant_folder, '1k6f.pdb')
 
 # --------------------------------------------------------------------------------
 # Enums
@@ -287,7 +293,7 @@ class HighGlucoseScenario(MovieScenario):
 
         ace2_receptor = Protein(
             name=receptor_name,
-            source=pdb_folder + '6m18.pdb', occurences=nb_receptors,
+            source=pdb_folder + '6m18.pdb', occurrences=nb_receptors,
             transmembrane_params=Vector2(-6.0, 5.0),
             animation_params=AnimationParams(
                 random_seed, frame + 1, 0.025, frame + 2, 0.2)
@@ -470,7 +476,7 @@ class HighGlucoseScenario(MovieScenario):
             name=BioExplorer.NAME_GLUCOSE,
             source=glucose_path,
             load_non_polymer_chemicals=True, load_bonds=True, load_hydrogen=True,
-            occurences=nb_glucoses,
+            occurrences=nb_glucoses,
             animation_params=AnimationParams(
                 100, frame + 20, scene_size.y / 600.0, frame + 21, 0.3)
         )
@@ -490,7 +496,7 @@ class HighGlucoseScenario(MovieScenario):
             name=BioExplorer.NAME_LACTOFERRIN,
             source=lactoferrin_path,
             load_non_polymer_chemicals=True, load_bonds=True, load_hydrogen=True,
-            occurences=nb_lactoferrins,
+            occurrences=nb_lactoferrins,
             animation_params=AnimationParams(
                 101, frame + 30, scene_size.y / 400.0, frame + 31, 0.3)
         )
@@ -510,7 +516,7 @@ class HighGlucoseScenario(MovieScenario):
             name=BioExplorer.NAME_DEFENSIN,
             source=defensin_path,
             load_non_polymer_chemicals=True, load_bonds=True, load_hydrogen=True,
-            occurences=nb_defensins,
+            occurrences=nb_defensins,
             animation_params=AnimationParams(
                 102, frame + 40, scene_size.y / 400.0, frame + 41, 0.3)
         )
