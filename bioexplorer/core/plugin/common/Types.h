@@ -925,7 +925,9 @@ enum class VasculatureColorScheme
     /** Colored by point order within a section */
     section_points = 7,
     /** Colored by section orientation */
-    section_orientation = 8
+    section_orientation = 8,
+    /** Colored by region */
+    region = 9
 };
 
 enum class VasculatureRepresentation
@@ -1176,6 +1178,7 @@ typedef struct
     uint64_t type{0};
     uint64_t pairId{0};
     uint64_t entryNodeId{0};
+    uint64_t regionId{0};
 } GeometryNode;
 using GeometryNodes = std::map<uint64_t, GeometryNode>;
 using GeometryEdges = std::map<uint64_t, uint64_t>;
