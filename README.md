@@ -46,9 +46,8 @@
 
 ## Description
 
-In the context of the '[A Machine-Generated View of the Role of Blood Glucose Levels in the Severity of COVID-19](https://www.frontiersin.org/articles/10.3389/fpubh.2021.695139/full?utm_source=fweb&utm_medium=nblog&utm_campaign=ba-sci-fpubh-covid-19-elevated-blood-glucose-blue-brain)' study, the Blue Brain BioExplorer (_BBBE_) started as an internal project with the aim to answer key scientific questions related to the Coronavirus as a use case. This project aimed to deliver a visualization tool, the BioExplorer, to reconstruct, visualize, explore and describe in detail the structure and function of highly-detailed biological structures such as molecular systems, neurons, astrocytes, blood vessels, and more.
-
-Check out the movie by clicking on the following image, and see the coronavirus as you have never seen it before!
+Exploration relies on building software that combines data integration, analysis and interactive visualization to build, modify and navigate through large scientific datasets. For this, Blue Brain built and open-sourced the Blue Brain BioExplorer. The Blue Brain BioExplorer (BBBE), which started as an internal project, is now open source. It
+was originally developed to answer key scientific questions related to the Coronavirus as a use case and to deliver a visualization tool. Today, the BioExplorer allows to reconstruct, visualize, explore and describe in detail the structure and function of highly-detailed biological structures such as molecular systems, neurons, astrocytes, blood vessels, and more. You can see the first application of the BioExplorer in '[A Machine-Generated View of the Role of Blood Glucose Levels in the Severity of COVID-19](https://www.frontiersin.org/articles/10.3389/fpubh.2021.695139/full?utm_source=fweb&utm_medium=nblog&utm_campaign=ba-sci-fpubh-covid-19-elevated-blood-glucose-blue-brain)' study, and see the SARS-COV-2 coronavirus as you have never seen it before by clicking on the following image!
 
 <div align="center">
       <a href="https://youtu.be/Czn-YGLGfiA"/>
@@ -131,9 +130,7 @@ References:
 * [Brain microvasculature has a common topology with local differences in geometry that match metabolic load](https://www.cell.com/neuron/fulltext/S0896-6273(21)00080-5?_returnURL=https%3A%2F%2Flinkinghub.elsevier.com%2Fretrieve%2Fpii%2FS0896627321000805%3Fshowall%3Dtrue)
 * [Blue Brain Neuro-Glia-Vasculature Portal. Vasculature. Reconstruction Data](https://bbp.epfl.ch/ngv-portal/#explore)
 
-### Neurons and astrocytes
-
-#### Neurons
+### Neurons
 
 Circuits of neurons are loaded from the database (see the database [schema](./storage/database/neurons_schema.sql) and the example [notebook](./bioexplorer/pythonsdk/notebooks/neurons/BioExplorer_import_sonata_to_db.ipynb) for loading data from [Sonata](https://github.com/AllenInstitute/sonata) files) using their position and orientation. Each cell is composed of sections that form the axons and dendrites, as well as spines. Cell internals such as the nucleus and the mitochondria can be automatically generated, according to the data provided by the scientific literature. The _BBBE_ also implements procedural generation of varicosities along the axon, as well as myelin sheaths.
 
@@ -146,9 +143,12 @@ neurons_model = bio_explorer.add_neurons(
 )
 ```
 
-An [example dataset](https://zenodo.org/record/6906785#.Ywym7tVBxH6) is available in the [A Model of Rat Non-barrel Somatosensory Cortex Anatomy](https://www.biorxiv.org/content/10.1101/2022.08.11.503144v1) publication. Please refer to the documentation of the [Sonata](https://github.com/AllenInstitute/sonata) format for information how to load and analyze the model. A [jupyter notebook](./bioexplorer/pythonsdk/notebooks/neurons/rat_non-barrel_somatosensory_cortex_anatomy/BioExplorer_rat_non-barrel_somatosensory_cortex_anatomy.ipynb) has been included with basic examples of how to load, visualize and explorer the data using the Blue Brain open-source packages [NeuroM](https://neurom.readthedocs.io/en/stable/) and [Blue Brain SNAP](https://bluebrainsnap.readthedocs.io/en/stable/).
+An [example dataset](https://zenodo.org/record/6906785#.Ywym7tVBxH6) is available in the [Model of Rat Non-barrel Somatosensory Cortex Anatomy](https://www.biorxiv.org/content/10.1101/2022.08.11.503144v1) publication. Please refer to the documentation of the [Sonata](https://github.com/AllenInstitute/sonata) format for information on how to load and analyze the model. A [jupyter notebook](./bioexplorer/pythonsdk/notebooks/neurons/rat_non-barrel_somatosensory_cortex_anatomy/BioExplorer_rat_non-barrel_somatosensory_cortex_anatomy.ipynb) has been included with basic examples of how to explore the data using the Blue Brain open-source packages [NeuroM](https://neurom.readthedocs.io/en/stable/) and [Blue Brain SNAP](https://bluebrainsnap.readthedocs.io/en/stable/).
 
-#### Astrocytes
+References:
+* [A Model of Rat Non-barrel Somatosensory Cortex Anatomy](https://www.biorxiv.org/content/10.1101/2022.08.11.503144v1)
+
+### Astrocytes
 
 Circuits of astrocytes are loaded from the database (see the database [schema](./storage/database/astrocytes_schema.sql) and the example [notebook](./bioexplorer/pythonsdk/notebooks/astrocytes/BioExplorer_import_sonata_to_db.ipynb) for loading data from [Sonata](https://github.com/AllenInstitute/sonata) files) using their position and orientation. Astrocytes end-feet are connected to the vasculature using data stored in a dedicated connectome database [schema](./storage/database/connectome_schema.sql). The _BBBE_ allows end-feet to automatically adapt to the vasculature vessel size.
 

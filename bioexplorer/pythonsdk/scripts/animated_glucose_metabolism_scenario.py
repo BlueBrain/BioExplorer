@@ -31,14 +31,14 @@ import os
 import sys
 import math
 
-resource_folder = './tests/test_files/'
-pdb_folder = resource_folder + 'pdb/'
-off_folder = resource_folder + 'off/'
-membrane_folder = pdb_folder + 'membrane/'
-lipids_folder = membrane_folder + 'lipids/'
-ion_channels_folder = pdb_folder + 'ion_channels/'
-metabolites_folder = pdb_folder + 'metabolites/'
-transporters_folder = pdb_folder + 'transporters/'
+resource_folder = os.path.abspath('./tests/test_files')
+pdb_folder = os.path.join(resource_folder, 'pdb')
+off_folder = os.path.join(resource_folder, 'off')
+membrane_folder = os.path.join(pdb_folder, 'membrane')
+lipids_folder = os.path.join(membrane_folder, 'lipids')
+ion_channels_folder = os.path.join(pdb_folder, 'ion_channels')
+metabolites_folder = os.path.join(pdb_folder, 'metabolites'
+transporters_folder = os.path.join(pdb_folder, 'transporters'
 
 ''' Simulation identifier '''
 simulation_guid = 4
@@ -63,23 +63,23 @@ scene_ratio = fullSceneVolumeInLiters / fullNGVUnitVolumeInLiters
 glucose_model_name = 'Extracellular space|44|Glucose'
 
 ''' Neuron trans-membrane proteins '''
-pdb_glut3 = transporters_folder + '4zwc.pdb'
-pdb_glut3_closed = transporters_folder + '5c65.pdb'
-pdb_mct2_lac = transporters_folder + '7bp3.pdb'
+pdb_glut3 = os.path.join(transporters_folder, '4zwc.pdb')
+pdb_glut3_closed = os.path.join(transporters_folder, '5c65.pdb')
+pdb_mct2_lac = os.path.join(transporters_folder, '7bp3.pdb')
 
 ''' Astrocyte trans-membrane proteins '''
-pdb_glut1 = transporters_folder + '4pyp.pdb'
-pdb_mct1_lac = transporters_folder + '6lz0.pdb'
+pdb_glut1 = os.path.join(transporters_folder, '4pyp.pdb')
+pdb_mct1_lac = os.path.join(transporters_folder, '6lz0.pdb')
 
 ''' Trans-membrane proteins '''
-pdb_nka = transporters_folder + '4hqj.pdb'
+pdb_nka = os.path.join(transporters_folder, '4hqj.pdb')
 
 ''' Lipids '''
 pdb_lipids = [
-    lipids_folder + 'lipid_430.pdb',
-    lipids_folder + 'lipid_426.pdb',
-    lipids_folder + 'lipid_424.pdb',
-    lipids_folder + 'lipid_410.pdb'
+    os.path.join(lipids_folder, 'lipid_430.pdb'),
+    os.path.join(lipids_folder, 'lipid_426.pdb'),
+    os.path.join(lipids_folder, 'lipid_424.pdb'),
+    os.path.join(lipids_folder, 'lipid_410.pdb')
 ]
 lipid_density = 3.0
 
@@ -261,7 +261,7 @@ class GlucoseMetabolismScenario(MovieScenario):
                     name=name, source=file_name,
                     load_bonds=True, load_hydrogen=True,
                     load_non_polymer_chemicals=True,
-                    occurences=nb_molecules,
+                    occurrences=nb_molecules,
                     animation_params=AnimationParams(
                         random_seed,
                         random_seed + frame + 1, 0.2,
@@ -289,7 +289,7 @@ class GlucoseMetabolismScenario(MovieScenario):
                 name=name + '_GLUT3',
                 chain_ids=[1],
                 source=pdb_glut3,
-                occurences=30,  # nb_transporter_glut3,
+                occurrences=30,  # nb_transporter_glut3,
                 rotation=Quaternion(0.707, -0.693, -0.139, 0.0),
                 load_non_polymer_chemicals=True, load_hydrogen=True, load_bonds=True,
                 animation_params=AnimationParams(1, frame + 1, 0.1, frame + 2, 0.25),
@@ -304,7 +304,7 @@ class GlucoseMetabolismScenario(MovieScenario):
                 name=name + '_MCT2',
                 position=Vector3(0.0, 1.0, 0.0),
                 source=pdb_mct2_lac,
-                occurences=nb_transporter_mct2,
+                occurrences=nb_transporter_mct2,
                 load_non_polymer_chemicals=True, load_hydrogen=True, load_bonds=True,
                 animation_params=AnimationParams(2, frame + 3, 0.1, frame + 4, 0.005),
                 transmembrane_params=Vector2(0.0, 2.0)
@@ -317,7 +317,7 @@ class GlucoseMetabolismScenario(MovieScenario):
             transmembrane_proteins.append(Protein(
                 name=name + '_NKA',
                 source=pdb_nka,
-                occurences=nb_transporter_nka,
+                occurrences=nb_transporter_nka,
                 load_non_polymer_chemicals=True, load_hydrogen=True, load_bonds=True,
                 animation_params=AnimationParams(3, frame + 5, 0.1, frame + 6, 0.25),
                 transmembrane_params=Vector2(0.0, 2.0)
@@ -352,7 +352,7 @@ class GlucoseMetabolismScenario(MovieScenario):
         transporter = Protein(
             name=name + '_GLUT3',
             source=pdb_glut3,
-            occurences=0,
+            occurrences=0,
             rotation=Quaternion(0.707, 0.707, 0.0, 0.0),
             load_non_polymer_chemicals=True, load_hydrogen=True, load_bonds=True,
             animation_params=AnimationParams(4, frame + 9, 0.1, frame + 10, 0.25),
@@ -392,7 +392,7 @@ class GlucoseMetabolismScenario(MovieScenario):
             transmembrane_proteins.append(Protein(
                 name=name + '_GLUT1',
                 source=pdb_glut1,
-                occurences=nb_transporter_glut1,
+                occurrences=nb_transporter_glut1,
                 rotation=Quaternion(0.707, 0.707, 0.0, 0.0),
                 load_non_polymer_chemicals=True, load_hydrogen=True, load_bonds=True,
                 animation_params=AnimationParams(11, frame + 13, 0.1, frame + 14, 0.25),
@@ -407,7 +407,7 @@ class GlucoseMetabolismScenario(MovieScenario):
                 name=name + '_MCT1',
                 position=Vector3(0.0, 1.0, 0.0),
                 source=pdb_mct1_lac,
-                occurences=nb_transporter_mct1,
+                occurrences=nb_transporter_mct1,
                 load_non_polymer_chemicals=True, load_hydrogen=True, load_bonds=True,
                 animation_params=AnimationParams(12, frame + 15, 0.1, frame + 16, 0.25),
                 transmembrane_params=Vector2(0.0, 2.0)
@@ -441,7 +441,7 @@ class GlucoseMetabolismScenario(MovieScenario):
         transporter = Protein(
             name=name + '_GLUT1',
             source=pdb_glut1,
-            occurences=0,
+            occurrences=0,
             rotation=Quaternion(0.707, 0.707, 0.0, 0.0),
             load_non_polymer_chemicals=True, load_hydrogen=True, load_bonds=True,
             animation_params=AnimationParams(15, frame + 19, 0.1, frame + 20, 0.25),

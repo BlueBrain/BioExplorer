@@ -36,100 +36,98 @@ var NAVTREE =
         [ "Virus", "index.html#autotoc_md10", null ],
         [ "Membrane", "index.html#autotoc_md11", null ],
         [ "Vasculature", "index.html#autotoc_md12", null ],
-        [ "Neurons and astrocytes", "index.html#autotoc_md13", [
-          [ "Neurons", "index.html#autotoc_md14", null ],
-          [ "Astrocytes", "index.html#autotoc_md15", null ]
-        ] ],
-        [ "Simulation of neuronal activity", "index.html#autotoc_md16", null ],
-        [ "Morphology synthesis", "index.html#autotoc_md17", null ],
-        [ "Proximity detection", "index.html#autotoc_md18", null ],
-        [ "White matter", "index.html#autotoc_md19", null ],
-        [ "Enzyme reactions", "index.html#autotoc_md20", null ],
-        [ "Neuromodulation", "index.html#autotoc_md21", null ]
+        [ "Neurons", "index.html#autotoc_md13", null ],
+        [ "Astrocytes", "index.html#autotoc_md14", null ],
+        [ "Simulation of neuronal activity", "index.html#autotoc_md15", null ],
+        [ "Morphology synthesis", "index.html#autotoc_md16", null ],
+        [ "Proximity detection", "index.html#autotoc_md17", null ],
+        [ "White matter", "index.html#autotoc_md18", null ],
+        [ "Enzyme reactions", "index.html#autotoc_md19", null ],
+        [ "Neuromodulation", "index.html#autotoc_md20", null ]
       ] ],
-      [ "Python SDK", "index.html#autotoc_md22", null ],
-      [ "Documentation", "index.html#autotoc_md23", null ],
-      [ "Deployment", "index.html#autotoc_md24", [
-        [ "Server", "index.html#autotoc_md25", null ],
-        [ "Python SDK", "index.html#autotoc_md26", null ],
-        [ "Web User Interface", "index.html#autotoc_md27", null ],
-        [ "PostgreSQL Database", "index.html#autotoc_md28", null ]
+      [ "Python SDK", "index.html#autotoc_md21", null ],
+      [ "Documentation", "index.html#autotoc_md22", null ],
+      [ "Deployment", "index.html#autotoc_md23", [
+        [ "Server", "index.html#autotoc_md24", null ],
+        [ "Python SDK", "index.html#autotoc_md25", null ],
+        [ "Web User Interface", "index.html#autotoc_md26", null ],
+        [ "PostgreSQL Database", "index.html#autotoc_md27", null ]
       ] ],
-      [ "Building from Source", "index.html#autotoc_md29", [
-        [ "Blue Brain Brayns", "index.html#autotoc_md30", null ],
-        [ "BioExplorer", "index.html#autotoc_md31", [
-          [ "Compile", "index.html#autotoc_md32", null ],
-          [ "Run", "index.html#autotoc_md33", null ]
+      [ "Building from Source", "index.html#autotoc_md28", [
+        [ "Blue Brain Brayns", "index.html#autotoc_md29", null ],
+        [ "BioExplorer", "index.html#autotoc_md30", [
+          [ "Compile", "index.html#autotoc_md31", null ],
+          [ "Run", "index.html#autotoc_md32", null ]
         ] ]
       ] ],
-      [ "Simple example", "index.html#autotoc_md34", null ]
+      [ "Simple example", "index.html#autotoc_md33", null ]
     ] ],
-    [ "License", "index.html#autotoc_md35", null ],
-    [ "Contact", "index.html#autotoc_md36", null ],
-    [ "Funding & Acknowledgment", "index.html#autotoc_md37", null ],
+    [ "License", "index.html#autotoc_md34", null ],
+    [ "Contact", "index.html#autotoc_md35", null ],
+    [ "Funding & Acknowledgment", "index.html#autotoc_md36", null ],
     [ "Docker", "d9/d23/md__home_favreau_git_BioExplorer_DOCKER.html", [
-      [ "Prerequisites", "d9/d23/md__home_favreau_git_BioExplorer_DOCKER.html#autotoc_md39", null ],
-      [ "Setup", "d9/d23/md__home_favreau_git_BioExplorer_DOCKER.html#autotoc_md40", null ],
-      [ "Usage", "d9/d23/md__home_favreau_git_BioExplorer_DOCKER.html#autotoc_md41", null ]
+      [ "Prerequisites", "d9/d23/md__home_favreau_git_BioExplorer_DOCKER.html#autotoc_md38", null ],
+      [ "Setup", "d9/d23/md__home_favreau_git_BioExplorer_DOCKER.html#autotoc_md39", null ],
+      [ "Usage", "d9/d23/md__home_favreau_git_BioExplorer_DOCKER.html#autotoc_md40", null ]
     ] ],
     [ "User guide", "d0/de8/md__home_favreau_git_BioExplorer_bioexplorer_pythonsdk_doc_source_USERGUIDE.html", [
-      [ "Protein", "d0/de8/md__home_favreau_git_BioExplorer_bioexplorer_pythonsdk_doc_source_USERGUIDE.html#autotoc_md43", null ],
-      [ "Glycan", "d0/de8/md__home_favreau_git_BioExplorer_bioexplorer_pythonsdk_doc_source_USERGUIDE.html#autotoc_md44", null ],
-      [ "RNA sequence", "d0/de8/md__home_favreau_git_BioExplorer_bioexplorer_pythonsdk_doc_source_USERGUIDE.html#autotoc_md45", null ],
-      [ "Membrane", "d0/de8/md__home_favreau_git_BioExplorer_bioexplorer_pythonsdk_doc_source_USERGUIDE.html#autotoc_md46", null ],
-      [ "Surfactants", "d0/de8/md__home_favreau_git_BioExplorer_bioexplorer_pythonsdk_doc_source_USERGUIDE.html#autotoc_md47", null ],
-      [ "Virus", "d0/de8/md__home_favreau_git_BioExplorer_bioexplorer_pythonsdk_doc_source_USERGUIDE.html#autotoc_md48", null ],
-      [ "Host cell", "d0/de8/md__home_favreau_git_BioExplorer_bioexplorer_pythonsdk_doc_source_USERGUIDE.html#autotoc_md49", null ],
-      [ "Glycans Models", "d0/de8/md__home_favreau_git_BioExplorer_bioexplorer_pythonsdk_doc_source_USERGUIDE.html#autotoc_md50", null ],
-      [ "Visualization", "d0/de8/md__home_favreau_git_BioExplorer_bioexplorer_pythonsdk_doc_source_USERGUIDE.html#autotoc_md51", null ]
+      [ "Protein", "d0/de8/md__home_favreau_git_BioExplorer_bioexplorer_pythonsdk_doc_source_USERGUIDE.html#autotoc_md42", null ],
+      [ "Glycan", "d0/de8/md__home_favreau_git_BioExplorer_bioexplorer_pythonsdk_doc_source_USERGUIDE.html#autotoc_md43", null ],
+      [ "RNA sequence", "d0/de8/md__home_favreau_git_BioExplorer_bioexplorer_pythonsdk_doc_source_USERGUIDE.html#autotoc_md44", null ],
+      [ "Membrane", "d0/de8/md__home_favreau_git_BioExplorer_bioexplorer_pythonsdk_doc_source_USERGUIDE.html#autotoc_md45", null ],
+      [ "Surfactants", "d0/de8/md__home_favreau_git_BioExplorer_bioexplorer_pythonsdk_doc_source_USERGUIDE.html#autotoc_md46", null ],
+      [ "Virus", "d0/de8/md__home_favreau_git_BioExplorer_bioexplorer_pythonsdk_doc_source_USERGUIDE.html#autotoc_md47", null ],
+      [ "Host cell", "d0/de8/md__home_favreau_git_BioExplorer_bioexplorer_pythonsdk_doc_source_USERGUIDE.html#autotoc_md48", null ],
+      [ "Glycans Models", "d0/de8/md__home_favreau_git_BioExplorer_bioexplorer_pythonsdk_doc_source_USERGUIDE.html#autotoc_md49", null ],
+      [ "Visualization", "d0/de8/md__home_favreau_git_BioExplorer_bioexplorer_pythonsdk_doc_source_USERGUIDE.html#autotoc_md50", null ]
     ] ],
     [ "Architecture", "d6/d22/md__home_favreau_git_BioExplorer_ARCHITECTURE.html", [
-      [ "Motivation", "d6/d22/md__home_favreau_git_BioExplorer_ARCHITECTURE.html#autotoc_md53", null ],
-      [ "Design goals", "d6/d22/md__home_favreau_git_BioExplorer_ARCHITECTURE.html#autotoc_md54", null ],
-      [ "Software Architecture", "d6/d22/md__home_favreau_git_BioExplorer_ARCHITECTURE.html#autotoc_md55", [
-        [ "Modular design", "d6/d22/md__home_favreau_git_BioExplorer_ARCHITECTURE.html#autotoc_md56", null ],
-        [ "Distributed architecture", "d6/d22/md__home_favreau_git_BioExplorer_ARCHITECTURE.html#autotoc_md57", null ],
-        [ "Abstraction", "d6/d22/md__home_favreau_git_BioExplorer_ARCHITECTURE.html#autotoc_md58", null ],
-        [ "Properties", "d6/d22/md__home_favreau_git_BioExplorer_ARCHITECTURE.html#autotoc_md59", null ],
-        [ "Core components", "d6/d22/md__home_favreau_git_BioExplorer_ARCHITECTURE.html#autotoc_md60", [
-          [ "Blue Brain Brayns", "d6/d22/md__home_favreau_git_BioExplorer_ARCHITECTURE.html#autotoc_md61", null ],
-          [ "Parameter manager", "d6/d22/md__home_favreau_git_BioExplorer_ARCHITECTURE.html#autotoc_md62", null ],
-          [ "Camera manipulators", "d6/d22/md__home_favreau_git_BioExplorer_ARCHITECTURE.html#autotoc_md63", null ],
-          [ "Engine factory", "d6/d22/md__home_favreau_git_BioExplorer_ARCHITECTURE.html#autotoc_md64", null ],
-          [ "Plug-ins", "d6/d22/md__home_favreau_git_BioExplorer_ARCHITECTURE.html#autotoc_md65", null ],
-          [ "Data loaders", "d6/d22/md__home_favreau_git_BioExplorer_ARCHITECTURE.html#autotoc_md66", null ],
-          [ "Engine", "d6/d22/md__home_favreau_git_BioExplorer_ARCHITECTURE.html#autotoc_md67", null ],
-          [ "Scene", "d6/d22/md__home_favreau_git_BioExplorer_ARCHITECTURE.html#autotoc_md68", null ],
-          [ "Model descriptor", "d6/d22/md__home_favreau_git_BioExplorer_ARCHITECTURE.html#autotoc_md69", null ],
-          [ "Model", "d6/d22/md__home_favreau_git_BioExplorer_ARCHITECTURE.html#autotoc_md70", null ]
+      [ "Motivation", "d6/d22/md__home_favreau_git_BioExplorer_ARCHITECTURE.html#autotoc_md52", null ],
+      [ "Design goals", "d6/d22/md__home_favreau_git_BioExplorer_ARCHITECTURE.html#autotoc_md53", null ],
+      [ "Software Architecture", "d6/d22/md__home_favreau_git_BioExplorer_ARCHITECTURE.html#autotoc_md54", [
+        [ "Modular design", "d6/d22/md__home_favreau_git_BioExplorer_ARCHITECTURE.html#autotoc_md55", null ],
+        [ "Distributed architecture", "d6/d22/md__home_favreau_git_BioExplorer_ARCHITECTURE.html#autotoc_md56", null ],
+        [ "Abstraction", "d6/d22/md__home_favreau_git_BioExplorer_ARCHITECTURE.html#autotoc_md57", null ],
+        [ "Properties", "d6/d22/md__home_favreau_git_BioExplorer_ARCHITECTURE.html#autotoc_md58", null ],
+        [ "Core components", "d6/d22/md__home_favreau_git_BioExplorer_ARCHITECTURE.html#autotoc_md59", [
+          [ "Blue Brain Brayns", "d6/d22/md__home_favreau_git_BioExplorer_ARCHITECTURE.html#autotoc_md60", null ],
+          [ "Parameter manager", "d6/d22/md__home_favreau_git_BioExplorer_ARCHITECTURE.html#autotoc_md61", null ],
+          [ "Camera manipulators", "d6/d22/md__home_favreau_git_BioExplorer_ARCHITECTURE.html#autotoc_md62", null ],
+          [ "Engine factory", "d6/d22/md__home_favreau_git_BioExplorer_ARCHITECTURE.html#autotoc_md63", null ],
+          [ "Plug-ins", "d6/d22/md__home_favreau_git_BioExplorer_ARCHITECTURE.html#autotoc_md64", null ],
+          [ "Data loaders", "d6/d22/md__home_favreau_git_BioExplorer_ARCHITECTURE.html#autotoc_md65", null ],
+          [ "Engine", "d6/d22/md__home_favreau_git_BioExplorer_ARCHITECTURE.html#autotoc_md66", null ],
+          [ "Scene", "d6/d22/md__home_favreau_git_BioExplorer_ARCHITECTURE.html#autotoc_md67", null ],
+          [ "Model descriptor", "d6/d22/md__home_favreau_git_BioExplorer_ARCHITECTURE.html#autotoc_md68", null ],
+          [ "Model", "d6/d22/md__home_favreau_git_BioExplorer_ARCHITECTURE.html#autotoc_md69", null ]
         ] ],
-        [ "Application Programming Interface", "d6/d22/md__home_favreau_git_BioExplorer_ARCHITECTURE.html#autotoc_md71", [
-          [ "Action interface", "d6/d22/md__home_favreau_git_BioExplorer_ARCHITECTURE.html#autotoc_md72", null ],
-          [ "plug-in", "d6/d22/md__home_favreau_git_BioExplorer_ARCHITECTURE.html#autotoc_md73", null ],
-          [ "Loader", "d6/d22/md__home_favreau_git_BioExplorer_ARCHITECTURE.html#autotoc_md74", null ]
+        [ "Application Programming Interface", "d6/d22/md__home_favreau_git_BioExplorer_ARCHITECTURE.html#autotoc_md70", [
+          [ "Action interface", "d6/d22/md__home_favreau_git_BioExplorer_ARCHITECTURE.html#autotoc_md71", null ],
+          [ "plug-in", "d6/d22/md__home_favreau_git_BioExplorer_ARCHITECTURE.html#autotoc_md72", null ],
+          [ "Loader", "d6/d22/md__home_favreau_git_BioExplorer_ARCHITECTURE.html#autotoc_md73", null ]
         ] ]
       ] ],
-      [ "Client software development kits", "d6/d22/md__home_favreau_git_BioExplorer_ARCHITECTURE.html#autotoc_md75", [
-        [ "Introduction", "d6/d22/md__home_favreau_git_BioExplorer_ARCHITECTURE.html#autotoc_md76", null ],
-        [ "Python SDK", "d6/d22/md__home_favreau_git_BioExplorer_ARCHITECTURE.html#autotoc_md77", null ],
-        [ "Javascript SDK", "d6/d22/md__home_favreau_git_BioExplorer_ARCHITECTURE.html#autotoc_md78", null ],
-        [ "Deflect", "d6/d22/md__home_favreau_git_BioExplorer_ARCHITECTURE.html#autotoc_md79", null ],
-        [ "Rockets", "d6/d22/md__home_favreau_git_BioExplorer_ARCHITECTURE.html#autotoc_md80", null ],
-        [ "VRPN", "d6/d22/md__home_favreau_git_BioExplorer_ARCHITECTURE.html#autotoc_md81", null ]
+      [ "Client software development kits", "d6/d22/md__home_favreau_git_BioExplorer_ARCHITECTURE.html#autotoc_md74", [
+        [ "Introduction", "d6/d22/md__home_favreau_git_BioExplorer_ARCHITECTURE.html#autotoc_md75", null ],
+        [ "Python SDK", "d6/d22/md__home_favreau_git_BioExplorer_ARCHITECTURE.html#autotoc_md76", null ],
+        [ "Javascript SDK", "d6/d22/md__home_favreau_git_BioExplorer_ARCHITECTURE.html#autotoc_md77", null ],
+        [ "Deflect", "d6/d22/md__home_favreau_git_BioExplorer_ARCHITECTURE.html#autotoc_md78", null ],
+        [ "Rockets", "d6/d22/md__home_favreau_git_BioExplorer_ARCHITECTURE.html#autotoc_md79", null ],
+        [ "VRPN", "d6/d22/md__home_favreau_git_BioExplorer_ARCHITECTURE.html#autotoc_md80", null ]
       ] ],
-      [ "Applications", "d6/d22/md__home_favreau_git_BioExplorer_ARCHITECTURE.html#autotoc_md82", [
-        [ "Service", "d6/d22/md__home_favreau_git_BioExplorer_ARCHITECTURE.html#autotoc_md83", null ],
-        [ "Viewer", "d6/d22/md__home_favreau_git_BioExplorer_ARCHITECTURE.html#autotoc_md84", null ]
+      [ "Applications", "d6/d22/md__home_favreau_git_BioExplorer_ARCHITECTURE.html#autotoc_md81", [
+        [ "Service", "d6/d22/md__home_favreau_git_BioExplorer_ARCHITECTURE.html#autotoc_md82", null ],
+        [ "Viewer", "d6/d22/md__home_favreau_git_BioExplorer_ARCHITECTURE.html#autotoc_md83", null ]
       ] ],
-      [ "Use-cases", "d6/d22/md__home_favreau_git_BioExplorer_ARCHITECTURE.html#autotoc_md85", [
-        [ "Visualization of Blue Brain / Sonata datasets", "d6/d22/md__home_favreau_git_BioExplorer_ARCHITECTURE.html#autotoc_md86", null ],
-        [ "MOOC", "d6/d22/md__home_favreau_git_BioExplorer_ARCHITECTURE.html#autotoc_md87", null ],
-        [ "OpenDeck", "d6/d22/md__home_favreau_git_BioExplorer_ARCHITECTURE.html#autotoc_md88", [
-          [ "Native rendering", "d6/d22/md__home_favreau_git_BioExplorer_ARCHITECTURE.html#autotoc_md89", null ],
-          [ "Remote rendering", "d6/d22/md__home_favreau_git_BioExplorer_ARCHITECTURE.html#autotoc_md90", null ]
+      [ "Use-cases", "d6/d22/md__home_favreau_git_BioExplorer_ARCHITECTURE.html#autotoc_md84", [
+        [ "Visualization of Blue Brain / Sonata datasets", "d6/d22/md__home_favreau_git_BioExplorer_ARCHITECTURE.html#autotoc_md85", null ],
+        [ "MOOC", "d6/d22/md__home_favreau_git_BioExplorer_ARCHITECTURE.html#autotoc_md86", null ],
+        [ "OpenDeck", "d6/d22/md__home_favreau_git_BioExplorer_ARCHITECTURE.html#autotoc_md87", [
+          [ "Native rendering", "d6/d22/md__home_favreau_git_BioExplorer_ARCHITECTURE.html#autotoc_md88", null ],
+          [ "Remote rendering", "d6/d22/md__home_favreau_git_BioExplorer_ARCHITECTURE.html#autotoc_md89", null ]
         ] ]
       ] ],
-      [ "What next?", "d6/d22/md__home_favreau_git_BioExplorer_ARCHITECTURE.html#autotoc_md91", null ]
+      [ "What next?", "d6/d22/md__home_favreau_git_BioExplorer_ARCHITECTURE.html#autotoc_md90", null ]
     ] ],
     [ "Classes", "annotated.html", [
       [ "Class List", "annotated.html", "annotated_dup" ],

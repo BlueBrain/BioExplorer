@@ -21,17 +21,16 @@
 # You should have received a copy of the GNU General Public License along with
 # this program.  If not, see <https://www.gnu.org/licenses/>.
 
-import os
 from bioexplorer import BioExplorer
+import os
 
 # pylint: disable=no-member
 # pylint: disable=missing-function-docstring
 # pylint: disable=dangerous-default-value
 
-
 def test_fields():
-    resource_folder = os.getcwd() + '/tests/test_files/'
-    fields_folder = resource_folder + 'fields/'
+    resource_folder = os.path.abspath('./tests/test_files')
+    fields_folder = os.path.join(resource_folder, 'fields')
 
     bio_explorer = BioExplorer('localhost:5000')
     bio_explorer.reset_scene()
@@ -42,11 +41,12 @@ def test_fields():
     bio_explorer.core_api().set_application_parameters(image_stream_fps=0)
 
     # Import from file
-    bio_explorer.import_fields_from_file(fields_folder + 'receptor.fields')
+    bio_explorer.import_fields_from_file(os.path.join(fields_folder, 'receptor.fields'))
 
     # Virus
-    bio_explorer.core_api().set_renderer(current='bio_explorer_fields',
-                                         samples_per_pixel=1, subsampling=8, max_accum_frames=8)
+    bio_explorer.core_api().set_renderer(
+        current='bio_explorer_fields',
+        samples_per_pixel=1, subsampling=8, max_accum_frames=8)
     params = bio_explorer.core_api().BioExplorerFieldsRendererParams()
     params.cutoff = 2000
     params.max_steps = 2048

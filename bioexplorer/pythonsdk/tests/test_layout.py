@@ -22,14 +22,17 @@
 # this program.  If not, see <https://www.gnu.org/licenses/>.
 
 from bioexplorer import BioExplorer, Protein, Surfactant, Vector3, Quaternion
+import os
 
 # pylint: disable=no-member
 # pylint: disable=missing-function-docstring
 
 
 def test_layout():
-    resource_folder = 'tests/test_files/'
-    pdb_folder = resource_folder + 'pdb/'
+    resource_folder = os.path.abspath('./tests/test_files')
+    pdb_folder = os.path.join(resource_folder, 'pdb')
+    immune_folder = os.path.join(pdb_folder, 'immune')
+    surfactant_folder = os.path.join(pdb_folder, 'surfactant')
 
     bio_explorer = BioExplorer('localhost:5000')
     bio_explorer.reset_scene()
@@ -64,7 +67,7 @@ def test_layout():
     # Layout
     virus_protein_s_open = Protein(
         name='Protein S (open)',
-        source=pdb_folder + '6vyb.pdb',
+        source=os.path.join(pdb_folder, '6vyb.pdb'),
         rotation=Quaternion(0.707, 0.707, 0.0, 0.0)
     )
     bio_explorer.add_protein(
@@ -74,7 +77,7 @@ def test_layout():
 
     virus_protein_s_closed = Protein(
         name='Protein S (closed)',
-        source=pdb_folder + '6vyb.pdb',
+        source=os.path.join(pdb_folder, '6vyb.pdb'),
         rotation=Quaternion(0.707, 0.707, 0.0, 0.0)
     )
     bio_explorer.add_protein(
@@ -85,7 +88,7 @@ def test_layout():
     # Protein M (QHD43419)
     virus_protein_m = Protein(
         name='Protein M',
-        source=pdb_folder + 'QHD43419a.pdb'
+        source=os.path.join(pdb_folder, 'QHD43419a.pdb')
     )
     bio_explorer.add_protein(
         protein=virus_protein_m,
@@ -95,7 +98,7 @@ def test_layout():
     # Protein E (QHD43418 P0DTC4)
     virus_protein_e = Protein(
         name='Protein E',
-        source=pdb_folder + 'QHD43418a.pdb'
+        source=os.path.join(pdb_folder, 'QHD43418a.pdb')
     )
     bio_explorer.add_protein(
         protein=virus_protein_e,
@@ -105,7 +108,7 @@ def test_layout():
     # Lactoferrin
     lactoferrin = Protein(
         name='Lactoferrin',
-        source=pdb_folder + 'immune/1b0l.pdb'
+        source=os.path.join(immune_folder, '1b0l.pdb')
     )
     bio_explorer.add_protein(
         protein=lactoferrin,
@@ -115,7 +118,7 @@ def test_layout():
     # Defensin
     defensin = Protein(
         name='Defensin',
-        source=pdb_folder + 'immune/1ijv.pdb'
+        source=os.path.join(immune_folder, '1ijv.pdb')
     )
     bio_explorer.add_protein(
         protein=defensin,
@@ -125,7 +128,7 @@ def test_layout():
     # Glucose
     glucose = Protein(
         name='Glucose',
-        source=pdb_folder + 'glucose.pdb',
+        source=os.path.join(pdb_folder, 'glucose.pdb'),
         load_non_polymer_chemicals=True,
         rotation=Quaternion(0.0, 0.0, 0.707, 0.707)
     )
@@ -137,7 +140,7 @@ def test_layout():
     # ACE2 Receptor
     ace2_receptor = Protein(
         name='ACE2 receptor',
-        source=pdb_folder + '6m18.pdb',
+        source=os.path.join(pdb_folder, '6m18.pdb'),
         rotation=Quaternion(0.0, 0.0, 0.707, -0.707)
     )
     bio_explorer.add_protein(
@@ -146,8 +149,8 @@ def test_layout():
     )
 
     # Surfactant
-    head_source = pdb_folder + 'surfactant/1pw9.pdb'
-    branch_source = pdb_folder + 'surfactant/1k6f.pdb'
+    head_source = os.path.join(surfactant_folder, '1pw9.pdb')
+    branch_source = os.path.join(surfactant_folder, '1k6f.pdb')
     surfactant_d = Surfactant(
         name='Surfactant',
         surfactant_protein=bio_explorer.SURFACTANT_BRANCH,

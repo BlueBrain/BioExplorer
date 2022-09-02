@@ -22,14 +22,16 @@
 # this program.  If not, see <https://www.gnu.org/licenses/>.
 
 from bioexplorer import BioExplorer, Protein, Sugar, Quaternion
+import os
 
 # pylint: disable=no-member
 # pylint: disable=missing-function-docstring
 
 
 def test_layout():
-    resource_folder = 'tests/test_files/'
-    pdb_folder = resource_folder + 'pdb/'
+    resource_folder = os.path.abspath('./tests/test_files')
+    pdb_folder = os.path.join(resource_folder, 'pdb')
+    glycan_folder = os.path.join(pdb_folder, 'glycans')
 
     bio_explorer = BioExplorer('localhost:5000')
     bio_explorer.reset_scene()
@@ -47,7 +49,7 @@ def test_layout():
     glycan_radius_multiplier = 1.0
 
     # M Protein
-    source = pdb_folder + 'QHD43418a.pdb'
+    source = os.path.join(pdb_folder, 'QHD43418a.pdb')
 
     name = bio_explorer.NAME_PROTEIN_M
     m_protein = Protein(
@@ -64,9 +66,13 @@ def test_layout():
     )
 
     # Glycans
-    glycan_folder = pdb_folder + 'glycans/'
-    complex_paths = [glycan_folder + 'complex/33.pdb', glycan_folder + 'complex/34.pdb',
-                     glycan_folder + 'complex/35.pdb', glycan_folder + 'complex/36.pdb']
+    complex_folder = os.path.join(glycan_folder, 'complex')
+    complex_paths = [
+        os.path.join(complex_folder, '33.pdb'),
+        os.path.join(complex_folder, '34.pdb'),
+        os.path.join(complex_folder, '35.pdb'),
+        os.path.join(complex_folder, '36.pdb')
+    ]
 
     # High-mannose glycans on Protein M
     indices = [48, 66]

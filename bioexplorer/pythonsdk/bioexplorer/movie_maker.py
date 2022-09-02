@@ -365,7 +365,7 @@ class MovieMaker:
 
     def create_snapshot(
             self, renderer, size, path, base_name, samples_per_pixel,
-            export_intermediate_frames=False, gi_length=1e6):
+            export_intermediate_frames=False, gi_length=1e6, show_progress=False):
         """
         Create a snapshot of the current frame
 
@@ -406,8 +406,9 @@ class MovieMaker:
         self.build_camera_path(
             control_points=control_points, nb_steps_between_control_points=1, smoothing_size=1)
 
-        progress_widget = IntProgress(description='In progress...', min=0, max=100, value=0)
-        display(progress_widget)
+        if show_progress:
+            progress_widget = IntProgress(description='In progress...', min=0, max=100, value=0)
+            display(progress_widget)
 
         self.export_frames(
             path=path, base_name=base_name, animation_frames=animation_frames, size=size,
@@ -418,12 +419,14 @@ class MovieMaker:
         done = False
         while not done:
             time.sleep(1)
-            progress = self.get_export_frames_progress()['progress']
-            progress_widget.value = progress * 100
+            if show_progress:
+                progress = self.get_export_frames_progress()['progress']
+                progress_widget.value = progress * 100
             done = self.get_export_frames_progress()['done']
 
-        progress_widget.description = 'Done'
-        progress_widget.value = 100
+        if show_progress:
+            progress_widget.description = 'Done'
+            progress_widget.value = 100
 
         self._client.set_application_parameters(image_stream_fps=old_image_stream_fps,
                                                 viewport=old_viewport_size)

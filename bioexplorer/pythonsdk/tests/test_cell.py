@@ -22,6 +22,7 @@
 # this program.  If not, see <https://www.gnu.org/licenses/>.
 
 from bioexplorer import BioExplorer, Cell, Membrane, Protein, Vector2, Vector3, Quaternion
+import os
 
 # pylint: disable=no-member
 # pylint: disable=missing-function-docstring
@@ -30,8 +31,9 @@ from bioexplorer import BioExplorer, Cell, Membrane, Protein, Vector2, Vector3, 
 
 def test_cell():
     name = 'Cell'
-    resource_folder = 'tests/test_files/'
-    pdb_folder = resource_folder + 'pdb/'
+    resource_folder = os.path.abspath('./tests/test_files')
+    pdb_folder = os.path.join(resource_folder, 'pdb')
+    membrane_folder = os.path.join(pdb_folder, 'membrane')
 
     bio_explorer = BioExplorer('localhost:5000')
     bio_explorer.reset_scene()
@@ -50,11 +52,11 @@ def test_cell():
     # ACE2 Receptor
     ace2_receptor = Protein(
         name=name + '_' + bio_explorer.NAME_RECEPTOR,
-        source=pdb_folder + '6m1d.pdb',
-        occurences=membrane_nb_receptors,
+        source=os.path.join(pdb_folder, '6m1d.pdb'),
+        occurrences=membrane_nb_receptors,
         transmembrane_params=Vector2(-6.0, 5.0))
 
-    membrane = Membrane(lipid_sources=[pdb_folder + 'membrane/popc.pdb'])
+    membrane = Membrane(lipid_sources=[os.path.join(membrane_folder, 'popc.pdb')])
 
     cell = Cell(
         name=name,

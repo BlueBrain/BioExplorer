@@ -515,13 +515,13 @@ class BioExplorer:
         return result
 
     def add_sars_cov_2(self, name, resource_folder,
-                        shape_params=Vector3(45.0, 0.0, 0.0),
-                        animation_params=AnimationParams(0, 1, 0.25, 1, 0.1),
-                        nb_protein_s=62, nb_protein_m=50, nb_protein_e=42,
-                        open_protein_s_indices=[0], atom_radius_multiplier=1.0,
-                        add_glycans=False, add_rna_sequence=False,
-                        representation=REPRESENTATION_ATOMS_AND_STICKS, clipping_planes=list(),
-                        position=Vector3(), rotation=Quaternion(), apply_colors=False):
+                       shape_params=Vector3(45.0, 0.0, 0.0),
+                       animation_params=AnimationParams(0, 1, 0.25, 1, 0.1),
+                       nb_protein_s=62, nb_protein_m=50, nb_protein_e=42,
+                       open_protein_s_indices=[0], atom_radius_multiplier=1.0,
+                       add_glycans=False, add_rna_sequence=False,
+                       representation=REPRESENTATION_ATOMS_AND_STICKS, clipping_planes=list(),
+                       position=Vector3(), rotation=Quaternion(), apply_colors=False):
         """
         Add a virus with the default SARS-COV-2 coronavirus parameters
 
@@ -542,10 +542,10 @@ class BioExplorer:
         :rotation: rotation of the SARS-COV-2 coronavirus in the scene
         :apply_colors: Applies default colors to the virus
         """
-        pdb_folder = resource_folder + "pdb/"
-        rna_folder = resource_folder + "rna/"
-        glycan_folder = pdb_folder + "glycans/"
-        membrane_folder = pdb_folder + "membrane/"
+        pdb_folder = os.path.join(resource_folder, "pdb")
+        rna_folder = os.path.join(resource_folder, "rna")
+        glycan_folder = os.path.join(pdb_folder, "glycans")
+        membrane_folder = os.path.join(pdb_folder, "membrane")
 
         membrane_proteins = list()
 
@@ -561,8 +561,8 @@ class BioExplorer:
         ap.seed = 0
         membrane_proteins.append(Protein(
             name=name + '_' + self.NAME_PROTEIN_S_OPEN,
-            source=pdb_folder + "6vyb.pdb",
-            occurences=nb_protein_s,
+            source=os.path.join(pdb_folder, "6vyb.pdb"),
+            occurrences=nb_protein_s,
             rotation=Quaternion(0.0, 1.0, 0.0, 0.0),
             allowed_occurrences=open_conformation_indices,
             transmembrane_params=Vector2(10.5, 10.5),
@@ -572,8 +572,8 @@ class BioExplorer:
         # Protein S (closed)
         membrane_proteins.append(Protein(
             name=name + '_' + self.NAME_PROTEIN_S_CLOSED,
-            source=pdb_folder + "sars-cov-2-v1.pdb",
-            occurences=nb_protein_s,
+            source=os.path.join(pdb_folder, "sars-cov-2-v1.pdb"),
+            occurrences=nb_protein_s,
             rotation=Quaternion(0.0, 1.0, 0.0, 0.0),
             allowed_occurrences=closed_conformation_indices,
             transmembrane_params=Vector2(10.5, 10.5),
@@ -584,8 +584,8 @@ class BioExplorer:
         ap.seed = 1
         membrane_proteins.append(Protein(
             name=name + '_' + self.NAME_PROTEIN_M,
-            source=pdb_folder + "QHD43419a.pdb",
-            occurences=nb_protein_m,
+            source=os.path.join(pdb_folder, "QHD43419a.pdb"),
+            occurrences=nb_protein_m,
             position=Vector3(2.5, 0.0, 0.0),
             rotation=Quaternion(0.135, 0.99, 0.0, 0.0),
             transmembrane_params=Vector2(0.5, 2.0),
@@ -596,8 +596,8 @@ class BioExplorer:
         ap.seed = 3
         membrane_proteins.append(Protein(
             name=name + '_' + self.NAME_PROTEIN_E,
-            source=pdb_folder + "QHD43418a.pdb",
-            occurences=nb_protein_e,
+            source=os.path.join(pdb_folder, "QHD43418a.pdb"),
+            occurrences=nb_protein_e,
             position=Vector3(2.5, 0.0, 0.0),
             rotation=Quaternion(0.0, 0.707, 0.707, 0.0),
             transmembrane_params=Vector2(0.5, 2.0),
@@ -607,10 +607,11 @@ class BioExplorer:
         # Virus membrane
         ap.seed = 4
         lipid_sources = [
-            membrane_folder + 'segA.pdb',
-            membrane_folder + 'segB.pdb',
-            membrane_folder + 'segC.pdb',
-            membrane_folder + 'segD.pdb']
+            os.path.join(membrane_folder, "segA.pdb"),
+            os.path.join(membrane_folder, "segB.pdb"),
+            os.path.join(membrane_folder, "segC.pdb"),
+            os.path.join(membrane_folder, "segD.pdb")
+        ]
 
         virus_membrane = Membrane(
             lipid_sources=lipid_sources,
@@ -636,8 +637,8 @@ class BioExplorer:
         if add_rna_sequence:
             params = Vector2(shape_params.x * 0.55, 0.5)
             rna_sequence = RNASequence(
-                source=rna_folder + 'sars-cov-2.rna',
-                protein_source=pdb_folder + '7bv1.pdb',
+                source=os.path.join(rna_folder, "sars-cov-2.rna"),
+                protein_source=os.path.join(pdb_folder, "7bv1.pdb"),
                 shape=self.RNA_SHAPE_TREFOIL_KNOT,
                 shape_params=params,
                 values_range=Vector2(-8.0 * math.pi, 8.0 * math.pi),
@@ -655,21 +656,23 @@ class BioExplorer:
             if representation == BioExplorer.REPRESENTATION_MESH:
                 glycan_representation = BioExplorer.REPRESENTATION_ATOMS_AND_STICKS
 
+            complex_folder = os.path.join(glycan_folder, "complex")
             complex_paths = [
-                glycan_folder + "complex/5.pdb",
-                glycan_folder + "complex/15.pdb",
-                glycan_folder + "complex/25.pdb",
-                glycan_folder + "complex/35.pdb",
+                os.path.join(complex_folder, "5.pdb"),
+                os.path.join(complex_folder, "15.pdb"),
+                os.path.join(complex_folder, "25.pdb"),
+                os.path.join(complex_folder, "35.pdb"),
             ]
 
+            high_mannose_folder = os.path.join(glycan_folder, "high-mannose")
             high_mannose_paths = [
-                glycan_folder + "high-mannose/1.pdb",
-                glycan_folder + "high-mannose/2.pdb",
-                glycan_folder + "high-mannose/3.pdb",
-                glycan_folder + "high-mannose/4.pdb",
+                os.path.join(high_mannose_folder, "1.pdb"),
+                os.path.join(high_mannose_folder, "2.pdb"),
+                os.path.join(high_mannose_folder, "3.pdb"),
+                os.path.join(high_mannose_folder, "4.pdb"),
             ]
 
-            o_glycan_paths = [glycan_folder + "o-glycan/12.pdb"]
+            o_glycan_paths = [os.path.join(glycan_folder, "o-glycan", "12.pdb")]
 
             # High-mannose
             indices_closed = [61, 122, 234, 603, 709, 717, 801, 1074]
@@ -816,14 +819,14 @@ class BioExplorer:
         )
 
         for protein in cell.proteins:
-            if protein.occurences != 0:
+            if protein.occurrences != 0:
                 _protein = AssemblyProtein(
                     assembly_name=cell.name,
                     name=protein.name,
                     source=protein.source,
                     load_non_polymer_chemicals=protein.
                     load_non_polymer_chemicals,
-                    occurrences=protein.occurences,
+                    occurrences=protein.occurrences,
                     allowed_occurrences=protein.allowed_occurrences,
                     atom_radius_multiplier=atom_radius_multiplier,
                     load_bonds=True,
@@ -869,7 +872,7 @@ class BioExplorer:
             source=volume.protein.source,
             load_non_polymer_chemicals=volume.protein.
             load_non_polymer_chemicals,
-            occurrences=volume.protein.occurences,
+            occurrences=volume.protein.occurrences,
             atom_radius_multiplier=atom_radius_multiplier,
             load_bonds=volume.protein.load_bonds,
             load_hydrogen=volume.protein.load_hydrogen,
@@ -1974,18 +1977,27 @@ class BioExplorer:
                 )
 
     def set_material_colors_from_id(self, model_id):
+        """
+        Set material color according to material id.
+        
+        The id of the model represents a 16bit RGB value for which the corresponding color is set
+
+        :model_id: Id of the model
+        """
+        if self._client is None:
+            return
+
         material_ids = self.get_material_ids(model_id)['ids']
         palette = list()
         for material_id in material_ids:
             r = (material_id >> 16) & 255
             g = (material_id >> 8) & 255
-            b =  material_id & 255
+            b = material_id & 255
             palette.append([r / 255.0, g / 255.0, b / 255.0])
         return self.set_materials(
             [model_id], material_ids,
             diffuse_colors=palette,
             specular_colors=palette)
-                    
 
     def go_magnetic(
             self, colormap_filename=None, colormap_range=[0, 0.008], voxel_size=0.01,
@@ -1999,6 +2011,9 @@ class BioExplorer:
         :voxel_size: Density of atoms to consider (between 0 and 1)
         :samples_per_pixel: Samples per pixel
         """
+        if self._client is None:
+            return
+
         # Rendering settings
         self._client.set_renderer(
             current='bio_explorer_fields',
@@ -2306,7 +2321,7 @@ class BioExplorer:
         assert isinstance(mesh_position, Vector3)
         assert isinstance(mesh_rotation, Quaternion)
         assert isinstance(mesh_scale, Vector3)
-        
+
         params = dict()
         params["assemblyName"] = assembly_name
         params["loadCells"] = load_cells
@@ -2424,7 +2439,8 @@ class BioExplorer:
 
         :assembly_name: Name of the assembly to which the astrocytes should be added
         :population_name: Name of the population of astrocytes
-        :vasculature_population_name: Name of the vasculature population. Automatically load end-feet if not empty
+        :vasculature_population_name: Name of the vasculature population. Automatically load
+                                      end-feet if not empty
         :load_somas: Load somas if set to true
         :load_dendrites: Load dendrites if set to true
         :generate_internals: Generate internals (Nucleus and mitochondria)
@@ -2603,7 +2619,9 @@ class BioExplorer:
 
     def look_at(self, source, target):
         """
-        Computes a quaternion to make a object rotate in the direction of a vector
+        Computes quaternion from given direction
+        
+        Generate a quaternion to make a object rotate in the direction of a vector
         defined by two 3D points, a source and a target
 
         :source: Source 3d point
@@ -2647,11 +2665,11 @@ class AssemblyProtein:
         :load_hydrogen: Loads hydrogens if True
         :chain_ids: IDs of the protein chains to be loaded
         :recenter: Centers the protein if True
-        :occurences: Number of occurences to be added to the assembly
+        :occurrences: Number of occurrences to be added to the assembly
         :animation_params: Seed for position randomization
         :position: Relative position of the protein in the assembly
         :rotation: Relative rotation of the protein in the assembly
-        :allowed_occurrences: Indices of protein occurences in the assembly for
+        :allowed_occurrences: Indices of protein occurrences in the assembly for
                                     which proteins are added
         :constraints: List of assemblies that constraint the placememnt of the proteins
         """
@@ -2867,7 +2885,7 @@ class Volume:
 class Protein:
     """A Protein holds the 3D structure of a protein as well as it Amino Acid sequences"""
 
-    def __init__(self, name, source, occurences=1, load_bonds=False,
+    def __init__(self, name, source, occurrences=1, load_bonds=False,
                  load_hydrogen=False, load_non_polymer_chemicals=False, position=Vector3(),
                  rotation=Quaternion(), allowed_occurrences=list(), chain_ids=list(),
                  transmembrane_params=Vector2(), animation_params=AnimationParams()):
@@ -2875,14 +2893,15 @@ class Protein:
         Protein descriptor
 
         :source: Full path to the protein PDB file
-        :occurences: Number of occurences to be added to the assembly
+        :occurrences: Number of occurrences to be added to the assembly
         :load_bonds: Loads bonds if True
         :load_hydrogen: Loads hydrogens if True
         :load_non_polymer_chemicals: Loads non-polymer chemicals if True
         :position: Position of the mesh in the scene
         :rotation: Rotation of the mesh in the scene
-        :allowed_occurrences: Specific occurances for which an instance is added to the assembly
+        :allowed_occurrences: Specific occurrences for which an instance is added to the assembly
         """
+        assert isinstance(occurrences, int)
         assert isinstance(position, Vector3)
         assert isinstance(rotation, Quaternion)
         assert isinstance(transmembrane_params, Vector2)
@@ -2892,7 +2911,7 @@ class Protein:
         self.name = name
         self.pdb_id = os.path.splitext(os.path.basename(source))[0].lower()
         self.source = source
-        self.occurences = occurences
+        self.occurrences = occurrences
         self.load_bonds = load_bonds
         self.load_hydrogen = load_hydrogen
         self.load_non_polymer_chemicals = load_non_polymer_chemicals
