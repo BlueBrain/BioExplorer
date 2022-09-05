@@ -28,7 +28,7 @@ from pyquaternion import Quaternion
 
 import seaborn as sns
 
-from brayns import Client
+from .core.client import Client
 from .transfer_function import TransferFunction
 from .version import VERSION as __version__
 
