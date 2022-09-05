@@ -28,11 +28,15 @@ create table if not exists vasculature.node
     section_guid    integer default 0 not null,
     sub_graph_guid  integer default 0 not null,
     pair_guid       integer default 0 not null,
-    entry_node_guid integer default 0 not null
+    entry_node_guid integer default 0 not null,
+    region_guid     integer default 0 not null
 );
 
 create index if not exists node_section_guid_index
     on vasculature.node (section_guid);
+
+create index if not exists node_region_guid_index
+    on vasculature.node (region_guid);
 
 create table if not exists vasculature.simulation_report
 (

@@ -225,7 +225,7 @@ GeometryNodes DBConnector::getVasculatureNodes(
     {
         std::string sql =
             "SELECT guid, x, y, z, radius, section_guid, sub_graph_guid, "
-            "pair_guid, entry_node_guid FROM " +
+            "pair_guid, entry_node_guid, region_guid FROM " +
             populationName + ".node";
         if (!filter.empty())
             sql += " WHERE " + filter;
@@ -252,6 +252,7 @@ GeometryNodes DBConnector::getVasculatureNodes(
             node.graphId = c[6].as<uint64_t>();
             node.pairId = c[7].as<uint64_t>();
             node.entryNodeId = c[8].as<uint64_t>();
+            node.regionId = c[9].as<uint64_t>();
             nodes[guid] = node;
         }
     }

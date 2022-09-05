@@ -287,6 +287,9 @@ void Vasculature::_buildModel(const doubles& radii)
                 materialId = 256 * ((srcNode.radius - radiusRange.x) /
                                     (radiusRange.y - radiusRange.x));
                 break;
+            case VasculatureColorScheme::region:
+                materialId = dstNode.regionId;
+                break;
             }
 
             switch (_details.representation)
