@@ -50,6 +50,10 @@ void Morphologies::_addSomaInternals(ThreadSafeContainer& container,
                                      const double mitochondriaDensity)
 {
     // Nucleus
+    //
+    // Reference: Age and sex do not affect the volume, cell numbers, or cell
+    // size of the suprachiasmatic nucleus of the rat: An unbiased stereological
+    // study (https://doi.org/10.1002/cne.903610404)
     const double nucleusRadius =
         somaRadius * 0.7; // 70% of the volume of the soma;
 

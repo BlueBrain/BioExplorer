@@ -147,6 +147,9 @@ An [example dataset](https://zenodo.org/record/6906785#.Ywym7tVBxH6) is availabl
 
 References:
 * [A Model of Rat Non-barrel Somatosensory Cortex Anatomy](https://www.biorxiv.org/content/10.1101/2022.08.11.503144v1)
+* [A simplified morphological classification scheme for pyramidal cells in six layers of primary somatosensory cortex of juvenile rats](https://www.sciencedirect.com/science/article/pii/S2451830118300293)
+* [Age and sex do not affect the volume, cell numbers, or cell size of the suprachiasmatic nucleus of the rat: An unbiased stereological](https://doi.org/10.1002/cne.903610404)
+
 
 ### Astrocytes
 
@@ -241,7 +244,7 @@ Neuromodulation of neocortical microcircuits is one of the most fascinating and 
 
 References:
 * [Neuromodulation of neocortical microcircuitry: a multi-scale framework to model the effects of cholinergic release](https://infoscience.epfl.ch/record/294819)
-
+* [The cholinergic innervation develops early and rapidly in the rat cerebral cortex: a quantitative immunocytochemical study](https://www.sciencedirect.com/science/article/abs/pii/S030645220100389X)
 
 ## Python SDK
 

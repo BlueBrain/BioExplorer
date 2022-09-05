@@ -49,6 +49,9 @@ const double DEFAULT_ARROW_RADIUS_RATIO = 10.0;
 const Vector2d DEFAULT_SIMULATION_VALUE_RANGE = {-80.0, -10.0};
 
 // Mitochondria density per layer
+// Source: A simplified morphological classification scheme for pyramidal cells
+// in six layers of primary somatosensory cortex of juvenile rats
+// https://www.sciencedirect.com/science/article/pii/S2451830118300293)
 const doubles MITOCHONDRIA_DENSITY = {0.0459, 0.0522, 0.064,
                                       0.0774, 0.0575, 0.0403};
 
@@ -360,9 +363,11 @@ void Neurons::_buildMorphology(ThreadSafeContainer& container,
         _addSpines(container, neuronIndex, somaPosition, somaRadius,
                    baseMaterialId);
 }
-
 void Neurons::_addVaricosity(Vector4fs& points)
 {
+    // Reference: The cholinergic innervation develops early and rapidly in the
+    // rat cerebral cortex: a quantitative immunocytochemical study
+    // https://www.sciencedirect.com/science/article/abs/pii/S030645220100389X
     const uint64_t middlePointIndex = points.size() / 2;
     const auto& startPoint = points[middlePointIndex];
     const auto& endPoint = points[middlePointIndex + 1];
