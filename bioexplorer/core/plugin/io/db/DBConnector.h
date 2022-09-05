@@ -77,6 +77,13 @@ public:
     size_t getNbConnections() const { return _dbNbConnections; }
 
     /**
+     * @brief Get the maximum number of records returned by a DB query
+     *
+     * @return size_t The maximum number of records returned by a DB query
+     */
+    size_t getBatchSize() const { return _dbBatchSize; }
+
+    /**
      * @brief Remove all bricks from the PostgreSQL database
      *
      */
@@ -136,14 +143,14 @@ public:
                                      const std::string& filter = "");
 
     /**
-     * @brief Get the number of sections for a given population
+     * @brief Get the total number of sections for a given population
      *
      * @param populationName Name of the population
      * @param filter SQL condition
-     * @return Number of sections, total number of sections
+     * @return Total number of sections
      */
-    Vector2ui getVasculatureNbSections(const std::string& populationName,
-                                       const std::string& filter = "");
+    uint64_t getVasculatureNbSections(const std::string& populationName,
+                                      const std::string& filter = "");
 
     /**
      * @brief Get the Vasculature radius range
@@ -372,6 +379,7 @@ private:
     ~DBConnector();
 
     size_t _dbNbConnections{DEFAULT_DB_NB_CONNECTIONS};
+    size_t _dbBatchSize{DEFAULT_BATCH_SIZE};
 
     std::string _connectionString;
 
