@@ -2,7 +2,7 @@
 # scientific data from visualization
 #
 # Copyright 2020-2022 Blue BrainProject / EPFL
-# 
+#
 # This program is free software: you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free Software
 # Foundation, either version 3 of the License, or (at your option) any later
@@ -34,6 +34,7 @@ list(APPEND CMAKE_MODULE_PATH ${BIOEXPLORER_SOURCE_DIR}/CMake)
 set(${NAME}_MODULES_DIR ${PROJECT_SOURCE_DIR})
 
 find_package(TIFF REQUIRED SYSTEM)
+find_package(exiv2 REQUIRED SYSTEM)
 
 include(ispc)
 
@@ -91,7 +92,7 @@ include_directories(
 )
 
 set(${NAME}_LINK_LIBRARIES
-    PUBLIC ${OSPRAY_LIBRARIES} ${TIFF_LIBRARIES}
+    PUBLIC ${OSPRAY_LIBRARIES} ${TIFF_LIBRARIES} exiv2
     PRIVATE braynsParameters braynsPluginAPI braynsCommon braynsEngine braynsIO braynsOSPRayEngine
 )
 

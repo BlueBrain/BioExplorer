@@ -193,7 +193,7 @@ class MovieMaker:
     def export_frames(self, size, path, base_name, image_format='png',
                       animation_frames=list(), quality=100, samples_per_pixel=1, start_frame=0,
                       end_frame=0, interpupillary_distance=0.0, export_intermediate_frames=False,
-                      frame_buffer_mode=FRAME_BUFFER_MODE_COLOR):
+                      frame_buffer_mode=FRAME_BUFFER_MODE_COLOR, keywords=list()):
         """
         Exports frames to disk. Frames are named using a 6 digit representation of the frame number
 
@@ -220,7 +220,6 @@ class MovieMaker:
         assert start_frame <= end_frame
         assert end_frame <= nb_frames
 
-        self._client.set_application_parameters(viewport=size)
         self._client.set_renderer(
             accumulation=True, samples_per_pixel=1, max_accum_frames=samples_per_pixel + 1,
             subsampling=1)
@@ -229,10 +228,18 @@ class MovieMaker:
         for i in range(start_frame, end_frame):
             camera_definitions.append(self.get_key_frame(i))
 
+        assert isinstance(keywords, list)
+        keywords_as_string = ''
+        for keyword in keywords:
+            if keywords_as_string != '':
+                keywords_as_string += ','
+            keywords_as_string += keyword
+
         params = dict()
         params['path'] = path
         params['baseName'] = base_name
         params['format'] = image_format
+        params['size'] = size
         params['quality'] = quality
         params['spp'] = samples_per_pixel
         params['startFrame'] = start_frame
@@ -240,6 +247,7 @@ class MovieMaker:
         params['exportIntermediateFrames'] = export_intermediate_frames
         params['animationInformation'] = animation_frames
         params['frameBufferMode'] = frame_buffer_mode
+        params['keywords'] = keywords_as_string
         values = list()
         for camera_definition in camera_definitions:
             # Origin
@@ -285,6 +293,7 @@ class MovieMaker:
         params['path'] = '/tmp'
         params['baseName'] = ''
         params['format'] = 'png'
+        params['size'] = [64, 64]
         params['quality'] = 100
         params['spp'] = 1
         params['startFrame'] = 0
@@ -293,6 +302,7 @@ class MovieMaker:
         params['animationInformation'] = []
         params['cameraInformation'] = []
         params['frameBufferMode'] = MovieMaker.FRAME_BUFFER_MODE_COLOR
+        params['keywords'] = ''
         return self._client.rockets_client.request(
             self.PLUGIN_API_PREFIX + 'export-frames-to-disk', params)
 
@@ -365,7 +375,8 @@ class MovieMaker:
 
     def create_snapshot(
             self, renderer, size, path, base_name, samples_per_pixel,
-            export_intermediate_frames=False, gi_length=1e6, show_progress=False):
+            export_intermediate_frames=False, gi_length=1e6, show_progress=False,
+            keywords=list()):
         """
         Create a snapshot of the current frame
 
@@ -377,6 +388,7 @@ class MovieMaker:
         :export_intermediate_frames: If True, intermediate samples are stored to disk. Otherwise,
         only the final accumulation is exported
         gi_length (float, optional): Max length of global illumination rays. Defaults to 5.0.
+        :keywords: List of keywords that will be added to the Xmp.dc.Subject tag
         """
         assert isinstance(size, list)
         assert isinstance(samples_per_pixel, int)
@@ -414,7 +426,7 @@ class MovieMaker:
             path=path, base_name=base_name, animation_frames=animation_frames, size=size,
             samples_per_pixel=spp,
             export_intermediate_frames=export_intermediate_frames,
-            frame_buffer_mode=frame_buffer_mode)
+            frame_buffer_mode=frame_buffer_mode, keywords=keywords)
 
         done = False
         while not done:
