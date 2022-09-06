@@ -72,6 +72,8 @@ void DBConnector::init(const CommandLineArguments& arguments)
             dbName = argument.second;
         if (argument.first == ARG_DB_NB_CONNECTIONS)
             _dbNbConnections = std::stoi(argument.second.c_str());
+        if (argument.first == ARG_DB_BATCH_SIZE)
+            _dbBatchSize = std::stoi(argument.second.c_str());
     }
 
     _connectionString = "host=" + dbHost + " port=" + dbPort +
@@ -218,26 +220,20 @@ GeometryNodes DBConnector::getVasculatureNodes(
 {
     CHECK_DB_INITIALIZATION
     GeometryNodes nodes;
-    const auto connection =
-        _connections[omp_get_thread_num() % _dbNbConnections];
+    const auto threadNum = omp_get_thread_num();
+    const auto connection = _connections[threadNum % _dbNbConnections];
     pqxx::nontransaction transaction(*connection);
     try
     {
         std::string sql =
             "SELECT guid, x, y, z, radius, section_guid, sub_graph_guid, "
             "pair_guid, entry_node_guid, region_guid FROM " +
-            populationName + ".node";
+            populationName + ".node WHERE region_guid IS NOT NULL";
         if (!filter.empty())
-            sql += " WHERE " + filter;
+            sql += " AND " + filter;
         if (!limits.empty())
-        {
-            if (filter.empty())
-                sql += " WHERE ";
-            else
-                sql += " AND ";
-            sql += limits;
-        }
-        sql += " ORDER BY guid ";
+            sql += " AND " + limits;
+        sql += " ORDER BY section_guid, guid";
 
         PLUGIN_DEBUG(sql);
         auto res = transaction.exec(sql);
@@ -273,11 +269,12 @@ uint64_ts DBConnector::getVasculatureSections(const std::string& populationName,
     pqxx::nontransaction transaction(*connection);
     try
     {
-        std::string sql =
-            "SELECT distinct(section_guid) FROM " + populationName + ".node";
+        std::string sql = "SELECT distinct(section_guid) FROM " +
+                          populationName +
+                          ".node WHERE region_guid IS NOT NULL";
 
         if (!filter.empty())
-            sql += " WHERE " + filter;
+            sql += " AND " + filter;
 
         PLUGIN_DEBUG(sql);
         const pqxx::result res = transaction.exec(sql);
@@ -292,11 +289,11 @@ uint64_ts DBConnector::getVasculatureSections(const std::string& populationName,
     return sectionIds;
 }
 
-Vector2ui DBConnector::getVasculatureNbSections(
+uint64_t DBConnector::getVasculatureNbSections(
     const std::string& populationName, const std::string& filter)
 {
     CHECK_DB_INITIALIZATION
-    Vector2ui nbSections;
+    uint64_t nbSections;
     auto connection = _connections[omp_get_thread_num() % _dbNbConnections];
     pqxx::nontransaction transaction(*connection);
     try
@@ -305,22 +302,7 @@ Vector2ui DBConnector::getVasculatureNbSections(
                                 ".metadata WHERE name='nb_sections'";
         const pqxx::result res = transaction.exec(sql);
         for (auto c = res.begin(); c != res.end(); ++c)
-        {
-            nbSections.x = c[0].as<uint64_t>();
-            nbSections.y = c[0].as<uint64_t>();
-        }
-
-        if (!filter.empty())
-        {
-            const std::string sql =
-                "SELECT count(distinct(section_guid)), min(section_guid), "
-                "max(section_guid) FROM " +
-                populationName + ".node WHERE " + filter;
-            PLUGIN_DEBUG("Executing statement: " << sql);
-            const pqxx::result res = transaction.exec(sql);
-            for (auto c = res.begin(); c != res.end(); ++c)
-                nbSections.x = c[0].as<uint64_t>();
-        }
+            nbSections = c[0].as<uint64_t>();
     }
     catch (const pqxx::sql_error& e)
     {

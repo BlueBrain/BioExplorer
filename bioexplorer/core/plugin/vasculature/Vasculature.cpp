@@ -40,9 +40,6 @@ using namespace common;
 using namespace io;
 using namespace db;
 
-const uint64_t MAX_BATCH_SIZE =
-    1000; // Max number of records returned by a batch query
-
 Vasculature::Vasculature(Scene& scene, const VasculatureDetails& details)
     : SDFGeometries(details.radiusMultiplier == 0 ? 1.0
                                                   : details.radiusMultiplier,
@@ -208,16 +205,15 @@ void Vasculature::_buildModel(const doubles& radii)
     PLUGIN_INFO(1, "Identifying sections...");
     const auto nbDBConnections = DBConnector::getInstance().getNbConnections();
 
-    const auto nbSections = DBConnector::getInstance().getVasculatureNbSections(
+    _nbSections = DBConnector::getInstance().getVasculatureNbSections(
         _details.populationName, _details.sqlFilter);
-    _nbSections = nbSections.x;
-    const uint64_t nbMaxSections = nbSections.y;
 
-    const auto nbQueries = nbMaxSections / MAX_BATCH_SIZE + 1;
-    PLUGIN_INFO(1, "Number of sections="
-                       << _nbSections << ", DB connections=" << nbDBConnections
-                       << ", DB queries=" << nbQueries
-                       << ", DB batch size=" << MAX_BATCH_SIZE);
+    const auto dbBatchSize = DBConnector::getInstance().getBatchSize();
+
+    const auto nbQueries = _nbSections / dbBatchSize + 1;
+    PLUGIN_INFO(1, ", DB connections=" << nbDBConnections
+                                       << ", DB queries=" << nbQueries
+                                       << ", DB batch size=" << dbBatchSize);
 
     Vector2d radiusRange;
     if (_details.colorScheme == VasculatureColorScheme::radius)
@@ -229,10 +225,10 @@ void Vasculature::_buildModel(const doubles& radii)
 #pragma omp parallel for num_threads(nbDBConnections)
     for (index = 0; index < nbQueries; ++index)
     {
-        const auto offset = index * MAX_BATCH_SIZE;
+        const auto offset = index * dbBatchSize;
         const std::string limits = "section_guid>=" + std::to_string(offset) +
                                    " AND section_guid<" +
-                                   std::to_string(offset + MAX_BATCH_SIZE);
+                                   std::to_string(offset + dbBatchSize);
 
         const auto filter = _details.sqlFilter;
         const auto nodes = DBConnector::getInstance().getVasculatureNodes(
@@ -244,7 +240,6 @@ void Vasculature::_buildModel(const doubles& radii)
         ThreadSafeContainer container(*model, useSdf,
                                       doublesToVector3d(_details.scale));
 
-        uint64_t nbLoadedSections = 0;
         auto iter = nodes.begin();
         do
         {
@@ -306,16 +301,12 @@ void Vasculature::_buildModel(const doubles& radii)
                                     radiusRange);
                 break;
             }
-            ++nbLoadedSections;
         } while (iter != nodes.end());
 
-        if (omp_get_thread_num() == 0)
-            PLUGIN_PROGRESS("Loading " << progress << "/" << _nbSections
-                                       << " sections",
-                            progress, _nbSections);
+        PLUGIN_PROGRESS("Loading nodes", progress, nbQueries);
 
 #pragma omp critical
-        progress += nbLoadedSections;
+        ++progress;
 
 #pragma omp critical
         containers.push_back(container);
@@ -340,10 +331,6 @@ void Vasculature::_buildModel(const doubles& radii)
     _modelDescriptor.reset(new brayns::ModelDescriptor(std::move(model),
                                                        _details.assemblyName,
                                                        metadata));
-    if (progress != _nbSections)
-        PLUGIN_THROW("Vasculature model could not load all sections " +
-                     std::to_string(progress) + " out of " +
-                     std::to_string(_nbSections));
 
     if (_modelDescriptor)
         _scene.addModel(_modelDescriptor);

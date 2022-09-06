@@ -24,15 +24,14 @@ WORKDIR /app
 ADD . /app/BioExplorer
 
 RUN apt-get update && \
-    apt-get install -y --no-install-recommends python3 python3-pip python3-setuptools python3-matplotlib && \
+    apt-get install -y --no-install-recommends python3 python3-pip python3-setuptools python3-matplotlib libpq-dev && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
 
 RUN cd /app/BioExplorer && \
-    python3 -m pip install pip==9.0.2 && \
-    python3 -m pip install brayns==1.0.0 && \
     python3 -m pip install --upgrade pip && \
+    python3 -m pip install wheel && \
     python3 -m pip install -r requirements.txt && \
     python3 -m pip install nglview && \
     python3 -m pip install -e . && \

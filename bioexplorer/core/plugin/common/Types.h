@@ -56,7 +56,10 @@ const std::string ARG_DB_NAME = "--db-name";
 const std::string ARG_DB_USER = "--db-user";
 const std::string ARG_DB_PASSWORD = "--db-password";
 const std::string ARG_DB_NB_CONNECTIONS = "--db-nb-connections";
+const std::string ARG_DB_BATCH_SIZE = "--db-batch-size";
 const size_t DEFAULT_DB_NB_CONNECTIONS = 8;
+const size_t DEFAULT_BATCH_SIZE =
+    1000; // Max number of records returned by a batch query
 
 // - Out-of-core
 const std::string ARG_OOC_ENABLED = "--ooc-enabled";
