@@ -44,11 +44,14 @@ RUN apt-get update \
    libturbojpeg0-dev \
    libuv1-dev \
    libpqxx-dev \
+   libssl-dev \
+   libcgal-dev \
+   libexiv2-dev \
+   libtiff-dev \
    pkg-config \
    wget \
    ca-certificates \
-   libcgal-dev \
-   libtiff-dev \
+   exiv2 \
    && apt-get clean \
    && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
@@ -116,7 +119,7 @@ RUN mkdir -p ${LWS_SRC} \
    && cmake .. -GNinja \
    -DCMAKE_BUILD_TYPE=Release \
    -DLWS_STATIC_PIC=ON \
-   -DLWS_WITH_SSL=OFF \
+   -DLWS_WITH_SSL=ON \
    -DLWS_WITH_ZLIB=OFF \
    -DLWS_WITH_ZIP_FOPS=OFF \
    -DLWS_WITHOUT_EXTENSIONS=ON \
@@ -170,12 +173,13 @@ RUN cd ${BIOEXPLORER_SRC} \
    && rm -rf ${BIOEXPLORER_SRC}/bioexplorer_build \
    && mkdir -p ${BIOEXPLORER_SRC}/bioexplorer_build \
    && cd ${BIOEXPLORER_SRC}/bioexplorer_build \
-   && PATH=${ISPC_PATH}/bin:${PATH} CMAKE_PREFIX_PATH=${DIST_PATH} \
+   && PATH=${ISPC_PATH}/bin:${PATH} \
+   PKG_CONFIG_PATH=/usr/lib/x86_64-linux-gnu/pkgconfig \
+   CMAKE_PREFIX_PATH=${DIST_PATH} \
    LDFLAGS="-lCGAL" \
    cmake .. -GNinja \
    -DBIOEXPLORER_UNIT_TESTING_ENABLED=OFF \
    -DBIOEXPLORER_USE_CGAL=ON \
-   -DCGAL_DO_NOT_WARN_ABOUT_CMAKE_BUILD_TYPE=TRUE \
    -DCMAKE_INSTALL_PREFIX=${DIST_PATH} \
    -DCMAKE_BUILD_TYPE=Release \
    && ninja install \
@@ -202,6 +206,8 @@ RUN apt-get update \
    libuv1 \
    libcgal13 \
    libpqxx-6.2 \
+   libtiff5 \
+   exiv2 \
    && apt-get clean \
    && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 

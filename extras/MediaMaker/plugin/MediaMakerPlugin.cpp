@@ -33,6 +33,8 @@
 
 #include <tiffio.h>
 
+#include <exiv2/exiv2.hpp>
+
 namespace bioexplorer
 {
 namespace mediamaker
@@ -102,9 +104,8 @@ void MediaMakerPlugin::init()
     {
         std::string entryPoint = PLUGIN_API_PREFIX + "version";
         PLUGIN_INFO("Registering '" + entryPoint + "' endpoint");
-        actionInterface->registerRequest<Response>(entryPoint, [&]() {
-            return _version();
-        });
+        actionInterface->registerRequest<Response>(entryPoint, [&]()
+                                                   { return _version(); });
 
         entryPoint = PLUGIN_API_PREFIX + "set-odu-camera";
         PLUGIN_INFO("Registering '" + entryPoint + "' endpoint");
@@ -125,9 +126,9 @@ void MediaMakerPlugin::init()
         entryPoint = PLUGIN_API_PREFIX + "get-export-frames-progress";
         PLUGIN_INFO("Registering '" + entryPoint + "' endpoint");
         actionInterface->registerRequest<FrameExportProgress>(
-            entryPoint, [&](void) -> FrameExportProgress {
-                return _getFrameExportProgress();
-            });
+            entryPoint,
+            [&](void) -> FrameExportProgress
+            { return _getFrameExportProgress(); });
     }
 
     _addDepthRenderer(engine);
@@ -292,6 +293,16 @@ void MediaMakerPlugin::_exportColorBuffer() const
     file.close();
     frameBuffer.clear();
 
+    Exiv2::Image::AutoPtr finalImage = Exiv2::ImageFactory::open(filename);
+    if (finalImage.get())
+    {
+        Exiv2::XmpData xmpData;
+        xmpData["Xmp.dc.Source"] = "Blue Brain BioExplorer";
+        xmpData["Xmp.dc.Subject"] = _exportFramesToDiskPayload.keywords;
+        finalImage->setXmpData(xmpData);
+        finalImage->writeMetadata();
+    }
+
     PLUGIN_INFO("Color frame saved to " + filename);
 }
 
@@ -354,9 +365,17 @@ void MediaMakerPlugin::_exportFramesToDisk(const ExportFramesToDisk &payload)
     _frameNumber = payload.startFrame;
     _accumulationFrameNumber = 0;
     _baseName = payload.baseName;
+
     auto &frameBuffer = _api->getEngine().getFrameBuffer();
-    const auto size = frameBuffer.getSize();
+    const auto size = Vector2ui(payload.size[0], payload.size[1]);
+    frameBuffer.resize(size);
     frameBuffer.clear();
+
+    auto &camera = _api->getCamera();
+    if (camera.hasProperty("aspect"))
+        camera.updateProperty("aspect", static_cast<double>(size.x) /
+                                            static_cast<double>(size.y));
+    camera.commit();
     const size_t nbFrames = _exportFramesToDiskPayload.endFrame -
                             _exportFramesToDiskPayload.startFrame;
     PLUGIN_INFO(

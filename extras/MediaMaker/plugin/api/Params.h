@@ -58,6 +58,7 @@ struct ExportFramesToDisk
     std::string path;
     std::string baseName;
     std::string format;
+    std::vector<double> size;
     uint16_t quality{100};
     uint16_t spp{0};
     uint16_t startFrame{0};
@@ -66,6 +67,7 @@ struct ExportFramesToDisk
     uint64_ts animationInformation;
     doubles cameraInformation;
     FrameBufferMode frameBufferMode{FrameBufferMode::color};
+    std::string keywords;
 };
 bool from_json(ExportFramesToDisk &param, const std::string &payload);
 
