@@ -22,6 +22,7 @@
 
 #include <plugin/common/CommonTypes.h>
 #include <plugin/common/UniqueId.h>
+#include <plugin/common/Utils.h>
 
 #include <brayns/engineapi/Material.h>
 #include <brayns/engineapi/Model.h>
@@ -30,6 +31,7 @@ namespace bioexplorer
 {
 namespace common
 {
+
 SDFGeometries::SDFGeometries(const double radiusMultiplier,
                              const Vector3d& scale)
     : Node(scale)
@@ -63,5 +65,21 @@ void SDFGeometries::addSDFDemo(Model& model)
 
     modelContainer.commitToModel();
 }
+
+Vector3d SDFGeometries::_animatedPosition(const Vector4d& position,
+                                          const uint64_t index) const
+{
+    const auto seed =
+        _animationDetails.positionSeed + _animationDetails.rotationSeed * index;
+    const auto strength = _animationDetails.positionStrength;
+    const auto amplitude = _animationDetails.rotationStrength * position.w;
+    if (seed == 0)
+        return Vector3d(position);
+    return Vector3d(position.x + strength * rnd3(seed + position.x * amplitude),
+                    position.y + strength * rnd3(seed + position.y * amplitude),
+                    position.z +
+                        strength * rnd3(seed + position.z * amplitude));
+}
+
 } // namespace common
 } // namespace bioexplorer

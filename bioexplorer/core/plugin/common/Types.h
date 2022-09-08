@@ -961,6 +961,8 @@ typedef struct
     std::string sqlFilter;
     /** Scale of the vasculature in the scene */
     doubles scale{1.0, 1.0, 1.0};
+    /** Extra optional parameters for neuron animation */
+    doubles animationParams;
 } VasculatureDetails;
 
 typedef struct

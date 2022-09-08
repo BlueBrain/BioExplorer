@@ -383,9 +383,8 @@ void Protein::_processInstances(ModelDescriptorPtr md,
 
             if (randInfo.rotationSeed != 0)
                 rotation =
-                    Shape::weightedRandomRotation(rotation,
-                                                  randInfo.rotationSeed, i,
-                                                  randInfo.rotationStrength);
+                    weightedRandomRotation(rotation, randInfo.rotationSeed, i,
+                                           randInfo.rotationStrength);
 
             glycanTransformation.setRotation(moleculerotation * rotation);
 

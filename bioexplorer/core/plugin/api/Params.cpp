@@ -794,6 +794,7 @@ bool from_json(VasculatureDetails &param, const std::string &payload)
         FROM_JSON(param, js, radiusMultiplier);
         FROM_JSON(param, js, sqlFilter);
         FROM_JSON(param, js, scale);
+        FROM_JSON(param, js, animationParams);
     }
     catch (...)
     {

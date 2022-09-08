@@ -109,18 +109,17 @@ private:
                     const size_t baseMaterialId);
 
     void _addSectionInternals(
-        ThreadSafeContainer& container, const Vector3d& somaPosition,
-        const Quaterniond& somaRotation, const double sectionLength,
-        const double sectionVolume, const Vector4fs& points,
-        const double mitochondriaDensity, const size_t baseMaterialId);
+        ThreadSafeContainer& container, const uint64_t neuronId,
+        const Vector3d& somaPosition, const Quaterniond& somaRotation,
+        const double sectionLength, const double sectionVolume,
+        const Vector4fs& points, const double mitochondriaDensity,
+        const size_t baseMaterialId);
 
-    void _addAxonMyelinSheath(ThreadSafeContainer& container,
-                              const Vector3d& somaPosition,
-                              const Quaterniond& somaRotation,
-                              const double sectionLength,
-                              const Vector4fs& points,
-                              const double mitochondriaDensity,
-                              const size_t materialId);
+    void _addAxonMyelinSheath(
+        ThreadSafeContainer& container, const uint64_t neuronId,
+        const Vector3d& somaPosition, const Quaterniond& somaRotation,
+        const double sectionLength, const Vector4fs& points,
+        const double mitochondriaDensity, const size_t materialId);
 
     void _addVaricosity(Vector4fs& points);
 

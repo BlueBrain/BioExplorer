@@ -2340,7 +2340,9 @@ class BioExplorer:
             self, assembly_name, population_name, color_scheme=VASCULATURE_COLOR_SCHEME_NONE,
             use_sdf=False, section_gids=list(),
             load_capilarities=False, representation=VASCULATURE_REPRESENTATION_SEGMENT,
-            radius_multiplier=1.0, sql_filter='', scale=Vector3(1.0, 1.0, 1.0)):
+            radius_multiplier=1.0, sql_filter='',
+            scale=Vector3(1.0, 1.0, 1.0),
+            animation_params=AnimationParams()):
         """
         Add a vasculature to the 3D scene
 
@@ -2353,6 +2355,7 @@ class BioExplorer:
         :radius_muliplier: Applies the multiplier to all radii of the vasculature sections
         :sql_filter: Condition added to the SQL statement loading the vasculature
         :scale: Scale in the 3D scene
+        :animation_params: Extra optional parameters for animation purposes
 
         :return: Result of the request submission
         """
@@ -2370,6 +2373,7 @@ class BioExplorer:
         params["radiusMultiplier"] = radius_multiplier
         params["sqlFilter"] = sql_filter
         params["scale"] = scale.to_list()
+        params["animationParams"] = animation_params.to_list()
         return self._invoke_and_check('add-vasculature', params)
 
     def get_vasculature_info(self, assembly_name):
@@ -2489,7 +2493,8 @@ class BioExplorer:
             population_color_scheme=POPULATION_COLOR_SCHEME_NONE,
             radius_multiplier=1.0, simulation_report_id=-1,
             sql_node_filter='', sql_section_filter='',
-            scale=Vector3(1.0, 1.0, 1.0), animation_params=AnimationParams()):
+            scale=Vector3(1.0, 1.0, 1.0),
+            animation_params=AnimationParams()):
         """
         Add a population of astrocytes to the 3D scene
 
