@@ -160,9 +160,9 @@ public:
     /**
      * @brief Get the protein animation details
      *
-     * @return AnimationDetails Protein animation details
+     * @return MolecularSystemAnimationDetails Protein animation details
      */
-    AnimationDetails getAnimationDetails() const;
+    MolecularSystemAnimationDetails getAnimationDetails() const;
 
 private:
     // Analysis
@@ -178,7 +178,7 @@ private:
     void _processInstances(ModelDescriptorPtr md, const Vector3ds& positions,
                            const Quaternions& rotations,
                            const Quaterniond& proteinrotation,
-                           const AnimationDetails& randInfo);
+                           const MolecularSystemAnimationDetails& randInfo);
     void _buildAminoAcidBounds();
 
     // Class members

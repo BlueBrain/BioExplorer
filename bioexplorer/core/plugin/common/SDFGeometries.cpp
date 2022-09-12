@@ -31,7 +31,6 @@ namespace bioexplorer
 {
 namespace common
 {
-
 SDFGeometries::SDFGeometries(const double radiusMultiplier,
                              const Vector3d& scale)
     : Node(scale)
@@ -69,16 +68,15 @@ void SDFGeometries::addSDFDemo(Model& model)
 Vector3d SDFGeometries::_animatedPosition(const Vector4d& position,
                                           const uint64_t index) const
 {
-    const auto seed =
-        _animationDetails.positionSeed + _animationDetails.rotationSeed * index;
-    const auto strength = _animationDetails.positionStrength;
-    const auto amplitude = _animationDetails.rotationStrength * position.w;
+    const auto seed = _animationDetails.seed + _animationDetails.offset * index;
+    const auto amplitude = _animationDetails.amplitude * position.w;
+    const auto frequency = _animationDetails.frequency;
     if (seed == 0)
         return Vector3d(position);
-    return Vector3d(position.x + strength * rnd3(seed + position.x * amplitude),
-                    position.y + strength * rnd3(seed + position.y * amplitude),
-                    position.z +
-                        strength * rnd3(seed + position.z * amplitude));
+    return Vector3d(
+        position.x + amplitude * rnd3(seed + position.x * frequency),
+        position.y + amplitude * rnd3(seed + position.y * frequency),
+        position.z + amplitude * rnd3(seed + position.z * amplitude));
 }
 
 } // namespace common

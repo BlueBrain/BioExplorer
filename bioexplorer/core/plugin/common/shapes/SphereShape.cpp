@@ -44,36 +44,41 @@ SphereShape::SphereShape(const bool filled, const Vector4ds& clippingPlanes,
 
 Transformation SphereShape::getTransformation(
     const uint64_t occurrence, const uint64_t nbOccurrences,
-    const AnimationDetails& animationDetails, const double offset) const
+    const MolecularSystemAnimationDetails& MolecularSystemAnimationDetails,
+    const double offset) const
 {
     if (_filled)
         return _getFilledSphereTransformation(occurrence, nbOccurrences,
-                                              animationDetails, offset);
+                                              MolecularSystemAnimationDetails,
+                                              offset);
 
-    if (animationDetails.morphingStep == 0.f)
+    if (MolecularSystemAnimationDetails.morphingStep == 0.f)
         return _getEmptySphereTransformation(occurrence, nbOccurrences,
-                                             animationDetails, offset);
+                                             MolecularSystemAnimationDetails,
+                                             offset);
     else
-        return _getEmptySphereMorphedTransformation(occurrence, nbOccurrences,
-                                                    animationDetails, offset);
+        return _getEmptySphereMorphedTransformation(
+            occurrence, nbOccurrences, MolecularSystemAnimationDetails, offset);
 }
 
 Transformation SphereShape::_getEmptySphereTransformation(
     const uint64_t occurrence, const uint64_t nbOccurrences,
-    const AnimationDetails& animationDetails, const double offset) const
+    const MolecularSystemAnimationDetails& MolecularSystemAnimationDetails,
+    const double offset) const
 {
     uint64_t rnd = occurrence;
-    if (nbOccurrences != 0 && animationDetails.seed != 0)
+    if (nbOccurrences != 0 && MolecularSystemAnimationDetails.seed != 0)
         if (GeneralSettings::getInstance()->getV1Compatibility())
             rnd = rand() % nbOccurrences;
         else
             rnd = rand() % std::numeric_limits<uint64_t>::max();
 
     const double radius =
-        _radius + (animationDetails.positionSeed == 0
-                       ? animationDetails.positionStrength
-                       : animationDetails.positionStrength *
-                             rnd3(animationDetails.positionSeed + rnd));
+        _radius +
+        (MolecularSystemAnimationDetails.positionSeed == 0
+             ? MolecularSystemAnimationDetails.positionStrength
+             : MolecularSystemAnimationDetails.positionStrength *
+                   rnd3(MolecularSystemAnimationDetails.positionSeed + rnd));
 
     Vector3d pos;
     Quaterniond rot;
@@ -82,9 +87,10 @@ Transformation SphereShape::_getEmptySphereTransformation(
     if (isClipped(pos, _clippingPlanes))
         throw std::runtime_error("Instance is clipped");
 
-    if (animationDetails.rotationSeed != 0)
-        rot = weightedRandomRotation(rot, animationDetails.rotationSeed, rnd,
-                                     animationDetails.rotationStrength);
+    if (MolecularSystemAnimationDetails.rotationSeed != 0)
+        rot = weightedRandomRotation(
+            rot, MolecularSystemAnimationDetails.rotationSeed, rnd,
+            MolecularSystemAnimationDetails.rotationStrength);
 
     Transformation transformation;
     transformation.setTranslation(pos);
@@ -94,30 +100,32 @@ Transformation SphereShape::_getEmptySphereTransformation(
 
 Transformation SphereShape::_getEmptySphereMorphedTransformation(
     const uint64_t occurrence, const uint64_t nbOccurrences,
-    const AnimationDetails& animationDetails, const double offset) const
+    const MolecularSystemAnimationDetails& MolecularSystemAnimationDetails,
+    const double offset) const
 {
     uint64_t rnd = occurrence;
-    if (nbOccurrences != 0 && animationDetails.seed != 0)
+    if (nbOccurrences != 0 && MolecularSystemAnimationDetails.seed != 0)
         rnd = rand() % nbOccurrences;
 
     const double radius =
-        _radius + (animationDetails.positionSeed == 0
-                       ? animationDetails.positionStrength
-                       : animationDetails.positionStrength *
-                             rnd3(animationDetails.positionSeed + rnd));
+        _radius +
+        (MolecularSystemAnimationDetails.positionSeed == 0
+             ? MolecularSystemAnimationDetails.positionStrength
+             : MolecularSystemAnimationDetails.positionStrength *
+                   rnd3(MolecularSystemAnimationDetails.positionSeed + rnd));
 
     Vector3d startPos;
     Quaterniond startRot;
     const Vector3d startDir = sphereFilling(radius, occurrence, nbOccurrences,
                                             rnd, startPos, startRot, offset);
 
-    if (animationDetails.rotationSeed != 0)
-        startRot =
-            weightedRandomRotation(startRot, animationDetails.rotationSeed, rnd,
-                                   animationDetails.rotationStrength);
+    if (MolecularSystemAnimationDetails.rotationSeed != 0)
+        startRot = weightedRandomRotation(
+            startRot, MolecularSystemAnimationDetails.rotationSeed, rnd,
+            MolecularSystemAnimationDetails.rotationStrength);
 
     const double endRadius = radius * 2.0;
-    const double morphingStep = animationDetails.morphingStep;
+    const double morphingStep = MolecularSystemAnimationDetails.morphingStep;
 
     Vector3d endPos = startPos;
     endPos.y = -radius;
@@ -126,9 +134,10 @@ Transformation SphereShape::_getEmptySphereMorphedTransformation(
                           normalize(Vector3d(startDir.x, 0.0, startDir.z));
 
     Quaterniond endRot{0.0, 0.0, -0.707, 0.707};
-    if (animationDetails.rotationSeed != 0)
-        endRot = weightedRandomRotation(endRot, animationDetails.rotationSeed,
-                                        rnd, animationDetails.rotationStrength);
+    if (MolecularSystemAnimationDetails.rotationSeed != 0)
+        endRot = weightedRandomRotation(
+            endRot, MolecularSystemAnimationDetails.rotationSeed, rnd,
+            MolecularSystemAnimationDetails.rotationStrength);
 
     const Quaterniond finalRotation = slerp(startRot, endRot, morphingStep);
 
@@ -151,7 +160,8 @@ bool SphereShape::isInside(const Vector3d& point) const
 
 Transformation SphereShape::_getFilledSphereTransformation(
     const uint64_t occurrence, const uint64_t nbOccurrences,
-    const AnimationDetails& animationDetails, const double offset) const
+    const MolecularSystemAnimationDetails& MolecularSystemAnimationDetails,
+    const double offset) const
 {
     Vector3d pos;
     const double diameter = _radius * 2.0;
@@ -160,13 +170,16 @@ Transformation SphereShape::_getFilledSphereTransformation(
         pos = Vector3d(rnd1() * diameter, rnd1() * diameter, rnd1() * diameter);
     } while (length(pos) > _radius);
 
-    if (animationDetails.positionSeed != 0)
+    if (MolecularSystemAnimationDetails.positionSeed != 0)
     {
         const Vector3d posOffset =
-            animationDetails.positionStrength *
-            Vector3d(rnd2(occurrence + animationDetails.positionSeed),
-                     rnd2(occurrence + animationDetails.positionSeed + 1),
-                     rnd2(occurrence + animationDetails.positionSeed + 2));
+            MolecularSystemAnimationDetails.positionStrength *
+            Vector3d(rnd2(occurrence +
+                          MolecularSystemAnimationDetails.positionSeed),
+                     rnd2(occurrence +
+                          MolecularSystemAnimationDetails.positionSeed + 1),
+                     rnd2(occurrence +
+                          MolecularSystemAnimationDetails.positionSeed + 2));
 
         pos += posOffset;
     }
@@ -174,10 +187,10 @@ Transformation SphereShape::_getFilledSphereTransformation(
         throw std::runtime_error("Instance is clipped");
 
     Quaterniond rot = safeQuatlookAt(normalize(pos));
-    if (animationDetails.rotationSeed != 0)
-        rot = weightedRandomRotation(rot, animationDetails.rotationSeed,
-                                     occurrence,
-                                     animationDetails.rotationStrength);
+    if (MolecularSystemAnimationDetails.rotationSeed != 0)
+        rot = weightedRandomRotation(
+            rot, MolecularSystemAnimationDetails.rotationSeed, occurrence,
+            MolecularSystemAnimationDetails.rotationStrength);
 
     Transformation transformation;
     transformation.setTranslation(pos);

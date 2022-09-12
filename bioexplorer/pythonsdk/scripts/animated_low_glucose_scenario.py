@@ -22,7 +22,7 @@
 # this program.  If not, see <https://www.gnu.org/licenses/>.
 
 from bioexplorer import BioExplorer, Protein, Membrane, Surfactant, Cell, Sugars, \
-                        AnimationParams, Volume, Vector2, Vector3, Quaternion, \
+                        MolecularSystemAnimationParams, Volume, Vector2, Vector3, Quaternion, \
                         MovieScenario
 import math
 import sys
@@ -248,7 +248,7 @@ class LowGlucoseScenario(MovieScenario):
                 name=name, resource_folder=resource_folder,
                 representation=protein_representation, position=pos, rotation=rot,
                 add_glycans=add_glycans, add_rna_sequence=add_rna,
-                animation_params=AnimationParams(
+                animation_params=MolecularSystemAnimationParams(
                     1, 5 * frame + 2 * virus_index, 0.25,
                     frame + 2 * virus_index + 1, 0.1, morphing_step)
             )
@@ -265,7 +265,7 @@ class LowGlucoseScenario(MovieScenario):
             name=receptor_name,
             source=pdb_folder + '6m18.pdb', occurrences=nb_receptors,
             transmembrane_params=Vector2(-6.0, 5.0),
-            animation_params=AnimationParams(
+            animation_params=MolecularSystemAnimationParams(
                 random_seed, frame + 1, 0.025, frame + 2, 0.2)
         )
 
@@ -276,7 +276,7 @@ class LowGlucoseScenario(MovieScenario):
                 membrane_folder + 'segC.pdb',
                 membrane_folder + 'segD.pdb'
             ],
-            animation_params=AnimationParams(
+            animation_params=MolecularSystemAnimationParams(
                 random_seed, frame + 1, 0.025, frame + 2, 0.2)
         )
 
@@ -338,14 +338,14 @@ class LowGlucoseScenario(MovieScenario):
                 glycan_type=BioExplorer.NAME_GLYCAN_COMPLEX,
                 protein_name=BioExplorer.NAME_RECEPTOR, paths=complex_paths,
                 indices=[53, 90, 103, 322, 432, 690],
-                animation_params=AnimationParams(0, 0, 0.0, frame + 3, 0.2)
+                animation_params=MolecularSystemAnimationParams(0, 0, 0.0, frame + 3, 0.2)
             )
             self._be.add_multiple_glycans(
                 representation=glycan_representation, assembly_name=name,
                 glycan_type=BioExplorer.NAME_GLYCAN_HYBRID,
                 protein_name=BioExplorer.NAME_RECEPTOR, paths=hybrid_paths,
                 indices=[546],
-                animation_params=AnimationParams(0, 0, 0.0, frame + 4, 0.2)
+                animation_params=MolecularSystemAnimationParams(0, 0, 0.0, frame + 4, 0.2)
             )
 
             indices = [[155, Quaternion(0.707, 0.0, 0.707, 0.0)],
@@ -357,7 +357,7 @@ class LowGlucoseScenario(MovieScenario):
                     assembly_name=name, name=o_glycan_name, source=o_glycan_paths[0],
                     protein_name=name + '_' + BioExplorer.NAME_RECEPTOR, representation=glycan_representation,
                     chain_ids=[2, 4], site_indices=[index[0]], rotation=index[1],
-                    animation_params=AnimationParams(0, 0, 0.0, frame + count + 5, 0.2)
+                    animation_params=MolecularSystemAnimationParams(0, 0, 0.0, frame + count + 5, 0.2)
                 )
                 self._check(self._be.add_sugars(o_glycan))
                 count += 1
@@ -410,7 +410,7 @@ class LowGlucoseScenario(MovieScenario):
             self._log(3, '-   ' + name + ' (%.01f pct)' % progress)
             self._add_surfactant_d(
                 name=name, position=pos, rotation=rot,
-                animation_params=AnimationParams(spd_random_seeds[surfactant_index])
+                animation_params=MolecularSystemAnimationParams(spd_random_seeds[surfactant_index])
             )
 
     def _add_surfactants_a(self, frame):
@@ -431,7 +431,7 @@ class LowGlucoseScenario(MovieScenario):
             self._log(3, '-   ' + name + ' (%.01f pct)' % progress)
             self._add_surfactant_a(
                 name=name, position=pos, rotation=rot,
-                animation_params=AnimationParams(spa_random_seeds[surfactant_index])
+                animation_params=MolecularSystemAnimationParams(spa_random_seeds[surfactant_index])
             )
 
     def _add_glucose(self, frame):
@@ -440,7 +440,7 @@ class LowGlucoseScenario(MovieScenario):
             source=glucose_path,
             load_non_polymer_chemicals=True, load_bonds=True, load_hydrogen=True,
             occurrences=nb_glucoses,
-            animation_params=AnimationParams(
+            animation_params=MolecularSystemAnimationParams(
                 100, frame + 20, scene_size.y / 600.0, frame + 21, 0.3)
         )
         volume = Volume(
@@ -460,7 +460,7 @@ class LowGlucoseScenario(MovieScenario):
             source=lactoferrin_path,
             load_non_polymer_chemicals=True, load_bonds=True, load_hydrogen=True,
             occurrences=nb_lactoferrins,
-            animation_params=AnimationParams(
+            animation_params=MolecularSystemAnimationParams(
                 101, frame + 30, scene_size.y / 400.0, frame + 31, 0.3)
         )
         lactoferrins_volume = Volume(
@@ -480,7 +480,7 @@ class LowGlucoseScenario(MovieScenario):
             source=defensin_path,
             load_non_polymer_chemicals=True, load_bonds=True, load_hydrogen=True,
             occurrences=nb_defensins,
-            animation_params=AnimationParams(
+            animation_params=MolecularSystemAnimationParams(
                 102, frame + 40, scene_size.y / 400.0, frame + 41, 0.3)
         )
         defensins_volume = Volume(
@@ -517,7 +517,7 @@ class LowGlucoseScenario(MovieScenario):
         membrane = Membrane(
             lipid_sources=pdb_lipids, lipid_density=lipid_density,
             load_non_polymer_chemicals=True, load_bonds=True,
-            animation_params=AnimationParams(0, 1, 0.025, 2, 0.5))
+            animation_params=MolecularSystemAnimationParams(0, 1, 0.025, 2, 0.5))
 
         pos, rot, progress = self._get_transformation(
             start_frame=lymphocyte_sequence[0], end_frame=lymphocyte_sequence[1],

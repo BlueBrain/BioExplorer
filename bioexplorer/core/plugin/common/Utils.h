@@ -122,21 +122,29 @@ Quaterniond doublesToQuaterniond(const doubles& values);
 Vector4ds doublesToVector4ds(const doubles& values);
 
 /**
- * @brief Converts a vector of doubles into animation details
+ * @brief Converts a vector of doubles into molecular system animation details
  *
  * @param value Vector of doubles
- * @return AnimationDetails The animation details
+ * @return MolecularSystemAnimationDetails The animation details
  */
-AnimationDetails doublesToAnimationDetails(const doubles& values);
+MolecularSystemAnimationDetails doublesToMolecularSystemAnimationDetails(
+    const doubles& values);
+
+/**
+ * @brief Converts a vector of doubles into cell animation details
+ *
+ * @param value Vector of doubles
+ * @return CellAnimationDetails The animation details
+ */
+CellAnimationDetails doublesToCellAnimationDetails(const doubles& values);
 
 /**
  * @brief Returns a position and a rotation of a instance on a sphere using a
- * sphere-filling algorythm
+ * sphere-filling algorithm
  *
  * @param radius Radius of the sphere
- * @param occurrence Occurence of the instance
  * @param occurrences Total number of instances
- * @param rnd Randomized occurence of the instance (optional)
+ * @param rnd Randomized occurrence of the instance (optional)
  * @param position Resulting position of the instance on the sphere
  * @param rotation Resulting orientation of the instance on the sphere
  * @param ratio Ratio of coverage of the sphere
@@ -177,7 +185,7 @@ Quaterniond safeQuatlookAt(const Vector3d& v);
  * @brief Intersection between a ray and a box
  *
  * @param origin Origin of the ray
- * @param direction Direcion of the ray
+ * @param direction Direction of the ray
  * @param box Box
  * @param t0 Initial t of the ray
  * @param t1 Final t of the ray

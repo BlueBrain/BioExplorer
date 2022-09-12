@@ -366,7 +366,7 @@ void Protein::_processInstances(ModelDescriptorPtr md,
                                 const Vector3ds& positions,
                                 const Quaternions& rotations,
                                 const Quaterniond& moleculerotation,
-                                const AnimationDetails& randInfo)
+                                const MolecularSystemAnimationDetails& randInfo)
 {
     size_t count = 0;
     const auto& proteinInstances = _modelDescriptor->getInstances();
@@ -422,7 +422,8 @@ void Protein::addGlycan(const SugarDetails& details)
     auto modelDescriptor = glycans->getModelDescriptor();
     const Quaterniond proteinrotation = doublesToQuaterniond(details.rotation);
 
-    const auto randInfo = doublesToAnimationDetails(details.animationParams);
+    const auto randInfo =
+        doublesToMolecularSystemAnimationDetails(details.animationParams);
     _processInstances(modelDescriptor, glycanPositions, glycanRotations,
                       proteinrotation, randInfo);
 
@@ -452,7 +453,8 @@ void Protein::addSugar(const SugarDetails& details)
     auto modelDescriptor = glucoses->getModelDescriptor();
     const auto sugarRotation = doublesToQuaterniond(details.rotation);
 
-    const auto randInfo = doublesToAnimationDetails(details.animationParams);
+    const auto randInfo =
+        doublesToMolecularSystemAnimationDetails(details.animationParams);
     _processInstances(modelDescriptor, positions, rotations, sugarRotation,
                       randInfo);
 
@@ -468,9 +470,9 @@ Transformation Protein::getTransformation() const
     return transformation;
 }
 
-AnimationDetails Protein::getAnimationDetails() const
+MolecularSystemAnimationDetails Protein::getAnimationDetails() const
 {
-    return doublesToAnimationDetails(_details.animationParams);
+    return doublesToMolecularSystemAnimationDetails(_details.animationParams);
 }
 } // namespace molecularsystems
 } // namespace bioexplorer

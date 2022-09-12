@@ -310,13 +310,12 @@ public:
     void addWhiteMatter(const WhiteMatterDetails &details);
 
 private:
-    void _processInstances(ModelDescriptorPtr md, const std::string &name,
-                           const size_t occurrences, const Vector3d &position,
-                           const Quaterniond &rotation,
-                           const uint64_ts &allowedOccurrences,
-                           const AnimationDetails &animationDetails,
-                           const double offset,
-                           const AssemblyConstraints &constraints);
+    void _processInstances(
+        ModelDescriptorPtr md, const std::string &name,
+        const size_t occurrences, const Vector3d &position,
+        const Quaterniond &rotation, const uint64_ts &allowedOccurrences,
+        const MolecularSystemAnimationDetails &molecularSystemAnimationDetails,
+        const double offset, const AssemblyConstraints &constraints);
 
     AssemblyDetails _details;
     Scene &_scene;

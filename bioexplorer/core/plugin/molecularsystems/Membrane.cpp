@@ -98,9 +98,9 @@ Membrane::~Membrane()
 void Membrane::_processInstances()
 {
     const auto rotation = doublesToQuaterniond(_details.lipidRotation);
-    const auto animationDetails =
-        doublesToAnimationDetails(_details.animationParams);
-    srand(animationDetails.seed);
+    const auto MolecularSystemAnimationDetails =
+        doublesToMolecularSystemAnimationDetails(_details.animationParams);
+    srand(MolecularSystemAnimationDetails.seed);
 
     std::map<size_t, size_t> instanceCounts;
     for (size_t i = 0; i < _lipids.size(); ++i)
@@ -127,7 +127,7 @@ void Membrane::_processInstances()
 
             const auto shapeTransformation =
                 _shape->getTransformation(occurrence, _nbOccurrences,
-                                          animationDetails);
+                                          MolecularSystemAnimationDetails);
             transformations.push_back(shapeTransformation);
 
             Transformation lipidTransformation;

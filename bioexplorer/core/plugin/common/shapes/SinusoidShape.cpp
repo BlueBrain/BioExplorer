@@ -47,14 +47,17 @@ double SinusoidShape::_sinusoide(const double x, const double z) const
 
 Transformation SinusoidShape::getTransformation(
     const uint64_t occurrence, const uint64_t nbOccurrences,
-    const AnimationDetails& animationDetails, const double offset) const
+    const MolecularSystemAnimationDetails& MolecularSystemAnimationDetails,
+    const double offset) const
 {
     const double step = 0.01f;
     const double angle = 0.01f;
     double upOffset = 0.f;
-    if (animationDetails.positionSeed != 0)
-        upOffset = animationDetails.positionStrength *
-                   rnd3((animationDetails.positionSeed + occurrence) * 10);
+    if (MolecularSystemAnimationDetails.positionSeed != 0)
+        upOffset =
+            MolecularSystemAnimationDetails.positionStrength *
+            rnd3((MolecularSystemAnimationDetails.positionSeed + occurrence) *
+                 10);
 
     const double x = rnd1() * _size.x;
     const double z = rnd1() * _size.z;
@@ -79,10 +82,10 @@ Transformation SinusoidShape::getTransformation(
     // Rotation
     const Vector3d normal = normalize(cross(normalize(v1), normalize(v2)));
     Quaterniond rot = safeQuatlookAt(normal);
-    if (animationDetails.rotationSeed != 0)
-        rot = weightedRandomRotation(rot, animationDetails.rotationSeed,
-                                     occurrence,
-                                     animationDetails.rotationStrength);
+    if (MolecularSystemAnimationDetails.rotationSeed != 0)
+        rot = weightedRandomRotation(
+            rot, MolecularSystemAnimationDetails.rotationSeed, occurrence,
+            MolecularSystemAnimationDetails.rotationStrength);
 
     pos += normal * offset;
 

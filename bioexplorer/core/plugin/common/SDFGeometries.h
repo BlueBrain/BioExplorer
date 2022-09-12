@@ -62,7 +62,7 @@ protected:
     Vector3d _animatedPosition(const Vector4d& position,
                                const uint64_t index = 0) const;
 
-    AnimationDetails _animationDetails;
+    CellAnimationDetails _animationDetails;
     double _radiusMultiplier{1.0};
 };
 

@@ -316,15 +316,26 @@ Vector4ds doublesToVector4ds(const doubles& values)
     return clippingPlanes;
 }
 
-AnimationDetails doublesToAnimationDetails(const doubles& values)
+MolecularSystemAnimationDetails doublesToMolecularSystemAnimationDetails(
+    const doubles& values)
 {
-    AnimationDetails details;
+    MolecularSystemAnimationDetails details;
     details.seed = (values.size() > 0 ? values[0] : 0);
     details.positionSeed = (values.size() > 1 ? values[1] : 0);
     details.positionStrength = (values.size() > 2 ? values[2] : 0.0);
     details.rotationSeed = (values.size() > 3 ? values[3] : 0);
     details.rotationStrength = (values.size() > 4 ? values[4] : 0.0);
     details.morphingStep = (values.size() > 5 ? values[5] : 0.0);
+    return details;
+}
+
+CellAnimationDetails doublesToCellAnimationDetails(const doubles& values)
+{
+    CellAnimationDetails details;
+    details.seed = (values.size() > 0 ? values[0] : 0);
+    details.offset = (values.size() > 1 ? values[1] : 0);
+    details.amplitude = (values.size() > 2 ? values[2] : 1.0);
+    details.frequency = (values.size() > 3 ? values[3] : 1.0);
     return details;
 }
 

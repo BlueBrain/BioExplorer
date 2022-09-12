@@ -21,7 +21,7 @@
 # You should have received a copy of the GNU General Public License along with
 # this program.  If not, see <https://www.gnu.org/licenses/>.
 
-from bioexplorer import BioExplorer, Protein, AnimationParams, Volume, Vector3, MovieScenario
+from bioexplorer import BioExplorer, Protein, MolecularSystemAnimationParams, Volume, Vector3, MovieScenario
 from sqlalchemy import create_engine
 from sqlalchemy.orm import Session
 from tqdm.notebook import tqdm
@@ -218,7 +218,7 @@ class NeuromodulationScenario(MovieScenario):
             source=acetylcholin_path,
             load_non_polymer_chemicals=True, load_bonds=True, load_hydrogen=True,
             occurrences=nb_molecules,
-            animation_params=AnimationParams(3, (frame + 1) * 2, 0.5, (frame + 2) * 2, 1.0)
+            animation_params=MolecularSystemAnimationParams(3, (frame + 1) * 2, 0.5, (frame + 2) * 2, 1.0)
         )
         volume = Volume(
             name=acetylcholin_assembly_name,

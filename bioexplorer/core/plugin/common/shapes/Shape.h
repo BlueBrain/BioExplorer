@@ -57,13 +57,14 @@ public:
      *
      * @param occurrence Occurence of the element
      * @param nbOccurrences Total number of occurences in the shape
-     * @param animationDetails Details on how to animate elements of the shape
+     * @param MolecularSystemAnimationDetails Details on how to animate elements
+     * of the shape
      * @param offset Location offset of the element on the shape itself
      * @return Transformation Transformation of the instance
      */
     virtual Transformation getTransformation(
         const uint64_t occurrence, const uint64_t nbOccurrences,
-        const AnimationDetails& animationDetails,
+        const MolecularSystemAnimationDetails& MolecularSystemAnimationDetails,
         const double offset = 0.0) const = 0;
 
     /**

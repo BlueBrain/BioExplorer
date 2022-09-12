@@ -50,7 +50,7 @@ Astrocytes::Astrocytes(Scene& scene, const AstrocytesDetails& details)
 {
     _radiusMultiplier =
         _details.radiusMultiplier > 0.0 ? _details.radiusMultiplier : 1.0;
-    _animationDetails = doublesToAnimationDetails(_details.animationParams);
+    _animationDetails = doublesToCellAnimationDetails(_details.animationParams);
     Timer chrono;
     _buildModel();
     PLUGIN_TIMER(chrono.elapsed(), "Astrocytes loaded");
@@ -59,7 +59,7 @@ Astrocytes::Astrocytes(Scene& scene, const AstrocytesDetails& details)
 void Astrocytes::_buildModel(const doubles& radii)
 {
     const auto animationParams =
-        doublesToAnimationDetails(_details.animationParams);
+        doublesToMolecularSystemAnimationDetails(_details.animationParams);
     srand(animationParams.seed);
 
     if (_modelDescriptor)

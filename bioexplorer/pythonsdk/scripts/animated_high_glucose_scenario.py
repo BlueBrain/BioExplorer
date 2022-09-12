@@ -22,7 +22,7 @@
 # this program.  If not, see <https://www.gnu.org/licenses/>.
 
 from bioexplorer import BioExplorer, Protein, Surfactant, Membrane, Cell, Sugars, \
-                        Volume, AnimationParams, Vector2, Vector3, Quaternion, \
+                        Volume, MolecularSystemAnimationParams, Vector2, Vector3, Quaternion, \
                         MovieScenario
 import math
 import sys
@@ -278,7 +278,7 @@ class HighGlucoseScenario(MovieScenario):
                 name=name, resource_folder=resource_folder,
                 representation=protein_representation, position=pos, rotation=rot,
                 add_glycans=add_glycans,
-                animation_params=AnimationParams(
+                animation_params=MolecularSystemAnimationParams(
                     1, 5 * frame + 2 * virus_index, 0.25,
                     frame + 2 * virus_index + 1, 0.1, morphing_step)
             )
@@ -295,7 +295,7 @@ class HighGlucoseScenario(MovieScenario):
             name=receptor_name,
             source=pdb_folder + '6m18.pdb', occurrences=nb_receptors,
             transmembrane_params=Vector2(-6.0, 5.0),
-            animation_params=AnimationParams(
+            animation_params=MolecularSystemAnimationParams(
                 random_seed, frame + 1, 0.025, frame + 2, 0.2)
         )
 
@@ -306,7 +306,7 @@ class HighGlucoseScenario(MovieScenario):
                 membrane_folder + 'segC.pdb',
                 membrane_folder + 'segD.pdb'
             ],
-            animation_params=AnimationParams(
+            animation_params=MolecularSystemAnimationParams(
                 random_seed, frame + 1, 0.025, frame + 2, 0.2)
         )
 
@@ -369,14 +369,14 @@ class HighGlucoseScenario(MovieScenario):
                 glycan_type=BioExplorer.NAME_GLYCAN_COMPLEX,
                 protein_name=BioExplorer.NAME_RECEPTOR, paths=complex_paths,
                 indices=[53, 90, 103, 322, 432, 690],
-                animation_params=AnimationParams(0, 0, 0.0, frame + 3, 0.2)
+                animation_params=MolecularSystemAnimationParams(0, 0, 0.0, frame + 3, 0.2)
             )
             self._be.add_multiple_glycans(
                 representation=glycan_representation, assembly_name=name,
                 glycan_type=BioExplorer.NAME_GLYCAN_HYBRID,
                 protein_name=BioExplorer.NAME_RECEPTOR, paths=hybrid_paths,
                 indices=[546],
-                animation_params=AnimationParams(0, 0, 0.0, frame + 4, 0.2)
+                animation_params=MolecularSystemAnimationParams(0, 0, 0.0, frame + 4, 0.2)
             )
 
             indices = [[155, Quaternion(0.707, 0.0, 0.707, 0.0)],
@@ -388,7 +388,7 @@ class HighGlucoseScenario(MovieScenario):
                     assembly_name=name, name=o_glycan_name, source=o_glycan_paths[0],
                     protein_name=name + '_' + BioExplorer.NAME_RECEPTOR, representation=glycan_representation,
                     chain_ids=[2, 4], site_indices=[index[0]], rotation=index[1],
-                    animation_params=AnimationParams(0, 0, 0.0, frame + count + 5, 0.2)
+                    animation_params=MolecularSystemAnimationParams(0, 0, 0.0, frame + count + 5, 0.2)
                 )
                 self._be.add_sugars(o_glycan)
                 count += 1
@@ -445,7 +445,7 @@ class HighGlucoseScenario(MovieScenario):
             self._log(3, '-   ' + name + ' (%.01f pct)' % progress)
             self._add_surfactant_d(
                 name=name, position=pos, rotation=rot,
-                animation_params=AnimationParams(spd_random_seeds[surfactant_index])
+                animation_params=MolecularSystemAnimationParams(spd_random_seeds[surfactant_index])
             )
             self._add_glucose_to_surfactant_head(name=name)
 
@@ -467,7 +467,7 @@ class HighGlucoseScenario(MovieScenario):
             self._log(3, '-   ' + name + ' (%.01f pct)' % progress)
             self._add_surfactant_a(
                 name=name, position=pos, rotation=rot,
-                animation_params=AnimationParams(spa_random_seeds[surfactant_index])
+                animation_params=MolecularSystemAnimationParams(spa_random_seeds[surfactant_index])
             )
             self._add_glucose_to_surfactant_head(name=name)
 
@@ -477,7 +477,7 @@ class HighGlucoseScenario(MovieScenario):
             source=glucose_path,
             load_non_polymer_chemicals=True, load_bonds=True, load_hydrogen=True,
             occurrences=nb_glucoses,
-            animation_params=AnimationParams(
+            animation_params=MolecularSystemAnimationParams(
                 100, frame + 20, scene_size.y / 600.0, frame + 21, 0.3)
         )
         volume = Volume(
@@ -497,7 +497,7 @@ class HighGlucoseScenario(MovieScenario):
             source=lactoferrin_path,
             load_non_polymer_chemicals=True, load_bonds=True, load_hydrogen=True,
             occurrences=nb_lactoferrins,
-            animation_params=AnimationParams(
+            animation_params=MolecularSystemAnimationParams(
                 101, frame + 30, scene_size.y / 400.0, frame + 31, 0.3)
         )
         lactoferrins_volume = Volume(
@@ -517,7 +517,7 @@ class HighGlucoseScenario(MovieScenario):
             source=defensin_path,
             load_non_polymer_chemicals=True, load_bonds=True, load_hydrogen=True,
             occurrences=nb_defensins,
-            animation_params=AnimationParams(
+            animation_params=MolecularSystemAnimationParams(
                 102, frame + 40, scene_size.y / 400.0, frame + 41, 0.3)
         )
         defensins_volume = Volume(

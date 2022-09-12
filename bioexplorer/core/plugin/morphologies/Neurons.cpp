@@ -62,7 +62,7 @@ Neurons::Neurons(Scene& scene, const NeuronsDetails& details)
 {
     _radiusMultiplier =
         _details.radiusMultiplier > 0.0 ? _details.radiusMultiplier : 1.0;
-    _animationDetails = doublesToAnimationDetails(_details.animationParams);
+    _animationDetails = doublesToCellAnimationDetails(_details.animationParams);
     srand(_animationDetails.seed);
 
     Timer chrono;

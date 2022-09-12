@@ -67,7 +67,8 @@ RNAShape::RNAShape(const Vector4ds& clippingPlanes,
 
 Transformation RNAShape::getTransformation(
     const uint64_t occurrence, const uint64_t nbOccurrences,
-    const AnimationDetails& animationDetails, const double offset) const
+    const MolecularSystemAnimationDetails& MolecularSystemAnimationDetails,
+    const double offset) const
 {
     const double u = _valuesRange.x + _step * occurrence;
     const double v = _valuesRange.x + _step * (occurrence + 1);
@@ -78,9 +79,10 @@ Transformation RNAShape::getTransformation(
     const Vector3d direction = normalize(dst - src);
     const Vector3d normal = cross(UP_VECTOR, direction);
     double upOffset = 0.0;
-    if (animationDetails.positionSeed != 0)
-        upOffset = animationDetails.positionStrength *
-                   rnd3(animationDetails.positionSeed + occurrence);
+    if (MolecularSystemAnimationDetails.positionSeed != 0)
+        upOffset =
+            MolecularSystemAnimationDetails.positionStrength *
+            rnd3(MolecularSystemAnimationDetails.positionSeed + occurrence);
 
     Vector3d pos = src + normal * (offset + upOffset);
 
@@ -88,10 +90,10 @@ Transformation RNAShape::getTransformation(
         throw std::runtime_error("Instance is clipped");
 
     Quaterniond rot = safeQuatlookAt(normal);
-    if (animationDetails.rotationSeed != 0)
-        rot = weightedRandomRotation(rot, animationDetails.rotationSeed,
-                                     occurrence,
-                                     animationDetails.rotationStrength);
+    if (MolecularSystemAnimationDetails.rotationSeed != 0)
+        rot = weightedRandomRotation(
+            rot, MolecularSystemAnimationDetails.rotationSeed, occurrence,
+            MolecularSystemAnimationDetails.rotationStrength);
 
     Transformation transformation;
     transformation.setTranslation(pos);
