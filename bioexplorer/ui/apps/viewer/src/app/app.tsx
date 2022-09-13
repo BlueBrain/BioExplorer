@@ -7,9 +7,9 @@ import React, {
     RefObject
 } from 'react';
 
-import {LOAD_MODEL, ModelParams} from 'brayns';
+import { LOAD_MODEL, ModelParams } from 'brayns';
 import classNames from 'classnames';
-import {Subscription} from 'rxjs';
+import { Subscription } from 'rxjs';
 
 import AppBar from '@material-ui/core/AppBar';
 import lightBlue from '@material-ui/core/colors/lightBlue';
@@ -74,11 +74,11 @@ import storage from '../common/storage';
 
 import AnimationPlayer from './animation-player';
 import AppInfo from './app-info';
-import AppSettings, {Preference} from './app-settings';
+import AppSettings, { Preference } from './app-settings';
 import Camera from './camera';
 import ConnectionStatus from './connection-status';
 import Cube from './cube';
-import {DataPortal, LoadModel} from './data-portal';
+import { DataPortal, LoadModel } from './data-portal';
 import ImageStream from './image-stream';
 import Notifications from './notifications';
 import QuitRenderer from './quit-renderer';
@@ -94,7 +94,7 @@ import Statistics from './statistics';
 const SETTINGS_PANEL_WIDTH = 380;
 const MODELS_PANEL_WIDTH = 380;
 const PANELS_WIDTH = MODELS_PANEL_WIDTH + SETTINGS_PANEL_WIDTH;
-const BRAYNS_GITHUB_URL = 'https://github.com/BlueBrain/Brayns';
+const BIOEXPLORER_GITHUB_URL = 'https://github.com/BlueBrain/BioExplorer';
 
 const MODELS_PANEL_KEY = 'models';
 const SETTINGS_PANEL_KEY = 'settings';
@@ -321,7 +321,7 @@ class App extends PureComponent<Props, State> {
 
     viewportRef: RefObject<HTMLDivElement> = createRef();
     get viewport() {
-        const {current} = this.viewportRef;
+        const { current } = this.viewportRef;
         return current;
     }
 
@@ -399,7 +399,7 @@ class App extends PureComponent<Props, State> {
     }
 
     loadPath = async (params: Partial<ModelParams>) => {
-        const {path} = params;
+        const { path } = params;
         if (path && path.length) {
             const load = brayns.request(LOAD_MODEL, params);
 
@@ -412,7 +412,7 @@ class App extends PureComponent<Props, State> {
 
             try {
                 await load;
-            } catch {} // tslint:disable-line: no-empty
+            } catch { } // tslint:disable-line: no-empty
 
             sub.unsubscribe();
         }
@@ -446,7 +446,7 @@ class App extends PureComponent<Props, State> {
         });
     }
     updateAppPreference = (preference: Preference, checked: boolean) => {
-        const {appPreferences} = this.state;
+        const { appPreferences } = this.state;
         const index = appPreferences.indexOf(preference);
         const preferences = [...appPreferences];
         preferences.splice(index, 1, {
@@ -521,7 +521,7 @@ class App extends PureComponent<Props, State> {
 
     // Theme
     toggleTheme = () => {
-        const {isDarkTheme} = this.state;
+        const { isDarkTheme } = this.state;
         const value = !isDarkTheme;
         storage.set(THEME_KEY, value);
         const theme = getTheme();
@@ -533,7 +533,7 @@ class App extends PureComponent<Props, State> {
 
     // Keyboard interaction
     handleKeydown = (evt: KeyboardEvent) => {
-        const {online} = this.props;
+        const { online } = this.props;
 
         if (!this.keyboardLocked) {
             switch (evt.keyCode) {
@@ -590,7 +590,7 @@ class App extends PureComponent<Props, State> {
     }
 
     render() {
-        const {classes, online} = this.props;
+        const { classes, online } = this.props;
         const {
             addModelMenuAnchor,
             showFileDialog,
@@ -722,7 +722,7 @@ class App extends PureComponent<Props, State> {
                                                     </Tooltip>
                                                     <Tooltip title={'Report an issue'} {...TOOLTIP_DELAY}>
                                                         <IconButton
-                                                            href={BRAYNS_GITHUB_URL}
+                                                            href={BIOEXPLORER_GITHUB_URL}
                                                             target="_blank"
                                                             rel="noopener"
                                                             aria-label="Navigate to Brayns github issues"
@@ -752,7 +752,7 @@ class App extends PureComponent<Props, State> {
                                             {/* https://material-ui-next.com/demos/drawers/#persistent-drawer */}
                                             <Scene
                                                 variant="persistent"
-                                                DrawerClasses={{paper: classNames(classes.drawerPaper, classes.modelsDrawer)}}
+                                                DrawerClasses={{ paper: classNames(classes.drawerPaper, classes.modelsDrawer) }}
                                                 SlideProps={slideProps}
                                                 anchor={'left'}
                                                 open={showModelsPanel}
@@ -794,7 +794,7 @@ class App extends PureComponent<Props, State> {
                                             </main>
                                             <Drawer
                                                 variant="persistent"
-                                                classes={{paper: classNames(classes.drawerPaper, classes.settingsDrawer)}}
+                                                classes={{ paper: classNames(classes.drawerPaper, classes.settingsDrawer) }}
                                                 anchor={'right'}
                                                 open={showSettingsPanel}
                                                 SlideProps={slideProps}

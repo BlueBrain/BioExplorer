@@ -1,6 +1,6 @@
 # Brayns Viewer
 
-> A web interface for interacting with the C++ rendering service [Brayns](https://github.com/BlueBrain/Brayns) built with [TypeScript](http://www.typescriptlang.org), [React](https://reactjs.org) and [Material UI](https://material-ui-next.com/).
+> A web interface for interacting with the C++ rendering service [Brayns](https://github.com/BlueBrain/BioExplorer/tree/Brayns) built with [TypeScript](http://www.typescriptlang.org), [React](https://reactjs.org) and [Material UI](https://material-ui-next.com/).
 
 
 # Table of Contents

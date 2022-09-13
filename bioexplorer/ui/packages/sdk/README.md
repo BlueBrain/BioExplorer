@@ -1,6 +1,6 @@
 # Brayns JavaScript/TypeScript Client
 
-> A JavaScript/TypeScript interface for interacting with the [Brayns](https://github.com/BlueBrain/Brayns) rendering service.
+> A JavaScript/TypeScript interface for interacting with the [Brayns](https://github.com/BlueBrain/BioExplorer/tree/Brayns) rendering service.
 
 
 # Table of Contents
