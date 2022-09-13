@@ -4,8 +4,8 @@ import React, {
     RefObject
 } from 'react';
 
-import {IMAGE_JPEG} from 'brayns';
-import {isNumber, noop} from 'lodash';
+import { IMAGE_JPEG } from 'brayns';
+import { isNumber, noop } from 'lodash';
 import {
     BehaviorSubject,
     Subject,
@@ -31,8 +31,8 @@ import brayns, {
     WithAppParams,
     withAppParms
 } from '../../common/client';
-import {WithRect, withResizeObserver} from '../../common/components';
-import {dispatchFps} from '../../common/events';
+import { WithRect, withResizeObserver } from '../../common/components';
+import { dispatchFps } from '../../common/events';
 
 
 const styles = (theme: Theme) => createStyles({
@@ -153,7 +153,7 @@ export class ImageStream extends Component<Props> {
     // We use moz-opaque to improve the perf. of the canvas
     // See https://developer.mozilla.org/en-US/docs/Web/API/Canvas_API/Tutorial/Optimizing_canvas
     render() {
-        const {classes, rectRef} = this.props;
+        const { classes, rectRef } = this.props;
         return (
             <div ref={rectRef} className={classes.root}>
                 <div className={classes.canvas}>
@@ -189,7 +189,7 @@ function smoothFpsFn() {
         if (isNumber(prevPaintTime)) {
             const duration = now - prevPaintTime;
             // Smooth fps
-            // See https://github.com/BlueBrain/Brayns/blob/master/brayns/common/Timer.h for source
+            // See https://github.com/BlueBrain/BioExplorer/tree/Brayns/blob/master/brayns/common/Timer.h for source
             smoothNom = smoothNom * smoothingFactor + duration / 1000.0;
             smoothDen = smoothDen * smoothingFactor + 1;
             smoothFps = smoothDen / smoothNom;

@@ -1,6 +1,6 @@
 // tslint:disable: member-ordering
 import uid from 'crypto-uid';
-import {JSONSchema7} from 'json-schema';
+import { JSONSchema7 } from 'json-schema';
 import {
     isString,
     noop,
@@ -17,8 +17,8 @@ import {
     Observable,
     ReplaySubject
 } from 'rxjs';
-import {toArrayBuffer} from 'rxjs-file';
-import {filter, map} from 'rxjs/operators';
+import { toArrayBuffer } from 'rxjs-file';
+import { filter, map } from 'rxjs/operators';
 import {
     ADD_CLIP_PLANE_TYPE,
     ANIMATION_PARAMS_TYPE,
@@ -117,7 +117,7 @@ export const BRAYNS_WS_PATH = 'ws';
 
 /**
  * JavaScript/TypeScript client for Brayns
- * https://github.com/BlueBrain/Brayns
+ * https://github.com/BlueBrain/BioExplorer/tree/Brayns
  *
  * Upon init, the client will try to establish a connection with the Brayns server.
  * If it fails, it will retry every 5s.
@@ -289,11 +289,11 @@ export class Client {
             chunksId
         };
 
-        const buffer = toArrayBuffer(file, {chunkSize});
+        const buffer = toArrayBuffer(file, { chunkSize });
         const task = this.rockets!.request<UploadParams, Model>(UPLOAD_MODEL, params);
 
         const sub = buffer.subscribe(chunk => {
-            this.rockets!.notify(CHUNK, {id: chunksId});
+            this.rockets!.notify(CHUNK, { id: chunksId });
             this.rockets!.ws.next(chunk);
         });
 
@@ -369,7 +369,7 @@ function serializer(data: Notification | Request) {
 }
 
 async function deserializer(evt: MessageEvent) {
-    const {data} = evt;
+    const { data } = evt;
     if (!isString(data)) {
         return;
     }

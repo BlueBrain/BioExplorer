@@ -1,8 +1,8 @@
-import React, {PureComponent} from 'react';
+import React, { PureComponent } from 'react';
 
-import {GET_VERSION, Version} from 'brayns';
-import {from, Subscription} from 'rxjs';
-import {mergeMap} from 'rxjs/operators';
+import { GET_VERSION, Version } from 'brayns';
+import { from, Subscription } from 'rxjs';
+import { mergeMap } from 'rxjs/operators';
 
 import Button from '@material-ui/core/Button';
 import Dialog from '@material-ui/core/Dialog';
@@ -19,11 +19,11 @@ import {
     WithStyles
 } from '@material-ui/core/styles';
 
-import brayns, {onReady} from '../../common/client';
+import brayns, { onReady } from '../../common/client';
 
 import {
-    BRAYNS_GITHUB_REPO,
-    BRAYNS_GITHUB_URL
+    BIOEXPLORER_GITHUB_REPO,
+    BIOEXPLORER_GITHUB_URL
 } from './constants';
 import {
     getTags,
@@ -58,11 +58,11 @@ export class AppInfo extends PureComponent<Props, State> {
                 mergeMap(() => brayns.request(GET_VERSION)),
                 mergeMap(toGitVersion))
                 .subscribe(version => {
-                    this.setState({version});
+                    this.setState({ version });
                 }),
             from(getAuthors())
                 .subscribe(authors => {
-                    this.setState({authors});
+                    this.setState({ authors });
                 })
         ]);
     }
@@ -75,8 +75,8 @@ export class AppInfo extends PureComponent<Props, State> {
     }
 
     render() {
-        const {classes, open} = this.props;
-        const {authors, version} = this.state;
+        const { classes, open } = this.props;
+        const { authors, version } = this.state;
 
         const authorsHeader = (
             <ListSubheader component="div">
@@ -102,7 +102,7 @@ export class AppInfo extends PureComponent<Props, State> {
                 open={!!open}
                 onClose={this.closeDialog}
                 aria-labelledby="app-info-title"
-                classes={{paper: classes.paper}}
+                classes={{ paper: classes.paper }}
             >
                 <DialogTitle id="app-info-title">App info</DialogTitle>
                 <List>
@@ -134,14 +134,14 @@ export default style(AppInfo);
 async function getAuthors(): Promise<Author[]> {
 
     const data = [
-        {name: "Cyrille Favreau", url: "https://github.com/favreau", contributions: 8}, 
-        {name: "Daniel Nachbaur", url: "https://github.com/tribal-tec", contributions: 7}, 
-        {name: "Jonas Karlsson", url: "https://github.com/karjonas", contributions: 6}, 
-        {name: "Roland Groza", url: "https://github.com/rolandjitsu", contributions: 5}, 
-        {name: "Grigori Chevtchenko", url: "https://github.com/chevtche", contributions: 4}, 
-        {name: "Juan Hernando Vieites", url: "https://github.com/BlueBrain", contributions: 3}, 
-        {name: "Raphael Dumusc", url: "https://github.com/BlueBrain", contributions: 2}, 
-        {name: "Pawel Podhajski", url: "https://github.com/ppodhajski", contributions: 1}, 
+        { name: "Cyrille Favreau", url: "https://github.com/favreau", contributions: 8 },
+        { name: "Daniel Nachbaur", url: "https://github.com/tribal-tec", contributions: 7 },
+        { name: "Jonas Karlsson", url: "https://github.com/karjonas", contributions: 6 },
+        { name: "Roland Groza", url: "https://github.com/rolandjitsu", contributions: 5 },
+        { name: "Grigori Chevtchenko", url: "https://github.com/chevtche", contributions: 4 },
+        { name: "Juan Hernando Vieites", url: "https://github.com/BlueBrain", contributions: 3 },
+        { name: "Raphael Dumusc", url: "https://github.com/BlueBrain", contributions: 2 },
+        { name: "Pawel Podhajski", url: "https://github.com/ppodhajski", contributions: 1 },
     ];
 
     return sortByContributions(data);
@@ -153,7 +153,7 @@ function sortByContributions(authors: Author[]) {
 
 async function toGitVersion(version: Version): Promise<GitVersion> {
     const name = toPrettyVersion(version);
-    const tags = await getTags(BRAYNS_GITHUB_REPO);
+    const tags = await getTags(BIOEXPLORER_GITHUB_REPO);
     const match = tags.find(tag => tag.name.indexOf(name) !== -1);
     const commit = gitCommitUrl(version.revision);
     const tag = match ? gitTagUrl(name) : undefined;
@@ -166,11 +166,11 @@ async function toGitVersion(version: Version): Promise<GitVersion> {
 }
 
 function gitTagUrl(version: string) {
-    return `${BRAYNS_GITHUB_URL}/tags/${version}`;
+    return `${BIOEXPLORER_GITHUB_URL}/tags/${version}`;
 }
 
 function gitCommitUrl(sha: string) {
-    return `${BRAYNS_GITHUB_URL}/commit/${sha}`;
+    return `${BIOEXPLORER_GITHUB_URL}/commit/${sha}`;
 }
 
 function toPrettyVersion(version: Version) {
