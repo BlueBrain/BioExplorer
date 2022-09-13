@@ -42,6 +42,7 @@ add_compile_options("-fopenmp")
 set(CGAL_FOUND 0)
 
 if(${${NAME}_USE_CGAL})
+    set(CGAL_DATA_DIR ".")
     find_package(CGAL REQUIRED)
 endif()
 
@@ -166,7 +167,7 @@ if(${CGAL_FOUND})
     )
 endif()
 
-if(${CGAL_FOUND})
+if(${CGAL_FOUND} AND NOT CMAKE_CXX_COMPILER_ID MATCHES "Clang")
     add_compile_options(-frounding-math)
 endif()
 
@@ -207,7 +208,7 @@ include_directories(
 set(${NAME}_LINK_LIBRARIES
     PUBLIC ${OSPRAY_LIBRARIES}
     PRIVATE braynsParameters braynsPluginAPI braynsCommon braynsEngine braynsIO
-    braynsOSPRayEngine ${FreeImage_LIBRARIES} ${PQXX_LIBRARIES}
+    braynsOSPRayEngine ${FreeImage_LIBRARIES} ${PQXX_LIBRARIES} ${OpenMP_CXX_LIBRARIES}
 )
 
 if(${CGAL_FOUND})

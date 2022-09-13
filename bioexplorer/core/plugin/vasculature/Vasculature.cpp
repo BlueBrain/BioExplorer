@@ -121,7 +121,7 @@ void Vasculature::_addDetailedSection(ThreadSafeContainer& container,
         const auto& srcNode = node.second;
         const auto userData = node.first;
 
-        size_t materialId = baseMaterialId;
+        size_t materialId;
         switch (_details.colorScheme)
         {
         case VasculatureColorScheme::radius:
@@ -131,6 +131,9 @@ void Vasculature::_addDetailedSection(ThreadSafeContainer& container,
         case VasculatureColorScheme::section_points:
             materialId = 256 * double(node.first - nodes.begin()->first) /
                          double(nodes.size());
+            break;
+        default:
+            materialId = baseMaterialId;
             break;
         }
 
@@ -268,7 +271,7 @@ void Vasculature::_buildModel(const doubles& radii)
             --it;
             const auto& dstNode = it->second;
 
-            size_t materialId = 0;
+            size_t materialId;
             switch (_details.colorScheme)
             {
             case VasculatureColorScheme::section:
@@ -293,6 +296,9 @@ void Vasculature::_buildModel(const doubles& radii)
                 break;
             case VasculatureColorScheme::region:
                 materialId = dstNode.regionId;
+                break;
+            default:
+                materialId = 0;
                 break;
             }
 

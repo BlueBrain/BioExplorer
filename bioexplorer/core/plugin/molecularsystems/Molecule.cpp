@@ -460,7 +460,7 @@ void Molecule::_buildModel(const std::string& assemblyName,
                        {b, c, static_cast<float>(atomRadiusMultiplier * 0.2),
                         static_cast<float>(atomRadiusMultiplier)});
         model->addCone(materialId,
-                       {c, d, static_cast<float>(atomRadiusMultiplier, 0.0)});
+                       {c, d, static_cast<float>(atomRadiusMultiplier), 0.0});
         _modelDescriptor =
             std::make_shared<ModelDescriptor>(std::move(model), name, header,
                                               metadata);
