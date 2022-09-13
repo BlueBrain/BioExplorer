@@ -80,8 +80,8 @@ RNASequence::RNASequence(Scene& scene, const RNASequenceDetails& details,
     const auto shapeParams = doublesToVector2d(_details.shapeParams);
     const auto valuesRange = doublesToVector2d(_details.valuesRange);
     const auto curveParams = doublesToVector3d(_details.curveParams);
-    const auto animationDetails =
-        doublesToAnimationDetails(_details.animationParams);
+    const auto MolecularSystemAnimationDetails =
+        doublesToMolecularSystemAnimationDetails(_details.animationParams);
 
     PLUGIN_INFO(3, "Loading RNA sequence " << details.name << " from "
                                            << details.contents);
@@ -104,8 +104,8 @@ RNASequence::RNASequence(Scene& scene, const RNASequenceDetails& details,
 void RNASequence::_buildRNAAsCurve(const Quaterniond& rotation)
 {
     const auto& sequence = _details.contents;
-    const auto animationDetails =
-        doublesToAnimationDetails(_details.animationParams);
+    const auto MolecularSystemAnimationDetails =
+        doublesToMolecularSystemAnimationDetails(_details.animationParams);
     const auto shapeParams = doublesToVector2d(_details.shapeParams);
     const auto radius = shapeParams.y;
 
@@ -139,11 +139,12 @@ void RNASequence::_buildRNAAsCurve(const Quaterniond& rotation)
             const auto& codon = nucleotidMap[letter];
             const auto materialId = codon.index;
 
-            const auto src = _shape->getTransformation(occurrence, occurrences,
-                                                       animationDetails, 0.f);
+            const auto src =
+                _shape->getTransformation(occurrence, occurrences,
+                                          MolecularSystemAnimationDetails, 0.f);
             const auto dst =
                 _shape->getTransformation(occurrence + 1, occurrences,
-                                          animationDetails, 0.f);
+                                          MolecularSystemAnimationDetails, 0.f);
 
             model->addCylinder(materialId,
                                {src.getTranslation(), dst.getTranslation(),
@@ -166,8 +167,8 @@ void RNASequence::_buildRNAAsCurve(const Quaterniond& rotation)
 void RNASequence::_buildRNAAsProteinInstances(const Quaterniond& rotation)
 {
     const auto& sequence = _details.contents;
-    const auto animationDetails =
-        doublesToAnimationDetails(_details.animationParams);
+    const auto MolecularSystemAnimationDetails =
+        doublesToMolecularSystemAnimationDetails(_details.animationParams);
     const size_t nbElements = sequence.length();
     Vector3d position = Vector3d(0.f);
 
@@ -208,7 +209,7 @@ void RNASequence::_buildRNAAsProteinInstances(const Quaterniond& rotation)
 
             const auto shapeTransformation =
                 _shape->getTransformation(occurrence, occurrences,
-                                          animationDetails, 0.f);
+                                          MolecularSystemAnimationDetails, 0.f);
             transformations.push_back(shapeTransformation);
 
             const Transformation finalTransformation =

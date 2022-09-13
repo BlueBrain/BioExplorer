@@ -168,7 +168,7 @@ void Assembly::addProtein(const ProteinDetails &details,
     ProteinPtr protein(new Protein(_scene, details));
     auto modelDescriptor = protein->getModelDescriptor();
     const auto animationParams =
-        doublesToAnimationDetails(details.animationParams);
+        doublesToMolecularSystemAnimationDetails(details.animationParams);
     const auto proteinPosition = doublesToVector3d(details.position);
     const auto proteinRotation = doublesToQuaterniond(details.rotation);
     const auto transmembraneParams =
@@ -235,16 +235,14 @@ void Assembly::addGlycan(const SugarDetails &details)
     targetProtein->addGlycan(details);
 }
 
-void Assembly::_processInstances(ModelDescriptorPtr md, const std::string &name,
-                                 const size_t occurrences,
-                                 const Vector3d &position,
-                                 const Quaterniond &rotation,
-                                 const uint64_ts &allowedOccurrences,
-                                 const AnimationDetails &animationDetails,
-                                 const double offset,
-                                 const AssemblyConstraints &constraints)
+void Assembly::_processInstances(
+    ModelDescriptorPtr md, const std::string &name, const size_t occurrences,
+    const Vector3d &position, const Quaterniond &rotation,
+    const uint64_ts &allowedOccurrences,
+    const MolecularSystemAnimationDetails &molecularSystemAnimationDetails,
+    const double offset, const AssemblyConstraints &constraints)
 {
-    srand(animationDetails.seed);
+    srand(molecularSystemAnimationDetails.seed);
 
     // Shape
     uint64_t count = 0;
@@ -266,7 +264,8 @@ void Assembly::_processInstances(ModelDescriptorPtr md, const std::string &name,
 
             Transformation shapeTransformation =
                 _shape->getTransformation(occurrence, occurrences,
-                                          animationDetails, offset);
+                                          molecularSystemAnimationDetails,
+                                          offset);
 
             transformations.push_back(shapeTransformation);
 

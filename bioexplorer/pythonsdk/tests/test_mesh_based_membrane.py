@@ -21,7 +21,7 @@
 # You should have received a copy of the GNU General Public License along with
 # this program.  If not, see <https://www.gnu.org/licenses/>.
 
-from bioexplorer import BioExplorer, Cell, Membrane, Protein, AnimationParams, Vector2, Vector3, \
+from bioexplorer import BioExplorer, Cell, Membrane, Protein, MolecularSystemAnimationParams, Vector2, Vector3, \
     Quaternion
 import glob
 import os
@@ -53,7 +53,7 @@ def test_mesh():
         source=os.path.join(pdb_folder, '6m18.pdb'),
         transmembrane_params=Vector2(1.0, 2.0),
         rotation=Quaternion(0.0, 1.0, 0.0, 0.0),
-        animation_params=AnimationParams(1), occurrences=20)
+        animation_params=MolecularSystemAnimationParams(1), occurrences=20)
 
     # GLUT3 definition
     transporter = Protein(
@@ -61,7 +61,7 @@ def test_mesh():
         source=os.path.join(transporters_folder, '4zwc.pdb'),
         transmembrane_params=Vector2(1.0, 2.0),
         rotation=Quaternion(0.707, 0.707, 0.0, 0.0),
-        animation_params=AnimationParams(2), chain_ids=[1], occurrences=30)
+        animation_params=MolecularSystemAnimationParams(2), chain_ids=[1], occurrences=30)
 
     # Membrane definition
     pdb_lipids = glob.glob(os.path.join(lipids_folder, '*.pdb'))[:8]
@@ -69,7 +69,7 @@ def test_mesh():
     membrane = Membrane(
         lipid_sources=pdb_lipids, lipid_density=1.0,
         load_non_polymer_chemicals=True, load_bonds=True,
-        animation_params=AnimationParams(0, 1, 0.025, 2, 0.5)
+        animation_params=MolecularSystemAnimationParams(0, 1, 0.025, 2, 0.5)
     )
 
     clipping_planes = [

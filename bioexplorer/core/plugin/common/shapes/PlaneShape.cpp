@@ -41,11 +41,12 @@ PlaneShape::PlaneShape(const Vector4ds& clippingPlanes, const Vector2f& size)
 
 Transformation PlaneShape::getTransformation(
     const uint64_t occurrence, const uint64_t nbOccurrences,
-    const AnimationDetails& animationDetails, const double offset) const
+    const MolecularSystemAnimationDetails& MolecularSystemAnimationDetails,
+    const double offset) const
 {
     double up = 0.f;
-    if (animationDetails.seed != 0)
-        up = rnd1() * animationDetails.positionStrength;
+    if (MolecularSystemAnimationDetails.seed != 0)
+        up = rnd1() * MolecularSystemAnimationDetails.positionStrength;
 
     Vector3d pos{rnd1() * _size.x, up, rnd1() * _size.y};
     const Quaterniond rot{0.0, 0.0, 0.707, 0.707};

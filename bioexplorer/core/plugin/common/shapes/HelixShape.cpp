@@ -45,13 +45,15 @@ HelixShape::HelixShape(const Vector4ds& clippingPlanes, const double radius,
 
 Transformation HelixShape::getTransformation(
     const uint64_t occurrence, const uint64_t nbOccurrences,
-    const AnimationDetails& animationDetails, const double offset) const
+    const MolecularSystemAnimationDetails& MolecularSystemAnimationDetails,
+    const double offset) const
 {
     const double radius =
-        _radius + (animationDetails.positionSeed == 0
-                       ? animationDetails.positionStrength
-                       : animationDetails.positionStrength *
-                             rnd3(animationDetails.positionSeed + occurrence));
+        _radius + (MolecularSystemAnimationDetails.positionSeed == 0
+                       ? MolecularSystemAnimationDetails.positionStrength
+                       : MolecularSystemAnimationDetails.positionStrength *
+                             rnd3(MolecularSystemAnimationDetails.positionSeed +
+                                  occurrence));
 
     const Vector3d pos =
         Vector3d(radius * cos(occurrence), radius * sin(occurrence),
@@ -62,10 +64,10 @@ Transformation HelixShape::getTransformation(
     if (isClipped(pos, _clippingPlanes))
         throw std::runtime_error("Instance is clipped");
 
-    if (animationDetails.rotationSeed != 0)
-        rot = weightedRandomRotation(rot, animationDetails.rotationSeed,
-                                     occurrence,
-                                     animationDetails.rotationStrength);
+    if (MolecularSystemAnimationDetails.rotationSeed != 0)
+        rot = weightedRandomRotation(
+            rot, MolecularSystemAnimationDetails.rotationSeed, occurrence,
+            MolecularSystemAnimationDetails.rotationStrength);
 
     Transformation transformation;
     transformation.setTranslation(pos);

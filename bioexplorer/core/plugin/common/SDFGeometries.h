@@ -35,6 +35,7 @@ namespace bioexplorer
 namespace common
 {
 using namespace brayns;
+using namespace details;
 
 /**
  * @brief The SDFGeometries abstract class is used as a parent to any assembly
@@ -58,6 +59,10 @@ public:
     void addSDFDemo(Model& model);
 
 protected:
+    Vector3d _animatedPosition(const Vector4d& position,
+                               const uint64_t index = 0) const;
+
+    CellAnimationDetails _animationDetails;
     double _radiusMultiplier{1.0};
 };
 

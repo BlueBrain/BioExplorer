@@ -47,6 +47,10 @@ Vasculature::Vasculature(Scene& scene, const VasculatureDetails& details)
     , _details(details)
     , _scene(scene)
 {
+    _radiusMultiplier =
+        _details.radiusMultiplier > 0.0 ? _details.radiusMultiplier : 1.0;
+    _animationDetails = doublesToCellAnimationDetails(_details.animationParams);
+
     Timer chrono;
     _buildModel();
     PLUGIN_TIMER(chrono.elapsed(), "Vasculature loaded");
@@ -57,11 +61,12 @@ void Vasculature::_addGraphSection(ThreadSafeContainer& container,
                                    const GeometryNode& dstNode,
                                    const size_t materialId)
 {
-    const auto& src = srcNode.position;
-    const auto& dst = dstNode.position;
     const auto userData = 0;
-    const auto direction = dst - src;
     const auto maxRadius = std::max(srcNode.radius, dstNode.radius);
+    const auto src = _animatedPosition(Vector4d(srcNode.position, maxRadius));
+    const auto dst = _animatedPosition(Vector4d(dstNode.position, maxRadius));
+    const auto direction = dst - src;
+
     const float radius = std::min(length(direction) / 5.0,
                                   maxRadius * _details.radiusMultiplier);
     container.addSphere(src, radius * 0.2, materialId, userData);
@@ -80,11 +85,13 @@ void Vasculature::_addSimpleSection(ThreadSafeContainer& container,
                                     const size_t materialId,
                                     const uint64_t userData)
 {
-    const auto& srcPoint = srcNode.position;
     const auto srcRadius = srcNode.radius * _details.radiusMultiplier;
+    const auto& srcPoint =
+        _animatedPosition(Vector4d(srcNode.position, srcRadius));
 
-    const auto& dstPoint = dstNode.position;
     const auto dstRadius = dstNode.radius * _details.radiusMultiplier;
+    const auto& dstPoint =
+        _animatedPosition(Vector4d(dstNode.position, dstRadius));
 
     if (!_details.useSdf)
     {
@@ -105,7 +112,7 @@ void Vasculature::_addDetailedSection(ThreadSafeContainer& container,
                                       const Vector2d& radiusRange)
 {
     uint64_t geometryIndex = 0;
-    Neighbours neighbours{};
+    Neighbours neighbours;
 
     uint64_t i = 0;
     GeometryNode dstNode;
@@ -127,28 +134,30 @@ void Vasculature::_addDetailedSection(ThreadSafeContainer& container,
             break;
         }
 
-        const auto& srcPoint = srcNode.position;
-        const auto srcRadius =
+        const float srcRadius =
             (userData < radii.size() ? radii[userData] : srcNode.radius) *
             _details.radiusMultiplier;
-        const auto sectionId = srcNode.sectionId;
+        const auto srcPosition =
+            _animatedPosition(Vector4d(srcNode.position, srcRadius));
 
         if (i == 0 && !_details.useSdf)
-            container.addSphere(srcPoint, srcRadius, materialId, userData);
+            container.addSphere(srcPosition, srcRadius, materialId, userData);
 
         if (i > 0)
         {
-            const auto dstPoint = dstNode.position;
-            const double dstRadius =
+            const float dstRadius =
                 (userData < radii.size() ? radii[userData] : dstNode.radius) *
                 _details.radiusMultiplier;
+            const auto dstPosition =
+                _animatedPosition(Vector4d(dstNode.position, dstRadius));
 
             if (!_details.useSdf)
-                container.addSphere(dstPoint, dstRadius, materialId, userData);
+                container.addSphere(dstPosition, dstRadius, materialId,
+                                    userData);
 
             geometryIndex =
-                container.addCone(dstPoint, dstRadius, srcPoint, srcRadius,
-                                  materialId, userData, neighbours,
+                container.addCone(srcPosition, srcRadius, dstPosition,
+                                  dstRadius, materialId, userData, neighbours,
                                   Vector3f(segmentDisplacementStrength,
                                            segmentDisplacementFrequency, 0.f));
             neighbours = {geometryIndex};

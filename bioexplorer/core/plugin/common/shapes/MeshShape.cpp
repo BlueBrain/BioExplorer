@@ -125,7 +125,8 @@ MeshShape::MeshShape(const Vector4ds& clippingPlanes, const Vector3d& scale,
 
 Transformation MeshShape::getTransformation(
     const uint64_t occurrence, const uint64_t nbOccurrences,
-    const AnimationDetails& animationDetails, const double offset) const
+    const MolecularSystemAnimationDetails& MolecularSystemAnimationDetails,
+    const double offset) const
 {
     if (occurrence == 0)
     {
@@ -183,16 +184,16 @@ Transformation MeshShape::getTransformation(
                  0.0));
 
     Quaterniond rot = safeQuatlookAt(normal);
-    if (animationDetails.positionSeed != 0)
-        pos += animationDetails.positionStrength *
-               Vector3d(rnd2(animationDetails.positionSeed),
-                        rnd2(animationDetails.positionSeed + 1),
-                        rnd2(animationDetails.positionSeed + 2));
+    if (MolecularSystemAnimationDetails.positionSeed != 0)
+        pos += MolecularSystemAnimationDetails.positionStrength *
+               Vector3d(rnd2(MolecularSystemAnimationDetails.positionSeed),
+                        rnd2(MolecularSystemAnimationDetails.positionSeed + 1),
+                        rnd2(MolecularSystemAnimationDetails.positionSeed + 2));
 
-    if (animationDetails.rotationSeed != 0)
-        rot = weightedRandomRotation(rot, animationDetails.rotationSeed,
-                                     occurrence,
-                                     animationDetails.rotationStrength);
+    if (MolecularSystemAnimationDetails.rotationSeed != 0)
+        rot = weightedRandomRotation(
+            rot, MolecularSystemAnimationDetails.rotationSeed, occurrence,
+            MolecularSystemAnimationDetails.rotationStrength);
 
     pos += offset * normal;
 

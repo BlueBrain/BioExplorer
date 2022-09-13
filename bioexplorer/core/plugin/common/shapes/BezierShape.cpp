@@ -43,7 +43,8 @@ BezierShape::BezierShape(const Vector4ds& clippingPlanes,
 
 Transformation BezierShape::getTransformation(
     const uint64_t occurrence, const uint64_t nbOccurrences,
-    const AnimationDetails& animationDetails, const double offset) const
+    const MolecularSystemAnimationDetails& molecularSystemAnimationDetails,
+    const double offset) const
 {
     Vector3ds bezierPoints = _points;
     size_t i = bezierPoints.size() - 1;

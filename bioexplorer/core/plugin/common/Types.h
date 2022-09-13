@@ -151,7 +151,7 @@ typedef struct
     uint32_t rotationSeed{0};
     double rotationStrength{0.f};
     double morphingStep{0.f};
-} AnimationDetails;
+} MolecularSystemAnimationDetails;
 
 /**
  * @brief Assembly shapes
@@ -961,6 +961,8 @@ typedef struct
     std::string sqlFilter;
     /** Scale of the vasculature in the scene */
     doubles scale{1.0, 1.0, 1.0};
+    /** Extra optional parameters for neuron animation */
+    doubles animationParams;
 } VasculatureDetails;
 
 typedef struct
@@ -1012,6 +1014,14 @@ enum class MorphologyRepresentation
     segment = 2,
     orientation = 3
 };
+
+typedef struct
+{
+    uint32_t seed{0};
+    uint32_t offset{0};
+    double amplitude{1.0};
+    double frequency{1.0};
+} CellAnimationDetails;
 
 typedef struct
 {

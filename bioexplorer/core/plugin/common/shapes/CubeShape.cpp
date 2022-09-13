@@ -42,7 +42,8 @@ CubeShape::CubeShape(const Vector4ds& clippingPlanes, const Vector3d& size)
 
 Transformation CubeShape::getTransformation(
     const uint64_t occurrence, const uint64_t nbOccurrences,
-    const AnimationDetails& animationDetails, const double /*offset*/) const
+    const MolecularSystemAnimationDetails& molecularSystemAnimationDetails,
+    const double /*offset*/) const
 {
     Vector3d pos =
         Vector3d(rnd1() * _size.x, rnd1() * _size.y, rnd1() * _size.z);
@@ -52,19 +53,23 @@ Transformation CubeShape::getTransformation(
 
     Quaterniond dir;
 
-    if (animationDetails.positionSeed != 0)
+    if (molecularSystemAnimationDetails.positionSeed != 0)
     {
         const Vector3d posOffset =
-            animationDetails.positionStrength *
-            Vector3d(rnd2(occurrence + animationDetails.positionSeed),
-                     rnd2(occurrence + animationDetails.positionSeed + 1),
-                     rnd2(occurrence + animationDetails.positionSeed + 2));
+            molecularSystemAnimationDetails.positionStrength *
+            Vector3d(rnd2(occurrence +
+                          molecularSystemAnimationDetails.positionSeed),
+                     rnd2(occurrence +
+                          molecularSystemAnimationDetails.positionSeed + 1),
+                     rnd2(occurrence +
+                          molecularSystemAnimationDetails.positionSeed + 2));
 
         pos += posOffset;
     }
 
-    if (animationDetails.rotationSeed != 0)
-        dir = randomQuaternion(occurrence + animationDetails.rotationSeed);
+    if (molecularSystemAnimationDetails.rotationSeed != 0)
+        dir = randomQuaternion(occurrence +
+                               molecularSystemAnimationDetails.rotationSeed);
 
     Transformation transformation;
     transformation.setTranslation(pos);

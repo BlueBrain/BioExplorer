@@ -38,7 +38,8 @@ PointShape::PointShape(const Vector4ds& clippingPlanes)
 
 Transformation PointShape::getTransformation(
     const uint64_t occurrence, const uint64_t nbOccurrences,
-    const AnimationDetails& animationDetails, const double offset) const
+    const MolecularSystemAnimationDetails& MolecularSystemAnimationDetails,
+    const double offset) const
 {
     const Vector3d pos{0.f, 0.f, 0.f};
 

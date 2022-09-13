@@ -42,20 +42,22 @@ FanShape::FanShape(const Vector4ds& clippingPlanes, const double radius)
 
 Transformation FanShape::getTransformation(
     const uint64_t occurrence, const uint64_t nbOccurrences,
-    const AnimationDetails& animationDetails, const double offset) const
+    const MolecularSystemAnimationDetails& molecularSystemAnimationDetails,
+    const double offset) const
 {
     uint64_t rnd = occurrence;
-    if (nbOccurrences != 0 && animationDetails.seed != 0)
+    if (nbOccurrences != 0 && molecularSystemAnimationDetails.seed != 0)
         if (GeneralSettings::getInstance()->getV1Compatibility())
             rnd = rand() % nbOccurrences;
         else
             rnd = rand() % std::numeric_limits<uint64_t>::max();
 
     const double radius =
-        _radius + (animationDetails.positionSeed == 0
-                       ? animationDetails.positionStrength
-                       : animationDetails.positionStrength *
-                             rnd3(animationDetails.positionSeed + rnd));
+        _radius +
+        (molecularSystemAnimationDetails.positionSeed == 0
+             ? molecularSystemAnimationDetails.positionStrength
+             : molecularSystemAnimationDetails.positionStrength *
+                   rnd3(molecularSystemAnimationDetails.positionSeed + rnd));
 
     Vector3d pos;
     Quaterniond rot;
@@ -65,9 +67,10 @@ Transformation FanShape::getTransformation(
     if (isClipped(pos, _clippingPlanes))
         throw std::runtime_error("Instance is clipped");
 
-    if (animationDetails.rotationSeed != 0)
-        rot = weightedRandomRotation(rot, animationDetails.rotationSeed, rnd,
-                                     animationDetails.rotationStrength);
+    if (molecularSystemAnimationDetails.rotationSeed != 0)
+        rot = weightedRandomRotation(
+            rot, molecularSystemAnimationDetails.rotationSeed, rnd,
+            molecularSystemAnimationDetails.rotationStrength);
 
     Transformation transformation;
     transformation.setTranslation(pos);

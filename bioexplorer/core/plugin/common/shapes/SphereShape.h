@@ -43,10 +43,10 @@ public:
                 const double radius);
 
     /** @copydoc Shape::getTransformation */
-    Transformation getTransformation(const uint64_t occurrence,
-                                     const uint64_t nbOccurrences,
-                                     const AnimationDetails& animationDetails,
-                                     const double offset) const final;
+    Transformation getTransformation(
+        const uint64_t occurrence, const uint64_t nbOccurrences,
+        const MolecularSystemAnimationDetails& MolecularSystemAnimationDetails,
+        const double offset) const final;
 
     /** @copydoc Shape::isInside */
     bool isInside(const Vector3d& point) const final;
@@ -54,15 +54,18 @@ public:
 private:
     Transformation _getEmptySphereTransformation(
         const uint64_t occurrence, const uint64_t nbOccurrences,
-        const AnimationDetails& animationDetails, const double offset) const;
+        const MolecularSystemAnimationDetails& MolecularSystemAnimationDetails,
+        const double offset) const;
 
     Transformation _getEmptySphereMorphedTransformation(
         const uint64_t occurrence, const uint64_t nbOccurrences,
-        const AnimationDetails& animationDetails, const double offset) const;
+        const MolecularSystemAnimationDetails& MolecularSystemAnimationDetails,
+        const double offset) const;
 
     Transformation _getFilledSphereTransformation(
         const uint64_t occurrence, const uint64_t nbOccurrences,
-        const AnimationDetails& animationDetails, const double offset) const;
+        const MolecularSystemAnimationDetails& MolecularSystemAnimationDetails,
+        const double offset) const;
 
     bool _filled;
     double _radius;

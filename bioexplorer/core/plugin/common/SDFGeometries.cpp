@@ -22,6 +22,7 @@
 
 #include <plugin/common/CommonTypes.h>
 #include <plugin/common/UniqueId.h>
+#include <plugin/common/Utils.h>
 
 #include <brayns/engineapi/Material.h>
 #include <brayns/engineapi/Model.h>
@@ -63,5 +64,20 @@ void SDFGeometries::addSDFDemo(Model& model)
 
     modelContainer.commitToModel();
 }
+
+Vector3d SDFGeometries::_animatedPosition(const Vector4d& position,
+                                          const uint64_t index) const
+{
+    const auto seed = _animationDetails.seed + _animationDetails.offset * index;
+    const auto amplitude = _animationDetails.amplitude * position.w;
+    const auto frequency = _animationDetails.frequency;
+    if (seed == 0)
+        return Vector3d(position);
+    return Vector3d(
+        position.x + amplitude * rnd3(seed + position.x * frequency),
+        position.y + amplitude * rnd3(seed + position.y * frequency),
+        position.z + amplitude * rnd3(seed + position.z * amplitude));
+}
+
 } // namespace common
 } // namespace bioexplorer

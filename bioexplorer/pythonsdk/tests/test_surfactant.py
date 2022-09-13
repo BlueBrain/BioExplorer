@@ -21,7 +21,7 @@
 # You should have received a copy of the GNU General Public License along with
 # this program.  If not, see <https://www.gnu.org/licenses/>.
 
-from bioexplorer import BioExplorer, Surfactant, AnimationParams, Vector3
+from bioexplorer import BioExplorer, Surfactant, MolecularSystemAnimationParams, Vector3
 import os
 
 # pylint: disable=no-member
@@ -56,7 +56,7 @@ def test_surfactant():
     bio_explorer.add_surfactant(
         surfactant=surfactant_d, representation=protein_representation,
         position=Vector3(-50, 0, 0),
-        animation_params=AnimationParams(10)
+        animation_params=MolecularSystemAnimationParams(10)
     )
 
     # SP-A

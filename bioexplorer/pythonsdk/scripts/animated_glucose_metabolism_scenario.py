@@ -22,7 +22,7 @@
 # this program.  If not, see <https://www.gnu.org/licenses/>.
 
 from bioexplorer import BioExplorer, Protein, Membrane, Cell, \
-    AnimationParams, Volume, Vector2, Vector3, Quaternion, \
+    MolecularSystemAnimationParams, Volume, Vector2, Vector3, Quaternion, \
     MovieScenario
 from sqlalchemy import create_engine
 from sqlalchemy.orm import Session
@@ -262,7 +262,7 @@ class GlucoseMetabolismScenario(MovieScenario):
                     load_bonds=True, load_hydrogen=True,
                     load_non_polymer_chemicals=True,
                     occurrences=nb_molecules,
-                    animation_params=AnimationParams(
+                    animation_params=MolecularSystemAnimationParams(
                         random_seed,
                         random_seed + frame + 1, 0.2,
                         random_seed + frame + 2, 1.0))
@@ -292,7 +292,7 @@ class GlucoseMetabolismScenario(MovieScenario):
                 occurrences=30,  # nb_transporter_glut3,
                 rotation=Quaternion(0.707, -0.693, -0.139, 0.0),
                 load_non_polymer_chemicals=True, load_hydrogen=True, load_bonds=True,
-                animation_params=AnimationParams(1, frame + 1, 0.1, frame + 2, 0.25),
+                animation_params=MolecularSystemAnimationParams(1, frame + 1, 0.1, frame + 2, 0.25),
                 transmembrane_params=Vector2(0.0, 2.0)
             ))
 
@@ -306,7 +306,7 @@ class GlucoseMetabolismScenario(MovieScenario):
                 source=pdb_mct2_lac,
                 occurrences=nb_transporter_mct2,
                 load_non_polymer_chemicals=True, load_hydrogen=True, load_bonds=True,
-                animation_params=AnimationParams(2, frame + 3, 0.1, frame + 4, 0.005),
+                animation_params=MolecularSystemAnimationParams(2, frame + 3, 0.1, frame + 4, 0.005),
                 transmembrane_params=Vector2(0.0, 2.0)
             ))
 
@@ -319,7 +319,7 @@ class GlucoseMetabolismScenario(MovieScenario):
                 source=pdb_nka,
                 occurrences=nb_transporter_nka,
                 load_non_polymer_chemicals=True, load_hydrogen=True, load_bonds=True,
-                animation_params=AnimationParams(3, frame + 5, 0.1, frame + 6, 0.25),
+                animation_params=MolecularSystemAnimationParams(3, frame + 5, 0.1, frame + 6, 0.25),
                 transmembrane_params=Vector2(0.0, 2.0)
             ))
 
@@ -328,7 +328,7 @@ class GlucoseMetabolismScenario(MovieScenario):
             lipid_sources=pdb_lipids,
             lipid_density=lipid_density,
             load_non_polymer_chemicals=True, load_bonds=True,
-            animation_params=AnimationParams(0, frame + 7, 0.1, frame + 8, 0.25)
+            animation_params=MolecularSystemAnimationParams(0, frame + 7, 0.1, frame + 8, 0.25)
         )
 
         # Cell definition
@@ -355,7 +355,7 @@ class GlucoseMetabolismScenario(MovieScenario):
             occurrences=0,
             rotation=Quaternion(0.707, 0.707, 0.0, 0.0),
             load_non_polymer_chemicals=True, load_hydrogen=True, load_bonds=True,
-            animation_params=AnimationParams(4, frame + 9, 0.1, frame + 10, 0.25),
+            animation_params=MolecularSystemAnimationParams(4, frame + 9, 0.1, frame + 10, 0.25),
             transmembrane_params=Vector2(0.0, 2.0)
         )
 
@@ -364,7 +364,7 @@ class GlucoseMetabolismScenario(MovieScenario):
             lipid_sources=pdb_lipids,
             lipid_density=lipid_density,
             load_non_polymer_chemicals=True, load_bonds=True,
-            animation_params=AnimationParams(0, frame + 11, 0.1, frame + 12, 0.25)
+            animation_params=MolecularSystemAnimationParams(0, frame + 11, 0.1, frame + 12, 0.25)
         )
 
         # Cell definition
@@ -395,7 +395,7 @@ class GlucoseMetabolismScenario(MovieScenario):
                 occurrences=nb_transporter_glut1,
                 rotation=Quaternion(0.707, 0.707, 0.0, 0.0),
                 load_non_polymer_chemicals=True, load_hydrogen=True, load_bonds=True,
-                animation_params=AnimationParams(11, frame + 13, 0.1, frame + 14, 0.25),
+                animation_params=MolecularSystemAnimationParams(11, frame + 13, 0.1, frame + 14, 0.25),
                 transmembrane_params=Vector2(0.0, 2.0)
             ))
 
@@ -409,7 +409,7 @@ class GlucoseMetabolismScenario(MovieScenario):
                 source=pdb_mct1_lac,
                 occurrences=nb_transporter_mct1,
                 load_non_polymer_chemicals=True, load_hydrogen=True, load_bonds=True,
-                animation_params=AnimationParams(12, frame + 15, 0.1, frame + 16, 0.25),
+                animation_params=MolecularSystemAnimationParams(12, frame + 15, 0.1, frame + 16, 0.25),
                 transmembrane_params=Vector2(0.0, 2.0)
             ))
 
@@ -418,7 +418,7 @@ class GlucoseMetabolismScenario(MovieScenario):
             lipid_sources=pdb_lipids,
             lipid_density=lipid_density,
             load_non_polymer_chemicals=True, load_bonds=True,
-            animation_params=AnimationParams(0, frame + 17, 0.1, frame + 18, 0.25))
+            animation_params=MolecularSystemAnimationParams(0, frame + 17, 0.1, frame + 18, 0.25))
 
         # Cell definition
         astrocyte = Cell(
@@ -444,7 +444,7 @@ class GlucoseMetabolismScenario(MovieScenario):
             occurrences=0,
             rotation=Quaternion(0.707, 0.707, 0.0, 0.0),
             load_non_polymer_chemicals=True, load_hydrogen=True, load_bonds=True,
-            animation_params=AnimationParams(15, frame + 19, 0.1, frame + 20, 0.25),
+            animation_params=MolecularSystemAnimationParams(15, frame + 19, 0.1, frame + 20, 0.25),
             transmembrane_params=Vector2(0.0, 2.0)
         )
 
@@ -453,7 +453,7 @@ class GlucoseMetabolismScenario(MovieScenario):
             lipid_sources=pdb_lipids,
             lipid_density=lipid_density,
             load_non_polymer_chemicals=True, load_bonds=True,
-            animation_params=AnimationParams(0, frame + 21, 0.1, frame + 22, 0.25)
+            animation_params=MolecularSystemAnimationParams(0, frame + 21, 0.1, frame + 22, 0.25)
         )
 
         # Cell definition

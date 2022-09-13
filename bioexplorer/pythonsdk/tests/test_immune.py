@@ -21,7 +21,7 @@
 # You should have received a copy of the GNU General Public License along with
 # this program.  If not, see <https://www.gnu.org/licenses/>.
 
-from bioexplorer import BioExplorer, Volume, Protein, AnimationParams, Vector3
+from bioexplorer import BioExplorer, Volume, Protein, MolecularSystemAnimationParams, Vector3
 import os
 
 # pylint: disable=no-member
@@ -75,7 +75,7 @@ def test_immune():
         source=defensin_path,
         load_non_polymer_chemicals=True,
         occurrences=300,
-        animation_params=AnimationParams(3)
+        animation_params=MolecularSystemAnimationParams(3)
     )
 
     defensins_volume = Volume(

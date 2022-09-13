@@ -98,6 +98,14 @@ Vector2d doublesToVector2d(const doubles& value);
 Vector3d doublesToVector3d(const doubles& value);
 
 /**
+ * @brief Converts a vector of doubles into a 4D vector
+ *
+ * @param value Vector of doubles
+ * @return Vector3d A 4D vector
+ */
+Vector4d doublesToVector4d(const doubles& value);
+
+/**
  * @brief Converts a vector of doubles into a Quaternion
  *
  * @param values Vector of doubles
@@ -114,21 +122,29 @@ Quaterniond doublesToQuaterniond(const doubles& values);
 Vector4ds doublesToVector4ds(const doubles& values);
 
 /**
- * @brief Converts a vector of doubles into animation details
+ * @brief Converts a vector of doubles into molecular system animation details
  *
  * @param value Vector of doubles
- * @return AnimationDetails The animation details
+ * @return MolecularSystemAnimationDetails The animation details
  */
-AnimationDetails doublesToAnimationDetails(const doubles& values);
+MolecularSystemAnimationDetails doublesToMolecularSystemAnimationDetails(
+    const doubles& values);
+
+/**
+ * @brief Converts a vector of doubles into cell animation details
+ *
+ * @param value Vector of doubles
+ * @return CellAnimationDetails The animation details
+ */
+CellAnimationDetails doublesToCellAnimationDetails(const doubles& values);
 
 /**
  * @brief Returns a position and a rotation of a instance on a sphere using a
- * sphere-filling algorythm
+ * sphere-filling algorithm
  *
  * @param radius Radius of the sphere
- * @param occurrence Occurence of the instance
  * @param occurrences Total number of instances
- * @param rnd Randomized occurence of the instance (optional)
+ * @param rnd Randomized occurrence of the instance (optional)
  * @param position Resulting position of the instance on the sphere
  * @param rotation Resulting orientation of the instance on the sphere
  * @param ratio Ratio of coverage of the sphere
@@ -169,7 +185,7 @@ Quaterniond safeQuatlookAt(const Vector3d& v);
  * @brief Intersection between a ray and a box
  *
  * @param origin Origin of the ray
- * @param direction Direcion of the ray
+ * @param direction Direction of the ray
  * @param box Box
  * @param t0 Initial t of the ray
  * @param t1 Final t of the ray
@@ -211,5 +227,51 @@ double cells(const Vector3d& p, const double cellCount);
 double worleyNoise(const Vector3d& p, const double cellCount);
 
 size_t getMaterialIdFromOrientation(const Vector3d& orientation);
+
+/**
+ * @brief Return a random double between -0.5 and 0.5
+ *
+ * @return double A random double between -0.5 and 0.5
+ */
+double rnd1();
+
+/**
+ * @brief Return a predefined random double between -0.5 and 0.5
+ *
+ * @param index Index of the random double in a predefined array
+ * @return double A random double between -0.5 and 0.5
+ */
+double rnd2(const uint64_t index);
+
+/**
+ * @brief Return a controlled random double between -0.5 and 0.5, currently
+ * a sinusoidal function
+ *
+ * @param index Index of the random double in a sinusoidal function
+ * @return double A random double between -0.5 and 0.5
+ */
+double rnd3(const uint64_t index);
+
+/**
+ * @brief Randomly alters a quaternion according to the specified parameters
+ *
+ * @param q Initial quaternion
+ * @param seed Random seed
+ * @param index Index of the quaternion (typically the index of the
+ * corresponding element instance)
+ * @param weight Weight of the alteration
+ * @return Quaterniond Resulting modified quaternion
+ */
+Quaterniond weightedRandomRotation(const Quaterniond& q, const uint64_t seed,
+                                   const uint64_t index, const double weight);
+
+/**
+ * @brief Generate a random quaternion
+ *
+ * @param seed Seed to apply to the randomness
+ * @return Quaterniond Random quaternion
+ */
+Quaterniond randomQuaternion(const uint64_t seed);
+
 } // namespace common
 } // namespace bioexplorer

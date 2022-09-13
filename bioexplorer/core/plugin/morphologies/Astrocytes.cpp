@@ -41,12 +41,16 @@ using namespace io;
 using namespace db;
 
 const double DEFAULT_MITOCHONDRIA_DENSITY = 0.0459;
+const double DEFAULT_ENDFOOT_RADIUS_RATIO = 1.5;
 
 Astrocytes::Astrocytes(Scene& scene, const AstrocytesDetails& details)
     : Morphologies(details.radiusMultiplier, doublesToVector3d(details.scale))
     , _details(details)
     , _scene(scene)
 {
+    _radiusMultiplier =
+        _details.radiusMultiplier > 0.0 ? _details.radiusMultiplier : 1.0;
+    _animationDetails = doublesToCellAnimationDetails(_details.animationParams);
     Timer chrono;
     _buildModel();
     PLUGIN_TIMER(chrono.elapsed(), "Astrocytes loaded");
@@ -55,7 +59,7 @@ Astrocytes::Astrocytes(Scene& scene, const AstrocytesDetails& details)
 void Astrocytes::_buildModel(const doubles& radii)
 {
     const auto animationParams =
-        doublesToAnimationDetails(_details.animationParams);
+        doublesToMolecularSystemAnimationDetails(_details.animationParams);
     srand(animationParams.seed);
 
     if (_modelDescriptor)
@@ -91,8 +95,6 @@ void Astrocytes::_buildModel(const doubles& radii)
 
         ThreadSafeContainer container(*model, useSdf, _scale);
 
-        const auto& somaPosition = soma.center;
-
         // Load data from DB
         double somaRadius = 0.0;
         SectionMap sections;
@@ -114,6 +116,8 @@ void Astrocytes::_buildModel(const doubles& radii)
                 ++count;
             }
         somaRadius = _radiusMultiplier * somaRadius / count;
+        const auto somaPosition =
+            _animatedPosition(Vector4d(soma.center, somaRadius), somaId);
 
         // Color scheme
         switch (_details.populationColorScheme)
@@ -183,12 +187,15 @@ void Astrocytes::_buildModel(const doubles& radii)
                 {
                     // Section connected to the soma
                     const auto& point = points[0];
-                    const auto srcRadius =
-                        somaRadius * 0.75 * _radiusMultiplier;
-                    const auto dstRadius = point.w * 0.5 * _radiusMultiplier;
+                    const float srcRadius =
+                        somaRadius * 0.75f * _radiusMultiplier;
+                    const float dstRadius = point.w * 0.5f * _radiusMultiplier;
+                    const auto dstPosition = _animatedPosition(
+                        Vector4d(somaPosition + Vector3d(point), dstRadius),
+                        somaId);
                     geometryIndex = container.addCone(
-                        somaPosition, srcRadius, somaPosition + Vector3d(point),
-                        dstRadius, somaMaterialId, userData, neighbours,
+                        somaPosition, srcRadius, dstPosition, dstRadius,
+                        somaMaterialId, userData, neighbours,
                         Vector3f(srcRadius * astrocyteSomaDisplacementStrength,
                                  srcRadius * astrocyteSomaDisplacementFrequency,
                                  0.f));
@@ -198,9 +205,11 @@ void Astrocytes::_buildModel(const doubles& radii)
                 for (uint64_t i = 0; i < points.size() - 1; i += step)
                 {
                     const auto srcPoint = points[i];
-                    const auto src = somaPosition + Vector3d(srcPoint);
                     const float srcRadius =
                         srcPoint.w * 0.5 * _radiusMultiplier;
+                    const auto src = _animatedPosition(
+                        Vector4d(somaPosition + Vector3d(srcPoint), srcRadius),
+                        somaId);
 
                     // Ignore points that are too close the previous one
                     // (according to respective radii)
@@ -216,7 +225,9 @@ void Astrocytes::_buildModel(const doubles& radii)
                              (i + step) < points.size() - 1);
                     --i;
 
-                    const auto dst = somaPosition + Vector3d(dstPoint);
+                    const auto dst = _animatedPosition(
+                        Vector4d(somaPosition + Vector3d(dstPoint), dstRadius),
+                        somaId);
                     if (!useSdf)
                         geometryIndex = container.addSphere(dst, dstRadius,
                                                             sectionMaterialId,
@@ -262,8 +273,10 @@ void Astrocytes::_addEndFoot(ThreadSafeContainer& container,
                              const EndFootMap& endFeet, const doubles& radii,
                              const size_t materialId)
 {
-    const double DEFAULT_ENDFOOT_RADIUS_RATIO = 1.2;
     const auto radiusMultiplier = _details.radiusMultiplier;
+    const Vector3f displacement{sectionDisplacementStrength,
+                                sectionDisplacementFrequency, 0.f};
+
     for (const auto& endFoot : endFeet)
     {
         for (const auto& node : endFoot.second.nodes)
@@ -315,32 +328,45 @@ void Astrocytes::_addEndFoot(ThreadSafeContainer& container,
                 ++i;
             }
 
-            // Build the segment using spheres
+            // Build the segment using spheres and cones
+            uint64_t geometryIndex = 0;
+            Neighbours neighbours;
             for (uint64_t i = startIndex; i < endIndex - 1; ++i)
             {
                 auto it = vasculatureNodes.begin();
                 std::advance(it, i);
-                const auto& startNode = it->second;
-                const auto startRadius =
-                    (it->first < radii.size() ? radii[it->first]
-                                              : startNode.radius) *
-                    DEFAULT_ENDFOOT_RADIUS_RATIO * radiusMultiplier;
+                const auto& srcNode = it->second;
+                const auto srcUserData = it->first;
+                const auto srcVasculatureRadius =
+                    (srcUserData < radii.size() ? radii[srcUserData]
+                                                : srcNode.radius) *
+                    radiusMultiplier;
+                const float srcEndFootRadius =
+                    DEFAULT_ENDFOOT_RADIUS_RATIO * srcVasculatureRadius;
 
-                std::advance(it, 1);
-                const auto& endNode = it->second;
-                const auto endRadius =
-                    (it->first < radii.size() ? radii[it->first]
-                                              : startNode.radius) *
-                    DEFAULT_ENDFOOT_RADIUS_RATIO * radiusMultiplier;
+                ++it;
+                const auto& dstNode = it->second;
+                const auto dstUserData = it->first;
+                const auto dstVasculatureRadius =
+                    (dstUserData < radii.size() ? radii[dstUserData]
+                                                : dstNode.radius) *
+                    radiusMultiplier;
+                const float dstEndFootRadius =
+                    DEFAULT_ENDFOOT_RADIUS_RATIO * dstVasculatureRadius;
+
+                const auto srcPosition = _animatedPosition(
+                    Vector4d(srcNode.position, srcVasculatureRadius));
+                const auto dstPosition = _animatedPosition(
+                    Vector4d(dstNode.position, dstVasculatureRadius));
 
                 if (!_details.useSdf)
-                    container.addSphere(startNode.position, startRadius,
-                                        materialId, NO_USER_DATA);
-                container.addCone(startNode.position, startRadius,
-                                  endNode.position, endRadius, materialId,
-                                  NO_USER_DATA, {},
-                                  Vector3f(sectionDisplacementStrength,
-                                           sectionDisplacementFrequency, 0.f));
+                    container.addSphere(srcPosition, srcEndFootRadius,
+                                        materialId, srcUserData);
+                geometryIndex =
+                    container.addCone(srcPosition, srcEndFootRadius,
+                                      dstPosition, dstEndFootRadius, materialId,
+                                      srcUserData, neighbours, displacement);
+                neighbours = {geometryIndex};
             }
         }
     }

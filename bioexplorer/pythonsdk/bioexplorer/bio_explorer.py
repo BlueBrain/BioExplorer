@@ -48,7 +48,7 @@ from .version import VERSION as __version__
 # pylint: disable=missing-raises-doc
 
 
-class AnimationParams:
+class MolecularSystemAnimationParams:
     """
     Parameters used to introduce some randomness in the position and orientation of the protein.
 
@@ -91,10 +91,46 @@ class AnimationParams:
         """
         Copy the current object
 
-        :return: AnimationParams: A copy of the object
+        :return: MolecularSystemAnimationParams: A copy of the object
         """
-        return AnimationParams(self.seed, self.position_seed, self.position_strength,
-                               self.rotation_seed, self.rotation_strength, self.morphing_step)
+        return MolecularSystemAnimationParams(
+            self.seed, self.position_seed, self.position_strength,
+            self.rotation_seed, self.rotation_strength, self.morphing_step)
+
+
+class CellAnimationParams:
+    """Parameters used to introduce some sinusoidal function in a cell structure"""
+
+    def __init__(self, seed=0, offset=0, amplitude=1.0, frequency=1.0):
+        """
+        Animation parameters are used to define how cells should be animated
+
+        :seed: (int, optional): Initial position in the sinusoidal function. Defaults to 0.
+        :offset: (int, optional): offset in the sinusoidal function. Defaults to 0.
+        :amplitude: (float, optional): Amplitude of the sinusoidal function
+        :frequency: (float, optional): Frequency of the sinusoidal function
+        """
+        self.seed = seed
+        self.offset = offset
+        self.amplitude = amplitude
+        self.frequency = frequency
+
+    def to_list(self):
+        """
+        A list containing the values of class members
+
+        :return: A list containing the values of class members
+        :rtype: list
+        """
+        return [self.seed, self.offset, self.amplitude, self.frequency]
+
+    def copy(self):
+        """
+        Copy the current object
+
+        :return: MolecularSystemAnimationParams: A copy of the object
+        """
+        return CellAnimationParams(self.seed, self.offset, self.amplitude, self.frequency)
 
 
 class Vector3:
@@ -517,7 +553,7 @@ class BioExplorer:
 
     def add_sars_cov_2(self, name, resource_folder,
                        shape_params=Vector3(45.0, 0.0, 0.0),
-                       animation_params=AnimationParams(0, 1, 0.25, 1, 0.1),
+                       animation_params=MolecularSystemAnimationParams(0, 1, 0.25, 1, 0.1),
                        nb_protein_s=62, nb_protein_m=50, nb_protein_e=42,
                        open_protein_s_indices=[0], atom_radius_multiplier=1.0,
                        add_glycans=False, add_rna_sequence=False,
@@ -686,9 +722,10 @@ class BioExplorer:
                 indices=indices_closed,
                 representation=glycan_representation,
                 atom_radius_multiplier=atom_radius_multiplier,
-                animation_params=AnimationParams(0, 0, 0.0,
-                                                 animation_params.rotation_seed + 7,
-                                                 animation_params.rotation_strength)
+                animation_params=MolecularSystemAnimationParams(
+                    0, 0, 0.0,
+                    animation_params.rotation_seed + 7,
+                    animation_params.rotation_strength)
             )
             self.add_multiple_glycans(
                 assembly_name=name,
@@ -698,9 +735,10 @@ class BioExplorer:
                 indices=indices_open,
                 representation=glycan_representation,
                 atom_radius_multiplier=atom_radius_multiplier,
-                animation_params=AnimationParams(0, 0, 0.0,
-                                                 animation_params.rotation_seed + 7,
-                                                 animation_params.rotation_strength)
+                animation_params=MolecularSystemAnimationParams(
+                    0, 0, 0.0,
+                    animation_params.rotation_seed + 7,
+                    animation_params.rotation_strength)
             )
 
             # Complex
@@ -715,9 +753,10 @@ class BioExplorer:
                 indices=indices_closed,
                 representation=glycan_representation,
                 atom_radius_multiplier=atom_radius_multiplier,
-                animation_params=AnimationParams(0, 0, 0.0,
-                                                 animation_params.rotation_seed + 8,
-                                                 2.0 * animation_params.rotation_strength)
+                animation_params=MolecularSystemAnimationParams(
+                    0, 0, 0.0,
+                    animation_params.rotation_seed + 8,
+                    2.0 * animation_params.rotation_strength)
             )
 
             self.add_multiple_glycans(
@@ -728,9 +767,10 @@ class BioExplorer:
                 indices=indices_open,
                 representation=glycan_representation,
                 atom_radius_multiplier=atom_radius_multiplier,
-                animation_params=AnimationParams(0, 0, 0.0,
-                                                 animation_params.rotation_seed + 8,
-                                                 2.0 * animation_params.rotation_strength)
+                animation_params=MolecularSystemAnimationParams(
+                    0, 0, 0.0,
+                    animation_params.rotation_seed + 8,
+                    2.0 * animation_params.rotation_strength)
             )
 
             # O-Glycans
@@ -745,9 +785,10 @@ class BioExplorer:
                     site_indices=[index],
                     representation=glycan_representation,
                     atom_radius_multiplier=atom_radius_multiplier,
-                    animation_params=AnimationParams(0, 0, 0.0,
-                                                     animation_params.rotation_seed + 9,
-                                                     2.0 * animation_params.rotation_strength)
+                    animation_params=MolecularSystemAnimationParams(
+                        0, 0, 0.0,
+                        animation_params.rotation_seed + 9,
+                        2.0 * animation_params.rotation_strength)
                 )
                 self.add_sugar(o_glycan)
 
@@ -762,9 +803,10 @@ class BioExplorer:
                 source=high_mannose_paths[0],
                 site_indices=indices,
                 representation=glycan_representation,
-                animation_params=AnimationParams(0, 0, 0.0,
-                                                 animation_params.rotation_seed + 10,
-                                                 2.0 * animation_params.rotation_strength)
+                animation_params=MolecularSystemAnimationParams(
+                    0, 0, 0.0,
+                    animation_params.rotation_seed + 10,
+                    2.0 * animation_params.rotation_strength)
             )
             self.add_glycan(high_mannose_glycans)
 
@@ -779,9 +821,10 @@ class BioExplorer:
                 source=complex_paths[0],
                 site_indices=indices,
                 representation=glycan_representation,
-                animation_params=AnimationParams(0, 0, 0.0,
-                                                 animation_params.rotation_seed + 11,
-                                                 2.0 * animation_params.rotation_strength)
+                animation_params=MolecularSystemAnimationParams(
+                    0, 0, 0.0,
+                    animation_params.rotation_seed + 11,
+                    2.0 * animation_params.rotation_strength)
             )
             self.add_glycan(complex_glycans)
 
@@ -898,7 +941,7 @@ class BioExplorer:
 
     def add_surfactant(self, surfactant, atom_radius_multiplier=1.0,
                        representation=REPRESENTATION_ATOMS, position=Vector3(),
-                       rotation=Quaternion(), animation_params=AnimationParams()):
+                       rotation=Quaternion(), animation_params=MolecularSystemAnimationParams()):
         """
         Add a surfactant assembly to the scene
 
@@ -912,7 +955,7 @@ class BioExplorer:
         assert isinstance(surfactant, Surfactant)
         assert isinstance(position, Vector3)
         assert isinstance(rotation, Quaternion)
-        assert isinstance(animation_params, AnimationParams)
+        assert isinstance(animation_params, MolecularSystemAnimationParams)
 
         shape = self.ASSEMBLY_SHAPE_EMPTY_SPHERE
         nb_branches = 1
@@ -1357,7 +1400,8 @@ class BioExplorer:
         params["rotation"] = list(rna_sequence.rotation)
         return self._invoke_and_check("add-rna-sequence", params)
 
-    def add_membrane(self, assembly_name, name, membrane, animation_params=AnimationParams()):
+    def add_membrane(
+            self, assembly_name, name, membrane, animation_params=MolecularSystemAnimationParams()):
         """
         Add a membrane to the scene
 
@@ -1371,7 +1415,7 @@ class BioExplorer:
         :return: Result of the call to the BioExplorer backend
         """
         assert isinstance(membrane, Membrane)
-        assert isinstance(animation_params, AnimationParams)
+        assert isinstance(animation_params, MolecularSystemAnimationParams)
 
         lipid_pdb_ids = ''
         lipid_contents = ''
@@ -1504,7 +1548,7 @@ class BioExplorer:
     def add_multiple_glycans(
             self, assembly_name, glycan_type, protein_name, paths, representation, chain_ids=list(),
             indices=list(), load_bonds=True, atom_radius_multiplier=1.0, rotation=Quaternion(),
-            animation_params=AnimationParams()):
+            animation_params=MolecularSystemAnimationParams()):
         """
         Add glycans to a protein in a assembly
 
@@ -1523,7 +1567,7 @@ class BioExplorer:
         assert isinstance(chain_ids, list)
         assert isinstance(indices, list)
         assert isinstance(rotation, Quaternion)
-        assert isinstance(animation_params, AnimationParams)
+        assert isinstance(animation_params, MolecularSystemAnimationParams)
 
         path_index = 0
         for source in paths:
@@ -1980,7 +2024,7 @@ class BioExplorer:
     def set_material_colors_from_id(self, model_id):
         """
         Set material color according to material id.
-        
+
         The id of the model represents a 16bit RGB value for which the corresponding color is set
 
         :model_id: Id of the model
@@ -2340,7 +2384,9 @@ class BioExplorer:
             self, assembly_name, population_name, color_scheme=VASCULATURE_COLOR_SCHEME_NONE,
             use_sdf=False, section_gids=list(),
             load_capilarities=False, representation=VASCULATURE_REPRESENTATION_SEGMENT,
-            radius_multiplier=1.0, sql_filter='', scale=Vector3(1.0, 1.0, 1.0)):
+            radius_multiplier=1.0, sql_filter='',
+            scale=Vector3(1.0, 1.0, 1.0),
+            animation_params=CellAnimationParams()):
         """
         Add a vasculature to the 3D scene
 
@@ -2353,11 +2399,13 @@ class BioExplorer:
         :radius_muliplier: Applies the multiplier to all radii of the vasculature sections
         :sql_filter: Condition added to the SQL statement loading the vasculature
         :scale: Scale in the 3D scene
+        :animation_params: Extra optional parameters for animation purposes
 
         :return: Result of the request submission
         """
         assert isinstance(section_gids, list)
         assert isinstance(scale, Vector3)
+        assert isinstance(animation_params, CellAnimationParams)
 
         params = dict()
         params["assemblyName"] = assembly_name
@@ -2370,6 +2418,7 @@ class BioExplorer:
         params["radiusMultiplier"] = radius_multiplier
         params["sqlFilter"] = sql_filter
         params["scale"] = scale.to_list()
+        params["animationParams"] = animation_params.to_list()
         return self._invoke_and_check('add-vasculature', params)
 
     def get_vasculature_info(self, assembly_name):
@@ -2434,7 +2483,7 @@ class BioExplorer:
             morphology_color_scheme=MORPHOLOGY_COLOR_SCHEME_NONE,
             population_color_scheme=POPULATION_COLOR_SCHEME_NONE,
             radius_multiplier=1.0, sql_filter='', scale=Vector3(1.0, 1.0, 1.0),
-            animation_params=AnimationParams()):
+            animation_params=CellAnimationParams()):
         """
         Add a population of astrocytes to the 3D scene
 
@@ -2457,7 +2506,7 @@ class BioExplorer:
         :return: Result of the request submission
         """
         assert isinstance(scale, Vector3)
-        assert isinstance(animation_params, AnimationParams)
+        assert isinstance(animation_params, CellAnimationParams)
 
         params = dict()
         params["assemblyName"] = assembly_name
@@ -2489,7 +2538,8 @@ class BioExplorer:
             population_color_scheme=POPULATION_COLOR_SCHEME_NONE,
             radius_multiplier=1.0, simulation_report_id=-1,
             sql_node_filter='', sql_section_filter='',
-            scale=Vector3(1.0, 1.0, 1.0), animation_params=AnimationParams()):
+            scale=Vector3(1.0, 1.0, 1.0),
+            animation_params=CellAnimationParams()):
         """
         Add a population of astrocytes to the 3D scene
 
@@ -2518,7 +2568,7 @@ class BioExplorer:
         :return: Result of the request submission
         """
         assert isinstance(scale, Vector3)
-        assert isinstance(animation_params, AnimationParams)
+        assert isinstance(animation_params, CellAnimationParams)
 
         params = dict()
         params["assemblyName"] = assembly_name
@@ -2621,7 +2671,7 @@ class BioExplorer:
     def look_at(self, source, target):
         """
         Computes quaternion from given direction
-        
+
         Generate a quaternion to make a object rotate in the direction of a vector
         defined by two 3D points, a source and a target
 
@@ -2652,7 +2702,7 @@ class AssemblyProtein:
                  load_non_polymer_chemicals=False, load_hydrogen=True, chain_ids=list(),
                  recenter=True, occurrences=1, transmembrane_params=Vector2(),
                  position=Vector3(), rotation=Quaternion(), allowed_occurrences=list(),
-                 animation_params=AnimationParams(), constraints=list()):
+                 animation_params=MolecularSystemAnimationParams(), constraints=list()):
         """
         An AssemblyProtein is a protein that belongs to an assembly
 
@@ -2676,7 +2726,7 @@ class AssemblyProtein:
         """
         assert isinstance(position, Vector3)
         assert isinstance(rotation, Quaternion)
-        assert isinstance(animation_params, AnimationParams)
+        assert isinstance(animation_params, MolecularSystemAnimationParams)
 
         self.assembly_name = assembly_name
         self.name = name
@@ -2708,7 +2758,7 @@ class Membrane:
                  atom_radius_multiplier=1.0, load_bonds=False,
                  representation=BioExplorer.REPRESENTATION_ATOMS_AND_STICKS,
                  load_non_polymer_chemicals=False, chain_ids=list(), recenter=True,
-                 animation_params=AnimationParams()):
+                 animation_params=MolecularSystemAnimationParams()):
         """
         A membrane is an assembly of proteins with a given size and shape
 
@@ -2725,7 +2775,7 @@ class Membrane:
         :rotation: Relative rotation of the membrane in the assembly
         """
         assert isinstance(lipid_rotation, Quaternion)
-        assert isinstance(animation_params, AnimationParams)
+        assert isinstance(animation_params, MolecularSystemAnimationParams)
         assert lipid_density > 0.0
         assert lipid_density <= 10.0
 
@@ -2747,7 +2797,7 @@ class Sugar:
     def __init__(self, assembly_name, name, source, protein_name, atom_radius_multiplier=1.0,
                  load_bonds=True, representation=BioExplorer.REPRESENTATION_ATOMS,
                  recenter=True, chain_ids=list(), site_indices=list(), rotation=Quaternion(),
-                 animation_params=AnimationParams()):
+                 animation_params=MolecularSystemAnimationParams()):
         """
         Sugar descriptor
 
@@ -2767,7 +2817,7 @@ class Sugar:
         assert isinstance(chain_ids, list)
         assert isinstance(site_indices, list)
         assert isinstance(rotation, Quaternion)
-        assert isinstance(animation_params, AnimationParams)
+        assert isinstance(animation_params, MolecularSystemAnimationParams)
 
         self.assembly_name = assembly_name
         self.name = name
@@ -2790,7 +2840,7 @@ class RNASequence:
     def __init__(self, source, shape, shape_params, protein_source='', values_range=Vector2(),
                  curve_params=Vector3(), position=Vector3(), rotation=Quaternion(),
                  atom_radius_multiplier=1.0, representation=BioExplorer.REPRESENTATION_ATOMS,
-                 animation_params=AnimationParams()):
+                 animation_params=MolecularSystemAnimationParams()):
         """
         RNA sequence descriptor
 
@@ -2808,7 +2858,7 @@ class RNASequence:
         assert isinstance(curve_params, Vector3)
         assert isinstance(position, Vector3)
         assert isinstance(rotation, Quaternion)
-        assert isinstance(animation_params, AnimationParams)
+        assert isinstance(animation_params, MolecularSystemAnimationParams)
 
         self.source = source
         self.protein_source = protein_source
@@ -2889,7 +2939,7 @@ class Protein:
     def __init__(self, name, source, occurrences=1, load_bonds=False,
                  load_hydrogen=False, load_non_polymer_chemicals=False, position=Vector3(),
                  rotation=Quaternion(), allowed_occurrences=list(), chain_ids=list(),
-                 transmembrane_params=Vector2(), animation_params=AnimationParams()):
+                 transmembrane_params=Vector2(), animation_params=MolecularSystemAnimationParams()):
         """
         Protein descriptor
 
@@ -2907,7 +2957,7 @@ class Protein:
         assert isinstance(rotation, Quaternion)
         assert isinstance(transmembrane_params, Vector2)
         assert isinstance(allowed_occurrences, list)
-        assert isinstance(animation_params, AnimationParams)
+        assert isinstance(animation_params, MolecularSystemAnimationParams)
 
         self.name = name
         self.pdb_id = os.path.splitext(os.path.basename(source))[0].lower()

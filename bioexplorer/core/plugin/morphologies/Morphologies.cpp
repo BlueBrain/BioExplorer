@@ -31,8 +31,6 @@ namespace bioexplorer
 {
 namespace morphology
 {
-using namespace common;
-
 Morphologies::Morphologies(const double radiusMultiplier, const Vector3f& scale)
     : SDFGeometries(radiusMultiplier == 0.0 ? 1.0 : radiusMultiplier, scale)
 {
