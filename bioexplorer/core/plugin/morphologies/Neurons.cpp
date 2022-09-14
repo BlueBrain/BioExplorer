@@ -246,16 +246,23 @@ void Neurons::_buildMorphology(ThreadSafeContainer& container,
     const auto somaPosition =
         _animatedPosition(Vector4d(soma.position, somaRadius), neuronId);
 
-    size_t baseMaterialId = 0;
+    size_t baseMaterialId;
     switch (_details.populationColorScheme)
     {
+    case PopulationColorScheme::none:
+        baseMaterialId = 0;
+        break;
     case PopulationColorScheme::id:
         baseMaterialId = neuronIndex * NB_MATERIALS_PER_MORPHOLOGY;
         break;
     }
-    size_t somaMaterialId = baseMaterialId;
+
+    size_t somaMaterialId;
     switch (_details.morphologyColorScheme)
     {
+    case MorphologyColorScheme::none:
+        somaMaterialId = baseMaterialId;
+        break;
     case MorphologyColorScheme::section_type:
         somaMaterialId = baseMaterialId + MATERIAL_OFFSET_SOMA;
         break;
@@ -399,9 +406,12 @@ void Neurons::_addArrow(ThreadSafeContainer& container, const uint64_t neuronId,
                         const NeuronSectionType sectionType,
                         const size_t baseMaterialId)
 {
-    size_t sectionMaterialId = baseMaterialId;
+    size_t sectionMaterialId;
     switch (_details.morphologyColorScheme)
     {
+    case MorphologyColorScheme::none:
+        sectionMaterialId = sectionMaterialId = baseMaterialId;
+        break;
     case MorphologyColorScheme::section_type:
         sectionMaterialId = baseMaterialId + static_cast<size_t>(sectionType);
         break;
@@ -449,9 +459,12 @@ void Neurons::_addSection(ThreadSafeContainer& container,
     auto userData = NO_USER_DATA;
 
     const auto& points = section.points;
-    size_t sectionMaterialId = baseMaterialId;
+    size_t sectionMaterialId;
     switch (_details.morphologyColorScheme)
     {
+    case MorphologyColorScheme::none:
+        sectionMaterialId = baseMaterialId;
+        break;
     case MorphologyColorScheme::section_type:
         sectionMaterialId = baseMaterialId + section.type;
         break;
@@ -482,6 +495,9 @@ void Neurons::_addSection(ThreadSafeContainer& container,
     uint64_ts compartments;
     switch (_reportType)
     {
+    case ReportType::undefined:
+        userData = 0;
+        break;
     case ReportType::spike:
     case ReportType::soma:
     {
@@ -914,6 +930,9 @@ std::string Neurons::_attachSimulationReport(Model& model)
                                           _details.simulationReportId);
         switch (_reportType)
         {
+        case ReportType::undefined:
+            PLUGIN_DEBUG("No report attached to the geometry");
+            break;
         case ReportType::spike:
         {
             PLUGIN_INFO(1,

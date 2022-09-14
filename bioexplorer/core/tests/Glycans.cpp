@@ -59,8 +59,6 @@ SugarDetails getDescriptor()
     descriptor.pdbId = "1";
     descriptor.contents = getFileContents(
         "./bioexplorer/pythonsdk/tests/test_files/pdb/glycans/complex/1.pdb");
-    descriptor.proteinName;
-    descriptor.atomRadiusMultiplier;
     descriptor.loadBonds = true;
     descriptor.representation = ProteinRepresentation::atoms;
     descriptor.recenter = true;

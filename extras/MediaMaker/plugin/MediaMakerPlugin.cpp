@@ -293,7 +293,7 @@ void MediaMakerPlugin::_exportColorBuffer() const
     file.close();
     frameBuffer.clear();
 
-    Exiv2::Image::AutoPtr finalImage = Exiv2::ImageFactory::open(filename);
+    auto finalImage = Exiv2::ImageFactory::open(filename);
     if (finalImage.get())
     {
         Exiv2::XmpData xmpData;

@@ -858,6 +858,7 @@ void CacheLoader::exportToXYZ(const std::string& filename,
                     {
                     case XYZFileFormat::xyz_binary:
                     case XYZFileFormat::xyzr_binary:
+                    case XYZFileFormat::xyzrv_binary:
                         file.write((char*)&c.x, sizeof(double));
                         file.write((char*)&c.y, sizeof(double));
                         file.write((char*)&c.z, sizeof(double));
@@ -872,6 +873,7 @@ void CacheLoader::exportToXYZ(const std::string& filename,
                         break;
                     case XYZFileFormat::xyz_ascii:
                     case XYZFileFormat::xyzr_ascii:
+                    case XYZFileFormat::xyzrv_ascii:
                         file << c.x << " " << c.y << " " << c.z;
                         if (fileFormat == XYZFileFormat::xyzr_ascii ||
                             fileFormat == XYZFileFormat::xyzrv_ascii)
@@ -881,6 +883,9 @@ void CacheLoader::exportToXYZ(const std::string& filename,
                                 file << " " << sphere.radius;
                         }
                         file << std::endl;
+                        break;
+                    case XYZFileFormat::unspecified:
+                        PLUGIN_THROW("A file format must be specified");
                         break;
                     }
                 }

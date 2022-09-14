@@ -68,10 +68,12 @@ Transformation SphereShape::_getEmptySphereTransformation(
 {
     uint64_t rnd = occurrence;
     if (nbOccurrences != 0 && MolecularSystemAnimationDetails.seed != 0)
+    {
         if (GeneralSettings::getInstance()->getV1Compatibility())
             rnd = rand() % nbOccurrences;
         else
             rnd = rand() % std::numeric_limits<uint64_t>::max();
+    }
 
     const double radius =
         _radius +

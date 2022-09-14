@@ -33,8 +33,8 @@ set(BIOEXPLORER_SOURCE_DIR ${PROJECT_SOURCE_DIR}/../..)
 list(APPEND CMAKE_MODULE_PATH ${BIOEXPLORER_SOURCE_DIR}/CMake)
 set(${NAME}_MODULES_DIR ${PROJECT_SOURCE_DIR})
 
-find_package(TIFF REQUIRED SYSTEM)
-find_package(exiv2 REQUIRED SYSTEM)
+find_package(TIFF REQUIRED)
+find_package(exiv2 REQUIRED)
 
 include(ispc)
 
