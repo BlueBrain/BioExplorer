@@ -18,6 +18,10 @@
 # All rights reserved. Do not distribute without further notice.
 
 
+rockets~=1.0.3
+requests~=2.22.0
+python-jsonschema-objects~=0.3.5
+semver~=2.8.1
 setuptools~=46.0.0
 stringcase~=1.2.0
 pygments~=2.4.1
