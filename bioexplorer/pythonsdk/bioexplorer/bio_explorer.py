@@ -233,6 +233,10 @@ class BioExplorer:
     SHADING_CHAMELEON_MODE_EMITTER = 1
     SHADING_CHAMELEON_MODE_RECEIVER = 2
 
+    SHADING_CLIPPING_MODE_NONE = 0
+    SHADING_CLIPPING_PLANE = 1
+    SHADING_CLIPPING_SPHERE = 2
+
     CAMERA_PROJECTION_PERSPECTIVE = 0
     CAMERA_PROJECTION_FISHEYE = 1
     CAMERA_PROJECTION_PANORAMIC = 2
@@ -1709,7 +1713,7 @@ class BioExplorer:
                       specular_exponents=list(), opacities=list(), reflection_indices=list(),
                       refraction_indices=list(), glossinesses=list(), shading_modes=list(),
                       emissions=list(), cast_user_datas=list(), user_parameters=list(),
-                      chameleon_modes=list()):
+                      chameleon_modes=list(), clipping_modes=list()):
         """
         Set a list of material on a specified list of models
 
@@ -1731,6 +1735,7 @@ class BioExplorer:
         :user_parameters: List of convenience parameter used by some of the shaders
         :chameleon_modes: List of chameleon mode attributes. If receiver, material take the color of
         surrounding emitter geometry
+        :clipping_modes: List of clipping modes applied to the geometry attached to the material
         :return: Result of the request submission
         """
         if self._client is None:
@@ -1761,6 +1766,7 @@ class BioExplorer:
         params["shadingModes"] = shading_modes
         params["userParameters"] = user_parameters
         params["chameleonModes"] = chameleon_modes
+        params["clippingModes"] = clipping_modes
         return self._invoke_and_check("set-materials", params)
 
     def set_material_extra_attributes(self, model_id):
@@ -1782,7 +1788,8 @@ class BioExplorer:
                                    specular_exponent, user_parameter=1.0, glossiness=1.0,
                                    emission=0.0, opacity=1.0, reflection_index=0.0,
                                    refraction_index=1.0, cast_user_data=False,
-                                   chameleon_mode=SHADING_CHAMELEON_MODE_NONE):
+                                   chameleon_mode=SHADING_CHAMELEON_MODE_NONE,
+                                   clipping_mode=SHADING_CLIPPING_MODE_NONE):
         """
         Applies a palette of colors and attributes to specified materials
 
@@ -1799,6 +1806,7 @@ class BioExplorer:
         :refraction_index: Refraction index
         :chameleon_mode: Chameleon mode attributes. If receiver, material take the color of
         surrounding emitter geometry
+        :clipping_mode: Clipping mode applied to the geometry attached to the material
         """
         assert isinstance(specular_exponent, float)
         assert isinstance(user_parameter, float)
@@ -1821,6 +1829,7 @@ class BioExplorer:
         refraction_indices = list()
         chameleon_modes = list()
         cast_user_datas = list()
+        clipping_modes = list()
         for color in palette:
             colors.append(color)
             shading_modes.append(shading_mode)
@@ -1833,6 +1842,7 @@ class BioExplorer:
             refraction_indices.append(refraction_index)
             chameleon_modes.append(chameleon_mode)
             cast_user_datas.append(cast_user_data)
+            cast_clipping_modes.append(clipping_mode)
         self.set_materials(
             model_ids=model_ids,
             material_ids=material_ids,
@@ -1847,7 +1857,8 @@ class BioExplorer:
             reflection_indices=reflection_indices,
             refraction_indices=refraction_indices,
             chameleon_modes=chameleon_modes,
-            cast_user_datas=cast_user_datas
+            cast_user_datas=cast_user_datas,
+            clipping_modes=clipping_modes
         )
 
     def apply_default_color_scheme(

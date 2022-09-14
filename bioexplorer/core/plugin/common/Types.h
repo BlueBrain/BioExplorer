@@ -750,6 +750,8 @@ typedef struct
     doubles userParameters;
     /** List of values for chameleon mode parameters */
     int32_ts chameleonModes;
+    /** List of values for clipping mode parameters */
+    int32_ts clippingModes;
 } MaterialsDetails;
 
 /**

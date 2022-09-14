@@ -91,6 +91,10 @@ struct AdvancedMaterial : public ospray::Material
     /*! Determines if shading should include user data */
     bool castUserData{false};
 
+    /*! defines the type of clipping for the geometry attached to the material
+     */
+    MaterialClippingMode clippingMode;
+
     std::string toString() const final { return "default_material"; }
     void commit() final;
 };

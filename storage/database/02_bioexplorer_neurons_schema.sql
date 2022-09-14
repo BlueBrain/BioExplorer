@@ -244,8 +244,12 @@ create table if not exists neurons.synapse
     guid                     integer          not null
         constraint synapse_pk
             primary key,
-    presynaptic_neuron_guid  integer          not null,
-    postsynaptic_neuron_guid integer          not null,
+    presynaptic_neuron_guid   integer          not null,
+    presynaptic_section_guid  integer          not null,
+    presynaptic_segment_guid  integer          not null,
+    postsynaptic_neuron_guid  integer          not null,
+    postsynaptic_section_guid integer          not null,
+    postsynaptic_segment_guid integer          not null,
     surface_x_position       double precision not null,
     surface_y_position       double precision not null,
     surface_z_position       double precision not null,

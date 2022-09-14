@@ -88,6 +88,7 @@ struct ShadingAttributes
     MaterialChameleonMode chameleonMode;
     uint32 nodeId;
     bool castUserData;
+    MaterialClippingMode clippingMode;
     vec3f indirectColor;
     float indirectIntensity;
     vec3f simulationColor;
@@ -139,6 +140,38 @@ inline void initializeShadingAttributes(
     attributes.castUserData = false;
     attributes.simulationColor = make_vec3f(0.f);
     attributes.simulationIntensity = 0.f;
+
+    // Clipping
+    attributes.clippingMode = no_clipping;
+}
+
+bool isClipped(const uniform AdvancedRenderer* uniform self,
+               const varying vec3f& position,
+               const MaterialClippingMode clippingMode)
+{
+    if (clippingMode == no_clipping)
+        return false;
+
+    bool visible = true;
+    for (uint32 i = 0; i < self->numClipPlanes && visible; ++i)
+    {
+        if (clippingMode == plane)
+        {
+            const vec3f normal = {self->clipPlanes[i].x, self->clipPlanes[i].y,
+                                  self->clipPlanes[i].z};
+            const float d = self->clipPlanes[i].w;
+            const float distance = dot(normal, position) + d;
+            visible &= (distance > 0.f);
+        }
+        else if (clippingMode == sphere)
+        {
+            const vec3f center = {self->clipPlanes[i].x, self->clipPlanes[i].y,
+                                  self->clipPlanes[i].z};
+            const float radius = self->clipPlanes[i].w;
+            visible &= length(center - position) < radius;
+        }
+    }
+    return !visible;
 }
 
 inline void setGeometryShadingAttributes(
@@ -265,6 +298,9 @@ inline void setGeometryShadingAttributes(
 
         // Model Id
         attributes.nodeId = mat->nodeId;
+
+        // Clipping planes
+        attributes.clippingMode = mat->clippingMode;
     }
 
     // Update reflected shading normal
@@ -459,36 +495,41 @@ inline float shadedLightIntensity(varying ScreenSample& sample,
                               DG_FACEFORWARD | DG_MATERIALID | DG_COLOR |
                               DG_TEXCOORD);
 
-            uniform AdvancedMaterial* objMaterial =
-                (uniform AdvancedMaterial*)shadowingGeometry.material;
+            if (!isClipped(attributes.self, shadowingGeometry.P,
+                           attributes.clippingMode))
+            {
+                uniform AdvancedMaterial* objMaterial =
+                    (uniform AdvancedMaterial*)shadowingGeometry.material;
 
-            float opacity = 1.f;
+                float opacity = 1.f;
 
-            if (objMaterial == 0)
-                opacity = 1.f - shadowingGeometry.color.w;
-            else
-                foreach_unique(mat in objMaterial)
-                {
-                    if (mat->chameleonMode == emitter)
-                        opacity = 0.f;
-                    else
+                if (objMaterial == 0)
+                    opacity = 1.f - shadowingGeometry.color.w;
+                else
+                    foreach_unique(mat in objMaterial)
                     {
-                        opacity = mat->d;
-                        if (valid(mat->map_d))
+                        if (mat->chameleonMode == emitter)
+                            opacity = 0.f;
+                        else
                         {
-                            vec4f d_map = get4f(mat->map_d, shadowingGeometry);
-                            opacity = d_map.x;
-                        }
-                        else if (valid(mat->map_Kd))
-                        {
-                            vec4f localDiffuseColor_map =
-                                get4f(mat->map_Kd, shadowingGeometry);
-                            opacity = 1.f - localDiffuseColor_map.w;
+                            opacity = mat->d;
+                            if (valid(mat->map_d))
+                            {
+                                vec4f d_map =
+                                    get4f(mat->map_d, shadowingGeometry);
+                                opacity = d_map.x;
+                            }
+                            else if (valid(mat->map_Kd))
+                            {
+                                vec4f localDiffuseColor_map =
+                                    get4f(mat->map_Kd, shadowingGeometry);
+                                opacity = 1.f - localDiffuseColor_map.w;
+                            }
                         }
                     }
-                }
 
-            shadowIntensity += opacity;
+                shadowIntensity += opacity;
+            }
 
             shadowRay.t0 = max(0.f, shadowRay.t + shadowingGeometry.epsilon);
             shadowRay.t = inf;
@@ -962,7 +1003,11 @@ inline vec3f AdvancedRenderer_shadeRay(
             // Initialize geometry shading attributes
             setGeometryShadingAttributes(self, dg, sample, ray, attributes);
 
-            if (attributes.chameleonMode == emitter)
+            const bool discardIntersection =
+                isClipped(self, dg.P, attributes.clippingMode) ||
+                attributes.chameleonMode == emitter;
+
+            if (discardIntersection)
                 ray.t0 = ray.t + self->epsilonFactor * dg.epsilon;
             else
             {
@@ -1102,7 +1147,8 @@ export void AdvancedRenderer_set(
     const uniform bool useHardwareRandomizer, const uniform uint32 maxBounces,
     const uniform bool showBackground, const uniform bool matrixFilter,
     uniform float* uniform simulationData,
-    const uniform uint64 simulationDataSize)
+    const uniform uint64 simulationDataSize, const uniform vec4f clipPlanes[],
+    const uniform uint32 numClipPlanes)
 {
     uniform AdvancedRenderer* uniform self =
         (uniform AdvancedRenderer * uniform) _self;
@@ -1140,6 +1186,9 @@ export void AdvancedRenderer_set(
 
     self->simulationData = (uniform float* uniform)simulationData;
     self->simulationDataSize = simulationDataSize;
+
+    self->clipPlanes = clipPlanes;
+    self->numClipPlanes = numClipPlanes;
 }
 
 export void AdvancedRenderer_setTransferFunction(void* uniform _self,
