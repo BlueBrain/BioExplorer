@@ -241,9 +241,7 @@ create unique index if not exists section_type_guid_uindex
 
 create table if not exists neurons.synapse
 (
-    guid                     integer          not null
-        constraint synapse_pk
-            primary key,
+    synapse_class_guid        integer          not null,
     presynaptic_neuron_guid   integer          not null,
     presynaptic_section_guid  integer          not null,
     presynaptic_segment_guid  integer          not null,
@@ -257,9 +255,6 @@ create table if not exists neurons.synapse
     center_y_position        double precision not null,
     center_z_position        double precision not null
 );
-
-create unique index if not exists synapse_guid_uindex
-    on neurons.synapse (guid);
 
 create index if not exists synapse_presynaptic_neuron_guid_index
     on neurons.synapse (presynaptic_neuron_guid);
