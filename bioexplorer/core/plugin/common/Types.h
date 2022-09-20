@@ -750,6 +750,8 @@ typedef struct
     doubles userParameters;
     /** List of values for chameleon mode parameters */
     int32_ts chameleonModes;
+    /** List of values for clipping mode parameters */
+    int32_ts clippingModes;
 } MaterialsDetails;
 
 /**
@@ -1454,12 +1456,6 @@ typedef struct
     Vector3d centerPosition;
 } Synapse;
 using SynapseMap = std::map<uint64_t, Synapse>;
-
-enum class SynapseType
-{
-    afferent = 0,
-    efferent = 1
-};
 
 enum class ReportType
 {

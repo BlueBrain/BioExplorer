@@ -88,6 +88,9 @@ private:
 
     ospray::Ref<ospray::Data> _simulationData;
     ospray::uint64 _simulationDataSize;
+
+    // Clip planes
+    ospray::Ref<ospray::Data> clipPlanes;
 };
 } // namespace rendering
 } // namespace bioexplorer

@@ -71,4 +71,8 @@ struct AdvancedRenderer
     // Simulation data
     uniform float* uniform simulationData;
     uint64 simulationDataSize;
+
+    // Clip planes
+    const uniform vec4f* clipPlanes;
+    uint32 numClipPlanes;
 };

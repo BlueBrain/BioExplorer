@@ -173,6 +173,7 @@ void ThreadSafeContainer::_commitMaterials()
         props.setProperty({MATERIAL_PROPERTY_CHAMELEON_MODE, 0});
         props.setProperty({MATERIAL_PROPERTY_CAST_USER_DATA, false});
         props.setProperty({MATERIAL_PROPERTY_NODE_ID, 0});
+        props.setProperty({MATERIAL_PROPERTY_CLIPPING_MODE, 0});
         material->updateProperties(props);
     }
 }

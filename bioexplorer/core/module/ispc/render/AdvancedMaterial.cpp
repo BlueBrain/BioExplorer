@@ -96,6 +96,11 @@ void AdvancedMaterial::commit()
     // Model Id
     nodeId = getParam1i(MATERIAL_PROPERTY_NODE_ID, 0);
 
+    // Clipping mode
+    clippingMode = static_cast<MaterialClippingMode>(
+        getParam1i(MATERIAL_PROPERTY_CLIPPING_MODE,
+                   static_cast<int>(MaterialClippingMode::no_clipping)));
+
     ispc::AdvancedMaterial_set(
         getIE(), map_d ? map_d->getIE() : nullptr,
         (const ispc::AffineSpace2f&)xform_d, d,
@@ -114,8 +119,8 @@ void AdvancedMaterial::commit()
         (const ispc::AffineSpace2f&)xform_Bump,
         (const ispc::LinearSpace2f&)rot_Bump,
         (const ispc::MaterialShadingMode&)shadingMode, userParameter,
-        (const ispc::MaterialChameleonMode&)chameleonMode, nodeId,
-        castUserData);
+        (const ispc::MaterialChameleonMode&)chameleonMode, nodeId, castUserData,
+        (const ispc::MaterialClippingMode&)clippingMode);
 }
 
 #if !defined(DOXYGEN_SHOULD_SKIP_THIS)

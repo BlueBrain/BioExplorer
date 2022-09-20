@@ -680,7 +680,6 @@ SectionMap DBConnector::getNeuronSections(const std::string& populationName,
 
 SynapseMap DBConnector::getNeuronSynapses(const std::string& populationName,
                                           const uint64_t neuronId,
-                                          const SynapseType synapseType,
                                           const std::string& sqlCondition) const
 {
     CHECK_DB_INITIALIZATION
@@ -691,30 +690,23 @@ SynapseMap DBConnector::getNeuronSynapses(const std::string& populationName,
     try
     {
         std::string sql =
-            "SELECT guid, postsynaptic_neuron_guid, surface_x_position, "
+            "SELECT preSynaptic_neuron_guid, postsynaptic_neuron_guid, "
+            "surface_x_position, "
             "surface_y_position, surface_z_position, center_x_position, "
             "center_y_position, center_z_position FROM " +
-            populationName + ".synapse WHERE ";
-        switch (synapseType)
-        {
-        case SynapseType::afferent:
-            sql += "presynaptic_neuron_guid=" + std::to_string(neuronId);
-            break;
-        case SynapseType::efferent:
-            sql += "postsynaptic_neuron_guid=" + std::to_string(neuronId);
-            break;
-        }
+            populationName + ".synapse WHERE presynaptic_neuron_guid=" +
+            std::to_string(neuronId);
 
         if (!sqlCondition.empty())
             sql += " AND " + sqlCondition;
 
         PLUGIN_DEBUG(sql);
+        uint64_t i = 0;
         auto res = transaction.exec(sql);
         for (auto c = res.begin(); c != res.end(); ++c)
         {
             Synapse synapse;
-            const auto synapseId = c[0].as<uint64_t>();
-            synapse.preSynapticNeuron = neuronId;
+            synapse.preSynapticNeuron = c[0].as<uint64_t>();
             synapse.postSynapticNeuron = c[1].as<uint64_t>();
             synapse.surfacePosition =
                 Vector3d(c[2].as<double>(), c[3].as<double>(),
@@ -722,7 +714,8 @@ SynapseMap DBConnector::getNeuronSynapses(const std::string& populationName,
             synapse.centerPosition =
                 Vector3d(c[5].as<double>(), c[6].as<double>(),
                          c[7].as<double>());
-            synapses[synapseId] = synapse;
+            synapses[i] = synapse;
+            ++i;
         }
     }
     catch (const pqxx::sql_error& e)
@@ -730,6 +723,7 @@ SynapseMap DBConnector::getNeuronSynapses(const std::string& populationName,
         PLUGIN_THROW(e.what());
     }
 
+    PLUGIN_DEBUG(std::to_string(synapses.size()) + " synapses")
     return synapses;
 }
 

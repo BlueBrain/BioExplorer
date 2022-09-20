@@ -113,6 +113,10 @@ void AdvancedRenderer::commit()
         ispc::AdvancedRenderer_setTransferFunction(getIE(),
                                                    transferFunction->getIE());
 
+    clipPlanes = getParamData("clipPlanes", nullptr);
+    const auto clipPlaneData = clipPlanes ? clipPlanes->data : nullptr;
+    const uint32 numClipPlanes = clipPlanes ? clipPlanes->numItems : 0;
+
     ispc::AdvancedRenderer_set(
         getIE(), (_bgMaterial ? _bgMaterial->getIE() : nullptr), _shadows,
         _softShadows, _softShadowsSamples, _giStrength, _giDistance, _giSamples,
@@ -120,7 +124,7 @@ void AdvancedRenderer::commit()
         _exposure, _epsilonFactor, _fogThickness, _fogStart,
         _useHardwareRandomizer, _maxBounces, _showBackground, _matrixFilter,
         _simulationData ? (float*)_simulationData->data : nullptr,
-        _simulationDataSize);
+        _simulationDataSize, (const ispc::vec4f*)clipPlaneData, numClipPlanes);
 }
 
 AdvancedRenderer::AdvancedRenderer()

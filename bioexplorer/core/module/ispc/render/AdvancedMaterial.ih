@@ -56,4 +56,5 @@ struct AdvancedMaterial
     MaterialChameleonMode chameleonMode;
     uint32 nodeId;
     bool castUserData;
+    MaterialClippingMode clippingMode;
 };

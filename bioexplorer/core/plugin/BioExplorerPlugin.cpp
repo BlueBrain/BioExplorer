@@ -1676,6 +1676,10 @@ Response BioExplorerPlugin::_setMaterials(const MaterialsDetails &payload)
                                 material->updateProperty(
                                     MATERIAL_PROPERTY_CHAMELEON_MODE,
                                     payload.chameleonModes[id]);
+                            if (!payload.clippingModes.empty())
+                                material->updateProperty(
+                                    MATERIAL_PROPERTY_CLIPPING_MODE,
+                                    payload.clippingModes[id]);
 
                             // This is needed to apply modifications.
                             // Changes to the material will be committed

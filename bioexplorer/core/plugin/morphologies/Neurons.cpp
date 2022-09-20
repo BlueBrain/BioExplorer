@@ -368,7 +368,7 @@ void Neurons::_buildMorphology(ThreadSafeContainer& container,
 
     // Synapses
     if (_details.loadSynapses)
-        _addSpines(container, neuronIndex, somaPosition, somaRadius,
+        _addSpines(container, neuronId, somaPosition, somaRadius,
                    baseMaterialId);
 }
 
@@ -800,28 +800,13 @@ void Neurons::_addSpines(ThreadSafeContainer& container,
                          const double somaRadius, const size_t baseMaterialId)
 {
     const auto& connector = DBConnector::getInstance();
-    const auto afferentSynapses =
-        connector.getNeuronSynapses(_details.populationName, neuronId,
-                                    SynapseType::afferent);
     const size_t materialId = baseMaterialId + MATERIAL_OFFSET_AFFERENT_SYNPASE;
-
-    for (const auto& synapse : afferentSynapses)
-        // TODO: Do not create spines on the soma, the data is not yet
-        // acceptable
-        if (length(synapse.second.surfacePosition - somaPosition) >
-                somaRadius * 3.0 &&
-            length(synapse.second.centerPosition - somaPosition) >
-                somaRadius * 3.0)
-            _addSpine(container, neuronId, synapse.first, synapse.second,
-                      materialId, SynapseType::afferent);
-
-    const auto efferentSynapses =
-        connector.getNeuronSynapses(_details.populationName, neuronId,
-                                    SynapseType::efferent);
+    const auto synapses =
+        connector.getNeuronSynapses(_details.populationName, neuronId);
     const size_t spineMaterialId =
         baseMaterialId + MATERIAL_OFFSET_EFFERENT_SYNPASE;
 
-    for (const auto& synapse : efferentSynapses)
+    for (const auto& synapse : synapses)
         // TODO: Do not create spines on the soma, the data is not yet
         // acceptable
         if (length(synapse.second.surfacePosition - somaPosition) >
@@ -829,19 +814,19 @@ void Neurons::_addSpines(ThreadSafeContainer& container,
             length(synapse.second.centerPosition - somaPosition) >
                 somaRadius * 3.0)
             _addSpine(container, neuronId, synapse.first, synapse.second,
-                      materialId, SynapseType::efferent);
+                      materialId);
 }
 
 void Neurons::_addSpine(ThreadSafeContainer& container, const uint64_t neuronId,
                         const uint64_t guid, const Synapse& synapse,
-                        const size_t SpineMaterialId,
-                        const SynapseType& synapseType)
+                        const size_t SpineMaterialId)
 {
     const double radius = DEFAULT_SPINE_RADIUS;
 
     // Spine geometry
-    const double spineSmallRadius = radius * 0.15;
-    const double spineBaseRadius = radius * 0.25;
+    const auto spineSmallRadius = radius * spineRadiusRatio * 0.15;
+    const auto spineBaseRadius = radius * spineRadiusRatio * 0.25;
+    const auto spineLargeRadius = radius * spineRadiusRatio;
 
     const auto centerPosition =
         _animatedPosition(Vector4d(synapse.centerPosition, spineBaseRadius),
@@ -850,15 +835,11 @@ void Neurons::_addSpine(ThreadSafeContainer& container, const uint64_t neuronId,
         _animatedPosition(Vector4d(synapse.surfacePosition, spineBaseRadius),
                           neuronId);
 
-    const auto direction = (centerPosition - surfacePosition) * 0.4 *
-                           (synapseType == SynapseType::afferent ? -1.0 : 1.0);
+    const auto direction = centerPosition - surfacePosition;
+    const auto l = length(direction) - spineLargeRadius;
 
-    const auto& origin =
-        (synapseType == SynapseType::afferent ? centerPosition
-                                              : surfacePosition);
-    const auto& target = origin + direction;
-
-    const auto spineLargeRadius = radius * spineRadiusRatio;
+    const auto origin = surfacePosition;
+    const auto target = origin + normalize(direction) * l;
 
     // Create random shape between origin and target
     auto middle = (target + origin) / 2.0;
@@ -868,9 +849,11 @@ void Neurons::_addSpine(ThreadSafeContainer& container, const uint64_t neuronId,
     const float spineMiddleRadius = spineSmallRadius + d * 0.1 * rnd2(i + 3);
 
     const auto displacement =
-        Vector3f(radius * spineDisplacementStrength,
-                 radius * spineDisplacementFrequency, 0.f);
+        Vector3f(spineDisplacementStrength, spineDisplacementFrequency, 0.f);
     Neighbours neighbours;
+    if (!_details.useSdf)
+        container.addSphere(target, spineLargeRadius, SpineMaterialId,
+                            neuronId);
     neighbours.insert(container.addSphere(middle, spineMiddleRadius,
                                           SpineMaterialId, neuronId, neighbours,
                                           displacement));
