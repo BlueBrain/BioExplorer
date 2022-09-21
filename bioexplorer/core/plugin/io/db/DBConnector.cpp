@@ -618,8 +618,8 @@ NeuronSomaMap DBConnector::getNeurons(const std::string& populationName,
             NeuronSoma soma;
             soma.position =
                 Vector3d(c[1].as<float>(), c[2].as<float>(), c[3].as<float>());
-            soma.rotation = Quaterniond(c[7].as<float>(), c[6].as<float>(),
-                                        c[5].as<float>(), c[4].as<float>());
+            soma.rotation = Quaterniond(c[7].as<float>(), c[4].as<float>(),
+                                        c[5].as<float>(), c[6].as<float>());
             soma.eType = c[8].as<uint64_t>();
             soma.mType = c[9].as<uint64_t>();
             soma.layer = 0; // TODO
