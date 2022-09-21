@@ -23,7 +23,7 @@ cmake_minimum_required(VERSION 3.1 FATAL_ERROR)
 # ==============================================================================
 set(NAME METABOLISM)
 set(LIBRARY_NAME Metabolism)
-project(${NAME} VERSION ${PACKAGE_VERSION})
+project(${NAME} VERSION ${BIOEXPLORER_PACKAGE_VERSION})
 set(${NAME}_VERSION_ABI 1)
 
 # ==============================================================================

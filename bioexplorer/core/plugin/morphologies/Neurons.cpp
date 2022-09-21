@@ -196,17 +196,14 @@ void Neurons::_buildOrientations(ThreadSafeContainer& container,
                                  const size_t baseMaterialId)
 {
     const auto radius = _details.radiusMultiplier;
-    const auto src = Vector4d(0, 0, 0, radius);
     uint64_t progress = 0;
     for (const auto soma : somas)
     {
         PLUGIN_PROGRESS("Loading soma orientations", progress, somas.size());
-        const auto rotation = soma.second.rotation;
-        const auto dst = Vector4d(rotation * (UP_VECTOR * radius *
-                                              DEFAULT_ARROW_RADIUS_RATIO),
-                                  radius);
-        _addArrow(container, soma.first, soma.second.position, rotation, src,
-                  dst, NeuronSectionType::soma, 0);
+        _addArrow(container, soma.first, soma.second.position,
+                  soma.second.rotation, Vector4d(0, 0, 0, radius * 0.2),
+                  Vector4d(radius, 0, 0, radius * 0.2), NeuronSectionType::soma,
+                  0);
         ++progress;
     }
 }
@@ -417,7 +414,7 @@ void Neurons::_addArrow(ThreadSafeContainer& container, const uint64_t neuronId,
         break;
     case MorphologyColorScheme::section_orientation:
         sectionMaterialId =
-            getMaterialIdFromOrientation(Vector3d(dstNode) - Vector3d(srcNode));
+            getMaterialIdFromOrientation(somaRotation * Vector3d(0, 0, 1));
         break;
     }
 
