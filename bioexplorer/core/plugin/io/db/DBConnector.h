@@ -255,17 +255,19 @@ public:
                                  const std::string& sqlCondition = "") const;
 
     /**
-     * @brief Get the synapses attached to a given neuron
+     * @brief Get the synapses attached to a given neuron section
      *
      * @param populationName Name of the population
      * @param neuronId Identifier of the neuron
+     * @param neuronId Identifier of the section
      * @param sqlCondition String containing an WHERE condition for the SQL
      * statement
      * @return SynapseMap A map of synapses
      */
-    SynapseMap getNeuronSynapses(const std::string& populationName,
-                                 const uint64_t neuronId,
-                                 const std::string& sqlCondition = "") const;
+    SynapseMap getSectionSynapses(const std::string& populationName,
+                                  const uint64_t neuronId,
+                                  const uint64_t sectionId,
+                                  const std::string& sqlCondition = "") const;
 
     /**
      * @brief Get the neuron report type

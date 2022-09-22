@@ -241,26 +241,15 @@ create unique index if not exists section_type_guid_uindex
 
 create table if not exists neurons.synapse
 (
-    synapse_class_guid        integer          not null,
-    presynaptic_neuron_guid   integer          not null,
-    presynaptic_section_guid  integer          not null,
-    presynaptic_segment_guid  integer          not null,
-    postsynaptic_neuron_guid  integer          not null,
-    postsynaptic_section_guid integer          not null,
-    postsynaptic_segment_guid integer          not null,
-    surface_x_position       double precision not null,
-    surface_y_position       double precision not null,
-    surface_z_position       double precision not null,
-    center_x_position        double precision not null,
-    center_y_position        double precision not null,
-    center_z_position        double precision not null
+    presynaptic_neuron_guid       integer          not null,
+    presynaptic_section_guid      integer          not null,
+    presynaptic_segment_guid      integer          not null,
+    postsynaptic_neuron_guid      integer          not null,
+    postsynaptic_section_guid     integer          not null,
+    postsynaptic_segment_guid     integer          not null,
+    presynaptic_segment_distance  double precision not null,
+    postsynaptic_segment_distance double precision not null
 );
-
-create index if not exists synapse_presynaptic_neuron_guid_index
-    on neurons.synapse (presynaptic_neuron_guid);
-
-create index if not exists synapse_postsynaptic_neuron_guid_index
-    on neurons.synapse (postsynaptic_neuron_guid);
 
 create table if not exists neurons.synapse_class
 (

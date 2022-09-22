@@ -1450,12 +1450,14 @@ using NeuronSomaMap = std::map<uint64_t, NeuronSoma>;
 
 typedef struct
 {
-    uint64_t preSynapticNeuron;
-    uint64_t postSynapticNeuron;
-    Vector3d surfacePosition;
-    Vector3d centerPosition;
+    uint64_t postSynapticNeuronId;
+    uint64_t postSynapticSectionId;
+    uint64_t postSynapticSegmentId;
+    double preSynapticSegmentDistance;
+    double postSynapticSegmentDistance;
 } Synapse;
-using SynapseMap = std::map<uint64_t, Synapse>;
+using Synapses = std::vector<Synapse>;
+using SynapseMap = std::map<uint64_t, Synapses>;
 
 enum class ReportType
 {

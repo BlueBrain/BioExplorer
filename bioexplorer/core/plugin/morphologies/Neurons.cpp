@@ -358,15 +358,11 @@ void Neurons::_buildMorphology(ThreadSafeContainer& container,
             neighbours.insert(geometryIndex);
         }
 
-        _addSection(container, neuronId, section.first, section.second,
-                    geometryIndex, somaPosition, somaRotation, somaRadius,
-                    baseMaterialId, mitochondriaDensity, somaUserData);
+        _addSection(container, neuronId, soma.morphologyId, section.first,
+                    section.second, geometryIndex, somaPosition, somaRotation,
+                    somaRadius, baseMaterialId, mitochondriaDensity,
+                    somaUserData);
     }
-
-    // Synapses
-    if (_details.loadSynapses)
-        _addSpines(container, neuronId, somaPosition, somaRadius,
-                   baseMaterialId);
 }
 
 void Neurons::_addVaricosity(Vector4fs& points)
@@ -442,8 +438,8 @@ void Neurons::_addArrow(ThreadSafeContainer& container, const uint64_t neuronId,
 }
 
 void Neurons::_addSection(ThreadSafeContainer& container,
-                          const uint64_t neuronId, const uint64_t sectionId,
-                          const Section& section,
+                          const uint64_t neuronId, const uint64_t morphologyId,
+                          const uint64_t sectionId, const Section& section,
                           const uint64_t somaGeometryIndex,
                           const Vector3d& somaPosition,
                           const Quaterniond& somaRotation,
@@ -451,6 +447,7 @@ void Neurons::_addSection(ThreadSafeContainer& container,
                           const double mitochondriaDensity,
                           const uint64_t somaUserData)
 {
+    const auto& connector = DBConnector::getInstance();
     const auto sectionType = static_cast<NeuronSectionType>(section.type);
     auto useSdf = _details.useSdf;
     auto userData = NO_USER_DATA;
@@ -481,6 +478,12 @@ void Neurons::_addSection(ThreadSafeContainer& container,
     if (addVaricosity)
         _addVaricosity(localPoints);
 
+    // Synapses
+    SynapseMap synapses;
+    if (_details.loadSynapses)
+        synapses = connector.getSectionSynapses(_details.populationName,
+                                                neuronId, sectionId);
+
     // Section surface
     double sectionLength = 0.0;
     double sectionVolume = 0.0;
@@ -504,7 +507,6 @@ void Neurons::_addSection(ThreadSafeContainer& container,
     case ReportType::compartment:
     {
         userData = somaUserData;
-        const auto& connector = DBConnector::getInstance();
         compartments =
             connector.getNeuronSectionCompartments(_details.populationName,
                                                    _details.simulationReportId,
@@ -567,6 +569,20 @@ void Neurons::_addSection(ThreadSafeContainer& container,
 
             if (!useSdf)
                 container.addSphere(dst, dstRadius, materialId, userData);
+
+            const auto it = synapses.find(i);
+            if (it != synapses.end())
+            {
+                for (const auto& synapse : (*it).second)
+                {
+                    const Vector3d segmentDirection = normalize(dst - src);
+                    const Vector3d surfacePosition =
+                        src +
+                        segmentDirection * synapse.preSynapticSegmentDistance;
+                    _addSpine(container, neuronId, morphologyId, sectionId,
+                              synapse, materialId, surfacePosition);
+                }
+            }
 
             geometryIndex =
                 container.addCone(src, srcRadius, dst, dstRadius, materialId,
@@ -792,32 +808,12 @@ void Neurons::_addAxonMyelinSheath(
     }
 }
 
-void Neurons::_addSpines(ThreadSafeContainer& container,
-                         const uint64_t neuronId, const Vector3d somaPosition,
-                         const double somaRadius, const size_t baseMaterialId)
+void Neurons::_addSpine(ThreadSafeContainer& container, const uint64_t neuronId,
+                        const uint64_t morphologyId, const uint64_t sectionId,
+                        const Synapse& synapse, const size_t SpineMaterialId,
+                        const Vector3d& preSynapticSurfacePosition)
 {
     const auto& connector = DBConnector::getInstance();
-    const size_t materialId = baseMaterialId + MATERIAL_OFFSET_AFFERENT_SYNPASE;
-    const auto synapses =
-        connector.getNeuronSynapses(_details.populationName, neuronId);
-    const size_t spineMaterialId =
-        baseMaterialId + MATERIAL_OFFSET_EFFERENT_SYNPASE;
-
-    for (const auto& synapse : synapses)
-        // TODO: Do not create spines on the soma, the data is not yet
-        // acceptable
-        if (length(synapse.second.surfacePosition - somaPosition) >
-                somaRadius * 3.0 &&
-            length(synapse.second.centerPosition - somaPosition) >
-                somaRadius * 3.0)
-            _addSpine(container, neuronId, synapse.first, synapse.second,
-                      materialId);
-}
-
-void Neurons::_addSpine(ThreadSafeContainer& container, const uint64_t neuronId,
-                        const uint64_t guid, const Synapse& synapse,
-                        const size_t SpineMaterialId)
-{
     const double radius = DEFAULT_SPINE_RADIUS;
 
     // Spine geometry
@@ -825,23 +821,62 @@ void Neurons::_addSpine(ThreadSafeContainer& container, const uint64_t neuronId,
     const auto spineBaseRadius = radius * spineRadiusRatio * 0.25;
     const auto spineLargeRadius = radius * spineRadiusRatio;
 
-    const auto centerPosition =
-        _animatedPosition(Vector4d(synapse.centerPosition, spineBaseRadius),
-                          neuronId);
-    const auto surfacePosition =
-        _animatedPosition(Vector4d(synapse.surfacePosition, spineBaseRadius),
-                          neuronId);
+    const auto postSynapticSections = connector.getNeuronSections(
+        _details.populationName, synapse.postSynapticNeuronId,
+        "s.section_guid=" + std::to_string(synapse.postSynapticSectionId));
 
-    const auto direction = centerPosition - surfacePosition;
+    if (postSynapticSections.empty())
+    {
+        PLUGIN_ERROR("Spine: " << neuronId << " / " << sectionId << " -> "
+                               << synapse.postSynapticNeuronId << " / "
+                               << synapse.postSynapticSectionId << " / "
+                               << synapse.postSynapticSegmentId);
+        PLUGIN_ERROR("Could not find section " << synapse.postSynapticSectionId
+                                               << "of neuron "
+                                               << synapse.postSynapticNeuronId);
+        return;
+    }
+
+    const auto& postSynapticSection = postSynapticSections.begin()->second;
+    auto postSynapticSegmentId = synapse.postSynapticSegmentId;
+    const auto nbPostSynapticSegments = postSynapticSection.points.size();
+    if (postSynapticSegmentId >= nbPostSynapticSegments - 1)
+    {
+        PLUGIN_ERROR("Spine: " << neuronId << " / " << sectionId << " -> "
+                               << synapse.postSynapticNeuronId << " / "
+                               << synapse.postSynapticSectionId << " / "
+                               << synapse.postSynapticSegmentId);
+        PLUGIN_ERROR("Post-synaptic segment Id is out of range: "
+                     << postSynapticSegmentId << "/" << nbPostSynapticSegments
+                     << ". Section " << synapse.postSynapticSectionId
+                     << " of neuron " << synapse.postSynapticNeuronId);
+        return;
+    }
+
+    const Vector3d postSynapticSegmentDirection =
+        normalize(postSynapticSection.points[postSynapticSegmentId + 1] -
+                  postSynapticSection.points[postSynapticSegmentId]);
+
+    const Vector3d postSynapticSurfacePosition =
+        Vector3d(postSynapticSection.points[postSynapticSegmentId]) +
+        postSynapticSegmentDirection * synapse.postSynapticSegmentDistance;
+
+    const Vector3d animatedPostSynapticSurfacePosition =
+        _animatedPosition(Vector4d(postSynapticSurfacePosition,
+                                   spineBaseRadius),
+                          synapse.postSynapticNeuronId);
+
+    const auto direction =
+        animatedPostSynapticSurfacePosition - preSynapticSurfacePosition;
     const auto l = length(direction) - spineLargeRadius;
 
-    const auto origin = surfacePosition;
+    const auto origin = postSynapticSurfacePosition;
     const auto target = origin + normalize(direction) * l;
 
     // Create random shape between origin and target
     auto middle = (target + origin) / 2.0;
     const double d = length(target - origin) / 1.5;
-    const auto i = guid * 4;
+    const auto i = neuronId * 4;
     middle += Vector3f(d * rnd2(i), d * rnd2(i + 1), d * rnd2(i + 2));
     const float spineMiddleRadius = spineSmallRadius + d * 0.1 * rnd2(i + 3);
 
