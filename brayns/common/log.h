@@ -23,15 +23,15 @@
 
 #include <iostream>
 
-#define BRAYNS_ERROR std::cerr << "[ERROR] "
-#define BRAYNS_WARN std::cerr << "[WARN ] "
-#define BRAYNS_INFO std::cout << "[INFO ] "
+#define BRAYNS_ERROR std::cerr << "E [BR] "
+#define BRAYNS_WARN std::cerr << "W [BR] "
+#define BRAYNS_INFO std::cout << "I [BR] "
 #ifdef NDEBUG
 #define BRAYNS_DEBUG \
     if (false)       \
     std::cout
 #else
-#define BRAYNS_DEBUG std::cout << "[DEBUG] "
+#define BRAYNS_DEBUG std::cout << "D [BR] "
 #endif
 
 #define BRAYNS_THROW(exc)                        \

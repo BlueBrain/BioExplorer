@@ -18,10 +18,10 @@
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
 
-#include <optix_world.h>
+ #include <optix.h>
 
-using namespace optix;
-
+ #include <sutil/vec_math.h>
+ 
 #define OFFSET_USER_DATA 0
 #define OFFSET_CENTER (OFFSET_USER_DATA + 2)
 #define OFFSET_UP (OFFSET_CENTER + 3)

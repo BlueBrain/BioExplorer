@@ -19,7 +19,7 @@
 
 #include "TransferFunction.h"
 
-#include <optix_world.h>
+#include <optix_types.h>
 
 struct PerRayData_radiance
 {

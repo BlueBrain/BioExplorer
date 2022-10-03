@@ -17,12 +17,13 @@
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
 
-#include "../../CommonStructs.h"
-#include "../Helpers.h"
-#include "../Random.h"
-#include <optix.h>
-#include <optixu/optixu_math_namespace.h>
-#include <optixu/optixu_matrix_namespace.h>
+ #include <optix.h>
+
+ #include <sutil/vec_math.h>
+//  #include "../../CommonStructs.h"
+// #include "../Helpers.h"
+// #include "../Random.h"
+// #include <optix.h>
 
 static const float OPENDECK_RADIUS = 2.55f;
 static const float OPENDECK_HEIGHT = 2.3f;
@@ -32,8 +33,6 @@ static const float OPENDECK_BEZEL_ANGLE = PI / 180.0f * 7.98995f;
 static const float ANGLE_PER_BORDER_SEGMENT =
     (PI - 8.0f * OPENDECK_BEZEL_ANGLE) / 7.0f + OPENDECK_BEZEL_ANGLE;
 static const float FULL_ANGLE = ANGLE_PER_BORDER_SEGMENT + OPENDECK_BEZEL_ANGLE;
-
-using namespace optix;
 
 rtDeclareVariable(unsigned int, segmentID, , ); // even segmentsID are right eye
                                                 // buffers and odd are left eye

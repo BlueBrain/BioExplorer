@@ -17,7 +17,7 @@
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
 
-#include <optix_world.h>
+#include <optix_types.h>
 
 #include "Helpers.h"
 
@@ -28,7 +28,7 @@ struct PerRayData_radiance
     int depth;
 };
 
-rtDeclareVariable(optix::Ray, ray, rtCurrentRay, );
+rtDeclareVariable(Ray, ray, rtCurrentRay, );
 rtDeclareVariable(float3, bgColor, , );
 rtDeclareVariable(int, envmap, , );
 rtDeclareVariable(PerRayData_radiance, prd_radiance, rtPayload, );
@@ -40,7 +40,7 @@ RT_PROGRAM void envmap_miss()
     {
         const float2 uv = getEquirectangularUV(ray.direction);
         prd_radiance.result = linearToSRGB(
-            tonemap(make_float3(optix::rtTex2D<float4>(envmap, uv.x, uv.y))));
+            tonemap(make_float3(rtTex2D<float4>(envmap, uv.x, uv.y))));
         return;
     }
     prd_radiance.result = bgColor;

@@ -19,11 +19,11 @@
 
 #pragma once
 
-#include <memory>
-
-#include <optixu/optixpp_namespace.h>
+#include "OptiXTypes.h"
 
 #include "OptiXCameraProgram.h"
+
+#include <memory>
 
 namespace brayns
 {
@@ -34,5 +34,8 @@ public:
     ~OptiXOpenDeckCamera() final = default;
 
     void commit(const OptiXCamera& camera, ::optix::Context context) final;
+
+protected:
+    void _commitToOptiX() final;
 };
 } // namespace brayns

@@ -1,8 +1,8 @@
-/* Copyright (c) 2015-2018, EPFL/Blue Brain Project
+/* Copyright (c) 2015-2022, EPFL/Blue Brain Project
  * All rights reserved. Do not distribute without permission.
  * Responsible Author: Cyrille Favreau <cyrille.favreau@epfl.ch>
  *
- * This file is part of Brayns <https://github.com/BlueBrain/Brayns>
+ * This file is part of Brayns <https://github.com/BlueBrain/BioExplorer>
  *
  * This library is free software; you can redistribute it and/or modify it under
  * the terms of the GNU Lesser General Public License version 3.0 as published
@@ -20,40 +20,23 @@
 
 #pragma once
 
-#include "OptiXContext.h"
-#include "OptiXTypes.h"
+#include <glad/glad.h> // Needs to be included before gl_interop
 
-#include <brayns/engineapi/Camera.h>
+#include "CommonStructs.h"
+
+#include <optix.h>
+
+#include <sutil/vec_math.h>
+
+#include <memory>
+#include <vector>
 
 namespace brayns
 {
-/**
-   OptiX specific camera
+typedef Record<RayGenData> RayGenRecord;
+typedef Record<MissData> MissRecord;
+typedef Record<HitGroupData> HitGroupRecord;
 
-   This object is the OptiX specific implementation of a Camera
-*/
-class OptiXCamera : public Camera
-{
-public:
-    OptiXCamera();
-    ~OptiXCamera();
-
-    /**
-       Commits the changes held by the camera object so that
-       attributes become available to the OptiX rendering engine
-    */
-    void commit();
-
-protected:
-    void _commitToOptiX();
-
-#if 0
-    sutil::Camera _camera{nullptr};
-    optix::Buffer _clipPlanesBuffer{nullptr};
-#endif
-    Planes _clipPlanes;
-    std::string _currentCamera;
-    Vector3f _u, _v, _w;
-};
-
+class OptiXCamera;
+using OptiXCameraPtr = std::shared_ptr<OptiXCamera>;
 } // namespace brayns

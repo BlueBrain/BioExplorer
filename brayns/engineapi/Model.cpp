@@ -134,9 +134,8 @@ void ModelDescriptor::addInstance(const ModelInstance& instance)
 void ModelDescriptor::removeInstance(const size_t id)
 {
     auto i = std::remove_if(_instances.begin(), _instances.end(),
-                            [id](const auto& instance) {
-                                return id == instance.getInstanceID();
-                            });
+                            [id](const auto& instance)
+                            { return id == instance.getInstanceID(); });
     if (i == _instances.end())
         return;
 
@@ -149,9 +148,8 @@ void ModelDescriptor::removeInstance(const size_t id)
 ModelInstance* ModelDescriptor::getInstance(const size_t id)
 {
     auto i = std::find_if(_instances.begin(), _instances.end(),
-                          [id](const auto& instance) {
-                              return id == instance.getInstanceID();
-                          });
+                          [id](const auto& instance)
+                          { return id == instance.getInstanceID(); });
     return i == _instances.end() ? nullptr : &(*i);
 }
 
@@ -696,8 +694,8 @@ bool Model::commitSimulationData()
     if (!_isReadyCallbackSet && !_animationParameters.hasIsReadyCallback())
     {
         auto& ap = _animationParameters;
-        ap.setIsReadyCallback(
-            [handler = _simulationHandler] { return handler->isReady(); });
+        ap.setIsReadyCallback([handler = _simulationHandler]
+                              { return handler->isReady(); });
         ap.setDt(_simulationHandler->getDt(), false);
         ap.setUnit(_simulationHandler->getUnit(), false);
         ap.setNumFrames(_simulationHandler->getNbFrames(), false);

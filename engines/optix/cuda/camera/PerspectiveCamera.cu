@@ -17,135 +17,139 @@
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
 
-#include "../../CommonStructs.h"
-#include "../Helpers.h"
-#include "../Random.h"
 #include <optix.h>
-#include <optixu/optixu_math_namespace.h>
 
-using namespace optix;
+#include "../../CommonStructs.h"
 
-rtDeclareVariable(float3, eye, , );
-rtDeclareVariable(float3, U, , );
-rtDeclareVariable(float3, V, , );
-rtDeclareVariable(float3, W, , );
-rtDeclareVariable(float3, bad_color, , );
-rtDeclareVariable(float, scene_epsilon, , );
-rtBuffer<uchar4, 2> output_buffer;
-rtBuffer<float4, 2> accum_buffer;
-rtDeclareVariable(rtObject, top_object, , );
-rtDeclareVariable(unsigned int, radiance_ray_type, , );
-rtDeclareVariable(unsigned int, frame, , );
-rtDeclareVariable(uint2, launch_index, rtLaunchIndex, );
+#include <cuda/helpers.h>
 
-rtDeclareVariable(float, aperture_radius, , );
-rtDeclareVariable(float, focal_scale, , );
-rtDeclareVariable(float4, jitter4, , );
-rtDeclareVariable(unsigned int, samples_per_pixel, , );
+#include <sutil/vec_math.h>
 
-rtBuffer<float4, 1> clip_planes;
-rtDeclareVariable(unsigned int, nb_clip_planes, , );
-
-__device__ void getClippingValues(const float3& ray_origin,
-                                  const float3& ray_direction, float& near,
-                                  float& far)
+namespace brayns
 {
-    for (int i = 0; i < nb_clip_planes; ++i)
-    {
-        float4 clipPlane = clip_planes[i];
-        const float3 planeNormal = {clipPlane.x, clipPlane.y, clipPlane.z};
-        float rn = dot(ray_direction, planeNormal);
-        if (rn == 0.f)
-            rn = scene_epsilon;
-        float d = clipPlane.w;
-        float t = -(dot(planeNormal, ray_origin) + d) / rn;
-        if (rn > 0.f) // opposite direction plane
-            near = max(near, t);
-        else
-            far = min(far, t);
-    }
+extern "C"
+{
+    __constant__ Params params;
 }
 
-// Pass 'seed' by reference to keep randomness state
-__device__ float3 launch(unsigned int& seed, const float2 screen,
-                         const bool use_randomness)
+static __forceinline__ __device__ void trace(OptixTraversableHandle handle,
+                                             float3 ray_origin,
+                                             float3 ray_direction, float tmin,
+                                             float tmax, float3* prd)
 {
-    // Subpixel jitter: send the ray through a different position inside the
-    // pixel each time, to provide antialiasing.
-    float2 subpixel_jitter =
-        use_randomness ? make_float2(rnd(seed) - 0.5f, rnd(seed) - 0.5f)
-                       : make_float2(0.f, 0.f);
-
-    float2 p =
-        (make_float2(launch_index) + subpixel_jitter) / screen * 2.f - 1.f;
-
-    // We compute approximate partial derivative according to "Tracing Ray
-    // Diffentials by Homan Igehy" paper.
-    float3 ray_origin = eye;
-    const float fs = focal_scale == 0.f ? 1.f : focal_scale;
-    const float3 d = fs * (p.x * U + p.y * V + W);
-    const float3 ray_direction = normalize(d);
-    const float dotD = dot(d, d);
-    const float denom = pow(dotD, 1.5f);
-
-    PerRayData_radiance prd;
-    prd.importance = 1.f;
-    prd.depth = 0;
-    prd.rayDdx = (dotD * U - dot(d, U) * d) / (denom * screen.x);
-    prd.rayDdy = (dotD * V - dot(d, V) * d) / (denom * screen.y);
-
-    // lens sampling
-    float2 sample = optix::square_to_disk(make_float2(jitter4.z, jitter4.w));
-
-    ray_origin =
-        ray_origin +
-        aperture_radius * (sample.x * normalize(U) + sample.y * normalize(V));
-
-    float near = scene_epsilon;
-    float far = INFINITY;
-
-    getClippingValues(ray_origin, ray_direction, near, far);
-    optix::Ray ray(ray_origin, ray_direction, radiance_ray_type, near, far);
-
-    rtTrace(top_object, ray, prd);
-
-    return prd.result;
+    unsigned int p0, p1, p2;
+    p0 = __float_as_uint(prd->x);
+    p1 = __float_as_uint(prd->y);
+    p2 = __float_as_uint(prd->z);
+    optixTrace(handle, ray_origin, ray_direction, tmin, tmax,
+               0.0f, // rayTime
+               OptixVisibilityMask(1), OPTIX_RAY_FLAG_NONE,
+               0, // SBT offset
+               0, // SBT stride
+               0, // missSBTIndex
+               p0, p1, p2);
+    prd->x = __uint_as_float(p0);
+    prd->y = __uint_as_float(p1);
+    prd->z = __uint_as_float(p2);
 }
 
-RT_PROGRAM void perspectiveCamera()
+static __forceinline__ __device__ void setPayload(float3 p)
 {
-    const size_t2 screen = output_buffer.size();
-    const float2 screen_f = make_float2(screen);
-
-    unsigned int seed =
-        tea<16>(screen.x * launch_index.y + launch_index.x, frame);
-
-    const int num_samples = max(1, samples_per_pixel);
-    // We enable randomness if we are using subpixel sampling or accumulation
-    const bool use_randomness = frame > 0 || num_samples > 1;
-
-    float3 result = make_float3(0, 0, 0);
-    for (int i = 0; i < num_samples; i++)
-        result += launch(seed, screen_f, use_randomness);
-    result /= num_samples;
-
-    float4 acc_val;
-    if (frame > 0)
-    {
-        acc_val = accum_buffer[launch_index];
-        acc_val = lerp(acc_val, make_float4(result, 0.f),
-                       1.0f / static_cast<float>(frame + 1));
-    }
-    else
-        acc_val = make_float4(result, 1.f);
-
-    output_buffer[launch_index] = make_color(make_float3(acc_val));
-
-    if (accum_buffer.size().x > 1 && accum_buffer.size().y > 1)
-        accum_buffer[launch_index] = acc_val;
+    optixSetPayload_0(__float_as_uint(p.x));
+    optixSetPayload_1(__float_as_uint(p.y));
+    optixSetPayload_2(__float_as_uint(p.z));
 }
 
-RT_PROGRAM void exception()
+static __forceinline__ __device__ float3 getPayload()
 {
-    output_buffer[launch_index] = make_color(bad_color);
+    return make_float3(__uint_as_float(optixGetPayload_0()),
+                       __uint_as_float(optixGetPayload_1()),
+                       __uint_as_float(optixGetPayload_2()));
 }
+
+extern "C" __global__ void __raygen__rg()
+{
+    const uint3 idx = optixGetLaunchIndex();
+    const uint3 dim = optixGetLaunchDimensions();
+
+    const RayGenData* rtData = (RayGenData*)optixGetSbtDataPointer();
+    const float3 U = rtData->camera_u;
+    const float3 V = rtData->camera_v;
+    const float3 W = rtData->camera_w;
+    const float2 d =
+        2.0f *
+            make_float2(static_cast<float>(idx.x) / static_cast<float>(dim.x),
+                        static_cast<float>(idx.y) / static_cast<float>(dim.y)) -
+        1.0f;
+
+    const float3 origin = rtData->cam_eye;
+    const float3 direction = normalize(d.x * U + d.y * V + W);
+    float3 payload_rgb = make_float3(0.5f, 0.5f, 0.5f);
+    trace(params.handle, origin, direction,
+          0.00f, // tmin
+          1e16f, // tmax
+          &payload_rgb);
+
+    params.frame_buffer[idx.y * params.width + idx.x] = make_color(payload_rgb);
+}
+
+static __device__ __inline__ RadiancePRD getRadiancePRD()
+{
+    RadiancePRD prd;
+    prd.result.x = __uint_as_float(optixGetPayload_0());
+    prd.result.y = __uint_as_float(optixGetPayload_1());
+    prd.result.z = __uint_as_float(optixGetPayload_2());
+    prd.importance = __uint_as_float(optixGetPayload_3());
+    prd.depth = optixGetPayload_4();
+    return prd;
+}
+
+static __device__ __inline__ void setRadiancePRD(const RadiancePRD& prd)
+{
+    optixSetPayload_0(__float_as_uint(prd.result.x));
+    optixSetPayload_1(__float_as_uint(prd.result.y));
+    optixSetPayload_2(__float_as_uint(prd.result.z));
+    optixSetPayload_3(__float_as_uint(prd.importance));
+    optixSetPayload_4(prd.depth);
+}
+
+extern "C" __global__ void __miss__constant_bg()
+{
+    const MissData* sbt_data = (MissData*)optixGetSbtDataPointer();
+    RadiancePRD prd = getRadiancePRD();
+#if 0
+    prd.result = sbt_data->bg_color;
+#else
+    // This is to test the camera and the frame buffer
+    const float3 ray_dir = optixGetWorldRayDirection();
+    prd.result = 0.5 + 0.5 * normalize(ray_dir);
+#endif
+    setRadiancePRD(prd);
+}
+
+extern "C" __global__ void __closesthit__ch()
+{
+    float t_hit = optixGetRayTmax();
+    // Backface hit not used.
+    // float  t_hit2 = __uint_as_float( optixGetAttribute_0() );
+
+    const float3 ray_orig = optixGetWorldRayOrigin();
+    const float3 ray_dir = optixGetWorldRayDirection();
+
+    const unsigned int prim_idx = optixGetPrimitiveIndex();
+    const OptixTraversableHandle gas = optixGetGASTraversableHandle();
+    const unsigned int sbtGASIndex = optixGetSbtGASIndex();
+
+    float4 q;
+    // sphere center (q.x, q.y, q.z), sphere radius q.w
+    optixGetSphereData(gas, prim_idx, sbtGASIndex, 0.f, &q);
+
+    float3 world_raypos = ray_orig + t_hit * ray_dir;
+    float3 obj_raypos = optixTransformPointFromWorldToObjectSpace(world_raypos);
+    float3 obj_normal = (obj_raypos - make_float3(q)) / q.w;
+    float3 world_normal =
+        normalize(optixTransformNormalFromObjectToWorldSpace(obj_normal));
+
+    setPayload(world_normal * 0.5f + 0.5f);
+}
+} // namespace brayns

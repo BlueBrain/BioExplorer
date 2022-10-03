@@ -20,11 +20,12 @@
 
 #pragma once
 
+#include "OptiXTypes.h"
+
+#include "OptiXCamera.h"
+#include "OptiXUtils.h"
+
 #include <brayns/common/types.h>
-
-#include <optixu/optixpp_namespace.h>
-
-#include "OptiXCameraProgram.h"
 
 #include <memory>
 #include <mutex>
@@ -32,6 +33,7 @@
 
 namespace brayns
 {
+
 enum class OptixGeometryType
 {
     sphere,
@@ -40,63 +42,81 @@ enum class OptixGeometryType
     triangleMesh
 };
 
-struct OptixShaderProgram
-{
-    ::optix::Program any_hit{nullptr};
-    ::optix::Program closest_hit{nullptr};
-    ::optix::Program closest_hit_textured{nullptr};
-    ::optix::Program exception_program{nullptr};
-};
-
-using OptiXShaderProgramPtr = std::shared_ptr<OptixShaderProgram>;
-
 class OptiXContext
 {
 public:
-    ~OptiXContext();
-    static OptiXContext& get();
+    static OptiXContext& getInstance()
+    {
+        std::lock_guard<std::mutex> lock(_mutex);
+        if (!_instance)
+            _instance = new OptiXContext();
+        return *_instance;
+    }
 
-    ::optix::Context getOptixContext() { return _optixContext; }
     // Camera
-    void addCamera(const std::string& name, OptiXCameraProgramPtr program);
-    OptiXCameraProgramPtr getCamera(const std::string& name);
+    void addCamera(const std::string& name, OptiXCameraPtr camera);
+    OptiXCameraPtr getCamera(const std::string& name);
     void setCamera(const std::string& name);
 
-    // Geometry
-    ::optix::Geometry createGeometry(const OptixGeometryType type);
-    ::optix::GeometryGroup createGeometryGroup(const bool compact);
-    ::optix::Group createGroup();
-    ::optix::Material createMaterial();
+// Geometry
+#if 0
+    Geometry createGeometry(const OptixGeometryType type);
+    GeometryGroup createGeometryGroup(const bool compact);
+    Group createGroup();
+    Material createMaterial();
 
     // Textures
-    ::optix::TextureSampler createTextureSampler(Texture2DPtr texture);
+    TextureSampler createTextureSampler(Texture2DPtr texture);
 
     // Others
     void addRenderer(const std::string& name, OptiXShaderProgramPtr program);
     OptiXShaderProgramPtr getRenderer(const std::string& name);
+#else
+    OptixModule createModule(const OptixGeometryType type);
+#endif
+
+    State& getState()
+    {
+        return _state;
+    }
+    std::vector<OptixProgramGroup>& getProgramGroups()
+    {
+        return _programGroups;
+    }
+
+    void linkPipeline();
 
     std::unique_lock<std::mutex> getScopeLock()
     {
         return std::unique_lock<std::mutex>(_mutex);
     }
 
+    static OptiXContext* _instance;
+    static std::mutex _mutex;
+
 private:
     OptiXContext();
+    ~OptiXContext();
 
     void _initialize();
-    void _printSystemInformation() const;
 
-    static std::unique_ptr<OptiXContext> _context;
+    void _createCameraModules();
+    void _createCameraPrograms();
 
-    ::optix::Context _optixContext{nullptr};
+    void _createShadingModules();
+    void _createMaterialPrograms();
 
-    std::map<std::string, OptiXShaderProgramPtr> _rendererProgram;
-    std::map<std::string, OptiXCameraProgramPtr> _cameraProgram;
+    void _createGeometryModules();
+    void _createGeometryPrograms();
 
-    std::map<OptixGeometryType, ::optix::Program> _bounds;
-    std::map<OptixGeometryType, ::optix::Program> _intersects;
+    std::vector<OptixProgramGroup> _programGroups;
+    std::map<std::string, OptiXCameraPtr> _cameras;
+    std::string _currentCamera;
 
-    std::unordered_map<void*, ::optix::TextureSampler> _optixTextureSamplers;
-    std::mutex _mutex;
+    State _state;
+    bool _pipelineInitialized{false};
+#if 0
+    std::unordered_map<void*, TextureSampler> _optixTextureSamplers;
+#endif
 };
 } // namespace brayns

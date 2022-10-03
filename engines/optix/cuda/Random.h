@@ -19,7 +19,7 @@
 
 #pragma once
 
-#include <optixu/optixu_math_namespace.h>
+#include <optix.h>
 
 template <unsigned int N>
 static __host__ __device__ __inline__ unsigned int tea(unsigned int val0,
@@ -96,9 +96,9 @@ static __host__ __inline__ unsigned int random1u()
 #endif
 }
 
-static __host__ __inline__ optix::uint2 random2u()
+static __host__ __inline__ uint2 random2u()
 {
-    return optix::make_uint2(random1u(), random1u());
+    return make_uint2(random1u(), random1u());
 }
 
 static __host__ __inline__ void fillRandBuffer(unsigned int *seeds,

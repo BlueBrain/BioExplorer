@@ -27,9 +27,8 @@
 #include <brayns/common/log.h>
 #include <brayns/common/utils/utils.h>
 #include <brayns/engineapi/Material.h>
+#include <brayns/engineapi/Model.h>
 #include <brayns/parameters/ParametersManager.h>
-
-#include <optixu/optixu_math_stream_namespace.h>
 
 namespace brayns
 {
@@ -37,8 +36,11 @@ OptiXScene::OptiXScene(AnimationParameters& animationParameters,
                        GeometryParameters& geometryParameters,
                        VolumeParameters& volumeParameters)
     : Scene(animationParameters, geometryParameters, volumeParameters)
+#if 0
     , _lightBuffer(nullptr)
+#endif
 {
+#if 0
     _backgroundMaterial = std::make_shared<OptiXMaterial>();
     auto oc = OptiXContext::get().getOptixContext();
 
@@ -57,12 +59,14 @@ OptiXScene::OptiXScene(AnimationParameters& animationParameters,
     // Create dummy simulation data
     oc["simulation_data"]->setBuffer(
         oc->createBuffer(RT_BUFFER_INPUT, RT_FORMAT_FLOAT, 0));
+#endif
 }
 
 OptiXScene::~OptiXScene() = default;
 
 bool OptiXScene::commitLights()
 {
+#if 0
     if (!_lightManager.isModified())
         return false;
 
@@ -123,6 +127,7 @@ bool OptiXScene::commitLights()
            _optixLights.size() * sizeof(_optixLights[0]));
     _lightBuffer->unmap();
     context["lights"]->set(_lightBuffer);
+#endif
 
     return true;
 }
@@ -153,11 +158,13 @@ void OptiXScene::commit()
         if (model->isMarkedForRemoval())
             model->callOnRemoved();
 
-    _modelDescriptors.erase(
-        std::remove_if(_modelDescriptors.begin(), _modelDescriptors.end(),
-                       [](const auto& m) { return m->isMarkedForRemoval(); }),
-        _modelDescriptors.end());
+    _modelDescriptors.erase(std::remove_if(_modelDescriptors.begin(),
+                                           _modelDescriptors.end(),
+                                           [](const auto& m)
+                                           { return m->isMarkedForRemoval(); }),
+                            _modelDescriptors.end());
 
+#if 0
     auto context = OptiXContext::get().getOptixContext();
 
     auto values = std::map<TextureType, std::string>{
@@ -192,6 +199,7 @@ void OptiXScene::commit()
         _rootGroup->destroy();
 
     _rootGroup = OptiXContext::get().createGroup();
+#endif
 
     for (size_t i = 0; i < _modelDescriptors.size(); ++i)
     {
@@ -207,6 +215,7 @@ void OptiXScene::commit()
         impl.commitGeometry();
         impl.logInformation();
 
+#if 0
         if (modelDescriptor->getVisible())
         {
             const auto geometryGroup = impl.getGeometryGroup();
@@ -252,14 +261,17 @@ void OptiXScene::commit()
             xform->setChild(boundingBoxGroup);
             _rootGroup->addChild(xform);
         }
+#endif
     }
     _computeBounds();
 
+#if 0
     BRAYNS_DEBUG << "Root has " << _rootGroup->getChildCount() << " children"
                  << std::endl;
 
     context["top_object"]->set(_rootGroup);
     context["top_shadower"]->set(_rootGroup);
+#endif
 
     // TODO: triggers the change callback to re-broadcast the scene if the clip
     // planes have changed. Provide an RPC to update/set clip planes.

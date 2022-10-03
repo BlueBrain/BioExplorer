@@ -21,12 +21,14 @@
 #include "OptiXMaterial.h"
 
 #include "CommonStructs.h"
+#include "Logs.h"
 #include "OptiXContext.h"
 
-#include <brayns/common/log.h>
+#include <Exception.h>
 
 namespace brayns
 {
+#if 0
 static std::string textureTypeToString[12] = {"albedoMetallic_map",
                                               "normalRoughness_map",
                                               "bump_map",
@@ -39,23 +41,24 @@ static std::string textureTypeToString[12] = {"albedoMetallic_map",
                                               "radiance_map",
                                               "irradiance_map",
                                               "brdf_lut"};
+#endif
 
-OptiXMaterial::~OptiXMaterial()
-{
-    for (auto& i : _textureSamplers)
-        i.second->destroy();
+OptiXMaterial::OptiXMaterial() {}
 
-    if (_optixMaterial)
-        _optixMaterial->destroy();
-}
+OptiXMaterial::~OptiXMaterial() {}
 
 bool OptiXMaterial::isTextured() const
 {
+#if 0
     return !_textureSamplers.empty();
+#else
+    return false;
+#endif
 }
 
 void OptiXMaterial::commit()
 {
+#if 0
     if (!_optixMaterial)
         _optixMaterial = OptiXContext::get().createMaterial();
 
@@ -82,5 +85,6 @@ void OptiXMaterial::commit()
                 textureSampler->getId());
         }
     }
+#endif
 }
 } // namespace brayns

@@ -20,10 +20,10 @@
 
 #pragma once
 
+#include "OptiXTypes.h"
+
 #include <brayns/common/types.h>
 #include <brayns/engineapi/Scene.h>
-
-#include <optixu/optixpp_namespace.h>
 
 #include "CommonStructs.h"
 
@@ -57,6 +57,7 @@ public:
     bool supportsConcurrentSceneUpdates() const final { return false; }
 
 private:
+#if 0
     optix::Buffer _lightBuffer{nullptr};
     std::vector<BasicLight> _optixLights;
     ::optix::Group _rootGroup{nullptr};
@@ -69,5 +70,6 @@ private:
 
     // Volumes
     optix::Buffer _volumeBuffer;
+#endif
 };
 } // namespace brayns

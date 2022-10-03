@@ -20,31 +20,39 @@
 
 #pragma once
 
-#include <map>
+#include "OptiXTypes.h"
 
 #include <brayns/engineapi/Material.h>
 
-#include <optixu/optixpp_namespace.h>
+#include <map>
 
 namespace brayns
 {
 class OptiXMaterial : public Material
 {
 public:
-    OptiXMaterial() = default;
+    OptiXMaterial();
     ~OptiXMaterial();
 
     void commit() final;
     bool isTextured() const;
 
+#if 0
     ::optix::Material getOptixMaterial() { return _optixMaterial; }
+#endif
     auto getTextureSampler(const TextureType type) const
     {
+#if 0
         return _textureSamplers.at(type);
+#else
+        return nullptr;
+#endif
     }
 
 private:
+#if 0
     ::optix::Material _optixMaterial{nullptr};
     std::map<TextureType, ::optix::TextureSampler> _textureSamplers;
+#endif
 };
 } // namespace brayns

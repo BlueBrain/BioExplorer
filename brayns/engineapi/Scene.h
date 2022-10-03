@@ -202,7 +202,7 @@ protected:
     AnimationParameters& _animationParameters;
     GeometryParameters& _geometryParameters;
     VolumeParameters& _volumeParameters;
-    MaterialPtr _backgroundMaterial;
+    MaterialPtr _backgroundMaterial{nullptr};
     std::string _environmentMap;
 
     // Model

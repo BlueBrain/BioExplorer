@@ -18,10 +18,11 @@
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
 
-#include <engines/optix/braynsOptixEngine_generated_AdvancedSimulation.cu.ptx.h>
-#include <engines/optix/braynsOptixEngine_generated_BBP.cu.ptx.h>
-#include <engines/optix/braynsOptixEngine_generated_BasicSimulation.cu.ptx.h>
-#include <engines/optix/braynsOptixEngine_generated_PBR.cu.ptx.h>
+// #include
+// <engines/optix/braynsOptixEngine_generated_AdvancedSimulation.cu.ptx.h>
+// #include <engines/optix/braynsOptixEngine_generated_BBP.cu.ptx.h>
+// #include <engines/optix/braynsOptixEngine_generated_BasicSimulation.cu.ptx.h>
+// #include <engines/optix/braynsOptixEngine_generated_PBR.cu.ptx.h>
 
 #include <brayns/common/input/KeyboardHandler.h>
 #include <brayns/parameters/ParametersManager.h>
@@ -29,10 +30,10 @@
 #include "OptiXCamera.h"
 #include "OptiXEngine.h"
 #include "OptiXFrameBuffer.h"
-#include "OptiXOpenDeckCamera.h"
 #include "OptiXPerspectiveCamera.h"
 #include "OptiXRenderer.h"
 #include "OptiXScene.h"
+// #include "OptiXOpenDeckCamera.h"
 
 namespace brayns
 {
@@ -71,7 +72,7 @@ OptiXEngine::~OptiXEngine()
 void OptiXEngine::_initializeContext()
 {
     // Set up context
-    auto context = OptiXContext::get().getOptixContext();
+    auto context = OptiXContext::getInstance().getState().context;
     if (!context)
         BRAYNS_THROW(std::runtime_error("Failed to initialize OptiX"));
 }
@@ -91,8 +92,6 @@ void OptiXEngine::_createCameras()
                            0.0635,
                            {"Eye separation"}};
 
-    OptiXContext& context = OptiXContext::get();
-
     auto camera = std::make_shared<OptiXPerspectiveCamera>();
 
     PropertyMap properties;
@@ -109,9 +108,10 @@ void OptiXEngine::_createCameras()
             {"zeroParallaxPlane", 1., {"Zero parallax plane"}});
     }
 
-    context.addCamera("perspective", camera);
+    OptiXContext::getInstance().addCamera("perspective", camera);
     addCameraType("perspective", properties);
 
+#if 0
     {
         PropertyMap properties;
         properties.setProperty({"segmentId", 7});
@@ -124,6 +124,7 @@ void OptiXEngine::_createCameras()
         context.addCamera("opendeck", std::make_shared<OptiXOpenDeckCamera>());
         addCameraType("opendeck", properties);
     }
+#endif
 }
 
 void OptiXEngine::_createRenderers()
@@ -133,6 +134,7 @@ void OptiXEngine::_createRenderers()
         _parametersManager.getRenderingParameters());
     _renderer->setScene(_scene);
 
+#if 0
     { // Advanced renderer
         const std::string CUDA_ADVANCED_SIMULATION =
             braynsOptixEngine_generated_AdvancedSimulation_cu_ptx;
@@ -239,6 +241,7 @@ void OptiXEngine::_createRenderers()
 
         addRendererType("bbp");
     }
+#endif
 }
 
 ScenePtr OptiXEngine::createScene(AnimationParameters& animationParameters,
@@ -273,6 +276,7 @@ CameraPtr OptiXEngine::createCamera() const
 void OptiXEngine::commit()
 {
     Engine::commit();
+    OptiXContext::getInstance().linkPipeline();
 }
 
 Vector2ui OptiXEngine::getMinimumFrameSize() const

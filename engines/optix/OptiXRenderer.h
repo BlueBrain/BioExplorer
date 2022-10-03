@@ -19,6 +19,7 @@
  */
 
 #pragma once
+
 #include "OptiXCamera.h"
 
 #include <brayns/common/Timer.h>

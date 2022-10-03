@@ -20,9 +20,9 @@
 
 #pragma once
 
-#include <brayns/engineapi/Model.h>
+#include "OptiXTypes.h"
 
-#include <optixu/optixpp_namespace.h>
+#include <brayns/engineapi/Model.h>
 
 #include <map>
 
@@ -54,12 +54,6 @@ public:
         const Vector3ui& dimensions, const Vector3f& spacing,
         const DataType type) const final;
 
-    ::optix::GeometryGroup getGeometryGroup() const { return _geometryGroup; }
-    ::optix::GeometryGroup getBoundingBoxGroup() const
-    {
-        return _boundingBoxGroup;
-    }
-
 protected:
     void _commitTransferFunctionImpl(const Vector3fs& colors,
                                      const floats& opacities,
@@ -68,6 +62,7 @@ protected:
                                    const size_t frameSize) final;
 
 private:
+    void _createGas();
     void _commitSpheres(const size_t materialId);
     void _commitCylinders(const size_t materialId);
     void _commitCones(const size_t materialId);
@@ -75,53 +70,6 @@ private:
     void _commitMaterials();
     bool _commitSimulationData();
     bool _commitTransferFunction();
-
-    ::optix::GeometryGroup _geometryGroup{nullptr};
-    ::optix::GeometryGroup _boundingBoxGroup{nullptr};
-
-    // Material Lookup tables
-    ::optix::Buffer _colorMapBuffer{nullptr};
-    ::optix::Buffer _emissionIntensityMapBuffer{nullptr};
-
-    // Spheres
-    std::map<size_t, ::optix::Buffer> _spheresBuffers;
-    std::map<size_t, ::optix::Geometry> _optixSpheres;
-
-    // Cylinders
-    std::map<size_t, optix::Buffer> _cylindersBuffers;
-    std::map<size_t, optix::Geometry> _optixCylinders;
-
-    // Cones
-    std::map<size_t, optix::Buffer> _conesBuffers;
-    std::map<size_t, optix::Geometry> _optixCones;
-
-    // Meshes
-    struct TriangleMesh
-    {
-        optix::Buffer vertices_buffer;
-        optix::Buffer normal_buffer;
-        optix::Buffer texcoord_buffer;
-        optix::Buffer indices_buffer;
-    };
-
-    std::map<size_t, TriangleMesh> _meshesBuffers;
-    std::map<size_t, optix::Geometry> _optixMeshes;
-
-    // Volume
-    ::optix::Buffer _volumeBuffer{nullptr};
-
-    // Materials and textures
-    std::map<std::string, optix::Buffer> _optixTextures;
-    std::map<std::string, optix::TextureSampler> _optixTextureSamplers;
-
-    // Transfer function
-    struct
-    {
-        optix::Buffer colors{nullptr};
-        optix::Buffer opacities{nullptr};
-    } _optixTransferFunction;
-
-    optix::Buffer _simulationData{nullptr};
 
     bool _boundingBoxBuilt = false;
 };

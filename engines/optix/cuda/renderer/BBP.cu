@@ -21,7 +21,7 @@
 
 #include "../../CommonStructs.h"
 #include "../Helpers.h"
-#include <optix_world.h>
+#include <optix_types.h>
 
 using namespace optix;
 

@@ -41,9 +41,9 @@ std::shared_ptr<T> _find(const std::vector<std::shared_ptr<T>>& list,
                          const size_t id,
                          size_t (U::*getID)() const = &T::getID)
 {
-    auto i = std::find_if(list.begin(), list.end(), [id, getID](auto x) {
-        return id == ((*x).*getID)();
-    });
+    auto i =
+        std::find_if(list.begin(), list.end(),
+                     [id, getID](auto x) { return id == ((*x).*getID)(); });
     return i == list.end() ? std::shared_ptr<T>{} : *i;
 }
 
@@ -52,9 +52,9 @@ std::shared_ptr<T> _remove(std::vector<std::shared_ptr<T>>& list,
                            const size_t id,
                            size_t (U::*getID)() const = &T::getID)
 {
-    auto i = std::find_if(list.begin(), list.end(), [id, getID](auto x) {
-        return id == ((*x).*getID)();
-    });
+    auto i =
+        std::find_if(list.begin(), list.end(),
+                     [id, getID](auto x) { return id == ((*x).*getID)(); });
     if (i == list.end())
         return std::shared_ptr<T>{};
     auto result = *i;
@@ -263,6 +263,7 @@ void Scene::buildDefault()
     BRAYNS_INFO << "Building default Cornell Box scene" << std::endl;
 
     auto model = createModel();
+#if 0
     const Vector3f WHITE = {1.f, 1.f, 1.f};
 
     const Vector3f positions[8] = {
@@ -368,6 +369,24 @@ void Scene::buildDefault()
         triangleMesh.indices.push_back(Vector3i(2, 1, 0));
         triangleMesh.indices.push_back(Vector3i(0, 3, 2));
     }
+#else
+    const size_t materialId = 0;
+    auto material = model->createMaterial(materialId, "sphere");
+    material->setOpacity(0.2f);
+    material->setRefractionIndex(1.5f);
+    material->setReflectionIndex(0.1f);
+    material->setDiffuseColor({1.f, 1.f, 1.f});
+    material->setSpecularColor({1.f, 1.f, 1.f});
+    material->setSpecularExponent(100.f);
+    for (size_t i = 0; i < 10; ++i)
+    {
+        // Sphere
+        model->addSphere(materialId, {{(rand() % 200 - 100) * 0.01f,
+                                       (rand() % 200 - 100) * 0.01f,
+                                       (rand() % 200 - 100) * 0.01f},
+                                      0.25f});
+    }
+#endif
 
     addModel(
         std::make_shared<ModelDescriptor>(std::move(model), "DefaultScene"));
@@ -387,7 +406,10 @@ bool Scene::setEnvironmentMap(const std::string& envMap)
 {
     bool success = true;
     if (envMap.empty())
-        _backgroundMaterial->clearTextures();
+    {
+        if (_backgroundMaterial)
+            _backgroundMaterial->clearTextures();
+    }
     else
     {
         try
@@ -406,7 +428,7 @@ bool Scene::setEnvironmentMap(const std::string& envMap)
     }
 
     _updateValue(_environmentMap, success ? envMap : "");
-    if (_backgroundMaterial->isModified())
+    if (_backgroundMaterial && _backgroundMaterial->isModified())
         markModified();
     return success;
 }

@@ -19,12 +19,10 @@
 
 #include "../../CommonStructs.h"
 #include "IntersectionRefinement.h"
-#include <optix.h>
-#include <optixu/optixu_aabb_namespace.h>
-#include <optixu/optixu_math_namespace.h>
-#include <optixu/optixu_matrix_namespace.h>
 
-using namespace optix;
+#include <optix.h>
+
+#include <sutil/vec_math.h>
 
 // This is to be plugged into an RTgeometry object to represent
 // a triangle mesh with a vertex buffer of triangle soup (triangle list)

@@ -19,20 +19,15 @@
 
 #pragma once
 
-#include <memory>
-
-#include <optixu/optixpp_namespace.h>
-
-#include "OptiXCameraProgram.h"
+#include "OptiXCamera.h"
+#include "OptiXTypes.h"
 
 namespace brayns
 {
-class OptiXPerspectiveCamera : public OptiXCameraProgram
+class OptiXPerspectiveCamera : public OptiXCamera
 {
 public:
     OptiXPerspectiveCamera();
     ~OptiXPerspectiveCamera() final = default;
-
-    void commit(const OptiXCamera& camera, ::optix::Context context) final;
 };
 } // namespace brayns

@@ -20,8 +20,11 @@
 
 #pragma once
 
+#include "OptiXTypes.h"
+
 #include <brayns/engineapi/FrameBuffer.h>
-#include <optixu/optixpp_namespace.h>
+
+#include <CUDAOutputBuffer.h>
 
 #include <mutex>
 
@@ -57,8 +60,12 @@ private:
     void _mapUnsafe();
     void _unmapUnsafe();
 
+#if 0
     optix::Buffer _frameBuffer{nullptr};
     optix::Buffer _accumBuffer{nullptr};
+#else
+    sutil::CUDAOutputBuffer<uchar4>* _frameBuffer{nullptr};
+#endif
     uint8_t* _colorBuffer{nullptr};
     float* _depthBuffer{nullptr};
     void* _imageData{nullptr};

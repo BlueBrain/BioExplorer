@@ -19,44 +19,28 @@
  */
 
 #include "OptiXModel.h"
+#include "Logs.h"
 #include "OptiXContext.h"
 #include "OptiXMaterial.h"
 
-#include <brayns/common/log.h>
 #include <brayns/common/simulation/AbstractSimulationHandler.h>
 #include <brayns/parameters/AnimationParameters.h>
 
 #include <brayns/engineapi/Material.h>
 
+#include <Exception.h>
+#include <sutil.h>
+
 namespace brayns
 {
-template <typename T>
-void setBufferRaw(RTbuffertype bufferType, RTformat bufferFormat,
-                  optix::Handle<optix::BufferObj>& buffer,
-                  optix::Handle<optix::VariableObj> geometry, T* src,
-                  const size_t numElements, const size_t bytes)
+inline OptixAabb sphere_bound(const Vector3f& center, const float radius)
 {
-    auto context = OptiXContext::get().getOptixContext();
-    if (!buffer)
-        buffer = context->createBuffer(bufferType, bufferFormat, numElements);
-    else
-        buffer->setSize(numElements);
-    if (src != nullptr && numElements > 0 && bytes > 0)
-    {
-        memcpy(buffer->map(0, RT_BUFFER_MAP_WRITE_DISCARD), src, bytes);
-        buffer->unmap();
-    }
-    geometry->setBuffer(buffer);
-}
+    const Vector3f m_min{center.x - radius, center.y - radius,
+                         center.z - radius};
+    const Vector3f m_max{center.x + radius, center.y + radius,
+                         center.z + radius};
 
-template <typename T>
-void setBuffer(RTbuffertype bufferType, RTformat bufferFormat,
-               optix::Handle<optix::BufferObj>& buffer,
-               optix::Handle<optix::VariableObj> geometry,
-               const std::vector<T>& src, const size_t numElements)
-{
-    setBufferRaw(bufferType, bufferFormat, buffer, geometry, src.data(),
-                 numElements, sizeof(T) * src.size());
+    return {m_min.x, m_min.y, m_min.z, m_max.x, m_max.y, m_max.z};
 }
 
 OptiXModel::OptiXModel(AnimationParameters& animationParameters,
@@ -70,6 +54,7 @@ void OptiXModel::commitGeometry()
     // Materials
     _commitMaterials();
 
+#if 0
     const auto compactBVH = getBVHFlags().count(BVHFlag::compact) > 0;
     // Geometry group
     if (!_geometryGroup)
@@ -78,6 +63,7 @@ void OptiXModel::commitGeometry()
     // Bounding box group
     if (!_boundingBoxGroup)
         _boundingBoxGroup = OptiXContext::get().createGeometryGroup(compactBVH);
+#endif
 
     size_t nbSpheres = 0;
     size_t nbCylinders = 0;
@@ -87,9 +73,11 @@ void OptiXModel::commitGeometry()
         for (const auto& spheres : _geometries->_spheres)
         {
             nbSpheres += spheres.second.size();
+#if 0
             _commitSpheres(spheres.first);
+#endif
         }
-        BRAYNS_DEBUG << nbSpheres << " spheres" << std::endl;
+        PLUGIN_DEBUG(nbSpheres << " spheres");
     }
 
     if (_cylindersDirty)
@@ -99,7 +87,7 @@ void OptiXModel::commitGeometry()
             nbCylinders += cylinders.second.size();
             _commitCylinders(cylinders.first);
         }
-        BRAYNS_DEBUG << nbCylinders << " cylinders" << std::endl;
+        PLUGIN_DEBUG(nbCylinders << " cylinders");
     }
 
     if (_conesDirty)
@@ -109,7 +97,7 @@ void OptiXModel::commitGeometry()
             nbCones += cones.second.size();
             _commitCones(cones.first);
         }
-        BRAYNS_DEBUG << nbCones << " cones" << std::endl;
+        PLUGIN_DEBUG(nbCones << " cones");
     }
 
     if (_triangleMeshesDirty)
@@ -122,46 +110,146 @@ void OptiXModel::commitGeometry()
     // handled by the scene
     _instancesDirty = false;
 
-    BRAYNS_DEBUG << "Geometry group has " << _geometryGroup->getChildCount()
-                 << " children instances" << std::endl;
-    BRAYNS_DEBUG << "Bounding box group has "
+#if 0
+    PLUGIN_DEBUG("Geometry group has " << _geometryGroup->getChildCount()
+                 << " children instances" );
+    PLUGIN_DEBUG("Bounding box group has "
                  << _boundingBoxGroup->getChildCount() << " children instances"
-                 << std::endl;
+                 );
+#endif
 }
 
 void OptiXModel::_commitSpheres(const size_t materialId)
 {
+    PLUGIN_DEBUG("Registering OptiX Geometry Acceleration Structures (GAS) ");
+
     if (_geometries->_spheres.find(materialId) == _geometries->_spheres.end())
         return;
 
-    auto context = OptiXContext::get().getOptixContext();
+    auto& state = OptiXContext::getInstance().getState();
+
+    CUDA_CHECK(cudaFree(reinterpret_cast<void*>(state.sbt.hitgroupRecordBase)));
+    CUDA_CHECK(cudaFree(reinterpret_cast<void*>(state.d_gas_output_buffer)));
+
     const auto& spheres = _geometries->_spheres[materialId];
-    context["sphere_size"]->setUint(sizeof(Sphere) / sizeof(float));
+    std::vector<OptixAabb> aabbs;
+    uint32_ts aabb_input_flags;
+    uint32_ts sbt_indices;
+    uint32_t i = 0;
+    for (const auto& sphere : spheres)
+    {
+        aabbs.push_back(sphere_bound(sphere.center, sphere.radius));
+        aabb_input_flags.push_back(OPTIX_GEOMETRY_FLAG_DISABLE_ANYHIT);
+        sbt_indices.push_back(i);
+        ++i;
+    }
+    const auto nbPrimitives = aabbs.size();
 
-    // Geometry
-    _optixSpheres[materialId] =
-        OptiXContext::get().createGeometry(OptixGeometryType::sphere);
-    _optixSpheres[materialId]->setPrimitiveCount(spheres.size());
+    OptixTraversableHandle gas_handle;
+    OptixAccelBuildOptions accel_options = {};
+    accel_options.buildFlags = OPTIX_BUILD_FLAG_ALLOW_COMPACTION;
+    accel_options.operation = OPTIX_BUILD_OPERATION_BUILD;
 
-    setBuffer(RT_BUFFER_INPUT, RT_FORMAT_FLOAT, _spheresBuffers[materialId],
-              _optixSpheres[materialId]["spheres"], spheres,
-              sizeof(Sphere) * spheres.size());
+    // AABB build input
+    CUdeviceptr d_aabb_buffer;
+    const uint64_t d_aabb_buffer_size = aabbs.size() * sizeof(OptixAabb);
+    CUDA_CHECK(cudaMalloc(reinterpret_cast<void**>(&d_aabb_buffer),
+                          d_aabb_buffer_size));
+    CUDA_CHECK(cudaMemcpy(reinterpret_cast<void*>(d_aabb_buffer), &aabbs[0],
+                          d_aabb_buffer_size, cudaMemcpyHostToDevice));
 
-    // Material
-    auto& mat = static_cast<OptiXMaterial&>(*_materials[materialId]);
-    const auto material = mat.getOptixMaterial();
-    if (!material)
-        BRAYNS_THROW(std::runtime_error("Material is not defined"));
+    CUdeviceptr d_sbt_indices;
+    CUDA_CHECK(cudaMalloc(reinterpret_cast<void**>(&d_sbt_indices),
+                          nbPrimitives * sizeof(sbt_indices)));
+    CUDA_CHECK(
+        cudaMemcpy(reinterpret_cast<void*>(d_sbt_indices), sbt_indices.data(),
+                   nbPrimitives * sizeof(sbt_indices), cudaMemcpyHostToDevice));
 
-    // Instance
-    auto instance = context->createGeometryInstance();
-    instance->setGeometry(_optixSpheres[materialId]);
-    instance->setMaterialCount(1);
-    instance->setMaterial(0, material);
-    if (materialId == BOUNDINGBOX_MATERIAL_ID)
-        _boundingBoxGroup->addChild(instance);
+    OptixBuildInput aabb_input = {};
+
+    aabb_input.type = OPTIX_BUILD_INPUT_TYPE_CUSTOM_PRIMITIVES;
+    aabb_input.customPrimitiveArray.aabbBuffers = &d_aabb_buffer;
+    aabb_input.customPrimitiveArray.numPrimitives = nbPrimitives;
+    aabb_input.customPrimitiveArray.flags = aabb_input_flags.data();
+    aabb_input.customPrimitiveArray.numSbtRecords = nbPrimitives;
+    aabb_input.customPrimitiveArray.sbtIndexOffsetSizeInBytes =
+        sizeof(uint32_t);
+    aabb_input.customPrimitiveArray.primitiveIndexOffset = 0;
+    aabb_input.customPrimitiveArray.sbtIndexOffsetBuffer = d_sbt_indices;
+
+    OptixAccelBufferSizes gas_buffer_sizes;
+    OPTIX_CHECK(optixAccelComputeMemoryUsage(state.context, &accel_options,
+                                             &aabb_input, 1,
+                                             &gas_buffer_sizes));
+    CUdeviceptr d_temp_buffer_gas;
+    CUDA_CHECK(cudaMalloc(reinterpret_cast<void**>(&d_temp_buffer_gas),
+                          gas_buffer_sizes.tempSizeInBytes));
+
+    // non-compacted output
+    CUdeviceptr d_buffer_temp_output_gas_and_compacted_size;
+    size_t compactedSizeOffset =
+        roundUp<size_t>(gas_buffer_sizes.outputSizeInBytes, 8ull);
+    CUDA_CHECK(cudaMalloc(reinterpret_cast<void**>(
+                              &d_buffer_temp_output_gas_and_compacted_size),
+                          compactedSizeOffset + 8));
+
+    OptixAccelEmitDesc emitProperty = {};
+    emitProperty.type = OPTIX_PROPERTY_TYPE_COMPACTED_SIZE;
+    emitProperty.result =
+        (CUdeviceptr)((char*)d_buffer_temp_output_gas_and_compacted_size +
+                      compactedSizeOffset);
+
+    OPTIX_CHECK(optixAccelBuild(state.context,
+                                0, // CUDA stream
+                                &accel_options, &aabb_input,
+                                1, // num build inputs
+                                d_temp_buffer_gas,
+                                gas_buffer_sizes.tempSizeInBytes,
+                                d_buffer_temp_output_gas_and_compacted_size,
+                                gas_buffer_sizes.outputSizeInBytes, &gas_handle,
+                                &emitProperty, // emitted property list
+                                1              // num emitted properties
+                                ));
+
+    CUDA_CHECK(cudaFree((void*)d_temp_buffer_gas));
+    CUDA_CHECK(cudaFree((void*)d_aabb_buffer));
+
+    size_t compacted_gas_size;
+    CUDA_CHECK(cudaMemcpy(&compacted_gas_size, (void*)emitProperty.result,
+                          sizeof(size_t), cudaMemcpyDeviceToHost));
+
+    if (compacted_gas_size < gas_buffer_sizes.outputSizeInBytes)
+    {
+        CUDA_CHECK(
+            cudaMalloc(reinterpret_cast<void**>(&state.d_gas_output_buffer),
+                       compacted_gas_size));
+
+        // use handle as input and output
+        OPTIX_CHECK(optixAccelCompact(state.context, 0, gas_handle,
+                                      state.d_gas_output_buffer,
+                                      compacted_gas_size, &gas_handle));
+
+        CUDA_CHECK(
+            cudaFree((void*)d_buffer_temp_output_gas_and_compacted_size));
+    }
     else
-        _geometryGroup->addChild(instance);
+        state.d_gas_output_buffer = d_buffer_temp_output_gas_and_compacted_size;
+
+    PLUGIN_DEBUG("Registering OptiX STB Group Record");
+    CUdeviceptr hitgroup_record;
+    size_t hitgroup_record_size = sizeof(HitGroupRecord);
+    CUDA_CHECK(cudaMalloc(reinterpret_cast<void**>(&hitgroup_record),
+                          hitgroup_record_size * nbPrimitives));
+    HitGroupRecord hg;
+    OPTIX_CHECK(optixSbtRecordPackHeader(state.hitgroup_prog_group, &hg));
+    CUDA_CHECK(cudaMemcpy(reinterpret_cast<void*>(hitgroup_record), &hg,
+                          hitgroup_record_size * nbPrimitives,
+                          cudaMemcpyHostToDevice));
+
+    state.sbt.hitgroupRecordBase = hitgroup_record;
+    state.sbt.hitgroupRecordCount = nbPrimitives;
+    state.sbt.hitgroupRecordStrideInBytes =
+        nbPrimitives * sizeof(HitGroupRecord);
 }
 
 void OptiXModel::_commitCylinders(const size_t materialId)
@@ -169,33 +257,7 @@ void OptiXModel::_commitCylinders(const size_t materialId)
     if (_geometries->_cylinders.find(materialId) ==
         _geometries->_cylinders.end())
         return;
-
-    auto context = OptiXContext::get().getOptixContext();
-    const auto& cylinders = _geometries->_cylinders[materialId];
-    context["cylinder_size"]->setUint(sizeof(Cylinder) / sizeof(float));
-    _optixCylinders[materialId] =
-        OptiXContext::get().createGeometry(OptixGeometryType::cylinder);
-
-    auto& optixCylinders = _optixCylinders[materialId];
-    optixCylinders->setPrimitiveCount(cylinders.size());
-
-    setBuffer(RT_BUFFER_INPUT, RT_FORMAT_FLOAT, _cylindersBuffers[materialId],
-              _optixCylinders[materialId]["cylinders"], cylinders,
-              sizeof(Cylinder) * cylinders.size());
-
-    auto& mat = static_cast<OptiXMaterial&>(*_materials[materialId]);
-    const auto material = mat.getOptixMaterial();
-    if (!material)
-        BRAYNS_THROW(std::runtime_error("Material is not defined"));
-
-    auto instance = context->createGeometryInstance();
-    instance->setGeometry(optixCylinders);
-    instance->setMaterialCount(1);
-    instance->setMaterial(0, material);
-    if (materialId == BOUNDINGBOX_MATERIAL_ID)
-        _boundingBoxGroup->addChild(instance);
-    else
-        _geometryGroup->addChild(instance);
+    // const auto& cylinders = _geometries->_cylinders[materialId];
 }
 
 void OptiXModel::_commitCones(const size_t materialId)
@@ -203,32 +265,7 @@ void OptiXModel::_commitCones(const size_t materialId)
     if (_geometries->_cones.find(materialId) == _geometries->_cones.end())
         return;
 
-    auto context = OptiXContext::get().getOptixContext();
-    const auto& cones = _geometries->_cones[materialId];
-    context["cone_size"]->setUint(sizeof(Cone) / sizeof(float));
-    _optixCones[materialId] =
-        OptiXContext::get().createGeometry(OptixGeometryType::cone);
-
-    auto& optixCones = _optixCones[materialId];
-    optixCones->setPrimitiveCount(cones.size());
-
-    setBuffer(RT_BUFFER_INPUT, RT_FORMAT_FLOAT, _conesBuffers[materialId],
-              _optixCones[materialId]["cones"], cones,
-              sizeof(Cone) * cones.size());
-
-    auto& mat = static_cast<OptiXMaterial&>(*_materials[materialId]);
-    auto material = mat.getOptixMaterial();
-    if (!material)
-        BRAYNS_THROW(std::runtime_error("Material is not defined"));
-
-    auto instance = context->createGeometryInstance();
-    instance->setGeometry(optixCones);
-    instance->setMaterialCount(1);
-    instance->setMaterial(0, material);
-    if (materialId == BOUNDINGBOX_MATERIAL_ID)
-        _boundingBoxGroup->addChild(instance);
-    else
-        _geometryGroup->addChild(instance);
+    // const auto& cones = _geometries->_cones[materialId];
 }
 
 void OptiXModel::_commitMeshes(const size_t materialId)
@@ -237,53 +274,12 @@ void OptiXModel::_commitMeshes(const size_t materialId)
         _geometries->_triangleMeshes.end())
         return;
 
-    const auto& meshes = _geometries->_triangleMeshes[materialId];
-    _optixMeshes[materialId] =
-        OptiXContext::get().createGeometry(OptixGeometryType::triangleMesh);
-
-    auto& optixMeshes = _optixMeshes[materialId];
-    optixMeshes->setPrimitiveCount(meshes.indices.size());
-
-    setBuffer(RT_BUFFER_INPUT, RT_FORMAT_FLOAT3,
-              _meshesBuffers[materialId].vertices_buffer,
-              _optixMeshes[materialId]["vertices_buffer"], meshes.vertices,
-              meshes.vertices.size());
-
-    setBuffer(RT_BUFFER_INPUT, RT_FORMAT_UNSIGNED_INT3,
-              _meshesBuffers[materialId].indices_buffer,
-              _optixMeshes[materialId]["indices_buffer"], meshes.indices,
-              meshes.indices.size());
-
-    setBuffer(RT_BUFFER_INPUT, RT_FORMAT_FLOAT3,
-              _meshesBuffers[materialId].normal_buffer,
-              _optixMeshes[materialId]["normal_buffer"], meshes.normals,
-              meshes.normals.size());
-
-    setBuffer(RT_BUFFER_INPUT, RT_FORMAT_FLOAT2,
-              _meshesBuffers[materialId].texcoord_buffer,
-              _optixMeshes[materialId]["texcoord_buffer"],
-              meshes.textureCoordinates, meshes.textureCoordinates.size());
-
-    auto& mat = static_cast<OptiXMaterial&>(*_materials[materialId]);
-    auto material = mat.getOptixMaterial();
-    if (!material)
-        BRAYNS_THROW(std::runtime_error("Material is not defined"));
-
-    auto context = OptiXContext::get().getOptixContext();
-    auto instance = context->createGeometryInstance();
-    instance->setGeometry(optixMeshes);
-    instance->setMaterialCount(1);
-    instance->setMaterial(0, material);
-    if (materialId == BOUNDINGBOX_MATERIAL_ID)
-        _boundingBoxGroup->addChild(instance);
-    else
-        _geometryGroup->addChild(instance);
+    // const auto& meshes = _geometries->_triangleMeshes[materialId];
 }
 
 void OptiXModel::_commitMaterials()
 {
-    BRAYNS_INFO << "Committing " << _materials.size() << " OptiX materials"
-                << std::endl;
+    PLUGIN_INFO("Committing " << _materials.size() << " OptiX materials");
 
     for (auto& material : _materials)
         material.second->commit();
@@ -342,7 +338,6 @@ MaterialPtr OptiXModel::createMaterialImpl(
     return material;
 }
 
-/** @copydoc Model::createSharedDataVolume */
 SharedDataVolumePtr OptiXModel::createSharedDataVolume(
     const Vector3ui& /*dimensions*/, const Vector3f& /*spacing*/,
     const DataType /*type*/) const
@@ -351,7 +346,6 @@ SharedDataVolumePtr OptiXModel::createSharedDataVolume(
     return nullptr;
 }
 
-/** @copydoc Model::createBrickedVolume */
 BrickedVolumePtr OptiXModel::createBrickedVolume(
     const Vector3ui& /*dimensions*/, const Vector3f& /*spacing*/,
     const DataType /*type*/) const
@@ -364,24 +358,10 @@ void OptiXModel::_commitTransferFunctionImpl(const Vector3fs& colors,
                                              const floats& opacities,
                                              const Vector2d valueRange)
 {
-    auto context = OptiXContext::get().getOptixContext();
-
-    setBuffer(RT_BUFFER_INPUT, RT_FORMAT_FLOAT3, _optixTransferFunction.colors,
-              context["colors"], colors, colors.size());
-
-    setBuffer(RT_BUFFER_INPUT, RT_FORMAT_FLOAT,
-              _optixTransferFunction.opacities, context["opacities"], opacities,
-              opacities.size());
-
-    context["value_range"]->setFloat(valueRange.x, valueRange.y);
 }
 
 void OptiXModel::_commitSimulationDataImpl(const float* frameData,
                                            const size_t frameSize)
 {
-    auto context = OptiXContext::get().getOptixContext();
-    setBufferRaw(RT_BUFFER_INPUT, RT_FORMAT_FLOAT, _simulationData,
-                 context["simulation_data"], frameData, frameSize,
-                 frameSize * sizeof(float));
 }
 } // namespace brayns

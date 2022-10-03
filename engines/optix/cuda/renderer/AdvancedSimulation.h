@@ -22,7 +22,7 @@
 #include "../../CommonStructs.h"
 #include "../Helpers.h"
 #include "../Random.h"
-#include <optix_world.h>
+#include <optix_types.h>
 
 struct PerRayData_shadow
 {

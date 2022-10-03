@@ -17,37 +17,49 @@
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
 
-#include <optix_world.h>
+#include <optix.h>
 
-using namespace optix;
+#include <sutil/vec_math.h>
 
-#define OFFSET_USER_DATA 0
-#define OFFSET_CENTER (OFFSET_USER_DATA + 2)
-#define OFFSET_RADIUS (OFFSET_CENTER + 3)
-#define OFFSET_TIMESTAMP (OFFSET_RADIUS + 1)
-#define OFFSET_TEX_COORDS (OFFSET_TIMESTAMP + 1)
+#include "GeometryData.h"
 
-rtBuffer<float> spheres;
+#define float3_as_uints(u) \
+    __float_as_uint(u.x), __float_as_uint(u.y), __float_as_uint(u.z)
 
-rtDeclareVariable(float3, geometric_normal, attribute geometric_normal, );
-rtDeclareVariable(float3, shading_normal, attribute shading_normal, );
-rtDeclareVariable(optix::Ray, ray, rtCurrentRay, );
-rtDeclareVariable(unsigned int, sphere_size, , );
-rtDeclareVariable(unsigned long, simulation_idx, attribute simulation_idx, );
-
-template <bool use_robust_method>
-static __device__ void intersect_sphere(int primIdx)
+namespace brayns {
+struct SphereHitGroupData
 {
-    const int idx = primIdx * sphere_size;
+    GeometryData::Sphere sphere;
+};
 
-    const unsigned long userData =
-        *((unsigned long*)(&spheres[idx + OFFSET_USER_DATA]));
-    const float3 center = {spheres[idx + OFFSET_CENTER],
-                           spheres[idx + OFFSET_CENTER + 1],
-                           spheres[idx + OFFSET_CENTER + 2]};
-    const float3 O = ray.origin - center;
-    const float3 D = ray.direction;
-    const float radius = spheres[idx + OFFSET_RADIUS];
+static __forceinline__ __device__ void setPayload(float3 p)
+{
+    optixSetPayload_0(__float_as_int(p.x));
+    optixSetPayload_1(__float_as_int(p.y));
+    optixSetPayload_2(__float_as_int(p.z));
+}
+
+static __forceinline__ __device__ float3 getPayload()
+{
+    return make_float3(__int_as_float(optixGetPayload_0()),
+                       __int_as_float(optixGetPayload_1()),
+                       __int_as_float(optixGetPayload_2()));
+}
+
+extern "C" __global__ void __intersection__sphere()
+{
+    const SphereHitGroupData* hit_group_data =
+        reinterpret_cast<SphereHitGroupData*>(optixGetSbtDataPointer());
+
+    const float3 ray_orig = optixGetWorldRayOrigin();
+    const float3 ray_dir = optixGetWorldRayDirection();
+    const float ray_tmin = optixGetRayTmin();
+    const float ray_tmax = optixGetRayTmax();
+
+    const float3 O = ray_orig - hit_group_data->sphere.center;
+    const float l = 1.0f / length(ray_dir);
+    const float3 D = ray_dir * l;
+    const float radius = hit_group_data->sphere.radius;
 
     float b = dot(O, D);
     float c = dot(O, O) - radius * radius;
@@ -56,18 +68,15 @@ static __device__ void intersect_sphere(int primIdx)
     {
         float sdisc = sqrtf(disc);
         float root1 = (-b - sdisc);
-
-        bool do_refine = false;
-
         float root11 = 0.0f;
+        bool check_second = true;
 
-        if (use_robust_method && fabsf(root1) > 10.f * radius)
-            do_refine = true;
+        const bool do_refine = fabsf(root1) > (10.0f * radius);
 
         if (do_refine)
         {
             // refine root1
-            float3 O1 = O + root1 * ray.direction;
+            float3 O1 = O + root1 * D;
             b = dot(O1, D);
             c = dot(O1, O1) - radius * radius;
             disc = b * b - c;
@@ -79,55 +88,52 @@ static __device__ void intersect_sphere(int primIdx)
             }
         }
 
-        bool check_second = true;
-        if (rtPotentialIntersection(root1 + root11))
+        float t;
+        float3 normal;
+        t = (root1 + root11) * l;
+        if (t > ray_tmin && t < ray_tmax)
         {
-            shading_normal = geometric_normal =
-                (O + (root1 + root11) * D) / radius;
-            simulation_idx = userData;
-            if (rtReportIntersection(0))
+            normal = (O + (root1 + root11) * D) / radius;
+            if (optixReportIntersection(t, 0, float3_as_uints(normal),
+                                        __float_as_uint(radius)))
                 check_second = false;
         }
+
         if (check_second)
         {
             float root2 = (-b + sdisc) + (do_refine ? root1 : 0);
-            if (rtPotentialIntersection(root2))
-            {
-                shading_normal = geometric_normal = (O + root2 * D) / radius;
-                simulation_idx = userData;
-                rtReportIntersection(0);
-            }
+            t = root2 * l;
+            normal = (O + root2 * D) / radius;
+            if (t > ray_tmin && t < ray_tmax)
+                optixReportIntersection(t, 0, float3_as_uints(normal),
+                                        __float_as_uint(radius));
         }
     }
 }
 
-RT_PROGRAM void intersect(int primIdx)
+extern "C" __global__ void __closesthit__ch()
 {
-    intersect_sphere<false>(primIdx);
+    float t_hit = optixGetRayTmax();
+    // Backface hit not used.
+    // float  t_hit2 = __uint_as_float( optixGetAttribute_0() );
+
+    const float3 ray_orig = optixGetWorldRayOrigin();
+    const float3 ray_dir = optixGetWorldRayDirection();
+
+    const unsigned int prim_idx = optixGetPrimitiveIndex();
+    const OptixTraversableHandle gas = optixGetGASTraversableHandle();
+    const unsigned int sbtGASIndex = optixGetSbtGASIndex();
+
+    float4 q;
+    // sphere center (q.x, q.y, q.z), sphere radius q.w
+    optixGetSphereData(gas, prim_idx, sbtGASIndex, 0.f, &q);
+
+    float3 world_raypos = ray_orig + t_hit * ray_dir;
+    float3 obj_raypos = optixTransformPointFromWorldToObjectSpace(world_raypos);
+    float3 obj_normal = (obj_raypos - make_float3(q)) / q.w;
+    float3 world_normal =
+        normalize(optixTransformNormalFromObjectToWorldSpace(obj_normal));
+
+    setPayload(world_normal * 0.5f + 0.5f);
 }
-
-RT_PROGRAM void robust_intersect(int primIdx)
-{
-    intersect_sphere<true>(primIdx);
-}
-
-RT_PROGRAM void bounds(int primIdx, float result[6])
-{
-    const int idx = primIdx * sphere_size;
-    const float3 cen = {spheres[idx + OFFSET_CENTER],
-                        spheres[idx + OFFSET_CENTER + 1],
-                        spheres[idx + OFFSET_CENTER + 2]};
-    const float rad = spheres[idx + OFFSET_RADIUS];
-
-    optix::Aabb* aabb = (optix::Aabb*)result;
-
-    if (rad > 0.0f && !isinf(rad))
-    {
-        aabb->m_min = cen - rad;
-        aabb->m_max = cen + rad;
-    }
-    else
-    {
-        aabb->invalidate();
-    }
 }

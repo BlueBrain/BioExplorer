@@ -17,13 +17,13 @@
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
 
-#include <optix_world.h>
+#include <optix_types.h>
 
 template <typename T>
 static __device__ inline T interpolateValues(const float v_min,
                                              const float v_max,
                                              const float value,
-                                             optix::buffer<T, 1>& values)
+                                             buffer<T, 1>& values)
 {
     const int num_values = values.size();
 
@@ -44,7 +44,7 @@ static __device__ inline T interpolateValues(const float v_min,
 
 static __device__ inline float3 calcTransferFunctionColor(
     const float range_min, const float range_max, const float value,
-    optix::buffer<float3, 1>& colors, optix::buffer<float, 1>& opacities)
+    buffer<float3, 1>& colors, buffer<float, 1>& opacities)
 {
     const float3 WHITE = make_float3(1.f, 1.f, 1.f);
 

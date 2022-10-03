@@ -21,8 +21,10 @@
 #include "OptiXRenderer.h"
 #include "OptiXContext.h"
 #include "OptiXFrameBuffer.h"
+#if 0
 #include "OptiXMaterial.h"
 #include "OptiXModel.h"
+#endif
 #include "OptiXScene.h"
 
 #include <chrono>
@@ -30,79 +32,6 @@
 using std::chrono::duration_cast;
 using std::chrono::high_resolution_clock;
 using std::chrono::milliseconds;
-
-namespace
-{
-void toOptiXProperties(const brayns::PropertyMap& object)
-{
-    try
-    {
-        auto context = brayns::OptiXContext::get().getOptixContext();
-        for (const auto& prop : object.getProperties())
-        {
-            switch (prop->type)
-            {
-            case brayns::Property::Type::Double:
-                context[prop->name]->setFloat(
-                    static_cast<float>(prop->get<double>()));
-                break;
-            case brayns::Property::Type::Int:
-                context[prop->name]->setInt(prop->get<int32_t>());
-                break;
-            case brayns::Property::Type::Bool:
-                // Special case, no bool in OptiX
-                context[prop->name]->setUint(prop->get<bool>());
-                break;
-            case brayns::Property::Type::String:
-                BRAYNS_WARN << "Cannot upload string property to OptiX '"
-                            << prop->name << "'" << std::endl;
-                break;
-            case brayns::Property::Type::Vec2d:
-            {
-                auto v = prop->get<std::array<double, 2>>();
-                context[prop->name]->setFloat(static_cast<float>(v[0]),
-                                              static_cast<float>(v[1]));
-                break;
-            }
-            case brayns::Property::Type::Vec2i:
-            {
-                auto v = prop->get<std::array<int32_t, 2>>();
-                context[prop->name]->setInt(v[0], v[1]);
-                break;
-            }
-            case brayns::Property::Type::Vec3d:
-            {
-                auto v = prop->get<std::array<double, 3>>();
-                context[prop->name]->setFloat(static_cast<float>(v[0]),
-                                              static_cast<float>(v[1]),
-                                              static_cast<float>(v[2]));
-                break;
-            }
-            case brayns::Property::Type::Vec3i:
-            {
-                auto v = prop->get<std::array<int32_t, 3>>();
-                context[prop->name]->setInt(v[0], v[1], v[2]);
-                break;
-            }
-            case brayns::Property::Type::Vec4d:
-            {
-                auto v = prop->get<std::array<double, 4>>();
-                context[prop->name]->setFloat(static_cast<float>(v[0]),
-                                              static_cast<float>(v[1]),
-                                              static_cast<float>(v[2]),
-                                              static_cast<float>(v[3]));
-                break;
-            }
-            }
-        }
-    }
-    catch (const std::exception& e)
-    {
-        BRAYNS_ERROR << "Failed to apply properties for OptiX object"
-                     << e.what() << std::endl;
-    }
-}
-} // namespace
 
 namespace brayns
 {
@@ -118,19 +47,18 @@ void OptiXRenderer::render(FrameBufferPtr frameBuffer)
     if (!frameBuffer->getAccumulation() && frameBuffer->numAccumFrames() > 0)
         return;
 
+#if 0
     // Provide a random seed to the renderer
     optix::float4 jitter = {(float)rand() / (float)RAND_MAX,
                             (float)rand() / (float)RAND_MAX,
                             (float)rand() / (float)RAND_MAX,
                             (float)rand() / (float)RAND_MAX};
-    auto context = OptiXContext::get().getOptixContext();
     context["jitter4"]->setFloat(jitter);
     context["frame"]->setUint(frameBuffer->numAccumFrames());
+#endif
 
     // Render
     frameBuffer->map();
-    const auto size = frameBuffer->getSize();
-    context->launch(0, size.x, size.y);
     frameBuffer->unmap();
 
     frameBuffer->markModified();
@@ -144,6 +72,7 @@ void OptiXRenderer::commit()
         return;
     }
 
+#if 0
     const bool rendererChanged =
         _renderingParameters.getCurrentRenderer() != _currentRenderer;
 
@@ -157,20 +86,22 @@ void OptiXRenderer::commit()
         const auto renderProgram = OptiXContext::get().getRenderer(
             _renderingParameters.getCurrentRenderer());
 
-        _scene->visitModels([&](Model& model) {
-            for (const auto& kv : model.getMaterials())
+        _scene->visitModels(
+            [&](Model& model)
             {
-                auto optixMaterial =
-                    dynamic_cast<OptiXMaterial*>(kv.second.get());
-                const bool textured = optixMaterial->isTextured();
+                for (const auto& kv : model.getMaterials())
+                {
+                    auto optixMaterial =
+                        dynamic_cast<OptiXMaterial*>(kv.second.get());
+                    const bool textured = optixMaterial->isTextured();
 
-                optixMaterial->getOptixMaterial()->setClosestHitProgram(
-                    0, textured ? renderProgram->closest_hit_textured
-                                : renderProgram->closest_hit);
-                optixMaterial->getOptixMaterial()->setAnyHitProgram(
-                    1, renderProgram->any_hit);
-            }
-        });
+                    optixMaterial->getOptixMaterial()->setClosestHitProgram(
+                        0, textured ? renderProgram->closest_hit_textured
+                                    : renderProgram->closest_hit);
+                    optixMaterial->getOptixMaterial()->setAnyHitProgram(
+                        1, renderProgram->any_hit);
+                }
+            });
     }
 
     // Upload common properties
@@ -188,6 +119,7 @@ void OptiXRenderer::commit()
     context["currentTime"]->setFloat(_timer.elapsed());
 
     toOptiXProperties(getPropertyMap());
+#endif
     _currentRenderer = _renderingParameters.getCurrentRenderer();
 }
 
