@@ -1841,7 +1841,7 @@ class BioExplorer:
             refraction_indices.append(refraction_index)
             chameleon_modes.append(chameleon_mode)
             cast_user_datas.append(cast_user_data)
-            cast_clipping_modes.append(clipping_mode)
+            clipping_modes.append(clipping_mode)
         self.set_materials(
             model_ids=model_ids,
             material_ids=material_ids,
