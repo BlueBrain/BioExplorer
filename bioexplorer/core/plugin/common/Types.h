@@ -1457,7 +1457,8 @@ typedef struct
     double postSynapticSegmentDistance;
 } Synapse;
 using Synapses = std::vector<Synapse>;
-using SynapseMap = std::map<uint64_t, Synapses>;
+using SegmentSynapseMap = std::map<uint64_t, Synapses>;
+using SectionSynapseMap = std::map<uint64_t, SegmentSynapseMap>;
 
 enum class ReportType
 {

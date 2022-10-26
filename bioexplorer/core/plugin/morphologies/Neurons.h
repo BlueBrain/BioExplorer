@@ -98,7 +98,8 @@ private:
                      const Quaterniond& somaRotation, const double somaRadius,
                      const size_t baseMaterialId,
                      const double mitochondriaDensity,
-                     const uint64_t somaUserData);
+                     const uint64_t somaUserData,
+                     const SectionSynapseMap& synapses);
 
     void _addSpine(ThreadSafeContainer& container, const uint64_t neuronId,
                    const uint64_t morphologyId, const uint64_t sectionId,
@@ -125,6 +126,7 @@ private:
     const NeuronsDetails _details;
     Scene& _scene;
     Varicosities _varicosities;
+    uint64_t _nbSpines{0};
     ReportType _reportType{ReportType::undefined};
 };
 } // namespace morphology
