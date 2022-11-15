@@ -241,6 +241,8 @@ void OptiXEngine::_createRenderers()
 
         addRendererType("bbp");
     }
+#else
+    addRendererType("basic");
 #endif
 }
 

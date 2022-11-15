@@ -64,10 +64,9 @@ protected:
 private:
     void _buildGAS(const OptixBuildInput& buildInput);
 
-    void _commitSpheres(const size_t materialId);
-    void _createSpheresSBT(const size_t materialId);
-    void _commitCylinders(const size_t materialId);
-    void _commitCones(const size_t materialId);
+    void _commitGeometry();
+    void _createSBT();
+
     void _commitMeshes(const size_t materialId);
     void _commitMaterials();
     bool _commitSimulationData();

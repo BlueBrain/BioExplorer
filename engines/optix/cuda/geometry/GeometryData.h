@@ -29,6 +29,8 @@
 
 #include <optix.h>
 
+#include <cuda/BufferView.h>
+
 #include <sutil/vec_math.h>
 
 #ifndef __CUDACC_RTC__
@@ -39,6 +41,9 @@
 
 namespace brayns
 {
+#define float3_as_uints(u) \
+    __float_as_uint(u.x), __float_as_uint(u.y), __float_as_uint(u.z)
+
 // unaligned equivalent of float2
 struct Vec2f
 {
@@ -58,7 +63,29 @@ struct GeometryData
 {
     enum Type
     {
-        SPHERE = 0,
+        TRIANGLE_MESH = 0,
+        SPHERE = 1,
+        CYLINDER = 2,
+        CONE = 3,
+        LINEAR_CURVE_ARRAY = 4,
+        QUADRATIC_CURVE_ARRAY = 5,
+        CUBIC_CURVE_ARRAY = 6,
+        CATROM_CURVE_ARRAY = 7,
+    };
+
+    // The number of supported texture spaces per mesh.
+    static const unsigned int num_texcoords = 2;
+
+    struct TriangleMesh
+    {
+        GenericBufferView indices;
+        BufferView<float3> positions;
+        BufferView<float3> normals;
+        BufferView<Vec2f> texcoords[num_texcoords]; // The buffer view may not
+                                                    // be aligned, so don't use
+                                                    // float2
+        BufferView<Vec4f> colors; // The buffer view may not be aligned, so
+                                  // don't use float4
     };
 
     struct Sphere
@@ -67,11 +94,38 @@ struct GeometryData
         float radius;
     };
 
+    struct Cylinder
+    {
+        float3 center;
+        float3 up;
+        float radius;
+    };
+
+    struct Cone
+    {
+        float3 center;
+        float3 up;
+        float centerRadius;
+        float upRadius;
+    };
+
+    struct Curves
+    {
+        BufferView<float2> strand_u;   // strand_u at segment start per segment
+        GenericBufferView strand_i;    // strand index per segment
+        BufferView<uint2> strand_info; // info.x = segment base
+                                       // info.y = strand length (segments)
+    };
+
     Type type;
 
     union
     {
+        TriangleMesh triangle_mesh;
         Sphere sphere;
+        Cylinder cylinder;
+        Cone cone;
+        Curves curves;
     };
 };
 } // namespace brayns

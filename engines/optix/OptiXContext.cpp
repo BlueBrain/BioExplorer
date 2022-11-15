@@ -413,9 +413,9 @@ void OptiXContext::_createCameraPrograms()
     OPTIX_CHECK_LOG(
         optixProgramGroupCreate(_state.context, &miss_prog_group_desc, 1,
                                 &_state.program_group_options, log, &sizeof_log,
-                                &_state.occlusion_prog_group));
+                                &_state.miss_prog_group));
 
-    _programGroups.push_back(_state.occlusion_prog_group);
+    _programGroups.push_back(_state.miss_prog_group);
 }
 
 void OptiXContext::_createShadingModules()
@@ -435,87 +435,173 @@ void OptiXContext::_createShadingModules()
                                              &_state.shading_module));
 }
 
-void OptiXContext::_createMaterialPrograms()
+void OptiXContext::_createGeometryPrograms()
 {
     PLUGIN_INFO("Creating OptiX Material Programs");
 
     char log[2048];
     size_t sizeof_log = sizeof(log);
 
+    // ----------------------------------------
+    // Spheres
+    // ----------------------------------------
+
     // Radiance
-    OptixProgramGroupDesc radiance_prog_group_desc = {};
-    radiance_prog_group_desc.kind = OPTIX_PROGRAM_GROUP_KIND_HITGROUP,
-    radiance_prog_group_desc.hitgroup.moduleIS =
-        _state.geometry_module; // Why sphere module, and not shading?
-    radiance_prog_group_desc.hitgroup.entryFunctionNameIS =
+    OptixProgramGroupDesc sphere_radiance_prog_group_desc = {};
+    sphere_radiance_prog_group_desc.kind = OPTIX_PROGRAM_GROUP_KIND_HITGROUP,
+    sphere_radiance_prog_group_desc.hitgroup.moduleIS = _state.sphere_module;
+    sphere_radiance_prog_group_desc.hitgroup.entryFunctionNameIS =
         "__intersection__sphere";
-    radiance_prog_group_desc.hitgroup.moduleCH = _state.shading_module;
-    radiance_prog_group_desc.hitgroup.entryFunctionNameCH =
+    sphere_radiance_prog_group_desc.hitgroup.moduleCH = _state.shading_module;
+    sphere_radiance_prog_group_desc.hitgroup.entryFunctionNameCH =
         "__closesthit__radiance";
-    radiance_prog_group_desc.hitgroup.moduleAH = nullptr;
-    radiance_prog_group_desc.hitgroup.entryFunctionNameAH = nullptr;
+    sphere_radiance_prog_group_desc.hitgroup.moduleAH = nullptr;
+    sphere_radiance_prog_group_desc.hitgroup.entryFunctionNameAH = nullptr;
     OPTIX_CHECK_LOG(
-        optixProgramGroupCreate(_state.context, &radiance_prog_group_desc, 1,
+        optixProgramGroupCreate(_state.context,
+                                &sphere_radiance_prog_group_desc, 1,
                                 &_state.program_group_options, log, &sizeof_log,
-                                &_state.radiance_prog_group));
-    _programGroups.push_back(_state.radiance_prog_group);
+                                &_state.sphere_radiance_prog_group));
+    _programGroups.push_back(_state.sphere_radiance_prog_group);
 
     // Occlusion
-    OptixProgramGroupDesc occlusion_prog_group_desc = {};
-    occlusion_prog_group_desc.kind = OPTIX_PROGRAM_GROUP_KIND_HITGROUP,
-    occlusion_prog_group_desc.hitgroup.moduleIS = _state.geometry_module;
-    occlusion_prog_group_desc.hitgroup.entryFunctionNameIS =
+    OptixProgramGroupDesc sphere_occlusion_prog_group_desc = {};
+    sphere_occlusion_prog_group_desc.kind = OPTIX_PROGRAM_GROUP_KIND_HITGROUP,
+    sphere_occlusion_prog_group_desc.hitgroup.moduleIS = _state.sphere_module;
+    sphere_occlusion_prog_group_desc.hitgroup.entryFunctionNameIS =
         "__intersection__sphere";
-    occlusion_prog_group_desc.hitgroup.moduleCH = _state.shading_module;
-    occlusion_prog_group_desc.hitgroup.entryFunctionNameCH =
+    sphere_occlusion_prog_group_desc.hitgroup.moduleCH = _state.shading_module;
+    sphere_occlusion_prog_group_desc.hitgroup.entryFunctionNameCH =
         "__closesthit__full_occlusion";
-    occlusion_prog_group_desc.hitgroup.moduleAH = nullptr;
-    occlusion_prog_group_desc.hitgroup.entryFunctionNameAH = nullptr;
+    sphere_occlusion_prog_group_desc.hitgroup.moduleAH = nullptr;
+    sphere_occlusion_prog_group_desc.hitgroup.entryFunctionNameAH = nullptr;
 
     OPTIX_CHECK_LOG(
-        optixProgramGroupCreate(_state.context, &occlusion_prog_group_desc, 1,
+        optixProgramGroupCreate(_state.context,
+                                &sphere_occlusion_prog_group_desc, 1,
                                 &_state.program_group_options, log, &sizeof_log,
-                                &_state.occlusion_prog_group));
-    _programGroups.push_back(_state.occlusion_prog_group);
+                                &_state.sphere_occlusion_prog_group));
+    _programGroups.push_back(_state.sphere_occlusion_prog_group);
+
+    // ----------------------------------------
+    // Cylinders
+    // ----------------------------------------
+
+    // Radiance
+    OptixProgramGroupDesc cylinder_radiance_prog_group_desc = {};
+    cylinder_radiance_prog_group_desc.kind = OPTIX_PROGRAM_GROUP_KIND_HITGROUP,
+    cylinder_radiance_prog_group_desc.hitgroup.moduleIS =
+        _state.cylinder_module;
+    cylinder_radiance_prog_group_desc.hitgroup.entryFunctionNameIS =
+        "__intersection__cylinder";
+    cylinder_radiance_prog_group_desc.hitgroup.moduleCH = _state.shading_module;
+    cylinder_radiance_prog_group_desc.hitgroup.entryFunctionNameCH =
+        "__closesthit__radiance";
+    cylinder_radiance_prog_group_desc.hitgroup.moduleAH = nullptr;
+    cylinder_radiance_prog_group_desc.hitgroup.entryFunctionNameAH = nullptr;
+    OPTIX_CHECK_LOG(
+        optixProgramGroupCreate(_state.context,
+                                &cylinder_radiance_prog_group_desc, 1,
+                                &_state.program_group_options, log, &sizeof_log,
+                                &_state.cylinder_radiance_prog_group));
+    _programGroups.push_back(_state.cylinder_radiance_prog_group);
+
+    // Occlusion
+    OptixProgramGroupDesc cylinder_occlusion_prog_group_desc = {};
+    cylinder_occlusion_prog_group_desc.kind = OPTIX_PROGRAM_GROUP_KIND_HITGROUP,
+    cylinder_occlusion_prog_group_desc.hitgroup.moduleIS =
+        _state.cylinder_module;
+    cylinder_occlusion_prog_group_desc.hitgroup.entryFunctionNameIS =
+        "__intersection__cylinder";
+    cylinder_occlusion_prog_group_desc.hitgroup.moduleCH =
+        _state.shading_module;
+    cylinder_occlusion_prog_group_desc.hitgroup.entryFunctionNameCH =
+        "__closesthit__full_occlusion";
+    cylinder_occlusion_prog_group_desc.hitgroup.moduleAH = nullptr;
+    cylinder_occlusion_prog_group_desc.hitgroup.entryFunctionNameAH = nullptr;
+
+    OPTIX_CHECK_LOG(
+        optixProgramGroupCreate(_state.context,
+                                &cylinder_occlusion_prog_group_desc, 1,
+                                &_state.program_group_options, log, &sizeof_log,
+                                &_state.cylinder_occlusion_prog_group));
+    _programGroups.push_back(_state.cylinder_occlusion_prog_group);
+
+    // ----------------------------------------
+    // Cones
+    // ----------------------------------------
+
+    // Radiance
+    OptixProgramGroupDesc cone_radiance_prog_group_desc = {};
+    cone_radiance_prog_group_desc.kind = OPTIX_PROGRAM_GROUP_KIND_HITGROUP,
+    cone_radiance_prog_group_desc.hitgroup.moduleIS = _state.cone_module;
+    cone_radiance_prog_group_desc.hitgroup.entryFunctionNameIS =
+        "__intersection__cone";
+    cone_radiance_prog_group_desc.hitgroup.moduleCH = _state.shading_module;
+    cone_radiance_prog_group_desc.hitgroup.entryFunctionNameCH =
+        "__closesthit__radiance";
+    cone_radiance_prog_group_desc.hitgroup.moduleAH = nullptr;
+    cone_radiance_prog_group_desc.hitgroup.entryFunctionNameAH = nullptr;
+    OPTIX_CHECK_LOG(
+        optixProgramGroupCreate(_state.context, &cone_radiance_prog_group_desc,
+                                1, &_state.program_group_options, log,
+                                &sizeof_log, &_state.cone_radiance_prog_group));
+    _programGroups.push_back(_state.cone_radiance_prog_group);
+
+    // Occlusion
+    OptixProgramGroupDesc cone_occlusion_prog_group_desc = {};
+    cone_occlusion_prog_group_desc.kind = OPTIX_PROGRAM_GROUP_KIND_HITGROUP,
+    cone_occlusion_prog_group_desc.hitgroup.moduleIS = _state.cone_module;
+    cone_occlusion_prog_group_desc.hitgroup.entryFunctionNameIS =
+        "__intersection__cone";
+    cone_occlusion_prog_group_desc.hitgroup.moduleCH = _state.shading_module;
+    cone_occlusion_prog_group_desc.hitgroup.entryFunctionNameCH =
+        "__closesthit__full_occlusion";
+    cone_occlusion_prog_group_desc.hitgroup.moduleAH = nullptr;
+    cone_occlusion_prog_group_desc.hitgroup.entryFunctionNameAH = nullptr;
+
+    OPTIX_CHECK_LOG(optixProgramGroupCreate(_state.context,
+                                            &cone_occlusion_prog_group_desc, 1,
+                                            &_state.program_group_options, log,
+                                            &sizeof_log,
+                                            &_state.cone_occlusion_prog_group));
+    _programGroups.push_back(_state.cone_occlusion_prog_group);
 }
 
 void OptiXContext::_createGeometryModules()
 {
     PLUGIN_INFO("Creating OptiX Geometry Modules");
+    // Spheres
     size_t inputSize = 0;
-    const char* input =
+    const char* spheres =
         sutil::getInputData(BRAYNS_OPTIX_SAMPLE_NAME, OPTIX_SAMPLE_DIR,
                             "Spheres.cu", inputSize);
-    char log[2048]; // For error reporting from OptiX creation functions
+    char log[2048];
     size_t sizeof_log = sizeof(log);
+    OPTIX_CHECK_LOG(
+        optixModuleCreateFromPTX(_state.context, &_state.module_compile_options,
+                                 &_state.pipeline_compile_options, spheres,
+                                 inputSize, log, &sizeof_log,
+                                 &_state.sphere_module));
+    // Cylinders
+    const char* cylinders =
+        sutil::getInputData(BRAYNS_OPTIX_SAMPLE_NAME, OPTIX_SAMPLE_DIR,
+                            "Cylinders.cu", inputSize);
+    OPTIX_CHECK_LOG(
+        optixModuleCreateFromPTX(_state.context, &_state.module_compile_options,
+                                 &_state.pipeline_compile_options, cylinders,
+                                 inputSize, log, &sizeof_log,
+                                 &_state.cylinder_module));
+
+    // Cones
+    const char* cones =
+        sutil::getInputData(BRAYNS_OPTIX_SAMPLE_NAME, OPTIX_SAMPLE_DIR,
+                            "Cones.cu", inputSize);
     OPTIX_CHECK_LOG(optixModuleCreateFromPTX(_state.context,
                                              &_state.module_compile_options,
                                              &_state.pipeline_compile_options,
-                                             input, inputSize, log, &sizeof_log,
-                                             &_state.geometry_module));
-}
-
-void OptiXContext::_createGeometryPrograms()
-{
-    PLUGIN_INFO("Creating OptiX Geometry Programs");
-    char log[2048];
-    size_t sizeof_log = sizeof(log);
-
-    OptixProgramGroupDesc hitgroup_prog_group_desc = {};
-    hitgroup_prog_group_desc.kind = OPTIX_PROGRAM_GROUP_KIND_HITGROUP;
-    hitgroup_prog_group_desc.hitgroup.moduleIS = _state.geometry_module;
-    hitgroup_prog_group_desc.hitgroup.entryFunctionNameIS =
-        "__intersection__sphere";
-    hitgroup_prog_group_desc.hitgroup.moduleCH = _state.geometry_module;
-    hitgroup_prog_group_desc.hitgroup.entryFunctionNameCH = "__closesthit__ch";
-    hitgroup_prog_group_desc.hitgroup.moduleAH = nullptr;
-    hitgroup_prog_group_desc.hitgroup.entryFunctionNameAH = nullptr;
-    OPTIX_CHECK_LOG(
-        optixProgramGroupCreate(_state.context, &hitgroup_prog_group_desc,
-                                1, // num program groups
-                                &_state.program_group_options, log, &sizeof_log,
-                                &_state.hitgroup_prog_group));
-    _programGroups.push_back(_state.hitgroup_prog_group);
+                                             cones, inputSize, log, &sizeof_log,
+                                             &_state.cone_module));
 }
 
 void OptiXContext::linkPipeline()
@@ -567,7 +653,7 @@ void OptiXContext::_initLaunchParams()
 
     _state.params.subframe_index = 0u;
     _state.params.light = g_light;
-    _state.params.ambient_light_color = make_float3(0.4f, 0.4f, 0.4f);
+    _state.params.ambient_light_color = make_float3(0.f, 0.f, 0.f);
     _state.params.max_depth = maxTraceDepth;
     _state.params.scene_epsilon = 1.e-4f;
     _state.params.handle = _state.gas_handle;
@@ -617,7 +703,6 @@ void OptiXContext::_initialize()
 
     // Programs attached to modules
     _createCameraPrograms();
-    _createMaterialPrograms();
     _createGeometryPrograms();
 }
 

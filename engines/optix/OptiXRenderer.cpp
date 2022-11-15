@@ -120,6 +120,11 @@ void OptiXRenderer::commit()
 
     toOptiXProperties(getPropertyMap());
 #endif
+    auto& state = OptiXContext::getInstance().getState();
+    const auto bgColor = _renderingParameters.getBackgroundColor();
+    state.params.ambient_light_color =
+        make_float3(bgColor.x, bgColor.y, bgColor.z);
+
     _currentRenderer = _renderingParameters.getCurrentRenderer();
 }
 

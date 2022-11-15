@@ -23,43 +23,26 @@
 
 #include "GeometryData.h"
 
-#define float3_as_uints(u) \
-    __float_as_uint(u.x), __float_as_uint(u.y), __float_as_uint(u.z)
-
-namespace brayns {
-struct SphereHitGroupData
+namespace brayns
 {
-    GeometryData::Sphere sphere;
-};
-
-static __forceinline__ __device__ void setPayload(float3 p)
-{
-    optixSetPayload_0(__float_as_int(p.x));
-    optixSetPayload_1(__float_as_int(p.y));
-    optixSetPayload_2(__float_as_int(p.z));
-}
-
-static __forceinline__ __device__ float3 getPayload()
-{
-    return make_float3(__int_as_float(optixGetPayload_0()),
-                       __int_as_float(optixGetPayload_1()),
-                       __int_as_float(optixGetPayload_2()));
-}
-
 extern "C" __global__ void __intersection__sphere()
 {
-    const SphereHitGroupData* hit_group_data =
-        reinterpret_cast<SphereHitGroupData*>(optixGetSbtDataPointer());
+    const GeometryData::Sphere* sphere =
+        reinterpret_cast<GeometryData::Sphere*>(optixGetSbtDataPointer());
 
     const float3 ray_orig = optixGetWorldRayOrigin();
     const float3 ray_dir = optixGetWorldRayDirection();
     const float ray_tmin = optixGetRayTmin();
     const float ray_tmax = optixGetRayTmax();
 
-    const float3 O = ray_orig - hit_group_data->sphere.center;
+    // const int primID = optixGetPrimitiveIndex();
+    // const float3 center = make_float3(primID, 0.f, 0.f);
+    const float3 center = sphere->center;
+    const float radius = sphere->radius;
+
+    const float3 O = ray_orig - center;
     const float l = 1.0f / length(ray_dir);
     const float3 D = ray_dir * l;
-    const float radius = hit_group_data->sphere.radius;
 
     float b = dot(O, D);
     float c = dot(O, O) - radius * radius;
@@ -111,29 +94,4 @@ extern "C" __global__ void __intersection__sphere()
     }
 }
 
-extern "C" __global__ void __closesthit__ch()
-{
-    float t_hit = optixGetRayTmax();
-    // Backface hit not used.
-    // float  t_hit2 = __uint_as_float( optixGetAttribute_0() );
-
-    const float3 ray_orig = optixGetWorldRayOrigin();
-    const float3 ray_dir = optixGetWorldRayDirection();
-
-    const unsigned int prim_idx = optixGetPrimitiveIndex();
-    const OptixTraversableHandle gas = optixGetGASTraversableHandle();
-    const unsigned int sbtGASIndex = optixGetSbtGASIndex();
-
-    float4 q;
-    // sphere center (q.x, q.y, q.z), sphere radius q.w
-    optixGetSphereData(gas, prim_idx, sbtGASIndex, 0.f, &q);
-
-    float3 world_raypos = ray_orig + t_hit * ray_dir;
-    float3 obj_raypos = optixTransformPointFromWorldToObjectSpace(world_raypos);
-    float3 obj_normal = (obj_raypos - make_float3(q)) / q.w;
-    float3 world_normal =
-        normalize(optixTransformNormalFromObjectToWorldSpace(obj_normal));
-
-    setPayload(world_normal * 0.5f + 0.5f);
-}
-}
+} // namespace brayns

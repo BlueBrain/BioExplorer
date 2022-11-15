@@ -101,7 +101,6 @@ private:
     void _createCameraPrograms();
 
     void _createShadingModules();
-    void _createMaterialPrograms();
 
     void _createGeometryModules();
     void _createGeometryPrograms();

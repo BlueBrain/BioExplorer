@@ -54,6 +54,7 @@ protected:
     Planes _clipPlanes;
     std::string _currentCamera;
     Vector3f _u, _v, _w;
+    CUdeviceptr _d_miss_record;
 };
 
 } // namespace brayns

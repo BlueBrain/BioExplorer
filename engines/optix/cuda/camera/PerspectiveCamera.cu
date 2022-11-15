@@ -117,7 +117,7 @@ extern "C" __global__ void __miss__constant_bg()
 {
     const MissData* sbt_data = (MissData*)optixGetSbtDataPointer();
     RadiancePRD prd = getRadiancePRD();
-#if 0
+#if 1
     prd.result = sbt_data->bg_color;
 #else
     // This is to test the camera and the frame buffer

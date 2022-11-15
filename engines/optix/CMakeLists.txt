@@ -47,8 +47,8 @@ set(BRAYNSOPTIXENGINE_CU
 
   # cuda/camera/OpenDeckCamera.cu
   # cuda/Constantbg.cu
-  # cuda/geometry/Cones.cu
-  # cuda/geometry/Cylinders.cu
+  cuda/geometry/Cones.cu
+  cuda/geometry/Cylinders.cu
   cuda/geometry/Spheres.cu
 
   # cuda/geometry/TriangleMesh.cu

@@ -39,7 +39,6 @@ struct Record
 
 namespace brayns
 {
-
 enum RayType
 {
     RAY_TYPE_RADIANCE = 0,
@@ -81,15 +80,21 @@ struct State
     CUdeviceptr d_gas_output_buffer = {};
 
     OptixModule material_module = 0;
-    OptixModule geometry_module = 0;
+    OptixModule sphere_module = 0;
+    OptixModule cylinder_module = 0;
+    OptixModule cone_module = 0;
     OptixModule camera_module = 0;
     OptixModule shading_module = 0;
 
     OptixProgramGroup raygen_prog_group = 0;
     OptixProgramGroup miss_prog_group = 0;
     OptixProgramGroup hitgroup_prog_group = 0;
-    OptixProgramGroup radiance_prog_group = 0;
-    OptixProgramGroup occlusion_prog_group = 0;
+    OptixProgramGroup sphere_radiance_prog_group = 0;
+    OptixProgramGroup sphere_occlusion_prog_group = 0;
+    OptixProgramGroup cylinder_radiance_prog_group = 0;
+    OptixProgramGroup cylinder_occlusion_prog_group = 0;
+    OptixProgramGroup cone_radiance_prog_group = 0;
+    OptixProgramGroup cone_occlusion_prog_group = 0;
 
     OptixPipeline pipeline = 0;
     OptixPipelineCompileOptions pipeline_compile_options = {};
@@ -150,6 +155,8 @@ struct HitGroupData
     union
     {
         GeometryData::Sphere sphere;
+        GeometryData::Cylinder cylinder;
+        GeometryData::Cone cone;
     } geometry;
 
     union

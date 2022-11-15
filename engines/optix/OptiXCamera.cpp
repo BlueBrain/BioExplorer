@@ -60,20 +60,21 @@ OptiXCamera::OptiXCamera()
     // Miss program record
     // ---------------------------------------------------------------------------------------------
     PLUGIN_DEBUG("Registering OptiX SBT Miss Program Record");
-    CUdeviceptr d_miss_record;
     size_t sizeof_miss_record = sizeof(MissRecord);
-    CUDA_CHECK(cudaMalloc(reinterpret_cast<void**>(&d_miss_record),
+    CUDA_CHECK(cudaMalloc(reinterpret_cast<void**>(&_d_miss_record),
                           sizeof_miss_record * RAY_TYPE_COUNT));
 
     MissRecord ms_sbt[RAY_TYPE_COUNT];
     optixSbtRecordPackHeader(state.miss_prog_group, &ms_sbt[0]);
-    ms_sbt[1].data = ms_sbt[0].data = {0.34f, 0.55f, 0.85f}; // Background color
+    const auto bgColor = state.params.ambient_light_color;
+    for (uint32_t i = 0; i < RAY_TYPE_COUNT; ++i)
+        ms_sbt[i].data = {bgColor.x, bgColor.y, bgColor.z}; // Background color
 
-    CUDA_CHECK(cudaMemcpy(reinterpret_cast<void*>(d_miss_record), ms_sbt,
+    CUDA_CHECK(cudaMemcpy(reinterpret_cast<void*>(_d_miss_record), ms_sbt,
                           sizeof_miss_record * RAY_TYPE_COUNT,
                           cudaMemcpyHostToDevice));
 
-    state.sbt.missRecordBase = d_miss_record;
+    state.sbt.missRecordBase = _d_miss_record;
     state.sbt.missRecordCount = RAY_TYPE_COUNT;
     state.sbt.missRecordStrideInBytes =
         static_cast<uint32_t>(sizeof_miss_record);
@@ -161,6 +162,17 @@ void OptiXCamera::_commitToOptiX()
     rg.data.camera_w = {_w.x, _w.y, _w.z};
     CUDA_CHECK(cudaMemcpy(reinterpret_cast<void*>(state.sbt.raygenRecord), &rg,
                           sizeof(RayGenRecord), cudaMemcpyHostToDevice));
+
+    // Update miss record
+    MissRecord ms_sbt[RAY_TYPE_COUNT];
+    size_t sizeof_miss_record = sizeof(MissRecord);
+    optixSbtRecordPackHeader(state.miss_prog_group, &ms_sbt[0]);
+    const auto bgColor = state.params.ambient_light_color;
+    for (uint32_t i = 0; i < RAY_TYPE_COUNT; ++i)
+        ms_sbt[i].data.bg_color = {bgColor.x, bgColor.y, bgColor.z};
+    CUDA_CHECK(cudaMemcpy(reinterpret_cast<void*>(_d_miss_record), ms_sbt,
+                          sizeof_miss_record * RAY_TYPE_COUNT,
+                          cudaMemcpyHostToDevice));
 }
 
 } // namespace brayns

@@ -41,9 +41,9 @@ std::shared_ptr<T> _find(const std::vector<std::shared_ptr<T>>& list,
                          const size_t id,
                          size_t (U::*getID)() const = &T::getID)
 {
-    auto i =
-        std::find_if(list.begin(), list.end(),
-                     [id, getID](auto x) { return id == ((*x).*getID)(); });
+    auto i = std::find_if(list.begin(), list.end(), [id, getID](auto x) {
+        return id == ((*x).*getID)();
+    });
     return i == list.end() ? std::shared_ptr<T>{} : *i;
 }
 
@@ -52,9 +52,9 @@ std::shared_ptr<T> _remove(std::vector<std::shared_ptr<T>>& list,
                            const size_t id,
                            size_t (U::*getID)() const = &T::getID)
 {
-    auto i =
-        std::find_if(list.begin(), list.end(),
-                     [id, getID](auto x) { return id == ((*x).*getID)(); });
+    auto i = std::find_if(list.begin(), list.end(), [id, getID](auto x) {
+        return id == ((*x).*getID)();
+    });
     if (i == list.end())
         return std::shared_ptr<T>{};
     auto result = *i;
@@ -370,21 +370,25 @@ void Scene::buildDefault()
         triangleMesh.indices.push_back(Vector3i(0, 3, 2));
     }
 #else
-    const size_t materialId = 0;
-    auto material = model->createMaterial(materialId, "sphere");
-    material->setOpacity(0.2f);
-    material->setRefractionIndex(1.5f);
-    material->setReflectionIndex(0.1f);
-    material->setDiffuseColor({1.f, 1.f, 1.f});
-    material->setSpecularColor({1.f, 1.f, 1.f});
-    material->setSpecularExponent(100.f);
-    for (size_t i = 0; i < 10; ++i)
+    for (size_t materialId = 0; materialId < 10; ++materialId)
     {
-        // Sphere
-        model->addSphere(materialId, {{(rand() % 200 - 100) * 0.01f,
-                                       (rand() % 200 - 100) * 0.01f,
-                                       (rand() % 200 - 100) * 0.01f},
-                                      0.25f});
+        auto material = model->createMaterial(materialId, "Material");
+        material->setOpacity(0.2f);
+        material->setRefractionIndex(1.5f);
+        material->setReflectionIndex(0.1f);
+        material->setDiffuseColor(
+            {rand() % 100 / 100.f, rand() % 100 / 100.f, rand() % 100 / 100.f});
+        material->setSpecularColor({1.f, 1.f, 1.f});
+        material->setSpecularExponent(100.f);
+
+        model->addSphere(materialId, {{-5.f + materialId, 0.f, 0.f}, 0.5f});
+        model->addCylinder(materialId, {{-5.f + materialId, 0.f, 0.f},
+                                        {-5.f + materialId, 2.f, 0.f},
+                                        0.25f});
+        model->addCone(materialId, {{-5.f + materialId, 0.f, 0.f},
+                                    {-5.f + materialId, -2.f, 0.f},
+                                    0.25f,
+                                    0.f});
     }
 #endif
 

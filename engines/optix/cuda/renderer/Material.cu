@@ -97,7 +97,7 @@ static __device__ __inline__ float3 traceRadianceRay(float3 origin,
 static __device__ void phongShadowed()
 {
     // this material is opaque, so it fully attenuates all shadow rays
-    OcclusionPRD prd;
+    OcclusionPRD prd = getOcclusionPRD();
     prd.attenuation = make_float3(0.f);
     setOcclusionPRD(prd);
 }
@@ -106,11 +106,11 @@ static __device__ void phongShade(float3 p_Kd, float3 p_Ka, float3 p_Ks,
                                   float3 p_Kr, float p_phong_exp,
                                   float3 p_normal)
 {
+    RadiancePRD prd = getRadiancePRD();
+
     const float3 ray_orig = optixGetWorldRayOrigin();
     const float3 ray_dir = optixGetWorldRayDirection();
     const float ray_t = optixGetRayTmax();
-
-    RadiancePRD prd = getRadiancePRD();
 
     float3 hit_point = ray_orig + ray_t * ray_dir;
 
@@ -179,17 +179,19 @@ static __device__ void phongShade(float3 p_Kd, float3 p_Ka, float3 p_Ks,
 
 extern "C" __global__ void __closesthit__radiance()
 {
-    const HitGroupData* sbt_data = (HitGroupData*) optixGetSbtDataPointer();
+    const HitGroupData *sbt_data = (HitGroupData *)optixGetSbtDataPointer();
     const Phong &phong = sbt_data->shading.phong;
 
-    float3 object_normal = make_float3(
-        __uint_as_float( optixGetAttribute_0() ),
-        __uint_as_float( optixGetAttribute_1() ),
-        __uint_as_float( optixGetAttribute_2() ));
+    const float3 object_normal =
+        make_float3(__uint_as_float(optixGetAttribute_0()),
+                    __uint_as_float(optixGetAttribute_1()),
+                    __uint_as_float(optixGetAttribute_2()));
 
-    float3 world_normal = normalize( optixTransformNormalFromObjectToWorldSpace( object_normal ) );
-    float3 ffnormal = faceforward( world_normal, -optixGetWorldRayDirection(), world_normal );
-    phongShade( phong.Kd, phong.Ka, phong.Ks, phong.Kr, phong.phong_exp, ffnormal );
+    const float3 world_normal =
+        normalize(optixTransformNormalFromObjectToWorldSpace(object_normal));
+    const float3 normal =
+        faceforward(world_normal, -optixGetWorldRayDirection(), world_normal);
+    phongShade(phong.Kd, phong.Ka, phong.Ks, phong.Kr, phong.phong_exp, normal);
 }
 
 extern "C" __global__ void __closesthit__full_occlusion()

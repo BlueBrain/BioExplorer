@@ -33,11 +33,36 @@
 
 namespace brayns
 {
-inline OptixAabb sphereBound(const Vector3f& center, const float radius)
+inline OptixAabb sphereBounds(const Vector3f& center, const float radius)
 {
     const Vector3f r{radius, radius, radius};
     const Vector3f m = center - r;
     const Vector3f M = center + r;
+    return {m.x, m.y, m.z, M.x, M.y, M.z};
+}
+
+inline OptixAabb cylinderBounds(const Vector3f& center, const Vector3f& up,
+                                const float radius)
+{
+    const Vector3f m = {std::min(center.x, up.x) - radius,
+                        std::min(center.y, up.y) - radius,
+                        std::min(center.z, up.z) - radius};
+    const Vector3f M = {std::max(center.x, up.x) + radius,
+                        std::max(center.y, up.y) + radius,
+                        std::max(center.z, up.z) + radius};
+    return {m.x, m.y, m.z, M.x, M.y, M.z};
+}
+
+inline OptixAabb coneBounds(const Vector3f& center, const Vector3f& up,
+                            const float centerRadius, const float upRadius)
+{
+    const float radius = std::max(centerRadius, upRadius);
+    const Vector3f m = {std::min(center.x, up.x) - radius,
+                        std::min(center.y, up.y) - radius,
+                        std::min(center.z, up.z) - radius};
+    const Vector3f M = {std::max(center.x, up.x) + radius,
+                        std::max(center.y, up.y) + radius,
+                        std::max(center.z, up.z) + radius};
     return {m.x, m.y, m.z, M.x, M.y, M.z};
 }
 
@@ -63,39 +88,10 @@ void OptiXModel::commitGeometry()
         _boundingBoxGroup = OptiXContext::get().createGeometryGroup(compactBVH);
 #endif
 
-    size_t nbSpheres = 0;
-    size_t nbCylinders = 0;
-    size_t nbCones = 0;
-    if (_spheresDirty)
+    if (_spheresDirty || _cylindersDirty || _conesDirty)
     {
-        for (const auto& spheres : _geometries->_spheres)
-        {
-            nbSpheres += spheres.second.size();
-            _commitSpheres(spheres.first);
-            _createSpheresSBT(spheres.first);
-            break; // TO REMOVE
-        }
-        PLUGIN_DEBUG(nbSpheres << " spheres");
-    }
-
-    if (_cylindersDirty)
-    {
-        for (const auto& cylinders : _geometries->_cylinders)
-        {
-            nbCylinders += cylinders.second.size();
-            _commitCylinders(cylinders.first);
-        }
-        PLUGIN_DEBUG(nbCylinders << " cylinders");
-    }
-
-    if (_conesDirty)
-    {
-        for (const auto& cones : _geometries->_cones)
-        {
-            nbCones += cones.second.size();
-            _commitCones(cones.first);
-        }
-        PLUGIN_DEBUG(nbCones << " cones");
+        _commitGeometry();
+        _createSBT();
     }
 
     if (_triangleMeshesDirty)
@@ -121,6 +117,8 @@ void OptiXModel::_buildGAS(const OptixBuildInput& buildInput)
 {
     PLUGIN_INFO("Registering OptiX Geometry Acceleration Structures (GAS)");
     auto& state = OptiXContext::getInstance().getState();
+
+    CUDA_CHECK(cudaFree(reinterpret_cast<void*>(state.d_gas_output_buffer)));
 
     OptixAccelBuildOptions accelOptions = {OPTIX_BUILD_FLAG_ALLOW_COMPACTION,
                                            OPTIX_BUILD_OPERATION_BUILD};
@@ -165,7 +163,6 @@ void OptiXModel::_buildGAS(const OptixBuildInput& buildInput)
         CUDA_CHECK(
             cudaMalloc(reinterpret_cast<void**>(&state.d_gas_output_buffer),
                        compacted_gas_size));
-
         // use handle as input and output
         OPTIX_CHECK(optixAccelCompact(state.context, 0, state.gas_handle,
                                       state.d_gas_output_buffer,
@@ -177,131 +174,228 @@ void OptiXModel::_buildGAS(const OptixBuildInput& buildInput)
         state.d_gas_output_buffer = dBufferTempOutputGasAndCompactedSize;
 }
 
-void OptiXModel::_commitSpheres(const size_t materialId)
+void OptiXModel::_commitGeometry()
 {
-    if (_geometries->_spheres.find(materialId) == _geometries->_spheres.end())
-        return;
+    std::vector<OptixAabb> optixAabbs;
 
-    auto& state = OptiXContext::getInstance().getState();
-    const auto& spheres = _geometries->_spheres[materialId];
-    const auto nbSpheres = spheres.size();
-    PLUGIN_INFO("Committing " << nbSpheres << " spheres");
-    CUDA_CHECK(cudaFree(reinterpret_cast<void*>(state.sbt.hitgroupRecordBase)));
-    CUDA_CHECK(cudaFree(reinterpret_cast<void*>(state.d_gas_output_buffer)));
+    for (const auto& geometries : _geometries->_spheres)
+        for (const auto& geometry : geometries.second)
+            optixAabbs.push_back(
+                sphereBounds(geometry.center, geometry.radius));
 
-    std::vector<OptixAabb> aabb;
-    aabb.resize(nbSpheres);
-    uint32_ts aabbInputFlags;
-    aabbInputFlags.resize(nbSpheres);
+    for (const auto& geometries : _geometries->_cylinders)
+        for (const auto& geometry : geometries.second)
+            optixAabbs.push_back(
+                cylinderBounds(geometry.center, geometry.up, geometry.radius));
+
+    for (const auto& geometries : _geometries->_cones)
+        for (const auto& geometry : geometries.second)
+            optixAabbs.push_back(coneBounds(geometry.center, geometry.up,
+                                            geometry.centerRadius,
+                                            geometry.upRadius));
+
+    const auto nbAABBs = optixAabbs.size();
+    PLUGIN_INFO("Number of AABB: " << nbAABBs);
+
     uint32_ts sbtIndices;
-    sbtIndices.resize(nbSpheres);
-    uint32_t i = 0;
-    for (const auto& sphere : spheres)
+    uint32_ts aabbInputFlags;
+    sbtIndices.resize(nbAABBs);
+    aabbInputFlags.resize(nbAABBs);
+    for (uint32_t i = 0; i < nbAABBs; ++i)
     {
-        aabb[i] = sphereBound(sphere.center, sphere.radius);
-        aabbInputFlags[i] = OPTIX_GEOMETRY_FLAG_DISABLE_ANYHIT;
         sbtIndices[i] = i;
-        ++i;
+        aabbInputFlags[i] = OPTIX_GEOMETRY_FLAG_DISABLE_ANYHIT;
     }
 
     // AABB build input
-    CUdeviceptr dAabb;
-    uint64_t size = nbSpheres * sizeof(OptixAabb);
-    CUDA_CHECK(cudaMalloc(reinterpret_cast<void**>(&dAabb), size));
-    CUDA_CHECK(cudaMemcpy(reinterpret_cast<void*>(dAabb), aabb.data(), size,
-                          cudaMemcpyHostToDevice));
+    CUdeviceptr dAABBs = 0;
+    uint64_t size = nbAABBs * sizeof(OptixAabb);
+    CUDA_CHECK(cudaMalloc(reinterpret_cast<void**>(&dAABBs), size));
+    CUDA_CHECK(cudaMemcpy(reinterpret_cast<void*>(dAABBs), optixAabbs.data(),
+                          size, cudaMemcpyHostToDevice));
 
     // SBT indices
-    CUdeviceptr dSbtIndices;
-    size = nbSpheres * sizeof(uint32_t);
-    CUDA_CHECK(cudaMalloc(reinterpret_cast<void**>(&dSbtIndices), size));
-    CUDA_CHECK(cudaMemcpy(reinterpret_cast<void*>(dSbtIndices),
+    CUdeviceptr dSBTIndices = 0;
+    size = nbAABBs * sizeof(uint32_t);
+    CUDA_CHECK(cudaMalloc(reinterpret_cast<void**>(&dSBTIndices), size));
+    CUDA_CHECK(cudaMemcpy(reinterpret_cast<void*>(dSBTIndices),
                           sbtIndices.data(), size, cudaMemcpyHostToDevice));
 
     // AABB description
     OptixBuildInput aabbInput = {};
     aabbInput.type = OPTIX_BUILD_INPUT_TYPE_CUSTOM_PRIMITIVES;
-    aabbInput.customPrimitiveArray.aabbBuffers = &dAabb;
+    aabbInput.customPrimitiveArray.aabbBuffers = &dAABBs;
     aabbInput.customPrimitiveArray.flags = aabbInputFlags.data();
-    aabbInput.customPrimitiveArray.numSbtRecords = nbSpheres;
-    aabbInput.customPrimitiveArray.numPrimitives = nbSpheres;
-    aabbInput.customPrimitiveArray.sbtIndexOffsetBuffer = dSbtIndices;
+    aabbInput.customPrimitiveArray.numSbtRecords = nbAABBs;
+    aabbInput.customPrimitiveArray.numPrimitives = nbAABBs;
+    aabbInput.customPrimitiveArray.sbtIndexOffsetBuffer = dSBTIndices;
     aabbInput.customPrimitiveArray.sbtIndexOffsetSizeInBytes = sizeof(uint32_t);
     aabbInput.customPrimitiveArray.primitiveIndexOffset = 0;
 
     _buildGAS(aabbInput);
 
-    CUDA_CHECK(cudaFree(reinterpret_cast<void*>(dSbtIndices)));
-    CUDA_CHECK(cudaFree(reinterpret_cast<void*>(dAabb)));
+    CUDA_CHECK(cudaFree(reinterpret_cast<void*>(dAABBs)));
+    CUDA_CHECK(cudaFree(reinterpret_cast<void*>(dSBTIndices)));
 }
 
-void OptiXModel::_createSpheresSBT(const size_t materialId)
+void OptiXModel::_createSBT()
 {
     auto& state = OptiXContext::getInstance().getState();
-    const auto& spheres = _geometries->_spheres[materialId];
-    const auto nbSpheres = spheres.size();
-    PLUGIN_DEBUG("Creating OptiX SBT group records");
-    const size_t nbRecords = RAY_TYPE_COUNT * nbSpheres;
-    std::vector<HitGroupRecord> hitgroupRecords;
-    hitgroupRecords.resize(nbRecords);
+    PLUGIN_DEBUG("Creating OptiX SBT Group records");
+    std::vector<HitGroupRecord> hitGroupRecords;
 
-    size_t index = 0;
-    for (const auto& sphere : spheres)
+    // Spheres
+    for (const auto& geometries : _geometries->_spheres)
     {
-        // Radiance
-        const auto& center = sphere.center;
-        GeometryData::Sphere optixSphere{{center.x, center.y, center.z},
-                                         sphere.radius};
-        OPTIX_CHECK(optixSbtRecordPackHeader(state.radiance_prog_group,
-                                             &hitgroupRecords[index]));
-        hitgroupRecords[index].data.geometry.sphere = optixSphere;
-        hitgroupRecords[index].data.shading.phong = {
-            {0.f, 0.f, 0.f},                                              // Ka
-            {rand() % 10 / 10.f, rand() % 10 / 10.f, rand() % 10 / 10.f}, // Kd
-            {0.9f, 0.9f, 0.9f},                                           // Ks
-            {0.f, 0.f, 0.f},                                              // Kr
-            128, // phong_exp
-        };
-        ++index;
+        const auto material = _materials[geometries.first];
+        const Vector3f kd = material->getDiffuseColor();
+        const Vector3f ks = material->getSpecularColor();
+        const float r = material->getReflectionIndex();
+        const float phongExp = material->getSpecularExponent();
+        for (const auto& geometry : geometries.second)
+        {
+            const auto& center = geometry.center;
+            const GeometryData::Sphere optixGeometry{{center.x, center.y,
+                                                      center.z},
+                                                     geometry.radius};
+            {
+                // Radiance
+                HitGroupRecord hitGroupRecord;
+                OPTIX_CHECK(
+                    optixSbtRecordPackHeader(state.sphere_radiance_prog_group,
+                                             &hitGroupRecord));
+                hitGroupRecord.data.geometry.sphere = optixGeometry;
+                hitGroupRecord.data.shading.phong = {
+                    {0.f, 0.f, 0.f},    // Ka
+                    {kd.x, kd.y, kd.z}, // Kd
+                    {ks.x, ks.y, ks.z}, // Ks
+                    {r, r, r},          // Kr
+                    phongExp,           // phong_exp
+                };
+                hitGroupRecords.push_back(hitGroupRecord);
+            }
 
-        // Occlusion
-        OPTIX_CHECK(optixSbtRecordPackHeader(state.occlusion_prog_group,
-                                             &hitgroupRecords[index]));
-        hitgroupRecords[index].data.geometry.sphere = optixSphere;
-        ++index;
+            {
+                // Occlusion
+                HitGroupRecord hitGroupRecord;
+                OPTIX_CHECK(
+                    optixSbtRecordPackHeader(state.sphere_occlusion_prog_group,
+                                             &hitGroupRecord));
+                hitGroupRecord.data.geometry.sphere = optixGeometry;
+                hitGroupRecords.push_back(hitGroupRecord);
+            }
+        }
     }
 
-    PLUGIN_INFO("Registering " << index << "/" << nbRecords
-                               << " hitgroup records");
-    CUdeviceptr dHitgroupRecords;
-    const size_t bufferSize = sizeof(HitGroupRecord) * nbRecords;
-    CUDA_CHECK(
-        cudaMalloc(reinterpret_cast<void**>(&dHitgroupRecords), bufferSize));
+    // Cylinders
+    for (const auto& geometries : _geometries->_cylinders)
+    {
+        const auto material = _materials[geometries.first];
+        const Vector3f kd = material->getDiffuseColor();
+        const Vector3f ks = material->getSpecularColor();
+        const float r = material->getReflectionIndex();
+        const float phongExp = material->getSpecularExponent();
+        for (const auto& geometry : geometries.second)
+        {
+            const auto& center = geometry.center;
+            const auto& up = geometry.up;
+            const GeometryData::Cylinder optixGeometry{{center.x, center.y,
+                                                        center.z},
+                                                       {up.x, up.y, up.z},
+                                                       geometry.radius};
+            {
+                // Radiance
+                HitGroupRecord hitGroupRecord;
+                OPTIX_CHECK(
+                    optixSbtRecordPackHeader(state.cylinder_radiance_prog_group,
+                                             &hitGroupRecord));
+                hitGroupRecord.data.geometry.cylinder = optixGeometry;
+                hitGroupRecord.data.shading.phong = {
+                    {0.f, 0.f, 0.f},    // Ka
+                    {kd.x, kd.y, kd.z}, // Kd
+                    {ks.x, ks.y, ks.z}, // Ks
+                    {r, r, r},          // Kr
+                    phongExp,           // phong_exp
+                };
+                hitGroupRecords.push_back(hitGroupRecord);
+            }
 
-    CUDA_CHECK(cudaMemcpy(reinterpret_cast<void*>(dHitgroupRecords),
-                          hitgroupRecords.data(), bufferSize,
+            {
+                // Occlusion
+                HitGroupRecord hitGroupRecord;
+                OPTIX_CHECK(optixSbtRecordPackHeader(
+                    state.cylinder_occlusion_prog_group, &hitGroupRecord));
+                hitGroupRecord.data.geometry.cylinder = optixGeometry;
+                hitGroupRecords.push_back(hitGroupRecord);
+            }
+        }
+    }
+
+    // Cones
+    for (const auto& geometries : _geometries->_cones)
+    {
+        const auto material = _materials[geometries.first];
+        const Vector3f kd = material->getDiffuseColor();
+        const Vector3f ks = material->getSpecularColor();
+        const float r = material->getReflectionIndex();
+        const float phongExp = material->getSpecularExponent();
+        for (const auto& geometry : geometries.second)
+        {
+            const auto& center = geometry.center;
+            const auto& up = geometry.up;
+            const auto centerRadius = geometry.centerRadius;
+            const auto upRadius = geometry.upRadius;
+            const GeometryData::Cone optixGeometry{{center.x, center.y,
+                                                    center.z},
+                                                   {up.x, up.y, up.z},
+                                                   centerRadius,
+                                                   upRadius};
+            {
+                // Radiance
+                HitGroupRecord hitGroupRecord;
+                OPTIX_CHECK(
+                    optixSbtRecordPackHeader(state.cone_radiance_prog_group,
+                                             &hitGroupRecord));
+                hitGroupRecord.data.geometry.cone = optixGeometry;
+                hitGroupRecord.data.shading.phong = {
+                    {0.f, 0.f, 0.f},    // Ka
+                    {kd.x, kd.y, kd.z}, // Kd
+                    {ks.x, ks.y, ks.z}, // Ks
+                    {r, r, r},          // Kr
+                    phongExp,           // phong_exp
+                };
+                hitGroupRecords.push_back(hitGroupRecord);
+            }
+
+            {
+                // Occlusion
+                HitGroupRecord hitGroupRecord;
+                OPTIX_CHECK(
+                    optixSbtRecordPackHeader(state.cone_occlusion_prog_group,
+                                             &hitGroupRecord));
+                hitGroupRecord.data.geometry.cone = optixGeometry;
+                hitGroupRecords.push_back(hitGroupRecord);
+            }
+        }
+    }
+
+    PLUGIN_INFO("Registering " << hitGroupRecords.size()
+                               << " Hit Group Records");
+    CUdeviceptr dHitGroupRecords;
+    const size_t bufferSize = sizeof(HitGroupRecord) * hitGroupRecords.size();
+    CUDA_CHECK(
+        cudaMalloc(reinterpret_cast<void**>(&dHitGroupRecords), bufferSize));
+
+    CUDA_CHECK(cudaMemcpy(reinterpret_cast<void*>(dHitGroupRecords),
+                          hitGroupRecords.data(), bufferSize,
                           cudaMemcpyHostToDevice));
 
-    state.sbt.hitgroupRecordBase = dHitgroupRecords;
-    state.sbt.hitgroupRecordCount = nbRecords;
+    CUDA_CHECK(cudaFree(reinterpret_cast<void*>(state.sbt.hitgroupRecordBase)));
+
+    state.sbt.hitgroupRecordBase = dHitGroupRecords;
+    state.sbt.hitgroupRecordCount = hitGroupRecords.size();
     state.sbt.hitgroupRecordStrideInBytes =
         static_cast<uint32_t>(sizeof(HitGroupRecord));
-}
-
-void OptiXModel::_commitCylinders(const size_t materialId)
-{
-    if (_geometries->_cylinders.find(materialId) ==
-        _geometries->_cylinders.end())
-        return;
-    // const auto& cylinders = _geometries->_cylinders[materialId];
-}
-
-void OptiXModel::_commitCones(const size_t materialId)
-{
-    if (_geometries->_cones.find(materialId) == _geometries->_cones.end())
-        return;
-
-    // const auto& cones = _geometries->_cones[materialId];
 }
 
 void OptiXModel::_commitMeshes(const size_t materialId)
