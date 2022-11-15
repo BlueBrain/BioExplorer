@@ -38,7 +38,7 @@ OptiXCamera::OptiXCamera()
     auto& state = OptiXContext::getInstance().getState();
 
     // ---------------------------------------------------------------------------------------------
-    PLUGIN_DEBUG("Registering OptiX STB Ray Generation Program Record");
+    PLUGIN_DEBUG("Registering OptiX SBT Ray Generation Program Record");
     CUdeviceptr raygen_record;
     const size_t raygen_record_size = sizeof(RayGenRecord);
     CUDA_CHECK(cudaMalloc(reinterpret_cast<void**>(&raygen_record),
@@ -59,7 +59,7 @@ OptiXCamera::OptiXCamera()
     // ---------------------------------------------------------------------------------------------
     // Miss program record
     // ---------------------------------------------------------------------------------------------
-    PLUGIN_DEBUG("Registering OptiX STB Miss Program Record");
+    PLUGIN_DEBUG("Registering OptiX SBT Miss Program Record");
     CUdeviceptr d_miss_record;
     size_t sizeof_miss_record = sizeof(MissRecord);
     CUDA_CHECK(cudaMalloc(reinterpret_cast<void**>(&d_miss_record),
@@ -154,8 +154,7 @@ void OptiXCamera::_commitToOptiX()
     RayGenRecord rg;
     OPTIX_CHECK(optixSbtRecordPackHeader(state.raygen_prog_group, &rg));
 
-    const Vector3f eye = {rand() % 100 / 100.f, rand() % 100 / 100.f,
-                          rand() % 100 / 100.f}; // getPosition();
+    const Vector3f eye = getPosition();
     rg.data.cam_eye = {eye.x, eye.y, eye.z};
     rg.data.camera_u = {_u.x, _u.y, _u.z};
     rg.data.camera_v = {_v.x, _v.y, _v.z};

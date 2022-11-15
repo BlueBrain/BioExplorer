@@ -33,7 +33,6 @@
 
 namespace brayns
 {
-
 enum class OptixGeometryType
 {
     sphere,
@@ -75,16 +74,14 @@ public:
     OptixModule createModule(const OptixGeometryType type);
 #endif
 
-    State& getState()
-    {
-        return _state;
-    }
+    State& getState() { return _state; }
     std::vector<OptixProgramGroup>& getProgramGroups()
     {
         return _programGroups;
     }
 
     void linkPipeline();
+    const bool pipelineInitialized() const { return _pipelineInitialized; }
 
     std::unique_lock<std::mutex> getScopeLock()
     {
@@ -108,6 +105,8 @@ private:
 
     void _createGeometryModules();
     void _createGeometryPrograms();
+
+    void _initLaunchParams();
 
     std::vector<OptixProgramGroup> _programGroups;
     std::map<std::string, OptiXCameraPtr> _cameras;

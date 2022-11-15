@@ -39,4 +39,17 @@ typedef Record<HitGroupData> HitGroupRecord;
 
 class OptiXCamera;
 using OptiXCameraPtr = std::shared_ptr<OptiXCamera>;
+
+const uint32_t maxTraceDepth = 12;
+const uint32_t maxCCDepth = 0;
+const uint32_t maxDCDepth = 0;
+const uint32_t maxTraversableDepth = 1;
+const uint32_t numPayloadValues = 5;
+const uint32_t numAttributeValues = 5;
+
+const BasicLight g_light = {
+    make_float3(0.0f, 10.0f, 10.0f), // pos
+    make_float3(1.0f, 1.0f, 1.0f)    // color
+};
+
 } // namespace brayns

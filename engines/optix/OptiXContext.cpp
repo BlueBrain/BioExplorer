@@ -134,6 +134,7 @@ OptiXContext::~OptiXContext()
     OPTIX_CHECK(optixProgramGroupDestroy(_state.hitgroup_prog_group));
 
     CUDA_CHECK(cudaFree(reinterpret_cast<void*>(_state.stream)));
+    CUDA_CHECK(cudaFree(reinterpret_cast<void*>(_state.d_params)));
 
     OPTIX_CHECK(optixPipelineDestroy(_state.pipeline));
 
@@ -356,7 +357,7 @@ void OptiXContext::setCamera(const std::string& name)
 
 void OptiXContext::_createCameraModules()
 {
-    PLUGIN_DEBUG("Registering OptiX Camera Modules");
+    PLUGIN_INFO("Registering OptiX Camera Modules");
     char log[2048]; // For error reporting from OptiX creation functions
     size_t sizeof_log = sizeof(log);
     size_t inputSize = 0;
@@ -378,7 +379,7 @@ void OptiXContext::_createCameraPrograms()
     // ---------------------------------------------------------------------------------------------
     // Raygen program record
     // ---------------------------------------------------------------------------------------------
-    PLUGIN_DEBUG("Registering OptiX Camera Ray Generation Program");
+    PLUGIN_INFO("Registering OptiX Camera Ray Generation Program");
     OptixProgramGroupDesc raygen_prog_group_desc = {}; //
     raygen_prog_group_desc.kind = OPTIX_PROGRAM_GROUP_KIND_RAYGEN;
     raygen_prog_group_desc.raygen.module = _state.camera_module;
@@ -419,7 +420,7 @@ void OptiXContext::_createCameraPrograms()
 
 void OptiXContext::_createShadingModules()
 {
-    PLUGIN_DEBUG("Creating OptiX Shading Modules");
+    PLUGIN_INFO("Creating OptiX Shading Modules");
 
     char log[2048]; // For error reporting from OptiX creation functions
     size_t sizeof_log = sizeof(log);
@@ -436,7 +437,7 @@ void OptiXContext::_createShadingModules()
 
 void OptiXContext::_createMaterialPrograms()
 {
-    PLUGIN_DEBUG("Creating OptiX Material Programs");
+    PLUGIN_INFO("Creating OptiX Material Programs");
 
     char log[2048];
     size_t sizeof_log = sizeof(log);
@@ -476,59 +477,11 @@ void OptiXContext::_createMaterialPrograms()
                                 &_state.program_group_options, log, &sizeof_log,
                                 &_state.occlusion_prog_group));
     _programGroups.push_back(_state.occlusion_prog_group);
-
-    // Phong Sphere
-
-    // TODO: REMOVE
-    const GeometryData::Sphere g_sphere = {
-        {0.f, 0.f, 0.f}, // center
-        0.25f            // radius
-    };
-    // TODO: REMOVE
-
-    const size_t count_records = RAY_TYPE_COUNT * 1; // OBJ_COUNT;
-    HitGroupRecord hitgroup_records[count_records];
-
-    // Note: Fill SBT record array the same order like AS is built.
-    int sbt_idx = 0;
-
-    // Radiance
-    OPTIX_CHECK(optixSbtRecordPackHeader(_state.radiance_prog_group,
-                                         &hitgroup_records[sbt_idx]));
-    hitgroup_records[sbt_idx].data.geometry.sphere = g_sphere;
-    hitgroup_records[sbt_idx].data.shading.phong = {
-        {0.2f, 0.5f, 0.5f}, // Ka
-        {0.2f, 0.7f, 0.8f}, // Kd
-        {0.9f, 0.9f, 0.9f}, // Ks
-        {0.5f, 0.5f, 0.5f}, // Kr
-        64,                 // phong_exp
-    };
-    sbt_idx++;
-
-    // Occlusion
-    OPTIX_CHECK(optixSbtRecordPackHeader(_state.occlusion_prog_group,
-                                         &hitgroup_records[sbt_idx]));
-    hitgroup_records[sbt_idx].data.geometry.sphere = g_sphere;
-
-    CUdeviceptr d_hitgroup_records;
-    size_t sizeof_hitgroup_record = sizeof(HitGroupRecord);
-    CUDA_CHECK(cudaMalloc(reinterpret_cast<void**>(&d_hitgroup_records),
-                          sizeof_hitgroup_record * count_records));
-
-    CUDA_CHECK(cudaMemcpy(reinterpret_cast<void*>(d_hitgroup_records),
-                          hitgroup_records,
-                          sizeof_hitgroup_record * count_records,
-                          cudaMemcpyHostToDevice));
-
-    _state.sbt.hitgroupRecordBase = d_hitgroup_records;
-    _state.sbt.hitgroupRecordCount = count_records;
-    _state.sbt.hitgroupRecordStrideInBytes =
-        static_cast<uint32_t>(sizeof_hitgroup_record);
 }
 
 void OptiXContext::_createGeometryModules()
 {
-    PLUGIN_DEBUG("Creating OptiX Geometry Modules");
+    PLUGIN_INFO("Creating OptiX Geometry Modules");
     size_t inputSize = 0;
     const char* input =
         sutil::getInputData(BRAYNS_OPTIX_SAMPLE_NAME, OPTIX_SAMPLE_DIR,
@@ -544,7 +497,7 @@ void OptiXContext::_createGeometryModules()
 
 void OptiXContext::_createGeometryPrograms()
 {
-    PLUGIN_DEBUG("Creating OptiX Geometry Programs");
+    PLUGIN_INFO("Creating OptiX Geometry Programs");
     char log[2048];
     size_t sizeof_log = sizeof(log);
 
@@ -569,12 +522,12 @@ void OptiXContext::linkPipeline()
 {
     if (_pipelineInitialized)
         return;
-    PLUGIN_DEBUG("Linking OptiX Pipeline");
+
+    PLUGIN_INFO("Linking OptiX Pipeline");
     char log[2048];
     size_t sizeof_log = sizeof(log);
-    const uint32_t max_trace_depth = 1;
 
-    _state.pipeline_link_options.maxTraceDepth = max_trace_depth;
+    _state.pipeline_link_options.maxTraceDepth = maxTraceDepth;
 #if !defined(NDEBUG)
     _state.pipeline_link_options.debugLevel = OPTIX_COMPILE_DEBUG_LEVEL_FULL;
 #endif
@@ -594,19 +547,30 @@ void OptiXContext::linkPipeline()
     uint32_t direct_callable_stack_size_from_traversal;
     uint32_t direct_callable_stack_size_from_state;
     uint32_t continuation_stack_size;
-    OPTIX_CHECK(
-        optixUtilComputeStackSizes(&stack_sizes, max_trace_depth,
-                                   0, // maxCCDepth
-                                   0, // maxDCDEpth
-                                   &direct_callable_stack_size_from_traversal,
-                                   &direct_callable_stack_size_from_state,
-                                   &continuation_stack_size));
+    OPTIX_CHECK(optixUtilComputeStackSizes(
+        &stack_sizes, maxTraceDepth, maxCCDepth, maxDCDepth,
+        &direct_callable_stack_size_from_traversal,
+        &direct_callable_stack_size_from_state, &continuation_stack_size));
     OPTIX_CHECK(optixPipelineSetStackSize(
         _state.pipeline, direct_callable_stack_size_from_traversal,
         direct_callable_stack_size_from_state, continuation_stack_size,
-        1 // maxTraversableDepth
-        ));
+        maxTraversableDepth));
+
+    _initLaunchParams();
+
     _pipelineInitialized = true;
+}
+
+void OptiXContext::_initLaunchParams()
+{
+    PLUGIN_DEBUG("Initialize OptiX launch params");
+
+    _state.params.subframe_index = 0u;
+    _state.params.light = g_light;
+    _state.params.ambient_light_color = make_float3(0.4f, 0.4f, 0.4f);
+    _state.params.max_depth = maxTraceDepth;
+    _state.params.scene_epsilon = 1.e-4f;
+    _state.params.handle = _state.gas_handle;
 }
 
 void OptiXContext::_initialize()
@@ -624,18 +588,11 @@ void OptiXContext::_initialize()
 #endif
 
     // Pipeline compile options
-    _state.pipeline_compile_options = {
-        false,
-        OPTIX_TRAVERSABLE_GRAPH_FLAG_ALLOW_SINGLE_GAS,
-        5,
-        5,
-        OPTIX_EXCEPTION_FLAG_NONE,
-        "params"};
     _state.pipeline_compile_options.usesMotionBlur = false;
     _state.pipeline_compile_options.traversableGraphFlags =
         OPTIX_TRAVERSABLE_GRAPH_FLAG_ALLOW_SINGLE_GAS;
-    _state.pipeline_compile_options.numPayloadValues = 5;
-    _state.pipeline_compile_options.numAttributeValues = 5;
+    _state.pipeline_compile_options.numPayloadValues = numPayloadValues;
+    _state.pipeline_compile_options.numAttributeValues = numAttributeValues;
     _state.pipeline_compile_options.exceptionFlags =
         OPTIX_EXCEPTION_FLAG_NONE; // TODO: should be
                                    // OPTIX_EXCEPTION_FLAG_STACK_OVERFLOW;
@@ -645,9 +602,10 @@ void OptiXContext::_initialize()
     OPTIX_CHECK(optixInit());
     OptixDeviceContextOptions options = {};
     options.logCallbackFunction = &context_log_cb;
+#if !defined(NDEBUG)
     options.logCallbackLevel = 4;
+#endif
     OPTIX_CHECK(optixDeviceContextCreate(cuCtx, &options, &_state.context));
-
     CUDA_CHECK(cudaStreamCreate(&_state.stream));
     CUDA_CHECK(
         cudaMalloc(reinterpret_cast<void**>(&_state.d_params), sizeof(Params)));

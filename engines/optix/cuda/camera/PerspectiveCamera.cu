@@ -122,7 +122,7 @@ extern "C" __global__ void __miss__constant_bg()
 #else
     // This is to test the camera and the frame buffer
     const float3 ray_dir = optixGetWorldRayDirection();
-    prd.result = 0.5 + 0.5 * normalize(ray_dir);
+    prd.result = sbt_data->bg_color * 0.75 + 0.25 * normalize(ray_dir);
 #endif
     setRadiancePRD(prd);
 }

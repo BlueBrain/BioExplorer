@@ -33,14 +33,12 @@
 
 namespace brayns
 {
-inline OptixAabb sphere_bound(const Vector3f& center, const float radius)
+inline OptixAabb sphereBound(const Vector3f& center, const float radius)
 {
-    const Vector3f m_min{center.x - radius, center.y - radius,
-                         center.z - radius};
-    const Vector3f m_max{center.x + radius, center.y + radius,
-                         center.z + radius};
-
-    return {m_min.x, m_min.y, m_min.z, m_max.x, m_max.y, m_max.z};
+    const Vector3f r{radius, radius, radius};
+    const Vector3f m = center - r;
+    const Vector3f M = center + r;
+    return {m.x, m.y, m.z, M.x, M.y, M.z};
 }
 
 OptiXModel::OptiXModel(AnimationParameters& animationParameters,
@@ -73,9 +71,9 @@ void OptiXModel::commitGeometry()
         for (const auto& spheres : _geometries->_spheres)
         {
             nbSpheres += spheres.second.size();
-#if 0
             _commitSpheres(spheres.first);
-#endif
+            _createSpheresSBT(spheres.first);
+            break; // TO REMOVE
         }
         PLUGIN_DEBUG(nbSpheres << " spheres");
     }
@@ -119,137 +117,175 @@ void OptiXModel::commitGeometry()
 #endif
 }
 
-void OptiXModel::_commitSpheres(const size_t materialId)
+void OptiXModel::_buildGAS(const OptixBuildInput& buildInput)
 {
-    PLUGIN_DEBUG("Registering OptiX Geometry Acceleration Structures (GAS) ");
-
-    if (_geometries->_spheres.find(materialId) == _geometries->_spheres.end())
-        return;
-
+    PLUGIN_INFO("Registering OptiX Geometry Acceleration Structures (GAS)");
     auto& state = OptiXContext::getInstance().getState();
 
-    CUDA_CHECK(cudaFree(reinterpret_cast<void*>(state.sbt.hitgroupRecordBase)));
-    CUDA_CHECK(cudaFree(reinterpret_cast<void*>(state.d_gas_output_buffer)));
-
-    const auto& spheres = _geometries->_spheres[materialId];
-    std::vector<OptixAabb> aabbs;
-    uint32_ts aabb_input_flags;
-    uint32_ts sbt_indices;
-    uint32_t i = 0;
-    for (const auto& sphere : spheres)
-    {
-        aabbs.push_back(sphere_bound(sphere.center, sphere.radius));
-        aabb_input_flags.push_back(OPTIX_GEOMETRY_FLAG_DISABLE_ANYHIT);
-        sbt_indices.push_back(i);
-        ++i;
-    }
-    const auto nbPrimitives = aabbs.size();
-
-    OptixTraversableHandle gas_handle;
-    OptixAccelBuildOptions accel_options = {};
-    accel_options.buildFlags = OPTIX_BUILD_FLAG_ALLOW_COMPACTION;
-    accel_options.operation = OPTIX_BUILD_OPERATION_BUILD;
-
-    // AABB build input
-    CUdeviceptr d_aabb_buffer;
-    const uint64_t d_aabb_buffer_size = aabbs.size() * sizeof(OptixAabb);
-    CUDA_CHECK(cudaMalloc(reinterpret_cast<void**>(&d_aabb_buffer),
-                          d_aabb_buffer_size));
-    CUDA_CHECK(cudaMemcpy(reinterpret_cast<void*>(d_aabb_buffer), &aabbs[0],
-                          d_aabb_buffer_size, cudaMemcpyHostToDevice));
-
-    CUdeviceptr d_sbt_indices;
-    CUDA_CHECK(cudaMalloc(reinterpret_cast<void**>(&d_sbt_indices),
-                          nbPrimitives * sizeof(sbt_indices)));
-    CUDA_CHECK(
-        cudaMemcpy(reinterpret_cast<void*>(d_sbt_indices), sbt_indices.data(),
-                   nbPrimitives * sizeof(sbt_indices), cudaMemcpyHostToDevice));
-
-    OptixBuildInput aabb_input = {};
-
-    aabb_input.type = OPTIX_BUILD_INPUT_TYPE_CUSTOM_PRIMITIVES;
-    aabb_input.customPrimitiveArray.aabbBuffers = &d_aabb_buffer;
-    aabb_input.customPrimitiveArray.numPrimitives = nbPrimitives;
-    aabb_input.customPrimitiveArray.flags = aabb_input_flags.data();
-    aabb_input.customPrimitiveArray.numSbtRecords = nbPrimitives;
-    aabb_input.customPrimitiveArray.sbtIndexOffsetSizeInBytes =
-        sizeof(uint32_t);
-    aabb_input.customPrimitiveArray.primitiveIndexOffset = 0;
-    aabb_input.customPrimitiveArray.sbtIndexOffsetBuffer = d_sbt_indices;
-
-    OptixAccelBufferSizes gas_buffer_sizes;
-    OPTIX_CHECK(optixAccelComputeMemoryUsage(state.context, &accel_options,
-                                             &aabb_input, 1,
-                                             &gas_buffer_sizes));
-    CUdeviceptr d_temp_buffer_gas;
-    CUDA_CHECK(cudaMalloc(reinterpret_cast<void**>(&d_temp_buffer_gas),
-                          gas_buffer_sizes.tempSizeInBytes));
+    OptixAccelBuildOptions accelOptions = {OPTIX_BUILD_FLAG_ALLOW_COMPACTION,
+                                           OPTIX_BUILD_OPERATION_BUILD};
+    OptixAccelBufferSizes gasBufferSizes;
+    OPTIX_CHECK(optixAccelComputeMemoryUsage(state.context, &accelOptions,
+                                             &buildInput, 1, &gasBufferSizes));
+    CUdeviceptr dTempBufferGas;
+    CUDA_CHECK(cudaMalloc(reinterpret_cast<void**>(&dTempBufferGas),
+                          gasBufferSizes.tempSizeInBytes));
 
     // non-compacted output
-    CUdeviceptr d_buffer_temp_output_gas_and_compacted_size;
+    CUdeviceptr dBufferTempOutputGasAndCompactedSize;
     size_t compactedSizeOffset =
-        roundUp<size_t>(gas_buffer_sizes.outputSizeInBytes, 8ull);
+        roundUp<size_t>(gasBufferSizes.outputSizeInBytes, 8ull);
     CUDA_CHECK(cudaMalloc(reinterpret_cast<void**>(
-                              &d_buffer_temp_output_gas_and_compacted_size),
+                              &dBufferTempOutputGasAndCompactedSize),
                           compactedSizeOffset + 8));
 
     OptixAccelEmitDesc emitProperty = {};
     emitProperty.type = OPTIX_PROPERTY_TYPE_COMPACTED_SIZE;
-    emitProperty.result =
-        (CUdeviceptr)((char*)d_buffer_temp_output_gas_and_compacted_size +
-                      compactedSizeOffset);
+    emitProperty.result = (CUdeviceptr)(
+        (char*)dBufferTempOutputGasAndCompactedSize + compactedSizeOffset);
 
     OPTIX_CHECK(optixAccelBuild(state.context,
                                 0, // CUDA stream
-                                &accel_options, &aabb_input,
+                                &accelOptions, &buildInput,
                                 1, // num build inputs
-                                d_temp_buffer_gas,
-                                gas_buffer_sizes.tempSizeInBytes,
-                                d_buffer_temp_output_gas_and_compacted_size,
-                                gas_buffer_sizes.outputSizeInBytes, &gas_handle,
+                                dTempBufferGas, gasBufferSizes.tempSizeInBytes,
+                                dBufferTempOutputGasAndCompactedSize,
+                                gasBufferSizes.outputSizeInBytes,
+                                &state.gas_handle,
                                 &emitProperty, // emitted property list
                                 1              // num emitted properties
                                 ));
-
-    CUDA_CHECK(cudaFree((void*)d_temp_buffer_gas));
-    CUDA_CHECK(cudaFree((void*)d_aabb_buffer));
 
     size_t compacted_gas_size;
     CUDA_CHECK(cudaMemcpy(&compacted_gas_size, (void*)emitProperty.result,
                           sizeof(size_t), cudaMemcpyDeviceToHost));
 
-    if (compacted_gas_size < gas_buffer_sizes.outputSizeInBytes)
+    if (compacted_gas_size < gasBufferSizes.outputSizeInBytes)
     {
         CUDA_CHECK(
             cudaMalloc(reinterpret_cast<void**>(&state.d_gas_output_buffer),
                        compacted_gas_size));
 
         // use handle as input and output
-        OPTIX_CHECK(optixAccelCompact(state.context, 0, gas_handle,
+        OPTIX_CHECK(optixAccelCompact(state.context, 0, state.gas_handle,
                                       state.d_gas_output_buffer,
-                                      compacted_gas_size, &gas_handle));
+                                      compacted_gas_size, &state.gas_handle));
 
-        CUDA_CHECK(
-            cudaFree((void*)d_buffer_temp_output_gas_and_compacted_size));
+        CUDA_CHECK(cudaFree((void*)dBufferTempOutputGasAndCompactedSize));
     }
     else
-        state.d_gas_output_buffer = d_buffer_temp_output_gas_and_compacted_size;
+        state.d_gas_output_buffer = dBufferTempOutputGasAndCompactedSize;
+}
 
-    PLUGIN_DEBUG("Registering OptiX STB Group Record");
-    CUdeviceptr hitgroup_record;
-    size_t hitgroup_record_size = sizeof(HitGroupRecord);
-    CUDA_CHECK(cudaMalloc(reinterpret_cast<void**>(&hitgroup_record),
-                          hitgroup_record_size * nbPrimitives));
-    HitGroupRecord hg;
-    OPTIX_CHECK(optixSbtRecordPackHeader(state.hitgroup_prog_group, &hg));
-    CUDA_CHECK(cudaMemcpy(reinterpret_cast<void*>(hitgroup_record), &hg,
-                          hitgroup_record_size * nbPrimitives,
+void OptiXModel::_commitSpheres(const size_t materialId)
+{
+    if (_geometries->_spheres.find(materialId) == _geometries->_spheres.end())
+        return;
+
+    auto& state = OptiXContext::getInstance().getState();
+    const auto& spheres = _geometries->_spheres[materialId];
+    const auto nbSpheres = spheres.size();
+    PLUGIN_INFO("Committing " << nbSpheres << " spheres");
+    CUDA_CHECK(cudaFree(reinterpret_cast<void*>(state.sbt.hitgroupRecordBase)));
+    CUDA_CHECK(cudaFree(reinterpret_cast<void*>(state.d_gas_output_buffer)));
+
+    std::vector<OptixAabb> aabb;
+    aabb.resize(nbSpheres);
+    uint32_ts aabbInputFlags;
+    aabbInputFlags.resize(nbSpheres);
+    uint32_ts sbtIndices;
+    sbtIndices.resize(nbSpheres);
+    uint32_t i = 0;
+    for (const auto& sphere : spheres)
+    {
+        aabb[i] = sphereBound(sphere.center, sphere.radius);
+        aabbInputFlags[i] = OPTIX_GEOMETRY_FLAG_DISABLE_ANYHIT;
+        sbtIndices[i] = i;
+        ++i;
+    }
+
+    // AABB build input
+    CUdeviceptr dAabb;
+    uint64_t size = nbSpheres * sizeof(OptixAabb);
+    CUDA_CHECK(cudaMalloc(reinterpret_cast<void**>(&dAabb), size));
+    CUDA_CHECK(cudaMemcpy(reinterpret_cast<void*>(dAabb), aabb.data(), size,
                           cudaMemcpyHostToDevice));
 
-    state.sbt.hitgroupRecordBase = hitgroup_record;
-    state.sbt.hitgroupRecordCount = nbPrimitives;
+    // SBT indices
+    CUdeviceptr dSbtIndices;
+    size = nbSpheres * sizeof(uint32_t);
+    CUDA_CHECK(cudaMalloc(reinterpret_cast<void**>(&dSbtIndices), size));
+    CUDA_CHECK(cudaMemcpy(reinterpret_cast<void*>(dSbtIndices),
+                          sbtIndices.data(), size, cudaMemcpyHostToDevice));
+
+    // AABB description
+    OptixBuildInput aabbInput = {};
+    aabbInput.type = OPTIX_BUILD_INPUT_TYPE_CUSTOM_PRIMITIVES;
+    aabbInput.customPrimitiveArray.aabbBuffers = &dAabb;
+    aabbInput.customPrimitiveArray.flags = aabbInputFlags.data();
+    aabbInput.customPrimitiveArray.numSbtRecords = nbSpheres;
+    aabbInput.customPrimitiveArray.numPrimitives = nbSpheres;
+    aabbInput.customPrimitiveArray.sbtIndexOffsetBuffer = dSbtIndices;
+    aabbInput.customPrimitiveArray.sbtIndexOffsetSizeInBytes = sizeof(uint32_t);
+    aabbInput.customPrimitiveArray.primitiveIndexOffset = 0;
+
+    _buildGAS(aabbInput);
+
+    CUDA_CHECK(cudaFree(reinterpret_cast<void*>(dSbtIndices)));
+    CUDA_CHECK(cudaFree(reinterpret_cast<void*>(dAabb)));
+}
+
+void OptiXModel::_createSpheresSBT(const size_t materialId)
+{
+    auto& state = OptiXContext::getInstance().getState();
+    const auto& spheres = _geometries->_spheres[materialId];
+    const auto nbSpheres = spheres.size();
+    PLUGIN_DEBUG("Creating OptiX SBT group records");
+    const size_t nbRecords = RAY_TYPE_COUNT * nbSpheres;
+    std::vector<HitGroupRecord> hitgroupRecords;
+    hitgroupRecords.resize(nbRecords);
+
+    size_t index = 0;
+    for (const auto& sphere : spheres)
+    {
+        // Radiance
+        const auto& center = sphere.center;
+        GeometryData::Sphere optixSphere{{center.x, center.y, center.z},
+                                         sphere.radius};
+        OPTIX_CHECK(optixSbtRecordPackHeader(state.radiance_prog_group,
+                                             &hitgroupRecords[index]));
+        hitgroupRecords[index].data.geometry.sphere = optixSphere;
+        hitgroupRecords[index].data.shading.phong = {
+            {0.f, 0.f, 0.f},                                              // Ka
+            {rand() % 10 / 10.f, rand() % 10 / 10.f, rand() % 10 / 10.f}, // Kd
+            {0.9f, 0.9f, 0.9f},                                           // Ks
+            {0.f, 0.f, 0.f},                                              // Kr
+            128, // phong_exp
+        };
+        ++index;
+
+        // Occlusion
+        OPTIX_CHECK(optixSbtRecordPackHeader(state.occlusion_prog_group,
+                                             &hitgroupRecords[index]));
+        hitgroupRecords[index].data.geometry.sphere = optixSphere;
+        ++index;
+    }
+
+    PLUGIN_INFO("Registering " << index << "/" << nbRecords
+                               << " hitgroup records");
+    CUdeviceptr dHitgroupRecords;
+    const size_t bufferSize = sizeof(HitGroupRecord) * nbRecords;
+    CUDA_CHECK(
+        cudaMalloc(reinterpret_cast<void**>(&dHitgroupRecords), bufferSize));
+
+    CUDA_CHECK(cudaMemcpy(reinterpret_cast<void*>(dHitgroupRecords),
+                          hitgroupRecords.data(), bufferSize,
+                          cudaMemcpyHostToDevice));
+
+    state.sbt.hitgroupRecordBase = dHitgroupRecords;
+    state.sbt.hitgroupRecordCount = nbRecords;
     state.sbt.hitgroupRecordStrideInBytes =
-        nbPrimitives * sizeof(HitGroupRecord);
+        static_cast<uint32_t>(sizeof(HitGroupRecord));
 }
 
 void OptiXModel::_commitCylinders(const size_t materialId)

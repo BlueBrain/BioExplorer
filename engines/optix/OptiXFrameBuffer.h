@@ -55,17 +55,11 @@ public:
     const float* getDepthBuffer() const final { return 0; }
 
 private:
-    void destroy();
     void _recreate();
     void _mapUnsafe();
     void _unmapUnsafe();
 
-#if 0
-    optix::Buffer _frameBuffer{nullptr};
-    optix::Buffer _accumBuffer{nullptr};
-#else
     sutil::CUDAOutputBuffer<uchar4>* _frameBuffer{nullptr};
-#endif
     uint8_t* _colorBuffer{nullptr};
     float* _depthBuffer{nullptr};
     void* _imageData{nullptr};

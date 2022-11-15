@@ -62,8 +62,10 @@ protected:
                                    const size_t frameSize) final;
 
 private:
-    void _createGas();
+    void _buildGAS(const OptixBuildInput& buildInput);
+
     void _commitSpheres(const size_t materialId);
+    void _createSpheresSBT(const size_t materialId);
     void _commitCylinders(const size_t materialId);
     void _commitCones(const size_t materialId);
     void _commitMeshes(const size_t materialId);

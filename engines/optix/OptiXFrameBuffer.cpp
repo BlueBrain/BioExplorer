@@ -32,6 +32,9 @@ OptiXFrameBuffer::OptiXFrameBuffer(const std::string& name,
                                    FrameBufferFormat frameBufferFormat)
     : FrameBuffer(name, frameSize, frameBufferFormat)
 {
+    auto& state = OptiXContext::getInstance().getState();
+    state.params.accum_buffer = nullptr;
+    state.params.frame_buffer = nullptr;
     resize(frameSize);
 }
 
@@ -39,17 +42,6 @@ OptiXFrameBuffer::~OptiXFrameBuffer()
 {
     auto lock = getScopeLock();
     _unmapUnsafe();
-    destroy();
-}
-
-void OptiXFrameBuffer::destroy()
-{
-    auto& state = OptiXContext::getInstance().getState();
-    if (state.params.frame_buffer)
-        CUDA_CHECK(cudaFree(state.params.frame_buffer));
-
-    if (state.params.accum_buffer)
-        CUDA_CHECK(cudaFree(state.params.accum_buffer));
 }
 
 void OptiXFrameBuffer::resize(const Vector2ui& frameSize)
@@ -71,17 +63,26 @@ void OptiXFrameBuffer::_recreate()
     auto lock = getScopeLock();
     auto& state = OptiXContext::getInstance().getState();
 
+    state.params.width = _frameSize.x;
+    state.params.height = _frameSize.y;
+
     if (_frameBuffer)
     {
         _unmapUnsafe();
-        destroy();
+        _frameBuffer->resize(state.params.width, state.params.height);
     }
+    else
+        _frameBuffer = new sutil::CUDAOutputBuffer<uchar4>(
+            sutil::CUDAOutputBufferType::CUDA_DEVICE, state.params.width,
+            state.params.height);
 
-    state.params.width = _frameSize.x;
-    state.params.height = _frameSize.y;
-    _frameBuffer = new sutil::CUDAOutputBuffer<uchar4>(
-        sutil::CUDAOutputBufferType::CUDA_DEVICE, state.params.width,
-        state.params.height);
+    CUDA_CHECK(cudaFree(state.params.accum_buffer));
+    CUDA_CHECK(
+        cudaMalloc(reinterpret_cast<void**>(&state.params.accum_buffer),
+                   state.params.width * state.params.height * sizeof(float4)));
+    state.params.frame_buffer =
+        nullptr; // Will be set when output buffer is mapped
+
     clear();
     BRAYNS_DEBUG << "Frame buffer created" << std::endl;
 }
@@ -96,26 +97,17 @@ void OptiXFrameBuffer::_mapUnsafe()
 {
     // Launch
     auto& state = OptiXContext::getInstance().getState();
-
     state.params.frame_buffer = _frameBuffer->map();
     CUDA_CHECK(cudaMemcpyAsync(reinterpret_cast<void*>(state.d_params),
                                &state.params, sizeof(Params),
                                cudaMemcpyHostToDevice, state.stream));
 
-    // CUdeviceptr d_param;
-    // CUDA_CHECK(cudaMalloc(reinterpret_cast<void**>(&d_param),
-    // sizeof(Params))); CUDA_CHECK(cudaMemcpy(reinterpret_cast<void*>(d_param),
-    // &state.params,
-    //                       sizeof(state.params), cudaMemcpyHostToDevice));
     OPTIX_CHECK(optixLaunch(state.pipeline, state.stream,
                             reinterpret_cast<CUdeviceptr>(state.d_params),
                             sizeof(Params), &state.sbt, state.params.width,
-                            state.params.height,
-                            /*depth=*/1));
-
+                            state.params.height, 1));
     _frameBuffer->unmap();
     CUDA_SYNC_CHECK();
-    // CUDA_CHECK(cudaFree(reinterpret_cast<void*>(d_param)));
 
     sutil::ImageBuffer buffer;
     buffer.data = _frameBuffer->getHostPointer();
