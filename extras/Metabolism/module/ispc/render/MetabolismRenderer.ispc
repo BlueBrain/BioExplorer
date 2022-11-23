@@ -34,8 +34,6 @@ uint32 getLocation(const uniform MetabolismRenderer* uniform self,
     int backLocation = extra_cellular_space;
     Ray backRay = ray;
     backRay.dir = -1.f * backRay.dir;
-    // backRay.t0 = 0.f;
-    // backRay.t = self->searchLength;
     traceRay(self->super.model, backRay);
     if (backRay.geomID >= 0)
     {
@@ -82,22 +80,18 @@ inline vec3f MetabolismRenderer_shadeRay(
         float geometryEpsilon;
         const uint32 location = getLocation(self, r, geometryEpsilon);
 
-        const float concentration = (location < self->userDataSize - 1)
-                                        ? self->userData[1 + location]
-                                        : 0.f;
-        const float value = self->colorMapPerRegion ? location : concentration;
-        const float opacity =
-            self->transferFunction->getOpacityForValue(self->transferFunction,
-                                                       value);
+        t += self->rayStep;
 
-        if (opacity > OPACITY_EPSILON)
-        {
-            voxelAlpha =
-                self->colorMapPerRegion ? concentration * opacity : opacity;
-            if (voxelAlpha > OPACITY_EPSILON)
-                voxelColor = self->transferFunction->getColorForValue(
-                    self->transferFunction, value);
-        }
+        const float concentration = self->userData[1 + location];
+        if (concentration >= 1e38)
+            continue;
+        voxelAlpha =
+            self->transferFunction->getOpacityForValue(self->transferFunction,
+                                                       concentration);
+        if (voxelAlpha > OPACITY_EPSILON)
+            voxelColor =
+                self->transferFunction->getColorForValue(self->transferFunction,
+                                                         concentration);
 
         float noiseAlpha = 1.f;
         if (self->noiseFrequency > 0.f && finalAlpha > OPACITY_EPSILON)
@@ -114,8 +108,6 @@ inline vec3f MetabolismRenderer_shadeRay(
             clamp(noiseAlpha * self->alphaCorrection * voxelAlpha, 0.f, 1.f);
         finalColor = finalColor + voxelColor * alpha * (1.f - finalAlpha);
         finalAlpha += alpha;
-
-        t += self->rayStep;
     }
 
     sample.alpha = finalAlpha;

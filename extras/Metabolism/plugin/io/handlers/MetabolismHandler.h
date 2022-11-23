@@ -66,7 +66,7 @@ private:
     int32_ts _metaboliteIds;
     Locations _locations;
     bool _relativeConcentration{false};
-    Vector2d _opacityRange;
+    uint32_t _referenceFrame{0};
 };
 } // namespace metabolism
 } // namespace bioexplorer
