@@ -412,6 +412,12 @@ void BioExplorerPlugin::init()
             endPoint, [&](const AddBoundingBoxDetails &payload)
             { return _addBoundingBox(payload); });
 
+        endPoint = PLUGIN_API_PREFIX + "add-box";
+        PLUGIN_INFO(1, "Registering '" + endPoint + "' endpoint");
+        actionInterface->registerRequest<AddBoxDetails, Response>(
+            endPoint,
+            [&](const AddBoxDetails &payload) { return _addBox(payload); });
+
         endPoint = PLUGIN_API_PREFIX + "add-sdf-demo";
         PLUGIN_INFO(1, "Registering '" + endPoint + "' endpoint");
         actionInterface->registerRequest<Response>(endPoint, [&]()
@@ -1440,6 +1446,51 @@ Response BioExplorerPlugin::_addBoundingBox(
 
         scene.addModel(
             std::make_shared<ModelDescriptor>(std::move(model), payload.name));
+    }
+    CATCH_STD_EXCEPTION()
+    return response;
+}
+
+Response BioExplorerPlugin::_addBox(const AddBoxDetails &details)
+{
+    Response response;
+    try
+    {
+        if (details.bottomLeft.size() != 3)
+            PLUGIN_THROW("Invalid number of double for bottom left corner");
+        if (details.topRight.size() != 3)
+            PLUGIN_THROW("Invalid number of double for top right corner");
+        if (details.color.size() != 3)
+            PLUGIN_THROW("Invalid number of double for color");
+
+        auto &scene = _api->getScene();
+        auto model = scene.createModel();
+
+        const size_t materialId = 0;
+        PropertyMap props;
+        props.setProperty({MATERIAL_PROPERTY_SHADING_MODE,
+                           static_cast<int>(MaterialShadingMode::diffuse)});
+        props.setProperty({MATERIAL_PROPERTY_USER_PARAMETER, 1.0});
+        props.setProperty(
+            {MATERIAL_PROPERTY_CHAMELEON_MODE,
+             static_cast<int>(
+                 MaterialChameleonMode::undefined_chameleon_mode)});
+
+        const auto color = doublesToVector3d(details.color);
+        auto material = model->createMaterial(0, "Box");
+        material->setDiffuseColor(color);
+        material->setProperties(props);
+
+        const Vector3f minCorner = doublesToVector3d(details.bottomLeft);
+        const Vector3f maxCorner = doublesToVector3d(details.topRight);
+
+        TriangleMesh mesh = createBox(minCorner, maxCorner);
+
+        model->getTriangleMeshes()[materialId] = mesh;
+        model->markInstancesDirty();
+
+        scene.addModel(
+            std::make_shared<ModelDescriptor>(std::move(model), details.name));
     }
     CATCH_STD_EXCEPTION()
     return response;

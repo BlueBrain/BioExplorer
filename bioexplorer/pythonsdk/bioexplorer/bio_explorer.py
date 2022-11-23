@@ -2205,6 +2205,29 @@ class BioExplorer:
         params["color"] = color.to_list()
         return self._invoke_and_check("add-bounding-box", params)
 
+    def add_box(self, name, bottom_left_corner, top_right_corner, 
+                         color=Vector3(1.0, 1.0, 1.0)):
+        """
+        Add a box to the scene
+
+        :bottom_left_corner: Bottom left corner
+        :top_right_corner: Top right corner
+        :color: Color of the bounding box
+        :return: Result of the request submission
+        """
+        if self._client is None:
+            return
+
+        assert isinstance(bottom_left_corner, Vector3)
+        assert isinstance(top_right_corner, Vector3)
+        assert isinstance(color, Vector3)
+        params = dict()
+        params["name"] = name
+        params["bottomLeft"] = bottom_left_corner.to_list()
+        params["topRight"] = top_right_corner.to_list()
+        params["color"] = color.to_list()
+        return self._invoke_and_check("add-box", params)
+
     def add_sphere(self, name, position, radius, color=Vector3(1.0, 1.0, 1.0), opacity=1.0):
         """
         Add a reference grid to the scene
