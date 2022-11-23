@@ -92,21 +92,19 @@ private:
                    const size_t baseMaterialId);
 
     void _addSection(ThreadSafeContainer& container, const uint64_t neuronId,
-                     const uint64_t sectionId, const Section& section,
-                     const uint64_t somaGeometryIndex,
+                     const uint64_t morphologyId, const uint64_t sectionId,
+                     const Section& section, const uint64_t somaGeometryIndex,
                      const Vector3d& somaPosition,
                      const Quaterniond& somaRotation, const double somaRadius,
                      const size_t baseMaterialId,
                      const double mitochondriaDensity,
-                     const uint64_t somaUserData);
+                     const uint64_t somaUserData,
+                     const SectionSynapseMap& synapses);
 
     void _addSpine(ThreadSafeContainer& container, const uint64_t neuronId,
-                   const uint64_t guid, const Synapse& synapse,
-                   const size_t baseMaterialId);
-
-    void _addSpines(ThreadSafeContainer& container, const uint64_t somaIndex,
-                    const Vector3d somaPosition, const double somaRadius,
-                    const size_t baseMaterialId);
+                   const uint64_t morphologyId, const uint64_t sectionId,
+                   const Synapse& synapse, const size_t baseMaterialId,
+                   const Vector3d& surfacePosition);
 
     void _addSectionInternals(
         ThreadSafeContainer& container, const uint64_t neuronId,
@@ -128,6 +126,7 @@ private:
     const NeuronsDetails _details;
     Scene& _scene;
     Varicosities _varicosities;
+    uint64_t _nbSpines{0};
     ReportType _reportType{ReportType::undefined};
 };
 } // namespace morphology

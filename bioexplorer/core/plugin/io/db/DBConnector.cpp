@@ -602,8 +602,8 @@ NeuronSomaMap DBConnector::getNeurons(const std::string& populationName,
     {
         std::string sql =
             "SELECT guid, x, y, z, rotation_x, rotation_y, rotation_z, "
-            "rotation_w, electrical_type_guid, morphological_type_guid "
-            "FROM " +
+            "rotation_w, electrical_type_guid, morphological_type_guid, "
+            "morphology_guid FROM " +
             populationName + ".node";
 
         if (!sqlCondition.empty())
@@ -623,6 +623,7 @@ NeuronSomaMap DBConnector::getNeurons(const std::string& populationName,
             soma.eType = c[8].as<uint64_t>();
             soma.mType = c[9].as<uint64_t>();
             soma.layer = 0; // TODO
+            soma.morphologyId = c[10].as<uint64_t>();
             somas[c[0].as<uint64_t>()] = soma;
         }
     }
@@ -678,44 +679,49 @@ SectionMap DBConnector::getNeuronSections(const std::string& populationName,
     return sections;
 }
 
-SynapseMap DBConnector::getNeuronSynapses(const std::string& populationName,
-                                          const uint64_t neuronId,
-                                          const std::string& sqlCondition) const
+SectionSynapseMap DBConnector::getNeuronSynapses(
+    const std::string& populationName, const uint64_t neuronId,
+    const std::string& sqlCondition) const
 {
     CHECK_DB_INITIALIZATION
-    SynapseMap synapses;
+    SectionSynapseMap sectionSynapseMap;
 
+    uint64_t nbSynapses = 0;
     pqxx::nontransaction transaction(
         *_connections[omp_get_thread_num() % _dbNbConnections]);
     try
     {
         std::string sql =
-            "SELECT preSynaptic_neuron_guid, postsynaptic_neuron_guid, "
-            "surface_x_position, "
-            "surface_y_position, surface_z_position, center_x_position, "
-            "center_y_position, center_z_position FROM " +
+            "SELECT preSynaptic_section_guid, preSynaptic_segment_guid, "
+            "preSynaptic_segment_distance, "
+            "postSynaptic_neuron_guid, postSynaptic_section_guid, "
+            "postSynaptic_segment_guid, "
+            "postSynaptic_segment_distance "
+            "FROM " +
             populationName + ".synapse WHERE presynaptic_neuron_guid=" +
-            std::to_string(neuronId);
+            std::to_string(neuronId) + " ORDER BY preSynaptic_section_guid";
 
         if (!sqlCondition.empty())
             sql += " AND " + sqlCondition;
 
         PLUGIN_DEBUG(sql);
-        uint64_t i = 0;
-        auto res = transaction.exec(sql);
+        const auto res = transaction.exec(sql);
+
+        uint64_t previousPreSynapticSectionId = 0;
+        PLUGIN_ERROR("Nb records = " << res.size());
         for (auto c = res.begin(); c != res.end(); ++c)
         {
+            const auto preSynapticSectionId = c[0].as<uint64_t>();
+            const auto preSynapticSegmentId = c[1].as<uint64_t>();
             Synapse synapse;
-            synapse.preSynapticNeuron = c[0].as<uint64_t>();
-            synapse.postSynapticNeuron = c[1].as<uint64_t>();
-            synapse.surfacePosition =
-                Vector3d(c[2].as<double>(), c[3].as<double>(),
-                         c[4].as<double>());
-            synapse.centerPosition =
-                Vector3d(c[5].as<double>(), c[6].as<double>(),
-                         c[7].as<double>());
-            synapses[i] = synapse;
-            ++i;
+            synapse.preSynapticSegmentDistance = c[2].as<double>();
+            synapse.postSynapticNeuronId = c[3].as<uint64_t>();
+            synapse.postSynapticSectionId = c[4].as<uint64_t>();
+            synapse.postSynapticSegmentId = c[5].as<uint64_t>();
+            synapse.postSynapticSegmentDistance = c[6].as<double>();
+            sectionSynapseMap[preSynapticSectionId][preSynapticSegmentId]
+                .push_back(synapse);
+            ++nbSynapses;
         }
     }
     catch (const pqxx::sql_error& e)
@@ -723,8 +729,9 @@ SynapseMap DBConnector::getNeuronSynapses(const std::string& populationName,
         PLUGIN_THROW(e.what());
     }
 
-    PLUGIN_DEBUG(std::to_string(synapses.size()) + " synapses")
-    return synapses;
+    PLUGIN_DEBUG("Neuron " + std::to_string(neuronId) + " has " +
+                 std::to_string(nbSynapses) + " synapses")
+    return sectionSynapseMap;
 }
 
 ReportType DBConnector::getNeuronReportType(const std::string& populationName,

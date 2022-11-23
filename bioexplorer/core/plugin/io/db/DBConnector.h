@@ -261,11 +261,11 @@ public:
      * @param neuronId Identifier of the neuron
      * @param sqlCondition String containing an WHERE condition for the SQL
      * statement
-     * @return SynapseMap A map of synapses
+     * @return SectionSynapseMap A map of synapses
      */
-    SynapseMap getNeuronSynapses(const std::string& populationName,
-                                 const uint64_t neuronId,
-                                 const std::string& sqlCondition = "") const;
+    SectionSynapseMap getNeuronSynapses(
+        const std::string& populationName, const uint64_t neuronId,
+        const std::string& sqlCondition = "") const;
 
     /**
      * @brief Get the neuron report type
