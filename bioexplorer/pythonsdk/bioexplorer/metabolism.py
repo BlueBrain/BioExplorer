@@ -46,7 +46,7 @@ class Metabolism:
 
     def __init__(
             self, bioexplorer, model_id, db_host, db_name, db_user, db_password,
-            db_schema, simulation_timestamp, relative_concentration=False):
+            db_schema, simulation_timestamp, reference_frame, relative_concentration=False):
         """
         Metabolism class initialization
 
@@ -58,6 +58,8 @@ class Metabolism:
         :db_host: Database password
         :db_schema: Database scheme
         :simulation_timestamp: Simulation timestamp
+        :reference_frame: Reference frame to compute the metabolite baseline (frame when the stimuli
+        is injected)
         :relative_concentration: Get concentration as relative to initial simulation value (frame 0)
         """
         self._be = bioexplorer
@@ -68,6 +70,7 @@ class Metabolism:
         self._db_password = db_password
         self._db_schema = db_schema
         self._relative_concentration = relative_concentration
+        self._reference_frame = reference_frame
 
         db_connection_string = 'postgresql+psycopg2://%s:%s@%s:5432/%s' % (
             db_user, db_password, db_host, db_name)
@@ -134,8 +137,8 @@ class Metabolism:
         params['schema'] = self._db_schema
         params['simulationId'] = self._simulation_guid
         params['metaboliteIds'] = metabolite_ids
+        params['referenceFrame'] = self._reference_frame
         params['relativeConcentration'] = self._relative_concentration
-        params['opacityRange'] = opacity_range
         return self._core.rockets_client.request(
             method=self.PLUGIN_API_PREFIX + 'attach-handler', params=params)
 
@@ -331,11 +334,11 @@ class Metabolism:
                 sql = "SELECT c.value as value, (SELECT value FROM %s.concentration " \
                       "WHERE variable_guid=c.variable_guid AND " \
                       "simulation_guid=c.simulation_guid AND " \
-                      "frame=0) AS base_value "\
+                      "frame=%d) AS base_value "\
                       "FROM %s.concentration AS c, %s.variable AS v "\
                       "WHERE c.variable_guid=v.guid AND "\
                       "v.guid=%d AND c.simulation_guid=%d" % (
-                        self._db_schema, self._db_schema, self._db_schema,
+                        self._db_schema, self._reference_frame, self._db_schema, self._db_schema,
                         guid, self._simulation_guid)
                 data = pd.read_sql(sql, self._db_connection)
                 values = list()
@@ -343,7 +346,7 @@ class Metabolism:
                     value = float(data['value'][i])
                     if self._relative_concentration:
                         base_value = float(data['base_value'][i])
-                        values.append(100 * (value - base_value) / value)
+                        values.append((value - base_value) / value)
                     else:
                         values.append(value)
                 return np.array(values, np.float32)

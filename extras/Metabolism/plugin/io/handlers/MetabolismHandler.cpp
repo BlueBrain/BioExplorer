@@ -56,7 +56,7 @@ MetabolismHandler::MetabolismHandler(const AttachHandlerDetails& payload)
     _unit = "ms";
     _metaboliteIds = payload.metaboliteIds;
     _relativeConcentration = payload.relativeConcentration;
-    _opacityRange = {payload.opacityRange[0], payload.opacityRange[1]};
+    _referenceFrame = payload.referenceFrame;
     std::string metabolitesIds;
     for (const auto metaboliteId : _metaboliteIds)
     {
@@ -81,8 +81,8 @@ void* MetabolismHandler::getFrameData(const uint32_t frame)
     _currentFrame = frame;
 
     const auto values =
-        _connector->getConcentrations(frame, _metaboliteIds,
-                                      _relativeConcentration, _opacityRange);
+        _connector->getConcentrations(frame, _referenceFrame, _metaboliteIds,
+                                      _relativeConcentration);
 
     _frameData.clear();
     _frameData.push_back(frame);
@@ -96,14 +96,14 @@ void* MetabolismHandler::getFrameData(const uint32_t frame)
             ++j;
         }
         else
-            _frameData.push_back(0.f);
+            _frameData.push_back(1e38f);
     }
 
     _frameSize = _frameData.size();
 
-#if DEBUG
+#if 0
     std::string s;
-    for (uint64_t i = 1; i < _frameData.size(); ++i)
+    for (uint64_t i = 0; i < _frameData.size(); ++i)
     {
         if (!s.empty())
             s += ",";

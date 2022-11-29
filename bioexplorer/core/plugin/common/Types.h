@@ -597,8 +597,7 @@ typedef struct
 } AddConeDetails;
 
 /**
- * @brief Defines the parameters needed when adding 3D sphere to the scene
- *
+ * @brief Defines the parameters needed when adding bounding box to the scene
  */
 typedef struct
 {
@@ -610,9 +609,24 @@ typedef struct
     doubles topRight;
     /** Radius of the borders */
     double radius{1.0};
-    /** RGB Color of the sphere */
+    /** RGB Color of the bounding box */
     doubles color{1.0, 1.0, 1.0};
 } AddBoundingBoxDetails;
+
+/**
+ * @brief Defines the parameters needed when adding box to the scene
+ */
+typedef struct
+{
+    /** Name of the box */
+    std::string name;
+    /** Position of the bottom left corner in the scene */
+    doubles bottomLeft;
+    /** Position of the top right corner in the scene */
+    doubles topRight;
+    /** RGB Color of the box */
+    doubles color;
+} AddBoxDetails;
 
 /**
  * @brief The Streamlines struct handles a set of streamlines. Indices are used

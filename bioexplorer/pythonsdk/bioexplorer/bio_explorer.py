@@ -1841,7 +1841,7 @@ class BioExplorer:
             refraction_indices.append(refraction_index)
             chameleon_modes.append(chameleon_mode)
             cast_user_datas.append(cast_user_data)
-            cast_clipping_modes.append(clipping_mode)
+            clipping_modes.append(clipping_mode)
         self.set_materials(
             model_ids=model_ids,
             material_ids=material_ids,
@@ -2204,6 +2204,29 @@ class BioExplorer:
         params["radius"] = radius
         params["color"] = color.to_list()
         return self._invoke_and_check("add-bounding-box", params)
+
+    def add_box(self, name, bottom_left_corner, top_right_corner, 
+                         color=Vector3(1.0, 1.0, 1.0)):
+        """
+        Add a box to the scene
+
+        :bottom_left_corner: Bottom left corner
+        :top_right_corner: Top right corner
+        :color: Color of the bounding box
+        :return: Result of the request submission
+        """
+        if self._client is None:
+            return
+
+        assert isinstance(bottom_left_corner, Vector3)
+        assert isinstance(top_right_corner, Vector3)
+        assert isinstance(color, Vector3)
+        params = dict()
+        params["name"] = name
+        params["bottomLeft"] = bottom_left_corner.to_list()
+        params["topRight"] = top_right_corner.to_list()
+        params["color"] = color.to_list()
+        return self._invoke_and_check("add-box", params)
 
     def add_sphere(self, name, position, radius, color=Vector3(1.0, 1.0, 1.0), opacity=1.0):
         """

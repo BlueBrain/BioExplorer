@@ -102,20 +102,21 @@ uint32_t DBConnector::getNbFrames()
 }
 
 Concentrations DBConnector::getConcentrations(const uint32_t frame,
+                                              const uint32_t referenceFrame,
                                               const int32_ts& metaboliteIds,
-                                              const bool relativeConcentration,
-                                              const Vector2d& opacityRange)
+                                              const bool relativeConcentration)
 {
     Concentrations concentrations;
     pqxx::read_transaction transaction(*_connection);
-    const auto range = opacityRange.y - opacityRange.x;
 
     try
     {
         std::string sql =
             "SELECT v.location_guid, c.value, (SELECT value FROM " + _dbSchema +
             ".concentration WHERE variable_guid=c.variable_guid AND "
-            "simulation_guid=c.simulation_guid AND frame=0) AS base_value "
+            "simulation_guid=c.simulation_guid AND frame=" +
+            std::to_string(referenceFrame) +
+            ") AS base_value "
             "FROM " +
             _dbSchema + ".concentration AS c, " + _dbSchema +
             ".variable AS v WHERE c.variable_guid=v.guid "
@@ -132,7 +133,7 @@ Concentrations DBConnector::getConcentrations(const uint32_t frame,
                     idsAsString += ",";
                 idsAsString += std::to_string(metaboliteId);
             }
-            sql += " AND v.guid in (" + idsAsString + ")";
+            sql += " AND v.guid IN (" + idsAsString + ")";
         }
         sql += " ORDER BY v.location_guid";
 
@@ -143,9 +144,8 @@ Concentrations DBConnector::getConcentrations(const uint32_t frame,
             const uint32_t locationId = c[0].as<uint32_t>();
             const float value = c[1].as<float>();
             const float baseValue = c[2].as<float>();
-            concentrations[locationId] = relativeConcentration
-                                             ? (value - opacityRange.x) / range
-                                             : value;
+            concentrations[locationId] =
+                relativeConcentration ? (value - baseValue) / value : value;
         }
     }
     catch (pqxx::sql_error& e)

@@ -53,8 +53,8 @@ typedef struct
     std::string schema;
     size_t simulationId;
     int32_ts metaboliteIds;
+    int32_t referenceFrame;
     bool relativeConcentration{false};
-    doubles opacityRange;
 } AttachHandlerDetails;
 
 typedef struct
