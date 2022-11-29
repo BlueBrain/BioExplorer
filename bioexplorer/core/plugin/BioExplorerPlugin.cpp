@@ -207,6 +207,7 @@ void _addBioExplorerPerspectiveCamera(Engine &engine)
     properties.setProperty({"aspect", 1., {"Aspect ratio"}});
     properties.setProperty({"apertureRadius", 0., {"Aperture radius"}});
     properties.setProperty({"focusDistance", 1., {"Focus Distance"}});
+    properties.setProperty({"nearClip", 0., 0., 1e6, {"Near clip"}});
     properties.setProperty({"enableClippingPlanes", true, {"Clipping"}});
     properties.setProperty({"stereo", false, {"Stereo"}});
     properties.setProperty(

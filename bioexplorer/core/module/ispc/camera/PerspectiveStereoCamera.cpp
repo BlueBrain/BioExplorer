@@ -47,6 +47,7 @@ void PerspectiveStereoCamera::commit()
     aspect = getParamf("aspect", 1.f);
     apertureRadius = getParamf("apertureRadius", 0.f);
     focusDistance = getParamf("focusDistance", 1.f);
+    nearClip = getParamf("nearClip", 0.f);
     stereoMode = getParam("stereo", 0) ? CameraStereoMode::side_by_side
                                        : CameraStereoMode::mono;
     interpupillaryDistance = getParamf("interpupillaryDistance", 0.0635f);
@@ -100,7 +101,7 @@ void PerspectiveStereoCamera::commit()
         getIE(), (const ispc::vec3f&)org, (const ispc::vec3f&)dir_00,
         (const ispc::vec3f&)dir_du, (const ispc::vec3f&)dir_dv, scaledAperture,
         aspect, (const ispc::vec3f&)ipd_offset, stereoMode,
-        (const ispc::vec4f*)clipPlaneData, numClipPlanes);
+        (const ispc::vec4f*)clipPlaneData, numClipPlanes, nearClip);
 }
 
 OSP_REGISTER_CAMERA(PerspectiveStereoCamera, bio_explorer_perspective);

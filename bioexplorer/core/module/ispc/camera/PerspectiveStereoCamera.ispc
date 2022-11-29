@@ -121,7 +121,8 @@ export void PerspectiveStereoCamera_set(
     const uniform vec3f& dir_du, const uniform vec3f& dir_dv,
     const uniform float scaledAperture, const uniform float aspect,
     const uniform vec3f& ipd_offset, const uniform bool side_by_side,
-    const uniform vec4f clipPlanes[], const uniform unsigned int numClipPlanes)
+    const uniform vec4f clipPlanes[], const uniform unsigned int numClipPlanes,
+    const uniform float nearClip)
 {
     uniform PerspectiveStereoCamera* uniform self =
         (uniform PerspectiveStereoCamera * uniform) _self;
@@ -136,4 +137,5 @@ export void PerspectiveStereoCamera_set(
     self->ipd_offset = ipd_offset;
     self->clipPlanes = clipPlanes;
     self->numClipPlanes = numClipPlanes;
+    self->super.nearClip = nearClip;
 }
