@@ -1772,15 +1772,19 @@ Response BioExplorerPlugin::_setMaterialExtraAttributes(
             for (auto &material : materials)
             {
                 PropertyMap props;
-                props.setProperty({MATERIAL_PROPERTY_CAST_USER_DATA, false});
                 props.setProperty(
                     {MATERIAL_PROPERTY_SHADING_MODE,
                      static_cast<int>(MaterialShadingMode::diffuse)});
+                props.setProperty({MATERIAL_PROPERTY_USER_PARAMETER, 1.0});
                 props.setProperty(
                     {MATERIAL_PROPERTY_CHAMELEON_MODE,
                      static_cast<int>(
                          MaterialChameleonMode::undefined_chameleon_mode)});
-                props.setProperty({MATERIAL_PROPERTY_USER_PARAMETER, 1.0});
+                props.setProperty({MATERIAL_PROPERTY_NODE_ID, 0});
+                props.setProperty({MATERIAL_PROPERTY_CAST_USER_DATA, false});
+                props.setProperty(
+                    {MATERIAL_PROPERTY_CLIPPING_MODE,
+                     static_cast<int>(MaterialClippingMode::no_clipping)});
                 material.second->updateProperties(props);
             }
             scene.markModified(false);
