@@ -272,7 +272,9 @@ void Neurons::_buildMorphology(ThreadSafeContainer& container,
 
     // Soma
     uint64_t somaUserData = NO_USER_DATA;
-    if (_reportType == ReportType::compartment)
+    switch (_reportType)
+    {
+    case ReportType::compartment:
     {
         const auto compartments =
             connector.getNeuronSectionCompartments(_details.populationName,
@@ -280,6 +282,13 @@ void Neurons::_buildMorphology(ThreadSafeContainer& container,
                                                    neuronId, 0);
         if (!compartments.empty())
             somaUserData = compartments[0];
+        break;
+    }
+    case ReportType::soma:
+    {
+        somaUserData = neuronIndex;
+        break;
+    }
     }
 
     uint64_t somaGeometryIndex = 0;
@@ -499,17 +508,16 @@ void Neurons::_addSection(ThreadSafeContainer& container,
     switch (_reportType)
     {
     case ReportType::undefined:
-        userData = 0;
+        userData = NO_USER_DATA;
         break;
     case ReportType::spike:
     case ReportType::soma:
     {
-        userData = neuronId;
+        userData = somaUserData;
         break;
     }
     case ReportType::compartment:
     {
-        userData = somaUserData;
         compartments =
             connector.getNeuronSectionCompartments(_details.populationName,
                                                    _details.simulationReportId,

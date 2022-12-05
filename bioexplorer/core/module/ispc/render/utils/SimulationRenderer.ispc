@@ -18,33 +18,12 @@
  * this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-// ospray
-#include <ospray/SDK/camera/PerspectiveCamera.ih>
-#include <ospray/SDK/common/Model.ih>
-#include <ospray/SDK/fb/FrameBuffer.ih>
-#include <ospray/SDK/lights/Light.ih>
-#include <ospray/SDK/render/Renderer.ih>
-#include <ospray/SDK/texture/Texture2D.ih>
+#include "SimulationRenderer.ih"
 
-#include <bioexplorer/core/module/ispc/render/utils/AdvancedMaterial.ih>
-#include <bioexplorer/core/module/ispc/render/utils/BioExplorerRandomGenerator.ih>
-
-struct DensityRenderer
+export void SimulationRenderer_setTransferFunction(void* uniform _self,
+                                                   void* uniform value)
 {
-    Renderer super;
-
-    // Rendering attributes
-    AdvancedMaterial* bgMaterial;
-
-    // Transfer function attributes
-    const uniform TransferFunction* uniform transferFunction;
-
-    float exposure;
-    float timestamp;
-
-    float farPlane;
-    float searchLength;
-    float rayStep;
-    uint32 sampleCount;
-    float alphaCorrection;
-};
+    uniform SimulationRenderer* uniform self =
+        (uniform SimulationRenderer * uniform) _self;
+    self->transferFunction = (TransferFunction * uniform) value;
+}

@@ -18,37 +18,15 @@
  * this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-// ospray
-#include <ospray/SDK/camera/PerspectiveCamera.ih>
-#include <ospray/SDK/common/Model.ih>
-#include <ospray/SDK/fb/FrameBuffer.ih>
-#include <ospray/SDK/lights/Light.ih>
-#include <ospray/SDK/render/Renderer.ih>
-#include <ospray/SDK/texture/Texture2D.ih>
-
-// obj renderer
-#include "AdvancedMaterial.ih"
-
-// Brayns
-#include "utils/BioExplorerRandomGenerator.ih"
+#include <bioexplorer/core/module/ispc/render/utils/SimulationRenderer.ih>
 
 struct AdvancedRenderer
 {
-    Renderer super;
+    SimulationRenderer super;
 
     // Shading attributes
     const uniform Light* uniform* uniform lights;
     uint32 numLights;
-    AdvancedMaterial* bgMaterial;
-
-    float exposure;
-    bool useHardwareRandomizer;
-    bool showBackground;
-    uint32 maxBounces;
-    float epsilonFactor;
-
-    float timestamp;
-    uint32 randomNumber;
 
     float shadows;
     float softShadows;
@@ -58,19 +36,8 @@ struct AdvancedRenderer
     float giDistance;
     uint32 giSamples;
 
-    // Fog
-    float fogThickness;
-    float fogStart;
-
     // Matrix filter (just for fun)
     bool matrixFilter;
-
-    // Transfer function attributes
-    const uniform TransferFunction* uniform transferFunction;
-
-    // Simulation data
-    uniform float* uniform simulationData;
-    uint64 simulationDataSize;
 
     // Clip planes
     const uniform vec4f* clipPlanes;

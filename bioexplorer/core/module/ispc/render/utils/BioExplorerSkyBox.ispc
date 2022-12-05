@@ -21,12 +21,14 @@
 #include <ospray/SDK/render/Renderer.ih>
 #include <ospray/SDK/render/util.ih>
 
-#include "../AdvancedMaterial.ih"
+#include <bioexplorer/core/module/ispc/render/utils/AdvancedMaterial.ih>
 
 vec4f skyboxMapping(const uniform Renderer* uniform renderer,
                     const varying Ray& ray,
                     const uniform AdvancedMaterial* uniform bgMaterial)
 {
+    if (!bgMaterial)
+        return make_vec4f(1.f, 0.f, 0.f, 1.f);
     varying vec4f result = make_vec4f(bgMaterial->Kd);
 
     const varying float radius = 1e6;
@@ -70,4 +72,16 @@ vec4f skyboxMapping(const uniform Renderer* uniform renderer,
                    (asin(intersection.y) / PI) + .5f);
 
     return get4f(bgMaterial->map_Kd.map, dg);
+}
+
+void composite(const varying vec4f& src, varying vec4f& dst,
+               const varying float alphaCorrection)
+{
+    const float alpha =
+        1.f - pow(1.f - min(src.w, 1.f - 1.f / 256.f), alphaCorrection);
+    const float a = alpha * (1.f - dst.w);
+    dst.x = dst.x + src.x * a;
+    dst.y = dst.y + src.y * a;
+    dst.z = dst.z + src.z * a;
+    dst.w += (alpha * (1.f - dst.w));
 }

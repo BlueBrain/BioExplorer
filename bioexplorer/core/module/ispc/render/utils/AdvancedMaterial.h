@@ -29,52 +29,54 @@ namespace bioexplorer
 {
 namespace rendering
 {
-typedef ospray::vec3f Color;
+using namespace ospray;
 
-struct AdvancedMaterial : public ospray::Material
+typedef vec3f Color;
+
+struct AdvancedMaterial : public Material
 {
     /*! opacity: 0 (transparent), 1 (opaque) */
-    ospray::Texture2D* map_d;
-    ospray::affine2f xform_d;
+    Texture2D* map_d;
+    affine2f xform_d;
     double d{1.0};
 
     /*! refraction index */
-    ospray::Texture2D* map_Refraction;
-    ospray::affine2f xform_Refraction;
+    Texture2D* map_Refraction;
+    affine2f xform_Refraction;
     double refraction{1.0};
 
     /*! reflection index */
-    ospray::Texture2D* map_Reflection;
-    ospray::affine2f xform_Reflection;
+    Texture2D* map_Reflection;
+    affine2f xform_Reflection;
     double reflection{0.0};
 
     /*! radiance: 0 (none), 1 (full) */
-    ospray::Texture2D* map_a;
-    ospray::affine2f xform_a;
+    Texture2D* map_a;
+    affine2f xform_a;
     double a{0.0};
 
     /*! diffuse  reflectance: 0 (none), 1 (full) */
-    ospray::Texture2D* map_Kd;
-    ospray::affine2f xform_Kd;
+    Texture2D* map_Kd;
+    affine2f xform_Kd;
     Color Kd;
 
     /*! specular reflectance: 0 (none), 1 (full) */
-    ospray::Texture2D* map_Ks;
-    ospray::affine2f xform_Ks;
+    Texture2D* map_Ks;
+    affine2f xform_Ks;
     Color Ks;
 
     /*! specular exponent: 0 (diffuse), infinity (specular) */
-    ospray::Texture2D* map_Ns;
-    ospray::affine2f xform_Ns;
+    Texture2D* map_Ns;
+    affine2f xform_Ns;
     double Ns;
 
     /*! Glossiness: 0 (none), 1 (full) */
     double glossiness{1.0};
 
     /*! bump map */
-    ospray::Texture2D* map_Bump;
-    ospray::affine2f xform_Bump;
-    ospray::linear2f rot_Bump;
+    Texture2D* map_Bump;
+    affine2f xform_Bump;
+    linear2f rot_Bump;
 
     /*! Shading mode (none, diffuse, electron, etc) */
     MaterialShadingMode shadingMode;
@@ -83,7 +85,7 @@ struct AdvancedMaterial : public ospray::Material
     double userParameter{1.0};
 
     /*! Model ID */
-    ospray::uint32 nodeId;
+    uint32 nodeId;
 
     /*! Takes the color from surrounding invisible geometry */
     MaterialChameleonMode chameleonMode;

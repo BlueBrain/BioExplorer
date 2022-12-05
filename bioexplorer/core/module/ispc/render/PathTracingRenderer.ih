@@ -19,15 +19,11 @@
  */
 
 // ospray
-#include <ospray/SDK/camera/PerspectiveCamera.ih>
 #include <ospray/SDK/common/Model.ih>
-#include <ospray/SDK/fb/FrameBuffer.ih>
 #include <ospray/SDK/lights/Light.ih>
 #include <ospray/SDK/render/Renderer.ih>
-#include <ospray/SDK/texture/Texture2D.ih>
 
-// obj renderer
-#include "AdvancedMaterial.ih"
+#include <bioexplorer/core/module/ispc/render/utils/AdvancedMaterial.ih>
 
 struct PathTracingRenderer
 {

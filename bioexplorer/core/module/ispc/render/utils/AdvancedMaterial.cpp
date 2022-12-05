@@ -125,6 +125,7 @@ void AdvancedMaterial::commit()
 
 #if !defined(DOXYGEN_SHOULD_SKIP_THIS)
 OSP_REGISTER_MATERIAL(bio_explorer, AdvancedMaterial, default);
+OSP_REGISTER_MATERIAL(bio_explorer_voxel, AdvancedMaterial, default);
 OSP_REGISTER_MATERIAL(bio_explorer_fields, AdvancedMaterial, default);
 OSP_REGISTER_MATERIAL(bio_explorer_density, AdvancedMaterial, default);
 OSP_REGISTER_MATERIAL(bio_explorer_path_tracing, AdvancedMaterial, default);

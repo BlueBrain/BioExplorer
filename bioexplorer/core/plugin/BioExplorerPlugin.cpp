@@ -119,6 +119,13 @@ void _addBioExplorerRenderer(Engine &engine)
     PLUGIN_INFO(2, "Registering 'bio_explorer' renderer");
     PropertyMap properties;
     properties.setProperty(
+        {"alphaCorrection", 0.5, 0.001, 1., {"Alpha correction"}});
+    properties.setProperty({"maxDistanceToSecondaryModel",
+                            30.,
+                            0.1,
+                            100.,
+                            {"Maximum distance to secondary model"}});
+    properties.setProperty(
         {"giDistance", 10000.0, {"Global illumination distance"}});
     properties.setProperty(
         {"giWeight", 0.0, 1.0, 1.0, {"Global illumination weight"}});
@@ -141,6 +148,20 @@ void _addBioExplorerRenderer(Engine &engine)
     properties.setProperty({"showBackground", false, {"Show background"}});
     properties.setProperty({"matrixFilter", false, {"Matrix filter"}});
     engine.addRendererType("bio_explorer", properties);
+}
+
+void _addBioExplorerVoxelRenderer(Engine &engine)
+{
+    PLUGIN_INFO(2, "Registering 'bio_explorer_voxel' renderer");
+    PropertyMap properties;
+    properties.setProperty(
+        {"alphaCorrection", 0.5, 0.001, 1., {"Alpha correction"}});
+    properties.setProperty(
+        {"simulationThreshold", 0., 0., 1., {"Simulation threshold"}});
+    properties.setProperty({"exposure", 1.0, 0.01, 10.0, {"Exposure"}});
+    properties.setProperty(
+        {"epsilonFactor", 1.0, 1.0, 1000.0, {"Epsilon factor"}});
+    engine.addRendererType("bio_explorer_voxel", properties);
 }
 
 void _addBioExplorerFieldsRenderer(Engine &engine)
@@ -607,6 +628,7 @@ void BioExplorerPlugin::init()
     // Module components
     _addBioExplorerPerspectiveCamera(engine);
     _addBioExplorerRenderer(engine);
+    _addBioExplorerVoxelRenderer(engine);
     _addBioExplorerFieldsRenderer(engine);
     _addBioExplorerDensityRenderer(engine);
     _addBioExplorerPathTracingRenderer(engine);

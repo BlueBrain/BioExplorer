@@ -55,6 +55,8 @@ public:
     brayns::AbstractSimulationHandlerPtr clone() const final;
 
 private:
+    void _logSimulationInformation();
+
     std::string _populationName;
     uint64_t _simulationReportId;
     SimulationReport _simulationReport;
