@@ -35,7 +35,7 @@ namespace rendering
 {
 void PathTracingRenderer::commit()
 {
-    Renderer::commit();
+    SimulationRenderer::commit();
 
     _lightData = (ospray::Data*)getParamData("lights");
     _lightArray.clear();
@@ -57,7 +57,9 @@ void PathTracingRenderer::commit()
 
     ispc::PathTracingRenderer_set(
         getIE(), (_bgMaterial ? _bgMaterial->getIE() : nullptr), spp, _lightPtr,
-        _lightArray.size(), _timestamp, _randomNumber, _exposure, _aoStrength,
+        _lightArray.size(),
+        (_simulationData ? (float*)_simulationData->data : nullptr),
+        _simulationDataSize, _timestamp, _randomNumber, _exposure, _aoStrength,
         _aoDistance, _useHardwareRandomizer, _showBackground);
 }
 

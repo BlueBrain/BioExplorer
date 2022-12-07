@@ -18,27 +18,16 @@
  * this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-// ospray
-#include <ospray/SDK/common/Model.ih>
-#include <ospray/SDK/lights/Light.ih>
-#include <ospray/SDK/render/Renderer.ih>
-
-#include <bioexplorer/core/module/ispc/render/utils/AdvancedMaterial.ih>
+#include <bioexplorer/core/module/ispc/render/utils/SimulationRenderer.ih>
 
 struct PathTracingRenderer
 {
-    Renderer super;
+    SimulationRenderer super;
 
     // Rendering attributes
     const uniform Light* uniform* uniform lights;
     uint32 numLights;
-    AdvancedMaterial* bgMaterial;
 
-    float exposure;
     float aoStrength;
     float aoDistance;
-    uint32 randomNumber;
-    float timestamp;
-    bool useHardwareRandomizer;
-    bool showBackground;
 };
