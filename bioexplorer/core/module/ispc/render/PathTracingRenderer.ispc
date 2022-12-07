@@ -20,8 +20,8 @@
 
 #include "PathTracingRenderer.ih"
 
-#include "utils/BioExplorerRandomGenerator.ih"
-#include "utils/BioExplorerSkyBox.ih"
+#include <bioexplorer/core/module/ispc/render/utils/BioExplorerRandomGenerator.ih>
+#include <bioexplorer/core/module/ispc/render/utils/BioExplorerSkyBox.ih>
 
 uniform const uint16 NB_MAX_REBOUNDS = 20;
 uniform const float skypower = 3.0f;

@@ -21,26 +21,8 @@
 #include <plugin/common/CommonTypes.h>
 
 #include "AdvancedRenderer.ih"
+#include "utils/BioExplorerRandomGenerator.ih"
 #include "utils/BioExplorerSkyBox.ih"
-
-/**
-    Composes source and destination colors according to specified alpha
-   correction
-    @param src Source RGBA color
-    @param dst Returned destination RGBA color
-    @param alphaCorrection Alpha correction used to blend colors
-*/
-inline void composite(const varying vec4f& src, varying vec4f& dst,
-                      const varying float alphaCorrection)
-{
-    const float alpha =
-        1.f - pow(1.f - min(src.w, 1.f - 1.f / 256.f), alphaCorrection);
-    const float a = alpha * (1.f - dst.w);
-    dst.x = dst.x + src.x * a;
-    dst.y = dst.y + src.y * a;
-    dst.z = dst.z + src.z * a;
-    dst.w += (alpha * (1.f - dst.w));
-}
 
 /**
     Returns the refracted vector according to the direction of the incident ray,
@@ -224,9 +206,9 @@ inline void setGeometryShadingAttributes(
             attributes.glossiness = mat->glossiness;
             const vec3f randomNormal =
                 (1.f - mat->glossiness) *
-                getRandomVector(self->useHardwareRandomizer,
-                                self->super.fb->size.x, sample,
-                                attributes.normal, self->randomNumber);
+                getRandomVector(self->super.useHardwareRandomizer,
+                                self->super.super.fb->size.x, sample,
+                                attributes.normal, self->super.randomNumber);
             attributes.normal = normalize(attributes.normal + randomNormal);
         }
 
@@ -316,8 +298,9 @@ inline bool launchRandomRay(
     varying float& emission, const uint32 iteration, const float epsilon)
 {
     randomDirection =
-        getRandomVector(self->useHardwareRandomizer, self->super.fb->size.x,
-                        sample, normal, iteration + self->randomNumber);
+        getRandomVector(self->super.useHardwareRandomizer,
+                        self->super.super.fb->size.x, sample, normal,
+                        iteration + self->super.randomNumber);
     backgroundColor = make_vec3f(0.f);
 
     if (dot(randomDirection, normal) < 0.f)
@@ -339,19 +322,19 @@ inline bool launchRandomRay(
     bool hit = false;
     while (moreRebounds)
     {
-        traceRay(self->super.model, randomRay);
+        traceRay(self->super.super.model, randomRay);
 
         if (randomRay.geomID < 0)
         {
             // No intersection
-            backgroundColor =
-                make_vec3f(skyboxMapping((Renderer*)self, randomRay,
-                                         (AdvancedMaterial*)self->bgMaterial));
+            backgroundColor = make_vec3f(
+                skyboxMapping((Renderer*)self, randomRay,
+                              (AdvancedMaterial*)self->super.bgMaterial));
             return false;
         }
 
         DifferentialGeometry dg;
-        postIntersect(self->super.model, dg, randomRay,
+        postIntersect(self->super.super.model, dg, randomRay,
                       DG_NG | DG_NS | DG_NORMALIZE | DG_TANGENTS |
                           DG_FACEFORWARD | DG_MATERIALID | DG_COLOR |
                           DG_TEXCOORD);
@@ -388,7 +371,7 @@ inline bool launchRandomRay(
         else
             moreRebounds = false;
 
-        randomRay.t0 = randomRay.t + self->epsilonFactor * dg.epsilon;
+        randomRay.t0 = randomRay.t + self->super.epsilonFactor * dg.epsilon;
         randomRay.t = inf;
         randomRay.primID = -1;
         randomRay.geomID = -1;
@@ -461,12 +444,13 @@ inline float shadedLightIntensity(varying ScreenSample& sample,
         vec3f ld = lightDirection;
         if (attributes.self->softShadows > 0.f)
             // Slightly alter light direction for Soft shadows
-            ld = normalize(
-                ld + attributes.self->softShadows *
-                         getRandomVector(attributes.self->useHardwareRandomizer,
-                                         attributes.self->super.fb->size.x,
-                                         sample, attributes.normal,
-                                         s + attributes.self->randomNumber));
+            ld = normalize(ld +
+                           attributes.self->softShadows *
+                               getRandomVector(
+                                   attributes.self->super.useHardwareRandomizer,
+                                   attributes.self->super.super.fb->size.x,
+                                   sample, attributes.normal,
+                                   s + attributes.self->super.randomNumber));
 
         if (dot(ld, lightDirection) < 0.f)
             ld = neg(ld);
@@ -474,7 +458,8 @@ inline float shadedLightIntensity(varying ScreenSample& sample,
         Ray shadowRay;
         shadowRay.org = dg.P;
         shadowRay.dir = ld;
-        shadowRay.t0 = max(0.f, attributes.self->epsilonFactor * dg.epsilon);
+        shadowRay.t0 =
+            max(0.f, attributes.self->super.epsilonFactor * dg.epsilon);
         shadowRay.t = attributes.self->giDistance;
         shadowRay.time = inf;
         shadowRay.geomID = -1;
@@ -483,13 +468,13 @@ inline float shadedLightIntensity(varying ScreenSample& sample,
 
         while (shadowIntensity < 1.f)
         {
-            traceRay(attributes.self->super.model, shadowRay);
+            traceRay(attributes.self->super.super.model, shadowRay);
 
             if (shadowRay.geomID == -1)
                 break;
 
             DifferentialGeometry shadowingGeometry;
-            postIntersect(attributes.self->super.model, shadowingGeometry,
+            postIntersect(attributes.self->super.super.model, shadowingGeometry,
                           shadowRay,
                           DG_NG | DG_NS | DG_NORMALIZE | DG_TANGENTS |
                               DG_FACEFORWARD | DG_MATERIALID | DG_COLOR |
@@ -551,7 +536,7 @@ inline void processBackgroundColor(varying ScreenSample& sample,
     // No intersection. Return skybox color
     attributes.bgColor =
         skyboxMapping((Renderer*)attributes.self, ray,
-                      (AdvancedMaterial*)attributes.self->bgMaterial);
+                      (AdvancedMaterial*)attributes.self->super.bgMaterial);
     attributes.shadingContribution = make_vec3f(attributes.bgColor);
 }
 
@@ -601,27 +586,28 @@ inline vec3f getChameleonColor(const uniform AdvancedRenderer* uniform self,
     for (uint32 i = 0; i < 20; ++i)
     {
         const vec3f randomDirection =
-            getRandomVector(self->useHardwareRandomizer, self->super.fb->size.x,
-                            sample, neg(attributes.normal),
-                            i + self->randomNumber);
+            getRandomVector(self->super.useHardwareRandomizer,
+                            self->super.super.fb->size.x, sample,
+                            neg(attributes.normal),
+                            i + self->super.randomNumber);
         Ray ray;
         ray.org = attributes.origin +
-                  randomDirection * (self->epsilonFactor + dg.epsilon);
+                  randomDirection * (self->super.epsilonFactor + dg.epsilon);
         ray.dir = randomDirection;
-        ray.t0 = max(0.f, self->epsilonFactor * dg.epsilon);
+        ray.t0 = max(0.f, self->super.epsilonFactor * dg.epsilon);
         ray.t = self->giDistance;
         ray.time = inf;
         ray.primID = -1;
         ray.geomID = -1;
         ray.instID = -1;
 
-        traceRay(self->super.model, ray);
+        traceRay(self->super.super.model, ray);
 
         if (ray.geomID >= 0)
         {
             // Get intersection information
             DifferentialGeometry geometry;
-            postIntersect(self->super.model, geometry, ray,
+            postIntersect(self->super.super.model, geometry, ray,
                           DG_NG | DG_NS | DG_NORMALIZE | DG_FACEFORWARD |
                               DG_TANGENTS | DG_MATERIALID | DG_COLOR |
                               DG_TEXCOORD);
@@ -852,57 +838,6 @@ inline void processGoodsellShading(const uniform AdvancedRenderer* uniform self,
     attributes.specularColor = make_vec3f(0.f);
 }
 
-extern "C" unmasked uniform int AdvancedRenderer_getBytesPerPrimitive(
-    const void* uniform geometry);
-
-static inline int getBytesPerPrimitive(const void* geometry)
-{
-    int bytesPerPrimitive;
-    foreach_unique(g in geometry)
-    {
-        bytesPerPrimitive = AdvancedRenderer_getBytesPerPrimitive(g);
-    }
-    return bytesPerPrimitive;
-}
-
-static inline uint64 getOffset(const uniform Geometry* geometry,
-                               const varying int primID)
-{
-    if (!geometry)
-        return 0;
-
-    // The data pointer in all "derived" geometries is just after data members
-    // of the base Geometry struct. That's why array index starts at 1
-    const uniform uint8* data = *((const uniform uint8**)&geometry[1]);
-    const int bytesPerPrimitive = getBytesPerPrimitive(geometry->cppEquivalent);
-    const uint64 bytesPerPrimitive64 = (uint64)bytesPerPrimitive;
-    if (primID * bytesPerPrimitive64 > 0x7FFFFFFF)
-        data =
-            (const uniform uint8*)((uint64)data + bytesPerPrimitive64 * primID);
-    else
-        data += bytesPerPrimitive * primID;
-
-    return *((const uniform uint64*)data);
-}
-
-inline vec4f getSimulationValue(const uniform AdvancedRenderer* uniform self,
-                                varying DifferentialGeometry* dg,
-                                const varying int primID)
-{
-    if (self->simulationDataSize == 0)
-        return make_vec4f(1.f, 0.f, 0.f, 1.f);
-
-    const uint64 offset = getOffset(dg->geometry, primID);
-    if (offset < self->simulationDataSize)
-    {
-        const varying float value = self->simulationData[offset];
-        const uniform TransferFunction* uniform tf = self->transferFunction;
-        return make_vec4f(tf->getColorForValue(tf, value),
-                          tf->getOpacityForValue(tf, value));
-    }
-    return make_vec4f(0.f, 0.f, 1.f, 1.f);
-}
-
 inline void processSimulationContribution(varying ScreenSample& sample,
                                           ShadingAttributes& attributes,
                                           const uint32 materialID,
@@ -911,11 +846,11 @@ inline void processSimulationContribution(varying ScreenSample& sample,
     if (!attributes.castUserData)
         return;
 
-    if (!attributes.self->simulationData)
+    if (!attributes.self->super.simulationData)
         return;
 
     const vec4f simulationColor =
-        getSimulationValue(attributes.self, attributes.dg, primID);
+        getSimulationValue(&attributes.self->super, attributes.dg, primID);
     attributes.simulationColor = make_vec3f(simulationColor);
     attributes.simulationIntensity = simulationColor.w;
     return;
@@ -954,14 +889,14 @@ inline vec3f AdvancedRenderer_shadeRay(
     const uniform AdvancedRenderer* uniform self, varying ScreenSample& sample)
 {
     Ray ray = sample.ray;
-    float maxt = self->fogStart + self->fogThickness;
+    float maxt = self->super.fogStart + self->super.fogThickness;
 
     vec4f color = make_vec4f(0.f);
     vec3f bgColor = make_vec3f(0.f);
-    if (self->showBackground)
-        bgColor =
-            make_vec3f(skyboxMapping((Renderer*)self, ray,
-                                     (AdvancedMaterial*)self->bgMaterial));
+    if (self->super.showBackground)
+        bgColor = make_vec3f(
+            skyboxMapping((Renderer*)self, ray,
+                          (AdvancedMaterial*)self->super.bgMaterial));
 
     uint32 depth = 0;
     float oldlocalRefraction = 1.f;
@@ -970,7 +905,7 @@ inline vec3f AdvancedRenderer_shadeRay(
     ray.t = maxt;
     bool moreRebounds = true;
 
-    while (moreRebounds && depth < self->maxBounces && color.w < 1.f)
+    while (moreRebounds && depth < self->super.maxBounces && color.w < 1.f)
     {
         float totalOpacity = 0.f;
 
@@ -980,11 +915,11 @@ inline vec3f AdvancedRenderer_shadeRay(
         initializeShadingAttributes(self, attributes);
 
         // Trace ray
-        traceRay(self->super.model, ray);
+        traceRay(self->super.super.model, ray);
 
         if (ray.geomID < 0)
         {
-            if (self->showBackground)
+            if (self->super.showBackground)
             {
                 processBackgroundColor(sample, ray, attributes);
                 bgColor = make_vec3f(attributes.bgColor);
@@ -994,7 +929,7 @@ inline vec3f AdvancedRenderer_shadeRay(
         else
         {
             DifferentialGeometry dg;
-            postIntersect(self->super.model, dg, ray,
+            postIntersect(self->super.super.model, dg, ray,
                           DG_NG | DG_NS | DG_NORMALIZE | DG_TANGENTS |
                               DG_MATERIALID | DG_COLOR | DG_FACEFORWARD |
                               DG_TEXCOORD);
@@ -1008,7 +943,7 @@ inline vec3f AdvancedRenderer_shadeRay(
                 attributes.chameleonMode == emitter;
 
             if (discardIntersection)
-                ray.t0 = ray.t + self->epsilonFactor * dg.epsilon;
+                ray.t0 = ray.t + self->super.epsilonFactor * dg.epsilon;
             else
             {
                 // Compute simulation contribution
@@ -1074,8 +1009,9 @@ inline vec3f AdvancedRenderer_shadeRay(
                     ray.dir = attributes.reflectedNormal;
 
                 // Prepare next ray
-                ray.org = dg.P + ray.dir * (self->epsilonFactor * dg.epsilon);
-                ray.t0 = max(0.f, self->epsilonFactor * dg.epsilon);
+                ray.org =
+                    dg.P + ray.dir * (self->super.epsilonFactor * dg.epsilon);
+                ray.t0 = max(0.f, self->super.epsilonFactor * dg.epsilon);
                 ++depth;
             }
 
@@ -1096,16 +1032,17 @@ inline vec3f AdvancedRenderer_shadeRay(
     color.w = clamp(color.w, 0.f, 1.f);
 
     // Fog attenuation
-    const float fogAttenuation =
-        sample.z > self->fogStart
-            ? clamp((sample.z - self->fogStart) / self->fogThickness, 0.f, 1.f)
-            : 0.f;
+    const float fogAttenuation = sample.z > self->super.fogStart
+                                     ? clamp((sample.z - self->super.fogStart) /
+                                                 self->super.fogThickness,
+                                             0.f, 1.f)
+                                     : 0.f;
     const float fog = 1.f - color.w * (1.f - fogAttenuation);
 
     // Final color
     sample.alpha = min(1.f, color.w);
-    vec3f finalColor =
-        (make_vec3f(color) * (1.f - fog) + fog * bgColor) * self->exposure;
+    vec3f finalColor = (make_vec3f(color) * (1.f - fog) + fog * bgColor) *
+                       self->super.exposure;
 
     if (self->matrixFilter)
         finalColor = make_vec3f(finalColor.x * 0.666f, finalColor.y * 0.8f,
@@ -1130,8 +1067,8 @@ export void* uniform AdvancedRenderer_create(void* uniform cppE)
 {
     uniform AdvancedRenderer* uniform self =
         uniform new uniform AdvancedRenderer;
-    Renderer_Constructor(&self->super, cppE);
-    self->super.renderSample = AdvancedRenderer_renderSample;
+    Renderer_Constructor(&self->super.super, cppE);
+    self->super.super.renderSample = AdvancedRenderer_renderSample;
     return self;
 }
 
@@ -1154,23 +1091,26 @@ export void AdvancedRenderer_set(
         (uniform AdvancedRenderer * uniform) _self;
 
     // OSPRay
-    self->super.spp = spp;
+    self->super.super.spp = spp;
 
     self->lights = (const uniform Light* uniform* uniform)lights;
     self->numLights = numLights;
 
-    // Bio explorer
-    self->bgMaterial = (uniform AdvancedMaterial * uniform) bgMaterial;
+    // User data renderer
+    self->super.bgMaterial = (uniform AdvancedMaterial * uniform) bgMaterial;
+    self->super.timestamp = timestamp;
+    self->super.exposure = exposure;
+    self->super.epsilonFactor = epsilonFactor;
+    self->super.useHardwareRandomizer = useHardwareRandomizer;
+    self->super.showBackground = showBackground;
+    self->super.fogThickness = fogThickness;
+    self->super.fogStart = fogStart;
+    self->super.randomNumber = randomNumber;
+    self->super.maxBounces = maxBounces;
+    self->super.simulationData = (uniform float* uniform)simulationData;
+    self->super.simulationDataSize = simulationDataSize;
 
-    self->timestamp = timestamp;
-    self->exposure = exposure;
-    self->epsilonFactor = epsilonFactor;
-    self->useHardwareRandomizer = useHardwareRandomizer;
-    self->showBackground = showBackground;
-
-    self->fogThickness = fogThickness;
-    self->fogStart = fogStart;
-
+    // Shading parameters
     self->shadows = shadows;
     self->softShadows = softShadows;
     self->softShadowsSamples = softShadowsSamples;
@@ -1179,13 +1119,7 @@ export void AdvancedRenderer_set(
     self->giDistance = giDistance;
     self->giSamples = giSamples;
 
-    self->randomNumber = randomNumber;
-    self->maxBounces = maxBounces;
-
     self->matrixFilter = matrixFilter;
-
-    self->simulationData = (uniform float* uniform)simulationData;
-    self->simulationDataSize = simulationDataSize;
 
     self->clipPlanes = clipPlanes;
     self->numClipPlanes = numClipPlanes;
@@ -1196,5 +1130,5 @@ export void AdvancedRenderer_setTransferFunction(void* uniform _self,
 {
     uniform AdvancedRenderer* uniform self =
         (uniform AdvancedRenderer * uniform) _self;
-    self->transferFunction = (TransferFunction * uniform) value;
+    self->super.transferFunction = (TransferFunction * uniform) value;
 }

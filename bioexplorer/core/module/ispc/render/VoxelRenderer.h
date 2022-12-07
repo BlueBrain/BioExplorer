@@ -26,46 +26,26 @@ namespace bioexplorer
 {
 namespace rendering
 {
+using namespace ospray;
+
 /**
- * @brief The AdvancedRenderer class is a renderer that can
- * perform global illumination (light shading, shadows, ambient occlusion, color
- * bleeding, light emission)
+ * @brief The VoxelRenderer class can perform fast transparency
+ * and mapping of simulation data on the geometry
  */
-class AdvancedRenderer : public SimulationRenderer
+class VoxelRenderer : public SimulationRenderer
 {
 public:
-    /**
-     * @brief Construct a new Bio Explorer Renderer object
-     *
-     */
-    AdvancedRenderer();
+    VoxelRenderer();
 
     /**
-     * @brief Returns the class name as a string
-     *
-     * @return A string containing the full name of the class
-     */
-    std::string toString() const final { return "bio_explorer_renderer"; }
-
-    /**
-     * @brief Commit the changes to the OSPRay engine
-     *
-     */
+       Returns the class name as a string
+       @return string containing the full name of the class
+    */
+    std::string toString() const final { return "VoxelRenderer"; }
     void commit() final;
 
 private:
-    double _shadows{0};
-    double _softShadows{0};
-    ospray::uint32 _softShadowsSamples{0};
-
-    double _giStrength{0};
-    double _giDistance{1e6};
-    ospray::uint32 _giSamples{0};
-
-    bool _matrixFilter{false};
-
-    // Clip planes
-    ospray::Ref<ospray::Data> clipPlanes;
+    float _simulationThreshold{0.f};
 };
 } // namespace rendering
 } // namespace bioexplorer

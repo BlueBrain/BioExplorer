@@ -806,12 +806,13 @@ floats DBConnector::getNeuronSomaReportValues(const std::string& populationName,
             " ORDER BY node_guid";
         PLUGIN_DEBUG(sql);
         const auto res = transaction.exec(sql);
-        values.resize(res.size());
+        const size_t nbElements = res.size();
+        values.resize(nbElements);
         uint64_t index = 0;
         for (auto c = res.begin(); c != res.end(); ++c)
         {
             const pqxx::binarystring buffer(c[0]);
-            memcpy(&values[index], buffer.data(), buffer.size());
+            memcpy(&values[index], buffer.data(), elementSize);
             ++index;
         }
     }

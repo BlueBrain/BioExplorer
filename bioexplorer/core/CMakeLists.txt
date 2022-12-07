@@ -61,12 +61,14 @@ include_directories(
 # Sources
 # ==============================================================================
 set(${NAME}_SOURCES
+    module/ispc/render/utils/SimulationRenderer.cpp
+    module/ispc/render/utils/AdvancedMaterial.cpp
     module/ispc/camera/PerspectiveStereoCamera.cpp
-    module/ispc/render/AdvancedMaterial.cpp
     module/ispc/render/AdvancedRenderer.cpp
     module/ispc/render/FieldsRenderer.cpp
     module/ispc/render/DensityRenderer.cpp
     module/ispc/render/PathTracingRenderer.cpp
+    module/ispc/render/VoxelRenderer.cpp
     plugin/common/GeneralSettings.cpp
     plugin/common/Utils.cpp
     plugin/common/UniqueId.cpp
@@ -113,6 +115,14 @@ set(${NAME}_SOURCES
 )
 
 set(${NAME}_PUBLIC_HEADERS
+    module/ispc/render/utils/SimulationRenderer.h
+    module/ispc/render/utils/AdvancedMaterial.h
+    module/ispc/camera/PerspectiveStereoCamera.h
+    module/ispc/render/AdvancedRenderer.h
+    module/ispc/render/FieldsRenderer.h
+    module/ispc/render/DensityRenderer.h
+    module/ispc/render/PathTracingRenderer.h
+    module/ispc/render/VoxelRenderer.h
     plugin/io/OOCManager.h
     plugin/io/CacheLoader.h
     plugin/io/db/DBConnector.h
@@ -172,14 +182,16 @@ if(${CGAL_FOUND} AND NOT CMAKE_CXX_COMPILER_ID MATCHES "Clang")
 endif()
 
 set(${NAME}_ISPC_SOURCES
-    module/ispc/camera/PerspectiveStereoCamera.ispc
     module/ispc/render/utils/BioExplorerSkyBox.ispc
     module/ispc/render/utils/BioExplorerRandomGenerator.ispc
+    module/ispc/render/utils/AdvancedMaterial.ispc
+    module/ispc/render/utils/SimulationRenderer.ispc
+    module/ispc/camera/PerspectiveStereoCamera.ispc
     module/ispc/render/FieldsRenderer.ispc
     module/ispc/render/DensityRenderer.ispc
     module/ispc/render/AdvancedRenderer.ispc
-    module/ispc/render/AdvancedMaterial.ispc
     module/ispc/render/PathTracingRenderer.ispc
+    module/ispc/render/VoxelRenderer.ispc
 )
 
 # ==============================================================================

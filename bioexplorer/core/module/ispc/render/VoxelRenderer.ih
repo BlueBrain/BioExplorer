@@ -18,33 +18,13 @@
  * this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-// ospray
-#include <ospray/SDK/camera/PerspectiveCamera.ih>
-#include <ospray/SDK/common/Model.ih>
-#include <ospray/SDK/fb/FrameBuffer.ih>
-#include <ospray/SDK/lights/Light.ih>
-#include <ospray/SDK/render/Renderer.ih>
-#include <ospray/SDK/texture/Texture2D.ih>
+// obj renderer
+#include <bioexplorer/core/module/ispc/render/utils/SimulationRenderer.ih>
 
-#include <bioexplorer/core/module/ispc/render/utils/AdvancedMaterial.ih>
-#include <bioexplorer/core/module/ispc/render/utils/BioExplorerRandomGenerator.ih>
-
-struct DensityRenderer
+struct VoxelRenderer
 {
-    Renderer super;
+    SimulationRenderer super;
 
-    // Rendering attributes
-    AdvancedMaterial* bgMaterial;
-
-    // Transfer function attributes
-    const uniform TransferFunction* uniform transferFunction;
-
-    float exposure;
-    float timestamp;
-
-    float farPlane;
-    float searchLength;
-    float rayStep;
-    uint32 sampleCount;
-    float alphaCorrection;
+    // Shading attributes
+    float simulationThreshold;
 };

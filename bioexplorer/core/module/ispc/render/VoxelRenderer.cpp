@@ -17,34 +17,37 @@
  * You should have received a copy of the GNU General Public License along with
  * this program.  If not, see <https://www.gnu.org/licenses/>.
  */
+#include "VoxelRenderer.h"
 
 // ospray
-#include <ospray/SDK/camera/PerspectiveCamera.ih>
-#include <ospray/SDK/common/Model.ih>
-#include <ospray/SDK/fb/FrameBuffer.ih>
-#include <ospray/SDK/lights/Light.ih>
-#include <ospray/SDK/render/Renderer.ih>
-#include <ospray/SDK/texture/Texture2D.ih>
+#include <ospray/SDK/common/Data.h>
 
-#include <bioexplorer/core/module/ispc/render/utils/AdvancedMaterial.ih>
-#include <bioexplorer/core/module/ispc/render/utils/BioExplorerRandomGenerator.ih>
+// ispc exports
+#include "VoxelRenderer_ispc.h"
 
-struct DensityRenderer
+namespace bioexplorer
 {
-    Renderer super;
+namespace rendering
+{
+using namespace ospray;
 
-    // Rendering attributes
-    AdvancedMaterial* bgMaterial;
+void VoxelRenderer::commit()
+{
+    SimulationRenderer::commit();
 
-    // Transfer function attributes
-    const uniform TransferFunction* uniform transferFunction;
+    _simulationThreshold = getParam1f("simulationThreshold", 0.f);
 
-    float exposure;
-    float timestamp;
+    ispc::VoxelRenderer_set(
+        getIE(), (_bgMaterial ? _bgMaterial->getIE() : nullptr), spp,
+        (_simulationData ? (float*)_simulationData->data : nullptr),
+        _simulationDataSize, _alphaCorrection, _simulationThreshold, _exposure);
+}
 
-    float farPlane;
-    float searchLength;
-    float rayStep;
-    uint32 sampleCount;
-    float alphaCorrection;
-};
+VoxelRenderer::VoxelRenderer()
+{
+    ispcEquivalent = ispc::VoxelRenderer_create(this);
+}
+
+OSP_REGISTER_RENDERER(VoxelRenderer, bio_explorer_voxel);
+} // namespace rendering
+} // namespace bioexplorer

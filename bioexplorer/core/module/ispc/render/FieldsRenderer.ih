@@ -26,11 +26,8 @@
 #include <ospray/SDK/render/Renderer.ih>
 #include <ospray/SDK/texture/Texture2D.ih>
 
-// obj renderer
-#include "AdvancedMaterial.ih"
-
-// Brayns
-#include "utils/BioExplorerRandomGenerator.ih"
+#include <bioexplorer/core/module/ispc/render/utils/AdvancedMaterial.ih>
+#include <bioexplorer/core/module/ispc/render/utils/BioExplorerRandomGenerator.ih>
 
 struct FieldsRenderer
 {

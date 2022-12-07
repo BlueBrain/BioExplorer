@@ -67,7 +67,7 @@ namespace rendering
 {
 void AdvancedRenderer::commit()
 {
-    Renderer::commit();
+    SimulationRenderer::commit();
 
     _lightData = (ospray::Data*)getParamData("lights");
     _lightArray.clear();
@@ -79,17 +79,6 @@ void AdvancedRenderer::commit()
 
     _lightPtr = _lightArray.empty() ? nullptr : &_lightArray[0];
 
-    _timestamp = getParam1f("timestamp", 0.f);
-    _bgMaterial = (AdvancedMaterial*)getParamObject("bgMaterial", nullptr);
-    _exposure = getParam1f("exposure", 1.f);
-    _epsilonFactor = getParam1f("epsilonFactor", 1.f);
-
-    _useHardwareRandomizer = getParam("useHardwareRandomizer", 0);
-    _showBackground = getParam("showBackground", 0);
-
-    _fogThickness = getParam1f("fogThickness", 1e6f);
-    _fogStart = getParam1f("fogStart", 0.f);
-
     _shadows = getParam1f("shadows", 0.f);
     _softShadows = getParam1f("softShadows", 0.f);
     _softShadowsSamples = getParam1i("softShadowsSamples", 1);
@@ -98,20 +87,7 @@ void AdvancedRenderer::commit()
     _giDistance = getParam1f("giDistance", 1e20f);
     _giSamples = getParam1i("giSamples", 1);
 
-    _maxBounces = getParam1i("maxBounces", 3);
-    _randomNumber = rand() % 1000;
-
     _matrixFilter = getParam("matrixFilter", 0);
-
-    _simulationData = getParamData("simulationData");
-    _simulationDataSize = _simulationData ? _simulationData->size() : 0;
-
-    // Transfer function
-    ospray::TransferFunction* transferFunction =
-        (ospray::TransferFunction*)getParamObject("transferFunction", nullptr);
-    if (transferFunction)
-        ispc::AdvancedRenderer_setTransferFunction(getIE(),
-                                                   transferFunction->getIE());
 
     clipPlanes = getParamData("clipPlanes", nullptr);
     const auto clipPlaneData = clipPlanes ? clipPlanes->data : nullptr;

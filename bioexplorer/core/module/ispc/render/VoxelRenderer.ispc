@@ -1,0 +1,131 @@
+/*
+ * The Blue Brain BioExplorer is a tool for scientists to extract and analyse
+ * scientific data from visualization
+ *
+ * Copyright 2020-2022 Blue BrainProject / EPFL
+ *
+ * This program is free software: you can redistribute it and/or modify it under
+ * the terms of the GNU General Public License as published by the Free Software
+ * Foundation, either version 3 of the License, or (at your option) any later
+ * version.
+ *
+ * This program is distributed in the hope that it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+ * FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more
+ * details.
+ *
+ * You should have received a copy of the GNU General Public License along with
+ * this program.  If not, see <https://www.gnu.org/licenses/>.
+ */
+
+#include "VoxelRenderer.ih"
+
+#include <bioexplorer/core/module/ispc/render/utils/BioExplorerSkyBox.ih>
+
+extern "C" unmasked uniform int AdvancedRenderer_getBytesPerPrimitive(
+    const void* uniform geometry);
+
+inline vec3f VoxelRenderer_shadeRay(const uniform VoxelRenderer* uniform self,
+                                    varying ScreenSample& sample)
+{
+    Ray ray = sample.ray;
+    ray.time = inf;
+    sample.z = inf;
+
+    float zDepth = 0.f;
+    int depth = 0;
+
+    vec4f pathColor = make_vec4f(0.f);
+
+    while (pathColor.w < 1.f)
+    {
+        traceRay(self->super.super.model, ray);
+
+        if (ray.geomID < 0)
+        {
+            // No intersection
+            vec4f colorContribution =
+                skyboxMapping((Renderer*)self, ray,
+                              (AdvancedMaterial*)self->super.bgMaterial);
+            colorContribution.w = 1.f;
+            composite(colorContribution, pathColor,
+                      self->super.alphaCorrection);
+            break;
+        }
+
+        DifferentialGeometry dg;
+        postIntersect(self->super.super.model, dg, ray,
+                      DG_FACEFORWARD | DG_MATERIALID);
+
+        const vec4f colorContribution =
+            getSimulationValue(&self->super, &dg, ray.primID);
+
+        if (colorContribution.w > self->simulationThreshold)
+        {
+            // Compositing according to alpha correction
+            composite(colorContribution, pathColor,
+                      self->super.alphaCorrection);
+
+            // Depth
+            if (depth == 0)
+                sample.z = ray.t;
+
+            ++depth;
+        }
+
+        // Next ray
+        ray.t0 = max(0.f, ray.t + dg.epsilon);
+        ray.t = inf;
+        ray.primID = -1;
+        ray.geomID = -1;
+        ray.instID = -1;
+    }
+
+    // Alpha
+    sample.alpha = pathColor.w;
+
+    return make_vec3f(pathColor) * self->super.exposure;
+}
+
+void VoxelRenderer_renderSample(uniform Renderer* uniform _self,
+                                void* uniform perFrameData,
+                                varying ScreenSample& sample)
+{
+    uniform VoxelRenderer* uniform self =
+        (uniform VoxelRenderer * uniform) _self;
+    sample.rgb = VoxelRenderer_shadeRay(self, sample);
+}
+
+// Exports (called from C++)
+export void* uniform VoxelRenderer_create(void* uniform cppE)
+{
+    uniform VoxelRenderer* uniform self = uniform new uniform VoxelRenderer;
+    Renderer_Constructor(&self->super.super, cppE);
+    self->super.super.renderSample = VoxelRenderer_renderSample;
+    return self;
+}
+
+export void VoxelRenderer_set(void* uniform _self, void* uniform bgMaterial,
+                              const uniform uint32 spp,
+                              uniform float* uniform simulationData,
+                              const uniform uint64 simulationDataSize,
+                              const uniform float alphaCorrection,
+                              const uniform float simulationThreshold,
+                              const uniform float exposure)
+{
+    uniform VoxelRenderer* uniform self =
+        (uniform VoxelRenderer * uniform) _self;
+
+    // OSPRay
+    self->super.super.spp = spp;
+
+    // User data renderer
+    self->super.bgMaterial = (uniform AdvancedMaterial * uniform) bgMaterial;
+    self->super.simulationData = (uniform float* uniform)simulationData;
+    self->super.simulationDataSize = simulationDataSize;
+    self->super.exposure = exposure;
+    self->super.alphaCorrection = alphaCorrection;
+
+    // User data specific parameters
+    self->simulationThreshold = simulationThreshold;
+}
