@@ -20,9 +20,7 @@
 
 #pragma once
 
-#include <bioexplorer/core/module/ispc/render/utils/AdvancedMaterial.h>
-
-#include <ospray/SDK/render/Renderer.h>
+#include <bioexplorer/core/module/ispc/render/utils/SimulationRenderer.h>
 
 namespace bioexplorer
 {
@@ -32,7 +30,7 @@ namespace rendering
  * @brief The PathTracingRenderer class is a renderer that processes the
  * rendering of the 3D scene using the path tracing algorythm
  */
-class PathTracingRenderer : public ospray::Renderer
+class PathTracingRenderer : public SimulationRenderer
 {
 public:
     PathTracingRenderer();

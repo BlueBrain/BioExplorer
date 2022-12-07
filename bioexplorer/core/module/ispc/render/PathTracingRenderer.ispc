@@ -62,7 +62,7 @@ inline vec3f pathTracingContribution(
     // path tracing loop
     for (int bounces = 0; bounces < 3; bounces++)
     {
-        traceRay(self->super.model, localray);
+        traceRay(self->super.super.model, localray);
 
         // if ray misses scene (no hit occurs), return background colour
         if (localray.geomID < 0)
@@ -70,32 +70,41 @@ inline vec3f pathTracingContribution(
             localray.t = inf;
             const vec3f bgcol =
                 make_vec3f(skyboxMapping((Renderer*)self, localray,
-                                         self->bgMaterial)) *
+                                         self->super.bgMaterial)) *
                 skypower;
             accucolor = accucolor + mask * bgcol;
             break;
         }
         DifferentialGeometry dg;
-        postIntersect(self->super.model, dg, localray,
+        postIntersect(self->super.super.model, dg, localray,
                       DG_NG | DG_NS | DG_NORMALIZE | DG_FACEFORWARD |
                           DG_MATERIALID | DG_COLOR | DG_TEXCOORD);
 
         uniform Material* material = dg.material;
         uniform AdvancedMaterial* objMaterial =
             (uniform AdvancedMaterial*)material;
+
         if (!objMaterial)
             Kd = make_vec3f(dg.color);
         else
             foreach_unique(mat in objMaterial) Kd =
                 mat->Kd * make_vec3f(dg.color);
 
+        vec4f simulationColor = make_vec4f(0.f);
+        if (self->super.simulationDataSize > 0)
+            simulationColor =
+                getSimulationValue(&self->super, &dg, localray.primID);
+        Kd = make_vec3f(simulationColor) * simulationColor.w +
+             Kd * (1.f - simulationColor.w);
+
         // compute local orthornormal base at hitpoint
         const vec3f N = dg.Ns;
 
         // compute ray direction of uniformly random diffuse ray
         const vec3f raydir =
-            getRandomVector(self->useHardwareRandomizer, self->super.fb->size.x,
-                            sample, N, self->randomNumber);
+            getRandomVector(self->super.useHardwareRandomizer,
+                            self->super.super.fb->size.x, sample, N,
+                            self->super.randomNumber);
 
         // origin of new ray in path is hitpoint of previous ray in path
         const vec3f hitpoint = dg.P + dg.epsilon * N;
@@ -158,15 +167,15 @@ inline vec3f PathTracingRenderer_shadeRay(
         float reflection = 0.f;
         float refraction = 1.f;
 
-        traceRay(self->super.model, ray);
+        traceRay(self->super.super.model, ray);
 
         if (ray.geomID < 0)
         {
             // No intersection. Return skybox color
             ray.t = inf;
-            color = self->showBackground
+            color = self->super.showBackground
                         ? make_vec3f(skyboxMapping((Renderer*)self, ray,
-                                                   self->bgMaterial)) *
+                                                   self->super.bgMaterial)) *
                               skypower_zerobounce
                         : make_vec3f(0.f);
 
@@ -177,7 +186,7 @@ inline vec3f PathTracingRenderer_shadeRay(
         {
             // else, we've got a hit!
             DifferentialGeometry dg;
-            postIntersect(self->super.model, dg, ray,
+            postIntersect(self->super.super.model, dg, ray,
                           DG_NS | DG_NG | DG_NORMALIZE | DG_FACEFORWARD |
                               DG_MATERIALID | DG_COLOR | DG_TEXCOORD);
             const vec3f intersection = dg.P;
@@ -238,6 +247,14 @@ inline vec3f PathTracingRenderer_shadeRay(
                     if (valid(mat->map_a))
                         Kd = Kd + get3f(mat->map_a, dg);
                 }
+
+            // Simulation
+            vec4f simulationColor = make_vec4f(0.f);
+            if (self->super.simulationDataSize > 0)
+                simulationColor =
+                    getSimulationValue(&self->super, &dg, ray.primID);
+            Kd = make_vec3f(simulationColor) * simulationColor.w +
+                 Kd * (1.f - simulationColor.w);
 
             const vec3f reflectedNormal =
                 ray.dir - 2.f * dot(ray.dir, normal) * normal;
@@ -317,7 +334,8 @@ inline vec3f PathTracingRenderer_shadeRay(
         }
     }
 
-    return clamp(color * self->exposure, make_vec3f(0.f), make_vec3f(1.f));
+    return clamp(color * self->super.exposure, make_vec3f(0.f),
+                 make_vec3f(1.f));
 }
 
 void PathTracingRenderer_renderSample(uniform Renderer* uniform _self,
@@ -326,7 +344,7 @@ void PathTracingRenderer_renderSample(uniform Renderer* uniform _self,
 {
     uniform PathTracingRenderer* uniform self =
         (uniform PathTracingRenderer * uniform) _self;
-    sample.ray.time = self->timestamp;
+    sample.ray.time = self->super.timestamp;
     sample.rgb = PathTracingRenderer_shadeRay(self, sample);
 }
 
@@ -335,33 +353,35 @@ export void* uniform PathTracingRenderer_create(void* uniform cppE)
 {
     uniform PathTracingRenderer* uniform self =
         uniform new uniform PathTracingRenderer;
-    Renderer_Constructor(&self->super, cppE);
-    self->super.renderSample = PathTracingRenderer_renderSample;
+    Renderer_Constructor(&self->super.super, cppE);
+    self->super.super.renderSample = PathTracingRenderer_renderSample;
     return self;
 }
 
 export void PathTracingRenderer_set(
     void* uniform _self, void* uniform bgMaterial, const uniform uint32 spp,
     void** uniform lights, uniform int32 numLights,
-    const uniform float timestamp, const uniform uint32 randomNumber,
-    const uniform float exposure, const uniform float aoStrength,
-    const uniform float aoDistance, const uniform bool useHardwareRandomizer,
-    const uniform bool showBackground)
+    uniform float* uniform simulationData,
+    const uniform uint64 simulationDataSize, const uniform float timestamp,
+    const uniform uint32 randomNumber, const uniform float exposure,
+    const uniform float aoStrength, const uniform float aoDistance,
+    const uniform bool useHardwareRandomizer, const uniform bool showBackground)
 {
     uniform PathTracingRenderer* uniform self =
         (uniform PathTracingRenderer * uniform) _self;
 
-    self->bgMaterial = (uniform AdvancedMaterial * uniform) bgMaterial;
+    self->super.bgMaterial = (uniform AdvancedMaterial * uniform) bgMaterial;
+    self->super.simulationData = (uniform float* uniform)simulationData;
+    self->super.simulationDataSize = simulationDataSize;
+    self->super.timestamp = timestamp;
+    self->super.exposure = exposure;
+    self->super.randomNumber = randomNumber;
+    self->super.useHardwareRandomizer = useHardwareRandomizer;
+    self->super.showBackground = showBackground;
 
-    self->timestamp = timestamp;
     self->lights = (const uniform Light* uniform* uniform)lights;
     self->numLights = numLights;
 
     self->aoStrength = aoStrength;
     self->aoDistance = aoDistance;
-
-    self->exposure = exposure;
-    self->randomNumber = randomNumber;
-    self->useHardwareRandomizer = useHardwareRandomizer;
-    self->showBackground = showBackground;
 }
