@@ -46,6 +46,7 @@ public:
 
 private:
     float _simulationThreshold{0.f};
+    bool _adaptiveComposition{false};
 };
 } // namespace rendering
 } // namespace bioexplorer

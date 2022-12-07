@@ -161,6 +161,10 @@ void _addBioExplorerVoxelRenderer(Engine &engine)
     properties.setProperty({"exposure", 1.0, 0.01, 10.0, {"Exposure"}});
     properties.setProperty(
         {"epsilonFactor", 1.0, 1.0, 1000.0, {"Epsilon factor"}});
+    properties.setProperty(
+        {"adaptiveComposition",
+         false,
+         {"Use adaptive composition to blend voxel colors"}});
     engine.addRendererType("bio_explorer_voxel", properties);
 }
 

@@ -74,8 +74,8 @@ vec4f skyboxMapping(const uniform Renderer* uniform renderer,
     return get4f(bgMaterial->map_Kd.map, dg);
 }
 
-void composite(const varying vec4f& src, varying vec4f& dst,
-               const varying float alphaCorrection)
+void adaptiveCompose(const varying vec4f& src, varying vec4f& dst,
+                     const varying float alphaCorrection)
 {
     const float alpha =
         1.f - pow(1.f - min(src.w, 1.f - 1.f / 256.f), alphaCorrection);
