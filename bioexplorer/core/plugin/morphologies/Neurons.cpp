@@ -173,8 +173,8 @@ void Neurons::_buildSomasOnly(ThreadSafeContainer& container,
         if (_details.showMembrane)
             container.addSphere(soma.second.position, _details.radiusMultiplier,
                                 somaMaterialId, useSdf, neuronIndex, {},
-                                Vector3f(neuronSomaDisplacementStrength,
-                                         neuronSomaDisplacementFrequency, 0.f));
+                                Vector3f(somaDisplacementStrength,
+                                         somaDisplacementFrequency, 0.f));
         if (_details.generateInternals)
         {
             const double mitochondriaDensity =
@@ -304,9 +304,8 @@ void Neurons::_buildMorphology(ThreadSafeContainer& container,
             somaGeometryIndex =
                 container.addSphere(somaPosition, somaRadius, somaMaterialId,
                                     useSdf, somaUserData, {},
-                                    Vector3f(neuronSomaDisplacementStrength,
-                                             neuronSomaDisplacementFrequency,
-                                             0.f));
+                                    Vector3f(somaDisplacementStrength,
+                                             somaDisplacementFrequency, 0.f));
         }
         if (_details.generateInternals)
         {

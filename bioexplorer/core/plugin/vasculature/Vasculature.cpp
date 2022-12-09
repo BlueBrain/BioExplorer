@@ -105,8 +105,8 @@ void Vasculature::_addSimpleSection(ThreadSafeContainer& container,
 
     container.addCone(srcPoint, srcRadius, dstPoint, dstRadius, materialId,
                       useSdf, userData, {},
-                      Vector3f(segmentDisplacementStrength,
-                               segmentDisplacementFrequency, 0.f));
+                      Vector3f(vasculatureSegmentDisplacementStrength,
+                               vasculatureSegmentDisplacementFrequency, 0.f));
 }
 
 void Vasculature::_addDetailedSection(ThreadSafeContainer& container,
@@ -167,12 +167,11 @@ void Vasculature::_addDetailedSection(ThreadSafeContainer& container,
                 container.addSphere(dstPosition, dstRadius, materialId, useSdf,
                                     userData);
 
-            geometryIndex =
-                container.addCone(srcPosition, srcRadius, dstPosition,
-                                  dstRadius, materialId, useSdf, userData,
-                                  neighbours,
-                                  Vector3f(segmentDisplacementStrength,
-                                           segmentDisplacementFrequency, 0.f));
+            geometryIndex = container.addCone(
+                srcPosition, srcRadius, dstPosition, dstRadius, materialId,
+                useSdf, userData, neighbours,
+                Vector3f(vasculatureSegmentDisplacementStrength,
+                         vasculatureSegmentDisplacementFrequency, 0.f));
             neighbours = {geometryIndex};
         }
 

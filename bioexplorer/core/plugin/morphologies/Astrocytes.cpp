@@ -69,7 +69,8 @@ void Astrocytes::_buildModel(const doubles& radii)
 
     auto model = _scene.createModel();
     const auto realismLevel = _details.realismLevel;
-    const auto somas = connector.getAstrocytes(_details.sqlFilter);
+    const auto somas =
+        connector.getAstrocytes(_details.populationName, _details.sqlFilter);
     const auto loadEndFeet = !_details.vasculaturePopulationName.empty();
 
     PLUGIN_INFO(1, "Building " << somas.size() << " astrocytes");
@@ -99,7 +100,8 @@ void Astrocytes::_buildModel(const doubles& radii)
         double somaRadius = 0.0;
         SectionMap sections;
         if (_details.loadSomas || _details.loadDendrites)
-            sections = connector.getAstrocyteSections(somaId);
+            sections =
+                connector.getAstrocyteSections(_details.populationName, somaId);
 
         EndFootMap endFeet;
         if (loadEndFeet)
@@ -290,8 +292,8 @@ void Astrocytes::_addEndFoot(ThreadSafeContainer& container,
                              const size_t materialId)
 {
     const auto radiusMultiplier = _details.radiusMultiplier;
-    const Vector3f displacement{sectionDisplacementStrength,
-                                sectionDisplacementFrequency, 0.f};
+    const Vector3d displacement{vasculatureSegmentDisplacementStrength,
+                                vasculatureSegmentDisplacementFrequency, 0.0};
     const auto useSdf =
         andCheck(static_cast<uint32_t>(_details.realismLevel),
                  static_cast<uint32_t>(VasculatureRealismLevel::section));

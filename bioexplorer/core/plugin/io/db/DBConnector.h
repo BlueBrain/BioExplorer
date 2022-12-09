@@ -208,23 +208,28 @@ public:
     /**
      * @brief Get the astrocytes locations
      *
+     * @param populationName Name of the population
      * @param sqlCondition String containing an WHERE condition for the SQL
      * statement
      * @return SomaMap A map of somas (position, radius, etc)
      */
-    AstrocyteSomaMap getAstrocytes(const std::string& sqlCondition = "") const;
+    AstrocyteSomaMap getAstrocytes(const std::string& populationName,
+                                   const std::string& sqlCondition = "") const;
 
     /**
      * @brief Get the sections of a given astrocyte
      *
+     * @param populationName Name of the population
      * @param astrocyteId Identifier of the astrocyte
      * @return SectionMap A map of sections
      */
-    SectionMap getAstrocyteSections(const int64_t astrocyteId) const;
+    SectionMap getAstrocyteSections(const std::string& populationName,
+                                    const int64_t astrocyteId) const;
 
     /**
      * @brief Get the end-feet as nodes for a given astrocyte
      *
+     * @param vasculaturePopulationName Name of the vasculature population
      * @param astrocyteId Identifier of the astrocyte
      * @return EndFootNodesMap A map of end-feet
      */
