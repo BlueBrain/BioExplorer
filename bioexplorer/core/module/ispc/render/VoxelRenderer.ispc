@@ -22,8 +22,14 @@
 
 #include <bioexplorer/core/module/ispc/render/utils/BioExplorerSkyBox.ih>
 
-extern "C" unmasked uniform int AdvancedRenderer_getBytesPerPrimitive(
-    const void* uniform geometry);
+void linearCompose(const varying vec4f& src, varying vec4f& dst,
+                   const varying float alphaRatio)
+{
+    const float a = alphaRatio * src.w;
+    dst = make_vec4f((1.f - dst.w) * a * make_vec3f(src) +
+                         dst.w * make_vec3f(dst),
+                     dst.w + a);
+}
 
 inline vec3f VoxelRenderer_shadeRay(const uniform VoxelRenderer* uniform self,
                                     varying ScreenSample& sample)
@@ -48,8 +54,12 @@ inline vec3f VoxelRenderer_shadeRay(const uniform VoxelRenderer* uniform self,
                 skyboxMapping((Renderer*)self, ray,
                               (AdvancedMaterial*)self->super.bgMaterial);
             colorContribution.w = 1.f;
-            composite(colorContribution, pathColor,
-                      self->super.alphaCorrection);
+            if (self->adaptiveComposition)
+                adaptiveCompose(colorContribution, pathColor,
+                                self->super.alphaCorrection);
+            else
+                linearCompose(colorContribution, pathColor,
+                              self->super.alphaCorrection);
             break;
         }
 
@@ -62,9 +72,12 @@ inline vec3f VoxelRenderer_shadeRay(const uniform VoxelRenderer* uniform self,
 
         if (colorContribution.w > self->simulationThreshold)
         {
-            // Compositing according to alpha correction
-            composite(colorContribution, pathColor,
-                      self->super.alphaCorrection);
+            if (self->adaptiveComposition)
+                adaptiveCompose(colorContribution, pathColor,
+                                self->super.alphaCorrection);
+            else
+                linearCompose(colorContribution, pathColor,
+                              self->super.alphaCorrection);
 
             // Depth
             if (depth == 0)
@@ -109,6 +122,7 @@ export void VoxelRenderer_set(void* uniform _self, void* uniform bgMaterial,
                               const uniform uint32 spp,
                               uniform float* uniform simulationData,
                               const uniform uint64 simulationDataSize,
+                              const uniform bool adaptiveComposition,
                               const uniform float alphaCorrection,
                               const uniform float simulationThreshold,
                               const uniform float exposure)
@@ -126,6 +140,7 @@ export void VoxelRenderer_set(void* uniform _self, void* uniform bgMaterial,
     self->super.exposure = exposure;
     self->super.alphaCorrection = alphaCorrection;
 
-    // User data specific parameters
+    // Renderer specific parameters
+    self->adaptiveComposition = adaptiveComposition;
     self->simulationThreshold = simulationThreshold;
 }

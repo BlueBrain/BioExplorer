@@ -43,5 +43,5 @@ vec4f skyboxMapping(const uniform Renderer* uniform renderer,
     @param dst Returned destination RGBA color
     @param alphaCorrection Alpha correction used to blend colors
 */
-void composite(const varying vec4f& src, varying vec4f& dst,
-               const varying float alphaCorrection);
+void adaptiveCompose(const varying vec4f& src, varying vec4f& dst,
+                     const varying float alphaCorrection);

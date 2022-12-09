@@ -36,11 +36,14 @@ void VoxelRenderer::commit()
     SimulationRenderer::commit();
 
     _simulationThreshold = getParam1f("simulationThreshold", 0.f);
+    _adaptiveComposition = getParam("adaptiveComposition", 0);
 
-    ispc::VoxelRenderer_set(
-        getIE(), (_bgMaterial ? _bgMaterial->getIE() : nullptr), spp,
-        (_simulationData ? (float*)_simulationData->data : nullptr),
-        _simulationDataSize, _alphaCorrection, _simulationThreshold, _exposure);
+    ispc::VoxelRenderer_set(getIE(),
+                            (_bgMaterial ? _bgMaterial->getIE() : nullptr), spp,
+                            (_simulationData ? (float*)_simulationData->data
+                                             : nullptr),
+                            _simulationDataSize, _adaptiveComposition,
+                            _alphaCorrection, _simulationThreshold, _exposure);
 }
 
 VoxelRenderer::VoxelRenderer()

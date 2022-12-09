@@ -1025,8 +1025,8 @@ inline vec3f AdvancedRenderer_shadeRay(
         // Combine all contributions
         processFinalContribution(attributes);
 
-        composite(make_vec4f(attributes.finalContribution, totalOpacity), color,
-                  1.f);
+        adaptiveCompose(make_vec4f(attributes.finalContribution, totalOpacity),
+                        color, 1.f);
     }
 
     color.w = clamp(color.w, 0.f, 1.f);

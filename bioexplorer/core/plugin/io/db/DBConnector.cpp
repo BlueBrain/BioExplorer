@@ -708,7 +708,6 @@ SectionSynapseMap DBConnector::getNeuronSynapses(
         const auto res = transaction.exec(sql);
 
         uint64_t previousPreSynapticSectionId = 0;
-        PLUGIN_ERROR("Nb records = " << res.size());
         for (auto c = res.begin(); c != res.end(); ++c)
         {
             const auto preSynapticSectionId = c[0].as<uint64_t>();
