@@ -80,7 +80,7 @@ void DBConnector::init(const CommandLineArguments& arguments)
                         " dbname=" + dbName + " user=" + dbUser +
                         " password=" + dbPassword;
 
-    PLUGIN_DEBUG(_connectionString);
+    PLUGIN_DB_INFO(1, _connectionString);
 
     for (size_t i = 0; i < _dbNbConnections; ++i)
     {
@@ -98,8 +98,8 @@ void DBConnector::init(const CommandLineArguments& arguments)
         }
     }
     _initialized = true;
-    PLUGIN_INFO(1, "Initialized " << _dbNbConnections
-                                  << " connections to database");
+    PLUGIN_DB_INFO(1, "Initialized " << _dbNbConnections
+                                     << " connections to database");
 }
 
 void DBConnector::clearBricks()
@@ -108,10 +108,12 @@ void DBConnector::clearBricks()
         *_connections[omp_get_thread_num() % _dbNbConnections]);
     try
     {
+        Timer chrono;
         const auto sql = "DELETE FROM " + DB_SCHEMA_OUT_OF_CORE + ".brick";
-        PLUGIN_DEBUG(sql);
+        PLUGIN_DB_INFO(1, sql);
         transaction.exec(sql);
         transaction.commit();
+        PLUGIN_DB_TIMER(chrono.elapsed(), "clearBricks()");
     }
     catch (pqxx::sql_error& e)
     {
@@ -128,11 +130,12 @@ const OOCSceneConfigurationDetails DBConnector::getSceneConfiguration()
         *_connections[omp_get_thread_num() % _dbNbConnections]);
     try
     {
+        Timer chrono;
         const auto sql =
             "SELECT scene_size_x, scene_size_y, scene_size_z, nb_bricks, "
             "description FROM " +
             DB_SCHEMA_OUT_OF_CORE + ".configuration";
-        PLUGIN_DEBUG(sql);
+        PLUGIN_DB_INFO(1, sql);
         auto res = transaction.exec(sql);
         for (auto c = res.begin(); c != res.end(); ++c)
         {
@@ -147,6 +150,7 @@ const OOCSceneConfigurationDetails DBConnector::getSceneConfiguration()
                 sceneConfiguration.sceneSize /
                 static_cast<double>(sceneConfiguration.nbBricks);
         }
+        PLUGIN_DB_TIMER(chrono.elapsed(), "getSceneConfiguration()");
     }
     catch (pqxx::sql_error& e)
     {
@@ -164,13 +168,18 @@ void DBConnector::insertBrick(const int32_t brickId, const uint32_t version,
         *_connections[omp_get_thread_num() % _dbNbConnections]);
     try
     {
+        Timer chrono;
         const pqxx::binarystring tmp((void*)buffer.str().c_str(),
                                      buffer.str().size() * sizeof(char));
         transaction.exec_params("INSERT INTO " + DB_SCHEMA_OUT_OF_CORE +
                                     ".brick VALUES ($1, $2, $3, $4)",
                                 brickId, version, nbModels, tmp);
         transaction.commit();
-        PLUGIN_DEBUG("Brick ID " << brickId << " successfully inserted");
+        PLUGIN_DB_INFO(1, "Brick ID " << brickId << " successfully inserted");
+        PLUGIN_DB_TIMER(chrono.elapsed(),
+                        "insertBrick(brickId="
+                            << brickId << ", version=" << version
+                            << ", nbModels=" << nbModels << ", <buffer>)");
     }
     catch (pqxx::sql_error& e)
     {
@@ -189,11 +198,12 @@ std::stringstream DBConnector::getBrick(const int32_t brickId,
         *_connections[omp_get_thread_num() % _dbNbConnections]);
     try
     {
+        Timer chrono;
         const auto sql = "SELECT nb_models, buffer FROM " +
                          DB_SCHEMA_OUT_OF_CORE +
                          ".brick WHERE guid=" + std::to_string(brickId) +
                          " AND version=" + std::to_string(version);
-        PLUGIN_DEBUG(sql);
+        PLUGIN_DB_INFO(1, sql);
         auto res = transaction.exec(sql);
         for (auto c = res.begin(); c != res.end(); ++c)
         {
@@ -205,6 +215,10 @@ std::stringstream DBConnector::getBrick(const int32_t brickId,
                           std::ostream_iterator<char>(s));
             }
         }
+        PLUGIN_DB_TIMER(chrono.elapsed(),
+                        "getBrick(brickId="
+                            << brickId << ", version=" << version
+                            << ", nbModels=" << nbModels << ")");
     }
     catch (pqxx::sql_error& e)
     {
@@ -215,7 +229,7 @@ std::stringstream DBConnector::getBrick(const int32_t brickId,
 }
 
 GeometryNodes DBConnector::getVasculatureNodes(
-    const std::string& populationName, const std::string& filter,
+    const std::string& populationName, const std::string& sqlCondition,
     const std::string& limits) const
 {
     CHECK_DB_INITIALIZATION
@@ -225,17 +239,18 @@ GeometryNodes DBConnector::getVasculatureNodes(
     pqxx::nontransaction transaction(*connection);
     try
     {
+        Timer chrono;
         std::string sql =
             "SELECT guid, x, y, z, radius, section_guid, sub_graph_guid, "
             "pair_guid, entry_node_guid, region_guid FROM " +
             populationName + ".node WHERE region_guid IS NOT NULL";
-        if (!filter.empty())
-            sql += " AND " + filter;
+        if (!sqlCondition.empty())
+            sql += " AND " + sqlCondition;
         if (!limits.empty())
             sql += " AND " + limits;
         sql += " ORDER BY section_guid, guid";
 
-        PLUGIN_DEBUG(sql);
+        PLUGIN_DB_INFO(1, sql);
         auto res = transaction.exec(sql);
         for (auto c = res.begin(); c != res.end(); ++c)
         {
@@ -251,6 +266,10 @@ GeometryNodes DBConnector::getVasculatureNodes(
             node.regionId = c[9].as<uint64_t>();
             nodes[guid] = node;
         }
+        PLUGIN_DB_TIMER(chrono.elapsed(),
+                        "getVasculatureNodes(populationName="
+                            << populationName << ", sqlCondition="
+                            << sqlCondition << ", limits=" << limits << ")");
     }
     catch (const pqxx::sql_error& e)
     {
@@ -261,7 +280,7 @@ GeometryNodes DBConnector::getVasculatureNodes(
 }
 
 uint64_ts DBConnector::getVasculatureSections(const std::string& populationName,
-                                              const std::string& filter)
+                                              const std::string& sqlCondition)
 {
     CHECK_DB_INITIALIZATION
     uint64_ts sectionIds;
@@ -269,17 +288,22 @@ uint64_ts DBConnector::getVasculatureSections(const std::string& populationName,
     pqxx::nontransaction transaction(*connection);
     try
     {
+        Timer chrono;
         std::string sql = "SELECT distinct(section_guid) FROM " +
                           populationName +
                           ".node WHERE region_guid IS NOT NULL";
 
-        if (!filter.empty())
-            sql += " AND " + filter;
+        if (!sqlCondition.empty())
+            sql += " AND " + sqlCondition;
 
-        PLUGIN_DEBUG(sql);
+        PLUGIN_DB_INFO(1, sql);
         const pqxx::result res = transaction.exec(sql);
         for (auto c = res.begin(); c != res.end(); ++c)
             sectionIds.push_back(c[0].as<uint64_t>());
+        PLUGIN_DB_TIMER(chrono.elapsed(),
+                        "getVasculatureSections(populationName="
+                            << populationName
+                            << ", sqlCondition=" << sqlCondition << ")");
     }
     catch (const pqxx::sql_error& e)
     {
@@ -290,7 +314,7 @@ uint64_ts DBConnector::getVasculatureSections(const std::string& populationName,
 }
 
 uint64_t DBConnector::getVasculatureNbSections(
-    const std::string& populationName, const std::string& filter)
+    const std::string& populationName, const std::string& sqlCondition)
 {
     CHECK_DB_INITIALIZATION
     uint64_t nbSections;
@@ -298,11 +322,21 @@ uint64_t DBConnector::getVasculatureNbSections(
     pqxx::nontransaction transaction(*connection);
     try
     {
-        const std::string sql = "SELECT value FROM " + populationName +
-                                ".metadata WHERE name='nb_sections'";
+        Timer chrono;
+        std::string sql;
+        if (sqlCondition.empty())
+            sql = "SELECT value FROM " + populationName +
+                  ".metadata WHERE name='nb_sections'";
+        else
+            sql = "SELECT count(distinct(section_guid)) FROM " +
+                  populationName + ".node WHERE " + sqlCondition;
         const pqxx::result res = transaction.exec(sql);
         for (auto c = res.begin(); c != res.end(); ++c)
             nbSections = c[0].as<uint64_t>();
+        PLUGIN_DB_TIMER(chrono.elapsed(),
+                        "getVasculatureNbSections(populationName="
+                            << populationName
+                            << ", sqlCondition=" << sqlCondition << ")");
     }
     catch (const pqxx::sql_error& e)
     {
@@ -313,7 +347,7 @@ uint64_t DBConnector::getVasculatureNbSections(
 }
 
 Vector2d DBConnector::getVasculatureRadiusRange(
-    const std::string& populationName, const std::string& filter) const
+    const std::string& populationName, const std::string& sqlCondition) const
 {
     CHECK_DB_INITIALIZATION
     Vector2d range;
@@ -321,18 +355,23 @@ Vector2d DBConnector::getVasculatureRadiusRange(
         *_connections[omp_get_thread_num() % _dbNbConnections]);
     try
     {
+        Timer chrono;
         std::string sql =
             "SELECT min(radius), max(radius) FROM " + populationName + ".node";
-        if (!filter.empty())
-            sql += " WHERE " + filter;
+        if (!sqlCondition.empty())
+            sql += " WHERE " + sqlCondition;
 
-        PLUGIN_DEBUG(sql);
+        PLUGIN_DB_INFO(1, sql);
         auto res = transaction.exec(sql);
         for (auto c = res.begin(); c != res.end(); ++c)
         {
             range.x = c[0].as<double>();
             range.y = c[1].as<double>();
         }
+        PLUGIN_DB_TIMER(chrono.elapsed(),
+                        "getVasculatureRadiusRange(populationName="
+                            << populationName
+                            << ", sqlCondition=" << sqlCondition << ")");
     }
     catch (const pqxx::sql_error& e)
     {
@@ -343,7 +382,7 @@ Vector2d DBConnector::getVasculatureRadiusRange(
 }
 
 GeometryEdges DBConnector::getVasculatureEdges(
-    const std::string& populationName, const std::string& filter) const
+    const std::string& populationName, const std::string& sqlCondition) const
 {
     CHECK_DB_INITIALIZATION
     GeometryEdges edges;
@@ -351,15 +390,20 @@ GeometryEdges DBConnector::getVasculatureEdges(
         *_connections[omp_get_thread_num() % _dbNbConnections]);
     try
     {
+        Timer chrono;
         std::string sql = "SELECT start_node_guid, end_node_guid FROM " +
                           populationName + ".edge";
-        if (!filter.empty())
-            sql += " WHERE " + filter;
+        if (!sqlCondition.empty())
+            sql += " WHERE " + sqlCondition;
 
-        PLUGIN_DEBUG(sql);
+        PLUGIN_DB_INFO(1, sql);
         auto res = transaction.exec(sql);
         for (auto c = res.begin(); c != res.end(); ++c)
             edges[c[0].as<uint64_t>()] = c[1].as<uint64_t>();
+        PLUGIN_DB_TIMER(chrono.elapsed(),
+                        "getVasculatureEdges(populationName="
+                            << populationName
+                            << ", sqlCondition=" << sqlCondition << ")");
     }
     catch (pqxx::sql_error& e)
     {
@@ -378,13 +422,14 @@ Bifurcations DBConnector::getVasculatureBifurcations(
         *_connections[omp_get_thread_num() % _dbNbConnections]);
     try
     {
+        Timer chrono;
         std::string sql =
             "SELECT e.source_node_guid, e.target_node_guid FROM " +
             populationName + ".vasculature AS v, " + populationName +
             ".edge AS e WHERE "
             "v.bifurcation_guid !=0 AND e.source_node_guid=v.node_guid";
 
-        PLUGIN_DEBUG(sql);
+        PLUGIN_DB_INFO(1, sql);
         auto res = transaction.exec(sql);
         for (auto c = res.begin(); c != res.end(); ++c)
         {
@@ -393,6 +438,9 @@ Bifurcations DBConnector::getVasculatureBifurcations(
 
             bifurcations[sourceNodeId].push_back(targetNodeId);
         }
+        PLUGIN_DB_TIMER(chrono.elapsed(),
+                        "getVasculatureBifurcations(populationName="
+                            << populationName << ")");
     }
     catch (pqxx::sql_error& e)
     {
@@ -411,6 +459,7 @@ SimulationReport DBConnector::getSimulationReport(
         *_connections[omp_get_thread_num() % _dbNbConnections]);
     try
     {
+        Timer chrono;
         std::string sql =
             "SELECT description, start_time, end_time, time_step, "
             "time_units, "
@@ -418,7 +467,7 @@ SimulationReport DBConnector::getSimulationReport(
             populationName +
             ".report WHERE guid=" + std::to_string(simulationReportId);
 
-        PLUGIN_DEBUG(sql);
+        PLUGIN_DB_INFO(1, sql);
         auto res = transaction.exec(sql);
         for (auto c = res.begin(); c != res.end(); ++c)
         {
@@ -429,6 +478,10 @@ SimulationReport DBConnector::getSimulationReport(
             simulationReport.timeUnits = c[4].as<std::string>();
             simulationReport.dataUnits = c[5].as<std::string>();
         }
+        PLUGIN_DB_TIMER(chrono.elapsed(), "getSimulationReport(populationName="
+                                              << populationName
+                                              << ", simulationReportId="
+                                              << simulationReportId << ")");
     }
     catch (pqxx::sql_error& e)
     {
@@ -448,12 +501,13 @@ floats DBConnector::getVasculatureSimulationTimeSeries(
         *_connections[omp_get_thread_num() % _dbNbConnections]);
     try
     {
+        Timer chrono;
         std::string sql = "SELECT values FROM " + populationName +
                           ".simulation_time_series WHERE report_guid=" +
                           std::to_string(simulationReportId) +
                           " AND frame_guid=" + std::to_string(frame);
 
-        PLUGIN_DEBUG(sql);
+        PLUGIN_DB_INFO(1, sql);
         auto res = transaction.exec(sql);
         for (auto c = res.begin(); c != res.end(); ++c)
         {
@@ -461,6 +515,11 @@ floats DBConnector::getVasculatureSimulationTimeSeries(
             values.resize(bytea.size() / sizeof(float));
             memcpy(&values.data()[0], bytea.data(), bytea.size());
         }
+        PLUGIN_DB_TIMER(chrono.elapsed(),
+                        "getVasculatureSimulationTimeSeries(populationName="
+                            << populationName
+                            << ", simulationReportId=" << simulationReportId
+                            << ", frame=" << frame << ")");
     }
     catch (pqxx::sql_error& e)
     {
@@ -480,6 +539,7 @@ AstrocyteSomaMap DBConnector::getAstrocytes(
         *_connections[omp_get_thread_num() % _dbNbConnections]);
     try
     {
+        Timer chrono;
         std::string sql = "SELECT guid, x, y, z, radius FROM " +
                           DB_SCHEMA_ASTROCYTES + ".node";
 
@@ -488,7 +548,7 @@ AstrocyteSomaMap DBConnector::getAstrocytes(
 
         sql += " ORDER BY guid";
 
-        PLUGIN_DEBUG(sql);
+        PLUGIN_DB_INFO(1, sql);
         auto res = transaction.exec(sql);
         for (auto c = res.begin(); c != res.end(); ++c)
         {
@@ -498,6 +558,8 @@ AstrocyteSomaMap DBConnector::getAstrocytes(
             soma.radius = c[4].as<float>() * 0.25;
             somas[c[0].as<uint64_t>()] = soma;
         }
+        PLUGIN_DB_TIMER(chrono.elapsed(),
+                        "getAstrocytes(sqlCondition=" << sqlCondition << ")");
     }
     catch (const pqxx::sql_error& e)
     {
@@ -516,12 +578,13 @@ SectionMap DBConnector::getAstrocyteSections(const int64_t astrocyteId) const
         *_connections[omp_get_thread_num() % _dbNbConnections]);
     try
     {
+        Timer chrono;
         std::string sql =
             "SELECT section_guid, section_type_guid, section_parent_guid, "
             "points FROM " +
             DB_SCHEMA_ASTROCYTES +
             ".section WHERE morphology_guid=" + std::to_string(astrocyteId);
-        PLUGIN_DEBUG(sql);
+        PLUGIN_DB_INFO(1, sql);
         auto res = transaction.exec(sql);
         for (auto c = res.begin(); c != res.end(); ++c)
         {
@@ -534,6 +597,9 @@ SectionMap DBConnector::getAstrocyteSections(const int64_t astrocyteId) const
             memcpy(&section.points.data()[0], bytea.data(), bytea.size());
             sections[sectionId] = section;
         }
+        PLUGIN_DB_TIMER(chrono.elapsed(), "getAstrocyteSections(astrocyteId="
+                                              << astrocyteId << astrocyteId
+                                              << ")");
     }
     catch (const pqxx::sql_error& e)
     {
@@ -554,6 +620,7 @@ EndFootMap DBConnector::getAstrocyteEndFeet(
         *_connections[omp_get_thread_num() % _dbNbConnections]);
     try
     {
+        Timer chrono;
         std::string sql =
             "SELECT c.guid, n.x, n.y, n.z, n.radius, "
             "c.vasculature_section_guid, c.vasculature_segment_guid, "
@@ -566,7 +633,7 @@ EndFootMap DBConnector::getAstrocyteEndFeet(
             "c.astrocyte_guid=" +
             std::to_string(astrocyteId);
 
-        PLUGIN_DEBUG(sql);
+        PLUGIN_DB_INFO(1, sql);
         auto res = transaction.exec(sql);
         for (auto c = res.begin(); c != res.end(); ++c)
         {
@@ -581,6 +648,10 @@ EndFootMap DBConnector::getAstrocyteEndFeet(
             endFoot.radius = c[8].as<double>();
             endFeet[endFootId] = endFoot;
         }
+        PLUGIN_DB_TIMER(chrono.elapsed(),
+                        "getAstrocyteEndFeet(vasculaturePopulationName="
+                            << vasculaturePopulationName
+                            << ", astrocyteId=" << astrocyteId << ")");
     }
     catch (const pqxx::sql_error& e)
     {
@@ -600,6 +671,7 @@ NeuronSomaMap DBConnector::getNeurons(const std::string& populationName,
         *_connections[omp_get_thread_num() % _dbNbConnections]);
     try
     {
+        Timer chrono;
         std::string sql =
             "SELECT guid, x, y, z, rotation_x, rotation_y, rotation_z, "
             "rotation_w, electrical_type_guid, morphological_type_guid, "
@@ -611,7 +683,7 @@ NeuronSomaMap DBConnector::getNeurons(const std::string& populationName,
 
         sql += " ORDER BY guid";
 
-        PLUGIN_DEBUG(sql);
+        PLUGIN_DB_INFO(1, sql);
         auto res = transaction.exec(sql);
         for (auto c = res.begin(); c != res.end(); ++c)
         {
@@ -626,6 +698,10 @@ NeuronSomaMap DBConnector::getNeurons(const std::string& populationName,
             soma.morphologyId = c[10].as<uint64_t>();
             somas[c[0].as<uint64_t>()] = soma;
         }
+        PLUGIN_DB_TIMER(chrono.elapsed(),
+                        "getNeuronSections(populationName="
+                            << populationName
+                            << ", sqlCondition=" << sqlCondition << ")");
     }
     catch (const pqxx::sql_error& e)
     {
@@ -646,6 +722,7 @@ SectionMap DBConnector::getNeuronSections(const std::string& populationName,
         *_connections[omp_get_thread_num() % _dbNbConnections]);
     try
     {
+        Timer chrono;
         std::string sql =
             "SELECT s.section_guid, s.section_type_guid, "
             "s.section_parent_guid, s.points FROM " +
@@ -657,7 +734,7 @@ SectionMap DBConnector::getNeuronSections(const std::string& populationName,
             sql += " AND " + sqlCondition;
         sql += " ORDER BY s.section_guid";
 
-        PLUGIN_DEBUG(sql);
+        PLUGIN_DB_INFO(1, sql);
         auto res = transaction.exec(sql);
         for (auto c = res.begin(); c != res.end(); ++c)
         {
@@ -670,6 +747,10 @@ SectionMap DBConnector::getNeuronSections(const std::string& populationName,
             memcpy(&section.points.data()[0], bytea.data(), bytea.size());
             sections[sectionId] = section;
         }
+        PLUGIN_DB_TIMER(chrono.elapsed(),
+                        "getNeuronSections(populationName="
+                            << populationName << ", neuronId=" << neuronId
+                            << ", sqlCondition=" << sqlCondition << ")");
     }
     catch (const pqxx::sql_error& e)
     {
@@ -691,6 +772,7 @@ SectionSynapseMap DBConnector::getNeuronSynapses(
         *_connections[omp_get_thread_num() % _dbNbConnections]);
     try
     {
+        Timer chrono;
         std::string sql =
             "SELECT preSynaptic_section_guid, preSynaptic_segment_guid, "
             "preSynaptic_segment_distance, "
@@ -704,7 +786,7 @@ SectionSynapseMap DBConnector::getNeuronSynapses(
         if (!sqlCondition.empty())
             sql += " AND " + sqlCondition;
 
-        PLUGIN_DEBUG(sql);
+        PLUGIN_DB_INFO(1, sql);
         const auto res = transaction.exec(sql);
 
         uint64_t previousPreSynapticSectionId = 0;
@@ -722,14 +804,18 @@ SectionSynapseMap DBConnector::getNeuronSynapses(
                 .push_back(synapse);
             ++nbSynapses;
         }
+        PLUGIN_DB_TIMER(chrono.elapsed(),
+                        "getNeuronSynapses(populationName="
+                            << populationName << ", neuronId=" << neuronId
+                            << ", sqlCondition=" << sqlCondition << ")");
     }
     catch (const pqxx::sql_error& e)
     {
         PLUGIN_THROW(e.what());
     }
 
-    PLUGIN_DEBUG("Neuron " + std::to_string(neuronId) + " has " +
-                 std::to_string(nbSynapses) + " synapses")
+    PLUGIN_DB_INFO(1, "Neuron " + std::to_string(neuronId) + " has " +
+                          std::to_string(nbSynapses) + " synapses")
     return sectionSynapseMap;
 }
 
@@ -742,12 +828,16 @@ ReportType DBConnector::getNeuronReportType(const std::string& populationName,
         *_connections[omp_get_thread_num() % _dbNbConnections]);
     try
     {
+        Timer chrono;
         std::string sql = "SELECT type_guid FROM " + populationName +
                           ".report WHERE guid=" + std::to_string(reportId);
-        PLUGIN_DEBUG(sql);
+        PLUGIN_DB_INFO(1, sql);
         auto res = transaction.exec(sql);
         for (auto c = res.begin(); c != res.end(); ++c)
             reportType = static_cast<ReportType>(c[0].as<uint64_t>());
+        PLUGIN_DB_TIMER(chrono.elapsed(), "getNeuronReportType(populationName="
+                                              << populationName << ", reportId="
+                                              << reportId << ")");
     }
     catch (pqxx::sql_error& e)
     {
@@ -767,15 +857,21 @@ uint64_ts DBConnector::getNeuronSpikeReportValues(
         *_connections[omp_get_thread_num() % _dbNbConnections]);
     try
     {
+        Timer chrono;
         std::string sql =
             "SELECT DISTINCT(node_guid) FROM " + populationName +
             ".spike_report WHERE report_guid=" + std::to_string(reportId) +
             " AND timestamp>=" + std::to_string(startTime) + "AND timestamp<" +
             std::to_string(endTime) + " ORDER BY node_guid";
-        PLUGIN_DEBUG(sql);
+        PLUGIN_DB_INFO(1, sql);
         auto res = transaction.exec(sql);
         for (auto c = res.begin(); c != res.end(); ++c)
             spikes.push_back(c[0].as<uint64_t>());
+        PLUGIN_DB_TIMER(chrono.elapsed(),
+                        "getNeuronSpikeReportValues(populationName="
+                            << populationName << ", reportId=" << reportId
+                            << ", startTime=" << startTime
+                            << ", endTime=" << endTime << ")");
     }
     catch (pqxx::sql_error& e)
     {
@@ -804,7 +900,7 @@ floats DBConnector::getNeuronSomaReportValues(const std::string& populationName,
             std::to_string(elementSize) + ") FROM " + populationName +
             ".soma_report WHERE report_guid=" + std::to_string(reportId) +
             " ORDER BY node_guid";
-        PLUGIN_DEBUG(sql);
+        PLUGIN_DB_INFO(1, sql);
         const auto res = transaction.exec(sql);
         const size_t nbElements = res.size();
         values.resize(nbElements);
@@ -815,9 +911,10 @@ floats DBConnector::getNeuronSomaReportValues(const std::string& populationName,
             memcpy(&values[index], buffer.data(), elementSize);
             ++index;
         }
-        PLUGIN_TIMER(chrono.elapsed(), "getNeuronSomaReportValues("
-                                           << populationName << "," << reportId
-                                           << "," << frame << ")");
+        PLUGIN_DB_TIMER(chrono.elapsed(),
+                        "getNeuronSomaReportValues(populationName="
+                            << populationName << ", reportId=" << reportId
+                            << ", frame=" << frame << ")");
     }
     catch (pqxx::sql_error& e)
     {
@@ -837,16 +934,22 @@ uint64_ts DBConnector::getNeuronSectionCompartments(
         *_connections[omp_get_thread_num() % _dbNbConnections]);
     try
     {
+        Timer chrono;
         std::string sql = "SELECT compartment_guid FROM " + populationName +
                           ".compartment_report WHERE report_guid=" +
                           std::to_string(reportId) +
                           " AND node_guid=" + std::to_string(nodeId) +
                           " AND section_guid=" + std::to_string(sectionId) +
                           " ORDER BY compartment_guid";
-        PLUGIN_DEBUG(sql);
+        PLUGIN_DB_INFO(1, sql);
         const auto res = transaction.exec(sql);
         for (auto c = res.begin(); c != res.end(); ++c)
             compartments.push_back(c[0].as<uint64_t>());
+        PLUGIN_DB_TIMER(chrono.elapsed(),
+                        "getNeuronSectionCompartments(populationName="
+                            << populationName << ", nodeId=" << nodeId
+                            << ", reportId=" << reportId
+                            << ", sectionId=" << sectionId << ")");
     }
     catch (pqxx::sql_error& e)
     {
@@ -866,6 +969,7 @@ floats DBConnector::getNeuronCompartmentReportValues(
         *_connections[omp_get_thread_num() % _dbNbConnections]);
     try
     {
+        Timer chrono;
         const size_t elementSize = sizeof(float);
         const size_t offset = 1; // First byte of bytea must be ignored
         std::string sql =
@@ -874,7 +978,7 @@ floats DBConnector::getNeuronCompartmentReportValues(
             std::to_string(elementSize) + ") FROM " + populationName +
             ".compartment_report WHERE report_guid=" +
             std::to_string(reportId) + " ORDER BY compartment_guid";
-        PLUGIN_DEBUG(sql);
+        PLUGIN_DB_INFO(1, sql);
         const auto res = transaction.exec(sql);
         values.resize(res.size());
         uint64_t index = 0;
@@ -884,6 +988,10 @@ floats DBConnector::getNeuronCompartmentReportValues(
             memcpy(&values[index], buffer.data(), buffer.size());
             ++index;
         }
+        PLUGIN_DB_TIMER(chrono.elapsed(),
+                        "getNeuronCompartmentReportValues(populationName="
+                            << populationName << ", reportId=" << reportId
+                            << ", frame=" << frame << ")");
     }
     catch (pqxx::sql_error& e)
     {
@@ -902,6 +1010,7 @@ uint64_ts DBConnector::getAtlasRegions(const std::string& sqlCondition) const
         *_connections[omp_get_thread_num() % _dbNbConnections]);
     try
     {
+        Timer chrono;
         std::string sql = "SELECT guid, code, description FROM " +
                           DB_SCHEMA_ATLAS + ".region";
 
@@ -910,10 +1019,12 @@ uint64_ts DBConnector::getAtlasRegions(const std::string& sqlCondition) const
 
         sql += " ORDER BY guid";
 
-        PLUGIN_DEBUG(sql);
+        PLUGIN_DB_INFO(1, sql);
         auto res = transaction.exec(sql);
         for (auto c = res.begin(); c != res.end(); ++c)
             regions.push_back(c[0].as<uint64_t>());
+        PLUGIN_DB_TIMER(chrono.elapsed(),
+                        "getAtlasRegions(sqlCondition=" << sqlCondition << ")");
     }
     catch (const pqxx::sql_error& e)
     {
@@ -933,6 +1044,7 @@ CellMap DBConnector::getAtlasCells(const uint64_t regionId,
         *_connections[omp_get_thread_num() % _dbNbConnections]);
     try
     {
+        Timer chrono;
         std::string sql =
             "SELECT guid, x, y, z, rotation_x, rotation_y, rotation_z, "
             "rotation_w, cell_type_guid, electrical_type_guid, region_guid "
@@ -943,7 +1055,7 @@ CellMap DBConnector::getAtlasCells(const uint64_t regionId,
         if (!sqlCondition.empty())
             sql += " AND " + sqlCondition;
 
-        PLUGIN_DEBUG(sql);
+        PLUGIN_DB_INFO(1, sql);
         auto res = transaction.exec(sql);
         for (auto c = res.begin(); c != res.end(); ++c)
         {
@@ -957,6 +1069,9 @@ CellMap DBConnector::getAtlasCells(const uint64_t regionId,
             cell.region = c[10].as<uint64_t>();
             cells[c[0].as<uint64_t>()] = cell;
         }
+        PLUGIN_DB_TIMER(chrono.elapsed(), "getAtlasCells(regionId="
+                                              << regionId << ", sqlCondition="
+                                              << sqlCondition << ")");
     }
     catch (const pqxx::sql_error& e)
     {
@@ -975,11 +1090,12 @@ TriangleMesh DBConnector::getAtlasMesh(const uint64_t regionId) const
         *_connections[omp_get_thread_num() % _dbNbConnections]);
     try
     {
+        Timer chrono;
         const std::string sql =
             "SELECT vertices, indices, normals, colors FROM " +
             DB_SCHEMA_ATLAS + ".mesh WHERE guid=" + std::to_string(regionId);
 
-        PLUGIN_DEBUG(sql);
+        PLUGIN_DB_INFO(1, sql);
         auto res = transaction.exec(sql);
         for (auto c = res.begin(); c != res.end(); ++c)
         {
@@ -999,6 +1115,8 @@ TriangleMesh DBConnector::getAtlasMesh(const uint64_t regionId) const
             mesh.colors.resize(colors.size() / sizeof(Vector3f));
             memcpy(&mesh.colors.data()[0], colors.data(), colors.size());
         }
+        PLUGIN_DB_TIMER(chrono.elapsed(),
+                        "getAtlasMesh(regionId=" << regionId << ")");
     }
     catch (const pqxx::sql_error& e)
     {
@@ -1009,7 +1127,7 @@ TriangleMesh DBConnector::getAtlasMesh(const uint64_t regionId) const
 }
 
 WhiteMatterStreamlines DBConnector::getWhiteMatterStreamlines(
-    const std::string& populationName, const std::string& filter) const
+    const std::string& populationName, const std::string& sqlCondition) const
 {
     CHECK_DB_INITIALIZATION
     WhiteMatterStreamlines streamlines;
@@ -1017,12 +1135,13 @@ WhiteMatterStreamlines DBConnector::getWhiteMatterStreamlines(
         *_connections[omp_get_thread_num() % _dbNbConnections]);
     try
     {
+        Timer chrono;
         std::string sql =
             "SELECT points FROM " + populationName + ".streamline";
-        if (!filter.empty())
-            sql += " WHERE " + filter;
+        if (!sqlCondition.empty())
+            sql += " WHERE " + sqlCondition;
 
-        PLUGIN_DEBUG(sql);
+        PLUGIN_DB_INFO(1, sql);
         auto res = transaction.exec(sql);
         for (auto c = res.begin(); c != res.end(); ++c)
         {
@@ -1032,6 +1151,10 @@ WhiteMatterStreamlines DBConnector::getWhiteMatterStreamlines(
             memcpy(&points.data()[0], buffer.data(), buffer.size());
             streamlines.push_back(points);
         }
+        PLUGIN_DB_TIMER(chrono.elapsed(),
+                        "getWhiteMatterStreamlines(populationName="
+                            << populationName
+                            << ", sqlCondition=" << sqlCondition << ")");
     }
     catch (pqxx::sql_error& e)
     {

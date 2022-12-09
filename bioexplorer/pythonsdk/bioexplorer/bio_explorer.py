@@ -2333,13 +2333,14 @@ class BioExplorer:
         return self._invoke_and_check("add-streamlines", params)
 
     def set_general_settings(self, model_visibility_on_creation=True, mesh_folder='/tmp',
-                             logging_level=0, v1_compatibility=False):
+                             logging_level=1, database_logging_level=1, v1_compatibility=False):
         """
         Set general settings for the plugin
 
         :model_visibility_on_creation: Visibility of the model on creation
         :off_folder: Folder where off files are stored (to avoid recomputation of molecular surface)
         :logging_level: Back-end logging level (0=no information logs, 3=full logging)
+        :database_logging_level: Back-end logging level for database (0=no information logs, 3=full logging)
         :return: Result of the request submission
         """
         self._v1_compatibility = v1_compatibility
@@ -2347,6 +2348,7 @@ class BioExplorer:
         params["modelVisibilityOnCreation"] = model_visibility_on_creation
         params["meshFolder"] = mesh_folder
         params["loggingLevel"] = logging_level
+        params["databaseLoggingLevel"] = database_logging_level
         params["v1Compatibility"] = v1_compatibility
         response = self._invoke_and_check("set-general-settings", params)
         return response

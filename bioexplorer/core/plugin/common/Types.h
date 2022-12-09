@@ -140,6 +140,7 @@ typedef struct
     bool modelVisibilityOnCreation;
     std::string meshFolder;
     uint32_t loggingLevel;
+    uint32_t databaseLoggingLevel;
     bool v1Compatibility;
 } GeneralSettingsDetails;
 
