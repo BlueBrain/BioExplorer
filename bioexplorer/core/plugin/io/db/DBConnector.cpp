@@ -36,7 +36,6 @@ namespace db
 const std::string DB_SCHEMA_OUT_OF_CORE = "outofcore";
 const std::string DB_SCHEMA_ATLAS = "atlas";
 const std::string DB_SCHEMA_METABOLISM = "metabolism";
-const std::string DB_SCHEMA_ASTROCYTES = "astrocytes";
 const std::string DB_SCHEMA_CONNECTOME = "connectome";
 
 DBConnector* DBConnector::_instance = nullptr;
@@ -530,7 +529,7 @@ floats DBConnector::getVasculatureSimulationTimeSeries(
 }
 
 AstrocyteSomaMap DBConnector::getAstrocytes(
-    const std::string& sqlCondition) const
+    const std::string& populationName, const std::string& sqlCondition) const
 {
     CHECK_DB_INITIALIZATION
     AstrocyteSomaMap somas;
@@ -540,12 +539,10 @@ AstrocyteSomaMap DBConnector::getAstrocytes(
     try
     {
         Timer chrono;
-        std::string sql = "SELECT guid, x, y, z, radius FROM " +
-                          DB_SCHEMA_ASTROCYTES + ".node";
-
+        std::string sql =
+            "SELECT guid, x, y, z, radius FROM " + populationName + ".node";
         if (!sqlCondition.empty())
             sql += " WHERE " + sqlCondition;
-
         sql += " ORDER BY guid";
 
         PLUGIN_DB_INFO(1, sql);
@@ -559,7 +556,9 @@ AstrocyteSomaMap DBConnector::getAstrocytes(
             somas[c[0].as<uint64_t>()] = soma;
         }
         PLUGIN_DB_TIMER(chrono.elapsed(),
-                        "getAstrocytes(sqlCondition=" << sqlCondition << ")");
+                        "getAstrocytes(populationName=" << populationName
+                                                        << ", sqlCondition="
+                                                        << sqlCondition << ")");
     }
     catch (const pqxx::sql_error& e)
     {
@@ -569,7 +568,8 @@ AstrocyteSomaMap DBConnector::getAstrocytes(
     return somas;
 }
 
-SectionMap DBConnector::getAstrocyteSections(const int64_t astrocyteId) const
+SectionMap DBConnector::getAstrocyteSections(const std::string& populationName,
+                                             const int64_t astrocyteId) const
 {
     CHECK_DB_INITIALIZATION
     SectionMap sections;
@@ -582,7 +582,7 @@ SectionMap DBConnector::getAstrocyteSections(const int64_t astrocyteId) const
         std::string sql =
             "SELECT section_guid, section_type_guid, section_parent_guid, "
             "points FROM " +
-            DB_SCHEMA_ASTROCYTES +
+            populationName +
             ".section WHERE morphology_guid=" + std::to_string(astrocyteId);
         PLUGIN_DB_INFO(1, sql);
         auto res = transaction.exec(sql);
@@ -597,9 +597,10 @@ SectionMap DBConnector::getAstrocyteSections(const int64_t astrocyteId) const
             memcpy(&section.points.data()[0], bytea.data(), bytea.size());
             sections[sectionId] = section;
         }
-        PLUGIN_DB_TIMER(chrono.elapsed(), "getAstrocyteSections(astrocyteId="
-                                              << astrocyteId << astrocyteId
-                                              << ")");
+        PLUGIN_DB_TIMER(chrono.elapsed(), "getAstrocyteSections(populationName="
+                                              << populationName
+                                              << ", astrocyteId=" << astrocyteId
+                                              << astrocyteId << ")");
     }
     catch (const pqxx::sql_error& e)
     {

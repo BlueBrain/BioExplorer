@@ -32,9 +32,6 @@ namespace morphology
 using namespace brayns;
 using namespace common;
 
-const double neuronSomaDisplacementStrength = 0.1;
-const double neuronSomaDisplacementFrequency = 3.0;
-
 using Varicosities = std::map<uint64_t, Vector3ds>;
 
 /**
