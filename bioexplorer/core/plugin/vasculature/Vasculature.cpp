@@ -122,9 +122,32 @@ void Vasculature::_addDetailedSection(ThreadSafeContainer& container,
         andCheck(static_cast<uint32_t>(_details.realismLevel),
                  static_cast<uint32_t>(VasculatureRealismLevel::section));
 
+    GeometryNodes localNodes;
+    if (_details.representation == VasculatureRepresentation::optimized_segment)
+    {
+        double oldRadius = 0.0;
+        double segmentLength = 0.0;
+        for (const auto& node : nodes)
+        {
+            segmentLength += node.second.radius;
+            if (segmentLength < 2.0 * (oldRadius + node.second.radius))
+            {
+                GeometryNode n;
+                n.position = node.second.position;
+                n.radius = node.second.radius;
+                localNodes[node.first] = n;
+            }
+            else
+                segmentLength = 0.0;
+            oldRadius = node.second.radius;
+        }
+    }
+    else
+        localNodes = nodes;
+
     uint64_t i = 0;
     GeometryNode dstNode;
-    for (const auto& node : nodes)
+    for (const auto& node : localNodes)
     {
         const auto& srcNode = node.second;
         const auto userData = node.first;
@@ -151,11 +174,10 @@ void Vasculature::_addDetailedSection(ThreadSafeContainer& container,
         const auto srcPosition =
             _animatedPosition(Vector4d(srcNode.position, srcRadius));
 
-        if (i == 0 && !useSdf)
+        if (i == 0)
             container.addSphere(srcPosition, srcRadius, materialId, useSdf,
                                 userData);
-
-        if (i > 0)
+        else
         {
             const float dstRadius =
                 (userData < radii.size() ? radii[userData] : dstNode.radius) *
@@ -163,16 +185,17 @@ void Vasculature::_addDetailedSection(ThreadSafeContainer& container,
             const auto dstPosition =
                 _animatedPosition(Vector4d(dstNode.position, dstRadius));
 
-            if (!useSdf)
-                container.addSphere(dstPosition, dstRadius, materialId, useSdf,
-                                    userData);
-
             geometryIndex = container.addCone(
                 srcPosition, srcRadius, dstPosition, dstRadius, materialId,
                 useSdf, userData, neighbours,
                 Vector3f(vasculatureSegmentDisplacementStrength,
                          vasculatureSegmentDisplacementFrequency, 0.f));
             neighbours = {geometryIndex};
+
+            if (!useSdf)
+                neighbours.insert(container.addSphere(srcPosition, srcRadius,
+                                                      materialId, useSdf,
+                                                      userData));
         }
 
         dstNode = srcNode;

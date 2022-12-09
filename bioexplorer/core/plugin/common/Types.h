@@ -969,7 +969,8 @@ enum class VasculatureRepresentation
 {
     graph = 0,
     section = 1,
-    segment = 2
+    segment = 2,
+    optimized_segment = 3
 };
 
 typedef struct
