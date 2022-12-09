@@ -34,25 +34,21 @@ namespace common
 {
 using namespace brayns;
 
-ThreadSafeContainer::ThreadSafeContainer(Model& model, const bool useSdf,
-                                         const Vector3d& scale)
+ThreadSafeContainer::ThreadSafeContainer(Model& model, const Vector3d& scale)
     : _model(model)
-    , _useSdf(useSdf)
     , _scale(scale)
 {
 }
 
-uint64_t ThreadSafeContainer::addSphere(const Vector3f& position,
-                                        const float radius,
-                                        const size_t materialId,
-                                        const uint64_t userData,
-                                        const Neighbours& neighbours,
-                                        const Vector3f displacement)
+uint64_t ThreadSafeContainer::addSphere(
+    const Vector3f& position, const float radius, const size_t materialId,
+    const bool useSdf, const uint64_t userData, const Neighbours& neighbours,
+    const Vector3f displacement)
 {
     const Vector3f scale = _scale;
     const Vector3f scaledDisplacement{displacement.x * scale.x,
                                       displacement.y / scale.x, displacement.z};
-    if (_useSdf)
+    if (useSdf)
         return _addSDFGeometry(materialId,
                                createSDFSphere(position * scale,
                                                radius * scale.x, userData,
@@ -65,13 +61,13 @@ uint64_t ThreadSafeContainer::addSphere(const Vector3f& position,
 uint64_t ThreadSafeContainer::addCone(
     const Vector3f& sourcePosition, const float sourceRadius,
     const Vector3f& targetPosition, const float targetRadius,
-    const size_t materialId, const uint64_t userDataOffset,
+    const size_t materialId, const bool useSdf, const uint64_t userDataOffset,
     const Neighbours& neighbours, const Vector3f displacement)
 {
     const Vector3f scale = _scale;
     const Vector3f scaledDisplacement{displacement.x * scale.x,
                                       displacement.y / scale.x, displacement.z};
-    if (_useSdf)
+    if (useSdf)
     {
         const auto geom =
             createSDFConePill(sourcePosition * scale, targetPosition * scale,

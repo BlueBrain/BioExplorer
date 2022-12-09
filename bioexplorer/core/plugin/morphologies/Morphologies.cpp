@@ -45,7 +45,8 @@ void Morphologies::_addSomaInternals(ThreadSafeContainer& container,
                                      const size_t baseMaterialId,
                                      const Vector3d& somaPosition,
                                      const double somaRadius,
-                                     const double mitochondriaDensity)
+                                     const double mitochondriaDensity,
+                                     const bool useSdf)
 {
     // Nucleus
     //
@@ -61,7 +62,7 @@ void Morphologies::_addSomaInternals(ThreadSafeContainer& container,
         sphereVolume(somaRadius) * mitochondriaDensity;
 
     const size_t nucleusMaterialId = baseMaterialId + MATERIAL_OFFSET_NUCLEUS;
-    container.addSphere(somaPosition, nucleusRadius, nucleusMaterialId,
+    container.addSphere(somaPosition, nucleusRadius, nucleusMaterialId, useSdf,
                         NO_USER_DATA, {},
                         Vector3f(nucleusRadius * nucleusDisplacementStrength,
                                  nucleusRadius * nucleusDisplacementFrequency,
@@ -98,7 +99,8 @@ void Morphologies::_addSomaInternals(ThreadSafeContainer& container,
                     radius * mitochondrionDisplacementFrequency;
 
             geometryIndex = container.addSphere(
-                p2, radius, mitochondrionMaterialId, NO_USER_DATA, neighbours,
+                p2, radius, mitochondrionMaterialId, useSdf, NO_USER_DATA,
+                neighbours,
                 Vector3f(radius * mitochondrionDisplacementStrength,
                          displacementFrequency, 0.f));
 
@@ -110,7 +112,7 @@ void Morphologies::_addSomaInternals(ThreadSafeContainer& container,
                     somaPosition + somaOutterRadius * pointsInSphere[i - 1];
                 geometryIndex = container.addCone(
                     p1, previousRadius, p2, radius, mitochondrionMaterialId,
-                    NO_USER_DATA, {geometryIndex},
+                    useSdf, NO_USER_DATA, {geometryIndex},
                     Vector3f(radius * mitochondrionDisplacementStrength,
                              displacementFrequency, 0.f));
 

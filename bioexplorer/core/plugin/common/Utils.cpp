@@ -633,5 +633,10 @@ Quaterniond randomQuaternion(const uint64_t seed)
     return Quaterniond(x, y, s * u, s * v);
 }
 
+bool andCheck(const uint32_t value, const uint32_t test)
+{
+    return (value && test) == test;
+}
+
 } // namespace common
 } // namespace bioexplorer

@@ -84,7 +84,7 @@ protected:
                            const size_t materialId,
                            const Vector3d& somaPosition,
                            const double somaRadius,
-                           const double mitochondriaDensity);
+                           const double mitochondriaDensity, const bool useSdf);
 };
 } // namespace morphology
 } // namespace bioexplorer

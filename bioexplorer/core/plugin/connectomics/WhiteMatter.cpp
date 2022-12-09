@@ -79,7 +79,7 @@ void WhiteMatter::_buildModel()
         _scene.removeModel(_modelDescriptor->getModelID());
 
     auto model = _scene.createModel();
-    ThreadSafeContainer container(*model, false);
+    ThreadSafeContainer container(*model);
 
     const auto ompThreads = omp_get_max_threads();
 

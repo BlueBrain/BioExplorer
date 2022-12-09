@@ -326,6 +326,11 @@ class BioExplorer:
     VASCULATURE_COLOR_SCHEME_SECTION_ORIENTATION = 8
     VASCULATURE_COLOR_SCHEME_REGION = 9
 
+    VASCULATURE_REALISM_LEVEL_NONE = 0
+    VASCULATURE_REALISM_LEVEL_SECTION = 1
+    VASCULATURE_REALISM_LEVEL_BIFURCATION = 2
+    VASCULATURE_REALISM_LEVEL_ALL = 255
+
     MORPHOLOGY_COLOR_SCHEME_NONE = 0
     MORPHOLOGY_COLOR_SCHEME_SECTION_TYPE = 1
     MORPHOLOGY_COLOR_SCHEME_SECTION_ORIENTATION = 2
@@ -337,6 +342,15 @@ class BioExplorer:
     MORPHOLOGY_REPRESENTATION_SECTION = 1
     MORPHOLOGY_REPRESENTATION_SEGMENT = 2
     MORPHOLOGY_REPRESENTATION_ORIENTATION = 3
+
+    MORPHOLOGY_REALISM_LEVEL_NONE = 0
+    MORPHOLOGY_REALISM_LEVEL_SOMA = 1
+    MORPHOLOGY_REALISM_LEVEL_AXON = 2
+    MORPHOLOGY_REALISM_LEVEL_DENDRITE = 4
+    MORPHOLOGY_REALISM_LEVEL_INTERNALS = 8
+    MORPHOLOGY_REALISM_LEVEL_EXTERNALS = 16
+    MORPHOLOGY_REALISM_LEVEL_SPINE = 32
+    MORPHOLOGY_REALISM_LEVEL_ALL = 255
 
     # Material offsets in neurons
     NB_MATERIALS_PER_MORPHOLOGY = 10
@@ -2415,7 +2429,7 @@ class BioExplorer:
 
     def add_vasculature(
             self, assembly_name, population_name, color_scheme=VASCULATURE_COLOR_SCHEME_NONE,
-            use_sdf=False, section_gids=list(),
+            realism_level=VASCULATURE_REALISM_LEVEL_NONE, section_gids=list(),
             load_capilarities=False, representation=VASCULATURE_REPRESENTATION_SEGMENT,
             radius_multiplier=1.0, sql_filter='',
             scale=Vector3(1.0, 1.0, 1.0),
@@ -2426,7 +2440,7 @@ class BioExplorer:
         :assembly_name: Name of the assembly to which the vasculature should be added
         :population_name Name of the node population
         :color_scheme: Color scheme applied to the vasculature (node, graph, section, etc)
-        :use_sdf: Use sign distance fields geometry to create the vasculature. Defaults to False
+        :realism_level: Use sign distance fields geometry to create the vasculature. Defaults to none
         :node_gids: List of segment GIDs to load. Defaults to list()
         :representation: Representation of the vasculature geometry (Graph, sections or segments)
         :radius_muliplier: Applies the multiplier to all radii of the vasculature sections
@@ -2444,7 +2458,7 @@ class BioExplorer:
         params["assemblyName"] = assembly_name
         params["populationName"] = population_name
         params["colorScheme"] = color_scheme
-        params["useSdf"] = use_sdf
+        params["realismLevel"] = realism_level
         params["gids"] = section_gids
         params["loadCapilarities"] = load_capilarities
         params["representation"] = representation
@@ -2510,7 +2524,7 @@ class BioExplorer:
 
     def add_astrocytes(
             self, assembly_name, population_name, vasculature_population_name='',
-            use_sdf=False, load_somas=True,
+            realism_level=MORPHOLOGY_REALISM_LEVEL_NONE, load_somas=True,
             load_dendrites=True, load_end_feet=True, generate_internals=False,
             morphology_representation=MORPHOLOGY_REPRESENTATION_SEGMENT,
             morphology_color_scheme=MORPHOLOGY_COLOR_SCHEME_NONE,
@@ -2527,7 +2541,7 @@ class BioExplorer:
         :load_somas: Load somas if set to true
         :load_dendrites: Load dendrites if set to true
         :generate_internals: Generate internals (Nucleus and mitochondria)
-        :use_sdf: Use sign distance fields geometry to create the astrocytes. Defaults to False
+        :realism_level: Use sign distance fields geometry to create the astrocytes. Defaults to none
         :morphology_representation: Geometry representation (graph, section or segment)
         :morphology_color_scheme: Color scheme of the sections of the astrocytes
         :populationColorScheme: Color scheme of the population of astrocytes
@@ -2548,7 +2562,7 @@ class BioExplorer:
         params["loadSomas"] = load_somas
         params["loadDendrites"] = load_dendrites
         params["generateInternals"] = generate_internals
-        params["useSdf"] = use_sdf
+        params["realismLevel"] = realism_level
         params["morphologyRepresentation"] = morphology_representation
         params["morphologyColorScheme"] = morphology_color_scheme
         params["populationColorScheme"] = population_color_scheme
@@ -2560,7 +2574,7 @@ class BioExplorer:
 
     def add_neurons(
             self, assembly_name, population_name,
-            use_sdf=False,
+            realism_level=MORPHOLOGY_REALISM_LEVEL_NONE,
             load_somas=True, load_axon=True,
             load_basal_dendrites=True, load_apical_dendrites=True,
             load_synapses=False,
@@ -2578,7 +2592,7 @@ class BioExplorer:
 
         :assembly_name: Name of the assembly to which the astrocytes should be added
         :population_name: Name of the population of astrocytes
-        :use_sdf: Use sign distance fields geometry to create the astrocytes. Defaults to False
+        :realism_level: Use sign distance fields geometry to create the astrocytes. Defaults to none
         :load_somas: Load somas if set to true
         :load_axon: Load axon if set to true
         :load_basal_dendrites: Load basal dendrites if set to true
@@ -2615,7 +2629,7 @@ class BioExplorer:
         params["generateExternals"] = generate_externals
         params["showMembrane"] = show_membrane
         params["generateVaricosities"] = generate_varicosities
-        params["useSdf"] = use_sdf
+        params["realismLevel"] = realism_level
         params["morphologyRepresentation"] = morphology_representation
         params["morphologyColorScheme"] = morphology_color_scheme
         params["populationColorScheme"] = population_color_scheme

@@ -68,7 +68,7 @@ void Astrocytes::_buildModel(const doubles& radii)
     auto& connector = DBConnector::getInstance();
 
     auto model = _scene.createModel();
-    const auto useSdf = _details.useSdf;
+    const auto realismLevel = _details.realismLevel;
     const auto somas = connector.getAstrocytes(_details.sqlFilter);
     const auto loadEndFeet = !_details.vasculaturePopulationName.empty();
 
@@ -93,7 +93,7 @@ void Astrocytes::_buildModel(const doubles& radii)
         const auto& soma = it->second;
         const auto somaId = it->first;
 
-        ThreadSafeContainer container(*model, useSdf, _scale);
+        ThreadSafeContainer container(*model, _scale);
 
         // Load data from DB
         double somaRadius = 0.0;
@@ -138,13 +138,24 @@ void Astrocytes::_buildModel(const doubles& radii)
         uint64_t somaGeometryIndex = 0;
         if (_details.loadSomas)
         {
+            const bool useSdf =
+                andCheck(static_cast<uint32_t>(_details.realismLevel),
+                         static_cast<uint32_t>(MorphologyRealismLevel::soma));
             somaGeometryIndex = container.addSphere(
-                somaPosition, somaRadius, somaMaterialId, NO_USER_DATA, {},
+                somaPosition, somaRadius, somaMaterialId, NO_USER_DATA, useSdf,
+                {},
                 Vector3f(somaRadius * astrocyteSomaDisplacementStrength,
                          somaRadius * astrocyteSomaDisplacementFrequency, 0.f));
             if (_details.generateInternals)
+            {
+                const auto useSdf =
+                    andCheck(static_cast<uint32_t>(_details.realismLevel),
+                             static_cast<uint32_t>(
+                                 MorphologyRealismLevel::internals));
                 _addSomaInternals(container, baseMaterialId, somaPosition,
-                                  somaRadius, DEFAULT_MITOCHONDRIA_DENSITY);
+                                  somaRadius, DEFAULT_MITOCHONDRIA_DENSITY,
+                                  useSdf);
+            }
         }
 
         Neighbours neighbours;
@@ -182,6 +193,10 @@ void Astrocytes::_buildModel(const doubles& radii)
 
             if (_details.loadDendrites)
             {
+                const bool useSdf =
+                    andCheck(static_cast<uint32_t>(_details.realismLevel),
+                             static_cast<uint32_t>(
+                                 MorphologyRealismLevel::dendrite));
                 uint64_t geometryIndex = 0;
                 if (section.second.parentId == SOMA_AS_PARENT)
                 {
@@ -195,7 +210,7 @@ void Astrocytes::_buildModel(const doubles& radii)
                         somaId);
                     geometryIndex = container.addCone(
                         somaPosition, srcRadius, dstPosition, dstRadius,
-                        somaMaterialId, userData, neighbours,
+                        somaMaterialId, useSdf, userData, neighbours,
                         Vector3f(srcRadius * astrocyteSomaDisplacementStrength,
                                  srcRadius * astrocyteSomaDisplacementFrequency,
                                  0.f));
@@ -229,13 +244,14 @@ void Astrocytes::_buildModel(const doubles& radii)
                         Vector4d(somaPosition + Vector3d(dstPoint), dstRadius),
                         somaId);
                     if (!useSdf)
-                        geometryIndex = container.addSphere(dst, dstRadius,
-                                                            sectionMaterialId,
-                                                            NO_USER_DATA);
+                        geometryIndex =
+                            container.addSphere(dst, dstRadius,
+                                                sectionMaterialId, useSdf,
+                                                NO_USER_DATA);
 
                     geometryIndex = container.addCone(
                         src, srcRadius, dst, dstRadius, sectionMaterialId,
-                        userData, {geometryIndex},
+                        useSdf, userData, {geometryIndex},
                         Vector3f(srcRadius * sectionDisplacementStrength,
                                  sectionDisplacementFrequency, 0.f));
 
@@ -276,6 +292,9 @@ void Astrocytes::_addEndFoot(ThreadSafeContainer& container,
     const auto radiusMultiplier = _details.radiusMultiplier;
     const Vector3f displacement{sectionDisplacementStrength,
                                 sectionDisplacementFrequency, 0.f};
+    const auto useSdf =
+        andCheck(static_cast<uint32_t>(_details.realismLevel),
+                 static_cast<uint32_t>(VasculatureRealismLevel::section));
 
     for (const auto& endFoot : endFeet)
     {
@@ -359,13 +378,14 @@ void Astrocytes::_addEndFoot(ThreadSafeContainer& container,
                 const auto dstPosition = _animatedPosition(
                     Vector4d(dstNode.position, dstVasculatureRadius));
 
-                if (!_details.useSdf)
+                if (!useSdf)
                     container.addSphere(srcPosition, srcEndFootRadius,
-                                        materialId, srcUserData);
+                                        materialId, useSdf, srcUserData);
                 geometryIndex =
                     container.addCone(srcPosition, srcEndFootRadius,
                                       dstPosition, dstEndFootRadius, materialId,
-                                      srcUserData, neighbours, displacement);
+                                      useSdf, srcUserData, neighbours,
+                                      displacement);
                 neighbours = {geometryIndex};
             }
         }

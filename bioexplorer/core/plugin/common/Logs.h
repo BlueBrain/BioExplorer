@@ -22,6 +22,8 @@
 
 #include "GeneralSettings.h"
 
+#include <brayns/common/Timer.h>
+
 #include <iostream>
 
 namespace bioexplorer

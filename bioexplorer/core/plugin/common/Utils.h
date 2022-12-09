@@ -273,5 +273,14 @@ Quaterniond weightedRandomRotation(const Quaterniond& q, const uint64_t seed,
  */
 Quaterniond randomQuaternion(const uint64_t seed);
 
+/**
+ * @brief Check is test is part of value using the AND operator
+ *
+ * @param value Value to test
+ * @param test Test value
+ * @return true is test is part of value using the AND operator, false otherwise
+ */
+bool andCheck(const uint32_t value, const uint32_t test);
+
 } // namespace common
 } // namespace bioexplorer
