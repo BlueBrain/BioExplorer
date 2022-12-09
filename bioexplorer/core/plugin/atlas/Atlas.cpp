@@ -58,6 +58,7 @@ void Atlas::_load()
 
     auto& connector = DBConnector::getInstance();
     const auto regions = connector.getAtlasRegions(_details.regionSqlFilter);
+    const bool useSdf = false;
 
     ThreadSafeContainers containers;
     uint64_t counter = 0;
@@ -68,7 +69,7 @@ void Atlas::_load()
 #pragma omp parallel for num_threads(nbDBConnections)
     for (index = 0; index < regions.size(); ++index)
     {
-        ThreadSafeContainer container(*model, false);
+        ThreadSafeContainer container(*model);
 
         const auto region = regions[index];
         if (_details.loadCells)
@@ -77,7 +78,7 @@ void Atlas::_load()
                 connector.getAtlasCells(region, _details.cellSqlFilter);
             for (const auto& cell : cells)
                 container.addSphere(cell.second.position, _details.cellRadius,
-                                    cell.second.region);
+                                    cell.second.region, useSdf);
 #pragma omp critical
             nbCells += cells.size();
         }

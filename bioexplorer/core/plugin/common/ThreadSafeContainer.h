@@ -46,11 +46,10 @@ public:
      * @brief Construct a new Thread Safe Model object
      *
      * @param model Brayns model
-     * @param useSdf Defines if signed-distance field technique should be used
      * for the geometry
      * @param scale Scale applied to individual elements
      */
-    ThreadSafeContainer(Model& model, const bool useSdf,
+    ThreadSafeContainer(Model& model,
                         const Vector3d& scale = Vector3d(1.0, 1.0, 1.0));
 
     /**
@@ -65,6 +64,7 @@ public:
      * @param position Position of the sphere
      * @param radius Radius of the sphere
      * @param materialId Material identifier
+     * @param useSdf Defines if signed-distance field technique should be used
      * @param userData User data to attach to the sphere
      * @param neighbours Neigbours identifiers (For signed-distance field
      * geometry)
@@ -73,7 +73,7 @@ public:
      * @return uint64_t Index of the geometry in the model
      */
     uint64_t addSphere(const Vector3f& position, const float radius,
-                       const size_t materialId,
+                       const size_t materialId, const bool useSdf,
                        const uint64_t userDataOffset = 0,
                        const Neighbours& neighbours = {},
                        const Vector3f displacementRatio = Vector3f());
@@ -88,6 +88,7 @@ public:
      * @param targetPosition Top position of the cone
      * @param targetRadius Top radius of the cone
      * @param materialId Material identifier
+     * @param useSdf Defines if signed-distance field technique should be used
      * @param userData User data to attach to the sphere
      * @param neighbours Neigbours identifiers (For signed-distance field
      * geometry)
@@ -97,7 +98,8 @@ public:
      */
     uint64_t addCone(const Vector3f& sourcePosition, const float sourceRadius,
                      const Vector3f& targetPosition, const float targetRadius,
-                     const size_t materialId, const uint64_t userDataOffset = 0,
+                     const size_t materialId, const bool useSdf,
+                     const uint64_t userDataOffset = 0,
                      const Neighbours& neighbours = {},
                      const Vector3f displacementRatio = Vector3f());
 
@@ -150,7 +152,6 @@ private:
 
     Model& _model;
     Vector3d _scale{1.0, 1.0, 1.0};
-    bool _useSdf{false};
 };
 } // namespace common
 } // namespace bioexplorer

@@ -806,7 +806,7 @@ bool from_json(VasculatureDetails &param, const std::string &payload)
         FROM_JSON(param, js, assemblyName);
         FROM_JSON(param, js, populationName);
         FROM_JSON(param, js, colorScheme);
-        FROM_JSON(param, js, useSdf);
+        FROM_JSON(param, js, realismLevel);
         FROM_JSON(param, js, gids);
         FROM_JSON(param, js, representation);
         FROM_JSON(param, js, radiusMultiplier);
@@ -867,7 +867,7 @@ bool from_json(AstrocytesDetails &param, const std::string &payload)
         FROM_JSON(param, js, loadSomas);
         FROM_JSON(param, js, loadDendrites);
         FROM_JSON(param, js, generateInternals);
-        FROM_JSON(param, js, useSdf);
+        FROM_JSON(param, js, realismLevel);
         FROM_JSON(param, js, morphologyRepresentation);
         FROM_JSON(param, js, morphologyColorScheme);
         FROM_JSON(param, js, populationColorScheme);
@@ -899,7 +899,7 @@ bool from_json(NeuronsDetails &param, const std::string &payload)
         FROM_JSON(param, js, generateExternals);
         FROM_JSON(param, js, showMembrane);
         FROM_JSON(param, js, generateVaricosities);
-        FROM_JSON(param, js, useSdf);
+        FROM_JSON(param, js, realismLevel);
         FROM_JSON(param, js, morphologyRepresentation);
         FROM_JSON(param, js, morphologyColorScheme);
         FROM_JSON(param, js, populationColorScheme);

@@ -75,12 +75,6 @@ void Neurons::_buildNeurons()
     const auto& connector = DBConnector::getInstance();
 
     auto model = _scene.createModel();
-    const auto useSdf = ((_details.morphologyRepresentation ==
-                              MorphologyRepresentation::graph ||
-                          _details.morphologyRepresentation ==
-                              MorphologyRepresentation::orientation)
-                             ? false
-                             : _details.useSdf);
 
     // Simulation report
     const auto sqlNodeFilter = _attachSimulationReport(*model);
@@ -103,7 +97,7 @@ void Neurons::_buildNeurons()
     if (somasOnly || _details.morphologyRepresentation ==
                          MorphologyRepresentation::orientation)
     {
-        ThreadSafeContainer container(*model, useSdf, _scale);
+        ThreadSafeContainer container(*model, _scale);
         if (_details.morphologyRepresentation ==
             MorphologyRepresentation::orientation)
             _buildOrientations(container, somas, baseMaterialId);
@@ -127,7 +121,7 @@ void Neurons::_buildNeurons()
             auto it = somas.begin();
             std::advance(it, neuronIndex);
             const auto& soma = it->second;
-            ThreadSafeContainer container(*model, useSdf, _scale);
+            ThreadSafeContainer container(*model, _scale);
             _buildMorphology(container, it->first, soma, neuronIndex);
 
 #pragma omp critical
@@ -168,6 +162,9 @@ void Neurons::_buildSomasOnly(ThreadSafeContainer& container,
     for (const auto soma : somas)
     {
         PLUGIN_PROGRESS("Loading somas", progress, somas.size());
+        const auto useSdf =
+            andCheck(static_cast<uint32_t>(_details.realismLevel),
+                     static_cast<uint32_t>(MorphologyRealismLevel::soma));
         const auto somaMaterialId =
             baseMaterialId + (_details.morphologyColorScheme ==
                                       MorphologyColorScheme::section_type
@@ -175,7 +172,7 @@ void Neurons::_buildSomasOnly(ThreadSafeContainer& container,
                                   : 0);
         if (_details.showMembrane)
             container.addSphere(soma.second.position, _details.radiusMultiplier,
-                                somaMaterialId, neuronIndex, {},
+                                somaMaterialId, useSdf, neuronIndex, {},
                                 Vector3f(neuronSomaDisplacementStrength,
                                          neuronSomaDisplacementFrequency, 0.f));
         if (_details.generateInternals)
@@ -185,8 +182,13 @@ void Neurons::_buildSomasOnly(ThreadSafeContainer& container,
                      ? MITOCHONDRIA_DENSITY[soma.second.layer]
                      : 0.0);
 
+            const auto useSdf =
+                andCheck(static_cast<uint32_t>(_details.realismLevel),
+                         static_cast<uint32_t>(
+                             MorphologyRealismLevel::internals));
             _addSomaInternals(container, baseMaterialId, soma.second.position,
-                              _details.radiusMultiplier, mitochondriaDensity);
+                              _details.radiusMultiplier, mitochondriaDensity,
+                              useSdf);
         }
         ++progress;
         ++neuronIndex;
@@ -295,15 +297,26 @@ void Neurons::_buildMorphology(ThreadSafeContainer& container,
     if (_details.loadSomas)
     {
         if (_details.showMembrane)
+        {
+            const bool useSdf =
+                andCheck(static_cast<uint32_t>(_details.realismLevel),
+                         static_cast<uint32_t>(MorphologyRealismLevel::soma));
             somaGeometryIndex =
                 container.addSphere(somaPosition, somaRadius, somaMaterialId,
-                                    somaUserData, {},
+                                    useSdf, somaUserData, {},
                                     Vector3f(neuronSomaDisplacementStrength,
                                              neuronSomaDisplacementFrequency,
                                              0.f));
+        }
         if (_details.generateInternals)
+        {
+            const bool useSdf =
+                andCheck(static_cast<uint32_t>(_details.realismLevel),
+                         static_cast<uint32_t>(
+                             MorphologyRealismLevel::internals));
             _addSomaInternals(container, baseMaterialId, somaPosition,
-                              somaRadius, mitochondriaDensity);
+                              somaRadius, mitochondriaDensity, useSdf);
+        }
     }
 
     // Load synapses for all sections
@@ -321,14 +334,31 @@ void Neurons::_buildMorphology(ThreadSafeContainer& container,
         const auto sectionType =
             static_cast<NeuronSectionType>(section.second.type);
         const auto& points = section.second.points;
+        bool useSdf = false;
+
         if (sectionType == NeuronSectionType::axon && !_details.loadAxon)
+        {
+            useSdf =
+                andCheck(static_cast<uint32_t>(_details.realismLevel),
+                         static_cast<uint32_t>(MorphologyRealismLevel::axon));
             continue;
+        }
         if (sectionType == NeuronSectionType::basal_dendrite &&
             !_details.loadBasalDendrites)
+        {
+            useSdf = andCheck(static_cast<uint32_t>(_details.realismLevel),
+                              static_cast<uint32_t>(
+                                  MorphologyRealismLevel::dendrite));
             continue;
+        }
         if (sectionType == NeuronSectionType::apical_dendrite &&
             !_details.loadApicalDendrites)
+        {
+            useSdf = andCheck(static_cast<uint32_t>(_details.realismLevel),
+                              static_cast<uint32_t>(
+                                  MorphologyRealismLevel::dendrite));
             continue;
+        }
 
         if (_details.morphologyRepresentation ==
             MorphologyRepresentation::graph)
@@ -370,8 +400,8 @@ void Neurons::_buildMorphology(ThreadSafeContainer& container,
                                         sectionDisplacementFrequency, 0.f};
             geometryIndex =
                 container.addCone(somaPosition, srcRadius, dstPosition,
-                                  dstRadius, somaMaterialId, somaUserData,
-                                  neighbours, displacement);
+                                  dstRadius, somaMaterialId, useSdf,
+                                  somaUserData, neighbours, displacement);
             neighbours.insert(geometryIndex);
         }
 
@@ -467,7 +497,20 @@ void Neurons::_addSection(ThreadSafeContainer& container,
 {
     const auto& connector = DBConnector::getInstance();
     const auto sectionType = static_cast<NeuronSectionType>(section.type);
-    auto useSdf = _details.useSdf;
+    bool useSdf = false;
+    switch (sectionType)
+    {
+    case NeuronSectionType::axon:
+        useSdf = andCheck(static_cast<uint32_t>(_details.realismLevel),
+                          static_cast<uint32_t>(MorphologyRealismLevel::axon));
+        break;
+    case NeuronSectionType::apical_dendrite:
+    case NeuronSectionType::basal_dendrite:
+        useSdf =
+            andCheck(static_cast<uint32_t>(_details.realismLevel),
+                     static_cast<uint32_t>(MorphologyRealismLevel::dendrite));
+        break;
+    }
     auto userData = NO_USER_DATA;
 
     const auto& points = section.points;
@@ -612,7 +655,7 @@ void Neurons::_addSection(ThreadSafeContainer& container,
 
             geometryIndex =
                 container.addCone(src, srcRadius, dst, dstRadius, materialId,
-                                  userData, neighbours, displacement);
+                                  useSdf, userData, neighbours, displacement);
 
             neighbours.insert(geometryIndex);
         }
@@ -645,7 +688,9 @@ void Neurons::_addSectionInternals(
     if (mitochondriaDensity == 0.0)
         return;
 
-    const auto useSdf = _details.useSdf;
+    const auto useSdf =
+        andCheck(static_cast<uint32_t>(_details.realismLevel),
+                 static_cast<uint32_t>(MorphologyRealismLevel::internals));
 
     // Add mitochondria (density is per section, not for the full axon)
     const size_t nbMaxMitochondrionSegments =
@@ -727,7 +772,8 @@ void Neurons::_addSectionInternals(
                         neuronId);
                     geometryIndex = container.addCone(
                         srcPosition, radius, dstPosition, previousRadius,
-                        mitochondrionMaterialId, NO_USER_DATA, neighbours,
+                        mitochondrionMaterialId, useSdf, NO_USER_DATA,
+                        neighbours,
                         Vector3f(radius * mitochondrionDisplacementStrength *
                                      2.0,
                                  radius * mitochondrionDisplacementFrequency,
@@ -767,7 +813,9 @@ void Neurons::_addAxonMyelinSheath(
     if (sectionLength == 0 || points.empty())
         return;
 
-    const auto useSdf = _details.useSdf;
+    const bool useSdf =
+        andCheck(static_cast<uint32_t>(_details.realismLevel),
+                 static_cast<uint32_t>(MorphologyRealismLevel::externals));
 
     const size_t myelinSteathMaterialId =
         baseMaterialId + MATERIAL_OFFSET_MYELIN_SHEATH;
@@ -824,7 +872,8 @@ void Neurons::_addAxonMyelinSheath(
             const auto geometryIndex =
                 container.addCone(dstPosition, dstRadius, previousPosition,
                                   previousRadius, myelinSteathMaterialId,
-                                  NO_USER_DATA, neighbours, displacement);
+                                  useSdf, NO_USER_DATA, neighbours,
+                                  displacement);
             neighbours.insert(geometryIndex);
             previousPosition = dstPosition;
             previousRadius = dstRadius;
@@ -925,18 +974,25 @@ void Neurons::_addSpine(ThreadSafeContainer& container, const uint64_t neuronId,
     const auto displacement =
         Vector3f(spineDisplacementStrength, spineDisplacementFrequency, 0.f);
     Neighbours neighbours;
-    if (!_details.useSdf)
+
+    const bool useSdf =
+        andCheck(static_cast<uint32_t>(_details.realismLevel),
+                 static_cast<uint32_t>(MorphologyRealismLevel::spine));
+
+    if (!useSdf)
         container.addSphere(target, spineLargeRadius, SpineMaterialId,
                             neuronId);
     neighbours.insert(container.addSphere(middle, spineMiddleRadius,
-                                          SpineMaterialId, neuronId, neighbours,
-                                          displacement));
+                                          SpineMaterialId, useSdf, neuronId,
+                                          neighbours, displacement));
     if (middle != origin)
         container.addCone(origin, spineSmallRadius, middle, spineMiddleRadius,
-                          SpineMaterialId, neuronId, neighbours, displacement);
+                          SpineMaterialId, useSdf, neuronId, neighbours,
+                          displacement);
     if (middle != target)
         container.addCone(middle, spineMiddleRadius, target, spineLargeRadius,
-                          SpineMaterialId, neuronId, neighbours, displacement);
+                          SpineMaterialId, useSdf, neuronId, neighbours,
+                          displacement);
 
     ++_nbSpines;
 }

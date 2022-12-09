@@ -795,9 +795,10 @@ floats DBConnector::getNeuronSomaReportValues(const std::string& populationName,
         *_connections[omp_get_thread_num() % _dbNbConnections]);
     try
     {
+        Timer chrono;
         const size_t elementSize = sizeof(float);
         const size_t offset = 1; // First byte of bytea must be ignored
-        std::string sql =
+        const std::string sql =
             "SELECT SUBSTRING(values::bytea from " +
             std::to_string(offset + frame * elementSize) + " for " +
             std::to_string(elementSize) + ") FROM " + populationName +
@@ -814,6 +815,9 @@ floats DBConnector::getNeuronSomaReportValues(const std::string& populationName,
             memcpy(&values[index], buffer.data(), elementSize);
             ++index;
         }
+        PLUGIN_TIMER(chrono.elapsed(), "getNeuronSomaReportValues("
+                                           << populationName << "," << reportId
+                                           << "," << frame << ")");
     }
     catch (pqxx::sql_error& e)
     {

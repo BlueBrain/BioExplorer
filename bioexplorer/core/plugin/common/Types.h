@@ -921,6 +921,14 @@ typedef struct
     doubles meshScale;
 } AtlasDetails;
 
+enum class VasculatureRealismLevel
+{
+    none = 0,
+    section = 1,
+    bifurcation = 2,
+    all = 255,
+};
+
 /**
  * @brief Color schemes that can be applied to vasculatures
  *
@@ -964,8 +972,8 @@ typedef struct
     std::string populationName;
     /** Color scheme **/
     VasculatureColorScheme colorScheme{VasculatureColorScheme::none};
-    /** Use Signed Distance Fields as geometry */
-    bool useSdf{false};
+    /** Use Signed Distance Fields for geometry realism */
+    VasculatureRealismLevel realismLevel{VasculatureRealismLevel::none};
     /** Node gids to load. All if empty */
     uint32_ts gids;
     /** Geometry quality */
@@ -1031,6 +1039,18 @@ enum class MorphologyRepresentation
     orientation = 3
 };
 
+enum class MorphologyRealismLevel
+{
+    none = 0,
+    soma = 1,
+    axon = 2,
+    dendrite = 4,
+    internals = 8,
+    externals = 16,
+    spine = 32,
+    all = 255,
+};
+
 typedef struct
 {
     uint32_t seed{0};
@@ -1054,8 +1074,8 @@ typedef struct
     bool loadDendrites{true};
     /** Generate internal components (nucleus and mitochondria) */
     bool generateInternals{false};
-    /** Use Signed Distance Fields as geometry */
-    bool useSdf{false};
+    /** Use Signed Distance Fields for geometry realism */
+    MorphologyRealismLevel realismLevel{MorphologyRealismLevel::none};
     /** Morphology representation */
     MorphologyRepresentation morphologyRepresentation{
         MorphologyRepresentation::segment};
@@ -1107,8 +1127,8 @@ typedef struct
     bool showMembrane{true};
     /** Generates random varicosities along the axon */
     bool generateVaricosities{false};
-    /** Use Signed Distance Fields as geometry */
-    bool useSdf{false};
+    /** Use Signed Distance Fields for geometry realism */
+    MorphologyRealismLevel realismLevel{MorphologyRealismLevel::none};
     /** Morphology representation */
     MorphologyRepresentation morphologyRepresentation{
         MorphologyRepresentation::segment};

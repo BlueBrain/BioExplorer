@@ -44,23 +44,26 @@ void SDFGeometries::addSDFDemo(Model& model)
     const bool useSdf = true;
     const Vector3f displacement{0.1f, 10.f, 0.f};
 
-    ThreadSafeContainer modelContainer(model, useSdf);
+    ThreadSafeContainer modelContainer(model);
     Neighbours neighbours;
     neighbours.insert(modelContainer.addCone(Vector3d(-1, 0, 0), 0.25,
                                              Vector3d(0, 0, 0), 0.1, materialId,
-                                             -1, neighbours, displacement));
-    neighbours.insert(
-        modelContainer.addCone(Vector3d(0, 0, 0), 0.1, Vector3d(1, 0, 0), 0.25,
-                               materialId, -1, neighbours, displacement));
+                                             useSdf, NO_USER_DATA, neighbours,
+                                             displacement));
+    neighbours.insert(modelContainer.addCone(Vector3d(0, 0, 0), 0.1,
+                                             Vector3d(1, 0, 0), 0.25,
+                                             materialId, useSdf, NO_USER_DATA,
+                                             neighbours, displacement));
     neighbours.insert(modelContainer.addSphere(Vector3d(-0.5, 0, 0), 0.25,
-                                               materialId, -1, neighbours,
-                                               displacement));
+                                               materialId, useSdf, NO_USER_DATA,
+                                               neighbours, displacement));
     neighbours.insert(modelContainer.addSphere(Vector3d(0.5, 0, 0), 0.25,
-                                               materialId, -1, neighbours,
-                                               displacement));
+                                               materialId, useSdf, NO_USER_DATA,
+                                               neighbours, displacement));
     neighbours.insert(modelContainer.addCone(Vector3d(0, 0.25, 0), 0.5,
                                              Vector3d(0, 1, 0), 0.0, materialId,
-                                             -1, neighbours, displacement));
+                                             useSdf, NO_USER_DATA, neighbours,
+                                             displacement));
 
     modelContainer.commitToModel();
 }

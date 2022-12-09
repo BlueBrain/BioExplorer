@@ -61,7 +61,8 @@ void Vasculature::_addGraphSection(ThreadSafeContainer& container,
                                    const GeometryNode& dstNode,
                                    const size_t materialId)
 {
-    const auto userData = 0;
+    const auto userData = NO_USER_DATA;
+    const auto useSdf = false;
     const auto maxRadius = std::max(srcNode.radius, dstNode.radius);
     const auto src = _animatedPosition(Vector4d(srcNode.position, maxRadius));
     const auto dst = _animatedPosition(Vector4d(dstNode.position, maxRadius));
@@ -69,14 +70,14 @@ void Vasculature::_addGraphSection(ThreadSafeContainer& container,
 
     const float radius = std::min(length(direction) / 5.0,
                                   maxRadius * _details.radiusMultiplier);
-    container.addSphere(src, radius * 0.2, materialId, userData);
+    container.addSphere(src, radius * 0.2, materialId, useSdf, userData);
     container.addCone(src, radius * 0.2, Vector3f(src + direction * 0.79),
-                      radius * 0.2, materialId, userData);
+                      radius * 0.2, materialId, useSdf, userData);
     container.addCone(dst, 0.0, Vector3f(src + direction * 0.8), radius,
-                      materialId, userData);
+                      materialId, useSdf, userData);
     container.addCone(Vector3f(src + direction * 0.8), radius,
                       Vector3f(src + direction * 0.79), radius * 0.2,
-                      materialId, userData);
+                      materialId, useSdf, userData);
 }
 
 void Vasculature::_addSimpleSection(ThreadSafeContainer& container,
@@ -93,14 +94,17 @@ void Vasculature::_addSimpleSection(ThreadSafeContainer& container,
     const auto& dstPoint =
         _animatedPosition(Vector4d(dstNode.position, dstRadius));
 
-    if (!_details.useSdf)
+    const auto useSdf =
+        andCheck(static_cast<uint32_t>(_details.realismLevel),
+                 static_cast<uint32_t>(VasculatureRealismLevel::section));
+    if (!useSdf)
     {
-        container.addSphere(srcPoint, srcRadius, materialId, userData);
-        container.addSphere(dstPoint, dstRadius, materialId, userData);
+        container.addSphere(srcPoint, srcRadius, materialId, useSdf, userData);
+        container.addSphere(dstPoint, dstRadius, materialId, useSdf, userData);
     }
 
     container.addCone(srcPoint, srcRadius, dstPoint, dstRadius, materialId,
-                      userData, {},
+                      useSdf, userData, {},
                       Vector3f(segmentDisplacementStrength,
                                segmentDisplacementFrequency, 0.f));
 }
@@ -113,6 +117,10 @@ void Vasculature::_addDetailedSection(ThreadSafeContainer& container,
 {
     uint64_t geometryIndex = 0;
     Neighbours neighbours;
+
+    const auto useSdf =
+        andCheck(static_cast<uint32_t>(_details.realismLevel),
+                 static_cast<uint32_t>(VasculatureRealismLevel::section));
 
     uint64_t i = 0;
     GeometryNode dstNode;
@@ -143,8 +151,9 @@ void Vasculature::_addDetailedSection(ThreadSafeContainer& container,
         const auto srcPosition =
             _animatedPosition(Vector4d(srcNode.position, srcRadius));
 
-        if (i == 0 && !_details.useSdf)
-            container.addSphere(srcPosition, srcRadius, materialId, userData);
+        if (i == 0 && !useSdf)
+            container.addSphere(srcPosition, srcRadius, materialId, useSdf,
+                                userData);
 
         if (i > 0)
         {
@@ -154,13 +163,14 @@ void Vasculature::_addDetailedSection(ThreadSafeContainer& container,
             const auto dstPosition =
                 _animatedPosition(Vector4d(dstNode.position, dstRadius));
 
-            if (!_details.useSdf)
-                container.addSphere(dstPosition, dstRadius, materialId,
+            if (!useSdf)
+                container.addSphere(dstPosition, dstRadius, materialId, useSdf,
                                     userData);
 
             geometryIndex =
                 container.addCone(srcPosition, srcRadius, dstPosition,
-                                  dstRadius, materialId, userData, neighbours,
+                                  dstRadius, materialId, useSdf, userData,
+                                  neighbours,
                                   Vector3f(segmentDisplacementStrength,
                                            segmentDisplacementFrequency, 0.f));
             neighbours = {geometryIndex};
@@ -203,11 +213,6 @@ void Vasculature::_addOrientation(ThreadSafeContainer& container,
 
 void Vasculature::_buildModel(const doubles& radii)
 {
-    const auto useSdf =
-        _details.representation == VasculatureRepresentation::graph
-            ? false
-            : _details.useSdf;
-
     if (_modelDescriptor)
         _scene.removeModel(_modelDescriptor->getModelID());
 
@@ -223,9 +228,9 @@ void Vasculature::_buildModel(const doubles& radii)
     const auto dbBatchSize = DBConnector::getInstance().getBatchSize();
 
     const auto nbQueries = _nbSections / dbBatchSize + 1;
-    PLUGIN_INFO(1, ", DB connections=" << nbDBConnections
-                                       << ", DB queries=" << nbQueries
-                                       << ", DB batch size=" << dbBatchSize);
+    PLUGIN_INFO(1, "DB connections=" << nbDBConnections
+                                     << ", DB queries=" << nbQueries
+                                     << ", DB batch size=" << dbBatchSize);
 
     Vector2d radiusRange;
     if (_details.colorScheme == VasculatureColorScheme::radius)
@@ -249,7 +254,7 @@ void Vasculature::_buildModel(const doubles& radii)
         if (nodes.empty())
             continue;
 
-        ThreadSafeContainer container(*model, useSdf,
+        ThreadSafeContainer container(*model,
                                       doublesToVector3d(_details.scale));
 
         auto iter = nodes.begin();

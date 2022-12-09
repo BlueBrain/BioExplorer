@@ -171,6 +171,8 @@ void Molecule::_buildAtomicStruture(const ProteinRepresentation representation,
                                     ThreadSafeContainer& container)
 {
     const uint64_t userData = NO_USER_DATA;
+    const bool useSdf = DEFAULT_USE_SDF;
+
     // Atoms
     std::map<uint64_t, Neighbours> neighbours;
     size_t currentReqSeq = 0;
@@ -181,7 +183,7 @@ void Molecule::_buildAtomicStruture(const ProteinRepresentation representation,
             static_cast<float>(atom.second.radius * atomRadiusMultiplier);
         neighbours[currentReqSeq].insert(
             container.addSphere(atom.second.position, radius, atom.first,
-                                userData, neighbours[currentReqSeq],
+                                useSdf, userData, neighbours[currentReqSeq],
                                 DEFAULT_SDF_DISPLACEMENT));
         if (currentReqSeq != atom.second.reqSeq)
             currentReqSeq = atom.second.reqSeq;
@@ -205,12 +207,14 @@ void Molecule::_buildAtomicStruture(const ProteinRepresentation representation,
                 const auto reqSeq = atomSrc.reqSeq;
                 neighbours[reqSeq].insert(
                     container.addCone(atomSrc.position, radius, center, radius,
-                                      bond.first, userData, neighbours[reqSeq],
+                                      bond.first, useSdf, userData,
+                                      neighbours[reqSeq],
                                       DEFAULT_SDF_DISPLACEMENT));
 
                 neighbours[reqSeq].insert(
                     container.addCone(atomDst.position, radius, center, radius,
-                                      bondedAtom, userData, neighbours[reqSeq],
+                                      bondedAtom, useSdf, userData,
+                                      neighbours[reqSeq],
                                       DEFAULT_SDF_DISPLACEMENT));
             }
         }
@@ -239,12 +243,12 @@ void Molecule::_buildAtomicStruture(const ProteinRepresentation representation,
                         atomRadiusMultiplier * DEFAULT_BOND_RADIUS);
                     neighbours[reqSeq].insert(
                         container.addCone(atom1.second.position, radius, center,
-                                          radius, atom1.first, userData,
+                                          radius, atom1.first, useSdf, userData,
                                           neighbours[reqSeq],
                                           DEFAULT_SDF_DISPLACEMENT));
                     neighbours[reqSeq].insert(
                         container.addCone((*it2).second.position, radius,
-                                          center, radius, (*it2).first,
+                                          center, radius, (*it2).first, useSdf,
                                           userData, neighbours[reqSeq],
                                           DEFAULT_SDF_DISPLACEMENT));
                 }
@@ -304,7 +308,7 @@ void Molecule::_buildModel(const std::string& assemblyName,
     case ProteinRepresentation::atoms_and_sticks:
     {
         auto model = _scene.createModel();
-        ThreadSafeContainer container(*model, DEFAULT_USE_SDF);
+        ThreadSafeContainer container(*model);
 
         _buildAtomicStruture(representation, atomRadiusMultiplier, false,
                              loadBonds, container);
@@ -379,8 +383,7 @@ void Molecule::_buildModel(const std::string& assemblyName,
         _modelDescriptor->setMetadata(metadata);
 
         Model& model = _modelDescriptor->getModel();
-        const bool useSdf = false;
-        ThreadSafeContainer container(model, useSdf);
+        ThreadSafeContainer container(model);
         _buildAtomicStruture(representation, atomRadiusMultiplier * 2.0, true,
                              loadBonds, container);
         container.commitToModel();
