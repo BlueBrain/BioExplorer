@@ -92,17 +92,30 @@ public:
     /**
      * @brief Get the Logging level
      *
-     * @return true Logging is enabled
-     * @return false Logging is disabled
+     * @return Logging level
      */
     size_t getLoggingLevel() const { return _loggingLevel; }
 
     /**
      * @brief Set the Logging level
      *
-     * @param value Enabled is true, disabled otherwise
+     * @param value Logging level
      */
     void setLoggingLevel(const size_t value) { _loggingLevel = value; }
+
+    /**
+     * @brief Get the database logging level
+     *
+     * @return Database logging level
+     */
+    size_t getDBLoggingLevel() const { return _dbLoggingLevel; }
+
+    /**
+     * @brief Set the DB logging level
+     *
+     * @param value Database logging level
+     */
+    void setDBLoggingLevel(const size_t value) { _dbLoggingLevel = value; }
 
     /**
      * @brief Get the V1 Compatibility state
@@ -128,6 +141,7 @@ private:
     bool _modelVisibilityOnCreation{true};
     std::string _meshFolder{"/tmp"};
     size_t _loggingLevel{1};
+    size_t _dbLoggingLevel{0};
     bool _v1Compatibility{false};
 };
 } // namespace common

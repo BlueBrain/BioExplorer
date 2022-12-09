@@ -856,12 +856,13 @@ Response BioExplorerPlugin::_setGeneralSettings(
     Response response;
     try
     {
-        GeneralSettings::getInstance()->setModelVisibilityOnCreation(
+        auto instance = GeneralSettings::getInstance();
+        instance->setModelVisibilityOnCreation(
             payload.modelVisibilityOnCreation);
-        GeneralSettings::getInstance()->setMeshFolder(payload.meshFolder);
-        GeneralSettings::getInstance()->setLoggingLevel(payload.loggingLevel);
-        GeneralSettings::getInstance()->setV1Compatibility(
-            payload.v1Compatibility);
+        instance->setMeshFolder(payload.meshFolder);
+        instance->setLoggingLevel(payload.loggingLevel);
+        instance->setDBLoggingLevel(payload.databaseLoggingLevel);
+        instance->setV1Compatibility(payload.v1Compatibility);
         PLUGIN_INFO(3, "Setting general options for the plugin");
 
         response.contents = "OK";

@@ -27,7 +27,6 @@
 
 #include <plugin/io/db/DBConnector.h>
 
-#include <brayns/common/Timer.h>
 #include <brayns/engineapi/Model.h>
 #include <brayns/engineapi/Scene.h>
 

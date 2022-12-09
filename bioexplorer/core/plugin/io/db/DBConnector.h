@@ -125,42 +125,42 @@ public:
      * @brief Get the Nodes for a given population
      *
      * @param populationName Name of the population
-     * @param filter SQL condition
+     * @param sqlCondition SQL condition
      * @return GeometryNodes Vasculature nodes
      */
     GeometryNodes getVasculatureNodes(const std::string& populationName,
-                                      const std::string& filter = "",
+                                      const std::string& sqlCondition = "",
                                       const std::string& limits = "") const;
 
     /**
      * @brief Get the sections for a given population
      *
      * @param populationName Name of the population
-     * @param filter SQL condition
+     * @param sqlCondition SQL condition
      * @return Section ids
      */
     uint64_ts getVasculatureSections(const std::string& populationName,
-                                     const std::string& filter = "");
+                                     const std::string& sqlCondition = "");
 
     /**
-     * @brief Get the total number of sections for a given population
+     * @brief Get the number of sections for a given population
      *
      * @param populationName Name of the population
-     * @param filter SQL condition
-     * @return Total number of sections
+     * @param sqlCondition SQL condition
+     * @return Number of sections
      */
     uint64_t getVasculatureNbSections(const std::string& populationName,
-                                      const std::string& filter = "");
+                                      const std::string& sqlCondition);
 
     /**
      * @brief Get the Vasculature radius range
      *
      * @param populationName Name of the population
-     * @param filter SQL condition
+     * @param sqlCondition SQL condition
      * @return Vector2d Min and max radius for the node selection
      */
     Vector2d getVasculatureRadiusRange(const std::string& populationName,
-                                       const std::string& filter) const;
+                                       const std::string& sqlCondition) const;
 
     /**
      * @brief Get the Edges for a given population
@@ -168,8 +168,9 @@ public:
      * @param populationName Name of the population
      * @return EdgeNodes
      */
-    GeometryEdges getVasculatureEdges(const std::string& populationName,
-                                      const std::string& filter = "") const;
+    GeometryEdges getVasculatureEdges(
+        const std::string& populationName,
+        const std::string& sqlCondition = "") const;
 
     /**
      * @brief Get the bifurcations for a given population
@@ -362,12 +363,12 @@ public:
      * @brief Get the White Matter streamlines for a given population
      *
      * @param populationName Name of the population
-     * @param filter SQL condition
+     * @param sqlCondition SQL condition
      * @return WhiteMatterStreamlines White matter streamlines
      */
     WhiteMatterStreamlines getWhiteMatterStreamlines(
         const std::string& populationName,
-        const std::string& filter = "") const;
+        const std::string& sqlCondition = "") const;
 
     static std::mutex _mutex;
     static DBConnector* _instance;
