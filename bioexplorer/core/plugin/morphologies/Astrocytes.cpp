@@ -56,6 +56,25 @@ Astrocytes::Astrocytes(Scene& scene, const AstrocytesDetails& details)
     PLUGIN_TIMER(chrono.elapsed(), "Astrocytes loaded");
 }
 
+void Astrocytes::_logRealismParams()
+{
+    PLUGIN_INFO(1, "----------------------------------------------------");
+    PLUGIN_INFO(1, "Realism level ("
+                       << static_cast<uint32_t>(_details.realismLevel) << ")");
+    PLUGIN_INFO(1, "- Soma     : " << boolAsString(andCheck(
+                       static_cast<uint32_t>(_details.realismLevel),
+                       static_cast<uint32_t>(MorphologyRealismLevel::soma))));
+    PLUGIN_INFO(1, "- Dendrite : " << boolAsString(
+                       andCheck(static_cast<uint32_t>(_details.realismLevel),
+                                static_cast<uint32_t>(
+                                    MorphologyRealismLevel::dendrite))));
+    PLUGIN_INFO(1, "- Internals: " << boolAsString(
+                       andCheck(static_cast<uint32_t>(_details.realismLevel),
+                                static_cast<uint32_t>(
+                                    MorphologyRealismLevel::internals))));
+    PLUGIN_INFO(1, "----------------------------------------------------");
+}
+
 void Astrocytes::_buildModel(const doubles& radii)
 {
     const auto animationParams =
@@ -74,6 +93,7 @@ void Astrocytes::_buildModel(const doubles& radii)
     const auto loadEndFeet = !_details.vasculaturePopulationName.empty();
 
     PLUGIN_INFO(1, "Building " << somas.size() << " astrocytes");
+    _logRealismParams();
 
     // Astrocytes
     size_t baseMaterialId = 0;

@@ -635,7 +635,12 @@ Quaterniond randomQuaternion(const uint64_t seed)
 
 bool andCheck(const uint32_t value, const uint32_t test)
 {
-    return (value && test) == test;
+    return (value & test) == test;
+}
+
+std::string boolAsString(const bool value)
+{
+    return (value ? "Yes" : "No");
 }
 
 } // namespace common

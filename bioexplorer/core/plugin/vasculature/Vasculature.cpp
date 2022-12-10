@@ -56,6 +56,22 @@ Vasculature::Vasculature(Scene& scene, const VasculatureDetails& details)
     PLUGIN_TIMER(chrono.elapsed(), "Vasculature loaded");
 }
 
+void Vasculature::_logRealismParams()
+{
+    PLUGIN_INFO(1, "----------------------------------------------------");
+    PLUGIN_INFO(1, "Realism level ("
+                       << static_cast<uint32_t>(_details.realismLevel) << ")");
+    PLUGIN_INFO(1, "- Section     : " << boolAsString(
+                       andCheck(static_cast<uint32_t>(_details.realismLevel),
+                                static_cast<uint32_t>(
+                                    VasculatureRealismLevel::section))));
+    PLUGIN_INFO(1, "- Bifurcation : " << boolAsString(
+                       andCheck(static_cast<uint32_t>(_details.realismLevel),
+                                static_cast<uint32_t>(
+                                    VasculatureRealismLevel::bifurcation))));
+    PLUGIN_INFO(1, "----------------------------------------------------");
+}
+
 void Vasculature::_addGraphSection(ThreadSafeContainer& container,
                                    const GeometryNode& srcNode,
                                    const GeometryNode& dstNode,
