@@ -42,9 +42,9 @@ namespace common
                        ->getLoggingLevel())                            \
         std::cout << "I [" << PLUGIN_PREFIX << "] " << __msg << std::endl;
 #ifdef NDEBUG
-#define PLUGIN_DEBUG(message) ;
+#define PLUGIN_DEBUG(__msg) ;
 #else
-#define PLUGIN_DEBUG(message)                                              \
+#define PLUGIN_DEBUG(__msg)                                                \
     if (bioexplorer::common::GeneralSettings::getInstance()                \
             ->getLoggingLevel() > 0)                                       \
     {                                                                      \
@@ -62,9 +62,9 @@ namespace common
                        ->getDBLoggingLevel())                          \
         std::cout << "I [" << PLUGIN_PREFIX << "] [DB] " << __msg << std::endl;
 #ifdef NDEBUG
-#define PLUGIN_DB_DEBUG(message) ;
+#define PLUGIN_DB_DEBUG(__msg) ;
 #else
-#define PLUGIN_DB_DEBUG(message)                                  \
+#define PLUGIN_DB_DEBUG(__msg)                                    \
     if (bioexplorer::common::GeneralSettings::getInstance()       \
             ->getDBLoggingLevel() > 0)                            \
     {                                                             \

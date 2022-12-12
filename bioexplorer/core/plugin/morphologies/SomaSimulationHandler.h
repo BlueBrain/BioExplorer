@@ -61,6 +61,7 @@ private:
     uint64_t _simulationReportId;
     SimulationReport _simulationReport;
     std::map<uint64_t, uint64_t> _guidsMapping;
+    std::map<uint64_t, floats> _values;
 };
 } // namespace morphology
 } // namespace bioexplorer
