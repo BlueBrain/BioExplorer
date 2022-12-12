@@ -464,7 +464,7 @@ SimulationReport DBConnector::getSimulationReport(
             "time_units, "
             "data_units FROM " +
             populationName +
-            ".report WHERE guid=" + std::to_string(simulationReportId);
+            ".report WHERE report_guid=" + std::to_string(simulationReportId);
 
         PLUGIN_DB_INFO(1, sql);
         auto res = transaction.exec(sql);

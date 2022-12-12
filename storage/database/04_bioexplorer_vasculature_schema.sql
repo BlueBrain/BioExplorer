@@ -38,10 +38,10 @@ create index if not exists node_section_guid_index
 create index if not exists node_region_guid_index
     on vasculature.node (region_guid);
 
-create table if not exists vasculature.simulation_report
+create table if not exists vasculature.report
 (
-    simulation_report_guid integer                    not null
-        constraint simulation_report_pk
+    guid integer                    not null
+        constraint guid_pk
             primary key,
     description            varchar                    not null,
     start_time             double precision default 0 not null,
@@ -53,11 +53,11 @@ create table if not exists vasculature.simulation_report
 
 create table if not exists vasculature.simulation_time_series
 (
-    simulation_report_guid integer not null,
-    frame_guid             integer not null,
-    values                 bytea   not null,
+    report_guid integer not null,
+    frame_guid  integer not null,
+    values      bytea   not null,
     constraint simulation_time_series_pk
-        primary key (simulation_report_guid, frame_guid)
+        primary key (report_guid, frame_guid)
 );
 
 create table if not exists vasculature.metadata
