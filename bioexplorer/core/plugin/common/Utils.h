@@ -282,5 +282,13 @@ Quaterniond randomQuaternion(const uint64_t seed);
  */
 bool andCheck(const uint32_t value, const uint32_t test);
 
+/**
+ * @brief Return a Yes/No string representation of a boolean
+ *
+ * @param value Boolean value
+ * @return std::string Yes if true, No otherwise
+ */
+std::string boolAsString(const bool value);
+
 } // namespace common
 } // namespace bioexplorer

@@ -298,15 +298,27 @@ public:
                                          const double endTime) const;
 
     /**
+     * @brief Get the number of simulated cells for a given soma report
+     *
+     * @param populationName Name of the population
+     * @param reportId Simulation report identifier
+     * @return uint64_t Number of simulated cells
+     */
+    uint64_t getNeuronSomaReportNbCells(const std::string& populationName,
+                                        const uint64_t reportId) const;
+
+    /**
      * @brief Get the Neuron soma simulation values
      *
      * @param populationName Name of the population
      * @param reportId Simulation report identifier
+     * @param nbSimulatedSomas Number of simulated somas,
      * @param frame Simulation frame
      * @return floats The Neuron soma simulation values
      */
     floats getNeuronSomaReportValues(const std::string& populationName,
                                      const uint64_t reportId,
+                                     const uint64_t nbSimulatedSomas,
                                      const uint64_t frame) const;
 
     /**

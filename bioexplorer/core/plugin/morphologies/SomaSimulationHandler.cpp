@@ -41,9 +41,14 @@ SomaSimulationHandler::SomaSimulationHandler(const std::string& populationName,
     const auto& connector = DBConnector::getInstance();
     _simulationReport =
         connector.getSimulationReport(_populationName, _simulationReportId);
+
+    _frameSize = connector.getNeuronSomaReportNbCells(_populationName,
+                                                      _simulationReportId);
+    _frameData.resize(_frameSize);
     _nbFrames = (_simulationReport.endTime - _simulationReport.startTime) /
                 _simulationReport.timeStep;
     _dt = _simulationReport.timeStep;
+    _logSimulationInformation();
 }
 
 void SomaSimulationHandler::_logSimulationInformation()
@@ -77,15 +82,12 @@ void* SomaSimulationHandler::getFrameData(const uint32_t frame)
     {
         const auto values =
             connector.getNeuronSomaReportValues(_populationName,
-                                                _simulationReportId, frame);
-        if (_frameSize != values.size())
-        {
-            _frameSize = values.size();
-            _frameData.resize(_frameSize, 0.0);
-            _logSimulationInformation();
-        }
-
-        mempcpy(&_frameData[0], values.data(), sizeof(float) * values.size());
+                                                _simulationReportId, _frameSize,
+                                                frame);
+        if (values.size() != _frameSize)
+            PLUGIN_ERROR("Invalid number of Soma report values ("
+                         << values.size() << "/" << _frameSize << ")");
+        mempcpy(&_frameData[0], values.data(), sizeof(float) * _frameSize);
         _currentFrame = boundedFrame;
     }
 

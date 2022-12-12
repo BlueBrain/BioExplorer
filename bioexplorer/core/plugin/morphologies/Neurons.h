@@ -68,6 +68,8 @@ public:
     Vector3ds getNeuronVaricosities(const uint64_t neuronId);
 
 private:
+    void _logRealismParams();
+
     void _buildNeurons();
 
     void _buildSomasOnly(ThreadSafeContainer& container,

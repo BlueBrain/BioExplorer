@@ -74,6 +74,8 @@ public:
     uint64_t getNbSections() const { return _nbSections; }
 
 private:
+    void _logRealismParams();
+
     void _addGraphSection(ThreadSafeContainer& container,
                           const GeometryNode& srcNode,
                           const GeometryNode& dstNode, const size_t materialId);

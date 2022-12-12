@@ -70,6 +70,35 @@ Neurons::Neurons(Scene& scene, const NeuronsDetails& details)
     PLUGIN_TIMER(chrono.elapsed(), "Neurons loaded");
 }
 
+void Neurons::_logRealismParams()
+{
+    PLUGIN_INFO(1, "----------------------------------------------------");
+    PLUGIN_INFO(1, "Realism level ("
+                       << static_cast<uint32_t>(_details.realismLevel) << ")");
+    PLUGIN_INFO(1, "- Soma     : " << boolAsString(andCheck(
+                       static_cast<uint32_t>(_details.realismLevel),
+                       static_cast<uint32_t>(MorphologyRealismLevel::soma))));
+    PLUGIN_INFO(1, "- Axon     : " << boolAsString(andCheck(
+                       static_cast<uint32_t>(_details.realismLevel),
+                       static_cast<uint32_t>(MorphologyRealismLevel::axon))));
+    PLUGIN_INFO(1, "- Dendrite : " << boolAsString(
+                       andCheck(static_cast<uint32_t>(_details.realismLevel),
+                                static_cast<uint32_t>(
+                                    MorphologyRealismLevel::dendrite))));
+    PLUGIN_INFO(1, "- Internals: " << boolAsString(
+                       andCheck(static_cast<uint32_t>(_details.realismLevel),
+                                static_cast<uint32_t>(
+                                    MorphologyRealismLevel::internals))));
+    PLUGIN_INFO(1, "- Externals: " << boolAsString(
+                       andCheck(static_cast<uint32_t>(_details.realismLevel),
+                                static_cast<uint32_t>(
+                                    MorphologyRealismLevel::externals))));
+    PLUGIN_INFO(1, "- Spine    : " << boolAsString(andCheck(
+                       static_cast<uint32_t>(_details.realismLevel),
+                       static_cast<uint32_t>(MorphologyRealismLevel::spine))));
+    PLUGIN_INFO(1, "----------------------------------------------------");
+}
+
 void Neurons::_buildNeurons()
 {
     const auto& connector = DBConnector::getInstance();
@@ -84,6 +113,7 @@ void Neurons::_buildNeurons()
         connector.getNeurons(_details.populationName, sqlNodeFilter);
 
     PLUGIN_INFO(1, "Building " << somas.size() << " neurons");
+    _logRealismParams();
 
     size_t previousMaterialId = std::numeric_limits<size_t>::max();
     size_t baseMaterialId = 0;

@@ -61,6 +61,7 @@ public:
         const VasculatureRadiusReportDetails& details);
 
 private:
+    void _logRealismParams();
     void _buildModel(const doubles& radii = doubles());
     void _addEndFoot(ThreadSafeContainer& container, const EndFootMap& endFeet,
                      const doubles& radii, const size_t materialId);

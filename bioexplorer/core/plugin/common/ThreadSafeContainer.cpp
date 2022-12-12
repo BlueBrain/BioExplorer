@@ -51,8 +51,9 @@ uint64_t ThreadSafeContainer::addSphere(
     if (useSdf)
         return _addSDFGeometry(materialId,
                                createSDFSphere(position * scale,
-                                               radius * scale.x, userData,
-                                               scaledDisplacement),
+                                               (radius - displacement.x) *
+                                                   scale.x,
+                                               userData, scaledDisplacement),
                                neighbours);
     return _addSphere(materialId,
                       {position * scale, radius * scale.x, userData});
@@ -71,7 +72,8 @@ uint64_t ThreadSafeContainer::addCone(
     {
         const auto geom =
             createSDFConePill(sourcePosition * scale, targetPosition * scale,
-                              sourceRadius * scale.x, targetRadius * scale.x,
+                              (sourceRadius - displacement.x) * scale.x,
+                              (targetRadius - displacement.x) * scale.x,
                               userDataOffset, scaledDisplacement);
         return _addSDFGeometry(materialId, geom, neighbours);
     }
