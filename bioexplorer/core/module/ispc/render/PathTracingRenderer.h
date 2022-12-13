@@ -20,7 +20,7 @@
 
 #pragma once
 
-#include <bioexplorer/core/module/ispc/render/utils/SimulationRenderer.h>
+#include <render/utils/SimulationRenderer.h>
 
 namespace bioexplorer
 {

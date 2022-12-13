@@ -204,6 +204,7 @@ list(APPEND CMAKE_MODULE_PATH ${OSPRAY_CMAKE_ROOT})
 list(APPEND ALL_ISPC_INCLUDES ${${NAME}_MODULES_DIR})
 list(APPEND ALL_ISPC_INCLUDES ${OSPRAY_INCLUDE_DIRS})
 list(APPEND ALL_ISPC_INCLUDES ${GLM_INCLUDE_DIRS})
+list(APPEND ALL_ISPC_INCLUDES ${PROJECT_SOURCE_DIR}/bioexplorer/core/module/ispc)
 include_directories_ispc(${ALL_ISPC_INCLUDES})
 ospray_ispc_compile(${${NAME}_ISPC_SOURCES})
 list(APPEND ${NAME}_SOURCES ${ISPC_OBJECTS})
@@ -217,6 +218,7 @@ include_directories(
     ${BRAYNS_INCLUDE_DIRS}
     ${morphio_INCLUDE_DIRS}
     ${GLM_INCLUDE_DIRS}
+    ${PROJECT_SOURCE_DIR}/bioexplorer/core/module/ispc
     ${${NAME}_MODULES_DIR}
 )
 

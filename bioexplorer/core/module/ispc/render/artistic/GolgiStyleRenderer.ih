@@ -20,7 +20,7 @@
 
 #include <ospray/SDK/render/Renderer.ih>
 
-#include <bioexplorer/core/module/ispc/render/utils/AdvancedMaterial.ih>
+#include <module/ispc/render/utils/AdvancedMaterial.ih>
 
 struct GolgiStyleRenderer
 {

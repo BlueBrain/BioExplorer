@@ -18,7 +18,7 @@
  * this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-#include <bioexplorer/core/module/ispc/render/utils/SimulationRenderer.ih>
+#include <render/utils/SimulationRenderer.ih>
 
 struct PathTracingRenderer
 {
