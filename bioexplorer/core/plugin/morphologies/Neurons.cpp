@@ -1230,7 +1230,7 @@ std::string Neurons::_attachSimulationReport(Model& model)
                 sqlNodeFilter += "AND ";
             sqlNodeFilter += "guid IN (SELECT DISTINCT(node_guid) FROM " +
                              _details.populationName +
-                             ".soma_report WHERE report_guid=" +
+                             ".simulated_node WHERE report_guid=" +
                              std::to_string(_details.simulationReportId) + ")";
             break;
         }
@@ -1248,7 +1248,7 @@ std::string Neurons::_attachSimulationReport(Model& model)
                 sqlNodeFilter += "AND ";
             sqlNodeFilter += "guid IN (SELECT DISTINCT(node_guid) FROM " +
                              _details.populationName +
-                             ".compartment_report WHERE report_guid=" +
+                             ".simulated_node WHERE report_guid=" +
                              std::to_string(_details.simulationReportId) + ")";
             break;
         }

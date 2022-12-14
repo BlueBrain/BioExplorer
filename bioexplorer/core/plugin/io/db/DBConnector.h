@@ -298,26 +298,26 @@ public:
                                          const double endTime) const;
 
     /**
-     * @brief Get the number of simulated cells for a given soma report
+     * @brief Get the Neuron Soma Report Guids object
      *
-     * @param populationName Name of the population
-     * @param reportId Simulation report identifier
-     * @return uint64_t Number of simulated cells
+     * @param populationName
+     * @param reportId
+     * @return uin64_ts
      */
-    uint64_t getNeuronSomaReportNbCells(const std::string& populationName,
-                                        const uint64_t reportId) const;
+    uint64_ts getNeuronSomaReportGuids(const std::string& populationName,
+                                       const uint64_t reportId) const;
 
     /**
      * @brief Get the Neuron soma simulation values
      *
      * @param populationName Name of the population
      * @param reportId Simulation report identifier
-     * @param nbSimulatedSomas Number of simulated somas,
+     * @param frame Simulation frame
      * @return floats The Neuron soma simulation values
      */
-    std::map<uint64_t, floats> getNeuronSomaReportValues(
-        const std::string& populationName, const uint64_t reportId,
-        const uint64_t nbSimulatedSomas) const;
+    void getNeuronSomaReportValues(const std::string& populationName,
+                                   const uint64_t reportId,
+                                   const uint64_t frame, floats& values) const;
 
     /**
      * @brief Get the neuron section compartments for a given simulation report

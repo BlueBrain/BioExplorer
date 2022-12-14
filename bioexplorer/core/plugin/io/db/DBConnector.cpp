@@ -882,82 +882,76 @@ uint64_ts DBConnector::getNeuronSpikeReportValues(
     return spikes;
 }
 
-uint64_t DBConnector::getNeuronSomaReportNbCells(
+uint64_ts DBConnector::getNeuronSomaReportGuids(
     const std::string& populationName, const uint64_t reportId) const
 {
-    uint64_t nbSimulatedCells = 0;
+    CHECK_DB_INITIALIZATION
+    uint64_ts guids;
+    const uint64_t elementSize = sizeof(uint64_t);
+    Timer chrono;
     pqxx::nontransaction transaction(
         *_connections[omp_get_thread_num() % _dbNbConnections]);
     try
     {
-        Timer chrono;
-        std::string sql =
-            "SELECT count(*) FROM " + populationName +
-            ".soma_report WHERE report_guid=" + std::to_string(reportId);
-        PLUGIN_DB_INFO(1, sql);
-        auto res = transaction.exec(sql);
+        const std::string sql =
+            "SELECT node_guid FROM " + populationName +
+            ".simulated_node WHERE report_guid=" + std::to_string(reportId) +
+            " ORDER BY node_guid";
+        PLUGIN_DB_DEBUG(sql);
+        const auto res = transaction.exec(sql);
+        guids.resize(res.size());
+        uint64_t count = 0;
         for (auto c = res.begin(); c != res.end(); ++c)
-            nbSimulatedCells = c[0].as<uint64_t>();
-        PLUGIN_DB_TIMER(chrono.elapsed(),
-                        "getNeuronSomaReportNbCells(populationName="
-                            << populationName << ", reportId=" << reportId
-                            << ")");
+        {
+            guids[count] = c[0].as<uint64_t>();
+            ++count;
+        }
     }
     catch (pqxx::sql_error& e)
     {
         PLUGIN_THROW(e.what());
     }
-    return nbSimulatedCells;
+    PLUGIN_DB_TIMER(chrono.elapsed(), "getNeuronSomaReportGuids(populationName="
+                                          << populationName
+                                          << ", reportId=" << reportId << ")");
+    return guids;
 }
 
-std::map<uint64_t, floats> DBConnector::getNeuronSomaReportValues(
-    const std::string& populationName, const uint64_t reportId,
-    const uint64_t nbSimulatedSomas) const
+void DBConnector::getNeuronSomaReportValues(const std::string& populationName,
+                                            const uint64_t reportId,
+                                            const uint64_t frame,
+                                            floats& values) const
 {
     CHECK_DB_INITIALIZATION
-    std::map<uint64_t, floats> somaReportValues;
-    const uint64_t batchSize = nbSimulatedSomas / _dbNbConnections;
     const uint64_t elementSize = sizeof(float);
     const uint64_t bufferOffset = 1; // First byte of bytea must be ignored
 
     Timer chrono;
-    uint64_t connIndex = 0;
-#pragma omp parallel for num_threads(_dbNbConnections)
-    for (connIndex = 0; connIndex < _dbNbConnections; ++connIndex)
+    pqxx::nontransaction transaction(
+        *_connections[omp_get_thread_num() % _dbNbConnections]);
+    try
     {
-        pqxx::nontransaction transaction(*_connections[connIndex]);
-        try
+        const std::string sql =
+            "SELECT values::bytea FROM " + populationName +
+            ".soma_report WHERE report_guid=" + std::to_string(reportId) +
+            " AND frame=" + std::to_string(frame);
+        PLUGIN_DB_DEBUG(sql);
+        const auto res = transaction.exec(sql);
+        for (auto c = res.begin(); c != res.end(); ++c)
         {
-            const uint64_t valueIndex = connIndex * batchSize;
-            const uint64_t frameIndex = bufferOffset;
-            const std::string sql =
-                "SELECT guid, values::bytea FROM " + populationName +
-                ".soma_report WHERE report_guid=" + std::to_string(reportId) +
-                " ORDER BY node_guid OFFSET " + std::to_string(valueIndex) +
-                " LIMIT " + std::to_string(batchSize);
-            PLUGIN_DB_DEBUG(sql);
-            const auto res = transaction.exec(sql);
-            for (auto c = res.begin(); c != res.end(); ++c)
-            {
-                const uint64_t guid = c[0].as<uint64_t>();
-                const pqxx::binarystring buffer(c[1]);
-                const uint64_t nbValues = buffer.size() / elementSize;
-                floats values;
-                values.resize(nbValues);
-                memcpy(&values[0], &buffer[0], elementSize * nbValues);
-#pragma omp critical
-                somaReportValues[guid] = values;
-            }
+            const pqxx::binarystring buffer(c[0]);
+            const uint64_t nbValues = buffer.size() / elementSize;
+            values.resize(nbValues);
+            memcpy(&values[0], &buffer[0], buffer.size());
         }
-        catch (pqxx::sql_error& e)
-        {
-            PLUGIN_THROW(e.what());
-        }
+    }
+    catch (pqxx::sql_error& e)
+    {
+        PLUGIN_THROW(e.what());
     }
     PLUGIN_DB_TIMER(chrono.elapsed(),
                     "getNeuronSomaReportValues(populationName="
                         << populationName << ", reportId=" << reportId << ")");
-    return somaReportValues;
 }
 
 uint64_ts DBConnector::getNeuronSectionCompartments(
