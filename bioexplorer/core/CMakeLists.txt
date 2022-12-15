@@ -63,12 +63,13 @@ include_directories(
 set(${NAME}_SOURCES
     module/ispc/render/utils/SimulationRenderer.cpp
     module/ispc/render/utils/AdvancedMaterial.cpp
-    module/ispc/camera/PerspectiveStereoCamera.cpp
     module/ispc/render/AdvancedRenderer.cpp
     module/ispc/render/FieldsRenderer.cpp
     module/ispc/render/DensityRenderer.cpp
     module/ispc/render/PathTracingRenderer.cpp
     module/ispc/render/VoxelRenderer.cpp
+    module/ispc/render/artistic/GolgiStyleRenderer.cpp
+    module/ispc/camera/PerspectiveStereoCamera.cpp
     plugin/common/GeneralSettings.cpp
     plugin/common/Utils.cpp
     plugin/common/UniqueId.cpp
@@ -117,12 +118,13 @@ set(${NAME}_SOURCES
 set(${NAME}_PUBLIC_HEADERS
     module/ispc/render/utils/SimulationRenderer.h
     module/ispc/render/utils/AdvancedMaterial.h
-    module/ispc/camera/PerspectiveStereoCamera.h
     module/ispc/render/AdvancedRenderer.h
     module/ispc/render/FieldsRenderer.h
     module/ispc/render/DensityRenderer.h
     module/ispc/render/PathTracingRenderer.h
     module/ispc/render/VoxelRenderer.h
+    module/ispc/render/artistic/GolgiStyleRenderer.h
+    module/ispc/camera/PerspectiveStereoCamera.h
     plugin/io/OOCManager.h
     plugin/io/CacheLoader.h
     plugin/io/db/DBConnector.h
@@ -186,12 +188,13 @@ set(${NAME}_ISPC_SOURCES
     module/ispc/render/utils/BioExplorerRandomGenerator.ispc
     module/ispc/render/utils/AdvancedMaterial.ispc
     module/ispc/render/utils/SimulationRenderer.ispc
-    module/ispc/camera/PerspectiveStereoCamera.ispc
     module/ispc/render/FieldsRenderer.ispc
     module/ispc/render/DensityRenderer.ispc
     module/ispc/render/AdvancedRenderer.ispc
     module/ispc/render/PathTracingRenderer.ispc
     module/ispc/render/VoxelRenderer.ispc
+    module/ispc/render/artistic/GolgiStyleRenderer.ispc
+    module/ispc/camera/PerspectiveStereoCamera.ispc
 )
 
 # ==============================================================================
@@ -201,6 +204,7 @@ list(APPEND CMAKE_MODULE_PATH ${OSPRAY_CMAKE_ROOT})
 list(APPEND ALL_ISPC_INCLUDES ${${NAME}_MODULES_DIR})
 list(APPEND ALL_ISPC_INCLUDES ${OSPRAY_INCLUDE_DIRS})
 list(APPEND ALL_ISPC_INCLUDES ${GLM_INCLUDE_DIRS})
+list(APPEND ALL_ISPC_INCLUDES ${PROJECT_SOURCE_DIR}/bioexplorer/core/module/ispc)
 include_directories_ispc(${ALL_ISPC_INCLUDES})
 ospray_ispc_compile(${${NAME}_ISPC_SOURCES})
 list(APPEND ${NAME}_SOURCES ${ISPC_OBJECTS})
@@ -214,6 +218,7 @@ include_directories(
     ${BRAYNS_INCLUDE_DIRS}
     ${morphio_INCLUDE_DIRS}
     ${GLM_INCLUDE_DIRS}
+    ${PROJECT_SOURCE_DIR}/bioexplorer/core/module/ispc
     ${${NAME}_MODULES_DIR}
 )
 

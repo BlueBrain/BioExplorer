@@ -20,43 +20,32 @@
 
 #pragma once
 
-#include <render/utils/SimulationRenderer.h>
+#include <module/ispc/render/utils/AdvancedMaterial.h>
+
+#include <ospray/SDK/render/Renderer.h>
 
 namespace bioexplorer
 {
 namespace rendering
 {
-/**
- * @brief The PathTracingRenderer class is a renderer that processes the
- * rendering of the 3D scene using the path tracing algorythm
- */
-class PathTracingRenderer : public SimulationRenderer
+using namespace ospray;
+
+class GolgiStyleRenderer : public Renderer
 {
 public:
-    PathTracingRenderer();
+    GolgiStyleRenderer();
 
     /**
        Returns the class name as a string
        @return string containing the full name of the class
     */
-    std::string toString() const final { return "bio_explorer_path_tracing"; }
+    std::string toString() const final { return "brayns::GolgiStyleRenderer"; }
     void commit() final;
 
 private:
-    // Shading attributes
-    std::vector<void*> _lightArray;
-    void** _lightPtr;
-    ospray::Data* _lightData;
-
-    AdvancedMaterial* _bgMaterial;
-
-    double _exposure{1.f};
-    double _aoStrength{1.f};
-    double _aoDistance{100.f};
-    ospray::uint32 _randomNumber{0};
-    double _timestamp{0.f};
-    bool _useHardwareRandomizer{false};
-    bool _showBackground{false};
+    AdvancedMaterial* _bgMaterial{nullptr};
+    float _exponent{5.f};
+    bool _inverse{false};
 };
 } // namespace rendering
 } // namespace bioexplorer

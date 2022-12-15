@@ -20,7 +20,7 @@
 
 #pragma once
 
-#include <bioexplorer/core/module/ispc/render/utils/AdvancedMaterial.h>
+#include <render/utils/AdvancedMaterial.h>
 
 #include <ospray/SDK/render/Renderer.h>
 

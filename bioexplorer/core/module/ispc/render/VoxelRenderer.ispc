@@ -20,7 +20,7 @@
 
 #include "VoxelRenderer.ih"
 
-#include <bioexplorer/core/module/ispc/render/utils/BioExplorerSkyBox.ih>
+#include <render/utils/BioExplorerSkyBox.ih>
 
 void linearCompose(const varying vec4f& src, varying vec4f& dst,
                    const varying float alphaRatio)

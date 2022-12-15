@@ -223,6 +223,15 @@ void _addBioExplorerPathTracingRenderer(Engine &engine)
     engine.addRendererType("bio_explorer_path_tracing", properties);
 }
 
+void _addBioExplorerGolgiStyleRenderer(Engine &engine)
+{
+    PLUGIN_INFO(2, "Registering 'bio_explorer_golgi_style' renderer");
+    PropertyMap properties;
+    properties.setProperty({"exponent", 5., 0.1, 10., {"Exponent"}});
+    properties.setProperty({"inverse", false, {"Inverse"}});
+    engine.addRendererType("bio_explorer_golgi_style", properties);
+}
+
 void _addBioExplorerPerspectiveCamera(Engine &engine)
 {
     PLUGIN_INFO(2, "Registering 'bio_explorer_perspective' camera");
@@ -636,6 +645,7 @@ void BioExplorerPlugin::init()
     _addBioExplorerFieldsRenderer(engine);
     _addBioExplorerDensityRenderer(engine);
     _addBioExplorerPathTracingRenderer(engine);
+    _addBioExplorerGolgiStyleRenderer(engine);
 
     // Database
     try

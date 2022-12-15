@@ -129,6 +129,7 @@ OSP_REGISTER_MATERIAL(bio_explorer_voxel, AdvancedMaterial, default);
 OSP_REGISTER_MATERIAL(bio_explorer_fields, AdvancedMaterial, default);
 OSP_REGISTER_MATERIAL(bio_explorer_density, AdvancedMaterial, default);
 OSP_REGISTER_MATERIAL(bio_explorer_path_tracing, AdvancedMaterial, default);
+OSP_REGISTER_MATERIAL(bio_explorer_golgi_style, AdvancedMaterial, default);
 OSP_REGISTER_MATERIAL(depth, AdvancedMaterial, default);
 OSP_REGISTER_MATERIAL(albedo, AdvancedMaterial, default);
 OSP_REGISTER_MATERIAL(ambient_occlusion, AdvancedMaterial, default);

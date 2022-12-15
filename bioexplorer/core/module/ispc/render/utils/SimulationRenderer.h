@@ -18,7 +18,6 @@
 
 #pragma once
 
-// obj renderer
 #include "AdvancedMaterial.h"
 
 #include <ospray/SDK/common/Material.h>

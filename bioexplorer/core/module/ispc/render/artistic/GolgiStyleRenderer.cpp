@@ -18,45 +18,32 @@
  * this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-#pragma once
+#include "GolgiStyleRenderer.h"
 
-#include <render/utils/SimulationRenderer.h>
+// ispc exports
+#include "GolgiStyleRenderer_ispc.h"
 
 namespace bioexplorer
 {
 namespace rendering
 {
-/**
- * @brief The PathTracingRenderer class is a renderer that processes the
- * rendering of the 3D scene using the path tracing algorythm
- */
-class PathTracingRenderer : public SimulationRenderer
+
+void GolgiStyleRenderer::commit()
 {
-public:
-    PathTracingRenderer();
+    Renderer::commit();
+    _exponent = getParam1f("exponent", 1.f);
+    _inverse = getParam("inverse", 0);
 
-    /**
-       Returns the class name as a string
-       @return string containing the full name of the class
-    */
-    std::string toString() const final { return "bio_explorer_path_tracing"; }
-    void commit() final;
+    ispc::GolgiStyleRenderer_set(getIE(),
+                                 (_bgMaterial ? _bgMaterial->getIE() : nullptr),
+                                 spp, _exponent, _inverse);
+}
 
-private:
-    // Shading attributes
-    std::vector<void*> _lightArray;
-    void** _lightPtr;
-    ospray::Data* _lightData;
+GolgiStyleRenderer::GolgiStyleRenderer()
+{
+    ispcEquivalent = ispc::GolgiStyleRenderer_create(this);
+}
 
-    AdvancedMaterial* _bgMaterial;
-
-    double _exposure{1.f};
-    double _aoStrength{1.f};
-    double _aoDistance{100.f};
-    ospray::uint32 _randomNumber{0};
-    double _timestamp{0.f};
-    bool _useHardwareRandomizer{false};
-    bool _showBackground{false};
-};
+OSP_REGISTER_RENDERER(GolgiStyleRenderer, bio_explorer_golgi_style);
 } // namespace rendering
 } // namespace bioexplorer

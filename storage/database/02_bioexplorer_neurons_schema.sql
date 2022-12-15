@@ -22,10 +22,12 @@ create table if not exists neurons.configuration
         constraint configuration_pk
             primary key,
     value varchar not null
-);
+)
+    tablespace bioexplorer_ts;
 
 create unique index if not exists configuration_guid_uindex
-    on neurons.configuration (guid);
+    on neurons.configuration (guid)
+    tablespace bioexplorer_ts;
 
 create table if not exists neurons.electrical_type
 (
@@ -34,13 +36,16 @@ create table if not exists neurons.electrical_type
             primary key,
     code        varchar not null,
     description varchar
-);
+)
+    tablespace bioexplorer_ts;
 
 create unique index if not exists electrical_type_code_uindex
-    on neurons.electrical_type (code);
+    on neurons.electrical_type (code)
+    tablespace bioexplorer_ts;
 
 create unique index if not exists electrical_type_guid_uindex
-    on neurons.electrical_type (guid);
+    on neurons.electrical_type (guid)
+    tablespace bioexplorer_ts;
 
 create table if not exists neurons.layer
 (
@@ -49,13 +54,16 @@ create table if not exists neurons.layer
             primary key,
     code        varchar not null,
     description varchar
-);
+)
+    tablespace bioexplorer_ts;
 
 create unique index if not exists layer_code_uindex
-    on neurons.layer (code);
+    on neurons.layer (code)
+    tablespace bioexplorer_ts;
 
 create unique index if not exists layer_guid_uindex
-    on neurons.layer (guid);
+    on neurons.layer (guid)
+    tablespace bioexplorer_ts;
 
 create table if not exists neurons.model_template
 (
@@ -64,10 +72,12 @@ create table if not exists neurons.model_template
             primary key,
     code        varchar not null,
     description varchar
-);
+)
+    tablespace bioexplorer_ts;
 
 create unique index if not exists model_template_guid_uindex
-    on neurons.model_template (guid);
+    on neurons.model_template (guid)
+    tablespace bioexplorer_ts;
 
 create table if not exists neurons.model_type
 (
@@ -76,10 +86,12 @@ create table if not exists neurons.model_type
             primary key,
     code        varchar not null,
     description integer
-);
+)
+    tablespace bioexplorer_ts;
 
 create unique index if not exists model_type_guid_uindex
-    on neurons.model_type (guid);
+    on neurons.model_type (guid)
+    tablespace bioexplorer_ts;
 
 create table if not exists neurons.morphological_type
 (
@@ -88,27 +100,33 @@ create table if not exists neurons.morphological_type
             primary key,
     code        varchar not null,
     description varchar
-);
+)
+    tablespace bioexplorer_ts;
 
 create unique index if not exists morphological_type_code_uindex
-    on neurons.morphological_type (code);
+    on neurons.morphological_type (code)
+    tablespace bioexplorer_ts;
 
 create unique index if not exists morphological_type_guid_uindex
-    on neurons.morphological_type (guid);
+    on neurons.morphological_type (guid)
+    tablespace bioexplorer_ts;
 
 create table if not exists neurons.morphology
 (
     guid     integer not null
         constraint morphology_pk
             primary key,
-    code varchar not null
-);
+    basename varchar not null
+)
+    tablespace bioexplorer_ts;
 
-create unique index if not exists morphology_code_uindex
-    on neurons.morphology (code);
+create unique index if not exists morphology_basename_uindex
+    on neurons.morphology (basename)
+    tablespace bioexplorer_ts;
 
 create unique index if not exists morphology_guid_uindex
-    on neurons.morphology (guid);
+    on neurons.morphology (guid)
+    tablespace bioexplorer_ts;
 
 create table if not exists neurons.morphology_class
 (
@@ -117,10 +135,12 @@ create table if not exists neurons.morphology_class
             primary key,
     code        varchar not null,
     description varchar
-);
+)
+    tablespace bioexplorer_ts;
 
 create unique index if not exists morphology_class_guid_uindex
-    on neurons.morphology_class (guid);
+    on neurons.morphology_class (guid)
+    tablespace bioexplorer_ts;
 
 create table if not exists neurons.morphology_type
 (
@@ -129,13 +149,16 @@ create table if not exists neurons.morphology_type
             primary key,
     code        varchar not null,
     description varchar
-);
+)
+    tablespace bioexplorer_ts;
 
 create unique index if not exists morphology_type_code_uindex
-    on neurons.morphology_type (code);
+    on neurons.morphology_type (code)
+    tablespace bioexplorer_ts;
 
 create unique index if not exists morphology_type_guid_uindex
-    on neurons.morphology_type (guid);
+    on neurons.morphology_type (guid)
+    tablespace bioexplorer_ts;
 
 create table if not exists neurons.node
 (
@@ -156,10 +179,12 @@ create table if not exists neurons.node
     region_guid             integer                    not null,
     layer_guid              integer                    not null,
     synapse_class_guid      integer                    not null
-);
+)
+    tablespace bioexplorer_ts;
 
 create unique index if not exists node_guid_uindex
-    on neurons.node (guid);
+    on neurons.node (guid)
+    tablespace bioexplorer_ts;
 
 create table if not exists neurons.node_type
 (
@@ -168,10 +193,12 @@ create table if not exists neurons.node_type
             primary key,
     code        varchar not null,
     description varchar
-);
+)
+    tablespace bioexplorer_ts;
 
 create unique index if not exists node_type_guid_uindex
-    on neurons.node_type (guid);
+    on neurons.node_type (guid)
+    tablespace bioexplorer_ts;
 
 create table if not exists neurons.population
 (
@@ -180,13 +207,16 @@ create table if not exists neurons.population
             primary key,
     name        varchar not null,
     description varchar
-);
+)
+    tablespace bioexplorer_ts;
 
 create unique index if not exists population_guid_uindex
-    on neurons.population (guid);
+    on neurons.population (guid)
+    tablespace bioexplorer_ts;
 
 create unique index if not exists population_name_uindex
-    on neurons.population (name);
+    on neurons.population (name)
+    tablespace bioexplorer_ts;
 
 create table if not exists neurons.region
 (
@@ -195,13 +225,16 @@ create table if not exists neurons.region
             primary key,
     code        varchar not null,
     description varchar
-);
+)
+    tablespace bioexplorer_ts;
 
 create unique index if not exists region_code_uindex
-    on neurons.region (code);
+    on neurons.region (code)
+    tablespace bioexplorer_ts;
 
 create unique index if not exists region_guid_uindex
-    on neurons.region (guid);
+    on neurons.region (guid)
+    tablespace bioexplorer_ts;
 
 create table if not exists neurons.section_type
 (
@@ -209,7 +242,8 @@ create table if not exists neurons.section_type
         constraint section_type_pk
             primary key,
     description varchar not null
-);
+)
+    tablespace bioexplorer_ts;
 
 create table if not exists neurons.section
 (
@@ -225,31 +259,28 @@ create table if not exists neurons.section
     z                   double precision default 0 not null,
     constraint section_pk
         primary key (morphology_guid, section_guid, section_parent_guid)
-);
+)
+    tablespace bioexplorer_ts;
 
 create index if not exists section_morphology_guid_index
-    on neurons.section (morphology_guid);
+    on neurons.section (morphology_guid)
+    tablespace bioexplorer_ts;
 
 create unique index if not exists section_morphology_guid_section_guid_uindex
-    on neurons.section (morphology_guid, section_guid);
+    on neurons.section (morphology_guid, section_guid)
+    tablespace bioexplorer_ts;
+
+create index if not exists section_guid_index
+    on neurons.section (morphology_guid)
+    tablespace bioexplorer_ts;
 
 create unique index if not exists section_type_description_uindex
-    on neurons.section_type (description);
+    on neurons.section_type (description)
+    tablespace bioexplorer_ts;
 
 create unique index if not exists section_type_guid_uindex
-    on neurons.section_type (guid);
-
-create table if not exists neurons.synapse
-(
-    presynaptic_neuron_guid       integer          not null,
-    presynaptic_section_guid      integer          not null,
-    presynaptic_segment_guid      integer          not null,
-    postsynaptic_neuron_guid      integer          not null,
-    postsynaptic_section_guid     integer          not null,
-    postsynaptic_segment_guid     integer          not null,
-    presynaptic_segment_distance  double precision not null,
-    postsynaptic_segment_distance double precision not null
-);
+    on neurons.section_type (guid)
+    tablespace bioexplorer_ts;
 
 create table if not exists neurons.synapse_class
 (
@@ -258,10 +289,12 @@ create table if not exists neurons.synapse_class
             primary key,
     code        varchar not null,
     description varchar
-);
+)
+    tablespace bioexplorer_ts;
 
 create unique index if not exists synapse_class_guid_uindex
-    on neurons.synapse_class (guid);
+    on neurons.synapse_class (guid)
+    tablespace bioexplorer_ts;
 
 create table if not exists neurons.synapse_connectivity
 (
@@ -270,10 +303,12 @@ create table if not exists neurons.synapse_connectivity
     postsynaptic_guid integer not null
         constraint synapse_connectivity_pk
             primary key
-);
+)
+    tablespace bioexplorer_ts;
 
 create unique index if not exists synapse_connectivity_guid_uindex
-    on neurons.synapse_connectivity (guid);
+    on neurons.synapse_connectivity (guid)
+    tablespace bioexplorer_ts;
 
 create table if not exists neurons.target
 (
@@ -282,25 +317,31 @@ create table if not exists neurons.target
             primary key,
     code        varchar not null,
     description varchar
-);
+)
+    tablespace bioexplorer_ts;
 
 create unique index if not exists target_code_uindex
-    on neurons.target (code);
+    on neurons.target (code)
+    tablespace bioexplorer_ts;
 
 create unique index if not exists target_guid_uindex
-    on neurons.target (guid);
+    on neurons.target (guid)
+    tablespace bioexplorer_ts;
 
 create table if not exists neurons.target_node
 (
     target_guid integer not null,
     node_guid   integer not null
-);
+)
+    tablespace bioexplorer_ts;
 
 create index if not exists target_node_node_guid_index
-    on neurons.target_node (node_guid);
+    on neurons.target_node (node_guid)
+    tablespace bioexplorer_ts;
 
 create index if not exists target_node_target_guid_index
-    on neurons.target_node (target_guid);
+    on neurons.target_node (target_guid)
+    tablespace bioexplorer_ts;
 
 create table if not exists neurons.report_type
 (
@@ -308,10 +349,12 @@ create table if not exists neurons.report_type
         constraint report_type_pk
             primary key,
     description varchar not null
-);
+)
+    tablespace bioexplorer_ts;
 
 create unique index if not exists report_type_guid_uindex
-    on neurons.report_type (guid);
+    on neurons.report_type (guid)
+    tablespace bioexplorer_ts;
 
 create table if not exists neurons.report
 (
@@ -329,26 +372,12 @@ create table if not exists neurons.report
     data_units  varchar,
     time_units  varchar,
     notes       varchar
-);
+)
+    tablespace bioexplorer_ts;
 
 create unique index if not exists report_guid_uindex
-    on neurons.report (guid);
-
-create table if not exists neurons.soma_report
-(
-    guid        integer not null
-        constraint soma_report_pk
-            primary key,
-    report_guid integer not null,
-    node_guid   integer not null
-        constraint soma_report_node_guid_fk
-            references neurons.node
-            on update cascade on delete cascade,
-    values      bytea   not null
-);
-
-create unique index if not exists soma_report_guid_uindex
-    on neurons.soma_report (guid);
+    on neurons.report (guid)
+    tablespace bioexplorer_ts;
 
 create table if not exists neurons.spike_report
 (
@@ -361,12 +390,14 @@ create table if not exists neurons.spike_report
             references neurons.node
             on update cascade on delete cascade,
     timestamp   double precision not null
-);
+)
+    tablespace bioexplorer_ts;
 
 create unique index if not exists spike_report_guid_uindex
-    on neurons.spike_report (guid);
+    on neurons.spike_report (guid)
+    tablespace bioexplorer_ts;
 
-create table neurons.compartment_report
+create table if not exists neurons.compartment_report
 (
     report_guid      integer not null,
     node_guid        integer not null
@@ -378,16 +409,73 @@ create table neurons.compartment_report
     values           bytea   not null,
     constraint compartment_report_pk
         primary key (report_guid, node_guid, section_guid, compartment_guid)
-);
+)
+    tablespace bioexplorer_ts;
 
-create index compartment_report_node_guid_index
-    on neurons.compartment_report (node_guid);
+create index if not exists compartment_report_node_guid_index
+    on neurons.compartment_report (node_guid)
+    tablespace bioexplorer_ts;
 
-create index compartment_report_report_guid_index
-    on neurons.compartment_report (report_guid);
+create index if not exists compartment_report_report_guid_index
+    on neurons.compartment_report (report_guid)
+    tablespace bioexplorer_ts;
 
-create index compartment_report_section_guid_index
-    on neurons.compartment_report (section_guid);
+create index if not exists compartment_report_section_guid_index
+    on neurons.compartment_report (section_guid)
+    tablespace bioexplorer_ts;
 
-create index compartment_report_compartment_guid_index
-    on neurons.compartment_report (compartment_guid);
+create index if not exists compartment_report_compartment_guid_index
+    on neurons.compartment_report (compartment_guid)
+    tablespace bioexplorer_ts;
+
+create table if not exists neurons.synapse
+(
+    presynaptic_neuron_guid       integer          not null,
+    presynaptic_section_guid      integer          not null,
+    presynaptic_segment_guid      integer          not null,
+    postsynaptic_neuron_guid      integer          not null,
+    postsynaptic_section_guid     integer          not null,
+    postsynaptic_segment_guid     integer          not null,
+    presynaptic_segment_distance  double precision not null,
+    postsynaptic_segment_distance double precision not null
+)
+    tablespace bioexplorer_ts;
+
+create index if not exists synapse_presynaptic_neuron_guid_index
+    on neurons.synapse (presynaptic_neuron_guid)
+    tablespace bioexplorer_ts;
+
+create index if not exists synapse_postsynaptic_neuron_guid_index
+    on neurons.synapse (postsynaptic_neuron_guid)
+    tablespace bioexplorer_ts;
+
+create index if not exists synapse_postsynaptic_section_guid_index
+    on neurons.synapse (postsynaptic_section_guid)
+    tablespace bioexplorer_ts;
+
+create table if not exists neurons.soma_report
+(
+    report_guid integer not null,
+    frame       integer not null
+        constraint soma_report_frame_fk
+            references neurons.node
+            on update cascade on delete cascade,
+    values      bytea   not null,
+    constraint soma_report_pk
+        primary key (frame, report_guid)
+)
+    tablespace bioexplorer_ts;
+
+create table if not exists neurons.simulated_node
+(
+    report_guid integer not null,
+    node_guid   integer not null,
+    constraint simulated_node_pk
+        primary key (node_guid, report_guid)
+)
+    tablespace bioexplorer_ts;
+
+create index if not exists simulated_node_report_guid_index
+    on neurons.simulated_node (report_guid)
+    tablespace bioexplorer_ts;
+
