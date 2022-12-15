@@ -830,6 +830,7 @@ bool from_json(VasculatureReportDetails &param, const std::string &payload)
         FROM_JSON(param, js, assemblyName);
         FROM_JSON(param, js, populationName);
         FROM_JSON(param, js, simulationReportId);
+        FROM_JSON(param, js, showEvolution);
     }
     catch (...)
     {
