@@ -66,13 +66,6 @@ public:
      */
     uint64_t getNbNodes() const { return _nbNodes; }
 
-    /**
-     * @brief Get the number of sections in the vasculature
-     *
-     * @return uint64_t Number of sections in the vasculature
-     */
-    uint64_t getNbSections() const { return _nbSections; }
-
 private:
     void _logRealismParams();
 
@@ -94,7 +87,6 @@ private:
     const VasculatureDetails _details;
     Scene& _scene;
     uint64_t _nbNodes{0};
-    uint64_t _nbSections{0};
 };
 } // namespace vasculature
 } // namespace bioexplorer

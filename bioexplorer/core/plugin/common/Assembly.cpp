@@ -630,8 +630,7 @@ std::string Assembly::getVasculatureInfo() const
                      _details.name);
     std::stringstream s;
     s << "modelId=" << modelDescriptor->getModelID() << CONTENTS_DELIMITER
-      << "nbNodes=" << _vasculature->getNbNodes() << CONTENTS_DELIMITER
-      << "nbSections=" << _vasculature->getNbSections();
+      << "nbNodes=" << _vasculature->getNbNodes();
     return s.str().c_str();
 }
 

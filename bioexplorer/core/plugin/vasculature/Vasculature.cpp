@@ -257,17 +257,14 @@ void Vasculature::_buildModel(const doubles& radii)
     auto model = _scene.createModel();
     ThreadSafeContainers containers;
 
-    PLUGIN_INFO(1, "Identifying sections...");
+    PLUGIN_INFO(1, "Identifying nodes...");
     const auto nbDBConnections = DBConnector::getInstance().getNbConnections();
 
-    _nbSections = DBConnector::getInstance().getVasculatureNbSections(
+    _nbNodes = DBConnector::getInstance().getVasculatureNbNodes(
         _details.populationName, _details.sqlFilter);
 
-    const auto dbBatchSize = DBConnector::getInstance().getBatchSize();
-
-    const auto nbQueries = _nbSections / dbBatchSize + 1;
+    const auto dbBatchSize = _nbNodes / nbDBConnections;
     PLUGIN_INFO(1, "DB connections=" << nbDBConnections
-                                     << ", DB queries=" << nbQueries
                                      << ", DB batch size=" << dbBatchSize);
 
     Vector2d radiusRange;
@@ -278,12 +275,11 @@ void Vasculature::_buildModel(const doubles& radii)
     uint64_t progress = 0;
     uint64_t index;
 #pragma omp parallel for num_threads(nbDBConnections)
-    for (index = 0; index < nbQueries; ++index)
+    for (index = 0; index < nbDBConnections; ++index)
     {
         const auto offset = index * dbBatchSize;
-        const std::string limits = "section_guid>=" + std::to_string(offset) +
-                                   " AND section_guid<" +
-                                   std::to_string(offset + dbBatchSize);
+        const std::string limits = "OFFSET " + std::to_string(offset) +
+                                   " LIMIT " + std::to_string(dbBatchSize);
 
         const auto filter = _details.sqlFilter;
         const auto nodes = DBConnector::getInstance().getVasculatureNodes(
@@ -296,81 +292,82 @@ void Vasculature::_buildModel(const doubles& radii)
                                       doublesToVector3d(_details.scale));
 
         auto iter = nodes.begin();
+        uint64_t previousSectionId = iter->second.sectionId;
         do
         {
             GeometryNodes sectionNodes;
-            const auto userData = iter->first;
             const auto sectionId = iter->second.sectionId;
-            auto previousSectionId = sectionId;
+            const auto userData = iter->first;
             while (iter != nodes.end() &&
                    iter->second.sectionId == previousSectionId)
             {
                 sectionNodes[iter->first] = iter->second;
                 ++iter;
             }
+            previousSectionId = sectionId;
 
-            const auto& srcNode = sectionNodes.begin()->second;
-            auto it = sectionNodes.end();
-            --it;
-            const auto& dstNode = it->second;
-
-            size_t materialId;
-            switch (_details.colorScheme)
+            if (sectionNodes.size() >= 1)
             {
-            case VasculatureColorScheme::section:
-                materialId = sectionId;
-                break;
-            case VasculatureColorScheme::section_orientation:
-                materialId = getMaterialIdFromOrientation(dstNode.position -
-                                                          srcNode.position);
-                break;
-            case VasculatureColorScheme::subgraph:
-                materialId = dstNode.graphId;
-                break;
-            case VasculatureColorScheme::pair:
-                materialId = dstNode.pairId;
-                break;
-            case VasculatureColorScheme::entry_node:
-                materialId = dstNode.entryNodeId;
-                break;
-            case VasculatureColorScheme::radius:
-                materialId = 256 * ((srcNode.radius - radiusRange.x) /
-                                    (radiusRange.y - radiusRange.x));
-                break;
-            case VasculatureColorScheme::region:
-                materialId = dstNode.regionId;
-                break;
-            default:
-                materialId = 0;
-                break;
-            }
+                const auto& srcNode = sectionNodes.begin()->second;
+                auto it = sectionNodes.end();
+                --it;
+                const auto& dstNode = it->second;
 
-            switch (_details.representation)
-            {
-            case VasculatureRepresentation::graph:
-                _addGraphSection(container, srcNode, dstNode, materialId);
-                break;
-            case VasculatureRepresentation::section:
-                _addSimpleSection(container, srcNode, dstNode, materialId,
-                                  userData);
-                break;
-            default:
-                _addDetailedSection(container, sectionNodes, materialId, radii,
-                                    radiusRange);
-                break;
+                size_t materialId;
+                switch (_details.colorScheme)
+                {
+                case VasculatureColorScheme::section:
+                    materialId = sectionId;
+                    break;
+                case VasculatureColorScheme::section_orientation:
+                    materialId = getMaterialIdFromOrientation(dstNode.position -
+                                                              srcNode.position);
+                    break;
+                case VasculatureColorScheme::subgraph:
+                    materialId = dstNode.graphId;
+                    break;
+                case VasculatureColorScheme::pair:
+                    materialId = dstNode.pairId;
+                    break;
+                case VasculatureColorScheme::entry_node:
+                    materialId = dstNode.entryNodeId;
+                    break;
+                case VasculatureColorScheme::radius:
+                    materialId = 256 * ((srcNode.radius - radiusRange.x) /
+                                        (radiusRange.y - radiusRange.x));
+                    break;
+                case VasculatureColorScheme::region:
+                    materialId = dstNode.regionId;
+                    break;
+                default:
+                    materialId = 0;
+                    break;
+                }
+
+                switch (_details.representation)
+                {
+                case VasculatureRepresentation::graph:
+                    _addGraphSection(container, srcNode, dstNode, materialId);
+                    break;
+                case VasculatureRepresentation::section:
+                    _addSimpleSection(container, srcNode, dstNode, materialId,
+                                      userData);
+                    break;
+                default:
+                    _addDetailedSection(container, sectionNodes, materialId,
+                                        radii, radiusRange);
+                    break;
+                }
             }
         } while (iter != nodes.end());
 
-        PLUGIN_PROGRESS("Loading nodes", progress, nbQueries);
+        PLUGIN_PROGRESS("Loading nodes", progress, nbDBConnections);
 
 #pragma omp critical
         ++progress;
 
 #pragma omp critical
         containers.push_back(container);
-
-#pragma omp critical
-        _nbNodes += nodes.size();
     }
 
     for (size_t i = 0; i < containers.size(); ++i)
@@ -381,10 +378,8 @@ void Vasculature::_buildModel(const doubles& radii)
     }
     PLUGIN_INFO(1, "");
 
-    const ModelMetadata metadata = {{"Number of nodes",
-                                     std::to_string(_nbNodes)},
-                                    {"Number of sections",
-                                     std::to_string(_nbSections)}};
+    const ModelMetadata metadata = {
+        {"Number of nodes", std::to_string(_nbNodes)}};
 
     _modelDescriptor.reset(new brayns::ModelDescriptor(std::move(model),
                                                        _details.assemblyName,
