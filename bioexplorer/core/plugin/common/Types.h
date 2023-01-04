@@ -1006,6 +1006,8 @@ typedef struct
     std::string populationName;
     /** Simulation report ID */
     uint64_t simulationReportId;
+    /** Show evolution  */
+    bool showEvolution;
 } VasculatureReportDetails;
 
 typedef struct

@@ -245,9 +245,10 @@ GeometryNodes DBConnector::getVasculatureNodes(
             populationName + ".node WHERE region_guid IS NOT NULL";
         if (!sqlCondition.empty())
             sql += " AND " + sqlCondition;
-        if (!limits.empty())
-            sql += " AND " + limits;
         sql += " ORDER BY section_guid, guid";
+
+        if (!limits.empty())
+            sql += " " + limits;
 
         PLUGIN_DB_INFO(1, sql);
         auto res = transaction.exec(sql);
@@ -312,8 +313,8 @@ uint64_ts DBConnector::getVasculatureSections(const std::string& populationName,
     return sectionIds;
 }
 
-uint64_t DBConnector::getVasculatureNbSections(
-    const std::string& populationName, const std::string& sqlCondition)
+uint64_t DBConnector::getVasculatureNbNodes(const std::string& populationName,
+                                            const std::string& sqlCondition)
 {
     CHECK_DB_INITIALIZATION
     uint64_t nbSections;
@@ -322,18 +323,14 @@ uint64_t DBConnector::getVasculatureNbSections(
     try
     {
         Timer chrono;
-        std::string sql;
-        if (sqlCondition.empty())
-            sql = "SELECT value FROM " + populationName +
-                  ".metadata WHERE name='nb_sections'";
-        else
-            sql = "SELECT count(distinct(section_guid)) FROM " +
-                  populationName + ".node WHERE " + sqlCondition;
+        std::string sql = "SELECT COUNT(guid) FROM " + populationName + ".node";
+        if (!sqlCondition.empty())
+            sql += " WHERE " + sqlCondition;
         const pqxx::result res = transaction.exec(sql);
         for (auto c = res.begin(); c != res.end(); ++c)
             nbSections = c[0].as<uint64_t>();
         PLUGIN_DB_TIMER(chrono.elapsed(),
-                        "getVasculatureNbSections(populationName="
+                        "getVasculatureNbNodes(populationName="
                             << populationName
                             << ", sqlCondition=" << sqlCondition << ")");
     }

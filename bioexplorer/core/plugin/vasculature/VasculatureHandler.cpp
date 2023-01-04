@@ -23,6 +23,7 @@
 #include <plugin/io/db/DBConnector.h>
 
 #include <plugin/common/Logs.h>
+#include <plugin/common/Utils.h>
 
 namespace bioexplorer
 {
@@ -48,6 +49,8 @@ VasculatureHandler::VasculatureHandler(const VasculatureReportDetails& details)
         _details.populationName, _details.simulationReportId, 0);
     _frameSize = _frameData.size();
     PLUGIN_INFO(1, "Report successfully attached");
+    PLUGIN_INFO(1,
+                "- Value evolution : " << boolAsString(_details.showEvolution));
     PLUGIN_INFO(1, "- Frame size      : " << _frameSize);
     PLUGIN_INFO(1, "- Number of frames: " << _nbFrames);
     PLUGIN_INFO(1, "- Start time      : " << _simulationReport.startTime);
@@ -61,10 +64,30 @@ void* VasculatureHandler::getFrameData(const uint32_t frame)
     try
     {
         if (_currentFrame != frame && frame < _nbFrames)
-            _frameData =
-                DBConnector::getInstance().getVasculatureSimulationTimeSeries(
-                    _details.populationName, _details.simulationReportId,
-                    frame);
+            if (_details.showEvolution)
+            {
+                const auto startFrame = frame % _nbFrames;
+                const auto endFrame = (frame + 1) % _nbFrames;
+                const auto startValues =
+                    DBConnector::getInstance()
+                        .getVasculatureSimulationTimeSeries(
+                            _details.populationName,
+                            _details.simulationReportId, startFrame);
+                const auto endValues =
+                    DBConnector::getInstance()
+                        .getVasculatureSimulationTimeSeries(
+                            _details.populationName,
+                            _details.simulationReportId, endFrame);
+
+                for (uint64_t i = 0; i < startValues.size(); ++i)
+                    _frameData[i] =
+                        (endValues[i] - startValues[i]) / startValues[i];
+            }
+            else
+                _frameData = DBConnector::getInstance()
+                                 .getVasculatureSimulationTimeSeries(
+                                     _details.populationName,
+                                     _details.simulationReportId, frame);
     }
     catch (const std::runtime_error& e)
     {

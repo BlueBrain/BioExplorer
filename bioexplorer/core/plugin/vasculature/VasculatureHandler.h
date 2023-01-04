@@ -60,6 +60,7 @@ public:
 private:
     VasculatureReportDetails _details;
     std::vector<doubles> _simulationData;
+    bool _showVariations{false};
 
     io::db::SimulationReport _simulationReport;
 };

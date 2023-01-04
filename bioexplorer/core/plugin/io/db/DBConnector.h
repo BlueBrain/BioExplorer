@@ -143,14 +143,14 @@ public:
                                      const std::string& sqlCondition = "");
 
     /**
-     * @brief Get the number of sections for a given population
+     * @brief Get the number of nodes for a given population and a given filter
      *
      * @param populationName Name of the population
      * @param sqlCondition SQL condition
-     * @return Number of sections
+     * @return Number of nodes
      */
-    uint64_t getVasculatureNbSections(const std::string& populationName,
-                                      const std::string& sqlCondition);
+    uint64_t getVasculatureNbNodes(const std::string& populationName,
+                                   const std::string& sqlCondition);
 
     /**
      * @brief Get the Vasculature radius range

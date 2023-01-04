@@ -2487,13 +2487,14 @@ class BioExplorer:
             vasculature_info[s[0]] = int(s[1])
         return vasculature_info
 
-    def set_vasculature_report(self, assembly_name, population_name, report_simulation_id):
+    def set_vasculature_report(self, assembly_name, population_name, report_simulation_id, show_evolution=False):
         """
         Attach a simulation report to the vasculature
 
         :assembly_name: Name of the assembly containing the vasculature
         :population_name: Name of the node population in the report. Defaults to 'vasculature'
         :report_simulation_id: Report simulation identifier
+        :show_evolution: Show value evolution (percentage) between 2 time steps. Raw value otherwise.
 
         :return: Result of the request submission
         """
@@ -2501,6 +2502,7 @@ class BioExplorer:
         params["assemblyName"] = assembly_name
         params["populationName"] = population_name
         params["simulationReportId"] = report_simulation_id
+        params["showEvolution"] = show_evolution
         return self._invoke_and_check('set-vasculature-report', params)
 
     def set_vasculature_radius_report(
