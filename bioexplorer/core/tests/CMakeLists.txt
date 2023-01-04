@@ -1,8 +1,8 @@
 # The Blue Brain BioExplorer is a tool for scientists to extract and analyse
 # scientific data from visualization
 #
-# Copyright 2020-2022 Blue BrainProject / EPFL
-# 
+# Copyright 2020-2023 Blue BrainProject / EPFL
+#
 # This program is free software: you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free Software
 # Foundation, either version 3 of the License, or (at your option) any later
@@ -15,7 +15,7 @@
 #
 # You should have received a copy of the GNU General Public License along with
 # this program.  If not, see <https://www.gnu.org/licenses/>.
- 
+
 find_package(Boost REQUIRED COMPONENTS unit_test_framework)
 find_package(Brayns REQUIRED)
 
@@ -26,7 +26,7 @@ set(TESTS_SRC
     RNASequence.cpp
 )
 
-add_definitions(-DBOOST_TEST_DYN_LINK) 
+add_definitions(-DBOOST_TEST_DYN_LINK)
 
 foreach(FILE ${TESTS_SRC})
     get_filename_component(NAME ${FILE} NAME_WE)

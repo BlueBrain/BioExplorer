@@ -1,0 +1,7 @@
+<map id="bioexplorer::rendering::SimulationRenderer" name="bioexplorer::rendering::SimulationRenderer">
+<area shape="rect" id="node1" title=" " alt="" coords="135,71,301,112"/>
+<area shape="rect" id="node3" href="$d9/d98/classbioexplorer_1_1rendering_1_1AdvancedRenderer.html" title="The AdvancedRenderer class is a renderer that can perform global illumination (light shading,..." alt="" coords="349,5,516,47"/>
+<area shape="rect" id="node4" href="$de/da9/classbioexplorer_1_1rendering_1_1PathTracingRenderer.html" title="The PathTracingRenderer class is a renderer that processes the rendering of the 3D scene using the pa..." alt="" coords="349,71,516,112"/>
+<area shape="rect" id="node5" href="$d9/da0/classbioexplorer_1_1rendering_1_1VoxelRenderer.html" title="The VoxelRenderer class can perform fast transparency and mapping of simulation data on the geometry." alt="" coords="349,136,516,177"/>
+<area shape="rect" id="node2" title=" " alt="" coords="5,78,87,105"/>
+</map>

@@ -1,5 +1,5 @@
-# Copyright (c) 2020-2022, Blue Brain Project
-#                          Cyrille Favreau <cyrille.favreau@epfl.ch>
+# Copyright (c) 2020-2023, Blue Brain Project
+# Cyrille Favreau <cyrille.favreau@epfl.ch>
 #
 # This file is part of BioExplorer <https://github.com/BlueBrain/BioExplorer>
 #

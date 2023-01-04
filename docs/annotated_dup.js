@@ -31,6 +31,7 @@ var annotated_dup =
       ] ],
       [ "details", null, [
         [ "AddBoundingBoxDetails", "dc/d45/structbioexplorer_1_1details_1_1AddBoundingBoxDetails.html", "dc/d45/structbioexplorer_1_1details_1_1AddBoundingBoxDetails" ],
+        [ "AddBoxDetails", "d8/d5c/structbioexplorer_1_1details_1_1AddBoxDetails.html", "d8/d5c/structbioexplorer_1_1details_1_1AddBoxDetails" ],
         [ "AddConeDetails", "db/db6/structbioexplorer_1_1details_1_1AddConeDetails.html", "db/db6/structbioexplorer_1_1details_1_1AddConeDetails" ],
         [ "AddGridDetails", "db/dd8/structbioexplorer_1_1details_1_1AddGridDetails.html", "db/dd8/structbioexplorer_1_1details_1_1AddGridDetails" ],
         [ "AddSphereDetails", "db/d48/structbioexplorer_1_1details_1_1AddSphereDetails.html", "db/d48/structbioexplorer_1_1details_1_1AddSphereDetails" ],
@@ -39,13 +40,13 @@ var annotated_dup =
         [ "AminoAcidInformationDetails", "d6/dda/structbioexplorer_1_1details_1_1AminoAcidInformationDetails.html", "d6/dda/structbioexplorer_1_1details_1_1AminoAcidInformationDetails" ],
         [ "AminoAcidSequenceAsRangesDetails", "db/de5/structbioexplorer_1_1details_1_1AminoAcidSequenceAsRangesDetails.html", "db/de5/structbioexplorer_1_1details_1_1AminoAcidSequenceAsRangesDetails" ],
         [ "AminoAcidSequenceAsStringDetails", "d8/d02/structbioexplorer_1_1details_1_1AminoAcidSequenceAsStringDetails.html", "d8/d02/structbioexplorer_1_1details_1_1AminoAcidSequenceAsStringDetails" ],
-        [ "AnimationDetails", "d8/d60/structbioexplorer_1_1details_1_1AnimationDetails.html", "d8/d60/structbioexplorer_1_1details_1_1AnimationDetails" ],
         [ "AssemblyDetails", "d1/da5/structbioexplorer_1_1details_1_1AssemblyDetails.html", "d1/da5/structbioexplorer_1_1details_1_1AssemblyDetails" ],
         [ "AssemblyTransformationsDetails", "d6/dd0/structbioexplorer_1_1details_1_1AssemblyTransformationsDetails.html", "d6/dd0/structbioexplorer_1_1details_1_1AssemblyTransformationsDetails" ],
         [ "AstrocytesDetails", "df/d08/structbioexplorer_1_1details_1_1AstrocytesDetails.html", "df/d08/structbioexplorer_1_1details_1_1AstrocytesDetails" ],
         [ "AtlasDetails", "d1/da9/structbioexplorer_1_1details_1_1AtlasDetails.html", "d1/da9/structbioexplorer_1_1details_1_1AtlasDetails" ],
         [ "BuildFieldsDetails", "dc/d5b/structbioexplorer_1_1details_1_1BuildFieldsDetails.html", "dc/d5b/structbioexplorer_1_1details_1_1BuildFieldsDetails" ],
         [ "BuildPointCloudDetails", "d5/dc6/structbioexplorer_1_1details_1_1BuildPointCloudDetails.html", "d5/dc6/structbioexplorer_1_1details_1_1BuildPointCloudDetails" ],
+        [ "CellAnimationDetails", "d1/dd0/structbioexplorer_1_1details_1_1CellAnimationDetails.html", "d1/dd0/structbioexplorer_1_1details_1_1CellAnimationDetails" ],
         [ "DatabaseAccessDetails", "dc/dd9/structbioexplorer_1_1details_1_1DatabaseAccessDetails.html", "dc/dd9/structbioexplorer_1_1details_1_1DatabaseAccessDetails" ],
         [ "EnzymeReactionDetails", "df/dc6/structbioexplorer_1_1details_1_1EnzymeReactionDetails.html", "df/dc6/structbioexplorer_1_1details_1_1EnzymeReactionDetails" ],
         [ "EnzymeReactionProgressDetails", "dd/d17/structbioexplorer_1_1details_1_1EnzymeReactionProgressDetails.html", "dd/d17/structbioexplorer_1_1details_1_1EnzymeReactionProgressDetails" ],
@@ -61,6 +62,7 @@ var annotated_dup =
         [ "ModelIdDetails", "d6/dc9/structbioexplorer_1_1details_1_1ModelIdDetails.html", "d6/dc9/structbioexplorer_1_1details_1_1ModelIdDetails" ],
         [ "ModelIdFileAccessDetails", "d8/d1b/structbioexplorer_1_1details_1_1ModelIdFileAccessDetails.html", "d8/d1b/structbioexplorer_1_1details_1_1ModelIdFileAccessDetails" ],
         [ "ModelsVisibilityDetails", "d7/dbc/structbioexplorer_1_1details_1_1ModelsVisibilityDetails.html", "d7/dbc/structbioexplorer_1_1details_1_1ModelsVisibilityDetails" ],
+        [ "MolecularSystemAnimationDetails", "df/d9c/structbioexplorer_1_1details_1_1MolecularSystemAnimationDetails.html", "df/d9c/structbioexplorer_1_1details_1_1MolecularSystemAnimationDetails" ],
         [ "NameDetails", "d8/d70/structbioexplorer_1_1details_1_1NameDetails.html", "d8/d70/structbioexplorer_1_1details_1_1NameDetails" ],
         [ "NeuronIdDetails", "da/dc3/structbioexplorer_1_1details_1_1NeuronIdDetails.html", "da/dc3/structbioexplorer_1_1details_1_1NeuronIdDetails" ],
         [ "NeuronIdSectionIdDetails", "d9/d86/structbioexplorer_1_1details_1_1NeuronIdSectionIdDetails.html", "d9/d86/structbioexplorer_1_1details_1_1NeuronIdSectionIdDetails" ],
@@ -150,8 +152,11 @@ var annotated_dup =
         [ "AdvancedRenderer", "d9/d98/classbioexplorer_1_1rendering_1_1AdvancedRenderer.html", "d9/d98/classbioexplorer_1_1rendering_1_1AdvancedRenderer" ],
         [ "DensityRenderer", "de/d24/classbioexplorer_1_1rendering_1_1DensityRenderer.html", "de/d24/classbioexplorer_1_1rendering_1_1DensityRenderer" ],
         [ "FieldsRenderer", "de/d6a/classbioexplorer_1_1rendering_1_1FieldsRenderer.html", "de/d6a/classbioexplorer_1_1rendering_1_1FieldsRenderer" ],
+        [ "GolgiStyleRenderer", "d5/df2/classbioexplorer_1_1rendering_1_1GolgiStyleRenderer.html", "d5/df2/classbioexplorer_1_1rendering_1_1GolgiStyleRenderer" ],
         [ "PathTracingRenderer", "de/da9/classbioexplorer_1_1rendering_1_1PathTracingRenderer.html", "de/da9/classbioexplorer_1_1rendering_1_1PathTracingRenderer" ],
-        [ "PerspectiveStereoCamera", "d8/d50/structbioexplorer_1_1rendering_1_1PerspectiveStereoCamera.html", "d8/d50/structbioexplorer_1_1rendering_1_1PerspectiveStereoCamera" ]
+        [ "PerspectiveStereoCamera", "d8/d50/structbioexplorer_1_1rendering_1_1PerspectiveStereoCamera.html", "d8/d50/structbioexplorer_1_1rendering_1_1PerspectiveStereoCamera" ],
+        [ "SimulationRenderer", "db/dfa/classbioexplorer_1_1rendering_1_1SimulationRenderer.html", "db/dfa/classbioexplorer_1_1rendering_1_1SimulationRenderer" ],
+        [ "VoxelRenderer", "d9/da0/classbioexplorer_1_1rendering_1_1VoxelRenderer.html", "d9/da0/classbioexplorer_1_1rendering_1_1VoxelRenderer" ]
       ] ],
       [ "vasculature", null, [
         [ "Vasculature", "d8/d29/classbioexplorer_1_1vasculature_1_1Vasculature.html", "d8/d29/classbioexplorer_1_1vasculature_1_1Vasculature" ],

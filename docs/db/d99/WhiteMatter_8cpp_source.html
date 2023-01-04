@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.17"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>Blue Brain BioExplorer: /home/favreau/git/BioExplorer/bioexplorer/core/plugin/connectomics/WhiteMatter.cpp Source File</title>
+<title>Blue Brain BioExplorer: /home/favreau/code/favreau/BioExplorer/bioexplorer/core/plugin/connectomics/WhiteMatter.cpp Source File</title>
 <link href="../../tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="../../jquery.js"></script>
 <script type="text/javascript" src="../../dynsections.js"></script>
@@ -90,7 +90,7 @@ $(document).ready(function(){initNavTree('db/d99/WhiteMatter_8cpp_source.html','
 <div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;<span class="comment"> * The Blue Brain BioExplorer is a tool for scientists to extract and analyse</span></div>
 <div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="comment"> * scientific data from visualization</span></div>
 <div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="comment"> *</span></div>
-<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;<span class="comment"> * Copyright 2020-2022 Blue BrainProject / EPFL</span></div>
+<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;<span class="comment"> * Copyright 2020-2023 Blue BrainProject / EPFL</span></div>
 <div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;<span class="comment"> *</span></div>
 <div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;<span class="comment"> * This program is free software: you can redistribute it and/or modify it under</span></div>
 <div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;<span class="comment"> * the terms of the GNU General Public License as published by the Free Software</span></div>
@@ -115,105 +115,104 @@ $(document).ready(function(){initNavTree('db/d99/WhiteMatter_8cpp_source.html','
 <div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160; </div>
 <div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;<span class="preprocessor">#include &lt;plugin/io/db/DBConnector.h&gt;</span></div>
 <div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160; </div>
-<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;<span class="preprocessor">#include &lt;brayns/common/Timer.h&gt;</span></div>
-<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;<span class="preprocessor">#include &lt;brayns/engineapi/Model.h&gt;</span></div>
-<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;<span class="preprocessor">#include &lt;brayns/engineapi/Scene.h&gt;</span></div>
-<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160; </div>
-<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;<span class="keyword">namespace </span>bioexplorer</div>
-<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;{</div>
-<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;<span class="keyword">namespace </span>connectomics</div>
-<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;{</div>
-<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;<span class="keyword">using namespace </span>common;</div>
-<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;<span class="keyword">using namespace </span>io;</div>
-<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;<span class="keyword">using namespace </span>db;</div>
-<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160; </div>
-<div class="line"><a name="l00042"></a><span class="lineno"><a class="line" href="../../d6/dcd/classbioexplorer_1_1connectomics_1_1WhiteMatter.html#a9798f6be45bf02533c126dcbf9bfd57c">   42</a></span>&#160;<a class="code" href="../../d6/dcd/classbioexplorer_1_1connectomics_1_1WhiteMatter.html#a9798f6be45bf02533c126dcbf9bfd57c">WhiteMatter::WhiteMatter</a>(Scene&amp; scene, <span class="keyword">const</span> <a class="code" href="../../da/d1a/structbioexplorer_1_1details_1_1WhiteMatterDetails.html">WhiteMatterDetails</a>&amp; details)</div>
-<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;    : <a class="code" href="../../d7/d93/classbioexplorer_1_1common_1_1Node.html">Node</a>(doublesToVector3d(details.scale))</div>
-<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;    , _details(details)</div>
-<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;    , _scene(scene)</div>
-<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;{</div>
-<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;    Timer chrono;</div>
-<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;    _buildModel();</div>
-<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;    PLUGIN_TIMER(chrono.elapsed(), <span class="stringliteral">&quot;White matter loaded&quot;</span>);</div>
-<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;}</div>
-<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160; </div>
-<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;<span class="keywordtype">void</span> WhiteMatter::_addStreamline(<a class="code" href="../../d2/d4a/classbioexplorer_1_1common_1_1ThreadSafeContainer.html">ThreadSafeContainer</a>&amp; container,</div>
-<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;                                 <span class="keyword">const</span> Vector3fs&amp; points,</div>
-<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;                                 <span class="keyword">const</span> uint64_t materialId)</div>
-<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;{</div>
-<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;    StreamlinesData streamline;</div>
-<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160; </div>
-<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;    <span class="keyword">const</span> <span class="keywordtype">float</span> alpha = 1.f;</div>
-<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;    uint64_t i = 0;</div>
-<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;    Vector3f previousPoint;</div>
-<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;    <span class="keywordflow">for</span> (<span class="keyword">const</span> <span class="keyword">auto</span>&amp; point : points)</div>
-<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;    {</div>
-<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;        streamline.vertex.push_back(</div>
-<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;            {point.x, point.y, point.z, _details.<a class="code" href="../../da/d1a/structbioexplorer_1_1details_1_1WhiteMatterDetails.html#af165ae3c57756c4afc7a64f4cd93640f">radius</a>});</div>
-<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;        streamline.vertexColor.push_back(</div>
-<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;            (i == 0 ? Vector4f(0.f, 0.f, 0.f, alpha)</div>
-<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;                    : Vector4f(0.5f + 0.5f * normalize(point - previousPoint),</div>
-<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;                               alpha)));</div>
-<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;        previousPoint = point;</div>
-<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;        ++i;</div>
-<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;    }</div>
-<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160; </div>
-<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;    container.<a class="code" href="../../d2/d4a/classbioexplorer_1_1common_1_1ThreadSafeContainer.html#ac7aed469947087e642c0401a755e075a">addStreamline</a>(materialId, streamline);</div>
-<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;}</div>
-<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160; </div>
-<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;<span class="keywordtype">void</span> WhiteMatter::_buildModel()</div>
-<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;{</div>
-<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;    <span class="keywordflow">if</span> (_modelDescriptor)</div>
-<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;        _scene.removeModel(_modelDescriptor-&gt;getModelID());</div>
-<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160; </div>
-<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;    <span class="keyword">auto</span> model = _scene.createModel();</div>
-<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;    ThreadSafeContainer container(*model, <span class="keyword">false</span>);</div>
-<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160; </div>
-<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;    <span class="keyword">const</span> <span class="keyword">auto</span> ompThreads = omp_get_max_threads();</div>
-<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160; </div>
-<div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;    <span class="keyword">const</span> <span class="keyword">auto</span> streamlines =</div>
-<div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;        <a class="code" href="../../d9/d96/classbioexplorer_1_1io_1_1db_1_1DBConnector.html#a54ae453b0795aabee7ee7e93ae976eab">DBConnector::getInstance</a>().<a class="code" href="../../d9/d96/classbioexplorer_1_1io_1_1db_1_1DBConnector.html#a669349598e0f3bd6ecfd4a85a958a603">getWhiteMatterStreamlines</a>(</div>
-<div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;            _details.<a class="code" href="../../da/d1a/structbioexplorer_1_1details_1_1WhiteMatterDetails.html#aa7ed21458b1d234171d21edc22a43b67">populationName</a>, _details.<a class="code" href="../../da/d1a/structbioexplorer_1_1details_1_1WhiteMatterDetails.html#a24c59a350e5ee32a71608b4293d09bf1">sqlFilter</a>);</div>
-<div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160;    <span class="keyword">const</span> <span class="keyword">auto</span> nbStreamlines = streamlines.size();</div>
-<div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160;    <span class="keywordflow">for</span> (uint64_t i = 0; i &lt; nbStreamlines; ++i)</div>
-<div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160;    {</div>
-<div class="line"><a name="l00092"></a><span class="lineno">   92</span>&#160;        _addStreamline(container, streamlines[i], i);</div>
-<div class="line"><a name="l00093"></a><span class="lineno">   93</span>&#160;        PLUGIN_PROGRESS(<span class="stringliteral">&quot;Loading &quot;</span> &lt;&lt; i &lt;&lt; <span class="stringliteral">&quot;/&quot;</span> &lt;&lt; nbStreamlines</div>
-<div class="line"><a name="l00094"></a><span class="lineno">   94</span>&#160;                                   &lt;&lt; <span class="stringliteral">&quot; streamlines&quot;</span>,</div>
-<div class="line"><a name="l00095"></a><span class="lineno">   95</span>&#160;                        i, nbStreamlines);</div>
-<div class="line"><a name="l00096"></a><span class="lineno">   96</span>&#160;    }</div>
-<div class="line"><a name="l00097"></a><span class="lineno">   97</span>&#160; </div>
-<div class="line"><a name="l00098"></a><span class="lineno">   98</span>&#160;    container.<a class="code" href="../../d2/d4a/classbioexplorer_1_1common_1_1ThreadSafeContainer.html#a68baca4022e44aaf027458135bfb9b3c">commitToModel</a>();</div>
-<div class="line"><a name="l00099"></a><span class="lineno">   99</span>&#160;    PLUGIN_INFO(1, <span class="stringliteral">&quot;&quot;</span>);</div>
-<div class="line"><a name="l00100"></a><span class="lineno">  100</span>&#160; </div>
-<div class="line"><a name="l00101"></a><span class="lineno">  101</span>&#160;    <span class="keyword">const</span> ModelMetadata metadata = {</div>
-<div class="line"><a name="l00102"></a><span class="lineno">  102</span>&#160;        {<span class="stringliteral">&quot;Number of streamlines&quot;</span>, std::to_string(nbStreamlines)}};</div>
-<div class="line"><a name="l00103"></a><span class="lineno">  103</span>&#160; </div>
-<div class="line"><a name="l00104"></a><span class="lineno">  104</span>&#160;    _modelDescriptor.reset(<span class="keyword">new</span> brayns::ModelDescriptor(std::move(model),</div>
-<div class="line"><a name="l00105"></a><span class="lineno">  105</span>&#160;                                                       _details.<a class="code" href="../../da/d1a/structbioexplorer_1_1details_1_1WhiteMatterDetails.html#ae8203e63a55645274fc4a03efe11c11a">assemblyName</a>,</div>
-<div class="line"><a name="l00106"></a><span class="lineno">  106</span>&#160;                                                       metadata));</div>
-<div class="line"><a name="l00107"></a><span class="lineno">  107</span>&#160;    <span class="keywordflow">if</span> (_modelDescriptor)</div>
-<div class="line"><a name="l00108"></a><span class="lineno">  108</span>&#160;        _scene.addModel(_modelDescriptor);</div>
-<div class="line"><a name="l00109"></a><span class="lineno">  109</span>&#160;    <span class="keywordflow">else</span></div>
-<div class="line"><a name="l00110"></a><span class="lineno">  110</span>&#160;        PLUGIN_THROW(</div>
-<div class="line"><a name="l00111"></a><span class="lineno">  111</span>&#160;            <span class="stringliteral">&quot;WhiteMatter model could not be created for &quot;</span></div>
-<div class="line"><a name="l00112"></a><span class="lineno">  112</span>&#160;            <span class="stringliteral">&quot;population &quot;</span> +</div>
-<div class="line"><a name="l00113"></a><span class="lineno">  113</span>&#160;            _details.<a class="code" href="../../da/d1a/structbioexplorer_1_1details_1_1WhiteMatterDetails.html#aa7ed21458b1d234171d21edc22a43b67">populationName</a>);</div>
-<div class="line"><a name="l00114"></a><span class="lineno">  114</span>&#160;}</div>
-<div class="line"><a name="l00115"></a><span class="lineno">  115</span>&#160;} <span class="comment">// namespace connectomics</span></div>
-<div class="line"><a name="l00116"></a><span class="lineno">  116</span>&#160;} <span class="comment">// namespace bioexplorer</span></div>
+<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;<span class="preprocessor">#include &lt;brayns/engineapi/Model.h&gt;</span></div>
+<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;<span class="preprocessor">#include &lt;brayns/engineapi/Scene.h&gt;</span></div>
+<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160; </div>
+<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;<span class="keyword">namespace </span>bioexplorer</div>
+<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;{</div>
+<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;<span class="keyword">namespace </span>connectomics</div>
+<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;{</div>
+<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;<span class="keyword">using namespace </span>common;</div>
+<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;<span class="keyword">using namespace </span>io;</div>
+<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;<span class="keyword">using namespace </span>db;</div>
+<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160; </div>
+<div class="line"><a name="l00041"></a><span class="lineno"><a class="line" href="../../d6/dcd/classbioexplorer_1_1connectomics_1_1WhiteMatter.html#a9798f6be45bf02533c126dcbf9bfd57c">   41</a></span>&#160;<a class="code" href="../../d6/dcd/classbioexplorer_1_1connectomics_1_1WhiteMatter.html#a9798f6be45bf02533c126dcbf9bfd57c">WhiteMatter::WhiteMatter</a>(Scene&amp; scene, <span class="keyword">const</span> <a class="code" href="../../da/d1a/structbioexplorer_1_1details_1_1WhiteMatterDetails.html">WhiteMatterDetails</a>&amp; details)</div>
+<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;    : <a class="code" href="../../d7/d93/classbioexplorer_1_1common_1_1Node.html">Node</a>(doublesToVector3d(details.scale))</div>
+<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;    , _details(details)</div>
+<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;    , _scene(scene)</div>
+<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;{</div>
+<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;    Timer chrono;</div>
+<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;    _buildModel();</div>
+<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;    PLUGIN_TIMER(chrono.elapsed(), <span class="stringliteral">&quot;White matter loaded&quot;</span>);</div>
+<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;}</div>
+<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160; </div>
+<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;<span class="keywordtype">void</span> WhiteMatter::_addStreamline(<a class="code" href="../../d2/d4a/classbioexplorer_1_1common_1_1ThreadSafeContainer.html">ThreadSafeContainer</a>&amp; container,</div>
+<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;                                 <span class="keyword">const</span> Vector3fs&amp; points,</div>
+<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;                                 <span class="keyword">const</span> uint64_t materialId)</div>
+<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;{</div>
+<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;    StreamlinesData streamline;</div>
+<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160; </div>
+<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;    <span class="keyword">const</span> <span class="keywordtype">float</span> alpha = 1.f;</div>
+<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;    uint64_t i = 0;</div>
+<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;    Vector3f previousPoint;</div>
+<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;    <span class="keywordflow">for</span> (<span class="keyword">const</span> <span class="keyword">auto</span>&amp; point : points)</div>
+<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;    {</div>
+<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;        streamline.vertex.push_back(</div>
+<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;            {point.x, point.y, point.z, _details.<a class="code" href="../../da/d1a/structbioexplorer_1_1details_1_1WhiteMatterDetails.html#af165ae3c57756c4afc7a64f4cd93640f">radius</a>});</div>
+<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;        streamline.vertexColor.push_back(</div>
+<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;            (i == 0 ? Vector4f(0.f, 0.f, 0.f, alpha)</div>
+<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;                    : Vector4f(0.5f + 0.5f * normalize(point - previousPoint),</div>
+<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;                               alpha)));</div>
+<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;        previousPoint = point;</div>
+<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;        ++i;</div>
+<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;    }</div>
+<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160; </div>
+<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;    container.<a class="code" href="../../d2/d4a/classbioexplorer_1_1common_1_1ThreadSafeContainer.html#ac7aed469947087e642c0401a755e075a">addStreamline</a>(materialId, streamline);</div>
+<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;}</div>
+<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160; </div>
+<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;<span class="keywordtype">void</span> WhiteMatter::_buildModel()</div>
+<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;{</div>
+<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;    <span class="keywordflow">if</span> (_modelDescriptor)</div>
+<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;        _scene.removeModel(_modelDescriptor-&gt;getModelID());</div>
+<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160; </div>
+<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;    <span class="keyword">auto</span> model = _scene.createModel();</div>
+<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;    ThreadSafeContainer container(*model);</div>
+<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160; </div>
+<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;    <span class="keyword">const</span> <span class="keyword">auto</span> ompThreads = omp_get_max_threads();</div>
+<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160; </div>
+<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;    <span class="keyword">const</span> <span class="keyword">auto</span> streamlines =</div>
+<div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;        <a class="code" href="../../d9/d96/classbioexplorer_1_1io_1_1db_1_1DBConnector.html#a54ae453b0795aabee7ee7e93ae976eab">DBConnector::getInstance</a>().<a class="code" href="../../d9/d96/classbioexplorer_1_1io_1_1db_1_1DBConnector.html#ab1f8df26bfcdb4705d750583a7b56ad5">getWhiteMatterStreamlines</a>(</div>
+<div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;            _details.<a class="code" href="../../da/d1a/structbioexplorer_1_1details_1_1WhiteMatterDetails.html#aa7ed21458b1d234171d21edc22a43b67">populationName</a>, _details.<a class="code" href="../../da/d1a/structbioexplorer_1_1details_1_1WhiteMatterDetails.html#a24c59a350e5ee32a71608b4293d09bf1">sqlFilter</a>);</div>
+<div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;    <span class="keyword">const</span> <span class="keyword">auto</span> nbStreamlines = streamlines.size();</div>
+<div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160;    <span class="keywordflow">for</span> (uint64_t i = 0; i &lt; nbStreamlines; ++i)</div>
+<div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160;    {</div>
+<div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160;        _addStreamline(container, streamlines[i], i);</div>
+<div class="line"><a name="l00092"></a><span class="lineno">   92</span>&#160;        PLUGIN_PROGRESS(<span class="stringliteral">&quot;Loading &quot;</span> &lt;&lt; i &lt;&lt; <span class="stringliteral">&quot;/&quot;</span> &lt;&lt; nbStreamlines</div>
+<div class="line"><a name="l00093"></a><span class="lineno">   93</span>&#160;                                   &lt;&lt; <span class="stringliteral">&quot; streamlines&quot;</span>,</div>
+<div class="line"><a name="l00094"></a><span class="lineno">   94</span>&#160;                        i, nbStreamlines);</div>
+<div class="line"><a name="l00095"></a><span class="lineno">   95</span>&#160;    }</div>
+<div class="line"><a name="l00096"></a><span class="lineno">   96</span>&#160; </div>
+<div class="line"><a name="l00097"></a><span class="lineno">   97</span>&#160;    container.<a class="code" href="../../d2/d4a/classbioexplorer_1_1common_1_1ThreadSafeContainer.html#a68baca4022e44aaf027458135bfb9b3c">commitToModel</a>();</div>
+<div class="line"><a name="l00098"></a><span class="lineno">   98</span>&#160;    PLUGIN_INFO(1, <span class="stringliteral">&quot;&quot;</span>);</div>
+<div class="line"><a name="l00099"></a><span class="lineno">   99</span>&#160; </div>
+<div class="line"><a name="l00100"></a><span class="lineno">  100</span>&#160;    <span class="keyword">const</span> ModelMetadata metadata = {</div>
+<div class="line"><a name="l00101"></a><span class="lineno">  101</span>&#160;        {<span class="stringliteral">&quot;Number of streamlines&quot;</span>, std::to_string(nbStreamlines)}};</div>
+<div class="line"><a name="l00102"></a><span class="lineno">  102</span>&#160; </div>
+<div class="line"><a name="l00103"></a><span class="lineno">  103</span>&#160;    _modelDescriptor.reset(<span class="keyword">new</span> brayns::ModelDescriptor(std::move(model),</div>
+<div class="line"><a name="l00104"></a><span class="lineno">  104</span>&#160;                                                       _details.<a class="code" href="../../da/d1a/structbioexplorer_1_1details_1_1WhiteMatterDetails.html#ae8203e63a55645274fc4a03efe11c11a">assemblyName</a>,</div>
+<div class="line"><a name="l00105"></a><span class="lineno">  105</span>&#160;                                                       metadata));</div>
+<div class="line"><a name="l00106"></a><span class="lineno">  106</span>&#160;    <span class="keywordflow">if</span> (_modelDescriptor)</div>
+<div class="line"><a name="l00107"></a><span class="lineno">  107</span>&#160;        _scene.addModel(_modelDescriptor);</div>
+<div class="line"><a name="l00108"></a><span class="lineno">  108</span>&#160;    <span class="keywordflow">else</span></div>
+<div class="line"><a name="l00109"></a><span class="lineno">  109</span>&#160;        PLUGIN_THROW(</div>
+<div class="line"><a name="l00110"></a><span class="lineno">  110</span>&#160;            <span class="stringliteral">&quot;WhiteMatter model could not be created for &quot;</span></div>
+<div class="line"><a name="l00111"></a><span class="lineno">  111</span>&#160;            <span class="stringliteral">&quot;population &quot;</span> +</div>
+<div class="line"><a name="l00112"></a><span class="lineno">  112</span>&#160;            _details.<a class="code" href="../../da/d1a/structbioexplorer_1_1details_1_1WhiteMatterDetails.html#aa7ed21458b1d234171d21edc22a43b67">populationName</a>);</div>
+<div class="line"><a name="l00113"></a><span class="lineno">  113</span>&#160;}</div>
+<div class="line"><a name="l00114"></a><span class="lineno">  114</span>&#160;} <span class="comment">// namespace connectomics</span></div>
+<div class="line"><a name="l00115"></a><span class="lineno">  115</span>&#160;} <span class="comment">// namespace bioexplorer</span></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
-<div class="ttc" id="aclassbioexplorer_1_1connectomics_1_1WhiteMatter_html_a9798f6be45bf02533c126dcbf9bfd57c"><div class="ttname"><a href="../../d6/dcd/classbioexplorer_1_1connectomics_1_1WhiteMatter.html#a9798f6be45bf02533c126dcbf9bfd57c">bioexplorer::connectomics::WhiteMatter::WhiteMatter</a></div><div class="ttdeci">WhiteMatter(Scene &amp;scene, const WhiteMatterDetails &amp;details)</div><div class="ttdoc">Construct a new WhiteMatter object.</div><div class="ttdef"><b>Definition:</b> <a href="../../db/d99/WhiteMatter_8cpp_source.html#l00042">WhiteMatter.cpp:42</a></div></div>
+<div class="ttc" id="aclassbioexplorer_1_1connectomics_1_1WhiteMatter_html_a9798f6be45bf02533c126dcbf9bfd57c"><div class="ttname"><a href="../../d6/dcd/classbioexplorer_1_1connectomics_1_1WhiteMatter.html#a9798f6be45bf02533c126dcbf9bfd57c">bioexplorer::connectomics::WhiteMatter::WhiteMatter</a></div><div class="ttdeci">WhiteMatter(Scene &amp;scene, const WhiteMatterDetails &amp;details)</div><div class="ttdoc">Construct a new WhiteMatter object.</div><div class="ttdef"><b>Definition:</b> <a href="../../db/d99/WhiteMatter_8cpp_source.html#l00041">WhiteMatter.cpp:41</a></div></div>
 <div class="ttc" id="aclassbioexplorer_1_1common_1_1ThreadSafeContainer_html"><div class="ttname"><a href="../../d2/d4a/classbioexplorer_1_1common_1_1ThreadSafeContainer.html">bioexplorer::common::ThreadSafeContainer</a></div><div class="ttdoc">The ThreadSafeContainer class is used to load large datasets in parallel. Every individual element is...</div><div class="ttdef"><b>Definition:</b> <a href="../../dd/d8f/ThreadSafeContainer_8h_source.html#l00042">ThreadSafeContainer.h:42</a></div></div>
-<div class="ttc" id="astructbioexplorer_1_1details_1_1WhiteMatterDetails_html_af165ae3c57756c4afc7a64f4cd93640f"><div class="ttname"><a href="../../da/d1a/structbioexplorer_1_1details_1_1WhiteMatterDetails.html#af165ae3c57756c4afc7a64f4cd93640f">bioexplorer::details::WhiteMatterDetails::radius</a></div><div class="ttdeci">double radius</div><div class="ttdef"><b>Definition:</b> <a href="../../d0/dde/bioexplorer_2core_2plugin_2common_2Types_8h_source.html#l01144">Types.h:1144</a></div></div>
-<div class="ttc" id="astructbioexplorer_1_1details_1_1WhiteMatterDetails_html"><div class="ttname"><a href="../../da/d1a/structbioexplorer_1_1details_1_1WhiteMatterDetails.html">bioexplorer::details::WhiteMatterDetails</a></div><div class="ttdef"><b>Definition:</b> <a href="../../d0/dde/bioexplorer_2core_2plugin_2common_2Types_8h_source.html#l01137">Types.h:1137</a></div></div>
-<div class="ttc" id="aclassbioexplorer_1_1common_1_1ThreadSafeContainer_html_a68baca4022e44aaf027458135bfb9b3c"><div class="ttname"><a href="../../d2/d4a/classbioexplorer_1_1common_1_1ThreadSafeContainer.html#a68baca4022e44aaf027458135bfb9b3c">bioexplorer::common::ThreadSafeContainer::commitToModel</a></div><div class="ttdeci">void commitToModel()</div><div class="ttdoc">Commit geometries and materials to the Brayns model.</div><div class="ttdef"><b>Definition:</b> <a href="../../d2/d48/ThreadSafeContainer_8cpp_source.html#l00135">ThreadSafeContainer.cpp:135</a></div></div>
-<div class="ttc" id="aclassbioexplorer_1_1common_1_1ThreadSafeContainer_html_ac7aed469947087e642c0401a755e075a"><div class="ttname"><a href="../../d2/d4a/classbioexplorer_1_1common_1_1ThreadSafeContainer.html#ac7aed469947087e642c0401a755e075a">bioexplorer::common::ThreadSafeContainer::addStreamline</a></div><div class="ttdeci">void addStreamline(const size_t materialId, const StreamlinesData &amp;streamline)</div><div class="ttdoc">Add a streamline to the thread safe model.</div><div class="ttdef"><b>Definition:</b> <a href="../../d2/d48/ThreadSafeContainer_8cpp_source.html#l00097">ThreadSafeContainer.cpp:97</a></div></div>
-<div class="ttc" id="astructbioexplorer_1_1details_1_1WhiteMatterDetails_html_a24c59a350e5ee32a71608b4293d09bf1"><div class="ttname"><a href="../../da/d1a/structbioexplorer_1_1details_1_1WhiteMatterDetails.html#a24c59a350e5ee32a71608b4293d09bf1">bioexplorer::details::WhiteMatterDetails::sqlFilter</a></div><div class="ttdeci">std::string sqlFilter</div><div class="ttdef"><b>Definition:</b> <a href="../../d0/dde/bioexplorer_2core_2plugin_2common_2Types_8h_source.html#l01146">Types.h:1146</a></div></div>
-<div class="ttc" id="astructbioexplorer_1_1details_1_1WhiteMatterDetails_html_ae8203e63a55645274fc4a03efe11c11a"><div class="ttname"><a href="../../da/d1a/structbioexplorer_1_1details_1_1WhiteMatterDetails.html#ae8203e63a55645274fc4a03efe11c11a">bioexplorer::details::WhiteMatterDetails::assemblyName</a></div><div class="ttdeci">std::string assemblyName</div><div class="ttdef"><b>Definition:</b> <a href="../../d0/dde/bioexplorer_2core_2plugin_2common_2Types_8h_source.html#l01140">Types.h:1140</a></div></div>
-<div class="ttc" id="astructbioexplorer_1_1details_1_1WhiteMatterDetails_html_aa7ed21458b1d234171d21edc22a43b67"><div class="ttname"><a href="../../da/d1a/structbioexplorer_1_1details_1_1WhiteMatterDetails.html#aa7ed21458b1d234171d21edc22a43b67">bioexplorer::details::WhiteMatterDetails::populationName</a></div><div class="ttdeci">std::string populationName</div><div class="ttdef"><b>Definition:</b> <a href="../../d0/dde/bioexplorer_2core_2plugin_2common_2Types_8h_source.html#l01142">Types.h:1142</a></div></div>
-<div class="ttc" id="aclassbioexplorer_1_1io_1_1db_1_1DBConnector_html_a669349598e0f3bd6ecfd4a85a958a603"><div class="ttname"><a href="../../d9/d96/classbioexplorer_1_1io_1_1db_1_1DBConnector.html#a669349598e0f3bd6ecfd4a85a958a603">bioexplorer::io::db::DBConnector::getWhiteMatterStreamlines</a></div><div class="ttdeci">WhiteMatterStreamlines getWhiteMatterStreamlines(const std::string &amp;populationName, const std::string &amp;filter=&quot;&quot;) const</div><div class="ttdoc">Get the White Matter streamlines for a given population.</div><div class="ttdef"><b>Definition:</b> <a href="../../d5/d22/bioexplorer_2core_2plugin_2io_2db_2DBConnector_8cpp_source.html#l01023">DBConnector.cpp:1023</a></div></div>
+<div class="ttc" id="astructbioexplorer_1_1details_1_1WhiteMatterDetails_html_af165ae3c57756c4afc7a64f4cd93640f"><div class="ttname"><a href="../../da/d1a/structbioexplorer_1_1details_1_1WhiteMatterDetails.html#af165ae3c57756c4afc7a64f4cd93640f">bioexplorer::details::WhiteMatterDetails::radius</a></div><div class="ttdeci">double radius</div><div class="ttdef"><b>Definition:</b> <a href="../../d0/dde/bioexplorer_2core_2plugin_2common_2Types_8h_source.html#l01235">Types.h:1235</a></div></div>
+<div class="ttc" id="astructbioexplorer_1_1details_1_1WhiteMatterDetails_html"><div class="ttname"><a href="../../da/d1a/structbioexplorer_1_1details_1_1WhiteMatterDetails.html">bioexplorer::details::WhiteMatterDetails</a></div><div class="ttdef"><b>Definition:</b> <a href="../../d0/dde/bioexplorer_2core_2plugin_2common_2Types_8h_source.html#l01228">Types.h:1228</a></div></div>
+<div class="ttc" id="aclassbioexplorer_1_1common_1_1ThreadSafeContainer_html_a68baca4022e44aaf027458135bfb9b3c"><div class="ttname"><a href="../../d2/d4a/classbioexplorer_1_1common_1_1ThreadSafeContainer.html#a68baca4022e44aaf027458135bfb9b3c">bioexplorer::common::ThreadSafeContainer::commitToModel</a></div><div class="ttdeci">void commitToModel()</div><div class="ttdoc">Commit geometries and materials to the Brayns model.</div><div class="ttdef"><b>Definition:</b> <a href="../../d2/d48/ThreadSafeContainer_8cpp_source.html#l00133">ThreadSafeContainer.cpp:133</a></div></div>
+<div class="ttc" id="aclassbioexplorer_1_1common_1_1ThreadSafeContainer_html_ac7aed469947087e642c0401a755e075a"><div class="ttname"><a href="../../d2/d4a/classbioexplorer_1_1common_1_1ThreadSafeContainer.html#ac7aed469947087e642c0401a755e075a">bioexplorer::common::ThreadSafeContainer::addStreamline</a></div><div class="ttdeci">void addStreamline(const size_t materialId, const StreamlinesData &amp;streamline)</div><div class="ttdoc">Add a streamline to the thread safe model.</div><div class="ttdef"><b>Definition:</b> <a href="../../d2/d48/ThreadSafeContainer_8cpp_source.html#l00095">ThreadSafeContainer.cpp:95</a></div></div>
+<div class="ttc" id="aclassbioexplorer_1_1io_1_1db_1_1DBConnector_html_ab1f8df26bfcdb4705d750583a7b56ad5"><div class="ttname"><a href="../../d9/d96/classbioexplorer_1_1io_1_1db_1_1DBConnector.html#ab1f8df26bfcdb4705d750583a7b56ad5">bioexplorer::io::db::DBConnector::getWhiteMatterStreamlines</a></div><div class="ttdeci">WhiteMatterStreamlines getWhiteMatterStreamlines(const std::string &amp;populationName, const std::string &amp;sqlCondition=&quot;&quot;) const</div><div class="ttdoc">Get the White Matter streamlines for a given population.</div><div class="ttdef"><b>Definition:</b> <a href="../../d5/d22/bioexplorer_2core_2plugin_2io_2db_2DBConnector_8cpp_source.html#l01156">DBConnector.cpp:1156</a></div></div>
+<div class="ttc" id="astructbioexplorer_1_1details_1_1WhiteMatterDetails_html_a24c59a350e5ee32a71608b4293d09bf1"><div class="ttname"><a href="../../da/d1a/structbioexplorer_1_1details_1_1WhiteMatterDetails.html#a24c59a350e5ee32a71608b4293d09bf1">bioexplorer::details::WhiteMatterDetails::sqlFilter</a></div><div class="ttdeci">std::string sqlFilter</div><div class="ttdef"><b>Definition:</b> <a href="../../d0/dde/bioexplorer_2core_2plugin_2common_2Types_8h_source.html#l01237">Types.h:1237</a></div></div>
+<div class="ttc" id="astructbioexplorer_1_1details_1_1WhiteMatterDetails_html_ae8203e63a55645274fc4a03efe11c11a"><div class="ttname"><a href="../../da/d1a/structbioexplorer_1_1details_1_1WhiteMatterDetails.html#ae8203e63a55645274fc4a03efe11c11a">bioexplorer::details::WhiteMatterDetails::assemblyName</a></div><div class="ttdeci">std::string assemblyName</div><div class="ttdef"><b>Definition:</b> <a href="../../d0/dde/bioexplorer_2core_2plugin_2common_2Types_8h_source.html#l01231">Types.h:1231</a></div></div>
+<div class="ttc" id="astructbioexplorer_1_1details_1_1WhiteMatterDetails_html_aa7ed21458b1d234171d21edc22a43b67"><div class="ttname"><a href="../../da/d1a/structbioexplorer_1_1details_1_1WhiteMatterDetails.html#aa7ed21458b1d234171d21edc22a43b67">bioexplorer::details::WhiteMatterDetails::populationName</a></div><div class="ttdeci">std::string populationName</div><div class="ttdef"><b>Definition:</b> <a href="../../d0/dde/bioexplorer_2core_2plugin_2common_2Types_8h_source.html#l01233">Types.h:1233</a></div></div>
 <div class="ttc" id="aclassbioexplorer_1_1common_1_1Node_html"><div class="ttname"><a href="../../d7/d93/classbioexplorer_1_1common_1_1Node.html">bioexplorer::common::Node</a></div><div class="ttdoc">The Node class.</div><div class="ttdef"><b>Definition:</b> <a href="../../db/d92/Node_8h_source.html#l00034">Node.h:34</a></div></div>
 <div class="ttc" id="aclassbioexplorer_1_1io_1_1db_1_1DBConnector_html_a54ae453b0795aabee7ee7e93ae976eab"><div class="ttname"><a href="../../d9/d96/classbioexplorer_1_1io_1_1db_1_1DBConnector.html#a54ae453b0795aabee7ee7e93ae976eab">bioexplorer::io::db::DBConnector::getInstance</a></div><div class="ttdeci">static DBConnector &amp; getInstance()</div><div class="ttdoc">Get the Instance object.</div><div class="ttdef"><b>Definition:</b> <a href="../../d3/dec/bioexplorer_2core_2plugin_2io_2db_2DBConnector_8h_source.html#l00057">DBConnector.h:57</a></div></div>
 <!-- start footer part -->

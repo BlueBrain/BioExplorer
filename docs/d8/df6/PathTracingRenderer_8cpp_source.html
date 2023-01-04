@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.17"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>Blue Brain BioExplorer: /home/favreau/git/BioExplorer/bioexplorer/core/module/ispc/render/PathTracingRenderer.cpp Source File</title>
+<title>Blue Brain BioExplorer: /home/favreau/code/favreau/BioExplorer/bioexplorer/core/module/ispc/render/PathTracingRenderer.cpp Source File</title>
 <link href="../../tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="../../jquery.js"></script>
 <script type="text/javascript" src="../../dynsections.js"></script>
@@ -90,7 +90,7 @@ $(document).ready(function(){initNavTree('d8/df6/PathTracingRenderer_8cpp_source
 <div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;<span class="comment"> * The Blue Brain BioExplorer is a tool for scientists to extract and analyse</span></div>
 <div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="comment"> * scientific data from visualization</span></div>
 <div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="comment"> *</span></div>
-<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;<span class="comment"> * Copyright 2020-2022 Blue BrainProject / EPFL</span></div>
+<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;<span class="comment"> * Copyright 2020-2023 Blue BrainProject / EPFL</span></div>
 <div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;<span class="comment"> *</span></div>
 <div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;<span class="comment"> * This program is free software: you can redistribute it and/or modify it under</span></div>
 <div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;<span class="comment"> * the terms of the GNU General Public License as published by the Free Software</span></div>
@@ -123,7 +123,7 @@ $(document).ready(function(){initNavTree('d8/df6/PathTracingRenderer_8cpp_source
 <div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;{</div>
 <div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;<span class="keywordtype">void</span> PathTracingRenderer::commit()</div>
 <div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;{</div>
-<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;    Renderer::commit();</div>
+<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;    SimulationRenderer::commit();</div>
 <div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160; </div>
 <div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;    _lightData = (ospray::Data*)getParamData(<span class="stringliteral">&quot;lights&quot;</span>);</div>
 <div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;    _lightArray.clear();</div>
@@ -145,18 +145,20 @@ $(document).ready(function(){initNavTree('d8/df6/PathTracingRenderer_8cpp_source
 <div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160; </div>
 <div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;    ispc::PathTracingRenderer_set(</div>
 <div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;        getIE(), (_bgMaterial ? _bgMaterial-&gt;getIE() : <span class="keyword">nullptr</span>), spp, _lightPtr,</div>
-<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;        _lightArray.size(), _timestamp, _randomNumber, _exposure, _aoStrength,</div>
-<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;        _aoDistance, _useHardwareRandomizer, _showBackground);</div>
-<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;}</div>
-<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160; </div>
-<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;PathTracingRenderer::PathTracingRenderer()</div>
-<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;{</div>
-<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;    ispcEquivalent = ispc::PathTracingRenderer_create(<span class="keyword">this</span>);</div>
-<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;}</div>
-<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160; </div>
-<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;OSP_REGISTER_RENDERER(PathTracingRenderer, bio_explorer_path_tracing);</div>
-<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;} <span class="comment">// namespace rendering</span></div>
-<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;} <span class="comment">// namespace bioexplorer</span></div>
+<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;        _lightArray.size(),</div>
+<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;        (_simulationData ? (<span class="keywordtype">float</span>*)_simulationData-&gt;data : <span class="keyword">nullptr</span>),</div>
+<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;        _simulationDataSize, _timestamp, _randomNumber, _exposure, _aoStrength,</div>
+<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;        _aoDistance, _useHardwareRandomizer, _showBackground);</div>
+<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;}</div>
+<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160; </div>
+<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;PathTracingRenderer::PathTracingRenderer()</div>
+<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;{</div>
+<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;    ispcEquivalent = ispc::PathTracingRenderer_create(<span class="keyword">this</span>);</div>
+<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;}</div>
+<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160; </div>
+<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;OSP_REGISTER_RENDERER(PathTracingRenderer, bio_explorer_path_tracing);</div>
+<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;} <span class="comment">// namespace rendering</span></div>
+<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;} <span class="comment">// namespace bioexplorer</span></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->

@@ -2,6 +2,7 @@ var structbioexplorer_1_1details_1_1MaterialsDetails =
 [
     [ "castUserData", "d7/d84/structbioexplorer_1_1details_1_1MaterialsDetails.html#aa35975badd1e0b785b48a22a1808b0d1", null ],
     [ "chameleonModes", "d7/d84/structbioexplorer_1_1details_1_1MaterialsDetails.html#a19005df5e8ac32a9a1c5395d267e7780", null ],
+    [ "clippingModes", "d7/d84/structbioexplorer_1_1details_1_1MaterialsDetails.html#ab0694cfff1d5622a418655af13a4fcd9", null ],
     [ "diffuseColors", "d7/d84/structbioexplorer_1_1details_1_1MaterialsDetails.html#a75ecbbe754809266fa5b2b90c5c8795f", null ],
     [ "emissions", "d7/d84/structbioexplorer_1_1details_1_1MaterialsDetails.html#acd1fd0706367e326a6016289dc12723f", null ],
     [ "glossinesses", "d7/d84/structbioexplorer_1_1details_1_1MaterialsDetails.html#a6577c1cdcb827ae1ca22f83f686cabe1", null ],

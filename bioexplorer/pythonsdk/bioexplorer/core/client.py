@@ -5,7 +5,7 @@
 # The Blue Brain BioExplorer is a tool for scientists to extract and analyse
 # scientific data from visualization
 #
-# Copyright 2020-2022 Blue BrainProject / EPFL
+# Copyright 2020-2023 Blue BrainProject / EPFL
 #                          Raphael Dumusc <raphael.dumusc@epfl.ch>
 #                          Daniel Nachbaur <daniel.nachbaur@epfl.ch>
 #
