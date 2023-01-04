@@ -38,7 +38,7 @@ from .version import VERSION as __version__
 class MovieMaker:
     """Movie maker"""
 
-    PLUGIN_API_PREFIX = 'mm-'
+    PLUGIN_API_PREFIX = "mm-"
     FRAME_BUFFER_MODE_COLOR = 0
     FRAME_BUFFER_MODE_DEPTH = 1
 
@@ -62,7 +62,9 @@ class MovieMaker:
         """
         return __version__
 
-    def build_camera_path(self, control_points, nb_steps_between_control_points, smoothing_size=1):
+    def build_camera_path(
+        self, control_points, nb_steps_between_control_points, smoothing_size=1
+    ):
         """
         Build a camera path from control points
 
@@ -91,23 +93,29 @@ class MovieMaker:
                 t_direction = [0, 0, 0]
                 t_up = [0, 0, 0]
                 for k in range(3):
-                    t_origin[k] = (p1['origin'][k] - p0['origin'][k]) / \
-                        float(nb_steps_between_control_points)
-                    t_direction[k] = (p1['direction'][k] - p0['direction'][k]) / \
-                        float(nb_steps_between_control_points)
-                    t_up[k] = (p1['up'][k] - p0['up'][k]) / float(nb_steps_between_control_points)
+                    t_origin[k] = (p1["origin"][k] - p0["origin"][k]) / float(
+                        nb_steps_between_control_points
+                    )
+                    t_direction[k] = (p1["direction"][k] - p0["direction"][k]) / float(
+                        nb_steps_between_control_points
+                    )
+                    t_up[k] = (p1["up"][k] - p0["up"][k]) / float(
+                        nb_steps_between_control_points
+                    )
 
-                    origin[k] = p0['origin'][k] + t_origin[k] * float(i)
-                    direction[k] = p0['direction'][k] + t_direction[k] * float(i)
-                    up[k] = p0['up'][k] + t_up[k] * float(i)
+                    origin[k] = p0["origin"][k] + t_origin[k] * float(i)
+                    direction[k] = p0["direction"][k] + t_direction[k] * float(i)
+                    up[k] = p0["up"][k] + t_up[k] * float(i)
 
-                t_aperture_radius = (p1['apertureRadius'] - p0['apertureRadius']) / float(
-                    nb_steps_between_control_points)
-                aperture_radius = p0['apertureRadius'] + t_aperture_radius * float(i)
+                t_aperture_radius = (
+                    p1["apertureRadius"] - p0["apertureRadius"]
+                ) / float(nb_steps_between_control_points)
+                aperture_radius = p0["apertureRadius"] + t_aperture_radius * float(i)
 
-                t_focus_distance = (p1['focusDistance'] - p0['focusDistance']) / \
-                    float(nb_steps_between_control_points)
-                focus_distance = p0['focusDistance'] + t_focus_distance * float(i)
+                t_focus_distance = (p1["focusDistance"] - p0["focusDistance"]) / float(
+                    nb_steps_between_control_points
+                )
+                focus_distance = p0["focusDistance"] + t_focus_distance * float(i)
 
                 origins.append(origin)
                 directions.append(direction)
@@ -132,15 +140,35 @@ class MovieMaker:
                 focus_distance = focus_distance + focus_distances[index]
             self._smoothed_key_frames.append(
                 [
-                    (o[0] / smoothing_size, o[1] / smoothing_size, o[2] / smoothing_size),
-                    (d[0] / smoothing_size, d[1] / smoothing_size, d[2] / smoothing_size),
-                    (u[0] / smoothing_size, u[1] / smoothing_size, u[2] / smoothing_size),
-                    aperture_radius / smoothing_size, focus_distance / smoothing_size
-                ])
+                    (
+                        o[0] / smoothing_size,
+                        o[1] / smoothing_size,
+                        o[2] / smoothing_size,
+                    ),
+                    (
+                        d[0] / smoothing_size,
+                        d[1] / smoothing_size,
+                        d[2] / smoothing_size,
+                    ),
+                    (
+                        u[0] / smoothing_size,
+                        u[1] / smoothing_size,
+                        u[2] / smoothing_size,
+                    ),
+                    aperture_radius / smoothing_size,
+                    focus_distance / smoothing_size,
+                ]
+            )
         last = control_points[len(control_points) - 1]
         self._smoothed_key_frames.append(
-            (last['origin'], last['direction'], last['up'], last['apertureRadius'],
-             last['focusDistance']))
+            (
+                last["origin"],
+                last["direction"],
+                last["up"],
+                last["apertureRadius"],
+                last["focusDistance"],
+            )
+        )
 
     def get_nb_frames(self):
         """
@@ -175,11 +203,12 @@ class MovieMaker:
         :rtype: Response
         """
         params = dict()
-        params['origin'] = origin
-        params['direction'] = direction
-        params['up'] = up
+        params["origin"] = origin
+        params["direction"] = direction
+        params["up"] = up
         return self._client.rockets_client.request(
-            self.PLUGIN_API_PREFIX + 'set-odu-camera', params)
+            self.PLUGIN_API_PREFIX + "set-odu-camera", params
+        )
 
     def get_camera(self):
         """
@@ -188,12 +217,26 @@ class MovieMaker:
         :return: A JSon representation of the origin, direction and up vectors
         :rtype: Response
         """
-        return self._client.rockets_client.request(self.PLUGIN_API_PREFIX + 'get-odu-camera')
+        return self._client.rockets_client.request(
+            self.PLUGIN_API_PREFIX + "get-odu-camera"
+        )
 
-    def export_frames(self, size, path, base_name, image_format='png',
-                      animation_frames=list(), quality=100, samples_per_pixel=1, start_frame=0,
-                      end_frame=0, interpupillary_distance=0.0, export_intermediate_frames=False,
-                      frame_buffer_mode=FRAME_BUFFER_MODE_COLOR, keywords=list()):
+    def export_frames(
+        self,
+        size,
+        path,
+        base_name,
+        image_format="png",
+        animation_frames=list(),
+        quality=100,
+        samples_per_pixel=1,
+        start_frame=0,
+        end_frame=0,
+        interpupillary_distance=0.0,
+        export_intermediate_frames=False,
+        frame_buffer_mode=FRAME_BUFFER_MODE_COLOR,
+        keywords=list(),
+    ):
         """
         Exports frames to disk. Frames are named using a 6 digit representation of the frame number
 
@@ -221,33 +264,36 @@ class MovieMaker:
         assert end_frame <= nb_frames
 
         self._client.set_renderer(
-            accumulation=True, samples_per_pixel=1, max_accum_frames=samples_per_pixel + 1,
-            subsampling=1)
+            accumulation=True,
+            samples_per_pixel=1,
+            max_accum_frames=samples_per_pixel + 1,
+            subsampling=1,
+        )
 
         camera_definitions = list()
         for i in range(start_frame, end_frame):
             camera_definitions.append(self.get_key_frame(i))
 
         assert isinstance(keywords, list)
-        keywords_as_string = ''
+        keywords_as_string = ""
         for keyword in keywords:
-            if keywords_as_string != '':
-                keywords_as_string += ','
+            if keywords_as_string != "":
+                keywords_as_string += ","
             keywords_as_string += keyword
 
         params = dict()
-        params['path'] = path
-        params['baseName'] = base_name
-        params['format'] = image_format
-        params['size'] = size
-        params['quality'] = quality
-        params['spp'] = samples_per_pixel
-        params['startFrame'] = start_frame
-        params['endFrame'] = end_frame
-        params['exportIntermediateFrames'] = export_intermediate_frames
-        params['animationInformation'] = animation_frames
-        params['frameBufferMode'] = frame_buffer_mode
-        params['keywords'] = keywords_as_string
+        params["path"] = path
+        params["baseName"] = base_name
+        params["format"] = image_format
+        params["size"] = size
+        params["quality"] = quality
+        params["spp"] = samples_per_pixel
+        params["startFrame"] = start_frame
+        params["endFrame"] = end_frame
+        params["exportIntermediateFrames"] = export_intermediate_frames
+        params["animationInformation"] = animation_frames
+        params["frameBufferMode"] = frame_buffer_mode
+        params["keywords"] = keywords_as_string
         values = list()
         for camera_definition in camera_definitions:
             # Origin
@@ -266,9 +312,10 @@ class MovieMaker:
             # Interpupillary distance
             values.append(interpupillary_distance)
 
-        params['cameraInformation'] = values
+        params["cameraInformation"] = values
         return self._client.rockets_client.request(
-            self.PLUGIN_API_PREFIX + 'export-frames-to-disk', params)
+            self.PLUGIN_API_PREFIX + "export-frames-to-disk", params
+        )
 
     def get_export_frames_progress(self):
         """
@@ -280,7 +327,8 @@ class MovieMaker:
         :rtype: Response
         """
         return self._client.rockets_client.request(
-            self.PLUGIN_API_PREFIX + 'get-export-frames-progress')
+            self.PLUGIN_API_PREFIX + "get-export-frames-progress"
+        )
 
     def cancel_frames_export(self):
         """
@@ -290,21 +338,22 @@ class MovieMaker:
         :rtype: Response
         """
         params = dict()
-        params['path'] = '/tmp'
-        params['baseName'] = ''
-        params['format'] = 'png'
-        params['size'] = [64, 64]
-        params['quality'] = 100
-        params['spp'] = 1
-        params['startFrame'] = 0
-        params['endFrame'] = 0
-        params['exportIntermediateFrames'] = False
-        params['animationInformation'] = []
-        params['cameraInformation'] = []
-        params['frameBufferMode'] = MovieMaker.FRAME_BUFFER_MODE_COLOR
-        params['keywords'] = ''
+        params["path"] = "/tmp"
+        params["baseName"] = ""
+        params["format"] = "png"
+        params["size"] = [64, 64]
+        params["quality"] = 100
+        params["spp"] = 1
+        params["startFrame"] = 0
+        params["endFrame"] = 0
+        params["exportIntermediateFrames"] = False
+        params["animationInformation"] = []
+        params["cameraInformation"] = []
+        params["frameBufferMode"] = MovieMaker.FRAME_BUFFER_MODE_COLOR
+        params["keywords"] = ""
         return self._client.rockets_client.request(
-            self.PLUGIN_API_PREFIX + 'export-frames-to-disk', params)
+            self.PLUGIN_API_PREFIX + "export-frames-to-disk", params
+        )
 
     def set_current_frame(self, frame, camera_params=None):
         """
@@ -333,13 +382,13 @@ class MovieMaker:
 
     def display(self):
         """Displays a widget giving access to the movie frames"""
-        frame = IntSlider(description='frame', min=0, max=self.get_nb_frames()-1)
+        frame = IntSlider(description="frame", min=0, max=self.get_nb_frames() - 1)
 
         def update_frame(args):
-            frame.value = args['new']
+            frame.value = args["new"]
             self.set_current_frame(frame.value)
 
-        frame.observe(update_frame, 'value')
+        frame.observe(update_frame, "value")
         display(frame)
 
     def _set_renderer_params(self, name, samples_per_pixel, gi_length=5.0):
@@ -354,18 +403,18 @@ class MovieMaker:
         """
         spp = samples_per_pixel
         frame_buffer_mode = MovieMaker.FRAME_BUFFER_MODE_COLOR
-        if name == 'ambient_occlusion':
+        if name == "ambient_occlusion":
             params = self._client.AmbientOcclusionRendererParams()
             params.samples_per_frame = 16
             params.ray_length = gi_length
             self._client.set_renderer_params(params)
             spp = 4
-        elif name == 'depth':
+        elif name == "depth":
             frame_buffer_mode = MovieMaker.FRAME_BUFFER_MODE_DEPTH
             spp = 1
-        elif name in ['albedo', 'raycast_Ns']:
+        elif name in ["albedo", "raycast_Ns"]:
             spp = 4
-        elif name == 'shadow':
+        elif name == "shadow":
             params = self._client.ShadowRendererParams()
             params.samples_per_frame = 16
             params.ray_length = gi_length
@@ -374,9 +423,17 @@ class MovieMaker:
         return frame_buffer_mode, spp
 
     def create_snapshot(
-            self, renderer, size, path, base_name, samples_per_pixel,
-            export_intermediate_frames=False, gi_length=1e6, show_progress=False,
-            keywords=list()):
+        self,
+        renderer,
+        size,
+        path,
+        base_name,
+        samples_per_pixel,
+        export_intermediate_frames=False,
+        gi_length=1e6,
+        show_progress=False,
+        keywords=list(),
+    ):
         """
         Create a snapshot of the current frame
 
@@ -398,58 +455,85 @@ class MovieMaker:
 
         application_params = self._client.get_application_parameters()
         renderer_params = self._client.get_renderer()
-        old_image_stream_fps = application_params['image_stream_fps']
-        old_viewport_size = application_params['viewport']
-        old_samples_per_pixel = renderer_params['samples_per_pixel']
-        old_max_accum_frames = renderer_params['max_accum_frames']
+        old_image_stream_fps = application_params["image_stream_fps"]
+        old_viewport_size = application_params["viewport"]
+        old_samples_per_pixel = renderer_params["samples_per_pixel"]
+        old_max_accum_frames = renderer_params["max_accum_frames"]
         old_smoothed_key_frames = copy.deepcopy(self._smoothed_key_frames)
 
-        self._client.set_renderer(current=renderer, samples_per_pixel=1, max_accum_frames=1)
+        self._client.set_renderer(
+            current=renderer, samples_per_pixel=1, max_accum_frames=1
+        )
         self._client.set_application_parameters(viewport=size)
         self._client.set_application_parameters(image_stream_fps=0)
 
-        frame_buffer_mode, spp = self._set_renderer_params(renderer, samples_per_pixel, gi_length)
+        frame_buffer_mode, spp = self._set_renderer_params(
+            renderer, samples_per_pixel, gi_length
+        )
         self._client.set_renderer(max_accum_frames=spp)
 
         control_points = [self.get_camera()]
-        current_animation_frame = int(self._client.get_animation_parameters()['current'])
+        current_animation_frame = int(
+            self._client.get_animation_parameters()["current"]
+        )
         animation_frames = [current_animation_frame]
 
         self.build_camera_path(
-            control_points=control_points, nb_steps_between_control_points=1, smoothing_size=1)
+            control_points=control_points,
+            nb_steps_between_control_points=1,
+            smoothing_size=1,
+        )
 
         if show_progress:
-            progress_widget = IntProgress(description='In progress...', min=0, max=100, value=0)
+            progress_widget = IntProgress(
+                description="In progress...", min=0, max=100, value=0
+            )
             display(progress_widget)
 
         self.export_frames(
-            path=path, base_name=base_name, animation_frames=animation_frames, size=size,
+            path=path,
+            base_name=base_name,
+            animation_frames=animation_frames,
+            size=size,
             samples_per_pixel=spp,
             export_intermediate_frames=export_intermediate_frames,
-            frame_buffer_mode=frame_buffer_mode, keywords=keywords)
+            frame_buffer_mode=frame_buffer_mode,
+            keywords=keywords,
+        )
 
         done = False
         while not done:
             time.sleep(1)
             if show_progress:
-                progress = self.get_export_frames_progress()['progress']
+                progress = self.get_export_frames_progress()["progress"]
                 progress_widget.value = progress * 100
-            done = self.get_export_frames_progress()['done']
+            done = self.get_export_frames_progress()["done"]
 
         if show_progress:
-            progress_widget.description = 'Done'
+            progress_widget.description = "Done"
             progress_widget.value = 100
 
-        self._client.set_application_parameters(image_stream_fps=old_image_stream_fps,
-                                                viewport=old_viewport_size)
-        self._client.set_renderer(samples_per_pixel=old_samples_per_pixel,
-                                  max_accum_frames=old_max_accum_frames)
+        self._client.set_application_parameters(
+            image_stream_fps=old_image_stream_fps, viewport=old_viewport_size
+        )
+        self._client.set_renderer(
+            samples_per_pixel=old_samples_per_pixel,
+            max_accum_frames=old_max_accum_frames,
+        )
         self._smoothed_key_frames = copy.deepcopy(old_smoothed_key_frames)
 
     def create_movie(
-            self, path, size, animation_frames=list(), quality=100, samples_per_pixel=1,
-            start_frame=0, end_frame=0, interpupillary_distance=0.0,
-            export_intermediate_frames=True):
+        self,
+        path,
+        size,
+        animation_frames=list(),
+        quality=100,
+        samples_per_pixel=1,
+        start_frame=0,
+        end_frame=0,
+        interpupillary_distance=0.0,
+        export_intermediate_frames=True,
+    ):
         """
         Create and export a set of PNG frames for later movie generation
 
@@ -468,34 +552,48 @@ class MovieMaker:
         application_params = self._client.get_application_parameters()
         renderer_params = self._client.get_renderer()
 
-        old_image_stream_fps = application_params['image_stream_fps']
-        old_viewport_size = application_params['viewport']
-        old_samples_per_pixel = renderer_params['samples_per_pixel']
-        old_max_accum_frames = renderer_params['max_accum_frames']
-        self._client.set_renderer(samples_per_pixel=1, max_accum_frames=samples_per_pixel)
+        old_image_stream_fps = application_params["image_stream_fps"]
+        old_viewport_size = application_params["viewport"]
+        old_samples_per_pixel = renderer_params["samples_per_pixel"]
+        old_max_accum_frames = renderer_params["max_accum_frames"]
+        self._client.set_renderer(
+            samples_per_pixel=1, max_accum_frames=samples_per_pixel
+        )
         self._client.set_application_parameters(viewport=size)
         self._client.set_application_parameters(image_stream_fps=0)
 
-        progress_widget = IntProgress(description='In progress...', min=0, max=100, value=0)
+        progress_widget = IntProgress(
+            description="In progress...", min=0, max=100, value=0
+        )
         display(progress_widget)
 
         self.export_frames(
-            path=path, base_name='', animation_frames=animation_frames, start_frame=start_frame,
-            end_frame=end_frame, size=size, samples_per_pixel=samples_per_pixel, quality=quality,
+            path=path,
+            base_name="",
+            animation_frames=animation_frames,
+            start_frame=start_frame,
+            end_frame=end_frame,
+            size=size,
+            samples_per_pixel=samples_per_pixel,
+            quality=quality,
             interpupillary_distance=interpupillary_distance,
-            export_intermediate_frames=export_intermediate_frames)
+            export_intermediate_frames=export_intermediate_frames,
+        )
 
         done = False
         while not done:
             time.sleep(1)
-            progress = self.get_export_frames_progress()['progress']
+            progress = self.get_export_frames_progress()["progress"]
             progress_widget.value = progress * 100
-            done = self.get_export_frames_progress()['done']
+            done = self.get_export_frames_progress()["done"]
 
-        self._client.set_application_parameters(image_stream_fps=old_image_stream_fps,
-                                                viewport=old_viewport_size)
-        self._client.set_renderer(samples_per_pixel=old_samples_per_pixel,
-                                  max_accum_frames=old_max_accum_frames)
+        self._client.set_application_parameters(
+            image_stream_fps=old_image_stream_fps, viewport=old_viewport_size
+        )
+        self._client.set_renderer(
+            samples_per_pixel=old_samples_per_pixel,
+            max_accum_frames=old_max_accum_frames,
+        )
 
-        progress_widget.description = 'Done'
+        progress_widget.description = "Done"
         progress_widget.value = 100
