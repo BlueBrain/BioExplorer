@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.17"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>Blue Brain BioExplorer: /home/favreau/git/BioExplorer/bioexplorer/core/plugin/common/shapes/BezierShape.cpp Source File</title>
+<title>Blue Brain BioExplorer: /home/favreau/code/favreau/BioExplorer/bioexplorer/core/plugin/common/shapes/BezierShape.cpp Source File</title>
 <link href="../../tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="../../jquery.js"></script>
 <script type="text/javascript" src="../../dynsections.js"></script>
@@ -90,7 +90,7 @@ $(document).ready(function(){initNavTree('d6/d6b/BezierShape_8cpp_source.html','
 <div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;<span class="comment"> * The Blue Brain BioExplorer is a tool for scientists to extract and analyse</span></div>
 <div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="comment"> * scientific data from visualization</span></div>
 <div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="comment"> *</span></div>
-<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;<span class="comment"> * Copyright 2020-2022 Blue BrainProject / EPFL</span></div>
+<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;<span class="comment"> * Copyright 2020-2023 Blue BrainProject / EPFL</span></div>
 <div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;<span class="comment"> *</span></div>
 <div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;<span class="comment"> * This program is free software: you can redistribute it and/or modify it under</span></div>
 <div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;<span class="comment"> * the terms of the GNU General Public License as published by the Free Software</span></div>
@@ -129,52 +129,53 @@ $(document).ready(function(){initNavTree('d6/d6b/BezierShape_8cpp_source.html','
 <div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;    }</div>
 <div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;}</div>
 <div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160; </div>
-<div class="line"><a name="l00044"></a><span class="lineno"><a class="line" href="../../d2/d30/classbioexplorer_1_1common_1_1BezierShape.html#a20c74548fdd716e5ae9eebef885fae82">   44</a></span>&#160;Transformation <a class="code" href="../../d2/d30/classbioexplorer_1_1common_1_1BezierShape.html#a20c74548fdd716e5ae9eebef885fae82">BezierShape::getTransformation</a>(</div>
+<div class="line"><a name="l00044"></a><span class="lineno"><a class="line" href="../../d2/d30/classbioexplorer_1_1common_1_1BezierShape.html#a707034f1f98518b007e751fd6b642bb2">   44</a></span>&#160;Transformation <a class="code" href="../../d2/d30/classbioexplorer_1_1common_1_1BezierShape.html#a707034f1f98518b007e751fd6b642bb2">BezierShape::getTransformation</a>(</div>
 <div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;    <span class="keyword">const</span> uint64_t occurrence, <span class="keyword">const</span> uint64_t nbOccurrences,</div>
-<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;    <span class="keyword">const</span> <a class="code" href="../../d8/d60/structbioexplorer_1_1details_1_1AnimationDetails.html">AnimationDetails</a>&amp; animationDetails, <span class="keyword">const</span> <span class="keywordtype">double</span> offset)<span class="keyword"> const</span></div>
-<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;<span class="keyword"></span>{</div>
-<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;    Vector3ds bezierPoints = _points;</div>
-<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;    <span class="keywordtype">size_t</span> i = bezierPoints.size() - 1;</div>
-<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;    <span class="keywordflow">while</span> (i &gt; 0)</div>
-<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;    {</div>
-<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;        <span class="keywordflow">for</span> (<span class="keywordtype">size_t</span> k = 0; k &lt; i; ++k)</div>
-<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;            bezierPoints[k] =</div>
-<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;                bezierPoints[k] + <span class="keyword">static_cast&lt;</span><span class="keywordtype">double</span><span class="keyword">&gt;</span>(occurrence) *</div>
-<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;                                      (bezierPoints[k + 1] - bezierPoints[k]);</div>
-<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;        --i;</div>
-<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;    }</div>
-<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;    <span class="keyword">const</span> Vector3d normal =</div>
-<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;        cross({0.0, 0.0, 1.0}, normalize(bezierPoints[1] - bezierPoints[0]));</div>
-<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160; </div>
-<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;    Vector3d pos = bezierPoints[0];</div>
-<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160; </div>
-<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;    <span class="keywordflow">if</span> (isClipped(pos, _clippingPlanes))</div>
-<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;        <span class="keywordflow">throw</span> std::runtime_error(<span class="stringliteral">&quot;Instance is clipped&quot;</span>);</div>
-<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160; </div>
-<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;    <span class="keyword">const</span> Quaterniond rot = safeQuatlookAt(normal);</div>
-<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160; </div>
-<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;    pos += normal * offset;</div>
-<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160; </div>
-<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;    Transformation transformation;</div>
-<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;    transformation.setTranslation(pos);</div>
-<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;    transformation.setRotation(rot);</div>
-<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;    <span class="keywordflow">return</span> transformation;</div>
-<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;}</div>
-<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160; </div>
-<div class="line"><a name="l00076"></a><span class="lineno"><a class="line" href="../../d2/d30/classbioexplorer_1_1common_1_1BezierShape.html#aa98f4d628042ea0fc197a9393f877e9d">   76</a></span>&#160;<span class="keywordtype">bool</span> <a class="code" href="../../d2/d30/classbioexplorer_1_1common_1_1BezierShape.html#aa98f4d628042ea0fc197a9393f877e9d">BezierShape::isInside</a>(<span class="keyword">const</span> Vector3d&amp; point)<span class="keyword"> const</span></div>
-<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;<span class="keyword"></span>{</div>
-<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;    PLUGIN_THROW(<span class="stringliteral">&quot;isInside is not implemented for Bezier shapes&quot;</span>);</div>
-<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;}</div>
-<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160; </div>
-<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;} <span class="comment">// namespace common</span></div>
-<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;} <span class="comment">// namespace bioexplorer</span></div>
+<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;    <span class="keyword">const</span> <a class="code" href="../../df/d9c/structbioexplorer_1_1details_1_1MolecularSystemAnimationDetails.html">MolecularSystemAnimationDetails</a>&amp; molecularSystemAnimationDetails,</div>
+<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;    <span class="keyword">const</span> <span class="keywordtype">double</span> offset)<span class="keyword"> const</span></div>
+<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;<span class="keyword"></span>{</div>
+<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;    Vector3ds bezierPoints = _points;</div>
+<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;    <span class="keywordtype">size_t</span> i = bezierPoints.size() - 1;</div>
+<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;    <span class="keywordflow">while</span> (i &gt; 0)</div>
+<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;    {</div>
+<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;        <span class="keywordflow">for</span> (<span class="keywordtype">size_t</span> k = 0; k &lt; i; ++k)</div>
+<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;            bezierPoints[k] =</div>
+<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;                bezierPoints[k] + <span class="keyword">static_cast&lt;</span><span class="keywordtype">double</span><span class="keyword">&gt;</span>(occurrence) *</div>
+<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;                                      (bezierPoints[k + 1] - bezierPoints[k]);</div>
+<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;        --i;</div>
+<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;    }</div>
+<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;    <span class="keyword">const</span> Vector3d normal =</div>
+<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;        cross({0.0, 0.0, 1.0}, normalize(bezierPoints[1] - bezierPoints[0]));</div>
+<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160; </div>
+<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;    Vector3d pos = bezierPoints[0];</div>
+<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160; </div>
+<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;    <span class="keywordflow">if</span> (isClipped(pos, _clippingPlanes))</div>
+<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;        <span class="keywordflow">throw</span> std::runtime_error(<span class="stringliteral">&quot;Instance is clipped&quot;</span>);</div>
+<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160; </div>
+<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;    <span class="keyword">const</span> Quaterniond rot = safeQuatlookAt(normal);</div>
+<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160; </div>
+<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;    pos += normal * offset;</div>
+<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160; </div>
+<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;    Transformation transformation;</div>
+<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;    transformation.setTranslation(pos);</div>
+<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;    transformation.setRotation(rot);</div>
+<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;    <span class="keywordflow">return</span> transformation;</div>
+<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;}</div>
+<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160; </div>
+<div class="line"><a name="l00077"></a><span class="lineno"><a class="line" href="../../d2/d30/classbioexplorer_1_1common_1_1BezierShape.html#aa98f4d628042ea0fc197a9393f877e9d">   77</a></span>&#160;<span class="keywordtype">bool</span> <a class="code" href="../../d2/d30/classbioexplorer_1_1common_1_1BezierShape.html#aa98f4d628042ea0fc197a9393f877e9d">BezierShape::isInside</a>(<span class="keyword">const</span> Vector3d&amp; point)<span class="keyword"> const</span></div>
+<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;<span class="keyword"></span>{</div>
+<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;    PLUGIN_THROW(<span class="stringliteral">&quot;isInside is not implemented for Bezier shapes&quot;</span>);</div>
+<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;}</div>
+<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160; </div>
+<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;} <span class="comment">// namespace common</span></div>
+<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;} <span class="comment">// namespace bioexplorer</span></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
 <div class="ttc" id="aclassbioexplorer_1_1common_1_1BezierShape_html_a8f5698d61e4536ac95fdb34dc47e52b8"><div class="ttname"><a href="../../d2/d30/classbioexplorer_1_1common_1_1BezierShape.html#a8f5698d61e4536ac95fdb34dc47e52b8">bioexplorer::common::BezierShape::BezierShape</a></div><div class="ttdeci">BezierShape(const Vector4ds &amp;clippingPlanes, const Vector3ds points)</div><div class="ttdoc">Construct a new Bezier shape object.</div><div class="ttdef"><b>Definition:</b> <a href="../../d6/d6b/BezierShape_8cpp_source.html#l00033">BezierShape.cpp:33</a></div></div>
-<div class="ttc" id="aclassbioexplorer_1_1common_1_1BezierShape_html_a20c74548fdd716e5ae9eebef885fae82"><div class="ttname"><a href="../../d2/d30/classbioexplorer_1_1common_1_1BezierShape.html#a20c74548fdd716e5ae9eebef885fae82">bioexplorer::common::BezierShape::getTransformation</a></div><div class="ttdeci">Transformation getTransformation(const uint64_t occurrence, const uint64_t nbOccurrences, const AnimationDetails &amp;animationDetails, const double offset) const final</div><div class="ttdoc">Get the Transformation for the specified instance of the element.</div><div class="ttdef"><b>Definition:</b> <a href="../../d6/d6b/BezierShape_8cpp_source.html#l00044">BezierShape.cpp:44</a></div></div>
-<div class="ttc" id="aclassbioexplorer_1_1common_1_1BezierShape_html_aa98f4d628042ea0fc197a9393f877e9d"><div class="ttname"><a href="../../d2/d30/classbioexplorer_1_1common_1_1BezierShape.html#aa98f4d628042ea0fc197a9393f877e9d">bioexplorer::common::BezierShape::isInside</a></div><div class="ttdeci">bool isInside(const Vector3d &amp;point) const final</div><div class="ttdoc">Return true if the specified 3D location is inside of the shape, false if it is outside.</div><div class="ttdef"><b>Definition:</b> <a href="../../d6/d6b/BezierShape_8cpp_source.html#l00076">BezierShape.cpp:76</a></div></div>
+<div class="ttc" id="aclassbioexplorer_1_1common_1_1BezierShape_html_aa98f4d628042ea0fc197a9393f877e9d"><div class="ttname"><a href="../../d2/d30/classbioexplorer_1_1common_1_1BezierShape.html#aa98f4d628042ea0fc197a9393f877e9d">bioexplorer::common::BezierShape::isInside</a></div><div class="ttdeci">bool isInside(const Vector3d &amp;point) const final</div><div class="ttdoc">Return true if the specified 3D location is inside of the shape, false if it is outside.</div><div class="ttdef"><b>Definition:</b> <a href="../../d6/d6b/BezierShape_8cpp_source.html#l00077">BezierShape.cpp:77</a></div></div>
+<div class="ttc" id="astructbioexplorer_1_1details_1_1MolecularSystemAnimationDetails_html"><div class="ttname"><a href="../../df/d9c/structbioexplorer_1_1details_1_1MolecularSystemAnimationDetails.html">bioexplorer::details::MolecularSystemAnimationDetails</a></div><div class="ttdef"><b>Definition:</b> <a href="../../d0/dde/bioexplorer_2core_2plugin_2common_2Types_8h_source.html#l00147">Types.h:147</a></div></div>
 <div class="ttc" id="aclassbioexplorer_1_1common_1_1Shape_html"><div class="ttname"><a href="../../dc/d78/classbioexplorer_1_1common_1_1Shape.html">bioexplorer::common::Shape</a></div><div class="ttdoc">The shape class allows the creation of 3D shapes generated by a number of element instances....</div><div class="ttdef"><b>Definition:</b> <a href="../../de/d8f/Shape_8h_source.html#l00039">Shape.h:39</a></div></div>
-<div class="ttc" id="astructbioexplorer_1_1details_1_1AnimationDetails_html"><div class="ttname"><a href="../../d8/d60/structbioexplorer_1_1details_1_1AnimationDetails.html">bioexplorer::details::AnimationDetails</a></div><div class="ttdef"><b>Definition:</b> <a href="../../d0/dde/bioexplorer_2core_2plugin_2common_2Types_8h_source.html#l00143">Types.h:143</a></div></div>
+<div class="ttc" id="aclassbioexplorer_1_1common_1_1BezierShape_html_a707034f1f98518b007e751fd6b642bb2"><div class="ttname"><a href="../../d2/d30/classbioexplorer_1_1common_1_1BezierShape.html#a707034f1f98518b007e751fd6b642bb2">bioexplorer::common::BezierShape::getTransformation</a></div><div class="ttdeci">Transformation getTransformation(const uint64_t occurrence, const uint64_t nbOccurrences, const MolecularSystemAnimationDetails &amp;molecularSystemAnimationDetails, const double offset) const final</div><div class="ttdoc">Get the Transformation for the specified instance of the element.</div><div class="ttdef"><b>Definition:</b> <a href="../../d6/d6b/BezierShape_8cpp_source.html#l00044">BezierShape.cpp:44</a></div></div>
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>

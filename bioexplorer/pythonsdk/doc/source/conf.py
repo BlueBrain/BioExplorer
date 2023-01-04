@@ -22,7 +22,7 @@ sys.path.insert(0, os.path.abspath('../../bioexplorer'))
 # -- Project information -----------------------------------------------------
 
 project = u'Blue Brain BioExplorer'
-copyright = u'2020-2022, BBP EPFL'
+copyright = u'2020-2023, BBP EPFL'
 author = u'Cyrille Favreau'
 
 # The short X.Y version

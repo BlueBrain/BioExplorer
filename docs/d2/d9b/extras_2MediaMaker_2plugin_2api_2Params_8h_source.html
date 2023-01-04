@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.17"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>Blue Brain BioExplorer: /home/favreau/git/BioExplorer/extras/MediaMaker/plugin/api/Params.h Source File</title>
+<title>Blue Brain BioExplorer: /home/favreau/code/favreau/BioExplorer/extras/MediaMaker/plugin/api/Params.h Source File</title>
 <link href="../../tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="../../jquery.js"></script>
 <script type="text/javascript" src="../../dynsections.js"></script>
@@ -90,7 +90,7 @@ $(document).ready(function(){initNavTree('d2/d9b/extras_2MediaMaker_2plugin_2api
 <div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;<span class="comment"> * The Blue Brain BioExplorer is a tool for scientists to extract and analyse</span></div>
 <div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="comment"> * scientific data from visualization</span></div>
 <div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="comment"> *</span></div>
-<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;<span class="comment"> * Copyright 2020-2022 Blue BrainProject / EPFL</span></div>
+<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;<span class="comment"> * Copyright 2020-2023 Blue BrainProject / EPFL</span></div>
 <div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;<span class="comment"> *</span></div>
 <div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;<span class="comment"> * This program is free software: you can redistribute it and/or modify it under</span></div>
 <div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;<span class="comment"> * the terms of the GNU General Public License as published by the Free Software</span></div>
@@ -146,30 +146,32 @@ $(document).ready(function(){initNavTree('d2/d9b/extras_2MediaMaker_2plugin_2api
 <div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;    std::string path;</div>
 <div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;    std::string baseName;</div>
 <div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;    std::string format;</div>
-<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;    uint16_t quality{100};</div>
-<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;    uint16_t spp{0};</div>
-<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;    uint16_t startFrame{0};</div>
-<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;    uint16_t endFrame{std::numeric_limits&lt;uint16_t&gt;::max()};</div>
-<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;    <span class="keywordtype">bool</span> exportIntermediateFrames{<span class="keyword">false</span>};</div>
-<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;    uint64_ts animationInformation;</div>
-<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;    doubles cameraInformation;</div>
-<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;    FrameBufferMode frameBufferMode{FrameBufferMode::color};</div>
-<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;};</div>
-<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;<span class="keywordtype">bool</span> from_json(<a class="code" href="../../db/dbb/structbioexplorer_1_1mediamaker_1_1ExportFramesToDisk.html">ExportFramesToDisk</a> &amp;param, <span class="keyword">const</span> std::string &amp;payload);</div>
-<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160; </div>
-<div class="line"><a name="l00072"></a><span class="lineno"><a class="line" href="../../dd/d6e/structbioexplorer_1_1mediamaker_1_1FrameExportProgress.html">   72</a></span>&#160;<span class="keyword">struct </span><a class="code" href="../../dd/d6e/structbioexplorer_1_1mediamaker_1_1FrameExportProgress.html">FrameExportProgress</a></div>
-<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;{</div>
-<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;    <span class="keywordtype">double</span> progress;</div>
-<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;    <span class="keywordtype">bool</span> done;</div>
-<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;};</div>
-<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;std::string to_json(<span class="keyword">const</span> <a class="code" href="../../dd/d6e/structbioexplorer_1_1mediamaker_1_1FrameExportProgress.html">FrameExportProgress</a> &amp;exportProgress);</div>
-<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160; </div>
-<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;} <span class="comment">// namespace mediamaker</span></div>
-<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;} <span class="comment">// namespace bioexplorer</span></div>
+<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;    std::vector&lt;double&gt; size;</div>
+<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;    uint16_t quality{100};</div>
+<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;    uint16_t spp{0};</div>
+<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;    uint16_t startFrame{0};</div>
+<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;    uint16_t endFrame{std::numeric_limits&lt;uint16_t&gt;::max()};</div>
+<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;    <span class="keywordtype">bool</span> exportIntermediateFrames{<span class="keyword">false</span>};</div>
+<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;    uint64_ts animationInformation;</div>
+<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;    doubles cameraInformation;</div>
+<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;    FrameBufferMode frameBufferMode{FrameBufferMode::color};</div>
+<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;    std::string keywords;</div>
+<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;};</div>
+<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;<span class="keywordtype">bool</span> from_json(<a class="code" href="../../db/dbb/structbioexplorer_1_1mediamaker_1_1ExportFramesToDisk.html">ExportFramesToDisk</a> &amp;param, <span class="keyword">const</span> std::string &amp;payload);</div>
+<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160; </div>
+<div class="line"><a name="l00074"></a><span class="lineno"><a class="line" href="../../dd/d6e/structbioexplorer_1_1mediamaker_1_1FrameExportProgress.html">   74</a></span>&#160;<span class="keyword">struct </span><a class="code" href="../../dd/d6e/structbioexplorer_1_1mediamaker_1_1FrameExportProgress.html">FrameExportProgress</a></div>
+<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;{</div>
+<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;    <span class="keywordtype">double</span> progress;</div>
+<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;    <span class="keywordtype">bool</span> done;</div>
+<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;};</div>
+<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;std::string to_json(<span class="keyword">const</span> <a class="code" href="../../dd/d6e/structbioexplorer_1_1mediamaker_1_1FrameExportProgress.html">FrameExportProgress</a> &amp;exportProgress);</div>
+<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160; </div>
+<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;} <span class="comment">// namespace mediamaker</span></div>
+<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;} <span class="comment">// namespace bioexplorer</span></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
 <div class="ttc" id="astructbioexplorer_1_1mediamaker_1_1CameraDefinition_html"><div class="ttname"><a href="../../dd/d32/structbioexplorer_1_1mediamaker_1_1CameraDefinition.html">bioexplorer::mediamaker::CameraDefinition</a></div><div class="ttdef"><b>Definition:</b> <a href="../../d2/d9b/extras_2MediaMaker_2plugin_2api_2Params_8h_source.html#l00044">Params.h:44</a></div></div>
-<div class="ttc" id="astructbioexplorer_1_1mediamaker_1_1FrameExportProgress_html"><div class="ttname"><a href="../../dd/d6e/structbioexplorer_1_1mediamaker_1_1FrameExportProgress.html">bioexplorer::mediamaker::FrameExportProgress</a></div><div class="ttdef"><b>Definition:</b> <a href="../../d2/d9b/extras_2MediaMaker_2plugin_2api_2Params_8h_source.html#l00072">Params.h:72</a></div></div>
+<div class="ttc" id="astructbioexplorer_1_1mediamaker_1_1FrameExportProgress_html"><div class="ttname"><a href="../../dd/d6e/structbioexplorer_1_1mediamaker_1_1FrameExportProgress.html">bioexplorer::mediamaker::FrameExportProgress</a></div><div class="ttdef"><b>Definition:</b> <a href="../../d2/d9b/extras_2MediaMaker_2plugin_2api_2Params_8h_source.html#l00074">Params.h:74</a></div></div>
 <div class="ttc" id="astructbioexplorer_1_1mediamaker_1_1ExportFramesToDisk_html"><div class="ttname"><a href="../../db/dbb/structbioexplorer_1_1mediamaker_1_1ExportFramesToDisk.html">bioexplorer::mediamaker::ExportFramesToDisk</a></div><div class="ttdef"><b>Definition:</b> <a href="../../d2/d9b/extras_2MediaMaker_2plugin_2api_2Params_8h_source.html#l00056">Params.h:56</a></div></div>
 <div class="ttc" id="astructbioexplorer_1_1mediamaker_1_1Response_html"><div class="ttname"><a href="../../db/df4/structbioexplorer_1_1mediamaker_1_1Response.html">bioexplorer::mediamaker::Response</a></div><div class="ttdef"><b>Definition:</b> <a href="../../d2/d9b/extras_2MediaMaker_2plugin_2api_2Params_8h_source.html#l00036">Params.h:36</a></div></div>
 <!-- start footer part -->

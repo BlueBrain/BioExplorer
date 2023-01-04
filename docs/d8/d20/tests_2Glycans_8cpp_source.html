@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.17"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>Blue Brain BioExplorer: /home/favreau/git/BioExplorer/bioexplorer/core/tests/Glycans.cpp Source File</title>
+<title>Blue Brain BioExplorer: /home/favreau/code/favreau/BioExplorer/bioexplorer/core/tests/Glycans.cpp Source File</title>
 <link href="../../tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="../../jquery.js"></script>
 <script type="text/javascript" src="../../dynsections.js"></script>
@@ -90,7 +90,7 @@ $(document).ready(function(){initNavTree('d8/d20/tests_2Glycans_8cpp_source.html
 <div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;<span class="comment"> * The Blue Brain BioExplorer is a tool for scientists to extract and analyse</span></div>
 <div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="comment"> * scientific data from visualization</span></div>
 <div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="comment"> *</span></div>
-<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;<span class="comment"> * Copyright 2020-2022 Blue BrainProject / EPFL</span></div>
+<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;<span class="comment"> * Copyright 2020-2023 Blue BrainProject / EPFL</span></div>
 <div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;<span class="comment"> *</span></div>
 <div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;<span class="comment"> * This program is free software: you can redistribute it and/or modify it under</span></div>
 <div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;<span class="comment"> * the terms of the GNU General Public License as published by the Free Software</span></div>
@@ -147,35 +147,33 @@ $(document).ready(function(){initNavTree('d8/d20/tests_2Glycans_8cpp_source.html
 <div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;    descriptor.pdbId = <span class="stringliteral">&quot;1&quot;</span>;</div>
 <div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;    descriptor.contents = getFileContents(</div>
 <div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;        <span class="stringliteral">&quot;./bioexplorer/pythonsdk/tests/test_files/pdb/glycans/complex/1.pdb&quot;</span>);</div>
-<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;    descriptor.proteinName;</div>
-<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;    descriptor.atomRadiusMultiplier;</div>
-<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;    descriptor.loadBonds = <span class="keyword">true</span>;</div>
-<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;    descriptor.representation = ProteinRepresentation::atoms;</div>
-<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;    descriptor.recenter = <span class="keyword">true</span>;</div>
-<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;    descriptor.chainIds = {};</div>
-<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;    descriptor.siteIndices = {};</div>
-<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;    descriptor.rotation = {0.0, 0.0, 0.0, 1.0};</div>
-<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;    <span class="keywordflow">return</span> descriptor;</div>
-<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;}</div>
-<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160; </div>
-<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;BOOST_AUTO_TEST_CASE(glycans)</div>
-<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;{</div>
-<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;    std::vector&lt;const char*&gt; argv{</div>
-<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;        <span class="stringliteral">&quot;brayns&quot;</span>, <span class="stringliteral">&quot;--http-server&quot;</span>, <span class="stringliteral">&quot;localhost:0&quot;</span>, <span class="stringliteral">&quot;--plugin&quot;</span>,</div>
-<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;        <span class="stringliteral">&quot;BioExplorer --db-name=bioexplorer --db-user=brayns &quot;</span></div>
-<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;        <span class="stringliteral">&quot;--db-password=brayns --db-host=localhost --db-port=5432&quot;</span>};</div>
-<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;    brayns::Brayns brayns(argv.size(), argv.data());</div>
-<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;    <span class="keyword">auto</span>&amp; scene = brayns.getEngine().getScene();</div>
-<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;    Glycans glycans(scene, getDescriptor());</div>
-<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160; </div>
-<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;    BOOST_CHECK(glycans.getAtoms().size() == 291);</div>
-<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;    BOOST_CHECK(glycans.getResidues().size() == 6);</div>
-<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;    BOOST_CHECK(glycans.getSequencesAsString().size() == 0);</div>
-<div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;}</div>
-<div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;} <span class="comment">// namespace tests</span></div>
+<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;    descriptor.loadBonds = <span class="keyword">true</span>;</div>
+<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;    descriptor.representation = ProteinRepresentation::atoms;</div>
+<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;    descriptor.recenter = <span class="keyword">true</span>;</div>
+<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;    descriptor.chainIds = {};</div>
+<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;    descriptor.siteIndices = {};</div>
+<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;    descriptor.rotation = {0.0, 0.0, 0.0, 1.0};</div>
+<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;    <span class="keywordflow">return</span> descriptor;</div>
+<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;}</div>
+<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160; </div>
+<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;BOOST_AUTO_TEST_CASE(glycans)</div>
+<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;{</div>
+<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;    std::vector&lt;const char*&gt; argv{</div>
+<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;        <span class="stringliteral">&quot;brayns&quot;</span>, <span class="stringliteral">&quot;--http-server&quot;</span>, <span class="stringliteral">&quot;localhost:0&quot;</span>, <span class="stringliteral">&quot;--plugin&quot;</span>,</div>
+<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;        <span class="stringliteral">&quot;BioExplorer --db-name=bioexplorer --db-user=brayns &quot;</span></div>
+<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;        <span class="stringliteral">&quot;--db-password=brayns --db-host=localhost --db-port=5432&quot;</span>};</div>
+<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;    brayns::Brayns brayns(argv.size(), argv.data());</div>
+<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;    <span class="keyword">auto</span>&amp; scene = brayns.getEngine().getScene();</div>
+<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;    Glycans glycans(scene, getDescriptor());</div>
+<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160; </div>
+<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;    BOOST_CHECK(glycans.getAtoms().size() == 291);</div>
+<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;    BOOST_CHECK(glycans.getResidues().size() == 6);</div>
+<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;    BOOST_CHECK(glycans.getSequencesAsString().size() == 0);</div>
+<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;}</div>
+<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;} <span class="comment">// namespace tests</span></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
-<div class="ttc" id="astructbioexplorer_1_1details_1_1SugarDetails_html_a7fc780230a88637961ba85182ae5d125"><div class="ttname"><a href="../../d6/d93/structbioexplorer_1_1details_1_1SugarDetails.html#a7fc780230a88637961ba85182ae5d125">bioexplorer::details::SugarDetails::assemblyName</a></div><div class="ttdeci">std::string assemblyName</div><div class="ttdef"><b>Definition:</b> <a href="../../d0/dde/bioexplorer_2core_2plugin_2common_2Types_8h_source.html#l00374">Types.h:374</a></div></div>
+<div class="ttc" id="astructbioexplorer_1_1details_1_1SugarDetails_html_a7fc780230a88637961ba85182ae5d125"><div class="ttname"><a href="../../d6/d93/structbioexplorer_1_1details_1_1SugarDetails.html#a7fc780230a88637961ba85182ae5d125">bioexplorer::details::SugarDetails::assemblyName</a></div><div class="ttdeci">std::string assemblyName</div><div class="ttdef"><b>Definition:</b> <a href="../../d0/dde/bioexplorer_2core_2plugin_2common_2Types_8h_source.html#l00378">Types.h:378</a></div></div>
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>

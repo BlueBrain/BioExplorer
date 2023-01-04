@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['architecture_923',['Architecture',['../d6/d22/md__home_favreau_git_BioExplorer_ARCHITECTURE.html',1,'']]]
+  ['architecture_935',['Architecture',['../dc/de3/md__home_favreau_code_favreau_BioExplorer_ARCHITECTURE.html',1,'']]]
 ];

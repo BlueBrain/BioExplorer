@@ -4,7 +4,7 @@ var classbioexplorer_1_1molecularsystems_1_1Protein =
     [ "~Protein", "dd/da4/classbioexplorer_1_1molecularsystems_1_1Protein.html#aaa7e1d6976b7ccfbf413f56b6a70b048", null ],
     [ "addGlycan", "dd/da4/classbioexplorer_1_1molecularsystems_1_1Protein.html#a76dea2e26fa62944ac6760e55d28a17b", null ],
     [ "addSugar", "dd/da4/classbioexplorer_1_1molecularsystems_1_1Protein.html#a0a1bcd1cd7da1dd0f8bd7307d47ab990", null ],
-    [ "getAnimationDetails", "dd/da4/classbioexplorer_1_1molecularsystems_1_1Protein.html#a7eb19e8425a9d0dfac45eef602ebaad5", null ],
+    [ "getAnimationDetails", "dd/da4/classbioexplorer_1_1molecularsystems_1_1Protein.html#a151c3741523265c842968c2e8b10adf8", null ],
     [ "getDescriptor", "dd/da4/classbioexplorer_1_1molecularsystems_1_1Protein.html#ad64b334498765409ad6919bfaff4df0a", null ],
     [ "getGlycosilationSites", "dd/da4/classbioexplorer_1_1molecularsystems_1_1Protein.html#ac55d62e110a7eaea70a1f0bbeb62cfe1", null ],
     [ "getGlycosylationSites", "dd/da4/classbioexplorer_1_1molecularsystems_1_1Protein.html#a6fab9f7cc5c33bbf9ce5a65989cad4be", null ],

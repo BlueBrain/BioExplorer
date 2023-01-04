@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.17"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>Blue Brain BioExplorer: /home/favreau/git/BioExplorer/bioexplorer/core/plugin/morphologies/SomaSimulationHandler.cpp Source File</title>
+<title>Blue Brain BioExplorer: /home/favreau/code/favreau/BioExplorer/bioexplorer/core/plugin/morphologies/SomaSimulationHandler.cpp Source File</title>
 <link href="../../tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="../../jquery.js"></script>
 <script type="text/javascript" src="../../dynsections.js"></script>
@@ -90,7 +90,7 @@ $(document).ready(function(){initNavTree('d9/d4b/SomaSimulationHandler_8cpp_sour
 <div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;<span class="comment"> * The Blue Brain BioExplorer is a tool for scientists to extract and analyse</span></div>
 <div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="comment"> * scientific data from visualization</span></div>
 <div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="comment"> *</span></div>
-<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;<span class="comment"> * Copyright 2020-2022 Blue BrainProject / EPFL</span></div>
+<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;<span class="comment"> * Copyright 2020-2023 Blue BrainProject / EPFL</span></div>
 <div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;<span class="comment"> *</span></div>
 <div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;<span class="comment"> * This program is free software: you can redistribute it and/or modify it under</span></div>
 <div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;<span class="comment"> * the terms of the GNU General Public License as published by the Free Software</span></div>
@@ -129,50 +129,50 @@ $(document).ready(function(){initNavTree('d9/d4b/SomaSimulationHandler_8cpp_sour
 <div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;    <span class="keyword">const</span> <span class="keyword">auto</span>&amp; connector = <a class="code" href="../../d9/d96/classbioexplorer_1_1io_1_1db_1_1DBConnector.html#a54ae453b0795aabee7ee7e93ae976eab">DBConnector::getInstance</a>();</div>
 <div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;    _simulationReport =</div>
 <div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;        connector.getSimulationReport(_populationName, _simulationReportId);</div>
-<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;    _nbFrames = (_simulationReport.endTime - _simulationReport.startTime) /</div>
-<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;                _simulationReport.timeStep;</div>
-<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;    _dt = _simulationReport.timeStep;</div>
-<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160; </div>
-<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;    <span class="keyword">const</span> <span class="keyword">auto</span> values =</div>
-<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;        connector.getNeuronSomaReportValues(_populationName,</div>
-<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;                                            _simulationReportId, 0);</div>
-<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160; </div>
-<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;    _frameSize = values.size();</div>
-<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;    _frameData.resize(_frameSize, 0.0);</div>
-<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160; </div>
-<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;    PLUGIN_INFO(1, <span class="stringliteral">&quot;---------------------------------------------------------&quot;</span>);</div>
-<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;    PLUGIN_INFO(1, <span class="stringliteral">&quot;Soma simulation information&quot;</span>);</div>
-<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;    PLUGIN_INFO(1, <span class="stringliteral">&quot;---------------------------&quot;</span>);</div>
-<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;    PLUGIN_INFO(1, <span class="stringliteral">&quot;Population name          : &quot;</span> &lt;&lt; _populationName);</div>
-<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;    PLUGIN_INFO(1, <span class="stringliteral">&quot;Number of simulated nodes: &quot;</span> &lt;&lt; _frameSize);</div>
-<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;    PLUGIN_INFO(1,</div>
-<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;                <span class="stringliteral">&quot;Start time               : &quot;</span> &lt;&lt; _simulationReport.startTime);</div>
-<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;    PLUGIN_INFO(1, <span class="stringliteral">&quot;End time                 : &quot;</span> &lt;&lt; _simulationReport.endTime);</div>
-<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;    PLUGIN_INFO(1, <span class="stringliteral">&quot;Time interval            : &quot;</span> &lt;&lt; _dt);</div>
-<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;    PLUGIN_INFO(1, <span class="stringliteral">&quot;Number of frames         : &quot;</span> &lt;&lt; _nbFrames);</div>
-<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;    PLUGIN_INFO(1, <span class="stringliteral">&quot;---------------------------------------------------------&quot;</span>);</div>
-<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;}</div>
-<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160; </div>
-<div class="line"><a name="l00068"></a><span class="lineno"><a class="line" href="../../df/d48/classbioexplorer_1_1morphology_1_1SomaSimulationHandler.html#ad3b43bfbd7ae0df34b7d19839d58ce10">   68</a></span>&#160;<a class="code" href="../../df/d48/classbioexplorer_1_1morphology_1_1SomaSimulationHandler.html#aebfdecd7c5dc3c82b97fdebf37136f41">SomaSimulationHandler::SomaSimulationHandler</a>(<span class="keyword">const</span> <a class="code" href="../../df/d48/classbioexplorer_1_1morphology_1_1SomaSimulationHandler.html">SomaSimulationHandler</a>&amp; rhs)</div>
-<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;    : brayns::AbstractSimulationHandler(rhs)</div>
-<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;    , _populationName(rhs._populationName)</div>
-<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;    , _simulationReport(rhs._simulationReport)</div>
-<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;    , _guidsMapping(rhs._guidsMapping)</div>
-<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;{</div>
-<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;}</div>
-<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160; </div>
-<div class="line"><a name="l00076"></a><span class="lineno"><a class="line" href="../../df/d48/classbioexplorer_1_1morphology_1_1SomaSimulationHandler.html#a199868846219573322dcd29aa43d9baa">   76</a></span>&#160;<span class="keywordtype">void</span>* <a class="code" href="../../df/d48/classbioexplorer_1_1morphology_1_1SomaSimulationHandler.html#a199868846219573322dcd29aa43d9baa">SomaSimulationHandler::getFrameData</a>(<span class="keyword">const</span> uint32_t frame)</div>
-<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;{</div>
-<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;    <span class="keyword">const</span> <span class="keyword">auto</span>&amp; connector = <a class="code" href="../../d9/d96/classbioexplorer_1_1io_1_1db_1_1DBConnector.html#a54ae453b0795aabee7ee7e93ae976eab">DBConnector::getInstance</a>();</div>
-<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;    <span class="keyword">const</span> <span class="keyword">auto</span> boundedFrame = _getBoundedFrame(frame);</div>
-<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;    <span class="keywordflow">if</span> (_currentFrame != boundedFrame)</div>
-<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;    {</div>
-<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;        <span class="keyword">const</span> <span class="keyword">auto</span> values =</div>
-<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;            connector.getNeuronSomaReportValues(_populationName,</div>
-<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;                                                _simulationReportId, frame);</div>
-<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;        mempcpy(&amp;_frameData.data()[0], values.data(),</div>
-<div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;                <span class="keyword">sizeof</span>(<span class="keywordtype">float</span>) * values.size());</div>
-<div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;        _currentFrame = boundedFrame;</div>
+<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160; </div>
+<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;    <span class="keyword">const</span> <span class="keyword">auto</span> guids = connector.getNeuronSomaReportGuids(_populationName,</div>
+<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;                                                          _simulationReportId);</div>
+<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;    _frameSize = guids.size();</div>
+<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;    _nbFrames = (_simulationReport.endTime - _simulationReport.startTime) /</div>
+<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;                _simulationReport.timeStep;</div>
+<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;    _dt = _simulationReport.timeStep;</div>
+<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;    _logSimulationInformation();</div>
+<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;}</div>
+<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160; </div>
+<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;<span class="keywordtype">void</span> SomaSimulationHandler::_logSimulationInformation()</div>
+<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;{</div>
+<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;    PLUGIN_INFO(1, <span class="stringliteral">&quot;---------------------------------------------------------&quot;</span>);</div>
+<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;    PLUGIN_INFO(1, <span class="stringliteral">&quot;Soma simulation information&quot;</span>);</div>
+<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;    PLUGIN_INFO(1, <span class="stringliteral">&quot;---------------------------&quot;</span>);</div>
+<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;    PLUGIN_INFO(1, <span class="stringliteral">&quot;Population name          : &quot;</span> &lt;&lt; _populationName);</div>
+<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;    PLUGIN_INFO(1, <span class="stringliteral">&quot;Number of simulated nodes: &quot;</span> &lt;&lt; _frameSize);</div>
+<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;    PLUGIN_INFO(1,</div>
+<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;                <span class="stringliteral">&quot;Start time               : &quot;</span> &lt;&lt; _simulationReport.startTime);</div>
+<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;    PLUGIN_INFO(1, <span class="stringliteral">&quot;End time                 : &quot;</span> &lt;&lt; _simulationReport.endTime);</div>
+<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;    PLUGIN_INFO(1, <span class="stringliteral">&quot;Time interval            : &quot;</span> &lt;&lt; _dt);</div>
+<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;    PLUGIN_INFO(1, <span class="stringliteral">&quot;Number of frames         : &quot;</span> &lt;&lt; _nbFrames);</div>
+<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;    PLUGIN_INFO(1, <span class="stringliteral">&quot;---------------------------------------------------------&quot;</span>);</div>
+<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;}</div>
+<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160; </div>
+<div class="line"><a name="l00069"></a><span class="lineno"><a class="line" href="../../df/d48/classbioexplorer_1_1morphology_1_1SomaSimulationHandler.html#ad3b43bfbd7ae0df34b7d19839d58ce10">   69</a></span>&#160;<a class="code" href="../../df/d48/classbioexplorer_1_1morphology_1_1SomaSimulationHandler.html#aebfdecd7c5dc3c82b97fdebf37136f41">SomaSimulationHandler::SomaSimulationHandler</a>(<span class="keyword">const</span> <a class="code" href="../../df/d48/classbioexplorer_1_1morphology_1_1SomaSimulationHandler.html">SomaSimulationHandler</a>&amp; rhs)</div>
+<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;    : brayns::AbstractSimulationHandler(rhs)</div>
+<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;    , _populationName(rhs._populationName)</div>
+<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;    , _simulationReport(rhs._simulationReport)</div>
+<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;    , _guidsMapping(rhs._guidsMapping)</div>
+<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;{</div>
+<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;}</div>
+<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160; </div>
+<div class="line"><a name="l00077"></a><span class="lineno"><a class="line" href="../../df/d48/classbioexplorer_1_1morphology_1_1SomaSimulationHandler.html#a199868846219573322dcd29aa43d9baa">   77</a></span>&#160;<span class="keywordtype">void</span>* <a class="code" href="../../df/d48/classbioexplorer_1_1morphology_1_1SomaSimulationHandler.html#a199868846219573322dcd29aa43d9baa">SomaSimulationHandler::getFrameData</a>(<span class="keyword">const</span> uint32_t frame)</div>
+<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;{</div>
+<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;    <span class="keyword">const</span> <span class="keyword">auto</span>&amp; connector = <a class="code" href="../../d9/d96/classbioexplorer_1_1io_1_1db_1_1DBConnector.html#a54ae453b0795aabee7ee7e93ae976eab">DBConnector::getInstance</a>();</div>
+<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;    <span class="keyword">const</span> <span class="keyword">auto</span> boundedFrame = _getBoundedFrame(frame);</div>
+<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;    <span class="keywordflow">if</span> (_currentFrame != boundedFrame)</div>
+<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;    {</div>
+<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;        _currentFrame = boundedFrame;</div>
+<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;        connector.getNeuronSomaReportValues(_populationName,</div>
+<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;                                            _simulationReportId, _currentFrame,</div>
+<div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;                                            _frameData);</div>
+<div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;        _frameSize = _frameData.size();</div>
 <div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;    }</div>
 <div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160; </div>
 <div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160;    <span class="keywordflow">return</span> _frameData.data();</div>
@@ -186,7 +186,7 @@ $(document).ready(function(){initNavTree('d9/d4b/SomaSimulationHandler_8cpp_sour
 <div class="line"><a name="l00098"></a><span class="lineno">   98</span>&#160;} <span class="comment">// namespace bioexplorer</span></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
-<div class="ttc" id="aclassbioexplorer_1_1morphology_1_1SomaSimulationHandler_html_a199868846219573322dcd29aa43d9baa"><div class="ttname"><a href="../../df/d48/classbioexplorer_1_1morphology_1_1SomaSimulationHandler.html#a199868846219573322dcd29aa43d9baa">bioexplorer::morphology::SomaSimulationHandler::getFrameData</a></div><div class="ttdeci">void * getFrameData(const uint32_t frame) final</div><div class="ttdef"><b>Definition:</b> <a href="../../d9/d4b/SomaSimulationHandler_8cpp_source.html#l00076">SomaSimulationHandler.cpp:76</a></div></div>
+<div class="ttc" id="aclassbioexplorer_1_1morphology_1_1SomaSimulationHandler_html_a199868846219573322dcd29aa43d9baa"><div class="ttname"><a href="../../df/d48/classbioexplorer_1_1morphology_1_1SomaSimulationHandler.html#a199868846219573322dcd29aa43d9baa">bioexplorer::morphology::SomaSimulationHandler::getFrameData</a></div><div class="ttdeci">void * getFrameData(const uint32_t frame) final</div><div class="ttdef"><b>Definition:</b> <a href="../../d9/d4b/SomaSimulationHandler_8cpp_source.html#l00077">SomaSimulationHandler.cpp:77</a></div></div>
 <div class="ttc" id="aclassbioexplorer_1_1morphology_1_1SomaSimulationHandler_html_aebfdecd7c5dc3c82b97fdebf37136f41"><div class="ttname"><a href="../../df/d48/classbioexplorer_1_1morphology_1_1SomaSimulationHandler.html#aebfdecd7c5dc3c82b97fdebf37136f41">bioexplorer::morphology::SomaSimulationHandler::SomaSimulationHandler</a></div><div class="ttdeci">SomaSimulationHandler(const std::string &amp;populationName, const uint64_t simulationReportId)</div><div class="ttdef"><b>Definition:</b> <a href="../../d9/d4b/SomaSimulationHandler_8cpp_source.html#l00035">SomaSimulationHandler.cpp:35</a></div></div>
 <div class="ttc" id="aclassbioexplorer_1_1morphology_1_1SomaSimulationHandler_html"><div class="ttname"><a href="../../df/d48/classbioexplorer_1_1morphology_1_1SomaSimulationHandler.html">bioexplorer::morphology::SomaSimulationHandler</a></div><div class="ttdoc">The SomaSimulationHandler handles the reading of simulation information from the database at a soma l...</div><div class="ttdef"><b>Definition:</b> <a href="../../d3/d6b/SomaSimulationHandler_8h_source.html#l00042">SomaSimulationHandler.h:42</a></div></div>
 <div class="ttc" id="aclassbioexplorer_1_1io_1_1db_1_1DBConnector_html_a54ae453b0795aabee7ee7e93ae976eab"><div class="ttname"><a href="../../d9/d96/classbioexplorer_1_1io_1_1db_1_1DBConnector.html#a54ae453b0795aabee7ee7e93ae976eab">bioexplorer::io::db::DBConnector::getInstance</a></div><div class="ttdeci">static DBConnector &amp; getInstance()</div><div class="ttdoc">Get the Instance object.</div><div class="ttdef"><b>Definition:</b> <a href="../../d3/dec/bioexplorer_2core_2plugin_2io_2db_2DBConnector_8h_source.html#l00057">DBConnector.h:57</a></div></div>

@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.17"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>Blue Brain BioExplorer: /home/favreau/git/BioExplorer/bioexplorer/core/plugin/common/shapes/SphereShape.cpp Source File</title>
+<title>Blue Brain BioExplorer: /home/favreau/code/favreau/BioExplorer/bioexplorer/core/plugin/common/shapes/SphereShape.cpp Source File</title>
 <link href="../../tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="../../jquery.js"></script>
 <script type="text/javascript" src="../../dynsections.js"></script>
@@ -90,7 +90,7 @@ $(document).ready(function(){initNavTree('de/d9a/SphereShape_8cpp_source.html','
 <div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;<span class="comment"> * The Blue Brain BioExplorer is a tool for scientists to extract and analyse</span></div>
 <div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="comment"> * scientific data from visualization</span></div>
 <div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="comment"> *</span></div>
-<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;<span class="comment"> * Copyright 2020-2022 Blue BrainProject / EPFL</span></div>
+<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;<span class="comment"> * Copyright 2020-2023 Blue BrainProject / EPFL</span></div>
 <div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;<span class="comment"> *</span></div>
 <div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;<span class="comment"> * This program is free software: you can redistribute it and/or modify it under</span></div>
 <div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;<span class="comment"> * the terms of the GNU General Public License as published by the Free Software</span></div>
@@ -130,163 +130,174 @@ $(document).ready(function(){initNavTree('de/d9a/SphereShape_8cpp_source.html','
 <div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;    _surface = 4.0 * M_PI * _radius * _radius;</div>
 <div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;}</div>
 <div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160; </div>
-<div class="line"><a name="l00045"></a><span class="lineno"><a class="line" href="../../d5/d1a/classbioexplorer_1_1common_1_1SphereShape.html#ae7676555035856516fd40a2f59123c08">   45</a></span>&#160;Transformation <a class="code" href="../../d5/d1a/classbioexplorer_1_1common_1_1SphereShape.html#ae7676555035856516fd40a2f59123c08">SphereShape::getTransformation</a>(</div>
+<div class="line"><a name="l00045"></a><span class="lineno"><a class="line" href="../../d5/d1a/classbioexplorer_1_1common_1_1SphereShape.html#a54281c732cbce8d044df0c382a41fe02">   45</a></span>&#160;Transformation <a class="code" href="../../d5/d1a/classbioexplorer_1_1common_1_1SphereShape.html#a54281c732cbce8d044df0c382a41fe02">SphereShape::getTransformation</a>(</div>
 <div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;    <span class="keyword">const</span> uint64_t occurrence, <span class="keyword">const</span> uint64_t nbOccurrences,</div>
-<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;    <span class="keyword">const</span> <a class="code" href="../../d8/d60/structbioexplorer_1_1details_1_1AnimationDetails.html">AnimationDetails</a>&amp; animationDetails, <span class="keyword">const</span> <span class="keywordtype">double</span> offset)<span class="keyword"> const</span></div>
-<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;<span class="keyword"></span>{</div>
-<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;    <span class="keywordflow">if</span> (_filled)</div>
-<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;        <span class="keywordflow">return</span> _getFilledSphereTransformation(occurrence, nbOccurrences,</div>
-<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;                                              animationDetails, offset);</div>
-<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160; </div>
-<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;    <span class="keywordflow">if</span> (animationDetails.morphingStep == 0.f)</div>
-<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;        <span class="keywordflow">return</span> _getEmptySphereTransformation(occurrence, nbOccurrences,</div>
-<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;                                             animationDetails, offset);</div>
-<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;    <span class="keywordflow">else</span></div>
-<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;        <span class="keywordflow">return</span> _getEmptySphereMorphedTransformation(occurrence, nbOccurrences,</div>
-<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;                                                    animationDetails, offset);</div>
-<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;}</div>
-<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160; </div>
-<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;Transformation SphereShape::_getEmptySphereTransformation(</div>
-<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;    <span class="keyword">const</span> uint64_t occurrence, <span class="keyword">const</span> uint64_t nbOccurrences,</div>
-<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;    <span class="keyword">const</span> <a class="code" href="../../d8/d60/structbioexplorer_1_1details_1_1AnimationDetails.html">AnimationDetails</a>&amp; animationDetails, <span class="keyword">const</span> <span class="keywordtype">double</span> offset)<span class="keyword"> const</span></div>
-<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;<span class="keyword"></span>{</div>
-<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;    uint64_t rnd = occurrence;</div>
-<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;    <span class="keywordflow">if</span> (nbOccurrences != 0 &amp;&amp; animationDetails.seed != 0)</div>
-<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;        <span class="keywordflow">if</span> (<a class="code" href="../../d2/da7/classbioexplorer_1_1common_1_1GeneralSettings.html#a596198a4745a7eef5e8788a4d9b5c8f5">GeneralSettings::getInstance</a>()-&gt;getV1Compatibility())</div>
-<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;            rnd = rand() % nbOccurrences;</div>
-<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;        <span class="keywordflow">else</span></div>
-<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;            rnd = rand() % std::numeric_limits&lt;uint64_t&gt;::max();</div>
-<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160; </div>
-<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;    <span class="keyword">const</span> <span class="keywordtype">double</span> radius =</div>
-<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;        _radius + (animationDetails.positionSeed == 0</div>
-<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;                       ? animationDetails.positionStrength</div>
-<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;                       : animationDetails.positionStrength *</div>
-<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;                             <a class="code" href="../../dc/d78/classbioexplorer_1_1common_1_1Shape.html#a7d3d867b0af42af7b5dca2665eb6e2dd">rnd3</a>(animationDetails.positionSeed + rnd));</div>
+<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;    <span class="keyword">const</span> <a class="code" href="../../df/d9c/structbioexplorer_1_1details_1_1MolecularSystemAnimationDetails.html">MolecularSystemAnimationDetails</a>&amp; <a class="code" href="../../df/d9c/structbioexplorer_1_1details_1_1MolecularSystemAnimationDetails.html">MolecularSystemAnimationDetails</a>,</div>
+<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;    <span class="keyword">const</span> <span class="keywordtype">double</span> offset)<span class="keyword"> const</span></div>
+<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;<span class="keyword"></span>{</div>
+<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;    <span class="keywordflow">if</span> (_filled)</div>
+<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;        <span class="keywordflow">return</span> _getFilledSphereTransformation(occurrence, nbOccurrences,</div>
+<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;                                              <a class="code" href="../../df/d9c/structbioexplorer_1_1details_1_1MolecularSystemAnimationDetails.html">MolecularSystemAnimationDetails</a>,</div>
+<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;                                              offset);</div>
+<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160; </div>
+<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;    <span class="keywordflow">if</span> (<a class="code" href="../../df/d9c/structbioexplorer_1_1details_1_1MolecularSystemAnimationDetails.html">MolecularSystemAnimationDetails</a>.morphingStep == 0.f)</div>
+<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;        <span class="keywordflow">return</span> _getEmptySphereTransformation(occurrence, nbOccurrences,</div>
+<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;                                             <a class="code" href="../../df/d9c/structbioexplorer_1_1details_1_1MolecularSystemAnimationDetails.html">MolecularSystemAnimationDetails</a>,</div>
+<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;                                             offset);</div>
+<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;    <span class="keywordflow">else</span></div>
+<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;        <span class="keywordflow">return</span> _getEmptySphereMorphedTransformation(</div>
+<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;            occurrence, nbOccurrences, <a class="code" href="../../df/d9c/structbioexplorer_1_1details_1_1MolecularSystemAnimationDetails.html">MolecularSystemAnimationDetails</a>, offset);</div>
+<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;}</div>
+<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160; </div>
+<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;Transformation SphereShape::_getEmptySphereTransformation(</div>
+<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;    <span class="keyword">const</span> uint64_t occurrence, <span class="keyword">const</span> uint64_t nbOccurrences,</div>
+<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;    <span class="keyword">const</span> <a class="code" href="../../df/d9c/structbioexplorer_1_1details_1_1MolecularSystemAnimationDetails.html">MolecularSystemAnimationDetails</a>&amp; <a class="code" href="../../df/d9c/structbioexplorer_1_1details_1_1MolecularSystemAnimationDetails.html">MolecularSystemAnimationDetails</a>,</div>
+<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;    <span class="keyword">const</span> <span class="keywordtype">double</span> offset)<span class="keyword"> const</span></div>
+<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;<span class="keyword"></span>{</div>
+<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;    uint64_t rnd = occurrence;</div>
+<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;    <span class="keywordflow">if</span> (nbOccurrences != 0 &amp;&amp; <a class="code" href="../../df/d9c/structbioexplorer_1_1details_1_1MolecularSystemAnimationDetails.html">MolecularSystemAnimationDetails</a>.seed != 0)</div>
+<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;    {</div>
+<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;        <span class="keywordflow">if</span> (<a class="code" href="../../d2/da7/classbioexplorer_1_1common_1_1GeneralSettings.html#a596198a4745a7eef5e8788a4d9b5c8f5">GeneralSettings::getInstance</a>()-&gt;getV1Compatibility())</div>
+<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;            rnd = rand() % nbOccurrences;</div>
+<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;        <span class="keywordflow">else</span></div>
+<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;            rnd = rand() % std::numeric_limits&lt;uint64_t&gt;::max();</div>
+<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;    }</div>
 <div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160; </div>
-<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;    Vector3d pos;</div>
-<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;    Quaterniond rot;</div>
-<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;    sphereFilling(radius + offset, occurrence, nbOccurrences, rnd, pos, rot);</div>
-<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160; </div>
-<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;    <span class="keywordflow">if</span> (isClipped(pos, _clippingPlanes))</div>
-<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;        <span class="keywordflow">throw</span> std::runtime_error(<span class="stringliteral">&quot;Instance is clipped&quot;</span>);</div>
+<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;    <span class="keyword">const</span> <span class="keywordtype">double</span> radius =</div>
+<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;        _radius +</div>
+<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;        (<a class="code" href="../../df/d9c/structbioexplorer_1_1details_1_1MolecularSystemAnimationDetails.html">MolecularSystemAnimationDetails</a>.positionSeed == 0</div>
+<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;             ? <a class="code" href="../../df/d9c/structbioexplorer_1_1details_1_1MolecularSystemAnimationDetails.html">MolecularSystemAnimationDetails</a>.positionStrength</div>
+<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;             : <a class="code" href="../../df/d9c/structbioexplorer_1_1details_1_1MolecularSystemAnimationDetails.html">MolecularSystemAnimationDetails</a>.positionStrength *</div>
+<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;                   rnd3(<a class="code" href="../../df/d9c/structbioexplorer_1_1details_1_1MolecularSystemAnimationDetails.html">MolecularSystemAnimationDetails</a>.positionSeed + rnd));</div>
 <div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160; </div>
-<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;    <span class="keywordflow">if</span> (animationDetails.rotationSeed != 0)</div>
-<div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;        rot = <a class="code" href="../../dc/d78/classbioexplorer_1_1common_1_1Shape.html#a595f0d1afddd8a628c2543a6bbab97c0">weightedRandomRotation</a>(rot, animationDetails.rotationSeed, rnd,</div>
-<div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;                                     animationDetails.rotationStrength);</div>
+<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;    Vector3d pos;</div>
+<div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;    Quaterniond rot;</div>
+<div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;    sphereFilling(radius + offset, occurrence, nbOccurrences, rnd, pos, rot);</div>
 <div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160; </div>
-<div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160;    Transformation transformation;</div>
-<div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160;    transformation.setTranslation(pos);</div>
-<div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160;    transformation.setRotation(rot);</div>
-<div class="line"><a name="l00092"></a><span class="lineno">   92</span>&#160;    <span class="keywordflow">return</span> transformation;</div>
-<div class="line"><a name="l00093"></a><span class="lineno">   93</span>&#160;}</div>
-<div class="line"><a name="l00094"></a><span class="lineno">   94</span>&#160; </div>
-<div class="line"><a name="l00095"></a><span class="lineno">   95</span>&#160;Transformation SphereShape::_getEmptySphereMorphedTransformation(</div>
-<div class="line"><a name="l00096"></a><span class="lineno">   96</span>&#160;    <span class="keyword">const</span> uint64_t occurrence, <span class="keyword">const</span> uint64_t nbOccurrences,</div>
-<div class="line"><a name="l00097"></a><span class="lineno">   97</span>&#160;    <span class="keyword">const</span> <a class="code" href="../../d8/d60/structbioexplorer_1_1details_1_1AnimationDetails.html">AnimationDetails</a>&amp; animationDetails, <span class="keyword">const</span> <span class="keywordtype">double</span> offset)<span class="keyword"> const</span></div>
-<div class="line"><a name="l00098"></a><span class="lineno">   98</span>&#160;<span class="keyword"></span>{</div>
-<div class="line"><a name="l00099"></a><span class="lineno">   99</span>&#160;    uint64_t rnd = occurrence;</div>
-<div class="line"><a name="l00100"></a><span class="lineno">  100</span>&#160;    <span class="keywordflow">if</span> (nbOccurrences != 0 &amp;&amp; animationDetails.seed != 0)</div>
-<div class="line"><a name="l00101"></a><span class="lineno">  101</span>&#160;        rnd = rand() % nbOccurrences;</div>
+<div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160;    <span class="keywordflow">if</span> (isClipped(pos, _clippingPlanes))</div>
+<div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160;        <span class="keywordflow">throw</span> std::runtime_error(<span class="stringliteral">&quot;Instance is clipped&quot;</span>);</div>
+<div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160; </div>
+<div class="line"><a name="l00092"></a><span class="lineno">   92</span>&#160;    <span class="keywordflow">if</span> (<a class="code" href="../../df/d9c/structbioexplorer_1_1details_1_1MolecularSystemAnimationDetails.html">MolecularSystemAnimationDetails</a>.rotationSeed != 0)</div>
+<div class="line"><a name="l00093"></a><span class="lineno">   93</span>&#160;        rot = weightedRandomRotation(</div>
+<div class="line"><a name="l00094"></a><span class="lineno">   94</span>&#160;            rot, <a class="code" href="../../df/d9c/structbioexplorer_1_1details_1_1MolecularSystemAnimationDetails.html">MolecularSystemAnimationDetails</a>.rotationSeed, rnd,</div>
+<div class="line"><a name="l00095"></a><span class="lineno">   95</span>&#160;            <a class="code" href="../../df/d9c/structbioexplorer_1_1details_1_1MolecularSystemAnimationDetails.html">MolecularSystemAnimationDetails</a>.rotationStrength);</div>
+<div class="line"><a name="l00096"></a><span class="lineno">   96</span>&#160; </div>
+<div class="line"><a name="l00097"></a><span class="lineno">   97</span>&#160;    Transformation transformation;</div>
+<div class="line"><a name="l00098"></a><span class="lineno">   98</span>&#160;    transformation.setTranslation(pos);</div>
+<div class="line"><a name="l00099"></a><span class="lineno">   99</span>&#160;    transformation.setRotation(rot);</div>
+<div class="line"><a name="l00100"></a><span class="lineno">  100</span>&#160;    <span class="keywordflow">return</span> transformation;</div>
+<div class="line"><a name="l00101"></a><span class="lineno">  101</span>&#160;}</div>
 <div class="line"><a name="l00102"></a><span class="lineno">  102</span>&#160; </div>
-<div class="line"><a name="l00103"></a><span class="lineno">  103</span>&#160;    <span class="keyword">const</span> <span class="keywordtype">double</span> radius =</div>
-<div class="line"><a name="l00104"></a><span class="lineno">  104</span>&#160;        _radius + (animationDetails.positionSeed == 0</div>
-<div class="line"><a name="l00105"></a><span class="lineno">  105</span>&#160;                       ? animationDetails.positionStrength</div>
-<div class="line"><a name="l00106"></a><span class="lineno">  106</span>&#160;                       : animationDetails.positionStrength *</div>
-<div class="line"><a name="l00107"></a><span class="lineno">  107</span>&#160;                             <a class="code" href="../../dc/d78/classbioexplorer_1_1common_1_1Shape.html#a7d3d867b0af42af7b5dca2665eb6e2dd">rnd3</a>(animationDetails.positionSeed + rnd));</div>
-<div class="line"><a name="l00108"></a><span class="lineno">  108</span>&#160; </div>
-<div class="line"><a name="l00109"></a><span class="lineno">  109</span>&#160;    Vector3d startPos;</div>
-<div class="line"><a name="l00110"></a><span class="lineno">  110</span>&#160;    Quaterniond startRot;</div>
-<div class="line"><a name="l00111"></a><span class="lineno">  111</span>&#160;    <span class="keyword">const</span> Vector3d startDir = sphereFilling(radius, occurrence, nbOccurrences,</div>
-<div class="line"><a name="l00112"></a><span class="lineno">  112</span>&#160;                                            rnd, startPos, startRot, offset);</div>
-<div class="line"><a name="l00113"></a><span class="lineno">  113</span>&#160; </div>
-<div class="line"><a name="l00114"></a><span class="lineno">  114</span>&#160;    <span class="keywordflow">if</span> (animationDetails.rotationSeed != 0)</div>
-<div class="line"><a name="l00115"></a><span class="lineno">  115</span>&#160;        startRot =</div>
-<div class="line"><a name="l00116"></a><span class="lineno">  116</span>&#160;            <a class="code" href="../../dc/d78/classbioexplorer_1_1common_1_1Shape.html#a595f0d1afddd8a628c2543a6bbab97c0">weightedRandomRotation</a>(startRot, animationDetails.rotationSeed, rnd,</div>
-<div class="line"><a name="l00117"></a><span class="lineno">  117</span>&#160;                                   animationDetails.rotationStrength);</div>
+<div class="line"><a name="l00103"></a><span class="lineno">  103</span>&#160;Transformation SphereShape::_getEmptySphereMorphedTransformation(</div>
+<div class="line"><a name="l00104"></a><span class="lineno">  104</span>&#160;    <span class="keyword">const</span> uint64_t occurrence, <span class="keyword">const</span> uint64_t nbOccurrences,</div>
+<div class="line"><a name="l00105"></a><span class="lineno">  105</span>&#160;    <span class="keyword">const</span> MolecularSystemAnimationDetails&amp; MolecularSystemAnimationDetails,</div>
+<div class="line"><a name="l00106"></a><span class="lineno">  106</span>&#160;    <span class="keyword">const</span> <span class="keywordtype">double</span> offset)<span class="keyword"> const</span></div>
+<div class="line"><a name="l00107"></a><span class="lineno">  107</span>&#160;<span class="keyword"></span>{</div>
+<div class="line"><a name="l00108"></a><span class="lineno">  108</span>&#160;    uint64_t rnd = occurrence;</div>
+<div class="line"><a name="l00109"></a><span class="lineno">  109</span>&#160;    <span class="keywordflow">if</span> (nbOccurrences != 0 &amp;&amp; MolecularSystemAnimationDetails.seed != 0)</div>
+<div class="line"><a name="l00110"></a><span class="lineno">  110</span>&#160;        rnd = rand() % nbOccurrences;</div>
+<div class="line"><a name="l00111"></a><span class="lineno">  111</span>&#160; </div>
+<div class="line"><a name="l00112"></a><span class="lineno">  112</span>&#160;    <span class="keyword">const</span> <span class="keywordtype">double</span> radius =</div>
+<div class="line"><a name="l00113"></a><span class="lineno">  113</span>&#160;        _radius +</div>
+<div class="line"><a name="l00114"></a><span class="lineno">  114</span>&#160;        (MolecularSystemAnimationDetails.positionSeed == 0</div>
+<div class="line"><a name="l00115"></a><span class="lineno">  115</span>&#160;             ? MolecularSystemAnimationDetails.positionStrength</div>
+<div class="line"><a name="l00116"></a><span class="lineno">  116</span>&#160;             : MolecularSystemAnimationDetails.positionStrength *</div>
+<div class="line"><a name="l00117"></a><span class="lineno">  117</span>&#160;                   rnd3(MolecularSystemAnimationDetails.positionSeed + rnd));</div>
 <div class="line"><a name="l00118"></a><span class="lineno">  118</span>&#160; </div>
-<div class="line"><a name="l00119"></a><span class="lineno">  119</span>&#160;    <span class="keyword">const</span> <span class="keywordtype">double</span> endRadius = radius * 2.0;</div>
-<div class="line"><a name="l00120"></a><span class="lineno">  120</span>&#160;    <span class="keyword">const</span> <span class="keywordtype">double</span> morphingStep = animationDetails.morphingStep;</div>
-<div class="line"><a name="l00121"></a><span class="lineno">  121</span>&#160; </div>
-<div class="line"><a name="l00122"></a><span class="lineno">  122</span>&#160;    Vector3d endPos = startPos;</div>
-<div class="line"><a name="l00123"></a><span class="lineno">  123</span>&#160;    endPos.y = -radius;</div>
-<div class="line"><a name="l00124"></a><span class="lineno">  124</span>&#160;    endPos = endPos + (1.0 - (startPos.y + _radius) / endRadius) *</div>
-<div class="line"><a name="l00125"></a><span class="lineno">  125</span>&#160;                          Vector3d(endRadius, 0.0, endRadius) *</div>
-<div class="line"><a name="l00126"></a><span class="lineno">  126</span>&#160;                          normalize(Vector3d(startDir.x, 0.0, startDir.z));</div>
-<div class="line"><a name="l00127"></a><span class="lineno">  127</span>&#160; </div>
-<div class="line"><a name="l00128"></a><span class="lineno">  128</span>&#160;    Quaterniond endRot{0.0, 0.0, -0.707, 0.707};</div>
-<div class="line"><a name="l00129"></a><span class="lineno">  129</span>&#160;    <span class="keywordflow">if</span> (animationDetails.rotationSeed != 0)</div>
-<div class="line"><a name="l00130"></a><span class="lineno">  130</span>&#160;        endRot = <a class="code" href="../../dc/d78/classbioexplorer_1_1common_1_1Shape.html#a595f0d1afddd8a628c2543a6bbab97c0">weightedRandomRotation</a>(endRot, animationDetails.rotationSeed,</div>
-<div class="line"><a name="l00131"></a><span class="lineno">  131</span>&#160;                                        rnd, animationDetails.rotationStrength);</div>
-<div class="line"><a name="l00132"></a><span class="lineno">  132</span>&#160; </div>
-<div class="line"><a name="l00133"></a><span class="lineno">  133</span>&#160;    <span class="keyword">const</span> Quaterniond finalRotation = slerp(startRot, endRot, morphingStep);</div>
-<div class="line"><a name="l00134"></a><span class="lineno">  134</span>&#160; </div>
-<div class="line"><a name="l00135"></a><span class="lineno">  135</span>&#160;    <span class="keyword">const</span> <span class="keyword">auto</span> finalTranslation =</div>
-<div class="line"><a name="l00136"></a><span class="lineno">  136</span>&#160;        endPos * morphingStep + startPos * (1.0 - morphingStep);</div>
-<div class="line"><a name="l00137"></a><span class="lineno">  137</span>&#160;    <span class="keywordflow">if</span> (isClipped(finalTranslation, _clippingPlanes))</div>
-<div class="line"><a name="l00138"></a><span class="lineno">  138</span>&#160;        <span class="keywordflow">throw</span> std::runtime_error(<span class="stringliteral">&quot;Instance is clipped&quot;</span>);</div>
-<div class="line"><a name="l00139"></a><span class="lineno">  139</span>&#160; </div>
-<div class="line"><a name="l00140"></a><span class="lineno">  140</span>&#160;    <span class="comment">// Final transformation</span></div>
-<div class="line"><a name="l00141"></a><span class="lineno">  141</span>&#160;    Transformation transformation;</div>
-<div class="line"><a name="l00142"></a><span class="lineno">  142</span>&#160;    transformation.setTranslation(finalTranslation);</div>
-<div class="line"><a name="l00143"></a><span class="lineno">  143</span>&#160;    transformation.setRotation(finalRotation);</div>
-<div class="line"><a name="l00144"></a><span class="lineno">  144</span>&#160;    <span class="keywordflow">return</span> transformation;</div>
-<div class="line"><a name="l00145"></a><span class="lineno">  145</span>&#160;}</div>
-<div class="line"><a name="l00146"></a><span class="lineno">  146</span>&#160; </div>
-<div class="line"><a name="l00147"></a><span class="lineno"><a class="line" href="../../d5/d1a/classbioexplorer_1_1common_1_1SphereShape.html#a82292d585715c514827ba8c867c391d0">  147</a></span>&#160;<span class="keywordtype">bool</span> <a class="code" href="../../d5/d1a/classbioexplorer_1_1common_1_1SphereShape.html#a82292d585715c514827ba8c867c391d0">SphereShape::isInside</a>(<span class="keyword">const</span> Vector3d&amp; point)<span class="keyword"> const</span></div>
-<div class="line"><a name="l00148"></a><span class="lineno">  148</span>&#160;<span class="keyword"></span>{</div>
-<div class="line"><a name="l00149"></a><span class="lineno">  149</span>&#160;    <span class="keywordflow">return</span> length(point) &lt;= _radius;</div>
-<div class="line"><a name="l00150"></a><span class="lineno">  150</span>&#160;}</div>
-<div class="line"><a name="l00151"></a><span class="lineno">  151</span>&#160; </div>
-<div class="line"><a name="l00152"></a><span class="lineno">  152</span>&#160;Transformation SphereShape::_getFilledSphereTransformation(</div>
-<div class="line"><a name="l00153"></a><span class="lineno">  153</span>&#160;    <span class="keyword">const</span> uint64_t occurrence, <span class="keyword">const</span> uint64_t nbOccurrences,</div>
-<div class="line"><a name="l00154"></a><span class="lineno">  154</span>&#160;    <span class="keyword">const</span> <a class="code" href="../../d8/d60/structbioexplorer_1_1details_1_1AnimationDetails.html">AnimationDetails</a>&amp; animationDetails, <span class="keyword">const</span> <span class="keywordtype">double</span> offset)<span class="keyword"> const</span></div>
-<div class="line"><a name="l00155"></a><span class="lineno">  155</span>&#160;<span class="keyword"></span>{</div>
-<div class="line"><a name="l00156"></a><span class="lineno">  156</span>&#160;    Vector3d pos;</div>
-<div class="line"><a name="l00157"></a><span class="lineno">  157</span>&#160;    <span class="keyword">const</span> <span class="keywordtype">double</span> diameter = _radius * 2.0;</div>
-<div class="line"><a name="l00158"></a><span class="lineno">  158</span>&#160;    <span class="keywordflow">do</span></div>
-<div class="line"><a name="l00159"></a><span class="lineno">  159</span>&#160;    {</div>
-<div class="line"><a name="l00160"></a><span class="lineno">  160</span>&#160;        pos = Vector3d(<a class="code" href="../../dc/d78/classbioexplorer_1_1common_1_1Shape.html#a179f63306723d15ecd265a8b3bc0cb64">rnd1</a>() * diameter, <a class="code" href="../../dc/d78/classbioexplorer_1_1common_1_1Shape.html#a179f63306723d15ecd265a8b3bc0cb64">rnd1</a>() * diameter, <a class="code" href="../../dc/d78/classbioexplorer_1_1common_1_1Shape.html#a179f63306723d15ecd265a8b3bc0cb64">rnd1</a>() * diameter);</div>
-<div class="line"><a name="l00161"></a><span class="lineno">  161</span>&#160;    } <span class="keywordflow">while</span> (length(pos) &gt; _radius);</div>
+<div class="line"><a name="l00119"></a><span class="lineno">  119</span>&#160;    Vector3d startPos;</div>
+<div class="line"><a name="l00120"></a><span class="lineno">  120</span>&#160;    Quaterniond startRot;</div>
+<div class="line"><a name="l00121"></a><span class="lineno">  121</span>&#160;    <span class="keyword">const</span> Vector3d startDir = sphereFilling(radius, occurrence, nbOccurrences,</div>
+<div class="line"><a name="l00122"></a><span class="lineno">  122</span>&#160;                                            rnd, startPos, startRot, offset);</div>
+<div class="line"><a name="l00123"></a><span class="lineno">  123</span>&#160; </div>
+<div class="line"><a name="l00124"></a><span class="lineno">  124</span>&#160;    <span class="keywordflow">if</span> (MolecularSystemAnimationDetails.rotationSeed != 0)</div>
+<div class="line"><a name="l00125"></a><span class="lineno">  125</span>&#160;        startRot = weightedRandomRotation(</div>
+<div class="line"><a name="l00126"></a><span class="lineno">  126</span>&#160;            startRot, MolecularSystemAnimationDetails.rotationSeed, rnd,</div>
+<div class="line"><a name="l00127"></a><span class="lineno">  127</span>&#160;            MolecularSystemAnimationDetails.rotationStrength);</div>
+<div class="line"><a name="l00128"></a><span class="lineno">  128</span>&#160; </div>
+<div class="line"><a name="l00129"></a><span class="lineno">  129</span>&#160;    <span class="keyword">const</span> <span class="keywordtype">double</span> endRadius = radius * 2.0;</div>
+<div class="line"><a name="l00130"></a><span class="lineno">  130</span>&#160;    <span class="keyword">const</span> <span class="keywordtype">double</span> morphingStep = MolecularSystemAnimationDetails.morphingStep;</div>
+<div class="line"><a name="l00131"></a><span class="lineno">  131</span>&#160; </div>
+<div class="line"><a name="l00132"></a><span class="lineno">  132</span>&#160;    Vector3d endPos = startPos;</div>
+<div class="line"><a name="l00133"></a><span class="lineno">  133</span>&#160;    endPos.y = -radius;</div>
+<div class="line"><a name="l00134"></a><span class="lineno">  134</span>&#160;    endPos = endPos + (1.0 - (startPos.y + _radius) / endRadius) *</div>
+<div class="line"><a name="l00135"></a><span class="lineno">  135</span>&#160;                          Vector3d(endRadius, 0.0, endRadius) *</div>
+<div class="line"><a name="l00136"></a><span class="lineno">  136</span>&#160;                          normalize(Vector3d(startDir.x, 0.0, startDir.z));</div>
+<div class="line"><a name="l00137"></a><span class="lineno">  137</span>&#160; </div>
+<div class="line"><a name="l00138"></a><span class="lineno">  138</span>&#160;    Quaterniond endRot{0.0, 0.0, -0.707, 0.707};</div>
+<div class="line"><a name="l00139"></a><span class="lineno">  139</span>&#160;    <span class="keywordflow">if</span> (MolecularSystemAnimationDetails.rotationSeed != 0)</div>
+<div class="line"><a name="l00140"></a><span class="lineno">  140</span>&#160;        endRot = weightedRandomRotation(</div>
+<div class="line"><a name="l00141"></a><span class="lineno">  141</span>&#160;            endRot, MolecularSystemAnimationDetails.rotationSeed, rnd,</div>
+<div class="line"><a name="l00142"></a><span class="lineno">  142</span>&#160;            MolecularSystemAnimationDetails.rotationStrength);</div>
+<div class="line"><a name="l00143"></a><span class="lineno">  143</span>&#160; </div>
+<div class="line"><a name="l00144"></a><span class="lineno">  144</span>&#160;    <span class="keyword">const</span> Quaterniond finalRotation = slerp(startRot, endRot, morphingStep);</div>
+<div class="line"><a name="l00145"></a><span class="lineno">  145</span>&#160; </div>
+<div class="line"><a name="l00146"></a><span class="lineno">  146</span>&#160;    <span class="keyword">const</span> <span class="keyword">auto</span> finalTranslation =</div>
+<div class="line"><a name="l00147"></a><span class="lineno">  147</span>&#160;        endPos * morphingStep + startPos * (1.0 - morphingStep);</div>
+<div class="line"><a name="l00148"></a><span class="lineno">  148</span>&#160;    <span class="keywordflow">if</span> (isClipped(finalTranslation, _clippingPlanes))</div>
+<div class="line"><a name="l00149"></a><span class="lineno">  149</span>&#160;        <span class="keywordflow">throw</span> std::runtime_error(<span class="stringliteral">&quot;Instance is clipped&quot;</span>);</div>
+<div class="line"><a name="l00150"></a><span class="lineno">  150</span>&#160; </div>
+<div class="line"><a name="l00151"></a><span class="lineno">  151</span>&#160;    <span class="comment">// Final transformation</span></div>
+<div class="line"><a name="l00152"></a><span class="lineno">  152</span>&#160;    Transformation transformation;</div>
+<div class="line"><a name="l00153"></a><span class="lineno">  153</span>&#160;    transformation.setTranslation(finalTranslation);</div>
+<div class="line"><a name="l00154"></a><span class="lineno">  154</span>&#160;    transformation.setRotation(finalRotation);</div>
+<div class="line"><a name="l00155"></a><span class="lineno">  155</span>&#160;    <span class="keywordflow">return</span> transformation;</div>
+<div class="line"><a name="l00156"></a><span class="lineno">  156</span>&#160;}</div>
+<div class="line"><a name="l00157"></a><span class="lineno">  157</span>&#160; </div>
+<div class="line"><a name="l00158"></a><span class="lineno"><a class="line" href="../../d5/d1a/classbioexplorer_1_1common_1_1SphereShape.html#a82292d585715c514827ba8c867c391d0">  158</a></span>&#160;<span class="keywordtype">bool</span> <a class="code" href="../../d5/d1a/classbioexplorer_1_1common_1_1SphereShape.html#a82292d585715c514827ba8c867c391d0">SphereShape::isInside</a>(<span class="keyword">const</span> Vector3d&amp; point)<span class="keyword"> const</span></div>
+<div class="line"><a name="l00159"></a><span class="lineno">  159</span>&#160;<span class="keyword"></span>{</div>
+<div class="line"><a name="l00160"></a><span class="lineno">  160</span>&#160;    <span class="keywordflow">return</span> length(point) &lt;= _radius;</div>
+<div class="line"><a name="l00161"></a><span class="lineno">  161</span>&#160;}</div>
 <div class="line"><a name="l00162"></a><span class="lineno">  162</span>&#160; </div>
-<div class="line"><a name="l00163"></a><span class="lineno">  163</span>&#160;    <span class="keywordflow">if</span> (animationDetails.positionSeed != 0)</div>
-<div class="line"><a name="l00164"></a><span class="lineno">  164</span>&#160;    {</div>
-<div class="line"><a name="l00165"></a><span class="lineno">  165</span>&#160;        <span class="keyword">const</span> Vector3d posOffset =</div>
-<div class="line"><a name="l00166"></a><span class="lineno">  166</span>&#160;            animationDetails.positionStrength *</div>
-<div class="line"><a name="l00167"></a><span class="lineno">  167</span>&#160;            Vector3d(<a class="code" href="../../dc/d78/classbioexplorer_1_1common_1_1Shape.html#ad87787c4abaa37a250a4c2d88f31b4cf">rnd2</a>(occurrence + animationDetails.positionSeed),</div>
-<div class="line"><a name="l00168"></a><span class="lineno">  168</span>&#160;                     <a class="code" href="../../dc/d78/classbioexplorer_1_1common_1_1Shape.html#ad87787c4abaa37a250a4c2d88f31b4cf">rnd2</a>(occurrence + animationDetails.positionSeed + 1),</div>
-<div class="line"><a name="l00169"></a><span class="lineno">  169</span>&#160;                     <a class="code" href="../../dc/d78/classbioexplorer_1_1common_1_1Shape.html#ad87787c4abaa37a250a4c2d88f31b4cf">rnd2</a>(occurrence + animationDetails.positionSeed + 2));</div>
-<div class="line"><a name="l00170"></a><span class="lineno">  170</span>&#160; </div>
-<div class="line"><a name="l00171"></a><span class="lineno">  171</span>&#160;        pos += posOffset;</div>
-<div class="line"><a name="l00172"></a><span class="lineno">  172</span>&#160;    }</div>
-<div class="line"><a name="l00173"></a><span class="lineno">  173</span>&#160;    <span class="keywordflow">if</span> (isClipped(pos, _clippingPlanes))</div>
-<div class="line"><a name="l00174"></a><span class="lineno">  174</span>&#160;        <span class="keywordflow">throw</span> std::runtime_error(<span class="stringliteral">&quot;Instance is clipped&quot;</span>);</div>
-<div class="line"><a name="l00175"></a><span class="lineno">  175</span>&#160; </div>
-<div class="line"><a name="l00176"></a><span class="lineno">  176</span>&#160;    Quaterniond rot = safeQuatlookAt(normalize(pos));</div>
-<div class="line"><a name="l00177"></a><span class="lineno">  177</span>&#160;    <span class="keywordflow">if</span> (animationDetails.rotationSeed != 0)</div>
-<div class="line"><a name="l00178"></a><span class="lineno">  178</span>&#160;        rot = <a class="code" href="../../dc/d78/classbioexplorer_1_1common_1_1Shape.html#a595f0d1afddd8a628c2543a6bbab97c0">weightedRandomRotation</a>(rot, animationDetails.rotationSeed,</div>
-<div class="line"><a name="l00179"></a><span class="lineno">  179</span>&#160;                                     occurrence,</div>
-<div class="line"><a name="l00180"></a><span class="lineno">  180</span>&#160;                                     animationDetails.rotationStrength);</div>
-<div class="line"><a name="l00181"></a><span class="lineno">  181</span>&#160; </div>
-<div class="line"><a name="l00182"></a><span class="lineno">  182</span>&#160;    Transformation transformation;</div>
-<div class="line"><a name="l00183"></a><span class="lineno">  183</span>&#160;    transformation.setTranslation(pos);</div>
-<div class="line"><a name="l00184"></a><span class="lineno">  184</span>&#160;    transformation.setRotation(rot);</div>
-<div class="line"><a name="l00185"></a><span class="lineno">  185</span>&#160;    <span class="keywordflow">return</span> transformation;</div>
-<div class="line"><a name="l00186"></a><span class="lineno">  186</span>&#160;}</div>
-<div class="line"><a name="l00187"></a><span class="lineno">  187</span>&#160; </div>
-<div class="line"><a name="l00188"></a><span class="lineno">  188</span>&#160;} <span class="comment">// namespace common</span></div>
-<div class="line"><a name="l00189"></a><span class="lineno">  189</span>&#160;} <span class="comment">// namespace bioexplorer</span></div>
+<div class="line"><a name="l00163"></a><span class="lineno">  163</span>&#160;Transformation SphereShape::_getFilledSphereTransformation(</div>
+<div class="line"><a name="l00164"></a><span class="lineno">  164</span>&#160;    <span class="keyword">const</span> uint64_t occurrence, <span class="keyword">const</span> uint64_t nbOccurrences,</div>
+<div class="line"><a name="l00165"></a><span class="lineno">  165</span>&#160;    <span class="keyword">const</span> <a class="code" href="../../df/d9c/structbioexplorer_1_1details_1_1MolecularSystemAnimationDetails.html">MolecularSystemAnimationDetails</a>&amp; <a class="code" href="../../df/d9c/structbioexplorer_1_1details_1_1MolecularSystemAnimationDetails.html">MolecularSystemAnimationDetails</a>,</div>
+<div class="line"><a name="l00166"></a><span class="lineno">  166</span>&#160;    <span class="keyword">const</span> <span class="keywordtype">double</span> offset)<span class="keyword"> const</span></div>
+<div class="line"><a name="l00167"></a><span class="lineno">  167</span>&#160;<span class="keyword"></span>{</div>
+<div class="line"><a name="l00168"></a><span class="lineno">  168</span>&#160;    Vector3d pos;</div>
+<div class="line"><a name="l00169"></a><span class="lineno">  169</span>&#160;    <span class="keyword">const</span> <span class="keywordtype">double</span> diameter = _radius * 2.0;</div>
+<div class="line"><a name="l00170"></a><span class="lineno">  170</span>&#160;    <span class="keywordflow">do</span></div>
+<div class="line"><a name="l00171"></a><span class="lineno">  171</span>&#160;    {</div>
+<div class="line"><a name="l00172"></a><span class="lineno">  172</span>&#160;        pos = Vector3d(rnd1() * diameter, rnd1() * diameter, rnd1() * diameter);</div>
+<div class="line"><a name="l00173"></a><span class="lineno">  173</span>&#160;    } <span class="keywordflow">while</span> (length(pos) &gt; _radius);</div>
+<div class="line"><a name="l00174"></a><span class="lineno">  174</span>&#160; </div>
+<div class="line"><a name="l00175"></a><span class="lineno">  175</span>&#160;    <span class="keywordflow">if</span> (<a class="code" href="../../df/d9c/structbioexplorer_1_1details_1_1MolecularSystemAnimationDetails.html">MolecularSystemAnimationDetails</a>.positionSeed != 0)</div>
+<div class="line"><a name="l00176"></a><span class="lineno">  176</span>&#160;    {</div>
+<div class="line"><a name="l00177"></a><span class="lineno">  177</span>&#160;        <span class="keyword">const</span> Vector3d posOffset =</div>
+<div class="line"><a name="l00178"></a><span class="lineno">  178</span>&#160;            <a class="code" href="../../df/d9c/structbioexplorer_1_1details_1_1MolecularSystemAnimationDetails.html">MolecularSystemAnimationDetails</a>.positionStrength *</div>
+<div class="line"><a name="l00179"></a><span class="lineno">  179</span>&#160;            Vector3d(rnd2(occurrence +</div>
+<div class="line"><a name="l00180"></a><span class="lineno">  180</span>&#160;                          <a class="code" href="../../df/d9c/structbioexplorer_1_1details_1_1MolecularSystemAnimationDetails.html">MolecularSystemAnimationDetails</a>.positionSeed),</div>
+<div class="line"><a name="l00181"></a><span class="lineno">  181</span>&#160;                     rnd2(occurrence +</div>
+<div class="line"><a name="l00182"></a><span class="lineno">  182</span>&#160;                          <a class="code" href="../../df/d9c/structbioexplorer_1_1details_1_1MolecularSystemAnimationDetails.html">MolecularSystemAnimationDetails</a>.positionSeed + 1),</div>
+<div class="line"><a name="l00183"></a><span class="lineno">  183</span>&#160;                     rnd2(occurrence +</div>
+<div class="line"><a name="l00184"></a><span class="lineno">  184</span>&#160;                          <a class="code" href="../../df/d9c/structbioexplorer_1_1details_1_1MolecularSystemAnimationDetails.html">MolecularSystemAnimationDetails</a>.positionSeed + 2));</div>
+<div class="line"><a name="l00185"></a><span class="lineno">  185</span>&#160; </div>
+<div class="line"><a name="l00186"></a><span class="lineno">  186</span>&#160;        pos += posOffset;</div>
+<div class="line"><a name="l00187"></a><span class="lineno">  187</span>&#160;    }</div>
+<div class="line"><a name="l00188"></a><span class="lineno">  188</span>&#160;    <span class="keywordflow">if</span> (isClipped(pos, _clippingPlanes))</div>
+<div class="line"><a name="l00189"></a><span class="lineno">  189</span>&#160;        <span class="keywordflow">throw</span> std::runtime_error(<span class="stringliteral">&quot;Instance is clipped&quot;</span>);</div>
+<div class="line"><a name="l00190"></a><span class="lineno">  190</span>&#160; </div>
+<div class="line"><a name="l00191"></a><span class="lineno">  191</span>&#160;    Quaterniond rot = safeQuatlookAt(normalize(pos));</div>
+<div class="line"><a name="l00192"></a><span class="lineno">  192</span>&#160;    <span class="keywordflow">if</span> (MolecularSystemAnimationDetails.rotationSeed != 0)</div>
+<div class="line"><a name="l00193"></a><span class="lineno">  193</span>&#160;        rot = weightedRandomRotation(</div>
+<div class="line"><a name="l00194"></a><span class="lineno">  194</span>&#160;            rot, MolecularSystemAnimationDetails.rotationSeed, occurrence,</div>
+<div class="line"><a name="l00195"></a><span class="lineno">  195</span>&#160;            MolecularSystemAnimationDetails.rotationStrength);</div>
+<div class="line"><a name="l00196"></a><span class="lineno">  196</span>&#160; </div>
+<div class="line"><a name="l00197"></a><span class="lineno">  197</span>&#160;    Transformation transformation;</div>
+<div class="line"><a name="l00198"></a><span class="lineno">  198</span>&#160;    transformation.setTranslation(pos);</div>
+<div class="line"><a name="l00199"></a><span class="lineno">  199</span>&#160;    transformation.setRotation(rot);</div>
+<div class="line"><a name="l00200"></a><span class="lineno">  200</span>&#160;    <span class="keywordflow">return</span> transformation;</div>
+<div class="line"><a name="l00201"></a><span class="lineno">  201</span>&#160;}</div>
+<div class="line"><a name="l00202"></a><span class="lineno">  202</span>&#160; </div>
+<div class="line"><a name="l00203"></a><span class="lineno">  203</span>&#160;} <span class="comment">// namespace common</span></div>
+<div class="line"><a name="l00204"></a><span class="lineno">  204</span>&#160;} <span class="comment">// namespace bioexplorer</span></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
-<div class="ttc" id="aclassbioexplorer_1_1common_1_1Shape_html_a7d3d867b0af42af7b5dca2665eb6e2dd"><div class="ttname"><a href="../../dc/d78/classbioexplorer_1_1common_1_1Shape.html#a7d3d867b0af42af7b5dca2665eb6e2dd">bioexplorer::common::Shape::rnd3</a></div><div class="ttdeci">static double rnd3(const uint64_t index)</div><div class="ttdoc">Return a controlled random double between -0.5 and 0.5, currently a sinusoidal function.</div><div class="ttdef"><b>Definition:</b> <a href="../../d6/dbd/Shape_8cpp_source.html#l00084">Shape.cpp:84</a></div></div>
 <div class="ttc" id="aclassbioexplorer_1_1common_1_1GeneralSettings_html_a596198a4745a7eef5e8788a4d9b5c8f5"><div class="ttname"><a href="../../d2/da7/classbioexplorer_1_1common_1_1GeneralSettings.html#a596198a4745a7eef5e8788a4d9b5c8f5">bioexplorer::common::GeneralSettings::getInstance</a></div><div class="ttdeci">static GeneralSettings * getInstance()</div><div class="ttdoc">Get the Instance object.</div><div class="ttdef"><b>Definition:</b> <a href="../../df/df6/GeneralSettings_8h_source.html#l00048">GeneralSettings.h:48</a></div></div>
-<div class="ttc" id="aclassbioexplorer_1_1common_1_1SphereShape_html_ae7676555035856516fd40a2f59123c08"><div class="ttname"><a href="../../d5/d1a/classbioexplorer_1_1common_1_1SphereShape.html#ae7676555035856516fd40a2f59123c08">bioexplorer::common::SphereShape::getTransformation</a></div><div class="ttdeci">Transformation getTransformation(const uint64_t occurrence, const uint64_t nbOccurrences, const AnimationDetails &amp;animationDetails, const double offset) const final</div><div class="ttdoc">Get the Transformation for the specified instance of the element.</div><div class="ttdef"><b>Definition:</b> <a href="../../de/d9a/SphereShape_8cpp_source.html#l00045">SphereShape.cpp:45</a></div></div>
-<div class="ttc" id="aclassbioexplorer_1_1common_1_1Shape_html_ad87787c4abaa37a250a4c2d88f31b4cf"><div class="ttname"><a href="../../dc/d78/classbioexplorer_1_1common_1_1Shape.html#ad87787c4abaa37a250a4c2d88f31b4cf">bioexplorer::common::Shape::rnd2</a></div><div class="ttdeci">static double rnd2(const uint64_t index)</div><div class="ttdoc">Return a predefined random double between -0.5 and 0.5.</div><div class="ttdef"><b>Definition:</b> <a href="../../d6/dbd/Shape_8cpp_source.html#l00079">Shape.cpp:79</a></div></div>
+<div class="ttc" id="astructbioexplorer_1_1details_1_1MolecularSystemAnimationDetails_html"><div class="ttname"><a href="../../df/d9c/structbioexplorer_1_1details_1_1MolecularSystemAnimationDetails.html">bioexplorer::details::MolecularSystemAnimationDetails</a></div><div class="ttdef"><b>Definition:</b> <a href="../../d0/dde/bioexplorer_2core_2plugin_2common_2Types_8h_source.html#l00147">Types.h:147</a></div></div>
 <div class="ttc" id="aclassbioexplorer_1_1common_1_1Shape_html"><div class="ttname"><a href="../../dc/d78/classbioexplorer_1_1common_1_1Shape.html">bioexplorer::common::Shape</a></div><div class="ttdoc">The shape class allows the creation of 3D shapes generated by a number of element instances....</div><div class="ttdef"><b>Definition:</b> <a href="../../de/d8f/Shape_8h_source.html#l00039">Shape.h:39</a></div></div>
-<div class="ttc" id="aclassbioexplorer_1_1common_1_1SphereShape_html_a82292d585715c514827ba8c867c391d0"><div class="ttname"><a href="../../d5/d1a/classbioexplorer_1_1common_1_1SphereShape.html#a82292d585715c514827ba8c867c391d0">bioexplorer::common::SphereShape::isInside</a></div><div class="ttdeci">bool isInside(const Vector3d &amp;point) const final</div><div class="ttdoc">Return true if the specified 3D location is inside of the shape, false if it is outside.</div><div class="ttdef"><b>Definition:</b> <a href="../../de/d9a/SphereShape_8cpp_source.html#l00147">SphereShape.cpp:147</a></div></div>
-<div class="ttc" id="aclassbioexplorer_1_1common_1_1Shape_html_a179f63306723d15ecd265a8b3bc0cb64"><div class="ttname"><a href="../../dc/d78/classbioexplorer_1_1common_1_1Shape.html#a179f63306723d15ecd265a8b3bc0cb64">bioexplorer::common::Shape::rnd1</a></div><div class="ttdeci">static double rnd1()</div><div class="ttdoc">Return a random double between -0.5 and 0.5.</div><div class="ttdef"><b>Definition:</b> <a href="../../d6/dbd/Shape_8cpp_source.html#l00074">Shape.cpp:74</a></div></div>
-<div class="ttc" id="aclassbioexplorer_1_1common_1_1Shape_html_a595f0d1afddd8a628c2543a6bbab97c0"><div class="ttname"><a href="../../dc/d78/classbioexplorer_1_1common_1_1Shape.html#a595f0d1afddd8a628c2543a6bbab97c0">bioexplorer::common::Shape::weightedRandomRotation</a></div><div class="ttdeci">static Quaterniond weightedRandomRotation(const Quaterniond &amp;q, const uint64_t seed, const uint64_t index, const double weight)</div><div class="ttdoc">Randomly alters a quaterion according to the specified parameters.</div><div class="ttdef"><b>Definition:</b> <a href="../../d6/dbd/Shape_8cpp_source.html#l00090">Shape.cpp:90</a></div></div>
+<div class="ttc" id="aclassbioexplorer_1_1common_1_1SphereShape_html_a82292d585715c514827ba8c867c391d0"><div class="ttname"><a href="../../d5/d1a/classbioexplorer_1_1common_1_1SphereShape.html#a82292d585715c514827ba8c867c391d0">bioexplorer::common::SphereShape::isInside</a></div><div class="ttdeci">bool isInside(const Vector3d &amp;point) const final</div><div class="ttdoc">Return true if the specified 3D location is inside of the shape, false if it is outside.</div><div class="ttdef"><b>Definition:</b> <a href="../../de/d9a/SphereShape_8cpp_source.html#l00158">SphereShape.cpp:158</a></div></div>
+<div class="ttc" id="aclassbioexplorer_1_1common_1_1SphereShape_html_a54281c732cbce8d044df0c382a41fe02"><div class="ttname"><a href="../../d5/d1a/classbioexplorer_1_1common_1_1SphereShape.html#a54281c732cbce8d044df0c382a41fe02">bioexplorer::common::SphereShape::getTransformation</a></div><div class="ttdeci">Transformation getTransformation(const uint64_t occurrence, const uint64_t nbOccurrences, const MolecularSystemAnimationDetails &amp;MolecularSystemAnimationDetails, const double offset) const final</div><div class="ttdoc">Get the Transformation for the specified instance of the element.</div><div class="ttdef"><b>Definition:</b> <a href="../../de/d9a/SphereShape_8cpp_source.html#l00045">SphereShape.cpp:45</a></div></div>
 <div class="ttc" id="aclassbioexplorer_1_1common_1_1SphereShape_html_a4db6ea6b387aee6cd32fd45ee3d5aa7d"><div class="ttname"><a href="../../d5/d1a/classbioexplorer_1_1common_1_1SphereShape.html#a4db6ea6b387aee6cd32fd45ee3d5aa7d">bioexplorer::common::SphereShape::SphereShape</a></div><div class="ttdeci">SphereShape(const bool emptySphere, const Vector4ds &amp;clippingPlanes, const double radius)</div><div class="ttdoc">Construct a new Sphere Shape object.</div><div class="ttdef"><b>Definition:</b> <a href="../../de/d9a/SphereShape_8cpp_source.html#l00033">SphereShape.cpp:33</a></div></div>
-<div class="ttc" id="astructbioexplorer_1_1details_1_1AnimationDetails_html"><div class="ttname"><a href="../../d8/d60/structbioexplorer_1_1details_1_1AnimationDetails.html">bioexplorer::details::AnimationDetails</a></div><div class="ttdef"><b>Definition:</b> <a href="../../d0/dde/bioexplorer_2core_2plugin_2common_2Types_8h_source.html#l00143">Types.h:143</a></div></div>
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>

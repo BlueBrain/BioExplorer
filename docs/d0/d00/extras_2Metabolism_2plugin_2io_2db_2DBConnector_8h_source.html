@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.17"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>Blue Brain BioExplorer: /home/favreau/git/BioExplorer/extras/Metabolism/plugin/io/db/DBConnector.h Source File</title>
+<title>Blue Brain BioExplorer: /home/favreau/code/favreau/BioExplorer/extras/Metabolism/plugin/io/db/DBConnector.h Source File</title>
 <link href="../../tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="../../jquery.js"></script>
 <script type="text/javascript" src="../../dynsections.js"></script>
@@ -90,7 +90,7 @@ $(document).ready(function(){initNavTree('d0/d00/extras_2Metabolism_2plugin_2io_
 <div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;<span class="comment"> * The Blue Brain BioExplorer is a tool for scientists to extract and analyse</span></div>
 <div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="comment"> * scientific data from visualization</span></div>
 <div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="comment"> *</span></div>
-<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;<span class="comment"> * Copyright 2020-2022 Blue Brain Project / EPFL</span></div>
+<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;<span class="comment"> * Copyright 2020-2023 Blue Brain Project / EPFL</span></div>
 <div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;<span class="comment"> *</span></div>
 <div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;<span class="comment"> * This program is free software: you can redistribute it and/or modify it under</span></div>
 <div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;<span class="comment"> * the terms of the GNU General Public License as published by the Free Software</span></div>
@@ -126,9 +126,9 @@ $(document).ready(function(){initNavTree('d0/d00/extras_2Metabolism_2plugin_2io_
 <div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;    uint32_t getNbFrames();</div>
 <div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;    Locations getLocations();</div>
 <div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;    Concentrations getConcentrations(<span class="keyword">const</span> uint32_t frame,</div>
-<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;                                     <span class="keyword">const</span> int32_ts&amp; metaboliteIds,</div>
-<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;                                     <span class="keyword">const</span> <span class="keywordtype">bool</span> relativeConcentration,</div>
-<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;                                     <span class="keyword">const</span> Vector2d&amp; opacityRange);</div>
+<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;                                     <span class="keyword">const</span> uint32_t referenceFrame,</div>
+<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;                                     <span class="keyword">const</span> int32_ts&amp; metaboliteIds,</div>
+<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;                                     <span class="keyword">const</span> <span class="keywordtype">bool</span> relativeConcentration);</div>
 <div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160; </div>
 <div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;<span class="keyword">private</span>:</div>
 <div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;    <span class="keywordtype">void</span> _parseArguments(<span class="keyword">const</span> CommandLineArguments&amp; arguments);</div>
