@@ -139,8 +139,9 @@ void OptiXModel::_buildGAS(const OptixBuildInput& buildInput)
 
     OptixAccelEmitDesc emitProperty = {};
     emitProperty.type = OPTIX_PROPERTY_TYPE_COMPACTED_SIZE;
-    emitProperty.result = (CUdeviceptr)(
-        (char*)dBufferTempOutputGasAndCompactedSize + compactedSizeOffset);
+    emitProperty.result =
+        (CUdeviceptr)((char*)dBufferTempOutputGasAndCompactedSize +
+                      compactedSizeOffset);
 
     OPTIX_CHECK(optixAccelBuild(state.context,
                                 0, // CUDA stream
@@ -176,25 +177,25 @@ void OptiXModel::_buildGAS(const OptixBuildInput& buildInput)
 
 void OptiXModel::_commitGeometry()
 {
-    std::vector<OptixAabb> optixAabbs;
+    std::vector<OptixAabb> optixAABBs;
 
     for (const auto& geometries : _geometries->_spheres)
         for (const auto& geometry : geometries.second)
-            optixAabbs.push_back(
+            optixAABBs.push_back(
                 sphereBounds(geometry.center, geometry.radius));
 
     for (const auto& geometries : _geometries->_cylinders)
         for (const auto& geometry : geometries.second)
-            optixAabbs.push_back(
+            optixAABBs.push_back(
                 cylinderBounds(geometry.center, geometry.up, geometry.radius));
 
     for (const auto& geometries : _geometries->_cones)
         for (const auto& geometry : geometries.second)
-            optixAabbs.push_back(coneBounds(geometry.center, geometry.up,
+            optixAABBs.push_back(coneBounds(geometry.center, geometry.up,
                                             geometry.centerRadius,
                                             geometry.upRadius));
 
-    const auto nbAABBs = optixAabbs.size();
+    const auto nbAABBs = optixAABBs.size();
     PLUGIN_INFO("Number of AABB: " << nbAABBs);
 
     uint32_ts sbtIndices;
@@ -211,7 +212,7 @@ void OptiXModel::_commitGeometry()
     CUdeviceptr dAABBs = 0;
     uint64_t size = nbAABBs * sizeof(OptixAabb);
     CUDA_CHECK(cudaMalloc(reinterpret_cast<void**>(&dAABBs), size));
-    CUDA_CHECK(cudaMemcpy(reinterpret_cast<void*>(dAABBs), optixAabbs.data(),
+    CUDA_CHECK(cudaMemcpy(reinterpret_cast<void*>(dAABBs), optixAABBs.data(),
                           size, cudaMemcpyHostToDevice));
 
     // SBT indices
@@ -381,8 +382,16 @@ void OptiXModel::_createSBT()
 
     PLUGIN_INFO("Registering " << hitGroupRecords.size()
                                << " Hit Group Records");
-    CUdeviceptr dHitGroupRecords;
-    const size_t bufferSize = sizeof(HitGroupRecord) * hitGroupRecords.size();
+    CUdeviceptr dHitGroupRecords = 0;
+    const uint32_t hitGroupRecordSize = sizeof(HitGroupRecord);
+    PLUGIN_DEBUG("HitGroupData          : " << sizeof(HitGroupData));
+    PLUGIN_DEBUG("HitGroupData(geometry): " << sizeof(HitGroupData::geometry));
+    PLUGIN_DEBUG("HitGroupData(shading) : " << sizeof(HitGroupData::shading));
+    PLUGIN_DEBUG("HitGroupData(total)   : "
+                 << sizeof(HitGroupData) + OPTIX_SBT_RECORD_HEADER_SIZE);
+    PLUGIN_DEBUG("HitGroupRecord        : " << hitGroupRecordSize);
+
+    const size_t bufferSize = hitGroupRecordSize * hitGroupRecords.size();
     CUDA_CHECK(
         cudaMalloc(reinterpret_cast<void**>(&dHitGroupRecords), bufferSize));
 
@@ -390,12 +399,11 @@ void OptiXModel::_createSBT()
                           hitGroupRecords.data(), bufferSize,
                           cudaMemcpyHostToDevice));
 
-    CUDA_CHECK(cudaFree(reinterpret_cast<void*>(state.sbt.hitgroupRecordBase)));
+    // CUDA_CHECK(cudaFree(reinterpret_cast<void*>(state.sbt.hitgroupRecordBase)));
 
     state.sbt.hitgroupRecordBase = dHitGroupRecords;
     state.sbt.hitgroupRecordCount = hitGroupRecords.size();
-    state.sbt.hitgroupRecordStrideInBytes =
-        static_cast<uint32_t>(sizeof(HitGroupRecord));
+    state.sbt.hitgroupRecordStrideInBytes = hitGroupRecordSize;
 }
 
 void OptiXModel::_commitMeshes(const size_t materialId)

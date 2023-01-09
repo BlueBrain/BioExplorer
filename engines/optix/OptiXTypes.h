@@ -33,10 +33,6 @@
 
 namespace brayns
 {
-typedef Record<RayGenData> RayGenRecord;
-typedef Record<MissData> MissRecord;
-typedef Record<HitGroupData> HitGroupRecord;
-
 class OptiXCamera;
 using OptiXCameraPtr = std::shared_ptr<OptiXCamera>;
 
@@ -45,7 +41,7 @@ const uint32_t maxCCDepth = 0;
 const uint32_t maxDCDepth = 0;
 const uint32_t maxTraversableDepth = 1;
 const uint32_t numPayloadValues = 5;
-const uint32_t numAttributeValues = 5;
+const uint32_t numAttributeValues = 4;
 
 const BasicLight g_light = {
     make_float3(0.0f, 10.0f, 10.0f), // pos

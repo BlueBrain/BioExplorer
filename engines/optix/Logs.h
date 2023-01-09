@@ -70,4 +70,24 @@ namespace brayns
         std::cout.flush();                                                    \
     }
 
+inline void pluginCheckLog(OptixResult res, const char* log, size_t sizeof_log,
+                           size_t sizeof_log_returned, const char* call,
+                           const char* file, unsigned int line)
+{
+    if (res != OPTIX_SUCCESS)
+    {
+        std::stringstream ss;
+        ss << "Optix call '" << call << "' failed: " << file << ':' << line
+           << ")\n Result: " << optixGetErrorName(res) << "\nLog:\n"
+           << log << (sizeof_log_returned > sizeof_log ? "<TRUNCATED>" : "")
+           << '\n';
+        PLUGIN_DEBUG(ss.str().c_str());
+        PLUGIN_THROW(ss.str().c_str());
+    }
+}
+
+#define PLUGIN_CHECK_LOG(call)                                          \
+    pluginCheckLog(call, log, sizeof(log), sizeof_log, #call, __FILE__, \
+                   __LINE__)
+
 } // namespace brayns

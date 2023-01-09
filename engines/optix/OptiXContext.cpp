@@ -131,7 +131,6 @@ OptiXContext::~OptiXContext()
 
     OPTIX_CHECK(optixProgramGroupDestroy(_state.raygen_prog_group));
     OPTIX_CHECK(optixProgramGroupDestroy(_state.miss_prog_group));
-    OPTIX_CHECK(optixProgramGroupDestroy(_state.hitgroup_prog_group));
 
     CUDA_CHECK(cudaFree(reinterpret_cast<void*>(_state.stream)));
     CUDA_CHECK(cudaFree(reinterpret_cast<void*>(_state.d_params)));
@@ -365,11 +364,11 @@ void OptiXContext::_createCameraModules()
         sutil::getInputData(BRAYNS_OPTIX_SAMPLE_NAME, OPTIX_SAMPLE_DIR,
                             "PerspectiveCamera.cu", inputSize);
 
-    OPTIX_CHECK_LOG(optixModuleCreateFromPTX(_state.context,
-                                             &_state.module_compile_options,
-                                             &_state.pipeline_compile_options,
-                                             input, inputSize, log, &sizeof_log,
-                                             &_state.camera_module));
+    PLUGIN_CHECK_LOG(
+        optixModuleCreateFromPTX(_state.context, &_state.module_compile_options,
+                                 &_state.pipeline_compile_options, input,
+                                 inputSize, log, &sizeof_log,
+                                 &_state.camera_module));
 }
 
 void OptiXContext::_createCameraPrograms()
@@ -384,8 +383,7 @@ void OptiXContext::_createCameraPrograms()
     raygen_prog_group_desc.kind = OPTIX_PROGRAM_GROUP_KIND_RAYGEN;
     raygen_prog_group_desc.raygen.module = _state.camera_module;
     raygen_prog_group_desc.raygen.entryFunctionName = "__raygen__rg";
-    sizeof_log = sizeof(log);
-    OPTIX_CHECK_LOG(
+    PLUGIN_CHECK_LOG(
         optixProgramGroupCreate(_state.context, &raygen_prog_group_desc,
                                 1, // num program groups
                                 &_state.program_group_options, log, &sizeof_log,
@@ -400,7 +398,7 @@ void OptiXContext::_createCameraPrograms()
     miss_prog_group_desc.miss.module = _state.camera_module;
     miss_prog_group_desc.miss.entryFunctionName = "__miss__constant_bg";
 
-    OPTIX_CHECK_LOG(
+    PLUGIN_CHECK_LOG(
         optixProgramGroupCreate(_state.context, &miss_prog_group_desc, 1,
                                 &_state.program_group_options, log, &sizeof_log,
                                 &_state.miss_prog_group));
@@ -410,7 +408,7 @@ void OptiXContext::_createCameraPrograms()
         nullptr, // module
         nullptr  // entryFunctionName
     };
-    OPTIX_CHECK_LOG(
+    PLUGIN_CHECK_LOG(
         optixProgramGroupCreate(_state.context, &miss_prog_group_desc, 1,
                                 &_state.program_group_options, log, &sizeof_log,
                                 &_state.miss_prog_group));
@@ -422,17 +420,17 @@ void OptiXContext::_createShadingModules()
 {
     PLUGIN_INFO("Creating OptiX Shading Modules");
 
-    char log[2048]; // For error reporting from OptiX creation functions
+    char log[2048];
     size_t sizeof_log = sizeof(log);
     size_t inputSize = 0;
     const char* input =
         sutil::getInputData(BRAYNS_OPTIX_SAMPLE_NAME, OPTIX_SAMPLE_DIR,
                             "Material.cu", inputSize);
-    OPTIX_CHECK_LOG(optixModuleCreateFromPTX(_state.context,
-                                             &_state.module_compile_options,
-                                             &_state.pipeline_compile_options,
-                                             input, inputSize, log, &sizeof_log,
-                                             &_state.shading_module));
+    PLUGIN_CHECK_LOG(
+        optixModuleCreateFromPTX(_state.context, &_state.module_compile_options,
+                                 &_state.pipeline_compile_options, input,
+                                 inputSize, log, &sizeof_log,
+                                 &_state.shading_module));
 }
 
 void OptiXContext::_createGeometryPrograms()
@@ -457,7 +455,7 @@ void OptiXContext::_createGeometryPrograms()
         "__closesthit__radiance";
     sphere_radiance_prog_group_desc.hitgroup.moduleAH = nullptr;
     sphere_radiance_prog_group_desc.hitgroup.entryFunctionNameAH = nullptr;
-    OPTIX_CHECK_LOG(
+    PLUGIN_CHECK_LOG(
         optixProgramGroupCreate(_state.context,
                                 &sphere_radiance_prog_group_desc, 1,
                                 &_state.program_group_options, log, &sizeof_log,
@@ -476,7 +474,7 @@ void OptiXContext::_createGeometryPrograms()
     sphere_occlusion_prog_group_desc.hitgroup.moduleAH = nullptr;
     sphere_occlusion_prog_group_desc.hitgroup.entryFunctionNameAH = nullptr;
 
-    OPTIX_CHECK_LOG(
+    PLUGIN_CHECK_LOG(
         optixProgramGroupCreate(_state.context,
                                 &sphere_occlusion_prog_group_desc, 1,
                                 &_state.program_group_options, log, &sizeof_log,
@@ -499,7 +497,7 @@ void OptiXContext::_createGeometryPrograms()
         "__closesthit__radiance";
     cylinder_radiance_prog_group_desc.hitgroup.moduleAH = nullptr;
     cylinder_radiance_prog_group_desc.hitgroup.entryFunctionNameAH = nullptr;
-    OPTIX_CHECK_LOG(
+    PLUGIN_CHECK_LOG(
         optixProgramGroupCreate(_state.context,
                                 &cylinder_radiance_prog_group_desc, 1,
                                 &_state.program_group_options, log, &sizeof_log,
@@ -520,7 +518,7 @@ void OptiXContext::_createGeometryPrograms()
     cylinder_occlusion_prog_group_desc.hitgroup.moduleAH = nullptr;
     cylinder_occlusion_prog_group_desc.hitgroup.entryFunctionNameAH = nullptr;
 
-    OPTIX_CHECK_LOG(
+    PLUGIN_CHECK_LOG(
         optixProgramGroupCreate(_state.context,
                                 &cylinder_occlusion_prog_group_desc, 1,
                                 &_state.program_group_options, log, &sizeof_log,
@@ -542,7 +540,7 @@ void OptiXContext::_createGeometryPrograms()
         "__closesthit__radiance";
     cone_radiance_prog_group_desc.hitgroup.moduleAH = nullptr;
     cone_radiance_prog_group_desc.hitgroup.entryFunctionNameAH = nullptr;
-    OPTIX_CHECK_LOG(
+    PLUGIN_CHECK_LOG(
         optixProgramGroupCreate(_state.context, &cone_radiance_prog_group_desc,
                                 1, &_state.program_group_options, log,
                                 &sizeof_log, &_state.cone_radiance_prog_group));
@@ -560,11 +558,11 @@ void OptiXContext::_createGeometryPrograms()
     cone_occlusion_prog_group_desc.hitgroup.moduleAH = nullptr;
     cone_occlusion_prog_group_desc.hitgroup.entryFunctionNameAH = nullptr;
 
-    OPTIX_CHECK_LOG(optixProgramGroupCreate(_state.context,
-                                            &cone_occlusion_prog_group_desc, 1,
-                                            &_state.program_group_options, log,
-                                            &sizeof_log,
-                                            &_state.cone_occlusion_prog_group));
+    PLUGIN_CHECK_LOG(
+        optixProgramGroupCreate(_state.context, &cone_occlusion_prog_group_desc,
+                                1, &_state.program_group_options, log,
+                                &sizeof_log,
+                                &_state.cone_occlusion_prog_group));
     _programGroups.push_back(_state.cone_occlusion_prog_group);
 }
 
@@ -578,7 +576,7 @@ void OptiXContext::_createGeometryModules()
                             "Spheres.cu", inputSize);
     char log[2048];
     size_t sizeof_log = sizeof(log);
-    OPTIX_CHECK_LOG(
+    PLUGIN_CHECK_LOG(
         optixModuleCreateFromPTX(_state.context, &_state.module_compile_options,
                                  &_state.pipeline_compile_options, spheres,
                                  inputSize, log, &sizeof_log,
@@ -587,7 +585,7 @@ void OptiXContext::_createGeometryModules()
     const char* cylinders =
         sutil::getInputData(BRAYNS_OPTIX_SAMPLE_NAME, OPTIX_SAMPLE_DIR,
                             "Cylinders.cu", inputSize);
-    OPTIX_CHECK_LOG(
+    PLUGIN_CHECK_LOG(
         optixModuleCreateFromPTX(_state.context, &_state.module_compile_options,
                                  &_state.pipeline_compile_options, cylinders,
                                  inputSize, log, &sizeof_log,
@@ -597,11 +595,11 @@ void OptiXContext::_createGeometryModules()
     const char* cones =
         sutil::getInputData(BRAYNS_OPTIX_SAMPLE_NAME, OPTIX_SAMPLE_DIR,
                             "Cones.cu", inputSize);
-    OPTIX_CHECK_LOG(optixModuleCreateFromPTX(_state.context,
-                                             &_state.module_compile_options,
-                                             &_state.pipeline_compile_options,
-                                             cones, inputSize, log, &sizeof_log,
-                                             &_state.cone_module));
+    PLUGIN_CHECK_LOG(
+        optixModuleCreateFromPTX(_state.context, &_state.module_compile_options,
+                                 &_state.pipeline_compile_options, cones,
+                                 inputSize, log, &sizeof_log,
+                                 &_state.cone_module));
 }
 
 void OptiXContext::linkPipeline()

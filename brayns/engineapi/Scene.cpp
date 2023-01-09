@@ -41,9 +41,9 @@ std::shared_ptr<T> _find(const std::vector<std::shared_ptr<T>>& list,
                          const size_t id,
                          size_t (U::*getID)() const = &T::getID)
 {
-    auto i = std::find_if(list.begin(), list.end(), [id, getID](auto x) {
-        return id == ((*x).*getID)();
-    });
+    auto i =
+        std::find_if(list.begin(), list.end(),
+                     [id, getID](auto x) { return id == ((*x).*getID)(); });
     return i == list.end() ? std::shared_ptr<T>{} : *i;
 }
 
@@ -52,9 +52,9 @@ std::shared_ptr<T> _remove(std::vector<std::shared_ptr<T>>& list,
                            const size_t id,
                            size_t (U::*getID)() const = &T::getID)
 {
-    auto i = std::find_if(list.begin(), list.end(), [id, getID](auto x) {
-        return id == ((*x).*getID)();
-    });
+    auto i =
+        std::find_if(list.begin(), list.end(),
+                     [id, getID](auto x) { return id == ((*x).*getID)(); });
     if (i == list.end())
         return std::shared_ptr<T>{};
     auto result = *i;
@@ -376,8 +376,11 @@ void Scene::buildDefault()
         material->setOpacity(0.2f);
         material->setRefractionIndex(1.5f);
         material->setReflectionIndex(0.1f);
+        // material->setDiffuseColor(
+        //     {rand() % 100 / 100.f, rand() % 100 / 100.f, rand() % 100 /
+        //     100.f});
         material->setDiffuseColor(
-            {rand() % 100 / 100.f, rand() % 100 / 100.f, rand() % 100 / 100.f});
+            {materialId * 0.1f, 0.f, 1.f - materialId * 0.1f});
         material->setSpecularColor({1.f, 1.f, 1.f});
         material->setSpecularExponent(100.f);
 

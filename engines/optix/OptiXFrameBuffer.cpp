@@ -72,9 +72,12 @@ void OptiXFrameBuffer::_recreate()
         _frameBuffer->resize(state.params.width, state.params.height);
     }
     else
+    {
         _frameBuffer = new sutil::CUDAOutputBuffer<uchar4>(
             sutil::CUDAOutputBufferType::CUDA_DEVICE, state.params.width,
             state.params.height);
+        _frameBuffer->setStream(state.stream);
+    }
 
     CUDA_CHECK(cudaFree(state.params.accum_buffer));
     CUDA_CHECK(

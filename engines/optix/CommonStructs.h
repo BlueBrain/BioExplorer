@@ -28,15 +28,6 @@
 #define BASIC_LIGHT_TYPE_POINT 0
 #define BASIC_LIGHT_TYPE_DIRECTIONAL 1
 
-template <typename T>
-struct Record
-{
-    __align__(OPTIX_SBT_RECORD_ALIGNMENT)
-
-        char header[OPTIX_SBT_RECORD_HEADER_SIZE];
-    T data;
-};
-
 namespace brayns
 {
 enum RayType
@@ -88,7 +79,6 @@ struct State
 
     OptixProgramGroup raygen_prog_group = 0;
     OptixProgramGroup miss_prog_group = 0;
-    OptixProgramGroup hitgroup_prog_group = 0;
     OptixProgramGroup sphere_radiance_prog_group = 0;
     OptixProgramGroup sphere_occlusion_prog_group = 0;
     OptixProgramGroup cylinder_radiance_prog_group = 0;
@@ -123,11 +113,67 @@ struct RayGenData
     float3 cam_eye;
     float3 camera_u, camera_v, camera_w;
 };
+typedef Record<RayGenData> RayGenRecord;
 
 struct MissData
 {
     float3 bg_color;
 };
+typedef Record<MissData> MissRecord;
+
+struct Phong
+{
+    float3 Ka;
+    float3 Kd;
+    float3 Ks;
+    float3 Kr;
+    float phong_exp;
+};
+
+struct Glass
+{
+    float importance_cutoff;
+    float3 cutoff_color;
+    float fresnel_exponent;
+    float fresnel_minimum;
+    float fresnel_maximum;
+    float refraction_index;
+    float3 refraction_color;
+    float3 reflection_color;
+    float3 extinction_constant;
+    float3 shadow_attenuation;
+    int refraction_maxdepth;
+    int reflection_maxdepth;
+};
+
+struct CheckerPhong
+{
+    float3 Kd1, Kd2;
+    float3 Ka1, Ka2;
+    float3 Ks1, Ks2;
+    float3 Kr1, Kr2;
+    float phong_exp1, phong_exp2;
+    float2 inv_checker_size;
+};
+
+struct HitGroupData
+{
+    union
+    {
+        GeometryData::Sphere sphere;
+        GeometryData::Cylinder cylinder;
+        GeometryData::Cone cone;
+        GeometryData::Parallelogram parallelogram;
+    } geometry;
+
+    union
+    {
+        Phong phong;
+        Glass glass;
+        CheckerPhong checker;
+    } shading;
+};
+typedef Record<HitGroupData> HitGroupRecord;
 
 struct RadiancePRD
 {
@@ -140,29 +186,4 @@ struct OcclusionPRD
 {
     float3 attenuation;
 };
-
-struct Phong
-{
-    float3 Ka;
-    float3 Kd;
-    float3 Ks;
-    float3 Kr;
-    float phong_exp;
-};
-
-struct HitGroupData
-{
-    union
-    {
-        GeometryData::Sphere sphere;
-        GeometryData::Cylinder cylinder;
-        GeometryData::Cone cone;
-    } geometry;
-
-    union
-    {
-        Phong phong;
-    } shading;
-};
-
 } // namespace brayns

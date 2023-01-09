@@ -23,22 +23,31 @@
 
 #include "GeometryData.h"
 
+// #define TEST_AABB
+
 namespace brayns
 {
 extern "C" __global__ void __intersection__sphere()
 {
-    const GeometryData::Sphere* sphere =
-        reinterpret_cast<GeometryData::Sphere*>(optixGetSbtDataPointer());
+    // const int primID = optixGetPrimitiveIndex();
+    const SphereHitGroupData* hit_group_data =
+        reinterpret_cast<SphereHitGroupData*>(
+            optixGetSbtDataPointer()); // + primID * sizeof(SphereHitGroupData);
+
+#ifdef TEST_AABB
+    optixReportIntersection(0, 0, float3_as_uints(make_float3(0, 0, -1)),
+                            __float_as_uint(0.25f));
+    return;
+#endif
 
     const float3 ray_orig = optixGetWorldRayOrigin();
     const float3 ray_dir = optixGetWorldRayDirection();
     const float ray_tmin = optixGetRayTmin();
     const float ray_tmax = optixGetRayTmax();
 
-    // const int primID = optixGetPrimitiveIndex();
     // const float3 center = make_float3(primID, 0.f, 0.f);
-    const float3 center = sphere->center;
-    const float radius = sphere->radius;
+    const float3 center = hit_group_data->sphere.center;
+    const float radius = hit_group_data->sphere.radius;
 
     const float3 O = ray_orig - center;
     const float l = 1.0f / length(ray_dir);

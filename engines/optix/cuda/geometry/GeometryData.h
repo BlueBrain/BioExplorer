@@ -59,6 +59,15 @@ struct Vec4f
     float x, y, z, w;
 };
 
+template <typename T>
+struct Record
+{
+    __align__(OPTIX_SBT_RECORD_ALIGNMENT)
+
+        char header[OPTIX_SBT_RECORD_HEADER_SIZE];
+    T data;
+};
+
 struct GeometryData
 {
     enum Type
@@ -86,6 +95,41 @@ struct GeometryData
                                                     // float2
         BufferView<Vec4f> colors; // The buffer view may not be aligned, so
                                   // don't use float4
+    };
+
+    enum SphereShellHitType
+    {
+        HIT_OUTSIDE_FROM_OUTSIDE = 1u << 0,
+        HIT_OUTSIDE_FROM_INSIDE = 1u << 1,
+        HIT_INSIDE_FROM_OUTSIDE = 1u << 2,
+        HIT_INSIDE_FROM_INSIDE = 1u << 3
+    };
+
+    struct SphereShell
+    {
+        float3 center;
+        float radius1;
+        float radius2;
+    };
+
+    struct Parallelogram
+    {
+        Parallelogram() = default;
+        Parallelogram(float3 _v1, float3 _v2, float3 _anchor)
+            : v1(_v1)
+            , v2(_v2)
+            , anchor(_anchor)
+        {
+            float3 normal = normalize(cross(v1, v2));
+            float d = dot(normal, anchor);
+            this->v1 *= 1.0f / dot(v1, v1);
+            this->v2 *= 1.0f / dot(v2, v2);
+            plane = make_float4(normal, d);
+        }
+        float4 plane;
+        float3 v1;
+        float3 v2;
+        float3 anchor;
     };
 
     struct Sphere
@@ -128,4 +172,10 @@ struct GeometryData
         Curves curves;
     };
 };
+
+struct SphereHitGroupData
+{
+    GeometryData::Sphere sphere;
+};
+
 } // namespace brayns
