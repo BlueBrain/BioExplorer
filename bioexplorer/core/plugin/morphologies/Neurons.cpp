@@ -112,6 +112,9 @@ void Neurons::_buildNeurons()
     const auto somas =
         connector.getNeurons(_details.populationName, sqlNodeFilter);
 
+    if(somas.empty())
+        PLUGIN_THROW("Selection returned no nodes");
+
     PLUGIN_INFO(1, "Building " << somas.size() << " neurons");
     _logRealismParams();
 
