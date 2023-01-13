@@ -67,8 +67,18 @@ inline vec3f VoxelRenderer_shadeRay(const uniform VoxelRenderer* uniform self,
         postIntersect(self->super.super.model, dg, ray,
                       DG_FACEFORWARD | DG_MATERIALID);
 
-        const vec4f colorContribution =
-            getSimulationValue(&self->super, &dg, ray.primID);
+        uniform Material* material = dg.material;
+        uniform AdvancedMaterial* objMaterial =
+            (uniform AdvancedMaterial*)material;
+
+        bool castUserData = false;
+        if (objMaterial)
+            foreach_unique(mat in objMaterial) castUserData = mat->castUserData;
+
+        vec4f colorContribution = make_vec4f(0.f);
+        if (castUserData && self->super.simulationDataSize > 0)
+            colorContribution =
+                getSimulationValue(&self->super, &dg, ray.primID);
 
         if (colorContribution.w > self->simulationThreshold)
         {

@@ -87,6 +87,7 @@ using Vector2uis = std::vector<Vector2ui>;
 using Vector3uis = std::vector<Vector3ui>;
 using uint32_ts = std::vector<uint32_t>;
 using uint64_ts = std::vector<uint64_t>;
+using uint64_tm = std::map<uint64_t, uint64_t>;
 using CommandLineArguments = std::map<std::string, std::string>;
 using Transformations = std::vector<Transformation>;
 

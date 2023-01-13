@@ -879,11 +879,12 @@ uint64_ts DBConnector::getNeuronSpikeReportValues(
     return spikes;
 }
 
-uint64_ts DBConnector::getNeuronSomaReportGuids(
-    const std::string& populationName, const uint64_t reportId) const
+uint64_tm DBConnector::getNeuronSomaReportGuids(
+    const std::string& populationName, const uint64_t reportId,
+    const std::string& sqlCondition) const
 {
     CHECK_DB_INITIALIZATION
-    uint64_ts guids;
+    std::map<uint64_t, uint64_t> guids;
     const uint64_t elementSize = sizeof(uint64_t);
     Timer chrono;
     pqxx::nontransaction transaction(
@@ -892,15 +893,18 @@ uint64_ts DBConnector::getNeuronSomaReportGuids(
     {
         const std::string sql =
             "SELECT node_guid FROM " + populationName +
-            ".simulated_node WHERE report_guid=" + std::to_string(reportId) +
-            " ORDER BY node_guid";
+            ".simulated_node WHERE " +
+            (sqlCondition.empty()
+                 ? ""
+                 : "node_guid IN (SELECT guid FROM " + populationName +
+                       ".node WHERE " + sqlCondition + ") AND ") +
+            "report_guid=" + std::to_string(reportId) + " ORDER BY node_guid";
         PLUGIN_DB_DEBUG(sql);
         const auto res = transaction.exec(sql);
-        guids.resize(res.size());
         uint64_t count = 0;
         for (auto c = res.begin(); c != res.end(); ++c)
         {
-            guids[count] = c[0].as<uint64_t>();
+            guids[c[0].as<uint64_t>()] = count;
             ++count;
         }
     }
