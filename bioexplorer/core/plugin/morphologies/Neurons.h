@@ -74,7 +74,8 @@ private:
 
     void _buildSomasOnly(ThreadSafeContainer& container,
                          const NeuronSomaMap& somas,
-                         const size_t baseMaterialId);
+                         const size_t baseMaterialId,
+                         const uint64_tm& simulatedNodesMapping);
 
     void _buildOrientations(ThreadSafeContainer& container,
                             const NeuronSomaMap& somas,
@@ -82,7 +83,8 @@ private:
 
     void _buildMorphology(ThreadSafeContainer& container,
                           const uint64_t neuronId, const NeuronSoma& soma,
-                          const uint64_t neuronIndex);
+                          const uint64_t neuronIndex,
+                          const uint64_tm& simulatedNodesMapping);
 
     void _addArrow(ThreadSafeContainer& container, const uint64_t neuronId,
                    const Vector3d& somaPosition,

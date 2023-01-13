@@ -298,14 +298,15 @@ public:
                                          const double endTime) const;
 
     /**
-     * @brief Get the Neuron Soma Report Guids object
+     * @brief Get the Neuron Soma Report Guids
      *
-     * @param populationName
-     * @param reportId
-     * @return uin64_ts
+     * @param populationName Name of the population
+     * @param reportId Simulation report identifier
+     * @return uint64_tm Neuron Soma Report Guids
      */
-    uint64_ts getNeuronSomaReportGuids(const std::string& populationName,
-                                       const uint64_t reportId) const;
+    uint64_tm getNeuronSomaReportGuids(
+        const std::string& populationName, const uint64_t reportId,
+        const std::string& sqlCondition = "") const;
 
     /**
      * @brief Get the Neuron soma simulation values
