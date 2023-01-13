@@ -1179,13 +1179,12 @@ Response BioExplorerPlugin::_addGrid(const AddGridDetails &payload)
         const Vector3d grey = {0.5, 0.5, 0.5};
 
         PropertyMap props;
-        props.setProperty({MATERIAL_PROPERTY_SHADING_MODE,
-                           static_cast<int>(MaterialShadingMode::basic)});
+        props.setProperty({MATERIAL_PROPERTY_SHADING_MODE, 0});
         props.setProperty({MATERIAL_PROPERTY_USER_PARAMETER, 1.0});
-        props.setProperty(
-            {MATERIAL_PROPERTY_CHAMELEON_MODE,
-             static_cast<int>(
-                 MaterialChameleonMode::undefined_chameleon_mode)});
+        props.setProperty({MATERIAL_PROPERTY_CHAMELEON_MODE, 0});
+        props.setProperty({MATERIAL_PROPERTY_CAST_USER_DATA, false});
+        props.setProperty({MATERIAL_PROPERTY_NODE_ID, 0});
+        props.setProperty({MATERIAL_PROPERTY_CLIPPING_MODE, 0});
 
         auto material = model->createMaterial(0, "x");
         material->setDiffuseColor(grey);
@@ -1265,13 +1264,12 @@ Response BioExplorerPlugin::_addGrid(const AddGridDetails &payload)
             const double l2 = l * 0.90;
 
             PropertyMap props;
+            props.setProperty({MATERIAL_PROPERTY_SHADING_MODE, 0});
             props.setProperty({MATERIAL_PROPERTY_USER_PARAMETER, 1.0});
-            props.setProperty({MATERIAL_PROPERTY_SHADING_MODE,
-                               static_cast<int>(MaterialShadingMode::basic)});
-            props.setProperty(
-                {MATERIAL_PROPERTY_CHAMELEON_MODE,
-                 static_cast<int>(
-                     MaterialChameleonMode::undefined_chameleon_mode)});
+            props.setProperty({MATERIAL_PROPERTY_CHAMELEON_MODE, 0});
+            props.setProperty({MATERIAL_PROPERTY_CAST_USER_DATA, false});
+            props.setProperty({MATERIAL_PROPERTY_NODE_ID, 0});
+            props.setProperty({MATERIAL_PROPERTY_CLIPPING_MODE, 0});
 
             // X
             material = model->createMaterial(4, "x_axis");
@@ -1337,13 +1335,12 @@ Response BioExplorerPlugin::_addSphere(const AddSphereDetails &payload)
         auto model = scene.createModel();
 
         PropertyMap props;
-        props.setProperty({MATERIAL_PROPERTY_SHADING_MODE,
-                           static_cast<int>(MaterialShadingMode::electron)});
+        props.setProperty({MATERIAL_PROPERTY_SHADING_MODE, 0});
         props.setProperty({MATERIAL_PROPERTY_USER_PARAMETER, 1.0});
-        props.setProperty(
-            {MATERIAL_PROPERTY_CHAMELEON_MODE,
-             static_cast<int>(
-                 MaterialChameleonMode::undefined_chameleon_mode)});
+        props.setProperty({MATERIAL_PROPERTY_CHAMELEON_MODE, 0});
+        props.setProperty({MATERIAL_PROPERTY_CAST_USER_DATA, false});
+        props.setProperty({MATERIAL_PROPERTY_NODE_ID, 0});
+        props.setProperty({MATERIAL_PROPERTY_CLIPPING_MODE, 0});
 
         const auto color = doublesToVector3d(payload.color);
         const auto position = doublesToVector3d(payload.position);
@@ -1379,13 +1376,12 @@ Response BioExplorerPlugin::_addCone(const AddConeDetails &payload)
         auto model = scene.createModel();
 
         PropertyMap props;
-        props.setProperty({MATERIAL_PROPERTY_SHADING_MODE,
-                           static_cast<int>(MaterialShadingMode::electron)});
+        props.setProperty({MATERIAL_PROPERTY_SHADING_MODE, 0});
         props.setProperty({MATERIAL_PROPERTY_USER_PARAMETER, 1.0});
-        props.setProperty(
-            {MATERIAL_PROPERTY_CHAMELEON_MODE,
-             static_cast<int>(
-                 MaterialChameleonMode::undefined_chameleon_mode)});
+        props.setProperty({MATERIAL_PROPERTY_CHAMELEON_MODE, 0});
+        props.setProperty({MATERIAL_PROPERTY_CAST_USER_DATA, false});
+        props.setProperty({MATERIAL_PROPERTY_NODE_ID, 0});
+        props.setProperty({MATERIAL_PROPERTY_CLIPPING_MODE, 0});
 
         const auto color = doublesToVector3d(payload.color);
         const auto origin = doublesToVector3d(payload.origin);
@@ -1429,13 +1425,12 @@ Response BioExplorerPlugin::_addBoundingBox(
         auto model = scene.createModel();
 
         PropertyMap props;
-        props.setProperty({MATERIAL_PROPERTY_SHADING_MODE,
-                           static_cast<int>(MaterialShadingMode::diffuse)});
+        props.setProperty({MATERIAL_PROPERTY_SHADING_MODE, 0});
         props.setProperty({MATERIAL_PROPERTY_USER_PARAMETER, 1.0});
-        props.setProperty(
-            {MATERIAL_PROPERTY_CHAMELEON_MODE,
-             static_cast<int>(
-                 MaterialChameleonMode::undefined_chameleon_mode)});
+        props.setProperty({MATERIAL_PROPERTY_CHAMELEON_MODE, 0});
+        props.setProperty({MATERIAL_PROPERTY_CAST_USER_DATA, false});
+        props.setProperty({MATERIAL_PROPERTY_NODE_ID, 0});
+        props.setProperty({MATERIAL_PROPERTY_CLIPPING_MODE, 0});
 
         const auto color = doublesToVector3d(payload.color);
         auto material = model->createMaterial(0, "BoundingBox");
@@ -1506,13 +1501,12 @@ Response BioExplorerPlugin::_addBox(const AddBoxDetails &details)
 
         const size_t materialId = 0;
         PropertyMap props;
-        props.setProperty({MATERIAL_PROPERTY_SHADING_MODE,
-                           static_cast<int>(MaterialShadingMode::diffuse)});
+        props.setProperty({MATERIAL_PROPERTY_SHADING_MODE, 0});
         props.setProperty({MATERIAL_PROPERTY_USER_PARAMETER, 1.0});
-        props.setProperty(
-            {MATERIAL_PROPERTY_CHAMELEON_MODE,
-             static_cast<int>(
-                 MaterialChameleonMode::undefined_chameleon_mode)});
+        props.setProperty({MATERIAL_PROPERTY_CHAMELEON_MODE, 0});
+        props.setProperty({MATERIAL_PROPERTY_CAST_USER_DATA, false});
+        props.setProperty({MATERIAL_PROPERTY_NODE_ID, 0});
+        props.setProperty({MATERIAL_PROPERTY_CLIPPING_MODE, 0});
 
         const auto color = doublesToVector3d(details.color);
         auto material = model->createMaterial(0, "Box");
@@ -1573,13 +1567,12 @@ Response BioExplorerPlugin::_addStreamlines(
         // Create material
         const auto materialId = 0;
         PropertyMap props;
-        props.setProperty({MATERIAL_PROPERTY_SHADING_MODE,
-                           static_cast<int>(MaterialShadingMode::diffuse)});
+        props.setProperty({MATERIAL_PROPERTY_SHADING_MODE, 0});
         props.setProperty({MATERIAL_PROPERTY_USER_PARAMETER, 1.0});
-        props.setProperty(
-            {MATERIAL_PROPERTY_CHAMELEON_MODE,
-             static_cast<int>(
-                 MaterialChameleonMode::undefined_chameleon_mode)});
+        props.setProperty({MATERIAL_PROPERTY_CHAMELEON_MODE, 0});
+        props.setProperty({MATERIAL_PROPERTY_CAST_USER_DATA, false});
+        props.setProperty({MATERIAL_PROPERTY_NODE_ID, 0});
+        props.setProperty({MATERIAL_PROPERTY_CLIPPING_MODE, 0});
 
         auto material = model->createMaterial(0, "Streamlines");
         material->setDiffuseColor({1, 1, 1});
@@ -1956,14 +1949,12 @@ Response BioExplorerPlugin::_buildPointCloud(
         auto material = model->createMaterial(materialId, "Point cloud");
 
         PropertyMap props;
-        props.setProperty({MATERIAL_PROPERTY_SHADING_MODE,
-                           static_cast<int>(MaterialShadingMode::basic)});
+        props.setProperty({MATERIAL_PROPERTY_SHADING_MODE, 0});
         props.setProperty({MATERIAL_PROPERTY_USER_PARAMETER, 1.0});
-        props.setProperty(
-            {MATERIAL_PROPERTY_CHAMELEON_MODE,
-             static_cast<int>(
-                 MaterialChameleonMode::undefined_chameleon_mode)});
-        props.setProperty({MATERIAL_PROPERTY_NODE_ID, static_cast<int>(0)});
+        props.setProperty({MATERIAL_PROPERTY_CHAMELEON_MODE, 0});
+        props.setProperty({MATERIAL_PROPERTY_CAST_USER_DATA, false});
+        props.setProperty({MATERIAL_PROPERTY_NODE_ID, 0});
+        props.setProperty({MATERIAL_PROPERTY_CLIPPING_MODE, 0});
 
         material->setDiffuseColor({1.0, 1.0, 1.0});
         material->updateProperties(props);

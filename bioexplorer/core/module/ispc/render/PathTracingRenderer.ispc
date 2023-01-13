@@ -84,14 +84,18 @@ inline vec3f pathTracingContribution(
         uniform AdvancedMaterial* objMaterial =
             (uniform AdvancedMaterial*)material;
 
+        bool castUserData = false;
         if (!objMaterial)
             Kd = make_vec3f(dg.color);
         else
-            foreach_unique(mat in objMaterial) Kd =
-                mat->Kd * make_vec3f(dg.color);
+            foreach_unique(mat in objMaterial)
+            {
+                Kd = mat->Kd * make_vec3f(dg.color);
+                castUserData = mat->castUserData;
+            }
 
         vec4f simulationColor = make_vec4f(0.f);
-        if (self->super.simulationDataSize > 0)
+        if (castUserData && self->super.simulationDataSize > 0)
             simulationColor =
                 getSimulationValue(&self->super, &dg, localray.primID);
         Kd = make_vec3f(simulationColor) * simulationColor.w +
@@ -199,6 +203,7 @@ inline vec3f PathTracingRenderer_shadeRay(
             vec3f Kd = make_vec3f(0.f);
             vec3f Ks = make_vec3f(0.f);
             float Ns = 0.f;
+            bool castUserData = false;
 
             if (!objMaterial)
             {
@@ -246,11 +251,14 @@ inline vec3f PathTracingRenderer_shadeRay(
                     // Emissive mapping
                     if (valid(mat->map_a))
                         Kd = Kd + get3f(mat->map_a, dg);
+
+                    // User data
+                    castUserData = objMaterial->castUserData;
                 }
 
             // Simulation
             vec4f simulationColor = make_vec4f(0.f);
-            if (self->super.simulationDataSize > 0)
+            if (castUserData && self->super.simulationDataSize > 0)
                 simulationColor =
                     getSimulationValue(&self->super, &dg, ray.primID);
             Kd = make_vec3f(simulationColor) * simulationColor.w +
