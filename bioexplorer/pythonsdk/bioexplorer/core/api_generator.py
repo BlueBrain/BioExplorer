@@ -36,8 +36,13 @@ import python_jsonschema_objects as pjs
 
 import rockets
 
-from .utils import HTTP_METHOD_PUT, SCHEMA_ENDPOINT, add_method, add_progress_cancel_widget, \
-                   underscorize
+from .utils import (
+    HTTP_METHOD_PUT,
+    SCHEMA_ENDPOINT,
+    add_method,
+    add_progress_cancel_widget,
+    underscorize,
+)
 
 
 def build_api(target_object, registry, schemas):
@@ -53,13 +58,13 @@ def build_api(target_object, registry, schemas):
         if registry_entry in schemas:
             schema = schemas[registry_entry]
         elif registry_entry.endswith(SCHEMA_ENDPOINT):
-            method_name = registry_entry[:-len(SCHEMA_ENDPOINT)]
+            method_name = registry_entry[: -len(SCHEMA_ENDPOINT)]
             schema = schemas[method_name]
 
-        if 'type' not in schema:
+        if "type" not in schema:
             continue
 
-        if 'method' in schema['type']:
+        if "method" in schema["type"]:
             _add_method(target_object, schema)
             continue
         if registry_entry.endswith(SCHEMA_ENDPOINT):
@@ -87,13 +92,13 @@ def _try_add_property(target_object, registry_entry, schema, writeable):
 
     # find the generated class name that matches our schema root title
     for c in class_names:
-        if c.lower() == schema['title'].lower():
+        if c.lower() == schema["title"].lower():
             class_name = c
             break
 
     class_type = getattr(classes, class_name)
 
-    is_object = schema['type'] == 'object'
+    is_object = schema["type"] == "object"
     if is_object:
         value = class_type()
         _add_enums(value, target_object)
@@ -103,25 +108,27 @@ def _try_add_property(target_object, registry_entry, schema, writeable):
         value = class_type(())
 
     # add member and property to target_object
-    member = '_' + underscorize(os.path.basename(registry_entry))
+    member = "_" + underscorize(os.path.basename(registry_entry))
     setattr(target_object, member, value)
-    _add_property(target_object, member, registry_entry, schema['type'] == 'array')
+    _add_property(target_object, member, registry_entry, schema["type"] == "array")
 
 
 def _make_arg_list(param):
-    required = param['required'] if 'required' in param else list()
+    required = param["required"] if "required" in param else list()
     optional = list()
-    for s in param['properties'].keys():
+    for s in param["properties"].keys():
         if s not in required:
-            optional.append(s + '=None')
-    arg_list = ', '.join(required)
+            optional.append(s + "=None")
+    arg_list = ", ".join(required)
     if optional and required:
-        arg_list += ', '
-    arg_list += ', '.join(filter(None, optional))
+        arg_list += ", "
+    arg_list += ", ".join(filter(None, optional))
     return arg_list
 
 
-def _add_method_with_object_arg(target_object, param, method, description, is_async, is_request):
+def _add_method_with_object_arg(
+    target_object, param, method, description, is_async, is_request
+):
     """
     Add a method to cls where each property of the param object is a key-value argument.
 
@@ -135,53 +142,65 @@ def _add_method_with_object_arg(target_object, param, method, description, is_as
     arg_list = _make_arg_list(param)
     func_name = str(underscorize(os.path.basename(method)))
     cls = target_object.__class__
-    params = 'params={k:v for k,v in args.items() if v is not None}'
+    params = "params={k:v for k,v in args.items() if v is not None}"
     if is_request:
         if isinstance(target_object.rockets_client, rockets.AsyncClient):
             if is_async:
-                code = '''
+                code = """
                     def function(self, {0}):
                         args = locals()
                         del args['self']
                         return self.rockets_client.async_request("{1}", {2})
-                    '''.format(arg_list, method, params)
+                    """.format(
+                    arg_list, method, params
+                )
             else:
-                code = '''
+                code = """
                     async def function(self, {0}):
                         args = locals()
                         del args['self']
                         return await self.rockets_client.request("{1}", {2})
-                    '''.format(arg_list, method, params)
+                    """.format(
+                    arg_list, method, params
+                )
         else:
-            code = '''
+            code = """
                 def function(self, {0}, response_timeout=None):
                     args = locals()
                     del args['self']
                     return self.rockets_client.request("{1}", {2})
-                '''.format(arg_list, method, params)
+                """.format(
+                arg_list, method, params
+            )
     else:
         if isinstance(target_object.rockets_client, rockets.AsyncClient):
-            code = '''
+            code = """
                 async def function(self, {0}):
                     args = locals()
                     del args['self']
                     return await self.rockets_client.notify("{1}", {2})
-                '''.format(arg_list, method, params)
+                """.format(
+                arg_list, method, params
+            )
         else:
-            code = '''
+            code = """
                 def function(self, {0}):
                     args = locals()
                     del args['self']
                     return self.rockets_client.notify("{1}", {2})
-                '''.format(arg_list, method, params)
+                """.format(
+                arg_list, method, params
+            )
 
     d = {}
     exec(code.strip(), d)  # pylint: disable=W0122
-    function = d['function']
+    function = d["function"]
     add_method(cls, func_name, description)(add_progress_cancel_widget(function))
 
 
-def _add_method_with_array_arg(target_object, param, method, description, is_async, is_request):
+def _add_method_with_array_arg(
+    target_object, param, method, description, is_async, is_request
+):
     """
     Add a method to cls where the argument is an array.
 
@@ -192,38 +211,49 @@ def _add_method_with_array_arg(target_object, param, method, description, is_asy
     :param bool is_async: if the RPC is processed asynchronously or not
     :param bool is_request: if the RPC is a request with a response or a notification only
     """
-    if 'description' in param:
-        description += '\n:param {0}: {1}'.format(param['name'], param['description'])
+    if "description" in param:
+        description += "\n:param {0}: {1}".format(param["name"], param["description"])
     func_name = str(underscorize(os.path.basename(method)))
     cls = target_object.__class__
     if is_request:
         if isinstance(target_object.rockets_client, rockets.AsyncClient):
             if is_async:
+
                 @add_method(cls, func_name, description)
                 @add_progress_cancel_widget
                 def function(self, array):  # pylint: disable=C0111,W0612
                     return self.rockets_client.async_request(method, array)
+
             else:
+
                 @add_method(cls, func_name, description)
                 @add_progress_cancel_widget
                 async def function(self, array):  # pylint: disable=C0111,W0612
                     return await self.rockets_client.request(method, array)
+
         else:
+
             @add_method(cls, func_name, description)
             def function(self, array, response_timeout=None):  # pylint: disable=C0111
                 return self.rockets_client.request(method, array, response_timeout)
+
     else:
         if isinstance(target_object.rockets_client, rockets.AsyncClient):
+
             @add_method(cls, func_name, description)
             async def function(self, array):  # pylint: disable=C0111
                 await self.rockets_client.notify(method, array)
+
         else:
+
             @add_method(cls, func_name, description)
             def function(self, array):  # pylint: disable=C0111
                 self.rockets_client.notify(method, array)
 
 
-def _add_method_with_oneof_arg(target_object, method, description, is_async, is_request):
+def _add_method_with_oneof_arg(
+    target_object, method, description, is_async, is_request
+):
     """
     Add a method to cls where the argument is from a oneOf array.
 
@@ -238,25 +268,36 @@ def _add_method_with_oneof_arg(target_object, method, description, is_async, is_
     if is_request:
         if isinstance(target_object.rockets_client, rockets.AsyncClient):
             if is_async:
+
                 @add_method(cls, func_name, description)
                 @add_progress_cancel_widget
                 def function(self, params):  # pylint: disable=C0111,W0612
                     return self.rockets_client.async_request(method, params.for_json())
+
             else:
+
                 @add_method(cls, func_name, description)
                 @add_progress_cancel_widget
                 async def function(self, params):  # pylint: disable=C0111,W0612
                     return await self.rockets_client.request(method, params.for_json())
+
         else:
+
             @add_method(cls, func_name, description)
             def function(self, params, response_timeout=None):  # pylint: disable=C0111
-                return self.rockets_client.request(method, params.for_json(), response_timeout)
+                return self.rockets_client.request(
+                    method, params.for_json(), response_timeout
+                )
+
     else:
         if isinstance(target_object.rockets_client, rockets.AsyncClient):
+
             @add_method(cls, func_name, description)
             async def function(self, params):  # pylint: disable=C0111
                 await self.rockets_client.notify(method, params.for_json())
+
         else:
+
             @add_method(cls, func_name, description)
             def function(self, params):  # pylint: disable=C0111
                 self.rockets_client.notify(method, params.for_json())
@@ -277,24 +318,35 @@ def _add_method_with_no_args(target_object, method, description, is_async, is_re
     if is_request:
         if isinstance(target_object.rockets_client, rockets.AsyncClient):
             if is_async:
+
                 @add_method(cls, func_name, description)
                 @add_progress_cancel_widget
                 def _function(self):
                     return self.rockets_client.async_request(method)
+
             else:
+
                 @add_method(cls, func_name, description)
                 async def _function(self):
                     return await self.rockets_client.request(method)
+
         else:
+
             @add_method(cls, func_name, description)
             def _function(self, response_timeout=None):
-                return self.rockets_client.request(method, response_timeout=response_timeout)
+                return self.rockets_client.request(
+                    method, response_timeout=response_timeout
+                )
+
     else:
         if isinstance(target_object.rockets_client, rockets.AsyncClient):
+
             @add_method(cls, func_name, description)
             async def _function(self):  # pylint: disable=C0111
                 await self.rockets_client.notify(method)
+
         else:
+
             @add_method(cls, func_name, description)
             def _function(self):  # pylint: disable=C0111
                 self.rockets_client.notify(method)
@@ -315,7 +367,7 @@ def _add_enums_from_oneof_types(target_object, param, method):
         # find the generated class name that matches our schema root title
         class_name = None
         for c in class_names:
-            if c.lower() == inflection.camelize(o['title'].replace(' ', '_')).lower():
+            if c.lower() == inflection.camelize(o["title"].replace(" ", "_")).lower():
                 class_name = c
                 break
 
@@ -342,20 +394,20 @@ def _add_enums(root_object, target_object):
     for i in root_object.keys():
         enum = None
         propinfo = root_object.propinfo(i)
-        if 'enum' in propinfo:
+        if "enum" in propinfo:
             enum = propinfo
-        if propinfo['type'] == 'array':
-            if 'enum' in propinfo['items']:
-                enum = propinfo['items']
+        if propinfo["type"] == "array":
+            if "enum" in propinfo["items"]:
+                enum = propinfo["items"]
         if not enum:
             continue
 
         enum_class = str(i).upper()
-        if 'title' in enum:
-            enum_class = str(inflection.underscore(enum['title'])).upper()
+        if "title" in enum:
+            enum_class = str(inflection.underscore(enum["title"])).upper()
         enum_class += "_"
-        for val in enum['enum']:
-            enum_value = enum_class + inflection.parameterize(val, '_').upper()
+        for val in enum["enum"]:
+            enum_value = enum_class + inflection.parameterize(val, "_").upper()
             setattr(target_object, enum_value, val)
 
 
@@ -367,34 +419,42 @@ def _add_method(target_object, schema):
     :param dict schema: schema containing name, description, params of the RPC
     :raises Exception: if the param type of the RPC does not match oneOf, object or array
     """
-    method = schema['title']
+    method = schema["title"]
 
-    if 'params' in schema and len(schema['params']) > 1:
+    if "params" in schema and len(schema["params"]) > 1:
         print("Multiple arguments for RPC '{0}' not supported".format(method))
         return
 
-    description = schema['description']
-    is_async = schema['async']
-    is_request = 'returns' in schema and schema['returns']
+    description = schema["description"]
+    is_async = schema["async"]
+    is_request = "returns" in schema and schema["returns"]
 
-    if 'params' in schema and len(schema['params']) == 1:
-        params = schema['params'][0]
-        if 'oneOf' in params:
-            _add_enums_from_oneof_types(target_object, params['oneOf'], method)
-            _add_method_with_oneof_arg(target_object, method, description, is_async, is_request)
+    if "params" in schema and len(schema["params"]) == 1:
+        params = schema["params"][0]
+        if "oneOf" in params:
+            _add_enums_from_oneof_types(target_object, params["oneOf"], method)
+            _add_method_with_oneof_arg(
+                target_object, method, description, is_async, is_request
+            )
         # in the absence of multiple argument support, create a function with multiple arguments
         # from object properties
-        elif params['type'] == 'object':
-            _add_method_with_object_arg(target_object, params, method, description,
-                                        is_async, is_request)
-        elif params['type'] == 'array':
-            _add_method_with_array_arg(target_object, params, method, description,
-                                       is_async, is_request)
+        elif params["type"] == "object":
+            _add_method_with_object_arg(
+                target_object, params, method, description, is_async, is_request
+            )
+        elif params["type"] == "array":
+            _add_method_with_array_arg(
+                target_object, params, method, description, is_async, is_request
+            )
         else:
-            raise Exception('Invalid argument type for method "{0}": '.format(method) +
-                            'must be "object", "array" or "oneOf"')
+            raise Exception(
+                'Invalid argument type for method "{0}": '.format(method)
+                + 'must be "object", "array" or "oneOf"'
+            )
     else:
-        _add_method_with_no_args(target_object, method, description, is_async, is_request)
+        _add_method_with_no_args(
+            target_object, method, description, is_async, is_request
+        )
 
 
 def _add_commit(rpc_client, property_type, object_name):
@@ -403,11 +463,11 @@ def _add_commit(rpc_client, property_type, object_name):
         """Wrapper for returning the property.commit() function."""
         def commit(prop):
             """Update the property in the remote side."""
-            return rpc_client.request('set-' + os.path.basename(url), prop.as_dict())
+            return rpc_client.request("set-" + os.path.basename(url), prop.as_dict())
 
         return commit
 
-    setattr(property_type, 'commit', commit_builder(object_name))
+    setattr(property_type, "commit", commit_builder(object_name))
 
 
 def _add_property(target_object, member, property_name, is_array):
@@ -426,17 +486,20 @@ def _add_property(target_object, member, property_name, is_array):
 
             rockets_client = target_object.rockets_client
             if not has_value or not rockets_client.connected():
+
                 def _init_value(value, new_value, is_array):
-                    if 'code' not in new_value:
+                    if "code" not in new_value:
                         if is_array:
                             value.__init__(new_value)
                         else:
                             value.__init__(**new_value)
 
-                GET_PROPERTY = 'get-'+property_name
+                GET_PROPERTY = "get-" + property_name
                 if isinstance(rockets_client, rockets.AsyncClient):
                     task = new_value = rockets_client.async_request(GET_PROPERTY)
-                    task.add_done_callback(lambda task: _init_value(value, task.result(), is_array))
+                    task.add_done_callback(
+                        lambda task: _init_value(value, task.result(), is_array)
+                    )
                     loop = asyncio.get_event_loop()
                     if not loop.is_running():
                         loop.run_until_complete(task)
@@ -452,6 +515,11 @@ def _add_property(target_object, member, property_name, is_array):
 
     endpoint_name = os.path.basename(property_name)
     snake_case_name = underscorize(endpoint_name)
-    setattr(type(target_object), snake_case_name,
-            property(fget=getter_builder(member, property_name),
-                     doc='Access to the {0} property'.format(endpoint_name)))
+    setattr(
+        type(target_object),
+        snake_case_name,
+        property(
+            fget=getter_builder(member, property_name),
+            doc="Access to the {0} property".format(endpoint_name),
+        ),
+    )

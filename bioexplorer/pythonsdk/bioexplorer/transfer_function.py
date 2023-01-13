@@ -35,9 +35,17 @@ from IPython.display import display
 class TransferFunction:
     """Transfer function widget"""
 
-    def __init__(self, bioexplorer, model_id, filename=None, name='rainbow',
-                 size=32, alpha=0.0, value_range=[0, 255],
-                 continuous_update=False):
+    def __init__(
+        self,
+        bioexplorer,
+        model_id,
+        filename=None,
+        name="rainbow",
+        size=32,
+        alpha=0.0,
+        value_range=[0, 255],
+        continuous_update=False,
+    ):
         """
         Initialize the TransferFunction object
 
@@ -83,7 +91,7 @@ class TransferFunction:
         self._color_pickers.clear()
 
         # Read colormap file
-        lines = tuple(open(filename, 'r'))
+        lines = tuple(open(filename, "r"))
         self._palette.clear()
         for line in lines:
             words = line.split()
@@ -101,11 +109,19 @@ class TransferFunction:
 
         :filename: Full file name of the transfer function
         """
-        with open(filename, 'w') as f:
-            f.write(str(len(self._palette)) + '\n')
+        with open(filename, "w") as f:
+            f.write(str(len(self._palette)) + "\n")
             for color in self._palette:
-                f.write(str(color[0]) + ' ' + str(color[1]) + ' ' + str(color[2]) + ' ' +
-                        str(color[3]) + '\n')
+                f.write(
+                    str(color[0])
+                    + " "
+                    + str(color[1])
+                    + " "
+                    + str(color[2])
+                    + " "
+                    + str(color[3])
+                    + "\n"
+                )
             f.close()
 
     def set_palette(self, name):
@@ -138,10 +154,9 @@ class TransferFunction:
         :index: Index of color in the Seaborn color palette
         """
         color = self._palette[index]
-        color_as_string = '#' \
-                          '%02x' % (int)(color[0] * 255) + \
-                          '%02x' % (int)(color[1] * 255) + \
-                          '%02x' % (int)(color[2] * 255)
+        color_as_string = "#" "%02x" % (int)(color[0] * 255) + "%02x" % (int)(
+            color[1] * 255
+        ) + "%02x" % (int)(color[2] * 255)
         return color_as_string
 
     def _update_colormap(self, change):
@@ -167,27 +182,33 @@ class TransferFunction:
         self.send_updates_to_renderer = False
         # Layout
         alpha_slider_item_layout = Layout(
-            overflow_x='hidden', height='180px', max_width='20px')
+            overflow_x="hidden", height="180px", max_width="20px"
+        )
         color_picker_item_layout = Layout(
-            overflow_x='hidden', height='20px', max_width='20px')
-        box_layout = Layout(display='inline-flex')
+            overflow_x="hidden", height="20px", max_width="20px"
+        )
+        box_layout = Layout(display="inline-flex")
 
         # Sliders
-        self._alpha_sliders = [widgets.IntSlider(
-            continuous_update=self._continuous_update,
-            layout=alpha_slider_item_layout,
-            description=str(i),
-            orientation='vertical',
-            readout=True,
-            value=self._palette[i][3] * 256, min=0, max=255, step=1
-        ) for i in range(len(self._palette))]
+        self._alpha_sliders = [
+            widgets.IntSlider(
+                continuous_update=self._continuous_update,
+                layout=alpha_slider_item_layout,
+                description=str(i),
+                orientation="vertical",
+                readout=True,
+                value=self._palette[i][3] * 256,
+                min=0,
+                max=255,
+                step=1,
+            )
+            for i in range(len(self._palette))
+        ]
 
         # Color pickers
         self._color_pickers = [
-            ColorPicker(
-                layout=color_picker_item_layout,
-                concise=True,
-                disabled=False) for i in range(len(self._palette))
+            ColorPicker(layout=color_picker_item_layout, concise=True, disabled=False)
+            for i in range(len(self._palette))
         ]
         # Display controls
         color_box = Box(children=self._color_pickers)
@@ -196,8 +217,8 @@ class TransferFunction:
 
         # Attach observers
         for i in range(len(self._palette)):
-            self._alpha_sliders[i].observe(self._update_colormap, names='value')
-            self._color_pickers[i].observe(self._update_colorpicker, names='value')
+            self._alpha_sliders[i].observe(self._update_colormap, names="value")
+            self._color_pickers[i].observe(self._update_colorpicker, names="value")
         display(box)
         self._send_updates_to_renderer = True
 
@@ -225,7 +246,7 @@ class TransferFunction:
                 float(color.red) / 255.0,
                 float(color.green) / 255.0,
                 float(color.blue) / 255.0,
-                float(self._alpha_sliders[i].value) / 255.0
+                float(self._alpha_sliders[i].value) / 255.0,
             ]
             self._palette[i] = c
         self._update_palette()
@@ -233,9 +254,9 @@ class TransferFunction:
     @staticmethod
     def _hex_to_rgb(value):
         """Concert hex value into RGB values"""
-        value = value.lstrip('#')
+        value = value.lstrip("#")
         lv = len(value)
-        return tuple(int(value[i:i + lv // 3], 16) for i in range(0, lv, lv // 3))
+        return tuple(int(value[i: i + lv // 3], 16) for i in range(0, lv, lv // 3))
 
     def _update_palette(self):
         """Update color palette"""
@@ -247,14 +268,17 @@ class TransferFunction:
         step = 1.0 / float(nb_points - 1)
         for i in range(nb_points):
             color = self._hex_to_rgb(self._color_pickers[i].value)
-            colors.append([
-                intensity * float(color[0]) / 256.0,
-                intensity * float(color[1]) / 256.0,
-                intensity * float(color[2]) / 256.0])
+            colors.append(
+                [
+                    intensity * float(color[0]) / 256.0,
+                    intensity * float(color[1]) / 256.0,
+                    intensity * float(color[2]) / 256.0,
+                ]
+            )
             points.append([i * step, self._alpha_sliders[i].value / 255.0])
 
-        btf['colormap']['name'] = 'TransferFunctionEditor'
-        btf['colormap']['colors'] = colors
-        btf['opacity_curve'] = points
-        btf['range'] = [self._value_range[0], self._value_range[1]]
+        btf["colormap"]["name"] = "TransferFunctionEditor"
+        btf["colormap"]["colors"] = colors
+        btf["opacity_curve"] = points
+        btf["range"] = [self._value_range[0], self._value_range[1]]
         self._core.set_model_transfer_function(id=self._model_id, transfer_function=btf)

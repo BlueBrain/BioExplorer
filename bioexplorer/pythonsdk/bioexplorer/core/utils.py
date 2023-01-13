@@ -33,20 +33,23 @@ from PIL import Image
 import requests
 import rockets
 
+from ipywidgets import FloatProgress, Label, HBox, VBox, Button
+from IPython.display import display
 
-HTTP_METHOD_PUT = 'PUT'
-HTTP_METHOD_GET = 'GET'
-HTTP_METHOD_DELETE = 'DELETE'
-HTTP_METHOD_POST = 'POST'
+
+HTTP_METHOD_PUT = "PUT"
+HTTP_METHOD_GET = "GET"
+HTTP_METHOD_DELETE = "DELETE"
+HTTP_METHOD_POST = "POST"
 HTTP_STATUS_OK = 200
 HTTP_RESPONSE_TIMEOUT = 3600
 
-HTTP_PREFIX = 'http://'
-HTTPS_PREFIX = 'https://'
+HTTP_PREFIX = "http://"
+HTTPS_PREFIX = "https://"
 
-WS_PATH = '/ws'
+WS_PATH = "/ws"
 
-SCHEMA_ENDPOINT = '/schema'
+SCHEMA_ENDPOINT = "/schema"
 
 
 class Status:
@@ -59,7 +62,9 @@ class Status:
 
 
 # pylint: disable=R0912
-def http_request(method, url, command, body=None, query_params=None):  # pragma: no cover
+def http_request(
+    method, url, command, body=None, query_params=None
+):  # pragma: no cover
     """
     Perform http requests to the given URL and return the applications' response.
 
@@ -70,37 +75,56 @@ def http_request(method, url, command, body=None, query_params=None):  # pragma:
     :param str query_params: the query params to append to the request url
     :return: JSON-encoded response of the request
     :rtype: Status
-    :raises Exception: on connection error
+    :raises ConnectionError: on connection error
+    :raises Exception: on any other error
     """
     full_url = url
     request = None
     full_url += command
     try:
         if method == HTTP_METHOD_POST:
-            if body == '':
-                request = requests.post(full_url, params=query_params,
-                                        timeout=HTTP_RESPONSE_TIMEOUT)
+            if body == "":
+                request = requests.post(
+                    full_url, params=query_params, timeout=HTTP_RESPONSE_TIMEOUT
+                )
             else:
-                request = requests.post(full_url, data=body, params=query_params,
-                                        timeout=HTTP_RESPONSE_TIMEOUT)
+                request = requests.post(
+                    full_url,
+                    data=body,
+                    params=query_params,
+                    timeout=HTTP_RESPONSE_TIMEOUT,
+                )
         elif method == HTTP_METHOD_PUT:
-            if body == '':
-                request = requests.put(full_url, params=query_params, timeout=HTTP_RESPONSE_TIMEOUT)
+            if body == "":
+                request = requests.put(
+                    full_url, params=query_params, timeout=HTTP_RESPONSE_TIMEOUT
+                )
             else:
-                request = requests.put(full_url, data=body, params=query_params,
-                                       timeout=HTTP_RESPONSE_TIMEOUT)
+                request = requests.put(
+                    full_url,
+                    data=body,
+                    params=query_params,
+                    timeout=HTTP_RESPONSE_TIMEOUT,
+                )
         elif method == HTTP_METHOD_GET:
-            request = requests.get(full_url, params=query_params, timeout=HTTP_RESPONSE_TIMEOUT)
+            request = requests.get(
+                full_url, params=query_params, timeout=HTTP_RESPONSE_TIMEOUT
+            )
             if request.status_code == 502:
-                raise requests.exceptions.ConnectionError('Bad Gateway 502')
+                raise requests.exceptions.ConnectionError("Bad Gateway 502")
         elif method == HTTP_METHOD_DELETE:
-            if body == '':
-                request = requests.delete(full_url, params=query_params,
-                                          timeout=HTTP_RESPONSE_TIMEOUT)
+            if body == "":
+                request = requests.delete(
+                    full_url, params=query_params, timeout=HTTP_RESPONSE_TIMEOUT
+                )
             else:
-                request = requests.delete(full_url, data=body, params=query_params,
-                                          timeout=HTTP_RESPONSE_TIMEOUT)
-        js = ''
+                request = requests.delete(
+                    full_url,
+                    data=body,
+                    params=query_params,
+                    timeout=HTTP_RESPONSE_TIMEOUT,
+                )
+        js = ""
         if request.content:
             if request.status_code == 200:
                 js = request.json(object_pairs_hook=OrderedDict)
@@ -109,8 +133,10 @@ def http_request(method, url, command, body=None, query_params=None):  # pragma:
         response = Status(request.status_code, js)
         request.close()
     except requests.exceptions.ConnectionError:
-        raise Exception('ERROR: Failed to connect to Brayns, did you start it with the '
-                        '--http-server command line option?')
+        raise Exception(
+            "ERROR: Failed to connect to Brayns, did you start it with the "
+            "--http-server command line option?"
+        ) from Exception
     return response
 
 
@@ -122,7 +148,7 @@ def in_notebook():
     other Python shell.
     :rtype: bool
     """
-    return 'ipykernel' in sys.modules
+    return "ipykernel" in sys.modules
 
 
 def set_http_protocol(url):
@@ -146,7 +172,7 @@ def underscorize(word):
     :return: the underscorized word
     :rtype: str
     """
-    return word.replace('-', '_')
+    return word.replace("-", "_")
 
 
 def add_method(cls, name, description):
@@ -165,8 +191,10 @@ def add_method(cls, name, description):
         @wraps(func)
         def _wrapper(self, *args, **kwargs):
             return func(self, *args, **kwargs)
+
         setattr(cls, name, _wrapper)
         return func
+
     return _decorator
 
 
@@ -183,12 +211,9 @@ def add_progress_cancel_widget(func):  # pragma: no cover
         result = func(self, *args, **kwargs)
 
         if isinstance(result, rockets.RequestTask) and in_notebook():
-            from ipywidgets import FloatProgress, Label, HBox, VBox, Button
-            from IPython.display import display
-
             progress = FloatProgress(min=0, max=1, value=0)
-            label = Label(value='')
-            button = Button(description='Cancel')
+            label = Label(value="")
+            button = Button(description="Cancel")
             box = VBox([label, HBox([progress, button])])
             display(box)
 
@@ -207,25 +232,26 @@ def add_progress_cancel_widget(func):  # pragma: no cover
             result.add_done_callback(_on_done)
 
         return result
+
     return _wrapper
 
 
 def obtain_registry(url):
     """Obtain the registry of exposed objects and RPCs from Brayns."""
-    status = http_request(HTTP_METHOD_GET, url, 'registry')
+    status = http_request(HTTP_METHOD_GET, url, "registry")
     if status.code != HTTP_STATUS_OK:
-        raise Exception('Failed to obtain registry from Brayns')
+        raise Exception("Failed to obtain registry from Brayns")
     return status.contents
 
 
 def build_schema_requests_from_registry(url):
     """Obtain the registry and return it alongside with a list of schema requests."""
     registry = obtain_registry(url)
-    endpoints = {x.replace(SCHEMA_ENDPOINT, '') for x in registry}
+    endpoints = {x.replace(SCHEMA_ENDPOINT, "") for x in registry}
 
     request_list = list()
     for endpoint in endpoints:
-        request_list.append(rockets.Request('schema', {'endpoint': endpoint}))
+        request_list.append(rockets.Request("schema", {"endpoint": endpoint}))
     return registry, request_list
 
 
@@ -235,10 +261,10 @@ def convert_snapshot_response_to_PIL(response):
         return None
 
     # error case: invalid request/parameters
-    if 'code' in response:
-        print(response['message'])
+    if "code" in response:
+        print(response["message"])
         return None
-    return Image.open(io.BytesIO(base64decode(response['data'])))
+    return Image.open(io.BytesIO(base64decode(response["data"])))
 
 
 def base64decode(data):
@@ -246,5 +272,5 @@ def base64decode(data):
     # https://stackoverflow.com/a/9807138
     missing_padding = len(data) % 4
     if missing_padding != 0:
-        data += b'=' * (4 - missing_padding)
+        data += b"=" * (4 - missing_padding)
     return base64.b64decode(data)

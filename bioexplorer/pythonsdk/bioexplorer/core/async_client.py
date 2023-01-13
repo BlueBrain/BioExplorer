@@ -22,10 +22,14 @@
 # You should have received a copy of the GNU General Public License along with
 # this program.  If not, see <https://www.gnu.org/licenses/>.
 
+# pylint: disable=invalid-overridden-method
+
 """Client that connects to a remote running Brayns instance which provides the supported API."""
 
 import asyncio
 import rockets
+
+from IPython.display import display
 
 from .base import BaseClient
 from .utils import build_schema_requests_from_registry, convert_snapshot_response_to_PIL
@@ -54,15 +58,25 @@ class AsyncClient(BaseClient, aobject):
         """
         super().__init__(url)
 
-        self.rockets_client = rockets.AsyncClient(url, subprotocols=['rockets'], loop=loop)
+        self.rockets_client = rockets.AsyncClient(
+            url, subprotocols=["rockets"], loop=loop
+        )
 
         registry, requests = build_schema_requests_from_registry(self.http_url)
         schemas = await self.rockets_client.batch(requests)
         super()._build_api(registry, requests, schemas)
 
     # pylint: disable=W0613,W0622,E1101
-    def image(self, size, format='jpg', animation_parameters=None, camera=None, quality=None,
-              renderer=None, samples_per_pixel=None):
+    def image(
+        self,
+        size,
+        format="jpg",
+        animation_parameters=None,
+        camera=None,
+        quality=None,
+        renderer=None,
+        samples_per_pixel=None,
+    ):
         """
         Request a snapshot from Brayns and return a PIL image.
 
@@ -77,7 +91,7 @@ class AsyncClient(BaseClient, aobject):
         :rtype: :py:class:`~asyncio.Future`
         """
         args = locals()
-        del args['self']
+        del args["self"]
         result = self.snapshot(**{k: v for k, v in args.items() if v})
 
         future = asyncio.get_event_loop().create_future()
@@ -90,7 +104,6 @@ class AsyncClient(BaseClient, aobject):
                     image = convert_snapshot_response_to_PIL(task.result())
                     if utils.in_notebook():  # pragma: no cover
                         if image:
-                            from IPython.display import display
                             display(image)
                     else:
                         future.set_result(image)
