@@ -106,7 +106,7 @@ void Neurons::_buildNeurons()
     auto model = _scene.createModel();
 
     // Simulation report
-    std::string sqlNodeFilter;
+    std::string sqlNodeFilter = _details.sqlNodeFilter;
     uint64_tm simulatedNodesMapping;
     if (_details.simulationReportId != -1)
     {
