@@ -309,6 +309,13 @@ public:
      */
     void addWhiteMatter(const WhiteMatterDetails &details);
 
+    /**
+     * @brief Add synapse efficacy report to the scene
+     *
+     * @param details Details of the synapse efficacy report
+     */
+    void addSynapseEfficacy(const SynapseEfficacyDetails &details);
+
 private:
     void _processInstances(
         ModelDescriptorPtr md, const std::string &name,
@@ -333,6 +340,7 @@ private:
     AstrocytesPtr _astrocytes{nullptr};
     NeuronsPtr _neurons{nullptr};
     WhiteMatterPtr _whiteMatter{nullptr};
+    SynapseEfficacyPtr _synapseEfficacy{nullptr};
 };
 } // namespace common
 } // namespace bioexplorer

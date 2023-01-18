@@ -82,9 +82,12 @@ using bools = std::vector<bool>;
 using doubles = std::vector<double>;
 using strings = std::vector<std::string>;
 using Vector3ds = std::vector<Vector3d>;
+using Vector3dm = std::map<uint64_t, Vector3d>;
 using Vector4ds = std::vector<Vector4d>;
 using Vector2uis = std::vector<Vector2ui>;
 using Vector3uis = std::vector<Vector3ui>;
+using uint8_ts = std::vector<uint8_t>;
+using uint8_tm = std::map<uint64_t, uint8_t>;
 using uint32_ts = std::vector<uint32_t>;
 using uint64_ts = std::vector<uint64_t>;
 using uint64_tm = std::map<uint64_t, uint64_t>;
@@ -1239,6 +1242,20 @@ typedef struct
     /** Scale of the streamlines in the scene */
     doubles scale{1.0, 1.0, 1.0};
 } WhiteMatterDetails;
+
+typedef struct
+{
+    /** Name of the assembly containing the white matter */
+    std::string assemblyName;
+    /** Name of the white matter population  */
+    std::string populationName;
+    /** Streamline radius */
+    double radius{1.0};
+    /** SQL filter for streamlines (WHERE condition) */
+    std::string sqlFilter;
+    /** Simulation report identifier */
+    int64_t simulationReportId{-1};
+} SynapseEfficacyDetails;
 } // namespace details
 
 namespace common
@@ -1540,7 +1557,8 @@ enum class ReportType
     undefined = 0,
     spike = 1,
     soma = 2,
-    compartment = 3
+    compartment = 3,
+    synapse_efficacy = 4
 };
 
 typedef struct
@@ -1578,6 +1596,9 @@ namespace connectomics
 class WhiteMatter;
 using WhiteMatterPtr = std::shared_ptr<WhiteMatter>;
 using WhiteMatterStreamlines = std::vector<Vector3fs>;
+
+class SynapseEfficacy;
+using SynapseEfficacyPtr = std::shared_ptr<SynapseEfficacy>;
 } // namespace connectomics
 
 namespace io

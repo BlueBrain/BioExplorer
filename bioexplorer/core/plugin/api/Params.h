@@ -118,8 +118,9 @@ bool from_json(NeuronIdSectionIdDetails &param, const std::string &payload);
 bool from_json(NeuronIdDetails &param, const std::string &payload);
 std::string to_json(const NeuronPointsDetails &param);
 
-// White matter
+// Connectomics
 bool from_json(WhiteMatterDetails &param, const std::string &payload);
+bool from_json(SynapseEfficacyDetails &param, const std::string &payload);
 
 // Utilities
 bool from_json(LookAtDetails &param, const std::string &payload);
