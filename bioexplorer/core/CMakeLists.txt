@@ -110,7 +110,9 @@ set(${NAME}_SOURCES
     plugin/morphologies/CompartmentSimulationHandler.cpp
     plugin/vasculature/VasculatureHandler.cpp
     plugin/vasculature/Vasculature.cpp
-    plugin/connectomics/WhiteMatter.cpp
+    plugin/connectomics/whitematter/WhiteMatter.cpp
+    plugin/connectomics/synapses/SynapseEfficacy.cpp
+    plugin/connectomics/synapses/SynapseEfficacySimulationHandler.cpp
     plugin/api/Params.cpp
     plugin/BioExplorerPlugin.cpp
 )
@@ -146,7 +148,9 @@ set(${NAME}_PUBLIC_HEADERS
     plugin/morphologies/CompartmentSimulationHandler.h
     plugin/vasculature/VasculatureHandler.h
     plugin/vasculature/Vasculature.h
-    plugin/connectomics/WhiteMatter.h
+    plugin/connectomics/whitematter/WhiteMatter.h
+    plugin/connectomics/synapses/SynapseEfficacy.cpp
+    plugin/connectomics/synapses/SynapseEfficacySimulationHandler.h
     plugin/common/UniqueId.h
     plugin/common/GeneralSettings.h
     plugin/common/CommonTypes.h

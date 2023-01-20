@@ -171,8 +171,9 @@ private:
         const NeuronIdSectionIdDetails &payload);
     NeuronPointsDetails _getNeuronVaricosities(const NeuronIdDetails &payload);
 
-    // White matter
+    // Connectomics
     Response _addWhiteMatter(const WhiteMatterDetails &payload);
+    Response _addSynapseEfficacy(const SynapseEfficacyDetails &payload);
 
     // Utilities
     LookAtResponseDetails _lookAt(const LookAtDetails &payload);

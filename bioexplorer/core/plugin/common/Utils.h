@@ -71,7 +71,8 @@ bool isClipped(const Vector3d& position, const Vector4ds& clippingPlanes);
  * @param model Model to which the transfer function should be set
  */
 void setDefaultTransferFunction(Model& model,
-                                const Vector2d range = {0.0, 1.0});
+                                const Vector2d range = {0.0, 1.0},
+                                const double alpha = 1.0);
 
 /**
  * @brief Get the Clipping Planes from the scene

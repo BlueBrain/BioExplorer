@@ -630,6 +630,13 @@ void BioExplorerPlugin::init()
                 endPoint, [&](const WhiteMatterDetails &payload)
                 { return _addWhiteMatter(payload); });
 
+        endPoint = PLUGIN_API_PREFIX + "add-synapse-efficacy";
+        PLUGIN_INFO(1, "Registering '" + endPoint + "' endpoint");
+        _api->getActionInterface()
+            ->registerRequest<SynapseEfficacyDetails, Response>(
+                endPoint, [&](const SynapseEfficacyDetails &payload)
+                { return _addSynapseEfficacy(payload); });
+
         endPoint = PLUGIN_API_PREFIX + "look-at";
         PLUGIN_INFO(1, "Registering '" + endPoint + "' endpoint");
         _api->getActionInterface()
@@ -2159,6 +2166,12 @@ Response BioExplorerPlugin::_addAtlas(const AtlasDetails &payload)
 Response BioExplorerPlugin::_addWhiteMatter(const WhiteMatterDetails &payload)
 {
     ASSEMBLY_CALL_VOID(payload.assemblyName, addWhiteMatter(payload));
+}
+
+Response BioExplorerPlugin::_addSynapseEfficacy(
+    const SynapseEfficacyDetails &payload)
+{
+    ASSEMBLY_CALL_VOID(payload.assemblyName, addSynapseEfficacy(payload));
 }
 
 LookAtResponseDetails BioExplorerPlugin::_lookAt(const LookAtDetails &payload)

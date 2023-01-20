@@ -3052,7 +3052,7 @@ class BioExplorer:
         population_name,
         radius=1.0,
         sql_filter="",
-        scale=Vector3(1.0, 1.0, 1.0),
+        scale=Vector3(1.0, 1.0, 1.0)
     ):
         """
         Add white matter to the 3D scene
@@ -3074,6 +3074,33 @@ class BioExplorer:
         params["sqlFilter"] = sql_filter
         params["scale"] = scale.to_list()
         return self._invoke_and_check("add-white-matter", params)
+
+    def add_synapse_efficacy_report(
+        self,
+        assembly_name,
+        population_name,
+        simulation_report_id,
+        radius=1.0,
+        sql_filter=""
+    ):
+        """
+        Add synapse efficacy report to the 3D scene
+
+        :assembly_name: Name of the assembly to which the vasculature should be added
+        :population_name Name of the node population
+        :simulation_report_id: Identifier of the simulation report
+        :radius: Applies the radius to the white matter streamlines
+        :sql_filter: Condition added to the SQL statement loading the synapses
+
+        :return: Result of the request submission
+        """
+        params = dict()
+        params["assemblyName"] = assembly_name
+        params["populationName"] = population_name
+        params["radius"] = radius
+        params["sqlFilter"] = sql_filter
+        params["simulationReportId"] = simulation_report_id
+        return self._invoke_and_check("add-synapse-efficacy", params)
 
     def look_at(self, source, target):
         """

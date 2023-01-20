@@ -386,6 +386,29 @@ public:
         const std::string& populationName,
         const std::string& sqlCondition = "") const;
 
+    /**
+     * @brief Get positions of synapses for efficacy report
+     *
+     * @param populationName Name of the population
+     * @param sqlCondition SQL condition
+     * @return Positions of synapses for efficacy report
+     */
+    Vector3ds getSynapseEfficacyPositions(
+        const std::string& populationName,
+        const std::string& sqlCondition = "") const;
+
+    /**
+     * @brief Get synapse efficacy report values
+     *
+     * @param populationName Name of the population
+     * @param frame Simulation frame
+     * @param sqlCondition SQL condition
+     * @return Positions of synapses for efficacy report
+     */
+    uint8_ts getSynapseEfficacyReportValues(
+        const std::string& populationName, const uint64_t frame,
+        const std::string& sqlCondition = "") const;
+
     static std::mutex _mutex;
     static DBConnector* _instance;
 

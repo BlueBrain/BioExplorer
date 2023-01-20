@@ -35,7 +35,9 @@
 #include <plugin/common/shapes/SinusoidShape.h>
 #include <plugin/common/shapes/SphereShape.h>
 #include <plugin/common/shapes/SphericalCellDiffusionShape.h>
-#include <plugin/connectomics/WhiteMatter.h>
+#include <plugin/connectomics/synapses/SynapseEfficacy.h>
+#include <plugin/connectomics/synapses/SynapseEfficacySimulationHandler.h>
+#include <plugin/connectomics/whitematter/WhiteMatter.h>
 #include <plugin/molecularsystems/EnzymeReaction.h>
 #include <plugin/molecularsystems/Membrane.h>
 #include <plugin/molecularsystems/Protein.h>
@@ -755,6 +757,28 @@ void Assembly::addWhiteMatter(const WhiteMatterDetails &details)
         }
     }
     _whiteMatter.reset(std::move(new WhiteMatter(_scene, details)));
+    _scene.markModified(false);
+}
+
+void Assembly::addSynapseEfficacy(const SynapseEfficacyDetails &details)
+{
+    if (_synapseEfficacy)
+    {
+        auto modelDescriptor = _synapseEfficacy->getModelDescriptor();
+        if (modelDescriptor)
+        {
+            const auto modelId = modelDescriptor->getModelID();
+            _scene.removeModel(modelId);
+        }
+    }
+    _synapseEfficacy.reset(std::move(new SynapseEfficacy(_scene, details)));
+
+    auto modelDescriptor = _synapseEfficacy->getModelDescriptor();
+    auto handler = std::make_shared<SynapseEfficacySimulationHandler>(details);
+    auto &model = modelDescriptor->getModel();
+    setDefaultTransferFunction(model, Vector2d(0.0, 1.0), 1.0);
+    model.setSimulationHandler(handler);
+
     _scene.markModified(false);
 }
 

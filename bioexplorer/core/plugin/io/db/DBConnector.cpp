@@ -1195,6 +1195,90 @@ WhiteMatterStreamlines DBConnector::getWhiteMatterStreamlines(
     return streamlines;
 }
 
+Vector3ds DBConnector::getSynapseEfficacyPositions(
+    const std::string& populationName, const std::string& sqlCondition) const
+{
+    CHECK_DB_INITIALIZATION
+    Vector3ds positions;
+    pqxx::nontransaction transaction(
+        *_connections[omp_get_thread_num() % _dbNbConnections]);
+    try
+    {
+        Timer chrono;
+        std::string sql = "SELECT synapse_guid,x,y,z FROM " + populationName +
+                          ".synapse_efficacy";
+        if (!sqlCondition.empty())
+            sql += " WHERE " + sqlCondition;
+        sql += " ORDER BY synapse_guid";
+
+        PLUGIN_DB_INFO(1, sql);
+        auto res = transaction.exec(sql);
+        positions.resize(res.size());
+        uint64_t i = 0;
+        for (auto c = res.begin(); c != res.end(); ++c)
+        {
+            const Vector3d position(c[1].as<float>(), c[2].as<float>(),
+                                    c[3].as<float>());
+            positions[i] = position;
+            ++i;
+        }
+        PLUGIN_DB_TIMER(chrono.elapsed(),
+                        "getWhiteMatterStreamlines(populationName="
+                            << populationName
+                            << ", sqlCondition=" << sqlCondition << ")");
+    }
+    catch (pqxx::sql_error& e)
+    {
+        PLUGIN_THROW(e.what());
+    }
+
+    return positions;
+}
+
+uint8_ts DBConnector::getSynapseEfficacyReportValues(
+    const std::string& populationName, const uint64_t frame,
+    const std::string& sqlCondition) const
+{
+    CHECK_DB_INITIALIZATION
+    uint8_ts reportValues;
+    const uint64_t offset = 1;
+    pqxx::nontransaction transaction(
+        *_connections[omp_get_thread_num() % _dbNbConnections]);
+    try
+    {
+        Timer chrono;
+        std::string sql = "SELECT SUBSTRING(values::bytea FROM " +
+                          std::to_string(offset + frame) + " FOR 1) FROM " +
+                          populationName + ".synapse_efficacy";
+        if (!sqlCondition.empty())
+            sql += " WHERE " + sqlCondition;
+        sql += " ORDER BY synapse_guid";
+
+        PLUGIN_DB_INFO(1, sql);
+        const auto res = transaction.exec(sql);
+        reportValues.resize(res.size());
+        uint64_t i = 0;
+        for (auto c = res.begin(); c != res.end(); ++c)
+        {
+            uint8_t value;
+            const pqxx::binarystring buffer(c[0]);
+            memcpy(&value, buffer.data(), sizeof(uint8_t));
+            reportValues[i] = value;
+            ++i;
+        }
+        PLUGIN_DB_TIMER(chrono.elapsed(),
+                        "getSynapseEfficacyReportValues(populationName="
+                            << populationName << ", frame=" << frame
+                            << ", sqlCondition=" << sqlCondition << ")");
+    }
+    catch (pqxx::sql_error& e)
+    {
+        PLUGIN_THROW(e.what());
+    }
+
+    return reportValues;
+}
+
 } // namespace db
 } // namespace io
 } // namespace bioexplorer
