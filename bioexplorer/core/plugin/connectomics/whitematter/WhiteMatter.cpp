@@ -97,8 +97,9 @@ void WhiteMatter::_buildModel()
     container.commitToModel();
     PLUGIN_INFO(1, "");
 
-    const ModelMetadata metadata = {
-        {"Number of streamlines", std::to_string(nbStreamlines)}};
+    const ModelMetadata metadata = {{"Number of streamlines",
+                                     std::to_string(nbStreamlines)},
+                                    {"SQL filter", _details.sqlFilter}};
 
     _modelDescriptor.reset(new brayns::ModelDescriptor(std::move(model),
                                                        _details.assemblyName,

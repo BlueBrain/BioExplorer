@@ -378,8 +378,9 @@ void Vasculature::_buildModel(const doubles& radii)
     }
     PLUGIN_INFO(1, "");
 
-    const ModelMetadata metadata = {
-        {"Number of nodes", std::to_string(_nbNodes)}};
+    const ModelMetadata metadata = {{"Number of nodes",
+                                     std::to_string(_nbNodes)},
+                                    {"SQL filter", _details.sqlFilter}};
 
     _modelDescriptor.reset(new brayns::ModelDescriptor(std::move(model),
                                                        _details.assemblyName,

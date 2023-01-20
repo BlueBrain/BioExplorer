@@ -116,9 +116,11 @@ void Atlas::_load()
         auto& container = containers[i];
         container.commitToModel();
     }
-    ModelMetadata metadata = {{"Number of regions",
-                               std::to_string(regions.size())},
-                              {"Number of cells", std::to_string(nbCells)}};
+    const ModelMetadata metadata = {
+        {"Number of regions", std::to_string(regions.size())},
+        {"Number of cells", std::to_string(nbCells)},
+        {"Cell SQL filter", _details.cellSqlFilter},
+        {"Region SQL filter", _details.regionSqlFilter}};
 
     _modelDescriptor.reset(new brayns::ModelDescriptor(std::move(model),
                                                        _details.assemblyName,

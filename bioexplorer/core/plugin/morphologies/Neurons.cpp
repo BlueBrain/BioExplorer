@@ -180,10 +180,11 @@ void Neurons::_buildNeurons()
         container.commitToModel();
     }
 
-    ModelMetadata metadata = {
+    const ModelMetadata metadata = {
         {"Number of Neurons", std::to_string(somas.size())},
         {"Number of Spines", std::to_string(_nbSpines)},
-    };
+        {"SQL node filter", _details.sqlNodeFilter},
+        {"SQL section filter", _details.sqlSectionFilter}};
 
     _modelDescriptor.reset(new brayns::ModelDescriptor(std::move(model),
                                                        _details.assemblyName,

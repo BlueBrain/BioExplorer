@@ -295,8 +295,9 @@ void Astrocytes::_buildModel(const doubles& radii)
         container.commitToModel();
     }
 
-    ModelMetadata metadata = {
-        {"Number of astrocytes", std::to_string(somas.size())}};
+    const ModelMetadata metadata = {{"Number of astrocytes",
+                                     std::to_string(somas.size())},
+                                    {"SQL filter", _details.sqlFilter}};
 
     _modelDescriptor.reset(new brayns::ModelDescriptor(std::move(model),
                                                        _details.assemblyName,
