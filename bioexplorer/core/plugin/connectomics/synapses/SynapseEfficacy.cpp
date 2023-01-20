@@ -78,8 +78,9 @@ void SynapseEfficacy::_buildModel()
     container.commitToModel();
     PLUGIN_INFO(1, "");
 
-    const ModelMetadata metadata = {
-        {"Number of synapses", std::to_string(nbSynapses)}};
+    const ModelMetadata metadata = {{"Number of synapses",
+                                     std::to_string(nbSynapses)},
+                                    {"SQL filter", _details.sqlFilter}};
 
     _modelDescriptor.reset(new brayns::ModelDescriptor(std::move(model),
                                                        _details.assemblyName,
