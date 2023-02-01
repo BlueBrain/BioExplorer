@@ -11,6 +11,7 @@ var classbioexplorer_1_1common_1_1Assembly =
     [ "addProtein", "d2/d82/classbioexplorer_1_1common_1_1Assembly.html#ad2836269334c4cbb02dcf2ab5209210c", null ],
     [ "addRNASequence", "d2/d82/classbioexplorer_1_1common_1_1Assembly.html#ac2f07e445f49986f8d4cd756f1066885", null ],
     [ "addSugar", "d2/d82/classbioexplorer_1_1common_1_1Assembly.html#ae721951362d1fd60a21a909808b86423", null ],
+    [ "addSynapseEfficacy", "d2/d82/classbioexplorer_1_1common_1_1Assembly.html#a5ce2d5e838a4fc0aa9a9da078af14e78", null ],
     [ "addVasculature", "d2/d82/classbioexplorer_1_1common_1_1Assembly.html#ae8a54362b6699470800754f82ed9c82b", null ],
     [ "addWhiteMatter", "d2/d82/classbioexplorer_1_1common_1_1Assembly.html#a0145b9bce70d7d79b7f541b4c68473a3", null ],
     [ "getAminoAcidInformation", "d2/d82/classbioexplorer_1_1common_1_1Assembly.html#acd4b710e2d373454718450d543bffa70", null ],

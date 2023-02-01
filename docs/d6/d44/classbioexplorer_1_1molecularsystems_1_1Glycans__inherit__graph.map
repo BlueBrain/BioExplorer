@@ -1,6 +1,0 @@
-<map id="bioexplorer::molecularsystems::Glycans" name="bioexplorer::molecularsystems::Glycans">
-<area shape="rect" id="node1" title="The Glycans class." alt="" coords="5,273,229,315"/>
-<area shape="rect" id="node2" href="$da/dff/classbioexplorer_1_1molecularsystems_1_1Molecule.html" title="The Molecule class implements the 3D representation of a molecule. The object also contains metadata ..." alt="" coords="5,184,229,225"/>
-<area shape="rect" id="node3" href="$d1/d1c/classbioexplorer_1_1common_1_1SDFGeometries.html" title="The SDFGeometries abstract class is used as a parent to any assembly that potentially requires the si..." alt="" coords="37,95,198,136"/>
-<area shape="rect" id="node4" href="$d7/d93/classbioexplorer_1_1common_1_1Node.html" title="The Node class." alt="" coords="37,5,198,47"/>
-</map>

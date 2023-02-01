@@ -60,7 +60,7 @@ run_tests: $(VENV_INSTALLED)
 
 run_tests_xunit: $(VENV_INSTALLED)
 	@mkdir -p $(ROOT_DIR)/test-reports
-	$(VENV_BIN)/nosetests bioexplorer --with-coverage --cover-min-percentage=$(MIN_COV) --cover-inclusive --cover-erase --cover-package=bioexplorer --with-xunit --xunit-file=test-reports/nosetests_bioexplorer.xml
+	$(VENV_BIN)/nosetests bioexplorer --with-coverage --cover-min-percentage=$(MIN_COV) --cover-inclusive --cover-erase --cover-package=bioexplorer --with-xunit --xunit-file=nosetests_bioexplorer.xml
 
 lint: run_pycodestyle run_pydocstyle run_pylint
 

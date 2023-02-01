@@ -1,5 +1,5 @@
 var searchData=
 [
-  ['idsdetails_502',['IdsDetails',['../d1/d91/structbioexplorer_1_1details_1_1IdsDetails.html',1,'bioexplorer::details']]],
-  ['inspectiondetails_503',['InspectionDetails',['../dd/dc0/structbioexplorer_1_1details_1_1InspectionDetails.html',1,'bioexplorer::details']]]
+  ['idsdetails_508',['IdsDetails',['../d1/d91/structbioexplorer_1_1details_1_1IdsDetails.html',1,'bioexplorer::details']]],
+  ['inspectiondetails_509',['InspectionDetails',['../dd/dc0/structbioexplorer_1_1details_1_1InspectionDetails.html',1,'bioexplorer::details']]]
 ];
