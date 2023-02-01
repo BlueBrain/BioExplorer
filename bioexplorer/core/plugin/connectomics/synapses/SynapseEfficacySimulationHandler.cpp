@@ -89,9 +89,9 @@ void* SynapseEfficacySimulationHandler::getFrameData(const uint32_t frame)
                                                      _currentFrame,
                                                      _details.sqlFilter);
 
-        if( values.size() != _frameData.size())
+        if (values.size() != _frameData.size())
             _frameData.resize(values.size());
-            
+
         uint64_t i = 0;
         for (const auto& value : values)
         {

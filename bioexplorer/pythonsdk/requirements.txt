@@ -20,14 +20,14 @@
 
 rockets~=1.0.3
 requests~=2.22.0
-python-jsonschema-objects~=0.3.5
+python-jsonschema-objects~=0.4.1
 semver~=2.8.1
 stringcase~=1.2.0
 pyquaternion~=0.9.9
 webcolors~=1.8.1
-seaborn~=0.11.1
-ipywidgets~=7.6.3
-jsonschema~=3.2.0
+seaborn~=0.12.2
+ipywidgets~=8.0.4
+jsonschema~=4.17.3
 sqlalchemy~=1.4.31
 psycopg2-binary~=2.9.2
 tqdm~=4.62.0

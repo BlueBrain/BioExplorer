@@ -27,6 +27,8 @@ var annotated_dup =
         [ "UniqueId", "d0/dbd/classbioexplorer_1_1common_1_1UniqueId.html", "d0/dbd/classbioexplorer_1_1common_1_1UniqueId" ]
       ] ],
       [ "connectomics", null, [
+        [ "SynapseEfficacy", "da/daf/classbioexplorer_1_1connectomics_1_1SynapseEfficacy.html", "da/daf/classbioexplorer_1_1connectomics_1_1SynapseEfficacy" ],
+        [ "SynapseEfficacySimulationHandler", "de/da5/classbioexplorer_1_1connectomics_1_1SynapseEfficacySimulationHandler.html", "de/da5/classbioexplorer_1_1connectomics_1_1SynapseEfficacySimulationHandler" ],
         [ "WhiteMatter", "d6/dcd/classbioexplorer_1_1connectomics_1_1WhiteMatter.html", "d6/dcd/classbioexplorer_1_1connectomics_1_1WhiteMatter" ]
       ] ],
       [ "details", null, [
@@ -78,6 +80,7 @@ var annotated_dup =
         [ "RNASequenceDetails", "d1/d00/structbioexplorer_1_1details_1_1RNASequenceDetails.html", "d1/d00/structbioexplorer_1_1details_1_1RNASequenceDetails" ],
         [ "SceneInformationDetails", "d2/d03/structbioexplorer_1_1details_1_1SceneInformationDetails.html", "d2/d03/structbioexplorer_1_1details_1_1SceneInformationDetails" ],
         [ "SugarDetails", "d6/d93/structbioexplorer_1_1details_1_1SugarDetails.html", "d6/d93/structbioexplorer_1_1details_1_1SugarDetails" ],
+        [ "SynapseEfficacyDetails", "d4/d3d/structbioexplorer_1_1details_1_1SynapseEfficacyDetails.html", "d4/d3d/structbioexplorer_1_1details_1_1SynapseEfficacyDetails" ],
         [ "VasculatureDetails", "dd/d98/structbioexplorer_1_1details_1_1VasculatureDetails.html", "dd/d98/structbioexplorer_1_1details_1_1VasculatureDetails" ],
         [ "VasculatureRadiusReportDetails", "de/da6/structbioexplorer_1_1details_1_1VasculatureRadiusReportDetails.html", "de/da6/structbioexplorer_1_1details_1_1VasculatureRadiusReportDetails" ],
         [ "VasculatureReportDetails", "d1/d4e/structbioexplorer_1_1details_1_1VasculatureReportDetails.html", "d1/d4e/structbioexplorer_1_1details_1_1VasculatureReportDetails" ],

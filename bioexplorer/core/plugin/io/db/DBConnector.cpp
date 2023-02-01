@@ -1235,21 +1235,23 @@ Vector3ds DBConnector::getSynapseEfficacyPositions(
     return positions;
 }
 
-uint8_ts DBConnector::getSynapseEfficacyReportValues(
+floats DBConnector::getSynapseEfficacyReportValues(
     const std::string& populationName, const uint64_t frame,
     const std::string& sqlCondition) const
 {
     CHECK_DB_INITIALIZATION
-    uint8_ts reportValues;
+    floats reportValues;
     const uint64_t offset = 1;
+    const auto size = sizeof(float);
     pqxx::nontransaction transaction(
         *_connections[omp_get_thread_num() % _dbNbConnections]);
     try
     {
         Timer chrono;
         std::string sql = "SELECT SUBSTRING(values::bytea FROM " +
-                          std::to_string(offset + frame) + " FOR 1) FROM " +
-                          populationName + ".synapse_efficacy";
+                          std::to_string(offset + frame * size) + " FOR " +
+                          std::to_string(size) + ") FROM " + populationName +
+                          ".synapse_efficacy";
         if (!sqlCondition.empty())
             sql += " WHERE " + sqlCondition;
         sql += " ORDER BY synapse_guid";
@@ -1260,9 +1262,9 @@ uint8_ts DBConnector::getSynapseEfficacyReportValues(
         uint64_t i = 0;
         for (auto c = res.begin(); c != res.end(); ++c)
         {
-            uint8_t value;
+            float value;
             const pqxx::binarystring buffer(c[0]);
-            memcpy(&value, buffer.data(), sizeof(uint8_t));
+            memcpy(&value, buffer.data(), size);
             reportValues[i] = value;
             ++i;
         }

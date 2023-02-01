@@ -403,9 +403,9 @@ public:
      * @param populationName Name of the population
      * @param frame Simulation frame
      * @param sqlCondition SQL condition
-     * @return Positions of synapses for efficacy report
+     * @return Values of synapses efficacy
      */
-    uint8_ts getSynapseEfficacyReportValues(
+    floats getSynapseEfficacyReportValues(
         const std::string& populationName, const uint64_t frame,
         const std::string& sqlCondition = "") const;
 
