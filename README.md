@@ -346,10 +346,11 @@ _BBBE_ is available to download and use under the GNU General Public License ([G
 
 For more information on _BBBE_, please contact:
 
-__Cyrille Favreau__  
-Senior Scientific Visualization Engineer  
-Blue Brain Project  
-[cyrille.favreau@epfl.ch](cyrille.favreau@epfl.ch) 
+* [__Cyrille Favreau__](https://www.epfl.ch/research/domains/bluebrain/blue-brain/people/our-people/operations-division/cyrille-favreau/) - Senior Scientific Visualization Engineer - Blue Brain Project ([cyrille.favreau@epfl.ch](cyrille.favreau@epfl.ch))
+
+* [__Emmanuelle Logette__](https://www.epfl.ch/research/domains/bluebrain/blue-brain/people/our-people/simulation-neuroscience-division/emmanuelle-logette/) - Scientific collaborator - Blue Brain Project ([emmanuelle.logette@epfl.ch](emmanuelle.logette@epfl.ch))
+
+* [__Evelyne Schmid Osborne__](https://www.epfl.ch/research/domains/bluebrain/blue-brain/people/our-people/operations-division/evelyne-schmid-osborne/) - Communications - Blue Brain Project ([evelyne.schmidosborne@epfl.ch](evelyne.schmidosborne@epfl.ch))
 
 # Funding & Acknowledgment
 
