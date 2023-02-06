@@ -693,7 +693,7 @@ void Neurons::_addSection(ThreadSafeContainer& container,
             }
 
             if (!useSdf)
-                container.addSphere(dst, dstRadius, materialId, userData);
+                container.addSphere(dst, dstRadius, materialId, useSdf, userData);
 
             const auto it = segmentSynapses.find(i);
             if (it != segmentSynapses.end())
