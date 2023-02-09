@@ -96,12 +96,12 @@ inline vec4f getSimulationValue(const uniform SimulationRenderer* uniform self,
                                 const varying int primID)
 {
     const uint64 offset = getOffset(dg->geometry, primID);
-    if (offset < self->simulationDataSize)
+    if (offset != NO_USER_DATA && offset < self->simulationDataSize)
     {
         const varying float value = self->simulationData[offset];
         const uniform TransferFunction* uniform tf = self->transferFunction;
         return make_vec4f(tf->getColorForValue(tf, value),
                           tf->getOpacityForValue(tf, value));
     }
-    return make_vec4f(1.f, 0.f, 0.f, 1.f);
+    return make_vec4f(0.f, 1.f, 0.f, 1.f);
 }

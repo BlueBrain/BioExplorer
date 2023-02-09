@@ -30,6 +30,9 @@
 #define MATERIAL_PROPERTY_CAST_USER_DATA "cast_user_data"
 #define MATERIAL_PROPERTY_CLIPPING_MODE "clipping_mode"
 
+/** User data */
+#define NO_USER_DATA -1
+
 enum MaterialShadingMode
 {
     undefined_shading_mode = 0,

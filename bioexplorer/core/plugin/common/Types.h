@@ -1620,6 +1620,7 @@ typedef struct
     double timeStep;
     std::string timeUnits;
     std::string dataUnits;
+    bool debugMode{false};
 } SimulationReport;
 
 namespace fields

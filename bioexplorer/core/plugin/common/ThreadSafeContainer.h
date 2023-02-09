@@ -31,8 +31,6 @@ using namespace brayns;
 using MaterialSet = std::set<size_t>;
 using Neighbours = std::set<size_t>;
 
-const int64_t NO_USER_DATA = -1;
-
 /**
  * @brief The ThreadSafeContainer class is used to load large datasets in
  * parallel. Every individual element is loaded in a separate thread and

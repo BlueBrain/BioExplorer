@@ -42,9 +42,6 @@ SomaSimulationHandler::SomaSimulationHandler(const std::string& populationName,
     _simulationReport =
         connector.getSimulationReport(_populationName, _simulationReportId);
 
-    const auto guids = connector.getNeuronSomaReportGuids(_populationName,
-                                                          _simulationReportId);
-    _frameSize = guids.size();
     _nbFrames = (_simulationReport.endTime - _simulationReport.startTime) /
                 _simulationReport.timeStep;
     _dt = _simulationReport.timeStep;
@@ -57,7 +54,6 @@ void SomaSimulationHandler::_logSimulationInformation()
     PLUGIN_INFO(1, "Soma simulation information");
     PLUGIN_INFO(1, "---------------------------");
     PLUGIN_INFO(1, "Population name          : " << _populationName);
-    PLUGIN_INFO(1, "Number of simulated nodes: " << _frameSize);
     PLUGIN_INFO(1,
                 "Start time               : " << _simulationReport.startTime);
     PLUGIN_INFO(1, "End time                 : " << _simulationReport.endTime);
@@ -81,9 +77,15 @@ void* SomaSimulationHandler::getFrameData(const uint32_t frame)
     if (_currentFrame != boundedFrame)
     {
         _currentFrame = boundedFrame;
-        connector.getNeuronSomaReportValues(_populationName,
-                                            _simulationReportId, _currentFrame,
-                                            _frameData);
+        if (_simulationReport.debugMode)
+        {
+            for (uint64_t i = 0; i < _frameData.size(); ++i)
+                _frameData[i] = -70.f + 100 * cos((frame + i) * M_PI / 180.f);
+        }
+        else
+            connector.getNeuronSomaReportValues(_populationName,
+                                                _simulationReportId,
+                                                _currentFrame, _frameData);
         _frameSize = _frameData.size();
     }
 

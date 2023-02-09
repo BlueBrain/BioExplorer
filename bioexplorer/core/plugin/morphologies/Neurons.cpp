@@ -46,7 +46,7 @@ using namespace db;
 const uint64_t NB_MYELIN_FREE_SEGMENTS = 4;
 const double DEFAULT_SPINE_RADIUS = 0.25;
 const double DEFAULT_ARROW_RADIUS_RATIO = 10.0;
-const Vector2d DEFAULT_SIMULATION_VALUE_RANGE = {-80.0, -10.0};
+const Vector2d DEFAULT_SIMULATION_VALUE_RANGE = {-80.0, 30.0};
 
 // Mitochondria density per layer
 // Source: A simplified morphological classification scheme for pyramidal cells
@@ -110,11 +110,10 @@ void Neurons::_buildNeurons()
     uint64_tm simulatedNodesMapping;
     if (_details.simulationReportId != -1)
     {
-        sqlNodeFilter = _attachSimulationReport(*model);
+        _attachSimulationReport(*model);
         simulatedNodesMapping =
-            connector.getNeuronSomaReportGuids(_details.populationName,
-                                               _details.simulationReportId,
-                                               _details.sqlNodeFilter);
+            connector.getSimulatedNodesGuids(_details.populationName,
+                                             _details.simulationReportId);
     }
 
     // Neurons
@@ -204,7 +203,6 @@ void Neurons::_buildSomasOnly(ThreadSafeContainer& container,
                               const uint64_tm& simulatedNodesMapping)
 {
     uint64_t progress = 0;
-    uint64_t neuronIndex = 0;
     for (const auto soma : somas)
     {
         PLUGIN_PROGRESS("Loading somas", progress, somas.size());
@@ -226,14 +224,14 @@ void Neurons::_buildSomasOnly(ThreadSafeContainer& container,
                 const auto neuronId = soma.first;
                 const auto it = simulatedNodesMapping.find(neuronId);
                 if (it == simulatedNodesMapping.end())
-                    PLUGIN_THROW(std::to_string(neuronId) +
-                                 " is not a simulated node");
+                    PLUGIN_WARN(std::to_string(neuronId) +
+                                " is not a simulated node");
                 somaUserData = (*it).second;
                 break;
             }
             }
             container.addSphere(soma.second.position, _details.radiusMultiplier,
-                                somaMaterialId, useSdf, neuronIndex, {},
+                                somaMaterialId, useSdf, somaUserData, {},
                                 Vector3f(somaDisplacementStrength,
                                          somaDisplacementFrequency, 0.f));
         }
@@ -253,7 +251,6 @@ void Neurons::_buildSomasOnly(ThreadSafeContainer& container,
                               useSdf);
         }
         ++progress;
-        ++neuronIndex;
     }
 }
 
@@ -693,7 +690,8 @@ void Neurons::_addSection(ThreadSafeContainer& container,
             }
 
             if (!useSdf)
-                container.addSphere(dst, dstRadius, materialId, useSdf, userData);
+                container.addSphere(dst, dstRadius, materialId, useSdf,
+                                    userData);
 
             const auto it = segmentSynapses.find(i);
             if (it != segmentSynapses.end())
@@ -1243,11 +1241,12 @@ std::string Neurons::_attachSimulationReport(Model& model)
         model.setSimulationHandler(handler);
         setDefaultTransferFunction(model, DEFAULT_SIMULATION_VALUE_RANGE);
         if (!sqlNodeFilter.empty())
-            sqlNodeFilter += "AND ";
-        sqlNodeFilter += "guid IN (SELECT DISTINCT(node_guid) FROM " +
+            sqlNodeFilter += " AND ";
+        sqlNodeFilter += "guid IN (SELECT node_guid FROM " +
                          _details.populationName +
                          ".spike_report WHERE report_guid=" +
-                         std::to_string(_details.simulationReportId) + ")";
+                         std::to_string(_details.simulationReportId) +
+                         " ORDER BY node_guid)";
         break;
     }
     case ReportType::soma:
@@ -1260,11 +1259,12 @@ std::string Neurons::_attachSimulationReport(Model& model)
         model.setSimulationHandler(handler);
         setDefaultTransferFunction(model, DEFAULT_SIMULATION_VALUE_RANGE);
         if (!sqlNodeFilter.empty())
-            sqlNodeFilter += "AND ";
-        sqlNodeFilter += "guid IN (SELECT DISTINCT(node_guid) FROM " +
+            sqlNodeFilter += " AND ";
+        sqlNodeFilter += "guid IN (SELECT node_guid FROM " +
                          _details.populationName +
                          ".simulated_node WHERE report_guid=" +
-                         std::to_string(_details.simulationReportId) + ")";
+                         std::to_string(_details.simulationReportId) +
+                         " ORDER BY node_guid)";
         break;
     }
     case ReportType::compartment:
@@ -1277,11 +1277,12 @@ std::string Neurons::_attachSimulationReport(Model& model)
         model.setSimulationHandler(handler);
         setDefaultTransferFunction(model, DEFAULT_SIMULATION_VALUE_RANGE);
         if (!sqlNodeFilter.empty())
-            sqlNodeFilter += "AND ";
-        sqlNodeFilter += "guid IN (SELECT DISTINCT(node_guid) FROM " +
+            sqlNodeFilter += " AND ";
+        sqlNodeFilter += "guid IN (SELECT node_guid FROM " +
                          _details.populationName +
                          ".simulated_node WHERE report_guid=" +
-                         std::to_string(_details.simulationReportId) + ")";
+                         std::to_string(_details.simulationReportId) +
+                         " ORDER BY node_guid)";
         break;
     }
     }

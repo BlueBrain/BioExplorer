@@ -304,9 +304,8 @@ public:
      * @param reportId Simulation report identifier
      * @return uint64_tm Neuron Soma Report Guids
      */
-    uint64_tm getNeuronSomaReportGuids(
-        const std::string& populationName, const uint64_t reportId,
-        const std::string& sqlCondition = "") const;
+    uint64_tm getSimulatedNodesGuids(const std::string& populationName,
+                                     const uint64_t reportId) const;
 
     /**
      * @brief Get the Neuron soma simulation values
