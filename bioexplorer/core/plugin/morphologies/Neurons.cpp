@@ -107,13 +107,12 @@ void Neurons::_buildNeurons()
 
     // Simulation report
     std::string sqlNodeFilter = _details.sqlNodeFilter;
-    uint64_tm simulatedNodesMapping;
     if (_details.simulationReportId != -1)
     {
+        _simulationReport =
+            connector.getSimulationReport(_details.populationName,
+                                          _details.simulationReportId);
         _attachSimulationReport(*model);
-        simulatedNodesMapping =
-            connector.getSimulatedNodesGuids(_details.populationName,
-                                             _details.simulationReportId);
     }
 
     // Neurons
@@ -143,8 +142,7 @@ void Neurons::_buildNeurons()
             MorphologyRepresentation::orientation)
             _buildOrientations(container, somas, baseMaterialId);
         else
-            _buildSomasOnly(container, somas, baseMaterialId,
-                            simulatedNodesMapping);
+            _buildSomasOnly(container, somas, baseMaterialId);
         containers.push_back(container);
     }
     else
@@ -164,8 +162,7 @@ void Neurons::_buildNeurons()
             std::advance(it, neuronIndex);
             const auto& soma = it->second;
             ThreadSafeContainer container(*model, _scale);
-            _buildMorphology(container, it->first, soma, neuronIndex,
-                             simulatedNodesMapping);
+            _buildMorphology(container, it->first, soma, neuronIndex);
 
 #pragma omp critical
             containers.push_back(container);
@@ -199,13 +196,14 @@ void Neurons::_buildNeurons()
 
 void Neurons::_buildSomasOnly(ThreadSafeContainer& container,
                               const NeuronSomaMap& somas,
-                              const size_t baseMaterialId,
-                              const uint64_tm& simulatedNodesMapping)
+                              const size_t baseMaterialId)
 {
     uint64_t progress = 0;
     for (const auto soma : somas)
     {
         PLUGIN_PROGRESS("Loading somas", progress, somas.size());
+        ++progress;
+
         const auto useSdf =
             andCheck(static_cast<uint32_t>(_details.realismLevel),
                      static_cast<uint32_t>(MorphologyRealismLevel::soma));
@@ -217,16 +215,21 @@ void Neurons::_buildSomasOnly(ThreadSafeContainer& container,
         if (_details.showMembrane)
         {
             uint64_t somaUserData = NO_USER_DATA;
-            switch (_reportType)
+            const auto neuronId = soma.first;
+            switch (_simulationReport.type)
             {
             case ReportType::soma:
             {
-                const auto neuronId = soma.first;
-                const auto it = simulatedNodesMapping.find(neuronId);
-                if (it == simulatedNodesMapping.end())
-                    PLUGIN_WARN(std::to_string(neuronId) +
-                                " is not a simulated node");
-                somaUserData = (*it).second;
+                if (_simulationReport.guids.empty())
+                    somaUserData = neuronId;
+                else
+                {
+                    const auto it = _simulationReport.guids.find(neuronId);
+                    if (it == _simulationReport.guids.end() &&
+                        !_details.loadNonSimulatedNodes)
+                        continue; // Ignore non-simulated nodes
+                    somaUserData = (*it).second;
+                }
                 break;
             }
             }
@@ -250,7 +253,6 @@ void Neurons::_buildSomasOnly(ThreadSafeContainer& container,
                               _details.radiusMultiplier, mitochondriaDensity,
                               useSdf);
         }
-        ++progress;
     }
 }
 
@@ -273,8 +275,7 @@ void Neurons::_buildOrientations(ThreadSafeContainer& container,
 
 void Neurons::_buildMorphology(ThreadSafeContainer& container,
                                const uint64_t neuronId, const NeuronSoma& soma,
-                               const uint64_t neuronIndex,
-                               const uint64_tm& simulatedNodesMapping)
+                               const uint64_t neuronIndex)
 {
     const auto& connector = DBConnector::getInstance();
 
@@ -334,7 +335,7 @@ void Neurons::_buildMorphology(ThreadSafeContainer& container,
 
     // Soma
     uint64_t somaUserData = NO_USER_DATA;
-    switch (_reportType)
+    switch (_simulationReport.type)
     {
     case ReportType::compartment:
     {
@@ -348,10 +349,16 @@ void Neurons::_buildMorphology(ThreadSafeContainer& container,
     }
     case ReportType::soma:
     {
-        const auto it = simulatedNodesMapping.find(neuronId);
-        if (it == simulatedNodesMapping.end())
-            PLUGIN_THROW(std::to_string(neuronId) + " is not a simulated node");
-        somaUserData = (*it).second;
+        if (_simulationReport.guids.empty())
+            somaUserData = neuronId;
+        else
+        {
+            const auto it = _simulationReport.guids.find(neuronId);
+            if (it == _simulationReport.guids.end() &&
+                !_details.loadNonSimulatedNodes)
+                return; // Ignore non-simulated nodes
+            somaUserData = (*it).second;
+        }
         break;
     }
     }
@@ -610,7 +617,7 @@ void Neurons::_addSection(ThreadSafeContainer& container,
         neighbours.insert(somaGeometryIndex);
 
     uint64_ts compartments;
-    switch (_reportType)
+    switch (_simulationReport.type)
     {
     case ReportType::undefined:
         userData = NO_USER_DATA;
@@ -1224,9 +1231,7 @@ std::string Neurons::_attachSimulationReport(Model& model)
     // Simulation report
     std::string sqlNodeFilter = _details.sqlNodeFilter;
     const auto& connector = DBConnector::getInstance();
-    _reportType = connector.getNeuronReportType(_details.populationName,
-                                                _details.simulationReportId);
-    switch (_reportType)
+    switch (_simulationReport.type)
     {
     case ReportType::undefined:
         PLUGIN_DEBUG("No report attached to the geometry");

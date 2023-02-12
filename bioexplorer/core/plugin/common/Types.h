@@ -1184,6 +1184,8 @@ typedef struct
     double radiusMultiplier{1.0};
     /** Simulation report identifier */
     int64_t simulationReportId{-1};
+    /** Load non-simulated nodes  */
+    bool loadNonSimulatedNodes{false};
     /** SQL filter for nodes (WHERE condition) */
     std::string sqlNodeFilter;
     /** SQL filter dor sections (WHERE condition) */
@@ -1309,6 +1311,28 @@ struct SDFMorphologyData
     std::unordered_map<size_t, int> geometrySection;
     std::unordered_map<int, size_ts> sectionGeometries;
 };
+
+enum class ReportType
+{
+    undefined = 0,
+    spike = 1,
+    soma = 2,
+    compartment = 3,
+    synapse_efficacy = 4
+};
+
+typedef struct
+{
+    ReportType type{ReportType::undefined};
+    std::string description;
+    double startTime;
+    double endTime;
+    double timeStep;
+    std::string timeUnits;
+    std::string dataUnits;
+    bool debugMode{false};
+    uint64_tm guids;
+} SimulationReport;
 } // namespace common
 
 namespace molecularsystems
@@ -1552,15 +1576,6 @@ using Synapses = std::vector<Synapse>;
 using SegmentSynapseMap = std::map<uint64_t, Synapses>;
 using SectionSynapseMap = std::map<uint64_t, SegmentSynapseMap>;
 
-enum class ReportType
-{
-    undefined = 0,
-    spike = 1,
-    soma = 2,
-    compartment = 3,
-    synapse_efficacy = 4
-};
-
 typedef struct
 {
     Vector4fs points;
@@ -1588,7 +1603,6 @@ typedef struct
     uint64_t region{0};
 } Cell;
 using CellMap = std::map<uint64_t, Cell>;
-
 } // namespace morphology
 
 namespace connectomics
@@ -1611,17 +1625,6 @@ namespace db
 {
 class DBConnector;
 using DBConnectorPtr = std::shared_ptr<DBConnector>;
-
-typedef struct
-{
-    std::string description;
-    double startTime;
-    double endTime;
-    double timeStep;
-    std::string timeUnits;
-    std::string dataUnits;
-    bool debugMode{false};
-} SimulationReport;
 
 namespace fields
 {

@@ -29,8 +29,7 @@ namespace bioexplorer
 namespace connectomics
 {
 using namespace brayns;
-using namespace io;
-using namespace db;
+using namespace common;
 using namespace details;
 
 /**
@@ -59,7 +58,7 @@ private:
     void _logSimulationInformation();
 
     SynapseEfficacyDetails _details;
-    io::db::SimulationReport _simulationReport;
+    SimulationReport _simulationReport;
 };
 } // namespace connectomics
 } // namespace bioexplorer

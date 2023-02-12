@@ -30,7 +30,7 @@ namespace morphology
 {
 using namespace brayns;
 using namespace io;
-using namespace db;
+using namespace common;
 
 /**
  * @brief The SpikeSimulationHandler handles the reading of simulation

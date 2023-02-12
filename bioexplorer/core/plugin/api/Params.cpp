@@ -907,6 +907,7 @@ bool from_json(NeuronsDetails &param, const std::string &payload)
         FROM_JSON(param, js, populationColorScheme);
         FROM_JSON(param, js, radiusMultiplier);
         FROM_JSON(param, js, simulationReportId);
+        FROM_JSON(param, js, loadNonSimulatedNodes);
         FROM_JSON(param, js, sqlNodeFilter);
         FROM_JSON(param, js, sqlSectionFilter);
         FROM_JSON(param, js, scale);

@@ -457,8 +457,8 @@ SimulationReport DBConnector::getSimulationReport(
     {
         Timer chrono;
         std::string sql =
-            "SELECT description, start_time, end_time, time_step, "
-            "time_units, data_units, debug_mode FROM " +
+            "SELECT type_guid, description, start_time, end_time, time_step, "
+            "time_units, data_units, debug_mode, guids FROM " +
             populationName +
             ".report WHERE guid=" + std::to_string(simulationReportId);
 
@@ -466,13 +466,21 @@ SimulationReport DBConnector::getSimulationReport(
         auto res = transaction.exec(sql);
         for (auto c = res.begin(); c != res.end(); ++c)
         {
-            simulationReport.description = c[0].as<std::string>();
-            simulationReport.startTime = c[1].as<double>();
-            simulationReport.endTime = c[2].as<double>();
-            simulationReport.timeStep = c[3].as<double>();
-            simulationReport.timeUnits = c[4].as<std::string>();
-            simulationReport.dataUnits = c[5].as<std::string>();
-            simulationReport.debugMode = c[6].as<bool>();
+            simulationReport.type =
+                static_cast<ReportType>(c[0].as<uint64_t>());
+            simulationReport.description = c[1].as<std::string>();
+            simulationReport.startTime = c[2].as<double>();
+            simulationReport.endTime = c[3].as<double>();
+            simulationReport.timeStep = c[4].as<double>();
+            simulationReport.timeUnits = c[5].as<std::string>();
+            simulationReport.dataUnits = c[6].as<std::string>();
+            simulationReport.debugMode = c[7].as<bool>();
+            const pqxx::binarystring bytea(c[8]);
+            uint64_ts guids;
+            guids.resize(bytea.size() / sizeof(uint64_t));
+            memcpy(&guids[0], bytea.data(), bytea.size());
+            for (uint64_t i = 0; i < guids.size(); ++i)
+                simulationReport.guids[guids[i]] = i;
         }
         PLUGIN_DB_TIMER(chrono.elapsed(), "getSimulationReport(populationName="
                                               << populationName
@@ -815,34 +823,6 @@ SectionSynapseMap DBConnector::getNeuronSynapses(
     PLUGIN_DB_INFO(1, "Neuron " + std::to_string(neuronId) + " has " +
                           std::to_string(nbSynapses) + " synapses")
     return sectionSynapseMap;
-}
-
-ReportType DBConnector::getNeuronReportType(const std::string& populationName,
-                                            const uint64_t reportId) const
-{
-    CHECK_DB_INITIALIZATION
-    ReportType reportType = ReportType::undefined;
-    pqxx::nontransaction transaction(
-        *_connections[omp_get_thread_num() % _dbNbConnections]);
-    try
-    {
-        Timer chrono;
-        std::string sql = "SELECT type_guid FROM " + populationName +
-                          ".report WHERE guid=" + std::to_string(reportId);
-        PLUGIN_DB_INFO(1, sql);
-        auto res = transaction.exec(sql);
-        for (auto c = res.begin(); c != res.end(); ++c)
-            reportType = static_cast<ReportType>(c[0].as<uint64_t>());
-        PLUGIN_DB_TIMER(chrono.elapsed(), "getNeuronReportType(populationName="
-                                              << populationName << ", reportId="
-                                              << reportId << ")");
-    }
-    catch (pqxx::sql_error& e)
-    {
-        PLUGIN_THROW(e.what());
-    }
-
-    return reportType;
 }
 
 uint64_ts DBConnector::getNeuronSpikeReportValues(

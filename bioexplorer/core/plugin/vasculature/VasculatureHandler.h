@@ -28,6 +28,8 @@
 
 namespace bioexplorer
 {
+using namespace common;
+
 namespace vasculature
 {
 /**
@@ -62,7 +64,7 @@ private:
     std::vector<doubles> _simulationData;
     bool _showVariations{false};
 
-    io::db::SimulationReport _simulationReport;
+    SimulationReport _simulationReport;
 };
 using VasculatureHandlerPtr = std::shared_ptr<VasculatureHandler>;
 } // namespace vasculature

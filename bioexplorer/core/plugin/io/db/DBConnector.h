@@ -274,16 +274,6 @@ public:
         const std::string& sqlCondition = "") const;
 
     /**
-     * @brief Get the neuron report type
-     *
-     * @param populationName Name of the population
-     * @param reportId Report identifier
-     * @return ReportType Type of report
-     */
-    ReportType getNeuronReportType(const std::string& populationName,
-                                   const uint64_t reportId) const;
-
-    /**
      * @brief Get a selection of spikes from a neuron spike report
      *
      * @param populationName Name of the population
