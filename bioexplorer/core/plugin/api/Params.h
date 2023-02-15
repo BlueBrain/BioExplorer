@@ -120,6 +120,7 @@ std::string to_json(const NeuronPointsDetails &param);
 
 // Connectomics
 bool from_json(WhiteMatterDetails &param, const std::string &payload);
+bool from_json(SynapsesDetails &param, const std::string &payload);
 bool from_json(SynapseEfficacyDetails &param, const std::string &payload);
 
 // Utilities

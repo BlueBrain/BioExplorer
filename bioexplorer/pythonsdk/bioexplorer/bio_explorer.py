@@ -373,6 +373,9 @@ class BioExplorer:
     MORPHOLOGY_REALISM_LEVEL_SPINE = 32
     MORPHOLOGY_REALISM_LEVEL_ALL = 255
 
+    SYNAPSE_REPRESENTATION_SPHERE = 0
+    SYNAPSE_REPRESENTATION_SPINE = 1
+
     # Material offsets in neurons
     NB_MATERIALS_PER_MORPHOLOGY = 10
     NEURON_MATERIAL_VARICOSITY = 0
@@ -3077,6 +3080,36 @@ class BioExplorer:
         params["sqlFilter"] = sql_filter
         params["scale"] = scale.to_list()
         return self._invoke_and_check("add-white-matter", params)
+
+    def add_synapses(
+        self,
+        assembly_name,
+        population_name,
+        radius_multiplier=1.0,
+        representation=SYNAPSE_REPRESENTATION_SPHERE,
+        realism_level=VASCULATURE_REALISM_LEVEL_NONE,
+        sql_filter=""
+    ):
+        """
+        Add synapse efficacy report to the 3D scene
+
+        :assembly_name: Name of the assembly to which the vasculature should be added
+        :population_name Name of the node population
+        :radius_multiplier: Multiplies the spine radius by the specified value
+        :representation: Representation of the synapse (sphere or spine)
+        :realism_level: Use sign distance fields geometry to create the spines. Defaults to none
+        :sql_filter: Condition added to the SQL statement loading the synapses
+
+        :return: Result of the request submission
+        """
+        params = dict()
+        params["assemblyName"] = assembly_name
+        params["populationName"] = population_name
+        params["radiusMultiplier"] = radius_multiplier
+        params["representation"] = representation
+        params["realismLevel"] = realism_level
+        params["sqlFilter"] = sql_filter
+        return self._invoke_and_check("add-synapses", params)
 
     def add_synapse_efficacy_report(
         self,

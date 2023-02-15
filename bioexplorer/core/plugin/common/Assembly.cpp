@@ -44,6 +44,7 @@
 #include <plugin/molecularsystems/RNASequence.h>
 #include <plugin/morphologies/Astrocytes.h>
 #include <plugin/morphologies/Neurons.h>
+#include <plugin/morphologies/Synapses.h>
 #include <plugin/vasculature/Vasculature.h>
 #include <plugin/vasculature/VasculatureHandler.h>
 
@@ -757,6 +758,21 @@ void Assembly::addWhiteMatter(const WhiteMatterDetails &details)
         }
     }
     _whiteMatter.reset(std::move(new WhiteMatter(_scene, details)));
+    _scene.markModified(false);
+}
+
+void Assembly::addSynapses(const SynapsesDetails &details)
+{
+    if (_synapses)
+    {
+        auto modelDescriptor = _synapses->getModelDescriptor();
+        if (modelDescriptor)
+        {
+            const auto modelId = modelDescriptor->getModelID();
+            _scene.removeModel(modelId);
+        }
+    }
+    _synapses.reset(std::move(new Synapses(_scene, details)));
     _scene.markModified(false);
 }
 

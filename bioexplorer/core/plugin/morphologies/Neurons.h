@@ -31,6 +31,7 @@ namespace morphology
 {
 using namespace brayns;
 using namespace common;
+using namespace connectomics;
 
 using Varicosities = std::map<uint64_t, Vector3ds>;
 

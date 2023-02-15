@@ -376,6 +376,16 @@ public:
         const std::string& sqlCondition = "") const;
 
     /**
+     * @brief Get positions of synapses
+     *
+     * @param populationName Name of the population
+     * @param sqlCondition SQL condition
+     * @return Map of synapses indexed by ID
+     */
+    SynapsesMap getSynapses(const std::string& populationName,
+                            const std::string& sqlCondition = "") const;
+
+    /**
      * @brief Get positions of synapses for efficacy report
      *
      * @param populationName Name of the population

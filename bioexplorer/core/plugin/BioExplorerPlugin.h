@@ -173,6 +173,7 @@ private:
 
     // Connectomics
     Response _addWhiteMatter(const WhiteMatterDetails &payload);
+    Response _addSynapses(const SynapsesDetails &payload);
     Response _addSynapseEfficacy(const SynapseEfficacyDetails &payload);
 
     // Utilities

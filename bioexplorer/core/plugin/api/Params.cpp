@@ -1015,6 +1015,25 @@ bool from_json(WhiteMatterDetails &param, const std::string &payload)
     return true;
 }
 
+bool from_json(SynapsesDetails &param, const std::string &payload)
+{
+    try
+    {
+        auto js = nlohmann::json::parse(payload);
+        FROM_JSON(param, js, assemblyName);
+        FROM_JSON(param, js, populationName);
+        FROM_JSON(param, js, radiusMultiplier);
+        FROM_JSON(param, js, representation);
+        FROM_JSON(param, js, realismLevel);
+        FROM_JSON(param, js, sqlFilter);
+    }
+    catch (...)
+    {
+        return false;
+    }
+    return true;
+}
+
 bool from_json(SynapseEfficacyDetails &param, const std::string &payload)
 {
     try

@@ -44,7 +44,6 @@ using namespace io;
 using namespace db;
 
 const uint64_t NB_MYELIN_FREE_SEGMENTS = 4;
-const double DEFAULT_SPINE_RADIUS = 0.25;
 const double DEFAULT_ARROW_RADIUS_RATIO = 10.0;
 const Vector2d DEFAULT_SIMULATION_VALUE_RANGE = {-80.0, 30.0};
 
@@ -706,12 +705,12 @@ void Neurons::_addSection(ThreadSafeContainer& container,
                 const size_t spineMaterialId =
                     _details.morphologyColorScheme ==
                             MorphologyColorScheme::section_type
-                        ? baseMaterialId + MATERIAL_OFFSET_SYNPASE
+                        ? baseMaterialId + MATERIAL_OFFSET_SYNAPSE
                         : materialId;
                 const auto synapses = (*it).second;
-                PLUGIN_DEBUG("Adding " << synapses.size()
-                                       << " spines to segment " << i
-                                       << " of section " << sectionId);
+                PLUGIN_INFO(3, "Adding " << synapses.size()
+                                         << " spines to segment " << i
+                                         << " of section " << sectionId);
                 for (const auto& synapse : synapses)
                 {
                     const Vector3d segmentDirection = normalize(dst - src);

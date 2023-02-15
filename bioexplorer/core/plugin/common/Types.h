@@ -1245,6 +1245,28 @@ typedef struct
     doubles scale{1.0, 1.0, 1.0};
 } WhiteMatterDetails;
 
+enum class SynapseRepresentation
+{
+    sphere = 0,
+    spine = 1
+};
+
+typedef struct
+{
+    /** Name of the assembly containing the white matter */
+    std::string assemblyName;
+    /** Name of the white matter population  */
+    std::string populationName;
+    /** Multiplies the spine  radii by the specified value */
+    double radiusMultiplier{1.0};
+    /** Representation of the synapse (sphere or spine) */
+    SynapseRepresentation representation{SynapseRepresentation::sphere};
+    /** Use Signed Distance Fields for geometry realism */
+    MorphologyRealismLevel realismLevel{MorphologyRealismLevel::none};
+    /** SQL filter for streamlines (WHERE condition) */
+    std::string sqlFilter;
+} SynapsesDetails;
+
 typedef struct
 {
     /** Name of the assembly containing the white matter */
@@ -1540,10 +1562,27 @@ namespace morphology
 {
 class Morphologies;
 using MorphologiesPtr = std::shared_ptr<Morphologies>;
+
 class Astrocytes;
 using AstrocytesPtr = std::shared_ptr<Astrocytes>;
 class Neurons;
 using NeuronsPtr = std::shared_ptr<Neurons>;
+class Synapses;
+using SynapsesPtr = std::shared_ptr<Synapses>;
+
+typedef struct
+{
+    uint64_t postSynapticNeuronId;
+    uint64_t postSynapticSectionId;
+    uint64_t postSynapticSegmentId;
+    double preSynapticSegmentDistance;
+    double postSynapticSegmentDistance;
+    Vector3d preSynapticSurfacePosition;
+    Vector3d postSynapticSurfacePosition;
+} Synapse;
+using SynapsesMap = std::map<uint64_t, Synapse>;
+using SegmentSynapseMap = std::map<uint64_t, std::vector<Synapse>>;
+using SectionSynapseMap = std::map<uint64_t, SegmentSynapseMap>;
 
 typedef struct
 {
@@ -1563,18 +1602,6 @@ typedef struct
     uint64_t morphologyId{0};
 } NeuronSoma;
 using NeuronSomaMap = std::map<uint64_t, NeuronSoma>;
-
-typedef struct
-{
-    uint64_t postSynapticNeuronId;
-    uint64_t postSynapticSectionId;
-    uint64_t postSynapticSegmentId;
-    double preSynapticSegmentDistance;
-    double postSynapticSegmentDistance;
-} Synapse;
-using Synapses = std::vector<Synapse>;
-using SegmentSynapseMap = std::map<uint64_t, Synapses>;
-using SectionSynapseMap = std::map<uint64_t, SegmentSynapseMap>;
 
 typedef struct
 {

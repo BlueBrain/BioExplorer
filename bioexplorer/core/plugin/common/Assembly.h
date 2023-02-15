@@ -310,6 +310,13 @@ public:
     void addWhiteMatter(const WhiteMatterDetails &details);
 
     /**
+     * @brief Add synapses to the scene
+     *
+     * @param details Details of the synapses
+     */
+    void addSynapses(const SynapsesDetails &details);
+
+    /**
      * @brief Add synapse efficacy report to the scene
      *
      * @param details Details of the synapse efficacy report
@@ -340,6 +347,7 @@ private:
     AstrocytesPtr _astrocytes{nullptr};
     NeuronsPtr _neurons{nullptr};
     WhiteMatterPtr _whiteMatter{nullptr};
+    SynapsesPtr _synapses{nullptr};
     SynapseEfficacyPtr _synapseEfficacy{nullptr};
 };
 } // namespace common

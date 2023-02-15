@@ -430,27 +430,37 @@ create index if not exists compartment_report_compartment_guid_index
 
 create table if not exists neurons.synapse
 (
-    presynaptic_neuron_guid       integer          not null,
-    presynaptic_section_guid      integer          not null,
-    presynaptic_segment_guid      integer          not null,
-    postsynaptic_neuron_guid      integer          not null,
-    postsynaptic_section_guid     integer          not null,
-    postsynaptic_segment_guid     integer          not null,
-    presynaptic_segment_distance  double precision not null,
-    postsynaptic_segment_distance double precision not null
+    guid                            bigint                     not null
+        constraint synapse_pk
+            primary key,
+    presynaptic_neuron_guid         integer                    not null,
+    presynaptic_section_guid        integer                    not null,
+    presynaptic_segment_guid        integer                    not null,
+    postsynaptic_neuron_guid        integer                    not null,
+    postsynaptic_section_guid       integer                    not null,
+    postsynaptic_segment_guid       integer                    not null,
+    presynaptic_segment_distance    double precision default 0 not null,
+    postsynaptic_segment_distance   double precision default 0 not null,
+    presynaptic_surface_x_position  double precision default 0 not null,
+    presynaptic_surface_y_position  double precision default 0 not null,
+    presynaptic_surface_z_position  double precision default 0 not null,
+    presynaptic_center_x_position   double precision default 0 not null,
+    presynaptic_center_y_position   double precision default 0 not null,
+    presynaptic_center_z_position   double precision default 0 not null,
+    postsynaptic_surface_x_position double precision default 0 not null,
+    postsynaptic_surface_y_position double precision default 0 not null,
+    postsynaptic_surface_z_position double precision default 0 not null,
+    postsynaptic_center_x_position  double precision default 0 not null,
+    postsynaptic_center_y_position  double precision default 0 not null,
+    postsynaptic_center_z_position  double precision default 0 not null
 )
     tablespace bioexplorer_ts;
 
+alter table neurons.synapse
+    owner to bioexplorer;
+
 create index if not exists synapse_presynaptic_neuron_guid_index
     on neurons.synapse (presynaptic_neuron_guid)
-    tablespace bioexplorer_ts;
-
-create index if not exists synapse_postsynaptic_neuron_guid_index
-    on neurons.synapse (postsynaptic_neuron_guid)
-    tablespace bioexplorer_ts;
-
-create index if not exists synapse_postsynaptic_section_guid_index
-    on neurons.synapse (postsynaptic_section_guid)
     tablespace bioexplorer_ts;
 
 create table if not exists neurons.soma_report

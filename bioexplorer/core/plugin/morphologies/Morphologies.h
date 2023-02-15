@@ -29,13 +29,15 @@ namespace morphology
 using namespace brayns;
 using namespace common;
 
+const double DEFAULT_SPINE_RADIUS = 0.25;
+
 const size_t NB_MATERIALS_PER_MORPHOLOGY = 10;
 const size_t MATERIAL_OFFSET_VARICOSITY = 0;
 const size_t MATERIAL_OFFSET_SOMA = 1;
 const size_t MATERIAL_OFFSET_AXON = 2;
 const size_t MATERIAL_OFFSET_DENDRITE = 3;
 const size_t MATERIAL_OFFSET_APICAL_DENDRITE = 4;
-const size_t MATERIAL_OFFSET_SYNPASE = 5;
+const size_t MATERIAL_OFFSET_SYNAPSE = 5;
 const size_t MATERIAL_OFFSET_MITOCHONDRION = 7;
 const size_t MATERIAL_OFFSET_NUCLEUS = 8;
 const size_t MATERIAL_OFFSET_MYELIN_SHEATH = 9;

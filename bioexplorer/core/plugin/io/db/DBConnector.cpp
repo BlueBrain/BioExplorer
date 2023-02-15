@@ -1176,6 +1176,59 @@ WhiteMatterStreamlines DBConnector::getWhiteMatterStreamlines(
     return streamlines;
 }
 
+SynapsesMap DBConnector::getSynapses(const std::string& populationName,
+                                     const std::string& sqlCondition) const
+{
+    CHECK_DB_INITIALIZATION
+    SynapsesMap synapses;
+    pqxx::nontransaction transaction(
+        *_connections[omp_get_thread_num() % _dbNbConnections]);
+    try
+    {
+        Timer chrono;
+        std::string sql =
+            "SELECT guid, postsynaptic_neuron_guid, postsynaptic_section_guid, "
+            "postsynaptic_segment_guid, presynaptic_segment_distance, "
+            "postsynaptic_segment_distance, presynaptic_center_x_position, "
+            "presynaptic_center_y_position, presynaptic_center_z_position, "
+            "postsynaptic_center_x_position, postsynaptic_center_y_position, "
+            "postsynaptic_center_z_position FROM " +
+            populationName + ".synapse";
+        if (!sqlCondition.empty())
+            sql += " WHERE " + sqlCondition;
+        sql += " ORDER BY guid";
+
+        PLUGIN_DB_INFO(1, sql);
+        auto res = transaction.exec(sql);
+        for (auto c = res.begin(); c != res.end(); ++c)
+        {
+            Synapse synapse;
+            synapse.postSynapticNeuronId = c[1].as<uint64_t>();
+            synapse.postSynapticSectionId = c[2].as<uint64_t>();
+            synapse.postSynapticSegmentId = c[3].as<uint64_t>();
+            synapse.preSynapticSegmentDistance = c[4].as<float>();
+            synapse.postSynapticSegmentDistance = c[5].as<float>();
+            synapse.preSynapticSurfacePosition = {c[6].as<float>(),
+                                                  c[7].as<float>(),
+                                                  c[8].as<float>()};
+            synapse.postSynapticSurfacePosition = {c[9].as<float>(),
+                                                   c[10].as<float>(),
+                                                   c[11].as<float>()};
+            synapses[c[0].as<uint64_t>()] = synapse;
+        }
+        PLUGIN_DB_TIMER(chrono.elapsed(),
+                        "getSynapses(populationName=" << populationName
+                                                      << ", sqlCondition="
+                                                      << sqlCondition << ")");
+    }
+    catch (pqxx::sql_error& e)
+    {
+        PLUGIN_THROW(e.what());
+    }
+
+    return synapses;
+}
+
 Vector3ds DBConnector::getSynapseEfficacyPositions(
     const std::string& populationName, const std::string& sqlCondition) const
 {
@@ -1186,8 +1239,8 @@ Vector3ds DBConnector::getSynapseEfficacyPositions(
     try
     {
         Timer chrono;
-        std::string sql = "SELECT synapse_guid,x,y,z FROM " + populationName +
-                          ".synapse_efficacy";
+        std::string sql = "SELECT synapse_guid, x, y, z FROM " +
+                          populationName + ".synapse_efficacy";
         if (!sqlCondition.empty())
             sql += " WHERE " + sqlCondition;
         sql += " ORDER BY synapse_guid";
@@ -1204,7 +1257,7 @@ Vector3ds DBConnector::getSynapseEfficacyPositions(
             ++i;
         }
         PLUGIN_DB_TIMER(chrono.elapsed(),
-                        "getWhiteMatterStreamlines(populationName="
+                        "getSynapseEfficacyPositions(populationName="
                             << populationName
                             << ", sqlCondition=" << sqlCondition << ")");
     }
@@ -1222,6 +1275,7 @@ floats DBConnector::getSynapseEfficacyReportValues(
 {
     CHECK_DB_INITIALIZATION
     floats reportValues;
+#if 0
     const uint64_t offset = 1;
     const auto size = sizeof(float);
     pqxx::nontransaction transaction(
@@ -1258,7 +1312,7 @@ floats DBConnector::getSynapseEfficacyReportValues(
     {
         PLUGIN_THROW(e.what());
     }
-
+#endif
     return reportValues;
 }
 
