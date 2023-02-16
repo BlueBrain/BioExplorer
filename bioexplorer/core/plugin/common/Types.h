@@ -1184,6 +1184,8 @@ typedef struct
     double radiusMultiplier{1.0};
     /** Simulation report identifier */
     int64_t simulationReportId{-1};
+    /** Load non-simulated nodes  */
+    bool loadNonSimulatedNodes{false};
     /** SQL filter for nodes (WHERE condition) */
     std::string sqlNodeFilter;
     /** SQL filter dor sections (WHERE condition) */
@@ -1242,6 +1244,28 @@ typedef struct
     /** Scale of the streamlines in the scene */
     doubles scale{1.0, 1.0, 1.0};
 } WhiteMatterDetails;
+
+enum class SynapseRepresentation
+{
+    sphere = 0,
+    spine = 1
+};
+
+typedef struct
+{
+    /** Name of the assembly containing the white matter */
+    std::string assemblyName;
+    /** Name of the white matter population  */
+    std::string populationName;
+    /** Multiplies the spine  radii by the specified value */
+    double radiusMultiplier{1.0};
+    /** Representation of the synapse (sphere or spine) */
+    SynapseRepresentation representation{SynapseRepresentation::sphere};
+    /** Use Signed Distance Fields for geometry realism */
+    MorphologyRealismLevel realismLevel{MorphologyRealismLevel::none};
+    /** SQL filter for streamlines (WHERE condition) */
+    std::string sqlFilter;
+} SynapsesDetails;
 
 typedef struct
 {
@@ -1309,6 +1333,28 @@ struct SDFMorphologyData
     std::unordered_map<size_t, int> geometrySection;
     std::unordered_map<int, size_ts> sectionGeometries;
 };
+
+enum class ReportType
+{
+    undefined = 0,
+    spike = 1,
+    soma = 2,
+    compartment = 3,
+    synapse_efficacy = 4
+};
+
+typedef struct
+{
+    ReportType type{ReportType::undefined};
+    std::string description;
+    double startTime;
+    double endTime;
+    double timeStep;
+    std::string timeUnits;
+    std::string dataUnits;
+    bool debugMode{false};
+    uint64_tm guids;
+} SimulationReport;
 } // namespace common
 
 namespace molecularsystems
@@ -1516,10 +1562,27 @@ namespace morphology
 {
 class Morphologies;
 using MorphologiesPtr = std::shared_ptr<Morphologies>;
+
 class Astrocytes;
 using AstrocytesPtr = std::shared_ptr<Astrocytes>;
 class Neurons;
 using NeuronsPtr = std::shared_ptr<Neurons>;
+class Synapses;
+using SynapsesPtr = std::shared_ptr<Synapses>;
+
+typedef struct
+{
+    uint64_t postSynapticNeuronId;
+    uint64_t postSynapticSectionId;
+    uint64_t postSynapticSegmentId;
+    double preSynapticSegmentDistance;
+    double postSynapticSegmentDistance;
+    Vector3d preSynapticSurfacePosition;
+    Vector3d postSynapticSurfacePosition;
+} Synapse;
+using SynapsesMap = std::map<uint64_t, Synapse>;
+using SegmentSynapseMap = std::map<uint64_t, std::vector<Synapse>>;
+using SectionSynapseMap = std::map<uint64_t, SegmentSynapseMap>;
 
 typedef struct
 {
@@ -1539,27 +1602,6 @@ typedef struct
     uint64_t morphologyId{0};
 } NeuronSoma;
 using NeuronSomaMap = std::map<uint64_t, NeuronSoma>;
-
-typedef struct
-{
-    uint64_t postSynapticNeuronId;
-    uint64_t postSynapticSectionId;
-    uint64_t postSynapticSegmentId;
-    double preSynapticSegmentDistance;
-    double postSynapticSegmentDistance;
-} Synapse;
-using Synapses = std::vector<Synapse>;
-using SegmentSynapseMap = std::map<uint64_t, Synapses>;
-using SectionSynapseMap = std::map<uint64_t, SegmentSynapseMap>;
-
-enum class ReportType
-{
-    undefined = 0,
-    spike = 1,
-    soma = 2,
-    compartment = 3,
-    synapse_efficacy = 4
-};
 
 typedef struct
 {
@@ -1588,7 +1630,6 @@ typedef struct
     uint64_t region{0};
 } Cell;
 using CellMap = std::map<uint64_t, Cell>;
-
 } // namespace morphology
 
 namespace connectomics
@@ -1611,16 +1652,6 @@ namespace db
 {
 class DBConnector;
 using DBConnectorPtr = std::shared_ptr<DBConnector>;
-
-typedef struct
-{
-    std::string description;
-    double startTime;
-    double endTime;
-    double timeStep;
-    std::string timeUnits;
-    std::string dataUnits;
-} SimulationReport;
 
 namespace fields
 {

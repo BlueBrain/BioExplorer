@@ -31,6 +31,7 @@ namespace morphology
 {
 using namespace brayns;
 using namespace common;
+using namespace connectomics;
 
 using Varicosities = std::map<uint64_t, Vector3ds>;
 
@@ -74,8 +75,7 @@ private:
 
     void _buildSomasOnly(ThreadSafeContainer& container,
                          const NeuronSomaMap& somas,
-                         const size_t baseMaterialId,
-                         const uint64_tm& simulatedNodesMapping);
+                         const size_t baseMaterialId);
 
     void _buildOrientations(ThreadSafeContainer& container,
                             const NeuronSomaMap& somas,
@@ -83,8 +83,7 @@ private:
 
     void _buildMorphology(ThreadSafeContainer& container,
                           const uint64_t neuronId, const NeuronSoma& soma,
-                          const uint64_t neuronIndex,
-                          const uint64_tm& simulatedNodesMapping);
+                          const uint64_t neuronIndex);
 
     void _addArrow(ThreadSafeContainer& container, const uint64_t neuronId,
                    const Vector3d& somaPosition,
@@ -128,7 +127,7 @@ private:
     Scene& _scene;
     Varicosities _varicosities;
     uint64_t _nbSpines{0};
-    ReportType _reportType{ReportType::undefined};
+    SimulationReport _simulationReport;
 };
 } // namespace morphology
 } // namespace bioexplorer

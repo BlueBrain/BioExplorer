@@ -103,6 +103,7 @@ set(${NAME}_SOURCES
     plugin/molecularsystems/RNASequence.cpp
     plugin/morphologies/Morphologies.cpp
     plugin/atlas/Atlas.cpp
+    plugin/morphologies/Synapses.cpp
     plugin/morphologies/Astrocytes.cpp
     plugin/morphologies/Neurons.cpp
     plugin/morphologies/SpikeSimulationHandler.cpp
@@ -140,6 +141,7 @@ set(${NAME}_PUBLIC_HEADERS
     plugin/molecularsystems/Protein.h
     plugin/molecularsystems/RNASequence.h
     plugin/atlas/Atlas.h
+    plugin/morphologies/Synapses.h
     plugin/morphologies/Morphologies.h
     plugin/morphologies/Astrocytes.h
     plugin/morphologies/Neurons.h
@@ -149,7 +151,7 @@ set(${NAME}_PUBLIC_HEADERS
     plugin/vasculature/VasculatureHandler.h
     plugin/vasculature/Vasculature.h
     plugin/connectomics/whitematter/WhiteMatter.h
-    plugin/connectomics/synapses/SynapseEfficacy.cpp
+    plugin/connectomics/synapses/SynapseEfficacy.h
     plugin/connectomics/synapses/SynapseEfficacySimulationHandler.h
     plugin/common/UniqueId.h
     plugin/common/GeneralSettings.h

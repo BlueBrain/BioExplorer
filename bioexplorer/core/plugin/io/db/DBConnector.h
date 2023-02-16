@@ -274,16 +274,6 @@ public:
         const std::string& sqlCondition = "") const;
 
     /**
-     * @brief Get the neuron report type
-     *
-     * @param populationName Name of the population
-     * @param reportId Report identifier
-     * @return ReportType Type of report
-     */
-    ReportType getNeuronReportType(const std::string& populationName,
-                                   const uint64_t reportId) const;
-
-    /**
      * @brief Get a selection of spikes from a neuron spike report
      *
      * @param populationName Name of the population
@@ -304,9 +294,8 @@ public:
      * @param reportId Simulation report identifier
      * @return uint64_tm Neuron Soma Report Guids
      */
-    uint64_tm getNeuronSomaReportGuids(
-        const std::string& populationName, const uint64_t reportId,
-        const std::string& sqlCondition = "") const;
+    uint64_tm getSimulatedNodesGuids(const std::string& populationName,
+                                     const uint64_t reportId) const;
 
     /**
      * @brief Get the Neuron soma simulation values
@@ -385,6 +374,16 @@ public:
     WhiteMatterStreamlines getWhiteMatterStreamlines(
         const std::string& populationName,
         const std::string& sqlCondition = "") const;
+
+    /**
+     * @brief Get positions of synapses
+     *
+     * @param populationName Name of the population
+     * @param sqlCondition SQL condition
+     * @return Map of synapses indexed by ID
+     */
+    SynapsesMap getSynapses(const std::string& populationName,
+                            const std::string& sqlCondition = "") const;
 
     /**
      * @brief Get positions of synapses for efficacy report

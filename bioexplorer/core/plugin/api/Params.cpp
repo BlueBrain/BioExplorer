@@ -907,6 +907,7 @@ bool from_json(NeuronsDetails &param, const std::string &payload)
         FROM_JSON(param, js, populationColorScheme);
         FROM_JSON(param, js, radiusMultiplier);
         FROM_JSON(param, js, simulationReportId);
+        FROM_JSON(param, js, loadNonSimulatedNodes);
         FROM_JSON(param, js, sqlNodeFilter);
         FROM_JSON(param, js, sqlSectionFilter);
         FROM_JSON(param, js, scale);
@@ -1006,6 +1007,25 @@ bool from_json(WhiteMatterDetails &param, const std::string &payload)
         FROM_JSON(param, js, radius);
         FROM_JSON(param, js, sqlFilter);
         FROM_JSON(param, js, scale);
+    }
+    catch (...)
+    {
+        return false;
+    }
+    return true;
+}
+
+bool from_json(SynapsesDetails &param, const std::string &payload)
+{
+    try
+    {
+        auto js = nlohmann::json::parse(payload);
+        FROM_JSON(param, js, assemblyName);
+        FROM_JSON(param, js, populationName);
+        FROM_JSON(param, js, radiusMultiplier);
+        FROM_JSON(param, js, representation);
+        FROM_JSON(param, js, realismLevel);
+        FROM_JSON(param, js, sqlFilter);
     }
     catch (...)
     {

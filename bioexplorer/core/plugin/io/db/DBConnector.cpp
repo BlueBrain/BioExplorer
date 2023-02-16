@@ -457,9 +457,8 @@ SimulationReport DBConnector::getSimulationReport(
     {
         Timer chrono;
         std::string sql =
-            "SELECT description, start_time, end_time, time_step, "
-            "time_units, "
-            "data_units FROM " +
+            "SELECT type_guid, description, start_time, end_time, time_step, "
+            "time_units, data_units, debug_mode, guids FROM " +
             populationName +
             ".report WHERE guid=" + std::to_string(simulationReportId);
 
@@ -467,12 +466,21 @@ SimulationReport DBConnector::getSimulationReport(
         auto res = transaction.exec(sql);
         for (auto c = res.begin(); c != res.end(); ++c)
         {
-            simulationReport.description = c[0].as<std::string>();
-            simulationReport.startTime = c[1].as<double>();
-            simulationReport.endTime = c[2].as<double>();
-            simulationReport.timeStep = c[3].as<double>();
-            simulationReport.timeUnits = c[4].as<std::string>();
-            simulationReport.dataUnits = c[5].as<std::string>();
+            simulationReport.type =
+                static_cast<ReportType>(c[0].as<uint64_t>());
+            simulationReport.description = c[1].as<std::string>();
+            simulationReport.startTime = c[2].as<double>();
+            simulationReport.endTime = c[3].as<double>();
+            simulationReport.timeStep = c[4].as<double>();
+            simulationReport.timeUnits = c[5].as<std::string>();
+            simulationReport.dataUnits = c[6].as<std::string>();
+            simulationReport.debugMode = c[7].as<bool>();
+            const pqxx::binarystring bytea(c[8]);
+            uint64_ts guids;
+            guids.resize(bytea.size() / sizeof(uint64_t));
+            memcpy(&guids[0], bytea.data(), bytea.size());
+            for (uint64_t i = 0; i < guids.size(); ++i)
+                simulationReport.guids[guids[i]] = i;
         }
         PLUGIN_DB_TIMER(chrono.elapsed(), "getSimulationReport(populationName="
                                               << populationName
@@ -817,34 +825,6 @@ SectionSynapseMap DBConnector::getNeuronSynapses(
     return sectionSynapseMap;
 }
 
-ReportType DBConnector::getNeuronReportType(const std::string& populationName,
-                                            const uint64_t reportId) const
-{
-    CHECK_DB_INITIALIZATION
-    ReportType reportType = ReportType::undefined;
-    pqxx::nontransaction transaction(
-        *_connections[omp_get_thread_num() % _dbNbConnections]);
-    try
-    {
-        Timer chrono;
-        std::string sql = "SELECT type_guid FROM " + populationName +
-                          ".report WHERE guid=" + std::to_string(reportId);
-        PLUGIN_DB_INFO(1, sql);
-        auto res = transaction.exec(sql);
-        for (auto c = res.begin(); c != res.end(); ++c)
-            reportType = static_cast<ReportType>(c[0].as<uint64_t>());
-        PLUGIN_DB_TIMER(chrono.elapsed(), "getNeuronReportType(populationName="
-                                              << populationName << ", reportId="
-                                              << reportId << ")");
-    }
-    catch (pqxx::sql_error& e)
-    {
-        PLUGIN_THROW(e.what());
-    }
-
-    return reportType;
-}
-
 uint64_ts DBConnector::getNeuronSpikeReportValues(
     const std::string& populationName, const uint64_t reportId,
     const double startTime, const double endTime) const
@@ -859,7 +839,7 @@ uint64_ts DBConnector::getNeuronSpikeReportValues(
         std::string sql =
             "SELECT DISTINCT(node_guid) FROM " + populationName +
             ".spike_report WHERE report_guid=" + std::to_string(reportId) +
-            " AND timestamp>=" + std::to_string(startTime) + "AND timestamp<" +
+            " AND timestamp>=" + std::to_string(startTime) + " AND timestamp<" +
             std::to_string(endTime) + " ORDER BY node_guid";
         PLUGIN_DB_INFO(1, sql);
         auto res = transaction.exec(sql);
@@ -879,9 +859,8 @@ uint64_ts DBConnector::getNeuronSpikeReportValues(
     return spikes;
 }
 
-uint64_tm DBConnector::getNeuronSomaReportGuids(
-    const std::string& populationName, const uint64_t reportId,
-    const std::string& sqlCondition) const
+uint64_tm DBConnector::getSimulatedNodesGuids(const std::string& populationName,
+                                              const uint64_t reportId) const
 {
     CHECK_DB_INITIALIZATION
     std::map<uint64_t, uint64_t> guids;
@@ -893,13 +872,9 @@ uint64_tm DBConnector::getNeuronSomaReportGuids(
     {
         const std::string sql =
             "SELECT node_guid FROM " + populationName +
-            ".simulated_node WHERE " +
-            (sqlCondition.empty()
-                 ? ""
-                 : "node_guid IN (SELECT guid FROM " + populationName +
-                       ".node WHERE " + sqlCondition + ") AND ") +
-            "report_guid=" + std::to_string(reportId) + " ORDER BY node_guid";
-        PLUGIN_DB_DEBUG(sql);
+            ".simulated_node WHERE report_guid=" + std::to_string(reportId) +
+            " ORDER BY node_guid";
+        PLUGIN_DB_INFO(1, sql);
         const auto res = transaction.exec(sql);
         uint64_t count = 0;
         for (auto c = res.begin(); c != res.end(); ++c)
@@ -912,9 +887,11 @@ uint64_tm DBConnector::getNeuronSomaReportGuids(
     {
         PLUGIN_THROW(e.what());
     }
-    PLUGIN_DB_TIMER(chrono.elapsed(), "getNeuronSomaReportGuids(populationName="
-                                          << populationName
-                                          << ", reportId=" << reportId << ")");
+    PLUGIN_DB_TIMER(
+        chrono.elapsed(),
+        guids.size()
+            << " guids returned by getSimulatedNodesGuids(populationName="
+            << populationName << ", reportId=" << reportId << ")");
     return guids;
 }
 
@@ -925,6 +902,7 @@ void DBConnector::getNeuronSomaReportValues(const std::string& populationName,
 {
     CHECK_DB_INITIALIZATION
     const uint64_t elementSize = sizeof(float);
+
     const uint64_t bufferOffset = 1; // First byte of bytea must be ignored
 
     Timer chrono;
@@ -933,17 +911,20 @@ void DBConnector::getNeuronSomaReportValues(const std::string& populationName,
     try
     {
         const std::string sql =
-            "SELECT values::bytea FROM " + populationName +
+            "SELECT values1::bytea, values2::bytea FROM " + populationName +
             ".soma_report WHERE report_guid=" + std::to_string(reportId) +
             " AND frame=" + std::to_string(frame);
-        PLUGIN_DB_DEBUG(sql);
+        PLUGIN_DB_INFO(1, sql);
         const auto res = transaction.exec(sql);
         for (auto c = res.begin(); c != res.end(); ++c)
         {
-            const pqxx::binarystring buffer(c[0]);
-            const uint64_t nbValues = buffer.size() / elementSize;
-            values.resize(nbValues);
-            memcpy(&values[0], &buffer[0], buffer.size());
+            const pqxx::binarystring buffer1(c[0]);
+            const uint64_t nbValues1 = buffer1.size() / elementSize;
+            const pqxx::binarystring buffer2(c[0]);
+            const uint64_t nbValues2 = buffer2.size() / elementSize;
+            values.resize(nbValues1 + nbValues2);
+            memcpy(&values[0], &buffer1[0], buffer1.size());
+            memcpy(&values[nbValues1], &buffer2[0], buffer2.size());
         }
     }
     catch (pqxx::sql_error& e)
@@ -1195,6 +1176,59 @@ WhiteMatterStreamlines DBConnector::getWhiteMatterStreamlines(
     return streamlines;
 }
 
+SynapsesMap DBConnector::getSynapses(const std::string& populationName,
+                                     const std::string& sqlCondition) const
+{
+    CHECK_DB_INITIALIZATION
+    SynapsesMap synapses;
+    pqxx::nontransaction transaction(
+        *_connections[omp_get_thread_num() % _dbNbConnections]);
+    try
+    {
+        Timer chrono;
+        std::string sql =
+            "SELECT guid, postsynaptic_neuron_guid, postsynaptic_section_guid, "
+            "postsynaptic_segment_guid, presynaptic_segment_distance, "
+            "postsynaptic_segment_distance, presynaptic_center_x_position, "
+            "presynaptic_center_y_position, presynaptic_center_z_position, "
+            "postsynaptic_center_x_position, postsynaptic_center_y_position, "
+            "postsynaptic_center_z_position FROM " +
+            populationName + ".synapse";
+        if (!sqlCondition.empty())
+            sql += " WHERE " + sqlCondition;
+        sql += " ORDER BY guid";
+
+        PLUGIN_DB_INFO(1, sql);
+        auto res = transaction.exec(sql);
+        for (auto c = res.begin(); c != res.end(); ++c)
+        {
+            Synapse synapse;
+            synapse.postSynapticNeuronId = c[1].as<uint64_t>();
+            synapse.postSynapticSectionId = c[2].as<uint64_t>();
+            synapse.postSynapticSegmentId = c[3].as<uint64_t>();
+            synapse.preSynapticSegmentDistance = c[4].as<float>();
+            synapse.postSynapticSegmentDistance = c[5].as<float>();
+            synapse.preSynapticSurfacePosition = {c[6].as<float>(),
+                                                  c[7].as<float>(),
+                                                  c[8].as<float>()};
+            synapse.postSynapticSurfacePosition = {c[9].as<float>(),
+                                                   c[10].as<float>(),
+                                                   c[11].as<float>()};
+            synapses[c[0].as<uint64_t>()] = synapse;
+        }
+        PLUGIN_DB_TIMER(chrono.elapsed(),
+                        "getSynapses(populationName=" << populationName
+                                                      << ", sqlCondition="
+                                                      << sqlCondition << ")");
+    }
+    catch (pqxx::sql_error& e)
+    {
+        PLUGIN_THROW(e.what());
+    }
+
+    return synapses;
+}
+
 Vector3ds DBConnector::getSynapseEfficacyPositions(
     const std::string& populationName, const std::string& sqlCondition) const
 {
@@ -1205,8 +1239,8 @@ Vector3ds DBConnector::getSynapseEfficacyPositions(
     try
     {
         Timer chrono;
-        std::string sql = "SELECT synapse_guid,x,y,z FROM " + populationName +
-                          ".synapse_efficacy";
+        std::string sql = "SELECT synapse_guid, x, y, z FROM " +
+                          populationName + ".synapse_efficacy";
         if (!sqlCondition.empty())
             sql += " WHERE " + sqlCondition;
         sql += " ORDER BY synapse_guid";
@@ -1223,7 +1257,7 @@ Vector3ds DBConnector::getSynapseEfficacyPositions(
             ++i;
         }
         PLUGIN_DB_TIMER(chrono.elapsed(),
-                        "getWhiteMatterStreamlines(populationName="
+                        "getSynapseEfficacyPositions(populationName="
                             << populationName
                             << ", sqlCondition=" << sqlCondition << ")");
     }
@@ -1241,6 +1275,7 @@ floats DBConnector::getSynapseEfficacyReportValues(
 {
     CHECK_DB_INITIALIZATION
     floats reportValues;
+#if 0
     const uint64_t offset = 1;
     const auto size = sizeof(float);
     pqxx::nontransaction transaction(
@@ -1277,7 +1312,7 @@ floats DBConnector::getSynapseEfficacyReportValues(
     {
         PLUGIN_THROW(e.what());
     }
-
+#endif
     return reportValues;
 }
 

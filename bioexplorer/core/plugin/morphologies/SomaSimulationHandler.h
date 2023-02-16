@@ -29,8 +29,7 @@ namespace bioexplorer
 namespace morphology
 {
 using namespace brayns;
-using namespace io;
-using namespace db;
+using namespace common;
 
 /**
  * @brief The SomaSimulationHandler handles the reading of simulation
