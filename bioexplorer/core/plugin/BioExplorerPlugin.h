@@ -89,7 +89,7 @@ private:
 
     // Other elements
     Response _addGrid(const AddGridDetails &payload);
-    Response _addSphere(const AddSphereDetails &payload);
+    Response _addSpheres(const AddSpheresDetails &payload);
     Response _addCone(const AddConeDetails &payload);
     Response _addBoundingBox(const AddBoundingBoxDetails &payload);
     Response _addBox(const AddBoxDetails &payload);

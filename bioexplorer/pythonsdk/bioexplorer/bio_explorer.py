@@ -2545,31 +2545,39 @@ class BioExplorer:
         params["color"] = color.to_list()
         return self._invoke_and_check("add-box", params)
 
-    def add_sphere(
-        self, name, position, radius, color=Vector3(1.0, 1.0, 1.0), opacity=1.0
+    def add_spheres(
+        self, name, positions, radii, color=Vector3(1.0, 1.0, 1.0), opacity=1.0
     ):
         """
-        Add a reference grid to the scene
+        Add a list of spheres to the scene
 
-        :name: Name of the sphere
-        :position: Position of the sphere
-        :radius: Radius of the sphere
+        :name: Name of the list of spheres
+        :positions: List of spheres positions
+        :radii: Spheres Radii
         :color: RGB Color of the sphere (0..1)
         :return: Result of the request submission
         """
         if self._client is None:
             return
 
-        assert isinstance(position, Vector3)
+        assert isinstance(positions, list)
+        assert isinstance(radii, list)
         assert isinstance(color, Vector3)
+
+        pos = list()
+        for p in positions:
+            isinstance(p, Vector3)
+            pos.append(p.x)
+            pos.append(p.y)
+            pos.append(p.z)
 
         params = dict()
         params["name"] = name
-        params["position"] = position.to_list()
-        params["radius"] = radius
+        params["positions"] = pos
+        params["radii"] = radii
         params["color"] = color.to_list()
         params["opacity"] = opacity
-        return self._invoke_and_check("add-sphere", params)
+        return self._invoke_and_check("add-spheres", params)
 
     def add_cone(
         self,
