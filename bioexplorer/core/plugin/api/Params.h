@@ -61,7 +61,7 @@ bool from_json(EnzymeReactionProgressDetails &param,
 
 // Other elements
 bool from_json(AddGridDetails &param, const std::string &payload);
-bool from_json(AddSphereDetails &param, const std::string &payload);
+bool from_json(AddSpheresDetails &param, const std::string &payload);
 bool from_json(AddConeDetails &param, const std::string &payload);
 bool from_json(AddBoundingBoxDetails &param, const std::string &payload);
 bool from_json(AddBoxDetails &param, const std::string &payload);

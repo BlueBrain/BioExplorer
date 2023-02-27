@@ -429,11 +429,11 @@ void BioExplorerPlugin::init()
             endPoint,
             [&](const AddGridDetails &payload) { return _addGrid(payload); });
 
-        endPoint = PLUGIN_API_PREFIX + "add-sphere";
+        endPoint = PLUGIN_API_PREFIX + "add-spheres";
         PLUGIN_INFO(1, "Registering '" + endPoint + "' endpoint");
-        actionInterface->registerRequest<AddSphereDetails, Response>(
-            endPoint, [&](const AddSphereDetails &payload)
-            { return _addSphere(payload); });
+        actionInterface->registerRequest<AddSpheresDetails, Response>(
+            endPoint, [&](const AddSpheresDetails &payload)
+            { return _addSpheres(payload); });
 
         endPoint = PLUGIN_API_PREFIX + "add-cone";
         PLUGIN_INFO(1, "Registering '" + endPoint + "' endpoint");
@@ -1334,15 +1334,17 @@ Response BioExplorerPlugin::_addGrid(const AddGridDetails &payload)
     return response;
 }
 
-Response BioExplorerPlugin::_addSphere(const AddSphereDetails &payload)
+Response BioExplorerPlugin::_addSpheres(const AddSpheresDetails &payload)
 {
     Response response;
     try
     {
-        if (payload.position.size() != 3)
-            PLUGIN_THROW("Invalid number of double for position");
+        if (payload.positions.size() % 3 != 0)
+            PLUGIN_THROW("Invalid number of doubles for positions");
+        if (payload.positions.size() / 3 != payload.radii.size())
+            PLUGIN_THROW("Invalid number of radii");
         if (payload.color.size() != 3)
-            PLUGIN_THROW("Invalid number of double for color");
+            PLUGIN_THROW("Invalid number of doubles for color");
 
         auto &scene = _api->getScene();
         auto model = scene.createModel();
@@ -1356,16 +1358,24 @@ Response BioExplorerPlugin::_addSphere(const AddSphereDetails &payload)
         props.setProperty({MATERIAL_PROPERTY_CLIPPING_MODE, 0});
 
         const auto color = doublesToVector3d(payload.color);
-        const auto position = doublesToVector3d(payload.position);
 
-        auto material = model->createMaterial(0, "Sphere");
+        const size_t materialId = 0;
+        auto material = model->createMaterial(materialId, "Spheres");
         material->setDiffuseColor(color);
         material->setOpacity(payload.opacity);
         material->setProperties(props);
 
-        PLUGIN_INFO(3, "Adding sphere " + payload.name + " to the scene");
+        PLUGIN_INFO(3, "Adding spheres " + payload.name + " to the scene");
 
-        model->addSphere(0, {position, static_cast<float>(payload.radius)});
+        for (uint64_t i = 0; i < payload.radii.size(); ++i)
+        {
+            const auto position =
+                Vector3d(payload.positions[i * 3], payload.positions[i * 3 + 1],
+                         payload.positions[i * 3 + 2]);
+
+            model->addSphere(materialId,
+                             {position, static_cast<float>(payload.radii[i])});
+        }
         scene.addModel(
             std::make_shared<ModelDescriptor>(std::move(model), payload.name));
     }

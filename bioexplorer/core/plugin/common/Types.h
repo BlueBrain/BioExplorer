@@ -567,17 +567,17 @@ typedef struct
  */
 typedef struct
 {
-    /** Name of the sphere */
+    /** Name of the spheres */
     std::string name;
-    /** Position of the sphere in the scene */
-    doubles position;
-    /** Radius of the sphere */
-    double radius{1.0};
+    /** Positions of the spheres in the scene */
+    doubles positions;
+    /** Radii of the sphere */
+    doubles radii;
     /** RGB Color of the sphere */
     doubles color{1.0, 1.0, 1.0};
     /** Opacity */
     double opacity{1.0};
-} AddSphereDetails;
+} AddSpheresDetails;
 
 /**
  * @brief Defines the parameters needed when adding cone to the scene
