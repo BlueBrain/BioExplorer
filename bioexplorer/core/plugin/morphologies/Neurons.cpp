@@ -217,6 +217,7 @@ void Neurons::_buildSomasOnly(ThreadSafeContainer& container,
             const auto neuronId = soma.first;
             switch (_simulationReport.type)
             {
+            case ReportType::spike:
             case ReportType::soma:
             {
                 if (_simulationReport.guids.empty())
@@ -1225,7 +1226,7 @@ Vector3ds Neurons::getNeuronVaricosities(const uint64_t neuronId)
     return _varicosities[neuronId];
 }
 
-std::string Neurons::_attachSimulationReport(Model& model)
+void Neurons::_attachSimulationReport(Model& model)
 {
     // Simulation report
     std::string sqlNodeFilter = _details.sqlNodeFilter;
@@ -1244,13 +1245,6 @@ std::string Neurons::_attachSimulationReport(Model& model)
             _details.populationName, _details.simulationReportId);
         model.setSimulationHandler(handler);
         setDefaultTransferFunction(model, DEFAULT_SIMULATION_VALUE_RANGE);
-        if (!sqlNodeFilter.empty())
-            sqlNodeFilter += " AND ";
-        sqlNodeFilter += "guid IN (SELECT node_guid FROM " +
-                         _details.populationName +
-                         ".spike_report WHERE report_guid=" +
-                         std::to_string(_details.simulationReportId) +
-                         " ORDER BY node_guid)";
         break;
     }
     case ReportType::soma:
@@ -1262,13 +1256,6 @@ std::string Neurons::_attachSimulationReport(Model& model)
             _details.populationName, _details.simulationReportId);
         model.setSimulationHandler(handler);
         setDefaultTransferFunction(model, DEFAULT_SIMULATION_VALUE_RANGE);
-        if (!sqlNodeFilter.empty())
-            sqlNodeFilter += " AND ";
-        sqlNodeFilter += "guid IN (SELECT node_guid FROM " +
-                         _details.populationName +
-                         ".simulated_node WHERE report_guid=" +
-                         std::to_string(_details.simulationReportId) +
-                         " ORDER BY node_guid)";
         break;
     }
     case ReportType::compartment:
@@ -1280,17 +1267,9 @@ std::string Neurons::_attachSimulationReport(Model& model)
             _details.populationName, _details.simulationReportId);
         model.setSimulationHandler(handler);
         setDefaultTransferFunction(model, DEFAULT_SIMULATION_VALUE_RANGE);
-        if (!sqlNodeFilter.empty())
-            sqlNodeFilter += " AND ";
-        sqlNodeFilter += "guid IN (SELECT node_guid FROM " +
-                         _details.populationName +
-                         ".simulated_node WHERE report_guid=" +
-                         std::to_string(_details.simulationReportId) +
-                         " ORDER BY node_guid)";
         break;
     }
     }
-    return sqlNodeFilter;
 }
 
 } // namespace morphology
