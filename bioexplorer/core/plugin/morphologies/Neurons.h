@@ -121,7 +121,7 @@ private:
 
     void _addVaricosity(Vector4fs& points);
 
-    std::string _attachSimulationReport(Model& model);
+    void _attachSimulationReport(Model& model);
 
     const NeuronsDetails _details;
     Scene& _scene;
