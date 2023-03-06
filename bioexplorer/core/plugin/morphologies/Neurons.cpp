@@ -221,14 +221,14 @@ void Neurons::_buildSomasOnly(ThreadSafeContainer& container,
             case ReportType::soma:
             {
                 if (_simulationReport.guids.empty())
-                    somaUserData = neuronId;
+                    somaUserData = neuronId + 1;
                 else
                 {
                     const auto it = _simulationReport.guids.find(neuronId);
                     if (it == _simulationReport.guids.end() &&
                         !_details.loadNonSimulatedNodes)
                         continue; // Ignore non-simulated nodes
-                    somaUserData = (*it).second;
+                    somaUserData = (*it).second + 1;
                 }
                 break;
             }
@@ -347,17 +347,18 @@ void Neurons::_buildMorphology(ThreadSafeContainer& container,
             somaUserData = compartments[0];
         break;
     }
+    case ReportType::spike:
     case ReportType::soma:
     {
         if (_simulationReport.guids.empty())
-            somaUserData = neuronId;
+            somaUserData = neuronId + 1;
         else
         {
             const auto it = _simulationReport.guids.find(neuronId);
             if (it == _simulationReport.guids.end() &&
                 !_details.loadNonSimulatedNodes)
                 return; // Ignore non-simulated nodes
-            somaUserData = (*it).second;
+            somaUserData = (*it).second + 1;
         }
         break;
     }
