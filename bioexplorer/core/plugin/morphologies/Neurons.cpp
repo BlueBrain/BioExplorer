@@ -45,7 +45,7 @@ using namespace db;
 
 const uint64_t NB_MYELIN_FREE_SEGMENTS = 4;
 const double DEFAULT_ARROW_RADIUS_RATIO = 10.0;
-const Vector2d DEFAULT_SIMULATION_VALUE_RANGE = {-80.0, 30.0};
+const Vector2d DEFAULT_SIMULATION_VALUE_RANGE = {-80.0, -10.0};
 
 // Mitochondria density per layer
 // Source: A simplified morphological classification scheme for pyramidal cells
