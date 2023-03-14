@@ -386,7 +386,7 @@ class BioExplorer:
     NEURON_MATERIAL_SYNAPSE = 5
     NEURON_MATERIAL_MITOCHONDRION = 7
     NEURON_MATERIAL_NUCLEUS = 8
-    NEURON_MATERIAL_MYELIN_sheath = 9
+    NEURON_MATERIAL_MYELIN_SHEATH = 9
 
     def __init__(self, url="localhost:5000"):
         """Create a new BioExplorer instance"""

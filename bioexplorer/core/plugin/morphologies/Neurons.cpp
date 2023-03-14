@@ -221,14 +221,14 @@ void Neurons::_buildSomasOnly(ThreadSafeContainer& container,
             case ReportType::soma:
             {
                 if (_simulationReport.guids.empty())
-                    somaUserData = neuronId;
+                    somaUserData = neuronId + 1;
                 else
                 {
                     const auto it = _simulationReport.guids.find(neuronId);
                     if (it == _simulationReport.guids.end() &&
                         !_details.loadNonSimulatedNodes)
                         continue; // Ignore non-simulated nodes
-                    somaUserData = (*it).second;
+                    somaUserData = (*it).second + 1;
                 }
                 break;
             }
@@ -347,17 +347,18 @@ void Neurons::_buildMorphology(ThreadSafeContainer& container,
             somaUserData = compartments[0];
         break;
     }
+    case ReportType::spike:
     case ReportType::soma:
     {
         if (_simulationReport.guids.empty())
-            somaUserData = neuronId;
+            somaUserData = neuronId + 1;
         else
         {
             const auto it = _simulationReport.guids.find(neuronId);
             if (it == _simulationReport.guids.end() &&
                 !_details.loadNonSimulatedNodes)
                 return; // Ignore non-simulated nodes
-            somaUserData = (*it).second;
+            somaUserData = (*it).second + 1;
         }
         break;
     }
@@ -403,32 +404,17 @@ void Neurons::_buildMorphology(ThreadSafeContainer& container,
         const auto sectionType =
             static_cast<NeuronSectionType>(section.second.type);
         const auto& points = section.second.points;
-        bool useSdf = false;
+        bool useSdf = andCheck(static_cast<uint32_t>(_details.realismLevel),
+                               static_cast<uint32_t>(sectionType));
 
         if (sectionType == NeuronSectionType::axon && !_details.loadAxon)
-        {
-            useSdf =
-                andCheck(static_cast<uint32_t>(_details.realismLevel),
-                         static_cast<uint32_t>(MorphologyRealismLevel::axon));
             continue;
-        }
         if (sectionType == NeuronSectionType::basal_dendrite &&
             !_details.loadBasalDendrites)
-        {
-            useSdf = andCheck(static_cast<uint32_t>(_details.realismLevel),
-                              static_cast<uint32_t>(
-                                  MorphologyRealismLevel::dendrite));
             continue;
-        }
         if (sectionType == NeuronSectionType::apical_dendrite &&
             !_details.loadApicalDendrites)
-        {
-            useSdf = andCheck(static_cast<uint32_t>(_details.realismLevel),
-                              static_cast<uint32_t>(
-                                  MorphologyRealismLevel::dendrite));
             continue;
-        }
-
         if (_details.morphologyRepresentation ==
             MorphologyRepresentation::graph)
         {
@@ -443,6 +429,10 @@ void Neurons::_buildMorphology(ThreadSafeContainer& container,
         if (_details.showMembrane && _details.loadSomas &&
             section.second.parentId == SOMA_AS_PARENT)
         {
+            useSdf =
+                andCheck(static_cast<uint32_t>(_details.realismLevel),
+                         static_cast<uint32_t>(MorphologyRealismLevel::soma));
+
             const auto& point = section.second.points[0];
 
             const float srcRadius = somaRadius * 0.75f * _radiusMultiplier;
@@ -465,8 +455,8 @@ void Neurons::_buildMorphology(ThreadSafeContainer& container,
                                                somaRotation * Vector3d(point),
                                            dstRadius),
                                   neuronId);
-            const Vector3f displacement{dstRadius * sectionDisplacementStrength,
-                                        sectionDisplacementFrequency, 0.f};
+            const Vector3f displacement{somaDisplacementStrength,
+                                        somaDisplacementFrequency, 0.f};
             geometryIndex =
                 container.addCone(somaPosition, srcRadius, dstPosition,
                                   dstRadius, somaMaterialId, useSdf,
@@ -897,13 +887,18 @@ void Neurons::_addAxonMyelinSheath(
     if (nbPoints < NB_MYELIN_FREE_SEGMENTS)
         return;
 
+    // Average radius for myelin steath
+    const auto myelinScale = myelinSteathRadiusRatio;
+    double srcRadius = 0.0;
+    for (const auto& point : points)
+        srcRadius += point.w * 0.5 * myelinScale * _radiusMultiplier;
+    srcRadius /= points.size();
+
     uint64_t i = NB_MYELIN_FREE_SEGMENTS; // Ignore first 3 segments
     while (i < nbPoints - NB_MYELIN_FREE_SEGMENTS)
     {
         // Start surrounding segments with myelin steaths
         const auto& srcPoint = points[i];
-        const auto srcRadius =
-            srcPoint.w * 0.5 * myelinSteathRadiusRatio * _radiusMultiplier;
         const auto srcPosition =
             _animatedPosition(Vector4d(somaPosition +
                                            somaRotation * Vector3d(srcPoint),
@@ -927,8 +922,7 @@ void Neurons::_addAxonMyelinSheath(
         {
             ++i;
             const auto& dstPoint = points[i];
-            const auto dstRadius =
-                dstPoint.w * 0.5 * myelinSteathRadiusRatio * _radiusMultiplier;
+            const auto dstRadius = srcRadius;
             const auto dstPosition = _animatedPosition(
                 Vector4d(somaPosition + somaRotation * Vector3d(dstPoint),
                          dstRadius),
@@ -1017,14 +1011,15 @@ void Neurons::_addSpine(ThreadSafeContainer& container, const uint64_t neuronId,
         animatedPostSynapticSurfacePosition - preSynapticSurfacePosition;
     const auto l = length(direction) - spineLargeRadius;
 #else
-    const auto spineSmallRadius = radius * spineRadiusRatio * 0.5;
-    const auto spineBaseRadius = radius * spineRadiusRatio * 0.75;
-    const auto spineLargeRadius = radius * spineRadiusRatio * 2.5;
+    const double spineScale = 0.25;
+    const auto spineSmallRadius = radius * spineRadiusRatio * 0.5 * spineScale;
+    const auto spineBaseRadius = radius * spineRadiusRatio * 0.75 * spineScale;
+    const auto spineLargeRadius = radius * spineRadiusRatio * 2.5 * spineScale;
 
     const auto direction =
         Vector3d((rand() % 200 - 100) / 100.0, (rand() % 200 - 100) / 100.0,
                  (rand() % 200 - 100) / 100.0);
-    const auto l = 6.f * radius;
+    const auto l = 6.f * radius * spineScale;
 #endif
 
     // container.addSphere(preSynapticSurfacePosition, DEFAULT_SPINE_RADIUS
