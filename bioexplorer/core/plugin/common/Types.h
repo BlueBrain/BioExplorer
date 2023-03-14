@@ -1051,9 +1051,9 @@ const double spineDisplacementStrength = 0.01;
 const double spineDisplacementFrequency = 25.0;
 
 const double myelinSteathLength = 10.0;
-const double myelinSteathRadiusRatio = 1.75;
+const double myelinSteathRadiusRatio = 3.0;
 const double myelinSteathDisplacementStrength = 0.1;
-const double myelinSteathDisplacementFrequency = 5.0;
+const double myelinSteathDisplacementFrequency = 2.5;
 
 const uint64_t nbMinSegmentsForVaricosity = 10;
 

@@ -887,13 +887,18 @@ void Neurons::_addAxonMyelinSheath(
     if (nbPoints < NB_MYELIN_FREE_SEGMENTS)
         return;
 
+    // Average radius for myelin steath
+    const auto myelinScale = myelinSteathRadiusRatio;
+    double srcRadius = 0.0;
+    for (const auto& point : points)
+        srcRadius += point.w * 0.5 * myelinScale * _radiusMultiplier;
+    srcRadius /= points.size();
+
     uint64_t i = NB_MYELIN_FREE_SEGMENTS; // Ignore first 3 segments
     while (i < nbPoints - NB_MYELIN_FREE_SEGMENTS)
     {
         // Start surrounding segments with myelin steaths
         const auto& srcPoint = points[i];
-        const auto srcRadius =
-            srcPoint.w * 0.5 * myelinSteathRadiusRatio * _radiusMultiplier;
         const auto srcPosition =
             _animatedPosition(Vector4d(somaPosition +
                                            somaRotation * Vector3d(srcPoint),
@@ -917,8 +922,7 @@ void Neurons::_addAxonMyelinSheath(
         {
             ++i;
             const auto& dstPoint = points[i];
-            const auto dstRadius =
-                dstPoint.w * 0.5 * myelinSteathRadiusRatio * _radiusMultiplier;
+            const auto dstRadius = srcRadius;
             const auto dstPosition = _animatedPosition(
                 Vector4d(somaPosition + somaRotation * Vector3d(dstPoint),
                          dstRadius),
@@ -1007,14 +1011,15 @@ void Neurons::_addSpine(ThreadSafeContainer& container, const uint64_t neuronId,
         animatedPostSynapticSurfacePosition - preSynapticSurfacePosition;
     const auto l = length(direction) - spineLargeRadius;
 #else
-    const auto spineSmallRadius = radius * spineRadiusRatio * 0.5;
-    const auto spineBaseRadius = radius * spineRadiusRatio * 0.75;
-    const auto spineLargeRadius = radius * spineRadiusRatio * 2.5;
+    const double spineScale = 0.25;
+    const auto spineSmallRadius = radius * spineRadiusRatio * 0.5 * spineScale;
+    const auto spineBaseRadius = radius * spineRadiusRatio * 0.75 * spineScale;
+    const auto spineLargeRadius = radius * spineRadiusRatio * 2.5 * spineScale;
 
     const auto direction =
         Vector3d((rand() % 200 - 100) / 100.0, (rand() % 200 - 100) / 100.0,
                  (rand() % 200 - 100) / 100.0);
-    const auto l = 6.f * radius;
+    const auto l = 6.f * radius * spineScale;
 #endif
 
     // container.addSphere(preSynapticSurfacePosition, DEFAULT_SPINE_RADIUS
