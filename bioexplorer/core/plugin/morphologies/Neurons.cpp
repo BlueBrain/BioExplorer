@@ -404,32 +404,17 @@ void Neurons::_buildMorphology(ThreadSafeContainer& container,
         const auto sectionType =
             static_cast<NeuronSectionType>(section.second.type);
         const auto& points = section.second.points;
-        bool useSdf = false;
+        bool useSdf = andCheck(static_cast<uint32_t>(_details.realismLevel),
+                               static_cast<uint32_t>(sectionType));
 
         if (sectionType == NeuronSectionType::axon && !_details.loadAxon)
-        {
-            useSdf =
-                andCheck(static_cast<uint32_t>(_details.realismLevel),
-                         static_cast<uint32_t>(MorphologyRealismLevel::axon));
             continue;
-        }
         if (sectionType == NeuronSectionType::basal_dendrite &&
             !_details.loadBasalDendrites)
-        {
-            useSdf = andCheck(static_cast<uint32_t>(_details.realismLevel),
-                              static_cast<uint32_t>(
-                                  MorphologyRealismLevel::dendrite));
             continue;
-        }
         if (sectionType == NeuronSectionType::apical_dendrite &&
             !_details.loadApicalDendrites)
-        {
-            useSdf = andCheck(static_cast<uint32_t>(_details.realismLevel),
-                              static_cast<uint32_t>(
-                                  MorphologyRealismLevel::dendrite));
             continue;
-        }
-
         if (_details.morphologyRepresentation ==
             MorphologyRepresentation::graph)
         {
@@ -444,6 +429,10 @@ void Neurons::_buildMorphology(ThreadSafeContainer& container,
         if (_details.showMembrane && _details.loadSomas &&
             section.second.parentId == SOMA_AS_PARENT)
         {
+            useSdf =
+                andCheck(static_cast<uint32_t>(_details.realismLevel),
+                         static_cast<uint32_t>(MorphologyRealismLevel::soma));
+
             const auto& point = section.second.points[0];
 
             const float srcRadius = somaRadius * 0.75f * _radiusMultiplier;
@@ -466,8 +455,8 @@ void Neurons::_buildMorphology(ThreadSafeContainer& container,
                                                somaRotation * Vector3d(point),
                                            dstRadius),
                                   neuronId);
-            const Vector3f displacement{dstRadius * sectionDisplacementStrength,
-                                        sectionDisplacementFrequency, 0.f};
+            const Vector3f displacement{somaDisplacementStrength,
+                                        somaDisplacementFrequency, 0.f};
             geometryIndex =
                 container.addCone(somaPosition, srcRadius, dstPosition,
                                   dstRadius, somaMaterialId, useSdf,
