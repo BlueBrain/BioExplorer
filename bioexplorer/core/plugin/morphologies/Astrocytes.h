@@ -63,8 +63,9 @@ public:
 private:
     void _logRealismParams();
     void _buildModel(const doubles& radii = doubles());
-    void _addEndFoot(ThreadSafeContainer& container, const EndFootMap& endFeet,
-                     const doubles& radii, const size_t materialId);
+    void _addEndFoot(ThreadSafeContainer& container, const Vector3d& somaCenter,
+                     const EndFootMap& endFeet, const doubles& radii,
+                     const size_t materialId);
     const AstrocytesDetails _details;
     Scene& _scene;
 };
