@@ -388,6 +388,13 @@ class BioExplorer:
     NEURON_MATERIAL_NUCLEUS = 8
     NEURON_MATERIAL_MYELIN_SHEATH = 9
 
+    # Material offsets in astrocytes
+    ASTROCYTE_MATERIAL_SOMA = 1
+    ASTROCYTE_MATERIAL_END_FOOT = 4
+    ASTROCYTE_MATERIAL_MICRO_DOMAIN = 5
+    ASTROCYTE_MATERIAL_MITOCHONDRION = 7
+    ASTROCYTE_MATERIAL_NUCLEUS = 8
+
     def __init__(self, url="localhost:5000"):
         """Create a new BioExplorer instance"""
         self._url = url
@@ -2880,6 +2887,7 @@ class BioExplorer:
         load_somas=True,
         load_dendrites=True,
         generate_internals=False,
+        load_micro_domain=False,
         morphology_representation=MORPHOLOGY_REPRESENTATION_SEGMENT,
         morphology_color_scheme=MORPHOLOGY_COLOR_SCHEME_NONE,
         population_color_scheme=POPULATION_COLOR_SCHEME_NONE,
@@ -2898,6 +2906,7 @@ class BioExplorer:
         :load_somas: Load somas if set to true
         :load_dendrites: Load dendrites if set to true
         :generate_internals: Generate internals (Nucleus and mitochondria)
+        :load_micro_domain: Load micro-domain if set to true
         :realism_level: Use sign distance fields geometry to create the astrocytes. Defaults to none
         :morphology_representation: Geometry representation (graph, section or segment)
         :morphology_color_scheme: Color scheme of the sections of the astrocytes
@@ -2919,6 +2928,7 @@ class BioExplorer:
         params["loadSomas"] = load_somas
         params["loadDendrites"] = load_dendrites
         params["generateInternals"] = generate_internals
+        params["loadMicroDomain"] = load_micro_domain
         params["realismLevel"] = realism_level
         params["morphologyRepresentation"] = morphology_representation
         params["morphologyColorScheme"] = morphology_color_scheme

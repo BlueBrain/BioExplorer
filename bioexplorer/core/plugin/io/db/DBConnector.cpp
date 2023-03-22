@@ -667,6 +667,45 @@ EndFootMap DBConnector::getAstrocyteEndFeet(
     return endFeet;
 }
 
+TriangleMesh DBConnector::getAstrocyteMicroDomain(
+    const std::string& populationName, const uint64_t astrocyteId) const
+{
+    CHECK_DB_INITIALIZATION
+    TriangleMesh mesh;
+
+    pqxx::nontransaction transaction(
+        *_connections[omp_get_thread_num() % _dbNbConnections]);
+    try
+    {
+        Timer chrono;
+        std::string sql =
+            "SELECT vertices, indices FROM " + populationName +
+            ".micro_domain WHERE guid=" + std::to_string(astrocyteId);
+
+        PLUGIN_DB_INFO(1, sql);
+        auto res = transaction.exec(sql);
+        for (auto c = res.begin(); c != res.end(); ++c)
+        {
+            const pqxx::binarystring vertices(c[0]);
+            mesh.vertices.resize(vertices.size() / 3);
+            memcpy(&mesh.vertices.data()[0], vertices.data(), vertices.size());
+            const pqxx::binarystring indices(c[1]);
+            mesh.indices.resize(indices.size() / 3);
+            memcpy(&mesh.indices.data()[0], indices.data(), indices.size());
+        }
+        PLUGIN_DB_TIMER(chrono.elapsed(),
+                        "getAstrocyteMicroDomain(populationName="
+                            << populationName << ", astrocyteId=" << astrocyteId
+                            << ")");
+    }
+    catch (const pqxx::sql_error& e)
+    {
+        PLUGIN_THROW(e.what());
+    }
+
+    return mesh;
+}
+
 NeuronSomaMap DBConnector::getNeurons(const std::string& populationName,
                                       const std::string& sqlCondition) const
 {

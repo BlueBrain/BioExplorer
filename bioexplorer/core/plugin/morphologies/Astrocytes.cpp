@@ -92,6 +92,10 @@ void Astrocytes::_buildModel(const doubles& radii)
     const auto somas =
         connector.getAstrocytes(_details.populationName, _details.sqlFilter);
     const auto loadEndFeet = !_details.vasculaturePopulationName.empty();
+    const auto loadMicroDomain = _details.loadMicroDomain;
+
+    // Micro domain mesh per thread
+    std::map<size_t, std::map<size_t, TriangleMesh>> microDomainMeshes;
 
     PLUGIN_INFO(1, "Building " << somas.size() << " astrocytes");
     _logRealismParams();
@@ -124,6 +128,7 @@ void Astrocytes::_buildModel(const doubles& radii)
             sections =
                 connector.getAstrocyteSections(_details.populationName, somaId);
 
+        // End feet
         EndFootMap endFeet;
         if (loadEndFeet)
             endFeet = connector.getAstrocyteEndFeet(
@@ -284,7 +289,18 @@ void Astrocytes::_buildModel(const doubles& radii)
         }
 
         if (loadEndFeet)
-            _addEndFoot(container, soma.center, endFeet, radii, somaMaterialId);
+            _addEndFoot(container, soma.center, endFeet, radii, baseMaterialId);
+
+        if (loadMicroDomain)
+        {
+            const auto materialId =
+                (_details.morphologyColorScheme ==
+                 MorphologyColorScheme::section_type)
+                    ? baseMaterialId + MATERIAL_OFFSET_MICRO_DOMAIN
+                    : baseMaterialId;
+            auto& mesh = microDomainMeshes[index][materialId];
+            _addMicroDomain(mesh, somaId);
+        }
 #pragma omp critical
         containers.push_back(container);
     }
@@ -293,6 +309,8 @@ void Astrocytes::_buildModel(const doubles& radii)
     {
         PLUGIN_PROGRESS("- Compiling 3D geometry...", i, containers.size());
         auto& container = containers[i];
+        for (const auto& mesh : microDomainMeshes[i])
+            container.addMesh(mesh.first, mesh.second);
         container.commitToModel();
     }
 
@@ -312,7 +330,7 @@ void Astrocytes::_buildModel(const doubles& radii)
 void Astrocytes::_addEndFoot(ThreadSafeContainer& container,
                              const Vector3d& somaCenter,
                              const EndFootMap& endFeet, const doubles& radii,
-                             const size_t materialId)
+                             const size_t baseMaterialId)
 {
     const auto radiusMultiplier = _details.radiusMultiplier;
     const Vector3d displacement{vasculatureSegmentDisplacementStrength,
@@ -320,6 +338,11 @@ void Astrocytes::_addEndFoot(ThreadSafeContainer& container,
     const auto useSdf =
         andCheck(static_cast<uint32_t>(_details.realismLevel),
                  static_cast<uint32_t>(VasculatureRealismLevel::section));
+
+    const auto materialId =
+        (_details.morphologyColorScheme == MorphologyColorScheme::section_type)
+            ? baseMaterialId + MATERIAL_OFFSET_END_FOOT
+            : baseMaterialId;
 
     for (const auto& endFoot : endFeet)
     {
@@ -425,6 +448,27 @@ void Astrocytes::_addEndFoot(ThreadSafeContainer& container,
             }
         }
     }
+}
+
+void Astrocytes::_addMicroDomain(TriangleMesh& dstMesh,
+                                 const uint64_t astrocyteId)
+{
+    auto& connector = DBConnector::getInstance();
+    const auto srcMesh =
+        connector.getAstrocyteMicroDomain(_details.populationName, astrocyteId);
+    auto vertexOffset = dstMesh.vertices.size();
+    dstMesh.vertices.insert(dstMesh.vertices.end(), srcMesh.vertices.begin(),
+                            srcMesh.vertices.end());
+
+    auto indexOffset = dstMesh.indices.size();
+    dstMesh.indices.insert(dstMesh.indices.end(), srcMesh.indices.begin(),
+                           srcMesh.indices.end());
+    for (uint64_t i = 0; i < srcMesh.indices.size(); ++i)
+        dstMesh.indices[indexOffset + i] += vertexOffset;
+    dstMesh.normals.insert(dstMesh.normals.end(), srcMesh.normals.begin(),
+                           srcMesh.normals.end());
+    dstMesh.colors.insert(dstMesh.colors.end(), srcMesh.colors.begin(),
+                          srcMesh.colors.end());
 }
 
 void Astrocytes::setVasculatureRadiusReport(

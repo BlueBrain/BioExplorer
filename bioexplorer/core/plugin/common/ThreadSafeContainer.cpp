@@ -257,11 +257,15 @@ void ThreadSafeContainer::_commitMeshesToModel()
         _materialIds.insert(materialId);
         const auto& srcMesh = meshes.second;
         auto& dstMesh = _model.getTriangleMeshes()[materialId];
+        auto vertexOffset = dstMesh.vertices.size();
         dstMesh.vertices.insert(dstMesh.vertices.end(),
                                 srcMesh.vertices.begin(),
                                 srcMesh.vertices.end());
+        auto indexOffset = dstMesh.indices.size();
         dstMesh.indices.insert(dstMesh.indices.end(), srcMesh.indices.begin(),
                                srcMesh.indices.end());
+        for (uint64_t i = 0; i < srcMesh.indices.size(); ++i)
+            dstMesh.indices[indexOffset + i] += vertexOffset;
         dstMesh.normals.insert(dstMesh.normals.end(), srcMesh.normals.begin(),
                                srcMesh.normals.end());
         dstMesh.colors.insert(dstMesh.colors.end(), srcMesh.colors.begin(),

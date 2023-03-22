@@ -66,6 +66,7 @@ private:
     void _addEndFoot(ThreadSafeContainer& container, const Vector3d& somaCenter,
                      const EndFootMap& endFeet, const doubles& radii,
                      const size_t materialId);
+    void _addMicroDomain(TriangleMesh& mesh, const uint64_t astrocyteId);
     const AstrocytesDetails _details;
     Scene& _scene;
 };

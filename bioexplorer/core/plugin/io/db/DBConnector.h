@@ -237,6 +237,16 @@ public:
                                    const uint64_t astrocyteId) const;
 
     /**
+     * @brief Get the micro-domain for a given astrocyte
+     *
+     * @param populationName Name of the population
+     * @param astrocyteId Identifier of the astrocyte
+     * @return Micro-domain triangle mesh
+     */
+    TriangleMesh getAstrocyteMicroDomain(const std::string& populationName,
+                                         const uint64_t astrocyteId) const;
+
+    /**
      * @brief Get the neurons locations
      *
      * @param populationName Name of the population

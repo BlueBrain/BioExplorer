@@ -1118,6 +1118,8 @@ typedef struct
     bool loadDendrites{true};
     /** Generate internal components (nucleus and mitochondria) */
     bool generateInternals{false};
+    /** Load micro-domain */
+    bool loadMicroDomain{false};
     /** Use Signed Distance Fields for geometry realism */
     MorphologyRealismLevel realismLevel{MorphologyRealismLevel::none};
     /** Morphology representation */
