@@ -650,8 +650,8 @@ EndFootMap DBConnector::getAstrocyteEndFeet(
                                              c[4].as<float>()));
             endFoot.vasculatureSectionId = c[5].as<uint64_t>();
             endFoot.vasculatureSegmentId = c[6].as<uint64_t>();
-            endFoot.length = c[7].as<double>();
-            endFoot.radius = c[8].as<double>();
+            endFoot.length = c[7].as<double>() / 2.0;
+            endFoot.radius = c[8].as<double>() / 2.0;
             endFeet[endFootId] = endFoot;
         }
         PLUGIN_DB_TIMER(chrono.elapsed(),

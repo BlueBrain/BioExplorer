@@ -41,7 +41,8 @@ using namespace io;
 using namespace db;
 
 const double DEFAULT_MITOCHONDRIA_DENSITY = 0.0459;
-const double DEFAULT_ENDFOOT_RADIUS_RATIO = 1.5;
+const double DEFAULT_ENDFOOT_RADIUS_RATIO = 1.1;
+const double DEFAULT_ENDFOOT_RADIUS_SHIFTING_RATIO = 0.35;
 
 Astrocytes::Astrocytes(Scene& scene, const AstrocytesDetails& details)
     : Morphologies(details.radiusMultiplier, doublesToVector3d(details.scale))
@@ -283,7 +284,7 @@ void Astrocytes::_buildModel(const doubles& radii)
         }
 
         if (loadEndFeet)
-            _addEndFoot(container, endFeet, radii, somaMaterialId);
+            _addEndFoot(container, soma.center, endFeet, radii, somaMaterialId);
 #pragma omp critical
         containers.push_back(container);
     }
@@ -309,6 +310,7 @@ void Astrocytes::_buildModel(const doubles& radii)
 }
 
 void Astrocytes::_addEndFoot(ThreadSafeContainer& container,
+                             const Vector3d& somaCenter,
                              const EndFootMap& endFeet, const doubles& radii,
                              const size_t materialId)
 {
@@ -372,6 +374,7 @@ void Astrocytes::_addEndFoot(ThreadSafeContainer& container,
 
             // Build the segment using spheres and cones
             uint64_t geometryIndex = 0;
+            uint64_t endFootSegmentIndex = 0;
             Neighbours neighbours;
             for (uint64_t i = startIndex; i < endIndex - 1; ++i)
             {
@@ -396,10 +399,18 @@ void Astrocytes::_addEndFoot(ThreadSafeContainer& container,
                 const float dstEndFootRadius =
                     DEFAULT_ENDFOOT_RADIUS_RATIO * dstVasculatureRadius;
 
+                // Shift position in direction of astrocyte soma, so that only
+                // half of the end-feet appears outside of the vasculature
+                const Vector3d& shift =
+                    normalize(srcNode.position - somaCenter) *
+                    srcVasculatureRadius *
+                    DEFAULT_ENDFOOT_RADIUS_SHIFTING_RATIO *
+                    (1.0 + rnd2(endFootSegmentIndex));
+
                 const auto srcPosition = _animatedPosition(
-                    Vector4d(srcNode.position, srcVasculatureRadius));
+                    Vector4d(srcNode.position - shift, srcVasculatureRadius));
                 const auto dstPosition = _animatedPosition(
-                    Vector4d(dstNode.position, dstVasculatureRadius));
+                    Vector4d(dstNode.position - shift, dstVasculatureRadius));
 
                 if (!useSdf)
                     container.addSphere(srcPosition, srcEndFootRadius,
@@ -410,6 +421,7 @@ void Astrocytes::_addEndFoot(ThreadSafeContainer& container,
                                       useSdf, srcUserData, neighbours,
                                       displacement);
                 neighbours = {geometryIndex};
+                ++endFootSegmentIndex;
             }
         }
     }
