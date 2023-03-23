@@ -235,7 +235,7 @@ set(${NAME}_LINK_LIBRARIES
 )
 
 if(${CGAL_FOUND})
-    list(APPEND ${NAME}_LINK_LIBRARIES ${CGAL_LIBRARIES})
+list(APPEND ${NAME}_LINK_LIBRARIES ${CGAL_LIBRARIES} gmp)
 endif()
 
 add_library(

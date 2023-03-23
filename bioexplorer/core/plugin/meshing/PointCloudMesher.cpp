@@ -22,6 +22,7 @@
 
 #include <plugin/common/CommonTypes.h>
 #include <plugin/common/Logs.h>
+#include <plugin/common/ThreadSafeContainer.h>
 
 #include <brayns/engineapi/Material.h>
 #include <brayns/engineapi/Model.h>
@@ -46,22 +47,14 @@ namespace meshing
 {
 PointCloudMesher::PointCloudMesher() {}
 
-bool PointCloudMesher::toConvexHull(Model& model, const PointCloud& pointCloud)
+bool PointCloudMesher::toConvexHull(ThreadSafeContainer& container,
+                                    const PointCloud& pointCloud)
 {
 #ifdef USE_CGAL
     bool addModel{false};
     for (const auto& point : pointCloud)
     {
-        auto material =
-            model.createMaterial(point.first, std::to_string(point.first));
-        brayns::PropertyMap props;
-        props.setProperty({MATERIAL_PROPERTY_SHADING_MODE,
-                           static_cast<int>(MaterialShadingMode::diffuse)});
-        props.setProperty({MATERIAL_PROPERTY_USER_PARAMETER, 1.0});
-        props.setProperty({MATERIAL_PROPERTY_CHAMELEON_MODE,
-                           static_cast<int>(MaterialChameleonMode::receiver)});
-        material->updateProperties(props);
-
+        const auto materialId = point.first;
         std::vector<Point_3> points;
         for (const auto& c : point.second)
             points.push_back({c.x, c.y, c.z});
@@ -71,18 +64,17 @@ bool PointCloudMesher::toConvexHull(Model& model, const PointCloud& pointCloud)
         CGAL::convex_hull_3(points.begin(), points.end(), obj);
         if (const Polyhedron_3* poly = CGAL::object_cast<Polyhedron_3>(&obj))
         {
-            PLUGIN_INFO(3, "The convex hull contains "
-                               << poly->size_of_vertices() << " vertices");
-
             for (auto eit = poly->edges_begin(); eit != poly->edges_end();
                  ++eit)
             {
                 Point_3 a = eit->vertex()->point();
                 Point_3 b = eit->opposite()->vertex()->point();
-                model.addCylinder(point.first,
-                                  {{a.x(), a.y(), a.z()},
-                                   {b.x(), b.y(), b.z()},
-                                   static_cast<float>(point.second[0].w)});
+                const float radius = static_cast<float>(point.second[0].w);
+                container.addCone(Vector3f(a.x(), a.y(), a.z()), radius,
+                                  Vector3f(b.x(), b.y(), b.z()), radius,
+                                  materialId, false);
+                container.addSphere(Vector3f(a.x(), a.y(), a.z()), radius,
+                                    materialId, false);
                 addModel = true;
             }
         }
@@ -91,6 +83,7 @@ bool PointCloudMesher::toConvexHull(Model& model, const PointCloud& pointCloud)
     }
     return addModel;
 #else
+    PLUGIN_ERROR("The BioExplorer was not compiled with the CGAL library")
     return false;
 #endif
 }

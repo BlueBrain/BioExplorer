@@ -364,6 +364,10 @@ class BioExplorer:
     MORPHOLOGY_REPRESENTATION_SEGMENT = 2
     MORPHOLOGY_REPRESENTATION_ORIENTATION = 3
 
+    MICRO_DOMAIN_REPRESENTATION_MESH = 0
+    MICRO_DOMAIN_REPRESENTATION_CONVEX_HULL = 1
+    MICRO_DOMAIN_REPRESENTATION_SURFACE = 2
+
     MORPHOLOGY_REALISM_LEVEL_NONE = 0
     MORPHOLOGY_REALISM_LEVEL_SOMA = 1
     MORPHOLOGY_REALISM_LEVEL_AXON = 2
@@ -371,6 +375,7 @@ class BioExplorer:
     MORPHOLOGY_REALISM_LEVEL_INTERNALS = 8
     MORPHOLOGY_REALISM_LEVEL_EXTERNALS = 16
     MORPHOLOGY_REALISM_LEVEL_SPINE = 32
+    MORPHOLOGY_REALISM_LEVEL_END_FOOT = 64
     MORPHOLOGY_REALISM_LEVEL_ALL = 255
 
     SYNAPSE_REPRESENTATION_SPHERE = 0
@@ -2889,6 +2894,7 @@ class BioExplorer:
         generate_internals=False,
         load_micro_domain=False,
         morphology_representation=MORPHOLOGY_REPRESENTATION_SEGMENT,
+        micro_domain_representation=MICRO_DOMAIN_REPRESENTATION_MESH,
         morphology_color_scheme=MORPHOLOGY_COLOR_SCHEME_NONE,
         population_color_scheme=POPULATION_COLOR_SCHEME_NONE,
         radius_multiplier=1.0,
@@ -2931,6 +2937,7 @@ class BioExplorer:
         params["loadMicroDomain"] = load_micro_domain
         params["realismLevel"] = realism_level
         params["morphologyRepresentation"] = morphology_representation
+        params["microDomainRepresentation"] = micro_domain_representation
         params["morphologyColorScheme"] = morphology_color_scheme
         params["populationColorScheme"] = population_color_scheme
         params["radiusMultiplier"] = radius_multiplier

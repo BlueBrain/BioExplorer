@@ -423,7 +423,9 @@ void Molecule::_buildModel(const std::string& assemblyName,
                  atom.second.radius * atomRadiusMultiplier});
 
         PointCloudMesher pcm;
-        pcm.toConvexHull(*model, pointCloud);
+        ThreadSafeContainer container(*model);
+        pcm.toConvexHull(container, pointCloud);
+        container.commitToModel();
         _modelDescriptor =
             std::make_shared<ModelDescriptor>(std::move(model), name, header,
                                               metadata);

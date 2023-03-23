@@ -573,8 +573,9 @@ AstrocyteSomaMap DBConnector::getAstrocytes(
     return somas;
 }
 
-SectionMap DBConnector::getAstrocyteSections(const std::string& populationName,
-                                             const int64_t astrocyteId) const
+SectionMap DBConnector::getAstrocyteSections(
+    const std::string& populationName, const int64_t astrocyteId,
+    const bool connectedToSomaOnly) const
 {
     CHECK_DB_INITIALIZATION
     SectionMap sections;
@@ -589,6 +590,8 @@ SectionMap DBConnector::getAstrocyteSections(const std::string& populationName,
             "points FROM " +
             populationName +
             ".section WHERE morphology_guid=" + std::to_string(astrocyteId);
+        if (connectedToSomaOnly)
+            sql += " AND section_parent_guid=-1";
         PLUGIN_DB_INFO(1, sql);
         auto res = transaction.exec(sql);
         for (auto c = res.begin(); c != res.end(); ++c)
@@ -687,10 +690,10 @@ TriangleMesh DBConnector::getAstrocyteMicroDomain(
         for (auto c = res.begin(); c != res.end(); ++c)
         {
             const pqxx::binarystring vertices(c[0]);
-            mesh.vertices.resize(vertices.size() / 3);
+            mesh.vertices.resize(vertices.size() / sizeof(Vector3f));
             memcpy(&mesh.vertices.data()[0], vertices.data(), vertices.size());
             const pqxx::binarystring indices(c[1]);
-            mesh.indices.resize(indices.size() / 3);
+            mesh.indices.resize(indices.size() / sizeof(Vector3ui));
             memcpy(&mesh.indices.data()[0], indices.data(), indices.size());
         }
         PLUGIN_DB_TIMER(chrono.elapsed(),

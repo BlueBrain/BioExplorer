@@ -221,10 +221,13 @@ public:
      *
      * @param populationName Name of the population
      * @param astrocyteId Identifier of the astrocyte
+     * @param connectedToSomaOnly Loads only sections that are directly
+     * connected to the soma if set to true
      * @return SectionMap A map of sections
      */
     SectionMap getAstrocyteSections(const std::string& populationName,
-                                    const int64_t astrocyteId) const;
+                                    const int64_t astrocyteId,
+                                    const bool connectedToSomaOnly) const;
 
     /**
      * @brief Get the end-feet as nodes for a given astrocyte
