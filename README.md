@@ -55,6 +55,14 @@ was originally developed to answer key scientific questions related to the Coron
       </a>
 </div>
 
+On the third anniversary of the first lock-down, we look back at how #MachineLearning helped reveal the role of blood glucose levels in the severity of COVID-19. Imagine what else could be tackled with OpenScience.
+
+<div align="center">
+      <a href="https://lnkd.in/e57vqgcq"/>
+         <img src="https://github.com/BlueBrain/BioExplorer/blob/master/bioexplorer/pythonsdk/doc/source/images/covid19_documentary_preview.png" style="width:50%;">
+      </a>
+</div>
+
 ## At the museum
 
 July 2022: The EPFL Blue Brain Project is featuring in the exciting [Brain(s) exhibition](https://www.cccb.org/en/exhibitions/file/brains/237851) at the Barcelona Centre of Contemporary Culture at the Fundación Telefónica Madrid.
