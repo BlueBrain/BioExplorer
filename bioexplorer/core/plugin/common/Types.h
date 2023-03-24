@@ -1092,7 +1092,15 @@ enum class MorphologyRealismLevel
     internals = 8,
     externals = 16,
     spine = 32,
+    end_foot = 64,
     all = 255,
+};
+
+enum class MicroDomainRepresentation
+{
+    mesh = 0,
+    convex_hull = 1,
+    surface = 2
 };
 
 typedef struct
@@ -1118,11 +1126,16 @@ typedef struct
     bool loadDendrites{true};
     /** Generate internal components (nucleus and mitochondria) */
     bool generateInternals{false};
+    /** Load micro-domain */
+    bool loadMicroDomain{false};
     /** Use Signed Distance Fields for geometry realism */
     MorphologyRealismLevel realismLevel{MorphologyRealismLevel::none};
     /** Morphology representation */
     MorphologyRepresentation morphologyRepresentation{
         MorphologyRepresentation::segment};
+    /** Micro-domain representation */
+    MicroDomainRepresentation microDomainRepresentation{
+        MicroDomainRepresentation::mesh};
     /** Geometry color scheme */
     MorphologyColorScheme morphologyColorScheme{MorphologyColorScheme::none};
     /** Population color scheme */

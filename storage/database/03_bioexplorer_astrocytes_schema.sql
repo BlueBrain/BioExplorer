@@ -145,3 +145,20 @@ create unique index if not exists section_type_description_uindex
 
 create unique index if not exists section_type_guid_uindex
     on astrocytes.section_type (guid);
+
+
+create table if not exists astrocytes.metadata
+(
+    key   varchar not null,
+    value varchar not null,
+    constraint metadata_pk
+        primary key (key, value)
+);
+
+create table if not exists astrocytes.micro_domain
+(
+    guid     integer not null
+        primary key,
+    vertices bytea   not null,
+    indices  bytea   not null
+);

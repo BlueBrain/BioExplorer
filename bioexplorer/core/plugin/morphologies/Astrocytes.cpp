@@ -27,6 +27,8 @@
 
 #include <plugin/io/db/DBConnector.h>
 
+#include <plugin/meshing/PointCloudMesher.h>
+
 #include <brayns/common/Timer.h>
 #include <brayns/engineapi/Material.h>
 #include <brayns/engineapi/Model.h>
@@ -39,6 +41,7 @@ namespace morphology
 using namespace common;
 using namespace io;
 using namespace db;
+using namespace meshing;
 
 const double DEFAULT_MITOCHONDRIA_DENSITY = 0.0459;
 const double DEFAULT_ENDFOOT_RADIUS_RATIO = 1.1;
@@ -92,6 +95,10 @@ void Astrocytes::_buildModel(const doubles& radii)
     const auto somas =
         connector.getAstrocytes(_details.populationName, _details.sqlFilter);
     const auto loadEndFeet = !_details.vasculaturePopulationName.empty();
+    const auto loadMicroDomain = _details.loadMicroDomain;
+
+    // Micro domain mesh per thread
+    std::map<size_t, std::map<size_t, TriangleMesh>> microDomainMeshes;
 
     PLUGIN_INFO(1, "Building " << somas.size() << " astrocytes");
     _logRealismParams();
@@ -122,8 +129,10 @@ void Astrocytes::_buildModel(const doubles& radii)
         SectionMap sections;
         if (_details.loadSomas || _details.loadDendrites)
             sections =
-                connector.getAstrocyteSections(_details.populationName, somaId);
+                connector.getAstrocyteSections(_details.populationName, somaId,
+                                               !_details.loadDendrites);
 
+        // End feet
         EndFootMap endFeet;
         if (loadEndFeet)
             endFeet = connector.getAstrocyteEndFeet(
@@ -165,7 +174,7 @@ void Astrocytes::_buildModel(const doubles& radii)
                 andCheck(static_cast<uint32_t>(_details.realismLevel),
                          static_cast<uint32_t>(MorphologyRealismLevel::soma));
             somaGeometryIndex = container.addSphere(
-                somaPosition, somaRadius, somaMaterialId, NO_USER_DATA, useSdf,
+                somaPosition, somaRadius, somaMaterialId, useSdf, NO_USER_DATA,
                 {},
                 Vector3f(somaRadius * astrocyteSomaDisplacementStrength,
                          somaRadius * astrocyteSomaDisplacementFrequency, 0.f));
@@ -284,7 +293,31 @@ void Astrocytes::_buildModel(const doubles& radii)
         }
 
         if (loadEndFeet)
-            _addEndFoot(container, soma.center, endFeet, radii, somaMaterialId);
+            _addEndFoot(container, soma.center, endFeet, radii, baseMaterialId);
+
+        if (loadMicroDomain)
+        {
+            const auto materialId =
+                (_details.morphologyColorScheme ==
+                 MorphologyColorScheme::section_type)
+                    ? baseMaterialId + MATERIAL_OFFSET_MICRO_DOMAIN
+                    : baseMaterialId;
+
+            switch (_details.microDomainRepresentation)
+            {
+            case MicroDomainRepresentation::convex_hull:
+            {
+                _buildMicroDomain(container, somaId, materialId);
+                break;
+            }
+            default:
+            {
+                auto& mesh = microDomainMeshes[index][materialId];
+                _addMicroDomain(mesh, somaId);
+                break;
+            }
+            }
+        }
 #pragma omp critical
         containers.push_back(container);
     }
@@ -293,6 +326,10 @@ void Astrocytes::_buildModel(const doubles& radii)
     {
         PLUGIN_PROGRESS("- Compiling 3D geometry...", i, containers.size());
         auto& container = containers[i];
+        if (_details.microDomainRepresentation ==
+            MicroDomainRepresentation::mesh)
+            for (const auto& mesh : microDomainMeshes[i])
+                container.addMesh(mesh.first, mesh.second);
         container.commitToModel();
     }
 
@@ -312,14 +349,19 @@ void Astrocytes::_buildModel(const doubles& radii)
 void Astrocytes::_addEndFoot(ThreadSafeContainer& container,
                              const Vector3d& somaCenter,
                              const EndFootMap& endFeet, const doubles& radii,
-                             const size_t materialId)
+                             const size_t baseMaterialId)
 {
     const auto radiusMultiplier = _details.radiusMultiplier;
     const Vector3d displacement{vasculatureSegmentDisplacementStrength,
                                 vasculatureSegmentDisplacementFrequency, 0.0};
     const auto useSdf =
         andCheck(static_cast<uint32_t>(_details.realismLevel),
-                 static_cast<uint32_t>(VasculatureRealismLevel::section));
+                 static_cast<uint32_t>(MorphologyRealismLevel::end_foot));
+
+    const auto materialId =
+        (_details.morphologyColorScheme == MorphologyColorScheme::section_type)
+            ? baseMaterialId + MATERIAL_OFFSET_END_FOOT
+            : baseMaterialId;
 
     for (const auto& endFoot : endFeet)
     {
@@ -340,8 +382,8 @@ void Astrocytes::_addEndFoot(ThreadSafeContainer& container,
 
             double length = 0.0;
             int64_t i = -1;
-            // Find start segment making the assumption that the segment Id is
-            // in the middle of the end-foot
+            // Find start segment making the assumption that the segment Id
+            // is in the middle of the end-foot
             while (length < halfLength &&
                    endFoot.second.vasculatureSegmentId + i >= 0)
             {
@@ -399,8 +441,9 @@ void Astrocytes::_addEndFoot(ThreadSafeContainer& container,
                 const float dstEndFootRadius =
                     DEFAULT_ENDFOOT_RADIUS_RATIO * dstVasculatureRadius;
 
-                // Shift position in direction of astrocyte soma, so that only
-                // half of the end-feet appears outside of the vasculature
+                // Shift position in direction of astrocyte soma, so that
+                // only half of the end-feet appears outside of the
+                // vasculature
                 const Vector3d& shift =
                     normalize(srcNode.position - somaCenter) *
                     srcVasculatureRadius *
@@ -425,6 +468,45 @@ void Astrocytes::_addEndFoot(ThreadSafeContainer& container,
             }
         }
     }
+}
+
+void Astrocytes::_addMicroDomain(TriangleMesh& dstMesh,
+                                 const uint64_t astrocyteId)
+{
+    auto& connector = DBConnector::getInstance();
+    const auto srcMesh =
+        connector.getAstrocyteMicroDomain(_details.populationName, astrocyteId);
+    auto vertexOffset = dstMesh.vertices.size();
+    dstMesh.vertices.insert(dstMesh.vertices.end(), srcMesh.vertices.begin(),
+                            srcMesh.vertices.end());
+
+    auto indexOffset = dstMesh.indices.size();
+    dstMesh.indices.insert(dstMesh.indices.end(), srcMesh.indices.begin(),
+                           srcMesh.indices.end());
+    for (uint64_t i = 0; i < srcMesh.indices.size(); ++i)
+        dstMesh.indices[indexOffset + i] += vertexOffset;
+    dstMesh.normals.insert(dstMesh.normals.end(), srcMesh.normals.begin(),
+                           srcMesh.normals.end());
+    dstMesh.colors.insert(dstMesh.colors.end(), srcMesh.colors.begin(),
+                          srcMesh.colors.end());
+}
+
+void Astrocytes::_buildMicroDomain(ThreadSafeContainer& container,
+                                   const uint64_t astrocyteId,
+                                   const size_t materialId)
+{
+    auto& connector = DBConnector::getInstance();
+    const auto mesh =
+        connector.getAstrocyteMicroDomain(_details.populationName, astrocyteId);
+
+    PointCloud cloud;
+    for (const auto& v : mesh.vertices)
+        cloud[materialId].push_back(Vector4d(v.x, v.y, v.z, 0.5));
+
+    PointCloudMesher pcm;
+    if (!pcm.toConvexHull(container, cloud))
+        PLUGIN_THROW(
+            "Failed to generate convex hull from micro domain information");
 }
 
 void Astrocytes::setVasculatureRadiusReport(

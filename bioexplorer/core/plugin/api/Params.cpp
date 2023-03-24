@@ -869,8 +869,10 @@ bool from_json(AstrocytesDetails &param, const std::string &payload)
         FROM_JSON(param, js, loadSomas);
         FROM_JSON(param, js, loadDendrites);
         FROM_JSON(param, js, generateInternals);
+        FROM_JSON(param, js, loadMicroDomain);
         FROM_JSON(param, js, realismLevel);
         FROM_JSON(param, js, morphologyRepresentation);
+        FROM_JSON(param, js, microDomainRepresentation);
         FROM_JSON(param, js, morphologyColorScheme);
         FROM_JSON(param, js, populationColorScheme);
         FROM_JSON(param, js, radiusMultiplier);

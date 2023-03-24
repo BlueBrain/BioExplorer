@@ -364,6 +364,10 @@ class BioExplorer:
     MORPHOLOGY_REPRESENTATION_SEGMENT = 2
     MORPHOLOGY_REPRESENTATION_ORIENTATION = 3
 
+    MICRO_DOMAIN_REPRESENTATION_MESH = 0
+    MICRO_DOMAIN_REPRESENTATION_CONVEX_HULL = 1
+    MICRO_DOMAIN_REPRESENTATION_SURFACE = 2
+
     MORPHOLOGY_REALISM_LEVEL_NONE = 0
     MORPHOLOGY_REALISM_LEVEL_SOMA = 1
     MORPHOLOGY_REALISM_LEVEL_AXON = 2
@@ -371,6 +375,7 @@ class BioExplorer:
     MORPHOLOGY_REALISM_LEVEL_INTERNALS = 8
     MORPHOLOGY_REALISM_LEVEL_EXTERNALS = 16
     MORPHOLOGY_REALISM_LEVEL_SPINE = 32
+    MORPHOLOGY_REALISM_LEVEL_END_FOOT = 64
     MORPHOLOGY_REALISM_LEVEL_ALL = 255
 
     SYNAPSE_REPRESENTATION_SPHERE = 0
@@ -387,6 +392,13 @@ class BioExplorer:
     NEURON_MATERIAL_MITOCHONDRION = 7
     NEURON_MATERIAL_NUCLEUS = 8
     NEURON_MATERIAL_MYELIN_SHEATH = 9
+
+    # Material offsets in astrocytes
+    ASTROCYTE_MATERIAL_SOMA = 1
+    ASTROCYTE_MATERIAL_END_FOOT = 4
+    ASTROCYTE_MATERIAL_MICRO_DOMAIN = 5
+    ASTROCYTE_MATERIAL_MITOCHONDRION = 7
+    ASTROCYTE_MATERIAL_NUCLEUS = 8
 
     def __init__(self, url="localhost:5000"):
         """Create a new BioExplorer instance"""
@@ -2880,7 +2892,9 @@ class BioExplorer:
         load_somas=True,
         load_dendrites=True,
         generate_internals=False,
+        load_micro_domain=False,
         morphology_representation=MORPHOLOGY_REPRESENTATION_SEGMENT,
+        micro_domain_representation=MICRO_DOMAIN_REPRESENTATION_MESH,
         morphology_color_scheme=MORPHOLOGY_COLOR_SCHEME_NONE,
         population_color_scheme=POPULATION_COLOR_SCHEME_NONE,
         radius_multiplier=1.0,
@@ -2898,6 +2912,7 @@ class BioExplorer:
         :load_somas: Load somas if set to true
         :load_dendrites: Load dendrites if set to true
         :generate_internals: Generate internals (Nucleus and mitochondria)
+        :load_micro_domain: Load micro-domain if set to true
         :realism_level: Use sign distance fields geometry to create the astrocytes. Defaults to none
         :morphology_representation: Geometry representation (graph, section or segment)
         :morphology_color_scheme: Color scheme of the sections of the astrocytes
@@ -2919,8 +2934,10 @@ class BioExplorer:
         params["loadSomas"] = load_somas
         params["loadDendrites"] = load_dendrites
         params["generateInternals"] = generate_internals
+        params["loadMicroDomain"] = load_micro_domain
         params["realismLevel"] = realism_level
         params["morphologyRepresentation"] = morphology_representation
+        params["microDomainRepresentation"] = micro_domain_representation
         params["morphologyColorScheme"] = morphology_color_scheme
         params["populationColorScheme"] = population_color_scheme
         params["radiusMultiplier"] = radius_multiplier
