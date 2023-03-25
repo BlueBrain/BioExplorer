@@ -99,6 +99,11 @@ Molecule::Molecule(Scene& scene, const size_ts& chainIds)
 {
 }
 
+double Molecule::_getDisplacementValue(const DisplacementElement&)
+{
+    return 0.0;
+}
+
 void Molecule::_computeReqSetOffset()
 {
     for (auto& sequence : _residueSequenceMap)

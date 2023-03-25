@@ -69,6 +69,8 @@ public:
     Vector3ds getNeuronVaricosities(const uint64_t neuronId);
 
 private:
+    double _getDisplacementValue(const DisplacementElement& element) final;
+
     void _logRealismParams();
 
     void _buildNeurons();

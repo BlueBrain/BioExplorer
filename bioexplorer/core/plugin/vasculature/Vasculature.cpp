@@ -56,6 +56,22 @@ Vasculature::Vasculature(Scene& scene, const VasculatureDetails& details)
     PLUGIN_TIMER(chrono.elapsed(), "Vasculature loaded");
 }
 
+double Vasculature::_getDisplacementValue(const DisplacementElement& element)
+{
+    const auto params = _details.displacementParams;
+    switch (element)
+    {
+    case DisplacementElement::vasculature_segment_strength:
+        return valueFromDoubles(params, 0,
+                                DEFAULT_VASCULATURE_SEGMENT_STRENGTH);
+    case DisplacementElement::vasculature_segment_frequency:
+        return valueFromDoubles(params, 1,
+                                DEFAULT_VASCULATURE_SEGMENT_FREQUENCY);
+    default:
+        PLUGIN_THROW("Invalid displacement element");
+    }
+}
+
 void Vasculature::_logRealismParams()
 {
     PLUGIN_INFO(1, "----------------------------------------------------");
@@ -119,10 +135,14 @@ void Vasculature::_addSimpleSection(ThreadSafeContainer& container,
         container.addSphere(dstPoint, dstRadius, materialId, useSdf, userData);
     }
 
-    container.addCone(srcPoint, srcRadius, dstPoint, dstRadius, materialId,
-                      useSdf, userData, {},
-                      Vector3f(vasculatureSegmentDisplacementStrength,
-                               vasculatureSegmentDisplacementFrequency, 0.f));
+    container.addCone(
+        srcPoint, srcRadius, dstPoint, dstRadius, materialId, useSdf, userData,
+        {},
+        Vector3f(_getDisplacementValue(
+                     DisplacementElement::vasculature_segment_strength),
+                 _getDisplacementValue(
+                     DisplacementElement::vasculature_segment_frequency),
+                 0.f));
 }
 
 void Vasculature::_addDetailedSection(ThreadSafeContainer& container,
@@ -204,8 +224,12 @@ void Vasculature::_addDetailedSection(ThreadSafeContainer& container,
             geometryIndex = container.addCone(
                 srcPosition, srcRadius, dstPosition, dstRadius, materialId,
                 useSdf, userData, neighbours,
-                Vector3f(vasculatureSegmentDisplacementStrength,
-                         vasculatureSegmentDisplacementFrequency, 0.f));
+                Vector3f(
+                    _getDisplacementValue(
+                        DisplacementElement::vasculature_segment_strength),
+                    _getDisplacementValue(
+                        DisplacementElement::vasculature_segment_frequency),
+                    0.f));
             neighbours = {geometryIndex};
 
             if (!useSdf)

@@ -95,6 +95,11 @@ Membrane::~Membrane()
         _scene.removeModel(lipid.second->getModelDescriptor()->getModelID());
 }
 
+double Membrane::_getDisplacementValue(const DisplacementElement&)
+{
+    return 0.0;
+}
+
 void Membrane::_processInstances()
 {
     const auto rotation = doublesToQuaterniond(_details.lipidRotation);

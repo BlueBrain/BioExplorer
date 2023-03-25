@@ -115,7 +115,8 @@ bool isClipped(const Vector3d& position, const Vector4ds& clippingPlanes)
     return !visible;
 }
 
-void setDefaultTransferFunction(Model& model, const Vector2d range, const double alpha)
+void setDefaultTransferFunction(Model& model, const Vector2d range,
+                                const double alpha)
 {
     TransferFunction& tf = model.getTransferFunction();
     tf.setControlPoints({{0.0, alpha}, {1.0, alpha}});
@@ -641,6 +642,14 @@ bool andCheck(const uint32_t value, const uint32_t test)
 std::string boolAsString(const bool value)
 {
     return (value ? "Yes" : "No");
+}
+
+double valueFromDoubles(const doubles& array, const size_t index,
+                        const double defaultValue)
+{
+    if (index >= array.size())
+        return defaultValue;
+    return array[index];
 }
 
 } // namespace common

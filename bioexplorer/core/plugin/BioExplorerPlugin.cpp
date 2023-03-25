@@ -24,7 +24,6 @@
 #include <plugin/common/CommonTypes.h>
 #include <plugin/common/GeneralSettings.h>
 #include <plugin/common/Logs.h>
-#include <plugin/common/SDFGeometries.h>
 #include <plugin/common/Utils.h>
 #include <plugin/io/CacheLoader.h>
 #include <plugin/io/OOCManager.h>
@@ -452,11 +451,6 @@ void BioExplorerPlugin::init()
         actionInterface->registerRequest<AddBoxDetails, Response>(
             endPoint,
             [&](const AddBoxDetails &payload) { return _addBox(payload); });
-
-        endPoint = PLUGIN_API_PREFIX + "add-sdf-demo";
-        PLUGIN_INFO(1, "Registering '" + endPoint + "' endpoint");
-        actionInterface->registerRequest<Response>(endPoint, [&]()
-                                                   { return _addSdfDemo(); });
 
         endPoint = PLUGIN_API_PREFIX + "add-streamlines";
         PLUGIN_INFO(1, "Registering '" + endPoint + "' endpoint");
@@ -1546,23 +1540,6 @@ Response BioExplorerPlugin::_addBox(const AddBoxDetails &details)
 
         scene.addModel(
             std::make_shared<ModelDescriptor>(std::move(model), details.name));
-    }
-    CATCH_STD_EXCEPTION()
-    return response;
-}
-
-Response BioExplorerPlugin::_addSdfDemo()
-{
-    Response response;
-    try
-    {
-        auto &scene = _api->getScene();
-        auto model = scene.createModel();
-
-        common::SDFGeometries geometries(true);
-        geometries.addSDFDemo(*model);
-        scene.addModel(
-            std::make_shared<ModelDescriptor>(std::move(model), "SDF demo"));
     }
     CATCH_STD_EXCEPTION()
     return response;

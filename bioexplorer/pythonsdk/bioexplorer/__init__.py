@@ -23,22 +23,10 @@
 
 from .version import VERSION as __version__
 from .bio_explorer import (
-    BioExplorer,
-    Volume,
-    Membrane,
-    AssemblyProtein,
-    Protein,
-    Sugar,
-    RNASequence,
-    Cell,
-    Surfactant,
-    Virus,
-    EnzymeReaction,
-    MolecularSystemAnimationParams,
-    CellAnimationParams,
-    Vector2,
-    Vector3,
-    Quaternion,
+    BioExplorer, Volume, Membrane, AssemblyProtein, Protein, Sugar, RNASequence, Cell, Surfactant,
+    Virus, EnzymeReaction, MolecularSystemAnimationParams, CellAnimationParams,
+    NeuronDisplacementParams, AstrocyteDisplacementParams, VasculatureDisplacementParams,
+    SynapseDisplacementParams, Vector2, Vector3, Quaternion,
 )
 
 from .movie_maker import MovieMaker
@@ -48,26 +36,10 @@ from .notebook_widgets import Widgets
 from .transfer_function import TransferFunction
 
 __all__ = [
-    "Widgets",
-    "BioExplorer",
-    "Membrane",
-    "Protein",
-    "AssemblyProtein",
-    "Sugar",
-    "RNASequence",
-    "Volume",
-    "Surfactant",
-    "Cell",
-    "Vector2",
-    "Vector3",
-    "MolecularSystemAnimationParams",
-    "CellAnimationParams",
-    "Quaternion",
-    "Virus",
-    "MovieMaker",
-    "TransferFunction",
-    "MovieScenario",
-    "Metabolism",
-    "EnzymeReaction",
-    "__version__",
+    "Widgets", "BioExplorer", "Membrane", "Protein", "AssemblyProtein", "Sugar", "RNASequence",
+    "Volume", "Surfactant", "Cell", "Vector2", "Vector3", "MolecularSystemAnimationParams",
+    "CellAnimationParams", "Quaternion", "Virus", "MovieMaker", "TransferFunction",
+    "MovieScenario", "Metabolism", "EnzymeReaction", "NeuronDisplacementParams",
+    "AstrocyteDisplacementParams", "VasculatureDisplacementParams", "SynapseDisplacementParams",
+    "__version__"
 ]

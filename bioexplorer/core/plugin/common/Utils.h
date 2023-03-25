@@ -70,8 +70,7 @@ bool isClipped(const Vector3d& position, const Vector4ds& clippingPlanes);
  *
  * @param model Model to which the transfer function should be set
  */
-void setDefaultTransferFunction(Model& model,
-                                const Vector2d range = {0.0, 1.0},
+void setDefaultTransferFunction(Model& model, const Vector2d range = {0.0, 1.0},
                                 const double alpha = 1.0);
 
 /**
@@ -290,6 +289,18 @@ bool andCheck(const uint32_t value, const uint32_t test);
  * @return std::string Yes if true, No otherwise
  */
 std::string boolAsString(const bool value);
+
+/**
+ * @brief Returns the value of an array of double at a given index. Default
+ * value if index is out of bounds
+ *
+ * @param array Array of doubles
+ * @param index Index in the array
+ * @param defaultValue Default value if index is out of bounds
+ * @return double
+ */
+double valueFromDoubles(const doubles& array, const size_t index,
+                        const double defaultValue);
 
 } // namespace common
 } // namespace bioexplorer

@@ -67,6 +67,8 @@ public:
     uint64_t getNbNodes() const { return _nbNodes; }
 
 private:
+    double _getDisplacementValue(const DisplacementElement& element) final;
+
     void _logRealismParams();
 
     void _addGraphSection(ThreadSafeContainer& container,
