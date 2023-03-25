@@ -99,6 +99,8 @@ public:
     const Boxf& getBounds() const { return _bounds; };
 
 protected:
+    double _getDisplacementValue(const DisplacementElement& element) final;
+
     void _setAtomColorScheme();
     void _setChainColorScheme(const Palette& palette);
     void _setResiduesColorScheme(const Palette& palette);

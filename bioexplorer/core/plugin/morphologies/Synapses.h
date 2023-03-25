@@ -46,6 +46,8 @@ public:
     Synapses(Scene& scene, const SynapsesDetails& details);
 
 private:
+    double _getDisplacementValue(const DisplacementElement& element) final;
+
     void _buildModel();
     void _addSpine(ThreadSafeContainer& container, const uint64_t guid,
                    const Synapse& synapse, const size_t SpineMaterialId);

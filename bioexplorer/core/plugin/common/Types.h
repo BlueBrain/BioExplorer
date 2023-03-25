@@ -929,10 +929,6 @@ typedef struct
 // -------------------------------------------------------------------------------------------------
 // Vasculature
 // -------------------------------------------------------------------------------------------------
-
-const double vasculatureSegmentDisplacementStrength = 0.3;
-const double vasculatureSegmentDisplacementFrequency = 0.5;
-
 enum class VasculatureRealismLevel
 {
     none = 0,
@@ -1000,6 +996,8 @@ typedef struct
     doubles scale{1.0, 1.0, 1.0};
     /** Extra optional parameters for neuron animation */
     doubles animationParams;
+    /** Extra optional parameters for geometry displacement */
+    doubles displacementParams;
 } VasculatureDetails;
 
 typedef struct
@@ -1032,28 +1030,13 @@ typedef struct
 // Neurons and astrocytes
 // -------------------------------------------------------------------------------------------------
 
-const double somaDisplacementStrength = 0.1;
-const double somaDisplacementFrequency = 3.0;
-
-const double sectionDisplacementStrength = 0.15;
-const double sectionDisplacementFrequency = 2.0;
-
-const double nucleusDisplacementStrength = 0.01;
-const double nucleusDisplacementFrequency = 2.0;
-
 const double mitochondrionSegmentSize = 0.25;
 const double mitochondrionRadius = 0.1;
-const double mitochondrionDisplacementStrength = 0.2;
-const double mitochondrionDisplacementFrequency = 100.0;
 
 const double spineRadiusRatio = 0.5;
-const double spineDisplacementStrength = 0.01;
-const double spineDisplacementFrequency = 25.0;
 
 const double myelinSteathLength = 10.0;
 const double myelinSteathRadiusRatio = 3.0;
-const double myelinSteathDisplacementStrength = 0.1;
-const double myelinSteathDisplacementFrequency = 2.5;
 
 const uint64_t nbMinSegmentsForVaricosity = 10;
 
@@ -1148,6 +1131,8 @@ typedef struct
     doubles scale{1.0, 1.0, 1.0};
     /** Extra optional parameters for astrocytes animation */
     doubles animationParams;
+    /** Extra optional parameters for geometry displacement */
+    doubles displacementParams;
 } AstrocytesDetails;
 
 enum class NeuronSectionType
@@ -1207,6 +1192,8 @@ typedef struct
     doubles scale{1.0, 1.0, 1.0};
     /** Extra optional parameters for neuron animation */
     doubles animationParams;
+    /** Extra optional parameters for geometry displacement */
+    doubles displacementParams;
 } NeuronsDetails;
 
 typedef struct
@@ -1278,6 +1265,8 @@ typedef struct
     MorphologyRealismLevel realismLevel{MorphologyRealismLevel::none};
     /** SQL filter for streamlines (WHERE condition) */
     std::string sqlFilter;
+    /** Extra optional parameters for geometry displacement */
+    doubles displacementParams;
 } SynapsesDetails;
 
 typedef struct

@@ -93,7 +93,6 @@ private:
     Response _addCone(const AddConeDetails &payload);
     Response _addBoundingBox(const AddBoundingBoxDetails &payload);
     Response _addBox(const AddBoxDetails &payload);
-    Response _addSdfDemo();
     Response _addStreamlines(const AddStreamlinesDetails &payload);
 
     // Amino acids

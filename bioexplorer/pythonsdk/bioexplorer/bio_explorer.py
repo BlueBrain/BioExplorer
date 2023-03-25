@@ -48,6 +48,77 @@ from .version import VERSION as __version__
 # pylint: disable=missing-raises-doc
 
 
+class Vector3:
+    """A Vector3 is an array of 3 floats representing a 3D vector"""
+
+    def __init__(self, *args):
+        """
+        Define a simple 3D vector
+
+        :args: 3 float values for x, y and z
+        :raises: RuntimeError: Invalid number of floats
+        """
+        if len(args) not in [0, 3]:
+            raise RuntimeError("Invalid number of floats (0 or 3 expected)")
+
+        self.x = 0.0
+        self.y = 0.0
+        self.z = 0.0
+        if len(args) == 3:
+            self.x = args[0]
+            self.y = args[1]
+            self.z = args[2]
+
+    def to_list(self):
+        """
+        A list containing the values of x, y and z attributes
+
+        :return: x, y and z attributes
+        :rtype: list
+        """
+        return [self.x, self.y, self.z]
+
+    def copy(self):
+        """
+        Copy the current object
+
+        :return: Vector3: A copy of the object
+        """
+        return Vector3(self.x, self.y, self.z)
+
+
+class Vector2:
+    """A Vector2 is an array of 2 floats representing a 2D vector"""
+
+    def __init__(self, *args):
+        """
+        Define a simple 2D vector
+
+        :args: 2 float values for x and y
+        :raises: RuntimeError: Invalid number of floats
+        """
+        if len(args) not in [0, 2]:
+            raise RuntimeError("Invalid number of floats (0 or 2 expected)")
+
+        self.x = 0.0
+        self.y = 0.0
+        if len(args) == 2:
+            self.x = args[0]
+            self.y = args[1]
+
+    def to_list(self):
+        """:return: A list containing the values of x and y attributes"""
+        return [self.x, self.y]
+
+    def copy(self):
+        """
+        Copy the current object
+
+        :return: Vector2: A copy of the object
+        """
+        return Vector2(self.x, self.y)
+
+
 class MolecularSystemAnimationParams:
     """
     Parameters used to introduce some randomness in the position and orientation of the protein.
@@ -153,75 +224,187 @@ class CellAnimationParams:
         )
 
 
-class Vector3:
-    """A Vector3 is an array of 3 floats representing a 3D vector"""
+class NeuronDisplacementParams:
+    """Parameters used for the sinusoidal SDF displacement function for neuron morphologies"""
 
-    def __init__(self, *args):
+    def __init__(self, soma=Vector2(0.1, 3.0), section=Vector2(0.15, 2.0),
+                 nucleus=Vector2(0.01, 2.0), mitochondrion=Vector2(0.2, 100.0),
+                 myelin_steath=Vector2(0.1, 2.5), spine=Vector2(0.01, 25.0)):
         """
-        Define a simple 3D vector
+        Displacement parameters are used to define how cells should be represented using the SDF 
+        technique
 
-        :args: 3 float values for x, y and z
-        :raises: RuntimeError: Invalid number of floats
+        :soma: (Vector2, optional): amplitude and frequency for the soma. Defaults are [0.1, 3.0]
+        :section: (Vector2, optional): amplitude and frequency for the section. Defaults are
+        [0.15, 2.0]
+        :nucleus: (Vector2, optional): amplitude and frequency for the nucleus. Defaults are
+        [0.01, 2.0]
+        :mitochondrion: (Vector2, optional): amplitude and frequency for the mitochondrion. Defaults
+        are [0.2, 100.0]
+        :myelin_steath: (Vector2, optional): amplitude and frequency for the myelin steath. Defaults
+        are [0.1, 2.5]
+        :spine: (Vector2, optional): amplitude and frequency for the spine. Defaults are
+        [0.01, 25.0]
         """
-        if len(args) not in [0, 3]:
-            raise RuntimeError("Invalid number of floats (0 or 3 expected)")
 
-        self.x = 0.0
-        self.y = 0.0
-        self.z = 0.0
-        if len(args) == 3:
-            self.x = args[0]
-            self.y = args[1]
-            self.z = args[2]
+        assert isinstance(soma, Vector2)
+        assert isinstance(section, Vector2)
+        assert isinstance(nucleus, Vector2)
+        assert isinstance(mitochondrion, Vector2)
+        assert isinstance(myelin_steath, Vector2)
+        assert isinstance(spine, Vector2)
+
+        self.soma = soma
+        self.section = section
+        self.nucleus = nucleus
+        self.mitochondrion = mitochondrion
+        self.myelin_steath = myelin_steath
+        self.spine = spine
 
     def to_list(self):
         """
-        A list containing the values of x, y and z attributes
+        A list containing the values of class members
 
-        :return: x, y and z attributes
+        :return: A list containing the values of class members
         :rtype: list
         """
-        return [self.x, self.y, self.z]
+        return [
+            self.soma.x, self.soma.y, self.section.x, self.section.y,
+            self.nucleus.x, self.nucleus.y, self.mitochondrion.x, self.mitochondrion.y,
+            self.myelin_steath.x, self.myelin_steath.y, self.spine.x, self.spine.y]
 
     def copy(self):
         """
         Copy the current object
 
-        :return: Vector3: A copy of the object
+        :return: NeuronDisplacementParams: A copy of the object
         """
-        return Vector3(self.x, self.y, self.z)
+        return NeuronDisplacementParams(
+            self.soma, self.section, self.nucleus, self.mitochondrion, self.myelin_steath,
+            self.spine)
 
 
-class Vector2:
-    """A Vector2 is an array of 2 floats representing a 2D vector"""
+class AstrocyteDisplacementParams:
+    """Parameters used for the sinusoidal SDF displacement function for astrocyte morphologies"""
 
-    def __init__(self, *args):
+    def __init__(self, soma=Vector2(0.05, 0.5), section=Vector2(0.5, 5.0),
+                 nucleus=Vector2(0.01, 2.0), mitochondrion=Vector2(0.2, 100.0),
+                 end_foot=Vector2(0.3, 0.5)):
         """
-        Define a simple 2D vector
+        Displacement parameters are used to define how cells should be represented using the SDF 
+        technique
 
-        :args: 2 float values for x and y
-        :raises: RuntimeError: Invalid number of floats
+        :soma: (Vector2, optional): amplitude and frequency for the soma. Defaults are [0.1, 3.0]
+        :section: (Vector2, optional): amplitude and frequency for the section. Defaults are
+        [0.15, 2.0]
+        :nucleus: (Vector2, optional): amplitude and frequency for the nucleus. Defaults are
+        [0.01, 2.0]
+        :mitochondrion: (Vector2, optional): amplitude and frequency for the mitochondrion. Defaults
+        are [0.2, 100.0]
+        :end_foot: (Vector2, optional): amplitude and frequency for the end foot. Defaults
+        are [0.3, 0.5]
         """
-        if len(args) not in [0, 2]:
-            raise RuntimeError("Invalid number of floats (0 or 2 expected)")
 
-        self.x = 0.0
-        self.y = 0.0
-        if len(args) == 2:
-            self.x = args[0]
-            self.y = args[1]
+        assert isinstance(soma, Vector2)
+        assert isinstance(section, Vector2)
+        assert isinstance(nucleus, Vector2)
+        assert isinstance(mitochondrion, Vector2)
+        assert isinstance(end_foot, Vector2)
+
+        self.soma = soma
+        self.section = section
+        self.nucleus = nucleus
+        self.mitochondrion = mitochondrion
+        self.end_foot = end_foot
 
     def to_list(self):
-        """:return: A list containing the values of x and y attributes"""
-        return [self.x, self.y]
+        """
+        A list containing the values of class members
+
+        :return: A list containing the values of class members
+        :rtype: list
+        """
+        return [
+            self.soma.x, self.soma.y, self.section.x, self.section.y,
+            self.nucleus.x, self.nucleus.y, self.mitochondrion.x, self.mitochondrion.y,
+            self.end_foot.x, self.end_foot.y]
 
     def copy(self):
         """
         Copy the current object
 
-        :return: Vector2: A copy of the object
+        :return: AstrocyteDisplacementParams: A copy of the object
         """
-        return Vector2(self.x, self.y)
+        return AstrocyteDisplacementParams(
+            self.soma, self.section, self.nucleus, self.mitochondrion, self.end_foot)
+
+
+class VasculatureDisplacementParams:
+    """Parameters used for the sinusoidal SDF displacement function for vasculature"""
+
+    def __init__(self, segment=Vector2(0.3, 0.5)):
+        """
+        Displacement parameters are used to define how cells should be represented using the SDF 
+        technique
+
+        :segment: (Vector2, optional): amplitude and frequency for the segment. Defaults are
+        [0.3, 5.0]
+        """
+
+        assert isinstance(segment, Vector2)
+
+        self.segment = segment
+
+    def to_list(self):
+        """
+        A list containing the values of class members
+
+        :return: A list containing the values of class members
+        :rtype: list
+        """
+        return [self.segment.x, self.segment.y]
+
+    def copy(self):
+        """
+        Copy the current object
+
+        :return: VasculatureDisplacementParams: A copy of the object
+        """
+        return VasculatureDisplacementParams(self.segment)
+
+
+class SynapseDisplacementParams:
+    """Parameters used for the sinusoidal SDF displacement function for synapse"""
+
+    def __init__(self, spine=Vector2(0.01, 25.0)):
+        """
+        Displacement parameters are used to define how cells should be represented using the SDF 
+        technique
+
+        :spine: (Vector2, optional): amplitude and frequency for the spine. Defaults are
+        [0.01, 25.0]
+        """
+
+        assert isinstance(spine, Vector2)
+
+        self.spine = spine
+
+    def to_list(self):
+        """
+        A list containing the values of class members
+
+        :return: A list containing the values of class members
+        :rtype: list
+        """
+        return [self.spine.x, self.spine.y]
+
+    def copy(self):
+        """
+        Copy the current object
+
+        :return: SynapseDisplacementParams: A copy of the object
+        """
+        return SynapseDisplacementParams(self.spine)
 
 
 class BioExplorer:
@@ -2789,6 +2972,7 @@ class BioExplorer:
         sql_filter="",
         scale=Vector3(1.0, 1.0, 1.0),
         animation_params=CellAnimationParams(),
+        displacement_params=VasculatureDisplacementParams()
     ):
         """
         Add a vasculature to the 3D scene
@@ -2804,12 +2988,14 @@ class BioExplorer:
         :sql_filter: Condition added to the SQL statement loading the vasculature
         :scale: Scale in the 3D scene
         :animation_params: Extra optional parameters for animation purposes
+        :displacement_params: Extra optional parameters for geometry displacement
 
         :return: Result of the request submission
         """
         assert isinstance(section_gids, list)
         assert isinstance(scale, Vector3)
         assert isinstance(animation_params, CellAnimationParams)
+        assert isinstance(displacement_params, VasculatureDisplacementParams)
 
         params = dict()
         params["assemblyName"] = assembly_name
@@ -2823,6 +3009,7 @@ class BioExplorer:
         params["sqlFilter"] = sql_filter
         params["scale"] = scale.to_list()
         params["animationParams"] = animation_params.to_list()
+        params["displacementParams"] = displacement_params.to_list()
         return self._invoke_and_check("add-vasculature", params)
 
     def get_vasculature_info(self, assembly_name):
@@ -2901,6 +3088,7 @@ class BioExplorer:
         sql_filter="",
         scale=Vector3(1.0, 1.0, 1.0),
         animation_params=CellAnimationParams(),
+        displacement_params=AstrocyteDisplacementParams()
     ):
         """
         Add a population of astrocytes to the 3D scene
@@ -2921,11 +3109,13 @@ class BioExplorer:
         :sql_filter: Condition added to the SQL statement loading the astrocytes
         :scale: Scale in the 3D scene
         :animation_params: Extra optional parameters for animation purposes
+        :displacement_params: Extra optional parameters for geometry displacement
 
         :return: Result of the request submission
         """
         assert isinstance(scale, Vector3)
         assert isinstance(animation_params, CellAnimationParams)
+        assert isinstance(displacement_params, AstrocyteDisplacementParams)
 
         params = dict()
         params["assemblyName"] = assembly_name
@@ -2944,6 +3134,7 @@ class BioExplorer:
         params["sqlFilter"] = sql_filter
         params["scale"] = scale.to_list()
         params["animationParams"] = animation_params.to_list()
+        params["displacementParams"] = displacement_params.to_list()
         return self._invoke_and_check("add-astrocytes", params)
 
     def add_neurons(
@@ -2970,6 +3161,7 @@ class BioExplorer:
         sql_section_filter="",
         scale=Vector3(1.0, 1.0, 1.0),
         animation_params=CellAnimationParams(),
+        displacement_params=NeuronDisplacementParams()
     ):
         """
         Add a population of astrocytes to the 3D scene
@@ -2996,11 +3188,13 @@ class BioExplorer:
         :sql_section_filter: Condition added to the SQL statement loading the sections
         :scale: Scale in the 3D scene
         :animation_params: Extra optional parameters for animation purposes
+        :displacement_params: Extra optional parameters for geometry displacement purposes
 
         :return: Result of the request submission
         """
         assert isinstance(scale, Vector3)
         assert isinstance(animation_params, CellAnimationParams)
+        assert isinstance(displacement_params, NeuronDisplacementParams)
 
         params = dict()
         params["assemblyName"] = assembly_name
@@ -3025,6 +3219,7 @@ class BioExplorer:
         params["sqlSectionFilter"] = sql_section_filter
         params["scale"] = scale.to_list()
         params["animationParams"] = animation_params.to_list()
+        params["displacementParams"] = displacement_params.to_list()
         return self._invoke_and_check("add-neurons", params)
 
     def get_neuron_section_points(self, assembly_name, neuron_guid, section_guid):
@@ -3113,7 +3308,8 @@ class BioExplorer:
         radius_multiplier=1.0,
         representation=SYNAPSE_REPRESENTATION_SPHERE,
         realism_level=VASCULATURE_REALISM_LEVEL_NONE,
-        sql_filter=""
+        sql_filter="",
+        displacement_params=list()
     ):
         """
         Add synapse efficacy report to the 3D scene
@@ -3127,6 +3323,9 @@ class BioExplorer:
 
         :return: Result of the request submission
         """
+
+        assert isinstance(displacement_params, list)
+
         params = dict()
         params["assemblyName"] = assembly_name
         params["populationName"] = population_name
@@ -3134,6 +3333,7 @@ class BioExplorer:
         params["representation"] = representation
         params["realismLevel"] = realism_level
         params["sqlFilter"] = sql_filter
+        params["displacementParams"] = displacement_params
         return self._invoke_and_check("add-synapses", params)
 
     def add_synapse_efficacy_report(

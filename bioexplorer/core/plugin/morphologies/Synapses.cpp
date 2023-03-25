@@ -48,6 +48,20 @@ Synapses::Synapses(Scene& scene, const SynapsesDetails& details)
     PLUGIN_TIMER(chrono.elapsed(), "Synapses model loaded");
 }
 
+double Synapses::_getDisplacementValue(const DisplacementElement& element)
+{
+    const auto params = _details.displacementParams;
+    switch (element)
+    {
+    case DisplacementElement::morphology_spine_strength:
+        return valueFromDoubles(params, 0, DEFAULT_MORPHOLOGY_SPINE_STRENGTH);
+    case DisplacementElement::morphology_spine_frequency:
+        return valueFromDoubles(params, 1, DEFAULT_MORPHOLOGY_SPINE_FREQUENCY);
+    default:
+        PLUGIN_THROW("Invalid displacement element");
+    }
+}
+
 void Synapses::_buildModel()
 {
     if (_modelDescriptor)
@@ -123,8 +137,10 @@ void Synapses::_addSpine(ThreadSafeContainer& container, const uint64_t guid,
     middle += Vector3f(d * rnd2(id), d * rnd2(id + 1), d * rnd2(id + 2));
     const float spineMiddleRadius = spineSmallRadius + d * 0.1 * rnd2(id + 3);
 
-    const auto displacement =
-        Vector3f(spineDisplacementStrength, spineDisplacementFrequency, 0.f);
+    const auto displacement = Vector3f(
+        _getDisplacementValue(DisplacementElement::morphology_spine_strength),
+        _getDisplacementValue(DisplacementElement::morphology_spine_frequency),
+        0.f);
 
     const bool useSdf =
         andCheck(static_cast<uint32_t>(_details.realismLevel),

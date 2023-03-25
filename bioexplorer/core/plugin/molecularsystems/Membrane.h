@@ -62,6 +62,8 @@ public:
     const ProteinMap &getLipids() const { return _lipids; }
 
 private:
+    double _getDisplacementValue(const DisplacementElement &element) final;
+
     void _processInstances();
     std::string _getElementNameFromId(const size_t id) const;
 

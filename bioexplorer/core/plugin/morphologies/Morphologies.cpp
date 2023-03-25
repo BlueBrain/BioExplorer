@@ -62,11 +62,16 @@ void Morphologies::_addSomaInternals(ThreadSafeContainer& container,
         sphereVolume(somaRadius) * mitochondriaDensity;
 
     const size_t nucleusMaterialId = baseMaterialId + MATERIAL_OFFSET_NUCLEUS;
-    container.addSphere(somaPosition, nucleusRadius, nucleusMaterialId, useSdf,
-                        NO_USER_DATA, {},
-                        Vector3f(nucleusRadius * nucleusDisplacementStrength,
-                                 nucleusRadius * nucleusDisplacementFrequency,
-                                 0.f));
+    container.addSphere(
+        somaPosition, nucleusRadius, nucleusMaterialId, useSdf, NO_USER_DATA,
+        {},
+        Vector3f(nucleusRadius *
+                     _getDisplacementValue(
+                         DisplacementElement::morphology_nucleus_strength),
+                 nucleusRadius *
+                     _getDisplacementValue(
+                         DisplacementElement::morphology_nucleus_frequency),
+                 0.f));
 
     // Mitochondria
     if (mitochondriaDensity == 0.0)
@@ -96,12 +101,16 @@ void Morphologies::_addSomaInternals(ThreadSafeContainer& container,
                 neighbours = {geometryIndex};
             else
                 displacementFrequency =
-                    radius * mitochondrionDisplacementFrequency;
+                    radius * _getDisplacementValue(
+                                 DisplacementElement::
+                                     morphology_mitochondrion_frequency);
 
             geometryIndex = container.addSphere(
                 p2, radius, mitochondrionMaterialId, useSdf, NO_USER_DATA,
                 neighbours,
-                Vector3f(radius * mitochondrionDisplacementStrength,
+                Vector3f(radius * _getDisplacementValue(
+                                      DisplacementElement::
+                                          morphology_mitochondrion_strength),
                          displacementFrequency, 0.f));
 
             mitochondriaVolume += sphereVolume(radius);
@@ -113,7 +122,10 @@ void Morphologies::_addSomaInternals(ThreadSafeContainer& container,
                 geometryIndex = container.addCone(
                     p1, previousRadius, p2, radius, mitochondrionMaterialId,
                     useSdf, NO_USER_DATA, {geometryIndex},
-                    Vector3f(radius * mitochondrionDisplacementStrength,
+                    Vector3f(radius *
+                                 _getDisplacementValue(
+                                     DisplacementElement::
+                                         morphology_mitochondrion_strength),
                              displacementFrequency, 0.f));
 
                 mitochondriaVolume +=

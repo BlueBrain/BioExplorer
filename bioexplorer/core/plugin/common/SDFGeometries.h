@@ -20,6 +20,7 @@
 
 #pragma once
 
+#include "Displacement.h"
 #include "Node.h"
 #include "ThreadSafeContainer.h"
 #include "Types.h"
@@ -59,6 +60,9 @@ public:
     void addSDFDemo(Model& model);
 
 protected:
+    virtual double _getDisplacementValue(
+        const DisplacementElement& element) = 0;
+
     Vector3d _animatedPosition(const Vector4d& position,
                                const uint64_t index = 0) const;
 

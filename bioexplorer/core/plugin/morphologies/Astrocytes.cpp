@@ -60,6 +60,42 @@ Astrocytes::Astrocytes(Scene& scene, const AstrocytesDetails& details)
     PLUGIN_TIMER(chrono.elapsed(), "Astrocytes loaded");
 }
 
+double Astrocytes::_getDisplacementValue(const DisplacementElement& element)
+{
+    const auto params = _details.displacementParams;
+    switch (element)
+    {
+    case DisplacementElement::morphology_soma_strength:
+        return valueFromDoubles(params, 0, DEFAULT_MORPHOLOGY_SOMA_STRENGTH);
+    case DisplacementElement::morphology_soma_frequency:
+        return valueFromDoubles(params, 1, DEFAULT_MORPHOLOGY_SOMA_FREQUENCY);
+    case DisplacementElement::morphology_section_strength:
+        return valueFromDoubles(params, 2, DEFAULT_MORPHOLOGY_SECTION_STRENGTH);
+    case DisplacementElement::morphology_section_frequency:
+        return valueFromDoubles(params, 3,
+                                DEFAULT_MORPHOLOGY_SECTION_FREQUENCY);
+    case DisplacementElement::morphology_nucleus_strength:
+        return valueFromDoubles(params, 4, DEFAULT_MORPHOLOGY_NUCLEUS_STRENGTH);
+    case DisplacementElement::morphology_nucleus_frequency:
+        return valueFromDoubles(params, 5,
+                                DEFAULT_MORPHOLOGY_NUCLEUS_FREQUENCY);
+    case DisplacementElement::morphology_mitochondrion_strength:
+        return valueFromDoubles(params, 6,
+                                DEFAULT_MORPHOLOGY_MITOCHONDRION_STRENGTH);
+    case DisplacementElement::morphology_mitochondrion_frequency:
+        return valueFromDoubles(params, 7,
+                                DEFAULT_MORPHOLOGY_MITOCHONDRION_FREQUENCY);
+    case DisplacementElement::vasculature_segment_strength:
+        return valueFromDoubles(params, 8,
+                                DEFAULT_VASCULATURE_SEGMENT_STRENGTH);
+    case DisplacementElement::vasculature_segment_frequency:
+        return valueFromDoubles(params, 9,
+                                DEFAULT_VASCULATURE_SEGMENT_FREQUENCY);
+    default:
+        PLUGIN_THROW("Invalid displacement element");
+    }
+}
+
 void Astrocytes::_logRealismParams()
 {
     PLUGIN_INFO(1, "----------------------------------------------------");
@@ -176,8 +212,14 @@ void Astrocytes::_buildModel(const doubles& radii)
             somaGeometryIndex = container.addSphere(
                 somaPosition, somaRadius, somaMaterialId, useSdf, NO_USER_DATA,
                 {},
-                Vector3f(somaRadius * astrocyteSomaDisplacementStrength,
-                         somaRadius * astrocyteSomaDisplacementFrequency, 0.f));
+                Vector3f(
+                    somaRadius *
+                        _getDisplacementValue(
+                            DisplacementElement::morphology_soma_strength),
+                    somaRadius *
+                        _getDisplacementValue(
+                            DisplacementElement::morphology_soma_frequency),
+                    0.f));
             if (_details.generateInternals)
             {
                 const auto useSdf =
@@ -243,8 +285,12 @@ void Astrocytes::_buildModel(const doubles& radii)
                     geometryIndex = container.addCone(
                         somaPosition, srcRadius, dstPosition, dstRadius,
                         somaMaterialId, useSdf, userData, neighbours,
-                        Vector3f(srcRadius * astrocyteSomaDisplacementStrength,
-                                 srcRadius * astrocyteSomaDisplacementFrequency,
+                        Vector3f(srcRadius * _getDisplacementValue(
+                                                 DisplacementElement::
+                                                     morphology_soma_strength),
+                                 srcRadius * _getDisplacementValue(
+                                                 DisplacementElement::
+                                                     morphology_soma_frequency),
                                  0.f));
                     neighbours.insert(geometryIndex);
                 }
@@ -284,8 +330,14 @@ void Astrocytes::_buildModel(const doubles& radii)
                     geometryIndex = container.addCone(
                         src, srcRadius, dst, dstRadius, sectionMaterialId,
                         useSdf, userData, {geometryIndex},
-                        Vector3f(srcRadius * sectionDisplacementStrength,
-                                 sectionDisplacementFrequency, 0.f));
+                        Vector3f(srcRadius *
+                                     _getDisplacementValue(
+                                         DisplacementElement::
+                                             morphology_section_strength),
+                                 _getDisplacementValue(
+                                     DisplacementElement::
+                                         morphology_section_frequency),
+                                 0.f));
 
                     _bounds.merge(srcPoint);
                 }
@@ -352,8 +404,12 @@ void Astrocytes::_addEndFoot(ThreadSafeContainer& container,
                              const size_t baseMaterialId)
 {
     const auto radiusMultiplier = _details.radiusMultiplier;
-    const Vector3d displacement{vasculatureSegmentDisplacementStrength,
-                                vasculatureSegmentDisplacementFrequency, 0.0};
+    const Vector3d displacement{
+        _getDisplacementValue(
+            DisplacementElement::vasculature_segment_strength),
+        _getDisplacementValue(
+            DisplacementElement::vasculature_segment_frequency),
+        0.0};
     const auto useSdf =
         andCheck(static_cast<uint32_t>(_details.realismLevel),
                  static_cast<uint32_t>(MorphologyRealismLevel::end_foot));
