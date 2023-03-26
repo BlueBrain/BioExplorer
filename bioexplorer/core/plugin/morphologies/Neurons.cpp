@@ -639,8 +639,11 @@ void Neurons::_addSection(ThreadSafeContainer& container,
         break;
     }
 
+    // Process points according to representation
+    auto localPoints =
+        _getProcessedSectionPoints(_details.morphologyRepresentation, points);
+
     // Generate varicosities
-    auto localPoints = points;
     const auto middlePointIndex = localPoints.size() / 2;
     const bool addVaricosity = _details.generateVaricosities &&
                                sectionType == NeuronSectionType::axon &&
@@ -790,11 +793,12 @@ void Neurons::_addSection(ThreadSafeContainer& container,
         if (_details.generateInternals)
             _addSectionInternals(container, neuronId, somaPosition,
                                  somaRotation, sectionLength, sectionVolume,
-                                 points, mitochondriaDensity, baseMaterialId);
+                                 localPoints, mitochondriaDensity,
+                                 baseMaterialId);
 
         if (_details.generateExternals)
             _addAxonMyelinSheath(container, neuronId, somaPosition,
-                                 somaRotation, sectionLength, points,
+                                 somaRotation, sectionLength, localPoints,
                                  mitochondriaDensity, baseMaterialId);
     }
 }

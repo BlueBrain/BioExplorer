@@ -295,9 +295,12 @@ void Astrocytes::_buildModel(const doubles& radii)
                     neighbours.insert(geometryIndex);
                 }
 
-                for (uint64_t i = 0; i < points.size() - 1; i += step)
+                const auto localPoints = _getProcessedSectionPoints(
+                    _details.morphologyRepresentation, points);
+
+                for (uint64_t i = 0; i < localPoints.size() - 1; i += step)
                 {
-                    const auto srcPoint = points[i];
+                    const auto srcPoint = localPoints[i];
                     const float srcRadius =
                         srcPoint.w * 0.5 * _radiusMultiplier;
                     const auto src = _animatedPosition(
@@ -310,12 +313,12 @@ void Astrocytes::_buildModel(const doubles& radii)
                     float dstRadius;
                     do
                     {
-                        dstPoint = points[i + step];
+                        dstPoint = localPoints[i + step];
                         dstRadius = dstPoint.w * 0.5 * _radiusMultiplier;
                         ++i;
                     } while (length(Vector3f(dstPoint) - Vector3f(srcPoint)) <
                                  (srcRadius + dstRadius) &&
-                             (i + step) < points.size() - 1);
+                             (i + step) < localPoints.size() - 1);
                     --i;
 
                     const auto dst = _animatedPosition(

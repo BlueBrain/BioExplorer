@@ -73,6 +73,9 @@ const std::string ARG_OOC_NB_BRICKS_PER_CYCLE = "--ooc-nb-bricks-per-cycle";
 const std::string ENV_ROCKETS_DISABLE_SCENE_BROADCASTING =
     "ROCKETS_DISABLE_SCENE_BROADCASTING";
 
+// Bezier curves parameters
+const size_t DEFAULT_BEZIER_STEP = 4;
+
 // Typedefs
 using StringMap = std::map<std::string, std::string>;
 using Color = Vector3d;
@@ -1063,7 +1066,8 @@ enum class MorphologyRepresentation
     graph = 0,
     section = 1,
     segment = 2,
-    orientation = 3
+    orientation = 3,
+    bezier = 4
 };
 
 enum class MorphologyRealismLevel
