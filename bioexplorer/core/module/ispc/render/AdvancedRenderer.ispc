@@ -516,11 +516,14 @@ inline float shadedLightIntensity(varying ScreenSample& sample,
                 shadowIntensity += opacity;
             }
 
-            shadowRay.t0 = max(0.f, shadowRay.t + shadowingGeometry.epsilon);
-            shadowRay.t = inf;
+            shadowRay.t0 = shadowRay.t + shadowingGeometry.epsilon;
+            shadowRay.t = attributes.self->giDistance - shadowRay.t0;
             shadowRay.primID = -1;
             shadowRay.geomID = -1;
             shadowRay.instID = -1;
+
+            if (shadowRay.t < 0.f)
+                break;
         }
         intensity += shadowIntensity;
     }
@@ -889,6 +892,7 @@ inline vec3f AdvancedRenderer_shadeRay(
     const uniform AdvancedRenderer* uniform self, varying ScreenSample& sample)
 {
     Ray ray = sample.ray;
+
     float maxt = self->super.fogStart + self->super.fogThickness;
 
     vec4f color = make_vec4f(0.f);
