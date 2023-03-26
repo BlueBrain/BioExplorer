@@ -63,6 +63,10 @@ protected:
     virtual double _getDisplacementValue(
         const DisplacementElement& element) = 0;
 
+    Vector4fs _getProcessedSectionPoints(
+        const MorphologyRepresentation& representation,
+        const Vector4fs& points);
+
     Vector3d _animatedPosition(const Vector4d& position,
                                const uint64_t index = 0) const;
 

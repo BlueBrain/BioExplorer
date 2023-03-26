@@ -82,5 +82,22 @@ Vector3d SDFGeometries::_animatedPosition(const Vector4d& position,
         position.z + amplitude * rnd3(seed + position.z * amplitude));
 }
 
+Vector4fs SDFGeometries::_getProcessedSectionPoints(
+    const MorphologyRepresentation& representation, const Vector4fs& points)
+{
+    Vector4fs localPoints;
+    if (representation == MorphologyRepresentation::bezier &&
+        points.size() > DEFAULT_BEZIER_STEP * 2)
+    {
+        for (double t = 0.0; t <= 1.0;
+             t +=
+             1.0 / static_cast<double>(points.size() * DEFAULT_BEZIER_STEP))
+            localPoints.push_back(getBezierPoint(points, t));
+    }
+    else
+        localPoints = points;
+    return localPoints;
+}
+
 } // namespace common
 } // namespace bioexplorer
