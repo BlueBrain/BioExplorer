@@ -159,7 +159,9 @@ void Vasculature::_addDetailedSection(ThreadSafeContainer& container,
                  static_cast<uint32_t>(VasculatureRealismLevel::section));
 
     GeometryNodes localNodes;
-    if (_details.representation == VasculatureRepresentation::optimized_segment)
+    switch (_details.representation)
+    {
+    case VasculatureRepresentation::optimized_segment:
     {
         double oldRadius = 0.0;
         double segmentLength = 0.0;
@@ -177,9 +179,36 @@ void Vasculature::_addDetailedSection(ThreadSafeContainer& container,
                 segmentLength = 0.0;
             oldRadius = node.second.radius;
         }
+        break;
     }
-    else
+    case VasculatureRepresentation::bezier:
+    {
+        Vector4fs points;
+        uint64_ts ids;
+        for (const auto& node : nodes)
+        {
+            points.push_back(
+                Vector4d(node.second.position.x, node.second.position.y,
+                         node.second.position.z, node.second.radius));
+            ids.push_back(node.first);
+        }
+        const auto localPoints =
+            _getProcessedSectionPoints(MorphologyRepresentation::bezier,
+                                       points);
+
+        uint64_t i = 0;
+        for (const auto& point : localPoints)
+        {
+            GeometryNode n;
+            n.position = Vector3d(point.x, point.y, point.y);
+            n.radius = point.w;
+            localNodes[ids[i * (nodes.size() / localPoints.size())]] = n;
+            ++i;
+        }
+    }
+    default:
         localNodes = nodes;
+    }
 
     uint64_t i = 0;
     GeometryNode dstNode;
