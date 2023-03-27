@@ -1059,7 +1059,9 @@ enum class MorphologyColorScheme
     /** Colored by section */
     section_type = 1,
     /** section orientation */
-    section_orientation = 2
+    section_orientation = 2,
+    /** distance to soma */
+    distance_to_soma = 3
 };
 
 enum class MorphologyRepresentation

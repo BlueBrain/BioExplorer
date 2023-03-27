@@ -332,18 +332,31 @@ void Astrocytes::_buildModel(const doubles& radii)
                              (i + step) < localPoints.size() - 1);
                     --i;
 
+                    // Distance to soma
+                    sectionLength += length(dstPoint - srcPoint);
+                    _maxDistanceToSoma =
+                        std::max(_maxDistanceToSoma,
+                                 distanceToSoma + sectionLength);
+
+                    const size_t materialId =
+                        _details.morphologyColorScheme ==
+                                MorphologyColorScheme::distance_to_soma
+                            ? _getMaterialFromDistanceToSoma(
+                                  _details.maxDistanceToSoma, distanceToSoma)
+
+                            : sectionMaterialId;
+
                     const auto dst = _animatedPosition(
                         Vector4d(somaPosition + Vector3d(dstPoint), dstRadius),
                         somaId);
                     if (!useSdf)
                         geometryIndex =
-                            container.addSphere(dst, dstRadius,
-                                                sectionMaterialId, useSdf,
-                                                NO_USER_DATA);
+                            container.addSphere(dst, dstRadius, materialId,
+                                                useSdf, NO_USER_DATA);
 
                     geometryIndex = container.addCone(
-                        src, srcRadius, dst, dstRadius, sectionMaterialId,
-                        useSdf, userData, {geometryIndex},
+                        src, srcRadius, dst, dstRadius, materialId, useSdf,
+                        userData, {geometryIndex},
                         Vector3f(srcRadius *
                                      _getDisplacementValue(
                                          DisplacementElement::
@@ -355,11 +368,6 @@ void Astrocytes::_buildModel(const doubles& radii)
 
                     _bounds.merge(srcPoint);
 
-                    // Distance to soma
-                    sectionLength += length(dstPoint - srcPoint);
-                    _maxDistanceToSoma =
-                        std::max(_maxDistanceToSoma,
-                                 distanceToSoma + sectionLength);
                     if (_details.maxDistanceToSoma > 0.0 &&
                         distanceToSoma + sectionLength >=
                             _details.maxDistanceToSoma)

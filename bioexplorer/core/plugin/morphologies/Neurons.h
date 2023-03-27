@@ -91,7 +91,7 @@ private:
                    const Vector3d& somaPosition,
                    const Quaterniond& somaRotation, const Vector4d& srcNode,
                    const Vector4d& dstNode, const NeuronSectionType sectionType,
-                   const size_t baseMaterialId);
+                   const size_t baseMaterialId, const double distanceToSoma);
 
     void _addSection(ThreadSafeContainer& container, const uint64_t neuronId,
                      const uint64_t morphologyId, const uint64_t sectionId,
