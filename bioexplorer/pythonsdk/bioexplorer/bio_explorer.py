@@ -3090,7 +3090,8 @@ class BioExplorer:
         sql_filter="",
         scale=Vector3(1.0, 1.0, 1.0),
         animation_params=CellAnimationParams(),
-        displacement_params=AstrocyteDisplacementParams()
+        displacement_params=AstrocyteDisplacementParams(),
+        max_distance_to_soma=0.0
     ):
         """
         Add a population of astrocytes to the 3D scene
@@ -3112,6 +3113,7 @@ class BioExplorer:
         :scale: Scale in the 3D scene
         :animation_params: Extra optional parameters for animation purposes
         :displacement_params: Extra optional parameters for geometry displacement
+        :max_distance_to_soma: Maximum distance to soma for segment loading. Ignored if 0.
 
         :return: Result of the request submission
         """
@@ -3137,6 +3139,7 @@ class BioExplorer:
         params["scale"] = scale.to_list()
         params["animationParams"] = animation_params.to_list()
         params["displacementParams"] = displacement_params.to_list()
+        params["maxDistanceToSoma"] = max_distance_to_soma
         return self._invoke_and_check("add-astrocytes", params)
 
     def add_neurons(
@@ -3163,7 +3166,8 @@ class BioExplorer:
         sql_section_filter="",
         scale=Vector3(1.0, 1.0, 1.0),
         animation_params=CellAnimationParams(),
-        displacement_params=NeuronDisplacementParams()
+        displacement_params=NeuronDisplacementParams(),
+        max_distance_to_soma=0.0
     ):
         """
         Add a population of astrocytes to the 3D scene
@@ -3191,6 +3195,7 @@ class BioExplorer:
         :scale: Scale in the 3D scene
         :animation_params: Extra optional parameters for animation purposes
         :displacement_params: Extra optional parameters for geometry displacement purposes
+        :max_distance_to_soma: Maximum distance to soma for segment loading. Ignored if 0.
 
         :return: Result of the request submission
         """
@@ -3222,6 +3227,7 @@ class BioExplorer:
         params["scale"] = scale.to_list()
         params["animationParams"] = animation_params.to_list()
         params["displacementParams"] = displacement_params.to_list()
+        params["maxDistanceToSoma"] = max_distance_to_soma
         return self._invoke_and_check("add-neurons", params)
 
     def get_neuron_section_points(self, assembly_name, neuron_guid, section_guid):

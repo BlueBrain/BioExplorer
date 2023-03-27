@@ -67,6 +67,8 @@ protected:
                            const Vector3d& somaPosition,
                            const double somaRadius,
                            const double mitochondriaDensity, const bool useSdf);
+    double _getDistanceToSoma(const SectionMap& sections,
+                              const Section& section);
 };
 } // namespace morphology
 } // namespace bioexplorer

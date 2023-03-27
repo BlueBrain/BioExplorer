@@ -603,6 +603,11 @@ SectionMap DBConnector::getAstrocyteSections(
             const pqxx::binarystring bytea(c[3]);
             section.points.resize(bytea.size() / sizeof(Vector4f));
             memcpy(&section.points.data()[0], bytea.data(), bytea.size());
+
+            section.length = 0.0;
+            for (uint64_t i = 0; i < section.points.size() - 1; ++i)
+                section.length += length(Vector3f(section.points[i + 1]) -
+                                         Vector3f(section.points[i]));
             sections[sectionId] = section;
         }
         PLUGIN_DB_TIMER(chrono.elapsed(), "getAstrocyteSections(populationName="
@@ -793,6 +798,12 @@ SectionMap DBConnector::getNeuronSections(const std::string& populationName,
             const pqxx::binarystring bytea(c[3]);
             section.points.resize(bytea.size() / sizeof(Vector4f));
             memcpy(&section.points.data()[0], bytea.data(), bytea.size());
+
+            section.length = 0.0;
+            for (uint64_t i = 0; i < section.points.size() - 1; ++i)
+                section.length += length(Vector3f(section.points[i + 1]) -
+                                         Vector3f(section.points[i]));
+
             sections[sectionId] = section;
         }
         PLUGIN_DB_TIMER(chrono.elapsed(),

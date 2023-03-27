@@ -101,7 +101,8 @@ private:
                      const size_t baseMaterialId,
                      const double mitochondriaDensity,
                      const uint64_t somaUserData,
-                     const SectionSynapseMap& synapses);
+                     const SectionSynapseMap& synapses,
+                     const double distanceToSoma);
 
     void _addSpine(ThreadSafeContainer& container, const uint64_t neuronId,
                    const uint64_t morphologyId, const uint64_t sectionId,
@@ -129,6 +130,7 @@ private:
     Scene& _scene;
     Varicosities _varicosities;
     uint64_t _nbSpines{0};
+    double _maxDistanceToSoma{0.0};
     SimulationReport _simulationReport;
 };
 } // namespace morphology
