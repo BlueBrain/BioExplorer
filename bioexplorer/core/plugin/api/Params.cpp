@@ -881,6 +881,7 @@ bool from_json(AstrocytesDetails &param, const std::string &payload)
         FROM_JSON(param, js, scale);
         FROM_JSON(param, js, animationParams);
         FROM_JSON(param, js, displacementParams);
+        FROM_JSON(param, js, maxDistanceToSoma);
     }
     catch (...)
     {
@@ -917,6 +918,7 @@ bool from_json(NeuronsDetails &param, const std::string &payload)
         FROM_JSON(param, js, scale);
         FROM_JSON(param, js, animationParams);
         FROM_JSON(param, js, displacementParams);
+        FROM_JSON(param, js, maxDistanceToSoma);
     }
     catch (...)
     {

@@ -136,5 +136,21 @@ void Morphologies::_addSomaInternals(ThreadSafeContainer& container,
     }
 }
 
+double Morphologies::_getDistanceToSoma(const SectionMap& sections,
+                                        const Section& section)
+{
+    double distanceToSoma = 0.0;
+    auto s = section;
+    while (s.parentId != -1)
+    {
+        const auto it = sections.find(s.parentId);
+        if (it == sections.end())
+            break;
+        s = it->second;
+        distanceToSoma += s.length;
+    }
+    return distanceToSoma;
+}
+
 } // namespace morphology
 } // namespace bioexplorer

@@ -1138,6 +1138,9 @@ typedef struct
     doubles animationParams;
     /** Extra optional parameters for geometry displacement */
     doubles displacementParams;
+    /** Only load segments that with distance to soma smaller than specified
+     * value. Ignored if set to 0 */
+    double maxDistanceToSoma{0.0};
 } AstrocytesDetails;
 
 enum class NeuronSectionType
@@ -1199,6 +1202,9 @@ typedef struct
     doubles animationParams;
     /** Extra optional parameters for geometry displacement */
     doubles displacementParams;
+    /** Only load segments that with distance to soma smaller than specified
+     * value. Ignored if set to 0 */
+    double maxDistanceToSoma{0.0};
 } NeuronsDetails;
 
 typedef struct
@@ -1615,6 +1621,7 @@ typedef struct
     Vector4fs points;
     size_t type;
     int64_t parentId;
+    double length;
 } Section;
 using SectionMap = std::map<uint64_t, Section>;
 

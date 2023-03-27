@@ -69,6 +69,8 @@ private:
     void _buildMicroDomain(ThreadSafeContainer& container,
                            const uint64_t astrocyteId, const size_t materialId);
     const AstrocytesDetails _details;
+
+    double _maxDistanceToSoma{0.0};
     Scene& _scene;
 };
 } // namespace morphology

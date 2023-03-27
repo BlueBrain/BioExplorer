@@ -219,7 +219,8 @@ void Neurons::_buildNeurons()
         {"Number of Neurons", std::to_string(somas.size())},
         {"Number of Spines", std::to_string(_nbSpines)},
         {"SQL node filter", _details.sqlNodeFilter},
-        {"SQL section filter", _details.sqlSectionFilter}};
+        {"SQL section filter", _details.sqlSectionFilter},
+        {"Max distance to soma", std::to_string(_maxDistanceToSoma)}};
 
     _modelDescriptor.reset(new brayns::ModelDescriptor(std::move(model),
                                                        _details.assemblyName,
@@ -330,6 +331,7 @@ void Neurons::_buildMorphology(ThreadSafeContainer& container,
                                              : 0.0);
 
     SectionMap sections;
+
     // Soma radius
     double somaRadius = _radiusMultiplier;
     if (_details.loadAxon || _details.loadApicalDendrites ||
@@ -476,11 +478,11 @@ void Neurons::_buildMorphology(ThreadSafeContainer& container,
         if (_details.showMembrane && _details.loadSomas &&
             section.second.parentId == SOMA_AS_PARENT)
         {
+            const auto& point = section.second.points[0];
+
             useSdf =
                 andCheck(static_cast<uint32_t>(_details.realismLevel),
                          static_cast<uint32_t>(MorphologyRealismLevel::soma));
-
-            const auto& point = section.second.points[0];
 
             const float srcRadius = somaRadius * 0.75f * _radiusMultiplier;
             const float dstRadius = point.w * 0.5f * _radiusMultiplier;
@@ -515,10 +517,17 @@ void Neurons::_buildMorphology(ThreadSafeContainer& container,
             neighbours.insert(geometryIndex);
         }
 
-        _addSection(container, neuronId, soma.morphologyId, section.first,
-                    section.second, geometryIndex, somaPosition, somaRotation,
-                    somaRadius, baseMaterialId, mitochondriaDensity,
-                    somaUserData, synapses);
+        double distanceToSoma = 0.0;
+        if (_details.maxDistanceToSoma > 0.0)
+            // If maxDistanceToSoma != 0, then compute actual distance from soma
+            distanceToSoma = _getDistanceToSoma(sections, section.second);
+
+        if (distanceToSoma <= _details.maxDistanceToSoma)
+            _addSection(container, neuronId, soma.morphologyId, section.first,
+                        section.second, geometryIndex, somaPosition,
+                        somaRotation, somaRadius, baseMaterialId,
+                        mitochondriaDensity, somaUserData, synapses,
+                        distanceToSoma);
     }
 } // namespace morphology
 
@@ -594,16 +603,14 @@ void Neurons::_addArrow(ThreadSafeContainer& container, const uint64_t neuronId,
     _bounds.merge(dst);
 }
 
-void Neurons::_addSection(ThreadSafeContainer& container,
-                          const uint64_t neuronId, const uint64_t morphologyId,
-                          const uint64_t sectionId, const Section& section,
-                          const uint64_t somaGeometryIndex,
-                          const Vector3d& somaPosition,
-                          const Quaterniond& somaRotation,
-                          const double somaRadius, const size_t baseMaterialId,
-                          const double mitochondriaDensity,
-                          const uint64_t somaUserData,
-                          const SectionSynapseMap& synapses)
+void Neurons::_addSection(
+    ThreadSafeContainer& container, const uint64_t neuronId,
+    const uint64_t morphologyId, const uint64_t sectionId,
+    const Section& section, const uint64_t somaGeometryIndex,
+    const Vector3d& somaPosition, const Quaterniond& somaRotation,
+    const double somaRadius, const size_t baseMaterialId,
+    const double mitochondriaDensity, const uint64_t somaUserData,
+    const SectionSynapseMap& synapses, const double distanceToSoma)
 {
     const auto& connector = DBConnector::getInstance();
     const auto sectionType = static_cast<NeuronSectionType>(section.type);
@@ -782,6 +789,13 @@ void Neurons::_addSection(ThreadSafeContainer& container,
                                   useSdf, userData, neighbours, displacement);
 
             neighbours.insert(geometryIndex);
+
+            // Stop if distance to soma in greater than the specified value
+            _maxDistanceToSoma =
+                std::max(_maxDistanceToSoma, distanceToSoma + sectionLength);
+            if (_details.maxDistanceToSoma > 0.0 &&
+                distanceToSoma + sectionLength >= _details.maxDistanceToSoma)
+                break;
         }
         sectionVolume += coneVolume(sampleLength, srcRadius, dstRadius);
 

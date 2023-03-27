@@ -295,9 +295,20 @@ void Astrocytes::_buildModel(const doubles& radii)
                     neighbours.insert(geometryIndex);
                 }
 
+                // If maxDistanceToSoma != 0, then compute actual distance from
+                // soma
+                double distanceToSoma = 0.0;
+                if (_details.maxDistanceToSoma > 0.0)
+                    distanceToSoma =
+                        _getDistanceToSoma(sections, section.second);
+                if (distanceToSoma > _details.maxDistanceToSoma)
+                    continue;
+
+                // Process section points according to representation
                 const auto localPoints = _getProcessedSectionPoints(
                     _details.morphologyRepresentation, points);
 
+                double sectionLength = 0.0;
                 for (uint64_t i = 0; i < localPoints.size() - 1; i += step)
                 {
                     const auto srcPoint = localPoints[i];
@@ -343,6 +354,16 @@ void Astrocytes::_buildModel(const doubles& radii)
                                  0.f));
 
                     _bounds.merge(srcPoint);
+
+                    // Distance to soma
+                    sectionLength += length(dstPoint - srcPoint);
+                    _maxDistanceToSoma =
+                        std::max(_maxDistanceToSoma,
+                                 distanceToSoma + sectionLength);
+                    if (_details.maxDistanceToSoma > 0.0 &&
+                        distanceToSoma + sectionLength >=
+                            _details.maxDistanceToSoma)
+                        break;
                 }
             }
         }
@@ -390,7 +411,9 @@ void Astrocytes::_buildModel(const doubles& radii)
 
     const ModelMetadata metadata = {{"Number of astrocytes",
                                      std::to_string(somas.size())},
-                                    {"SQL filter", _details.sqlFilter}};
+                                    {"SQL filter", _details.sqlFilter},
+                                    {"Max distance to soma",
+                                     std::to_string(_maxDistanceToSoma)}};
 
     _modelDescriptor.reset(new brayns::ModelDescriptor(std::move(model),
                                                        _details.assemblyName,
