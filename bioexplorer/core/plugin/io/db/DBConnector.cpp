@@ -1328,18 +1328,14 @@ floats DBConnector::getSynapseEfficacyReportValues(
 {
     CHECK_DB_INITIALIZATION
     floats reportValues;
-#if 0
-    const uint64_t offset = 1;
     const auto size = sizeof(float);
     pqxx::nontransaction transaction(
         *_connections[omp_get_thread_num() % _dbNbConnections]);
     try
     {
         Timer chrono;
-        std::string sql = "SELECT SUBSTRING(values::bytea FROM " +
-                          std::to_string(offset + frame * size) + " FOR " +
-                          std::to_string(size) + ") FROM " + populationName +
-                          ".synapse_efficacy";
+        std::string sql =
+            "SELECT values::bytea FROM " + populationName + ".synapse_efficacy";
         if (!sqlCondition.empty())
             sql += " WHERE " + sqlCondition;
         sql += " ORDER BY synapse_guid";
@@ -1352,7 +1348,7 @@ floats DBConnector::getSynapseEfficacyReportValues(
         {
             float value;
             const pqxx::binarystring buffer(c[0]);
-            memcpy(&value, buffer.data(), size);
+            memcpy(&value, buffer.data() + frame * size, size);
             reportValues[i] = value;
             ++i;
         }
@@ -1365,7 +1361,6 @@ floats DBConnector::getSynapseEfficacyReportValues(
     {
         PLUGIN_THROW(e.what());
     }
-#endif
     return reportValues;
 }
 
