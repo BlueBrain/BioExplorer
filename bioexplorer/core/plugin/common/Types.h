@@ -1207,6 +1207,8 @@ typedef struct
     /** Only load segments that with distance to soma smaller than specified
      * value. Ignored if set to 0 */
     double maxDistanceToSoma{0.0};
+    /** Align 3D positions to grid if different from 0.0 */
+    double alignToGrid{0.0};
 } NeuronsDetails;
 
 typedef struct
@@ -1294,6 +1296,8 @@ typedef struct
     std::string sqlFilter;
     /** Simulation report identifier */
     int64_t simulationReportId{-1};
+    /** Align 3D positions to grid if different from 0.0 */
+    double alignToGrid{0.0};
 } SynapseEfficacyDetails;
 } // namespace details
 
