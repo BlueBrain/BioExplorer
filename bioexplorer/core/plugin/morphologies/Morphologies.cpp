@@ -152,5 +152,12 @@ double Morphologies::_getDistanceToSoma(const SectionMap& sections,
     return distanceToSoma;
 }
 
+size_t Morphologies::_getMaterialFromDistanceToSoma(
+    const double maxDistanceToSoma, const double distanceToSoma) const
+{
+    return static_cast<size_t>(512.0 * (1.0 / maxDistanceToSoma) *
+                               distanceToSoma);
+}
+
 } // namespace morphology
 } // namespace bioexplorer

@@ -313,7 +313,7 @@ void Neurons::_buildOrientations(ThreadSafeContainer& container,
         _addArrow(container, soma.first, soma.second.position,
                   soma.second.rotation, Vector4d(0, 0, 0, radius * 0.2),
                   Vector4d(radius, 0, 0, radius * 0.2), NeuronSectionType::soma,
-                  0);
+                  0, 0.0);
         ++progress;
     }
 }
@@ -376,6 +376,9 @@ void Neurons::_buildMorphology(ThreadSafeContainer& container,
         break;
     case MorphologyColorScheme::section_orientation:
         somaMaterialId = getMaterialIdFromOrientation({1.0, 1.0, 1.0});
+        break;
+    case MorphologyColorScheme::distance_to_soma:
+        somaMaterialId = 0;
         break;
     }
 
@@ -456,6 +459,11 @@ void Neurons::_buildMorphology(ThreadSafeContainer& container,
         bool useSdf = andCheck(static_cast<uint32_t>(_details.realismLevel),
                                static_cast<uint32_t>(sectionType));
 
+        double distanceToSoma = 0.0;
+        if (_details.maxDistanceToSoma > 0.0)
+            // If maxDistanceToSoma != 0, then compute actual distance from soma
+            distanceToSoma = _getDistanceToSoma(sections, section.second);
+
         if (sectionType == NeuronSectionType::axon && !_details.loadAxon)
             continue;
         if (sectionType == NeuronSectionType::basal_dendrite &&
@@ -467,10 +475,12 @@ void Neurons::_buildMorphology(ThreadSafeContainer& container,
         if (_details.morphologyRepresentation ==
             MorphologyRepresentation::graph)
         {
-            _addArrow(container, neuronIndex, somaPosition, somaRotation,
-                      section.second.points[0],
-                      section.second.points[section.second.points.size() - 1],
-                      sectionType, baseMaterialId);
+            if (distanceToSoma <= _details.maxDistanceToSoma)
+                _addArrow(
+                    container, neuronIndex, somaPosition, somaRotation,
+                    section.second.points[0],
+                    section.second.points[section.second.points.size() - 1],
+                    sectionType, baseMaterialId, distanceToSoma);
             continue;
         }
 
@@ -517,11 +527,6 @@ void Neurons::_buildMorphology(ThreadSafeContainer& container,
             neighbours.insert(geometryIndex);
         }
 
-        double distanceToSoma = 0.0;
-        if (_details.maxDistanceToSoma > 0.0)
-            // If maxDistanceToSoma != 0, then compute actual distance from soma
-            distanceToSoma = _getDistanceToSoma(sections, section.second);
-
         if (distanceToSoma <= _details.maxDistanceToSoma)
             _addSection(container, neuronId, soma.morphologyId, section.first,
                         section.second, geometryIndex, somaPosition,
@@ -563,7 +568,8 @@ void Neurons::_addArrow(ThreadSafeContainer& container, const uint64_t neuronId,
                         const Quaterniond& somaRotation,
                         const Vector4d& srcNode, const Vector4d& dstNode,
                         const NeuronSectionType sectionType,
-                        const size_t baseMaterialId)
+                        const size_t baseMaterialId,
+                        const double distanceToSoma)
 {
     size_t sectionMaterialId;
     switch (_details.morphologyColorScheme)
@@ -578,27 +584,52 @@ void Neurons::_addArrow(ThreadSafeContainer& container, const uint64_t neuronId,
         sectionMaterialId =
             getMaterialIdFromOrientation(somaRotation * Vector3d(0, 0, 1));
         break;
+    case MorphologyColorScheme::distance_to_soma:
+        sectionMaterialId =
+            _getMaterialFromDistanceToSoma(_details.maxDistanceToSoma,
+                                           distanceToSoma);
+        break;
     }
 
-    const auto src = _animatedPosition(
+    auto src = _animatedPosition(
         Vector4d(somaPosition + somaRotation * Vector3d(srcNode), srcNode.w),
         neuronId);
-    const auto dst = _animatedPosition(
+    auto dst = _animatedPosition(
         Vector4d(somaPosition + somaRotation * Vector3d(dstNode), dstNode.w),
         neuronId);
+
+    if (sectionType != NeuronSectionType::axon)
+    {
+        auto tmp = src;
+        src = dst;
+        dst = tmp;
+    }
+
     const auto userData = neuronId;
-    const auto direction = dst - src;
-    const auto maxRadius = std::max(srcNode.w, dstNode.w);
-    const float radius = std::min(length(direction) / 5.0,
-                                  maxRadius * _details.radiusMultiplier);
-    container.addSphere(src, radius * 0.2, sectionMaterialId, userData);
-    container.addCone(src, radius * 0.2, Vector3f(src + direction * 0.79),
-                      radius * 0.2, sectionMaterialId, userData);
-    container.addCone(Vector3f(src + direction * 0.79), radius * 0.2,
-                      Vector3f(src + direction * 0.8), radius,
-                      sectionMaterialId, userData);
-    container.addCone(Vector3f(src + direction * 0.8), radius, dst, 0.0,
-                      sectionMaterialId, userData);
+    auto direction = dst - src;
+    const auto maxRadius = _details.radiusMultiplier < 0
+                               ? -_details.radiusMultiplier
+                               : std::max(srcNode.w, dstNode.w);
+    const float radius = _details.radiusMultiplier < 0
+                             ? -_details.radiusMultiplier
+                             : std::min(length(direction) / 5.0,
+                                        maxRadius * _details.radiusMultiplier);
+
+    const auto d1 = normalize(direction) * (length(direction) / 2.0 - radius);
+    const auto d2 = normalize(direction) * (length(direction) / 2.0 + radius);
+
+    const bool useSdf = false;
+
+    container.addSphere(src, radius * 0.2, sectionMaterialId, useSdf, userData);
+    container.addCone(src, radius * 0.2, Vector3f(src + d1 * 0.99),
+                      radius * 0.2, sectionMaterialId, useSdf, userData);
+    container.addCone(Vector3f(src + d1 * 0.99), radius * 0.2,
+                      Vector3f(src + d1), radius, sectionMaterialId, useSdf,
+                      userData);
+    container.addCone(Vector3f(src + d1), radius, Vector3f(src + d2),
+                      radius * 0.2, sectionMaterialId, useSdf, userData);
+    container.addCone(Vector3f(src + d2), radius * 0.2, dst, radius * 0.2,
+                      sectionMaterialId, useSdf, userData);
     _bounds.merge(src);
     _bounds.merge(dst);
 }
@@ -735,7 +766,15 @@ void Neurons::_addSection(
                 _getDisplacementValue(
                     DisplacementElement::morphology_section_frequency),
                 0.f};
-            size_t materialId = sectionMaterialId;
+
+            size_t materialId =
+                _details.morphologyColorScheme ==
+                        MorphologyColorScheme::distance_to_soma
+                    ? _getMaterialFromDistanceToSoma(_details.maxDistanceToSoma,
+                                                     distanceToSoma)
+
+                    : sectionMaterialId;
+
             if (addVaricosity && _details.morphologyColorScheme ==
                                      MorphologyColorScheme::section_type)
             {
@@ -790,7 +829,8 @@ void Neurons::_addSection(
 
             neighbours.insert(geometryIndex);
 
-            // Stop if distance to soma in greater than the specified value
+            // Stop if distance to soma in greater than the specified
+            // value
             _maxDistanceToSoma =
                 std::max(_maxDistanceToSoma, distanceToSoma + sectionLength);
             if (_details.maxDistanceToSoma > 0.0 &&
@@ -1032,8 +1072,8 @@ void Neurons::_addAxonMyelinSheath(
             previousPosition = dstPosition;
             previousRadius = dstRadius;
         }
-        i += NB_MYELIN_FREE_SEGMENTS; // Leave free segments between myelin
-                                      // steaths
+        i += NB_MYELIN_FREE_SEGMENTS; // Leave free segments between
+                                      // myelin steaths
     }
 }
 
@@ -1112,7 +1152,8 @@ void Neurons::_addSpine(ThreadSafeContainer& container, const uint64_t neuronId,
     const auto l = 6.f * radius * spineScale;
 #endif
 
-    // container.addSphere(preSynapticSurfacePosition, DEFAULT_SPINE_RADIUS
+    // container.addSphere(preSynapticSurfacePosition,
+    // DEFAULT_SPINE_RADIUS
     // * 3.f,
     //                     SpineMaterialId, neuronId);
 

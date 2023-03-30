@@ -69,6 +69,9 @@ protected:
                            const double mitochondriaDensity, const bool useSdf);
     double _getDistanceToSoma(const SectionMap& sections,
                               const Section& section);
+
+    size_t _getMaterialFromDistanceToSoma(const double maxDistanceToSoma,
+                                          const double distanceToSoma) const;
 };
 } // namespace morphology
 } // namespace bioexplorer
