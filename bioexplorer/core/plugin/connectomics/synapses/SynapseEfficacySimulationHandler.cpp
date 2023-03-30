@@ -42,11 +42,11 @@ SynapseEfficacySimulationHandler::SynapseEfficacySimulationHandler(
         connector.getSimulationReport(_details.populationName,
                                       _details.simulationReportId);
 
-    const auto synapsePositions =
-        DBConnector::getInstance().getSynapseEfficacyPositions(
-            _details.populationName, _details.sqlFilter);
+    const auto values =
+        connector.getSynapseEfficacyReportValues(_details.populationName, 0,
+                                                 _details.sqlFilter);
 
-    _frameSize = synapsePositions.size();
+    _frameSize = values.size();
     _frameData.resize(_frameSize);
     _nbFrames = (_simulationReport.endTime - _simulationReport.startTime) /
                 _simulationReport.timeStep;
@@ -95,6 +95,7 @@ void* SynapseEfficacySimulationHandler::getFrameData(const uint32_t frame)
         uint64_t i = 0;
         for (const auto& value : values)
         {
+            // _frameData[i] = (_frameData[i] != value) ? value : 0.0;
             _frameData[i] = value;
             ++i;
         }
