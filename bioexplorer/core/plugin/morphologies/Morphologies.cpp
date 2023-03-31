@@ -31,8 +31,8 @@ namespace bioexplorer
 {
 namespace morphology
 {
-Morphologies::Morphologies(const double radiusMultiplier, const Vector3f& scale)
-    : SDFGeometries(radiusMultiplier == 0.0 ? 1.0 : radiusMultiplier, scale)
+Morphologies::Morphologies(const Vector3f& scale)
+    : SDFGeometries(scale)
 {
 }
 
@@ -46,7 +46,8 @@ void Morphologies::_addSomaInternals(ThreadSafeContainer& container,
                                      const Vector3d& somaPosition,
                                      const double somaRadius,
                                      const double mitochondriaDensity,
-                                     const bool useSdf)
+                                     const bool useSdf,
+                                     const double radiusMultiplier)
 {
     // Nucleus
     //
@@ -92,8 +93,9 @@ void Morphologies::_addSomaInternals(ThreadSafeContainer& container,
         for (size_t i = 0; i < nbSegments; ++i)
         {
             // Mitochondrion geometry
-            const double radius = (1.2 + (rand() % 500 / 2000.0)) *
-                                  mitochondrionRadius * _radiusMultiplier;
+            const double radius =
+                (1.2 + (rand() % 500 / 2000.0)) *
+                _getCorrectedRadius(mitochondrionRadius, radiusMultiplier);
             const auto p2 = somaPosition + somaOutterRadius * pointsInSphere[i];
 
             Neighbours neighbours;

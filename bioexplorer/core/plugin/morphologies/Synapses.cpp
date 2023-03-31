@@ -39,7 +39,7 @@ using namespace io;
 using namespace db;
 
 Synapses::Synapses(Scene& scene, const SynapsesDetails& details)
-    : Morphologies(details.radiusMultiplier)
+    : Morphologies()
     , _details(details)
     , _scene(scene)
 {

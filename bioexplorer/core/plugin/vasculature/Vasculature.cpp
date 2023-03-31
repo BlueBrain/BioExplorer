@@ -41,14 +41,10 @@ using namespace io;
 using namespace db;
 
 Vasculature::Vasculature(Scene& scene, const VasculatureDetails& details)
-    : SDFGeometries(details.radiusMultiplier == 0 ? 1.0
-                                                  : details.radiusMultiplier,
-                    doublesToVector3d(details.scale))
+    : SDFGeometries(doublesToVector3d(details.scale))
     , _details(details)
     , _scene(scene)
 {
-    _radiusMultiplier =
-        _details.radiusMultiplier > 0.0 ? _details.radiusMultiplier : 1.0;
     _animationDetails = doublesToCellAnimationDetails(_details.animationParams);
 
     Timer chrono;
@@ -100,8 +96,9 @@ void Vasculature::_addGraphSection(ThreadSafeContainer& container,
     const auto dst = _animatedPosition(Vector4d(dstNode.position, maxRadius));
     const auto direction = dst - src;
 
-    const float radius = std::min(length(direction) / 5.0,
-                                  maxRadius * _details.radiusMultiplier);
+    const float radius =
+        std::min(length(direction) / 5.0,
+                 _getCorrectedRadius(maxRadius, _details.radiusMultiplier));
     container.addSphere(src, radius * 0.2, materialId, useSdf, userData);
     container.addCone(src, radius * 0.2, Vector3f(src + direction * 0.79),
                       radius * 0.2, materialId, useSdf, userData);
@@ -118,11 +115,13 @@ void Vasculature::_addSimpleSection(ThreadSafeContainer& container,
                                     const size_t materialId,
                                     const uint64_t userData)
 {
-    const auto srcRadius = srcNode.radius * _details.radiusMultiplier;
+    const auto srcRadius =
+        _getCorrectedRadius(srcNode.radius, _details.radiusMultiplier);
     const auto& srcPoint =
         _animatedPosition(Vector4d(srcNode.position, srcRadius));
 
-    const auto dstRadius = dstNode.radius * _details.radiusMultiplier;
+    const auto dstRadius =
+        _getCorrectedRadius(dstNode.radius, _details.radiusMultiplier);
     const auto& dstPoint =
         _animatedPosition(Vector4d(dstNode.position, dstRadius));
 
@@ -234,8 +233,9 @@ void Vasculature::_addDetailedSection(ThreadSafeContainer& container,
         }
 
         const float srcRadius =
-            (userData < radii.size() ? radii[userData] : srcNode.radius) *
-            _details.radiusMultiplier;
+            _getCorrectedRadius((userData < radii.size() ? radii[userData]
+                                                         : srcNode.radius),
+                                _details.radiusMultiplier);
         const auto srcPosition =
             _animatedPosition(Vector4d(srcNode.position, srcRadius));
 
@@ -245,8 +245,9 @@ void Vasculature::_addDetailedSection(ThreadSafeContainer& container,
         else
         {
             const float dstRadius =
-                (userData < radii.size() ? radii[userData] : dstNode.radius) *
-                _details.radiusMultiplier;
+                _getCorrectedRadius((userData < radii.size() ? radii[userData]
+                                                             : dstNode.radius),
+                                    _details.radiusMultiplier);
             const auto dstPosition =
                 _animatedPosition(Vector4d(dstNode.position, dstRadius));
 
@@ -289,7 +290,8 @@ void Vasculature::_addOrientation(ThreadSafeContainer& container,
     {
         streamline.vertex.push_back(
             Vector4f(node.second.position,
-                     node.second.radius * _details.radiusMultiplier));
+                     _getCorrectedRadius(node.second.radius,
+                                         _details.radiusMultiplier)));
         streamline.vertexColor.push_back(
             (i == 0 ? Vector4f(0.f, 0.f, 0.f, alpha)
                     : Vector4f(0.5 + 0.5 * normalize(node.second.position -

@@ -39,7 +39,7 @@ Membrane::Membrane(const MembraneDetails& details, Scene& scene,
                    const Vector3d& assemblyPosition,
                    const Quaterniond& assemblyRotation, const ShapePtr shape,
                    const ProteinMap& transmembraneProteins)
-    : SDFGeometries(details.atomRadiusMultiplier)
+    : SDFGeometries()
     , _scene(scene)
     , _details(details)
     , _nbOccurrences{0}

@@ -778,7 +778,7 @@ SectionMap DBConnector::getNeuronSections(const std::string& populationName,
         Timer chrono;
         std::string sql =
             "SELECT s.section_guid, s.section_type_guid, "
-            "s.section_parent_guid, s.points FROM " +
+            "s.section_parent_guid, s.points::bytea FROM " +
             populationName + ".node AS n, " + populationName +
             ".section AS s WHERE n.morphology_guid=s.morphology_guid "
             "AND n.guid=" +

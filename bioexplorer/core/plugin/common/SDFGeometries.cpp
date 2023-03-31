@@ -31,10 +31,8 @@ namespace bioexplorer
 {
 namespace common
 {
-SDFGeometries::SDFGeometries(const double radiusMultiplier,
-                             const Vector3d& scale)
+SDFGeometries::SDFGeometries(const Vector3d& scale)
     : Node(scale)
-    , _radiusMultiplier(radiusMultiplier)
 {
 }
 
@@ -97,6 +95,14 @@ Vector4fs SDFGeometries::_getProcessedSectionPoints(
     else
         localPoints = points;
     return localPoints;
+}
+
+double SDFGeometries::_getCorrectedRadius(const double radius,
+                                          const double radiusMultiplier) const
+{
+    if (radiusMultiplier < 0.0)
+        return -radiusMultiplier;
+    return radius * radiusMultiplier;
 }
 
 } // namespace common
