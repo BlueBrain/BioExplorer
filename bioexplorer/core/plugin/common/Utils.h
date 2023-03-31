@@ -302,5 +302,14 @@ std::string boolAsString(const bool value);
 double valueFromDoubles(const doubles& array, const size_t index,
                         const double defaultValue);
 
+/**
+ * @brief Align a 3D position to a given grid
+ *
+ * @param gridSize Grid size
+ * @param position 3D position
+ * @return Vector3d An 3D position aligned to the grid
+ */
+Vector3d getAlignmentToGrid(const double gridSize, const Vector3d& position);
+
 } // namespace common
 } // namespace bioexplorer

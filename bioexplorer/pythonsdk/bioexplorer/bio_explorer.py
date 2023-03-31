@@ -3168,7 +3168,8 @@ class BioExplorer:
         scale=Vector3(1.0, 1.0, 1.0),
         animation_params=CellAnimationParams(),
         displacement_params=NeuronDisplacementParams(),
-        max_distance_to_soma=0.0
+        max_distance_to_soma=0.0,
+        align_to_grid=0.0
     ):
         """
         Add a population of astrocytes to the 3D scene
@@ -3197,6 +3198,7 @@ class BioExplorer:
         :animation_params: Extra optional parameters for animation purposes
         :displacement_params: Extra optional parameters for geometry displacement purposes
         :max_distance_to_soma: Maximum distance to soma for segment loading. Ignored if 0.
+        :align_to_grid: If different from zero, 3D position are aligned to the specified grid size
 
         :return: Result of the request submission
         """
@@ -3229,6 +3231,7 @@ class BioExplorer:
         params["animationParams"] = animation_params.to_list()
         params["displacementParams"] = displacement_params.to_list()
         params["maxDistanceToSoma"] = max_distance_to_soma
+        params["alignToGrid"] = align_to_grid
         return self._invoke_and_check("add-neurons", params)
 
     def get_neuron_section_points(self, assembly_name, neuron_guid, section_guid):
@@ -3351,7 +3354,8 @@ class BioExplorer:
         population_name,
         simulation_report_id,
         radius=1.0,
-        sql_filter=""
+        sql_filter="",
+        align_to_grid=0.0
     ):
         """
         Add synapse efficacy report to the 3D scene
@@ -3361,6 +3365,7 @@ class BioExplorer:
         :simulation_report_id: Identifier of the simulation report
         :radius: Applies the radius to the white matter streamlines
         :sql_filter: Condition added to the SQL statement loading the synapses
+        :align_to_grid: If different from zero, 3D position are aligned to the specified grid size
 
         :return: Result of the request submission
         """
@@ -3370,6 +3375,7 @@ class BioExplorer:
         params["radius"] = radius
         params["sqlFilter"] = sql_filter
         params["simulationReportId"] = simulation_report_id
+        params["alignToGrid"] = align_to_grid
         return self._invoke_and_check("add-synapse-efficacy", params)
 
     def look_at(self, source, target):

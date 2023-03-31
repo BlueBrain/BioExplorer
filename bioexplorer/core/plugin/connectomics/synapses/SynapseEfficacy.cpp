@@ -64,11 +64,12 @@ void SynapseEfficacy::_buildModel()
     const auto nbSynapses = synapsePositions.size();
     const size_t materialId = 0;
     const bool useSdf = false;
-    uint64_t i = 0;
     uint64_t progressStep = synapsePositions.size() / 100 + 1;
+    uint64_t i = 0;
     for (const auto& position : synapsePositions)
     {
-        container.addSphere(position, _details.radius, materialId, useSdf, i);
+        const auto src = getAlignmentToGrid(_details.alignToGrid, position);
+        container.addSphere(src, _details.radius, materialId, useSdf, i);
         if (i % progressStep == 0)
             PLUGIN_PROGRESS("Loading " << i << "/" << nbSynapses << " synapses",
                             i, nbSynapses);

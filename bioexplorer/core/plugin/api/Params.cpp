@@ -919,6 +919,7 @@ bool from_json(NeuronsDetails &param, const std::string &payload)
         FROM_JSON(param, js, animationParams);
         FROM_JSON(param, js, displacementParams);
         FROM_JSON(param, js, maxDistanceToSoma);
+        FROM_JSON(param, js, alignToGrid);
     }
     catch (...)
     {
@@ -1052,6 +1053,7 @@ bool from_json(SynapseEfficacyDetails &param, const std::string &payload)
         FROM_JSON(param, js, radius);
         FROM_JSON(param, js, sqlFilter);
         FROM_JSON(param, js, simulationReportId);
+        FROM_JSON(param, js, alignToGrid);
     }
     catch (...)
     {

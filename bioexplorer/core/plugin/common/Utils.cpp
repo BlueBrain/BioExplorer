@@ -652,5 +652,12 @@ double valueFromDoubles(const doubles& array, const size_t index,
     return array[index];
 }
 
+Vector3d getAlignmentToGrid(const double gridSize, const Vector3d& position)
+{
+    return gridSize > 0.0 ? Vector3d(Vector3i(position / gridSize) *
+                                     static_cast<int>(gridSize))
+                          : position;
+}
+
 } // namespace common
 } // namespace bioexplorer
