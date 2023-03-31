@@ -55,12 +55,10 @@ const doubles MITOCHONDRIA_DENSITY = {0.0459, 0.0522, 0.064,
                                       0.0774, 0.0575, 0.0403};
 
 Neurons::Neurons(Scene& scene, const NeuronsDetails& details)
-    : Morphologies(details.radiusMultiplier, doublesToVector3d(details.scale))
+    : Morphologies(doublesToVector3d(details.scale))
     , _details(details)
     , _scene(scene)
 {
-    _radiusMultiplier =
-        _details.radiusMultiplier > 0.0 ? _details.radiusMultiplier : 1.0;
     _animationDetails = doublesToCellAnimationDetails(_details.animationParams);
     srand(_animationDetails.seed);
 
@@ -299,7 +297,7 @@ void Neurons::_buildSomasOnly(ThreadSafeContainer& container,
                              MorphologyRealismLevel::internals));
             _addSomaInternals(container, baseMaterialId, soma.second.position,
                               _details.radiusMultiplier, mitochondriaDensity,
-                              useSdf);
+                              useSdf, _details.radiusMultiplier);
         }
     }
 }
@@ -336,7 +334,7 @@ void Neurons::_buildMorphology(ThreadSafeContainer& container,
     SectionMap sections;
 
     // Soma radius
-    double somaRadius = _radiusMultiplier;
+    double somaRadius = _getCorrectedRadius(1.f, _details.radiusMultiplier);
     if (_details.loadAxon || _details.loadApicalDendrites ||
         _details.loadBasalDendrites)
     {
@@ -352,7 +350,9 @@ void Neurons::_buildMorphology(ThreadSafeContainer& container,
                 ++count;
             }
         if (count > 0)
-            somaRadius = _radiusMultiplier * somaRadius / count;
+            somaRadius =
+                _getCorrectedRadius(somaRadius, _details.radiusMultiplier) /
+                count;
     }
     const auto somaPosition = getAlignmentToGrid(
         _details.alignToGrid,
@@ -441,7 +441,8 @@ void Neurons::_buildMorphology(ThreadSafeContainer& container,
                          static_cast<uint32_t>(
                              MorphologyRealismLevel::internals));
             _addSomaInternals(container, baseMaterialId, somaPosition,
-                              somaRadius, mitochondriaDensity, useSdf);
+                              somaRadius, mitochondriaDensity, useSdf,
+                              _details.radiusMultiplier);
         }
     }
 
@@ -498,8 +499,11 @@ void Neurons::_buildMorphology(ThreadSafeContainer& container,
                 andCheck(static_cast<uint32_t>(_details.realismLevel),
                          static_cast<uint32_t>(MorphologyRealismLevel::soma));
 
-            const float srcRadius = somaRadius * 0.75f * _radiusMultiplier;
-            const float dstRadius = point.w * 0.5f * _radiusMultiplier;
+            const float srcRadius =
+                _getCorrectedRadius(somaRadius * 0.75f,
+                                    _details.radiusMultiplier);
+            const float dstRadius =
+                _getCorrectedRadius(point.w * 0.5f, _details.radiusMultiplier);
 
             const auto sectionType =
                 static_cast<NeuronSectionType>(section.second.type);
@@ -529,6 +533,10 @@ void Neurons::_buildMorphology(ThreadSafeContainer& container,
                 container.addCone(somaPosition, srcRadius, dst, dstRadius,
                                   somaMaterialId, useSdf, somaUserData,
                                   neighbours, displacement);
+            neighbours.insert(geometryIndex);
+            geometryIndex =
+                container.addSphere(dst, dstRadius, somaMaterialId, useSdf,
+                                    somaUserData, neighbours, displacement);
             neighbours.insert(geometryIndex);
         }
 
@@ -691,11 +699,10 @@ void Neurons::_addSection(
     const bool addVaricosity = _details.generateVaricosities &&
                                sectionType == NeuronSectionType::axon &&
                                localPoints.size() > nbMinSegmentsForVaricosity;
-
     if (addVaricosity)
         _addVaricosity(localPoints);
 
-    // Section surface
+    // Section surface and volume
     double sectionLength = 0.0;
     double sectionVolume = 0.0;
     uint64_t geometryIndex = 0;
@@ -731,6 +738,7 @@ void Neurons::_addSection(
     if (it != synapses.end())
         segmentSynapses = (*it).second;
 
+    // Section points
     for (uint64_t i = 0; i < localPoints.size() - 1; ++i)
     {
         if (!compartments.empty())
@@ -741,7 +749,8 @@ void Neurons::_addSection(
         }
 
         const auto& srcPoint = localPoints[i];
-        const float srcRadius = srcPoint.w * 0.5f * _radiusMultiplier;
+        const float srcRadius =
+            _getCorrectedRadius(srcPoint.w * 0.5f, _details.radiusMultiplier);
         const auto src = getAlignmentToGrid(
             _details.alignToGrid,
             _animatedPosition(Vector4d(somaPosition +
@@ -750,7 +759,8 @@ void Neurons::_addSection(
                               neuronId));
 
         const auto& dstPoint = localPoints[i + 1];
-        const float dstRadius = dstPoint.w * 0.5f * _radiusMultiplier;
+        const float dstRadius =
+            _getCorrectedRadius(dstPoint.w * 0.5f, _details.radiusMultiplier);
         const auto dst = getAlignmentToGrid(
             _details.alignToGrid,
             _animatedPosition(Vector4d(somaPosition +
@@ -803,10 +813,6 @@ void Neurons::_addSection(
                     _varicosities[neuronId].push_back(dst);
             }
 
-            if (!useSdf)
-                container.addSphere(dst, dstRadius, materialId, useSdf,
-                                    userData);
-
             const auto it = segmentSynapses.find(i);
             if (it != segmentSynapses.end())
             {
@@ -830,6 +836,10 @@ void Neurons::_addSection(
                 }
             }
 
+            if (!useSdf)
+                container.addSphere(dst, dstRadius, materialId, useSdf,
+                                    userData);
+
             geometryIndex =
                 container.addCone(src, srcRadius, dst, dstRadius, materialId,
                                   useSdf, userData, neighbours, displacement);
@@ -837,7 +847,7 @@ void Neurons::_addSection(
             neighbours.insert(geometryIndex);
 
             // Stop if distance to soma in greater than the specified
-            // value
+            // max value
             _maxDistanceToSoma =
                 std::max(_maxDistanceToSoma, distanceToSoma + sectionLength);
             if (_details.maxDistanceToSoma > 0.0 &&
@@ -847,6 +857,7 @@ void Neurons::_addSection(
         sectionVolume += coneVolume(sampleLength, srcRadius, dstRadius);
 
         _bounds.merge(srcPoint);
+        _bounds.merge(dstPoint);
     }
 
     if (sectionType == NeuronSectionType::axon)
@@ -916,13 +927,15 @@ void Neurons::_addSectionInternals(
                                        _animatedPosition(points[dstIndex],
                                                          neuronId));
                 const double srcRadius =
-                    points[srcIndex].w * 0.5 * _radiusMultiplier;
+                    _getCorrectedRadius(points[srcIndex].w * 0.5,
+                                        _details.radiusMultiplier);
                 const Vector3d srcPosition{
                     srcSample.x + srcRadius * (rand() % 100 - 50) / 500.0,
                     srcSample.y + srcRadius * (rand() % 100 - 50) / 500.0,
                     srcSample.z + srcRadius * (rand() % 100 - 50) / 500.0};
                 const double dstRadius =
-                    points[dstIndex].w * 0.5 * _radiusMultiplier;
+                    _getCorrectedRadius(points[dstIndex].w * 0.5,
+                                        _details.radiusMultiplier);
                 const Vector3d dstPosition{
                     dstSample.x + dstRadius * (rand() % 100 - 50) / 500.0,
                     dstSample.y + dstRadius * (rand() % 100 - 50) / 500.0,
@@ -1032,7 +1045,8 @@ void Neurons::_addAxonMyelinSheath(
     const auto myelinScale = myelinSteathRadiusRatio;
     double srcRadius = 0.0;
     for (const auto& point : points)
-        srcRadius += point.w * 0.5 * myelinScale * _radiusMultiplier;
+        srcRadius += _getCorrectedRadius(point.w * 0.5 * myelinScale,
+                                         _details.radiusMultiplier);
     srcRadius /= points.size();
 
     uint64_t i = NB_MYELIN_FREE_SEGMENTS; // Ignore first 3 segments

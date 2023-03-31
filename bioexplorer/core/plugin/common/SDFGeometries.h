@@ -49,8 +49,7 @@ public:
      * @brief Construct a new SDFGeometries object
      *
      */
-    SDFGeometries(const double radiusMultiplier,
-                  const Vector3d& scale = Vector3d(1.0, 1.0, 1.0));
+    SDFGeometries(const Vector3d& scale = Vector3d(1.0, 1.0, 1.0));
 
     /**
      * @brief Add a simple demo of SDF geometries, mainly for testing purpose
@@ -70,8 +69,10 @@ protected:
     Vector3d _animatedPosition(const Vector4d& position,
                                const uint64_t index = 0) const;
 
+    double _getCorrectedRadius(const double radius,
+                               const double radiusMultiplier) const;
+
     CellAnimationDetails _animationDetails;
-    double _radiusMultiplier{1.0};
 };
 
 } // namespace common

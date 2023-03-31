@@ -91,7 +91,7 @@ static AtomicRadii atomicRadii = {
     {{"TS"}, {25.0}},  {{"OG"}, {25.0}}};
 
 Molecule::Molecule(Scene& scene, const size_ts& chainIds)
-    : SDFGeometries(1.0)
+    : SDFGeometries()
     , _aminoAcidRange(std::numeric_limits<size_t>::max(),
                       std::numeric_limits<size_t>::min())
     , _scene(scene)

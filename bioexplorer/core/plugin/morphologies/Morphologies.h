@@ -56,8 +56,7 @@ public:
      * @brief Construct a new Morphologies object
      *
      */
-    Morphologies(const double radiusMultiplier = 1.0,
-                 const Vector3f& scale = Vector3d(1.0, 1.0, 1.0));
+    Morphologies(const Vector3f& scale = Vector3d(1.0, 1.0, 1.0));
 
 protected:
     size_t _getNbMitochondrionSegments() const;
@@ -66,7 +65,9 @@ protected:
                            const size_t materialId,
                            const Vector3d& somaPosition,
                            const double somaRadius,
-                           const double mitochondriaDensity, const bool useSdf);
+                           const double mitochondriaDensity, const bool useSdf,
+                           const double radiusMultiplier);
+
     double _getDistanceToSoma(const SectionMap& sections,
                               const Section& section);
 

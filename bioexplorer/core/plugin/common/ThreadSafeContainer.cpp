@@ -34,6 +34,8 @@ namespace common
 {
 using namespace brayns;
 
+const float equalityEpsilon = 0.001f;
+
 ThreadSafeContainer::ThreadSafeContainer(Model& model, const Vector3d& scale)
     : _model(model)
     , _scale(scale)
@@ -77,10 +79,11 @@ uint64_t ThreadSafeContainer::addCone(
                               userDataOffset, scaledDisplacement);
         return _addSDFGeometry(materialId, geom, neighbours);
     }
-    if (sourceRadius == targetRadius)
+    if (abs(sourceRadius - targetRadius) < equalityEpsilon)
         return _addCylinder(materialId,
                             {sourcePosition * scale, targetPosition * scale,
                              sourceRadius * scale.x, userDataOffset});
+
     return _addCone(materialId, {sourcePosition * scale, targetPosition * scale,
                                  sourceRadius * scale.x, targetRadius * scale.x,
                                  userDataOffset});

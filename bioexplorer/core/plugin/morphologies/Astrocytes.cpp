@@ -48,12 +48,10 @@ const double DEFAULT_ENDFOOT_RADIUS_RATIO = 1.1;
 const double DEFAULT_ENDFOOT_RADIUS_SHIFTING_RATIO = 0.35;
 
 Astrocytes::Astrocytes(Scene& scene, const AstrocytesDetails& details)
-    : Morphologies(details.radiusMultiplier, doublesToVector3d(details.scale))
+    : Morphologies(doublesToVector3d(details.scale))
     , _details(details)
     , _scene(scene)
 {
-    _radiusMultiplier =
-        _details.radiusMultiplier > 0.0 ? _details.radiusMultiplier : 1.0;
     _animationDetails = doublesToCellAnimationDetails(_details.animationParams);
     Timer chrono;
     _buildModel();
@@ -183,7 +181,8 @@ void Astrocytes::_buildModel(const doubles& radii)
                 somaRadius += 0.75 * length(Vector3d(point));
                 ++count;
             }
-        somaRadius = _radiusMultiplier * somaRadius / count;
+        somaRadius =
+            _getCorrectedRadius(somaRadius, _details.radiusMultiplier) / count;
         const auto somaPosition =
             _animatedPosition(Vector4d(soma.center, somaRadius), somaId);
 
@@ -228,7 +227,7 @@ void Astrocytes::_buildModel(const doubles& radii)
                                  MorphologyRealismLevel::internals));
                 _addSomaInternals(container, baseMaterialId, somaPosition,
                                   somaRadius, DEFAULT_MITOCHONDRIA_DENSITY,
-                                  useSdf);
+                                  useSdf, _details.radiusMultiplier);
             }
         }
 
@@ -277,8 +276,11 @@ void Astrocytes::_buildModel(const doubles& radii)
                     // Section connected to the soma
                     const auto& point = points[0];
                     const float srcRadius =
-                        somaRadius * 0.75f * _radiusMultiplier;
-                    const float dstRadius = point.w * 0.5f * _radiusMultiplier;
+                        _getCorrectedRadius(somaRadius * 0.75f,
+                                            _details.radiusMultiplier);
+                    const float dstRadius =
+                        _getCorrectedRadius(point.w * 0.5f,
+                                            _details.radiusMultiplier);
                     const auto dstPosition = _animatedPosition(
                         Vector4d(somaPosition + Vector3d(point), dstRadius),
                         somaId);
@@ -313,7 +315,8 @@ void Astrocytes::_buildModel(const doubles& radii)
                 {
                     const auto srcPoint = localPoints[i];
                     const float srcRadius =
-                        srcPoint.w * 0.5 * _radiusMultiplier;
+                        _getCorrectedRadius(srcPoint.w * 0.5,
+                                            _details.radiusMultiplier);
                     const auto src = _animatedPosition(
                         Vector4d(somaPosition + Vector3d(srcPoint), srcRadius),
                         somaId);
@@ -325,7 +328,9 @@ void Astrocytes::_buildModel(const doubles& radii)
                     do
                     {
                         dstPoint = localPoints[i + step];
-                        dstRadius = dstPoint.w * 0.5 * _radiusMultiplier;
+                        dstRadius =
+                            _getCorrectedRadius(dstPoint.w * 0.5,
+                                                _details.radiusMultiplier);
                         ++i;
                     } while (length(Vector3f(dstPoint) - Vector3f(srcPoint)) <
                                  (srcRadius + dstRadius) &&
@@ -437,7 +442,6 @@ void Astrocytes::_addEndFoot(ThreadSafeContainer& container,
                              const EndFootMap& endFeet, const doubles& radii,
                              const size_t baseMaterialId)
 {
-    const auto radiusMultiplier = _details.radiusMultiplier;
     const Vector3d displacement{
         _getDisplacementValue(
             DisplacementElement::vasculature_segment_strength),
@@ -515,9 +519,10 @@ void Astrocytes::_addEndFoot(ThreadSafeContainer& container,
                 const auto& srcNode = it->second;
                 const auto srcUserData = it->first;
                 const auto srcVasculatureRadius =
-                    (srcUserData < radii.size() ? radii[srcUserData]
-                                                : srcNode.radius) *
-                    radiusMultiplier;
+                    _getCorrectedRadius((srcUserData < radii.size()
+                                             ? radii[srcUserData]
+                                             : srcNode.radius),
+                                        _details.radiusMultiplier);
                 const float srcEndFootRadius =
                     DEFAULT_ENDFOOT_RADIUS_RATIO * srcVasculatureRadius;
 
@@ -525,9 +530,10 @@ void Astrocytes::_addEndFoot(ThreadSafeContainer& container,
                 const auto& dstNode = it->second;
                 const auto dstUserData = it->first;
                 const auto dstVasculatureRadius =
-                    (dstUserData < radii.size() ? radii[dstUserData]
-                                                : dstNode.radius) *
-                    radiusMultiplier;
+                    _getCorrectedRadius((dstUserData < radii.size()
+                                             ? radii[dstUserData]
+                                             : dstNode.radius),
+                                        _details.radiusMultiplier);
                 const float dstEndFootRadius =
                     DEFAULT_ENDFOOT_RADIUS_RATIO * dstVasculatureRadius;
 
