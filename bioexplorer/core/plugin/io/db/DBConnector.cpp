@@ -1293,7 +1293,7 @@ Vector3ds DBConnector::getSynapseEfficacyPositions(
     {
         Timer chrono;
         std::string sql = "SELECT synapse_guid, x, y, z FROM " +
-                          populationName + ".synapse_efficacy";
+                          populationName + ".synapse_efficacy_report";
         if (!sqlCondition.empty())
             sql += " WHERE " + sqlCondition;
         sql += " ORDER BY synapse_guid";
@@ -1335,7 +1335,9 @@ floats DBConnector::getSynapseEfficacyReportValues(
     {
         Timer chrono;
         std::string sql =
-            "SELECT values::bytea FROM " + populationName + ".synapse_efficacy";
+            "SELECT values::bytea FROM " + populationName +
+            ".synapse_efficacy_report AS e LEFT OUTER JOIN " + populationName +
+            ".synapse_efficacy_simulated_synapse AS s ON e.synapse_guid=s.guid";
         if (!sqlCondition.empty())
             sql += " WHERE " + sqlCondition;
         sql += " ORDER BY synapse_guid";
