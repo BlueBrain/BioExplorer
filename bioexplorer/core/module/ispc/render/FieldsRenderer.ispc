@@ -132,11 +132,10 @@ inline vec3f FieldsRenderer_shadeRay(const uniform FieldsRenderer* uniform self,
             const vec3f sampleColor =
                 self->transferFunction->getColorForValue(self->transferFunction,
                                                          value);
-            const float alpha = self->alphaCorrection * sampleOpacity;
-            composite(make_vec4f(sampleColor, alpha), finalColor, 1.0f);
-
-            if (firstVisibleVoxel)
-                sample.z = min(t, sample.z);
+            const float alpha = (finalColor.w == 0.0 ? 1.f : finalColor.w) *
+                                self->alphaCorrection * sampleOpacity;
+            finalColor =
+                finalColor + make_vec4f(make_vec3f(sampleColor) * alpha, alpha);
 
             firstVisibleVoxel = false;
         }
