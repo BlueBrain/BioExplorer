@@ -27,6 +27,7 @@
 #include <brayns/common/input/KeyboardHandler.h>
 #include <brayns/parameters/ParametersManager.h>
 
+#include "Logs.h"
 #include "OptiXCamera.h"
 #include "OptiXEngine.h"
 #include "OptiXFrameBuffer.h"
@@ -40,22 +41,21 @@ namespace brayns
 OptiXEngine::OptiXEngine(ParametersManager& parametersManager)
     : Engine(parametersManager)
 {
-    BRAYNS_INFO << "Initializing OptiX" << std::endl;
+    PLUGIN_INFO("Initializing OptiX");
     _initializeContext();
 
-    BRAYNS_INFO << "Initializing scene" << std::endl;
-    _scene = std::make_shared<OptiXScene>(
-        _parametersManager.getAnimationParameters(),
-        _parametersManager.getGeometryParameters(),
-        _parametersManager.getVolumeParameters());
+    PLUGIN_INFO("Initializing scene");
+    _scene = std::make_shared<OptiXScene>(_parametersManager.getAnimationParameters(),
+                                          _parametersManager.getGeometryParameters(),
+                                          _parametersManager.getVolumeParameters());
 
-    BRAYNS_INFO << "Initializing renderers" << std::endl;
+    PLUGIN_INFO("Initializing renderers");
     _createRenderers();
 
-    BRAYNS_INFO << "Initializing cameras" << std::endl;
+    PLUGIN_INFO("Initializing cameras");
     _createCameras();
 
-    BRAYNS_INFO << "Engine initialization complete" << std::endl;
+    PLUGIN_INFO("Engine initialization complete");
 }
 
 OptiXEngine::~OptiXEngine()
@@ -81,16 +81,13 @@ void OptiXEngine::_createCameras()
 {
     _camera = createCamera();
 
-    const bool isStereo =
-        _parametersManager.getApplicationParameters().isStereo();
+    const bool isStereo = _parametersManager.getApplicationParameters().isStereo();
     Property stereoProperty{"stereo", isStereo, {"Stereo"}};
     stereoProperty.markReadOnly();
     Property fovy{"fovy", 45., .1, 360., {"Field of view"}};
     Property aspect{"aspect", 1., {"Aspect ratio"}};
     aspect.markReadOnly();
-    Property eyeSeparation{"interpupillaryDistance",
-                           0.0635,
-                           {"Eye separation"}};
+    Property eyeSeparation{"interpupillaryDistance", 0.0635, {"Eye separation"}};
 
     auto camera = std::make_shared<OptiXPerspectiveCamera>();
 
@@ -104,8 +101,7 @@ void OptiXEngine::_createCameras()
     {
         properties.setProperty(stereoProperty);
         properties.setProperty(eyeSeparation);
-        properties.setProperty(
-            {"zeroParallaxPlane", 1., {"Zero parallax plane"}});
+        properties.setProperty({"zeroParallaxPlane", 1., {"Zero parallax plane"}});
     }
 
     OptiXContext::getInstance().addCamera("perspective", camera);
@@ -129,9 +125,8 @@ void OptiXEngine::_createCameras()
 
 void OptiXEngine::_createRenderers()
 {
-    _renderer = std::make_shared<OptiXRenderer>(
-        _parametersManager.getAnimationParameters(),
-        _parametersManager.getRenderingParameters());
+    _renderer = std::make_shared<OptiXRenderer>(_parametersManager.getAnimationParameters(),
+                                                _parametersManager.getRenderingParameters());
     _renderer->setScene(_scene);
 
 #if 0
@@ -246,28 +241,22 @@ void OptiXEngine::_createRenderers()
 #endif
 }
 
-ScenePtr OptiXEngine::createScene(AnimationParameters& animationParameters,
-                                  GeometryParameters& geometryParameters,
+ScenePtr OptiXEngine::createScene(AnimationParameters& animationParameters, GeometryParameters& geometryParameters,
                                   VolumeParameters& volumeParameters) const
 {
-    return std::make_shared<OptiXScene>(animationParameters, geometryParameters,
-                                        volumeParameters);
+    return std::make_shared<OptiXScene>(animationParameters, geometryParameters, volumeParameters);
 }
 
-FrameBufferPtr OptiXEngine::createFrameBuffer(
-    const std::string& name, const Vector2ui& frameSize,
-    FrameBufferFormat frameBufferFormat) const
+FrameBufferPtr OptiXEngine::createFrameBuffer(const std::string& name, const Vector2ui& frameSize,
+                                              FrameBufferFormat frameBufferFormat) const
 {
-    return std::make_shared<OptiXFrameBuffer>(name, frameSize,
-                                              frameBufferFormat);
+    return std::make_shared<OptiXFrameBuffer>(name, frameSize, frameBufferFormat);
 }
 
-RendererPtr OptiXEngine::createRenderer(
-    const AnimationParameters& animationParameters,
-    const RenderingParameters& renderingParameters) const
+RendererPtr OptiXEngine::createRenderer(const AnimationParameters& animationParameters,
+                                        const RenderingParameters& renderingParameters) const
 {
-    return std::make_shared<OptiXRenderer>(animationParameters,
-                                           renderingParameters);
+    return std::make_shared<OptiXRenderer>(animationParameters, renderingParameters);
 }
 
 CameraPtr OptiXEngine::createCamera() const
@@ -287,8 +276,17 @@ Vector2ui OptiXEngine::getMinimumFrameSize() const
 }
 } // namespace brayns
 
-extern "C" brayns::Engine* brayns_engine_create(
-    int, const char**, brayns::ParametersManager& parametersManager)
+extern "C" brayns::Engine* brayns_engine_create(int, const char**, brayns::ParametersManager& parametersManager)
 {
+    PLUGIN_INFO("");
+    PLUGIN_INFO("   _|_|                _|      _|  _|      _|      _|_|_|_|_|  ");
+    PLUGIN_INFO(" _|    _|  _|_|_|    _|_|_|_|        _|  _|                _|  ");
+    PLUGIN_INFO(" _|    _|  _|    _|    _|      _|      _|                _|    ");
+    PLUGIN_INFO(" _|    _|  _|    _|    _|      _|    _|  _|            _|      ");
+    PLUGIN_INFO("   _|_|    _|_|_|        _|_|  _|  _|      _|        _|        ");
+    PLUGIN_INFO("           _|                                                  ");
+    PLUGIN_INFO("           _|                                                  ");
+    PLUGIN_INFO("");
+
     return new brayns::OptiXEngine(parametersManager);
 }

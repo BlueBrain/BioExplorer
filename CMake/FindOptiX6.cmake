@@ -1,5 +1,5 @@
 #
-# Copyright (c) 2018 NVIDIA CORPORATION. All rights reserved.
+# Copyright (c) 2016, NVIDIA CORPORATION. All rights reserved.
 #
 # Redistribution and use in source and binary forms, with or without
 # modification, are permitted provided that the following conditions
@@ -28,30 +28,19 @@
 
 # Locate the OptiX distribution.  Search relative to the SDK first, then look in the system.
 
-# Our initial guess will be within the SDK.
+# Assume not found.
+set(OptiX6_FOUND FALSE)
+set(OptiX_PATH)
 
-if (WIN32)
-#		set(OptiX_INSTALL_DIR "C:/ProgramData/NVIDIA Corporation/OptiX SDK 5.1.0" CACHE PATH "Path to OptiX installed location.")
-	find_path(searched_OptiX_INSTALL_DIR
-		NAME include/optix.h
-		PATHS
-		"C:/ProgramData/NVIDIA Corporation/OptiX SDK 7.3.0"
-		"C:/ProgramData/NVIDIA Corporation/OptiX SDK 7.2.0"
-		"C:/ProgramData/NVIDIA Corporation/OptiX SDK 7.1.0"
-		"C:/ProgramData/NVIDIA Corporation/OptiX SDK 7.0.0"
-		"C:/ProgramData/NVIDIA Corporation/OptiX SDK 6.5.0"
-		"C:/ProgramData/NVIDIA Corporation/OptiX SDK 6.0.0"
-		"C:/ProgramData/NVIDIA Corporation/OptiX SDK 5.1.1"
-		"C:/ProgramData/NVIDIA Corporation/OptiX SDK 5.1.0"
-		"C:/ProgramData/NVIDIA Corporation/OptiX SDK 5.0.1"
-		"C:/ProgramData/NVIDIA Corporation/OptiX SDK 5.0.0"
-		"C:/ProgramData/NVIDIA Corporation/OptiX SDK *"
-	)
-	mark_as_advanced(searched_OptiX_INSTALL_DIR)
-  set(OptiX_INSTALL_DIR ${searched_OptiX_INSTALL_DIR} CACHE PATH "Path to OptiX installed location.")
-else()
-  set(OptiX_INSTALL_DIR $ENV{OptiX_INSTALL_DIR} CACHE PATH "Path to OptiX installed location.")
-endif()
+# # Use OPTIX_ROOT from the environment (set by the optix module)
+# set(OPTIX_ROOT $ENV{OPTIX_ROOT})
+# if(NOT OPTIX_ROOT)
+#   # If no OPTIX_ROOT set, fallback to initial guess within the SDK.
+#   set(OPTIX_ROOT "${CMAKE_SOURCE_DIR}/../OptiX")
+# endif()
+
+# set(OptiX6_INSTALL_DIR "${OPTIX_ROOT}" CACHE PATH "Path to OptiX installed location.")
+
 # The distribution contains both 32 and 64 bit libraries.  Adjust the library
 # search path based on the bit-ness of the build.  (i.e. 64: bin64, lib64; 32:
 # bin, lib).  Note that on Mac, the OptiX library is a universal binary, so we
@@ -65,7 +54,7 @@ endif()
 macro(OPTIX_find_api_library name version)
   find_library(${name}_LIBRARY
     NAMES ${name}.${version} ${name}
-    PATHS "${OptiX_INSTALL_DIR}/lib${bit_dest}"
+    PATHS "${OptiX6_INSTALL_DIR}/lib${bit_dest}"
     NO_DEFAULT_PATH
     )
   find_library(${name}_LIBRARY
@@ -74,7 +63,7 @@ macro(OPTIX_find_api_library name version)
   if(WIN32)
     find_file(${name}_DLL
       NAMES ${name}.${version}.dll
-      PATHS "${OptiX_INSTALL_DIR}/bin${bit_dest}"
+      PATHS "${OptiX6_INSTALL_DIR}/bin${bit_dest}"
       NO_DEFAULT_PATH
       )
     find_file(${name}_DLL
@@ -83,14 +72,14 @@ macro(OPTIX_find_api_library name version)
   endif()
 endmacro()
 
-#OPTIX_find_api_library(optix 7.0.0)
-#OPTIX_find_api_library(optixu 7.0.0)
-#OPTIX_find_api_library(optix_prime 7.0.0)
+OPTIX_find_api_library(optix 1)
+OPTIX_find_api_library(optixu 1)
+OPTIX_find_api_library(optix_prime 1)
 
 # Include
 find_path(OptiX_INCLUDE
   NAMES optix.h
-  PATHS "${OptiX_INSTALL_DIR}/include"
+  PATHS "${OptiX6_INSTALL_DIR}/include"
   NO_DEFAULT_PATH
   )
 find_path(OptiX_INCLUDE
@@ -108,15 +97,25 @@ function(OptiX_report_error error_message required)
   endif()
 endfunction()
 
-#if(NOT optix_LIBRARY)
-#  OptiX_report_error("optix library not found.  Please locate before proceeding." TRUE)
-#endif()
-if(NOT OptiX_INCLUDE)
+set(OptiX_LIB_FOUND FALSE)
+set(OptiX_INC_FOUND FALSE)
+if(optix_LIBRARY)
+  set (OptiX_LIB_FOUND TRUE)
+else()
+  OptiX_report_error("optix library not found.  Please locate before proceeding." TRUE)
+endif()
+if(OptiX_INCLUDE)
+  set (OptiX_INC_FOUND TRUE)
+else()
   OptiX_report_error("OptiX headers (optix.h and friends) not found.  Please locate before proceeding." TRUE)
 endif()
-#if(NOT optix_prime_LIBRARY)
-#  OptiX_report_error("optix Prime library not found.  Please locate before proceeding." FALSE)
-#endif()
+if(NOT optix_prime_LIBRARY)
+  OptiX_report_error("optix Prime library not found.  Please locate before proceeding." FALSE)
+endif()
+
+if(OptiX_LIB_FOUND AND OptiX_INC_FOUND)
+  set (OptiX6_FOUND TRUE)
+endif()
 
 # Macro for setting up dummy targets
 function(OptiX_add_imported_library name lib_location dll_lib dependent_libs)
@@ -155,9 +154,9 @@ function(OptiX_add_imported_library name lib_location dll_lib dependent_libs)
 endfunction()
 
 # Sets up a dummy target
-#OptiX_add_imported_library(optix "${optix_LIBRARY}" "${optix_DLL}" "${OPENGL_LIBRARIES}")
-#OptiX_add_imported_library(optixu   "${optixu_LIBRARY}"   "${optixu_DLL}"   "")
-#OptiX_add_imported_library(optix_prime "${optix_prime_LIBRARY}"  "${optix_prime_DLL}"  "")
+OptiX_add_imported_library(optix "${optix_LIBRARY}" "${optix_DLL}" "${OPENGL_LIBRARIES}")
+OptiX_add_imported_library(optixu   "${optixu_LIBRARY}"   "${optixu_DLL}"   "")
+OptiX_add_imported_library(optix_prime "${optix_prime_LIBRARY}"  "${optix_prime_DLL}"  "")
 
 macro(OptiX_check_same_path libA libB)
   if(_optix_path_to_${libA})
@@ -187,6 +186,8 @@ if(APPLE)
   OptiX_check_same_path(optix_prime optixu)
 
   set( optix_rpath ${_optix_rpath} ${_optixu_rpath} ${_optix_prime_rpath} )
-  list(REMOVE_DUPLICATES optix_rpath)
+  #list(REMOVE_DUPLICATES optix_rpath)
 endif()
 
+set(OptiX6_LIBRARIES ${optix_LIBRARY})
+set(OptiX6_INCLUDE_DIRS ${OptiX_INCLUDE})

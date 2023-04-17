@@ -109,11 +109,19 @@ else()
   common_find_package_disable(ospray)
 endif()
 
-option(BRAYNS_OPTIX_ENABLED "Activate OptiX rendering engine" OFF)
-option(BRAYNS_OPTIX_TESTS_ENABLED "Activate OptiX tests" OFF)
+# OptiX 6.x
+option(BRAYNS_OPTIX6_ENABLED "Activate OptiX 6.x rendering engine" OFF)
+option(BRAYNS_OPTIX6_TESTS_ENABLED "Activate OptiX tests" OFF)
 
-if(BRAYNS_OPTIX_ENABLED)
-  add_subdirectory(engines/optix)
+# OptiX 7.x
+option(BRAYNS_OPTIX7_ENABLED "Activate OptiX 7.x rendering engine" OFF)
+
+if(BRAYNS_OPTIX6_ENABLED)
+  add_subdirectory(engines/optix6)
+endif()
+
+if(BRAYNS_OPTIX7_ENABLED)
+  add_subdirectory(engines/optix7)
 endif()
 
 # Mesh loading

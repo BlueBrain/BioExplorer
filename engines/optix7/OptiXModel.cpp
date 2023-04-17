@@ -139,9 +139,8 @@ void OptiXModel::_buildGAS(const OptixBuildInput& buildInput)
 
     OptixAccelEmitDesc emitProperty = {};
     emitProperty.type = OPTIX_PROPERTY_TYPE_COMPACTED_SIZE;
-    emitProperty.result =
-        (CUdeviceptr)((char*)dBufferTempOutputGasAndCompactedSize +
-                      compactedSizeOffset);
+    emitProperty.result = (CUdeviceptr)(
+        (char*)dBufferTempOutputGasAndCompactedSize + compactedSizeOffset);
 
     OPTIX_CHECK(optixAccelBuild(state.context,
                                 0, // CUDA stream

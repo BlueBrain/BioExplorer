@@ -24,25 +24,25 @@ message(STATUS "Using CUDA version ${CUDA_VERSION}")
 
 set(CUDA_NVCC_FLAGS "-lineinfo --use_fast_math")
 
-find_package(OptiX REQUIRED SYSTEM)
+find_package(OptiX7 REQUIRED SYSTEM)
 
 include_directories(
-  ${OptiX_INCLUDE}
-  ${OptiX_INSTALL_DIR}/SDK
-  ${OptiX_INSTALL_DIR}/SDK/sutil
-  ${OptiX_INSTALL_DIR}/SDK/support
-  ${OptiX_INSTALL_DIR}/SDK/build
+  ${OptiX7_INCLUDE}
+  ${OptiX7_INSTALL_DIR}/SDK
+  ${OptiX7_INSTALL_DIR}/SDK/sutil
+  ${OptiX7_INSTALL_DIR}/SDK/support
+  ${OptiX7_INSTALL_DIR}/SDK/build
 )
 
-set(BRAYNSOPTIXENGINE_OMIT_LIBRARY_HEADER ON)
-set(BRAYNSOPTIXENGINE_OMIT_VERSION_HEADERS ON)
+set(BRAYNSOPTIX7ENGINE_OMIT_LIBRARY_HEADER ON)
+set(BRAYNSOPTIX7ENGINE_OMIT_VERSION_HEADERS ON)
 
 set_target_properties(
   ${target_name} PROPERTIES
   COMPILE_DEFINITIONS
   "OPTIX_SAMPLE_NAME_DEFINE=${target_name};OPTIX_SAMPLE_DIR_DEFINE=${target_name}")
 
-set(BRAYNSOPTIXENGINE_CU
+set(BRAYNSOPTIX7ENGINE_CU
   cuda/camera/PerspectiveCamera.cu
 
   # cuda/camera/OpenDeckCamera.cu
@@ -59,13 +59,13 @@ set(BRAYNSOPTIXENGINE_CU
   cuda/renderer/Material.cu
 )
 
-CUDA_WRAP_SRCS(braynsOptixEngine PTX ptx_generated_files ${BRAYNSOPTIXENGINE_CU})
+CUDA_WRAP_SRCS(braynsOptix7Engine PTX ptx_generated_files ${BRAYNSOPTIX7ENGINE_CU})
 
 include(StringifyPtx)
 stringify_ptx(${ptx_generated_files})
 
-set(BRAYNSOPTIXENGINE_SOURCES
-  ${BRAYNSOPTIXENGINE_CU}
+set(BRAYNSOPTIX7ENGINE_SOURCES
+  ${BRAYNSOPTIX7ENGINE_CU}
   ${ptx_generated_files}
   ${PTX_SOURCES}
   OptiXContext.cpp
@@ -96,7 +96,7 @@ set_source_files_properties(
   PROPERTIES COMPILE_FLAGS "-Wno-unused-parameter -Wno-missing-field-initializers"
 )
 
-set(BRAYNSOPTIXENGINE_HEADERS
+set(BRAYNSOPTIX7ENGINE_HEADERS
   ${PTX_HEADERS}
   OptiXContext.h
 
@@ -115,9 +115,9 @@ set(BRAYNSOPTIXENGINE_HEADERS
 )
 
 # TODO: OptiX should be properly installed, and not used from its build folder
-link_directories(${OptiX_INSTALL_DIR}/SDK/build/lib)
+link_directories(${OptiX7_INSTALL_DIR}/SDK/build/lib)
 
-set(BRAYNSOPTIXENGINE_LINK_LIBRARIES
+set(BRAYNSOPTIX7ENGINE_LINK_LIBRARIES
   PRIVATE braynsEngine glm braynsCommon braynsParameters sutil_7_sdk ${CUDA_LIBRARIES})
 
-common_library(braynsOptixEngine)
+common_library(braynsOptix7Engine)

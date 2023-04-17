@@ -20,16 +20,32 @@
 
 #pragma once
 
+#include <glad/glad.h> // Needs to be included before gl_interop
+
+#include "CommonStructs.h"
+
 #include <optix.h>
 
-#include <iomanip>
-#include <iostream>
+#include <sutil/vec_math.h>
 
-#define BRAYNS_OPTIX_SAMPLE_NAME "braynsOptixEngine"
+#include <memory>
+#include <vector>
 
-static void context_log_cb(unsigned int level, const char* tag,
-                           const char* message, void* /*cbdata */)
+namespace brayns
 {
-    std::cerr << "[" << std::setw(2) << level << "][" << std::setw(12) << tag
-              << "]: " << message << "\n";
-}
+class OptiXCamera;
+using OptiXCameraPtr = std::shared_ptr<OptiXCamera>;
+
+const uint32_t maxTraceDepth = 12;
+const uint32_t maxCCDepth = 0;
+const uint32_t maxDCDepth = 0;
+const uint32_t maxTraversableDepth = 1;
+const uint32_t numPayloadValues = 5;
+const uint32_t numAttributeValues = 4;
+
+const BasicLight g_light = {
+    make_float3(0.0f, 10.0f, 10.0f), // pos
+    make_float3(1.0f, 1.0f, 1.0f)    // color
+};
+
+} // namespace brayns
