@@ -89,8 +89,7 @@ ObjFileImporter::~ObjFileImporter()
 
 // ------------------------------------------------------------------------------------------------
 //  Returns true, if file is an obj file.
-bool ObjFileImporter::CanRead(const std::string& pFile, IOSystem* pIOHandler,
-                              bool checkSig) const
+bool ObjFileImporter::CanRead(const std::string& pFile, IOSystem* pIOHandler, bool checkSig) const
 {
     if (!checkSig) // Check File Extension
     {
@@ -98,10 +97,8 @@ bool ObjFileImporter::CanRead(const std::string& pFile, IOSystem* pIOHandler,
     }
     else // Check file Header
     {
-        static const char* pTokens[] = {"mtllib", "usemtl", "v ", "vt ", "vn ",
-                                        "o ",     "g ",     "s ", "f "};
-        return BaseImporter::SearchFileHeaderForToken(pIOHandler, pFile,
-                                                      pTokens, 9);
+        static const char* pTokens[] = {"mtllib", "usemtl", "v ", "vt ", "vn ", "o ", "g ", "s ", "f "};
+        return BaseImporter::SearchFileHeaderForToken(pIOHandler, pFile, pTokens, 9);
     }
 }
 
@@ -113,8 +110,7 @@ const aiImporterDesc* ObjFileImporter::GetInfo() const
 
 // ------------------------------------------------------------------------------------------------
 //  Obj-file import implementation
-void ObjFileImporter::InternReadFile(const std::string& file, aiScene* pScene,
-                                     IOSystem* pIOHandler)
+void ObjFileImporter::InternReadFile(const std::string& file, aiScene* pScene, IOSystem* pIOHandler)
 {
     // Read file into memory
     static const std::string mode = "rb";
@@ -188,8 +184,7 @@ void ObjFileImporter::InternReadFile(const std::string& file, aiScene* pScene,
     m_progress->UpdateFileRead(1, 3);
 
     // parse the file into a temporary representation
-    ObjFileParser parser(streamedBuffer, modelName, pIOHandler, m_progress,
-                         file);
+    ObjFileParser parser(streamedBuffer, modelName, pIOHandler, m_progress, file);
 
     // And create the proper return structures out of it
     CreateDataFromImport(parser.GetModel(), pScene);
@@ -208,8 +203,7 @@ void ObjFileImporter::InternReadFile(const std::string& file, aiScene* pScene,
 
 // ------------------------------------------------------------------------------------------------
 //  Create the data from parsed obj-file
-void ObjFileImporter::CreateDataFromImport(const ObjFile::Model* pModel,
-                                           aiScene* pScene)
+void ObjFileImporter::CreateDataFromImport(const ObjFile::Model* pModel, aiScene* pScene)
 {
     if (0L == pModel)
     {
@@ -233,8 +227,7 @@ void ObjFileImporter::CreateDataFromImport(const ObjFile::Model* pModel,
     std::vector<aiMesh*> MeshArray;
     for (size_t index = 0; index < pModel->m_Objects.size(); index++)
     {
-        createNodes(pModel, pModel->m_Objects[index], pScene->mRootNode, pScene,
-                    MeshArray);
+        createNodes(pModel, pModel->m_Objects[index], pScene->mRootNode, pScene, MeshArray);
     }
 
     // Create mesh pointer buffer for this scene
@@ -253,10 +246,8 @@ void ObjFileImporter::CreateDataFromImport(const ObjFile::Model* pModel,
 
 // ------------------------------------------------------------------------------------------------
 //  Creates all nodes of the model
-aiNode* ObjFileImporter::createNodes(const ObjFile::Model* pModel,
-                                     const ObjFile::Object* pObject,
-                                     aiNode* pParent, aiScene* pScene,
-                                     std::vector<aiMesh*>& MeshArray)
+aiNode* ObjFileImporter::createNodes(const ObjFile::Model* pModel, const ObjFile::Object* pObject, aiNode* pParent,
+                                     aiScene* pScene, std::vector<aiMesh*>& MeshArray)
 {
     ai_assert(NULL != pModel);
     if (NULL == pObject)
@@ -317,8 +308,7 @@ aiNode* ObjFileImporter::createNodes(const ObjFile::Model* pModel,
 
 // ------------------------------------------------------------------------------------------------
 //  Create topology data
-aiMesh* ObjFileImporter::createTopology(const ObjFile::Model* pModel,
-                                        const ObjFile::Object* pData,
+aiMesh* ObjFileImporter::createTopology(const ObjFile::Model* pModel, const ObjFile::Object* pData,
                                         unsigned int meshIndex)
 {
     // Checking preconditions
@@ -354,14 +344,12 @@ aiMesh* ObjFileImporter::createTopology(const ObjFile::Model* pModel,
 
         if (inp->m_PrimitiveType == aiPrimitiveType_LINE)
         {
-            pMesh->mNumFaces +=
-                static_cast<unsigned int>(inp->m_vertices.size() - 1);
+            pMesh->mNumFaces += static_cast<unsigned int>(inp->m_vertices.size() - 1);
             pMesh->mPrimitiveTypes |= aiPrimitiveType_LINE;
         }
         else if (inp->m_PrimitiveType == aiPrimitiveType_POINT)
         {
-            pMesh->mNumFaces +=
-                static_cast<unsigned int>(inp->m_vertices.size());
+            pMesh->mNumFaces += static_cast<unsigned int>(inp->m_vertices.size());
             pMesh->mPrimitiveTypes |= aiPrimitiveType_POINT;
         }
         else
@@ -415,8 +403,7 @@ aiMesh* ObjFileImporter::createTopology(const ObjFile::Model* pModel,
             }
 
             aiFace* pFace = &pMesh->mFaces[outIndex++];
-            const unsigned int uiNumIndices =
-                (unsigned int)pObjMesh->m_Faces[index]->m_vertices.size();
+            const unsigned int uiNumIndices = (unsigned int)pObjMesh->m_Faces[index]->m_vertices.size();
             uiIdxCount += pFace->mNumIndices = (unsigned int)uiNumIndices;
             if (pFace->mNumIndices > 0)
             {
@@ -433,10 +420,8 @@ aiMesh* ObjFileImporter::createTopology(const ObjFile::Model* pModel,
 
 // ------------------------------------------------------------------------------------------------
 //  Creates a vertex array
-void ObjFileImporter::createVertexArray(const ObjFile::Model* pModel,
-                                        const ObjFile::Object* pCurrentObject,
-                                        unsigned int uiMeshIndex, aiMesh* pMesh,
-                                        unsigned int numIndices)
+void ObjFileImporter::createVertexArray(const ObjFile::Model* pModel, const ObjFile::Object* pCurrentObject,
+                                        unsigned int uiMeshIndex, aiMesh* pMesh, unsigned int numIndices)
 {
     // Checking preconditions
     ai_assert(NULL != pCurrentObject);
@@ -483,8 +468,7 @@ void ObjFileImporter::createVertexArray(const ObjFile::Model* pModel,
         ObjFile::Face* pSourceFace = pObjMesh->m_Faces[index];
 
         // Copy all index arrays
-        for (size_t vertexIndex = 0, outVertexIndex = 0;
-             vertexIndex < pSourceFace->m_vertices.size(); vertexIndex++)
+        for (size_t vertexIndex = 0, outVertexIndex = 0; vertexIndex < pSourceFace->m_vertices.size(); vertexIndex++)
         {
             const unsigned int vertex = pSourceFace->m_vertices.at(vertexIndex);
             if (vertex >= pModel->m_Vertices.size())
@@ -495,15 +479,12 @@ void ObjFileImporter::createVertexArray(const ObjFile::Model* pModel,
             pMesh->mVertices[newIndex] = pModel->m_Vertices[vertex];
 
             // Copy all normals
-            if (!pModel->m_Normals.empty() &&
-                vertexIndex < pSourceFace->m_normals.size())
+            if (!pModel->m_Normals.empty() && vertexIndex < pSourceFace->m_normals.size())
             {
-                const unsigned int normal =
-                    pSourceFace->m_normals.at(vertexIndex);
+                const unsigned int normal = pSourceFace->m_normals.at(vertexIndex);
                 if (normal >= pModel->m_Normals.size())
                 {
-                    throw DeadlyImportError(
-                        "OBJ: vertex normal index out of range");
+                    throw DeadlyImportError("OBJ: vertex normal index out of range");
                 }
                 pMesh->mNormals[newIndex] = pModel->m_Normals[normal];
             }
@@ -512,25 +493,20 @@ void ObjFileImporter::createVertexArray(const ObjFile::Model* pModel,
             if (!pModel->m_VertexColors.empty())
             {
                 const aiVector3D color = pModel->m_VertexColors[vertex];
-                pMesh->mColors[0][newIndex] =
-                    aiColor4D(color.x, color.y, color.z, 1.0);
+                pMesh->mColors[0][newIndex] = aiColor4D(color.x, color.y, color.z, 1.0);
             }
 
             // Copy all texture coordinates
-            if (!pModel->m_TextureCoord.empty() &&
-                vertexIndex < pSourceFace->m_texturCoords.size())
+            if (!pModel->m_TextureCoord.empty() && vertexIndex < pSourceFace->m_texturCoords.size())
             {
-                const unsigned int tex =
-                    pSourceFace->m_texturCoords.at(vertexIndex);
+                const unsigned int tex = pSourceFace->m_texturCoords.at(vertexIndex);
                 ai_assert(tex < pModel->m_TextureCoord.size());
 
                 if (tex >= pModel->m_TextureCoord.size())
-                    throw DeadlyImportError(
-                        "OBJ: texture coordinate index out of range");
+                    throw DeadlyImportError("OBJ: texture coordinate index out of range");
 
                 const aiVector3D& coord3d = pModel->m_TextureCoord[tex];
-                pMesh->mTextureCoords[0][newIndex] =
-                    aiVector3D(coord3d.x, coord3d.y, coord3d.z);
+                pMesh->mTextureCoords[0][newIndex] = aiVector3D(coord3d.x, coord3d.y, coord3d.z);
             }
 
             if (pMesh->mNumVertices <= newIndex)
@@ -541,8 +517,7 @@ void ObjFileImporter::createVertexArray(const ObjFile::Model* pModel,
             // Get destination face
             aiFace* pDestFace = &pMesh->mFaces[outIndex];
 
-            const bool last =
-                (vertexIndex == pSourceFace->m_vertices.size() - 1);
+            const bool last = (vertexIndex == pSourceFace->m_vertices.size() - 1);
             if (pSourceFace->m_PrimitiveType != aiPrimitiveType_LINE || !last)
             {
                 pDestFace->mIndices[outVertexIndex] = newIndex;
@@ -565,21 +540,16 @@ void ObjFileImporter::createVertexArray(const ObjFile::Model* pModel,
                 {
                     if (!last)
                     {
-                        pMesh->mVertices[newIndex + 1] =
-                            pMesh->mVertices[newIndex];
-                        if (!pSourceFace->m_normals.empty() &&
-                            !pModel->m_Normals.empty())
+                        pMesh->mVertices[newIndex + 1] = pMesh->mVertices[newIndex];
+                        if (!pSourceFace->m_normals.empty() && !pModel->m_Normals.empty())
                         {
-                            pMesh->mNormals[newIndex + 1] =
-                                pMesh->mNormals[newIndex];
+                            pMesh->mNormals[newIndex + 1] = pMesh->mNormals[newIndex];
                         }
                         if (!pModel->m_TextureCoord.empty())
                         {
-                            for (size_t i = 0; i < pMesh->GetNumUVChannels();
-                                 i++)
+                            for (size_t i = 0; i < pMesh->GetNumUVChannels(); i++)
                             {
-                                pMesh->mTextureCoords[i][newIndex + 1] =
-                                    pMesh->mTextureCoords[i][newIndex];
+                                pMesh->mTextureCoords[i][newIndex + 1] = pMesh->mTextureCoords[i][newIndex];
                             }
                         }
                         ++newIndex;
@@ -599,16 +569,14 @@ void ObjFileImporter::createVertexArray(const ObjFile::Model* pModel,
 
 // ------------------------------------------------------------------------------------------------
 //  Counts all stored meshes
-void ObjFileImporter::countObjects(
-    const std::vector<ObjFile::Object*>& rObjects, int& iNumMeshes)
+void ObjFileImporter::countObjects(const std::vector<ObjFile::Object*>& rObjects, int& iNumMeshes)
 {
     iNumMeshes = 0;
     if (rObjects.empty())
         return;
 
     iNumMeshes += static_cast<unsigned int>(rObjects.size());
-    for (std::vector<ObjFile::Object*>::const_iterator it = rObjects.begin();
-         it != rObjects.end(); ++it)
+    for (std::vector<ObjFile::Object*>::const_iterator it = rObjects.begin(); it != rObjects.end(); ++it)
     {
         if (!(*it)->m_SubObjects.empty())
         {
@@ -619,9 +587,7 @@ void ObjFileImporter::countObjects(
 
 // ------------------------------------------------------------------------------------------------
 //   Add clamp mode property to material if necessary
-void ObjFileImporter::addTextureMappingModeProperty(aiMaterial* mat,
-                                                    aiTextureType type,
-                                                    int clampMode, int index)
+void ObjFileImporter::addTextureMappingModeProperty(aiMaterial* mat, aiTextureType type, int clampMode, int index)
 {
     if (nullptr == mat)
     {
@@ -634,16 +600,14 @@ void ObjFileImporter::addTextureMappingModeProperty(aiMaterial* mat,
 
 // ------------------------------------------------------------------------------------------------
 //  Creates the material
-void ObjFileImporter::createMaterials(const ObjFile::Model* pModel,
-                                      aiScene* pScene)
+void ObjFileImporter::createMaterials(const ObjFile::Model* pModel, aiScene* pScene)
 {
     if (NULL == pScene)
     {
         return;
     }
 
-    const unsigned int numMaterials =
-        (unsigned int)pModel->m_MaterialLib.size();
+    const unsigned int numMaterials = (unsigned int)pModel->m_MaterialLib.size();
     pScene->mNumMaterials = 0;
     if (pModel->m_MaterialLib.empty())
     {
@@ -681,25 +645,19 @@ void ObjFileImporter::createMaterials(const ObjFile::Model* pModel,
             break;
         default:
             sm = aiShadingMode_Gouraud;
-            DefaultLogger::get()->error(
-                "OBJ: unexpected illumination model (0-2 recognized)");
+            DefaultLogger::get()->error("OBJ: unexpected illumination model (0-2 recognized)");
         }
 
         mat->AddProperty<int>(&sm, 1, AI_MATKEY_SHADING_MODEL);
 
         // Adding material colors
-        mat->AddProperty(&pCurrentMaterial->ambient, 1,
-                         AI_MATKEY_COLOR_AMBIENT);
-        mat->AddProperty(&pCurrentMaterial->diffuse, 1,
-                         AI_MATKEY_COLOR_DIFFUSE);
-        mat->AddProperty(&pCurrentMaterial->specular, 1,
-                         AI_MATKEY_COLOR_SPECULAR);
-        mat->AddProperty(&pCurrentMaterial->emissive, 1,
-                         AI_MATKEY_COLOR_EMISSIVE);
+        mat->AddProperty(&pCurrentMaterial->ambient, 1, AI_MATKEY_COLOR_AMBIENT);
+        mat->AddProperty(&pCurrentMaterial->diffuse, 1, AI_MATKEY_COLOR_DIFFUSE);
+        mat->AddProperty(&pCurrentMaterial->specular, 1, AI_MATKEY_COLOR_SPECULAR);
+        mat->AddProperty(&pCurrentMaterial->emissive, 1, AI_MATKEY_COLOR_EMISSIVE);
         mat->AddProperty(&pCurrentMaterial->shineness, 1, AI_MATKEY_SHININESS);
         mat->AddProperty(&pCurrentMaterial->alpha, 1, AI_MATKEY_OPACITY);
-        mat->AddProperty(&pCurrentMaterial->transparent, 1,
-                         AI_MATKEY_COLOR_TRANSPARENT);
+        mat->AddProperty(&pCurrentMaterial->transparent, 1, AI_MATKEY_COLOR_TRANSPARENT);
 
         // Adding refraction index
         mat->AddProperty(&pCurrentMaterial->ior, 1, AI_MATKEY_REFRACTI);
@@ -709,8 +667,7 @@ void ObjFileImporter::createMaterials(const ObjFile::Model* pModel,
 
         if (0 != pCurrentMaterial->texture.length)
         {
-            mat->AddProperty(&pCurrentMaterial->texture,
-                             AI_MATKEY_TEXTURE_DIFFUSE(0));
+            mat->AddProperty(&pCurrentMaterial->texture, AI_MATKEY_TEXTURE_DIFFUSE(0));
             mat->AddProperty(&uvwIndex, 1, AI_MATKEY_UVWSRC_DIFFUSE(0));
             if (pCurrentMaterial->clamp[ObjFile::Material::TextureDiffuseType])
             {
@@ -720,8 +677,7 @@ void ObjFileImporter::createMaterials(const ObjFile::Model* pModel,
 
         if (0 != pCurrentMaterial->textureAmbient.length)
         {
-            mat->AddProperty(&pCurrentMaterial->textureAmbient,
-                             AI_MATKEY_TEXTURE_AMBIENT(0));
+            mat->AddProperty(&pCurrentMaterial->textureAmbient, AI_MATKEY_TEXTURE_AMBIENT(0));
             mat->AddProperty(&uvwIndex, 1, AI_MATKEY_UVWSRC_AMBIENT(0));
             if (pCurrentMaterial->clamp[ObjFile::Material::TextureAmbientType])
             {
@@ -731,15 +687,13 @@ void ObjFileImporter::createMaterials(const ObjFile::Model* pModel,
 
         if (0 != pCurrentMaterial->textureEmissive.length)
         {
-            mat->AddProperty(&pCurrentMaterial->textureEmissive,
-                             AI_MATKEY_TEXTURE_EMISSIVE(0));
+            mat->AddProperty(&pCurrentMaterial->textureEmissive, AI_MATKEY_TEXTURE_EMISSIVE(0));
             mat->AddProperty(&uvwIndex, 1, AI_MATKEY_UVWSRC_EMISSIVE(0));
         }
 
         if (0 != pCurrentMaterial->textureSpecular.length)
         {
-            mat->AddProperty(&pCurrentMaterial->textureSpecular,
-                             AI_MATKEY_TEXTURE_SPECULAR(0));
+            mat->AddProperty(&pCurrentMaterial->textureSpecular, AI_MATKEY_TEXTURE_SPECULAR(0));
             mat->AddProperty(&uvwIndex, 1, AI_MATKEY_UVWSRC_SPECULAR(0));
             if (pCurrentMaterial->clamp[ObjFile::Material::TextureSpecularType])
             {
@@ -749,8 +703,7 @@ void ObjFileImporter::createMaterials(const ObjFile::Model* pModel,
 
         if (0 != pCurrentMaterial->textureBump.length)
         {
-            mat->AddProperty(&pCurrentMaterial->textureBump,
-                             AI_MATKEY_TEXTURE_HEIGHT(0));
+            mat->AddProperty(&pCurrentMaterial->textureBump, AI_MATKEY_TEXTURE_HEIGHT(0));
             mat->AddProperty(&uvwIndex, 1, AI_MATKEY_UVWSRC_HEIGHT(0));
             if (pCurrentMaterial->clamp[ObjFile::Material::TextureBumpType])
             {
@@ -760,8 +713,7 @@ void ObjFileImporter::createMaterials(const ObjFile::Model* pModel,
 
         if (0 != pCurrentMaterial->textureNormal.length)
         {
-            mat->AddProperty(&pCurrentMaterial->textureNormal,
-                             AI_MATKEY_TEXTURE_NORMALS(0));
+            mat->AddProperty(&pCurrentMaterial->textureNormal, AI_MATKEY_TEXTURE_NORMALS(0));
             mat->AddProperty(&uvwIndex, 1, AI_MATKEY_UVWSRC_NORMALS(0));
             if (pCurrentMaterial->clamp[ObjFile::Material::TextureNormalType])
             {
@@ -771,29 +723,24 @@ void ObjFileImporter::createMaterials(const ObjFile::Model* pModel,
 
         if (0 != pCurrentMaterial->textureReflection[0].length)
         {
-            ObjFile::Material::TextureType type =
-                0 != pCurrentMaterial->textureReflection[1].length
-                    ? ObjFile::Material::TextureReflectionCubeTopType
-                    : ObjFile::Material::TextureReflectionSphereType;
+            ObjFile::Material::TextureType type = 0 != pCurrentMaterial->textureReflection[1].length
+                                                      ? ObjFile::Material::TextureReflectionCubeTopType
+                                                      : ObjFile::Material::TextureReflectionSphereType;
 
-            unsigned count =
-                type == ObjFile::Material::TextureReflectionSphereType ? 1 : 6;
+            unsigned count = type == ObjFile::Material::TextureReflectionSphereType ? 1 : 6;
             for (unsigned i = 0; i < count; i++)
             {
-                mat->AddProperty(&pCurrentMaterial->textureReflection[i],
-                                 AI_MATKEY_TEXTURE_REFLECTION(i));
+                mat->AddProperty(&pCurrentMaterial->textureReflection[i], AI_MATKEY_TEXTURE_REFLECTION(i));
                 mat->AddProperty(&uvwIndex, 1, AI_MATKEY_UVWSRC_REFLECTION(i));
 
                 if (pCurrentMaterial->clamp[type])
-                    addTextureMappingModeProperty(mat, aiTextureType_REFLECTION,
-                                                  1, i);
+                    addTextureMappingModeProperty(mat, aiTextureType_REFLECTION, 1, i);
             }
         }
 
         if (0 != pCurrentMaterial->textureDisp.length)
         {
-            mat->AddProperty(&pCurrentMaterial->textureDisp,
-                             AI_MATKEY_TEXTURE_DISPLACEMENT(0));
+            mat->AddProperty(&pCurrentMaterial->textureDisp, AI_MATKEY_TEXTURE_DISPLACEMENT(0));
             mat->AddProperty(&uvwIndex, 1, AI_MATKEY_UVWSRC_DISPLACEMENT(0));
             if (pCurrentMaterial->clamp[ObjFile::Material::TextureDispType])
             {
@@ -803,8 +750,7 @@ void ObjFileImporter::createMaterials(const ObjFile::Model* pModel,
 
         if (0 != pCurrentMaterial->textureOpacity.length)
         {
-            mat->AddProperty(&pCurrentMaterial->textureOpacity,
-                             AI_MATKEY_TEXTURE_OPACITY(0));
+            mat->AddProperty(&pCurrentMaterial->textureOpacity, AI_MATKEY_TEXTURE_OPACITY(0));
             mat->AddProperty(&uvwIndex, 1, AI_MATKEY_UVWSRC_OPACITY(0));
             if (pCurrentMaterial->clamp[ObjFile::Material::TextureOpacityType])
             {
@@ -814,11 +760,9 @@ void ObjFileImporter::createMaterials(const ObjFile::Model* pModel,
 
         if (0 != pCurrentMaterial->textureSpecularity.length)
         {
-            mat->AddProperty(&pCurrentMaterial->textureSpecularity,
-                             AI_MATKEY_TEXTURE_SHININESS(0));
+            mat->AddProperty(&pCurrentMaterial->textureSpecularity, AI_MATKEY_TEXTURE_SHININESS(0));
             mat->AddProperty(&uvwIndex, 1, AI_MATKEY_UVWSRC_SHININESS(0));
-            if (pCurrentMaterial
-                    ->clamp[ObjFile::Material::TextureSpecularityType])
+            if (pCurrentMaterial->clamp[ObjFile::Material::TextureSpecularityType])
             {
                 addTextureMappingModeProperty(mat, aiTextureType_SHININESS);
             }

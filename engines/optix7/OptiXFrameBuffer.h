@@ -1,4 +1,4 @@
-/* Copyright (c) 2015-2018, EPFL/Blue Brain Project
+/* Copyright (c) 2015-2023, EPFL/Blue Brain Project
  * All rights reserved. Do not distribute without permission.
  * Responsible Author: Cyrille Favreau <cyrille.favreau@epfl.ch>
  *
@@ -38,8 +38,7 @@ namespace brayns
 class OptiXFrameBuffer : public FrameBuffer
 {
 public:
-    OptiXFrameBuffer(const std::string& name, const Vector2ui& size,
-                     FrameBufferFormat frameBufferFormat);
+    OptiXFrameBuffer(const std::string& name, const Vector2ui& size, FrameBufferFormat frameBufferFormat);
     ~OptiXFrameBuffer();
 
     void resize(const Vector2ui& size) final;
@@ -47,10 +46,7 @@ public:
     void unmap() final;
     void setAccumulation(const bool accumulation) final;
 
-    std::unique_lock<std::mutex> getScopeLock()
-    {
-        return std::unique_lock<std::mutex>(_mapMutex);
-    }
+    std::unique_lock<std::mutex> getScopeLock() { return std::unique_lock<std::mutex>(_mapMutex); }
     const uint8_t* getColorBuffer() const final { return _colorBuffer; }
     const float* getDepthBuffer() const final { return 0; }
 

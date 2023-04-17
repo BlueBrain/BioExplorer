@@ -1,4 +1,4 @@
-/* Copyright (c) 2015-2017, EPFL/Blue Brain Project
+/* Copyright (c) 2015-2023, EPFL/Blue Brain Project
  * All rights reserved. Do not distribute without permission.
  * Responsible Author: Cyrille Favreau <cyrille.favreau@epfl.ch>
  *
@@ -34,8 +34,7 @@ struct TriangleMesh
     std::vector<Vector2f> textureCoordinates;
 };
 
-inline TriangleMesh createBox(const Vector3f& minCorner,
-                              const Vector3f& maxCorner)
+inline TriangleMesh createBox(const Vector3f& minCorner, const Vector3f& maxCorner)
 {
     TriangleMesh result;
     const size_t numVertices = 24;

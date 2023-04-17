@@ -1,4 +1,4 @@
-/* Copyright (c) 2015-2018, EPFL/Blue Brain Project
+/* Copyright (c) 2015-2023, EPFL/Blue Brain Project
  * All rights reserved. Do not distribute without permission.
  * Responsible Author: Cyrille Favreau <cyrille.favreau@epfl.ch>
  *
@@ -38,10 +38,7 @@ public:
     bool isTextured() const;
 
     ::optix::Material getOptixMaterial() { return _optixMaterial; }
-    auto getTextureSampler(const TextureType type) const
-    {
-        return _textureSamplers.at(type);
-    }
+    auto getTextureSampler(const TextureType type) const { return _textureSamplers.at(type); }
 
 private:
     ::optix::Material _optixMaterial{nullptr};

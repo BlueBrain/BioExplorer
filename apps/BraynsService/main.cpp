@@ -1,4 +1,4 @@
-/* Copyright (c) 2015-2016, EPFL/Blue Brain Project
+/* Copyright (c) 2015-2023, EPFL/Blue Brain Project
  * All rights reserved. Do not distribute without permission.
  * Responsible Author: Cyrille Favreau <cyrille.favreau@epfl.ch>
  *
@@ -50,23 +50,20 @@ public:
         _brayns = std::make_unique<brayns::Brayns>(argc, argv);
 
         // events from rockets, trigger rendering
-        _brayns->getEngine().triggerRender =
-            [&eventRendering = _eventRendering] { eventRendering->start(); };
+        _brayns->getEngine().triggerRender = [&eventRendering = _eventRendering] { eventRendering->start(); };
 
         // launch first frame; after that, only events will trigger that
         _eventRendering->start();
 
         // stop the application on Ctrl+C
-        _sigintHandle->once<uvw::SignalEvent>(
-            [&](const auto&, auto&) { this->_stopMainLoop(); });
+        _sigintHandle->once<uvw::SignalEvent>([&](const auto&, auto&) { this->_stopMainLoop(); });
         _sigintHandle->start(SIGINT);
     }
 
     void run()
     {
         // Start render & main loop
-        std::thread renderThread(
-            [&_renderLoop = _renderLoop] { _renderLoop->run(); });
+        std::thread renderThread([&_renderLoop = _renderLoop] { _renderLoop->run(); });
         _mainLoop->run();
 
         // Finished
@@ -78,8 +75,7 @@ private:
     {
         // triggered after rendering, send events to rockets from the main
         // thread
-        _renderingDone->on<uvw::AsyncEvent>(
-            [&brayns = _brayns](const auto&, auto&) { brayns->postRender(); });
+        _renderingDone->on<uvw::AsyncEvent>([&brayns = _brayns](const auto&, auto&) { brayns->postRender(); });
 
         // render or data load trigger from events
         _eventRendering->on<uvw::IdleEvent>([&](const auto&, auto&) {
@@ -101,9 +97,7 @@ private:
 
         // start accum rendering when we have no more other events
         _checkIdleRendering->on<uvw::CheckEvent>(
-            [&accumRendering = _accumRendering](const auto&, auto&) {
-                accumRendering->start();
-            });
+            [&accumRendering = _accumRendering](const auto&, auto&) { accumRendering->start(); });
 
         // accumulation rendering on idle; re-triggered by _checkIdleRendering
         _accumRendering->on<uvw::IdleEvent>([&](const auto&, auto&) {
@@ -124,18 +118,12 @@ private:
             _brayns->render();
             _renderingDone->send();
 
-            if (_brayns->getParametersManager()
-                    .getApplicationParameters()
-                    .isBenchmarking())
-            {
-                std::cout << _brayns->getEngine().getStatistics().getFPS()
-                          << " fps" << std::endl;
-            }
+            if (_brayns->getParametersManager().getApplicationParameters().isBenchmarking())
+                std::cout << _brayns->getEngine().getStatistics().getFPS() << " fps" << std::endl;
         });
 
         // stop render loop, triggered from main thread
-        _stopRenderThread->once<uvw::AsyncEvent>(
-            [&](const auto&, auto&) { this->_stopRenderLoop(); });
+        _stopRenderThread->once<uvw::AsyncEvent>([&](const auto&, auto&) { this->_stopRenderLoop(); });
     }
 
     void _stopMainLoop()
@@ -190,12 +178,11 @@ int main(int argc, const char** argv)
         service.run();
 
         timer.stop();
-        BRAYNS_INFO << "Service was running for " << timer.seconds()
-                    << " seconds" << std::endl;
+        BRAYNS_INFO("Service was running for " << timer.seconds() << " seconds");
     }
     catch (const std::runtime_error& e)
     {
-        BRAYNS_ERROR << e.what() << std::endl;
+        BRAYNS_ERROR(e.what());
         return 1;
     }
     return 0;

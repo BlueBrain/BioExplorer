@@ -1,4 +1,4 @@
-/* Copyright (c) 2015-2018, EPFL/Blue Brain Project
+/* Copyright (c) 2015-2023, EPFL/Blue Brain Project
  * All rights reserved. Do not distribute without permission.
  * Responsible Author: Cyrille Favreau <cyrille.favreau@epfl.ch>
  *
@@ -32,8 +32,7 @@
 
 namespace brayns
 {
-OptiXScene::OptiXScene(AnimationParameters& animationParameters,
-                       GeometryParameters& geometryParameters,
+OptiXScene::OptiXScene(AnimationParameters& animationParameters, GeometryParameters& geometryParameters,
                        VolumeParameters& volumeParameters)
     : Scene(animationParameters, geometryParameters, volumeParameters)
 #if 0
@@ -72,7 +71,7 @@ bool OptiXScene::commitLights()
 
     if (_lightManager.getLights().empty())
     {
-        BRAYNS_ERROR << "No lights are currently defined" << std::endl;
+        BRAYNS_ERROR("No lights are currently defined");
         return false;
     }
 
@@ -110,7 +109,7 @@ bool OptiXScene::commitLights()
         }
         default:
         {
-            BRAYNS_WARN << "Unsupported light type" << std::endl;
+            BRAYNS_WARN << "Unsupported light type");
             break;
         }
         }
@@ -134,8 +133,7 @@ bool OptiXScene::commitLights()
 
 ModelPtr OptiXScene::createModel() const
 {
-    return std::make_unique<OptiXModel>(_animationParameters,
-                                        _volumeParameters);
+    return std::make_unique<OptiXModel>(_animationParameters, _volumeParameters);
 }
 
 void OptiXScene::commit()
@@ -158,10 +156,9 @@ void OptiXScene::commit()
         if (model->isMarkedForRemoval())
             model->callOnRemoved();
 
-    _modelDescriptors.erase(
-        std::remove_if(_modelDescriptors.begin(), _modelDescriptors.end(),
-                       [](const auto& m) { return m->isMarkedForRemoval(); }),
-        _modelDescriptors.end());
+    _modelDescriptors.erase(std::remove_if(_modelDescriptors.begin(), _modelDescriptors.end(),
+                                           [](const auto& m) { return m->isMarkedForRemoval(); }),
+                            _modelDescriptors.end());
 
 #if 0
     auto context = OptiXContext::get().getOptixContext();
@@ -208,8 +205,7 @@ void OptiXScene::commit()
 
         auto& impl = static_cast<OptiXModel&>(modelDescriptor->getModel());
 
-        BRAYNS_DEBUG << "Committing " << modelDescriptor->getName()
-                     << std::endl;
+        BRAYNS_DEBUG("Committing " << modelDescriptor->getName());
 
         impl.commitGeometry();
         impl.logInformation();
@@ -234,8 +230,8 @@ void OptiXScene::commit()
                 _rootGroup->addChild(xform);
                 ++count;
             }
-            BRAYNS_DEBUG << "Group has " << geometryGroup->getChildCount()
-                         << " children" << std::endl;
+            BRAYNS_DEBUG("Group has " << geometryGroup->getChildCount()
+                         << " children");
         }
 
         if (modelDescriptor->getBoundingBox())
@@ -265,8 +261,8 @@ void OptiXScene::commit()
     _computeBounds();
 
 #if 0
-    BRAYNS_DEBUG << "Root has " << _rootGroup->getChildCount() << " children"
-                 << std::endl;
+    BRAYNS_DEBUG("Root has " << _rootGroup->getChildCount() << " children"
+                );
 
     context["top_object"]->set(_rootGroup);
     context["top_shadower"]->set(_rootGroup);

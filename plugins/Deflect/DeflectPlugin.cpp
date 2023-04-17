@@ -1,4 +1,4 @@
-/* Copyright (c) 2015-2018, EPFL/Blue Brain Project
+/* Copyright (c) 2015-2023, EPFL/Blue Brain Project
  * All rights reserved. Do not distribute without permission.
  * Responsible Author: Daniel Nachbaur <daniel.nachbaur@epfl.ch>
  *
@@ -56,16 +56,13 @@ public:
     {
         if (auto ai = api->getActionInterface())
         {
-            const RpcParameterDescription desc{"stream",
-                                               "Stream to a displaywall",
-                                               Execution::sync, "param",
+            const RpcParameterDescription desc{"stream", "Stream to a displaywall", Execution::sync, "param",
                                                "Stream parameters"};
-            ai->registerNotification(desc, _params.getPropertyMap(),
-                                     [&](const PropertyMap& prop) {
-                                         _params.getPropertyMap().merge(prop);
-                                         _params.markModified();
-                                         _engine.triggerRender();
-                                     });
+            ai->registerNotification(desc, _params.getPropertyMap(), [&](const PropertyMap& prop) {
+                _params.getPropertyMap().merge(prop);
+                _params.markModified();
+                _engine.triggerRender();
+            });
         }
     }
 
@@ -109,22 +106,17 @@ private:
         {
             if (_params.usePixelOp())
             {
-                _stream.reset(new deflect::Observer(_params.getId(),
-                                                    _params.getHostname(),
-                                                    _params.getPort()));
+                _stream.reset(new deflect::Observer(_params.getId(), _params.getHostname(), _params.getPort()));
             }
             else
             {
-                _stream.reset(new deflect::Stream(_params.getId(),
-                                                  _params.getHostname(),
-                                                  _params.getPort()));
+                _stream.reset(new deflect::Stream(_params.getId(), _params.getHostname(), _params.getPort()));
             }
 
             if (_stream->registerForEvents())
                 _setupSocketListener();
             else
-                BRAYNS_ERROR << "Deflect failed to register for events!"
-                             << std::endl;
+                BRAYNS_ERROR << "Deflect failed to register for events!" << std::endl;
 
             _params.setId(_stream->getId());
             _params.setHost(_stream->getHost());
@@ -145,13 +137,11 @@ private:
 
             _sendSizeHints();
 
-            BRAYNS_INFO << "Deflect successfully connected to Tide on host "
-                        << _stream->getHost() << std::endl;
+            BRAYNS_INFO << "Deflect successfully connected to Tide on host " << _stream->getHost() << std::endl;
         }
         catch (const std::runtime_error& ex)
         {
-            BRAYNS_ERROR << "Deflect failed to initialize. " << ex.what()
-                         << std::endl;
+            BRAYNS_ERROR << "Deflect failed to initialize. " << ex.what() << std::endl;
             _params.setEnabled(false);
         }
     }
@@ -180,10 +170,7 @@ private:
         auto loop = uvw::Loop::getDefault();
         _pollHandle = loop->resource<uvw::PollHandle>(_stream->getDescriptor());
 
-        _pollHandle->on<uvw::PollEvent>(
-            [&engine = _engine](const auto&, auto&) {
-                engine.triggerRender();
-            });
+        _pollHandle->on<uvw::PollEvent>([&engine = _engine](const auto&, auto&) { engine.triggerRender(); });
 
         _pollHandle->start(uvw::PollHandle::Event::READABLE);
 
@@ -316,10 +303,8 @@ private:
             frameBuffer->map();
             if (frameBuffer->getColorBuffer())
             {
-                const deflect::View view =
-                    utils::getView(frameBuffer->getName());
-                const uint8_t channel =
-                    utils::getChannel(frameBuffer->getName());
+                const deflect::View view = utils::getView(frameBuffer->getName());
+                const uint8_t channel = utils::getChannel(frameBuffer->getName());
 
                 if (i <= _lastImages.size())
                     _lastImages.push_back({});
@@ -329,8 +314,7 @@ private:
             }
             frameBuffer->unmap();
         }
-        _futures.push_back(
-            static_cast<deflect::Stream&>(*_stream).finishFrame());
+        _futures.push_back(static_cast<deflect::Stream&>(*_stream).finishFrame());
     }
 
     void _copyToImage(Image& image, FrameBuffer& frameBuffer)
@@ -345,31 +329,23 @@ private:
         image.format = frameBuffer.getFrameBufferFormat();
     }
 
-    deflect::Stream::Future _sendImage(const Image& image,
-                                       const deflect::View& view,
-                                       const uint8_t channel)
+    deflect::Stream::Future _sendImage(const Image& image, const deflect::View& view, const uint8_t channel)
     {
         const auto format = _getDeflectImageFormat(image.format);
 
-        deflect::ImageWrapper deflectImage(image.data.data(), image.size.x,
-                                           image.size.y, format);
+        deflect::ImageWrapper deflectImage(image.data.data(), image.size.x, image.size.y, format);
 
         deflectImage.view = view;
         deflectImage.channel = channel;
         deflectImage.compressionQuality = _params.getQuality();
-        deflectImage.compressionPolicy = _params.getCompression()
-                                             ? deflect::COMPRESSION_ON
-                                             : deflect::COMPRESSION_OFF;
-        deflectImage.rowOrder = _params.isTopDown()
-                                    ? deflect::RowOrder::top_down
-                                    : deflect::RowOrder::bottom_up;
+        deflectImage.compressionPolicy = _params.getCompression() ? deflect::COMPRESSION_ON : deflect::COMPRESSION_OFF;
+        deflectImage.rowOrder = _params.isTopDown() ? deflect::RowOrder::top_down : deflect::RowOrder::bottom_up;
         deflectImage.subsampling = _params.getChromaSubsampling();
 
         return static_cast<deflect::Stream&>(*_stream).send(deflectImage);
     }
 
-    deflect::PixelFormat _getDeflectImageFormat(
-        const FrameBufferFormat format) const
+    deflect::PixelFormat _getDeflectImageFormat(const FrameBufferFormat format) const
     {
         switch (format)
         {
@@ -382,14 +358,12 @@ private:
         }
     }
 
-    Vector2d _getWindowPos(const deflect::Event& event,
-                           const Vector2ui& windowSize) const
+    Vector2d _getWindowPos(const deflect::Event& event, const Vector2ui& windowSize) const
     {
         return {event.mouseX * windowSize.x, event.mouseY * windowSize.y};
     }
 
-    double _getZoomDelta(const deflect::Event& pinchEvent,
-                         const Vector2ui& windowSize) const
+    double _getZoomDelta(const deflect::Event& pinchEvent, const Vector2ui& windowSize) const
     {
         const auto dx = pinchEvent.dx * windowSize.x;
         const auto dy = pinchEvent.dy * windowSize.y;
@@ -445,8 +419,7 @@ void DeflectPlugin::postRender()
 }
 } // namespace brayns
 
-extern "C" brayns::ExtensionPlugin* brayns_plugin_create(const int argc,
-                                                         const char** argv)
+extern "C" brayns::ExtensionPlugin* brayns_plugin_create(const int argc, const char** argv)
 {
     brayns::DeflectParameters params;
     if (!params.getPropertyMap().parse(argc, argv))

@@ -1,4 +1,4 @@
-/* Copyright (c) 2017-2018, EPFL/Blue Brain Project
+/* Copyright (c) 2017-2023, EPFL/Blue Brain Project
  * All rights reserved. Do not distribute without permission.
  * Responsible Author: Daniel Nachbaur <daniel.nachbaur@epfl.ch>
  *
@@ -58,8 +58,7 @@ public:
         DeflectPixelOp& _parent;
         std::vector<Pixels> _pixels;
 
-        unsigned char* _copyPixels(ospray::Tile& tile,
-                                   const ospray::vec2i& tileSize);
+        unsigned char* _copyPixels(ospray::Tile& tile, const ospray::vec2i& tileSize);
     };
 
     /**
@@ -73,8 +72,7 @@ public:
      */
     void commit() final;
 
-    ospray::PixelOp::Instance* createInstance(ospray::FrameBuffer* fb,
-                                              PixelOp::Instance* prev) final;
+    ospray::PixelOp::Instance* createInstance(ospray::FrameBuffer* fb, PixelOp::Instance* prev) final;
 
 private:
     /** @internal finish pendings sends before closing the stream. */

@@ -1,4 +1,4 @@
-/* Copyright (c) 2015-2018, EPFL/Blue Brain Project
+/* Copyright (c) 2015-2023, EPFL/Blue Brain Project
  * All rights reserved. Do not distribute without permission.
  *
  * This file is part of Brayns <https://github.com/BlueBrain/Brayns>
@@ -43,69 +43,29 @@ public:
     DeflectParameters();
 
     bool getEnabled() const { return _props.getProperty<bool>(PARAM_ENABLED); }
-    void setEnabled(const bool enabled)
-    {
-        _updateProperty(PARAM_ENABLED, enabled);
-    }
-    bool getCompression() const
-    {
-        return _props.getProperty<bool>(PARAM_COMPRESSION);
-    }
-    void setCompression(const bool enabled)
-    {
-        _updateProperty(PARAM_COMPRESSION, enabled);
-    }
+    void setEnabled(const bool enabled) { _updateProperty(PARAM_ENABLED, enabled); }
+    bool getCompression() const { return _props.getProperty<bool>(PARAM_COMPRESSION); }
+    void setCompression(const bool enabled) { _updateProperty(PARAM_COMPRESSION, enabled); }
 
-    unsigned getQuality() const
-    {
-        return (unsigned)_props.getProperty<int32_t>(PARAM_QUALITY);
-    }
-    void setQuality(const unsigned quality)
-    {
-        _updateProperty(PARAM_QUALITY, (int32_t)quality);
-    }
-    std::string getId() const
-    {
-        return _props.getProperty<std::string>(PARAM_ID);
-    }
+    unsigned getQuality() const { return (unsigned)_props.getProperty<int32_t>(PARAM_QUALITY); }
+    void setQuality(const unsigned quality) { _updateProperty(PARAM_QUALITY, (int32_t)quality); }
+    std::string getId() const { return _props.getProperty<std::string>(PARAM_ID); }
     void setId(const std::string& id) { _updateProperty(PARAM_ID, id); }
-    std::string getHostname() const
-    {
-        return _props.getProperty<std::string>(PARAM_HOSTNAME);
-    }
-    void setHost(const std::string& host)
-    {
-        _updateProperty(PARAM_HOSTNAME, host);
-    }
+    std::string getHostname() const { return _props.getProperty<std::string>(PARAM_HOSTNAME); }
+    void setHost(const std::string& host) { _updateProperty(PARAM_HOSTNAME, host); }
 
-    unsigned getPort() const
-    {
-        return (unsigned)_props.getProperty<int32_t>(PARAM_PORT);
-    }
-    void setPort(const unsigned port)
-    {
-        _updateProperty(PARAM_PORT, (int32_t)port);
-    }
+    unsigned getPort() const { return (unsigned)_props.getProperty<int32_t>(PARAM_PORT); }
+    void setPort(const unsigned port) { _updateProperty(PARAM_PORT, (int32_t)port); }
 
-    bool isResizingEnabled() const
-    {
-        return _props.getProperty<bool>(PARAM_RESIZING);
-    }
+    bool isResizingEnabled() const { return _props.getProperty<bool>(PARAM_RESIZING); }
 
     bool isTopDown() const { return _props.getProperty<bool>(PARAM_TOP_DOWN); }
-    void setIsTopDown(const bool topDown)
-    {
-        _updateProperty(PARAM_TOP_DOWN, topDown);
-    }
+    void setIsTopDown(const bool topDown) { _updateProperty(PARAM_TOP_DOWN, topDown); }
 
-    bool usePixelOp() const
-    {
-        return _props.getProperty<bool>(PARAM_USE_PIXEL_OP);
-    }
+    bool usePixelOp() const { return _props.getProperty<bool>(PARAM_USE_PIXEL_OP); }
     deflect::ChromaSubsampling getChromaSubsampling() const
     {
-        return (deflect::ChromaSubsampling)_props.getProperty<int32_t>(
-            PARAM_CHROMA_SUBSAMPLING);
+        return (deflect::ChromaSubsampling)_props.getProperty<int32_t>(PARAM_CHROMA_SUBSAMPLING);
     }
     void setChromaSubsampling(const deflect::ChromaSubsampling subsampling)
     {

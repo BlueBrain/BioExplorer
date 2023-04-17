@@ -1,4 +1,4 @@
-/* Copyright (c) 2015-2017, EPFL/Blue Brain Project
+/* Copyright (c) 2015-2023, EPFL/Blue Brain Project
  * All rights reserved. Do not distribute without permission.
  * Responsible Author: Cyrille Favreau <cyrille.favreau@epfl.ch>
  *
@@ -38,8 +38,7 @@ namespace brayns
 class OSPRayScene : public Scene
 {
 public:
-    OSPRayScene(AnimationParameters& animationParameters,
-                GeometryParameters& geometryParameters,
+    OSPRayScene(AnimationParameters& animationParameters, GeometryParameters& geometryParameters,
                 VolumeParameters& volumeParameters);
     ~OSPRayScene();
 

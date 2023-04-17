@@ -1,4 +1,4 @@
-/* Copyright (c) 2017-2018, EPFL/Blue Brain Project
+/* Copyright (c) 2017-2023, EPFL/Blue Brain Project
  * All rights reserved. Do not distribute without permission.
  * Responsible Author: Daniel Nachbaur <daniel.nachbaur@epfl.ch>
  *
@@ -49,8 +49,7 @@ const size_t ALIGNMENT = 64;
 
 namespace brayns
 {
-DeflectPixelOp::Instance::Instance(ospray::FrameBuffer* fb_,
-                                   DeflectPixelOp& parent)
+DeflectPixelOp::Instance::Instance(ospray::FrameBuffer* fb_, DeflectPixelOp& parent)
     : _parent(parent)
 {
     fb = fb_;
@@ -72,8 +71,7 @@ void DeflectPixelOp::Instance::beginFrame()
             if (i)
                 continue;
 
-            i.reset((unsigned char*)_mm_malloc(TILE_SIZE * TILE_SIZE * 4,
-                                               ALIGNMENT));
+            i.reset((unsigned char*)_mm_malloc(TILE_SIZE * TILE_SIZE * 4, ALIGNMENT));
             memset(i.get(), 255, TILE_SIZE * TILE_SIZE * 4);
         }
     }
@@ -102,16 +100,12 @@ void DeflectPixelOp::Instance::postAccum(ospray::Tile& tile)
     if (tile.region.lower.y + TILE_SIZE > fbSize.y)
         tileSize.y = fbSize.y % TILE_SIZE;
 
-    deflect::ImageWrapper image(_copyPixels(tile, tileSize), tileSize.x,
-                                tileSize.y, deflect::RGBA, tile.region.lower.x,
+    deflect::ImageWrapper image(_copyPixels(tile, tileSize), tileSize.x, tileSize.y, deflect::RGBA, tile.region.lower.x,
                                 tile.region.lower.y);
-    image.compressionPolicy = _parent._params.getCompression()
-                                  ? deflect::COMPRESSION_ON
-                                  : deflect::COMPRESSION_OFF;
+    image.compressionPolicy = _parent._params.getCompression() ? deflect::COMPRESSION_ON : deflect::COMPRESSION_OFF;
     image.compressionQuality = _parent._params.getQuality();
     image.subsampling = _parent._params.getChromaSubsampling();
-    image.rowOrder = _parent._params.isTopDown() ? deflect::RowOrder::top_down
-                                                 : deflect::RowOrder::bottom_up;
+    image.rowOrder = _parent._params.isTopDown() ? deflect::RowOrder::top_down : deflect::RowOrder::bottom_up;
 
     const auto name = fb->getParamString("name");
     image.view = utils::getView(name);
@@ -124,8 +118,7 @@ void DeflectPixelOp::Instance::postAccum(ospray::Tile& tile)
         {
             // only for the first frame
             std::lock_guard<std::mutex> _lock(_parent._mutex);
-            _parent._finishFutures.insert(
-                {pthread_self(), make_ready_future()});
+            _parent._finishFutures.insert({pthread_self(), make_ready_future()});
         }
         else
             i->second.wait(); // complete previous frame
@@ -134,22 +127,16 @@ void DeflectPixelOp::Instance::postAccum(ospray::Tile& tile)
     }
     catch (const std::exception& exc)
     {
-        std::cerr << "Encountered error during sendImage: " << exc.what()
-                  << std::endl;
+        std::cerr << "Encountered error during sendImage: " << exc.what() << std::endl;
     }
 }
 
-unsigned char* DeflectPixelOp::Instance::_copyPixels(
-    ospray::Tile& tile, const ospray::vec2i& tileSize)
+unsigned char* DeflectPixelOp::Instance::_copyPixels(ospray::Tile& tile, const ospray::vec2i& tileSize)
 {
-    const size_t tileID =
-        tile.region.lower.y / TILE_SIZE * fb->getNumTiles().x +
-        tile.region.lower.x / TILE_SIZE;
+    const size_t tileID = tile.region.lower.y / TILE_SIZE * fb->getNumTiles().x + tile.region.lower.x / TILE_SIZE;
 
 #ifdef __GNUC__
-    unsigned char* __restrict__ pixels =
-        (unsigned char*)__builtin_assume_aligned(_pixels[tileID].get(),
-                                                 ALIGNMENT);
+    unsigned char* __restrict__ pixels = (unsigned char*)__builtin_assume_aligned(_pixels[tileID].get(), ALIGNMENT);
 #else
     unsigned char* __restrict__ pixels = _pixels[tileID].get();
 #endif
@@ -221,21 +208,17 @@ void DeflectPixelOp::commit()
     {
         try
         {
-            _deflectStream.reset(new deflect::Stream(_params.getId(),
-                                                     _params.getHostname(),
-                                                     _params.getPort()));
+            _deflectStream.reset(new deflect::Stream(_params.getId(), _params.getHostname(), _params.getPort()));
         }
         catch (const std::runtime_error& ex)
         {
-            std::cerr << "Deflect failed to initialize. " << ex.what()
-                      << std::endl;
+            std::cerr << "Deflect failed to initialize. " << ex.what() << std::endl;
             _params.setEnabled(false);
         }
     }
 }
 
-ospray::PixelOp::Instance* DeflectPixelOp::createInstance(
-    ospray::FrameBuffer* fb, PixelOp::Instance* /*prev*/)
+ospray::PixelOp::Instance* DeflectPixelOp::createInstance(ospray::FrameBuffer* fb, PixelOp::Instance* /*prev*/)
 {
     return new Instance(fb, *this);
 }

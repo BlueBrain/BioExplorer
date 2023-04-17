@@ -1,4 +1,4 @@
-/* Copyright (c) 2015-2018, EPFL/Blue Brain Project
+/* Copyright (c) 2015-2023, EPFL/Blue Brain Project
  * All rights reserved. Do not distribute without permission.
  * Responsible Author: Cyrille Favreau <cyrille.favreau@epfl.ch>
  *
@@ -45,23 +45,14 @@ public:
     void clear();
 
     const Vector2ds& getControlPoints() const { return _controlPoints; }
-    void setControlPoints(const Vector2ds& controlPoints)
-    {
-        _updateValue(_controlPoints, controlPoints);
-    }
+    void setControlPoints(const Vector2ds& controlPoints) { _updateValue(_controlPoints, controlPoints); }
 
     const ColorMap& getColorMap() const { return _colorMap; }
-    void setColorMap(const ColorMap& colorMap)
-    {
-        _updateValue(_colorMap, colorMap);
-    }
+    void setColorMap(const ColorMap& colorMap) { _updateValue(_colorMap, colorMap); }
 
     const auto& getColors() const { return _colorMap.colors; }
     const Vector2d& getValuesRange() const { return _valuesRange; }
-    void setValuesRange(const Vector2d& valuesRange)
-    {
-        _updateValue(_valuesRange, valuesRange);
-    }
+    void setValuesRange(const Vector2d& valuesRange) { _updateValue(_valuesRange, valuesRange); }
 
     floats calculateInterpolatedOpacities() const;
 

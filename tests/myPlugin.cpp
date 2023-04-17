@@ -44,7 +44,7 @@ public:
             std::cout << "Creating plugin with arguments:";
             for (int i = 0; i < argc; i++)
                 std::cout << " " << std::string(argv[i]);
-            std::cout << std::endl;
+            std::cout);
         }
     }
 
@@ -54,46 +54,39 @@ public:
         REQUIRE(actions);
 
         // test property map for actions
-        actions->registerNotification(
-            brayns::RpcDescription{"notify", "A notification with no params"},
-            [&] { ++numCalls; });
+        actions->registerNotification(brayns::RpcDescription{"notify", "A notification with no params"},
+                                      [&] { ++numCalls; });
 
         brayns::PropertyMap input;
         input.setProperty({"value", 0});
-        actions->registerNotification(
-            brayns::RpcParameterDescription{"notify-param",
-                                            "A notification with property map",
-                                            "param", "a beautiful input param"},
-            input, [&](const brayns::PropertyMap& prop) {
-                if (prop.hasProperty("value"))
-                    CHECK_EQ(prop.getProperty<int>("value"), 42);
-                else
-                    ++numFails;
-                ++numCalls;
-            });
+        actions->registerNotification(brayns::RpcParameterDescription{"notify-param",
+                                                                      "A notification with property map", "param",
+                                                                      "a beautiful input param"},
+                                      input, [&](const brayns::PropertyMap& prop) {
+                                          if (prop.hasProperty("value"))
+                                              CHECK_EQ(prop.getProperty<int>("value"), 42);
+                                          else
+                                              ++numFails;
+                                          ++numCalls;
+                                      });
 
         brayns::PropertyMap output;
         output.setProperty({"result", true});
-        actions->registerRequest(
-            brayns::RpcDescription{"request",
-                                   "A request returning a property map"},
-            output, [&, output = output] {
-                ++numCalls;
-                return output;
-            });
+        actions->registerRequest(brayns::RpcDescription{"request", "A request returning a property map"}, output,
+                                 [&, output = output] {
+                                     ++numCalls;
+                                     return output;
+                                 });
 
-        actions->registerRequest(
-            brayns::RpcParameterDescription{
-                "request-param",
-                "A request with a param and returning a property map", "param",
-                "another nice input param"},
-            input, output,
-            [&, output = output](const brayns::PropertyMap& prop) {
-                ++numCalls;
-                auto val = prop.getProperty<int>("value");
-                CHECK_EQ(val, 42);
-                return output;
-            });
+        actions->registerRequest(brayns::RpcParameterDescription{"request-param",
+                                                                 "A request with a param and returning a property map",
+                                                                 "param", "another nice input param"},
+                                 input, output, [&, output = output](const brayns::PropertyMap& prop) {
+                                     ++numCalls;
+                                     auto val = prop.getProperty<int>("value");
+                                     CHECK_EQ(val, 42);
+                                     return output;
+                                 });
 
         // test "arbitrary" objects for actions
         actions->registerNotification("hello", [&] { ++numCalls; });
@@ -113,11 +106,7 @@ public:
 
         // test properties from custom renderer
         brayns::PropertyMap props;
-        props.setProperty({"awesome",
-                           int32_t(42),
-                           0,
-                           50,
-                           {"Best property", "Because it's the best"}});
+        props.setProperty({"awesome", int32_t(42), 0, 50, {"Best property", "Because it's the best"}});
         _api->getRenderer().setProperties("myrenderer", props);
     }
 
@@ -137,17 +126,15 @@ public:
     void commit() final
     {
         AbstractRenderer::commit();
-        ispc::BasicRenderer_set(getIE(),
-                                (_bgMaterial ? _bgMaterial->getIE() : nullptr),
-                                _timestamp, spp, _lightPtr, _lightArray.size());
+        ispc::BasicRenderer_set(getIE(), (_bgMaterial ? _bgMaterial->getIE() : nullptr), _timestamp, spp, _lightPtr,
+                                _lightArray.size());
     }
 };
 
 OSP_REGISTER_RENDERER(MyRenderer, myrenderer);
 OSP_REGISTER_MATERIAL(myrenderer, brayns::DefaultMaterial, default);
 
-extern "C" brayns::ExtensionPlugin* brayns_plugin_create(int argc,
-                                                         const char** argv)
+extern "C" brayns::ExtensionPlugin* brayns_plugin_create(int argc, const char** argv)
 {
     return new MyPlugin(argc, argv);
 }

@@ -1,4 +1,4 @@
-/* Copyright (c) 2015-2018, EPFL/Blue Brain Project
+/* Copyright (c) 2015-2023, EPFL/Blue Brain Project
  * All rights reserved. Do not distribute without permission.
  * Responsible Author: Cyrille Favreau <cyrille.favreau@epfl.ch>
  *
@@ -43,8 +43,7 @@ void toOptiXProperties(const brayns::PropertyMap& object)
             switch (prop->type)
             {
             case brayns::Property::Type::Double:
-                context[prop->name]->setFloat(
-                    static_cast<float>(prop->get<double>()));
+                context[prop->name]->setFloat(static_cast<float>(prop->get<double>()));
                 break;
             case brayns::Property::Type::Int:
                 context[prop->name]->setInt(prop->get<int32_t>());
@@ -54,14 +53,12 @@ void toOptiXProperties(const brayns::PropertyMap& object)
                 context[prop->name]->setUint(prop->get<bool>());
                 break;
             case brayns::Property::Type::String:
-                BRAYNS_WARN << "Cannot upload string property to OptiX '"
-                            << prop->name << "'" << std::endl;
+                BRAYNS_WARN("Cannot upload string property to OptiX '" << prop->name << "'");
                 break;
             case brayns::Property::Type::Vec2d:
             {
                 auto v = prop->get<std::array<double, 2>>();
-                context[prop->name]->setFloat(static_cast<float>(v[0]),
-                                              static_cast<float>(v[1]));
+                context[prop->name]->setFloat(static_cast<float>(v[0]), static_cast<float>(v[1]));
                 break;
             }
             case brayns::Property::Type::Vec2i:
@@ -73,8 +70,7 @@ void toOptiXProperties(const brayns::PropertyMap& object)
             case brayns::Property::Type::Vec3d:
             {
                 auto v = prop->get<std::array<double, 3>>();
-                context[prop->name]->setFloat(static_cast<float>(v[0]),
-                                              static_cast<float>(v[1]),
+                context[prop->name]->setFloat(static_cast<float>(v[0]), static_cast<float>(v[1]),
                                               static_cast<float>(v[2]));
                 break;
             }
@@ -87,10 +83,8 @@ void toOptiXProperties(const brayns::PropertyMap& object)
             case brayns::Property::Type::Vec4d:
             {
                 auto v = prop->get<std::array<double, 4>>();
-                context[prop->name]->setFloat(static_cast<float>(v[0]),
-                                              static_cast<float>(v[1]),
-                                              static_cast<float>(v[2]),
-                                              static_cast<float>(v[3]));
+                context[prop->name]->setFloat(static_cast<float>(v[0]), static_cast<float>(v[1]),
+                                              static_cast<float>(v[2]), static_cast<float>(v[3]));
                 break;
             }
             }
@@ -98,8 +92,7 @@ void toOptiXProperties(const brayns::PropertyMap& object)
     }
     catch (const std::exception& e)
     {
-        BRAYNS_ERROR << "Failed to apply properties for OptiX object"
-                     << e.what() << std::endl;
+        BRAYNS_ERROR("Failed to apply properties for OptiX object" << e.what());
     }
 }
 } // namespace
@@ -119,10 +112,8 @@ void OptiXRenderer::render(FrameBufferPtr frameBuffer)
         return;
 
     // Provide a random seed to the renderer
-    optix::float4 jitter = {(float)rand() / (float)RAND_MAX,
-                            (float)rand() / (float)RAND_MAX,
-                            (float)rand() / (float)RAND_MAX,
-                            (float)rand() / (float)RAND_MAX};
+    optix::float4 jitter = {(float)rand() / (float)RAND_MAX, (float)rand() / (float)RAND_MAX,
+                            (float)rand() / (float)RAND_MAX, (float)rand() / (float)RAND_MAX};
     auto context = OptiXContext::get().getOptixContext();
     context["jitter4"]->setFloat(jitter);
     context["frame"]->setUint(frameBuffer->numAccumFrames());
@@ -138,37 +129,31 @@ void OptiXRenderer::render(FrameBufferPtr frameBuffer)
 
 void OptiXRenderer::commit()
 {
-    if (!_renderingParameters.isModified() && !_scene->isModified() &&
-        !isModified())
+    if (!_renderingParameters.isModified() && !_scene->isModified() && !isModified())
     {
         return;
     }
 
-    const bool rendererChanged =
-        _renderingParameters.getCurrentRenderer() != _currentRenderer;
+    const bool rendererChanged = _renderingParameters.getCurrentRenderer() != _currentRenderer;
 
-    const bool updateMaterials =
-        isModified() || rendererChanged || _scene->isModified();
+    const bool updateMaterials = isModified() || rendererChanged || _scene->isModified();
 
     // If renderer or scene has changed we have to go through all materials in
     // the scene and update the renderer.
     if (updateMaterials)
     {
-        const auto renderProgram = OptiXContext::get().getRenderer(
-            _renderingParameters.getCurrentRenderer());
+        const auto renderProgram = OptiXContext::get().getRenderer(_renderingParameters.getCurrentRenderer());
 
         _scene->visitModels([&](Model& model) {
             for (const auto& kv : model.getMaterials())
             {
-                auto optixMaterial =
-                    dynamic_cast<OptiXMaterial*>(kv.second.get());
+                auto optixMaterial = dynamic_cast<OptiXMaterial*>(kv.second.get());
                 const bool textured = optixMaterial->isTextured();
 
-                optixMaterial->getOptixMaterial()->setClosestHitProgram(
-                    0, textured ? renderProgram->closest_hit_textured
-                                : renderProgram->closest_hit);
-                optixMaterial->getOptixMaterial()->setAnyHitProgram(
-                    1, renderProgram->any_hit);
+                optixMaterial->getOptixMaterial()->setClosestHitProgram(0, textured
+                                                                               ? renderProgram->closest_hit_textured
+                                                                               : renderProgram->closest_hit);
+                optixMaterial->getOptixMaterial()->setAnyHitProgram(1, renderProgram->any_hit);
             }
         });
     }

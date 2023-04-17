@@ -1,4 +1,4 @@
-/* Copyright (c) 2015-2016, EPFL/Blue Brain Project
+/* Copyright (c) 2015-2023, EPFL/Blue Brain Project
  * All rights reserved. Do not distribute without permission.
  * Responsible Author: Cyrille Favreau <cyrille.favreau@epfl.ch>
  *
@@ -328,31 +328,26 @@ ProteinLoader::ProteinLoader(Scene& scene, const GeometryParameters& params)
                            enumToString(params.getColorScheme()),
                            brayns::enumNames<brayns::ProteinColorScheme>(),
                            {"Color scheme"}});
-    _defaults.setProperty({PROP_RADIUS_MULTIPLIER,
-                           static_cast<double>(params.getRadiusMultiplier()),
-                           {"Radius multiplier"}});
+    _defaults.setProperty(
+        {PROP_RADIUS_MULTIPLIER, static_cast<double>(params.getRadiusMultiplier()), {"Radius multiplier"}});
 }
 
-bool ProteinLoader::isSupported(const std::string& filename BRAYNS_UNUSED,
-                                const std::string& extension) const
+bool ProteinLoader::isSupported(const std::string& filename BRAYNS_UNUSED, const std::string& extension) const
 {
     const std::set<std::string> types = {"pdb", "pdb1"};
     return types.find(extension) != types.end();
 }
 
-ModelDescriptorPtr ProteinLoader::importFromFile(
-    const std::string& fileName, const LoaderProgress&,
-    const PropertyMap& inProperties) const
+ModelDescriptorPtr ProteinLoader::importFromFile(const std::string& fileName, const LoaderProgress&,
+                                                 const PropertyMap& inProperties) const
 {
     // Fill property map since the actual property types are known now.
     PropertyMap properties = _defaults;
     properties.merge(inProperties);
 
-    const double radiusMultiplier =
-        properties.getProperty<double>(PROP_RADIUS_MULTIPLIER, 1.0);
+    const double radiusMultiplier = properties.getProperty<double>(PROP_RADIUS_MULTIPLIER, 1.0);
 
-    const auto colorScheme = stringToEnum<ProteinColorScheme>(
-        properties.getProperty<std::string>(PROP_COLOR_SCHEME));
+    const auto colorScheme = stringToEnum<ProteinColorScheme>(properties.getProperty<std::string>(PROP_COLOR_SCHEME));
 
     std::ifstream file(fileName.c_str());
     if (!file.is_open())
@@ -479,19 +474,16 @@ ModelDescriptorPtr ProteinLoader::importFromFile(
     for (const auto& spheresPerMaterial : spheres)
     {
         const auto materialId = spheresPerMaterial.first;
-        auto material =
-            model->createMaterial(materialId, colorMap[materialId].symbol);
-        material->setDiffuseColor({colorMap[materialId].R / 255.f,
-                                   colorMap[materialId].G / 255.f,
-                                   colorMap[materialId].B / 255.f});
+        auto material = model->createMaterial(materialId, colorMap[materialId].symbol);
+        material->setDiffuseColor(
+            {colorMap[materialId].R / 255.f, colorMap[materialId].G / 255.f, colorMap[materialId].B / 255.f});
         for (const auto& sphere : spheresPerMaterial.second)
             model->addSphere(materialId, sphere);
     }
 
     Transformation transformation;
     transformation.setRotationCenter(model->getBounds().getCenter());
-    auto modelDescriptor =
-        std::make_shared<ModelDescriptor>(std::move(model), fileName);
+    auto modelDescriptor = std::make_shared<ModelDescriptor>(std::move(model), fileName);
     modelDescriptor->setTransformation(transformation);
     return modelDescriptor;
 }

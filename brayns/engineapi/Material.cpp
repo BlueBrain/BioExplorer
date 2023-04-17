@@ -1,4 +1,4 @@
-/* Copyright (c) 2015-2016, EPFL/Blue Brain Project
+/* Copyright (c) 2015-2023, EPFL/Blue Brain Project
  * All rights reserved. Do not distribute without permission.
  * Responsible Author: Cyrille Favreau <cyrille.favreau@epfl.ch>
  *
@@ -35,8 +35,7 @@ Texture2DPtr Material::getTexture(const TextureType type) const
 {
     const auto it = _textureDescriptors.find(type);
     if (it == _textureDescriptors.end())
-        throw std::runtime_error("Failed to get texture with type " +
-                                 std::to_string(static_cast<int>(type)));
+        throw std::runtime_error("Failed to get texture with type " + std::to_string(static_cast<int>(type)));
     return it->second;
 }
 
@@ -56,9 +55,8 @@ bool Material::_loadTexture(const std::string& fileName, const TextureType type)
         return false;
 
     _textures[fileName] = texture;
-    BRAYNS_DEBUG << fileName << ": " << texture->width << "x" << texture->height
-                 << "x" << (int)texture->channels << "x" << (int)texture->depth
-                 << " added to the texture cache" << std::endl;
+    BRAYNS_DEBUG(fileName << ": " << texture->width << "x" << texture->height << "x" << (int)texture->channels << "x"
+                          << (int)texture->depth << " added to the texture cache");
     return true;
 }
 

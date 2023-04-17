@@ -1,4 +1,4 @@
-/* Copyright (c) 2015-2018, EPFL/Blue Brain Project
+/* Copyright (c) 2015-2023, EPFL/Blue Brain Project
  * All rights reserved. Do not distribute without permission.
  * Responsible Author: Cyrille Favreau <cyrille.favreau@epfl.ch>
  *                     Jafet Villafranca <jafet.villafrancadiaz@epfl.ch>
@@ -60,23 +60,17 @@ public:
               the camera orientation
        @param target The x, y, z coordinates of the camera target
     */
-    BRAYNS_API void set(const Vector3d& position,
-                        const Quaterniond& orientation,
+    BRAYNS_API void set(const Vector3d& position, const Quaterniond& orientation,
                         const Vector3d& target = Vector3d(0.0, 0.0, 0.0));
 
-    BRAYNS_API void setInitialState(const Vector3d& position,
-                                    const Quaterniond& orientation,
-                                    const Vector3d& target = Vector3d(0.0, 0.0,
-                                                                      0.0));
+    BRAYNS_API void setInitialState(const Vector3d& position, const Quaterniond& orientation,
+                                    const Vector3d& target = Vector3d(0.0, 0.0, 0.0));
 
     /**
        Sets camera position
        @param position The x, y, z coordinates of the camera position
     */
-    void setPosition(const Vector3d& position)
-    {
-        _updateValue(_position, position);
-    }
+    void setPosition(const Vector3d& position) { _updateValue(_position, position); }
     /**
        Sets camera target
        @param target The x, y, z coordinates of the camera target
@@ -110,10 +104,7 @@ public:
     BRAYNS_API void reset();
 
     /** @internal Sets the name of current rendered frame buffer. */
-    void setBufferTarget(const std::string& target)
-    {
-        _updateValue(_bufferTarget, target, false);
-    }
+    void setBufferTarget(const std::string& target) { _updateValue(_bufferTarget, target, false); }
     /** @internal @return the current rendererd frame buffer. */
     const std::string& getBufferTarget() const { return _bufferTarget; }
 

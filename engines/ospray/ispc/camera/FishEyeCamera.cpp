@@ -1,4 +1,4 @@
-/* Copyright (c) 2015-2019, EPFL/Blue Brain Project
+/* Copyright (c) 2015-2023, EPFL/Blue Brain Project
  * All rights reserved. Do not distribute without permission.
  * Responsible Author: Grigori Chevtchenko <grigori.chevtchenko@epfl.ch>
  *
@@ -43,8 +43,7 @@ void FishEyeCamera::commit()
 
     // the default 63.5mm represents the average human IPD
     enableClippingPlanes = getParam("enableClippingPlanes", 0);
-    clipPlanes =
-        enableClippingPlanes ? getParamData("clipPlanes", nullptr) : nullptr;
+    clipPlanes = enableClippingPlanes ? getParamData("clipPlanes", nullptr) : nullptr;
     apertureRadius = getParamf("apertureRadius", 0.f);
     focusDistance = getParamf("focusDistance", 1.f);
 
@@ -69,11 +68,8 @@ void FishEyeCamera::commit()
     const size_t numClipPlanes = clipPlanes ? clipPlanes->numItems : 0;
 
     const auto invDir = -dir;
-    ispc::FishEyeCamera_set(getIE(), (const ispc::vec3f&)org,
-                            (const ispc::vec3f&)invDir,
-                            (const ispc::vec3f&)dirU, (const ispc::vec3f&)dirV,
-                            (const ispc::vec4f*)clipPlaneData, numClipPlanes,
-                            apertureRadius);
+    ispc::FishEyeCamera_set(getIE(), (const ispc::vec3f&)org, (const ispc::vec3f&)invDir, (const ispc::vec3f&)dirU,
+                            (const ispc::vec3f&)dirV, (const ispc::vec4f*)clipPlaneData, numClipPlanes, apertureRadius);
 }
 
 OSP_REGISTER_CAMERA(FishEyeCamera, fisheye);

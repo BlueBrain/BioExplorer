@@ -1,4 +1,4 @@
-/* Copyright (c) 2015-2017, EPFL/Blue Brain Project
+/* Copyright (c) 2015-2023, EPFL/Blue Brain Project
  * All rights reserved. Do not distribute without permission.
  * Responsible Author: Cyrille Favreau <cyrille.favreau@epfl.ch>
  *
@@ -33,8 +33,7 @@ constexpr float DEFAULT_MOTION_SPEED = 0.03f;
 constexpr float DEFAULT_ROTATION_SPEED = 0.006f;
 } // namespace
 
-AbstractManipulator::AbstractManipulator(Camera& camera,
-                                         KeyboardHandler& keyboardHandler)
+AbstractManipulator::AbstractManipulator(Camera& camera, KeyboardHandler& keyboardHandler)
     : _camera(camera)
     , _keyboardHandler(keyboardHandler)
     , _motionSpeed{DEFAULT_ROTATION_SPEED}
@@ -44,8 +43,7 @@ AbstractManipulator::AbstractManipulator(Camera& camera,
 
 void AbstractManipulator::adjust(const Boxd& boundingBox)
 {
-    const auto size =
-        boundingBox.isEmpty() ? 1 : glm::compMax(boundingBox.getSize());
+    const auto size = boundingBox.isEmpty() ? 1 : glm::compMax(boundingBox.getSize());
     auto position = boundingBox.getCenter();
     auto target = position;
     position.z += size;
@@ -55,11 +53,10 @@ void AbstractManipulator::adjust(const Boxd& boundingBox)
     _motionSpeed = DEFAULT_MOTION_SPEED * size;
 
     if (boundingBox.isEmpty())
-        BRAYNS_INFO << "World bounding box: empty" << std::endl;
+        BRAYNS_INFO("World bounding box: empty")
     else
-        BRAYNS_INFO << "World bounding box: " << boundingBox << std::endl;
-    BRAYNS_INFO << "World center      : " << boundingBox.getCenter()
-                << std::endl;
+        BRAYNS_INFO("World bounding box: " << boundingBox);
+    BRAYNS_INFO("World center      : " << boundingBox.getCenter());
 }
 
 float AbstractManipulator::getRotationSpeed() const
@@ -90,16 +87,12 @@ void AbstractManipulator::translate(const Vector3d& vector)
     _camera.setPosition(_camera.getPosition() + translation);
 }
 
-void AbstractManipulator::rotate(const Vector3d& pivot, const double du,
-                                 const double dv, AxisMode axisMode)
+void AbstractManipulator::rotate(const Vector3d& pivot, const double du, const double dv, AxisMode axisMode)
 {
-    const Vector3d axisX =
-        glm::rotate(_camera.getOrientation(), Vector3d(1.0, 0.0, 0.0));
+    const Vector3d axisX = glm::rotate(_camera.getOrientation(), Vector3d(1.0, 0.0, 0.0));
 
-    const Vector3d axisY =
-        axisMode == AxisMode::localY
-            ? glm::rotate(_camera.getOrientation(), Vector3d(0.0, 1.0, 0.0))
-            : Vector3d(0.0, 1.0, 0.0);
+    const Vector3d axisY = axisMode == AxisMode::localY ? glm::rotate(_camera.getOrientation(), Vector3d(0.0, 1.0, 0.0))
+                                                        : Vector3d(0.0, 1.0, 0.0);
 
     const Quaterniond deltaU = glm::angleAxis(-du, axisY);
     const Quaterniond deltaV = glm::angleAxis(-dv, axisX);

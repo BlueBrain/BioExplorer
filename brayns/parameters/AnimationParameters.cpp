@@ -1,4 +1,4 @@
-/* Copyright (c) 2015-2016, EPFL/Blue Brain Project
+/* Copyright (c) 2015-2023, EPFL/Blue Brain Project
  * All rights reserved. Do not distribute without permission.
  * Responsible Author: Cyrille Favreau <cyrille.favreau@epfl.ch>
  *
@@ -31,17 +31,16 @@ namespace brayns
 AnimationParameters::AnimationParameters()
     : AbstractParameters("Animation")
 {
-    _parameters.add_options()(PARAM_ANIMATION_FRAME,
-                              po::value<uint32_t>(&_current),
-                              "Scene animation frame [uint]")(
-        PARAM_PLAY_ANIMATION, po::bool_switch(&_playing)->default_value(false),
-        "Start animation playback");
+    _parameters.add_options()(PARAM_ANIMATION_FRAME, po::value<uint32_t>(&_current),
+                              "Scene animation frame [uint]")(PARAM_PLAY_ANIMATION,
+                                                              po::bool_switch(&_playing)->default_value(false),
+                                                              "Start animation playback");
 }
 
 void AnimationParameters::print()
 {
     AbstractParameters::print();
-    BRAYNS_INFO << "Animation frame          : " << _current << std::endl;
+    BRAYNS_INFO("Animation frame          : " << _current);
 }
 
 void AnimationParameters::reset()

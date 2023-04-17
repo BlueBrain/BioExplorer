@@ -1,4 +1,4 @@
-/* Copyright (c) 2015-2019, EPFL/Blue Brain Project
+/* Copyright (c) 2015-2023, EPFL/Blue Brain Project
  * All rights reserved. Do not distribute without permission.
  *
  * This file is part of Brayns <https://github.com/BlueBrain/Brayns>
@@ -71,13 +71,11 @@ ApplicationParameters::ApplicationParameters()
          "the arguments like: --plugin 'myPluginName arg0 arg1'") //
         (PARAM_WINDOW_SIZE.c_str(), po::fixed_tokens_value<uints>(2, 2),
          "Window size [uint uint]") //
-        (PARAM_BENCHMARKING.c_str(),
-         po::bool_switch(&_benchmarking)->default_value(false),
+        (PARAM_BENCHMARKING.c_str(), po::bool_switch(&_benchmarking)->default_value(false),
          "Enable benchmarking") //
         (PARAM_JPEG_COMPRESSION.c_str(), po::value<size_t>(&_jpegCompression),
          "JPEG compression rate (100 is full quality) [int]") //
-        (PARAM_PARALLEL_RENDERING.c_str(),
-         po::bool_switch(&_parallelRendering)->default_value(false),
+        (PARAM_PARALLEL_RENDERING.c_str(), po::bool_switch(&_parallelRendering)->default_value(false),
          "Enable parallel rendering, equivalent to --osp:mpi") //
         (PARAM_STEREO.c_str(), po::bool_switch(&_stereo)->default_value(false),
          "Enable stereo rendering") //
@@ -86,12 +84,10 @@ ApplicationParameters::ApplicationParameters()
         (PARAM_MAX_RENDER_FPS.c_str(), po::value<size_t>(&_maxRenderFPS),
          "Max. render FPS") //
         (PARAM_ENV_MAP.c_str(), po::value<std::string>(&_envMap),
-         "Path to environment map")(PARAM_SANDBOX_PATH.c_str(),
-                                    po::value<std::string>(&_sandBoxPath),
+         "Path to environment map")(PARAM_SANDBOX_PATH.c_str(), po::value<std::string>(&_sandBoxPath),
                                     "Path to sandbox directory")
 #ifdef BRAYNS_USE_FFMPEG
-            (PARAM_VIDEOSTREAMING.c_str(),
-             po::bool_switch(&_useVideoStreaming)->default_value(false),
+            (PARAM_VIDEOSTREAMING.c_str(), po::bool_switch(&_useVideoStreaming)->default_value(false),
              "Use videostreaming over websockets instead of JPEG")
 #endif
         ;
@@ -113,20 +109,15 @@ void ApplicationParameters::parse(const po::variables_map& vm)
 void ApplicationParameters::print()
 {
     AbstractParameters::print();
-    BRAYNS_INFO << "Engine                      : " << _engine << std::endl;
-    BRAYNS_INFO << "Ospray modules              : " << std::endl;
+    BRAYNS_INFO("Engine                      : " << _engine);
+    BRAYNS_INFO("Ospray modules              : ");
     for (const auto& module : _modules)
-        BRAYNS_INFO << "- " << module << std::endl;
-    BRAYNS_INFO << "Window size                 : " << _windowSize << std::endl;
-    BRAYNS_INFO << "Benchmarking                : " << asString(_benchmarking)
-                << std::endl;
-    BRAYNS_INFO << "JPEG Compression            : " << _jpegCompression
-                << std::endl;
-    BRAYNS_INFO << "Image stream FPS            : " << _imageStreamFPS
-                << std::endl;
-    BRAYNS_INFO << "Max. render  FPS            : " << _maxRenderFPS
-                << std::endl;
-    BRAYNS_INFO << "Sandbox directory           : " << _sandBoxPath
-                << std::endl;
+        BRAYNS_INFO("- " << module);
+    BRAYNS_INFO("Window size                 : " << _windowSize);
+    BRAYNS_INFO("Benchmarking                : " << asString(_benchmarking));
+    BRAYNS_INFO("JPEG Compression            : " << _jpegCompression);
+    BRAYNS_INFO("Image stream FPS            : " << _imageStreamFPS);
+    BRAYNS_INFO("Max. render  FPS            : " << _maxRenderFPS);
+    BRAYNS_INFO("Sandbox directory           : " << _sandBoxPath);
 }
 } // namespace brayns

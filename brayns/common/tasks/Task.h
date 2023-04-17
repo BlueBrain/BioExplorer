@@ -1,4 +1,4 @@
-/* Copyright (c) 2015-2018, EPFL/Blue Brain Project
+/* Copyright (c) 2015-2023, EPFL/Blue Brain Project
  *
  * Responsible Author: Daniel.Nachbaur@epfl.ch
  *
@@ -131,8 +131,7 @@ protected:
         {
             auto& taskFunctor = static_cast<TaskFunctor&>(functor);
             taskFunctor.setProgressFunc(
-                std::bind(&Progress::update, std::ref(progress),
-                          std::placeholders::_1, std::placeholders::_3));
+                std::bind(&Progress::update, std::ref(progress), std::placeholders::_1, std::placeholders::_3));
             taskFunctor.setCancelToken(_cancelToken);
         }
         return std::move(functor);
@@ -150,8 +149,7 @@ public:
     template <typename F>
     DeferredTask(F&& functor)
     {
-        Task<T>::_task = _e.get_task().then(
-            Task<T>::template _setupFunctor(std::move(functor)));
+        Task<T>::_task = _e.get_task().then(Task<T>::template _setupFunctor(std::move(functor)));
     }
 
     void schedule() final { _e.set(); }

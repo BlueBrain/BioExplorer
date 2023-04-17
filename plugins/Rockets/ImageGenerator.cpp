@@ -33,10 +33,9 @@ ImageGenerator::~ImageGenerator()
         tjDestroy(_compressor);
 }
 
-ImageGenerator::ImageBase64 ImageGenerator::createImage(
-    FrameBuffer& frameBuffer BRAYNS_UNUSED,
-    const std::string& format BRAYNS_UNUSED,
-    const uint8_t quality BRAYNS_UNUSED)
+ImageGenerator::ImageBase64 ImageGenerator::createImage(FrameBuffer& frameBuffer BRAYNS_UNUSED,
+                                                        const std::string& format BRAYNS_UNUSED,
+                                                        const uint8_t quality BRAYNS_UNUSED)
 {
 #ifdef BRAYNS_USE_FREEIMAGE
     return {freeimage::getBase64Image(frameBuffer.getImage(), format, quality)};
@@ -48,10 +47,9 @@ ImageGenerator::ImageBase64 ImageGenerator::createImage(
 #endif
 }
 
-ImageGenerator::ImageBase64 ImageGenerator::createImage(
-    const std::vector<FrameBufferPtr>& frameBuffers BRAYNS_UNUSED,
-    const std::string& format BRAYNS_UNUSED,
-    const uint8_t quality BRAYNS_UNUSED)
+ImageGenerator::ImageBase64 ImageGenerator::createImage(const std::vector<FrameBufferPtr>& frameBuffers BRAYNS_UNUSED,
+                                                        const std::string& format BRAYNS_UNUSED,
+                                                        const uint8_t quality BRAYNS_UNUSED)
 {
     if (frameBuffers.size() == 1)
         return createImage(*frameBuffers[0], format, quality);
@@ -60,15 +58,14 @@ ImageGenerator::ImageBase64 ImageGenerator::createImage(
     std::vector<freeimage::ImagePtr> images;
     for (auto frameBuffer : frameBuffers)
         images.push_back(frameBuffer->getImage());
-    return {freeimage::getBase64Image(freeimage::mergeImages(images), format,
-                                      quality)};
+    return {freeimage::getBase64Image(freeimage::mergeImages(images), format, quality)};
 #else
     throw std::runtime_error("Need FreeImage; cannot create any image");
 #endif
 }
 
-ImageGenerator::ImageJPEG ImageGenerator::createJPEG(
-    FrameBuffer& frameBuffer BRAYNS_UNUSED, const uint8_t quality BRAYNS_UNUSED)
+ImageGenerator::ImageJPEG ImageGenerator::createJPEG(FrameBuffer& frameBuffer BRAYNS_UNUSED,
+                                                     const uint8_t quality BRAYNS_UNUSED)
 {
     frameBuffer.map();
     const auto colorBuffer = frameBuffer.getColorBuffer();
@@ -91,15 +88,14 @@ ImageGenerator::ImageJPEG ImageGenerator::createJPEG(
 
     const auto& frameSize = frameBuffer.getSize();
     ImageJPEG image;
-    image.data = _encodeJpeg(frameSize.x, frameSize.y, colorBuffer, pixelFormat,
-                             quality, image.size);
+    image.data = _encodeJpeg(frameSize.x, frameSize.y, colorBuffer, pixelFormat, quality, image.size);
     frameBuffer.unmap();
     return image;
 }
 
-ImageGenerator::ImageJPEG::JpegData ImageGenerator::_encodeJpeg(
-    const uint32_t width, const uint32_t height, const uint8_t* rawData,
-    const int32_t pixelFormat, const uint8_t quality, unsigned long& dataSize)
+ImageGenerator::ImageJPEG::JpegData ImageGenerator::_encodeJpeg(const uint32_t width, const uint32_t height,
+                                                                const uint8_t* rawData, const int32_t pixelFormat,
+                                                                const uint8_t quality, unsigned long& dataSize)
 {
     uint8_t* tjSrcBuffer = const_cast<uint8_t*>(rawData);
     const int32_t color_components = 4; // Color Depth
@@ -110,14 +106,12 @@ ImageGenerator::ImageJPEG::JpegData ImageGenerator::_encodeJpeg(
     const int32_t tjJpegSubsamp = TJSAMP_444;
     const int32_t tjFlags = TJXOP_ROT180;
 
-    const int32_t success =
-        tjCompress2(_compressor, tjSrcBuffer, width, tjPitch, height,
-                    tjPixelFormat, &tjJpegBuf, &dataSize, tjJpegSubsamp,
-                    quality, tjFlags);
+    const int32_t success = tjCompress2(_compressor, tjSrcBuffer, width, tjPitch, height, tjPixelFormat, &tjJpegBuf,
+                                        &dataSize, tjJpegSubsamp, quality, tjFlags);
 
     if (success != 0)
     {
-        BRAYNS_ERROR << "libjpeg-turbo image conversion failure" << std::endl;
+        BRAYNS_ERROR("libjpeg-turbo image conversion failure");
         return 0;
     }
     return ImageJPEG::JpegData{tjJpegBuf};

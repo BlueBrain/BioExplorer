@@ -1,4 +1,4 @@
-/* Copyright (c) 2015-2018, EPFL/Blue Brain Project
+/* Copyright (c) 2015-2023, EPFL/Blue Brain Project
  * All rights reserved. Do not distribute without permission.
  * Responsible Author: Cyrille Favreau <cyrille.favreau@epfl.ch>
  *
@@ -27,8 +27,7 @@
 
 namespace brayns
 {
-OptiXFrameBuffer::OptiXFrameBuffer(const std::string& name,
-                                   const Vector2ui& frameSize,
+OptiXFrameBuffer::OptiXFrameBuffer(const std::string& name, const Vector2ui& frameSize,
                                    FrameBufferFormat frameBufferFormat)
     : FrameBuffer(name, frameSize, frameBufferFormat)
 {
@@ -66,7 +65,7 @@ void OptiXFrameBuffer::resize(const Vector2ui& frameSize)
 
 void OptiXFrameBuffer::_recreate()
 {
-    BRAYNS_DEBUG << "Creating frame buffer..." << std::endl;
+    BRAYNS_DEBUG("Creating frame buffer...");
     auto lock = getScopeLock();
 
     if (_frameBuffer)
@@ -93,18 +92,14 @@ void OptiXFrameBuffer::_recreate()
     }
 
     auto context = OptiXContext::get().getOptixContext();
-    _frameBuffer = context->createBuffer(RT_BUFFER_OUTPUT, format, _frameSize.x,
-                                         _frameSize.y);
+    _frameBuffer = context->createBuffer(RT_BUFFER_OUTPUT, format, _frameSize.x, _frameSize.y);
     if (_accumulation)
-        _accumBuffer =
-            context->createBuffer(RT_BUFFER_INPUT_OUTPUT | RT_BUFFER_GPU_LOCAL,
-                                  RT_FORMAT_FLOAT4, _frameSize.x, _frameSize.y);
+        _accumBuffer = context->createBuffer(RT_BUFFER_INPUT_OUTPUT | RT_BUFFER_GPU_LOCAL, RT_FORMAT_FLOAT4,
+                                             _frameSize.x, _frameSize.y);
     else
-        _accumBuffer =
-            context->createBuffer(RT_BUFFER_INPUT_OUTPUT | RT_BUFFER_GPU_LOCAL,
-                                  RT_FORMAT_FLOAT4, 1, 1);
+        _accumBuffer = context->createBuffer(RT_BUFFER_INPUT_OUTPUT | RT_BUFFER_GPU_LOCAL, RT_FORMAT_FLOAT4, 1, 1);
     clear();
-    BRAYNS_DEBUG << "Frame buffer created" << std::endl;
+    BRAYNS_DEBUG("Frame buffer created");
 }
 
 void OptiXFrameBuffer::map()
@@ -133,7 +128,7 @@ void OptiXFrameBuffer::_mapUnsafe()
         _depthBuffer = (float*)_imageData;
         break;
     default:
-        BRAYNS_ERROR << "Unsupported format" << std::endl;
+        BRAYNS_ERROR("Unsupported format");
     }
 }
 

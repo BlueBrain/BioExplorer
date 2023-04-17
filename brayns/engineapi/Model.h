@@ -1,4 +1,4 @@
-/* Copyright (c) 2015-2018, EPFL/Blue Brain Project
+/* Copyright (c) 2015-2023, EPFL/Blue Brain Project
  * All rights reserved. Do not distribute without permission.
  * Responsible Author: Cyrille Favreau <cyrille.favreau@epfl.ch>
  *
@@ -57,8 +57,7 @@ class ModelInstance : public BaseObject
 {
 public:
     ModelInstance() = default;
-    ModelInstance(const bool visible, const bool boundingBox,
-                  const Transformation& transformation)
+    ModelInstance(const bool visible, const bool boundingBox, const Transformation& transformation)
         : _visible(visible)
         , _boundingBox(boundingBox)
         , _transformation(transformation)
@@ -67,15 +66,9 @@ public:
     bool getVisible() const { return _visible; }
     void setVisible(const bool visible) { _updateValue(_visible, visible); }
     bool getBoundingBox() const { return _boundingBox; }
-    void setBoundingBox(const bool enabled)
-    {
-        _updateValue(_boundingBox, enabled);
-    }
+    void setBoundingBox(const bool enabled) { _updateValue(_boundingBox, enabled); }
     const Transformation& getTransformation() const { return _transformation; }
-    void setTransformation(const Transformation& transformation)
-    {
-        _updateValue(_transformation, transformation);
-    }
+    void setTransformation(const Transformation& transformation) { _updateValue(_transformation, transformation); }
 
     void setModelID(const size_t id) { _updateValue(_modelID, id); }
     size_t getModelID() const { return _modelID; }
@@ -99,8 +92,7 @@ public:
 
     ModelParams(const std::string& path);
     ModelParams(const std::string& name, const std::string& path);
-    ModelParams(const std::string& name, const std::string& path,
-                const PropertyMap& loaderProperties);
+    ModelParams(const std::string& name, const std::string& path, const PropertyMap& loaderProperties);
 
     ModelParams(ModelParams&& rhs) = default;
     ModelParams& operator=(ModelParams&& rhs) = default;
@@ -112,10 +104,7 @@ public:
     const std::string& getName() const { return _name; }
     void setPath(const std::string& path) { _updateValue(_path, path); }
     const std::string& getPath() const { return _path; }
-    void setLoaderName(const std::string& loaderName)
-    {
-        _updateValue(_loaderName, loaderName);
-    }
+    void setLoaderName(const std::string& loaderName) { _updateValue(_loaderName, loaderName); }
     const std::string& getLoaderName() const { return _loaderName; }
     const PropertyMap& getLoaderProperties() const { return _loaderProperties; }
     void setLoaderProperties(const PropertyMap& pm) { _loaderProperties = pm; }
@@ -148,10 +137,8 @@ public:
     ModelDescriptor& operator=(ModelDescriptor&& rhs) = default;
 
     ModelDescriptor(ModelPtr model, const std::string& path);
-    ModelDescriptor(ModelPtr model, const std::string& path,
-                    const ModelMetadata& metadata);
-    ModelDescriptor(ModelPtr model, const std::string& name,
-                    const std::string& path, const ModelMetadata& metadata);
+    ModelDescriptor(ModelPtr model, const std::string& path, const ModelMetadata& metadata);
+    ModelDescriptor(ModelPtr model, const std::string& name, const std::string& path, const ModelMetadata& metadata);
 
     ModelDescriptor& operator=(const ModelParams& rhs);
 
@@ -183,10 +170,7 @@ public:
     /**
      * Set a function that is called when this model is about to be removed.
      */
-    void onRemoved(const RemovedCallback& callback)
-    {
-        _onRemovedCallback = callback;
-    }
+    void onRemoved(const RemovedCallback& callback) { _onRemovedCallback = callback; }
 
     /** @internal */
     void callOnRemoved()
@@ -224,8 +208,7 @@ private:
 class Model
 {
 public:
-    Model(AnimationParameters& animationParameters,
-          VolumeParameters& volumeParameters);
+    Model(AnimationParameters& animationParameters, VolumeParameters& volumeParameters);
 
     BRAYNS_API virtual ~Model();
 
@@ -240,26 +223,23 @@ public:
     bool commitSimulationData();
 
     /** Factory method to create an engine-specific material. */
-    BRAYNS_API MaterialPtr createMaterial(const size_t materialId,
-                                          const std::string& name,
+    BRAYNS_API MaterialPtr createMaterial(const size_t materialId, const std::string& name,
                                           const PropertyMap& properties = {});
 
     /**
      * Create a volume with the given dimensions, voxel spacing and data type
      * where the voxels are set via setVoxels() from any memory location.
      */
-    BRAYNS_API virtual SharedDataVolumePtr createSharedDataVolume(
-        const Vector3ui& dimensions, const Vector3f& spacing,
-        const DataType type) const = 0;
+    BRAYNS_API virtual SharedDataVolumePtr createSharedDataVolume(const Vector3ui& dimensions, const Vector3f& spacing,
+                                                                  const DataType type) const = 0;
 
     /**
      * Create a volume with the given dimensions, voxel spacing and data type
      * where the voxels are copied via setBrick() into an optimized internal
      * storage.
      */
-    BRAYNS_API virtual BrickedVolumePtr createBrickedVolume(
-        const Vector3ui& dimensions, const Vector3f& spacing,
-        const DataType type) const = 0;
+    BRAYNS_API virtual BrickedVolumePtr createBrickedVolume(const Vector3ui& dimensions, const Vector3f& spacing,
+                                                            const DataType type) const = 0;
 
     BRAYNS_API virtual void buildBoundingBox() = 0;
     //@}
@@ -292,8 +272,7 @@ public:
       @param sphere Sphere to add
       @return Index of the sphere for the specified material
       */
-    BRAYNS_API uint64_t addSphere(const size_t materialId,
-                                  const Sphere& sphere);
+    BRAYNS_API uint64_t addSphere(const size_t materialId, const Sphere& sphere);
 
     /**
         Returns cylinders handled by the model
@@ -310,8 +289,7 @@ public:
       @param cylinder Cylinder to add
       @return Index of the sphere for the specified material
       */
-    BRAYNS_API uint64_t addCylinder(const size_t materialId,
-                                    const Cylinder& cylinder);
+    BRAYNS_API uint64_t addCylinder(const size_t materialId, const Cylinder& cylinder);
     /**
         Returns cones handled by the model
     */
@@ -332,10 +310,7 @@ public:
     /**
         Returns SDFBezier handled by the model
     */
-    const SDFBeziersMap& getSDFBeziers() const
-    {
-        return _geometries->_sdfBeziers;
-    }
+    const SDFBeziersMap& getSDFBeziers() const { return _geometries->_sdfBeziers; }
 
     SDFBeziersMap& getSDFBeziers()
     {
@@ -348,24 +323,19 @@ public:
       @param sdfBezier SDFBezier to add
       @return Index of the bezier for the specified material
       */
-    BRAYNS_API uint64_t addSDFBezier(const size_t materialId,
-                                     const SDFBezier& sdfBezier);
+    BRAYNS_API uint64_t addSDFBezier(const size_t materialId, const SDFBezier& sdfBezier);
 
     /**
       Adds a streamline to the model
       @param materialId Id of the material for the streamline
       @param streamline Streamline to add
       */
-    BRAYNS_API void addStreamline(const size_t materialId,
-                                  const Streamline& streamline);
+    BRAYNS_API void addStreamline(const size_t materialId, const Streamline& streamline);
 
     /**
         Returns streamlines handled by the model
     */
-    const StreamlinesDataMap& getStreamlines() const
-    {
-        return _geometries->_streamlines;
-    }
+    const StreamlinesDataMap& getStreamlines() const { return _geometries->_streamlines; }
     StreamlinesDataMap& getStreamlines()
     {
         _streamlinesDirty = true;
@@ -397,16 +367,12 @@ public:
       together with
       @return Global index of the geometry
       */
-    uint64_t addSDFGeometry(const size_t materialId, const SDFGeometry& geom,
-                            const uint64_ts& neighbourIndices);
+    uint64_t addSDFGeometry(const size_t materialId, const SDFGeometry& geom, const uint64_ts& neighbourIndices);
 
     /**
      * Returns SDF geometry data handled by the model
      */
-    const SDFGeometryData& getSDFGeometryData() const
-    {
-        return _geometries->_sdf;
-    }
+    const SDFGeometryData& getSDFGeometryData() const { return _geometries->_sdf; }
     SDFGeometryData& getSDFGeometryData()
     {
         _sdfGeometriesDirty = true;
@@ -418,16 +384,12 @@ public:
       @param neighbourIndices Global indices of the geometries to smoothly blend
       together with
       */
-    void updateSDFGeometryNeighbours(size_t geometryIdx,
-                                     const uint64_ts& neighbourIndices);
+    void updateSDFGeometryNeighbours(size_t geometryIdx, const uint64_ts& neighbourIndices);
 
     /**
         Returns triangle meshes handled by the model
     */
-    const TriangleMeshMap& getTriangleMeshes() const
-    {
-        return _geometries->_triangleMeshes;
-    }
+    const TriangleMeshMap& getTriangleMeshes() const { return _geometries->_triangleMeshes; }
     TriangleMeshMap& getTriangleMeshes()
     {
         _triangleMeshesDirty = true;
@@ -471,10 +433,7 @@ public:
     /** @return the transfer function used for volumes and simulations. */
     TransferFunction& getTransferFunction() { return _transferFunction; }
     /** @return the transfer function used for volumes and simulations. */
-    const TransferFunction& getTransferFunction() const
-    {
-        return _transferFunction;
-    }
+    const TransferFunction& getTransferFunction() const { return _transferFunction; }
 
     /**
         Returns the simulutation handler
@@ -493,10 +452,7 @@ public:
     const Volumes& getVolumes() const { return _geometries->_volumes; }
     bool isVolumesDirty() const { return _volumesDirty; }
     void resetVolumesDirty() { _volumesDirty = false; }
-    void setBVHFlags(std::set<BVHFlag> bvhFlags)
-    {
-        _bvhFlags = std::move(bvhFlags);
-    }
+    void setBVHFlags(std::set<BVHFlag> bvhFlags) { _bvhFlags = std::move(bvhFlags); }
     const std::set<BVHFlag>& getBVHFlags() const { return _bvhFlags; }
     void updateBounds();
     /** @internal */
@@ -506,17 +462,14 @@ protected:
     void _updateSizeInBytes();
 
     /** Factory method to create an engine-specific material. */
-    BRAYNS_API virtual MaterialPtr createMaterialImpl(
-        const PropertyMap& properties = {}) = 0;
+    BRAYNS_API virtual MaterialPtr createMaterialImpl(const PropertyMap& properties = {}) = 0;
 
     /** Mark all geometries as clean. */
     void _markGeometriesClean();
 
-    virtual void _commitTransferFunctionImpl(const Vector3fs& colors,
-                                             const floats& opacities,
+    virtual void _commitTransferFunctionImpl(const Vector3fs& colors, const floats& opacities,
                                              const Vector2d valueRange) = 0;
-    virtual void _commitSimulationDataImpl(const float* frameData,
-                                           const size_t frameSize) = 0;
+    virtual void _commitSimulationDataImpl(const float* frameData, const size_t frameSize) = 0;
 
     AnimationParameters& _animationParameters;
     VolumeParameters& _volumeParameters;
@@ -550,10 +503,9 @@ protected:
 
         bool isEmpty() const
         {
-            return _spheres.empty() && _cylinders.empty() && _cones.empty() &&
-                   _sdfBeziers.empty() && _triangleMeshes.empty() &&
-                   _sdf.geometries.empty() && _streamlines.empty() &&
-                   _volumes.empty() && _curves.empty();
+            return _spheres.empty() && _cylinders.empty() && _cones.empty() && _sdfBeziers.empty() &&
+                   _triangleMeshes.empty() && _sdf.geometries.empty() && _streamlines.empty() && _volumes.empty() &&
+                   _curves.empty();
         }
     };
 
@@ -574,8 +526,7 @@ protected:
 
     bool _areGeometriesDirty() const
     {
-        return _spheresDirty || _cylindersDirty || _conesDirty ||
-               _sdfBeziersDirty || _triangleMeshesDirty ||
+        return _spheresDirty || _cylindersDirty || _conesDirty || _sdfBeziersDirty || _triangleMeshesDirty ||
                _sdfGeometriesDirty || _curvesDirty;
     }
 

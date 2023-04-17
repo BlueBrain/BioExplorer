@@ -1,4 +1,4 @@
-/* Copyright (c) 2015-2018, EPFL/Blue Brain Project
+/* Copyright (c) 2015-2023, EPFL/Blue Brain Project
  * All rights reserved. Do not distribute without permission.
  * Responsible Author: Cyrille Favreau <cyrille.favreau@epfl.ch>
  *
@@ -41,33 +41,26 @@ inline OptixAabb sphereBounds(const Vector3f& center, const float radius)
     return {m.x, m.y, m.z, M.x, M.y, M.z};
 }
 
-inline OptixAabb cylinderBounds(const Vector3f& center, const Vector3f& up,
-                                const float radius)
+inline OptixAabb cylinderBounds(const Vector3f& center, const Vector3f& up, const float radius)
 {
-    const Vector3f m = {std::min(center.x, up.x) - radius,
-                        std::min(center.y, up.y) - radius,
+    const Vector3f m = {std::min(center.x, up.x) - radius, std::min(center.y, up.y) - radius,
                         std::min(center.z, up.z) - radius};
-    const Vector3f M = {std::max(center.x, up.x) + radius,
-                        std::max(center.y, up.y) + radius,
+    const Vector3f M = {std::max(center.x, up.x) + radius, std::max(center.y, up.y) + radius,
                         std::max(center.z, up.z) + radius};
     return {m.x, m.y, m.z, M.x, M.y, M.z};
 }
 
-inline OptixAabb coneBounds(const Vector3f& center, const Vector3f& up,
-                            const float centerRadius, const float upRadius)
+inline OptixAabb coneBounds(const Vector3f& center, const Vector3f& up, const float centerRadius, const float upRadius)
 {
     const float radius = std::max(centerRadius, upRadius);
-    const Vector3f m = {std::min(center.x, up.x) - radius,
-                        std::min(center.y, up.y) - radius,
+    const Vector3f m = {std::min(center.x, up.x) - radius, std::min(center.y, up.y) - radius,
                         std::min(center.z, up.z) - radius};
-    const Vector3f M = {std::max(center.x, up.x) + radius,
-                        std::max(center.y, up.y) + radius,
+    const Vector3f M = {std::max(center.x, up.x) + radius, std::max(center.y, up.y) + radius,
                         std::max(center.z, up.z) + radius};
     return {m.x, m.y, m.z, M.x, M.y, M.z};
 }
 
-OptiXModel::OptiXModel(AnimationParameters& animationParameters,
-                       VolumeParameters& volumeParameters)
+OptiXModel::OptiXModel(AnimationParameters& animationParameters, VolumeParameters& volumeParameters)
     : Model(animationParameters, volumeParameters)
 {
 }
@@ -120,53 +113,40 @@ void OptiXModel::_buildGAS(const OptixBuildInput& buildInput)
 
     CUDA_CHECK(cudaFree(reinterpret_cast<void*>(state.d_gas_output_buffer)));
 
-    OptixAccelBuildOptions accelOptions = {OPTIX_BUILD_FLAG_ALLOW_COMPACTION,
-                                           OPTIX_BUILD_OPERATION_BUILD};
+    OptixAccelBuildOptions accelOptions = {OPTIX_BUILD_FLAG_ALLOW_COMPACTION, OPTIX_BUILD_OPERATION_BUILD};
     OptixAccelBufferSizes gasBufferSizes;
-    OPTIX_CHECK(optixAccelComputeMemoryUsage(state.context, &accelOptions,
-                                             &buildInput, 1, &gasBufferSizes));
+    OPTIX_CHECK(optixAccelComputeMemoryUsage(state.context, &accelOptions, &buildInput, 1, &gasBufferSizes));
     CUdeviceptr dTempBufferGas;
-    CUDA_CHECK(cudaMalloc(reinterpret_cast<void**>(&dTempBufferGas),
-                          gasBufferSizes.tempSizeInBytes));
+    CUDA_CHECK(cudaMalloc(reinterpret_cast<void**>(&dTempBufferGas), gasBufferSizes.tempSizeInBytes));
 
     // non-compacted output
     CUdeviceptr dBufferTempOutputGasAndCompactedSize;
-    size_t compactedSizeOffset =
-        roundUp<size_t>(gasBufferSizes.outputSizeInBytes, 8ull);
-    CUDA_CHECK(cudaMalloc(reinterpret_cast<void**>(
-                              &dBufferTempOutputGasAndCompactedSize),
-                          compactedSizeOffset + 8));
+    size_t compactedSizeOffset = roundUp<size_t>(gasBufferSizes.outputSizeInBytes, 8ull);
+    CUDA_CHECK(cudaMalloc(reinterpret_cast<void**>(&dBufferTempOutputGasAndCompactedSize), compactedSizeOffset + 8));
 
     OptixAccelEmitDesc emitProperty = {};
     emitProperty.type = OPTIX_PROPERTY_TYPE_COMPACTED_SIZE;
-    emitProperty.result = (CUdeviceptr)(
-        (char*)dBufferTempOutputGasAndCompactedSize + compactedSizeOffset);
+    emitProperty.result = (CUdeviceptr)((char*)dBufferTempOutputGasAndCompactedSize + compactedSizeOffset);
 
     OPTIX_CHECK(optixAccelBuild(state.context,
                                 0, // CUDA stream
                                 &accelOptions, &buildInput,
                                 1, // num build inputs
-                                dTempBufferGas, gasBufferSizes.tempSizeInBytes,
-                                dBufferTempOutputGasAndCompactedSize,
-                                gasBufferSizes.outputSizeInBytes,
-                                &state.gas_handle,
+                                dTempBufferGas, gasBufferSizes.tempSizeInBytes, dBufferTempOutputGasAndCompactedSize,
+                                gasBufferSizes.outputSizeInBytes, &state.gas_handle,
                                 &emitProperty, // emitted property list
                                 1              // num emitted properties
                                 ));
 
     size_t compacted_gas_size;
-    CUDA_CHECK(cudaMemcpy(&compacted_gas_size, (void*)emitProperty.result,
-                          sizeof(size_t), cudaMemcpyDeviceToHost));
+    CUDA_CHECK(cudaMemcpy(&compacted_gas_size, (void*)emitProperty.result, sizeof(size_t), cudaMemcpyDeviceToHost));
 
     if (compacted_gas_size < gasBufferSizes.outputSizeInBytes)
     {
-        CUDA_CHECK(
-            cudaMalloc(reinterpret_cast<void**>(&state.d_gas_output_buffer),
-                       compacted_gas_size));
+        CUDA_CHECK(cudaMalloc(reinterpret_cast<void**>(&state.d_gas_output_buffer), compacted_gas_size));
         // use handle as input and output
-        OPTIX_CHECK(optixAccelCompact(state.context, 0, state.gas_handle,
-                                      state.d_gas_output_buffer,
-                                      compacted_gas_size, &state.gas_handle));
+        OPTIX_CHECK(optixAccelCompact(state.context, 0, state.gas_handle, state.d_gas_output_buffer, compacted_gas_size,
+                                      &state.gas_handle));
 
         CUDA_CHECK(cudaFree((void*)dBufferTempOutputGasAndCompactedSize));
     }
@@ -180,19 +160,15 @@ void OptiXModel::_commitGeometry()
 
     for (const auto& geometries : _geometries->_spheres)
         for (const auto& geometry : geometries.second)
-            optixAABBs.push_back(
-                sphereBounds(geometry.center, geometry.radius));
+            optixAABBs.push_back(sphereBounds(geometry.center, geometry.radius));
 
     for (const auto& geometries : _geometries->_cylinders)
         for (const auto& geometry : geometries.second)
-            optixAABBs.push_back(
-                cylinderBounds(geometry.center, geometry.up, geometry.radius));
+            optixAABBs.push_back(cylinderBounds(geometry.center, geometry.up, geometry.radius));
 
     for (const auto& geometries : _geometries->_cones)
         for (const auto& geometry : geometries.second)
-            optixAABBs.push_back(coneBounds(geometry.center, geometry.up,
-                                            geometry.centerRadius,
-                                            geometry.upRadius));
+            optixAABBs.push_back(coneBounds(geometry.center, geometry.up, geometry.centerRadius, geometry.upRadius));
 
     const auto nbAABBs = optixAABBs.size();
     PLUGIN_INFO("Number of AABB: " << nbAABBs);
@@ -211,15 +187,13 @@ void OptiXModel::_commitGeometry()
     CUdeviceptr dAABBs = 0;
     uint64_t size = nbAABBs * sizeof(OptixAabb);
     CUDA_CHECK(cudaMalloc(reinterpret_cast<void**>(&dAABBs), size));
-    CUDA_CHECK(cudaMemcpy(reinterpret_cast<void*>(dAABBs), optixAABBs.data(),
-                          size, cudaMemcpyHostToDevice));
+    CUDA_CHECK(cudaMemcpy(reinterpret_cast<void*>(dAABBs), optixAABBs.data(), size, cudaMemcpyHostToDevice));
 
     // SBT indices
     CUdeviceptr dSBTIndices = 0;
     size = nbAABBs * sizeof(uint32_t);
     CUDA_CHECK(cudaMalloc(reinterpret_cast<void**>(&dSBTIndices), size));
-    CUDA_CHECK(cudaMemcpy(reinterpret_cast<void*>(dSBTIndices),
-                          sbtIndices.data(), size, cudaMemcpyHostToDevice));
+    CUDA_CHECK(cudaMemcpy(reinterpret_cast<void*>(dSBTIndices), sbtIndices.data(), size, cudaMemcpyHostToDevice));
 
     // AABB description
     OptixBuildInput aabbInput = {};
@@ -255,15 +229,11 @@ void OptiXModel::_createSBT()
         for (const auto& geometry : geometries.second)
         {
             const auto& center = geometry.center;
-            const GeometryData::Sphere optixGeometry{{center.x, center.y,
-                                                      center.z},
-                                                     geometry.radius};
+            const GeometryData::Sphere optixGeometry{{center.x, center.y, center.z}, geometry.radius};
             {
                 // Radiance
                 HitGroupRecord hitGroupRecord;
-                OPTIX_CHECK(
-                    optixSbtRecordPackHeader(state.sphere_radiance_prog_group,
-                                             &hitGroupRecord));
+                OPTIX_CHECK(optixSbtRecordPackHeader(state.sphere_radiance_prog_group, &hitGroupRecord));
                 hitGroupRecord.data.geometry.sphere = optixGeometry;
                 hitGroupRecord.data.shading.phong = {
                     {0.f, 0.f, 0.f},    // Ka
@@ -278,9 +248,7 @@ void OptiXModel::_createSBT()
             {
                 // Occlusion
                 HitGroupRecord hitGroupRecord;
-                OPTIX_CHECK(
-                    optixSbtRecordPackHeader(state.sphere_occlusion_prog_group,
-                                             &hitGroupRecord));
+                OPTIX_CHECK(optixSbtRecordPackHeader(state.sphere_occlusion_prog_group, &hitGroupRecord));
                 hitGroupRecord.data.geometry.sphere = optixGeometry;
                 hitGroupRecords.push_back(hitGroupRecord);
             }
@@ -299,16 +267,13 @@ void OptiXModel::_createSBT()
         {
             const auto& center = geometry.center;
             const auto& up = geometry.up;
-            const GeometryData::Cylinder optixGeometry{{center.x, center.y,
-                                                        center.z},
+            const GeometryData::Cylinder optixGeometry{{center.x, center.y, center.z},
                                                        {up.x, up.y, up.z},
                                                        geometry.radius};
             {
                 // Radiance
                 HitGroupRecord hitGroupRecord;
-                OPTIX_CHECK(
-                    optixSbtRecordPackHeader(state.cylinder_radiance_prog_group,
-                                             &hitGroupRecord));
+                OPTIX_CHECK(optixSbtRecordPackHeader(state.cylinder_radiance_prog_group, &hitGroupRecord));
                 hitGroupRecord.data.geometry.cylinder = optixGeometry;
                 hitGroupRecord.data.shading.phong = {
                     {0.f, 0.f, 0.f},    // Ka
@@ -323,8 +288,7 @@ void OptiXModel::_createSBT()
             {
                 // Occlusion
                 HitGroupRecord hitGroupRecord;
-                OPTIX_CHECK(optixSbtRecordPackHeader(
-                    state.cylinder_occlusion_prog_group, &hitGroupRecord));
+                OPTIX_CHECK(optixSbtRecordPackHeader(state.cylinder_occlusion_prog_group, &hitGroupRecord));
                 hitGroupRecord.data.geometry.cylinder = optixGeometry;
                 hitGroupRecords.push_back(hitGroupRecord);
             }
@@ -345,17 +309,14 @@ void OptiXModel::_createSBT()
             const auto& up = geometry.up;
             const auto centerRadius = geometry.centerRadius;
             const auto upRadius = geometry.upRadius;
-            const GeometryData::Cone optixGeometry{{center.x, center.y,
-                                                    center.z},
+            const GeometryData::Cone optixGeometry{{center.x, center.y, center.z},
                                                    {up.x, up.y, up.z},
                                                    centerRadius,
                                                    upRadius};
             {
                 // Radiance
                 HitGroupRecord hitGroupRecord;
-                OPTIX_CHECK(
-                    optixSbtRecordPackHeader(state.cone_radiance_prog_group,
-                                             &hitGroupRecord));
+                OPTIX_CHECK(optixSbtRecordPackHeader(state.cone_radiance_prog_group, &hitGroupRecord));
                 hitGroupRecord.data.geometry.cone = optixGeometry;
                 hitGroupRecord.data.shading.phong = {
                     {0.f, 0.f, 0.f},    // Ka
@@ -370,32 +331,26 @@ void OptiXModel::_createSBT()
             {
                 // Occlusion
                 HitGroupRecord hitGroupRecord;
-                OPTIX_CHECK(
-                    optixSbtRecordPackHeader(state.cone_occlusion_prog_group,
-                                             &hitGroupRecord));
+                OPTIX_CHECK(optixSbtRecordPackHeader(state.cone_occlusion_prog_group, &hitGroupRecord));
                 hitGroupRecord.data.geometry.cone = optixGeometry;
                 hitGroupRecords.push_back(hitGroupRecord);
             }
         }
     }
 
-    PLUGIN_INFO("Registering " << hitGroupRecords.size()
-                               << " Hit Group Records");
+    PLUGIN_INFO("Registering " << hitGroupRecords.size() << " Hit Group Records");
     CUdeviceptr dHitGroupRecords = 0;
     const uint32_t hitGroupRecordSize = sizeof(HitGroupRecord);
     PLUGIN_DEBUG("HitGroupData          : " << sizeof(HitGroupData));
     PLUGIN_DEBUG("HitGroupData(geometry): " << sizeof(HitGroupData::geometry));
     PLUGIN_DEBUG("HitGroupData(shading) : " << sizeof(HitGroupData::shading));
-    PLUGIN_DEBUG("HitGroupData(total)   : "
-                 << sizeof(HitGroupData) + OPTIX_SBT_RECORD_HEADER_SIZE);
+    PLUGIN_DEBUG("HitGroupData(total)   : " << sizeof(HitGroupData) + OPTIX_SBT_RECORD_HEADER_SIZE);
     PLUGIN_DEBUG("HitGroupRecord        : " << hitGroupRecordSize);
 
     const size_t bufferSize = hitGroupRecordSize * hitGroupRecords.size();
-    CUDA_CHECK(
-        cudaMalloc(reinterpret_cast<void**>(&dHitGroupRecords), bufferSize));
+    CUDA_CHECK(cudaMalloc(reinterpret_cast<void**>(&dHitGroupRecords), bufferSize));
 
-    CUDA_CHECK(cudaMemcpy(reinterpret_cast<void*>(dHitGroupRecords),
-                          hitGroupRecords.data(), bufferSize,
+    CUDA_CHECK(cudaMemcpy(reinterpret_cast<void*>(dHitGroupRecords), hitGroupRecords.data(), bufferSize,
                           cudaMemcpyHostToDevice));
 
     // CUDA_CHECK(cudaFree(reinterpret_cast<void*>(state.sbt.hitgroupRecordBase)));
@@ -407,8 +362,7 @@ void OptiXModel::_createSBT()
 
 void OptiXModel::_commitMeshes(const size_t materialId)
 {
-    if (_geometries->_triangleMeshes.find(materialId) ==
-        _geometries->_triangleMeshes.end())
+    if (_geometries->_triangleMeshes.find(materialId) == _geometries->_triangleMeshes.end())
         return;
 
     // const auto& meshes = _geometries->_triangleMeshes[materialId];
@@ -437,14 +391,13 @@ void OptiXModel::buildBoundingBox()
     const Vector3f c(0.5f);
     const float radius = 0.005f;
     const Vector3f positions[8] = {
-        {c.x - s.x, c.y - s.y, c.z - s.z},
-        {c.x + s.x, c.y - s.y, c.z - s.z}, //    6--------7
-        {c.x - s.x, c.y + s.y, c.z - s.z}, //   /|       /|
-        {c.x + s.x, c.y + s.y, c.z - s.z}, //  2--------3 |
-        {c.x - s.x, c.y - s.y, c.z + s.z}, //  | |      | |
-        {c.x + s.x, c.y - s.y, c.z + s.z}, //  | 4------|-5
-        {c.x - s.x, c.y + s.y, c.z + s.z}, //  |/       |/
-        {c.x + s.x, c.y + s.y, c.z + s.z}  //  0--------1
+        {c.x - s.x, c.y - s.y, c.z - s.z}, {c.x + s.x, c.y - s.y, c.z - s.z}, //    6--------7
+        {c.x - s.x, c.y + s.y, c.z - s.z},                                    //   /|       /|
+        {c.x + s.x, c.y + s.y, c.z - s.z},                                    //  2--------3 |
+        {c.x - s.x, c.y - s.y, c.z + s.z},                                    //  | |      | |
+        {c.x + s.x, c.y - s.y, c.z + s.z},                                    //  | 4------|-5
+        {c.x - s.x, c.y + s.y, c.z + s.z},                                    //  |/       |/
+        {c.x + s.x, c.y + s.y, c.z + s.z}                                     //  0--------1
     };
 
     for (size_t i = 0; i < 8; ++i)
@@ -466,8 +419,7 @@ void OptiXModel::buildBoundingBox()
     addCylinder(BOUNDINGBOX_MATERIAL_ID, {positions[3], positions[7], radius});
 }
 
-MaterialPtr OptiXModel::createMaterialImpl(
-    const PropertyMap& properties BRAYNS_UNUSED)
+MaterialPtr OptiXModel::createMaterialImpl(const PropertyMap& properties BRAYNS_UNUSED)
 {
     auto material = std::make_shared<OptiXMaterial>();
     if (!material)
@@ -475,30 +427,24 @@ MaterialPtr OptiXModel::createMaterialImpl(
     return material;
 }
 
-SharedDataVolumePtr OptiXModel::createSharedDataVolume(
-    const Vector3ui& /*dimensions*/, const Vector3f& /*spacing*/,
-    const DataType /*type*/) const
+SharedDataVolumePtr OptiXModel::createSharedDataVolume(const Vector3ui& /*dimensions*/, const Vector3f& /*spacing*/,
+                                                       const DataType /*type*/) const
 {
     throw std::runtime_error("Not implemented");
     return nullptr;
 }
 
-BrickedVolumePtr OptiXModel::createBrickedVolume(
-    const Vector3ui& /*dimensions*/, const Vector3f& /*spacing*/,
-    const DataType /*type*/) const
+BrickedVolumePtr OptiXModel::createBrickedVolume(const Vector3ui& /*dimensions*/, const Vector3f& /*spacing*/,
+                                                 const DataType /*type*/) const
 {
     throw std::runtime_error("Not implemented");
     return nullptr;
 }
 
-void OptiXModel::_commitTransferFunctionImpl(const Vector3fs& colors,
-                                             const floats& opacities,
+void OptiXModel::_commitTransferFunctionImpl(const Vector3fs& colors, const floats& opacities,
                                              const Vector2d valueRange)
 {
 }
 
-void OptiXModel::_commitSimulationDataImpl(const float* frameData,
-                                           const size_t frameSize)
-{
-}
+void OptiXModel::_commitSimulationDataImpl(const float* frameData, const size_t frameSize) {}
 } // namespace brayns

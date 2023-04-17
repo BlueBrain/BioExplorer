@@ -1,4 +1,4 @@
-# Copyright (c) 2015-2018, EPFL/Blue Brain Project
+# Copyright (c) 2015-2023, EPFL/Blue Brain Project
 # All rights reserved. Do not distribute without permission.
 # Responsible Author: Cyrille Favreau <cyrille.favreau@epfl.ch>
 #
@@ -28,7 +28,7 @@ if(BRAYNS_VRPN_ENABLED)
   add_subdirectory(VRPN)
 endif()
 
-option(BRAYNS_EEG_ENABLED "Activate ElectroEncephaloGram plugin" OFF)
-if(BRAYNS_EEG_ENABLED)
-  add_subdirectory(EEG)
+option(BRAYNS_MEG_ENABLED "Activate MagnetoEncephaloGram plugin" OFF)
+if(BRAYNS_MEG_ENABLED)
+  add_subdirectory(MEG)
 endif()

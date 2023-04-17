@@ -1,4 +1,4 @@
-/* Copyright (c) 2015-2018, EPFL/Blue Brain Project
+/* Copyright (c) 2015-2023, EPFL/Blue Brain Project
  * All rights reserved. Do not distribute without permission.
  * Responsible Author: Cyrille Favreau <cyrille.favreau@epfl.ch>
  *
@@ -26,8 +26,7 @@
 
 namespace
 {
-double _interpolatedOpacity(const brayns::Vector2ds& controlPointsSorted,
-                            const double x)
+double _interpolatedOpacity(const brayns::Vector2ds& controlPointsSorted, const double x)
 {
     const auto& firstPoint = controlPointsSorted.front();
     if (x <= firstPoint.x)
@@ -82,8 +81,7 @@ floats TransferFunction::calculateInterpolatedOpacities() const
     constexpr double dx = 1. / (numSamples - 1);
 
     auto tfPoints = getControlPoints();
-    std::sort(tfPoints.begin(), tfPoints.end(),
-              [](auto a, auto b) { return a.x < b.x; });
+    std::sort(tfPoints.begin(), tfPoints.end(), [](auto a, auto b) { return a.x < b.x; });
 
     floats opacities;
     opacities.reserve(numSamples);

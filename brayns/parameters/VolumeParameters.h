@@ -1,4 +1,4 @@
-/* Copyright (c) 2015-2017, EPFL/Blue Brain Project
+/* Copyright (c) 2015-2023, EPFL/Blue Brain Project
  * All rights reserved. Do not distribute without permission.
  * Responsible Author: Cyrille Favreau <cyrille.favreau@epfl.ch>
  *
@@ -40,45 +40,21 @@ public:
     void setDimensions(const Vector3ui& dim) { _updateValue(_dimensions, dim); }
     /** Volume scale  */
     const Vector3d& getElementSpacing() const { return _elementSpacing; }
-    void setElementSpacing(const Vector3d& spacing)
-    {
-        _updateValue(_elementSpacing, spacing);
-    }
+    void setElementSpacing(const Vector3d& spacing) { _updateValue(_elementSpacing, spacing); }
     /** Volume offset */
     const Vector3d& getOffset() const { return _offset; }
-    void setGradientShading(const bool enabled)
-    {
-        _updateValue(_gradientShading, enabled);
-    }
+    void setGradientShading(const bool enabled) { _updateValue(_gradientShading, enabled); }
     bool getGradientShading() const { return _gradientShading; }
-    void setSingleShade(const bool enabled)
-    {
-        _updateValue(_singleShade, enabled);
-    }
+    void setSingleShade(const bool enabled) { _updateValue(_singleShade, enabled); }
     bool getSingleShade() const { return _singleShade; }
-    void setPreIntegration(const bool enabled)
-    {
-        _updateValue(_preIntegration, enabled);
-    }
+    void setPreIntegration(const bool enabled) { _updateValue(_preIntegration, enabled); }
     bool getPreIntegration() const { return _preIntegration; }
-    void setAdaptiveSampling(const bool enabled)
-    {
-        _updateValue(_adaptiveSampling, enabled);
-    }
+    void setAdaptiveSampling(const bool enabled) { _updateValue(_adaptiveSampling, enabled); }
     bool getAdaptiveSampling() const { return _adaptiveSampling; }
-    void setAdaptiveMaxSamplingRate(const double value)
-    {
-        _updateValue(_adaptiveMaxSamplingRate, value);
-    }
-    double getAdaptiveMaxSamplingRate() const
-    {
-        return _adaptiveMaxSamplingRate;
-    }
+    void setAdaptiveMaxSamplingRate(const double value) { _updateValue(_adaptiveMaxSamplingRate, value); }
+    double getAdaptiveMaxSamplingRate() const { return _adaptiveMaxSamplingRate; }
 
-    void setSamplingRate(const double value)
-    {
-        _updateValue(_samplingRate, value);
-    }
+    void setSamplingRate(const double value) { _updateValue(_samplingRate, value); }
     double getSamplingRate() const { return _samplingRate; }
     void setSpecular(const Vector3d& value) { _updateValue(_specular, value); }
     const Vector3d& getSpecular() const { return _specular; }

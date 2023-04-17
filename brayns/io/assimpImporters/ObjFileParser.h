@@ -78,10 +78,8 @@ public:
     /// @brief  The default constructor.
     ObjFileParser();
     /// @brief  Constructor with data array.
-    ObjFileParser(IOStreamBuffer<char> &streamBuffer,
-                  const std::string &modelName, IOSystem *io,
-                  ProgressHandler *progress,
-                  const std::string &originalObjFileName);
+    ObjFileParser(IOStreamBuffer<char> &streamBuffer, const std::string &modelName, IOSystem *io,
+                  ProgressHandler *progress, const std::string &originalObjFileName);
     /// @brief  Destructor
     ~ObjFileParser();
     /// @brief  If you want to load in-core data.
@@ -105,8 +103,7 @@ protected:
     /// Stores the following homogeneous vector as a 3D vector
     void getHomogeneousVector3(std::vector<aiVector3D> &point3d_array);
     /// Stores the following two 3d vectors on the line.
-    void getTwoVectors3(std::vector<aiVector3D> &point3d_array_a,
-                        std::vector<aiVector3D> &point3d_array_b);
+    void getTwoVectors3(std::vector<aiVector3D> &point3d_array_a, std::vector<aiVector3D> &point3d_array_b);
     /// Stores the following 3d vector.
     void getVector2(std::vector<aiVector2D> &point2d_array);
     /// Stores the following face.

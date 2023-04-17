@@ -1,4 +1,4 @@
-/* Copyright (c) 2015-2018, EPFL/Blue Brain Project
+/* Copyright (c) 2015-2023, EPFL/Blue Brain Project
  * All rights reserved. Do not distribute without permission.
  * Responsible Author: Daniel Nachbaur <daniel.nachbaur@epfl.ch>
  *
@@ -65,8 +65,7 @@ void SharedDataVolume::mapData(const std::string& filename)
     }
 
     _size = sb.st_size;
-    _memoryMapPtr =
-        ::mmap(0, _size, PROT_READ, MAP_PRIVATE, _cacheFileDescriptor, 0);
+    _memoryMapPtr = ::mmap(0, _size, PROT_READ, MAP_PRIVATE, _cacheFileDescriptor, 0);
     if (_memoryMapPtr == MAP_FAILED)
     {
         _memoryMapPtr = nullptr;

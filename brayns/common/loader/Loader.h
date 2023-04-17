@@ -1,4 +1,4 @@
-/* Copyright (c) 2015-2018, EPFL/Blue Brain Project
+/* Copyright (c) 2015-2023, EPFL/Blue Brain Project
  *
  * Responsible Author: Daniel.Nachbaur@epfl.ch
  *
@@ -102,9 +102,8 @@ public:
      * @param properties Properties used for loading
      * @return the model that has been created by the loader
      */
-    virtual ModelDescriptorPtr importFromBlob(
-        Blob&& blob, const LoaderProgress& callback,
-        const PropertyMap& properties) const = 0;
+    virtual ModelDescriptorPtr importFromBlob(Blob&& blob, const LoaderProgress& callback,
+                                              const PropertyMap& properties) const = 0;
 
     /**
      * Import the data from the given file and return the created model.
@@ -114,15 +113,13 @@ public:
      * @param properties Properties used for loading
      * @return the model that has been created by the loader
      */
-    virtual ModelDescriptorPtr importFromFile(
-        const std::string& filename, const LoaderProgress& callback,
-        const PropertyMap& properties) const = 0;
+    virtual ModelDescriptorPtr importFromFile(const std::string& filename, const LoaderProgress& callback,
+                                              const PropertyMap& properties) const = 0;
 
     /**
      * Query the loader if it can load the given file
      */
-    virtual bool isSupported(const std::string& filename,
-                             const std::string& extension) const = 0;
+    virtual bool isSupported(const std::string& filename, const std::string& extension) const = 0;
 
 protected:
     Scene& _scene;

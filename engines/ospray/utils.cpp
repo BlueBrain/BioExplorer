@@ -1,4 +1,4 @@
-/* Copyright (c) 2015-2018, EPFL/Blue Brain Project
+/* Copyright (c) 2015-2023, EPFL/Blue Brain Project
  * All rights reserved. Do not distribute without permission.
  * Responsible Author: Cyrille Favreau <cyrille.favreau@epfl.ch>
  *
@@ -36,50 +36,38 @@ void toOSPRayProperties(const PropertyMap& object, OSPObject ospObject)
             switch (prop->type)
             {
             case Property::Type::Double:
-                osphelper::set(ospObject, prop->name.c_str(),
-                               static_cast<float>(prop->get<double>()));
+                osphelper::set(ospObject, prop->name.c_str(), static_cast<float>(prop->get<double>()));
                 break;
             case Property::Type::Int:
-                osphelper::set(ospObject, prop->name.c_str(),
-                               prop->get<int32_t>());
+                osphelper::set(ospObject, prop->name.c_str(), prop->get<int32_t>());
                 break;
             case Property::Type::Bool:
-                osphelper::set(ospObject, prop->name.c_str(),
-                               prop->get<bool>());
+                osphelper::set(ospObject, prop->name.c_str(), prop->get<bool>());
                 break;
             case Property::Type::String:
-                osphelper::set(ospObject, prop->name.c_str(),
-                               prop->get<std::string>());
+                osphelper::set(ospObject, prop->name.c_str(), prop->get<std::string>());
                 break;
             case Property::Type::Vec2d:
-                osphelper::set(ospObject, prop->name.c_str(),
-                               Vector2f(toGlmVec(
-                                   prop->get<std::array<double, 2>>())));
+                osphelper::set(ospObject, prop->name.c_str(), Vector2f(toGlmVec(prop->get<std::array<double, 2>>())));
                 break;
             case Property::Type::Vec2i:
-                osphelper::set(ospObject, prop->name.c_str(),
-                               toGlmVec(prop->get<std::array<int32_t, 2>>()));
+                osphelper::set(ospObject, prop->name.c_str(), toGlmVec(prop->get<std::array<int32_t, 2>>()));
                 break;
             case Property::Type::Vec3d:
-                osphelper::set(ospObject, prop->name.c_str(),
-                               Vector3f(toGlmVec(
-                                   prop->get<std::array<double, 3>>())));
+                osphelper::set(ospObject, prop->name.c_str(), Vector3f(toGlmVec(prop->get<std::array<double, 3>>())));
                 break;
             case Property::Type::Vec3i:
-                osphelper::set(ospObject, prop->name.c_str(),
-                               toGlmVec(prop->get<std::array<int32_t, 3>>()));
+                osphelper::set(ospObject, prop->name.c_str(), toGlmVec(prop->get<std::array<int32_t, 3>>()));
                 break;
             case Property::Type::Vec4d:
-                osphelper::set(ospObject, prop->name.c_str(),
-                               Vector4f(toGlmVec(
-                                   prop->get<std::array<double, 4>>())));
+                osphelper::set(ospObject, prop->name.c_str(), Vector4f(toGlmVec(prop->get<std::array<double, 4>>())));
                 break;
             }
         }
     }
     catch (const std::exception& e)
     {
-        BRAYNS_ERROR << "Failed to apply properties for ospObject" << std::endl;
+        BRAYNS_ERROR("Failed to apply properties for ospObject");
     }
 }
 
@@ -104,63 +92,50 @@ void fromOSPRayProperties(PropertyMap& object, ospray::ManagedObject& ospObject)
         switch (prop->type)
         {
         case Property::Type::Double:
-            prop->set(double(
-                ospObject.getParam1f(prop->name.c_str(), prop->get<double>())));
+            prop->set(double(ospObject.getParam1f(prop->name.c_str(), prop->get<double>())));
             break;
         case Property::Type::Int:
-            prop->set(
-                ospObject.getParam1i(prop->name.c_str(), prop->get<int32_t>()));
+            prop->set(ospObject.getParam1i(prop->name.c_str(), prop->get<int32_t>()));
             break;
         case Property::Type::Bool:
             // FIXME(jonask): When supported by OSPRay use bool
             // bool's are stored as int within ospray
-            prop->set(static_cast<bool>(
-                ospObject.getParam(prop->name.c_str(),
-                                   static_cast<int>(prop->get<bool>()))));
+            prop->set(static_cast<bool>(ospObject.getParam(prop->name.c_str(), static_cast<int>(prop->get<bool>()))));
             break;
         case Property::Type::String:
-            prop->set(ospObject.getParamString(prop->name.c_str(),
-                                               prop->get<std::string>()));
+            prop->set(ospObject.getParamString(prop->name.c_str(), prop->get<std::string>()));
             break;
         case Property::Type::Vec2d:
-            prop->set(_toStdArray<double, 2>(
-                ospObject.getParam<ospcommon::vec2f>(prop->name.c_str(),
-                                                     ospcommon::vec2f())));
+            prop->set(
+                _toStdArray<double, 2>(ospObject.getParam<ospcommon::vec2f>(prop->name.c_str(), ospcommon::vec2f())));
             break;
         case Property::Type::Vec2i:
-            prop->set(_toStdArray<int32_t, 2>(
-                ospObject.getParam<ospcommon::vec2i>(prop->name.c_str(),
-                                                     ospcommon::vec2i())));
+            prop->set(
+                _toStdArray<int32_t, 2>(ospObject.getParam<ospcommon::vec2i>(prop->name.c_str(), ospcommon::vec2i())));
             break;
         case Property::Type::Vec3d:
-            prop->set(_toStdArray<double, 3>(
-                ospObject.getParam<ospcommon::vec3f>(prop->name.c_str(),
-                                                     ospcommon::vec3f())));
+            prop->set(
+                _toStdArray<double, 3>(ospObject.getParam<ospcommon::vec3f>(prop->name.c_str(), ospcommon::vec3f())));
             break;
         case Property::Type::Vec3i:
-            prop->set(_toStdArray<int32_t, 3>(
-                ospObject.getParam<ospcommon::vec3i>(prop->name.c_str(),
-                                                     ospcommon::vec3i())));
+            prop->set(
+                _toStdArray<int32_t, 3>(ospObject.getParam<ospcommon::vec3i>(prop->name.c_str(), ospcommon::vec3i())));
             break;
         case Property::Type::Vec4d:
-            prop->set(_toStdArray<double, 4>(
-                ospObject.getParam<ospcommon::vec4f>(prop->name.c_str(),
-                                                     ospcommon::vec4f())));
+            prop->set(
+                _toStdArray<double, 4>(ospObject.getParam<ospcommon::vec4f>(prop->name.c_str(), ospcommon::vec4f())));
             break;
         }
     }
 }
 
-ospcommon::affine3f transformationToAffine3f(
-    const Transformation& transformation)
+ospcommon::affine3f transformationToAffine3f(const Transformation& transformation)
 {
     // https://stackoverflow.com/a/18436193
     const auto& quat = transformation.getRotation();
-    const float x = atan2(2 * (quat.w * quat.x + quat.y * quat.z),
-                          1 - 2 * (quat.x * quat.x + quat.y * quat.y));
+    const float x = atan2(2 * (quat.w * quat.x + quat.y * quat.z), 1 - 2 * (quat.x * quat.x + quat.y * quat.y));
     const float y = asin(2 * (quat.w * quat.y - quat.z * quat.x));
-    const float z = atan2(2 * (quat.w * quat.z + quat.x * quat.y),
-                          1 - 2 * (quat.y * quat.y + quat.z * quat.z));
+    const float z = atan2(2 * (quat.w * quat.z + quat.x * quat.y), 1 - 2 * (quat.y * quat.y + quat.z * quat.z));
 
     ospcommon::affine3f rot{ospcommon::one};
     rot = ospcommon::affine3f::rotate({1, 0, 0}, x) * rot;
@@ -171,22 +146,15 @@ ospcommon::affine3f transformationToAffine3f(
     const auto& translation = transformation.getTranslation();
     const auto& scale = transformation.getScale();
 
-    return ospcommon::affine3f::scale(
-               {float(scale.x), float(scale.y), float(scale.z)}) *
-           ospcommon::affine3f::translate({float(translation.x),
-                                           float(translation.y),
-                                           float(translation.z)}) *
-           ospcommon::affine3f::translate({float(rotationCenter.x),
-                                           float(rotationCenter.y),
-                                           float(rotationCenter.z)}) *
+    return ospcommon::affine3f::scale({float(scale.x), float(scale.y), float(scale.z)}) *
+           ospcommon::affine3f::translate({float(translation.x), float(translation.y), float(translation.z)}) *
+           ospcommon::affine3f::translate({float(rotationCenter.x), float(rotationCenter.y), float(rotationCenter.z)}) *
            rot *
-           ospcommon::affine3f::translate({float(-rotationCenter.x),
-                                           float(-rotationCenter.y),
-                                           float(-rotationCenter.z)});
+           ospcommon::affine3f::translate(
+               {float(-rotationCenter.x), float(-rotationCenter.y), float(-rotationCenter.z)});
 }
 
-void addInstance(OSPModel rootModel, OSPModel modelToAdd,
-                 const Transformation& transform)
+void addInstance(OSPModel rootModel, OSPModel modelToAdd, const Transformation& transform)
 {
     auto affine = transformationToAffine3f(transform);
     OSPGeometry instance = ospNewInstance(modelToAdd, (osp::affine3f&)affine);
@@ -195,8 +163,7 @@ void addInstance(OSPModel rootModel, OSPModel modelToAdd,
     ospRelease(instance);
 }
 
-void addInstance(OSPModel rootModel, OSPModel modelToAdd,
-                 const ospcommon::affine3f& affine)
+void addInstance(OSPModel rootModel, OSPModel modelToAdd, const ospcommon::affine3f& affine)
 {
     OSPGeometry instance = ospNewInstance(modelToAdd, (osp::affine3f&)affine);
     ospCommit(instance);

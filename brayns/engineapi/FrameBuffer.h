@@ -1,4 +1,4 @@
-/* Copyright (c) 2015-2018, EPFL/Blue Brain Project
+/* Copyright (c) 2015-2023, EPFL/Blue Brain Project
  * All rights reserved. Do not distribute without permission.
  * Responsible Author: Cyrille Favreau <cyrille.favreau@epfl.ch>
  *
@@ -47,15 +47,9 @@ public:
     /** @return the current framebuffer size. */
     virtual Vector2ui getSize() const { return _frameSize; }
     /** Enable/disable accumulation state on the framebuffer. */
-    virtual void setAccumulation(const bool accumulation)
-    {
-        _accumulation = accumulation;
-    }
+    virtual void setAccumulation(const bool accumulation) { _accumulation = accumulation; }
     /** Set a new framebuffer format. */
-    virtual void setFormat(FrameBufferFormat frameBufferFormat)
-    {
-        _frameBufferFormat = frameBufferFormat;
-    }
+    virtual void setFormat(FrameBufferFormat frameBufferFormat) { _frameBufferFormat = frameBufferFormat; }
 
     /** Set a new subsampling with a factor from 1 to x of the current size. */
     virtual void setSubsampling(const size_t) {}
@@ -65,16 +59,12 @@ public:
     virtual void updatePixelOp(const PropertyMap& /*properties*/){};
     //@}
 
-    BRAYNS_API FrameBuffer(const std::string& name, const Vector2ui& frameSize,
-                           FrameBufferFormat frameBufferFormat);
+    BRAYNS_API FrameBuffer(const std::string& name, const Vector2ui& frameSize, FrameBufferFormat frameBufferFormat);
 
     size_t getColorDepth() const;
     const Vector2ui& getFrameSize() const { return _frameSize; }
     bool getAccumulation() const { return _accumulation; }
-    FrameBufferFormat getFrameBufferFormat() const
-    {
-        return _frameBufferFormat;
-    }
+    FrameBufferFormat getFrameBufferFormat() const { return _frameBufferFormat; }
     const std::string& getName() const { return _name; }
     void incrementAccumFrames() { ++_accumFrames; }
     size_t numAccumFrames() const { return _accumFrames; }

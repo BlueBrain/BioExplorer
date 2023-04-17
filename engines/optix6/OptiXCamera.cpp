@@ -1,4 +1,4 @@
-/* Copyright (c) 2015-2018, EPFL/Blue Brain Project
+/* Copyright (c) 2015-2023, EPFL/Blue Brain Project
  * All rights reserved. Do not distribute without permission.
  * Responsible Author: Cyrille Favreau <cyrille.favreau@epfl.ch>
  *
@@ -53,23 +53,17 @@ void OptiXCamera::commit()
         Vector4fs buffer;
         buffer.reserve(numClipPlanes);
         for (const auto& clipPlane : _clipPlanes)
-            buffer.push_back({static_cast<float>(clipPlane[0]),
-                              static_cast<float>(clipPlane[1]),
-                              static_cast<float>(clipPlane[2]),
-                              static_cast<float>(clipPlane[3])});
+            buffer.push_back({static_cast<float>(clipPlane[0]), static_cast<float>(clipPlane[1]),
+                              static_cast<float>(clipPlane[2]), static_cast<float>(clipPlane[3])});
 
-        _clipPlanesBuffer =
-            context->createBuffer(RT_BUFFER_INPUT, RT_FORMAT_FLOAT4,
-                                  numClipPlanes);
-        memcpy(_clipPlanesBuffer->map(), buffer.data(),
-               numClipPlanes * sizeof(Vector4f));
+        _clipPlanesBuffer = context->createBuffer(RT_BUFFER_INPUT, RT_FORMAT_FLOAT4, numClipPlanes);
+        memcpy(_clipPlanesBuffer->map(), buffer.data(), numClipPlanes * sizeof(Vector4f));
         _clipPlanesBuffer->unmap();
     }
     else
     {
         // Create empty buffer to avoid unset variable exception in cuda
-        _clipPlanesBuffer =
-            context->createBuffer(RT_BUFFER_INPUT, RT_FORMAT_FLOAT4, 1);
+        _clipPlanesBuffer = context->createBuffer(RT_BUFFER_INPUT, RT_FORMAT_FLOAT4, 1);
     }
 
     context[CUDA_CLIP_PLANES]->setBuffer(_clipPlanesBuffer);

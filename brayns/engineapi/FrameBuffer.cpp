@@ -1,4 +1,4 @@
-/* Copyright (c) 2015-2017, EPFL/Blue Brain Project
+/* Copyright (c) 2015-2023, EPFL/Blue Brain Project
  * All rights reserved. Do not distribute without permission.
  * Responsible Author: Cyrille Favreau <cyrille.favreau@epfl.ch>
  *
@@ -22,8 +22,7 @@
 
 namespace brayns
 {
-FrameBuffer::FrameBuffer(const std::string& name, const Vector2ui& frameSize,
-                         const FrameBufferFormat frameBufferFormat)
+FrameBuffer::FrameBuffer(const std::string& name, const Vector2ui& frameSize, const FrameBufferFormat frameBufferFormat)
     : _name(name)
     , _frameSize(frameSize)
     , _frameBufferFormat(frameBufferFormat)
@@ -52,11 +51,9 @@ freeimage::ImagePtr FrameBuffer::getImage()
     const auto colorBuffer = getColorBuffer();
     const auto& size = getSize();
 
-    freeimage::ImagePtr image(
-        FreeImage_ConvertFromRawBits(const_cast<uint8_t*>(colorBuffer), size.x,
-                                     size.y, getColorDepth() * size.x,
-                                     8 * getColorDepth(), 0xFF0000, 0x00FF00,
-                                     0x0000FF, false));
+    freeimage::ImagePtr image(FreeImage_ConvertFromRawBits(const_cast<uint8_t*>(colorBuffer), size.x, size.y,
+                                                           getColorDepth() * size.x, 8 * getColorDepth(), 0xFF0000,
+                                                           0x00FF00, 0x0000FF, false));
 
     unmap();
 

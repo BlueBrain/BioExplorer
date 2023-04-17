@@ -1,4 +1,4 @@
-/* Copyright (c) 2015-2018, EPFL/Blue Brain Project
+/* Copyright (c) 2015-2023, EPFL/Blue Brain Project
  *
  * Responsible Author: Daniel.Nachbaur@epfl.ch
  *
@@ -54,8 +54,7 @@ struct Property
 
     struct MetaData
     {
-        MetaData(std::string label_ = {},
-                 const std::string& description_ = "no-description")
+        MetaData(std::string label_ = {}, const std::string& description_ = "no-description")
             : label(label_)
             , description(description_)
         {
@@ -67,10 +66,8 @@ struct Property
     template <typename T>
     void assertValidType() const
     {
-        static_assert(std::is_same<T, double>::value ||
-                          std::is_same<T, int32_t>::value ||
-                          std::is_same<T, std::string>::value ||
-                          std::is_same<T, bool>::value ||
+        static_assert(std::is_same<T, double>::value || std::is_same<T, int32_t>::value ||
+                          std::is_same<T, std::string>::value || std::is_same<T, bool>::value ||
                           std::is_same<T, std::array<double, 2>>::value ||
                           std::is_same<T, std::array<int32_t, 2>>::value ||
                           std::is_same<T, std::array<double, 3>>::value ||
@@ -82,9 +79,7 @@ struct Property
     template <typename T>
     void assertValidEnumType() const
     {
-        static_assert(std::is_same<T, int32_t>::value ||
-                          std::is_same<T, std::string>::value,
-                      "Invalid enum type.");
+        static_assert(std::is_same<T, int32_t>::value || std::is_same<T, std::string>::value, "Invalid enum type.");
     }
 
     template <typename T>
@@ -114,8 +109,7 @@ struct Property
     }
 
     template <typename T>
-    Property(const std::string& name_, const T value,
-             const MetaData& metaData_ = {})
+    Property(const std::string& name_, const T value, const MetaData& metaData_ = {})
         : name(name_)
         , metaData(metaData_)
         , type(getType<T>())
@@ -127,8 +121,7 @@ struct Property
     }
 
     template <typename T>
-    Property(const std::string& name_, const T value, const T min_,
-             const T max_, const MetaData& metaData_ = {})
+    Property(const std::string& name_, const T value, const T min_, const T max_, const MetaData& metaData_ = {})
         : name(name_)
         , metaData(metaData_)
         , type(getType<T>())
@@ -144,8 +137,7 @@ struct Property
      * in enums_.
      */
     template <typename T>
-    Property(const std::string& name_, const T value,
-             const std::vector<std::string>& enums_, const MetaData& metaData_)
+    Property(const std::string& name_, const T value, const std::vector<std::string>& enums_, const MetaData& metaData_)
         : name(name_)
         , metaData(metaData_)
         , type(getType<T>())
@@ -176,10 +168,7 @@ struct Property
     /**
      * Set a function that is called after this property has been changed.
      */
-    void onModified(const ModifiedCallback& callback)
-    {
-        _modifiedCallback = callback;
-    }
+    void onModified(const ModifiedCallback& callback) { _modifiedCallback = callback; }
 
     template <typename T>
     void set(const T& v)
@@ -246,8 +235,7 @@ private:
     {
         const auto requestedType = getType<T>();
         if (requestedType != type)
-            throw std::runtime_error("Type mismatch for property '" + name +
-                                     "'");
+            throw std::runtime_error("Type mismatch for property '" + name + "'");
     }
     template <typename T>
     T _castValue(const linb::any& v) const
@@ -309,8 +297,7 @@ public:
         if (auto property = find(name))
         {
             if (property->type != property->getType<T>())
-                throw std::runtime_error(
-                    "updateProperty does not allow for changing the type");
+                throw std::runtime_error("updateProperty does not allow for changing the type");
             property->set(t);
         }
     }
@@ -321,8 +308,7 @@ public:
         if (auto property = find(newProperty.name))
         {
             if (property->type != newProperty.type)
-                throw std::runtime_error(
-                    "setProperty does not allow for changing the type");
+                throw std::runtime_error("setProperty does not allow for changing the type");
             property->_setData(newProperty._data);
         }
         else
@@ -353,10 +339,7 @@ public:
     }
 
     /** @return true if the property with the given name exists. */
-    bool hasProperty(const std::string& name) const
-    {
-        return find(name) != nullptr;
-    }
+    bool hasProperty(const std::string& name) const { return find(name) != nullptr; }
 
     /**
      * @return the enum values for the given property, empty if no enum
@@ -420,11 +403,9 @@ private:
     Property* find(const std::string& name) const
     {
         auto foundProperty =
-            std::find_if(_properties.begin(), _properties.end(),
-                         [&](const auto& p) { return p->name == name; });
+            std::find_if(_properties.begin(), _properties.end(), [&](const auto& p) { return p->name == name; });
 
-        return foundProperty != _properties.end() ? foundProperty->get()
-                                                  : nullptr;
+        return foundProperty != _properties.end() ? foundProperty->get() : nullptr;
     }
 
     std::string _name;

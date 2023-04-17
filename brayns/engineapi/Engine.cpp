@@ -1,4 +1,4 @@
-/* Copyright (c) 2015-2017, EPFL/Blue Brain Project
+/* Copyright (c) 2015-2023, EPFL/Blue Brain Project
  * All rights reserved. Do not distribute without permission.
  * Responsible Author: Cyrille Favreau <cyrille.favreau@epfl.ch>
  *
@@ -80,8 +80,7 @@ bool Engine::continueRendering() const
     auto frameBuffer = _frameBuffers[0];
     return _parametersManager.getAnimationParameters().isPlaying() ||
            (frameBuffer->getAccumulation() &&
-            (frameBuffer->numAccumFrames() <
-             _parametersManager.getRenderingParameters().getMaxAccumFrames()));
+            (frameBuffer->numAccumFrames() < _parametersManager.getRenderingParameters().getMaxAccumFrames()));
 }
 
 void Engine::addFrameBuffer(FrameBufferPtr frameBuffer)
@@ -91,9 +90,7 @@ void Engine::addFrameBuffer(FrameBufferPtr frameBuffer)
 
 void Engine::removeFrameBuffer(FrameBufferPtr frameBuffer)
 {
-    _frameBuffers.erase(std::remove(_frameBuffers.begin(), _frameBuffers.end(),
-                                    frameBuffer),
-                        _frameBuffers.end());
+    _frameBuffers.erase(std::remove(_frameBuffers.begin(), _frameBuffers.end(), frameBuffer), _frameBuffers.end());
 }
 
 void Engine::clearFrameBuffers()
@@ -108,15 +105,13 @@ void Engine::resetFrameBuffers()
         frameBuffer->resetModified();
 }
 
-void Engine::addRendererType(const std::string& name,
-                             const PropertyMap& properties)
+void Engine::addRendererType(const std::string& name, const PropertyMap& properties)
 {
     _parametersManager.getRenderingParameters().addRenderer(name);
     getRenderer().setProperties(name, properties);
 }
 
-void Engine::addCameraType(const std::string& name,
-                           const PropertyMap& properties)
+void Engine::addCameraType(const std::string& name, const PropertyMap& properties)
 {
     _parametersManager.getRenderingParameters().addCamera(name);
     getCamera().setProperties(name, properties);

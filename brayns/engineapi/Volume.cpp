@@ -1,4 +1,4 @@
-/* Copyright (c) 2015-2018, EPFL/Blue Brain Project
+/* Copyright (c) 2015-2023, EPFL/Blue Brain Project
  * All rights reserved. Do not distribute without permission.
  * Responsible Author: Daniel Nachbaur <daniel.nachbaur@epfl.ch>
  *
@@ -22,8 +22,7 @@
 
 namespace brayns
 {
-Volume::Volume(const Vector3ui& dimensions, const Vector3f& spacing,
-               const DataType type)
+Volume::Volume(const Vector3ui& dimensions, const Vector3f& spacing, const DataType type)
     : _dimensions(dimensions)
     , _spacing(spacing)
     , _dataType(type)

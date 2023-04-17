@@ -54,8 +54,7 @@ archive* _openArchive(const std::string& filename)
         if (isSupportedArchiveType(extension))
             archive_read_support_format_raw(archive);
     }
-    if (archive_read_open_filename(archive, filename.c_str(), 10240) ==
-        ARCHIVE_OK)
+    if (archive_read_open_filename(archive, filename.c_str(), 10240) == ARCHIVE_OK)
     {
         return archive;
     }
@@ -76,8 +75,7 @@ archive* _openArchive(const brayns::Blob& blob)
         if (isSupportedArchiveType(extension))
             archive_read_support_format_raw(archive);
     }
-    if (archive_read_open_memory(archive, (void*)blob.data.data(),
-                                 blob.data.size()) == ARCHIVE_OK)
+    if (archive_read_open_memory(archive, (void*)blob.data.data(), blob.data.size()) == ARCHIVE_OK)
     {
         return archive;
     }
@@ -107,8 +105,7 @@ int copy_data(struct archive* ar, struct archive* aw)
     }
 }
 
-void _extractArchive(archive* archive, const std::string& filename,
-                     const std::string& destination)
+void _extractArchive(archive* archive, const std::string& filename, const std::string& destination)
 {
     auto writer = archive_write_disk_new();
     archive_write_disk_set_options(writer, 0);
@@ -124,9 +121,7 @@ void _extractArchive(archive* archive, const std::string& filename,
             std::cerr << archive_error_string(archive) << std::endl;
         if (r < ARCHIVE_WARN)
         {
-            throw std::runtime_error(
-                std::string("Error reading file from archive: ") +
-                archive_error_string(archive));
+            throw std::runtime_error(std::string("Error reading file from archive: ") + archive_error_string(archive));
         }
         const char* currentFile = archive_entry_pathname(entry);
 
@@ -144,17 +139,14 @@ void _extractArchive(archive* archive, const std::string& filename,
             if (r < ARCHIVE_OK)
                 std::cerr << archive_error_string(writer) << std::endl;
             if (r < ARCHIVE_WARN)
-                throw std::runtime_error(
-                    std::string("Error writing file from archive to disk: ") +
-                    archive_error_string(archive));
+                throw std::runtime_error(std::string("Error writing file from archive to disk: ") +
+                                         archive_error_string(archive));
         }
         r = archive_write_finish_entry(writer);
         if (r < ARCHIVE_OK)
             std::cerr << archive_error_string(writer) << std::endl;
         if (r < ARCHIVE_WARN)
-            throw std::runtime_error(
-                std::string("Error finishing current file: ") +
-                archive_error_string(archive));
+            throw std::runtime_error(std::string("Error finishing current file: ") + archive_error_string(archive));
     }
     archive_read_free(archive);
     archive_write_close(writer);
@@ -199,21 +191,16 @@ ArchiveLoader::ArchiveLoader(Scene& scene, LoaderRegistry& registry)
 {
 }
 
-bool ArchiveLoader::isSupported(const std::string& filename BRAYNS_UNUSED,
-                                const std::string& extension) const
+bool ArchiveLoader::isSupported(const std::string& filename BRAYNS_UNUSED, const std::string& extension) const
 {
     return isSupportedArchiveType(extension);
 }
 
-ModelDescriptorPtr ArchiveLoader::loadExtracted(
-    const std::string& path, const LoaderProgress& callback,
-    const PropertyMap& properties) const
+ModelDescriptorPtr ArchiveLoader::loadExtracted(const std::string& path, const LoaderProgress& callback,
+                                                const PropertyMap& properties) const
 {
-    const auto loaderName =
-        properties.getProperty<std::string>("loaderName", "");
-    const Loader* loader =
-        loaderName.empty() ? nullptr
-                           : &_registry.getSuitableLoader("", "", loaderName);
+    const auto loaderName = properties.getProperty<std::string>("loaderName", "");
+    const Loader* loader = loaderName.empty() ? nullptr : &_registry.getSuitableLoader("", "", loaderName);
 
     for (const auto& i : fs::directory_iterator(path))
     {
@@ -226,26 +213,23 @@ ModelDescriptorPtr ArchiveLoader::loadExtracted(
         }
         else if (!loader && _registry.isSupportedFile(currPath))
         {
-            const auto& loaderMatch =
-                _registry.getSuitableLoader(currPath, "", "");
+            const auto& loaderMatch = _registry.getSuitableLoader(currPath, "", "");
             return loaderMatch.importFromFile(currPath, callback, properties);
         }
     }
     throw std::runtime_error("No loader found for archive.");
 }
 
-ModelDescriptorPtr ArchiveLoader::importFromBlob(
-    Blob&& blob, const LoaderProgress& callback,
-    const PropertyMap& properties) const
+ModelDescriptorPtr ArchiveLoader::importFromBlob(Blob&& blob, const LoaderProgress& callback,
+                                                 const PropertyMap& properties) const
 {
     TmpFolder tmpFolder;
     extractBlob(std::move(blob), tmpFolder.path);
     return loadExtracted(tmpFolder.path, callback, properties);
 }
 
-ModelDescriptorPtr ArchiveLoader::importFromFile(
-    const std::string& filename, const LoaderProgress& callback,
-    const PropertyMap& properties) const
+ModelDescriptorPtr ArchiveLoader::importFromFile(const std::string& filename, const LoaderProgress& callback,
+                                                 const PropertyMap& properties) const
 {
     TmpFolder tmpFolder;
     extractFile(filename, tmpFolder.path);

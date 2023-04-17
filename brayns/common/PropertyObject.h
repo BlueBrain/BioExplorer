@@ -1,4 +1,4 @@
-/* Copyright (c) 2015-2018, EPFL/Blue Brain Project
+/* Copyright (c) 2015-2023, EPFL/Blue Brain Project
  *
  * Responsible Author: Daniel.Nachbaur@epfl.ch
  *
@@ -49,8 +49,7 @@ public:
     const std::string& getCurrentType() const { return _currentType; }
     /** Update the value of the given property for the current type. */
     template <typename T>
-    inline void updateProperty(const std::string& name, const T& value,
-                               const bool triggerCallback = true)
+    inline void updateProperty(const std::string& name, const T& value, const bool triggerCallback = true)
     {
         auto& propMap = _properties.at(_currentType);
         const auto oldValue = propMap.getProperty<T>(name, value);
@@ -65,10 +64,7 @@ public:
      * @return true if the property with the given name exists for the current
      *         type.
      */
-    bool hasProperty(const std::string& name) const
-    {
-        return _properties.at(_currentType).hasProperty(name);
-    }
+    bool hasProperty(const std::string& name) const { return _properties.at(_currentType).hasProperty(name); }
 
     /**
      * @return the value of the property with the given name for the current
@@ -91,10 +87,7 @@ public:
     }
 
     /** Assign a new set of properties to the current type. */
-    void setProperties(const PropertyMap& properties)
-    {
-        setProperties(_currentType, properties);
-    }
+    void setProperties(const PropertyMap& properties) { setProperties(_currentType, properties); }
 
     /** Assign a new set of properties to the given type. */
     void setProperties(const std::string& type, const PropertyMap& properties)
@@ -115,10 +108,7 @@ public:
     /** @return the entire property map for the current type. */
     const auto& getPropertyMap() const { return _properties.at(_currentType); }
     /** @return the entire property map for the given type. */
-    const auto& getPropertyMap(const std::string& type) const
-    {
-        return _properties.at(type);
-    }
+    const auto& getPropertyMap(const std::string& type) const { return _properties.at(type); }
 
     /** @return the list of all registered types. */
     strings getTypes() const

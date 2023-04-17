@@ -28,8 +28,7 @@
     void init(brayns::type*, ObjectHandler*); \
     }
 
-#define SERIALIZATION_FRIEND(type) \
-    friend void staticjson::init(type*, staticjson::ObjectHandler*);
+#define SERIALIZATION_FRIEND(type) friend void staticjson::init(type*, staticjson::ObjectHandler*);
 
 #ifdef __GNUC__
 #define BRAYNS_UNUSED __attribute__((unused))

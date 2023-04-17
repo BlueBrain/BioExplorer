@@ -1,4 +1,4 @@
-/* Copyright (c) 2015-2018, EPFL/Blue Brain Project
+/* Copyright (c) 2015-2023, EPFL/Blue Brain Project
  * All rights reserved. Do not distribute without permission.
  * Responsible Author: Cyrille Favreau <cyrille.favreau@epfl.ch>
  *
@@ -52,22 +52,19 @@ public:
     /** @return the minimum frame size in pixels supported by this engine. */
     virtual Vector2ui getMinimumFrameSize() const = 0;
     /** Factory method to create an engine-specific framebuffer. */
-    virtual FrameBufferPtr createFrameBuffer(
-        const std::string& name, const Vector2ui& frameSize,
-        FrameBufferFormat frameBufferFormat) const = 0;
+    virtual FrameBufferPtr createFrameBuffer(const std::string& name, const Vector2ui& frameSize,
+                                             FrameBufferFormat frameBufferFormat) const = 0;
 
     /** Factory method to create an engine-specific scene. */
-    virtual ScenePtr createScene(AnimationParameters& animationParameters,
-                                 GeometryParameters& geometryParameters,
+    virtual ScenePtr createScene(AnimationParameters& animationParameters, GeometryParameters& geometryParameters,
                                  VolumeParameters& volumeParameters) const = 0;
 
     /** Factory method to create an engine-specific camera. */
     virtual CameraPtr createCamera() const = 0;
 
     /** Factory method to create an engine-specific renderer. */
-    virtual RendererPtr createRenderer(
-        const AnimationParameters& animationParameters,
-        const RenderingParameters& renderingParameters) const = 0;
+    virtual RendererPtr createRenderer(const AnimationParameters& animationParameters,
+                                       const RenderingParameters& renderingParameters) const = 0;
     //@}
 
     /**
@@ -128,10 +125,7 @@ public:
     void removeFrameBuffer(FrameBufferPtr frameBuffer);
 
     /** @return all registered frame buffers that are used during rendering. */
-    const std::vector<FrameBufferPtr>& getFrameBuffers() const
-    {
-        return _frameBuffers;
-    }
+    const std::vector<FrameBufferPtr>& getFrameBuffers() const { return _frameBuffers; }
 
     /** @internal Clear all frame buffers. */
     void clearFrameBuffers();
@@ -144,16 +138,14 @@ public:
      * registration for a concrete engine is specific to the actual engine, e.g.
      * OSP_REGISTER_RENDERER for OSPRay.
      */
-    void addRendererType(const std::string& name,
-                         const PropertyMap& properties = {});
+    void addRendererType(const std::string& name, const PropertyMap& properties = {});
 
     /**
      * Add a new camera type with optional properties. The camera registration
      * for a concrete engine is specific to the actual engine, e.g.
      * OSP_REGISTER_CAMERA for OSPRay.
      */
-    void addCameraType(const std::string& name,
-                       const PropertyMap& properties = {});
+    void addCameraType(const std::string& name, const PropertyMap& properties = {});
 
 protected:
     ParametersManager& _parametersManager;

@@ -1,4 +1,4 @@
-/* Copyright (c) 2015-2018, EPFL/Blue Brain Project
+/* Copyright (c) 2015-2023, EPFL/Blue Brain Project
  * All rights reserved. Do not distribute without permission.
  * Responsible Author: Cyrille Favreau <cyrille.favreau@epfl.ch>
  *
@@ -48,24 +48,21 @@ XYZBLoader::XYZBLoader(Scene& scene)
 {
 }
 
-bool XYZBLoader::isSupported(const std::string& filename BRAYNS_UNUSED,
-                             const std::string& extension) const
+bool XYZBLoader::isSupported(const std::string& filename BRAYNS_UNUSED, const std::string& extension) const
 {
     const std::set<std::string> types = {"xyz"};
     return types.find(extension) != types.end();
 }
 
-ModelDescriptorPtr XYZBLoader::importFromBlob(
-    Blob&& blob, const LoaderProgress& callback,
-    const PropertyMap& properties BRAYNS_UNUSED) const
+ModelDescriptorPtr XYZBLoader::importFromBlob(Blob&& blob, const LoaderProgress& callback,
+                                              const PropertyMap& properties BRAYNS_UNUSED) const
 {
-    BRAYNS_INFO << "Loading xyz " << blob.name << std::endl;
+    BRAYNS_INFO("Loading xyz " << blob.name);
 
     std::stringstream stream(std::string(blob.data.begin(), blob.data.end()));
     size_t numlines = 0;
     {
-        numlines = std::count(std::istreambuf_iterator<char>(stream),
-                              std::istreambuf_iterator<char>(), '\n');
+        numlines = std::count(std::istreambuf_iterator<char>(stream), std::istreambuf_iterator<char>(), '\n');
     }
     stream.seekg(0);
 
@@ -105,8 +102,7 @@ ModelDescriptorPtr XYZBLoader::importFromBlob(
             break;
         }
         default:
-            throw std::runtime_error("Invalid content in line " +
-                                     std::to_string(i + 1) + ": " + line);
+            throw std::runtime_error("Invalid content in line " + std::to_string(i + 1) + ": " + line);
         }
         callback.updateProgress(msg.str(), i++ / static_cast<float>(numlines));
     }
@@ -115,13 +111,9 @@ ModelDescriptorPtr XYZBLoader::importFromBlob(
     // https://en.wikipedia.org/wiki/Wigner%E2%80%93Seitz_radius
 
     const auto volume = glm::compMul(bbox.getSize());
-    const auto density4PI =
-        4 * M_PI * numlines /
-        (volume > ALMOST_ZERO ? volume : _computeHalfArea(bbox));
+    const auto density4PI = 4 * M_PI * numlines / (volume > ALMOST_ZERO ? volume : _computeHalfArea(bbox));
 
-    const double meanRadius = volume > ALMOST_ZERO
-                                  ? std::pow((3. / density4PI), 1. / 3.)
-                                  : std::sqrt(1 / density4PI);
+    const double meanRadius = volume > ALMOST_ZERO ? std::pow((3. / density4PI), 1. / 3.) : std::sqrt(1 / density4PI);
 
     // resize the spheres to the new mean radius
     for (i = 0; i < numlines; ++i)
@@ -129,14 +121,11 @@ ModelDescriptorPtr XYZBLoader::importFromBlob(
 
     Transformation transformation;
     transformation.setRotationCenter(model->getBounds().getCenter());
-    auto modelDescriptor =
-        std::make_shared<ModelDescriptor>(std::move(model), blob.name);
+    auto modelDescriptor = std::make_shared<ModelDescriptor>(std::move(model), blob.name);
     modelDescriptor->setTransformation(transformation);
 
-    Property radiusProperty("radius", meanRadius, 0., meanRadius * 2.,
-                            {"Point size"});
-    radiusProperty.onModified([modelDesc = std::weak_ptr<ModelDescriptor>(
-                                   modelDescriptor)](const auto& property) {
+    Property radiusProperty("radius", meanRadius, 0., meanRadius * 2., {"Point size"});
+    radiusProperty.onModified([modelDesc = std::weak_ptr<ModelDescriptor>(modelDescriptor)](const auto& property) {
         if (auto modelDesc_ = modelDesc.lock())
         {
             const auto newRadius = property.template get<double>();
@@ -150,17 +139,13 @@ ModelDescriptorPtr XYZBLoader::importFromBlob(
     return modelDescriptor;
 }
 
-ModelDescriptorPtr XYZBLoader::importFromFile(
-    const std::string& filename, const LoaderProgress& callback,
-    const PropertyMap& properties) const
+ModelDescriptorPtr XYZBLoader::importFromFile(const std::string& filename, const LoaderProgress& callback,
+                                              const PropertyMap& properties) const
 {
     std::ifstream file(filename);
     if (!file.good())
         throw std::runtime_error("Could not open file " + filename);
-    return importFromBlob({"xyz",
-                           filename,
-                           {std::istreambuf_iterator<char>(file),
-                            std::istreambuf_iterator<char>()}},
+    return importFromBlob({"xyz", filename, {std::istreambuf_iterator<char>(file), std::istreambuf_iterator<char>()}},
                           callback, properties);
 }
 

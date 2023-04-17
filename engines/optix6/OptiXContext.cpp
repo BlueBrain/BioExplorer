@@ -1,4 +1,4 @@
-/* Copyright (c) 2015-2018, EPFL/Blue Brain Project
+/* Copyright (c) 2015-2023, EPFL/Blue Brain Project
  * All rights reserved. Do not distribute without permission.
  * Responsible Author: Cyrille Favreau <cyrille.favreau@epfl.ch>
  *
@@ -19,24 +19,22 @@
  */
 
 #include "OptiXContext.h"
+#include "Logs.h"
 
 #include <engines/optix6/braynsOptix6Engine_generated_Cones.cu.ptx.h>
 #include <engines/optix6/braynsOptix6Engine_generated_Cylinders.cu.ptx.h>
 #include <engines/optix6/braynsOptix6Engine_generated_Spheres.cu.ptx.h>
 #include <engines/optix6/braynsOptix6Engine_generated_TriangleMesh.cu.ptx.h>
 
-#include <brayns/common/log.h>
 #include <brayns/common/material/Texture2D.h>
 
 namespace
 {
 const std::string DEFAULT_ACCELERATION_STRUCTURE = "Trbvh";
 const std::string CUDA_SPHERES = braynsOptix6Engine_generated_Spheres_cu_ptx;
-const std::string CUDA_CYLINDERS =
-    braynsOptix6Engine_generated_Cylinders_cu_ptx;
+const std::string CUDA_CYLINDERS = braynsOptix6Engine_generated_Cylinders_cu_ptx;
 const std::string CUDA_CONES = braynsOptix6Engine_generated_Cones_cu_ptx;
-const std::string CUDA_TRIANGLES_MESH =
-    braynsOptix6Engine_generated_TriangleMesh_cu_ptx;
+const std::string CUDA_TRIANGLES_MESH = braynsOptix6Engine_generated_TriangleMesh_cu_ptx;
 
 const std::string CUDA_FUNC_BOUNDS = "bounds";
 const std::string CUDA_FUNC_INTERSECTION = "intersect";
@@ -59,8 +57,7 @@ float white()
 }
 
 template <typename T>
-void textureToOptix(T* ptr_dst, const brayns::Texture2D& texture,
-                    const uint8_t face, const uint8_t mipLevel,
+void textureToOptix(T* ptr_dst, const brayns::Texture2D& texture, const uint8_t face, const uint8_t mipLevel,
                     const bool hasAlpha)
 {
     uint16_t width = texture.width;
@@ -80,8 +77,7 @@ void textureToOptix(T* ptr_dst, const brayns::Texture2D& texture,
             ptr_dst[idx_dst] = rawData[idx_src];
             ptr_dst[idx_dst + 1u] = rawData[idx_src + 1u];
             ptr_dst[idx_dst + 2u] = rawData[idx_src + 2u];
-            ptr_dst[idx_dst + 3u] =
-                hasAlpha ? rawData[idx_src + 3u] : white<T>();
+            ptr_dst[idx_dst + 3u] = hasAlpha ? rawData[idx_src + 3u] : white<T>();
             idx_dst += 4u;
             idx_src += hasAlpha ? 4u : 3u;
         }
@@ -106,13 +102,12 @@ RTwrapmode wrapModeToOptix(const brayns::TextureWrapMode mode)
 
 } // namespace
 
-#define RT_CHECK_ERROR_NO_CONTEXT(func)                            \
-    do                                                             \
-    {                                                              \
-        RTresult code = func;                                      \
-        if (code != RT_SUCCESS)                                    \
-            throw std::runtime_error("Optix error in function '" + \
-                                     std::string(#func) + "'");    \
+#define RT_CHECK_ERROR_NO_CONTEXT(func)                                                       \
+    do                                                                                        \
+    {                                                                                         \
+        RTresult code = func;                                                                 \
+        if (code != RT_SUCCESS)                                                               \
+            throw std::runtime_error("Optix error in function '" + std::string(#func) + "'"); \
     } while (0)
 
 constexpr size_t OPTIX_STACK_SIZE = 4096;
@@ -148,8 +143,7 @@ OptiXContext& OptiXContext::get()
     return _optixContext->createMaterial();
 }
 
-void OptiXContext::addRenderer(const std::string& name,
-                               OptiXShaderProgramPtr program)
+void OptiXContext::addRenderer(const std::string& name, OptiXShaderProgramPtr program)
 {
     _rendererProgram[name] = program;
 }
@@ -158,13 +152,11 @@ OptiXShaderProgramPtr OptiXContext::getRenderer(const std::string& name)
 {
     auto it = _rendererProgram.find(name);
     if (it == _rendererProgram.end())
-        throw std::runtime_error("Shader program not found for renderer '" +
-                                 name + "'");
+        throw std::runtime_error("Shader program not found for renderer '" + name + "'");
     return it->second;
 }
 
-void OptiXContext::addCamera(const std::string& name,
-                             OptiXCameraProgramPtr program)
+void OptiXContext::addCamera(const std::string& name, OptiXCameraProgramPtr program)
 {
     _cameraProgram[name] = program;
 }
@@ -173,16 +165,14 @@ OptiXCameraProgramPtr OptiXContext::getCamera(const std::string& name)
 {
     auto it = _cameraProgram.find(name);
     if (it == _cameraProgram.end())
-        throw std::runtime_error("Camera program not found for camera '" +
-                                 name + "'");
+        throw std::runtime_error("Camera program not found for camera '" + name + "'");
     return it->second;
 }
 
 void OptiXContext::setCamera(const std::string& name)
 {
     auto camera = getCamera(name);
-    _optixContext->setRayGenerationProgram(0,
-                                           camera->getRayGenerationProgram());
+    _optixContext->setRayGenerationProgram(0, camera->getRayGenerationProgram());
     _optixContext->setMissProgram(0, camera->getMissProgram());
     _optixContext->setExceptionProgram(0, camera->getExceptionProgram());
 }
@@ -201,8 +191,7 @@ void OptiXContext::setCamera(const std::string& name)
     if (!useFloat && !useByte)
         throw std::runtime_error("Only byte or float textures are supported");
 
-    const bool createMipmaps =
-        texture->getMipLevels() == 1 && useByte && !texture->isCubeMap();
+    const bool createMipmaps = texture->getMipLevels() == 1 && useByte && !texture->isCubeMap();
     uint16_t mipMapLevels = texture->getMipLevels();
     if (createMipmaps)
         mipMapLevels = texture->getPossibleMipMapsLevels();
@@ -212,8 +201,7 @@ void OptiXContext::setCamera(const std::string& name)
             "Non 8-bits textures are not supported for automatic mipmaps "
             "generation");
 
-    RTformat optixFormat =
-        useByte ? RT_FORMAT_UNSIGNED_BYTE4 : RT_FORMAT_FLOAT4;
+    RTformat optixFormat = useByte ? RT_FORMAT_UNSIGNED_BYTE4 : RT_FORMAT_FLOAT4;
 
     // Create texture sampler
     ::optix::TextureSampler sampler = _optixContext->createTextureSampler();
@@ -228,12 +216,9 @@ void OptiXContext::setCamera(const std::string& name)
     // Create buffer and populate with texture data
     optix::Buffer buffer;
     if (texture->isCubeMap())
-        buffer = _optixContext->createCubeBuffer(RT_BUFFER_INPUT, optixFormat,
-                                                 nx, ny, mipMapLevels);
+        buffer = _optixContext->createCubeBuffer(RT_BUFFER_INPUT, optixFormat, nx, ny, mipMapLevels);
     else
-        buffer =
-            _optixContext->createMipmappedBuffer(RT_BUFFER_INPUT, optixFormat,
-                                                 nx, ny, mipMapLevels);
+        buffer = _optixContext->createMipmappedBuffer(RT_BUFFER_INPUT, optixFormat, nx, ny, mipMapLevels);
 
     std::vector<void*> mipMapBuffers(mipMapLevels);
     for (uint8_t currentLevel = 0u; currentLevel < mipMapLevels; ++currentLevel)
@@ -260,8 +245,7 @@ void OptiXContext::setCamera(const std::string& name)
         ny /= 2u;
         nx /= 2u;
 
-        for (uint8_t currentLevel = 1u; currentLevel < mipMapLevels;
-             ++currentLevel)
+        for (uint8_t currentLevel = 1u; currentLevel < mipMapLevels; ++currentLevel)
         {
             ptr_dst = (uint8_t*)mipMapBuffers[currentLevel];
             uint8_t* ptr_src = (uint8_t*)mipMapBuffers[currentLevel - 1u];
@@ -270,50 +254,34 @@ void OptiXContext::setCamera(const std::string& name)
                 for (uint16_t x = 0u; x < nx; ++x)
                 {
                     ptr_dst[(y * nx + x) * 4u] =
-                        (ptr_src[(y * 2u * nx + x) * 8u] +
-                         ptr_src[((y * 2u * nx + x) * 2u + 1u) * 4u] +
-                         ptr_src[((y * 2u + 1u) * nx + x) * 8u] +
-                         ptr_src[(((y * 2u + 1u) * nx + x) * 2u + 1u) * 4u]) /
+                        (ptr_src[(y * 2u * nx + x) * 8u] + ptr_src[((y * 2u * nx + x) * 2u + 1u) * 4u] +
+                         ptr_src[((y * 2u + 1u) * nx + x) * 8u] + ptr_src[(((y * 2u + 1u) * nx + x) * 2u + 1u) * 4u]) /
                         4.0f;
                     ptr_dst[(y * nx + x) * 4u + 1u] =
-                        (ptr_src[(y * 2u * nx + x) * 8u + 1u] +
-                         ptr_src[((y * 2u * nx + x) * 2u + 1u) * 4u + 1u] +
+                        (ptr_src[(y * 2u * nx + x) * 8u + 1u] + ptr_src[((y * 2u * nx + x) * 2u + 1u) * 4u + 1u] +
                          ptr_src[((y * 2u + 1u) * nx + x) * 8u + 1u] +
-                         ptr_src[(((y * 2u + 1u) * nx + x) * 2u + 1u) * 4u +
-                                 1u]) /
+                         ptr_src[(((y * 2u + 1u) * nx + x) * 2u + 1u) * 4u + 1u]) /
                         4.0f;
                     ptr_dst[(y * nx + x) * 4u + 2u] =
-                        (ptr_src[(y * 2u * nx + x) * 8u + 2u] +
-                         ptr_src[((y * 2u * nx + x) * 2u + 1u) * 4u + 2u] +
+                        (ptr_src[(y * 2u * nx + x) * 8u + 2u] + ptr_src[((y * 2u * nx + x) * 2u + 1u) * 4u + 2u] +
                          ptr_src[((y * 2u + 1u) * nx + x) * 8u + 2u] +
-                         ptr_src[(((y * 2u + 1u) * nx + x) * 2u + 1u) * 4u +
-                                 2u]) /
+                         ptr_src[(((y * 2u + 1u) * nx + x) * 2u + 1u) * 4u + 2u]) /
                         4.0f;
                     ptr_dst[(y * nx + x) * 4u + 3u] =
-                        (ptr_src[(y * 2u * nx + x) * 8u + 3u] +
-                         ptr_src[((y * 2u * nx + x) * 2u + 1u) * 4u + 3u] +
+                        (ptr_src[(y * 2u * nx + x) * 8u + 3u] + ptr_src[((y * 2u * nx + x) * 2u + 1u) * 4u + 3u] +
                          ptr_src[((y * 2u + 1u) * nx + x) * 8u + 3u] +
-                         ptr_src[(((y * 2u + 1u) * nx + x) * 2u + 1u) * 4u +
-                                 3u]) /
+                         ptr_src[(((y * 2u + 1u) * nx + x) * 2u + 1u) * 4u + 3u]) /
                         4.0f;
 
                     if (texture->isNormalMap())
                     {
-                        glm::vec3 normalized = glm::normalize(glm::vec3(
-                            2.0f * (float)ptr_dst[(y * nx + x) * 4u] / 255.0f -
-                                1.0f,
-                            2.0f * (float)ptr_dst[(y * nx + x) * 4u + 1u] /
-                                    255.0f -
-                                1.0f,
-                            2.0f * (float)ptr_dst[(y * nx + x) * 4u + 2u] /
-                                    255.0f -
-                                1.0f));
-                        ptr_dst[(y * nx + x) * 4u] =
-                            255.0f * (0.5f * normalized.x + 0.5f);
-                        ptr_dst[(y * nx + x) * 4u + 1u] =
-                            255.0f * (0.5f * normalized.y + 0.5f);
-                        ptr_dst[(y * nx + x) * 4u + 2u] =
-                            255.0f * (0.5f * normalized.z + 0.5f);
+                        glm::vec3 normalized =
+                            glm::normalize(glm::vec3(2.0f * (float)ptr_dst[(y * nx + x) * 4u] / 255.0f - 1.0f,
+                                                     2.0f * (float)ptr_dst[(y * nx + x) * 4u + 1u] / 255.0f - 1.0f,
+                                                     2.0f * (float)ptr_dst[(y * nx + x) * 4u + 2u] / 255.0f - 1.0f));
+                        ptr_dst[(y * nx + x) * 4u] = 255.0f * (0.5f * normalized.x + 0.5f);
+                        ptr_dst[(y * nx + x) * 4u + 1u] = 255.0f * (0.5f * normalized.y + 0.5f);
+                        ptr_dst[(y * nx + x) * 4u + 2u] = 255.0f * (0.5f * normalized.z + 0.5f);
                     }
                 }
             }
@@ -353,15 +321,14 @@ void OptiXContext::setCamera(const std::string& name)
     // Assign buffer to sampler
     sampler->setBuffer(buffer);
     sampler->setFilteringModes(RT_FILTER_LINEAR, RT_FILTER_LINEAR,
-                               mipMapLevels > 1 ? RT_FILTER_LINEAR
-                                                : RT_FILTER_NONE);
+                               mipMapLevels > 1 ? RT_FILTER_LINEAR : RT_FILTER_NONE);
     sampler->validate();
     return sampler;
 }
 
 void OptiXContext::_initialize()
 {
-    BRAYNS_DEBUG << "Creating context..." << std::endl;
+    PLUGIN_DEBUG("Creating context...");
     _optixContext = ::optix::Context::create();
 
     if (!_optixContext)
@@ -371,33 +338,23 @@ void OptiXContext::_initialize()
     _optixContext->setEntryPointCount(OPTIX_ENTRY_POINT_COUNT);
     _optixContext->setStackSize(OPTIX_STACK_SIZE);
 
-    _bounds[OptixGeometryType::cone] =
-        _optixContext->createProgramFromPTXString(CUDA_CONES, CUDA_FUNC_BOUNDS);
+    _bounds[OptixGeometryType::cone] = _optixContext->createProgramFromPTXString(CUDA_CONES, CUDA_FUNC_BOUNDS);
     _intersects[OptixGeometryType::cone] =
-        _optixContext->createProgramFromPTXString(CUDA_CONES,
-                                                  CUDA_FUNC_INTERSECTION);
+        _optixContext->createProgramFromPTXString(CUDA_CONES, CUDA_FUNC_INTERSECTION);
 
-    _bounds[OptixGeometryType::cylinder] =
-        _optixContext->createProgramFromPTXString(CUDA_CYLINDERS,
-                                                  CUDA_FUNC_BOUNDS);
+    _bounds[OptixGeometryType::cylinder] = _optixContext->createProgramFromPTXString(CUDA_CYLINDERS, CUDA_FUNC_BOUNDS);
     _intersects[OptixGeometryType::cylinder] =
-        _optixContext->createProgramFromPTXString(CUDA_CYLINDERS,
-                                                  CUDA_FUNC_INTERSECTION);
+        _optixContext->createProgramFromPTXString(CUDA_CYLINDERS, CUDA_FUNC_INTERSECTION);
 
-    _bounds[OptixGeometryType::sphere] =
-        _optixContext->createProgramFromPTXString(CUDA_SPHERES,
-                                                  CUDA_FUNC_BOUNDS);
+    _bounds[OptixGeometryType::sphere] = _optixContext->createProgramFromPTXString(CUDA_SPHERES, CUDA_FUNC_BOUNDS);
     _intersects[OptixGeometryType::sphere] =
-        _optixContext->createProgramFromPTXString(CUDA_SPHERES,
-                                                  CUDA_FUNC_INTERSECTION);
+        _optixContext->createProgramFromPTXString(CUDA_SPHERES, CUDA_FUNC_INTERSECTION);
 
     _bounds[OptixGeometryType::triangleMesh] =
-        _optixContext->createProgramFromPTXString(CUDA_TRIANGLES_MESH,
-                                                  CUDA_FUNC_BOUNDS);
+        _optixContext->createProgramFromPTXString(CUDA_TRIANGLES_MESH, CUDA_FUNC_BOUNDS);
     _intersects[OptixGeometryType::triangleMesh] =
-        _optixContext->createProgramFromPTXString(CUDA_TRIANGLES_MESH,
-                                                  CUDA_FUNC_INTERSECTION);
-    BRAYNS_DEBUG << "Context created" << std::endl;
+        _optixContext->createProgramFromPTXString(CUDA_TRIANGLES_MESH, CUDA_FUNC_INTERSECTION);
+    PLUGIN_DEBUG("Context created");
 }
 
 void OptiXContext::_printSystemInformation() const
@@ -420,86 +377,62 @@ void OptiXContext::_printSystemInformation() const
         minor = (optixVersion % 1000) / 10;
         micro = optixVersion % 10;
     }
-    BRAYNS_INFO << "OptiX " << major << "." << minor << "." << micro
-                << std::endl;
+    PLUGIN_INFO("OptiX " << major << "." << minor << "." << micro);
 
     unsigned int numberOfDevices = 0;
     RT_CHECK_ERROR_NO_CONTEXT(rtDeviceGetDeviceCount(&numberOfDevices));
-    BRAYNS_INFO << "Number of Devices = " << numberOfDevices << std::endl;
+    PLUGIN_INFO("Number of Devices = " << numberOfDevices);
 
     for (unsigned int i = 0; i < numberOfDevices; ++i)
     {
         char name[256];
-        RT_CHECK_ERROR_NO_CONTEXT(rtDeviceGetAttribute(i,
-                                                       RT_DEVICE_ATTRIBUTE_NAME,
-                                                       sizeof(name), name));
-        BRAYNS_INFO << "Device " << i << ": " << name << std::endl;
+        RT_CHECK_ERROR_NO_CONTEXT(rtDeviceGetAttribute(i, RT_DEVICE_ATTRIBUTE_NAME, sizeof(name), name));
+        PLUGIN_INFO("Device " << i << ": " << name);
 
         int computeCapability[2] = {0, 0};
-        RT_CHECK_ERROR_NO_CONTEXT(
-            rtDeviceGetAttribute(i, RT_DEVICE_ATTRIBUTE_COMPUTE_CAPABILITY,
-                                 sizeof(computeCapability),
-                                 &computeCapability));
-        BRAYNS_INFO << "  Compute Support: " << computeCapability[0] << "."
-                    << computeCapability[1] << std::endl;
+        RT_CHECK_ERROR_NO_CONTEXT(rtDeviceGetAttribute(i, RT_DEVICE_ATTRIBUTE_COMPUTE_CAPABILITY,
+                                                       sizeof(computeCapability), &computeCapability));
+        PLUGIN_INFO("  Compute Support: " << computeCapability[0] << "." << computeCapability[1]);
 
         RTsize totalMemory = 0;
         RT_CHECK_ERROR_NO_CONTEXT(
-            rtDeviceGetAttribute(i, RT_DEVICE_ATTRIBUTE_TOTAL_MEMORY,
-                                 sizeof(totalMemory), &totalMemory));
-        BRAYNS_INFO << "  Total Memory: "
-                    << (unsigned long long)(totalMemory / 1024 / 1024) << " MB"
-                    << std::endl;
+            rtDeviceGetAttribute(i, RT_DEVICE_ATTRIBUTE_TOTAL_MEMORY, sizeof(totalMemory), &totalMemory));
+        PLUGIN_INFO("  Total Memory: " << (unsigned long long)(totalMemory / 1024 / 1024) << " MB");
 
         int clockRate = 0;
         RT_CHECK_ERROR_NO_CONTEXT(
-            rtDeviceGetAttribute(i, RT_DEVICE_ATTRIBUTE_CLOCK_RATE,
-                                 sizeof(clockRate), &clockRate));
-        BRAYNS_INFO << "  Clock Rate: " << (clockRate / 1000) << " MHz"
-                    << std::endl;
+            rtDeviceGetAttribute(i, RT_DEVICE_ATTRIBUTE_CLOCK_RATE, sizeof(clockRate), &clockRate));
+        PLUGIN_INFO("  Clock Rate: " << (clockRate / 1000) << " MHz");
 
         int maxThreadsPerBlock = 0;
-        RT_CHECK_ERROR_NO_CONTEXT(
-            rtDeviceGetAttribute(i, RT_DEVICE_ATTRIBUTE_MAX_THREADS_PER_BLOCK,
-                                 sizeof(maxThreadsPerBlock),
-                                 &maxThreadsPerBlock));
-        BRAYNS_INFO << "  Max. Threads per Block: " << maxThreadsPerBlock
-                    << std::endl;
+        RT_CHECK_ERROR_NO_CONTEXT(rtDeviceGetAttribute(i, RT_DEVICE_ATTRIBUTE_MAX_THREADS_PER_BLOCK,
+                                                       sizeof(maxThreadsPerBlock), &maxThreadsPerBlock));
+        PLUGIN_INFO("  Max. Threads per Block: " << maxThreadsPerBlock);
 
         int smCount = 0;
         RT_CHECK_ERROR_NO_CONTEXT(
-            rtDeviceGetAttribute(i, RT_DEVICE_ATTRIBUTE_MULTIPROCESSOR_COUNT,
-                                 sizeof(smCount), &smCount));
-        BRAYNS_INFO << "  Streaming Multiprocessor Count: " << smCount
-                    << std::endl;
+            rtDeviceGetAttribute(i, RT_DEVICE_ATTRIBUTE_MULTIPROCESSOR_COUNT, sizeof(smCount), &smCount));
+        PLUGIN_INFO("  Streaming Multiprocessor Count: " << smCount);
 
         int executionTimeoutEnabled = 0;
-        RT_CHECK_ERROR_NO_CONTEXT(rtDeviceGetAttribute(
-            i, RT_DEVICE_ATTRIBUTE_EXECUTION_TIMEOUT_ENABLED,
-            sizeof(executionTimeoutEnabled), &executionTimeoutEnabled));
-        BRAYNS_INFO << "  Execution Timeout Enabled: "
-                    << executionTimeoutEnabled << std::endl;
+        RT_CHECK_ERROR_NO_CONTEXT(rtDeviceGetAttribute(i, RT_DEVICE_ATTRIBUTE_EXECUTION_TIMEOUT_ENABLED,
+                                                       sizeof(executionTimeoutEnabled), &executionTimeoutEnabled));
+        PLUGIN_INFO("  Execution Timeout Enabled: " << executionTimeoutEnabled);
 
         int maxHardwareTextureCount = 0;
-        RT_CHECK_ERROR_NO_CONTEXT(rtDeviceGetAttribute(
-            i, RT_DEVICE_ATTRIBUTE_MAX_HARDWARE_TEXTURE_COUNT,
-            sizeof(maxHardwareTextureCount), &maxHardwareTextureCount));
-        BRAYNS_INFO << "  Max. Hardware Texture Count: "
-                    << maxHardwareTextureCount << std::endl;
+        RT_CHECK_ERROR_NO_CONTEXT(rtDeviceGetAttribute(i, RT_DEVICE_ATTRIBUTE_MAX_HARDWARE_TEXTURE_COUNT,
+                                                       sizeof(maxHardwareTextureCount), &maxHardwareTextureCount));
+        PLUGIN_INFO("  Max. Hardware Texture Count: " << maxHardwareTextureCount);
 
         int tccDriver = 0;
         RT_CHECK_ERROR_NO_CONTEXT(
-            rtDeviceGetAttribute(i, RT_DEVICE_ATTRIBUTE_TCC_DRIVER,
-                                 sizeof(tccDriver), &tccDriver));
-        BRAYNS_INFO << "  TCC Driver enabled: " << tccDriver << std::endl;
+            rtDeviceGetAttribute(i, RT_DEVICE_ATTRIBUTE_TCC_DRIVER, sizeof(tccDriver), &tccDriver));
+        PLUGIN_INFO("  TCC Driver enabled: " << tccDriver);
 
         int cudaDeviceOrdinal = 0;
-        RT_CHECK_ERROR_NO_CONTEXT(
-            rtDeviceGetAttribute(i, RT_DEVICE_ATTRIBUTE_CUDA_DEVICE_ORDINAL,
-                                 sizeof(cudaDeviceOrdinal),
-                                 &cudaDeviceOrdinal));
-        BRAYNS_INFO << "  CUDA Device Ordinal: " << cudaDeviceOrdinal
-                    << std::endl;
+        RT_CHECK_ERROR_NO_CONTEXT(rtDeviceGetAttribute(i, RT_DEVICE_ATTRIBUTE_CUDA_DEVICE_ORDINAL,
+                                                       sizeof(cudaDeviceOrdinal), &cudaDeviceOrdinal));
+        PLUGIN_INFO("  CUDA Device Ordinal: " << cudaDeviceOrdinal);
     }
 }
 
@@ -514,8 +447,7 @@ void OptiXContext::_printSystemInformation() const
 ::optix::GeometryGroup OptiXContext::createGeometryGroup(const bool compact)
 {
     auto group = _optixContext->createGeometryGroup();
-    auto accel = _optixContext->createAcceleration(
-        compact ? "Sbvh" : DEFAULT_ACCELERATION_STRUCTURE);
+    auto accel = _optixContext->createAcceleration(compact ? "Sbvh" : DEFAULT_ACCELERATION_STRUCTURE);
     accel->setProperty("vertex_buffer_name", "vertices_buffer");
     accel->setProperty("vertex_buffer_stride", "12");
     accel->setProperty("index_buffer_name", "indices_buffer");
@@ -527,8 +459,7 @@ void OptiXContext::_printSystemInformation() const
 ::optix::Group OptiXContext::createGroup()
 {
     auto group = _optixContext->createGroup();
-    group->setAcceleration(
-        _optixContext->createAcceleration(DEFAULT_ACCELERATION_STRUCTURE));
+    group->setAcceleration(_optixContext->createAcceleration(DEFAULT_ACCELERATION_STRUCTURE));
     return group;
 }
 } // namespace brayns

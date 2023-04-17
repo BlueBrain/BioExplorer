@@ -1,4 +1,4 @@
-/* Copyright (c) 2015-2018, EPFL/Blue Brain Project
+/* Copyright (c) 2015-2023, EPFL/Blue Brain Project
  * All rights reserved. Do not distribute without permission.
  * Responsible Author: Cyrille Favreau <cyrille.favreau@epfl.ch>
  *
@@ -58,14 +58,12 @@ void DefaultMaterial::commit()
 
     // Refraction mapping
     refraction = getParam1f("refraction", 0.f);
-    map_Refraction =
-        (ospray::Texture2D*)getParamObject("map_refraction", nullptr);
+    map_Refraction = (ospray::Texture2D*)getParamObject("map_refraction", nullptr);
     auto xform_Refraction = getTextureTransform("map_refraction");
 
     // Reflection mapping
     reflection = getParam1f("reflection", 0.f);
-    map_Reflection =
-        (ospray::Texture2D*)getParamObject("map_reflection", nullptr);
+    map_Reflection = (ospray::Texture2D*)getParamObject("map_reflection", nullptr);
     auto xform_Reflection = getTextureTransform("map_reflection");
 
     // Light emission mapping
@@ -76,23 +74,18 @@ void DefaultMaterial::commit()
     // Glossiness
     glossiness = getParam1f("glossiness", 1.f);
 
-    ispc::DefaultMaterial_set(
-        getIE(), map_d ? map_d->getIE() : nullptr,
-        (const ispc::AffineSpace2f&)xform_d, d,
-        map_Refraction ? map_Refraction->getIE() : nullptr,
-        (const ispc::AffineSpace2f&)xform_Refraction, refraction,
-        map_Reflection ? map_Reflection->getIE() : nullptr,
-        (const ispc::AffineSpace2f&)xform_Reflection, reflection,
-        map_a ? map_a->getIE() : nullptr, (const ispc::AffineSpace2f&)xform_a,
-        a, glossiness, map_Kd ? map_Kd->getIE() : nullptr,
-        (const ispc::AffineSpace2f&)xform_Kd, (ispc::vec3f&)Kd,
-        map_Ks ? map_Ks->getIE() : nullptr,
-        (const ispc::AffineSpace2f&)xform_Ks, (ispc::vec3f&)Ks,
-        map_Ns ? map_Ns->getIE() : nullptr,
-        (const ispc::AffineSpace2f&)xform_Ns, Ns,
-        map_Bump ? map_Bump->getIE() : nullptr,
-        (const ispc::AffineSpace2f&)xform_Bump,
-        (const ispc::LinearSpace2f&)rot_Bump);
+    ispc::DefaultMaterial_set(getIE(), map_d ? map_d->getIE() : nullptr, (const ispc::AffineSpace2f&)xform_d, d,
+                              map_Refraction ? map_Refraction->getIE() : nullptr,
+                              (const ispc::AffineSpace2f&)xform_Refraction, refraction,
+                              map_Reflection ? map_Reflection->getIE() : nullptr,
+                              (const ispc::AffineSpace2f&)xform_Reflection, reflection,
+                              map_a ? map_a->getIE() : nullptr, (const ispc::AffineSpace2f&)xform_a, a, glossiness,
+                              map_Kd ? map_Kd->getIE() : nullptr, (const ispc::AffineSpace2f&)xform_Kd,
+                              (ispc::vec3f&)Kd, map_Ks ? map_Ks->getIE() : nullptr,
+                              (const ispc::AffineSpace2f&)xform_Ks, (ispc::vec3f&)Ks,
+                              map_Ns ? map_Ns->getIE() : nullptr, (const ispc::AffineSpace2f&)xform_Ns, Ns,
+                              map_Bump ? map_Bump->getIE() : nullptr, (const ispc::AffineSpace2f&)xform_Bump,
+                              (const ispc::LinearSpace2f&)rot_Bump);
 }
 
 OSP_REGISTER_MATERIAL(basic, DefaultMaterial, default);

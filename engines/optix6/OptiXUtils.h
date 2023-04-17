@@ -1,8 +1,8 @@
-/* Copyright (c) 2015-2022, EPFL/Blue Brain Project
+/* Copyright (c) 2015-2023, EPFL/Blue Brain Project
  * All rights reserved. Do not distribute without permission.
  * Responsible Author: Cyrille Favreau <cyrille.favreau@epfl.ch>
  *
- * This file is part of Brayns <https://github.com/BlueBrain/BioExplorer>
+ * This file is part of Brayns <https://github.com/BlueBrain/Brayns>
  *
  * This library is free software; you can redistribute it and/or modify it under
  * the terms of the GNU Lesser General Public License version 3.0 as published
@@ -27,9 +27,7 @@
 
 #define BRAYNS_OPTIX_SAMPLE_NAME "braynsOptix7Engine"
 
-static void context_log_cb(unsigned int level, const char* tag,
-                           const char* message, void* /*cbdata */)
+static void context_log_cb(unsigned int level, const char* tag, const char* message, void* /*cbdata */)
 {
-    std::cerr << "[" << std::setw(2) << level << "][" << std::setw(12) << tag
-              << "]: " << message << "\n";
+    std::cerr << "[" << std::setw(2) << level << "][" << std::setw(12) << tag << "]: " << message << "\n";
 }

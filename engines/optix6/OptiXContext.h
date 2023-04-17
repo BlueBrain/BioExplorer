@@ -1,4 +1,4 @@
-/* Copyright (c) 2015-2018, EPFL/Blue Brain Project
+/* Copyright (c) 2015-2023, EPFL/Blue Brain Project
  * All rights reserved. Do not distribute without permission.
  * Responsible Author: Cyrille Favreau <cyrille.favreau@epfl.ch>
  *
@@ -75,10 +75,7 @@ public:
     void addRenderer(const std::string& name, OptiXShaderProgramPtr program);
     OptiXShaderProgramPtr getRenderer(const std::string& name);
 
-    std::unique_lock<std::mutex> getScopeLock()
-    {
-        return std::unique_lock<std::mutex>(_mutex);
-    }
+    std::unique_lock<std::mutex> getScopeLock() { return std::unique_lock<std::mutex>(_mutex); }
 
 private:
     OptiXContext();

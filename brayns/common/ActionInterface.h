@@ -1,4 +1,4 @@
-/* Copyright (c) 2015-2018, EPFL/Blue Brain Project
+/* Copyright (c) 2015-2023, EPFL/Blue Brain Project
  *
  * Responsible Author: Daniel.Nachbaur@epfl.ch
  *
@@ -55,8 +55,7 @@ public:
      * @param desc description of the action/RPC
      * @param action the action to perform on an incoming notification
      */
-    virtual void registerNotification(const RpcDescription& desc,
-                                      const std::function<void()>& action) = 0;
+    virtual void registerNotification(const RpcDescription& desc, const std::function<void()>& action) = 0;
 
     /**
      * Register an action with a property map as the parameter and no return
@@ -66,9 +65,8 @@ public:
      * @param input the acceptable property map as the parameter for the RPC
      * @param action the action to perform on an incoming notification
      */
-    virtual void registerNotification(
-        const RpcParameterDescription& desc, const PropertyMap& input,
-        const std::function<void(PropertyMap)>& action) = 0;
+    virtual void registerNotification(const RpcParameterDescription& desc, const PropertyMap& input,
+                                      const std::function<void(PropertyMap)>& action) = 0;
 
     /**
      * Register an action with a property map as the parameter and a property
@@ -80,10 +78,8 @@ public:
      *               request
      * @param action the action to perform on an incoming request
      */
-    virtual void registerRequest(
-        const RpcParameterDescription& desc, const PropertyMap& input,
-        const PropertyMap& output,
-        const std::function<PropertyMap(PropertyMap)>& action) = 0;
+    virtual void registerRequest(const RpcParameterDescription& desc, const PropertyMap& input,
+                                 const PropertyMap& output, const std::function<PropertyMap(PropertyMap)>& action) = 0;
 
     /**
      * Register an action with no parameter and a property map as the return
@@ -94,21 +90,18 @@ public:
      *               request
      * @param action the action to perform on an incoming request
      */
-    virtual void registerRequest(
-        const RpcDescription& desc, const PropertyMap& output,
-        const std::function<PropertyMap()>& action) = 0;
+    virtual void registerRequest(const RpcDescription& desc, const PropertyMap& output,
+                                 const std::function<PropertyMap()>& action) = 0;
 
     /** Register an action with no parameter and no return value. */
-    void registerNotification(const std::string& name,
-                              const std::function<void()>& action)
+    void registerNotification(const std::string& name, const std::function<void()>& action)
     {
         _registerNotification(name, [action] { action(); });
     }
 
     /** Register an action with a parameter and no return value. */
     template <typename Params>
-    void registerNotification(const std::string& name,
-                              const std::function<void(Params)>& action)
+    void registerNotification(const std::string& name, const std::function<void(Params)>& action)
     {
         _registerNotification(name, [action](const std::string& param) {
             Params params;
@@ -120,8 +113,7 @@ public:
 
     /** Register an action with a parameter and a return value. */
     template <typename Params, typename RetVal>
-    void registerRequest(const std::string& name,
-                         const std::function<RetVal(Params)>& action)
+    void registerRequest(const std::string& name, const std::function<RetVal(Params)>& action)
     {
         _registerRequest(name, [action](const std::string& param) {
             Params params;
@@ -133,8 +125,7 @@ public:
 
     /** Register an action with no parameter and a return value. */
     template <typename RetVal>
-    void registerRequest(const std::string& name,
-                         const std::function<RetVal()>& action)
+    void registerRequest(const std::string& name, const std::function<RetVal()>& action)
     {
         _registerRequest(name, [action] { return to_json(action()); });
     }

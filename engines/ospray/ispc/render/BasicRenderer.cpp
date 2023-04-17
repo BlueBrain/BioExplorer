@@ -1,4 +1,4 @@
-/* Copyright (c) 2015-2016, EPFL/Blue Brain Project
+/* Copyright (c) 2015-2023, EPFL/Blue Brain Project
  * All rights reserved. Do not distribute without permission.
  * Responsible Author: Cyrille Favreau <cyrille.favreau@epfl.ch>
  *
@@ -30,9 +30,8 @@ namespace brayns
 void BasicRenderer::commit()
 {
     AbstractRenderer::commit();
-    ispc::BasicRenderer_set(getIE(),
-                            (_bgMaterial ? _bgMaterial->getIE() : nullptr),
-                            _timestamp, spp, _lightPtr, _lightArray.size());
+    ispc::BasicRenderer_set(getIE(), (_bgMaterial ? _bgMaterial->getIE() : nullptr), _timestamp, spp, _lightPtr,
+                            _lightArray.size());
 }
 
 BasicRenderer::BasicRenderer()

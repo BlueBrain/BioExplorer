@@ -1,4 +1,4 @@
-/* Copyright (c) 2015-2018, EPFL/Blue Brain Project
+/* Copyright (c) 2015-2023, EPFL/Blue Brain Project
  * All rights reserved. Do not distribute without permission.
  * Responsible Author: Juan Hernando <juan.hernando@epfl.ch>
  *
@@ -33,9 +33,8 @@ namespace
 {
 bool containsString(const int length, const char** input, const char* toFind)
 {
-    return std::count_if(input, input + length, [toFind](const char* arg) {
-               return std::strcmp(arg, toFind) == 0;
-           }) > 0;
+    return std::count_if(input, input + length, [toFind](const char* arg) { return std::strcmp(arg, toFind) == 0; }) >
+           0;
 }
 } // namespace
 
@@ -87,8 +86,7 @@ void PluginManager::initPlugins(PluginAPI* api)
 #ifdef BRAYNS_USE_NETWORKING
         // Since the Rockets plugin provides the ActionInterface, it must be
         // initialized before anything else
-        _extensions.insert(_extensions.begin(),
-                           std::make_unique<RocketsPlugin>());
+        _extensions.insert(_extensions.begin(), std::make_unique<RocketsPlugin>());
 #else
         throw std::runtime_error(
             "BRAYNS_NETWORKING_ENABLED was not set, but HTTP server URI "
@@ -128,10 +126,8 @@ void PluginManager::_loadPlugin(const char* name, int argc, const char* argv[])
         auto createSym = library.getSymbolAddress("brayns_plugin_create");
         if (!createSym)
         {
-            throw std::runtime_error(
-                std::string("Plugin '") + name +
-                "' is not a valid Brayns plugin; missing " +
-                "brayns_plugin_create()");
+            throw std::runtime_error(std::string("Plugin '") + name + "' is not a valid Brayns plugin; missing " +
+                                     "brayns_plugin_create()");
         }
 
         CreateFuncType createFunc = (CreateFuncType)createSym;
@@ -139,12 +135,12 @@ void PluginManager::_loadPlugin(const char* name, int argc, const char* argv[])
         {
             _extensions.emplace_back(plugin);
             _libs.push_back(std::move(library));
-            BRAYNS_INFO << "Loaded plugin '" << name << "'" << std::endl;
+            BRAYNS_INFO("Loaded plugin '" << name << "'");
         }
     }
     catch (const std::runtime_error& exc)
     {
-        BRAYNS_ERROR << exc.what() << std::endl;
+        BRAYNS_ERROR(exc.what());
     }
 }
 } // namespace brayns

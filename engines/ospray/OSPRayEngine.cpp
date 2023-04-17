@@ -1,4 +1,4 @@
-/* Copyright (c) 2015-2016, EPFL/Blue Brain Project
+/* Copyright (c) 2015-2023, EPFL/Blue Brain Project
  * All rights reserved. Do not distribute without permission.
  * Responsible Author: Cyrille Favreau <cyrille.favreau@epfl.ch>
  *
@@ -66,7 +66,7 @@ OSPRayEngine::OSPRayEngine(ParametersManager& parametersManager)
     {
         // Note: This is necessary because OSPRay does not yet implement a
         // ospDestroy API.
-        BRAYNS_ERROR << "Error during ospInit(): " << e.what() << std::endl;
+        BRAYNS_ERROR("Error during ospInit(): " << e.what());
     }
 
     for (const auto& module : ap.getOsprayModules())
@@ -79,7 +79,7 @@ OSPRayEngine::OSPRayEngine(ParametersManager& parametersManager)
         }
         catch (const std::exception& e)
         {
-            BRAYNS_ERROR << "Error while loading module " << module << ": " << e.what() << std::endl;
+            BRAYNS_ERROR("Error while loading module " << module << ": " << e.what());
         }
     }
 
@@ -119,7 +119,7 @@ void OSPRayEngine::commit()
             ospDeviceCommit(device);
             _useDynamicLoadBalancer = useDynamicLoadBalancer;
 
-            BRAYNS_INFO << "Using " << (useDynamicLoadBalancer ? "dynamic" : "static") << " load balancer" << std::endl;
+            BRAYNS_INFO("Using " << (useDynamicLoadBalancer ? "dynamic" : "static") << " load balancer");
         }
     }
 }

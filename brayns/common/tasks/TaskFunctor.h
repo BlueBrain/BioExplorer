@@ -1,4 +1,4 @@
-/* Copyright (c) 2015-2018, EPFL/Blue Brain Project
+/* Copyright (c) 2015-2023, EPFL/Blue Brain Project
  *
  * Responsible Author: Daniel.Nachbaur@epfl.ch
  *
@@ -44,10 +44,7 @@ public:
     using ProgressFunc = std::function<void(std::string, float, float)>;
 
     /** Set the function when progress() is called. */
-    void setProgressFunc(const ProgressFunc& progressFunc)
-    {
-        _progressFunc = progressFunc;
-    }
+    void setProgressFunc(const ProgressFunc& progressFunc) { _progressFunc = progressFunc; }
 
     /**
      * Report progress using the provided callback from setProgressFunc() and
@@ -57,8 +54,7 @@ public:
      * @param increment the fractional increment of this progress update
      * @param amount the absolute amount of progress at the time of this update
      */
-    void progress(const std::string& message, const float increment,
-                  const float amount)
+    void progress(const std::string& message, const float increment, const float amount)
     {
         cancelCheck();
         if (_progressFunc)
@@ -66,10 +62,7 @@ public:
     }
 
     /** Set the cancel token from e.g. the task that uses this functor. */
-    void setCancelToken(async::cancellation_token& cancelToken)
-    {
-        _cancelToken = &cancelToken;
-    }
+    void setCancelToken(async::cancellation_token& cancelToken) { _cancelToken = &cancelToken; }
 
     /**
      * Checks if the execution has been cancelled. If so, this will throw an

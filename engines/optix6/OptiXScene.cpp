@@ -1,4 +1,4 @@
-/* Copyright (c) 2015-2018, EPFL/Blue Brain Project
+/* Copyright (c) 2015-2023, EPFL/Blue Brain Project
  * All rights reserved. Do not distribute without permission.
  * Responsible Author: Cyrille Favreau <cyrille.favreau@epfl.ch>
  *
@@ -33,8 +33,7 @@
 
 namespace brayns
 {
-OptiXScene::OptiXScene(AnimationParameters& animationParameters,
-                       GeometryParameters& geometryParameters,
+OptiXScene::OptiXScene(AnimationParameters& animationParameters, GeometryParameters& geometryParameters,
                        VolumeParameters& volumeParameters)
     : Scene(animationParameters, geometryParameters, volumeParameters)
     , _lightBuffer(nullptr)
@@ -48,15 +47,13 @@ OptiXScene::OptiXScene(AnimationParameters& animationParameters,
     { // Create dummy texture sampler
         ::optix::TextureSampler sampler = oc->createTextureSampler();
         sampler->setArraySize(1u);
-        optix::Buffer buffer =
-            oc->createBuffer(RT_BUFFER_INPUT, RT_FORMAT_FLOAT4, 1, 1);
+        optix::Buffer buffer = oc->createBuffer(RT_BUFFER_INPUT, RT_FORMAT_FLOAT4, 1, 1);
         sampler->setBuffer(buffer);
         _dummyTextureSampler = sampler;
     }
 
     // Create dummy simulation data
-    oc["simulation_data"]->setBuffer(
-        oc->createBuffer(RT_BUFFER_INPUT, RT_FORMAT_FLOAT, 0));
+    oc["simulation_data"]->setBuffer(oc->createBuffer(RT_BUFFER_INPUT, RT_FORMAT_FLOAT, 0));
 }
 
 OptiXScene::~OptiXScene() = default;
@@ -68,7 +65,7 @@ bool OptiXScene::commitLights()
 
     if (_lightManager.getLights().empty())
     {
-        BRAYNS_ERROR << "No lights are currently defined" << std::endl;
+        BRAYNS_ERROR("No lights are currently defined");
         return false;
     }
 
@@ -106,7 +103,7 @@ bool OptiXScene::commitLights()
         }
         default:
         {
-            BRAYNS_WARN << "Unsupported light type" << std::endl;
+            BRAYNS_WARN("Unsupported light type");
             break;
         }
         }
@@ -116,11 +113,9 @@ bool OptiXScene::commitLights()
         _lightBuffer->destroy();
 
     auto context = OptiXContext::get().getOptixContext();
-    _lightBuffer = context->createBuffer(RT_BUFFER_INPUT, RT_FORMAT_USER,
-                                         _optixLights.size());
+    _lightBuffer = context->createBuffer(RT_BUFFER_INPUT, RT_FORMAT_USER, _optixLights.size());
     _lightBuffer->setElementSize(sizeof(BasicLight));
-    memcpy(_lightBuffer->map(), _optixLights.data(),
-           _optixLights.size() * sizeof(_optixLights[0]));
+    memcpy(_lightBuffer->map(), _optixLights.data(), _optixLights.size() * sizeof(_optixLights[0]));
     _lightBuffer->unmap();
     context["lights"]->set(_lightBuffer);
 
@@ -129,8 +124,7 @@ bool OptiXScene::commitLights()
 
 ModelPtr OptiXScene::createModel() const
 {
-    return std::make_unique<OptiXModel>(_animationParameters,
-                                        _volumeParameters);
+    return std::make_unique<OptiXModel>(_animationParameters, _volumeParameters);
 }
 
 void OptiXScene::commit()
@@ -153,34 +147,29 @@ void OptiXScene::commit()
         if (model->isMarkedForRemoval())
             model->callOnRemoved();
 
-    _modelDescriptors.erase(
-        std::remove_if(_modelDescriptors.begin(), _modelDescriptors.end(),
-                       [](const auto& m) { return m->isMarkedForRemoval(); }),
-        _modelDescriptors.end());
+    _modelDescriptors.erase(std::remove_if(_modelDescriptors.begin(), _modelDescriptors.end(),
+                                           [](const auto& m) { return m->isMarkedForRemoval(); }),
+                            _modelDescriptors.end());
 
     auto context = OptiXContext::get().getOptixContext();
 
-    auto values = std::map<TextureType, std::string>{
-        {TextureType::diffuse, "envmap"},
-        {TextureType::radiance, "envmap_radiance"},
-        {TextureType::irradiance, "envmap_irradiance"},
-        {TextureType::brdf_lut, "envmap_brdf_lut"}};
+    auto values = std::map<TextureType, std::string>{{TextureType::diffuse, "envmap"},
+                                                     {TextureType::radiance, "envmap_radiance"},
+                                                     {TextureType::irradiance, "envmap_irradiance"},
+                                                     {TextureType::brdf_lut, "envmap_brdf_lut"}};
     if (hasEnvironmentMap())
         _backgroundMaterial->commit();
 
-    auto optixMat =
-        std::static_pointer_cast<OptiXMaterial>(_backgroundMaterial);
+    auto optixMat = std::static_pointer_cast<OptiXMaterial>(_backgroundMaterial);
     for (const auto& i : values)
     {
         auto sampler = _dummyTextureSampler;
         if (hasEnvironmentMap() && optixMat->hasTexture(i.first))
             sampler = optixMat->getTextureSampler(i.first);
         context[i.second]->setInt(sampler->getId());
-        if (i.first == TextureType::radiance &&
-            _backgroundMaterial->hasTexture(TextureType::radiance))
+        if (i.first == TextureType::radiance && _backgroundMaterial->hasTexture(TextureType::radiance))
         {
-            const auto& radianceTex =
-                _backgroundMaterial->getTexture(TextureType::radiance);
+            const auto& radianceTex = _backgroundMaterial->getTexture(TextureType::radiance);
             context["radianceLODs"]->setUint(radianceTex->getMipLevels() - 1);
         }
     }
@@ -201,8 +190,7 @@ void OptiXScene::commit()
 
         auto& impl = static_cast<OptiXModel&>(modelDescriptor->getModel());
 
-        BRAYNS_DEBUG << "Committing " << modelDescriptor->getName()
-                     << std::endl;
+        BRAYNS_DEBUG("Committing " << modelDescriptor->getName());
 
         impl.commitGeometry();
         impl.logInformation();
@@ -221,13 +209,11 @@ void OptiXScene::commit()
                 ::optix::Matrix4x4 optixMatrix(glm::value_ptr(matrix));
                 ::optix::Transform xform = context->createTransform();
                 xform->setChild(geometryGroup);
-                xform->setMatrix(true, optixMatrix.getData(),
-                                 optixMatrix.inverse().getData());
+                xform->setMatrix(true, optixMatrix.getData(), optixMatrix.inverse().getData());
                 _rootGroup->addChild(xform);
                 ++count;
             }
-            BRAYNS_DEBUG << "Group has " << geometryGroup->getChildCount()
-                         << " children" << std::endl;
+            BRAYNS_DEBUG("Group has " << geometryGroup->getChildCount() << " children");
         }
 
         if (modelDescriptor->getBoundingBox())
@@ -239,9 +225,7 @@ void OptiXScene::commit()
 
             const auto& modelBounds = modelDescriptor->getModel().getBounds();
             Transformation modelTransform;
-            modelTransform.setTranslation(modelBounds.getCenter() /
-                                              modelBounds.getSize() -
-                                          Vector3d(0.5));
+            modelTransform.setTranslation(modelBounds.getCenter() / modelBounds.getSize() - Vector3d(0.5));
             modelTransform.setScale(modelBounds.getSize());
 
             Matrix4f mtxd = modelTransform.toMatrix(true);
@@ -255,8 +239,7 @@ void OptiXScene::commit()
     }
     _computeBounds();
 
-    BRAYNS_DEBUG << "Root has " << _rootGroup->getChildCount() << " children"
-                 << std::endl;
+    BRAYNS_DEBUG("Root has " << _rootGroup->getChildCount() << " children");
 
     context["top_object"]->set(_rootGroup);
     context["top_shadower"]->set(_rootGroup);

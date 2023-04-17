@@ -1,4 +1,4 @@
-/* Copyright (c) 2015-2017, EPFL/Blue Brain Project
+/* Copyright (c) 2015-2023, EPFL/Blue Brain Project
  * All rights reserved. Do not distribute without permission.
  * Responsible Author: Cyrille Favreau <cyrille.favreau@epfl.ch>
  *
@@ -35,14 +35,11 @@
 
 namespace brayns
 {
-OSPRayScene::OSPRayScene(AnimationParameters& animationParameters,
-                         GeometryParameters& geometryParameters,
+OSPRayScene::OSPRayScene(AnimationParameters& animationParameters, GeometryParameters& geometryParameters,
                          VolumeParameters& volumeParameters)
     : Scene(animationParameters, geometryParameters, volumeParameters)
-    , _memoryManagementFlags(geometryParameters.getMemoryMode() ==
-                                     MemoryMode::shared
-                                 ? uint32_t(OSP_DATA_SHARED_BUFFER)
-                                 : 0)
+    , _memoryManagementFlags(geometryParameters.getMemoryMode() == MemoryMode::shared ? uint32_t(OSP_DATA_SHARED_BUFFER)
+                                                                                      : 0)
 {
     _backgroundMaterial = std::make_shared<OSPRayMaterial>(PropertyMap(), true);
 }
@@ -76,8 +73,7 @@ void OSPRayScene::commit()
     }
 
     const bool rebuildScene = isModified();
-    const bool addRemoveVolumes =
-        _commitVolumeAndTransferFunction(modelDescriptors);
+    const bool addRemoveVolumes = _commitVolumeAndTransferFunction(modelDescriptors);
 
     if (!rebuildScene && !addRemoveVolumes)
     {
@@ -116,8 +112,7 @@ void OSPRayScene::commit()
         auto& impl = static_cast<OSPRayModel&>(modelDescriptor->getModel());
         const auto& transformation = modelDescriptor->getTransformation();
 
-        BRAYNS_DEBUG << "Committing " << modelDescriptor->getName()
-                     << std::endl;
+        BRAYNS_DEBUG("Committing " << modelDescriptor->getName());
 
         impl.commitGeometry();
         impl.logInformation();
@@ -129,8 +124,7 @@ void OSPRayScene::commit()
             modelDescriptor->getModel().commitGeometry();
             for (auto volume : modelDescriptor->getModel().getVolumes())
             {
-                auto ospVolume =
-                    std::dynamic_pointer_cast<OSPRayVolume>(volume);
+                auto ospVolume = std::dynamic_pointer_cast<OSPRayVolume>(volume);
                 ospAddVolume(_rootModel, ospVolume->impl());
             }
         }
@@ -141,33 +135,28 @@ void OSPRayScene::commit()
             const auto& instance = instances[i];
 
             // First instance uses model transformation
-            const auto& instanceTransform =
-                (i == 0 ? transformation : instance.getTransformation());
+            const auto& instanceTransform = (i == 0 ? transformation : instance.getTransformation());
 
             if (modelDescriptor->getBoundingBox() && instance.getBoundingBox())
             {
                 // scale and move the unit-sized bounding box geometry to the
                 // model size/scale first, then apply the instance transform
-                const auto& modelBounds =
-                    modelDescriptor->getModel().getBounds();
+                const auto& modelBounds = modelDescriptor->getModel().getBounds();
                 Transformation modelTransform;
-                modelTransform.setTranslation(modelBounds.getCenter() -
-                                              0.5 * modelBounds.getSize());
+                modelTransform.setTranslation(modelBounds.getCenter() - 0.5 * modelBounds.getSize());
                 modelTransform.setScale(modelBounds.getSize());
 
                 addInstance(_rootModel, impl.getBoundingBoxModel(),
-                            transformationToAffine3f(instanceTransform) *
-                                transformationToAffine3f(modelTransform));
+                            transformationToAffine3f(instanceTransform) * transformationToAffine3f(modelTransform));
             }
 
             if (modelDescriptor->getVisible() && instance.getVisible())
-                addInstance(_rootModel, impl.getPrimaryModel(),
-                            instanceTransform);
+                addInstance(_rootModel, impl.getPrimaryModel(), instanceTransform);
         }
 
         impl.markInstancesClean();
     }
-    BRAYNS_DEBUG << "Committing root models" << std::endl;
+    BRAYNS_DEBUG("Committing root models");
 
     ospCommit(_rootModel);
 
@@ -193,8 +182,7 @@ bool OSPRayScene::commitLights()
             ospLight = ospNewLight3("distant");
             const auto light = static_cast<DirectionalLight*>(baseLight.get());
             osphelper::set(ospLight, "direction", Vector3f(light->_direction));
-            osphelper::set(ospLight, "angularDiameter",
-                           static_cast<float>(light->_angularDiameter));
+            osphelper::set(ospLight, "angularDiameter", static_cast<float>(light->_angularDiameter));
             break;
         }
         case LightType::SPHERE:
@@ -202,8 +190,7 @@ bool OSPRayScene::commitLights()
             ospLight = ospNewLight3("point");
             const auto light = static_cast<SphereLight*>(baseLight.get());
             osphelper::set(ospLight, "position", Vector3f(light->_position));
-            osphelper::set(ospLight, "radius",
-                           static_cast<float>(light->_radius));
+            osphelper::set(ospLight, "radius", static_cast<float>(light->_radius));
             break;
         }
         case LightType::QUAD:
@@ -221,12 +208,9 @@ bool OSPRayScene::commitLights()
             const auto light = static_cast<SpotLight*>(baseLight.get());
             osphelper::set(ospLight, "position", Vector3f(light->_position));
             osphelper::set(ospLight, "direction", Vector3f(light->_direction));
-            osphelper::set(ospLight, "openingAngle",
-                           static_cast<float>(light->_openingAngle));
-            osphelper::set(ospLight, "penumbraAngle",
-                           static_cast<float>(light->_penumbraAngle));
-            osphelper::set(ospLight, "radius",
-                           static_cast<float>(light->_radius));
+            osphelper::set(ospLight, "openingAngle", static_cast<float>(light->_openingAngle));
+            osphelper::set(ospLight, "penumbraAngle", static_cast<float>(light->_penumbraAngle));
+            osphelper::set(ospLight, "radius", static_cast<float>(light->_radius));
             break;
         }
         case LightType::AMBIENT:
@@ -239,8 +223,7 @@ bool OSPRayScene::commitLights()
         assert(ospLight);
 
         osphelper::set(ospLight, "color", Vector3f(baseLight->_color));
-        osphelper::set(ospLight, "intensity",
-                       static_cast<float>(baseLight->_intensity));
+        osphelper::set(ospLight, "intensity", static_cast<float>(baseLight->_intensity));
         osphelper::set(ospLight, "isVisible", baseLight->_isVisible);
 
         _ospLights.push_back(ospLight);
@@ -250,15 +233,13 @@ bool OSPRayScene::commitLights()
     // NOTE: since the lights are shared between scene and renderer we let
     // OSPRay allocate a new buffer to avoid use-after-free issues
     const size_t memoryFlags = 0;
-    _ospLightData = ospNewData(_ospLights.size(), OSP_OBJECT, _ospLights.data(),
-                               memoryFlags);
+    _ospLightData = ospNewData(_ospLights.size(), OSP_OBJECT, _ospLights.data(), memoryFlags);
     ospCommit(_ospLightData);
 
     return true;
 }
 
-bool OSPRayScene::_commitVolumeAndTransferFunction(
-    ModelDescriptors& modelDescriptors)
+bool OSPRayScene::_commitVolumeAndTransferFunction(ModelDescriptors& modelDescriptors)
 {
     bool rebuildScene = false;
     for (auto& modelDescriptor : modelDescriptors)
@@ -276,8 +257,7 @@ bool OSPRayScene::_commitVolumeAndTransferFunction(
         }
         for (auto volume : model.getVolumes())
         {
-            if (volume->isModified() || rebuildScene ||
-                _volumeParameters.isModified())
+            if (volume->isModified() || rebuildScene || _volumeParameters.isModified())
             {
                 volume->commit();
                 // to reset accumulation if new blocks are added
@@ -290,8 +270,7 @@ bool OSPRayScene::_commitVolumeAndTransferFunction(
 
 ModelPtr OSPRayScene::createModel() const
 {
-    return std::make_unique<OSPRayModel>(_animationParameters,
-                                         _volumeParameters);
+    return std::make_unique<OSPRayModel>(_animationParameters, _volumeParameters);
 }
 
 ModelDescriptorPtr OSPRayScene::getSimulatedModel()
@@ -299,8 +278,7 @@ ModelDescriptorPtr OSPRayScene::getSimulatedModel()
     auto lock = acquireReadAccess();
     for (auto model : _modelDescriptors)
     {
-        const auto& ospModel =
-            static_cast<const OSPRayModel&>(model->getModel());
+        const auto& ospModel = static_cast<const OSPRayModel&>(model->getModel());
         if (ospModel.simulationData())
             return model;
     }

@@ -1,4 +1,4 @@
-/* Copyright (c) 2015-2018, EPFL/Blue Brain Project
+/* Copyright (c) 2015-2023, EPFL/Blue Brain Project
  * All rights reserved. Do not distribute without permission.
  * Responsible Author: Cyrille Favreau <cyrille.favreau@epfl.ch>
  *
@@ -75,18 +75,12 @@ public:
 #endif
 
     State& getState() { return _state; }
-    std::vector<OptixProgramGroup>& getProgramGroups()
-    {
-        return _programGroups;
-    }
+    std::vector<OptixProgramGroup>& getProgramGroups() { return _programGroups; }
 
     void linkPipeline();
     const bool pipelineInitialized() const { return _pipelineInitialized; }
 
-    std::unique_lock<std::mutex> getScopeLock()
-    {
-        return std::unique_lock<std::mutex>(_mutex);
-    }
+    std::unique_lock<std::mutex> getScopeLock() { return std::unique_lock<std::mutex>(_mutex); }
 
     static OptiXContext* _instance;
     static std::mutex _mutex;

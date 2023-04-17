@@ -41,8 +41,7 @@ public:
      * Create and remember the AddModelFromBlobTask for upcoming receives of
      * binary data to delegate them to the task.
      */
-    auto createTask(const BinaryParam& param, uintptr_t clientID,
-                    Engine& engine)
+    auto createTask(const BinaryParam& param, uintptr_t clientID, Engine& engine)
     {
         auto task = std::make_shared<AddModelFromBlobTask>(param, engine);
 
@@ -61,8 +60,7 @@ public:
         const auto key = std::make_pair(wsRequest.clientID, _nextChunkID);
         if (_requests.count(key) == 0)
         {
-            BRAYNS_ERROR << "Missing RPC " << METHOD_REQUEST_MODEL_UPLOAD
-                         << " or cancelled?" << std::endl;
+            BRAYNS_ERROR("Missing RPC " << METHOD_REQUEST_MODEL_UPLOAD << " or cancelled?");
             return {};
         }
 

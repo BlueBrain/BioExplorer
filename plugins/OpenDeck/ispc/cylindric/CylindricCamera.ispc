@@ -1,4 +1,4 @@
-/* Copyright (c) 2018, EPFL/Blue Brain Project
+/* Copyright (c) 2018-2023, EPFL/Blue Brain Project
  * All rights reserved. Do not distribute without permission.
  * Responsible Author: Cyrille Favreau <cyrille.favreau@epfl.ch>
  *                     Grigori Chevtchenko <grigori.chevtchenko@epfl.ch>
@@ -24,11 +24,9 @@
 #include "math/math.ih"
 #include "math/sampling.ih"
 
-void CylindricCamera_initRay(uniform Camera* uniform _self, varying Ray& ray,
-                             const varying CameraSample& sample)
+void CylindricCamera_initRay(uniform Camera* uniform _self, varying Ray& ray, const varying CameraSample& sample)
 {
-    uniform CylindricCamera* uniform self =
-        (uniform CylindricCamera * uniform) _self;
+    uniform CylindricCamera* uniform self = (uniform CylindricCamera * uniform) _self;
 
     vec2f screen = sample.screen;
     screen = Camera_subRegion(_self, screen);
@@ -36,8 +34,7 @@ void CylindricCamera_initRay(uniform Camera* uniform _self, varying Ray& ray,
     const float alpha = screen.x * -pi;
     const float y = self->imgPlane_size_y * (screen.y - 0.5f);
     vec3f dir = normalize(make_vec3f(sinf(alpha), y, -cosf(alpha)));
-    const LinearSpace3f cameraSpace =
-        make_LinearSpace3f(self->dir_cam, self->dir_dv, self->dir_du);
+    const LinearSpace3f cameraSpace = make_LinearSpace3f(self->dir_cam, self->dir_dv, self->dir_du);
     dir = normalize(cameraSpace * dir);
 
     const float time = Camera_shutterTime(_self, sample.time);
@@ -57,14 +54,11 @@ export void* uniform CylindricCamera_create(void* uniform cppE)
     return self;
 }
 
-export void CylindricCamera_set(void* uniform _self, const uniform vec3f& org,
-                                const uniform vec3f& dir_cam,
-                                const uniform vec3f& dir_du,
-                                const uniform vec3f& dir_dv,
+export void CylindricCamera_set(void* uniform _self, const uniform vec3f& org, const uniform vec3f& dir_cam,
+                                const uniform vec3f& dir_du, const uniform vec3f& dir_dv,
                                 const uniform float imgPlane_size_y)
 {
-    uniform CylindricCamera* uniform self =
-        (uniform CylindricCamera * uniform) _self;
+    uniform CylindricCamera* uniform self = (uniform CylindricCamera * uniform) _self;
     self->org = org;
     self->dir_cam = dir_cam;
     self->dir_du = dir_du;

@@ -232,8 +232,7 @@ public:
     //! string is either '\n', '\r' or '\0'. Return value is false
     //! if the input string is NOT a valid property (E.g. does
     //! not start with the "property" keyword)
-    static bool ParseProperty(const char* pCur, const char** pCurOut,
-                              Property* pOut);
+    static bool ParseProperty(const char* pCur, const char** pCurOut, Property* pOut);
 
     // -------------------------------------------------------------------
     //! Parse a data type from a string
@@ -278,13 +277,11 @@ public:
     //! Parse an element from a string.
     //! The function will parse all properties contained in the
     //! element, too.
-    static bool ParseElement(const char* pCur, const char** pCurOut,
-                             Element* pOut);
+    static bool ParseElement(const char* pCur, const char** pCurOut, Element* pOut);
 
     // -------------------------------------------------------------------
     //! Parse a semantic from a string
-    static EElementSemantic ParseSemantic(const char* pCur,
-                                          const char** pCurOut);
+    static EElementSemantic ParseSemantic(const char* pCur, const char** pCurOut);
 };
 
 // ---------------------------------------------------------------------------------
@@ -319,13 +316,11 @@ public:
 
     // -------------------------------------------------------------------
     //! Parse a property instance
-    static bool ParseInstance(const char* pCur, const char** pCurOut,
-                              const Property* prop, PropertyInstance* p_pcOut);
+    static bool ParseInstance(const char* pCur, const char** pCurOut, const Property* prop, PropertyInstance* p_pcOut);
 
     // -------------------------------------------------------------------
     //! Parse a property instance in binary format
-    static bool ParseInstanceBinary(const char* pCur, const char** pCurOut,
-                                    const Property* prop,
+    static bool ParseInstanceBinary(const char* pCur, const char** pCurOut, const Property* prop,
                                     PropertyInstance* p_pcOut, bool p_bBE);
 
     // -------------------------------------------------------------------
@@ -334,13 +329,11 @@ public:
 
     // -------------------------------------------------------------------
     //! Parse a value
-    static bool ParseValue(const char* pCur, const char** pCurOut,
-                           EDataType eType, ValueUnion* out);
+    static bool ParseValue(const char* pCur, const char** pCurOut, EDataType eType, ValueUnion* out);
 
     // -------------------------------------------------------------------
     //! Parse a binary value
-    static bool ParseValueBinary(const char* pCur, const char** pCurOut,
-                                 EDataType eType, ValueUnion* out, bool p_bBE);
+    static bool ParseValueBinary(const char* pCur, const char** pCurOut, EDataType eType, ValueUnion* out, bool p_bBE);
 
     // -------------------------------------------------------------------
     //! Convert a property value to a given type TYPE
@@ -361,14 +354,12 @@ public:
 
     // -------------------------------------------------------------------
     //! Parse an element instance
-    static bool ParseInstance(const char* pCur, const char** pCurOut,
-                              const Element* pcElement,
+    static bool ParseInstance(const char* pCur, const char** pCurOut, const Element* pcElement,
                               ElementInstance* p_pcOut);
 
     // -------------------------------------------------------------------
     //! Parse a binary element instance
-    static bool ParseInstanceBinary(const char* pCur, const char** pCurOut,
-                                    const Element* pcElement,
+    static bool ParseInstanceBinary(const char* pCur, const char** pCurOut, const Element* pcElement,
                                     ElementInstance* p_pcOut, bool p_bBE);
 };
 
@@ -385,16 +376,13 @@ public:
 
     // -------------------------------------------------------------------
     //! Parse an element instance list
-    static bool ParseInstanceList(const char* pCur, const char** pCurOut,
-                                  const Element* pcElement,
+    static bool ParseInstanceList(const char* pCur, const char** pCurOut, const Element* pcElement,
                                   ElementInstanceList* p_pcOut);
 
     // -------------------------------------------------------------------
     //! Parse a binary element instance list
-    static bool ParseInstanceListBinary(const char* pCur, const char** pCurOut,
-                                        const Element* pcElement,
-                                        ElementInstanceList* p_pcOut,
-                                        bool p_bBE);
+    static bool ParseInstanceListBinary(const char* pCur, const char** pCurOut, const Element* pcElement,
+                                        ElementInstanceList* p_pcOut, bool p_bBE);
 };
 // ---------------------------------------------------------------------------------
 /** \brief Class to represent the document object model of an ASCII or binary
@@ -429,8 +417,7 @@ private:
 
     // -------------------------------------------------------------------
     //! Read in all element instance lists for a binary file format
-    bool ParseElementInstanceListsBinary(const char* pCur, const char** pCurOut,
-                                         bool p_bBE);
+    bool ParseElementInstanceListsBinary(const char* pCur, const char** pCurOut, bool p_bBE);
 };
 
 // ---------------------------------------------------------------------------------
@@ -456,8 +443,7 @@ public:
 
 // ---------------------------------------------------------------------------------
 template <typename TYPE>
-inline TYPE PLY::PropertyInstance::ConvertTo(
-    PLY::PropertyInstance::ValueUnion v, PLY::EDataType eType)
+inline TYPE PLY::PropertyInstance::ConvertTo(PLY::PropertyInstance::ValueUnion v, PLY::EDataType eType)
 {
     switch (eType)
     {

@@ -1,4 +1,4 @@
-/* Copyright (c) 2015-2018, EPFL/Blue Brain Project
+/* Copyright (c) 2015-2023, EPFL/Blue Brain Project
  * All rights reserved. Do not distribute without permission.
  * Responsible Author: Cyrille Favreau <cyrille.favreau@epfl.ch>
  *
@@ -41,8 +41,7 @@ OptiXCamera::OptiXCamera()
     PLUGIN_DEBUG("Registering OptiX SBT Ray Generation Program Record");
     CUdeviceptr raygen_record;
     const size_t raygen_record_size = sizeof(RayGenRecord);
-    CUDA_CHECK(cudaMalloc(reinterpret_cast<void**>(&raygen_record),
-                          raygen_record_size));
+    CUDA_CHECK(cudaMalloc(reinterpret_cast<void**>(&raygen_record), raygen_record_size));
     RayGenRecord rg_sbt;
     rg_sbt.data = {};
     const Vector3f eye = getPosition();
@@ -51,8 +50,7 @@ OptiXCamera::OptiXCamera()
     rg_sbt.data.camera_v = {_v.x, _v.y, _v.z};
     rg_sbt.data.camera_w = {_w.x, _w.y, _w.z};
     OPTIX_CHECK(optixSbtRecordPackHeader(state.raygen_prog_group, &rg_sbt));
-    CUDA_CHECK(cudaMemcpy(reinterpret_cast<void*>(raygen_record), &rg_sbt,
-                          raygen_record_size, cudaMemcpyHostToDevice));
+    CUDA_CHECK(cudaMemcpy(reinterpret_cast<void*>(raygen_record), &rg_sbt, raygen_record_size, cudaMemcpyHostToDevice));
 
     state.sbt.raygenRecord = raygen_record;
 
@@ -61,8 +59,7 @@ OptiXCamera::OptiXCamera()
     // ---------------------------------------------------------------------------------------------
     PLUGIN_DEBUG("Registering OptiX SBT Miss Program Record");
     size_t sizeof_miss_record = sizeof(MissRecord);
-    CUDA_CHECK(cudaMalloc(reinterpret_cast<void**>(&_d_miss_record),
-                          sizeof_miss_record * RAY_TYPE_COUNT));
+    CUDA_CHECK(cudaMalloc(reinterpret_cast<void**>(&_d_miss_record), sizeof_miss_record * RAY_TYPE_COUNT));
 
     MissRecord ms_sbt[RAY_TYPE_COUNT];
     optixSbtRecordPackHeader(state.miss_prog_group, &ms_sbt[0]);
@@ -70,14 +67,12 @@ OptiXCamera::OptiXCamera()
     for (uint32_t i = 0; i < RAY_TYPE_COUNT; ++i)
         ms_sbt[i].data = {bgColor.x, bgColor.y, bgColor.z}; // Background color
 
-    CUDA_CHECK(cudaMemcpy(reinterpret_cast<void*>(_d_miss_record), ms_sbt,
-                          sizeof_miss_record * RAY_TYPE_COUNT,
+    CUDA_CHECK(cudaMemcpy(reinterpret_cast<void*>(_d_miss_record), ms_sbt, sizeof_miss_record * RAY_TYPE_COUNT,
                           cudaMemcpyHostToDevice));
 
     state.sbt.missRecordBase = _d_miss_record;
     state.sbt.missRecordCount = RAY_TYPE_COUNT;
-    state.sbt.missRecordStrideInBytes =
-        static_cast<uint32_t>(sizeof_miss_record);
+    state.sbt.missRecordStrideInBytes = static_cast<uint32_t>(sizeof_miss_record);
 }
 
 OptiXCamera::~OptiXCamera() {}
@@ -100,8 +95,7 @@ void OptiXCamera::commit()
     _u = normalize(glm::cross(_w, Vector3f(up)));
     _v = normalize(glm::cross(_u, _w));
 
-    vlen = wlen *
-           tanf(0.5f * getPropertyOrValue<double>("fovy", 45.0) * M_PI / 180.f);
+    vlen = wlen * tanf(0.5f * getPropertyOrValue<double>("fovy", 45.0) * M_PI / 180.f);
     _v *= vlen;
     ulen = vlen * getPropertyOrValue<double>("aspect", 1.0);
     _u *= ulen;
@@ -160,8 +154,8 @@ void OptiXCamera::_commitToOptiX()
     rg.data.camera_u = {_u.x, _u.y, _u.z};
     rg.data.camera_v = {_v.x, _v.y, _v.z};
     rg.data.camera_w = {_w.x, _w.y, _w.z};
-    CUDA_CHECK(cudaMemcpy(reinterpret_cast<void*>(state.sbt.raygenRecord), &rg,
-                          sizeof(RayGenRecord), cudaMemcpyHostToDevice));
+    CUDA_CHECK(
+        cudaMemcpy(reinterpret_cast<void*>(state.sbt.raygenRecord), &rg, sizeof(RayGenRecord), cudaMemcpyHostToDevice));
 
     // Update miss record
     MissRecord ms_sbt[RAY_TYPE_COUNT];
@@ -170,8 +164,7 @@ void OptiXCamera::_commitToOptiX()
     const auto bgColor = state.params.ambient_light_color;
     for (uint32_t i = 0; i < RAY_TYPE_COUNT; ++i)
         ms_sbt[i].data.bg_color = {bgColor.x, bgColor.y, bgColor.z};
-    CUDA_CHECK(cudaMemcpy(reinterpret_cast<void*>(_d_miss_record), ms_sbt,
-                          sizeof_miss_record * RAY_TYPE_COUNT,
+    CUDA_CHECK(cudaMemcpy(reinterpret_cast<void*>(_d_miss_record), ms_sbt, sizeof_miss_record * RAY_TYPE_COUNT,
                           cudaMemcpyHostToDevice));
 }
 

@@ -1,4 +1,4 @@
-/* Copyright (c) 2015-2017, EPFL/Blue Brain Project
+/* Copyright (c) 2015-2023, EPFL/Blue Brain Project
  * All rights reserved. Do not distribute without permission.
  * Responsible Author: Cyrille Favreau <cyrille.favreau@epfl.ch>
  *
@@ -36,8 +36,7 @@ strings parseFolder(const std::string& folder, const strings& filters)
     fs::directory_iterator endIter;
     if (fs::is_directory(folder))
     {
-        for (fs::directory_iterator dirIter(folder); dirIter != endIter;
-             ++dirIter)
+        for (fs::directory_iterator dirIter(folder); dirIter != endIter; ++dirIter)
         {
             if (fs::is_regular_file(dirIter->status()))
             {
@@ -47,8 +46,7 @@ strings parseFolder(const std::string& folder, const strings& filters)
                 else
                 {
                     const auto& fileExtension = dirIter->path().extension();
-                    const auto found = std::find(filters.begin(), filters.end(),
-                                                 fileExtension);
+                    const auto found = std::find(filters.begin(), filters.end(), fileExtension);
                     if (found != filters.end())
                         files.push_back(filename);
                 }

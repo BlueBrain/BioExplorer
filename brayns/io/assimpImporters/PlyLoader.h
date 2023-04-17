@@ -72,8 +72,7 @@ public:
     /** Returns whether the class can handle the format of the given file.
      * See BaseImporter::CanRead() for details.
      */
-    bool CanRead(const std::string& pFile, IOSystem* pIOHandler,
-                 bool checkSig) const;
+    bool CanRead(const std::string& pFile, IOSystem* pIOHandler, bool checkSig) const;
 
 protected:
     // -------------------------------------------------------------------
@@ -86,8 +85,7 @@ protected:
     /** Imports the given file into the given scene structure.
      * See BaseImporter::InternReadFile() for details
      */
-    void InternReadFile(const std::string& pFile, aiScene* pScene,
-                        IOSystem* pIOHandler);
+    void InternReadFile(const std::string& pFile, aiScene* pScene, IOSystem* pIOHandler);
 
 protected:
     // -------------------------------------------------------------------
@@ -118,34 +116,27 @@ protected:
     // -------------------------------------------------------------------
     /** Validate material indices, replace default material identifiers
      */
-    void ReplaceDefaultMaterial(std::vector<PLY::Face>* avFaces,
-                                std::vector<aiMaterial*>* avMaterials);
+    void ReplaceDefaultMaterial(std::vector<PLY::Face>* avFaces, std::vector<aiMaterial*>* avMaterials);
 
     // -------------------------------------------------------------------
     /** Convert all meshes into our ourer representation
      */
-    void ConvertMeshes(std::vector<PLY::Face>* avFaces,
-                       const std::vector<aiVector3D>* avPositions,
-                       const std::vector<aiVector3D>* avNormals,
-                       const std::vector<aiColor4D>* avColors,
-                       const std::vector<aiVector2D>* avTexCoords,
-                       const std::vector<aiMaterial*>* avMaterials,
+    void ConvertMeshes(std::vector<PLY::Face>* avFaces, const std::vector<aiVector3D>* avPositions,
+                       const std::vector<aiVector3D>* avNormals, const std::vector<aiColor4D>* avColors,
+                       const std::vector<aiVector2D>* avTexCoords, const std::vector<aiMaterial*>* avMaterials,
                        std::vector<aiMesh*>* avOut);
 
     // -------------------------------------------------------------------
     /** Static helper to parse a color from four single channels in
      */
-    static void GetMaterialColor(
-        const std::vector<PLY::PropertyInstance>& avList,
-        unsigned int aiPositions[4], PLY::EDataType aiTypes[4],
-        aiColor4D* clrOut);
+    static void GetMaterialColor(const std::vector<PLY::PropertyInstance>& avList, unsigned int aiPositions[4],
+                                 PLY::EDataType aiTypes[4], aiColor4D* clrOut);
 
     // -------------------------------------------------------------------
     /** Static helper to parse a color channel value. The input value
      *  is normalized to 0-1.
      */
-    static ai_real NormalizeColorValue(PLY::PropertyInstance::ValueUnion val,
-                                       PLY::EDataType eType);
+    static ai_real NormalizeColorValue(PLY::PropertyInstance::ValueUnion val, PLY::EDataType eType);
 
     /** Buffer to hold the loaded file */
     unsigned char* mBuffer;

@@ -1,4 +1,4 @@
-/* Copyright (c) 2015-2018, EPFL/Blue Brain Project
+/* Copyright (c) 2015-2023, EPFL/Blue Brain Project
  * All rights reserved. Do not distribute without permission.
  *
  * This file is part of Brayns <https://github.com/BlueBrain/Brayns>
@@ -52,23 +52,18 @@ bool SwapRedBlue32(FIBITMAP* freeImage)
 
     BYTE* line = FreeImage_GetBits(freeImage);
     for (unsigned y = 0; y < height; ++y, line += pitch)
-        for (BYTE* pixel = line; pixel < line + lineSize;
-             pixel += bytesperpixel)
+        for (BYTE* pixel = line; pixel < line + lineSize; pixel += bytesperpixel)
         {
             INPLACESWAP(pixel[0], pixel[2]);
         }
     return true;
 }
 
-std::string getBase64Image(ImagePtr image, const std::string& format,
-                           const int quality)
+std::string getBase64Image(ImagePtr image, const std::string& format, const int quality)
 {
-    FreeImage_SetOutputMessage([](FREE_IMAGE_FORMAT, const char* message) {
-        throw std::runtime_error(message);
-    });
+    FreeImage_SetOutputMessage([](FREE_IMAGE_FORMAT, const char* message) { throw std::runtime_error(message); });
 
-    auto fif =
-        format == "jpg" ? FIF_JPEG : FreeImage_GetFIFFromFormat(format.c_str());
+    auto fif = format == "jpg" ? FIF_JPEG : FreeImage_GetFIFFromFormat(format.c_str());
     if (fif == FIF_JPEG)
         image.reset(FreeImage_ConvertTo24Bits(image.get()));
     else if (fif == FIF_UNKNOWN)
@@ -99,9 +94,7 @@ ImagePtr mergeImages(const std::vector<ImagePtr>& images)
         bbp = FreeImage_GetBPP(image.get());
     }
 
-    FreeImage_SetOutputMessage([](FREE_IMAGE_FORMAT, const char* message) {
-        throw std::runtime_error(message);
-    });
+    FreeImage_SetOutputMessage([](FREE_IMAGE_FORMAT, const char* message) { throw std::runtime_error(message); });
 
     ImagePtr mergedImage{FreeImage_Allocate(width, height, bbp)};
     int offset = 0;

@@ -1,4 +1,4 @@
-/* Copyright (c) 2015-2018, EPFL/Blue Brain Project
+/* Copyright (c) 2015-2023, EPFL/Blue Brain Project
  * All rights reserved. Do not distribute without permission.
  * Author: Jafet Villafranca Diaz <jafet.villafrancadiaz@epfl.ch>
  *
@@ -43,8 +43,7 @@ void Cones::finalize(ospray::Model* model)
     constexpr size_t bytesPerCone = sizeof(brayns::Cone);
 
     if (data.ptr == nullptr || bytesPerCone == 0)
-        throw std::runtime_error(
-            "#ospray:geometry/cones: no 'cones' data specified");
+        throw std::runtime_error("#ospray:geometry/cones: no 'cones' data specified");
 
     const size_t numCones = data->numBytes / bytesPerCone;
 
@@ -53,8 +52,7 @@ void Cones::finalize(ospray::Model* model)
     for (size_t i = 0; i < numCones; i++)
     {
         const brayns::Cone& geom = geoms[i];
-        const auto center =
-            vec3f(geom.center[0], geom.center[1], geom.center[2]);
+        const auto center = vec3f(geom.center[0], geom.center[1], geom.center[2]);
         const auto up = vec3f(geom.up[0], geom.up[1], geom.up[2]);
 
         bounds.extend(center - geom.centerRadius);

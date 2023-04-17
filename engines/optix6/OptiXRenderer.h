@@ -1,4 +1,4 @@
-/* Copyright (c) 2015-2018, EPFL/Blue Brain Project
+/* Copyright (c) 2015-2023, EPFL/Blue Brain Project
  * All rights reserved. Do not distribute without permission.
  * Responsible Author: Cyrille Favreau <cyrille.favreau@epfl.ch>
  *
@@ -35,8 +35,7 @@ namespace brayns
 class OptiXRenderer : public Renderer
 {
 public:
-    OptiXRenderer(const AnimationParameters& animationParameters,
-                  const RenderingParameters& renderingParameters);
+    OptiXRenderer(const AnimationParameters& animationParameters, const RenderingParameters& renderingParameters);
 
     void render(FrameBufferPtr frameBuffer) final;
 

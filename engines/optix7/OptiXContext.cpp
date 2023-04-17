@@ -1,4 +1,4 @@
-/* Copyright (c) 2015-2018, EPFL/Blue Brain Project
+/* Copyright (c) 2015-2023, EPFL/Blue Brain Project
  * All rights reserved. Do not distribute without permission.
  * Responsible Author: Cyrille Favreau <cyrille.favreau@epfl.ch>
  *
@@ -101,13 +101,12 @@ RTwrapmode wrapModeToOptix(const brayns::TextureWrapMode mode)
 } // namespace
 #endif
 
-#define RT_CHECK_ERROR_NO_CONTEXT(func)                                     \
-    do                                                                      \
-    {                                                                       \
-        RTresult code = func;                                               \
-        if (code != RT_SUCCESS)                                             \
-            PLUGIN_THROW("Optix error in function '" + std::string(#func) + \
-                         "'");                                              \
+#define RT_CHECK_ERROR_NO_CONTEXT(func)                                           \
+    do                                                                            \
+    {                                                                             \
+        RTresult code = func;                                                     \
+        if (code != RT_SUCCESS)                                                   \
+            PLUGIN_THROW("Optix error in function '" + std::string(#func) + "'"); \
     } while (0)
 
 namespace brayns
@@ -126,8 +125,7 @@ OptiXContext::~OptiXContext()
 
     CUDA_CHECK(cudaFree(reinterpret_cast<void*>(_state.sbt.raygenRecord)));
     CUDA_CHECK(cudaFree(reinterpret_cast<void*>(_state.sbt.missRecordBase)));
-    CUDA_CHECK(
-        cudaFree(reinterpret_cast<void*>(_state.sbt.hitgroupRecordBase)));
+    CUDA_CHECK(cudaFree(reinterpret_cast<void*>(_state.sbt.hitgroupRecordBase)));
 
     OPTIX_CHECK(optixProgramGroupDestroy(_state.raygen_prog_group));
     OPTIX_CHECK(optixProgramGroupDestroy(_state.miss_prog_group));
@@ -361,14 +359,11 @@ void OptiXContext::_createCameraModules()
     size_t sizeof_log = sizeof(log);
     size_t inputSize = 0;
     const char* input =
-        sutil::getInputData(BRAYNS_OPTIX_SAMPLE_NAME, OPTIX_SAMPLE_DIR,
-                            "PerspectiveCamera.cu", inputSize);
+        sutil::getInputData(BRAYNS_OPTIX_SAMPLE_NAME, OPTIX_SAMPLE_DIR, "PerspectiveCamera.cu", inputSize);
 
-    PLUGIN_CHECK_LOG(
-        optixModuleCreateFromPTX(_state.context, &_state.module_compile_options,
-                                 &_state.pipeline_compile_options, input,
-                                 inputSize, log, &sizeof_log,
-                                 &_state.camera_module));
+    PLUGIN_CHECK_LOG(optixModuleCreateFromPTX(_state.context, &_state.module_compile_options,
+                                              &_state.pipeline_compile_options, input, inputSize, log, &sizeof_log,
+                                              &_state.camera_module));
 }
 
 void OptiXContext::_createCameraPrograms()
@@ -383,11 +378,10 @@ void OptiXContext::_createCameraPrograms()
     raygen_prog_group_desc.kind = OPTIX_PROGRAM_GROUP_KIND_RAYGEN;
     raygen_prog_group_desc.raygen.module = _state.camera_module;
     raygen_prog_group_desc.raygen.entryFunctionName = "__raygen__rg";
-    PLUGIN_CHECK_LOG(
-        optixProgramGroupCreate(_state.context, &raygen_prog_group_desc,
-                                1, // num program groups
-                                &_state.program_group_options, log, &sizeof_log,
-                                &_state.raygen_prog_group));
+    PLUGIN_CHECK_LOG(optixProgramGroupCreate(_state.context, &raygen_prog_group_desc,
+                                             1, // num program groups
+                                             &_state.program_group_options, log, &sizeof_log,
+                                             &_state.raygen_prog_group));
     _programGroups.push_back(_state.raygen_prog_group);
 
     // ---------------------------------------------------------------------------------------------
@@ -398,20 +392,16 @@ void OptiXContext::_createCameraPrograms()
     miss_prog_group_desc.miss.module = _state.camera_module;
     miss_prog_group_desc.miss.entryFunctionName = "__miss__constant_bg";
 
-    PLUGIN_CHECK_LOG(
-        optixProgramGroupCreate(_state.context, &miss_prog_group_desc, 1,
-                                &_state.program_group_options, log, &sizeof_log,
-                                &_state.miss_prog_group));
+    PLUGIN_CHECK_LOG(optixProgramGroupCreate(_state.context, &miss_prog_group_desc, 1, &_state.program_group_options,
+                                             log, &sizeof_log, &_state.miss_prog_group));
     _programGroups.push_back(_state.miss_prog_group);
 
     miss_prog_group_desc.miss = {
         nullptr, // module
         nullptr  // entryFunctionName
     };
-    PLUGIN_CHECK_LOG(
-        optixProgramGroupCreate(_state.context, &miss_prog_group_desc, 1,
-                                &_state.program_group_options, log, &sizeof_log,
-                                &_state.miss_prog_group));
+    PLUGIN_CHECK_LOG(optixProgramGroupCreate(_state.context, &miss_prog_group_desc, 1, &_state.program_group_options,
+                                             log, &sizeof_log, &_state.miss_prog_group));
 
     _programGroups.push_back(_state.miss_prog_group);
 }
@@ -423,14 +413,10 @@ void OptiXContext::_createShadingModules()
     char log[2048];
     size_t sizeof_log = sizeof(log);
     size_t inputSize = 0;
-    const char* input =
-        sutil::getInputData(BRAYNS_OPTIX_SAMPLE_NAME, OPTIX_SAMPLE_DIR,
-                            "Material.cu", inputSize);
-    PLUGIN_CHECK_LOG(
-        optixModuleCreateFromPTX(_state.context, &_state.module_compile_options,
-                                 &_state.pipeline_compile_options, input,
-                                 inputSize, log, &sizeof_log,
-                                 &_state.shading_module));
+    const char* input = sutil::getInputData(BRAYNS_OPTIX_SAMPLE_NAME, OPTIX_SAMPLE_DIR, "Material.cu", inputSize);
+    PLUGIN_CHECK_LOG(optixModuleCreateFromPTX(_state.context, &_state.module_compile_options,
+                                              &_state.pipeline_compile_options, input, inputSize, log, &sizeof_log,
+                                              &_state.shading_module));
 }
 
 void OptiXContext::_createGeometryPrograms()
@@ -448,37 +434,29 @@ void OptiXContext::_createGeometryPrograms()
     OptixProgramGroupDesc sphere_radiance_prog_group_desc = {};
     sphere_radiance_prog_group_desc.kind = OPTIX_PROGRAM_GROUP_KIND_HITGROUP,
     sphere_radiance_prog_group_desc.hitgroup.moduleIS = _state.sphere_module;
-    sphere_radiance_prog_group_desc.hitgroup.entryFunctionNameIS =
-        "__intersection__sphere";
+    sphere_radiance_prog_group_desc.hitgroup.entryFunctionNameIS = "__intersection__sphere";
     sphere_radiance_prog_group_desc.hitgroup.moduleCH = _state.shading_module;
-    sphere_radiance_prog_group_desc.hitgroup.entryFunctionNameCH =
-        "__closesthit__radiance";
+    sphere_radiance_prog_group_desc.hitgroup.entryFunctionNameCH = "__closesthit__radiance";
     sphere_radiance_prog_group_desc.hitgroup.moduleAH = nullptr;
     sphere_radiance_prog_group_desc.hitgroup.entryFunctionNameAH = nullptr;
-    PLUGIN_CHECK_LOG(
-        optixProgramGroupCreate(_state.context,
-                                &sphere_radiance_prog_group_desc, 1,
-                                &_state.program_group_options, log, &sizeof_log,
-                                &_state.sphere_radiance_prog_group));
+    PLUGIN_CHECK_LOG(optixProgramGroupCreate(_state.context, &sphere_radiance_prog_group_desc, 1,
+                                             &_state.program_group_options, log, &sizeof_log,
+                                             &_state.sphere_radiance_prog_group));
     _programGroups.push_back(_state.sphere_radiance_prog_group);
 
     // Occlusion
     OptixProgramGroupDesc sphere_occlusion_prog_group_desc = {};
     sphere_occlusion_prog_group_desc.kind = OPTIX_PROGRAM_GROUP_KIND_HITGROUP,
     sphere_occlusion_prog_group_desc.hitgroup.moduleIS = _state.sphere_module;
-    sphere_occlusion_prog_group_desc.hitgroup.entryFunctionNameIS =
-        "__intersection__sphere";
+    sphere_occlusion_prog_group_desc.hitgroup.entryFunctionNameIS = "__intersection__sphere";
     sphere_occlusion_prog_group_desc.hitgroup.moduleCH = _state.shading_module;
-    sphere_occlusion_prog_group_desc.hitgroup.entryFunctionNameCH =
-        "__closesthit__full_occlusion";
+    sphere_occlusion_prog_group_desc.hitgroup.entryFunctionNameCH = "__closesthit__full_occlusion";
     sphere_occlusion_prog_group_desc.hitgroup.moduleAH = nullptr;
     sphere_occlusion_prog_group_desc.hitgroup.entryFunctionNameAH = nullptr;
 
-    PLUGIN_CHECK_LOG(
-        optixProgramGroupCreate(_state.context,
-                                &sphere_occlusion_prog_group_desc, 1,
-                                &_state.program_group_options, log, &sizeof_log,
-                                &_state.sphere_occlusion_prog_group));
+    PLUGIN_CHECK_LOG(optixProgramGroupCreate(_state.context, &sphere_occlusion_prog_group_desc, 1,
+                                             &_state.program_group_options, log, &sizeof_log,
+                                             &_state.sphere_occlusion_prog_group));
     _programGroups.push_back(_state.sphere_occlusion_prog_group);
 
     // ----------------------------------------
@@ -488,41 +466,30 @@ void OptiXContext::_createGeometryPrograms()
     // Radiance
     OptixProgramGroupDesc cylinder_radiance_prog_group_desc = {};
     cylinder_radiance_prog_group_desc.kind = OPTIX_PROGRAM_GROUP_KIND_HITGROUP,
-    cylinder_radiance_prog_group_desc.hitgroup.moduleIS =
-        _state.cylinder_module;
-    cylinder_radiance_prog_group_desc.hitgroup.entryFunctionNameIS =
-        "__intersection__cylinder";
+    cylinder_radiance_prog_group_desc.hitgroup.moduleIS = _state.cylinder_module;
+    cylinder_radiance_prog_group_desc.hitgroup.entryFunctionNameIS = "__intersection__cylinder";
     cylinder_radiance_prog_group_desc.hitgroup.moduleCH = _state.shading_module;
-    cylinder_radiance_prog_group_desc.hitgroup.entryFunctionNameCH =
-        "__closesthit__radiance";
+    cylinder_radiance_prog_group_desc.hitgroup.entryFunctionNameCH = "__closesthit__radiance";
     cylinder_radiance_prog_group_desc.hitgroup.moduleAH = nullptr;
     cylinder_radiance_prog_group_desc.hitgroup.entryFunctionNameAH = nullptr;
-    PLUGIN_CHECK_LOG(
-        optixProgramGroupCreate(_state.context,
-                                &cylinder_radiance_prog_group_desc, 1,
-                                &_state.program_group_options, log, &sizeof_log,
-                                &_state.cylinder_radiance_prog_group));
+    PLUGIN_CHECK_LOG(optixProgramGroupCreate(_state.context, &cylinder_radiance_prog_group_desc, 1,
+                                             &_state.program_group_options, log, &sizeof_log,
+                                             &_state.cylinder_radiance_prog_group));
     _programGroups.push_back(_state.cylinder_radiance_prog_group);
 
     // Occlusion
     OptixProgramGroupDesc cylinder_occlusion_prog_group_desc = {};
     cylinder_occlusion_prog_group_desc.kind = OPTIX_PROGRAM_GROUP_KIND_HITGROUP,
-    cylinder_occlusion_prog_group_desc.hitgroup.moduleIS =
-        _state.cylinder_module;
-    cylinder_occlusion_prog_group_desc.hitgroup.entryFunctionNameIS =
-        "__intersection__cylinder";
-    cylinder_occlusion_prog_group_desc.hitgroup.moduleCH =
-        _state.shading_module;
-    cylinder_occlusion_prog_group_desc.hitgroup.entryFunctionNameCH =
-        "__closesthit__full_occlusion";
+    cylinder_occlusion_prog_group_desc.hitgroup.moduleIS = _state.cylinder_module;
+    cylinder_occlusion_prog_group_desc.hitgroup.entryFunctionNameIS = "__intersection__cylinder";
+    cylinder_occlusion_prog_group_desc.hitgroup.moduleCH = _state.shading_module;
+    cylinder_occlusion_prog_group_desc.hitgroup.entryFunctionNameCH = "__closesthit__full_occlusion";
     cylinder_occlusion_prog_group_desc.hitgroup.moduleAH = nullptr;
     cylinder_occlusion_prog_group_desc.hitgroup.entryFunctionNameAH = nullptr;
 
-    PLUGIN_CHECK_LOG(
-        optixProgramGroupCreate(_state.context,
-                                &cylinder_occlusion_prog_group_desc, 1,
-                                &_state.program_group_options, log, &sizeof_log,
-                                &_state.cylinder_occlusion_prog_group));
+    PLUGIN_CHECK_LOG(optixProgramGroupCreate(_state.context, &cylinder_occlusion_prog_group_desc, 1,
+                                             &_state.program_group_options, log, &sizeof_log,
+                                             &_state.cylinder_occlusion_prog_group));
     _programGroups.push_back(_state.cylinder_occlusion_prog_group);
 
     // ----------------------------------------
@@ -533,36 +500,29 @@ void OptiXContext::_createGeometryPrograms()
     OptixProgramGroupDesc cone_radiance_prog_group_desc = {};
     cone_radiance_prog_group_desc.kind = OPTIX_PROGRAM_GROUP_KIND_HITGROUP,
     cone_radiance_prog_group_desc.hitgroup.moduleIS = _state.cone_module;
-    cone_radiance_prog_group_desc.hitgroup.entryFunctionNameIS =
-        "__intersection__cone";
+    cone_radiance_prog_group_desc.hitgroup.entryFunctionNameIS = "__intersection__cone";
     cone_radiance_prog_group_desc.hitgroup.moduleCH = _state.shading_module;
-    cone_radiance_prog_group_desc.hitgroup.entryFunctionNameCH =
-        "__closesthit__radiance";
+    cone_radiance_prog_group_desc.hitgroup.entryFunctionNameCH = "__closesthit__radiance";
     cone_radiance_prog_group_desc.hitgroup.moduleAH = nullptr;
     cone_radiance_prog_group_desc.hitgroup.entryFunctionNameAH = nullptr;
-    PLUGIN_CHECK_LOG(
-        optixProgramGroupCreate(_state.context, &cone_radiance_prog_group_desc,
-                                1, &_state.program_group_options, log,
-                                &sizeof_log, &_state.cone_radiance_prog_group));
+    PLUGIN_CHECK_LOG(optixProgramGroupCreate(_state.context, &cone_radiance_prog_group_desc, 1,
+                                             &_state.program_group_options, log, &sizeof_log,
+                                             &_state.cone_radiance_prog_group));
     _programGroups.push_back(_state.cone_radiance_prog_group);
 
     // Occlusion
     OptixProgramGroupDesc cone_occlusion_prog_group_desc = {};
     cone_occlusion_prog_group_desc.kind = OPTIX_PROGRAM_GROUP_KIND_HITGROUP,
     cone_occlusion_prog_group_desc.hitgroup.moduleIS = _state.cone_module;
-    cone_occlusion_prog_group_desc.hitgroup.entryFunctionNameIS =
-        "__intersection__cone";
+    cone_occlusion_prog_group_desc.hitgroup.entryFunctionNameIS = "__intersection__cone";
     cone_occlusion_prog_group_desc.hitgroup.moduleCH = _state.shading_module;
-    cone_occlusion_prog_group_desc.hitgroup.entryFunctionNameCH =
-        "__closesthit__full_occlusion";
+    cone_occlusion_prog_group_desc.hitgroup.entryFunctionNameCH = "__closesthit__full_occlusion";
     cone_occlusion_prog_group_desc.hitgroup.moduleAH = nullptr;
     cone_occlusion_prog_group_desc.hitgroup.entryFunctionNameAH = nullptr;
 
-    PLUGIN_CHECK_LOG(
-        optixProgramGroupCreate(_state.context, &cone_occlusion_prog_group_desc,
-                                1, &_state.program_group_options, log,
-                                &sizeof_log,
-                                &_state.cone_occlusion_prog_group));
+    PLUGIN_CHECK_LOG(optixProgramGroupCreate(_state.context, &cone_occlusion_prog_group_desc, 1,
+                                             &_state.program_group_options, log, &sizeof_log,
+                                             &_state.cone_occlusion_prog_group));
     _programGroups.push_back(_state.cone_occlusion_prog_group);
 }
 
@@ -571,35 +531,23 @@ void OptiXContext::_createGeometryModules()
     PLUGIN_INFO("Creating OptiX Geometry Modules");
     // Spheres
     size_t inputSize = 0;
-    const char* spheres =
-        sutil::getInputData(BRAYNS_OPTIX_SAMPLE_NAME, OPTIX_SAMPLE_DIR,
-                            "Spheres.cu", inputSize);
+    const char* spheres = sutil::getInputData(BRAYNS_OPTIX_SAMPLE_NAME, OPTIX_SAMPLE_DIR, "Spheres.cu", inputSize);
     char log[2048];
     size_t sizeof_log = sizeof(log);
-    PLUGIN_CHECK_LOG(
-        optixModuleCreateFromPTX(_state.context, &_state.module_compile_options,
-                                 &_state.pipeline_compile_options, spheres,
-                                 inputSize, log, &sizeof_log,
-                                 &_state.sphere_module));
+    PLUGIN_CHECK_LOG(optixModuleCreateFromPTX(_state.context, &_state.module_compile_options,
+                                              &_state.pipeline_compile_options, spheres, inputSize, log, &sizeof_log,
+                                              &_state.sphere_module));
     // Cylinders
-    const char* cylinders =
-        sutil::getInputData(BRAYNS_OPTIX_SAMPLE_NAME, OPTIX_SAMPLE_DIR,
-                            "Cylinders.cu", inputSize);
-    PLUGIN_CHECK_LOG(
-        optixModuleCreateFromPTX(_state.context, &_state.module_compile_options,
-                                 &_state.pipeline_compile_options, cylinders,
-                                 inputSize, log, &sizeof_log,
-                                 &_state.cylinder_module));
+    const char* cylinders = sutil::getInputData(BRAYNS_OPTIX_SAMPLE_NAME, OPTIX_SAMPLE_DIR, "Cylinders.cu", inputSize);
+    PLUGIN_CHECK_LOG(optixModuleCreateFromPTX(_state.context, &_state.module_compile_options,
+                                              &_state.pipeline_compile_options, cylinders, inputSize, log, &sizeof_log,
+                                              &_state.cylinder_module));
 
     // Cones
-    const char* cones =
-        sutil::getInputData(BRAYNS_OPTIX_SAMPLE_NAME, OPTIX_SAMPLE_DIR,
-                            "Cones.cu", inputSize);
-    PLUGIN_CHECK_LOG(
-        optixModuleCreateFromPTX(_state.context, &_state.module_compile_options,
-                                 &_state.pipeline_compile_options, cones,
-                                 inputSize, log, &sizeof_log,
-                                 &_state.cone_module));
+    const char* cones = sutil::getInputData(BRAYNS_OPTIX_SAMPLE_NAME, OPTIX_SAMPLE_DIR, "Cones.cu", inputSize);
+    PLUGIN_CHECK_LOG(optixModuleCreateFromPTX(_state.context, &_state.module_compile_options,
+                                              &_state.pipeline_compile_options, cones, inputSize, log, &sizeof_log,
+                                              &_state.cone_module));
 }
 
 void OptiXContext::linkPipeline()
@@ -615,14 +563,10 @@ void OptiXContext::linkPipeline()
 #if !defined(NDEBUG)
     _state.pipeline_link_options.debugLevel = OPTIX_COMPILE_DEBUG_LEVEL_FULL;
 #endif
-    PLUGIN_DEBUG("Registering " << _programGroups.size()
-                                << " OptiX Programs in the Pipeline");
-    OPTIX_CHECK(
-        optixPipelineCreate(_state.context, &_state.pipeline_compile_options,
-                            &_state.pipeline_link_options,
-                            _programGroups.data(),
-                            static_cast<unsigned int>(_programGroups.size()),
-                            log, &sizeof_log, &_state.pipeline));
+    PLUGIN_DEBUG("Registering " << _programGroups.size() << " OptiX Programs in the Pipeline");
+    OPTIX_CHECK(optixPipelineCreate(_state.context, &_state.pipeline_compile_options, &_state.pipeline_link_options,
+                                    _programGroups.data(), static_cast<unsigned int>(_programGroups.size()), log,
+                                    &sizeof_log, &_state.pipeline));
 
     OptixStackSizes stack_sizes = {};
     for (auto& programGroup : _programGroups)
@@ -631,14 +575,12 @@ void OptiXContext::linkPipeline()
     uint32_t direct_callable_stack_size_from_traversal;
     uint32_t direct_callable_stack_size_from_state;
     uint32_t continuation_stack_size;
-    OPTIX_CHECK(optixUtilComputeStackSizes(
-        &stack_sizes, maxTraceDepth, maxCCDepth, maxDCDepth,
-        &direct_callable_stack_size_from_traversal,
-        &direct_callable_stack_size_from_state, &continuation_stack_size));
-    OPTIX_CHECK(optixPipelineSetStackSize(
-        _state.pipeline, direct_callable_stack_size_from_traversal,
-        direct_callable_stack_size_from_state, continuation_stack_size,
-        maxTraversableDepth));
+    OPTIX_CHECK(optixUtilComputeStackSizes(&stack_sizes, maxTraceDepth, maxCCDepth, maxDCDepth,
+                                           &direct_callable_stack_size_from_traversal,
+                                           &direct_callable_stack_size_from_state, &continuation_stack_size));
+    OPTIX_CHECK(optixPipelineSetStackSize(_state.pipeline, direct_callable_stack_size_from_traversal,
+                                          direct_callable_stack_size_from_state, continuation_stack_size,
+                                          maxTraversableDepth));
 
     _initLaunchParams();
 
@@ -673,13 +615,11 @@ void OptiXContext::_initialize()
 
     // Pipeline compile options
     _state.pipeline_compile_options.usesMotionBlur = false;
-    _state.pipeline_compile_options.traversableGraphFlags =
-        OPTIX_TRAVERSABLE_GRAPH_FLAG_ALLOW_SINGLE_GAS;
+    _state.pipeline_compile_options.traversableGraphFlags = OPTIX_TRAVERSABLE_GRAPH_FLAG_ALLOW_SINGLE_GAS;
     _state.pipeline_compile_options.numPayloadValues = numPayloadValues;
     _state.pipeline_compile_options.numAttributeValues = numAttributeValues;
-    _state.pipeline_compile_options.exceptionFlags =
-        OPTIX_EXCEPTION_FLAG_NONE; // TODO: should be
-                                   // OPTIX_EXCEPTION_FLAG_STACK_OVERFLOW;
+    _state.pipeline_compile_options.exceptionFlags = OPTIX_EXCEPTION_FLAG_NONE; // TODO: should be
+                                                                                // OPTIX_EXCEPTION_FLAG_STACK_OVERFLOW;
     _state.pipeline_compile_options.pipelineLaunchParamsVariableName = "params";
 
     CUcontext cuCtx = 0; // zero means take the current context
@@ -691,8 +631,7 @@ void OptiXContext::_initialize()
 #endif
     OPTIX_CHECK(optixDeviceContextCreate(cuCtx, &options, &_state.context));
     CUDA_CHECK(cudaStreamCreate(&_state.stream));
-    CUDA_CHECK(
-        cudaMalloc(reinterpret_cast<void**>(&_state.d_params), sizeof(Params)));
+    CUDA_CHECK(cudaMalloc(reinterpret_cast<void**>(&_state.d_params), sizeof(Params)));
 
     // Modules
     _createCameraModules();

@@ -1,4 +1,4 @@
-/* Copyright (c) 2015-2019, EPFL/Blue Brain Project
+/* Copyright (c) 2015-2023, EPFL/Blue Brain Project
  * All rights reserved. Do not distribute without permission.
  *
  * This file is part of Brayns <https://github.com/BlueBrain/Brayns>
@@ -34,14 +34,12 @@ VolumeParameters::VolumeParameters()
     , _elementSpacing(1.f, 1.f, 1.f)
     , _offset(0.f, 0.f, 0.f)
 {
-    _parameters.add_options()(PARAM_VOLUME_DIMENSIONS.c_str(),
-                              po::fixed_tokens_value<uints>(3, 3),
+    _parameters.add_options()(PARAM_VOLUME_DIMENSIONS.c_str(), po::fixed_tokens_value<uints>(3, 3),
                               "Volume dimensions [uint uint uint]")(
-        PARAM_VOLUME_ELEMENT_SPACING.c_str(),
-        po::fixed_tokens_value<floats>(3, 3),
-        "Element spacing in the volume [float float float]")(
-        PARAM_VOLUME_OFFSET.c_str(), po::fixed_tokens_value<floats>(3, 3),
-        "Volume offset [float float float]");
+        PARAM_VOLUME_ELEMENT_SPACING.c_str(), po::fixed_tokens_value<floats>(3, 3),
+        "Element spacing in the volume [float float float]")(PARAM_VOLUME_OFFSET.c_str(),
+                                                             po::fixed_tokens_value<floats>(3, 3),
+                                                             "Volume offset [float float float]");
 }
 
 void VolumeParameters::parse(const po::variables_map& vm)
@@ -67,8 +65,8 @@ void VolumeParameters::parse(const po::variables_map& vm)
 void VolumeParameters::print()
 {
     AbstractParameters::print();
-    BRAYNS_INFO << "Dimensions      : " << _dimensions << std::endl;
-    BRAYNS_INFO << "Element spacing : " << _elementSpacing << std::endl;
-    BRAYNS_INFO << "Offset          : " << _offset << std::endl;
+    BRAYNS_INFO("Dimensions      : " << _dimensions);
+    BRAYNS_INFO("Element spacing : " << _elementSpacing);
+    BRAYNS_INFO("Offset          : " << _offset);
 }
 } // namespace brayns

@@ -1,4 +1,4 @@
-/* Copyright (c) 2015-2018, EPFL/Blue Brain Project
+/* Copyright (c) 2015-2023, EPFL/Blue Brain Project
  *
  * Responsible Author: Daniel.Nachbaur@epfl.ch
  *
@@ -63,8 +63,7 @@ public:
      * Get a loader that matches the provided name, filetype or loader name.
      * @throw std::runtime_error if no loader found.
      */
-    const Loader& getSuitableLoader(const std::string& filename,
-                                    const std::string& filetype,
+    const Loader& getSuitableLoader(const std::string& filename, const std::string& filetype,
                                     const std::string& loaderName) const;
 
     /**
@@ -77,8 +76,7 @@ public:
      * @param materialID the default material ot use
      * @param cb the callback for progress updates from the loader
      */
-    void load(const std::string& path, Scene& scene,
-              const Matrix4f& transformation, const size_t materialID,
+    void load(const std::string& path, Scene& scene, const Matrix4f& transformation, const size_t materialID,
               LoaderProgress cb);
 
     /** @internal */
@@ -88,8 +86,7 @@ public:
     void registerArchiveLoader(std::unique_ptr<Loader> loader);
 
 private:
-    bool _archiveSupported(const std::string& filename,
-                           const std::string& filetype) const;
+    bool _archiveSupported(const std::string& filename, const std::string& filetype) const;
 
     std::vector<std::unique_ptr<Loader>> _loaders;
     std::unique_ptr<Loader> _archiveLoader;

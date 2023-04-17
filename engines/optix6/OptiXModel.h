@@ -1,4 +1,4 @@
-/* Copyright (c) 2015-2018, EPFL/Blue Brain Project
+/* Copyright (c) 2015-2023, EPFL/Blue Brain Project
  * All rights reserved. Do not distribute without permission.
  * Responsible Author: Cyrille Favreau <cyrille.favreau@epfl.ch>
  *
@@ -31,8 +31,7 @@ namespace brayns
 class OptiXModel : public Model
 {
 public:
-    OptiXModel(AnimationParameters& animationParameters,
-               VolumeParameters& volumeParameters);
+    OptiXModel(AnimationParameters& animationParameters, VolumeParameters& volumeParameters);
 
     /** @copydoc Model::commit */
     void commitGeometry() final;
@@ -41,31 +40,22 @@ public:
     void buildBoundingBox() final;
 
     /** @copydoc Model::createMaterialImpl */
-    virtual MaterialPtr createMaterialImpl(
-        const PropertyMap& properties = {}) final;
+    virtual MaterialPtr createMaterialImpl(const PropertyMap& properties = {}) final;
 
     /** @copydoc Model::createSharedDataVolume */
-    virtual SharedDataVolumePtr createSharedDataVolume(
-        const Vector3ui& dimensions, const Vector3f& spacing,
-        const DataType type) const final;
+    virtual SharedDataVolumePtr createSharedDataVolume(const Vector3ui& dimensions, const Vector3f& spacing,
+                                                       const DataType type) const final;
 
     /** @copydoc Model::createBrickedVolume */
-    virtual BrickedVolumePtr createBrickedVolume(
-        const Vector3ui& dimensions, const Vector3f& spacing,
-        const DataType type) const final;
+    virtual BrickedVolumePtr createBrickedVolume(const Vector3ui& dimensions, const Vector3f& spacing,
+                                                 const DataType type) const final;
 
     ::optix::GeometryGroup getGeometryGroup() const { return _geometryGroup; }
-    ::optix::GeometryGroup getBoundingBoxGroup() const
-    {
-        return _boundingBoxGroup;
-    }
+    ::optix::GeometryGroup getBoundingBoxGroup() const { return _boundingBoxGroup; }
 
 protected:
-    void _commitTransferFunctionImpl(const Vector3fs& colors,
-                                     const floats& opacities,
-                                     const Vector2d valueRange) final;
-    void _commitSimulationDataImpl(const float* frameData,
-                                   const size_t frameSize) final;
+    void _commitTransferFunctionImpl(const Vector3fs& colors, const floats& opacities, const Vector2d valueRange) final;
+    void _commitSimulationDataImpl(const float* frameData, const size_t frameSize) final;
 
 private:
     void _commitSpheres(const size_t materialId);

@@ -1,4 +1,4 @@
-/* Copyright (c) 2015-2016, EPFL/Blue Brain Project
+/* Copyright (c) 2015-2023, EPFL/Blue Brain Project
  * All rights reserved. Do not distribute without permission.
  * Responsible Author: Cyrille Favreau <cyrille.favreau@epfl.ch>
  *
@@ -58,10 +58,7 @@ public:
         , _max(glm::max(pMin, pMax))
     {
     }
-    inline bool operator==(const Box<T>& other) const
-    {
-        return _min == other._min && _max == other._max;
-    }
+    inline bool operator==(const Box<T>& other) const { return _min == other._min && _max == other._max; }
 
     inline void merge(const Box<T>& aabb)
     {
@@ -87,10 +84,7 @@ public:
         _max = vec(-std::numeric_limits<T>::max());
     }
 
-    inline bool isEmpty() const
-    {
-        return _min.x >= _max.x || _min.y >= _max.y || _min.z >= _max.x;
-    }
+    inline bool isEmpty() const { return _min.x >= _max.x || _min.y >= _max.y || _min.z >= _max.x; }
 
     inline vec getCenter() const { return (_min + _max) * .5; }
     inline vec getSize() const { return _max - _min; }

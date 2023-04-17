@@ -1,6 +1,6 @@
 Shaders and OpenGL code in apps/BraynsIBL
 
-Copyright (C) 2017-2018 Joey de Vries
+Copyright (C) 2017-2023 Joey de Vries
 
 https://github.com/JoeyDeVries/LearnOpenGL/tree/master/src/6.pbr/2.2.1.ibl_specular
 

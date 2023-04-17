@@ -53,9 +53,8 @@ inline std::string curveTypeAsString(const CurveType curveType)
 
 struct Curve
 {
-    Curve(const CurveType curveType_in, const BaseType baseType_in,
-          const Vector4fs& vertices_in, const uint64_ts& indices_in,
-          const Vector3fs& normals_in, const Vector3fs& tangents_in)
+    Curve(const CurveType curveType_in, const BaseType baseType_in, const Vector4fs& vertices_in,
+          const uint64_ts& indices_in, const Vector3fs& normals_in, const Vector3fs& tangents_in)
         : curveType(curveType_in)
         , baseType(baseType_in)
         , vertices(vertices_in)

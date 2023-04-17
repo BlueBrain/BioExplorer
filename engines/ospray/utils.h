@@ -1,4 +1,4 @@
-/* Copyright (c) 2015-2018, EPFL/Blue Brain Project
+/* Copyright (c) 2015-2023, EPFL/Blue Brain Project
  * All rights reserved. Do not distribute without permission.
  * Responsible Author: Cyrille Favreau <cyrille.favreau@epfl.ch>
  *
@@ -35,23 +35,18 @@ void toOSPRayProperties(const PropertyMap& object, OSPObject ospObject);
 
 /** Update all the properties in the property map from the given ospray object.
  */
-void fromOSPRayProperties(PropertyMap& object,
-                          ospray::ManagedObject& ospObject);
+void fromOSPRayProperties(PropertyMap& object, ospray::ManagedObject& ospObject);
 
 /** Convert a brayns::Transformation to an ospcommon::affine3f. */
-ospcommon::affine3f transformationToAffine3f(
-    const Transformation& transformation);
+ospcommon::affine3f transformationToAffine3f(const Transformation& transformation);
 
 /** Helper to add the given model as an instance to the given root model. */
-void addInstance(OSPModel rootModel, OSPModel modelToAdd,
-                 const Transformation& transform);
-void addInstance(OSPModel rootModel, OSPModel modelToAdd,
-                 const ospcommon::affine3f& affine);
+void addInstance(OSPModel rootModel, OSPModel modelToAdd, const Transformation& transform);
+void addInstance(OSPModel rootModel, OSPModel modelToAdd, const ospcommon::affine3f& affine);
 
 /** Helper to convert a vector of double tuples to a vector of float tuples. */
 template <size_t S>
-std::vector<std::array<float, S>> convertVectorToFloat(
-    const std::vector<std::array<double, S>>& input)
+std::vector<std::array<float, S>> convertVectorToFloat(const std::vector<std::array<double, S>>& input)
 {
     std::vector<std::array<float, S>> output;
     output.reserve(input.size());

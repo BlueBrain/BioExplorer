@@ -1,4 +1,4 @@
-/* Copyright (c) 2015-2016, EPFL/Blue Brain Project
+/* Copyright (c) 2015-2023, EPFL/Blue Brain Project
  * All rights reserved. Do not distribute without permission.
  * Responsible Author: Cyrille Favreau <cyrille.favreau@epfl.ch>
  *
@@ -28,8 +28,7 @@ namespace brayns
 {
 namespace
 {
-OSPFrameBufferFormat toOSPFrameBufferFormat(
-    const FrameBufferFormat frameBufferFormat)
+OSPFrameBufferFormat toOSPFrameBufferFormat(const FrameBufferFormat frameBufferFormat)
 {
     switch (frameBufferFormat)
     {
@@ -42,8 +41,7 @@ OSPFrameBufferFormat toOSPFrameBufferFormat(
     }
 }
 } // namespace
-OSPRayFrameBuffer::OSPRayFrameBuffer(const std::string& name,
-                                     const Vector2ui& frameSize,
+OSPRayFrameBuffer::OSPRayFrameBuffer(const std::string& name, const Vector2ui& frameSize,
                                      const FrameBufferFormat frameBufferFormat)
     : FrameBuffer(name, frameSize, frameBufferFormat)
 {
@@ -86,9 +84,7 @@ void OSPRayFrameBuffer::_recreate()
     if (_accumulation)
         attributes |= OSP_FB_ACCUM | OSP_FB_VARIANCE;
 
-    _frameBuffer =
-        ospNewFrameBuffer(size, toOSPFrameBufferFormat(_frameBufferFormat),
-                          attributes);
+    _frameBuffer = ospNewFrameBuffer(size, toOSPFrameBufferFormat(_frameBufferFormat), attributes);
     if (_pixelOp)
         ospSetPixelOp(_frameBuffer, _pixelOp);
     osphelper::set(_frameBuffer, "name", getName());
@@ -108,8 +104,7 @@ void OSPRayFrameBuffer::_recreateSubsamplingBuffer()
     {
         _subsamplingFrameBuffer =
             ospNewFrameBuffer({int(subsamplingSize.x), int(subsamplingSize.y)},
-                              toOSPFrameBufferFormat(_frameBufferFormat),
-                              OSP_FB_COLOR | OSP_FB_DEPTH);
+                              toOSPFrameBufferFormat(_frameBufferFormat), OSP_FB_COLOR | OSP_FB_DEPTH);
         if (_pixelOp)
             ospSetPixelOp(_subsamplingFrameBuffer, _pixelOp);
         ospCommit(_subsamplingFrameBuffer);

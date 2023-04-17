@@ -1,4 +1,4 @@
-/* Copyright (c) 2015-2016, EPFL/Blue Brain Project
+/* Copyright (c) 2015-2023, EPFL/Blue Brain Project
  * All rights reserved. Do not distribute without permission.
  * Responsible Author: Cyrille Favreau <cyrille.favreau@epfl.ch>
  *
@@ -54,8 +54,7 @@ void OSPRayCamera::commit()
     if (!_clipPlanes.empty())
     {
         const auto clipPlanes = convertVectorToFloat(_clipPlanes);
-        auto clipPlaneData =
-            ospNewData(clipPlanes.size(), OSP_FLOAT4, clipPlanes.data());
+        auto clipPlaneData = ospNewData(clipPlanes.size(), OSP_FLOAT4, clipPlanes.data());
         ospSetData(_camera, "clipPlanes", clipPlaneData);
         ospRelease(clipPlaneData);
     }
@@ -87,8 +86,7 @@ void OSPRayCamera::_createOSPCamera()
 {
     auto newCamera = ospNewCamera(getCurrentType().c_str());
     if (!newCamera)
-        throw std::runtime_error(getCurrentType() +
-                                 " is not a registered camera");
+        throw std::runtime_error(getCurrentType() + " is not a registered camera");
     if (_camera)
         ospRelease(_camera);
     _camera = newCamera;

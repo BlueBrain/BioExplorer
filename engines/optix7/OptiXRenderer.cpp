@@ -1,4 +1,4 @@
-/* Copyright (c) 2015-2018, EPFL/Blue Brain Project
+/* Copyright (c) 2015-2023, EPFL/Blue Brain Project
  * All rights reserved. Do not distribute without permission.
  * Responsible Author: Cyrille Favreau <cyrille.favreau@epfl.ch>
  *
@@ -66,8 +66,7 @@ void OptiXRenderer::render(FrameBufferPtr frameBuffer)
 
 void OptiXRenderer::commit()
 {
-    if (!_renderingParameters.isModified() && !_scene->isModified() &&
-        !isModified())
+    if (!_renderingParameters.isModified() && !_scene->isModified() && !isModified())
     {
         return;
     }
@@ -122,8 +121,7 @@ void OptiXRenderer::commit()
 #endif
     auto& state = OptiXContext::getInstance().getState();
     const auto bgColor = _renderingParameters.getBackgroundColor();
-    state.params.ambient_light_color =
-        make_float3(bgColor.x, bgColor.y, bgColor.z);
+    state.params.ambient_light_color = make_float3(bgColor.x, bgColor.y, bgColor.z);
 
     _currentRenderer = _renderingParameters.getCurrentRenderer();
 }

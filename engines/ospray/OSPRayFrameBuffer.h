@@ -1,4 +1,4 @@
-/* Copyright (c) 2015-2018, EPFL/Blue Brain Project
+/* Copyright (c) 2015-2023, EPFL/Blue Brain Project
  * All rights reserved. Do not distribute without permission.
  * Responsible Author: Cyrille Favreau <cyrille.favreau@epfl.ch>
  *
@@ -31,8 +31,7 @@ namespace brayns
 class OSPRayFrameBuffer : public FrameBuffer
 {
 public:
-    OSPRayFrameBuffer(const std::string& name, const Vector2ui& frameSize,
-                      const FrameBufferFormat frameBufferFormat);
+    OSPRayFrameBuffer(const std::string& name, const Vector2ui& frameSize, const FrameBufferFormat frameBufferFormat);
     ~OSPRayFrameBuffer();
 
     void clear() final;
@@ -42,14 +41,8 @@ public:
     void setAccumulation(const bool accumulation) final;
     void setFormat(FrameBufferFormat frameBufferFormat) final;
     void setSubsampling(const size_t) final;
-    Vector2ui getSize() const final
-    {
-        return _useSubsampling() ? _subsamplingSize() : _frameSize;
-    }
-    std::unique_lock<std::mutex> getScopeLock()
-    {
-        return std::unique_lock<std::mutex>(_mapMutex);
-    }
+    Vector2ui getSize() const final { return _useSubsampling() ? _subsamplingSize() : _frameSize; }
+    std::unique_lock<std::mutex> getScopeLock() { return std::unique_lock<std::mutex>(_mapMutex); }
     const uint8_t* getColorBuffer() const final { return _colorBuffer; }
     const float* getDepthBuffer() const final { return _depthBuffer; }
     OSPFrameBuffer impl() { return _currentFB(); }

@@ -1,4 +1,4 @@
-/* Copyright (c) 2018, EPFL/Blue Brain Project
+/* Copyright (c) 2018-2023, EPFL/Blue Brain Project
  * All rights reserved. Do not distribute without permission.
  * Responsible Author: Grigori Chevtchenko <grigori.chevtchenko@epfl.ch>
  *
@@ -56,24 +56,19 @@ void CylindricStereoCamera::commit()
 
     const auto imgPlane_size_y = 2.0f * tanf(deg2rad(0.5f * OPENDECK_FOV_Y));
 
-    ispc::CylindricStereoCamera_set(getIE(), (const ispc::vec3f&)pos,
-                                    (const ispc::vec3f&)dir,
-                                    (const ispc::vec3f&)dir_du,
-                                    (const ispc::vec3f&)dir_dv, imgPlane_size_y,
-                                    ipd, sideBySide);
+    ispc::CylindricStereoCamera_set(getIE(), (const ispc::vec3f&)pos, (const ispc::vec3f&)dir,
+                                    (const ispc::vec3f&)dir_du, (const ispc::vec3f&)dir_dv, imgPlane_size_y, ipd,
+                                    sideBySide);
 }
 
 CylindricStereoCamera::StereoMode CylindricStereoCamera::getStereoMode()
 {
-    return static_cast<StereoMode>(
-        getParam1i("stereoMode", StereoMode::OSP_STEREO_SIDE_BY_SIDE));
+    return static_cast<StereoMode>(getParam1i("stereoMode", StereoMode::OSP_STEREO_SIDE_BY_SIDE));
 }
 
-float CylindricStereoCamera::getInterpupillaryDistance(
-    const StereoMode stereoMode)
+float CylindricStereoCamera::getInterpupillaryDistance(const StereoMode stereoMode)
 {
-    const auto interpupillaryDistance =
-        getParamf("interpupillaryDistance", DEFAULT_INTERPUPILLARY_DISTANCE);
+    const auto interpupillaryDistance = getParamf("interpupillaryDistance", DEFAULT_INTERPUPILLARY_DISTANCE);
 
     switch (stereoMode)
     {

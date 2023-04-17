@@ -1,4 +1,4 @@
-/* Copyright (c) 2015-2018, EPFL/Blue Brain Project
+/* Copyright (c) 2015-2023, EPFL/Blue Brain Project
  * All rights reserved. Do not distribute without permission.
  * Responsible Author: Cyrille Favreau <cyrille.favreau@epfl.ch>
  *
@@ -40,21 +40,21 @@ namespace brayns
 OptiXEngine::OptiXEngine(ParametersManager& parametersManager)
     : Engine(parametersManager)
 {
-    BRAYNS_INFO << "Initializing OptiX" << std::endl;
+    PLUGIN_INFO("Initializing OptiX");
     _initializeContext();
 
-    BRAYNS_INFO << "Initializing scene" << std::endl;
+    PLUGIN_INFO("Initializing scene");
     _scene = std::make_shared<OptiXScene>(_parametersManager.getAnimationParameters(),
                                           _parametersManager.getGeometryParameters(),
                                           _parametersManager.getVolumeParameters());
 
-    BRAYNS_INFO << "Initializing renderers" << std::endl;
+    PLUGIN_INFO("Initializing renderers");
     _createRenderers();
 
-    BRAYNS_INFO << "Initializing cameras" << std::endl;
+    PLUGIN_INFO("Initializing cameras");
     _createCameras();
 
-    BRAYNS_INFO << "Engine initialization complete" << std::endl;
+    PLUGIN_INFO("Engine initialization complete");
 }
 
 OptiXEngine::~OptiXEngine()
@@ -73,7 +73,7 @@ void OptiXEngine::_initializeContext()
     // Set up context
     auto context = OptiXContext::get().getOptixContext();
     if (!context)
-        BRAYNS_THROW(std::runtime_error("Failed to initialize OptiX"));
+        PLUGIN_THROW(std::runtime_error("Failed to initialize OptiX"));
 }
 
 void OptiXEngine::_createCameras()

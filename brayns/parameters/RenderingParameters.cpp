@@ -1,4 +1,4 @@
-/* Copyright (c) 2015-2019, EPFL/Blue Brain Project
+/* Copyright (c) 2015-2023, EPFL/Blue Brain Project
  * All rights reserved. Do not distribute without permission.
  *
  * This file is part of Brayns <https://github.com/BlueBrain/Brayns>
@@ -53,11 +53,9 @@ RenderingParameters::RenderingParameters()
          "The camera to use") //
         (PARAM_HEAD_LIGHT.c_str(), po::bool_switch()->default_value(false),
          "Disable light source attached to camera origin.") //
-        (PARAM_VARIANCE_THRESHOLD.c_str(),
-         po::value<double>(&_varianceThreshold),
+        (PARAM_VARIANCE_THRESHOLD.c_str(), po::value<double>(&_varianceThreshold),
          "Threshold for adaptive accumulation [float]") //
-        (PARAM_MAX_ACCUMULATION_FRAMES.c_str(),
-         po::value<size_t>(&_maxAccumFrames),
+        (PARAM_MAX_ACCUMULATION_FRAMES.c_str(), po::value<size_t>(&_maxAccumFrames),
          "Maximum number of accumulation frames");
 }
 
@@ -79,8 +77,7 @@ void RenderingParameters::parse(const po::variables_map& vm)
     {
         const std::string& cameraName = vm[PARAM_CAMERA].as<std::string>();
         _camera = cameraName;
-        if (std::find(_cameras.begin(), _cameras.end(), cameraName) ==
-            _cameras.end())
+        if (std::find(_cameras.begin(), _cameras.end(), cameraName) == _cameras.end())
             _cameras.push_front(cameraName);
     }
     _headLight = !vm[PARAM_HEAD_LIGHT].as<bool>();
@@ -90,19 +87,14 @@ void RenderingParameters::parse(const po::variables_map& vm)
 void RenderingParameters::print()
 {
     AbstractParameters::print();
-    BRAYNS_INFO << "Supported renderers               : " << std::endl;
+    BRAYNS_INFO("Supported renderers               : ");
     for (const auto& renderer : _renderers)
-        BRAYNS_INFO << "- " << renderer << std::endl;
-    BRAYNS_INFO << "Renderer                          : " << _renderer
-                << std::endl;
-    BRAYNS_INFO << "Samples per pixel                 : " << _spp << std::endl;
-    BRAYNS_INFO << "Background color                  : " << _backgroundColor
-                << std::endl;
-    BRAYNS_INFO << "Camera                            : " << _camera
-                << std::endl;
-    BRAYNS_INFO << "Accumulation                      : "
-                << asString(_accumulation) << std::endl;
-    BRAYNS_INFO << "Max. accumulation frames          : " << _maxAccumFrames
-                << std::endl;
+        BRAYNS_INFO("- " << renderer);
+    BRAYNS_INFO("Renderer                          : " << _renderer);
+    BRAYNS_INFO("Samples per pixel                 : " << _spp);
+    BRAYNS_INFO("Background color                  : " << _backgroundColor);
+    BRAYNS_INFO("Camera                            : " << _camera);
+    BRAYNS_INFO("Accumulation                      : " << asString(_accumulation));
+    BRAYNS_INFO("Max. accumulation frames          : " << _maxAccumFrames);
 }
 } // namespace brayns

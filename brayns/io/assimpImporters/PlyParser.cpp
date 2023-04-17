@@ -52,8 +52,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 using namespace Assimp;
 
 // ------------------------------------------------------------------------------------------------
-PLY::EDataType PLY::Property::ParseDataType(const char* pCur,
-                                            const char** pCurOut)
+PLY::EDataType PLY::Property::ParseDataType(const char* pCur, const char** pCurOut)
 {
     ai_assert(NULL != pCur);
     ai_assert(NULL != pCurOut);
@@ -88,15 +87,13 @@ PLY::EDataType PLY::Property::ParseDataType(const char* pCur,
     {
         eOut = PLY::EDT_Float;
     }
-    else if (TokenMatch(pCur, "double64", 8) || TokenMatch(pCur, "double", 6) ||
-             TokenMatch(pCur, "float64", 7))
+    else if (TokenMatch(pCur, "double64", 8) || TokenMatch(pCur, "double", 6) || TokenMatch(pCur, "float64", 7))
     {
         eOut = PLY::EDT_Double;
     }
     if (PLY::EDT_INVALID == eOut)
     {
-        DefaultLogger::get()->info(
-            "Found unknown data type in PLY file. This is OK");
+        DefaultLogger::get()->info("Found unknown data type in PLY file. This is OK");
     }
     *pCurOut = pCur;
 
@@ -104,8 +101,7 @@ PLY::EDataType PLY::Property::ParseDataType(const char* pCur,
 }
 
 // ------------------------------------------------------------------------------------------------
-PLY::ESemantic PLY::Property::ParseSemantic(const char* pCur,
-                                            const char** pCurOut)
+PLY::ESemantic PLY::Property::ParseSemantic(const char* pCur, const char** pCurOut)
 {
     ai_assert(NULL != pCur);
     ai_assert(NULL != pCurOut);
@@ -127,8 +123,7 @@ PLY::ESemantic PLY::Property::ParseSemantic(const char* pCur,
     {
         eOut = PLY::EST_Alpha;
     }
-    else if (TokenMatch(pCur, "vertex_index", 12) ||
-             TokenMatch(pCur, "vertex_indices", 14))
+    else if (TokenMatch(pCur, "vertex_index", 12) || TokenMatch(pCur, "vertex_indices", 14))
     {
         eOut = PLY::EST_VertexIndex;
     }
@@ -205,13 +200,13 @@ PLY::ESemantic PLY::Property::ParseSemantic(const char* pCur,
         eOut = PLY::EST_Blue;
     }
     // NOTE: Blender3D exports texture coordinates as s,t tuples
-    else if (TokenMatch(pCur, "u", 1) || TokenMatch(pCur, "s", 1) ||
-             TokenMatch(pCur, "tx", 2) || TokenMatch(pCur, "texture_u", 9))
+    else if (TokenMatch(pCur, "u", 1) || TokenMatch(pCur, "s", 1) || TokenMatch(pCur, "tx", 2) ||
+             TokenMatch(pCur, "texture_u", 9))
     {
         eOut = PLY::EST_UTextureCoord;
     }
-    else if (TokenMatch(pCur, "v", 1) || TokenMatch(pCur, "t", 1) ||
-             TokenMatch(pCur, "ty", 2) || TokenMatch(pCur, "texture_v", 9))
+    else if (TokenMatch(pCur, "v", 1) || TokenMatch(pCur, "t", 1) || TokenMatch(pCur, "ty", 2) ||
+             TokenMatch(pCur, "texture_v", 9))
     {
         eOut = PLY::EST_VTextureCoord;
     }
@@ -241,8 +236,7 @@ PLY::ESemantic PLY::Property::ParseSemantic(const char* pCur,
     }
     else
     {
-        DefaultLogger::get()->info(
-            "Found unknown property semantic in file. This is ok");
+        DefaultLogger::get()->info("Found unknown property semantic in file. This is ok");
         SkipLine(&pCur);
     }
     *pCurOut = pCur;
@@ -250,8 +244,7 @@ PLY::ESemantic PLY::Property::ParseSemantic(const char* pCur,
 }
 
 // ------------------------------------------------------------------------------------------------
-bool PLY::Property::ParseProperty(const char* pCur, const char** pCurOut,
-                                  PLY::Property* pOut)
+bool PLY::Property::ParseProperty(const char* pCur, const char** pCurOut, PLY::Property* pOut)
 {
     ai_assert(NULL != pCur);
     ai_assert(NULL != pCurOut);
@@ -283,8 +276,7 @@ bool PLY::Property::ParseProperty(const char* pCur, const char** pCurOut,
         pOut->bIsList = true;
 
         // seems to be a list.
-        if (EDT_INVALID ==
-            (pOut->eFirstType = PLY::Property::ParseDataType(pCur, &pCur)))
+        if (EDT_INVALID == (pOut->eFirstType = PLY::Property::ParseDataType(pCur, &pCur)))
         {
             // unable to parse list size data type
             SkipLine(pCur, &pCur);
@@ -293,8 +285,7 @@ bool PLY::Property::ParseProperty(const char* pCur, const char** pCurOut,
         }
         if (!SkipSpaces(pCur, &pCur))
             return false;
-        if (EDT_INVALID ==
-            (pOut->eType = PLY::Property::ParseDataType(pCur, &pCur)))
+        if (EDT_INVALID == (pOut->eType = PLY::Property::ParseDataType(pCur, &pCur)))
         {
             // unable to parse list data type
             SkipLine(pCur, &pCur);
@@ -304,8 +295,7 @@ bool PLY::Property::ParseProperty(const char* pCur, const char** pCurOut,
     }
     else
     {
-        if (EDT_INVALID ==
-            (pOut->eType = PLY::Property::ParseDataType(pCur, &pCur)))
+        if (EDT_INVALID == (pOut->eType = PLY::Property::ParseDataType(pCur, &pCur)))
         {
             // unable to parse data type. Skip the property
             SkipLine(pCur, &pCur);
@@ -324,8 +314,7 @@ bool PLY::Property::ParseProperty(const char* pCur, const char** pCurOut,
         // store the name of the semantic
         uintptr_t iDiff = (uintptr_t)pCur - (uintptr_t)szCur;
 
-        DefaultLogger::get()->info(
-            "Found unknown semantic in PLY file. This is OK");
+        DefaultLogger::get()->info("Found unknown semantic in PLY file. This is OK");
         pOut->szName = std::string(szCur, iDiff);
     }
 
@@ -336,8 +325,7 @@ bool PLY::Property::ParseProperty(const char* pCur, const char** pCurOut,
 }
 
 // ------------------------------------------------------------------------------------------------
-PLY::EElementSemantic PLY::Element::ParseSemantic(const char* pCur,
-                                                  const char** pCurOut)
+PLY::EElementSemantic PLY::Element::ParseSemantic(const char* pCur, const char** pCurOut)
 {
     ai_assert(NULL != pCur && NULL != pCurOut);
     PLY::EElementSemantic eOut = PLY::EEST_INVALID;
@@ -374,8 +362,7 @@ PLY::EElementSemantic PLY::Element::ParseSemantic(const char* pCur,
 }
 
 // ------------------------------------------------------------------------------------------------
-bool PLY::Element::ParseElement(const char* pCur, const char** pCurOut,
-                                PLY::Element* pOut)
+bool PLY::Element::ParseElement(const char* pCur, const char** pCurOut, PLY::Element* pOut)
 {
     ai_assert(NULL != pCur);
     ai_assert(NULL != pCurOut);
@@ -465,8 +452,7 @@ bool PLY::DOM::SkipComments(const char* pCur, const char** pCurOut)
 }
 
 // ------------------------------------------------------------------------------------------------
-bool PLY::DOM::ParseHeader(const char* pCur, const char** pCurOut,
-                           bool isBinary)
+bool PLY::DOM::ParseHeader(const char* pCur, const char** pCurOut, bool isBinary)
 {
     ai_assert(NULL != pCur);
     ai_assert(NULL != pCurOut);
@@ -531,21 +517,18 @@ bool PLY::DOM::ParseElementInstanceLists(const char* pCur, const char** pCurOut)
         PLY::ElementInstanceList::ParseInstanceList(pCur, &pCur, &(*i), &(*a));
     }
 
-    DefaultLogger::get()->debug(
-        "PLY::DOM::ParseElementInstanceLists() succeeded");
+    DefaultLogger::get()->debug("PLY::DOM::ParseElementInstanceLists() succeeded");
     *pCurOut = pCur;
     return true;
 }
 
 // ------------------------------------------------------------------------------------------------
-bool PLY::DOM::ParseElementInstanceListsBinary(const char* pCur,
-                                               const char** pCurOut, bool p_bBE)
+bool PLY::DOM::ParseElementInstanceListsBinary(const char* pCur, const char** pCurOut, bool p_bBE)
 {
     ai_assert(NULL != pCur);
     ai_assert(NULL != pCurOut);
 
-    DefaultLogger::get()->debug(
-        "PLY::DOM::ParseElementInstanceListsBinary() begin");
+    DefaultLogger::get()->debug("PLY::DOM::ParseElementInstanceListsBinary() begin");
     *pCurOut = pCur;
 
     alElementData.resize(alElements.size());
@@ -557,12 +540,10 @@ bool PLY::DOM::ParseElementInstanceListsBinary(const char* pCur,
     for (; i != alElements.end(); ++i, ++a)
     {
         (*a).alInstances.resize((*i).NumOccur);
-        PLY::ElementInstanceList::ParseInstanceListBinary(pCur, &pCur, &(*i),
-                                                          &(*a), p_bBE);
+        PLY::ElementInstanceList::ParseInstanceListBinary(pCur, &pCur, &(*i), &(*a), p_bBE);
     }
 
-    DefaultLogger::get()->debug(
-        "PLY::DOM::ParseElementInstanceListsBinary() succeeded");
+    DefaultLogger::get()->debug("PLY::DOM::ParseElementInstanceListsBinary() succeeded");
     *pCurOut = pCur;
     return true;
 }
@@ -612,9 +593,8 @@ bool PLY::DOM::ParseInstance(const char* pCur, DOM* p_pcOut)
 }
 
 // ------------------------------------------------------------------------------------------------
-bool PLY::ElementInstanceList::ParseInstanceList(
-    const char* pCur, const char** pCurOut, const PLY::Element* pcElement,
-    PLY::ElementInstanceList* p_pcOut)
+bool PLY::ElementInstanceList::ParseInstanceList(const char* pCur, const char** pCurOut, const PLY::Element* pcElement,
+                                                 PLY::ElementInstanceList* p_pcOut)
 {
     ai_assert(NULL != pCur);
     ai_assert(NULL != pCurOut);
@@ -637,8 +617,7 @@ bool PLY::ElementInstanceList::ParseInstanceList(
         for (unsigned int i = 0; i < pcElement->NumOccur; ++i)
         {
             PLY::DOM::SkipComments(pCur, &pCur);
-            PLY::ElementInstance::ParseInstance(pCur, &pCur, pcElement,
-                                                &p_pcOut->alInstances[i]);
+            PLY::ElementInstance::ParseInstance(pCur, &pCur, pcElement, &p_pcOut->alInstances[i]);
         }
     }
     *pCurOut = pCur;
@@ -646,9 +625,9 @@ bool PLY::ElementInstanceList::ParseInstanceList(
 }
 
 // ------------------------------------------------------------------------------------------------
-bool PLY::ElementInstanceList::ParseInstanceListBinary(
-    const char* pCur, const char** pCurOut, const PLY::Element* pcElement,
-    PLY::ElementInstanceList* p_pcOut, bool p_bBE /* = false */)
+bool PLY::ElementInstanceList::ParseInstanceListBinary(const char* pCur, const char** pCurOut,
+                                                       const PLY::Element* pcElement, PLY::ElementInstanceList* p_pcOut,
+                                                       bool p_bBE /* = false */)
 {
     ai_assert(NULL != pCur);
     ai_assert(NULL != pCurOut);
@@ -661,17 +640,14 @@ bool PLY::ElementInstanceList::ParseInstanceListBinary(
     // of the unknown element)
     for (unsigned int i = 0; i < pcElement->NumOccur; ++i)
     {
-        PLY::ElementInstance::ParseInstanceBinary(pCur, &pCur, pcElement,
-                                                  &p_pcOut->alInstances[i],
-                                                  p_bBE);
+        PLY::ElementInstance::ParseInstanceBinary(pCur, &pCur, pcElement, &p_pcOut->alInstances[i], p_bBE);
     }
     *pCurOut = pCur;
     return true;
 }
 
 // ------------------------------------------------------------------------------------------------
-bool PLY::ElementInstance::ParseInstance(const char* pCur, const char** pCurOut,
-                                         const PLY::Element* pcElement,
+bool PLY::ElementInstance::ParseInstance(const char* pCur, const char** pCurOut, const PLY::Element* pcElement,
                                          PLY::ElementInstance* p_pcOut)
 {
     ai_assert(NULL != pCur);
@@ -687,10 +663,8 @@ bool PLY::ElementInstance::ParseInstance(const char* pCur, const char** pCurOut,
     // allocate enough storage
     p_pcOut->alProperties.resize(pcElement->alProperties.size());
 
-    std::vector<PLY::PropertyInstance>::iterator i =
-        p_pcOut->alProperties.begin();
-    std::vector<PLY::Property>::const_iterator a =
-        pcElement->alProperties.begin();
+    std::vector<PLY::PropertyInstance>::iterator i = p_pcOut->alProperties.begin();
+    std::vector<PLY::Property>::const_iterator a = pcElement->alProperties.begin();
     for (; i != p_pcOut->alProperties.end(); ++i, ++a)
     {
         if (!(PLY::PropertyInstance::ParseInstance(pCur, &pCur, &(*a), &(*i))))
@@ -702,8 +676,7 @@ bool PLY::ElementInstance::ParseInstance(const char* pCur, const char** pCurOut,
             // skip the rest of the instance
             SkipLine(pCur, &pCur);
 
-            PLY::PropertyInstance::ValueUnion v =
-                PLY::PropertyInstance::DefaultValue((*a).eType);
+            PLY::PropertyInstance::ValueUnion v = PLY::PropertyInstance::DefaultValue((*a).eType);
             (*i).avList.push_back(v);
         }
     }
@@ -712,11 +685,8 @@ bool PLY::ElementInstance::ParseInstance(const char* pCur, const char** pCurOut,
 }
 
 // ------------------------------------------------------------------------------------------------
-bool PLY::ElementInstance::ParseInstanceBinary(const char* pCur,
-                                               const char** pCurOut,
-                                               const PLY::Element* pcElement,
-                                               PLY::ElementInstance* p_pcOut,
-                                               bool p_bBE /* = false */)
+bool PLY::ElementInstance::ParseInstanceBinary(const char* pCur, const char** pCurOut, const PLY::Element* pcElement,
+                                               PLY::ElementInstance* p_pcOut, bool p_bBE /* = false */)
 {
     ai_assert(NULL != pCur);
     ai_assert(NULL != pCurOut);
@@ -726,21 +696,17 @@ bool PLY::ElementInstance::ParseInstanceBinary(const char* pCur,
     // allocate enough storage
     p_pcOut->alProperties.resize(pcElement->alProperties.size());
 
-    std::vector<PLY::PropertyInstance>::iterator i =
-        p_pcOut->alProperties.begin();
-    std::vector<PLY::Property>::const_iterator a =
-        pcElement->alProperties.begin();
+    std::vector<PLY::PropertyInstance>::iterator i = p_pcOut->alProperties.begin();
+    std::vector<PLY::Property>::const_iterator a = pcElement->alProperties.begin();
     for (; i != p_pcOut->alProperties.end(); ++i, ++a)
     {
-        if (!(PLY::PropertyInstance::ParseInstanceBinary(pCur, &pCur, &(*a),
-                                                         &(*i), p_bBE)))
+        if (!(PLY::PropertyInstance::ParseInstanceBinary(pCur, &pCur, &(*a), &(*i), p_bBE)))
         {
             DefaultLogger::get()->warn(
                 "Unable to parse binary property instance. "
                 "Skipping this element instance");
 
-            (*i).avList.push_back(
-                PLY::PropertyInstance::DefaultValue((*a).eType));
+            (*i).avList.push_back(PLY::PropertyInstance::DefaultValue((*a).eType));
         }
     }
     *pCurOut = pCur;
@@ -748,9 +714,7 @@ bool PLY::ElementInstance::ParseInstanceBinary(const char* pCur,
 }
 
 // ------------------------------------------------------------------------------------------------
-bool PLY::PropertyInstance::ParseInstance(const char* pCur,
-                                          const char** pCurOut,
-                                          const PLY::Property* prop,
+bool PLY::PropertyInstance::ParseInstance(const char* pCur, const char** pCurOut, const PLY::Property* prop,
                                           PLY::PropertyInstance* p_pcOut)
 {
     ai_assert(NULL != pCur);
@@ -773,8 +737,7 @@ bool PLY::PropertyInstance::ParseInstance(const char* pCur,
         PLY::PropertyInstance::ParseValue(pCur, &pCur, prop->eFirstType, &v);
 
         // convert to unsigned int
-        unsigned int iNum =
-            PLY::PropertyInstance::ConvertTo<unsigned int>(v, prop->eFirstType);
+        unsigned int iNum = PLY::PropertyInstance::ConvertTo<unsigned int>(v, prop->eFirstType);
 
         // parse all list elements
         p_pcOut->avList.resize(iNum);
@@ -782,8 +745,7 @@ bool PLY::PropertyInstance::ParseInstance(const char* pCur,
         {
             if (!SkipSpaces(pCur, &pCur))
                 return false;
-            PLY::PropertyInstance::ParseValue(pCur, &pCur, prop->eType,
-                                              &p_pcOut->avList[i]);
+            PLY::PropertyInstance::ParseValue(pCur, &pCur, prop->eType, &p_pcOut->avList[i]);
         }
     }
     else
@@ -800,11 +762,8 @@ bool PLY::PropertyInstance::ParseInstance(const char* pCur,
 }
 
 // ------------------------------------------------------------------------------------------------
-bool PLY::PropertyInstance::ParseInstanceBinary(const char* pCur,
-                                                const char** pCurOut,
-                                                const PLY::Property* prop,
-                                                PLY::PropertyInstance* p_pcOut,
-                                                bool p_bBE)
+bool PLY::PropertyInstance::ParseInstanceBinary(const char* pCur, const char** pCurOut, const PLY::Property* prop,
+                                                PLY::PropertyInstance* p_pcOut, bool p_bBE)
 {
     ai_assert(NULL != pCur);
     ai_assert(NULL != pCurOut);
@@ -815,27 +774,23 @@ bool PLY::PropertyInstance::ParseInstanceBinary(const char* pCur,
     {
         // parse the number of elements in the list
         PLY::PropertyInstance::ValueUnion v;
-        PLY::PropertyInstance::ParseValueBinary(pCur, &pCur, prop->eFirstType,
-                                                &v, p_bBE);
+        PLY::PropertyInstance::ParseValueBinary(pCur, &pCur, prop->eFirstType, &v, p_bBE);
 
         // convert to unsigned int
-        unsigned int iNum =
-            PLY::PropertyInstance::ConvertTo<unsigned int>(v, prop->eFirstType);
+        unsigned int iNum = PLY::PropertyInstance::ConvertTo<unsigned int>(v, prop->eFirstType);
 
         // parse all list elements
         p_pcOut->avList.resize(iNum);
         for (unsigned int i = 0; i < iNum; ++i)
         {
-            PLY::PropertyInstance::ParseValueBinary(pCur, &pCur, prop->eType,
-                                                    &p_pcOut->avList[i], p_bBE);
+            PLY::PropertyInstance::ParseValueBinary(pCur, &pCur, prop->eType, &p_pcOut->avList[i], p_bBE);
         }
     }
     else
     {
         // parse the property
         PLY::PropertyInstance::ValueUnion v;
-        PLY::PropertyInstance::ParseValueBinary(pCur, &pCur, prop->eType, &v,
-                                                p_bBE);
+        PLY::PropertyInstance::ParseValueBinary(pCur, &pCur, prop->eType, &v, p_bBE);
         p_pcOut->avList.push_back(v);
     }
     *pCurOut = pCur;
@@ -843,8 +798,7 @@ bool PLY::PropertyInstance::ParseInstanceBinary(const char* pCur,
 }
 
 // ------------------------------------------------------------------------------------------------
-PLY::PropertyInstance::ValueUnion PLY::PropertyInstance::DefaultValue(
-    PLY::EDataType eType)
+PLY::PropertyInstance::ValueUnion PLY::PropertyInstance::DefaultValue(PLY::EDataType eType)
 {
     PLY::PropertyInstance::ValueUnion out;
 
@@ -865,8 +819,7 @@ PLY::PropertyInstance::ValueUnion PLY::PropertyInstance::DefaultValue(
 }
 
 // ------------------------------------------------------------------------------------------------
-bool PLY::PropertyInstance::ParseValue(const char* pCur, const char** pCurOut,
-                                       PLY::EDataType eType,
+bool PLY::PropertyInstance::ParseValue(const char* pCur, const char** pCurOut, PLY::EDataType eType,
                                        PLY::PropertyInstance::ValueUnion* out)
 {
     ai_assert(NULL != pCur);
@@ -917,9 +870,8 @@ bool PLY::PropertyInstance::ParseValue(const char* pCur, const char** pCurOut,
 }
 
 // ------------------------------------------------------------------------------------------------
-bool PLY::PropertyInstance::ParseValueBinary(
-    const char* pCur, const char** pCurOut, PLY::EDataType eType,
-    PLY::PropertyInstance::ValueUnion* out, bool p_bBE)
+bool PLY::PropertyInstance::ParseValueBinary(const char* pCur, const char** pCurOut, PLY::EDataType eType,
+                                             PLY::PropertyInstance::ValueUnion* out, bool p_bBE)
 {
     ai_assert(NULL != pCur);
     ai_assert(NULL != pCurOut);

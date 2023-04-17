@@ -1,4 +1,4 @@
-/* Copyright (c) 2015-2018, EPFL/Blue Brain Project
+/* Copyright (c) 2015-2023, EPFL/Blue Brain Project
  *
  * Responsible Author: Daniel.Nachbaur@epfl.ch
  *
@@ -31,8 +31,7 @@ namespace brayns
 class TaskRuntimeError : public std::runtime_error
 {
 public:
-    TaskRuntimeError(const std::string& message, const int code_ = -1,
-                     const std::string& data_ = "")
+    TaskRuntimeError(const std::string& message, const int code_ = -1, const std::string& data_ = "")
         : std::runtime_error(message)
         , code(code_)
         , data(data_)

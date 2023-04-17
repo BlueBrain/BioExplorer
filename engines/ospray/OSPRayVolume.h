@@ -1,4 +1,4 @@
-/* Copyright (c) 2015-2018, EPFL/Blue Brain Project
+/* Copyright (c) 2015-2023, EPFL/Blue Brain Project
  * All rights reserved. Do not distribute without permission.
  * Responsible Author: Daniel Nachbaur <daniel.nachbaur@epfl.ch>
  *
@@ -30,10 +30,8 @@ namespace brayns
 class OSPRayVolume : public virtual Volume
 {
 public:
-    OSPRayVolume(const Vector3ui& dimensions, const Vector3f& spacing,
-                 const DataType type, const VolumeParameters& params,
-                 OSPTransferFunction transferFunction,
-                 const std::string& volumeType);
+    OSPRayVolume(const Vector3ui& dimensions, const Vector3f& spacing, const DataType type,
+                 const VolumeParameters& params, OSPTransferFunction transferFunction, const std::string& volumeType);
     ~OSPRayVolume();
 
     void setDataRange(const Vector2f& range) final;
@@ -51,19 +49,16 @@ protected:
 class OSPRayBrickedVolume : public BrickedVolume, public OSPRayVolume
 {
 public:
-    OSPRayBrickedVolume(const Vector3ui& dimensions, const Vector3f& spacing,
-                        const DataType type, const VolumeParameters& params,
-                        OSPTransferFunction transferFunction);
-    void setBrick(const void* data, const Vector3ui& position,
-                  const Vector3ui& size) final;
+    OSPRayBrickedVolume(const Vector3ui& dimensions, const Vector3f& spacing, const DataType type,
+                        const VolumeParameters& params, OSPTransferFunction transferFunction);
+    void setBrick(const void* data, const Vector3ui& position, const Vector3ui& size) final;
 };
 
 class OSPRaySharedDataVolume : public SharedDataVolume, public OSPRayVolume
 {
 public:
-    OSPRaySharedDataVolume(const Vector3ui& dimensions, const Vector3f& spacing,
-                           const DataType type, const VolumeParameters& params,
-                           OSPTransferFunction transferFunction);
+    OSPRaySharedDataVolume(const Vector3ui& dimensions, const Vector3f& spacing, const DataType type,
+                           const VolumeParameters& params, OSPTransferFunction transferFunction);
 
     void setVoxels(const void* voxels) final;
 };

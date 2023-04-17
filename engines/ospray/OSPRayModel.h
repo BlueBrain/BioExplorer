@@ -1,4 +1,4 @@
-/* Copyright (c) 2015-2018, EPFL/Blue Brain Project
+/* Copyright (c) 2015-2023, EPFL/Blue Brain Project
  * All rights reserved. Do not distribute without permission.
  * Responsible Author: Cyrille Favreau <cyrille.favreau@epfl.ch>
  *
@@ -29,8 +29,7 @@ namespace brayns
 class OSPRayModel : public Model
 {
 public:
-    OSPRayModel(AnimationParameters& animationParameters,
-                VolumeParameters& volumeParameters);
+    OSPRayModel(AnimationParameters& animationParameters, VolumeParameters& volumeParameters);
     ~OSPRayModel() final;
 
     void setMemoryFlags(const size_t memoryManagementFlags);
@@ -41,33 +40,24 @@ public:
     OSPModel getPrimaryModel() const { return _primaryModel; }
     OSPModel getSecondaryModel() const { return _secondaryModel; }
     OSPModel getBoundingBoxModel() const { return _boundingBoxModel; }
-    SharedDataVolumePtr createSharedDataVolume(const Vector3ui& dimensions,
-                                               const Vector3f& spacing,
+    SharedDataVolumePtr createSharedDataVolume(const Vector3ui& dimensions, const Vector3f& spacing,
                                                const DataType type) const final;
-    BrickedVolumePtr createBrickedVolume(const Vector3ui& dimensions,
-                                         const Vector3f& spacing,
+    BrickedVolumePtr createBrickedVolume(const Vector3ui& dimensions, const Vector3f& spacing,
                                          const DataType type) const final;
 
     void buildBoundingBox() final;
 
     OSPData simulationData() const { return _ospSimulationData; }
-    OSPTransferFunction transferFunction() const
-    {
-        return _ospTransferFunction;
-    }
+    OSPTransferFunction transferFunction() const { return _ospTransferFunction; }
 
 protected:
-    void _commitTransferFunctionImpl(const Vector3fs& colors,
-                                     const floats& opacities,
-                                     const Vector2d valueRange) final;
-    void _commitSimulationDataImpl(const float* frameData,
-                                   const size_t frameSize) final;
+    void _commitTransferFunctionImpl(const Vector3fs& colors, const floats& opacities, const Vector2d valueRange) final;
+    void _commitSimulationDataImpl(const float* frameData, const size_t frameSize) final;
 
 private:
     using GeometryMap = std::map<size_t, OSPGeometry>;
 
-    OSPGeometry& _createGeometry(GeometryMap& map, size_t materialID,
-                                 const char* name);
+    OSPGeometry& _createGeometry(GeometryMap& map, size_t materialID, const char* name);
     void _commitSpheres(const size_t materialId);
     void _commitCylinders(const size_t materialId);
     void _commitCones(const size_t materialId);
@@ -77,8 +67,7 @@ private:
     void _commitSDFGeometries();
     void _commitCurves(const size_t materialId);
 
-    void _addGeometryToModel(const OSPGeometry geometry,
-                             const size_t materialId);
+    void _addGeometryToModel(const OSPGeometry geometry, const size_t materialId);
     void _setBVHFlags();
 
     // Models
