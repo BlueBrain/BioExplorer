@@ -1,4 +1,4 @@
-/* Copyright (c) 2015-2018, EPFL/Blue Brain Project
+/* Copyright (c) 2015-2023, EPFL/Blue Brain Project
  * All rights reserved. Do not distribute without permission.
  * Responsible Author: Cyrille Favreau <cyrille.favreau@epfl.ch>
  *
@@ -41,17 +41,14 @@ public:
     /** @copydoc Engine::getMinimumFrameSize */
     Vector2ui getMinimumFrameSize() const final;
 
-    FrameBufferPtr createFrameBuffer(
-        const std::string& name, const Vector2ui& frameSize,
-        FrameBufferFormat frameBufferFormat) const final;
+    FrameBufferPtr createFrameBuffer(const std::string& name, const Vector2ui& frameSize,
+                                     FrameBufferFormat frameBufferFormat) const final;
 
-    ScenePtr createScene(AnimationParameters& animationParameters,
-                         GeometryParameters& geometryParameters,
+    ScenePtr createScene(AnimationParameters& animationParameters, GeometryParameters& geometryParameters,
                          VolumeParameters& volumeParameters) const final;
     CameraPtr createCamera() const final;
-    RendererPtr createRenderer(
-        const AnimationParameters& animationParameters,
-        const RenderingParameters& renderingParameters) const final;
+    RendererPtr createRenderer(const AnimationParameters& animationParameters,
+                               const RenderingParameters& renderingParameters) const final;
 
 private:
     void _createCameras();

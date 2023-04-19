@@ -1,4 +1,4 @@
-/* Copyright (c) 2015-2016, EPFL/Blue Brain Project
+/* Copyright (c) 2015-2023, EPFL/Blue Brain Project
  * All rights reserved. Do not distribute without permission.
  * Responsible Author: Cyrille Favreau <cyrille.favreau@epfl.ch>
  *
@@ -38,8 +38,7 @@ int main(int argc, const char** argv)
         brayns::Brayns brayns(argc, argv);
         timer.stop();
 
-        BRAYNS_INFO << "[PERF] Scene initialization took "
-                    << timer.milliseconds() << " milliseconds" << std::endl;
+        BRAYNS_INFO("[PERF] Scene initialization took " << timer.milliseconds() << " milliseconds");
 
         auto& engine = brayns.getEngine();
         auto& scene = engine.getScene();
@@ -49,23 +48,19 @@ int main(int argc, const char** argv)
         for (size_t frame = 0; frame < nbFrames; ++frame)
         {
             const brayns::Vector3d& center = bounds.getCenter();
-            const auto quat = glm::angleAxis(frame * M_PI / 180.0,
-                                             brayns::Vector3d(0.0, 1.0, 0.0));
-            const brayns::Vector3d dir =
-                glm::rotate(quat, brayns::Vector3d(0, 0, -1));
+            const auto quat = glm::angleAxis(frame * M_PI / 180.0, brayns::Vector3d(0.0, 1.0, 0.0));
+            const brayns::Vector3d dir = glm::rotate(quat, brayns::Vector3d(0, 0, -1));
             engine.getCamera().set(center + radius * -dir, quat);
             brayns.commitAndRender();
         }
         timer.stop();
 
-        BRAYNS_INFO << "[PERF] Rendering " << nbFrames << " frames took "
-                    << timer.milliseconds() << " milliseconds" << std::endl;
-        BRAYNS_INFO << "[PERF] Frames per second: "
-                    << nbFrames / timer.seconds() << std::endl;
+        BRAYNS_INFO("[PERF] Rendering " << nbFrames << " frames took " << timer.milliseconds() << " milliseconds");
+        BRAYNS_INFO("[PERF] Frames per second: " << nbFrames / timer.seconds());
     }
     catch (const std::runtime_error& e)
     {
-        BRAYNS_ERROR << e.what() << std::endl;
+        BRAYNS_ERROR(e.what());
         return 1;
     }
     return 0;

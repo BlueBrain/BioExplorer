@@ -1,4 +1,4 @@
-/* Copyright (c) 2015-2018, EPFL/Blue Brain Project
+/* Copyright (c) 2015-2023, EPFL/Blue Brain Project
  * All rights reserved. Do not distribute without permission.
  * Responsible Author: Daniel.Nachbaur@epfl.ch
  *
@@ -44,15 +44,12 @@ AddModelTask::AddModelTask(const ModelParams& modelParams, Engine& engine)
     LoadModelFunctor functor{engine, modelParams};
     functor.setCancelToken(_cancelToken);
     functor.setProgressFunc(
-        [&progress = progress](const auto& msg, auto, auto amount) {
-            progress.update(msg, amount);
-        });
+        [&progress = progress](const auto& msg, auto, auto amount) { progress.update(msg, amount); });
 
     // load data, return model descriptor
-    _task = async::spawn(std::move(functor))
-                .then([&engine](async::task<ModelDescriptorPtr> result) {
-                    engine.triggerRender();
-                    return result.get();
-                });
+    _task = async::spawn(std::move(functor)).then([&engine](async::task<ModelDescriptorPtr> result) {
+        engine.triggerRender();
+        return result.get();
+    });
 }
 } // namespace brayns

@@ -1,4 +1,4 @@
-/* Copyright (c) 2015-2016, EPFL/Blue Brain Project
+/* Copyright (c) 2015-2023, EPFL/Blue Brain Project
  * All rights reserved. Do not distribute without permission.
  * Responsible Author: Cyrille Favreau <cyrille.favreau@epfl.ch>
  *
@@ -24,8 +24,7 @@
 
 namespace brayns
 {
-Renderer::Renderer(const AnimationParameters& animationParameters,
-                   const RenderingParameters& renderingParameters)
+Renderer::Renderer(const AnimationParameters& animationParameters, const RenderingParameters& renderingParameters)
     : _animationParameters(animationParameters)
     , _renderingParameters(renderingParameters)
 {

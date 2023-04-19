@@ -1,4 +1,4 @@
-/* Copyright (c) 2018, EPFL/Blue Brain Project
+/* Copyright (c) 2018-2023, EPFL/Blue Brain Project
  * All rights reserved. Do not distribute without permission.
  *
  * This file is part of Brayns <https://github.com/BlueBrain/Brayns>
@@ -68,8 +68,7 @@ private:
         void operator()(uv_timer_t* timer)
         {
             uv_timer_stop(timer);
-            uv_close(reinterpret_cast<uv_handle_t*>(timer),
-                     [](uv_handle_t* handle) { delete handle; });
+            uv_close(reinterpret_cast<uv_handle_t*>(timer), [](uv_handle_t* handle) { delete handle; });
         }
     };
     std::unique_ptr<uv_timer_t, LibuvDeleter> _idleTimer;

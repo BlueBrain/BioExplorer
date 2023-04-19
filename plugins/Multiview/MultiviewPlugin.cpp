@@ -1,4 +1,4 @@
-/* Copyright (c) 2018, EPFL/Blue Brain Project
+/* Copyright (c) 2018-2023, EPFL/Blue Brain Project
  * All rights reserved. Do not distribute without permission.
  *
  * This file is part of Brayns <https://github.com/BlueBrain/Brayns>
@@ -36,8 +36,7 @@ MultiviewPlugin::MultiviewPlugin(PropertyMap&& properties)
     const double armLength = _properties.getProperty<double>(PARAM_ARM_LENGTH);
     if (armLength <= 0.0f)
     {
-        throw std::runtime_error(
-            "The multiview camera arm length must be stricly positive");
+        throw std::runtime_error("The multiview camera arm length must be stricly positive");
     }
 }
 
@@ -49,28 +48,17 @@ void MultiviewPlugin::init()
     if (params.getApplicationParameters().getEngine() == "ospray")
         engine.addCameraType("multiview", _properties);
     else
-        throw std::runtime_error(
-            "The multiview camera is only available for ospray engine");
+        throw std::runtime_error("The multiview camera is only available for ospray engine");
 }
 } // namespace brayns
 
-extern "C" brayns::ExtensionPlugin* brayns_plugin_create(const int argc,
-                                                         const char** argv)
+extern "C" brayns::ExtensionPlugin* brayns_plugin_create(const int argc, const char** argv)
 {
     brayns::PropertyMap properties;
     properties.setProperty(
-        {PARAM_ARM_LENGTH,
-         5.0,
-         0.0,
-         100.0,
-         {"Arm length",
-          "The distance between the cameras and the view center"}});
+        {PARAM_ARM_LENGTH, 5.0, 0.0, 100.0, {"Arm length", "The distance between the cameras and the view center"}});
     properties.setProperty(
-        {PARAM_HEIGHT,
-         10.0,
-         0.0,
-         100.0,
-         {"View height", "The height of the viewport in world space"}});
+        {PARAM_HEIGHT, 10.0, 0.0, 100.0, {"View height", "The height of the viewport in world space"}});
 
     if (!properties.parse(argc, argv))
         return nullptr;

@@ -1,4 +1,4 @@
-/* Copyright (c) 2015-2018, EPFL/Blue Brain Project
+/* Copyright (c) 2015-2023, EPFL/Blue Brain Project
  * All rights reserved. Do not distribute without permission.
  * Responsible Author: Cyrille Favreau <cyrille.favreau@epfl.ch>
  *
@@ -36,8 +36,8 @@ class Transformation : public BaseObject
 public:
     Transformation() = default;
 
-    Transformation(const Vector3d& translation, const Vector3d& scale,
-                   const Quaterniond& rotation, const Vector3d& rotationCenter)
+    Transformation(const Vector3d& translation, const Vector3d& scale, const Quaterniond& rotation,
+                   const Vector3d& rotationCenter)
         : _translation(translation)
         , _scale(scale)
         , _rotation(rotation)
@@ -46,27 +46,18 @@ public:
     }
 
     const Vector3d& getTranslation() const { return _translation; }
-    void setTranslation(const Vector3d& value)
-    {
-        _updateValue(_translation, value);
-    }
+    void setTranslation(const Vector3d& value) { _updateValue(_translation, value); }
     const Vector3d& getScale() const { return _scale; }
     void setScale(const Vector3d& value) { _updateValue(_scale, value); }
     const Quaterniond& getRotation() const { return _rotation; }
-    void setRotation(const Quaterniond& value)
-    {
-        _updateValue(_rotation, value);
-    }
+    void setRotation(const Quaterniond& value) { _updateValue(_rotation, value); }
     const Vector3d& getRotationCenter() const { return _rotationCenter; }
-    void setRotationCenter(const Vector3d& value)
-    {
-        _updateValue(_rotationCenter, value);
-    }
+    void setRotationCenter(const Vector3d& value) { _updateValue(_rotationCenter, value); }
 
     bool operator==(const Transformation& rhs) const
     {
-        return _translation == rhs._translation && _rotation == rhs._rotation &&
-               _scale == rhs._scale && _rotationCenter == rhs._rotationCenter;
+        return _translation == rhs._translation && _rotation == rhs._rotation && _scale == rhs._scale &&
+               _rotationCenter == rhs._rotationCenter;
     }
     bool operator!=(const Transformation& rhs) const { return !(*this == rhs); }
     // only applies rotation and translation, use scaling separately if needed
@@ -95,20 +86,16 @@ private:
 
     SERIALIZATION_FRIEND(Transformation)
 };
-inline Transformation operator*(const Transformation& a,
-                                const Transformation& b)
+inline Transformation operator*(const Transformation& a, const Transformation& b)
 {
     const auto matrix = a.toMatrix() * b.toMatrix();
-    return {matrix[3], a.getScale() * b.getScale(), matrix,
-            a.getRotationCenter()};
+    return {matrix[3], a.getScale() * b.getScale(), matrix, a.getRotationCenter()};
 }
 
 inline Boxd transformBox(const Boxd& box, const Transformation& transformation)
 {
     const auto& scale = transformation.getScale();
-    return {transformation.toMatrix() * Vector4d(box.getMin(), 1.) *
-                Vector4d(scale, 1.),
-            transformation.toMatrix() * Vector4d(box.getMax(), 1.) *
-                Vector4d(scale, 1.)};
+    return {transformation.toMatrix() * Vector4d(box.getMin(), 1.) * Vector4d(scale, 1.),
+            transformation.toMatrix() * Vector4d(box.getMax(), 1.) * Vector4d(scale, 1.)};
 }
 } // namespace brayns

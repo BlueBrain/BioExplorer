@@ -1,4 +1,4 @@
-/* Copyright (c) 2015-2017, EPFL/Blue Brain Project
+/* Copyright (c) 2015-2023, EPFL/Blue Brain Project
  * All rights reserved. Do not distribute without permission.
  * Responsible Author: Cyrille Favreau <cyrille.favreau@epfl.ch>
  *
@@ -122,6 +122,10 @@ using TriangleMeshMap = std::map<size_t, TriangleMesh>;
 
 struct StreamlinesData;
 using StreamlinesDataMap = std::map<size_t, StreamlinesData>;
+
+struct Curve;
+using Curves = std::vector<Curve>;
+using CurvesMap = std::map<size_t, Curves>;
 
 class Volume;
 class BrickedVolume;
@@ -321,21 +325,16 @@ struct RpcDescription
 /** Description for RPC with one parameter. */
 struct RpcParameterDescription : RpcDescription
 {
-    RpcParameterDescription(const std::string& methodName_,
-                            const std::string& methodDescription_,
-                            const Execution type_,
-                            const std::string& paramName_,
-                            const std::string& paramDescription_)
+    RpcParameterDescription(const std::string& methodName_, const std::string& methodDescription_,
+                            const Execution type_, const std::string& paramName_, const std::string& paramDescription_)
         : RpcDescription{methodName_, methodDescription_, type_}
         , paramName(paramName_)
         , paramDescription(paramDescription_)
     {
     }
 
-    RpcParameterDescription(const std::string& methodName_,
-                            const std::string& methodDescription_,
-                            const std::string& paramName_,
-                            const std::string& paramDescription_)
+    RpcParameterDescription(const std::string& methodName_, const std::string& methodDescription_,
+                            const std::string& paramName_, const std::string& paramDescription_)
         : RpcDescription{methodName_, methodDescription_, Execution::sync}
         , paramName(paramName_)
         , paramDescription(paramDescription_)
@@ -368,17 +367,14 @@ inline std::vector<std::pair<std::string, ProteinColorScheme>> enumMap()
 template <>
 inline std::vector<std::pair<std::string, GeometryQuality>> enumMap()
 {
-    return {{"low", GeometryQuality::low},
-            {"medium", GeometryQuality::medium},
-            {"high", GeometryQuality::high}};
+    return {{"low", GeometryQuality::low}, {"medium", GeometryQuality::medium}, {"high", GeometryQuality::high}};
 }
 
 template <>
 inline std::vector<std::pair<std::string, DataType>> enumMap()
 {
-    return {{"float", DataType::FLOAT},   {"double", DataType::DOUBLE},
-            {"uint8", DataType::UINT8},   {"uint16", DataType::UINT16},
-            {"uint32", DataType::UINT32}, {"int8", DataType::INT8},
+    return {{"float", DataType::FLOAT},   {"double", DataType::DOUBLE}, {"uint8", DataType::UINT8},
+            {"uint16", DataType::UINT16}, {"uint32", DataType::UINT32}, {"int8", DataType::INT8},
             {"int16", DataType::INT16},   {"int32", DataType::INT32}};
 }
 } // namespace brayns

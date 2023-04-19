@@ -1,4 +1,4 @@
-/* Copyright (c) 2015-2018, EPFL/Blue Brain Project
+/* Copyright (c) 2015-2023, EPFL/Blue Brain Project
  * All rights reserved. Do not distribute without permission.
  * Responsible Author: Cyrille Favreau <cyrille.favreau@epfl.ch>
  *
@@ -43,16 +43,12 @@ public:
     void print() final;
 
     const std::string& getCurrentRenderer() const { return _renderer; }
-    void setCurrentRenderer(const std::string& renderer)
-    {
-        _updateValue(_renderer, renderer);
-    }
+    void setCurrentRenderer(const std::string& renderer) { _updateValue(_renderer, renderer); }
     /** All registered renderers */
     const auto& getRenderers() const { return _renderers; }
     void addRenderer(const std::string& renderer)
     {
-        if (std::find(_renderers.begin(), _renderers.end(), renderer) ==
-            _renderers.end())
+        if (std::find(_renderers.begin(), _renderers.end(), renderer) == _renderers.end())
             _renderers.push_front(renderer);
     }
     const std::string& getCurrentCamera() const { return _camera; }
@@ -61,20 +57,11 @@ public:
     void addCamera(const std::string& camera) { _cameras.push_front(camera); }
     /** Number of samples per pixel */
     uint32_t getSamplesPerPixel() const { return _spp; }
-    void setSamplesPerPixel(const uint32_t value)
-    {
-        _updateValue(_spp, std::max(1u, value));
-    }
+    void setSamplesPerPixel(const uint32_t value) { _updateValue(_spp, std::max(1u, value)); }
     uint32_t getSubsampling() const { return _subsampling; }
-    void setSubsampling(const uint32_t subsampling)
-    {
-        _updateValue(_subsampling, std::max(1u, subsampling));
-    }
+    void setSubsampling(const uint32_t subsampling) { _updateValue(_subsampling, std::max(1u, subsampling)); }
     const Vector3d& getBackgroundColor() const { return _backgroundColor; }
-    void setBackgroundColor(const Vector3d& value)
-    {
-        _updateValue(_backgroundColor, value);
-    }
+    void setBackgroundColor(const Vector3d& value) { _updateValue(_backgroundColor, value); }
 
     /**
        Light source follow camera origin
@@ -91,10 +78,7 @@ public:
      * The threshold where accumulation stops if the variance error reaches this
      * value.
      */
-    void setVarianceThreshold(const double value)
-    {
-        _updateValue(_varianceThreshold, value);
-    }
+    void setVarianceThreshold(const double value) { _updateValue(_varianceThreshold, value); }
 
     /**
      * The maximum number of accumulation frames before engine signals to stop
@@ -102,10 +86,7 @@ public:
      *
      * @sa Engine::continueRendering()
      */
-    void setMaxAccumFrames(const size_t value)
-    {
-        _updateValue(_maxAccumFrames, value);
-    }
+    void setMaxAccumFrames(const size_t value) { _updateValue(_maxAccumFrames, value); }
     size_t getMaxAccumFrames() const { return _maxAccumFrames; }
 
 protected:

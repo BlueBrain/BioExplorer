@@ -1,4 +1,4 @@
-/* Copyright (c) 2015-2016, EPFL/Blue Brain Project
+/* Copyright (c) 2015-2023, EPFL/Blue Brain Project
  * All rights reserved. Do not distribute without permission.
  * Responsible Author: Cyrille Favreau <cyrille.favreau@epfl.ch>
  *
@@ -44,17 +44,14 @@ enum class SpecialKey
 class KeyboardHandler
 {
 public:
-    void registerKeyboardShortcut(const unsigned char key,
-                                  const std::string& description,
+    void registerKeyboardShortcut(const unsigned char key, const std::string& description,
                                   std::function<void()> functor);
 
     void unregisterKeyboardShortcut(const unsigned char key);
 
     void handleKeyboardShortcut(const unsigned char key);
 
-    void registerSpecialKey(const SpecialKey key,
-                            const std::string& description,
-                            std::function<void()> functor);
+    void registerSpecialKey(const SpecialKey key, const std::string& description, std::function<void()> functor);
 
     void unregisterSpecialKey(const SpecialKey key);
 

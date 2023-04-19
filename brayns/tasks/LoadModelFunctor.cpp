@@ -1,4 +1,4 @@
-/* Copyright (c) 2015-2018, EPFL/Blue Brain Project
+/* Copyright (c) 2015-2023, EPFL/Blue Brain Project
  * All rights reserved. Do not distribute without permission.
  * Responsible Author: Daniel.Nachbaur@epfl.ch
  *
@@ -50,8 +50,7 @@ ModelDescriptorPtr LoadModelFunctor::operator()()
     return _performLoad([&] { return _loadData(path, _params); });
 }
 
-ModelDescriptorPtr LoadModelFunctor::_performLoad(
-    const std::function<ModelDescriptorPtr()>& loadData)
+ModelDescriptorPtr LoadModelFunctor::_performLoad(const std::function<ModelDescriptorPtr()>& loadData)
 {
     try
     {
@@ -59,31 +58,25 @@ ModelDescriptorPtr LoadModelFunctor::_performLoad(
     }
     catch (const std::exception& e)
     {
-        progress("Loading failed",
-                 (TOTAL_PROGRESS - _currentProgress) / TOTAL_PROGRESS, 1.f);
+        progress("Loading failed", (TOTAL_PROGRESS - _currentProgress) / TOTAL_PROGRESS, 1.f);
         throw LOADING_BINARY_FAILED(e.what());
     }
 }
 
-ModelDescriptorPtr LoadModelFunctor::_loadData(Blob&& blob,
-                                               const ModelParams& params)
+ModelDescriptorPtr LoadModelFunctor::_loadData(Blob&& blob, const ModelParams& params)
 {
-    return _engine.getScene().loadModel(std::move(blob), params,
-                                        {_getProgressFunc()});
+    return _engine.getScene().loadModel(std::move(blob), params, {_getProgressFunc()});
 }
 
-ModelDescriptorPtr LoadModelFunctor::_loadData(const std::string& path,
-                                               const ModelParams& params)
+ModelDescriptorPtr LoadModelFunctor::_loadData(const std::string& path, const ModelParams& params)
 {
     return _engine.getScene().loadModel(path, params, {_getProgressFunc()});
 }
 
-void LoadModelFunctor::_updateProgress(const std::string& message,
-                                       const size_t increment)
+void LoadModelFunctor::_updateProgress(const std::string& message, const size_t increment)
 {
     _currentProgress += increment;
-    progress(message, increment / TOTAL_PROGRESS,
-             _currentProgress / TOTAL_PROGRESS);
+    progress(message, increment / TOTAL_PROGRESS, _currentProgress / TOTAL_PROGRESS);
 }
 
 std::function<void(std::string, float)> LoadModelFunctor::_getProgressFunc()

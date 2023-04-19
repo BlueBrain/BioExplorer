@@ -1,4 +1,4 @@
-/* Copyright (c) 2015-2018, EPFL/Blue Brain Project
+/* Copyright (c) 2015-2023, EPFL/Blue Brain Project
  * All rights reserved. Do not distribute without permission.
  * Responsible Author: Cyrille Favreau <cyrille.favreau@epfl.ch>
  *
@@ -44,14 +44,10 @@ public:
     virtual float getVariance() const { return 0.f; }
     virtual void commit() = 0;
     virtual void setCamera(CameraPtr camera) = 0;
-    virtual PickResult pick(const Vector2f& /*pickPos*/)
-    {
-        return PickResult();
-    }
+    virtual PickResult pick(const Vector2f& /*pickPos*/) { return PickResult(); }
     //@}
 
-    BRAYNS_API Renderer(const AnimationParameters& animationParameters,
-                        const RenderingParameters& renderingParameters);
+    BRAYNS_API Renderer(const AnimationParameters& animationParameters, const RenderingParameters& renderingParameters);
 
     void setScene(ScenePtr scene) { _scene = scene; };
 

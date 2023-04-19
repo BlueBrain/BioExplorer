@@ -1,4 +1,4 @@
-/* Copyright (c) 2015-2018, EPFL/Blue Brain Project
+/* Copyright (c) 2015-2023, EPFL/Blue Brain Project
  * All rights reserved. Do not distribute without permission.
  * Responsible Author: Daniel.Nachbaur@epfl.ch
  *
@@ -30,8 +30,7 @@
 
 namespace brayns
 {
-AddModelFromBlobTask::AddModelFromBlobTask(const BinaryParam& param,
-                                           Engine& engine)
+AddModelFromBlobTask::AddModelFromBlobTask(const BinaryParam& param, Engine& engine)
     : _param(param)
 {
     _checkValidity(engine);
@@ -40,19 +39,15 @@ AddModelFromBlobTask::AddModelFromBlobTask(const BinaryParam& param,
 
     LoadModelFunctor functor{engine, param};
     functor.setCancelToken(_cancelToken);
-    functor.setProgressFunc(
-        [&progress = progress, w = CHUNK_PROGRESS_WEIGHT](const auto& msg, auto,
-                                                          auto amount) {
-            progress.update(msg, w + (amount * (1.f - w)));
-        });
+    functor.setProgressFunc([&progress = progress, w = CHUNK_PROGRESS_WEIGHT](const auto& msg, auto, auto amount) {
+        progress.update(msg, w + (amount * (1.f - w)));
+    });
 
     // load data, return model descriptor or stop if blob receive was invalid
     _finishTasks.emplace_back(_errorEvent.get_task());
     _finishTasks.emplace_back(_chunkEvent.get_task().then(std::move(functor)));
     _task = async::when_any(_finishTasks)
-                .then([&engine](async::when_any_result<
-                                std::vector<async::task<ModelDescriptorPtr>>>
-                                    results) {
+                .then([&engine](async::when_any_result<std::vector<async::task<ModelDescriptorPtr>>> results) {
                     engine.triggerRender();
                     return results.tasks[results.index].get();
                 });
@@ -63,8 +58,7 @@ void AddModelFromBlobTask::appendBlob(const std::string& blob)
     // if more bytes than expected are received, error and stop
     if (_blob.size() + blob.size() > _param.size)
     {
-        _errorEvent.set_exception(
-            std::make_exception_ptr(INVALID_BINARY_RECEIVE));
+        _errorEvent.set_exception(std::make_exception_ptr(INVALID_BINARY_RECEIVE));
         return;
     }
 

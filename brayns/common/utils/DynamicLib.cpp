@@ -1,4 +1,4 @@
-/* Copyright (c) 2015-2018, EPFL/Blue Brain Project
+/* Copyright (c) 2015-2023, EPFL/Blue Brain Project
  * All rights reserved. Do not distribute without permission.
  * Responsible Author: Juan Hernando <juan.hernando@epfl.ch>
  *
@@ -43,11 +43,8 @@ DynamicLib::DynamicLib(const std::string& name)
     {
         DWORD err = GetLastError();
         LPTSTR buffer;
-        FormatMessage(FORMAT_MESSAGE_ALLOCATE_BUFFER |
-                          FORMAT_MESSAGE_FROM_SYSTEM |
-                          FORMAT_MESSAGE_IGNORE_INSERTS,
-                      NULL, err, MAKELANGID(LANG_NEUTRAL, SUBLANG_DEFAULT),
-                      (LPTSTR)&buffer, 0, NULL);
+        FormatMessage(FORMAT_MESSAGE_ALLOCATE_BUFFER | FORMAT_MESSAGE_FROM_SYSTEM | FORMAT_MESSAGE_IGNORE_INSERTS, NULL,
+                      err, MAKELANGID(LANG_NEUTRAL, SUBLANG_DEFAULT), (LPTSTR)&buffer, 0, NULL);
         errorMessage = buffer;
         LocalFree(buffer);
     }
@@ -63,8 +60,7 @@ DynamicLib::DynamicLib(const std::string& name)
         errorMessage = dlerror();
 #endif
     if (!_handler)
-        throw std::runtime_error("Error opening dynamic library: " + filename +
-                                 ": " + errorMessage);
+        throw std::runtime_error("Error opening dynamic library: " + filename + ": " + errorMessage);
 }
 
 DynamicLib::~DynamicLib()

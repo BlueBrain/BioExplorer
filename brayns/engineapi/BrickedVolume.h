@@ -1,4 +1,4 @@
-/* Copyright (c) 2015-2018, EPFL/Blue Brain Project
+/* Copyright (c) 2015-2023, EPFL/Blue Brain Project
  * All rights reserved. Do not distribute without permission.
  * Responsible Author: Daniel Nachbaur <daniel.nachbaur@epfl.ch>
  *
@@ -30,13 +30,11 @@ class BrickedVolume : public virtual Volume
 public:
     /** @name API for engine-specific code */
     //@{
-    virtual void setBrick(const void* data, const Vector3ui& position,
-                          const Vector3ui& size) = 0;
+    virtual void setBrick(const void* data, const Vector3ui& position, const Vector3ui& size) = 0;
     //@}
 
 protected:
-    BrickedVolume(const Vector3ui& dimensions, const Vector3f& spacing,
-                  const DataType type)
+    BrickedVolume(const Vector3ui& dimensions, const Vector3f& spacing, const DataType type)
         : Volume(dimensions, spacing, type)
     {
     }

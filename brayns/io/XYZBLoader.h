@@ -1,4 +1,4 @@
-/* Copyright (c) 2015-2016, EPFL/Blue Brain Project
+/* Copyright (c) 2015-2023, EPFL/Blue Brain Project
  * All rights reserved. Do not distribute without permission.
  * Responsible Author: Cyrille Favreau <cyrille.favreau@epfl.ch>
  *
@@ -33,15 +33,12 @@ public:
     std::vector<std::string> getSupportedExtensions() const final;
     std::string getName() const final;
 
-    bool isSupported(const std::string& filename,
-                     const std::string& extension) const final;
-    ModelDescriptorPtr importFromBlob(
-        Blob&& blob, const LoaderProgress& callback,
-        const PropertyMap& properties) const final;
+    bool isSupported(const std::string& filename, const std::string& extension) const final;
+    ModelDescriptorPtr importFromBlob(Blob&& blob, const LoaderProgress& callback,
+                                      const PropertyMap& properties) const final;
 
-    ModelDescriptorPtr importFromFile(
-        const std::string& filename, const LoaderProgress& callback,
-        const PropertyMap& properties) const final;
+    ModelDescriptorPtr importFromFile(const std::string& filename, const LoaderProgress& callback,
+                                      const PropertyMap& properties) const final;
 };
 } // namespace brayns
 

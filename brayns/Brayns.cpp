@@ -1,4 +1,4 @@
-/* Copyright (c) 2015-2018, EPFL/Blue Brain Project
+/* Copyright (c) 2015-2023, EPFL/Blue Brain Project
  * All rights reserved. Do not distribute without permission.
  * Responsible Author: Cyrille Favreau <cyrille.favreau@epfl.ch>
  *                     Jafet Villafranca <jafet.villafrancadiaz@epfl.ch>
@@ -77,27 +77,15 @@ struct Brayns::Impl : public PluginAPI
         , _engineFactory{argc, argv, _parametersManager}
         , _pluginManager{argc, argv}
     {
-        BRAYNS_INFO << std::endl;
-        BRAYNS_INFO << " _|_|_|" << std::endl;
-        BRAYNS_INFO
-            << " _|    _|  _|  _|_|    _|_|_|  _|    _|  _|_|_|      _|_|_|  "
-            << std::endl;
-        BRAYNS_INFO
-            << " _|_|_|    _|_|      _|    _|  _|    _|  _|    _|  _|_|     "
-            << std::endl;
-        BRAYNS_INFO
-            << " _|    _|  _|        _|    _|  _|    _|  _|    _|      _|_| "
-            << std::endl;
-        BRAYNS_INFO
-            << " _|_|_|    _|          _|_|_|    _|_|_|  _|    _|  _|_|_|   "
-            << std::endl;
-        BRAYNS_INFO
-            << "                                    _|                     "
-            << std::endl;
-        BRAYNS_INFO
-            << "                                  _|_|                       "
-            << std::endl;
-        BRAYNS_INFO << std::endl;
+        BRAYNS_INFO("");
+        BRAYNS_INFO(" _|_|_|");
+        BRAYNS_INFO(" _|    _|  _|  _|_|    _|_|_|  _|    _|  _|_|_|      _|_|_| ");
+        BRAYNS_INFO(" _|_|_|    _|_|      _|    _|  _|    _|  _|    _|  _|_|     ");
+        BRAYNS_INFO(" _|    _|  _|        _|    _|  _|    _|  _|    _|      _|_| ");
+        BRAYNS_INFO(" _|_|_|    _|          _|_|_|    _|_|_|  _|    _|  _|_|_|   ");
+        BRAYNS_INFO("                                    _|                      ");
+        BRAYNS_INFO("                                  _|_|                      ");
+        BRAYNS_INFO("");
 
         // This initialization must happen before plugin intialization.
         _createEngine();
@@ -142,8 +130,7 @@ struct Brayns::Impl : public PluginAPI
         // Need to update head light before scene is committed
         if (rp.getHeadLight() && (camera.isModified() || rp.isModified()))
         {
-            const auto newDirection =
-                glm::rotate(camera.getOrientation(), Vector3d(0, 0, -1));
+            const auto newDirection = glm::rotate(camera.getOrientation(), Vector3d(0, 0, -1));
             _sunLight->_direction = newDirection;
             lightManager.addLight(_sunLight);
         }
@@ -157,14 +144,11 @@ struct Brayns::Impl : public PluginAPI
         auto& renderer = _engine->getRenderer();
         renderer.setCurrentType(rp.getCurrentRenderer());
 
-        const auto windowSize =
-            _parametersManager.getApplicationParameters().getWindowSize();
+        const auto windowSize = _parametersManager.getApplicationParameters().getWindowSize();
 
         if (camera.hasProperty("aspect"))
         {
-            camera.updateProperty("aspect",
-                                  static_cast<double>(windowSize.x) /
-                                      static_cast<double>(windowSize.y));
+            camera.updateProperty("aspect", static_cast<double>(windowSize.x) / static_cast<double>(windowSize.y));
         }
         for (auto frameBuffer : _frameBuffers)
             frameBuffer->resize(windowSize);
@@ -175,8 +159,7 @@ struct Brayns::Impl : public PluginAPI
 
         _engine->commit();
 
-        if (_parametersManager.isAnyModified() || camera.isModified() ||
-            scene.isModified() || renderer.isModified() ||
+        if (_parametersManager.isAnyModified() || camera.isModified() || scene.isModified() || renderer.isModified() ||
             lightManager.isModified())
         {
             _engine->clearFrameBuffers();
@@ -206,8 +189,7 @@ struct Brayns::Impl : public PluginAPI
         if (delta > 0)
         {
             const int64_t targetTime = (1. / fps) * 1000.f;
-            std::this_thread::sleep_for(std::chrono::milliseconds(
-                targetTime - _renderTimer.milliseconds()));
+            std::this_thread::sleep_for(std::chrono::milliseconds(targetTime - _renderTimer.milliseconds()));
         }
     }
 
@@ -228,10 +210,8 @@ struct Brayns::Impl : public PluginAPI
 
     bool commit(const RenderInput& renderInput)
     {
-        _engine->getCamera().set(renderInput.position, renderInput.orientation,
-                                 renderInput.target);
-        _parametersManager.getApplicationParameters().setWindowSize(
-            renderInput.windowSize);
+        _engine->getCamera().set(renderInput.position, renderInput.orientation, renderInput.target);
+        _parametersManager.getApplicationParameters().setWindowSize(renderInput.windowSize);
 
         return commit();
     }
@@ -244,8 +224,7 @@ struct Brayns::Impl : public PluginAPI
         const auto colorBuffer = frameBuffer.getColorBuffer();
         if (colorBuffer)
         {
-            const size_t size =
-                frameSize.x * frameSize.y * frameBuffer.getColorDepth();
+            const size_t size = frameSize.x * frameSize.y * frameBuffer.getColorDepth();
             renderOutput.colorBuffer.assign(colorBuffer, colorBuffer + size);
             renderOutput.colorBufferFormat = frameBuffer.getFrameBufferFormat();
         }
@@ -263,36 +242,25 @@ struct Brayns::Impl : public PluginAPI
     }
 
     Engine& getEngine() final { return *_engine; }
-    ParametersManager& getParametersManager() final
-    {
-        return _parametersManager;
-    }
+    ParametersManager& getParametersManager() final { return _parametersManager; }
     KeyboardHandler& getKeyboardHandler() final { return _keyboardHandler; }
-    AbstractManipulator& getCameraManipulator() final
-    {
-        return *_cameraManipulator;
-    }
+    AbstractManipulator& getCameraManipulator() final { return *_cameraManipulator; }
     Camera& getCamera() final { return _engine->getCamera(); }
     Renderer& getRenderer() final { return _engine->getRenderer(); }
     void triggerRender() final { _engine->triggerRender(); }
-    ActionInterface* getActionInterface() final
-    {
-        return _actionInterface.get();
-    }
-    void setActionInterface(const ActionInterfacePtr& interface) final
-    {
-        _actionInterface = interface;
-    }
+    ActionInterface* getActionInterface() final { return _actionInterface.get(); }
+    void setActionInterface(const ActionInterfacePtr& interface) final { _actionInterface = interface; }
     Scene& getScene() final { return _engine->getScene(); }
 
 private:
     void _createEngine()
     {
-        auto engineName =
-            _parametersManager.getApplicationParameters().getEngine();
+        auto engineName = _parametersManager.getApplicationParameters().getEngine();
 
-        if (string_utils::toLowercase(engineName) == "optix")
-            engineName = "braynsOptixEngine";
+        if (string_utils::toLowercase(engineName) == "optix6")
+            engineName = "braynsOptix6Engine";
+        else if (string_utils::toLowercase(engineName) == "optix7")
+            engineName = "braynsOptix7Engine";
         else if (string_utils::toLowercase(engineName) == "ospray")
             engineName = "braynsOSPRayEngine";
 
@@ -301,17 +269,12 @@ private:
             throw std::runtime_error("Unsupported engine: " + engineName);
 
         // Default sun light
-        _sunLight =
-            std::make_shared<DirectionalLight>(DEFAULT_SUN_DIRECTION,
-                                               DEFAULT_SUN_ANGULAR_DIAMETER,
-                                               DEFAULT_SUN_COLOR,
-                                               DEFAULT_SUN_INTENSITY, false);
+        _sunLight = std::make_shared<DirectionalLight>(DEFAULT_SUN_DIRECTION, DEFAULT_SUN_ANGULAR_DIAMETER,
+                                                       DEFAULT_SUN_COLOR, DEFAULT_SUN_INTENSITY, false);
         _engine->getScene().getLightManager().addLight(_sunLight);
 
-        _engine->getCamera().setCurrentType(
-            _parametersManager.getRenderingParameters().getCurrentCamera());
-        _engine->getRenderer().setCurrentType(
-            _parametersManager.getRenderingParameters().getCurrentRenderer());
+        _engine->getCamera().setCurrentType(_parametersManager.getRenderingParameters().getCurrentCamera());
+        _engine->getRenderer().setCurrentType(_parametersManager.getRenderingParameters().getCurrentRenderer());
     }
 
     void _createFrameBuffer()
@@ -320,8 +283,7 @@ private:
             return;
 
         const auto& ap = _parametersManager.getApplicationParameters();
-        const auto names =
-            ap.isStereo() ? strings{"0L", "0R"} : strings{"default"};
+        const auto names = ap.isStereo() ? strings{"0L", "0R"} : strings{"default"};
         for (const auto& name : names)
             _addFrameBuffer(name);
     }
@@ -331,9 +293,7 @@ private:
         const auto& ap = _parametersManager.getApplicationParameters();
         const auto frameSize = ap.getWindowSize();
 
-        auto frameBuffer =
-            _engine->createFrameBuffer(name, frameSize,
-                                       FrameBufferFormat::rgba_i8);
+        auto frameBuffer = _engine->createFrameBuffer(name, frameSize, FrameBufferFormat::rgba_i8);
         _engine->addFrameBuffer(frameBuffer);
         _frameBuffers.push_back(frameBuffer);
     }
@@ -353,8 +313,7 @@ private:
         registry.registerLoader(std::make_unique<MeshLoader>(scene, params));
 #endif
 #if BRAYNS_USE_LIBARCHIVE
-        registry.registerArchiveLoader(
-            std::make_unique<ArchiveLoader>(scene, registry));
+        registry.registerArchiveLoader(std::make_unique<ArchiveLoader>(scene, registry));
 #endif
     }
 
@@ -363,8 +322,7 @@ private:
         auto& scene = _engine->getScene();
         const auto& registry = scene.getLoaderRegistry();
 
-        const auto& paths =
-            _parametersManager.getApplicationParameters().getInputPaths();
+        const auto& paths = _parametersManager.getApplicationParameters().getInputPaths();
         if (!paths.empty())
         {
             if (paths.size() == 1 && paths[0] == "demo")
@@ -375,8 +333,7 @@ private:
 
             for (const auto& path : paths)
                 if (!registry.isSupportedFile(path))
-                    throw std::runtime_error("No loader found for '" + path +
-                                             "'");
+                    throw std::runtime_error("No loader found for '" + path + "'");
 
             for (const auto& path : paths)
             {
@@ -384,7 +341,7 @@ private:
                 std::string msgLast;
                 auto timeLast = std::chrono::steady_clock::now();
 
-                BRAYNS_INFO << "Loading '" << path << "'" << std::endl;
+                BRAYNS_INFO("Loading '" << path << "'");
 
                 auto progress = [&](const std::string& msg, float t) {
                     constexpr auto MIN_SECS = 5;
@@ -394,18 +351,16 @@ private:
                     const int percentage = static_cast<int>(100.0f * t);
                     const auto time = std::chrono::steady_clock::now();
                     const auto secondsElapsed =
-                        std::chrono::duration_cast<std::chrono::seconds>(
-                            time - timeLast)
-                            .count();
+                        std::chrono::duration_cast<std::chrono::seconds>(time - timeLast).count();
                     const auto percentageElapsed = percentage - percentageLast;
 
-                    if ((secondsElapsed >= MIN_SECS && percentageElapsed > 0) ||
-                        msgLast != msg || (percentageElapsed >= MIN_PERCENTAGE))
+                    if ((secondsElapsed >= MIN_SECS && percentageElapsed > 0) || msgLast != msg ||
+                        (percentageElapsed >= MIN_PERCENTAGE))
                     {
                         std::string p = std::to_string(percentage);
                         p.insert(p.begin(), 3 - p.size(), ' ');
 
-                        BRAYNS_INFO << "[" << p << "%] " << msg << std::endl;
+                        BRAYNS_INFO("[" << p << "%] " << msg);
                         msgLast = msg;
                         percentageLast = percentage;
                         timeLast = time;
@@ -417,27 +372,21 @@ private:
                 scene.loadModel(path, params, {progress});
             }
         }
-        scene.setEnvironmentMap(
-            _parametersManager.getApplicationParameters().getEnvMap());
+        scene.setEnvironmentMap(_parametersManager.getApplicationParameters().getEnvMap());
         scene.markModified();
     }
 
-    void _setupCameraManipulator(const CameraMode mode,
-                                 const bool adjust = true)
+    void _setupCameraManipulator(const CameraMode mode, const bool adjust = true)
     {
         _cameraManipulator.reset();
 
         switch (mode)
         {
         case CameraMode::flying:
-            _cameraManipulator.reset(
-                new FlyingModeManipulator(_engine->getCamera(),
-                                          _keyboardHandler));
+            _cameraManipulator.reset(new FlyingModeManipulator(_engine->getCamera(), _keyboardHandler));
             break;
         case CameraMode::inspect:
-            _cameraManipulator.reset(
-                new InspectCenterManipulator(_engine->getCamera(),
-                                             _keyboardHandler));
+            _cameraManipulator.reset(new InspectCenterManipulator(_engine->getCamera(), _keyboardHandler));
             break;
         };
 
@@ -447,182 +396,133 @@ private:
 
     void _registerKeyboardShortcuts()
     {
-        _keyboardHandler.registerKeyboardShortcut(
-            '0', "Black background",
-            std::bind(&Brayns::Impl::_blackBackground, this));
-        _keyboardHandler.registerKeyboardShortcut(
-            '1', "Gray background",
-            std::bind(&Brayns::Impl::_grayBackground, this));
-        _keyboardHandler.registerKeyboardShortcut(
-            '2', "White background",
-            std::bind(&Brayns::Impl::_whiteBackground, this));
-        _keyboardHandler.registerKeyboardShortcut(
-            '3', "Set gradient materials",
-            std::bind(&Brayns::Impl::_gradientMaterials, this));
-        _keyboardHandler.registerKeyboardShortcut(
-            '4', "Set random materials",
-            std::bind(&Brayns::Impl::_randomMaterials, this));
-        _keyboardHandler.registerKeyboardShortcut(
-            '5', "Scientific visualization renderer",
-            std::bind(&Brayns::Impl::_scivisRenderer, this));
-        _keyboardHandler.registerKeyboardShortcut(
-            '6', "Default renderer",
-            std::bind(&Brayns::Impl::_defaultRenderer, this));
-        _keyboardHandler.registerKeyboardShortcut(
-            '7', "Basic simulation renderer",
-            std::bind(&Brayns::Impl::_basicSimulationRenderer, this));
-        _keyboardHandler.registerKeyboardShortcut(
-            '8', "Advanced Simulation renderer",
-            std::bind(&Brayns::Impl::_advancedSimulationRenderer, this));
-        _keyboardHandler.registerKeyboardShortcut(
-            '9', "Proximity renderer",
-            std::bind(&Brayns::Impl::_proximityRenderer, this));
-        _keyboardHandler.registerKeyboardShortcut(
-            '[', "Decrease animation frame by 1",
-            std::bind(&Brayns::Impl::_decreaseAnimationFrame, this));
-        _keyboardHandler.registerKeyboardShortcut(
-            ']', "Increase animation frame by 1",
-            std::bind(&Brayns::Impl::_increaseAnimationFrame, this));
-        _keyboardHandler.registerKeyboardShortcut(
-            'e', "Enable eletron shading",
-            std::bind(&Brayns::Impl::_electronShading, this));
-        _keyboardHandler.registerKeyboardShortcut(
-            'f', "Enable fly mode", [this]() {
-                Brayns::Impl::_setupCameraManipulator(CameraMode::flying);
-            });
-        _keyboardHandler.registerKeyboardShortcut(
-            'i', "Enable inspect mode", [this]() {
-                Brayns::Impl::_setupCameraManipulator(CameraMode::inspect);
-            });
-        _keyboardHandler.registerKeyboardShortcut(
-            'o', "Decrease ambient occlusion strength",
-            std::bind(&Brayns::Impl::_decreaseAmbientOcclusionStrength, this));
-        _keyboardHandler.registerKeyboardShortcut(
-            'O', "Increase ambient occlusion strength",
-            std::bind(&Brayns::Impl::_increaseAmbientOcclusionStrength, this));
-        _keyboardHandler.registerKeyboardShortcut(
-            'p', "Enable diffuse shading",
-            std::bind(&Brayns::Impl::_diffuseShading, this));
-        _keyboardHandler.registerKeyboardShortcut(
-            'P', "Disable shading",
-            std::bind(&Brayns::Impl::_disableShading, this));
-        _keyboardHandler.registerKeyboardShortcut(
-            'r', "Set animation frame to 0",
-            std::bind(&Brayns::Impl::_resetAnimationFrame, this));
-        _keyboardHandler.registerKeyboardShortcut(
-            'u', "Enable/Disable shadows",
-            std::bind(&Brayns::Impl::_toggleShadows, this));
-        _keyboardHandler.registerKeyboardShortcut(
-            'U', "Enable/Disable soft shadows",
-            std::bind(&Brayns::Impl::_toggleSoftShadows, this));
-        _keyboardHandler.registerKeyboardShortcut(
-            't', "Multiply samples per ray by 2",
-            std::bind(&Brayns::Impl::_increaseSamplesPerRay, this));
-        _keyboardHandler.registerKeyboardShortcut(
-            'T', "Divide samples per ray by 2",
-            std::bind(&Brayns::Impl::_decreaseSamplesPerRay, this));
-        _keyboardHandler.registerKeyboardShortcut(
-            'l', "Toggle load dynamic/static load balancer",
-            std::bind(&Brayns::Impl::_toggleLoadBalancer, this));
-        _keyboardHandler.registerKeyboardShortcut(
-            'g', "Enable/Disable animation playback",
-            std::bind(&Brayns::Impl::_toggleAnimationPlayback, this));
-        _keyboardHandler.registerKeyboardShortcut(
-            '{', "Decrease eye separation",
-            std::bind(&Brayns::Impl::_changeEyeSeparation, this, -0.01));
-        _keyboardHandler.registerKeyboardShortcut(
-            '}', "Increase eye separation",
-            std::bind(&Brayns::Impl::_changeEyeSeparation, this, 0.01));
-        _keyboardHandler.registerKeyboardShortcut(
-            '<', "Decrease field of view",
-            std::bind(&Brayns::Impl::_changeFieldOfView, this, -1.));
-        _keyboardHandler.registerKeyboardShortcut(
-            '>', "Increase field of view",
-            std::bind(&Brayns::Impl::_changeFieldOfView, this, 1.));
-        _keyboardHandler.registerKeyboardShortcut(
-            ' ', "Camera reset to initial state",
-            std::bind(&Brayns::Impl::_resetCamera, this));
-        _keyboardHandler.registerKeyboardShortcut(
-            '+', "Increase motion speed",
-            std::bind(&Brayns::Impl::_increaseMotionSpeed, this));
-        _keyboardHandler.registerKeyboardShortcut(
-            '-', "Decrease motion speed",
-            std::bind(&Brayns::Impl::_decreaseMotionSpeed, this));
-        _keyboardHandler.registerKeyboardShortcut(
-            'c', "Display current camera information",
-            std::bind(&Brayns::Impl::_displayCameraInformation, this));
-        _keyboardHandler.registerKeyboardShortcut(
-            'b', "Toggle benchmarking", [this]() {
-                auto& ap = _parametersManager.getApplicationParameters();
-                ap.setBenchmarking(!ap.isBenchmarking());
-            });
+        _keyboardHandler.registerKeyboardShortcut('0', "Black background",
+                                                  std::bind(&Brayns::Impl::_blackBackground, this));
+        _keyboardHandler.registerKeyboardShortcut('1', "Gray background",
+                                                  std::bind(&Brayns::Impl::_grayBackground, this));
+        _keyboardHandler.registerKeyboardShortcut('2', "White background",
+                                                  std::bind(&Brayns::Impl::_whiteBackground, this));
+        _keyboardHandler.registerKeyboardShortcut('3', "Set gradient materials",
+                                                  std::bind(&Brayns::Impl::_gradientMaterials, this));
+        _keyboardHandler.registerKeyboardShortcut('4', "Set random materials",
+                                                  std::bind(&Brayns::Impl::_randomMaterials, this));
+        _keyboardHandler.registerKeyboardShortcut('5', "Scientific visualization renderer",
+                                                  std::bind(&Brayns::Impl::_scivisRenderer, this));
+        _keyboardHandler.registerKeyboardShortcut('6', "Default renderer",
+                                                  std::bind(&Brayns::Impl::_defaultRenderer, this));
+        _keyboardHandler.registerKeyboardShortcut('7', "Basic simulation renderer",
+                                                  std::bind(&Brayns::Impl::_basicSimulationRenderer, this));
+        _keyboardHandler.registerKeyboardShortcut('8', "Advanced Simulation renderer",
+                                                  std::bind(&Brayns::Impl::_advancedSimulationRenderer, this));
+        _keyboardHandler.registerKeyboardShortcut('9', "Proximity renderer",
+                                                  std::bind(&Brayns::Impl::_proximityRenderer, this));
+        _keyboardHandler.registerKeyboardShortcut('[', "Decrease animation frame by 1",
+                                                  std::bind(&Brayns::Impl::_decreaseAnimationFrame, this));
+        _keyboardHandler.registerKeyboardShortcut(']', "Increase animation frame by 1",
+                                                  std::bind(&Brayns::Impl::_increaseAnimationFrame, this));
+        _keyboardHandler.registerKeyboardShortcut('e', "Enable eletron shading",
+                                                  std::bind(&Brayns::Impl::_electronShading, this));
+        _keyboardHandler.registerKeyboardShortcut('f', "Enable fly mode", [this]() {
+            Brayns::Impl::_setupCameraManipulator(CameraMode::flying);
+        });
+        _keyboardHandler.registerKeyboardShortcut('i', "Enable inspect mode", [this]() {
+            Brayns::Impl::_setupCameraManipulator(CameraMode::inspect);
+        });
+        _keyboardHandler.registerKeyboardShortcut('o', "Decrease ambient occlusion strength",
+                                                  std::bind(&Brayns::Impl::_decreaseAmbientOcclusionStrength, this));
+        _keyboardHandler.registerKeyboardShortcut('O', "Increase ambient occlusion strength",
+                                                  std::bind(&Brayns::Impl::_increaseAmbientOcclusionStrength, this));
+        _keyboardHandler.registerKeyboardShortcut('p', "Enable diffuse shading",
+                                                  std::bind(&Brayns::Impl::_diffuseShading, this));
+        _keyboardHandler.registerKeyboardShortcut('P', "Disable shading",
+                                                  std::bind(&Brayns::Impl::_disableShading, this));
+        _keyboardHandler.registerKeyboardShortcut('r', "Set animation frame to 0",
+                                                  std::bind(&Brayns::Impl::_resetAnimationFrame, this));
+        _keyboardHandler.registerKeyboardShortcut('u', "Enable/Disable shadows",
+                                                  std::bind(&Brayns::Impl::_toggleShadows, this));
+        _keyboardHandler.registerKeyboardShortcut('U', "Enable/Disable soft shadows",
+                                                  std::bind(&Brayns::Impl::_toggleSoftShadows, this));
+        _keyboardHandler.registerKeyboardShortcut('t', "Multiply samples per ray by 2",
+                                                  std::bind(&Brayns::Impl::_increaseSamplesPerRay, this));
+        _keyboardHandler.registerKeyboardShortcut('T', "Divide samples per ray by 2",
+                                                  std::bind(&Brayns::Impl::_decreaseSamplesPerRay, this));
+        _keyboardHandler.registerKeyboardShortcut('l', "Toggle load dynamic/static load balancer",
+                                                  std::bind(&Brayns::Impl::_toggleLoadBalancer, this));
+        _keyboardHandler.registerKeyboardShortcut('g', "Enable/Disable animation playback",
+                                                  std::bind(&Brayns::Impl::_toggleAnimationPlayback, this));
+        _keyboardHandler.registerKeyboardShortcut('{', "Decrease eye separation",
+                                                  std::bind(&Brayns::Impl::_changeEyeSeparation, this, -0.01));
+        _keyboardHandler.registerKeyboardShortcut('}', "Increase eye separation",
+                                                  std::bind(&Brayns::Impl::_changeEyeSeparation, this, 0.01));
+        _keyboardHandler.registerKeyboardShortcut('<', "Decrease field of view",
+                                                  std::bind(&Brayns::Impl::_changeFieldOfView, this, -1.));
+        _keyboardHandler.registerKeyboardShortcut('>', "Increase field of view",
+                                                  std::bind(&Brayns::Impl::_changeFieldOfView, this, 1.));
+        _keyboardHandler.registerKeyboardShortcut(' ', "Camera reset to initial state",
+                                                  std::bind(&Brayns::Impl::_resetCamera, this));
+        _keyboardHandler.registerKeyboardShortcut('+', "Increase motion speed",
+                                                  std::bind(&Brayns::Impl::_increaseMotionSpeed, this));
+        _keyboardHandler.registerKeyboardShortcut('-', "Decrease motion speed",
+                                                  std::bind(&Brayns::Impl::_decreaseMotionSpeed, this));
+        _keyboardHandler.registerKeyboardShortcut('c', "Display current camera information",
+                                                  std::bind(&Brayns::Impl::_displayCameraInformation, this));
+        _keyboardHandler.registerKeyboardShortcut('b', "Toggle benchmarking", [this]() {
+            auto& ap = _parametersManager.getApplicationParameters();
+            ap.setBenchmarking(!ap.isBenchmarking());
+        });
     }
 
     void _blackBackground()
     {
-        RenderingParameters& renderParams =
-            _parametersManager.getRenderingParameters();
+        RenderingParameters& renderParams = _parametersManager.getRenderingParameters();
         renderParams.setBackgroundColor(Vector3f(0.f, 0.f, 0.f));
     }
 
     void _grayBackground()
     {
-        RenderingParameters& renderParams =
-            _parametersManager.getRenderingParameters();
+        RenderingParameters& renderParams = _parametersManager.getRenderingParameters();
         renderParams.setBackgroundColor(Vector3f(0.5f, 0.5f, 0.5f));
     }
 
     void _whiteBackground()
     {
-        RenderingParameters& renderParams =
-            _parametersManager.getRenderingParameters();
+        RenderingParameters& renderParams = _parametersManager.getRenderingParameters();
         renderParams.setBackgroundColor(Vector3f(1.f, 1.f, 1.f));
     }
 
     void _scivisRenderer()
     {
-        RenderingParameters& renderParams =
-            _parametersManager.getRenderingParameters();
+        RenderingParameters& renderParams = _parametersManager.getRenderingParameters();
         renderParams.setCurrentRenderer("scivis");
     }
 
     void _defaultRenderer()
     {
-        RenderingParameters& renderParams =
-            _parametersManager.getRenderingParameters();
+        RenderingParameters& renderParams = _parametersManager.getRenderingParameters();
         renderParams.setCurrentRenderer("basic");
     }
 
     void _basicSimulationRenderer()
     {
-        RenderingParameters& renderParams =
-            _parametersManager.getRenderingParameters();
+        RenderingParameters& renderParams = _parametersManager.getRenderingParameters();
         renderParams.setCurrentRenderer("basic_simulation");
     }
 
     void _proximityRenderer()
     {
-        RenderingParameters& renderParams =
-            _parametersManager.getRenderingParameters();
+        RenderingParameters& renderParams = _parametersManager.getRenderingParameters();
         renderParams.setCurrentRenderer("proximity");
     }
 
     void _advancedSimulationRenderer()
     {
-        RenderingParameters& renderParams =
-            _parametersManager.getRenderingParameters();
+        RenderingParameters& renderParams = _parametersManager.getRenderingParameters();
         renderParams.setCurrentRenderer("advanced_simulation");
     }
 
-    void _increaseAnimationFrame()
-    {
-        _parametersManager.getAnimationParameters().jumpFrames(1);
-    }
+    void _increaseAnimationFrame() { _parametersManager.getAnimationParameters().jumpFrames(1); }
 
-    void _decreaseAnimationFrame()
-    {
-        _parametersManager.getAnimationParameters().jumpFrames(-1);
-    }
+    void _decreaseAnimationFrame() { _parametersManager.getAnimationParameters().jumpFrames(-1); }
 
     void _diffuseShading()
     {
@@ -680,8 +580,7 @@ private:
         if (!renderer.hasProperty("shadows"))
             return;
 
-        renderer.updateProperty(
-            "shadows", renderer.getProperty<double>("shadows") == 0. ? 1. : 0.);
+        renderer.updateProperty("shadows", renderer.getProperty<double>("shadows") == 0. ? 1. : 0.);
     }
 
     void _toggleSoftShadows()
@@ -690,10 +589,7 @@ private:
         if (!renderer.hasProperty("softShadows"))
             return;
 
-        renderer.updateProperty("softShadows", renderer.getProperty<double>(
-                                                   "softShadows") == 0.
-                                                   ? 1.
-                                                   : 0.);
+        renderer.updateProperty("softShadows", renderer.getProperty<double>("softShadows") == 0. ? 1. : 0.);
     }
 
     void _increaseSamplesPerRay()
@@ -722,7 +618,7 @@ private:
         auto fovy = camera.getProperty<double>("fovy");
         fovy += delta;
         camera.updateProperty("fovy", fovy);
-        BRAYNS_INFO << "Field of view: " << fovy << std::endl;
+        BRAYNS_INFO("Field of view: " << fovy);
     }
 
     void _changeEyeSeparation(const double delta)
@@ -730,27 +626,17 @@ private:
         auto& camera = _engine->getCamera();
         if (!camera.hasProperty("interpupillaryDistance"))
             return;
-        auto eyeSeparation =
-            camera.getProperty<double>("interpupillaryDistance");
+        auto eyeSeparation = camera.getProperty<double>("interpupillaryDistance");
         eyeSeparation += delta;
         camera.updateProperty("interpupillaryDistance", eyeSeparation);
-        BRAYNS_INFO << "Eye separation: " << eyeSeparation << std::endl;
+        BRAYNS_INFO("Eye separation: " << eyeSeparation);
     }
 
-    void _gradientMaterials()
-    {
-        _engine->getScene().setMaterialsColorMap(MaterialsColorMap::gradient);
-    }
+    void _gradientMaterials() { _engine->getScene().setMaterialsColorMap(MaterialsColorMap::gradient); }
 
-    void _randomMaterials()
-    {
-        _engine->getScene().setMaterialsColorMap(MaterialsColorMap::random);
-    }
+    void _randomMaterials() { _engine->getScene().setMaterialsColorMap(MaterialsColorMap::random); }
 
-    void _toggleAnimationPlayback()
-    {
-        _parametersManager.getAnimationParameters().togglePlayback();
-    }
+    void _toggleAnimationPlayback() { _parametersManager.getAnimationParameters().togglePlayback(); }
 
     void _resetCamera()
     {
@@ -758,21 +644,11 @@ private:
         camera.reset();
     }
 
-    void _increaseMotionSpeed()
-    {
-        _cameraManipulator->updateMotionSpeed(DEFAULT_MOTION_ACCELERATION);
-    }
+    void _increaseMotionSpeed() { _cameraManipulator->updateMotionSpeed(DEFAULT_MOTION_ACCELERATION); }
 
-    void _decreaseMotionSpeed()
-    {
-        _cameraManipulator->updateMotionSpeed(1.f /
-                                              DEFAULT_MOTION_ACCELERATION);
-    }
+    void _decreaseMotionSpeed() { _cameraManipulator->updateMotionSpeed(1.f / DEFAULT_MOTION_ACCELERATION); }
 
-    void _displayCameraInformation()
-    {
-        BRAYNS_INFO << _engine->getCamera() << std::endl;
-    }
+    void _displayCameraInformation() { BRAYNS_INFO(_engine->getCamera()); }
 
     ParametersManager _parametersManager;
     EngineFactory _engineFactory;
@@ -800,8 +676,7 @@ Brayns::Brayns(int argc, const char** argv)
 }
 Brayns::~Brayns() = default;
 
-void Brayns::commitAndRender(const RenderInput& renderInput,
-                             RenderOutput& renderOutput)
+void Brayns::commitAndRender(const RenderInput& renderInput, RenderOutput& renderOutput)
 {
     if (_impl->commit(renderInput))
     {

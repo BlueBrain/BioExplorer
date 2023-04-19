@@ -1,4 +1,4 @@
-/* Copyright (c) 2015-2019, EPFL/Blue Brain Project
+/* Copyright (c) 2015-2023, EPFL/Blue Brain Project
  * All rights reserved. Do not distribute without permission.
  *
  * This file is part of Brayns <https://github.com/BlueBrain/Brayns>
@@ -97,15 +97,13 @@ public:
 };
 
 template <typename T>
-inline fixed_tokens_typed_value<T>* fixed_tokens_value(unsigned min,
-                                                       unsigned max)
+inline fixed_tokens_typed_value<T>* fixed_tokens_value(unsigned min, unsigned max)
 {
     return new fixed_tokens_typed_value<T>(nullptr, min, max);
 }
 
 template <typename T>
-inline fixed_tokens_typed_value<T>* fixed_tokens_value(T* t, unsigned min,
-                                                       unsigned max)
+inline fixed_tokens_typed_value<T>* fixed_tokens_value(T* t, unsigned min, unsigned max)
 {
     return new fixed_tokens_typed_value<T>(t, min, max);
 }

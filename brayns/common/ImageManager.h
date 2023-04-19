@@ -1,4 +1,4 @@
-/* Copyright (c) 2015-2017, EPFL/Blue Brain Project
+/* Copyright (c) 2015-2023, EPFL/Blue Brain Project
  * All rights reserved. Do not distribute without permission.
  * Responsible Author: Cyrille Favreau <cyrille.favreau@epfl.ch>
  *
@@ -40,8 +40,7 @@ public:
      * @return Pointer to Texture2D object is import was successful, nullptr
      * otherwise
      */
-    static Texture2DPtr importTextureFromFile(const std::string& filename,
-                                              const TextureType type);
+    static Texture2DPtr importTextureFromFile(const std::string& filename, const TextureType type);
 };
 } // namespace brayns
 #endif // IMAGEMANAGER_H

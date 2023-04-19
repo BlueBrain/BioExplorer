@@ -1,4 +1,4 @@
-/* Copyright (c) 2015-2016, EPFL/Blue Brain Project
+/* Copyright (c) 2015-2023, EPFL/Blue Brain Project
  * All rights reserved. Do not distribute without permission.
  * Responsible Author: Cyrille Favreau <cyrille.favreau@epfl.ch>
  *
@@ -24,6 +24,6 @@ namespace brayns
 {
 void AbstractParameters::print()
 {
-    BRAYNS_INFO << "-= " << _name << " parameters =-" << std::endl;
+    BRAYNS_INFO("-= " << _name << " parameters =-");
 }
 } // namespace brayns

@@ -1,4 +1,4 @@
-/* Copyright (c) 2018, EPFL/Blue Brain Project
+/* Copyright (c) 2018-2023, EPFL/Blue Brain Project
  * All rights reserved. Do not distribute without permission.
  * Responsible Author: Daniel Nachbaur <daniel.nachbaur@epfl.ch>
  *
@@ -66,11 +66,9 @@ inline uint8_t getChannel(const std::string& name)
     return 0;
 }
 
-inline bool needsReset(const deflect::Observer& stream,
-                       const DeflectParameters& params)
+inline bool needsReset(const deflect::Observer& stream, const DeflectParameters& params)
 {
-    const bool changed = stream.getId() != params.getId() ||
-                         stream.getPort() != params.getPort() ||
+    const bool changed = stream.getId() != params.getId() || stream.getPort() != params.getPort() ||
                          stream.getHost() != params.getHostname();
 
     return changed || !stream.isConnected() || !params.getEnabled();

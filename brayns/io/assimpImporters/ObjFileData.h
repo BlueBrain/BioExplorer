@@ -126,8 +126,7 @@ struct Object
     //! \brief  Destructor
     ~Object()
     {
-        for (std::vector<Object *>::iterator it = m_SubObjects.begin();
-             it != m_SubObjects.end(); ++it)
+        for (std::vector<Object *>::iterator it = m_SubObjects.begin(); it != m_SubObjects.end(); ++it)
         {
             delete *it;
         }
@@ -251,15 +250,13 @@ struct Mesh
         , m_uiMaterialIndex(NoMaterial)
         , m_hasNormals(false)
     {
-        memset(m_uiUVCoordinates, 0,
-               sizeof(unsigned int) * AI_MAX_NUMBER_OF_TEXTURECOORDS);
+        memset(m_uiUVCoordinates, 0, sizeof(unsigned int) * AI_MAX_NUMBER_OF_TEXTURECOORDS);
     }
 
     /// Destructor
     ~Mesh()
     {
-        for (std::vector<Face *>::iterator it = m_Faces.begin();
-             it != m_Faces.end(); ++it)
+        for (std::vector<Face *>::iterator it = m_Faces.begin(); it != m_Faces.end(); ++it)
         {
             delete *it;
         }
@@ -273,10 +270,8 @@ struct Mesh
 struct Model
 {
     typedef std::map<std::string, std::vector<unsigned int> *> GroupMap;
-    typedef std::map<std::string, std::vector<unsigned int> *>::iterator
-        GroupMapIt;
-    typedef std::map<std::string, std::vector<unsigned int> *>::const_iterator
-        ConstGroupMapIt;
+    typedef std::map<std::string, std::vector<unsigned int> *>::iterator GroupMapIt;
+    typedef std::map<std::string, std::vector<unsigned int> *>::const_iterator ConstGroupMapIt;
 
     //! Model name
     std::string m_ModelName;
@@ -328,16 +323,14 @@ struct Model
     ~Model()
     {
         // Clear all stored object instances
-        for (std::vector<Object *>::iterator it = m_Objects.begin();
-             it != m_Objects.end(); ++it)
+        for (std::vector<Object *>::iterator it = m_Objects.begin(); it != m_Objects.end(); ++it)
         {
             delete *it;
         }
         m_Objects.clear();
 
         // Clear all stored mesh instances
-        for (std::vector<Mesh *>::iterator it = m_Meshes.begin();
-             it != m_Meshes.end(); ++it)
+        for (std::vector<Mesh *>::iterator it = m_Meshes.begin(); it != m_Meshes.end(); ++it)
         {
             delete *it;
         }
@@ -349,9 +342,7 @@ struct Model
         }
         m_Groups.clear();
 
-        for (std::map<std::string, Material *>::iterator it =
-                 m_MaterialMap.begin();
-             it != m_MaterialMap.end(); ++it)
+        for (std::map<std::string, Material *>::iterator it = m_MaterialMap.begin(); it != m_MaterialMap.end(); ++it)
         {
             delete it->second;
         }

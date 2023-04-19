@@ -1,4 +1,4 @@
-/* Copyright (c) 2015-2016, EPFL/Blue Brain Project
+/* Copyright (c) 2015-2023, EPFL/Blue Brain Project
  * All rights reserved. Do not distribute without permission.
  * Responsible Author: Cyrille Favreau <cyrille.favreau@epfl.ch>
  *
@@ -37,13 +37,11 @@ void AbstractRenderer::commit()
 
     if (_lightData)
         for (size_t i = 0; i < _lightData->size(); ++i)
-            _lightArray.push_back(
-                ((ospray::Light**)_lightData->data)[i]->getIE());
+            _lightArray.push_back(((ospray::Light**)_lightData->data)[i]->getIE());
 
     _lightPtr = _lightArray.empty() ? nullptr : &_lightArray[0];
 
     _timestamp = getParam1f("timestamp", 0.f);
-    _bgMaterial =
-        (brayns::DefaultMaterial*)getParamObject("bgMaterial", nullptr);
+    _bgMaterial = (brayns::DefaultMaterial*)getParamObject("bgMaterial", nullptr);
 }
 } // namespace brayns

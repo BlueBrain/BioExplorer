@@ -1,4 +1,4 @@
-/* Copyright (c) 2015-2016, EPFL/Blue Brain Project
+/* Copyright (c) 2015-2023, EPFL/Blue Brain Project
  * All rights reserved. Do not distribute without permission.
  * Responsible Author: Cyrille Favreau <cyrille.favreau@epfl.ch>
  *
@@ -37,15 +37,13 @@ unsigned int levenshtein_distance(const std::string& s1, const std::string& s2)
     {
         col[0] = i + 1;
         for (unsigned int j = 0; j < len2; j++)
-            col[j + 1] = std::min({prevCol[1 + j] + 1, col[j] + 1,
-                                   prevCol[j] + (s1[i] == s2[j] ? 0 : 1)});
+            col[j + 1] = std::min({prevCol[1 + j] + 1, col[j] + 1, prevCol[j] + (s1[i] == s2[j] ? 0 : 1)});
         col.swap(prevCol);
     }
     return prevCol[len2];
 }
 
-std::vector<std::string> findSimilarOptions(
-    const std::string& name, const std::vector<std::string>& options)
+std::vector<std::string> findSimilarOptions(const std::string& name, const std::vector<std::string>& options)
 {
     constexpr size_t MAX_SUGGESTIONS = 7;
 
@@ -56,8 +54,7 @@ std::vector<std::string> findSimilarOptions(
     {
         // Strip dashes
         auto nameStrip = name;
-        nameStrip.erase(std::remove(nameStrip.begin(), nameStrip.end(), '-'),
-                        nameStrip.end());
+        nameStrip.erase(std::remove(nameStrip.begin(), nameStrip.end(), '-'), nameStrip.end());
 
         // Suggest options containing the substring
         for (const auto& optionName : options)
@@ -87,8 +84,7 @@ std::vector<std::string> findSimilarOptions(
             }
 
             if (dist == bestDist &&
-                std::find(subStringOptions.begin(), subStringOptions.end(),
-                          optionName) == subStringOptions.end())
+                std::find(subStringOptions.begin(), subStringOptions.end(), optionName) == subStringOptions.end())
                 levenshteinOptions.push_back(optionName);
         }
     }
@@ -105,8 +101,8 @@ std::vector<std::string> findSimilarOptions(
 void _printVersion()
 {
     brayns::Version version;
-    std::cout << "Brayns " << version.getString() << " (" << std::hex
-              << version.getRevision() << ")" << std::dec << std::endl;
+    std::cout << "Brayns " << version.getString() << " (" << std::hex << version.getRevision() << ")" << std::dec
+              << std::endl;
 }
 } // namespace
 
@@ -136,9 +132,9 @@ void ParametersManager::_parse(int argc, const char** argv)
     try
     {
         po::options_description generalOptions("General options");
-        generalOptions.add_options()("help", "Print this help")(
-            "version", "Print the Brayns version")("verbose",
-                                                   "Print parsed parameters");
+        generalOptions.add_options()("help", "Print this help")("version",
+                                                                "Print the Brayns version")("verbose",
+                                                                                            "Print parsed parameters");
 
         _allOptions.add(generalOptions);
 
@@ -148,14 +144,11 @@ void ParametersManager::_parse(int argc, const char** argv)
                 .options(_allOptions)
                 .allow_unregistered()
                 .positional(_applicationParameters.posArgs())
-                .style(po::command_line_style::unix_style &
-                       ~po::command_line_style::allow_short &
+                .style(po::command_line_style::unix_style & ~po::command_line_style::allow_short &
                        ~po::command_line_style::allow_guessing)
                 .run();
 
-        const auto unrecognizedOptions =
-            po::collect_unrecognized(parsedOptions.options,
-                                     po::exclude_positional);
+        const auto unrecognizedOptions = po::collect_unrecognized(parsedOptions.options, po::exclude_positional);
 
         _processUnrecognizedOptions(unrecognizedOptions);
 
@@ -180,7 +173,7 @@ void ParametersManager::_parse(int argc, const char** argv)
     }
     catch (const po::error& e)
     {
-        BRAYNS_ERROR << e.what() << std::endl;
+        BRAYNS_ERROR(e.what());
         exit(EXIT_FAILURE);
     }
 }
@@ -262,8 +255,7 @@ const VolumeParameters& ParametersManager::getVolumeParameters() const
     return _volumeParameters;
 }
 
-void ParametersManager::_processUnrecognizedOptions(
-    const std::vector<std::string>& unrecognizedOptions) const
+void ParametersManager::_processUnrecognizedOptions(const std::vector<std::string>& unrecognizedOptions) const
 {
     if (unrecognizedOptions.empty())
         return;
@@ -276,8 +268,7 @@ void ParametersManager::_processUnrecognizedOptions(
 
     const auto suggestions = findSimilarOptions(unrecognized, availableOptions);
 
-    std::string errorMessage = "Unrecognized option '" + unrecognized +
-                               "'.\n\nMost similar options are:";
+    std::string errorMessage = "Unrecognized option '" + unrecognized + "'.\n\nMost similar options are:";
 
     for (const auto& suggestion : suggestions)
         errorMessage += "\n\t" + suggestion;

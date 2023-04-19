@@ -1,4 +1,4 @@
-/* Copyright (c) 2015-2018, EPFL/Blue Brain Project
+/* Copyright (c) 2015-2023, EPFL/Blue Brain Project
  * All rights reserved. Do not distribute without permission.
  * Responsible Author: Cyrille Favreau <cyrille.favreau@epfl.ch>
  *                     Jafet Villafranca <jafet.villafrancadiaz@epfl.ch>
@@ -77,8 +77,7 @@ public:
      *        camera and according model and projection matrices
      * @param renderOutput Color and depth buffers
      */
-    BRAYNS_API void commitAndRender(const RenderInput& renderInput,
-                                    RenderOutput& renderOutput);
+    BRAYNS_API void commitAndRender(const RenderInput& renderInput, RenderOutput& renderOutput);
 
     /**
      * Renders color and depth buffers of the current scene, according to

@@ -1,4 +1,4 @@
-/* Copyright (c) 2015-2018, EPFL/Blue Brain Project
+/* Copyright (c) 2015-2023, EPFL/Blue Brain Project
  * All rights reserved. Do not distribute without permission.
  *
  * This file is part of Brayns <https://github.com/BlueBrain/Brayns>
@@ -32,23 +32,11 @@ class OpenDeckParameters : public BaseObject
 public:
     OpenDeckParameters();
 
-    double getResolutionScaling() const
-    {
-        return _props.getProperty<double>(PARAM_RESOLUTION_SCALING);
-    }
-    void setResolutionScaling(const double resScaling)
-    {
-        _updateProperty(PARAM_RESOLUTION_SCALING, resScaling);
-    }
+    double getResolutionScaling() const { return _props.getProperty<double>(PARAM_RESOLUTION_SCALING); }
+    void setResolutionScaling(const double resScaling) { _updateProperty(PARAM_RESOLUTION_SCALING, resScaling); }
 
-    double getCameraScaling() const
-    {
-        return _props.getProperty<double>(PARAM_CAMERA_SCALING);
-    }
-    void setCameraScaling(const double cameraScaling)
-    {
-        _updateProperty(PARAM_CAMERA_SCALING, cameraScaling);
-    }
+    double getCameraScaling() const { return _props.getProperty<double>(PARAM_CAMERA_SCALING); }
+    void setCameraScaling(const double cameraScaling) { _updateProperty(PARAM_CAMERA_SCALING, cameraScaling); }
 
     const PropertyMap& getPropertyMap() const { return _props; }
     PropertyMap& getPropertyMap() { return _props; }

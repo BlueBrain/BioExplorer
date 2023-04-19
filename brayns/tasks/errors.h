@@ -1,4 +1,4 @@
-/* Copyright (c) 2015-2018, EPFL/Blue Brain Project
+/* Copyright (c) 2015-2023, EPFL/Blue Brain Project
  * All rights reserved. Do not distribute without permission.
  * Responsible Author: Daniel.Nachbaur@epfl.ch
  *
@@ -30,11 +30,9 @@ const auto ERROR_ID_UNSUPPORTED_TYPE = -1732;
 const auto ERROR_ID_INVALID_BINARY_RECEIVE = -1733;
 const auto ERROR_ID_LOADING_BINARY_FAILED = -1734;
 
-const TaskRuntimeError MISSING_PARAMS{"Missing params",
-                                      ERROR_ID_MISSING_PARAMS};
+const TaskRuntimeError MISSING_PARAMS{"Missing params", ERROR_ID_MISSING_PARAMS};
 
-const TaskRuntimeError UNSUPPORTED_TYPE{"Unsupported type",
-                                        ERROR_ID_UNSUPPORTED_TYPE};
+const TaskRuntimeError UNSUPPORTED_TYPE{"Unsupported type", ERROR_ID_UNSUPPORTED_TYPE};
 
 const TaskRuntimeError INVALID_BINARY_RECEIVE{
     "Invalid binary received; no more files expected or "

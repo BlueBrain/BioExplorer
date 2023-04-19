@@ -1,4 +1,4 @@
-/* Copyright (c) 2015-2019, EPFL/Blue Brain Project
+/* Copyright (c) 2015-2023, EPFL/Blue Brain Project
  *
  * This file is part of Brayns <https://github.com/BlueBrain/Brayns>
  *
@@ -51,8 +51,7 @@ auto _toStdArray(const std::vector<T>& input)
     return array;
 }
 
-po::options_description _toCommandlineDescription(
-    const PropertyMap& propertyMap)
+po::options_description _toCommandlineDescription(const PropertyMap& propertyMap)
 {
     po::options_description desc(propertyMap.getName());
     for (const auto& property : propertyMap.getProperties())
@@ -63,20 +62,16 @@ po::options_description _toCommandlineDescription(
         case Property::Type::Int:
         {
             if (property->enums.empty())
-                valueSemantic = po::value<int32_t>()->default_value(
-                    property->get<int32_t>());
+                valueSemantic = po::value<int32_t>()->default_value(property->get<int32_t>());
             else
-                valueSemantic = po::value<std::string>()->default_value(
-                    property->enums[property->get<int32_t>()]);
+                valueSemantic = po::value<std::string>()->default_value(property->enums[property->get<int32_t>()]);
             break;
         }
         case Property::Type::Double:
-            valueSemantic =
-                po::value<double>()->default_value(property->get<double>());
+            valueSemantic = po::value<double>()->default_value(property->get<double>());
             break;
         case Property::Type::String:
-            valueSemantic = po::value<std::string>()->default_value(
-                property->get<std::string>());
+            valueSemantic = po::value<std::string>()->default_value(property->get<std::string>());
             break;
         case Property::Type::Bool:
             // default true bools cannot be switched off with bool_switch
@@ -103,32 +98,26 @@ po::options_description _toCommandlineDescription(
         }
 
         assert(valueSemantic);
-        const auto dashCaseName =
-            string_utils::camelCaseToSeparated(property->name, '-');
-        desc.add(boost::make_shared<po::option_description>(
-            dashCaseName.c_str(), valueSemantic,
-            property->metaData.description.c_str()));
+        const auto dashCaseName = string_utils::camelCaseToSeparated(property->name, '-');
+        desc.add(boost::make_shared<po::option_description>(dashCaseName.c_str(), valueSemantic,
+                                                            property->metaData.description.c_str()));
     }
     return desc;
 }
 
-auto _validateEnumValue(const strings& enums, const std::string& value,
-                        const std::string& optionName)
+auto _validateEnumValue(const strings& enums, const std::string& value, const std::string& optionName)
 {
     auto i = std::find(enums.begin(), enums.end(), value);
     if (i == enums.end())
-        throw po::error(optionName + " must be one of the following: " +
-                        string_utils::join(enums, ", "));
+        throw po::error(optionName + " must be one of the following: " + string_utils::join(enums, ", "));
     return i;
 }
 
-void _commandlineToPropertyMap(const po::variables_map& vm,
-                               PropertyMap& propertyMap)
+void _commandlineToPropertyMap(const po::variables_map& vm, PropertyMap& propertyMap)
 {
     for (const auto& property : propertyMap.getProperties())
     {
-        const auto dashCaseName =
-            string_utils::camelCaseToSeparated(property->name, '-');
+        const auto dashCaseName = string_utils::camelCaseToSeparated(property->name, '-');
         if (!vm.count(dashCaseName))
             continue;
         switch (property->type)
@@ -139,8 +128,7 @@ void _commandlineToPropertyMap(const po::variables_map& vm,
             else
             {
                 const auto value = vm[dashCaseName].as<std::string>();
-                auto i =
-                    _validateEnumValue(property->enums, value, dashCaseName);
+                auto i = _validateEnumValue(property->enums, value, dashCaseName);
                 property->set((int32_t)(i - property->enums.begin()));
             }
             break;
@@ -153,8 +141,7 @@ void _commandlineToPropertyMap(const po::variables_map& vm,
             else
             {
                 const auto value = vm[dashCaseName].as<std::string>();
-                auto i =
-                    _validateEnumValue(property->enums, value, dashCaseName);
+                auto i = _validateEnumValue(property->enums, value, dashCaseName);
                 property->set(*i);
             }
             break;
@@ -162,24 +149,19 @@ void _commandlineToPropertyMap(const po::variables_map& vm,
             property->set(vm[dashCaseName].as<bool>());
             break;
         case Property::Type::Vec2i:
-            property->set(_toStdArray<int32_t, 2>(
-                vm[dashCaseName].as<std::vector<int32_t>>()));
+            property->set(_toStdArray<int32_t, 2>(vm[dashCaseName].as<std::vector<int32_t>>()));
             break;
         case Property::Type::Vec2d:
-            property->set(_toStdArray<double, 2>(
-                vm[dashCaseName].as<std::vector<double>>()));
+            property->set(_toStdArray<double, 2>(vm[dashCaseName].as<std::vector<double>>()));
             break;
         case Property::Type::Vec3i:
-            property->set(_toStdArray<int32_t, 3>(
-                vm[dashCaseName].as<std::vector<int32_t>>()));
+            property->set(_toStdArray<int32_t, 3>(vm[dashCaseName].as<std::vector<int32_t>>()));
             break;
         case Property::Type::Vec3d:
-            property->set(_toStdArray<double, 3>(
-                vm[dashCaseName].as<std::vector<double>>()));
+            property->set(_toStdArray<double, 3>(vm[dashCaseName].as<std::vector<double>>()));
             break;
         case Property::Type::Vec4d:
-            property->set(_toStdArray<double, 4>(
-                vm[dashCaseName].as<std::vector<double>>()));
+            property->set(_toStdArray<double, 4>(vm[dashCaseName].as<std::vector<double>>()));
             break;
         }
     }
@@ -198,20 +180,16 @@ void Property::_copy(const Property& from)
             dest.set<double>(static_cast<double>(src.get<int32_t>()));
             break;
         case Property::Type::Vec2i:
-            dest.set<std::array<int32_t, 2>>(_convertArray<int32_t, double, 2>(
-                src.get<std::array<double, 2>>()));
+            dest.set<std::array<int32_t, 2>>(_convertArray<int32_t, double, 2>(src.get<std::array<double, 2>>()));
             break;
         case Property::Type::Vec2d:
-            dest.set<std::array<double, 2>>(_convertArray<double, int32_t, 2>(
-                src.get<std::array<int32_t, 2>>()));
+            dest.set<std::array<double, 2>>(_convertArray<double, int32_t, 2>(src.get<std::array<int32_t, 2>>()));
             break;
         case Property::Type::Vec3i:
-            dest.set<std::array<int32_t, 3>>(_convertArray<int32_t, double, 3>(
-                src.get<std::array<double, 3>>()));
+            dest.set<std::array<int32_t, 3>>(_convertArray<int32_t, double, 3>(src.get<std::array<double, 3>>()));
             break;
         case Property::Type::Vec3d:
-            dest.set<std::array<double, 3>>(_convertArray<double, int32_t, 3>(
-                src.get<std::array<int32_t, 3>>()));
+            dest.set<std::array<double, 3>>(_convertArray<double, int32_t, 3>(src.get<std::array<int32_t, 3>>()));
             break;
         default:
             break;
@@ -230,17 +208,14 @@ void Property::_copy(const Property& from)
     const auto compatibleEnums = [](const Property& dest, const Property& src) {
         // If we have a string to int or an int to string we can try to
         // match the enum value
-        const bool compatible = (dest.type == Property::Type::Int &&
-                                 src.type == Property::Type::String) ||
-                                (dest.type == Property::Type::String &&
-                                 src.type == Property::Type::Int);
+        const bool compatible = (dest.type == Property::Type::Int && src.type == Property::Type::String) ||
+                                (dest.type == Property::Type::String && src.type == Property::Type::Int);
         if (dest.enums.empty() || !compatible)
             return false;
 
         // If our source is a string we check if the string exist in destination
         if (src.type == Property::Type::String)
-            return std::find(dest.enums.begin(), dest.enums.end(),
-                             src.get<std::string>()) != dest.enums.end();
+            return std::find(dest.enums.begin(), dest.enums.end(), src.get<std::string>()) != dest.enums.end();
 
         // We know source is an int so check that the range is inside enum range
         const int32_t v = src.get<int32_t>();
@@ -250,9 +225,8 @@ void Property::_copy(const Property& from)
     const auto setEnum = [](Property& dest, const Property& src) {
         if (dest.type == Property::Type::Int)
         {
-            const auto index = std::find(dest.enums.begin(), dest.enums.end(),
-                                         src.get<std::string>()) -
-                               dest.enums.begin();
+            const auto index =
+                std::find(dest.enums.begin(), dest.enums.end(), src.get<std::string>()) - dest.enums.begin();
             dest.set<int32_t>(index);
         }
         else
@@ -270,8 +244,7 @@ void Property::_copy(const Property& from)
         setValue(*this, from);
     else
     {
-        throw std::runtime_error("Incompatible types for property '" + name +
-                                 "'");
+        throw std::runtime_error("Incompatible types for property '" + name + "'");
     }
 }
 
@@ -303,8 +276,7 @@ bool PropertyMap::parse(const int argc, const char** argv)
     {
         auto desc = _toCommandlineDescription(*this);
         desc.add_options()("help", "Print this help");
-        const auto parsedOptions =
-            po::command_line_parser(argc, argv).options(desc).run();
+        const auto parsedOptions = po::command_line_parser(argc, argv).options(desc).run();
 
         po::variables_map vm;
         po::store(parsedOptions, vm);
@@ -321,8 +293,7 @@ bool PropertyMap::parse(const int argc, const char** argv)
     }
     catch (const po::error& e)
     {
-        BRAYNS_ERROR << "Failed to parse commandline for "
-                     << std::quoted(getName()) << ": " << e.what() << std::endl;
+        BRAYNS_ERROR("Failed to parse commandline for " << std::quoted(getName()) << ": " << e.what());
         return false;
     }
 }

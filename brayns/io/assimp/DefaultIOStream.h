@@ -119,8 +119,7 @@ inline DefaultIOStream::DefaultIOStream()
 }
 
 // ----------------------------------------------------------------------------------
-inline DefaultIOStream::DefaultIOStream(FILE* pFile,
-                                        const std::string& strFilename)
+inline DefaultIOStream::DefaultIOStream(FILE* pFile, const std::string& strFilename)
     : mFile(pFile)
     , mFilename(strFilename)
     , mCachedSize(SIZE_MAX)

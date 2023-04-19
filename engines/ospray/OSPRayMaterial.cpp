@@ -1,4 +1,4 @@
-/* Copyright (c) 2015-2018, EPFL/Blue Brain Project
+/* Copyright (c) 2015-2023, EPFL/Blue Brain Project
  * All rights reserved. Do not distribute without permission.
  * Responsible Author: Cyrille Favreau <cyrille.favreau@epfl.ch>
  *
@@ -35,15 +35,14 @@ struct TextureTypeMaterialAttribute
     std::string attribute;
 };
 
-static TextureTypeMaterialAttribute textureTypeMaterialAttribute[8] = {
-    {TextureType::diffuse, "map_kd"},
-    {TextureType::normals, "map_bump"},
-    {TextureType::bump, "map_bump"},
-    {TextureType::specular, "map_ks"},
-    {TextureType::emissive, "map_ns"},
-    {TextureType::opacity, "map_d"},
-    {TextureType::reflection, "map_reflection"},
-    {TextureType::refraction, "map_refraction"}};
+static TextureTypeMaterialAttribute textureTypeMaterialAttribute[8] = {{TextureType::diffuse, "map_kd"},
+                                                                       {TextureType::normals, "map_bump"},
+                                                                       {TextureType::bump, "map_bump"},
+                                                                       {TextureType::specular, "map_ks"},
+                                                                       {TextureType::emissive, "map_ns"},
+                                                                       {TextureType::opacity, "map_d"},
+                                                                       {TextureType::reflection, "map_reflection"},
+                                                                       {TextureType::refraction, "map_refraction"}};
 
 OSPRayMaterial::~OSPRayMaterial()
 {
@@ -65,10 +64,8 @@ void OSPRayMaterial::commit()
     osphelper::set(_ospMaterial, "ks", Vector3f(_specularColor));
     osphelper::set(_ospMaterial, "ns", static_cast<float>(_specularExponent));
     osphelper::set(_ospMaterial, "d", static_cast<float>(_opacity));
-    osphelper::set(_ospMaterial, "refraction",
-                   static_cast<float>(_refractionIndex));
-    osphelper::set(_ospMaterial, "reflection",
-                   static_cast<float>(_reflectionIndex));
+    osphelper::set(_ospMaterial, "refraction", static_cast<float>(_refractionIndex));
+    osphelper::set(_ospMaterial, "reflection", static_cast<float>(_reflectionIndex));
     osphelper::set(_ospMaterial, "a", static_cast<float>(_emission));
     osphelper::set(_ospMaterial, "glossiness", static_cast<float>(_glossiness));
     osphelper::set(_ospMaterial, "skybox", _isBackGroundMaterial);
@@ -87,8 +84,7 @@ void OSPRayMaterial::commit()
         if (texture)
         {
             auto ospTexture = _createOSPTexture2D(texture);
-            const auto str =
-                textureTypeMaterialAttribute[int(texType)].attribute.c_str();
+            const auto str = textureTypeMaterialAttribute[int(texType)].attribute.c_str();
             ospSetObject(_ospMaterial, str, ospTexture);
             ospRelease(ospTexture);
         }
@@ -106,8 +102,7 @@ void OSPRayMaterial::commit(const std::string& renderer)
     ospRelease(_ospMaterial);
     _ospMaterial = ospNewMaterial2(renderer.c_str(), "default");
     if (!_ospMaterial)
-        throw std::runtime_error("Could not create material for renderer '" +
-                                 renderer + "'");
+        throw std::runtime_error("Could not create material for renderer '" + renderer + "'");
     _renderer = renderer;
     markModified(false); // Ensure commit recreates the ISPC object
     commit();
@@ -135,9 +130,8 @@ OSPTexture OSPRayMaterial::_createOSPTexture2D(Texture2DPtr texture)
             type = OSP_TEXTURE_RGBA32F;
     }
 
-    BRAYNS_DEBUG << "Creating OSPRay texture from " << texture->filename << ": "
-                 << texture->width << "x" << texture->height << "x" << (int)type
-                 << std::endl;
+    BRAYNS_DEBUG("Creating OSPRay texture from " << texture->filename << ": " << texture->width << "x"
+                                                 << texture->height << "x" << (int)type);
 
     OSPTexture ospTexture = ospNewTexture("texture2d");
 
@@ -145,9 +139,8 @@ OSPTexture OSPRayMaterial::_createOSPTexture2D(Texture2DPtr texture)
 
     osphelper::set(ospTexture, "type", static_cast<int>(type));
     osphelper::set(ospTexture, "size", size);
-    auto textureData = ospNewData(texture->getSizeInBytes(), OSP_RAW,
-                                  texture->getRawData<unsigned char>(),
-                                  OSP_DATA_SHARED_BUFFER);
+    auto textureData =
+        ospNewData(texture->getSizeInBytes(), OSP_RAW, texture->getRawData<unsigned char>(), OSP_DATA_SHARED_BUFFER);
     ospSetObject(ospTexture, "data", textureData);
     ospRelease(textureData);
     ospCommit(ospTexture);

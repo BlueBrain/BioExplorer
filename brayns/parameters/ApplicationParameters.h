@@ -1,4 +1,4 @@
-/* Copyright (c) 2015-2016, EPFL/Blue Brain Project
+/* Copyright (c) 2015-2023, EPFL/Blue Brain Project
  * All rights reserved. Do not distribute without permission.
  * Responsible Author: Cyrille Favreau <cyrille.favreau@epfl.ch>
  *
@@ -44,16 +44,10 @@ public:
     /** Engine*/
     const std::string& getEngine() const { return _engine; }
     /** OSPRay modules */
-    const std::vector<std::string>& getOsprayModules() const
-    {
-        return _modules;
-    }
+    const std::vector<std::string>& getOsprayModules() const { return _modules; }
 
     bool getDynamicLoadBalancer() const { return _dynamicLoadBalancer; }
-    void setDynamicLoadBalancer(const bool value)
-    {
-        _updateValue(_dynamicLoadBalancer, value);
-    }
+    void setDynamicLoadBalancer(const bool value) { _updateValue(_dynamicLoadBalancer, value); }
 
     /** window size */
     const Vector2ui getWindowSize() const { return Vector2ui(_windowSize); }
@@ -66,17 +60,11 @@ public:
     bool isBenchmarking() const { return _benchmarking; }
     void setBenchmarking(bool enabled) { _benchmarking = enabled; }
     /** JPEG compression quality */
-    void setJpegCompression(const size_t compression)
-    {
-        _updateValue(_jpegCompression, compression);
-    }
+    void setJpegCompression(const size_t compression) { _updateValue(_jpegCompression, compression); }
     size_t getJpegCompression() const { return _jpegCompression; }
     /** Image stream FPS */
     size_t getImageStreamFPS() const { return _imageStreamFPS; }
-    void setImageStreamFPS(const size_t fps)
-    {
-        _updateValue(_imageStreamFPS, fps);
-    }
+    void setImageStreamFPS(const size_t fps) { _updateValue(_imageStreamFPS, fps); }
 
     bool useVideoStreaming() const { return _useVideoStreaming; }
     /** Max render FPS to limit */
@@ -84,10 +72,7 @@ public:
     bool isStereo() const { return _stereo; }
     bool getParallelRendering() const { return _parallelRendering; }
     const std::string& getHttpServerURI() const { return _httpServerURI; }
-    void setHttpServerURI(const std::string& httpServerURI)
-    {
-        _updateValue(_httpServerURI, httpServerURI);
-    }
+    void setHttpServerURI(const std::string& httpServerURI) { _updateValue(_httpServerURI, httpServerURI); }
 
     const std::string& getEnvMap() const { return _envMap; }
     const std::string& getSandboxPath() const { return _sandBoxPath; }

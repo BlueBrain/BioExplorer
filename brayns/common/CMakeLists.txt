@@ -1,4 +1,4 @@
-# Copyright (c) 2015-2017, EPFL/Blue Brain Project
+# Copyright (c) 2015-2023, EPFL/Blue Brain Project
 # Responsible Author: Cyrille Favreau <cyrille.favreau@epfl.ch>
 #
 # This file is part of Brayns <https://github.com/BlueBrain/Brayns>
@@ -40,6 +40,7 @@ set(BRAYNSCOMMON_PUBLIC_HEADERS
   geometry/Sphere.h
   geometry/Streamline.h
   geometry/TriangleMesh.h
+  geometry/Curve.h
   input/KeyboardHandler.h
   light/Light.h
   loader/Loader.h

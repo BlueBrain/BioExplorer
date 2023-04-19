@@ -1,4 +1,4 @@
-/* Copyright (c) 2018, EPFL/Blue Brain Project
+/* Copyright (c) 2018-2023, EPFL/Blue Brain Project
  * All rights reserved. Do not distribute without permission.
  *
  * This file is part of Brayns <https://github.com/BlueBrain/Brayns>
@@ -58,8 +58,7 @@ void trackerCallback(void* userData, const vrpn_TRACKERCB tracker)
 void flyStickCallback(void* userData, const vrpn_TRACKERCB tracker)
 {
     VrpnStates* states = static_cast<VrpnStates*>(userData);
-    states->flyStickOrientation = glm::quat(tracker.quat[3], tracker.quat[0],
-                                            tracker.quat[1], tracker.quat[2]);
+    states->flyStickOrientation = glm::quat(tracker.quat[3], tracker.quat[0], tracker.quat[1], tracker.quat[2]);
 }
 
 void joystickCallback(void* userData, const vrpn_ANALOGCB joystick)
@@ -77,32 +76,27 @@ VRPNPlugin::VRPNPlugin(const std::string& vrpnName)
 
 VRPNPlugin::~VRPNPlugin()
 {
-    _vrpnTracker->unregister_change_handler(&(_api->getCamera()),
-                                            trackerCallback, HEAD_SENSOR_ID);
+    _vrpnTracker->unregister_change_handler(&(_api->getCamera()), trackerCallback, HEAD_SENSOR_ID);
 }
 
 void VRPNPlugin::init()
 {
     _vrpnTracker = std::make_unique<vrpn_Tracker_Remote>(_vrpnName.c_str());
     if (!_vrpnTracker->connectionPtr()->doing_okay())
-        throw std::runtime_error("VRPN couldn't connect to: " + _vrpnName +
-                                 " tracker");
+        throw std::runtime_error("VRPN couldn't connect to: " + _vrpnName + " tracker");
 
     _vrpnAnalog = std::make_unique<vrpn_Analog_Remote>(_vrpnName.c_str());
     if (!_vrpnAnalog->connectionPtr()->doing_okay())
-        throw std::runtime_error("VRPN couldn't connect to: " + _vrpnName +
-                                 " analog");
+        throw std::runtime_error("VRPN couldn't connect to: " + _vrpnName + " analog");
 
-    BRAYNS_INFO << "VRPN successfully connected to " << _vrpnName << std::endl;
+    BRAYNS_INFO("VRPN successfully connected to " << _vrpnName);
 
 #ifdef BRAYNSVRPN_USE_LIBUV
     _setupIdleTimer();
 #endif
 
-    _vrpnTracker->register_change_handler(&(_api->getCamera()), trackerCallback,
-                                          HEAD_SENSOR_ID);
-    _vrpnTracker->register_change_handler(&_states, flyStickCallback,
-                                          FLYSTICK_SENSOR_ID);
+    _vrpnTracker->register_change_handler(&(_api->getCamera()), trackerCallback, HEAD_SENSOR_ID);
+    _vrpnTracker->register_change_handler(&_states, flyStickCallback, FLYSTICK_SENSOR_ID);
     _vrpnAnalog->register_change_handler(&_states, joystickCallback);
 }
 
@@ -115,12 +109,9 @@ void VRPNPlugin::preRender()
 
     Camera& camera = _api->getCamera();
     Vector3d pos = camera.getPosition();
-    pos += _states.axisX * MOVING_SPEED *
-           glm::rotate(_states.flyStickOrientation, Vector3f(1.0, 0.0, 0.0)) *
-           frameTime;
-    pos += _states.axisZ * MOVING_SPEED *
-           glm::rotate(_states.flyStickOrientation, Vector3f(0.0, 0.0, -1.0)) *
-           frameTime;
+    pos += _states.axisX * MOVING_SPEED * glm::rotate(_states.flyStickOrientation, Vector3f(1.0, 0.0, 0.0)) * frameTime;
+    pos +=
+        _states.axisZ * MOVING_SPEED * glm::rotate(_states.flyStickOrientation, Vector3f(0.0, 0.0, -1.0)) * frameTime;
     camera.setPosition(pos);
 
     _timer.start();
@@ -154,8 +145,7 @@ void VRPNPlugin::_setupIdleTimer()
 #endif
 } // namespace brayns
 
-extern "C" brayns::ExtensionPlugin* brayns_plugin_create(const int argc,
-                                                         const char** argv)
+extern "C" brayns::ExtensionPlugin* brayns_plugin_create(const int argc, const char** argv)
 {
     if (argc > 2)
     {

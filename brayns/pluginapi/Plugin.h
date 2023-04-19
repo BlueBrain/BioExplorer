@@ -1,4 +1,4 @@
-/* Copyright (c) 2015-2018, EPFL/Blue Brain Project
+/* Copyright (c) 2015-2023, EPFL/Blue Brain Project
  * All rights reserved. Do not distribute without permission.
  * Responsible Author: Cyrille Favreau <cyrille.favreau@epfl.ch>
  *                     Jafet Villafranca <jafet.villafrancadiaz@epfl.ch>
@@ -25,7 +25,7 @@
 
 namespace brayns
 {
-/** The API that plugins can use to interact with Brayns. */
+/** The API that plugins can use to  interact with Brayns. */
 class PluginAPI
 {
 public:

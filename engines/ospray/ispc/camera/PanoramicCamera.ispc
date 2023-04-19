@@ -1,4 +1,4 @@
-/* Copyright (c) 2015-2019, EPFL/Blue Brain Project
+/* Copyright (c) 2015-2023, EPFL/Blue Brain Project
  * All rights reserved. Do not distribute without permission.
  * Responsible Author: Grigori Chevtchenko <grigori.chevtchenko@epfl.ch>
  *
@@ -44,19 +44,16 @@ struct PanoramicCamera
     bool half;
 };
 
-void PanoramicCamera_initRay(uniform Camera* uniform _self, varying Ray& ray,
-                             const varying CameraSample& sample)
+void PanoramicCamera_initRay(uniform Camera* uniform _self, varying Ray& ray, const varying CameraSample& sample)
 {
-    uniform PanoramicCamera* uniform self =
-        (uniform PanoramicCamera * uniform) _self;
+    uniform PanoramicCamera* uniform self = (uniform PanoramicCamera * uniform) _self;
 
     vec2f screen = sample.screen;
     const vec3f org = self->org;
 
     screen = Camera_subRegion(_self, screen);
 
-    const float phi =
-        self->half ? M_PI / 2.f - two_pi * screen.x * 0.5f : two_pi * screen.x;
+    const float phi = self->half ? M_PI / 2.f - two_pi * screen.x * 0.5f : two_pi * screen.x;
     const float theta = M_PI * screen.y;
 
     float sinTheta, cosTheta;
@@ -66,8 +63,7 @@ void PanoramicCamera_initRay(uniform Camera* uniform _self, varying Ray& ray,
     // trnasform to camera- and then to world-space
     vec3f dir = make_vec3f(-localDir.y, -localDir.z, localDir.x);
 
-    const LinearSpace3f cameraSpace =
-        make_LinearSpace3f(self->dirU, self->dirV, self->dirCam);
+    const LinearSpace3f cameraSpace = make_LinearSpace3f(self->dirU, self->dirV, self->dirCam);
 
     dir = normalize(cameraSpace * dir);
 
@@ -94,14 +90,12 @@ export void* uniform PanoramicCamera_create(void* uniform cppE)
     return self;
 }
 
-export void PanoramicCamera_set(
-    void* uniform _self, const uniform vec3f& org, const uniform vec3f& dir,
-    const uniform vec3f& dirU, const uniform vec3f& dirV,
-    const uniform vec3f& ipd_offset, const uniform vec4f clipPlanes[],
-    const uniform unsigned int numClipPlanes, const uniform bool& half)
+export void PanoramicCamera_set(void* uniform _self, const uniform vec3f& org, const uniform vec3f& dir,
+                                const uniform vec3f& dirU, const uniform vec3f& dirV, const uniform vec3f& ipd_offset,
+                                const uniform vec4f clipPlanes[], const uniform unsigned int numClipPlanes,
+                                const uniform bool& half)
 {
-    uniform PanoramicCamera* uniform self =
-        (uniform PanoramicCamera * uniform) _self;
+    uniform PanoramicCamera* uniform self = (uniform PanoramicCamera * uniform) _self;
     self->org = org;
     self->dirCam = dir;
     self->dirU = dirU;

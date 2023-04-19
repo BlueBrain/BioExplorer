@@ -1,4 +1,4 @@
-/* Copyright (c) 2015-2019, EPFL/Blue Brain Project
+/* Copyright (c) 2015-2023, EPFL/Blue Brain Project
  * All rights reserved. Do not distribute without permission.
  *
  * This file is part of Brayns <https://github.com/BlueBrain/Brayns>
@@ -44,8 +44,7 @@ public:
         aoe
     };
 
-    BRAYNS_API Texture2D(const Type type, const std::string& filename,
-                         const uint8_t channels, const uint8_t depth,
+    BRAYNS_API Texture2D(const Type type, const std::string& filename, const uint8_t channels, const uint8_t depth,
                          const uint32_t width, const uint32_t height);
 
     size_t getSizeInBytes() const { return height * width * depth * channels; }
@@ -57,10 +56,8 @@ public:
     {
         return reinterpret_cast<const T*>(_rawData[face][mip].data());
     }
-    void setRawData(unsigned char* data, const size_t size,
-                    const uint8_t face = 0, const uint8_t mip = 0);
-    void setRawData(std::vector<unsigned char>&& rawData,
-                    const uint8_t face = 0, const uint8_t mip = 0);
+    void setRawData(unsigned char* data, const size_t size, const uint8_t face = 0, const uint8_t mip = 0);
+    void setRawData(std::vector<unsigned char>&& rawData, const uint8_t face = 0, const uint8_t mip = 0);
 
     uint8_t getPossibleMipMapsLevels() const;
 

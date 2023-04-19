@@ -1,4 +1,4 @@
-/* Copyright (c) 2015-2018, EPFL/Blue Brain Project
+/* Copyright (c) 2015-2023, EPFL/Blue Brain Project
  * All rights reserved. Do not distribute without permission.
  * Responsible Author: Cyrille Favreau <cyrille.favreau@epfl.ch>
  *
@@ -36,8 +36,7 @@ namespace brayns
 {
 namespace
 {
-void _bindMaterials(const AbstractSimulationHandlerPtr& simulationHandler,
-                    MaterialMap& materials)
+void _bindMaterials(const AbstractSimulationHandlerPtr& simulationHandler, MaterialMap& materials)
 {
     if (!simulationHandler)
         return;
@@ -45,8 +44,7 @@ void _bindMaterials(const AbstractSimulationHandlerPtr& simulationHandler,
         simulationHandler->bind(material.second);
 }
 
-void _unbindMaterials(const AbstractSimulationHandlerPtr& simulationHandler,
-                      MaterialMap& materials)
+void _unbindMaterials(const AbstractSimulationHandlerPtr& simulationHandler, MaterialMap& materials)
 {
     if (!simulationHandler)
         return;
@@ -66,8 +64,7 @@ ModelParams::ModelParams(const std::string& name, const std::string& path)
 {
 }
 
-ModelParams::ModelParams(const std::string& name, const std::string& path,
-                         const PropertyMap& loaderProperties)
+ModelParams::ModelParams(const std::string& name, const std::string& path, const PropertyMap& loaderProperties)
     : _name(name)
     , _path(path)
     , _loaderProperties(loaderProperties)
@@ -80,16 +77,14 @@ ModelDescriptor::ModelDescriptor(ModelPtr model, const std::string& path)
 {
 }
 
-ModelDescriptor::ModelDescriptor(ModelPtr model, const std::string& path,
-                                 const ModelMetadata& metadata)
+ModelDescriptor::ModelDescriptor(ModelPtr model, const std::string& path, const ModelMetadata& metadata)
     : ModelParams(path)
     , _metadata(metadata)
     , _model(std::move(model))
 {
 }
 
-ModelDescriptor::ModelDescriptor(ModelPtr model, const std::string& name,
-                                 const std::string& path,
+ModelDescriptor::ModelDescriptor(ModelPtr model, const std::string& name, const std::string& path,
                                  const ModelMetadata& metadata)
     : ModelParams(name, path)
     , _metadata(metadata)
@@ -134,9 +129,7 @@ void ModelDescriptor::addInstance(const ModelInstance& instance)
 void ModelDescriptor::removeInstance(const size_t id)
 {
     auto i = std::remove_if(_instances.begin(), _instances.end(),
-                            [id](const auto& instance) {
-                                return id == instance.getInstanceID();
-                            });
+                            [id](const auto& instance) { return id == instance.getInstanceID(); });
     if (i == _instances.end())
         return;
 
@@ -149,9 +142,7 @@ void ModelDescriptor::removeInstance(const size_t id)
 ModelInstance* ModelDescriptor::getInstance(const size_t id)
 {
     auto i = std::find_if(_instances.begin(), _instances.end(),
-                          [id](const auto& instance) {
-                              return id == instance.getInstanceID();
-                          });
+                          [id](const auto& instance) { return id == instance.getInstanceID(); });
     return i == _instances.end() ? nullptr : &(*i);
 }
 
@@ -165,16 +156,13 @@ void ModelDescriptor::computeBounds()
         if (!instance.getVisible())
             continue;
 
-        _bounds.merge(
-            transformBox(getModel().getBounds(),
-                         getTransformation() * instance.getTransformation()));
+        _bounds.merge(transformBox(getModel().getBounds(), getTransformation() * instance.getTransformation()));
     }
 }
 
 ModelDescriptorPtr ModelDescriptor::clone(ModelPtr model) const
 {
-    auto newModelDesc =
-        std::make_shared<ModelDescriptor>(std::move(model), getPath());
+    auto newModelDesc = std::make_shared<ModelDescriptor>(std::move(model), getPath());
 
     *newModelDesc = static_cast<const ModelParams&>(*this);
 
@@ -187,8 +175,7 @@ ModelDescriptorPtr ModelDescriptor::clone(ModelPtr model) const
     return newModelDesc;
 }
 
-Model::Model(AnimationParameters& animationParameters,
-             VolumeParameters& volumeParameters)
+Model::Model(AnimationParameters& animationParameters, VolumeParameters& volumeParameters)
     : _animationParameters(animationParameters)
     , _volumeParameters(volumeParameters)
 {
@@ -255,8 +242,7 @@ void Model::addStreamline(const size_t materialId, const Streamline& streamline)
         streamlinesData.indices.push_back(index);
 
     for (size_t i = 0; i < streamline.position.size(); i++)
-        streamlinesData.vertex.push_back(
-            Vector4f(streamline.position[i], streamline.radius[i]));
+        streamlinesData.vertex.push_back(Vector4f(streamline.position[i], streamline.radius[i]));
 
     for (const auto& color : streamline.color)
         streamlinesData.vertexColor.push_back(color);
@@ -264,8 +250,27 @@ void Model::addStreamline(const size_t materialId, const Streamline& streamline)
     _streamlinesDirty = true;
 }
 
-uint64_t Model::addSDFGeometry(const size_t materialId, const SDFGeometry& geom,
-                               const uint64_ts& neighbourIndices)
+void Model::addCurve(const size_t materialId, const Curve& curve)
+{
+    if (curve.vertices.size() < 2)
+        throw std::runtime_error(
+            "Number of vertices is less than two which is minimum needed for a "
+            "curve");
+
+    if (curve.vertices.size() != curve.indices.size())
+        throw std::runtime_error("Number of vertices and indices do not match.");
+
+    if (curve.vertices.size() != curve.normals.size())
+        throw std::runtime_error("Number of vertices and normals do not match.");
+
+    if (curve.vertices.size() != curve.tangents.size())
+        throw std::runtime_error("Number of vertices and tangents do not match.");
+
+    _geometries->_curves[materialId].push_back(curve);
+    _curvesDirty = true;
+}
+
+uint64_t Model::addSDFGeometry(const size_t materialId, const SDFGeometry& geom, const uint64_ts& neighbourIndices)
 {
     const uint64_t geomIdx = _geometries->_sdf.geometries.size();
     _geometries->_sdf.geometryIndices[materialId].push_back(geomIdx);
@@ -275,8 +280,7 @@ uint64_t Model::addSDFGeometry(const size_t materialId, const SDFGeometry& geom,
     return geomIdx;
 }
 
-void Model::updateSDFGeometryNeighbours(size_t geometryIdx,
-                                        const uint64_ts& neighbourIndices)
+void Model::updateSDFGeometryNeighbours(size_t geometryIdx, const uint64_ts& neighbourIndices)
 {
     _geometries->_sdf.neighbours[geometryIdx] = neighbourIndices;
     _sdfGeometriesDirty = true;
@@ -290,8 +294,7 @@ void Model::addVolume(VolumePtr volume)
 
 void Model::removeVolume(VolumePtr volume)
 {
-    auto i = std::find(_geometries->_volumes.begin(),
-                       _geometries->_volumes.end(), volume);
+    auto i = std::find(_geometries->_volumes.begin(), _geometries->_volumes.end(), volume);
     if (i == _geometries->_volumes.end())
         return;
 
@@ -319,21 +322,17 @@ void Model::setMaterialsColorMap(const MaterialsColorMap colorMap)
         case MaterialsColorMap::gradient:
         {
             const float a = float(index) / float(_materials.size() - 1);
-            material.second->setDiffuseColor(
-                Vector3f(a * a, std::sqrt(a), 1.f - a));
+            material.second->setDiffuseColor(Vector3f(a * a, std::sqrt(a), 1.f - a));
             break;
         }
         case MaterialsColorMap::pastel:
-            material.second->setDiffuseColor(
-                Vector3f(0.5f + float(std::rand() % 127) / 255.f,
-                         0.5f + float(std::rand() % 127) / 255.f,
-                         0.5f + float(std::rand() % 127) / 255.f));
+            material.second->setDiffuseColor(Vector3f(0.5f + float(std::rand() % 127) / 255.f,
+                                                      0.5f + float(std::rand() % 127) / 255.f,
+                                                      0.5f + float(std::rand() % 127) / 255.f));
             break;
         case MaterialsColorMap::random:
             material.second->setDiffuseColor(
-                Vector3f(float(rand() % 255) / 255.f,
-                         float(rand() % 255) / 255.f,
-                         float(rand() % 255) / 255.f));
+                Vector3f(float(rand() % 255) / 255.f, float(rand() % 255) / 255.f, float(rand() % 255) / 255.f));
             switch (rand() % 10)
             {
             case 0:
@@ -349,15 +348,13 @@ void Model::setMaterialsColorMap(const MaterialsColorMap colorMap)
                 break;
             case 2:
                 // Reflection only
-                material.second->setReflectionIndex(float(std::rand() % 100) /
-                                                    100.f);
+                material.second->setReflectionIndex(float(std::rand() % 100) / 100.f);
                 material.second->setSpecularColor(Vector3f(1.f));
                 material.second->setSpecularExponent(10.f);
                 break;
             case 3:
                 // Reflection and refraction
-                material.second->setReflectionIndex(float(std::rand() % 100) /
-                                                    100.f);
+                material.second->setReflectionIndex(float(std::rand() % 100) / 100.f);
                 material.second->setOpacity(float(std::rand() % 100) / 100.f);
                 material.second->setRefractionIndex(1.2f);
                 material.second->setSpecularColor(Vector3f(1.f));
@@ -365,12 +362,10 @@ void Model::setMaterialsColorMap(const MaterialsColorMap colorMap)
                 break;
             case 4:
                 // Reflection and glossiness
-                material.second->setReflectionIndex(float(std::rand() % 100) /
-                                                    100.f);
+                material.second->setReflectionIndex(float(std::rand() % 100) / 100.f);
                 material.second->setSpecularColor(Vector3f(1.f));
                 material.second->setSpecularExponent(10.f);
-                material.second->setGlossiness(float(std::rand() % 100) /
-                                               100.f);
+                material.second->setGlossiness(float(std::rand() % 100) / 100.f);
                 break;
             case 5:
                 // Transparency and glossiness
@@ -378,8 +373,7 @@ void Model::setMaterialsColorMap(const MaterialsColorMap colorMap)
                 material.second->setRefractionIndex(1.2f);
                 material.second->setSpecularColor(Vector3f(1.f));
                 material.second->setSpecularExponent(10.f);
-                material.second->setGlossiness(float(std::rand() % 100) /
-                                               100.f);
+                material.second->setGlossiness(float(std::rand() % 100) / 100.f);
                 break;
             }
             break;
@@ -395,6 +389,7 @@ void Model::setMaterialsColorMap(const MaterialsColorMap colorMap)
 
 void Model::logInformation()
 {
+#ifdef DEBUG
     _updateSizeInBytes();
 
     uint64_t nbSpheres = 0;
@@ -411,19 +406,17 @@ void Model::logInformation()
     for (const auto& sdfBeziers : _geometries->_sdfBeziers)
         nbSdfBeziers += sdfBeziers.second.size();
 
-    BRAYNS_DEBUG << "Spheres: " << nbSpheres << ", Cylinders: " << nbCylinders
-                 << ", Cones: " << nbCones << ", SDFBeziers: " << nbSdfBeziers
-                 << ", Meshes: " << nbMeshes << ", Memory: " << _sizeInBytes
-                 << " bytes (" << _sizeInBytes / 1048576
-                 << " MB), Bounds: " << _bounds << std::endl;
+    BRAYNS_INFO("Spheres: " << nbSpheres << ", Cylinders: " << nbCylinders << ", Cones: " << nbCones << ", SDFBeziers: "
+                            << nbSdfBeziers << ", Meshes: " << nbMeshes << ", Memory: " << _sizeInBytes << " bytes ("
+                            << _sizeInBytes / 1048576 << " MB), Bounds: " << _bounds);
+#endif
 }
 
 MaterialPtr Model::getMaterial(const size_t materialId) const
 {
     const auto it = _materials.find(materialId);
     if (it == _materials.end())
-        throw std::runtime_error("Material " + std::to_string(materialId) +
-                                 " is not registered in the model");
+        throw std::runtime_error("Material " + std::to_string(materialId) + " is not registered in the model");
     return it->second;
 }
 
@@ -474,8 +467,7 @@ void Model::copyFrom(const Model& rhs)
     _materials.clear();
     for (const auto& material : rhs._materials)
     {
-        auto newMaterial =
-            createMaterialImpl(material.second->getPropertyMap());
+        auto newMaterial = createMaterialImpl(material.second->getPropertyMap());
         *newMaterial = *material.second;
         _materials[material.first] = newMaterial;
     }
@@ -494,6 +486,7 @@ void Model::copyFrom(const Model& rhs)
     _streamlinesDirty = !_geometries->_streamlines.empty();
     _sdfGeometriesDirty = !_geometries->_sdf.geometries.empty();
     _volumesDirty = !_geometries->_volumes.empty();
+    _curvesDirty = !_geometries->_curves.empty();
 }
 
 void Model::updateBounds()
@@ -505,10 +498,8 @@ void Model::updateBounds()
             if (spheres.first != BOUNDINGBOX_MATERIAL_ID)
                 for (const auto& sphere : spheres.second)
                 {
-                    _geometries->_sphereBounds.merge(sphere.center +
-                                                     sphere.radius);
-                    _geometries->_sphereBounds.merge(sphere.center -
-                                                     sphere.radius);
+                    _geometries->_sphereBounds.merge(sphere.center + sphere.radius);
+                    _geometries->_sphereBounds.merge(sphere.center - sphere.radius);
                 }
     }
 
@@ -542,8 +533,7 @@ void Model::updateBounds()
         for (const auto& sdfBeziers : _geometries->_sdfBeziers)
             if (sdfBeziers.first != BOUNDINGBOX_MATERIAL_ID)
                 for (const auto& sdfBezier : sdfBeziers.second)
-                    _geometries->_sdfBeziersBounds.merge(
-                        bezierBounds(sdfBezier));
+                    _geometries->_sdfBeziersBounds.merge(bezierBounds(sdfBezier));
     }
 
     if (_triangleMeshesDirty)
@@ -559,8 +549,7 @@ void Model::updateBounds()
     {
         _geometries->_streamlinesBounds.reset();
         for (const auto& streamline : _geometries->_streamlines)
-            for (size_t index = 0; index < streamline.second.vertex.size();
-                 ++index)
+            for (size_t index = 0; index < streamline.second.vertex.size(); ++index)
             {
                 const auto& pos = Vector3f(streamline.second.vertex[index]);
                 const float radius = streamline.second.vertex[index][3];
@@ -584,6 +573,15 @@ void Model::updateBounds()
             _geometries->_volumesBounds.merge(volume->getBounds());
     }
 
+    if (_curvesDirty)
+    {
+        _geometries->_curvesBounds.reset();
+        for (const auto& curves : _geometries->_curves)
+            for (const auto& curve : curves.second)
+                for (const auto& vertex : curve.vertices)
+                    _geometries->_curvesBounds.merge(vertex);
+    }
+
     _bounds.reset();
     _bounds.merge(_geometries->_sphereBounds);
     _bounds.merge(_geometries->_cylindersBounds);
@@ -593,6 +591,7 @@ void Model::updateBounds()
     _bounds.merge(_geometries->_streamlinesBounds);
     _bounds.merge(_geometries->_sdfGeometriesBounds);
     _bounds.merge(_geometries->_volumesBounds);
+    _bounds.merge(_geometries->_curvesBounds);
 }
 
 void Model::_markGeometriesClean()
@@ -605,11 +604,10 @@ void Model::_markGeometriesClean()
     _streamlinesDirty = false;
     _sdfGeometriesDirty = false;
     _volumesDirty = false;
+    _curvesDirty = false;
 }
 
-MaterialPtr Model::createMaterial(const size_t materialId,
-                                  const std::string& name,
-                                  const PropertyMap& properties)
+MaterialPtr Model::createMaterial(const size_t materialId, const std::string& name, const PropertyMap& properties)
 {
     auto material = _materials[materialId] = createMaterialImpl(properties);
     material->setName(name);
@@ -644,10 +642,8 @@ bool Model::commitTransferFunction()
     if (!_transferFunction.isModified())
         return false;
 
-    _commitTransferFunctionImpl(
-        _transferFunction.getColorMap().colors,
-        _transferFunction.calculateInterpolatedOpacities(),
-        _transferFunction.getValuesRange());
+    _commitTransferFunctionImpl(_transferFunction.getColorMap().colors,
+                                _transferFunction.calculateInterpolatedOpacities(), _transferFunction.getValuesRange());
 
     _transferFunction.resetModified();
     return true;
@@ -661,8 +657,7 @@ bool Model::commitSimulationData()
     if (!_isReadyCallbackSet && !_animationParameters.hasIsReadyCallback())
     {
         auto& ap = _animationParameters;
-        ap.setIsReadyCallback(
-            [handler = _simulationHandler] { return handler->isReady(); });
+        ap.setIsReadyCallback([handler = _simulationHandler] { return handler->isReady(); });
         ap.setDt(_simulationHandler->getDt(), false);
         ap.setUnit(_simulationHandler->getUnit(), false);
         ap.setNumFrames(_simulationHandler->getNbFrames(), false);
@@ -682,8 +677,7 @@ bool Model::commitSimulationData()
     if (!frameData)
         return false;
 
-    _commitSimulationDataImpl((float*)frameData,
-                              _simulationHandler->getFrameSize());
+    _commitSimulationDataImpl((float*)frameData, _simulationHandler->getFrameSize());
     return true;
 }
 } // namespace brayns

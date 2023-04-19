@@ -25,21 +25,15 @@ namespace brayns
 {
 namespace string_utils
 {
-std::string shortenString(const std::string& string,
-                          const size_t maxLength = 32);
+std::string shortenString(const std::string& string, const size_t maxLength = 32);
 
-std::string replaceFirstOccurrence(std::string input,
-                                   const std::string& toReplace,
-                                   const std::string& replaceWith);
+std::string replaceFirstOccurrence(std::string input, const std::string& toReplace, const std::string& replaceWith);
 
-std::string camelCaseToSeparated(const std::string& camelCase,
-                                 const char separator);
+std::string camelCaseToSeparated(const std::string& camelCase, const char separator);
 
-std::string separatedToCamelCase(const std::string& separated,
-                                 const char separator);
+std::string separatedToCamelCase(const std::string& separated, const char separator);
 
-std::string join(const std::vector<std::string>& strings,
-                 const std::string& joinWith);
+std::string join(const std::vector<std::string>& strings, const std::string& joinWith);
 
 std::string toLowercase(const std::string input);
 

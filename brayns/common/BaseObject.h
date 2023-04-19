@@ -1,4 +1,4 @@
-/* Copyright (c) 2015-2018, EPFL/Blue Brain Project
+/* Copyright (c) 2015-2023, EPFL/Blue Brain Project
  *
  * Responsible Author: Daniel.Nachbaur@epfl.ch
  *
@@ -73,10 +73,7 @@ public:
     /**
      * Set a function that is called after this object has been modified.
      */
-    void onModified(const ModifiedCallback& callback)
-    {
-        _modifiedCallback = callback;
-    }
+    void onModified(const ModifiedCallback& callback) { _modifiedCallback = callback; }
 
     void clearModifiedCallback() { _modifiedCallback = ModifiedCallback(); }
 
@@ -86,8 +83,7 @@ protected:
      * modified if it has changed.
      */
     template <typename T>
-    void _updateValue(T& member, const T& newValue,
-                      const bool triggerCallback = true)
+    void _updateValue(T& member, const T& newValue, const bool triggerCallback = true)
     {
         if (!_isEqual(member, newValue))
         {
@@ -97,17 +93,13 @@ protected:
     }
 
     template <class T>
-    bool _isEqual(
-        const T& a, const T& b,
-        typename std::enable_if<std::is_floating_point<T>::value>::type* = 0)
+    bool _isEqual(const T& a, const T& b, typename std::enable_if<std::is_floating_point<T>::value>::type* = 0)
     {
         return std::fabs(a - b) < 0.000001;
     }
 
     template <class T>
-    bool _isEqual(
-        const T& a, const T& b,
-        typename std::enable_if<!std::is_floating_point<T>::value>::type* = 0)
+    bool _isEqual(const T& a, const T& b, typename std::enable_if<!std::is_floating_point<T>::value>::type* = 0)
     {
         return a == b;
     }

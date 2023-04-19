@@ -1,4 +1,4 @@
-/* Copyright (c) 2015-2017, EPFL/Blue Brain Project
+/* Copyright (c) 2015-2023, EPFL/Blue Brain Project
  * All rights reserved. Do not distribute without permission.
  * Responsible Author: Cyrille Favreau <cyrille.favreau@epfl.ch>
  *
@@ -32,8 +32,7 @@ namespace brayns
 {
 typedef Engine* (*CreateFuncType)(int, const char**, ParametersManager&);
 
-EngineFactory::EngineFactory(const int argc, const char** argv,
-                             ParametersManager& parametersManager)
+EngineFactory::EngineFactory(const int argc, const char** argv, ParametersManager& parametersManager)
     : _argc{argc}
     , _argv{argv}
     , _parametersManager{parametersManager}
@@ -47,8 +46,7 @@ Engine* EngineFactory::create(const std::string& name)
     return _engines[name].get();
 }
 
-Engine* EngineFactory::_loadEngine(const std::string& name, int argc,
-                                   const char* argv[])
+Engine* EngineFactory::_loadEngine(const std::string& name, int argc, const char* argv[])
 {
     try
     {
@@ -56,10 +54,8 @@ Engine* EngineFactory::_loadEngine(const std::string& name, int argc,
         auto createSym = library.getSymbolAddress("brayns_engine_create");
         if (!createSym)
         {
-            throw std::runtime_error(
-                std::string("Plugin '") + name +
-                "' is not a valid Brayns engine; missing " +
-                "brayns_engine_create()");
+            throw std::runtime_error(std::string("Plugin '") + name + "' is not a valid Brayns engine; missing " +
+                                     "brayns_engine_create()");
         }
 
         CreateFuncType createFunc = (CreateFuncType)createSym;
@@ -67,14 +63,13 @@ Engine* EngineFactory::_loadEngine(const std::string& name, int argc,
         {
             _engines.emplace(name, std::unique_ptr<Engine>(plugin));
             _libs.push_back(std::move(library));
-            BRAYNS_INFO << "Loaded engine '" << name << "'" << std::endl;
+            BRAYNS_INFO("Loaded engine '" << name << "'");
             return plugin;
         }
     }
     catch (const std::runtime_error& exc)
     {
-        BRAYNS_ERROR << "Failed to load engine " << std::quoted(name) << ": "
-                     << exc.what() << std::endl;
+        BRAYNS_ERROR("Failed to load engine " << std::quoted(name) << ": " << exc.what());
     }
     return nullptr;
 }

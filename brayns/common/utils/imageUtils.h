@@ -1,4 +1,4 @@
-/* Copyright (c) 2015-2018, EPFL/Blue Brain Project
+/* Copyright (c) 2015-2023, EPFL/Blue Brain Project
  * All rights reserved. Do not distribute without permission.
  *
  * This file is part of Brayns <https://github.com/BlueBrain/Brayns>
@@ -52,8 +52,7 @@ using ImagePtr = std::unique_ptr<FIBITMAP, ImageDeleter>;
 using MemoryPtr = std::unique_ptr<FIMEMORY, MemoryDeleter>;
 
 bool SwapRedBlue32(FIBITMAP* freeImage);
-std::string getBase64Image(ImagePtr image, const std::string& format,
-                           const int quality);
+std::string getBase64Image(ImagePtr image, const std::string& format, const int quality);
 ImagePtr mergeImages(const std::vector<ImagePtr>& images);
 #else
 using ImagePtr = std::unique_ptr<int>;

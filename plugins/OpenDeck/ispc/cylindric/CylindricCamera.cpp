@@ -1,4 +1,4 @@
-/* Copyright (c) 2018, EPFL/Blue Brain Project
+/* Copyright (c) 2018-2023, EPFL/Blue Brain Project
  * All rights reserved. Do not distribute without permission.
  * Responsible Author: Cyrille Favreau <cyrille.favreau@epfl.ch>
  *                     Grigori Chevtchenko <grigori.chevtchenko@epfl.ch>
@@ -50,9 +50,7 @@ void CylindricCamera::commit()
 
     const auto imgPlane_size_y = 2.0f * tanf(deg2rad(0.5f * OPENDECK_FOV_Y));
 
-    ispc::CylindricCamera_set(getIE(), (const ispc::vec3f&)pos,
-                              (const ispc::vec3f&)dir,
-                              (const ispc::vec3f&)dir_du,
+    ispc::CylindricCamera_set(getIE(), (const ispc::vec3f&)pos, (const ispc::vec3f&)dir, (const ispc::vec3f&)dir_du,
                               (const ispc::vec3f&)dir_dv, imgPlane_size_y);
 }
 

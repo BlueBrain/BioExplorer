@@ -1,4 +1,4 @@
-/* Copyright (c) 2015-2018, EPFL/Blue Brain Project
+/* Copyright (c) 2015-2023, EPFL/Blue Brain Project
  * All rights reserved. Do not distribute without permission.
  * Responsible Author: Jonas Karlsson <jonas.karlsson@epfl.ch>
  *
@@ -45,8 +45,7 @@ struct SDFGeometry
     SDFType type;
 };
 
-inline SDFGeometry createSDFSphere(const Vector3f& center, const float radius,
-                                   const uint64_t data = 0,
+inline SDFGeometry createSDFSphere(const Vector3f& center, const float radius, const uint64_t data = 0,
                                    const Vector3f& userParams = Vector3f(0.f))
 {
     SDFGeometry geom;
@@ -58,8 +57,7 @@ inline SDFGeometry createSDFSphere(const Vector3f& center, const float radius,
     return geom;
 }
 
-inline SDFGeometry createSDFPill(const Vector3f& p0, const Vector3f& p1,
-                                 const float radius, const uint64_t data = 0,
+inline SDFGeometry createSDFPill(const Vector3f& p0, const Vector3f& p1, const float radius, const uint64_t data = 0,
                                  const Vector3f& userParams = Vector3f(0.f))
 {
     SDFGeometry geom;
@@ -72,10 +70,8 @@ inline SDFGeometry createSDFPill(const Vector3f& p0, const Vector3f& p1,
     return geom;
 }
 
-inline SDFGeometry createSDFConePill(const Vector3f& p0, const Vector3f& p1,
-                                     const float r0, const float r1,
-                                     const uint64_t data = 0,
-                                     const Vector3f& userParams = Vector3f(0.f))
+inline SDFGeometry createSDFConePill(const Vector3f& p0, const Vector3f& p1, const float r0, const float r1,
+                                     const uint64_t data = 0, const Vector3f& userParams = Vector3f(0.f))
 {
     SDFGeometry geom;
     geom.userData = data;
@@ -95,9 +91,8 @@ inline SDFGeometry createSDFConePill(const Vector3f& p0, const Vector3f& p1,
     return geom;
 }
 
-inline SDFGeometry createSDFConePillSigmoid(
-    const Vector3f& p0, const Vector3f& p1, const float r0, const float r1,
-    const uint64_t data = 0, const Vector3f& userParams = Vector3f(0.f))
+inline SDFGeometry createSDFConePillSigmoid(const Vector3f& p0, const Vector3f& p1, const float r0, const float r1,
+                                            const uint64_t data = 0, const Vector3f& userParams = Vector3f(0.f))
 {
     SDFGeometry geom = createSDFConePill(p0, p1, r0, r1, data, userParams);
     geom.type = SDFType::ConePillSigmoid;

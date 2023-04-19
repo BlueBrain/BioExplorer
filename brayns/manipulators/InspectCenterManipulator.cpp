@@ -1,4 +1,4 @@
-/* Copyright (c) 2015-2017, EPFL/Blue Brain Project
+/* Copyright (c) 2015-2023, EPFL/Blue Brain Project
  * All rights reserved. Do not distribute without permission.
  * Responsible Author: Cyrille Favreau <cyrille.favreau@epfl.ch>
  *
@@ -25,35 +25,24 @@
 
 namespace brayns
 {
-InspectCenterManipulator::InspectCenterManipulator(Camera& camera,
-                                                   KeyboardHandler& handler)
+InspectCenterManipulator::InspectCenterManipulator(Camera& camera, KeyboardHandler& handler)
     : AbstractManipulator{camera, handler}
 {
-    _keyboardHandler.registerKeyboardShortcut(
-        'a', "Rotate left",
-        std::bind(&InspectCenterManipulator::_rotateLeft, this));
-    _keyboardHandler.registerKeyboardShortcut(
-        'd', "Rotate right",
-        std::bind(&InspectCenterManipulator::_rotateRight, this));
-    _keyboardHandler.registerKeyboardShortcut(
-        'w', "Rotate up",
-        std::bind(&InspectCenterManipulator::_rotateUp, this));
-    _keyboardHandler.registerKeyboardShortcut(
-        's', "Rotate down",
-        std::bind(&InspectCenterManipulator::_rotateDown, this));
+    _keyboardHandler.registerKeyboardShortcut('a', "Rotate left",
+                                              std::bind(&InspectCenterManipulator::_rotateLeft, this));
+    _keyboardHandler.registerKeyboardShortcut('d', "Rotate right",
+                                              std::bind(&InspectCenterManipulator::_rotateRight, this));
+    _keyboardHandler.registerKeyboardShortcut('w', "Rotate up", std::bind(&InspectCenterManipulator::_rotateUp, this));
+    _keyboardHandler.registerKeyboardShortcut('s', "Rotate down",
+                                              std::bind(&InspectCenterManipulator::_rotateDown, this));
 
-    _keyboardHandler.registerSpecialKey(
-        SpecialKey::LEFT, "Turn left",
-        std::bind(&InspectCenterManipulator::_turnLeft, this));
-    _keyboardHandler.registerSpecialKey(
-        SpecialKey::RIGHT, "Turn right",
-        std::bind(&InspectCenterManipulator::_turnRight, this));
-    _keyboardHandler.registerSpecialKey(
-        SpecialKey::UP, "Turn up",
-        std::bind(&InspectCenterManipulator::_turnUp, this));
-    _keyboardHandler.registerSpecialKey(
-        SpecialKey::DOWN, "Turn down",
-        std::bind(&InspectCenterManipulator::_turnDown, this));
+    _keyboardHandler.registerSpecialKey(SpecialKey::LEFT, "Turn left",
+                                        std::bind(&InspectCenterManipulator::_turnLeft, this));
+    _keyboardHandler.registerSpecialKey(SpecialKey::RIGHT, "Turn right",
+                                        std::bind(&InspectCenterManipulator::_turnRight, this));
+    _keyboardHandler.registerSpecialKey(SpecialKey::UP, "Turn up", std::bind(&InspectCenterManipulator::_turnUp, this));
+    _keyboardHandler.registerSpecialKey(SpecialKey::DOWN, "Turn down",
+                                        std::bind(&InspectCenterManipulator::_turnDown, this));
 }
 
 InspectCenterManipulator::~InspectCenterManipulator()
@@ -69,37 +58,27 @@ InspectCenterManipulator::~InspectCenterManipulator()
     _keyboardHandler.unregisterSpecialKey(SpecialKey::DOWN);
 }
 
-void InspectCenterManipulator::dragLeft(const Vector2i& to,
-                                        const Vector2i& from)
+void InspectCenterManipulator::dragLeft(const Vector2i& to, const Vector2i& from)
 {
-    const float du = (to.x - from.x) * DEFAULT_MOUSE_MOTION_SPEED_MULTIPLIER *
-                     getRotationSpeed();
-    const float dv = (to.y - from.y) * DEFAULT_MOUSE_MOTION_SPEED_MULTIPLIER *
-                     getRotationSpeed();
+    const float du = (to.x - from.x) * DEFAULT_MOUSE_MOTION_SPEED_MULTIPLIER * getRotationSpeed();
+    const float dv = (to.y - from.y) * DEFAULT_MOUSE_MOTION_SPEED_MULTIPLIER * getRotationSpeed();
     rotate(_camera.getTarget(), du, dv, AxisMode::localY);
 }
 
-void InspectCenterManipulator::dragRight(const Vector2i& to,
-                                         const Vector2i& from)
+void InspectCenterManipulator::dragRight(const Vector2i& to, const Vector2i& from)
 {
-    const float distance = -(to.y - from.y) *
-                           DEFAULT_MOUSE_MOTION_SPEED_MULTIPLIER *
-                           getMotionSpeed();
+    const float distance = -(to.y - from.y) * DEFAULT_MOUSE_MOTION_SPEED_MULTIPLIER * getMotionSpeed();
     if (distance < glm::length(_camera.getTarget() - _camera.getPosition()))
         translate(Vector3f(0, 0, -1) * distance);
 }
 
-void InspectCenterManipulator::dragMiddle(const Vector2i& to,
-                                          const Vector2i& from)
+void InspectCenterManipulator::dragMiddle(const Vector2i& to, const Vector2i& from)
 {
-    const float x = (to.x - from.x) * DEFAULT_MOUSE_MOTION_SPEED_MULTIPLIER *
-                    getMotionSpeed();
-    const float y = (to.y - from.y) * DEFAULT_MOUSE_MOTION_SPEED_MULTIPLIER *
-                    getMotionSpeed();
+    const float x = (to.x - from.x) * DEFAULT_MOUSE_MOTION_SPEED_MULTIPLIER * getMotionSpeed();
+    const float y = (to.y - from.y) * DEFAULT_MOUSE_MOTION_SPEED_MULTIPLIER * getMotionSpeed();
     const Vector3d translation(-x, y, 0);
     translate(translation);
-    _camera.setTarget(_camera.getTarget() +
-                      glm::rotate(_camera.getOrientation(), translation));
+    _camera.setTarget(_camera.getTarget() + glm::rotate(_camera.getOrientation(), translation));
 }
 
 void InspectCenterManipulator::wheel(const Vector2i& /*position*/, float delta)

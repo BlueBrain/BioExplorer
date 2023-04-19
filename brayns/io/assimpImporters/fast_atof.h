@@ -154,8 +154,7 @@ inline unsigned int HexDigitToDecimal(char in)
 // ------------------------------------------------------------------------------------
 inline uint8_t HexOctetToDecimal(const char* in)
 {
-    return ((uint8_t)HexDigitToDecimal(in[0]) << 4) +
-           (uint8_t)HexDigitToDecimal(in[1]);
+    return ((uint8_t)HexDigitToDecimal(in[0]) << 4) + (uint8_t)HexDigitToDecimal(in[1]);
 }
 
 // ------------------------------------------------------------------------------------
@@ -195,15 +194,13 @@ inline unsigned int strtoul_cppstyle(const char* in, const char** out = 0)
 // It is mainly used by fast_atof to prevent ugly and unwanted integer
 // overflows.
 // ------------------------------------------------------------------------------------
-inline uint64_t strtoul10_64(const char* in, const char** out = 0,
-                             unsigned int* max_inout = 0)
+inline uint64_t strtoul10_64(const char* in, const char** out = 0, unsigned int* max_inout = 0)
 {
     unsigned int cur = 0;
     uint64_t value = 0;
 
     if (*in < '0' || *in > '9')
-        throw std::invalid_argument(std::string("The string \"") + in +
-                                    "\" cannot be converted into a value.");
+        throw std::invalid_argument(std::string("The string \"") + in + "\" cannot be converted into a value.");
 
     bool running = true;
     while (running)
@@ -216,8 +213,7 @@ inline uint64_t strtoul10_64(const char* in, const char** out = 0,
         // numeric overflow, we rely on you
         if (new_value < value)
         {
-            DefaultLogger::get()->warn(std::string("Converting the string \"") +
-                                       in +
+            DefaultLogger::get()->warn(std::string("Converting the string \"") + in +
                                        "\" into a value resulted in overflow.");
             return 0;
         }
@@ -252,8 +248,7 @@ inline uint64_t strtoul10_64(const char* in, const char** out = 0,
 // ------------------------------------------------------------------------------------
 // signed variant of strtoul10_64
 // ------------------------------------------------------------------------------------
-inline int64_t strtol10_64(const char* in, const char** out = 0,
-                           unsigned int* max_inout = 0)
+inline int64_t strtol10_64(const char* in, const char** out = 0, unsigned int* max_inout = 0)
 {
     bool inv = (*in == '-');
     if (inv || *in == '+')
@@ -276,8 +271,7 @@ inline int64_t strtol10_64(const char* in, const char** out = 0,
 // If you find any bugs, please send them to me, niko (at) irrlicht3d.org.
 // ------------------------------------------------------------------------------------
 template <typename Real>
-inline const char* fast_atoreal_move(const char* c, Real& out,
-                                     bool check_comma = true)
+inline const char* fast_atoreal_move(const char* c, Real& out, bool check_comma = true)
 {
     Real f = 0;
 
@@ -309,9 +303,7 @@ inline const char* fast_atoreal_move(const char* c, Real& out,
         return c;
     }
 
-    if (!(c[0] >= '0' && c[0] <= '9') &&
-        !((c[0] == '.' || (check_comma && c[0] == ',')) && c[1] >= '0' &&
-          c[1] <= '9'))
+    if (!(c[0] >= '0' && c[0] <= '9') && !((c[0] == '.' || (check_comma && c[0] == ',')) && c[1] >= '0' && c[1] <= '9'))
     {
         throw std::invalid_argument(
             "Cannot parse string "
@@ -324,8 +316,7 @@ inline const char* fast_atoreal_move(const char* c, Real& out,
         f = static_cast<Real>(strtoul10_64(c, &c));
     }
 
-    if ((*c == '.' || (check_comma && c[0] == ',')) && c[1] >= '0' &&
-        c[1] <= '9')
+    if ((*c == '.' || (check_comma && c[0] == ',')) && c[1] >= '0' && c[1] <= '9')
     {
         ++c;
 

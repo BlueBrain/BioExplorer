@@ -1,4 +1,4 @@
-/* Copyright (c) 2015-2018, EPFL/Blue Brain Project
+/* Copyright (c) 2015-2023, EPFL/Blue Brain Project
  * All rights reserved. Do not distribute without permission.
  * Responsible Author: Jonas Karlsson <jonas.karlsson@epfl.ch>
  *
@@ -66,8 +66,7 @@ void SDFGeometries::finalize(ospray::Model* model)
         bounds.extend(bMaxf);
     }
 
-    ispc::SDFGeometriesGeometry_set(getIE(), model->getIE(), data->data,
-                                    numSDFGeometries, neighbours->data,
+    ispc::SDFGeometriesGeometry_set(getIE(), model->getIE(), data->data, numSDFGeometries, neighbours->data,
                                     numNeighbours, geometries->data);
 }
 

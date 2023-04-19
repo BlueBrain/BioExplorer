@@ -1,4 +1,4 @@
-/* Copyright (c) 2015-2016, EPFL/Blue Brain Project
+/* Copyright (c) 2015-2023, EPFL/Blue Brain Project
  * All rights reserved. Do not distribute without permission.
  * Responsible Author: Cyrille Favreau <cyrille.favreau@epfl.ch>
  *
@@ -28,15 +28,14 @@
 
 namespace brayns
 {
-void KeyboardHandler::registerKeyboardShortcut(const unsigned char key,
-                                               const std::string& description,
+void KeyboardHandler::registerKeyboardShortcut(const unsigned char key, const std::string& description,
                                                std::function<void()> functor)
 {
     if (_registeredShortcuts.find(key) != _registeredShortcuts.end())
     {
         std::stringstream message;
         message << key << " is already registered";
-        BRAYNS_ERROR << message.str() << std::endl;
+        BRAYNS_ERROR(message.str());
     }
     else
     {
@@ -59,20 +58,19 @@ void KeyboardHandler::handleKeyboardShortcut(const unsigned char key)
     auto it = _registeredShortcuts.find(key);
     if (it != _registeredShortcuts.end())
     {
-        BRAYNS_DEBUG << "Processing " << (*it).second.description << std::endl;
+        BRAYNS_DEBUG("Processing " << (*it).second.description);
         (*it).second.functor();
     }
 }
 
-void KeyboardHandler::registerSpecialKey(const SpecialKey key,
-                                         const std::string& description,
+void KeyboardHandler::registerSpecialKey(const SpecialKey key, const std::string& description,
                                          std::function<void()> functor)
 {
     if (_registeredSpecialKeys.find(key) != _registeredSpecialKeys.end())
     {
         std::stringstream message;
         message << int(key) << " is already registered";
-        BRAYNS_ERROR << message.str() << std::endl;
+        BRAYNS_ERROR(message.str());
     }
     else
     {
@@ -95,7 +93,7 @@ void KeyboardHandler::handle(const SpecialKey key)
     auto it = _registeredSpecialKeys.find(key);
     if (it != _registeredSpecialKeys.end())
     {
-        BRAYNS_INFO << "Processing " << (*it).second.description << std::endl;
+        BRAYNS_INFO("Processing " << (*it).second.description);
         (*it).second.functor();
     }
 }
@@ -123,15 +121,13 @@ void KeyboardHandler::_buildHelp()
     for (const auto& registeredShortcut : _registeredShortcuts)
     {
         std::stringstream ss;
-        ss << "'" << registeredShortcut.first << "' "
-           << registeredShortcut.second.description;
+        ss << "'" << registeredShortcut.first << "' " << registeredShortcut.second.description;
         _helpStrings.push_back(ss.str());
     }
     for (const auto& registeredShortcut : _registeredSpecialKeys)
     {
         std::stringstream ss;
-        ss << "'" << specialKeyToString(registeredShortcut.first) << "' "
-           << registeredShortcut.second.description;
+        ss << "'" << specialKeyToString(registeredShortcut.first) << "' " << registeredShortcut.second.description;
         _helpStrings.push_back(ss.str());
     }
 

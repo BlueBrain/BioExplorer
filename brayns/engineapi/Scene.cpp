@@ -1,4 +1,4 @@
-/* Copyright (c) 2015-2018, EPFL/Blue Brain Project
+/* Copyright (c) 2015-2023, EPFL/Blue Brain Project
  * All rights reserved. Do not distribute without permission.
  * Responsible Author: Cyrille Favreau <cyrille.favreau@epfl.ch>
  *
@@ -37,24 +37,18 @@ namespace
 {
 template <typename T, typename U = T> // U seems to be needed when getID is a
                                       // member function of a base of T.
-std::shared_ptr<T> _find(const std::vector<std::shared_ptr<T>>& list,
-                         const size_t id,
+std::shared_ptr<T> _find(const std::vector<std::shared_ptr<T>>& list, const size_t id,
                          size_t (U::*getID)() const = &T::getID)
 {
-    auto i = std::find_if(list.begin(), list.end(), [id, getID](auto x) {
-        return id == ((*x).*getID)();
-    });
+    auto i = std::find_if(list.begin(), list.end(), [id, getID](auto x) { return id == ((*x).*getID)(); });
     return i == list.end() ? std::shared_ptr<T>{} : *i;
 }
 
 template <typename T, typename U = T>
-std::shared_ptr<T> _remove(std::vector<std::shared_ptr<T>>& list,
-                           const size_t id,
+std::shared_ptr<T> _remove(std::vector<std::shared_ptr<T>>& list, const size_t id,
                            size_t (U::*getID)() const = &T::getID)
 {
-    auto i = std::find_if(list.begin(), list.end(), [id, getID](auto x) {
-        return id == ((*x).*getID)();
-    });
+    auto i = std::find_if(list.begin(), list.end(), [id, getID](auto x) { return id == ((*x).*getID)(); });
     if (i == list.end())
         return std::shared_ptr<T>{};
     auto result = *i;
@@ -65,8 +59,7 @@ std::shared_ptr<T> _remove(std::vector<std::shared_ptr<T>>& list,
 
 namespace brayns
 {
-Scene::Scene(AnimationParameters& animationParameters,
-             GeometryParameters& geometryParameters,
+Scene::Scene(AnimationParameters& animationParameters, GeometryParameters& geometryParameters,
              VolumeParameters& volumeParameters)
     : _animationParameters(animationParameters)
     , _geometryParameters(geometryParameters)
@@ -138,8 +131,7 @@ size_t Scene::addModel(ModelDescriptorPtr modelDescriptor)
 
         // add default instance of this model to render something
         if (modelDescriptor->getInstances().empty())
-            modelDescriptor->addInstance(
-                {true, true, modelDescriptor->getTransformation()});
+            modelDescriptor->addInstance({true, true, modelDescriptor->getTransformation()});
     }
 
     _computeBounds();
@@ -156,8 +148,7 @@ bool Scene::removeModel(const size_t id)
     {
         {
             std::unique_lock<std::shared_timed_mutex> lock(_modelMutex);
-            model =
-                _remove(_modelDescriptors, id, &ModelDescriptor::getModelID);
+            model = _remove(_modelDescriptors, id, &ModelDescriptor::getModelID);
         }
         if (model)
             model->callOnRemoved();
@@ -216,12 +207,9 @@ void Scene::removeClipPlane(const size_t id)
         markModified();
 }
 
-ModelDescriptorPtr Scene::loadModel(Blob&& blob, const ModelParams& params,
-                                    LoaderProgress cb)
+ModelDescriptorPtr Scene::loadModel(Blob&& blob, const ModelParams& params, LoaderProgress cb)
 {
-    const auto& loader =
-        _loaderRegistry.getSuitableLoader("", blob.type,
-                                          params.getLoaderName());
+    const auto& loader = _loaderRegistry.getSuitableLoader("", blob.type, params.getLoaderName());
 
     // HACK: Add loader name in properties for archive loader
     auto propCopy = params.getLoaderProperties();
@@ -234,12 +222,9 @@ ModelDescriptorPtr Scene::loadModel(Blob&& blob, const ModelParams& params,
     return modelDescriptor;
 }
 
-ModelDescriptorPtr Scene::loadModel(const std::string& path,
-                                    const ModelParams& params,
-                                    LoaderProgress cb)
+ModelDescriptorPtr Scene::loadModel(const std::string& path, const ModelParams& params, LoaderProgress cb)
 {
-    const auto& loader =
-        _loaderRegistry.getSuitableLoader(path, "", params.getLoaderName());
+    const auto& loader = _loaderRegistry.getSuitableLoader(path, "", params.getLoaderName());
     // HACK: Add loader name in properties for archive loader
     auto propCopy = params.getLoaderProperties();
     propCopy.setProperty({"loaderName", params.getLoaderName()});
@@ -260,9 +245,10 @@ void Scene::visitModels(const std::function<void(Model&)>& functor)
 
 void Scene::buildDefault()
 {
-    BRAYNS_INFO << "Building default Cornell Box scene" << std::endl;
+    BRAYNS_INFO("Building default Cornell Box scene");
 
     auto model = createModel();
+#if 0
     const Vector3f WHITE = {1.f, 1.f, 1.f};
 
     const Vector3f positions[8] = {
@@ -368,9 +354,27 @@ void Scene::buildDefault()
         triangleMesh.indices.push_back(Vector3i(2, 1, 0));
         triangleMesh.indices.push_back(Vector3i(0, 3, 2));
     }
+#else
+    for (size_t materialId = 0; materialId < 10; ++materialId)
+    {
+        auto material = model->createMaterial(materialId, "Material");
+        material->setOpacity(0.2f);
+        material->setRefractionIndex(1.5f);
+        material->setReflectionIndex(0.1f);
+        // material->setDiffuseColor(
+        //     {rand() % 100 / 100.f, rand() % 100 / 100.f, rand() % 100 /
+        //     100.f});
+        material->setDiffuseColor({materialId * 0.1f, 0.f, 1.f - materialId * 0.1f});
+        material->setSpecularColor({1.f, 1.f, 1.f});
+        material->setSpecularExponent(100.f);
 
-    addModel(
-        std::make_shared<ModelDescriptor>(std::move(model), "DefaultScene"));
+        model->addSphere(materialId, {{-5.f + materialId, 0.f, 0.f}, 0.5f});
+        model->addCylinder(materialId, {{-5.f + materialId, 0.f, 0.f}, {-5.f + materialId, 2.f, 0.f}, 0.25f});
+        model->addCone(materialId, {{-5.f + materialId, 0.f, 0.f}, {-5.f + materialId, -2.f, 0.f}, 0.25f, 0.f});
+    }
+#endif
+
+    addModel(std::make_shared<ModelDescriptor>(std::move(model), "DefaultScene"));
 }
 
 void Scene::setMaterialsColorMap(MaterialsColorMap colorMap)
@@ -387,7 +391,10 @@ bool Scene::setEnvironmentMap(const std::string& envMap)
 {
     bool success = true;
     if (envMap.empty())
-        _backgroundMaterial->clearTextures();
+    {
+        if (_backgroundMaterial)
+            _backgroundMaterial->clearTextures();
+    }
     else
     {
         try
@@ -396,8 +403,7 @@ bool Scene::setEnvironmentMap(const std::string& envMap)
         }
         catch (const std::runtime_error& e)
         {
-            BRAYNS_DEBUG << "Cannot load environment map: " << e.what()
-                         << std::endl;
+            BRAYNS_DEBUG("Cannot load environment map: " << e.what());
             _backgroundMaterial->clearTextures();
             success = false;
         }
@@ -406,7 +412,7 @@ bool Scene::setEnvironmentMap(const std::string& envMap)
     }
 
     _updateValue(_environmentMap, success ? envMap : "");
-    if (_backgroundMaterial->isModified())
+    if (_backgroundMaterial && _backgroundMaterial->isModified())
         markModified();
     return success;
 }
@@ -444,11 +450,9 @@ void Scene::_loadIBLMaps(const std::string& envMap)
         const std::string radianceMap = basename + RADIANCE_MAP + ".hdr";
         const std::string brdfLUT = basename + BRDF_LUT + ".hdr";
 
-        if (fs::exists(irradianceMap) && fs::exists(radianceMap) &&
-            fs::exists(brdfLUT))
+        if (fs::exists(irradianceMap) && fs::exists(radianceMap) && fs::exists(brdfLUT))
         {
-            _backgroundMaterial->setTexture(irradianceMap,
-                                            TextureType::irradiance);
+            _backgroundMaterial->setTexture(irradianceMap, TextureType::irradiance);
             _backgroundMaterial->setTexture(radianceMap, TextureType::radiance);
             _backgroundMaterial->setTexture(brdfLUT, TextureType::brdf_lut);
         }

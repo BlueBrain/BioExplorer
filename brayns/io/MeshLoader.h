@@ -1,4 +1,4 @@
-/* Copyright (c) 2015-2016, EPFL/Blue Brain Project
+/* Copyright (c) 2015-2023, EPFL/Blue Brain Project
  * All rights reserved. Do not distribute without permission.
  * Responsible Author: Cyrille Favreau <cyrille.favreau@epfl.ch>
  *
@@ -40,33 +40,25 @@ public:
     std::string getName() const final;
     PropertyMap getProperties() const final;
 
-    bool isSupported(const std::string& filename,
-                     const std::string& extension) const final;
+    bool isSupported(const std::string& filename, const std::string& extension) const final;
 
-    ModelDescriptorPtr importFromFile(
-        const std::string& fileName, const LoaderProgress& callback,
-        const PropertyMap& properties) const final;
+    ModelDescriptorPtr importFromFile(const std::string& fileName, const LoaderProgress& callback,
+                                      const PropertyMap& properties) const final;
 
-    ModelDescriptorPtr importFromBlob(
-        Blob&& blob, const LoaderProgress& callback,
-        const PropertyMap& properties) const final;
+    ModelDescriptorPtr importFromBlob(Blob&& blob, const LoaderProgress& callback,
+                                      const PropertyMap& properties) const final;
 
-    ModelMetadata importMesh(const std::string& fileName,
-                             const LoaderProgress& callback, Model& model,
-                             const Matrix4f& transformation,
-                             const size_t defaultMaterialId,
+    ModelMetadata importMesh(const std::string& fileName, const LoaderProgress& callback, Model& model,
+                             const Matrix4f& transformation, const size_t defaultMaterialId,
                              const GeometryQuality geometryQuality) const;
 
 private:
     PropertyMap _defaults;
 
-    void _createMaterials(Model& model, const aiScene* aiScene,
-                          const std::string& folder) const;
+    void _createMaterials(Model& model, const aiScene* aiScene, const std::string& folder) const;
 
-    ModelMetadata _postLoad(const aiScene* aiScene, Model& model,
-                            const Matrix4f& transformation,
-                            const size_t defaultMaterial,
-                            const std::string& folder,
+    ModelMetadata _postLoad(const aiScene* aiScene, Model& model, const Matrix4f& transformation,
+                            const size_t defaultMaterial, const std::string& folder,
                             const LoaderProgress& callback) const;
     size_t _getQuality(const GeometryQuality geometryQuality) const;
 };

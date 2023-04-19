@@ -1,4 +1,4 @@
-/* Copyright (c) 2015-2019, EPFL/Blue Brain Project
+/* Copyright (c) 2015-2023, EPFL/Blue Brain Project
  * All rights reserved. Do not distribute without permission.
  *
  * This file is part of Brayns <https://github.com/BlueBrain/Brayns>
@@ -49,10 +49,7 @@ public:
      * @brief returns a void pointer to the simulation data for the given frame
      * or nullptr if the frame is not loaded yet.
      */
-    virtual void* getFrameData(uint32_t frame BRAYNS_UNUSED)
-    {
-        return _frameData.data();
-    }
+    virtual void* getFrameData(uint32_t frame BRAYNS_UNUSED) { return _frameData.data(); }
 
     /**
      * @brief getFrameSize return the size of the current simulation frame

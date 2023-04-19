@@ -1,4 +1,4 @@
-/* Copyright (c) 2018-2019, EPFL/Blue Brain Project
+/* Copyright (c) 2017-2023, EPFL/Blue Brain Project
  *
  * This file is part of Brayns <https://github.com/BlueBrain/Brayns>
  *
@@ -34,6 +34,7 @@ void Timer::start()
 {
     _startTime = clock::now();
 }
+
 double Timer::elapsed() const
 {
     return std::chrono::duration<double>{clock::now() - _startTime}.count();
@@ -42,16 +43,11 @@ double Timer::elapsed() const
 void Timer::stop()
 {
     const auto now = clock::now();
-    _microseconds =
-        std::chrono::duration_cast<std::chrono::microseconds>(now - _startTime)
-            .count();
+    _microseconds = std::chrono::duration_cast<std::chrono::microseconds>(now - _startTime).count();
     _smoothNom = _smoothNom * _smoothingFactor + _microseconds / MICRO_PER_SEC;
     _smoothDen = _smoothDen * _smoothingFactor + 1.f;
 
-    const auto secsLastFPSTick =
-        std::chrono::duration_cast<std::chrono::milliseconds>(now -
-                                                              _lastFPSTickTime)
-            .count();
+    const auto secsLastFPSTick = std::chrono::duration_cast<std::chrono::milliseconds>(now - _lastFPSTickTime).count();
 
     if (secsLastFPSTick >= FPS_UPDATE_MILLISECS)
     {

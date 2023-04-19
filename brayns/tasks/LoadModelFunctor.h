@@ -1,4 +1,4 @@
-/* Copyright (c) 2015-2018, EPFL/Blue Brain Project
+/* Copyright (c) 2015-2023, EPFL/Blue Brain Project
  * All rights reserved. Do not distribute without permission.
  * Responsible Author: Daniel.Nachbaur@epfl.ch
  *
@@ -40,12 +40,10 @@ public:
     ModelDescriptorPtr operator()();
 
 private:
-    ModelDescriptorPtr _performLoad(
-        const std::function<ModelDescriptorPtr()>& loadData);
+    ModelDescriptorPtr _performLoad(const std::function<ModelDescriptorPtr()>& loadData);
 
     ModelDescriptorPtr _loadData(Blob&& blob, const ModelParams& params);
-    ModelDescriptorPtr _loadData(const std::string& path,
-                                 const ModelParams& params);
+    ModelDescriptorPtr _loadData(const std::string& path, const ModelParams& params);
 
     void _updateProgress(const std::string& message, const size_t increment);
 

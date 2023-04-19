@@ -40,15 +40,12 @@ std::string shortenString(const std::string& string, const size_t maxLength)
 
     const float spacePerPart = (maxLength - ELLIPSIS.length()) / 2.f;
     const auto beforeEllipsis = string.substr(0, std::ceil(spacePerPart));
-    const auto afterEllipsis =
-        string.substr(string.size() - std::floor(spacePerPart));
+    const auto afterEllipsis = string.substr(string.size() - std::floor(spacePerPart));
 
     return beforeEllipsis + ELLIPSIS + afterEllipsis;
 }
 
-std::string replaceFirstOccurrence(std::string input,
-                                   const std::string& toReplace,
-                                   const std::string& replaceWith)
+std::string replaceFirstOccurrence(std::string input, const std::string& toReplace, const std::string& replaceWith)
 {
     std::size_t pos = input.find(toReplace);
     if (pos == std::string::npos)
@@ -56,8 +53,7 @@ std::string replaceFirstOccurrence(std::string input,
     return input.replace(pos, toReplace.length(), replaceWith);
 }
 
-std::string camelCaseToSeparated(const std::string& camelCase,
-                                 const char separator)
+std::string camelCaseToSeparated(const std::string& camelCase, const char separator)
 {
     if (camelCase.empty())
         return camelCase;
@@ -74,8 +70,7 @@ std::string camelCaseToSeparated(const std::string& camelCase,
     return str;
 }
 
-std::string separatedToCamelCase(const std::string& separated,
-                                 const char separator)
+std::string separatedToCamelCase(const std::string& separated, const char separator)
 {
     std::string camel = separated;
 
@@ -85,8 +80,7 @@ std::string separatedToCamelCase(const std::string& separated,
         {
             std::string tempString = camel.substr(x + 1, 1);
 
-            std::transform(tempString.begin(), tempString.end(),
-                           tempString.begin(), ::toupper);
+            std::transform(tempString.begin(), tempString.end(), tempString.begin(), ::toupper);
 
             camel.erase(x, 2);
             camel.insert(x, tempString);
@@ -95,8 +89,7 @@ std::string separatedToCamelCase(const std::string& separated,
     return camel;
 }
 
-std::string join(const std::vector<std::string>& strings,
-                 const std::string& joinWith)
+std::string join(const std::vector<std::string>& strings, const std::string& joinWith)
 {
     const size_t numStrings = strings.size();
     if (numStrings == 0)
@@ -117,16 +110,12 @@ std::string toLowercase(std::string input)
 
 void ltrim(std::string& s)
 {
-    s.erase(s.begin(), std::find_if(s.begin(), s.end(),
-                                    [](int ch) { return !std::isspace(ch); }));
+    s.erase(s.begin(), std::find_if(s.begin(), s.end(), [](int ch) { return !std::isspace(ch); }));
 }
 
 void rtrim(std::string& s)
 {
-    s.erase(std::find_if(s.rbegin(), s.rend(),
-                         [](int ch) { return !std::isspace(ch); })
-                .base(),
-            s.end());
+    s.erase(std::find_if(s.rbegin(), s.rend(), [](int ch) { return !std::isspace(ch); }).base(), s.end());
 }
 
 void trim(std::string& s)

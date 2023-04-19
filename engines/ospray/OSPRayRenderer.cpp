@@ -1,4 +1,4 @@
-/* Copyright (c) 2015-2016, EPFL/Blue Brain Project
+/* Copyright (c) 2015-2023, EPFL/Blue Brain Project
  * All rights reserved. Do not distribute without permission.
  * Responsible Author: Cyrille Favreau <cyrille.favreau@epfl.ch>
  *
@@ -52,12 +52,10 @@ void OSPRayRenderer::_destroyRenderer()
 
 void OSPRayRenderer::render(FrameBufferPtr frameBuffer)
 {
-    auto osprayFrameBuffer =
-        std::static_pointer_cast<OSPRayFrameBuffer>(frameBuffer);
+    auto osprayFrameBuffer = std::static_pointer_cast<OSPRayFrameBuffer>(frameBuffer);
     auto lock = osprayFrameBuffer->getScopeLock();
 
-    _variance = ospRenderFrame(osprayFrameBuffer->impl(), _renderer,
-                               OSP_FB_COLOR | OSP_FB_DEPTH | OSP_FB_ACCUM);
+    _variance = ospRenderFrame(osprayFrameBuffer->impl(), _renderer, OSP_FB_COLOR | OSP_FB_DEPTH | OSP_FB_ACCUM);
 
     osprayFrameBuffer->markModified();
 }
@@ -70,9 +68,8 @@ void OSPRayRenderer::commit()
     const bool lightsChanged = _currLightsData != scene->lightData();
     const bool rendererChanged = _currentOSPRenderer != getCurrentType();
 
-    if (!ap.isModified() && !rp.isModified() && !_scene->isModified() &&
-        !isModified() && !_camera->isModified() && !lightsChanged &&
-        !rendererChanged)
+    if (!ap.isModified() && !rp.isModified() && !_scene->isModified() && !isModified() && !_camera->isModified() &&
+        !lightsChanged && !rendererChanged)
     {
         return;
     }
@@ -94,13 +91,10 @@ void OSPRayRenderer::commit()
 
         if (auto simulationModel = scene->getSimulatedModel())
         {
-            auto& model =
-                static_cast<OSPRayModel&>(simulationModel->getModel());
-            ospSetObject(_renderer, "secondaryModel",
-                         model.getSecondaryModel());
+            auto& model = static_cast<OSPRayModel&>(simulationModel->getModel());
+            ospSetObject(_renderer, "secondaryModel", model.getSecondaryModel());
             ospSetData(_renderer, "simulationData", model.simulationData());
-            ospSetObject(_renderer, "transferFunction",
-                         model.transferFunction());
+            ospSetObject(_renderer, "transferFunction", model.transferFunction());
         }
         else
         {
@@ -123,12 +117,10 @@ void OSPRayRenderer::commit()
     osphelper::set(_renderer, "timestamp", static_cast<float>(ap.getFrame()));
     osphelper::set(_renderer, "randomNumber", rand() % 10000);
     osphelper::set(_renderer, "bgColor", Vector3f(rp.getBackgroundColor()));
-    osphelper::set(_renderer, "varianceThreshold",
-                   static_cast<float>(rp.getVarianceThreshold()));
+    osphelper::set(_renderer, "varianceThreshold", static_cast<float>(rp.getVarianceThreshold()));
     osphelper::set(_renderer, "spp", static_cast<int>(rp.getSamplesPerPixel()));
 
-    if (auto material = std::static_pointer_cast<OSPRayMaterial>(
-            scene->getBackgroundMaterial()))
+    if (auto material = std::static_pointer_cast<OSPRayMaterial>(scene->getBackgroundMaterial()))
     {
         material->setDiffuseColor(rp.getBackgroundColor());
         material->commit(_currentOSPRenderer);
@@ -139,8 +131,7 @@ void OSPRayRenderer::commit()
     if (!_clipPlanes.empty())
     {
         const auto clipPlanes = convertVectorToFloat(_clipPlanes);
-        auto clipPlaneData =
-            ospNewData(clipPlanes.size(), OSP_FLOAT4, clipPlanes.data());
+        auto clipPlaneData = ospNewData(clipPlanes.size(), OSP_FLOAT4, clipPlanes.data());
         ospSetData(_renderer, "clipPlanes", clipPlaneData);
         ospRelease(clipPlaneData);
     }
@@ -187,8 +178,7 @@ Renderer::PickResult OSPRayRenderer::pick(const Vector2f& pickPos)
     PickResult result;
     result.hit = ospResult.hit;
     if (result.hit)
-        result.pos = {ospResult.position.x, ospResult.position.y,
-                      ospResult.position.z};
+        result.pos = {ospResult.position.x, ospResult.position.y, ospResult.position.z};
     return result;
 }
 
@@ -196,8 +186,7 @@ void OSPRayRenderer::_createOSPRenderer()
 {
     auto newRenderer = ospNewRenderer(getCurrentType().c_str());
     if (!newRenderer)
-        throw std::runtime_error(getCurrentType() +
-                                 " is not a registered renderer");
+        throw std::runtime_error(getCurrentType() + " is not a registered renderer");
     _destroyRenderer();
     _renderer = newRenderer;
     if (_camera)

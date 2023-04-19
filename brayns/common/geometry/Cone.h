@@ -1,4 +1,4 @@
-/* Copyright (c) 2015-2018, EPFL/Blue Brain Project
+/* Copyright (c) 2015-2023, EPFL/Blue Brain Project
  * All rights reserved. Do not distribute without permission.
  * Responsible Author: Cyrille Favreau <cyrille.favreau@epfl.ch>
  *
@@ -30,8 +30,8 @@ namespace brayns
 struct Cone
 {
 #if __cplusplus
-    Cone(const Vector3f c = {0.f, 0.f, 0.f}, const Vector3f u = {0.f, 0.f, 0.f},
-         const float cr = 0.f, const float ur = 0.f, const uint64_t data = 0)
+    Cone(const Vector3f c = {0.f, 0.f, 0.f}, const Vector3f u = {0.f, 0.f, 0.f}, const float cr = 0.f,
+         const float ur = 0.f, const uint64_t data = 0)
         : userData(data)
         , center(c)
         , up(u)

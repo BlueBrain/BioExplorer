@@ -1,4 +1,4 @@
-/* Copyright (c) 2015-2016, EPFL/Blue Brain Project
+/* Copyright (c) 2015-2023, EPFL/Blue Brain Project
  * All rights reserved. Do not distribute without permission.
  * Responsible Author: Cyrille Favreau <cyrille.favreau@epfl.ch>
  *                     Jafet Villafranca <jafet.villafrancadiaz@epfl.ch>
@@ -39,17 +39,14 @@ Camera& Camera::operator=(const Camera& rhs)
     return *this;
 }
 
-void Camera::set(const Vector3d& position, const Quaterniond& orientation,
-                 const Vector3d& target)
+void Camera::set(const Vector3d& position, const Quaterniond& orientation, const Vector3d& target)
 {
     setPosition(position);
     setOrientation(orientation);
     setTarget(target);
 }
 
-void Camera::setInitialState(const Vector3d& position,
-                             const Quaterniond& orientation,
-                             const Vector3d& target)
+void Camera::setInitialState(const Vector3d& position, const Quaterniond& orientation, const Vector3d& target)
 {
     _initialPosition = position;
     _initialTarget = target;

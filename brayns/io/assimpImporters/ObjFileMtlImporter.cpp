@@ -84,9 +84,7 @@ static const std::string TypeOption = "-type";
 
 // -------------------------------------------------------------------
 //  Constructor
-ObjFileMtlImporter::ObjFileMtlImporter(std::vector<char> &buffer,
-                                       const std::string &,
-                                       ObjFile::Model *pModel)
+ObjFileMtlImporter::ObjFileMtlImporter(std::vector<char> &buffer, const std::string &, ObjFile::Model *pModel)
     : m_DataIt(buffer.begin())
     , m_DataItEnd(buffer.end())
     , m_pModel(pModel)
@@ -173,8 +171,7 @@ void ObjFileMtlImporter::load()
         break;
         case 'd':
         {
-            if (*(m_DataIt + 1) == 'i' && *(m_DataIt + 2) == 's' &&
-                *(m_DataIt + 3) == 'p')
+            if (*(m_DataIt + 1) == 'i' && *(m_DataIt + 2) == 's' && *(m_DataIt + 3) == 'p')
             {
                 // A displacement map
                 getTexture();
@@ -184,8 +181,7 @@ void ObjFileMtlImporter::load()
                 // Alpha value
                 ++m_DataIt;
                 getFloatValue(m_pModel->m_pCurrentMaterial->alpha);
-                m_DataIt =
-                    skipLine<DataArrayIt>(m_DataIt, m_DataItEnd, m_uiLine);
+                m_DataIt = skipLine<DataArrayIt>(m_DataIt, m_DataItEnd, m_uiLine);
             }
         }
         break;
@@ -224,8 +220,7 @@ void ObjFileMtlImporter::load()
         case 'i': // Illumination model
         {
             m_DataIt = getNextToken<DataArrayIt>(m_DataIt, m_DataItEnd);
-            getIlluminationModel(
-                m_pModel->m_pCurrentMaterial->illumination_model);
+            getIlluminationModel(m_pModel->m_pCurrentMaterial->illumination_model);
             m_DataIt = skipLine<DataArrayIt>(m_DataIt, m_DataItEnd, m_uiLine);
         }
         break;
@@ -263,8 +258,7 @@ void ObjFileMtlImporter::getColorRGBA(aiColor3D *pColor)
 //  Loads the kind of illumination model.
 void ObjFileMtlImporter::getIlluminationModel(int &illum_model)
 {
-    m_DataIt =
-        CopyNextWord<DataArrayIt>(m_DataIt, m_DataItEnd, m_buffer, BUFFERSIZE);
+    m_DataIt = CopyNextWord<DataArrayIt>(m_DataIt, m_DataItEnd, m_buffer, BUFFERSIZE);
     illum_model = atoi(m_buffer);
 }
 
@@ -272,8 +266,7 @@ void ObjFileMtlImporter::getIlluminationModel(int &illum_model)
 //  Loads a single float value.
 void ObjFileMtlImporter::getFloatValue(ai_real &value)
 {
-    m_DataIt =
-        CopyNextWord<DataArrayIt>(m_DataIt, m_DataItEnd, m_buffer, BUFFERSIZE);
+    m_DataIt = CopyNextWord<DataArrayIt>(m_DataIt, m_DataItEnd, m_buffer, BUFFERSIZE);
     value = (ai_real)fast_atof(m_buffer);
 }
 
@@ -299,8 +292,7 @@ void ObjFileMtlImporter::createMaterial()
     {
         // skip newmtl and all following white spaces
         std::size_t first_ws_pos = line.find_first_of(" \t");
-        std::size_t first_non_ws_pos =
-            line.find_first_not_of(" \t", first_ws_pos);
+        std::size_t first_non_ws_pos = line.find_first_not_of(" \t", first_ws_pos);
         if (first_non_ws_pos != std::string::npos)
         {
             name = line.substr(first_non_ws_pos);
@@ -309,8 +301,7 @@ void ObjFileMtlImporter::createMaterial()
 
     name = trim_whitespaces(name);
 
-    std::map<std::string, ObjFile::Material *>::iterator it =
-        m_pModel->m_MaterialMap.find(name);
+    std::map<std::string, ObjFile::Material *>::iterator it = m_pModel->m_MaterialMap.find(name);
     if (m_pModel->m_MaterialMap.end() == it)
     {
         // New Material created
@@ -318,8 +309,7 @@ void ObjFileMtlImporter::createMaterial()
         m_pModel->m_pCurrentMaterial->MaterialName.Set(name);
         if (m_pModel->m_pCurrentMesh)
         {
-            m_pModel->m_pCurrentMesh->m_uiMaterialIndex =
-                static_cast<unsigned int>(m_pModel->m_MaterialLib.size() - 1);
+            m_pModel->m_pCurrentMesh->m_uiMaterialIndex = static_cast<unsigned int>(m_pModel->m_MaterialLib.size() - 1);
         }
         m_pModel->m_MaterialLib.push_back(name);
         m_pModel->m_MaterialMap[name] = m_pModel->m_pCurrentMaterial;
@@ -339,84 +329,66 @@ void ObjFileMtlImporter::getTexture()
     int clampIndex = -1;
 
     const char *pPtr(&(*m_DataIt));
-    if (!ASSIMP_strincmp(pPtr, DiffuseTexture.c_str(),
-                         static_cast<unsigned int>(DiffuseTexture.size())))
+    if (!ASSIMP_strincmp(pPtr, DiffuseTexture.c_str(), static_cast<unsigned int>(DiffuseTexture.size())))
     {
         // Diffuse texture
         out = &m_pModel->m_pCurrentMaterial->texture;
         clampIndex = ObjFile::Material::TextureDiffuseType;
     }
-    else if (!ASSIMP_strincmp(pPtr, AmbientTexture.c_str(),
-                              static_cast<unsigned int>(AmbientTexture.size())))
+    else if (!ASSIMP_strincmp(pPtr, AmbientTexture.c_str(), static_cast<unsigned int>(AmbientTexture.size())))
     {
         // Ambient texture
         out = &m_pModel->m_pCurrentMaterial->textureAmbient;
         clampIndex = ObjFile::Material::TextureAmbientType;
     }
-    else if (!ASSIMP_strincmp(pPtr, SpecularTexture.c_str(),
-                              static_cast<unsigned int>(
-                                  SpecularTexture.size())))
+    else if (!ASSIMP_strincmp(pPtr, SpecularTexture.c_str(), static_cast<unsigned int>(SpecularTexture.size())))
     {
         // Specular texture
         out = &m_pModel->m_pCurrentMaterial->textureSpecular;
         clampIndex = ObjFile::Material::TextureSpecularType;
     }
-    else if (!ASSIMP_strincmp(pPtr, OpacityTexture.c_str(),
-                              static_cast<unsigned int>(OpacityTexture.size())))
+    else if (!ASSIMP_strincmp(pPtr, OpacityTexture.c_str(), static_cast<unsigned int>(OpacityTexture.size())))
     {
         // Opacity texture
         out = &m_pModel->m_pCurrentMaterial->textureOpacity;
         clampIndex = ObjFile::Material::TextureOpacityType;
     }
-    else if (!ASSIMP_strincmp(pPtr, EmissiveTexture1.c_str(),
-                              static_cast<unsigned int>(
-                                  EmissiveTexture1.size())) ||
-             !ASSIMP_strincmp(pPtr, EmissiveTexture2.c_str(),
-                              static_cast<unsigned int>(
-                                  EmissiveTexture2.size())))
+    else if (!ASSIMP_strincmp(pPtr, EmissiveTexture1.c_str(), static_cast<unsigned int>(EmissiveTexture1.size())) ||
+             !ASSIMP_strincmp(pPtr, EmissiveTexture2.c_str(), static_cast<unsigned int>(EmissiveTexture2.size())))
     {
         // Emissive texture
         out = &m_pModel->m_pCurrentMaterial->textureEmissive;
         clampIndex = ObjFile::Material::TextureEmissiveType;
     }
-    else if (!ASSIMP_strincmp(pPtr, BumpTexture1.c_str(),
-                              static_cast<unsigned int>(BumpTexture1.size())) ||
-             !ASSIMP_strincmp(pPtr, BumpTexture2.c_str(),
-                              static_cast<unsigned int>(BumpTexture2.size())))
+    else if (!ASSIMP_strincmp(pPtr, BumpTexture1.c_str(), static_cast<unsigned int>(BumpTexture1.size())) ||
+             !ASSIMP_strincmp(pPtr, BumpTexture2.c_str(), static_cast<unsigned int>(BumpTexture2.size())))
     {
         // Bump texture
         out = &m_pModel->m_pCurrentMaterial->textureBump;
         clampIndex = ObjFile::Material::TextureBumpType;
     }
-    else if (!ASSIMP_strincmp(pPtr, NormalTexture.c_str(),
-                              static_cast<unsigned int>(NormalTexture.size())))
+    else if (!ASSIMP_strincmp(pPtr, NormalTexture.c_str(), static_cast<unsigned int>(NormalTexture.size())))
     {
         // Normal map
         out = &m_pModel->m_pCurrentMaterial->textureNormal;
         clampIndex = ObjFile::Material::TextureNormalType;
     }
-    else if (!ASSIMP_strincmp(pPtr, ReflectionTexture.c_str(),
-                              static_cast<unsigned int>(
-                                  ReflectionTexture.size())))
+    else if (!ASSIMP_strincmp(pPtr, ReflectionTexture.c_str(), static_cast<unsigned int>(ReflectionTexture.size())))
     {
         // Reflection texture(s)
         // Do nothing here
         return;
     }
     else if (!ASSIMP_strincmp(pPtr, DisplacementTexture1.c_str(),
-                              static_cast<unsigned int>(
-                                  DisplacementTexture1.size())) ||
+                              static_cast<unsigned int>(DisplacementTexture1.size())) ||
              !ASSIMP_strincmp(pPtr, DisplacementTexture2.c_str(),
-                              static_cast<unsigned int>(
-                                  DisplacementTexture2.size())))
+                              static_cast<unsigned int>(DisplacementTexture2.size())))
     {
         // Displacement texture
         out = &m_pModel->m_pCurrentMaterial->textureDisp;
         clampIndex = ObjFile::Material::TextureDispType;
     }
-    else if (!ASSIMP_strincmp(pPtr, SpecularityTexture.c_str(),
-                              static_cast<unsigned int>(
-                                  SpecularityTexture.size())))
+    else if (!ASSIMP_strincmp(pPtr, SpecularityTexture.c_str(), static_cast<unsigned int>(SpecularityTexture.size())))
     {
         // Specularity scaling (glossiness)
         out = &m_pModel->m_pCurrentMaterial->textureSpecularity;
@@ -424,8 +396,7 @@ void ObjFileMtlImporter::getTexture()
     }
     else
     {
-        DefaultLogger::get()->error(
-            "OBJ/MTL: Encountered unknown texture type");
+        DefaultLogger::get()->error("OBJ/MTL: Encountered unknown texture type");
         return;
     }
 
@@ -457,8 +428,7 @@ void ObjFileMtlImporter::getTexture()
  * Because aiMaterial supports clamp option, so we also want to return it
  * /////////////////////////////////////////////////////////////////////////////
  */
-void ObjFileMtlImporter::getTextureOption(bool &clamp, int &clampIndex,
-                                          aiString *&out)
+void ObjFileMtlImporter::getTextureOption(bool &clamp, int &clampIndex, aiString *&out)
 {
     m_DataIt = getNextToken<DataArrayIt>(m_DataIt, m_DataItEnd);
 
@@ -469,13 +439,11 @@ void ObjFileMtlImporter::getTextureOption(bool &clamp, int &clampIndex,
         // skip option key and value
         int skipToken = 1;
 
-        if (!ASSIMP_strincmp(pPtr, ClampOption.c_str(),
-                             static_cast<unsigned int>(ClampOption.size())))
+        if (!ASSIMP_strincmp(pPtr, ClampOption.c_str(), static_cast<unsigned int>(ClampOption.size())))
         {
             DataArrayIt it = getNextToken<DataArrayIt>(m_DataIt, m_DataItEnd);
             char value[3];
-            CopyNextWord(it, m_DataItEnd, value,
-                         sizeof(value) / sizeof(*value));
+            CopyNextWord(it, m_DataItEnd, value, sizeof(value) / sizeof(*value));
             if (!ASSIMP_strincmp(value, "on", 2))
             {
                 clamp = true;
@@ -483,13 +451,11 @@ void ObjFileMtlImporter::getTextureOption(bool &clamp, int &clampIndex,
 
             skipToken = 2;
         }
-        else if (!ASSIMP_strincmp(pPtr, TypeOption.c_str(),
-                                  static_cast<unsigned int>(TypeOption.size())))
+        else if (!ASSIMP_strincmp(pPtr, TypeOption.c_str(), static_cast<unsigned int>(TypeOption.size())))
         {
             DataArrayIt it = getNextToken<DataArrayIt>(m_DataIt, m_DataItEnd);
             char value[12];
-            CopyNextWord(it, m_DataItEnd, value,
-                         sizeof(value) / sizeof(*value));
+            CopyNextWord(it, m_DataItEnd, value, sizeof(value) / sizeof(*value));
             if (!ASSIMP_strincmp(value, "cube_top", 8))
             {
                 clampIndex = ObjFile::Material::TextureReflectionCubeTopType;
@@ -528,42 +494,22 @@ void ObjFileMtlImporter::getTextureOption(bool &clamp, int &clampIndex,
 
             skipToken = 2;
         }
-        else if (!ASSIMP_strincmp(pPtr, BlendUOption.c_str(),
-                                  static_cast<unsigned int>(
-                                      BlendUOption.size())) ||
-                 !ASSIMP_strincmp(pPtr, BlendVOption.c_str(),
-                                  static_cast<unsigned int>(
-                                      BlendVOption.size())) ||
-                 !ASSIMP_strincmp(pPtr, BoostOption.c_str(),
-                                  static_cast<unsigned int>(
-                                      BoostOption.size())) ||
-                 !ASSIMP_strincmp(pPtr, ResolutionOption.c_str(),
-                                  static_cast<unsigned int>(
-                                      ResolutionOption.size())) ||
-                 !ASSIMP_strincmp(pPtr, BumpOption.c_str(),
-                                  static_cast<unsigned int>(
-                                      BumpOption.size())) ||
-                 !ASSIMP_strincmp(pPtr, ChannelOption.c_str(),
-                                  static_cast<unsigned int>(
-                                      ChannelOption.size())))
+        else if (!ASSIMP_strincmp(pPtr, BlendUOption.c_str(), static_cast<unsigned int>(BlendUOption.size())) ||
+                 !ASSIMP_strincmp(pPtr, BlendVOption.c_str(), static_cast<unsigned int>(BlendVOption.size())) ||
+                 !ASSIMP_strincmp(pPtr, BoostOption.c_str(), static_cast<unsigned int>(BoostOption.size())) ||
+                 !ASSIMP_strincmp(pPtr, ResolutionOption.c_str(), static_cast<unsigned int>(ResolutionOption.size())) ||
+                 !ASSIMP_strincmp(pPtr, BumpOption.c_str(), static_cast<unsigned int>(BumpOption.size())) ||
+                 !ASSIMP_strincmp(pPtr, ChannelOption.c_str(), static_cast<unsigned int>(ChannelOption.size())))
         {
             skipToken = 2;
         }
-        else if (!ASSIMP_strincmp(pPtr, ModifyMapOption.c_str(),
-                                  static_cast<unsigned int>(
-                                      ModifyMapOption.size())))
+        else if (!ASSIMP_strincmp(pPtr, ModifyMapOption.c_str(), static_cast<unsigned int>(ModifyMapOption.size())))
         {
             skipToken = 3;
         }
-        else if (!ASSIMP_strincmp(pPtr, OffsetOption.c_str(),
-                                  static_cast<unsigned int>(
-                                      OffsetOption.size())) ||
-                 !ASSIMP_strincmp(pPtr, ScaleOption.c_str(),
-                                  static_cast<unsigned int>(
-                                      ScaleOption.size())) ||
-                 !ASSIMP_strincmp(pPtr, TurbulenceOption.c_str(),
-                                  static_cast<unsigned int>(
-                                      TurbulenceOption.size())))
+        else if (!ASSIMP_strincmp(pPtr, OffsetOption.c_str(), static_cast<unsigned int>(OffsetOption.size())) ||
+                 !ASSIMP_strincmp(pPtr, ScaleOption.c_str(), static_cast<unsigned int>(ScaleOption.size())) ||
+                 !ASSIMP_strincmp(pPtr, TurbulenceOption.c_str(), static_cast<unsigned int>(TurbulenceOption.size())))
         {
             skipToken = 4;
         }

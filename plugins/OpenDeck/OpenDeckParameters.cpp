@@ -1,4 +1,4 @@
-/* Copyright (c) 2015-2018, EPFL/Blue Brain Project
+/* Copyright (c) 2015-2023, EPFL/Blue Brain Project
  * All rights reserved. Do not distribute without permission.
  *
  * This file is part of Brayns <https://github.com/BlueBrain/Brayns>
@@ -24,12 +24,9 @@ namespace brayns
 OpenDeckParameters::OpenDeckParameters()
     : _props("OpenDeck plugin parameters")
 {
+    _props.setProperty({PARAM_RESOLUTION_SCALING, 1.0,
+                        Property::MetaData{"OpenDeck native resolution scale", "OpenDeck native resolution scale"}});
     _props.setProperty(
-        {PARAM_RESOLUTION_SCALING, 1.0,
-         Property::MetaData{"OpenDeck native resolution scale",
-                            "OpenDeck native resolution scale"}});
-    _props.setProperty({PARAM_CAMERA_SCALING, 1.0,
-                        Property::MetaData{"OpenDeck camera scaling",
-                                           "OpenDeck camera scaling"}});
+        {PARAM_CAMERA_SCALING, 1.0, Property::MetaData{"OpenDeck camera scaling", "OpenDeck camera scaling"}});
 }
 } // namespace brayns

@@ -83,14 +83,12 @@ aiReturn DefaultIOStream::Seek(size_t pOffset, aiOrigin pOrigin)
     }
 
     // Just to check whether our enum maps one to one with the CRT constants
-    static_assert(aiOrigin_CUR == SEEK_CUR && aiOrigin_END == SEEK_END &&
-                      aiOrigin_SET == SEEK_SET,
+    static_assert(aiOrigin_CUR == SEEK_CUR && aiOrigin_END == SEEK_END && aiOrigin_SET == SEEK_SET,
                   "aiOrigin_CUR == SEEK_CUR && \
         aiOrigin_END == SEEK_END && aiOrigin_SET == SEEK_SET");
 
     // do the seek
-    return (0 == ::fseek(mFile, (long)pOffset, (int)pOrigin) ? AI_SUCCESS
-                                                             : AI_FAILURE);
+    return (0 == ::fseek(mFile, (long)pOffset, (int)pOrigin) ? AI_SUCCESS : AI_FAILURE);
 }
 
 // ----------------------------------------------------------------------------------
@@ -127,8 +125,7 @@ size_t DefaultIOStream::FileSize() const
         if (0 != err)
             return 0;
         mCachedSize = (size_t)(fileStat.st_size);
-#elif defined __GNUC__ || defined __APPLE__ || defined __MACH__ || \
-    defined __FreeBSD__
+#elif defined __GNUC__ || defined __APPLE__ || defined __MACH__ || defined __FreeBSD__
         struct stat fileStat;
         int err = stat(mFilename.c_str(), &fileStat);
         if (0 != err)

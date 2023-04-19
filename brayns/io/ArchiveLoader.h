@@ -35,19 +35,15 @@ public:
     std::vector<std::string> getSupportedExtensions() const final;
     std::string getName() const final;
 
-    bool isSupported(const std::string& filename,
-                     const std::string& extension) const final;
-    ModelDescriptorPtr importFromBlob(
-        Blob&& blob, const LoaderProgress& callback,
-        const PropertyMap& properties) const final;
+    bool isSupported(const std::string& filename, const std::string& extension) const final;
+    ModelDescriptorPtr importFromBlob(Blob&& blob, const LoaderProgress& callback,
+                                      const PropertyMap& properties) const final;
 
-    ModelDescriptorPtr importFromFile(
-        const std::string& filename, const LoaderProgress& callback,
-        const PropertyMap& properties) const final;
+    ModelDescriptorPtr importFromFile(const std::string& filename, const LoaderProgress& callback,
+                                      const PropertyMap& properties) const final;
 
 private:
-    ModelDescriptorPtr loadExtracted(const std::string& path,
-                                     const LoaderProgress& callback,
+    ModelDescriptorPtr loadExtracted(const std::string& path, const LoaderProgress& callback,
                                      const PropertyMap& properties) const;
     LoaderRegistry& _registry;
 };

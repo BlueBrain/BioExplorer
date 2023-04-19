@@ -1,4 +1,4 @@
-/* Copyright (c) 2015-2016, EPFL/Blue Brain Project
+/* Copyright (c) 2015-2023, EPFL/Blue Brain Project
  * All rights reserved. Do not distribute without permission.
  * Responsible Author: Cyrille Favreau <cyrille.favreau@epfl.ch>
  *
@@ -105,8 +105,7 @@ public:
 
 private:
     void _parse(int argc, const char** argv);
-    void _processUnrecognizedOptions(
-        const std::vector<std::string>& unrecognizedOptions) const;
+    void _processUnrecognizedOptions(const std::vector<std::string>& unrecognizedOptions) const;
 
     po::options_description _allOptions;
 

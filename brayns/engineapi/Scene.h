@@ -1,4 +1,4 @@
-/* Copyright (c) 2015-2018, EPFL/Blue Brain Project
+/* Copyright (c) 2015-2023, EPFL/Blue Brain Project
  * All rights reserved. Do not distribute without permission.
  * Responsible Author: Cyrille Favreau <cyrille.favreau@epfl.ch>
  *
@@ -66,8 +66,7 @@ public:
      * Creates a scene object responsible for handling models, simulations and
      * light sources.
      */
-    BRAYNS_API Scene(AnimationParameters& animationParameters,
-                     GeometryParameters& geometryParameters,
+    BRAYNS_API Scene(AnimationParameters& animationParameters, GeometryParameters& geometryParameters,
                      VolumeParameters& volumeParameters);
 
     /**
@@ -89,10 +88,7 @@ public:
       */
     BRAYNS_API bool removeModel(const size_t id);
 
-    BRAYNS_API const ModelDescriptors& getModelDescriptors() const
-    {
-        return _modelDescriptors;
-    }
+    BRAYNS_API const ModelDescriptors& getModelDescriptors() const { return _modelDescriptors; }
     BRAYNS_API ModelDescriptorPtr getModel(const size_t id) const;
 
     /**
@@ -166,8 +162,7 @@ public:
      * @param cb the callback for progress updates from the loader
      * @return the model that has been added to the scene
      */
-    ModelDescriptorPtr loadModel(Blob&& blob, const ModelParams& params,
-                                 LoaderProgress cb);
+    ModelDescriptorPtr loadModel(Blob&& blob, const ModelParams& params, LoaderProgress cb);
 
     /**
      * Load the model from the given file.
@@ -177,18 +172,14 @@ public:
      * @param cb the callback for progress updates from the loader
      * @return the model that has been added to the scene
      */
-    ModelDescriptorPtr loadModel(const std::string& path,
-                                 const ModelParams& params, LoaderProgress cb);
+    ModelDescriptorPtr loadModel(const std::string& path, const ModelParams& params, LoaderProgress cb);
 
     void visitModels(const std::function<void(Model&)>& functor);
 
     /** @return the registry for all supported loaders of this scene. */
     LoaderRegistry& getLoaderRegistry() { return _loaderRegistry; }
     /** @internal */
-    auto acquireReadAccess() const
-    {
-        return std::shared_lock<std::shared_timed_mutex>(_modelMutex);
-    }
+    auto acquireReadAccess() const { return std::shared_lock<std::shared_timed_mutex>(_modelMutex); }
 
     /** @internal */
     BRAYNS_API void copyFrom(const Scene& rhs);
@@ -202,7 +193,7 @@ protected:
     AnimationParameters& _animationParameters;
     GeometryParameters& _geometryParameters;
     VolumeParameters& _volumeParameters;
-    MaterialPtr _backgroundMaterial;
+    MaterialPtr _backgroundMaterial{nullptr};
     std::string _environmentMap;
 
     // Model

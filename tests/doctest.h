@@ -6,7 +6,7 @@
 // doctest.h - the lightest feature-rich C++ single-header testing framework for
 // unit tests and TDD
 //
-// Copyright (c) 2016-2019 Viktor Kirilov
+// Copyright (c) 2016-2023 Viktor Kirilov
 //
 // Distributed under the MIT Software License
 // See accompanying file LICENSE.txt or copy at
@@ -59,9 +59,7 @@
 #define DOCTEST_VERSION_PATCH 3
 #define DOCTEST_VERSION_STR "2.3.3"
 
-#define DOCTEST_VERSION                                            \
-    (DOCTEST_VERSION_MAJOR * 10000 + DOCTEST_VERSION_MINOR * 100 + \
-     DOCTEST_VERSION_PATCH)
+#define DOCTEST_VERSION (DOCTEST_VERSION_MAJOR * 10000 + DOCTEST_VERSION_MINOR * 100 + DOCTEST_VERSION_PATCH)
 
 // =================================================================================================
 // == COMPILER VERSION
@@ -71,28 +69,21 @@
 // ideas for the version stuff are taken from here:
 // https://github.com/cxxstuff/cxx_detect
 
-#define DOCTEST_COMPILER(MAJOR, MINOR, PATCH) \
-    ((MAJOR)*10000000 + (MINOR)*100000 + (PATCH))
+#define DOCTEST_COMPILER(MAJOR, MINOR, PATCH) ((MAJOR)*10000000 + (MINOR)*100000 + (PATCH))
 
 // GCC/Clang and GCC/MSVC are mutually exclusive, but Clang/MSVC are not because
 // of clang-cl...
 #if defined(_MSC_VER) && defined(_MSC_FULL_VER)
 #if _MSC_VER == _MSC_FULL_VER / 10000
-#define DOCTEST_MSVC \
-    DOCTEST_COMPILER(_MSC_VER / 100, _MSC_VER % 100, _MSC_FULL_VER % 10000)
+#define DOCTEST_MSVC DOCTEST_COMPILER(_MSC_VER / 100, _MSC_VER % 100, _MSC_FULL_VER % 10000)
 #else // MSVC
-#define DOCTEST_MSVC                                                 \
-    DOCTEST_COMPILER(_MSC_VER / 100, (_MSC_FULL_VER / 100000) % 100, \
-                     _MSC_FULL_VER % 100000)
+#define DOCTEST_MSVC DOCTEST_COMPILER(_MSC_VER / 100, (_MSC_FULL_VER / 100000) % 100, _MSC_FULL_VER % 100000)
 #endif // MSVC
 #endif // MSVC
 #if defined(__clang__) && defined(__clang_minor__)
-#define DOCTEST_CLANG \
-    DOCTEST_COMPILER(__clang_major__, __clang_minor__, __clang_patchlevel__)
-#elif defined(__GNUC__) && defined(__GNUC_MINOR__) && \
-    defined(__GNUC_PATCHLEVEL__) && !defined(__INTEL_COMPILER)
-#define DOCTEST_GCC \
-    DOCTEST_COMPILER(__GNUC__, __GNUC_MINOR__, __GNUC_PATCHLEVEL__)
+#define DOCTEST_CLANG DOCTEST_COMPILER(__clang_major__, __clang_minor__, __clang_patchlevel__)
+#elif defined(__GNUC__) && defined(__GNUC_MINOR__) && defined(__GNUC_PATCHLEVEL__) && !defined(__INTEL_COMPILER)
+#define DOCTEST_GCC DOCTEST_COMPILER(__GNUC__, __GNUC_MINOR__, __GNUC_PATCHLEVEL__)
 #endif // GCC
 
 #ifndef DOCTEST_MSVC
@@ -113,8 +104,7 @@
 #if DOCTEST_CLANG
 #define DOCTEST_PRAGMA_TO_STR(x) _Pragma(#x)
 #define DOCTEST_CLANG_SUPPRESS_WARNING_PUSH _Pragma("clang diagnostic push")
-#define DOCTEST_CLANG_SUPPRESS_WARNING(w) \
-    DOCTEST_PRAGMA_TO_STR(clang diagnostic ignored w)
+#define DOCTEST_CLANG_SUPPRESS_WARNING(w) DOCTEST_PRAGMA_TO_STR(clang diagnostic ignored w)
 #define DOCTEST_CLANG_SUPPRESS_WARNING_POP _Pragma("clang diagnostic pop")
 #define DOCTEST_CLANG_SUPPRESS_WARNING_WITH_PUSH(w) \
     DOCTEST_CLANG_SUPPRESS_WARNING_PUSH DOCTEST_CLANG_SUPPRESS_WARNING(w)
@@ -128,11 +118,9 @@
 #if DOCTEST_GCC
 #define DOCTEST_PRAGMA_TO_STR(x) _Pragma(#x)
 #define DOCTEST_GCC_SUPPRESS_WARNING_PUSH _Pragma("GCC diagnostic push")
-#define DOCTEST_GCC_SUPPRESS_WARNING(w) \
-    DOCTEST_PRAGMA_TO_STR(GCC diagnostic ignored w)
+#define DOCTEST_GCC_SUPPRESS_WARNING(w) DOCTEST_PRAGMA_TO_STR(GCC diagnostic ignored w)
 #define DOCTEST_GCC_SUPPRESS_WARNING_POP _Pragma("GCC diagnostic pop")
-#define DOCTEST_GCC_SUPPRESS_WARNING_WITH_PUSH(w) \
-    DOCTEST_GCC_SUPPRESS_WARNING_PUSH DOCTEST_GCC_SUPPRESS_WARNING(w)
+#define DOCTEST_GCC_SUPPRESS_WARNING_WITH_PUSH(w) DOCTEST_GCC_SUPPRESS_WARNING_PUSH DOCTEST_GCC_SUPPRESS_WARNING(w)
 #else // DOCTEST_GCC
 #define DOCTEST_GCC_SUPPRESS_WARNING_PUSH
 #define DOCTEST_GCC_SUPPRESS_WARNING(w)
@@ -144,8 +132,7 @@
 #define DOCTEST_MSVC_SUPPRESS_WARNING_PUSH __pragma(warning(push))
 #define DOCTEST_MSVC_SUPPRESS_WARNING(w) __pragma(warning(disable : w))
 #define DOCTEST_MSVC_SUPPRESS_WARNING_POP __pragma(warning(pop))
-#define DOCTEST_MSVC_SUPPRESS_WARNING_WITH_PUSH(w) \
-    DOCTEST_MSVC_SUPPRESS_WARNING_PUSH DOCTEST_MSVC_SUPPRESS_WARNING(w)
+#define DOCTEST_MSVC_SUPPRESS_WARNING_WITH_PUSH(w) DOCTEST_MSVC_SUPPRESS_WARNING_PUSH DOCTEST_MSVC_SUPPRESS_WARNING(w)
 #else // DOCTEST_MSVC
 #define DOCTEST_MSVC_SUPPRESS_WARNING_PUSH
 #define DOCTEST_MSVC_SUPPRESS_WARNING(w)
@@ -249,8 +236,7 @@ DOCTEST_MSVC_SUPPRESS_WARNING(26444) // Avoid unnamed objects with custom
     DOCTEST_MSVC_SUPPRESS_WARNING(5039)                            \
     DOCTEST_MSVC_SUPPRESS_WARNING(5045)
 
-#define DOCTEST_MAKE_STD_HEADERS_CLEAN_FROM_WARNINGS_ON_WALL_END \
-    DOCTEST_MSVC_SUPPRESS_WARNING_POP
+#define DOCTEST_MAKE_STD_HEADERS_CLEAN_FROM_WARNINGS_ON_WALL_END DOCTEST_MSVC_SUPPRESS_WARNING_POP
 
 // =================================================================================================
 // == FEATURE DETECTION
@@ -276,17 +262,14 @@ DOCTEST_MSVC_SUPPRESS_WARNING(26444) // Avoid unnamed objects with custom
 #if DOCTEST_MSVC && !defined(DOCTEST_CONFIG_WINDOWS_SEH)
 #define DOCTEST_CONFIG_WINDOWS_SEH
 #endif // MSVC
-#if defined(DOCTEST_CONFIG_NO_WINDOWS_SEH) && \
-    defined(DOCTEST_CONFIG_WINDOWS_SEH)
+#if defined(DOCTEST_CONFIG_NO_WINDOWS_SEH) && defined(DOCTEST_CONFIG_WINDOWS_SEH)
 #undef DOCTEST_CONFIG_WINDOWS_SEH
 #endif // DOCTEST_CONFIG_NO_WINDOWS_SEH
 
-#if !defined(_WIN32) && !defined(__QNX__) && \
-    !defined(DOCTEST_CONFIG_POSIX_SIGNALS) && !defined(__EMSCRIPTEN__)
+#if !defined(_WIN32) && !defined(__QNX__) && !defined(DOCTEST_CONFIG_POSIX_SIGNALS) && !defined(__EMSCRIPTEN__)
 #define DOCTEST_CONFIG_POSIX_SIGNALS
 #endif // _WIN32
-#if defined(DOCTEST_CONFIG_NO_POSIX_SIGNALS) && \
-    defined(DOCTEST_CONFIG_POSIX_SIGNALS)
+#if defined(DOCTEST_CONFIG_NO_POSIX_SIGNALS) && defined(DOCTEST_CONFIG_POSIX_SIGNALS)
 #undef DOCTEST_CONFIG_POSIX_SIGNALS
 #endif // DOCTEST_CONFIG_NO_POSIX_SIGNALS
 
@@ -302,14 +285,12 @@ DOCTEST_MSVC_SUPPRESS_WARNING(26444) // Avoid unnamed objects with custom
 #endif // DOCTEST_CONFIG_NO_EXCEPTIONS
 #endif // DOCTEST_CONFIG_NO_EXCEPTIONS_BUT_WITH_ALL_ASSERTS
 
-#if defined(DOCTEST_CONFIG_NO_EXCEPTIONS) && \
-    !defined(DOCTEST_CONFIG_NO_TRY_CATCH_IN_ASSERTS)
+#if defined(DOCTEST_CONFIG_NO_EXCEPTIONS) && !defined(DOCTEST_CONFIG_NO_TRY_CATCH_IN_ASSERTS)
 #define DOCTEST_CONFIG_NO_TRY_CATCH_IN_ASSERTS
 #endif // DOCTEST_CONFIG_NO_EXCEPTIONS &&
        // !DOCTEST_CONFIG_NO_TRY_CATCH_IN_ASSERTS
 
-#if defined(DOCTEST_CONFIG_IMPLEMENT_WITH_MAIN) && \
-    !defined(DOCTEST_CONFIG_IMPLEMENT)
+#if defined(DOCTEST_CONFIG_IMPLEMENT_WITH_MAIN) && !defined(DOCTEST_CONFIG_IMPLEMENT)
 #define DOCTEST_CONFIG_IMPLEMENT
 #endif // DOCTEST_CONFIG_IMPLEMENT_WITH_MAIN
 
@@ -397,8 +378,7 @@ DOCTEST_MSVC_SUPPRESS_WARNING(26444) // Avoid unnamed objects with custom
 #define DOCTEST_GLOBAL_NO_WARNINGS(var)                               \
     DOCTEST_CLANG_SUPPRESS_WARNING_WITH_PUSH("-Wglobal-constructors") \
     DOCTEST_CLANG_SUPPRESS_WARNING("-Wunused-variable")               \
-    static int var                                                    \
-        DOCTEST_UNUSED // NOLINT(fuchsia-statically-constructed-objects,cert-err58-cpp)
+    static int var DOCTEST_UNUSED // NOLINT(fuchsia-statically-constructed-objects,cert-err58-cpp)
 #define DOCTEST_GLOBAL_NO_WARNINGS_END() DOCTEST_CLANG_SUPPRESS_WARNING_POP
 
 // should probably take a look at https://github.com/scottt/debugbreak
@@ -513,7 +493,7 @@ DOCTEST_INTERFACE extern bool is_running_in_test;
 // params
 class DOCTEST_INTERFACE String
 {
-    static const unsigned len = 24; //! OCLINT avoid private static members
+    static const unsigned len = 24;       //! OCLINT avoid private static members
     static const unsigned last = len - 1; //! OCLINT avoid private static
                                           //! members
 
@@ -559,10 +539,7 @@ public:
 
     // the only functions I'm willing to leave in the interface - available for
     // inlining
-    const char* c_str() const
-    {
-        return const_cast<String*>(this)->c_str();
-    } // NOLINT
+    const char* c_str() const { return const_cast<String*>(this)->c_str(); } // NOLINT
     char* c_str()
     {
         if (isOnStack())
@@ -797,33 +774,33 @@ struct ContextOptions //! OCLINT too many fields
     int subcase_filter_levels; // apply the subcase filters for the first N
                                // levels
 
-    bool success;        // include successful assertions in output
-    bool case_sensitive; // if filtering should be case sensitive
-    bool exit;           // if the program should be exited after the tests are
-                         // ran/whatever
-    bool duration;       // print the time duration of each test case
-    bool no_throw;       // to skip exceptions-related assertion macros
-    bool no_exitcode;    // if the framework should return 0 as the exitcode
-    bool no_run;         // to not run the tests at all (can be done with an "*"
-                         // exclude)
-    bool no_version;     // to not print the version of the framework
-    bool no_colors;      // if output to the console should be colorized
-    bool force_colors;   // forces the use of colors even when a tty cannot be
-                         // detected
-    bool no_breaks;      // to not break into the debugger
-    bool no_skip;        // don't skip test cases which are marked to be skipped
-    bool gnu_file_line; // if line numbers should be surrounded with :x: and not
-                        // (x):
+    bool success;              // include successful assertions in output
+    bool case_sensitive;       // if filtering should be case sensitive
+    bool exit;                 // if the program should be exited after the tests are
+                               // ran/whatever
+    bool duration;             // print the time duration of each test case
+    bool no_throw;             // to skip exceptions-related assertion macros
+    bool no_exitcode;          // if the framework should return 0 as the exitcode
+    bool no_run;               // to not run the tests at all (can be done with an "*"
+                               // exclude)
+    bool no_version;           // to not print the version of the framework
+    bool no_colors;            // if output to the console should be colorized
+    bool force_colors;         // forces the use of colors even when a tty cannot be
+                               // detected
+    bool no_breaks;            // to not break into the debugger
+    bool no_skip;              // don't skip test cases which are marked to be skipped
+    bool gnu_file_line;        // if line numbers should be surrounded with :x: and not
+                               // (x):
     bool no_path_in_filenames; // if the path to files should be removed from
                                // the output
-    bool no_line_numbers; // if source code line numbers should be omitted from
-                          // the output
-    bool no_skipped_summary; // don't print "skipped" in the summary !!!
-                             // UNDOCUMENTED !!!
+    bool no_line_numbers;      // if source code line numbers should be omitted from
+                               // the output
+    bool no_skipped_summary;   // don't print "skipped" in the summary !!!
+                               // UNDOCUMENTED !!!
 
-    bool help;    // to print the help
-    bool version; // to print the version
-    bool count;   // if only the count of matching tests is to be retreived
+    bool help;             // to print the help
+    bool version;          // to print the version
+    bool count;            // if only the count of matching tests is to be retreived
     bool list_test_cases;  // to list all tests matching the filters
     bool list_test_suites; // to list all suites matching the filters
     bool list_reporters;   // lists all registered reporters
@@ -834,8 +811,7 @@ struct ContextOptions //! OCLINT too many fields
 
 namespace detail
 {
-#if defined(DOCTEST_CONFIG_TREAT_CHAR_STAR_AS_STRING) || \
-    defined(DOCTEST_CONFIG_INCLUDE_TYPE_TRAITS)
+#if defined(DOCTEST_CONFIG_TREAT_CHAR_STAR_AS_STRING) || defined(DOCTEST_CONFIG_INCLUDE_TYPE_TRAITS)
 template <bool CONDITION, typename TYPE = void>
 struct enable_if
 {
@@ -887,14 +863,12 @@ struct has_insertion_operator
 {
     static std::ostream& s;
     static const DOCTEST_REF_WRAP(T) t;
-    static const bool value =
-        sizeof(decltype(testStreamable(s << t))) == sizeof(yes);
+    static const bool value = sizeof(decltype(testStreamable(s << t))) == sizeof(yes);
 };
 } // namespace has_insertion_operator_impl
 
 template <typename T>
-struct has_insertion_operator
-    : has_insertion_operator_impl::has_insertion_operator<T>
+struct has_insertion_operator : has_insertion_operator_impl::has_insertion_operator<T>
 {
 };
 
@@ -941,8 +915,7 @@ const char* type_to_string()
 } // namespace detail
 
 template <typename T>
-struct StringMaker
-    : public detail::StringMakerBase<detail::has_insertion_operator<T>::value>
+struct StringMaker : public detail::StringMakerBase<detail::has_insertion_operator<T>::value>
 {
 };
 
@@ -1014,10 +987,8 @@ public:
 
 #ifdef DOCTEST_CONFIG_INCLUDE_TYPE_TRAITS
     template <typename T>
-    explicit Approx(const T& value,
-                    typename detail::enable_if<
-                        std::is_constructible<double, T>::value>::type* =
-                        static_cast<T*>(nullptr))
+    explicit Approx(const T& value, typename detail::enable_if<std::is_constructible<double, T>::value>::type* =
+                                        static_cast<T*>(nullptr))
     {
         *this = Approx(static_cast<double>(value));
     }
@@ -1027,9 +998,7 @@ public:
 
 #ifdef DOCTEST_CONFIG_INCLUDE_TYPE_TRAITS
     template <typename T>
-    typename detail::enable_if<std::is_constructible<double, T>::value,
-                               Approx&>::type
-        epsilon(const T& newEpsilon)
+    typename detail::enable_if<std::is_constructible<double, T>::value, Approx&>::type epsilon(const T& newEpsilon)
     {
         m_epsilon = static_cast<double>(newEpsilon);
         return *this;
@@ -1040,9 +1009,7 @@ public:
 
 #ifdef DOCTEST_CONFIG_INCLUDE_TYPE_TRAITS
     template <typename T>
-    typename detail::enable_if<std::is_constructible<double, T>::value,
-                               Approx&>::type
-        scale(const T& newScale)
+    typename detail::enable_if<std::is_constructible<double, T>::value, Approx&>::type scale(const T& newScale)
     {
         m_scale = static_cast<double>(newScale);
         return *this;
@@ -1142,8 +1109,7 @@ struct DOCTEST_INTERFACE Subcase
 };
 
 template <typename L, typename R>
-String stringifyBinaryExpr(const DOCTEST_REF_WRAP(L) lhs, const char* op,
-                           const DOCTEST_REF_WRAP(R) rhs)
+String stringifyBinaryExpr(const DOCTEST_REF_WRAP(L) lhs, const char* op, const DOCTEST_REF_WRAP(R) rhs)
 {
     return toString(lhs) + op + toString(rhs);
 }
@@ -1163,14 +1129,12 @@ String stringifyBinaryExpr(const DOCTEST_REF_WRAP(L) lhs, const char* op,
 // more checks could be added - like in Catch:
 // https://github.com/catchorg/Catch2/pull/1480/files
 // https://github.com/catchorg/Catch2/pull/1481/files
-#define DOCTEST_FORBIT_EXPRESSION(rt, op)                                   \
-    template <typename R>                                                   \
-    rt& operator op(const R&)                                               \
-    {                                                                       \
-        static_assert(                                                      \
-            deferred_false<R>::value,                                       \
-            "Expression Too Complex Please Rewrite As Binary Comparison!"); \
-        return *this;                                                       \
+#define DOCTEST_FORBIT_EXPRESSION(rt, op)                                                                       \
+    template <typename R>                                                                                       \
+    rt& operator op(const R&)                                                                                   \
+    {                                                                                                           \
+        static_assert(deferred_false<R>::value, "Expression Too Complex Please Rewrite As Binary Comparison!"); \
+        return *this;                                                                                           \
     }
 
 struct DOCTEST_INTERFACE Result
@@ -1250,12 +1214,11 @@ DOCTEST_MSVC_SUPPRESS_WARNING(4018) // 'expression' : signed/unsigned mismatch
 #endif // DOCTEST_CONFIG_TREAT_CHAR_STAR_AS_STRING
 // clang-format on
 
-#define DOCTEST_RELATIONAL_OP(name, op)                                \
-    template <typename L, typename R>                                  \
-    DOCTEST_COMPARISON_RETURN_TYPE name(const DOCTEST_REF_WRAP(L) lhs, \
-                                        const DOCTEST_REF_WRAP(R) rhs) \
-    {                                                                  \
-        return lhs op rhs;                                             \
+#define DOCTEST_RELATIONAL_OP(name, op)                                                               \
+    template <typename L, typename R>                                                                 \
+    DOCTEST_COMPARISON_RETURN_TYPE name(const DOCTEST_REF_WRAP(L) lhs, const DOCTEST_REF_WRAP(R) rhs) \
+    {                                                                                                 \
+        return lhs op rhs;                                                                            \
     }
 
 DOCTEST_RELATIONAL_OP(eq, ==)
@@ -1365,8 +1328,7 @@ struct DOCTEST_INTERFACE ExpressionDecomposer
     // https://github.com/catchorg/Catch2/issues/870
     // https://github.com/catchorg/Catch2/issues/565
     template <typename L>
-    Expression_lhs<const DOCTEST_REF_WRAP(L)> operator<<(
-        const DOCTEST_REF_WRAP(L) operand)
+    Expression_lhs<const DOCTEST_REF_WRAP(L)> operator<<(const DOCTEST_REF_WRAP(L) operand)
     {
         return Expression_lhs<const DOCTEST_REF_WRAP(L)>(operand, m_at);
     }
@@ -1408,8 +1370,7 @@ struct DOCTEST_INTERFACE TestCase : public TestCaseData
     String m_full_name; // contains the name (only for templated test cases!) +
                         // the template type
 
-    TestCase(funcType test, const char* file, unsigned line,
-             const TestSuite& test_suite, const char* type = "",
+    TestCase(funcType test, const char* file, unsigned line, const TestSuite& test_suite, const char* type = "",
              int template_id = -1);
 
     DOCTEST_DECLARE_DEFAULTS(TestCase);
@@ -1473,8 +1434,7 @@ DOCTEST_BINARY_RELATIONAL_OP(5, le)
 
 struct DOCTEST_INTERFACE ResultBuilder : public AssertData
 {
-    ResultBuilder(assertType::Enum at, const char* file, int line,
-                  const char* expr, const char* exception_type = "");
+    ResultBuilder(assertType::Enum at, const char* file, int line, const char* expr, const char* exception_type = "");
 
     DOCTEST_DECLARE_DEFAULTS(ResultBuilder);
     DOCTEST_DELETE_COPIES(ResultBuilder);
@@ -1482,8 +1442,7 @@ struct DOCTEST_INTERFACE ResultBuilder : public AssertData
     void setResult(const Result& res);
 
     template <int comparison, typename L, typename R>
-    DOCTEST_NOINLINE void binary_assert(const DOCTEST_REF_WRAP(L) lhs,
-                                        const DOCTEST_REF_WRAP(R) rhs)
+    DOCTEST_NOINLINE void binary_assert(const DOCTEST_REF_WRAP(L) lhs, const DOCTEST_REF_WRAP(R) rhs)
     {
         m_failed = !RelationalComparator<comparison, L, R>()(lhs, rhs);
         if (m_failed || getContextOptions()->success)
@@ -1521,8 +1480,7 @@ enum Enum
 
 DOCTEST_INTERFACE void failed_out_of_a_testing_context(const AssertData& ad);
 
-DOCTEST_INTERFACE void decomp_assert(assertType::Enum at, const char* file,
-                                     int line, const char* expr, Result result);
+DOCTEST_INTERFACE void decomp_assert(assertType::Enum at, const char* file, int line, const char* expr, Result result);
 
 #define DOCTEST_ASSERT_OUT_OF_TESTS(decomp)                                \
     do                                                                     \
@@ -1555,10 +1513,8 @@ DOCTEST_INTERFACE void decomp_assert(assertType::Enum at, const char* file,
     throwException()
 
 template <int comparison, typename L, typename R>
-DOCTEST_NOINLINE void binary_assert(assertType::Enum at, const char* file,
-                                    int line, const char* expr,
-                                    const DOCTEST_REF_WRAP(L) lhs,
-                                    const DOCTEST_REF_WRAP(R) rhs)
+DOCTEST_NOINLINE void binary_assert(assertType::Enum at, const char* file, int line, const char* expr,
+                                    const DOCTEST_REF_WRAP(L) lhs, const DOCTEST_REF_WRAP(R) rhs)
 {
     bool failed = !RelationalComparator<comparison, L, R>()(lhs, rhs);
 
@@ -1572,8 +1528,7 @@ DOCTEST_NOINLINE void binary_assert(assertType::Enum at, const char* file,
 }
 
 template <typename L>
-DOCTEST_NOINLINE void unary_assert(assertType::Enum at, const char* file,
-                                   int line, const char* expr,
+DOCTEST_NOINLINE void unary_assert(assertType::Enum at, const char* file, int line, const char* expr,
                                    const DOCTEST_REF_WRAP(L) val)
 {
     bool failed = !val;
@@ -1600,8 +1555,7 @@ struct DOCTEST_INTERFACE IExceptionTranslator
 };
 
 template <typename T>
-class ExceptionTranslator
-    : public IExceptionTranslator //! OCLINT destructor of virtual class
+class ExceptionTranslator : public IExceptionTranslator //! OCLINT destructor of virtual class
 {
 public:
     explicit ExceptionTranslator(String (*translateFunction)(T))
@@ -1634,8 +1588,7 @@ private:
     String (*m_translateFunction)(T);
 };
 
-DOCTEST_INTERFACE void registerExceptionTranslatorImpl(
-    const IExceptionTranslator* et);
+DOCTEST_INTERFACE void registerExceptionTranslatorImpl(const IExceptionTranslator* et);
 
 template <bool C>
 struct StringStreamBase
@@ -1714,16 +1667,12 @@ class DOCTEST_INTERFACE ContextBuilder
             : capture(in)
         {
         }
-        void toStream(std::ostream* s) const override
-        {
-            detail::toStream(s, *capture);
-        }
+        void toStream(std::ostream* s) const override { detail::toStream(s, *capture); }
     };
 
     struct DOCTEST_INTERFACE Chunk
     {
-        char buf[sizeof(Capture<char>)] DOCTEST_ALIGNMENT(
-            2 * sizeof(void*)); // place to construct a Capture<T>
+        char buf[sizeof(Capture<char>)] DOCTEST_ALIGNMENT(2 * sizeof(void*)); // place to construct a Capture<T>
 
         DOCTEST_DECLARE_DEFAULTS(Chunk);
         DOCTEST_DELETE_COPIES(Chunk);
@@ -1790,11 +1739,10 @@ public:
     template <typename T>
     ContextBuilder& operator<<(const T&&)
     {
-        static_assert(
-            deferred_false<T>::value,
-            "Cannot pass temporaries or rvalues to the streaming operator "
-            "because it "
-            "caches pointers to the passed objects for lazy evaluation!");
+        static_assert(deferred_false<T>::value,
+                      "Cannot pass temporaries or rvalues to the streaming operator "
+                      "because it "
+                      "caches pointers to the passed objects for lazy evaluation!");
         return *this;
     }
 };
@@ -1835,22 +1783,16 @@ struct DOCTEST_INTERFACE MessageBuilder : public MessageData
 };
 } // namespace detail
 
-#define DOCTEST_DEFINE_DECORATOR(name, type, def) \
-    struct name                                   \
-    {                                             \
-        type data;                                \
-        name(type in = def)                       \
-            : data(in)                            \
-        {                                         \
-        }                                         \
-        void fill(detail::TestCase& state) const  \
-        {                                         \
-            state.DOCTEST_CAT(m_, name) = data;   \
-        }                                         \
-        void fill(detail::TestSuite& state) const \
-        {                                         \
-            state.DOCTEST_CAT(m_, name) = data;   \
-        }                                         \
+#define DOCTEST_DEFINE_DECORATOR(name, type, def)                                         \
+    struct name                                                                           \
+    {                                                                                     \
+        type data;                                                                        \
+        name(type in = def)                                                               \
+            : data(in)                                                                    \
+        {                                                                                 \
+        }                                                                                 \
+        void fill(detail::TestCase& state) const { state.DOCTEST_CAT(m_, name) = data; }  \
+        void fill(detail::TestSuite& state) const { state.DOCTEST_CAT(m_, name) = data; } \
     }
 
 DOCTEST_DEFINE_DECORATOR(test_suite, const char*, "");
@@ -1865,8 +1807,7 @@ template <typename T>
 int registerExceptionTranslator(String (*translateFunction)(T))
 {
     DOCTEST_CLANG_SUPPRESS_WARNING_WITH_PUSH("-Wexit-time-destructors")
-    static detail::ExceptionTranslator<T> exceptionTranslator(
-        translateFunction);
+    static detail::ExceptionTranslator<T> exceptionTranslator(translateFunction);
     DOCTEST_CLANG_SUPPRESS_WARNING_POP
     detail::registerExceptionTranslatorImpl(&exceptionTranslator);
     return 0;
@@ -1903,8 +1844,7 @@ class DOCTEST_INTERFACE Context
 {
     detail::ContextState* p;
 
-    void parseArgs(int argc, const char* const* argv,
-                   bool withDefaults = false);
+    void parseArgs(int argc, const char* const* argv, bool withDefaults = false);
 
 public:
     explicit Context(int argc = 0, const char* const* argv = nullptr);
@@ -2045,8 +1985,7 @@ namespace detail
 {
 typedef IReporter* (*reporterCreatorFunc)(const ContextOptions&);
 
-DOCTEST_INTERFACE void registerReporterImpl(const char* name, int prio,
-                                            reporterCreatorFunc c);
+DOCTEST_INTERFACE void registerReporterImpl(const char* name, int prio, reporterCreatorFunc c);
 
 template <typename Reporter>
 IReporter* reporterCreator(const ContextOptions& o)
@@ -2058,8 +1997,7 @@ IReporter* reporterCreator(const ContextOptions& o)
 template <typename Reporter>
 int registerReporter(const char* name, int priority)
 {
-    detail::registerReporterImpl(name, priority,
-                                 detail::reporterCreator<Reporter>);
+    detail::registerReporterImpl(name, priority, detail::reporterCreator<Reporter>);
     return 0;
 }
 } // namespace doctest
@@ -2097,14 +2035,10 @@ int registerReporter(const char* name, int priority)
 #endif // DOCTEST_CONFIG_VOID_CAST_EXPRESSIONS
 
 // registers the test by initializing a dummy var with a function
-#define DOCTEST_REGISTER_FUNCTION(global_prefix, f, decorators)        \
-    global_prefix DOCTEST_GLOBAL_NO_WARNINGS(                          \
-        DOCTEST_ANONYMOUS(_DOCTEST_ANON_VAR_)) =                       \
-        doctest::detail::regTest(                                      \
-            doctest::detail::TestCase(                                 \
-                f, __FILE__, __LINE__,                                 \
-                doctest_detail_test_suite_ns::getCurrentTestSuite()) * \
-            decorators);                                               \
+#define DOCTEST_REGISTER_FUNCTION(global_prefix, f, decorators)                                                 \
+    global_prefix DOCTEST_GLOBAL_NO_WARNINGS(DOCTEST_ANONYMOUS(_DOCTEST_ANON_VAR_)) = doctest::detail::regTest( \
+        doctest::detail::TestCase(f, __FILE__, __LINE__, doctest_detail_test_suite_ns::getCurrentTestSuite()) * \
+        decorators);                                                                                            \
     DOCTEST_GLOBAL_NO_WARNINGS_END()
 
 #define DOCTEST_IMPLEMENT_FIXTURE(der, base, func, decorators) \
@@ -2134,27 +2068,21 @@ int registerReporter(const char* name, int priority)
     static void f()
 
 // for registering tests
-#define DOCTEST_TEST_CASE(decorators)                              \
-    DOCTEST_CREATE_AND_REGISTER_FUNCTION(DOCTEST_ANONYMOUS(        \
-                                             _DOCTEST_ANON_FUNC_), \
-                                         decorators)
+#define DOCTEST_TEST_CASE(decorators) \
+    DOCTEST_CREATE_AND_REGISTER_FUNCTION(DOCTEST_ANONYMOUS(_DOCTEST_ANON_FUNC_), decorators)
 
 // for registering tests in classes - requires C++17 for inline variables!
-#if __cplusplus >= 201703L || \
-    (DOCTEST_MSVC >= DOCTEST_COMPILER(19, 12, 0) && _MSVC_LANG >= 201703L)
-#define DOCTEST_TEST_CASE_CLASS(decorators)        \
-    DOCTEST_CREATE_AND_REGISTER_FUNCTION_IN_CLASS( \
-        DOCTEST_ANONYMOUS(_DOCTEST_ANON_FUNC_),    \
-        DOCTEST_ANONYMOUS(_DOCTEST_ANON_PROXY_), decorators)
+#if __cplusplus >= 201703L || (DOCTEST_MSVC >= DOCTEST_COMPILER(19, 12, 0) && _MSVC_LANG >= 201703L)
+#define DOCTEST_TEST_CASE_CLASS(decorators)                                               \
+    DOCTEST_CREATE_AND_REGISTER_FUNCTION_IN_CLASS(DOCTEST_ANONYMOUS(_DOCTEST_ANON_FUNC_), \
+                                                  DOCTEST_ANONYMOUS(_DOCTEST_ANON_PROXY_), decorators)
 #else // DOCTEST_TEST_CASE_CLASS
-#define DOCTEST_TEST_CASE_CLASS(...) \
-    TEST_CASES_CAN_BE_REGISTERED_IN_CLASSES_ONLY_IN_CPP17_MODE_OR_WITH_VS_2017_OR_NEWER
+#define DOCTEST_TEST_CASE_CLASS(...) TEST_CASES_CAN_BE_REGISTERED_IN_CLASSES_ONLY_IN_CPP17_MODE_OR_WITH_VS_2017_OR_NEWER
 #endif // DOCTEST_TEST_CASE_CLASS
 
 // for registering tests with a fixture
-#define DOCTEST_TEST_CASE_FIXTURE(c, decorators)                          \
-    DOCTEST_IMPLEMENT_FIXTURE(DOCTEST_ANONYMOUS(_DOCTEST_ANON_CLASS_), c, \
-                              DOCTEST_ANONYMOUS(_DOCTEST_ANON_FUNC_),     \
+#define DOCTEST_TEST_CASE_FIXTURE(c, decorators)                                                                  \
+    DOCTEST_IMPLEMENT_FIXTURE(DOCTEST_ANONYMOUS(_DOCTEST_ANON_CLASS_), c, DOCTEST_ANONYMOUS(_DOCTEST_ANON_FUNC_), \
                               decorators)
 
 // for converting types to strings without the <typeinfo> header and demangling
@@ -2174,76 +2102,62 @@ int registerReporter(const char* name, int priority)
     }                                        \
     typedef int DOCTEST_ANONYMOUS(_DOCTEST_ANON_FOR_SEMICOLON_)
 
-#define DOCTEST_TEST_CASE_TEMPLATE_DEFINE_IMPL(dec, T, iter, func)       \
-    template <typename T>                                                \
-    static void func();                                                  \
-    namespace                                                            \
-    {                                                                    \
-    template <typename Tuple>                                            \
-    struct iter;                                                         \
-    template <typename Type, typename... Rest>                           \
-    struct iter<std::tuple<Type, Rest...>>                               \
-    {                                                                    \
-        iter(const char* file, unsigned line, int index)                 \
-        {                                                                \
-            doctest::detail::regTest(                                    \
-                doctest::detail::TestCase(                               \
-                    func<Type>, file, line,                              \
-                    doctest_detail_test_suite_ns::getCurrentTestSuite(), \
-                    doctest::detail::type_to_string<Type>(),             \
-                    int(line) * 1000 + index) *                          \
-                dec);                                                    \
-            iter<std::tuple<Rest...>>(file, line, index + 1);            \
-        }                                                                \
-    };                                                                   \
-    template <>                                                          \
-    struct iter<std::tuple<>>                                            \
-    {                                                                    \
-        iter(const char*, unsigned, int) {}                              \
-    };                                                                   \
-    }                                                                    \
-    template <typename T>                                                \
+#define DOCTEST_TEST_CASE_TEMPLATE_DEFINE_IMPL(dec, T, iter, func)                                                     \
+    template <typename T>                                                                                              \
+    static void func();                                                                                                \
+    namespace                                                                                                          \
+    {                                                                                                                  \
+    template <typename Tuple>                                                                                          \
+    struct iter;                                                                                                       \
+    template <typename Type, typename... Rest>                                                                         \
+    struct iter<std::tuple<Type, Rest...>>                                                                             \
+    {                                                                                                                  \
+        iter(const char* file, unsigned line, int index)                                                               \
+        {                                                                                                              \
+            doctest::detail::regTest(                                                                                  \
+                doctest::detail::TestCase(func<Type>, file, line, doctest_detail_test_suite_ns::getCurrentTestSuite(), \
+                                          doctest::detail::type_to_string<Type>(), int(line) * 1000 + index) *         \
+                dec);                                                                                                  \
+            iter<std::tuple<Rest...>>(file, line, index + 1);                                                          \
+        }                                                                                                              \
+    };                                                                                                                 \
+    template <>                                                                                                        \
+    struct iter<std::tuple<>>                                                                                          \
+    {                                                                                                                  \
+        iter(const char*, unsigned, int) {}                                                                            \
+    };                                                                                                                 \
+    }                                                                                                                  \
+    template <typename T>                                                                                              \
     static void func()
 
-#define DOCTEST_TEST_CASE_TEMPLATE_DEFINE(dec, T, id)                         \
-    DOCTEST_TEST_CASE_TEMPLATE_DEFINE_IMPL(dec, T, DOCTEST_CAT(id, ITERATOR), \
-                                           DOCTEST_ANONYMOUS(                 \
-                                               _DOCTEST_ANON_TMP_))
+#define DOCTEST_TEST_CASE_TEMPLATE_DEFINE(dec, T, id) \
+    DOCTEST_TEST_CASE_TEMPLATE_DEFINE_IMPL(dec, T, DOCTEST_CAT(id, ITERATOR), DOCTEST_ANONYMOUS(_DOCTEST_ANON_TMP_))
 
-#define DOCTEST_TEST_CASE_TEMPLATE_INSTANTIATE_IMPL(id, anon, ...)       \
-    DOCTEST_GLOBAL_NO_WARNINGS(DOCTEST_CAT(anon, DUMMY)) =               \
-        doctest::detail::instantiationHelper(DOCTEST_CAT(id, ITERATOR) < \
-                                             __VA_ARGS__ >               \
-                                             (__FILE__, __LINE__, 0));   \
+#define DOCTEST_TEST_CASE_TEMPLATE_INSTANTIATE_IMPL(id, anon, ...)                                               \
+    DOCTEST_GLOBAL_NO_WARNINGS(DOCTEST_CAT(anon, DUMMY)) =                                                       \
+        doctest::detail::instantiationHelper(DOCTEST_CAT(id, ITERATOR) < __VA_ARGS__ > (__FILE__, __LINE__, 0)); \
     DOCTEST_GLOBAL_NO_WARNINGS_END()
 
-#define DOCTEST_TEST_CASE_TEMPLATE_INVOKE(id, ...)                          \
-    DOCTEST_TEST_CASE_TEMPLATE_INSTANTIATE_IMPL(                            \
-        id, DOCTEST_ANONYMOUS(_DOCTEST_ANON_TMP_), std::tuple<__VA_ARGS__>) \
+#define DOCTEST_TEST_CASE_TEMPLATE_INVOKE(id, ...)                                                                  \
+    DOCTEST_TEST_CASE_TEMPLATE_INSTANTIATE_IMPL(id, DOCTEST_ANONYMOUS(_DOCTEST_ANON_TMP_), std::tuple<__VA_ARGS__>) \
     typedef int DOCTEST_ANONYMOUS(_DOCTEST_ANON_FOR_SEMICOLON_)
 
-#define DOCTEST_TEST_CASE_TEMPLATE_APPLY(id, ...)               \
-    DOCTEST_TEST_CASE_TEMPLATE_INSTANTIATE_IMPL(                \
-        id, DOCTEST_ANONYMOUS(_DOCTEST_ANON_TMP_), __VA_ARGS__) \
+#define DOCTEST_TEST_CASE_TEMPLATE_APPLY(id, ...)                                                       \
+    DOCTEST_TEST_CASE_TEMPLATE_INSTANTIATE_IMPL(id, DOCTEST_ANONYMOUS(_DOCTEST_ANON_TMP_), __VA_ARGS__) \
     typedef int DOCTEST_ANONYMOUS(_DOCTEST_ANON_FOR_SEMICOLON_)
 
-#define DOCTEST_TEST_CASE_TEMPLATE_IMPL(dec, T, anon, ...)                     \
-    DOCTEST_TEST_CASE_TEMPLATE_DEFINE_IMPL(dec, T,                             \
-                                           DOCTEST_CAT(anon, ITERATOR), anon); \
-    DOCTEST_TEST_CASE_TEMPLATE_INSTANTIATE_IMPL(anon, anon,                    \
-                                                std::tuple<__VA_ARGS__>)       \
-    template <typename T>                                                      \
+#define DOCTEST_TEST_CASE_TEMPLATE_IMPL(dec, T, anon, ...)                             \
+    DOCTEST_TEST_CASE_TEMPLATE_DEFINE_IMPL(dec, T, DOCTEST_CAT(anon, ITERATOR), anon); \
+    DOCTEST_TEST_CASE_TEMPLATE_INSTANTIATE_IMPL(anon, anon, std::tuple<__VA_ARGS__>)   \
+    template <typename T>                                                              \
     static void anon()
 
-#define DOCTEST_TEST_CASE_TEMPLATE(dec, T, ...)                            \
-    DOCTEST_TEST_CASE_TEMPLATE_IMPL(dec, T,                                \
-                                    DOCTEST_ANONYMOUS(_DOCTEST_ANON_TMP_), \
-                                    __VA_ARGS__)
+#define DOCTEST_TEST_CASE_TEMPLATE(dec, T, ...) \
+    DOCTEST_TEST_CASE_TEMPLATE_IMPL(dec, T, DOCTEST_ANONYMOUS(_DOCTEST_ANON_TMP_), __VA_ARGS__)
 
 // for subcases
-#define DOCTEST_SUBCASE(name)                                          \
-    if (const doctest::detail::Subcase &                               \
-            DOCTEST_ANONYMOUS(_DOCTEST_ANON_SUBCASE_) DOCTEST_UNUSED = \
+#define DOCTEST_SUBCASE(name)                                                                       \
+    if (const doctest::detail::Subcase & DOCTEST_ANONYMOUS(_DOCTEST_ANON_SUBCASE_) DOCTEST_UNUSED = \
             doctest::detail::Subcase(name, __FILE__, __LINE__))
 
 // for grouping tests in test suites by using code blocks
@@ -2271,15 +2185,13 @@ int registerReporter(const char* name, int priority)
     }                                                                         \
     namespace ns_name
 
-#define DOCTEST_TEST_SUITE(decorators) \
-    DOCTEST_TEST_SUITE_IMPL(decorators, DOCTEST_ANONYMOUS(_DOCTEST_ANON_SUITE_))
+#define DOCTEST_TEST_SUITE(decorators) DOCTEST_TEST_SUITE_IMPL(decorators, DOCTEST_ANONYMOUS(_DOCTEST_ANON_SUITE_))
 
 // for starting a testsuite block
-#define DOCTEST_TEST_SUITE_BEGIN(decorators)                            \
-    DOCTEST_GLOBAL_NO_WARNINGS(DOCTEST_ANONYMOUS(_DOCTEST_ANON_VAR_)) = \
-        doctest::detail::setTestSuite(doctest::detail::TestSuite() *    \
-                                      decorators);                      \
-    DOCTEST_GLOBAL_NO_WARNINGS_END()                                    \
+#define DOCTEST_TEST_SUITE_BEGIN(decorators)                                      \
+    DOCTEST_GLOBAL_NO_WARNINGS(DOCTEST_ANONYMOUS(_DOCTEST_ANON_VAR_)) =           \
+        doctest::detail::setTestSuite(doctest::detail::TestSuite() * decorators); \
+    DOCTEST_GLOBAL_NO_WARNINGS_END()                                              \
     typedef int DOCTEST_ANONYMOUS(_DOCTEST_ANON_FOR_SEMICOLON_)
 
 // for ending a testsuite block
@@ -2297,10 +2209,8 @@ int registerReporter(const char* name, int priority)
     DOCTEST_GLOBAL_NO_WARNINGS_END()                                           \
     doctest::String translatorName(signature)
 
-#define DOCTEST_REGISTER_EXCEPTION_TRANSLATOR(signature)                       \
-    DOCTEST_REGISTER_EXCEPTION_TRANSLATOR_IMPL(DOCTEST_ANONYMOUS(              \
-                                                   _DOCTEST_ANON_TRANSLATOR_), \
-                                               signature)
+#define DOCTEST_REGISTER_EXCEPTION_TRANSLATOR(signature) \
+    DOCTEST_REGISTER_EXCEPTION_TRANSLATOR_IMPL(DOCTEST_ANONYMOUS(_DOCTEST_ANON_TRANSLATOR_), signature)
 
 // for registering
 #define DOCTEST_REGISTER_REPORTER(name, priority, reporter)                  \
@@ -2310,18 +2220,16 @@ int registerReporter(const char* name, int priority)
     typedef int DOCTEST_ANONYMOUS(_DOCTEST_ANON_FOR_SEMICOLON_)
 
 // for logging
-#define DOCTEST_INFO(x)                                                 \
-    doctest::detail::ContextScope DOCTEST_ANONYMOUS(_DOCTEST_CAPTURE_)( \
-        doctest::detail::ContextBuilder() << x)
+#define DOCTEST_INFO(x) \
+    doctest::detail::ContextScope DOCTEST_ANONYMOUS(_DOCTEST_CAPTURE_)(doctest::detail::ContextBuilder() << x)
 #define DOCTEST_CAPTURE(x) DOCTEST_INFO(#x " := " << x)
 
-#define DOCTEST_ADD_AT_IMPL(type, file, line, mb, x)                   \
-    do                                                                 \
-    {                                                                  \
-        doctest::detail::MessageBuilder mb(file, line,                 \
-                                           doctest::assertType::type); \
-        mb << x;                                                       \
-        DOCTEST_ASSERT_LOG_AND_REACT(mb);                              \
+#define DOCTEST_ADD_AT_IMPL(type, file, line, mb, x)                               \
+    do                                                                             \
+    {                                                                              \
+        doctest::detail::MessageBuilder mb(file, line, doctest::assertType::type); \
+        mb << x;                                                                   \
+        DOCTEST_ASSERT_LOG_AND_REACT(mb);                                          \
     } while ((void)0, 0)
 
 // clang-format off
@@ -2340,22 +2248,17 @@ template <class T, T x>
 constexpr T to_lvalue = x;
 #define DOCTEST_TO_LVALUE(...) to_lvalue<decltype(__VA_ARGS__), __VA_ARGS__>
 #else // TO_LVALUE
-#define DOCTEST_TO_LVALUE(...) \
-    TO_LVALUE_CAN_BE_USED_ONLY_IN_CPP14_MODE_OR_WITH_VS_2017_OR_NEWER
+#define DOCTEST_TO_LVALUE(...) TO_LVALUE_CAN_BE_USED_ONLY_IN_CPP14_MODE_OR_WITH_VS_2017_OR_NEWER
 #endif // TO_LVALUE
 
 #ifndef DOCTEST_CONFIG_SUPER_FAST_ASSERTS
 
-#define DOCTEST_ASSERT_IMPLEMENT_2(assert_type, ...)                         \
-    DOCTEST_CLANG_SUPPRESS_WARNING_WITH_PUSH(                                \
-        "-Woverloaded-shift-op-parentheses")                                 \
-    doctest::detail::ResultBuilder _DOCTEST_RB(                              \
-        doctest::assertType::assert_type, __FILE__, __LINE__, #__VA_ARGS__); \
-    DOCTEST_WRAP_IN_TRY(                                                     \
-        _DOCTEST_RB.setResult(doctest::detail::ExpressionDecomposer(         \
-                                  doctest::assertType::assert_type)          \
-                              << __VA_ARGS__))                               \
-    DOCTEST_ASSERT_LOG_AND_REACT(_DOCTEST_RB)                                \
+#define DOCTEST_ASSERT_IMPLEMENT_2(assert_type, ...)                                                                   \
+    DOCTEST_CLANG_SUPPRESS_WARNING_WITH_PUSH("-Woverloaded-shift-op-parentheses")                                      \
+    doctest::detail::ResultBuilder _DOCTEST_RB(doctest::assertType::assert_type, __FILE__, __LINE__, #__VA_ARGS__);    \
+    DOCTEST_WRAP_IN_TRY(                                                                                               \
+        _DOCTEST_RB.setResult(doctest::detail::ExpressionDecomposer(doctest::assertType::assert_type) << __VA_ARGS__)) \
+    DOCTEST_ASSERT_LOG_AND_REACT(_DOCTEST_RB)                                                                          \
     DOCTEST_CLANG_SUPPRESS_WARNING_POP
 
 #define DOCTEST_ASSERT_IMPLEMENT_1(assert_type, ...)          \
@@ -2366,27 +2269,20 @@ constexpr T to_lvalue = x;
 
 #else // DOCTEST_CONFIG_SUPER_FAST_ASSERTS
 
-#define DOCTEST_ASSERT_IMPLEMENT_1(assert_type, ...)                           \
-    DOCTEST_CLANG_SUPPRESS_WARNING_WITH_PUSH(                                  \
-        "-Woverloaded-shift-op-parentheses")                                   \
-    doctest::detail::decomp_assert(doctest::assertType::assert_type, __FILE__, \
-                                   __LINE__, #__VA_ARGS__,                     \
-                                   doctest::detail::ExpressionDecomposer(      \
-                                       doctest::assertType::assert_type)       \
-                                       << __VA_ARGS__)                         \
-        DOCTEST_CLANG_SUPPRESS_WARNING_POP
+#define DOCTEST_ASSERT_IMPLEMENT_1(assert_type, ...)                                                       \
+    DOCTEST_CLANG_SUPPRESS_WARNING_WITH_PUSH("-Woverloaded-shift-op-parentheses")                          \
+    doctest::detail::decomp_assert(doctest::assertType::assert_type, __FILE__, __LINE__, #__VA_ARGS__,     \
+                                   doctest::detail::ExpressionDecomposer(doctest::assertType::assert_type) \
+                                       << __VA_ARGS__) DOCTEST_CLANG_SUPPRESS_WARNING_POP
 
 #endif // DOCTEST_CONFIG_SUPER_FAST_ASSERTS
 
 #define DOCTEST_WARN(...) DOCTEST_ASSERT_IMPLEMENT_1(DT_WARN, __VA_ARGS__)
 #define DOCTEST_CHECK(...) DOCTEST_ASSERT_IMPLEMENT_1(DT_CHECK, __VA_ARGS__)
 #define DOCTEST_REQUIRE(...) DOCTEST_ASSERT_IMPLEMENT_1(DT_REQUIRE, __VA_ARGS__)
-#define DOCTEST_WARN_FALSE(...) \
-    DOCTEST_ASSERT_IMPLEMENT_1(DT_WARN_FALSE, __VA_ARGS__)
-#define DOCTEST_CHECK_FALSE(...) \
-    DOCTEST_ASSERT_IMPLEMENT_1(DT_CHECK_FALSE, __VA_ARGS__)
-#define DOCTEST_REQUIRE_FALSE(...) \
-    DOCTEST_ASSERT_IMPLEMENT_1(DT_REQUIRE_FALSE, __VA_ARGS__)
+#define DOCTEST_WARN_FALSE(...) DOCTEST_ASSERT_IMPLEMENT_1(DT_WARN_FALSE, __VA_ARGS__)
+#define DOCTEST_CHECK_FALSE(...) DOCTEST_ASSERT_IMPLEMENT_1(DT_CHECK_FALSE, __VA_ARGS__)
+#define DOCTEST_REQUIRE_FALSE(...) DOCTEST_ASSERT_IMPLEMENT_1(DT_REQUIRE_FALSE, __VA_ARGS__)
 
 // clang-format off
 #define DOCTEST_WARN_MESSAGE(cond, msg) do { DOCTEST_INFO(msg); DOCTEST_ASSERT_IMPLEMENT_2(DT_WARN, cond); } while((void)0, 0)
@@ -2397,67 +2293,62 @@ constexpr T to_lvalue = x;
 #define DOCTEST_REQUIRE_FALSE_MESSAGE(cond, msg) do { DOCTEST_INFO(msg); DOCTEST_ASSERT_IMPLEMENT_2(DT_REQUIRE_FALSE, cond); } while((void)0, 0)
 // clang-format on
 
-#define DOCTEST_ASSERT_THROWS_AS(expr, assert_type, ...)                     \
-    do                                                                       \
-    {                                                                        \
-        if (!doctest::getContextOptions()->no_throw)                         \
-        {                                                                    \
-            doctest::detail::ResultBuilder _DOCTEST_RB(                      \
-                doctest::assertType::assert_type, __FILE__, __LINE__, #expr, \
-                #__VA_ARGS__);                                               \
-            try                                                              \
-            {                                                                \
-                DOCTEST_CAST_TO_VOID(expr)                                   \
-            }                                                                \
-            catch (const doctest::detail::remove_const<                      \
-                   doctest::detail::remove_reference<__VA_ARGS__>::type>::   \
-                       type&)                                                \
-            {                                                                \
-                _DOCTEST_RB.translateException();                            \
-                _DOCTEST_RB.m_threw_as = true;                               \
-            }                                                                \
-            catch (...)                                                      \
-            {                                                                \
-                _DOCTEST_RB.translateException();                            \
-            }                                                                \
-            DOCTEST_ASSERT_LOG_AND_REACT(_DOCTEST_RB);                       \
-        }                                                                    \
+#define DOCTEST_ASSERT_THROWS_AS(expr, assert_type, ...)                                                             \
+    do                                                                                                               \
+    {                                                                                                                \
+        if (!doctest::getContextOptions()->no_throw)                                                                 \
+        {                                                                                                            \
+            doctest::detail::ResultBuilder _DOCTEST_RB(doctest::assertType::assert_type, __FILE__, __LINE__, #expr,  \
+                                                       #__VA_ARGS__);                                                \
+            try                                                                                                      \
+            {                                                                                                        \
+                DOCTEST_CAST_TO_VOID(expr)                                                                           \
+            }                                                                                                        \
+            catch (const doctest::detail::remove_const<doctest::detail::remove_reference<__VA_ARGS__>::type>::type&) \
+            {                                                                                                        \
+                _DOCTEST_RB.translateException();                                                                    \
+                _DOCTEST_RB.m_threw_as = true;                                                                       \
+            }                                                                                                        \
+            catch (...)                                                                                              \
+            {                                                                                                        \
+                _DOCTEST_RB.translateException();                                                                    \
+            }                                                                                                        \
+            DOCTEST_ASSERT_LOG_AND_REACT(_DOCTEST_RB);                                                               \
+        }                                                                                                            \
     } while ((void)0, 0)
 
-#define DOCTEST_ASSERT_THROWS_WITH(expr, assert_type, ...)                   \
-    do                                                                       \
-    {                                                                        \
-        if (!doctest::getContextOptions()->no_throw)                         \
-        {                                                                    \
-            doctest::detail::ResultBuilder _DOCTEST_RB(                      \
-                doctest::assertType::assert_type, __FILE__, __LINE__, #expr, \
-                __VA_ARGS__);                                                \
-            try                                                              \
-            {                                                                \
-                DOCTEST_CAST_TO_VOID(expr)                                   \
-            }                                                                \
-            catch (...)                                                      \
-            {                                                                \
-                _DOCTEST_RB.translateException();                            \
-            }                                                                \
-            DOCTEST_ASSERT_LOG_AND_REACT(_DOCTEST_RB);                       \
-        }                                                                    \
+#define DOCTEST_ASSERT_THROWS_WITH(expr, assert_type, ...)                                                          \
+    do                                                                                                              \
+    {                                                                                                               \
+        if (!doctest::getContextOptions()->no_throw)                                                                \
+        {                                                                                                           \
+            doctest::detail::ResultBuilder _DOCTEST_RB(doctest::assertType::assert_type, __FILE__, __LINE__, #expr, \
+                                                       __VA_ARGS__);                                                \
+            try                                                                                                     \
+            {                                                                                                       \
+                DOCTEST_CAST_TO_VOID(expr)                                                                          \
+            }                                                                                                       \
+            catch (...)                                                                                             \
+            {                                                                                                       \
+                _DOCTEST_RB.translateException();                                                                   \
+            }                                                                                                       \
+            DOCTEST_ASSERT_LOG_AND_REACT(_DOCTEST_RB);                                                              \
+        }                                                                                                           \
     } while ((void)0, 0)
 
-#define DOCTEST_ASSERT_NOTHROW(expr, assert_type)                         \
-    do                                                                    \
-    {                                                                     \
-        doctest::detail::ResultBuilder _DOCTEST_RB(                       \
-            doctest::assertType::assert_type, __FILE__, __LINE__, #expr); \
-        try                                                               \
-        {                                                                 \
-            DOCTEST_CAST_TO_VOID(expr)                                    \
-        }                                                                 \
-        catch (...)                                                       \
-        {                                                                 \
-            _DOCTEST_RB.translateException();                             \
-        }                                                                 \
-        DOCTEST_ASSERT_LOG_AND_REACT(_DOCTEST_RB);                        \
+#define DOCTEST_ASSERT_NOTHROW(expr, assert_type)                                                                \
+    do                                                                                                           \
+    {                                                                                                            \
+        doctest::detail::ResultBuilder _DOCTEST_RB(doctest::assertType::assert_type, __FILE__, __LINE__, #expr); \
+        try                                                                                                      \
+        {                                                                                                        \
+            DOCTEST_CAST_TO_VOID(expr)                                                                           \
+        }                                                                                                        \
+        catch (...)                                                                                              \
+        {                                                                                                        \
+            _DOCTEST_RB.translateException();                                                                    \
+        }                                                                                                        \
+        DOCTEST_ASSERT_LOG_AND_REACT(_DOCTEST_RB);                                                               \
     } while ((void)0, 0)
 
 // clang-format off
@@ -2493,85 +2384,60 @@ constexpr T to_lvalue = x;
 
 #ifndef DOCTEST_CONFIG_SUPER_FAST_ASSERTS
 
-#define DOCTEST_BINARY_ASSERT(assert_type, comp, ...)                          \
-    do                                                                         \
-    {                                                                          \
-        doctest::detail::ResultBuilder _DOCTEST_RB(                            \
-            doctest::assertType::assert_type, __FILE__, __LINE__,              \
-            #__VA_ARGS__);                                                     \
-        DOCTEST_WRAP_IN_TRY(                                                   \
-            _DOCTEST_RB                                                        \
-                .binary_assert<doctest::detail::binaryAssertComparison::comp>( \
-                    __VA_ARGS__))                                              \
-        DOCTEST_ASSERT_LOG_AND_REACT(_DOCTEST_RB);                             \
+#define DOCTEST_BINARY_ASSERT(assert_type, comp, ...)                                                              \
+    do                                                                                                             \
+    {                                                                                                              \
+        doctest::detail::ResultBuilder _DOCTEST_RB(doctest::assertType::assert_type, __FILE__, __LINE__,           \
+                                                   #__VA_ARGS__);                                                  \
+        DOCTEST_WRAP_IN_TRY(_DOCTEST_RB.binary_assert<doctest::detail::binaryAssertComparison::comp>(__VA_ARGS__)) \
+        DOCTEST_ASSERT_LOG_AND_REACT(_DOCTEST_RB);                                                                 \
     } while ((void)0, 0)
 
-#define DOCTEST_UNARY_ASSERT(assert_type, ...)                     \
-    do                                                             \
-    {                                                              \
-        doctest::detail::ResultBuilder _DOCTEST_RB(                \
-            doctest::assertType::assert_type, __FILE__, __LINE__,  \
-            #__VA_ARGS__);                                         \
-        DOCTEST_WRAP_IN_TRY(_DOCTEST_RB.unary_assert(__VA_ARGS__)) \
-        DOCTEST_ASSERT_LOG_AND_REACT(_DOCTEST_RB);                 \
+#define DOCTEST_UNARY_ASSERT(assert_type, ...)                                                           \
+    do                                                                                                   \
+    {                                                                                                    \
+        doctest::detail::ResultBuilder _DOCTEST_RB(doctest::assertType::assert_type, __FILE__, __LINE__, \
+                                                   #__VA_ARGS__);                                        \
+        DOCTEST_WRAP_IN_TRY(_DOCTEST_RB.unary_assert(__VA_ARGS__))                                       \
+        DOCTEST_ASSERT_LOG_AND_REACT(_DOCTEST_RB);                                                       \
     } while ((void)0, 0)
 
 #else // DOCTEST_CONFIG_SUPER_FAST_ASSERTS
 
-#define DOCTEST_BINARY_ASSERT(assert_type, comparison, ...)                 \
-    doctest::detail::binary_assert<                                         \
-        doctest::detail::binaryAssertComparison::comparison>(               \
-        doctest::assertType::assert_type, __FILE__, __LINE__, #__VA_ARGS__, \
-        __VA_ARGS__)
+#define DOCTEST_BINARY_ASSERT(assert_type, comparison, ...)                              \
+    doctest::detail::binary_assert<doctest::detail::binaryAssertComparison::comparison>( \
+        doctest::assertType::assert_type, __FILE__, __LINE__, #__VA_ARGS__, __VA_ARGS__)
 
-#define DOCTEST_UNARY_ASSERT(assert_type, ...)                                \
-    doctest::detail::unary_assert(doctest::assertType::assert_type, __FILE__, \
-                                  __LINE__, #__VA_ARGS__, __VA_ARGS__)
+#define DOCTEST_UNARY_ASSERT(assert_type, ...) \
+    doctest::detail::unary_assert(doctest::assertType::assert_type, __FILE__, __LINE__, #__VA_ARGS__, __VA_ARGS__)
 
 #endif // DOCTEST_CONFIG_SUPER_FAST_ASSERTS
 
 #define DOCTEST_WARN_EQ(...) DOCTEST_BINARY_ASSERT(DT_WARN_EQ, eq, __VA_ARGS__)
-#define DOCTEST_CHECK_EQ(...) \
-    DOCTEST_BINARY_ASSERT(DT_CHECK_EQ, eq, __VA_ARGS__)
-#define DOCTEST_REQUIRE_EQ(...) \
-    DOCTEST_BINARY_ASSERT(DT_REQUIRE_EQ, eq, __VA_ARGS__)
+#define DOCTEST_CHECK_EQ(...) DOCTEST_BINARY_ASSERT(DT_CHECK_EQ, eq, __VA_ARGS__)
+#define DOCTEST_REQUIRE_EQ(...) DOCTEST_BINARY_ASSERT(DT_REQUIRE_EQ, eq, __VA_ARGS__)
 #define DOCTEST_WARN_NE(...) DOCTEST_BINARY_ASSERT(DT_WARN_NE, ne, __VA_ARGS__)
-#define DOCTEST_CHECK_NE(...) \
-    DOCTEST_BINARY_ASSERT(DT_CHECK_NE, ne, __VA_ARGS__)
-#define DOCTEST_REQUIRE_NE(...) \
-    DOCTEST_BINARY_ASSERT(DT_REQUIRE_NE, ne, __VA_ARGS__)
+#define DOCTEST_CHECK_NE(...) DOCTEST_BINARY_ASSERT(DT_CHECK_NE, ne, __VA_ARGS__)
+#define DOCTEST_REQUIRE_NE(...) DOCTEST_BINARY_ASSERT(DT_REQUIRE_NE, ne, __VA_ARGS__)
 #define DOCTEST_WARN_GT(...) DOCTEST_BINARY_ASSERT(DT_WARN_GT, gt, __VA_ARGS__)
-#define DOCTEST_CHECK_GT(...) \
-    DOCTEST_BINARY_ASSERT(DT_CHECK_GT, gt, __VA_ARGS__)
-#define DOCTEST_REQUIRE_GT(...) \
-    DOCTEST_BINARY_ASSERT(DT_REQUIRE_GT, gt, __VA_ARGS__)
+#define DOCTEST_CHECK_GT(...) DOCTEST_BINARY_ASSERT(DT_CHECK_GT, gt, __VA_ARGS__)
+#define DOCTEST_REQUIRE_GT(...) DOCTEST_BINARY_ASSERT(DT_REQUIRE_GT, gt, __VA_ARGS__)
 #define DOCTEST_WARN_LT(...) DOCTEST_BINARY_ASSERT(DT_WARN_LT, lt, __VA_ARGS__)
-#define DOCTEST_CHECK_LT(...) \
-    DOCTEST_BINARY_ASSERT(DT_CHECK_LT, lt, __VA_ARGS__)
-#define DOCTEST_REQUIRE_LT(...) \
-    DOCTEST_BINARY_ASSERT(DT_REQUIRE_LT, lt, __VA_ARGS__)
+#define DOCTEST_CHECK_LT(...) DOCTEST_BINARY_ASSERT(DT_CHECK_LT, lt, __VA_ARGS__)
+#define DOCTEST_REQUIRE_LT(...) DOCTEST_BINARY_ASSERT(DT_REQUIRE_LT, lt, __VA_ARGS__)
 #define DOCTEST_WARN_GE(...) DOCTEST_BINARY_ASSERT(DT_WARN_GE, ge, __VA_ARGS__)
-#define DOCTEST_CHECK_GE(...) \
-    DOCTEST_BINARY_ASSERT(DT_CHECK_GE, ge, __VA_ARGS__)
-#define DOCTEST_REQUIRE_GE(...) \
-    DOCTEST_BINARY_ASSERT(DT_REQUIRE_GE, ge, __VA_ARGS__)
+#define DOCTEST_CHECK_GE(...) DOCTEST_BINARY_ASSERT(DT_CHECK_GE, ge, __VA_ARGS__)
+#define DOCTEST_REQUIRE_GE(...) DOCTEST_BINARY_ASSERT(DT_REQUIRE_GE, ge, __VA_ARGS__)
 #define DOCTEST_WARN_LE(...) DOCTEST_BINARY_ASSERT(DT_WARN_LE, le, __VA_ARGS__)
-#define DOCTEST_CHECK_LE(...) \
-    DOCTEST_BINARY_ASSERT(DT_CHECK_LE, le, __VA_ARGS__)
-#define DOCTEST_REQUIRE_LE(...) \
-    DOCTEST_BINARY_ASSERT(DT_REQUIRE_LE, le, __VA_ARGS__)
+#define DOCTEST_CHECK_LE(...) DOCTEST_BINARY_ASSERT(DT_CHECK_LE, le, __VA_ARGS__)
+#define DOCTEST_REQUIRE_LE(...) DOCTEST_BINARY_ASSERT(DT_REQUIRE_LE, le, __VA_ARGS__)
 
 #define DOCTEST_WARN_UNARY(...) DOCTEST_UNARY_ASSERT(DT_WARN_UNARY, __VA_ARGS__)
-#define DOCTEST_CHECK_UNARY(...) \
-    DOCTEST_UNARY_ASSERT(DT_CHECK_UNARY, __VA_ARGS__)
-#define DOCTEST_REQUIRE_UNARY(...) \
-    DOCTEST_UNARY_ASSERT(DT_REQUIRE_UNARY, __VA_ARGS__)
-#define DOCTEST_WARN_UNARY_FALSE(...) \
-    DOCTEST_UNARY_ASSERT(DT_WARN_UNARY_FALSE, __VA_ARGS__)
-#define DOCTEST_CHECK_UNARY_FALSE(...) \
-    DOCTEST_UNARY_ASSERT(DT_CHECK_UNARY_FALSE, __VA_ARGS__)
-#define DOCTEST_REQUIRE_UNARY_FALSE(...) \
-    DOCTEST_UNARY_ASSERT(DT_REQUIRE_UNARY_FALSE, __VA_ARGS__)
+#define DOCTEST_CHECK_UNARY(...) DOCTEST_UNARY_ASSERT(DT_CHECK_UNARY, __VA_ARGS__)
+#define DOCTEST_REQUIRE_UNARY(...) DOCTEST_UNARY_ASSERT(DT_REQUIRE_UNARY, __VA_ARGS__)
+#define DOCTEST_WARN_UNARY_FALSE(...) DOCTEST_UNARY_ASSERT(DT_WARN_UNARY_FALSE, __VA_ARGS__)
+#define DOCTEST_CHECK_UNARY_FALSE(...) DOCTEST_UNARY_ASSERT(DT_CHECK_UNARY_FALSE, __VA_ARGS__)
+#define DOCTEST_REQUIRE_UNARY_FALSE(...) DOCTEST_UNARY_ASSERT(DT_REQUIRE_UNARY_FALSE, __VA_ARGS__)
 
 #ifdef DOCTEST_CONFIG_NO_EXCEPTIONS
 
@@ -2671,25 +2537,17 @@ constexpr T to_lvalue = x;
     static inline void f()
 
 // for registering tests
-#define DOCTEST_TEST_CASE(name)                                    \
-    DOCTEST_CREATE_AND_REGISTER_FUNCTION(DOCTEST_ANONYMOUS(        \
-                                             _DOCTEST_ANON_FUNC_), \
-                                         name)
+#define DOCTEST_TEST_CASE(name) DOCTEST_CREATE_AND_REGISTER_FUNCTION(DOCTEST_ANONYMOUS(_DOCTEST_ANON_FUNC_), name)
 
 // for registering tests in classes
-#define DOCTEST_TEST_CASE_CLASS(name)                              \
-    DOCTEST_CREATE_AND_REGISTER_FUNCTION(DOCTEST_ANONYMOUS(        \
-                                             _DOCTEST_ANON_FUNC_), \
-                                         name)
+#define DOCTEST_TEST_CASE_CLASS(name) DOCTEST_CREATE_AND_REGISTER_FUNCTION(DOCTEST_ANONYMOUS(_DOCTEST_ANON_FUNC_), name)
 
 // for registering tests with a fixture
-#define DOCTEST_TEST_CASE_FIXTURE(x, name)                                \
-    DOCTEST_IMPLEMENT_FIXTURE(DOCTEST_ANONYMOUS(_DOCTEST_ANON_CLASS_), x, \
-                              DOCTEST_ANONYMOUS(_DOCTEST_ANON_FUNC_), name)
+#define DOCTEST_TEST_CASE_FIXTURE(x, name) \
+    DOCTEST_IMPLEMENT_FIXTURE(DOCTEST_ANONYMOUS(_DOCTEST_ANON_CLASS_), x, DOCTEST_ANONYMOUS(_DOCTEST_ANON_FUNC_), name)
 
 // for converting types to strings without the <typeinfo> header and demangling
-#define DOCTEST_TYPE_TO_STRING(...) \
-    typedef int DOCTEST_ANONYMOUS(_DOCTEST_ANON_FOR_SEMICOLON_)
+#define DOCTEST_TYPE_TO_STRING(...) typedef int DOCTEST_ANONYMOUS(_DOCTEST_ANON_FOR_SEMICOLON_)
 #define DOCTEST_TYPE_TO_STRING_IMPL(...)
 
 // for typed tests
@@ -2701,11 +2559,9 @@ constexpr T to_lvalue = x;
     template <typename type>                              \
     inline void DOCTEST_ANONYMOUS(_DOCTEST_ANON_TMP_)()
 
-#define DOCTEST_TEST_CASE_TEMPLATE_INVOKE(id, ...) \
-    typedef int DOCTEST_ANONYMOUS(_DOCTEST_ANON_FOR_SEMICOLON_)
+#define DOCTEST_TEST_CASE_TEMPLATE_INVOKE(id, ...) typedef int DOCTEST_ANONYMOUS(_DOCTEST_ANON_FOR_SEMICOLON_)
 
-#define DOCTEST_TEST_CASE_TEMPLATE_APPLY(id, ...) \
-    typedef int DOCTEST_ANONYMOUS(_DOCTEST_ANON_FOR_SEMICOLON_)
+#define DOCTEST_TEST_CASE_TEMPLATE_APPLY(id, ...) typedef int DOCTEST_ANONYMOUS(_DOCTEST_ANON_FOR_SEMICOLON_)
 
 // for subcases
 #define DOCTEST_SUBCASE(name)
@@ -2714,17 +2570,14 @@ constexpr T to_lvalue = x;
 #define DOCTEST_TEST_SUITE(name) namespace
 
 // for starting a testsuite block
-#define DOCTEST_TEST_SUITE_BEGIN(name) \
-    typedef int DOCTEST_ANONYMOUS(_DOCTEST_ANON_FOR_SEMICOLON_)
+#define DOCTEST_TEST_SUITE_BEGIN(name) typedef int DOCTEST_ANONYMOUS(_DOCTEST_ANON_FOR_SEMICOLON_)
 
 // for ending a testsuite block
-#define DOCTEST_TEST_SUITE_END \
-    typedef int DOCTEST_ANONYMOUS(_DOCTEST_ANON_FOR_SEMICOLON_)
+#define DOCTEST_TEST_SUITE_END typedef int DOCTEST_ANONYMOUS(_DOCTEST_ANON_FOR_SEMICOLON_)
 
 #define DOCTEST_REGISTER_EXCEPTION_TRANSLATOR(signature) \
     template <typename DOCTEST_UNUSED_TEMPLATE_TYPE>     \
-    static inline doctest::String DOCTEST_ANONYMOUS(     \
-        _DOCTEST_ANON_TRANSLATOR_)(signature)
+    static inline doctest::String DOCTEST_ANONYMOUS(_DOCTEST_ANON_TRANSLATOR_)(signature)
 
 #define DOCTEST_REGISTER_REPORTER(name, priority, reporter)
 
@@ -3341,25 +3194,18 @@ UInt64 getCurrentTicks()
 {
     timeval t;
     gettimeofday(&t, nullptr);
-    return static_cast<UInt64>(t.tv_sec) * 1000000 +
-           static_cast<UInt64>(t.tv_usec);
+    return static_cast<UInt64>(t.tv_sec) * 1000000 + static_cast<UInt64>(t.tv_usec);
 }
 #endif // DOCTEST_PLATFORM_WINDOWS
 
 struct Timer
 {
     void start() { m_ticks = getCurrentTicks(); }
-    unsigned int getElapsedMicroseconds() const
-    {
-        return static_cast<unsigned int>(getCurrentTicks() - m_ticks);
-    }
+    unsigned int getElapsedMicroseconds() const { return static_cast<unsigned int>(getCurrentTicks() - m_ticks); }
     // unsigned int getElapsedMilliseconds() const {
     //    return static_cast<unsigned int>(getElapsedMicroseconds() / 1000);
     //}
-    double getElapsedSeconds() const
-    {
-        return getElapsedMicroseconds() / 1000000.0;
-    }
+    double getElapsedSeconds() const { return getElapsedMicroseconds() / 1000000.0; }
 
 private:
     UInt64 m_ticks = 0;
@@ -3371,8 +3217,7 @@ struct ContextState : ContextOptions, TestRunStats, CurrentTestCaseStats
     std::atomic<int> numAssertsCurrentTest_atomic;
     std::atomic<int> numAssertsFailedCurrentTest_atomic;
 
-    std::vector<std::vector<String>> filters =
-        decltype(filters)(9); // 9 different filters
+    std::vector<std::vector<String>> filters = decltype(filters)(9); // 9 different filters
 
     std::vector<IReporter*> reporters_currently_used;
 
@@ -3428,8 +3273,7 @@ struct ContextState : ContextOptions, TestRunStats, CurrentTestCaseStats
             }
             else
             {
-                failure_flags |=
-                    TestCaseFailureReason::ShouldHaveFailedButDidnt;
+                failure_flags |= TestCaseFailureReason::ShouldHaveFailedButDidnt;
             }
         }
         else if (failure_flags && currentTest->m_may_fail)
@@ -3444,15 +3288,13 @@ struct ContextState : ContextOptions, TestRunStats, CurrentTestCaseStats
             }
             else
             {
-                failure_flags |=
-                    TestCaseFailureReason::DidntFailExactlyNumTimes;
+                failure_flags |= TestCaseFailureReason::DidntFailExactlyNumTimes;
             }
         }
 
-        bool ok_to_fail =
-            (TestCaseFailureReason::ShouldHaveFailedAndDid & failure_flags) ||
-            (TestCaseFailureReason::CouldHaveFailedAndDid & failure_flags) ||
-            (TestCaseFailureReason::FailedExactlyNumTimes & failure_flags);
+        bool ok_to_fail = (TestCaseFailureReason::ShouldHaveFailedAndDid & failure_flags) ||
+                          (TestCaseFailureReason::CouldHaveFailedAndDid & failure_flags) ||
+                          (TestCaseFailureReason::FailedExactlyNumTimes & failure_flags);
 
         // if any subcase has failed - the whole test case has failed
         if (failure_flags && !ok_to_fail)
@@ -3690,8 +3532,7 @@ std::ostream& operator<<(std::ostream& s, const String& in)
 
 namespace
 {
-void color_to_stream(std::ostream&, Color::Enum)
-    DOCTEST_BRANCH_ON_DISABLED({}, ;)
+void color_to_stream(std::ostream&, Color::Enum) DOCTEST_BRANCH_ON_DISABLED({}, ;)
 } // namespace
 
 namespace Color
@@ -3887,8 +3728,7 @@ String toString(const std::string& in)
 #endif // VS 2019
 
 Approx::Approx(double value)
-    : m_epsilon(static_cast<double>(std::numeric_limits<float>::epsilon()) *
-                100)
+    : m_epsilon(static_cast<double>(std::numeric_limits<float>::epsilon()) * 100)
     , m_scale(1.0)
     , m_value(value)
 {
@@ -3919,8 +3759,7 @@ bool operator==(double lhs, const Approx& rhs)
 {
     // Thanks to Richard Harris for his help refining this formula
     return std::fabs(lhs - rhs.m_value) <
-           rhs.m_epsilon *
-               (rhs.m_scale + std::max(std::fabs(lhs), std::fabs(rhs.m_value)));
+           rhs.m_epsilon * (rhs.m_scale + std::max(std::fabs(lhs), std::fabs(rhs.m_value)));
 }
 bool operator==(const Approx& lhs, double rhs)
 {
@@ -4031,8 +3870,7 @@ int registerReporter(const char*, int, IReporter*)
 #else // DOCTEST_CONFIG_DISABLE
 
 #if !defined(DOCTEST_CONFIG_COLORS_NONE)
-#if !defined(DOCTEST_CONFIG_COLORS_WINDOWS) && \
-    !defined(DOCTEST_CONFIG_COLORS_ANSI)
+#if !defined(DOCTEST_CONFIG_COLORS_WINDOWS) && !defined(DOCTEST_CONFIG_COLORS_ANSI)
 #ifdef DOCTEST_PLATFORM_WINDOWS
 #define DOCTEST_CONFIG_COLORS_WINDOWS
 #else // linux
@@ -4081,8 +3919,7 @@ bool checkIfShouldThrow(assertType::Enum at)
 
     if ((at & assertType::is_check) //! OCLINT bitwise operator in conditional
         && getContextOptions()->abort_after > 0 &&
-        (g_cs->numAssertsFailed + g_cs->numAssertsFailedCurrentTest_atomic) >=
-            getContextOptions()->abort_after)
+        (g_cs->numAssertsFailed + g_cs->numAssertsFailedCurrentTest_atomic) >= getContextOptions()->abort_after)
         return true;
 
     return false;
@@ -4111,9 +3948,7 @@ int wildcmp(const char* str, const char* wild, bool caseSensitive)
 
     while ((*str) && (*wild != '*'))
     {
-        if ((caseSensitive ? (*wild != *str)
-                           : (tolower(*wild) != tolower(*str))) &&
-            (*wild != '?'))
+        if ((caseSensitive ? (*wild != *str) : (tolower(*wild) != tolower(*str))) && (*wild != '?'))
         {
             return 0;
         }
@@ -4132,9 +3967,7 @@ int wildcmp(const char* str, const char* wild, bool caseSensitive)
             mp = wild;
             cp = str + 1;
         }
-        else if ((caseSensitive ? (*wild == *str)
-                                : (tolower(*wild) == tolower(*str))) ||
-                 (*wild == '?'))
+        else if ((caseSensitive ? (*wild == *str) : (tolower(*wild) == tolower(*str))) || (*wild == '?'))
         {
             wild++;
             str++;
@@ -4165,8 +3998,7 @@ int wildcmp(const char* str, const char* wild, bool caseSensitive)
 
 // checks if the name matches any of the filters (and can be configured what to
 // do when empty)
-bool matchesAny(const char* name, const std::vector<String>& filters,
-                bool matchEmpty, bool caseSensitive)
+bool matchesAny(const char* name, const std::vector<String>& filters, bool matchEmpty, bool caseSensitive)
 {
     if (filters.empty() && matchEmpty)
         return true;
@@ -4190,11 +4022,9 @@ Subcase::Subcase(const char* name, const char* file, int line)
     // check subcase filters
     if (s->subcasesCurrentLevel < s->subcase_filter_levels)
     {
-        if (!matchesAny(m_signature.m_name, s->filters[6], true,
-                        s->case_sensitive))
+        if (!matchesAny(m_signature.m_name, s->filters[6], true, s->case_sensitive))
             return;
-        if (matchesAny(m_signature.m_name, s->filters[7], false,
-                       s->case_sensitive))
+        if (matchesAny(m_signature.m_name, s->filters[7], false, s->case_sensitive))
             return;
     }
 
@@ -4263,8 +4093,7 @@ TestSuite& TestSuite::operator*(const char* in)
     return *this;
 }
 
-TestCase::TestCase(funcType test, const char* file, unsigned line,
-                   const TestSuite& test_suite, const char* type,
+TestCase::TestCase(funcType test, const char* file, unsigned line, const TestSuite& test_suite, const char* type,
                    int template_id)
 {
     m_file = file;
@@ -4391,11 +4220,9 @@ int colors_init()
         CONSOLE_SCREEN_BUFFER_INFO csbiInfo;
         GetConsoleScreenBufferInfo(g_stdoutHandle, &csbiInfo);
         g_origFgAttrs =
-            csbiInfo.wAttributes & ~(BACKGROUND_GREEN | BACKGROUND_RED |
-                                     BACKGROUND_BLUE | BACKGROUND_INTENSITY);
+            csbiInfo.wAttributes & ~(BACKGROUND_GREEN | BACKGROUND_RED | BACKGROUND_BLUE | BACKGROUND_INTENSITY);
         g_origBgAttrs =
-            csbiInfo.wAttributes & ~(FOREGROUND_GREEN | FOREGROUND_RED |
-                                     FOREGROUND_BLUE | FOREGROUND_INTENSITY);
+            csbiInfo.wAttributes & ~(FOREGROUND_GREEN | FOREGROUND_RED | FOREGROUND_BLUE | FOREGROUND_INTENSITY);
     }
     return 0;
 }
@@ -4410,8 +4237,7 @@ void color_to_stream(std::ostream& s, Color::Enum code)
                   // DOCTEST_CONFIG_COLORS_WINDOWS
     ((void)code); // for DOCTEST_CONFIG_COLORS_NONE
 #ifdef DOCTEST_CONFIG_COLORS_ANSI
-    if (g_no_colors || (isatty(STDOUT_FILENO) == false &&
-                        getContextOptions()->force_colors == false))
+    if (g_no_colors || (isatty(STDOUT_FILENO) == false && getContextOptions()->force_colors == false))
         return;
 
     auto col = "";
@@ -4437,12 +4263,10 @@ void color_to_stream(std::ostream& s, Color::Enum code)
 #endif // DOCTEST_CONFIG_COLORS_ANSI
 
 #ifdef DOCTEST_CONFIG_COLORS_WINDOWS
-    if (g_no_colors || (isatty(fileno(stdout)) == false &&
-                        getContextOptions()->force_colors == false))
+    if (g_no_colors || (isatty(fileno(stdout)) == false && getContextOptions()->force_colors == false))
         return;
 
-#define DOCTEST_SET_ATTR(x) \
-    SetConsoleTextAttribute(g_stdoutHandle, x | g_origBgAttrs)
+#define DOCTEST_SET_ATTR(x) SetConsoleTextAttribute(g_stdoutHandle, x | g_origBgAttrs)
 
     // clang-format off
         switch (code) {
@@ -4561,9 +4385,8 @@ bool isDebuggerActive()
 
 void registerExceptionTranslatorImpl(const IExceptionTranslator* et)
 {
-    if (std::find(getExceptionTranslators().begin(),
-                  getExceptionTranslators().end(),
-                  et) == getExceptionTranslators().end())
+    if (std::find(getExceptionTranslators().begin(), getExceptionTranslators().end(), et) ==
+        getExceptionTranslators().end())
         getExceptionTranslators().push_back(et);
 }
 
@@ -4660,8 +4483,7 @@ ContextBuilder::ContextBuilder(ContextBuilder& other)
     other.numCaptures = 0;
     other.head = nullptr;
     other.tail = nullptr;
-    memcpy(stackChunks, other.stackChunks,
-           unsigned(int(sizeof(Chunk)) * DOCTEST_CONFIG_NUM_CAPTURES_ON_STACK));
+    memcpy(stackChunks, other.stackChunks, unsigned(int(sizeof(Chunk)) * DOCTEST_CONFIG_NUM_CAPTURES_ON_STACK));
 }
 
 DOCTEST_GCC_SUPPRESS_WARNING_WITH_PUSH("-Wcast-align")
@@ -4729,20 +4551,17 @@ namespace
 {
 using namespace detail;
 
-std::ostream& file_line_to_stream(std::ostream& s, const char* file, int line,
-                                  const char* tail = "")
+std::ostream& file_line_to_stream(std::ostream& s, const char* file, int line, const char* tail = "")
 {
     const auto opt = getContextOptions();
-    s << Color::LightGrey << skipPathFromFilename(file)
-      << (opt->gnu_file_line ? ":" : "(")
+    s << Color::LightGrey << skipPathFromFilename(file) << (opt->gnu_file_line ? ":" : "(")
       << (opt->no_line_numbers ? 0 : line) // 0 or the real num depending on the
                                            // option
       << (opt->gnu_file_line ? ":" : "):") << tail;
     return s;
 }
 
-#if !defined(DOCTEST_CONFIG_POSIX_SIGNALS) && \
-    !defined(DOCTEST_CONFIG_WINDOWS_SEH)
+#if !defined(DOCTEST_CONFIG_POSIX_SIGNALS) && !defined(DOCTEST_CONFIG_WINDOWS_SEH)
 struct FatalConditionHandler
 {
     void reset() {}
@@ -4770,13 +4589,11 @@ SignalDefs signalDefs[] = {
 
 struct FatalConditionHandler
 {
-    static LONG CALLBACK
-        handleVectoredException(PEXCEPTION_POINTERS ExceptionInfo)
+    static LONG CALLBACK handleVectoredException(PEXCEPTION_POINTERS ExceptionInfo)
     {
         for (size_t i = 0; i < DOCTEST_COUNTOF(signalDefs); ++i)
         {
-            if (ExceptionInfo->ExceptionRecord->ExceptionCode ==
-                signalDefs[i].id)
+            if (ExceptionInfo->ExceptionRecord->ExceptionCode == signalDefs[i].id)
             {
                 reportFatal(signalDefs[i].name);
             }
@@ -4795,8 +4612,7 @@ struct FatalConditionHandler
         guaranteeSize = 32 * 1024;
         exceptionHandlerHandle = nullptr;
         // Register as first handler in current chain
-        exceptionHandlerHandle =
-            AddVectoredExceptionHandler(1, handleVectoredException);
+        exceptionHandlerHandle = AddVectoredExceptionHandler(1, handleVectoredException);
         // Pass in guarantee size to be filled
         SetThreadStackGuarantee(&guaranteeSize);
     }
@@ -4837,8 +4653,7 @@ SignalDefs signalDefs[] = {{SIGINT, "SIGINT - Terminal interrupt signal"},
                            {SIGFPE, "SIGFPE - Floating point error signal"},
                            {SIGSEGV, "SIGSEGV - Segmentation violation signal"},
                            {SIGTERM, "SIGTERM - Termination request signal"},
-                           {SIGABRT,
-                            "SIGABRT - Abort (abnormal termination) signal"}};
+                           {SIGABRT, "SIGABRT - Abort (abnormal termination) signal"}};
 
 struct FatalConditionHandler
 {
@@ -4900,8 +4715,7 @@ struct FatalConditionHandler
 };
 
 bool FatalConditionHandler::isSet = false;
-struct sigaction
-    FatalConditionHandler::oldSigActions[DOCTEST_COUNTOF(signalDefs)] = {};
+struct sigaction FatalConditionHandler::oldSigActions[DOCTEST_COUNTOF(signalDefs)] = {};
 stack_t FatalConditionHandler::oldSigStack = {};
 char FatalConditionHandler::altStackMem[] = {};
 
@@ -4940,8 +4754,7 @@ void reportFatal(const std::string& message)
 {
     g_cs->failure_flags |= TestCaseFailureReason::Crash;
 
-    DOCTEST_ITERATE_THROUGH_REPORTERS(test_case_exception,
-                                      {message.c_str(), true});
+    DOCTEST_ITERATE_THROUGH_REPORTERS(test_case_exception, {message.c_str(), true});
 
     while (g_cs->subcasesCurrentLevel--)
         DOCTEST_ITERATE_THROUGH_REPORTERS(subcase_end, DOCTEST_EMPTY);
@@ -4956,8 +4769,8 @@ void reportFatal(const std::string& message)
 } // namespace
 namespace detail
 {
-ResultBuilder::ResultBuilder(assertType::Enum at, const char* file, int line,
-                             const char* expr, const char* exception_type)
+ResultBuilder::ResultBuilder(assertType::Enum at, const char* file, int line, const char* expr,
+                             const char* exception_type)
 {
     m_test_case = g_cs->currentTest;
     m_at = at;
@@ -5024,8 +4837,7 @@ bool ResultBuilder::log()
         failed_out_of_a_testing_context(*this);
     }
 
-    return m_failed && isDebuggerActive() &&
-           !getContextOptions()->no_breaks; // break into debugger
+    return m_failed && isDebuggerActive() && !getContextOptions()->no_breaks; // break into debugger
 }
 
 void ResultBuilder::react() const
@@ -5042,8 +4854,7 @@ void failed_out_of_a_testing_context(const AssertData& ad)
         std::abort();
 }
 
-void decomp_assert(assertType::Enum at, const char* file, int line,
-                   const char* expr, Result result)
+void decomp_assert(assertType::Enum at, const char* file, int line, const char* expr, Result result)
 {
     bool failed = !result.m_passed;
 
@@ -5056,8 +4867,7 @@ void decomp_assert(assertType::Enum at, const char* file, int line,
     DOCTEST_ASSERT_IN_TESTS(result.m_decomp);
 }
 
-MessageBuilder::MessageBuilder(const char* file, int line,
-                               assertType::Enum severity)
+MessageBuilder::MessageBuilder(const char* file, int line, assertType::Enum severity)
 {
     m_stream = getTlsOss();
     m_file = file;
@@ -5082,8 +4892,7 @@ bool MessageBuilder::log()
         addFailedAssert(m_severity);
     }
 
-    return isDebuggerActive() && !getContextOptions()->no_breaks &&
-           !isWarn; // break
+    return isDebuggerActive() && !getContextOptions()->no_breaks && !isWarn; // break
 }
 
 void MessageBuilder::react()
@@ -5105,16 +4914,14 @@ template <typename Ex>
 #ifndef DOCTEST_CONFIG_NO_EXCEPTIONS
     throw e;
 #else  // DOCTEST_CONFIG_NO_EXCEPTIONS
-    std::cerr
-        << "doctest will terminate because it needed to throw an exception.\n"
-        << "The message was: " << e.what() << '\n';
+    std::cerr << "doctest will terminate because it needed to throw an exception.\n"
+              << "The message was: " << e.what() << '\n';
     std::terminate();
 #endif // DOCTEST_CONFIG_NO_EXCEPTIONS
 }
 
-#define DOCTEST_INTERNAL_ERROR(msg)                              \
-    throw_exception(std::logic_error(__FILE__ ":" DOCTEST_TOSTR( \
-        __LINE__) ": Internal doctest error: " msg))
+#define DOCTEST_INTERNAL_ERROR(msg) \
+    throw_exception(std::logic_error(__FILE__ ":" DOCTEST_TOSTR(__LINE__) ": Internal doctest error: " msg))
 
 // clang-format off
 
@@ -5423,7 +5230,7 @@ namespace {
         else {
             m_os << m_indent << "</" << m_tags.back() << ">";
         }
-        m_os << std::endl;
+        m_os);
         m_tags.pop_back();
         return *this;
     }
@@ -5476,7 +5283,7 @@ namespace {
 
     void XmlWriter::ensureTagClosed() {
         if( m_tagIsOpen ) {
-            m_os << ">" << std::endl;
+            m_os << ">");
             m_tagIsOpen = false;
         }
     }
@@ -5487,7 +5294,7 @@ namespace {
 
     void XmlWriter::newlineIfNecessary() {
         if( m_needsNewline ) {
-            m_os << std::endl;
+            m_os);
             m_needsNewline = false;
         }
     }
@@ -5585,23 +5392,18 @@ struct XmlReporter : public IReporter
         else if (opt.count || opt.list_test_cases)
         {
             for (unsigned i = 0; i < in.num_data; ++i)
-                xml.scopedElement("TestCase")
-                    .writeAttribute("name", in.data[i]);
+                xml.scopedElement("TestCase").writeAttribute("name", in.data[i]);
             xml.scopedElement("OverallResultsTestCases")
-                .writeAttribute("unskipped",
-                                in.run_stats->numTestCasesPassingFilters);
+                .writeAttribute("unskipped", in.run_stats->numTestCasesPassingFilters);
         }
         else if (opt.list_test_suites)
         {
             for (unsigned i = 0; i < in.num_data; ++i)
-                xml.scopedElement("TestSuite")
-                    .writeAttribute("name", in.data[i]);
+                xml.scopedElement("TestSuite").writeAttribute("name", in.data[i]);
             xml.scopedElement("OverallResultsTestCases")
-                .writeAttribute("unskipped",
-                                in.run_stats->numTestCasesPassingFilters);
+                .writeAttribute("unskipped", in.run_stats->numTestCasesPassingFilters);
             xml.scopedElement("OverallResultsTestSuites")
-                .writeAttribute("unskipped",
-                                in.run_stats->numTestSuitesPassingFilters);
+                .writeAttribute("unskipped", in.run_stats->numTestSuitesPassingFilters);
         }
         xml.endElement();
     }
@@ -5644,12 +5446,10 @@ struct XmlReporter : public IReporter
             .writeAttribute("failures", p.numAssertsFailed);
 
         xml.startElement("OverallResultsTestCases")
-            .writeAttribute("successes",
-                            p.numTestCasesPassingFilters - p.numTestCasesFailed)
+            .writeAttribute("successes", p.numTestCasesPassingFilters - p.numTestCasesFailed)
             .writeAttribute("failures", p.numTestCasesFailed);
         if (opt.no_skipped_summary == false)
-            xml.writeAttribute("skipped",
-                               p.numTestCases - p.numTestCasesPassingFilters);
+            xml.writeAttribute("skipped", p.numTestCases - p.numTestCasesPassingFilters);
         xml.endElement();
 
         xml.endElement();
@@ -5664,8 +5464,7 @@ struct XmlReporter : public IReporter
     void test_case_end(const CurrentTestCaseStats& st) override
     {
         xml.startElement("OverallResultsAsserts")
-            .writeAttribute("successes", st.numAssertsCurrentTest -
-                                             st.numAssertsFailedCurrentTest)
+            .writeAttribute("successes", st.numAssertsCurrentTest - st.numAssertsFailedCurrentTest)
             .writeAttribute("failures", st.numAssertsFailedCurrentTest);
         if (opt.duration)
             xml.writeAttribute("duration", st.seconds);
@@ -5680,9 +5479,7 @@ struct XmlReporter : public IReporter
     {
         std::lock_guard<std::mutex> lock(mutex);
 
-        xml.scopedElement("Exception")
-            .writeAttribute("crash", e.is_crash)
-            .writeText(e.error_string.c_str());
+        xml.scopedElement("Exception").writeAttribute("crash", e.is_crash).writeText(e.error_string.c_str());
     }
 
     void subcase_start(const SubcaseSignature& in) override
@@ -5717,8 +5514,7 @@ struct XmlReporter : public IReporter
 
         if (rb.m_at & (assertType::is_throws_as | assertType::is_throws_with))
         {
-            xml.scopedElement("ExpectedException")
-                .writeText(rb.m_exception_type);
+            xml.scopedElement("ExpectedException").writeText(rb.m_exception_type);
         }
         else if ((rb.m_at & assertType::is_normal) && !rb.m_threw)
         {
@@ -5811,8 +5607,7 @@ struct ConsoleReporter : public IReporter
              "\n";
     }
 
-    const char* getSuccessOrFailString(bool success, assertType::Enum at,
-                                       const char* success_str)
+    const char* getSuccessOrFailString(bool success, assertType::Enum at, const char* success_str)
     {
         if (success)
             return success_str;
@@ -5821,16 +5616,12 @@ struct ConsoleReporter : public IReporter
 
     Color::Enum getSuccessOrFailColor(bool success, assertType::Enum at)
     {
-        return success
-                   ? Color::BrightGreen
-                   : (at & assertType::is_warn) ? Color::Yellow : Color::Red;
+        return success ? Color::BrightGreen : (at & assertType::is_warn) ? Color::Yellow : Color::Red;
     }
 
-    void successOrFailColoredStringToStream(bool success, assertType::Enum at,
-                                            const char* success_str = "SUCCESS")
+    void successOrFailColoredStringToStream(bool success, assertType::Enum at, const char* success_str = "SUCCESS")
     {
-        s << getSuccessOrFailColor(success, at)
-          << getSuccessOrFailString(success, at, success_str) << ": ";
+        s << getSuccessOrFailColor(success, at) << getSuccessOrFailString(success, at, success_str) << ": ";
     }
 
     void log_contexts()
@@ -5860,11 +5651,9 @@ struct ConsoleReporter : public IReporter
         separator_to_stream();
         file_line_to_stream(s, tc->m_file, tc->m_line, "\n");
         if (tc->m_description)
-            s << Color::Yellow << "DESCRIPTION: " << Color::None
-              << tc->m_description << "\n";
+            s << Color::Yellow << "DESCRIPTION: " << Color::None << tc->m_description << "\n";
         if (tc->m_test_suite && tc->m_test_suite[0] != '\0')
-            s << Color::Yellow << "TEST SUITE: " << Color::None
-              << tc->m_test_suite << "\n";
+            s << Color::Yellow << "TEST SUITE: " << Color::None << tc->m_test_suite << "\n";
         if (strncmp(tc->m_name, "  Scenario:", 11) != 0)
             s << Color::None << "TEST CASE:  ";
         s << Color::None << tc->m_name << "\n";
@@ -5881,22 +5670,19 @@ struct ConsoleReporter : public IReporter
     void printVersion()
     {
         if (opt.no_version == false)
-            s << Color::Cyan << "[doctest] " << Color::None
-              << "doctest version is \"" << DOCTEST_VERSION_STR << "\"\n";
+            s << Color::Cyan << "[doctest] " << Color::None << "doctest version is \"" << DOCTEST_VERSION_STR << "\"\n";
     }
 
     void printIntro()
     {
         printVersion();
         s << Color::Cyan << "[doctest] " << Color::None
-          << "run with \"--" DOCTEST_OPTIONS_PREFIX_DISPLAY
-             "help\" for options\n";
+          << "run with \"--" DOCTEST_OPTIONS_PREFIX_DISPLAY "help\" for options\n";
     }
 
     void printHelp()
     {
-        int sizePrefixDisplay =
-            static_cast<int>(strlen(DOCTEST_OPTIONS_PREFIX_DISPLAY));
+        int sizePrefixDisplay = static_cast<int>(strlen(DOCTEST_OPTIONS_PREFIX_DISPLAY));
         printVersion();
         // clang-format off
             s << Color::Cyan << "[doctest]\n" << Color::None;
@@ -6009,11 +5795,9 @@ struct ConsoleReporter : public IReporter
     void printRegisteredReporters()
     {
         printVersion();
-        s << Color::Cyan << "[doctest] " << Color::None
-          << "listing all registered reporters\n";
+        s << Color::Cyan << "[doctest] " << Color::None << "listing all registered reporters\n";
         for (auto& curr : getReporters())
-            s << "priority: " << std::setw(5) << curr.first.first
-              << " name: " << curr.first.second << "\n";
+            s << "priority: " << std::setw(5) << curr.first.first << " name: " << curr.first.second << "\n";
     }
 
     void list_query_results()
@@ -6022,14 +5806,12 @@ struct ConsoleReporter : public IReporter
         if (opt.count || opt.list_test_cases)
         {
             s << Color::Cyan << "[doctest] " << Color::None
-              << "unskipped test cases passing the current filters: "
-              << g_cs->numTestCasesPassingFilters << "\n";
+              << "unskipped test cases passing the current filters: " << g_cs->numTestCasesPassingFilters << "\n";
         }
         else if (opt.list_test_suites)
         {
             s << Color::Cyan << "[doctest] " << Color::None
-              << "unskipped test cases passing the current filters: "
-              << g_cs->numTestCasesPassingFilters << "\n";
+              << "unskipped test cases passing the current filters: " << g_cs->numTestCasesPassingFilters << "\n";
             s << Color::Cyan << "[doctest] " << Color::None
               << "test suites with unskipped test cases passing the current "
                  "filters: "
@@ -6060,8 +5842,7 @@ struct ConsoleReporter : public IReporter
         {
             if (opt.list_test_cases)
             {
-                s << Color::Cyan << "[doctest] " << Color::None
-                  << "listing all test case names\n";
+                s << Color::Cyan << "[doctest] " << Color::None << "listing all test case names\n";
                 separator_to_stream();
             }
 
@@ -6071,13 +5852,11 @@ struct ConsoleReporter : public IReporter
             separator_to_stream();
 
             s << Color::Cyan << "[doctest] " << Color::None
-              << "unskipped test cases passing the current filters: "
-              << g_cs->numTestCasesPassingFilters << "\n";
+              << "unskipped test cases passing the current filters: " << g_cs->numTestCasesPassingFilters << "\n";
         }
         else if (opt.list_test_suites)
         {
-            s << Color::Cyan << "[doctest] " << Color::None
-              << "listing all test suites\n";
+            s << Color::Cyan << "[doctest] " << Color::None << "listing all test suites\n";
             separator_to_stream();
 
             for (unsigned i = 0; i < in.num_data; ++i)
@@ -6086,8 +5865,7 @@ struct ConsoleReporter : public IReporter
             separator_to_stream();
 
             s << Color::Cyan << "[doctest] " << Color::None
-              << "unskipped test cases passing the current filters: "
-              << g_cs->numTestCasesPassingFilters << "\n";
+              << "unskipped test cases passing the current filters: " << g_cs->numTestCasesPassingFilters << "\n";
             s << Color::Cyan << "[doctest] " << Color::None
               << "test suites with unskipped test cases passing the current "
                  "filters: "
@@ -6100,39 +5878,29 @@ struct ConsoleReporter : public IReporter
     {
         separator_to_stream();
 
-        const bool anythingFailed =
-            p.numTestCasesFailed > 0 || p.numAssertsFailed > 0;
-        s << Color::Cyan << "[doctest] " << Color::None
-          << "test cases: " << std::setw(6) << p.numTestCasesPassingFilters
-          << " | "
-          << ((p.numTestCasesPassingFilters == 0 || anythingFailed)
-                  ? Color::None
-                  : Color::Green)
-          << std::setw(6) << p.numTestCasesPassingFilters - p.numTestCasesFailed
-          << " passed" << Color::None << " | "
-          << (p.numTestCasesFailed > 0 ? Color::Red : Color::None)
-          << std::setw(6) << p.numTestCasesFailed << " failed" << Color::None
-          << " | ";
+        const bool anythingFailed = p.numTestCasesFailed > 0 || p.numAssertsFailed > 0;
+        s << Color::Cyan << "[doctest] " << Color::None << "test cases: " << std::setw(6)
+          << p.numTestCasesPassingFilters << " | "
+          << ((p.numTestCasesPassingFilters == 0 || anythingFailed) ? Color::None : Color::Green) << std::setw(6)
+          << p.numTestCasesPassingFilters - p.numTestCasesFailed << " passed" << Color::None << " | "
+          << (p.numTestCasesFailed > 0 ? Color::Red : Color::None) << std::setw(6) << p.numTestCasesFailed << " failed"
+          << Color::None << " | ";
         if (opt.no_skipped_summary == false)
         {
-            const int numSkipped =
-                p.numTestCases - p.numTestCasesPassingFilters;
-            s << (numSkipped == 0 ? Color::None : Color::Yellow) << std::setw(6)
-              << numSkipped << " skipped" << Color::None;
+            const int numSkipped = p.numTestCases - p.numTestCasesPassingFilters;
+            s << (numSkipped == 0 ? Color::None : Color::Yellow) << std::setw(6) << numSkipped << " skipped"
+              << Color::None;
         }
         s << "\n";
-        s << Color::Cyan << "[doctest] " << Color::None
-          << "assertions: " << std::setw(6) << p.numAsserts << " | "
-          << ((p.numAsserts == 0 || anythingFailed) ? Color::None
-                                                    : Color::Green)
-          << std::setw(6) << (p.numAsserts - p.numAssertsFailed) << " passed"
-          << Color::None << " | "
-          << (p.numAssertsFailed > 0 ? Color::Red : Color::None) << std::setw(6)
-          << p.numAssertsFailed << " failed" << Color::None << " |\n";
+        s << Color::Cyan << "[doctest] " << Color::None << "assertions: " << std::setw(6) << p.numAsserts << " | "
+          << ((p.numAsserts == 0 || anythingFailed) ? Color::None : Color::Green) << std::setw(6)
+          << (p.numAsserts - p.numAssertsFailed) << " passed" << Color::None << " | "
+          << (p.numAssertsFailed > 0 ? Color::Red : Color::None) << std::setw(6) << p.numAssertsFailed << " failed"
+          << Color::None << " |\n";
         s << Color::Cyan << "[doctest] " << Color::None << "Status: "
           << (p.numTestCasesFailed > 0 ? Color::Red : Color::Green)
           << ((p.numTestCasesFailed > 0) ? "FAILURE!" : "SUCCESS!")
-          << Color::None << std::endl;
+          << Color::None);
     }
 
     void test_case_start(const TestCaseData& in) override
@@ -6145,44 +5913,33 @@ struct ConsoleReporter : public IReporter
     {
         // log the preamble of the test case only if there is something
         // else to print - something other than that an assert has failed
-        if (opt.duration ||
-            (st.failure_flags &&
-             st.failure_flags != TestCaseFailureReason::AssertFailure))
+        if (opt.duration || (st.failure_flags && st.failure_flags != TestCaseFailureReason::AssertFailure))
             logTestStart();
 
         if (opt.duration)
-            s << Color::None << std::setprecision(6) << std::fixed << st.seconds
-              << " s: " << tc->m_name << "\n";
+            s << Color::None << std::setprecision(6) << std::fixed << st.seconds << " s: " << tc->m_name << "\n";
 
         if (st.failure_flags & TestCaseFailureReason::Timeout)
-            s << Color::Red << "Test case exceeded time limit of "
-              << std::setprecision(6) << std::fixed << tc->m_timeout << "!\n";
+            s << Color::Red << "Test case exceeded time limit of " << std::setprecision(6) << std::fixed
+              << tc->m_timeout << "!\n";
 
         if (st.failure_flags & TestCaseFailureReason::ShouldHaveFailedButDidnt)
         {
-            s << Color::Red
-              << "Should have failed but didn't! Marking it as failed!\n";
+            s << Color::Red << "Should have failed but didn't! Marking it as failed!\n";
         }
-        else if (st.failure_flags &
-                 TestCaseFailureReason::ShouldHaveFailedAndDid)
+        else if (st.failure_flags & TestCaseFailureReason::ShouldHaveFailedAndDid)
         {
-            s << Color::Yellow
-              << "Failed as expected so marking it as not failed\n";
+            s << Color::Yellow << "Failed as expected so marking it as not failed\n";
         }
-        else if (st.failure_flags &
-                 TestCaseFailureReason::CouldHaveFailedAndDid)
+        else if (st.failure_flags & TestCaseFailureReason::CouldHaveFailedAndDid)
         {
-            s << Color::Yellow
-              << "Allowed to fail so marking it as not failed\n";
+            s << Color::Yellow << "Allowed to fail so marking it as not failed\n";
         }
-        else if (st.failure_flags &
-                 TestCaseFailureReason::DidntFailExactlyNumTimes)
+        else if (st.failure_flags & TestCaseFailureReason::DidntFailExactlyNumTimes)
         {
-            s << Color::Red << "Didn't fail exactly " << tc->m_expected_failures
-              << " times so marking it as failed!\n";
+            s << Color::Red << "Didn't fail exactly " << tc->m_expected_failures << " times so marking it as failed!\n";
         }
-        else if (st.failure_flags &
-                 TestCaseFailureReason::FailedExactlyNumTimes)
+        else if (st.failure_flags & TestCaseFailureReason::FailedExactlyNumTimes)
         {
             s << Color::Yellow << "Failed exactly " << tc->m_expected_failures
               << " times as expected so marking it as not failed!\n";
@@ -6199,13 +5956,9 @@ struct ConsoleReporter : public IReporter
         logTestStart();
 
         file_line_to_stream(s, tc->m_file, tc->m_line, " ");
-        successOrFailColoredStringToStream(false, e.is_crash
-                                                      ? assertType::is_require
-                                                      : assertType::is_check);
-        s << Color::Red
-          << (e.is_crash ? "test case CRASHED: "
-                         : "test case THREW exception: ")
-          << Color::Cyan << e.error_string << "\n";
+        successOrFailColoredStringToStream(false, e.is_crash ? assertType::is_require : assertType::is_check);
+        s << Color::Red << (e.is_crash ? "test case CRASHED: " : "test case THREW exception: ") << Color::Cyan
+          << e.error_string << "\n";
 
         int num_stringified_contexts = get_num_stringified_contexts();
         if (num_stringified_contexts)
@@ -6214,8 +5967,7 @@ struct ConsoleReporter : public IReporter
             s << Color::None << "  logged: ";
             for (int i = num_stringified_contexts; i > 0; --i)
             {
-                s << (i == num_stringified_contexts ? "" : "          ")
-                  << stringified_contexts[i - 1] << "\n";
+                s << (i == num_stringified_contexts ? "" : "          ") << stringified_contexts[i - 1] << "\n";
             }
         }
         s << "\n" << Color::None;
@@ -6246,50 +5998,41 @@ struct ConsoleReporter : public IReporter
 
         file_line_to_stream(s, rb.m_file, rb.m_line, " ");
         successOrFailColoredStringToStream(!rb.m_failed, rb.m_at);
-        if ((rb.m_at &
-             (assertType::is_throws_as | assertType::is_throws_with)) ==
-            0) //! OCLINT bitwise operator in conditional
-            s << Color::Cyan << assertString(rb.m_at) << "( " << rb.m_expr
-              << " ) " << Color::None;
+        if ((rb.m_at & (assertType::is_throws_as | assertType::is_throws_with)) == 0) //! OCLINT bitwise operator in
+                                                                                      //! conditional
+            s << Color::Cyan << assertString(rb.m_at) << "( " << rb.m_expr << " ) " << Color::None;
 
         if (rb.m_at & assertType::is_throws)
         { //! OCLINT bitwise operator in conditional
-            s << (rb.m_threw ? "threw as expected!" : "did NOT throw at all!")
-              << "\n";
+            s << (rb.m_threw ? "threw as expected!" : "did NOT throw at all!") << "\n";
         }
         else if (rb.m_at & assertType::is_throws_as)
         { //! OCLINT bitwise operator in conditional
-            s << Color::Cyan << assertString(rb.m_at) << "( " << rb.m_expr
-              << ", " << rb.m_exception_type << " ) " << Color::None
-              << (rb.m_threw ? (rb.m_threw_as ? "threw as expected!"
-                                              : "threw a DIFFERENT exception: ")
+            s << Color::Cyan << assertString(rb.m_at) << "( " << rb.m_expr << ", " << rb.m_exception_type << " ) "
+              << Color::None
+              << (rb.m_threw ? (rb.m_threw_as ? "threw as expected!" : "threw a DIFFERENT exception: ")
                              : "did NOT throw at all!")
               << Color::Cyan << rb.m_exception << "\n";
         }
         else if (rb.m_at & assertType::is_throws_with)
         { //! OCLINT bitwise operator in conditional
-            s << Color::Cyan << assertString(rb.m_at) << "( " << rb.m_expr
-              << ", \"" << rb.m_exception_type << "\" ) " << Color::None
-              << (rb.m_threw ? (!rb.m_failed ? "threw as expected!"
-                                             : "threw a DIFFERENT exception: ")
+            s << Color::Cyan << assertString(rb.m_at) << "( " << rb.m_expr << ", \"" << rb.m_exception_type << "\" ) "
+              << Color::None
+              << (rb.m_threw ? (!rb.m_failed ? "threw as expected!" : "threw a DIFFERENT exception: ")
                              : "did NOT throw at all!")
               << Color::Cyan << rb.m_exception << "\n";
         }
         else if (rb.m_at & assertType::is_nothrow)
         { //! OCLINT bitwise operator in conditional
-            s << (rb.m_threw ? "THREW exception: " : "didn't throw!")
-              << Color::Cyan << rb.m_exception << "\n";
+            s << (rb.m_threw ? "THREW exception: " : "didn't throw!") << Color::Cyan << rb.m_exception << "\n";
         }
         else
         {
-            s << (rb.m_threw
-                      ? "THREW exception: "
-                      : (!rb.m_failed ? "is correct!\n" : "is NOT correct!\n"));
+            s << (rb.m_threw ? "THREW exception: " : (!rb.m_failed ? "is correct!\n" : "is NOT correct!\n"));
             if (rb.m_threw)
                 s << rb.m_exception << "\n";
             else
-                s << "  values: " << assertString(rb.m_at) << "( "
-                  << rb.m_decomp << " )\n";
+                s << "  values: " << assertString(rb.m_at) << "( " << rb.m_decomp << " )\n";
         }
 
         log_contexts();
@@ -6303,9 +6046,7 @@ struct ConsoleReporter : public IReporter
 
         file_line_to_stream(s, mb.m_file, mb.m_line, " ");
         s << getSuccessOrFailColor(false, mb.m_severity)
-          << getSuccessOrFailString(mb.m_severity & assertType::is_warn,
-                                    mb.m_severity, "MESSAGE")
-          << ": ";
+          << getSuccessOrFailString(mb.m_severity & assertType::is_warn, mb.m_severity, "MESSAGE") << ": ";
         s << Color::None << mb.m_string << "\n";
         log_contexts();
     }
@@ -6336,32 +6077,23 @@ struct DebugOutputWindowReporter : public ConsoleReporter
         g_no_colors = with_col;                                 \
     }
 
-    DOCTEST_DEBUG_OUTPUT_REPORTER_OVERRIDE(test_run_start, DOCTEST_EMPTY,
-                                           DOCTEST_EMPTY)
-    DOCTEST_DEBUG_OUTPUT_REPORTER_OVERRIDE(test_run_end, const TestRunStats&,
-                                           in)
-    DOCTEST_DEBUG_OUTPUT_REPORTER_OVERRIDE(test_case_start, const TestCaseData&,
-                                           in)
-    DOCTEST_DEBUG_OUTPUT_REPORTER_OVERRIDE(test_case_end,
-                                           const CurrentTestCaseStats&, in)
-    DOCTEST_DEBUG_OUTPUT_REPORTER_OVERRIDE(test_case_exception,
-                                           const TestCaseException&, in)
-    DOCTEST_DEBUG_OUTPUT_REPORTER_OVERRIDE(subcase_start,
-                                           const SubcaseSignature&, in)
-    DOCTEST_DEBUG_OUTPUT_REPORTER_OVERRIDE(subcase_end, DOCTEST_EMPTY,
-                                           DOCTEST_EMPTY)
+    DOCTEST_DEBUG_OUTPUT_REPORTER_OVERRIDE(test_run_start, DOCTEST_EMPTY, DOCTEST_EMPTY)
+    DOCTEST_DEBUG_OUTPUT_REPORTER_OVERRIDE(test_run_end, const TestRunStats&, in)
+    DOCTEST_DEBUG_OUTPUT_REPORTER_OVERRIDE(test_case_start, const TestCaseData&, in)
+    DOCTEST_DEBUG_OUTPUT_REPORTER_OVERRIDE(test_case_end, const CurrentTestCaseStats&, in)
+    DOCTEST_DEBUG_OUTPUT_REPORTER_OVERRIDE(test_case_exception, const TestCaseException&, in)
+    DOCTEST_DEBUG_OUTPUT_REPORTER_OVERRIDE(subcase_start, const SubcaseSignature&, in)
+    DOCTEST_DEBUG_OUTPUT_REPORTER_OVERRIDE(subcase_end, DOCTEST_EMPTY, DOCTEST_EMPTY)
     DOCTEST_DEBUG_OUTPUT_REPORTER_OVERRIDE(log_assert, const AssertData&, in)
     DOCTEST_DEBUG_OUTPUT_REPORTER_OVERRIDE(log_message, const MessageData&, in)
-    DOCTEST_DEBUG_OUTPUT_REPORTER_OVERRIDE(test_case_skipped,
-                                           const TestCaseData&, in)
+    DOCTEST_DEBUG_OUTPUT_REPORTER_OVERRIDE(test_case_skipped, const TestCaseData&, in)
 };
 
 DOCTEST_THREAD_LOCAL std::ostringstream DebugOutputWindowReporter::oss;
 #endif // DOCTEST_PLATFORM_WINDOWS
 
 // the implementation of parseOption()
-bool parseOptionImpl(int argc, const char* const* argv, const char* pattern,
-                     String* value)
+bool parseOptionImpl(int argc, const char* const* argv, const char* pattern, String* value)
 {
     // going from the end to the begining and stopping on the first occurance
     // from the end
@@ -6408,15 +6140,14 @@ bool parseOptionImpl(int argc, const char* const* argv, const char* pattern,
 }
 
 // parses an option and returns the string after the '=' character
-bool parseOption(int argc, const char* const* argv, const char* pattern,
-                 String* value = nullptr, const String& defaultVal = String())
+bool parseOption(int argc, const char* const* argv, const char* pattern, String* value = nullptr,
+                 const String& defaultVal = String())
 {
     if (value)
         *value = defaultVal;
 #ifndef DOCTEST_CONFIG_NO_UNPREFIXED_OPTIONS
     // offset (normally 3 for "dt-") to skip prefix
-    if (parseOptionImpl(argc, argv,
-                        pattern + strlen(DOCTEST_CONFIG_OPTIONS_PREFIX), value))
+    if (parseOptionImpl(argc, argv, pattern + strlen(DOCTEST_CONFIG_OPTIONS_PREFIX), value))
         return true;
 #endif // DOCTEST_CONFIG_NO_UNPREFIXED_OPTIONS
     return parseOptionImpl(argc, argv, pattern, value);
@@ -6430,8 +6161,7 @@ bool parseFlag(int argc, const char* const* argv, const char* pattern)
 
 // parses a comma separated list of words after a pattern in one of the
 // arguments in argv
-bool parseCommaSepArgs(int argc, const char* const* argv, const char* pattern,
-                       std::vector<String>& res)
+bool parseCommaSepArgs(int argc, const char* const* argv, const char* pattern, std::vector<String>& res)
 {
     String filtersString;
     if (parseOption(argc, argv, pattern, &filtersString))
@@ -6439,8 +6169,7 @@ bool parseCommaSepArgs(int argc, const char* const* argv, const char* pattern,
         // tokenize with "," as a separator
         // cppcheck-suppress strtokCalled
         DOCTEST_CLANG_SUPPRESS_WARNING_WITH_PUSH("-Wdeprecated-declarations")
-        auto pch =
-            std::strtok(filtersString.c_str(), ","); // modifies the string
+        auto pch = std::strtok(filtersString.c_str(), ","); // modifies the string
         while (pch != nullptr)
         {
             if (strlen(pch))
@@ -6462,8 +6191,7 @@ enum optionType
 };
 
 // parses an int/bool option from the command line
-bool parseIntOption(int argc, const char* const* argv, const char* pattern,
-                    optionType type, int& res)
+bool parseIntOption(int argc, const char* const* argv, const char* pattern, optionType type, int& res)
 {
     String parsedValue;
     if (!parseOption(argc, argv, pattern, &parsedValue))
@@ -6472,10 +6200,8 @@ bool parseIntOption(int argc, const char* const* argv, const char* pattern,
     if (type == 0)
     {
         // boolean
-        const char positive[][5] = {"1", "true", "on",
-                                    "yes"}; // 5 - strlen("true") + 1
-        const char negative[][6] = {"0", "false", "off",
-                                    "no"}; // 6 - strlen("false") + 1
+        const char positive[][5] = {"1", "true", "on", "yes"};  // 5 - strlen("true") + 1
+        const char negative[][6] = {"0", "false", "off", "no"}; // 6 - strlen("false") + 1
 
         // if the value matches any of the positive/negative possibilities
         for (unsigned i = 0; i < 4; i++)
@@ -6559,33 +6285,26 @@ void Context::parseArgs(int argc, const char* const* argv, bool withDefaults)
     int intRes = 0;
     String strRes;
 
-#define DOCTEST_PARSE_AS_BOOL_OR_FLAG(name, sname, var, default)            \
-    if (parseIntOption(argc, argv, DOCTEST_CONFIG_OPTIONS_PREFIX name "=",  \
-                       option_bool, intRes) ||                              \
-        parseIntOption(argc, argv, DOCTEST_CONFIG_OPTIONS_PREFIX sname "=", \
-                       option_bool, intRes))                                \
-        p->var = !!intRes;                                                  \
-    else if (parseFlag(argc, argv, DOCTEST_CONFIG_OPTIONS_PREFIX name) ||   \
-             parseFlag(argc, argv, DOCTEST_CONFIG_OPTIONS_PREFIX sname))    \
-        p->var = true;                                                      \
-    else if (withDefaults)                                                  \
+#define DOCTEST_PARSE_AS_BOOL_OR_FLAG(name, sname, var, default)                                   \
+    if (parseIntOption(argc, argv, DOCTEST_CONFIG_OPTIONS_PREFIX name "=", option_bool, intRes) || \
+        parseIntOption(argc, argv, DOCTEST_CONFIG_OPTIONS_PREFIX sname "=", option_bool, intRes))  \
+        p->var = !!intRes;                                                                         \
+    else if (parseFlag(argc, argv, DOCTEST_CONFIG_OPTIONS_PREFIX name) ||                          \
+             parseFlag(argc, argv, DOCTEST_CONFIG_OPTIONS_PREFIX sname))                           \
+        p->var = true;                                                                             \
+    else if (withDefaults)                                                                         \
     p->var = default
 
-#define DOCTEST_PARSE_INT_OPTION(name, sname, var, default)                 \
-    if (parseIntOption(argc, argv, DOCTEST_CONFIG_OPTIONS_PREFIX name "=",  \
-                       option_int, intRes) ||                               \
-        parseIntOption(argc, argv, DOCTEST_CONFIG_OPTIONS_PREFIX sname "=", \
-                       option_int, intRes))                                 \
-        p->var = intRes;                                                    \
-    else if (withDefaults)                                                  \
+#define DOCTEST_PARSE_INT_OPTION(name, sname, var, default)                                       \
+    if (parseIntOption(argc, argv, DOCTEST_CONFIG_OPTIONS_PREFIX name "=", option_int, intRes) || \
+        parseIntOption(argc, argv, DOCTEST_CONFIG_OPTIONS_PREFIX sname "=", option_int, intRes))  \
+        p->var = intRes;                                                                          \
+    else if (withDefaults)                                                                        \
     p->var = default
 
-#define DOCTEST_PARSE_STR_OPTION(name, sname, var, default)              \
-    if (parseOption(argc, argv, DOCTEST_CONFIG_OPTIONS_PREFIX name "=",  \
-                    &strRes, default) ||                                 \
-        parseOption(argc, argv, DOCTEST_CONFIG_OPTIONS_PREFIX sname "=", \
-                    &strRes, default) ||                                 \
-        withDefaults)                                                    \
+#define DOCTEST_PARSE_STR_OPTION(name, sname, var, default)                                                 \
+    if (parseOption(argc, argv, DOCTEST_CONFIG_OPTIONS_PREFIX name "=", &strRes, default) ||                \
+        parseOption(argc, argv, DOCTEST_CONFIG_OPTIONS_PREFIX sname "=", &strRes, default) || withDefaults) \
     p->var = strRes
 
     // clang-format off
@@ -6645,15 +6364,13 @@ void Context::parseArgs(int argc, const char* const* argv, bool withDefaults)
         p->count = true;
         p->exit = true;
     }
-    if (parseFlag(argc, argv,
-                  DOCTEST_CONFIG_OPTIONS_PREFIX "list-test-cases") ||
+    if (parseFlag(argc, argv, DOCTEST_CONFIG_OPTIONS_PREFIX "list-test-cases") ||
         parseFlag(argc, argv, DOCTEST_CONFIG_OPTIONS_PREFIX "ltc"))
     {
         p->list_test_cases = true;
         p->exit = true;
     }
-    if (parseFlag(argc, argv,
-                  DOCTEST_CONFIG_OPTIONS_PREFIX "list-test-suites") ||
+    if (parseFlag(argc, argv, DOCTEST_CONFIG_OPTIONS_PREFIX "list-test-suites") ||
         parseFlag(argc, argv, DOCTEST_CONFIG_OPTIONS_PREFIX "lts"))
     {
         p->list_test_suites = true;
@@ -6765,15 +6482,13 @@ int Context::run()
     // check to see if any of the registered reporters has been selected
     for (auto& curr : getReporters())
     {
-        if (matchesAny(curr.first.second.c_str(), p->filters[8], false,
-                       p->case_sensitive))
+        if (matchesAny(curr.first.second.c_str(), p->filters[8], false, p->case_sensitive))
             p->reporters_currently_used.push_back(curr.second(*g_cs));
     }
 
 #ifdef DOCTEST_PLATFORM_WINDOWS
     if (isDebuggerActive())
-        p->reporters_currently_used.push_back(
-            new DebugOutputWindowReporter(*g_cs));
+        p->reporters_currently_used.push_back(new DebugOutputWindowReporter(*g_cs));
 #endif // DOCTEST_PLATFORM_WINDOWS
 
     // handle version, help and no_run
@@ -6844,11 +6559,9 @@ int Context::run()
             skip_me = true;
         if (matchesAny(tc.m_file, p->filters[1], false, p->case_sensitive))
             skip_me = true;
-        if (!matchesAny(tc.m_test_suite, p->filters[2], true,
-                        p->case_sensitive))
+        if (!matchesAny(tc.m_test_suite, p->filters[2], true, p->case_sensitive))
             skip_me = true;
-        if (matchesAny(tc.m_test_suite, p->filters[3], false,
-                       p->case_sensitive))
+        if (matchesAny(tc.m_test_suite, p->filters[3], false, p->case_sensitive))
             skip_me = true;
         if (!matchesAny(tc.m_name, p->filters[4], true, p->case_sensitive))
             skip_me = true;
@@ -6886,8 +6599,7 @@ int Context::run()
         // execute it
         if (p->list_test_suites)
         {
-            if ((testSuitesPassingFilt.count(tc.m_test_suite) == 0) &&
-                tc.m_test_suite[0] != '\0')
+            if ((testSuitesPassingFilt.count(tc.m_test_suite) == 0) && tc.m_test_suite[0] != '\0')
             {
                 queryResults.push_back(tc.m_test_suite);
                 testSuitesPassingFilt.insert(tc.m_test_suite);
@@ -6941,23 +6653,17 @@ int Context::run()
                 }
                 catch (...)
                 {
-                    DOCTEST_ITERATE_THROUGH_REPORTERS(
-                        test_case_exception,
-                        {translateActiveException(), false});
+                    DOCTEST_ITERATE_THROUGH_REPORTERS(test_case_exception, {translateActiveException(), false});
                     p->failure_flags |= TestCaseFailureReason::Exception;
                 }
 #endif // DOCTEST_CONFIG_NO_EXCEPTIONS
 
                 // exit this loop if enough assertions have failed - even if
                 // there are more subcases
-                if (p->abort_after > 0 &&
-                    p->numAssertsFailed +
-                            p->numAssertsFailedCurrentTest_atomic >=
-                        p->abort_after)
+                if (p->abort_after > 0 && p->numAssertsFailed + p->numAssertsFailedCurrentTest_atomic >= p->abort_after)
                 {
                     p->should_reenter = false;
-                    p->failure_flags |=
-                        TestCaseFailureReason::TooManyFailedAsserts;
+                    p->failure_flags |= TestCaseFailureReason::TooManyFailedAsserts;
                 }
             } while (p->should_reenter == true);
 
@@ -6989,8 +6695,7 @@ int Context::run()
     // see these issues on the reasoning for this:
     // - https://github.com/onqtam/doctest/issues/143#issuecomment-414418903
     // - https://github.com/onqtam/doctest/issues/126
-    auto DOCTEST_FIX_FOR_MACOS_LIBCPP_IOSFWD_STRING_LINK_ERRORS =
-        []() DOCTEST_NOINLINE { std::cout << std::string(); };
+    auto DOCTEST_FIX_FOR_MACOS_LIBCPP_IOSFWD_STRING_LINK_ERRORS = []() DOCTEST_NOINLINE { std::cout << std::string(); };
     DOCTEST_FIX_FOR_MACOS_LIBCPP_IOSFWD_STRING_LINK_ERRORS();
 
     return cleanup_and_return();
@@ -7017,17 +6722,14 @@ int IReporter::get_num_stringified_contexts()
 }
 const String* IReporter::get_stringified_contexts()
 {
-    return get_num_stringified_contexts()
-               ? &detail::g_cs->stringifiedContexts[0]
-               : nullptr;
+    return get_num_stringified_contexts() ? &detail::g_cs->stringifiedContexts[0] : nullptr;
 }
 
 namespace detail
 {
 void registerReporterImpl(const char* name, int priority, reporterCreatorFunc c)
 {
-    getReporters().insert(
-        reporterMap::value_type(reporterMap::key_type(priority, name), c));
+    getReporters().insert(reporterMap::value_type(reporterMap::key_type(priority, name), c));
 }
 } // namespace detail
 

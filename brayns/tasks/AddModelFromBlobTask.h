@@ -1,4 +1,4 @@
-/* Copyright (c) 2015-2018, EPFL/Blue Brain Project
+/* Copyright (c) 2015-2023, EPFL/Blue Brain Project
  * All rights reserved. Do not distribute without permission.
  * Responsible Author: Daniel.Nachbaur@epfl.ch
  *
@@ -58,15 +58,8 @@ public:
 
 private:
     void _checkValidity(Engine& engine);
-    void _cancel() final
-    {
-        _chunkEvent.set_exception(
-            std::make_exception_ptr(async::task_canceled()));
-    }
-    float _progressBytes() const
-    {
-        return CHUNK_PROGRESS_WEIGHT * ((float)_receivedBytes / _param.size);
-    }
+    void _cancel() final { _chunkEvent.set_exception(std::make_exception_ptr(async::task_canceled())); }
+    float _progressBytes() const { return CHUNK_PROGRESS_WEIGHT * ((float)_receivedBytes / _param.size); }
 
     async::event_task<Blob> _chunkEvent;
     async::event_task<ModelDescriptorPtr> _errorEvent;

@@ -70,8 +70,7 @@ public:
 
 public:
     //! \brief  Default constructor
-    ObjFileMtlImporter(std::vector<char> &buffer, const std::string &strAbsPath,
-                       ObjFile::Model *pModel);
+    ObjFileMtlImporter(std::vector<char> &buffer, const std::string &strAbsPath, ObjFile::Model *pModel);
 
     //! \brief  DEstructor
     ~ObjFileMtlImporter();

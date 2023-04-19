@@ -1,4 +1,4 @@
-/* Copyright (c) 2015-2016, EPFL/Blue Brain Project
+/* Copyright (c) 2015-2023, EPFL/Blue Brain Project
  * All rights reserved. Do not distribute without permission.
  * Responsible Author: Cyrille Favreau <cyrille.favreau@epfl.ch>
  *
@@ -39,14 +39,11 @@ public:
     std::string getName() const final;
     PropertyMap getProperties() const final;
 
-    bool isSupported(const std::string& filename,
-                     const std::string& extension) const final;
-    ModelDescriptorPtr importFromFile(
-        const std::string& fileName, const LoaderProgress& callback,
-        const PropertyMap& properties) const final;
+    bool isSupported(const std::string& filename, const std::string& extension) const final;
+    ModelDescriptorPtr importFromFile(const std::string& fileName, const LoaderProgress& callback,
+                                      const PropertyMap& properties) const final;
 
-    ModelDescriptorPtr importFromBlob(Blob&&, const LoaderProgress&,
-                                      const PropertyMap&) const final
+    ModelDescriptorPtr importFromBlob(Blob&&, const LoaderProgress&, const PropertyMap&) const final
     {
         throw std::runtime_error("Loading from blob not supported");
     }

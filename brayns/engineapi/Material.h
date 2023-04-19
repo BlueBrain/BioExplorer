@@ -1,4 +1,4 @@
-/* Copyright (c) 2015-2016, EPFL/Blue Brain Project
+/* Copyright (c) 2015-2023, EPFL/Blue Brain Project
  * All rights reserved. Do not distribute without permission.
  * Responsible Author: Cyrille Favreau <cyrille.favreau@epfl.ch>
  *
@@ -46,63 +46,29 @@ public:
     BRAYNS_API Material(const PropertyMap& properties = {});
 
     BRAYNS_API const std::string& getName() const { return _name; }
-    BRAYNS_API void setName(const std::string& value)
-    {
-        _updateValue(_name, value);
-    }
-    BRAYNS_API void setDiffuseColor(const Vector3d& value)
-    {
-        _updateValue(_diffuseColor, value);
-    }
+    BRAYNS_API void setName(const std::string& value) { _updateValue(_name, value); }
+    BRAYNS_API void setDiffuseColor(const Vector3d& value) { _updateValue(_diffuseColor, value); }
     BRAYNS_API const Vector3d& getDiffuseColor() const { return _diffuseColor; }
-    BRAYNS_API void setSpecularColor(const Vector3d& value)
-    {
-        _updateValue(_specularColor, value);
-    }
-    BRAYNS_API const Vector3d& getSpecularColor() const
-    {
-        return _specularColor;
-    }
-    BRAYNS_API void setSpecularExponent(double value)
-    {
-        _updateValue(_specularExponent, value);
-    }
+    BRAYNS_API void setSpecularColor(const Vector3d& value) { _updateValue(_specularColor, value); }
+    BRAYNS_API const Vector3d& getSpecularColor() const { return _specularColor; }
+    BRAYNS_API void setSpecularExponent(double value) { _updateValue(_specularExponent, value); }
     BRAYNS_API double getSpecularExponent() const { return _specularExponent; }
-    BRAYNS_API void setReflectionIndex(double value)
-    {
-        _updateValue(_reflectionIndex, value);
-    }
+    BRAYNS_API void setReflectionIndex(double value) { _updateValue(_reflectionIndex, value); }
     BRAYNS_API double getReflectionIndex() const { return _reflectionIndex; }
     BRAYNS_API void setOpacity(double value) { _updateValue(_opacity, value); }
     BRAYNS_API double getOpacity() const { return _opacity; }
-    BRAYNS_API void setRefractionIndex(double value)
-    {
-        _updateValue(_refractionIndex, value);
-    }
+    BRAYNS_API void setRefractionIndex(double value) { _updateValue(_refractionIndex, value); }
     BRAYNS_API double getRefractionIndex() const { return _refractionIndex; }
-    BRAYNS_API void setEmission(double value)
-    {
-        _updateValue(_emission, value);
-    }
+    BRAYNS_API void setEmission(double value) { _updateValue(_emission, value); }
     BRAYNS_API double getEmission() const { return _emission; }
-    BRAYNS_API void setGlossiness(double value)
-    {
-        _updateValue(_glossiness, value);
-    }
+    BRAYNS_API void setGlossiness(double value) { _updateValue(_glossiness, value); }
     BRAYNS_API double getGlossiness() const { return _glossiness; }
-    BRAYNS_API const TextureDescriptors& getTextureDescriptors() const
-    {
-        return _textureDescriptors;
-    }
-    BRAYNS_API void setTexture(const std::string& fileName,
-                               const TextureType type);
+    BRAYNS_API const TextureDescriptors& getTextureDescriptors() const { return _textureDescriptors; }
+    BRAYNS_API void setTexture(const std::string& fileName, const TextureType type);
     BRAYNS_API void removeTexture(const TextureType type);
 
     BRAYNS_API Texture2DPtr getTexture(const TextureType type) const;
-    bool hasTexture(const TextureType type) const
-    {
-        return _textureDescriptors.count(type) > 0;
-    }
+    bool hasTexture(const TextureType type) const { return _textureDescriptors.count(type) > 0; }
     void clearTextures();
 
 protected:

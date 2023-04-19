@@ -1,4 +1,4 @@
-/* Copyright (c) 2015-2018, EPFL/Blue Brain Project
+/* Copyright (c) 2015-2023, EPFL/Blue Brain Project
  * All rights reserved. Do not distribute without permission.
  * Responsible Author: Daniel.Nachbaur <daniel.nachbaur@epfl.ch>
  *
@@ -27,8 +27,7 @@ namespace brayns
 {
 void LoaderRegistry::registerLoader(std::unique_ptr<Loader> loader)
 {
-    _loaderInfos.push_back({loader->getName(), loader->getSupportedExtensions(),
-                            loader->getProperties()});
+    _loaderInfos.push_back({loader->getName(), loader->getSupportedExtensions(), loader->getProperties()});
     _loaders.push_back(std::move(loader));
 }
 
@@ -61,15 +60,13 @@ bool LoaderRegistry::isSupportedType(const std::string& type) const
     return false;
 }
 
-const Loader& LoaderRegistry::getSuitableLoader(
-    const std::string& filename, const std::string& filetype,
-    const std::string& loaderName) const
+const Loader& LoaderRegistry::getSuitableLoader(const std::string& filename, const std::string& filetype,
+                                                const std::string& loaderName) const
 {
     if (fs::is_directory(filename))
         throw std::runtime_error("'" + filename + "' is a directory");
 
-    const auto extension =
-        filetype.empty() ? extractExtension(filename) : filetype;
+    const auto extension = filetype.empty() ? extractExtension(filename) : filetype;
 
     // If we have an archive we always use the archive loader even if a specific
     // loader is specified
@@ -83,16 +80,14 @@ const Loader& LoaderRegistry::getSuitableLoader(
             if (loader->getName() == loaderName)
                 return *loader.get();
 
-        throw std::runtime_error("No loader found with name '" + loaderName +
-                                 "'");
+        throw std::runtime_error("No loader found with name '" + loaderName + "'");
     }
 
     for (const auto& loader : _loaders)
         if (loader->isSupported(filename, extension))
             return *loader;
 
-    throw std::runtime_error("No loader found for filename '" + filename +
-                             "' and filetype '" + filetype + "'");
+    throw std::runtime_error("No loader found for filename '" + filename + "' and filetype '" + filetype + "'");
 }
 
 void LoaderRegistry::clear()
@@ -107,8 +102,7 @@ void LoaderRegistry::registerArchiveLoader(std::unique_ptr<Loader> loader)
     _archiveLoader = std::move(loader);
 }
 
-bool LoaderRegistry::_archiveSupported(const std::string& filename,
-                                       const std::string& filetype) const
+bool LoaderRegistry::_archiveSupported(const std::string& filename, const std::string& filetype) const
 {
     return _archiveLoader && _archiveLoader->isSupported(filename, filetype);
 }

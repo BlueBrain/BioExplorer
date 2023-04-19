@@ -1,4 +1,4 @@
-/* Copyright (c) 2015-2018, EPFL/Blue Brain Project
+/* Copyright (c) 2015-2023, EPFL/Blue Brain Project
  * All rights reserved. Do not distribute without permission.
  * Author: Jafet Villafranca Diaz <jafet.villafrancadiaz@epfl.ch>
  *
@@ -51,10 +51,8 @@ struct Cones
 
 unmasked void Cones_bounds(const RTCBoundsFunctionArguments* uniform args)
 {
-    const uniform Cones* uniform self =
-        (uniform Cones * uniform) args->geometryUserPtr;
-    const uniform Cone* uniform conePtr =
-        safeIncrement(self->useSafeIncrement, self->data, args->primID);
+    const uniform Cones* uniform self = (uniform Cones * uniform) args->geometryUserPtr;
+    const uniform Cone* uniform conePtr = safeIncrement(self->useSafeIncrement, self->data, args->primID);
 
     uniform float extent = conePtr->centerRadius;
     const uniform float upRadius = conePtr->upRadius;
@@ -66,19 +64,15 @@ unmasked void Cones_bounds(const RTCBoundsFunctionArguments* uniform args)
     const uniform vec3f v1 = conePtr->up;
 
     box3fa* uniform bbox = (box3fa * uniform) args->bounds_o;
-    *bbox = make_box3fa(min(v0, v1) - make_vec3f(extent),
-                        max(v0, v1) + make_vec3f(extent));
+    *bbox = make_box3fa(min(v0, v1) - make_vec3f(extent), max(v0, v1) + make_vec3f(extent));
 }
 
-unmasked void Cones_intersect(
-    const RTCIntersectFunctionNArguments* uniform args)
+unmasked void Cones_intersect(const RTCIntersectFunctionNArguments* uniform args)
 {
-    const uniform Cones* uniform self =
-        (uniform Cones * uniform) args->geometryUserPtr;
+    const uniform Cones* uniform self = (uniform Cones * uniform) args->geometryUserPtr;
     const uniform int primID = args->primID;
 
-    const uniform Cone* uniform conePtr =
-        safeIncrement(self->useSafeIncrement, self->data, primID);
+    const uniform Cone* uniform conePtr = safeIncrement(self->useSafeIncrement, self->data, primID);
 
     uniform float radius0 = conePtr->centerRadius;
     uniform float radius1 = conePtr->upRadius;
@@ -207,10 +201,8 @@ unmasked void Cones_intersect(
     return;
 }
 
-static void Cones_postIntersect(uniform Geometry* uniform geometry,
-                                uniform Model* uniform model,
-                                varying DifferentialGeometry& dg,
-                                const varying Ray& ray, uniform int64 flags)
+static void Cones_postIntersect(uniform Geometry* uniform geometry, uniform Model* uniform model,
+                                varying DifferentialGeometry& dg, const varying Ray& ray, uniform int64 flags)
 {
     uniform Cones* uniform this = (uniform Cones * uniform) geometry;
     dg.geometry = geometry;
@@ -236,19 +228,16 @@ static void Cones_postIntersect(uniform Geometry* uniform geometry,
 export void* uniform Cones_create(void* uniform cppEquivalent)
 {
     uniform Cones* uniform geom = uniform new uniform Cones;
-    Geometry_Constructor(&geom->super, cppEquivalent, Cones_postIntersect, NULL,
-                         NULL, 0, NULL);
+    Geometry_Constructor(&geom->super, cppEquivalent, Cones_postIntersect, NULL, NULL, 0, NULL);
     return geom;
 }
 
-export void ConesGeometry_set(void* uniform _self, void* uniform _model,
-                              void* uniform data, int uniform numPrimitives)
+export void ConesGeometry_set(void* uniform _self, void* uniform _model, void* uniform data, int uniform numPrimitives)
 {
     uniform Cones* uniform self = (uniform Cones * uniform) _self;
     uniform Model* uniform model = (uniform Model * uniform) _model;
 
-    RTCGeometry geom =
-        rtcNewGeometry(ispc_embreeDevice(), RTC_GEOMETRY_TYPE_USER);
+    RTCGeometry geom = rtcNewGeometry(ispc_embreeDevice(), RTC_GEOMETRY_TYPE_USER);
     uniform uint32 geomID = rtcAttachGeometry(model->embreeSceneHandle, geom);
 
     self->super.model = model;
@@ -259,12 +248,9 @@ export void ConesGeometry_set(void* uniform _self, void* uniform _model,
 
     rtcSetGeometryUserData(geom, self);
     rtcSetGeometryUserPrimitiveCount(geom, numPrimitives);
-    rtcSetGeometryBoundsFunction(geom, (uniform RTCBoundsFunction)&Cones_bounds,
-                                 self);
-    rtcSetGeometryIntersectFunction(
-        geom, (uniform RTCIntersectFunctionN)&Cones_intersect);
-    rtcSetGeometryOccludedFunction(
-        geom, (uniform RTCOccludedFunctionN)&Cones_intersect);
+    rtcSetGeometryBoundsFunction(geom, (uniform RTCBoundsFunction)&Cones_bounds, self);
+    rtcSetGeometryIntersectFunction(geom, (uniform RTCIntersectFunctionN)&Cones_intersect);
+    rtcSetGeometryOccludedFunction(geom, (uniform RTCOccludedFunctionN)&Cones_intersect);
     rtcCommitGeometry(geom);
     rtcReleaseGeometry(geom);
 }

@@ -1,4 +1,4 @@
-/* Copyright (c) 2015-2016, EPFL/Blue Brain Project
+/* Copyright (c) 2015-2023, EPFL/Blue Brain Project
  * All rights reserved. Do not distribute without permission.
  * Responsible Author: Cyrille Favreau <cyrille.favreau@epfl.ch>
  *
@@ -50,10 +50,7 @@ public:
      * underlying renderer
      */
     MemoryMode getMemoryMode() const { return _memoryMode; };
-    const std::set<BVHFlag>& getDefaultBVHFlags() const
-    {
-        return _defaultBVHFlags;
-    }
+    const std::set<BVHFlag>& getDefaultBVHFlags() const { return _defaultBVHFlags; }
 
 protected:
     void parse(const po::variables_map& vm) final;

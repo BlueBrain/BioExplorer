@@ -101,8 +101,7 @@ AI_FORCE_INLINE bool IsSpace(char_t in)
 template <class char_t>
 AI_FORCE_INLINE bool IsLineEnd(char_t in)
 {
-    return (in == (char_t)'\r' || in == (char_t)'\n' || in == (char_t)'\0' ||
-            in == (char_t)'\f');
+    return (in == (char_t)'\r' || in == (char_t)'\n' || in == (char_t)'\0' || in == (char_t)'\f');
 }
 
 // ---------------------------------------------------------------------------------
@@ -160,8 +159,7 @@ AI_FORCE_INLINE bool SkipLine(const char_t** inout)
 template <class char_t>
 AI_FORCE_INLINE bool SkipSpacesAndLineEnd(const char_t* in, const char_t** out)
 {
-    while (*in == (char_t)' ' || *in == (char_t)'\t' || *in == (char_t)'\r' ||
-           *in == (char_t)'\n')
+    while (*in == (char_t)' ' || *in == (char_t)'\t' || *in == (char_t)'\r' || *in == (char_t)'\n')
     {
         ++in;
     }
@@ -210,8 +208,7 @@ AI_FORCE_INLINE bool IsNumeric(char_t in)
 
 // ---------------------------------------------------------------------------------
 template <class char_t>
-AI_FORCE_INLINE bool TokenMatch(char_t*& in, const char* token,
-                                unsigned int len)
+AI_FORCE_INLINE bool TokenMatch(char_t*& in, const char* token, unsigned int len)
 {
     if (!::strncmp(token, in, len) && IsSpaceOrNewLine(in[len]))
     {
@@ -235,8 +232,7 @@ AI_FORCE_INLINE bool TokenMatch(char_t*& in, const char* token,
  *  @param token Token to check for
  *  @param len Number of characters to check
  */
-AI_FORCE_INLINE bool TokenMatchI(const char*& in, const char* token,
-                                 unsigned int len)
+AI_FORCE_INLINE bool TokenMatchI(const char*& in, const char* token, unsigned int len)
 {
     if (!ASSIMP_strincmp(token, in, len) && IsSpaceOrNewLine(in[len]))
     {

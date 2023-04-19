@@ -1,4 +1,4 @@
-/* Copyright (c) 2015-2016, EPFL/Blue Brain Project
+/* Copyright (c) 2015-2023, EPFL/Blue Brain Project
  * All rights reserved. Do not distribute without permission.
  * Responsible Author: Cyrille Favreau <cyrille.favreau@epfl.ch>
  *
@@ -35,10 +35,9 @@ const std::array<std::string, 5> COLOR_SCHEMES = {
 
 const std::string GEOMETRY_QUALITIES[3] = {"low", "medium", "high"};
 const std::string GEOMETRY_MEMORY_MODES[2] = {"shared", "replicated"};
-const std::map<std::string, brayns::BVHFlag> BVH_TYPES = {
-    {"dynamic", brayns::BVHFlag::dynamic},
-    {"compact", brayns::BVHFlag::compact},
-    {"robust", brayns::BVHFlag::robust}};
+const std::map<std::string, brayns::BVHFlag> BVH_TYPES = {{"dynamic", brayns::BVHFlag::dynamic},
+                                                          {"compact", brayns::BVHFlag::compact},
+                                                          {"robust", brayns::BVHFlag::robust}};
 } // namespace
 
 namespace brayns
@@ -52,8 +51,7 @@ GeometryParameters::GeometryParameters()
          "Color scheme to be applied to the geometry "
          "[none|by-id|protein-atoms|protein-chains|protein-residues]")
         //
-        (PARAM_GEOMETRY_QUALITY.c_str(), po::value<std::string>(),
-         "Geometry rendering quality [low|medium|high]")
+        (PARAM_GEOMETRY_QUALITY.c_str(), po::value<std::string>(), "Geometry rendering quality [low|medium|high]")
         //
         (PARAM_RADIUS_MULTIPLIER.c_str(), po::value<float>(),
          "Radius multiplier for spheres, cones and cylinders [float]")
@@ -62,8 +60,7 @@ GeometryParameters::GeometryParameters()
          "Defines what memory mode should be used between Brayns and "
          "the underlying renderer [shared|replicated]")
         //
-        (PARAM_DEFAULT_BVH_FLAG.c_str(),
-         po::value<std::vector<std::string>>()->multitoken(),
+        (PARAM_DEFAULT_BVH_FLAG.c_str(), po::value<std::vector<std::string>>()->multitoken(),
          "Set a default flag to apply to BVH creation, one of "
          "[dynamic|compact|robust], may appear multiple times.");
 }
@@ -76,8 +73,7 @@ void GeometryParameters::parse(const po::variables_map& vm)
         const auto& colorScheme = vm[PARAM_COLOR_SCHEME].as<std::string>();
         if (!colorScheme.empty())
         {
-            auto it = std::find(COLOR_SCHEMES.begin(), COLOR_SCHEMES.end(),
-                                colorScheme);
+            auto it = std::find(COLOR_SCHEMES.begin(), COLOR_SCHEMES.end(), colorScheme);
             if (it == COLOR_SCHEMES.end())
                 throw po::error("No match for color scheme '" + colorScheme);
 
@@ -88,11 +84,8 @@ void GeometryParameters::parse(const po::variables_map& vm)
     if (vm.count(PARAM_GEOMETRY_QUALITY))
     {
         _geometryQuality = GeometryQuality::low;
-        const auto& geometryQuality =
-            vm[PARAM_GEOMETRY_QUALITY].as<std::string>();
-        for (size_t i = 0;
-             i < sizeof(GEOMETRY_QUALITIES) / sizeof(GEOMETRY_QUALITIES[0]);
-             ++i)
+        const auto& geometryQuality = vm[PARAM_GEOMETRY_QUALITY].as<std::string>();
+        for (size_t i = 0; i < sizeof(GEOMETRY_QUALITIES) / sizeof(GEOMETRY_QUALITIES[0]); ++i)
             if (geometryQuality == GEOMETRY_QUALITIES[i])
                 _geometryQuality = static_cast<GeometryQuality>(i);
     }
@@ -101,16 +94,13 @@ void GeometryParameters::parse(const po::variables_map& vm)
     if (vm.count(PARAM_MEMORY_MODE))
     {
         const auto& memoryMode = vm[PARAM_MEMORY_MODE].as<std::string>();
-        for (size_t i = 0; i < sizeof(GEOMETRY_MEMORY_MODES) /
-                                   sizeof(GEOMETRY_MEMORY_MODES[0]);
-             ++i)
+        for (size_t i = 0; i < sizeof(GEOMETRY_MEMORY_MODES) / sizeof(GEOMETRY_MEMORY_MODES[0]); ++i)
             if (memoryMode == GEOMETRY_MEMORY_MODES[i])
                 _memoryMode = static_cast<MemoryMode>(i);
     }
     if (vm.count(PARAM_DEFAULT_BVH_FLAG))
     {
-        const auto& bvhs =
-            vm[PARAM_DEFAULT_BVH_FLAG].as<std::vector<std::string>>();
+        const auto& bvhs = vm[PARAM_DEFAULT_BVH_FLAG].as<std::vector<std::string>>();
         for (const auto& bvh : bvhs)
         {
             const auto kv = BVH_TYPES.find(bvh);
@@ -127,16 +117,9 @@ void GeometryParameters::parse(const po::variables_map& vm)
 void GeometryParameters::print()
 {
     AbstractParameters::print();
-    BRAYNS_INFO << "Color scheme               : "
-                << COLOR_SCHEMES[static_cast<size_t>(_colorScheme)]
-                << std::endl;
-    BRAYNS_INFO << "Geometry quality           : "
-                << GEOMETRY_QUALITIES[static_cast<size_t>(_geometryQuality)]
-                << std::endl;
-    BRAYNS_INFO << "Radius multiplier          : " << _radiusMultiplier
-                << std::endl;
-    BRAYNS_INFO << "Memory mode                : "
-                << (_memoryMode == MemoryMode::shared ? "Shared" : "Replicated")
-                << std::endl;
+    BRAYNS_INFO("Color scheme               : " << COLOR_SCHEMES[static_cast<size_t>(_colorScheme)]);
+    BRAYNS_INFO("Geometry quality           : " << GEOMETRY_QUALITIES[static_cast<size_t>(_geometryQuality)]);
+    BRAYNS_INFO("Radius multiplier          : " << _radiusMultiplier);
+    BRAYNS_INFO("Memory mode                : " << (_memoryMode == MemoryMode::shared ? "Shared" : "Replicated"));
 }
 } // namespace brayns

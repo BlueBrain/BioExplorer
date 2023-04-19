@@ -1,4 +1,4 @@
-/* Copyright (c) 2018, EPFL/Blue Brain Project
+/* Copyright (c) 2018-2023, EPFL/Blue Brain Project
  * All rights reserved. Do not distribute without permission.
  *
  * This file is part of Brayns <https://github.com/BlueBrain/Brayns>
@@ -83,8 +83,7 @@ PropertyMap getCylindricStereoProperties()
     return properties;
 }
 
-PropertyMap getCylindricStereoTrackedProperties(
-    const OpenDeckParameters& params)
+PropertyMap getCylindricStereoTrackedProperties(const OpenDeckParameters& params)
 {
     PropertyMap properties;
     properties.setProperty(getHeadPositionProperty());
@@ -99,8 +98,7 @@ PropertyMap getCylindricStereoTrackedProperties(
 OpenDeckPlugin::OpenDeckPlugin(OpenDeckParameters&& params)
     : _params(std::move(params))
 {
-    if (_params.getResolutionScaling() > 1.0f ||
-        _params.getResolutionScaling() <= 0.0f)
+    if (_params.getResolutionScaling() > 1.0f || _params.getResolutionScaling() <= 0.0f)
     {
         throw std::runtime_error(
             "The scale of the native OpenDeck resolution cannot be bigger "
@@ -109,8 +107,8 @@ OpenDeckPlugin::OpenDeckPlugin(OpenDeckParameters&& params)
     if (_params.getCameraScaling() <= 0.0)
         throw std::runtime_error("The camera scale cannot be zero or negative");
 
-    _wallRes = Vector2ui(openDeckWallResX * _params.getResolutionScaling(),
-                         openDeckWallResY * _params.getResolutionScaling());
+    _wallRes =
+        Vector2ui(openDeckWallResX * _params.getResolutionScaling(), openDeckWallResY * _params.getResolutionScaling());
     _floorRes = Vector2ui(openDeckFloorResX * _params.getResolutionScaling(),
                           openDeckFloorResY * _params.getResolutionScaling());
 }
@@ -121,26 +119,19 @@ void OpenDeckPlugin::init()
 #ifdef BRAYNS_USE_OSPRAY
     engine.addCameraType("cylindric");
     engine.addCameraType("cylindricStereo", getCylindricStereoProperties());
-    engine.addCameraType("cylindricStereoTracked",
-                         getCylindricStereoTrackedProperties(_params));
+    engine.addCameraType("cylindricStereoTracked", getCylindricStereoTrackedProperties(_params));
 #endif
-    FrameBufferPtr frameBuffer =
-        engine.createFrameBuffer(leftWallBufferName, _wallRes,
-                                 FrameBufferFormat::rgba_i8);
+    FrameBufferPtr frameBuffer = engine.createFrameBuffer(leftWallBufferName, _wallRes, FrameBufferFormat::rgba_i8);
     engine.addFrameBuffer(frameBuffer);
-    frameBuffer = engine.createFrameBuffer(rightWallBufferName, _wallRes,
-                                           FrameBufferFormat::rgba_i8);
+    frameBuffer = engine.createFrameBuffer(rightWallBufferName, _wallRes, FrameBufferFormat::rgba_i8);
     engine.addFrameBuffer(frameBuffer);
-    frameBuffer = engine.createFrameBuffer(leftFloorBufferName, _floorRes,
-                                           FrameBufferFormat::rgba_i8);
+    frameBuffer = engine.createFrameBuffer(leftFloorBufferName, _floorRes, FrameBufferFormat::rgba_i8);
     engine.addFrameBuffer(frameBuffer);
-    frameBuffer = engine.createFrameBuffer(rightFloorBufferName, _floorRes,
-                                           FrameBufferFormat::rgba_i8);
+    frameBuffer = engine.createFrameBuffer(rightFloorBufferName, _floorRes, FrameBufferFormat::rgba_i8);
     engine.addFrameBuffer(frameBuffer);
 }
 
-extern "C" brayns::ExtensionPlugin* brayns_plugin_create(const int argc,
-                                                         const char** argv)
+extern "C" brayns::ExtensionPlugin* brayns_plugin_create(const int argc, const char** argv)
 {
     brayns::OpenDeckParameters params;
     if (!params.getPropertyMap().parse(argc, argv))
