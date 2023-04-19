@@ -16,7 +16,7 @@
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
 
-#include "AdvancedSimulation.h"
+#include "BioExplorer.h"
 #include "TransferFunction.h"
 
 #include <optix.h>
@@ -34,7 +34,9 @@ rtDeclareVariable(float3, Ks, , );
 rtDeclareVariable(float3, Kr, , );
 rtDeclareVariable(float3, Ko, , );
 rtDeclareVariable(float, glossiness, , );
+rtDeclareVariable(float, shading_mode, , );
 rtDeclareVariable(float, refraction_index, , );
+rtDeclareVariable(float, reflection_index, , );
 rtDeclareVariable(float, phong_exp, , );
 
 rtDeclareVariable(float3, geometric_normal, attribute geometric_normal, );
@@ -75,7 +77,7 @@ static __device__ inline void shade(bool textured)
         p_Kd = make_float3(
             optix::rtTex2D<float4>(albedoMetallic_map, texcoord.x, texcoord.y));
 
-    phongShade(p_Kd, Ka, Ks, Kr, Ko, refraction_index, phong_exp, glossiness,
+    phongShade(p_Kd, Ka, Ks, Kr, Ko, reflection_index, refraction_index, phong_exp, glossiness,
                ffnormal);
 }
 

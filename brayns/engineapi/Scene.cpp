@@ -359,9 +359,10 @@ void Scene::buildDefault()
     for (size_t materialId = 0; materialId < 10; ++materialId)
     {
         auto material = model->createMaterial(materialId, "Material");
-        material->setOpacity(0.2f);
+        // material->setOpacity(0.5f);
+        material->setOpacity(0.75f);
         material->setRefractionIndex(1.5f);
-        material->setReflectionIndex(0.1f);
+        material->setReflectionIndex(0.5f);
         // material->setDiffuseColor(
         //     {rand() % 100 / 100.f, rand() % 100 / 100.f, rand() % 100 /
         //     100.f});

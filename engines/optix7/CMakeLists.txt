@@ -54,8 +54,6 @@ set(BRAYNSOPTIX7ENGINE_CU
   # cuda/geometry/TriangleMesh.cu
   # cuda/renderer/AdvancedSimulation.cu
   # cuda/renderer/BasicSimulation.cu
-  # cuda/renderer/PBR.cu
-  # cuda/renderer/BBP.cu
   cuda/renderer/Material.cu
 )
 

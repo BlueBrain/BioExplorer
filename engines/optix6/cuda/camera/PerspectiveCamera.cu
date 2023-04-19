@@ -105,6 +105,7 @@ __device__ float3 launch(unsigned int& seed, const float2 screen,
     float far = INFINITY;
 
     getClippingValues(ray_origin, ray_direction, near, far);
+    
     optix::Ray ray(ray_origin, ray_direction, radiance_ray_type, near, far);
 
     rtTrace(top_object, ray, prd);
