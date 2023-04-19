@@ -80,9 +80,7 @@ Octree::Octree(const floats &events, double voxelSize, const glm::vec3 &minAABB,
             {
                 bool newNode = false;
                 const uint64_t divisor = std::pow(2, level);
-                const glm::vec3 center(divisor * (xpos / divisor + 0.5f),
-                                       divisor * (ypos / divisor + 0.5f),
-                                       divisor * (zpos / divisor + 0.5f));
+                const glm::vec3 center(xpos, ypos, zpos);
 
                 const uint64_t nBlock = _octreeSize / divisor;
                 const uint64_t index =
