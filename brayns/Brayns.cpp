@@ -56,6 +56,7 @@
 
 #include <brayns/pluginapi/Plugin.h>
 
+#include <mutex>
 #include <thread>
 
 namespace
@@ -343,7 +344,8 @@ private:
 
                 BRAYNS_INFO("Loading '" << path << "'");
 
-                auto progress = [&](const std::string& msg, float t) {
+                auto progress = [&](const std::string& msg, float t)
+                {
                     constexpr auto MIN_SECS = 5;
                     constexpr auto MIN_PERCENTAGE = 10;
 
@@ -422,12 +424,12 @@ private:
                                                   std::bind(&Brayns::Impl::_increaseAnimationFrame, this));
         _keyboardHandler.registerKeyboardShortcut('e', "Enable eletron shading",
                                                   std::bind(&Brayns::Impl::_electronShading, this));
-        _keyboardHandler.registerKeyboardShortcut('f', "Enable fly mode", [this]() {
-            Brayns::Impl::_setupCameraManipulator(CameraMode::flying);
-        });
-        _keyboardHandler.registerKeyboardShortcut('i', "Enable inspect mode", [this]() {
-            Brayns::Impl::_setupCameraManipulator(CameraMode::inspect);
-        });
+        _keyboardHandler.registerKeyboardShortcut('f', "Enable fly mode",
+                                                  [this]()
+                                                  { Brayns::Impl::_setupCameraManipulator(CameraMode::flying); });
+        _keyboardHandler.registerKeyboardShortcut('i', "Enable inspect mode",
+                                                  [this]()
+                                                  { Brayns::Impl::_setupCameraManipulator(CameraMode::inspect); });
         _keyboardHandler.registerKeyboardShortcut('o', "Decrease ambient occlusion strength",
                                                   std::bind(&Brayns::Impl::_decreaseAmbientOcclusionStrength, this));
         _keyboardHandler.registerKeyboardShortcut('O', "Increase ambient occlusion strength",
@@ -466,10 +468,12 @@ private:
                                                   std::bind(&Brayns::Impl::_decreaseMotionSpeed, this));
         _keyboardHandler.registerKeyboardShortcut('c', "Display current camera information",
                                                   std::bind(&Brayns::Impl::_displayCameraInformation, this));
-        _keyboardHandler.registerKeyboardShortcut('b', "Toggle benchmarking", [this]() {
-            auto& ap = _parametersManager.getApplicationParameters();
-            ap.setBenchmarking(!ap.isBenchmarking());
-        });
+        _keyboardHandler.registerKeyboardShortcut('b', "Toggle benchmarking",
+                                                  [this]()
+                                                  {
+                                                      auto& ap = _parametersManager.getApplicationParameters();
+                                                      ap.setBenchmarking(!ap.isBenchmarking());
+                                                  });
     }
 
     void _blackBackground()
