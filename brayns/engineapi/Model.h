@@ -257,6 +257,14 @@ public:
         Returns the bounds for the Model
     */
     const Boxd& getBounds() const { return _bounds; }
+
+    /**
+     * @brief Merges model bounds with the given bounds
+     *
+     * @param bounds Bounds to merge
+     */
+    void mergeBounds(const Boxd& bounds) { _bounds.merge(bounds); }
+
     /**
         Returns spheres handled by the Model
     */

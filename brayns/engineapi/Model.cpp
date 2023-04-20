@@ -151,6 +151,7 @@ void ModelDescriptor::computeBounds()
     _bounds.reset();
     if (!_model)
         return;
+
     for (const auto& instance : getInstances())
     {
         if (!instance.getVisible())
