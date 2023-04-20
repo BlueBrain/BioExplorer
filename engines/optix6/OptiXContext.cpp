@@ -20,6 +20,7 @@
 
 #include "OptiXContext.h"
 #include "Logs.h"
+#include "OptiXTypes.h"
 
 #include <engines/optix6/braynsOptix6Engine_generated_Cones.cu.ptx.h>
 #include <engines/optix6/braynsOptix6Engine_generated_Cylinders.cu.ptx.h>
@@ -109,10 +110,6 @@ RTwrapmode wrapModeToOptix(const brayns::TextureWrapMode mode)
         if (code != RT_SUCCESS)                                                               \
             throw std::runtime_error("Optix error in function '" + std::string(#func) + "'"); \
     } while (0)
-
-constexpr size_t OPTIX_STACK_SIZE = 4096;
-constexpr size_t OPTIX_RAY_TYPE_COUNT = 2;
-constexpr size_t OPTIX_ENTRY_POINT_COUNT = 1;
 
 namespace brayns
 {

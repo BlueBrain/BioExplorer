@@ -55,6 +55,7 @@ set(BRAYNSCOMMON_PUBLIC_HEADERS
   tasks/TaskFunctor.h
   tasks/TaskRuntimeError.h
   transferFunction/TransferFunction.h
+  CommonTypes.h
   types.h
   utils/enumUtils.h
   utils/imageUtils.h

@@ -18,17 +18,21 @@
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
 
-#pragma once
+#ifndef COMMONTYPES_H
+#define COMMONTYPES_H
 
-namespace brayns
+enum MaterialShadingMode
 {
-class OptiXCamera;
-using OptiXCameraPtr = std::shared_ptr<OptiXCamera>;
+    undefined_shading_mode = 0,
+    basic = 1,
+    diffuse = 2,
+    electron = 3,
+    cartoon = 4,
+    electron_transparency = 5,
+    perlin = 6,
+    diffuse_transparency = 7,
+    checker = 8,
+    goodsell = 9
+};
 
-constexpr size_t OPTIX_STACK_SIZE = 4096;
-constexpr size_t OPTIX_RAY_TYPE_COUNT = 2;
-constexpr size_t OPTIX_ENTRY_POINT_COUNT = 1;
-
-constexpr float EPSILON = 1e-2f;
-
-} // namespace brayns
+#endif
