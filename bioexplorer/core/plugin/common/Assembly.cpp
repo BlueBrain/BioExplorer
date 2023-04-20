@@ -169,6 +169,15 @@ Assembly::~Assembly()
                                           << _details.name << "]");
         _scene.removeModel(modelId);
     }
+    if (_synapseEfficacy)
+    {
+        const auto modelId =
+            _synapseEfficacy->getModelDescriptor()->getModelID();
+        PLUGIN_INFO(3, "Removing synapse efficacy ["
+                           << modelId << "] from assembly [" << _details.name
+                           << "]");
+        _scene.removeModel(modelId);
+    }
     _modelDescriptors.clear();
 }
 

@@ -147,6 +147,7 @@ private:
     SDFMorphologyData _sdfMorphologyData;
     StreamlinesDataMap _streamlinesMap;
     MaterialSet _materialIds;
+    Boxd _bounds;
 
     Model& _model;
     Vector3d _scale{1.0, 1.0, 1.0};
