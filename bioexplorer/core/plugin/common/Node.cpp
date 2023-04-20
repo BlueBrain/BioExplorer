@@ -48,9 +48,6 @@ void Node::_setMaterialExtraAttributes()
     for (auto& material : materials)
     {
         brayns::PropertyMap props;
-        props.setProperty({MATERIAL_PROPERTY_SHADING_MODE,
-                           static_cast<int>(MaterialShadingMode::basic)});
-        props.setProperty({MATERIAL_PROPERTY_USER_PARAMETER, 1.0});
         props.setProperty({MATERIAL_PROPERTY_CHAMELEON_MODE,
                            static_cast<int>(MaterialChameleonMode::receiver)});
         props.setProperty({MATERIAL_PROPERTY_NODE_ID, static_cast<int>(_uuid)});

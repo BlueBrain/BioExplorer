@@ -210,9 +210,9 @@ void ThreadSafeContainer::_commitMaterials()
         material->setDiffuseColor(color);
         material->setSpecularColor(color);
         material->setSpecularExponent(100.f);
+        material->setShadingMode(MaterialShadingMode::undefined_shading_mode);
+        material->setUserParameter(1.f);
         PropertyMap props;
-        props.setProperty({MATERIAL_PROPERTY_SHADING_MODE, 0});
-        props.setProperty({MATERIAL_PROPERTY_USER_PARAMETER, 1.0});
         props.setProperty({MATERIAL_PROPERTY_CHAMELEON_MODE, 0});
         props.setProperty({MATERIAL_PROPERTY_CAST_USER_DATA, false});
         props.setProperty({MATERIAL_PROPERTY_NODE_ID, 0});

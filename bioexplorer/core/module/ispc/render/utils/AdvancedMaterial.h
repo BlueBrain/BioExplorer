@@ -22,6 +22,8 @@
 
 #include <plugin/common/CommonTypes.h>
 
+#include <brayns/common/CommonTypes.h>
+
 #include <ospray/SDK/common/Material.h>
 #include <ospray/SDK/texture/Texture2D.h>
 
@@ -78,7 +80,7 @@ struct AdvancedMaterial : public Material
     affine2f xform_Bump;
     linear2f rot_Bump;
 
-    /*! Shading mode (none, diffuse, electron, etc) */
+    /*! Shading mode */
     MaterialShadingMode shadingMode;
 
     /*! User parameter */
