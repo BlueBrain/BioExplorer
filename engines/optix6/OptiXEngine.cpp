@@ -18,10 +18,8 @@
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
 
-#include <engines/optix6/braynsOptix6Engine_generated_AdvancedSimulation.cu.ptx.h>
-#include <engines/optix6/braynsOptix6Engine_generated_BBP.cu.ptx.h>
-#include <engines/optix6/braynsOptix6Engine_generated_BasicSimulation.cu.ptx.h>
-#include <engines/optix6/braynsOptix6Engine_generated_PBR.cu.ptx.h>
+#include <engines/optix6/braynsOptix6Engine_generated_Basic.cu.ptx.h>
+#include <engines/optix6/braynsOptix6Engine_generated_BioExplorer.cu.ptx.h>
 
 #include <brayns/common/input/KeyboardHandler.h>
 #include <brayns/parameters/ParametersManager.h>
@@ -126,7 +124,7 @@ void OptiXEngine::_createRenderers()
     _renderer->setScene(_scene);
 
     { // Advanced renderer
-        const std::string CUDA_ADVANCED_SIMULATION = braynsOptix6Engine_generated_AdvancedSimulation_cu_ptx;
+        const std::string CUDA_ADVANCED_SIMULATION = braynsOptix6Engine_generated_BioExplorer_cu_ptx;
 
         OptiXContext& context = OptiXContext::get();
 
@@ -144,21 +142,26 @@ void OptiXEngine::_createRenderers()
         context.getOptixContext()->setExceptionProgram(0, osp->exception_program);
         context.getOptixContext()["bad_color"]->setFloat(1.0f, 0.0f, 0.0f);
 
-        context.addRenderer("advanced_simulation", osp);
+        context.addRenderer("bio_explorer", osp);
 
         PropertyMap properties;
-        properties.setProperty({"shadingEnabled", true, {"Shading enabled"}});
-        properties.setProperty({"electronShadingEnabled", true, {"Electron shading enabled"}});
+        properties.setProperty({"epsilonFactor", 1.0, 1.0, 1000.0, {"Epsilon factor"}});
         properties.setProperty({"shadows", 0., 0., 1., {"Shadow strength"}});
         properties.setProperty({"softShadows", 0., 0., 1., {"Soft shadow strength"}});
-        properties.setProperty({"ambientOcclusionStrength", 0., 0., 1., {"Ambient occlusion strength"}});
-        properties.setProperty({"maxDepth", 3, 1, 20, {"Max ray recursion depth"}});
+        properties.setProperty({"softShadowsSamples", 1, 1, 64, {"Soft shadow samples"}});
+        properties.setProperty({"giDistance", 10000.0, {"Global illumination distance"}});
+        properties.setProperty({"giWeight", 0.0, 1.0, 1.0, {"Global illumination weight"}});
+        properties.setProperty({"giSamples", 0, 0, 64, {"Global illumination samples"}});
+        properties.setProperty({"maxBounces", 3, 1, 20, {"Max ray recursion depth"}});
+        properties.setProperty({"exposure", 1.0, 0.01, 10.0, {"Exposure"}});
+        properties.setProperty({"matrixFilter", false, {"Matrix filter"}});
+        properties.setProperty({"showBackground", false, {"Show background"}});
 
-        addRendererType("advanced_simulation", properties);
+        addRendererType("bio_explorer", properties);
     }
 
     { // Basic simulation / Basic renderer
-        const std::string CUDA_BASIC_SIMULATION_RENDERER = braynsOptix6Engine_generated_BasicSimulation_cu_ptx;
+        const std::string CUDA_BASIC_SIMULATION_RENDERER = braynsOptix6Engine_generated_Basic_cu_ptx;
         OptiXContext& context = OptiXContext::get();
 
         auto osp = std::make_shared<OptixShaderProgram>();
@@ -170,44 +173,11 @@ void OptiXEngine::_createRenderers()
         osp->any_hit =
             context.getOptixContext()->createProgramFromPTXString(CUDA_BASIC_SIMULATION_RENDERER, "any_hit_shadow");
 
-        context.addRenderer("basic_simulation", osp);
-        addRendererType("basic_simulation");
-
         context.addRenderer("basic", osp);
-        addRendererType("basic");
-    }
 
-    { // PBR renderer
-        const std::string CUDA_PBR = braynsOptix6Engine_generated_PBR_cu_ptx;
-
-        OptiXContext& context = OptiXContext::get();
-
-        auto osp = std::make_shared<OptixShaderProgram>();
-        osp->closest_hit = context.getOptixContext()->createProgramFromPTXString(CUDA_PBR, "closest_hit_radiance");
-        osp->closest_hit_textured =
-            context.getOptixContext()->createProgramFromPTXString(CUDA_PBR, "closest_hit_radiance");
-
-        osp->any_hit = context.getOptixContext()->createProgramFromPTXString(CUDA_PBR, "any_hit_shadow");
-
-        context.addRenderer("pbr", osp);
-
-        addRendererType("pbr");
-    }
-
-    { // BBP renderer
-        const std::string CUDA_BBP = braynsOptix6Engine_generated_BBP_cu_ptx;
-
-        OptiXContext& context = OptiXContext::get();
-
-        auto osp = std::make_shared<OptixShaderProgram>();
-        osp->closest_hit = context.getOptixContext()->createProgramFromPTXString(CUDA_BBP, "closest_hit_radiance");
-        osp->closest_hit_textured =
-            context.getOptixContext()->createProgramFromPTXString(CUDA_BBP, "closest_hit_radiance");
-        osp->any_hit = context.getOptixContext()->createProgramFromPTXString(CUDA_BBP, "any_hit_shadow");
-
-        context.addRenderer("bbp", osp);
-
-        addRendererType("bbp");
+        PropertyMap properties;
+        properties.setProperty({"exposure", 1.0, 0.01, 10.0, {"Exposure"}});
+        addRendererType("basic", properties);
     }
 }
 

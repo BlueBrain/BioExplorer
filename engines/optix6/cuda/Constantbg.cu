@@ -33,15 +33,21 @@ rtDeclareVariable(float3, bgColor, , );
 rtDeclareVariable(int, envmap, , );
 rtDeclareVariable(PerRayData_radiance, prd_radiance, rtPayload, );
 rtDeclareVariable(uint, use_envmap, , );
+rtDeclareVariable(uint, showBackground, , );
 
 RT_PROGRAM void envmap_miss()
 {
-    if (use_envmap)
+    if(showBackground)
     {
-        const float2 uv = getEquirectangularUV(ray.direction);
-        prd_radiance.result = linearToSRGB(
-            tonemap(make_float3(optix::rtTex2D<float4>(envmap, uv.x, uv.y))));
-        return;
+        if (use_envmap)
+        {
+            const float2 uv = getEquirectangularUV(ray.direction);
+            prd_radiance.result = linearToSRGB(
+                tonemap(make_float3(optix::rtTex2D<float4>(envmap, uv.x, uv.y))));
+            return;
+        }
+        prd_radiance.result = bgColor;
     }
-    prd_radiance.result = bgColor;
+    else
+        prd_radiance.result = make_float3(0.f);
 }

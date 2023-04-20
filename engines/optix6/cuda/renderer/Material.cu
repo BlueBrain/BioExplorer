@@ -19,12 +19,13 @@
 
 #include "../../CommonStructs.h"
 
+
 namespace brayns
 {
 #define float3_as_args(u)                        \
-    reinterpret_cast<unsigned int &>((u).x),     \
-        reinterpret_cast<unsigned int &>((u).y), \
-        reinterpret_cast<unsigned int &>((u).z)
+reinterpret_cast<unsigned int &>((u).x),     \
+    reinterpret_cast<unsigned int &>((u).y), \
+    reinterpret_cast<unsigned int &>((u).z)
 
 extern "C"
 {
@@ -125,7 +126,7 @@ static __device__ void phongShade(float3 p_Kd, float3 p_Ka, float3 p_Ks,
 
     // cast shadow ray
     float3 light_attenuation = make_float3(static_cast<float>(nDl > 0.0f));
-    if (nDl > 0.0f)
+    if (shadows>0.f && nDl > 0.f)
     {
         OcclusionPRD shadow_prd;
         shadow_prd.attenuation = make_float3(1.0f);

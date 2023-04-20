@@ -46,7 +46,7 @@ auto _toStdArray(const std::vector<T>& input)
 {
     if (input.size() != N)
         throw po::error("Not the correct number of args for property");
-    std::array<T, N> array;
+    std::array<T, N> array{};
     std::copy(input.begin(), input.end(), array.begin());
     return array;
 }
@@ -170,7 +170,8 @@ void _commandlineToPropertyMap(const po::variables_map& vm, PropertyMap& propert
 
 void Property::_copy(const Property& from)
 {
-    const auto setValue = [](Property& dest, const Property& src) {
+    const auto setValue = [](Property& dest, const Property& src)
+    {
         switch (dest.type)
         {
         case Property::Type::Int:
@@ -196,7 +197,8 @@ void Property::_copy(const Property& from)
         };
     };
 
-    const auto compatibleTypes = [](Property::Type t0, Property::Type t1) {
+    const auto compatibleTypes = [](Property::Type t0, Property::Type t1)
+    {
         return (t0 == Property::Type::Int && t1 == Property::Type::Double) ||
                (t0 == Property::Type::Double && t1 == Property::Type::Int) ||
                (t0 == Property::Type::Vec2i && t1 == Property::Type::Vec2d) ||
@@ -205,7 +207,8 @@ void Property::_copy(const Property& from)
                (t0 == Property::Type::Vec3d && t1 == Property::Type::Vec3i);
     };
 
-    const auto compatibleEnums = [](const Property& dest, const Property& src) {
+    const auto compatibleEnums = [](const Property& dest, const Property& src)
+    {
         // If we have a string to int or an int to string we can try to
         // match the enum value
         const bool compatible = (dest.type == Property::Type::Int && src.type == Property::Type::String) ||
@@ -222,7 +225,8 @@ void Property::_copy(const Property& from)
         return v >= 0 && v < static_cast<int32_t>(dest.enums.size());
     };
 
-    const auto setEnum = [](Property& dest, const Property& src) {
+    const auto setEnum = [](Property& dest, const Property& src)
+    {
         if (dest.type == Property::Type::Int)
         {
             const auto index =

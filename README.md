@@ -85,7 +85,10 @@ following tree structure:
 ```
 - src
   +- ispc-v1.10.0-linux
-  +- OSPRay
+  +- OptiX6 [Optional]
+  +- OptiX7 [Optional]
+  +- embree [Optional]
+  +- OSPRay [Optional]
   +- Brayns
 ```
 
@@ -120,6 +123,30 @@ Clone OSPRay in the same folder level as ISPC compiler
   make install
 ```
 
+#### OptiX 6.x
+
+Download OptiX from the [NVIDIA website](https://developer.nvidia.com/designworks/optix/download), 
+and extract the files to a folder named OptiX6, at the same folder level as Brayns.
+
+```
+  cmake .. \
+    -DCMAKE_INSTALL_PREFIX=<Brayns_installation_folder> -DBRAYNS_OPTIX6_ENABLED=ON \
+    -DOptiX6_INSTALL_DIR=<optix6_installation_folder>
+  make install
+```
+
+#### OptiX 7.x
+
+Download OptiX from the [NVIDIA website](https://developer.nvidia.com/designworks/optix/download), 
+and extract the files to a folder named OptiX7, at the same folder level as Brayns.
+
+```
+  cmake .. \
+    -DCMAKE_INSTALL_PREFIX=<Brayns_installation_folder> -DBRAYNS_OPTIX7_ENABLED=ON \
+    -DOptiX6_INSTALL_DIR=<optix7_installation_folder>
+  make install
+```
+
 ### Brayns
 
 ```
@@ -133,9 +160,14 @@ Clone OSPRay in the same folder level as ISPC compiler
 A number of dependencies are optional, and are related to some specific Brayns
 features:
 
-#### Enable/Disable [OptiX](https://developer.nvidia.com/optix)
+#### Enable/Disable [OptiX6](https://developer.nvidia.com/optix)
 ```
-cmake .. -DOptiX_INSTALL_DIR=<OptiX_installation_folder> -DBRAYNS_OPTIX_ENABLED=On
+cmake .. -DOptiX_INSTALL_DIR=<OptiX6_installation_folder> -DBRAYNS_OPTIX6_ENABLED=On
+```
+
+#### Enable/Disable [OptiX7](https://developer.nvidia.com/optix)
+```
+cmake .. -DOptiX_INSTALL_DIR=<OptiX7_installation_folder> -DBRAYNS_OPTIX7_ENABLED=On
 ```
 
 #### Enable/Disable [assimp](https://github.com/assimp/assimp) supported mesh file loader (.obj, .ply, etc.)
@@ -168,7 +200,6 @@ cmake .. -DBRAYNS_VRPN_ENABLED=ON:OFF
 
 #### Enable/Disable optional OSPRay modules.
 ```
-cmake .. -DBRAYNS_OPTIX_ENABLED=ON:OFF
 cmake .. -DBRAYNS_OPENDECK_ENABLED=ON:OFF
 ```
 
