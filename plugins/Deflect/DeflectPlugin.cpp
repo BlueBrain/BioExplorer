@@ -58,11 +58,13 @@ public:
         {
             const RpcParameterDescription desc{"stream", "Stream to a displaywall", Execution::sync, "param",
                                                "Stream parameters"};
-            ai->registerNotification(desc, _params.getPropertyMap(), [&](const PropertyMap& prop) {
-                _params.getPropertyMap().merge(prop);
-                _params.markModified();
-                _engine.triggerRender();
-            });
+            ai->registerNotification(desc, _params.getPropertyMap(),
+                                     [&](const PropertyMap& prop)
+                                     {
+                                         _params.getPropertyMap().merge(prop);
+                                         _params.markModified();
+                                         _engine.triggerRender();
+                                     });
         }
     }
 
@@ -116,7 +118,7 @@ private:
             if (_stream->registerForEvents())
                 _setupSocketListener();
             else
-                BRAYNS_ERROR << "Deflect failed to register for events!" << std::endl;
+                BRAYNS_ERROR("Deflect failed to register for events!");
 
             _params.setId(_stream->getId());
             _params.setHost(_stream->getHost());
@@ -137,18 +139,18 @@ private:
 
             _sendSizeHints();
 
-            BRAYNS_INFO << "Deflect successfully connected to Tide on host " << _stream->getHost() << std::endl;
+            BRAYNS_INFO("Deflect successfully connected to Tide on host " << _stream->getHost());
         }
         catch (const std::runtime_error& ex)
         {
-            BRAYNS_ERROR << "Deflect failed to initialize. " << ex.what() << std::endl;
+            BRAYNS_ERROR("Deflect failed to initialize. " << ex.what());
             _params.setEnabled(false);
         }
     }
 
     void _closeStream()
     {
-        BRAYNS_INFO << "Closing Deflect stream" << std::endl;
+        BRAYNS_INFO("Closing Deflect stream");
 
         _waitOnFutures();
         _lastImages.clear();
@@ -174,10 +176,12 @@ private:
 
         _pollHandle->start(uvw::PollHandle::Event::READABLE);
 
-        _stream->setDisconnectedCallback([&] {
-            _pollHandle->stop();
-            _pollHandle.reset();
-        });
+        _stream->setDisconnectedCallback(
+            [&]
+            {
+                _pollHandle->stop();
+                _pollHandle.reset();
+            });
 #endif
     }
 
@@ -287,10 +291,12 @@ private:
         if (error)
         {
             if (!_stream->isConnected())
-                BRAYNS_INFO << "Stream closed, exiting." << std::endl;
+            {
+                BRAYNS_INFO("Stream closed, exiting.");
+            }
             else
             {
-                BRAYNS_ERROR << "failure in _sendDeflectFrame()" << std::endl;
+                BRAYNS_ERROR("failure in _sendDeflectFrame()");
                 _params.setEnabled(false);
             }
             return;

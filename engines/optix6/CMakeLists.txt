@@ -29,6 +29,7 @@ set(BRAYNSOPTIX6ENGINE_OMIT_VERSION_HEADERS ON)
 
 set(BRAYNSOPTIX6ENGINE_CU
   cuda/camera/PerspectiveCamera.cu
+  cuda/camera/OrthographicCamera.cu
   cuda/camera/OpenDeckCamera.cu
   cuda/Constantbg.cu
   cuda/geometry/Cones.cu
@@ -53,6 +54,7 @@ set(BRAYNSOPTIX6ENGINE_SOURCES
   OptiXScene.cpp
   OptiXCamera.cpp
   OptiXPerspectiveCamera.cpp
+  OptiXOrthographicCamera.cpp
   OptiXOpenDeckCamera.cpp
   OptiXRenderer.cpp
   OptiXEngine.cpp
@@ -66,6 +68,7 @@ set_source_files_properties(
   OptiXScene.cpp
   OptiXCamera.cpp
   OptiXPerspectiveCamera.cpp
+  OptiXOrthographicCamera.cpp
   OptiXOpenDeckCamera.cpp
   OptiXRenderer.cpp
   OptiXEngine.cpp
@@ -82,6 +85,7 @@ set(BRAYNSOPTIX6ENGINE_HEADERS
   OptiXCamera.h
   OptiXCameraProgram.h
   OptiXOpenDeckCamera.h
+  OptiXOrthographicCamera.h
   OptiXPerspectiveCamera.h
   OptiXRenderer.h
   OptiXEngine.h

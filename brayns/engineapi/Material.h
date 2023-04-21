@@ -21,6 +21,7 @@
 #pragma once
 
 #include <brayns/api.h>
+#include <brayns/common/CommonTypes.h>
 #include <brayns/common/PropertyObject.h>
 #include <brayns/common/material/Texture2D.h>
 #include <brayns/common/mathTypes.h>
@@ -66,6 +67,10 @@ public:
     BRAYNS_API const TextureDescriptors& getTextureDescriptors() const { return _textureDescriptors; }
     BRAYNS_API void setTexture(const std::string& fileName, const TextureType type);
     BRAYNS_API void removeTexture(const TextureType type);
+    BRAYNS_API void setShadingMode(const MaterialShadingMode value) { _updateValue(_shadingMode, value); }
+    BRAYNS_API MaterialShadingMode getShadingMode() const { return _shadingMode; }
+    BRAYNS_API void setUserParameter(double value) { _updateValue(_userParameter, value); }
+    BRAYNS_API double getUserParameter() const { return _userParameter; }
 
     BRAYNS_API Texture2DPtr getTexture(const TextureType type) const;
     bool hasTexture(const TextureType type) const { return _textureDescriptors.count(type) > 0; }
@@ -83,8 +88,10 @@ protected:
     double _refractionIndex{1.};
     double _emission{0.};
     double _glossiness{1.};
+    double _userParameter{1.};
     TexturesMap _textures;
     TextureDescriptors _textureDescriptors;
+    MaterialShadingMode _shadingMode;
 
     SERIALIZATION_FRIEND(Material)
 };

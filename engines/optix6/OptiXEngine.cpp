@@ -29,6 +29,7 @@
 #include "OptiXEngine.h"
 #include "OptiXFrameBuffer.h"
 #include "OptiXOpenDeckCamera.h"
+#include "OptiXOrthographicCamera.h"
 #include "OptiXPerspectiveCamera.h"
 #include "OptiXRenderer.h"
 #include "OptiXScene.h"
@@ -88,23 +89,32 @@ void OptiXEngine::_createCameras()
 
     OptiXContext& context = OptiXContext::get();
 
-    auto camera = std::make_shared<OptiXPerspectiveCamera>();
-
-    PropertyMap properties;
-    properties.setProperty(fovy);
-    properties.setProperty(aspect);
-    properties.setProperty({"apertureRadius", 0., {"Aperture radius"}});
-    properties.setProperty({"focusDistance", 1., {"Focus Distance"}});
-    properties.setProperty({"height", 1., {"Height"}});
-    if (isStereo)
     {
-        properties.setProperty(stereoProperty);
-        properties.setProperty(eyeSeparation);
-        properties.setProperty({"zeroParallaxPlane", 1., {"Zero parallax plane"}});
+        PropertyMap properties;
+        properties.setProperty(fovy);
+        properties.setProperty(aspect);
+        properties.setProperty({"apertureRadius", 0., {"Aperture radius"}});
+        properties.setProperty({"focusDistance", 1., {"Focus Distance"}});
+        if (isStereo)
+        {
+            properties.setProperty(stereoProperty);
+            properties.setProperty(eyeSeparation);
+            properties.setProperty({"zeroParallaxPlane", 1., {"Zero parallax plane"}});
+        }
+
+        auto camera = std::make_shared<OptiXPerspectiveCamera>();
+        context.addCamera("perspective", camera);
+        addCameraType("perspective", properties);
     }
 
-    context.addCamera("perspective", camera);
-    addCameraType("perspective", properties);
+    {
+        PropertyMap properties;
+        properties.setProperty({"height", 1., {"Height"}});
+
+        auto camera = std::make_shared<OptiXOrthographicCamera>();
+        context.addCamera("orthographic", camera);
+        addCameraType("orthographic", properties);
+    }
 
     {
         PropertyMap properties;
@@ -112,6 +122,13 @@ void OptiXEngine::_createCameras()
         properties.setProperty({"interpupillaryDistance", 0.065, {"Eye separation"}});
         properties.setProperty({"headPosition", std::array<double, 3>{{0.0, 2.0, 0.0}}});
         properties.setProperty({"headRotation", std::array<double, 4>{{0.0, 0.0, 0.0, 1.0}}});
+        if (isStereo)
+        {
+            properties.setProperty(stereoProperty);
+            properties.setProperty(eyeSeparation);
+            properties.setProperty({"zeroParallaxPlane", 1., {"Zero parallax plane"}});
+        }
+
         context.addCamera("opendeck", std::make_shared<OptiXOpenDeckCamera>());
         addCameraType("opendeck", properties);
     }

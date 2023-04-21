@@ -1,0 +1,41 @@
+# Copyright (c) 2015-2017, EPFL/Blue Brain Project
+# Responsible Author: Cyrille Favreau <cyrille.favreau@epfl.ch>
+#
+# This file is part of Brayns <https://github.com/BlueBrain/Brayns>
+
+common_find_package(glew REQUIRED SYSTEM)
+
+set(BRAYNSUI_SOURCES
+  BaseWindow.cpp
+  gl/ScreenSpaceProcessor.cpp
+  gl/shaders.cpp
+)
+
+set(BRAYNSUI_PUBLIC_HEADERS
+  BaseWindow.h
+  gl/ScreenSpaceProcessor.h
+  gl/shaders.h
+)
+
+include(StringifyShaders)
+set(SSP_SHADERS gl/shaders/fragQuad.glsl
+                gl/shaders/vertQuad.glsl)
+
+stringify_shaders(${SSP_SHADERS})
+list(APPEND BRAYNSUI_SOURCES ${SHADER_SOURCES})
+
+set(BRAYNSUI_LINK_LIBRARIES
+    PUBLIC brayns braynsParameters 
+      ${Boost_FILESYSTEM_LIBRARY} ${Boost_SYSTEM_LIBRARY}
+    PRIVATE glut ${OPENGL_gl_LIBRARY} ${glew_LIBRARIES}
+)
+
+# MESSAGE("-------->" ${glew_LIBRARIES})
+
+set(BRAYNSUI_OMIT_EXPORT ON)
+common_library(braynsUI)
+
+if(APPLE)
+  target_compile_options(braynsUI PRIVATE -Wno-deprecated-declarations)
+  target_link_libraries(braynsUI PRIVATE "-framework OpenGL")
+endif()

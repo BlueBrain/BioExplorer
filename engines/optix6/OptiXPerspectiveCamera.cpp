@@ -25,22 +25,13 @@
 #include <engines/optix6/braynsOptix6Engine_generated_Constantbg.cu.ptx.h>
 #include <engines/optix6/braynsOptix6Engine_generated_PerspectiveCamera.cu.ptx.h>
 
-const std::string CUDA_PERSPECTIVE_CAMERA =
-    braynsOptix6Engine_generated_PerspectiveCamera_cu_ptx;
+const std::string CUDA_PERSPECTIVE_CAMERA = braynsOptix6Engine_generated_PerspectiveCamera_cu_ptx;
 const std::string CUDA_MISS = braynsOptix6Engine_generated_Constantbg_cu_ptx;
 
 const std::string CUDA_FUNC_PERSPECTIVE_CAMERA = "perspectiveCamera";
-const std::string CUDA_FUNC_CAMERA_EXCEPTION = "exception";
-const std::string CUDA_FUNC_CAMERA_ENVMAP_MISS = "envmap_miss";
-
-const std::string CUDA_ATTR_CAMERA_BAD_COLOR = "bad_color";
-const std::string CUDA_ATTR_CAMERA_OFFSET = "offset";
-const std::string CUDA_ATTR_CAMERA_EYE = "eye";
-const std::string CUDA_ATTR_CAMERA_U = "U";
-const std::string CUDA_ATTR_CAMERA_V = "V";
-const std::string CUDA_ATTR_CAMERA_W = "W";
 const std::string CUDA_ATTR_CAMERA_APERTURE_RADIUS = "aperture_radius";
 const std::string CUDA_ATTR_CAMERA_FOCAL_SCALE = "focal_scale";
+const std::string CUDA_ATTR_CAMERA_FOVY = "fovy";
 
 namespace brayns
 {
@@ -48,19 +39,12 @@ OptiXPerspectiveCamera::OptiXPerspectiveCamera()
     : OptiXCameraProgram()
 {
     auto context = OptiXContext::get().getOptixContext();
-    _rayGenerationProgram =
-        context->createProgramFromPTXString(CUDA_PERSPECTIVE_CAMERA,
-                                            CUDA_FUNC_PERSPECTIVE_CAMERA);
-    _missProgram =
-        context->createProgramFromPTXString(CUDA_MISS,
-                                            CUDA_FUNC_CAMERA_ENVMAP_MISS);
-    _exceptionProgram =
-        context->createProgramFromPTXString(CUDA_PERSPECTIVE_CAMERA,
-                                            CUDA_FUNC_CAMERA_EXCEPTION);
+    _rayGenerationProgram = context->createProgramFromPTXString(CUDA_PERSPECTIVE_CAMERA, CUDA_FUNC_PERSPECTIVE_CAMERA);
+    _missProgram = context->createProgramFromPTXString(CUDA_MISS, CUDA_FUNC_CAMERA_ENVMAP_MISS);
+    _exceptionProgram = context->createProgramFromPTXString(CUDA_PERSPECTIVE_CAMERA, CUDA_FUNC_CAMERA_EXCEPTION);
 }
 
-void OptiXPerspectiveCamera::commit(const OptiXCamera& camera,
-                                    ::optix::Context context)
+void OptiXPerspectiveCamera::commit(const OptiXCamera& camera, ::optix::Context context)
 {
     const auto position = camera.getPosition();
     const auto up = glm::rotate(camera.getOrientation(), Vector3d(0, 1, 0));
@@ -73,10 +57,9 @@ void OptiXPerspectiveCamera::commit(const OptiXCamera& camera,
     u = normalize(glm::cross(w, up));
     v = normalize(glm::cross(u, w));
 
-    vlen = wlen * tanf(0.5f * camera.getPropertyOrValue<double>("fovy", 45.0) *
-                       M_PI / 180.f);
+    vlen = wlen * tanf(0.5f * camera.getPropertyOrValue<double>(CUDA_ATTR_CAMERA_FOVY, 45.0) * M_PI / 180.f);
     v *= vlen;
-    ulen = vlen * camera.getPropertyOrValue<double>("aspect", 1.0);
+    ulen = vlen * camera.getPropertyOrValue<double>(CUDA_ATTR_CAMERA_ASPECT, 1.0);
     u *= ulen;
 
     context[CUDA_ATTR_CAMERA_U]->setFloat(u.x, u.y, u.z);
@@ -85,9 +68,9 @@ void OptiXPerspectiveCamera::commit(const OptiXCamera& camera,
 
     context[CUDA_ATTR_CAMERA_EYE]->setFloat(position.x, position.y, position.z);
     context[CUDA_ATTR_CAMERA_APERTURE_RADIUS]->setFloat(
-        camera.getPropertyOrValue<double>("apertureRadius", 0.0));
+        camera.getPropertyOrValue<double>(CUDA_ATTR_CAMERA_APERTURE_RADIUS, 0.0));
     context[CUDA_ATTR_CAMERA_FOCAL_SCALE]->setFloat(
-        camera.getPropertyOrValue<double>("focusDistance", 1.0));
+        camera.getPropertyOrValue<double>(CUDA_ATTR_CAMERA_FOCAL_SCALE, 1.0));
     context[CUDA_ATTR_CAMERA_BAD_COLOR]->setFloat(1.f, 0.f, 1.f);
     context[CUDA_ATTR_CAMERA_OFFSET]->setFloat(0, 0);
 }

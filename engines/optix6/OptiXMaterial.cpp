@@ -59,6 +59,8 @@ void OptiXMaterial::commit()
     _optixMaterial["refraction_index"]->setFloat(_refractionIndex);
     _optixMaterial["reflection_index"]->setFloat(_reflectionIndex);
     _optixMaterial["phong_exp"]->setFloat(_specularExponent);
+    _optixMaterial["shading_mode"]->setUint(_shadingMode);
+    _optixMaterial["user_parameter"]->setFloat(_userParameter);
 
     for (const auto& i : getTextureDescriptors())
     {

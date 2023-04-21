@@ -1,6 +1,5 @@
-/* Copyright (c) 2015-2023, EPFL/Blue Brain Project
+/* Copyright (c) 2019, EPFL/Blue Brain Project
  * All rights reserved. Do not distribute without permission.
- * Responsible Author: Cyrille Favreau <cyrille.favreau@epfl.ch>
  *
  * This file is part of Brayns <https://github.com/BlueBrain/Brayns>
  *
@@ -20,15 +19,20 @@
 
 #pragma once
 
+#include <memory>
+
+#include <optixu/optixpp_namespace.h>
+
+#include "OptiXCameraProgram.h"
+
 namespace brayns
 {
-class OptiXCamera;
-using OptiXCameraPtr = std::shared_ptr<OptiXCamera>;
+class OptiXOrthographicCamera : public OptiXCameraProgram
+{
+public:
+    OptiXOrthographicCamera();
+    ~OptiXOrthographicCamera() final = default;
 
-constexpr size_t OPTIX_STACK_SIZE = 4096;
-constexpr size_t OPTIX_RAY_TYPE_COUNT = 2;
-constexpr size_t OPTIX_ENTRY_POINT_COUNT = 1;
-
-constexpr float EPSILON = 1e-2f;
-
+    void commit(const OptiXCamera& camera, ::optix::Context context) final;
+};
 } // namespace brayns

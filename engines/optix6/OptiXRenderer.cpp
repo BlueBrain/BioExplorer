@@ -24,6 +24,7 @@
 #include "OptiXMaterial.h"
 #include "OptiXModel.h"
 #include "OptiXScene.h"
+#include "OptiXTypes.h"
 
 #include <chrono>
 
@@ -144,29 +145,30 @@ void OptiXRenderer::commit()
     {
         const auto renderProgram = OptiXContext::get().getRenderer(_renderingParameters.getCurrentRenderer());
 
-        _scene->visitModels([&](Model& model) {
-            for (const auto& kv : model.getMaterials())
+        _scene->visitModels(
+            [&](Model& model)
             {
-                auto optixMaterial = dynamic_cast<OptiXMaterial*>(kv.second.get());
-                const bool textured = optixMaterial->isTextured();
+                for (const auto& kv : model.getMaterials())
+                {
+                    auto optixMaterial = dynamic_cast<OptiXMaterial*>(kv.second.get());
+                    const bool textured = optixMaterial->isTextured();
 
-                optixMaterial->getOptixMaterial()->setClosestHitProgram(0, textured
-                                                                               ? renderProgram->closest_hit_textured
-                                                                               : renderProgram->closest_hit);
-                optixMaterial->getOptixMaterial()->setAnyHitProgram(1, renderProgram->any_hit);
-            }
-        });
+                    optixMaterial->getOptixMaterial()->setClosestHitProgram(0, textured
+                                                                                   ? renderProgram->closest_hit_textured
+                                                                                   : renderProgram->closest_hit);
+                    optixMaterial->getOptixMaterial()->setAnyHitProgram(1, renderProgram->any_hit);
+                }
+            });
     }
 
     // Upload common properties
     auto context = OptiXContext::get().getOptixContext();
     auto bgColor = _renderingParameters.getBackgroundColor();
     const auto samples_per_pixel = _renderingParameters.getSamplesPerPixel();
-    constexpr auto epsilon = 1e-5f;
 
     context["radianceRayType"]->setUint(0);
     context["shadowRayType"]->setUint(1);
-    context["sceneEpsilon"]->setFloat(epsilon);
+    context["sceneEpsilon"]->setFloat(EPSILON);
     context["ambientLightColor"]->setFloat(bgColor.x, bgColor.y, bgColor.z);
     context["bgColor"]->setFloat(bgColor.x, bgColor.y, bgColor.z);
     context["samples_per_pixel"]->setUint(samples_per_pixel);
