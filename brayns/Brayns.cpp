@@ -344,8 +344,7 @@ private:
 
                 BRAYNS_INFO("Loading '" << path << "'");
 
-                auto progress = [&](const std::string& msg, float t)
-                {
+                auto progress = [&](const std::string& msg, float t) {
                     constexpr auto MIN_SECS = 5;
                     constexpr auto MIN_PERCENTAGE = 10;
 
@@ -398,247 +397,43 @@ private:
 
     void _registerKeyboardShortcuts()
     {
-        _keyboardHandler.registerKeyboardShortcut('0', "Black background",
-                                                  std::bind(&Brayns::Impl::_blackBackground, this));
-        _keyboardHandler.registerKeyboardShortcut('1', "Gray background",
-                                                  std::bind(&Brayns::Impl::_grayBackground, this));
-        _keyboardHandler.registerKeyboardShortcut('2', "White background",
-                                                  std::bind(&Brayns::Impl::_whiteBackground, this));
-        _keyboardHandler.registerKeyboardShortcut('3', "Set gradient materials",
-                                                  std::bind(&Brayns::Impl::_gradientMaterials, this));
-        _keyboardHandler.registerKeyboardShortcut('4', "Set random materials",
-                                                  std::bind(&Brayns::Impl::_randomMaterials, this));
-        _keyboardHandler.registerKeyboardShortcut('5', "Scientific visualization renderer",
-                                                  std::bind(&Brayns::Impl::_scivisRenderer, this));
-        _keyboardHandler.registerKeyboardShortcut('6', "Default renderer",
-                                                  std::bind(&Brayns::Impl::_defaultRenderer, this));
-        _keyboardHandler.registerKeyboardShortcut('7', "Basic simulation renderer",
-                                                  std::bind(&Brayns::Impl::_basicSimulationRenderer, this));
-        _keyboardHandler.registerKeyboardShortcut('8', "Advanced Simulation renderer",
-                                                  std::bind(&Brayns::Impl::_advancedSimulationRenderer, this));
-        _keyboardHandler.registerKeyboardShortcut('9', "Proximity renderer",
-                                                  std::bind(&Brayns::Impl::_proximityRenderer, this));
         _keyboardHandler.registerKeyboardShortcut('[', "Decrease animation frame by 1",
                                                   std::bind(&Brayns::Impl::_decreaseAnimationFrame, this));
         _keyboardHandler.registerKeyboardShortcut(']', "Increase animation frame by 1",
                                                   std::bind(&Brayns::Impl::_increaseAnimationFrame, this));
-        _keyboardHandler.registerKeyboardShortcut('e', "Enable eletron shading",
-                                                  std::bind(&Brayns::Impl::_electronShading, this));
-        _keyboardHandler.registerKeyboardShortcut('f', "Enable fly mode",
-                                                  [this]()
-                                                  { Brayns::Impl::_setupCameraManipulator(CameraMode::flying); });
-        _keyboardHandler.registerKeyboardShortcut('i', "Enable inspect mode",
-                                                  [this]()
-                                                  { Brayns::Impl::_setupCameraManipulator(CameraMode::inspect); });
-        _keyboardHandler.registerKeyboardShortcut('o', "Decrease ambient occlusion strength",
-                                                  std::bind(&Brayns::Impl::_decreaseAmbientOcclusionStrength, this));
-        _keyboardHandler.registerKeyboardShortcut('O', "Increase ambient occlusion strength",
-                                                  std::bind(&Brayns::Impl::_increaseAmbientOcclusionStrength, this));
-        _keyboardHandler.registerKeyboardShortcut('p', "Enable diffuse shading",
-                                                  std::bind(&Brayns::Impl::_diffuseShading, this));
-        _keyboardHandler.registerKeyboardShortcut('P', "Disable shading",
-                                                  std::bind(&Brayns::Impl::_disableShading, this));
+        _keyboardHandler.registerKeyboardShortcut('f', "Enable fly mode", [this]() {
+            Brayns::Impl::_setupCameraManipulator(CameraMode::flying);
+        });
+        _keyboardHandler.registerKeyboardShortcut('i', "Enable inspect mode", [this]() {
+            Brayns::Impl::_setupCameraManipulator(CameraMode::inspect);
+        });
         _keyboardHandler.registerKeyboardShortcut('r', "Set animation frame to 0",
                                                   std::bind(&Brayns::Impl::_resetAnimationFrame, this));
-        _keyboardHandler.registerKeyboardShortcut('u', "Enable/Disable shadows",
-                                                  std::bind(&Brayns::Impl::_toggleShadows, this));
-        _keyboardHandler.registerKeyboardShortcut('U', "Enable/Disable soft shadows",
-                                                  std::bind(&Brayns::Impl::_toggleSoftShadows, this));
-        _keyboardHandler.registerKeyboardShortcut('t', "Multiply samples per ray by 2",
-                                                  std::bind(&Brayns::Impl::_increaseSamplesPerRay, this));
-        _keyboardHandler.registerKeyboardShortcut('T', "Divide samples per ray by 2",
-                                                  std::bind(&Brayns::Impl::_decreaseSamplesPerRay, this));
-        _keyboardHandler.registerKeyboardShortcut('l', "Toggle load dynamic/static load balancer",
-                                                  std::bind(&Brayns::Impl::_toggleLoadBalancer, this));
-        _keyboardHandler.registerKeyboardShortcut('g', "Enable/Disable animation playback",
+        _keyboardHandler.registerKeyboardShortcut('p', "Enable/Disable animation playback",
                                                   std::bind(&Brayns::Impl::_toggleAnimationPlayback, this));
-        _keyboardHandler.registerKeyboardShortcut('{', "Decrease eye separation",
-                                                  std::bind(&Brayns::Impl::_changeEyeSeparation, this, -0.01));
-        _keyboardHandler.registerKeyboardShortcut('}', "Increase eye separation",
-                                                  std::bind(&Brayns::Impl::_changeEyeSeparation, this, 0.01));
-        _keyboardHandler.registerKeyboardShortcut('<', "Decrease field of view",
-                                                  std::bind(&Brayns::Impl::_changeFieldOfView, this, -1.));
-        _keyboardHandler.registerKeyboardShortcut('>', "Increase field of view",
-                                                  std::bind(&Brayns::Impl::_changeFieldOfView, this, 1.));
         _keyboardHandler.registerKeyboardShortcut(' ', "Camera reset to initial state",
                                                   std::bind(&Brayns::Impl::_resetCamera, this));
         _keyboardHandler.registerKeyboardShortcut('+', "Increase motion speed",
                                                   std::bind(&Brayns::Impl::_increaseMotionSpeed, this));
         _keyboardHandler.registerKeyboardShortcut('-', "Decrease motion speed",
                                                   std::bind(&Brayns::Impl::_decreaseMotionSpeed, this));
-        _keyboardHandler.registerKeyboardShortcut('c', "Display current camera information",
+        _keyboardHandler.registerKeyboardShortcut('c', "Log current camera information",
                                                   std::bind(&Brayns::Impl::_displayCameraInformation, this));
-        _keyboardHandler.registerKeyboardShortcut('b', "Toggle benchmarking",
-                                                  [this]()
-                                                  {
-                                                      auto& ap = _parametersManager.getApplicationParameters();
-                                                      ap.setBenchmarking(!ap.isBenchmarking());
-                                                  });
-    }
-
-    void _blackBackground()
-    {
-        RenderingParameters& renderParams = _parametersManager.getRenderingParameters();
-        renderParams.setBackgroundColor(Vector3f(0.f, 0.f, 0.f));
-    }
-
-    void _grayBackground()
-    {
-        RenderingParameters& renderParams = _parametersManager.getRenderingParameters();
-        renderParams.setBackgroundColor(Vector3f(0.5f, 0.5f, 0.5f));
-    }
-
-    void _whiteBackground()
-    {
-        RenderingParameters& renderParams = _parametersManager.getRenderingParameters();
-        renderParams.setBackgroundColor(Vector3f(1.f, 1.f, 1.f));
-    }
-
-    void _scivisRenderer()
-    {
-        RenderingParameters& renderParams = _parametersManager.getRenderingParameters();
-        renderParams.setCurrentRenderer("scivis");
-    }
-
-    void _defaultRenderer()
-    {
-        RenderingParameters& renderParams = _parametersManager.getRenderingParameters();
-        renderParams.setCurrentRenderer("basic");
-    }
-
-    void _basicSimulationRenderer()
-    {
-        RenderingParameters& renderParams = _parametersManager.getRenderingParameters();
-        renderParams.setCurrentRenderer("basic_simulation");
-    }
-
-    void _proximityRenderer()
-    {
-        RenderingParameters& renderParams = _parametersManager.getRenderingParameters();
-        renderParams.setCurrentRenderer("proximity");
-    }
-
-    void _advancedSimulationRenderer()
-    {
-        RenderingParameters& renderParams = _parametersManager.getRenderingParameters();
-        renderParams.setCurrentRenderer("advanced_simulation");
+        _keyboardHandler.registerKeyboardShortcut('b', "Toggle benchmarking", [this]() {
+            auto& ap = _parametersManager.getApplicationParameters();
+            ap.setBenchmarking(!ap.isBenchmarking());
+        });
     }
 
     void _increaseAnimationFrame() { _parametersManager.getAnimationParameters().jumpFrames(1); }
 
     void _decreaseAnimationFrame() { _parametersManager.getAnimationParameters().jumpFrames(-1); }
 
-    void _diffuseShading()
-    {
-        _engine->getRenderer().updateProperty("shadingEnabled", true);
-        _engine->getRenderer().updateProperty("electronShadingEnabled", false);
-    }
-
-    void _electronShading()
-    {
-        _engine->getRenderer().updateProperty("shadingEnabled", false);
-        _engine->getRenderer().updateProperty("electronShadingEnabled", true);
-    }
-
-    void _disableShading()
-    {
-        _engine->getRenderer().updateProperty("shadingEnabled", false);
-        _engine->getRenderer().updateProperty("electronShadingEnabled", false);
-    }
-
-    void _increaseAmbientOcclusionStrength()
-    {
-        auto& renderer = _engine->getRenderer();
-        if (!renderer.hasProperty("aoWeight"))
-            return;
-
-        auto aoStrength = renderer.getProperty<double>("aoWeight");
-        aoStrength += 0.1;
-        if (aoStrength > 1.)
-            aoStrength = 1.;
-        renderer.updateProperty("aoWeight", aoStrength);
-    }
-
-    void _decreaseAmbientOcclusionStrength()
-    {
-        auto& renderer = _engine->getRenderer();
-        if (!renderer.hasProperty("aoWeight"))
-            return;
-
-        auto aoStrength = renderer.getProperty<double>("aoWeight");
-        aoStrength -= 0.1;
-        if (aoStrength < 0.)
-            aoStrength = 0.;
-        renderer.updateProperty("aoWeight", aoStrength);
-    }
-
     void _resetAnimationFrame()
     {
         auto& animParams = _parametersManager.getAnimationParameters();
         animParams.setFrame(0);
     }
-
-    void _toggleShadows()
-    {
-        auto& renderer = _engine->getRenderer();
-        if (!renderer.hasProperty("shadows"))
-            return;
-
-        renderer.updateProperty("shadows", renderer.getProperty<double>("shadows") == 0. ? 1. : 0.);
-    }
-
-    void _toggleSoftShadows()
-    {
-        auto& renderer = _engine->getRenderer();
-        if (!renderer.hasProperty("softShadows"))
-            return;
-
-        renderer.updateProperty("softShadows", renderer.getProperty<double>("softShadows") == 0. ? 1. : 0.);
-    }
-
-    void _increaseSamplesPerRay()
-    {
-        auto& vp = _parametersManager.getVolumeParameters();
-        vp.setSamplingRate(vp.getSamplingRate() * 2);
-    }
-
-    void _decreaseSamplesPerRay()
-    {
-        auto& vp = _parametersManager.getVolumeParameters();
-        vp.setSamplingRate(vp.getSamplingRate() / 2);
-    }
-
-    void _toggleLoadBalancer()
-    {
-        auto& appParams = _parametersManager.getApplicationParameters();
-        appParams.setDynamicLoadBalancer(!appParams.getDynamicLoadBalancer());
-    }
-
-    void _changeFieldOfView(const double delta)
-    {
-        auto& camera = _engine->getCamera();
-        if (!camera.hasProperty("fovy"))
-            return;
-        auto fovy = camera.getProperty<double>("fovy");
-        fovy += delta;
-        camera.updateProperty("fovy", fovy);
-        BRAYNS_INFO("Field of view: " << fovy);
-    }
-
-    void _changeEyeSeparation(const double delta)
-    {
-        auto& camera = _engine->getCamera();
-        if (!camera.hasProperty("interpupillaryDistance"))
-            return;
-        auto eyeSeparation = camera.getProperty<double>("interpupillaryDistance");
-        eyeSeparation += delta;
-        camera.updateProperty("interpupillaryDistance", eyeSeparation);
-        BRAYNS_INFO("Eye separation: " << eyeSeparation);
-    }
-
-    void _gradientMaterials() { _engine->getScene().setMaterialsColorMap(MaterialsColorMap::gradient); }
-
-    void _randomMaterials() { _engine->getScene().setMaterialsColorMap(MaterialsColorMap::random); }
 
     void _toggleAnimationPlayback() { _parametersManager.getAnimationParameters().togglePlayback(); }
 

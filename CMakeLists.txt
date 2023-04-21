@@ -166,6 +166,11 @@ else()
   set(BRAYNS_SERVICE_ENABLED OFF)
 endif()
 
+if(BRAYNS_VIEWER_ENABLED)
+  add_subdirectory(apps/ui)
+  add_subdirectory(apps/BraynsViewer)
+endif()
+
 option(BRAYNS_BENCHMARK_ENABLED "Brayns Benchmark" ON)
 
 if(BRAYNS_BENCHMARK_ENABLED)

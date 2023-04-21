@@ -256,7 +256,7 @@ void OptiXModel::_commitMeshes(const size_t materialId)
 
 void OptiXModel::_commitMaterials()
 {
-    BRAYNS_INFO("Committing " << _materials.size() << " OptiX materials");
+    BRAYNS_DEBUG("Committing " << _materials.size() << " OptiX materials");
 
     for (auto& material : _materials)
         material.second->commit();
