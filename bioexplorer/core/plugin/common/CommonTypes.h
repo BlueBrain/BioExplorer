@@ -23,8 +23,6 @@
 #define DEFAULT_SKY_POWER 4.f
 
 /** Additional material attributes */
-#define MATERIAL_PROPERTY_SHADING_MODE "shading_mode"
-#define MATERIAL_PROPERTY_USER_PARAMETER "user_parameter"
 #define MATERIAL_PROPERTY_CHAMELEON_MODE "chameleon_mode"
 #define MATERIAL_PROPERTY_NODE_ID "node_id"
 #define MATERIAL_PROPERTY_CAST_USER_DATA "cast_user_data"
@@ -32,20 +30,6 @@
 
 /** User data */
 #define NO_USER_DATA -1
-
-enum MaterialShadingMode
-{
-    undefined_shading_mode = 0,
-    basic = 1,
-    diffuse = 2,
-    electron = 3,
-    cartoon = 4,
-    electron_transparency = 5,
-    perlin = 6,
-    diffuse_transparency = 7,
-    checker = 8,
-    goodsell = 9
-};
 
 enum MaterialChameleonMode
 {

@@ -74,19 +74,19 @@ void AdvancedMaterial::commit()
     xform_a = getTextureTransform("map_a");
     map_a = (ospray::Texture2D*)getParamObject("map_a", nullptr);
 
+    // Shading mode
+    shadingMode = static_cast<MaterialShadingMode>(getParam1i(
+        "shading_mode",
+        static_cast<int>(MaterialShadingMode::undefined_shading_mode)));
+
+    // User parameter
+    userParameter = getParam1f("user_parameter", 1.f);
+
     // Glossiness
     glossiness = getParam1f("glossiness", 1.f);
 
     // Cast user data
     castUserData = getParam(MATERIAL_PROPERTY_CAST_USER_DATA, 1);
-
-    // Shading mode
-    shadingMode = static_cast<MaterialShadingMode>(getParam1i(
-        MATERIAL_PROPERTY_SHADING_MODE,
-        static_cast<int>(MaterialShadingMode::undefined_shading_mode)));
-
-    // User parameter
-    userParameter = getParam1f(MATERIAL_PROPERTY_USER_PARAMETER, 1.f);
 
     // Chameleon mode
     chameleonMode = static_cast<MaterialChameleonMode>(getParam1i(

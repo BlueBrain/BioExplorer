@@ -181,12 +181,11 @@ ModelDescriptorPtr CacheLoader::_importModel(std::stringstream& buffer,
         brayns::PropertyMap props;
         double userParameter;
         buffer.read((char*)&userParameter, sizeof(double));
-        props.setProperty({MATERIAL_PROPERTY_USER_PARAMETER, userParameter});
+        material->setUserParameter(value);
 
         int32_t shadingMode;
         buffer.read((char*)&shadingMode, sizeof(int32_t));
-        // props.setProperty({MATERIAL_PROPERTY_SHADING_MODE, shadingMode});
-        props.setProperty({MATERIAL_PROPERTY_SHADING_MODE, 1});
+        material->setShadingMode(static_cast<MaterialShadingMode>(shadingMode));
 
         int32_t chameleonMode;
         buffer.read((char*)&chameleonMode, sizeof(int32_t));
@@ -549,26 +548,9 @@ bool CacheLoader::_exportModel(const ModelDescriptorPtr modelDescriptor,
         buffer.write((char*)&value, sizeof(double));
         value = material.second->getGlossiness();
         buffer.write((char*)&value, sizeof(double));
-        double v = 1.0;
-        try
-        {
-            v = material.second->getProperty<double>(
-                MATERIAL_PROPERTY_USER_PARAMETER);
-        }
-        catch (const std::runtime_error&)
-        {
-        }
-        buffer.write((char*)&v, sizeof(double));
-
-        int32_t shadingMode = MaterialShadingMode::undefined_shading_mode;
-        try
-        {
-            shadingMode = material.second->getProperty<int32_t>(
-                MATERIAL_PROPERTY_SHADING_MODE);
-        }
-        catch (const std::runtime_error&)
-        {
-        }
+        value = material.second->getUserParameter();
+        buffer.write((char*)&value, sizeof(double));
+        int32_t shadingMode = material.second->getShadingMode();
         buffer.write((char*)&shadingMode, sizeof(int32_t));
 
         int32_t chameleonMode = MaterialChameleonMode::undefined_chameleon_mode;

@@ -22,6 +22,8 @@
 
 #include <bioexplorer/core/plugin/common/CommonTypes.h>
 
+#include <brayns/common/CommonTypes.h>
+
 #include <ospray/SDK/common/Material.ih>
 #include <ospray/SDK/math/vec.ih>
 #include <ospray/SDK/texture/Texture2D.ih>

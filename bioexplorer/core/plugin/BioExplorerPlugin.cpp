@@ -1186,8 +1186,6 @@ Response BioExplorerPlugin::_addGrid(const AddGridDetails &payload)
         const Vector3d grey = {0.5, 0.5, 0.5};
 
         PropertyMap props;
-        props.setProperty({MATERIAL_PROPERTY_SHADING_MODE, 0});
-        props.setProperty({MATERIAL_PROPERTY_USER_PARAMETER, 1.0});
         props.setProperty({MATERIAL_PROPERTY_CHAMELEON_MODE, 0});
         props.setProperty({MATERIAL_PROPERTY_CAST_USER_DATA, false});
         props.setProperty({MATERIAL_PROPERTY_NODE_ID, 0});
@@ -1271,8 +1269,6 @@ Response BioExplorerPlugin::_addGrid(const AddGridDetails &payload)
             const double l2 = l * 0.90;
 
             PropertyMap props;
-            props.setProperty({MATERIAL_PROPERTY_SHADING_MODE, 0});
-            props.setProperty({MATERIAL_PROPERTY_USER_PARAMETER, 1.0});
             props.setProperty({MATERIAL_PROPERTY_CHAMELEON_MODE, 0});
             props.setProperty({MATERIAL_PROPERTY_CAST_USER_DATA, false});
             props.setProperty({MATERIAL_PROPERTY_NODE_ID, 0});
@@ -1344,8 +1340,6 @@ Response BioExplorerPlugin::_addSpheres(const AddSpheresDetails &payload)
         auto model = scene.createModel();
 
         PropertyMap props;
-        props.setProperty({MATERIAL_PROPERTY_SHADING_MODE, 0});
-        props.setProperty({MATERIAL_PROPERTY_USER_PARAMETER, 1.0});
         props.setProperty({MATERIAL_PROPERTY_CHAMELEON_MODE, 0});
         props.setProperty({MATERIAL_PROPERTY_CAST_USER_DATA, false});
         props.setProperty({MATERIAL_PROPERTY_NODE_ID, 0});
@@ -1393,8 +1387,6 @@ Response BioExplorerPlugin::_addCone(const AddConeDetails &payload)
         auto model = scene.createModel();
 
         PropertyMap props;
-        props.setProperty({MATERIAL_PROPERTY_SHADING_MODE, 0});
-        props.setProperty({MATERIAL_PROPERTY_USER_PARAMETER, 1.0});
         props.setProperty({MATERIAL_PROPERTY_CHAMELEON_MODE, 0});
         props.setProperty({MATERIAL_PROPERTY_CAST_USER_DATA, false});
         props.setProperty({MATERIAL_PROPERTY_NODE_ID, 0});
@@ -1442,8 +1434,6 @@ Response BioExplorerPlugin::_addBoundingBox(
         auto model = scene.createModel();
 
         PropertyMap props;
-        props.setProperty({MATERIAL_PROPERTY_SHADING_MODE, 0});
-        props.setProperty({MATERIAL_PROPERTY_USER_PARAMETER, 1.0});
         props.setProperty({MATERIAL_PROPERTY_CHAMELEON_MODE, 0});
         props.setProperty({MATERIAL_PROPERTY_CAST_USER_DATA, false});
         props.setProperty({MATERIAL_PROPERTY_NODE_ID, 0});
@@ -1518,8 +1508,6 @@ Response BioExplorerPlugin::_addBox(const AddBoxDetails &details)
 
         const size_t materialId = 0;
         PropertyMap props;
-        props.setProperty({MATERIAL_PROPERTY_SHADING_MODE, 0});
-        props.setProperty({MATERIAL_PROPERTY_USER_PARAMETER, 1.0});
         props.setProperty({MATERIAL_PROPERTY_CHAMELEON_MODE, 0});
         props.setProperty({MATERIAL_PROPERTY_CAST_USER_DATA, false});
         props.setProperty({MATERIAL_PROPERTY_NODE_ID, 0});
@@ -1567,8 +1555,6 @@ Response BioExplorerPlugin::_addStreamlines(
         // Create material
         const auto materialId = 0;
         PropertyMap props;
-        props.setProperty({MATERIAL_PROPERTY_SHADING_MODE, 0});
-        props.setProperty({MATERIAL_PROPERTY_USER_PARAMETER, 1.0});
         props.setProperty({MATERIAL_PROPERTY_CHAMELEON_MODE, 0});
         props.setProperty({MATERIAL_PROPERTY_CAST_USER_DATA, false});
         props.setProperty({MATERIAL_PROPERTY_NODE_ID, 0});
@@ -1741,19 +1727,17 @@ Response BioExplorerPlugin::_setMaterials(const MaterialsDetails &payload)
                             if (!payload.glossinesses.empty())
                                 material->setGlossiness(
                                     payload.glossinesses[id]);
+                            if (!payload.shadingModes.empty())
+                                material->setShadingMode(
+                                    static_cast<MaterialShadingMode>(
+                                        payload.shadingModes[id]));
+                            if (!payload.userParameters.empty())
+                                material->setUserParameter(
+                                    payload.userParameters[id]);
                             if (!payload.castUserData.empty())
                                 material->updateProperty(
                                     MATERIAL_PROPERTY_CAST_USER_DATA,
                                     payload.castUserData[id]);
-                            if (!payload.shadingModes.empty())
-                                material->updateProperty(
-                                    MATERIAL_PROPERTY_SHADING_MODE,
-                                    payload.shadingModes[id]);
-                            if (!payload.userParameters.empty())
-                                material->updateProperty(
-                                    MATERIAL_PROPERTY_USER_PARAMETER,
-                                    static_cast<double>(
-                                        payload.userParameters[id]));
                             if (!payload.chameleonModes.empty())
                                 material->updateProperty(
                                     MATERIAL_PROPERTY_CHAMELEON_MODE,
@@ -1802,10 +1786,6 @@ Response BioExplorerPlugin::_setMaterialExtraAttributes(
             for (auto &material : materials)
             {
                 PropertyMap props;
-                props.setProperty(
-                    {MATERIAL_PROPERTY_SHADING_MODE,
-                     static_cast<int>(MaterialShadingMode::diffuse)});
-                props.setProperty({MATERIAL_PROPERTY_USER_PARAMETER, 1.0});
                 props.setProperty(
                     {MATERIAL_PROPERTY_CHAMELEON_MODE,
                      static_cast<int>(
@@ -1949,8 +1929,6 @@ Response BioExplorerPlugin::_buildPointCloud(
         auto material = model->createMaterial(materialId, "Point cloud");
 
         PropertyMap props;
-        props.setProperty({MATERIAL_PROPERTY_SHADING_MODE, 0});
-        props.setProperty({MATERIAL_PROPERTY_USER_PARAMETER, 1.0});
         props.setProperty({MATERIAL_PROPERTY_CHAMELEON_MODE, 0});
         props.setProperty({MATERIAL_PROPERTY_CAST_USER_DATA, false});
         props.setProperty({MATERIAL_PROPERTY_NODE_ID, 0});
