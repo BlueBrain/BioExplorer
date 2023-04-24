@@ -26,6 +26,9 @@
 
 #include <brayns/common/CommonTypes.h>
 
+const uint NB_MAX_SAMPLES_PER_RAY = 32;
+const float DEFAULT_VOLUME_SHADOW_THRESHOLD = 0.1f;
+
 struct PerRayData_shadow
 {
     float3 attenuation;
@@ -54,6 +57,28 @@ rtDeclareVariable(float4, jitter4, , );
 rtBuffer<BasicLight> lights;
 rtDeclareVariable(float3, ambientLightColor, , );
 
+// Volume
+rtBuffer<unsigned char> volumeData;
+rtDeclareVariable(uint3, volumeDimensions, , );
+rtDeclareVariable(float3, volumeOffset, , );
+rtDeclareVariable(float3, volumeElementSpacing, , );
+rtDeclareVariable(uint, volumeSamplesPerRay, , );
+rtDeclareVariable(uint, volumeDataSize, , );
+// Volume shading
+rtDeclareVariable(uint, volumeGradientShadingEnabled, , );
+rtDeclareVariable(float, volumeAdaptiveMaxSamplingRate, , );
+rtDeclareVariable(uint, volumeAdaptiveSampling, , );
+rtDeclareVariable(uint, volumeSingleShade, , );
+rtDeclareVariable(uint, volumePreIntegration, , );
+rtDeclareVariable(float, volumeSamplingRate, , );
+rtDeclareVariable(float3, volumeSpecular, , );
+
+// Transfer function
+rtBuffer<float4> colorMap;
+rtDeclareVariable(float, colorMapMinValue, , );
+rtDeclareVariable(float, colorMapRange, , );
+rtDeclareVariable(uint, colorMapSize, , );
+
 // Rendering
 rtDeclareVariable(int, maxBounces, , );
 rtDeclareVariable(float, shadows, , );
@@ -68,6 +93,21 @@ rtDeclareVariable(float, fogStart, , );
 rtDeclareVariable(float, fogThickness, , );
 
 rtBuffer<uchar4, 2> output_buffer;
+
+static __device__ inline bool volumeIntersection(const optix::Ray& ray, float& t0, float& t1)
+{
+    float3 boxmin = make_float3(0.f);
+    float3 boxmax = make_float3(volumeDimensions) / volumeElementSpacing;
+
+    float3 a = (boxmin - ray.origin) / ray.direction;
+    float3 b = (boxmax - ray.origin) / ray.direction;
+    float3 near = fminf(a, b);
+    float3 far = fmaxf(a, b);
+    t0 = fmaxf(near);
+    t1 = fminf(far);
+
+    return (t0 <= t1);
+}
 
 static __device__ inline float3 frac(const float3 x)
 {
@@ -142,6 +182,175 @@ static __device__ float3 refractedVector(const float3 direction, const float3 no
     return direction;
 }
 
+static __device__ void linearCompose(const float4& src, float4& dst, const float alphaRatio = 1.0)
+{
+    const float a = alphaRatio * src.w;
+    dst = make_float4((1.f - dst.w) * a * make_float3(src) + dst.w * make_float3(dst), dst.w + a);
+}
+
+static __device__ void composite(const float4& src, float4& dst)
+{
+    const float alphaCorrection = (float)NB_MAX_SAMPLES_PER_RAY / (float)volumeSamplesPerRay;
+    const float alpha = 1.f - pow(1.f - min(src.w, 1.f - 1.f / (float)colorMapSize), alphaCorrection);
+    const float a = alpha * (1.f - dst.w);
+    dst.x = dst.x + src.x * a;
+    dst.y = dst.y + src.y * a;
+    dst.z = dst.z + src.z * a;
+    dst.w += (alpha * (1.f - dst.w));
+}
+
+static __device__ float getVolumeShadowContribution(const optix::Ray& volumeRay, unsigned int seed)
+{
+    float shadowIntensity = 0.f;
+    float t0, t1;
+    if (!volumeIntersection(volumeRay, t0, t1))
+        return shadowIntensity;
+
+    const float volumeEpsilon = 0.1f; // sceneEpsilon * epsilonFactor;
+    float t = t1;
+    float tstep = max(volumeEpsilon, (t1 - t0) / float(NB_MAX_SAMPLES_PER_RAY));
+
+    while (t > t0 && shadowIntensity < 1.f)
+    {
+        const float x = rnd(seed) * tstep;
+        float3 point = volumeRay.origin + volumeRay.direction * (t + x);
+
+        if (point.x > 0.f && point.x < volumeDimensions.x && point.y > 0.f && point.y < volumeDimensions.y &&
+            point.z > 0.f && point.z < volumeDimensions.z)
+        {
+            const ulong index = (ulong)((ulong)floor(point.x) + (ulong)floor(point.y) * volumeDimensions.x +
+                                        (ulong)floor(point.z) * volumeDimensions.x * volumeDimensions.y);
+            float normalizedValue;
+            switch (volumeDataSize)
+            {
+            case 2:
+            {
+                unsigned char a = volumeData[index * volumeDataSize + 1];
+                unsigned char b = volumeData[index * volumeDataSize];
+                uint voxelValue = a * 256 + b;
+                normalizedValue = ((float)voxelValue - colorMapMinValue) / colorMapRange;
+                break;
+            }
+            default:
+            {
+                unsigned char voxelValue = volumeData[index];
+                const float normalizedValue = ((float)voxelValue - colorMapMinValue) / colorMapRange;
+                break;
+            }
+            }
+
+            const float4 colorMapColor = colorMap[normalizedValue];
+            shadowIntensity += colorMapColor.w;
+        }
+        t -= tstep;
+    }
+    return shadowIntensity;
+}
+
+static __device__ float4 getVolumeContribution(const optix::Ray& volumeRay, const float hit)
+{
+    if (colorMapSize == 0)
+        return make_float4(0.f, 1.f, 0.f, 0.f);
+
+    float4 pathColor = make_float4(0.f);
+
+    optix::size_t2 screen = output_buffer.size();
+    unsigned int seed = tea<16>(screen.x * launch_index.y + launch_index.x, frame);
+
+    const float volumeEpsilon = 0.1f; // sceneEpsilon * epsilonFactor;
+    const float delta = (float)(seed % (int)(volumeEpsilon + 1));
+
+    float t0, t1;
+    if (!volumeIntersection(volumeRay, t0, t1))
+        return make_float4(0.f);
+
+    float t = max(hit + volumeEpsilon - delta, t0);
+    float tstep = max(volumeEpsilon, (t1 - t0) / float(NB_MAX_SAMPLES_PER_RAY));
+
+    while (t < t1 && pathColor.w < 1.f)
+    {
+        const float x = rnd(seed) * tstep;
+        float3 point = ((volumeRay.origin + volumeRay.direction * (t + x)) - volumeOffset) / volumeElementSpacing;
+
+        if (point.x > 0.f && point.x < volumeDimensions.x && point.y > 0.f && point.y < volumeDimensions.y &&
+            point.z > 0.f && point.z < volumeDimensions.z)
+        {
+            ulong index = (ulong)((ulong)floor(point.x) + (ulong)floor(point.y) * volumeDimensions.x +
+                                  (ulong)floor(point.z) * volumeDimensions.x * volumeDimensions.y);
+            float normalizedValue;
+            switch (volumeDataSize)
+            {
+            case 2:
+            {
+                unsigned char a = volumeData[index * volumeDataSize + 1];
+                unsigned char b = volumeData[index * volumeDataSize];
+                uint voxelValue = a * 256 + b;
+                normalizedValue = ((float)voxelValue - colorMapMinValue) / colorMapRange;
+                break;
+            }
+            default:
+            {
+                unsigned char voxelValue = volumeData[index];
+                const float normalizedValue = ((float)voxelValue - colorMapMinValue) / colorMapRange;
+                break;
+            }
+            }
+
+            float4 voxelColor;
+            if (normalizedValue < 0.f)
+                voxelColor = colorMap[0];
+            else if (normalizedValue > 1.f)
+                voxelColor = colorMap[colorMapSize - 1];
+            else
+                voxelColor = colorMap[floor(colorMapSize * normalizedValue)];
+
+            // Determine light contribution
+            if (shadows > 0.f && voxelColor.w > 0.1f)
+            {
+                float shadowIntensity = 0.f;
+                for (int i = 0; i < lights.size(); ++i)
+                {
+                    BasicLight light = lights[i];
+                    optix::Ray lightRay = volumeRay;
+                    if (light.type == 0)
+                    {
+                        // Point light
+                        float3 pos = light.pos;
+                        if (softShadows > 0.f)
+                            // Soft shadows
+                            pos += softShadows * make_float3(rnd(seed) - 0.5f, rnd(seed) - 0.5f, rnd(seed) - 0.5f);
+                        lightRay.origin = pos;
+                        lightRay.direction = optix::normalize(pos - point);
+                    }
+                    else
+                    {
+                        // Directional light
+                        float3 lightDirection = -light.pos;
+                        if (softShadows > 0.f)
+                            // Soft shadows
+                            lightDirection +=
+                                softShadows * make_float3(rnd(seed) - 0.5f, rnd(seed) - 0.5f, rnd(seed) - 0.5f);
+                        lightRay.origin = point;
+                        lightRay.direction = optix::normalize(-1.f * lightDirection);
+                    }
+
+                    shadowIntensity += getVolumeShadowContribution(lightRay, seed);
+                }
+                shadowIntensity = 1.f - shadows * shadowIntensity;
+                voxelColor.x = voxelColor.x * shadowIntensity;
+                voxelColor.y = voxelColor.y * shadowIntensity;
+                voxelColor.z = voxelColor.z * shadowIntensity;
+            }
+
+            // composite(voxelColor, pathColor);
+            linearCompose(voxelColor, pathColor);
+        }
+        t += tstep;
+    }
+    return make_float4(max(0.f, min(1.f, pathColor.z)), max(0.f, min(1.f, pathColor.y)),
+                       max(0.f, min(1.f, pathColor.x)), max(0.f, min(1.f, pathColor.w)));
+}
+
 static __device__ void phongShadowed(float3 p_Ko)
 {
     // this material is opaque, so it fully attenuates all shadow rays
@@ -170,9 +379,15 @@ static __device__ void phongShade(float3 p_Kd, float3 p_Ka, float3 p_Ks, float3 
     if (p_glossiness < 1.f)
         normal = optix::normalize(normal + (1.f - p_glossiness) *
                                                make_float3(rnd(seed) - 0.5f, rnd(seed) - 0.5f, rnd(seed) - 0.5f));
-    float light_attenuation = 1.f;
+
+    // Volume
+    float4 volumeColor = make_float4(0.f, 0.f, 0.f, 0.f);
+    if (volumeDataSize > 0)
+        volumeColor = getVolumeContribution(ray, t_hit);
 
     // Surface
+    float light_attenuation = 1.f - volumeColor.w;
+
     // compute direct lighting
     unsigned int num_lights = lights.size();
     for (int i = 0; i < num_lights; ++i)
@@ -384,6 +599,9 @@ static __device__ void phongShade(float3 p_Kd, float3 p_Ka, float3 p_Ks, float3 
             color += giWeight * new_prd.result;
         }
     }
+
+    composite(make_float4(color, 1.f), volumeColor);
+    color = make_float3(volumeColor);
 
     // Matrix filter :)
     if (matrixFilter)

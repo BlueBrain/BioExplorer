@@ -44,11 +44,11 @@ public:
 
     /** @copydoc Model::createSharedDataVolume */
     virtual SharedDataVolumePtr createSharedDataVolume(const Vector3ui& dimensions, const Vector3f& spacing,
-                                                       const DataType type) const final;
+                                                       const DataType type) final;
 
     /** @copydoc Model::createBrickedVolume */
     virtual BrickedVolumePtr createBrickedVolume(const Vector3ui& dimensions, const Vector3f& spacing,
-                                                 const DataType type) const final;
+                                                 const DataType type) final;
 
 protected:
     void _commitTransferFunctionImpl(const Vector3fs& colors, const floats& opacities, const Vector2d valueRange) final;

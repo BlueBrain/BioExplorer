@@ -428,14 +428,14 @@ MaterialPtr OptiXModel::createMaterialImpl(const PropertyMap& properties BRAYNS_
 }
 
 SharedDataVolumePtr OptiXModel::createSharedDataVolume(const Vector3ui& /*dimensions*/, const Vector3f& /*spacing*/,
-                                                       const DataType /*type*/) const
+                                                       const DataType /*type*/)
 {
     throw std::runtime_error("Not implemented");
     return nullptr;
 }
 
 BrickedVolumePtr OptiXModel::createBrickedVolume(const Vector3ui& /*dimensions*/, const Vector3f& /*spacing*/,
-                                                 const DataType /*type*/) const
+                                                 const DataType /*type*/)
 {
     throw std::runtime_error("Not implemented");
     return nullptr;

@@ -253,14 +253,14 @@ void BaseWindow::display()
     _renderInput.orientation = camera.getOrientation();
     _renderInput.target = camera.getTarget();
 
-    const auto& fb = _brayns.getEngine().getFrameBuffer();
-    const auto& rp = _brayns.getParametersManager().getRenderingParameters();
-    const auto maxAccumFrames = rp.getMaxAccumFrames();
+    // const auto& fb = _brayns.getEngine().getFrameBuffer();
+    // const auto& rp = _brayns.getParametersManager().getRenderingParameters();
+    // const auto maxAccumFrames = rp.getMaxAccumFrames();
 
-    if (fb.numAccumFrames() < maxAccumFrames)
-        _brayns.commitAndRender(_renderInput, _renderOutput);
-    else
-        _brayns.commit();
+    // if (fb.numAccumFrames() < maxAccumFrames)
+    _brayns.commitAndRender(_renderInput, _renderOutput);
+    // else
+    //     _brayns.commit();
 
     GLenum format = GL_RGBA;
     switch (_renderOutput.colorBufferFormat)

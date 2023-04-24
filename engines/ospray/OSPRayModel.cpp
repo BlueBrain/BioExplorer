@@ -502,13 +502,13 @@ MaterialPtr OSPRayModel::createMaterialImpl(const PropertyMap& properties)
 }
 
 SharedDataVolumePtr OSPRayModel::createSharedDataVolume(const Vector3ui& dimensions, const Vector3f& spacing,
-                                                        const DataType type) const
+                                                        const DataType type)
 {
     return std::make_shared<OSPRaySharedDataVolume>(dimensions, spacing, type, _volumeParameters, _ospTransferFunction);
 }
 
 BrickedVolumePtr OSPRayModel::createBrickedVolume(const Vector3ui& dimensions, const Vector3f& spacing,
-                                                  const DataType type) const
+                                                  const DataType type)
 {
     return std::make_shared<OSPRayBrickedVolume>(dimensions, spacing, type, _volumeParameters, _ospTransferFunction);
 }

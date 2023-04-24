@@ -41,9 +41,9 @@ public:
     OSPModel getSecondaryModel() const { return _secondaryModel; }
     OSPModel getBoundingBoxModel() const { return _boundingBoxModel; }
     SharedDataVolumePtr createSharedDataVolume(const Vector3ui& dimensions, const Vector3f& spacing,
-                                               const DataType type) const final;
+                                               const DataType type) final;
     BrickedVolumePtr createBrickedVolume(const Vector3ui& dimensions, const Vector3f& spacing,
-                                         const DataType type) const final;
+                                         const DataType type) final;
 
     void buildBoundingBox() final;
 

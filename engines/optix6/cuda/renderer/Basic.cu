@@ -43,33 +43,29 @@ rtDeclareVariable(int, albedoMetallic_map, , );
 rtDeclareVariable(float2, texcoord, attribute texcoord, );
 
 // Simulation data
-rtBuffer<float3> colors;
-rtBuffer<float> opacities;
-rtDeclareVariable(float2, value_range, , );
-rtBuffer<float> simulation_data;
-rtDeclareVariable(unsigned long, simulation_idx, attribute simulation_idx, );
+// rtBuffer<float3> colors;
+// rtBuffer<float> opacities;
+// rtDeclareVariable(float2, value_range, , );
+// rtBuffer<float> simulation_data;
+// rtDeclareVariable(unsigned long, simulation_idx, attribute simulation_idx, );
 
 // Rendering
 rtDeclareVariable(float, exposure, , );
 
 static __device__ inline void shade(bool textured)
 {
-    float3 world_shading_normal =
-        optix::normalize(rtTransformNormal(RT_OBJECT_TO_WORLD, shading_normal));
-    float3 world_geometric_normal = optix::normalize(
-        rtTransformNormal(RT_OBJECT_TO_WORLD, geometric_normal));
+    float3 world_shading_normal = optix::normalize(rtTransformNormal(RT_OBJECT_TO_WORLD, shading_normal));
+    float3 world_geometric_normal = optix::normalize(rtTransformNormal(RT_OBJECT_TO_WORLD, geometric_normal));
 
-    float3 p_normal = optix::faceforward(world_shading_normal, -ray.direction,
-                                         world_geometric_normal);
+    float3 p_normal = optix::faceforward(world_shading_normal, -ray.direction, world_geometric_normal);
 
     float3 p_Kd;
-    if (simulation_data.size() > 0)
-        p_Kd = calcTransferFunctionColor(value_range.x, value_range.y,
-                                         simulation_data[simulation_idx],
-                                         colors, opacities);
-    else if (textured)
-        p_Kd = make_float3(
-            optix::rtTex2D<float4>(albedoMetallic_map, texcoord.x, texcoord.y));
+    // if (simulation_data.size() > 0)
+    //     p_Kd =
+    //         calcTransferFunctionColor(value_range.x, value_range.y, simulation_data[simulation_idx], colors,
+    //         opacities);
+    if (textured)
+        p_Kd = make_float3(optix::rtTex2D<float4>(albedoMetallic_map, texcoord.x, texcoord.y));
     else
         p_Kd = Kd;
 

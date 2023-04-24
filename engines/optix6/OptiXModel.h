@@ -44,11 +44,11 @@ public:
 
     /** @copydoc Model::createSharedDataVolume */
     virtual SharedDataVolumePtr createSharedDataVolume(const Vector3ui& dimensions, const Vector3f& spacing,
-                                                       const DataType type) const final;
+                                                       const DataType type) final;
 
     /** @copydoc Model::createBrickedVolume */
     virtual BrickedVolumePtr createBrickedVolume(const Vector3ui& dimensions, const Vector3f& spacing,
-                                                 const DataType type) const final;
+                                                 const DataType type) final;
 
     ::optix::GeometryGroup getGeometryGroup() const { return _geometryGroup; }
     ::optix::GeometryGroup getBoundingBoxGroup() const { return _boundingBoxGroup; }
